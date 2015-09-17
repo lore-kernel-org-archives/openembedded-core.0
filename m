@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CD33A76FF5
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CE38376FFA
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Sep 2015 01:39:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8H1dbOn019908
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8H1dbG2012454
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 16 Sep 2015 18:39:37 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Wed, 16 Sep 2015 18:39:36 -0700
+	Wed, 16 Sep 2015 18:39:37 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Sep 2015 18:39:35 -0700
-Message-ID: <cover.1442453859.git.liezhi.yang@windriver.com>
+Date: Wed, 16 Sep 2015 18:39:36 -0700
+Message-ID: <7c13e4135b350d50a9aeb4d8597dbb62ec81161d.1442453859.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1442453859.git.liezhi.yang@windriver.com>
+References: <cover.1442453859.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] bitbake.conf: update APACHE_MIRROR
+Subject: [PATCH 1/1] bitbake.conf: update APACHE_MIRROR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 17 Sep 2015 01:39:38 -0000
 Content-Type: text/plain
 
-The following changes since commit f0189829498e30231d826c9f55aad73e622d076e:
+From Ross:
+The http://www.apache.org/dist only keeps latest release, so use
+http://archive.apache.org/dist, which keeps all the archives.
 
-  qemu: Update to upstream patches (2015-09-14 11:22:02 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/bbconf
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/bbconf
-
-Robert Yang (1):
-  bitbake.conf: update APACHE_MIRROR
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/conf/bitbake.conf |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index d8a66f9..d57f921 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -566,7 +566,7 @@ BBLAYERS_FETCH_DIR ??= "${COREBASE}"
+ # Download locations and utilities.
+ ##################################################################
+ 
+-APACHE_MIRROR = "http://www.apache.org/dist"
++APACHE_MIRROR = "http://archive.apache.org/dist"
+ DEBIAN_MIRROR = "ftp://ftp.debian.org/debian/pool"
+ GENTOO_MIRROR = "http://distfiles.gentoo.org/distfiles"
+ GNOME_GIT = "git://git.gnome.org"
 -- 
 1.7.9.5
 
