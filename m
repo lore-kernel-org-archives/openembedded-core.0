@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 457A377005
+	by mail.openembedded.org (Postfix) with ESMTP id 655C17701D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 08:50:08 +0000 (UTC)
+	Thu, 17 Sep 2015 08:50:11 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga101.fm.intel.com with ESMTP; 17 Sep 2015 01:50:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,545,1437462000"; d="scan'208";a="807104586"
+X-IronPort-AV: E=Sophos;i="5.17,545,1437462000"; d="scan'208";a="807104599"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Sep 2015 01:49:39 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 17 Sep 2015 01:49:41 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 10E0C6A4083
+	by linux.intel.com (Postfix) with ESMTP id 3A91C6A4087
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 01:48:44 -0700 (PDT)
+	Thu, 17 Sep 2015 01:48:47 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Sep 2015 11:49:30 +0300
-Message-Id: <a547dfcde73d5a0cf4290ef44d0eea315fb566c1.1442479528.git.ed.bartosh@linux.intel.com>
+Date: Thu, 17 Sep 2015 11:49:32 +0300
+Message-Id: <a4f95ea38b91d00ca20a8451db9fe07dbaa15b87.1442479528.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1442479528.git.ed.bartosh@linux.intel.com>
 References: <cover.1442479528.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1442479528.git.ed.bartosh@linux.intel.com>
 References: <cover.1442479528.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 1/4] wic: add dependencies to wic-image-minimal recipe
+Subject: [PATCH 3/4] wic: fix partition size calculation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,27 +37,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 17 Sep 2015 08:50:11 -0000
 
-Added "DEPENDS =" line to the recipe to ensure that all tools required
-for image creation are built.
+It was wrongly assumed that part.size is meagured in Mb. In fact it's
+in Kb, so there is no need to convert bitbake variable ROOTFS_SIZE as
+it's also in Kb.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta-selftest/recipes-test/images/wic-image-minimal.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/lib/wic/imager/direct.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.bb b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-index 073c569..69236c4 100644
---- a/meta-selftest/recipes-test/images/wic-image-minimal.bb
-+++ b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-@@ -5,6 +5,8 @@ IMAGE_INSTALL = "packagegroup-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}"
- IMAGE_FSTYPES = "wic.bz2"
- RM_OLD_IMAGE = "1"
- 
-+DEPENDS = "syslinux syslinux-native parted-native dosfstools-native mtools-native"
-+
- # core-image-minimal is referenced in .wks, so we need its rootfs
- # to be ready before our rootfs
- do_rootfs[depends] += "core-image-minimal:do_rootfs"
+diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
+index 146a0d1..d5603fa 100644
+--- a/scripts/lib/wic/imager/direct.py
++++ b/scripts/lib/wic/imager/direct.py
+@@ -241,8 +241,7 @@ class DirectImageCreator(BaseImageCreator):
+                     # IMAGE_OVERHEAD_FACTOR and IMAGE_ROOTFS_EXTRA_SPACE
+                     rsize_bb = get_bitbake_var('ROOTFS_SIZE', image_name)
+                     if rsize_bb:
+-                        # convert from Kb to Mb
+-                        part.size = int(round(float(rsize_bb) / 1024.))
++                        part.size = int(round(float(rsize_bb)))
+             # need to create the filesystems in order to get their
+             # sizes before we can add them and do the layout.
+             # Image.create() actually calls __format_disks() to create
 -- 
 2.1.4
 
