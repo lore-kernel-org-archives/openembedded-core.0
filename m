@@ -1,24 +1,28 @@
-Return-Path: <benjamin.esquivel@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6476973D27
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BD1573D13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 16:35:23 +0000 (UTC)
+	Fri, 18 Sep 2015 16:41:22 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Sep 2015 09:35:24 -0700
+	by orsmga103.jf.intel.com with ESMTP; 18 Sep 2015 09:41:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,553,1437462000"; d="scan'208";a="771978287"
-Received: from yctb04.ostc.intel.com (HELO yctb04.otcr.jf.intel.com)
-	([10.23.219.53])
-	by orsmga001.jf.intel.com with ESMTP; 18 Sep 2015 09:35:12 -0700
-From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Sep 2015 08:34:05 +0000
-Message-Id: <1442565245-16632-1-git-send-email-benjamin.esquivel@linux.intel.com>
-X-Mailer: git-send-email 2.5.1
-In-Reply-To: <6871706.tbebiTIoD4@peggleto-mobl.ger.corp.intel.com>
-References: <6871706.tbebiTIoD4@peggleto-mobl.ger.corp.intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH V2] selftest/buildoptions: pexpect not a builtin module
+X-IronPort-AV: E=Sophos;i="5.17,553,1437462000"; d="scan'208";a="771982301"
+Received: from ddperry-mobl4.amr.corp.intel.com (HELO [10.252.203.9])
+	([10.252.203.9])
+	by orsmga001.jf.intel.com with ESMTP; 18 Sep 2015 09:41:22 -0700
+Message-ID: <55FC3F0B.4010207@linux.intel.com>
+Date: Fri, 18 Sep 2015 11:42:51 -0500
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<bfec72e383e99ef94ded6164ae7a313853c5240e.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<CAJTo0LZVqV-nzRRB-H1v=KOms-OOSyEL5J3QgwwA7k7e+AcmAA@mail.gmail.com>
+In-Reply-To: <CAJTo0LZVqV-nzRRB-H1v=KOms-OOSyEL5J3QgwwA7k7e+AcmAA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] prserv/db: Use DELETE instead of WAL journal mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +35,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 16:35:26 -0000
+X-List-Received-Date: Fri, 18 Sep 2015 16:41:26 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-put the import of pexpect around a try statement so it can tell you
-why it failed to import when in a system that has the module unreachable
 
-the message that outputs is:
 
-"No module named pexpect, import failed"
-"Please install pexpect (python-pexpect)"
+On 09/17/2015 03:01 PM, Burton, Ross wrote:
+> On 15 September 2015 at 15:59, <leonardo.sandoval.gonzalez@linux.intel.com>
+> wrote:
+>
+>> -        self.connection.execute("PRAGMA journal_mode = WAL;")
+>> +        self.connection.execute("PRAGMA journal_mode = DELETE;")
+>>
+>
+> Richard probably has a better memory than me but I seem to recall that WAL
+> was a pretty serious speed improvement for the local host case.  Did you
+> benchmark the impact this change has?
 
-Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
----
- meta/lib/oeqa/selftest/buildoptions.py | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Unfortunately, I didn't do any benchmark.
 
-diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-index 483803b..1fa4802 100644
---- a/meta/lib/oeqa/selftest/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/buildoptions.py
-@@ -3,7 +3,14 @@ import os
- import logging
- import re
- import glob as g
--import pexpect as p
-+
-+try:
-+    import pexpect as p
-+except  ImportError as e:
-+    import sys
-+    sys.stderr.write("{}, import failed\n".format(e))
-+    sys.stderr.write("Please install pexpect (python-pexpect)\n")
-+    raise e
- 
- from oeqa.selftest.base import oeSelfTest
- from oeqa.selftest.buildhistory import BuildhistoryBase
--- 
-2.5.1
+The problem with WAL is the following "All processes using a database 
+must be on the same host computer; WAL does not work over a network 
+filesystem." Using WAL, all PR values get lost after a PR server reboot, 
+so we need a rollback journal. According to the documentation, the 
+fastest of the these is "MEMORY" but it has its pros/cons:
 
+"The MEMORY journaling mode stores the rollback journal in volatile RAM. 
+This saves disk I/O but at the expense of database safety and integrity. 
+If the application using SQLite crashes in the middle of a transaction 
+when the MEMORY journaling mode is set, then the database file will very 
+likely go corrupt."
+
+>
+> Ross
+>
 
