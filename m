@@ -1,36 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id CB95F72A78
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id E302973243
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 15:14:58 +0000 (UTC)
-Received: by wicgb1 with SMTP id gb1so36773598wic.1
+	Fri, 18 Sep 2015 15:19:56 +0000 (UTC)
+Received: by iofb144 with SMTP id b144so60044179iof.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 08:14:58 -0700 (PDT)
+	Fri, 18 Sep 2015 08:19:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=u7erHy3m6EUdkZZ25ktJQ+bPDvpV/1i4gamIMzfEsqo=;
-	b=G5FwQHSJbZKjM7241VKdxNsBiTzq7yLTHaGIXQnaSyEcduCE67Fkrc3Kv60xrU/upl
-	dEA/FlnYBSv2FA6GWWJVaCZM0opm0bMFbPa2am4KASg3AsLh82O0XvMTjmoyOXqQzzpS
-	7vQ+v+QnmopMe3wdxgUdeAMXl7RR0JVG7VWJ1qVZaaMbcRUs0+50m4rLy0303G8I1C9y
-	Rw35dHMmd9cxHYf7VZCDqGgbqjB3L8EwehBupvFVT6CQCWHyBOH0vDWGIg8scAuknqcU
-	ESmwE1lvO66VUDAiq21oHYS+YI/rXlM61ppvOTSThOQXz1xX1EmKH2l+GLYuy9mkssmc
-	xWCA==
-X-Received: by 10.180.188.211 with SMTP id gc19mr17841194wic.81.1442589298743; 
-	Fri, 18 Sep 2015 08:14:58 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id hk5sm9376805wjb.6.2015.09.18.08.14.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Sep 2015 08:14:57 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Sep 2015 17:15:22 +0200
-Message-Id: <1442589322-12110-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.5.1
-In-Reply-To: <55FC149B.80800@topic.nl>
-References: <55FC149B.80800@topic.nl>
-Subject: [PATCHv2 1/3] insane.bbclass: show PN and relative path in package_qa_check_host_user
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=sGzyVlz53Y6FK104LQ/0K2FVhoqzS+XbK7s7ULqOKX4=;
+	b=Qo7Gs3hQ3aWBY+0X9U6+RV8E84Gj7dcRaLoO6pbpuHhnNwHf7cJ3LSyCdJPdPLK+xl
+	cpO0OOcKgNBKKymTJk/gpnallB5DoVd6TcFTIRLGsxi5Ow7OU1LvuetvW73KiCJpxaCq
+	ZTWdJMTtkmkcl5/IV3B9bYBZlwacfkVag+2z/ulpIWO+zpu2aVHB4rJtflBoeqUVUlmK
+	FzcFEmwMipzdihVOtwf85TWrXwM9TJSK5K6JT3xWKrNFtiQ6sSyZx3H42cjiaDlLBY7p
+	V8Jsw0NdgY3p7iHtF2RyMY4lW08j93mVwn2HKojJq+V//P0rvLvGu19MLIUPVR/7qFtI
+	KQmw==
+X-Received: by 10.107.137.106 with SMTP id l103mr14061801iod.112.1442589596812;
+	Fri, 18 Sep 2015 08:19:56 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.142.130 with HTTP; Fri, 18 Sep 2015 08:19:27 -0700 (PDT)
+In-Reply-To: <55FBDAF1.3030906@communistcode.co.uk>
+References: <cover.1442503745.git.alejandro.joya.cruz@intel.com>
+	<55FBDAF1.3030906@communistcode.co.uk>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 18 Sep 2015 08:19:27 -0700
+Message-ID: <CAMKF1sqnvsMy2wYk=sY-xYr8mnJD-zw=h1Mb_XCbZ4nKLh6_jw@mail.gmail.com>
+To: Jack Mitchell <ml@communistcode.co.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Dynamic common utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +43,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 15:15:04 -0000
+X-List-Received-Date: Fri, 18 Sep 2015 15:19:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-* show PN as other QA checks
-* strip PKGDEST prefix from shown path as other QA checks
+On Fri, Sep 18, 2015 at 2:35 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
+> is 'anybox' a good name for the virtual provider? What happens if we have a
+> new suite of core utility replacements without box in the name, I assume it
+> will be a nightmare to retroactivly change the name so we should probably
+> come up with a more generic one now. virtual/core-utils, virtual/base-utils?
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/insane.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 5c8629a..c984fae 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -980,6 +980,7 @@ def package_qa_check_host_user(path, name, d, elf, messages):
-         return
- 
-     dest = d.getVar('PKGDEST', True)
-+    pn = d.getVar('PN', True)
-     home = os.path.join(dest, 'home')
-     if path == home or path.startswith(home + os.sep):
-         return
-@@ -991,14 +992,15 @@ def package_qa_check_host_user(path, name, d, elf, messages):
-         if exc.errno != errno.ENOENT:
-             raise
-     else:
-+        rootfs_path = path[len(dest):]
-         check_uid = int(d.getVar('HOST_USER_UID', True))
-         if stat.st_uid == check_uid:
--            messages["host-user-contaminated"] = "%s is owned by uid %d, which is the same as the user running bitbake. This may be due to host contamination" % (path, check_uid)
-+            messages["host-user-contaminated"] = "%s: %s is owned by uid %d, which is the same as the user running bitbake. This may be due to host contamination" % (pn, rootfs_path, check_uid)
-             return False
- 
-         check_gid = int(d.getVar('HOST_USER_GID', True))
-         if stat.st_gid == check_gid:
--            messages["host-user-contaminated"] = "%s is owned by gid %d, which is the same as the user running bitbake. This may be due to host contamination" % (path, check_gid)
-+            messages["host-user-contaminated"] = "%s: %s is owned by gid %d, which is the same as the user running bitbake. This may be due to host contamination" % (pn, rootfs_path, check_gid)
-             return False
-     return True
- 
--- 
-2.5.1
-
+I think thats a fair point. I think virtual/busybox could be another
+option but it might confuse some people seeing the word busybox
+virtual/core-utilities will make it sufficiently not confuse with coreutils.
 
