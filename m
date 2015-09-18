@@ -1,42 +1,37 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 06A1377028;
-	Fri, 18 Sep 2015 11:01:41 +0000 (UTC)
-Received: by ioii196 with SMTP id i196so52350990ioi.3;
-	Fri, 18 Sep 2015 04:01:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=xeA69o/308J+5KN1WMkfmYW7KgERrwHBnk7EDmuv40k=;
-	b=g0sgHwHnSxHjPNWIFho5cyD4I8NdbOtuH7BwuYuZtcwlNQvGvN3XxW7Usgm+3yfmJF
-	EkON+6G1XuRh14AA2A7zxLtbkFgSlsgtWmIKneLXZ10V06PURtq3Sc2XmZfZVSXW1yau
-	MgSDdr5rTwe1bVzoCWXPuWzTloMP74e2oBbuNVwhDSxLhiQ7lIOw6kaBo/OlMT3k8EKU
-	5d85sAM43ZxlpwDHr6bBkrW/H1LFNMzEoISRuwDjHV8b+p1m1cfWC+NOImKCLkxG/ICU
-	Q/PONsOwIoJg+VtFvVHpN/yMi1S0ZsoXqn8F/sw9r6HMFs46HNKayb7b9zpjB5qSYWR1
-	jKIQ==
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 0729277028
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Sep 2015 11:05:55 +0000 (UTC)
+Received: by qgez77 with SMTP id z77so35515867qge.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Sep 2015 04:05:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=gORuvu80X5mL/31B5cI8g+wao80WsKGkjAYCF/3TPcc=;
+	b=k8Td4YhT6NXEE8Csm6L+9sbpo4rG9SmHzSZQE52h+WugA5btH5G6jcBloxD6tl9omx
+	pEtYLfFnJjeed0gXzm7SKiDw8eijMkm5QUf0ZEfttebgOZWdSpDzGjGiK9AceE/mP/DC
+	yWijS9SygvPzWITeW52pmEwG+RlgUK0XiwAElV+YaN6ADu1BfNJDmhhbQOnDMV4K9RpC
+	mDWtu7VsVGzgiUyqZIhgDBv9d1vHGN/RLKoZsNI1ocmwn+SG91PLZwRjbsu9VFz2HVzd
+	nCnv9UlvOl34hUPLjZcmoDDkeeDzrh2/Q7yQAa6I6lsRaplDcc9ZbqrpgayHsEQO/ziO
+	eRAw==
+X-Gm-Message-State: ALoCoQnZUs8YRA7PC6g/+tSeVGm55bBQAuXsovAI8VVH8KQ+hGj6e3pAwZTKO8+u7suHXGASpXGi
+X-Received: by 10.140.133.202 with SMTP id 193mr5910092qhf.52.1442574355259;
+	Fri, 18 Sep 2015 04:05:55 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.107.10.79 with SMTP id u76mr12475963ioi.99.1442574101534;
-	Fri, 18 Sep 2015 04:01:41 -0700 (PDT)
-Received: by 10.36.98.5 with HTTP; Fri, 18 Sep 2015 04:01:41 -0700 (PDT)
-In-Reply-To: <1795284996.34316.1442572421706.JavaMail.zimbra@neratec.com>
-References: <cover.1441929533.git.raj.khem@gmail.com>
-	<e4c70967dd05d254bd59bd4f8a49836c3d499bfb.1441929533.git.raj.khem@gmail.com>
-	<80e3806f09d6c399ccd4ccdf5f83997386ec85bc.1441929533.git.raj.khem@gmail.com>
-	<CALbNGRR=LAdpubkJGdfx=mx5FGiVW=YDTObwRN8JLAnSfiPc=g@mail.gmail.com>
-	<CAMKF1so4a85NDgwLOL1RYHyXQTQcAdHJ9FM7yhaJbrnpTzdx0g@mail.gmail.com>
-	<2142960116.32810.1442562398390.JavaMail.zimbra@neratec.com>
-	<CA+chaQfdK4irH2DvnX-c=4pPHv2VXg3Y81mm6RuP845aJy_8yw@mail.gmail.com>
-	<1795284996.34316.1442572421706.JavaMail.zimbra@neratec.com>
-Date: Fri, 18 Sep 2015 13:01:41 +0200
-Message-ID: <CALbNGRTE-utmwM4nGF8YBrLPCtXLS1tKE=V=2EGB_e7vR3sO1Q@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Adrian Freihofer <adrian.freihofer@neratec.com>
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 2/3] systemd: Upgrade 219 -> 225
+Received: by 10.140.94.86 with HTTP; Fri, 18 Sep 2015 04:05:35 -0700 (PDT)
+In-Reply-To: <1442522311-15326-1-git-send-email-benjamin.esquivel@linux.intel.com>
+References: <1442522311-15326-1-git-send-email-benjamin.esquivel@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 18 Sep 2015 12:05:35 +0100
+Message-ID: <CAJTo0Lai9oeh3Kvg8wAB9OPFOBG4WaBYqnGRidv-zt9bNrGqgA@mail.gmail.com>
+To: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] selftest/buildoptions: pexpect not a builtin module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,30 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 11:01:43 -0000
+X-List-Received-Date: Fri, 18 Sep 2015 11:05:56 -0000
+Content-Type: multipart/alternative; boundary=001a1135a4f4020488052003845a
+
+--001a1135a4f4020488052003845a
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Sep 18, 2015 at 12:33 PM, Adrian Freihofer
-<adrian.freihofer@neratec.com> wrote:
-> Hi Martin, hi Andreas
->
-> You are right, my patches are almost obsolete. Just some details might be
-> worth to be noticed:
->
-> libgudev might be improved by adding:
-> RCONFLICTS_${PN} = "systemd (<= 220)"
->
-> NetworkManager and ModemManager depend on udev instead of libgudev as well.
->
-Hi Adrian,
+On 17 September 2015 at 21:38, Benjamin Esquivel <
+benjamin.esquivel@linux.intel.com> wrote:
 
-Checked the configure.ac of NetworkManager and ModemManager: You are
-right - guess I missed the rdepends warnings due to bloated log. For
-RCONFLICTS I have no strong opinion. I think it is correct but am not
-sure if it is really necessary. On the other hands no harm is expected
-- so why not? other opinions?
+> put the import of pexpect around a try statement so it can tell you
+> why it failed to import when in a system that has the module unreachable
+>
 
-Can you please send patches with improvements based on master-next?
+As the failing import is throwing an exception, can't the calling code
+display the exception correctly?
 
-Andreas
+Ross
 
+--001a1135a4f4020488052003845a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 September 2015 at 21:38, Benjamin Esquivel <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:benjamin.esquivel@linux.intel.com" target=3D"_blank">benjamin=
+.esquivel@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex"><div id=3D":bf" class=3D"a3s" style=3D"overflow:hidden">put the impo=
+rt of pexpect around a try statement so it can tell you<br>
+why it failed to import when in a system that has the module unreachable<br=
+></div></blockquote></div><br>As the failing import is throwing an exceptio=
+n, can&#39;t the calling code display the exception correctly?</div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1135a4f4020488052003845a--
