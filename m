@@ -1,23 +1,23 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DD61F73D27
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id E66AC73D27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 21:30:14 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 18 Sep 2015 14:30:15 -0700
+	Fri, 18 Sep 2015 21:40:57 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 18 Sep 2015 14:40:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,554,1437462000"; d="scan'208";a="647788015"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
-	([10.23.219.47])
-	by orsmga003.jf.intel.com with ESMTP; 18 Sep 2015 14:30:15 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.17,554,1437462000"; d="scan'208";a="807769864"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by orsmga002.jf.intel.com with ESMTP; 18 Sep 2015 14:40:57 -0700
+From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Sep 2015 21:27:54 +0000
-Message-Id: <5344d28603eaca97bae8ad05183859a00552e1db.1442611314.git.alejandro.hernandez@linux.intel.com>
+Date: Fri, 18 Sep 2015 13:31:32 +0000
+Message-Id: <aff257855c6708b9c4db09136eb94032aed12a1b.1442582395.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1442611314.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1442611314.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 1/1] python3-debugger: Adds pkgutils dependency to pdb
+In-Reply-To: <cover.1442582395.git.mariano.lopez@linux.intel.com>
+References: <cover.1442582395.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1] testimage.bbclass: Fix break introduced with SIGTERM handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,46 +30,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 21:30:15 -0000
+X-List-Received-Date: Fri, 18 Sep 2015 21:40:58 -0000
 
-python3-debugger fails to be invoked to debug other scripts complaining about
-not being able to import pkutil, this patch adds pkgutil as a dependency for python3-debugger
-fixing the issue.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-[YOCTO #8334]
+The SIGTERM introduced another break into runexported test,
+the handler is in the class TestContext while exporting it
+will try to convert the singnal handler to JSON, and this
+will throw an exception.
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+The SIGTERM handler is not needed in the exported test, so this
+change will remove the handler before exporting the test. Also
+when a test is exported the target is not deployed/started
+anymore, it is not necessary.
+
+[YOCTO #8239]
+
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/recipes-devtools/python/python-3.4-manifest.inc | 2 +-
- scripts/contrib/python/generate-manifest-3.4.py      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/testimage.bbclass | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-3.4-manifest.inc b/meta/recipes-devtools/python/python-3.4-manifest.inc
-index f828623..97070b6 100644
---- a/meta/recipes-devtools/python/python-3.4-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.4-manifest.inc
-@@ -58,7 +58,7 @@ RDEPENDS_${PN}-db="${PN}-core"
- FILES_${PN}-db="${libdir}/python3.4/anydbm.* ${libdir}/python3.4/dumbdbm.* ${libdir}/python3.4/whichdb.* ${libdir}/python3.4/dbm ${libdir}/python3.4/lib-dynload/_dbm.*.so "
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index a1918ba..fd4143d 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -305,13 +305,15 @@ def testimage_main(d):
+         import traceback
+         bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
  
- SUMMARY_${PN}-debugger="Python debugger"
--RDEPENDS_${PN}-debugger="${PN}-core ${PN}-io ${PN}-lang ${PN}-re ${PN}-stringold ${PN}-shell ${PN}-pprint ${PN}-importlib"
-+RDEPENDS_${PN}-debugger="${PN}-core ${PN}-io ${PN}-lang ${PN}-re ${PN}-stringold ${PN}-shell ${PN}-pprint ${PN}-importlib ${PN}-pkgutil"
- FILES_${PN}-debugger="${libdir}/python3.4/bdb.* ${libdir}/python3.4/pdb.* "
+-    target.deploy()
  
- SUMMARY_${PN}-dev="Python development package"
-diff --git a/scripts/contrib/python/generate-manifest-3.4.py b/scripts/contrib/python/generate-manifest-3.4.py
-index 9e9debd..ca2fa61 100755
---- a/scripts/contrib/python/generate-manifest-3.4.py
-+++ b/scripts/contrib/python/generate-manifest-3.4.py
-@@ -238,7 +238,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-db", "Python file-based database support", "${PN}-core",
-     "anydbm.* dumbdbm.* whichdb.* dbm lib-dynload/_dbm.*.so" )
+-    try:
+-        target.start()
+-        if export:
+-            exportTests(d,tc)
+-        else:
++    if export:
++        signal.signal(signal.SIGTERM, tc.origsigtermhandler)
++        tc.origsigtermhandler = None
++        exportTests(d,tc)
++    else:
++        target.deploy()
++        try:
++            target.start()
+             starttime = time.time()
+             result = runTests(tc)
+             stoptime = time.time()
+@@ -324,9 +326,9 @@ def testimage_main(d):
+                 bb.plain(msg)
+             else:
+                 raise bb.build.FuncFailed("%s - FAILED - check the task log and the ssh log" % pn )
+-    finally:
+-        signal.signal(signal.SIGTERM, tc.origsigtermhandler)
+-        target.stop()
++        finally:
++            signal.signal(signal.SIGTERM, tc.origsigtermhandler)
++            target.stop()
  
--    m.addPackage( "${PN}-debugger", "Python debugger", "${PN}-core ${PN}-io ${PN}-lang ${PN}-re ${PN}-stringold ${PN}-shell ${PN}-pprint ${PN}-importlib",
-+    m.addPackage( "${PN}-debugger", "Python debugger", "${PN}-core ${PN}-io ${PN}-lang ${PN}-re ${PN}-stringold ${PN}-shell ${PN}-pprint ${PN}-importlib ${PN}-pkgutil",
-     "bdb.* pdb.*" )
+ testimage_main[vardepsexclude] =+ "BB_ORIGENV"
  
-     m.addPackage( "${PN}-difflib", "Python helpers for computing deltas between objects", "${PN}-lang ${PN}-re",
 -- 
 1.8.4.5
 
