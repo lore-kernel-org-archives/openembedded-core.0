@@ -1,24 +1,23 @@
-Return-Path: <alejandro.joya.cruz@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D17DC76BD7
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 47D227404E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 21:09:13 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Sep 2015 14:09:12 -0700
+	Fri, 18 Sep 2015 21:09:11 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Sep 2015 14:09:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,554,1437462000"; d="scan'208";a="564474596"
-Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.56])
-	by FMSMGA003.fm.intel.com with ESMTP; 18 Sep 2015 14:09:11 -0700
-From: Alejandro Joya <alejandro.joya.cruz@intel.com>
+X-IronPort-AV: E=Sophos;i="5.17,554,1437462000"; d="scan'208";a="807751777"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
+	([10.23.219.47])
+	by orsmga002.jf.intel.com with ESMTP; 18 Sep 2015 14:09:12 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Sep 2015 16:09:03 -0500
-Message-Id: <f2dfcd6a4e07c2b29f442e4194dd5fc6cfd56208.1442610201.git.alejandro.joya.cruz@intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1442610201.git.alejandro.joya.cruz@intel.com>
-References: <cover.1442610201.git.alejandro.joya.cruz@intel.com>
-In-Reply-To: <cover.1442610201.git.alejandro.joya.cruz@intel.com>
-References: <cover.1442610201.git.alejandro.joya.cruz@intel.com>
-Subject: [PATCH V2 3/3] packagegroup-core-boot:change to virtual reference
+Date: Fri, 18 Sep 2015 21:06:50 +0000
+Message-Id: <e7d0f62d64ada4a2510df21bd8222d2d49a032ef.1442610380.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1442610380.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1442610380.git.alejandro.hernandez@linux.intel.com>
+Subject: [PATCH 1/1] python3-debugger: fix importlib dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +32,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 18 Sep 2015 21:09:14 -0000
 
-This recipe have a hardcoded dependency to busybox, in order to be able to have a flexible selection,
-instead of the hardcoded dependency,now is point to virtual reference base-utils.
+python3-debugger (pdb) needs importlib as a dependency, if not included
+it produces an error when importing pdb, making pdb unusable, this patch
+adds importlib dependency fixing the issue.
 
-Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
+{YOCT0 #8333]
+
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/python/python-3.4-manifest.inc | 2 +-
+ scripts/contrib/python/generate-manifest-3.4.py      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-index 09f5373..38f29ce 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-@@ -19,12 +19,12 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
+diff --git a/meta/recipes-devtools/python/python-3.4-manifest.inc b/meta/recipes-devtools/python/python-3.4-manifest.inc
+index 07e1490..f828623 100644
+--- a/meta/recipes-devtools/python/python-3.4-manifest.inc
++++ b/meta/recipes-devtools/python/python-3.4-manifest.inc
+@@ -58,7 +58,7 @@ RDEPENDS_${PN}-db="${PN}-core"
+ FILES_${PN}-db="${libdir}/python3.4/anydbm.* ${libdir}/python3.4/dumbdbm.* ${libdir}/python3.4/whichdb.* ${libdir}/python3.4/dbm ${libdir}/python3.4/lib-dynload/_dbm.*.so "
  
- # Distro can override the following VIRTUAL-RUNTIME providers:
- VIRTUAL-RUNTIME_dev_manager ?= "udev"
--VIRTUAL-RUNTIME_login_manager ?= "busybox"
-+VIRTUAL-RUNTIME_login_manager ?= "${VIRTUAL-RUNTIME_base-utils}"
- VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
- VIRTUAL-RUNTIME_initscripts ?= "initscripts"
- VIRTUAL-RUNTIME_keymaps ?= "keymaps"
+ SUMMARY_${PN}-debugger="Python debugger"
+-RDEPENDS_${PN}-debugger="${PN}-core ${PN}-io ${PN}-lang ${PN}-re ${PN}-stringold ${PN}-shell ${PN}-pprint"
++RDEPENDS_${PN}-debugger="${PN}-core ${PN}-io ${PN}-lang ${PN}-re ${PN}-stringold ${PN}-shell ${PN}-pprint ${PN}-importlib"
+ FILES_${PN}-debugger="${libdir}/python3.4/bdb.* ${libdir}/python3.4/pdb.* "
  
--SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwclock', '', d)} \
-+SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', '${VIRTUAL-RUNTIME_base-utils-hwclock}', '', d)} \
-                     modutils-initscripts \
-                     init-ifupdown \
-                     ${VIRTUAL-RUNTIME_initscripts} \
-@@ -33,7 +33,7 @@ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwc
- RDEPENDS_${PN} = "\
-     base-files \
-     base-passwd \
--    busybox \
-+    ${VIRTUAL-RUNTIME_base-utils} \
-     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
-     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
-     netbase \
+ SUMMARY_${PN}-dev="Python development package"
+diff --git a/scripts/contrib/python/generate-manifest-3.4.py b/scripts/contrib/python/generate-manifest-3.4.py
+index 06eecdc..9e9debd 100755
+--- a/scripts/contrib/python/generate-manifest-3.4.py
++++ b/scripts/contrib/python/generate-manifest-3.4.py
+@@ -238,7 +238,7 @@ if __name__ == "__main__":
+     m.addPackage( "${PN}-db", "Python file-based database support", "${PN}-core",
+     "anydbm.* dumbdbm.* whichdb.* dbm lib-dynload/_dbm.*.so" )
+ 
+-    m.addPackage( "${PN}-debugger", "Python debugger", "${PN}-core ${PN}-io ${PN}-lang ${PN}-re ${PN}-stringold ${PN}-shell ${PN}-pprint",
++    m.addPackage( "${PN}-debugger", "Python debugger", "${PN}-core ${PN}-io ${PN}-lang ${PN}-re ${PN}-stringold ${PN}-shell ${PN}-pprint ${PN}-importlib",
+     "bdb.* pdb.*" )
+ 
+     m.addPackage( "${PN}-difflib", "Python helpers for computing deltas between objects", "${PN}-lang ${PN}-re",
 -- 
-2.1.0
+1.8.4.5
 
 
