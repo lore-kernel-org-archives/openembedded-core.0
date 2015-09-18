@@ -1,41 +1,43 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AFFB7680E
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id CB89C75F3A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 01:41:42 +0000 (UTC)
-Received: by padhk3 with SMTP id hk3so34832420pad.3
+	Fri, 18 Sep 2015 01:43:52 +0000 (UTC)
+Received: by padhy16 with SMTP id hy16so35140948pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 18:41:42 -0700 (PDT)
+	Thu, 17 Sep 2015 18:43:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to;
-	bh=b5E7cQ9XYQ7G/9CqPeh+SUuIG+MuAAkQp4xD5Cgnr3I=;
-	b=gaG39ANNT6UoFOWISvWwrdRUkbuZ+4qvWavgvAKwNyIk+D/sXRAUPp9mEHphxbxGYb
-	ymbtV//V0DCqREslDbDW6ANwgS+bx5onqPj9UGuG+RP4pgW/8vgvxT0BkgnQTpJKGOkN
-	xErAenE3r0gA9PY8nsVMF6t9VMYFQMP0URlnYIJnN83QRMj47a1zAqTQXQ6CqLcXgymQ
-	p+2ZEuqhLG0qdLm3xnHpXuPr02FJkARJwOcf5Oj9LxZb7WI1RVXOQissNj9mYyjZ7M25
-	tqbz7c315DxRby0pbBc8A8Ij8Gf9INEuDOevz5CKL5ptKL03zIispjDRvhaROOhSpOVq
-	OHvQ==
-X-Received: by 10.66.254.201 with SMTP id ak9mr3875682pad.151.1442540502487;
-	Thu, 17 Sep 2015 18:41:42 -0700 (PDT)
+	bh=32UJmyxC1cfGLJNJQzGII7QIoFMWjYJV5fWskWNuX1M=;
+	b=Uh2BT0tpblWV7QWk40Ok8FsC4+/3LpY1jOZ1IlBUhHaA++T2dRunHS/FEGEZsGbogZ
+	e3bjQgJDvcSysXFMav61AZTLjtt0KGAy0Im374k8jwUC/d+lPC33Gt+ayc4XFhaHdCtF
+	R/iQp4y49BGPWC0c/FDFWq5wuMIUYWOXY5Delbiu8B6kXZx8xsdWnsm1QEZPiW5GYPXM
+	axc+Edl10xgqHTQLLn2Dp6tEgJ3DOup74+ws6d5j1goh3VLPPPPEOiIzTK8OFKnAr4ur
+	gBqWEiRWGle83Q/FNkIljhAYtrUvUBtJr+PUZfjp18KWUYpwr21fOz5CJpZ1behtNZhl
+	YqZQ==
+X-Received: by 10.68.69.40 with SMTP id b8mr4156692pbu.84.1442540632436;
+	Thu, 17 Sep 2015 18:43:52 -0700 (PDT)
 Received: from [192.168.0.4] (c-76-103-142-85.hsd1.ca.comcast.net.
 	[76.103.142.85]) by smtp.gmail.com with ESMTPSA id
-	d13sm5665233pbu.17.2015.09.17.18.41.41
+	lq10sm5681852pab.18.2015.09.17.18.43.51
 	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 17 Sep 2015 18:41:41 -0700 (PDT)
+	Thu, 17 Sep 2015 18:43:51 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1442500317-9064-9-git-send-email-marex@denx.de>
-Date: Thu, 17 Sep 2015 18:41:40 -0700
-Message-Id: <ED902330-8DA9-4BA5-B910-81AD6C64B86C@gmail.com>
+In-Reply-To: <201509180341.43070.marex@denx.de>
+Date: Thu, 17 Sep 2015 18:43:50 -0700
+Message-Id: <B830C8CE-354B-428D-81E5-440EF548A557@gmail.com>
 References: <1442500317-9064-1-git-send-email-marex@denx.de>
-	<1442500317-9064-9-git-send-email-marex@denx.de>
+	<1442500317-9064-4-git-send-email-marex@denx.de>
+	<02670CD0-39E3-4C94-9FB6-CFC19B3AB6E6@gmail.com>
+	<201509180341.43070.marex@denx.de>
 To: Marek Vasut <marex@denx.de>
 X-Mailer: Apple Mail (2.3094)
 Cc: lftan@altera.com, waltergoossens@home.nl,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 8/8] libgpg-error: Add support for nios2
+Subject: Re: [PATCH 3/8] linux-yocto: depend on libgcc for nios2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,115 +50,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 01:41:42 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 18 Sep 2015 01:43:52 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 
-> On Sep 17, 2015, at 7:31 AM, Marek Vasut <marex@denx.de> wrote:
+> On Sep 17, 2015, at 6:41 PM, Marek Vasut <marex@denx.de> wrote:
 >=20
-> Add a patch which adds a configuration for the nios2 processor.
+> On Friday, September 18, 2015 at 03:40:11 AM, Khem Raj wrote:
 >=20
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> .../0001-libgpg-error-Add-nios2-support.patch      | 45 =
-++++++++++++++++++++++
-> .../libgpg-error/libgpg-error_1.19.bb              |  4 +-
-> 2 files changed, 48 insertions(+), 1 deletion(-)
-> create mode 100644 =
-meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nios2=
--support.patch
+> Hi!
 >=20
-> diff --git =
-a/meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nio=
-s2-support.patch =
-b/meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nio=
-s2-support.patch
-> new file mode 100644
-> index 0000000..8362c69
-> --- /dev/null
-> +++ =
-b/meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nio=
-s2-support.patch
-> @@ -0,0 +1,45 @@
-> +=46rom b2af652f43991e4ce6297917da542a9eb5135939 Mon Sep 17 00:00:00 =
-2001
-> +From: Marek Vasut <marex@denx.de>
-> +Date: Thu, 17 Sep 2015 03:28:06 +0200
-> +Subject: [PATCH] libgpg-error: Add nios2 support
-> +
-> +Add configuration for the NIOS2 processor.
-> +
-> +Signed-off-by: Marek Vasut <marex@denx.de>
-> +---
-> + src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h | 23 =
-+++++++++++++++++++++++
-> + 1 file changed, 23 insertions(+)
-> + create mode 100644 src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h
-> +
-> +diff --git a/src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h =
-b/src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h
-> +new file mode 100644
-> +index 0000000..3a24571
-> +--- /dev/null
-> ++++ b/src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h
-> +@@ -0,0 +1,23 @@
-> ++## lock-obj-pub.nios2-unknown-linux-gnu.h
-> ++## File created by gen-posix-lock-obj - DO NOT EDIT
-> ++## To be included by mkheader into gpg-error.h
-> ++
+>>> On Sep 17, 2015, at 7:31 AM, Marek Vasut <marex@denx.de> wrote:
+>>>=20
+>>> Make nios2 kernel depend on libgcc.
+>>>=20
+>>> In arch/nios2/Makefile, it adds LIBGCC to libs-y:
+>>>=20
+>>> LIBGCC          :=3D $(shell $(CC) $(KBUILD_CFLAGS)
+>>> -print-libgcc-file-name) libs-y          +=3D $(LIBGCC)
+>>>=20
+>>> In file Makefile in top directory, libs-y is assigned to to var
+>>> KBUILD_VMLINUX_MAIN. It uses script link-vmlinux.sh to link =
+vmlinux.o,
+>>> and when execute function vmlinux_link() in link-vmlinux.sh,
+>>> KBUILD_VMLINUX_MAIN is passed to ${LD}.
+>>>=20
+>>> If build without libgcc, the value of LIBGCC is just libgcc.a =
+without
+>>>=20
+>>> parent directory. linux-yocto fails to build:
+>>> |   LD      vmlinux.o
+>>> |=20
+>>> | nios2-poky-linux-ld.bfd: cannot find libgcc.a: No such file or
+>>> | directory
+>>>=20
+>>> Add libgcc to nios2 kernel dependency.
+>>>=20
+>>> Signed-off-by: Marek Vasut <marex@denx.de>
+>>> ---
+>>> meta/recipes-kernel/linux/linux-yocto.inc | 4 ++++
+>>> 1 file changed, 4 insertions(+)
+>>>=20
+>>> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
+>>> b/meta/recipes-kernel/linux/linux-yocto.inc index 3b41a61..81ffa24
+>>> 100644
+>>> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+>>> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+>>> @@ -11,6 +11,10 @@ DEPENDS_append_aarch64 =3D " libgcc"
+>>> KERNEL_CC_append_aarch64 =3D " ${TOOLCHAIN_OPTIONS}"
+>>> KERNEL_LD_append_aarch64 =3D " ${TOOLCHAIN_OPTIONS}"
+>>>=20
+>>> +DEPENDS_append_nios2 =3D " libgcc"
+>>> +KERNEL_CC_append_nios2 =3D " ${TOOLCHAIN_OPTIONS}"
+>>> +KERNEL_LD_append_nios2 =3D " ${TOOLCHAIN_OPTIONS}=E2=80=9D
+>>=20
+>> Please try bitbake virtual/kernel build from scratch with this =
+change.
+>=20
+> What do you mean, does it break anything or what should I expect ?
 
-
-how was this file generated ?=20
-
-> ++typedef struct
-> ++{
-> ++  long _vers;
-> ++  union {
-> ++    volatile char _priv[24];
-> ++    long _x_align;
-> ++    long *_xp_align;
-> ++  } u;
-> ++} gpgrt_lock_t;
-> ++
-> ++#define GPGRT_LOCK_INITIALIZER {1,{{0,0,0,0,0,0,0,0, \
-> ++                                    0,0,0,0,0,0,0,0, \
-> ++                                    0,0,0,0,0,0,0,0}}}
-> ++##
-> ++## Local Variables:
-> ++## mode: c
-> ++## buffer-read-only: t
-> ++## End:
-> ++##
-> +--=20
-> +2.5.1
-> +
-> diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.19.bb =
-b/meta/recipes-support/libgpg-error/libgpg-error_1.19.bb
-> index 39dbbcf..c69930a 100644
-> --- a/meta/recipes-support/libgpg-error/libgpg-error_1.19.bb
-> +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.19.bb
-> @@ -12,7 +12,9 @@ LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D59530bdf33659b29e73d4adb9f9f6552 \
-> SECTION =3D "libs"
->=20
-> SRC_URI =3D =
-"ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-> -           file://pkgconfig.patch"
-> +           file://pkgconfig.patch \
-> +	   file://0001-libgpg-error-Add-nios2-support.patch \
-> +	  "
-> SRC_URI[md5sum] =3D "c04c16245b92829281f43b5bef7d16da"
-> SRC_URI[sha256sum] =3D =
-"53120e1333d5c5d28d87ff2854e9e98719c8e214152f17ad5291704d25c4978b"
->=20
-> --=20
-> 2.1.4
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+I am not sure if there is a race, with this dependency between libgcc =
+and gcc-cross
+hopefully there is not but this will prove it.=
 
