@@ -1,18 +1,26 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id B20507701D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 61B197701D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 09:35:02 +0000 (UTC)
-To: openembedded-core@lists.openembedded.org
-References: <cover.1442503745.git.alejandro.joya.cruz@intel.com>
-From: Jack Mitchell <ml@communistcode.co.uk>
-Message-ID: <55FBDAF1.3030906@communistcode.co.uk>
-Date: Fri, 18 Sep 2015 10:35:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
+	Fri, 18 Sep 2015 09:40:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 18 Sep 2015 02:40:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,552,1437462000"; d="scan'208";a="771742811"
+Received: from thomasda-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.5.18])
+	by orsmga001.jf.intel.com with ESMTP; 18 Sep 2015 02:40:50 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Date: Fri, 18 Sep 2015 10:40:48 +0100
+Message-ID: <1946459.lWlg709rPu@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.6-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <20150918075241.GA23863@bang.betafive.co.uk>
+References: <20150918075241.GA23863@bang.betafive.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <cover.1442503745.git.alejandro.joya.cruz@intel.com>
-Subject: Re: [PATCH 0/3] Dynamic common utilities
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [dylan] Backport Request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,51 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 09:35:06 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 18 Sep 2015 09:40:57 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 17/09/15 17:20, Alejandro Joya wrote:
-> It provide a virtual reference for the common utilities.
-> it replace of the lock to busybox, it will be simple exchange between other
-> common utilities like gnu core utils or toybox among others.
->
-> In order to enable its required to fill at the distro conf or local.conf
->
-> VIRTUAL-RUNTIME_login_manager ?= "busybox"
-> PREFERRED_PROVIDER_virtual/anybox ?= "busybox"
-> PREFERRED_RPROVIDER_virtual/anybox ?= "busybox"
-> VIRTUAL-RUNTIME_anybox ?= "busybox"
-> VIRTUAL-RUNTIME_anybox-hwclock ?= "busybox-hwclock"
->
-> The following changes since commit f0189829498e30231d826c9f55aad73e622d076e:
->
->    qemu: Update to upstream patches (2015-09-14 11:22:02 +0100)
->
-> are available in the git repository at:
->
->    git://github.com/Ajoyacr/openembedded-core anybox
->    https://github.com/Ajoyacr/openembedded-core/tree/anybox
->
-> Alejandro Joya (3):
->    core-mage-minimal-initramfs: overwrite hardcoded dependency to virtual
->      reference
->    initramfs-framework: overwrite hardcoded dependency to virtual
->      reference
->    packagegroup-core-boot: overwrite hardcoded dependency to virtual
->      reference
->
->   meta/recipes-core/images/core-image-minimal-initramfs.bb   | 2 +-
->   meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
->   meta/recipes-core/packagegroups/packagegroup-core-boot.bb  | 6 +++---
->   3 files changed, 5 insertions(+), 5 deletions(-)
->
+Hi Paul,
 
-is 'anybox' a good name for the virtual provider? What happens if we have a new 
-suite of core utility replacements without box in the name, I assume it will be 
-a nightmare to retroactivly change the name so we should probably come up with a 
-more generic one now. virtual/core-utils, virtual/base-utils?
+On Friday 18 September 2015 08:52:41 Paul Barker wrote:
+> I'm not sure if there are many other poor souls still using dylan, but if
+> there are I'd like to request a backport of the following commit. In our
+> case it is needed to ensure that a package is rebuilt when INITSCRIPT_NAME
+> or INITSCRIPT_PARAMS is changed in a recipe.
+
+Sure, whilst dylan is nominally no longer maintained in this case the change 
+is fairly self-contained and straightforward so in theory it should be OK.
+
+> Hopefully we'll be able to upgrade soon, but if so it will probably be only
+> as far as daisy...
+
+I'd urge you to consider upgrading further than that; daisy is already out of 
+support (and will be one release further out by October). If there are things 
+that prevent you from doing that we should discuss them as it might be 
+something we need to address in terms of making upgrades easier.
 
 Cheers,
-Jack.
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
