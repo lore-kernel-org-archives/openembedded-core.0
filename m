@@ -1,39 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 343BD7423D;
-	Fri, 18 Sep 2015 09:02:36 +0000 (UTC)
-Received: by wiclk2 with SMTP id lk2so55499801wic.0;
-	Fri, 18 Sep 2015 02:02:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=YRSIy86Lk4ISrFTBW23/Vlf9uXWN0ARba9E5EM8yCgg=;
-	b=G8cQDhYXWU8EWDRvjzFm7OPVfAOTfAaY1GumG8Ibf4IK663ArDm5KR0AzjZRw84f1T
-	H0lWboMt/n4TVX4M58Mp0dUkX+nXo3GCjAKkwTfsZtYKiJQ3yIUhd/uCANOZxX/cBx72
-	SfDseYaJZ6RfEpIhYGcgGFyaTlw8Vz2kxevKbgqzhPtuqOZKWQLengMF8OfKg7S0Lpri
-	qfswjC1tVTosCOKZIuYPgpvDFAUCoHhhE1PaeWVIrHnx17EuGLe0feBM4cAPYt5Baj/1
-	ytUoWDCG5XKZ/r7mI6cYafJt5Oc6h1XKP0PxaAxqjC3veSD7Kdw5AFktX0aUbXPURibU
-	Ozsg==
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 65A7C77024
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Sep 2015 09:23:02 +0000 (UTC)
+Received: by wicgb1 with SMTP id gb1so23918257wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Sep 2015 02:23:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Bk5UgIlry95NtFxOd5u6ncxa+wL1mSzBI2qE40t7sRo=;
+	b=XaomvgZZ54Jeg5W/4nQ8C7WFrPP+Ou5mXzRHqpjTeqU27FSaVFWCjyDDHvw1eYcuKC
+	Sil6JN0ShepHsMaWTSB/tco0hBwc6voo9ZjxxXkTUa19EraTiqv+wFAs1beGUcwDMJn1
+	OUXKJRuErQ2t8Kp5Ngb3IWJOoxtlb3VJDlV6K7ns+Fy+BIW36IQYWVbiVA8rc1tqrouC
+	jpjuTwCdBg1GiBKX2vUpTak/LPfq5EuSt1YdM96O/wHK2ldlkTU8523TbXPSxfdO31KW
+	80Tyz5/0hmxt31bWNI46454Zl5NxGevNN0NJpg1HYi2v7+CG74/MxNyqOxumsjGxPcuv
+	Nwhw==
+X-Gm-Message-State: ALoCoQk0oW5DkFjDfaSuVFjqcUdADmLtuEmPijoDHa5r66+ODs9ZK5BXxqDWSSILpvvlqIWRjeDa
+X-Received: by 10.180.76.177 with SMTP id l17mr1602838wiw.16.1442568182094;
+	Fri, 18 Sep 2015 02:23:02 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.180.8.200 with SMTP id t8mr15067894wia.34.1442566955972;
-	Fri, 18 Sep 2015 02:02:35 -0700 (PDT)
-Received: by 10.28.59.138 with HTTP; Fri, 18 Sep 2015 02:02:35 -0700 (PDT)
-In-Reply-To: <2142960116.32810.1442562398390.JavaMail.zimbra@neratec.com>
-References: <cover.1441929533.git.raj.khem@gmail.com>
-	<e4c70967dd05d254bd59bd4f8a49836c3d499bfb.1441929533.git.raj.khem@gmail.com>
-	<80e3806f09d6c399ccd4ccdf5f83997386ec85bc.1441929533.git.raj.khem@gmail.com>
-	<CALbNGRR=LAdpubkJGdfx=mx5FGiVW=YDTObwRN8JLAnSfiPc=g@mail.gmail.com>
-	<CAMKF1so4a85NDgwLOL1RYHyXQTQcAdHJ9FM7yhaJbrnpTzdx0g@mail.gmail.com>
-	<2142960116.32810.1442562398390.JavaMail.zimbra@neratec.com>
-Date: Fri, 18 Sep 2015 11:02:35 +0200
-Message-ID: <CA+chaQfdK4irH2DvnX-c=4pPHv2VXg3Y81mm6RuP845aJy_8yw@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Adrian Freihofer <adrian.freihofer@neratec.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	openembedded-devel <openembedded-devel@lists.openembedded.org>
-Subject: Re: [PATCH V2 2/3] systemd: Upgrade 219 -> 225
+Received: by 10.27.77.212 with HTTP; Fri, 18 Sep 2015 02:22:32 -0700 (PDT)
+In-Reply-To: <1442502208.12473.4.camel@intel.com>
+References: <1442502208.12473.4.camel@intel.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Fri, 18 Sep 2015 12:22:32 +0300
+Message-ID: <CAHiDW_Hm+TyZtTQ=sPeOd1OjEyxjLCDwiv7o47vAmyU44XVfqw@mail.gmail.com>
+To: "Kinsella, Ray" <ray.kinsella@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] openssl: remove lock data_word from x86cpuid.pl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,97 +44,183 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 09:02:37 -0000
-Content-Type: multipart/alternative; boundary=f46d044304e6f9bf28052001ca2d
+X-List-Received-Date: Fri, 18 Sep 2015 09:23:07 -0000
+Content-Type: multipart/alternative; boundary=f46d0438937b0ef4940520021467
 
---f46d044304e6f9bf28052001ca2d
+--f46d0438937b0ef4940520021467
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi Adrian,
+On 17 September 2015 at 18:03, Kinsella, Ray <ray.kinsella@intel.com> wrote:
 
-we're not accepting github's pull requests, see README.
-
-Andreas already send many fixes for gudev, please check master-next if
-something is missing from your changes and resend to ML.
-
-On Fri, Sep 18, 2015 at 9:46 AM, Adrian Freihofer <
-adrian.freihofer@neratec.com> wrote:
-
-> Hi Andreas
+> The cmpxchg instruction is encoded in functions such as OPENSSL_atomic_add
+> as a perlasm data_word. This has the effect of hiding the instruction from
+> the assembler. Stripping the LOCK prefix on cmpxchg via the assembler with
+> --momit-lock-prefix=yes then becomes impossible (required on the Intel
+> X1000).
+> This patch converts the data_word into perlasm instructions.
 >
-> Here is a first patchset ready for pulling...
-> https://github.com/openembedded/meta-openembedded/pull/16
+
+Could you resend this following the advice here:
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines : mainly
+the patch file you add needs a message explaining the change as well as
+headers Upstream-Status & Signed-off-by.
+
+Thanks,
+  Jussi
+
+
+Signed-off-by: Ray Kinsella <ray.kinsella@intel.com>
+> ---
+>  .../openssl/remove-lock-data_word-from-x86cpuid.pl.patch   |   12
+> ++++++++++++
+>  meta/recipes-connectivity/openssl/openssl_1.0.2d.bb        |    1 +
+>  2 files changed, 13 insertions(+)
+>  create mode 100644
+> meta/recipes-connectivity/openssl/openssl/remove-lock-data_word-from-x86cpuid.pl.patch
 >
-> ------------------------------
-> *Von: *"Khem Raj" <raj.khem@gmail.com>
-> *An: *"Andreas M=C3=BCller" <schnitzeltony@googlemail.com>
-> *CC: *openembedded-devel@lists.openembedded.org, "Patches and discussions
-> about the oe-core layer" <openembedded-core@lists.openembedded.org>
-> *Gesendet: *Mittwoch, 16. September 2015 23:18:50
-> *Betreff: *Re: [OE-core] [PATCH V2 2/3] systemd: Upgrade 219 -> 225
+> diff --git
+> a/meta/recipes-connectivity/openssl/openssl/remove-lock-data_word-from-x86cpuid.pl.patch
+> b/meta/recipes-connectivity/openssl/openssl/remove-lock-data_word-from-x86cpuid.pl.patch
+> new file mode 100644
+> index 0000000..e969e91
+> --- /dev/null
+> +++
+> b/meta/recipes-connectivity/openssl/openssl/remove-lock-data_word-from-x86cpuid.pl.patch
+> @@ -0,0 +1,12 @@
+> +--- openssl-1.0.2d/crypto/x86cpuid.pl.orig     2015-09-16
+> 21:11:01.927322252 +0100
+> ++++ openssl-1.0.2d/crypto/x86cpuid.pl  2015-09-16 21:14:45.795314992
+> +0100
+> +@@ -275,7 +275,8 @@
+> + &set_label("spin");
+> +       &lea    ("ebx",&DWP(0,"eax","ecx"));
+> +       &nop    ();
+> +-      &data_word(0x1ab10ff0); # lock; cmpxchg %ebx,(%edx)     # %eax is
+> envolved and is always reloaded
+> ++      &lock   ();
+> ++      &cmpxchg(&DWP(0,"edx"), "ebx"); # %eax is envolved and is always
+> reloaded
+> +       &jne    (&label("spin"));
+> +       &mov    ("eax","ebx");  # OpenSSL expects the new value
+> +       &pop    ("ebx");
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+> b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+> index 32d8dce..de2ec1a 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+> @@ -33,6 +33,7 @@ SRC_URI += "file://configure-targets.patch \
+>              file://openssl-fix-des.pod-error.patch \
+>              file://Makefiles-ptest.patch \
+>              file://ptest-deps.patch \
+> +            file://remove-lock-data_word-from-x86cpuid.pl.patch \
+>              file://run-ptest \
+>              file://crypto_use_bigint_in_x86-64_perl.patch \
+>              file://openssl-1.0.2a-x32-asm.patch \
+> --
+> 1.7.10.4
 >
-> On Wed, Sep 16, 2015 at 2:17 PM, Andreas M=C3=BCller
-> <schnitzeltony@googlemail.com> wrote:
-> > Is anybody preparing patches for gudev (many packets in meta-oe require
-> it)?
-> >
-> > If not I can do so. Is the home for libgudev oe-core or better meta-oe?
->
-> meta-oe is better for now. I am not working on it.
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
 
---f46d044304e6f9bf28052001ca2d
+--f46d0438937b0ef4940520021467
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi Adrian,<div><br></div><div>we&#39;re not accepting gith=
-ub&#39;s pull requests, see README.</div><div><br></div><div>Andreas alread=
-y send many fixes for gudev, please check master-next if something is missi=
-ng from your changes and resend to ML.</div></div><div class=3D"gmail_extra=
-"><br><div class=3D"gmail_quote">On Fri, Sep 18, 2015 at 9:46 AM, Adrian Fr=
-eihofer <span dir=3D"ltr">&lt;<a href=3D"mailto:adrian.freihofer@neratec.co=
-m" target=3D"_blank">adrian.freihofer@neratec.com</a>&gt;</span> wrote:<br>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div><div style=3D"font-family:arial,helveti=
-ca,sans-serif;font-size:10pt;color:#000000"><div>Hi Andreas<br></div><div><=
-br></div><div>Here is a first patchset ready for pulling...<br></div><div><=
-a href=3D"https://github.com/openembedded/meta-openembedded/pull/16" target=
-=3D"_blank">https://github.com/openembedded/meta-openembedded/pull/16</a></=
-div><div><br></div><hr><div><b>Von: </b>&quot;Khem Raj&quot; &lt;<a href=3D=
-"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br=
-><b>An: </b>&quot;Andreas M=C3=BCller&quot; &lt;<a href=3D"mailto:schnitzel=
-tony@googlemail.com" target=3D"_blank">schnitzeltony@googlemail.com</a>&gt;=
-<br><b>CC: </b><a href=3D"mailto:openembedded-devel@lists.openembedded.org"=
- target=3D"_blank">openembedded-devel@lists.openembedded.org</a>, &quot;Pat=
-ches and discussions about the oe-core layer&quot; &lt;<a href=3D"mailto:op=
-enembedded-core@lists.openembedded.org" target=3D"_blank">openembedded-core=
-@lists.openembedded.org</a>&gt;<br><b>Gesendet: </b>Mittwoch, 16. September=
- 2015 23:18:50<br><b>Betreff: </b>Re: [OE-core] [PATCH V2 2/3] systemd: Upg=
-rade 219 -&gt; 225<br></div><div><div class=3D"h5"><div><br></div><div>On W=
-ed, Sep 16, 2015 at 2:17 PM, Andreas M=C3=BCller<br>&lt;<a href=3D"mailto:s=
-chnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony@googlemail.com=
-</a>&gt; wrote:<br>&gt; Is anybody preparing patches for gudev (many packet=
-s in meta-oe require it)?<br>&gt;<br>&gt; If not I can do so. Is the home f=
-or libgudev oe-core or better meta-oe?<br><br>meta-oe is better for now. I =
-am not working on it.<br>-- <br>___________________________________________=
-____<br>Openembedded-core mailing list<br><a href=3D"mailto:Openembedded-co=
-re@lists.openembedded.org" target=3D"_blank">Openembedded-core@lists.openem=
-bedded.org</a><br><a href=3D"http://lists.openembedded.org/mailman/listinfo=
-/openembedded-core" target=3D"_blank">http://lists.openembedded.org/mailman=
-/listinfo/openembedded-core</a><br></div></div></div></div></div><br>--<br>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+7 September 2015 at 18:03, Kinsella, Ray <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:ray.kinsella@intel.com" target=3D"_blank">ray.kinsella@intel.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
+er-left-style:solid;padding-left:1ex">The cmpxchg instruction is encoded in=
+ functions such as OPENSSL_atomic_add<br>
+as a perlasm data_word. This has the effect of hiding the instruction from<=
+br>
+the assembler. Stripping the LOCK prefix on cmpxchg via the assembler with<=
+br>
+--momit-lock-prefix=3Dyes then becomes impossible (required on the Intel X1=
+000).<br>
+This patch converts the data_word into perlasm instructions.<br></blockquot=
+e><div><br></div><div>Could you resend this following the advice here: <a h=
+ref=3D"http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines">ht=
+tp://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines</a> : mainly=
+ the patch file you add needs a message explaining the change as well as he=
+aders Upstream-Status &amp; Signed-off-by.=C2=A0</div><div><br></div><div>T=
+hanks,</div><div>=C2=A0 Jussi</div><div><br></div><div><br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width=
+:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-lef=
+t:1ex">
+Signed-off-by: Ray Kinsella &lt;<a href=3D"mailto:ray.kinsella@intel.com">r=
+ay.kinsella@intel.com</a>&gt;<br>
+---<br>
+=C2=A0.../openssl/remove-lock-data_word-from-x86cpuid.pl.patch=C2=A0 =C2=A0=
+|=C2=A0 =C2=A012 ++++++++++++<br>
+=C2=A0meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.0.2d.bb=
+" rel=3D"noreferrer" target=3D"_blank">openssl_1.0.2d.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 =C2=A0 1 +<br>
+=C2=A02 files changed, 13 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-connectivity/openssl/openssl/remove-l=
+ock-data_word-from-x86cpuid.pl.patch<br>
+<br>
+diff --git a/meta/recipes-connectivity/openssl/openssl/remove-lock-data_wor=
+d-from-x86cpuid.pl.patch b/meta/recipes-connectivity/openssl/openssl/remove=
+-lock-data_word-from-x86cpuid.pl.patch<br>
+new file mode 100644<br>
+index 0000000..e969e91<br>
+--- /dev/null<br>
++++ b/meta/recipes-connectivity/openssl/openssl/remove-lock-data_word-from-=
+x86cpuid.pl.patch<br>
+@@ -0,0 +1,12 @@<br>
++--- openssl-1.0.2d/crypto/x86cpuid.pl.orig=C2=A0 =C2=A0 =C2=A02015-09-16 2=
+1:11:01.927322252 +0100<br>
+++++ openssl-1.0.2d/crypto/<a href=3D"http://x86cpuid.pl" rel=3D"noreferrer=
+" target=3D"_blank">x86cpuid.pl</a>=C2=A0 2015-09-16 21:14:45.795314992 +01=
+00<br>
++@@ -275,7 +275,8 @@<br>
++ &amp;set_label(&quot;spin&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;lea=C2=A0 =C2=A0 (&quot;ebx&quot;,&amp;DWP=
+(0,&quot;eax&quot;,&quot;ecx&quot;));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;nop=C2=A0 =C2=A0 ();<br>
++-=C2=A0 =C2=A0 =C2=A0 &amp;data_word(0x1ab10ff0); # lock; cmpxchg %ebx,(%e=
+dx)=C2=A0 =C2=A0 =C2=A0# %eax is envolved and is always reloaded<br>
+++=C2=A0 =C2=A0 =C2=A0 &amp;lock=C2=A0 =C2=A0();<br>
+++=C2=A0 =C2=A0 =C2=A0 &amp;cmpxchg(&amp;DWP(0,&quot;edx&quot;), &quot;ebx&=
+quot;); # %eax is envolved and is always reloaded<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;jne=C2=A0 =C2=A0 (&amp;label(&quot;spin&qu=
+ot;));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;mov=C2=A0 =C2=A0 (&quot;eax&quot;,&quot;eb=
+x&quot;);=C2=A0 # OpenSSL expects the new value<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;pop=C2=A0 =C2=A0 (&quot;ebx&quot;);<br>
+diff --git a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.=
+0.2d.bb" rel=3D"noreferrer" target=3D"_blank">openssl_1.0.2d.bb</a> b/meta/=
+recipes-connectivity/openssl/<a href=3D"http://openssl_1.0.2d.bb" rel=3D"no=
+referrer" target=3D"_blank">openssl_1.0.2d.bb</a><br>
+index 32d8dce..de2ec1a 100644<br>
+--- a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.0.2d.bb=
+" rel=3D"noreferrer" target=3D"_blank">openssl_1.0.2d.bb</a><br>
++++ b/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.0.2d.bb=
+" rel=3D"noreferrer" target=3D"_blank">openssl_1.0.2d.bb</a><br>
+@@ -33,6 +33,7 @@ SRC_URI +=3D &quot;file://configure-targets.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://openssl-fix-des.pod-=
+error.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://Makefiles-ptest.patc=
+h \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://ptest-deps.patch \<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://remove-lock-data_word-fro=
+m-x86cpuid.pl.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://crypto_use_bigint_in=
+_x86-64_perl.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://openssl-1.0.2a-x32-a=
+sm.patch \<br>
+<span class=3D""><font color=3D"#888888">--<br>
+1.7.10.4<br>
+<br>
+--<br>
 _______________________________________________<br>
 Openembedded-core mailing list<br>
 <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
@@ -144,6 +228,6 @@ re@lists.openembedded.org</a><br>
 <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
 n/listinfo/openembedded-core</a><br>
-<br></blockquote></div><br></div>
+</font></span></blockquote></div><br></div></div>
 
---f46d044304e6f9bf28052001ca2d--
+--f46d0438937b0ef4940520021467--
