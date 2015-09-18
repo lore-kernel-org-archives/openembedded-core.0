@@ -1,39 +1,44 @@
-Return-Path: <pbarker@betafive.co.uk>
-X-Greylist: delayed 8863 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 18 Sep 2015 10:19:24 UTC
-Received: from 19.mo4.mail-out.ovh.net (19.mo4.mail-out.ovh.net [87.98.179.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 521387701C
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 10:19:24 +0000 (UTC)
-Received: from mail437.ha.ovh.net (gw6.ovh.net [213.251.189.206])
-	by mo4.mail-out.ovh.net (Postfix) with SMTP id 854EC103C14B
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 09:51:38 +0200 (CEST)
-Received: from localhost (HELO queueout) (127.0.0.1)
-	by localhost with SMTP; 18 Sep 2015 09:51:37 +0200
-Received: from cpc19-shep11-2-0-cust55.8-3.cable.virginm.net (HELO
-	bang.betafive.co.uk) (paul@betafive.co.uk@81.111.243.56)
-	by ns0.ovh.net with AES256-GCM-SHA384 encrypted SMTP;
-	18 Sep 2015 09:51:36 +0200
-Received: by bang.betafive.co.uk (Postfix, from userid 1000)
-	id 1A28740A50; Fri, 18 Sep 2015 08:52:41 +0100 (BST)
-Date: Fri, 18 Sep 2015 08:52:41 +0100
-From: Paul Barker <paul@paulbarker.me.uk>
-To: openembedded-core@lists.openembedded.org,
-	Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20150918075241.GA23863@bang.betafive.co.uk>
+Return-Path: <adrian.freihofer@neratec.com>
+Received: from mail.neratec.com (mail.neratec.com [46.140.151.2])
+	by mail.openembedded.org (Postfix) with ESMTP id A3AC17700D;
+	Fri, 18 Sep 2015 10:33:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.neratec.com (Postfix) with ESMTP id 342848BCAA3;
+	Fri, 18 Sep 2015 12:33:42 +0200 (CEST)
+Received: from mail.neratec.com ([127.0.0.1])
+	by localhost (mail.neratec.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id c9PHWHRc5Xz0; Fri, 18 Sep 2015 12:33:42 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.neratec.com (Postfix) with ESMTP id 0657B8BCA9F;
+	Fri, 18 Sep 2015 12:33:42 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at neratec.com
+Received: from mail.neratec.com ([127.0.0.1])
+	by localhost (mail.neratec.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id IEq9f0CTmxNk; Fri, 18 Sep 2015 12:33:41 +0200 (CEST)
+Received: from mail.neratec.com (mail.neratec.com [192.168.11.23])
+	by mail.neratec.com (Postfix) with ESMTP id BD6798BCAA3;
+	Fri, 18 Sep 2015 12:33:41 +0200 (CEST)
+Date: Fri, 18 Sep 2015 12:33:41 +0200 (CEST)
+From: Adrian Freihofer <adrian.freihofer@neratec.com>
+To: Martin Jansa <martin.jansa@gmail.com>, "," <schnitzeltony@googlemail.com>
+Message-ID: <1795284996.34316.1442572421706.JavaMail.zimbra@neratec.com>
+In-Reply-To: <CA+chaQfdK4irH2DvnX-c=4pPHv2VXg3Y81mm6RuP845aJy_8yw@mail.gmail.com>
+References: <cover.1441929533.git.raj.khem@gmail.com>
+	<e4c70967dd05d254bd59bd4f8a49836c3d499bfb.1441929533.git.raj.khem@gmail.com>
+	<80e3806f09d6c399ccd4ccdf5f83997386ec85bc.1441929533.git.raj.khem@gmail.com>
+	<CALbNGRR=LAdpubkJGdfx=mx5FGiVW=YDTObwRN8JLAnSfiPc=g@mail.gmail.com>
+	<CAMKF1so4a85NDgwLOL1RYHyXQTQcAdHJ9FM7yhaJbrnpTzdx0g@mail.gmail.com>
+	<2142960116.32810.1442562398390.JavaMail.zimbra@neratec.com>
+	<CA+chaQfdK4irH2DvnX-c=4pPHv2VXg3Y81mm6RuP845aJy_8yw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Ovh-Tracer-Id: 14017453840488643518
-X-Ovh-Remote: 81.111.243.56 (cpc19-shep11-2-0-cust55.8-3.cable.virginm.net)
-X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
-X-OVH-SPAMSTATE: OK
-X-OVH-SPAMSCORE: -100
-X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeekgedrfedvucetufdoteggucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeekgedrfedvucetufdoteggucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-Subject: [dylan] Backport Request
+X-Originating-IP: [192.168.11.128]
+X-Mailer: Zimbra 8.6.0_GA_1182 (ZimbraWebClient - FF40 (Linux)/8.6.0_GA_1182)
+Thread-Topic: systemd: Upgrade 219 -> 225
+Thread-Index: UYvLMaKX9uDC4fEN8jzj9gf1U9FcSA==
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	openembedded-devel <openembedded-devel@lists.openembedded.org>
+Subject: Re: [PATCH V2 2/3] systemd: Upgrade 219 -> 225
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,77 +51,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 10:19:27 -0000
-X-Groupsio-MsgNum: 71275
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ZGiS0Q5IWpPtfppv"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 18 Sep 2015 10:33:43 -0000
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_34315_1403435786.1442572421705"
 
---ZGiS0Q5IWpPtfppv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+------=_Part_34315_1403435786.1442572421705
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Martin, hi Andreas=20
 
-I'm not sure if there are many other poor souls still using dylan, but if t=
-here
-are I'd like to request a backport of the following commit. In our case it =
-is
-needed to ensure that a package is rebuilt when INITSCRIPT_NAME or
-INITSCRIPT_PARAMS is changed in a recipe.
+You are right, my patches are almost obsolete. Just some details might be w=
+orth to be noticed:=20
 
-Hopefully we'll be able to upgrade soon, but if so it will probably be only=
- as
-far as daisy...
+libgudev might be improved by adding:=20
+RCONFLICTS_${PN} =3D "systemd (<=3D 220)"=20
 
-commit 4003218f774c38bb5de0d95a43153f8b8d7fc4ce
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date:   Fri Oct 4 12:29:08 2013 +0100
-    udpated-rc.d: Track postinst/prerm/postrm in task checksum
-   =20
-    When these functions change, the package should rebuild but currently it
-    does not. We need to add the dependencies manually as the dependency
-    code can't track dynamically created variables.
-   =20
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bb=
-class
-index 5588569..f726f2f 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -54,6 +54,8 @@ python __anonymous() {
+NetworkManager and ModemManager depend on udev instead of libgudev as well.=
 =20
- PACKAGESPLITFUNCS_prepend =3D "populate_packages_updatercd "
+
+
+
+
+Von: "Martin Jansa" <martin.jansa@gmail.com>=20
+An: "Adrian Freihofer" <adrian.freihofer@neratec.com>=20
+CC: "Khem Raj" <raj.khem@gmail.com>, "openembedded-devel" <openembedded-dev=
+el@lists.openembedded.org>, "Patches and discussions about the oe-core laye=
+r" <openembedded-core@lists.openembedded.org>=20
+Gesendet: Freitag, 18. September 2015 11:02:35=20
+Betreff: Re: [OE-core] [PATCH V2 2/3] systemd: Upgrade 219 -> 225=20
+
+Hi Adrian,=20
+we're not accepting github's pull requests, see README.=20
+
+Andreas already send many fixes for gudev, please check master-next if some=
+thing is missing from your changes and resend to ML.=20
+
+On Fri, Sep 18, 2015 at 9:46 AM, Adrian Freihofer < adrian.freihofer@nerate=
+c.com > wrote:=20
+
+
+
+Hi Andreas=20
+
+Here is a first patchset ready for pulling...=20
+https://github.com/openembedded/meta-openembedded/pull/16=20
+
+
+Von: "Khem Raj" < raj.khem@gmail.com >=20
+An: "Andreas M=C3=BCller" < schnitzeltony@googlemail.com >=20
+CC: openembedded-devel@lists.openembedded.org , "Patches and discussions ab=
+out the oe-core layer" < openembedded-core@lists.openembedded.org >=20
+Gesendet: Mittwoch, 16. September 2015 23:18:50=20
+Betreff: Re: [OE-core] [PATCH V2 2/3] systemd: Upgrade 219 -> 225=20
+
+On Wed, Sep 16, 2015 at 2:17 PM, Andreas M=C3=BCller=20
+< schnitzeltony@googlemail.com > wrote:=20
+> Is anybody preparing patches for gudev (many packets in meta-oe require i=
+t)?=20
+>=20
+> If not I can do so. Is the home for libgudev oe-core or better meta-oe?=
 =20
-+populate_packages_updatercd[vardeps] +=3D "updatercd_prerm updatercd_postr=
-m updatercd_postinst"
-+
- python populate_packages_updatercd () {
-     def update_rcd_package(pkg):
-         bb.debug(1, 'adding update-rc.d calls to postinst/postrm for %s' %=
- pkg)
+
+meta-oe is better for now. I am not working on it.=20
+--=20
+_______________________________________________=20
+Openembedded-core mailing list=20
+Openembedded-core@lists.openembedded.org=20
+http://lists.openembedded.org/mailman/listinfo/openembedded-core=20
 
 --=20
-Paul Barker
+_______________________________________________=20
+Openembedded-core mailing list=20
+Openembedded-core@lists.openembedded.org=20
+http://lists.openembedded.org/mailman/listinfo/openembedded-core=20
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
---ZGiS0Q5IWpPtfppv
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
 
-iQEcBAEBAgAGBQJV+8LIAAoJEBwoJlo7UPQDp1MH/2EY8gXBnYI2AQMsoav0EHAR
-c6IdXzVzEYHqEz1/EJm3iN8oKwtSo7J3LKJzieBmEVrCoEQe53kPI+P2yawOjsCo
-TRZwsQ70h0/jnWqXuEVapfUkE3MCumHT7fmXUS75nd5wLs/IqMU3I5jpNuL84WHq
-9MbUCoiQilVYlJRFqIWf++eQJRTZRjOuLdUFLP5UVIxM2B6qvgvC1Gchhrp/a2zj
-4dnt0wI398eMkskIVEtycgNIXMNWp/o9aw5EUIpIJOBMnNgsLYk0z9HnXjEXDl5G
-hHvAIqZfSoPg+HMVP0DLK7Xlnch1MWtUNOhoagcqMOJaZEe4vcDG+X5XLH6U/bM=
-=pyp6
------END PGP SIGNATURE-----
 
---ZGiS0Q5IWpPtfppv--
+
+------=_Part_34315_1403435786.1442572421705
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><body><div style=3D"font-family: arial, helvetica, sans-serif; font-s=
+ize: 10pt; color: #000000"><div>Hi Martin, hi Andreas<br></div><div><br dat=
+a-mce-bogus=3D"1"></div><div>You are right, my patches are almost obsolete.=
+ Just some details might be worth to be noticed:</div><div><br></div><div>l=
+ibgudev might be improved by adding:<br data-mce-bogus=3D"1"></div><div>RCO=
+NFLICTS_${PN} =3D "systemd (&lt;=3D 220)"</div><div><br data-mce-bogus=3D"1=
+"></div><div>NetworkManager and ModemManager depend on udev instead of libg=
+udev as well.<br data-mce-bogus=3D"1"></div><div><br data-mce-bogus=3D"1"><=
+/div><div data-marker=3D"__SIG_PRE__"><div><hr><br></div><div><br data-mce-=
+bogus=3D"1"></div></div><div data-marker=3D"__HEADERS__"><b>Von: </b>"Marti=
+n Jansa" &lt;martin.jansa@gmail.com&gt;<br><b>An: </b>"Adrian Freihofer" &l=
+t;adrian.freihofer@neratec.com&gt;<br><b>CC: </b>"Khem Raj" &lt;raj.khem@gm=
+ail.com&gt;, "openembedded-devel" &lt;openembedded-devel@lists.openembedded=
+.org&gt;, "Patches and discussions about the oe-core layer" &lt;openembedde=
+d-core@lists.openembedded.org&gt;<br><b>Gesendet: </b>Freitag, 18. Septembe=
+r 2015 11:02:35<br><b>Betreff: </b>Re: [OE-core] [PATCH V2 2/3] systemd: Up=
+grade 219 -&gt; 225<br></div><div><br></div><div data-marker=3D"__QUOTED_TE=
+XT__"><div dir=3D"ltr">Hi Adrian,<br><div>we're not accepting github's pull=
+ requests, see README.</div><br><div>Andreas already send many fixes for gu=
+dev, please check master-next if something is missing from your changes and=
+ resend to ML.</div></div><div class=3D"gmail_extra"><br><div class=3D"gmai=
+l_quote">On Fri, Sep 18, 2015 at 9:46 AM, Adrian Freihofer <span dir=3D"ltr=
+">&lt;<a href=3D"mailto:adrian.freihofer@neratec.com" target=3D"_blank">adr=
+ian.freihofer@neratec.com</a>&gt;</span> wrote:<br><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex"><div><div style=3D"font-family:arial,helvetica,sans-serif;font-size:=
+10pt;color:#000000"><div>Hi Andreas<br></div><br><div>Here is a first patch=
+set ready for pulling...<br></div><div><a href=3D"https://github.com/openem=
+bedded/meta-openembedded/pull/16" target=3D"_blank">https://github.com/open=
+embedded/meta-openembedded/pull/16</a><br data-mce-bogus=3D"1"></div><br><h=
+r><div><b>Von: </b>"Khem Raj" &lt;<a href=3D"mailto:raj.khem@gmail.com" tar=
+get=3D"_blank">raj.khem@gmail.com</a>&gt;<br><b>An: </b>"Andreas M=C3=BClle=
+r" &lt;<a href=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">sc=
+hnitzeltony@googlemail.com</a>&gt;<br><b>CC: </b><a href=3D"mailto:openembe=
+dded-devel@lists.openembedded.org" target=3D"_blank">openembedded-devel@lis=
+ts.openembedded.org</a>, "Patches and discussions about the oe-core layer" =
+&lt;<a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_=
+blank">openembedded-core@lists.openembedded.org</a>&gt;<br><b>Gesendet: </b=
+>Mittwoch, 16. September 2015 23:18:50<br><b>Betreff: </b>Re: [OE-core] [PA=
+TCH V2 2/3] systemd: Upgrade 219 -&gt; 225<br></div><div><div class=3D"h5">=
+<br><div>On Wed, Sep 16, 2015 at 2:17 PM, Andreas M=C3=BCller<br>&lt;<a hre=
+f=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitzeltony@g=
+ooglemail.com</a>&gt; wrote:<br>&gt; Is anybody preparing patches for gudev=
+ (many packets in meta-oe require it)?<br>&gt;<br>&gt; If not I can do so. =
+Is the home for libgudev oe-core or better meta-oe?<br><br>meta-oe is bette=
+r for now. I am not working on it.<br>-- <br>______________________________=
+_________________<br>Openembedded-core mailing list<br><a href=3D"mailto:Op=
+enembedded-core@lists.openembedded.org" target=3D"_blank">Openembedded-core=
+@lists.openembedded.org</a><br><a href=3D"http://lists.openembedded.org/mai=
+lman/listinfo/openembedded-core" target=3D"_blank">http://lists.openembedde=
+d.org/mailman/listinfo/openembedded-core</a><br></div></div></div></div></d=
+iv><br>--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+<br></blockquote></div></div><br></div></div></body></html>
+
+------=_Part_34315_1403435786.1442572421705--
