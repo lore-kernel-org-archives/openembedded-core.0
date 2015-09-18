@@ -1,48 +1,46 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-X-Greylist: delayed 486 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 18 Sep 2015 10:54:28 UTC
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 550D27701E
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B9E4277028
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 10:54:28 +0000 (UTC)
+	Fri, 18 Sep 2015 10:56:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 359502E4AC;
+	by bastet.se.axis.com (Postfix) with ESMTP id 491AA18219;
 	Fri, 18 Sep 2015 12:46:22 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id gIAB8+d6-761; Fri, 18 Sep 2015 12:46:21 +0200 (CEST)
+	with LMTP id 47p-dV06uk1H; Fri, 18 Sep 2015 12:46:21 +0200 (CEST)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 98CC12E129;
+	by bastet.se.axis.com (Postfix) with ESMTP id 9B99E180F1;
 	Fri, 18 Sep 2015 12:46:21 +0200 (CEST)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 730FB13CB;
+	by postfix.imss71 (Postfix) with ESMTP id 57EEF13EB;
 	Fri, 18 Sep 2015 12:46:21 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 640751210;
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 4C53913E2;
 	Fri, 18 Sep 2015 12:46:21 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 61AF534005;
+	by seth.se.axis.com (Postfix) with ESMTP id 499E23E0BB;
 	Fri, 18 Sep 2015 12:46:21 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id t8IAkLg5028421;
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id t8IAkL0x028408;
 	Fri, 18 Sep 2015 12:46:21 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id t8IAkLC7028417;
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id t8IAkLMC028406;
 	Fri, 18 Sep 2015 12:46:21 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Sep 2015 12:46:06 +0200
-Message-Id: <dac35ecc99acde19aadb0a12ae8af10fb72cdfc5.1442572927.git.pkj@axis.com>
+Date: Fri, 18 Sep 2015 12:46:04 +0200
+Message-Id: <01273889ff884336a3b1d5e2492758b7c81fb6e5.1442572927.git.pkj@axis.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1442572927.git.pkj@axis.com>
 References: <cover.1442572927.git.pkj@axis.com>
 In-Reply-To: <cover.1442572927.git.pkj@axis.com>
 References: <cover.1442572927.git.pkj@axis.com>
 Cc: dvhart@linux.intel.com
-Subject: [PATCH 3/3] oe-git-proxy: Allow socks4 as protocol in $ALL_PROXY
+Subject: [PATCH 1/3] oe-git-proxy: Allow explicit IP addresses in $NO_PROXY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,40 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 10:54:30 -0000
+X-List-Received-Date: Fri, 18 Sep 2015 10:56:14 -0000
 
-The current default is to use SOCKS4a when socks is specified as
-protocol in $ALL_PROXY. However, not all socks servers support
-SOCKS4a. By allowing socks4 as an additional protocol, this script
-will happily work with SOCKS4 only servers.
+Without this fix, if one specified, e.g., 127.0.0.1 in $NO_PROXY, the
+oe-git-proxy script would fail with a message like this:
+
+/home/pkj/yocto/poky/scripts/oe-git-proxy: line 64: 32-127.0.0.1: syntax error: invalid arithmetic operator (error token is ".0.0.1")
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- scripts/oe-git-proxy | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ scripts/oe-git-proxy | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/scripts/oe-git-proxy b/scripts/oe-git-proxy
-index b971c88..d2e9f92 100755
+index 4873455..2473282 100755
 --- a/scripts/oe-git-proxy
 +++ b/scripts/oe-git-proxy
-@@ -120,11 +120,16 @@ if [ "$PORT" = "$ALL_PROXY" ]; then
- 	PORT=""
- fi
+@@ -53,6 +53,7 @@ match_ipv4() {
  
--if [ "$PROTO" = "socks" ]; then
-+if [ "$PROTO" = "socks" ] || [ "$PROTO" = "socks4a" ]; then
- 	if [ -z "$PORT" ]; then
- 		PORT="1080"
+ 	# Determine the mask bitlength
+ 	BITS=${CIDR##*/}
++	[ "$BITS" != "$CIDR" ] || BITS=32
+ 	if [ -z "$BITS" ]; then
+ 		return 1
  	fi
- 	METHOD="SOCKS4A:$PROXY:$1:$2,socksport=$PORT"
-+elif [ "$PROTO" = "socks4" ]; then
-+	if [ -z "$PORT" ]; then
-+		PORT="1080"
-+	fi
-+	METHOD="SOCKS4:$PROXY:$1:$2,socksport=$PORT"
- else
- 	# Assume PROXY (http, https, etc)
- 	if [ -z "$PORT" ]; then
 -- 
 2.1.0
 
