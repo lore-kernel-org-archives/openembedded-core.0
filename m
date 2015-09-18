@@ -1,43 +1,41 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id CB89C75F3A
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id BD7F375F3A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 01:43:52 +0000 (UTC)
-Received: by padhy16 with SMTP id hy16so35140948pad.1
+	Fri, 18 Sep 2015 01:44:55 +0000 (UTC)
+Received: by pacfv12 with SMTP id fv12so35636219pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 18:43:52 -0700 (PDT)
+	Thu, 17 Sep 2015 18:44:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to;
-	bh=32UJmyxC1cfGLJNJQzGII7QIoFMWjYJV5fWskWNuX1M=;
-	b=Uh2BT0tpblWV7QWk40Ok8FsC4+/3LpY1jOZ1IlBUhHaA++T2dRunHS/FEGEZsGbogZ
-	e3bjQgJDvcSysXFMav61AZTLjtt0KGAy0Im374k8jwUC/d+lPC33Gt+ayc4XFhaHdCtF
-	R/iQp4y49BGPWC0c/FDFWq5wuMIUYWOXY5Delbiu8B6kXZx8xsdWnsm1QEZPiW5GYPXM
-	axc+Edl10xgqHTQLLn2Dp6tEgJ3DOup74+ws6d5j1goh3VLPPPPEOiIzTK8OFKnAr4ur
-	gBqWEiRWGle83Q/FNkIljhAYtrUvUBtJr+PUZfjp18KWUYpwr21fOz5CJpZ1behtNZhl
-	YqZQ==
-X-Received: by 10.68.69.40 with SMTP id b8mr4156692pbu.84.1442540632436;
-	Thu, 17 Sep 2015 18:43:52 -0700 (PDT)
-Received: from [192.168.0.4] (c-76-103-142-85.hsd1.ca.comcast.net.
-	[76.103.142.85]) by smtp.gmail.com with ESMTPSA id
-	lq10sm5681852pab.18.2015.09.17.18.43.51
+	bh=2N81EVUE13xScrxAO0Pays6LfceA0YB7Y8Fm3cPTrZo=;
+	b=rqyCOfv3jo9afLYrNKGv26kvzHovdY3G8hG6mpVKtHCcNkOHX14UPouYdetrstDSgL
+	N8ZD9uESKDD2gUwMWocOOPp3eJN0kLlBr1JC3FeNbcSFtB7KuiLz9L/NnQo9alJJuW+L
+	sOLlkhE+vbTndV3cWx55k8JJtbJeqAFZnN+ldY6AJielJ3X849USPrHTPibI2ItBjYFO
+	zWwFvgQ3Fmy1QXqCQ6G9shr0/C+9FaVT2XcIrN2YgryfLfsJY2HWySeOhyRY66vRrdTU
+	djMUgrLQKhmq7L2kA3FOvLmDzLc6uxU4fSgf4uhLax5m3vUVZC7P4Mazqv/ysfCymOHW
+	B/wg==
+X-Received: by 10.66.141.141 with SMTP id ro13mr4184436pab.68.1442540695839;
+	Thu, 17 Sep 2015 18:44:55 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:1079:2f51:a2f9:e171?
+	([2601:646:8601:4580:1079:2f51:a2f9:e171])
+	by smtp.gmail.com with ESMTPSA id
+	kv10sm5683076pbc.2.2015.09.17.18.44.54
 	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 17 Sep 2015 18:43:51 -0700 (PDT)
+	Thu, 17 Sep 2015 18:44:55 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <201509180341.43070.marex@denx.de>
-Date: Thu, 17 Sep 2015 18:43:50 -0700
-Message-Id: <B830C8CE-354B-428D-81E5-440EF548A557@gmail.com>
+In-Reply-To: <1442500317-9064-1-git-send-email-marex@denx.de>
+Date: Thu, 17 Sep 2015 18:44:54 -0700
+Message-Id: <7502171E-B73E-4C1D-930B-B7EBBE881446@gmail.com>
 References: <1442500317-9064-1-git-send-email-marex@denx.de>
-	<1442500317-9064-4-git-send-email-marex@denx.de>
-	<02670CD0-39E3-4C94-9FB6-CFC19B3AB6E6@gmail.com>
-	<201509180341.43070.marex@denx.de>
 To: Marek Vasut <marex@denx.de>
 X-Mailer: Apple Mail (2.3094)
 Cc: lftan@altera.com, waltergoossens@home.nl,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/8] linux-yocto: depend on libgcc for nios2
+Subject: Re: [PATCH 0/8] nios2 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,67 +48,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 01:43:52 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Fri, 18 Sep 2015 01:44:55 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-> On Sep 17, 2015, at 6:41 PM, Marek Vasut <marex@denx.de> wrote:
+> On Sep 17, 2015, at 7:31 AM, Marek Vasut <marex@denx.de> wrote:
 >=20
-> On Friday, September 18, 2015 at 03:40:11 AM, Khem Raj wrote:
+> This patchset fixes various minor issues found during the process
+> of getting Yocto working with the Altera NIOS2 soft-processor.
 >=20
-> Hi!
->=20
->>> On Sep 17, 2015, at 7:31 AM, Marek Vasut <marex@denx.de> wrote:
->>>=20
->>> Make nios2 kernel depend on libgcc.
->>>=20
->>> In arch/nios2/Makefile, it adds LIBGCC to libs-y:
->>>=20
->>> LIBGCC          :=3D $(shell $(CC) $(KBUILD_CFLAGS)
->>> -print-libgcc-file-name) libs-y          +=3D $(LIBGCC)
->>>=20
->>> In file Makefile in top directory, libs-y is assigned to to var
->>> KBUILD_VMLINUX_MAIN. It uses script link-vmlinux.sh to link =
-vmlinux.o,
->>> and when execute function vmlinux_link() in link-vmlinux.sh,
->>> KBUILD_VMLINUX_MAIN is passed to ${LD}.
->>>=20
->>> If build without libgcc, the value of LIBGCC is just libgcc.a =
-without
->>>=20
->>> parent directory. linux-yocto fails to build:
->>> |   LD      vmlinux.o
->>> |=20
->>> | nios2-poky-linux-ld.bfd: cannot find libgcc.a: No such file or
->>> | directory
->>>=20
->>> Add libgcc to nios2 kernel dependency.
->>>=20
->>> Signed-off-by: Marek Vasut <marex@denx.de>
->>> ---
->>> meta/recipes-kernel/linux/linux-yocto.inc | 4 ++++
->>> 1 file changed, 4 insertions(+)
->>>=20
->>> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
->>> b/meta/recipes-kernel/linux/linux-yocto.inc index 3b41a61..81ffa24
->>> 100644
->>> --- a/meta/recipes-kernel/linux/linux-yocto.inc
->>> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
->>> @@ -11,6 +11,10 @@ DEPENDS_append_aarch64 =3D " libgcc"
->>> KERNEL_CC_append_aarch64 =3D " ${TOOLCHAIN_OPTIONS}"
->>> KERNEL_LD_append_aarch64 =3D " ${TOOLCHAIN_OPTIONS}"
->>>=20
->>> +DEPENDS_append_nios2 =3D " libgcc"
->>> +KERNEL_CC_append_nios2 =3D " ${TOOLCHAIN_OPTIONS}"
->>> +KERNEL_LD_append_nios2 =3D " ${TOOLCHAIN_OPTIONS}=E2=80=9D
->>=20
->> Please try bitbake virtual/kernel build from scratch with this =
-change.
->=20
-> What do you mean, does it break anything or what should I expect ?
 
-I am not sure if there is a race, with this dependency between libgcc =
-and gcc-cross
-hopefully there is not but this will prove it.=
+Looks ok to me with few nits. But the changes are self contained which =
+is less risk for other arches
+
+> Marek Vasut (8):
+>  insane: Add nios2 support
+>  kernel-arch: Add nios2 to valid archs
+>  linux-yocto: depend on libgcc for nios2
+>  openssl: Add nios2 configuration
+>  siteinfo: Add nios2-linux
+>  libtool: Fix nios2 support
+>  pixman: Fix missing FE_DIVBYZERO on nios2
+>  libgpg-error: Add support for nios2
+>=20
+> meta/classes/insane.bbclass                        |   1 +
+> meta/classes/kernel-arch.bbclass                   |   3 +-
+> .../openssl/openssl/openssl_add_nios2.patch        |  32 ++
+> .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   1 +
+> meta/recipes-devtools/libtool/libtool-2.4.6.inc    |   1 +
+> ...1-libtool-Fix-support-for-NIOS2-processor.patch |  67 ++++
+> ...0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch |  65 ++++
+> meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb    |   1 +
+> meta/recipes-kernel/linux/linux-yocto.inc          |   4 +
+> .../0001-libgpg-error-Add-nios2-support.patch      |  45 +++
+> .../libgpg-error/libgpg-error_1.19.bb              |   4 +-
+> meta/site/nios2-linux                              | 395 =
++++++++++++++++++++++
+> 12 files changed, 617 insertions(+), 2 deletions(-)
+> create mode 100644 =
+meta/recipes-connectivity/openssl/openssl/openssl_add_nios2.patch
+> create mode 100644 =
+meta/recipes-devtools/libtool/libtool/0001-libtool-Fix-support-for-NIOS2-p=
+rocessor.patch
+> create mode 100644 =
+meta/recipes-graphics/xorg-lib/pixman/0001-v3-test-add-a-check-for-FE_DIVB=
+YZERO.patch
+> create mode 100644 =
+meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nios2=
+-support.patch
+> create mode 100644 meta/site/nios2-linux
+>=20
+> --=20
+> 2.1.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
