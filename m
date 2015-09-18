@@ -1,37 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id F0E7C73243
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F2B473243
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 20:21:47 +0000 (UTC)
-Received: by qgev79 with SMTP id v79so48125473qge.0
+	Fri, 18 Sep 2015 20:23:37 +0000 (UTC)
+Received: by qgx61 with SMTP id 61so48262701qgx.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 13:21:47 -0700 (PDT)
+	Fri, 18 Sep 2015 13:23:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=WTglZgwKeQAAwY7EgJyJLX6+2aOsxzCnYc+zKg5AxI8=;
-	b=bgPOhBKOvhBGT3fKD4nQy+JHeiaizI6nq8G09/+Ezv6f022jfv1LZVA9CnaysDIxhh
-	0LH3IuJ6HMN3qpRuKiyeZ4wuLbyhKN1XD4UtPLO7+a92ofveEnsxIv6WvE6o90oTun6Z
-	q/X5dYqzOSXTbxYzz+Y6QgJp854cZXlhLDXSVVm4o0x2taPv6Fzlrp7CiOlgg6MVkRaO
-	9J7BrtifuY/aDaXLOY4RrOrEvRBAak6yZwN0Gw5aFZ2Gztf61MCA8Mh45zCXNlUctcjv
-	fg/9rhynRxtdx7wD0ksGuJRYdxzhq8syg8H9m3f/kclBE8RfIqdqiCsY+Wy8BzHIjoci
-	jlKA==
-X-Gm-Message-State: ALoCoQlQZaOhAxyFquSA53D8uoAcUbiGVDGG2wWnbiJFKIeuqwOtliu2ptQwSO7hIxo9K/lMcN7a
-X-Received: by 10.140.235.147 with SMTP id g141mr8927931qhc.22.1442607707413; 
-	Fri, 18 Sep 2015 13:21:47 -0700 (PDT)
+	bh=Rwj6+QMEeiLsckFhQS1JQZkLIGApdYWZ4jpeFDRciqo=;
+	b=esDayRW5g5zABG+PHbWvt9Ds4TXPFv/6bJpkYTImbABz9fZDxDvdIQd7uHQJ4+98KB
+	BKFTbCcsVirPuyCeLFwHkdfW4S6Y0WpExtebhs5LJZ5Pdb4vduoZjYB4n/ne2V0SwQ0t
+	yC/XmU3NKVW9G1FPDizgMv5a6KEldLIWdk+XULIwuCkSexEpIYdoKBDaq3h/GNH1kWJ9
+	iYK/fDEwSoHuNXcvn1FloG5iEOB62qzakAMSeWD1GcbCiNyF0c7DERKs+OiHzyGJB23L
+	eKeOt1jyzAUQZH6znH7pS0QbFqyAfTbrK9PwSkJeFJz4DT9TzmSixmLoUskj/jsL6Eyn
+	+thw==
+X-Gm-Message-State: ALoCoQn8v3kHUHBb7BInLc8pQLKqfRT947eHaBtqxBSvExKLyD8iHHagaQAFHBtVkAnME8bZR0P0
+X-Received: by 10.140.32.119 with SMTP id g110mr8670766qgg.15.1442607817403;
+	Fri, 18 Sep 2015 13:23:37 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Fri, 18 Sep 2015 13:21:28 -0700 (PDT)
-In-Reply-To: <0a11e2878fd22572867a93a8e31e26524cab11c1.1442248108.git.raj.khem@gmail.com>
-References: <cover.1442248108.git.raj.khem@gmail.com>
-	<0a11e2878fd22572867a93a8e31e26524cab11c1.1442248108.git.raj.khem@gmail.com>
+Received: by 10.140.94.86 with HTTP; Fri, 18 Sep 2015 13:23:17 -0700 (PDT)
+In-Reply-To: <55F945B5.9060007@windriver.com>
+References: <cover.1442370259.git.liezhi.yang@windriver.com>
+	<90e4a1064ea7dfa9be458d306bba765136b50306.1442370259.git.liezhi.yang@windriver.com>
+	<CAHiDW_Gij3wQ0daYSBetKgBmz-E=DncKUvtP_WJ+O_g-T4vn_w@mail.gmail.com>
+	<55F945B5.9060007@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 18 Sep 2015 21:21:28 +0100
-Message-ID: <CAJTo0LYSh=oCR54d_A-j8u5Uy2O4sjuL8beULX=Knb+P9hAZkQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/12] waffle: upgrade waffle_1.5.1.bb -> waffle_1.5.2.bb
+Date: Fri, 18 Sep 2015 21:23:17 +0100
+Message-ID: <CAJTo0LYZ+mcOxm0Tu3E7-sqG08pmtzpkqr3+-r6vESkqOx4S8A@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] gtk+/cairo: enable x11 or directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,40 +47,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 20:21:49 -0000
-Content-Type: multipart/alternative; boundary=001a11376e6ef3749b05200b4767
+X-List-Received-Date: Fri, 18 Sep 2015 20:23:39 -0000
+Content-Type: multipart/alternative; boundary=001a1139bc1881c76005200b4e39
 
---001a11376e6ef3749b05200b4767
+--001a1139bc1881c76005200b4e39
 Content-Type: text/plain; charset=UTF-8
 
-Hi Khem,
+On 16 September 2015 at 11:34, Robert Yang <liezhi.yang@windriver.com>
+wrote:
 
-On 14 September 2015 at 17:31, Khem Raj <raj.khem@gmail.com> wrote:
-
->  .../waffle/{waffle_1.5.1.bb => waffle_1.5.2.bb}    |  8 ++--
+> Make the world build OK when possible, for example, when no x11 in
+> DISTRO_FEATURE.
 >
 
-Sorry but you missed the M3 build, can you backport the fixes to 1.5.1
-instead?
+But now you're just explicitly ignoring the directfb DISTRO_FEATURE.  Maybe
+if you want to do a world build without X11 enabled the you should add
+directfb to DISTRO_FEATURES?
 
 Ross
 
---001a11376e6ef3749b05200b4767
+--001a1139bc1881c76005200b4e39
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Khem,</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_quote">O=
-n 14 September 2015 at 17:31, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":432" class=3D"a3s" st=
-yle=3D"overflow:hidden">=C2=A0.../<span class=3D"il">waffle</span>/{<a href=
-=3D"http://waffle_1.5.1.bb" rel=3D"noreferrer" target=3D"_blank">waffle_1.5=
-.1.bb</a> =3D&gt; <a href=3D"http://waffle_1.5.2.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">waffle_1.5.2.bb</a>}=C2=A0 =C2=A0 |=C2=A0 8 ++--<br></div></=
-blockquote></div><br>Sorry but you missed the M3 build, can you backport th=
-e fixes to 1.5.1 instead?</div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 September 2015 at 11:34, Robert Yang <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4jw=
+" class=3D"a3s" style=3D"overflow:hidden">Make the world build OK when poss=
+ible, for example, when no x11 in<br>
+DISTRO_FEATURE.<span class=3D""><br></span></div></blockquote></div><br>But=
+ now you&#39;re just explicitly ignoring the directfb DISTRO_FEATURE.=C2=A0=
+ Maybe if you want to do a world build without X11 enabled the you should a=
+dd directfb to DISTRO_FEATURES?</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">Ross</div></div>
 
---001a11376e6ef3749b05200b4767--
+--001a1139bc1881c76005200b4e39--
