@@ -1,41 +1,42 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BB4F477029
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 10:56:10 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 1E77D180D3;
-	Fri, 18 Sep 2015 12:46:25 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id Uq0LEbNh2Y61; Fri, 18 Sep 2015 12:46:21 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 9A4C0180EA;
-	Fri, 18 Sep 2015 12:46:21 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 5536BFF3;
-	Fri, 18 Sep 2015 12:46:21 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 49C1C13CB;
-	Fri, 18 Sep 2015 12:46:21 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 3D74034005;
-	Fri, 18 Sep 2015 12:46:21 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id t8IAkLw4028403;
-	Fri, 18 Sep 2015 12:46:21 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id t8IAkJDV028352;
-	Fri, 18 Sep 2015 12:46:19 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Sep 2015 12:46:03 +0200
-Message-Id: <cover.1442572927.git.pkj@axis.com>
-X-Mailer: git-send-email 2.1.0
-Cc: dvhart@linux.intel.com
-Subject: [PATCH 0/3] Fixes for oe-git-proxy
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 06A1377028;
+	Fri, 18 Sep 2015 11:01:41 +0000 (UTC)
+Received: by ioii196 with SMTP id i196so52350990ioi.3;
+	Fri, 18 Sep 2015 04:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=xeA69o/308J+5KN1WMkfmYW7KgERrwHBnk7EDmuv40k=;
+	b=g0sgHwHnSxHjPNWIFho5cyD4I8NdbOtuH7BwuYuZtcwlNQvGvN3XxW7Usgm+3yfmJF
+	EkON+6G1XuRh14AA2A7zxLtbkFgSlsgtWmIKneLXZ10V06PURtq3Sc2XmZfZVSXW1yau
+	MgSDdr5rTwe1bVzoCWXPuWzTloMP74e2oBbuNVwhDSxLhiQ7lIOw6kaBo/OlMT3k8EKU
+	5d85sAM43ZxlpwDHr6bBkrW/H1LFNMzEoISRuwDjHV8b+p1m1cfWC+NOImKCLkxG/ICU
+	Q/PONsOwIoJg+VtFvVHpN/yMi1S0ZsoXqn8F/sw9r6HMFs46HNKayb7b9zpjB5qSYWR1
+	jKIQ==
+MIME-Version: 1.0
+X-Received: by 10.107.10.79 with SMTP id u76mr12475963ioi.99.1442574101534;
+	Fri, 18 Sep 2015 04:01:41 -0700 (PDT)
+Received: by 10.36.98.5 with HTTP; Fri, 18 Sep 2015 04:01:41 -0700 (PDT)
+In-Reply-To: <1795284996.34316.1442572421706.JavaMail.zimbra@neratec.com>
+References: <cover.1441929533.git.raj.khem@gmail.com>
+	<e4c70967dd05d254bd59bd4f8a49836c3d499bfb.1441929533.git.raj.khem@gmail.com>
+	<80e3806f09d6c399ccd4ccdf5f83997386ec85bc.1441929533.git.raj.khem@gmail.com>
+	<CALbNGRR=LAdpubkJGdfx=mx5FGiVW=YDTObwRN8JLAnSfiPc=g@mail.gmail.com>
+	<CAMKF1so4a85NDgwLOL1RYHyXQTQcAdHJ9FM7yhaJbrnpTzdx0g@mail.gmail.com>
+	<2142960116.32810.1442562398390.JavaMail.zimbra@neratec.com>
+	<CA+chaQfdK4irH2DvnX-c=4pPHv2VXg3Y81mm6RuP845aJy_8yw@mail.gmail.com>
+	<1795284996.34316.1442572421706.JavaMail.zimbra@neratec.com>
+Date: Fri, 18 Sep 2015 13:01:41 +0200
+Message-ID: <CALbNGRTE-utmwM4nGF8YBrLPCtXLS1tKE=V=2EGB_e7vR3sO1Q@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Adrian Freihofer <adrian.freihofer@neratec.com>
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 2/3] systemd: Upgrade 219 -> 225
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,31 +49,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 10:56:14 -0000
+X-List-Received-Date: Fri, 18 Sep 2015 11:01:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This fixes a couple of problems with the oe-git-proxy script. See the
-respective commits for more information.
+On Fri, Sep 18, 2015 at 12:33 PM, Adrian Freihofer
+<adrian.freihofer@neratec.com> wrote:
+> Hi Martin, hi Andreas
+>
+> You are right, my patches are almost obsolete. Just some details might be
+> worth to be noticed:
+>
+> libgudev might be improved by adding:
+> RCONFLICTS_${PN} = "systemd (<= 220)"
+>
+> NetworkManager and ModemManager depend on udev instead of libgudev as well.
+>
+Hi Adrian,
 
-//Peter
+Checked the configure.ac of NetworkManager and ModemManager: You are
+right - guess I missed the rdepends warnings due to bloated log. For
+RCONFLICTS I have no strong opinion. I think it is correct but am not
+sure if it is really necessary. On the other hands no harm is expected
+- so why not? other opinions?
 
-The following changes since commit 3a5e46b6ed483e43251da7e328b9299189997722:
+Can you please send patches with improvements based on master-next?
 
-  bitbake: bb.fetch2.{git, hg}: remove tarball if it needs updating (2015-09-18 09:05:36 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/oe-git-proxy
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/oe-git-proxy
-
-Peter Kjellerstedt (3):
-  oe-git-proxy: Allow explicit IP addresses in $NO_PROXY
-  oe-git-proxy: Correct the parsing of a port in $ALL_PROXY
-  oe-git-proxy: Allow socks4 as protocol in $ALL_PROXY
-
- scripts/oe-git-proxy | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
-
--- 
-2.1.0
-
+Andreas
 
