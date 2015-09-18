@@ -1,23 +1,29 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E66AC73D27
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0649773D27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 21:40:57 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Sep 2015 14:40:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,554,1437462000"; d="scan'208";a="807769864"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by orsmga002.jf.intel.com with ESMTP; 18 Sep 2015 14:40:57 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Sep 2015 13:31:32 +0000
-Message-Id: <aff257855c6708b9c4db09136eb94032aed12a1b.1442582395.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1442582395.git.mariano.lopez@linux.intel.com>
-References: <cover.1442582395.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/1] testimage.bbclass: Fix break introduced with SIGTERM handling
+	Fri, 18 Sep 2015 22:31:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8IMVf5m019063; Fri, 18 Sep 2015 23:31:41 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id AMIRtQC8TTNs; Fri, 18 Sep 2015 23:31:41 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8IMVPtZ019057
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 18 Sep 2015 23:31:37 +0100
+Message-ID: <1442615485.12435.64.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alejandro Joya <alejandro.joya.cruz@intel.com>
+Date: Fri, 18 Sep 2015 23:31:25 +0100
+In-Reply-To: <cover.1442610201.git.alejandro.joya.cruz@intel.com>
+References: <cover.1442610201.git.alejandro.joya.cruz@intel.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 0/3] Dynamic common utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,67 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 21:40:58 -0000
+X-List-Received-Date: Fri, 18 Sep 2015 22:31:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+On Fri, 2015-09-18 at 16:09 -0500, Alejandro Joya wrote:
+> It provide a virtual reference for the common utilities.
+> it replace of the lock to busybox, it will be simple exchange between other
+> common utilities like gnu core utils or toybox among others.
+> 
+> In order to enable its required to fill at the distro conf or local.conf
+>
+> VIRTUAL-RUNTIME_login_manager ?= "busybox"
+> PREFERRED_PROVIDER_virtual/base-utils?= "busybox"
+> PREFERRED_RPROVIDER_virtual/base-utils?= "busybox"
+> VIRTUAL-RUNTIME_base-utils?= "busybox"
+> VIRTUAL-RUNTIME_base-utils-hwclock ?= "busybox-hwclock"
 
-The SIGTERM introduced another break into runexported test,
-the handler is in the class TestContext while exporting it
-will try to convert the singnal handler to JSON, and this
-will throw an exception.
+As I understand it, you don't actually define defaults anywhere. This
+means OE would break "out the box" which isn't acceptable and that alone
+means I can't merge this.
 
-The SIGTERM handler is not needed in the exported test, so this
-change will remove the handler before exporting the test. Also
-when a test is exported the target is not deployed/started
-anymore, it is not necessary.
+Secondly, the virtual/xxx namespace is *only* for DEPENDS/PROVIDES, not
+RDEPENDS or PACKAGE_INSTALL. For runtime packages, you need to use
+${VIRTUAL-RUNTIME_base-utils}.
 
-[YOCTO #8239]
+Cheers,
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/classes/testimage.bbclass | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
-
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index a1918ba..fd4143d 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -305,13 +305,15 @@ def testimage_main(d):
-         import traceback
-         bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
- 
--    target.deploy()
- 
--    try:
--        target.start()
--        if export:
--            exportTests(d,tc)
--        else:
-+    if export:
-+        signal.signal(signal.SIGTERM, tc.origsigtermhandler)
-+        tc.origsigtermhandler = None
-+        exportTests(d,tc)
-+    else:
-+        target.deploy()
-+        try:
-+            target.start()
-             starttime = time.time()
-             result = runTests(tc)
-             stoptime = time.time()
-@@ -324,9 +326,9 @@ def testimage_main(d):
-                 bb.plain(msg)
-             else:
-                 raise bb.build.FuncFailed("%s - FAILED - check the task log and the ssh log" % pn )
--    finally:
--        signal.signal(signal.SIGTERM, tc.origsigtermhandler)
--        target.stop()
-+        finally:
-+            signal.signal(signal.SIGTERM, tc.origsigtermhandler)
-+            target.stop()
- 
- testimage_main[vardepsexclude] =+ "BB_ORIGENV"
- 
--- 
-1.8.4.5
+Richard
 
 
