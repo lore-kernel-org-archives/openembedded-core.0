@@ -1,39 +1,37 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-vk0-f47.google.com (mail-vk0-f47.google.com
-	[209.85.213.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D83573243
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id F0E7C73243
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 19:29:44 +0000 (UTC)
-Received: by vkfp126 with SMTP id p126so35903053vkf.3
+	Fri, 18 Sep 2015 20:21:47 +0000 (UTC)
+Received: by qgev79 with SMTP id v79so48125473qge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 12:29:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=2iRfywhHlGR4fOSt4OzcKjhJilYwhBK2X4aKODkBCbY=;
-	b=E7gbMOv5Gld5TFg2OR3ASz5DZTqN4lEOrzlxjrY9qnzyHA78w1w8HDaI/Y7ePWKMZT
-	HejL6SwVxnGb9DaJ+fNwgUI6jiOsphx5rBpIV6VYlJW6qG3WXOo49hA+G01ED+zEffXu
-	iq2fshMPE7tIZ4xDJE3+04XAAaKiUzJcsLUgKttUJ7EClPqlDAAecIsWYLb8seS8QjzZ
-	iLZs4yhQwqh1C887dGTvLllqGsRjBXQS1eusa+49N1+t30ukZi/445KeNig+mPuMNDJA
-	TuhDiL3/xF2+ziPbyQkITFpxtL9mtLjVzyvO3S+EnIBnn5YGd8nIoXbXWcId1nmjjpra
-	aPPg==
-X-Received: by 10.31.58.68 with SMTP id h65mr4048448vka.139.1442604584169;
-	Fri, 18 Sep 2015 12:29:44 -0700 (PDT)
+	Fri, 18 Sep 2015 13:21:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=WTglZgwKeQAAwY7EgJyJLX6+2aOsxzCnYc+zKg5AxI8=;
+	b=bgPOhBKOvhBGT3fKD4nQy+JHeiaizI6nq8G09/+Ezv6f022jfv1LZVA9CnaysDIxhh
+	0LH3IuJ6HMN3qpRuKiyeZ4wuLbyhKN1XD4UtPLO7+a92ofveEnsxIv6WvE6o90oTun6Z
+	q/X5dYqzOSXTbxYzz+Y6QgJp854cZXlhLDXSVVm4o0x2taPv6Fzlrp7CiOlgg6MVkRaO
+	9J7BrtifuY/aDaXLOY4RrOrEvRBAak6yZwN0Gw5aFZ2Gztf61MCA8Mh45zCXNlUctcjv
+	fg/9rhynRxtdx7wD0ksGuJRYdxzhq8syg8H9m3f/kclBE8RfIqdqiCsY+Wy8BzHIjoci
+	jlKA==
+X-Gm-Message-State: ALoCoQlQZaOhAxyFquSA53D8uoAcUbiGVDGG2wWnbiJFKIeuqwOtliu2ptQwSO7hIxo9K/lMcN7a
+X-Received: by 10.140.235.147 with SMTP id g141mr8927931qhc.22.1442607707413; 
+	Fri, 18 Sep 2015 13:21:47 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.31.203.2 with HTTP; Fri, 18 Sep 2015 12:29:24 -0700 (PDT)
-In-Reply-To: <1442582049-12108-3-git-send-email-Martin.Jansa@gmail.com>
-References: <20150918115458.GA11095@jama>
-	<1442582049-12108-1-git-send-email-Martin.Jansa@gmail.com>
-	<1442582049-12108-3-git-send-email-Martin.Jansa@gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Fri, 18 Sep 2015 12:29:24 -0700
-X-Google-Sender-Auth: rNn-8qIbREzSVlC4_93ql3yxHfs
-Message-ID: <CABcZAN=0anqtWfbyzkGZs0UtPKhRKGt65=9XZFO-WUZN8AQEDw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] package.bbclass: add summary line to installed-vs-shipped QA check
+Received: by 10.140.94.86 with HTTP; Fri, 18 Sep 2015 13:21:28 -0700 (PDT)
+In-Reply-To: <0a11e2878fd22572867a93a8e31e26524cab11c1.1442248108.git.raj.khem@gmail.com>
+References: <cover.1442248108.git.raj.khem@gmail.com>
+	<0a11e2878fd22572867a93a8e31e26524cab11c1.1442248108.git.raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 18 Sep 2015 21:21:28 +0100
+Message-ID: <CAJTo0LYSh=oCR54d_A-j8u5Uy2O4sjuL8beULX=Knb+P9hAZkQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 11/12] waffle: upgrade waffle_1.5.1.bb -> waffle_1.5.2.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,50 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 19:29:44 -0000
-Content-Type: multipart/alternative; boundary=001a1143e6a2ca785d05200a8de9
+X-List-Received-Date: Fri, 18 Sep 2015 20:21:49 -0000
+Content-Type: multipart/alternative; boundary=001a11376e6ef3749b05200b4767
 
---001a1143e6a2ca785d05200a8de9
+--001a11376e6ef3749b05200b4767
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Sep 18, 2015 at 6:14 AM, Martin Jansa <martin.jansa@gmail.com>
-wrote:
+Hi Khem,
 
-> * there is PN at the beginning, then possibly long list of files and
->   at the end we don't see which recipe has this issue, add another
->   line which says which PN and how many files
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+On 14 September 2015 at 17:31, Khem Raj <raj.khem@gmail.com> wrote:
+
+>  .../waffle/{waffle_1.5.1.bb => waffle_1.5.2.bb}    |  8 ++--
 >
 
-Nice.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Sorry but you missed the M3 build, can you backport the fixes to 1.5.1
+instead?
 
---001a1143e6a2ca785d05200a8de9
+Ross
+
+--001a11376e6ef3749b05200b4767
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Fri, Sep 18, 2015 at 6:14 AM, Martin Jansa <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":32m" c=
-lass=3D"a3s" style=3D"overflow:hidden">* there is PN at the beginning, then=
- possibly long list of files and<br>
-=C2=A0 at the end we don&#39;t see which recipe has this issue, add another=
-<br>
-=C2=A0 line which says which PN and how many files<br>
-<br>
-Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com">M=
-artin.Jansa@gmail.com</a>&gt;</div></blockquote></div><br>Nice.<br>-- <br><=
-div class=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot =
-com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br=
->Senior Software Engineer, Mentor Graphics</div>
-</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Khem,</div><div class=3D"gma=
+il_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_quote">O=
+n 14 September 2015 at 17:31, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div id=3D":432" class=3D"a3s" st=
+yle=3D"overflow:hidden">=C2=A0.../<span class=3D"il">waffle</span>/{<a href=
+=3D"http://waffle_1.5.1.bb" rel=3D"noreferrer" target=3D"_blank">waffle_1.5=
+.1.bb</a> =3D&gt; <a href=3D"http://waffle_1.5.2.bb" rel=3D"noreferrer" tar=
+get=3D"_blank">waffle_1.5.2.bb</a>}=C2=A0 =C2=A0 |=C2=A0 8 ++--<br></div></=
+blockquote></div><br>Sorry but you missed the M3 build, can you backport th=
+e fixes to 1.5.1 instead?</div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra">Ross</div></div>
 
---001a1143e6a2ca785d05200a8de9--
+--001a11376e6ef3749b05200b4767--
