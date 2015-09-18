@@ -1,49 +1,39 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 9918E7680C
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 900A076710
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 11:53:55 +0000 (UTC)
-Received: by iofb144 with SMTP id b144so53695155iof.1
+	Fri, 18 Sep 2015 11:53:54 +0000 (UTC)
+Received: by igcrk20 with SMTP id rk20so16065264igc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 04:53:55 -0700 (PDT)
+	Fri, 18 Sep 2015 04:53:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=ORPFJ9lgymTf2emFdlvkZEoroh5lqnE1fqNu1/49Ofw=;
-	b=GMrAwZH+fQox6QOTQpQD/j+X2E96p0Gxy9fElKTp7nkgbBarioBZKTJROIcB3KtQ0v
-	n9MzXDMppSuR9URP4WMa4Gsn/9DVIRmqhBxbLmzehgj5PkCNuVxOh93dHNxiSL4kkp/j
-	zPLuBfQUFKv/o6BDoQquivYga5X5frozw/XU3B+iwQWXXbkHzMXXJgcB9ZJZpJZxOThe
-	pmHsvEDG8ms0RoIpjL+V1pEh/azIvV+txhT3XLAvPEH5/CEd/1BhEVMIEmR53A+d/lWh
-	JiBjcnQLnH/q9cDQ9n/YIqwB5l1YEGUs+MP1psSZAylsN/SuquuhMdrZirozRzo4ZDBS
-	Ly8Q==
-X-Gm-Message-State: ALoCoQnlz/5ucv1i74U+o5k1HyJ3ueRQuQnEOHYIe/FsgE2WgMv5IpfmhchklLQAKrS8iFe2rBq/
-X-Received: by 10.107.161.144 with SMTP id k138mr14379816ioe.47.1442577235174; 
-	Fri, 18 Sep 2015 04:53:55 -0700 (PDT)
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com.
-	[209.85.223.174])
-	by smtp.gmail.com with ESMTPSA id 67sm3530073iol.7.2015.09.18.04.53.53
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Sep 2015 04:53:54 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by iofb144 with SMTP id b144so53694453iof.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 04:53:53 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.107.160.194 with SMTP id j185mr12670994ioe.37.1442577233565; 
-	Fri, 18 Sep 2015 04:53:53 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Fri, 18 Sep 2015 04:53:53 -0700 (PDT)
-In-Reply-To: <1442577093-6511-1-git-send-email-dv@pseudoterminal.org>
-References: <1442577093-6511-1-git-send-email-dv@pseudoterminal.org>
-Date: Fri, 18 Sep 2015 08:53:53 -0300
-Message-ID: <CAP9ODKpj9dOp+oOKx=xBCH5ozXDX3h9oMo5JiRUg7N+LvE+Cog@mail.gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdk-pixbuf: remove redundant libx11 DEPENDS line
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=A1dNMpJ1c1duVww5wVm//z/I1RlkeHiWhxTUsFxUS6A=;
+	b=T2hqm7EtH+MmSImdPx+ZYl+bpcPSD2cIJMROWpioekJMLE6vhyuEjbFSxczUWXnkMf
+	v0YV6r+NAdLDTAjWynjcu/T0+wkI54w7WuTGPQcPxnSzoqT/5ihOsVifxg3wmL9LcKVa
+	scLvicNV4j9ZDekRbbX9In7T6N+jHkCUHIvl8PPTGkpS6MxUkrYUoP/yyxJK/NdTBTEE
+	WkLaIPbPgUwtBt1DDuduNpDFtYRvg6wTBVL3BRS28YNhNWzs2JpIM5zgypI7S3N6Wv5h
+	Pnp2ntjWaMhZ8heFIApuRMRg8Ii3V82aGfXhISQfrFOSlv/y3k0kkmYNowMnnTwOXoWx
+	aY5w==
+X-Gm-Message-State: ALoCoQkeo/KKw51sev6bY7Hjvh2iv3itrLBFoeBwJQABImL0RjvmfeVOqv7Igd2B6iKD+91SzR40
+X-Received: by 10.50.62.148 with SMTP id y20mr32358124igr.17.1442576932075;
+	Fri, 18 Sep 2015 04:48:52 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8FB4E.dip0.t-ipconnect.de.
+	[93.232.251.78]) by smtp.gmail.com with ESMTPSA id
+	kb10sm6358553igb.4.2015.09.18.04.48.50
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 18 Sep 2015 04:48:51 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Sep 2015 13:49:21 +0200
+Message-Id: <3f8882bbacb0c9567aabd7d65d2cb859411c85a3.1442576806.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <cover.1442576806.git.patrick.ohly@intel.com>
+References: <cover.1442576806.git.patrick.ohly@intel.com>
+Subject: [PATCH 1/2] initramfs-framework: fix "support dropping into shell on failure"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,19 +47,30 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 18 Sep 2015 11:53:56 -0000
-Content-Type: text/plain; charset=UTF-8
 
-On Fri, Sep 18, 2015 at 8:51 AM, Carlos Rafael Giani
-<dv@pseudoterminal.org> wrote:
-> The x11 packageconfig already takes care of the X11 dependency, and also
-> respects the DISTRO_FEATURES
->
-> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+Due to a missing $ before the variable name, all fatal errors ended up
+invoking a shell, instead of only doing that when init_fatal_sh is set
+as boot parameter.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/recipes-core/initrdscripts/initramfs-framework/init | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
+index 9291ad5..204f237 100755
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/init
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
+@@ -58,7 +58,7 @@ fatal() {
+     echo $1 >/dev/console
+     echo >/dev/console
+ 
+-    if [ -n "bootparam_init_fatal_sh" ]; then
++    if [ -n "$bootparam_init_fatal_sh" ]; then
+         sh
+     else
+ 	while [ "true" ]; do
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.1.4
+
 
