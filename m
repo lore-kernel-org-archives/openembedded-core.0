@@ -1,45 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 28BEB76DF8
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B6A476E04
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 01:51:32 +0000 (UTC)
-Received: by padhk3 with SMTP id hk3so35064788pad.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 18:51:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=c1PNOB2wmHY6lp4ImqKSNPtMomyAsL10V1bPP4DxaP8=;
-	b=g6+IvUVvwAr88JzfV6Xv+8Z31yo88002AhNMWek5odv/3nbnIYKKtp28a+ie0FbpW9
-	wT4OIsr9Epzkcg1fPkVejh4ldcu1R4NX5wJkOgpTozhOsWSBEitoQESNhFekdrm6Wj/T
-	ebPwgIlHnZmsFSDgZD/wy4Jp9J1PggG6JtmwZJD84TNvvjoe7n3+BhJ2UqccOP7cSlR/
-	aSqwN2rs9xaIhHCgcS0UAznW7z0F8xcDnwUxlSZe7y2PFa46rpxViCtZCNa4hiKcm4S8
-	GdKeztXkLCDMwwNz3uxLwT47O3QygyK8+Wrk5MYVzZng9GrZ1t4Ll1LMBDZGwpDJktRv
-	5fdg==
-X-Received: by 10.66.235.226 with SMTP id up2mr4071719pac.89.1442541092046;
-	Thu, 17 Sep 2015 18:51:32 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:1079:2f51:a2f9:e171?
-	([2601:646:8601:4580:1079:2f51:a2f9:e171])
-	by smtp.gmail.com with ESMTPSA id
-	yk5sm5690053pab.31.2015.09.17.18.51.31
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 17 Sep 2015 18:51:31 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <201509180348.30142.marex@denx.de>
-Date: Thu, 17 Sep 2015 18:51:30 -0700
-Message-Id: <D2512C01-1DA3-4423-8E4E-D91FEEB4F694@gmail.com>
+	Fri, 18 Sep 2015 02:11:13 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3nHJYY1JsGz3hj2H;
+	Fri, 18 Sep 2015 04:11:13 +0200 (CEST)
+X-Auth-Info: 3xnOs302v3z4OUw1SFYgDi5qrk8kvPnReH529rM6BRU=
+Received: from chi.localnet (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3nHJYX6LXQzvdWS; 
+	Fri, 18 Sep 2015 04:11:12 +0200 (CEST)
+From: Marek Vasut <marex@denx.de>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 18 Sep 2015 03:53:49 +0200
+User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
 References: <1442500317-9064-1-git-send-email-marex@denx.de>
-	<201509180341.43070.marex@denx.de>
-	<B830C8CE-354B-428D-81E5-440EF548A557@gmail.com>
-	<201509180348.30142.marex@denx.de>
-To: Marek Vasut <marex@denx.de>
-X-Mailer: Apple Mail (2.3094)
+	<1442500317-9064-9-git-send-email-marex@denx.de>
+	<ED902330-8DA9-4BA5-B910-81AD6C64B86C@gmail.com>
+In-Reply-To: <ED902330-8DA9-4BA5-B910-81AD6C64B86C@gmail.com>
+MIME-Version: 1.0
+Message-Id: <201509180353.50008.marex@denx.de>
 Cc: lftan@altera.com, waltergoossens@home.nl,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/8] linux-yocto: depend on libgcc for nios2
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 8/8] libgpg-error: Add support for nios2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,78 +37,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 01:51:33 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 18 Sep 2015 02:11:15 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
+On Friday, September 18, 2015 at 03:41:40 AM, Khem Raj wrote:
+> > On Sep 17, 2015, at 7:31 AM, Marek Vasut <marex@denx.de> wrote:
+> > 
+> > Add a patch which adds a configuration for the nios2 processor.
+> > 
+> > Signed-off-by: Marek Vasut <marex@denx.de>
+> > ---
+> > .../0001-libgpg-error-Add-nios2-support.patch      | 45
+> > ++++++++++++++++++++++ .../libgpg-error/libgpg-error_1.19.bb            
+> >  |  4 +-
+> > 2 files changed, 48 insertions(+), 1 deletion(-)
+> > create mode 100644
+> > meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nio
+> > s2-support.patch
+> > 
+> > diff --git
+> > a/meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-n
+> > ios2-support.patch
+> > b/meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-n
+> > ios2-support.patch new file mode 100644
+> > index 0000000..8362c69
+> > --- /dev/null
+> > +++
+> > b/meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-n
+> > ios2-support.patch @@ -0,0 +1,45 @@
+> > +From b2af652f43991e4ce6297917da542a9eb5135939 Mon Sep 17 00:00:00 2001
+> > +From: Marek Vasut <marex@denx.de>
+> > +Date: Thu, 17 Sep 2015 03:28:06 +0200
+> > +Subject: [PATCH] libgpg-error: Add nios2 support
+> > +
+> > +Add configuration for the NIOS2 processor.
+> > +
+> > +Signed-off-by: Marek Vasut <marex@denx.de>
+> > +---
+> > + src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h | 23
+> > +++++++++++++++++++++++ + 1 file changed, 23 insertions(+)
+> > + create mode 100644 src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h
+> > +
+> > +diff --git a/src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h
+> > b/src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h +new file mode
+> > 100644
+> > +index 0000000..3a24571
+> > +--- /dev/null
+> > ++++ b/src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h
+> > +@@ -0,0 +1,23 @@
+> > ++## lock-obj-pub.nios2-unknown-linux-gnu.h
+> > ++## File created by gen-posix-lock-obj - DO NOT EDIT
+> > ++## To be included by mkheader into gpg-error.h
+> > ++
+> 
+> how was this file generated ?
 
-> On Sep 17, 2015, at 6:48 PM, Marek Vasut <marex@denx.de> wrote:
->=20
-> On Friday, September 18, 2015 at 03:43:50 AM, Khem Raj wrote:
->>> On Sep 17, 2015, at 6:41 PM, Marek Vasut <marex@denx.de> wrote:
->>>=20
->>> On Friday, September 18, 2015 at 03:40:11 AM, Khem Raj wrote:
->>>=20
->>> Hi!
->>>=20
->>>>> On Sep 17, 2015, at 7:31 AM, Marek Vasut <marex@denx.de> wrote:
->>>>>=20
->>>>> Make nios2 kernel depend on libgcc.
->>>>>=20
->>>>> In arch/nios2/Makefile, it adds LIBGCC to libs-y:
->>>>>=20
->>>>> LIBGCC          :=3D $(shell $(CC) $(KBUILD_CFLAGS)
->>>>> -print-libgcc-file-name) libs-y          +=3D $(LIBGCC)
->>>>>=20
->>>>> In file Makefile in top directory, libs-y is assigned to to var
->>>>> KBUILD_VMLINUX_MAIN. It uses script link-vmlinux.sh to link =
-vmlinux.o,
->>>>> and when execute function vmlinux_link() in link-vmlinux.sh,
->>>>> KBUILD_VMLINUX_MAIN is passed to ${LD}.
->>>>>=20
->>>>> If build without libgcc, the value of LIBGCC is just libgcc.a =
-without
->>>>>=20
->>>>> parent directory. linux-yocto fails to build:
->>>>> |   LD      vmlinux.o
->>>>> |=20
->>>>> | nios2-poky-linux-ld.bfd: cannot find libgcc.a: No such file or
->>>>> | directory
->>>>>=20
->>>>> Add libgcc to nios2 kernel dependency.
->>>>>=20
->>>>> Signed-off-by: Marek Vasut <marex@denx.de>
->>>>> ---
->>>>> meta/recipes-kernel/linux/linux-yocto.inc | 4 ++++
->>>>> 1 file changed, 4 insertions(+)
->>>>>=20
->>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
->>>>> b/meta/recipes-kernel/linux/linux-yocto.inc index 3b41a61..81ffa24
->>>>> 100644
->>>>> --- a/meta/recipes-kernel/linux/linux-yocto.inc
->>>>> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
->>>>> @@ -11,6 +11,10 @@ DEPENDS_append_aarch64 =3D " libgcc"
->>>>> KERNEL_CC_append_aarch64 =3D " ${TOOLCHAIN_OPTIONS}"
->>>>> KERNEL_LD_append_aarch64 =3D " ${TOOLCHAIN_OPTIONS}"
->>>>>=20
->>>>> +DEPENDS_append_nios2 =3D " libgcc"
->>>>> +KERNEL_CC_append_nios2 =3D " ${TOOLCHAIN_OPTIONS}"
->>>>> +KERNEL_LD_append_nios2 =3D " ${TOOLCHAIN_OPTIONS}=E2=80=9D
->>>>=20
->>>> Please try bitbake virtual/kernel build from scratch with this =
-change.
->>>=20
->>> What do you mean, does it break anything or what should I expect ?
->>=20
->> I am not sure if there is a race, with this dependency between libgcc =
-and
->> gcc-cross hopefully there is not but this will prove it.
->=20
-> Wouldn't arm64 explode in the same way then ? I'll set up the build =
-shortly.
->=20
-
-yes it would
-
-
+There's a tool for that, see src/gen-posix-lock-obj.c . Since I don't have
+a running NIOS2/f yet, I had to approximate what it does. If you read the
+source code, it's quite trivial in fact.
 
