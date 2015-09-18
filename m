@@ -1,29 +1,30 @@
 Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id B0B0C76D96
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 95A2576DF8
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 18 Sep 2015 01:48:17 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3nHJ352pygz3hj0g;
+	by mail-out.m-online.net (Postfix) with ESMTP id 3nHJ354Wg5z3hj2H;
 	Fri, 18 Sep 2015 03:48:17 +0200 (CEST)
-X-Auth-Info: WUDgk9egMlPpSeulwhD5uckNuKAVrNFTeY90t7kzRN0=
+X-Auth-Info: yE+D9LzVgskLI8Z5EhK0x67bDiLYlAx3Yt/xgjDbcSc=
 Received: from chi.localnet (unknown [195.140.253.167])
 	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3nHJ350ST9zvdWS; 
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3nHJ352CXNzvhTZ; 
 	Fri, 18 Sep 2015 03:48:17 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
 To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 18 Sep 2015 03:47:32 +0200
+Date: Fri, 18 Sep 2015 03:48:30 +0200
 User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
 References: <1442500317-9064-1-git-send-email-marex@denx.de>
-	<7502171E-B73E-4C1D-930B-B7EBBE881446@gmail.com>
-In-Reply-To: <7502171E-B73E-4C1D-930B-B7EBBE881446@gmail.com>
+	<201509180341.43070.marex@denx.de>
+	<B830C8CE-354B-428D-81E5-440EF548A557@gmail.com>
+In-Reply-To: <B830C8CE-354B-428D-81E5-440EF548A557@gmail.com>
 MIME-Version: 1.0
-Message-Id: <201509180347.32474.marex@denx.de>
+Message-Id: <201509180348.30142.marex@denx.de>
 Cc: lftan@altera.com, waltergoossens@home.nl,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/8] nios2 fixes
+Subject: Re: [PATCH 3/8] linux-yocto: depend on libgcc for nios2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,21 +37,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 01:48:17 -0000
+X-List-Received-Date: Fri, 18 Sep 2015 01:48:19 -0000
 Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+  charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Friday, September 18, 2015 at 03:44:54 AM, Khem Raj wrote:
-> > On Sep 17, 2015, at 7:31 AM, Marek Vasut <marex@denx.de> wrote:
-> > 
-> > This patchset fixes various minor issues found during the process
-> > of getting Yocto working with the Altera NIOS2 soft-processor.
-> 
-> Looks ok to me with few nits. But the changes are self contained which is
-> less risk for other arches
+On Friday, September 18, 2015 at 03:43:50 AM, Khem Raj wrote:
+> > On Sep 17, 2015, at 6:41 PM, Marek Vasut <marex@denx.de> wrote:
+> >=20
+> > On Friday, September 18, 2015 at 03:40:11 AM, Khem Raj wrote:
+> >=20
+> > Hi!
+> >=20
+> >>> On Sep 17, 2015, at 7:31 AM, Marek Vasut <marex@denx.de> wrote:
+> >>>=20
+> >>> Make nios2 kernel depend on libgcc.
+> >>>=20
+> >>> In arch/nios2/Makefile, it adds LIBGCC to libs-y:
+> >>>=20
+> >>> LIBGCC          :=3D $(shell $(CC) $(KBUILD_CFLAGS)
+> >>> -print-libgcc-file-name) libs-y          +=3D $(LIBGCC)
+> >>>=20
+> >>> In file Makefile in top directory, libs-y is assigned to to var
+> >>> KBUILD_VMLINUX_MAIN. It uses script link-vmlinux.sh to link vmlinux.o,
+> >>> and when execute function vmlinux_link() in link-vmlinux.sh,
+> >>> KBUILD_VMLINUX_MAIN is passed to ${LD}.
+> >>>=20
+> >>> If build without libgcc, the value of LIBGCC is just libgcc.a without
+> >>>=20
+> >>> parent directory. linux-yocto fails to build:
+> >>> |   LD      vmlinux.o
+> >>> |=20
+> >>> | nios2-poky-linux-ld.bfd: cannot find libgcc.a: No such file or
+> >>> | directory
+> >>>=20
+> >>> Add libgcc to nios2 kernel dependency.
+> >>>=20
+> >>> Signed-off-by: Marek Vasut <marex@denx.de>
+> >>> ---
+> >>> meta/recipes-kernel/linux/linux-yocto.inc | 4 ++++
+> >>> 1 file changed, 4 insertions(+)
+> >>>=20
+> >>> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
+> >>> b/meta/recipes-kernel/linux/linux-yocto.inc index 3b41a61..81ffa24
+> >>> 100644
+> >>> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> >>> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> >>> @@ -11,6 +11,10 @@ DEPENDS_append_aarch64 =3D " libgcc"
+> >>> KERNEL_CC_append_aarch64 =3D " ${TOOLCHAIN_OPTIONS}"
+> >>> KERNEL_LD_append_aarch64 =3D " ${TOOLCHAIN_OPTIONS}"
+> >>>=20
+> >>> +DEPENDS_append_nios2 =3D " libgcc"
+> >>> +KERNEL_CC_append_nios2 =3D " ${TOOLCHAIN_OPTIONS}"
+> >>> +KERNEL_LD_append_nios2 =3D " ${TOOLCHAIN_OPTIONS}=E2=80=9D
+> >>=20
+> >> Please try bitbake virtual/kernel build from scratch with this change.
+> >=20
+> > What do you mean, does it break anything or what should I expect ?
+>=20
+> I am not sure if there is a race, with this dependency between libgcc and
+> gcc-cross hopefully there is not but this will prove it.
 
-Thanks! I'll wait a bit for further feedback and repost afterward.
+Wouldn't arm64 explode in the same way then ? I'll set up the build shortly.
 
 Best regards,
 Marek Vasut
