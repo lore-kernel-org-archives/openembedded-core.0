@@ -1,36 +1,20 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 1ECD67404E
+Return-Path: <alejandro.joya.cruz@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B29A675F3A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 21:04:30 +0000 (UTC)
-Received: by ioiz6 with SMTP id z6so69203046ioi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 14:04:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=xS9/mFQHn3/zKYMMdOGJu5McYWIccpZum4PULwpWd5o=;
-	b=y+1GBwfV49q6CGPyR3wtddCTUmlMseitbYmoe2C/1WZHQl+u41C8EqS5C/hbY0k/1u
-	eccEgRwHwT6VQZ8Wm0cSf0aYHwr9fbf5YQmvBEwaGmHsx4ol4Z4fxaMFb68Te131rEwb
-	K53RienKLNNuA95lp+oI5PqCU8RoT8UZE3yXQUMIeVrdB6A6bDqVCqwVP5e/x9yHbADf
-	r+KrY+kXtoZWdL36Uh4CYvYj7rVH8qDIbZvwuZWXHU1bmqGpwkjd8yS7cofS/LTqOs9I
-	CYPL43TunKJvaugGiQnoZtMi61Z7GgPzZC30u563NRGR1tAl+kmIlF4PXGqxy/KbBSJu
-	I1sA==
-X-Received: by 10.107.162.139 with SMTP id l133mr15560615ioe.49.1442610270486; 
-	Fri, 18 Sep 2015 14:04:30 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.142.130 with HTTP; Fri, 18 Sep 2015 14:04:01 -0700 (PDT)
-In-Reply-To: <CAJTo0LYSh=oCR54d_A-j8u5Uy2O4sjuL8beULX=Knb+P9hAZkQ@mail.gmail.com>
-References: <cover.1442248108.git.raj.khem@gmail.com>
-	<0a11e2878fd22572867a93a8e31e26524cab11c1.1442248108.git.raj.khem@gmail.com>
-	<CAJTo0LYSh=oCR54d_A-j8u5Uy2O4sjuL8beULX=Knb+P9hAZkQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 18 Sep 2015 14:04:01 -0700
-Message-ID: <CAMKF1srSEX+7Exfr0bF2_-53fyEc3pwdBiNsk4dX_6M-6R_6aQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/12] waffle: upgrade waffle_1.5.1.bb -> waffle_1.5.2.bb
+	Fri, 18 Sep 2015 21:09:10 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 18 Sep 2015 14:09:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,554,1437462000"; d="scan'208";a="564474587"
+Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.56])
+	by FMSMGA003.fm.intel.com with ESMTP; 18 Sep 2015 14:09:10 -0700
+From: Alejandro Joya <alejandro.joya.cruz@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Sep 2015 16:09:00 -0500
+Message-Id: <cover.1442610201.git.alejandro.joya.cruz@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH V2 0/3] Dynamic common utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,21 +27,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 21:04:33 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 18 Sep 2015 21:09:13 -0000
 
-On Fri, Sep 18, 2015 at 1:21 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> Hi Khem,
->
-> On 14 September 2015 at 17:31, Khem Raj <raj.khem@gmail.com> wrote:
->>
->>  .../waffle/{waffle_1.5.1.bb => waffle_1.5.2.bb}    |  8 ++--
->
->
-> Sorry but you missed the M3 build, can you backport the fixes to 1.5.1
-> instead?
->
+It provide a virtual reference for the common utilities.
+it replace of the lock to busybox, it will be simple exchange between other
+common utilities like gnu core utils or toybox among others.
 
-OK, ignore this one for now then I will queue the new fix with next
-lot which is all about fixes and no upgrades
+In order to enable its required to fill at the distro conf or local.conf
+
+VIRTUAL-RUNTIME_login_manager ?= "busybox"
+PREFERRED_PROVIDER_virtual/base-utils?= "busybox"
+PREFERRED_RPROVIDER_virtual/base-utils?= "busybox"
+VIRTUAL-RUNTIME_base-utils?= "busybox"
+VIRTUAL-RUNTIME_base-utils-hwclock ?= "busybox-hwclock"
+
+The following changes since commit 72682d72b52355c3fed947167ca3c6064340ead1:
+
+  autotools.bbclass: mkdir ${B} -> mkdir -p ${B} (2015-09-16 22:17:19 +0100)
+
+are available in the git repository at:
+
+  git://github.com/Ajoyacr/openembedded-core base-utils
+  https://github.com/Ajoyacr/openembedded-core/tree/base-utils
+
+Alejandro Joya (3):
+  core-mage-minimal-initramfs: replace dependency
+  initramfs-framework:add virtual reference
+  packagegroup-core-boot:change to virtual reference
+
+ meta/recipes-core/images/core-image-minimal-initramfs.bb   | 2 +-
+ meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb  | 6 +++---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
+-- 
+2.1.0
+
 
