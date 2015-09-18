@@ -1,38 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id E7E287702D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E35B77028
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 13:14:11 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so30558444wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 06:14:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=hymKwIXU4rZjXbJfjNdyzds0FjeS7v7z0VOGIj67lxk=;
-	b=HGpz/xMJyH4UZfzbulzCj8oUL3qyGlx0YriaH4MWF9kBXM23DXnj5dXoXmN+cnZxae
-	0LWdSTNFPww2cPWWKn6jQHonce1t6DUMNOW4myZOleVUtSNReNR88IDYSOu7GtjkCZFM
-	uhaozPHZhdHviv5k7EB9HkE4R9vup7qiQzFOc8fj9UgylZls/Ho9MXUigj6dyuhmCdjs
-	nj1wP3TD6WNt0Pw0bVTLXdPTS24hQ04ZQSJBcd3rpYaxnOHGQD9EXYTqpM4pHCUHfqm0
-	WZTX4D3pDnX6oqIJgs98X5quQtRxkZMwXrddd8IjPbpypX2QVPP1dDkNkW9xoWeDsYOE
-	HQdQ==
-X-Received: by 10.180.205.234 with SMTP id lj10mr15585724wic.49.1442582051574; 
-	Fri, 18 Sep 2015 06:14:11 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	r4sm15525872wia.19.2015.09.18.06.14.10
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Sep 2015 06:14:10 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Sep 2015 15:14:09 +0200
-Message-Id: <1442582049-12108-3-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.5.1
-In-Reply-To: <1442582049-12108-1-git-send-email-Martin.Jansa@gmail.com>
-References: <20150918115458.GA11095@jama>
-	<1442582049-12108-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 3/3] package.bbclass: add summary line to installed-vs-shipped QA check
+	Fri, 18 Sep 2015 13:32:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8IDWPRV021821; Fri, 18 Sep 2015 14:32:25 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 9Xjwz-Qo96a6; Fri, 18 Sep 2015 14:32:24 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8IDWDB7021795
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 18 Sep 2015 14:32:24 +0100
+Message-ID: <1442583133.26666.253.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Date: Fri, 18 Sep 2015 14:32:13 +0100
+In-Reply-To: <1442577093-6511-1-git-send-email-dv@pseudoterminal.org>
+References: <1442577093-6511-1-git-send-email-dv@pseudoterminal.org>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gdk-pixbuf: remove redundant libx11 DEPENDS line
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,32 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 13:14:13 -0000
+X-List-Received-Date: Fri, 18 Sep 2015 13:32:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* there is PN at the beginning, then possibly long list of files and
-  at the end we don't see which recipe has this issue, add another
-  line which says which PN and how many files
+On Fri, 2015-09-18 at 13:51 +0200, Carlos Rafael Giani wrote:
+> The x11 packageconfig already takes care of the X11 dependency, and also
+> respects the DISTRO_FEATURES
+> 
+> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+> ---
+>  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
+> index 07c2dce..bdf173a 100644
+> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
+> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
+> @@ -9,7 +9,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+>  SECTION = "libs"
+>  
+>  DEPENDS = "glib-2.0"
+> -DEPENDS_append_linuxstdbase = " virtual/libx11"
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/package.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Do we not need something like:
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index cd92beb..09230b5 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1146,7 +1146,8 @@ python populate_packages () {
-         else:
-             for f in unshipped:
-                 msg = msg + "\n  " + f
--            msg = msg + "\nPlease set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install."
-+            msg = msg + "\nPlease set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.\n"
-+            msg = msg + "%s: %d installed and not shipped files." % (pn, len(unshipped))
-             package_qa_handle_error("installed-vs-shipped", msg, d)
- }
- populate_packages[dirs] = "${D}"
--- 
-2.5.1
+PACKAGECONFIG_append_linuxstdbase = "x11"
+
+to ensure that this is enabled for LSB?
+
+Cheers,
+
+Richard
 
 
