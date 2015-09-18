@@ -1,26 +1,39 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 61B197701D
+Return-Path: <pbarker@betafive.co.uk>
+X-Greylist: delayed 8863 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 18 Sep 2015 10:19:24 UTC
+Received: from 19.mo4.mail-out.ovh.net (19.mo4.mail-out.ovh.net [87.98.179.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 521387701C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 09:40:51 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 18 Sep 2015 02:40:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,552,1437462000"; d="scan'208";a="771742811"
-Received: from thomasda-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.5.18])
-	by orsmga001.jf.intel.com with ESMTP; 18 Sep 2015 02:40:50 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Paul Barker <paul@paulbarker.me.uk>
-Date: Fri, 18 Sep 2015 10:40:48 +0100
-Message-ID: <1946459.lWlg709rPu@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.6-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <20150918075241.GA23863@bang.betafive.co.uk>
-References: <20150918075241.GA23863@bang.betafive.co.uk>
+	Fri, 18 Sep 2015 10:19:24 +0000 (UTC)
+Received: from mail437.ha.ovh.net (gw6.ovh.net [213.251.189.206])
+	by mo4.mail-out.ovh.net (Postfix) with SMTP id 854EC103C14B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Sep 2015 09:51:38 +0200 (CEST)
+Received: from localhost (HELO queueout) (127.0.0.1)
+	by localhost with SMTP; 18 Sep 2015 09:51:37 +0200
+Received: from cpc19-shep11-2-0-cust55.8-3.cable.virginm.net (HELO
+	bang.betafive.co.uk) (paul@betafive.co.uk@81.111.243.56)
+	by ns0.ovh.net with AES256-GCM-SHA384 encrypted SMTP;
+	18 Sep 2015 09:51:36 +0200
+Received: by bang.betafive.co.uk (Postfix, from userid 1000)
+	id 1A28740A50; Fri, 18 Sep 2015 08:52:41 +0100 (BST)
+Date: Fri, 18 Sep 2015 08:52:41 +0100
+From: Paul Barker <paul@paulbarker.me.uk>
+To: openembedded-core@lists.openembedded.org,
+	Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20150918075241.GA23863@bang.betafive.co.uk>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [dylan] Backport Request
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Ovh-Tracer-Id: 14017453840488643518
+X-Ovh-Remote: 81.111.243.56 (cpc19-shep11-2-0-cust55.8-3.cable.virginm.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: -100
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeekgedrfedvucetufdoteggucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeekgedrfedvucetufdoteggucfrrhhofhhilhgvmecuqfggjfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Subject: [dylan] Backport Request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +46,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 09:40:57 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 18 Sep 2015 10:19:27 -0000
+X-Groupsio-MsgNum: 71275
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ZGiS0Q5IWpPtfppv"
+Content-Disposition: inline
 
-Hi Paul,
+--ZGiS0Q5IWpPtfppv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Friday 18 September 2015 08:52:41 Paul Barker wrote:
-> I'm not sure if there are many other poor souls still using dylan, but if
-> there are I'd like to request a backport of the following commit. In our
-> case it is needed to ensure that a package is rebuilt when INITSCRIPT_NAME
-> or INITSCRIPT_PARAMS is changed in a recipe.
+Hi,
 
-Sure, whilst dylan is nominally no longer maintained in this case the change 
-is fairly self-contained and straightforward so in theory it should be OK.
+I'm not sure if there are many other poor souls still using dylan, but if t=
+here
+are I'd like to request a backport of the following commit. In our case it =
+is
+needed to ensure that a package is rebuilt when INITSCRIPT_NAME or
+INITSCRIPT_PARAMS is changed in a recipe.
 
-> Hopefully we'll be able to upgrade soon, but if so it will probably be only
-> as far as daisy...
+Hopefully we'll be able to upgrade soon, but if so it will probably be only=
+ as
+far as daisy...
 
-I'd urge you to consider upgrading further than that; daisy is already out of 
-support (and will be one release further out by October). If there are things 
-that prevent you from doing that we should discuss them as it might be 
-something we need to address in terms of making upgrades easier.
+commit 4003218f774c38bb5de0d95a43153f8b8d7fc4ce
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date:   Fri Oct 4 12:29:08 2013 +0100
+    udpated-rc.d: Track postinst/prerm/postrm in task checksum
+   =20
+    When these functions change, the package should rebuild but currently it
+    does not. We need to add the dependencies manually as the dependency
+    code can't track dynamically created variables.
+   =20
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bb=
+class
+index 5588569..f726f2f 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -54,6 +54,8 @@ python __anonymous() {
+=20
+ PACKAGESPLITFUNCS_prepend =3D "populate_packages_updatercd "
+=20
++populate_packages_updatercd[vardeps] +=3D "updatercd_prerm updatercd_postr=
+m updatercd_postinst"
++
+ python populate_packages_updatercd () {
+     def update_rcd_package(pkg):
+         bb.debug(1, 'adding update-rc.d calls to postinst/postrm for %s' %=
+ pkg)
 
-Cheers,
-Paul
+--=20
+Paul Barker
 
--- 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
-Paul Eggleton
-Intel Open Source Technology Centre
+--ZGiS0Q5IWpPtfppv
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJV+8LIAAoJEBwoJlo7UPQDp1MH/2EY8gXBnYI2AQMsoav0EHAR
+c6IdXzVzEYHqEz1/EJm3iN8oKwtSo7J3LKJzieBmEVrCoEQe53kPI+P2yawOjsCo
+TRZwsQ70h0/jnWqXuEVapfUkE3MCumHT7fmXUS75nd5wLs/IqMU3I5jpNuL84WHq
+9MbUCoiQilVYlJRFqIWf++eQJRTZRjOuLdUFLP5UVIxM2B6qvgvC1Gchhrp/a2zj
+4dnt0wI398eMkskIVEtycgNIXMNWp/o9aw5EUIpIJOBMnNgsLYk0z9HnXjEXDl5G
+hHvAIqZfSoPg+HMVP0DLK7Xlnch1MWtUNOhoagcqMOJaZEe4vcDG+X5XLH6U/bM=
+=pyp6
+-----END PGP SIGNATURE-----
+
+--ZGiS0Q5IWpPtfppv--
