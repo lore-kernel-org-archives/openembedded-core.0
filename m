@@ -1,37 +1,18 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 65A7C77024
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B20507701D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 09:23:02 +0000 (UTC)
-Received: by wicgb1 with SMTP id gb1so23918257wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 02:23:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Bk5UgIlry95NtFxOd5u6ncxa+wL1mSzBI2qE40t7sRo=;
-	b=XaomvgZZ54Jeg5W/4nQ8C7WFrPP+Ou5mXzRHqpjTeqU27FSaVFWCjyDDHvw1eYcuKC
-	Sil6JN0ShepHsMaWTSB/tco0hBwc6voo9ZjxxXkTUa19EraTiqv+wFAs1beGUcwDMJn1
-	OUXKJRuErQ2t8Kp5Ngb3IWJOoxtlb3VJDlV6K7ns+Fy+BIW36IQYWVbiVA8rc1tqrouC
-	jpjuTwCdBg1GiBKX2vUpTak/LPfq5EuSt1YdM96O/wHK2ldlkTU8523TbXPSxfdO31KW
-	80Tyz5/0hmxt31bWNI46454Zl5NxGevNN0NJpg1HYi2v7+CG74/MxNyqOxumsjGxPcuv
-	Nwhw==
-X-Gm-Message-State: ALoCoQk0oW5DkFjDfaSuVFjqcUdADmLtuEmPijoDHa5r66+ODs9ZK5BXxqDWSSILpvvlqIWRjeDa
-X-Received: by 10.180.76.177 with SMTP id l17mr1602838wiw.16.1442568182094;
-	Fri, 18 Sep 2015 02:23:02 -0700 (PDT)
+	Fri, 18 Sep 2015 09:35:02 +0000 (UTC)
+To: openembedded-core@lists.openembedded.org
+References: <cover.1442503745.git.alejandro.joya.cruz@intel.com>
+From: Jack Mitchell <ml@communistcode.co.uk>
+Message-ID: <55FBDAF1.3030906@communistcode.co.uk>
+Date: Fri, 18 Sep 2015 10:35:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
 MIME-Version: 1.0
-Received: by 10.27.77.212 with HTTP; Fri, 18 Sep 2015 02:22:32 -0700 (PDT)
-In-Reply-To: <1442502208.12473.4.camel@intel.com>
-References: <1442502208.12473.4.camel@intel.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Fri, 18 Sep 2015 12:22:32 +0300
-Message-ID: <CAHiDW_Hm+TyZtTQ=sPeOd1OjEyxjLCDwiv7o47vAmyU44XVfqw@mail.gmail.com>
-To: "Kinsella, Ray" <ray.kinsella@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] openssl: remove lock data_word from x86cpuid.pl
+In-Reply-To: <cover.1442503745.git.alejandro.joya.cruz@intel.com>
+Subject: Re: [PATCH 0/3] Dynamic common utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,190 +25,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 09:23:07 -0000
-Content-Type: multipart/alternative; boundary=f46d0438937b0ef4940520021467
+X-List-Received-Date: Fri, 18 Sep 2015 09:35:06 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---f46d0438937b0ef4940520021467
-Content-Type: text/plain; charset=UTF-8
-
-On 17 September 2015 at 18:03, Kinsella, Ray <ray.kinsella@intel.com> wrote:
-
-> The cmpxchg instruction is encoded in functions such as OPENSSL_atomic_add
-> as a perlasm data_word. This has the effect of hiding the instruction from
-> the assembler. Stripping the LOCK prefix on cmpxchg via the assembler with
-> --momit-lock-prefix=yes then becomes impossible (required on the Intel
-> X1000).
-> This patch converts the data_word into perlasm instructions.
+On 17/09/15 17:20, Alejandro Joya wrote:
+> It provide a virtual reference for the common utilities.
+> it replace of the lock to busybox, it will be simple exchange between other
+> common utilities like gnu core utils or toybox among others.
+>
+> In order to enable its required to fill at the distro conf or local.conf
+>
+> VIRTUAL-RUNTIME_login_manager ?= "busybox"
+> PREFERRED_PROVIDER_virtual/anybox ?= "busybox"
+> PREFERRED_RPROVIDER_virtual/anybox ?= "busybox"
+> VIRTUAL-RUNTIME_anybox ?= "busybox"
+> VIRTUAL-RUNTIME_anybox-hwclock ?= "busybox-hwclock"
+>
+> The following changes since commit f0189829498e30231d826c9f55aad73e622d076e:
+>
+>    qemu: Update to upstream patches (2015-09-14 11:22:02 +0100)
+>
+> are available in the git repository at:
+>
+>    git://github.com/Ajoyacr/openembedded-core anybox
+>    https://github.com/Ajoyacr/openembedded-core/tree/anybox
+>
+> Alejandro Joya (3):
+>    core-mage-minimal-initramfs: overwrite hardcoded dependency to virtual
+>      reference
+>    initramfs-framework: overwrite hardcoded dependency to virtual
+>      reference
+>    packagegroup-core-boot: overwrite hardcoded dependency to virtual
+>      reference
+>
+>   meta/recipes-core/images/core-image-minimal-initramfs.bb   | 2 +-
+>   meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
+>   meta/recipes-core/packagegroups/packagegroup-core-boot.bb  | 6 +++---
+>   3 files changed, 5 insertions(+), 5 deletions(-)
 >
 
-Could you resend this following the advice here:
-http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines : mainly
-the patch file you add needs a message explaining the change as well as
-headers Upstream-Status & Signed-off-by.
+is 'anybox' a good name for the virtual provider? What happens if we have a new 
+suite of core utility replacements without box in the name, I assume it will be 
+a nightmare to retroactivly change the name so we should probably come up with a 
+more generic one now. virtual/core-utils, virtual/base-utils?
 
-Thanks,
-  Jussi
+Cheers,
+Jack.
 
-
-Signed-off-by: Ray Kinsella <ray.kinsella@intel.com>
-> ---
->  .../openssl/remove-lock-data_word-from-x86cpuid.pl.patch   |   12
-> ++++++++++++
->  meta/recipes-connectivity/openssl/openssl_1.0.2d.bb        |    1 +
->  2 files changed, 13 insertions(+)
->  create mode 100644
-> meta/recipes-connectivity/openssl/openssl/remove-lock-data_word-from-x86cpuid.pl.patch
->
-> diff --git
-> a/meta/recipes-connectivity/openssl/openssl/remove-lock-data_word-from-x86cpuid.pl.patch
-> b/meta/recipes-connectivity/openssl/openssl/remove-lock-data_word-from-x86cpuid.pl.patch
-> new file mode 100644
-> index 0000000..e969e91
-> --- /dev/null
-> +++
-> b/meta/recipes-connectivity/openssl/openssl/remove-lock-data_word-from-x86cpuid.pl.patch
-> @@ -0,0 +1,12 @@
-> +--- openssl-1.0.2d/crypto/x86cpuid.pl.orig     2015-09-16
-> 21:11:01.927322252 +0100
-> ++++ openssl-1.0.2d/crypto/x86cpuid.pl  2015-09-16 21:14:45.795314992
-> +0100
-> +@@ -275,7 +275,8 @@
-> + &set_label("spin");
-> +       &lea    ("ebx",&DWP(0,"eax","ecx"));
-> +       &nop    ();
-> +-      &data_word(0x1ab10ff0); # lock; cmpxchg %ebx,(%edx)     # %eax is
-> envolved and is always reloaded
-> ++      &lock   ();
-> ++      &cmpxchg(&DWP(0,"edx"), "ebx"); # %eax is envolved and is always
-> reloaded
-> +       &jne    (&label("spin"));
-> +       &mov    ("eax","ebx");  # OpenSSL expects the new value
-> +       &pop    ("ebx");
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-> b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-> index 32d8dce..de2ec1a 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-> @@ -33,6 +33,7 @@ SRC_URI += "file://configure-targets.patch \
->              file://openssl-fix-des.pod-error.patch \
->              file://Makefiles-ptest.patch \
->              file://ptest-deps.patch \
-> +            file://remove-lock-data_word-from-x86cpuid.pl.patch \
->              file://run-ptest \
->              file://crypto_use_bigint_in_x86-64_perl.patch \
->              file://openssl-1.0.2a-x32-asm.patch \
-> --
-> 1.7.10.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---f46d0438937b0ef4940520021467
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
-7 September 2015 at 18:03, Kinsella, Ray <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:ray.kinsella@intel.com" target=3D"_blank">ray.kinsella@intel.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
-er-left-style:solid;padding-left:1ex">The cmpxchg instruction is encoded in=
- functions such as OPENSSL_atomic_add<br>
-as a perlasm data_word. This has the effect of hiding the instruction from<=
-br>
-the assembler. Stripping the LOCK prefix on cmpxchg via the assembler with<=
-br>
---momit-lock-prefix=3Dyes then becomes impossible (required on the Intel X1=
-000).<br>
-This patch converts the data_word into perlasm instructions.<br></blockquot=
-e><div><br></div><div>Could you resend this following the advice here: <a h=
-ref=3D"http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines">ht=
-tp://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines</a> : mainly=
- the patch file you add needs a message explaining the change as well as he=
-aders Upstream-Status &amp; Signed-off-by.=C2=A0</div><div><br></div><div>T=
-hanks,</div><div>=C2=A0 Jussi</div><div><br></div><div><br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width=
-:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-lef=
-t:1ex">
-Signed-off-by: Ray Kinsella &lt;<a href=3D"mailto:ray.kinsella@intel.com">r=
-ay.kinsella@intel.com</a>&gt;<br>
----<br>
-=C2=A0.../openssl/remove-lock-data_word-from-x86cpuid.pl.patch=C2=A0 =C2=A0=
-|=C2=A0 =C2=A012 ++++++++++++<br>
-=C2=A0meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.0.2d.bb=
-" rel=3D"noreferrer" target=3D"_blank">openssl_1.0.2d.bb</a>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A0 1 +<br>
-=C2=A02 files changed, 13 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-connectivity/openssl/openssl/remove-l=
-ock-data_word-from-x86cpuid.pl.patch<br>
-<br>
-diff --git a/meta/recipes-connectivity/openssl/openssl/remove-lock-data_wor=
-d-from-x86cpuid.pl.patch b/meta/recipes-connectivity/openssl/openssl/remove=
--lock-data_word-from-x86cpuid.pl.patch<br>
-new file mode 100644<br>
-index 0000000..e969e91<br>
---- /dev/null<br>
-+++ b/meta/recipes-connectivity/openssl/openssl/remove-lock-data_word-from-=
-x86cpuid.pl.patch<br>
-@@ -0,0 +1,12 @@<br>
-+--- openssl-1.0.2d/crypto/x86cpuid.pl.orig=C2=A0 =C2=A0 =C2=A02015-09-16 2=
-1:11:01.927322252 +0100<br>
-++++ openssl-1.0.2d/crypto/<a href=3D"http://x86cpuid.pl" rel=3D"noreferrer=
-" target=3D"_blank">x86cpuid.pl</a>=C2=A0 2015-09-16 21:14:45.795314992 +01=
-00<br>
-+@@ -275,7 +275,8 @@<br>
-+ &amp;set_label(&quot;spin&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;lea=C2=A0 =C2=A0 (&quot;ebx&quot;,&amp;DWP=
-(0,&quot;eax&quot;,&quot;ecx&quot;));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;nop=C2=A0 =C2=A0 ();<br>
-+-=C2=A0 =C2=A0 =C2=A0 &amp;data_word(0x1ab10ff0); # lock; cmpxchg %ebx,(%e=
-dx)=C2=A0 =C2=A0 =C2=A0# %eax is envolved and is always reloaded<br>
-++=C2=A0 =C2=A0 =C2=A0 &amp;lock=C2=A0 =C2=A0();<br>
-++=C2=A0 =C2=A0 =C2=A0 &amp;cmpxchg(&amp;DWP(0,&quot;edx&quot;), &quot;ebx&=
-quot;); # %eax is envolved and is always reloaded<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;jne=C2=A0 =C2=A0 (&amp;label(&quot;spin&qu=
-ot;));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;mov=C2=A0 =C2=A0 (&quot;eax&quot;,&quot;eb=
-x&quot;);=C2=A0 # OpenSSL expects the new value<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;pop=C2=A0 =C2=A0 (&quot;ebx&quot;);<br>
-diff --git a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.=
-0.2d.bb" rel=3D"noreferrer" target=3D"_blank">openssl_1.0.2d.bb</a> b/meta/=
-recipes-connectivity/openssl/<a href=3D"http://openssl_1.0.2d.bb" rel=3D"no=
-referrer" target=3D"_blank">openssl_1.0.2d.bb</a><br>
-index 32d8dce..de2ec1a 100644<br>
---- a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.0.2d.bb=
-" rel=3D"noreferrer" target=3D"_blank">openssl_1.0.2d.bb</a><br>
-+++ b/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.0.2d.bb=
-" rel=3D"noreferrer" target=3D"_blank">openssl_1.0.2d.bb</a><br>
-@@ -33,6 +33,7 @@ SRC_URI +=3D &quot;file://configure-targets.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://openssl-fix-des.pod-=
-error.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://Makefiles-ptest.patc=
-h \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://ptest-deps.patch \<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://remove-lock-data_word-fro=
-m-x86cpuid.pl.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://crypto_use_bigint_in=
-_x86-64_perl.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://openssl-1.0.2a-x32-a=
-sm.patch \<br>
-<span class=3D""><font color=3D"#888888">--<br>
-1.7.10.4<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</font></span></blockquote></div><br></div></div>
-
---f46d0438937b0ef4940520021467--
