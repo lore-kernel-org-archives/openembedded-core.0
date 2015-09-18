@@ -1,32 +1,32 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5885373243
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D8BE73D13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 15:44:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8IFiYNY008245
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 08:44:35 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.235.1; Fri, 18 Sep 2015 08:44:34 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1442503745.git.alejandro.joya.cruz@intel.com>
-	<55FBDAF1.3030906@communistcode.co.uk>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <55FC3163.7010603@windriver.com>
-Date: Fri, 18 Sep 2015 10:44:35 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
-	Gecko/20100101 Thunderbird/38.2.0
-MIME-Version: 1.0
-In-Reply-To: <55FBDAF1.3030906@communistcode.co.uk>
-Subject: Re: [PATCH 0/3] Dynamic common utilities
+	Fri, 18 Sep 2015 16:30:46 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 18 Sep 2015 09:30:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,553,1437462000"; 
+	d="scan'208,217";a="807527048"
+Received: from besquive-mobl2.amr.corp.intel.com ([10.219.17.83])
+	by orsmga002.jf.intel.com with ESMTP; 18 Sep 2015 09:30:46 -0700
+Message-ID: <1442593860.3524.6.camel@linux.intel.com>
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0Lai9oeh3Kvg8wAB9OPFOBG4WaBYqnGRidv-zt9bNrGqgA@mail.gmail.com>
+References: <1442522311-15326-1-git-send-email-benjamin.esquivel@linux.intel.com>
+	<CAJTo0Lai9oeh3Kvg8wAB9OPFOBG4WaBYqnGRidv-zt9bNrGqgA@mail.gmail.com>
+Organization: Intel Corporation
+Date: Fri, 18 Sep 2015 11:31:00 -0500
+Mime-Version: 1.0
+X-Mailer: Evolution 3.16.5 (3.16.5-1.fc22) 
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] selftest/buildoptions: pexpect not a builtin module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: benjamin.esquivel@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -36,63 +36,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 15:44:37 -0000
-Content-Type: text/plain; charset="windows-1252"
+X-List-Received-Date: Fri, 18 Sep 2015 16:30:52 -0000
+Content-Type: multipart/alternative; boundary="=-fpfwMVMaTlXEbev7PV1k"
+
+--=-fpfwMVMaTlXEbev7PV1k
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 9/18/15 4:35 AM, Jack Mitchell wrote:
-> On 17/09/15 17:20, Alejandro Joya wrote:
->> It provide a virtual reference for the common utilities.
->> it replace of the lock to busybox, it will be simple exchange between other
->> common utilities like gnu core utils or toybox among others.
->>
->> In order to enable its required to fill at the distro conf or local.conf
->>
->> VIRTUAL-RUNTIME_login_manager ?= "busybox"
->> PREFERRED_PROVIDER_virtual/anybox ?= "busybox"
->> PREFERRED_RPROVIDER_virtual/anybox ?= "busybox"
->> VIRTUAL-RUNTIME_anybox ?= "busybox"
->> VIRTUAL-RUNTIME_anybox-hwclock ?= "busybox-hwclock"
->>
->> The following changes since commit f0189829498e30231d826c9f55aad73e622d076e:
->>
->>    qemu: Update to upstream patches (2015-09-14 11:22:02 +0100)
->>
->> are available in the git repository at:
->>
->>    git://github.com/Ajoyacr/openembedded-core anybox
->>    https://github.com/Ajoyacr/openembedded-core/tree/anybox
->>
->> Alejandro Joya (3):
->>    core-mage-minimal-initramfs: overwrite hardcoded dependency to virtual
->>      reference
->>    initramfs-framework: overwrite hardcoded dependency to virtual
->>      reference
->>    packagegroup-core-boot: overwrite hardcoded dependency to virtual
->>      reference
->>
->>   meta/recipes-core/images/core-image-minimal-initramfs.bb   | 2 +-
->>   meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
->>   meta/recipes-core/packagegroups/packagegroup-core-boot.bb  | 6 +++---
->>   3 files changed, 5 insertions(+), 5 deletions(-)
->>
+On Fri, 2015-09-18 at 12:05 +0100, Burton, Ross wrote:
 > 
-> is 'anybox' a good name for the virtual provider? What happens if we have a new 
-> suite of core utility replacements without box in the name, I assume it will be 
-> a nightmare to retroactivly change the name so we should probably come up with a 
-> more generic one now. virtual/core-utils, virtual/base-utils?
-
-Personally I like this better -- however, I think we're "too late" in the
-current development cycle to do it..  but for the next cycle, we should
-certainly consider going through the system and doing this instead.
-
-(It will definitely make it easier in the future to get rid of a "box" based
-system if desired.)
-
---Mark
-
-> Cheers,
-> Jack.
+> On 17 September 2015 at 21:38, Benjamin Esquivel <
+> benjamin.esquivel@linux.intel.com> wrote:
+> > put the import of pexpect around a try statement so it can tell you
+> > why it failed to import when in a system that has the module
+> > unreachable
+> > 
+> As the failing import is throwing an exception, can't the calling
+> code display the exception correctly?
+This is the logging without the change:
+2015-09-18 08:27:44,233 - selftest - INFO - Loading tests from:
+oeqa.selftest.buildhistory
+2015-09-18 08:27:44,234 - selftest - INFO - Loading tests from:
+oeqa.selftest.buildoptions
+2015-09-18 08:27:44,236 - selftest - ERROR - Failed to import
+oeqa.selftest.buildoptions
+2015-09-18 08:27:44,236 - selftest - ERROR - 'module' object has no
+attribute 'buildoptions'
+This is the logging with the proposed change and including Paul's
+comment:
+2015-09-18 08:27:44,233 - selftest - INFO - Loading tests from:
+oeqa.selftest.buildhistory
+2015-09-18 08:27:44,234 - selftest - INFO - Loading tests from:
+oeqa.selftest.buildoptions
+No module named pexpect, import failed
+Please install pexpect (python-pexpect)
+2015-09-18 08:27:44,236 - selftest - ERROR - Failed to import
+oeqa.selftest.buildoptions
+2015-09-18 08:27:44,236 - selftest - ERROR - 'module' object has no
+attribute 'buildoptions'
+I'm sending the patch V2
+> > Ross
 > 
 
+--=-fpfwMVMaTlXEbev7PV1k
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+<html><head></head><body><div>On Fri, 2015-09-18 at 12:05 +0100, Burton, Ro=
+ss wrote:</div><blockquote type=3D"cite"><div dir=3D"ltr"><div class=3D"gma=
+il_extra"><br><div class=3D"gmail_quote">On 17 September 2015 at 21:38, Ben=
+jamin Esquivel <span dir=3D"ltr">&lt;<a href=3D"mailto:benjamin.esquivel@li=
+nux.intel.com" target=3D"_blank">benjamin.esquivel@linux.intel.com</a>&gt;<=
+/span> wrote:<br><blockquote type=3D"cite"><div id=3D":bf" class=3D"a3s" st=
+yle=3D"overflow:hidden">put the import of pexpect around a try statement so=
+ it can tell you<br>
+why it failed to import when in a system that has the module unreachable<br=
+></div><br></blockquote></div><br>As the failing import is throwing an exce=
+ption, can't the calling code display the exception correctly?</div></div><=
+/blockquote><div>This is the logging without the change:</div><div>2015-09-=
+18 08:27:44,233 - selftest - INFO - Loading tests from: oeqa.selftest.build=
+history</div><div>2015-09-18 08:27:44,234 - selftest - INFO - Loading tests=
+ from: oeqa.selftest.buildoptions</div><div>2015-09-18 08:27:44,236 - selft=
+est - ERROR - Failed to import oeqa.selftest.buildoptions</div><div>2015-09=
+-18 08:27:44,236 - selftest - ERROR - 'module' object has no attribute 'bui=
+ldoptions'</div><div><br></div><div>This is the logging with the proposed c=
+hange and including Paul's comment:</div><div><br></div><div>2015-09-18 08:=
+27:44,233 - selftest - INFO - Loading tests from: oeqa.selftest.buildhistor=
+y</div><div>2015-09-18 08:27:44,234 - selftest - INFO - Loading tests from:=
+ oeqa.selftest.buildoptions</div><div>No module named pexpect, import faile=
+d</div><div>Please install pexpect (python-pexpect)</div><div>2015-09-18 08=
+:27:44,236 - selftest - ERROR - Failed to import oeqa.selftest.buildoptions=
+</div><div>2015-09-18 08:27:44,236 - selftest - ERROR - 'module' object has=
+ no attribute 'buildoptions'</div><div><br></div><div>I'm sending the patch=
+ V2</div><blockquote type=3D"cite"><div dir=3D"ltr"><div><br></div><div cla=
+ss=3D"gmail_extra">Ross</div></div>
+</blockquote></body></html>
+
+--=-fpfwMVMaTlXEbev7PV1k--
