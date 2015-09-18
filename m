@@ -1,28 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 52E1B60125
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 486A473D13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 11:37:52 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 18 Sep 2015 04:37:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,552,1437462000"; d="scan'208";a="807340253"
-Received: from thomasda-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.5.18])
-	by orsmga002.jf.intel.com with ESMTP; 18 Sep 2015 04:37:52 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>,
-	Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-Date: Fri, 18 Sep 2015 12:37:50 +0100
-Message-ID: <6871706.tbebiTIoD4@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.6-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <CAJTo0Lai9oeh3Kvg8wAB9OPFOBG4WaBYqnGRidv-zt9bNrGqgA@mail.gmail.com>
-References: <1442522311-15326-1-git-send-email-benjamin.esquivel@linux.intel.com>
-	<CAJTo0Lai9oeh3Kvg8wAB9OPFOBG4WaBYqnGRidv-zt9bNrGqgA@mail.gmail.com>
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] selftest/buildoptions: pexpect not a builtin module
+	Fri, 18 Sep 2015 11:48:47 +0000 (UTC)
+Received: by igcrk20 with SMTP id rk20so15985169igc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Sep 2015 04:48:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=9tQ+i+had6ZAfPs3nikrxhGVsHIdwtNDOZQ4azhik4Q=;
+	b=Z1TTkJY310xewzgE+zaGhfI+LiMtj9hLTTpRGCtJJ79YhpEUKytrZSD4fm7X2skURn
+	GS8VussOiKwirKzGeXI8BjucIkwkWuha8mlqsk044EBZBXvARjwsc3FFlWjuiKYyOM6O
+	NVH790RPx7aBBzH0UaILrejh0VjM0p1Kngx7ht2Lq9faBjhBRh3Odxi16kZBRGVardAO
+	QYIs5ZXkvTzmM3zVa+PaWboaXcQRVDMELnWh2uNF39xhy/oW5vQtMMGpZU5Vz1JOGIyH
+	8WNirXZMtv+kdYafEOnomJmOhWf46GXQE4NgQadSBhJIGpx4sl8D5hJAOdigJ1J4LMdf
+	ND9w==
+X-Gm-Message-State: ALoCoQmqslGD9nlF1mFT7VANcCwhDV9TUIcquA1u9rsK2EXDl/Xzw3aOhLSW6B/3V6AbJZ+Cl9c8
+X-Received: by 10.50.66.197 with SMTP id h5mr31239074igt.82.1442576927972;
+	Fri, 18 Sep 2015 04:48:47 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8FB4E.dip0.t-ipconnect.de.
+	[93.232.251.78])
+	by smtp.gmail.com with ESMTPSA id 95sm3505168iop.31.2015.09.18.04.48.46
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 18 Sep 2015 04:48:47 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Sep 2015 13:49:16 +0200
+Message-Id: <cover.1442576806.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/2] fix error handling in initramfs-framework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Sep 2015 11:37:54 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 18 Sep 2015 11:48:51 -0000
 
-On Friday 18 September 2015 12:05:35 Burton, Ross wrote:
-> On 17 September 2015 at 21:38, Benjamin Esquivel <
-> 
-> benjamin.esquivel@linux.intel.com> wrote:
-> > put the import of pexpect around a try statement so it can tell you
-> > why it failed to import when in a system that has the module unreachable
-> 
-> As the failing import is throwing an exception, can't the calling code
-> display the exception correctly?
+While debugging the root=UUID failure when using IDE disks I noticed
+that the error messages from initramfs-module did not really explain
+the problem, and that my "drop to shell" patch was faulty. Here are the
+improvement respectively fix.
 
-If we're going to trap this I think we should be displaying something like 
-"Please install pexpect (python-pexpect)".
+The following changes since commit 72682d72b52355c3fed947167ca3c6064340ead1:
 
-Cheers,
-Paul
+  autotools.bbclass: mkdir ${B} -> mkdir -p ${B} (2015-09-16 22:17:19 +0100)
+
+are available in the git repository at:
+
+  git://github.com/pohly/openembedded-core initramfs-rootfs-failure
+  https://github.com/pohly/openembedded-core/tree/initramfs-rootfs-failure
+
+Patrick Ohly (2):
+  initramfs-framework: fix "support dropping into shell on failure"
+  initramfs-framework: better error reporting for invalid root boot
+    parameter
+
+ meta/recipes-core/initrdscripts/initramfs-framework/finish | 2 +-
+ meta/recipes-core/initrdscripts/initramfs-framework/init   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 -- 
+2.1.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
