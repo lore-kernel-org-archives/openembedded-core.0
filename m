@@ -1,37 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 3070F76E2E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 269CD75F3A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 20:02:18 +0000 (UTC)
-Received: by qkdw123 with SMTP id w123so11372435qkd.0
+	Fri, 18 Sep 2015 01:40:13 +0000 (UTC)
+Received: by pacex6 with SMTP id ex6so35201901pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 13:02:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=UWL5fnMvk4lV01/3fCvjhM2KML18JxmU6FFuet1sBcg=;
-	b=EDbekZPMvqVIqcwIjA3GXCfZ7W03RTZbI2SQ4vtMYIxHcCuJe/FvchPRF8zCBx+fLv
-	cpKyS+d1PQizHT4pEQLxcbViG7TUcuXnNcQKr/5wAAA8/3o7iyGn2ijokm5oXIviFuCv
-	gOyD7SzXx1HUjKXBNS0Q3NM+zFt+hixfuJF5TSyi6H0dcLjk2r0HcFYhS8xpQsBKcfPW
-	iI/4t8pwqRynr3He0J71UaJtk7S6E9X6Krhm6o628Or6PHi97QDjuNAE/9Y4HE5m9RMs
-	oQ5huXMwfeEw8PGSp1CZQE4M31C9OX3oKa/Qf7uHsOy7hksLA7bUdYsJANI2Cakuxtf+
-	ns+w==
-X-Gm-Message-State: ALoCoQmWxP7WH2rge39gkV+JgKq49F/9SWFvRnlcP6Jsv5YPhu7GucGJmEtD35xlIIcCpO2W5P07
-X-Received: by 10.55.197.213 with SMTP id k82mr1691528qkl.49.1442520138135;
-	Thu, 17 Sep 2015 13:02:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Thu, 17 Sep 2015 13:01:58 -0700 (PDT)
-In-Reply-To: <4071162f4a5c0b32224c8c87b9e0deab82011787.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<4071162f4a5c0b32224c8c87b9e0deab82011787.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 17 Sep 2015 21:01:58 +0100
-Message-ID: <CAJTo0LY5DQ9WQnf9N0T23+HZPrDaxF+pWBAfFAqJjEuS=yQnOg@mail.gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] prserv/serv.py: Better messaging when starting/stopping the server with port=0
+	Thu, 17 Sep 2015 18:40:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=iEeipkVmKpW5XPehZiJ75Brw1EnBfjt/XRyVYP4Vi38=;
+	b=Sf2rLH1bOIEpGipgXFPPqpkDd6uq1VNMk9WdCD8+gl6J3ULH+jo2KSlzyXBHf4CJb5
+	MoLEXKqPW3YEOduPMIMNZ4U0XPd4kzmzmr7OxqEMmwQ2RUDAGlvhBh9AU+IxBLunREhg
+	+XpyHXyZhtH0L8gghKbd9W66tvfw/vNQPpWsykxThtE3fLFFeohH8GUyDk9NQZIBC955
+	AE+Pro5IWz9PoiS3Ya100zdOEkAQyaDgUE6+UVNCQ24n64pbhxiVL5M3y0HbAv98y1yO
+	E6RT1HTmiU1/gOYIQwdbRBqzanAQLt+cCI528OPJl+tlC3WZaDTtkYPk1GbKL3/5srgP
+	0HPQ==
+X-Received: by 10.68.137.161 with SMTP id qj1mr4110994pbb.14.1442540413783;
+	Thu, 17 Sep 2015 18:40:13 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:1079:2f51:a2f9:e171?
+	([2601:646:8601:4580:1079:2f51:a2f9:e171])
+	by smtp.gmail.com with ESMTPSA id
+	dh1sm5646489pbd.49.2015.09.17.18.40.12
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 17 Sep 2015 18:40:12 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1442500317-9064-4-git-send-email-marex@denx.de>
+Date: Thu, 17 Sep 2015 18:40:11 -0700
+Message-Id: <02670CD0-39E3-4C94-9FB6-CFC19B3AB6E6@gmail.com>
+References: <1442500317-9064-1-git-send-email-marex@denx.de>
+	<1442500317-9064-4-git-send-email-marex@denx.de>
+To: Marek Vasut <marex@denx.de>
+X-Mailer: Apple Mail (2.3094)
+Cc: lftan@altera.com, waltergoossens@home.nl,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/8] linux-yocto: depend on libgcc for nios2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,42 +49,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 20:02:18 -0000
-Content-Type: multipart/alternative; boundary=001a1149a4826a7817051ff6e4b0
-
---001a1149a4826a7817051ff6e4b0
-Content-Type: text/plain; charset=UTF-8
-
-On 15 September 2015 at 15:59, <leonardo.sandoval.gonzalez@linux.intel.com>
-wrote:
-
-> +        sys.stderr.write("WARNING: Server is listening at port %s instead
-> of %s\n"
-> +                         % (rport,port))
->
-
-I wouldn't call this a warning: port=0 means "pick your own", so it's not a
-warning that a different port was changed, it's useful information.
-
-Ross
-
---001a1149a4826a7817051ff6e4b0
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Fri, 18 Sep 2015 01:40:14 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 September 2015 at 15:59,  <span dir=3D"ltr">&lt;<a href=3D"mailto:leo=
-nardo.sandoval.gonzalez@linux.intel.com" target=3D"_blank">leonardo.sandova=
-l.gonzalez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex"><div id=3D":26d" class=3D"a3s" style=3D"overflow:hidden">+=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 sys.stderr.write(&quot;WARNING: Server is listening at=
- port %s instead of %s\n&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0% (rport,port))<br></div></blockquote></div><br>I wouldn&#=
-39;t call this a warning: port=3D0 means &quot;pick your own&quot;, so it&#=
-39;s not a warning that a different port was changed, it&#39;s useful infor=
-mation.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Ross</div></div>
 
---001a1149a4826a7817051ff6e4b0--
+> On Sep 17, 2015, at 7:31 AM, Marek Vasut <marex@denx.de> wrote:
+>=20
+> Make nios2 kernel depend on libgcc.
+>=20
+> In arch/nios2/Makefile, it adds LIBGCC to libs-y:
+>=20
+> LIBGCC          :=3D $(shell $(CC) $(KBUILD_CFLAGS) =
+-print-libgcc-file-name)
+> libs-y          +=3D $(LIBGCC)
+>=20
+> In file Makefile in top directory, libs-y is assigned to to var
+> KBUILD_VMLINUX_MAIN. It uses script link-vmlinux.sh to link vmlinux.o,
+> and when execute function vmlinux_link() in link-vmlinux.sh,
+> KBUILD_VMLINUX_MAIN is passed to ${LD}.
+>=20
+> If build without libgcc, the value of LIBGCC is just libgcc.a without
+> parent directory. linux-yocto fails to build:
+>=20
+> |   LD      vmlinux.o
+> | nios2-poky-linux-ld.bfd: cannot find libgcc.a: No such file or =
+directory
+>=20
+> Add libgcc to nios2 kernel dependency.
+>=20
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> meta/recipes-kernel/linux/linux-yocto.inc | 4 ++++
+> 1 file changed, 4 insertions(+)
+>=20
+> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc =
+b/meta/recipes-kernel/linux/linux-yocto.inc
+> index 3b41a61..81ffa24 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+> @@ -11,6 +11,10 @@ DEPENDS_append_aarch64 =3D " libgcc"
+> KERNEL_CC_append_aarch64 =3D " ${TOOLCHAIN_OPTIONS}"
+> KERNEL_LD_append_aarch64 =3D " ${TOOLCHAIN_OPTIONS}"
+>=20
+> +DEPENDS_append_nios2 =3D " libgcc"
+> +KERNEL_CC_append_nios2 =3D " ${TOOLCHAIN_OPTIONS}"
+> +KERNEL_LD_append_nios2 =3D " ${TOOLCHAIN_OPTIONS}=E2=80=9D
+
+Please try bitbake virtual/kernel build from scratch with this change.
+
+> +
+
+> # A KMACHINE is the mapping of a yocto $MACHINE to what is built
+> # by the kernel. This is typically the branch that should be built,
+> # and it can be specific to the machine or shared
+> --=20
+> 2.1.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
