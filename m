@@ -1,36 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 41B7073CC7
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp02.mail.online.nl (smtp02.mail.online.nl [194.134.25.72])
+	by mail.openembedded.org (Postfix) with ESMTP id 374FB65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Sep 2015 00:55:35 +0000 (UTC)
-Received: by igbni9 with SMTP id ni9so28292872igb.0
+	Sat, 19 Sep 2015 12:07:37 +0000 (UTC)
+Received: from [192.168.1.5] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp02.mail.online.nl (Postfix) with ESMTP id 57C791A0041
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Sep 2015 17:55:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=ryUe89JD4iJ94yMEBbcBK8a7/rKhxZpiMFMdgEZyHJI=;
-	b=VTJbOI99TgKydlywBCir5hWHlnHJk+Rbxe8OHjHo1qaUzkkm6lPGRaW8PM+OOz+lg1
-	SjRfMlM5aEtdL6dcGSwhJ7TzdusGjbrSyUGZZ355BlPxGMPTalMzQGbbQypQIAoK9x00
-	mDmvq1fePGFLaSXCovviQ+EZBMQDxBBYmr/hJwOBviruPqEBs0FqLlUFTkfAGqJUZu2k
-	x+LkI4ZNW58nJpFBCt+sMImVeK3QAogPU+FTWb/RHxJIAMLFZ9Z7JTwOk91bYbSjsQLK
-	apWFMdJoF61tIEwFyRj0jtGYJBHmGNkoVwyx9YPkF6mKEHq8lMPDuPtVKz4pybUjt+QH
-	1iug==
-X-Received: by 10.50.122.42 with SMTP id lp10mr962701igb.75.1442624135681;
-	Fri, 18 Sep 2015 17:55:35 -0700 (PDT)
+	Sat, 19 Sep 2015 14:07:36 +0200 (CEST)
+Message-ID: <55FD5008.1050906@topic.nl>
+Date: Sat, 19 Sep 2015 14:07:36 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-Received: by 10.107.142.130 with HTTP; Fri, 18 Sep 2015 17:55:06 -0700 (PDT)
-In-Reply-To: <ead9754fdacb95aa9d2f02f5880886d4707f13a7.1442585757.git.paul.eggleton@linux.intel.com>
-References: <cover.1442585757.git.paul.eggleton@linux.intel.com>
-	<ead9754fdacb95aa9d2f02f5880886d4707f13a7.1442585757.git.paul.eggleton@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 18 Sep 2015 17:55:06 -0700
-Message-ID: <CAMKF1sqF2gL_gNTEnXuoVnggoBVJVQePHHS6+gj6JZMvczkvDA@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] qt4: remove already merged patch
+To: openembedded-core@lists.openembedded.org
+Subject: bitbake: Missing 'import errno' in git.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,15 +28,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Sep 2015 00:55:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 19 Sep 2015 12:07:41 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 18, 2015 at 7:16 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> This patch was merged into the 4.8.7 release. This was missed on
-> upgrade, and we didn't notice because our quilt-based patch handling
-> code ignores already-applied patches.
+I think there's an "import errno" missing in the file. Anyone already 
+aware of this, or should I make a patch?
 
-this is a problem. My host quilt fails on me on duplicate patching,
-this should be default otherwise we will accumulate dead code.
+File: '.../bitbake/lib/bb/fetch2/git.py', lineno: 224, function: download
+      0220:            runfetchcmd("%s pack-redundant --all | xargs -r 
+rm" % ud.basecmd, d)
+      0221:            try:
+      0222:                os.unlink(ud.fullmirror)
+      0223:            except OSError as exc:
+  *** 0224:                if exc.errno != errno.ENOENT:
+      0225:                    raise
+      0226:        os.chdir(ud.clonedir)
+      0227:        for name in ud.names:
+      0228:            if not self._contains_ref(ud, d, name):
+Exception: NameError: global name 'errno' is not defined
+
+-- 
+Mike Looijmans
 
