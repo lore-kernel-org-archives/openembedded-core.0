@@ -1,29 +1,22 @@
 Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 0046976F58
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 55BB575E80
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Sep 2015 21:38:10 +0000 (UTC)
+	Sat, 19 Sep 2015 22:43:11 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3nJQPX1ZPJz3hj9D;
-	Sat, 19 Sep 2015 23:38:08 +0200 (CEST)
-X-Auth-Info: LBbEpBT6YnSqfB7F797EkHG5YjhpUsLe11EhoiWorS4=
-Received: from chi.localnet (unknown [195.140.253.167])
-	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3nJQPW6P4dzvhTg; 
-	Sat, 19 Sep 2015 23:38:07 +0200 (CEST)
+	by mail-out.m-online.net (Postfix) with ESMTP id 3nJRrZ4wNBz3hjKj;
+	Sun, 20 Sep 2015 00:43:10 +0200 (CEST)
+X-Auth-Info: csb0jyoGmDPRSjb6GfzH44BmYZPqZadj6lfuJbgBK30=
+Received: from chi.lan (unknown [195.140.253.167])
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3nJRrZ1hGqzvdWt;
+	Sun, 20 Sep 2015 00:43:10 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 19 Sep 2015 23:38:17 +0200
-User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
-References: <1442500317-9064-1-git-send-email-marex@denx.de>
-	<CAJTo0Lb3jFKOQqhV+PzOHUurauGRFFK55GufPt2isWABdvGCpg@mail.gmail.com>
-In-Reply-To: <CAJTo0Lb3jFKOQqhV+PzOHUurauGRFFK55GufPt2isWABdvGCpg@mail.gmail.com>
-MIME-Version: 1.0
-Message-Id: <201509192338.17209.marex@denx.de>
-Cc: lftan@altera.com, waltergoossens@home.nl,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/8] nios2 fixes
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 20 Sep 2015 00:43:09 +0200
+Message-Id: <1442702597-5619-1-git-send-email-marex@denx.de>
+X-Mailer: git-send-email 2.1.4
+Cc: Marek Vasut <marex@denx.de>, lftan@altera.com, waltergoossens@home.nl
+Subject: [PATCH 0/8] nios2 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,25 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Sep 2015 21:38:11 -0000
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 19 Sep 2015 22:43:14 -0000
 
-On Thursday, September 17, 2015 at 09:54:26 PM, Burton, Ross wrote:
-> On 17 September 2015 at 15:31, Marek Vasut <marex@denx.de> wrote:
-> > This patchset fixes various minor issues found during the process
-> > of getting Yocto working with the Altera NIOS2 soft-processor.
-> 
-> The patches all look good, but the patches which include changes to
-> upstream need an Upstream-Status tag in the patch alongside your
-> signed-off-by.
-> 
-> See http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines for
-> details.
+This patchset fixes various minor issues found during the process
+of getting Yocto working with the Altera NIOS2 soft-processor.
 
-Roger that, V2 is coming, thanks !
+Marek Vasut (8):
+  insane: Add nios2 support
+  siteinfo: Add nios2-linux
+  kernel-arch: Add nios2 to valid archs
+  linux-yocto: depend on libgcc for nios2
+  openssl: Add nios2 configuration
+  libtool: Fix nios2 support
+  pixman: Fix missing FE_DIVBYZERO on nios2
+  libgpg-error: Add support for nios2
 
-Best regards,
-Marek Vasut
+ meta/classes/insane.bbclass                        |   1 +
+ meta/classes/kernel-arch.bbclass                   |   3 +-
+ .../openssl/openssl/openssl_add_nios2.patch        |  33 ++
+ .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   1 +
+ meta/recipes-devtools/libtool/libtool-2.4.6.inc    |   1 +
+ ...1-libtool-Fix-support-for-NIOS2-processor.patch |  68 ++++
+ ...0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch |  65 ++++
+ meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb    |   1 +
+ meta/recipes-kernel/linux/linux-yocto.inc          |   4 +
+ .../0001-libgpg-error-Add-nios2-support.patch      |  46 +++
+ .../libgpg-error/libgpg-error_1.19.bb              |   4 +-
+ meta/site/nios2-linux                              | 395 +++++++++++++++++++++
+ 12 files changed, 620 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/openssl_add_nios2.patch
+ create mode 100644 meta/recipes-devtools/libtool/libtool/0001-libtool-Fix-support-for-NIOS2-processor.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch
+ create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nios2-support.patch
+ create mode 100644 meta/site/nios2-linux
+
+-- 
+2.1.4
+
 
