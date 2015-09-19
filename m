@@ -1,36 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id BDBD865D00
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D1CAE65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Sep 2015 13:17:09 +0000 (UTC)
-Received: by qkfq186 with SMTP id q186so29604476qkf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Sep 2015 06:17:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=uNZz7GBiSGV2ormHjKdMcnB6H8czKJVD9ZO9e3b5PMQ=;
-	b=XtLZc56su4QAiFg2DcUZvTt6xsnVcIc8BTYJ4ucC9qacs4WltQcfxcO32WfklWplTK
-	Ffhj8kOtVoAja9foZyHCpOtz5hTuHYOhPDCfPX/WG4G4mK2orfA90VHG23+rl9e0XKSY
-	O3RwH90lkEe7V9CWxMhe4vaRPDi9sNIsPHzXKWHF5ATYlP09wb3YjxK6CAx6QO+AekGb
-	0XWBOvSuFxbxV0+Yf0vhmPEMWJ4U7Yvpyvn/ndGBdlkQ0J3X85GKT8YMLS/j+pLmtO3s
-	ELVjzH5AfdO+LpST327WWkAX1v8fJ+oVaD2XQpeZxPmOwP/tCLG7DC6B9v8z1A9/g3wa
-	SApQ==
-X-Gm-Message-State: ALoCoQn8VTeLeIiBUTDponAtSsMjynOJ3oHrj/5/OgbmATPvlkLam5SkxtC1d8FXkZ7XLRg7Xyy6
-X-Received: by 10.55.195.86 with SMTP id a83mr12215392qkj.72.1442668629177;
-	Sat, 19 Sep 2015 06:17:09 -0700 (PDT)
+	Sat, 19 Sep 2015 14:11:09 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 19 Sep 2015 07:11:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,558,1437462000"; d="scan'208";a="772496496"
+Received: from stephe7x-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.17.248])
+	by orsmga001.jf.intel.com with ESMTP; 19 Sep 2015 07:11:09 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 19 Sep 2015 15:11:07 +0100
+Message-ID: <1645470.n3OXXfCF9z@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.6-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <CAMKF1sqF2gL_gNTEnXuoVnggoBVJVQePHHS6+gj6JZMvczkvDA@mail.gmail.com>
+References: <cover.1442585757.git.paul.eggleton@linux.intel.com>
+	<ead9754fdacb95aa9d2f02f5880886d4707f13a7.1442585757.git.paul.eggleton@linux.intel.com>
+	<CAMKF1sqF2gL_gNTEnXuoVnggoBVJVQePHHS6+gj6JZMvczkvDA@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Sat, 19 Sep 2015 06:16:49 -0700 (PDT)
-In-Reply-To: <55FD5008.1050906@topic.nl>
-References: <55FD5008.1050906@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 19 Sep 2015 14:16:49 +0100
-Message-ID: <CAJTo0LZ48XTFKaMq+gwMk-RkiPF9J9b9bdYk25PhhkZrnaJVtg@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: bitbake: Missing 'import errno' in git.py
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] qt4: remove already merged patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,36 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Sep 2015 13:17:09 -0000
-Content-Type: multipart/alternative; boundary=001a1142b9502be4b50520197700
+X-List-Received-Date: Sat, 19 Sep 2015 14:11:15 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a1142b9502be4b50520197700
-Content-Type: text/plain; charset=UTF-8
+On Friday 18 September 2015 17:55:06 Khem Raj wrote:
+> On Fri, Sep 18, 2015 at 7:16 AM, Paul Eggleton
+> 
+> <paul.eggleton@linux.intel.com> wrote:
+> > This patch was merged into the 4.8.7 release. This was missed on
+> > upgrade, and we didn't notice because our quilt-based patch handling
+> > code ignores already-applied patches.
+> 
+> this is a problem. My host quilt fails on me on duplicate patching,
+> this should be default otherwise we will accumulate dead code.
 
-On 19 September 2015 at 13:07, Mike Looijmans <mike.looijmans@topic.nl>
-wrote:
+I suspect this is the way it's always been unfortunately; not to say it 
+shouldn't be fixed though. When I cleaned this up last time I found 5 or 6 
+recipes in OE-Core that had already-applied patches. It may be the logic we 
+have in patch.bbclass / lib/oe/patch.py that wraps quilt rather than quilt 
+itself; other than fixes I've made to the git part, that code is ancient.
 
-> I think there's an "import errno" missing in the file. Anyone already
-> aware of this, or should I make a patch?
->
+Cheers,
+Paul
 
-Yes, there's a patch on the bitbake list already.
+-- 
 
-Ross
+Paul Eggleton
+Intel Open Source Technology Centre
 
---001a1142b9502be4b50520197700
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 September 2015 at 13:07, Mike Looijmans <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic.=
-nl</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3w4"=
- class=3D"a3s" style=3D"overflow:hidden">I think there&#39;s an &quot;impor=
-t errno&quot; missing in the file. Anyone already aware of this, or should =
-I make a patch?<br></div></blockquote></div><br>Yes, there&#39;s a patch on=
- the bitbake list already.</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra">Ross</div></div>
-
---001a1142b9502be4b50520197700--
