@@ -1,24 +1,34 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 84DE576FCD
+Return-Path: <kergoth@gmail.com>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C81875688
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Sep 2015 22:43:15 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3nJRrd0k80z3hjMn;
-	Sun, 20 Sep 2015 00:43:13 +0200 (CEST)
-X-Auth-Info: ess5V0lmdhNdG9fLMWRFex5KN3hg3Io6sXP8h6ub95c=
-Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3nJRrc65nfzvdWt;
-	Sun, 20 Sep 2015 00:43:12 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
+	Sun, 20 Sep 2015 05:19:32 +0000 (UTC)
+Received: by wiclk2 with SMTP id lk2so72994128wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Sep 2015 22:19:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=dTcvvNgeehGqGi2QsXIRjcbtbFCyJinyoaXHnSlPENc=;
+	b=QrHJphF6bHpemirsJMOd5N9bmh7oYhbNjSkrWqoyuA2UZx6dRhITaQRsf/sFYIx4KA
+	uR+onCAaT41exRzwuP/B0dBAsQmVTL4VWQnNJ9sf4R2hgQPB/Gg0kFaMEWSKsw0YwOOM
+	jKbIEzfbG+iFe5JVhZ4VQltS0vYQLamQOE/oHiVKZjKtDKVGg7/7HPyyB2e+vWv324k2
+	cXFuXBIwYKCA6qr+l/cOfr5TxOWkXlN1uF7CMgeIq9A+IMDOPGXizcQY7FbfSRpnTuEB
+	YqMOj2FmJTShI/BDlQp4/oO/aKB4YusAMSg3i1TSDYOCozoCKnM4LJrBVrV5K+RPhMRY
+	vMOw==
+X-Received: by 10.180.89.41 with SMTP id bl9mr6304468wib.85.1442726371947;
+	Sat, 19 Sep 2015 22:19:31 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id x7sm6524781wia.5.2015.09.19.22.19.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 19 Sep 2015 22:19:30 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 20 Sep 2015 00:43:17 +0200
-Message-Id: <1442702597-5619-9-git-send-email-marex@denx.de>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1442702597-5619-1-git-send-email-marex@denx.de>
-References: <1442702597-5619-1-git-send-email-marex@denx.de>
-Cc: Marek Vasut <marex@denx.de>, lftan@altera.com, waltergoossens@home.nl
-Subject: [PATCH 8/8] libgpg-error: Add support for nios2
+Date: Sat, 19 Sep 2015 22:19:24 -0700
+Message-Id: <1442726364-25467-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.2.1
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] autotools: fix traversal bug in aclocal copying
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,85 +41,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Sep 2015 22:43:15 -0000
+X-List-Received-Date: Sun, 20 Sep 2015 05:19:36 -0000
 
-Add a patch which adds a configuration for the nios2 processor.
+From: Christopher Larson <chris_larson@mentor.com>
 
-Signed-off-by: Marek Vasut <marex@denx.de>
+The logic is supposed to avoid following dependencies when we depend on
+a target recipe which depends on a native recipe. The problem is, we were
+marking the dep (the native recipe) as already processed when we avoided
+traversal, meaning that even when that recipe would be pulled in via
+a different dependency, we skipped it there too, and whether it was skipped
+entirely depended on the non-deterministic dep processing order. If the first
+one to be encountered was via the indirect target dep, it wouldn't end up in
+configuredeps, otherwise it would.
+
+As we want to avoid traversing that particular dependency relationship, not
+*every* dependency on the native, we should continue, but not add it to done,
+so it can be traversed from other avenues.
+
+This fixes an intermittent bug in some of my non-GPLv3 builds, where one
+dependency upon gettext-minimal-native was skipped, but others should not have
+been, resulting in it being removed from configuredeps entirely, and no
+gettext macros being available.
+
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- .../0001-libgpg-error-Add-nios2-support.patch      | 46 ++++++++++++++++++++++
- .../libgpg-error/libgpg-error_1.19.bb              |  4 +-
- 2 files changed, 49 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nios2-support.patch
+ meta/classes/autotools.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nios2-support.patch b/meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nios2-support.patch
-new file mode 100644
-index 0000000..dab1c13
---- /dev/null
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/0001-libgpg-error-Add-nios2-support.patch
-@@ -0,0 +1,46 @@
-+From b2af652f43991e4ce6297917da542a9eb5135939 Mon Sep 17 00:00:00 2001
-+From: Marek Vasut <marex@denx.de>
-+Date: Thu, 17 Sep 2015 03:28:06 +0200
-+Subject: [PATCH] libgpg-error: Add nios2 support
-+
-+Add configuration for the NIOS2 processor.
-+
-+Signed-off-by: Marek Vasut <marex@denx.de>
-+Upstream-Status: Submitted
-+---
-+ src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h | 23 +++++++++++++++++++++++
-+ 1 file changed, 23 insertions(+)
-+ create mode 100644 src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h
-+
-+diff --git a/src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h b/src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h
-+new file mode 100644
-+index 0000000..3a24571
-+--- /dev/null
-++++ b/src/syscfg/lock-obj-pub.nios2-unknown-linux-gnu.h
-+@@ -0,0 +1,23 @@
-++## lock-obj-pub.nios2-unknown-linux-gnu.h
-++## File created by gen-posix-lock-obj - DO NOT EDIT
-++## To be included by mkheader into gpg-error.h
-++
-++typedef struct
-++{
-++  long _vers;
-++  union {
-++    volatile char _priv[24];
-++    long _x_align;
-++    long *_xp_align;
-++  } u;
-++} gpgrt_lock_t;
-++
-++#define GPGRT_LOCK_INITIALIZER {1,{{0,0,0,0,0,0,0,0, \
-++                                    0,0,0,0,0,0,0,0, \
-++                                    0,0,0,0,0,0,0,0}}}
-++##
-++## Local Variables:
-++## mode: c
-++## buffer-read-only: t
-++## End:
-++##
-+-- 
-+2.5.1
-+
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.19.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.19.bb
-index 39dbbcf..c69930a 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.19.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.19.bb
-@@ -12,7 +12,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
- SECTION = "libs"
- 
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-${PV}.tar.bz2 \
--           file://pkgconfig.patch"
-+           file://pkgconfig.patch \
-+	   file://0001-libgpg-error-Add-nios2-support.patch \
-+	  "
- SRC_URI[md5sum] = "c04c16245b92829281f43b5bef7d16da"
- SRC_URI[sha256sum] = "53120e1333d5c5d28d87ff2854e9e98719c8e214152f17ad5291704d25c4978b"
- 
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 819045a..078f58f 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -168,9 +168,9 @@ python autotools_copy_aclocals () {
+             for datadep in data[3]:
+                 if datadep in done:
+                     continue
+-                done.append(datadep)
+                 if (not data[0].endswith("-native")) and taskdepdata[datadep][0].endswith("-native") and dep != start:
+                     continue
++                done.append(datadep)
+                 new.append(datadep)
+                 if taskdepdata[datadep][1] == "do_configure":
+                     configuredeps.append(taskdepdata[datadep][0])
 -- 
-2.1.4
+2.2.1
 
 
