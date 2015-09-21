@@ -1,43 +1,39 @@
-Return-Path: <ian.ray@ge.com>
-Received: from mx0b-00176a03.pphosted.com (mx0b-00176a03.pphosted.com
-	[67.231.157.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 4070B76417
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 547CC73243
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 08:15:55 +0000 (UTC)
-Received: from pps.filterd (m0048300.ppops.net [127.0.0.1])
-	by m0048300.ppops.net-00176a03. (8.15.0.59/8.15.0.59) with SMTP id
-	t8L7G6Ac003241 for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 03:16:34 -0400
-Received: from cinmlip10.e2k.ad.ge.com (n165-156-000-000.static.ge.com
-	[165.156.4.1] (may be forged))
-	by m0048300.ppops.net-00176a03. with ESMTP id 1x10cnhqu2-5
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 03:16:34 -0400
-Received: from alpmlip01.e2k.ad.ge.com ([3.159.17.48])
-	by cinmlip10.e2k.ad.ge.com with ESMTP/TLS/RC4-SHA;
-	21 Sep 2015 03:16:33 -0400
-Received: from unknown (HELO clipsmtp.clients.em.health.ge.com) ([3.187.7.87])
-	by alpmlip01.e2k.ad.ge.com with ESMTP; 21 Sep 2015 03:16:30 -0400
-Received: from macaroni.clients.em.health.ge.com
-	(macaroni.clients.em.health.ge.com [3.187.18.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by clipsmtp.clients.em.health.ge.com (Postfix) with ESMTPSA id
-	459DF10BC301; Mon, 21 Sep 2015 10:11:58 +0300 (EEST)
-From: Ian Ray <ian.ray@ge.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Sep 2015 10:11:52 +0300
-Message-Id: <1442819513-20171-1-git-send-email-ian.ray@ge.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-09-21_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
-	suspectscore=1
-	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
-	adjust=0 reason=mlx scancount=1 engine=8.0.1-1507310000
-	definitions=main-1509210129
-Subject: [yocto][PATCH 0/1] new PTEST_RUN_SCRIPT_PATH
+	Mon, 21 Sep 2015 08:37:45 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 21 Sep 2015 01:37:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,566,1437462000"; d="scan'208";a="809620691"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Sep 2015 01:37:45 -0700
+Received: from irsmsx155.ger.corp.intel.com (163.33.192.3) by
+	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Mon, 21 Sep 2015 09:37:42 +0100
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.84]) by
+	irsmsx155.ger.corp.intel.com ([169.254.14.173]) with mapi id
+	14.03.0248.002; Mon, 21 Sep 2015 09:37:42 +0100
+From: "Istrate, Daniel AlexandruX" <daniel.alexandrux.istrate@intel.com>
+To: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH V2] selftest/buildoptions: pexpect not a
+	builtin	module
+Thread-Index: AQHQ8jAkz3uCEuKyAESksLGu5//EbJ5GrBLQ
+Date: Mon, 21 Sep 2015 08:37:42 +0000
+Message-ID: <174AD7CFE5F468498ACCFE3FEE0EF1EB142C089D@IRSMSX102.ger.corp.intel.com>
+References: <6871706.tbebiTIoD4@peggleto-mobl.ger.corp.intel.com>
+	<1442565245-16632-1-git-send-email-benjamin.esquivel@linux.intel.com>
+In-Reply-To: <1442565245-16632-1-git-send-email-benjamin.esquivel@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
+Cc: "paul.eggleton@linux.intel.com" <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH V2] selftest/buildoptions: pexpect not a builtin	module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,22 +46,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Sep 2015 08:15:57 -0000
+X-List-Received-Date: Mon, 21 Sep 2015 08:37:47 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-New "weak" assigned PTEST_RUN_SCRIPT_PATH to allow recipes to
-override the default location of the run-ptest script.
+Hi Benjamin, Paul,
 
-This is useful if the package ships its own run-ptest script.
+Just want to point out that 'pexpect' is an unused import in buildoptions.p=
+y. Unused imports are also unittest and logging.
+Instead of try-catch an import that is not used I think it's best to get ri=
+d of them.
 
-A documentation patch was submitted to https://lists.yoctoproject.org/pipermail/yocto/2015-September/026500.html
+--Daniel=20
 
-Ian Ray (1):
-  ptest: user-specified run-ptest script location
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Benjamin Esquivel
+Sent: Friday, September 18, 2015 11:34
+To: openembedded-core@lists.openembedded.org
+Cc: paul.eggleton@linux.intel.com
+Subject: [OE-core] [PATCH V2] selftest/buildoptions: pexpect not a builtin =
+module
 
- meta/classes/ptest.bbclass | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+put the import of pexpect around a try statement so it can tell you why it =
+failed to import when in a system that has the module unreachable
 
--- 
-1.8.3.1
+the message that outputs is:
 
+"No module named pexpect, import failed"
+"Please install pexpect (python-pexpect)"
+
+Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/buildoptions.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftes=
+t/buildoptions.py
+index 483803b..1fa4802 100644
+--- a/meta/lib/oeqa/selftest/buildoptions.py
++++ b/meta/lib/oeqa/selftest/buildoptions.py
+@@ -3,7 +3,14 @@ import os
+ import logging
+ import re
+ import glob as g
+-import pexpect as p
++
++try:
++    import pexpect as p
++except  ImportError as e:
++    import sys
++    sys.stderr.write("{}, import failed\n".format(e))
++    sys.stderr.write("Please install pexpect (python-pexpect)\n")
++    raise e
+=20
+ from oeqa.selftest.base import oeSelfTest  from oeqa.selftest.buildhistory=
+ import BuildhistoryBase
+--
+2.5.1
+
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
