@@ -1,34 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id CDD0265D00
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 85B2F73243
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 12:23:36 +0000 (UTC)
-Received: by qkap81 with SMTP id p81so43634027qka.2
+	Mon, 21 Sep 2015 12:31:41 +0000 (UTC)
+Received: by pacex6 with SMTP id ex6so115871108pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 05:23:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=FHvu+iWTBIrx5bvqT4ouynqinxyKlvgJz+GkyR0Oolo=;
-	b=P5ci4LXL3U2Eo7bO9FfFjBB7sqg+mYwVz0mIVVtI+M0fHHai1Tdg7RgtfTJoq/aFRO
-	LyYLJKrknEgEhBreUfVwn0KfSt9pkl01DKNy7HXStrBiboW+Xe+cjW8RPiHyYdk6gKHg
-	lHsJqcUpesJOFS7nGsjQ/lSnvd48mnoa54RGhkRUHhAeDCqg5gHc9S2manCWv+HA0Itk
-	u3Eq1HI9fyMb911vnYNtLehrw11yuntL1ubTJOxLm6UpNVbb8VqYlmoKsp5bLBaF25bI
-	H4DZArMbGsXzEBuyWNrfmExLG5w9YfXICt255UU4z7A8gjtx6gAGSQ3Kp3YRAAhuI7hq
-	SiOA==
-X-Gm-Message-State: ALoCoQn5aOHvc+dO3n4Hbm4CcXpsSeIZD+RKw/2xXIN7uzwgklroVs0YEdzT3IMIZCJXvlW430NZ
-X-Received: by 10.55.197.213 with SMTP id k82mr21034102qkl.49.1442838216353;
-	Mon, 21 Sep 2015 05:23:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Mon, 21 Sep 2015 05:23:16 -0700 (PDT)
-In-Reply-To: <1442834624-25775-1-git-send-email-net147@gmail.com>
+	Mon, 21 Sep 2015 05:31:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-type;
+	bh=AfwqL+lgaQ5Z1OXSaT9/3sbbsNMxt0RvcLaocvmTouI=;
+	b=SzfOvpPw24ewFK9XkY7wUxDLKuImmg6dAbnLNhiVDlcFcNxAnJdFIai1mj7KML97si
+	2C7MgU7pSTW0LZwHqsf+GAw2SCHjvTBNbWON5aSn/qQW6BwEaQjdTgFwbUcs+RY3/KZY
+	Qn/PLIREQWIJTwDReHQVu/YCs286eb5g+WmZiqD52NfUmBHyM0Iq8eS4lhXmZBgYapae
+	/u+yexuIoRPhT3/Nfuyh90GQZTl1PvxUcwMBm72Ei00ivEFTaM6Yw1A3WZdRE9cOh18y
+	D3nuTfVHXSJBkwz2BFrFDk2EYYeTLkJazxStjyC3nkmTQkmtEpl0wrAu4pg/j3iTmpa6
+	Prfw==
+X-Received: by 10.66.222.6 with SMTP id qi6mr24661080pac.97.1442838702035;
+	Mon, 21 Sep 2015 05:31:42 -0700 (PDT)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244]) by smtp.gmail.com with ESMTPSA id
+	dh1sm24363060pbd.49.2015.09.21.05.31.39
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 21 Sep 2015 05:31:41 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <1442834624-25775-1-git-send-email-net147@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 21 Sep 2015 13:23:16 +0100
-Message-ID: <CAJTo0LYjGD_u+Lj7DpMfGYXx55jbg1aQr_i06=kCQOWyJuu95g@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
+	<CAJTo0LYjGD_u+Lj7DpMfGYXx55jbg1aQr_i06=kCQOWyJuu95g@mail.gmail.com>
+From: Jonathan Liu <net147@gmail.com>
+Message-ID: <55FFF8A7.1090809@gmail.com>
+Date: Mon, 21 Sep 2015 22:31:35 +1000
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYjGD_u+Lj7DpMfGYXx55jbg1aQr_i06=kCQOWyJuu95g@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] systemd: disable problematic GCC 5.2 optimizations
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,39 +48,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Sep 2015 12:23:37 -0000
-Content-Type: multipart/alternative; boundary=001a1149a4825acf38052040f394
+X-List-Received-Date: Mon, 21 Sep 2015 12:31:42 -0000
+Content-Type: multipart/alternative;
+	boundary="------------080402040503020708080602"
 
---001a1149a4825acf38052040f394
-Content-Type: text/plain; charset=UTF-8
+--------------080402040503020708080602
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 21 September 2015 at 12:23, Jonathan Liu <net147@gmail.com> wrote:
-
-> +FULL_OPTIMIZATION += "-fno-schedule-insns -fno-schedule-insns2"
+On 21/09/2015 10:23 PM, Burton, Ross wrote:
 >
+> On 21 September 2015 at 12:23, Jonathan Liu <net147@gmail.com 
+> <mailto:net147@gmail.com>> wrote:
+>
+>     +FULL_OPTIMIZATION += "-fno-schedule-insns -fno-schedule-insns2"
+>
+>
+> Are these bugs with the gcc optimisations or the systemd source code, 
+> and if its gcc's fault are the problematic optimisations specific to a 
+> particular architecture (such as ARM)?  Just wondering if we can use 
+> overrides to only change the optimisations where they're a problem.
+>
+> Ross
+I am not sure how to isolate if it's an issue in the systemd source code 
+but the issue is not present when using GCC 4.9.
+Haven't checked if this is occuring on other architectures. Any feedback 
+whether this occurs on other platforms (Raspberry Pi 2 is ARMv7) is welcome.
 
-Are these bugs with the gcc optimisations or the systemd source code, and
-if its gcc's fault are the problematic optimisations specific to a
-particular architecture (such as ARM)?  Just wondering if we can use
-overrides to only change the optimisations where they're a problem.
+Regards,
+Jonathan
 
-Ross
+--------------080402040503020708080602
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
---001a1149a4825acf38052040f394
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 21/09/2015 10:23 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LYjGD_u+Lj7DpMfGYXx55jbg1aQr_i06=kCQOWyJuu95g@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 21 September 2015 at 12:23,
+            Jonathan Liu <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:net147@gmail.com" target="_blank">net147@gmail.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":4dm" class="a3s" style="overflow:hidden">+FULL_OPTIMIZATION
+                += "-fno-schedule-insns -fno-schedule-insns2"<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          Are these bugs with the gcc optimisations or the systemd
+          source code, and if its gcc's fault are the problematic
+          optimisations specific to a particular architecture (such as
+          ARM)?  Just wondering if we can use overrides to only change
+          the optimisations where they're a problem.</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    I am not sure how to isolate if it's an issue in the systemd source
+    code but the issue is not present when using GCC 4.9.<br>
+    Haven't checked if this is occuring on other architectures. Any
+    feedback whether this occurs on other platforms (Raspberry Pi 2 is
+    ARMv7) is welcome.<br>
+    <br>
+    Regards,<br>
+    Jonathan<br>
+  </body>
+</html>
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 September 2015 at 12:23, Jonathan Liu <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:net147@gmail.com" target=3D"_blank">net147@gmail.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4dm" class=3D"a3s"=
- style=3D"overflow:hidden">+FULL_OPTIMIZATION +=3D &quot;-fno-schedule-insn=
-s -fno-schedule-insns2&quot;<br></div></blockquote></div><br>Are these bugs=
- with the gcc optimisations or the systemd source code, and if its gcc&#39;=
-s fault are the problematic optimisations specific to a particular architec=
-ture (such as ARM)?=C2=A0 Just wondering if we can use overrides to only ch=
-ange the optimisations where they&#39;re a problem.</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a1149a4825acf38052040f394--
+--------------080402040503020708080602--
