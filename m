@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 11D30766EB
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id BD355766EB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 19:43:28 +0000 (UTC)
-Received: by wiclk2 with SMTP id lk2so127332699wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 12:43:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=iPZWi2SxAOF9u1DU89Aej4TmICsrk8MivC5OPVFDJDU=;
-	b=H8+ZXMvdfzyvbPiX9RvyHGB+axLMl0n2DSFiWK+73mucQWs83bPnUJAfqjs2vJF5Dq
-	tUCOv9/raQqK53vzlfgRM4lrbENmr7lR11fLJKfU9A96P0jiIXjv8/P9xOTRohte07zm
-	t30xp/eIksbN/5JNVpNG9c3tzaGVnapgy7Bg+TS4EDNyxeuILlO1lM20WOXRENb65rC6
-	554VmAGO+CLvQdn5zFwNzZPDBHzV3iqQXTRftp485iwB0iLe0TVqYzA//dZOklX7qGpb
-	zJkbZ2t+Nqj4cwAs7+YvRY9SoNNNCHAhDe9vnB2W8wwFT857LKdq4MsljyT+G5BhTiBu
-	gMAQ==
-X-Gm-Message-State: ALoCoQnZJCc1Sj15ARNpVNR2EbqYoCTAk6OIhexZISezmL4zPgw5yPFUKqbHD9m+X46IEMheKYKV
-X-Received: by 10.194.48.81 with SMTP id j17mr24135569wjn.81.1442864608363;
-	Mon, 21 Sep 2015 12:43:28 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	i9sm25664659wjz.20.2015.09.21.12.43.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 21 Sep 2015 12:43:27 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Sep 2015 20:36:30 +0100
-Message-Id: <1442864190-30232-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] packagegroup-core-standalone-sdk-target: ensure libatomic is in SDK
+	Mon, 21 Sep 2015 20:07:51 +0000 (UTC)
+Received: (qmail 12319 invoked by uid 1003); 21 Sep 2015 20:07:51 -0000
+Received: from unknown (HELO ?192.168.11.114?)
+	(philip@opensdr.com@108.44.118.254)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	21 Sep 2015 20:07:51 -0000
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>
+From: Philip Balister <philip@balister.org>
+Message-ID: <56006396.1050007@balister.org>
+Date: Mon, 21 Sep 2015 16:07:50 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.1.0
+MIME-Version: 1.0
+Subject: OpenEmbedded Developers European Meeting in Dublin after ELCE and YP dev day
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,32 +31,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Sep 2015 19:43:30 -0000
+X-List-Received-Date: Mon, 21 Sep 2015 20:07:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Some architectures (such as MIPS) need libatomic from gcc-runtime to perform
-atomic operations, so this package should be included in all SDKs.
+Just a reminder we will have a meeting on Oct 9 in Dublin after ELCE and
+the YP developer day.
 
-[ YOCTO #8274 ]
+This is a good place to meet other OE developers and discuss your issues
+and concerns. All OpenEmbedded developers/users are welcome.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../packagegroups/packagegroup-core-standalone-sdk-target.bb            | 2 ++
- 1 file changed, 2 insertions(+)
+Please add your name to the attendee list here:
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-index 37f5e43..6997f39 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-@@ -7,6 +7,8 @@ inherit packagegroup
- RDEPENDS_${PN} = "\
-     libgcc \
-     libgcc-dev \
-+    libatomic \
-+    libatomic-dev \
-     libstdc++ \
-     libstdc++-dev \
-     ${LIBC_DEPENDENCIES} \
--- 
-2.1.4
+http://openembedded.org/wiki/OEDEM_2015
 
+Soon we'll try and start beating the suggested topics into a more
+organized agenda so we can focus our time together.
+
+Philip
 
