@@ -1,42 +1,34 @@
-Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B976960125
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 28E7B60053
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 10:49:48 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 21 Sep 2015 03:49:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,567,1437462000"; 
-	d="scan'208,217";a="809695718"
-Received: from irsmsx107.ger.corp.intel.com ([163.33.3.99])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Sep 2015 03:49:47 -0700
-Received: from irsmsx156.ger.corp.intel.com (10.108.20.68) by
-	IRSMSX107.ger.corp.intel.com (163.33.3.99) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Mon, 21 Sep 2015 11:49:46 +0100
-Received: from irsmsx102.ger.corp.intel.com ([169.254.2.84]) by
-	IRSMSX156.ger.corp.intel.com ([169.254.3.133]) with mapi id
-	14.03.0248.002; Mon, 21 Sep 2015 11:49:46 +0100
-From: "Istrate, Daniel AlexandruX" <daniel.alexandrux.istrate@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH V2] selftest/buildoptions: pexpect not a
-	builtin module
-Thread-Index: AQHQ9Fc0xXQVIknjLkW1ddQ2uWael55GzYNg
-Date: Mon, 21 Sep 2015 10:49:45 +0000
-Message-ID: <174AD7CFE5F468498ACCFE3FEE0EF1EB142C2921@IRSMSX102.ger.corp.intel.com>
-References: <6871706.tbebiTIoD4@peggleto-mobl.ger.corp.intel.com>
-	<1442565245-16632-1-git-send-email-benjamin.esquivel@linux.intel.com>
-	<174AD7CFE5F468498ACCFE3FEE0EF1EB142C089D@IRSMSX102.ger.corp.intel.com>
-	<CAJTo0LaMfcabqJ9iLqq61eD=H+bfv4jpB5W=P_KBDZZS-4VK8Q@mail.gmail.com>
-In-Reply-To: <CAJTo0LaMfcabqJ9iLqq61eD=H+bfv4jpB5W=P_KBDZZS-4VK8Q@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
-MIME-Version: 1.0
-Cc: "paul.eggleton@linux.intel.com" <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] selftest/buildoptions: pexpect not a builtin module
+	Mon, 21 Sep 2015 11:08:14 +0000 (UTC)
+Received: by padbj2 with SMTP id bj2so4567477pad.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Sep 2015 04:08:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=7IV0BFkLh83Zgx3NVcm1OZDIkB7bzTZoE3mHUTlI6Rk=;
+	b=f97UZXMth1NVa56gLYyXIH0NE9bWx3FUoeOWEJn7S13JYzJK/BD9TZhos0wyTY0eZ5
+	7KTHKswMskS77AMDQVYDZdHJnpxqplXFfXe/O2N59dP1i2uFl4nH/U5ae7L/byjtgBaQ
+	eYC99qJX+DzukKDvn42mrSkn+Lr1hKZ3aVNujxHJJYCHuAzxJO+Tyt4LrADdVCYg6Sme
+	b2/a0vJiV8nvpcDsNW78z7OVOmcXX/l9jZhv9QwA/7fenlBV1oAbBxzSqxwJ2C6Qk2uZ
+	UTjMiPNcQ/NDqWMfmxdL1axP5bJNf3WLk0t2ecB6NMtsnR1o+uJ1abx3Vv7bWZH9dfon
+	wqaA==
+X-Received: by 10.68.197.97 with SMTP id it1mr24482414pbc.4.1442833694827;
+	Mon, 21 Sep 2015 04:08:14 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by smtp.gmail.com with ESMTPSA id x6sm23923514pbt.3.2015.09.21.04.08.13
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 21 Sep 2015 04:08:14 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Sep 2015 21:09:26 +1000
+Message-Id: <1442833766-16676-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] opkg: create opkg.lock in /run instead of /var/run
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,110 +41,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Sep 2015 10:49:48 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_174AD7CFE5F468498ACCFE3FEE0EF1EB142C2921IRSMSX102gercor_"
+X-List-Received-Date: Mon, 21 Sep 2015 11:08:15 -0000
 
---_000_174AD7CFE5F468498ACCFE3FEE0EF1EB142C2921IRSMSX102gercor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+This avoids a "Could not unlink" warning when extracting a /var/run
+symbolic link pointing to /run from the base-files package as it is
+unable to unlink the /var/run directory when it contains opkg.lock.
 
-SGkgUm9zcywNCg0KSSBzZW50IHRoZSBwYXRjaDogaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
-cmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1jb3JlLzIwMTUtU2VwdGVtYmVyLzExMDczOC5odG1s
-DQoNCi0tRGFuaWVsDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGlu
-dGVsLmNvbV0NClNlbnQ6IE1vbmRheSwgU2VwdGVtYmVyIDIxLCAyMDE1IDEzOjIwDQpUbzogSXN0
-cmF0ZSwgRGFuaWVsIEFsZXhhbmRydVgNCkNjOiBCZW5qYW1pbiBFc3F1aXZlbDsgb3BlbmVtYmVk
-ZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsgcGF1bC5lZ2dsZXRvbkBsaW51eC5pbnRl
-bC5jb20NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIFYyXSBzZWxmdGVzdC9idWlsZG9w
-dGlvbnM6IHBleHBlY3Qgbm90IGEgYnVpbHRpbiBtb2R1bGUNCg0KDQpPbiAyMSBTZXB0ZW1iZXIg
-MjAxNSBhdCAwOTozNywgSXN0cmF0ZSwgRGFuaWVsIEFsZXhhbmRydVggPGRhbmllbC5hbGV4YW5k
-cnV4LmlzdHJhdGVAaW50ZWwuY29tPG1haWx0bzpkYW5pZWwuYWxleGFuZHJ1eC5pc3RyYXRlQGlu
-dGVsLmNvbT4+IHdyb3RlOg0KSnVzdCB3YW50IHRvIHBvaW50IG91dCB0aGF0ICdwZXhwZWN0JyBp
-cyBhbiB1bnVzZWQgaW1wb3J0IGluIGJ1aWxkb3B0aW9ucy5weS4gVW51c2VkIGltcG9ydHMgYXJl
-IGFsc28gdW5pdHRlc3QgYW5kIGxvZ2dpbmcuDQpJbnN0ZWFkIG9mIHRyeS1jYXRjaCBhbiBpbXBv
-cnQgdGhhdCBpcyBub3QgdXNlZCBJIHRoaW5rIGl0J3MgYmVzdCB0byBnZXQgcmlkIG9mIHRoZW0u
-DQoNClRvdGFsbHkgYWdyZWVkLiAgQ2FuIHlvdSBzZW5kIGEgcXVpY2sgcGF0Y2g/DQoNClJvc3MN
-Cg==
+This also fixes an issue where /var/run is created as a directory
+instead of a symbolic link to /run.
 
---_000_174AD7CFE5F468498ACCFE3FEE0EF1EB142C2921IRSMSX102gercor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ ...reate-opkg.lock-in-run-instead-of-var-run.patch | 34 ++++++++++++++++++++++
+ meta/recipes-devtools/opkg/opkg_0.3.0.bb           |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
-ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
-CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzIu
-MHB0IDcyLjBwdCA3Mi4wcHQgNzIuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3Jk
-U2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBl
-ZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0t
-LT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4N
-CjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1s
-PjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZs
-aW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5IaSBSb3NzLDxvOnA+PC9vOnA+
-PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjoj
-MUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
-JnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+SSBzZW50IHRoZSBwYXRjaDoNCjxhIGhy
-ZWY9Imh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQt
-Y29yZS8yMDE1LVNlcHRlbWJlci8xMTA3MzguaHRtbCI+DQpodHRwOi8vbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZy9waXBlcm1haWwvb3BlbmVtYmVkZGVkLWNvcmUvMjAxNS1TZXB0ZW1iZXIvMTEwNzM4
-Lmh0bWw8L2E+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
-OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj4tLURh
-bmllbDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
-eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
-cy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3Bh
-biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21d
-DQo8YnI+DQo8Yj5TZW50OjwvYj4gTW9uZGF5LCBTZXB0ZW1iZXIgMjEsIDIwMTUgMTM6MjA8YnI+
-DQo8Yj5Ubzo8L2I+IElzdHJhdGUsIERhbmllbCBBbGV4YW5kcnVYPGJyPg0KPGI+Q2M6PC9iPiBC
-ZW5qYW1pbiBFc3F1aXZlbDsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-ZzsgcGF1bC5lZ2dsZXRvbkBsaW51eC5pbnRlbC5jb208YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6
-IFtPRS1jb3JlXSBbUEFUQ0ggVjJdIHNlbGZ0ZXN0L2J1aWxkb3B0aW9uczogcGV4cGVjdCBub3Qg
-YSBidWlsdGluIG1vZHVsZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5P
-biAyMSBTZXB0ZW1iZXIgMjAxNSBhdCAwOTozNywgSXN0cmF0ZSwgRGFuaWVsIEFsZXhhbmRydVgg
-Jmx0OzxhIGhyZWY9Im1haWx0bzpkYW5pZWwuYWxleGFuZHJ1eC5pc3RyYXRlQGludGVsLmNvbSIg
-dGFyZ2V0PSJfYmxhbmsiPmRhbmllbC5hbGV4YW5kcnV4LmlzdHJhdGVAaW50ZWwuY29tPC9hPiZn
-dDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7
-Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDYuMHB0
-O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPGRpdiBpZD0iOjRhMiI+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj5KdXN0IHdhbnQgdG8gcG9pbnQgb3V0IHRoYXQgJ3BleHBlY3Qn
-IGlzIGFuIHVudXNlZCBpbXBvcnQgaW4gYnVpbGRvcHRpb25zLnB5LiBVbnVzZWQgaW1wb3J0cyBh
-cmUgYWxzbyB1bml0dGVzdCBhbmQgbG9nZ2luZy48YnI+DQpJbnN0ZWFkIG9mIHRyeS1jYXRjaCBh
-biBpbXBvcnQgdGhhdCBpcyBub3QgdXNlZCBJIHRoaW5rIGl0J3MgYmVzdCB0byBnZXQgcmlkIG9m
-IHRoZW0uPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPlRvdGFsbHkgYWdyZWVkLiZuYnNwOyBDYW4geW91IHNlbmQgYSBx
-dWljayBwYXRjaD88bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+Um9zcyZuYnNwOzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2
-Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch b/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
+new file mode 100644
+index 0000000..255021b
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
+@@ -0,0 +1,34 @@
++From a4628a6171f393add9a2b287483ca39bb72b4dd6 Mon Sep 17 00:00:00 2001
++From: Jonathan Liu <net147@gmail.com>
++Date: Mon, 21 Sep 2015 20:23:23 +1000
++Subject: [PATCH] opkg_conf: create opkg.lock in /run instead of /var/run
++
++This avoids a "Could not unlink" warning when extracting a /var/run
++symbolic link pointing to /run from a package as it is unable to
++unlink the /var/run directory when it contains opkg.lock.
++
++This also fixes an issue where /var/run is created as a directory
++instead of a symbolic link to /run.
++
++Upstream-Status: Inappropriate [OE-Specific]
++Signed-off-by: Jonathan Liu <net147@gmail.com>
++---
++ libopkg/opkg_conf.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libopkg/opkg_conf.h b/libopkg/opkg_conf.h
++index 7bca948..5a1bc44 100644
++--- a/libopkg/opkg_conf.h
+++++ b/libopkg/opkg_conf.h
++@@ -40,7 +40,7 @@ extern "C" {
++ #define OPKG_CONF_DEFAULT_STATUS_FILE   "/var/lib/opkg/status"
++ #define OPKG_CONF_DEFAULT_CACHE_DIR     "/var/cache/opkg"
++ #define OPKG_CONF_DEFAULT_CONF_FILE_DIR "/etc/opkg"
++-#define OPKG_CONF_DEFAULT_LOCK_FILE     "/var/run/opkg.lock"
+++#define OPKG_CONF_DEFAULT_LOCK_FILE     "/run/opkg.lock"
++ 
++ /* In case the config file defines no dest */
++ #define OPKG_CONF_DEFAULT_DEST_NAME "root"
++-- 
++2.5.0
++
+diff --git a/meta/recipes-devtools/opkg/opkg_0.3.0.bb b/meta/recipes-devtools/opkg/opkg_0.3.0.bb
+index f4dbb2d..08fb62c 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.3.0.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.3.0.bb
+@@ -15,6 +15,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+            file://opkg-configure.service \
+            file://opkg.conf \
+            file://0001-opkg_archive-add-support-for-empty-compressed-files.patch \
++           file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
+ "
+ 
+ SRC_URI[md5sum] = "3412cdc71d78b98facc84b19331ec64e"
+-- 
+2.5.0
 
---_000_174AD7CFE5F468498ACCFE3FEE0EF1EB142C2921IRSMSX102gercor_--
+
