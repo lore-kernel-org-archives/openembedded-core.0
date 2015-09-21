@@ -1,32 +1,47 @@
-Return-Path: <biannm@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 436D373CBD
+Return-Path: <ian.ray@ge.com>
+X-Greylist: delayed 3534 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 21 Sep 2015 08:15:28 UTC
+Received: from mx0b-00176a03.pphosted.com (mx0b-00176a03.pphosted.com
+	[67.231.157.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 7586473243
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 05:57:24 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="100924897"
-Received: from bogon (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 21 Sep 2015 14:00:08 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t8L5v3bb015014
+	Mon, 21 Sep 2015 08:15:28 +0000 (UTC)
+Received: from pps.filterd (m0048300.ppops.net [127.0.0.1])
+	by m0048300.ppops.net-00176a03. (8.15.0.59/8.15.0.59) with SMTP id
+	t8L7G6Aa003241 for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Sep 2015 03:16:33 -0400
+Received: from cinmlip10.e2k.ad.ge.com (n165-156-000-000.static.ge.com
+	[165.156.4.1] (may be forged))
+	by m0048300.ppops.net-00176a03. with ESMTP id 1x10cnhqu2-3
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 13:57:03 +0800
-Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0181.006; Mon, 21 Sep 2015 13:57:21 +0800
-From: "Bian, Naimeng" <biannm@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [meta-oe]question about PMS
-Thread-Index: AdD0Mi/g2rqDFG1qRFehzl7ByNHUzQ==
-Date: Mon, 21 Sep 2015 05:57:20 +0000
-Message-ID: <30DC4EDFD798C94083F3E083754532CC011C204D6F@G08CNEXMBPEKD03.g08.fujitsu.local>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.31]
-MIME-Version: 1.0
-Subject: [meta-oe]question about PMS
+	Mon, 21 Sep 2015 03:16:32 -0400
+Received: from alpmlip01.e2k.ad.ge.com ([3.159.17.48])
+	by cinmlip10.e2k.ad.ge.com with ESMTP/TLS/RC4-SHA;
+	21 Sep 2015 03:16:32 -0400
+Received: from unknown (HELO clipsmtp.clients.em.health.ge.com) ([3.187.7.87])
+	by alpmlip01.e2k.ad.ge.com with ESMTP; 21 Sep 2015 03:16:30 -0400
+Received: from macaroni.clients.em.health.ge.com
+	(macaroni.clients.em.health.ge.com [3.187.18.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by clipsmtp.clients.em.health.ge.com (Postfix) with ESMTPSA id
+	5BED110BC303; Mon, 21 Sep 2015 10:11:58 +0300 (EEST)
+From: Ian Ray <ian.ray@ge.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Sep 2015 10:11:53 +0300
+Message-Id: <1442819513-20171-2-git-send-email-ian.ray@ge.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1442819513-20171-1-git-send-email-ian.ray@ge.com>
+References: <1442819513-20171-1-git-send-email-ian.ray@ge.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-09-21_04:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+	suspectscore=1
+	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
+	adjust=0 reason=mlx scancount=1 engine=8.0.1-1507310000
+	definitions=main-1509210129
+Subject: [yocto][PATCH 1/1] ptest: user-specified run-ptest script location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,21 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Sep 2015 05:57:27 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="shift_jis"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 21 Sep 2015 08:15:29 -0000
 
-SGkgYWxsDQoNCkJ5IGRlZmF1bHQsIHRoZSB2YWx1ZSBvZiBQQUNLQUdFX0FSQ0ggaXMgc2V0IHRv
-IFRVTkVfUEtHQVJDSCB3aGVuIGJ1aWxkaW5nIGZvciB0aGUgdGFyZ2V0LCANCkJVSUxEX0FSQ0gg
-d2hlbiBidWlsZGluZyBmb3IgdGhlIGJ1aWxkIGhvc3QgYW5kICIke1NES19BUkNIfS0ke1NES1BL
-R1NVRkZJWH0iIHdoZW4gYnVpbGRpbmcgZm9yIHRoZSBTREsuDQoNClNvLCB3ZSB3aWxsIGdldCB0
-aGUgbmFtZSBvZiBycG0gcGFja2FnZSBhcyB0aGUgZm9sbG93aW5nIGluIHFlbXV4ODYtNjQgYnVp
-bGQuDQogIC0gYWxsL1BLRy12ZXJza29uLmFsbC5ycG0NCiAgLSBjb3JlMl82NC9QS0ctdmVyc2lv
-bi5jb3JlMl82NC5ycG0NCiAgLSBxZW11eDg2XzY0L1BLRy12ZXJza29uLnFlbXV4ODZfNjQucnBt
-DQoNCkl0J3Mgbm90IGZyaWVuZGx5IHRvIHdvcmsgd2l0aCB5dW0uIA0KDQpXaHkgZG9uJ3Qgd2Ug
-bWFrZSBpdCBzYW1lIGFzIGRlYi1wYWNrYWdlIHdoaWNoIGl0IGdldHMgdGhlIG5hbWUgb2YgcGFj
-a2FnZSBhcyBiZWxvdy4NCiAgLSBhbGwvUEtHLXZlcnNrb24uYWxsLnJwbQ0KICAtIGNvcmUyLTY0
-L1BLRy12ZXJzaW9uLmFtZDY0LnJwbQ0KICAtIHFlbXV4ODZfNjQvUEtHLXZlcnNrb24uYW1kNjQu
-cnBtDQoNClRoYW5rcw0KIEJpYW4NCg==
+Provides a new variable, PTEST_RUN_SCRIPT_PATH, which points to a
+directory where the run-ptest script is located.  This location
+defaults to the work directory but may be overridden within a recipe
+if a package ships its own run-ptest script.
+
+Signed-off-by: Ian Ray <ian.ray@ge.com>
+---
+ meta/classes/ptest.bbclass | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+index b5f470f..7d9d0cc 100644
+--- a/meta/classes/ptest.bbclass
++++ b/meta/classes/ptest.bbclass
+@@ -3,6 +3,7 @@ DESCRIPTION_${PN}-ptest ?= "${DESCRIPTION}  \
+ This package contains a test directory ${PTEST_PATH} for package test purposes."
+ 
+ PTEST_PATH ?= "${libdir}/${PN}/ptest"
++PTEST_RUN_SCRIPT_PATH ??= "${WORKDIR}"
+ FILES_${PN}-ptest = "${PTEST_PATH}"
+ SECTION_${PN}-ptest = "devel"
+ ALLOW_EMPTY_${PN}-ptest = "1"
+@@ -37,8 +38,8 @@ do_install_ptest() {
+ }
+ 
+ do_install_ptest_base() {
+-    if [ -f ${WORKDIR}/run-ptest ]; then
+-        install -D ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/run-ptest
++    if [ -f ${PTEST_RUN_SCRIPT_PATH}/run-ptest ]; then
++        install -D ${PTEST_RUN_SCRIPT_PATH}/run-ptest ${D}${PTEST_PATH}/run-ptest
+         if grep -q install-ptest: Makefile; then
+             oe_runmake DESTDIR=${D}${PTEST_PATH} install-ptest
+         fi
+-- 
+1.8.3.1
+
 
