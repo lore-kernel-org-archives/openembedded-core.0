@@ -1,21 +1,37 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C4CE60125
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 18C9573243
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 11:36:44 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 21 Sep 2015 04:36:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,567,1437462000"; d="scan'208";a="794098923"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Sep 2015 04:36:44 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Sep 2015 14:36:42 +0300
-Message-Id: <1442835402-6187-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH] devtool: second fix for running from a different directory
+	Mon, 21 Sep 2015 12:02:47 +0000 (UTC)
+Received: by wicfx3 with SMTP id fx3so142189717wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Sep 2015 05:02:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=nWNvRKMkA0DeDlwfi21c0oxjhdqDbOYxAZg5NgaAaVI=;
+	b=Iyhq/ExKhYdN5UtNw2LFxIs4aFIqtUbl4eP+hmG5hAabhh5OKOVzBD6L1lM0kzDHzk
+	5FgX6ORNuPhOjs3rR9I9eFzjkBQaDxyrKlTjkADDKFLJftKXSbnoF5CmKgCXETaKTjX0
+	D1bqcgKLuU8LcGEjJcJYURr44NGCCUWyP28XQEFPIJJqvr2E3hl0P8Q7OMjy+2OpCYRZ
+	KU/3d5sZQrwnzZv5ASKxSrXqahaqNAIYR2tDDWs0hOGwxxnlOQpFeGxSLH5XBo2LSbs3
+	nJMZqf1Xi/V8fwSvakQsu7bkJiPp//np4Z856tWC8txo+DBn0L0yDBUb8oWl2VMAiOAF
+	bf5Q==
+X-Gm-Message-State: ALoCoQmbfWEFwDPCR+q7GYLQ9/VbHK3QS/D/C6v51vxPVu9u/eIg0ol2dr5H+i+C1DcSETQsrXqA
+X-Received: by 10.180.88.198 with SMTP id bi6mr13717935wib.75.1442836967288;
+	Mon, 21 Sep 2015 05:02:47 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.27.77.212 with HTTP; Mon, 21 Sep 2015 05:02:17 -0700 (PDT)
+In-Reply-To: <1442833766-16676-1-git-send-email-net147@gmail.com>
+References: <1442833766-16676-1-git-send-email-net147@gmail.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Mon, 21 Sep 2015 15:02:17 +0300
+Message-ID: <CAHiDW_EC9LGaxGA7b9=K4kH5iEsw1XrZ0Y2ngs0p-EG0_LN7gg@mail.gmail.com>
+To: Jonathan Liu <net147@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] opkg: create opkg.lock in /run instead of /var/run
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,181 +44,224 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Sep 2015 11:36:47 -0000
+X-List-Received-Date: Mon, 21 Sep 2015 12:02:48 -0000
+Content-Type: multipart/alternative; boundary=f46d0443040ce78ae3052040a80b
 
-Do not change change current working directory permanently, but, only
-for the duration of tinfoil initialization instead. The previous fix
-caused very unintuitive behavior where using relative paths were solved
-with respect to the builddir instead of the current working directory.
-E.g. calling "devtool extract zlib ./zlib" would always create create
-srctree in ${TOPDIR}/zlib, independent of the users cwd.
+--f46d0443040ce78ae3052040a80b
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- scripts/devtool                    | 5 +----
- scripts/lib/devtool/__init__.py    | 6 +++++-
- scripts/lib/devtool/build-image.py | 6 +++---
- scripts/lib/devtool/deploy.py      | 2 +-
- scripts/lib/devtool/package.py     | 2 +-
- scripts/lib/devtool/standard.py    | 8 ++++----
- scripts/lib/devtool/upgrade.py     | 2 +-
- 7 files changed, 16 insertions(+), 15 deletions(-)
+On 21 September 2015 at 14:09, Jonathan Liu <net147@gmail.com> wrote:
 
-diff --git a/scripts/devtool b/scripts/devtool
-index 87df951..e4d9db3 100755
---- a/scripts/devtool
-+++ b/scripts/devtool
-@@ -221,9 +221,6 @@ def main():
-     if not config.read():
-         return -1
- 
--    # We need to be in this directory or we won't be able to initialise tinfoil
--    os.chdir(basepath)
--
-     bitbake_subdir = config.get('General', 'bitbake_subdir', '')
-     if bitbake_subdir:
-         # Normally set for use within the SDK
-@@ -244,7 +241,7 @@ def main():
-     scriptutils.logger_setup_color(logger, global_args.color)
- 
-     if global_args.bbpath is None:
--        tinfoil = setup_tinfoil(config_only=True)
-+        tinfoil = setup_tinfoil(config_only=True, basepath=basepath)
-         global_args.bbpath = tinfoil.config_data.getVar('BBPATH', True)
-     else:
-         tinfoil = None
-diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
-index 404d3e6..37745fd 100644
---- a/scripts/lib/devtool/__init__.py
-+++ b/scripts/lib/devtool/__init__.py
-@@ -96,9 +96,12 @@ def exec_fakeroot(d, cmd, **kwargs):
-             newenv[splitval[0]] = splitval[1]
-     return subprocess.call("%s %s" % (fakerootcmd, cmd), env=newenv, **kwargs)
- 
--def setup_tinfoil(config_only=False):
-+def setup_tinfoil(config_only=False, basepath=None):
-     """Initialize tinfoil api from bitbake"""
-     import scriptpath
-+    orig_cwd = os.path.abspath(os.curdir)
-+    if basepath:
-+        os.chdir(basepath)
-     bitbakepath = scriptpath.add_bitbake_lib_path()
-     if not bitbakepath:
-         logger.error("Unable to find bitbake by searching parent directory of this script or PATH")
-@@ -108,6 +111,7 @@ def setup_tinfoil(config_only=False):
-     tinfoil = bb.tinfoil.Tinfoil()
-     tinfoil.prepare(config_only)
-     tinfoil.logger.setLevel(logger.getEffectiveLevel())
-+    os.chdir(orig_cwd)
-     return tinfoil
- 
- def get_recipe_file(cooker, pn):
-diff --git a/scripts/lib/devtool/build-image.py b/scripts/lib/devtool/build-image.py
-index 2c01428..f1a4017 100644
---- a/scripts/lib/devtool/build-image.py
-+++ b/scripts/lib/devtool/build-image.py
-@@ -25,10 +25,10 @@ from devtool import exec_build_env_command, setup_tinfoil, parse_recipe
- 
- logger = logging.getLogger('devtool')
- 
--def _get_recipes(workspace, config):
-+def _get_recipes(workspace, config, basepath):
-     """Get list of target recipes from the workspace."""
-     result = []
--    tinfoil = setup_tinfoil()
-+    tinfoil = setup_tinfoil(basepath=basepath)
-     for recipe in workspace:
-         data = parse_recipe(config, tinfoil, recipe, True)
-         if 'class-target' in data.getVar('OVERRIDES', True).split(':'):
-@@ -51,7 +51,7 @@ def build_image(args, config, basepath, workspace):
-     if os.path.isfile(appendfile):
-         os.unlink(appendfile)
- 
--    recipes = _get_recipes(workspace, config)
-+    recipes = _get_recipes(workspace, config, basepath)
-     if recipes:
-         with open(appendfile, 'w') as afile:
-             # include selected recipes into the image
-diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-index fa93adf..5bed72b 100644
---- a/scripts/lib/devtool/deploy.py
-+++ b/scripts/lib/devtool/deploy.py
-@@ -41,7 +41,7 @@ def deploy(args, config, basepath, workspace):
-     deploy_dir = os.path.join(basepath, 'target_deploy', args.target)
-     deploy_file = os.path.join(deploy_dir, args.recipename + '.list')
- 
--    tinfoil = setup_tinfoil()
-+    tinfoil = setup_tinfoil(basepath=basepath)
-     try:
-         rd = oe.recipeutils.parse_recipe_simple(tinfoil.cooker, args.recipename, tinfoil.config_data)
-     except Exception as e:
-diff --git a/scripts/lib/devtool/package.py b/scripts/lib/devtool/package.py
-index 3a7a36b..f3ab809 100644
---- a/scripts/lib/devtool/package.py
-+++ b/scripts/lib/devtool/package.py
-@@ -36,7 +36,7 @@ def package(args, config, basepath, workspace):
- 
-     image_pkgtype = config.get('Package', 'image_pkgtype', '')
-     if not image_pkgtype:
--        tinfoil = setup_tinfoil()
-+        tinfoil = setup_tinfoil(basepath=basepath)
-         try:
-             tinfoil.prepare(config_only=True)
-             image_pkgtype = tinfoil.config_data.getVar('IMAGE_PKGTYPE', True)
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index d5900b4..aab879e 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -210,7 +210,7 @@ class BbTaskExecutor(object):
- def _prep_extract_operation(config, basepath, recipename):
-     """HACK: Ugly workaround for making sure that requirements are met when
-        trying to extract a package. Returns the tinfoil instance to be used."""
--    tinfoil = setup_tinfoil()
-+    tinfoil = setup_tinfoil(basepath=basepath)
-     rd = parse_recipe(config, tinfoil, recipename, True)
- 
-     if bb.data.inherits_class('kernel-yocto', rd):
-@@ -218,7 +218,7 @@ def _prep_extract_operation(config, basepath, recipename):
-         try:
-             stdout, _ = exec_build_env_command(config.init_path, basepath,
-                                                'bitbake kern-tools-native')
--            tinfoil = setup_tinfoil()
-+            tinfoil = setup_tinfoil(basepath=basepath)
-         except bb.process.ExecutionError as err:
-             raise DevtoolError("Failed to build kern-tools-native:\n%s" %
-                                err.stdout)
-@@ -421,7 +421,7 @@ def modify(args, config, basepath, workspace):
-     if args.extract:
-         tinfoil = _prep_extract_operation(config, basepath, args.recipename)
-     else:
--        tinfoil = setup_tinfoil()
-+        tinfoil = setup_tinfoil(basepath=basepath)
- 
-     rd = parse_recipe(config, tinfoil, args.recipename, True)
-     if not rd:
-@@ -788,7 +788,7 @@ def update_recipe(args, config, basepath, workspace):
-             raise DevtoolError('conf/layer.conf not found in bbappend '
-                                'destination layer "%s"' % args.append)
- 
--    tinfoil = setup_tinfoil()
-+    tinfoil = setup_tinfoil(basepath=basepath)
- 
-     rd = parse_recipe(config, tinfoil, args.recipename, True)
-     if not rd:
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 86443b0..e74e795 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -308,7 +308,7 @@ def upgrade(args, config, basepath, workspace):
-     if reason:
-         raise DevtoolError(reason)
- 
--    tinfoil = setup_tinfoil()
-+    tinfoil = setup_tinfoil(basepath=basepath)
- 
-     rd = parse_recipe(config, tinfoil, args.recipename, True)
-     if not rd:
--- 
-2.1.4
+> This avoids a "Could not unlink" warning when extracting a /var/run
+> symbolic link pointing to /run from the base-files package as it is
+> unable to unlink the /var/run directory when it contains opkg.lock.
+>
+> This also fixes an issue where /var/run is created as a directory
+> instead of a symbolic link to /run.
+>
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>  ...reate-opkg.lock-in-run-instead-of-var-run.patch | 34
+> ++++++++++++++++++++++
+>  meta/recipes-devtools/opkg/opkg_0.3.0.bb           |  1 +
+>  2 files changed, 35 insertions(+)
+>  create mode 100644
+> meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
+>
+> diff --git
+> a/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
+> b/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
+> new file mode 100644
+> index 0000000..255021b
+> --- /dev/null
+> +++
+> b/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
+> @@ -0,0 +1,34 @@
+> +From a4628a6171f393add9a2b287483ca39bb72b4dd6 Mon Sep 17 00:00:00 2001
+> +From: Jonathan Liu <net147@gmail.com>
+> +Date: Mon, 21 Sep 2015 20:23:23 +1000
+> +Subject: [PATCH] opkg_conf: create opkg.lock in /run instead of /var/run
+> +
+> +This avoids a "Could not unlink" warning when extracting a /var/run
+> +symbolic link pointing to /run from a package as it is unable to
+> +unlink the /var/run directory when it contains opkg.lock.
+> +
+> +This also fixes an issue where /var/run is created as a directory
+> +instead of a symbolic link to /run.
+> +
+> +Upstream-Status: Inappropriate [OE-Specific]
+>
+
+Isn't using /run for this appropriate for everyone? I would have expected
+this to be an uncontroversial change.
+
+Jussi
 
 
++Signed-off-by: Jonathan Liu <net147@gmail.com>
+> +---
+> + libopkg/opkg_conf.h | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/libopkg/opkg_conf.h b/libopkg/opkg_conf.h
+> +index 7bca948..5a1bc44 100644
+> +--- a/libopkg/opkg_conf.h
+> ++++ b/libopkg/opkg_conf.h
+> +@@ -40,7 +40,7 @@ extern "C" {
+> + #define OPKG_CONF_DEFAULT_STATUS_FILE   "/var/lib/opkg/status"
+> + #define OPKG_CONF_DEFAULT_CACHE_DIR     "/var/cache/opkg"
+> + #define OPKG_CONF_DEFAULT_CONF_FILE_DIR "/etc/opkg"
+> +-#define OPKG_CONF_DEFAULT_LOCK_FILE     "/var/run/opkg.lock"
+> ++#define OPKG_CONF_DEFAULT_LOCK_FILE     "/run/opkg.lock"
+> +
+> + /* In case the config file defines no dest */
+> + #define OPKG_CONF_DEFAULT_DEST_NAME "root"
+> +--
+> +2.5.0
+> +
+> diff --git a/meta/recipes-devtools/opkg/opkg_0.3.0.bb
+> b/meta/recipes-devtools/opkg/opkg_0.3.0.bb
+> index f4dbb2d..08fb62c 100644
+> --- a/meta/recipes-devtools/opkg/opkg_0.3.0.bb
+> +++ b/meta/recipes-devtools/opkg/opkg_0.3.0.bb
+> @@ -15,6 +15,7 @@ SRC_URI = "
+> http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+>             file://opkg-configure.service \
+>             file://opkg.conf \
+>
+> file://0001-opkg_archive-add-support-for-empty-compressed-files.patch \
+> +
+>  file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
+>  "
+>
+>  SRC_URI[md5sum] = "3412cdc71d78b98facc84b19331ec64e"
+> --
+> 2.5.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--f46d0443040ce78ae3052040a80b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
+1 September 2015 at 14:09, Jonathan Liu <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:net147@gmail.com" target=3D"_blank">net147@gmail.com</a>&gt;</span> wr=
+ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex">This avoids a &quot;Could not unlink=
+&quot; warning when extracting a /var/run<br>
+symbolic link pointing to /run from the base-files package as it is<br>
+unable to unlink the /var/run directory when it contains opkg.lock.<br>
+<br>
+This also fixes an issue where /var/run is created as a directory<br>
+instead of a symbolic link to /run.<br>
+<br>
+Signed-off-by: Jonathan Liu &lt;<a href=3D"mailto:net147@gmail.com">net147@=
+gmail.com</a>&gt;<br>
+---<br>
+=C2=A0...reate-opkg.lock-in-run-instead-of-var-run.patch | 34 +++++++++++++=
++++++++++<br>
+=C2=A0meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.3.0.bb" rel=3D"no=
+referrer" target=3D"_blank">opkg_0.3.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A02 files changed, 35 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/opkg/opkg/0001-opkg_conf-cre=
+ate-opkg.lock-in-run-instead-of-var-run.patch<br>
+<br>
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.loc=
+k-in-run-instead-of-var-run.patch b/meta/recipes-devtools/opkg/opkg/0001-op=
+kg_conf-create-opkg.lock-in-run-instead-of-var-run.patch<br>
+new file mode 100644<br>
+index 0000000..255021b<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-ru=
+n-instead-of-var-run.patch<br>
+@@ -0,0 +1,34 @@<br>
++From a4628a6171f393add9a2b287483ca39bb72b4dd6 Mon Sep 17 00:00:00 2001<br>
++From: Jonathan Liu &lt;<a href=3D"mailto:net147@gmail.com">net147@gmail.co=
+m</a>&gt;<br>
++Date: Mon, 21 Sep 2015 20:23:23 +1000<br>
++Subject: [PATCH] opkg_conf: create opkg.lock in /run instead of /var/run<b=
+r>
++<br>
++This avoids a &quot;Could not unlink&quot; warning when extracting a /var/=
+run<br>
++symbolic link pointing to /run from a package as it is unable to<br>
++unlink the /var/run directory when it contains opkg.lock.<br>
++<br>
++This also fixes an issue where /var/run is created as a directory<br>
++instead of a symbolic link to /run.<br>
++<br>
++Upstream-Status: Inappropriate [OE-Specific]<br>
+</blockquote><div><br></div><div>Isn&#39;t using /run for this appropriate =
+for everyone? I would have expected this to be an uncontroversial change.</=
+div><div><br></div><div>Jussi</div><div><br></div><div><br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex">+Signed-off-by: Jonathan Liu &lt;<a href=3D"mailto:net=
+147@gmail.com">net147@gmail.com</a>&gt;<br>
++---<br>
++ libopkg/opkg_conf.h | 2 +-<br>
++ 1 file changed, 1 insertion(+), 1 deletion(-)<br>
++<br>
++diff --git a/libopkg/opkg_conf.h b/libopkg/opkg_conf.h<br>
++index 7bca948..5a1bc44 100644<br>
++--- a/libopkg/opkg_conf.h<br>
+++++ b/libopkg/opkg_conf.h<br>
++@@ -40,7 +40,7 @@ extern &quot;C&quot; {<br>
++ #define OPKG_CONF_DEFAULT_STATUS_FILE=C2=A0 =C2=A0&quot;/var/lib/opkg/sta=
+tus&quot;<br>
++ #define OPKG_CONF_DEFAULT_CACHE_DIR=C2=A0 =C2=A0 =C2=A0&quot;/var/cache/o=
+pkg&quot;<br>
++ #define OPKG_CONF_DEFAULT_CONF_FILE_DIR &quot;/etc/opkg&quot;<br>
++-#define OPKG_CONF_DEFAULT_LOCK_FILE=C2=A0 =C2=A0 =C2=A0&quot;/var/run/opk=
+g.lock&quot;<br>
+++#define OPKG_CONF_DEFAULT_LOCK_FILE=C2=A0 =C2=A0 =C2=A0&quot;/run/opkg.lo=
+ck&quot;<br>
++<br>
++ /* In case the config file defines no dest */<br>
++ #define OPKG_CONF_DEFAULT_DEST_NAME &quot;root&quot;<br>
++--<br>
++2.5.0<br>
++<br>
+diff --git a/meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.3.0.bb" re=
+l=3D"noreferrer" target=3D"_blank">opkg_0.3.0.bb</a> b/meta/recipes-devtool=
+s/opkg/<a href=3D"http://opkg_0.3.0.bb" rel=3D"noreferrer" target=3D"_blank=
+">opkg_0.3.0.bb</a><br>
+index f4dbb2d..08fb62c 100644<br>
+--- a/meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.3.0.bb" rel=3D"no=
+referrer" target=3D"_blank">opkg_0.3.0.bb</a><br>
++++ b/meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.3.0.bb" rel=3D"no=
+referrer" target=3D"_blank">opkg_0.3.0.bb</a><br>
+@@ -15,6 +15,7 @@ SRC_URI =3D &quot;<a href=3D"http://downloads.yoctoprojec=
+t.org/releases/${BPN}/${BPN}-${PV}.tar.gz" rel=3D"noreferrer" target=3D"_bl=
+ank">http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz<=
+/a><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://opkg-configure.service \<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://opkg.conf \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-opkg_archive-add-supp=
+ort-for-empty-compressed-files.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-opkg_conf-create-opkg=
+.lock-in-run-instead-of-var-run.patch \<br>
+=C2=A0&quot;<br>
+<br>
+=C2=A0SRC_URI[md5sum] =3D &quot;3412cdc71d78b98facc84b19331ec64e&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.5.0<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</font></span></blockquote></div><br></div></div>
+
+--f46d0443040ce78ae3052040a80b--
