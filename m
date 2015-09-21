@@ -1,43 +1,35 @@
-Return-Path: <adrian.freihofer@gmail.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id B87F560053
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id E5FCE60053
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 13:53:43 +0000 (UTC)
-Received: by wicgb1 with SMTP id gb1so115902170wic.1
+	Mon, 21 Sep 2015 14:01:34 +0000 (UTC)
+Received: by wicge5 with SMTP id ge5so117370139wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 06:53:43 -0700 (PDT)
+	Mon, 21 Sep 2015 07:01:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:content-type:mime-version:content-transfer-encoding;
-	bh=MtkRMw2MRaWnDTE4lgnK7uM9sVP/v6eI2T5mokuCZAo=;
-	b=uQy9n6SMNlDYMetEqZT1BMoRPlsELXJ6VhTVk96JY+B5l1N7DHU0NpAgk1v1pTGAeH
-	zN5jXhLzIWvwwcThQPqNx5sciNYqOfNCDmhxB0GT9uRrpLqWvA0eYMzC9Dm91E5sm3ZH
-	+6otcTTtTzyurIHF+aR+CrxLay4XYuR67nna5Mb/krVgn0Wslj6qiWhY15sK/iv812h2
-	Swc0tkfflrC0XRL52E5ovsFmw1LsUARtvFvZzi0H+BEMpMfhD1lUmlZAWcRj0w+Q/eNc
-	mje0C284QjDlS30AaMoFRZGA7k68KbwM4pjN0GV02nJ/RHaf9S+Sx99T/rOwAOYW0tb3
-	Otmw==
-X-Received: by 10.180.89.101 with SMTP id bn5mr13003864wib.20.1442843623580;
-	Mon, 21 Sep 2015 06:53:43 -0700 (PDT)
-Received: from CHL500343VM.neratec.local (mail.neratec.com. [46.140.151.2])
+	h=from:to:cc:subject:date:message-id;
+	bh=rFM+32y9EjqE9wGpgObZj+JvGVcfL8yS9O7a6sGIoOQ=;
+	b=YsgIQEQ5842VqxNfFSCf1hIUgl4StM0fPlad7SxHeCk5Q1RrzQshPRYVounUxFgPsd
+	bh5TyIOZ68wSOrLlKETySp0LdjF+e0k05PNHLqGfaGvDcE8BQAQJ16JGc7cHlXa98reD
+	7PFw6hihKT32Qy/gTSxOEEK0F/NfONZ1zDtyCxnoDHFSjuBe659lq8I8ENWwLZpCfxsN
+	3lL+e70mPi4OXcGDpkagfM5Lq6LbLRsoVKkZUANfjkdRxdWnVEEd4htgySpg9MjDbppm
+	w821YSUiq+TTOlPzt9cbnwAdUyrfU1kdgWoBmeP24tBWo0gGmXTsKqJg6CwoeLrJJt+y
+	GH3w==
+X-Received: by 10.180.182.107 with SMTP id ed11mr13349490wic.52.1442844093989; 
+	Mon, 21 Sep 2015 07:01:33 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	ej5sm24262418wjd.22.2015.09.21.06.53.42
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 21 Sep 2015 06:53:42 -0700 (PDT)
-Message-ID: <1442843621.4766.124.camel@gmail.com>
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-Date: Mon, 21 Sep 2015 15:53:41 +0200
-In-Reply-To: <55FFFCBE.7030103@gmail.com>
-References: <1442834624-25775-1-git-send-email-net147@gmail.com>
-	<CAJTo0LYjGD_u+Lj7DpMfGYXx55jbg1aQr_i06=kCQOWyJuu95g@mail.gmail.com>
-	<55FFF8A7.1090809@gmail.com>
-	<CAB3asfgbPBqEJ9YWmGahb7U28ZNrAJf+8MA7WxQictFxVdqgfw@mail.gmail.com>
-	<55FFFCBE.7030103@gmail.com>
-X-Mailer: Evolution 3.16.5 (3.16.5-3.fc22) 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: disable problematic GCC 5.2 optimizations
+	kb5sm24309394wjc.17.2015.09.21.07.01.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 21 Sep 2015 07:01:32 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Sep 2015 16:01:36 +0200
+Message-Id: <1442844096-27847-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.5.1
+Subject: [PATCH] webkitgtk: add REQUIRED_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,51 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Sep 2015 13:53:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Sep 2015 14:01:37 -0000
 
-Hi Jonathan
+* original webkit-gtk_1.8.3.bb recipe already had this, I don't know
+  why it was removed when upgrading to 2.8.5
 
-Your patch is fine on beaglebone black. At least it is possible to
-login. Thank you.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.8.5.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Regards,
-Adrian
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
+index 82d670d..859d0cb 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
+@@ -18,7 +18,10 @@ SRC_URI = "\
+ SRC_URI[md5sum] = "df79991848a5096d3a75289ebce547ae"
+ SRC_URI[sha256sum] = "3d1f0c534935f43fd74df90f2648fcee672d60f1f57a30fa557a77891ae04d20"
+ 
+-inherit cmake lib_package pkgconfig perlnative pythonnative
++inherit cmake lib_package pkgconfig perlnative pythonnative distro_features_check
++
++# depends on libxt
++REQUIRED_DISTRO_FEATURES = "x11"
+ 
+ DEPENDS = "zlib enchant libsoup-2.4 curl libxml2 cairo libxslt libxt libidn gnutls \
+            gtk+ gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
+-- 
+2.5.1
 
-On Mon, 2015-09-21 at 22:49 +1000, Jonathan Liu wrote:
-> Hi Adrian,
-> 
-> On 21/09/2015 10:45 PM, Adrian Freihofer wrote:
-> > On Beaglebone-black Systemd 215 does not boot if compiled with -O2.
-> > Compiling with -O1 works.
-> > 2015-09-21 14:31 GMT+02:00 Jonathan Liu <net147@gmail.com>:
-> > > On 21/09/2015 10:23 PM, Burton, Ross wrote:
-> > > > 
-> > > > On 21 September 2015 at 12:23, Jonathan Liu <net147@gmail.com>
-> > > > wrote:
-> > > > > +FULL_OPTIMIZATION += "-fno-schedule-insns -fno-schedule
-> > > > > -insns2"
-> > > > > 
-> > > > Are these bugs with the gcc optimisations or the systemd source
-> > > > code, and if its gcc's fault are the problematic optimisations
-> > > > specific to a particular architecture (such as ARM)?  Just
-> > > > wondering if we can use overrides to only change the
-> > > > optimisations where they're a problem.
-> > > > 
-> > > > Ross
-> > > I am not sure how to isolate if it's an issue in the systemd
-> > > source code but the issue is not present when using GCC 4.9.
-> > > Haven't checked if this is occuring on other architectures. Any
-> > > feedback whether this occurs on other platforms (Raspberry Pi 2
-> > > is ARMv7) is welcome.
-> > > 
-> > > Regards,
-> > > Jonathan
-> > > 
-> Can you try the patch instead of changing -O2 to -O1 to see if it
-> fixes booting with systemd?
-> 
-> Regards,
-> Jonathan
 
