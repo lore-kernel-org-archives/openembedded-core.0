@@ -1,37 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 082C273243
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 35E9073243
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 20:52:39 +0000 (UTC)
-Received: by qgt47 with SMTP id 47so4481810qgt.2
+	Tue, 22 Sep 2015 20:52:49 +0000 (UTC)
+Received: by igbkq10 with SMTP id kq10so88591670igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 13:52:39 -0700 (PDT)
+	Tue, 22 Sep 2015 13:52:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc:content-type;
-	bh=CFK5gMadpHQH1q0+Fz7zD4bySw4UDZABIiE6qUZAaJ8=;
-	b=mIR0oHV1JAGaXjrHy8v7pY1bE4zPu+wCuIbP4/0yZG5y/+xefF3Sdv4dI0mXZclCxg
-	UHH7j5z+uwTdcCPyDfsdtP+UMp4HEVG7unEhzZKNafndUcDYQV8xasRgXg5cl6X/esKA
-	EJsAgGISEdoC/orN1w4/79q+TFKSAfvr6+SzOrF6KmYKsI46WMt82wDmUk1x86qA1ujm
-	rVoOUYrp+fIOr8b0DFwm2mxynrb94oyTrKqcvLmx2lOzy5Jf4Zi+WLBGPVD7pFVpEYgI
-	OaKuRC5d/1X/JxQasonkK6y+tM3pV45+DYWT1+TXU6s8jldf5WtC5f6vOMmOl3xCFuYu
-	bAwg==
-X-Gm-Message-State: ALoCoQldjKz36kyVeTX72i3dmmKfeOm6REXX+vWeI2if+hoMfD0kJU/xNuKlk7djs50ONQ1KMpmB
-X-Received: by 10.140.109.74 with SMTP id k68mr15933084qgf.77.1442955159057;
-	Tue, 22 Sep 2015 13:52:39 -0700 (PDT)
+	bh=mPHe57zFFsJaheUe8Nv3ccKVTaRhsG/zo1mF+KlIaO8=;
+	b=hXRBZnULuVBumGm1hYXv5kvupYOuZpT3PjqXvfjvjdDvi8rSOkn83Eyd9S6Oxi1Dum
+	MzqrpcWAmjncl0MouwTcpULLWj1gcd9Zk8QPKgG3vyVYuJm2DnuCU/GcY9y/4FU9xwCS
+	azADIHSDMuE8JQjt21r/UdCpe12wRR68cirphTdeKjckVwcV7VoGPw0SXfX1oLIAJLyi
+	Uk1madr98WlSBcGlOhZOjxfUJ82GSLnoqX9dE8UFYUXc9CYd5Iaju4QtQY85hjlw6/jx
+	xg9RVRUYJ1OLzVHeau0JuG1yw3TN2lyPBP2ntxqrgtQhv/Yk1hy3TS5VNDKWdGb4V86l
+	9Hkg==
+X-Gm-Message-State: ALoCoQkGrE1fRdD1DhkKNLZ+jNyDxRw7hBy35Fmjx9Ux3r96umHDUqHfrJXArGwtnfZW3BAptZE8
+X-Received: by 10.50.143.10 with SMTP id sa10mr19547854igb.66.1442955169675;
+	Tue, 22 Sep 2015 13:52:49 -0700 (PDT)
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com.
+	[209.85.213.176])
+	by smtp.gmail.com with ESMTPSA id x1sm1806843igl.14.2015.09.22.13.52.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 Sep 2015 13:52:48 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by igcpb10 with SMTP id pb10so107590144igc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Sep 2015 13:52:47 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Tue, 22 Sep 2015 13:52:19 -0700 (PDT)
-In-Reply-To: <20150922173040.GC2388@jama>
-References: <1442931113-25056-1-git-send-email-ross.burton@intel.com>
-	<20150922173040.GC2388@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 22 Sep 2015 21:52:19 +0100
-Message-ID: <CAJTo0LbXsG0TzgWeN5xsuTWdxO8P=8kF5uqtpW+ZizKuo-srGQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH] sstate: run recipe-provided hooks outside of ${B}
+X-Received: by 10.50.138.72 with SMTP id qo8mr20520252igb.46.1442955167704;
+	Tue, 22 Sep 2015 13:52:47 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Tue, 22 Sep 2015 13:52:47 -0700 (PDT)
+In-Reply-To: <5601A857.7060404@mlbassoc.com>
+References: <560173B5.1000408@mlbassoc.com>
+	<CAP9ODKpcr+YgGsvnRrsxy9Z2xsN5+KP4KiP-UvYij5eyN+1V1g@mail.gmail.com>
+	<56019A6B.3070206@mlbassoc.com>
+	<CAP9ODKpQDhCL9QbACgMRzV=N_Z7476a1_OxkhV7z0O7PfVd_rQ@mail.gmail.com>
+	<5601A857.7060404@mlbassoc.com>
+Date: Tue, 22 Sep 2015 17:52:47 -0300
+Message-ID: <CAP9ODKqdB3Lf4fVtJ=Oy1-OZu5-3PY0Vgsz3JOsyiZW=7TDszg@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Error building gdk-pixbuf-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,47 +61,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Sep 2015 20:52:41 -0000
-Content-Type: multipart/alternative; boundary=001a1139af24aef03705205c2d4e
-
---001a1139af24aef03705205c2d4e
+X-List-Received-Date: Tue, 22 Sep 2015 20:52:50 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 22 September 2015 at 18:30, Martin Jansa <martin.jansa@gmail.com> wrote:
+Hello Gary,
 
-> No error in first 126 iterations of:
-> for i in `seq -w 1 1000`; do bitbake -c cleansstate perf; bitbake -c build
-> -f perf 2>&1 | tee log.perf.$i; done
+On Tue, Sep 22, 2015 at 4:13 PM, Gary Thomas <gary@mlbassoc.com> wrote:
+> It seems to be a host [contamination?] issue.  I get this error
+> on a build host that does not have libharfbuzz.so installed.  On
+> a build host which does, there is no error.
 >
-> so it's good improvement, thanks!
->
-> Please get this merged in fido and dizzy as well.
->
+> Note that it is only for the native package, so perhaps that's
+> where the dependency needs to be updated/checked (hence my original
+> query)
 
-Just found a problem in it so I'll be sending a v2, but thanks for the
-testing.
+Thanks for helping to reproduce it however it always work for me.
 
-Ross
+One thing I noticed is that the svg pixbuf backend is provided by
+librsvg and the error seems to come from it. However, looking at the
+dependencies it seems the harfbuzz dependency comes from 'pango'.
 
---001a1139af24aef03705205c2d4e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+I am clueless about how to debug it. Richard, any hints?
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 September 2015 at 18:30, Martin Jansa <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1sc" c=
-lass=3D"a3s" style=3D"overflow:hidden">No error in first 126 iterations of:=
-<br>
-for i in `seq -w 1 1000`; do bitbake -c cleansstate perf; bitbake -c build =
--f perf 2&gt;&amp;1 | tee log.perf.$i; done<br>
-<br>
-so it&#39;s good improvement, thanks!<br>
-<br>
-Please get this merged in fido and dizzy as well.</div></blockquote></div><=
-br>Just found a problem in it so I&#39;ll be sending a v2, but thanks for t=
-he testing.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra">Ross</div></div>
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---001a1139af24aef03705205c2d4e--
