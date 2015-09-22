@@ -1,24 +1,30 @@
 Return-Path: <marex@denx.de>
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 7041973CF2
+	by mail.openembedded.org (Postfix) with ESMTP id EF65573CF2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 00:05:54 +0000 (UTC)
+	Tue, 22 Sep 2015 00:06:53 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3nKjb60PKrz3hjQL;
-	Tue, 22 Sep 2015 02:05:53 +0200 (CEST)
-X-Auth-Info: BcWcp1zd31MCQDwVWaBxXNoDF2pLXWbR8OTo3UgZKIk=
-Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3nKjb52m33zvdWt;
-	Tue, 22 Sep 2015 02:05:53 +0200 (CEST)
+	by mail-out.m-online.net (Postfix) with ESMTP id 3nKjcD63YSz3hjQN;
+	Tue, 22 Sep 2015 02:06:52 +0200 (CEST)
+X-Auth-Info: RHvsD2tQB3ZmtuPDeJoOJS6OWlhUlnAXM1fhx4GwoPA=
+Received: from chi.localnet (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3nKjcD4JC4zvhTZ; 
+	Tue, 22 Sep 2015 02:06:52 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Sep 2015 02:05:49 +0200
-Message-Id: <1442880349-6206-1-git-send-email-marex@denx.de>
-X-Mailer: git-send-email 2.1.4
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Sep 2015 02:06:52 +0200
+User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
+References: <1442702597-5619-1-git-send-email-marex@denx.de>
+	<201509211249.34740.marex@denx.de>
+	<CAJTo0LbcO+Wz8=GwYKbM+6WiVaeOVqZo6iPo+gpErg1V0NH_LQ@mail.gmail.com>
 In-Reply-To: <CAJTo0LbcO+Wz8=GwYKbM+6WiVaeOVqZo6iPo+gpErg1V0NH_LQ@mail.gmail.com>
-References: <CAJTo0LbcO+Wz8=GwYKbM+6WiVaeOVqZo6iPo+gpErg1V0NH_LQ@mail.gmail.com>
-Cc: Marek Vasut <marex@denx.de>, lftan@altera.com, waltergoossens@home.nl
-Subject: [PATCH] openssl: Add mapping for nios2
+MIME-Version: 1.0
+Message-Id: <201509220206.52454.marex@denx.de>
+Cc: lftan@altera.com, waltergoossens@home.nl,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/8] openssl: Add nios2 configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +37,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Sep 2015 00:05:57 -0000
+X-List-Received-Date: Tue, 22 Sep 2015 00:06:54 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Map nios2 architecture to linux-generic32 target.
+On Monday, September 21, 2015 at 02:38:52 PM, Burton, Ross wrote:
+> On 21 September 2015 at 11:49, Marek Vasut <marex@denx.de> wrote:
+> > This approach [1] is applicable to nios2 just fine, so I'll go with the
+> > same. Can the rest of the patches here be applied, so I don't have to
+> > repost them please ?
+> 
+> Absolutely, the rest of the series is queued in ross/mut already.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
----
- meta/recipes-connectivity/openssl/openssl.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks! I just sent the OpenSSL patch in reply to this mail, it's build
+tested too.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 53dcfd9..8af423f 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -118,7 +118,7 @@ do_configure () {
-         linux-*-mips64)
-                target=linux-mips
-                 ;;
--	linux-microblaze*)
-+	linux-microblaze*|linux-nios2*)
- 		target=linux-generic32
- 		;;
- 	linux-powerpc)
--- 
-2.1.4
-
+Best regards,
+Marek Vasut
 
