@@ -1,38 +1,42 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-vk0-f51.google.com (mail-vk0-f51.google.com
-	[209.85.213.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 537A97391A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 337DB73243
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 23:01:07 +0000 (UTC)
-Received: by vkhf67 with SMTP id f67so16825858vkh.1
+	Tue, 22 Sep 2015 23:23:32 +0000 (UTC)
+Received: by padhy16 with SMTP id hy16so22341652pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 16:01:07 -0700 (PDT)
+	Tue, 22 Sep 2015 16:23:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=jSwepc8+anHukFuT5GfNAtZ2/TYNkXW5MBAhPiocz6c=;
-	b=pc0NRMFYiEdgamscvwHtQBjHptbXisiebJ3T7WJKwDAV18hpxR7enoRrh7IcVEVydf
-	1mdb4z3rK6ARV9kdoo7cnJvArF1zyaKyRtARFCyL0rjKFIry0cGXnkXJ5GXNIHsBn4up
-	TRcvSkyuvJVJYoMutxfimYQfTmCV6d0ISgb5NP9GRqrPG+I07fGWLOJa/sdmemF2YDI+
-	t68LOM/jWQ8CVaUdZ/8DMqSkoLMcy4Z+o3QO8sb9Gu07AazIBEe8K7C5VNMW0OEim9DO
-	tH8h45dZeB5URQP1pMzoz0Pn/jPi5V+WcJo/xu1Z0/rbhyfuIvQ0pNSO/p2t/H7xqbVA
-	fXUQ==
-X-Received: by 10.31.180.79 with SMTP id d76mr17324445vkf.111.1442962867022;
-	Tue, 22 Sep 2015 16:01:07 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.31.203.2 with HTTP; Tue, 22 Sep 2015 16:00:47 -0700 (PDT)
-In-Reply-To: <40d0326d6ea38f66b3dae92052df84111bb35763.1442934838.git.paul.eggleton@linux.intel.com>
-References: <cover.1442934838.git.paul.eggleton@linux.intel.com>
-	<40d0326d6ea38f66b3dae92052df84111bb35763.1442934838.git.paul.eggleton@linux.intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 22 Sep 2015 16:00:47 -0700
-X-Google-Sender-Auth: KBPU9RG88z3tN5rPmfA5e-5Puhg
-Message-ID: <CABcZANkhQnYQ2GzKxu9nMA8mk8TpAMmMFV-w-szi0MnN=JH+tQ@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/27] lib/oe/recipeutils: properly split unexpanded variable values
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=Nj8ioikHtkJv3KiFG/a5dKsqIVdoURKvoXyI3XWtvQc=;
+	b=A802lRBTrLKFXszwtsl/glMrj7z0OiclbCvipJXv0wdSC/RqObFrFKkQK6bDT7sg92
+	yUqyjAJuu3DrmCHoL3v6purAFrLUhku1eQ0bjby+0TYf3c/pkYIwVhT1pBEUVCls4YcB
+	D859crwco7hUEY+eJQbcg0jhY87GxXFbt2U1aW/51TPrE8hAsaabH5TBrc7XycSt+o8T
+	cX8HG/S2nQ5uW9lEUPrMqcGbZgRN/uk49N/cfcBB0sggRLjqm7FdoifdPc1vnOasMoyI
+	7qRYxj0Je+NImeeHeigmD5Zfr3j9BchnFbfBsac6tB0cv+UHZQXN2ntEdqTTBmP88CWO
+	grsg==
+X-Received: by 10.66.141.238 with SMTP id rr14mr9402782pab.15.1442964212719;
+	Tue, 22 Sep 2015 16:23:32 -0700 (PDT)
+Received: from [172.16.4.54] ([70.35.39.2]) by smtp.gmail.com with ESMTPSA id
+	zf5sm4286302pbc.36.2015.09.22.16.23.30
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 22 Sep 2015 16:23:31 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <5601A857.7060404@mlbassoc.com>
+Date: Tue, 22 Sep 2015 16:23:26 -0700
+Message-Id: <03ABB337-6070-4E3E-9D23-151E454481D4@gmail.com>
+References: <560173B5.1000408@mlbassoc.com>
+	<CAP9ODKpcr+YgGsvnRrsxy9Z2xsN5+KP4KiP-UvYij5eyN+1V1g@mail.gmail.com>
+	<56019A6B.3070206@mlbassoc.com>
+	<CAP9ODKpQDhCL9QbACgMRzV=N_Z7476a1_OxkhV7z0O7PfVd_rQ@mail.gmail.com>
+	<5601A857.7060404@mlbassoc.com>
+To: Gary Thomas <gary@mlbassoc.com>
+X-Mailer: Apple Mail (2.3094)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Error building gdk-pixbuf-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,92 +49,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Sep 2015 23:01:14 -0000
-Content-Type: multipart/alternative; boundary=001a11438ade1cf09205205df99c
-
---001a11438ade1cf09205205df99c
-Content-Type: text/plain; charset=UTF-8
-
-On Tue, Sep 22, 2015 at 9:21 AM, Paul Eggleton <
-paul.eggleton@linux.intel.com> wrote:
-
-> Variables such as SRC_URI which are space-separated may also contain
-> Python expressions (${@...}) which themselves contain spaces that
-> shouldn't be split when splitting the value into items. In order to
-> ensure this we need to use a custom splitting function instead of just
-> string.split().
->
-> This issue could be seen when doing "devtool modify sudo", adding a
-> commit to the resulting source repository then "devtool update-recipe" -
-> the Python expression in SRC_URI was being unnecessarily broken onto
-> multiple lines.
->
-> Fixes [YOCTO #8046].
->
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
->
-
-This is interesting, I recently had a need for a split like that too. I had
-written a prototype class which automatically disables all packageconfigs
-which introduce optional dependencies, to see how much it would reduce the
-dependencies, and wanted to ignore bits dependent on DISTRO_FEATURES, so
-wanted to ignore all inline python.
-https://gist.github.com/kergoth/2c556d9e34cbcd03cb82#file-packageconfig-backdel-bbclass-L107-L122
-is my version of it. Possibly overly complex, since my version produces an
-extremely lightweight parse tree (list-based) for nested references, and
-then has to flatten it back out. I found it interesting that we both had a
-need for this sort of functionality -- perhaps a split function along these
-lines would be of use in one of the oe python package modules.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a11438ade1cf09205205df99c
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Tue, 22 Sep 2015 23:23:35 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, Sep 22, 2015 at 9:21 AM, Paul Eggleton <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@=
-linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:r=
-gb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":s5" c=
-lass=3D"" style=3D"overflow:hidden">Variables such as SRC_URI which are spa=
-ce-separated may also contain<br>
-Python expressions (${@...}) which themselves contain spaces that<br>
-shouldn&#39;t be split when splitting the value into items. In order to<br>
-ensure this we need to use a custom splitting function instead of just<br>
-string.split().<br>
-<br>
-This issue could be seen when doing &quot;devtool modify sudo&quot;, adding=
- a<br>
-commit to the resulting source repository then &quot;devtool update-recipe&=
-quot; -<br>
-the Python expression in SRC_URI was being unnecessarily broken onto<br>
-multiple lines.<br>
-<br>
-Fixes [YOCTO #8046].<br>
-<br>
-Signed-off-by: Paul Eggleton &lt;<a href=3D"mailto:paul.eggleton@linux.inte=
-l.com">paul.eggleton@linux.intel.com</a>&gt;</div></blockquote></div><br>Th=
-is is interesting, I recently had a need for a split like that too. I had w=
-ritten a prototype class which automatically disables all packageconfigs wh=
-ich introduce optional dependencies, to see how much it would reduce the de=
-pendencies, and wanted to ignore bits dependent on DISTRO_FEATURES, so want=
-ed to ignore all inline python.=C2=A0<a href=3D"https://gist.github.com/ker=
-goth/2c556d9e34cbcd03cb82#file-packageconfig-backdel-bbclass-L107-L122">htt=
-ps://gist.github.com/kergoth/2c556d9e34cbcd03cb82#file-packageconfig-backde=
-l-bbclass-L107-L122</a> is my version of it. Possibly overly complex, since=
- my version produces an extremely lightweight parse tree (list-based) for n=
-ested references, and then has to flatten it back out. I found it interesti=
-ng that we both had a need for this sort of functionality -- perhaps a spli=
-t function along these lines would be of use in one of the oe python packag=
-e modules.<br>-- <br><div class=3D"gmail_signature">Christopher Larson<br>c=
-larson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br=
->Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
-</div></div>
 
---001a11438ade1cf09205205df99c--
+> On Sep 22, 2015, at 12:13 PM, Gary Thomas <gary@mlbassoc.com> wrote:
+>=20
+> On 2015-09-22 12:38, Otavio Salvador wrote:
+>> On Tue, Sep 22, 2015 at 3:14 PM, Gary Thomas <gary@mlbassoc.com> =
+wrote:
+>>> On 2015-09-22 12:05, Otavio Salvador wrote:
+>>>>=20
+>>>> On Tue, Sep 22, 2015 at 12:28 PM, Gary Thomas <gary@mlbassoc.com> =
+wrote:
+>>>>>=20
+>>>>> When building gdk-pixbuf-native, I got this error:
+>>>>> | DEBUG: Staging files from
+>>>>>=20
+>>>>> =
+/home/local/rpi2_2015-03-05/tmp/work/i686-linux/gdk-pixbuf-native/2.30.8-r=
+0/sysroot-destdir/home/local/rpi2_2015-03-05/tmp/sysroots/i686-linux
+>>>>> to /home/local/rpi2_2015-03-05/tmp/sysroots/i686-linux
+>>>>> | DEBUG: Executing shell function pixbufcache_sstate_postinst
+>>>>> | g_module_open() failed for
+>>>>>=20
+>>>>> =
+/home/local/rpi2_2015-03-05/tmp/sysroots/i686-linux/usr/lib/gdk-pixbuf-2.0=
+/2.10.0/loaders/libpixbufloader-svg.so:
+>>>>> libharfbuzz.so.0: cannot open shared object file: No such file or
+>>>>> directory
+>>>>>=20
+>>>>> It seems that [at least] gdk-pixbuf-native needs harfbuzz-native
+>>>>> I looked at the recipe, but it's not 100% obvious to me how to
+>>>>> add this, especially w.r.t. all of the PACKAGECONFIG options.
+>>>>>=20
+>>>>> Guidance?
+>>>>=20
+>>>>=20
+>>>> I had similar failures[1] at O.S. Systems autobuilder and =
+rebuilding
+>>>> made it work.
+>>>>=20
+>>>> 1.
+>>>> =
+http://ci.ossystems.com.br/view/FSL%20Community%20BSP%20-%20master-next/jo=
+b/fsl-community-bsp-master-next_wayland-imx28evk/827/console
+>>>>=20
+>>>> The builds are now succeeding but I did no change to fix it. This
+>>>> seems like a race for me.
+>>>>=20
+>>>> I tried very hard to reproduce the issue locally at my laptop =
+without
+>>>> success. Do you can reliably reproduce it?
+>>>>=20
+>>>=20
+>>> Yes, I had a full tree and this rebuild was kicked off by a =
+meta-data
+>>> update.  Once it happened, I tried this:
+>>>   % bitbake harfbuzz-native gdk-pixbuf-native -c cleansstate
+>>>   % bitbake gdk-pixbuf-native
+>>> failed.  However the manual sequence
+>>>   % bitbake harfbuzz-native
+>>>   % bitbake gdk-pixbuf-native
+>>> succeeded.
+>>=20
+>> I still do not reproduce it :-(
+>>=20
+>=20
+> It seems to be a host [contamination?] issue.  I get this error
+> on a build host that does not have libharfbuzz.so installed.  On
+> a build host which does, there is no error.
+>=20
+
+its normal for build to use libraries from build host for native tools. =
+If we want to abstract that
+from host deps then creating a dependency on package-native is the way
+
+> Note that it is only for the native package, so perhaps that's
+> where the dependency needs to be updated/checked (hence my original
+> query)
+>=20
+> --=20
+> ------------------------------------------------------------
+> Gary Thomas                 |  Consulting for the
+> MLB Associates              |    Embedded world
+> ------------------------------------------------------------
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
