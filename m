@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 1195876F9D
+	by mail.openembedded.org (Postfix) with ESMTP id 1FBD876FF6
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 22 Sep 2015 16:22:12 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 22 Sep 2015 09:21:53 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 22 Sep 2015 09:21:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,573,1437462000"; d="scan'208";a="810520229"
+X-IronPort-AV: E=Sophos;i="5.17,573,1437462000"; d="scan'208";a="810520234"
 Received: from therrane-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.19.23])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Sep 2015 09:21:52 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 22 Sep 2015 09:21:53 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Sep 2015 17:21:18 +0100
-Message-Id: <443ff1a82529214c534dbd078da86a77e2ae91d6.1442934838.git.paul.eggleton@linux.intel.com>
+Date: Tue, 22 Sep 2015 17:21:19 +0100
+Message-Id: <5a4893dd10412246941f5e25907aeed38485b8be.1442934838.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1442934838.git.paul.eggleton@linux.intel.com>
 References: <cover.1442934838.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1442934838.git.paul.eggleton@linux.intel.com>
 References: <cover.1442934838.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 04/27] classes/populate_sdk_ext: drop work-config.inc
+Subject: [PATCH 05/27] toolchain-shar-extract.sh: show progress when extracting SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,54 +34,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 22 Sep 2015 16:22:12 -0000
 
-This is not actually used for anything - I thought that we would need to
-use it within devtool to set global configuration, but we're able to do
-everything we need within the bbappends it creates, which also saves on
-parse time. If we're not going to use work-config.inc let's just drop it
-completely.
+Tar has supported a --checkpoint option since version 1.15.91, so it
+should be safe to use here to print dots showing that it's still doing
+something (technically it's not really progress unless you know how many
+dots it's going to print, which even it doesn't know at the start, but
+it's better than nothing).
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 5 -----
- scripts/lib/devtool/sdk.py            | 2 +-
- 2 files changed, 1 insertion(+), 6 deletions(-)
+ meta/files/toolchain-shar-extract.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 947ec74..c244d93 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -165,7 +165,6 @@ python copy_buildsystem () {
-                 f.write(line.strip() + '\n')
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index cd0a547..6891279 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -163,7 +163,7 @@ fi
+ payload_offset=$(($(grep -na -m1 "^MARKER:$" $0|cut -d':' -f1) + 1))
  
-         f.write('require conf/locked-sigs.inc\n')
--        f.write('require conf/work-config.inc\n')
+ printf "Extracting SDK..."
+-tail -n +$payload_offset $0| $SUDO_EXEC tar xj -C $target_sdk_dir
++tail -n +$payload_offset $0| $SUDO_EXEC tar xj -C $target_sdk_dir --checkpoint=.2500
+ echo "done"
  
-     sigfile = d.getVar('WORKDIR', True) + '/locked-sigs.inc'
-     oe.copy_buildsystem.generate_locked_sigs(sigfile, d)
-@@ -185,10 +184,6 @@ python copy_buildsystem () {
-                                                    d.getVar('SSTATE_DIR', True),
-                                                    sstate_out, d,
-                                                    fixedlsbstring)
--
--    # Create a dummy config file for additional settings
--    with open(baseoutpath + '/conf/work-config.inc', 'w') as f:
--        pass
- }
- 
- def extsdk_get_buildtools_filename(d):
-diff --git a/scripts/lib/devtool/sdk.py b/scripts/lib/devtool/sdk.py
-index 2f416b3..7a842af 100644
---- a/scripts/lib/devtool/sdk.py
-+++ b/scripts/lib/devtool/sdk.py
-@@ -170,7 +170,7 @@ def sdk_update(args, config, basepath, workspace):
-             logger.error("Updating meta data via git failed")
-             return ret
-         logger.debug("Updating conf files ...")
--        conf_files = ['local.conf', 'bblayers.conf', 'devtool.conf', 'work-config.inc', 'locked-sigs.inc']
-+        conf_files = ['local.conf', 'bblayers.conf', 'devtool.conf', 'locked-sigs.inc']
-         for conf in conf_files:
-             ret = subprocess.call("wget -q -O - %s/conf/%s > conf/%s" % (args.updateserver, conf, conf), shell=True)
-             if ret != 0:
+ printf "Setting it up..."
 -- 
 2.1.0
 
