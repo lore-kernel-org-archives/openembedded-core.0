@@ -1,48 +1,37 @@
-Return-Path: <lee.nipper@gmail.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 230C973243
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 082C273243
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 20:25:31 +0000 (UTC)
-Received: by qgez77 with SMTP id z77so3905130qge.1
+	Tue, 22 Sep 2015 20:52:39 +0000 (UTC)
+Received: by qgt47 with SMTP id 47so4481810qgt.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 13:25:31 -0700 (PDT)
+	Tue, 22 Sep 2015 13:52:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=QmBpkXMWBWYAK0xQuFi+1I/YalNEOi3zSX5sC0sBLjg=;
-	b=QnU69L4Ctpsd7VvTqpYYSL2NtbC26cE4BpReRvZqok6Brs5gw5x/mK/1m9DERam/D2
-	88K5lyrMsbvf86LMRYUOaJcaEF3Jgxx8VTdkm/a/MeiMW1gq745E5A8SaTEId0tRGQqJ
-	LUgmSuMGjQHyreOPaRkiw+AueQG15Ve3NX7cYtBSzEGn2DBuZJKkIAshMDed6vyVjLzQ
-	geRnQpOVNSAUja4QBEwAcK2oluI8LsztO0dKX6gZaBgZXO68wqF/j4xOOok1Ng89D0pr
-	sdnyRGUAsdo7geCsWhyuXIulo+tngHJUH0KPqUaadRu3S1VET0W9axeJn2kccmJQB6EZ
-	luiQ==
-X-Received: by 10.140.233.137 with SMTP id e131mr33854544qhc.37.1442953531556; 
-	Tue, 22 Sep 2015 13:25:31 -0700 (PDT)
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com.
-	[209.85.220.179])
-	by smtp.gmail.com with ESMTPSA id 103sm1268140qkx.7.2015.09.22.13.25.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Sep 2015 13:25:31 -0700 (PDT)
-Received: by qkdw123 with SMTP id w123so9370074qkd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 13:25:30 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=CFK5gMadpHQH1q0+Fz7zD4bySw4UDZABIiE6qUZAaJ8=;
+	b=mIR0oHV1JAGaXjrHy8v7pY1bE4zPu+wCuIbP4/0yZG5y/+xefF3Sdv4dI0mXZclCxg
+	UHH7j5z+uwTdcCPyDfsdtP+UMp4HEVG7unEhzZKNafndUcDYQV8xasRgXg5cl6X/esKA
+	EJsAgGISEdoC/orN1w4/79q+TFKSAfvr6+SzOrF6KmYKsI46WMt82wDmUk1x86qA1ujm
+	rVoOUYrp+fIOr8b0DFwm2mxynrb94oyTrKqcvLmx2lOzy5Jf4Zi+WLBGPVD7pFVpEYgI
+	OaKuRC5d/1X/JxQasonkK6y+tM3pV45+DYWT1+TXU6s8jldf5WtC5f6vOMmOl3xCFuYu
+	bAwg==
+X-Gm-Message-State: ALoCoQldjKz36kyVeTX72i3dmmKfeOm6REXX+vWeI2if+hoMfD0kJU/xNuKlk7djs50ONQ1KMpmB
+X-Received: by 10.140.109.74 with SMTP id k68mr15933084qgf.77.1442955159057;
+	Tue, 22 Sep 2015 13:52:39 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.55.19.31 with SMTP id d31mr31591548qkh.37.1442953530944;
-	Tue, 22 Sep 2015 13:25:30 -0700 (PDT)
-Received: by 10.55.20.148 with HTTP; Tue, 22 Sep 2015 13:25:30 -0700 (PDT)
-In-Reply-To: <5601A1C6.5050205@ettus.com>
-References: <1442943875-2955-1-git-send-email-marcus.mueller@ettus.com>
-	<CALg11mgdLnVNq745Z6vzP5R2t=dcpamHTKkg5ptv5+NXWFxXpQ@mail.gmail.com>
-	<5601A1C6.5050205@ettus.com>
-Date: Tue, 22 Sep 2015 15:25:30 -0500
-Message-ID: <CALg11mhL1YMX_1aW8FUQoT5qJEgESe3SSQvk+40gukiA2Ffidg@mail.gmail.com>
-From: Lee Nipper <lee.nipper@linux.com>
-To: =?UTF-8?Q?Marcus_M=C3=BCller?= <marcus.mueller@ettus.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] hand the TEMPLATECONF local over to setup-builddir
+Received: by 10.140.94.86 with HTTP; Tue, 22 Sep 2015 13:52:19 -0700 (PDT)
+In-Reply-To: <20150922173040.GC2388@jama>
+References: <1442931113-25056-1-git-send-email-ross.burton@intel.com>
+	<20150922173040.GC2388@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Sep 2015 21:52:19 +0100
+Message-ID: <CAJTo0LbXsG0TzgWeN5xsuTWdxO8P=8kF5uqtpW+ZizKuo-srGQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH] sstate: run recipe-provided hooks outside of ${B}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,112 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Sep 2015 20:25:33 -0000
-Content-Type: multipart/alternative; boundary=001a114016b0a3e57e05205bccf7
+X-List-Received-Date: Tue, 22 Sep 2015 20:52:41 -0000
+Content-Type: multipart/alternative; boundary=001a1139af24aef03705205c2d4e
 
---001a114016b0a3e57e05205bccf7
+--001a1139af24aef03705205c2d4e
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2015 at 1:45 PM, Marcus M=C3=BCller <marcus.mueller@ettus.c=
-om>
-wrote:
+On 22 September 2015 at 18:30, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-> Hello,
-> > If I understand correctly it allows a user prepared $TEMPLATECONF
-> > directory
-> > to be used by oe-setup-builddir.
-> Indeed; the point is that oe-setup-builddir was definitely meant to be
-> used with a TEMPLATECONF set by the user; in bash, the TEMPLATECONF
-> local variable is automatically passed on from oe-init-build-env to
-> oe-setup-builddir=C2=B9, but in zsh, this doesn't work without explicitel=
-y
-> declaring that should happen (which is the only thing my patch does).
+> No error in first 126 iterations of:
+> for i in `seq -w 1 1000`; do bitbake -c cleansstate perf; bitbake -c build
+> -f perf 2>&1 | tee log.perf.$i; done
 >
-> Best regards,
-> Marcus
+> so it's good improvement, thanks!
 >
-> =C2=B9 not quite sure how; it's a local to the calling script and shouldn=
-'t
-> be a local or env variable to the callee, IMHO.
+> Please get this merged in fido and dizzy as well.
 >
 
+Just found a problem in it so I'll be sending a v2, but thanks for the
+testing.
 
-Hello Marcus,
+Ross
 
-FWIW, I did some test cases to understand the differences.
-
-With bash 4.3.11, and the examples below,
-cases A and B will pass along TEMPLATECONF, but case C does not.
-Your patch makes case C work as well.
-
-# A:
-
-TEMPLATECONF=3D$HOME/my-template-dir source
-~/openembedded-core/oe-init-build-env $HOME/my-build-dir
-
-# B:
-export TEMPLATECONF=3D$HOME/my-template-dir; source
-~/openembedded-core/oe-init-build-env $HOME/my-build-dir
-
-# C:
-TEMPLATECONF=3D$HOME/my-template-dir; source
-~/openembedded-core/oe-init-build-env $HOME/my-build-dir
-
-
-And with zsh 5.0.2, case B will pass along TEMPLATECONF, but cases A and C
-do not.
-Your patch makes cases A and C work as well with zsh.
-
-I did not expect case A to be different than case C for bash, but it
-apparently works differently than I thought.
-
-Best regards,
-Lee
-
---001a114016b0a3e57e05205bccf7
+--001a1139af24aef03705205c2d4e
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
-ue, Sep 22, 2015 at 1:45 PM, Marcus M=C3=BCller <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:marcus.mueller@ettus.com" target=3D"_blank">marcus.mueller@ett=
-us.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,20=
-4,204);border-left-style:solid;padding-left:1ex">Hello,<br>
-<span class=3D"">&gt; If I understand correctly it allows a user prepared $=
-TEMPLATECONF<br>
-&gt; directory<br>
-&gt; to be used by oe-setup-builddir.<br>
-</span>Indeed; the point is that oe-setup-builddir was definitely meant to =
-be<br>
-used with a TEMPLATECONF set by the user; in bash, the TEMPLATECONF<br>
-local variable is automatically passed on from oe-init-build-env to<br>
-oe-setup-builddir=C2=B9, but in zsh, this doesn&#39;t work without explicit=
-ely<br>
-declaring that should happen (which is the only thing my patch does).<br>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 September 2015 at 18:30, Martin Jansa <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1sc" c=
+lass=3D"a3s" style=3D"overflow:hidden">No error in first 126 iterations of:=
 <br>
-Best regards,<br>
-Marcus<br>
+for i in `seq -w 1 1000`; do bitbake -c cleansstate perf; bitbake -c build =
+-f perf 2&gt;&amp;1 | tee log.perf.$i; done<br>
 <br>
-=C2=B9 not quite sure how; it&#39;s a local to the calling script and shoul=
-dn&#39;t<br>
-be a local or env variable to the callee, IMHO.<br></blockquote><div><br></=
-div><div><br></div><div>Hello Marcus,</div><div><br></div><div>FWIW, I did =
-some test cases to understand the differences.</div><div><br></div><div>Wit=
-h bash 4.3.11, and the examples below,</div><div>cases A and B will pass al=
-ong TEMPLATECONF, but case C does not.</div><div>Your patch makes case C wo=
-rk as well.</div><div><br></div><div># A:</div><div><br></div><div>TEMPLATE=
-CONF=3D$HOME/my-template-dir source ~/openembedded-core/oe-init-build-env $=
-HOME/my-build-dir</div><div><br></div><div># B:</div><div>export TEMPLATECO=
-NF=3D$HOME/my-template-dir; source ~/openembedded-core/oe-init-build-env $H=
-OME/my-build-dir</div><div><br></div><div># C:</div><div>TEMPLATECONF=3D$HO=
-ME/my-template-dir; source ~/openembedded-core/oe-init-build-env $HOME/my-b=
-uild-dir</div><div><br></div><div><br></div><div>And with zsh 5.0.2, case B=
- will pass along TEMPLATECONF, but cases A and C do not.</div><div>Your pat=
-ch makes cases A and C work as well with zsh.</div><div><br></div><div>I di=
-d not expect case A to be different than case C for bash, but it apparently=
- works differently than I thought.</div><div><br></div><div>Best regards,</=
-div><div>Lee</div></div><br></div></div>
+so it&#39;s good improvement, thanks!<br>
+<br>
+Please get this merged in fido and dizzy as well.</div></blockquote></div><=
+br>Just found a problem in it so I&#39;ll be sending a v2, but thanks for t=
+he testing.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
+xtra">Ross</div></div>
 
---001a114016b0a3e57e05205bccf7--
+--001a1139af24aef03705205c2d4e--
