@@ -1,35 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id F193E73243
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C0E3173243
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 11:09:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8MB9jaf023575; Tue, 22 Sep 2015 12:09:45 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id GnmJuQKSXF6M; Tue, 22 Sep 2015 12:09:45 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8MB9X7Q023564
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 22 Sep 2015 12:09:44 +0100
-Message-ID: <1442920173.12435.259.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Reshetova, Elena" <elena.reshetova@intel.com>
-Date: Tue, 22 Sep 2015 12:09:33 +0100
-In-Reply-To: <2236FBA76BA1254E88B949DDB74E612B419973E6@IRSMSX102.ger.corp.intel.com>
-References: <2236FBA76BA1254E88B949DDB74E612B41976CB1@IRSMSX102.ger.corp.intel.com>
-	<55EF9D64.8000601@windriver.com>
-	<2236FBA76BA1254E88B949DDB74E612B41979490@IRSMSX102.ger.corp.intel.com>
-	<55F70A07.20409@windriver.com> <55F8D5CD.70606@windriver.com>
-	<1442422369.26666.147.camel@linuxfoundation.org>
-	<2236FBA76BA1254E88B949DDB74E612B419973E6@IRSMSX102.ger.corp.intel.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: How to put a correct dependency with regards to gcc?
+	Tue, 22 Sep 2015 11:13:31 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Sep 2015 04:13:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,572,1437462000"; d="scan'208";a="566165814"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 22 Sep 2015 04:13:31 -0700
+Received: by linux.intel.com (Postfix, from userid 48)
+	id E14106A4087; Tue, 22 Sep 2015 04:12:36 -0700 (PDT)
+Received: from 10.252.48.86 (SquirrelMail authenticated user alexander.kanavin)
+	by linux.intel.com with HTTP; Tue, 22 Sep 2015 14:12:36 +0300 (EEST)
+Message-ID: <58887.10.252.48.86.1442920356.squirrel@linux.intel.com>
+In-Reply-To: <CAJTo0LaJFQozfE1gaXvdEBR=ioCB7GR425_TDJaiVE1E9UnuXA@mail.gmail.com>
+References: <1442844096-27847-1-git-send-email-Martin.Jansa@gmail.com>
+	<560029CB.6050006@linux.intel.com>
+	<CAJTo0LaJFQozfE1gaXvdEBR=ioCB7GR425_TDJaiVE1E9UnuXA@mail.gmail.com>
+Date: Tue, 22 Sep 2015 14:12:36 +0300 (EEST)
+From: alexander.kanavin@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
+MIME-Version: 1.0
+X-Priority: 3 (Normal)
+Importance: Normal
+Subject: Re: [PATCH] webkitgtk: add REQUIRED_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,40 +38,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Sep 2015 11:09:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Sep 2015 11:13:33 -0000
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2015-09-22 at 11:03 +0000, Reshetova, Elena wrote:
-> > The idea is quite simple. Rather than having a copy of the gcc source for 
-> > each recipe variant 
-> > (-cross-initial, -cross, -crosssdk-initial, -crosssdk, -cross-canadian etc.) 
-> > we have a single copy of the source.
-> 
-> >We tried an older shared stamp scheme which was fragile and prone to weird 
-> >failures.  Instead we created the gcc-source recipe which is responsible for 
-> >the fetch/unpack/patch/preconfigure and then each recipe can work off the 
-> >shared source (and has >a dependency on gcc-source).
-> 
-> Thank you Richard for explaining this! It helps greatly!
-> 
-> >For Elena's use case, I therefore think it might be better to analyse the 
-> >shared source once and not in the case of each recipe (e.g. if SRC_URI is 
-> >empty).
-> 
-> I am really not sure how to do it apart from hardcoding a check inside the 
-> class that if the recipe happens to be gcc related, run the analysis only once 
-> for gcc-source and do not run it for other related packages.
-> My task is currently run for every recipe uniformly and it would be not that 
-> elegant to have this hardcoding part. Is there a better way of handling it?
+> Remove x11 from DISTRO_FEATURES ("I'm building a product that doesn't need
+> or use X") and build webkitgtk.  webkitgtk depends on libxt which depends
+> on libx11 which then refuses to build because you explicitly said you
+> didn't want X.
+>
+> We're adding required_distro_feature annotations as required so that world
+> builds without X11 enabled still work by skipping the recipes instead of
+> failing to build.
 
-You could test if SRC_URI is empty in your code?
 
-Then all we'd need to do is ensure that SRC_URI was empty for the gcc
-recipes except for gcc-source?
+But this means you need to add this to every recipe that directly or
+indirectly depends on libx11. Which is crazy awkward and error-prone.
 
-Cheers,
+Why can't the tools figure out which recipes should be excluded from
+builds without explicit annotations?
 
-Richard
 
+Alex
 
