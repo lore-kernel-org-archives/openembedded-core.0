@@ -1,44 +1,31 @@
-Return-Path: <marcus.mueller@ettus.com>
-Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
-	[209.85.218.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 930867391A
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 988217391A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 18:45:28 +0000 (UTC)
-Received: by oibi136 with SMTP id i136so10939743oib.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 11:45:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=Yx+6A8jkfvBEIiV+E/m3WZPHF0VZc12U2t7LehLWcEA=;
-	b=J3VOH/Mnyql5m27PTlrG/EC29i0YjPPomyRV2jubyHxe071yOYkC/IPui/u4XN0zyn
-	VXXSK3EPJc0Qoviz4oLNUIvVs+BAggSD+yagCYiBPW3W+xONhuPNwfTtIcvZ0xXTnui2
-	N3iMlLK6z67G01AHHvVe6pKMgbyEw5Ax+NGuPumtJL7+kEQm/Yut0175DEnciRA4Wx60
-	4E21kxvRopwg4m0AR0abavd4+5UvtUQNy/tjUV1cFaStQVrXCXO/U3eUrU3INyNTaBJZ
-	ynqxDKfQb6Bo6vfBOAoEiFVFz/ay9igLXA5jYHeomZPMiWltl4NiYStr3ep3VKMdW00O
-	c7rg==
-X-Gm-Message-State: ALoCoQnhdSR4LQtCba0v2UOip2msLkoMP+ugc/SCEOI/zOAjUW5psM2Fpa1ETssAkUMoQMVSQHxz
-X-Received: by 10.202.217.194 with SMTP id q185mr7767859oig.29.1442947529017; 
-	Tue, 22 Sep 2015 11:45:29 -0700 (PDT)
-Received: from [192.168.128.8] (x5f71d3b0.dyn.telefonica.de. [95.113.211.176])
-	by smtp.googlemail.com with ESMTPSA id
-	188sm1443820oie.5.2015.09.22.11.45.28
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Sep 2015 11:45:28 -0700 (PDT)
-To: Lee Nipper <lee.nipper@linux.com>
-References: <1442943875-2955-1-git-send-email-marcus.mueller@ettus.com>
-	<CALg11mgdLnVNq745Z6vzP5R2t=dcpamHTKkg5ptv5+NXWFxXpQ@mail.gmail.com>
-From: =?UTF-8?Q?Marcus_M=c3=bcller?= <marcus.mueller@ettus.com>
-Message-ID: <5601A1C6.5050205@ettus.com>
-Date: Tue, 22 Sep 2015 20:45:26 +0200
+	Tue, 22 Sep 2015 19:13:14 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id E9B58F811FE; Tue, 22 Sep 2015 13:13:14 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id E1C9EF811F1;
+	Tue, 22 Sep 2015 13:13:13 -0600 (MDT)
+To: openembedded-core@lists.openembedded.org
+References: <560173B5.1000408@mlbassoc.com>
+	<CAP9ODKpcr+YgGsvnRrsxy9Z2xsN5+KP4KiP-UvYij5eyN+1V1g@mail.gmail.com>
+	<56019A6B.3070206@mlbassoc.com>
+	<CAP9ODKpQDhCL9QbACgMRzV=N_Z7476a1_OxkhV7z0O7PfVd_rQ@mail.gmail.com>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <5601A857.7060404@mlbassoc.com>
+Date: Tue, 22 Sep 2015 13:13:27 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.2.0
 MIME-Version: 1.0
-In-Reply-To: <CALg11mgdLnVNq745Z6vzP5R2t=dcpamHTKkg5ptv5+NXWFxXpQ@mail.gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] hand the TEMPLATECONF local over to setup-builddir
+In-Reply-To: <CAP9ODKpQDhCL9QbACgMRzV=N_Z7476a1_OxkhV7z0O7PfVd_rQ@mail.gmail.com>
+Subject: Re: Error building gdk-pixbuf-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,23 +38,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Sep 2015 18:45:30 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 22 Sep 2015 19:13:15 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello,
-> If I understand correctly it allows a user prepared $TEMPLATECONF
-> directory
-> to be used by oe-setup-builddir.
-Indeed; the point is that oe-setup-builddir was definitely meant to be
-used with a TEMPLATECONF set by the user; in bash, the TEMPLATECONF
-local variable is automatically passed on from oe-init-build-env to
-oe-setup-builddir¹, but in zsh, this doesn't work without explicitely
-declaring that should happen (which is the only thing my patch does).
+On 2015-09-22 12:38, Otavio Salvador wrote:
+> On Tue, Sep 22, 2015 at 3:14 PM, Gary Thomas <gary@mlbassoc.com> wrote:
+>> On 2015-09-22 12:05, Otavio Salvador wrote:
+>>>
+>>> On Tue, Sep 22, 2015 at 12:28 PM, Gary Thomas <gary@mlbassoc.com> wrote:
+>>>>
+>>>> When building gdk-pixbuf-native, I got this error:
+>>>> | DEBUG: Staging files from
+>>>>
+>>>> /home/local/rpi2_2015-03-05/tmp/work/i686-linux/gdk-pixbuf-native/2.30.8-r0/sysroot-destdir/home/local/rpi2_2015-03-05/tmp/sysroots/i686-linux
+>>>> to /home/local/rpi2_2015-03-05/tmp/sysroots/i686-linux
+>>>> | DEBUG: Executing shell function pixbufcache_sstate_postinst
+>>>> | g_module_open() failed for
+>>>>
+>>>> /home/local/rpi2_2015-03-05/tmp/sysroots/i686-linux/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so:
+>>>> libharfbuzz.so.0: cannot open shared object file: No such file or
+>>>> directory
+>>>>
+>>>> It seems that [at least] gdk-pixbuf-native needs harfbuzz-native
+>>>> I looked at the recipe, but it's not 100% obvious to me how to
+>>>> add this, especially w.r.t. all of the PACKAGECONFIG options.
+>>>>
+>>>> Guidance?
+>>>
+>>>
+>>> I had similar failures[1] at O.S. Systems autobuilder and rebuilding
+>>> made it work.
+>>>
+>>> 1.
+>>> http://ci.ossystems.com.br/view/FSL%20Community%20BSP%20-%20master-next/job/fsl-community-bsp-master-next_wayland-imx28evk/827/console
+>>>
+>>> The builds are now succeeding but I did no change to fix it. This
+>>> seems like a race for me.
+>>>
+>>> I tried very hard to reproduce the issue locally at my laptop without
+>>> success. Do you can reliably reproduce it?
+>>>
+>>
+>> Yes, I had a full tree and this rebuild was kicked off by a meta-data
+>> update.  Once it happened, I tried this:
+>>    % bitbake harfbuzz-native gdk-pixbuf-native -c cleansstate
+>>    % bitbake gdk-pixbuf-native
+>> failed.  However the manual sequence
+>>    % bitbake harfbuzz-native
+>>    % bitbake gdk-pixbuf-native
+>> succeeded.
+>
+> I still do not reproduce it :-(
+>
 
-Best regards,
-Marcus
+It seems to be a host [contamination?] issue.  I get this error
+on a build host that does not have libharfbuzz.so installed.  On
+a build host which does, there is no error.
 
-¹ not quite sure how; it's a local to the calling script and shouldn't
-be a local or env variable to the callee, IMHO.
+Note that it is only for the native package, so perhaps that's
+where the dependency needs to be updated/checked (hence my original
+query)
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
