@@ -1,51 +1,46 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CD0F73CF2
+Return-Path: <lee.nipper@gmail.com>
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id B3F777391A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 18:38:47 +0000 (UTC)
-Received: by igbkq10 with SMTP id kq10so105299602igb.0
+	Tue, 22 Sep 2015 18:40:12 +0000 (UTC)
+Received: by qkdw123 with SMTP id w123so7995425qkd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 11:38:47 -0700 (PDT)
+	Tue, 22 Sep 2015 11:40:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=5CALsKWPcPFif4hprogFNuffxc9CCmwt270Heu8Fvpo=;
-	b=m5BFEv1YnonL6ONDxS/ObwGSSH7NMpZDzVURuRLoyz6OEn4M+EcRP89hNpnE4TSbBj
-	qIUSqlC4FK4hvYW9j/GxQLMT3VuI4PRLBwmyNpPIBecvWbG0NV9UXzLQVr07t/Z7Hdto
-	oIOQXpYbXmOtNGxm3UrQNVnRs0l//SRAgNMB5ptphdS49gLl5XSkKJTvGFmc6yMlUt42
-	X7+JBNldMncQQO4dIgwYChYvuRKOidMGBlaf5H5g94WpjfQv3tNxQAR7d+c3LNH8rIg0
-	NVsJkX2AjLSZng5qL+wTsM0iW9+IYUj8dKDI/Jpt1ESCOo9AhfzmmhOGOCSg9zUCcNCD
-	4Yvg==
-X-Gm-Message-State: ALoCoQk1xLOA3OKQilrV2RI8/khGXmlZbXMtpzPG8zkDvV7wFLlPz3XpoJu+6MxNsg2jnJCnUlIY
-X-Received: by 10.50.110.105 with SMTP id hz9mr8804154igb.77.1442947127778;
-	Tue, 22 Sep 2015 11:38:47 -0700 (PDT)
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com.
-	[209.85.213.178])
-	by smtp.gmail.com with ESMTPSA id d8sm1548430igl.13.2015.09.22.11.38.46
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=fwQHrZktWvucb35dbjxJ9blB0i9aYbzUuxLdTWBxOEk=;
+	b=L/U2698eEKWSv3TOdADea+civRarvuC3lkyuV0He7oXa0f0u8Zvhf3/qHoR/bB+CkR
+	cmi28RPe3LbfdV4vECVJqbri9YxT0nlRvsHW8uUCMkpOy9ZXpz5MbjqsLi848ghatjSU
+	yJdSNxUZ7kHsD4XyQpILMeml5pfQ8QJGOTR8hvjOyy0tSz8iiKt/NWJ3yMhkHWdY4Dvz
+	iUrfdnApFbeYV09b+eNSlSrY4esYhV6LCwzghqwpQLE3R6hy0NzHofWNjArbeAQ8fAHb
+	2fNC8rVlpwRbI+lwPqE6isvAi/TlrEEPID0w0c16Lxh/ggom9loCKmEpo2SxcNF//Npg
+	CMQQ==
+X-Received: by 10.55.204.10 with SMTP id r10mr32072752qki.55.1442947212523;
+	Tue, 22 Sep 2015 11:40:12 -0700 (PDT)
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com.
+	[209.85.192.54])
+	by smtp.gmail.com with ESMTPSA id b104sm54774qga.7.2015.09.22.11.40.12
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Sep 2015 11:38:46 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by igcrk20 with SMTP id rk20so86559343igc.1
+	Tue, 22 Sep 2015 11:40:12 -0700 (PDT)
+Received: by qgx61 with SMTP id 61so1041127qgx.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 11:38:46 -0700 (PDT)
+	Tue, 22 Sep 2015 11:40:11 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.50.102.4 with SMTP id fk4mr19835687igb.46.1442947126089;
-	Tue, 22 Sep 2015 11:38:46 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Tue, 22 Sep 2015 11:38:46 -0700 (PDT)
-In-Reply-To: <56019A6B.3070206@mlbassoc.com>
-References: <560173B5.1000408@mlbassoc.com>
-	<CAP9ODKpcr+YgGsvnRrsxy9Z2xsN5+KP4KiP-UvYij5eyN+1V1g@mail.gmail.com>
-	<56019A6B.3070206@mlbassoc.com>
-Date: Tue, 22 Sep 2015 15:38:46 -0300
-Message-ID: <CAP9ODKpQDhCL9QbACgMRzV=N_Z7476a1_OxkhV7z0O7PfVd_rQ@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Error building gdk-pixbuf-native
+X-Received: by 10.140.91.109 with SMTP id y100mr30472608qgd.48.1442947211949; 
+	Tue, 22 Sep 2015 11:40:11 -0700 (PDT)
+Received: by 10.55.20.148 with HTTP; Tue, 22 Sep 2015 11:40:11 -0700 (PDT)
+In-Reply-To: <1442943875-2955-1-git-send-email-marcus.mueller@ettus.com>
+References: <1442943875-2955-1-git-send-email-marcus.mueller@ettus.com>
+Date: Tue, 22 Sep 2015 13:40:11 -0500
+Message-ID: <CALg11mgdLnVNq745Z6vzP5R2t=dcpamHTKkg5ptv5+NXWFxXpQ@mail.gmail.com>
+From: Lee Nipper <lee.nipper@linux.com>
+To: =?UTF-8?Q?Marcus_M=C3=BCller?= <marcus.mueller@ettus.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] hand the TEMPLATECONF local over to setup-builddir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,59 +53,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Sep 2015 18:38:49 -0000
+X-List-Received-Date: Tue, 22 Sep 2015 18:40:13 -0000
+Content-Type: multipart/alternative; boundary=001a113a75b2ff9a7405205a5344
+
+--001a113a75b2ff9a7405205a5344
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2015 at 3:14 PM, Gary Thomas <gary@mlbassoc.com> wrote:
-> On 2015-09-22 12:05, Otavio Salvador wrote:
->>
->> On Tue, Sep 22, 2015 at 12:28 PM, Gary Thomas <gary@mlbassoc.com> wrote:
->>>
->>> When building gdk-pixbuf-native, I got this error:
->>> | DEBUG: Staging files from
->>>
->>> /home/local/rpi2_2015-03-05/tmp/work/i686-linux/gdk-pixbuf-native/2.30.8-r0/sysroot-destdir/home/local/rpi2_2015-03-05/tmp/sysroots/i686-linux
->>> to /home/local/rpi2_2015-03-05/tmp/sysroots/i686-linux
->>> | DEBUG: Executing shell function pixbufcache_sstate_postinst
->>> | g_module_open() failed for
->>>
->>> /home/local/rpi2_2015-03-05/tmp/sysroots/i686-linux/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so:
->>> libharfbuzz.so.0: cannot open shared object file: No such file or
->>> directory
->>>
->>> It seems that [at least] gdk-pixbuf-native needs harfbuzz-native
->>> I looked at the recipe, but it's not 100% obvious to me how to
->>> add this, especially w.r.t. all of the PACKAGECONFIG options.
->>>
->>> Guidance?
->>
->>
->> I had similar failures[1] at O.S. Systems autobuilder and rebuilding
->> made it work.
->>
->> 1.
->> http://ci.ossystems.com.br/view/FSL%20Community%20BSP%20-%20master-next/job/fsl-community-bsp-master-next_wayland-imx28evk/827/console
->>
->> The builds are now succeeding but I did no change to fix it. This
->> seems like a race for me.
->>
->> I tried very hard to reproduce the issue locally at my laptop without
->> success. Do you can reliably reproduce it?
->>
+On Tue, Sep 22, 2015 at 12:44 PM, Marcus M=C3=BCller <marcus.mueller@ettus.=
+com>
+wrote:
+
+> ---
+>  oe-init-build-env | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Yes, I had a full tree and this rebuild was kicked off by a meta-data
-> update.  Once it happened, I tried this:
->   % bitbake harfbuzz-native gdk-pixbuf-native -c cleansstate
->   % bitbake gdk-pixbuf-native
-> failed.  However the manual sequence
->   % bitbake harfbuzz-native
->   % bitbake gdk-pixbuf-native
-> succeeded.
+> diff --git a/oe-init-build-env b/oe-init-build-env
+> index 6fee5f7..b7e2918 100755
+> --- a/oe-init-build-env
+> +++ b/oe-init-build-env
+> @@ -45,7 +45,7 @@ fi
+>  OEROOT=3D`readlink -f "$OEROOT"`
+>  export OEROOT
+>  . $OEROOT/scripts/oe-buildenv-internal && \
+> -     $OEROOT/scripts/oe-setup-builddir && \
+> +     TEMPLATECONF=3D"$TEMPLATECONF" $OEROOT/scripts/oe-setup-builddir &&=
+ \
+>       [ -n "$BUILDDIR" ] && cd "$BUILDDIR"
+>  unset OEROOT
+>  unset BBPATH
+>
+>
+I think this patch is a good candidate for back-porting to the fido branch.
+If I understand correctly it allows a user prepared $TEMPLATECONF directory
+to be used by oe-setup-builddir.
 
-I still do not reproduce it :-(
+--001a113a75b2ff9a7405205a5344
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
+ue, Sep 22, 2015 at 12:44 PM, Marcus M=C3=BCller <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:marcus.mueller@ettus.com" target=3D"_blank">marcus.mueller@et=
+tus.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,2=
+04,204);border-left-style:solid;padding-left:1ex">---<br>
+=C2=A0oe-init-build-env | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/oe-init-build-env b/oe-init-build-env<br>
+index 6fee5f7..b7e2918 100755<br>
+--- a/oe-init-build-env<br>
++++ b/oe-init-build-env<br>
+@@ -45,7 +45,7 @@ fi<br>
+=C2=A0OEROOT=3D`readlink -f &quot;$OEROOT&quot;`<br>
+=C2=A0export OEROOT<br>
+=C2=A0. $OEROOT/scripts/oe-buildenv-internal &amp;&amp; \<br>
+-=C2=A0 =C2=A0 =C2=A0$OEROOT/scripts/oe-setup-builddir &amp;&amp; \<br>
++=C2=A0 =C2=A0 =C2=A0TEMPLATECONF=3D&quot;$TEMPLATECONF&quot; $OEROOT/scrip=
+ts/oe-setup-builddir &amp;&amp; \<br>
+=C2=A0 =C2=A0 =C2=A0 [ -n &quot;$BUILDDIR&quot; ] &amp;&amp; cd &quot;$BUIL=
+DDIR&quot;<br>
+=C2=A0unset OEROOT<br>
+=C2=A0unset BBPATH<br><span class=3D""><font color=3D"#888888"><br></font><=
+/span></blockquote><div><br></div><div>I think this patch is a good candida=
+te for back-porting to the fido branch.</div><div>If I understand correctly=
+ it allows a user prepared $TEMPLATECONF directory</div><div>to be used by =
+oe-setup-builddir.</div><div><br></div></div><br></div></div>
 
+--001a113a75b2ff9a7405205a5344--
