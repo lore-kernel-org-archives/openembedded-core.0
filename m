@@ -1,42 +1,37 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 04D197391A
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DCEE7391A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 05:44:35 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so7112058wic.0
+	Tue, 22 Sep 2015 05:47:56 +0000 (UTC)
+Received: by wicge5 with SMTP id ge5so144627765wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Sep 2015 22:44:35 -0700 (PDT)
+	Mon, 21 Sep 2015 22:47:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=R/qiPmkHDirPEs1WvqintbU3M5ZGcxliIzmBwCXMLAY=;
-	b=kIs3Y8O3eVR2ub6Dgz0gP+TgeZVnq3xmTC0RvWl8fNbtUFXHziPWMatHmR5hdpeiSU
-	dmDmLDqnTeQD/THRGEHDnhBxcgT6SZmTvNEVlIEwMWqhTAa2yJdb5XZGJGTLUh41bjOL
-	utCbi/GjKd27cATAonTJsJ0a/ArSwML1IHEgZkZx2pMHMKZsDsJPtPO2Ls+YX+6uyQAD
-	sgIlll7HaO/VMN69mlk2HemxbaX4bxGKpgjDhi7oChmc9M/IImXRRJbrzYkd8xybm/4n
-	6m6/fad1t1aWbydaYqk4ADO6pEMPo+2Wr3/NsQibWfoDxYWqiTmYwQV6iY6iQTBNke8V
-	cgmw==
-X-Received: by 10.194.22.8 with SMTP id z8mr27229568wje.43.1442900675072;
-	Mon, 21 Sep 2015 22:44:35 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=g3OVBE5EcZgmdkAAqyjKCG0Zqo8Y5ibP2n7zsSCoOGA=;
+	b=UD7I6ge0EYWN23WWrgGCQ61EgAcC+w+y0LxhNkYJUdsrb81ZBQx5iRFJqpJ0HVwrfl
+	9/ZxtifKramx59TAspUpmz8MB1v1DSPNhLj5WJxmRwPnQfItXa07NhARDUF37YZH2CJa
+	bocbHm1jgLNqUPCx3FtogHfq5dJP6+eaewsfNovebvi8SdBZ9kjNRycdWz2DwgFpGejD
+	TCqN9v+YFrcbgcDSKS8xhxMRwU54UgJMCnsaEeiDfn3RsRSqdyE18GkEj4OXShg9OPRL
+	SAOgJJu+9FBfDg67/ELIMWQatdKyB9ym7p8nbAmhNONA8dAYaiuau8AemGm04qVMLL7Z
+	SyJw==
+X-Received: by 10.180.188.169 with SMTP id gb9mr16405671wic.44.1442900876634; 
+	Mon, 21 Sep 2015 22:47:56 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	pk7sm27553179wjb.2.2015.09.21.22.44.34
+	xt1sm27496496wjb.32.2015.09.21.22.47.55
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 21 Sep 2015 22:44:34 -0700 (PDT)
+	Mon, 21 Sep 2015 22:47:55 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 22 Sep 2015 07:44:40 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20150922054440.GB28765@jama>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Sep 2015 07:48:00 +0200
+Message-Id: <1442900880-20856-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.5.1
+In-Reply-To: <20150921190422.GA28765@jama>
 References: <20150921190422.GA28765@jama>
-	<1442867607-8913-1-git-send-email-Martin.Jansa@gmail.com>
-	<CAJTo0La661H=yF-bsVZjBwhSeRCtjafK1EuvbTL41J4vcoBhDA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0La661H=yF-bsVZjBwhSeRCtjafK1EuvbTL41J4vcoBhDA@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCHv2] cmake.bbclass, perf: don't re-create ${B}
+Subject: [RFC][PATCHv3] autotools.bbclass, cmake.bbclass, perf: don't re-create ${B}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,86 +44,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Sep 2015 05:44:38 -0000
-X-Groupsio-MsgNum: 71409
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="R3G7APHDIzY6R/pk"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 22 Sep 2015 05:47:57 -0000
 
---R3G7APHDIzY6R/pk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* otherwise there is race-condition between do_configure rm+mkdir and
+  bitbake trying to use it as CWD for do_populate_lic task, which
+  results in errors like this:
 
-On Mon, Sep 21, 2015 at 09:55:56PM +0100, Burton, Ross wrote:
-> On 21 September 2015 at 21:33, Martin Jansa <martin.jansa@gmail.com> wrot=
-e:
->=20
-> > * otherwise there is race-condition between do_configure rm+mkdir and
-> >   bitbake trying to use it as CWD for do_populate_lic task, which
-> >   results in errors like this:
-> >
->=20
-> It took me a few minutes to understand this race:
->=20
-> Task A executing perf:do_configure and deleting ${B}
-> Task B finishing perf:do_populate_lic and so running the sstate generation
-> logic and the functions listed in SSTATEPOSTINSTFUNCS, which get executed
-> with the default cwd of ${B}.
+NOTE: recipe perf-1.0-r9: task do_configure: Started
+NOTE: recipe perf-1.0-r9: task do_populate_lic: Started
+ERROR: Build of do_populate_lic failed
+ERROR: Traceback (most recent call last):
+  File "/OE/build/oe-core/bitbake/lib/bb/build.py", line 553, in exec_task
+    return _exec_task(fn, task, d, quieterr)
+  File "/OE/build/oe-core/bitbake/lib/bb/build.py", line 493, in _exec_task
+    exec_func(func, localdata)
+  File "/OE/build/oe-core/bitbake/lib/bb/build.py", line 227, in exec_func
+    exec_func_python(func, d, runfile, cwd=adir)
+  File "/OE/build/oe-core/bitbake/lib/bb/build.py", line 252, in exec_func_python
+    os.chdir(cwd)
+OSError: [Errno 2] No such file or directory: '/OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux/perf/1.0-r9/perf-1.0'
+NOTE: recipe perf-1.0-r9: task do_populate_lic: Failed
+ERROR: Task 7 (/OE/build/oe-core/openembedded-core/meta/recipes-kernel/perf/perf.bb, do_populate_lic) failed with exit code '1'
+NOTE: recipe perf-1.0-r9: task do_configure: Succeeded
 
-Thanks for more detailed explanation, sorry if I wasn't clear on this
-one in my previous e-mails.
+or even longer exception:
 
-> I'll note that autotools.bbclass also does rmdir/mkdir ${B} so I'm curious
-> why you see it more in perf and cmake and not everything else.
+NOTE: recipe perf-1.0-r9: task do_populate_lic: Started
+NOTE: recipe perf-1.0-r9: task do_configure: Started
+ERROR: Error executing a python function in /OE/build/oe-core/openembedded-core/meta/recipes-kernel/perf/perf.bb:
 
-perf for some reason shows this most often, most our internal components are
-using cmake, that's probably cmake was easier to find in our logs, but
-I didn't grep all of them, maybe there are similar exceptions in
-autotools based components. I'll send v3 with autotools.bbclass fix as
-well.
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'sstate_task_postfunc', lineno: 14, function: <module>
+     0010:    sstate_package(shared_state, d)
+     0011:    os.umask(omask)
+     0012:
+     0013:
+ *** 0014:sstate_task_postfunc(d)
+     0015:
+File: 'sstate_task_postfunc', lineno: 4, function: sstate_task_postfunc
+     0001:
+     0002:def sstate_task_postfunc(d):
+     0003:    shared_state = sstate_state_fromvars(d)
+ *** 0004:    sstate_install(shared_state, d)
+     0005:    for intercept in shared_state['interceptfuncs']:
+     0006:        bb.build.exec_func(intercept, d)
+     0007:    omask = os.umask(002)
+     0008:    if omask != 002:
+File: 'sstate.bbclass', lineno: 113, function: sstate_install
+     0109:        if os.path.exists(state[1]):
+     0110:            oe.path.copyhardlinktree(state[1], state[2])
+     0111:
+     0112:    for postinst in (d.getVar('SSTATEPOSTINSTFUNCS', True) or '').split():
+ *** 0113:        bb.build.exec_func(postinst, d)
+     0114:
+     0115:    for lock in locks:
+     0116:        bb.utils.unlockfile(lock)
+     0117:
+File: '/OE/build/oe-core/bitbake/lib/bb/build.py', lineno: 227, function: exec_func
+     0223:                pass
+     0224:
+     0225:    with bb.utils.fileslocked(lockfiles):
+     0226:        if ispython:
+ *** 0227:            exec_func_python(func, d, runfile, cwd=adir)
+    0228:        else:
+     0229:            exec_func_shell(func, d, runfile, cwd=adir)
+     0230:
+     0231:_functionfmt = """
+File: '/OE/build/oe-core/bitbake/lib/bb/build.py', lineno: 252, function: exec_func_python
+     0248:        try:
+     0249:            olddir = os.getcwd()
+     0250:        except OSError:
+     0251:            olddir = None
+ *** 0252:        os.chdir(cwd)
+     0253:
+     0254:    bb.debug(2, "Executing python function %s" % func)
+     0255:
+     0256:    try:
+Exception: OSError: [Errno 2] No such file or directory: '/OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux/perf/1.0-r9/perf-1.0'
 
-> Would a better long-term fix be to pass cwd=3D${WORKDIR} to exec_func in =
-the
-> sstate code to stop the functions being executed in ${B} (after vetting t=
-he
-> functions, obviously).  FWIW I'm the owner of the bug to stop bitbake
-> knowing about ${B} which is leading to exactly this sort of problem.
+ERROR: Function failed: sstate_task_postfunc
+ERROR: Logfile of failure stored in: /OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux/perf/1.0-r9/temp/log.do_populate_lic.16588
+NOTE: recipe perf-1.0-r9: task do_populate_lic: Failed
+ERROR: Task 7 (/OE/build/oe-core/openembedded-core/meta/recipes-kernel/perf/perf.bb, do_populate_lic) failed with exit code '1'
+NOTE: recipe perf-1.0-r9: task do_configure: Succeeded
+NOTE: Tasks Summary: Attempted 840 tasks of which 835 didn't need to be rerun and 1 failed.
 
-Yes, I agree it would be better, but as you said, such change is too
-late even for master branch and I need to fix this long-standing issue
-even in fido and dizzy, so smaller, simpler change will be easier to get
-backported.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/autotools.bbclass   | 3 +--
+ meta/classes/cmake.bbclass       | 3 +--
+ meta/recipes-kernel/perf/perf.bb | 3 +--
+ 3 files changed, 3 insertions(+), 6 deletions(-)
 
-My for cycle finished 469 iterations over night and no exception since
-this fix:
-OE @ ~/build/oe-core $ grep "ERROR: Task" log.perf.00*
-log.perf.0003:ERROR: Task 7 (/OE/build/oe-core/openembedded-core/meta/recip=
-es-kernel/perf/perf.bb, do_populate_lic) failed with exit code '1'
-log.perf.0004:ERROR: Task 7 (/OE/build/oe-core/openembedded-core/meta/recip=
-es-kernel/perf/perf.bb, do_populate_lic) failed with exit code '1'
-log.perf.0031:ERROR: Task 7 (/OE/build/oe-core/openembedded-core/meta/recip=
-es-kernel/perf/perf.bb, do_populate_lic) failed with exit code '1'
-log.perf.0055:ERROR: Task 7 (/OE/build/oe-core/openembedded-core/meta/recip=
-es-kernel/perf/perf.bb, do_populate_lic) failed with exit code '1'
-log.perf.0062:ERROR: Task 7 (/OE/build/oe-core/openembedded-core/meta/recip=
-es-kernel/perf/perf.bb, do_populate_lic) failed with exit code '1'
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 819045a..67e1e3a 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -104,8 +104,7 @@ autotools_preconfigure() {
+ 		if [ "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" ]; then
+ 			if [ "${S}" != "${B}" ]; then
+ 				echo "Previously configured separate build directory detected, cleaning ${B}"
+-				rm -rf ${B}
+-				mkdir -p ${B}
++				find ${B} -mindepth 1 -maxdepth 1 | xargs rm -rf
+ 			else
+ 				# At least remove the .la files since automake won't automatically
+ 				# regenerate them even if CFLAGS/LDFLAGS are different
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index ae3cc02..e31799a 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -91,8 +91,7 @@ cmake_do_configure() {
+ 	fi
+ 
+ 	if [ "${S}" != "${B}" ]; then
+-		rm -rf ${B}
+-		mkdir -p ${B}
++		find ${B} -mindepth 1 -maxdepth 1 | xargs rm -rf
+ 		cd ${B}
+ 	else
+ 		find ${B} -name CMakeFiles -or -name Makefile -or -name cmake_install.cmake -or -name CMakeCache.txt -delete
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 22bd3c8..a5a04af 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -119,8 +119,7 @@ do_install() {
+ 
+ do_configure_prepend () {
+     # Fix for rebuilding
+-    rm -rf ${B}/
+-    mkdir -p ${B}/
++    find ${B} -mindepth 1 -maxdepth 1 | xargs rm -rf
+ 
+     # If building a multlib based perf, the incorrect library path will be
+     # detected by perf, since it triggers via: ifeq ($(ARCH),x86_64). In a 32 bit
+-- 
+2.5.1
 
-Regards,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---R3G7APHDIzY6R/pk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlYA6scACgkQN1Ujt2V2gBxzBACfRz0L629asFyy4SMqEbTa4oF0
-DD4AnRgDtbfopTKLg0PvutWydMN1yxN7
-=2hvw
------END PGP SIGNATURE-----
-
---R3G7APHDIzY6R/pk--
