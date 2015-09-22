@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 41A4376DFF
+	by mail.openembedded.org (Postfix) with ESMTP id 644787703A
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 22 Sep 2015 16:22:21 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 22 Sep 2015 09:22:12 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 22 Sep 2015 09:22:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,573,1437462000"; d="scan'208";a="810520519"
+X-IronPort-AV: E=Sophos;i="5.17,573,1437462000"; d="scan'208";a="810520525"
 Received: from therrane-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.19.23])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Sep 2015 09:22:11 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 22 Sep 2015 09:22:12 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Sep 2015 17:21:39 +0100
-Message-Id: <023819bae0cde65eaa6dd066d534c9c7d1e8ef3c.1442934838.git.paul.eggleton@linux.intel.com>
+Date: Tue, 22 Sep 2015 17:21:40 +0100
+Message-Id: <35776122600e3f8b83c55806a048f47b005359f3.1442934838.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1442934838.git.paul.eggleton@linux.intel.com>
 References: <cover.1442934838.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1442934838.git.paul.eggleton@linux.intel.com>
 References: <cover.1442934838.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 25/27] devtool / recipetool: add handling for binary-only packages
+Subject: [PATCH 26/27] devtool: add basic means of running runqemu within the extensible SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,97 +34,91 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 22 Sep 2015 16:22:21 -0000
 
-Add a means of creating recipes for package files or archives that
-contain a directory structure to be installed verbatim, for example an
-rpm file. (We mostly just re-use bin_package here and skip some of the
-normal build system checks.) This support is available in "recipetool
-create" and "devtool add" which wraps the former.
+We ship the runqemu script and if we build QEMU itself within the
+extensible SDK, then it would be nice to be able to run it. This is a
+very thin wrapper around runqemu, supplying the machine and image name
+so the user doesn't need to. (This subcommand is only available within
+the extensible SDK since it only really makes sense there where it is
+otherwise hard to run runqemu directly.)
+
+Implements [YOCTO #6657].
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py  |  9 +++++++++
- scripts/lib/recipetool/create.py | 14 ++++++++++++++
- 2 files changed, 23 insertions(+)
+ scripts/lib/devtool/runqemu.py | 64 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
+ create mode 100644 scripts/lib/devtool/runqemu.py
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index c254132..96b271c 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -94,6 +94,8 @@ def add(args, config, basepath, workspace):
-         source = srctree
-     if args.version:
-         extracmdopts += ' -V %s' % args.version
-+    if args.binary:
-+        extracmdopts += ' -b'
-     try:
-         stdout, _ = exec_build_env_command(config.init_path, basepath, 'recipetool --color=%s create -o %s "%s" %s' % (color, recipefile, source, extracmdopts))
-     except bb.process.ExecutionError as e:
-@@ -125,6 +127,12 @@ def add(args, config, basepath, workspace):
-         if initial_rev:
-             f.write('\n# initial_rev: %s\n' % initial_rev)
- 
-+        if args.binary:
-+            f.write('do_install_append() {\n')
-+            f.write('    rm -rf ${D}/.git\n')
-+            f.write('    rm -f ${D}/singletask.lock\n')
-+            f.write('}\n')
+diff --git a/scripts/lib/devtool/runqemu.py b/scripts/lib/devtool/runqemu.py
+new file mode 100644
+index 0000000..e7f26ab
+--- /dev/null
++++ b/scripts/lib/devtool/runqemu.py
+@@ -0,0 +1,64 @@
++# Development tool - runqemu command plugin
++#
++# Copyright (C) 2015 Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 +
-     _add_md5(config, args.recipename, appendfile)
- 
-     logger.info('Recipe %s has been automatically created; further editing may be required to make it fully functional' % recipefile)
-@@ -885,6 +893,7 @@ def register_commands(subparsers, context):
-     parser_add.add_argument('--fetch', '-f', help='Fetch the specified URI and extract it to create the source tree', metavar='URI')
-     parser_add.add_argument('--version', '-V', help='Version to use within recipe (PV)')
-     parser_add.add_argument('--no-git', '-g', help='If -f/--fetch is specified, do not set up source tree as a git repository', action="store_true")
-+    parser_add.add_argument('--binary', '-b', help='Treat the source tree as something that should be installed verbatim (no compilation, same directory structure)', action='store_true')
-     parser_add.set_defaults(func=add)
- 
-     parser_modify = subparsers.add_parser('modify', help='Modify the source for an existing recipe',
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 409b255..844073b 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -104,6 +104,10 @@ def create_recipe(args):
-     if '://' in args.source:
-         # Fetch a URL
-         fetchuri = urlparse.urldefrag(args.source)[0]
-+        if args.binary:
-+            # Assume the archive contains the directory structure verbatim
-+            # so we need to extract to a subdirectory
-+            fetchuri += ';subdir=%s' % os.path.splitext(os.path.basename(urlparse.urlsplit(fetchuri).path))[0]
-         srcuri = fetchuri
-         rev_re = re.compile(';rev=([^;]+)')
-         res = rev_re.search(srcuri)
-@@ -226,6 +230,10 @@ def create_recipe(args):
-         lines_after.append('PACKAGE_ARCH = "%s"' % pkgarch)
-         lines_after.append('')
- 
-+    if args.binary:
-+        lines_after.append('INSANE_SKIP_${PN} += "already-stripped"')
-+        lines_after.append('')
++"""Devtool runqemu plugin"""
 +
-     # Find all plugins that want to register handlers
-     handlers = []
-     for plugin in plugins:
-@@ -235,6 +243,11 @@ def create_recipe(args):
-     # Apply the handlers
-     classes = []
-     handled = []
++import os
++import bb
++import logging
++import argparse
++import glob
++from devtool import exec_build_env_command, setup_tinfoil, DevtoolError
 +
-+    if args.binary:
-+        classes.append('bin_package')
-+        handled.append('buildsystem')
++logger = logging.getLogger('devtool')
 +
-     for handler in handlers:
-         handler.process(srctree, classes, lines_before, lines_after, handled)
- 
-@@ -426,5 +439,6 @@ def register_command(subparsers):
-     parser_create.add_argument('-m', '--machine', help='Make recipe machine-specific as opposed to architecture-specific', action='store_true')
-     parser_create.add_argument('-x', '--extract-to', metavar='EXTRACTPATH', help='Assuming source is a URL, fetch it and extract it to the directory specified as %(metavar)s')
-     parser_create.add_argument('-V', '--version', help='Version to use within recipe (PV)')
-+    parser_create.add_argument('-b', '--binary', help='Treat the source tree as something that should be installed verbatim (no compilation, same directory structure)', action='store_true')
-     parser_create.set_defaults(func=create_recipe)
- 
++def runqemu(args, config, basepath, workspace):
++    """Entry point for the devtool 'runqemu' subcommand"""
++
++    tinfoil = setup_tinfoil()
++    machine = tinfoil.config_data.getVar('MACHINE', True)
++    bindir_native = tinfoil.config_data.getVar('STAGING_BINDIR_NATIVE', True)
++    tinfoil.shutdown()
++
++    if not glob.glob(os.path.join(bindir_native, 'qemu-system-*')):
++        raise DevtoolError('QEMU is not available within this SDK')
++
++    imagename = args.imagename
++    if not imagename:
++        sdk_targets = config.get('SDK', 'sdk_targets', '').split()
++        if sdk_targets:
++            imagename = sdk_targets[0]
++    if not imagename:
++        raise DevtoolError('Unable to determine image name to run, please specify one')
++
++    try:
++        exec_build_env_command(config.init_path, basepath, 'runqemu %s %s %s' % (machine, imagename, " ".join(args.args)), watch=True)
++    except bb.process.ExecutionError as e:
++        # We've already seen the output since watch=True, so just ensure we return something to the user
++        return e.exitcode
++
++    return 0
++
++def register_commands(subparsers, context):
++    """Register devtool subcommands from this plugin"""
++    if context.fixed_setup:
++        parser_runqemu = subparsers.add_parser('runqemu', help='Run QEMU on the specified image',
++                                               description='Runs QEMU to boot the specified image')
++        parser_runqemu.add_argument('imagename', help='Name of built image to boot within QEMU', nargs='?')
++        parser_runqemu.add_argument('args', help='Any remaining arguments are passed to the runqemu script (pass --help after imagename to see what these are)',
++                                    nargs=argparse.REMAINDER)
++        parser_runqemu.set_defaults(func=runqemu)
 -- 
 2.1.0
 
