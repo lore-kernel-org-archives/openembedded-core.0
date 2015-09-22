@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4791E7702D
+	by mail.openembedded.org (Postfix) with ESMTP id D09B876FD0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 16:22:15 +0000 (UTC)
+	Tue, 22 Sep 2015 16:22:16 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 22 Sep 2015 09:22:03 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 22 Sep 2015 09:22:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,573,1437462000"; d="scan'208";a="810520348"
+X-IronPort-AV: E=Sophos;i="5.17,573,1437462000"; d="scan'208";a="810520420"
 Received: from therrane-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.19.23])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Sep 2015 09:22:02 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 22 Sep 2015 09:22:03 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Sep 2015 17:21:29 +0100
-Message-Id: <ab1080ee22c01a5caec0d110abcf199cfc35ec8e.1442934838.git.paul.eggleton@linux.intel.com>
+Date: Tue, 22 Sep 2015 17:21:30 +0100
+Message-Id: <6526d17fe06f06a18296f6e616bd4d93b69d6ada.1442934838.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1442934838.git.paul.eggleton@linux.intel.com>
 References: <cover.1442934838.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1442934838.git.paul.eggleton@linux.intel.com>
 References: <cover.1442934838.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 15/27] recipetool: create: fix handling of URIs containing #
+Subject: [PATCH 16/27] devtool: show proper error when extracting source for recipes with disabled unpack task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,53 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Sep 2015 16:22:15 -0000
+X-List-Received-Date: Tue, 22 Sep 2015 16:22:18 -0000
 
-The # character in a URI denotes a fragment; we don't care about this
-since it is never supposed to be sent to the server, so remove it from
-the URI before actually trying to fetch it or use it in SRC_URI within
-the recipe.
-
-(This has come up because download links on pypi.python.org seem to have
-a fragment containing the md5sum of the download; without stripping this
-off the fetcher will choke on it.)
+If you try to use "devtool modify -x" or "devtool extract" on a recipe
+where do_unpack has been set as noexec (e.g. glibc-locale), then we get
+an error because the expected source wasn't ever unpacked. Do a check up
+front for noexec being set on do_unpack and error out with a reasonable
+message if that's the case.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/recipetool/create.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ scripts/lib/devtool/standard.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 99d9cc8..409b255 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -23,6 +23,7 @@ import fnmatch
- import re
- import logging
- import scriptutils
-+import urlparse
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 700a56b..72ec97b 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -261,6 +261,10 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+             raise DevtoolError("output path %s already exists and is "
+                                "non-empty" % srctree)
  
- logger = logging.getLogger('recipetool')
- 
-@@ -102,7 +103,8 @@ def create_recipe(args):
-     srcrev = '${AUTOREV}'
-     if '://' in args.source:
-         # Fetch a URL
--        srcuri = args.source
-+        fetchuri = urlparse.urldefrag(args.source)[0]
-+        srcuri = fetchuri
-         rev_re = re.compile(';rev=([^;]+)')
-         res = rev_re.search(srcuri)
-         if res:
-@@ -111,7 +113,7 @@ def create_recipe(args):
-         tempsrc = tempfile.mkdtemp(prefix='recipetool-')
-         srctree = tempsrc
-         logger.info('Fetching %s...' % srcuri)
--        checksums = scriptutils.fetch_uri(tinfoil.config_data, args.source, srctree, srcrev)
-+        checksums = scriptutils.fetch_uri(tinfoil.config_data, fetchuri, srctree, srcrev)
-         dirlist = os.listdir(srctree)
-         if 'git.indirectionsymlink' in dirlist:
-             dirlist.remove('git.indirectionsymlink')
++    if 'noexec' in (d.getVarFlags('do_unpack', False) or []):
++        raise DevtoolError("The %s recipe has do_unpack disabled, unable to "
++                           "extract source" % pn)
++
+     # Prepare for shutil.move later on
+     bb.utils.mkdirhier(srctree)
+     os.rmdir(srctree)
 -- 
 2.1.0
 
