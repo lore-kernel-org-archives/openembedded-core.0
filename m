@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id C2A0B76DFF
+	by mail.openembedded.org (Postfix) with ESMTP id 41A4376DFF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 16:22:20 +0000 (UTC)
+	Tue, 22 Sep 2015 16:22:21 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 22 Sep 2015 09:22:11 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 22 Sep 2015 09:22:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,573,1437462000"; d="scan'208";a="810520509"
+X-IronPort-AV: E=Sophos;i="5.17,573,1437462000"; d="scan'208";a="810520519"
 Received: from therrane-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.19.23])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Sep 2015 09:22:10 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 22 Sep 2015 09:22:11 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Sep 2015 17:21:38 +0100
-Message-Id: <3e281406153c9218644d4e558486c98bfd5e1bce.1442934838.git.paul.eggleton@linux.intel.com>
+Date: Tue, 22 Sep 2015 17:21:39 +0100
+Message-Id: <023819bae0cde65eaa6dd066d534c9c7d1e8ef3c.1442934838.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1442934838.git.paul.eggleton@linux.intel.com>
 References: <cover.1442934838.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1442934838.git.paul.eggleton@linux.intel.com>
 References: <cover.1442934838.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 24/27] devtool: build-image: delete bbappend at end of build
+Subject: [PATCH 25/27] devtool / recipetool: add handling for binary-only packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,128 +34,97 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 22 Sep 2015 16:22:21 -0000
 
-Upon further reflection, it seems to me that this bbappend ought to just
-be deleted at the end of the build. This keeps things simple; you never
-have to remember to delete any files to get back to where you were
-before with the image. This means we can also drop the slightly awkward
-message reminding the user how to do that. I've also updated the test to
-look at the image manifest to determine if the command has worked
-instead of looking for the (now deleted) bbappend.
+Add a means of creating recipes for package files or archives that
+contain a directory structure to be installed verbatim, for example an
+rpm file. (We mostly just re-use bin_package here and skip some of the
+normal build system checks.) This support is available in "recipetool
+create" and "devtool add" which wraps the former.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/devtool.py  | 22 +++++++++++-----
- scripts/lib/devtool/build-image.py | 53 +++++++++++++++++---------------------
- 2 files changed, 38 insertions(+), 37 deletions(-)
+ scripts/lib/devtool/standard.py  |  9 +++++++++
+ scripts/lib/recipetool/create.py | 14 ++++++++++++++
+ 2 files changed, 23 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index 6e731d6..3a8168c 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -919,7 +919,8 @@ class DevtoolTests(DevtoolBase):
-         self.add_command_to_tearDown('bitbake -c clean %s' % image)
-         bitbake('%s -c clean' % image)
-         # Add target and native recipes to workspace
--        for recipe in ('mdadm', 'parted-native'):
-+        recipes = ['mdadm', 'parted-native']
-+        for recipe in recipes:
-             tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-             self.track_for_cleanup(tempdir)
-             self.add_command_to_tearDown('bitbake -c clean %s' % recipe)
-@@ -927,12 +928,19 @@ class DevtoolTests(DevtoolBase):
-         # Try to build image
-         result = runCmd('devtool build-image %s' % image)
-         self.assertNotEqual(result, 0, 'devtool build-image failed')
--        # Check if image.bbappend has required content
--        bbappend = os.path.join(workspacedir, 'appends', image+'.bbappend')
--        self.assertTrue(os.path.isfile(bbappend), 'bbappend not created %s' % result.output)
--        # NOTE: native recipe parted-native should not be in IMAGE_INSTALL_append
--        self.assertTrue('IMAGE_INSTALL_append = " mdadm"\n' in open(bbappend).readlines(),
--                        'IMAGE_INSTALL_append = " mdadm" not found in %s' % bbappend)
-+        # Check if image contains expected packages
-+        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
-+        image_link_name = get_bb_var('IMAGE_LINK_NAME', image)
-+        reqpkgs = [item for item in recipes if not item.endswith('-native')]
-+        with open(os.path.join(deploy_dir_image, image_link_name + '.manifest'), 'r') as f:
-+            for line in f:
-+                splitval = line.split()
-+                if splitval:
-+                    pkg = splitval[0]
-+                    if pkg in reqpkgs:
-+                        reqpkgs.remove(pkg)
-+        if reqpkgs:
-+            self.fail('The following packages were not present in the image as expected: %s' % ', '.join(reqpkgs))
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index c254132..96b271c 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -94,6 +94,8 @@ def add(args, config, basepath, workspace):
+         source = srctree
+     if args.version:
+         extracmdopts += ' -V %s' % args.version
++    if args.binary:
++        extracmdopts += ' -b'
+     try:
+         stdout, _ = exec_build_env_command(config.init_path, basepath, 'recipetool --color=%s create -o %s "%s" %s' % (color, recipefile, source, extracmdopts))
+     except bb.process.ExecutionError as e:
+@@ -125,6 +127,12 @@ def add(args, config, basepath, workspace):
+         if initial_rev:
+             f.write('\n# initial_rev: %s\n' % initial_rev)
  
-     def test_devtool_upgrade(self):
-         # Check preconditions
-diff --git a/scripts/lib/devtool/build-image.py b/scripts/lib/devtool/build-image.py
-index a6c7d81..05c1d75 100644
---- a/scripts/lib/devtool/build-image.py
-+++ b/scripts/lib/devtool/build-image.py
-@@ -70,40 +70,33 @@ def build_image(args, config, basepath, workspace):
-         else:
-             raise DevtoolError('Specified recipe %s is not an image recipe' % image)
++        if args.binary:
++            f.write('do_install_append() {\n')
++            f.write('    rm -rf ${D}/.git\n')
++            f.write('    rm -f ${D}/singletask.lock\n')
++            f.write('}\n')
++
+     _add_md5(config, args.recipename, appendfile)
  
--    if workspace:
--        packages = _get_packages(tinfoil, workspace, config)
--        if packages:
--            with open(appendfile, 'w') as afile:
--                # include packages from workspace recipes into the image
--                afile.write('IMAGE_INSTALL_append = " %s"\n' % ' '.join(packages))
--
--                # Generate notification callback devtool_warn_image_extended
--                afile.write('do_rootfs[prefuncs] += "devtool_warn_image_extended"\n\n')
--                afile.write("python devtool_warn_image_extended() {\n")
--                afile.write("    bb.plain('NOTE: %%s: building with additional '\n"
--                            "             'packages due to \"devtool build-image\"'"
--                            "              %% d.getVar('PN', True))\n"
--                            "    bb.plain('NOTE: delete %%s to clear this' %% \\\n"
--                            "             '%s')\n" % os.path.relpath(appendfile, basepath))
--                afile.write("}\n")
--
--                logger.info('Building image %s with the following '
--                            'additional packages: %s', image, ' '.join(packages))
-+    try:
-+        if workspace:
-+            packages = _get_packages(tinfoil, workspace, config)
-+            if packages:
-+                with open(appendfile, 'w') as afile:
-+                    # include packages from workspace recipes into the image
-+                    afile.write('IMAGE_INSTALL_append = " %s"\n' % ' '.join(packages))
-+                    logger.info('Building image %s with the following '
-+                                'additional packages: %s', image, ' '.join(packages))
-+            else:
-+                logger.warning('No packages to add, building image %s unmodified', image)
-         else:
--            logger.warning('No packages to add, building image %s unmodified', image)
--    else:
--        logger.warning('No recipes in workspace, building image %s unmodified', image)
-+            logger.warning('No recipes in workspace, building image %s unmodified', image)
+     logger.info('Recipe %s has been automatically created; further editing may be required to make it fully functional' % recipefile)
+@@ -885,6 +893,7 @@ def register_commands(subparsers, context):
+     parser_add.add_argument('--fetch', '-f', help='Fetch the specified URI and extract it to create the source tree', metavar='URI')
+     parser_add.add_argument('--version', '-V', help='Version to use within recipe (PV)')
+     parser_add.add_argument('--no-git', '-g', help='If -f/--fetch is specified, do not set up source tree as a git repository', action="store_true")
++    parser_add.add_argument('--binary', '-b', help='Treat the source tree as something that should be installed verbatim (no compilation, same directory structure)', action='store_true')
+     parser_add.set_defaults(func=add)
  
--    deploy_dir_image = tinfoil.config_data.getVar('DEPLOY_DIR_IMAGE', True)
-+        deploy_dir_image = tinfoil.config_data.getVar('DEPLOY_DIR_IMAGE', True)
+     parser_modify = subparsers.add_parser('modify', help='Modify the source for an existing recipe',
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 409b255..844073b 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -104,6 +104,10 @@ def create_recipe(args):
+     if '://' in args.source:
+         # Fetch a URL
+         fetchuri = urlparse.urldefrag(args.source)[0]
++        if args.binary:
++            # Assume the archive contains the directory structure verbatim
++            # so we need to extract to a subdirectory
++            fetchuri += ';subdir=%s' % os.path.splitext(os.path.basename(urlparse.urlsplit(fetchuri).path))[0]
+         srcuri = fetchuri
+         rev_re = re.compile(';rev=([^;]+)')
+         res = rev_re.search(srcuri)
+@@ -226,6 +230,10 @@ def create_recipe(args):
+         lines_after.append('PACKAGE_ARCH = "%s"' % pkgarch)
+         lines_after.append('')
  
--    tinfoil.shutdown()
-+        tinfoil.shutdown()
++    if args.binary:
++        lines_after.append('INSANE_SKIP_${PN} += "already-stripped"')
++        lines_after.append('')
++
+     # Find all plugins that want to register handlers
+     handlers = []
+     for plugin in plugins:
+@@ -235,6 +243,11 @@ def create_recipe(args):
+     # Apply the handlers
+     classes = []
+     handled = []
++
++    if args.binary:
++        classes.append('bin_package')
++        handled.append('buildsystem')
++
+     for handler in handlers:
+         handler.process(srctree, classes, lines_before, lines_after, handled)
  
--    # run bitbake to build image
--    try:
--        exec_build_env_command(config.init_path, basepath,
--                               'bitbake %s' % image, watch=True)
--    except ExecutionError as err:
--        return err.exitcode
-+        # run bitbake to build image
-+        try:
-+            exec_build_env_command(config.init_path, basepath,
-+                                'bitbake %s' % image, watch=True)
-+        except ExecutionError as err:
-+            return err.exitcode
-+    finally:
-+        if os.path.isfile(appendfile):
-+            os.unlink(appendfile)
+@@ -426,5 +439,6 @@ def register_command(subparsers):
+     parser_create.add_argument('-m', '--machine', help='Make recipe machine-specific as opposed to architecture-specific', action='store_true')
+     parser_create.add_argument('-x', '--extract-to', metavar='EXTRACTPATH', help='Assuming source is a URL, fetch it and extract it to the directory specified as %(metavar)s')
+     parser_create.add_argument('-V', '--version', help='Version to use within recipe (PV)')
++    parser_create.add_argument('-b', '--binary', help='Treat the source tree as something that should be installed verbatim (no compilation, same directory structure)', action='store_true')
+     parser_create.set_defaults(func=create_recipe)
  
-     logger.info('Successfully built %s. You can find output files in %s'
-                 % (image, deploy_dir_image))
 -- 
 2.1.0
 
