@@ -1,31 +1,23 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 988217391A
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 9561D766E9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 19:13:14 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id E9B58F811FE; Tue, 22 Sep 2015 13:13:14 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id E1C9EF811F1;
-	Tue, 22 Sep 2015 13:13:13 -0600 (MDT)
+	Tue, 22 Sep 2015 19:23:54 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 22 Sep 2015 12:23:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,574,1437462000"; d="scan'208";a="795018174"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Sep 2015 12:23:55 -0700
+From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-References: <560173B5.1000408@mlbassoc.com>
-	<CAP9ODKpcr+YgGsvnRrsxy9Z2xsN5+KP4KiP-UvYij5eyN+1V1g@mail.gmail.com>
-	<56019A6B.3070206@mlbassoc.com>
-	<CAP9ODKpQDhCL9QbACgMRzV=N_Z7476a1_OxkhV7z0O7PfVd_rQ@mail.gmail.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <5601A857.7060404@mlbassoc.com>
-Date: Tue, 22 Sep 2015 13:13:27 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKpQDhCL9QbACgMRzV=N_Z7476a1_OxkhV7z0O7PfVd_rQ@mail.gmail.com>
-Subject: Re: Error building gdk-pixbuf-native
+Date: Tue, 22 Sep 2015 11:14:15 +0000
+Message-Id: <df4f3c9437eab3eb8f400f06052d2a81658c9659.1442920096.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1442920096.git.mariano.lopez@linux.intel.com>
+References: <cover.1442920096.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1] oeqa/utils/dump: Add default commands and directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,71 +30,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Sep 2015 19:13:15 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Sep 2015 19:23:59 -0000
 
-On 2015-09-22 12:38, Otavio Salvador wrote:
-> On Tue, Sep 22, 2015 at 3:14 PM, Gary Thomas <gary@mlbassoc.com> wrote:
->> On 2015-09-22 12:05, Otavio Salvador wrote:
->>>
->>> On Tue, Sep 22, 2015 at 12:28 PM, Gary Thomas <gary@mlbassoc.com> wrote:
->>>>
->>>> When building gdk-pixbuf-native, I got this error:
->>>> | DEBUG: Staging files from
->>>>
->>>> /home/local/rpi2_2015-03-05/tmp/work/i686-linux/gdk-pixbuf-native/2.30.8-r0/sysroot-destdir/home/local/rpi2_2015-03-05/tmp/sysroots/i686-linux
->>>> to /home/local/rpi2_2015-03-05/tmp/sysroots/i686-linux
->>>> | DEBUG: Executing shell function pixbufcache_sstate_postinst
->>>> | g_module_open() failed for
->>>>
->>>> /home/local/rpi2_2015-03-05/tmp/sysroots/i686-linux/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so:
->>>> libharfbuzz.so.0: cannot open shared object file: No such file or
->>>> directory
->>>>
->>>> It seems that [at least] gdk-pixbuf-native needs harfbuzz-native
->>>> I looked at the recipe, but it's not 100% obvious to me how to
->>>> add this, especially w.r.t. all of the PACKAGECONFIG options.
->>>>
->>>> Guidance?
->>>
->>>
->>> I had similar failures[1] at O.S. Systems autobuilder and rebuilding
->>> made it work.
->>>
->>> 1.
->>> http://ci.ossystems.com.br/view/FSL%20Community%20BSP%20-%20master-next/job/fsl-community-bsp-master-next_wayland-imx28evk/827/console
->>>
->>> The builds are now succeeding but I did no change to fix it. This
->>> seems like a race for me.
->>>
->>> I tried very hard to reproduce the issue locally at my laptop without
->>> success. Do you can reliably reproduce it?
->>>
->>
->> Yes, I had a full tree and this rebuild was kicked off by a meta-data
->> update.  Once it happened, I tried this:
->>    % bitbake harfbuzz-native gdk-pixbuf-native -c cleansstate
->>    % bitbake gdk-pixbuf-native
->> failed.  However the manual sequence
->>    % bitbake harfbuzz-native
->>    % bitbake gdk-pixbuf-native
->> succeeded.
->
-> I still do not reproduce it :-(
->
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-It seems to be a host [contamination?] issue.  I get this error
-on a build host that does not have libharfbuzz.so installed.  On
-a build host which does, there is no error.
+Currently if qemu fails when running a selftest and
+tries to run some commands on the host it will fail
+because some variables required by the Dumper class
+do not exist because testimage was not included.
 
-Note that it is only for the native package, so perhaps that's
-where the dependency needs to be updated/checked (hence my original
-query)
+This change adds a default parent directory to save
+the dumps for the host or target. Also adds default
+commands to run if no commands were provided to the
+class. With these changes the previous errors using
+selftest don't show anymore.
 
+[YOCTO #8306]
+
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/lib/oeqa/utils/dump.py | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/meta/lib/oeqa/utils/dump.py b/meta/lib/oeqa/utils/dump.py
+index 4ae871c..3f31e20 100644
+--- a/meta/lib/oeqa/utils/dump.py
++++ b/meta/lib/oeqa/utils/dump.py
+@@ -16,9 +16,18 @@ class BaseDumper(object):
+ 
+     def __init__(self, cmds, parent_dir):
+         self.cmds = []
+-        self.parent_dir = parent_dir
++        # Some testing doesn't inherit testimage, so it is needed
++        # to set some defaults.
++        self.parent_dir = parent_dir or "/tmp/oe-saved-tests"
++        dft_cmds = """  top -bn1
++                        ps -ef
++                        free
++                        df
++                        memstat
++                        dmesg
++                        netstat -an"""
+         if not cmds:
+-            return
++            cmds = dft_cmds
+         for cmd in cmds.split('\n'):
+             cmd = cmd.lstrip()
+             if not cmd or cmd[0] == '#':
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+1.8.4.5
+
 
