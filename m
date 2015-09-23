@@ -1,26 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EB69F76E04
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DB2C766E9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 09:11:04 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8N9B4h6017466
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 02:11:05 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Wed, 23 Sep 2015 02:11:04 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Sep 2015 17:04:37 +0800
-Message-ID: <5993b8b026b856120c0dacff24fd9b0069792e93.1442999001.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.6.0.rc2.10.gf4d9753
-In-Reply-To: <cover.1442999001.git.kai.kang@windriver.com>
-References: <cover.1442999001.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] p11-kit: configure without trust-paths
+	Wed, 23 Sep 2015 10:05:46 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 23 Sep 2015 03:05:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,577,1437462000"; d="scan'208";a="795471358"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.4.127])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Sep 2015 03:05:46 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Sep 2015 11:05:24 +0100
+Message-Id: <d704afc34cb88818e7ccd3d331f6ede48cd2d10c.1443002672.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1443002672.git.paul.eggleton@linux.intel.com>
+References: <cover.1443002672.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1443002672.git.paul.eggleton@linux.intel.com>
+References: <cover.1443002672.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH v2 2/3] devtool: runqemu: avoid recipe parse
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Sep 2015 09:11:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 23 Sep 2015 10:05:48 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+We only need the base configuration to get the variable values we want
+to get here, there's no need to parse recipes / load the cache.
 
-Configure option --with-trust-paths is only used for test scripts
-trust/test-extract which is not packaged by default. If the option is
-not provided, it checks 4 files on build machine. If the files don't
-exist, configure fails.
-
-Add configure option '--without-trust-paths' to fix this issue.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-support/p11-kit/p11-kit_0.22.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/lib/devtool/runqemu.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb b/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
-index 7ad9626..ee77951 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
-@@ -10,6 +10,8 @@ SRC_URI = "http://p11-glue.freedesktop.org/releases/${BP}.tar.gz"
- SRC_URI[md5sum] = "4e9bea1106628ffb820bdad24a819fac"
- SRC_URI[sha256sum] = "ef3a339fcf6aa0e32c8c23f79ba7191e57312be2bda8b24e6d121c2670539a5c"
+diff --git a/scripts/lib/devtool/runqemu.py b/scripts/lib/devtool/runqemu.py
+index 4d08d8c..5282afb 100644
+--- a/scripts/lib/devtool/runqemu.py
++++ b/scripts/lib/devtool/runqemu.py
+@@ -29,7 +29,7 @@ logger = logging.getLogger('devtool')
+ def runqemu(args, config, basepath, workspace):
+     """Entry point for the devtool 'runqemu' subcommand"""
  
-+EXTRA_OECONF = "--without-trust-paths"
-+
- FILES_${PN}-dev += " \
-     ${libdir}/p11-kit-proxy.so \
-     ${libdir}/pkcs11/p11-kit-trust.so \
+-    tinfoil = setup_tinfoil(basepath=basepath)
++    tinfoil = setup_tinfoil(config_only=True, basepath=basepath)
+     machine = tinfoil.config_data.getVar('MACHINE', True)
+     bindir_native = tinfoil.config_data.getVar('STAGING_BINDIR_NATIVE', True)
+     tinfoil.shutdown()
 -- 
-2.6.0.rc2.10.gf4d9753
+2.1.0
 
 
