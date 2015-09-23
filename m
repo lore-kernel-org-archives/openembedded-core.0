@@ -1,33 +1,42 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 535F373243
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F3207391A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 23:30:37 +0000 (UTC)
-Received: by pacbt3 with SMTP id bt3so4102961pac.3
+	Wed, 23 Sep 2015 00:28:40 +0000 (UTC)
+Received: by igcpb10 with SMTP id pb10so110229322igc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Sep 2015 16:30:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=RzrZnXbg4wo4wiKT8fmGHx+GgwW9wIwSmOZJK5VJoyc=;
-	b=SUvx2HCfuDQD5jTKhM7JxtkxQcCmuzEemROQ+j+kGkfL/qFIKakVRSC32gB5k3ueKO
-	fCBu9Alpwx4dMiErxhpdlm5VOL+MLHiwgPDQtYYeSz8T1lhbAfg6+gHF/CTd3x4CnITd
-	6kxyI4rDTEsMig4Asxvd2NPm3mp8Z78a3K6yISbVaHRoo5q1BJ/tixtX3R7ETPZhW+RT
-	6ROF38/GythksEJpOH5cokTrphJwf7kqdsINlvCX9TYxJQ8oEzf6oYIoMi+/DVukH6MX
-	IoeY/1JKh495vciJibbD3w7hkkmf+hMXNG6AlWj8i0w8viEkBhaLXSqievfdrJKoDJFc
-	sL/Q==
-X-Received: by 10.66.250.197 with SMTP id ze5mr24582496pac.50.1442964638360;
-	Tue, 22 Sep 2015 16:30:38 -0700 (PDT)
-Received: from [172.16.4.54] ([70.35.39.2]) by smtp.gmail.com with ESMTPSA id
-	yi8sm4303397pab.22.2015.09.22.16.30.36
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 22 Sep 2015 16:30:37 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAP9ODKrmkLw2NQ8SWtSxjXCoUi-Xzmo+4xP3rYmfgkLCPQgqvw@mail.gmail.com>
-Date: Tue, 22 Sep 2015 16:30:29 -0700
-Message-Id: <19D16A42-669F-4A59-A1ED-D05C26508E00@gmail.com>
+	Tue, 22 Sep 2015 17:28:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=OepFHKRyqQwi+lP33wv6//add6CTw08Pl97DM14voRM=;
+	b=mFUtk85wQFH84Zad7sTNakY3gN3Fg1IiXY5vikrSnL+5wBKd4xQ/1x2rS70zTjse5z
+	rSLlgzidNv0MnjC11bu5SsoWEpXPl6Nhof/hauNZ+a2OPmWkRECGZ7cAF84J8sJajXiv
+	tOkY5wKiqLubq89bXx+gyWJvicc14fRPBfDVzEYO0QsV4c52XVP167JUsec8lXPnRLYz
+	7uDmALgMbvUa3pTJCMcY6V8bw7RZChSvYCq3DognUVPPmMAvoFuVoZ4iyvpCmAVcwFO8
+	Jz5BpT8/3pws5Rj4TBR44GWS6A/LRHyscRuxjBxexOAXuthNCUMJjNPg/wx6dHo0Yukw
+	m8hA==
+X-Gm-Message-State: ALoCoQnYwqn3nrpgyNuOUbCzicWr5Ds+2Q84909ZzdoG6fmn6Zx6EmabI8nZh+uYnktwuE/gIvol
+X-Received: by 10.50.30.133 with SMTP id s5mr20908629igh.4.1442968120896;
+	Tue, 22 Sep 2015 17:28:40 -0700 (PDT)
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com.
+	[209.85.223.173])
+	by smtp.gmail.com with ESMTPSA id z5sm2189067igl.21.2015.09.22.17.28.38
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 Sep 2015 17:28:39 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by ioii196 with SMTP id i196so30775584ioi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Sep 2015 17:28:38 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.107.160.194 with SMTP id j185mr33735874ioe.37.1442968118557; 
+	Tue, 22 Sep 2015 17:28:38 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Tue, 22 Sep 2015 17:28:38 -0700 (PDT)
+In-Reply-To: <19D16A42-669F-4A59-A1ED-D05C26508E00@gmail.com>
 References: <560173B5.1000408@mlbassoc.com>
 	<CAP9ODKpcr+YgGsvnRrsxy9Z2xsN5+KP4KiP-UvYij5eyN+1V1g@mail.gmail.com>
 	<56019A6B.3070206@mlbassoc.com>
@@ -35,8 +44,10 @@ References: <560173B5.1000408@mlbassoc.com>
 	<5601A857.7060404@mlbassoc.com>
 	<03ABB337-6070-4E3E-9D23-151E454481D4@gmail.com>
 	<CAP9ODKrmkLw2NQ8SWtSxjXCoUi-Xzmo+4xP3rYmfgkLCPQgqvw@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Mailer: Apple Mail (2.3094)
+	<19D16A42-669F-4A59-A1ED-D05C26508E00@gmail.com>
+Date: Tue, 22 Sep 2015 21:28:38 -0300
+Message-ID: <CAP9ODKpdpMK5jApg7cP3AQ70xEXoC3_V5i_mUGVqBVmTEcY-cw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Gary Thomas <gary@mlbassoc.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -53,31 +64,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Sep 2015 23:30:38 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 23 Sep 2015 00:28:42 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Tue, Sep 22, 2015 at 8:30 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> On Sep 22, 2015, at 4:28 PM, Otavio Salvador <otavio.salvador@ossystems.com.br> wrote:
+>>
+>> On Tue, Sep 22, 2015 at 8:23 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>> its normal for build to use libraries from build host for native tools. If we want to abstract that
+>>> from host deps then creating a dependency on package-native is the way
+>>
+>> The point is this seems to be not deterministic. Sometimes this works,
+>> others it does not.
+>
+>
+> you can debug it by moving the dependency from default task to earlier or later task and see where its failing sometimes
+> some configure might run where we do not expect it to.
 
-> On Sep 22, 2015, at 4:28 PM, Otavio Salvador =
-<otavio.salvador@ossystems.com.br> wrote:
->=20
-> On Tue, Sep 22, 2015 at 8:23 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> its normal for build to use libraries from build host for native =
-tools. If we want to abstract that
->> from host deps then creating a dependency on package-native is the =
-way
->=20
-> The point is this seems to be not deterministic. Sometimes this works,
-> others it does not.
+I cannot reproduce it locally, just in my autobuilder and now it does
+not fail anymore. Gary is the only one seeing it.
 
-
-you can debug it by moving the dependency from default task to earlier =
-or later task and see where its failing sometimes
-some configure might run where we do not expect it to.
->=20
-> --=20
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
