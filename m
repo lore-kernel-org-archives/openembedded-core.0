@@ -1,28 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id ED3CC76903
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id DF4FF76903
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 16:05:09 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 23 Sep 2015 09:04:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,577,1437462000"; d="scan'208";a="775392922"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.4.127])
-	by orsmga001.jf.intel.com with ESMTP; 23 Sep 2015 09:04:35 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Christopher Larson <clarson@kergoth.com>
-Date: Wed, 23 Sep 2015 17:04:34 +0100
-Message-ID: <1794995.XFMYy99IqN@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.6-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <CABcZANnYmSQeh9YtOs+4k6XmiybG+5dLW+8HRpQX8mnTh-s96A@mail.gmail.com>
-References: <cover.1443002672.git.paul.eggleton@linux.intel.com>
-	<4f3ba0dba496671c2d229be52debce6ab01a6b71.1443002672.git.paul.eggleton@linux.intel.com>
-	<CABcZANnYmSQeh9YtOs+4k6XmiybG+5dLW+8HRpQX8mnTh-s96A@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/3] devtool: second fix for running from a different directory
+	Wed, 23 Sep 2015 16:13:48 +0000 (UTC)
+Received: by wiclk2 with SMTP id lk2so76922270wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Sep 2015 09:13:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=nDosuWQYPOO9mJy+vPVjYm+DjTzLk/LOh2dMnpEi5mA=;
+	b=oEBzCoMmXt1GX1X5WjMFXUehU8pw2ZtKf/EXX2hswjbo21Wgh2NVwX5EbSxpUWmsec
+	ktWa6soK/JMm/kbVQQXwM4bNq8o5dCyTkrRQri4fhhkgHQDDOUu1MgF2sxXz/GoWsAqT
+	zkPgyrsHzA+knkFDM9AeMtnAKVE0aozdWDnhg1juPaa9S0LwuQIQ39TRM1327NaOk5db
+	oP+hL5xtX/KhGy4uzwplMTx3w2cB67yCpnZqsKOLGV4+7M5c6CiUDOz8Xszv6ukdqorB
+	Out7/JMFjTcp0qaxLI6DHeuPQlk8GVd3qBHYkI3HD4/hSm6YF6uBOcLqPHdgK6+M1BHo
+	U4BA==
+X-Received: by 10.180.8.232 with SMTP id u8mr5268034wia.10.1443024828297;
+	Wed, 23 Sep 2015 09:13:48 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id x7sm9303024wia.5.2015.09.23.09.13.47
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 23 Sep 2015 09:13:47 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Sep 2015 18:13:56 +0200
+Message-Id: <1443024836-20974-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.5.3
+In-Reply-To: <1441317404-6663-1-git-send-email-alejandro.franco@linux.intel.com>
+References: <1441317404-6663-1-git-send-email-alejandro.franco@linux.intel.com>
+Subject: [PATCH] sanity.bbclass: show warning when chmod fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,51 +43,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Sep 2015 16:05:14 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 23 Sep 2015 16:13:52 -0000
 
-On Wednesday 23 September 2015 08:09:37 Christopher Larson wrote:
-> On Wed, Sep 23, 2015 at 3:05 AM, Paul Eggleton <
-> 
-> paul.eggleton@linux.intel.com> wrote:
-> > -def setup_tinfoil(config_only=False):
-> > 
-> > +def setup_tinfoil(config_only=False, basepath=None):
-> >      """Initialize tinfoil api from bitbake"""
-> >      import scriptpath
-> > 
-> > +    orig_cwd = os.path.abspath(os.curdir)
-> > +    if basepath:
-> > +        os.chdir(basepath)
-> > 
-> >      bitbakepath = scriptpath.add_bitbake_lib_path()
-> >      
-> >      if not bitbakepath:
-> >          logger.error("Unable to find bitbake by searching parent
-> > 
-> > directory of this script or PATH")
-> > 
-> > @@ -108,6 +111,7 @@ def setup_tinfoil(config_only=False):
-> >      tinfoil = bb.tinfoil.Tinfoil()
-> >      tinfoil.prepare(config_only)
-> >      tinfoil.logger.setLevel(logger.getEffectiveLevel())
-> > 
-> > +    os.chdir(orig_cwd)
-> > 
-> >      return tinfoil
-> 
-> Just from a correctness standpoint, this will not go back to orig_cwd if an
-> exception is raised. We should be using a try/finally block for things like
-> this.
+From: Alex Franco <alejandro.franco@linux.intel.com>
 
-That is a good point yes. I can send out a v3.
+* for some reason this part of:
+  http://patchwork.openembedded.org/patch/102561/
+  wasn't ever merged.
 
-Cheers,
-Paul
+[YOCTO #7669]
 
+Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/sanity.bbclass | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 2eb744f..34f8618 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -839,9 +839,12 @@ def check_sanity_everybuild(status, d):
+     else:
+         bb.utils.mkdirhier(tmpdir)
+         # Remove setuid, setgid and sticky bits from TMPDIR
+-        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISUID)
+-        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISGID)
+-        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISVTX)
++        try:
++            os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISUID)
++            os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISGID)
++            os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISVTX)
++        except OSError:
++            bb.warn("Unable to chmod TMPDIR: %s" % tmpdir)
+         with open(checkfile, "w") as f:
+             f.write(tmpdir)
+ 
 -- 
+2.5.3
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
