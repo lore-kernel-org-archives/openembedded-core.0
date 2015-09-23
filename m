@@ -1,37 +1,23 @@
 Return-Path: <george.l.musat@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E51667404E
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B7827404E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 15:22:39 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 23 Sep 2015 08:22:39 -0700
+	Wed, 23 Sep 2015 15:42:23 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Sep 2015 08:42:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,577,1437462000"; 
-	d="scan'208,217";a="811503525"
-Received: from irsmsx110.ger.corp.intel.com ([163.33.3.25])
-	by orsmga002.jf.intel.com with ESMTP; 23 Sep 2015 08:22:38 -0700
-Received: from irsmsx107.ger.corp.intel.com ([169.254.10.236]) by
-	irsmsx110.ger.corp.intel.com ([169.254.15.164]) with mapi id
-	14.03.0248.002; Wed, 23 Sep 2015 16:22:37 +0100
-From: "Musat, George L" <george.l.musat@intel.com>
-To: Christopher Larson <clarson@kergoth.com>
-Thread-Topic: [OE-core] [PATCH 2/2] oeqa/runexported: Removed DEPLOY_DIR as
-	mandatory.
-Thread-Index: AQHQ9d6Rh2cFj4k/y0W5dCnp8HgL2p5KJ+AAgAASvLA=
-Date: Wed, 23 Sep 2015 15:22:37 +0000
-Message-ID: <042E875E1B5D414CA9BB78B7D4FA691C28853E25@IRSMSX107.ger.corp.intel.com>
-References: <1442998964-15233-1-git-send-email-george.l.musat@intel.com>
-	<1442998964-15233-2-git-send-email-george.l.musat@intel.com>
-	<CABcZAN=KLH1yKR1iNgZqegvUWOZF-AyKSJusC5q6v3VQ1EzkFQ@mail.gmail.com>
-In-Reply-To: <CABcZAN=KLH1yKR1iNgZqegvUWOZF-AyKSJusC5q6v3VQ1EzkFQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] oeqa/runexported: Removed DEPLOY_DIR as mandatory.
+X-IronPort-AV: E=Sophos;i="5.17,577,1437462000"; d="scan'208";a="775376294"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 23 Sep 2015 08:42:23 -0700
+Received: from localhost.localdomain (unknown [10.237.112.173])
+	by linux.intel.com (Postfix) with ESMTP id D04F76A4005;
+	Wed, 23 Sep 2015 08:41:28 -0700 (PDT)
+From: Lucian Musat <george.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Sep 2015 18:40:25 +0300
+Message-Id: <1443022826-32446-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCHv2 1/2] oeqa/oetest: Remove bb as requirement for oetest.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,139 +30,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Sep 2015 15:22:41 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_042E875E1B5D414CA9BB78B7D4FA691C28853E25IRSMSX107gercor_"
+X-List-Received-Date: Wed, 23 Sep 2015 15:42:25 -0000
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C28853E25IRSMSX107gercor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+In order for the test export runner to work oetest needs to be
+separated from bitbake environment. There is no need to use bb
+import here so we can use a logger instead.
 
-DQoNCkZyb206IGtlcmdvdGhAZ21haWwuY29tIFttYWlsdG86a2VyZ290aEBnbWFpbC5jb21dIE9u
-IEJlaGFsZiBPZiBDaHJpc3RvcGhlciBMYXJzb24NClNlbnQ6IFdlZG5lc2RheSwgU2VwdGVtYmVy
-IDIzLCAyMDE1IDY6MTIgUE0NClRvOiBNdXNhdCwgR2VvcmdlIEwNCkNjOiBQYXRjaGVzIGFuZCBk
-aXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KU3ViamVjdDogUmU6IFtPRS1jb3Jl
-XSBbUEFUQ0ggMi8yXSBvZXFhL3J1bmV4cG9ydGVkOiBSZW1vdmVkIERFUExPWV9ESVIgYXMgbWFu
-ZGF0b3J5Lg0KDQpTb3JyeSwgZGlkbuKAmXQga25vdyB0aGF0LiBDYW5ub3QgdXNlIGJiIGhlcmUg
-YmVjYXVzZSB0aGUgdGVzdCBleHBvcnQgc3lzdGVtIGlzIG91dHNpZGUgdGhlIGJpdGJha2UgZW52
-aXJvbm1lbnQuIFdpbGwgc2VuZCB2MiBvZiB0aGUgcGF0Y2ggd2l0aCB0aGUgcHJpbnQgZnVuY3Rp
-b24uDQoNCk9uIFdlZCwgU2VwIDIzLCAyMDE1IGF0IDI6MDIgQU0sIEx1Y2lhbiBNdXNhdCA8Z2Vv
-cmdlLmwubXVzYXRAaW50ZWwuY29tPG1haWx0bzpnZW9yZ2UubC5tdXNhdEBpbnRlbC5jb20+PiB3
-cm90ZToNCldlIGRvbid0IG5lZWQgREVQTE9ZX0RJUiBmb3IgZXZlcnkgcnVudGltZSB0ZXN0IHNv
-IHRoZXJlIGlzIG5vDQpuZWVkIGZvciBpdCB0byBiZSBtYW5kYXRvcnkuDQoNClNpZ25lZC1vZmYt
-Ynk6IEx1Y2lhbiBNdXNhdCA8Z2VvcmdlLmwubXVzYXRAaW50ZWwuY29tPG1haWx0bzpnZW9yZ2Uu
-bC5tdXNhdEBpbnRlbC5jb20+Pg0KLS0tDQogbWV0YS9saWIvb2VxYS9ydW5leHBvcnRlZC5weSB8
-IDIgKy0NCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCg0K
-ZGlmZiAtLWdpdCBhL21ldGEvbGliL29lcWEvcnVuZXhwb3J0ZWQucHkgYi9tZXRhL2xpYi9vZXFh
-L3J1bmV4cG9ydGVkLnB5DQppbmRleCA5NjQ0MmIxLi43ZDY4OTY1IDEwMDc1NQ0KLS0tIGEvbWV0
-YS9saWIvb2VxYS9ydW5leHBvcnRlZC5weQ0KKysrIGIvbWV0YS9saWIvb2VxYS9ydW5leHBvcnRl
-ZC5weQ0KQEAgLTExMiw3ICsxMTIsNyBAQCBkZWYgbWFpbigpOg0KICAgICAgICAgZFsiREVQTE9Z
-X0RJUiJdID0gb3B0aW9ucy5kZXBsb3lfZGlyDQogICAgIGVsc2U6DQogICAgICAgICBpZiBub3Qg
-b3MucGF0aC5pc2RpcihkWyJERVBMT1lfRElSIl0pOg0KLSAgICAgICAgICAgIHJhaXNlIEV4Y2Vw
-dGlvbigiVGhlIHBhdGggdG8gREVQTE9ZX0RJUiBkb2VzIG5vdCBleGlzdHM6ICVzIiAlIGRbIkRF
-UExPWV9ESVIiXSkNCisgICAgICAgICAgICBwcmludCAiV0FSTklORzogVGhlIHBhdGggdG8gREVQ
-TE9ZX0RJUiBkb2VzIG5vdCBleGlzdDogJXMiICUgZFsiREVQTE9ZX0RJUiJdDQoNCkZpcnN0LCB3
-ZSBnZW5lcmFsbHkgdXNlIGxvZ2dlcnMgLyB0aGUgYmIgbWVzc2FnaW5nIGNvbW1hbmRzIGluc3Rl
-YWQgb2YgcHJpbnQuIEFzc3VtaW5nIHRoYXQncyBub3QgYXBwcm9wcmlhdGUgaGVyZSBmb3Igc29t
-ZSByZWFzb24sIGF0IGxlYXN0IHVzZSB0aGUgcHJpbnQgZnVuY3Rpb24sIG5vdCB0aGUgcHJpbnQg
-Y29tbWFuZCwgdG8gbWFrZSB0aGUgcHl0aG9uIG1vcmUgZm9yd2FyZCBwb3J0YWJsZS4gVGhlIGNv
-bW1hbmQgbm8gbG9uZ2VyIHdvcmtzIGluIGZ1dHVyZSB2ZXJzaW9ucyBvZiBweXRob24uDQotLQ0K
-Q2hyaXN0b3BoZXIgTGFyc29uDQpjbGFyc29uIGF0IGtlcmdvdGggZG90IGNvbQ0KRm91bmRlciAt
-IEJpdEJha2UsIE9wZW5FbWJlZGRlZCwgT3BlblphdXJ1cw0KTWFpbnRhaW5lciAtIFRzbGliDQpT
-ZW5pb3IgU29mdHdhcmUgRW5naW5lZXIsIE1lbnRvciBHcmFwaGljcw0K
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+---
+ meta/lib/oeqa/oetest.py | 29 +++++++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 8 deletions(-)
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C28853E25IRSMSX107gercor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index 3816c1a..0be61c2 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -11,10 +11,16 @@ import os, re, mmap
+ import unittest
+ import inspect
+ import subprocess
+-import bb
++try:
++    import bb
++except ImportError:
++    pass
++import logging
+ from oeqa.utils.decorators import LogResults, gettag
+ from sys import exc_info, exc_clear
+ 
++logger = logging.getLogger("BitBake")
++
+ def getVar(obj):
+     #extend form dict, if a variable didn't exists, need find it in testcase
+     class VarDict(dict):
+@@ -89,7 +95,7 @@ def loadTests(tc, type="runtime"):
+                                 suite.dependencies.append(dep_suite)
+                             break
+                     else:
+-                        bb.warn("Test %s was declared as @skipUnlessPassed('%s') but that test is either not defined or not active. Will run the test anyway." %
++                        logger.warning("Test %s was declared as @skipUnlessPassed('%s') but that test is either not defined or not active. Will run the test anyway." %
+                                 (test, depends_on))
+     # Use brute-force topological sort to determine ordering. Sort by
+     # depth (higher depth = must run later), with original ordering to
+@@ -114,19 +120,26 @@ def custom_verbose(msg, *args, **kwargs):
+         _buffer += msg
+     else:
+         _buffer += msg
+-        bb.plain(_buffer.rstrip("\n"), *args, **kwargs)
++        try:
++            bb.plain(_buffer.rstrip("\n"), *args, **kwargs)
++        except NameError:
++            logger.info(_buffer.rstrip("\n"), *args, **kwargs)
+         _buffer = ""
+ 
+ def runTests(tc, type="runtime"):
+ 
+     suite = loadTests(tc, type)
+-    bb.note("Test modules  %s" % tc.testslist)
++    logger.info("Test modules  %s" % tc.testslist)
+     if hasattr(tc, "tagexp") and tc.tagexp:
+-        bb.note("Filter test cases by tags: %s" % tc.tagexp)
+-    bb.note("Found %s tests" % suite.countTestCases())
++        logger.info("Filter test cases by tags: %s" % tc.tagexp)
++    logger.info("Found %s tests" % suite.countTestCases())
+     runner = unittest.TextTestRunner(verbosity=2)
+-    if bb.msg.loggerDefaultVerbose:
+-        runner.stream.write = custom_verbose
++    try:
++        if bb.msg.loggerDefaultVerbose:
++            runner.stream.write = custom_verbose
++    except NameError:
++        # Not in bb environment?
++        pass
+     result = runner.run(suite)
+ 
+     return result
+-- 
+2.1.4
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
-ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
-CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
-MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
-MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
-cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
-aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
-YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
-aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
-cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29tcG9zZSI+PHNwYW4g
-c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oyxz
-YW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvYT48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
-b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwv
-Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
-JnF1b3Q7LHNhbnMtc2VyaWYiPiBrZXJnb3RoQGdtYWlsLmNvbSBbbWFpbHRvOmtlcmdvdGhAZ21h
-aWwuY29tXQ0KPGI+T24gQmVoYWxmIE9mIDwvYj5DaHJpc3RvcGhlciBMYXJzb248YnI+DQo8Yj5T
-ZW50OjwvYj4gV2VkbmVzZGF5LCBTZXB0ZW1iZXIgMjMsIDIwMTUgNjoxMiBQTTxicj4NCjxiPlRv
-OjwvYj4gTXVzYXQsIEdlb3JnZSBMPGJyPg0KPGI+Q2M6PC9iPiBQYXRjaGVzIGFuZCBkaXNjdXNz
-aW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcjxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09F
-LWNvcmVdIFtQQVRDSCAyLzJdIG9lcWEvcnVuZXhwb3J0ZWQ6IFJlbW92ZWQgREVQTE9ZX0RJUiBh
-cyBtYW5kYXRvcnkuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIHN0eWxlPSJjb2xvcjojMUY0OTdEIj5Tb3JyeSwgZGlkbuKAmXQga25vdyB0aGF0LiBD
-YW5ub3QgdXNlIGJiIGhlcmUgYmVjYXVzZSB0aGUgdGVzdCBleHBvcnQgc3lzdGVtIGlzIG91dHNp
-ZGUgdGhlIGJpdGJha2UgZW52aXJvbm1lbnQuIFdpbGwgc2VuZCB2MiBvZiB0aGUgcGF0Y2ggd2l0
-aCB0aGUgcHJpbnQgZnVuY3Rpb24uPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
-Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9zcGFuPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiBXZWQsIFNlcCAyMywg
-MjAxNSBhdCAyOjAyIEFNLCBMdWNpYW4gTXVzYXQgJmx0OzxhIGhyZWY9Im1haWx0bzpnZW9yZ2Uu
-bC5tdXNhdEBpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5nZW9yZ2UubC5tdXNhdEBpbnRlbC5j
-b208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3Jk
-ZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAw
-aW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8ZGl2IGlkPSI6
-ajUiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+V2UgZG9uJ3QgbmVlZCBERVBMT1lfRElSIGZvciBl
-dmVyeSBydW50aW1lIHRlc3Qgc28gdGhlcmUgaXMgbm88YnI+DQpuZWVkIGZvciBpdCB0byBiZSBt
-YW5kYXRvcnkuPGJyPg0KPGJyPg0KU2lnbmVkLW9mZi1ieTogTHVjaWFuIE11c2F0ICZsdDs8YSBo
-cmVmPSJtYWlsdG86Z2VvcmdlLmwubXVzYXRAaW50ZWwuY29tIj5nZW9yZ2UubC5tdXNhdEBpbnRl
-bC5jb208L2E+Jmd0Ozxicj4NCi0tLTxicj4NCiZuYnNwO21ldGEvbGliL29lcWEvcnVuZXhwb3J0
-ZWQucHkgfCAyICYjNDM7LTxicj4NCiZuYnNwOzEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigm
-IzQzOyksIDEgZGVsZXRpb24oLSk8YnI+DQo8YnI+DQpkaWZmIC0tZ2l0IGEvbWV0YS9saWIvb2Vx
-YS9ydW5leHBvcnRlZC5weSBiL21ldGEvbGliL29lcWEvcnVuZXhwb3J0ZWQucHk8YnI+DQppbmRl
-eCA5NjQ0MmIxLi43ZDY4OTY1IDEwMDc1NTxicj4NCi0tLSBhL21ldGEvbGliL29lcWEvcnVuZXhw
-b3J0ZWQucHk8YnI+DQomIzQzOyYjNDM7JiM0MzsgYi9tZXRhL2xpYi9vZXFhL3J1bmV4cG9ydGVk
-LnB5PGJyPg0KQEAgLTExMiw3ICYjNDM7MTEyLDcgQEAgZGVmIG1haW4oKTo8YnI+DQombmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ZFsmcXVvdDtERVBMT1lfRElSJnF1b3Q7XSA9IG9w
-dGlvbnMuZGVwbG95X2Rpcjxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ZWxzZTo8YnI+DQombmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7aWYgbm90IG9zLnBhdGguaXNkaXIoZFsmcXVv
-dDtERVBMT1lfRElSJnF1b3Q7XSk6PGJyPg0KLSZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7IHJhaXNlIEV4Y2VwdGlvbigmcXVvdDtUaGUgcGF0aCB0byBERVBMT1lfRElS
-IGRvZXMgbm90IGV4aXN0czogJXMmcXVvdDsgJSBkWyZxdW90O0RFUExPWV9ESVImcXVvdDtdKTxi
-cj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgcHJpbnQg
-JnF1b3Q7V0FSTklORzogVGhlIHBhdGggdG8gREVQTE9ZX0RJUiBkb2VzIG5vdCBleGlzdDogJXMm
-cXVvdDsgJSBkWyZxdW90O0RFUExPWV9ESVImcXVvdDtdPG86cD48L286cD48L3A+DQo8L2Rpdj4N
-CjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KRmlyc3Qs
-IHdlIGdlbmVyYWxseSB1c2UgbG9nZ2VycyAvIHRoZSBiYiBtZXNzYWdpbmcgY29tbWFuZHMgaW5z
-dGVhZCBvZiBwcmludC4gQXNzdW1pbmcgdGhhdCdzIG5vdCBhcHByb3ByaWF0ZSBoZXJlIGZvciBz
-b21lIHJlYXNvbiwgYXQgbGVhc3QgdXNlIHRoZSBwcmludCBmdW5jdGlvbiwgbm90IHRoZSBwcmlu
-dCBjb21tYW5kLCB0byBtYWtlIHRoZSBweXRob24gbW9yZSBmb3J3YXJkIHBvcnRhYmxlLiBUaGUg
-Y29tbWFuZCBubyBsb25nZXIgd29ya3MNCiBpbiBmdXR1cmUgdmVyc2lvbnMgb2YgcHl0aG9uLjxi
-cj4NCi0tIDxvOnA+PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkNocmlz
-dG9waGVyIExhcnNvbjxicj4NCmNsYXJzb24gYXQga2VyZ290aCBkb3QgY29tPGJyPg0KRm91bmRl
-ciAtIEJpdEJha2UsIE9wZW5FbWJlZGRlZCwgT3BlblphdXJ1czxicj4NCk1haW50YWluZXIgLSBU
-c2xpYjxicj4NClNlbmlvciBTb2Z0d2FyZSBFbmdpbmVlciwgTWVudG9yIEdyYXBoaWNzPG86cD48
-L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRt
-bD4NCg==
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C28853E25IRSMSX107gercor_--
