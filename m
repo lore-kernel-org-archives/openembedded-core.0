@@ -1,30 +1,30 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id ABE157404E
+Return-Path: <rich.tollerton@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id D73647404E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 12:24:37 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id BD965F81199; Wed, 23 Sep 2015 06:24:37 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 878BDF81199;
-	Wed, 23 Sep 2015 06:24:36 -0600 (MDT)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <560173B5.1000408@mlbassoc.com>
-	<CAJTo0Lam+s3YjVaxXZQZBbYY9y+_oMtJ46_dWMHcDRmMAqdu=w@mail.gmail.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <56029A05.7000607@mlbassoc.com>
-Date: Wed, 23 Sep 2015 06:24:37 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lam+s3YjVaxXZQZBbYY9y+_oMtJ46_dWMHcDRmMAqdu=w@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Error building gdk-pixbuf-native
+	Wed, 23 Sep 2015 14:36:26 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t8NEaQeC032108 for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Sep 2015 09:36:26 -0500
+Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015092309362644-246406 ;
+	Wed, 23 Sep 2015 09:36:26 -0500 
+From: Richard Tollerton <rich.tollerton@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Sep 2015 09:36:03 -0500
+Message-Id: <1443018963-11715-1-git-send-email-rich.tollerton@ni.com>
+X-Mailer: git-send-email 2.5.2
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 09/23/2015 09:36:26 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 09/23/2015 09:36:26 AM,
+	Serialize complete at 09/23/2015 09:36:26 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-09-23_06:, , signatures=0
+Subject: [PATCH] gcc-5.2: disable isl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Sep 2015 12:24:39 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Sep 2015 14:36:28 -0000
 
-On 2015-09-23 06:15, Burton, Ross wrote:
->
-> On 22 September 2015 at 16:28, Gary Thomas <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
->
->     | g_module_open() failed for /home/local/rpi2_2015-03-05/tmp/sysroots/i686-linux/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/libpixbufloader-svg.so: libharfbuzz.so.0: cannot open
->     shared object file: No such file or directory
->
->
-> Here's my guess at what happened.  Starting state was a complete sysroot with at least gdk-pixbuf, harfbuzz, librsvg installed.  Yhen you did a new build.  At least harfbuzz and
-> gdk-pixbuf were being rebuilt, so purged from the sysroot.  gdk-pixbuf rebuilt, installed into sysroot, ran the update-cache script which then found the rsvg loader from the
-> previous sysroot that was not (yet?) removed that links to harfbuzz.  Harfbuzz still isn't reinstall yet, linkage fails.
->
-> Is this with master or a release? There are changes in master compared to fido to improve situations like this.
+We presently don't package isl. Unfortunately, if the host is already
+using gcc-5.2 (as is presently the case on Arch Linux), configure will
+autodetect the host's libisl, and do_compile will break because the
+system isl headers aren't pulled in. In lieu of packaging isl, disable
+it for now.
 
-Master updated 2015-09-22 (7b86c771c80d0759c2ca0e57c46c4c966f89c49e)
+[YOCTO #8376]
 
+Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+---
+ meta/recipes-devtools/gcc/gcc-5.2.inc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-5.2.inc b/meta/recipes-devtools/gcc/gcc-5.2.inc
+index f691f58..f6673e6 100644
+--- a/meta/recipes-devtools/gcc/gcc-5.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-5.2.inc
+@@ -98,6 +98,7 @@ EXTRA_OECONF_BASE = "\
+     --with-cloog=no \
+     --enable-checking=release \
+     --enable-cheaders=c_global \
++    --without-isl \
+ "
+ 
+ EXTRA_OECONF_INITIAL = "\
+@@ -109,6 +110,7 @@ EXTRA_OECONF_INITIAL = "\
+     --disable-lto \
+     --disable-plugin \
+     --enable-decimal-float=no \
++    --without-isl \
+ "
+ 
+ EXTRA_OECONF_append_libc-uclibc = " --disable-decimal-float "
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+2.5.2
+
 
