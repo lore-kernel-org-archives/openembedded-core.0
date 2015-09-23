@@ -1,30 +1,38 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id D73647404E
+Return-Path: <kergoth@gmail.com>
+Received: from mail-vk0-f44.google.com (mail-vk0-f44.google.com
+	[209.85.213.44])
+	by mail.openembedded.org (Postfix) with ESMTP id B4F6C76903
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 14:36:26 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t8NEaQeC032108 for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 09:36:26 -0500
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015092309362644-246406 ;
-	Wed, 23 Sep 2015 09:36:26 -0500 
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Sep 2015 09:36:03 -0500
-Message-Id: <1443018963-11715-1-git-send-email-rich.tollerton@ni.com>
-X-Mailer: git-send-email 2.5.2
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 09/23/2015 09:36:26 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 09/23/2015 09:36:26 AM,
-	Serialize complete at 09/23/2015 09:36:26 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-09-23_06:, , signatures=0
-Subject: [PATCH] gcc-5.2: disable isl
+	Wed, 23 Sep 2015 15:09:57 +0000 (UTC)
+Received: by vkgd64 with SMTP id d64so29456159vkg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Sep 2015 08:09:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=cieaxtkl/0kIKV3+o/3nnoK4x/P5y3HKJidQ2SQKfkg=;
+	b=a08qXyERX3SmYuPoAviRX8CPP3iLPeC516bVmyq+DWi3VRxyNyNh/O1D1QD7xvjEZ9
+	sP1HMWZZ2lVL/+oHRAGmAS5H/1Y+e21PIlj6XUVlvrO6YrGCkL7zWAy8e3GdpiDl4Ktr
+	lvx44jmpe5QSLvAIpGfJ9vGIFJcFs0Ve2H80uPxTcdEqz5Ct81FsDT2Os5I0tideRPW9
+	3YFJqYMymsJka4dyXuQ+ceXf0yrQ48m5KQMucQ0Z74MXaNkw50yQCSRUg+uZ2AXeD7wP
+	XrrLjsXG6kAJ0/GEVZwKPepdj+mja0gRXmVgH9BBzJbV/i3JYOWfxBNG/cVFbddgYAkV
+	BZ1A==
+X-Received: by 10.31.181.10 with SMTP id e10mr20605782vkf.39.1443020997142;
+	Wed, 23 Sep 2015 08:09:57 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.31.203.2 with HTTP; Wed, 23 Sep 2015 08:09:37 -0700 (PDT)
+In-Reply-To: <4f3ba0dba496671c2d229be52debce6ab01a6b71.1443002672.git.paul.eggleton@linux.intel.com>
+References: <cover.1443002672.git.paul.eggleton@linux.intel.com>
+	<4f3ba0dba496671c2d229be52debce6ab01a6b71.1443002672.git.paul.eggleton@linux.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Wed, 23 Sep 2015 08:09:37 -0700
+X-Google-Sender-Auth: Vpgq6IdIvVl7L6jV33054DsSCtc
+Message-ID: <CABcZANnYmSQeh9YtOs+4k6XmiybG+5dLW+8HRpQX8mnTh-s96A@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/3] devtool: second fix for running from a different directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +45,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Sep 2015 14:36:28 -0000
+X-List-Received-Date: Wed, 23 Sep 2015 15:09:57 -0000
+Content-Type: multipart/alternative; boundary=001a1143806cf0309f05206b81ee
 
-We presently don't package isl. Unfortunately, if the host is already
-using gcc-5.2 (as is presently the case on Arch Linux), configure will
-autodetect the host's libisl, and do_compile will break because the
-system isl headers aren't pulled in. In lieu of packaging isl, disable
-it for now.
+--001a1143806cf0309f05206b81ee
+Content-Type: text/plain; charset=UTF-8
 
-[YOCTO #8376]
+On Wed, Sep 23, 2015 at 3:05 AM, Paul Eggleton <
+paul.eggleton@linux.intel.com> wrote:
 
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
----
- meta/recipes-devtools/gcc/gcc-5.2.inc | 2 ++
- 1 file changed, 2 insertions(+)
+> -def setup_tinfoil(config_only=False):
+> +def setup_tinfoil(config_only=False, basepath=None):
+>      """Initialize tinfoil api from bitbake"""
+>      import scriptpath
+> +    orig_cwd = os.path.abspath(os.curdir)
+> +    if basepath:
+> +        os.chdir(basepath)
+>      bitbakepath = scriptpath.add_bitbake_lib_path()
+>      if not bitbakepath:
+>          logger.error("Unable to find bitbake by searching parent
+> directory of this script or PATH")
+> @@ -108,6 +111,7 @@ def setup_tinfoil(config_only=False):
+>      tinfoil = bb.tinfoil.Tinfoil()
+>      tinfoil.prepare(config_only)
+>      tinfoil.logger.setLevel(logger.getEffectiveLevel())
+> +    os.chdir(orig_cwd)
+>      return tinfoil
+>
 
-diff --git a/meta/recipes-devtools/gcc/gcc-5.2.inc b/meta/recipes-devtools/gcc/gcc-5.2.inc
-index f691f58..f6673e6 100644
---- a/meta/recipes-devtools/gcc/gcc-5.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-5.2.inc
-@@ -98,6 +98,7 @@ EXTRA_OECONF_BASE = "\
-     --with-cloog=no \
-     --enable-checking=release \
-     --enable-cheaders=c_global \
-+    --without-isl \
- "
- 
- EXTRA_OECONF_INITIAL = "\
-@@ -109,6 +110,7 @@ EXTRA_OECONF_INITIAL = "\
-     --disable-lto \
-     --disable-plugin \
-     --enable-decimal-float=no \
-+    --without-isl \
- "
- 
- EXTRA_OECONF_append_libc-uclibc = " --disable-decimal-float "
+Just from a correctness standpoint, this will not go back to orig_cwd if an
+exception is raised. We should be using a try/finally block for things like
+this.
 -- 
-2.5.2
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a1143806cf0309f05206b81ee
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Sep 23, 2015 at 3:05 AM, Paul Eggleton <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@=
+linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
+v id=3D":1h4" class=3D"a3s" style=3D"overflow:hidden">-def setup_tinfoil(co=
+nfig_only=3DFalse):<br>
++def setup_tinfoil(config_only=3DFalse, basepath=3DNone):<br>
+=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;Initialize tinfoil api from <span cla=
+ss=3D"il">bitbake</span>&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0import scriptpath<br>
++=C2=A0 =C2=A0 orig_cwd =3D os.path.abspath(os.curdir)<br>
++=C2=A0 =C2=A0 if basepath:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.chdir(basepath)<br>
+=C2=A0 =C2=A0 =C2=A0bitbakepath =3D scriptpath.add_bitbake_lib_path()<br>
+=C2=A0 =C2=A0 =C2=A0if not bitbakepath:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logger.error(&quot;Unable to find <span c=
+lass=3D"il">bitbake</span> by searching parent directory of this script or =
+PATH&quot;)<br>
+@@ -108,6 +111,7 @@ def setup_tinfoil(config_only=3DFalse):<br>
+=C2=A0 =C2=A0 =C2=A0tinfoil =3D <span class=3D"il">bb</span>.tinfoil.Tinfoi=
+l()<br>
+=C2=A0 =C2=A0 =C2=A0tinfoil.prepare(config_only)<br>
+=C2=A0 =C2=A0 =C2=A0tinfoil.logger.setLevel(logger.getEffectiveLevel())<br>
++=C2=A0 =C2=A0 os.chdir(orig_cwd)<br>
+=C2=A0 =C2=A0 =C2=A0return tinfoil</div></blockquote></div><br>Just from a =
+correctness standpoint, this will not go back to orig_cwd if an exception i=
+s raised. We should be using a try/finally block for things like this.<br>-=
+- <br><div class=3D"gmail_signature">Christopher Larson<br>clarson at kergo=
+th dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - T=
+slib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--001a1143806cf0309f05206b81ee--
