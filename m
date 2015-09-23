@@ -1,35 +1,34 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-vk0-f50.google.com (mail-vk0-f50.google.com
-	[209.85.213.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 740FC76903
+Return-Path: <george.l.musat@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E51667404E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 15:12:17 +0000 (UTC)
-Received: by vkfp126 with SMTP id p126so29428921vkf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 08:12:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=LIIVqflDpdXQv1F9wNayWenX669B1aD+GiuNUIwrwN4=;
-	b=Rw2fadSCTSVzpRwtj3oEp6IHGGrAA5bQSvTMXQft51HujWMt5SPIn+MmZ1PCUDrjUc
-	00y8VYQ65s85ChQrPNEtSAGyDAdjBGFXb7fZqQYsCTrZ0hUD327Y0KDeQy3Uy7T2T/cs
-	kHVY6432QIfFlK0EajejnUm3y2MI5tSx65ohoOmZ+gZOCuotVXsa3v8GTZlNf6ad00Rc
-	EUMAZsFm+xFAOicCfbjOAiKy/GAvHOqu8mg8Mp02lmf9Dbl4WfQNg0R67HnYVFWOix/y
-	jWMyt/ZjKFHogOJ3teD04YJviTkr7Md1uDem4e7WCvX/t74SEtXuqTdfSIafYefokeoR
-	Iv4A==
-X-Received: by 10.31.52.140 with SMTP id b134mr19944219vka.136.1443021137816; 
-	Wed, 23 Sep 2015 08:12:17 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.31.203.2 with HTTP; Wed, 23 Sep 2015 08:11:58 -0700 (PDT)
-In-Reply-To: <1442998964-15233-2-git-send-email-george.l.musat@intel.com>
+	Wed, 23 Sep 2015 15:22:39 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 23 Sep 2015 08:22:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,577,1437462000"; 
+	d="scan'208,217";a="811503525"
+Received: from irsmsx110.ger.corp.intel.com ([163.33.3.25])
+	by orsmga002.jf.intel.com with ESMTP; 23 Sep 2015 08:22:38 -0700
+Received: from irsmsx107.ger.corp.intel.com ([169.254.10.236]) by
+	irsmsx110.ger.corp.intel.com ([169.254.15.164]) with mapi id
+	14.03.0248.002; Wed, 23 Sep 2015 16:22:37 +0100
+From: "Musat, George L" <george.l.musat@intel.com>
+To: Christopher Larson <clarson@kergoth.com>
+Thread-Topic: [OE-core] [PATCH 2/2] oeqa/runexported: Removed DEPLOY_DIR as
+	mandatory.
+Thread-Index: AQHQ9d6Rh2cFj4k/y0W5dCnp8HgL2p5KJ+AAgAASvLA=
+Date: Wed, 23 Sep 2015 15:22:37 +0000
+Message-ID: <042E875E1B5D414CA9BB78B7D4FA691C28853E25@IRSMSX107.ger.corp.intel.com>
 References: <1442998964-15233-1-git-send-email-george.l.musat@intel.com>
 	<1442998964-15233-2-git-send-email-george.l.musat@intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Wed, 23 Sep 2015 08:11:58 -0700
-X-Google-Sender-Auth: 3o2ocWEFuwBUMbh1zbJKMBxyNr4
-Message-ID: <CABcZAN=KLH1yKR1iNgZqegvUWOZF-AyKSJusC5q6v3VQ1EzkFQ@mail.gmail.com>
-To: Lucian Musat <george.l.musat@intel.com>
+	<CABcZAN=KLH1yKR1iNgZqegvUWOZF-AyKSJusC5q6v3VQ1EzkFQ@mail.gmail.com>
+In-Reply-To: <CABcZAN=KLH1yKR1iNgZqegvUWOZF-AyKSJusC5q6v3VQ1EzkFQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
+MIME-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] oeqa/runexported: Removed DEPLOY_DIR as mandatory.
@@ -45,89 +44,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Sep 2015 15:12:19 -0000
-Content-Type: multipart/alternative; boundary=001a1143f92452b4cf05206b8a84
+X-List-Received-Date: Wed, 23 Sep 2015 15:22:41 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_042E875E1B5D414CA9BB78B7D4FA691C28853E25IRSMSX107gercor_"
 
---001a1143f92452b4cf05206b8a84
-Content-Type: text/plain; charset=UTF-8
+--_000_042E875E1B5D414CA9BB78B7D4FA691C28853E25IRSMSX107gercor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wed, Sep 23, 2015 at 2:02 AM, Lucian Musat <george.l.musat@intel.com>
-wrote:
+DQoNCkZyb206IGtlcmdvdGhAZ21haWwuY29tIFttYWlsdG86a2VyZ290aEBnbWFpbC5jb21dIE9u
+IEJlaGFsZiBPZiBDaHJpc3RvcGhlciBMYXJzb24NClNlbnQ6IFdlZG5lc2RheSwgU2VwdGVtYmVy
+IDIzLCAyMDE1IDY6MTIgUE0NClRvOiBNdXNhdCwgR2VvcmdlIEwNCkNjOiBQYXRjaGVzIGFuZCBk
+aXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcg0KU3ViamVjdDogUmU6IFtPRS1jb3Jl
+XSBbUEFUQ0ggMi8yXSBvZXFhL3J1bmV4cG9ydGVkOiBSZW1vdmVkIERFUExPWV9ESVIgYXMgbWFu
+ZGF0b3J5Lg0KDQpTb3JyeSwgZGlkbuKAmXQga25vdyB0aGF0LiBDYW5ub3QgdXNlIGJiIGhlcmUg
+YmVjYXVzZSB0aGUgdGVzdCBleHBvcnQgc3lzdGVtIGlzIG91dHNpZGUgdGhlIGJpdGJha2UgZW52
+aXJvbm1lbnQuIFdpbGwgc2VuZCB2MiBvZiB0aGUgcGF0Y2ggd2l0aCB0aGUgcHJpbnQgZnVuY3Rp
+b24uDQoNCk9uIFdlZCwgU2VwIDIzLCAyMDE1IGF0IDI6MDIgQU0sIEx1Y2lhbiBNdXNhdCA8Z2Vv
+cmdlLmwubXVzYXRAaW50ZWwuY29tPG1haWx0bzpnZW9yZ2UubC5tdXNhdEBpbnRlbC5jb20+PiB3
+cm90ZToNCldlIGRvbid0IG5lZWQgREVQTE9ZX0RJUiBmb3IgZXZlcnkgcnVudGltZSB0ZXN0IHNv
+IHRoZXJlIGlzIG5vDQpuZWVkIGZvciBpdCB0byBiZSBtYW5kYXRvcnkuDQoNClNpZ25lZC1vZmYt
+Ynk6IEx1Y2lhbiBNdXNhdCA8Z2VvcmdlLmwubXVzYXRAaW50ZWwuY29tPG1haWx0bzpnZW9yZ2Uu
+bC5tdXNhdEBpbnRlbC5jb20+Pg0KLS0tDQogbWV0YS9saWIvb2VxYS9ydW5leHBvcnRlZC5weSB8
+IDIgKy0NCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCg0K
+ZGlmZiAtLWdpdCBhL21ldGEvbGliL29lcWEvcnVuZXhwb3J0ZWQucHkgYi9tZXRhL2xpYi9vZXFh
+L3J1bmV4cG9ydGVkLnB5DQppbmRleCA5NjQ0MmIxLi43ZDY4OTY1IDEwMDc1NQ0KLS0tIGEvbWV0
+YS9saWIvb2VxYS9ydW5leHBvcnRlZC5weQ0KKysrIGIvbWV0YS9saWIvb2VxYS9ydW5leHBvcnRl
+ZC5weQ0KQEAgLTExMiw3ICsxMTIsNyBAQCBkZWYgbWFpbigpOg0KICAgICAgICAgZFsiREVQTE9Z
+X0RJUiJdID0gb3B0aW9ucy5kZXBsb3lfZGlyDQogICAgIGVsc2U6DQogICAgICAgICBpZiBub3Qg
+b3MucGF0aC5pc2RpcihkWyJERVBMT1lfRElSIl0pOg0KLSAgICAgICAgICAgIHJhaXNlIEV4Y2Vw
+dGlvbigiVGhlIHBhdGggdG8gREVQTE9ZX0RJUiBkb2VzIG5vdCBleGlzdHM6ICVzIiAlIGRbIkRF
+UExPWV9ESVIiXSkNCisgICAgICAgICAgICBwcmludCAiV0FSTklORzogVGhlIHBhdGggdG8gREVQ
+TE9ZX0RJUiBkb2VzIG5vdCBleGlzdDogJXMiICUgZFsiREVQTE9ZX0RJUiJdDQoNCkZpcnN0LCB3
+ZSBnZW5lcmFsbHkgdXNlIGxvZ2dlcnMgLyB0aGUgYmIgbWVzc2FnaW5nIGNvbW1hbmRzIGluc3Rl
+YWQgb2YgcHJpbnQuIEFzc3VtaW5nIHRoYXQncyBub3QgYXBwcm9wcmlhdGUgaGVyZSBmb3Igc29t
+ZSByZWFzb24sIGF0IGxlYXN0IHVzZSB0aGUgcHJpbnQgZnVuY3Rpb24sIG5vdCB0aGUgcHJpbnQg
+Y29tbWFuZCwgdG8gbWFrZSB0aGUgcHl0aG9uIG1vcmUgZm9yd2FyZCBwb3J0YWJsZS4gVGhlIGNv
+bW1hbmQgbm8gbG9uZ2VyIHdvcmtzIGluIGZ1dHVyZSB2ZXJzaW9ucyBvZiBweXRob24uDQotLQ0K
+Q2hyaXN0b3BoZXIgTGFyc29uDQpjbGFyc29uIGF0IGtlcmdvdGggZG90IGNvbQ0KRm91bmRlciAt
+IEJpdEJha2UsIE9wZW5FbWJlZGRlZCwgT3BlblphdXJ1cw0KTWFpbnRhaW5lciAtIFRzbGliDQpT
+ZW5pb3IgU29mdHdhcmUgRW5naW5lZXIsIE1lbnRvciBHcmFwaGljcw0K
 
-> We don't need DEPLOY_DIR for every runtime test so there is no
-> need for it to be mandatory.
->
-> Signed-off-by: Lucian Musat <george.l.musat@intel.com>
-> ---
->  meta/lib/oeqa/runexported.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
-> index 96442b1..7d68965 100755
-> --- a/meta/lib/oeqa/runexported.py
-> +++ b/meta/lib/oeqa/runexported.py
-> @@ -112,7 +112,7 @@ def main():
->          d["DEPLOY_DIR"] = options.deploy_dir
->      else:
->          if not os.path.isdir(d["DEPLOY_DIR"]):
-> -            raise Exception("The path to DEPLOY_DIR does not exists: %s"
-> % d["DEPLOY_DIR"])
-> +            print "WARNING: The path to DEPLOY_DIR does not exist: %s" %
-> d["DEPLOY_DIR"]
->
+--_000_042E875E1B5D414CA9BB78B7D4FA691C28853E25IRSMSX107gercor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-First, we generally use loggers / the bb messaging commands instead of
-print. Assuming that's not appropriate here for some reason, at least use
-the print function, not the print command, to make the python more forward
-portable. The command no longer works in future versions of python.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
+c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
+ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
+CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
+MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
+MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
+cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
+aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
+YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
+aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
+cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29tcG9zZSI+PHNwYW4g
+c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oyxz
+YW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvYT48L3A+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
+b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwv
+Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
+JnF1b3Q7LHNhbnMtc2VyaWYiPiBrZXJnb3RoQGdtYWlsLmNvbSBbbWFpbHRvOmtlcmdvdGhAZ21h
+aWwuY29tXQ0KPGI+T24gQmVoYWxmIE9mIDwvYj5DaHJpc3RvcGhlciBMYXJzb248YnI+DQo8Yj5T
+ZW50OjwvYj4gV2VkbmVzZGF5LCBTZXB0ZW1iZXIgMjMsIDIwMTUgNjoxMiBQTTxicj4NCjxiPlRv
+OjwvYj4gTXVzYXQsIEdlb3JnZSBMPGJyPg0KPGI+Q2M6PC9iPiBQYXRjaGVzIGFuZCBkaXNjdXNz
+aW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcjxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09F
+LWNvcmVdIFtQQVRDSCAyLzJdIG9lcWEvcnVuZXhwb3J0ZWQ6IFJlbW92ZWQgREVQTE9ZX0RJUiBh
+cyBtYW5kYXRvcnkuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxzcGFuIHN0eWxlPSJjb2xvcjojMUY0OTdEIj5Tb3JyeSwgZGlkbuKAmXQga25vdyB0aGF0LiBD
+YW5ub3QgdXNlIGJiIGhlcmUgYmVjYXVzZSB0aGUgdGVzdCBleHBvcnQgc3lzdGVtIGlzIG91dHNp
+ZGUgdGhlIGJpdGJha2UgZW52aXJvbm1lbnQuIFdpbGwgc2VuZCB2MiBvZiB0aGUgcGF0Y2ggd2l0
+aCB0aGUgcHJpbnQgZnVuY3Rpb24uPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+
+PC9zcGFuPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiBXZWQsIFNlcCAyMywg
+MjAxNSBhdCAyOjAyIEFNLCBMdWNpYW4gTXVzYXQgJmx0OzxhIGhyZWY9Im1haWx0bzpnZW9yZ2Uu
+bC5tdXNhdEBpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5nZW9yZ2UubC5tdXNhdEBpbnRlbC5j
+b208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3Jk
+ZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAw
+aW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8ZGl2IGlkPSI6
+ajUiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+V2UgZG9uJ3QgbmVlZCBERVBMT1lfRElSIGZvciBl
+dmVyeSBydW50aW1lIHRlc3Qgc28gdGhlcmUgaXMgbm88YnI+DQpuZWVkIGZvciBpdCB0byBiZSBt
+YW5kYXRvcnkuPGJyPg0KPGJyPg0KU2lnbmVkLW9mZi1ieTogTHVjaWFuIE11c2F0ICZsdDs8YSBo
+cmVmPSJtYWlsdG86Z2VvcmdlLmwubXVzYXRAaW50ZWwuY29tIj5nZW9yZ2UubC5tdXNhdEBpbnRl
+bC5jb208L2E+Jmd0Ozxicj4NCi0tLTxicj4NCiZuYnNwO21ldGEvbGliL29lcWEvcnVuZXhwb3J0
+ZWQucHkgfCAyICYjNDM7LTxicj4NCiZuYnNwOzEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigm
+IzQzOyksIDEgZGVsZXRpb24oLSk8YnI+DQo8YnI+DQpkaWZmIC0tZ2l0IGEvbWV0YS9saWIvb2Vx
+YS9ydW5leHBvcnRlZC5weSBiL21ldGEvbGliL29lcWEvcnVuZXhwb3J0ZWQucHk8YnI+DQppbmRl
+eCA5NjQ0MmIxLi43ZDY4OTY1IDEwMDc1NTxicj4NCi0tLSBhL21ldGEvbGliL29lcWEvcnVuZXhw
+b3J0ZWQucHk8YnI+DQomIzQzOyYjNDM7JiM0MzsgYi9tZXRhL2xpYi9vZXFhL3J1bmV4cG9ydGVk
+LnB5PGJyPg0KQEAgLTExMiw3ICYjNDM7MTEyLDcgQEAgZGVmIG1haW4oKTo8YnI+DQombmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ZFsmcXVvdDtERVBMT1lfRElSJnF1b3Q7XSA9IG9w
+dGlvbnMuZGVwbG95X2Rpcjxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ZWxzZTo8YnI+DQombmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7aWYgbm90IG9zLnBhdGguaXNkaXIoZFsmcXVv
+dDtERVBMT1lfRElSJnF1b3Q7XSk6PGJyPg0KLSZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7IHJhaXNlIEV4Y2VwdGlvbigmcXVvdDtUaGUgcGF0aCB0byBERVBMT1lfRElS
+IGRvZXMgbm90IGV4aXN0czogJXMmcXVvdDsgJSBkWyZxdW90O0RFUExPWV9ESVImcXVvdDtdKTxi
+cj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgcHJpbnQg
+JnF1b3Q7V0FSTklORzogVGhlIHBhdGggdG8gREVQTE9ZX0RJUiBkb2VzIG5vdCBleGlzdDogJXMm
+cXVvdDsgJSBkWyZxdW90O0RFUExPWV9ESVImcXVvdDtdPG86cD48L286cD48L3A+DQo8L2Rpdj4N
+CjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KRmlyc3Qs
+IHdlIGdlbmVyYWxseSB1c2UgbG9nZ2VycyAvIHRoZSBiYiBtZXNzYWdpbmcgY29tbWFuZHMgaW5z
+dGVhZCBvZiBwcmludC4gQXNzdW1pbmcgdGhhdCdzIG5vdCBhcHByb3ByaWF0ZSBoZXJlIGZvciBz
+b21lIHJlYXNvbiwgYXQgbGVhc3QgdXNlIHRoZSBwcmludCBmdW5jdGlvbiwgbm90IHRoZSBwcmlu
+dCBjb21tYW5kLCB0byBtYWtlIHRoZSBweXRob24gbW9yZSBmb3J3YXJkIHBvcnRhYmxlLiBUaGUg
+Y29tbWFuZCBubyBsb25nZXIgd29ya3MNCiBpbiBmdXR1cmUgdmVyc2lvbnMgb2YgcHl0aG9uLjxi
+cj4NCi0tIDxvOnA+PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkNocmlz
+dG9waGVyIExhcnNvbjxicj4NCmNsYXJzb24gYXQga2VyZ290aCBkb3QgY29tPGJyPg0KRm91bmRl
+ciAtIEJpdEJha2UsIE9wZW5FbWJlZGRlZCwgT3BlblphdXJ1czxicj4NCk1haW50YWluZXIgLSBU
+c2xpYjxicj4NClNlbmlvciBTb2Z0d2FyZSBFbmdpbmVlciwgTWVudG9yIEdyYXBoaWNzPG86cD48
+L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRt
+bD4NCg==
 
---001a1143f92452b4cf05206b8a84
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Sep 23, 2015 at 2:02 AM, Lucian Musat <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:george.l.musat@intel.com" target=3D"_blank">george.l.musat@intel=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":j5=
-" class=3D"a3s" style=3D"overflow:hidden">We don&#39;t need DEPLOY_DIR for =
-every runtime test so there is no<br>
-need for it to be mandatory.<br>
-<br>
-Signed-off-by: Lucian Musat &lt;<a href=3D"mailto:george.l.musat@intel.com"=
->george.l.musat@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oeqa/runexported.py | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py<br=
->
-index 96442b1..7d68965 100755<br>
---- a/meta/lib/oeqa/runexported.py<br>
-+++ b/meta/lib/oeqa/runexported.py<br>
-@@ -112,7 +112,7 @@ def main():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d[&quot;DEPLOY_DIR&quot;] =3D options.dep=
-loy_dir<br>
-=C2=A0 =C2=A0 =C2=A0else:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not os.path.isdir(d[&quot;DEPLOY_DIR&q=
-uot;]):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise Exception(&quot;The path t=
-o DEPLOY_DIR does not exists: %s&quot; % d[&quot;DEPLOY_DIR&quot;])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 print &quot;WARNING: The path to=
- DEPLOY_DIR does not exist: %s&quot; % d[&quot;DEPLOY_DIR&quot;]</div></blo=
-ckquote></div><br>First, we generally use loggers / the bb messaging comman=
-ds instead of print. Assuming that&#39;s not appropriate here for some reas=
-on, at least use the print function, not the print command, to make the pyt=
-hon more forward portable. The command no longer works in future versions o=
-f python.<br>-- <br><div class=3D"gmail_signature">Christopher Larson<br>cl=
-arson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>=
-Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
-</div></div>
-
---001a1143f92452b4cf05206b8a84--
+--_000_042E875E1B5D414CA9BB78B7D4FA691C28853E25IRSMSX107gercor_--
