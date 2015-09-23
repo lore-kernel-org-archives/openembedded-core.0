@@ -1,24 +1,23 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 83C9860232
+Return-Path: <george.l.musat@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0557660232
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 08:41:46 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8N8fkKt017260
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 01:41:46 -0700 (PDT)
-Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Wed, 23 Sep 2015 01:41:46 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Sep 2015 16:41:57 +0800
-Message-ID: <1442997717-12539-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] guile: cleanup buildpaths and add RDEPENDS on pkgconfig
+	Wed, 23 Sep 2015 09:02:09 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Sep 2015 02:02:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,577,1437462000"; d="scan'208";a="650616010"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga003.jf.intel.com with ESMTP; 23 Sep 2015 02:02:09 -0700
+Received: from localhost.localdomain (unknown [10.237.112.174])
+	by linux.intel.com (Postfix) with ESMTP id 7B5FB6A4083;
+	Wed, 23 Sep 2015 02:01:14 -0700 (PDT)
+From: Lucian Musat <george.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Sep 2015 12:02:43 +0300
+Message-Id: <1442998964-15233-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/2] oeqa/oetest: Remove bb as requirement for oetest.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,51 +30,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Sep 2015 08:41:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 23 Sep 2015 09:02:12 -0000
 
-From: Jackie Huang <jackie.huang@windriver.com>
+In order for the test export runner to work oetest needs to be
+separated from bitbake environment. There is no need to use bb
+import here so we can use a logger instead.
 
-* fix the path for "define %pkg-config-program" in guile-config
-* clean the --sysroot in guile-snarf
-* add RDEPENDS on pkgconfig
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
 ---
- meta/recipes-devtools/guile/guile_2.0.11.bb | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/oetest.py | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
-index a485fe3..00553b5 100644
---- a/meta/recipes-devtools/guile/guile_2.0.11.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
-@@ -39,7 +39,11 @@ DEPENDS = "libunistring bdwgc gmp libtool libffi ncurses readline"
- # add guile-native only to the target recipe's DEPENDS
- DEPENDS_append_class-target = " guile-native libatomic-ops"
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index a6f89b6..1e10c6c 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -11,10 +11,12 @@ import os, re, mmap
+ import unittest
+ import inspect
+ import subprocess
+-import bb
++import logging
+ from oeqa.utils.decorators import LogResults, gettag
+ from sys import exc_info, exc_clear
  
--RDEPENDS_${PN}_append_libc-glibc_class-target = "glibc-gconv-iso8859-1"
-+# The comment of the script guile-config said it has been deprecated but we should
-+# at least add the required dependency to make it work since we still provide the script.
-+RDEPENDS_${PN} = "pkgconfig"
++logger = logging.getLogger("BitBake")
 +
-+RDEPENDS_${PN}_append_libc-glibc_class-target = " glibc-gconv-iso8859-1"
+ def getVar(obj):
+     #extend form dict, if a variable didn't exists, need find it in testcase
+     class VarDict(dict):
+@@ -89,7 +91,7 @@ def loadTests(tc, type="runtime"):
+                                 suite.dependencies.append(dep_suite)
+                             break
+                     else:
+-                        bb.warn("Test %s was declared as @skipUnlessPassed('%s') but that test is either not defined or not active. Will run the test anyway." %
++                        logger.warning("Test %s was declared as @skipUnlessPassed('%s') but that test is either not defined or not active. Will run the test anyway." %
+                                 (test, depends_on))
+     # Use brute-force topological sort to determine ordering. Sort by
+     # depth (higher depth = must run later), with original ordering to
+@@ -109,10 +111,10 @@ def loadTests(tc, type="runtime"):
+ def runTests(tc, type="runtime"):
  
- # Workaround when DEBUG_BUILD = "1"
- CFLAGS_append_arm = " -O2"
-@@ -80,6 +84,12 @@ do_install_append_class-native() {
- 		GUILE_LOAD_COMPILED_PATH=${STAGING_LIBDIR_NATIVE}/guile/2.0/ccache
- }
+     suite = loadTests(tc, type)
+-    bb.note("Test modules  %s" % tc.testslist)
++    logger.info("Test modules  %s" % tc.testslist)
+     if hasattr(tc, "tagexp") and tc.tagexp:
+-        bb.note("Filter test cases by tags: %s" % tc.tagexp)
+-    bb.note("Found %s tests" % suite.countTestCases())
++        logger.info("Filter test cases by tags: %s" % tc.tagexp)
++    logger.info("Found %s tests" % suite.countTestCases())
+     runner = unittest.TextTestRunner(verbosity=2)
+     result = runner.run(suite)
  
-+do_install_append_class-target() {
-+	# cleanup buildpaths in scripts
-+	sed -i -e 's:${STAGING_DIR_NATIVE}::' ${D}/usr/bin/guile-config
-+	sed -i -e 's:${STAGING_DIR_HOST}::' ${D}/usr/bin/guile-snarf
-+}
-+
- SYSROOT_PREPROCESS_FUNCS = "guile_cross_config"
- 
- guile_cross_config() {
 -- 
-2.3.5
+2.1.4
 
 
