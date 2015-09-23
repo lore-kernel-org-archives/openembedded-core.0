@@ -1,25 +1,28 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3570D7404E
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id ED3CC76903
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 15:42:25 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Sep 2015 08:42:27 -0700
+	Wed, 23 Sep 2015 16:05:09 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 23 Sep 2015 09:04:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,577,1437462000"; d="scan'208";a="650813840"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 23 Sep 2015 08:42:26 -0700
-Received: from localhost.localdomain (unknown [10.237.112.173])
-	by linux.intel.com (Postfix) with ESMTP id C55B46A4005;
-	Wed, 23 Sep 2015 08:41:30 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Sep 2015 18:40:26 +0300
-Message-Id: <1443022826-32446-2-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1443022826-32446-1-git-send-email-george.l.musat@intel.com>
-References: <1443022826-32446-1-git-send-email-george.l.musat@intel.com>
-Subject: [PATCHv2 2/2] oeqa/runexported: Removed DEPLOY_DIR as mandatory.
+X-IronPort-AV: E=Sophos;i="5.17,577,1437462000"; d="scan'208";a="775392922"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.4.127])
+	by orsmga001.jf.intel.com with ESMTP; 23 Sep 2015 09:04:35 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Christopher Larson <clarson@kergoth.com>
+Date: Wed, 23 Sep 2015 17:04:34 +0100
+Message-ID: <1794995.XFMYy99IqN@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.6-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <CABcZANnYmSQeh9YtOs+4k6XmiybG+5dLW+8HRpQX8mnTh-s96A@mail.gmail.com>
+References: <cover.1443002672.git.paul.eggleton@linux.intel.com>
+	<4f3ba0dba496671c2d229be52debce6ab01a6b71.1443002672.git.paul.eggleton@linux.intel.com>
+	<CABcZANnYmSQeh9YtOs+4k6XmiybG+5dLW+8HRpQX8mnTh-s96A@mail.gmail.com>
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/3] devtool: second fix for running from a different directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +35,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Sep 2015 15:42:26 -0000
+X-List-Received-Date: Wed, 23 Sep 2015 16:05:14 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-We don't need DEPLOY_DIR for every runtime test so there is no
-need for it to be mandatory.
+On Wednesday 23 September 2015 08:09:37 Christopher Larson wrote:
+> On Wed, Sep 23, 2015 at 3:05 AM, Paul Eggleton <
+> 
+> paul.eggleton@linux.intel.com> wrote:
+> > -def setup_tinfoil(config_only=False):
+> > 
+> > +def setup_tinfoil(config_only=False, basepath=None):
+> >      """Initialize tinfoil api from bitbake"""
+> >      import scriptpath
+> > 
+> > +    orig_cwd = os.path.abspath(os.curdir)
+> > +    if basepath:
+> > +        os.chdir(basepath)
+> > 
+> >      bitbakepath = scriptpath.add_bitbake_lib_path()
+> >      
+> >      if not bitbakepath:
+> >          logger.error("Unable to find bitbake by searching parent
+> > 
+> > directory of this script or PATH")
+> > 
+> > @@ -108,6 +111,7 @@ def setup_tinfoil(config_only=False):
+> >      tinfoil = bb.tinfoil.Tinfoil()
+> >      tinfoil.prepare(config_only)
+> >      tinfoil.logger.setLevel(logger.getEffectiveLevel())
+> > 
+> > +    os.chdir(orig_cwd)
+> > 
+> >      return tinfoil
+> 
+> Just from a correctness standpoint, this will not go back to orig_cwd if an
+> exception is raised. We should be using a try/finally block for things like
+> this.
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/lib/oeqa/runexported.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+That is a good point yes. I can send out a v3.
 
-diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
-index 96442b1..4213cab 100755
---- a/meta/lib/oeqa/runexported.py
-+++ b/meta/lib/oeqa/runexported.py
-@@ -112,7 +112,7 @@ def main():
-         d["DEPLOY_DIR"] = options.deploy_dir
-     else:
-         if not os.path.isdir(d["DEPLOY_DIR"]):
--            raise Exception("The path to DEPLOY_DIR does not exists: %s" % d["DEPLOY_DIR"])
-+            print("WARNING: The path to DEPLOY_DIR does not exist: %s" % d["DEPLOY_DIR"])
- 
- 
-     target = FakeTarget(d)
+Cheers,
+Paul
+
 -- 
-2.1.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
