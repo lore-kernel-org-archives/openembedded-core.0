@@ -1,38 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 524D573D17
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 04D2473BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 11:56:06 +0000 (UTC)
-Received: by qgt47 with SMTP id 47so41669848qgt.2
+	Thu, 24 Sep 2015 13:46:32 +0000 (UTC)
+Received: by wicgb1 with SMTP id gb1so250749327wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 04:56:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Pgg8/TWWoWWVQTd2KJ5Lla1cp88VTW+BZVepDQjXl18=;
-	b=PsVl4cvMDiaeuH4T2AdGCqyM+/uVxuNEURMEUVawIQbWQmd/N7AIKOC2+8wrjK4u5Z
-	xrVtPRjtYTdRm5FAv15bmuDh2DNoxzpFHPkTSuE/qp8dkNZjwAf4uDHWq6IZh9qrPT3Y
-	T28O6z7fOaIizKTJWGv70ElWY2e7KAi90pQyTa+R6XdQIrSKhtWS/v+btfRqGdGu8VQF
-	2WEHjcDRIcIvYlWsjBewWty6dZgvON7vntr8iVTlgr/dgkfw4bwWOJENzqASnHj2orwA
-	3/RuMSpGssw70MR6oTTfLbwWHM87l1VpktFKwrDFbuOeL5PnsT1QLSPnqqntyPLg6kE8
-	+LYg==
-X-Gm-Message-State: ALoCoQlo0HTsQqeAEDbt9UFoOI3jDuepqx5Vd8iDRKh+VliYEzs2rFbfkWaS696T3AsiED6jGgMH
-X-Received: by 10.140.232.150 with SMTP id d144mr44860388qhc.17.1443095766460; 
-	Thu, 24 Sep 2015 04:56:06 -0700 (PDT)
+	Thu, 24 Sep 2015 06:46:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=CuQDszzzsaQ5Nt78D84yAz45nhldBLfuXNqUZxSgh4g=;
+	b=W13aCUok5td3cX2Mos/ph8bVHPxS6mAvLj8/dOBGS5MvT3LHiAORsSBvd8kJZxC4Pj
+	9HcXZMr/3qwz1GlUgq8viNOI/0gEDoLb7jfsz3yAoO+pcTq+rPDZM8Aff1QK9uUaSbEn
+	oFZV2dWWyIB0pc8ej+r91xS4aHkEKrWd5YzazfujXK3tweRAf5I9/hXcJENhvKTueOV9
+	I+eFp5/h87KWUAhAYNW/YbVJL0fK9PQ6hz6QjwEYQNV5A7ShQJAHw3MbTrR1u6bOhoCe
+	UM0uoQ1bKSmZ3Q05w99xwAsmRLmNcp+UahefwaiAovUbuWKSTfM4+wUy3n8TF48I7Qsl
+	MI5A==
+X-Received: by 10.180.108.112 with SMTP id hj16mr9970876wib.41.1443102391986; 
+	Thu, 24 Sep 2015 06:46:31 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id pl7sm5575645wic.4.2015.09.24.06.46.30
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 24 Sep 2015 06:46:30 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 24 Sep 2015 15:46:50 +0200
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20150924134650.GA2397@jama>
+References: <1441317404-6663-1-git-send-email-alejandro.franco@linux.intel.com>
+	<1443024836-20974-1-git-send-email-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Thu, 24 Sep 2015 04:55:46 -0700 (PDT)
-In-Reply-To: <CAHiDW_FZtt9v_tGJT-m_LcEqBS-YThPTE=zoFpr=aQVt7aGPtQ@mail.gmail.com>
-References: <1443092679-216053-1-git-send-email-wenzong.fan@windriver.com>
-	<CAHiDW_FZtt9v_tGJT-m_LcEqBS-YThPTE=zoFpr=aQVt7aGPtQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 24 Sep 2015 12:55:46 +0100
-Message-ID: <CAJTo0LaJeeLRqmADYQ2DNGWs9VxwJMCRViwSvEX84FEbqVVTYA@mail.gmail.com>
-To: wenzong fan <wenzong.fan@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gnutls: cleanup buildpaths from gnutls.pc
+In-Reply-To: <1443024836-20974-1-git-send-email-Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: Re: [PATCH] sanity.bbclass: show warning when chmod fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,44 +46,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 11:56:07 -0000
-Content-Type: multipart/alternative; boundary=001a11354852899bac05207ceabd
+X-List-Received-Date: Thu, 24 Sep 2015 13:46:34 -0000
+X-Groupsio-MsgNum: 71557
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="7JfCtLOvnd9MIVvH"
+Content-Disposition: inline
 
---001a11354852899bac05207ceabd
-Content-Type: text/plain; charset=UTF-8
-
-On 24 September 2015 at 12:49, Jussi Kukkonen <jussi.kukkonen@intel.com>
-wrote:
-
-> I'm not seeing this problem and gnutls.pc.in file looks ok to me. Any
-> idea how I could reproduce this?
->
-
-Also, just sedding them out of the resulting file seems suboptimal compared
-to finding out where the path is coming from and fixing that, so it would
-be good to see an analysis as to where the path comes from.  Last timeI
-fixed a number of those it exposed real problems or bad assumptions in the
-makefiles.
-
-Ross
-
---001a11354852899bac05207ceabd
-Content-Type: text/html; charset=UTF-8
+--7JfCtLOvnd9MIVvH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 September 2015 at 12:49, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>I&#39;m n=
-ot seeing this problem and <a href=3D"http://gnutls.pc.in" target=3D"_blank=
-">gnutls.pc.in</a> file looks ok to me. Any idea how I could reproduce this=
-?</div><span class=3D"HOEnZb"><font color=3D"#888888"><div></div></font></s=
-pan></blockquote></div><br>Also, just sedding them out of the resulting fil=
-e seems suboptimal compared to finding out where the path is coming from an=
-d fixing that, so it would be good to see an analysis as to where the path =
-comes from.=C2=A0 Last timeI fixed a number of those it exposed real proble=
-ms or bad assumptions in the makefiles.</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">Ross</div></div>
+On Wed, Sep 23, 2015 at 06:13:56PM +0200, Martin Jansa wrote:
+> From: Alex Franco <alejandro.franco@linux.intel.com>
+>=20
+> * for some reason this part of:
+>   http://patchwork.openembedded.org/patch/102561/
+>   wasn't ever merged.
 
---001a11354852899bac05207ceabd--
+I've changed the configuration on my jenkins servers, so that now it
+doesn't fail.
+
+In case someone needs that as well then you need to use mode, uid and
+git parameters for mounting tmpfs, e.g.
+
+none /home/jenkins/oe/world/shr-core/tmp-glibc/ tmpfs noatime,nodev,nosuid,=
+size=3D74G,mode=3D777,users,exec,uid=3D3004,gid=3D3004 0 0
+
+where 3004 is uid and gid of jenkins user which is running the bitbake.
+
+
+
+This change is still needed, because following exception shows so much about
+bbclass sanity, that average user will get confused and eventually insane.
+
+ERROR: Execution of event handler 'check_sanity_eventhandler' failed
+Traceback (most recent call last):
+  File "check_sanity_eventhandler(e)", line 6, in check_sanity_eventhandler=
+(e=3D<bb.event.SanityCheck object at 0x57ec3d0>)
+  File "sanity.bbclass", line 34, in check_sanity(sanity_data=3D<bb.data_sm=
+art.DataSmart object at 0x57d5e10>)
+  File "sanity.bbclass", line 155, in check_sanity_everybuild(status=3D<San=
+ityStatus object at 0x57d5490>, d=3D<bb.data_smart.DataSmart object at 0x57=
+d5e10>)
+OSError: [Errno 1] Operation not permitted: '/home/jenkins/workspace/luneos=
+-unstable/webos-ports/tmp-glibc'
+
+ERROR: Command execution failed: Traceback (most recent call last):
+  File "/home/jenkins/workspace/luneos-unstable/webos-ports/bitbake/lib/bb/=
+command.py", line 101, in runAsyncCommand
+    self.cooker.updateCache()
+  File "/home/jenkins/workspace/luneos-unstable/webos-ports/bitbake/lib/bb/=
+cooker.py", line 1503, in updateCache
+    bb.event.fire(bb.event.SanityCheck(False), self.data)
+  File "/home/jenkins/workspace/luneos-unstable/webos-ports/bitbake/lib/bb/=
+event.py", line 170, in fire
+    fire_class_handlers(event, d)
+  File "/home/jenkins/workspace/luneos-unstable/webos-ports/bitbake/lib/bb/=
+event.py", line 109, in fire_class_handlers
+    execute_handler(name, handler, event, d)
+  File "/home/jenkins/workspace/luneos-unstable/webos-ports/bitbake/lib/bb/=
+event.py", line 81, in execute_handler
+    ret =3D handler(event)
+  File "check_sanity_eventhandler(e)", line 6, in check_sanity_eventhandler
+  File "sanity.bbclass", line 34, in check_sanity
+  File "sanity.bbclass", line 155, in check_sanity_everybuild
+OSError: [Errno 1] Operation not permitted: '/home/jenkins/workspace/luneos=
+-unstable/webos-ports/tmp-glibc'
+
+
+Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
+Command exited with non-zero status 1
+
+
+>=20
+> [YOCTO #7669]
+>=20
+> Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/classes/sanity.bbclass | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 2eb744f..34f8618 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -839,9 +839,12 @@ def check_sanity_everybuild(status, d):
+>      else:
+>          bb.utils.mkdirhier(tmpdir)
+>          # Remove setuid, setgid and sticky bits from TMPDIR
+> -        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISUID)
+> -        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISGID)
+> -        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISVTX)
+> +        try:
+> +            os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISUID)
+> +            os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISGID)
+> +            os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISVTX)
+> +        except OSError:
+> +            bb.warn("Unable to chmod TMPDIR: %s" % tmpdir)
+>          with open(checkfile, "w") as f:
+>              f.write(tmpdir)
+> =20
+> --=20
+> 2.5.3
+>=20
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--7JfCtLOvnd9MIVvH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlYD/sgACgkQN1Ujt2V2gBy7NACgqX43onoCK2mZNOjxlQsXPjmj
+g8EAoIdiTbGEPaX/QNswmCzrDgFl0O8R
+=3akC
+-----END PGP SIGNATURE-----
+
+--7JfCtLOvnd9MIVvH--
