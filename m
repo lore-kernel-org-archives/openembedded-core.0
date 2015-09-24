@@ -1,39 +1,35 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 04D2473BB8
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-yk0-f179.google.com (mail-yk0-f179.google.com
+	[209.85.160.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 28A46757AC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 13:46:32 +0000 (UTC)
-Received: by wicgb1 with SMTP id gb1so250749327wic.1
+	Thu, 24 Sep 2015 13:47:50 +0000 (UTC)
+Received: by ykdt18 with SMTP id t18so79967040ykd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 06:46:32 -0700 (PDT)
+	Thu, 24 Sep 2015 06:47:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=CuQDszzzsaQ5Nt78D84yAz45nhldBLfuXNqUZxSgh4g=;
-	b=W13aCUok5td3cX2Mos/ph8bVHPxS6mAvLj8/dOBGS5MvT3LHiAORsSBvd8kJZxC4Pj
-	9HcXZMr/3qwz1GlUgq8viNOI/0gEDoLb7jfsz3yAoO+pcTq+rPDZM8Aff1QK9uUaSbEn
-	oFZV2dWWyIB0pc8ej+r91xS4aHkEKrWd5YzazfujXK3tweRAf5I9/hXcJENhvKTueOV9
-	I+eFp5/h87KWUAhAYNW/YbVJL0fK9PQ6hz6QjwEYQNV5A7ShQJAHw3MbTrR1u6bOhoCe
-	UM0uoQ1bKSmZ3Q05w99xwAsmRLmNcp+UahefwaiAovUbuWKSTfM4+wUy3n8TF48I7Qsl
-	MI5A==
-X-Received: by 10.180.108.112 with SMTP id hj16mr9970876wib.41.1443102391986; 
-	Thu, 24 Sep 2015 06:46:31 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id pl7sm5575645wic.4.2015.09.24.06.46.30
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 24 Sep 2015 06:46:30 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 24 Sep 2015 15:46:50 +0200
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150924134650.GA2397@jama>
-References: <1441317404-6663-1-git-send-email-alejandro.franco@linux.intel.com>
-	<1443024836-20974-1-git-send-email-Martin.Jansa@gmail.com>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=Q3+WpL5wcxm5VOW4KspEG1cVdptPzz1t6zUk4JOLR/g=;
+	b=HOeTwnP33adS8lRDUsbh6ZGE4Gd+jtUB1e/0xqpHutI6BaCllY3AnKbBp5bdjxUcDW
+	yyHTJDO/EYXSobbYKth7KR3FN+lqOs5ZOWz77rXyRMwdU/xVDgIHDF8R9vYwkHpNJSD+
+	IQDxrTe+4+nbR4QUyd3MWyo/GvqQtbBwGahPmWTzrRCKP2hb4nRWJKQgMM7QUoxTg3mj
+	DxaNS6Vc4AcPVvovn9qo/4kOvmzOSk4IKv0714WPU/3G5je/aXaPvPjj/7yE01IeBqrf
+	9KtbsJ+6t8CWCoHx+zMRkR2Da6DuIWFZAMxMDW49GneoeuoL/FnJJE0eRHr0jPokgtNH
+	lwYg==
 MIME-Version: 1.0
-In-Reply-To: <1443024836-20974-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Subject: Re: [PATCH] sanity.bbclass: show warning when chmod fails
+X-Received: by 10.129.73.203 with SMTP id w194mr29432268ywa.16.1443102470362; 
+	Thu, 24 Sep 2015 06:47:50 -0700 (PDT)
+Received: by 10.13.203.151 with HTTP; Thu, 24 Sep 2015 06:47:50 -0700 (PDT)
+In-Reply-To: <BLU168-W92359AA4E562353441C3D7D6430@phx.gbl>
+References: <BLU168-W92359AA4E562353441C3D7D6430@phx.gbl>
+Date: Thu, 24 Sep 2015 09:47:50 -0400
+Message-ID: <CADkTA4OVo--4nCsx6-n54AYKFq9FzT0D162fqgMTqSVwGE8CQw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: LIYONG <sdliyong@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Cannot apply patches out of meta bsp after applied a kern-tool patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,125 +42,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 13:46:34 -0000
-X-Groupsio-MsgNum: 71557
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="7JfCtLOvnd9MIVvH"
-Content-Disposition: inline
-
---7JfCtLOvnd9MIVvH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 24 Sep 2015 13:47:52 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 23, 2015 at 06:13:56PM +0200, Martin Jansa wrote:
-> From: Alex Franco <alejandro.franco@linux.intel.com>
->=20
-> * for some reason this part of:
->   http://patchwork.openembedded.org/patch/102561/
->   wasn't ever merged.
+On Thu, Sep 24, 2015 at 4:24 AM, LIYONG <sdliyong@gmail.com> wrote:
+> Hi all,
+>
+> After applied the below patch, bitbake cannot apply these patches in my a=
+pp layer. For example, there is a kernel patch in meta-app/recipes-kernel/l=
+inux-yocto/linux-yocto, I add the file in linux-yocto_%.bbappend file. bitb=
+ake yocto-linux will fail with "do patch error". If I revert the patch, the=
+ build is okay.
+>
+> Any suggestions/comments?
 
-I've changed the configuration on my jenkins servers, so that now it
-doesn't fail.
+Raise a bug, and assign it to me. I can have a look at it. There must
+be some interaction in this configuration that I didn't test ... because I
+definiely did test the applcation of patches :)
 
-In case someone needs that as well then you need to use mode, uid and
-git parameters for mounting tmpfs, e.g.
+Make sure to add everything to the bug, the bbappend, the patch, etc,
+so I can re-create the failure on my machines.
 
-none /home/jenkins/oe/world/shr-core/tmp-glibc/ tmpfs noatime,nodev,nosuid,=
-size=3D74G,mode=3D777,users,exec,uid=3D3004,gid=3D3004 0 0
+We can't revert that patch, since it actually is required to prevent patche=
+s
+from being applied multiple times .. so I'll need to incrementally fix the
+issue.
 
-where 3004 is uid and gid of jenkins user which is running the bitbake.
-
-
-
-This change is still needed, because following exception shows so much about
-bbclass sanity, that average user will get confused and eventually insane.
-
-ERROR: Execution of event handler 'check_sanity_eventhandler' failed
-Traceback (most recent call last):
-  File "check_sanity_eventhandler(e)", line 6, in check_sanity_eventhandler=
-(e=3D<bb.event.SanityCheck object at 0x57ec3d0>)
-  File "sanity.bbclass", line 34, in check_sanity(sanity_data=3D<bb.data_sm=
-art.DataSmart object at 0x57d5e10>)
-  File "sanity.bbclass", line 155, in check_sanity_everybuild(status=3D<San=
-ityStatus object at 0x57d5490>, d=3D<bb.data_smart.DataSmart object at 0x57=
-d5e10>)
-OSError: [Errno 1] Operation not permitted: '/home/jenkins/workspace/luneos=
--unstable/webos-ports/tmp-glibc'
-
-ERROR: Command execution failed: Traceback (most recent call last):
-  File "/home/jenkins/workspace/luneos-unstable/webos-ports/bitbake/lib/bb/=
-command.py", line 101, in runAsyncCommand
-    self.cooker.updateCache()
-  File "/home/jenkins/workspace/luneos-unstable/webos-ports/bitbake/lib/bb/=
-cooker.py", line 1503, in updateCache
-    bb.event.fire(bb.event.SanityCheck(False), self.data)
-  File "/home/jenkins/workspace/luneos-unstable/webos-ports/bitbake/lib/bb/=
-event.py", line 170, in fire
-    fire_class_handlers(event, d)
-  File "/home/jenkins/workspace/luneos-unstable/webos-ports/bitbake/lib/bb/=
-event.py", line 109, in fire_class_handlers
-    execute_handler(name, handler, event, d)
-  File "/home/jenkins/workspace/luneos-unstable/webos-ports/bitbake/lib/bb/=
-event.py", line 81, in execute_handler
-    ret =3D handler(event)
-  File "check_sanity_eventhandler(e)", line 6, in check_sanity_eventhandler
-  File "sanity.bbclass", line 34, in check_sanity
-  File "sanity.bbclass", line 155, in check_sanity_everybuild
-OSError: [Errno 1] Operation not permitted: '/home/jenkins/workspace/luneos=
--unstable/webos-ports/tmp-glibc'
+Bruce
 
 
-Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
-Command exited with non-zero status 1
+>
+> commit a03c100e813b1b5041bfc17c97f5bd4e72b795ad
+> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+> Date:   Mon Aug 31 15:55:33 2015 -0400
+>
+>     patching: only validate user supplied patches by default
+>
+>     Previously the patching tools would consider both system and user
+>     supplied patches in the same manner .. they are simply a series of
+>     patches to be applied to a branch, and that the scripts should determ=
+ine
+>     where in the series to start (based on what is already on the branch)=
+.
+>
+>     This detection was causing a few problems:
+>
+>       - time consuming
+>       - starting in the middle of a series when intermediate patches were
+>         merged to a branch.
+>
+>     To solve both the performance and start detection, we instead simply
+>     note the transition from system (i.e. already defined features and
+>     series) and user/recipe supplied patches. When the transition is note=
+d,
+>     the system will start pushing ALL patches without doing autoresume
+>     detection.
+>
+>     Control in keeping the series up to date is passed to the user, and
+> consistent behaviour/performance is achieved.
+>
+> Signed-off-by: Bruce Ashfield bruce.ashfield@windriver.com
+>
+>
+> Thanks,
+> Yong
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
->=20
-> [YOCTO #7669]
->=20
-> Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/sanity.bbclass | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 2eb744f..34f8618 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -839,9 +839,12 @@ def check_sanity_everybuild(status, d):
->      else:
->          bb.utils.mkdirhier(tmpdir)
->          # Remove setuid, setgid and sticky bits from TMPDIR
-> -        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISUID)
-> -        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISGID)
-> -        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISVTX)
-> +        try:
-> +            os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISUID)
-> +            os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISGID)
-> +            os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISVTX)
-> +        except OSError:
-> +            bb.warn("Unable to chmod TMPDIR: %s" % tmpdir)
->          with open(checkfile, "w") as f:
->              f.write(tmpdir)
-> =20
-> --=20
-> 2.5.3
->=20
 
 --=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
---7JfCtLOvnd9MIVvH
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlYD/sgACgkQN1Ujt2V2gBy7NACgqX43onoCK2mZNOjxlQsXPjmj
-g8EAoIdiTbGEPaX/QNswmCzrDgFl0O8R
-=3akC
------END PGP SIGNATURE-----
-
---7JfCtLOvnd9MIVvH--
