@@ -1,20 +1,24 @@
 Return-Path: <alejandro.joya.cruz@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id B2105734DA
+	by mail.openembedded.org (Postfix) with ESMTP id 348FF75E2D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 21:10:37 +0000 (UTC)
+	Thu, 24 Sep 2015 21:10:39 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 24 Sep 2015 14:10:34 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 24 Sep 2015 14:10:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,582,1437462000"; d="scan'208";a="812638112"
+X-IronPort-AV: E=Sophos;i="5.17,582,1437462000"; d="scan'208";a="812638137"
 Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.56])
-	by orsmga002.jf.intel.com with ESMTP; 24 Sep 2015 14:10:34 -0700
+	by orsmga002.jf.intel.com with ESMTP; 24 Sep 2015 14:10:36 -0700
 From: Alejandro Joya <alejandro.joya.cruz@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Sep 2015 16:10:23 -0500
-Message-Id: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
+Date: Thu, 24 Sep 2015 16:10:26 -0500
+Message-Id: <971d079a2c8c4d58432bd2ad9b6a779ef0966aab.1443128706.git.alejandro.joya.cruz@intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH V3 0/3] Dynamic common utilities
+In-Reply-To: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
+References: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
+In-Reply-To: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
+References: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
+Subject: [PATCH V3 3/3] packagegroup-core-boot:change to virtual reference
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,31 +31,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 21:10:40 -0000
+X-List-Received-Date: Thu, 24 Sep 2015 21:10:41 -0000
 
-It provide a virtual reference for the common utilities.
-it replace of the lock to busybox, it will be simple exchange between other
-common utilities like gnu core utils or toybox among others.
+This recipe have a hardcoded dependency to busybox, in order to be able to have a flexible selection,
+instead of the hardcoded dependency,now is point to virtual reference base-utils.
 
-The following changes since commit f0189829498e30231d826c9f55aad73e622d076e:
+Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-  qemu: Update to upstream patches (2015-09-14 11:22:02 +0100)
-
-are available in the git repository at:
-
-  git://github.com/Ajoyacr/openembedded-core base-util
-  https://github.com/Ajoyacr/openembedded-core/tree/base-util
-
-Alejandro Joya (3):
-  core-image-minimal-initramfs: replace dependency
-  initramfs-framework:add virtual reference
-  packagegroup-core-boot:change to virtual reference
-
- meta/recipes-core/images/core-image-minimal-initramfs.bb   | 2 +-
- meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
- meta/recipes-core/packagegroups/packagegroup-core-boot.bb  | 7 +++++--
- 3 files changed, 7 insertions(+), 4 deletions(-)
-
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index 09f5373..938b112 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -11,6 +11,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ inherit packagegroup
+ 
++PREFERRED_PROVIDER_virtual/base-utils ?= "busybox"
+ #
+ # Set by the machine configuration with packages essential for device bootup
+ #
+@@ -20,11 +21,13 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
+ # Distro can override the following VIRTUAL-RUNTIME providers:
+ VIRTUAL-RUNTIME_dev_manager ?= "udev"
+ VIRTUAL-RUNTIME_login_manager ?= "busybox"
++VIRTUAL-RUNTIME_base-utils ?= "busybox"
++VIRTUAL-RUNTIME_base-utils-hwclock ?= "busybox-hwclock" 
+ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
+ VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+ VIRTUAL-RUNTIME_keymaps ?= "keymaps"
+ 
+-SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwclock', '', d)} \
++SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', '${VIRTUAL-RUNTIME_base-utils-hwclock}', '', d)} \
+                     modutils-initscripts \
+                     init-ifupdown \
+                     ${VIRTUAL-RUNTIME_initscripts} \
+@@ -33,7 +36,7 @@ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwc
+ RDEPENDS_${PN} = "\
+     base-files \
+     base-passwd \
+-    busybox \
++    ${VIRTUAL-RUNTIME_base-utils} \
+     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
+     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
+     netbase \
 -- 
 2.1.0
 
