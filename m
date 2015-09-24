@@ -1,23 +1,24 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D43D073BB8
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E906E7404E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 11:02:09 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 24 Sep 2015 04:02:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,580,1437462000"; d="scan'208";a="776017258"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 24 Sep 2015 04:02:10 -0700
-Received: from localhost.localdomain (unknown [10.237.112.173])
-	by linux.intel.com (Postfix) with ESMTP id 9F72F6A4005;
-	Thu, 24 Sep 2015 04:01:14 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Sep 2015 14:00:11 +0300
-Message-Id: <1443092411-3822-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/runexported: Fix a problem with ssh_target_log existing in folder.
+	Thu, 24 Sep 2015 11:04:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8OB4VOE003313
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Sep 2015 04:04:31 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Thu, 24 Sep 2015 04:04:30 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 24 Sep 2015 07:04:29 -0400
+Message-ID: <1443092669-215894-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] curl: cleanup buildpaths from curl-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,30 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 11:02:11 -0000
+X-List-Received-Date: Thu, 24 Sep 2015 11:04:32 -0000
+Content-Type: text/plain
 
-When copying the exported tests to a remote machine ssh_target_log can
-be transformed from softlink to file. This will recreate the link.
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+* curl-config:
+  -L/path/to/tmp/sysroots/qemux86-64/usr/lib64 -> -L/usr/lib64
+  --sysroot=/path/to/tmp/sysroots/qemux86-64'  -> --sysroot=
+
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- meta/lib/oeqa/runexported.py | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-support/curl/curl_7.44.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
-index d6097a1..07b5ba4 100755
---- a/meta/lib/oeqa/runexported.py
-+++ b/meta/lib/oeqa/runexported.py
-@@ -51,6 +51,8 @@ class FakeTarget(object):
-         sshloglink = os.path.join(self.testdir, "ssh_target_log")
-         if os.path.islink(sshloglink):
-             os.unlink(sshloglink)
-+        elif os.path.isfile(sshloglink):
-+                os.remove(sshloglink)
-         os.symlink(self.sshlog, sshloglink)
-         print("SSH log file: %s" %  self.sshlog)
-         self.connection = SSHControl(self.ip, logfile=self.sshlog)
+diff --git a/meta/recipes-support/curl/curl_7.44.0.bb b/meta/recipes-support/curl/curl_7.44.0.bb
+index b293303..b0cf700 100644
+--- a/meta/recipes-support/curl/curl_7.44.0.bb
++++ b/meta/recipes-support/curl/curl_7.44.0.bb
+@@ -43,6 +43,9 @@ EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'ac_cv_siz
+ 
+ do_install_append() {
+ 	oe_multilib_header curl/curlbuild.h
++
++	# cleanup buildpaths from curl-config
++	sed -i -e 's#${STAGING_DIR_HOST}##g' ${D}${bindir}/curl-config
+ }
+ 
+ PACKAGES =+ "lib${BPN}"
 -- 
-2.1.4
+1.9.1
 
 
