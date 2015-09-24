@@ -1,21 +1,25 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F0D6734DA
+	by mail.openembedded.org (Postfix) with ESMTP id 9EED073BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 17:00:44 +0000 (UTC)
+	Thu, 24 Sep 2015 17:00:45 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga102.fm.intel.com with ESMTP; 24 Sep 2015 10:00:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,582,1437462000"; d="scan'208";a="651615523"
+X-IronPort-AV: E=Sophos;i="5.17,582,1437462000"; d="scan'208";a="651615526"
 Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
 	([10.23.219.54])
 	by orsmga003.jf.intel.com with ESMTP; 24 Sep 2015 10:00:22 -0700
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Sep 2015 08:52:50 +0000
-Message-Id: <cover.1443072637.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Thu, 24 Sep 2015 08:52:53 +0000
+Message-Id: <58087c03b04e6fcd6988e77cc7c3886b397ad74c.1443072637.git.leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH v2 0/3] PRServer: Fixes daemon issues
+In-Reply-To: <cover.1443072637.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1443072637.git.leonardo.sandoval.gonzalez@linux.intel.com>
+In-Reply-To: <cover.1443072637.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1443072637.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Subject: [PATCH v2 3/3] prserv/serv: Close the DB connection out of class destructor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,41 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 17:00:44 -0000
+X-List-Received-Date: Thu, 24 Sep 2015 17:00:45 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-First two patches fix issues when using hostnames instead of IPs. Third patch
-disconnect the DB manually, not relaying on this task into a __del__ function.
-Detail is given on each patch. Fixes 8258, 8560 and 8215
+When launching the PR server daemon, the PRData __del__ function was being
+called (no reason found yet) where the DB connection closed, thus following
+PR updates were not getting into the DB. This patch closes the connection
+explicitly, not relaying on the __del__ function execution.
+Closing the connection in turn causes all WAL file transactions to be moved
+into the database (checkpoint), thus effectively updating the database.
 
-Changes from v1:
-	* First patch: No changes
-	* Second patch: outputs the message into stdout instead of stderr. Also
-	removes the 'WARNING' string.
-	* Third patch: Instead of changing the journal, this patch closes
-	the DB connection explicitly, instead of relying on the __del__
-        function
+[YOCTO #8215]
 
-The following changes since commit 71b0568fa43285f0946fae93fb43cea5f3bbecec:
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ bitbake/lib/prserv/db.py   | 2 +-
+ bitbake/lib/prserv/serv.py | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-  rt-tests: drop unnecessary added-missing-dependencies.patch (2015-09-01 11:44:04 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lsandov1/prserver
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/prserver
-
-Leonardo Sandoval (3):
-  prserv/serv: Start/Stop daemon using ip instead of host
-  prserv/serv.py: Better messaging when starting/stopping the server
-    with port=0
-  prserv/serv: Close the DB connection out of class destructor
-
- bitbake/lib/prserv/db.py   |  2 +-
- bitbake/lib/prserv/serv.py | 38 ++++++++++++++++++++++++++++++--------
- 2 files changed, 31 insertions(+), 9 deletions(-)
-
+diff --git a/bitbake/lib/prserv/db.py b/bitbake/lib/prserv/db.py
+index 4379580..36c9f7b 100644
+--- a/bitbake/lib/prserv/db.py
++++ b/bitbake/lib/prserv/db.py
+@@ -248,7 +248,7 @@ class PRData(object):
+         self.connection.execute("PRAGMA journal_mode = WAL;")
+         self._tables={}
+ 
+-    def __del__(self):
++    def disconnect(self):
+         self.connection.close()
+ 
+     def __getitem__(self,tblname):
+diff --git a/bitbake/lib/prserv/serv.py b/bitbake/lib/prserv/serv.py
+index 3558d4d..08298a6 100644
+--- a/bitbake/lib/prserv/serv.py
++++ b/bitbake/lib/prserv/serv.py
+@@ -141,7 +141,7 @@ class PRServer(SimpleXMLRPCServer):
+         while not self.quit:
+             self.handle_request()
+         self.handlerthread.join()
+-        self.table.sync()
++        self.db.disconnect()
+         logger.info("PRServer: stopping...")
+         self.server_close()
+         return
 -- 
 1.8.4.5
 
