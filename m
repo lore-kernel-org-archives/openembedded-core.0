@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BC43D734DA
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 553F17404E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 21:40:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8OLeX5E013398; Thu, 24 Sep 2015 22:40:33 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id w9-d7lG0Klv9; Thu, 24 Sep 2015 22:40:33 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8OLeI5X013393
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 24 Sep 2015 22:40:29 +0100
-Message-ID: <1443130818.19044.104.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Thu, 24 Sep 2015 22:40:18 +0100
-In-Reply-To: <CAP9ODKrBa6oiFm2Fj1XxtH5m2gx=6nSg4OhEs+s_KjgvAgFaFg@mail.gmail.com>
-References: <1443047565.19044.44.camel@linuxfoundation.org>
-	<CAP9ODKrBa6oiFm2Fj1XxtH5m2gx=6nSg4OhEs+s_KjgvAgFaFg@mail.gmail.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdk-pixbuf: Avoid rebuild failures
+	Thu, 24 Sep 2015 22:17:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8OMHtL8016073
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 24 Sep 2015 15:17:55 -0700 (PDT)
+Received: from yow-bashfiel-d4.corp.ad.wrs.com (147.11.116.147) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Thu, 24 Sep 2015 15:17:54 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 24 Sep 2015 18:17:52 -0400
+Message-ID: <cover.1443132765.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/2] linux-yocto/4.1: -rt and common-pc updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,25 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 21:40:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Sep 2015 22:17:58 -0000
+Content-Type: text/plain
 
-On Thu, 2015-09-24 at 08:27 -0300, Otavio Salvador wrote:
-> Hello Richard,
-> 
-> Thanks for hunting this bug, this was very annoying and hard to
-> figure. It does seem to address the issue in our builder.
+Hi all,
 
-Sadly, whilst I merged it and it does fix that problem, I suspect this
-causes:
+During some routine merges over the last weeks, some of the
+branches in the 4.1 kernel managed to get reset to invalid
+SRCREVs, which meant that some changes (i.e. arm fixes for
+gcc5) were dangling within the repo. We've fixed the standard
+kernel references now .. but a bug report about -rt's build
+being broken alerted me to the fact that the -rt branches were
+also impacted.
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-x32/builds/497/steps/BuildImages/logs/stdio
+I've now fixed, built and booted on all the qemu architectures
+for preempt-rt.
 
-:(
+This update fixes the SRCREVs to pickup that refreshed support, 
+and includes a change to the common-pc configuration as well.
 
 Cheers,
 
-Richard
+Bruce
+
+The following changes since commit 9f66aa1a11b5b45280aa41bf4517ec56ee5f2ab2:
+
+  bitbake: toaster: start script warning text formatting small improvement (2015-09-23 22:44:56 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (2):
+  linux-yocto/4.1: common-pc-drivers: add CONFIG_PATA_SCH
+  linux-yocto/4.1: rt update to 4.1.x-rt8
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   | 4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+-- 
+2.1.0
 
 
