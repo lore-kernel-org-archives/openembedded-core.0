@@ -1,24 +1,50 @@
-Return-Path: <Yuanjie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 46F9B60232
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id CE3DA77003
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 06:13:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8O6D8tC028708
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 24 Sep 2015 06:18:28 +0000 (UTC)
+Received: by wicge5 with SMTP id ge5so237038023wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 23:13:08 -0700 (PDT)
-Received: from Flora.corp.ad.wrs.com (128.224.162.184) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.235.1; Wed, 23 Sep 2015 23:13:07 -0700
-From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Sep 2015 14:17:16 +0800
-Message-ID: <1443075436-28974-1-git-send-email-Yuanjie.Huang@windriver.com>
-X-Mailer: git-send-email 2.5.3
+	Wed, 23 Sep 2015 23:18:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=resent-from:resent-date:resent-message-id:resent-to:from:date:to:cc
+	:subject:message-id:references:mime-version:content-type
+	:content-disposition:in-reply-to:user-agent;
+	bh=DX4SfVqiu3MMuAH8XuuZ1QoJI/xxqzt8RoqQlk20LK4=;
+	b=f9xf6tzKqvCd55QmsiFL/XejSx9xrysvaLN58QuOQjGy6dSJC4uaZNjG3aXZ7OYj2z
+	Ko/RxDAp3OeqvD6nNGOUopdoeqCpZJOyUd9KyQjWBfxm8jsK/RrrOpRHi1ysojMWFG3f
+	H41yzmGIY98ag7kZu6/FDD7I+4df9Znm1rWSEv9StW9YhzVF5iz4Xb2oPn3sfjrVNU9K
+	KOftdwJd8Gq7p0jI1VVodbcTxBCy9VFjTYUaaw4LgmnnjLdc14abzBFVauh9QJduf4xn
+	0+UWsASvgGgTVNWJpU2qVEzWkhfGKboQNQSvhGsu68VrEjLnZf+27CBipa69RpDU9HX4
+	hNoA==
+X-Received: by 10.181.29.101 with SMTP id jv5mr518522wid.1.1443075508099;
+	Wed, 23 Sep 2015 23:18:28 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id fu5sm1584642wic.0.2015.09.23.23.18.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 23 Sep 2015 23:18:27 -0700 (PDT)
+Resent-From: Martin Jansa <Martin.Jansa@gmail.com>
+Resent-Date: Thu, 24 Sep 2015 08:18:43 +0200
+Resent-Message-ID: <20150924061843.GB30780@jama>
+Resent-To: openembedded-core@lists.openembedded.org
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id fu5sm1500859wic.0.2015.09.23.22.54.29
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 23 Sep 2015 22:54:29 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 24 Sep 2015 07:54:44 +0200
+To: openembedded-devel@lists.openembedded.org
+Message-ID: <20150924055444.GA2404@jama>
+References: <20150923211259.12BA050583@opal.openembedded.org>
 MIME-Version: 1.0
-Subject: [PATCH] gcc-multilib-config: Expand ccargs variable
+In-Reply-To: <20150923211259.12BA050583@opal.openembedded.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TUID: smrLQx1E2to4
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Robert Yang : insane.bbclass: make package_qa_clean_path return a relative path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +57,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 06:13:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Sep 2015 06:18:29 -0000
+X-Groupsio-MsgNum: 71526
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
+Content-Disposition: inline
 
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+--bp/iNruPH9dso1Pn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The ccargs obtained from get_tune_parameters may not be fully expanded,
-so that the gcc_multilib_setup function can be confused, and generates
-invalid MULTILIB_OPTIONS in GCC Makefile fragment, which will break the
-multilib feature of target gcc.
+On Wed, Sep 23, 2015 at 09:12:59PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master-next
+> Commit: 67a1e4b087a39db04370685616d5b439b0f2b505
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D67a1e4b087a39db04370685616d5b439b0f2b505
+>=20
+> Author: Robert Yang <liezhi.yang@windriver.com>
+> Date:   Tue Sep 15 19:28:48 2015 -0700
+>=20
+> insane.bbclass: make package_qa_clean_path return a relative path
+>=20
+> Make package_qa_clean_path() return something like "work/path/to/file"
+> rather than "/work/path/to/file", the relative path is a little clear.
+>=20
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/classes/insane.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 72120f5..05e31a7 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -167,7 +167,7 @@ def package_qa_get_machine_dict():
+> =20
+>  def package_qa_clean_path(path,d):
+>      """ Remove the common prefix from the path. In this case it is the T=
+MPDIR"""
+> -    return path.replace(d.getVar('TMPDIR',True),"")
+> +    return path.replace(d.getVar("TMPDIR", True) + "/", "")
 
-To address problems above, this patch modifies gcc_multilib_setup
-function to expand ccargs before use.
+Isn't path[len(d.getVar("TMPDIR", True))+1:] a bit faster and safer in
+cases where the TMPDIR path is included multiple times?
 
-Upstream-Status: Inappropriate [configuration]
+Or is this function meant to be used also for path which doesn't start
+with TMPDIR? Then I agree it should stay replace, but maybe with
+maxreplace parameter set to 1.
 
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-multilib-config.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Same problem with "absolute" path is other QA check I was recently
+changing (and I've kept leading / after seeing it somewhere else :)).
 
-diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-index 6d1775e..c94e77c 100644
---- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-+++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-@@ -191,7 +191,7 @@ python gcc_multilib_setup() {
-         # take out '-' mcpu='s and march='s from parameters
-         opts = []
-         whitelist = (d.getVar("MULTILIB_OPTION_WHITELIST", True) or "").split()
--        for i in tune_parameters['ccargs'].split():
-+        for i in d.expand(tune_parameters['ccargs']).split():
-             if i in whitelist:
-                 # Need to strip '-' from option
-                 opts.append(i[1:])
--- 
-1.8.5.2.233.g932f7e4
+Regards,
 
+> =20
+>  def package_qa_write_error(type, error, d):
+>      logfile =3D d.getVar('QA_LOGFILE', True)
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--bp/iNruPH9dso1Pn
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlYDkCQACgkQN1Ujt2V2gBzjrACgj1CjmITEWs26JTY4B5XQF4kj
++M8AoKMhjBZHzD8Bhe0n35d96XSxGni9
+=P3o+
+-----END PGP SIGNATURE-----
+
+--bp/iNruPH9dso1Pn--
