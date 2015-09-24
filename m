@@ -1,23 +1,32 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E58975CF1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3646273BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 09:16:42 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 24 Sep 2015 02:16:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,580,1437462000"; d="scan'208";a="812176129"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 24 Sep 2015 02:16:43 -0700
-Received: from localhost.localdomain (unknown [10.237.112.173])
-	by linux.intel.com (Postfix) with ESMTP id B1B186A4005;
-	Thu, 24 Sep 2015 02:15:47 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Sep 2015 12:14:44 +0300
-Message-Id: <1443086084-2479-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/testimage: Remove absolute path to oeqa from json
+	Thu, 24 Sep 2015 09:18:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8O9IjFh008768; Thu, 24 Sep 2015 10:18:45 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 0sVegxQzXuqi; Thu, 24 Sep 2015 10:18:45 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8O9IUdL008765
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 24 Sep 2015 10:18:42 +0100
+Message-ID: <1443086310.19044.56.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Thu, 24 Sep 2015 10:18:30 +0100
+In-Reply-To: <56039856.3050902@windriver.com>
+References: <cover.1442311946.git.liezhi.yang@windriver.com>
+	<5600C0E4.4030606@windriver.com>
+	<1443045619.19044.40.camel@linuxfoundation.org>
+	<56039856.3050902@windriver.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/6] Fixes for mutilib SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,42 +39,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 09:16:43 -0000
+X-List-Received-Date: Thu, 24 Sep 2015 09:18:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-In the json file the whole datastore is serialized which contains
-absolute path to the oeqa folder. This breaks the functionality
-when trying to run the tests from other machines.
+On Thu, 2015-09-24 at 14:29 +0800, Robert Yang wrote:
+> 
+> On 09/24/2015 06:00 AM, Richard Purdie wrote:
+> > On Tue, 2015-09-22 at 10:45 +0800, Robert Yang wrote:
+> >> Hi RP and Ross,
+> >>
+> >> These patches are required by multilib's do_rootfs and do_populate_sdk,
+> >> otherwise they are broken or partly broken. These patches don't affect
+> >> do_rootfs or do_populate_sdk without multilib are to be installed.
+> >
+> > Thanks for these. Patches 1-4 look ok, we can try them in -next however
+> > I do worry about 5 and 6. Could you confirm if you tested those before
+> > or after the recent data store changes? Its possible the OVERRIDE fixes
+> > there may have fixed the issues 5 and 6 were trying to fix so I'd like
+> > to confirm if they're still needed or not.
+> >
+> > If they are, they don't look like the right solution so I'll need to
+> > look further at the exact issue there.
+> 
+> Hi RP,
+> 
+> I tested on latest master branch without patch 5 and 6, we still have
+> the issues.
+> 
+> # local.conf
+> MACHINE = "qemux86-64"
+> require conf/multilib.conf
+> MULTILIBS = "multilib:lib32"
+> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+> 
+> # populate sdk for lib32-core-image-minimal
+> $ bitbake lib32-core-image-minimal -cpopulate_sdk
+> 
+> # Install sdk
+> $ 
+> ./tmp/deploy/sdk/poky-glibc-x86_64-lib32-core-image-minimal-core2-64-toolchain-1.8+snapshot.sh
+> 
+> # Check messages on the screen:
+> SDK has been successfully set up and is ready to be used.
+> Each time you wish to use the SDK in a new shell session, you need to source the 
+> environment setup script e.g.
+>   $ . /buildarea/lyang1/sdk32/environment-setup-core2-64-pokymllib32-linux
+> 
+> This is incorrect, it should be environment-setup-x86-pokymllib32-linuxm
+> (core2-64 != x86).
+> 
+> # Check the installed sdk, the sysroots are:
+> core2-64-pokymllib32-linux  x86_64-pokysdk-linux
+> 
+> But SDKTARGETSYSROOT in environment-setup-core2-64-poky-linux and
+> environment-setup-x86-pokymllib32-linux is /path/to/sysroots/core2-64-poky-linux
+> , this is incorrect.
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/classes/testimage.bbclass | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+Thanks, I will look into that further. With your first four patches
+applied, the autobuilder showed this issue:
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index c62e391..2efab29 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -198,9 +198,18 @@ def exportTests(d,tc):
-     savedata["host_dumper"]["parent_dir"] = tc.host_dumper.parent_dir
-     savedata["host_dumper"]["cmds"] = tc.host_dumper.cmds
- 
--    with open(os.path.join(exportpath, "testdata.json"), "w") as f:
-+    json_file = os.path.join(exportpath, "testdata.json")
-+    with open(json_file, "w") as f:
-             json.dump(savedata, f, skipkeys=True, indent=4, sort_keys=True)
- 
-+    # Replace absolute path with relative in the file
-+    exclude_path = os.path.join(d.getVar("COREBASE", True),'meta','lib','oeqa')
-+    f1 = open(json_file,'r').read()
-+    f2 = open(json_file,'w')
-+    m = f1.replace(exclude_path,'oeqa')
-+    f2.write(m)
-+    f2.close()
-+
-     # now start copying files
-     # we'll basically copy everything under meta/lib/oeqa, with these exceptions
-     #  - oeqa/targetcontrol.py - not needed
--- 
-2.1.4
+https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/500/steps/Running%20Sanity%20Tests_2/logs/stdio
+
+I've not looked into what is going on there as yet.
+
+Cheers,
+
+Richard
 
 
