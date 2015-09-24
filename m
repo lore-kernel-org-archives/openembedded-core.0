@@ -1,38 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id CF91F734DA
+Return-Path: <alejandro.joya.cruz@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id DAB7C756C5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 20:19:24 +0000 (UTC)
-Received: by qgev79 with SMTP id v79so54091358qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 13:19:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=8Y2Bn7pEK/IXssd/wI+F/CTeo3cKq9+izqhexTiWYJ8=;
-	b=gNtOkFK5rJnDzdMfcBxRiaNFO9BH2UZX/tkp7qMZ/Dmp1APQO5EWl/Ih9WEHiYEkKo
-	lsNW6uiS5wXqphkCPMBKkfmsJz5Gk08uJXPONnYza+IhXDqU1EoDQyhlAU2FQ3FonDyQ
-	+22hyasZvxn+TJ+0LoEjaxG2KhWCwRgLjooUwq3nW4CJrWTz6r5UQAGlR772ElOEkDNt
-	kr0IN3zvxUyEhSqEgLi/3WdaIWfajL9/lEpgwsHiln3VINFoC+5/9YgnfxLSDqmk8Js+
-	0ZiDUv2q4MrgT+C4AsD+Gqd7aTi56kSZLsAm7RNyMbjjK+Yu6r3Ynw0qFlbuPFfN0zc9
-	DdXg==
-X-Gm-Message-State: ALoCoQlJ1e6cH0G7RV8vTVXB4wjnGEArjHMUPZjUvTB3hBrGwkzI4QPNV18Wk5Z9MAF1tFsxsQWv
-X-Received: by 10.140.232.150 with SMTP id d144mr2146305qhc.17.1443125964233; 
-	Thu, 24 Sep 2015 13:19:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Thu, 24 Sep 2015 13:19:04 -0700 (PDT)
-In-Reply-To: <CAP71Wjz0zd_gTE8J82P0bvxvqSb_iH2CkK5jy=sGUGjKk_dGSQ@mail.gmail.com>
-References: <1443116526-16989-1-git-send-email-alexander.kanavin@linux.intel.com>
-	<CAP71Wjz0zd_gTE8J82P0bvxvqSb_iH2CkK5jy=sGUGjKk_dGSQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 24 Sep 2015 21:19:04 +0100
-Message-ID: <CAJTo0LZdyUDn-pmDAKL7OaQKpwiz=m1Z4WsV7WdaTvjX3oPD9g@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-plugins-bad: change glimagesink rank to marginal
+	Thu, 24 Sep 2015 21:10:39 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 24 Sep 2015 14:10:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,582,1437462000"; d="scan'208";a="812638119"
+Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.56])
+	by orsmga002.jf.intel.com with ESMTP; 24 Sep 2015 14:10:34 -0700
+From: Alejandro Joya <alejandro.joya.cruz@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Sep 2015 16:10:24 -0500
+Message-Id: <5bbafaabb339559f9746aa81c3a3d7a53b3d8fda.1443128706.git.alejandro.joya.cruz@intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
+References: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
+In-Reply-To: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
+References: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
+Subject: [PATCH V3 1/3] core-image-minimal-initramfs: replace dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,44 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 20:19:26 -0000
-Content-Type: multipart/alternative; boundary=001a11354852771737052083f283
+X-List-Received-Date: Thu, 24 Sep 2015 21:10:40 -0000
 
---001a11354852771737052083f283
-Content-Type: text/plain; charset=UTF-8
+This recipe have a hardcoded dependency to busybox, in order to be able to have a flexible selection,
+instead of the hardcoded dependency,now is point to virtual reference.
 
-On 24 September 2015 at 21:03, Nicolas Dechesne <nicolas.dechesne@linaro.org
-> wrote:
+Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
+---
+ meta/recipes-core/images/core-image-minimal-initramfs.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> fwiw... on my platforms (QCOM DragonBoard) I rely on glimagesink, and
-> we have good OpenGL support.. but I understand that this isn't the
-> norm for ARM, and more an exception.. I can manage that in my BSP
-> layer, if that ever gets merged. Note we might want to wait for the
-> upstream discussion to settle before merging.
->
+diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+index 1f0fa95..e2936ee 100644
+--- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
++++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
+ the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
+ first 'init' program more efficiently."
+ 
+-PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi busybox udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
++PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi virtual/anybox udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
+ 
+ # Do not pollute the initrd image with rootfs features
+ IMAGE_FEATURES = ""
+-- 
+2.1.0
 
-Does your platform support Xvideo?  If not then glimagesink will likely be
-picked anyway.
 
-Ross
-
---001a11354852771737052083f283
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 September 2015 at 21:03, Nicolas Dechesne <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:nicolas.dechesne@linaro.org" target=3D"_blank">nicolas.dechesn=
-e@linaro.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
-d=3D":13c" class=3D"a3s" style=3D"overflow:hidden">fwiw... on my platforms =
-(QCOM DragonBoard) I rely on glimagesink, and<br>
-we have good OpenGL support.. but I understand that this isn&#39;t the<br>
-norm for ARM, and more an exception.. I can manage that in my BSP<br>
-layer, if that ever gets merged. Note we might want to wait for the<br>
-upstream discussion to settle before merging.</div></blockquote></div><br>D=
-oes your platform support Xvideo?=C2=A0 If not then glimagesink will likely=
- be picked anyway.</div><div class=3D"gmail_extra"><br></div><div class=3D"=
-gmail_extra">Ross</div></div>
-
---001a11354852771737052083f283--
