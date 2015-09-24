@@ -1,26 +1,39 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A7B1757AC
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 850AA7404E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 22:17:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8OMHt1p009664
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 24 Sep 2015 15:17:56 -0700 (PDT)
-Received: from yow-bashfiel-d4.corp.ad.wrs.com (147.11.116.147) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Thu, 24 Sep 2015 15:17:55 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 24 Sep 2015 18:17:53 -0400
-Message-ID: <f0c6e4af7ed7f7555786cf509df4310055fa7355.1443132765.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1443132765.git.bruce.ashfield@windriver.com>
-References: <cover.1443132765.git.bruce.ashfield@windriver.com>
+	Thu, 24 Sep 2015 22:27:05 +0000 (UTC)
+Received: by qkfq186 with SMTP id q186so35803488qkf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Sep 2015 15:27:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=kljJmQ0dsppUtnJSxUE70K2TCl9FBiok9DK8oBN1OnA=;
+	b=a9asHmbMliSX0CYwcRXygiYLFKsb8Fd/LQkXOblqwKUMsLbyu7Dnkz095g7f9kv86a
+	dLM3GLhA/Hq5AbiDlQtVAKbELZYWLajT4gRfqGhkImxBfO9UsxYlzdb3SNvTWPFXmsbO
+	iJNLqqLSthnqRgQMZ5409E410GBMwrTMjsMGsh7aUXwIdvSsiMTWZRXDh5kfv/36GLkH
+	ga6IwodJKEJZCSDE8MGeSZryhWVWAmFStKFCJTMKslUl2FD2IWzPCdUV7t9PJO+wARme
+	DekT0oUMeP7cDbkdzTKuL7IasQh+U+BJy9ptV4p1xcKgBLVxYaNJDQwSaEYbiKQ/enz4
+	xtQA==
+X-Gm-Message-State: ALoCoQmB54c30ew0LiPVxVgnjAWHffWaBxUvoagrr9GZGg5LwR1ygJ675gi6JNSBDzy7dT1tPFEC
+X-Received: by 10.55.214.70 with SMTP id t67mr2527595qki.61.1443133625331;
+	Thu, 24 Sep 2015 15:27:05 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] linux-yocto/4.1: common-pc-drivers: add CONFIG_PATA_SCH
+Received: by 10.140.98.55 with HTTP; Thu, 24 Sep 2015 15:26:45 -0700 (PDT)
+In-Reply-To: <CAJTo0LZdyUDn-pmDAKL7OaQKpwiz=m1Z4WsV7WdaTvjX3oPD9g@mail.gmail.com>
+References: <1443116526-16989-1-git-send-email-alexander.kanavin@linux.intel.com>
+	<CAP71Wjz0zd_gTE8J82P0bvxvqSb_iH2CkK5jy=sGUGjKk_dGSQ@mail.gmail.com>
+	<CAJTo0LZdyUDn-pmDAKL7OaQKpwiz=m1Z4WsV7WdaTvjX3oPD9g@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 24 Sep 2015 15:26:45 -0700
+Message-ID: <CAP71Wjxwp7DqZxB+_BTZ-3uQ-runJvA-XkWDZKFTMMZw0xm9Qw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0-plugins-bad: change glimagesink rank to marginal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,69 +46,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 22:17:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Sep 2015 22:27:10 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Updating the meta SRCREVs to integrate the following config change:
+On Thu, Sep 24, 2015 at 1:19 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> Does your platform support Xvideo?  If not then glimagesink will likely be
+> picked anyway.
 
-Author: Saul Wold <sgw@linux.intel.com>
-Date:   Tue Sep 22 07:23:06 2015 -0700
-
-    common-pc-drivers: add CONFIG_PATA_SCH
-
-    The NUC uses this hardware and should still operate correctly with a
-    genericx86
-
-    Signed-off-by: Saul Wold <sgw@linux.intel.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-index ad26334cd134..0d9ecf50cc19 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-@@ -3,7 +3,7 @@ KBRANCH ?= "standard/preempt-rt"
- require recipes-kernel/linux/linux-yocto.inc
- 
- SRCREV_machine ?= "79a31b9d23db126f8a6be3eb88fd683056a213f1"
--SRCREV_meta ?= "ef417dc3dbac098e2273b9157bf7ea8b1ade0ec5"
-+SRCREV_meta ?= "5ecf2a70fee383f13388a97086c4a8766fc9cbcc"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index 63fca3f0842d..69aac25e74bb 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "79a31b9d23db126f8a6be3eb88fd683056a213f1"
--SRCREV_meta ?= "ef417dc3dbac098e2273b9157bf7ea8b1ade0ec5"
-+SRCREV_meta ?= "5ecf2a70fee383f13388a97086c4a8766fc9cbcc"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index d5a612bd29bc..0d8d28136736 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "79a31b9d23db126f8a6be3eb88fd683056a213f1"
- SRCREV_machine_qemux86-64 ?= "79a31b9d23db126f8a6be3eb88fd683056a213f1"
- SRCREV_machine_qemumips64 ?= "049105492e5657dd735bad1aa3a32f4f752a9edd"
- SRCREV_machine ?= "79a31b9d23db126f8a6be3eb88fd683056a213f1"
--SRCREV_meta ?= "ef417dc3dbac098e2273b9157bf7ea8b1ade0ec5"
-+SRCREV_meta ?= "5ecf2a70fee383f13388a97086c4a8766fc9cbcc"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
--- 
-2.1.0
-
+no, it doesn't. i will give this a try, but not before next week.
 
