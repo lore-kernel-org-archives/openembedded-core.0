@@ -1,27 +1,22 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E8E8A734DA
+Return-Path: <pascal.bach@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DF8F734DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 15:34:44 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 24 Sep 2015 08:34:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,581,1437462000"; d="scan'208";a="796513357"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Sep 2015 08:34:33 -0700
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.68.154])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 030516A4083
+	Thu, 24 Sep 2015 16:10:31 +0000 (UTC)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id t8OGASRL008518
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 08:33:36 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Thu, 24 Sep 2015 18:10:28 +0200
+Received: from dev.sbt.siemens.com (MD1FZU9C.ww002.siemens.net [139.16.76.236])
+	by mail1.siemens.de (8.15.1/8.15.1) with ESMTP id t8OGASgF029242;
+	Thu, 24 Sep 2015 18:10:28 +0200
+From: Pascal Bach <pascal.bach@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Sep 2015 13:48:12 +0300
-Message-Id: <1443091692-13018-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] runqemu-export-rootfs: update location of unfsd binary
+Date: Thu, 24 Sep 2015 18:10:05 +0200
+Message-Id: <1443111005-20485-1-git-send-email-pascal.bach@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] runqemu: don't complain about conflicting machines if they are equal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,45 +29,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 15:34:45 -0000
+X-List-Received-Date: Thu, 24 Sep 2015 16:10:34 -0000
 
-Update the location of unfsd binary from "/usr/sbin" to "/usr/bin" in
-runqemu-export-rootfs
+When the MACHINE variable was set as an environment variable, via
+"export MACHINE=qemuarm" and runqemu was executed as "runqemu qemuarm"
 
-[YOCTO #8315]
+The confusing error message appears:
+Error: conflicting MACHINE types [qemuarm] and [qemuarm]
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+This checks if the two values are equal, in that case there is no problem
+and execution can continue.
+
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 ---
- scripts/runqemu-export-rootfs | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/runqemu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ mode change 100755 => 100644 scripts/runqemu
 
-diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-index 40ab201..3dee131 100755
---- a/scripts/runqemu-export-rootfs
-+++ b/scripts/runqemu-export-rootfs
-@@ -46,8 +46,8 @@ if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
- fi
- . $SYSROOT_SETUP_SCRIPT
- 
--if [ ! -e "$OECORE_NATIVE_SYSROOT/usr/sbin/unfsd" ]; then
--	echo "Error: Unable to find unfsd binary in $OECORE_NATIVE_SYSROOT/usr/sbin/"
-+if [ ! -e "$OECORE_NATIVE_SYSROOT/usr/bin/unfsd" ]; then
-+	echo "Error: Unable to find unfsd binary in $OECORE_NATIVE_SYSROOT/usr/bin/"
- 
- 	if [ "x$OECORE_DISTRO_VERSION" = "x" ]; then
- 		echo "Have you run 'bitbake meta-ide-support'?"
-@@ -115,8 +115,8 @@ case "$1" in
- 	fi
- 
- 	echo "Starting User Mode nfsd"
--	echo "  $PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/unfsd $UNFSD_OPTS"
--	$PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/unfsd $UNFSD_OPTS
-+	echo "  $PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/bin/unfsd $UNFSD_OPTS"
-+	$PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/bin/unfsd $UNFSD_OPTS
- 	if [ ! $? = 0 ]; then
- 		echo "Error starting nfsd"
- 		exit 1
+diff --git a/scripts/runqemu b/scripts/runqemu
+old mode 100755
+new mode 100644
+index 23cf5be..5989507
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -111,7 +111,7 @@ while true; do
+     case "$arg" in
+         "qemux86" | "qemux86-64" | "qemuarm" | "qemuarm64" | "qemumips" | "qemumipsel" | \
+         "qemumips64" | "qemush4"  | "qemuppc" | "qemumicroblaze" | "qemuzynq")
+-            [ -z "$MACHINE" ] && MACHINE=$arg || \
++            [ -z "$MACHINE" -o "$MACHINE" = "$arg" ] && MACHINE=$arg || \
+                 error "conflicting MACHINE types [$MACHINE] and [$arg]"
+             ;;
+         "ext2" | "ext3" | "ext4" | "jffs2" | "nfs" | "btrfs" | "hddimg" | "hdddirect" )
 -- 
-2.4.0
+2.1.4
 
 
