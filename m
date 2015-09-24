@@ -1,37 +1,32 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 12CF4734DA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id ABD12734DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 20:03:25 +0000 (UTC)
-Received: by qgez77 with SMTP id z77so54062220qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 13:03:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=FrnXzyM/fQhp9T/GuvfxiTAdJhXWFkPJ2wkn8BNGhf0=;
-	b=IUIS7eIMX2CKhapjRyxclmmeJtPPtiipKzgjms7MnN7l90v6fkso1Gqy/RqKEF+U0T
-	lJsV7YEr7BJ9t/sbtp3pZdDM9h+pxqwm6qkIbWvwbhXCHJpa1lvWWL5LC6FXF27R/p5+
-	oHRTi0mjf2YoP3iolUdzlKNbMIx2tZyHCZaFTguSx8Cn8FQ6q/yXLk0fapVt/JEESDqU
-	U2eDM0JIiNiN5X0iIrExOMm8OTjDVDYdczo7nsMPoN6zsbcgRh3AVYF7O6LYyjNpVaRj
-	NHJ8N7aY97jvIXmmoqEPGYGupD2TJqnDkxG096KG30QBygZT541osoSoDUG0wymA8fiY
-	xZ6A==
-X-Gm-Message-State: ALoCoQmr3+uXmXd8W6syTKCFFE7KpwJl06KGg4GUT2WCVtN48blKhCORGitDKlAMQDp+5oGVnatE
-X-Received: by 10.140.151.76 with SMTP id 73mr2036609qhx.61.1443125005569;
-	Thu, 24 Sep 2015 13:03:25 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.98.55 with HTTP; Thu, 24 Sep 2015 13:03:06 -0700 (PDT)
-In-Reply-To: <1443116526-16989-1-git-send-email-alexander.kanavin@linux.intel.com>
-References: <1443116526-16989-1-git-send-email-alexander.kanavin@linux.intel.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 24 Sep 2015 13:03:06 -0700
-Message-ID: <CAP71Wjz0zd_gTE8J82P0bvxvqSb_iH2CkK5jy=sGUGjKk_dGSQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+	Thu, 24 Sep 2015 20:17:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8OKHmd8009632; Thu, 24 Sep 2015 21:17:48 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id yxO7oWBQumVa; Thu, 24 Sep 2015 21:17:47 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8OKHWkd009623
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 24 Sep 2015 21:17:43 +0100
+Message-ID: <1443125852.19044.81.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 24 Sep 2015 21:17:32 +0100
+In-Reply-To: <CAP71WjzeJhjGNeYq8nKtR7BHPesdhcmyCb+1A+BeHhsp8Gh=tw@mail.gmail.com>
+References: <CAP71WjyWRXrvUyi1HvdusRkKLb5Gf3H2gzCNPKkUDAstA4M55A@mail.gmail.com>
+	<1443077455.19044.55.camel@linuxfoundation.org>
+	<CAP71WjzeJhjGNeYq8nKtR7BHPesdhcmyCb+1A+BeHhsp8Gh=tw@mail.gmail.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-plugins-bad: change glimagesink rank to marginal
+Subject: Re: Including machine specific mesa-driver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +39,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 20:03:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 24 Sep 2015 20:17:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 24, 2015 at 10:42 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> [YOCTO #7787]
->
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  .../0001-glimagesink-Downrank-to-marginal.patch    | 32 ++++++++++++++++++++++
->  .../gstreamer/gstreamer1.0-plugins-bad_1.4.5.bb    |  4 ++-
->  2 files changed, 35 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-glimagesink-Downrank-to-marginal.patch
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-glimagesink-Downrank-to-marginal.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-glimagesink-Downrank-to-marginal.patch
-> new file mode 100644
-> index 0000000..f677603
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-glimagesink-Downrank-to-marginal.patch
-> @@ -0,0 +1,32 @@
-> +From c6b37a80806f9128de47f1ccc3f2354f8d436bb6 Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Date: Thu, 24 Sep 2015 19:47:32 +0300
-> +Subject: [PATCH] glimagesink: Downrank to marginal
+On Thu, 2015-09-24 at 11:36 -0700, Nicolas Dechesne wrote:
+> On Wed, Sep 23, 2015 at 11:50 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > The idea was that the machine config can nominate the "X11" config it
+> > needs by indicating the drivers that make sense for this piece of
+> > hardware. The XSERVER variable is then used to decide which pieces of X
+> > to pull in and pulling in the right mesa pieces at the same time made
+> > sense then.
+> 
+> 
+> right.
+> 
+> >
+> >
+> > We could split the mesa pieces out into a separate MESADRIVERS variable
+> > and the wayland/weston could just pull those in? Ultimately its still
+> > the machine config which has the knowledge of which drivers make sense
+> > for a given platform. Exactly which piece of the system would pull in
+> > MESADRIVERS is a good question but I've not looked at the metadata just
+> > thinking out loud.
+> 
+> it looks like it's either libGL (when using X/GLX) or libEGL that
+> would dynamically load the libary. So we might be able to do something
+> along these lines:
+> 
+> --- a/meta/conf/machine/include/qemu.inc
+> +++ b/meta/conf/machine/include/qemu.inc
+> @@ -5,12 +5,14 @@ PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
+>  PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
+> 
+>  XSERVER ?= "xserver-xorg \
+> -            ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
+> 'mesa-driver-swrast', '', d)} \
+>              xf86-input-evdev \
+>              xf86-input-mouse \
+>              xf86-video-fbdev \
+>              xf86-input-keyboard"
+> 
+> +RDEPENDS_libgl-mesa = "${@bb.utils.contains('DISTRO_FEATURES',
+> 'opengl', 'mesa-driver-swrast', '', d)}"
+> +RDEPENDS_libegl-mesa = "${@bb.utils.contains('DISTRO_FEATURES',
+> 'opengl', 'mesa-driver-swrast', '', d)}"
 > +
-> +On desktop, where there is good OpenGL, xvimagesink will come up first,
-> +on other platforms, OpenGL can't be trusted because it's either software (like
-> +in a VM) or broken (like on embedded)., so let ximagesink come above.
-> +
-> +Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=751684]
+>  MACHINE_FEATURES = "alsa bluetooth usbgadget screen"
+> 
+>  MACHINEOVERRIDES =. "qemuall:"
+> 
+> -------
+> 
+> how does that look like?
+> 
+> It's untested for now, btw.
+
+It would make mesa machine specific which probably isn't what we
+want :/.
+
+Cheers,
+
+Richard
 
 
-fwiw... on my platforms (QCOM DragonBoard) I rely on glimagesink, and
-we have good OpenGL support.. but I understand that this isn't the
-norm for ARM, and more an exception.. I can manage that in my BSP
-layer, if that ever gets merged. Note we might want to wait for the
-upstream discussion to settle before merging.
+
 
