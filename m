@@ -1,39 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id A23F374242;
-	Thu, 24 Sep 2015 05:55:37 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so12827809wic.1;
-	Wed, 23 Sep 2015 22:55:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=7pY13YZZ9SOq6eRWhUVNe9b7OkZxOnHpZab1DvKuUA4=;
-	b=zgDqePmcye2U0fLzkJTwznaXD3oE1jOIdXR1FSgZCEV6l+8Zpx/qHqeMJKENh1dEto
-	hIz7es5K4dBLP0zYy/TZFRrH4f7627LgVi0hgW27SCtEBcUvAUThn1IP+XIyNOQlIK5x
-	WlcbvbDLTzZTTjtIyP5SwGCLcGbqL8HtD6SPzX2nPVcUe8GSPFfjVB5DcbdzHVrd/CNe
-	dgJMj7uFLJik47qTIGZ9FSMGLrUIM7qEgk6jAvcQnL7tT0vp3rge09/o++RuBB9Gcx9u
-	guKXweweSCXrHMYrERO9JaxFxyYxI9f4Rzj8k8DKm8CuFWDBafyuTfMnHxTdSEAFd4aD
-	SqTA==
-X-Received: by 10.194.246.102 with SMTP id xv6mr37594637wjc.58.1443074137872; 
-	Wed, 23 Sep 2015 22:55:37 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	ry1sm10586834wjb.24.2015.09.23.22.55.36
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Sep 2015 22:55:36 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 24 Sep 2015 07:55:52 +0200
-To: openembedded-core@lists.openembedded.org,
-	Ross Burton <ross.burton@intel.com>
-Message-ID: <20150924055552.GB2404@jama>
-References: <20150923214627.8E23A50582@opal.openembedded.org>
+Return-Path: <Yuanjie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 46F9B60232
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Sep 2015 06:13:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8O6D8tC028708
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Sep 2015 23:13:08 -0700 (PDT)
+Received: from Flora.corp.ad.wrs.com (128.224.162.184) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.235.1; Wed, 23 Sep 2015 23:13:07 -0700
+From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 24 Sep 2015 14:17:16 +0800
+Message-ID: <1443075436-28974-1-git-send-email-Yuanjie.Huang@windriver.com>
+X-Mailer: git-send-email 2.5.3
 MIME-Version: 1.0
-In-Reply-To: <20150923214627.8E23A50582@opal.openembedded.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Ross Burton : Revert "systemd: disable problematic GCC 5.2 optimizations"
+Subject: [PATCH] gcc-multilib-config: Expand ccargs variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,75 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 05:55:39 -0000
-X-Groupsio-MsgNum: 71524
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="wq9mPyueHGvFACwf"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 24 Sep 2015 06:13:09 -0000
+Content-Type: text/plain
 
---wq9mPyueHGvFACwf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
 
-On Wed, Sep 23, 2015 at 09:46:27PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master-next
-> Commit: e5e69130c3cf20a95bab1561716d7e54db0fe1ee
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3De5e69130c3cf20a95bab1561716d7e54db0fe1ee
->=20
-> Author: Ross Burton <ross.burton@intel.com>
-> Date:   Tue Sep 22 10:05:23 2015 +0100
->=20
-> Revert "systemd: disable problematic GCC 5.2 optimizations"
+The ccargs obtained from get_tune_parameters may not be fully expanded,
+so that the gcc_multilib_setup function can be confused, and generates
+invalid MULTILIB_OPTIONS in GCC Makefile fragment, which will break the
+multilib feature of target gcc.
 
-Please put at least some explanation why it was reverted.
+To address problems above, this patch modifies gcc_multilib_setup
+function to expand ccargs before use.
 
-> This reverts commit d347bd8b672fbd614a6267f640133cf399b9645f.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> ---
->=20
->  meta/recipes-core/systemd/systemd_225.bb | 3 ---
->  1 file changed, 3 deletions(-)
->=20
-> diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core=
-/systemd/systemd_225.bb
-> index 4a19ff4..f7d4c7d 100644
-> --- a/meta/recipes-core/systemd/systemd_225.bb
-> +++ b/meta/recipes-core/systemd/systemd_225.bb
-> @@ -123,9 +123,6 @@ EXTRA_OECONF =3D " --with-rootprefix=3D${rootprefix} \
->  # uclibc does not have NSS
->  EXTRA_OECONF_append_libc-uclibc =3D " --disable-myhostname "
-> =20
-> -# disable problematic GCC 5.2 optimizations [YOCTO #8291]
-> -FULL_OPTIMIZATION +=3D "-fno-schedule-insns -fno-schedule-insns2"
-> -
->  do_configure_prepend() {
->  	export NM=3D"${HOST_PREFIX}gcc-nm"
->  	export AR=3D"${HOST_PREFIX}gcc-ar"
->=20
-> --=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+Upstream-Status: Inappropriate [configuration]
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+---
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---wq9mPyueHGvFACwf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+index 6d1775e..c94e77c 100644
+--- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
++++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+@@ -191,7 +191,7 @@ python gcc_multilib_setup() {
+         # take out '-' mcpu='s and march='s from parameters
+         opts = []
+         whitelist = (d.getVar("MULTILIB_OPTION_WHITELIST", True) or "").split()
+-        for i in tune_parameters['ccargs'].split():
++        for i in d.expand(tune_parameters['ccargs']).split():
+             if i in whitelist:
+                 # Need to strip '-' from option
+                 opts.append(i[1:])
+-- 
+1.8.5.2.233.g932f7e4
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
 
-iEYEARECAAYFAlYDkGcACgkQN1Ujt2V2gBydYACeNaFawEydFcZjgyygCucqqOZd
-roEAn3bCnKEFq7fUMD4MoAg/IQZ9qCUs
-=nA9q
------END PGP SIGNATURE-----
-
---wq9mPyueHGvFACwf--
