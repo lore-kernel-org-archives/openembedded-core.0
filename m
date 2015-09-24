@@ -1,34 +1,39 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CD1160232
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 05:38:22 +0000 (UTC)
-Received: by qgez77 with SMTP id z77so37030316qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 22:38:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-	:content-type;
-	bh=y/wzrX6KfXvC7DxkP7DJqOHdSyX8eWI14Pohhwm2AQs=;
-	b=RqjiCd7IyCp2YGPCCAhYMFubknFnPe1DtXahydPkkJHgVuOzlYMHamdOKbBxD+5vDt
-	v5RP0Z8lImesiQDbVFI+6FACrd82+RZH+IcDDzqTI7CkH1M5Ix6VQP8t30dZZ2C/G0Tl
-	nV2SLr0lfR7x8DKQNo+REZhOfVFiySw3Rx85ivkSEenfLeC3mTExczOtCRH63YxHFjQm
-	ADEMgtl7AoX+dzxcA0RjC++L7MAJYzsUZRdTOgiWPA3gzwTGGf+BzvfoXdrxaSg2fI85
-	a52ImHXFfc8y9BAI+tM3neTROnaoGA/P9ARHKgGk2IW0qhiJfxYOC1ZtnMGkHlparYCe
-	rmLg==
-X-Gm-Message-State: ALoCoQkOdYtoFe5jNG8+9bC4BiaEKjyg+aAJiUB0dSTPZojbK9mUjp4+Nx7jnMBstbMo5+hwVG7/
-X-Received: by 10.140.151.76 with SMTP id 73mr43097211qhx.61.1443073102829;
-	Wed, 23 Sep 2015 22:38:22 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id A23F374242;
+	Thu, 24 Sep 2015 05:55:37 +0000 (UTC)
+Received: by wicfx3 with SMTP id fx3so12827809wic.1;
+	Wed, 23 Sep 2015 22:55:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=7pY13YZZ9SOq6eRWhUVNe9b7OkZxOnHpZab1DvKuUA4=;
+	b=zgDqePmcye2U0fLzkJTwznaXD3oE1jOIdXR1FSgZCEV6l+8Zpx/qHqeMJKENh1dEto
+	hIz7es5K4dBLP0zYy/TZFRrH4f7627LgVi0hgW27SCtEBcUvAUThn1IP+XIyNOQlIK5x
+	WlcbvbDLTzZTTjtIyP5SwGCLcGbqL8HtD6SPzX2nPVcUe8GSPFfjVB5DcbdzHVrd/CNe
+	dgJMj7uFLJik47qTIGZ9FSMGLrUIM7qEgk6jAvcQnL7tT0vp3rge09/o++RuBB9Gcx9u
+	guKXweweSCXrHMYrERO9JaxFxyYxI9f4Rzj8k8DKm8CuFWDBafyuTfMnHxTdSEAFd4aD
+	SqTA==
+X-Received: by 10.194.246.102 with SMTP id xv6mr37594637wjc.58.1443074137872; 
+	Wed, 23 Sep 2015 22:55:37 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	ry1sm10586834wjb.24.2015.09.23.22.55.36
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 23 Sep 2015 22:55:36 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 24 Sep 2015 07:55:52 +0200
+To: openembedded-core@lists.openembedded.org,
+	Ross Burton <ross.burton@intel.com>
+Message-ID: <20150924055552.GB2404@jama>
+References: <20150923214627.8E23A50582@opal.openembedded.org>
 MIME-Version: 1.0
-Received: by 10.140.98.55 with HTTP; Wed, 23 Sep 2015 22:38:03 -0700 (PDT)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Wed, 23 Sep 2015 22:38:03 -0700
-Message-ID: <CAP71WjyWRXrvUyi1HvdusRkKLb5Gf3H2gzCNPKkUDAstA4M55A@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Including machine specific mesa-driver
+In-Reply-To: <20150923214627.8E23A50582@opal.openembedded.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Ross Burton : Revert "systemd: disable problematic GCC 5.2 optimizations"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,85 +46,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 05:38:24 -0000
-Content-Type: multipart/alternative; boundary=001a1137676cadf365052077a371
+X-List-Received-Date: Thu, 24 Sep 2015 05:55:39 -0000
+X-Groupsio-MsgNum: 71524
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="wq9mPyueHGvFACwf"
+Content-Disposition: inline
 
---001a1137676cadf365052077a371
-Content-Type: text/plain; charset=UTF-8
+--wq9mPyueHGvFACwf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-hi,
+On Wed, Sep 23, 2015 at 09:46:27PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master-next
+> Commit: e5e69130c3cf20a95bab1561716d7e54db0fe1ee
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3De5e69130c3cf20a95bab1561716d7e54db0fe1ee
+>=20
+> Author: Ross Burton <ross.burton@intel.com>
+> Date:   Tue Sep 22 10:05:23 2015 +0100
+>=20
+> Revert "systemd: disable problematic GCC 5.2 optimizations"
 
-in the qemu reference machine we see this pattern:
+Please put at least some explanation why it was reverted.
 
-XSERVER = "xserver-xorg
-\
+> This reverts commit d347bd8b672fbd614a6267f640133cf399b9645f.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/recipes-core/systemd/systemd_225.bb | 3 ---
+>  1 file changed, 3 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core=
+/systemd/systemd_225.bb
+> index 4a19ff4..f7d4c7d 100644
+> --- a/meta/recipes-core/systemd/systemd_225.bb
+> +++ b/meta/recipes-core/systemd/systemd_225.bb
+> @@ -123,9 +123,6 @@ EXTRA_OECONF =3D " --with-rootprefix=3D${rootprefix} \
+>  # uclibc does not have NSS
+>  EXTRA_OECONF_append_libc-uclibc =3D " --disable-myhostname "
+> =20
+> -# disable problematic GCC 5.2 optimizations [YOCTO #8291]
+> -FULL_OPTIMIZATION +=3D "-fno-schedule-insns -fno-schedule-insns2"
+> -
+>  do_configure_prepend() {
+>  	export NM=3D"${HOST_PREFIX}gcc-nm"
+>  	export AR=3D"${HOST_PREFIX}gcc-ar"
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
-           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
-'mesa-driver-swrast', '', d)}
-\
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--wq9mPyueHGvFACwf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Which is what I had done for my BSP layer as well. However this doesn't
-take into account non X11 based graphics config, such as when building a
-wayland/weston image. The mesa-driver should be conditionally pulled when
-'mesa' is pulled in.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-I cannot find a satisfying way of specifying this better to take both cases
-into account.
+iEYEARECAAYFAlYDkGcACgkQN1Ujt2V2gBydYACeNaFawEydFcZjgyygCucqqOZd
+roEAn3bCnKEFq7fUMD4MoAg/IQZ9qCUs
+=nA9q
+-----END PGP SIGNATURE-----
 
-we could move
-
-${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-swrast', '',
-d)}
-
-into MACHINE_RRDEPENS, but that's not quite right, since that driver is
-only needed when any of the mesa binary packages is in the image, and non
-graphics image wouldnt' need that.
-
-Since mesa produces a lot of binary packages , using RDEPENDS_xxx for all
-of them doesn't seem very nice neither..
-
-What would you recommend we do? I think we need to fix the qemu images
-anyways.
-
-cheers
-
---001a1137676cadf365052077a371
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: base64
-
-PGRpdiBkaXI9Imx0ciI+PGRpdj48ZGl2PjxkaXY+PGRpdj48ZGl2PjxkaXY+aGksPGJyPjxicj48
-L2Rpdj5pbiB0aGUgcWVtdSByZWZlcmVuY2UgbWFjaGluZSB3ZSBzZWUgdGhpcyBwYXR0ZXJuOjxi
-cj48YnI+WFNFUlZFUiA9ICZxdW90O3hzZXJ2ZXIteG9yZyBcwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgPGJyPsKgwqDCoMKgwqDCoMKg
-wqDCoMKgICR7QGJiLnV0aWxzLmNvbnRhaW5zKCYjMzk7RElTVFJPX0ZFQVRVUkVTJiMzOTssICYj
-Mzk7b3BlbmdsJiMzOTssICYjMzk7bWVzYS1kcml2ZXItc3dyYXN0JiMzOTssICYjMzk7JiMzOTss
-IGQpfSBcwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDxicj7CoDxicj48
-L2Rpdj5XaGljaCBpcyB3aGF0IEkgaGFkIGRvbmUgZm9yIG15IEJTUCBsYXllciBhcyB3ZWxsLiBI
-b3dldmVyIHRoaXMgZG9lc24mIzM5O3QgdGFrZSBpbnRvIGFjY291bnQgbm9uIFgxMSBiYXNlZCBn
-cmFwaGljcyBjb25maWcsIHN1Y2ggYXMgd2hlbiBidWlsZGluZyBhIHdheWxhbmQvd2VzdG9uIGlt
-YWdlLiBUaGUgbWVzYS1kcml2ZXIgc2hvdWxkIGJlIGNvbmRpdGlvbmFsbHkgcHVsbGVkIHdoZW4g
-JiMzOTttZXNhJiMzOTsgaXMgcHVsbGVkIGluLjxicj48YnI+PC9kaXY+SSBjYW5ub3QgZmluZCBh
-IHNhdGlzZnlpbmcgd2F5IG9mIHNwZWNpZnlpbmcgdGhpcyBiZXR0ZXIgdG8gdGFrZSBib3RoIGNh
-c2VzIGludG8gYWNjb3VudC48YnI+PGJyPjwvZGl2PndlIGNvdWxkIG1vdmUgPGJyPjxicj4ke0Bi
-Yi51dGlscy5jb250YWlucygmIzM5O0RJU1RST19GRUFUVVJFUyYjMzk7LCAmIzM5O29wZW5nbCYj
-Mzk7LCAmIzM5O21lc2EtZHJpdmVyLXN3cmFzdCYjMzk7LCAmIzM5OyYjMzk7LCBkKX0gPGJyPjxi
-cj48L2Rpdj5pbnRvIE1BQ0hJTkVfUlJERVBFTlMsIGJ1dCB0aGF0JiMzOTtzIG5vdCBxdWl0ZSBy
-aWdodCwgc2luY2UgdGhhdCBkcml2ZXIgaXMgb25seSBuZWVkZWQgd2hlbiBhbnkgb2YgdGhlIG1l
-c2EgYmluYXJ5IHBhY2thZ2VzIGlzIGluIHRoZSBpbWFnZSwgYW5kIG5vbiBncmFwaGljcyBpbWFn
-ZSB3b3VsZG50JiMzOTsgbmVlZCB0aGF0Ljxicj48YnI+U2luY2UgbWVzYSBwcm9kdWNlcyBhIGxv
-dCBvZiBiaW5hcnkgcGFja2FnZXMgLCB1c2luZyBSREVQRU5EU194eHggZm9yIGFsbCBvZiB0aGVt
-IGRvZXNuJiMzOTt0IHNlZW0gdmVyeSBuaWNlIG5laXRoZXIuLjxicj48YnI+PC9kaXY+PGRpdj5X
-aGF0IHdvdWxkIHlvdSByZWNvbW1lbmQgd2UgZG8/IEkgdGhpbmsgd2UgbmVlZCB0byBmaXggdGhl
-IHFlbXUgaW1hZ2VzIGFueXdheXMuPGJyPjxicj48L2Rpdj48ZGl2PmNoZWVyczxicj48YnI+PC9k
-aXY+PC9kaXY+DQo=
-
---001a1137676cadf365052077a371--
+--wq9mPyueHGvFACwf--
