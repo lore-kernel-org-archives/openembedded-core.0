@@ -1,50 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id CE3DA77003
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B211C7653B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 06:18:28 +0000 (UTC)
-Received: by wicge5 with SMTP id ge5so237038023wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Sep 2015 23:18:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=resent-from:resent-date:resent-message-id:resent-to:from:date:to:cc
-	:subject:message-id:references:mime-version:content-type
-	:content-disposition:in-reply-to:user-agent;
-	bh=DX4SfVqiu3MMuAH8XuuZ1QoJI/xxqzt8RoqQlk20LK4=;
-	b=f9xf6tzKqvCd55QmsiFL/XejSx9xrysvaLN58QuOQjGy6dSJC4uaZNjG3aXZ7OYj2z
-	Ko/RxDAp3OeqvD6nNGOUopdoeqCpZJOyUd9KyQjWBfxm8jsK/RrrOpRHi1ysojMWFG3f
-	H41yzmGIY98ag7kZu6/FDD7I+4df9Znm1rWSEv9StW9YhzVF5iz4Xb2oPn3sfjrVNU9K
-	KOftdwJd8Gq7p0jI1VVodbcTxBCy9VFjTYUaaw4LgmnnjLdc14abzBFVauh9QJduf4xn
-	0+UWsASvgGgTVNWJpU2qVEzWkhfGKboQNQSvhGsu68VrEjLnZf+27CBipa69RpDU9HX4
-	hNoA==
-X-Received: by 10.181.29.101 with SMTP id jv5mr518522wid.1.1443075508099;
-	Wed, 23 Sep 2015 23:18:28 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id fu5sm1584642wic.0.2015.09.23.23.18.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Sep 2015 23:18:27 -0700 (PDT)
-Resent-From: Martin Jansa <Martin.Jansa@gmail.com>
-Resent-Date: Thu, 24 Sep 2015 08:18:43 +0200
-Resent-Message-ID: <20150924061843.GB30780@jama>
-Resent-To: openembedded-core@lists.openembedded.org
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id fu5sm1500859wic.0.2015.09.23.22.54.29
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Sep 2015 22:54:29 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 24 Sep 2015 07:54:44 +0200
-To: openembedded-devel@lists.openembedded.org
-Message-ID: <20150924055444.GA2404@jama>
-References: <20150923211259.12BA050583@opal.openembedded.org>
+	Thu, 24 Sep 2015 06:29:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8O6Thmk002174
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 23 Sep 2015 23:29:44 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Wed, 23 Sep 2015 23:29:43 -0700
+Message-ID: <56039856.3050902@windriver.com>
+Date: Thu, 24 Sep 2015 14:29:42 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-In-Reply-To: <20150923211259.12BA050583@opal.openembedded.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TUID: smrLQx1E2to4
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Robert Yang : insane.bbclass: make package_qa_clean_path return a relative path
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1442311946.git.liezhi.yang@windriver.com>	
+	<5600C0E4.4030606@windriver.com>
+	<1443045619.19044.40.camel@linuxfoundation.org>
+In-Reply-To: <1443045619.19044.40.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/6] Fixes for mutilib SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,87 +36,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 06:18:29 -0000
-X-Groupsio-MsgNum: 71526
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 24 Sep 2015 06:29:48 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---bp/iNruPH9dso1Pn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 23, 2015 at 09:12:59PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master-next
-> Commit: 67a1e4b087a39db04370685616d5b439b0f2b505
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D67a1e4b087a39db04370685616d5b439b0f2b505
->=20
-> Author: Robert Yang <liezhi.yang@windriver.com>
-> Date:   Tue Sep 15 19:28:48 2015 -0700
->=20
-> insane.bbclass: make package_qa_clean_path return a relative path
->=20
-> Make package_qa_clean_path() return something like "work/path/to/file"
-> rather than "/work/path/to/file", the relative path is a little clear.
->=20
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> ---
->=20
->  meta/classes/insane.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index 72120f5..05e31a7 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -167,7 +167,7 @@ def package_qa_get_machine_dict():
-> =20
->  def package_qa_clean_path(path,d):
->      """ Remove the common prefix from the path. In this case it is the T=
-MPDIR"""
-> -    return path.replace(d.getVar('TMPDIR',True),"")
-> +    return path.replace(d.getVar("TMPDIR", True) + "/", "")
 
-Isn't path[len(d.getVar("TMPDIR", True))+1:] a bit faster and safer in
-cases where the TMPDIR path is included multiple times?
+On 09/24/2015 06:00 AM, Richard Purdie wrote:
+> On Tue, 2015-09-22 at 10:45 +0800, Robert Yang wrote:
+>> Hi RP and Ross,
+>>
+>> These patches are required by multilib's do_rootfs and do_populate_sdk,
+>> otherwise they are broken or partly broken. These patches don't affect
+>> do_rootfs or do_populate_sdk without multilib are to be installed.
+>
+> Thanks for these. Patches 1-4 look ok, we can try them in -next however
+> I do worry about 5 and 6. Could you confirm if you tested those before
+> or after the recent data store changes? Its possible the OVERRIDE fixes
+> there may have fixed the issues 5 and 6 were trying to fix so I'd like
+> to confirm if they're still needed or not.
+>
+> If they are, they don't look like the right solution so I'll need to
+> look further at the exact issue there.
 
-Or is this function meant to be used also for path which doesn't start
-with TMPDIR? Then I agree it should stay replace, but maybe with
-maxreplace parameter set to 1.
+Hi RP,
 
-Same problem with "absolute" path is other QA check I was recently
-changing (and I've kept leading / after seeing it somewhere else :)).
+I tested on latest master branch without patch 5 and 6, we still have
+the issues.
 
-Regards,
+# local.conf
+MACHINE = "qemux86-64"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
 
-> =20
->  def package_qa_write_error(type, error, d):
->      logfile =3D d.getVar('QA_LOGFILE', True)
->=20
-> --=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+# populate sdk for lib32-core-image-minimal
+$ bitbake lib32-core-image-minimal -cpopulate_sdk
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+# Install sdk
+$ 
+./tmp/deploy/sdk/poky-glibc-x86_64-lib32-core-image-minimal-core2-64-toolchain-1.8+snapshot.sh
 
---bp/iNruPH9dso1Pn
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+# Check messages on the screen:
+SDK has been successfully set up and is ready to be used.
+Each time you wish to use the SDK in a new shell session, you need to source the 
+environment setup script e.g.
+  $ . /buildarea/lyang1/sdk32/environment-setup-core2-64-pokymllib32-linux
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+This is incorrect, it should be environment-setup-x86-pokymllib32-linuxm
+(core2-64 != x86).
 
-iEYEARECAAYFAlYDkCQACgkQN1Ujt2V2gBzjrACgj1CjmITEWs26JTY4B5XQF4kj
-+M8AoKMhjBZHzD8Bhe0n35d96XSxGni9
-=P3o+
------END PGP SIGNATURE-----
+# Check the installed sdk, the sysroots are:
+core2-64-pokymllib32-linux  x86_64-pokysdk-linux
 
---bp/iNruPH9dso1Pn--
+But SDKTARGETSYSROOT in environment-setup-core2-64-poky-linux and
+environment-setup-x86-pokymllib32-linux is /path/to/sysroots/core2-64-poky-linux
+, this is incorrect.
+
+// Robert
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+
