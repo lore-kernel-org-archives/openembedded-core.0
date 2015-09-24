@@ -1,24 +1,21 @@
-Return-Path: <alejandro.joya.cruz@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 10F8576FED
+Return-Path: <reinette.chatre@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CE7873BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 21:10:39 +0000 (UTC)
+	Thu, 24 Sep 2015 21:18:45 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 24 Sep 2015 14:10:35 -0700
+	by orsmga103.jf.intel.com with ESMTP; 24 Sep 2015 14:18:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,582,1437462000"; d="scan'208";a="812638128"
-Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.56])
-	by orsmga002.jf.intel.com with ESMTP; 24 Sep 2015 14:10:35 -0700
-From: Alejandro Joya <alejandro.joya.cruz@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Sep 2015 16:10:25 -0500
-Message-Id: <359868d8a265ef513a6953bdc845f380e69a2185.1443128706.git.alejandro.joya.cruz@intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
-References: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
-In-Reply-To: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
-References: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
-Subject: [PATCH 2/3] initramfs-framework:add virtual reference
+X-IronPort-AV: E=Sophos;i="5.17,582,1437462000"; d="scan'208";a="812642343"
+Received: from rchatre-builder.jf.intel.com ([10.54.39.14])
+	by orsmga002.jf.intel.com with ESMTP; 24 Sep 2015 14:18:46 -0700
+From: Reinette Chatre <reinette.chatre@intel.com>
+To: joshua.lock@collabora.co.uk
+Date: Thu, 24 Sep 2015 14:21:06 -0700
+Message-Id: <fc756e8119184af7625c7aa191716cf265fe77fa.1443129296.git.reinette.chatre@intel.com>
+X-Mailer: git-send-email 2.4.3
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH][fido] systemd: fix tmpfiles location when multilib in use
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +28,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 21:10:42 -0000
+X-List-Received-Date: Thu, 24 Sep 2015 21:18:46 -0000
 
-This recipe have a hardcoded dependency to busybox, in order to be able to have a flexible selection,
-instead of the hardcoded dependency,now is point to virtual reference base-utils.
+Systemd's configuration files for creation, deletion and cleaning
+of volatile and temporary files are installed in /usr/lib even when
+multilib is in use (when /usr/lib64 is available). In this check the
+systemd.conf file will not be found if libdir is /usr/lib64 so we fix the
+path to match this file's installation path to look for it in
+${exec_prefix}/lib
 
-Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
+(From OE-Core rev: c1ef36c2b3e3876cc166a9a5e153fc6f23b42b92)
+
+Signed-off-by: Reinette Chatre <reinette.chatre@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Joshua,
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 6c37b9a..0704cb1 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "Modular initramfs system"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--RDEPENDS_${PN} += "busybox"
-+RDEPENDS_${PN} += "virtual/anybox"
- 
- PR = "r2"
+This is a backport of systemd fix that was recently merged to master. This
+fixes broken timesynd in fido images built with multilib. Could you please
+consider it for fido?
+
+Thank you very much
+
+Reinette
+
+ meta/recipes-core/systemd/systemd_219.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+index b972dd4..2f12284 100644
+--- a/meta/recipes-core/systemd/systemd_219.bb
++++ b/meta/recipes-core/systemd/systemd_219.bb
+@@ -181,8 +181,8 @@ do_install() {
+ 	sed -i -e 's/.*ForwardToSyslog.*/ForwardToSyslog=yes/' ${D}${sysconfdir}/systemd/journald.conf
+ 	# this file is needed to exist if networkd is disabled but timesyncd is still in use since timesyncd checks it
+ 	# for existence else it fails
+-	if [ -s ${D}${libdir}/tmpfiles.d/systemd.conf ]; then
+-		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${libdir}/tmpfiles.d/systemd.conf', d)}
++	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ]; then
++		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf', d)}
+ 	fi
+ }
  
 -- 
-2.1.0
+2.4.3
 
 
