@@ -1,24 +1,48 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4ACDF74242
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 5ABDB75CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 11:04:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8OB4r4U013520
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 24 Sep 2015 11:27:54 +0000 (UTC)
+Received: by igcrk20 with SMTP id rk20so119129719igc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 04:04:53 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Thu, 24 Sep 2015 04:04:53 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Sep 2015 07:04:51 -0400
-Message-ID: <1443092691-216216-1-git-send-email-wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 24 Sep 2015 04:27:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=OZJCDYqexrwITqNVhOK8dweLvds6Ie7zbfXLBtitkwE=;
+	b=ArLWTsOdNsB17ob7D1362+G3iRuEfyNZ6FNoMQYJRWV2A/jc6wCQEiUl31XFzwViW9
+	oduSi1dpuXx026RU3+gGr9HshDOcVdS+FIAtv6ymlfv11IqAZ0r6u3MLF/dwXURKJ81X
+	44Z/oEsK2kV+CCL9BKq5Rip8cFWd+TT8vAIq3NzUaGPZAeCdCINJ1/BuuUD9tifBXeda
+	OCRgcqtz4Q0EBALQIYcqmEJsWdkuTnRfdXGDlwtajjE0z4TKq289FyacXKDcMrsmjp9M
+	zh2xSL4UrdLecunIGNVVc6pf3rf237DHUAj5O9UMyjZO6HQH5C9MCQ9WXFDdw0wzMSiV
+	NUDg==
+X-Gm-Message-State: ALoCoQkiO9F158fFLb3xJQR5MopsENtUlue61sdv76yARScIXLxl8EjSZSupZg3hiSdMsyvyaQHe
+X-Received: by 10.50.64.146 with SMTP id o18mr28780185igs.81.1443094074956;
+	Thu, 24 Sep 2015 04:27:54 -0700 (PDT)
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com.
+	[209.85.213.177]) by smtp.gmail.com with ESMTPSA id
+	v98sm5586566ioi.24.2015.09.24.04.27.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 24 Sep 2015 04:27:54 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by igcpb10 with SMTP id pb10so12471766igc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Sep 2015 04:27:53 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] glib-2.0: cleanup buildpaths from pkgconfig files
+X-Received: by 10.50.77.15 with SMTP id o15mr30344285igw.5.1443094073715; Thu,
+	24 Sep 2015 04:27:53 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Thu, 24 Sep 2015 04:27:53 -0700 (PDT)
+In-Reply-To: <1443047565.19044.44.camel@linuxfoundation.org>
+References: <1443047565.19044.44.camel@linuxfoundation.org>
+Date: Thu, 24 Sep 2015 08:27:53 -0300
+Message-ID: <CAP9ODKrBa6oiFm2Fj1XxtH5m2gx=6nSg4OhEs+s_KjgvAgFaFg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gdk-pixbuf: Avoid rebuild failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 11:04:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Sep 2015 11:27:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+Hello Richard,
 
-* gio-2.0.pc:
-  -L/path/to/tmp/sysroots/qemux86-64/lib64 -> -L/lib64
+Thanks for hunting this bug, this was very annoying and hard to
+figure. It does seem to address the issue in our builder.
 
-* gobject-2.0.pc:
-  -L/path/to/tmp/sysroots/qemux86-64/usr/lib64/../lib64
-    -> -L/usr/lib64/../lib64
+On Wed, Sep 23, 2015 at 7:32 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> If gdkpixbuf-native rebuilds and there are stale (broken) modules lying around,
+> it can fail to run the postinst. E.g. svg links to harfbuzz and if harfbuzz is
+> removed from the sysroot but the svg loader isn't, we get a symbol linking issue.
+>
+> The reproducer is along the lines of build gdk-pixbuf-native along
+> with harfbuzz-native and librsvg-native, then make a small change to the
+> gdk-pixbuf recipe that would cause it to rebuild, clean harfbuzz-native
+> and then build gdk-pixbuf.
+>
+> To fix this, when we install gdk-pixbuf, we wipe out any previous loaders.
+> The idea is that gdk would always come first and anything else installing
+> itself will come later and rerun the postinst if needed. We can therefore
+> just remove any other loaders.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- meta/recipes-core/glib-2.0/glib.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 072f790..4ccdb93 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -75,6 +75,12 @@ do_install_append () {
- 	fi
- }
- 
-+do_install_append_class-target() {
-+	# cleanup buildpaths from gio-2.0.pc, gobject-2.0.pc
-+	sed -i -e 's#${STAGING_DIR_HOST}##g' ${D}${libdir}/pkgconfig/gio-2.0.pc
-+	sed -i -e 's#${STAGING_DIR_HOST}##g' ${D}${libdir}/pkgconfig/gobject-2.0.pc
-+}
-+
- RDEPENDS_${PN}-ptest += "\
-             gnome-desktop-testing \
-             tzdata \
 -- 
-1.9.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
