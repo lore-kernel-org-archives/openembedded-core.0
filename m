@@ -1,24 +1,20 @@
 Return-Path: <alejandro.joya.cruz@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id DAB7C756C5
+	by mail.openembedded.org (Postfix) with ESMTP id B2105734DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 21:10:39 +0000 (UTC)
+	Thu, 24 Sep 2015 21:10:37 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga103.fm.intel.com with ESMTP; 24 Sep 2015 14:10:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,582,1437462000"; d="scan'208";a="812638119"
+X-IronPort-AV: E=Sophos;i="5.17,582,1437462000"; d="scan'208";a="812638112"
 Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.56])
 	by orsmga002.jf.intel.com with ESMTP; 24 Sep 2015 14:10:34 -0700
 From: Alejandro Joya <alejandro.joya.cruz@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Sep 2015 16:10:24 -0500
-Message-Id: <5bbafaabb339559f9746aa81c3a3d7a53b3d8fda.1443128706.git.alejandro.joya.cruz@intel.com>
+Date: Thu, 24 Sep 2015 16:10:23 -0500
+Message-Id: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
-References: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
-In-Reply-To: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
-References: <cover.1443128706.git.alejandro.joya.cruz@intel.com>
-Subject: [PATCH V3 1/3] core-image-minimal-initramfs: replace dependency
+Subject: [PATCH V3 0/3] Dynamic common utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +29,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 24 Sep 2015 21:10:40 -0000
 
-This recipe have a hardcoded dependency to busybox, in order to be able to have a flexible selection,
-instead of the hardcoded dependency,now is point to virtual reference.
+It provide a virtual reference for the common utilities.
+it replace of the lock to busybox, it will be simple exchange between other
+common utilities like gnu core utils or toybox among others.
 
-Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
----
- meta/recipes-core/images/core-image-minimal-initramfs.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit f0189829498e30231d826c9f55aad73e622d076e:
 
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 1f0fa95..e2936ee 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
- the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
- first 'init' program more efficiently."
- 
--PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi busybox udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
-+PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi virtual/anybox udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
- 
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
+  qemu: Update to upstream patches (2015-09-14 11:22:02 +0100)
+
+are available in the git repository at:
+
+  git://github.com/Ajoyacr/openembedded-core base-util
+  https://github.com/Ajoyacr/openembedded-core/tree/base-util
+
+Alejandro Joya (3):
+  core-image-minimal-initramfs: replace dependency
+  initramfs-framework:add virtual reference
+  packagegroup-core-boot:change to virtual reference
+
+ meta/recipes-core/images/core-image-minimal-initramfs.bb   | 2 +-
+ meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb  | 7 +++++--
+ 3 files changed, 7 insertions(+), 4 deletions(-)
+
 -- 
 2.1.0
 
