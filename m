@@ -1,32 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id ABD12734DA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id CF91F734DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 20:17:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8OKHmd8009632; Thu, 24 Sep 2015 21:17:48 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id yxO7oWBQumVa; Thu, 24 Sep 2015 21:17:47 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8OKHWkd009623
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 24 Sep 2015 21:17:43 +0100
-Message-ID: <1443125852.19044.81.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 24 Sep 2015 20:19:24 +0000 (UTC)
+Received: by qgev79 with SMTP id v79so54091358qge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Sep 2015 13:19:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=8Y2Bn7pEK/IXssd/wI+F/CTeo3cKq9+izqhexTiWYJ8=;
+	b=gNtOkFK5rJnDzdMfcBxRiaNFO9BH2UZX/tkp7qMZ/Dmp1APQO5EWl/Ih9WEHiYEkKo
+	lsNW6uiS5wXqphkCPMBKkfmsJz5Gk08uJXPONnYza+IhXDqU1EoDQyhlAU2FQ3FonDyQ
+	+22hyasZvxn+TJ+0LoEjaxG2KhWCwRgLjooUwq3nW4CJrWTz6r5UQAGlR772ElOEkDNt
+	kr0IN3zvxUyEhSqEgLi/3WdaIWfajL9/lEpgwsHiln3VINFoC+5/9YgnfxLSDqmk8Js+
+	0ZiDUv2q4MrgT+C4AsD+Gqd7aTi56kSZLsAm7RNyMbjjK+Yu6r3Ynw0qFlbuPFfN0zc9
+	DdXg==
+X-Gm-Message-State: ALoCoQlJ1e6cH0G7RV8vTVXB4wjnGEArjHMUPZjUvTB3hBrGwkzI4QPNV18Wk5Z9MAF1tFsxsQWv
+X-Received: by 10.140.232.150 with SMTP id d144mr2146305qhc.17.1443125964233; 
+	Thu, 24 Sep 2015 13:19:24 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.86 with HTTP; Thu, 24 Sep 2015 13:19:04 -0700 (PDT)
+In-Reply-To: <CAP71Wjz0zd_gTE8J82P0bvxvqSb_iH2CkK5jy=sGUGjKk_dGSQ@mail.gmail.com>
+References: <1443116526-16989-1-git-send-email-alexander.kanavin@linux.intel.com>
+	<CAP71Wjz0zd_gTE8J82P0bvxvqSb_iH2CkK5jy=sGUGjKk_dGSQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 24 Sep 2015 21:19:04 +0100
+Message-ID: <CAJTo0LZdyUDn-pmDAKL7OaQKpwiz=m1Z4WsV7WdaTvjX3oPD9g@mail.gmail.com>
 To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 24 Sep 2015 21:17:32 +0100
-In-Reply-To: <CAP71WjzeJhjGNeYq8nKtR7BHPesdhcmyCb+1A+BeHhsp8Gh=tw@mail.gmail.com>
-References: <CAP71WjyWRXrvUyi1HvdusRkKLb5Gf3H2gzCNPKkUDAstA4M55A@mail.gmail.com>
-	<1443077455.19044.55.camel@linuxfoundation.org>
-	<CAP71WjzeJhjGNeYq8nKtR7BHPesdhcmyCb+1A+BeHhsp8Gh=tw@mail.gmail.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Including machine specific mesa-driver
+Subject: Re: [PATCH] gstreamer1.0-plugins-bad: change glimagesink rank to marginal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,71 +45,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 20:17:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Sep 2015 20:19:26 -0000
+Content-Type: multipart/alternative; boundary=001a11354852771737052083f283
 
-On Thu, 2015-09-24 at 11:36 -0700, Nicolas Dechesne wrote:
-> On Wed, Sep 23, 2015 at 11:50 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > The idea was that the machine config can nominate the "X11" config it
-> > needs by indicating the drivers that make sense for this piece of
-> > hardware. The XSERVER variable is then used to decide which pieces of X
-> > to pull in and pulling in the right mesa pieces at the same time made
-> > sense then.
-> 
-> 
-> right.
-> 
-> >
-> >
-> > We could split the mesa pieces out into a separate MESADRIVERS variable
-> > and the wayland/weston could just pull those in? Ultimately its still
-> > the machine config which has the knowledge of which drivers make sense
-> > for a given platform. Exactly which piece of the system would pull in
-> > MESADRIVERS is a good question but I've not looked at the metadata just
-> > thinking out loud.
-> 
-> it looks like it's either libGL (when using X/GLX) or libEGL that
-> would dynamically load the libary. So we might be able to do something
-> along these lines:
-> 
-> --- a/meta/conf/machine/include/qemu.inc
-> +++ b/meta/conf/machine/include/qemu.inc
-> @@ -5,12 +5,14 @@ PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
->  PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
-> 
->  XSERVER ?= "xserver-xorg \
-> -            ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
-> 'mesa-driver-swrast', '', d)} \
->              xf86-input-evdev \
->              xf86-input-mouse \
->              xf86-video-fbdev \
->              xf86-input-keyboard"
-> 
-> +RDEPENDS_libgl-mesa = "${@bb.utils.contains('DISTRO_FEATURES',
-> 'opengl', 'mesa-driver-swrast', '', d)}"
-> +RDEPENDS_libegl-mesa = "${@bb.utils.contains('DISTRO_FEATURES',
-> 'opengl', 'mesa-driver-swrast', '', d)}"
-> +
->  MACHINE_FEATURES = "alsa bluetooth usbgadget screen"
-> 
->  MACHINEOVERRIDES =. "qemuall:"
-> 
-> -------
-> 
-> how does that look like?
-> 
-> It's untested for now, btw.
+--001a11354852771737052083f283
+Content-Type: text/plain; charset=UTF-8
 
-It would make mesa machine specific which probably isn't what we
-want :/.
+On 24 September 2015 at 21:03, Nicolas Dechesne <nicolas.dechesne@linaro.org
+> wrote:
 
-Cheers,
+> fwiw... on my platforms (QCOM DragonBoard) I rely on glimagesink, and
+> we have good OpenGL support.. but I understand that this isn't the
+> norm for ARM, and more an exception.. I can manage that in my BSP
+> layer, if that ever gets merged. Note we might want to wait for the
+> upstream discussion to settle before merging.
+>
 
-Richard
+Does your platform support Xvideo?  If not then glimagesink will likely be
+picked anyway.
 
+Ross
 
+--001a11354852771737052083f283
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 24 September 2015 at 21:03, Nicolas Dechesne <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:nicolas.dechesne@linaro.org" target=3D"_blank">nicolas.dechesn=
+e@linaro.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
+d=3D":13c" class=3D"a3s" style=3D"overflow:hidden">fwiw... on my platforms =
+(QCOM DragonBoard) I rely on glimagesink, and<br>
+we have good OpenGL support.. but I understand that this isn&#39;t the<br>
+norm for ARM, and more an exception.. I can manage that in my BSP<br>
+layer, if that ever gets merged. Note we might want to wait for the<br>
+upstream discussion to settle before merging.</div></blockquote></div><br>D=
+oes your platform support Xvideo?=C2=A0 If not then glimagesink will likely=
+ be picked anyway.</div><div class=3D"gmail_extra"><br></div><div class=3D"=
+gmail_extra">Ross</div></div>
 
+--001a11354852771737052083f283--
