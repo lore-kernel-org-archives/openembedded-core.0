@@ -1,49 +1,20 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A176734DA
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 76D34734DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 17:19:20 +0000 (UTC)
-Received: by iofb144 with SMTP id b144so84449220iof.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 10:19:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=DFpJ3nzRtBGWhjwG6Iga9wQU5BhLgbFmGOxhOpJXGpc=;
-	b=OCftYDXHZxJmaI61R+spoTDQ7vxpdvY+TqhJDuZlsvLedtCiD0Fvf8L+ZKRKLH3gVf
-	kGqUNYGW+9fhz2ZT+/kMaPS0WsKY2Yrr4QFaQESU4DLZ01CCc1tkGN5sCJlAenTIdGp8
-	XYhlTGEQ4T6YaO872xAhazPBiKpymP3l10923eOd5Sy+fUDajKVoV8QwTubMSj9Exa3G
-	QJ4vJXcVXuHoSgxS/MLQXtKaqki/bJK3sIgbfNnjcu9reUC1ycgWQ5W2IckH0jcSMQ0c
-	UX9vnz4cxJ8p+BrP/j4Gg++ADx2ZFWgFXUKqlsa7GeRQKSQkt0ByXMyiq6VicE43EkXU
-	ugZg==
-X-Gm-Message-State: ALoCoQmHqBsR5+FDBcqtWL+6de+m6CtYkzr0lirK89Opx7tzED9xdVcJvOCKMPHYgz69uoA7rOFl
-X-Received: by 10.107.170.36 with SMTP id t36mr2008313ioe.143.1443115160645;
-	Thu, 24 Sep 2015 10:19:20 -0700 (PDT)
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com.
-	[209.85.213.173])
-	by smtp.gmail.com with ESMTPSA id t7sm4293998igz.10.2015.09.24.10.19.19
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 24 Sep 2015 10:19:19 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by igbkq10 with SMTP id kq10so20211337igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 10:19:19 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.50.77.15 with SMTP id o15mr32509218igw.5.1443115159262; Thu,
-	24 Sep 2015 10:19:19 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Thu, 24 Sep 2015 10:19:19 -0700 (PDT)
-In-Reply-To: <1441828569-518-1-git-send-email-alejandro.franco@linux.intel.com>
-References: <1441828569-518-1-git-send-email-alejandro.franco@linux.intel.com>
-Date: Thu, 24 Sep 2015 14:19:19 -0300
-Message-ID: <CAP9ODKqBoFpTEmF+pRW6WujUTw5KwfgQYEg89XULkejj+niAqw@mail.gmail.com>
-To: Alex Franco <alejandro.franco@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lsb: add lsbinitscripts and util-linux rdepends
+	Thu, 24 Sep 2015 17:42:05 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Sep 2015 10:42:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,582,1437462000"; d="scan'208";a="567818851"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by FMSMGA003.fm.intel.com with ESMTP; 24 Sep 2015 10:42:04 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Sep 2015 20:42:06 +0300
+Message-Id: <1443116526-16989-1-git-send-email-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] gstreamer1.0-plugins-bad: change glimagesink rank to marginal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,28 +27,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 17:19:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 24 Sep 2015 17:42:06 -0000
 
-On Wed, Sep 9, 2015 at 4:56 PM, Alex Franco
-<alejandro.franco@linux.intel.com> wrote:
-> Building a base image such as core-image-minimal with lsb and then
-> attempting to source /lib/lsb/init-functions, then using the start
-> _daemon function (to start a daemon, such as syslogd) fails, since
-> /lib/lsb/init-functions use functions (incl. "daemon()") from file
-> /etc/init.d/functions.lsbinitscripts, which is provided by package
-> lsbinitscripts. Running daemon() then calls /usr/bin/mountpoint, a
-> binary provided by util-linux. So, both of these dependencies have
-> been added to: recipes-extended/lsb/lsb_4.1.bb
->
-> [YOCTO #7732]
->
-> Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
+[YOCTO #7787]
 
-Mountpoint should be split so you don't bring all util-linux just for this.
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ .../0001-glimagesink-Downrank-to-marginal.patch    | 32 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-bad_1.4.5.bb    |  4 ++-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-glimagesink-Downrank-to-marginal.patch
 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-glimagesink-Downrank-to-marginal.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-glimagesink-Downrank-to-marginal.patch
+new file mode 100644
+index 0000000..f677603
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-glimagesink-Downrank-to-marginal.patch
+@@ -0,0 +1,32 @@
++From c6b37a80806f9128de47f1ccc3f2354f8d436bb6 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 24 Sep 2015 19:47:32 +0300
++Subject: [PATCH] glimagesink: Downrank to marginal
++
++On desktop, where there is good OpenGL, xvimagesink will come up first,
++on other platforms, OpenGL can't be trusted because it's either software (like
++in a VM) or broken (like on embedded)., so let ximagesink come above.
++
++Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=751684]
++
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ ext/gl/gstopengl.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/ext/gl/gstopengl.c b/ext/gl/gstopengl.c
++index a4b2540..0ccaacd 100644
++--- a/ext/gl/gstopengl.c
+++++ b/ext/gl/gstopengl.c
++@@ -101,7 +101,7 @@ plugin_init (GstPlugin * plugin)
++ #endif
++ 
++   if (!gst_element_register (plugin, "glimagesink",
++-          GST_RANK_SECONDARY, GST_TYPE_GLIMAGE_SINK)) {
+++          GST_RANK_MARGINAL, GST_TYPE_GLIMAGE_SINK)) {
++     return FALSE;
++   }
++ 
++-- 
++2.1.4
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.5.bb
+index 59065de..6873669 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.5.bb
+@@ -5,7 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
+                     file://COPYING.LIB;md5=21682e4e8fea52413fd26c60acb907e5 \
+                     file://gst/tta/crc32.h;beginline=12;endline=29;md5=27db269c575d1e5317fffca2d33b3b50"
+ 
+-SRC_URI += "file://0001-gl-do-not-check-for-GL-GLU-EGL-GLES2-libs-if-disable.patch"
++SRC_URI += "file://0001-gl-do-not-check-for-GL-GLU-EGL-GLES2-libs-if-disable.patch \
++           file://0001-glimagesink-Downrank-to-marginal.patch \
++           "
+ 
+ SRC_URI[md5sum] = "e0bb39412cf4a48fe0397bcf3a7cd451"
+ SRC_URI[sha256sum] = "152fad7250683d72f9deb36c5685428338365fe4a4c87ffe15e38783b14f983c"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.1.4
+
 
