@@ -1,32 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3646273BB8
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A88476DE1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 09:18:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8O9IjFh008768; Thu, 24 Sep 2015 10:18:45 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 0sVegxQzXuqi; Thu, 24 Sep 2015 10:18:45 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8O9IUdL008765
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 24 Sep 2015 10:18:42 +0100
-Message-ID: <1443086310.19044.56.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Thu, 24 Sep 2015 10:18:30 +0100
-In-Reply-To: <56039856.3050902@windriver.com>
-References: <cover.1442311946.git.liezhi.yang@windriver.com>
-	<5600C0E4.4030606@windriver.com>
-	<1443045619.19044.40.camel@linuxfoundation.org>
-	<56039856.3050902@windriver.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/6] Fixes for mutilib SDK
+	Thu, 24 Sep 2015 09:27:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8O9RXVw026682
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Sep 2015 02:27:33 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Thu, 24 Sep 2015 02:27:32 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 24 Sep 2015 17:27:30 +0800
+Message-ID: <cover.1443086798.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] iproute2: fix the configure process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,72 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Sep 2015 09:18:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Sep 2015 09:27:34 -0000
+Content-Type: text/plain
 
-On Thu, 2015-09-24 at 14:29 +0800, Robert Yang wrote:
-> 
-> On 09/24/2015 06:00 AM, Richard Purdie wrote:
-> > On Tue, 2015-09-22 at 10:45 +0800, Robert Yang wrote:
-> >> Hi RP and Ross,
-> >>
-> >> These patches are required by multilib's do_rootfs and do_populate_sdk,
-> >> otherwise they are broken or partly broken. These patches don't affect
-> >> do_rootfs or do_populate_sdk without multilib are to be installed.
-> >
-> > Thanks for these. Patches 1-4 look ok, we can try them in -next however
-> > I do worry about 5 and 6. Could you confirm if you tested those before
-> > or after the recent data store changes? Its possible the OVERRIDE fixes
-> > there may have fixed the issues 5 and 6 were trying to fix so I'd like
-> > to confirm if they're still needed or not.
-> >
-> > If they are, they don't look like the right solution so I'll need to
-> > look further at the exact issue there.
-> 
-> Hi RP,
-> 
-> I tested on latest master branch without patch 5 and 6, we still have
-> the issues.
-> 
-> # local.conf
-> MACHINE = "qemux86-64"
-> require conf/multilib.conf
-> MULTILIBS = "multilib:lib32"
-> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-> 
-> # populate sdk for lib32-core-image-minimal
-> $ bitbake lib32-core-image-minimal -cpopulate_sdk
-> 
-> # Install sdk
-> $ 
-> ./tmp/deploy/sdk/poky-glibc-x86_64-lib32-core-image-minimal-core2-64-toolchain-1.8+snapshot.sh
-> 
-> # Check messages on the screen:
-> SDK has been successfully set up and is ready to be used.
-> Each time you wish to use the SDK in a new shell session, you need to source the 
-> environment setup script e.g.
->   $ . /buildarea/lyang1/sdk32/environment-setup-core2-64-pokymllib32-linux
-> 
-> This is incorrect, it should be environment-setup-x86-pokymllib32-linuxm
-> (core2-64 != x86).
-> 
-> # Check the installed sdk, the sysroots are:
-> core2-64-pokymllib32-linux  x86_64-pokysdk-linux
-> 
-> But SDKTARGETSYSROOT in environment-setup-core2-64-poky-linux and
-> environment-setup-x86-pokymllib32-linux is /path/to/sysroots/core2-64-poky-linux
-> , this is incorrect.
+The following changes since commit 2ad7308ee7166641eff99f3b9fe6794de143f6bc:
 
-Thanks, I will look into that further. With your first four patches
-applied, the autobuilder showed this issue:
+  oeqa/utils/qemurunner.py: Remove duplicate message on LoggingThread start (2015-09-22 18:13:02 +0100)
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/500/steps/Running%20Sanity%20Tests_2/logs/stdio
+are available in the git repository at:
 
-I've not looked into what is going on there as yet.
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/iproute2-configure
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/iproute2-configure
 
-Cheers,
+Chen Qi (1):
+  iproute2: fix the configure process
 
-Richard
+ meta/recipes-connectivity/iproute2/iproute2.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+-- 
+1.9.1
 
 
