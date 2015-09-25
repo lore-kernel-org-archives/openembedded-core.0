@@ -1,37 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B65876FFA
+Return-Path: <alejandro.franco@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F75C76FC9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 22:51:04 +0000 (UTC)
-Received: by wiclk2 with SMTP id lk2so39724905wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 15:51:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=1pk8QLEeUaV6fUNp0XM0Z3pKH/T4ZRCBHQHV8etFJDA=;
-	b=ZUct0fivfqqHsYGt7pe5KaaS2FCCyAJlvw29qo+MnqfT3KqLauSgyy11AuQn/6stIE
-	ZHBNqmmeb+sFUNi4j8sdUdd39XIrPQmbAaPNehoJxUfYv8yP+S/W/6JLJ0l1i9SR05pQ
-	WjUAkAY3ow4RX4gU0xrGRB0WM9kUu383TGKUtcKwM1xZbX9DDzsXiqeC7kfrLIox1OZM
-	RzHqpO3S+t+LNMnQdqRIrumiy9EkmgdhGm55dfI7GupL//RrltcUvBpVRkuLuvqOQBev
-	zAlGaid7pAzGO6+RF72P2NsHBbwXbR9qHjCHt4EHygIwm3Kn8vtWUiQ50uZll9GGiAtZ
-	wnBA==
-X-Gm-Message-State: ALoCoQlUFSTpcCv2bR9zcOwDR2b94ZfXbFHx+gPNzicuv7APa/7ifpczkaXiyAnglKvLOk8CmNgc
-X-Received: by 10.194.117.133 with SMTP id ke5mr8860371wjb.116.1443221464210; 
-	Fri, 25 Sep 2015 15:51:04 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	pu6sm5466526wjc.34.2015.09.25.15.51.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 Sep 2015 15:51:03 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Fri, 25 Sep 2015 22:54:51 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Sep 2015 15:54:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,589,1437462000"; d="scan'208";a="797537932"
+Received: from afshjern.zpn.intel.com ([10.219.128.51])
+	by fmsmga001.fm.intel.com with ESMTP; 25 Sep 2015 15:54:50 -0700
+From: Alex Franco <alejandro.franco@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Sep 2015 23:43:55 +0100
-Message-Id: <1443221035-18523-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH][V2] gtk-icon-cache/pixbufcache: don't set GDK_PIXBUF_MODULEDIR
+Date: Fri, 25 Sep 2015 17:54:11 -0500
+Message-Id: <1443221651-7364-1-git-send-email-alejandro.franco@linux.intel.com>
+X-Mailer: git-send-email 2.5.3
+Cc: randy.e.witt@intel.com
+Subject: [PATCH] AB random failure: libpcre-native split_and_strip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +28,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 22:51:04 -0000
+X-List-Received-Date: Fri, 25 Sep 2015 22:54:53 -0000
 
-In normal use gdk-pixbuf knows where to find its own loaders and explicitly
-stating this will cause work in the future if the ABI version changes.
+Error handling: adding file-native as a dependency to libpre recipe
+should guarantee a consistent, and more importantly POSIX-compliant
+version of the "file" command is always used when checking the file
+"pcre-config" within the isELF function in staging.bbclass.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Following the POSIX behavior, file returns 0 and continues, when an
+error is found while checking a file.
+
+Debug: in cases where file may still fail, the resulting error will
+now be logged along with the split_and_strip_files failure.
+
+[YOCTO #8144]
+
+Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
 ---
- meta/classes/gtk-icon-cache.bbclass | 2 +-
- meta/classes/pixbufcache.bbclass    | 2 +-
+ meta/classes/staging.bbclass                 | 2 +-
+ meta/recipes-support/libpcre/libpcre_8.37.bb | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
-index b005ab2..6195fa4 100644
---- a/meta/classes/gtk-icon-cache.bbclass
-+++ b/meta/classes/gtk-icon-cache.bbclass
-@@ -11,7 +11,7 @@ if [ "x$D" != "x" ]; then
- else
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 967eddd..554c2e4 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -77,7 +77,7 @@ python sysroot_strip () {
+         ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
  
- 	# Update the pixbuf loaders in case they haven't been registered yet
--	GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/2.10.0/loaders ${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
-+	${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
+         if ret:
+-            bb.error("split_and_strip_files: 'file %s' failed" % path)
++            bb.error("split_and_strip_files: 'file %s' failed\nError: %s" % (path, result))
+             return type
  
- 	for icondir in /usr/share/icons/* ; do
- 		if [ -d $icondir ] ; then
-diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
-index 18fd9fa..dbe11e1 100644
---- a/meta/classes/pixbufcache.bbclass
-+++ b/meta/classes/pixbufcache.bbclass
-@@ -15,7 +15,7 @@ if [ "x$D" != "x" ]; then
- else
+         # Not stripped
+diff --git a/meta/recipes-support/libpcre/libpcre_8.37.bb b/meta/recipes-support/libpcre/libpcre_8.37.bb
+index bcfc9e9..1a2024d 100644
+--- a/meta/recipes-support/libpcre/libpcre_8.37.bb
++++ b/meta/recipes-support/libpcre/libpcre_8.37.bb
+@@ -20,7 +20,7 @@ SRC_URI[sha256sum] = "51679ea8006ce31379fb0860e46dd86665d864b5020fc9cd19e71260ee
+ S = "${WORKDIR}/pcre-${PV}"
  
- 	# Update the pixbuf loaders in case they haven't been registered yet
--	GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/2.10.0/loaders ${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
-+	${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
+ PROVIDES += "pcre"
+-DEPENDS += "bzip2 zlib"
++DEPENDS += "bzip2 zlib file-native"
  
- 	if [ -x ${bindir}/gtk-update-icon-cache ] && [ -d ${datadir}/icons ]; then
- 		for icondir in /usr/share/icons/*; do
+ PACKAGECONFIG[pcretest-readline] = "--enable-pcretest-libreadline,--disable-pcretest-libreadline,readline,"
+ 
 -- 
-2.1.4
+2.5.3
 
 
