@@ -1,21 +1,35 @@
-Return-Path: <alejandro.franco@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F75C76FC9
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id C8B3C76E04
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 22:54:51 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Sep 2015 15:54:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,589,1437462000"; d="scan'208";a="797537932"
-Received: from afshjern.zpn.intel.com ([10.219.128.51])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Sep 2015 15:54:50 -0700
-From: Alex Franco <alejandro.franco@linux.intel.com>
+	Fri, 25 Sep 2015 23:33:28 +0000 (UTC)
+Received: by pacex6 with SMTP id ex6so118322488pac.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Sep 2015 16:33:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=VftrcAla6go8bVRwnWGF6kHT3Zpmw7YqaFYnxxg6fEY=;
+	b=siyX5kDqLEX7ViB25g6fHttkB+xI/Npxcw1iBjHSU1AIAz0CL9I8o46EA8GQmknOsn
+	yAqmPPPk4vtdSOJEOmVI9kG6jRibNAp+cs0uJZpHmaoQsh/FKqSwhIY6RPP2m58yDVxF
+	nFnlQXEEgGMw6fEUCMS3yifVkqyeC+vQQK0Qryjqwgnw+ft8UB93KJk0rKeF1o947KCh
+	hmMTXtaePwQUtp5nmyfhVsBS0G0qij00cNUh9PK1VEaULG2kdO31ojrwHUGa8kEof5sn
+	S/sRFA0mApy4orHOQ4D95cMFjzTe4RMNsZhNzkESdo+MwVabW0n/yN0JSzWfaIc4YTjd
+	anLg==
+X-Received: by 10.67.12.166 with SMTP id er6mr10598087pad.40.1443224008212;
+	Fri, 25 Sep 2015 16:33:28 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by smtp.gmail.com with ESMTPSA id
+	rx8sm5844892pbb.90.2015.09.25.16.33.27
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 25 Sep 2015 16:33:27 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Sep 2015 17:54:11 -0500
-Message-Id: <1443221651-7364-1-git-send-email-alejandro.franco@linux.intel.com>
-X-Mailer: git-send-email 2.5.3
-Cc: randy.e.witt@intel.com
-Subject: [PATCH] AB random failure: libpcre-native split_and_strip
+Date: Sat, 26 Sep 2015 09:34:21 +1000
+Message-Id: <1443224061-4281-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [meta-oe][PATCH v2] opkg: create opkg.lock in /run instead of /var/run
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,54 +42,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 22:54:53 -0000
+X-List-Received-Date: Fri, 25 Sep 2015 23:33:29 -0000
 
-Error handling: adding file-native as a dependency to libpre recipe
-should guarantee a consistent, and more importantly POSIX-compliant
-version of the "file" command is always used when checking the file
-"pcre-config" within the isELF function in staging.bbclass.
+This avoids a "Could not unlink" warning when extracting a /var/run
+symbolic link pointing to /run from the base-files package as it is
+unable to unlink the /var/run directory when it contains opkg.lock.
 
-Following the POSIX behavior, file returns 0 and continues, when an
-error is found while checking a file.
+This also fixes an issue where /var/run is created as a directory
+instead of a symbolic link to /run.
 
-Debug: in cases where file may still fail, the resulting error will
-now be logged along with the split_and_strip_files failure.
-
-[YOCTO #8144]
-
-Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+Acked-by: Anders Darander <anders@chargestorm.se>
 ---
- meta/classes/staging.bbclass                 | 2 +-
- meta/recipes-support/libpcre/libpcre_8.37.bb | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ ...reate-opkg.lock-in-run-instead-of-var-run.patch | 34 ++++++++++++++++++++++
+ meta/recipes-devtools/opkg/opkg_0.3.0.bb           |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 967eddd..554c2e4 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -77,7 +77,7 @@ python sysroot_strip () {
-         ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch b/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
+new file mode 100644
+index 0000000..255021b
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch
+@@ -0,0 +1,34 @@
++From a4628a6171f393add9a2b287483ca39bb72b4dd6 Mon Sep 17 00:00:00 2001
++From: Jonathan Liu <net147@gmail.com>
++Date: Mon, 21 Sep 2015 20:23:23 +1000
++Subject: [PATCH] opkg_conf: create opkg.lock in /run instead of /var/run
++
++This avoids a "Could not unlink" warning when extracting a /var/run
++symbolic link pointing to /run from a package as it is unable to
++unlink the /var/run directory when it contains opkg.lock.
++
++This also fixes an issue where /var/run is created as a directory
++instead of a symbolic link to /run.
++
++Upstream-Status: Inappropriate [OE-Specific]
++Signed-off-by: Jonathan Liu <net147@gmail.com>
++---
++ libopkg/opkg_conf.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libopkg/opkg_conf.h b/libopkg/opkg_conf.h
++index 7bca948..5a1bc44 100644
++--- a/libopkg/opkg_conf.h
+++++ b/libopkg/opkg_conf.h
++@@ -40,7 +40,7 @@ extern "C" {
++ #define OPKG_CONF_DEFAULT_STATUS_FILE   "/var/lib/opkg/status"
++ #define OPKG_CONF_DEFAULT_CACHE_DIR     "/var/cache/opkg"
++ #define OPKG_CONF_DEFAULT_CONF_FILE_DIR "/etc/opkg"
++-#define OPKG_CONF_DEFAULT_LOCK_FILE     "/var/run/opkg.lock"
+++#define OPKG_CONF_DEFAULT_LOCK_FILE     "/run/opkg.lock"
++ 
++ /* In case the config file defines no dest */
++ #define OPKG_CONF_DEFAULT_DEST_NAME "root"
++-- 
++2.5.0
++
+diff --git a/meta/recipes-devtools/opkg/opkg_0.3.0.bb b/meta/recipes-devtools/opkg/opkg_0.3.0.bb
+index 884368f..588250e 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.3.0.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.3.0.bb
+@@ -16,6 +16,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+            file://opkg.conf \
+            file://0001-opkg_archive-add-support-for-empty-compressed-files.patch \
+            file://0001-libopkg-include-stdio.h-for-getting-FILE-defined.patch \
++           file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
+ "
  
-         if ret:
--            bb.error("split_and_strip_files: 'file %s' failed" % path)
-+            bb.error("split_and_strip_files: 'file %s' failed\nError: %s" % (path, result))
-             return type
- 
-         # Not stripped
-diff --git a/meta/recipes-support/libpcre/libpcre_8.37.bb b/meta/recipes-support/libpcre/libpcre_8.37.bb
-index bcfc9e9..1a2024d 100644
---- a/meta/recipes-support/libpcre/libpcre_8.37.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.37.bb
-@@ -20,7 +20,7 @@ SRC_URI[sha256sum] = "51679ea8006ce31379fb0860e46dd86665d864b5020fc9cd19e71260ee
- S = "${WORKDIR}/pcre-${PV}"
- 
- PROVIDES += "pcre"
--DEPENDS += "bzip2 zlib"
-+DEPENDS += "bzip2 zlib file-native"
- 
- PACKAGECONFIG[pcretest-readline] = "--enable-pcretest-libreadline,--disable-pcretest-libreadline,readline,"
- 
+ SRC_URI[md5sum] = "3412cdc71d78b98facc84b19331ec64e"
 -- 
-2.5.3
+2.5.0
 
 
