@@ -1,23 +1,23 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id C632E73BB8
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D5DA77002
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 05:00:00 +0000 (UTC)
-Received: by qgev79 with SMTP id v79so61620150qge.0
+	Fri, 25 Sep 2015 05:00:01 +0000 (UTC)
+Received: by qgt47 with SMTP id 47so61695085qgt.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 22:00:00 -0700 (PDT)
+	Thu, 24 Sep 2015 22:00:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=DGBfrY2fwy81xvp6BKuXrxhrHHfEwIPkG8frjuCSJ0g=;
-	b=xRsjOeO7mC6VZhw9lPIXFRWD1e7GSkw/Gk2aRfPPGV3O7j4uZN8TS80iFJvowlxgYC
-	9ktHqje7OPNqzLBk9Rg5dp+n4rzgYSPnBsbk4y8gNRpe76HgvzoqNhx1fBX0EiqguwOn
-	WGPgPszerEkgnTwmLICjZTx0FvjgIOg8vAWXbMNyuD5HJ9IrbBE2LR/YHUpb+xcLAWDh
-	N7J5xlZqksRl99EjyhT2TRaknttFt9cIIcTC/4QYILRi7UdLYI00i01X82p6YkDYdGrt
-	8XZRxwwDT7JSTGXyuNlGbLukgdenJhmv8x4LsnmrN9U1USYoh7gYqmp/Y6Hxr1AZEbV5
-	x5Aw==
-X-Received: by 10.140.234.130 with SMTP id f124mr4012612qhc.103.1443157200655; 
-	Thu, 24 Sep 2015 22:00:00 -0700 (PDT)
+	bh=7IO/Cd3qDdr74VukP/+NgwYS90Z8ADEkOHh2zGShoFg=;
+	b=uQzfzeGgs6AQlZmlr9sBdnNFdnuUEltr9dqliTYzkgTmt4u1cntinXExz21KI9Ru6r
+	82/ti+agvJpj7HMwPQtx9TGpB3MrgKSLJ59u2gxS4rg2TqS7Kf3G5LnkSuLC1+33/b1j
+	YUb1MQhN/+41ZB6bB9oIRhMsw4LTRX2LGcFg+aep3+9OrFCjuDqi8D0ApYcf/lnVsWmV
+	JPLMWxANKnrkH2aTIj9/jcp2/92nIMfFeHiO3bqU3glx4z/uo00LLUgjlPezHDZi6ckb
+	Jhcx1BppnKtoH5uRRB7lszEA5QgkX27teJpOTDtkkEwYOw7itLUnseLOHlNn36wCY8qe
+	XWxQ==
+X-Received: by 10.140.23.52 with SMTP id 49mr4023084qgo.38.1443157201328;
+	Thu, 24 Sep 2015 22:00:01 -0700 (PDT)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
 	c188sm768477qka.37.2015.09.24.22.00.00
@@ -25,12 +25,12 @@ Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	Thu, 24 Sep 2015 22:00:00 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Sep 2015 04:59:14 +0000
-Message-Id: <1443157157-33969-3-git-send-email-raj.khem@gmail.com>
+Date: Fri, 25 Sep 2015 04:59:15 +0000
+Message-Id: <1443157157-33969-4-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.5.3
 In-Reply-To: <1443157157-33969-1-git-send-email-raj.khem@gmail.com>
 References: <1443157157-33969-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH] pxz: Add recipe and use it for xz image type
+Subject: [PATCH 2/4] dhcp: Include sys/types.h for u_int* defs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,90 +43,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 05:00:00 -0000
+X-List-Received-Date: Fri, 25 Sep 2015 05:00:01 -0000
 
-pxz results in significant time saving when generating xz filetypes for
-images due to parallelization support
-
-a simple test on ubuntu build host with 16 CPUs
-
-time xz -M 50% -f -k -c -e -9 --check=crc32 CX041AEI_PROD_default_20150610000105sdy-dbg.rootfs.cpio >CX041AEI_PROD_default_20150610000105sdy-dbg.rootfs.cpio.xz
-
-real
-23m42.299s
-user 23m36.947s
-sys 0m5.101s
-
-time pxz -M 50% -f -k -c -e -9 --check=crc32 CX041AEI_PROD_default_20150610000105sdy-dbg.rootfs.cpio >CX041AEI_PROD_default_20150610000105sdy-dbg.rootfs.cpio.xz
-
-real2m59.666s
-user 24m38.529s
-sys 0m10.056s
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/image_types.bbclass     |  4 ++--
- meta/recipes-extended/pxz/pxz_git.bb | 31 +++++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/pxz/pxz_git.bb
+ .../dhcp/0001-include-missing-sys-types.h.patch    | 56 ++++++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb       |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0001-include-missing-sys-types.h.patch
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 306403e..d766cd2 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -233,13 +233,13 @@ COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum"
- COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
- COMPRESS_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.gz"
- COMPRESS_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}.rootfs.${type}"
--COMPRESS_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.xz"
-+COMPRESS_CMD_xz = "pxz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.xz"
- COMPRESS_CMD_lz4 = "lz4c -9 -c ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.lz4"
- COMPRESS_CMD_sum = "sumtool -i ${IMAGE_NAME}.rootfs.${type} -o ${IMAGE_NAME}.rootfs.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
- COMPRESS_DEPENDS_lzma = "xz-native"
- COMPRESS_DEPENDS_gz = ""
- COMPRESS_DEPENDS_bz2 = "pbzip2-native"
--COMPRESS_DEPENDS_xz = "xz-native"
-+COMPRESS_DEPENDS_xz = "pxz-native"
- COMPRESS_DEPENDS_lz4 = "lz4-native"
- COMPRESS_DEPENDS_sum = "mtd-utils-native"
- 
-diff --git a/meta/recipes-extended/pxz/pxz_git.bb b/meta/recipes-extended/pxz/pxz_git.bb
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0001-include-missing-sys-types.h.patch b/meta/recipes-connectivity/dhcp/dhcp/0001-include-missing-sys-types.h.patch
 new file mode 100644
-index 0000000..fe21be6
+index 0000000..6d40290
 --- /dev/null
-+++ b/meta/recipes-extended/pxz/pxz_git.bb
-@@ -0,0 +1,31 @@
-+# Copyright (C) 2015 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
++++ b/meta/recipes-connectivity/dhcp/dhcp/0001-include-missing-sys-types.h.patch
+@@ -0,0 +1,56 @@
++From 971491b6d7ab47d2f92f34269a129d0347fba15a Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 14 Sep 2015 23:51:38 +0000
++Subject: [PATCH] include missing sys/types.h
 +
-+SUMMARY = "Parallel LZMA compressor compatible with XZ"
-+DESCRIPTION = "Parallel XZ is a compression utility that takes advantage of running LZMA compression of different parts of an input file on multiple cores and processors simultaneously. Its primary goal is to utilize all resources to speed up compression time with minimal possible influence on compression ratio"
-+HOMEPAGE = "https://jnovy.fedorapeople.org/pxz/"
-+LICENSE = "GPL-2.0+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-+SECTION = "console/utils"
-+DEPENDS = "xz"
++Code uses plain typedefs defines in this header but does not include it
++Fixes
 +
-+SRCREV = "ae808463c2950edfdedb8fb49f95006db0a18667"
-+PV = "4.999.9beta+git${SRCPV}"
-+SRC_URI = "git://github.com/jnovy/pxz.git"
++error: unknown type name 'u_int16_t'; did you mean 'uint16_t'?
 +
-+S = "${WORKDIR}/git"
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ dst/dst_api.c     | 1 +
++ dst/dst_support.c | 1 +
++ dst/hmac_link.c   | 1 +
++ 3 files changed, 3 insertions(+)
 +
-+CFLAGS_append = " -fopenmp -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
-+LDFLAGS_append = " -llzma"
++diff --git a/dst/dst_api.c b/dst/dst_api.c
++index a77abd2..7885538 100644
++--- a/dst/dst_api.c
+++++ b/dst/dst_api.c
++@@ -49,6 +49,7 @@
++ #include <sys/param.h>
++ #include <sys/stat.h>
++ #include <sys/socket.h>
+++#include <sys/types.h>
++ #include <netinet/in.h>
++ 
++ #include "cdefs.h"
++diff --git a/dst/dst_support.c b/dst/dst_support.c
++index 8e08a0c..f353ec6 100644
++--- a/dst/dst_support.c
+++++ b/dst/dst_support.c
++@@ -25,6 +25,7 @@
++ #include <sys/stat.h>
++ #include <netinet/in.h>
++ #include <sys/socket.h>
+++#include <sys/types.h>
++ 
++ #include "cdefs.h"
++ #include "osdep.h"
++diff --git a/dst/hmac_link.c b/dst/hmac_link.c
++index b812c1c..a7de622 100644
++--- a/dst/hmac_link.c
+++++ b/dst/hmac_link.c
++@@ -31,6 +31,7 @@
++ #include <sys/time.h>
++ #include <netinet/in.h>
++ #include <sys/socket.h>
+++#include <sys/types.h>
++ 
++ #include "cdefs.h"
++ #include "osdep.h"
++-- 
++2.5.2
 +
-+do_compile ()  {
-+	oe_runmake
-+}
-+
-+do_install ()  {
-+	oe_runmake DESTDIR=${D} INSTALL="install -p"
-+}
-+
-+deltask do_configure
-+
-+BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+index b4a05fc..436a32e 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+@@ -6,6 +6,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+             file://fixsepbuild.patch \
+             file://dhclient-script-drop-resolv.conf.dhclient.patch \
+             file://replace-ifconfig-route.patch \
++            file://0001-include-missing-sys-types.h.patch \
+            "
+ 
+ SRC_URI[md5sum] = "5a284875dd2c12ddd388416d69156a67"
 -- 
 2.5.3
 
