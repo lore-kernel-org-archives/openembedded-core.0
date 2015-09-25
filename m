@@ -1,37 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A4D577035
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9127E77043
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 13:42:53 +0000 (UTC)
-Received: by wicgb1 with SMTP id gb1so21170542wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 06:42:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=+SLklCQfw+/4WhcBkdtUeVu+I7uwpAN9rhZQpczAGjI=;
-	b=gy9qHp5AWUZIeaaF9LVynnM4q7w9Xa4p1D63cjibbdU9J0lYanDo2ayQK/DKNWL9gF
-	iJQywv5dWSfu5ecfdHNRjY6aLaabbsndAXmjmg0GQgWb8wKfE1xc9C6UgLOFjejJwEal
-	txDNA4UDPc48g/c6h30hRKgmCjlhvoER6y5K5Ob7Ye7qXlpMoB/1h/IuHpFVZd8xKWTu
-	3gGUs5QUiGTU2H+IYgJQUBQChqnfQyELfevU+tTkvHvE92OkrkRoe0TEsN8JFBfxqt6M
-	gf7vs7wlugKs+a2QQbmFHUaP/7Dlz1ngJk13OkvGl6Km0uFbR788eQTlA4OLsvgccRQv
-	9GjQ==
-X-Gm-Message-State: ALoCoQlg4d2eM/+QFghVc5CBud3s7jr4dc2RJV9xo+dxq1WqDDqc+VUzcZsp6gA8H1bhH8LXyxsk
-X-Received: by 10.194.71.206 with SMTP id x14mr7069147wju.147.1443188573402;
-	Fri, 25 Sep 2015 06:42:53 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id r4sm3313802wia.19.2015.09.25.06.42.52
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 Sep 2015 06:42:52 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Fri, 25 Sep 2015 14:42:45 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Sep 2015 07:42:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,587,1437462000"; d="scan'208";a="652205316"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by orsmga003.jf.intel.com with ESMTP; 25 Sep 2015 07:42:45 -0700
+From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Sep 2015 14:35:49 +0100
-Message-Id: <1443188149-23518-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] byacc: add missing patch header
+Date: Fri, 25 Sep 2015 06:33:08 +0000
+Message-Id: <62b26729361a797eff29928054777d7a5aebdead.1443162720.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1443162720.git.mariano.lopez@linux.intel.com>
+References: <cover.1443162720.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1] qemurunner: Sanitize output from qemu and qemu pid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,34 +30,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 13:42:55 -0000
+X-List-Received-Date: Fri, 25 Sep 2015 14:42:48 -0000
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
+
+Currently the output from qemu could contain control
+or Unicode characters; having such characters in the
+log will cause an internal server error when sending
+the report to error reporting web. Control characters
+can be found in the command line used to run quemu too.
+
+This change sanitize the output from qemu and the
+command line used to run qemu, this way the logs doesn't
+contain control or Unicode characters and this will solve
+the issue of error reporting web and generate better
+logs.
+
+[YOCTO #8225]
+
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/recipes-extended/byacc/byacc/byacc-open.patch | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ meta/lib/oeqa/utils/qemurunner.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-extended/byacc/byacc/byacc-open.patch b/meta/recipes-extended/byacc/byacc/byacc-open.patch
-index 9160543..0058311 100644
---- a/meta/recipes-extended/byacc/byacc/byacc-open.patch
-+++ b/meta/recipes-extended/byacc/byacc/byacc-open.patch
-@@ -1,3 +1,15 @@
-+Ubuntu defaults to passing _FORTIFY_SOURCE=2 which breaks byacc as it doesn't
-+pass enough arguments to open():
-+
-+ inlined from 'open_tmpfile' at byacc-20150711/main.c:588:5:
-+ /usr/include/x86_64-linux-gnu/bits/fcntl2.h:50:24: error: call to '__open_missing_mode' declared with attribute error:
-+ open with O_CREAT in second argument needs 3 arguments
-+
-+Add a mode of 0666 to fix this.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
- diff --git a/main.c b/main.c
- index 620ce3f..82071a4 100644
- --- a/main.c
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 0357f99..845a57b 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -13,6 +13,7 @@ import re
+ import socket
+ import select
+ import errno
++import string
+ import threading
+ from oeqa.utils.dump import HostDumper
+ 
+@@ -61,6 +62,9 @@ class QemuRunner:
+ 
+     def log(self, msg):
+         if self.logfile:
++            # It is needed to sanitize the data received from qemu
++            # because is possible to have control characters or Unicode
++            msg = cmdline = "".join(filter(lambda x:x in string.printable, msg))
+             with open(self.logfile, "a") as f:
+                 f.write("%s" % msg)
+ 
+@@ -170,6 +174,9 @@ class QemuRunner:
+             cmdline = ''
+             with open('/proc/%s/cmdline' % self.qemupid) as p:
+                 cmdline = p.read()
++                # It is needed to sanitize the data received
++                # because is possible to have control characters
++                cmdline = "".join(filter(lambda x:x in string.printable, cmdline))
+             try:
+                 ips = re.findall("((?:[0-9]{1,3}\.){3}[0-9]{1,3})", cmdline.split("ip=")[1])
+                 if not ips or len(ips) != 3:
 -- 
-2.1.4
+1.8.4.5
 
 
