@@ -1,28 +1,40 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 151EA76FF2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 2622276FFA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 10:34:47 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 25 Sep 2015 03:34:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,586,1437462000"; d="scan'208";a="797108513"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Sep 2015 03:34:46 -0700
-Message-ID: <56052350.9070405@linux.intel.com>
-Date: Fri, 25 Sep 2015 13:34:56 +0300
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.8.0
+	Fri, 25 Sep 2015 10:53:18 +0000 (UTC)
+Received: by qgx61 with SMTP id 61so65775752qgx.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Sep 2015 03:53:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=sBcT90k0VW0AF/Q42x/xUG4vKHHLrihuo3UIhmzaBuA=;
+	b=dCEEBXBqiWmZvYalgL5xhNkE7BvjHNafZTBC9TupMmzRBPtvIKi3xe5FsIfDmNqzQY
+	UeFyktGH1GDT4zZXTm2IM64KA0OXezODjUkb6PqEa0xeZ2NSyDty42yMY+XuJQIj39vF
+	zUtyE3pYmX0bURTnR5q6FaoXlOmr4Rrzu4Z1Q/iDxgHwhLSrlwWqtz53Evdn5DsZl2Au
+	oEuJGAai4VqWilJ/wFDd33sQtZHXuzpqHdOmMJ2a5xw0E2ZWMl9pSACvWLCIganURkSa
+	jkXBbN6Yz/df+7MI6SFWfC2hxTulbIZPrsAbF5gvMYzyD+YiCIuFZl0bDA52iz0vdbFP
+	ZxNw==
+X-Gm-Message-State: ALoCoQmt0vwa0MHBfuD8Rlrhw5Ru+D+Vzbc727V1/uDLyGfBV7ZoFW3YRC760CMnm8exOFfuyv5L
+X-Received: by 10.140.232.150 with SMTP id d144mr5387010qhc.17.1443178399163; 
+	Fri, 25 Sep 2015 03:53:19 -0700 (PDT)
 MIME-Version: 1.0
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-References: <1443116526-16989-1-git-send-email-alexander.kanavin@linux.intel.com>
-	<CAP71Wjz0zd_gTE8J82P0bvxvqSb_iH2CkK5jy=sGUGjKk_dGSQ@mail.gmail.com>
-In-Reply-To: <CAP71Wjz0zd_gTE8J82P0bvxvqSb_iH2CkK5jy=sGUGjKk_dGSQ@mail.gmail.com>
+Received: by 10.140.94.86 with HTTP; Fri, 25 Sep 2015 03:52:59 -0700 (PDT)
+In-Reply-To: <56052034.4000702@windriver.com>
+References: <1443092679-216053-1-git-send-email-wenzong.fan@windriver.com>
+	<CAHiDW_FZtt9v_tGJT-m_LcEqBS-YThPTE=zoFpr=aQVt7aGPtQ@mail.gmail.com>
+	<CAJTo0LaJeeLRqmADYQ2DNGWs9VxwJMCRViwSvEX84FEbqVVTYA@mail.gmail.com>
+	<56052034.4000702@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 25 Sep 2015 11:52:59 +0100
+Message-ID: <CAJTo0LbKPTvbRj4uUW=+D3g2Dz8v9_aeXJc64QvQMXe8TzsjEA@mail.gmail.com>
+To: wenzong fan <wenzong.fan@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-plugins-bad: change glimagesink rank to marginal
+Subject: Re: [PATCH] gnutls: cleanup buildpaths from gnutls.pc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,31 +47,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 10:34:48 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 25 Sep 2015 10:53:22 -0000
+Content-Type: multipart/alternative; boundary=001a11354852d4b983052090276a
 
-On 09/24/2015 11:03 PM, Nicolas Dechesne wrote:
+--001a11354852d4b983052090276a
+Content-Type: text/plain; charset=UTF-8
 
-> fwiw... on my platforms (QCOM DragonBoard) I rely on glimagesink, and
-> we have good OpenGL support.. but I understand that this isn't the
-> norm for ARM, and more an exception.. I can manage that in my BSP
-> layer, if that ever gets merged. Note we might want to wait for the
-> upstream discussion to settle before merging.
+On 25 September 2015 at 11:21, wenzong fan <wenzong.fan@windriver.com>
+wrote:
 
-If you explicitly specify glimagesink in your pipelines, then this patch 
-will not affect you. But if you rely on gstreamer's autoplugging, then 
-it's entirely coincidental that you're getting the sink you want; 
-gstreamer makes no promises about what you end up with. It simply sorts 
-sinks by their hardcoded rank, and picks the first one that initializes 
-without error.
+> I'll investigate more about that. Do you know where the difference from?
+>
 
-The upstream discussion has stalled two months ago. Meanwhile we have a 
-real problem in qemu images: video playback does not work. If you can 
-propose a better fix, you're very much welcome.
+I'd immediately suspect the lib/lib64 path confusing pkg-config's logic on
+automatic library path removal.  In the non-multilib case it generates a
+-L[long path] but determines that the path is in the default search path so
+can remove it.
 
+Ross
 
-Regards,
-Alex
+--001a11354852d4b983052090276a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 September 2015 at 11:21, wenzong fan <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:wenzong.fan@windriver.com" target=3D"_blank">wenzong.fan@windriver.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":660=
+" class=3D"a3s" style=3D"overflow:hidden">I&#39;ll investigate more about t=
+hat. Do you know where the difference from?<br></div></blockquote></div><br=
+>I&#39;d immediately suspect the lib/lib64 path confusing pkg-config&#39;s =
+logic on automatic library path removal.=C2=A0 In the non-multilib case it =
+generates a -L[long path] but determines that the path is in the default se=
+arch path so can remove it.</div><div class=3D"gmail_extra"><br></div><div =
+class=3D"gmail_extra">Ross</div></div>
 
+--001a11354852d4b983052090276a--
