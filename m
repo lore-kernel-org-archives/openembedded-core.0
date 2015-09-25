@@ -1,36 +1,32 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id F0B5877035
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 3623476DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 13:28:13 +0000 (UTC)
-Received: by qgev79 with SMTP id v79so68745275qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 06:28:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Pkfwsl3EpUkG8QZxrhYhTbXbJkNxMWwAlBQgGR/gL4Q=;
-	b=QBsQBLjnV5vHyWnrZsyLgfgiANFXO6zpLP8Rk+FICCG15FS3oLX30JkWMQ1Q98YmUF
-	2NDsBX56nkNUhcJnUk9/BFJtcIgYyWC+Iik2bsTGWp9jrB1Phu3J8bwoGbLtq3RiEwYy
-	htAPisBbOTK5gSeUMV5XEDdC0vJXqMYlM9QMXZmS0RnfxbN+SzFMrokY1tdkHH0g4Aab
-	14qUMS++ump40DbucsR1H8fvEdDaC6NVRhsWVG2/Sji83u+zUm05vWNAkIwg1P12SR8y
-	796Tca8Uv/ZNpEn3i0dk1B6YqaloZ/q+fB3zNEMKqx/mXohPSMjG2YUV43Zwh8aKsOxq
-	pvMA==
-X-Received: by 10.140.43.164 with SMTP id e33mr6065373qga.62.1443187693571;
-	Fri, 25 Sep 2015 06:28:13 -0700 (PDT)
-Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
-	by smtp.gmail.com with ESMTPSA id
-	y12sm1403476qgd.20.2015.09.25.06.28.12
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 Sep 2015 06:28:12 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Sep 2015 13:28:05 +0000
-Message-Id: <1443187685-96849-2-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.5.3
-In-Reply-To: <1443187685-96849-1-git-send-email-raj.khem@gmail.com>
-References: <1443187685-96849-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 2/2] busybox: Use CC instead of bare LD to be the Linker
+	Fri, 25 Sep 2015 13:32:02 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 891BEF811E0; Fri, 25 Sep 2015 07:32:02 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 3B317F811D8;
+	Fri, 25 Sep 2015 07:32:01 -0600 (MDT)
+To: Khem Raj <raj.khem@gmail.com>
+References: <1443157157-33969-1-git-send-email-raj.khem@gmail.com>
+	<1443157157-33969-3-git-send-email-raj.khem@gmail.com>
+	<56052E6D.30305@mlbassoc.com>
+	<3BE8BEDD-0107-4FCF-B9E4-75EFEF37504E@gmail.com>
+From: Gary Thomas <gary@mlbassoc.com>
+Message-ID: <56054CD5.7020201@mlbassoc.com>
+Date: Fri, 25 Sep 2015 07:32:05 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
+MIME-Version: 1.0
+In-Reply-To: <3BE8BEDD-0107-4FCF-B9E4-75EFEF37504E@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pxz: Add recipe and use it for xz image type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,209 +39,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 13:28:16 -0000
+X-List-Received-Date: Fri, 25 Sep 2015 13:32:04 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This patch was on mailing list, another patch to make sure -r is not
-passed directly but via -Wl switch is added.
+On 2015-09-25 07:25, Khem Raj wrote:
+>
+>> On Sep 25, 2015, at 4:22 AM, Gary Thomas <gary@mlbassoc.com> wrote:
+>>
+>> On 2015-09-24 22:59, Khem Raj wrote:
+>>> pxz results in significant time saving when generating xz filetypes for
+>>> images due to parallelization support
+>>
+>> This adds another host tool dependency - on my Ubuntu (14.04) system, even
+>> if 'xz' is installed, 'pxz' is not and I'd have to add it.  Since *.xz seems
+>> to be the new fashion/trend, perhaps this choice might be optional/configurable?
+>
+> I provided pxz recipe as well.. so I don’t get it where is host tool dep.
 
-This was exposed when using clang and gold linker, clang does not have
--r switch to do relocatable objects and problem happens specific to OE
-becuase we use LD = CC
+Fair enough, I missed your additional recipe.
 
-now what happens is that busybox assumes that linker will be called
-directly, and hence sprinkles linkers options in its kbuild system which
-aggregate into LDFLAGS, some of these options are happily ignored by gcc
-as well but it passes -r options rightly to linker so it all works,
-however when using clang, this falls apart since -r is not known option
-for clang so it drops this option and all obects which should be
-partially linked becomes ET_EXEC and when they are added to final link
-then gold starts to get confused
+>
+>>
+>>>
+>>> a simple test on ubuntu build host with 16 CPUs
+>>>
+>>> time xz -M 50% -f -k -c -e -9 --check=crc32 CX041AEI_PROD_default_20150610000105sdy-dbg.rootfs.cpio >CX041AEI_PROD_default_20150610000105sdy-dbg.rootfs.cpio.xz
+>>>
+>>> real
+>>> 23m42.299s
+>>> user 23m36.947s
+>>> sys 0m5.101s
+>>>
+>>> time pxz -M 50% -f -k -c -e -9 --check=crc32 CX041AEI_PROD_default_20150610000105sdy-dbg.rootfs.cpio >CX041AEI_PROD_default_20150610000105sdy-dbg.rootfs.cpio.xz
+>>>
+>>> real2m59.666s
+>>> user 24m38.529s
+>>> sys 0m10.056s
+>>>
+>>> Signed-off-by: Khem Raj <raj.khem@gmail.com
+>>> ---
+>>>   meta/classes/image_types.bbclass     |  4 ++--
+>>>   meta/recipes-extended/pxz/pxz_git.bb | 31 +++++++++++++++++++++++++++++++
+>>>   2 files changed, 33 insertions(+), 2 deletions(-)
+>>>   create mode 100644 meta/recipes-extended/pxz/pxz_git.bb
+>>>
+>>> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+>>> index 306403e..d766cd2 100644
+>>> --- a/meta/classes/image_types.bbclass
+>>> +++ b/meta/classes/image_types.bbclass
+>>> @@ -233,13 +233,13 @@ COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum"
+>>>   COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
+>>>   COMPRESS_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.gz"
+>>>   COMPRESS_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}.rootfs.${type}"
+>>> -COMPRESS_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.xz"
+>>> +COMPRESS_CMD_xz = "pxz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.xz"
+>>>   COMPRESS_CMD_lz4 = "lz4c -9 -c ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.lz4"
+>>>   COMPRESS_CMD_sum = "sumtool -i ${IMAGE_NAME}.rootfs.${type} -o ${IMAGE_NAME}.rootfs.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
+>>>   COMPRESS_DEPENDS_lzma = "xz-native"
+>>>   COMPRESS_DEPENDS_gz = ""
+>>>   COMPRESS_DEPENDS_bz2 = "pbzip2-native"
+>>> -COMPRESS_DEPENDS_xz = "xz-native"
+>>> +COMPRESS_DEPENDS_xz = "pxz-native"
+>>>   COMPRESS_DEPENDS_lz4 = "lz4-native"
+>>>   COMPRESS_DEPENDS_sum = "mtd-utils-native"
+>>>
+>>> diff --git a/meta/recipes-extended/pxz/pxz_git.bb b/meta/recipes-extended/pxz/pxz_git.bb
+>>> new file mode 100644
+>>> index 0000000..fe21be6
+>>> --- /dev/null
+>>> +++ b/meta/recipes-extended/pxz/pxz_git.bb
+>>> @@ -0,0 +1,31 @@
+>>> +# Copyright (C) 2015 Khem Raj <raj.khem@gmail.com>
+>>> +# Released under the MIT license (see COPYING.MIT for the terms)
+>>> +
+>>> +SUMMARY = "Parallel LZMA compressor compatible with XZ"
+>>> +DESCRIPTION = "Parallel XZ is a compression utility that takes advantage of running LZMA compression of different parts of an input file on multiple cores and processors simultaneously. Its primary goal is to utilize all resources to speed up compression time with minimal possible influence on compression ratio"
+>>> +HOMEPAGE = "https://jnovy.fedorapeople.org/pxz/"
+>>> +LICENSE = "GPL-2.0+"
+>>> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>>> +SECTION = "console/utils"
+>>> +DEPENDS = "xz"
+>>> +
+>>> +SRCREV = "ae808463c2950edfdedb8fb49f95006db0a18667"
+>>> +PV = "4.999.9beta+git${SRCPV}"
+>>> +SRC_URI = "git://github.com/jnovy/pxz.git"
+>>> +
+>>> +S = "${WORKDIR}/git"
+>>> +
+>>> +CFLAGS_append = " -fopenmp -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
+>>> +LDFLAGS_append = " -llzma"
+>>> +
+>>> +do_compile ()  {
+>>> +	oe_runmake
+>>> +}
+>>> +
+>>> +do_install ()  {
+>>> +	oe_runmake DESTDIR=${D} INSTALL="install -p"
+>>> +}
+>>> +
+>>> +deltask do_configure
+>>> +
+>>> +BBCLASSEXTEND = "native"
+>>>
+>>
+>> --
+>> ------------------------------------------------------------
+>> Gary Thomas                 |  Consulting for the
+>> MLB Associates              |    Embedded world
+>> ------------------------------------------------------------
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-/mnt/home/kraj/work/angstrom/build/tmp-angstrom-glibc/sysroots/x86_64-linux/usr/bin/arm-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-ld:
-error: applets/built-in.o: unsupported ELF file type 2
-clang-3.7: error: linker command failed with exit code 1 (use -v to see invocation)
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...-linking-instead-of-LD-and-use-CFLAGS-and.patch | 114 +++++++++++++++++++++
- .../busybox/0002-Passthrough-r-to-linker.patch     |  32 ++++++
- meta/recipes-core/busybox/busybox_1.23.2.bb        |   2 +
- 3 files changed, 148 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch
- create mode 100644 meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch
-
-diff --git a/meta/recipes-core/busybox/busybox/0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch b/meta/recipes-core/busybox/busybox/0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch
-new file mode 100644
-index 0000000..2bf2b91
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch
-@@ -0,0 +1,114 @@
-+From a9333eb6a7b8dbda735947cd5bc981ff9352a2c9 Mon Sep 17 00:00:00 2001
-+From: Nathan Phillip Brink <ohnobinki@ohnopublishing.net>
-+Date: Thu, 10 Mar 2011 00:27:08 -0500
-+Subject: [PATCH 1/2] Use $(CC) when linking instead of $(LD) and use $(CFLAGS)
-+ and $(EXTRA_CFLAGS) when linking.
-+
-+This fixes the issue where LDFLAGS escaped with -Wl are ignored during
-+compilation. It also simplifies using CFLAGS or EXTRA_CFLAGS (such as
-+-m32 on x86_64 or -flto) which apply to both compilation and linking
-+situations.
-+
-+Signed-off-by: Nathan Phillip Brink <ohnobinki@ohnopublishing.net>
-+---
-+Upstream-Status: Pending
-+
-+ Makefile               |  7 ++++---
-+ scripts/Makefile.build |  8 ++++----
-+ scripts/Makefile.lib   | 13 +++----------
-+ 3 files changed, 11 insertions(+), 17 deletions(-)
-+
-+Index: busybox-1.23.2/Makefile
-+===================================================================
-+--- busybox-1.23.2.orig/Makefile
-++++ busybox-1.23.2/Makefile
-+@@ -309,7 +309,8 @@ CHECKFLAGS     := -D__linux__ -Dlinux -D
-+ MODFLAGS	= -DMODULE
-+ CFLAGS_MODULE   = $(MODFLAGS)
-+ AFLAGS_MODULE   = $(MODFLAGS)
-+-LDFLAGS_MODULE  = -r
-++LDFLAGS_RELOCATABLE = -r -nostdlib
-++LDFLAGS_MODULE  = $(LDFLAGS_RELOCATABLE)
-+ CFLAGS_KERNEL	=
-+ AFLAGS_KERNEL	=
-+ 
-+@@ -331,7 +332,7 @@ KERNELVERSION = $(VERSION).$(PATCHLEVEL)
-+ export	VERSION PATCHLEVEL SUBLEVEL KERNELRELEASE KERNELVERSION \
-+ 	ARCH CONFIG_SHELL HOSTCC HOSTCFLAGS CROSS_COMPILE AS LD CC \
-+ 	CPP AR NM STRIP OBJCOPY OBJDUMP MAKE AWK GENKSYMS PERL UTS_MACHINE \
-+-	HOSTCXX HOSTCXXFLAGS LDFLAGS_MODULE CHECK CHECKFLAGS
-++	HOSTCXX HOSTCXXFLAGS LDFLAGS_RELOCATABLE LDFLAGS_MODULE CHECK CHECKFLAGS
-+ 
-+ export CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS LDFLAGS
-+ export CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
-+@@ -610,7 +611,7 @@ quiet_cmd_busybox__ ?= LINK    $@
-+       cmd_busybox__ ?= $(srctree)/scripts/trylink \
-+       "$@" \
-+       "$(CC)" \
-+-      "$(CFLAGS) $(CFLAGS_busybox)" \
-++      "$(CFLAGS) $(CFLAGS_busybox) $(EXTRA_CFLAGS)" \
-+       "$(LDFLAGS) $(EXTRA_LDFLAGS)" \
-+       "$(core-y)" \
-+       "$(libs-y)" \
-+Index: busybox-1.23.2/scripts/Makefile.build
-+===================================================================
-+--- busybox-1.23.2.orig/scripts/Makefile.build
-++++ busybox-1.23.2/scripts/Makefile.build
-+@@ -174,7 +174,7 @@ cmd_modversions =							\
-+ 		| $(GENKSYMS) -a $(ARCH)				\
-+ 		> $(@D)/.tmp_$(@F:.o=.ver);				\
-+ 									\
-+-		$(LD) $(LDFLAGS) -r -o $@ $(@D)/.tmp_$(@F) 		\
-++               $(CC) $(ld_flags_partial) $(LDFLAGS_RELOCATABLE) -o $@ $(@D)/.tmp_$(@F)        \
-+ 			-T $(@D)/.tmp_$(@F:.o=.ver);			\
-+ 		rm -f $(@D)/.tmp_$(@F) $(@D)/.tmp_$(@F:.o=.ver);	\
-+ 	else								\
-+@@ -257,7 +257,7 @@ quiet_cmd_link_o_target = LD      $@
-+ # If the list of objects to link is empty, just create an empty built-in.o
-+ # -nostdlib is added to make "make LD=gcc ..." work (some people use that)
-+ cmd_link_o_target = $(if $(strip $(obj-y)),\
-+-		$(LD) -nostdlib $(ld_flags) -r -o $@ $(filter $(obj-y), $^),\
-++		$(CC) $(ld_flags_partial) $(LDFLAGS_RELOCATABLE) -o $@ $(filter $(obj-y), $^),\
-+ 		rm -f $@; $(AR) rcs $@)
-+ 
-+ $(builtin-target): $(obj-y) FORCE
-+@@ -292,10 +292,10 @@ $($(subst $(obj)/,,$(@:.o=-objs)))    \
-+ $($(subst $(obj)/,,$(@:.o=-y)))), $^)
-+ 
-+ quiet_cmd_link_multi-y = LD      $@
-+-cmd_link_multi-y = $(LD) $(ld_flags) -r -o $@ $(link_multi_deps)
-++cmd_link_multi-y = $(CC) $(ld_flags_partial) $(LDFLAGS_RELOCATABLE) -o $@ $(link_multi_deps)
-+ 
-+ quiet_cmd_link_multi-m = LD [M]  $@
-+-cmd_link_multi-m = $(LD) $(ld_flags) $(LDFLAGS_MODULE) -o $@ $(link_multi_deps)
-++cmd_link_multi-m = $(CC) $(ld_flags) $(LDFLAGS_MODULE) -o $@ $(link_multi_deps)
-+ 
-+ # We would rather have a list of rules like
-+ # 	foo.o: $(foo-objs)
-+Index: busybox-1.23.2/scripts/Makefile.lib
-+===================================================================
-+--- busybox-1.23.2.orig/scripts/Makefile.lib
-++++ busybox-1.23.2/scripts/Makefile.lib
-+@@ -121,7 +121,8 @@ cpp_flags      = -Wp,-MD,$(depfile) $(NO
-+ # yet ld_flags is fed to ld.
-+ #ld_flags       = $(LDFLAGS) $(EXTRA_LDFLAGS)
-+ # Remove the -Wl, prefix from linker options normally passed through gcc
-+-ld_flags       = $(filter-out -Wl$(comma)%,$(LDFLAGS) $(EXTRA_LDFLAGS))
-++ld_flags       = $(filter-out -Wl$(comma)%,$(LDFLAGS) $(EXTRA_LDFLAGS) $(CFLAGS) $(EXTRA_CFLAGS))
-++ld_flags_partial = $($(filter-out -shared%, $(filter-out -pie%,$(ld_flags))))
-+ 
-+ 
-+ # Finds the multi-part object the current object will be linked into
-+@@ -151,10 +152,8 @@ $(obj)/%:: $(src)/%_shipped
-+ # Linking
-+ # ---------------------------------------------------------------------------
-+ 
-+-# TODO: LDFLAGS usually is supposed to contain gcc's flags, not ld's.
-+-# but here we feed them to ld!
-+-quiet_cmd_ld = LD      $@
-+-cmd_ld = $(LD) $(LDFLAGS) $(EXTRA_LDFLAGS) $(LDFLAGS_$(@F)) \
-++quiet_cmd_ld = CC    $@
-++cmd_ld = $(CC) $(ld_flags) $(LDFLAGS_$(@F)) \
-+ 	       $(filter-out FORCE,$^) -o $@
-+ 
-+ # Objcopy
-diff --git a/meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch b/meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch
-new file mode 100644
-index 0000000..de286fb
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch
-@@ -0,0 +1,32 @@
-+From df2cc76cdebc4773361477f3db203790f6986e3b Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 22 Aug 2015 23:42:40 -0700
-+Subject: [PATCH 2/2] Passthrough -r to linker
-+
-+clang does not have -r switch and it does not pass it down to linker
-+either, LDFLAGS_RELOCATABLE is used when CC is used for LD, so this
-+should not cause side effects
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 9da02cb..10dd4a9 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -309,7 +309,7 @@ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ -Wbitwise $(C
-+ MODFLAGS	= -DMODULE
-+ CFLAGS_MODULE   = $(MODFLAGS)
-+ AFLAGS_MODULE   = $(MODFLAGS)
-+-LDFLAGS_RELOCATABLE = -r -nostdlib
-++LDFLAGS_RELOCATABLE = -Xlinker -r -nostdlib
-+ LDFLAGS_MODULE  = $(LDFLAGS_RELOCATABLE)
-+ CFLAGS_KERNEL	=
-+ AFLAGS_KERNEL	=
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.23.2.bb b/meta/recipes-core/busybox/busybox_1.23.2.bb
-index 5e02732..2559823 100644
---- a/meta/recipes-core/busybox/busybox_1.23.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.23.2.bb
-@@ -33,6 +33,8 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-Switch-to-POSIX-utmpx-API.patch \
-            file://0001-ifconfig-fix-double-free-fatal-error-in-INET_sprint.patch \
-            file://0001-chown-fix-help-text.patch \
-+           file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
-+           file://0002-Passthrough-r-to-linker.patch \
-            file://mount-via-label.cfg \
-            file://sha1sum.cfg \
-            file://sha256sum.cfg \
 -- 
-2.5.3
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
