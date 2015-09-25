@@ -1,37 +1,38 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ADE376E04
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 546C276E04
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 20:18:28 +0000 (UTC)
-Received: by wiclk2 with SMTP id lk2so36315403wic.0
+	Fri, 25 Sep 2015 20:37:22 +0000 (UTC)
+Received: by igxx6 with SMTP id x6so17342616igx.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 13:18:28 -0700 (PDT)
+	Fri, 25 Sep 2015 13:37:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=TwjPfHoxkg13I+5HYfQkaJX4dXm4MPQ0JhgMOdWWVWc=;
-	b=Ye8Cg7L+GOHZh45rGhICqbAX2AHSgX39BIb9+bErtcaK6ePdLNS3xzY1CaETi35EWk
-	WnKLETAbW8DOQTbHxlASWSxmZczarb7/5Pm1O9icZ3+HP5t8oQIIVs30AKwF3V4UenoL
-	CXWT8pa3qZtobJJu5qMs5SleTWSmeCh2UE03y6beAFBgtgMZAArcfKETFVLr71uh8Ib3
-	K2fjk3Rndftev0tyh4qUmGXGHkl6KFX0XLi4Yrsla7nCHgQ6tF5Myga0pagZn9/lE37o
-	yp31RwkVOP1zL2pavJw/W1Ia2xhA5Iu0Opecy/xK+e1x2EI0mt99XEv+LsFHpYRxQ2Pb
-	0XLA==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=ElPKb3x7F4ejS8jcKW2UOu+10lxxJhzR9saxhEWHBJE=;
+	b=keESQm59jXis8LZFlYRRomnAGG6xowQayaKD8o5qUmnQLsGFVme36XVbAhSC2NEA0r
+	x+ONiWJXrmG8CsLEgdQcC/hf3kzdw1BvMFX8xxUHSyQLz4P4vDTG/u2tV2AonimZ+vsQ
+	FRtt19YSSn1XDcPvvp+aUF/HwwITpkapV9kqH1XvGCiK5UjsMq+tGmJ2C17q9vDPIdxo
+	N+tDyxb4BLqF0AY5GDclPw1NMiXFWgHL93AdieJ4YKTDs9huSV9N8qi6OFiREM2gGb7l
+	YQjAyiCNz0TWOqGb3IWKR9MmtIlr79FJXE9njz8/Ba8724012re4AT9AaVF8MIiyGDE3
+	qpsg==
+X-Received: by 10.50.88.33 with SMTP id bd1mr4760884igb.68.1443213442573; Fri,
+	25 Sep 2015 13:37:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.194.47.161 with SMTP id e1mr9315023wjn.1.1443212308725; Fri,
-	25 Sep 2015 13:18:28 -0700 (PDT)
-Received: by 10.194.169.6 with HTTP; Fri, 25 Sep 2015 13:18:28 -0700 (PDT)
-In-Reply-To: <92941EA2-AE2B-4F00-8984-8A9982DFEDAB@gmail.com>
-References: <1443157157-33969-1-git-send-email-raj.khem@gmail.com>
-	<1443157157-33969-3-git-send-email-raj.khem@gmail.com>
-	<CAJ86T=Uvexcw7kOt6i8L4NwL8jJe9-VBStw2DOT9v9Hw-sd_Rg@mail.gmail.com>
-	<92941EA2-AE2B-4F00-8984-8A9982DFEDAB@gmail.com>
-Date: Fri, 25 Sep 2015 13:18:28 -0700
-Message-ID: <CAJ86T=Xc60w6U1WH5DQVog-rFQTj44O3=1LowTTQgRf+t-Gk9g@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pxz: Add recipe and use it for xz image type
+Sender: kergoth@gmail.com
+Received: by 10.79.100.71 with HTTP; Fri, 25 Sep 2015 13:37:03 -0700 (PDT)
+In-Reply-To: <232185c2493208aa41983f92c73024cb1ccdebb6.1443032533.git.chris_larson@mentor.com>
+References: <cover.1443032533.git.chris_larson@mentor.com>
+	<232185c2493208aa41983f92c73024cb1ccdebb6.1443032533.git.chris_larson@mentor.com>
+From: Christopher Larson <chris_larson@mentor.com>
+Date: Fri, 25 Sep 2015 13:37:03 -0700
+X-Google-Sender-Auth: KAZT5CIslDUYywvoNyXb5ATZ36A
+Message-ID: <CABcZAN=9g0jicSTp6XNbhU9TxcpHvg50mnJ2wvaN8XwFujSFFA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH 1/3] oe.scriptutils: enable color in a more flexible way
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,141 +45,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 20:18:29 -0000
+X-List-Received-Date: Fri, 25 Sep 2015 20:37:24 -0000
+Content-Type: multipart/alternative; boundary=089e013cbd1a94712b05209850d8
+
+--089e013cbd1a94712b05209850d8
 Content-Type: text/plain; charset=UTF-8
+
+On Wed, Sep 23, 2015 at 11:24 AM, Christopher Larson <kergoth@gmail.com>
+wrote:
+
+> From: Christopher Larson <chris_larson@mentor.com>
+>
+> Rather than recreating handlers and forcing them, iterate over the handlers
+> and enable color on ones we can handle. This makes it easier to handle
+> color
+> properly when we introduce the bb.msg default log filters.
+>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>
+
+Hmm, might be worth making this even more generic and moving it to bb.msg.
+If one was to run this against a logger which isn't configured to use
+BBLogFormatter, this would do nothing. It should probably raise an
+exception if that occurs, or automatically replace the stock formatter
+instance with a BBLogFormatter instance using the same format string.
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--089e013cbd1a94712b05209850d8
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 25, 2015 at 11:34 AM, Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Sep 25, 2015, at 11:24 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> On Thu, Sep 24, 2015 at 9:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>> pxz results in significant time saving when generating xz filetypes for
->>> images due to parallelization support
->>
->> It looks like the version of xz utils already packaged in oe-core
->> supports multiple threads via the -T option. See XZ_THREADS in
->> image_types.bbclass.
->
-> the option -T is there for long time but does it work ?
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Sep 23, 2015 at 11:24 AM, Christopher Larson <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4iu" clas=
+s=3D"a3s" style=3D"overflow:hidden">From: Christopher Larson &lt;<a href=3D=
+"mailto:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
+<br>
+Rather than recreating handlers and forcing them, iterate over the handlers=
+<br>
+and enable color on ones we can handle. This makes it easier to handle colo=
+r<br>
+properly when we introduce the bb.msg default log filters.<br>
+<br>
+Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
+.com">chris_larson@mentor.com</a>&gt;</div></blockquote></div><br>Hmm, migh=
+t be worth making this even more generic and moving it to bb.msg. If one wa=
+s to run this against a logger which isn&#39;t configured to use BBLogForma=
+tter, this would do nothing. It should probably raise an exception if that =
+occurs, or automatically replace the stock formatter instance with a BBLogF=
+ormatter instance using the same format string.<br>-- <br><div class=3D"gma=
+il_signature"><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot c=
+om<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>=
+Senior Software Engineer, Mentor Graphics</div></div>
+</div></div>
 
-I don't know. The -T option isn't supported by the version of xz
-packaged in Ubuntu 14.04, so maybe it has issues (oe-core commit
-cfd201ec suggests that xz -T 0 can use a lot of memory).
-
-pxz just looks like a simple wrapper on top of liblzma though, so I'd
-be surprised if it worked fundamentally better than xz.
-
-How much memory did your pxz test use? From the pxz source it looks
-like the -M option to limit memory usage is accepted but ignored...
-
-
->>> a simple test on ubuntu build host with 16 CPUs
->>>
->>> time xz -M 50% -f -k -c -e -9 --check=3Dcrc32 CX041AEI_PROD_default_201=
-50610000105sdy-dbg.rootfs.cpio >CX041AEI_PROD_default_20150610000105sdy-dbg=
-.rootfs.cpio.xz
->>>
->>> real
->>> 23m42.299s
->>> user 23m36.947s
->>> sys 0m5.101s
->>>
->>> time pxz -M 50% -f -k -c -e -9 --check=3Dcrc32 CX041AEI_PROD_default_20=
-150610000105sdy-dbg.rootfs.cpio >CX041AEI_PROD_default_20150610000105sdy-db=
-g.rootfs.cpio.xz
->>>
->>> real2m59.666s
->>> user 24m38.529s
->>> sys 0m10.056s
->>>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com
->>> ---
->>> meta/classes/image_types.bbclass     |  4 ++--
->>> meta/recipes-extended/pxz/pxz_git.bb | 31 +++++++++++++++++++++++++++++=
-++
->>> 2 files changed, 33 insertions(+), 2 deletions(-)
->>> create mode 100644 meta/recipes-extended/pxz/pxz_git.bb
->>>
->>> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_type=
-s.bbclass
->>> index 306403e..d766cd2 100644
->>> --- a/meta/classes/image_types.bbclass
->>> +++ b/meta/classes/image_types.bbclass
->>> @@ -233,13 +233,13 @@ COMPRESSIONTYPES =3D "gz bz2 lzma xz lz4 sum"
->>> COMPRESS_CMD_lzma =3D "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
->>> COMPRESS_CMD_gz =3D "gzip -f -9 -c ${IMAGE_NAME}.rootfs.${type} > ${IMA=
-GE_NAME}.rootfs.${type}.gz"
->>> COMPRESS_CMD_bz2 =3D "pbzip2 -f -k ${IMAGE_NAME}.rootfs.${type}"
->>> -COMPRESS_CMD_xz =3D "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS}=
- --check=3D${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAM=
-E}.rootfs.${type}.xz"
->>> +COMPRESS_CMD_xz =3D "pxz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS=
-} --check=3D${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NA=
-ME}.rootfs.${type}.xz"
->>> COMPRESS_CMD_lz4 =3D "lz4c -9 -c ${IMAGE_NAME}.rootfs.${type} > ${IMAGE=
-_NAME}.rootfs.${type}.lz4"
->>> COMPRESS_CMD_sum =3D "sumtool -i ${IMAGE_NAME}.rootfs.${type} -o ${IMAG=
-E_NAME}.rootfs.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
->>> COMPRESS_DEPENDS_lzma =3D "xz-native"
->>> COMPRESS_DEPENDS_gz =3D ""
->>> COMPRESS_DEPENDS_bz2 =3D "pbzip2-native"
->>> -COMPRESS_DEPENDS_xz =3D "xz-native"
->>> +COMPRESS_DEPENDS_xz =3D "pxz-native"
->>> COMPRESS_DEPENDS_lz4 =3D "lz4-native"
->>> COMPRESS_DEPENDS_sum =3D "mtd-utils-native"
->>>
->>> diff --git a/meta/recipes-extended/pxz/pxz_git.bb b/meta/recipes-extend=
-ed/pxz/pxz_git.bb
->>> new file mode 100644
->>> index 0000000..fe21be6
->>> --- /dev/null
->>> +++ b/meta/recipes-extended/pxz/pxz_git.bb
->>> @@ -0,0 +1,31 @@
->>> +# Copyright (C) 2015 Khem Raj <raj.khem@gmail.com>
->>> +# Released under the MIT license (see COPYING.MIT for the terms)
->>> +
->>> +SUMMARY =3D "Parallel LZMA compressor compatible with XZ"
->>> +DESCRIPTION =3D "Parallel XZ is a compression utility that takes advan=
-tage of running LZMA compression of different parts of an input file on mul=
-tiple cores and processors simultaneously. Its primary goal is to utilize a=
-ll resources to speed up compression time with minimal possible influence o=
-n compression ratio"
->>> +HOMEPAGE =3D "https://jnovy.fedorapeople.org/pxz/"
->>> +LICENSE =3D "GPL-2.0+"
->>> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4=
-a4263"
->>> +SECTION =3D "console/utils"
->>> +DEPENDS =3D "xz"
->>> +
->>> +SRCREV =3D "ae808463c2950edfdedb8fb49f95006db0a18667"
->>> +PV =3D "4.999.9beta+git${SRCPV}"
->>> +SRC_URI =3D "git://github.com/jnovy/pxz.git"
->>> +
->>> +S =3D "${WORKDIR}/git"
->>> +
->>> +CFLAGS_append =3D " -fopenmp -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOU=
-RCE"
->>> +LDFLAGS_append =3D " -llzma"
->>> +
->>> +do_compile ()  {
->>> +       oe_runmake
->>> +}
->>> +
->>> +do_install ()  {
->>> +       oe_runmake DESTDIR=3D${D} INSTALL=3D"install -p"
->>> +}
->>> +
->>> +deltask do_configure
->>> +
->>> +BBCLASSEXTEND =3D "native"
->>> --
->>> 2.5.3
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
+--089e013cbd1a94712b05209850d8--
