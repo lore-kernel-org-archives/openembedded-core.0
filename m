@@ -1,30 +1,28 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E050976FF2
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 151EA76FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 10:21:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8PALgun029786
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 25 Sep 2015 03:21:42 -0700 (PDT)
-Received: from [128.224.162.176] (128.224.162.176) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Fri, 25 Sep 2015 03:21:42 -0700
-Message-ID: <56052034.4000702@windriver.com>
-Date: Fri, 25 Sep 2015 18:21:40 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Fri, 25 Sep 2015 10:34:47 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 25 Sep 2015 03:34:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,586,1437462000"; d="scan'208";a="797108513"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 25 Sep 2015 03:34:46 -0700
+Message-ID: <56052350.9070405@linux.intel.com>
+Date: Fri, 25 Sep 2015 13:34:56 +0300
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.8.0
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1443092679-216053-1-git-send-email-wenzong.fan@windriver.com>
-	<CAHiDW_FZtt9v_tGJT-m_LcEqBS-YThPTE=zoFpr=aQVt7aGPtQ@mail.gmail.com>
-	<CAJTo0LaJeeLRqmADYQ2DNGWs9VxwJMCRViwSvEX84FEbqVVTYA@mail.gmail.com>
-In-Reply-To: <CAJTo0LaJeeLRqmADYQ2DNGWs9VxwJMCRViwSvEX84FEbqVVTYA@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+References: <1443116526-16989-1-git-send-email-alexander.kanavin@linux.intel.com>
+	<CAP71Wjz0zd_gTE8J82P0bvxvqSb_iH2CkK5jy=sGUGjKk_dGSQ@mail.gmail.com>
+In-Reply-To: <CAP71Wjz0zd_gTE8J82P0bvxvqSb_iH2CkK5jy=sGUGjKk_dGSQ@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gnutls: cleanup buildpaths from gnutls.pc
+Subject: Re: [PATCH] gstreamer1.0-plugins-bad: change glimagesink rank to marginal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,51 +35,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 10:21:45 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 25 Sep 2015 10:34:48 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/24/2015 07:55 PM, Burton, Ross wrote:
->
-> On 24 September 2015 at 12:49, Jussi Kukkonen <jussi.kukkonen@intel.com
-> <mailto:jussi.kukkonen@intel.com>> wrote:
->
->     I'm not seeing this problem and gnutls.pc.in <http://gnutls.pc.in>
->     file looks ok to me. Any idea how I could reproduce this?
->
->
-> Also, just sedding them out of the resulting file seems suboptimal
-> compared to finding out where the path is coming from and fixing that,
-> so it would be good to see an analysis as to where the path comes from.
-> Last timeI fixed a number of those it exposed real problems or bad
-> assumptions in the makefiles.
->
-> Ross
+On 09/24/2015 11:03 PM, Nicolas Dechesne wrote:
 
-For this case, or such cases that use pkg-config to compute paths for 
-LIBS (such as zlib), they have different behaviors:
+> fwiw... on my platforms (QCOM DragonBoard) I rely on glimagesink, and
+> we have good OpenGL support.. but I understand that this isn't the
+> norm for ARM, and more an exception.. I can manage that in my BSP
+> layer, if that ever gets merged. Note we might want to wait for the
+> upstream discussion to settle before merging.
 
-* multilib enabled build:
+If you explicitly specify glimagesink in your pipelines, then this patch 
+will not affect you. But if you rely on gstreamer's autoplugging, then 
+it's entirely coincidental that you're getting the sink you want; 
+gstreamer makes no promises about what you end up with. It simply sorts 
+sinks by their hardcoded rank, and picks the first one that initializes 
+without error.
 
-$ bitbake gnutls -cdevshell
-$ pkg-config --libs zlib
+The upstream discussion has stalled two months ago. Meanwhile we have a 
+real problem in qemu images: video playback does not work. If you can 
+propose a better fix, you're very much welcome.
 
--L/buildarea/raid5/wfan/yocto/builds/poky-build/tmp/sysroots/qemux86-64/usr/lib64 
--lz
 
-* build w/o multilib
+Regards,
+Alex
 
-$ bitbake gnutls -cdevshell
-$ pkg-config --libs zlib
-
--lz
-
-This is where the buildpaths from for target pkgconfig files. Ideally it 
-should be fixed from pkg-config side, but just fix it with sed is 
-acceptable I think if the former is impossible.
-
-I'll investigate more about that. Do you know where the difference from?
-
-Thanks
-Wenzong
 
