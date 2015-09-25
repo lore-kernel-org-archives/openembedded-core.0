@@ -1,38 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id BF4CD76FB8
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E050976FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 09:33:21 +0000 (UTC)
-Received: by qgez77 with SMTP id z77so65011888qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 02:33:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=YYCda0wWcdQKo+bHdhEjEr8hQMNTk/bZ97W8FshhFUY=;
-	b=BJmMk4U8GNQZErP5d2uCoODzx0EJcIUkW29pIb3E6/dzK7W8ryTCaFYwb1qZ0tBFdl
-	3HdvvmFG2kyL9DBIJZQA+gcMXQzgCxn9OCMvJNjkuVp7mC4p+JsJYNQt9RoT7RkPJtl5
-	Z5A5JkBk1N2wPST1Zz0KyCxNDRQj2DTzCffNDm5JwbCJe9jK1aAw0b92PUjtl0bS4aD3
-	uPoRCVbn8K/czZHmUdcHDbok56s7PH6kVyzDxbMIcn6HbKEFkv/4FsMcoZZLohOXvGYH
-	xfmIiCIt+OqEp4rrQOXU2wGHs0C8U0qguzIali0cqRjicUPB3kjykZ+DC9/w6w3obEb+
-	sEaw==
-X-Gm-Message-State: ALoCoQlB6/yYU7yd6NCS0kPy8mQC+GFD04kOfebqTnNd5mvgnmjSHyWeLFYhnLybchS7veSwoMmO
-X-Received: by 10.140.32.119 with SMTP id g110mr4770044qgg.15.1443173601631;
-	Fri, 25 Sep 2015 02:33:21 -0700 (PDT)
+	Fri, 25 Sep 2015 10:21:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8PALgun029786
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 25 Sep 2015 03:21:42 -0700 (PDT)
+Received: from [128.224.162.176] (128.224.162.176) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Fri, 25 Sep 2015 03:21:42 -0700
+Message-ID: <56052034.4000702@windriver.com>
+Date: Fri, 25 Sep 2015 18:21:40 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Fri, 25 Sep 2015 02:33:02 -0700 (PDT)
-In-Reply-To: <45BDD3CC-AD3E-4684-9FFD-717933EBC9CF@gmail.com>
-References: <1443157157-33969-1-git-send-email-raj.khem@gmail.com>
-	<45BDD3CC-AD3E-4684-9FFD-717933EBC9CF@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 25 Sep 2015 10:33:02 +0100
-Message-ID: <CAJTo0Lb16vGyuBfrSjgfKHF4BY9ygiWMj6xtd2YvYFMXmLVOGA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1443092679-216053-1-git-send-email-wenzong.fan@windriver.com>
+	<CAHiDW_FZtt9v_tGJT-m_LcEqBS-YThPTE=zoFpr=aQVt7aGPtQ@mail.gmail.com>
+	<CAJTo0LaJeeLRqmADYQ2DNGWs9VxwJMCRViwSvEX84FEbqVVTYA@mail.gmail.com>
+In-Reply-To: <CAJTo0LaJeeLRqmADYQ2DNGWs9VxwJMCRViwSvEX84FEbqVVTYA@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] busybox: Use CC instead of bare LD to be the Linker
+Subject: Re: [PATCH] gnutls: cleanup buildpaths from gnutls.pc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,35 +37,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 09:33:23 -0000
-Content-Type: multipart/alternative; boundary=001a1139bc18e0051005208f09bb
+X-List-Received-Date: Fri, 25 Sep 2015 10:21:45 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a1139bc18e0051005208f09bb
-Content-Type: text/plain; charset=UTF-8
-
-On 25 September 2015 at 06:06, Khem Raj <raj.khem@gmail.com> wrote:
-
-> this is a resend of the very same patch which was send 2-3 weeks ago
+On 09/24/2015 07:55 PM, Burton, Ross wrote:
 >
+> On 24 September 2015 at 12:49, Jussi Kukkonen <jussi.kukkonen@intel.com
+> <mailto:jussi.kukkonen@intel.com>> wrote:
+>
+>     I'm not seeing this problem and gnutls.pc.in <http://gnutls.pc.in>
+>     file looks ok to me. Any idea how I could reproduce this?
+>
+>
+> Also, just sedding them out of the resulting file seems suboptimal
+> compared to finding out where the path is coming from and fixing that,
+> so it would be good to see an analysis as to where the path comes from.
+> Last timeI fixed a number of those it exposed real problems or bad
+> assumptions in the makefiles.
+>
+> Ross
 
-Sorry that must have slipped through the cracks.  Can you rebase to current
-master as it doesn't apply anymore and re-send?
+For this case, or such cases that use pkg-config to compute paths for 
+LIBS (such as zlib), they have different behaviors:
 
-Ross
+* multilib enabled build:
 
---001a1139bc18e0051005208f09bb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+$ bitbake gnutls -cdevshell
+$ pkg-config --libs zlib
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 September 2015 at 06:06, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":4mr" class=3D"a3s" s=
-tyle=3D"overflow:hidden">this is a resend of the very same patch which was =
-send 2-3 weeks ago</div></blockquote><div><br></div><div>Sorry that must ha=
-ve slipped through the cracks.=C2=A0 Can you rebase to current master as it=
- doesn&#39;t apply anymore and re-send?</div><div><br></div><div>Ross=C2=A0=
-</div></div></div></div>
+-L/buildarea/raid5/wfan/yocto/builds/poky-build/tmp/sysroots/qemux86-64/usr/lib64 
+-lz
 
---001a1139bc18e0051005208f09bb--
+* build w/o multilib
+
+$ bitbake gnutls -cdevshell
+$ pkg-config --libs zlib
+
+-lz
+
+This is where the buildpaths from for target pkgconfig files. Ideally it 
+should be fixed from pkg-config side, but just fix it with sed is 
+acceptable I think if the former is impossible.
+
+I'll investigate more about that. Do you know where the difference from?
+
+Thanks
+Wenzong
+
