@@ -1,34 +1,36 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 8692D73BB8
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E73373BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 04:59:23 +0000 (UTC)
-Received: by qgez77 with SMTP id z77so62008300qge.1
+	Fri, 25 Sep 2015 04:59:24 +0000 (UTC)
+Received: by qgx61 with SMTP id 61so61729247qgx.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Sep 2015 21:59:23 -0700 (PDT)
+	Thu, 24 Sep 2015 21:59:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=bPcMUNdh0iJFJKsd+yaFye1xHt8rJA75e1hyxdglf8Q=;
-	b=yZ3BlmokFLVERcY6Uyp2AR4gehEv0uMyHgKJfFXxalz7RBi86d0gZN9M/UOZAkDWNd
-	/uoqxSoIFkeW8mSdqe1Xo2DiG2oGF+wbh4geVtbMPGNVcmQcEu34GAae0Dt59zclQ5IB
-	wQGNHKFGOmrH9nuh3hewFo9smjqkWSgJcgumimWXtY3A67d82lHxf8av07JANYYII0Sq
-	FRz8laUyWkkoZV/UggjR/CN7vEkrgpFFSmBrdENjDUz/H4RdNi089HmR1MZDUKAbe2M2
-	HTRsLH2k31vtSC3LE87KRr6uTAJy8eD/agrc23Eq1o5auqyCSTzdL/Psi5p99eL037xP
-	7kjQ==
-X-Received: by 10.140.239.133 with SMTP id k127mr3989477qhc.60.1443157163826; 
-	Thu, 24 Sep 2015 21:59:23 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=B1rErJV6Qf35lf3Q7Vj858GHIiV1OYvolJ7uv7Gwy8g=;
+	b=BkqKa7cFWGvLj4mk/eEtuCFjfxIfO8gCOBOESPwU/jymRIOcD/Nprhx+tk5IkLWkVJ
+	KOBLyqKE93NtUYFHeHmUSmIScZLly6FEm2rgZSpCvzsy1UtjnVRF+CTCI1oCPJuat4LW
+	bz3Tn3fqPJ/Kyas+kKBylCwcQ8Uk39GzEFBGprKIpk1YZyY9JG0Inrg0fqZXpix7SSO+
+	Fr2MqhL5XwNSy0+t0YbmiBiUOFQOX60qRizg2MkxUopbb2UKZNpadl2gRUst8MgAqeWW
+	iht6M1O9eW3tXJaQrTZVACm2IbF6C7jSEdotAC2b33K/9GfHc7eOgOcH1/oNURb8BMzN
+	6Egg==
+X-Received: by 10.140.237.14 with SMTP id i14mr4114201qhc.28.1443157164515;
+	Thu, 24 Sep 2015 21:59:24 -0700 (PDT)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	c188sm768477qka.37.2015.09.24.21.59.22
+	c188sm768477qka.37.2015.09.24.21.59.23
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 24 Sep 2015 21:59:22 -0700 (PDT)
+	Thu, 24 Sep 2015 21:59:23 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Sep 2015 04:59:12 +0000
-Message-Id: <1443157157-33969-1-git-send-email-raj.khem@gmail.com>
+Date: Fri, 25 Sep 2015 04:59:13 +0000
+Message-Id: <1443157157-33969-2-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.5.3
-Subject: [PATCH V2] busybox: Use CC instead of bare LD to be the Linker
+In-Reply-To: <1443157157-33969-1-git-send-email-raj.khem@gmail.com>
+References: <1443157157-33969-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH 1/4] powertop: Include right headers for timval struct
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,209 +43,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 04:59:24 -0000
-
-This patch was on mailing list, another patch to make sure -r is not
-passed directly but via -Wl switch is added.
-
-This was exposed when using clang and gold linker, clang does not have
--r switch to do relocatable objects and problem happens specific to OE
-becuase we use LD = CC
-
-now what happens is that busybox assumes that linker will be called
-directly, and hence sprinkles linkers options in its kbuild system which
-aggregate into LDFLAGS, some of these options are happily ignored by gcc
-as well but it passes -r options rightly to linker so it all works,
-however when using clang, this falls apart since -r is not known option
-for clang so it drops this option and all obects which should be
-partially linked becomes ET_EXEC and when they are added to final link
-then gold starts to get confused
-
-/mnt/home/kraj/work/angstrom/build/tmp-angstrom-glibc/sysroots/x86_64-linux/usr/bin/arm-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-ld:
-error: applets/built-in.o: unsupported ELF file type 2
-clang-3.7: error: linker command failed with exit code 1 (use -v to see invocation)
+X-List-Received-Date: Fri, 25 Sep 2015 04:59:25 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...-linking-instead-of-LD-and-use-CFLAGS-and.patch | 114 +++++++++++++++++++++
- .../busybox/0002-Passthrough-r-to-linker.patch     |  32 ++++++
- meta/recipes-core/busybox/busybox_1.23.2.bb        |   2 +
- 3 files changed, 148 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch
- create mode 100644 meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch
+ ...0001-include-rquired-headers-for-typedefs.patch | 45 ++++++++++++++++++++++
+ meta/recipes-kernel/powertop/powertop_2.7.bb       |  4 +-
+ 2 files changed, 48 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/powertop/powertop/0001-include-rquired-headers-for-typedefs.patch
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch b/meta/recipes-core/busybox/busybox/0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch
+diff --git a/meta/recipes-kernel/powertop/powertop/0001-include-rquired-headers-for-typedefs.patch b/meta/recipes-kernel/powertop/powertop/0001-include-rquired-headers-for-typedefs.patch
 new file mode 100644
-index 0000000..2bf2b91
+index 0000000..5df9961
 --- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch
-@@ -0,0 +1,114 @@
-+From a9333eb6a7b8dbda735947cd5bc981ff9352a2c9 Mon Sep 17 00:00:00 2001
-+From: Nathan Phillip Brink <ohnobinki@ohnopublishing.net>
-+Date: Thu, 10 Mar 2011 00:27:08 -0500
-+Subject: [PATCH 1/2] Use $(CC) when linking instead of $(LD) and use $(CFLAGS)
-+ and $(EXTRA_CFLAGS) when linking.
-+
-+This fixes the issue where LDFLAGS escaped with -Wl are ignored during
-+compilation. It also simplifies using CFLAGS or EXTRA_CFLAGS (such as
-+-m32 on x86_64 or -flto) which apply to both compilation and linking
-+situations.
-+
-+Signed-off-by: Nathan Phillip Brink <ohnobinki@ohnopublishing.net>
-+---
-+Upstream-Status: Pending
-+
-+ Makefile               |  7 ++++---
-+ scripts/Makefile.build |  8 ++++----
-+ scripts/Makefile.lib   | 13 +++----------
-+ 3 files changed, 11 insertions(+), 17 deletions(-)
-+
-+Index: busybox-1.23.2/Makefile
-+===================================================================
-+--- busybox-1.23.2.orig/Makefile
-++++ busybox-1.23.2/Makefile
-+@@ -309,7 +309,8 @@ CHECKFLAGS     := -D__linux__ -Dlinux -D
-+ MODFLAGS	= -DMODULE
-+ CFLAGS_MODULE   = $(MODFLAGS)
-+ AFLAGS_MODULE   = $(MODFLAGS)
-+-LDFLAGS_MODULE  = -r
-++LDFLAGS_RELOCATABLE = -r -nostdlib
-++LDFLAGS_MODULE  = $(LDFLAGS_RELOCATABLE)
-+ CFLAGS_KERNEL	=
-+ AFLAGS_KERNEL	=
-+ 
-+@@ -331,7 +332,7 @@ KERNELVERSION = $(VERSION).$(PATCHLEVEL)
-+ export	VERSION PATCHLEVEL SUBLEVEL KERNELRELEASE KERNELVERSION \
-+ 	ARCH CONFIG_SHELL HOSTCC HOSTCFLAGS CROSS_COMPILE AS LD CC \
-+ 	CPP AR NM STRIP OBJCOPY OBJDUMP MAKE AWK GENKSYMS PERL UTS_MACHINE \
-+-	HOSTCXX HOSTCXXFLAGS LDFLAGS_MODULE CHECK CHECKFLAGS
-++	HOSTCXX HOSTCXXFLAGS LDFLAGS_RELOCATABLE LDFLAGS_MODULE CHECK CHECKFLAGS
-+ 
-+ export CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS LDFLAGS
-+ export CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
-+@@ -610,7 +611,7 @@ quiet_cmd_busybox__ ?= LINK    $@
-+       cmd_busybox__ ?= $(srctree)/scripts/trylink \
-+       "$@" \
-+       "$(CC)" \
-+-      "$(CFLAGS) $(CFLAGS_busybox)" \
-++      "$(CFLAGS) $(CFLAGS_busybox) $(EXTRA_CFLAGS)" \
-+       "$(LDFLAGS) $(EXTRA_LDFLAGS)" \
-+       "$(core-y)" \
-+       "$(libs-y)" \
-+Index: busybox-1.23.2/scripts/Makefile.build
-+===================================================================
-+--- busybox-1.23.2.orig/scripts/Makefile.build
-++++ busybox-1.23.2/scripts/Makefile.build
-+@@ -174,7 +174,7 @@ cmd_modversions =							\
-+ 		| $(GENKSYMS) -a $(ARCH)				\
-+ 		> $(@D)/.tmp_$(@F:.o=.ver);				\
-+ 									\
-+-		$(LD) $(LDFLAGS) -r -o $@ $(@D)/.tmp_$(@F) 		\
-++               $(CC) $(ld_flags_partial) $(LDFLAGS_RELOCATABLE) -o $@ $(@D)/.tmp_$(@F)        \
-+ 			-T $(@D)/.tmp_$(@F:.o=.ver);			\
-+ 		rm -f $(@D)/.tmp_$(@F) $(@D)/.tmp_$(@F:.o=.ver);	\
-+ 	else								\
-+@@ -257,7 +257,7 @@ quiet_cmd_link_o_target = LD      $@
-+ # If the list of objects to link is empty, just create an empty built-in.o
-+ # -nostdlib is added to make "make LD=gcc ..." work (some people use that)
-+ cmd_link_o_target = $(if $(strip $(obj-y)),\
-+-		$(LD) -nostdlib $(ld_flags) -r -o $@ $(filter $(obj-y), $^),\
-++		$(CC) $(ld_flags_partial) $(LDFLAGS_RELOCATABLE) -o $@ $(filter $(obj-y), $^),\
-+ 		rm -f $@; $(AR) rcs $@)
-+ 
-+ $(builtin-target): $(obj-y) FORCE
-+@@ -292,10 +292,10 @@ $($(subst $(obj)/,,$(@:.o=-objs)))    \
-+ $($(subst $(obj)/,,$(@:.o=-y)))), $^)
-+ 
-+ quiet_cmd_link_multi-y = LD      $@
-+-cmd_link_multi-y = $(LD) $(ld_flags) -r -o $@ $(link_multi_deps)
-++cmd_link_multi-y = $(CC) $(ld_flags_partial) $(LDFLAGS_RELOCATABLE) -o $@ $(link_multi_deps)
-+ 
-+ quiet_cmd_link_multi-m = LD [M]  $@
-+-cmd_link_multi-m = $(LD) $(ld_flags) $(LDFLAGS_MODULE) -o $@ $(link_multi_deps)
-++cmd_link_multi-m = $(CC) $(ld_flags) $(LDFLAGS_MODULE) -o $@ $(link_multi_deps)
-+ 
-+ # We would rather have a list of rules like
-+ # 	foo.o: $(foo-objs)
-+Index: busybox-1.23.2/scripts/Makefile.lib
-+===================================================================
-+--- busybox-1.23.2.orig/scripts/Makefile.lib
-++++ busybox-1.23.2/scripts/Makefile.lib
-+@@ -121,7 +121,8 @@ cpp_flags      = -Wp,-MD,$(depfile) $(NO
-+ # yet ld_flags is fed to ld.
-+ #ld_flags       = $(LDFLAGS) $(EXTRA_LDFLAGS)
-+ # Remove the -Wl, prefix from linker options normally passed through gcc
-+-ld_flags       = $(filter-out -Wl$(comma)%,$(LDFLAGS) $(EXTRA_LDFLAGS))
-++ld_flags       = $(filter-out -Wl$(comma)%,$(LDFLAGS) $(EXTRA_LDFLAGS) $(CFLAGS) $(EXTRA_CFLAGS))
-++ld_flags_partial = $($(filter-out -shared%, $(filter-out -pie%,$(ld_flags))))
-+ 
-+ 
-+ # Finds the multi-part object the current object will be linked into
-+@@ -151,10 +152,8 @@ $(obj)/%:: $(src)/%_shipped
-+ # Linking
-+ # ---------------------------------------------------------------------------
-+ 
-+-# TODO: LDFLAGS usually is supposed to contain gcc's flags, not ld's.
-+-# but here we feed them to ld!
-+-quiet_cmd_ld = LD      $@
-+-cmd_ld = $(LD) $(LDFLAGS) $(EXTRA_LDFLAGS) $(LDFLAGS_$(@F)) \
-++quiet_cmd_ld = CC    $@
-++cmd_ld = $(CC) $(ld_flags) $(LDFLAGS_$(@F)) \
-+ 	       $(filter-out FORCE,$^) -o $@
-+ 
-+ # Objcopy
-diff --git a/meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch b/meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch
-new file mode 100644
-index 0000000..de286fb
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0002-Passthrough-r-to-linker.patch
-@@ -0,0 +1,32 @@
-+From df2cc76cdebc4773361477f3db203790f6986e3b Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-kernel/powertop/powertop/0001-include-rquired-headers-for-typedefs.patch
+@@ -0,0 +1,45 @@
++From 0856d8145d187a7e5a49625247abe43a13f95acc Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 22 Aug 2015 23:42:40 -0700
-+Subject: [PATCH 2/2] Passthrough -r to linker
++Date: Tue, 15 Sep 2015 19:36:28 +0000
++Subject: [PATCH] include rquired headers for typedefs
 +
-+clang does not have -r switch and it does not pass it down to linker
-+either, LDFLAGS_RELOCATABLE is used when CC is used for LD, so this
-+should not cause side effects
++timeval struct needs to include sys/time.h and sprintf() usage requires
++to include stdio.h headers from system
++
++Fixes
++src/perf/perf_bundle.cpp:141:2: error: use of undeclared identifier 'sprintf'; did you mean 'vswprintf'?
++src/devices/devfreq.h:35:18: error: field has incomplete type 'struct timeval'
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+Upstream-Status: Pending
++ src/devices/devfreq.h    | 1 +
++ src/perf/perf_bundle.cpp | 1 +
++ 2 files changed, 2 insertions(+)
 +
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 9da02cb..10dd4a9 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -309,7 +309,7 @@ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ -Wbitwise $(C
-+ MODFLAGS	= -DMODULE
-+ CFLAGS_MODULE   = $(MODFLAGS)
-+ AFLAGS_MODULE   = $(MODFLAGS)
-+-LDFLAGS_RELOCATABLE = -r -nostdlib
-++LDFLAGS_RELOCATABLE = -Xlinker -r -nostdlib
-+ LDFLAGS_MODULE  = $(LDFLAGS_RELOCATABLE)
-+ CFLAGS_KERNEL	=
-+ AFLAGS_KERNEL	=
++diff --git a/src/devices/devfreq.h b/src/devices/devfreq.h
++index 16a60fb..4bede7c 100644
++--- a/src/devices/devfreq.h
+++++ b/src/devices/devfreq.h
++@@ -25,6 +25,7 @@
++ #ifndef _INCLUDE_GUARD_DEVFREQ_H
++ #define _INCLUDE_GUARD_DEVFREQ_H
++ 
+++#include <sys/time.h>
++ #include "device.h"
++ #include "../parameters/parameters.h"
++ 
++diff --git a/src/perf/perf_bundle.cpp b/src/perf/perf_bundle.cpp
++index cf1ae11..232f894 100644
++--- a/src/perf/perf_bundle.cpp
+++++ b/src/perf/perf_bundle.cpp
++@@ -27,6 +27,7 @@
++ #include <algorithm>
++ #include <string.h>
++ #include <stdint.h>
+++#include <stdio.h>
++ #include <sys/types.h>
++ #include <sys/stat.h>
++ #include <fcntl.h>
 +-- 
-+2.1.4
++2.5.2
 +
-diff --git a/meta/recipes-core/busybox/busybox_1.23.2.bb b/meta/recipes-core/busybox/busybox_1.23.2.bb
-index 5e02732..2559823 100644
---- a/meta/recipes-core/busybox/busybox_1.23.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.23.2.bb
-@@ -33,6 +33,8 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-Switch-to-POSIX-utmpx-API.patch \
-            file://0001-ifconfig-fix-double-free-fatal-error-in-INET_sprint.patch \
-            file://0001-chown-fix-help-text.patch \
-+           file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
-+           file://0002-Passthrough-r-to-linker.patch \
-            file://mount-via-label.cfg \
-            file://sha1sum.cfg \
-            file://sha256sum.cfg \
+diff --git a/meta/recipes-kernel/powertop/powertop_2.7.bb b/meta/recipes-kernel/powertop/powertop_2.7.bb
+index 5ba07e9..4158dd2 100644
+--- a/meta/recipes-kernel/powertop/powertop_2.7.bb
++++ b/meta/recipes-kernel/powertop/powertop_2.7.bb
+@@ -6,7 +6,9 @@ DEPENDS = "ncurses libnl pciutils"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
+ 
+-SRC_URI = "http://01.org/sites/default/files/downloads/powertop/powertop-${PV}.tar.gz"
++SRC_URI = "http://01.org/sites/default/files/downloads/powertop/powertop-${PV}.tar.gz \
++           file://0001-include-rquired-headers-for-typedefs.patch \
++"
+ 
+ SRC_URI[md5sum] = "e0d686e47daaf7e9d89031f7763432ef"
+ SRC_URI[sha256sum] = "8d4b1490e2baad4467c0ded3c423db4472dcbf7b2dd8f8f2a928f54047c678ca"
 -- 
-2.5.1
+2.5.3
 
 
