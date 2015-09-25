@@ -1,32 +1,37 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 3623476DEB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A4D577035
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 13:32:02 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 891BEF811E0; Fri, 25 Sep 2015 07:32:02 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 3B317F811D8;
-	Fri, 25 Sep 2015 07:32:01 -0600 (MDT)
-To: Khem Raj <raj.khem@gmail.com>
-References: <1443157157-33969-1-git-send-email-raj.khem@gmail.com>
-	<1443157157-33969-3-git-send-email-raj.khem@gmail.com>
-	<56052E6D.30305@mlbassoc.com>
-	<3BE8BEDD-0107-4FCF-B9E4-75EFEF37504E@gmail.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <56054CD5.7020201@mlbassoc.com>
-Date: Fri, 25 Sep 2015 07:32:05 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
-MIME-Version: 1.0
-In-Reply-To: <3BE8BEDD-0107-4FCF-B9E4-75EFEF37504E@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pxz: Add recipe and use it for xz image type
+	Fri, 25 Sep 2015 13:42:53 +0000 (UTC)
+Received: by wicgb1 with SMTP id gb1so21170542wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Sep 2015 06:42:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=+SLklCQfw+/4WhcBkdtUeVu+I7uwpAN9rhZQpczAGjI=;
+	b=gy9qHp5AWUZIeaaF9LVynnM4q7w9Xa4p1D63cjibbdU9J0lYanDo2ayQK/DKNWL9gF
+	iJQywv5dWSfu5ecfdHNRjY6aLaabbsndAXmjmg0GQgWb8wKfE1xc9C6UgLOFjejJwEal
+	txDNA4UDPc48g/c6h30hRKgmCjlhvoER6y5K5Ob7Ye7qXlpMoB/1h/IuHpFVZd8xKWTu
+	3gGUs5QUiGTU2H+IYgJQUBQChqnfQyELfevU+tTkvHvE92OkrkRoe0TEsN8JFBfxqt6M
+	gf7vs7wlugKs+a2QQbmFHUaP/7Dlz1ngJk13OkvGl6Km0uFbR788eQTlA4OLsvgccRQv
+	9GjQ==
+X-Gm-Message-State: ALoCoQlg4d2eM/+QFghVc5CBud3s7jr4dc2RJV9xo+dxq1WqDDqc+VUzcZsp6gA8H1bhH8LXyxsk
+X-Received: by 10.194.71.206 with SMTP id x14mr7069147wju.147.1443188573402;
+	Fri, 25 Sep 2015 06:42:53 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id r4sm3313802wia.19.2015.09.25.06.42.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 25 Sep 2015 06:42:52 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 25 Sep 2015 14:35:49 +0100
+Message-Id: <1443188149-23518-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] byacc: add missing patch header
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,124 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 13:32:04 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 25 Sep 2015 13:42:55 -0000
 
-On 2015-09-25 07:25, Khem Raj wrote:
->
->> On Sep 25, 2015, at 4:22 AM, Gary Thomas <gary@mlbassoc.com> wrote:
->>
->> On 2015-09-24 22:59, Khem Raj wrote:
->>> pxz results in significant time saving when generating xz filetypes for
->>> images due to parallelization support
->>
->> This adds another host tool dependency - on my Ubuntu (14.04) system, even
->> if 'xz' is installed, 'pxz' is not and I'd have to add it.  Since *.xz seems
->> to be the new fashion/trend, perhaps this choice might be optional/configurable?
->
-> I provided pxz recipe as well.. so I don’t get it where is host tool dep.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/byacc/byacc/byacc-open.patch | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Fair enough, I missed your additional recipe.
-
->
->>
->>>
->>> a simple test on ubuntu build host with 16 CPUs
->>>
->>> time xz -M 50% -f -k -c -e -9 --check=crc32 CX041AEI_PROD_default_20150610000105sdy-dbg.rootfs.cpio >CX041AEI_PROD_default_20150610000105sdy-dbg.rootfs.cpio.xz
->>>
->>> real
->>> 23m42.299s
->>> user 23m36.947s
->>> sys 0m5.101s
->>>
->>> time pxz -M 50% -f -k -c -e -9 --check=crc32 CX041AEI_PROD_default_20150610000105sdy-dbg.rootfs.cpio >CX041AEI_PROD_default_20150610000105sdy-dbg.rootfs.cpio.xz
->>>
->>> real2m59.666s
->>> user 24m38.529s
->>> sys 0m10.056s
->>>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com
->>> ---
->>>   meta/classes/image_types.bbclass     |  4 ++--
->>>   meta/recipes-extended/pxz/pxz_git.bb | 31 +++++++++++++++++++++++++++++++
->>>   2 files changed, 33 insertions(+), 2 deletions(-)
->>>   create mode 100644 meta/recipes-extended/pxz/pxz_git.bb
->>>
->>> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
->>> index 306403e..d766cd2 100644
->>> --- a/meta/classes/image_types.bbclass
->>> +++ b/meta/classes/image_types.bbclass
->>> @@ -233,13 +233,13 @@ COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum"
->>>   COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
->>>   COMPRESS_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.gz"
->>>   COMPRESS_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}.rootfs.${type}"
->>> -COMPRESS_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.xz"
->>> +COMPRESS_CMD_xz = "pxz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.xz"
->>>   COMPRESS_CMD_lz4 = "lz4c -9 -c ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.lz4"
->>>   COMPRESS_CMD_sum = "sumtool -i ${IMAGE_NAME}.rootfs.${type} -o ${IMAGE_NAME}.rootfs.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
->>>   COMPRESS_DEPENDS_lzma = "xz-native"
->>>   COMPRESS_DEPENDS_gz = ""
->>>   COMPRESS_DEPENDS_bz2 = "pbzip2-native"
->>> -COMPRESS_DEPENDS_xz = "xz-native"
->>> +COMPRESS_DEPENDS_xz = "pxz-native"
->>>   COMPRESS_DEPENDS_lz4 = "lz4-native"
->>>   COMPRESS_DEPENDS_sum = "mtd-utils-native"
->>>
->>> diff --git a/meta/recipes-extended/pxz/pxz_git.bb b/meta/recipes-extended/pxz/pxz_git.bb
->>> new file mode 100644
->>> index 0000000..fe21be6
->>> --- /dev/null
->>> +++ b/meta/recipes-extended/pxz/pxz_git.bb
->>> @@ -0,0 +1,31 @@
->>> +# Copyright (C) 2015 Khem Raj <raj.khem@gmail.com>
->>> +# Released under the MIT license (see COPYING.MIT for the terms)
->>> +
->>> +SUMMARY = "Parallel LZMA compressor compatible with XZ"
->>> +DESCRIPTION = "Parallel XZ is a compression utility that takes advantage of running LZMA compression of different parts of an input file on multiple cores and processors simultaneously. Its primary goal is to utilize all resources to speed up compression time with minimal possible influence on compression ratio"
->>> +HOMEPAGE = "https://jnovy.fedorapeople.org/pxz/"
->>> +LICENSE = "GPL-2.0+"
->>> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->>> +SECTION = "console/utils"
->>> +DEPENDS = "xz"
->>> +
->>> +SRCREV = "ae808463c2950edfdedb8fb49f95006db0a18667"
->>> +PV = "4.999.9beta+git${SRCPV}"
->>> +SRC_URI = "git://github.com/jnovy/pxz.git"
->>> +
->>> +S = "${WORKDIR}/git"
->>> +
->>> +CFLAGS_append = " -fopenmp -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
->>> +LDFLAGS_append = " -llzma"
->>> +
->>> +do_compile ()  {
->>> +	oe_runmake
->>> +}
->>> +
->>> +do_install ()  {
->>> +	oe_runmake DESTDIR=${D} INSTALL="install -p"
->>> +}
->>> +
->>> +deltask do_configure
->>> +
->>> +BBCLASSEXTEND = "native"
->>>
->>
->> --
->> ------------------------------------------------------------
->> Gary Thomas                 |  Consulting for the
->> MLB Associates              |    Embedded world
->> ------------------------------------------------------------
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+diff --git a/meta/recipes-extended/byacc/byacc/byacc-open.patch b/meta/recipes-extended/byacc/byacc/byacc-open.patch
+index 9160543..0058311 100644
+--- a/meta/recipes-extended/byacc/byacc/byacc-open.patch
++++ b/meta/recipes-extended/byacc/byacc/byacc-open.patch
+@@ -1,3 +1,15 @@
++Ubuntu defaults to passing _FORTIFY_SOURCE=2 which breaks byacc as it doesn't
++pass enough arguments to open():
++
++ inlined from 'open_tmpfile' at byacc-20150711/main.c:588:5:
++ /usr/include/x86_64-linux-gnu/bits/fcntl2.h:50:24: error: call to '__open_missing_mode' declared with attribute error:
++ open with O_CREAT in second argument needs 3 arguments
++
++Add a mode of 0666 to fix this.
++
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
+ diff --git a/main.c b/main.c
+ index 620ce3f..82071a4 100644
+ --- a/main.c
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+2.1.4
+
 
