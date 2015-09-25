@@ -1,35 +1,38 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 15BE77653B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 093F67653B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 16:06:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id DAFE8315AEC1;
-	Fri, 25 Sep 2015 18:06:03 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id BlwNSxvvA0up; Fri, 25 Sep 2015 18:06:01 +0200 (CEST)
-Received: from [172.22.22.61] (55d45210.access.ecotel.net [85.212.82.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 0635E315AD2E;
-	Fri, 25 Sep 2015 18:06:01 +0200 (CEST)
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <aa28a5439d5375728b83962d6814045053f9fdd6.1443179044.git.jussi.kukkonen@intel.com>
-	<6aa4eaa74c5e4d96f92c0b6bd022deb13a2e8be9.1443179044.git.jussi.kukkonen@intel.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <560570E8.7040808@opendreambox.org>
-Date: Fri, 25 Sep 2015 18:06:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
+	Fri, 25 Sep 2015 16:12:22 +0000 (UTC)
+Received: by qgez77 with SMTP id z77so73437163qge.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Sep 2015 09:12:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=wnuBZh0Dq3jJUndOzDkTGSjPq77zIs4Gq/l7EfK909w=;
+	b=abBgDl6XfbRhZUHqQpRpOVtUuqAnqN9kXpePLgp2faI2+RYZevjoIR5v06EYB2kpsP
+	O9/i9HB6HbVbBTg6TO3clftUVK1OJRsEA3jK0x/Y1Dx2wDlba/XB75DNQVqCvp0jfmxX
+	X/uR5ed9DVH3sp/h0dfesHB5C1tdlFir4AAaiDi9pjJ58BztYphSDZlOX3mR405a7MNl
+	PshrRmNu9T2JwK8xDWMvQPqUhxQky3QNdnEnjbMqf3IGtpMcWT3wEAiqvKJJyl4/4AUw
+	Hbhxt38xUoiChfgIsqx4Kq8rUwcHg2sb62tV+49FkgYKQlruU9AAzHkWuldw+fW65ZB5
+	pPcA==
+X-Gm-Message-State: ALoCoQmIcrxnKhZEq6/vVr8I65xqkZsIdNtnMLo7y5ItHfrwXVvLymwFkytJrcblA9xwUkA9s/FA
+X-Received: by 10.140.44.11 with SMTP id f11mr7133184qga.80.1443197543243;
+	Fri, 25 Sep 2015 09:12:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <6aa4eaa74c5e4d96f92c0b6bd022deb13a2e8be9.1443179044.git.jussi.kukkonen@intel.com>
-Subject: Re: [PATCH 2/2] connman: Don't use a blanket "allow" D-Bus policy
+Received: by 10.140.94.86 with HTTP; Fri, 25 Sep 2015 09:12:03 -0700 (PDT)
+In-Reply-To: <56056F47.7040004@opendreambox.org>
+References: <cover.1443179044.git.jussi.kukkonen@intel.com>
+	<aa28a5439d5375728b83962d6814045053f9fdd6.1443179044.git.jussi.kukkonen@intel.com>
+	<56056F47.7040004@opendreambox.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 25 Sep 2015 17:12:03 +0100
+Message-ID: <CAJTo0LZKYa5h-Ziprps5XP2AEDzpdUNT5O85rdnK23Dd2zBUZw@mail.gmail.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] connman: Depend on xuser-account unconditionally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,93 +45,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 16:06:04 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 25 Sep 2015 16:12:27 -0000
+Content-Type: multipart/alternative; boundary=001a113b41bce834500520949c66
 
-On 25.09.2015 13:14, Jussi Kukkonen wrote:
-> There are already "allow" rules for root and conditionally xuser to
-> send messages to connman: there should be no reason for a default
-> allow policy.
-> 
-> Also, conditionally add a policy to allow xuser to send to the
-> connman vpn service (similar to main service).
-> 
-> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> ---
->  meta/recipes-connectivity/connman/connman.inc      |  6 -----
->  .../connman/add_xuser_dbus_permission.patch        | 28 +++++++++++++++++++---
->  2 files changed, 25 insertions(+), 9 deletions(-)
-> 
-> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-> index 6c062ae..1712af3 100644
-> --- a/meta/recipes-connectivity/connman/connman.inc
-> +++ b/meta/recipes-connectivity/connman/connman.inc
-> @@ -70,13 +70,7 @@ SYSTEMD_SERVICE_${PN} = "connman.service"
->  SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
->  SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
->  
-> -# This allows *everyone* to access ConnMan over DBus, without any access
-> -# control.  Really the at_console flag should work, which would mean that
-> -# both this and the xuser patch can be dropped.
->  do_compile_append() {
-> -	sed -i -e s:deny:allow:g ${S}/src/connman-dbus.conf
-> -	sed -i -e s:deny:allow:g ${S}/vpn/vpn-dbus.conf
-> -
->  	sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#" ${B}/src/connman.service
->  }
->  
-> diff --git a/meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch b/meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch
-> index 707b3ca..15a191d 100644
-> --- a/meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch
-> +++ b/meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch
-> @@ -1,9 +1,14 @@
-> -Because Poky doesn't support at_console we need to special-case the session
-> -user.
-> +Because Poky doesn't support at_console we need to
-> +special-case the session user.
+--001a113b41bce834500520949c66
+Content-Type: text/plain; charset=UTF-8
 
-Here you can see that it really is poky's distro policy that slipped
-into OE-Core. How about removing ROOTLESS_X and xuser from OE-Core and
-putting it into a layer that actually sets the variable?
+On 25 September 2015 at 16:59, Andreas Oberritter <obi@opendreambox.org>
+wrote:
 
-Regards,
-Andreas
+> Whether to add user accounts or not should be a decision made by the
+> distro. If this setting is machine specific, which to be honest
+> surprised me, why don't you just let the machine specific xorg video
+> driver depend on xuser-account unconditionally? Connman really doesn't
+> need this account.
+>
 
->  
->  Upstream-Status: Inappropriate [configuration]
->  
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> +Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> +
-> +---
-> + src/connman-dbus.conf | 3 +++
-> + vpn/vpn-dbus.conf     | 3 +++
-> + 2 files changed, 6 insertions(+)
->  
->  diff --git a/src/connman-dbus.conf b/src/connman-dbus.conf
->  index 98a773e..466809c 100644
-> @@ -19,3 +24,20 @@ index 98a773e..466809c 100644
->       <policy at_console="true">
->           <allow send_destination="net.connman"/>
->       </policy>
-> +diff --git a/vpn/vpn-dbus.conf b/vpn/vpn-dbus.conf
-> +index 0f0c8da..9ad05b9 100644
-> +--- a/vpn/vpn-dbus.conf
-> ++++ b/vpn/vpn-dbus.conf
-> +@@ -6,6 +6,9 @@
-> +         <allow send_destination="net.connman.vpn"/>
-> +         <allow send_interface="net.connman.vpn.Agent"/>
-> +     </policy>
-> ++    <policy user="xuser">
-> ++        <allow send_destination="net.connman.vpn"/>
-> ++    </policy>
-> +     <policy at_console="true">
-> +         <allow send_destination="net.connman.vpn"/>
-> +     </policy>
-> +-- 
-> +2.1.4
-> +
-> 
+connman does need the account as it uses it to allow a non-root X user to
+actually use connman.  DBus should warn if you try and set policy that uses
+users that entirely don't exist.
 
+I wonder if dbus lets multiple files assign policy, so the dbus rules could
+go into the xuser package?
 
+Ross
+
+--001a113b41bce834500520949c66
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 September 2015 at 16:59, Andreas Oberritter <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ol" c=
+lass=3D"a3s" style=3D"overflow:hidden">Whether to add user accounts or not =
+should be a decision made by the<br>
+distro. If this setting is machine specific, which to be honest<br>
+surprised me, why don&#39;t you just let the machine specific xorg video<br=
+>
+driver depend on xuser-account unconditionally? Connman really doesn&#39;t<=
+br>
+need this account.</div></blockquote></div><br>connman does need the accoun=
+t as it uses it to allow a non-root X user to actually use connman.=C2=A0 D=
+Bus should warn if you try and set policy that uses users that entirely don=
+&#39;t exist.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
+_extra">I wonder if dbus lets multiple files assign policy, so the dbus rul=
+es could go into the xuser package?</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113b41bce834500520949c66--
