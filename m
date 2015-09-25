@@ -1,23 +1,20 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D4EB77029
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7013C7680E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 11:33:20 +0000 (UTC)
+	Fri, 25 Sep 2015 11:41:28 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 25 Sep 2015 04:33:21 -0700
+	by orsmga101.jf.intel.com with ESMTP; 25 Sep 2015 04:41:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,586,1437462000"; d="scan'208";a="812764012"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Sep 2015 04:33:21 -0700
-Received: from localhost.localdomain (unknown [10.237.112.173])
-	by linux.intel.com (Postfix) with ESMTP id B06676A4083;
-	Fri, 25 Sep 2015 04:32:24 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
+X-IronPort-AV: E=Sophos;i="5.17,586,1437462000"; d="scan'208";a="812767155"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Sep 2015 04:41:28 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Sep 2015 14:31:20 +0300
-Message-Id: <1443180680-8806-1-git-send-email-george.l.musat@intel.com>
+Date: Fri, 25 Sep 2015 14:41:36 +0300
+Message-Id: <1443181297-22690-1-git-send-email-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/parselogs: Updated log parser whitelist.
+Subject: [PATCH 1/2] distrodata: handle recipes with empty or absent SRC_URI in checkpkg()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,68 +27,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 11:33:22 -0000
+X-List-Received-Date: Fri, 25 Sep 2015 11:41:29 -0000
 
-Added some fixes for meta-intel boards and moved some
-errors from specific images to common.
-
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/lib/oeqa/runtime/parselogs.py | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ meta/classes/distrodata.bbclass | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
-index e20947b..0ce9bc8 100644
---- a/meta/lib/oeqa/runtime/parselogs.py
-+++ b/meta/lib/oeqa/runtime/parselogs.py
-@@ -36,6 +36,8 @@ common_errors = [
-     'VGA arbiter: cannot open kernel arbiter, no multi-card support',
-     'Failed to find URL:http://ipv4.connman.net/online/status.html',
-     'Online check failed for',
-+    'netlink init failed',
-+    'Fast TSC calibration',
-     ]
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index 4168e43..e6eb3f3 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -272,9 +272,10 @@ python do_checkpkg() {
  
- x86_common = [
-@@ -46,7 +48,6 @@ x86_common = [
- ] + common_errors
+         """first check whether a uri is provided"""
+         src_uri = d.getVar('SRC_URI', True)
+-        if not src_uri:
+-                return
+-        uri_type, _, _, _, _, _ = decodeurl(src_uri)
++        if src_uri:
++            uri_type, _, _, _, _, _ = decodeurl(src_uri)
++        else:
++            uri_type = "none"
  
- qemux86_common = [
--    'Fast TSC calibration', 
-     'wrong ELF class',
-     "fail to add MMCONFIG information, can't access extended PCI configuration space under this bridge.",
-     "can't claim BAR ",
-@@ -89,7 +90,7 @@ ignore_errors = {
-         '(EE) open /dev/fb0: No such file or directory',
-         '(EE) AIGLX: reverting to software rendering',
-         ] + x86_common,
--    'core2_32' : [
-+    'intel-core2-32' : [
-         'ACPI: No _BQC method, cannot determine initial brightness',
-         '[Firmware Bug]: ACPI: No _BQC method, cannot determine initial brightness',
-         '(EE) Failed to load module "psb"',
-@@ -98,6 +99,7 @@ ignore_errors = {
-         '(EE) Failed to load module psbdrv',
-         '(EE) open /dev/fb0: No such file or directory',
-         '(EE) AIGLX: reverting to software rendering',
-+        "controller can't do DEVSLP, turning off",
-         ] + x86_common,
-     'intel-corei7-64' : [
-         "controller can't do DEVSLP, turning off",
-@@ -108,13 +110,9 @@ ignore_errors = {
-     'edgerouter' : [
-         'Fatal server error:',
-         ] + common_errors,
--    'minnow' : [
--        'netlink init failed',
--        ] + common_errors,
-     'jasperforest' : [
-         'Activated service \'org.bluez\' failed:',
-         'Unable to find NFC netlink family',
--        'netlink init failed',
-         ] + common_errors,
- }
+         """initialize log files."""
+         logpath = d.getVar('LOG_DIR', True)
+@@ -354,7 +355,10 @@ python do_checkpkg() {
+             elif cmp == 0:
+                 pstatus = "MATCH"
  
+-        psrcuri = psrcuri.split()[0]
++        if psrcuri:
++            psrcuri = psrcuri.split()[0]
++        else:
++            psrcuri = "none"
+         pdepends = "".join(pdepends.split("\t"))
+         pdesc = "".join(pdesc.split("\t"))
+         no_upgr_reason = d.getVar('RECIPE_NO_UPDATE_REASON', True)
 -- 
 2.1.4
 
