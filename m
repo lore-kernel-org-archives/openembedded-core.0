@@ -1,40 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 2622276FFA
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EDE87701A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 10:53:18 +0000 (UTC)
-Received: by qgx61 with SMTP id 61so65775752qgx.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Sep 2015 03:53:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=sBcT90k0VW0AF/Q42x/xUG4vKHHLrihuo3UIhmzaBuA=;
-	b=dCEEBXBqiWmZvYalgL5xhNkE7BvjHNafZTBC9TupMmzRBPtvIKi3xe5FsIfDmNqzQY
-	UeFyktGH1GDT4zZXTm2IM64KA0OXezODjUkb6PqEa0xeZ2NSyDty42yMY+XuJQIj39vF
-	zUtyE3pYmX0bURTnR5q6FaoXlOmr4Rrzu4Z1Q/iDxgHwhLSrlwWqtz53Evdn5DsZl2Au
-	oEuJGAai4VqWilJ/wFDd33sQtZHXuzpqHdOmMJ2a5xw0E2ZWMl9pSACvWLCIganURkSa
-	jkXBbN6Yz/df+7MI6SFWfC2hxTulbIZPrsAbF5gvMYzyD+YiCIuFZl0bDA52iz0vdbFP
-	ZxNw==
-X-Gm-Message-State: ALoCoQmt0vwa0MHBfuD8Rlrhw5Ru+D+Vzbc727V1/uDLyGfBV7ZoFW3YRC760CMnm8exOFfuyv5L
-X-Received: by 10.140.232.150 with SMTP id d144mr5387010qhc.17.1443178399163; 
-	Fri, 25 Sep 2015 03:53:19 -0700 (PDT)
+	Fri, 25 Sep 2015 11:03:13 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 25 Sep 2015 04:03:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,586,1437462000"; d="scan'208";a="652104286"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 25 Sep 2015 04:03:12 -0700
+Message-ID: <560529FA.20304@linux.intel.com>
+Date: Fri, 25 Sep 2015 14:03:22 +0300
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.8.0
 MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Fri, 25 Sep 2015 03:52:59 -0700 (PDT)
-In-Reply-To: <56052034.4000702@windriver.com>
-References: <1443092679-216053-1-git-send-email-wenzong.fan@windriver.com>
-	<CAHiDW_FZtt9v_tGJT-m_LcEqBS-YThPTE=zoFpr=aQVt7aGPtQ@mail.gmail.com>
-	<CAJTo0LaJeeLRqmADYQ2DNGWs9VxwJMCRViwSvEX84FEbqVVTYA@mail.gmail.com>
-	<56052034.4000702@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 25 Sep 2015 11:52:59 +0100
-Message-ID: <CAJTo0LbKPTvbRj4uUW=+D3g2Dz8v9_aeXJc64QvQMXe8TzsjEA@mail.gmail.com>
-To: wenzong fan <wenzong.fan@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gnutls: cleanup buildpaths from gnutls.pc
+To: openembedded-core@lists.openembedded.org
+References: <1443043997.19044.35.camel@linuxfoundation.org>
+In-Reply-To: <1443043997.19044.35.camel@linuxfoundation.org>
+Subject: Re: [PATCH] gcc-shared-source: Set empty SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,40 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Sep 2015 10:53:22 -0000
-Content-Type: multipart/alternative; boundary=001a11354852d4b983052090276a
+X-List-Received-Date: Fri, 25 Sep 2015 11:03:16 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11354852d4b983052090276a
-Content-Type: text/plain; charset=UTF-8
-
-On 25 September 2015 at 11:21, wenzong fan <wenzong.fan@windriver.com>
-wrote:
-
-> I'll investigate more about that. Do you know where the difference from?
+On 09/24/2015 12:33 AM, Richard Purdie wrote:
+> gcc-source is the only gcc recipe meant to handle the fetch/unpack/patch
+> tasks, the other gcc recipes then depend on this.
 >
+> This approach has been creating some confusion for tools like the archiver.
+> The simplest way to signal to these processes that there is no source
+> is to empty SRC_URI at the same time we disable the other tasks.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-I'd immediately suspect the lib/lib64 path confusing pkg-config's logic on
-automatic library path removal.  In the non-multilib case it generates a
--L[long path] but determines that the path is in the default search path so
-can remove it.
+This has broken the upstream version check for the gcc recipes, which 
+was working fine before:
 
-Ross
+http://packages.yoctoproject.org/
 
---001a11354852d4b983052090276a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 September 2015 at 11:21, wenzong fan <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:wenzong.fan@windriver.com" target=3D"_blank">wenzong.fan@windriver.=
-com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":660=
-" class=3D"a3s" style=3D"overflow:hidden">I&#39;ll investigate more about t=
-hat. Do you know where the difference from?<br></div></blockquote></div><br=
->I&#39;d immediately suspect the lib/lib64 path confusing pkg-config&#39;s =
-logic on automatic library path removal.=C2=A0 In the non-multilib case it =
-generates a -L[long path] but determines that the path is in the default se=
-arch path so can remove it.</div><div class=3D"gmail_extra"><br></div><div =
-class=3D"gmail_extra">Ross</div></div>
+Alex
 
---001a11354852d4b983052090276a--
+
+
+
