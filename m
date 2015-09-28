@@ -1,48 +1,38 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id DC21A7626C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 68DCF7626C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 06:45:51 +0000 (UTC)
-Received: by laclj5 with SMTP id lj5so55046291lac.3
+	Mon, 28 Sep 2015 06:48:23 +0000 (UTC)
+Received: by ioii196 with SMTP id i196so165822383ioi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Sep 2015 23:45:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-type:content-disposition
-	:in-reply-to:organization:user-agent;
-	bh=XRydlwsU8Af1RW5ecQoKM3n8RPW1qT2mo9qyNTXFMXk=;
-	b=fBDBP8iFpNyDKloi75i2tjbQWTBDh2yWBnxS8z/L4D2Hv9x5OxEQmntFZBZiY8zJ7P
-	K5qyiddEjiB/Toyrjz6QfhIR+vLZkFYdaLQLrZyVUR3V0FoG38YDQlD5UIDm7GUa8Uhw
-	mg0b+ZWPFUd0B7ZbtFEIF6iHqnyEajlFC6vSU8dnrvTTVRiIpqh7EgOraDThu7F1fFX9
-	DKtuLM2CDd1WNmA3g5hme2DDv0tT5c0UKfXebEY2nrVe7QVgiUX77m37S3D1bzEmbLHI
-	DSDcCvexEhaCiJDzLN9UD5em8AGiKq9Q2nbfwmYivu30jOnc3GP/HLs9dCITzYyB5UV7
-	yiiQ==
-X-Gm-Message-State: ALoCoQmRpNFTjvL1tzvwAnp5CnIQWGk4tAhvSRpLdjzLtUMKZmVNI8Wf5lANMaDuehrSqlUEDGeW
-X-Received: by 10.152.28.38 with SMTP id y6mr65028lag.16.1443422750592;
-	Sun, 27 Sep 2015 23:45:50 -0700 (PDT)
-Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
-	[213.64.219.84]) by smtp.gmail.com with ESMTPSA id
-	dt9sm1904761lbc.38.2015.09.27.23.45.49
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 27 Sep 2015 23:45:49 -0700 (PDT)
-Date: Mon, 28 Sep 2015 08:45:48 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150928064548.GB4933@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <1443224121-24741-1-git-send-email-net147@gmail.com>
+	Sun, 27 Sep 2015 23:48:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=8y+fSN/VcWKvxQoOphhl/Zff6MVSaWX1QSEkIKaO0ws=;
+	b=n96N8t0OiMMXsb0mt/HtRfP9h08qwzc/TdYPY3VTP9xgNoVWO8bCMj/K6eySV38gTx
+	RMZmQHsaQOUUWCmXfd5cAW8aODOZOIiXHSBz3MlC3sMjnmlgSRxYiduK4tJpD7xtmZ5S
+	C5ahKMRE1JUaVbZzCFFRFyIA1HZkEwnWwUvcd1xAuQK3W6ZfYNon2zu9b+kGKkzJ7b61
+	HpwnmFt7slK5UwBKrky6zEndQrDMge43FhQ2Gztp4Jl425N8X6cjNesr6SUiDkU7CNjE
+	krWeDpTVUNQiMRKF28CWxHLUEUTY1wO62rBfYYrbJhgcCnbuAQifgQ9n7UAchm3IquN4
+	izfQ==
+X-Received: by 10.107.137.106 with SMTP id l103mr16591867iod.112.1443422903782;
+	Sun, 27 Sep 2015 23:48:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1443224121-24741-1-git-send-email-net147@gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Subject: Re: [PATCH v2] opkg: create opkg.lock in /run instead of /var/run
+Received: by 10.107.142.130 with HTTP; Sun, 27 Sep 2015 23:47:54 -0700 (PDT)
+In-Reply-To: <5608E1BA.2060301@pseudoterminal.org>
+References: <1443390491-23728-1-git-send-email-dv@pseudoterminal.org>
+	<1443390491-23728-2-git-send-email-dv@pseudoterminal.org>
+	<CAMKF1srHAox4XZntPRCC-jzzZDwHtt46UC+ekahKE8s_YzXBpw@mail.gmail.com>
+	<5608E1BA.2060301@pseudoterminal.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 27 Sep 2015 23:47:54 -0700
+Message-ID: <CAMKF1soj1rrFxCG1bQz=F7creT2KBd_SQUOQDXiRUSjq6NA7xA@mail.gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/7] gstreamer1.0-plugins-base: upgrade to version 1.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,28 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Sep 2015 06:45:54 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 28 Sep 2015 06:48:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-* Jonathan Liu <net147@gmail.com> [150926 01:34]:
+On Sun, Sep 27, 2015 at 11:44 PM, Carlos Rafael Giani
+<dv@pseudoterminal.org> wrote:
+> The other patches in the list above, however, need to be reworked to apply
+> against 1.6.
+> 0001-basetextoverlay-make-memory-copy-when-video-buffer-s.patch has been
+> rejected by upstream,
+> handle-audio-video-decoder-error.patch is under discussion.
+> taglist-not-send-to-down-stream-if-all-the-frame-cor.patch hasn't been
+> looked at yet by upstream.
+>
+> Since these no longer apply cleanly against 1.6.0, we anyway have no option
+> but to delete them and wait until the authors reworked them.
 
-> This avoids a "Could not unlink" warning when extracting a /var/run
-> symbolic link pointing to /run from the base-files package as it is
-> unable to unlink the /var/run directory when it contains opkg.lock.
-
-> This also fixes an issue where /var/run is created as a directory
-> instead of a symbolic link to /run.
-
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> Acked-by: Anders Darander <anders@chargestorm.se>
-
-Acked-by: Anders Darander <anders@chargestorm.se>
-
-
-/Anders
-
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+hmmm, I would have preferred a conclusive situation where we know
+exactly what they fixed and what we dont have when we drop them
+somewhere in commit message, ideally they should be forward ported
+along with recipe upgrades but its ok if you dont feel comfortable and
+want to defer it to original submitters but then please CC the
+submitters so they know whats needed of them
 
