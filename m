@@ -1,23 +1,23 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 581E475894
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C359E76FC9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 16:01:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Sep 2015 09:01:45 -0700
+	Mon, 28 Sep 2015 17:12:58 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 28 Sep 2015 10:12:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,603,1437462000"; d="scan'208";a="814596728"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Sep 2015 09:01:45 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 6250E6A4087;
-	Mon, 28 Sep 2015 09:00:49 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Sep 2015 19:01:34 +0300
-Message-Id: <1443456094-6220-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] recipes-extended: remove duplicate recipe and .wks
+X-IronPort-AV: E=Sophos;i="5.17,603,1437462000"; d="scan'208";a="569939904"
+Received: from cmorale1-mobl3.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.254.191.92])
+	by FMSMGA003.fm.intel.com with ESMTP; 28 Sep 2015 10:12:58 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Mon, 28 Sep 2015 10:12:57 -0700
+Message-Id: <1443460377-16480-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Cc: bruce.ashfield@windriver.com, dvhart@linux.intel.com
+Subject: [PATCH] linux-yocto-custom: Update for newer kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,55 +30,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Sep 2015 16:01:57 -0000
+X-List-Received-Date: Mon, 28 Sep 2015 17:13:01 -0000
 
-Removed wic-image-minimal.bb and wic-image-minimal.wks as they're
-also present in meta-selftest/recipes-test/images/
+Update the NAME version tweak example patch for the
+newer kernel. This moves the example to the 4.2 stable
+kernel and appends -custom to the VERSION string.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/images/wic-image-minimal.bb  | 14 --------------
- meta/recipes-extended/images/wic-image-minimal.wks | 10 ----------
- 2 files changed, 24 deletions(-)
- delete mode 100644 meta/recipes-extended/images/wic-image-minimal.bb
- delete mode 100644 meta/recipes-extended/images/wic-image-minimal.wks
+ .../recipes-kernel/linux/linux-yocto-custom.bb      | 15 +++++++--------
+ .../0001-linux-version-tweak.patch                  | 21 ++++++++++++---------
+ 2 files changed, 19 insertions(+), 17 deletions(-)
 
-diff --git a/meta/recipes-extended/images/wic-image-minimal.bb b/meta/recipes-extended/images/wic-image-minimal.bb
-deleted file mode 100644
-index 073c569..0000000
---- a/meta/recipes-extended/images/wic-image-minimal.bb
-+++ /dev/null
-@@ -1,14 +0,0 @@
--SUMMARY = "An example of partitioned image."
--
--IMAGE_INSTALL = "packagegroup-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}"
--
--IMAGE_FSTYPES = "wic.bz2"
--RM_OLD_IMAGE = "1"
--
--# core-image-minimal is referenced in .wks, so we need its rootfs
--# to be ready before our rootfs
--do_rootfs[depends] += "core-image-minimal:do_rootfs"
--
--IMAGE_ROOTFS_EXTRA_SPACE = "2000"
--
--inherit image
-diff --git a/meta/recipes-extended/images/wic-image-minimal.wks b/meta/recipes-extended/images/wic-image-minimal.wks
-deleted file mode 100644
-index 29cd8f2..0000000
---- a/meta/recipes-extended/images/wic-image-minimal.wks
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# short-description: Example of partitioned image with complex layout
--# long-description: This image contains boot partition and 3 rootfs partitions
--# created from core-image-minimal and wic-image-minimal image recipes.
--
--part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --ondisk sda --fstype=ext2 --label platform --align 1024
--part /core --source rootfs --rootfs-dir=core-image-minimal --ondisk sda --fstype=ext2 --label core --align 1024
--part /backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext2 --label backup --align 1024
--
--bootloader  --timeout=0  --append="rootwait console=tty0"
+diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+index cce44d9..6194d4f 100644
+--- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
++++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+@@ -43,9 +43,9 @@
+ #   
+ #   example configuration addition:
+ #            SRC_URI += "file://smp.cfg"
+-#   example patch addition (for kernel v3.4 only):
+-#            SRC_URI += "file://0001-linux-version-tweak.patch
+-#   example feature addition (for kernel v3.4 only):
++#   example patch addition (for kernel v4.x only):
++#            SRC_URI += "file://0001-linux-version-tweak.patch"
++#   example feature addition (for kernel v4.x only):
+ #            SRC_URI += "file://feature.scc"
+ #
+ 
+@@ -56,15 +56,14 @@ require recipes-kernel/linux/linux-yocto.inc
+ # tree if you do not want to build from Linus' tree.
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=git;nocheckout=1;name=machine"
+ 
+-LINUX_VERSION ?= "3.4"
+-LINUX_VERSION_EXTENSION ?= "-custom"
++LINUX_VERSION ?= "4.2"
++LINUX_VERSION_EXTENSION_append = "-custom"
+ 
+ # Modify SRCREV to a different commit hash in a copy of this recipe to
+ # build a different release of the Linux kernel.
+-# tag: v3.4 76e10d158efb6d4516018846f60c2ab5501900bc
+-SRCREV_machine="76e10d158efb6d4516018846f60c2ab5501900bc"
++# tag: v4.2 64291f7db5bd8150a74ad2036f1037e6a0428df2
++SRCREV_machine="64291f7db5bd8150a74ad2036f1037e6a0428df2"
+ 
+-PR = "r1"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+ # Override COMPATIBLE_MACHINE to include your machine in a copy of this recipe
+diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch
+index c9562da..39c7ee8 100644
+--- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch
++++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch
+@@ -1,26 +1,29 @@
+-From 5a55943a6bbb10a79994a0b18071b2427dffb15f Mon Sep 17 00:00:00 2001
++From fb2c401374d4efe89e8da795e21d96fac038639d Mon Sep 17 00:00:00 2001
+ From: Bruce Ashfield <bruce.ashfield@windriver.com>
+ Date: Mon, 11 Jun 2012 15:31:42 -0400
+ Subject: [PATCH] linux: version tweak
+ 
++Upstream-Status: Inapproriate [example code]
++
+ Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ ---
+- Makefile |    2 +-
+- 1 files changed, 1 insertions(+), 1 deletions(-)
++ Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/Makefile b/Makefile
+-index a687963..f5b1ac3 100644
++index c361593..099e8ff 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -2,7 +2,7 @@ VERSION = 3
+- PATCHLEVEL = 4
++@@ -2,7 +2,7 @@ VERSION = 4
++ PATCHLEVEL = 2
+  SUBLEVEL = 0
+  EXTRAVERSION =
+--NAME = Saber-toothed Squirrel
+-+NAME = Saber-toothed Squirrel-custom
++-NAME = Hurr durr I'ma sheep
+++NAME = Hurr durr I'ma customized sheep 
+  
+  # *DOCUMENTATION*
+  # To see a list of typical targets execute "make help"
+ -- 
+-1.7.5.4
++2.1.4
+ 
 -- 
 2.1.4
 
