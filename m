@@ -1,26 +1,23 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DE1A0760F4
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A9DB75894
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 20:48:09 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8SKm9wk015495
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 13:48:09 -0700 (PDT)
-Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Mon, 28 Sep 2015 13:48:09 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Sep 2015 15:48:07 -0500
-Message-ID: <84cebe96ae387a312fce6779f5491969a5bfb37c.1443473220.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 2.3.1
-In-Reply-To: <cover.1443473220.git.peter.seebach@windriver.com>
-References: <cover.1443473220.git.peter.seebach@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] cross-canadian.bbclass: big-endian ARM is also gnueabi.
+	Mon, 28 Sep 2015 20:59:37 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 28 Sep 2015 13:59:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,604,1437462000"; d="scan'208";a="570057634"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by FMSMGA003.fm.intel.com with ESMTP; 28 Sep 2015 13:59:36 -0700
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Sep 2015 12:49:47 +0000
+Message-Id: <120d24b4a9711941d5989c6a917ecb4a0f226508.1443444517.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1443444517.git.mariano.lopez@linux.intel.com>
+References: <cover.1443444517.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1 v2] qemurunner: Sanitize output from qemu and qemu pid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +30,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Sep 2015 20:48:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 Sep 2015 20:59:42 -0000
 
-If building for a BE8 ARM target, arch is "armeb" rather than
-"arm", but ABI should still be "gnueabi". Otherwise gcc won't
-build.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+Currently the output from qemu could contain control
+or Unicode characters; having such characters in the
+log will cause an internal server error when sending
+the report to error reporting web. Control characters
+can be found in the command line used to run quemu too.
+
+This change sanitize the output from qemu and the
+command line used to run qemu, this way the logs doesn't
+contain control or Unicode characters and this will solve
+the issue of error reporting web and generate better
+logs.
+
+The only Unicode character found in the qemu output
+is the copyright symbol, it really doesn't interfer
+removing Unicode characters with debugging.
+
+[YOCTO #8225]
+
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/classes/cross-canadian.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/utils/qemurunner.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
-index d30a168..ea17f09 100644
---- a/meta/classes/cross-canadian.bbclass
-+++ b/meta/classes/cross-canadian.bbclass
-@@ -67,7 +67,7 @@ python () {
-         d.appendVar("CANADIANEXTRAOS", " linux-gnuspe linux-uclibcspe linux-muslspe")
-     elif tarch == "mips64":
-         d.appendVar("CANADIANEXTRAOS", " linux-gnun32 linux-uclibcn32 linux-musln32")
--    if tarch == "arm":
-+    if tarch == "arm" or tarch == "armeb":
-         d.setVar("TARGET_OS", "linux-gnueabi")
-     else:
-         d.setVar("TARGET_OS", "linux")
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 5624977..9c878bc 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -13,6 +13,7 @@ import re
+ import socket
+ import select
+ import errno
++import string
+ import threading
+ from oeqa.utils.dump import HostDumper
+ 
+@@ -61,6 +62,9 @@ class QemuRunner:
+ 
+     def log(self, msg):
+         if self.logfile:
++            # It is needed to sanitize the data received from qemu
++            # because is possible to have control characters or Unicode
++            msg = "".join(filter(lambda x:x in string.printable, msg))
+             with open(self.logfile, "a") as f:
+                 f.write("%s" % msg)
+ 
+@@ -170,6 +174,9 @@ class QemuRunner:
+             cmdline = ''
+             with open('/proc/%s/cmdline' % self.qemupid) as p:
+                 cmdline = p.read()
++                # It is needed to sanitize the data received
++                # because is possible to have control characters
++                cmdline = "".join(filter(lambda x:x in string.printable, cmdline))
+             try:
+                 ips = re.findall("((?:[0-9]{1,3}\.){3}[0-9]{1,3})", cmdline.split("ip=")[1])
+                 if not ips or len(ips) != 3:
 -- 
-2.3.1
+1.8.4.5
 
 
