@@ -1,23 +1,37 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id CCFF8755F4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 860B175894
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 11:49:53 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Sep 2015 04:49:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,602,1437462000"; d="scan'208";a="778908219"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 28 Sep 2015 04:49:48 -0700
-Received: from localhost.localdomain (unknown [10.237.112.173])
-	by linux.intel.com (Postfix) with ESMTP id 0D5816A4083;
-	Mon, 28 Sep 2015 04:48:49 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Sep 2015 14:47:42 +0300
-Message-Id: <1443440862-14585-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/testimage: Add ability to run single test from suite.
+	Mon, 28 Sep 2015 12:31:34 +0000 (UTC)
+Received: by qgx61 with SMTP id 61so118473629qgx.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Sep 2015 05:31:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=hsaYTOvh2xk8cJW72THQD5XjZE7FnLCbZUZ561jlCq4=;
+	b=G6T6Wa88paizTrC1BZnHNsGNajoZJ9BeIPlZmudTrO8PbHM27dY+gPNjilN+5PY2bu
+	Rcg1FCmw1afCFIIyTjIYzsCh4hZVnarUoBnLQPPa2bGniFR/Y4//Pne+gm59MHC1jb9n
+	f6w8yn6bPGR5vI0g/LCsCd1cgMet9dxpWEr9P+0zU5VixQ39t3/eFy0xMI+xX0JvJ4uw
+	dwjzky2Nl6JlXlfcPOWlUXnehlquWDpFRJ78oj6I5I+LhzdjUjPC8Aoiwx+4OrMcoRWK
+	KgPxx3Hegwb0uMpG2vDlclV5ln5JU+CmlPEfpfbyj1rjIAlAIsTyYpQ5qfgxCsr/b1PD
+	Cqtg==
+X-Gm-Message-State: ALoCoQkSKTYqGZP/BOTL6GCusrwEz/dqd6cWjct4a4Y/xyTShxgtYUvys3Rl6iijXfGqm/Xg2I3h
+X-Received: by 10.140.109.74 with SMTP id k68mr22582503qgf.77.1443443494747;
+	Mon, 28 Sep 2015 05:31:34 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.86 with HTTP; Mon, 28 Sep 2015 05:31:15 -0700 (PDT)
+In-Reply-To: <5a37554dfd79d1c65ce30ab9db9b05608066eedd.1443432019.git.liezhi.yang@windriver.com>
+References: <cover.1443432019.git.liezhi.yang@windriver.com>
+	<5a37554dfd79d1c65ce30ab9db9b05608066eedd.1443432019.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 28 Sep 2015 13:31:15 +0100
+Message-ID: <CAJTo0LZv-pri_fntqi6ypU=oFiSXD--1k9ZBfzhF=TN7aVTFEw@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] python-async: inherit setuptools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,50 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Sep 2015 11:49:54 -0000
+X-List-Received-Date: Mon, 28 Sep 2015 12:31:35 -0000
+Content-Type: multipart/alternative; boundary=001a1139af24c217130520cde04d
 
-Just like we have in oe-selftest, you can add
-<filename>.<Class>.<testname> in TEST_SUITES in order to
-run just that test.
+--001a1139af24c217130520cde04d
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/classes/testimage.bbclass | 7 +++++++
- 1 file changed, 7 insertions(+)
+On 28 September 2015 at 10:20, Robert Yang <liezhi.yang@windriver.com>
+wrote:
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 2efab29..36ee782 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -146,6 +146,10 @@ def get_tests_list(d, type="runtime"):
-                     testslist.append("oeqa." + type + "." + testname)
-                     found = True
-                     break
-+                elif os.path.exists(os.path.join(p, 'lib', 'oeqa', type, testname.split(".")[0] + '.py')):
-+                    testslist.append("oeqa." + type + "." + testname)
-+                    found = True
-+                    break
-             if not found:
-                 bb.fatal('Test %s specified in TEST_SUITES could not be found in lib/oeqa/runtime under BBPATH' % testname)
- 
-@@ -172,6 +176,7 @@ def exportTests(d,tc):
-     import json
-     import shutil
-     import pkgutil
-+    from re import search as re_search
- 
-     exportpath = d.getVar("TEST_EXPORT_DIR", True)
- 
-@@ -223,6 +228,8 @@ def exportTests(d,tc):
-     bb.utils.mkdirhier(os.path.join(exportpath, "oeqa/utils"))
-     # copy test modules, this should cover tests in other layers too
-     for t in tc.testslist:
-+        if re_search("\w+\.\w+\.test_\S+", t):
-+            t = t.split('.')[0]+'.'+t.split('.')[1]+'.'+t.split('.')[2]
-         mod = pkgutil.get_loader(t)
-         shutil.copy2(mod.filename, os.path.join(exportpath, "oeqa/runtime"))
-     # copy __init__.py files
--- 
-2.1.4
+> -inherit distutils
+> +inherit distutils setuptools
+>
 
+setuptools inherits distutils, so you can replace instead of adding.
 
+Ross
+
+--001a1139af24c217130520cde04d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 28 September 2015 at 10:20, Robert Yang <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4sv=
+" class=3D"a3s" style=3D"overflow:hidden">-inherit distutils<br>
++inherit distutils setuptools<br></div></blockquote></div><br>setuptools in=
+herits distutils, so you can replace instead of adding.</div><div class=3D"=
+gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1139af24c217130520cde04d--
