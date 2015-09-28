@@ -1,35 +1,37 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 412DC755F4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 89B50755F4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 14:39:34 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 28 Sep 2015 07:39:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,603,1437462000"; 
-	d="scan'208,217";a="779011195"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by orsmga001.jf.intel.com with ESMTP; 28 Sep 2015 07:39:10 -0700
-Received: from irsmsx107.ger.corp.intel.com ([169.254.10.236]) by
-	IRSMSX101.ger.corp.intel.com ([169.254.1.139]) with mapi id
-	14.03.0248.002; Mon, 28 Sep 2015 15:39:09 +0100
-From: "Musat, George L" <george.l.musat@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] oeqa/testimage: Add ability to run single
-	test from suite.
-Thread-Index: AQHQ+ePjORRqd8w0AUiB8YPUxgpUeJ5R73KAgAASgFA=
-Date: Mon, 28 Sep 2015 14:39:08 +0000
-Message-ID: <042E875E1B5D414CA9BB78B7D4FA691C28854C22@IRSMSX107.ger.corp.intel.com>
-References: <1443440862-14585-1-git-send-email-george.l.musat@intel.com>
-	<CAJTo0LZLMb_WEC3KdEYpNrUDmZYvb54tr4kKnkef32k9drECyA@mail.gmail.com>
-In-Reply-To: <CAJTo0LZLMb_WEC3KdEYpNrUDmZYvb54tr4kKnkef32k9drECyA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
+	Mon, 28 Sep 2015 14:43:12 +0000 (UTC)
+Received: by qkap81 with SMTP id p81so68718697qka.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Sep 2015 07:43:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=PV1qZ68z2bcdoQBC7YROLHpFPNY4dA2qw7Foo8jNlvg=;
+	b=A3ZPVbXc7e4W0+vgeajaRYWH5PrkgcUnTGAiI/QjNyDH6cZs6sDJQCryHkSjyd11NG
+	UNMXtGTXx+XbavZy6RJHL8O351zUcKxjXs9++ZXmsjM+4gHo1JggAzdxdMzMmjJnlWax
+	4P+iy12hB/YjCrH+qycqk5M9nC8yGbU8USI50so+ffgjD65ZRCGjynUWjNKJkjefU6jy
+	Mm6wMIGKEgmd8XXJvJRrtj3iS2qDA3Vb+HAcAc+2UDByLi3nnmdB5dQoB1VW8P3Ha7VL
+	LDYVr9tNt2vB12JK08aXsHyTtxPt9iIsNHqGG+3dWQvoO8G/Dfgk9A722l0JyULY+/Or
+	Vu6A==
+X-Gm-Message-State: ALoCoQmfBLA/r5gzGTnptkQGGD6wKhD+CHrguREiZPSmiBBAzVYjeMX66AOK+RNyWdFrLhukhtn3
+X-Received: by 10.55.43.132 with SMTP id r4mr20764558qkr.104.1443451392451;
+	Mon, 28 Sep 2015 07:43:12 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.140.94.86 with HTTP; Mon, 28 Sep 2015 07:42:52 -0700 (PDT)
+In-Reply-To: <62b26729361a797eff29928054777d7a5aebdead.1443162720.git.mariano.lopez@linux.intel.com>
+References: <cover.1443162720.git.mariano.lopez@linux.intel.com>
+	<62b26729361a797eff29928054777d7a5aebdead.1443162720.git.mariano.lopez@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 28 Sep 2015 15:42:52 +0100
+Message-ID: <CAJTo0LaSKjRjqR5D74W5TtJrPBEjhendtkk=iPDrJYPHqhdEkw@mail.gmail.com>
+To: mariano.lopez@linux.intel.com
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/testimage: Add ability to run single test from suite.
+Subject: Re: [PATCH 1/1] qemurunner: Sanitize output from qemu and qemu pid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,125 +44,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Sep 2015 14:39:39 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_042E875E1B5D414CA9BB78B7D4FA691C28854C22IRSMSX107gercor_"
+X-List-Received-Date: Mon, 28 Sep 2015 14:43:13 -0000
+Content-Type: multipart/alternative; boundary=001a1147af6a7f7b890520cfb790
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C28854C22IRSMSX107gercor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--001a1147af6a7f7b890520cfb790
+Content-Type: text/plain; charset=UTF-8
 
-VGhlIHRoaW5nIGlzIGJ5IHRoZSB0aW1lIHRjLnRlc3RsaXN0IGlzIGl0ZXJhdGVkLCDigJxvZXFh
-LnJ1bnRpbWUu4oCdIGlzIGFwcGVuZGVkIGJlZm9yZSBldmVyeSBwYXJhbWV0ZXIgaW4gVEVTVF9T
-VUlURVMgc28gSSB0cnkgdG8gZmluZCBvdXQgaWYgaXTigJlzIGEgZmlsZW5hbWUuY2xhc3MudGVz
-dCBmb3JtYXQgYW5kIHRydW5jYXRlIGl0IGFzIHlvdSBzYWlkLiBUaGFua3MgZm9yIHRoZSBpbnB1
-dC4gV2lsbCBkbyB0aGUgY2hhbmdlcy4NCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9z
-cy5idXJ0b25AaW50ZWwuY29tXQ0KU2VudDogTW9uZGF5LCBTZXB0ZW1iZXIgMjgsIDIwMTUgNToy
-OSBQTQ0KVG86IE11c2F0LCBHZW9yZ2UgTA0KQ2M6IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0Ut
-Y29yZV0gW1BBVENIXSBvZXFhL3Rlc3RpbWFnZTogQWRkIGFiaWxpdHkgdG8gcnVuIHNpbmdsZSB0
-ZXN0IGZyb20gc3VpdGUuDQoNCk9uIDI4IFNlcHRlbWJlciAyMDE1IGF0IDEyOjQ3LCBMdWNpYW4g
-TXVzYXQgPGdlb3JnZS5sLm11c2F0QGludGVsLmNvbTxtYWlsdG86Z2VvcmdlLmwubXVzYXRAaW50
-ZWwuY29tPj4gd3JvdGU6DQpAQCAtMTcyLDYgKzE3Niw3IEBAIGRlZiBleHBvcnRUZXN0cyhkLHRj
-KToNCisgICAgZnJvbSByZSBpbXBvcnQgc2VhcmNoIGFzIHJlX3NlYXJjaA0KDQpKdXN0IGltcG9y
-dCByZSBhbmQgdGhlbiBkbyByZS5zZWFyY2ggLSBpdCdzIHRoZSBzYW1lIG51bWJlciBvZiBjaGFy
-YWN0ZXJzIHdoZW4gY2FsbGluZyBhbmQgaXQncyBvYnZpb3VzIHdoYXQgeW91J3JlIGNhbGxpbmcg
-dGhlbi4NCg0KICAgICBmb3IgdCBpbiB0Yy50ZXN0c2xpc3Q6DQorICAgICAgICBpZiByZV9zZWFy
-Y2goIlx3K1wuXHcrXC50ZXN0X1xTKyIsIHQpOg0KKyAgICAgICAgICAgIHQgPSB0LnNwbGl0KCcu
-JylbMF0rJy4nK3Quc3BsaXQoJy4nKVsxXSsnLicrdC5zcGxpdCgnLicpWzJdDQoNCk5vdCBzdXJl
-IEkgdW5kZXJzdGFuZCB3aGF0IHRoaXMgaXMgbWVhbnQgdG8gYmUgZG9pbmcuICBJZiB0IG1hdGNo
-ZXMgW2FscGhhbnVtZXJpY3NdLlthbHBoYW51bWVyaWNzXS50ZXN0X1tub3Qgd2hpdGVzcGFjZV0g
-cmVwZWF0ZWRseSBzcGxpdCB0IG9uIGRvdHMgYW5kIHJlLWpvaW4gaXQgYmFjayB0b2dldGhlciB3
-aXRoIGRvdHMuICBGb3IgdGhlIGV4YW1wbGUgb2YgZmlsZW5hbWUuY2xhc3MudGVzdF9tZXRob2Qg
-ZG9lc24ndCB0aGlzIHJlY29uc3RydWN0IHRoZSBpbnB1dD8gIElmIHlvdSdyZSBhdHRlbXB0aW5n
-IHRvIHRydW5jYXRlIHRvIHRoZSBmaXJzdCB0aHJlZSBlbGVtZW50cywgdGhlbiBzb21ldGhpbmcg
-bGlrZSAnLicuam9pbih0LnNwbGl0KCcuJylbOjNdKSBpcyBtdWNoIG1vcmUgZWZmaWNpZW50IGFu
-ZCBQeXRob25pYy4NCg0KUm9zcw0K
+On 25 September 2015 at 07:33, <mariano.lopez@linux.intel.com> wrote:
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C28854C22IRSMSX107gercor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+>      def log(self, msg):
+>          if self.logfile:
+> +            # It is needed to sanitize the data received from qemu
+> +            # because is possible to have control characters or Unicode
+> +            msg = cmdline = "".join(filter(lambda x:x in
+> string.printable, msg))
+>              with open(self.logfile, "a") as f:
+>                  f.write("%s" % msg)
+>
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
-ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
-CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
-MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
-MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
-cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
-aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
-YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
-aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
-cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoZSB0aGluZyBpcyBieSB0aGUgdGltZSB0
-Yy50ZXN0bGlzdCBpcyBpdGVyYXRlZCwg4oCcb2VxYS5ydW50aW1lLuKAnSBpcyBhcHBlbmRlZCBi
-ZWZvcmUgZXZlcnkgcGFyYW1ldGVyIGluIFRFU1RfU1VJVEVTIHNvIEkgdHJ5IHRvIGZpbmQgb3V0
-IGlmIGl04oCZcyBhIGZpbGVuYW1lLmNsYXNzLnRlc3QNCiBmb3JtYXQgYW5kIHRydW5jYXRlIGl0
-IGFzIHlvdSBzYWlkLiBUaGFua3MgZm9yIHRoZSBpbnB1dC4gV2lsbCBkbyB0aGUgY2hhbmdlcy48
-bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YSBuYW1lPSJfTWFp
-bEVuZENvbXBvc2UiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
-dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwv
-bzpwPjwvc3Bhbj48L2E+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNl
-cmlmIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
-YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4gQnVydG9uLCBSb3NzIFttYWls
-dG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+IE1vbmRheSwgU2Vw
-dGVtYmVyIDI4LCAyMDE1IDU6MjkgUE08YnI+DQo8Yj5Ubzo8L2I+IE11c2F0LCBHZW9yZ2UgTDxi
-cj4NCjxiPkNjOjwvYj4gT0UtY29yZTxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVd
-IFtQQVRDSF0gb2VxYS90ZXN0aW1hZ2U6IEFkZCBhYmlsaXR5IHRvIHJ1biBzaW5nbGUgdGVzdCBm
-cm9tIHN1aXRlLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxv
-OnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDI4IFNl
-cHRlbWJlciAyMDE1IGF0IDEyOjQ3LCBMdWNpYW4gTXVzYXQgJmx0OzxhIGhyZWY9Im1haWx0bzpn
-ZW9yZ2UubC5tdXNhdEBpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5nZW9yZ2UubC5tdXNhdEBp
-bnRlbC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPGJs
-b2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4w
-cHQ7cGFkZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmln
-aHQ6MGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkBAIC0xNzIsNiAmIzQzOzE3Niw3IEBAIGRl
-ZiBleHBvcnRUZXN0cyhkLHRjKTo8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgZnJvbSByZSBpbXBv
-cnQgc2VhcmNoIGFzIHJlX3NlYXJjaDxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPGRp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SnVzdCBpbXBvcnQgcmUgYW5kIHRoZW4gZG8gcmUu
-c2VhcmNoIC0gaXQncyB0aGUgc2FtZSBudW1iZXIgb2YgY2hhcmFjdGVycyB3aGVuIGNhbGxpbmcg
-YW5kIGl0J3Mgb2J2aW91cyB3aGF0IHlvdSdyZSBjYWxsaW5nIHRoZW4uPG86cD48L286cD48L3A+
-DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwv
-cD4NCjwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNv
-bGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0
-LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZuYnNwOyAmbmJz
-cDsgJm5ic3A7Zm9yIHQgaW4gdGMudGVzdHNsaXN0Ojxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7IGlmIHJlX3NlYXJjaCgmcXVvdDtcdyYjNDM7XC5cdyYjNDM7XC50ZXN0X1xT
-JiM0MzsmcXVvdDssIHQpOjxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgdCA9IHQuc3BsaXQoJy4nKVswXSYjNDM7Jy4nJiM0Mzt0LnNwbGl0KCcuJylb
-MV0mIzQzOycuJyYjNDM7dC5zcGxpdCgnLicpWzJdPG86cD48L286cD48L3A+DQo8L2Jsb2NrcXVv
-dGU+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8
-L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Ob3Qgc3VyZSBJIHVuZGVyc3RhbmQg
-d2hhdCB0aGlzIGlzIG1lYW50IHRvIGJlIGRvaW5nLiZuYnNwOyBJZiB0IG1hdGNoZXMgW2FscGhh
-bnVtZXJpY3NdLlthbHBoYW51bWVyaWNzXS50ZXN0X1tub3Qgd2hpdGVzcGFjZV0gcmVwZWF0ZWRs
-eSBzcGxpdCB0IG9uIGRvdHMgYW5kIHJlLWpvaW4gaXQgYmFjayB0b2dldGhlciB3aXRoIGRvdHMu
-Jm5ic3A7IEZvciB0aGUgZXhhbXBsZSBvZiBmaWxlbmFtZS5jbGFzcy50ZXN0X21ldGhvZA0KIGRv
-ZXNuJ3QgdGhpcyByZWNvbnN0cnVjdCB0aGUgaW5wdXQ/Jm5ic3A7IElmIHlvdSdyZSBhdHRlbXB0
-aW5nIHRvIHRydW5jYXRlIHRvIHRoZSBmaXJzdCB0aHJlZSBlbGVtZW50cywgdGhlbiBzb21ldGhp
-bmcgbGlrZSAnLicuam9pbih0LnNwbGl0KCcuJylbOjNdKSBpcyBtdWNoIG1vcmUgZWZmaWNpZW50
-IGFuZCBQeXRob25pYy48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0K
-PC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+cmdline looks like a copy/paste typo?
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C28854C22IRSMSX107gercor_--
+Would it be sensible in the future to support UTF-8 for the logging?
+
+Ross
+
+--001a1147af6a7f7b890520cfb790
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">On 25 September 2015 at 07:33, =
+ <span dir=3D"ltr">&lt;<a href=3D"mailto:mariano.lopez@linux.intel.com" tar=
+get=3D"_blank">mariano.lopez@linux.intel.com</a>&gt;</span> wrote:<br><div =
+class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":6ny" class=
+=3D"a3s" style=3D"overflow:hidden">=C2=A0 =C2=A0 =C2=A0def log(self, msg):<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if self.logfile:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # It is needed to sanitize the d=
+ata received from qemu<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # because is possible to have co=
+ntrol characters or Unicode<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D cmdline =3D &quot;&quot;=
+.join(filter(lambda x:x in string.printable, msg))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with open(self.logfile, &qu=
+ot;a&quot;) as f:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(&quot=
+;%s&quot; % msg)</div></blockquote></div><br>cmdline looks like a copy/past=
+e typo?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">Would it be sensible in the future to support UTF-8 for the logging?</div=
+><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
+</div>
+
+--001a1147af6a7f7b890520cfb790--
