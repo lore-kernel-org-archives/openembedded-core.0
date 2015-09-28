@@ -1,37 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 89B50755F4
+Return-Path: <george.l.musat@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D1B4E75894
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 14:43:12 +0000 (UTC)
-Received: by qkap81 with SMTP id p81so68718697qka.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 07:43:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=PV1qZ68z2bcdoQBC7YROLHpFPNY4dA2qw7Foo8jNlvg=;
-	b=A3ZPVbXc7e4W0+vgeajaRYWH5PrkgcUnTGAiI/QjNyDH6cZs6sDJQCryHkSjyd11NG
-	UNMXtGTXx+XbavZy6RJHL8O351zUcKxjXs9++ZXmsjM+4gHo1JggAzdxdMzMmjJnlWax
-	4P+iy12hB/YjCrH+qycqk5M9nC8yGbU8USI50so+ffgjD65ZRCGjynUWjNKJkjefU6jy
-	Mm6wMIGKEgmd8XXJvJRrtj3iS2qDA3Vb+HAcAc+2UDByLi3nnmdB5dQoB1VW8P3Ha7VL
-	LDYVr9tNt2vB12JK08aXsHyTtxPt9iIsNHqGG+3dWQvoO8G/Dfgk9A722l0JyULY+/Or
-	Vu6A==
-X-Gm-Message-State: ALoCoQmfBLA/r5gzGTnptkQGGD6wKhD+CHrguREiZPSmiBBAzVYjeMX66AOK+RNyWdFrLhukhtn3
-X-Received: by 10.55.43.132 with SMTP id r4mr20764558qkr.104.1443451392451;
-	Mon, 28 Sep 2015 07:43:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Mon, 28 Sep 2015 07:42:52 -0700 (PDT)
-In-Reply-To: <62b26729361a797eff29928054777d7a5aebdead.1443162720.git.mariano.lopez@linux.intel.com>
-References: <cover.1443162720.git.mariano.lopez@linux.intel.com>
-	<62b26729361a797eff29928054777d7a5aebdead.1443162720.git.mariano.lopez@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 28 Sep 2015 15:42:52 +0100
-Message-ID: <CAJTo0LaSKjRjqR5D74W5TtJrPBEjhendtkk=iPDrJYPHqhdEkw@mail.gmail.com>
-To: mariano.lopez@linux.intel.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] qemurunner: Sanitize output from qemu and qemu pid
+	Mon, 28 Sep 2015 14:54:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Sep 2015 07:54:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,603,1437462000"; d="scan'208";a="814725923"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 28 Sep 2015 07:54:33 -0700
+Received: from localhost.localdomain (unknown [10.237.112.173])
+	by linux.intel.com (Postfix) with ESMTP id 427D56A4005;
+	Mon, 28 Sep 2015 07:53:36 -0700 (PDT)
+From: Lucian Musat <george.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Sep 2015 17:52:24 +0300
+Message-Id: <1443451944-14838-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCHv2] oeqa/testimage: Add ability to run single test from suite.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,55 +30,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Sep 2015 14:43:13 -0000
-Content-Type: multipart/alternative; boundary=001a1147af6a7f7b890520cfb790
+X-List-Received-Date: Mon, 28 Sep 2015 14:54:33 -0000
 
---001a1147af6a7f7b890520cfb790
-Content-Type: text/plain; charset=UTF-8
+Just like we have in oe-selftest, you can add
+<filename>.<Class>.<testname> in TEST_SUITES in order to
+run just that test
 
-On 25 September 2015 at 07:33, <mariano.lopez@linux.intel.com> wrote:
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+---
+ meta/classes/testimage.bbclass | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
->      def log(self, msg):
->          if self.logfile:
-> +            # It is needed to sanitize the data received from qemu
-> +            # because is possible to have control characters or Unicode
-> +            msg = cmdline = "".join(filter(lambda x:x in
-> string.printable, msg))
->              with open(self.logfile, "a") as f:
->                  f.write("%s" % msg)
->
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 2efab29..bde510c 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -146,6 +146,10 @@ def get_tests_list(d, type="runtime"):
+                     testslist.append("oeqa." + type + "." + testname)
+                     found = True
+                     break
++                elif os.path.exists(os.path.join(p, 'lib', 'oeqa', type, testname.split(".")[0] + '.py')):
++                    testslist.append("oeqa." + type + "." + testname)
++                    found = True
++                    break
+             if not found:
+                 bb.fatal('Test %s specified in TEST_SUITES could not be found in lib/oeqa/runtime under BBPATH' % testname)
+ 
+@@ -172,6 +176,7 @@ def exportTests(d,tc):
+     import json
+     import shutil
+     import pkgutil
++    import re
+ 
+     exportpath = d.getVar("TEST_EXPORT_DIR", True)
+ 
+@@ -223,6 +228,8 @@ def exportTests(d,tc):
+     bb.utils.mkdirhier(os.path.join(exportpath, "oeqa/utils"))
+     # copy test modules, this should cover tests in other layers too
+     for t in tc.testslist:
++        if re.search("\w+\.\w+\.test_\S+", t):
++            t = '.'.join(t.split('.')[:3])
+         mod = pkgutil.get_loader(t)
+         shutil.copy2(mod.filename, os.path.join(exportpath, "oeqa/runtime"))
+     # copy __init__.py files
+-- 
+2.1.4
 
-cmdline looks like a copy/paste typo?
 
-Would it be sensible in the future to support UTF-8 for the logging?
-
-Ross
-
---001a1147af6a7f7b890520cfb790
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">On 25 September 2015 at 07:33, =
- <span dir=3D"ltr">&lt;<a href=3D"mailto:mariano.lopez@linux.intel.com" tar=
-get=3D"_blank">mariano.lopez@linux.intel.com</a>&gt;</span> wrote:<br><div =
-class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":6ny" class=
-=3D"a3s" style=3D"overflow:hidden">=C2=A0 =C2=A0 =C2=A0def log(self, msg):<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if self.logfile:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # It is needed to sanitize the d=
-ata received from qemu<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # because is possible to have co=
-ntrol characters or Unicode<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D cmdline =3D &quot;&quot;=
-.join(filter(lambda x:x in string.printable, msg))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with open(self.logfile, &qu=
-ot;a&quot;) as f:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.write(&quot=
-;%s&quot; % msg)</div></blockquote></div><br>cmdline looks like a copy/past=
-e typo?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Would it be sensible in the future to support UTF-8 for the logging?</div=
-><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
-</div>
-
---001a1147af6a7f7b890520cfb790--
