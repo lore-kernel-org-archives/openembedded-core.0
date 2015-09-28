@@ -1,25 +1,48 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id AF4BE7626C
+Return-Path: <anders@chargestorm.se>
+Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
+	[209.85.215.51])
+	by mail.openembedded.org (Postfix) with ESMTP id DC21A7626C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 06:44:13 +0000 (UTC)
-Received: from [192.168.178.14] (chello062178118086.5.14.vie.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 61B3A205B2;
-	Mon, 28 Sep 2015 08:44:11 +0200 (CEST)
-To: Khem Raj <raj.khem@gmail.com>
-References: <1443390491-23728-1-git-send-email-dv@pseudoterminal.org>
-	<1443390491-23728-2-git-send-email-dv@pseudoterminal.org>
-	<CAMKF1srHAox4XZntPRCC-jzzZDwHtt46UC+ekahKE8s_YzXBpw@mail.gmail.com>
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-Message-ID: <5608E1BA.2060301@pseudoterminal.org>
-Date: Mon, 28 Sep 2015 08:44:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
+	Mon, 28 Sep 2015 06:45:51 +0000 (UTC)
+Received: by laclj5 with SMTP id lj5so55046291lac.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 27 Sep 2015 23:45:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-type:content-disposition
+	:in-reply-to:organization:user-agent;
+	bh=XRydlwsU8Af1RW5ecQoKM3n8RPW1qT2mo9qyNTXFMXk=;
+	b=fBDBP8iFpNyDKloi75i2tjbQWTBDh2yWBnxS8z/L4D2Hv9x5OxEQmntFZBZiY8zJ7P
+	K5qyiddEjiB/Toyrjz6QfhIR+vLZkFYdaLQLrZyVUR3V0FoG38YDQlD5UIDm7GUa8Uhw
+	mg0b+ZWPFUd0B7ZbtFEIF6iHqnyEajlFC6vSU8dnrvTTVRiIpqh7EgOraDThu7F1fFX9
+	DKtuLM2CDd1WNmA3g5hme2DDv0tT5c0UKfXebEY2nrVe7QVgiUX77m37S3D1bzEmbLHI
+	DSDcCvexEhaCiJDzLN9UD5em8AGiKq9Q2nbfwmYivu30jOnc3GP/HLs9dCITzYyB5UV7
+	yiiQ==
+X-Gm-Message-State: ALoCoQmRpNFTjvL1tzvwAnp5CnIQWGk4tAhvSRpLdjzLtUMKZmVNI8Wf5lANMaDuehrSqlUEDGeW
+X-Received: by 10.152.28.38 with SMTP id y6mr65028lag.16.1443422750592;
+	Sun, 27 Sep 2015 23:45:50 -0700 (PDT)
+Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
+	[213.64.219.84]) by smtp.gmail.com with ESMTPSA id
+	dt9sm1904761lbc.38.2015.09.27.23.45.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 27 Sep 2015 23:45:49 -0700 (PDT)
+Date: Mon, 28 Sep 2015 08:45:48 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20150928064548.GB4933@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1443224121-24741-1-git-send-email-net147@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1srHAox4XZntPRCC-jzzZDwHtt46UC+ekahKE8s_YzXBpw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/7] gstreamer1.0-plugins-base: upgrade to version 1.6.0
+In-Reply-To: <1443224121-24741-1-git-send-email-net147@gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: Re: [PATCH v2] opkg: create opkg.lock in /run instead of /var/run
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,47 +55,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Sep 2015 06:44:16 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Sep 2015 06:45:54 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Am 2015-09-28 um 03:07 schrieb Khem Raj:
-> On Sun, Sep 27, 2015 at 2:48 PM, Carlos Rafael Giani
-> <dv@pseudoterminal.org> wrote:
->> A number of patches had to be deleted in order for the recipe to work.
->>
->> Patches which cannot be applied cleanly to 1.6.0 and are nontrivial to fix:
->> * 0001-basetextoverlay-make-memory-copy-when-video-buffer-s.patch
->> * do-not-change-eos-event-to-gap-event2.patch
->> * do-not-change-eos-event-to-gap-event3.patch
->> * do-not-change-eos-event-to-gap-event-if.patch
->> * handle-audio-video-decoder-error.patch
->> * taglist-not-send-to-down-stream-if-all-the-frame-cor.patch
->>
-> has these been dropped ? if so then what do we lose.
+* Jonathan Liu <net147@gmail.com> [150926 01:34]:
 
-We lose nothing that hasn't either been included already or needs to be 
-reworked anyway.
+> This avoids a "Could not unlink" warning when extracting a /var/run
+> symbolic link pointing to /run from the base-files package as it is
+> unable to unlink the /var/run directory when it contains opkg.lock.
 
-There are two things I overlooked though:
+> This also fixes an issue where /var/run is created as a directory
+> instead of a symbolic link to /run.
 
-* The do-not-change-eos-event-to-gap-event* patches aren't needed 
-anymore, because the authors have sent in a completely different patch, 
-which has been included in upstream.
-* The 0002-gstplaysink-don-t-set-async-of-custom-text-sink-to-f.patch , 
-which hasn't been deleted so far, has been rejected by upstream. I 
-noticed there is a "denied" upstream-status available, but I would 
-rather delete this patch as well, especially since the discussion in 
-upstream indicates that this is more i.MX specific. Opinions?
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> Acked-by: Anders Darander <anders@chargestorm.se>
 
-The other patches in the list above, however, need to be reworked to 
-apply against 1.6.
-0001-basetextoverlay-make-memory-copy-when-video-buffer-s.patch has been 
-rejected by upstream,
-handle-audio-video-decoder-error.patch is under discussion.
-taglist-not-send-to-down-stream-if-all-the-frame-cor.patch hasn't been 
-looked at yet by upstream.
+Acked-by: Anders Darander <anders@chargestorm.se>
 
-Since these no longer apply cleanly against 1.6.0, we anyway have no 
-option but to delete them and wait until the authors reworked them.
+
+/Anders
+
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
