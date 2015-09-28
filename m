@@ -1,27 +1,23 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FF93755F4
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 0919275894
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 13:48:41 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 28 Sep 2015 06:48:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,602,1437462000"; d="scan'208";a="569820041"
-Received: from blavenax-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.21.166])
-	by FMSMGA003.fm.intel.com with ESMTP; 28 Sep 2015 06:48:38 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Date: Mon, 28 Sep 2015 14:48:35 +0100
-Message-ID: <2936022.hqFWI3dATu@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.6-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <1443095587-13852-11-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1443095587-13852-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1443095587-13852-11-git-send-email-markus.lehtonen@linux.intel.com>
+	Mon, 28 Sep 2015 13:50:11 +0000 (UTC)
+Received: from [IPv6:fda8:8b75:6fa6:1000:a43b:eaca:e79a:f903] (192.168.15.34)
+	by smtp.enea.com (172.21.1.209) with Microsoft SMTP Server id
+	14.3.224.2; Mon, 28 Sep 2015 15:50:05 +0200
+Message-ID: <56094576.6070803@enea.com>
+Date: Mon, 28 Sep 2015 16:49:42 +0300
+From: Tudor Florea <tudor.florea@enea.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 10/10] devtool: modify: make bitbake use local files from srctree
+To: Ian Ray <ian.ray@ge.com>, <openembedded-core@lists.openembedded.org>
+References: <1442819513-20171-1-git-send-email-ian.ray@ge.com>
+	<1442819513-20171-2-git-send-email-ian.ray@ge.com>
+In-Reply-To: <1442819513-20171-2-git-send-email-ian.ray@ge.com>
+X-Originating-IP: [192.168.15.34]
+Subject: Re: [yocto][PATCH 1/1] ptest: user-specified run-ptest script location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,50 +30,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Sep 2015 13:48:43 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 28 Sep 2015 13:50:12 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Hi Markus,
+Hi Ian
 
-On Thursday 24 September 2015 14:53:07 Markus Lehtonen wrote:
-> This change makes it possible to have local files (non-remote SRC_URI
-> files, i.e. files that are located in the "recipe space") under the
-> srctree even if S!=WORKDIR. The files must be placed under the
-> 'local-files' subdirectory.
+On 9/21/2015 10:11, Ian Ray wrote:
+> Provides a new variable, PTEST_RUN_SCRIPT_PATH, which points to a
+> directory where the run-ptest script is located.  This location
+> defaults to the work directory but may be overridden within a recipe
+> if a package ships its own run-ptest script.
 > 
-> Complements the previous patch that imports local files into srctree.
-> 
-> [YOCTO #7602]
-> 
-> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+> Signed-off-by: Ian Ray <ian.ray@ge.com>
 > ---
->  scripts/lib/devtool/standard.py | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+>  meta/classes/ptest.bbclass | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/scripts/lib/devtool/standard.py
-> b/scripts/lib/devtool/standard.py index 6b85c8c..78b0d27 100644
-> --- a/scripts/lib/devtool/standard.py
-> +++ b/scripts/lib/devtool/standard.py
-> @@ -558,8 +558,13 @@ def modify(args, config, basepath, workspace):
->      if not os.path.exists(appendpath):
->          os.makedirs(appendpath)
->      with open(appendfile, 'w') as f:
-> -        f.write('FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"\n\n')
-> -        f.write('inherit externalsrc\n')
-> +        f.write('FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"\n')
-> +        # Local files can be modified/tracked in separate subdir under
-> srctree +        # Mostly useful for packages with S != WORKDIR
-> +        f.write('FILESPATH_prepend := "%s:"\n' %
-> +                os.path.join(srctree, 'local-files'))
+> diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+> index b5f470f..7d9d0cc 100644
+> --- a/meta/classes/ptest.bbclass
+> +++ b/meta/classes/ptest.bbclass
+> @@ -3,6 +3,7 @@ DESCRIPTION_${PN}-ptest ?= "${DESCRIPTION}  \
+>  This package contains a test directory ${PTEST_PATH} for package test purposes."
+>  
+>  PTEST_PATH ?= "${libdir}/${PN}/ptest"
+> +PTEST_RUN_SCRIPT_PATH ??= "${WORKDIR}"
+>  FILES_${PN}-ptest = "${PTEST_PATH}"
+>  SECTION_${PN}-ptest = "devel"
+>  ALLOW_EMPTY_${PN}-ptest = "1"
+> @@ -37,8 +38,8 @@ do_install_ptest() {
+>  }
+>  
+>  do_install_ptest_base() {
+> -    if [ -f ${WORKDIR}/run-ptest ]; then
+> -        install -D ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/run-ptest
+> +    if [ -f ${PTEST_RUN_SCRIPT_PATH}/run-ptest ]; then
+> +        install -D ${PTEST_RUN_SCRIPT_PATH}/run-ptest ${D}${PTEST_PATH}/run-ptest
+Is there any benefit in adding this? Do you have an example of package
+that contains a run-ptest file that could benefit of this approach?
+Usually, run-ptest is not part of the package but rather is a standalone
+file referred by the package recipe. It is the responsibility of the
+person implementing ptest functionality come up with a run-ptest file
+(containing a script to be run on target to implement testing
+functionality) hence is his/her responsibility as well to put it in the
+right place.
 
-Shouldn't this directory be named "oe-local-files"?
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+>          if grep -q install-ptest: Makefile; then
+>              oe_runmake DESTDIR=${D}${PTEST_PATH} install-ptest
+>          fi
+> 
 
