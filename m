@@ -1,26 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 96AD6755FA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A2ED73D13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 09:11:41 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 28 Sep 2015 02:11:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,602,1437462000"; d="scan'208";a="814353804"
-Received: from blavenax-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.21.166])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Sep 2015 02:11:40 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Alex Franco <alejandro.franco@linux.intel.com>
-Date: Mon, 28 Sep 2015 10:11:37 +0100
-Message-ID: <9137827.Hc2XNeC1g1@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.6-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <1443108196-26245-1-git-send-email-alejandro.franco@linux.intel.com>
-References: <1443108196-26245-1-git-send-email-alejandro.franco@linux.intel.com>
+	Mon, 28 Sep 2015 09:17:44 +0000 (UTC)
+Received: by qgx61 with SMTP id 61so115146531qgx.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Sep 2015 02:17:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=tjQqXr3GEGM3207J+XxdJ/tHgY74KCwxRg9FmEkvTQY=;
+	b=RrDGcwVIjm1Z591UmZfevDwac8EqnKGF3l5svr+jt/6DffnpJkjH+Oh6tCY3df90Wf
+	Oi16dPMjQaxqKmMOwypfCVOpcGPq7YNJLehXqB9ZslU4dru+35b/Za44H22bQgMsyvVT
+	hWcU96j6Gc0I3GjqTfAvagTyNWGqEQCR4dFnYDwqxwrVv5xHkBbaci+Q71UFmsFaHlcC
+	DD6aARzEoWXSWwK1eRNqlxcSomUIWr11Ct1sJkTy0+gDZsWOoZZ4YIOHxFUlNeRX+Rrk
+	HMZ2URcCdLpuidmTgSBkx4o5qgCAmmGJGkxFTsdpwj39EfYg9Lx5nS940QGOXkLWPGC+
+	mpHw==
+X-Gm-Message-State: ALoCoQntNlqbvfoohlGsYZKakftAJ8t29TiPqWKQEf5DOMNUt5hHvLYCLKYo/KnSjSda+Vy+BsGt
+X-Received: by 10.140.109.74 with SMTP id k68mr21536383qgf.77.1443431864248;
+	Mon, 28 Sep 2015 02:17:44 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2 1/2] Empty image: core-image-empty recipe
+Received: by 10.140.94.86 with HTTP; Mon, 28 Sep 2015 02:17:24 -0700 (PDT)
+In-Reply-To: <1443390491-23728-1-git-send-email-dv@pseudoterminal.org>
+References: <1443390491-23728-1-git-send-email-dv@pseudoterminal.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 28 Sep 2015 10:17:24 +0100
+Message-ID: <CAJTo0LYdbMFYWieAPp4ePm3wrJb4Pn4e5xnxf4vpJZ7aUOYNAg@mail.gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] gstreamer1.0: upgrade to version 1.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Sep 2015 09:11:41 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 28 Sep 2015 09:17:45 -0000
+Content-Type: multipart/alternative; boundary=001a1139af2486c5dc0520cb2bab
 
-Hi Alex,
+--001a1139af2486c5dc0520cb2bab
+Content-Type: text/plain; charset=UTF-8
 
-On Thursday 24 September 2015 10:23:15 Alex Franco wrote:
-> Added core-image-empty recipe in meta-selftest/recipes-test/images
-> 
-> [YOCTO #7664]
-> 
-> Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
-> ---
->  meta-selftest/recipes-test/images/core-image-empty.bb | 7 +++++++
->  1 file changed, 7 insertions(+)
->  create mode 100644 meta-selftest/recipes-test/images/core-image-empty.bb
-> 
-> diff --git a/meta-selftest/recipes-test/images/core-image-empty.bb
-> b/meta-selftest/recipes-test/images/core-image-empty.bb new file mode
-> 100644
-> index 0000000..550567c
-> --- /dev/null
-> +++ b/meta-selftest/recipes-test/images/core-image-empty.bb
-> @@ -0,0 +1,7 @@
-> +SUMMARY = "An empty image."
-> +IMAGE_INSTALL = ""
-> +IMAGE_LINGUAS = ""
-> +PACKAGE_INSTALL = ""
-> +LICENSE = "MIT"
-> +
-> +inherit image
+On 27 September 2015 at 22:48, Carlos Rafael Giani <dv@pseudoterminal.org>
+wrote:
 
-Can we call this "test-empty-image.bb" instead?
+> Removed patches which either were backports or accepted and integrated
+>
+> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+>
 
-Also it's not necessary to specify LICENSE, image.bbclass already sets LICENSE 
-= "MIT" as the default.
+We're feature frozen so I'll add these to my "for after the freeze" folder
+but rebasing and resending when 2.0 is released would be appreciated.
 
-Cheers,
-Paul
+Ross
 
--- 
+--001a1139af2486c5dc0520cb2bab
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Paul Eggleton
-Intel Open Source Technology Centre
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 September 2015 at 22:48, Carlos Rafael Giani <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:dv@pseudoterminal.org" target=3D"_blank">dv@pseudoterminal.=
+org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":6ty=
+" class=3D"a3s" style=3D"overflow:hidden">Removed patches which either were=
+ backports or accepted and integrated<br>
+<br>
+Signed-off-by: Carlos Rafael Giani &lt;<a href=3D"mailto:dv@pseudoterminal.=
+org">dv@pseudoterminal.org</a>&gt;<br></div></blockquote></div><br>We&#39;r=
+e feature frozen so I&#39;ll add these to my &quot;for after the freeze&quo=
+t; folder but rebasing and resending when 2.0 is released would be apprecia=
+ted.=C2=A0</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
+tra">Ross</div></div>
 
+--001a1139af2486c5dc0520cb2bab--
