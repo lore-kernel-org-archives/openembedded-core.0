@@ -1,30 +1,23 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id BBF0373D17
+Return-Path: <george.l.musat@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id CCFF8755F4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 11:43:30 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t8SBhUtT026996 for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 06:43:30 -0500
-Received: from adi-pc-linux.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015092806433044-622573 ;
-	Mon, 28 Sep 2015 06:43:30 -0500 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+	Mon, 28 Sep 2015 11:49:53 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Sep 2015 04:49:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,602,1437462000"; d="scan'208";a="778908219"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 28 Sep 2015 04:49:48 -0700
+Received: from localhost.localdomain (unknown [10.237.112.173])
+	by linux.intel.com (Postfix) with ESMTP id 0D5816A4083;
+	Mon, 28 Sep 2015 04:48:49 -0700 (PDT)
+From: Lucian Musat <george.l.musat@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Sep 2015 14:43:29 +0300
-Message-Id: <1443440609-4664-1-git-send-email-adrian.ratiu@ni.com>
+Date: Mon, 28 Sep 2015 14:47:42 +0300
+Message-Id: <1443440862-14585-1-git-send-email-george.l.musat@intel.com>
 X-Mailer: git-send-email 2.1.4
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 09/28/2015 06:43:30 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 09/28/2015 06:43:30 AM,
-	Serialize complete at 09/28/2015 06:43:30 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-09-28_05:, , signatures=0
-Subject: [oe][meta-oe][PATCH] vim: Compile and provide xxd in package vim-xxd
+Subject: [PATCH] oeqa/testimage: Add ability to run single test from suite.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,51 +30,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Sep 2015 11:43:31 -0000
+X-List-Received-Date: Mon, 28 Sep 2015 11:49:54 -0000
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Just like we have in oe-selftest, you can add
+<filename>.<Class>.<testname> in TEST_SUITES in order to
+run just that test.
+
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
 ---
- meta-oe/recipes-support/vim/vim_7.4.481.bb | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ meta/classes/testimage.bbclass | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta-oe/recipes-support/vim/vim_7.4.481.bb b/meta-oe/recipes-support/vim/vim_7.4.481.bb
-index 2ece53b..fcd036b 100644
---- a/meta-oe/recipes-support/vim/vim_7.4.481.bb
-+++ b/meta-oe/recipes-support/vim/vim_7.4.481.bb
-@@ -59,6 +59,11 @@ EXTRA_OECONF = " \
-     STRIP=/bin/true \
- "
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 2efab29..36ee782 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -146,6 +146,10 @@ def get_tests_list(d, type="runtime"):
+                     testslist.append("oeqa." + type + "." + testname)
+                     found = True
+                     break
++                elif os.path.exists(os.path.join(p, 'lib', 'oeqa', type, testname.split(".")[0] + '.py')):
++                    testslist.append("oeqa." + type + "." + testname)
++                    found = True
++                    break
+             if not found:
+                 bb.fatal('Test %s specified in TEST_SUITES could not be found in lib/oeqa/runtime under BBPATH' % testname)
  
-+do_compile_append() {
-+    cd "${S}/xxd"
-+    make
-+}
-+
- do_install() {
-     autotools_do_install
+@@ -172,6 +176,7 @@ def exportTests(d,tc):
+     import json
+     import shutil
+     import pkgutil
++    from re import search as re_search
  
-@@ -70,17 +75,20 @@ do_install() {
-     # Install example vimrc from runtime files
-     install -m 0644 ../runtime/vimrc_example.vim ${D}/${datadir}/${BPN}/vimrc
+     exportpath = d.getVar("TEST_EXPORT_DIR", True)
  
-+    install -m 0755 xxd/xxd ${D}${bindir}/xxd
-+
-     # we use --with-features=big as default
-     mv ${D}${bindir}/${BPN} ${D}${bindir}/${BPN}.${BPN}
- }
- 
- PARALLEL_MAKEINST = ""
- 
--PACKAGES =+ "${PN}-common ${PN}-syntax ${PN}-help ${PN}-tutor ${PN}-vimrc"
-+PACKAGES =+ "${PN}-common ${PN}-syntax ${PN}-help ${PN}-tutor ${PN}-vimrc ${PN}-xxd"
- FILES_${PN}-syntax = "${datadir}/${BPN}/${VIMDIR}/syntax"
- FILES_${PN}-help = "${datadir}/${BPN}/${VIMDIR}/doc"
- FILES_${PN}-tutor = "${datadir}/${BPN}/${VIMDIR}/tutor ${bindir}/${BPN}tutor"
- FILES_${PN}-vimrc = "${datadir}/${BPN}/vimrc"
-+FILES_${PN}-xxd = "${bindir}/xxd"
- FILES_${PN}-data = "${datadir}/${BPN}"
- FILES_${PN}-common = " \
-     ${datadir}/${BPN}/${VIMDIR}/*.vim \
+@@ -223,6 +228,8 @@ def exportTests(d,tc):
+     bb.utils.mkdirhier(os.path.join(exportpath, "oeqa/utils"))
+     # copy test modules, this should cover tests in other layers too
+     for t in tc.testslist:
++        if re_search("\w+\.\w+\.test_\S+", t):
++            t = t.split('.')[0]+'.'+t.split('.')[1]+'.'+t.split('.')[2]
+         mod = pkgutil.get_loader(t)
+         shutil.copy2(mod.filename, os.path.join(exportpath, "oeqa/runtime"))
+     # copy __init__.py files
 -- 
 2.1.4
 
