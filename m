@@ -1,23 +1,55 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D1B4E75894
+Return-Path: <ian.ray@ge.com>
+X-Greylist: delayed 1727 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 28 Sep 2015 15:15:31 UTC
+Received: from mx0a-00176a03.pphosted.com (mx0a-00176a03.pphosted.com
+	[67.231.149.52])
+	by mail.openembedded.org (Postfix) with ESMTP id D721773D17
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Sep 2015 14:54:31 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Sep 2015 07:54:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,603,1437462000"; d="scan'208";a="814725923"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 28 Sep 2015 07:54:33 -0700
-Received: from localhost.localdomain (unknown [10.237.112.173])
-	by linux.intel.com (Postfix) with ESMTP id 427D56A4005;
-	Mon, 28 Sep 2015 07:53:36 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Sep 2015 17:52:24 +0300
-Message-Id: <1443451944-14838-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCHv2] oeqa/testimage: Add ability to run single test from suite.
+	Mon, 28 Sep 2015 15:15:31 +0000 (UTC)
+Received: from pps.filterd (m0047961.ppops.net [127.0.0.1])
+	by m0047961.ppops.net-00176a03. (8.15.0.59/8.15.0.59) with SMTP id
+	t8SEkESx034910 for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Sep 2015 10:46:43 -0400
+Received: from alpmlip10.e2k.ad.ge.com ([12.43.191.1])
+	by m0047961.ppops.net-00176a03. with ESMTP id 1x5q0bba3d-8
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Sep 2015 10:46:43 -0400
+Received: from unknown (HELO ALPMBHT03.e2k.ad.ge.com) ([3.159.19.196])
+	by alpmlip10.e2k.ad.ge.com with ESMTP/TLS/AES128-SHA;
+	28 Sep 2015 10:46:31 -0400
+Received: from BUDURLND11.e2k.ad.ge.com (3.159.54.67) by
+	ALPMBHT03.e2k.ad.ge.com (3.159.19.196) with Microsoft SMTP Server (TLS)
+	id 14.3.224.2; Mon, 28 Sep 2015 10:46:31 -0400
+Received: from BUDURBPA11.e2k.ad.ge.com ([169.254.5.78]) by
+	BUDURLND11.e2k.ad.ge.com ([169.254.9.209]) with mapi id 14.03.0224.002;
+	Mon, 28 Sep 2015 16:46:29 +0200
+From: "Ray, Ian (GE Healthcare)" <ian.ray@ge.com>
+To: Tudor Florea <tudor.florea@enea.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [yocto][PATCH 1/1] ptest: user-specified run-ptest
+	script location
+Thread-Index: AQHQ9D12gDdNURG4z0uEytnw+fttNJ5R3wsAgAAscpA=
+Date: Mon, 28 Sep 2015 14:46:29 +0000
+Message-ID: <30E719D66AEA914CBB7DAB303B1C722D1728B4@BUDURBPA11.e2k.ad.ge.com>
+References: <1442819513-20171-1-git-send-email-ian.ray@ge.com>
+	<1442819513-20171-2-git-send-email-ian.ray@ge.com>
+	<56094576.6070803@enea.com>
+In-Reply-To: <56094576.6070803@enea.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [3.159.54.224]
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-09-28_09:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+	suspectscore=0
+	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
+	adjust=0 reason=mlx scancount=1 engine=8.0.1-1507310000
+	definitions=main-1509280207
+Subject: Re: [yocto][PATCH 1/1] ptest: user-specified run-ptest script location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,50 +62,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Sep 2015 14:54:33 -0000
+X-List-Received-Date: Mon, 28 Sep 2015 15:15:33 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Just like we have in oe-selftest, you can add
-<filename>.<Class>.<testname> in TEST_SUITES in order to
-run just that test
+Hi Tudor
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/classes/testimage.bbclass | 7 +++++++
- 1 file changed, 7 insertions(+)
+On 28 September 2015, Tudor Florea wrote:
+> On 9/21/2015 10:11, Ian Ray wrote:
+>> Provides a new variable, PTEST_RUN_SCRIPT_PATH, which points to a
+>> directory where the run-ptest script is located.  This location
+>> defaults to the work directory but may be overridden within a recipe
+(snip)
+> Is there any benefit in adding this? Do you have an example of package
+> that contains a run-ptest file that could benefit of this approach?
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 2efab29..bde510c 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -146,6 +146,10 @@ def get_tests_list(d, type="runtime"):
-                     testslist.append("oeqa." + type + "." + testname)
-                     found = True
-                     break
-+                elif os.path.exists(os.path.join(p, 'lib', 'oeqa', type, testname.split(".")[0] + '.py')):
-+                    testslist.append("oeqa." + type + "." + testname)
-+                    found = True
-+                    break
-             if not found:
-                 bb.fatal('Test %s specified in TEST_SUITES could not be found in lib/oeqa/runtime under BBPATH' % testname)
- 
-@@ -172,6 +176,7 @@ def exportTests(d,tc):
-     import json
-     import shutil
-     import pkgutil
-+    import re
- 
-     exportpath = d.getVar("TEST_EXPORT_DIR", True)
- 
-@@ -223,6 +228,8 @@ def exportTests(d,tc):
-     bb.utils.mkdirhier(os.path.join(exportpath, "oeqa/utils"))
-     # copy test modules, this should cover tests in other layers too
-     for t in tc.testslist:
-+        if re.search("\w+\.\w+\.test_\S+", t):
-+            t = '.'.join(t.split('.')[:3])
-         mod = pkgutil.get_loader(t)
-         shutil.copy2(mod.filename, os.path.join(exportpath, "oeqa/runtime"))
-     # copy __init__.py files
--- 
-2.1.4
+The main benefit is for packages that are run-ptest /aware/, in which case
+the recipe can be simplified.
+
+I only have examples of our own, internal, packages which have been
+developed with ptest in mind.
+
+> Usually, run-ptest is not part of the package but rather is a standalone
+> file referred by the package recipe. It is the responsibility of the
+> person implementing ptest functionality come up with a run-ptest file
+> (containing a script to be run on target to implement testing
+> functionality) hence is his/her responsibility as well to put it in the
+> right place.
+
+Right.  And if the right place is /inside/ the package, then this patch mak=
+es
+the recipe more explicit.  Admittedly, without this patch one can simply
+copy the file explicitly in the recipe.
+
+do_compile_ptest () {
+        oe_runmake buildtest-TESTS
+        cp ${S}/path/to/run-ptest ${WORKDIR}
+}
 
 
