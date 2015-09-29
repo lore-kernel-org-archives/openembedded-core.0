@@ -1,36 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id B25E67702D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A81477025
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 11:31:10 +0000 (UTC)
-Received: by qkfq186 with SMTP id q186so1374065qkf.1
+	Tue, 29 Sep 2015 11:45:01 +0000 (UTC)
+Received: by wicfx3 with SMTP id fx3so11641981wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 04:31:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=TW0Sr/7R2fAFnux/dwNuv2OIM6muBJYIN1Cq6pUaCFE=;
-	b=TF649pmnbqjbwvOaoqk26n1pRn40HytYp//8ggUK4sXPdZ6CAEr9SJDJS6n0hM1+Mx
-	uMBevadQq0taNnvMNiyOHk2qIRWJr1OAeZVfTspO9Bjgfi8CgCJ6Q8V+Kh3o4ZeWTxlh
-	w08fOTzgeaD4CNG38jZmRmfhbJi6VeB3W7hpxA3xlrDYFAj+py/HN2M67e/JuEcA3jRF
-	JEraVpmr/UI3X80p+ukqY131pSVAZPAm9VdDRtULs3y8n2ORg1S5g467ddKtZ4u5A/fe
-	TZTnhXh6MoCoorG9BqqEzPxDj3yUd2stydVlclZMNIo4T/w487yDfrkZK3G31/mBWCwK
-	H8rA==
-X-Gm-Message-State: ALoCoQn88xovj6GhjKw5oNYcmkNBMZDXcJrblbneBtabndSKEsnJwVl5cx212yRYL8Qu0dt2e81L
-X-Received: by 10.55.221.24 with SMTP id n24mr28078116qki.64.1443526270157;
-	Tue, 29 Sep 2015 04:31:10 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Tue, 29 Sep 2015 04:30:50 -0700 (PDT)
-In-Reply-To: <1443087197-3274-1-git-send-email-george.l.musat@intel.com>
-References: <1443087197-3274-1-git-send-email-george.l.musat@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 29 Sep 2015 12:30:50 +0100
-Message-ID: <CAJTo0LZYd5cSH+Ct=iz7jDeJuAyJ3c0edddaWBGN3NC1ECHtPg@mail.gmail.com>
-To: Lucian Musat <george.l.musat@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/runexported: Added default json file name as first parameter.
+	Tue, 29 Sep 2015 04:45:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=pVivabSDTGvCEP7QobTEQx7vznTebgC9Myxrs16LPMo=;
+	b=xlCfiEdpFh33efl+i3jfNWCAAmrbHQFHhjYI9quK3OC1E7cDGsjVDs5iel/New3oEE
+	vOlz5fTcUyR4mmNbWpJG9VT3xC65X4g3mzfkuKG4Rcv4wCHqq/oRpSty30FHIWt1bON4
+	ZQ2toRUw1fT8WZUDYK5WNZBXww1k7eIfY/3GikgEv5aM74VZMlHEGKCSv3CpE3dsfC1+
+	ok2DFfz1stmHHmstQHgpGWo69isLbpg14uJvLq2w2yyW7+oeHC7wTOR63fA1D7WCJuf+
+	LMeVu8ALSaGWofuEpBZ40L0YB34CC6IXI28XYvW8kSmZ3DWZrMQDANQGmEEQ5uSMoH9Z
+	89hw==
+X-Received: by 10.194.190.75 with SMTP id go11mr27027710wjc.80.1443527101014; 
+	Tue, 29 Sep 2015 04:45:01 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	jq3sm10127034wjb.26.2015.09.29.04.44.59
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 29 Sep 2015 04:44:59 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Sep 2015 13:45:36 +0200
+Message-Id: <1443527136-27370-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.6.0
+Subject: [PATCH][fido] sstate: run recipe-provided hooks outside of ${B}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,48 +42,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Sep 2015 11:31:13 -0000
-Content-Type: multipart/alternative; boundary=001a11466c488ecbb40520e12670
+X-List-Received-Date: Tue, 29 Sep 2015 11:45:06 -0000
 
---001a11466c488ecbb40520e12670
-Content-Type: text/plain; charset=UTF-8
+From: Ross Burton <ross.burton@intel.com>
 
-On 24 September 2015 at 10:33, Lucian Musat <george.l.musat@intel.com>
-wrote:
+To avoid races between the sstate tasks/hooks using ${B} as the cwd, and other
+tasks such as cmake_do_configure which deletes and re-creates ${B}, ensure that
+all sstate hooks are run in the right directory, and run the prefunc/postfunc in WORKDIR.
 
->      (options, args) = parser.parse_args()
->      if len(args) != 1:
-> -        parser.error("Incorrect number of arguments. The one and only
-> argument should be a json file exported by the build system")
-> +        args.append("testdata.json") #default file name
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/sstate.bbclass | 30 ++++++++++++++----------------
+ 1 file changed, 14 insertions(+), 16 deletions(-)
 
-OptionParser is deprecated so if you do the fairly trivial port to argparse
-then you can handle this directly in the option definitions (define an
-optional positional argument with a default value).
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index a710305..5c81a1c 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -44,16 +44,6 @@ EXTRA_STAGING_FIXMES ?= ""
+ 
+ SIGGEN_LOCKEDSIGS_CHECK_LEVEL ?= 'error'
+ 
+-# Specify dirs in which the shell function is executed and don't use ${B}
+-# as default dirs to avoid possible race about ${B} with other task.
+-sstate_create_package[dirs] = "${SSTATE_BUILDDIR}"
+-sstate_unpack_package[dirs] = "${SSTATE_INSTDIR}"
+-
+-# Do not run sstate_hardcode_path() in ${B}:
+-# the ${B} maybe removed by cmake_do_configure() while
+-# sstate_hardcode_path() running.
+-sstate_hardcode_path[dirs] = "${SSTATE_BUILDDIR}"
+-
+ python () {
+     if bb.data.inherits_class('native', d):
+         d.setVar('SSTATE_PKGARCH', d.getVar('BUILD_ARCH'))
+@@ -146,6 +136,8 @@ def sstate_install(ss, d):
+     shareddirs = []
+     bb.utils.mkdirhier(d.expand("${SSTATE_MANIFESTS}"))
+ 
++    sstateinst = d.expand("${WORKDIR}/sstate-install-%s/" % ss['task'])
++
+     d2 = d.createCopy()
+     extrainf = d.getVarFlag("do_" + ss['task'], 'stamp-extra-info', True)
+     if extrainf:
+@@ -239,7 +231,8 @@ def sstate_install(ss, d):
+             oe.path.copyhardlinktree(state[1], state[2])
+ 
+     for postinst in (d.getVar('SSTATEPOSTINSTFUNCS', True) or '').split():
+-        bb.build.exec_func(postinst, d)
++        # All hooks should run in the SSTATE_INSTDIR
++        bb.build.exec_func(postinst, d, (sstateinst,))
+ 
+     for lock in locks:
+         bb.utils.unlockfile(lock)
+@@ -275,7 +268,8 @@ def sstate_installpkg(ss, d):
+     d.setVar('SSTATE_PKG', sstatepkg)
+ 
+     for f in (d.getVar('SSTATEPREINSTFUNCS', True) or '').split() + ['sstate_unpack_package'] + (d.getVar('SSTATEPOSTUNPACKFUNCS', True) or '').split():
+-        bb.build.exec_func(f, d)
++        # All hooks should run in the SSTATE_INSTDIR
++        bb.build.exec_func(f, d, (sstateinst,))
+ 
+     for state in ss['dirs']:
+         prepdir(state[1])
+@@ -547,8 +541,9 @@ def sstate_package(ss, d):
+ 
+     for f in (d.getVar('SSTATECREATEFUNCS', True) or '').split() + ['sstate_create_package'] + \
+              (d.getVar('SSTATEPOSTCREATEFUNCS', True) or '').split():
+-        bb.build.exec_func(f, d)
+-  
++        # All hooks should run in SSTATE_BUILDDIR.
++        bb.build.exec_func(f, d, (sstatebuild,))
++
+     bb.siggen.dump_this_task(sstatepkg + ".siginfo", d)
+ 
+     return
+@@ -606,19 +601,22 @@ python sstate_task_prefunc () {
+     shared_state = sstate_state_fromvars(d)
+     sstate_clean(shared_state, d)
+ }
++sstate_task_prefunc[dirs] = "${WORKDIR}"
+ 
+ python sstate_task_postfunc () {
+     shared_state = sstate_state_fromvars(d)
++
+     sstate_install(shared_state, d)
+     for intercept in shared_state['interceptfuncs']:
+-        bb.build.exec_func(intercept, d)
++        bb.build.exec_func(intercept, d, (d.getVar("WORKDIR", True),))
+     omask = os.umask(002)
+     if omask != 002:
+        bb.note("Using umask 002 (not %0o) for sstate packaging" % omask)
+     sstate_package(shared_state, d)
+     os.umask(omask)
+ }
+-  
++sstate_task_postfunc[dirs] = "${WORKDIR}"
++
+ 
+ #
+ # Shell function to generate a sstate package from a directory
+-- 
+2.6.0
 
-Ross
 
---001a11466c488ecbb40520e12670
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 September 2015 at 10:33, Lucian Musat <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:george.l.musat@intel.com" target=3D"_blank">george.l.musat@intel=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":80=
-d" class=3D"a3s" style=3D"overflow:hidden">=C2=A0 =C2=A0 =C2=A0(options, ar=
-gs) =3D parser.parse_args()<br>
-=C2=A0 =C2=A0 =C2=A0if len(args) !=3D 1:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 parser.error(&quot;Incorrect number of argumen=
-ts. The one and only argument should be a json file exported by the build s=
-ystem&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 args.append(&quot;testdata.json&quot;) #defaul=
-t file name</div></blockquote></div><br>OptionParser is deprecated so if yo=
-u do the fairly trivial port to argparse then you can handle this directly =
-in the option definitions (define an optional positional argument with a de=
-fault value).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
-_extra">Ross</div></div>
-
---001a11466c488ecbb40520e12670--
