@@ -1,42 +1,41 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id E930777035
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5100077035
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 17:07:04 +0000 (UTC)
-Received: by pablk4 with SMTP id lk4so11121859pab.3
+	Tue, 29 Sep 2015 17:09:49 +0000 (UTC)
+Received: by pacex6 with SMTP id ex6so11598868pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 10:07:04 -0700 (PDT)
+	Tue, 29 Sep 2015 10:09:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=cqYBUKTql+rszDjP+/PoKsQ4ng3q4MSoTEmIkyaItTw=;
-	b=Mgl40tq38HfPRJDflerc/8OGBT3LTX7M9gN+PC38qbeOqt3jB4w96K4ZN6kI8HkqDT
-	FiydkcRSyWG0hffYc8VI97qjmo08extUPMq/FtM/M8+IRF+OBbxkZYmez7W/R+80g9nY
-	pNzYU8cxF90mNHSF7kLQwXNJUD6drygqJKGd9CA1xH17WFLyDC7f6pnKrqEjgTJw/VGD
-	xMMNaLqj2nHMwDdrclOedrXi1SKgi85evuVsYBsp0ibqNvsy57jo6BtRQBZxKmiCOitE
-	bgN5CtCyw3Nh6c8wOO6KxAtOJ6MFLKC9XGo51YvzqOzdfgMXdeP3bn9rtqS2K22pi1uL
-	0euA==
-X-Received: by 10.68.242.130 with SMTP id wq2mr33768665pbc.117.1443546424784; 
-	Tue, 29 Sep 2015 10:07:04 -0700 (PDT)
+	bh=+vBWouSYxcJMDi1ndb7jzuJkHu8eT2t8PQwHEdKkLfg=;
+	b=HqUrjiHs1/YKg8Y/x9LQ8pozpsaW4PDxD/4rMHpxgqWe5KCXpyYmEWn2kOXcx0NhVJ
+	4KW2LBS2VXPxoJBWhNMNcDI0556Vps/BijSuM/127xnWgG27p6M3SO4eSguqMm/BgTtO
+	Lsq1HuycDCj1yeqIEWlLSYkZq5cEewNftcW6cWxupctCevsxsORyBARuk5aAfSCNdCw2
+	c4IX16+uxR+ykSIFxCnV91ymCbnK0l4xtS/FUk+1nAIVfIMqqCwApmUzEWhCL9XD19No
+	lOfDJieBouID0Fh4FIHx+ZDs9fAdLhOu92HVabnmVqpNKU2X43qiYoW/9Lh1ZwXmdyyb
+	++Jg==
+X-Received: by 10.68.135.136 with SMTP id ps8mr34122151pbb.123.1443546590422; 
+	Tue, 29 Sep 2015 10:09:50 -0700 (PDT)
 Received: from ?IPv6:2601:646:8601:4580:f90b:6fa0:21f7:85bc?
 	([2601:646:8601:4580:f90b:6fa0:21f7:85bc])
 	by smtp.gmail.com with ESMTPSA id
-	of1sm26602384pbc.11.2015.09.29.10.07.04
+	z6sm26603149pbt.51.2015.09.29.10.09.49
 	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 29 Sep 2015 10:07:04 -0700 (PDT)
+	Tue, 29 Sep 2015 10:09:49 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
 X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <6b281d94cd5d112840fc39b017be201a41e65658.1443536748.git.bruce.ashfield@windriver.com>
-Date: Tue, 29 Sep 2015 10:07:03 -0700
-Message-Id: <CBC9858A-0875-463A-A0C0-0C34EEF752F0@gmail.com>
-References: <cover.1443536748.git.bruce.ashfield@windriver.com>
-	<6b281d94cd5d112840fc39b017be201a41e65658.1443536748.git.bruce.ashfield@windriver.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
+In-Reply-To: <1443533265.5162.35.camel@linuxfoundation.org>
+Date: Tue, 29 Sep 2015 10:09:48 -0700
+Message-Id: <919610E7-93B7-41EF-ADC7-8C6A179C9950@gmail.com>
+References: <1443533265.5162.35.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 X-Mailer: Apple Mail (2.3094)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] kern-tools: fix multi-layer patch application
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linuxloader/image-prelink/image-mklibs: Fix non-standard path prelinking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,66 +48,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Sep 2015 17:07:05 -0000
-X-Groupsio-MsgNum: 71751
+X-List-Received-Date: Tue, 29 Sep 2015 17:09:54 -0000
+X-Groupsio-MsgNum: 71752
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_E0088582-FA72-4524-94D1-2A143E2A1E27";
+	boundary="Apple-Mail=_E87AAA55-43C9-4C88-85B7-605BA01B2A61";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_E0088582-FA72-4524-94D1-2A143E2A1E27
+--Apple-Mail=_E87AAA55-43C9-4C88-85B7-605BA01B2A61
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=utf-8
+	charset=us-ascii
 
 
-> On Sep 29, 2015, at 7:31 AM, Bruce Ashfield =
-<bruce.ashfield@windriver.com> wrote:
+> On Sep 29, 2015, at 6:27 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
 >=20
-> Updating the kern-tools SRCREV to import the following fix:
+> Prelinking on x86-64 wasn't working out the box as it uses /lib and
+> not /lib64 for libs. Prelink was refusing to link as the dynamic =
+loader
+> didn't match its idea of the right path. Passing in the =
+--dyanmic-linker
+> option avoids this.
 >=20
->    kgit-meta: resume after last applied patch
+> We can share code from image-mklibs so abstract that into a new class,
+> linuxloader.bbclass.
 >=20
->    When the auto-resume (resume point detection) was removed from the
->    processing of a meta-series, it ignored the fact that a single =
-patch
->    series may in fact be processed a number of times.
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 >=20
->    Two layers patching a kernel will generate two different runs on =
-the
->    same branch, which always start at patch one. This will obviously
->    break with duplicate patches.
+> diff --git a/meta/classes/image-mklibs.bbclass =
+b/meta/classes/image-mklibs.bbclass
+> index c455a8e..45a66fb 100644
+> --- a/meta/classes/image-mklibs.bbclass
+> +++ b/meta/classes/image-mklibs.bbclass
+> @@ -2,6 +2,8 @@ do_rootfs[depends] +=3D =
+"mklibs-native:do_populate_sysroot"
 >=20
->    To avoid this, we simply track the last patch applied, and
->    explicitly
->    tell the patch scripts where to start. This gets us resume
->    functionality, without the overhead of resume point detection.
+> IMAGE_PREPROCESS_COMMAND +=3D "mklibs_optimize_image; "
 >=20
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
-> meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
+> +inherit linuxloader
+> +
+> mklibs_optimize_image_doit() {
+> 	rm -rf ${WORKDIR}/mklibs
+> 	mkdir -p ${WORKDIR}/mklibs/dest
+> @@ -15,26 +17,8 @@ mklibs_optimize_image_doit() {
+> 		| sed "s+^\./++" \
+> 		> ${WORKDIR}/mklibs/executables.list
 >=20
-> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb =
-b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-> index 27df02ab7a44..18be4ad61598 100644
-> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM =3D =
-"file://git/tools/kgit;beginline=3D5;endline=3D9;md5=3Dd8d1d729a70c
+> -	case ${TARGET_ARCH} in
+> -		powerpc | mips | mipsel | microblaze )
+> -			dynamic_loader=3D"${base_libdir}/ld.so.1"
+> -			;;
+> -		powerpc64)
+> -			dynamic_loader=3D"${base_libdir}/ld64.so.1"
+> -			;;
+> -		x86_64)
+> -			=
+dynamic_loader=3D"${base_libdir}/ld-linux-x86-64.so.2"
+> -			;;
+> -		i586 )
+> -			dynamic_loader=3D"${base_libdir}/ld-linux.so.2"
+> -			;;
+> -		arm )
+> -			dynamic_loader=3D"${base_libdir}/ld-linux.so.3"
+> -			;;
+> -		* )
+> -			dynamic_loader=3D"/unknown_dynamic_linker"
+> -			;;
+> -	esac
+> +	# Set $dynamic_loader
+> +        linuxloader
 >=20
-> DEPENDS =3D "git-native"
+> 	mklibs -v \
+> 		--ldlib ${dynamic_loader} \
+> diff --git a/meta/classes/image-prelink.bbclass =
+b/meta/classes/image-prelink.bbclass
+> index d4bb3ae..4bb090d 100644
+> --- a/meta/classes/image-prelink.bbclass
+> +++ b/meta/classes/image-prelink.bbclass
+> @@ -2,6 +2,8 @@ do_rootfs[depends] +=3D =
+"prelink-native:do_populate_sysroot"
 >=20
-> -SRCREV =3D "b7642a7c3f685850ffbb961313e6a593adb05370"
-> +SRCREV =3D =E2=80=9C1fb91c2965193df894089fbcbcafe3bf775c21fd"
+> IMAGE_PREPROCESS_COMMAND +=3D "prelink_image; "
+>=20
+> +inherit linuxloader
+> +
+> prelink_image () {
+> #	export PSEUDO_DEBUG=3D4
+> #	/bin/env | /bin/grep PSEUDO
+> @@ -20,8 +22,11 @@ prelink_image () {
+> 		dummy_prelink_conf=3Dfalse;
+> 	fi
+>=20
+> +	# Set $dynamic_loader
+> +	linuxloader
+> +
+> 	# prelink!
+> -	${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root =
+${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf
+> +	${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root =
+${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf --dynamic-linker =
+$dynamic_loader
+>=20
+> 	# Remove the prelink.conf if we had to add it.
+> 	if [ "$dummy_prelink_conf" =3D "true" ]; then
+> diff --git a/meta/classes/linuxloader.bbclass =
+b/meta/classes/linuxloader.bbclass
+> new file mode 100644
+> index 0000000..578df14
+> --- /dev/null
+> +++ b/meta/classes/linuxloader.bbclass
+> @@ -0,0 +1,23 @@
+> +
+> +linuxloader () {
+> +	case ${TARGET_ARCH} in
+> +		powerpc | mips | mipsel | microblaze )
+> +			dynamic_loader=3D"${base_libdir}/ld.so.1"
+> +			;;
+> +		powerpc64)
+> +			dynamic_loader=3D"${base_libdir}/ld64.so.1"
+> +			;;
+> +		x86_64)
+> +			=
+dynamic_loader=3D"${base_libdir}/ld-linux-x86-64.so.2"
+> +			;;
+> +		i586 )
+> +			dynamic_loader=3D"${base_libdir}/ld-linux.so.2"
+> +			;;
+> +		arm )
+> +			dynamic_loader=3D"${base_libdir}/ld-linux.so.3"
+> +			;;
+> +		* )
+> +			dynamic_loader=3D"/unknown_dynamic_linker"
+> +			;;
+> +	esac
+> +}
+>=20
+>=20
 
-this works well now.
+For readability it would have been nice if it was returning the value =
+from function so it could be used
 
-> PR =3D "r12"
-> PV =3D "0.2+git${SRCPV}"
->=20
-> --
-> 2.1.0
->=20
+myloader =3D call this function
+
+
+
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -116,7 +199,7 @@ this works well now.
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_E0088582-FA72-4524-94D1-2A143E2A1E27
+--Apple-Mail=_E87AAA55-43C9-4C88-85B7-605BA01B2A61
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -127,9 +210,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlYKxTcACgkQuwUzVZGdMxQvOgCfemFlfQWXXZrWoodxQdj8PIdM
-ulkAoInlBcgJVr3XDZ2rGUjg0TYzVIFQ
-=W0dB
+iEYEARECAAYFAlYKxdwACgkQuwUzVZGdMxTb8wCfVzojl7R5ohIq7pstbMNLhkY9
+aCgAnjXcOaewXuZmh5KFwzYCVTRRGaSZ
+=nubI
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_E0088582-FA72-4524-94D1-2A143E2A1E27--
+--Apple-Mail=_E87AAA55-43C9-4C88-85B7-605BA01B2A61--
