@@ -1,25 +1,23 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D0AA674242
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B673D74242
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 12:57:07 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Sep 2015 05:57:08 -0700
+	Tue, 29 Sep 2015 13:03:08 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 29 Sep 2015 06:02:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,608,1437462000"; d="scan'208";a="815426136"
-Received: from mbabyjoh-mobl.fi.intel.com ([10.237.68.37])
-	by orsmga002.jf.intel.com with ESMTP; 29 Sep 2015 05:57:07 -0700
-Date: Tue, 29 Sep 2015 11:10:51 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20150929081051.GA6441@mbabyjoh-mobl.fi.intel.com>
-References: <1443495255-12353-1-git-send-email-maxin.john@intel.com>
-	<1443524078.5162.21.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1443524078.5162.21.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] openssl: fix ptest failures
+X-IronPort-AV: E=Sophos;i="5.17,608,1437462000"; d="scan'208";a="654314854"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga003.jf.intel.com with ESMTP; 29 Sep 2015 06:02:47 -0700
+Received: from fedora-ws.localdomain (unknown [10.237.112.240])
+	by linux.intel.com (Postfix) with ESMTP id 544D36A4005;
+	Tue, 29 Sep 2015 06:01:51 -0700 (PDT)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Sep 2015 16:04:04 +0300
+Message-Id: <1443531844-17106-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] oeqa/selftest/wic: Added testcase decorator to all testcases + fixed minor typos.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,329 +30,191 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Sep 2015 12:57:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 29 Sep 2015 13:03:09 -0000
 
-Hi RP,
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+---
+ meta/lib/oeqa/selftest/wic.py | 33 +++++++++++++++++++++++++++++----
+ 1 file changed, 29 insertions(+), 4 deletions(-)
 
-On Tue, Sep 29, 2015 at 11:54:38AM +0100, Richard Purdie wrote:
-> On Tue, 2015-09-29 at 05:54 +0300, Maxin B. John wrote:
-> > Remove dependencies for test targets. Otherwise, during ptest
-> > execution, "make" tries to rebuild those executables and fails
-> > there.
-> > 
-> > [YOCTO #8059]
-> > 
-> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > ---
-> >  .../openssl/openssl/ptest_makefile_deps.patch      | 248 +++++++++++++++++++++
-> >  .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   1 +
-> >  2 files changed, 249 insertions(+)
-> >  create mode 100644 meta/recipes-connectivity/openssl/openssl/ptest_makefile_deps.patch
-> 
-> I get the feeling this patch is going to be a bit of a maintenance
-> burden :(. The dependencies there are valid from a build system
-> perspective but obviously problematic given the way we run the tests.
->
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 3dc54a4..9425dc0 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -31,6 +31,8 @@ from shutil import rmtree
+ 
+ from oeqa.selftest.base import oeSelfTest
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var
++from oeqa.utils.decorators import testcase
++
+ 
+ class Wic(oeSelfTest):
+     """Wic test class."""
+@@ -56,24 +58,29 @@ class Wic(oeSelfTest):
+ 
+         rmtree(self.resultdir, ignore_errors=True)
+ 
++    @testcase(1208)
+     def test01_help(self):
+         """Test wic --help"""
+         self.assertEqual(0, runCmd('wic --help').status)
+ 
++    @testcase(1209)
+     def test02_createhelp(self):
+         """Test wic create --help"""
+         self.assertEqual(0, runCmd('wic create --help').status)
+ 
++    @testcase(1210)
+     def test03_listhelp(self):
+         """Test wic list --help"""
+         self.assertEqual(0, runCmd('wic list --help').status)
+ 
++    @testcase(1211)
+     def test04_build_image_name(self):
+         """Test wic create directdisk --image-name core-image-minimal"""
+         self.assertEqual(0, runCmd("wic create directdisk "
+                                    "--image-name core-image-minimal").status)
+         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
+ 
++    @testcase(1212)
+     def test05_build_artifacts(self):
+         """Test wic create directdisk providing all artifacts."""
+         vars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
+@@ -87,33 +94,40 @@ class Wic(oeSelfTest):
+         self.assertEqual(0, status)
+         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
+ 
++    @testcase(1157)
+     def test06_gpt_image(self):
+         """Test creation of core-image-minimal with gpt table and UUID boot"""
+         self.assertEqual(0, runCmd("wic create directdisk-gpt "
+                                    "--image-name core-image-minimal").status)
+         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
+ 
++    @testcase(1213)
+     def test07_unsupported_subcommand(self):
+         """Test unsupported subcommand"""
+         self.assertEqual(1, runCmd('wic unsupported',
+                          ignore_status=True).status)
+ 
++    @testcase(1214)
+     def test08_no_command(self):
+         """Test wic without command"""
+         self.assertEqual(1, runCmd('wic', ignore_status=True).status)
+ 
+-    def test09_help_kickstart(self):
++    @testcase(1215)
++    def test09_help_overview(self):
+         """Test wic help overview"""
+         self.assertEqual(0, runCmd('wic help overview').status)
+ 
++    @testcase(1216)
+     def test10_help_plugins(self):
+         """Test wic help plugins"""
+         self.assertEqual(0, runCmd('wic help plugins').status)
+ 
++    @testcase(1217)
+     def test11_help_kickstart(self):
+         """Test wic help kickstart"""
+         self.assertEqual(0, runCmd('wic help kickstart').status)
+ 
++    @testcase(1264)
+     def test12_compress_gzip(self):
+         """Test compressing an image with gzip"""
+         self.assertEqual(0, runCmd("wic create directdisk "
+@@ -122,7 +136,8 @@ class Wic(oeSelfTest):
+         self.assertEqual(1, len(glob(self.resultdir + \
+                                          "directdisk-*.direct.gz")))
+ 
+-    def test13_compress_gzip(self):
++    @testcase(1265)
++    def test13_compress_bzip2(self):
+         """Test compressing an image with bzip2"""
+         self.assertEqual(0, runCmd("wic create directdisk "
+                                    "--image-name core-image-minimal "
+@@ -130,7 +145,8 @@ class Wic(oeSelfTest):
+         self.assertEqual(1, len(glob(self.resultdir + \
+                                          "directdisk-*.direct.bz2")))
+ 
+-    def test14_compress_gzip(self):
++    @testcase(1266)
++    def test14_compress_xz(self):
+         """Test compressing an image with xz"""
+         self.assertEqual(0, runCmd("wic create directdisk "
+                                    "--image-name core-image-minimal "
+@@ -138,12 +154,14 @@ class Wic(oeSelfTest):
+         self.assertEqual(1, len(glob(self.resultdir + \
+                                          "directdisk-*.direct.xz")))
+ 
++    @testcase(1267)
+     def test15_wrong_compressor(self):
+         """Test how wic breaks if wrong compressor is provided"""
+         self.assertEqual(2, runCmd("wic create directdisk "
+                                    "--image-name core-image-minimal "
+                                    "-c wrong", ignore_status=True).status)
+ 
++    @testcase(1268)
+     def test16_rootfs_indirect_recipes(self):
+         """Test usage of rootfs plugin with rootfs recipes"""
+         wks = "directdisk-multi-rootfs"
+@@ -154,6 +172,7 @@ class Wic(oeSelfTest):
+                                    % wks).status)
+         self.assertEqual(1, len(glob(self.resultdir + "%s*.direct" % wks)))
+ 
++    @testcase(1269)
+     def test17_rootfs_artifacts(self):
+         """Test usage of rootfs plugin with rootfs paths"""
+         vars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
+@@ -171,13 +190,15 @@ class Wic(oeSelfTest):
+         self.assertEqual(1, len(glob(self.resultdir + \
+                                      "%(wks)s-*.direct" % vars)))
+ 
++    @testcase(1264)
+     def test18_iso_image(self):
+-        """Test creation of hybrid iso imagewith legacy and EFI boot"""
++        """Test creation of hybrid iso image with legacy and EFI boot"""
+         self.assertEqual(0, runCmd("wic create mkhybridiso "
+                                    "--image-name core-image-minimal").status)
+         self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.direct")))
+         self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.iso")))
+ 
++    @testcase(1347)
+     def test19_image_env(self):
+         """Test generation of <image>.env files."""
+         image = 'core-image-minimal'
+@@ -200,6 +221,7 @@ class Wic(oeSelfTest):
+                 self.assertTrue(var in content, "%s is not in .env file" % var)
+                 self.assertTrue(content[var])
+ 
++    @testcase(1351)
+     def test20_wic_image_type(self):
+         """Test building wic images by bitbake"""
+         self.assertEqual(0, bitbake('wic-image-minimal').status)
+@@ -214,6 +236,7 @@ class Wic(oeSelfTest):
+             self.assertTrue(os.path.islink(path))
+             self.assertTrue(os.path.isfile(os.path.realpath(path)))
+ 
++    @testcase(1348)
+     def test21_qemux86_directdisk(self):
+         """Test creation of qemux-86-directdisk image"""
+         image = "qemux86-directdisk"
+@@ -221,6 +244,7 @@ class Wic(oeSelfTest):
+                                    % image).status)
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+ 
++    @testcase(1349)
+     def test22_mkgummidisk(self):
+         """Test creation of mkgummidisk image"""
+         image = "mkgummidisk"
+@@ -228,6 +252,7 @@ class Wic(oeSelfTest):
+                                    % image).status)
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+ 
++    @testcase(1350)
+     def test23_mkefidisk(self):
+         """Test creation of mkefidisk image"""
+         image = "mkefidisk"
+-- 
+2.1.0
 
-Yes, It can be bit more work to maintain this patch while upgrading openssl
-to a newer version.
-
-> Perhaps a sed expression executed against the Makefile at installation
-> time in ptest might be a more maintainable way to do this? The pattern
-> we need to remove dependencies from does look pretty clear, at least
-> just looking at this patch?
-
-Updating the Makefile during ptest installation will be an excellent way 
-to fix this. Thanks for suggesting it!
-
-> I'm torn to be honest, the patch is explicit, the sed could be more
-> prone to breakage. How do we handle this in other ptest situations?
-
-In the past, we handled a similar situation in openssl with an identical patch:
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=23d8d2b62892fb523e942c7ca4dbdcae414b6998
-
-This Makefile patch survived at least 3 version upgrades.So, the test 
-Makefile wasn't modified that much during those releases. There is no guarantee 
-that there will be no big changes in future, though.
-
-> Cheers, 
-> Richard
-
-Best Regards,
-Maxin
-
-> 
-> > diff --git a/meta/recipes-connectivity/openssl/openssl/ptest_makefile_deps.patch b/meta/recipes-connectivity/openssl/openssl/ptest_makefile_deps.patch
-> > new file mode 100644
-> > index 0000000..4202e61
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/openssl/openssl/ptest_makefile_deps.patch
-> > @@ -0,0 +1,248 @@
-> > +Additional Makefile dependencies removal for test targets
-> > +
-> > +Removing the dependency check for test targets as these tests are
-> > +causing a number of failures and "noise" during ptest execution.
-> > +
-> > +Upstream-Status: Inappropriate [config]
-> > +
-> > +Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > +
-> > +diff -Naur openssl-1.0.2d-orig/test/Makefile openssl-1.0.2d/test/Makefile
-> > +--- openssl-1.0.2d-orig/test/Makefile	2015-09-28 12:50:41.530022979 +0300
-> > ++++ openssl-1.0.2d/test/Makefile	2015-09-28 12:57:45.930717240 +0300
-> > +@@ -155,67 +155,67 @@
-> > + 	( $(MAKE) $$i && echo "PASS: $$i" ) || echo "FAIL: $$i"; \
-> > + 	done)
-> > + 
-> > +-test_evp: $(EVPTEST)$(EXE_EXT) evptests.txt
-> > ++test_evp:
-> > + 	../util/shlib_wrap.sh ./$(EVPTEST) evptests.txt
-> > + 
-> > +-test_evp_extra: $(EVPEXTRATEST)$(EXE_EXT)
-> > ++test_evp_extra:
-> > + 	../util/shlib_wrap.sh ./$(EVPEXTRATEST)
-> > + 
-> > +-test_des: $(DESTEST)$(EXE_EXT)
-> > ++test_des:
-> > + 	../util/shlib_wrap.sh ./$(DESTEST)
-> > + 
-> > +-test_idea: $(IDEATEST)$(EXE_EXT)
-> > ++test_idea:
-> > + 	../util/shlib_wrap.sh ./$(IDEATEST)
-> > + 
-> > +-test_sha: $(SHATEST)$(EXE_EXT) $(SHA1TEST)$(EXE_EXT) $(SHA256TEST)$(EXE_EXT) $(SHA512TEST)$(EXE_EXT)
-> > ++test_sha:
-> > + 	../util/shlib_wrap.sh ./$(SHATEST)
-> > + 	../util/shlib_wrap.sh ./$(SHA1TEST)
-> > + 	../util/shlib_wrap.sh ./$(SHA256TEST)
-> > + 	../util/shlib_wrap.sh ./$(SHA512TEST)
-> > + 
-> > +-test_mdc2: $(MDC2TEST)$(EXE_EXT)
-> > ++test_mdc2:
-> > + 	../util/shlib_wrap.sh ./$(MDC2TEST)
-> > + 
-> > +-test_md5: $(MD5TEST)$(EXE_EXT)
-> > ++test_md5:
-> > + 	../util/shlib_wrap.sh ./$(MD5TEST)
-> > + 
-> > +-test_md4: $(MD4TEST)$(EXE_EXT)
-> > ++test_md4:
-> > + 	../util/shlib_wrap.sh ./$(MD4TEST)
-> > + 
-> > +-test_hmac: $(HMACTEST)$(EXE_EXT)
-> > ++test_hmac:
-> > + 	../util/shlib_wrap.sh ./$(HMACTEST)
-> > + 
-> > +-test_wp: $(WPTEST)$(EXE_EXT)
-> > ++test_wp:
-> > + 	../util/shlib_wrap.sh ./$(WPTEST)
-> > + 
-> > +-test_md2: $(MD2TEST)$(EXE_EXT)
-> > ++test_md2:
-> > + 	../util/shlib_wrap.sh ./$(MD2TEST)
-> > + 
-> > +-test_rmd: $(RMDTEST)$(EXE_EXT)
-> > ++test_rmd:
-> > + 	../util/shlib_wrap.sh ./$(RMDTEST)
-> > + 
-> > +-test_bf: $(BFTEST)$(EXE_EXT)
-> > ++test_bf:
-> > + 	../util/shlib_wrap.sh ./$(BFTEST)
-> > + 
-> > +-test_cast: $(CASTTEST)$(EXE_EXT)
-> > ++test_cast:
-> > + 	../util/shlib_wrap.sh ./$(CASTTEST)
-> > + 
-> > +-test_rc2: $(RC2TEST)$(EXE_EXT)
-> > ++test_rc2:
-> > + 	../util/shlib_wrap.sh ./$(RC2TEST)
-> > + 
-> > +-test_rc4: $(RC4TEST)$(EXE_EXT)
-> > ++test_rc4:
-> > + 	../util/shlib_wrap.sh ./$(RC4TEST)
-> > + 
-> > +-test_rc5: $(RC5TEST)$(EXE_EXT)
-> > ++test_rc5:
-> > + 	../util/shlib_wrap.sh ./$(RC5TEST)
-> > + 
-> > +-test_rand: $(RANDTEST)$(EXE_EXT)
-> > ++test_rand:
-> > + 	../util/shlib_wrap.sh ./$(RANDTEST)
-> > + 
-> > +-test_enc: ../apps/openssl$(EXE_EXT) testenc
-> > ++test_enc:
-> > + 	@sh ./testenc
-> > + 
-> > +-test_x509: ../apps/openssl$(EXE_EXT) tx509 testx509.pem v3-cert1.pem v3-cert2.pem
-> > ++test_x509:
-> > + 	echo test normal x509v1 certificate
-> > + 	sh ./tx509 2>/dev/null
-> > + 	echo test first x509v3 certificate
-> > +@@ -223,25 +223,25 @@
-> > + 	echo test second x509v3 certificate
-> > + 	sh ./tx509 v3-cert2.pem 2>/dev/null
-> > + 
-> > +-test_rsa: ../apps/openssl$(EXE_EXT) trsa testrsa.pem
-> > ++test_rsa:
-> > + 	@sh ./trsa 2>/dev/null
-> > + 	../util/shlib_wrap.sh ./$(RSATEST)
-> > + 
-> > +-test_crl: ../apps/openssl$(EXE_EXT) tcrl testcrl.pem
-> > ++test_crl:
-> > + 	@sh ./tcrl 2>/dev/null
-> > + 
-> > +-test_sid: ../apps/openssl$(EXE_EXT) tsid testsid.pem
-> > ++test_sid:
-> > + 	@sh ./tsid 2>/dev/null
-> > + 
-> > +-test_req: ../apps/openssl$(EXE_EXT) treq testreq.pem testreq2.pem
-> > ++test_req:
-> > + 	@sh ./treq 2>/dev/null
-> > + 	@sh ./treq testreq2.pem 2>/dev/null
-> > + 
-> > +-test_pkcs7: ../apps/openssl$(EXE_EXT) tpkcs7 tpkcs7d testp7.pem pkcs7-1.pem
-> > ++test_pkcs7:
-> > + 	@sh ./tpkcs7 2>/dev/null
-> > + 	@sh ./tpkcs7d 2>/dev/null
-> > + 
-> > +-test_bn: $(BNTEST)$(EXE_EXT) $(EXPTEST)$(EXE_EXT) bctest
-> > ++test_bn:
-> > + 	@echo starting big number library test, could take a while...
-> > + 	@../util/shlib_wrap.sh ./$(BNTEST) >tmp.bntest
-> > + 	@echo quit >>tmp.bntest
-> > +@@ -250,33 +250,33 @@
-> > + 	@echo 'test a^b%c implementations'
-> > + 	../util/shlib_wrap.sh ./$(EXPTEST)
-> > + 
-> > +-test_ec: $(ECTEST)$(EXE_EXT)
-> > ++test_ec:
-> > + 	@echo 'test elliptic curves'
-> > + 	../util/shlib_wrap.sh ./$(ECTEST)
-> > + 
-> > +-test_ecdsa: $(ECDSATEST)$(EXE_EXT)
-> > ++test_ecdsa:
-> > + 	@echo 'test ecdsa'
-> > + 	../util/shlib_wrap.sh ./$(ECDSATEST)
-> > + 
-> > +-test_ecdh: $(ECDHTEST)$(EXE_EXT)
-> > ++test_ecdh:
-> > + 	@echo 'test ecdh'
-> > + 	../util/shlib_wrap.sh ./$(ECDHTEST)
-> > + 
-> > +-test_verify: ../apps/openssl$(EXE_EXT)
-> > ++test_verify:
-> > + 	@echo "The following command should have some OK's and some failures"
-> > + 	@echo "There are definitly a few expired certificates"
-> > + 	../util/shlib_wrap.sh ../apps/openssl verify -CApath ../certs/demo ../certs/demo/*.pem
-> > + 
-> > +-test_dh: $(DHTEST)$(EXE_EXT)
-> > ++test_dh:
-> > + 	@echo "Generate a set of DH parameters"
-> > + 	../util/shlib_wrap.sh ./$(DHTEST)
-> > + 
-> > +-test_dsa: $(DSATEST)$(EXE_EXT)
-> > ++test_dsa:
-> > + 	@echo "Generate a set of DSA parameters"
-> > + 	../util/shlib_wrap.sh ./$(DSATEST)
-> > + 	../util/shlib_wrap.sh ./$(DSATEST) -app2_1
-> > + 
-> > +-test_gen testreq.pem: ../apps/openssl$(EXE_EXT) testgen test.cnf
-> > ++test_gen testreq.pem:
-> > + 	@echo "Generate and verify a certificate request"
-> > + 	@sh ./testgen
-> > + 
-> > +@@ -288,13 +288,11 @@
-> > + 	@cat certCA.ss certU.ss > intP1.ss
-> > + 	@cat certCA.ss certU.ss certP1.ss > intP2.ss
-> > + 
-> > +-test_engine:  $(ENGINETEST)$(EXE_EXT)
-> > ++test_engine:
-> > + 	@echo "Manipulate the ENGINE structures"
-> > + 	../util/shlib_wrap.sh ./$(ENGINETEST)
-> > + 
-> > +-test_ssl: keyU.ss certU.ss certCA.ss certP1.ss keyP1.ss certP2.ss keyP2.ss \
-> > +-		intP1.ss intP2.ss $(SSLTEST)$(EXE_EXT) testssl testsslproxy \
-> > +-		../apps/server2.pem serverinfo.pem
-> > ++test_ssl:
-> > + 	@echo "test SSL protocol"
-> > + 	@if [ -n "$(FIPSCANLIB)" ]; then \
-> > + 	  sh ./testfipsssl keyU.ss certU.ss certCA.ss; \
-> > +@@ -304,7 +302,7 @@
-> > + 	@sh ./testsslproxy keyP1.ss certP1.ss intP1.ss
-> > + 	@sh ./testsslproxy keyP2.ss certP2.ss intP2.ss
-> > + 
-> > +-test_ca: ../apps/openssl$(EXE_EXT) testca CAss.cnf Uss.cnf
-> > ++test_ca:
-> > + 	@if ../util/shlib_wrap.sh ../apps/openssl no-rsa; then \
-> > + 	  echo "skipping CA.sh test -- requires RSA"; \
-> > + 	else \
-> > +@@ -312,11 +310,11 @@
-> > + 	  sh ./testca; \
-> > + 	fi
-> > + 
-> > +-test_aes: #$(AESTEST)
-> > ++test_aes:
-> > + #	@echo "test Rijndael"
-> > + #	../util/shlib_wrap.sh ./$(AESTEST)
-> > + 
-> > +-test_tsa: ../apps/openssl$(EXE_EXT) testtsa CAtsa.cnf ../util/shlib_wrap.sh
-> > ++test_tsa:
-> > + 	@if ../util/shlib_wrap.sh ../apps/openssl no-rsa; then \
-> > + 	  echo "skipping testtsa test -- requires RSA"; \
-> > + 	else \
-> > +@@ -331,7 +329,7 @@
-> > + 	@echo "Test JPAKE"
-> > + 	../util/shlib_wrap.sh ./$(JPAKETEST)
-> > + 
-> > +-test_cms: ../apps/openssl$(EXE_EXT) cms-test.pl smcont.txt
-> > ++test_cms:
-> > + 	@echo "CMS consistency test"
-> > + 	$(PERL) cms-test.pl
-> > + 
-> > +@@ -339,22 +337,22 @@
-> > + 	@echo "Test SRP"
-> > + 	../util/shlib_wrap.sh ./srptest
-> > + 
-> > +-test_ocsp: ../apps/openssl$(EXE_EXT) tocsp
-> > ++test_ocsp:
-> > + 	@echo "Test OCSP"
-> > + 	@sh ./tocsp
-> > + 
-> > +-test_v3name: $(V3NAMETEST)$(EXE_EXT)
-> > ++test_v3name:
-> > + 	@echo "Test X509v3_check_*"
-> > + 	../util/shlib_wrap.sh ./$(V3NAMETEST)
-> > + 
-> > + test_heartbeat:
-> > + 	../util/shlib_wrap.sh ./$(HEARTBEATTEST)
-> > + 
-> > +-test_constant_time: $(CONSTTIMETEST)$(EXE_EXT)
-> > ++test_constant_time:
-> > + 	@echo "Test constant time utilites"
-> > + 	../util/shlib_wrap.sh ./$(CONSTTIMETEST)
-> > + 
-> > +-test_verify_extra: $(VERIFYEXTRATEST)$(EXE_EXT)
-> > ++test_verify_extra:
-> > + 	@echo $(START) $@
-> > + 	../util/shlib_wrap.sh ./$(VERIFYEXTRATEST)
-> > + 
-> > diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-> > index 32d8dce..fd56841 100644
-> > --- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-> > +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-> > @@ -36,6 +36,7 @@ SRC_URI += "file://configure-targets.patch \
-> >              file://run-ptest \
-> >              file://crypto_use_bigint_in_x86-64_perl.patch \
-> >              file://openssl-1.0.2a-x32-asm.patch \
-> > +            file://ptest_makefile_deps.patch  \
-> >             "
-> >  
-> >  SRC_URI[md5sum] = "38dd619b2e77cbac69b99f52a053d25a"
-> > -- 
-> > 2.4.0
-> > 
-> 
-> 
 
