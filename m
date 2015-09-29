@@ -1,22 +1,30 @@
-Return-Path: <andrew.shadura@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 93826758DB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F33B06AC1E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 12:39:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: andrewsh) with ESMTPSA id 0EF6F608E1A
-To: openembedded-core@lists.openembedded.org
-References: <1440666021-11411-1-git-send-email-andrew.shadura@collabora.co.uk>
-	<1442225233-18899-1-git-send-email-andrew.shadura@collabora.co.uk>
-From: Andrew Shadura <andrew.shadura@collabora.co.uk>
-Organization: Collabora Limited
-Message-ID: <560A8690.1050809@collabora.co.uk>
-Date: Tue, 29 Sep 2015 14:39:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
-MIME-Version: 1.0
-In-Reply-To: <1442225233-18899-1-git-send-email-andrew.shadura@collabora.co.uk>
-Subject: Re: [PATCH v2 1/7] dbus: merge .bb and .inc
+	Tue, 29 Sep 2015 12:43:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8TChv4r002252 for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Sep 2015 13:43:57 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id lnUBVCb5VEgQ
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Sep 2015 13:43:57 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8TChjoc002237
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Sep 2015 13:43:56 +0100
+Message-ID: <1443530625.5162.24.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 29 Sep 2015 13:43:45 +0100
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] toolchain-shar-extract: Correct environment-setup script names for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,47 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Sep 2015 12:39:55 -0000
-X-Groupsio-MsgNum: 71728
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="JwF3C9nbeHln1qKlBEhCQTS79gNHK6pxh"
+X-List-Received-Date: Tue, 29 Sep 2015 12:43:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---JwF3C9nbeHln1qKlBEhCQTS79gNHK6pxh
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Currently a lib32-core-image-* SDK prints an incorrect environment-setup-*
+file name when installing the SDK. Instead of printing the wrong thing, list
+the environment setup files present in the SDK.
 
-Hi all,
+As it happens this fixes the message printed with buildtools-tarball too
+which someone reported to me about the same time as I finished this patch!
 
-There hasn't been anything on this for two weeks already, has anyone
-considered merging these patches?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
---=20
-Cheers,
-  Andrew
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index dd92d0e..2ffc2d1 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -182,7 +182,9 @@ fi
+ 
+ echo "SDK has been successfully set up and is ready to be used."
+ echo "Each time you wish to use the SDK in a new shell session, you need to source the environment setup script e.g."
+-echo " \$ . $target_sdk_dir/environment-setup-@REAL_MULTIMACH_TARGET_SYS@"
++for env_setup_script in `ls $target_sdk_dir/environment-setup-*`; do
++	echo " \$ . $target_sdk_dir/$env_setup_script"
++done
+ 
+ exit 0
+ 
 
 
---JwF3C9nbeHln1qKlBEhCQTS79gNHK6pxh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBCAAGBQJWCoaVAAoJEEFnG7NKhJOBQU8P/jVH1sy2MT/GpRGXu5IwD6w9
-Di9SIyJynnkUWH8IK9jzC1MC3L6sMb+c5oQ4aqg5z3VkgUQa80SXz5HYZZAah6p5
-GJFrcue2q+21AiFocMSGdtrubqgRzv3Z8P7+0AF22E4ciSf/nU3g+QGVRkx9DIX/
-G4X7LQmOV/Olg+cE5sa/N7Dd0fSyuA0DP9Wk9KBZYrM3OHmU4ouoBZp+an/Txypx
-CSA0S4LnVRxkGMFJ9/VNiRzRUeHCL7tvEYUOKP4/IUBCynVtJW5bRcBucGjPAUOM
-IGLlokQppDb+WnS60leK4XDWCw9dhnhTha2VSthtV1R3LsR1N7v9lOyprYAx5+c9
-L7KF56eNQmIgqwsgekWrkq1/Lzyi63fF5g9GS5JeLhPWlOWVxxnGgzEcOw4bZXXJ
-fOSJNtq8xIxvT//sFNiidvNX3k4JM040QQJaYLLlloj60RAEmEiok7KvZ/KwJ4Qs
-FbK8oewUhpYoj8UkYPGA/IEDaYoCvlxwNp/7kAP/9IRTCoy6+PR9KCFftX4Qxw2I
-ml5Gurs25+0GD733S5JpqqgxI6zLCTDVZNED0hrAJLSu4MRQpojh7sB7i0vATwCw
-0KyinmoAn7Wfwqhq7YN57HADUwQXwHjKCzs2qayAlmWCmFLWVkKJeaDcRvAJtuHX
-vTSpMJD3t8VqPGkHQX2b
-=9sEe
------END PGP SIGNATURE-----
-
---JwF3C9nbeHln1qKlBEhCQTS79gNHK6pxh--
