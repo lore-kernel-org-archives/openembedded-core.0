@@ -1,35 +1,35 @@
 Return-Path: <martin.jansa@gmail.com>
 Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
 	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A81477025
+	by mail.openembedded.org (Postfix) with ESMTP id 952FB7703A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 11:45:01 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so11641981wic.0
+	Tue, 29 Sep 2015 11:45:24 +0000 (UTC)
+Received: by wicfx3 with SMTP id fx3so11657245wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 04:45:01 -0700 (PDT)
+	Tue, 29 Sep 2015 04:45:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=pVivabSDTGvCEP7QobTEQx7vznTebgC9Myxrs16LPMo=;
-	b=xlCfiEdpFh33efl+i3jfNWCAAmrbHQFHhjYI9quK3OC1E7cDGsjVDs5iel/New3oEE
-	vOlz5fTcUyR4mmNbWpJG9VT3xC65X4g3mzfkuKG4Rcv4wCHqq/oRpSty30FHIWt1bON4
-	ZQ2toRUw1fT8WZUDYK5WNZBXww1k7eIfY/3GikgEv5aM74VZMlHEGKCSv3CpE3dsfC1+
-	ok2DFfz1stmHHmstQHgpGWo69isLbpg14uJvLq2w2yyW7+oeHC7wTOR63fA1D7WCJuf+
-	LMeVu8ALSaGWofuEpBZ40L0YB34CC6IXI28XYvW8kSmZ3DWZrMQDANQGmEEQ5uSMoH9Z
-	89hw==
-X-Received: by 10.194.190.75 with SMTP id go11mr27027710wjc.80.1443527101014; 
-	Tue, 29 Sep 2015 04:45:01 -0700 (PDT)
+	bh=OK+KlvuY/a95L+8F8pAIpygfy0fMosH/0elhL338X1s=;
+	b=uizQdouVcpqBECJx6gF/P5BUIlaJIUjDO7ZIGgVcPR8HiYCXsOLI9QDtZp6j3VKgBt
+	EvWt0JRl2r+KvrhdT4wGbAvzwLI1FpAPxWUTwDIPp6mRU+k/4+asHNHkb62SmlvrurYf
+	bFTw/kUD1q8Wt5n746BzVgRwUe43wIzNTGiRpFTMP6c6LXgYX19X2yqBhQUsYPbeNKJ6
+	kzL6UG0PzoxkwwHK8/COAR8C8F0B27xyYV1KmQ3l2JE3VgdpukltdTvZxY4O1wtZfhPi
+	U+5q/uZCb73i8Riq0biOs2Th2ov7z8U0JNuB9bpQV6kyxLYeAE32mMyOGR+3rjvgc9He
+	Yk9A==
+X-Received: by 10.194.94.71 with SMTP id da7mr28250766wjb.8.1443527125076;
+	Tue, 29 Sep 2015 04:45:25 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	jq3sm10127034wjb.26.2015.09.29.04.44.59
+	l1sm23511395wjx.13.2015.09.29.04.45.23
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 29 Sep 2015 04:44:59 -0700 (PDT)
+	Tue, 29 Sep 2015 04:45:24 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Sep 2015 13:45:36 +0200
-Message-Id: <1443527136-27370-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Tue, 29 Sep 2015 13:45:59 +0200
+Message-Id: <1443527159-27494-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.0
-Subject: [PATCH][fido] sstate: run recipe-provided hooks outside of ${B}
+Subject: [dizzy][PATCH] sstate: run recipe-provided hooks outside of ${B}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,7 +42,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Sep 2015 11:45:06 -0000
+X-List-Received-Date: Tue, 29 Sep 2015 11:45:27 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
@@ -57,10 +57,10 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  1 file changed, 14 insertions(+), 16 deletions(-)
 
 diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index a710305..5c81a1c 100644
+index f17db0b..9128ada 100644
 --- a/meta/classes/sstate.bbclass
 +++ b/meta/classes/sstate.bbclass
-@@ -44,16 +44,6 @@ EXTRA_STAGING_FIXMES ?= ""
+@@ -42,16 +42,6 @@ EXTRA_STAGING_FIXMES ?= ""
  
  SIGGEN_LOCKEDSIGS_CHECK_LEVEL ?= 'error'
  
@@ -77,7 +77,7 @@ index a710305..5c81a1c 100644
  python () {
      if bb.data.inherits_class('native', d):
          d.setVar('SSTATE_PKGARCH', d.getVar('BUILD_ARCH'))
-@@ -146,6 +136,8 @@ def sstate_install(ss, d):
+@@ -144,6 +134,8 @@ def sstate_install(ss, d):
      shareddirs = []
      bb.utils.mkdirhier(d.expand("${SSTATE_MANIFESTS}"))
  
@@ -86,7 +86,7 @@ index a710305..5c81a1c 100644
      d2 = d.createCopy()
      extrainf = d.getVarFlag("do_" + ss['task'], 'stamp-extra-info', True)
      if extrainf:
-@@ -239,7 +231,8 @@ def sstate_install(ss, d):
+@@ -237,7 +229,8 @@ def sstate_install(ss, d):
              oe.path.copyhardlinktree(state[1], state[2])
  
      for postinst in (d.getVar('SSTATEPOSTINSTFUNCS', True) or '').split():
@@ -96,7 +96,7 @@ index a710305..5c81a1c 100644
  
      for lock in locks:
          bb.utils.unlockfile(lock)
-@@ -275,7 +268,8 @@ def sstate_installpkg(ss, d):
+@@ -273,7 +266,8 @@ def sstate_installpkg(ss, d):
      d.setVar('SSTATE_PKG', sstatepkg)
  
      for f in (d.getVar('SSTATEPREINSTFUNCS', True) or '').split() + ['sstate_unpack_package'] + (d.getVar('SSTATEPOSTUNPACKFUNCS', True) or '').split():
@@ -106,7 +106,7 @@ index a710305..5c81a1c 100644
  
      for state in ss['dirs']:
          prepdir(state[1])
-@@ -547,8 +541,9 @@ def sstate_package(ss, d):
+@@ -545,8 +539,9 @@ def sstate_package(ss, d):
  
      for f in (d.getVar('SSTATECREATEFUNCS', True) or '').split() + ['sstate_create_package'] + \
               (d.getVar('SSTATEPOSTCREATEFUNCS', True) or '').split():
@@ -118,7 +118,7 @@ index a710305..5c81a1c 100644
      bb.siggen.dump_this_task(sstatepkg + ".siginfo", d)
  
      return
-@@ -606,19 +601,22 @@ python sstate_task_prefunc () {
+@@ -604,19 +599,22 @@ python sstate_task_prefunc () {
      shared_state = sstate_state_fromvars(d)
      sstate_clean(shared_state, d)
  }
