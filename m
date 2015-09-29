@@ -1,27 +1,29 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4423F76FDE
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6339076FD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 07:40:36 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 29 Sep 2015 00:40:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,606,1437462000"; d="scan'208";a="779682375"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 29 Sep 2015 00:40:37 -0700
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.68.37])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 1B0776A4005
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 00:39:39 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Sep 2015 05:54:15 +0300
-Message-Id: <1443495255-12353-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] openssl: fix ptest failures
+	Tue, 29 Sep 2015 07:46:04 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8T7k4mK019528
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 29 Sep 2015 00:46:04 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
+	Tue, 29 Sep 2015 00:46:04 -0700
+Message-ID: <560A41BA.5050906@windriver.com>
+Date: Tue, 29 Sep 2015 15:46:02 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1443432019.git.liezhi.yang@windriver.com>
+	<5a37554dfd79d1c65ce30ab9db9b05608066eedd.1443432019.git.liezhi.yang@windriver.com>
+	<CAJTo0LZv-pri_fntqi6ypU=oFiSXD--1k9ZBfzhF=TN7aVTFEw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZv-pri_fntqi6ypU=oFiSXD--1k9ZBfzhF=TN7aVTFEw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] python-async: inherit setuptools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,288 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Sep 2015 07:40:38 -0000
+X-List-Received-Date: Tue, 29 Sep 2015 07:46:10 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove dependencies for test targets. Otherwise, during ptest
-execution, "make" tries to rebuild those executables and fails
-there.
 
-[YOCTO #8059]
+On 09/28/2015 08:31 PM, Burton, Ross wrote:
+>
+> On 28 September 2015 at 10:20, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     -inherit distutils
+>     +inherit distutils setuptools
+>
+>
+> setuptools inherits distutils, so you can replace instead of adding.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- .../openssl/openssl/ptest_makefile_deps.patch      | 248 +++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   1 +
- 2 files changed, 249 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/ptest_makefile_deps.patch
+Thanks, updated in the repo.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/ptest_makefile_deps.patch b/meta/recipes-connectivity/openssl/openssl/ptest_makefile_deps.patch
-new file mode 100644
-index 0000000..4202e61
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/ptest_makefile_deps.patch
-@@ -0,0 +1,248 @@
-+Additional Makefile dependencies removal for test targets
-+
-+Removing the dependency check for test targets as these tests are
-+causing a number of failures and "noise" during ptest execution.
-+
-+Upstream-Status: Inappropriate [config]
-+
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+
-+diff -Naur openssl-1.0.2d-orig/test/Makefile openssl-1.0.2d/test/Makefile
-+--- openssl-1.0.2d-orig/test/Makefile	2015-09-28 12:50:41.530022979 +0300
-++++ openssl-1.0.2d/test/Makefile	2015-09-28 12:57:45.930717240 +0300
-+@@ -155,67 +155,67 @@
-+ 	( $(MAKE) $$i && echo "PASS: $$i" ) || echo "FAIL: $$i"; \
-+ 	done)
-+ 
-+-test_evp: $(EVPTEST)$(EXE_EXT) evptests.txt
-++test_evp:
-+ 	../util/shlib_wrap.sh ./$(EVPTEST) evptests.txt
-+ 
-+-test_evp_extra: $(EVPEXTRATEST)$(EXE_EXT)
-++test_evp_extra:
-+ 	../util/shlib_wrap.sh ./$(EVPEXTRATEST)
-+ 
-+-test_des: $(DESTEST)$(EXE_EXT)
-++test_des:
-+ 	../util/shlib_wrap.sh ./$(DESTEST)
-+ 
-+-test_idea: $(IDEATEST)$(EXE_EXT)
-++test_idea:
-+ 	../util/shlib_wrap.sh ./$(IDEATEST)
-+ 
-+-test_sha: $(SHATEST)$(EXE_EXT) $(SHA1TEST)$(EXE_EXT) $(SHA256TEST)$(EXE_EXT) $(SHA512TEST)$(EXE_EXT)
-++test_sha:
-+ 	../util/shlib_wrap.sh ./$(SHATEST)
-+ 	../util/shlib_wrap.sh ./$(SHA1TEST)
-+ 	../util/shlib_wrap.sh ./$(SHA256TEST)
-+ 	../util/shlib_wrap.sh ./$(SHA512TEST)
-+ 
-+-test_mdc2: $(MDC2TEST)$(EXE_EXT)
-++test_mdc2:
-+ 	../util/shlib_wrap.sh ./$(MDC2TEST)
-+ 
-+-test_md5: $(MD5TEST)$(EXE_EXT)
-++test_md5:
-+ 	../util/shlib_wrap.sh ./$(MD5TEST)
-+ 
-+-test_md4: $(MD4TEST)$(EXE_EXT)
-++test_md4:
-+ 	../util/shlib_wrap.sh ./$(MD4TEST)
-+ 
-+-test_hmac: $(HMACTEST)$(EXE_EXT)
-++test_hmac:
-+ 	../util/shlib_wrap.sh ./$(HMACTEST)
-+ 
-+-test_wp: $(WPTEST)$(EXE_EXT)
-++test_wp:
-+ 	../util/shlib_wrap.sh ./$(WPTEST)
-+ 
-+-test_md2: $(MD2TEST)$(EXE_EXT)
-++test_md2:
-+ 	../util/shlib_wrap.sh ./$(MD2TEST)
-+ 
-+-test_rmd: $(RMDTEST)$(EXE_EXT)
-++test_rmd:
-+ 	../util/shlib_wrap.sh ./$(RMDTEST)
-+ 
-+-test_bf: $(BFTEST)$(EXE_EXT)
-++test_bf:
-+ 	../util/shlib_wrap.sh ./$(BFTEST)
-+ 
-+-test_cast: $(CASTTEST)$(EXE_EXT)
-++test_cast:
-+ 	../util/shlib_wrap.sh ./$(CASTTEST)
-+ 
-+-test_rc2: $(RC2TEST)$(EXE_EXT)
-++test_rc2:
-+ 	../util/shlib_wrap.sh ./$(RC2TEST)
-+ 
-+-test_rc4: $(RC4TEST)$(EXE_EXT)
-++test_rc4:
-+ 	../util/shlib_wrap.sh ./$(RC4TEST)
-+ 
-+-test_rc5: $(RC5TEST)$(EXE_EXT)
-++test_rc5:
-+ 	../util/shlib_wrap.sh ./$(RC5TEST)
-+ 
-+-test_rand: $(RANDTEST)$(EXE_EXT)
-++test_rand:
-+ 	../util/shlib_wrap.sh ./$(RANDTEST)
-+ 
-+-test_enc: ../apps/openssl$(EXE_EXT) testenc
-++test_enc:
-+ 	@sh ./testenc
-+ 
-+-test_x509: ../apps/openssl$(EXE_EXT) tx509 testx509.pem v3-cert1.pem v3-cert2.pem
-++test_x509:
-+ 	echo test normal x509v1 certificate
-+ 	sh ./tx509 2>/dev/null
-+ 	echo test first x509v3 certificate
-+@@ -223,25 +223,25 @@
-+ 	echo test second x509v3 certificate
-+ 	sh ./tx509 v3-cert2.pem 2>/dev/null
-+ 
-+-test_rsa: ../apps/openssl$(EXE_EXT) trsa testrsa.pem
-++test_rsa:
-+ 	@sh ./trsa 2>/dev/null
-+ 	../util/shlib_wrap.sh ./$(RSATEST)
-+ 
-+-test_crl: ../apps/openssl$(EXE_EXT) tcrl testcrl.pem
-++test_crl:
-+ 	@sh ./tcrl 2>/dev/null
-+ 
-+-test_sid: ../apps/openssl$(EXE_EXT) tsid testsid.pem
-++test_sid:
-+ 	@sh ./tsid 2>/dev/null
-+ 
-+-test_req: ../apps/openssl$(EXE_EXT) treq testreq.pem testreq2.pem
-++test_req:
-+ 	@sh ./treq 2>/dev/null
-+ 	@sh ./treq testreq2.pem 2>/dev/null
-+ 
-+-test_pkcs7: ../apps/openssl$(EXE_EXT) tpkcs7 tpkcs7d testp7.pem pkcs7-1.pem
-++test_pkcs7:
-+ 	@sh ./tpkcs7 2>/dev/null
-+ 	@sh ./tpkcs7d 2>/dev/null
-+ 
-+-test_bn: $(BNTEST)$(EXE_EXT) $(EXPTEST)$(EXE_EXT) bctest
-++test_bn:
-+ 	@echo starting big number library test, could take a while...
-+ 	@../util/shlib_wrap.sh ./$(BNTEST) >tmp.bntest
-+ 	@echo quit >>tmp.bntest
-+@@ -250,33 +250,33 @@
-+ 	@echo 'test a^b%c implementations'
-+ 	../util/shlib_wrap.sh ./$(EXPTEST)
-+ 
-+-test_ec: $(ECTEST)$(EXE_EXT)
-++test_ec:
-+ 	@echo 'test elliptic curves'
-+ 	../util/shlib_wrap.sh ./$(ECTEST)
-+ 
-+-test_ecdsa: $(ECDSATEST)$(EXE_EXT)
-++test_ecdsa:
-+ 	@echo 'test ecdsa'
-+ 	../util/shlib_wrap.sh ./$(ECDSATEST)
-+ 
-+-test_ecdh: $(ECDHTEST)$(EXE_EXT)
-++test_ecdh:
-+ 	@echo 'test ecdh'
-+ 	../util/shlib_wrap.sh ./$(ECDHTEST)
-+ 
-+-test_verify: ../apps/openssl$(EXE_EXT)
-++test_verify:
-+ 	@echo "The following command should have some OK's and some failures"
-+ 	@echo "There are definitly a few expired certificates"
-+ 	../util/shlib_wrap.sh ../apps/openssl verify -CApath ../certs/demo ../certs/demo/*.pem
-+ 
-+-test_dh: $(DHTEST)$(EXE_EXT)
-++test_dh:
-+ 	@echo "Generate a set of DH parameters"
-+ 	../util/shlib_wrap.sh ./$(DHTEST)
-+ 
-+-test_dsa: $(DSATEST)$(EXE_EXT)
-++test_dsa:
-+ 	@echo "Generate a set of DSA parameters"
-+ 	../util/shlib_wrap.sh ./$(DSATEST)
-+ 	../util/shlib_wrap.sh ./$(DSATEST) -app2_1
-+ 
-+-test_gen testreq.pem: ../apps/openssl$(EXE_EXT) testgen test.cnf
-++test_gen testreq.pem:
-+ 	@echo "Generate and verify a certificate request"
-+ 	@sh ./testgen
-+ 
-+@@ -288,13 +288,11 @@
-+ 	@cat certCA.ss certU.ss > intP1.ss
-+ 	@cat certCA.ss certU.ss certP1.ss > intP2.ss
-+ 
-+-test_engine:  $(ENGINETEST)$(EXE_EXT)
-++test_engine:
-+ 	@echo "Manipulate the ENGINE structures"
-+ 	../util/shlib_wrap.sh ./$(ENGINETEST)
-+ 
-+-test_ssl: keyU.ss certU.ss certCA.ss certP1.ss keyP1.ss certP2.ss keyP2.ss \
-+-		intP1.ss intP2.ss $(SSLTEST)$(EXE_EXT) testssl testsslproxy \
-+-		../apps/server2.pem serverinfo.pem
-++test_ssl:
-+ 	@echo "test SSL protocol"
-+ 	@if [ -n "$(FIPSCANLIB)" ]; then \
-+ 	  sh ./testfipsssl keyU.ss certU.ss certCA.ss; \
-+@@ -304,7 +302,7 @@
-+ 	@sh ./testsslproxy keyP1.ss certP1.ss intP1.ss
-+ 	@sh ./testsslproxy keyP2.ss certP2.ss intP2.ss
-+ 
-+-test_ca: ../apps/openssl$(EXE_EXT) testca CAss.cnf Uss.cnf
-++test_ca:
-+ 	@if ../util/shlib_wrap.sh ../apps/openssl no-rsa; then \
-+ 	  echo "skipping CA.sh test -- requires RSA"; \
-+ 	else \
-+@@ -312,11 +310,11 @@
-+ 	  sh ./testca; \
-+ 	fi
-+ 
-+-test_aes: #$(AESTEST)
-++test_aes:
-+ #	@echo "test Rijndael"
-+ #	../util/shlib_wrap.sh ./$(AESTEST)
-+ 
-+-test_tsa: ../apps/openssl$(EXE_EXT) testtsa CAtsa.cnf ../util/shlib_wrap.sh
-++test_tsa:
-+ 	@if ../util/shlib_wrap.sh ../apps/openssl no-rsa; then \
-+ 	  echo "skipping testtsa test -- requires RSA"; \
-+ 	else \
-+@@ -331,7 +329,7 @@
-+ 	@echo "Test JPAKE"
-+ 	../util/shlib_wrap.sh ./$(JPAKETEST)
-+ 
-+-test_cms: ../apps/openssl$(EXE_EXT) cms-test.pl smcont.txt
-++test_cms:
-+ 	@echo "CMS consistency test"
-+ 	$(PERL) cms-test.pl
-+ 
-+@@ -339,22 +337,22 @@
-+ 	@echo "Test SRP"
-+ 	../util/shlib_wrap.sh ./srptest
-+ 
-+-test_ocsp: ../apps/openssl$(EXE_EXT) tocsp
-++test_ocsp:
-+ 	@echo "Test OCSP"
-+ 	@sh ./tocsp
-+ 
-+-test_v3name: $(V3NAMETEST)$(EXE_EXT)
-++test_v3name:
-+ 	@echo "Test X509v3_check_*"
-+ 	../util/shlib_wrap.sh ./$(V3NAMETEST)
-+ 
-+ test_heartbeat:
-+ 	../util/shlib_wrap.sh ./$(HEARTBEATTEST)
-+ 
-+-test_constant_time: $(CONSTTIMETEST)$(EXE_EXT)
-++test_constant_time:
-+ 	@echo "Test constant time utilites"
-+ 	../util/shlib_wrap.sh ./$(CONSTTIMETEST)
-+ 
-+-test_verify_extra: $(VERIFYEXTRATEST)$(EXE_EXT)
-++test_verify_extra:
-+ 	@echo $(START) $@
-+ 	../util/shlib_wrap.sh ./$(VERIFYEXTRATEST)
-+ 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-index 32d8dce..fd56841 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-@@ -36,6 +36,7 @@ SRC_URI += "file://configure-targets.patch \
-             file://run-ptest \
-             file://crypto_use_bigint_in_x86-64_perl.patch \
-             file://openssl-1.0.2a-x32-asm.patch \
-+            file://ptest_makefile_deps.patch  \
-            "
- 
- SRC_URI[md5sum] = "38dd619b2e77cbac69b99f52a053d25a"
--- 
-2.4.0
+// Robert
 
+>
+> Ross
 
