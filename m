@@ -1,29 +1,27 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Wenzong.Fan@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6339076FD7
+	by mail.openembedded.org (Postfix) with ESMTP id 5A3BF76FD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 07:46:04 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8T7k4mK019528
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 29 Sep 2015 00:46:04 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 29 Sep 2015 00:46:04 -0700
-Message-ID: <560A41BA.5050906@windriver.com>
-Date: Tue, 29 Sep 2015 15:46:02 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
+	Tue, 29 Sep 2015 07:47:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8T7laeO019534
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Sep 2015 00:47:36 -0700 (PDT)
+Received: from [128.224.162.176] (128.224.162.176) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Tue, 29 Sep 2015 00:47:35 -0700
+Message-ID: <560A4216.2060307@windriver.com>
+Date: Tue, 29 Sep 2015 15:47:34 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1443432019.git.liezhi.yang@windriver.com>
-	<5a37554dfd79d1c65ce30ab9db9b05608066eedd.1443432019.git.liezhi.yang@windriver.com>
-	<CAJTo0LZv-pri_fntqi6ypU=oFiSXD--1k9ZBfzhF=TN7aVTFEw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZv-pri_fntqi6ypU=oFiSXD--1k9ZBfzhF=TN7aVTFEw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] python-async: inherit setuptools
+To: <openembedded-core@lists.openembedded.org>
+References: <1443092691-216216-1-git-send-email-wenzong.fan@windriver.com>
+In-Reply-To: <1443092691-216216-1-git-send-email-wenzong.fan@windriver.com>
+Subject: Re: [PATCH] glib-2.0: cleanup buildpaths from pkgconfig files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,26 +34,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Sep 2015 07:46:10 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Tue, 29 Sep 2015 07:47:36 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+recall this patch, I'll send out v2 for update commit logs.
 
-On 09/28/2015 08:31 PM, Burton, Ross wrote:
->
-> On 28 September 2015 at 10:20, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     -inherit distutils
->     +inherit distutils setuptools
->
->
-> setuptools inherits distutils, so you can replace instead of adding.
+Wenzong
 
-Thanks, updated in the repo.
-
-// Robert
-
+On 09/24/2015 07:04 PM, wenzong.fan@windriver.com wrote:
+> From: Wenzong Fan <wenzong.fan@windriver.com>
 >
-> Ross
+> * gio-2.0.pc:
+>    -L/path/to/tmp/sysroots/qemux86-64/lib64 -> -L/lib64
+>
+> * gobject-2.0.pc:
+>    -L/path/to/tmp/sysroots/qemux86-64/usr/lib64/../lib64
+>      -> -L/usr/lib64/../lib64
+>
+> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+> ---
+>   meta/recipes-core/glib-2.0/glib.inc | 6 ++++++
+>   1 file changed, 6 insertions(+)
+>
+> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+> index 072f790..4ccdb93 100644
+> --- a/meta/recipes-core/glib-2.0/glib.inc
+> +++ b/meta/recipes-core/glib-2.0/glib.inc
+> @@ -75,6 +75,12 @@ do_install_append () {
+>   	fi
+>   }
+>
+> +do_install_append_class-target() {
+> +	# cleanup buildpaths from gio-2.0.pc, gobject-2.0.pc
+> +	sed -i -e 's#${STAGING_DIR_HOST}##g' ${D}${libdir}/pkgconfig/gio-2.0.pc
+> +	sed -i -e 's#${STAGING_DIR_HOST}##g' ${D}${libdir}/pkgconfig/gobject-2.0.pc
+> +}
+> +
+>   RDEPENDS_${PN}-ptest += "\
+>               gnome-desktop-testing \
+>               tzdata \
+>
 
