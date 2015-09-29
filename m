@@ -1,22 +1,26 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A299577047
+	by mail.openembedded.org (Postfix) with ESMTP id AFCA97704A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 22:51:25 +0000 (UTC)
+	Tue, 29 Sep 2015 22:51:32 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 29 Sep 2015 15:51:25 -0700
+	by orsmga103.jf.intel.com with ESMTP; 29 Sep 2015 15:51:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,609,1437462000"; d="scan'208";a="815694257"
+X-IronPort-AV: E=Sophos;i="5.17,609,1437462000"; d="scan'208";a="815694282"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.83])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Sep 2015 15:51:24 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 29 Sep 2015 15:51:26 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Sep 2015 17:51:21 -0500
-Message-Id: <cover.1443564436.git.anibal.limon@linux.intel.com>
+Date: Tue, 29 Sep 2015 17:51:23 -0500
+Message-Id: <ff547dde5ddcb1f42afcc4d91aea70a20c5c4983.1443564436.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1443564436.git.anibal.limon@linux.intel.com>
+References: <cover.1443564436.git.anibal.limon@linux.intel.com>
+In-Reply-To: <cover.1443564436.git.anibal.limon@linux.intel.com>
+References: <cover.1443564436.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: bruce.ashfield@windriver.com, benjamin.esquivel@intel.com
-Subject: [PATCH 0/2] qemuarm enable virtio devices
+Subject: [PATCH 2/2] runqemu-internal: qemuarm enable usage of virtio devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +37,48 @@ X-List-Received-Date: Tue, 29 Sep 2015 22:51:33 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Use virtio block device into qemuarm for avoid qemu SCSI device problem that
-is broken.
+We are experiencing occasional segfaults in scsi sym53c8xx driver
+on qemuarm boot. There are some old discussions into the mailing
+lists [1] about the scsi problem and seems to be isn't fixed.
 
-I tested (ran testimage) this patches using core-image-sato and core-image-lsb
-with kernels 3.14, 3.19 and 4.1.
+We use virtio blk/net devices into qemuarm64 also are supported
+into qemuarm so change to use it because virtio devices are the best
+choice.
 
 [YOCTO #8060]
 
-The following changes since commit f78f90240a3041be426c6ba9085849352164ee8b:
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=8060#c10
 
-  bitbake: prserv/serv.py: Better messaging when starting/stopping the server with port=0 (2015-09-28 12:00:33 +0100)
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ scripts/runqemu-internal | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib alimon/qemuarm_virtio
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/qemuarm_virtio
-
-Aníbal Limón (2):
-  linux-yocto_{3.14,3.19,4.1}: qemuarm enable virtio drivers
-  runqemu-internal: qemuarm enable usage of virtio devices
-
- meta/recipes-kernel/linux/linux-yocto_3.14.bb |  1 +
- meta/recipes-kernel/linux/linux-yocto_3.19.bb |  1 +
- meta/recipes-kernel/linux/linux-yocto_4.1.bb  |  1 +
- scripts/runqemu-internal                      | 14 ++++++++++++--
- 4 files changed, 15 insertions(+), 2 deletions(-)
-
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index d6b1102..a77660f 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -364,8 +364,18 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
+     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
+     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
+     if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
+-        KERNCMDLINE="root=/dev/sda rw console=ttyAMA0,115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
+-        QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} -drive file=$ROOTFS,format=raw -no-reboot $QEMU_UI_OPTIONS"
++        if [ "$MACHINE" = "qemuarm" ]; then
++            QEMU_NETWORK_CMD="-net nic,model=virtio $QEMU_TAP_CMD"
++            DROOT="/dev/vda"
++            ROOTFS_OPTIONS="-drive file=$ROOTFS,if=virtio,format=raw"
++        else
++            QEMU_NETWORK_CMD="-net nic,vlan=0 $QEMU_TAP_CMD"
++            DROOT="/dev/sda"
++            ROOTFS_OPTIONS="-drive file=$ROOTFS,format=raw"
++        fi
++
++        KERNCMDLINE="root=$DROOT rw console=ttyAMA0,115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
++        QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} $ROOTFS_OPTIONS -no-reboot $QEMU_UI_OPTIONS"
+     fi
+     if [ "$FSTYPE" = "nfs" ]; then
+         if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
 -- 
 1.9.1
 
