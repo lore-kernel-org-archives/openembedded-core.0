@@ -1,32 +1,26 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 7D71B73CBD
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A19E676AC4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 19:53:38 +0000 (UTC)
-Received: from [IPv6:fda8:8b75:6fa6:1000:6c6d:37bb:6fa3:499c] (192.168.15.34)
-	by smtp.enea.com (172.21.1.208) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 29 Sep 2015 21:53:35 +0200
-To: "Ray, Ian (GE Healthcare)" <ian.ray@ge.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <1442819513-20171-1-git-send-email-ian.ray@ge.com>
-	<1442819513-20171-2-git-send-email-ian.ray@ge.com>
-	<56094576.6070803@enea.com>
-	<30E719D66AEA914CBB7DAB303B1C722D1728B4@BUDURBPA11.e2k.ad.ge.com>
-	<CAJTo0LZzUa1CYaWt=B6Az9nZ54Sf2_FJvX7SN5z876ZEhS133A@mail.gmail.com>
-	<30E719D66AEA914CBB7DAB303B1C722D17290A@BUDURBPA11.e2k.ad.ge.com>
-	<56098AA9.2070505@enea.com>
-	<30E719D66AEA914CBB7DAB303B1C722D1729D1@BUDURBPA11.e2k.ad.ge.com>
-From: Tudor Florea <tudor.florea@enea.com>
-Message-ID: <560AEC3D.1010701@enea.com>
-Date: Tue, 29 Sep 2015 22:53:33 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
+	Tue, 29 Sep 2015 22:51:27 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 29 Sep 2015 15:51:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,609,1437462000"; d="scan'208";a="815694270"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.83])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Sep 2015 15:51:25 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Sep 2015 17:51:22 -0500
+Message-Id: <eb7d7ee96174039c8f6f9b93f1cda83fc1ce8687.1443564436.git.anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1443564436.git.anibal.limon@linux.intel.com>
+References: <cover.1443564436.git.anibal.limon@linux.intel.com>
+In-Reply-To: <cover.1443564436.git.anibal.limon@linux.intel.com>
+References: <cover.1443564436.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <30E719D66AEA914CBB7DAB303B1C722D1729D1@BUDURBPA11.e2k.ad.ge.com>
-X-Originating-IP: [192.168.15.34]
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto][PATCH 1/1] ptest: user-specified run-ptest script location
+Cc: bruce.ashfield@windriver.com, benjamin.esquivel@intel.com
+Subject: [PATCH 1/2] linux-yocto_{3.14, 3.19, 4.1}: qemuarm enable virtio drivers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,77 +33,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Sep 2015 19:53:40 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Sep 2015 22:51:33 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+We are experimenting segfault in qemu arm SCSI driver because
+it's broken [1][2] so enable virtio drivers to use as default.
 
+[YOCTO #8060]
 
-On 29/09/2015 09:59, Ray, Ian (GE Healthcare) wrote:
-> On 28 September 2015, Tudor Florea wrote:
->>> On 28 September 2015, Ross Burton wrote:
->>>> Surely if an upstream is under your control and is ptest-aware, it can also
->>>> install run-ptest into the right place too?
->>> The run-ptest script is currently required to be in WORKDIR.
->> Actually run-ptest is currently required to be present in
->> /usr/lib/<package>/ptest. If a package is "ptest-aware", that  package
->> should contain a  install-ptest make target which will take care of
->> installing the run-ptest file.
-> In summary, the options seem to be as follows:
->
-> # option 1 -- package includes run-ptest, recipe points to it
-> PTEST_RUN_SCRIPT_PATH = "path/to/run-ptest"
->
-> # option 2 -- recipe copies run-ptest to WORKDIR
-> # This leverages meta/classes/ptest.bbclass do_install_ptest_base.
-> do_compile_ptest () {
->          oe_runmake buildtest-TESTS
->          cp ${S}/path/to/run-ptest ${WORKDIR}
-> }
->
-> # option 3 -- package installs run-ptest
-> # The recipe requires custom do_install_ptest because there is no
-> # run-ptest in WORKDIR so meta/classes/ptest.bbclass does not call
-> # do_install_ptest_base.
-> do_install () {
->          oe_runmake DESTDIR=${D} install
->
->          # Copied from do_install_ptest_base.
->          install -D ${S}/ptest/run-ptest ${D}${PTEST_PATH}/run-ptest
->          oe_runmake DESTDIR=${D}${PTEST_PATH} install-ptest
->          chown -R root:root ${D}${PTEST_PATH}
->
->          # Hack alert!  had to comment out do_install_ptest_base[cleandirs] in
->          # meta/classes/ptest.bbclass to test this option.
-> }
->
-> My inexperience shows here with option #3 which attempted to address the comments
-> by Ross and Tudor, but which does not actually work (tested on Fido branch).
-I think that we should modify do_install_ptest_base to run 
-do_install_ptest and install the Makefile irrespective of the presence 
-of run-ptest file in ${WORKDIR}
-Something like:
-do_install_ptest_base() {
-     if [ -f ${WORKDIR}/run-ptest ]; then
-         install -D ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/run-ptest
-     fi
-     if grep -q install-ptest: Makefile; then
-         oe_runmake DESTDIR=${D}${PTEST_PATH} install-ptest
-     fi
-     do_install_ptest
-}
+[1] https://lists.gnu.org/archive/html/qemu-devel/2007-03/msg00093.html
+[2] https://lists.nongnu.org/archive/html/qemu-devel/2010-07/msg01473.html
 
-Does this fits with your needs?
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb | 1 +
+ meta/recipes-kernel/linux/linux-yocto_3.19.bb | 1 +
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb  | 1 +
+ 3 files changed, 3 insertions(+)
 
-Regards,
-   Tudor
-
->
-> Maybe there is an option #4, where the recipe does *not* inherit ptest, but that would
-> place a significant burden on the recipe author (detecting PTEST_ENABLED, adding
-> tasks, etc).  No doubt there is an easier way.  Sorry for being such a noob!
->
-> Ian
->
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+index b6b2e5a..0a37cb6 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
+@@ -36,6 +36,7 @@ COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemu
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemuarm=" cfg/virtio.scc"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.19.bb b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
+index e8c1640..4143a09 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
+@@ -36,6 +36,7 @@ COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemu
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemuarm=" cfg/virtio.scc"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+index 0645134..f27e0de 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+@@ -36,6 +36,7 @@ COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemu
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemuarm=" cfg/virtio.scc"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+-- 
+1.9.1
 
 
