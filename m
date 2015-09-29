@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D445762A2
+Return-Path: <maxin.john@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E988C76FD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 13:27:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8TDQwNK004543 for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 14:27:59 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id sKywYpCrrEiU
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 14:27:59 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8TDRjMd004563
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 14:27:56 +0100
-Message-ID: <1443533265.5162.35.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Sep 2015 14:27:45 +0100
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] linuxloader/image-prelink/image-mklibs: Fix non-standard path prelinking
+	Tue, 29 Sep 2015 14:15:04 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 29 Sep 2015 07:15:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,608,1437462000"; d="scan'208";a="570531139"
+Received: from mbabyjoh-mobl.fi.intel.com ([10.237.68.37])
+	by FMSMGA003.fm.intel.com with ESMTP; 29 Sep 2015 07:15:01 -0700
+Date: Tue, 29 Sep 2015 12:28:45 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Randy Witt <randy.e.witt@linux.intel.com>
+Message-ID: <20150929092845.GA28457@mbabyjoh-mobl.fi.intel.com>
+References: <1443479903-32731-1-git-send-email-randy.e.witt@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1443479903-32731-1-git-send-email-randy.e.witt@linux.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] runqemu-internal: Make sure two serial ports always exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,117 +31,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Sep 2015 13:28:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-Prelinking on x86-64 wasn't working out the box as it uses /lib and
-not /lib64 for libs. Prelink was refusing to link as the dynamic loader
-didn't match its idea of the right path. Passing in the --dyanmic-linker
-option avoids this.
-
-We can share code from image-mklibs so abstract that into a new class,
-linuxloader.bbclass.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
-index c455a8e..45a66fb 100644
---- a/meta/classes/image-mklibs.bbclass
-+++ b/meta/classes/image-mklibs.bbclass
-@@ -2,6 +2,8 @@ do_rootfs[depends] += "mklibs-native:do_populate_sysroot"
- 
- IMAGE_PREPROCESS_COMMAND += "mklibs_optimize_image; "
- 
-+inherit linuxloader
-+
- mklibs_optimize_image_doit() {
- 	rm -rf ${WORKDIR}/mklibs
- 	mkdir -p ${WORKDIR}/mklibs/dest
-@@ -15,26 +17,8 @@ mklibs_optimize_image_doit() {
- 		| sed "s+^\./++" \
- 		> ${WORKDIR}/mklibs/executables.list
- 
--	case ${TARGET_ARCH} in
--		powerpc | mips | mipsel | microblaze )
--			dynamic_loader="${base_libdir}/ld.so.1"
--			;;
--		powerpc64)
--			dynamic_loader="${base_libdir}/ld64.so.1"
--			;;
--		x86_64)
--			dynamic_loader="${base_libdir}/ld-linux-x86-64.so.2"
--			;;
--		i586 )
--			dynamic_loader="${base_libdir}/ld-linux.so.2"
--			;;
--		arm )
--			dynamic_loader="${base_libdir}/ld-linux.so.3"
--			;;
--		* )
--			dynamic_loader="/unknown_dynamic_linker"
--			;;
--	esac
-+	# Set $dynamic_loader 
-+        linuxloader
- 
- 	mklibs -v \
- 		--ldlib ${dynamic_loader} \
-diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
-index d4bb3ae..4bb090d 100644
---- a/meta/classes/image-prelink.bbclass
-+++ b/meta/classes/image-prelink.bbclass
-@@ -2,6 +2,8 @@ do_rootfs[depends] += "prelink-native:do_populate_sysroot"
- 
- IMAGE_PREPROCESS_COMMAND += "prelink_image; "
- 
-+inherit linuxloader
-+
- prelink_image () {
- #	export PSEUDO_DEBUG=4
- #	/bin/env | /bin/grep PSEUDO
-@@ -20,8 +22,11 @@ prelink_image () {
- 		dummy_prelink_conf=false;
- 	fi
- 
-+	# Set $dynamic_loader
-+	linuxloader
-+
- 	# prelink!
--	${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf
-+	${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root ${IMAGE_ROOTFS} -amR -N -c ${sysconfdir}/prelink.conf --dynamic-linker $dynamic_loader
- 
- 	# Remove the prelink.conf if we had to add it.
- 	if [ "$dummy_prelink_conf" = "true" ]; then
-diff --git a/meta/classes/linuxloader.bbclass b/meta/classes/linuxloader.bbclass
-new file mode 100644
-index 0000000..578df14
---- /dev/null
-+++ b/meta/classes/linuxloader.bbclass
-@@ -0,0 +1,23 @@
-+
-+linuxloader () {
-+	case ${TARGET_ARCH} in
-+		powerpc | mips | mipsel | microblaze )
-+			dynamic_loader="${base_libdir}/ld.so.1"
-+			;;
-+		powerpc64)
-+			dynamic_loader="${base_libdir}/ld64.so.1"
-+			;;
-+		x86_64)
-+			dynamic_loader="${base_libdir}/ld-linux-x86-64.so.2"
-+			;;
-+		i586 )
-+			dynamic_loader="${base_libdir}/ld-linux.so.2"
-+			;;
-+		arm )
-+			dynamic_loader="${base_libdir}/ld-linux.so.3"
-+			;;
-+		* )
-+			dynamic_loader="/unknown_dynamic_linker"
-+			;;
-+	esac
-+}
+X-List-Received-Date: Tue, 29 Sep 2015 14:15:10 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 
+On Mon, Sep 28, 2015 at 03:38:23PM -0700, Randy Witt wrote:
+> Since inittab for qemu images now always tries to start getty on a
+> second serial device, make sure that device exists.
+> 
+> Otherwise the following message will be spammed:
+>     INIT: Id "S1" respawning too fast: disabled for 5 minutes
+> 
+> [YOCTO #8374]
+> 
+> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+> ---
+>  scripts/runqemu-internal | 32 ++++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+> 
+> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+> index d6b1102..078545e 100755
+> --- a/scripts/runqemu-internal
+> +++ b/scripts/runqemu-internal
+> @@ -700,6 +700,38 @@ if [ "x$SERIALSTDIO" = "x1" ]; then
+>          stty intr ^]
+>  fi
+>  
+> +
+> +# Preserve the multiplexing behavior for the monitor that would be there based
+> +# on whether nographic is used.
+> +if echo "$QEMUOPTIONS $SERIALOPTS $SCRIPT_QEMU_OPT $SCRIPT_QEMU_EXTRA_OPT" | grep -- "-nographic"; then
+> +    FIRST_SERIAL_OPT="-serial mon:stdio"
+> +else
+> +    FIRST_SERIAL_OPT="-serial mon:vc"
+> +fi
+> +
+> +# qemuarm64 uses virtio for any additional serial ports so the normal mechanism
+> +# of using -serial will not work
+> +if [ "$MACHINE" = "qemuarm64" ]; then
+> +    SECOND_SERIAL_OPT="$SCRIPT_QEMU_EXTRA_OPT -device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
+> +else
+> +    SECOND_SERIAL_OPT="-serial null"
+> +fi
+> +
+> +# We always want a ttyS1. Since qemu by default adds a serial port when
+> +# nodefaults is not specified, it seems that all that would be needed is to
+> +# make sure a "-serial" is there. However, it appears that when "-serial" is
+> +# specified, it ignores the default serial port that is normally added.
+> +# So here we make sure to add two -serial if there are none. And only one
+> +# if there is one -serial already.
+> +NUM_SERIAL_OPTS=`echo $QEMUOPTIONS $SERIALOPTS $SCRIPT_QEMU_OPT $SCRIPT_QEMU_EXTRA_OPT | sed -e 's/ /\n/g' | grep --count -- -serial`
+> +
+> +if [ "$NUM_SERIAL_OPTS" = "0" ]; then
+> +    SCRIPT_QEMU_EXTRA_OPT="$SCRIPT_QEMU_EXTRA_OPT $FIRST_SERIAL_OPT $SECOND_SERIAL_OPT"
+> +elif [ "$NUM_SERIAL_OPTS" = "1" ]; then
+> +    SCRIPT_QEMU_EXTRA_OPT="$SCRIPT_QEMU_EXTRA_OPT $SECOND_SERIAL_OPT"
+> +fi
+> +
+> +
+>  echo "Running $QEMU..."
+>  # -no-reboot is a mandatory option - see bug #100
+>  if [ "$FSTYPE" = "vmdk" -o "$FSTYPE" = "hddimg" -o "$FSTYPE" = "hdddirect" ]; then
+> -- 
+> 2.4.3
+>
+
+Verified on qemux86 and qemuppc.
+
+Reviewed-by: Maxin B. John <maxin.john@intel.com>
+
+Best Regards,
+Maxin
 
