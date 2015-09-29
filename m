@@ -1,28 +1,22 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 989C8755FA
+Return-Path: <andrew.shadura@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 93826758DB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 12:38:38 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 29 Sep 2015 05:38:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,608,1437462000"; d="scan'208";a="799606110"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Sep 2015 05:38:37 -0700
-Message-ID: <1443530316.11206.32.camel@linux.intel.com>
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Date: Tue, 29 Sep 2015 15:38:36 +0300
-In-Reply-To: <1443524266.11206.30.camel@linux.intel.com>
-References: <1443095587-13852-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1443095587-13852-4-git-send-email-markus.lehtonen@linux.intel.com>
-	<5609A248.8020303@linux.intel.com>
-	<1443524266.11206.30.camel@linux.intel.com>
-X-Mailer: Evolution 3.12.11 
-Mime-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 03/10] oe-selftest: devtool: add method for checking workspace dir
+	Tue, 29 Sep 2015 12:39:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrewsh) with ESMTPSA id 0EF6F608E1A
+To: openembedded-core@lists.openembedded.org
+References: <1440666021-11411-1-git-send-email-andrew.shadura@collabora.co.uk>
+	<1442225233-18899-1-git-send-email-andrew.shadura@collabora.co.uk>
+From: Andrew Shadura <andrew.shadura@collabora.co.uk>
+Organization: Collabora Limited
+Message-ID: <560A8690.1050809@collabora.co.uk>
+Date: Tue, 29 Sep 2015 14:39:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
+MIME-Version: 1.0
+In-Reply-To: <1442225233-18899-1-git-send-email-andrew.shadura@collabora.co.uk>
+Subject: Re: [PATCH v2 1/7] dbus: merge .bb and .inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,238 +29,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Sep 2015 12:38:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Sep 2015 12:39:55 -0000
+X-Groupsio-MsgNum: 71728
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="JwF3C9nbeHln1qKlBEhCQTS79gNHK6pxh"
 
-On Tue, 2015-09-29 at 13:57 +0300, Markus Lehtonen wrote:
-> Hi,
-> 
-> 
-> On Mon, 2015-09-28 at 15:25 -0500, Leonardo Sandoval wrote:
-> > 
-> > On 09/24/2015 06:53 AM, Markus Lehtonen wrote:
-> > > In order to remove some code duplication.
-> > >
-> > > Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> > > ---
-> > >   meta/lib/oeqa/selftest/devtool.py | 63 +++++++++++++++------------------------
-> > >   1 file changed, 24 insertions(+), 39 deletions(-)
-> > >
-> > > diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-> > > index 3a8168c..b8b872c 100644
-> > > --- a/meta/lib/oeqa/selftest/devtool.py
-> > > +++ b/meta/lib/oeqa/selftest/devtool.py
-> > > @@ -84,11 +84,18 @@ class DevtoolBase(oeSelfTest):
-> > >
-> > >   class DevtoolTests(DevtoolBase):
-> > >
-> > > +    def _get_workspace_dir(self):
-> > > +        """Get workspace directory"""
-> > > +        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > +        self.assertTrue(not os.path.exists(workspacedir),
-> > > +                        'This test cannot be run with a workspace directory '
-> > > +                        'under the build directory')
-> > > +        return workspacedir
-> > > +
-> > >       @testcase(1158)
-> > >       def test_create_workspace(self):
-> > >           # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > 
-> > If all tests are using workspacedir, I believe it make sense to have a 
-> > setUp method and setting workspacedir there:
-> > 
-> > .
-> >      def setUp(self):
-> > 	self.workspacedir = # the _get_workspace_dir body code goes here
-> > .
-> > .
-> 
-> Good point! Yes, I think this check is in every single test case so a
-> setup() method is nicer.
+--JwF3C9nbeHln1qKlBEhCQTS79gNHK6pxh
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-An updated patchset is available at:
-  git://git.openembedded.org/openembedded-core-contrib
-marquiz/devtool/localfiles
+Hi all,
 
-http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/devtool/localfiles
+There hasn't been anything on this for two weeks already, has anyone
+considered merging these patches?
+
+--=20
+Cheers,
+  Andrew
 
 
+--JwF3C9nbeHln1qKlBEhCQTS79gNHK6pxh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Thanks,
-  Markus
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iQIcBAEBCAAGBQJWCoaVAAoJEEFnG7NKhJOBQU8P/jVH1sy2MT/GpRGXu5IwD6w9
+Di9SIyJynnkUWH8IK9jzC1MC3L6sMb+c5oQ4aqg5z3VkgUQa80SXz5HYZZAah6p5
+GJFrcue2q+21AiFocMSGdtrubqgRzv3Z8P7+0AF22E4ciSf/nU3g+QGVRkx9DIX/
+G4X7LQmOV/Olg+cE5sa/N7Dd0fSyuA0DP9Wk9KBZYrM3OHmU4ouoBZp+an/Txypx
+CSA0S4LnVRxkGMFJ9/VNiRzRUeHCL7tvEYUOKP4/IUBCynVtJW5bRcBucGjPAUOM
+IGLlokQppDb+WnS60leK4XDWCw9dhnhTha2VSthtV1R3LsR1N7v9lOyprYAx5+c9
+L7KF56eNQmIgqwsgekWrkq1/Lzyi63fF5g9GS5JeLhPWlOWVxxnGgzEcOw4bZXXJ
+fOSJNtq8xIxvT//sFNiidvNX3k4JM040QQJaYLLlloj60RAEmEiok7KvZ/KwJ4Qs
+FbK8oewUhpYoj8UkYPGA/IEDaYoCvlxwNp/7kAP/9IRTCoy6+PR9KCFftX4Qxw2I
+ml5Gurs25+0GD733S5JpqqgxI6zLCTDVZNED0hrAJLSu4MRQpojh7sB7i0vATwCw
+0KyinmoAn7Wfwqhq7YN57HADUwQXwHjKCzs2qayAlmWCmFLWVkKJeaDcRvAJtuHX
+vTSpMJD3t8VqPGkHQX2b
+=9sEe
+-----END PGP SIGNATURE-----
 
-
-> 
-> > >           result = runCmd('bitbake-layers show-layers')
-> > >           self.assertTrue('/workspace' not in result.output, 'This test cannot be run with a workspace layer in bblayers.conf')
-> > >           # Try creating a workspace layer with a specific path
-> > > @@ -109,9 +116,7 @@ class DevtoolTests(DevtoolBase):
-> > >
-> > >       @testcase(1159)
-> > >       def test_devtool_add(self):
-> > > -        # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           # Fetch source
-> > >           tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-> > >           self.track_for_cleanup(tempdir)
-> > > @@ -144,9 +149,7 @@ class DevtoolTests(DevtoolBase):
-> > >
-> > >       @testcase(1162)
-> > >       def test_devtool_add_library(self):
-> > > -        # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           # We don't have the ability to pick up this dependency automatically yet...
-> > >           bitbake('libusb1')
-> > >           # Fetch source
-> > > @@ -185,9 +188,7 @@ class DevtoolTests(DevtoolBase):
-> > >
-> > >       @testcase(1160)
-> > >       def test_devtool_add_fetch(self):
-> > > -        # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           # Fetch source
-> > >           tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-> > >           self.track_for_cleanup(tempdir)
-> > > @@ -232,9 +233,7 @@ class DevtoolTests(DevtoolBase):
-> > >
-> > >       @testcase(1161)
-> > >       def test_devtool_add_fetch_git(self):
-> > > -        # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           # Fetch source
-> > >           tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-> > >           self.track_for_cleanup(tempdir)
-> > > @@ -284,9 +283,7 @@ class DevtoolTests(DevtoolBase):
-> > >
-> > >       @testcase(1164)
-> > >       def test_devtool_modify(self):
-> > > -        # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           # Clean up anything in the workdir/sysroot/sstate cache
-> > >           bitbake('mdadm -c cleansstate')
-> > >           # Try modifying a recipe
-> > > @@ -336,9 +333,7 @@ class DevtoolTests(DevtoolBase):
-> > >
-> > >       @testcase(1166)
-> > >       def test_devtool_modify_invalid(self):
-> > > -        # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           # Try modifying some recipes
-> > >           tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-> > >           self.track_for_cleanup(tempdir)
-> > > @@ -400,8 +395,7 @@ class DevtoolTests(DevtoolBase):
-> > >       @testcase(1165)
-> > >       def test_devtool_modify_git(self):
-> > >           # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           testrecipe = 'mkelfimage'
-> > >           src_uri = get_bb_var('SRC_URI', testrecipe)
-> > >           self.assertIn('git://', src_uri, 'This test expects the %s recipe to be a git recipe' % testrecipe)
-> > > @@ -434,8 +428,7 @@ class DevtoolTests(DevtoolBase):
-> > >       @testcase(1167)
-> > >       def test_devtool_modify_localfiles(self):
-> > >           # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           testrecipe = 'lighttpd'
-> > >           src_uri = (get_bb_var('SRC_URI', testrecipe) or '').split()
-> > >           foundlocal = False
-> > > @@ -467,8 +460,7 @@ class DevtoolTests(DevtoolBase):
-> > >       @testcase(1169)
-> > >       def test_devtool_update_recipe(self):
-> > >           # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           testrecipe = 'minicom'
-> > >           recipefile = get_bb_var('FILE', testrecipe)
-> > >           src_uri = get_bb_var('SRC_URI', testrecipe)
-> > > @@ -514,8 +506,7 @@ class DevtoolTests(DevtoolBase):
-> > >       @testcase(1172)
-> > >       def test_devtool_update_recipe_git(self):
-> > >           # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           testrecipe = 'mtd-utils'
-> > >           recipefile = get_bb_var('FILE', testrecipe)
-> > >           src_uri = get_bb_var('SRC_URI', testrecipe)
-> > > @@ -609,8 +600,7 @@ class DevtoolTests(DevtoolBase):
-> > >       @testcase(1170)
-> > >       def test_devtool_update_recipe_append(self):
-> > >           # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           testrecipe = 'mdadm'
-> > >           recipefile = get_bb_var('FILE', testrecipe)
-> > >           src_uri = get_bb_var('SRC_URI', testrecipe)
-> > > @@ -685,8 +675,7 @@ class DevtoolTests(DevtoolBase):
-> > >       @testcase(1171)
-> > >       def test_devtool_update_recipe_append_git(self):
-> > >           # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           testrecipe = 'mtd-utils'
-> > >           recipefile = get_bb_var('FILE', testrecipe)
-> > >           src_uri = get_bb_var('SRC_URI', testrecipe)
-> > > @@ -781,9 +770,7 @@ class DevtoolTests(DevtoolBase):
-> > >
-> > >       @testcase(1163)
-> > >       def test_devtool_extract(self):
-> > > -        # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-> > >           # Try devtool extract
-> > >           self.track_for_cleanup(tempdir)
-> > > @@ -795,9 +782,7 @@ class DevtoolTests(DevtoolBase):
-> > >
-> > >       @testcase(1168)
-> > >       def test_devtool_reset_all(self):
-> > > -        # Check preconditions
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > -        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-> > >           self.track_for_cleanup(tempdir)
-> > >           self.track_for_cleanup(workspacedir)
-> > > @@ -846,7 +831,7 @@ class DevtoolTests(DevtoolBase):
-> > >                   break
-> > >           else:
-> > >               self.skipTest('No tap devices found - you must set up tap devices with scripts/runqemu-gen-tapdevs before running this test')
-> > > -        workspacedir = os.path.join(self.builddir, 'workspace')
-> > > +        workspacedir = self._get_workspace_dir()
-> > >           self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> > >           # Definitions
-> > >           testrecipe = 'mdadm'
-> > >
-> 
-> 
-> 
-
-
-
-
+--JwF3C9nbeHln1qKlBEhCQTS79gNHK6pxh--
