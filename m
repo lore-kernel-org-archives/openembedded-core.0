@@ -1,41 +1,42 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id ED7347680E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id E930777035
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 15:50:19 +0000 (UTC)
-Received: by wicge5 with SMTP id ge5so156845698wic.0
+	Tue, 29 Sep 2015 17:07:04 +0000 (UTC)
+Received: by pablk4 with SMTP id lk4so11121859pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Sep 2015 08:50:19 -0700 (PDT)
+	Tue, 29 Sep 2015 10:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=vrIPViaIXWc/aeUUzZCldalZ8PHQcUowk3yKJvJ8CC0=;
-	b=vgySOkR/1TUhv+vhwnhQY4urv5GyVYjpsvtWz6ppmOanZCv7hGVeChJ6yoWP8ZGPVF
-	J5cGs2kDebJq9HlpbBJKLl2S+E/yN9GNTDdoUIQftKxde6jD6RHZk2MRcWdeDjFspDJz
-	nGj13OLiJU7EL/+slU1OCvY7ozscvdTUxNBVjp2IFCwgKmJtJFfEMztwboqbXvGSNztR
-	NJAEI+5nNHLydlD/wCrUIzd9wubpKOaGcw7eiTBE0m7tj39X1xW+v/wijZAdrHLkhm37
-	NEWAgN5RI+SSdsncwGhX9L8BLkGh8z6esi+cxU+9hrIrdvA64vu7rdpUJPzQgKP1k+1J
-	i+Eg==
-X-Received: by 10.180.93.168 with SMTP id cv8mr19457903wib.54.1443541818991;
-	Tue, 29 Sep 2015 08:50:18 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=cqYBUKTql+rszDjP+/PoKsQ4ng3q4MSoTEmIkyaItTw=;
+	b=Mgl40tq38HfPRJDflerc/8OGBT3LTX7M9gN+PC38qbeOqt3jB4w96K4ZN6kI8HkqDT
+	FiydkcRSyWG0hffYc8VI97qjmo08extUPMq/FtM/M8+IRF+OBbxkZYmez7W/R+80g9nY
+	pNzYU8cxF90mNHSF7kLQwXNJUD6drygqJKGd9CA1xH17WFLyDC7f6pnKrqEjgTJw/VGD
+	xMMNaLqj2nHMwDdrclOedrXi1SKgi85evuVsYBsp0ibqNvsy57jo6BtRQBZxKmiCOitE
+	bgN5CtCyw3Nh6c8wOO6KxAtOJ6MFLKC9XGo51YvzqOzdfgMXdeP3bn9rtqS2K22pi1uL
+	0euA==
+X-Received: by 10.68.242.130 with SMTP id wq2mr33768665pbc.117.1443546424784; 
+	Tue, 29 Sep 2015 10:07:04 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:f90b:6fa0:21f7:85bc?
+	([2601:646:8601:4580:f90b:6fa0:21f7:85bc])
 	by smtp.gmail.com with ESMTPSA id
-	ej5sm24578398wjd.22.2015.09.29.08.50.17
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 29 Sep 2015 08:50:17 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 29 Sep 2015 17:50:55 +0200
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150929155055.GA14440@jama>
-References: <1441369348-32182-3-git-send-email-Martin.Jansa@gmail.com>
-	<1441895486-26145-1-git-send-email-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1441895486-26145-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Subject: Re: [PATCHv2] fontcache: allow to pass extra parameters and environment to fc-cache
+	of1sm26602384pbc.11.2015.09.29.10.07.04
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 29 Sep 2015 10:07:04 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <6b281d94cd5d112840fc39b017be201a41e65658.1443536748.git.bruce.ashfield@windriver.com>
+Date: Tue, 29 Sep 2015 10:07:03 -0700
+Message-Id: <CBC9858A-0875-463A-A0C0-0C34EEF752F0@gmail.com>
+References: <cover.1443536748.git.bruce.ashfield@windriver.com>
+	<6b281d94cd5d112840fc39b017be201a41e65658.1443536748.git.bruce.ashfield@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+X-Mailer: Apple Mail (2.3094)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] kern-tools: fix multi-layer patch application
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,121 +49,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Sep 2015 15:50:20 -0000
-X-Groupsio-MsgNum: 71750
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="HcAYCG3uE/tztfnV"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 29 Sep 2015 17:07:05 -0000
+X-Groupsio-MsgNum: 71751
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_E0088582-FA72-4524-94D1-2A143E2A1E27";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---HcAYCG3uE/tztfnV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Apple-Mail=_E0088582-FA72-4524-94D1-2A143E2A1E27
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-On Thu, Sep 10, 2015 at 04:31:26PM +0200, Martin Jansa wrote:
-> * this can be useful for passing extra parameters, pass
->   -v by default to see what's going on in do_rootfs
-> * we need to use this for extra parameter we implemented
->   in fontconfig:
->   --ignore-mtime always use cache file regardless of font directory mtime
->   because the checksum of fontcache generated in do_rootfs
->   doesn't match with /usr/share/fonts directory as seen on
->   target device causing fontconfig to re-create the cache
->   when fontconfig is used for first time or worse create
->   new cache in every user's home directory when /usr/
->   filesystem is read only and cache cannot be updated.
+
+> On Sep 29, 2015, at 7:31 AM, Bruce Ashfield =
+<bruce.ashfield@windriver.com> wrote:
 >=20
->   Running FC_DEBUG=3D16 fc-cache -v on such device shows:
->   FcCacheTimeValid dir "/usr/share/fonts" cache checksum 1441207803 dir c=
-hecksum 1441206149
-> * my guess is that the checksum is different, because pseudo
->   (which is unloaded when running qemuwrapper) or because some
->   influence of running the rootfs under qemu.
-
-ping
-
-was this postponed to 2.0? Any feedback would be nice.
-
-But thanks for applying the other 2, now we were able to implement this in =
-our
-layer with overlayed fontcache.bbclass and intercepts scripts.
-
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> Updating the kern-tools SRCREV to import the following fix:
+>=20
+>    kgit-meta: resume after last applied patch
+>=20
+>    When the auto-resume (resume point detection) was removed from the
+>    processing of a meta-series, it ignored the fact that a single =
+patch
+>    series may in fact be processed a number of times.
+>=20
+>    Two layers patching a kernel will generate two different runs on =
+the
+>    same branch, which always start at patch one. This will obviously
+>    break with duplicate patches.
+>=20
+>    To avoid this, we simply track the last patch applied, and
+>    explicitly
+>    tell the patch scripts where to start. This gets us resume
+>    functionality, without the overhead of resume point detection.
+>=20
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 > ---
->  meta/classes/fontcache.bbclass                | 19 +++++++++++++++----
->  scripts/postinst-intercepts/update_font_cache |  4 ++--
->  2 files changed, 17 insertions(+), 6 deletions(-)
+> meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbcl=
-ass
-> index d122387..8ebdfc4 100644
-> --- a/meta/classes/fontcache.bbclass
-> +++ b/meta/classes/fontcache.bbclass
-> @@ -9,12 +9,23 @@ inherit qemu
->  FONT_PACKAGES ??=3D "${PN}"
->  FONT_EXTRA_RDEPENDS ?=3D "fontconfig-utils"
->  FONTCONFIG_CACHE_DIR ?=3D "${localstatedir}/cache/fontconfig"
-> +FONTCONFIG_CACHE_PARAMS ?=3D "-v"
-> +# You can change this to e.g. FC_DEBUG=3D16 to debug fc-cache issues,
-> +# something has to be set, because qemuwrapper is using this variable af=
-ter -E
-> +# multiple variables aren't allowed because for qemu they are separated
-> +# by comma and in -n "$D" case they should be separated by space
-> +FONTCONFIG_CACHE_ENV ?=3D "FC_DEBUG=3D1"
->  fontcache_common() {
-> -if [ "x$D" !=3D "x" ] ; then
-> -	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=3D$=
-{MLPREFIX} bindir=3D${bindir} \
-> -		libdir=3D${libdir} base_libdir=3D${base_libdir} fontconfigcachedir=3D$=
-{FONTCONFIG_CACHE_DIR}
-> +if [ -n "$D" ] ; then
-> +	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=3D$=
-{MLPREFIX} \
-> +		'bindir=3D"${bindir}"' \
-> +		'libdir=3D"${libdir}"' \
-> +		'base_libdir=3D"${base_libdir}"' \
-> +		'fontconfigcachedir=3D"${FONTCONFIG_CACHE_DIR}"' \
-> +		'fontconfigcacheparams=3D"${FONTCONFIG_CACHE_PARAMS}"' \
-> +		'fontconfigcacheenv=3D"${FONTCONFIG_CACHE_ENV}"'
->  else
-> -	fc-cache
-> +	${FONTCONFIG_CACHE_ENV} fc-cache ${FONTCONFIG_CACHE_PARAMS}
->  fi
->  }
-> =20
-> diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/post=
-inst-intercepts/update_font_cache
-> index c8c6018..0deab3c 100644
-> --- a/scripts/postinst-intercepts/update_font_cache
-> +++ b/scripts/postinst-intercepts/update_font_cache
-> @@ -1,5 +1,5 @@
->  #!/bin/sh
-> =20
-> -PSEUDO_UNLOAD=3D1 qemuwrapper -L $D -E LD_LIBRARY_PATH=3D$D/${libdir}:$D=
-/${base_libdir}\
-> -					$D${bindir}/fc-cache --sysroot=3D$D
-> +PSEUDO_UNLOAD=3D1 qemuwrapper -L $D -E LD_LIBRARY_PATH=3D$D/${libdir}:$D=
-/${base_libdir} \
-> +					-E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=3D$D ${font=
-configcacheparams}
->  chown -R root:root $D${fontconfigcachedir}
-> --=20
-> 2.5.1
+> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb =
+b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> index 27df02ab7a44..18be4ad61598 100644
+> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM =3D =
+"file://git/tools/kgit;beginline=3D5;endline=3D9;md5=3Dd8d1d729a70c
 >=20
+> DEPENDS =3D "git-native"
+>=20
+> -SRCREV =3D "b7642a7c3f685850ffbb961313e6a593adb05370"
+> +SRCREV =3D =E2=80=9C1fb91c2965193df894089fbcbcafe3bf775c21fd"
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+this works well now.
 
---HcAYCG3uE/tztfnV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+> PR =3D "r12"
+> PV =3D "0.2+git${SRCPV}"
+>=20
+> --
+> 2.1.0
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_E0088582-FA72-4524-94D1-2A143E2A1E27
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlYKs18ACgkQN1Ujt2V2gBzruACdELQG0oriRHlrWonph3HC3CaF
-+XAAniRwzI2kzeSI/2fl8fVaxN2mJz55
-=ZXH8
+iEYEARECAAYFAlYKxTcACgkQuwUzVZGdMxQvOgCfemFlfQWXXZrWoodxQdj8PIdM
+ulkAoInlBcgJVr3XDZ2rGUjg0TYzVIFQ
+=W0dB
 -----END PGP SIGNATURE-----
 
---HcAYCG3uE/tztfnV--
+--Apple-Mail=_E0088582-FA72-4524-94D1-2A143E2A1E27--
