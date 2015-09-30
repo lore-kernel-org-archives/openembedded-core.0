@@ -1,26 +1,26 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D5AE7702D
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A591766A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 08:09:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8U895rb008828
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 01:09:05 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Wed, 30 Sep 2015 01:09:04 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Sep 2015 04:09:00 -0400
-Message-ID: <0f0c78a80630cf1d7b8d7393f2e81c6525e11844.1443600210.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1443600210.git.wenzong.fan@windriver.com>
-References: <cover.1443600210.git.wenzong.fan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3 v2] gnutls: cleanup buildpaths from gnutls.pc
+	Wed, 30 Sep 2015 09:01:18 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 30 Sep 2015 02:01:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,611,1437462000"; d="scan'208";a="800352812"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Sep 2015 02:01:14 -0700
+Message-ID: <1443603673.11206.35.camel@linux.intel.com>
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Wed, 30 Sep 2015 12:01:13 +0300
+In-Reply-To: <2936022.hqFWI3dATu@peggleto-mobl.ger.corp.intel.com>
+References: <1443095587-13852-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<1443095587-13852-11-git-send-email-markus.lehtonen@linux.intel.com>
+	<2936022.hqFWI3dATu@peggleto-mobl.ger.corp.intel.com>
+X-Mailer: Evolution 3.12.11 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 10/10] devtool: modify: make bitbake use local files from srctree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Sep 2015 08:09:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 30 Sep 2015 09:01:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+Hi,
 
-For multilib build, PKG_CONFIG_SYSROOT_DIR will be injected in values
-that are returned by 'pkg-config --libs xxx', such as for zlib:
+On Mon, 2015-09-28 at 14:48 +0100, Paul Eggleton wrote:
+> Hi Markus,
+> 
+> On Thursday 24 September 2015 14:53:07 Markus Lehtonen wrote:
+> > This change makes it possible to have local files (non-remote SRC_URI
+> > files, i.e. files that are located in the "recipe space") under the
+> > srctree even if S!=WORKDIR. The files must be placed under the
+> > 'local-files' subdirectory.
+> > 
+> > Complements the previous patch that imports local files into srctree.
+> > 
+> > [YOCTO #7602]
+> > 
+> > Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+> > ---
+> >  scripts/lib/devtool/standard.py | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/scripts/lib/devtool/standard.py
+> > b/scripts/lib/devtool/standard.py index 6b85c8c..78b0d27 100644
+> > --- a/scripts/lib/devtool/standard.py
+> > +++ b/scripts/lib/devtool/standard.py
+> > @@ -558,8 +558,13 @@ def modify(args, config, basepath, workspace):
+> >      if not os.path.exists(appendpath):
+> >          os.makedirs(appendpath)
+> >      with open(appendfile, 'w') as f:
+> > -        f.write('FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"\n\n')
+> > -        f.write('inherit externalsrc\n')
+> > +        f.write('FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"\n')
+> > +        # Local files can be modified/tracked in separate subdir under
+> > srctree +        # Mostly useful for packages with S != WORKDIR
+> > +        f.write('FILESPATH_prepend := "%s:"\n' %
+> > +                os.path.join(srctree, 'local-files'))
+> 
+> Shouldn't this directory be named "oe-local-files"?
 
-  dev-shell# pkg-config --libs zlib
-  -L/path/to/tmp/sysroots/qemux86-64/usr/lib64 -lz
+Argh, sorry, I had missed this email earlier. Yes, it should be
+'oe-local-files'. An updated patch with a fix is available at:
 
-The values used by configure to generate various files from templates.
+http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/devtool/localfiles
 
-For gnutls, the buildpaths should be cleaned up from:
 
-* gnutls.pc:
-  generated from lib/gnutls.pc.in that includes @LTLIBZ@
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- meta/recipes-support/gnutls/gnutls.inc | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index e9b138a..3c8d4c9 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -38,6 +38,11 @@ PACKAGECONFIG ??= "zlib"
- PACKAGECONFIG[tpm] = "--with-tpm, --without-tpm, trousers"
- PACKAGECONFIG[zlib] = "--with-zlib, --without-zlib, zlib"
- 
-+do_install_append_class-target() {
-+	# cleanup buildpaths from gnutls.pc
-+	sed -i -e 's,${STAGING_DIR_HOST},,g' ${D}${libdir}/pkgconfig/gnutls.pc
-+}
-+
- PACKAGES =+ "${PN}-openssl ${PN}-xx"
- 
- FILES_${PN}-dev += "${bindir}/gnutls-cli-debug"
--- 
-1.9.1
+Thanks,
+  Markus
 
 
