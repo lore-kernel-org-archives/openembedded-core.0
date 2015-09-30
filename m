@@ -1,22 +1,30 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A1A247705C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B835574242
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 12:53:07 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 30 Sep 2015 05:53:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,612,1437462000"; d="scan'208";a="816296229"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 30 Sep 2015 05:53:07 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Sep 2015 15:53:18 +0300
-Message-Id: <1443617598-30123-4-git-send-email-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1443617598-30123-1-git-send-email-alexander.kanavin@linux.intel.com>
-References: <1443617598-30123-1-git-send-email-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 4/4] dropbear: fix key generation when systemd is in use and rootfs is readonly
+	Wed, 30 Sep 2015 13:42:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8UDgN9D006549 for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Sep 2015 14:42:23 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id lkc_JqgoNcYm
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Sep 2015 14:42:23 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8UDg7lH006534
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Sep 2015 14:42:19 +0100
+Message-ID: <1443620527.5162.76.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Sep 2015 14:42:07 +0100
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] lib/oe/package_manager: Handle empty package list in opkg case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,50 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Sep 2015 12:53:07 -0000
+X-List-Received-Date: Wed, 30 Sep 2015 13:42:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-core/dropbear/dropbear/dropbear@.service   | 3 ++-
- meta/recipes-core/dropbear/dropbear/dropbearkey.service | 9 +++++++--
- 2 files changed, 9 insertions(+), 3 deletions(-)
+If you build buildtools-tarball with opkg as the package manager, it
+passes in an empty target packages list and fails.
 
-diff --git a/meta/recipes-core/dropbear/dropbear/dropbear@.service b/meta/recipes-core/dropbear/dropbear/dropbear@.service
-index 6fe9942..b420bcd 100644
---- a/meta/recipes-core/dropbear/dropbear/dropbear@.service
-+++ b/meta/recipes-core/dropbear/dropbear/dropbear@.service
-@@ -4,8 +4,9 @@ Wants=dropbearkey.service
- After=syslog.target dropbearkey.service
+This allows the code to cope with an empty package list (in sync
+with the rpm backend).
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index c51e88b..630b957 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -1512,7 +1512,7 @@ class OpkgPM(PackageManager):
+         self.deploy_dir_unlock()
  
- [Service]
-+Environment="DROPBEAR_RSAKEY_DIR=/etc/dropbear"
- EnvironmentFile=-/etc/default/dropbear
--ExecStart=-@SBINDIR@/dropbear -i -r /etc/dropbear/dropbear_rsa_host_key $DROPBEAR_EXTRA_ARGS
-+ExecStart=-@SBINDIR@/dropbear -i -r ${DROPBEAR_RSAKEY_DIR}/dropbear_rsa_host_key $DROPBEAR_EXTRA_ARGS
- ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
- StandardInput=socket
- KillMode=process
-diff --git a/meta/recipes-core/dropbear/dropbear/dropbearkey.service b/meta/recipes-core/dropbear/dropbear/dropbearkey.service
-index ccc21d5..c49053d 100644
---- a/meta/recipes-core/dropbear/dropbear/dropbearkey.service
-+++ b/meta/recipes-core/dropbear/dropbear/dropbearkey.service
-@@ -1,8 +1,13 @@
- [Unit]
- Description=SSH Key Generation
--ConditionPathExists=|!/etc/dropbear/dropbear_rsa_host_key
-+RequiresMountsFor=/var /var/lib
-+ConditionPathExists=!/etc/dropbear/dropbear_rsa_host_key
-+ConditionPathExists=!/var/lib/dropbear/dropbear_rsa_host_key
+     def install(self, pkgs, attempt_only=False):
+-        if attempt_only and len(pkgs) == 0:
++        if not pkgs:
+             return
  
- [Service]
-+Environment="DROPBEAR_RSAKEY_DIR=/etc/dropbear"
-+EnvironmentFile=-/etc/default/dropbear
- Type=oneshot
--ExecStart=@SBINDIR@/dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key
-+ExecStart=@BASE_BINDIR@/mkdir -p ${DROPBEAR_RSAKEY_DIR}
-+ExecStart=@SBINDIR@/dropbearkey -t rsa -f ${DROPBEAR_RSAKEY_DIR}/dropbear_rsa_host_key
- RemainAfterExit=yes
--- 
-2.1.4
+         cmd = "%s %s install %s" % (self.opkg_cmd, self.opkg_args, ' '.join(pkgs))
+
 
 
