@@ -1,26 +1,26 @@
 Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 27C017702D
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A4D1A77010
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 08:09:03 +0000 (UTC)
+	Wed, 30 Sep 2015 08:09:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8U894dl003141
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8U893tL008825
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 01:09:04 -0700 (PDT)
+	Wed, 30 Sep 2015 01:09:03 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Wed, 30 Sep 2015 01:09:03 -0700
+	Wed, 30 Sep 2015 01:09:02 -0700
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Sep 2015 04:08:59 -0400
-Message-ID: <8ac85d94524e16660ebff22515a9d6809c971e4b.1443600210.git.wenzong.fan@windriver.com>
+Date: Wed, 30 Sep 2015 04:08:58 -0400
+Message-ID: <bcac24a99fee9f86d5692e7a457e51c41c9208b7.1443600210.git.wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1443600210.git.wenzong.fan@windriver.com>
 References: <cover.1443600210.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3 v2] curl: cleanup buildpaths from curl-config
+Subject: [PATCH 1/3 v2] glib-2.0: cleanup buildpaths from pkgconfig files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +38,44 @@ Content-Type: text/plain
 
 From: Wenzong Fan <wenzong.fan@windriver.com>
 
-curl-config will be installed to target, cleanup buildpaths in it:
+For multilib build, PKG_CONFIG_SYSROOT_DIR will be injected in values
+that are returned by 'pkg-config --libs xxx', such as for zlib:
 
-* remove ${STAGING_DIR_HOST} from CC, CFLAGS ...
+  dev-shell# pkg-config --libs zlib
+  -L/path/to/tmp/sysroots/qemux86-64/usr/lib64 -lz
+
+The values used by configure to generate various files from templates.
+
+For glib-2.0, the buildpaths should be cleaned up from:
+
+* gio-2.0.pc:
+  generated from gio-2.0.pc.in that includes @ZLIB_LIBS@
+
+* gobject-2.0.pc:
+  generated from gobject-2.0.pc.in that includes @LIBFFI_LIBS@
 
 Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- meta/recipes-support/curl/curl_7.44.0.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-core/glib-2.0/glib.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-support/curl/curl_7.44.0.bb b/meta/recipes-support/curl/curl_7.44.0.bb
-index b293303..f6d350e 100644
---- a/meta/recipes-support/curl/curl_7.44.0.bb
-+++ b/meta/recipes-support/curl/curl_7.44.0.bb
-@@ -45,6 +45,11 @@ do_install_append() {
- 	oe_multilib_header curl/curlbuild.h
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 072f790..fb42eac 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -75,6 +75,12 @@ do_install_append () {
+ 	fi
  }
  
 +do_install_append_class-target() {
-+	# cleanup buildpaths from curl-config
-+	sed -i -e 's,${STAGING_DIR_HOST},,g' ${D}${bindir}/curl-config
++	# cleanup buildpaths from gio-2.0.pc, gobject-2.0.pc
++	sed -i -e 's,${STAGING_DIR_HOST},,g' ${D}${libdir}/pkgconfig/gio-2.0.pc
++	sed -i -e 's,${STAGING_DIR_HOST},,g' ${D}${libdir}/pkgconfig/gobject-2.0.pc
 +}
 +
- PACKAGES =+ "lib${BPN}"
- 
- FILES_lib${BPN} = "${libdir}/lib*.so.*"
+ RDEPENDS_${PN}-ptest += "\
+             gnome-desktop-testing \
+             tzdata \
 -- 
 1.9.1
 
