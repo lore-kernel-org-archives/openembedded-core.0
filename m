@@ -1,21 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DF887706E
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D41F77053
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 15:31:37 +0000 (UTC)
+	Wed, 30 Sep 2015 15:35:17 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 30 Sep 2015 08:31:39 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 30 Sep 2015 08:35:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,613,1437462000"; d="scan'208";a="781008171"
+X-IronPort-AV: E=Sophos;i="5.17,613,1437462000"; 
+	d="scan'208,217";a="781011014"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga001.jf.intel.com with ESMTP; 30 Sep 2015 08:31:36 -0700
+	by orsmga001.jf.intel.com with ESMTP; 30 Sep 2015 08:35:16 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org, joshua.lock@collabora.co.uk,
 	akuster808@gmail.com
-Date: Wed, 30 Sep 2015 18:33:54 +0300
-Message-Id: <cover.1443624731.git.jussi.kukkonen@intel.com>
+Date: Wed, 30 Sep 2015 18:37:42 +0300
+Message-Id: <e636475eca83f69162538109ca09176a69d6a21c.1443624731.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/3][fido][dizzy] D-Bus policy fixes
+In-Reply-To: <cover.1443624731.git.jussi.kukkonen@intel.com>
+References: <cover.1443624731.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 1/3] bluez5: Use upstream D-Bus policy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,55 +31,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Sep 2015 15:31:38 -0000
+X-List-Received-Date: Wed, 30 Sep 2015 15:35:18 -0000
 
-The major patch in the series is the bluez one: Bluez
-D-Bus policy was incorrectly written so it actually allowed
-access to system services _other than bluetoothd_ overriding
-the default deny policy on the system bus. Fixing this may
-naturally affect other system services too.
+The Bluez D-Bus policy is much too open and affects not just bluez but
+all system services: Use upstream policy configuration instead.
 
-The patches I'm sending are for master but I believe both fido and
-dizzy behave similarly. I can send a patch for those as well but
-am not sure what to include there: I'm guessing people now have
-services running that are expecting an open-by-default system bus --
-closing it now will require good release notes at the very least.
+This change has a chance of affecting other D-Bus services: the bug
+that is fixed here may have hidden problems in other policies.
 
-So RFC on fido and dizzy: The best I can think of is taking the bluez
-patch, patching in an xuser allow policy for bluez, and making the
-(practical) policy change very clear in the release notes.
+[YOCTO #8414]
 
- - Jussi
-
-The following changes since commit 4bc3f0994e68b3302a0523a3156dd0dca0cac7a0:
-
-  bitbake: toaster: move clones into subdirectory (2015-09-29 14:11:39 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/dbus-policy
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/dbus-policy
-
-Jussi Kukkonen (3):
-  bluez5: Use upstream D-Bus policy
-  dbus: Use the xuser policy file
-  xuser-account: Take over xuser specific D-Bus policy
-
- meta/recipes-connectivity/bluez5/bluez5.inc        |  5 +--
- .../bluez5/bluez5/bluetooth.conf                   | 17 ---------
- meta/recipes-connectivity/connman/connman.inc      |  1 -
- .../connman/add_xuser_dbus_permission.patch        | 43 ----------------------
- meta/recipes-connectivity/connman/connman_1.30.bb  |  1 -
- meta/recipes-core/dbus/dbus.inc                    |  1 +
- ...-Apply-xuser-specific-policies-if-present.patch | 33 +++++++++++++++++
- .../user-creation/files/system-xuser.conf          | 15 ++++++++
- .../user-creation/xuser-account_0.1.bb             |  6 ++-
- 9 files changed, 55 insertions(+), 67 deletions(-)
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc            |  5 ++---
+ meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf | 17 -----------------
+ 2 files changed, 2 insertions(+), 20 deletions(-)
  delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
- delete mode 100644 meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch
- create mode 100644 meta/recipes-core/dbus/dbus/0001-Apply-xuser-specific-policies-if-present.patch
- create mode 100644 meta/recipes-support/user-creation/files/system-xuser.conf
 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 039c443..df42c88 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -18,7 +18,6 @@ PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
+ 
+ SRC_URI = "\
+     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+-    file://bluetooth.conf \
+ "
+ S = "${WORKDIR}/bluez-${PV}"
+ 
+@@ -53,8 +52,8 @@ do_install_append() {
+ 	if [ -f ${S}/profiles/input/input.conf ]; then
+ 	    install -m 0644 ${S}/profiles/input/input.conf ${D}/${sysconfdir}/bluetooth/
+ 	fi
+-	# at_console doesn't really work with the current state of OE, so punch some more holes so people can actually use BT
+-	install -m 0644 ${WORKDIR}/bluetooth.conf ${D}/${sysconfdir}/dbus-1/system.d/
++
++	install -m 0644 ${S}/src/bluetooth.conf ${D}/${sysconfdir}/dbus-1/system.d/
+ 
+ 	# Install desired tools that upstream leaves in build area
+         for f in ${NOINST_TOOLS} ; do
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf b/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
+deleted file mode 100644
+index 26845bb..0000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
++++ /dev/null
+@@ -1,17 +0,0 @@
+-<!-- This configuration file specifies the required security policies
+-     for Bluetooth core daemon to work. -->
+-
+-<!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
+- "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+-<busconfig>
+-
+-  <!-- ../system.conf have denied everything, so we just punch some holes -->
+-
+-  <policy context="default">
+-    <allow own="org.bluez"/>
+-    <allow send_destination="org.bluez"/>
+-    <allow send_interface="org.bluez.Agent1"/>
+-    <allow send_type="method_call"/>
+-  </policy>
+-
+-</busconfig>
 -- 
 2.1.4
 
