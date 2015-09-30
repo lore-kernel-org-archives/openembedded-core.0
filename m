@@ -1,26 +1,26 @@
 Return-Path: <Wenzong.Fan@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A4D1A77010
+	by mail.openembedded.org (Postfix) with ESMTP id 8D5AE7702D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 08:09:02 +0000 (UTC)
+	Wed, 30 Sep 2015 08:09:05 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8U893tL008825
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8U895rb008828
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 01:09:03 -0700 (PDT)
+	Wed, 30 Sep 2015 01:09:05 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Wed, 30 Sep 2015 01:09:02 -0700
+	Wed, 30 Sep 2015 01:09:04 -0700
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Sep 2015 04:08:58 -0400
-Message-ID: <bcac24a99fee9f86d5692e7a457e51c41c9208b7.1443600210.git.wenzong.fan@windriver.com>
+Date: Wed, 30 Sep 2015 04:09:00 -0400
+Message-ID: <0f0c78a80630cf1d7b8d7393f2e81c6525e11844.1443600210.git.wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1443600210.git.wenzong.fan@windriver.com>
 References: <cover.1443600210.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3 v2] glib-2.0: cleanup buildpaths from pkgconfig files
+Subject: [PATCH 3/3 v2] gnutls: cleanup buildpaths from gnutls.pc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Sep 2015 08:09:05 -0000
+X-List-Received-Date: Wed, 30 Sep 2015 08:09:07 -0000
 Content-Type: text/plain
 
 From: Wenzong Fan <wenzong.fan@windriver.com>
@@ -46,36 +46,32 @@ that are returned by 'pkg-config --libs xxx', such as for zlib:
 
 The values used by configure to generate various files from templates.
 
-For glib-2.0, the buildpaths should be cleaned up from:
+For gnutls, the buildpaths should be cleaned up from:
 
-* gio-2.0.pc:
-  generated from gio-2.0.pc.in that includes @ZLIB_LIBS@
-
-* gobject-2.0.pc:
-  generated from gobject-2.0.pc.in that includes @LIBFFI_LIBS@
+* gnutls.pc:
+  generated from lib/gnutls.pc.in that includes @LTLIBZ@
 
 Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/recipes-support/gnutls/gnutls.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 072f790..fb42eac 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -75,6 +75,12 @@ do_install_append () {
- 	fi
- }
+diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+index e9b138a..3c8d4c9 100644
+--- a/meta/recipes-support/gnutls/gnutls.inc
++++ b/meta/recipes-support/gnutls/gnutls.inc
+@@ -38,6 +38,11 @@ PACKAGECONFIG ??= "zlib"
+ PACKAGECONFIG[tpm] = "--with-tpm, --without-tpm, trousers"
+ PACKAGECONFIG[zlib] = "--with-zlib, --without-zlib, zlib"
  
 +do_install_append_class-target() {
-+	# cleanup buildpaths from gio-2.0.pc, gobject-2.0.pc
-+	sed -i -e 's,${STAGING_DIR_HOST},,g' ${D}${libdir}/pkgconfig/gio-2.0.pc
-+	sed -i -e 's,${STAGING_DIR_HOST},,g' ${D}${libdir}/pkgconfig/gobject-2.0.pc
++	# cleanup buildpaths from gnutls.pc
++	sed -i -e 's,${STAGING_DIR_HOST},,g' ${D}${libdir}/pkgconfig/gnutls.pc
 +}
 +
- RDEPENDS_${PN}-ptest += "\
-             gnome-desktop-testing \
-             tzdata \
+ PACKAGES =+ "${PN}-openssl ${PN}-xx"
+ 
+ FILES_${PN}-dev += "${bindir}/gnutls-cli-debug"
 -- 
 1.9.1
 
