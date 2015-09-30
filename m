@@ -1,30 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B7D776F9D
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AB5776F9D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 13:51:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8UDpHj2007399 for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 14:51:40 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TORO4Y0gLBU4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 14:51:40 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8UDpPnN007464
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 14:51:36 +0100
-Message-ID: <1443621085.5162.89.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Sep 2015 14:51:25 +0100
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] layer.conf: Improve siggen exclusion to handle virtual/libc
+	Wed, 30 Sep 2015 13:51:55 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Sep 2015 06:51:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,612,1437462000"; d="scan'208";a="816336294"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga002.jf.intel.com with ESMTP; 30 Sep 2015 06:51:54 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Sep 2015 16:51:53 +0300
+Message-Id: <1443621113-4568-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: [PATCH] devtool: update-recipe: enable var history tracking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +28,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Sep 2015 13:51:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Sep 2015 13:51:56 -0000
 
-Now the system supports virtual/xxx in SIGGEN_ variables, convert
-this one to use virtual/libc instead of the hardcoded expansion which
-is error prone.
+Enable variable history tracking so that the variables are updated in
+the correct file - i.e. in the file they are already defined.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[YOCTO #7715]
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 9e80018..1a2f4d5 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -41,9 +41,7 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
- "
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ scripts/lib/devtool/__init__.py | 4 ++--
+ scripts/lib/devtool/standard.py | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
+index 7b1ab11..844aa12 100644
+--- a/scripts/lib/devtool/__init__.py
++++ b/scripts/lib/devtool/__init__.py
+@@ -96,7 +96,7 @@ def exec_fakeroot(d, cmd, **kwargs):
+             newenv[splitval[0]] = splitval[1]
+     return subprocess.call("%s %s" % (fakerootcmd, cmd), env=newenv, **kwargs)
  
- SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
--  gcc-cross-${TARGET_ARCH}->glibc \
--  gcc-cross-${TARGET_ARCH}->musl \
--  gcc-cross-${TARGET_ARCH}->uclibc \
-+  gcc-cross-${TARGET_ARCH}->virtual/libc \
-   gcc-cross-${TARGET_ARCH}->linux-libc-headers \
-   ppp-dialin->ppp \
-   resolvconf->bash \
-
+-def setup_tinfoil(config_only=False, basepath=None):
++def setup_tinfoil(config_only=False, basepath=None, tracking=False):
+     """Initialize tinfoil api from bitbake"""
+     import scriptpath
+     orig_cwd = os.path.abspath(os.curdir)
+@@ -108,7 +108,7 @@ def setup_tinfoil(config_only=False, basepath=None):
+         sys.exit(1)
+ 
+     import bb.tinfoil
+-    tinfoil = bb.tinfoil.Tinfoil()
++    tinfoil = bb.tinfoil.Tinfoil(tracking=tracking)
+     tinfoil.prepare(config_only)
+     tinfoil.logger.setLevel(logger.getEffectiveLevel())
+     os.chdir(orig_cwd)
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 1dcf7cd..686c9d9 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -797,7 +797,7 @@ def update_recipe(args, config, basepath, workspace):
+             raise DevtoolError('conf/layer.conf not found in bbappend '
+                                'destination layer "%s"' % args.append)
+ 
+-    tinfoil = setup_tinfoil(basepath=basepath)
++    tinfoil = setup_tinfoil(basepath=basepath, tracking=True)
+ 
+     rd = parse_recipe(config, tinfoil, args.recipename, True)
+     if not rd:
+-- 
+2.1.4
 
 
