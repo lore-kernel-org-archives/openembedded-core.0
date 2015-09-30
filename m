@@ -1,27 +1,47 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 55A5477016
+Return-Path: <ian.ray@ge.com>
+Received: from mx0a-00176a03.pphosted.com (mx0a-00176a03.pphosted.com
+	[67.231.149.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 21C347701A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 10:05:54 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 30 Sep 2015 03:05:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,611,1437462000"; d="scan'208";a="800402121"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Sep 2015 03:05:53 -0700
-Message-ID: <1443607552.11206.37.camel@linux.intel.com>
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Wed, 30 Sep 2015 13:05:52 +0300
-In-Reply-To: <2536397.TWMWxq2M1Y@peggleto-mobl.ger.corp.intel.com>
-References: <1443095587-13852-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<2936022.hqFWI3dATu@peggleto-mobl.ger.corp.intel.com>
-	<1443603673.11206.35.camel@linux.intel.com>
-	<2536397.TWMWxq2M1Y@peggleto-mobl.ger.corp.intel.com>
-X-Mailer: Evolution 3.12.11 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 10/10] devtool: modify: make bitbake use local files from srctree
+	Wed, 30 Sep 2015 10:08:17 +0000 (UTC)
+Received: from pps.filterd (m0048275.ppops.net [127.0.0.1])
+	by m0048275.ppops.net-00176a03. (8.15.0.59/8.15.0.59) with SMTP id
+	t8UA6SLd034153 for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Sep 2015 06:08:17 -0400
+Received: from alpmlip12.e2k.ad.ge.com (n165-156-000-000.static.ge.com
+	[165.156.5.1] (may be forged))
+	by m0048275.ppops.net-00176a03. with ESMTP id 1x5qnwwa3y-7
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Sep 2015 06:08:17 -0400
+Received: from cinmlip01.e2k.ad.ge.com ([3.159.213.48])
+	by alpmlip12.e2k.ad.ge.com with ESMTP/TLS/RC4-SHA;
+	30 Sep 2015 06:08:16 -0400
+Received: from unknown (HELO clipsmtp.clients.em.health.ge.com) ([3.187.7.87])
+	by CINMLIP01.e2k.ad.ge.com with ESMTP; 30 Sep 2015 06:08:15 -0400
+Received: from macaroni.clients.em.health.ge.com
+	(macaroni.clients.em.health.ge.com [3.187.18.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by clipsmtp.clients.em.health.ge.com (Postfix) with ESMTPSA id
+	D91F310BC303; Wed, 30 Sep 2015 13:03:41 +0300 (EEST)
+From: Ian Ray <ian.ray@ge.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Sep 2015 13:03:38 +0300
+Message-Id: <ac2c65aaac574dbfaa4271710b7a2904af114810.1443606524.git.ian.ray@ge.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1443606524.git.ian.ray@ge.com>
+References: <cover.1443606524.git.ian.ray@ge.com>
+In-Reply-To: <cover.1443606524.git.ian.ray@ge.com>
+References: <cover.1443606524.git.ian.ray@ge.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-09-30_02:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+	suspectscore=1
+	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
+	adjust=0 reason=mlx scancount=1 engine=8.0.1-1507310000
+	definitions=main-1509300151
+Subject: [PATCH v2 1/1] ptest: run-ptest not required to run do_install_ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,71 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Sep 2015 10:05:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Sep 2015 10:08:20 -0000
 
-Hi,
+Modify do_install_ptest_base to run do_install_ptest and install the
+Makefile irrespective of the presence of ${WORKDIR}/run-ptest.  This
+change allows "ptest-aware" packages to install run-ptest as part of
+the make machinery.
 
-On Wed, 2015-09-30 at 10:21 +0100, Paul Eggleton wrote:
-> On Wednesday 30 September 2015 12:01:13 Markus Lehtonen wrote:
-> > Hi,
-> > 
-> > On Mon, 2015-09-28 at 14:48 +0100, Paul Eggleton wrote:
-> > > Hi Markus,
-> > > 
-> > > On Thursday 24 September 2015 14:53:07 Markus Lehtonen wrote:
-> > > > This change makes it possible to have local files (non-remote SRC_URI
-> > > > files, i.e. files that are located in the "recipe space") under the
-> > > > srctree even if S!=WORKDIR. The files must be placed under the
-> > > > 'local-files' subdirectory.
-> > > > 
-> > > > Complements the previous patch that imports local files into srctree.
-> > > > 
-> > > > [YOCTO #7602]
-> > > > 
-> > > > Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> > > > ---
-> > > > 
-> > > >  scripts/lib/devtool/standard.py | 9 +++++++--
-> > > >  1 file changed, 7 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/scripts/lib/devtool/standard.py
-> > > > b/scripts/lib/devtool/standard.py index 6b85c8c..78b0d27 100644
-> > > > --- a/scripts/lib/devtool/standard.py
-> > > > +++ b/scripts/lib/devtool/standard.py
-> > > > 
-> > > > @@ -558,8 +558,13 @@ def modify(args, config, basepath, workspace):
-> > > >      if not os.path.exists(appendpath):
-> > > >          os.makedirs(appendpath)
-> > > >      
-> > > >      with open(appendfile, 'w') as f:
-> > > > -        f.write('FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"\n\n')
-> > > > -        f.write('inherit externalsrc\n')
-> > > > +        f.write('FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"\n')
-> > > > +        # Local files can be modified/tracked in separate subdir under
-> > > > srctree +        # Mostly useful for packages with S != WORKDIR
-> > > > +        f.write('FILESPATH_prepend := "%s:"\n' %
-> > > > +                os.path.join(srctree, 'local-files'))
-> > > 
-> > > Shouldn't this directory be named "oe-local-files"?
-> > 
-> > Argh, sorry, I had missed this email earlier. Yes, it should be
-> > 'oe-local-files'. An updated patch with a fix is available at:
-> > 
-> > http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/devtoo
-> > l/localfiles
-> 
-> OK, great, but the commit message still has "local-files".
+Signed-off-by: Ian Ray <ian.ray@ge.com>
+---
+ meta/classes/ptest.bbclass | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Oh my, you're right. Yet another version of the patch in the same
-location:
-http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/devtool/localfiles
-
-
-Thank you for your patience,
-  Markus
-
-
+diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+index b5f470f..4dc5dbe 100644
+--- a/meta/classes/ptest.bbclass
++++ b/meta/classes/ptest.bbclass
+@@ -39,12 +39,12 @@ do_install_ptest() {
+ do_install_ptest_base() {
+     if [ -f ${WORKDIR}/run-ptest ]; then
+         install -D ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/run-ptest
+-        if grep -q install-ptest: Makefile; then
+-            oe_runmake DESTDIR=${D}${PTEST_PATH} install-ptest
+-        fi
+-        do_install_ptest
+-        chown -R root:root ${D}${PTEST_PATH}
+     fi
++    if grep -q install-ptest: Makefile; then
++        oe_runmake DESTDIR=${D}${PTEST_PATH} install-ptest
++    fi
++    do_install_ptest
++    chown -R root:root ${D}${PTEST_PATH}
+ }
+ 
+ do_configure_ptest_base[dirs] = "${B}"
+-- 
+1.8.3.1
 
 
