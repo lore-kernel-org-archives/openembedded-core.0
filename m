@@ -1,37 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DCC7762A2
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 55A5477016
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 09:45:37 +0000 (UTC)
-Received: by qgev79 with SMTP id v79so29677962qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 02:45:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=jcQ8jIjsPzsSM+MqiSqmBrK3Gqso/7OsoAbH415PWHM=;
-	b=NbYlGIzcT3/Wm/gMWRFPGgYfBq425le2flIhvc2cgnPxaXK6Ti93sZzuj+iReIP44k
-	jCs+nyno6rnSrFn7yOwtFDefEDJNhiVzIalwUfqn0AP9aV2jhfI+AfpNaYAqsqnu1CFZ
-	KPPDLbc6N6hL9wUrK9jiI2hKoJNbXjixepweJ5z9pETTHCFNSSy526rtv4YiLiVdrpeH
-	xh8LFCRSGoKWZ/XvdpGSDUYieH5VN8VZ5lJyFelYiX1dr10pWGP9zq1QbNHBicZyecWf
-	kV6dneX8mq1m5XueTqToUBcp6MyjjAJ+dCUGmqlPhLAvxzr33T0J52/4he1CDa5bJUQW
-	dUNA==
-X-Gm-Message-State: ALoCoQm1yxbxwIdf6Lv+bDZzhvjrJ9qgeJK3+wHZ2PS0Ld7A7SLG1kjQS+Gydu9tTDAnYEZMSdup
-X-Received: by 10.140.109.74 with SMTP id k68mr3067435qgf.77.1443606337746;
-	Wed, 30 Sep 2015 02:45:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Wed, 30 Sep 2015 02:45:18 -0700 (PDT)
-In-Reply-To: <bcac24a99fee9f86d5692e7a457e51c41c9208b7.1443600210.git.wenzong.fan@windriver.com>
-References: <cover.1443600210.git.wenzong.fan@windriver.com>
-	<bcac24a99fee9f86d5692e7a457e51c41c9208b7.1443600210.git.wenzong.fan@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 30 Sep 2015 10:45:18 +0100
-Message-ID: <CAJTo0LYwQiw5a0_nkBM5erDgbtNgzW54sU+3Cn5x=5EViS0uTg@mail.gmail.com>
-To: wenzong fan <wenzong.fan@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3 v2] glib-2.0: cleanup buildpaths from pkgconfig files
+	Wed, 30 Sep 2015 10:05:54 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 30 Sep 2015 03:05:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,611,1437462000"; d="scan'208";a="800402121"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Sep 2015 03:05:53 -0700
+Message-ID: <1443607552.11206.37.camel@linux.intel.com>
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Wed, 30 Sep 2015 13:05:52 +0300
+In-Reply-To: <2536397.TWMWxq2M1Y@peggleto-mobl.ger.corp.intel.com>
+References: <1443095587-13852-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<2936022.hqFWI3dATu@peggleto-mobl.ger.corp.intel.com>
+	<1443603673.11206.35.camel@linux.intel.com>
+	<2536397.TWMWxq2M1Y@peggleto-mobl.ger.corp.intel.com>
+X-Mailer: Evolution 3.12.11 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 10/10] devtool: modify: make bitbake use local files from srctree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +34,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Sep 2015 09:45:39 -0000
-Content-Type: multipart/alternative; boundary=001a1139af24f52c760520f3ca54
+X-List-Received-Date: Wed, 30 Sep 2015 10:05:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a1139af24f52c760520f3ca54
-Content-Type: text/plain; charset=UTF-8
+Hi,
 
-On 30 September 2015 at 09:08, <wenzong.fan@windriver.com> wrote:
+On Wed, 2015-09-30 at 10:21 +0100, Paul Eggleton wrote:
+> On Wednesday 30 September 2015 12:01:13 Markus Lehtonen wrote:
+> > Hi,
+> > 
+> > On Mon, 2015-09-28 at 14:48 +0100, Paul Eggleton wrote:
+> > > Hi Markus,
+> > > 
+> > > On Thursday 24 September 2015 14:53:07 Markus Lehtonen wrote:
+> > > > This change makes it possible to have local files (non-remote SRC_URI
+> > > > files, i.e. files that are located in the "recipe space") under the
+> > > > srctree even if S!=WORKDIR. The files must be placed under the
+> > > > 'local-files' subdirectory.
+> > > > 
+> > > > Complements the previous patch that imports local files into srctree.
+> > > > 
+> > > > [YOCTO #7602]
+> > > > 
+> > > > Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+> > > > ---
+> > > > 
+> > > >  scripts/lib/devtool/standard.py | 9 +++++++--
+> > > >  1 file changed, 7 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/scripts/lib/devtool/standard.py
+> > > > b/scripts/lib/devtool/standard.py index 6b85c8c..78b0d27 100644
+> > > > --- a/scripts/lib/devtool/standard.py
+> > > > +++ b/scripts/lib/devtool/standard.py
+> > > > 
+> > > > @@ -558,8 +558,13 @@ def modify(args, config, basepath, workspace):
+> > > >      if not os.path.exists(appendpath):
+> > > >          os.makedirs(appendpath)
+> > > >      
+> > > >      with open(appendfile, 'w') as f:
+> > > > -        f.write('FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"\n\n')
+> > > > -        f.write('inherit externalsrc\n')
+> > > > +        f.write('FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"\n')
+> > > > +        # Local files can be modified/tracked in separate subdir under
+> > > > srctree +        # Mostly useful for packages with S != WORKDIR
+> > > > +        f.write('FILESPATH_prepend := "%s:"\n' %
+> > > > +                os.path.join(srctree, 'local-files'))
+> > > 
+> > > Shouldn't this directory be named "oe-local-files"?
+> > 
+> > Argh, sorry, I had missed this email earlier. Yes, it should be
+> > 'oe-local-files'. An updated patch with a fix is available at:
+> > 
+> > http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/devtoo
+> > l/localfiles
+> 
+> OK, great, but the commit message still has "local-files".
 
-> For multilib build, PKG_CONFIG_SYSROOT_DIR will be injected in values
-> that are returned by 'pkg-config --libs xxx', such as for zlib:
->
+Oh my, you're right. Yet another version of the patch in the same
+location:
+http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/devtool/localfiles
 
-So why isn't this fixed in pkg-config?
 
-Ross
+Thank you for your patience,
+  Markus
 
---001a1139af24f52c760520f3ca54
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 September 2015 at 09:08,  <span dir=3D"ltr">&lt;<a href=3D"mailto:wen=
-zong.fan@windriver.com" target=3D"_blank">wenzong.fan@windriver.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2sr" class=3D"=
-a3s" style=3D"overflow:hidden">For multilib build, PKG_CONFIG_SYSROOT_DIR w=
-ill be injected in values<br>
-that are returned by &#39;pkg-config --libs xxx&#39;, such as for zlib:<br>=
-</div></blockquote></div><br>So why isn&#39;t this fixed in pkg-config?</di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
-></div>
 
---001a1139af24f52c760520f3ca54--
+
