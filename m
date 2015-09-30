@@ -1,30 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 032E876F9D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id EACE07570D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 13:57:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8UDvYxY008167 for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 14:57:34 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id oLgtoT563wKA
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 14:57:34 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8UDvKs3008162
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 14:57:31 +0100
-Message-ID: <1443621440.5162.99.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Sep 2015 14:57:20 +0100
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] meta-ide-support: No need to mark as nostamp anymore
+	Wed, 30 Sep 2015 13:58:49 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 30 Sep 2015 06:58:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,612,1437462000"; d="scan'208";a="816340372"
+Received: from mhanley-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.22.120])
+	by orsmga002.jf.intel.com with ESMTP; 30 Sep 2015 06:58:49 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Date: Wed, 30 Sep 2015 14:58:47 +0100
+Message-ID: <5874760.80fx6LnMAu@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.6-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <1443621113-4568-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1443621113-4568-1-git-send-email-markus.lehtonen@linux.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] devtool: update-recipe: enable var history tracking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Sep 2015 13:57:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Sep 2015 13:58:53 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-With the modern checksum infrastructure, this is no longer needed
-(much in the same way images no longer need this).
+On Wednesday 30 September 2015 16:51:53 Markus Lehtonen wrote:
+> Enable variable history tracking so that the variables are updated in
+> the correct file - i.e. in the file they are already defined.
+> 
+> [YOCTO #7715]
+> 
+> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+> ---
+>  scripts/lib/devtool/__init__.py | 4 ++--
+>  scripts/lib/devtool/standard.py | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/scripts/lib/devtool/__init__.py
+> b/scripts/lib/devtool/__init__.py index 7b1ab11..844aa12 100644
+> --- a/scripts/lib/devtool/__init__.py
+> +++ b/scripts/lib/devtool/__init__.py
+> @@ -96,7 +96,7 @@ def exec_fakeroot(d, cmd, **kwargs):
+>              newenv[splitval[0]] = splitval[1]
+>      return subprocess.call("%s %s" % (fakerootcmd, cmd), env=newenv,
+> **kwargs)
+> 
+> -def setup_tinfoil(config_only=False, basepath=None):
+> +def setup_tinfoil(config_only=False, basepath=None, tracking=False):
+>      """Initialize tinfoil api from bitbake"""
+>      import scriptpath
+>      orig_cwd = os.path.abspath(os.curdir)
+> @@ -108,7 +108,7 @@ def setup_tinfoil(config_only=False, basepath=None):
+>          sys.exit(1)
+> 
+>      import bb.tinfoil
+> -    tinfoil = bb.tinfoil.Tinfoil()
+> +    tinfoil = bb.tinfoil.Tinfoil(tracking=tracking)
+>      tinfoil.prepare(config_only)
+>      tinfoil.logger.setLevel(logger.getEffectiveLevel())
+>      os.chdir(orig_cwd)
+> diff --git a/scripts/lib/devtool/standard.py
+> b/scripts/lib/devtool/standard.py index 1dcf7cd..686c9d9 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -797,7 +797,7 @@ def update_recipe(args, config, basepath, workspace):
+>              raise DevtoolError('conf/layer.conf not found in bbappend '
+>                                 'destination layer "%s"' % args.append)
+> 
+> -    tinfoil = setup_tinfoil(basepath=basepath)
+> +    tinfoil = setup_tinfoil(basepath=basepath, tracking=True)
+> 
+>      rd = parse_recipe(config, tinfoil, args.recipename, True)
+>      if not rd:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-core/meta/meta-ide-support.bb
-b/meta/recipes-core/meta/meta-ide-support.bb
-index 2f92912..86c57cd 100644
---- a/meta/recipes-core/meta/meta-ide-support.bb
-+++ b/meta/recipes-core/meta/meta-ide-support.bb
-@@ -13,5 +13,4 @@ do_populate_ide_support () {
-   toolchain_create_tree_env_script
- }
- 
--do_populate_ide_support[nostamp] = "1"
- addtask populate_ide_support before do_build after do_install
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
+Cheers,
+Paul
 
+-- 
 
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
