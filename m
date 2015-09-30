@@ -1,39 +1,26 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F7CD76DE1
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C6A876DE1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 07:08:33 +0000 (UTC)
-Received: by wicge5 with SMTP id ge5so182169659wic.0
+	Wed, 30 Sep 2015 07:54:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8U7sJDj006591
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 00:08:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=wkmtTp6I56sG/Rmk9DvQ8GY1hokB1HHWf9mhE7zGAdw=;
-	b=NFTm0wjhkSkF6e5Jycqt4EmaTMrSEDz4AGObgNBojoT283Y3Gpzv12306yL3VKgnpS
-	7ZHtvUppQfFZ6kQ8//pVlijt2y2JNxVUtAPKdFm+y8oeHDk/6euFAX4QZ0jxWnuL/c7b
-	8nJZCX2f3OAPBZGu/UbbUBwT4+SYDEWYCDR6zV2SUQvH+TYh+sx401PyI481ePunht96
-	pR94VY0f4vKiWYHFpgIMi4hQo6/d+wFH8OjCBScXR812nqSImlYts99BVhe4iTWUILtF
-	wN9CHxqP8G0ljParzzrGn7Q+QvA6rFkT1HDCJWIUjNik+Q3eZPRZRIqCKc8AW9/jtetf
-	Jizg==
-X-Gm-Message-State: ALoCoQldN7eQFSO/BkRVBGRE9N5xnD+1HJxfWvRkpHZJti5285Ya02lWoMPxxZ3VXeIAaNachJlI
-X-Received: by 10.180.88.198 with SMTP id bi6mr31379125wib.75.1443596913907;
-	Wed, 30 Sep 2015 00:08:33 -0700 (PDT)
+	Wed, 30 Sep 2015 00:54:20 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Wed, 30 Sep 2015 00:54:19 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Sep 2015 15:47:17 +0800
+Message-ID: <e825102bd4c1e677ae16158535941773881fef13.1443599169.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.6.0.rc2.10.gf4d9753
+In-Reply-To: <cover.1443599169.git.kai.kang@windriver.com>
+References: <cover.1443599169.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Received: by 10.27.77.212 with HTTP; Wed, 30 Sep 2015 00:08:04 -0700 (PDT)
-In-Reply-To: <CAJTo0LZKYa5h-Ziprps5XP2AEDzpdUNT5O85rdnK23Dd2zBUZw@mail.gmail.com>
-References: <cover.1443179044.git.jussi.kukkonen@intel.com>
-	<aa28a5439d5375728b83962d6814045053f9fdd6.1443179044.git.jussi.kukkonen@intel.com>
-	<56056F47.7040004@opendreambox.org>
-	<CAJTo0LZKYa5h-Ziprps5XP2AEDzpdUNT5O85rdnK23Dd2zBUZw@mail.gmail.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Wed, 30 Sep 2015 10:08:04 +0300
-Message-ID: <CAHiDW_F1GDB4j_jne6w2VdCbWUCaYsV_jZEg949GYyJR2gUKSQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] connman: Depend on xuser-account unconditionally
+Subject: [PATCH 1/2] iptables: only check libnetfilter-conntrack when libnfnetlink is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,73 +33,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Sep 2015 07:08:38 -0000
-Content-Type: multipart/alternative; boundary=f46d0443040c40af660520f19919
+X-List-Received-Date: Wed, 30 Sep 2015 07:54:21 -0000
+Content-Type: text/plain
 
---f46d0443040c40af660520f19919
-Content-Type: text/plain; charset=UTF-8
+From: Kai Kang <kai.kang@windriver.com>
 
-On 25 September 2015 at 19:12, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 25 September 2015 at 16:59, Andreas Oberritter <obi@opendreambox.org>
-> wrote:
->
->> Whether to add user accounts or not should be a decision made by the
->> distro. If this setting is machine specific, which to be honest
->> surprised me, why don't you just let the machine specific xorg video
->> driver depend on xuser-account unconditionally? Connman really doesn't
->> need this account.
->>
->
-> connman does need the account as it uses it to allow a non-root X user to
-> actually use connman.  DBus should warn if you try and set policy that uses
-> users that entirely don't exist.
->
-> I wonder if dbus lets multiple files assign policy, so the dbus rules
-> could go into the xuser package?
->
+Package libnetfilter-conntrack depends on package libnfnetlink. iptables
+checks package libnetfilter-conntrack whatever its package config
+libnfnetlink is enabled or not. When libnfnetlink is disabled but
+package libnetfilter-conntrack exists, it fails randomly with:
 
-I see the patch is in master now but I'll just note here that Ross' idea
-here seems like a good solution (even if it makes figuring out the overall
-policy a little trickier for humans) and I see nothing that would prevent
-it from working. I just got side tracked with other D-Bus policy bugs while
-look at this: After I'm done with those I'll make a patch to move the xuser
-connman policy to the xuser recipe.
+| In file included from .../iptables/1.4.21-r0/iptables-1.4.21/extensions/libxt_connlabel.c:8:0:
+| .../tmp/sysroots/qemumips/usr/include/libnetfilter_conntrack/libnetfilter_conntrack.h:14:42: fatal error: libnfnetlink/linux_nfnetlink.h: No such file or directory
+| compilation terminated.
+| GNUmakefile:96: recipe for target 'libxt_connlabel.oo' failed
 
-Jussi
+Only check libnetfilter-conntrack when libnfnetlink is enabled to fix it.
 
---f46d0443040c40af660520f19919
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ ...check-conntrack-when-libnfnetlink-enabled.patch | 34 ++++++++++++++++++++++
+ meta/recipes-extended/iptables/iptables_1.4.21.bb  |  3 +-
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/iptables/iptables/0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
-5 September 2015 at 19:12, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
-</span> wrote:<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D=
-"gmail_extra"><span class=3D""><div class=3D"gmail_quote">On 25 September 2=
-015 at 16:59, Andreas Oberritter <span dir=3D"ltr">&lt;<a href=3D"mailto:ob=
-i@opendreambox.org" target=3D"_blank">obi@opendreambox.org</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div style=3D"overflow:hidden">Whet=
-her to add user accounts or not should be a decision made by the<br>
-distro. If this setting is machine specific, which to be honest<br>
-surprised me, why don&#39;t you just let the machine specific xorg video<br=
->
-driver depend on xuser-account unconditionally? Connman really doesn&#39;t<=
-br>
-need this account.</div></blockquote></div><br></span>connman does need the=
- account as it uses it to allow a non-root X user to actually use connman.=
-=C2=A0 DBus should warn if you try and set policy that uses users that enti=
-rely don&#39;t exist.</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">I wonder if dbus lets multiple files assign policy, so the=
- dbus rules could go into the xuser package?</div></div></blockquote><div><=
-br></div><div>I see the patch is in master now but I&#39;ll just note here =
-that Ross&#39; idea here seems like a good solution (even if it makes figur=
-ing out the overall policy a little trickier for humans) and I see nothing =
-that would prevent it from working. I just got side tracked with other D-Bu=
-s policy bugs while look at this: After I&#39;m done with those I&#39;ll ma=
-ke a patch to move the xuser connman policy to the xuser recipe.</div><div>=
-<br></div><div>Jussi</div></div></div></div>
+diff --git a/meta/recipes-extended/iptables/iptables/0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch b/meta/recipes-extended/iptables/iptables/0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch
+new file mode 100644
+index 0000000..89ad8f6
+--- /dev/null
++++ b/meta/recipes-extended/iptables/iptables/0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch
+@@ -0,0 +1,34 @@
++Package libnetfilter-conntrack depends on package libnfnetlink. iptables
++checks package libnetfilter-conntrack whatever its package config
++libnfnetlink is enabled or not. When libnfnetlink is disabled but
++package libnetfilter-conntrack exists, it fails randomly with:
++
++| In file included from .../iptables/1.4.21-r0/iptables-1.4.21/extensions/libxt_connlabel.c:8:0:
++| .../tmp/sysroots/qemumips/usr/include/libnetfilter_conntrack/libnetfilter_conntrack.h:14:42: fatal error: libnfnetlink/linux_nfnetlink.h: No such file or directory
++| compilation terminated.
++| GNUmakefile:96: recipe for target 'libxt_connlabel.oo' failed
++
++Only check libnetfilter-conntrack when libnfnetlink is enabled to fix it.
++
++Upstream-Status: Pending
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++diff --git a/configure.ac b/configure.ac
++index 5d7e62b..e331ee7 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -88,8 +88,12 @@ if test "$ac_cv_header_linux_ip_vs_h" != "yes"; then
++ 	blacklist_modules="$blacklist_modules ipvs";
++ fi;
++ 
++-PKG_CHECK_MODULES([libnetfilter_conntrack], [libnetfilter_conntrack >= 1.0.4],
+++nfconntrack=0
+++AS_IF([test "x$enable_libnfnetlink" = "xyes"], [
+++  PKG_CHECK_MODULES([libnetfilter_conntrack], [libnetfilter_conntrack >= 1.0.4],
++ 	[nfconntrack=1], [nfconntrack=0])
+++  ])
+++
++ AM_CONDITIONAL([HAVE_LIBNETFILTER_CONNTRACK], [test "$nfconntrack" = 1])
++ 
++ if test "$nfconntrack" -ne 1; then
+diff --git a/meta/recipes-extended/iptables/iptables_1.4.21.bb b/meta/recipes-extended/iptables/iptables_1.4.21.bb
+index 31c017b..deea5e5 100644
+--- a/meta/recipes-extended/iptables/iptables_1.4.21.bb
++++ b/meta/recipes-extended/iptables/iptables_1.4.21.bb
+@@ -23,6 +23,7 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+            file://types.h-add-defines-that-are-required-for-if_packet.patch \
+            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
+            file://0001-fix-build-with-musl.patch \
++           file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
+           "
+ 
+ SRC_URI[md5sum] = "536d048c8e8eeebcd9757d0863ebb0c0"
+@@ -38,7 +39,7 @@ PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+ 
+ # libnfnetlink recipe is in meta-networking layer
+-PACKAGECONFIG[libnfnetlink] = "--enable-libnfnetlink,--disable-libnfnetlink,libnfnetlink"
++PACKAGECONFIG[libnfnetlink] = "--enable-libnfnetlink,--disable-libnfnetlink,libnfnetlink libnetfilter-conntrack"
+ 
+ do_configure_prepend() {
+ 	# Remove some libtool m4 files
+-- 
+2.6.0.rc2.10.gf4d9753
 
---f46d0443040c40af660520f19919--
+
