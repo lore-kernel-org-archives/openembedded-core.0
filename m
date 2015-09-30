@@ -1,30 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 05BB3762A2
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5829177027
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 13:44:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8UDitIg006646 for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 14:44:55 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id p3hL11l6WYx3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 14:44:55 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8UDihdL006624
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Sep 2015 14:44:54 +0100
-Message-ID: <1443620683.5162.79.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Sep 2015 14:44:43 +0100
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] multilib.conf: Ensure MACHINE doesn't change target sigs
+	Wed, 30 Sep 2015 13:46:10 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Sep 2015 06:46:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,612,1437462000"; d="scan'208";a="655095417"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by orsmga003.jf.intel.com with ESMTP; 30 Sep 2015 06:46:10 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Sep 2015 05:38:31 +0000
+Message-Id: <cover.1443591038.git.leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH 0/5] yocto-bsp: Update templates to 4.1 kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,24 +28,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Sep 2015 13:44:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Sep 2015 13:46:12 -0000
 
-Sysroot paths (which happen to contain MACHINE) should not cause the signatures
-to change every time MACHINE changes so exclude this from them.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Besides updating the templates to 4.1 kernel, there are a few changes done in
+the yocto-bsp script. More info can be found on each patch's description.
 
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index f867c8d..50303fb 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -24,3 +24,4 @@ OPKG_ARGS_append = " --force-maintainer --force-overwrite"
- # inside the multilib sysroot.  Fix this by explicitly adding the MACHINE's
- # architecture-independent pkgconfig location to PKG_CONFIG_PATH.
- PKG_CONFIG_PATH .= ":${STAGING_DIR}/${MACHINE}${datadir}/pkgconfig"
-+PKG_CONFIG_PATH[vardepsexclude] = "MACHINE"
+The following changes since commit f78f90240a3041be426c6ba9085849352164ee8b:
 
+  bitbake: prserv/serv.py: Better messaging when starting/stopping the server with port=0 (2015-09-28 12:00:33 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lsandov1/yocto-bsp
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/yocto-bsp
+
+Leonardo Sandoval (5):
+  scripts/yocto-bsp: Exit successfully when asking for help
+  scrips/lib/bsp/engine: List properties to stdout when output parameter
+    is omitted
+  yocto-bsp: Update templates to 4.1 kernel
+  scripts/lib/bsp/engine: Indent the karch properties when stored into a
+    file
+  lib/oeqa/selftest/yoctobsp: Basic tests for yocto-bsp script
+
+ meta/lib/oeqa/selftest/yoctobsp.py                 | 39 ++++++++++++++
+ scripts/lib/bsp/engine.py                          |  6 +--
+ .../arm/recipes-kernel/linux/kernel-list.noinstall |  4 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            | 33 ++++++++++++
+ .../recipes-kernel/linux/linux-yocto_4.1.bbapend   | 33 ++++++++++++
+ .../target/arch/i386/conf/machine/machine.conf     |  4 +-
+ .../recipes-kernel/linux/kernel-list.noinstall     |  4 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            | 33 ++++++++++++
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  | 33 ++++++++++++
+ .../recipes-kernel/linux/kernel-list.noinstall     |  4 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            | 33 ++++++++++++
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  | 33 ++++++++++++
+ .../recipes-kernel/linux/kernel-list.noinstall     |  4 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            | 33 ++++++++++++
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  | 33 ++++++++++++
+ .../target/arch/powerpc/conf/machine/machine.conf  |  2 +-
+ .../recipes-kernel/linux/kernel-list.noinstall     |  4 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            | 33 ++++++++++++
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  | 33 ++++++++++++
+ .../recipes-kernel/linux/kernel-list.noinstall     |  4 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            | 62 ++++++++++++++++++++++
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  | 62 ++++++++++++++++++++++
+ .../linux/linux-yocto-tiny_4.1.bbappend            | 33 ++++++++++++
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  | 33 ++++++++++++
+ scripts/yocto-bsp                                  |  2 +-
+ 25 files changed, 578 insertions(+), 19 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/yoctobsp.py
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbapend
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_4.1.bbappend
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_4.1.bbappend
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_4.1.bbappend
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_4.1.bbappend
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_4.1.bbappend
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+ create mode 100644 scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_4.1.bbappend
+
+-- 
+1.8.4.5
 
 
