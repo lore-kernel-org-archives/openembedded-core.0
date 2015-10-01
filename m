@@ -1,35 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E20577088
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 7763C770B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Oct 2015 20:29:27 +0000 (UTC)
-Received: by iofh134 with SMTP id h134so99442055iof.0
+	Thu,  1 Oct 2015 20:30:35 +0000 (UTC)
+Received: by igcrk20 with SMTP id rk20so3474385igc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Oct 2015 13:29:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=W2JsmjieL+RVFx3xOyUgqa33F50cFRq5mv5OcrEPUtg=;
-	b=dy/p6noHpIOe5wYQO914HL0EZrZDdFxxeyQYTeCLkjxH7GJ9a8YMhXyacdtCmUUrXu
-	HvElzsg8GR3JDsr9M+pv3Bdw0GXrkM1561iQKbU2WWF8TuAX6p3bOaDftpm0zHWWozsJ
-	Li027b3EdlU/Omzovq+pgzDZjxixTAe2RLovxereycOOXPbuu32zQ/RXVFhdajMKJd9k
-	OXvXigBbbvWawWzBmiCUlz4ZSgV4jNthFik3HQ6p9PcZwYFlvzuA5ElkidzallDqH87T
-	+FKsT0fgClcD600df9l1yHC1HgXlGobG6asg4BjY7o2Nb9APlLBlcFtWdgfxBiLVrtjR
-	IzZQ==
-X-Received: by 10.107.137.106 with SMTP id l103mr10214554iod.112.1443731368001;
-	Thu, 01 Oct 2015 13:29:28 -0700 (PDT)
+	Thu, 01 Oct 2015 13:30:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=HL/80y190DQIFzvJbMpqnm/KFJKWlEDbtOOLEM5ikPk=;
+	b=DLgHdFO9BfeH9NplPbdpZ7uO/dBG0N00E729eqQr1ct1JuNm2QxOBv010M1skPpygm
+	uwBYC8mxrrIng5ZjIbVQEun+1l5ZmOkmvx3wTxUdordNx7qZLsD9wYhed+3fpHx1cqDA
+	QQRNL+f0DDzgG+59njQ1j0O2oQIqaolrGZJx0/L0s7skv5F4F2lmQdovTrcL88tb9TA3
+	yDNrA4MM47BJ27R6DquwoMB4M0LfWUKuGvKLXZZKlZdyzsgQTnqEUd1Ip/nlyifRmcJT
+	1Gro1FTMUJWx4Z2TIAMZ7ib9pf7ElZnLLhqYlSA7msqN+ZS/179wWo8XS7ph5MY1/R3f
+	PK1A==
+X-Gm-Message-State: ALoCoQmIM9qYX5JvZPSHeAQLcN5rweHJ/80b9Nsuh8xAwuhMHT0pWcNSfrmSRfZy5OaEm8cMBl2I
+X-Received: by 10.50.27.102 with SMTP id s6mr851996igg.23.1443731436086;
+	Thu, 01 Oct 2015 13:30:36 -0700 (PDT)
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com.
+	[209.85.213.179])
+	by smtp.gmail.com with ESMTPSA id kj5sm2548713igb.2.2015.10.01.13.30.34
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 01 Oct 2015 13:30:35 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by igbkq10 with SMTP id kq10so4424766igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Oct 2015 13:30:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.142.130 with HTTP; Thu, 1 Oct 2015 13:28:58 -0700 (PDT)
+X-Received: by 10.50.66.229 with SMTP id i5mr933126igt.5.1443731434585; Thu,
+	01 Oct 2015 13:30:34 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Thu, 1 Oct 2015 13:30:34 -0700 (PDT)
 In-Reply-To: <1443731146.14733.30.camel@linuxfoundation.org>
 References: <1443709445.14733.5.camel@linuxfoundation.org>
 	<CAMKF1spovYNRYZQjaghtiRdJtgs3BxHqotiv-t7n2h0DStiiDA@mail.gmail.com>
 	<1443713835.14733.13.camel@linuxfoundation.org>
 	<3712B443-8857-41CB-87F9-DFFC12FE69E9@gmail.com>
 	<1443731146.14733.30.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 1 Oct 2015 13:28:58 -0700
-Message-ID: <CAMKF1sr4yzn4AAYzjwD=sXUVSokKOmbwmjcjDW2nu2xUrYpg_g@mail.gmail.com>
+Date: Thu, 1 Oct 2015 17:30:34 -0300
+Message-ID: <CAP9ODKp2of3-766hOc_=Naqsa12uk5FntfgeHXwPcxnrQR+u6Q@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Branched for release
@@ -45,11 +59,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Oct 2015 20:29:29 -0000
+X-List-Received-Date: Thu, 01 Oct 2015 20:30:36 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Oct 1, 2015 at 1:25 PM, Richard Purdie
+On Thu, Oct 1, 2015 at 5:25 PM, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2015-10-01 at 10:24 -0700, Khem Raj wrote:
+>> > If we want to discuss this all again, so be it, but on the eve of
+>> > release really isn't the time to start it all again.
+>>
 >> so when is the right time ? Do we have long enough pre-notice about
 >> when we the branching is going to happen?
 >
@@ -63,7 +81,15 @@ On Thu, Oct 1, 2015 at 1:25 PM, Richard Purdie
 > Its not unreasonable to assume the branch for release happens sometime
 > before the first rc build of the release.
 
-treat this as discussion for next release, since enough water has
-passed to make it for this one. I will open a bug in yocto tracker as
-well as a  reminder
+I think what Khem means is that any time is time to discuss the
+release process as this is a community driven project and we must to
+be open for feedback and revisit our previous concepts.
+
+I agree with Khem concerns here and I also believe we should rethink
+the versioning / branching schema.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
