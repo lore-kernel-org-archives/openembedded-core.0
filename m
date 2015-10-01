@@ -1,34 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DEDAC770B2
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 09922734DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Oct 2015 21:16:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t91LGg6t008123; Thu, 1 Oct 2015 22:16:42 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id nQnAbjwEiAIB; Thu,  1 Oct 2015 22:16:42 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t91LGUcZ008110
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 1 Oct 2015 22:16:41 +0100
-Message-ID: <1443734190.14733.62.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Thu, 01 Oct 2015 22:16:30 +0100
-In-Reply-To: <CAP9ODKp2of3-766hOc_=Naqsa12uk5FntfgeHXwPcxnrQR+u6Q@mail.gmail.com>
-References: <1443709445.14733.5.camel@linuxfoundation.org>
-	<CAMKF1spovYNRYZQjaghtiRdJtgs3BxHqotiv-t7n2h0DStiiDA@mail.gmail.com>
-	<1443713835.14733.13.camel@linuxfoundation.org>
-	<3712B443-8857-41CB-87F9-DFFC12FE69E9@gmail.com>
-	<1443731146.14733.30.camel@linuxfoundation.org>
-	<CAP9ODKp2of3-766hOc_=Naqsa12uk5FntfgeHXwPcxnrQR+u6Q@mail.gmail.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Branched for release
+	Thu,  1 Oct 2015 21:44:06 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 01 Oct 2015 14:44:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,619,1437462000"; d="scan'208";a="572393999"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.68])
+	by FMSMGA003.fm.intel.com with ESMTP; 01 Oct 2015 14:44:07 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Oct 2015 16:44:07 -0500
+Message-Id: <1443735847-9381-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] Revert "qemu-native: Enable temporary debug info as default."
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,69 +28,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Oct 2015 21:16:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Oct 2015 21:44:07 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2015-10-01 at 17:30 -0300, Otavio Salvador wrote:
-> I think what Khem means is that any time is time to discuss the
-> release process as this is a community driven project and we must to
-> be open for feedback and revisit our previous concepts.
+We enabled qemu-native debug builds for debug [YOCTO #8143] now
+is fixed and we don't need it for release.
 
-There is a time and a place for such discussions. I think its clear that
-right now, I'm personally finding the situation we're in rather
-stressful and even getting the release into a shape where it can ship is
-proving difficult.
+This reverts commit 1fa9a0cc6e4c80a5a2bf40331390ae9da71686c2.
 
-The last thing I need right now is to go through this discussion again.
-Particularly when people have not gone and read the things I wrote up
-last time this was discussed. I could ask why not, the answer is
-probably because its easier just to ask questions and be unhappy with
-what we have.
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 3 ---
+ 1 file changed, 3 deletions(-)
 
-I appreciate that what we have today does cause some issues. I also
-realised a while ago that regardless of what solution we pick, there are
-people who are not going to like it. I've talked about that in previous
-mailing list posts to try and explain why we end up where we are today.
-I also don't believe anything has materially changed since we last
-discussed this, some people are just still unhappy. Some people will be
-unhappy regardless.
-
-I'm actually at a pretty low point with OE and Yocto in general. It eats
-up a huge amount of my time, both work and personally and I have started
-wondering what I actually get out of it other than a shortened life
-expectancy. On the most part I see a lot of complaints about things and
-continual questioning of "why we do X and wouldn't Y be better". I do my
-best to deal with this patiently and each time try and explain why and
-then re-evaluate if a change makes sense or not. When the same things
-repeat time and again, my patience can wear thin though.
-
-Now, I do realise that there probably are some happy users out there and
-that happier users tend to be quieter than the unhappy ones, at least I
-certainly hope so. As such, I tend to see the worst side of the projects
-all the time. Equally, it can get to you after a while.
-
-So, yes, I do believe there is a time and place for discussions and not
-everything should be questioned and discussed at any time. That doesn't
-mean its not a community driven project.
-
-Anyhow, I can't stop any discussion, however my point is I'd much prefer
-to spend my time trying to sort out the release. If others feel
-differently, I will indeed have to spend more time on this instead. I do
-also believe it is too late to change things for this release[1].
-
-[1] Since I will no doubt get asked to explain that, the consequences
-are quite significant when you consider bugzilla version fields,
-autobuilder scripts, release scripts, my own branching scripts and so
-on. The things I haven't thought of worry me even more. Yes, we can in
-theory change anything and we could change this, but its probably a week
-of work shaking out just those changes. Do I want to do that now? No, I
-don't. For example I'm attending ELC-E next week. Do we want me talking
-to people or sitting in a corner trying to un-break such a change?
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index bbfdf78..abbace8 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -31,9 +31,6 @@ SRC_URI_append_class-native = "\
+ 
+ EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror  --disable-bluez --disable-libiscsi --with-system-pixman --extra-cflags='${CFLAGS}'"
+ 
+-EXTRA_OECONF_append_class-native = " --enable-debug --enable-debug-info"
+-INHIBIT_SYSROOT_STRIP = "1"
+-
+ EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror \
+ 				"
+ export LIBTOOL="${HOST_SYS}-libtool"
+-- 
+1.9.1
 
 
