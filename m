@@ -1,37 +1,24 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id A180E77027
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A59577027
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Oct 2015 07:15:29 +0000 (UTC)
-Received: by wicge5 with SMTP id ge5so15263815wic.0
+	Thu,  1 Oct 2015 07:40:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t917eJiC024246
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Oct 2015 00:15:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=iIYoGiaWqmFYfAP4FpoKVAH6mddmHyoEov9j8Ubfnwo=;
-	b=jP4sPZkmp5dO7mSzAsCSMR/xXuSyOFQCmzuMz8fHnrbe/vDfMveJtgkaumXHjQdL9M
-	4GogYesJ2pwBVmdYh0C4TofKOY5RzMxHJDIPQ6AYsXpb0smhpj/tVuaC0ik8dDRYwMyZ
-	ErvPlnIxXbwA1yO8x/JVJMW9z9VPCuiAanJKUPH60rGV9yQBRcT8O2gZmQunKGuQttRp
-	HpKfRVuLkUoHqPF0AgmTQ5y2DreCTjr0Op89DmEm9+Jk8qQ6i9UD6DKrNKol4JMPt+b4
-	sD9wOnQGxtidoQB7XpkF7wPv7udNQuNMKHNUKy8goyVVMgsj5COgkGps1bQVVVhyeCUn
-	ZJtQ==
-X-Gm-Message-State: ALoCoQkb2FE3HXNUKun+w66VSN3z/Vc03e3eY/gYHL34EnsbSTI16+zJyPlwim22e6YRLP0i21rx
-X-Received: by 10.180.105.135 with SMTP id gm7mr1502544wib.18.1443683729641;
-	Thu, 01 Oct 2015 00:15:29 -0700 (PDT)
+	Thu, 1 Oct 2015 00:40:19 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Thu, 1 Oct 2015 00:40:19 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 1 Oct 2015 00:40:18 -0700
+Message-ID: <cover.1443684954.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Received: by 10.27.77.212 with HTTP; Thu, 1 Oct 2015 00:15:00 -0700 (PDT)
-In-Reply-To: <cover.1443624731.git.jussi.kukkonen@intel.com>
-References: <cover.1443624731.git.jussi.kukkonen@intel.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Thu, 1 Oct 2015 10:15:00 +0300
-Message-ID: <CAHiDW_Fo-_f7YMUk15kCwr3EVt2P1-YtFzQRh4DCjncJQqqTww@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, joshua.lock@collabora.co.uk, 
-	Armin Kuster <akuster808@gmail.com>
-Subject: Re: [PATCH 0/3][fido][dizzy] D-Bus policy fixes
+Subject: [PATCH 0/1] smart: speed up installation (reduce 28% ~ 57%)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,106 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Oct 2015 07:15:31 -0000
-Content-Type: multipart/alternative; boundary=14dae9cc9c92dfad74052105cf08
+X-List-Received-Date: Thu, 01 Oct 2015 07:40:20 -0000
+Content-Type: text/plain
 
---14dae9cc9c92dfad74052105cf08
-Content-Type: text/plain; charset=UTF-8
+Here is the test result:
+  MACHINE = "qemux86-64"
+  - When multilib enabled:
+    $ bitbake core-image-sato -cpopulate_sdk
+    time: 6m5s -> 2m34s (Reduce 57% )
 
-On 30 September 2015 at 18:33, Jussi Kukkonen <jussi.kukkonen@intel.com>
-wrote:
+    $ bitbake core-image-minimal -cpopulate_sdk
+    time: 2m1s -> 1m26s (Reduce 28% )
 
->   bluez5: Use upstream D-Bus policy
->   dbus: Use the xuser policy file
->   xuser-account: Take over xuser specific D-Bus policy
->
+    $ bitbake core-image-sato-sdk
+    time: 10m15s -> 7m12s (Reduce 29% )
 
-Please don't take the last two patches yet: I believe dbus itself does not
-actually have to be modified and the xuser policy file can just be a normal
-file in /etc/dbus-1/system.d/. I originally thought the default context
-policies in the services files could override the xuser user policy but
-this seems to not be the case: user policy always overrides default context
-policy.
+  - When multilib NOT enabled:
+    $ bitbake core-image-sato-sdk -cpopulate_sdk
+    time: 4m25s -> 2m28s (Reduce 44% )
+
+// Robert
+
+The following changes since commit 16957f5f1de0f1fb4052d5aef93ee10c893f4a38:
+
+  oeqa/selftest/wic: Use SetupLocal instead of Setup (2015-10-01 07:40:37 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/smart
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/smart
+
+Robert Yang (1):
+  smart:cache.py: getPackages() matches name + arch
+
+ ...cache.py-getPackages-matches-name-version.patch |   43 ++++++++++++++++++++
+ meta/recipes-devtools/python/python-smartpm_git.bb |    1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-cache.py-getPackages-matches-name-version.patch
+
+-- 
+1.7.9.5
 
 
-
->  meta/recipes-connectivity/bluez5/bluez5.inc        |  5 +--
->  .../bluez5/bluez5/bluetooth.conf                   | 17 ---------
->  meta/recipes-connectivity/connman/connman.inc      |  1 -
->  .../connman/add_xuser_dbus_permission.patch        | 43
-> ----------------------
->  meta/recipes-connectivity/connman/connman_1.30.bb  |  1 -
->  meta/recipes-core/dbus/dbus.inc                    |  1 +
->  ...-Apply-xuser-specific-policies-if-present.patch | 33 +++++++++++++++++
->  .../user-creation/files/system-xuser.conf          | 15 ++++++++
->  .../user-creation/xuser-account_0.1.bb             |  6 ++-
->  9 files changed, 55 insertions(+), 67 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
->  delete mode 100644
-> meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch
->  create mode 100644
-> meta/recipes-core/dbus/dbus/0001-Apply-xuser-specific-policies-if-present.patch
->  create mode 100644
-> meta/recipes-support/user-creation/files/system-xuser.conf
->
-> --
-> 2.1.4
->
->
-
---14dae9cc9c92dfad74052105cf08
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 3=
-0 September 2015 at 18:33, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=C2=A0 bluez5: Use=
- upstream D-Bus policy<br>
-=C2=A0 dbus: Use the xuser policy file<br>
-=C2=A0 xuser-account: Take over xuser specific D-Bus policy<br></blockquote=
-><div><br></div><div>Please don&#39;t take the last two patches yet: I beli=
-eve dbus itself does not actually have to be modified and the xuser policy =
-file can just be a normal file in /etc/dbus-1/system.d/. I originally thoug=
-ht the default context policies in the services files could override the xu=
-ser user policy but this seems to not be the case: user policy always overr=
-ides default context policy.</div><div><br></div><div>=C2=A0</div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex">
-=C2=A0meta/recipes-connectivity/bluez5/bluez5.inc=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 5 +--<br>
-=C2=A0.../bluez5/bluez5/bluetooth.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 17 ---------<br>
-=C2=A0meta/recipes-connectivity/connman/connman.inc=C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 1 -<br>
-=C2=A0.../connman/add_xuser_dbus_permission.patch=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 43 ----------------------<br>
-=C2=A0meta/recipes-connectivity/connman/<a href=3D"http://connman_1.30.bb" =
-rel=3D"noreferrer" target=3D"_blank">connman_1.30.bb</a>=C2=A0 |=C2=A0 1 -<=
-br>
-=C2=A0meta/recipes-core/dbus/dbus.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
-=C2=A0...-Apply-xuser-specific-policies-if-present.patch | 33 +++++++++++++=
-++++<br>
-=C2=A0.../user-creation/files/system-xuser.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 15 ++++++++<br>
-=C2=A0.../user-creation/<a href=3D"http://xuser-account_0.1.bb" rel=3D"nore=
-ferrer" target=3D"_blank">xuser-account_0.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 6 ++-<br>
-=C2=A09 files changed, 55 insertions(+), 67 deletions(-)<br>
-=C2=A0delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/bluetooth.=
-conf<br>
-=C2=A0delete mode 100644 meta/recipes-connectivity/connman/connman/add_xuse=
-r_dbus_permission.patch<br>
-=C2=A0create mode 100644 meta/recipes-core/dbus/dbus/0001-Apply-xuser-speci=
-fic-policies-if-present.patch<br>
-=C2=A0create mode 100644 meta/recipes-support/user-creation/files/system-xu=
-ser.conf<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-2.1.4<br>
-<br>
-</font></span></blockquote></div><br></div></div>
-
---14dae9cc9c92dfad74052105cf08--
