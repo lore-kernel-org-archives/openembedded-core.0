@@ -1,22 +1,30 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1557977032
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 37B09770AF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Oct 2015 21:51:06 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 01 Oct 2015 14:51:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,619,1437462000"; d="scan'208";a="656174260"
-Received: from kmahajan-mobl1.amr.corp.intel.com (HELO
-	swold-mobl.amr.corp.intel.com) ([10.254.111.4])
-	by orsmga003.jf.intel.com with ESMTP; 01 Oct 2015 14:51:06 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Thu,  1 Oct 2015 14:51:06 -0700
-Message-Id: <1443736266-29631-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] linux-yocto: Update SRCREV for genericx86* BSPs
+	Thu,  1 Oct 2015 22:28:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t91MS2Dl011260; Thu, 1 Oct 2015 23:28:02 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 3_YB8UHhdPNa; Thu,  1 Oct 2015 23:28:02 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t91MRnAF011197
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 1 Oct 2015 23:28:01 +0100
+Message-ID: <1443738469.14733.70.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Slater, Joseph" <joe.slater@windriver.com>
+Date: Thu, 01 Oct 2015 23:27:49 +0100
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF84919260DD@ALA-MBB.corp.ad.wrs.com>
+References: <007BD92917A2324FA403BCF9A464CF84919260DD@ALA-MBB.corp.ad.wrs.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: PIXBUFCACHE_SYSROOT_DEPS (librsvg)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,32 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Oct 2015 21:51:07 -0000
+X-List-Received-Date: Thu, 01 Oct 2015 22:28:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This update brings the kernel for genericx86* up to date with
-the linux-yocto kernel and 4.1.8
+On Thu, 2015-10-01 at 19:24 +0000, Slater, Joseph wrote:
+> This variable is used by librsvg_2.40.10.bb, but I can't find anybody
+> who processes it, at least not a bbclass.
+> 
+>  
+> 
+> Without adding an explicit do_populate_sysroot_setscene[depends] to
+> the recipe, gdk-pixbuf-native
+> 
+> will install from sstate after librsvg-native and clobber the svg
+> loader.  At least it does for my configuration.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta-yocto-bsp/recipes-kernel/linux/linux-yocto_4.1.bbappend | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Did you have
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=00f0d2bfa0a05232a2926f21ef8fe533f436185d applied?
 
-diff --git a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_4.1.bbappend b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_4.1.bbappend
-index 104d250..c70e559 100644
---- a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_4.1.bbappend
-+++ b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_4.1.bbappend
-@@ -7,8 +7,8 @@ KBRANCH_mpc8315e-rdb = "standard/fsl-mpc8315e-rdb"
- KMACHINE_genericx86 ?= "common-pc"
- KMACHINE_genericx86-64 ?= "common-pc-64"
- 
--SRCREV_machine_genericx86 ?= "4e30e64c44df9e59bd13239951bb8d2b5b276e6f"
--SRCREV_machine_genericx86-64 ?= "4e30e64c44df9e59bd13239951bb8d2b5b276e6f"
-+SRCREV_machine_genericx86 ?= "a8abc111a96dd07a2884ebbba668ef8dec15f264"
-+SRCREV_machine_genericx86-64 ?= "a8abc111a96dd07a2884ebbba668ef8dec15f264"
- SRCREV_machine_edgerouter ?= "79a31b9d23db126f8a6be3eb88fd683056a213f1"
- SRCREV_machine_beaglebone ?= "efb6ffb2ca96a364f916c9890ad023fc595e0e6e"
- SRCREV_machine_mpc8315e-rdb ?= "79a31b9d23db126f8a6be3eb88fd683056a213f1"
--- 
-2.1.4
+Cheers,
+
+Richard
+
 
 
