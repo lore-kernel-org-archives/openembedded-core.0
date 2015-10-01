@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A59577027
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 77CB877032
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  1 Oct 2015 07:40:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t917eJiC024246
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t917eK8w021561
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Oct 2015 00:40:19 -0700 (PDT)
+	Thu, 1 Oct 2015 00:40:20 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
 	Thu, 1 Oct 2015 00:40:19 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 1 Oct 2015 00:40:18 -0700
-Message-ID: <cover.1443684954.git.liezhi.yang@windriver.com>
+Date: Thu, 1 Oct 2015 00:40:19 -0700
+Message-ID: <19939d4ec68483314514606bdc16ab09cee6faed.1443684954.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1443684954.git.liezhi.yang@windriver.com>
+References: <cover.1443684954.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] smart: speed up installation (reduce 28% ~ 57%)
+Subject: [PATCH 1/1] smart:cache.py: getPackages() matches name + arch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,7 +36,19 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 01 Oct 2015 07:40:20 -0000
 Content-Type: text/plain
 
-Here is the test result:
+It only matched name ony in the past, for example:
+smart install busybox (matched)
+but:
+smart install busybox@core2_64 (didn't match)
+
+The installation is very slow when no match since it would seach all the
+packages in the repo, and what we use mostly in oe-core is the second
+case, so the installation is very slow when install COMPLEMENTARY
+packages such as the task do_populate_sdk.
+
+This patch makes it match both.
+
+* Speed up
   MACHINE = "qemux86-64"
   - When multilib enabled:
     $ bitbake core-image-sato -cpopulate_sdk
@@ -50,25 +64,76 @@ Here is the test result:
     $ bitbake core-image-sato-sdk -cpopulate_sdk
     time: 4m25s -> 2m28s (Reduce 44% )
 
-// Robert
+[YOCTO #8389]
 
-The following changes since commit 16957f5f1de0f1fb4052d5aef93ee10c893f4a38:
-
-  oeqa/selftest/wic: Use SetupLocal instead of Setup (2015-10-01 07:40:37 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/smart
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/smart
-
-Robert Yang (1):
-  smart:cache.py: getPackages() matches name + arch
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  ...cache.py-getPackages-matches-name-version.patch |   43 ++++++++++++++++++++
  meta/recipes-devtools/python/python-smartpm_git.bb |    1 +
  2 files changed, 44 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-cache.py-getPackages-matches-name-version.patch
 
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-cache.py-getPackages-matches-name-version.patch b/meta/recipes-devtools/python/python-smartpm/smart-cache.py-getPackages-matches-name-version.patch
+new file mode 100644
+index 0000000..225b02f
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-smartpm/smart-cache.py-getPackages-matches-name-version.patch
+@@ -0,0 +1,43 @@
++From ee05e55e84b53f4bb0d0baba13ca47a8f84b7cb4 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Wed, 30 Sep 2015 01:12:52 -0700
++Subject: [PATCH] smart:cache.py: getPackages() matches name + arch
++
++It only matched name ony in the past, for example:
++smart install busybox (matched)
++but:
++smart install busybox@core2_64 (didn't match)
++
++The installation is very slow when no match since it would seach all the
++packages in the repo
++This patch makes it match both.
++
++Upstream-Status: Pending
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ smart/cache.py |    3 ++-
++ smart/ccache.c |    9 ++++++++-
++ 2 files changed, 10 insertions(+), 2 deletions(-)
++
++diff --git a/smart/control.py b/smart/control.py
++index d44abe7..f23a604 100644
++--- a/smart/control.py
+++++ b/smart/control.py
++@@ -876,9 +876,13 @@ class Control(object):
++         objects = []
++ 
++         # If we find packages with exactly the given
++-        # name or name-version, use them.
++-        for pkg in self._cache.getPackages(s):
++-            if pkg.name == s or "%s-%s" % (pkg.name, pkg.version) == s:
+++        # name, name-version, or name@arch, use them.
+++        s_name = s
+++        if "@" in s:
+++            s_name = s.split("@")[0]
+++        for pkg in self._cache.getPackages(s_name):
+++            if pkg.name == s or "%s-%s" % (pkg.name, pkg.version) == s \
+++                    or "%s@%s" % (pkg.name, pkg.version.split('@')[1]) == s:
++                 objects.append((1.0, pkg))
++          
++         if not objects:
+diff --git a/meta/recipes-devtools/python/python-smartpm_git.bb b/meta/recipes-devtools/python/python-smartpm_git.bb
+index 8b974b0..d6c378b 100644
+--- a/meta/recipes-devtools/python/python-smartpm_git.bb
++++ b/meta/recipes-devtools/python/python-smartpm_git.bb
+@@ -23,6 +23,7 @@ SRC_URI = "\
+           file://smart-add-for-rpm-ignoresize-check.patch \
+           file://smart-already-installed-message.patch \
+           file://smart-set-noprogress-for-pycurl.patch \
++          file://smart-cache.py-getPackages-matches-name-version.patch \
+          "
+ 
+ SRCREV = "407a7eca766431257dcd1da15175cc36a1bb22d0"
 -- 
 1.7.9.5
 
