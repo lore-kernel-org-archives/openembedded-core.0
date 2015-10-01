@@ -1,25 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 53117770AF
+	by mail.openembedded.org (Postfix) with ESMTP id 7227D770A3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Oct 2015 18:50:45 +0000 (UTC)
+	Thu,  1 Oct 2015 18:50:48 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Oct 2015 11:50:46 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 01 Oct 2015 11:50:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,619,1437462000"; d="scan'208";a="572293183"
+X-IronPort-AV: E=Sophos;i="5.17,619,1437462000"; d="scan'208";a="572293197"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.23.219.46])
-	by FMSMGA003.fm.intel.com with ESMTP; 01 Oct 2015 11:50:46 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 01 Oct 2015 11:50:48 -0700
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Oct 2015 10:40:46 +0000
-Message-Id: <37a893cc9650e557355124912b869ef4ab599081.1443694820.git.mariano.lopez@linux.intel.com>
+Date: Thu,  1 Oct 2015 10:40:47 +0000
+Message-Id: <0ca448595fcb896c7e9bfeaf00f51fd2145c4309.1443694820.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
 In-Reply-To: <cover.1443694820.git.mariano.lopez@linux.intel.com>
 References: <cover.1443694820.git.mariano.lopez@linux.intel.com>
 In-Reply-To: <cover.1443694820.git.mariano.lopez@linux.intel.com>
 References: <cover.1443694820.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/2] report-error.bbclass: Support Unicode reports
+Subject: [PATCH 2/2] oeqa/utils/qemurunner: Add support for Unicode from qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,68 +32,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Oct 2015 18:50:46 -0000
+X-List-Received-Date: Thu, 01 Oct 2015 18:50:48 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Currently error-report doesn't manage Unicode because
-the files are opened with the default codec.
+The current state of qemurunner will drop the Unicode
+characters received from qemu, this is because error
+report web had problems with Unicode characters; now
+that the server support Unicode, it is possible to
+log all the output from qemu. So far the only Unicode
+character seen is the copyright symbol.
 
-This patch changes the codec of the files to UTF-8,
-this way the reports will include Unicode characters.
-This is useful for the qemu output when doing the
-testimage task.
+This patch allows to get Unicode characters from the qemu
+target and save the log in an UTF-8 file for latter use.
 
 [YOCTO #8225]
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/classes/report-error.bbclass | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/utils/qemurunner.py | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-index 040c29e..82b5bcd 100644
---- a/meta/classes/report-error.bbclass
-+++ b/meta/classes/report-error.bbclass
-@@ -9,22 +9,25 @@
- ERR_REPORT_DIR ?= "${LOG_DIR}/error-report"
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 9c878bc..6fe75b8 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -15,11 +15,18 @@ import select
+ import errno
+ import string
+ import threading
++import codecs
+ from oeqa.utils.dump import HostDumper
  
- def errorreport_getdata(e):
-+    import codecs
-     logpath = e.data.getVar('ERR_REPORT_DIR', True)
-     datafile = os.path.join(logpath, "error-report.txt")
--    with open(datafile) as f:
-+    with codecs.open(datafile, 'r', 'utf-8') as f:
-         data = f.read()
-     return data
+ import logging
+ logger = logging.getLogger("BitBake.QemuRunner")
  
- def errorreport_savedata(e, newdata, file):
-     import json
-+    import codecs
-     logpath = e.data.getVar('ERR_REPORT_DIR', True)
-     datafile = os.path.join(logpath, file)
--    with open(datafile, "w") as f:
-+    with codecs.open(datafile, 'w', 'utf-8') as f:
-         json.dump(newdata, f, indent=4, sort_keys=True)
-     return datafile
++# Get Unicode non printable control chars
++control_range = range(0,32)+range(127,160)
++control_chars = [unichr(x) for x in control_range
++                if unichr(x) not in string.printable]
++re_control_char = re.compile('[%s]' % re.escape("".join(control_chars)))
++
+ class QemuRunner:
  
- python errorreport_handler () {
-         import json
-+        import codecs
+     def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, dump_host_cmds):
+@@ -63,9 +70,9 @@ class QemuRunner:
+     def log(self, msg):
+         if self.logfile:
+             # It is needed to sanitize the data received from qemu
+-            # because is possible to have control characters or Unicode
+-            msg = "".join(filter(lambda x:x in string.printable, msg))
+-            with open(self.logfile, "a") as f:
++            # because is possible to have control characters
++            msg = re_control_char.sub('', unicode(msg, 'utf-8'))
++            with codecs.open(self.logfile, "a", encoding="utf-8") as f:
+                 f.write("%s" % msg)
  
-         logpath = e.data.getVar('ERR_REPORT_DIR', True)
-         datafile = os.path.join(logpath, "error-report.txt")
-@@ -53,8 +56,8 @@ python errorreport_handler () {
-             taskdata['task'] = task
-             if log:
-                 try:
--                    logFile = open(log, 'r')
--                    logdata = logFile.read().decode('utf-8')
-+                    logFile = codecs.open(log, 'r', 'utf-8')
-+                    logdata = logFile.read()
-                     logFile.close()
-                 except:
-                     logdata = "Unable to read log file"
+     def getOutput(self, o):
+@@ -176,7 +183,7 @@ class QemuRunner:
+                 cmdline = p.read()
+                 # It is needed to sanitize the data received
+                 # because is possible to have control characters
+-                cmdline = "".join(filter(lambda x:x in string.printable, cmdline))
++                cmdline = re_control_char.sub('', cmdline)
+             try:
+                 ips = re.findall("((?:[0-9]{1,3}\.){3}[0-9]{1,3})", cmdline.split("ip=")[1])
+                 if not ips or len(ips) != 3:
 -- 
 1.8.4.5
 
