@@ -1,24 +1,23 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AFE1777086
+	by mail.openembedded.org (Postfix) with ESMTP id C5F387708D
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  1 Oct 2015 08:02:15 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 01 Oct 2015 01:02:14 -0700
+	by orsmga103.jf.intel.com with ESMTP; 01 Oct 2015 01:02:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,616,1437462000"; d="scan'208";a="781650082"
+X-IronPort-AV: E=Sophos;i="5.17,616,1437462000"; 
+	d="scan'208,217";a="781650060"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga001.jf.intel.com with ESMTP; 01 Oct 2015 01:02:14 -0700
+	by orsmga001.jf.intel.com with ESMTP; 01 Oct 2015 01:02:12 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Oct 2015 11:04:36 +0300
-Message-Id: <a4c636514b96ab97b9b4d3d487099d0fc25aff84.1443686344.git.jussi.kukkonen@intel.com>
+Date: Thu,  1 Oct 2015 11:04:35 +0300
+Message-Id: <e636475eca83f69162538109ca09176a69d6a21c.1443686344.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <e636475eca83f69162538109ca09176a69d6a21c.1443686344.git.jussi.kukkonen@intel.com>
-References: <e636475eca83f69162538109ca09176a69d6a21c.1443686344.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1443686344.git.jussi.kukkonen@intel.com>
 References: <cover.1443686344.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv2 2/2] xuser-account: Take over xuser specific D-Bus policy
+Subject: [PATCHv2 1/2] bluez5: Use upstream D-Bus policy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,137 +32,67 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 01 Oct 2015 08:02:15 -0000
 
-Move connmans xuser-related D-Bus policy to a separate file that
-xuser-account installs: This way connman does not need to depend on
-xuser-account. Add policies for bluez and ofono in the same file.
+The Bluez D-Bus policy is much too open and affects not just bluez but
+all system services: Use upstream policy configuration instead.
+
+This change has a chance of affecting other D-Bus services: the bug
+that is fixed here may have hidden problems in other policies.
+
+[YOCTO #8414]
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-connectivity/connman/connman.inc      |  1 -
- .../connman/add_xuser_dbus_permission.patch        | 43 ----------------------
- meta/recipes-connectivity/connman/connman_1.30.bb  |  1 -
- .../user-creation/files/system-xuser.conf          | 11 ++++++
- .../user-creation/xuser-account_0.1.bb             |  6 ++-
- 5 files changed, 15 insertions(+), 47 deletions(-)
- delete mode 100644 meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch
- create mode 100644 meta/recipes-support/user-creation/files/system-xuser.conf
+ meta/recipes-connectivity/bluez5/bluez5.inc            |  5 ++---
+ meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf | 17 -----------------
+ 2 files changed, 2 insertions(+), 20 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 1712af3..ab7f86d 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -107,7 +107,6 @@ RPROVIDES_${PN} = "\
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 039c443..df42c88 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -18,7 +18,6 @@ PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
  
- RDEPENDS_${PN} = "\
- 	dbus \
--	xuser-account \
- 	"
+ SRC_URI = "\
+     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+-    file://bluetooth.conf \
+ "
+ S = "${WORKDIR}/bluez-${PV}"
  
- PACKAGES_DYNAMIC += "^${PN}-plugin-.*"
-diff --git a/meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch b/meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch
+@@ -53,8 +52,8 @@ do_install_append() {
+ 	if [ -f ${S}/profiles/input/input.conf ]; then
+ 	    install -m 0644 ${S}/profiles/input/input.conf ${D}/${sysconfdir}/bluetooth/
+ 	fi
+-	# at_console doesn't really work with the current state of OE, so punch some more holes so people can actually use BT
+-	install -m 0644 ${WORKDIR}/bluetooth.conf ${D}/${sysconfdir}/dbus-1/system.d/
++
++	install -m 0644 ${S}/src/bluetooth.conf ${D}/${sysconfdir}/dbus-1/system.d/
+ 
+ 	# Install desired tools that upstream leaves in build area
+         for f in ${NOINST_TOOLS} ; do
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf b/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
 deleted file mode 100644
-index 15a191d..0000000
---- a/meta/recipes-connectivity/connman/connman/add_xuser_dbus_permission.patch
+index 26845bb..0000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
 +++ /dev/null
-@@ -1,43 +0,0 @@
--Because Poky doesn't support at_console we need to
--special-case the session user.
+@@ -1,17 +0,0 @@
+-<!-- This configuration file specifies the required security policies
+-     for Bluetooth core daemon to work. -->
 -
--Upstream-Status: Inappropriate [configuration]
+-<!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
+- "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+-<busconfig>
 -
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-  <!-- ../system.conf have denied everything, so we just punch some holes -->
 -
-----
-- src/connman-dbus.conf | 3 +++
-- vpn/vpn-dbus.conf     | 3 +++
-- 2 files changed, 6 insertions(+)
+-  <policy context="default">
+-    <allow own="org.bluez"/>
+-    <allow send_destination="org.bluez"/>
+-    <allow send_interface="org.bluez.Agent1"/>
+-    <allow send_type="method_call"/>
+-  </policy>
 -
--diff --git a/src/connman-dbus.conf b/src/connman-dbus.conf
--index 98a773e..466809c 100644
----- a/src/connman-dbus.conf
--+++ b/src/connman-dbus.conf
--@@ -8,6 +8,9 @@
--         <allow send_interface="net.connman.Counter"/>
--         <allow send_interface="net.connman.Notification"/>
--     </policy>
--+    <policy user="xuser">
--+        <allow send_destination="net.connman"/>
--+    </policy>
--     <policy at_console="true">
--         <allow send_destination="net.connman"/>
--     </policy>
--diff --git a/vpn/vpn-dbus.conf b/vpn/vpn-dbus.conf
--index 0f0c8da..9ad05b9 100644
----- a/vpn/vpn-dbus.conf
--+++ b/vpn/vpn-dbus.conf
--@@ -6,6 +6,9 @@
--         <allow send_destination="net.connman.vpn"/>
--         <allow send_interface="net.connman.vpn.Agent"/>
--     </policy>
--+    <policy user="xuser">
--+        <allow send_destination="net.connman.vpn"/>
--+    </policy>
--     <policy at_console="true">
--         <allow send_destination="net.connman.vpn"/>
--     </policy>
---- 
--2.1.4
--
-diff --git a/meta/recipes-connectivity/connman/connman_1.30.bb b/meta/recipes-connectivity/connman/connman_1.30.bb
-index 9b512c5..7d65ac9 100644
---- a/meta/recipes-connectivity/connman/connman_1.30.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.30.bb
-@@ -2,7 +2,6 @@ require connman.inc
- 
- SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
--            file://add_xuser_dbus_permission.patch \
-             file://0001-Detect-backtrace-API-availability-before-using-it.patch \
-             file://0002-resolve-musl-does-not-implement-res_ninit.patch \
-             file://0003-Fix-header-inclusions-for-musl.patch \
-diff --git a/meta/recipes-support/user-creation/files/system-xuser.conf b/meta/recipes-support/user-creation/files/system-xuser.conf
-new file mode 100644
-index 0000000..d42e3d1
---- /dev/null
-+++ b/meta/recipes-support/user-creation/files/system-xuser.conf
-@@ -0,0 +1,11 @@
-+<!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
-+ "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
-+<busconfig>
-+    <policy user="xuser">
-+        <allow send_destination="net.connman"/>
-+        <allow send_destination="net.connman.vpn"/>
-+        <allow send_destination="org.ofono"/>
-+        <allow send_destination="org.bluez"/>
-+    </policy>
-+</busconfig>
-+
-diff --git a/meta/recipes-support/user-creation/xuser-account_0.1.bb b/meta/recipes-support/user-creation/xuser-account_0.1.bb
-index 77ba97d..13ba677 100644
---- a/meta/recipes-support/user-creation/xuser-account_0.1.bb
-+++ b/meta/recipes-support/user-creation/xuser-account_0.1.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Creates an 'xuser' account used for running X11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
--SRC_URI = ""
-+SRC_URI = "file://system-xuser.conf"
- 
- inherit allarch useradd
- 
-@@ -15,9 +15,11 @@ do_compile() {
- }
- 
- do_install() {
--    :
-+    install -D -m 0644 ${WORKDIR}/system-xuser.conf ${D}${sysconfdir}/dbus-1/system.d/system-xuser.conf
- }
- 
-+FILES_${PN} = "${sysconfdir}/dbus-1/system.d/system-xuser.conf"
-+
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "--system shutdown"
- USERADD_PARAM_${PN} = "--create-home \
+-</busconfig>
 -- 
 2.1.4
 
