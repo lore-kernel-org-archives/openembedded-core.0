@@ -1,32 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DB3B3770B2
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 7685D770B7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Oct 2015 20:26:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t91KQ0aF005721; Thu, 1 Oct 2015 21:26:00 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id mNoK15sKeuyY; Thu,  1 Oct 2015 21:26:00 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t91KPkUv005718
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 1 Oct 2015 21:25:57 +0100
-Message-ID: <1443731146.14733.30.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 01 Oct 2015 21:25:46 +0100
-In-Reply-To: <3712B443-8857-41CB-87F9-DFFC12FE69E9@gmail.com>
-References: <1443709445.14733.5.camel@linuxfoundation.org>
-	<CAMKF1spovYNRYZQjaghtiRdJtgs3BxHqotiv-t7n2h0DStiiDA@mail.gmail.com>
-	<1443713835.14733.13.camel@linuxfoundation.org>
-	<3712B443-8857-41CB-87F9-DFFC12FE69E9@gmail.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Branched for release
+	Thu,  1 Oct 2015 20:26:17 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 01 Oct 2015 13:26:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,619,1437462000"; d="scan'208";a="817460580"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
+	([10.23.219.47])
+	by orsmga002.jf.intel.com with ESMTP; 01 Oct 2015 13:26:17 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Oct 2015 20:23:29 +0000
+Message-Id: <1c6dbb3997ae1ff49ebe227475b73e3eb072f12b.1443730882.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1443730882.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1443730882.git.alejandro.hernandez@linux.intel.com>
+Subject: [PATCH 1/1] gma500_gfx: Avoid inserting gma500_gfx module for certain devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,30 +30,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Oct 2015 20:26:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Oct 2015 20:26:18 -0000
 
-On Thu, 2015-10-01 at 10:24 -0700, Khem Raj wrote:
-> > If we want to discuss this all again, so be it, but on the eve of
-> > release really isn't the time to start it all again.
-> 
-> so when is the right time ? Do we have long enough pre-notice about
-> when we the branching is going to happen?
+The gma500_gfx driver will match certain devices on which it causes incorrect functionality,
+we want to avoid inserting this module, basicallly blacklist it for specific hardware,
+but still allow it to work on other hardware by default; usually when we have an already working system,
+using udev rules would do the job, but since we are building it, it is impossible to blacklist
+a driver when a certain udev rule matches, since rootfs isn't writeable at this point during boot time,
+the solution is to use modprobe install, which runs a certain command instead of inserting a matching module,
+this command needs to insert the module manually afterwards and have a flag --ignore-install
+so it doesnt create an infinite loop executing itself everytime it wants to insert the module,
+busybox's modprobe doesn't provide this functionality, so a small hack had to be used to avoid
+the infite loop instead.
 
-We release approximately in April and October with a six month cadence. 
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ meta-yocto-bsp/conf/machine/genericx86.conf            |  2 ++
+ .../gma500-gfx-check/gma500-gfx-check.conf             |  2 ++
+ .../gma500-gfx-check/gma500-gfx-check.sh               | 11 +++++++++++
+ .../gma500-gfx-check/gma500-gfx-check_1.0.bb           | 18 ++++++++++++++++++
+ 4 files changed, 33 insertions(+)
+ create mode 100644 meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.conf
+ create mode 100644 meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.sh
+ create mode 100644 meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check_1.0.bb
 
-After the complaints about communication, there have been weekly status
-updates and the release dates were also *clearly* shown in there for
-when the release was planned. Incidentally, if those aren't useful,
-Stephen and I can stop doing them.
-
-Its not unreasonable to assume the branch for release happens sometime
-before the first rc build of the release.
-
-Cheers,
-
-Richard
-
+diff --git a/meta-yocto-bsp/conf/machine/genericx86.conf b/meta-yocto-bsp/conf/machine/genericx86.conf
+index 2642cab..798b62ec 100644
+--- a/meta-yocto-bsp/conf/machine/genericx86.conf
++++ b/meta-yocto-bsp/conf/machine/genericx86.conf
+@@ -6,3 +6,5 @@
+ DEFAULTTUNE ?= "core2-32"
+ require conf/machine/include/tune-core2.inc
+ require conf/machine/include/genericx86-common.inc
++
++MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS += "gma500-gfx-check"
+diff --git a/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.conf b/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.conf
+new file mode 100644
+index 0000000..69f109e
+--- /dev/null
++++ b/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.conf
+@@ -0,0 +1,2 @@
++# Mimic modprobe's install funcitonality with busybox's modprobe
++install gma500_gfx lsmod | grep gma || { gma500_gfx_check.sh || modprobe gma500_gfx; }
+diff --git a/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.sh b/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.sh
+new file mode 100644
+index 0000000..0c7b3aa
+--- /dev/null
++++ b/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.sh
+@@ -0,0 +1,11 @@
++#!/bin/sh
++
++# Check for devices we wish to avoid gma500_gfx for
++DEVICES="0x8119 0x4108"
++for DEVICE in $DEVICES; do
++    if udevadm trigger --subsystem-match=pci --verbose --attr-match=device=$DEVICE | grep "pci" >> /dev/null ; then
++        echo "Found $DEVICE, avoiding gma500_gfx module" >> /dev/kmsg;
++        exit 0
++    fi
++done
++exit 1
+diff --git a/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check_1.0.bb b/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check_1.0.bb
+new file mode 100644
+index 0000000..c68dd7b
+--- /dev/null
++++ b/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check_1.0.bb
+@@ -0,0 +1,18 @@
++SUMMARY = "Intel gma500_gfx fix for certain hardware"
++DESCRIPTION = "Avoid inserting gma500_gfx module for certain hardware devices."
++LICENSE="GPLv2"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
++
++SRC_URI = "file://gma500-gfx-check.conf \
++	file://gma500-gfx-check.sh "
++
++do_install(){
++    install -d ${D}${sysconfdir}/modprobe.d/
++    install -m 755 ${WORKDIR}/gma500-gfx-check.sh ${D}${sysconfdir}/modprobe.d/gma500-gfx-check.sh
++    install -m 644 ${WORKDIR}/gma500-gfx-check.conf ${D}${sysconfdir}/modprobe.d/gma500-gfx-check.conf
++}
++
++FILES_${PN}="${sysconfdir}/modprobe.d/gma500-gfx-check.conf \
++             ${sysconfdir}/modprobe.d/gma500-gfx-check.sh"
++
++COMPATIBLE_MACHINE_genericx86 = "genericx86"
+-- 
+1.8.4.5
 
 
