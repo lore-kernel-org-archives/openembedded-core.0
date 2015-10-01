@@ -1,31 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 52E897706C
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id A0D7174242
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Oct 2015 15:42:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t91Fgh7A023151; Thu, 1 Oct 2015 16:42:43 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id dG5RnU11Hw8x; Thu,  1 Oct 2015 16:42:43 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t91FgSGu023144
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 1 Oct 2015 16:42:39 +0100
-Message-ID: <1443714148.14733.17.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Thu, 01 Oct 2015 16:42:28 +0100
-In-Reply-To: <CAP9ODKoL6bWh7Z9AYHLC-tzh6MbCtsPuEBf=-gYdbi7K0kABqQ@mail.gmail.com>
-References: <1443709445.14733.5.camel@linuxfoundation.org>
-	<CAMKF1spovYNRYZQjaghtiRdJtgs3BxHqotiv-t7n2h0DStiiDA@mail.gmail.com>
-	<CAP9ODKoL6bWh7Z9AYHLC-tzh6MbCtsPuEBf=-gYdbi7K0kABqQ@mail.gmail.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Branched for release
+	Thu,  1 Oct 2015 16:38:38 +0000 (UTC)
+Received: by pacfv12 with SMTP id fv12so80855564pac.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Oct 2015 09:38:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=GNfLVHMl3cIQhE2mCjMJnvSwYFohwg7WrSKd86V9WYM=;
+	b=0xcWhl7RxKa/xG84x4wYJbM3QFgUQlT9HDfPNwk43d53RdJOzm7x0jDeUb+VEHHwLR
+	+NFAV4clwFiE4to0VoLu5JVq5YKF0yRP9xGRt6DzDfVr6mrbjPlIqnhOfMqEFRKaxNhw
+	3z6WlqE5ThOUMBU8beE7FMrRLV+Q+LqLtjCrGxwrVCTF4SyTEdz/Fou20cu5L+0KTK/O
+	4x5WZ/GVELZ1/xZfgyhMSgi7cw9BVOfYm1WEUCsU5erqXFXxTshzTOmn3/Ld2NIdon0w
+	kHig6wMzimLXUcF0/XmyTBOuKJaP9LbiMRD6zUaciGpgnU5MROFkDgAahGacGgiHKKgJ
+	P9Lw==
+X-Received: by 10.68.109.2 with SMTP id ho2mr13482803pbb.158.1443717518325;
+	Thu, 01 Oct 2015 09:38:38 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	kh7sm7563956pbc.93.2015.10.01.09.38.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 01 Oct 2015 09:38:37 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Oct 2015 09:38:34 -0700
+Message-Id: <1443717514-31684-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH] ThunderX: Add initial tune file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,32 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Oct 2015 15:42:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Oct 2015 16:38:45 -0000
 
-On Thu, 2015-10-01 at 11:41 -0300, Otavio Salvador wrote:
-> I agree.
-> 
-> The mix between codenames and version numbers cause a lot of confusion
-> for outsiders. We, involved with the project development can handle it
-> (even though sometimes I ask myself if one codename is older or newer
-> than another) but for outsiders it is deadly confusing.
+From: Armin Kuster <akuster@mvista.com>
 
-As I've just replied to Khem, I posted a fairly comprehensive look at
-all the possible options quite a while back, the last time people
-complained. Basically, we can't win. We have slowly killed off all the
-numbers that didn't have a purpose so we have one naming scheme and one
-number that corresponds to it.
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/conf/machine/include/tune-thunderX.inc | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-thunderX.inc
 
-The only real exception is bitbake, which as tool with its own
-release/versions, makes sense.
-
-I'd also highlight that now is not the time to start changing the
-release process.
-
-Cheers,
-
-Richard
+diff --git a/meta/conf/machine/include/tune-thunderX.inc b/meta/conf/machine/include/tune-thunderX.inc
+new file mode 100644
+index 0000000..89fcaf7
+--- /dev/null
++++ b/meta/conf/machine/include/tune-thunderX.inc
+@@ -0,0 +1,19 @@
++require conf/machine/include/arm/arch-armv8.inc
++
++DEFAULTTUNE ?= "thunderX"
++AVAILTUNES += "thunderX thunderX_be"
++
++TUNEVALID[thunderX] = "Enable instructions for Cavium ThunderX"
++
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "thunderX", " -mcpu=thunderx ", "",d)}"
++
++ARMPKGARCH_tune-thunderX ?= "thunderX"
++ARMPKGARCH_tune-thunderX_be ?= "thunderX_be"
++
++TUNE_FEATURES_tune-thunderX ?= "${TUNE_FEATURES_tune-aarch64} thunderX"
++TUNE_FEATURES_tune-thunderX_be ?= "${TUNE_FEATURES_tune-thunderX} bigendian"
++BASE_LIB_tune-thunderX = "lib64"
++BASE_LIB_tune-thunderX_be = "lib64"
++
++PACKAGE_EXTRA_ARCHS_tune-thunderX = "aarch64 thunderX"
++PACKAGE_EXTRA_ARCHS_tune-thunderX_be = "aarch64_be thunderX_be"
+-- 
+2.3.5
 
 
