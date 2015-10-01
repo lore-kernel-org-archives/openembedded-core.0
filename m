@@ -1,36 +1,21 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 60E6D7700B
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 77F5773BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Oct 2015 09:52:37 +0000 (UTC)
-Received: by iofh134 with SMTP id h134so79142028iof.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Oct 2015 02:52:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=4h1PaLCkh2DYpMgeuTUHWnE0H7ZlE2agBbhAUyj8HJ8=;
-	b=keKC4I1JUFn73yonRgmPQVqthyLmI3P3uJQovYgk9EnYer887YufNylIv4LjgRAqOM
-	3RWZpBEZJDwsbrNuBD/GEcvwVp8rYeiTqiEDgyM1SZSgAyuDxvSItyAjySvMQlvQbRhX
-	/9sHYojjASVrRYyES83XvgbqrWCoeBWHlazWEdqMMileyv1p83FYmoDcBHGCNoS9O8dR
-	wk0sr6BB1oG0UoPmuIe17bOJPwMnpUuP09IIAosXluBPxwSWO+wkQOuEazZsgKaU7dG3
-	BhrESHirARWFJ5odW0nBlV9GVOXP//WKHNXq0ef0LqqIX7Shg0qJ903/Z1Um1H4tZA0u
-	uUIA==
-X-Gm-Message-State: ALoCoQnqeZXY0Dg3fT8LXtTNDeG4izLlrtUxfX3r6njNYE/BKY86Z5no9r2gUlXjjq8GPvZ2OCzS
-X-Received: by 10.107.15.69 with SMTP id x66mr9870784ioi.156.1443693158164;
-	Thu, 01 Oct 2015 02:52:38 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8EAD6.dip0.t-ipconnect.de.
-	[93.232.234.214])
-	by smtp.gmail.com with ESMTPSA id 95sm2348721iop.31.2015.10.01.02.52.36
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 01 Oct 2015 02:52:37 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
+	Thu,  1 Oct 2015 10:03:38 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 01 Oct 2015 03:03:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,616,1437462000"; d="scan'208";a="801277079"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Oct 2015 03:03:38 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Oct 2015 11:53:02 +0200
-Message-Id: <1443693182-25212-1-git-send-email-patrick.ohly@intel.com>
+Date: Thu,  1 Oct 2015 13:03:36 +0300
+Message-Id: <1443693816-7463-1-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [meta-java] [PATCH] openjdk-8: fix TUNE_CCARGS on intel-core2-32/i686
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: [PATCH] devtool: modify: use correct local files directory name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,38 +28,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Oct 2015 09:52:40 -0000
+X-List-Received-Date: Thu, 01 Oct 2015 10:03:42 -0000
 
-A machine-independent recipe must not have machine-specific changes,
-as in TUNE_CCARGS_append_intel-core2-32. In the best case, that only
-causes unnecessary rebuilds when switching machines with the same CPU
-which otherwise could share sstate. In the worst case, it confuses PR
-server and build history such that building fails with "version going
-backwards".
+The name of the directory for local source files under srctree is
+'oe-local-files', not 'local-files'. Fixes a bug that slipped through
+in b7ab82485e4514e07ab8a76e554da27ddc92e6c0.
 
-There are not tune-specific overrides, so a Python snippet is used to
-apply the additional parameters on all machines with the same
-TUNE_ARCH as intel-core2-32 (like for example edison).
-
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- recipes-core/openjdk/openjdk-8_60b27-2.5.4.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/lib/devtool/standard.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-core/openjdk/openjdk-8_60b27-2.5.4.bb b/recipes-core/openjdk/openjdk-8_60b27-2.5.4.bb
-index 6a95dd2..329933e 100644
---- a/recipes-core/openjdk/openjdk-8_60b27-2.5.4.bb
-+++ b/recipes-core/openjdk/openjdk-8_60b27-2.5.4.bb
-@@ -58,7 +58,8 @@ export CACAO_CONFIGURE_ARGS = " \
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index b455a22..8676e42 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -562,7 +562,7 @@ def modify(args, config, basepath, workspace):
+         # Local files can be modified/tracked in separate subdir under srctree
+         # Mostly useful for packages with S != WORKDIR
+         f.write('FILESPATH_prepend := "%s:"\n' %
+-                os.path.join(srctree, 'local-files'))
++                os.path.join(srctree, 'oe-local-files'))
  
- JAVA_HOME[unexport] = "1"
- 
--TUNE_CCARGS_append_intel-core2-32 = " -mstackrealign -fno-omit-frame-pointer "
-+# For intel-core2-32 and Edison.
-+TUNE_CCARGS_append = "${@' -mstackrealign -fno-omit-frame-pointer' if '${TUNE_ARCH}' == 'i686' else ''}"
- 
- # disable shark until it is fully working again
- # WITH_ADDITIONAL_VMS ?= "--with-additional-vms=shark,cacao,jamvm"
+         f.write('\ninherit externalsrc\n')
+         f.write('# NOTE: We use pn- overrides here to avoid affecting multiple variants in the case where the recipe uses BBCLASSEXTEND\n')
 -- 
 2.1.4
 
