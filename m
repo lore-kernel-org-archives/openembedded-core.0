@@ -1,20 +1,24 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 88E427707A
+Return-Path: <clopez@igalia.com>
+Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
+	by mail.openembedded.org (Postfix) with ESMTP id 1945A77088
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Oct 2015 13:41:30 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Oct 2015 06:41:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,617,1437462000"; d="scan'208";a="817174014"
-Received: from sentry.rb.intel.com ([10.237.105.63])
-	by orsmga002.jf.intel.com with ESMTP; 01 Oct 2015 06:41:30 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
+	Thu,  1 Oct 2015 13:49:52 +0000 (UTC)
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: A2AIBACYOQ1W/5tjdVteHAGDCgFTUB6tSYwDhCEBDYFsC4cwOBQBAQEBAQEBgQpBBYQwAYowAadBlVgBjwWGc4ophBUFhzaOQ4UWh36JBpJNHwEBQoFKAQuCLjwzAYNghhcBAQE
+X-IPAS-Result: A2AIBACYOQ1W/5tjdVteHAGDCgFTUB6tSYwDhCEBDYFsC4cwOBQBAQEBAQEBgQpBBYQwAYowAadBlVgBjwWGc4ophBUFhzaOQ4UWh36JBpJNHwEBQoFKAQuCLjwzAYNghhcBAQE
+X-IronPort-AV: E=Sophos;i="5.17,617,1437429600"; d="scan'208";a="28842998"
+Received: from fanzine.igalia.com ([91.117.99.155])
+	by smtp4.mundo-r.com with ESMTP; 01 Oct 2015 15:49:50 +0200
+Received: from [192.168.10.149] (helo=trinity.local.igalia.com)
+	by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.0:RSA_AES_128_CBC_SHA1:16) (Exim)
+	id 1ZheF4-0007Uf-LD; Thu, 01 Oct 2015 15:49:50 +0200
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Oct 2015 16:42:09 +0300
-Message-Id: <1443706929-11810-1-git-send-email-cristian.iorga@intel.com>
+Date: Thu,  1 Oct 2015 15:49:48 +0200
+Message-Id: <1443707390-26567-1-git-send-email-clopez@igalia.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] Revert "oeqa/runtime: Added one runtime testcase in connman."
+Subject: [PATCH 0/2] webkitgtk: Add some packageconfig options.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,48 +31,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Oct 2015 13:41:33 -0000
+X-List-Received-Date: Thu, 01 Oct 2015 13:49:54 -0000
 
-connman daemon forks during normal usage,
-so this test is no longer valid and generates
-sometimes false positives.
+  * This adds some useful packageconfig options to the webkitgtk recipe.
+  * It switches also the CMake switches to ON/OFF (cosmetic)
 
-This reverts commit 7d01c595c96eb3d67b90caf71050c4e9345257de.
----
- meta/lib/oeqa/runtime/connman.py | 23 -----------------------
- 1 file changed, 23 deletions(-)
+Carlos Alberto Lopez Perez (2):
+  webkitgtk: Use ON/OFF for cmake switches.
+  webkitgtk: Add some PACKAGECONFIG options.
 
-diff --git a/meta/lib/oeqa/runtime/connman.py b/meta/lib/oeqa/runtime/connman.py
-index ee69e5d..bd9dba3 100644
---- a/meta/lib/oeqa/runtime/connman.py
-+++ b/meta/lib/oeqa/runtime/connman.py
-@@ -29,26 +29,3 @@ class ConnmanTest(oeRuntimeTest):
-         if status != 0:
-             print self.service_status("connman")
-             self.fail("No connmand process running")
--
--    @testcase(223)
--    def test_only_one_connmand_in_background(self):
--        """
--        Summary:     Only one connmand in background
--        Expected:    There will be only one connmand instance in background.
--        Product:     BSPs
--        Author:      Alexandru Georgescu <alexandru.c.georgescu@intel.com>
--        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
--        """
--
--        # Make sure that 'connmand' is running in background
--        (status, output) = self.target.run(oeRuntimeTest.pscmd + ' | grep [c]onnmand')
--        self.assertEqual(0, status, 'Failed to find "connmand" process running in background.')
--
--        # Start a new instance of 'connmand'
--        (status, output) = self.target.run('connmand')
--        self.assertEqual(0, status, 'Failed to start a new "connmand" process.')
--
--        # Make sure that only one 'connmand' is running in background
--        (status, output) = self.target.run(oeRuntimeTest.pscmd + ' | grep [c]onnmand | wc -l')
--        self.assertEqual(0, status, 'Failed to find "connmand" process running in background.')
--        self.assertEqual(1, int(output), 'Found {} connmand processes running, expected 1.'.format(output))
+ meta/recipes-sato/webkit/webkitgtk_2.8.5.bb | 33 +++++++++++++++++++----------
+ 1 file changed, 22 insertions(+), 11 deletions(-)
+
 -- 
 2.1.4
 
