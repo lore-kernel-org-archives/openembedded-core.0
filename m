@@ -1,30 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DC42F7707A
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 88E427707A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Oct 2015 13:22:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t91DLZJK010403 for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Oct 2015 14:22:01 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id CSxBFrc7Pxx4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Oct 2015 14:22:01 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t91DLnDt010426
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Oct 2015 14:22:00 +0100
-Message-ID: <1443705709.14733.1.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 01 Oct 2015 14:21:49 +0100
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] qemu: Drop BROKEN usage
+	Thu,  1 Oct 2015 13:41:30 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 01 Oct 2015 06:41:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,617,1437462000"; d="scan'208";a="817174014"
+Received: from sentry.rb.intel.com ([10.237.105.63])
+	by orsmga002.jf.intel.com with ESMTP; 01 Oct 2015 06:41:30 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Oct 2015 16:42:09 +0300
+Message-Id: <1443706929-11810-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] Revert "oeqa/runtime: Added one runtime testcase in connman."
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Oct 2015 13:22:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Oct 2015 13:41:33 -0000
 
-BROKEN support was removed from bitbake back in 2013. These lines just
-increase parsing time, remove them.
+connman daemon forks during normal usage,
+so this test is no longer valid and generates
+sometimes false positives.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+This reverts commit 7d01c595c96eb3d67b90caf71050c4e9345257de.
+---
+ meta/lib/oeqa/runtime/connman.py | 23 -----------------------
+ 1 file changed, 23 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 738bf2b..bbfdf78 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -129,9 +129,4 @@ PACKAGECONFIG[gnutls] = "--enable-gnutls,--disable-gnutls,gnutls"
- 
- EXTRA_OECONF += "${@bb.utils.contains('PACKAGECONFIG', 'alsa', '--audio-drv-list=oss,alsa', '', d)}"
- 
--# Qemu target will not build in world build for ARM or Mips
--BROKEN_qemuarm = "1"
--BROKEN_qemumips64 = "1"
--BROKEN_qemumips = "1"
+diff --git a/meta/lib/oeqa/runtime/connman.py b/meta/lib/oeqa/runtime/connman.py
+index ee69e5d..bd9dba3 100644
+--- a/meta/lib/oeqa/runtime/connman.py
++++ b/meta/lib/oeqa/runtime/connman.py
+@@ -29,26 +29,3 @@ class ConnmanTest(oeRuntimeTest):
+         if status != 0:
+             print self.service_status("connman")
+             self.fail("No connmand process running")
 -
- INSANE_SKIP_${PN} = "arch"
-
+-    @testcase(223)
+-    def test_only_one_connmand_in_background(self):
+-        """
+-        Summary:     Only one connmand in background
+-        Expected:    There will be only one connmand instance in background.
+-        Product:     BSPs
+-        Author:      Alexandru Georgescu <alexandru.c.georgescu@intel.com>
+-        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+-        """
+-
+-        # Make sure that 'connmand' is running in background
+-        (status, output) = self.target.run(oeRuntimeTest.pscmd + ' | grep [c]onnmand')
+-        self.assertEqual(0, status, 'Failed to find "connmand" process running in background.')
+-
+-        # Start a new instance of 'connmand'
+-        (status, output) = self.target.run('connmand')
+-        self.assertEqual(0, status, 'Failed to start a new "connmand" process.')
+-
+-        # Make sure that only one 'connmand' is running in background
+-        (status, output) = self.target.run(oeRuntimeTest.pscmd + ' | grep [c]onnmand | wc -l')
+-        self.assertEqual(0, status, 'Failed to find "connmand" process running in background.')
+-        self.assertEqual(1, int(output), 'Found {} connmand processes running, expected 1.'.format(output))
+-- 
+2.1.4
 
 
