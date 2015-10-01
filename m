@@ -1,23 +1,36 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C5F387708D
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 60E6D7700B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Oct 2015 08:02:15 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 01 Oct 2015 01:02:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,616,1437462000"; 
-	d="scan'208,217";a="781650060"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga001.jf.intel.com with ESMTP; 01 Oct 2015 01:02:12 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+	Thu,  1 Oct 2015 09:52:37 +0000 (UTC)
+Received: by iofh134 with SMTP id h134so79142028iof.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Oct 2015 02:52:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=4h1PaLCkh2DYpMgeuTUHWnE0H7ZlE2agBbhAUyj8HJ8=;
+	b=keKC4I1JUFn73yonRgmPQVqthyLmI3P3uJQovYgk9EnYer887YufNylIv4LjgRAqOM
+	3RWZpBEZJDwsbrNuBD/GEcvwVp8rYeiTqiEDgyM1SZSgAyuDxvSItyAjySvMQlvQbRhX
+	/9sHYojjASVrRYyES83XvgbqrWCoeBWHlazWEdqMMileyv1p83FYmoDcBHGCNoS9O8dR
+	wk0sr6BB1oG0UoPmuIe17bOJPwMnpUuP09IIAosXluBPxwSWO+wkQOuEazZsgKaU7dG3
+	BhrESHirARWFJ5odW0nBlV9GVOXP//WKHNXq0ef0LqqIX7Shg0qJ903/Z1Um1H4tZA0u
+	uUIA==
+X-Gm-Message-State: ALoCoQnqeZXY0Dg3fT8LXtTNDeG4izLlrtUxfX3r6njNYE/BKY86Z5no9r2gUlXjjq8GPvZ2OCzS
+X-Received: by 10.107.15.69 with SMTP id x66mr9870784ioi.156.1443693158164;
+	Thu, 01 Oct 2015 02:52:38 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8EAD6.dip0.t-ipconnect.de.
+	[93.232.234.214])
+	by smtp.gmail.com with ESMTPSA id 95sm2348721iop.31.2015.10.01.02.52.36
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 01 Oct 2015 02:52:37 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Oct 2015 11:04:35 +0300
-Message-Id: <e636475eca83f69162538109ca09176a69d6a21c.1443686344.git.jussi.kukkonen@intel.com>
+Date: Thu,  1 Oct 2015 11:53:02 +0200
+Message-Id: <1443693182-25212-1-git-send-email-patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1443686344.git.jussi.kukkonen@intel.com>
-References: <cover.1443686344.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv2 1/2] bluez5: Use upstream D-Bus policy
+Subject: [meta-java] [PATCH] openjdk-8: fix TUNE_CCARGS on intel-core2-32/i686
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,69 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Oct 2015 08:02:15 -0000
+X-List-Received-Date: Thu, 01 Oct 2015 09:52:40 -0000
 
-The Bluez D-Bus policy is much too open and affects not just bluez but
-all system services: Use upstream policy configuration instead.
+A machine-independent recipe must not have machine-specific changes,
+as in TUNE_CCARGS_append_intel-core2-32. In the best case, that only
+causes unnecessary rebuilds when switching machines with the same CPU
+which otherwise could share sstate. In the worst case, it confuses PR
+server and build history such that building fails with "version going
+backwards".
 
-This change has a chance of affecting other D-Bus services: the bug
-that is fixed here may have hidden problems in other policies.
+There are not tune-specific overrides, so a Python snippet is used to
+apply the additional parameters on all machines with the same
+TUNE_ARCH as intel-core2-32 (like for example edison).
 
-[YOCTO #8414]
-
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc            |  5 ++---
- meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf | 17 -----------------
- 2 files changed, 2 insertions(+), 20 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
+ recipes-core/openjdk/openjdk-8_60b27-2.5.4.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 039c443..df42c88 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -18,7 +18,6 @@ PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
+diff --git a/recipes-core/openjdk/openjdk-8_60b27-2.5.4.bb b/recipes-core/openjdk/openjdk-8_60b27-2.5.4.bb
+index 6a95dd2..329933e 100644
+--- a/recipes-core/openjdk/openjdk-8_60b27-2.5.4.bb
++++ b/recipes-core/openjdk/openjdk-8_60b27-2.5.4.bb
+@@ -58,7 +58,8 @@ export CACAO_CONFIGURE_ARGS = " \
  
- SRC_URI = "\
-     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
--    file://bluetooth.conf \
- "
- S = "${WORKDIR}/bluez-${PV}"
+ JAVA_HOME[unexport] = "1"
  
-@@ -53,8 +52,8 @@ do_install_append() {
- 	if [ -f ${S}/profiles/input/input.conf ]; then
- 	    install -m 0644 ${S}/profiles/input/input.conf ${D}/${sysconfdir}/bluetooth/
- 	fi
--	# at_console doesn't really work with the current state of OE, so punch some more holes so people can actually use BT
--	install -m 0644 ${WORKDIR}/bluetooth.conf ${D}/${sysconfdir}/dbus-1/system.d/
-+
-+	install -m 0644 ${S}/src/bluetooth.conf ${D}/${sysconfdir}/dbus-1/system.d/
+-TUNE_CCARGS_append_intel-core2-32 = " -mstackrealign -fno-omit-frame-pointer "
++# For intel-core2-32 and Edison.
++TUNE_CCARGS_append = "${@' -mstackrealign -fno-omit-frame-pointer' if '${TUNE_ARCH}' == 'i686' else ''}"
  
- 	# Install desired tools that upstream leaves in build area
-         for f in ${NOINST_TOOLS} ; do
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf b/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
-deleted file mode 100644
-index 26845bb..0000000
---- a/meta/recipes-connectivity/bluez5/bluez5/bluetooth.conf
-+++ /dev/null
-@@ -1,17 +0,0 @@
--<!-- This configuration file specifies the required security policies
--     for Bluetooth core daemon to work. -->
--
--<!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
-- "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
--<busconfig>
--
--  <!-- ../system.conf have denied everything, so we just punch some holes -->
--
--  <policy context="default">
--    <allow own="org.bluez"/>
--    <allow send_destination="org.bluez"/>
--    <allow send_interface="org.bluez.Agent1"/>
--    <allow send_type="method_call"/>
--  </policy>
--
--</busconfig>
+ # disable shark until it is fully working again
+ # WITH_ADDITIONAL_VMS ?= "--with-additional-vms=shark,cacao,jamvm"
 -- 
 2.1.4
 
