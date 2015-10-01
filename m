@@ -1,25 +1,35 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7227D770A3
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 4583D770A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Oct 2015 18:50:48 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Oct 2015 11:50:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,619,1437462000"; d="scan'208";a="572293197"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by FMSMGA003.fm.intel.com with ESMTP; 01 Oct 2015 11:50:48 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Oct 2015 10:40:47 +0000
-Message-Id: <0ca448595fcb896c7e9bfeaf00f51fd2145c4309.1443694820.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1443694820.git.mariano.lopez@linux.intel.com>
-References: <cover.1443694820.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1443694820.git.mariano.lopez@linux.intel.com>
-References: <cover.1443694820.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 2/2] oeqa/utils/qemurunner: Add support for Unicode from qemu
+	Thu,  1 Oct 2015 18:55:54 +0000 (UTC)
+Received: by wicge5 with SMTP id ge5so2691216wic.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Oct 2015 11:55:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=W7UvKrdAACxy+IbLnVm3+c3+R4ePJlTjRHRNmossVQE=;
+	b=HQYZU3WyYrpiyHySPgScAK616xXOrohpIvuNeJ6uVvXB8sXYwJ6xrFZa0/bjLk/ssF
+	NX3qGE0kuTCwHPAYP/W7fEr2SDCcf+XuHEDoMNPybfMfVAxMT2AQmalejxt9zKK6woUG
+	9AS4EvHxWPVttWwlajGRkkIVEjM8t2O9iFc1iSx4XvUq1n42PEbKyA6EFWNeFM8lMacD
+	BevNqLajx7xlF3tCgrIVAEJ6YWqmCv6a5Cekhbm+xwhZ2uweRpsEKZ45AtOPsKhIXA+x
+	AVU/Mw1eBhu4F2gYEL1za3GPLJjRNPKUV+hDGTCi8DObg2HoqBGksjYJ4HxYn+k5jyyz
+	pVCg==
+MIME-Version: 1.0
+X-Received: by 10.194.5.35 with SMTP id p3mr14374619wjp.132.1443725754832;
+	Thu, 01 Oct 2015 11:55:54 -0700 (PDT)
+Received: by 10.194.169.6 with HTTP; Thu, 1 Oct 2015 11:55:54 -0700 (PDT)
+In-Reply-To: <71039CBC-0B0A-43AF-8C7D-34D73FCFE32C@gmail.com>
+References: <CAJ86T=Xkpa=hO1kizYrsSOTpeMOfbnZeniEWdMgCNhXae2W_5Q@mail.gmail.com>
+	<71039CBC-0B0A-43AF-8C7D-34D73FCFE32C@gmail.com>
+Date: Thu, 1 Oct 2015 11:55:54 -0700
+Message-ID: <CAJ86T=VrarVcJ=EUup0k+=mXh=YoDLP2TyDxmZU9SYEHyc8MkQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: Sorting rootfs manifest with .ipk packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,73 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Oct 2015 18:50:48 -0000
+X-List-Received-Date: Thu, 01 Oct 2015 18:55:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+On Wed, Sep 30, 2015 at 5:48 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> On Sep 30, 2015, at 3:03 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>> I'd like the rootfs manifest to be sorted when using .ipk packaging.
+>> Would a patch to sort the result of OpkgPkgsList().list be acceptable?
+>> Or would the sorting be better done elsewhere?
+>
+> its not clear what kind of sorting are you looking for. It could be a good thing in general if its
+> configurable and you can explain the value add of doing it.
 
-The current state of qemurunner will drop the Unicode
-characters received from qemu, this is because error
-report web had problems with Unicode characters; now
-that the server support Unicode, it is possible to
-log all the output from qemu. So far the only Unicode
-character seen is the copyright symbol.
+Aim is to make the manifest for each rootfs a little more human
+readable by sorting the list of installed packages alphabetically.
 
-This patch allows to get Unicode characters from the qemu
-target and save the log in an UTF-8 file for latter use.
+Currently, when ipk packaging is used, the order of packages in the
+manifest matches the order in /var/lib/opkg/status, which appears to
+be "random".
 
-[YOCTO #8225]
+It looks like RpmPkgsList().list does always sort it's results before
+returning, so adding a sort to OpkgPkgsList().list would make it
+consistent with the RPM equivalent.
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/lib/oeqa/utils/qemurunner.py | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 9c878bc..6fe75b8 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -15,11 +15,18 @@ import select
- import errno
- import string
- import threading
-+import codecs
- from oeqa.utils.dump import HostDumper
- 
- import logging
- logger = logging.getLogger("BitBake.QemuRunner")
- 
-+# Get Unicode non printable control chars
-+control_range = range(0,32)+range(127,160)
-+control_chars = [unichr(x) for x in control_range
-+                if unichr(x) not in string.printable]
-+re_control_char = re.compile('[%s]' % re.escape("".join(control_chars)))
-+
- class QemuRunner:
- 
-     def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, dump_host_cmds):
-@@ -63,9 +70,9 @@ class QemuRunner:
-     def log(self, msg):
-         if self.logfile:
-             # It is needed to sanitize the data received from qemu
--            # because is possible to have control characters or Unicode
--            msg = "".join(filter(lambda x:x in string.printable, msg))
--            with open(self.logfile, "a") as f:
-+            # because is possible to have control characters
-+            msg = re_control_char.sub('', unicode(msg, 'utf-8'))
-+            with codecs.open(self.logfile, "a", encoding="utf-8") as f:
-                 f.write("%s" % msg)
- 
-     def getOutput(self, o):
-@@ -176,7 +183,7 @@ class QemuRunner:
-                 cmdline = p.read()
-                 # It is needed to sanitize the data received
-                 # because is possible to have control characters
--                cmdline = "".join(filter(lambda x:x in string.printable, cmdline))
-+                cmdline = re_control_char.sub('', cmdline)
-             try:
-                 ips = re.findall("((?:[0-9]{1,3}\.){3}[0-9]{1,3})", cmdline.split("ip=")[1])
-                 if not ips or len(ips) != 3:
--- 
-1.8.4.5
-
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
