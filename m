@@ -1,37 +1,35 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 0ADBD770A5
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id DC5A577088
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Oct 2015 14:24:59 +0000 (UTC)
-Received: by pacex6 with SMTP id ex6so108181610pac.0
+	Fri,  2 Oct 2015 14:26:52 +0000 (UTC)
+Received: by pacex6 with SMTP id ex6so108217978pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Oct 2015 07:25:00 -0700 (PDT)
+	Fri, 02 Oct 2015 07:26:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=/ArlWeCM2u8/alvQakQmG+5hU/e1k8DuA3LHSNY/BZ8=;
-	b=G9yFiRgncfSemNweCefOVeE8WTYx5F7uds+KizaRxafw8RUMiT6/Ov0OIazQ5bbazv
-	fRZXp1aulfxI7/AkhycIqf9MH9NNo6wuIoyFGb2MyAhowCLmV+rrst8ddFnF9/53mleT
-	OixHMFhWli4n26W7qRavjZarmv1Aptby+FyaL8nQTt1QO8PTaQTt9sw3a0gwCMDF2CqV
-	4kix5+qW5iwUj1lvaWgJi8t0YFb/q/K8rekHsE57+YXRzmWYOJPjUQLIKgbFpygT2wsf
-	rLmchLqPHv4vTt/2lxH9MeXkkzmpZwNYknge0Z0SdQi2DgpNjeHeLwmxD+XUcCBh3qxV
-	DyMw==
-X-Received: by 10.66.182.135 with SMTP id ee7mr20372940pac.95.1443795899925;
-	Fri, 02 Oct 2015 07:24:59 -0700 (PDT)
+	h=from:to:subject:date:message-id;
+	bh=tQwPn+wzmuHi+oPZzxukYf8LoOFqEwABRrfW9gQcNoo=;
+	b=pbg2Z5dxUdG1nkvdeonsQQuqjcG1kha1+eGM82+63snQkSmSi/0uTE4p6q0KsvbHGC
+	NN9QbNDBuzMxCL5djajiA5AM5UbVlhuR6AeCVv+pAAqFA/nxySy8AyT2nor63j1l0sUF
+	kmelTIFD1UOOdr1LfhEGozlkQtdLknqabwe99erLZTgxvuiMRe2tdjG7R6pDyL9s9F9G
+	7xtTieoy3GfNIT66iTOk1DH77GEP2DPeuFSdD/G2oEtbi0EyZ8HmVnTFh2sA1B8CnhmJ
+	XeyLzG+zrwDrZR4k1pkIDKpiIYF/7Jx2akEglpPumkGn1UDf8B3J8BJ+zJ8T/CIGP21q
+	hnkg==
+X-Received: by 10.68.69.35 with SMTP id b3mr20983239pbu.22.1443796012261;
+	Fri, 02 Oct 2015 07:26:52 -0700 (PDT)
 Received: from Pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	ya10sm12294688pbc.69.2015.10.02.07.24.57
+	rx8sm12283144pbb.90.2015.10.02.07.26.50
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 02 Oct 2015 07:24:58 -0700 (PDT)
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 02 Oct 2015 07:26:50 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Oct 2015 07:24:53 -0700
-Message-Id: <1443795893-29043-2-git-send-email-akuster808@gmail.com>
+Date: Fri,  2 Oct 2015 07:26:49 -0700
+Message-Id: <1443796009-29168-1-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.3.5
-In-Reply-To: <1443795893-29043-1-git-send-email-akuster808@gmail.com>
-References: <1443795893-29043-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 2/2] tzdata: update to 2015f
+Subject: [PATCH] tzdata: update to 2015g
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,7 +42,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Oct 2015 14:25:00 -0000
+X-List-Received-Date: Fri, 02 Oct 2015 14:26:52 -0000
+
+Resend: typo in version in subject.
 
 Changes affecting future time stamps
 
