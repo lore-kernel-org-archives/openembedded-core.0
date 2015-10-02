@@ -1,41 +1,40 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id ECDA4770B2
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 87A51770C5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Oct 2015 01:47:14 +0000 (UTC)
-Received: by igcrk20 with SMTP id rk20so7987634igc.1
+	Fri,  2 Oct 2015 02:31:50 +0000 (UTC)
+Received: by padhy16 with SMTP id hy16so92718784pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Oct 2015 18:47:14 -0700 (PDT)
+	Thu, 01 Oct 2015 19:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=LWBPsnERjKLUJ+GqCAL6wjeYJfG+6w/fCKMttxIDXow=;
-	b=GxNHxtNi+t9vb7mmogUSshMbNRK3ITqKNWH5m3+/UZXniVCYBCcegRncxgJT4LhAwE
-	NKB4egwlqQMI9/Ds5Oo/Wee2mHnKGcQyn5k5zRsFZwg7JOZIPxebkgbbwb1RUpFmu8tz
-	YAvL0fJcd22/uF5Hkx+qpNjCka5AivWGnbJPm9hSdr4kNmHU4A1WY/uHsqYEe5LxcbwQ
-	0Ejhy0czupuvqSjPbIHXbjU1wTg2UvZydTbNXKJRS63AbC1IWCS9EUmAn8REBv5WhtYU
-	GvHR8bAMph7J2FS0UmznUJOwVUIbX8CiRknWmU47fiADmYdmDY3uu1FDD2Gvu6J+ksBY
-	IqkA==
-X-Received: by 10.50.55.3 with SMTP id n3mr1932985igp.11.1443750434114; Thu,
-	01 Oct 2015 18:47:14 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.142.130 with HTTP; Thu, 1 Oct 2015 18:46:44 -0700 (PDT)
-In-Reply-To: <1443734190.14733.62.camel@linuxfoundation.org>
-References: <1443709445.14733.5.camel@linuxfoundation.org>
-	<CAMKF1spovYNRYZQjaghtiRdJtgs3BxHqotiv-t7n2h0DStiiDA@mail.gmail.com>
-	<1443713835.14733.13.camel@linuxfoundation.org>
-	<3712B443-8857-41CB-87F9-DFFC12FE69E9@gmail.com>
-	<1443731146.14733.30.camel@linuxfoundation.org>
-	<CAP9ODKp2of3-766hOc_=Naqsa12uk5FntfgeHXwPcxnrQR+u6Q@mail.gmail.com>
-	<1443734190.14733.62.camel@linuxfoundation.org>
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=J+iwljSNWw4e39bqNnk+9pIHj76KIsEoE1T6N+hFTJE=;
+	b=NCpflKrTSKj6sQLM1XDYMJy8dmTQqUL8ngrSWeZTZfexW8AsgvQkOJoONm2vs2wVVK
+	6G2BVV0FreW6RKs4QOFneIhg2ed64e9y/Vi+eY1L7XE3b2tPPyq7knyg53S+63+oRQHs
+	xuKZ5HoBczFBHVJ5TEC7QtgSSIfYiKYt1c+MHnmhN63zD0JZM2u0CPtPjt4iMGD8bEvV
+	YbI5iYH3K7MuDow9dyupE6IxgRl0ehIOgDkXJmLjt1Mubg0Nvvav/Hg7g0dACf28nMdQ
+	bUhlv/ccLqXilc2s60NwmiZKQ3Xav4mtEv+of66aaHfVjtRrS8RQXJshgnnLBWxLaVC3
+	xnxA==
+X-Received: by 10.67.12.196 with SMTP id es4mr16720093pad.83.1443753109958;
+	Thu, 01 Oct 2015 19:31:49 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:dcfa:d09a:1239:f613?
+	([2601:646:8601:4580:dcfa:d09a:1239:f613])
+	by smtp.gmail.com with ESMTPSA id hh3sm9312631pbc.8.2015.10.01.19.31.49
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 01 Oct 2015 19:31:49 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
+X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 1 Oct 2015 18:46:44 -0700
-Message-ID: <CAMKF1sqcubvBXZJzj-UjqYfaAhSYhFKvwJHicx_KZsspMNF1ag@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Branched for release
+In-Reply-To: <1443717514-31684-1-git-send-email-akuster808@gmail.com>
+Date: Thu, 1 Oct 2015 19:31:44 -0700
+Message-Id: <CDD7FBD2-177B-43C0-9243-AA9C71EC72BC@gmail.com>
+References: <1443717514-31684-1-git-send-email-akuster808@gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+X-Mailer: Apple Mail (2.3094)
+Cc: Armin Kuster <akuster@mvista.com>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] ThunderX: Add initial tune file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,91 +47,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Oct 2015 01:47:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 02 Oct 2015 02:31:50 -0000
+X-Groupsio-MsgNum: 71875
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_CA9BA713-F8B9-4622-91EB-6832712B62A5";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Thu, Oct 1, 2015 at 2:16 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2015-10-01 at 17:30 -0300, Otavio Salvador wrote:
->> I think what Khem means is that any time is time to discuss the
->> release process as this is a community driven project and we must to
->> be open for feedback and revisit our previous concepts.
->
-> There is a time and a place for such discussions. I think its clear that
-> right now, I'm personally finding the situation we're in rather
-> stressful and even getting the release into a shape where it can ship is
-> proving difficult.
->
-> The last thing I need right now is to go through this discussion again.
-> Particularly when people have not gone and read the things I wrote up
-> last time this was discussed. I could ask why not, the answer is
-> probably because its easier just to ask questions and be unhappy with
-> what we have.
->
-> I appreciate that what we have today does cause some issues. I also
-> realised a while ago that regardless of what solution we pick, there are
-> people who are not going to like it. I've talked about that in previous
-> mailing list posts to try and explain why we end up where we are today.
-> I also don't believe anything has materially changed since we last
-> discussed this, some people are just still unhappy. Some people will be
-> unhappy regardless.
+--Apple-Mail=_CA9BA713-F8B9-4622-91EB-6832712B62A5
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
->
-> I'm actually at a pretty low point with OE and Yocto in general. It eats
-> up a huge amount of my time, both work and personally and I have started
-> wondering what I actually get out of it other than a shortened life
-> expectancy. On the most part I see a lot of complaints about things and
-> continual questioning of "why we do X and wouldn't Y be better". I do my
-> best to deal with this patiently and each time try and explain why and
-> then re-evaluate if a change makes sense or not. When the same things
-> repeat time and again, my patience can wear thin though.
+Armin
 
-believe me you are doing a fine job :) infact I recognise that
-maintainership is a thankless job.
+can we get rid of uppercase X
 
->
-> Now, I do realise that there probably are some happy users out there and
-> that happier users tend to be quieter than the unhappy ones, at least I
-> certainly hope so. As such, I tend to see the worst side of the projects
-> all the time. Equally, it can get to you after a while.
->
+> On Oct 1, 2015, at 9:38 AM, Armin Kuster <akuster808@gmail.com> wrote:
+>=20
+> From: Armin Kuster <akuster@mvista.com>
+>=20
+> Signed-off-by: Armin Kuster <akuster@mvista.com>
+> ---
+> meta/conf/machine/include/tune-thunderX.inc | 19 +++++++++++++++++++
+> 1 file changed, 19 insertions(+)
+> create mode 100644 meta/conf/machine/include/tune-thunderX.inc
+>=20
+> diff --git a/meta/conf/machine/include/tune-thunderX.inc =
+b/meta/conf/machine/include/tune-thunderX.inc
+> new file mode 100644
+> index 0000000..89fcaf7
+> --- /dev/null
+> +++ b/meta/conf/machine/include/tune-thunderX.inc
+> @@ -0,0 +1,19 @@
+> +require conf/machine/include/arm/arch-armv8.inc
+> +
+> +DEFAULTTUNE ?=3D "thunderX"
+> +AVAILTUNES +=3D "thunderX thunderX_be"
+> +
+> +TUNEVALID[thunderX] =3D "Enable instructions for Cavium ThunderX"
+> +
+> +TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "thunderX", " =
+-mcpu=3Dthunderx ", "",d)}"
+> +
+> +ARMPKGARCH_tune-thunderX ?=3D "thunderX"
+> +ARMPKGARCH_tune-thunderX_be ?=3D "thunderX_be"
+> +
+> +TUNE_FEATURES_tune-thunderX ?=3D "${TUNE_FEATURES_tune-aarch64} =
+thunderX"
+> +TUNE_FEATURES_tune-thunderX_be ?=3D "${TUNE_FEATURES_tune-thunderX} =
+bigendian"
+> +BASE_LIB_tune-thunderX =3D "lib64"
+> +BASE_LIB_tune-thunderX_be =3D "lib64"
+> +
+> +PACKAGE_EXTRA_ARCHS_tune-thunderX =3D "aarch64 thunderX"
+> +PACKAGE_EXTRA_ARCHS_tune-thunderX_be =3D "aarch64_be thunderX_be"
+> --
+> 2.3.5
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-No silence does not mean happiness and similarity bringing up issues
-does not mean unhappiness, On the contrary It is that I am being
-caring enough to help projects adoption in the areas where people
-havent heard the name of OE, so its a different perspective and
-vouch for the issues that gets a headwind in adoption.
 
+--Apple-Mail=_CA9BA713-F8B9-4622-91EB-6832712B62A5
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-> So, yes, I do believe there is a time and place for discussions and not
-> everything should be questioned and discussed at any time. That doesn't
-> mean its not a community driven project.
->
-> Anyhow, I can't stop any discussion, however my point is I'd much prefer
-> to spend my time trying to sort out the release. If others feel
-> differently, I will indeed have to spend more time on this instead. I do
-> also believe it is too late to change things for this release[1].
->
-> [1] Since I will no doubt get asked to explain that, the consequences
-> are quite significant when you consider bugzilla version fields,
-> autobuilder scripts, release scripts, my own branching scripts and so
-> on. The things I haven't thought of worry me even more. Yes, we can in
-> theory change anything and we could change this, but its probably a week
-> of work shaking out just those changes. Do I want to do that now? No, I
-> don't. For example I'm attending ELC-E next week. Do we want me talking
-> to people or sitting in a corner trying to un-break such a change?
->
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
-I think you are right about timing. But on and off this discussion has
-come up and incidentally its always during release
-I guess because we all try to consume the changes and it comes to fore
-anyhow I have opened a tracker bug to follow it up. Let everyone
-record the
-inputs there, so it can be then considered for next release.
+iEYEARECAAYFAlYN7JQACgkQuwUzVZGdMxQlbgCdHHjxrnhJTLlPgImtRatr35kQ
+NDcAn06KJTHoOW7LcUr5Be3FwrEx6ns/
+=YNRN
+-----END PGP SIGNATURE-----
 
-> Cheers,
->
-> Richard
->
->
-
+--Apple-Mail=_CA9BA713-F8B9-4622-91EB-6832712B62A5--
