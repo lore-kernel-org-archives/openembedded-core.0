@@ -1,25 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 38E4F770B2
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B182A77088
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Oct 2015 13:05:21 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 02 Oct 2015 06:05:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,623,1437462000"; d="scan'208";a="656554884"
-Received: from amattock-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.24.105])
-	by orsmga003.jf.intel.com with ESMTP; 02 Oct 2015 06:05:18 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Oct 2015 14:05:08 +0100
-Message-Id: <6ecdd2dca2cf3cf7a8297fd8ba45fce206470476.1443791083.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1443791083.git.paul.eggleton@linux.intel.com>
-References: <cover.1443791083.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1443791083.git.paul.eggleton@linux.intel.com>
-References: <cover.1443791083.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] recipetool: create: fix change in path structure if --extract-to path exists
+	Fri,  2 Oct 2015 14:23:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t92ENEiE007203
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 2 Oct 2015 07:23:14 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.229) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.235.1; Fri, 2 Oct 2015 07:23:14 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1443723968-43906-1-git-send-email-mark.hatle@windriver.com>
+	<1443738661.14733.71.camel@linuxfoundation.org>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <560E9351.90003@windriver.com>
+Date: Fri, 2 Oct 2015 09:23:13 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
+	Gecko/20100101 Thunderbird/38.2.0
+MIME-Version: 1.0
+In-Reply-To: <1443738661.14733.71.camel@linuxfoundation.org>
+Cc: david.reyna@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] "Finish" the IMAGE_GEN_DEBUGFS implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +36,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Oct 2015 13:05:21 -0000
+X-List-Received-Date: Fri, 02 Oct 2015 14:23:17 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-If the directory specified by --extract-to exists, because we were using
-shutil.move() to move the temporary extracted directory to the specified
-path, a subdirectory was being created under that directory instead of
-moving the contents, which was a different result than if the directory
-didn't previously exist. We could try to always move the contents but
-that's complicated when any symlinks are involved; the simplest thing is
-just to remove the directory (which should be empty anyway) before
-moving the temporary directory across in its place.
+On 10/1/15 5:31 PM, Richard Purdie wrote:
+> On Thu, 2015-10-01 at 13:26 -0500, Mark Hatle wrote:
+>> It was noticed today that the IMAGE_GEN_DEBUGFS implementation was not 
+>> complete.  The version that was merged back in May only contained the 
+>> filesystem generation pieces, but not the pieces for creating the image
+>> from that filesystem.
+>>
+>> The code has been tested and is working.  The only thing that I don't 
+>> particularly like is that the processing code and loop is a duplicate of
+>> the code that runs just before.  Unfortunately the only way around this
+>> is to change the way that way the parallel bits are processed to support
+>> multiple datastores..  (or create "another" function..)
+>>
+>> Any feedback appreciated, but without this the feature is broken!
+> 
+> Could we not make a function which these two code points then call?
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/lib/recipetool/create.py | 6 ++++++
- 1 file changed, 6 insertions(+)
+The duplicate piece is because the existing setup and loop depend on the local
+self.d value(s).  In order to do this, we need to temporarily modify self.d and
+run this under an alternative datastore, and then put it back to the original value.
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 844073b..15aa9bd 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -260,6 +260,12 @@ def create_recipe(args):
- 
-     if args.extract_to:
-         scriptutils.git_convert_standalone_clone(srctree)
-+        if os.path.isdir(args.extract_to):
-+            # If the directory exists we'll move the temp dir into it instead of
-+            # its contents - of course, we could try to always move its contents
-+            # but that is a pain if there are symlinks; the simplest solution is
-+            # to just remove it first
-+            os.rmdir(args.extract_to)
-         shutil.move(srctree, args.extract_to)
-         logger.info('Source extracted to %s' % args.extract_to)
- 
--- 
-2.1.0
+If I don't duplicate the:
+
+            for image_cmds in debugfs_image_cmd_groups:
+...
+                results = list(pool.imap(generate_image, image_cmds))
+...
+                for image_type, subimages, script in image_cmds:
+                    bb.note("Creating debugfs symlinks for %s image ..." %
+image_type)
+                    self._create_symlinks(subimages)
+
+there is no concept of two different datastores.
+
+The alternative we have is to include a reference to the datastore itself in the
+'image_cmds'.  Then we could support any number of datastores as appropriate for
+the commands.  (This of course will require additional changes to be able to
+pass that datastore to the various users.)
+
+--Mark
+
+
+
+> Cheers,
+> 
+> Richard
+> 
 
 
