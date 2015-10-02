@@ -1,36 +1,24 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 99609770B2
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 19D4C770A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Oct 2015 15:47:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 4468D315B3AD
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Oct 2015 17:47:21 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id y2W-NrVl3m7X
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Oct 2015 17:47:16 +0200 (CEST)
-Received: from [172.22.22.61] (55d44bca.access.ecotel.net [85.212.75.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 22165315B3AC
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Oct 2015 17:47:16 +0200 (CEST)
-From: Andreas Oberritter <obi@opendreambox.org>
-References: <1443789718-6846-1-git-send-email-jussi.kukkonen@intel.com>
-	<560E7D13.3010604@linux.intel.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Message-ID: <560EA703.3040408@opendreambox.org>
-Date: Fri, 2 Oct 2015 17:47:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
+	Fri,  2 Oct 2015 20:16:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t92KGpYl006350
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 2 Oct 2015 13:16:51 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Fri, 2 Oct 2015 13:16:50 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Fri, 2 Oct 2015 16:16:50 -0400
+Message-ID: <1443817010-20551-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
 MIME-Version: 1.0
-In-Reply-To: <560E7D13.3010604@linux.intel.com>
-Subject: Re: [PATCH] libepoxy: RDEPEND on libgl
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/4.1: drm/i915 backports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,33 +31,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Oct 2015 15:47:22 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Oct 2015 20:16:53 -0000
+Content-Type: text/plain
 
-On 02.10.2015 14:48, Alexander Kanavin wrote:
-> On 10/02/2015 03:41 PM, Jussi Kukkonen wrote:
->> Automatic dependency tracking does not notice this (understandable
->> with the dlopen trickery epoxy does).
-> 
-> Maybe it's better to explain this in a comment in the recipe itself?
+Updating the SRCREVs to integrate the following backports:
 
-I think this is pretty much standard in OpenGL environments.
+  52a4a9f4a2b4 drm/i915/gen8: Initialize page tables
+  a95cb62f8e85 drm/i915: Remove unnecessary gen8_ppgtt_unmap_pages
+  a24d98fc488d drm/i915: Remove _entry from PPGTT page structures
 
-Regards,
-Andreas
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 16 ++++++++--------
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
->> --- a/meta/recipes-graphics/libepoxy/libepoxy_git.bb
->> +++ b/meta/recipes-graphics/libepoxy/libepoxy_git.bb
->> @@ -20,6 +20,7 @@ S = "${WORKDIR}/git"
->>   inherit autotools pkgconfig
->>
->>   DEPENDS = "util-macros virtual/egl"
->> +RDEPENDS_${PN} = "libgl"
-> 
-> 
-> 
-> 
-> Alex
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+index e02c06b84d1b..32c9f86f2352 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+@@ -2,7 +2,7 @@ KBRANCH ?= "standard/preempt-rt/base"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-SRCREV_machine ?= "29257e529f968d17a5238624f27ddc76f759dc9d"
++SRCREV_machine ?= "8acaa791408f146069473a96e3d98bed8be86244"
+ SRCREV_meta ?= "3d8f1378d07dbc052ca8a7c22297339ad7998b5e"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+index 9fb5eb894b87..f289d37867a2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.1.8"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "a8abc111a96dd07a2884ebbba668ef8dec15f264"
++SRCREV_machine ?= "52a4a9f4a2b408ef3a0745372e44cc362832d86d"
+ SRCREV_meta ?= "3d8f1378d07dbc052ca8a7c22297339ad7998b5e"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+index c310ab27fb08..e98f2dec1eb2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/base"
+ KBRANCH_qemux86-64 ?= "standard/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "c92614c6b90f8ab1202b20cc843a9782c9f8f8d5"
+-SRCREV_machine_qemuarm64 ?= "a8abc111a96dd07a2884ebbba668ef8dec15f264"
+-SRCREV_machine_qemumips ?= "6b4b777e8467f01b00c4494ffedf1e9134bc52c5"
+-SRCREV_machine_qemuppc ?= "a8abc111a96dd07a2884ebbba668ef8dec15f264"
+-SRCREV_machine_qemux86 ?= "a8abc111a96dd07a2884ebbba668ef8dec15f264"
+-SRCREV_machine_qemux86-64 ?= "a8abc111a96dd07a2884ebbba668ef8dec15f264"
+-SRCREV_machine_qemumips64 ?= "90222ca39af5a3252fcba24baec341140e9e7c07"
+-SRCREV_machine ?= "a8abc111a96dd07a2884ebbba668ef8dec15f264"
++SRCREV_machine_qemuarm ?= "187e28708b478b5d01a7df9e6410a340347e4819"
++SRCREV_machine_qemuarm64 ?= "52a4a9f4a2b408ef3a0745372e44cc362832d86d"
++SRCREV_machine_qemumips ?= "dd6b1f0940dbffd5e0feef2beecbc89a25da8e8f"
++SRCREV_machine_qemuppc ?= "52a4a9f4a2b408ef3a0745372e44cc362832d86d"
++SRCREV_machine_qemux86 ?= "52a4a9f4a2b408ef3a0745372e44cc362832d86d"
++SRCREV_machine_qemux86-64 ?= "52a4a9f4a2b408ef3a0745372e44cc362832d86d"
++SRCREV_machine_qemumips64 ?= "8458e792e2c595f48bc5b2924e20e844f2a96522"
++SRCREV_machine ?= "52a4a9f4a2b408ef3a0745372e44cc362832d86d"
+ SRCREV_meta ?= "3d8f1378d07dbc052ca8a7c22297339ad7998b5e"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
+-- 
+2.1.0
 
 
