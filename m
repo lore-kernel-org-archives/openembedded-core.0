@@ -1,25 +1,23 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id EE707770A3
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 567CB77084
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Oct 2015 12:48:01 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 02 Oct 2015 05:48:01 -0700
+	Fri,  2 Oct 2015 13:03:22 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 02 Oct 2015 06:03:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,623,1437462000"; d="scan'208";a="802149626"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Oct 2015 05:48:00 -0700
-Message-ID: <560E7D13.3010604@linux.intel.com>
-Date: Fri, 02 Oct 2015 15:48:19 +0300
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.8.0
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="5.17,623,1437462000"; d="scan'208";a="656553554"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga003.jf.intel.com with ESMTP; 02 Oct 2015 06:03:22 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id B30C86A4083;
+	Fri,  2 Oct 2015 06:02:25 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1443789718-6846-1-git-send-email-jussi.kukkonen@intel.com>
-In-Reply-To: <1443789718-6846-1-git-send-email-jussi.kukkonen@intel.com>
-Subject: Re: [PATCH] libepoxy: RDEPEND on libgl
+Date: Fri,  2 Oct 2015 16:03:17 +0300
+Message-Id: <1443790997-7994-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] oe-selftest: wic: fix LocalSetup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,26 +30,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Oct 2015 12:48:03 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Oct 2015 13:03:23 -0000
 
-On 10/02/2015 03:41 PM, Jussi Kukkonen wrote:
-> Automatic dependency tracking does not notice this (understandable
-> with the dlopen trickery epoxy does).
+Appended required features to build config every time
+LocalSetup is run to ensure that core-image-minimal is not
+rebuilt due to configuration changes.
 
-Maybe it's better to explain this in a comment in the recipe itself?
+This should fix test22_mkgummidisk and test23_mkefidisk testcases as
+they depend on specific features set in LocalSetup.
 
-> --- a/meta/recipes-graphics/libepoxy/libepoxy_git.bb
-> +++ b/meta/recipes-graphics/libepoxy/libepoxy_git.bb
-> @@ -20,6 +20,7 @@ S = "${WORKDIR}/git"
->   inherit autotools pkgconfig
->
->   DEPENDS = "util-macros virtual/egl"
-> +RDEPENDS_${PN} = "libgl"
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/wic.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 0a35935..7625505 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -48,10 +48,10 @@ class Wic(oeSelfTest):
+ 
+     def setUpLocal(self):
+         """This code is executed before each test method."""
++        features = 'IMAGE_FSTYPES += " hddimg"\nMACHINE_FEATURES_append = " efi"\n'
++        self.append_config(features)
+         if not Wic.image_is_ready:
+             # build core-image-minimal with required features
+-            features = 'IMAGE_FSTYPES += " hddimg"\nMACHINE_FEATURES_append = " efi"\n'
+-            self.append_config(features)
+             bitbake('core-image-minimal')
+             # set this class variable to avoid buiding image many times
+             Wic.image_is_ready = True
+-- 
+2.1.4
 
-
-
-Alex
 
