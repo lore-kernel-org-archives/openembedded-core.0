@@ -1,23 +1,21 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 567CB77084
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B42C770A3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Oct 2015 13:03:22 +0000 (UTC)
+	Fri,  2 Oct 2015 13:05:16 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 02 Oct 2015 06:03:23 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 02 Oct 2015 06:05:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,623,1437462000"; d="scan'208";a="656553554"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 02 Oct 2015 06:03:22 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id B30C86A4083;
-	Fri,  2 Oct 2015 06:02:25 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.17,623,1437462000"; d="scan'208";a="656554841"
+Received: from amattock-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.24.105])
+	by orsmga003.jf.intel.com with ESMTP; 02 Oct 2015 06:05:15 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Oct 2015 16:03:17 +0300
-Message-Id: <1443790997-7994-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH] oe-selftest: wic: fix LocalSetup
+Date: Fri,  2 Oct 2015 14:05:06 +0100
+Message-Id: <cover.1443791083.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 0/2] A couple of devtool/recipetool fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,38 +28,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Oct 2015 13:03:23 -0000
+X-List-Received-Date: Fri, 02 Oct 2015 13:05:19 -0000
 
-Appended required features to build config every time
-LocalSetup is run to ensure that core-image-minimal is not
-rebuilt due to configuration changes.
+The following changes since commit 6545e402d6411dbd16eae7049a76d47e9a8f996d:
 
-This should fix test22_mkgummidisk and test23_mkefidisk testcases as
-they depend on specific features set in LocalSetup.
+  build-appliance-image: Update to jethro head revision (2015-10-01 17:55:07 +0100)
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/lib/oeqa/selftest/wic.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+are available in the git repository at:
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 0a35935..7625505 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -48,10 +48,10 @@ class Wic(oeSelfTest):
- 
-     def setUpLocal(self):
-         """This code is executed before each test method."""
-+        features = 'IMAGE_FSTYPES += " hddimg"\nMACHINE_FEATURES_append = " efi"\n'
-+        self.append_config(features)
-         if not Wic.image_is_ready:
-             # build core-image-minimal with required features
--            features = 'IMAGE_FSTYPES += " hddimg"\nMACHINE_FEATURES_append = " efi"\n'
--            self.append_config(features)
-             bitbake('core-image-minimal')
-             # set this class variable to avoid buiding image many times
-             Wic.image_is_ready = True
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool-fixes7
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool-fixes7
+
+Paul Eggleton (2):
+  devtool: update-recipe: avoid updating patches that have not changed
+  recipetool: create: fix change in path structure if --extract-to path
+    exists
+
+ scripts/lib/devtool/standard.py  | 29 ++++++++++++++++++++++++++---
+ scripts/lib/recipetool/create.py |  6 ++++++
+ 2 files changed, 32 insertions(+), 3 deletions(-)
+
 -- 
-2.1.4
+2.1.0
 
 
