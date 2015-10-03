@@ -1,38 +1,24 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E16B770D4
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C4276770A1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Oct 2015 20:27:33 +0000 (UTC)
-Received: by wiclk2 with SMTP id lk2so48956792wic.0
+	Sat,  3 Oct 2015 04:36:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t934a8ZZ014215
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Oct 2015 13:27:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=vhXpWUJtrgSA+Kd5eHdHLo0wgVjCUpVgwKVd/SxG5zA=;
-	b=v1n12FUsOMb7uN8qMWDl+shrouEkkZMq6YTDky74KlhSI4SCsjKXjxJ0zxfODCMdtm
-	ThVJ69oZLNYX95UO3d/wv5jta0JUFLbEzQ3lLELqi5OxV+9EoIMQzNcHQ/6ec0XTmS+5
-	nElh+O3hPnkw8uzQKYkJ8cXBF8wM2BZ8ORZECALTk8bSwFwx0QXcUO5k1Aakag2Vnxav
-	dMj7aHZgUwmi9oZPXnUuZfE8trHU52yewszSOsJOMEynxWwSMYDChCQwXYXxrYnfzYmU
-	+vZjzhKPWT0Wl1hHXErOCKqJHLxGgBCjbQ6pyd2yzsqnc6m0YBLl4k2yF6JC67I7lLbz
-	W+CA==
-X-Received: by 10.194.172.233 with SMTP id bf9mr18288599wjc.107.1443817653513; 
-	Fri, 02 Oct 2015 13:27:33 -0700 (PDT)
-Received: from localhost.localdomain (p54AA5A10.dip0.t-ipconnect.de.
-	[84.170.90.16]) by smtp.googlemail.com with ESMTPSA id
-	jj8sm715718wid.2.2015.10.02.13.27.32
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 02 Oct 2015 13:27:32 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Oct 2015 22:27:21 +0200
-Message-Id: <1443817641-7847-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 2.1.0
+	Fri, 2 Oct 2015 21:36:08 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 2 Oct 2015 21:36:07 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 2 Oct 2015 21:36:07 -0700
+Message-ID: <1443846967-40083-1-git-send-email-liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH] udev: add PROVIDES = "libgudev"
+Subject: [YP 2.1] [RFC PATCH] insane.bbclass: check files under /etc/ are marked by CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,36 +31,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Oct 2015 20:27:34 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 03 Oct 2015 04:36:09 -0000
+Content-Type: text/plain
 
-With the last update of systemd libgudev was splitted out of systemd. To make
-packages depending on libgudev happy, a recipe building libgudev was created in
-meta-oe and the dependencies were modified from udev to libgudev.
+Hello,
 
-This works fine for distros using systemd as init system, but distros not using
-build udev which provides libgudev.
+Usually, files under /etc/ should be marked by CONFFILES so that package
+manager can handle it well when package ugprades.
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+Please feel free to let me know if you have any suggestions, and I will
+send patches later (including set CONFFILES for the recipes) if this is
+OK.
+
+[YOCTO #8413]
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/udev/udev.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/insane.bbclass |   32 +++++++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index a00dad5..c378ae3 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -15,6 +15,8 @@ LDFLAGS += "-lrt"
- DEPENDS = "glib-2.0 libusb usbutils pciutils glib-2.0-native gperf-native libxslt-native util-linux"
- RPROVIDES_${PN} = "hotplug"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index fb04215..30fc41b 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -32,7 +32,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+             installed-vs-shipped compile-host-path install-host-path \
+             pn-overrides infodir build-deps file-rdeps \
+             unknown-configure-option symlink-to-sysroot multilib \
+-            invalid-pkgconfig host-user-contaminated \
++            invalid-pkgconfig host-user-contaminated conffiles \
+             "
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+@@ -1020,6 +1020,36 @@ def package_qa_check_host_user(path, name, d, elf, messages):
+             return False
+     return True
  
-+PROVIDES = "libgudev"
++QAPATHTEST[conffiles] = "package_qa_check_conffiles"
++def package_qa_check_conffiles(path, name, d, elf, messages):
++    """ Check files in ${sysconfdir} are marked by CONFFILES """
 +
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-            file://0001-Fixing-keyboard_force_release.sh-shell-script-path.patch \
-            file://avoid-mouse-autosuspend.patch \
++    if os.path.islink(path) or not os.path.exists(path):
++        return True
++
++    sysconfdir = d.getVar('sysconfdir', True)
++    dest = d.getVar('PKGDEST', True)
++    sysconfdir_path = os.path.join(os.path.join(dest, name), \
++                        sysconfdir.lstrip('/'))
++
++    if not path.startswith(sysconfdir_path):
++        return True
++    else:
++        conffiles = d.getVar('CONFFILES_%s' % name, True)
++        if conffiles == None:
++            conffiles = d.getVar('CONFFILES', True) or ""
++        conffiles = conffiles.split()
++        conf_orig_list = files_from_filevars(conffiles)
++        # PKGDEST + name
++        pkg_root = os.path.join(dest, name)
++        # Prepend "." to match items in files_from_filevars()
++        path_no_root = "." + path.replace(pkg_root, '')
++        if not conffiles or path_no_root not in conf_orig_list:
++            messages["conffiles"] = "%s: %s is not in CONFFILES" % (name, path)
++            return False
++
++    return True
++
+ # The PACKAGE FUNC to scan each package
+ python do_package_qa () {
+     import subprocess
 -- 
-2.1.0
+1.7.9.5
 
 
