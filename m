@@ -1,28 +1,37 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D64465CBC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AAA776660
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Oct 2015 14:16:47 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Oct 2015 07:16:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,639,1437462000"; d="scan'208";a="819734498"
-Received: from mlopezva-mobl2.zpn.intel.com (HELO [10.219.16.64])
-	([10.219.16.64])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Oct 2015 07:15:59 -0700
-Message-ID: <56128621.1000504@linux.intel.com>
-Date: Mon, 05 Oct 2015 09:16:01 -0500
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Mon,  5 Oct 2015 14:40:59 +0000 (UTC)
+Received: by qgez77 with SMTP id z77so151468145qge.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Oct 2015 07:40:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=52Aa5kMNAq5UBpEFvLzujpNfrUWcdY2awfKVFnQTYBA=;
+	b=CbAzavuNHkDU2fyWJkcmhUhmF4jiRih7q927qjnOXi1rqYy3EiCzCEJPPtKI5KisXi
+	Y1tIAfU04pa3kwfrg+AlzpbWEwQZ0E2MpJwq5LecR7LGBmZCtkx5cVYY5FufT9i48Aqm
+	jzPtScJc43sXbn+pTG3eII5AQMewn+o+GWl2fnHNACA70PYIK9R3foLEFZIx38hi5Z27
+	6z7+beKnEaNV7tYYrRId6I8D1fdSQLXt2IS70buLvfOd4P3/NhmSbkMIKrw7hSI1iBew
+	QAOawC/ZLyZdFpSy0YmMpAcCyE0LIRJZfnmcTUKzXa7+m5A4791sTZstNPnrAF8QOtUA
+	Kqlw==
+X-Gm-Message-State: ALoCoQnVa9L5aeCddhvBvTALu9wAy15T1fCBkKy9wDGHriBbOICCODZ2Ddem2Jw1htxoS/3dlwT3
+X-Received: by 10.140.147.77 with SMTP id 74mr36286693qht.52.1444056059361;
+	Mon, 05 Oct 2015 07:40:59 -0700 (PDT)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1443517391.git.mariano.lopez@linux.intel.com>
-	<764c3c1649362c7376ac70baecb6da1c9ddb6a6e.1443517391.git.mariano.lopez@linux.intel.com>
-	<9A33E145-4BD6-4AD3-A3AD-ED1DBDE8E17A@gmail.com>
-In-Reply-To: <9A33E145-4BD6-4AD3-A3AD-ED1DBDE8E17A@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] testimage: Added IO commands to dumps
+Received: by 10.140.94.86 with HTTP; Mon, 5 Oct 2015 07:40:39 -0700 (PDT)
+In-Reply-To: <20151003133343.GC2381@jama>
+References: <20151003133343.GC2381@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 5 Oct 2015 15:40:39 +0100
+Message-ID: <CAJTo0LYSc3TV1D2OhmO4KN9ucJLm+d_U2BgrCq40Pk=+RiXqFA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, Failed tasks 2015-10-02
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,83 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Oct 2015 14:16:51 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Oct 2015 14:41:00 -0000
+Content-Type: multipart/alternative; boundary=001a113552f274645b05215c8041
 
+--001a113552f274645b05215c8041
+Content-Type: text/plain; charset=UTF-8
 
+On 3 October 2015 at 14:33, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-On 09/29/2015 12:24 PM, Khem Raj wrote:
->> On Sep 29, 2015, at 2:05 AM, mariano.lopez@linux.intel.com wrote:
->>
->> From: Mariano Lopez <mariano.lopez@linux.intel.com>
->>
->> This change just add two more commands to
->> the host dumps to get more information
->> related to the IO.
->>
->> [YOCTO #8412]
->>
->> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
->> ---
->> meta/classes/testimage.bbclass | 2 ++
->> meta/lib/oeqa/utils/dump.py    | 2 ++
->> 2 files changed, 4 insertions(+)
->>
->> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
->> index 2efab29..1f21c9e 100644
->> --- a/meta/classes/testimage.bbclass
->> +++ b/meta/classes/testimage.bbclass
->> @@ -80,11 +80,13 @@ testimage_dump_target () {
->>
->> testimage_dump_host () {
->>      top -bn1
->> +    iostat -x -z -N -d -p ALL 20 2
-> Somewhere it needs to documented that build system now needs to have sysstat package installed.
-
-Documentation has been updated:
-
-http://www.yoctoproject.org/docs/2.0/dev-manual/dev-manual.html#qemu-image-enabling-tests.
-
-
+>     * /openembedded-core/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb,
+> do_compile
 >
->>      ps -ef
->>      free
->>      df
->>      memstat
->>      dmesg
->> +    ip -s link
->
-> and iproute2
->
->
->>      netstat -an
->> }
->>
->> diff --git a/meta/lib/oeqa/utils/dump.py b/meta/lib/oeqa/utils/dump.py
->> index 3f31e20..63a591d 100644
->> --- a/meta/lib/oeqa/utils/dump.py
->> +++ b/meta/lib/oeqa/utils/dump.py
->> @@ -20,11 +20,13 @@ class BaseDumper(object):
->>          # to set some defaults.
->>          self.parent_dir = parent_dir or "/tmp/oe-saved-tests"
->>          dft_cmds = """  top -bn1
->> +                        iostat -x -z -N -d -p ALL 20 2
->>                          ps -ef
->>                          free
->>                          df
->>                          memstat
->>                          dmesg
->> +                        ip -s link
->>                          netstat -an"""
->>          if not cmds:
->>              cmds = dft_cmds
->> --
->> 1.8.4.5
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+This fails with a giant number of assembler warnings, but works when I try
+with current master.  Does your build change some tunes?
+
+Ross
+
+--001a113552f274645b05215c8041
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 October 2015 at 14:33, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1e1" class=
+=3D"a3s" style=3D"overflow:hidden">=C2=A0 =C2=A0 * /openembedded-core/meta/=
+recipes-gnome/libsecret/<a href=3D"http://libsecret_0.18.2.bb" rel=3D"noref=
+errer" target=3D"_blank">libsecret_0.18.2.bb</a>, do_compile<br></div></blo=
+ckquote></div><br>This fails with a giant number of assembler warnings, but=
+ works when I try with current master.=C2=A0 Does your build change some tu=
+nes?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
+oss</div></div>
+
+--001a113552f274645b05215c8041--
