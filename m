@@ -1,29 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EE4B76FE2
+Return-Path: <mike.looijmans@topicproducts.com>
+Received: from mx6-14.smtp.antispamcloud.com (mx6-14.smtp.antispamcloud.com
+	[95.211.2.226])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DBD365D6E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Oct 2015 08:15:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t958FY98004560; Mon, 5 Oct 2015 09:15:34 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id j9NjlX953B9n; Mon,  5 Oct 2015 09:15:34 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t958COAm004351
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 5 Oct 2015 09:14:38 +0100
-Message-ID: <1444032741.5118.5.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jens Rehsack <rehsack@gmail.com>
-Date: Mon, 05 Oct 2015 09:12:21 +0100
-In-Reply-To: <9EEC2D18-21A2-40BA-97B3-D8DD67015AC9@gmail.com>
-References: <9EEC2D18-21A2-40BA-97B3-D8DD67015AC9@gmail.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Should openssl(-native) build-depends on perl-native?
+	Mon,  5 Oct 2015 09:34:29 +0000 (UTC)
+Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
+	helo=TOP-EX01.TOPIC.LOCAL)
+	by mx6.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
+	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1Zj29s-0000zl-EP for openembedded-core@lists.openembedded.org;
+	Mon, 05 Oct 2015 11:34:28 +0200
+Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Mon, 5 Oct 2015 11:33:22 +0200
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <56124413.7020901@topic.nl>
+Date: Mon, 5 Oct 2015 11:34:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
+MIME-Version: 1.0
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
+	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
+	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJrFDKWPU/basrwgND+6zAvVgnvU9Kkp7pPdVtG
+	+2FfnXc8CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
+	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
+	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
+	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
+	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OThywdm+G+OuTB
+	a63I3wwHWkCYl0PAtPLuCCRu2JEQGZMQ31MusX2Xci0Z8D9aucAtXl4nN7+GwpCp8XCZQDlq825t
+	pbQqVsjuh0JlrWxsIcuBhkb6GDdB6OAsNDDRIxpg15xifUD173ICRv+qGaUPXf0=
+X-Report-Abuse-To: spam@mx99.antispamcloud.com
+X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJXhXyDRoOQM5J3kcUr0HrMvJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
+	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
+	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
+	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
+X-Originating-IP: 88.159.208.100
+X-Spampanel-Domain: topic.nl
+X-Spampanel-Username: 88.159.208.100
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=88.159.208.100@topic.nl
+X-Spampanel-Outgoing-Class: unsure
+X-Spampanel-Outgoing-Evidence: Combined (0.44)
+X-Recommended-Action: accept
+Subject: How to find out why my do_compile depends on $MACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,38 +60,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Oct 2015 08:15:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Oct 2015 09:34:32 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2015-10-03 at 14:51 +0200, Jens Rehsack wrote:
-> I hit a build error never seen before:
-> 
-> | gcc  -I.. -I../.. -I../modes -I../asn1 -I../evp -I../../include  -fPIC -DOPENSSL_PIC -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -DL_ENDIAN     -DTERMIO -isystem/home/sno/fsl-community-bsp/ornithologen-kann-man-mit-voegeln-eine-freude-machen/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe -Wall -Wa,--noexecstack -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS -DOPENSSL_IA32_SSE2 -DOPENSSL_BN_ASM_MONT -DOPENSSL_BN_ASM_MONT5 -DOPENSSL_BN_ASM_GF2m -DSHA1_ASM -DSHA256_ASM -DSHA512_ASM -DMD5_ASM -DAES_ASM -DVPAES_ASM -DBSAES_ASM -DWHIRLPOOL_ASM -DGHASH_ASM -DECP_NISTZ256_ASM -isystem/home/sno/fsl-community-bsp/ornithologen-kann-man-mit-voegeln-eine-freude-machen/tmp/sysroots/x86_64-linux/usr/include  -c -o sha512.o sha512.c
-> | /home/sno/perl5/perlbrew/perls/perl-5.6.2/bin/perl asm/sha1-x86_64.pl elf > sha1-x86_64.s
-> | Can't locate bigint.pm in @INC (@INC contains: /home/sno/perl5/perlbrew/perls/perl-5.6.2/lib/5.6.2/x86_64-linux /home/sno/perl5/perlbrew/perls/perl-5.6.2/lib/5.6.2 /home/sno/perl5/perlbrew/perls/perl-5.6.2/lib/site_perl/5.6.2/x86_64-linux /home/sno/perl5/perlbrew/perls/perl-5.6.2/lib/site_perl/5.6.2 /home/sno/perl5/perlbrew/perls/perl-5.6.2/lib/site_perl .) at asm/../../perlasm/x86_64-xlate.pl line 200.
-> | BEGIN failed--compilation aborted at asm/../../perlasm/x86_64-xlate.pl line 200.
-> | make[2]: *** [sha1-x86_64.s] Error 141
-> | make[2]: Leaving directory `/home/sno/fsl-community-bsp/ornithologen-kann-man-mit-voegeln-eine-freude-machen/tmp/work/x86_64-linux/openssl-native/1.0.2d-r0/openssl-1.0.2d/crypto/sha'
-> | make[1]: *** [subdirs] Error 1
-> | make[1]: Leaving directory `/home/sno/fsl-community-bsp/ornithologen-kann-man-mit-voegeln-eine-freude-machen/tmp/work/x86_64-linux/openssl-native/1.0.2d-r0/openssl-1.0.2d/crypto'
-> | make: *** [build_crypto] Error 1
-> | ERROR: oe_runmake failed
-> | WARNING: /home/sno/fsl-community-bsp/ornithologen-kann-man-mit-voegeln-eine-freude-machen/tmp/work/x86_64-linux/openssl-native/1.0.2d-r0/temp/run.do_compile.15132:1 exit 1 from
-> |   exit 1
-> | ERROR: Function failed: do_compile (log file is located at /home/sno/fsl-community-bsp/ornithologen-kann-man-mit-voegeln-eine-freude-machen/tmp/work/x86_64-linux/openssl-native/1.0.2d-r0/temp/log.do_compile.15132)
-> ERROR: Task 1531 (virtual:native:/home/sno/fsl-community-bsp/sources/poky/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb, do_compile) failed with exit code '1'
-> 
-> Seems I recently used the same session to run my own module tests for a perl module to upload.
-> OTOH - it's easy to avoid such a problem by depending on perl-native for openssl(-native).
+=EF=BB=BFI've been puzzling with this for many hours now, but I can't seem =
+to figure=20
+this out.
 
-Whilst you could add this dependency, it would have quite a significant
-impact on build time. We rely on there being a working perl on the
-native system for autotools so there isn't really a good reason to do
-this.
+I have a recipe that doesn't mention MACHINE anywhere, but still the=20
+sstate-cache won't be re-used for other machines, because OE somehow insist=
+s=20
+the package does depend on $MACHINE.
 
-Cheers,
+The workaround I could find is to put something like this in the recipe:
 
-Richard
+MACHINE[vardepvalue] =3D "any"
+
+(Similar stupid hacks like "vardepsexclude" will probably work too, but I'm=
+=20
+not interested in forcing this particular recipe, but I'm trying to figure =
+out=20
+what makes bitbake think it matters)
+
+Since it builds for an FPGA type, the package has=20
+PACKAGE_ARCH=3D"${FPGA_FAMILY}" set, and FGPA_FAMILY is set in local.conf.
+
+
+When switching machines, "bitbake -S printdiff fpga-image-dyplo-test" repor=
+ts=20
+that MACHINE changed and that is what caused sstate not beign reused. But t=
+he=20
+recipe does not use anything related to $MACHINE at all.
+
+Is there a way to make it tell me WHY it thinks that MACHINE is important t=
+o=20
+the recipe?
+
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Embedded Products
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+Telefax: +31 (0) 499 33 69 70
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
 
 
