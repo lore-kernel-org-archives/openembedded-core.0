@@ -1,37 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id CAFD076FC9
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 23BDE76E4B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Oct 2015 19:22:14 +0000 (UTC)
-Received: by qgt47 with SMTP id 47so158900394qgt.2
+	Mon,  5 Oct 2015 19:26:22 +0000 (UTC)
+Received: by igxx6 with SMTP id x6so64999185igx.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Oct 2015 12:22:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=QELPYaP0wTbYPNRvN9z/SlJCm/IF7hL7RlkvYC7zJPo=;
-	b=m5ZdMH0LGHbSf4+XAQTy2WQFojx5VQubhjrXSu6btfjwOSKHt8G151AzpNVkw1S1zF
-	Loo/lHo4aNxTMg4qO9Yg5N8beDlmHbB5ZU6jICeO+PSHvrqSG6LbmyeaH0J3V8ljFnB9
-	kfereBgua8NIGGGoP0UwCPoVRr2UHQNZbsxDTupKFf888v2a7poENcg4CrgGpp8fe14a
-	JL07utom7g+4vXMw0SwF9qFBQdVu59qq3Kz1qqQcoouyFjUB86XgH9KLuVeuKqNAV9xb
-	ehNg4RbVj7ey1Cb99xFctfO7Jc+EOb3ufNuQd6cOQjVqKQepCE9J6pxgD3wdk23tg5qL
-	T7xQ==
-X-Gm-Message-State: ALoCoQlX5UbgHaKm1q2rhORLMOPsRGW+i6QmwIOtblaAY08W3a2Z6ScQqFMWXJKwIVnq9ZCuxfMv
-X-Received: by 10.140.235.147 with SMTP id g141mr41612768qhc.22.1444072933803; 
-	Mon, 05 Oct 2015 12:22:13 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Mon, 5 Oct 2015 12:21:54 -0700 (PDT)
-In-Reply-To: <560EA62E.5020901@opendreambox.org>
-References: <1443789718-6846-1-git-send-email-jussi.kukkonen@intel.com>
-	<560EA62E.5020901@opendreambox.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 5 Oct 2015 20:21:54 +0100
-Message-ID: <CAJTo0La+5WeW-MQ+bzV-SeA+wY3TeCNb3V+FXweqGiDOjL4Hew@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libepoxy: RDEPEND on libgl
+	Mon, 05 Oct 2015 12:26:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=F93j1BRDMbKc1ST25aLNPTvurXGKlOmOGawD+oOFXvY=;
+	b=ng4W9oeM8ILvpNsR8PRsiq7JY57FKkbnV7e2PSVcMjfT8HJud45LUEvINY6u4Sq+c4
+	4uty8pkEdHZ9srGtdFU8mqn6EI8tcva+iHXdvWC8RaLKt7xbFuMAmi42Vq0Wy1kEXOZV
+	WMPnYgIz8ixNtCez0QW31eMV1Mvsozbg9TbsKE/jrDLHIE5xsyX3fTyyc2JqpEn+oBe1
+	Vdy9p4QygxKDTrdAwhbbvw0aonfP/Vj1R8daPi7gau/eoQyuQFqMRY4gdfuL+FawgCAV
+	c4FRlmRsGHro9m/J20TZbkUhHQNzwTDMIS5MOB7GeJD2Xq8Nwms5CDkrHDVWp6g4Rr9s
+	m6Rw==
+X-Received: by 10.50.111.231 with SMTP id il7mr9955560igb.34.1444073182701;
+	Mon, 05 Oct 2015 12:26:22 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	10sm10806397ios.28.2015.10.05.12.26.21
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 05 Oct 2015 12:26:21 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Oct 2015 12:26:11 -0700
+Message-Id: <1444073171-31453-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] busybox.inc: remove redundant @DATADIR@ replacement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,45 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Oct 2015 19:22:15 -0000
-Content-Type: multipart/alternative; boundary=001a11376e6e403b700521606e35
+X-List-Received-Date: Mon, 05 Oct 2015 19:26:23 -0000
 
---001a11376e6e403b700521606e35
-Content-Type: text/plain; charset=UTF-8
+The busybox defconfig doesn't contain a @DATADIR@ marker, so
+the attempt to replace it in do_prepare_config is redundant.
 
-On 2 October 2015 at 16:43, Andreas Oberritter <obi@opendreambox.org> wrote:
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-core/busybox/busybox.inc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> If epoxy behaves like other projects, then I'd try removing virtual/egl
-> from
-> DEPENDS and replacing the line above with this one:
->
-> PACKAGECONFIG[x11] = "--enable-glx, --disable-glx, virtual/libx11
-> virtual/gl, libgl"
->
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index ed8f9fe..4d4709a 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -103,9 +103,8 @@ python () {
+ }
+ 
+ do_prepare_config () {
+-	sed -e 's#@DATADIR@#${datadir}#g' \
++	sed -e '/CONFIG_STATIC/d' \
+ 		< ${WORKDIR}/defconfig > ${S}/.config
+-	sed -i -e '/CONFIG_STATIC/d' .config
+ 	echo "# CONFIG_STATIC is not set" >> .config
+ 	for i in 'CROSS' 'DISTRO FEATURES'; do echo "### $i"; done >> \
+ 		${S}/.config
+-- 
+1.9.1
 
-The rdepends definitely need to be tied to the PACKAGECONFIG options,
-libepoxy built without x11 won't be linking against GLX as libGL.so won't
-exist.
 
-Ross
-
---001a11376e6e403b700521606e35
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 October 2015 at 16:43, Andreas Oberritter <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:obi@opendreambox.org" target=3D"_blank">obi@opendreambox.org</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1dk" clas=
-s=3D"a3s" style=3D"overflow:hidden">If epoxy behaves like other projects, t=
-hen I&#39;d try removing virtual/egl from<br>
-DEPENDS and replacing the line above with this one:<br>
-<br>
-PACKAGECONFIG[x11] =3D &quot;--enable-glx, --disable-glx, virtual/libx11 vi=
-rtual/gl, libgl&quot;</div></blockquote></div><br>The rdepends definitely n=
-eed to be tied to the PACKAGECONFIG options, libepoxy built without x11 won=
-&#39;t be linking against GLX as libGL.so won&#39;t exist.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11376e6e403b700521606e35--
