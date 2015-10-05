@@ -1,34 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AAA776660
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Oct 2015 14:40:59 +0000 (UTC)
-Received: by qgez77 with SMTP id z77so151468145qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Oct 2015 07:40:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=52Aa5kMNAq5UBpEFvLzujpNfrUWcdY2awfKVFnQTYBA=;
-	b=CbAzavuNHkDU2fyWJkcmhUhmF4jiRih7q927qjnOXi1rqYy3EiCzCEJPPtKI5KisXi
-	Y1tIAfU04pa3kwfrg+AlzpbWEwQZ0E2MpJwq5LecR7LGBmZCtkx5cVYY5FufT9i48Aqm
-	jzPtScJc43sXbn+pTG3eII5AQMewn+o+GWl2fnHNACA70PYIK9R3foLEFZIx38hi5Z27
-	6z7+beKnEaNV7tYYrRId6I8D1fdSQLXt2IS70buLvfOd4P3/NhmSbkMIKrw7hSI1iBew
-	QAOawC/ZLyZdFpSy0YmMpAcCyE0LIRJZfnmcTUKzXa7+m5A4791sTZstNPnrAF8QOtUA
-	Kqlw==
-X-Gm-Message-State: ALoCoQnVa9L5aeCddhvBvTALu9wAy15T1fCBkKy9wDGHriBbOICCODZ2Ddem2Jw1htxoS/3dlwT3
-X-Received: by 10.140.147.77 with SMTP id 74mr36286693qht.52.1444056059361;
-	Mon, 05 Oct 2015 07:40:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Mon, 5 Oct 2015 07:40:39 -0700 (PDT)
-In-Reply-To: <20151003133343.GC2381@jama>
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F85376E04;
+	Mon,  5 Oct 2015 14:45:27 +0000 (UTC)
+Received: by wicfx3 with SMTP id fx3so123641169wic.1;
+	Mon, 05 Oct 2015 07:45:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=YKsFniazOQUPlU71KG6+6/uMXdbVrCKFxMmhO0U96CM=;
+	b=fxskvbwwG6tatXdCiuPckWjboc9Gve/r2PR11GxFBauVPkWFi+yNnybjqSH6VQJTsN
+	ylvGRm5ZnjjFydAYBcz5kRMluLlTlpnn2R/qKI5WcZjcdh8a+T08kX0asNLdWT1JQyDp
+	sBJyyPsokkUelPRsddgfI2JSxJoDqDrpeCUF5ywA7Fm99maPQJbSEA1UMMMmCQ1CLgw9
+	AcYgp0bXta9m5kFzC/pb9uKmDgDimhp2ZcViljCqt4URMBAv4ubTPQgLpYNP0Q67nfFq
+	JFf/9xEnLoW1n8GYJ4ooFkzYkGo9Ra78a2Fnwxu++X8xKaWH/kEUskpjaO6gUrb5qz2U
+	PWVg==
+X-Received: by 10.194.63.5 with SMTP id c5mr29883879wjs.127.1444056327443;
+	Mon, 05 Oct 2015 07:45:27 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	gl4sm27296780wjb.29.2015.10.05.07.45.26
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 05 Oct 2015 07:45:26 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 5 Oct 2015 16:45:32 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20151005144532.GB2388@jama>
 References: <20151003133343.GC2381@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 5 Oct 2015 15:40:39 +0100
-Message-ID: <CAJTo0LYSc3TV1D2OhmO4KN9ucJLm+d_U2BgrCq40Pk=+RiXqFA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+	<CAJTo0LYSc3TV1D2OhmO4KN9ucJLm+d_U2BgrCq40Pk=+RiXqFA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYSc3TV1D2OhmO4KN9ucJLm+d_U2BgrCq40Pk=+RiXqFA@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: State of bitbake world, Failed tasks 2015-10-02
@@ -44,38 +47,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Oct 2015 14:41:00 -0000
-Content-Type: multipart/alternative; boundary=001a113552f274645b05215c8041
+X-List-Received-Date: Mon, 05 Oct 2015 14:45:28 -0000
+X-Groupsio-MsgNum: 71919
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ADZbWkCsHQ7r3kzd"
+Content-Disposition: inline
 
---001a113552f274645b05215c8041
-Content-Type: text/plain; charset=UTF-8
-
-On 3 October 2015 at 14:33, Martin Jansa <martin.jansa@gmail.com> wrote:
-
->     * /openembedded-core/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb,
-> do_compile
->
-
-This fails with a giant number of assembler warnings, but works when I try
-with current master.  Does your build change some tunes?
-
-Ross
-
---001a113552f274645b05215c8041
-Content-Type: text/html; charset=UTF-8
+--ADZbWkCsHQ7r3kzd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 October 2015 at 14:33, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1e1" class=
-=3D"a3s" style=3D"overflow:hidden">=C2=A0 =C2=A0 * /openembedded-core/meta/=
-recipes-gnome/libsecret/<a href=3D"http://libsecret_0.18.2.bb" rel=3D"noref=
-errer" target=3D"_blank">libsecret_0.18.2.bb</a>, do_compile<br></div></blo=
-ckquote></div><br>This fails with a giant number of assembler warnings, but=
- works when I try with current master.=C2=A0 Does your build change some tu=
-nes?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
-oss</div></div>
+On Mon, Oct 05, 2015 at 03:40:39PM +0100, Burton, Ross wrote:
+> On 3 October 2015 at 14:33, Martin Jansa <martin.jansa@gmail.com> wrote:
+>=20
+> >     * /openembedded-core/meta/recipes-gnome/libsecret/libsecret_0.18.2.=
+bb,
+> > do_compile
+> >
+>=20
+> This fails with a giant number of assembler warnings, but works when I try
+> with current master.  Does your build change some tunes?
 
---001a113552f274645b05215c8041--
+It enables thumb, see=20
+http://logs.nslu2-linux.org/buildlogs/oe/world/log.world.20151003_133632.lo=
+g/world_fixes.inc
+and
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7717
+
+But these assembler errors in last 2-3 builds are new.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--ADZbWkCsHQ7r3kzd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlYSjQoACgkQN1Ujt2V2gBzeZACfQ+lig2shij5IxyRUrSfr0eYk
+AKAAoIdGJuHtkjjRqjvZ8qQgwDinNLZY
+=OXZv
+-----END PGP SIGNATURE-----
+
+--ADZbWkCsHQ7r3kzd--
