@@ -1,53 +1,30 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-Received: from mx6-14.smtp.antispamcloud.com (mx6-14.smtp.antispamcloud.com
-	[95.211.2.226])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DBD365D6E
+Return-Path: <rpurdie@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 5917B77055
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Oct 2015 09:34:29 +0000 (UTC)
-Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
-	helo=TOP-EX01.TOPIC.LOCAL)
-	by mx6.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1Zj29s-0000zl-EP for openembedded-core@lists.openembedded.org;
-	Mon, 05 Oct 2015 11:34:28 +0200
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Mon, 5 Oct 2015 11:33:22 +0200
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <56124413.7020901@topic.nl>
-Date: Mon, 5 Oct 2015 11:34:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
-MIME-Version: 1.0
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
-	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJrFDKWPU/basrwgND+6zAvVgnvU9Kkp7pPdVtG
-	+2FfnXc8CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
-	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
-	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
-	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
-	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OThywdm+G+OuTB
-	a63I3wwHWkCYl0PAtPLuCCRu2JEQGZMQ31MusX2Xci0Z8D9aucAtXl4nN7+GwpCp8XCZQDlq825t
-	pbQqVsjuh0JlrWxsIcuBhkb6GDdB6OAsNDDRIxpg15xifUD173ICRv+qGaUPXf0=
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJXhXyDRoOQM5J3kcUr0HrMvJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
-	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
-	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
-	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
-X-Originating-IP: 88.159.208.100
-X-Spampanel-Domain: topic.nl
-X-Spampanel-Username: 88.159.208.100
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=88.159.208.100@topic.nl
-X-Spampanel-Outgoing-Class: unsure
-X-Spampanel-Outgoing-Evidence: Combined (0.44)
-X-Recommended-Action: accept
-Subject: How to find out why my do_compile depends on $MACHINE
+	Mon,  5 Oct 2015 10:16:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t95AG7HU010573; Mon, 5 Oct 2015 11:16:07 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id q7ZgyAiaYSzG; Mon,  5 Oct 2015 11:16:07 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t95AFm5k010556
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 5 Oct 2015 11:16:06 +0100
+Message-ID: <1444033589.5118.11.camel@rpsys.net>
+From: Richard Purdie <rpurdie@rpsys.net>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+In-Reply-To: <1c6dbb3997ae1ff49ebe227475b73e3eb072f12b.1443730882.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1443730882.git.alejandro.hernandez@linux.intel.com>
+	<1c6dbb3997ae1ff49ebe227475b73e3eb072f12b.1443730882.git.alejandro.hernandez@linux.intel.com>
+Date: Mon, 05 Oct 2015 09:26:29 +0100
+Mime-Version: 1.0
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] gma500_gfx: Avoid inserting gma500_gfx module for certain devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,61 +37,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Oct 2015 09:34:32 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 05 Oct 2015 10:16:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-=EF=BB=BFI've been puzzling with this for many hours now, but I can't seem =
-to figure=20
-this out.
+On Thu, 2015-10-01 at 20:23 +0000, Alejandro Hernandez wrote:
+> The gma500_gfx driver will match certain devices on which it causes incorrect functionality,
+> we want to avoid inserting this module, basicallly blacklist it for specific hardware,
+> but still allow it to work on other hardware by default; usually when we have an already working system,
+> using udev rules would do the job, but since we are building it, it is impossible to blacklist
+> a driver when a certain udev rule matches, since rootfs isn't writeable at this point during boot time,
+> the solution is to use modprobe install, which runs a certain command instead of inserting a matching module,
+> this command needs to insert the module manually afterwards and have a flag --ignore-install
+> so it doesnt create an infinite loop executing itself everytime it wants to insert the module,
+> busybox's modprobe doesn't provide this functionality, so a small hack had to be used to avoid
+> the infite loop instead.
+> 
+> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+> ---
+>  meta-yocto-bsp/conf/machine/genericx86.conf            |  2 ++
+>  .../gma500-gfx-check/gma500-gfx-check.conf             |  2 ++
+>  .../gma500-gfx-check/gma500-gfx-check.sh               | 11 +++++++++++
+>  .../gma500-gfx-check/gma500-gfx-check_1.0.bb           | 18 ++++++++++++++++++
+>  4 files changed, 33 insertions(+)
+>  create mode 100644 meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.conf
+>  create mode 100644 meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.sh
+>  create mode 100644 meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check_1.0.bb
+> 
+> diff --git a/meta-yocto-bsp/conf/machine/genericx86.conf b/meta-yocto-bsp/conf/machine/genericx86.conf
+> index 2642cab..798b62ec 100644
+> --- a/meta-yocto-bsp/conf/machine/genericx86.conf
+> +++ b/meta-yocto-bsp/conf/machine/genericx86.conf
+> @@ -6,3 +6,5 @@
+>  DEFAULTTUNE ?= "core2-32"
+>  require conf/machine/include/tune-core2.inc
+>  require conf/machine/include/genericx86-common.inc
+> +
+> +MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS += "gma500-gfx-check"
+> diff --git a/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.conf b/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.conf
+> new file mode 100644
+> index 0000000..69f109e
+> --- /dev/null
+> +++ b/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.conf
+> @@ -0,0 +1,2 @@
+> +# Mimic modprobe's install funcitonality with busybox's modprobe
+> +install gma500_gfx lsmod | grep gma || { gma500_gfx_check.sh || modprobe gma500_gfx; }
+> diff --git a/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.sh b/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.sh
+> new file mode 100644
+> index 0000000..0c7b3aa
+> --- /dev/null
+> +++ b/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.sh
+> @@ -0,0 +1,11 @@
+> +#!/bin/sh
+> +
+> +# Check for devices we wish to avoid gma500_gfx for
+> +DEVICES="0x8119 0x4108"
+> +for DEVICE in $DEVICES; do
+> +    if udevadm trigger --subsystem-match=pci --verbose --attr-match=device=$DEVICE | grep "pci" >> /dev/null ; then
+> +        echo "Found $DEVICE, avoiding gma500_gfx module" >> /dev/kmsg;
+> +        exit 0
+> +    fi
+> +done
+> +exit 1
+> diff --git a/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check_1.0.bb b/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check_1.0.bb
+> new file mode 100644
+> index 0000000..c68dd7b
+> --- /dev/null
+> +++ b/meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check_1.0.bb
+> @@ -0,0 +1,18 @@
+> +SUMMARY = "Intel gma500_gfx fix for certain hardware"
+> +DESCRIPTION = "Avoid inserting gma500_gfx module for certain hardware devices."
+> +LICENSE="GPLv2"
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+> +
+> +SRC_URI = "file://gma500-gfx-check.conf \
+> +	file://gma500-gfx-check.sh "
+> +
+> +do_install(){
+> +    install -d ${D}${sysconfdir}/modprobe.d/
+> +    install -m 755 ${WORKDIR}/gma500-gfx-check.sh ${D}${sysconfdir}/modprobe.d/gma500-gfx-check.sh
+> +    install -m 644 ${WORKDIR}/gma500-gfx-check.conf ${D}${sysconfdir}/modprobe.d/gma500-gfx-check.conf
+> +}
+> +
+> +FILES_${PN}="${sysconfdir}/modprobe.d/gma500-gfx-check.conf \
+> +             ${sysconfdir}/modprobe.d/gma500-gfx-check.sh"
+> +
+> +COMPATIBLE_MACHINE_genericx86 = "genericx86"
 
-I have a recipe that doesn't mention MACHINE anywhere, but still the=20
-sstate-cache won't be re-used for other machines, because OE somehow insist=
-s=20
-the package does depend on $MACHINE.
+This patch needs to go to the poky mailing list as its against
+meta-yocto. I think this should also be:
 
-The workaround I could find is to put something like this in the recipe:
+COMPATIBLE_MACHINE = "genericx86"
 
-MACHINE[vardepvalue] =3D "any"
+the other syntax is used to avoid certain issues in recipes like
+linux-yocto but there is no default COMPATIBLE_MACHINE here so using
+that override syntax isn't correct.
 
-(Similar stupid hacks like "vardepsexclude" will probably work too, but I'm=
-=20
-not interested in forcing this particular recipe, but I'm trying to figure =
-out=20
-what makes bitbake think it matters)
+Cheers,
 
-Since it builds for an FPGA type, the package has=20
-PACKAGE_ARCH=3D"${FPGA_FAMILY}" set, and FGPA_FAMILY is set in local.conf.
-
-
-When switching machines, "bitbake -S printdiff fpga-image-dyplo-test" repor=
-ts=20
-that MACHINE changed and that is what caused sstate not beign reused. But t=
-he=20
-recipe does not use anything related to $MACHINE at all.
-
-Is there a way to make it tell me WHY it thinks that MACHINE is important t=
-o=20
-the recipe?
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Embedded Products
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-Telefax: +31 (0) 499 33 69 70
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
+Richard
 
 
