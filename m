@@ -1,35 +1,38 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 23BDE76E4B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 145C576F9D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Oct 2015 19:26:22 +0000 (UTC)
-Received: by igxx6 with SMTP id x6so64999185igx.1
+	Mon,  5 Oct 2015 20:09:42 +0000 (UTC)
+Received: by qkcf65 with SMTP id f65so73976034qkc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Oct 2015 12:26:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=F93j1BRDMbKc1ST25aLNPTvurXGKlOmOGawD+oOFXvY=;
-	b=ng4W9oeM8ILvpNsR8PRsiq7JY57FKkbnV7e2PSVcMjfT8HJud45LUEvINY6u4Sq+c4
-	4uty8pkEdHZ9srGtdFU8mqn6EI8tcva+iHXdvWC8RaLKt7xbFuMAmi42Vq0Wy1kEXOZV
-	WMPnYgIz8ixNtCez0QW31eMV1Mvsozbg9TbsKE/jrDLHIE5xsyX3fTyyc2JqpEn+oBe1
-	Vdy9p4QygxKDTrdAwhbbvw0aonfP/Vj1R8daPi7gau/eoQyuQFqMRY4gdfuL+FawgCAV
-	c4FRlmRsGHro9m/J20TZbkUhHQNzwTDMIS5MOB7GeJD2Xq8Nwms5CDkrHDVWp6g4Rr9s
-	m6Rw==
-X-Received: by 10.50.111.231 with SMTP id il7mr9955560igb.34.1444073182701;
-	Mon, 05 Oct 2015 12:26:22 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	10sm10806397ios.28.2015.10.05.12.26.21
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 05 Oct 2015 12:26:21 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Oct 2015 12:26:11 -0700
-Message-Id: <1444073171-31453-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] busybox.inc: remove redundant @DATADIR@ replacement
+	Mon, 05 Oct 2015 13:09:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=HhPTfDCOVGzIOMl0awFOuqEspqbyeQrTD06IE0sCJUg=;
+	b=WQvhY2tgJyFBnMvmwC0coCwr+qlAxBGKknsSNF2JR320FJJ5LrDiNDBfsNvV/qtGE8
+	8SaI6Lra9S0IKSFPEkhh3On7w1V2M0VI+RYfV9xJc/8XqnEgiC86cAZDjlFCrV6snqQ9
+	b3ayoy/5ZX3xvFLN+oGBaG8omKdxuUwDgCqWdm8TDmqn8LAQIuATb5i4y2moVT4GQRzM
+	fBP/KcuowmwxYPqMYOTPbG4ZFJaIuun3T7Ti40B/iW62Td2gj3oyxVQ/EOA+4OSPoOaj
+	/gds9/0mhiI3VY9IVHlJxusDe/jJdyXADv/ynNHGZzBKeo25UfAVjlF3U9E2P5jxTCBZ
+	BWRA==
+X-Gm-Message-State: ALoCoQlKDBEl/RO7RiU3liZH/BJEVTMaUSOeXpBO+fyqTgB7++faEOPrwX6TtGlIU0MY/rq1QubH
+X-Received: by 10.55.43.132 with SMTP id r4mr42323786qkr.104.1444075781936;
+	Mon, 05 Oct 2015 13:09:41 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.86 with HTTP; Mon, 5 Oct 2015 13:09:22 -0700 (PDT)
+In-Reply-To: <CAJTo0LYwQiw5a0_nkBM5erDgbtNgzW54sU+3Cn5x=5EViS0uTg@mail.gmail.com>
+References: <cover.1443600210.git.wenzong.fan@windriver.com>
+	<bcac24a99fee9f86d5692e7a457e51c41c9208b7.1443600210.git.wenzong.fan@windriver.com>
+	<CAJTo0LYwQiw5a0_nkBM5erDgbtNgzW54sU+3Cn5x=5EViS0uTg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 5 Oct 2015 21:09:22 +0100
+Message-ID: <CAJTo0La9VFS5B=qG37HWi+U3BRJMcDMnjsZAk_AkHFx4aeAuow@mail.gmail.com>
+To: wenzong fan <wenzong.fan@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3 v2] glib-2.0: cleanup buildpaths from pkgconfig files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Oct 2015 19:26:23 -0000
+X-List-Received-Date: Mon, 05 Oct 2015 20:09:43 -0000
+Content-Type: multipart/alternative; boundary=001a1147af6a02f46805216118df
 
-The busybox defconfig doesn't contain a @DATADIR@ marker, so
-the attempt to replace it in do_prepare_config is redundant.
+--001a1147af6a02f46805216118df
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-core/busybox/busybox.inc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On 30 September 2015 at 10:45, Burton, Ross <ross.burton@intel.com> wrote:
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index ed8f9fe..4d4709a 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -103,9 +103,8 @@ python () {
- }
- 
- do_prepare_config () {
--	sed -e 's#@DATADIR@#${datadir}#g' \
-+	sed -e '/CONFIG_STATIC/d' \
- 		< ${WORKDIR}/defconfig > ${S}/.config
--	sed -i -e '/CONFIG_STATIC/d' .config
- 	echo "# CONFIG_STATIC is not set" >> .config
- 	for i in 'CROSS' 'DISTRO FEATURES'; do echo "### $i"; done >> \
- 		${S}/.config
--- 
-1.9.1
+> For multilib build, PKG_CONFIG_SYSROOT_DIR will be injected in values
+>> that are returned by 'pkg-config --libs xxx', such as for zlib:
+>>
+>
+> So why isn't this fixed in pkg-config?
+>
 
+I've just replicated this with a minimal test (build zlib, run pkg-config
+--libs zlib in a devshell) for "normal" and multilib configurations and
+this is clearly a bug in pkgconfig.  Please fix pkgconfig instead of
+playing whack-a-mole with where the bug causes problems.
 
+Ross
+
+--001a1147af6a02f46805216118df
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 September 2015 at 10:45, Burton, Ross <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_=
+extra"><span class=3D""><div class=3D"gmail_quote"><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex"><div style=3D"overflow:hidden">For multilib build, PKG_CONFIG_SYSROO=
+T_DIR will be injected in values<br>
+that are returned by &#39;<span class=3D"il">pkg</span>-<span class=3D"il">=
+config</span> --libs xxx&#39;, such as for zlib:<br></div></blockquote></di=
+v><br></span>So why isn&#39;t this fixed in <span class=3D"il">pkg</span>-<=
+span class=3D"il">config</span>?</div></blockquote><div><br></div><div>I&#3=
+9;ve just replicated this with a minimal test (build zlib, run pkg-config -=
+-libs zlib in a devshell) for &quot;normal&quot; and multilib configuration=
+s and this is clearly a bug in pkgconfig.=C2=A0 Please fix pkgconfig instea=
+d of playing whack-a-mole with where the bug causes problems.</div><div><br=
+></div><div>Ross=C2=A0</div></div></div></div>
+
+--001a1147af6a02f46805216118df--
