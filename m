@@ -1,37 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9247576AE2
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 48616766A3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Oct 2015 22:04:31 +0000 (UTC)
-Received: by igcpb10 with SMTP id pb10so73882867igc.1
+	Mon,  5 Oct 2015 22:13:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t95MDpFB012875
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Oct 2015 15:04:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=wTedv+rCvzspbPpSJd6IZLKQoj5+3sRJkrE13FpTJt0=;
-	b=uI7vE0GZqayd5M9Y0lPHDUmhS70QW9cQGeZ4tEJOzXHRoXLHOWwckE4sitcSMj6Dnw
-	NW/7dj+Sz1XtM9mzwRwQ3Z7IFUz0to9YJeiVQs66YRHrnaZsGEG72oKsuYamNLuMB+Ux
-	tCQ9z/ugS3JScdiyS1A9Qzx8gfNtQwJBhf+XMjhZUbSSdYZ6yaEkQWm7N4LHXe2bAlAZ
-	R8k9LwjLreH8xNq8F2UXbfpTwNQJhb2AM7KKAH7F53toOCK1+mbIX+kmCZrUqw4Tii3s
-	bB0q0IVvOWMcQr0vaPCxSLuRGwsCo/derg3H8o0momYb2xh5OVIhtU5VclCMRwVv8Wva
-	ZKNQ==
-X-Received: by 10.50.50.139 with SMTP id c11mr13390057igo.10.1444082671815;
-	Mon, 05 Oct 2015 15:04:31 -0700 (PDT)
+	Mon, 5 Oct 2015 15:13:52 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 5 Oct 2015 15:13:51 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <randy.macleod@windriver.com>
+Date: Mon, 5 Oct 2015 15:13:51 -0700
+Message-ID: <1444083231-27314-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.70.67 with HTTP; Mon, 5 Oct 2015 15:04:12 -0700 (PDT)
-In-Reply-To: <1444073171-31453-1-git-send-email-armccurdy@gmail.com>
-References: <1444073171-31453-1-git-send-email-armccurdy@gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 5 Oct 2015 15:04:12 -0700
-X-Google-Sender-Auth: I5Fa_40Lff_dTUuF-Oq8luT7V9U
-Message-ID: <CABcZANkyAkWnv1ibTXP2g0JpQ2nGVh6PBHxy3MfL02XJnWRJDw@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox.inc: remove redundant @DATADIR@ replacement
+Subject: [PATCH 1/1] pixbufcache: add processing for PIXBUFCACHE_SYSROOT_DEPS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,50 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Oct 2015 22:04:32 -0000
-Content-Type: multipart/alternative; boundary=047d7bdca040ae1194052162b266
+X-List-Received-Date: Mon, 05 Oct 2015 22:13:53 -0000
+Content-Type: text/plain
 
---047d7bdca040ae1194052162b266
-Content-Type: text/plain; charset=UTF-8
+We want to depend on x:y instead of x:y_setscene, so strip
+off any _setscene's.
 
-On Mon, Oct 5, 2015 at 12:26 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/classes/pixbufcache.bbclass |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-> The busybox defconfig doesn't contain a @DATADIR@ marker, so
-> the attempt to replace it in do_prepare_config is redundant.
->
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->
-
-We should really think about a new function in utils.bbclass which replaces
-one string with another in a path, and errors out (bbfatal) if the search
-string wasn't found at all.
+diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+index dbe11e1..7692425 100644
+--- a/meta/classes/pixbufcache.bbclass
++++ b/meta/classes/pixbufcache.bbclass
+@@ -65,3 +65,7 @@ pixbufcache_sstate_postinst() {
+ 	fi
+ }
+ 
++PIXBUFCACHE_SYSROOT_DEPS ?= ""
++
++do_populate_sysroot_setscene[depends] += "${@d.getVar('PIXBUFCACHE_SYSROOT_DEPS', True).replace('_setscene', '')}"
++
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+1.7.9.5
 
---047d7bdca040ae1194052162b266
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Oct 5, 2015 at 12:26 PM, Andre McCurdy <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2qw" class=
-=3D"a3s" style=3D"overflow:hidden">The busybox defconfig doesn&#39;t contai=
-n a @DATADIR@ marker, so<br>
-the attempt to replace it in do_prepare_config is redundant.<br>
-<br>
-Signed-off-by: Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmail.com">arm=
-ccurdy@gmail.com</a>&gt;</div></blockquote></div><br>We should really think=
- about a new function in utils.bbclass which replaces one string with anoth=
-er in a path, and errors out (bbfatal) if the search string wasn&#39;t foun=
-d at all.<br>-- <br><div class=3D"gmail_signature">Christopher Larson<br>cl=
-arson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>=
-Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
-</div></div>
-
---047d7bdca040ae1194052162b266--
