@@ -1,38 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 145C576F9D
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 962FE762A2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Oct 2015 20:09:42 +0000 (UTC)
-Received: by qkcf65 with SMTP id f65so73976034qkc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Oct 2015 13:09:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=HhPTfDCOVGzIOMl0awFOuqEspqbyeQrTD06IE0sCJUg=;
-	b=WQvhY2tgJyFBnMvmwC0coCwr+qlAxBGKknsSNF2JR320FJJ5LrDiNDBfsNvV/qtGE8
-	8SaI6Lra9S0IKSFPEkhh3On7w1V2M0VI+RYfV9xJc/8XqnEgiC86cAZDjlFCrV6snqQ9
-	b3ayoy/5ZX3xvFLN+oGBaG8omKdxuUwDgCqWdm8TDmqn8LAQIuATb5i4y2moVT4GQRzM
-	fBP/KcuowmwxYPqMYOTPbG4ZFJaIuun3T7Ti40B/iW62Td2gj3oyxVQ/EOA+4OSPoOaj
-	/gds9/0mhiI3VY9IVHlJxusDe/jJdyXADv/ynNHGZzBKeo25UfAVjlF3U9E2P5jxTCBZ
-	BWRA==
-X-Gm-Message-State: ALoCoQlKDBEl/RO7RiU3liZH/BJEVTMaUSOeXpBO+fyqTgB7++faEOPrwX6TtGlIU0MY/rq1QubH
-X-Received: by 10.55.43.132 with SMTP id r4mr42323786qkr.104.1444075781936;
-	Mon, 05 Oct 2015 13:09:41 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Mon, 5 Oct 2015 13:09:22 -0700 (PDT)
-In-Reply-To: <CAJTo0LYwQiw5a0_nkBM5erDgbtNgzW54sU+3Cn5x=5EViS0uTg@mail.gmail.com>
-References: <cover.1443600210.git.wenzong.fan@windriver.com>
-	<bcac24a99fee9f86d5692e7a457e51c41c9208b7.1443600210.git.wenzong.fan@windriver.com>
-	<CAJTo0LYwQiw5a0_nkBM5erDgbtNgzW54sU+3Cn5x=5EViS0uTg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 5 Oct 2015 21:09:22 +0100
-Message-ID: <CAJTo0La9VFS5B=qG37HWi+U3BRJMcDMnjsZAk_AkHFx4aeAuow@mail.gmail.com>
-To: wenzong fan <wenzong.fan@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3 v2] glib-2.0: cleanup buildpaths from pkgconfig files
+	Mon,  5 Oct 2015 21:20:14 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 05 Oct 2015 14:20:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,640,1437462000"; d="scan'208";a="574693629"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by FMSMGA003.fm.intel.com with ESMTP; 05 Oct 2015 14:20:13 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Oct 2015 13:12:23 +0000
+Message-Id: <1444050743-6411-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Cc: paul.eggleton@linux.intel.com, srifenbark@gmail.com
+Subject: [PATCH] lib/oe/package_manager: Introducing PACKAGE_FEED_BASE_PATHS/PACKAGE_FEED_ARCHS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,49 +29,255 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Oct 2015 20:09:43 -0000
-Content-Type: multipart/alternative; boundary=001a1147af6a02f46805216118df
+X-List-Received-Date: Mon, 05 Oct 2015 21:20:16 -0000
 
---001a1147af6a02f46805216118df
-Content-Type: text/plain; charset=UTF-8
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-On 30 September 2015 at 10:45, Burton, Ross <ross.burton@intel.com> wrote:
+The recently introduced PACKAGE_FEED_PREFIX is not flexible enough for
+constructing URIs, because the same PREFIX is used for all PACKAGE_FEED_URIS.
+Also, the string 'PREFIX' is confusing because it is not at the beginning of
+the URI. The variable PACKAGE_FEED_BASE_PATHS replaces PACKAGE_FEED_PREFIX,
+allowing multiple base paths to be appended on each PACKAGE_FEED_URIS. In the
+other hand, a new variable called PACKAGE_FEED_ARCHS, similar in concept to
+PACKAGE_BASE_PATHS, defines package architectures defined by the user.
 
-> For multilib build, PKG_CONFIG_SYSROOT_DIR will be injected in values
->> that are returned by 'pkg-config --libs xxx', such as for zlib:
->>
->
-> So why isn't this fixed in pkg-config?
->
+To demonstrate the usage of the PACKAGE_FEED_URIS, PACKAGE_FEED_BASE_PATHS and
+PACKAGE_FEED_ARCHS, let's assume these variables are set on local.conf
 
-I've just replicated this with a minimal test (build zlib, run pkg-config
---libs zlib in a devshell) for "normal" and multilib configurations and
-this is clearly a bug in pkgconfig.  Please fix pkgconfig instead of
-playing whack-a-mole with where the bug causes problems.
+    PACKAGE_FEED_URIS = "https://example.com/packagerepos/release \
+                         https://example.com/packagerepos/updates"
+    PACKAGE_FEED_BASE_PATHS = "rpm rpm-dev"
+    PACKAGE_FEED_ARCHS = "all core2-64"
 
-Ross
+the resulting feeds would be
 
---001a1147af6a02f46805216118df
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+    https://example.com/packagerepos/release/rpm/all
+    https://example.com/packagerepos/release/rpm/core2-64
+    https://example.com/packagerepos/release/rpm-dev/all
+    https://example.com/packagerepos/release/rpm-dev/core2-64
+    https://example.com/packagerepos/updates/rpm/all
+    https://example.com/packagerepos/updates/rpm/core2-64
+    https://example.com/packagerepos/updates/rpm-dev/all
+    https://example.com/packagerepos/updates/rpm-dev/core2-64
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 September 2015 at 10:45, Burton, Ross <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_=
-extra"><span class=3D""><div class=3D"gmail_quote"><blockquote class=3D"gma=
-il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
-t:1ex"><div style=3D"overflow:hidden">For multilib build, PKG_CONFIG_SYSROO=
-T_DIR will be injected in values<br>
-that are returned by &#39;<span class=3D"il">pkg</span>-<span class=3D"il">=
-config</span> --libs xxx&#39;, such as for zlib:<br></div></blockquote></di=
-v><br></span>So why isn&#39;t this fixed in <span class=3D"il">pkg</span>-<=
-span class=3D"il">config</span>?</div></blockquote><div><br></div><div>I&#3=
-9;ve just replicated this with a minimal test (build zlib, run pkg-config -=
--libs zlib in a devshell) for &quot;normal&quot; and multilib configuration=
-s and this is clearly a bug in pkgconfig.=C2=A0 Please fix pkgconfig instea=
-d of playing whack-a-mole with where the bug causes problems.</div><div><br=
-></div><div>Ross=C2=A0</div></div></div></div>
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/lib/oe/package_manager.py | 154 ++++++++++++++++++++++++++---------------
+ 1 file changed, 99 insertions(+), 55 deletions(-)
 
---001a1147af6a02f46805216118df--
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 630b957..e182027 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -8,7 +8,7 @@ import re
+ import bb
+ import tempfile
+ import oe.utils
+-
++import string
+ 
+ # this can be used by all PM backends to create the index files in parallel
+ def create_index(arg):
+@@ -522,7 +522,8 @@ class PackageManager(object):
+         self.deploy_dir = None
+         self.deploy_lock = None
+         self.feed_uris = self.d.getVar('PACKAGE_FEED_URIS', True) or ""
+-        self.feed_prefix = self.d.getVar('PACKAGE_FEED_PREFIX', True) or ""
++        self.feed_base_paths = self.d.getVar('PACKAGE_FEED_BASE_PATHS', True) or ""
++        self.feed_archs = self.d.getVar('PACKAGE_FEED_ARCHS', True)
+ 
+     """
+     Update the package manager package database.
+@@ -629,6 +630,25 @@ class PackageManager(object):
+ 
+         self.deploy_lock = None
+ 
++    """
++    Construct URIs based on the following pattern: uri/base_path where 'uri'
++    and 'base_path' correspond to each element of the corresponding array
++    argument leading to len(uris) x len(base_paths) elements on the returned
++    array
++    """
++    def construct_uris(self, uris, base_paths):
++        def _append(arr1, arr2, sep='/'):
++            res = []
++            narr1 = map(lambda a: string.rstrip(a, sep), arr1)
++            narr2 = map(lambda a: string.lstrip(string.rstrip(a, sep), sep), arr2)
++            for a1 in narr1:
++                if arr2:
++                    for a2 in narr2:
++                        res.append("%s%s%s" % (a1, sep, a2))
++                else:
++                    res.append(a1)
++            return res
++        return _append(uris, base_paths)
+ 
+ class RpmPM(PackageManager):
+     def __init__(self,
+@@ -672,42 +692,55 @@ class RpmPM(PackageManager):
+         if self.feed_uris == "":
+             return
+ 
+-        # List must be prefered to least preferred order
+-        default_platform_extra = set()
+-        platform_extra = set()
+-        bbextendvariant = self.d.getVar('BBEXTENDVARIANT', True) or ""
+-        for mlib in self.ml_os_list:
+-            for arch in self.ml_prefix_list[mlib]:
+-                plt = arch.replace('-', '_') + '-.*-' + self.ml_os_list[mlib]
+-                if mlib == bbextendvariant:
+-                        default_platform_extra.add(plt)
+-                else:
+-                        platform_extra.add(plt)
++        arch_list = []
++        if self.feed_archs is not None:
++            # User define feed architectures
++            arch_list = self.feed_archs.split()
++        else:
++            # List must be prefered to least preferred order
++            default_platform_extra = set()
++            platform_extra = set()
++            bbextendvariant = self.d.getVar('BBEXTENDVARIANT', True) or ""
++            for mlib in self.ml_os_list:
++                for arch in self.ml_prefix_list[mlib]:
++                    plt = arch.replace('-', '_') + '-.*-' + self.ml_os_list[mlib]
++                    if mlib == bbextendvariant:
++                            default_platform_extra.add(plt)
++                    else:
++                            platform_extra.add(plt)
+ 
+-        platform_extra = platform_extra.union(default_platform_extra)
++            platform_extra = platform_extra.union(default_platform_extra)
+ 
+-        arch_list = []
+-        for canonical_arch in platform_extra:
+-            arch = canonical_arch.split('-')[0]
+-            if not os.path.exists(os.path.join(self.deploy_dir, arch)):
+-                continue
+-            arch_list.append(arch)
++            for canonical_arch in platform_extra:
++                arch = canonical_arch.split('-')[0]
++                if not os.path.exists(os.path.join(self.deploy_dir, arch)):
++                    continue
++                arch_list.append(arch)
++
++        feed_uris = self.construct_uris(self.feed_uris.split(), self.feed_base_paths.split())
+ 
+         uri_iterator = 0
+-        channel_priority = 10 + 5 * len(self.feed_uris.split()) * len(arch_list)
++        channel_priority = 10 + 5 * len(feed_uris) * (len(arch_list) if arch_list else 1)
+ 
+-        for uri in self.feed_uris.split():
+-            full_uri = uri
+-            if self.feed_prefix:
+-                full_uri = os.path.join(uri, self.feed_prefix)
+-            for arch in arch_list:
+-                bb.note('Note: adding Smart channel url%d%s (%s)' %
+-                        (uri_iterator, arch, channel_priority))
+-                self._invoke_smart('channel --add url%d-%s type=rpm-md baseurl=%s/%s -y'
+-                                   % (uri_iterator, arch, full_uri, arch))
+-                self._invoke_smart('channel --set url%d-%s priority=%d' %
+-                                   (uri_iterator, arch, channel_priority))
++        for uri in feed_uris:
++            if arch_list:
++                for arch in arch_list:
++                    bb.note('Note: adding Smart channel url%d%s (%s)' %
++                            (uri_iterator, arch, channel_priority))
++                    self._invoke_smart('channel --add url%d-%s type=rpm-md baseurl=%s/%s -y'
++                                       % (uri_iterator, arch, uri, arch))
++                    self._invoke_smart('channel --set url%d-%s priority=%d' %
++                                       (uri_iterator, arch, channel_priority))
++                    channel_priority -= 5
++            else:
++                bb.note('Note: adding Smart channel url%d (%s)' %
++                        (uri_iterator, channel_priority))
++                self._invoke_smart('channel --add url%d type=rpm-md baseurl=%s -y'
++                                   % (uri_iterator, uri))
++                self._invoke_smart('channel --set url%d priority=%d' %
++                                   (uri_iterator, channel_priority))
+                 channel_priority -= 5
++
+             uri_iterator += 1
+ 
+     '''
+@@ -1480,21 +1513,26 @@ class OpkgPM(PackageManager):
+         rootfs_config = os.path.join('%s/etc/opkg/base-feeds.conf'
+                                   % self.target_rootfs)
+ 
++        feed_uris = self.construct_uris(self.feed_uris.split(), self.feed_base_paths.split())
++        archs = self.pkg_archs.split() if self.feed_archs is None else self.feed_archs.split()
++
+         with open(rootfs_config, "w+") as config_file:
+             uri_iterator = 0
+-            for uri in self.feed_uris.split():
+-                full_uri = uri
+-                if self.feed_prefix:
+-                    full_uri = os.path.join(uri, self.feed_prefix)
+-
+-                for arch in self.pkg_archs.split():
+-                    if not os.path.exists(os.path.join(self.deploy_dir, arch)):
+-                        continue
+-                    bb.note('Note: adding opkg feed url-%s-%d (%s)' %
+-                        (arch, uri_iterator, full_uri))
++            for uri in feed_uris:
++                if archs:
++                    for arch in archs:
++                        if (self.feed_archs is None) and (not os.path.exists(os.path.join(self.deploy_dir, arch))):
++                            continue
++                        bb.note('Note: adding opkg feed url-%s-%d (%s)' %
++                            (arch, uri_iterator, uri))
++                        config_file.write("src/gz uri-%s-%d %s/%s\n" %
++                                          (arch, uri_iterator, uri, arch))
++                else:
++                    bb.note('Note: adding opkg feed url-%d (%s)' %
++                        (uri_iterator, uri))
++                    config_file.write("src/gz uri-%d %s\n" %
++                                      (uri_iterator, uri))
+ 
+-                    config_file.write("src/gz uri-%s-%d %s/%s\n" %
+-                                      (arch, uri_iterator, full_uri, arch))
+                 uri_iterator += 1
+ 
+     def update(self):
+@@ -1840,20 +1878,26 @@ class DpkgPM(PackageManager):
+                                     % self.target_rootfs)
+         arch_list = []
+ 
+-        for arch in self.all_arch_list:
+-            if not os.path.exists(os.path.join(self.deploy_dir, arch)):
+-                continue
+-            arch_list.append(arch)
++        if self.feed_archs is None:
++            for arch in self.all_arch_list:
++                if not os.path.exists(os.path.join(self.deploy_dir, arch)):
++                    continue
++                arch_list.append(arch)
++        else:
++            arch_list = self.feed_archs.split()
++
++        feed_uris = self.construct_uris(self.feed_uris.split(), self.feed_base_paths.split())
+ 
+         with open(sources_conf, "w+") as sources_file:
+-            for uri in self.feed_uris.split():
+-                full_uri = uri
+-                if self.feed_prefix:
+-                    full_uri = os.path.join(uri, self.feed_prefix)
+-                for arch in arch_list:
++            for uri in feed_uris:
++                if arch_list:
++                    for arch in arch_list:
++                        bb.note('Note: adding dpkg channel at (%s)' % uri)
++                        sources_file.write("deb %s/%s ./\n" %
++                                           (uri, arch))
++                else:
+                     bb.note('Note: adding dpkg channel at (%s)' % uri)
+-                    sources_file.write("deb %s/%s ./\n" %
+-                                       (full_uri, arch))
++                    sources_file.write("deb %s ./\n" % uri)
+ 
+     def _create_configs(self, archs, base_archs):
+         base_archs = re.sub("_", "-", base_archs)
+-- 
+1.8.4.5
+
+
