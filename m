@@ -1,33 +1,33 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C9FA76660
+Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
+	[209.85.212.171])
+	by mail.openembedded.org (Postfix) with ESMTP id EE49476660
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Oct 2015 13:31:26 +0000 (UTC)
-Received: by wiclk2 with SMTP id lk2so167304362wic.0
+	Tue,  6 Oct 2015 13:36:53 +0000 (UTC)
+Received: by wicgb1 with SMTP id gb1so165900601wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Oct 2015 06:31:26 -0700 (PDT)
+	Tue, 06 Oct 2015 06:36:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=tEqoIM52ejbYnD5mPNzCEPvlqUACOt+FOO4jRgFQKow=;
-	b=wOvO4nTAEexssXFh+Dr7wzhxyAOdL+X2hi1BQUaqYBPe9K6BesPAPb8lprzzGYvKQk
-	Q/463yDzyCNXN1bsky2zZFi511feznNcJy/q72lie2necMgNVoAMjoTYgA66lfoBR4xj
-	Qktwfa0trO/TEnVGUkHn8PX9bcHNlj+P4/3ubirKvse4smRB2DNelZQTVBXIPGb69K0l
-	qDRx50ig/mRtB/UdkgnE3e7Dx0LpgXkQ2AXHowJpXTuZAhhxCZPAztbNyTqXYgmHv0jU
-	0amcXEFiRUbKWwc3BG8HT5be9xmKdpzpeX/U9nqSEqxGMQsfaV1bcXYUruesY1SjMK+5
-	jYsA==
-X-Received: by 10.194.7.232 with SMTP id m8mr36438166wja.56.1444138286556;
-	Tue, 06 Oct 2015 06:31:26 -0700 (PDT)
+	bh=T1Tsi96whw8H0l4CMsf090hiAl56FTowKeXfab7zcoM=;
+	b=Or0PNhE6GsqS7wLehyLO/VzFQY6Se+Y7CFpmTXDVxVXKaHXcPPs+fIDhTEbDYC4Yh1
+	pcFbB4oD0wr1zH2y7JAILaKzQlfPN7Cc4cIqvvmIVVQ8nI2gt2uAxHWn4UUxr4NvHOWU
+	GyZh29fir8PwbMWhJcnDdoRjdfPAkN6v1HYuPG55wFGvYsyCodK4wQy0EqkoHfXAneGB
+	TLlZl87Azj22P4B04gzc7EwBXCQL3KT21u2Z/5ryLJk8URFNw+O5DiArOv6teVRDDDz+
+	G2WC3ayrx8gum40YpN6+8LZx9b1VYi46DVMJwe8sk6BJviw2stxfYaX8Mhw9SEVWTG5+
+	y4kg==
+X-Received: by 10.194.103.194 with SMTP id fy2mr35302294wjb.10.1444138613710; 
+	Tue, 06 Oct 2015 06:36:53 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	jd7sm10806930wjb.19.2015.10.06.06.31.24
+	w1sm32636289wjz.37.2015.10.06.06.36.52
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 06 Oct 2015 06:31:25 -0700 (PDT)
+	Tue, 06 Oct 2015 06:36:52 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Oct 2015 15:31:28 +0200
-Message-Id: <1444138288-5460-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Tue,  6 Oct 2015 15:36:55 +0200
+Message-Id: <1444138615-5618-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.0
 Subject: [RFC][PATCH] cortexa{7,15,17}: add VFPv4 tunes
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -42,7 +42,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Oct 2015 13:31:27 -0000
+X-List-Received-Date: Tue, 06 Oct 2015 13:36:57 -0000
 
 * it was added only to hf cortexa7 in:
   commit e97d152ca13556b41a236c1a4cfb11e77ff857d7
@@ -50,8 +50,14 @@ X-List-Received-Date: Tue, 06 Oct 2015 13:31:27 -0000
   Date:   Sun Jan 26 10:03:56 2014 +0100
 
       Add Cortex A7 support for NEONv2 & FPv4
+
 * add it to softfp cortexa7 and both versions for cortexa15 and
   cortexa17 tunes
+* we should also update Cortex-A7 and Cortex-A15, to use -march=armv7ve,
+  but the problem is that oe-core has gcc-4.[89] and gcc-5.2 and gcc-4.8
+  doesn't support it yet, maybe we should do this change after gcc-4.8
+  is removed, for details see:
+  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=57907
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
