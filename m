@@ -1,34 +1,41 @@
-Return-Path: <petter@technux.se>
-X-Greylist: delayed 366 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 06 Oct 2015 08:17:57 UTC
-Received: from bin-vsp-out-04.atm.binero.net (bin-mail-out-05.binero.net
-	[195.74.38.228])
-	by mail.openembedded.org (Postfix) with ESMTP id 08DAB767EB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id CCEAF7680D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Oct 2015 08:17:57 +0000 (UTC)
-X-Halon-ID: e2bc2652-6c01-11e5-bfe4-005056917c0c
-Authorized-sender: petter@technux.se
-Received: from webmail.binero.se (unknown [195.74.38.9])
-	by bin-vsp-out-04.atm.binero.net (Halon Mail Gateway) with ESMTPA;
-	Tue,  6 Oct 2015 10:11:45 +0200 (CEST)
+	Tue,  6 Oct 2015 10:06:46 +0000 (UTC)
+Received: by qgx61 with SMTP id 61so169927149qgx.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Oct 2015 03:06:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=8a9he/haW19a8hws++TEBTo6yIGp3dtKmKpsgXVcAa0=;
+	b=lWxQPPqESdkWI8gqhuCqZBShd4Gqu2T2romgKY6VoT5wB51BOqmbRhUlyGd64VsyiG
+	UkgWwio/V/UvyFwtWE4AK9kQFEciP86/fG760l3dKvrFyfDZ9ahXd6ex5AWVVK3o/6vd
+	adpkDIU8K/sBI4mSmTvbDBBmM3hZSXgJ0VBDcba9ATUTTJsAYrn89H8sIVRMGnixEtd/
+	PVF/Iaz9PQk9gpQ//dQBBhKoPeiqlHfqooG+iX+X2pOaGGllzHxKXFx3RwixGguVD0Ya
+	1kTzCMKdeF87Ni5wUF8c/wz0/jv19A1q2VbMQpBs9oopob1lZlutZEoNazsJRM2R8HlQ
+	2fwg==
+X-Gm-Message-State: ALoCoQmOz8XejCeBwqhSKwngXcAR93tp5Cx2dp1F7BMfJV0/FpIcGt55DhShK+S4+MNfli8MIT/d
+X-Received: by 10.140.235.147 with SMTP id g141mr45487750qhc.22.1444126006105; 
+	Tue, 06 Oct 2015 03:06:46 -0700 (PDT)
 MIME-Version: 1.0
-Date: Tue, 06 Oct 2015 10:11:47 +0200
-From: =?UTF-8?Q?Petter_Mab=C3=A4cker?= <petter@technux.se>
-To: <kai.kang@windriver.com>
-Organization: Technux
-Mail-Reply-To: <petter@technux.se>
-In-Reply-To: <6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
+Received: by 10.140.94.86 with HTTP; Tue, 6 Oct 2015 03:06:26 -0700 (PDT)
+In-Reply-To: <b64576e3c49076498b7cfb0cbf9f3963@technux.se>
 References: <cover.1413452836.git.kai.kang@windriver.com>
 	<6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
-Message-ID: <b64576e3c49076498b7cfb0cbf9f3963@technux.se>
-X-Sender: petter@technux.se
-User-Agent: Binero Webmail/0.8.4
+	<b64576e3c49076498b7cfb0cbf9f3963@technux.se>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 6 Oct 2015 11:06:26 +0100
+Message-ID: <CAJTo0LZjxvCgVLFGVhn0O2PCWTGYFOM46zZ7KG_tqOZgzd9xgQ@mail.gmail.com>
+To: petter@technux.se
 Cc: Openembedded core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/3] readline: Security Advisory - readline - CVE-2014-2524
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: petter@technux.se
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -38,273 +45,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Oct 2015 08:17:59 -0000
-Content-Type: multipart/alternative;
-	boundary="=_ea950a620757640da9e0f1490324fb5a"
+X-List-Received-Date: Tue, 06 Oct 2015 10:06:48 -0000
+Content-Type: multipart/alternative; boundary=001a11376e6e9b0b9005216cc95e
 
---=_ea950a620757640da9e0f1490324fb5a
-Content-Transfer-Encoding: 8bit
+--001a11376e6e9b0b9005216cc95e
 Content-Type: text/plain; charset=UTF-8
-
- 
-
-Hi Kai, 
-
-I played around with the new meta-security-isafw layer and
-the cve-check-tool. In readline the cve CVE-2014-2524 is marked as
-'missing' by the framework and I was confused to start with, since I saw
-that this commit was included. But after looking at the actual patch I
-realized that it only contains a report and not the patch itself. My
-question is if that is with purpose and due to some decision that the
-CVE isn't really causing any harm or if it's by mistake? 
-
-BR Petter
-
-
-Petter Mabäcker
-
-Technux
-<petter@technux.se>
-www.technux.se
-
-2014-10-16 11:48 skrev Kai Kang: 
-
->
-The _rl_tropen function in util.c in GNU readline before 6.3 patch 3
->
-allows local users to create or overwrite arbitrary files via a
-symlink
-> attack on a /var/tmp/rltrace.[PID] file.
-> 
->
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2524 [1]
-> 
->
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-> Signed-off-by: Kai Kang
-<kai.kang@windriver.com>
-> ---
->
-.../readline/readline-6.3/readline63-003 | 43 ++++++++++++++++++++++
->
-meta/recipes-core/readline/readline_6.3.bb | 2 +
-> 2 files changed, 45
-insertions(+)
-> create mode 100644
-meta/recipes-core/readline/readline-6.3/readline63-003
-> 
-> diff --git
-a/meta/recipes-core/readline/readline-6.3/readline63-003
-b/meta/recipes-core/readline/readline-6.3/readline63-003
-> new file mode
-100644
-> index 0000000..98a9d81
-> --- /dev/null
-> +++
-b/meta/recipes-core/readline/readline-6.3/readline63-003
-> @@ -0,0 +1,43
-@@
-> +readline: Security Advisory - readline - CVE-2014-2524
-> +
->
-+Upstream-Status: Backport
-> +
-> +Signed-off-by: Yue Tao
-<yue.tao@windriver.com>
-> +
-> + READLINE PATCH REPORT
-> +
-=====================
-> +
-> +Readline-Release: 6.3
-> +Patch-ID:
-readline63-003
-> +
-> +Bug-Reported-by:
-> +Bug-Reference-ID:
->
-+Bug-Reference-URL:
-> +
-> +Bug-Description:
-> +
-> +There are debugging
-functions in the readline release that are theoretically
-> +exploitable
-as security problems. They are not public functions, but have
-> +global
-linkage.
-> +
-> +Patch (apply with `patch -p0'):
-> +
-> +***
-../readline-6.3/util.c 2013-09-02 13:36:12.000000000 -0400
-> +--- util.c
-2014-03-20 10:25:53.000000000 -0400
-> +***************
-> +*** 477,480
-****
-> +--- 479,483 ----
-> + }
-> + 
-> ++ #if defined (DEBUG)
-> + #if
-defined (USE_VARARGS)
-> + static FILE *_rl_tracefp;
-> +***************
->
-+*** 539,542 ****
-> +--- 542,546 ----
-> + }
-> + #endif
-> ++ #endif /*
-DEBUG */
-> + 
-> + 
-> +
-> diff --git
-a/meta/recipes-core/readline/readline_6.3.bb
-b/meta/recipes-core/readline/readline_6.3.bb
-> index aa30f66..2ae73ea
-100644
-> --- a/meta/recipes-core/readline/readline_6.3.bb
-> +++
-b/meta/recipes-core/readline/readline_6.3.bb
-> @@ -1,5 +1,7 @@
-> require
-readline.inc
-> 
-> +SRC_URI_append = " file://readline63-003"
-> +
->
-SRC_URI[archive.md5sum] = "33c8fb279e981274f485fd91da77e94a"
->
-SRC_URI[archive.sha256sum] =
-"56ba6071b9462f980c5a72ab0023893b65ba6debb4eeb475d7a563dc65cafd43"
-> 
->
--- 
-> 1.9.1
- 
-
-Links:
-------
-[1]
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2524
-
---=_ea950a620757640da9e0f1490324fb5a
 Content-Transfer-Encoding: quoted-printable
+
+On 6 October 2015 at 09:11, Petter Mab=C3=A4cker <petter@technux.se> wrote:
+
+> I played around with the new meta-security-isafw layer and the
+> cve-check-tool. In readline the cve CVE-2014-2524 is marked as 'missing' =
+by
+> the framework and I was confused to start with, since I saw that this
+> commit was included. But after looking at the actual patch I realized tha=
+t
+> it only contains a report and not the patch itself. My question is if tha=
+t
+> is with purpose and due to some decision that the CVE isn't really causin=
+g
+> any harm or if it's by mistake?
+>
+>
+As can be seen at
+http://lists.gnu.org/archive/html/bug-readline/2014-03/msg00057.html the
+CVE patch is simply adding a #if defined (DEBUG), which is in the patch
+included in oe-core master as readline-6.3/readline63-003.
+
+The tool is probably reporting it as missing as -- if i recall correctly --
+it identifies CVE patches by filename.
+
+Ross
+
+--001a11376e6e9b0b9005216cc95e
 Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
-<html><body style=3D'font-family: Helvetica,Arial,sans-serif'>
-<p>Hi Kai,</p>
-<p><br />I played around with the new meta-security-isafw layer and the cve=
--check-tool. In readline the cve CVE-2014-2524 is marked as 'missing' by th=
-e framework and I was confused to start with, since I saw that this commit =
-was included. But after looking at the actual patch I realized that it only=
- contains a report and not the patch itself. My question is if that is with=
- purpose and due to some decision that the CVE isn't really causing any har=
-m or if it's by mistake?</p>
-<p>BR Petter</p>
-<p>&nbsp;</p>
-<div>
-<pre>Petter Mab&auml;cker
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 October 2015 at 09:11, Petter Mab=C3=A4cker <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:petter@technux.se" target=3D"_blank">petter@technux.se</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
+-left-style:solid;padding-left:1ex"><p>I played around with the new meta-se=
+curity-isafw layer and the cve-check-tool. In readline the cve CVE-2014-252=
+4 is marked as &#39;missing&#39; by the framework and I was confused to sta=
+rt with, since I saw that this commit was included. But after looking at th=
+e actual patch I realized that it only contains a report and not the patch =
+itself. My question is if that is with purpose and due to some decision tha=
+t the CVE isn&#39;t really causing any harm or if it&#39;s by mistake?</p>
+<p></p></blockquote></div><br>As can be seen at <a href=3D"http://lists.gnu=
+.org/archive/html/bug-readline/2014-03/msg00057.html">http://lists.gnu.org/=
+archive/html/bug-readline/2014-03/msg00057.html</a> the CVE patch is simply=
+ adding a #if defined (DEBUG), which is in the patch included in oe-core ma=
+ster as=C2=A0readline-6.3/readline63-003.</div><div class=3D"gmail_extra"><=
+br></div><div class=3D"gmail_extra">The tool is probably reporting it as mi=
+ssing as -- if i recall correctly -- it identifies CVE patches by filename.=
+</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
+/div></div>
 
-Technux &lt;petter@technux.se&gt;
-www.technux.se</pre>
-</div>
-<p>2014-10-16 11:48 skrev Kai Kang:</p>
-<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
-x solid; margin-left:5px; width:100%"><!-- html ignored --><!-- head ignore=
-d --><!-- meta ignored -->
-<pre>The _rl_tropen function in util.c in GNU readline before 6.3 patch 3
-allows local users to create or overwrite arbitrary files via a symlink
-attack on a /var/tmp/rltrace.[PID] file.
-
-<a href=3D"http://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2014-2524"=
->http://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2014-2524</a>
-
-Signed-off-by: Yue Tao &lt;<a href=3D"mailto:Yue.Tao@windriver.com">Yue.Tao=
-@windriver.com</a>&gt;
-Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com">kai=
-=2Ekang@windriver.com</a>&gt;
----
- .../readline/readline-6.3/readline63-003           | 43 ++++++++++++++++++=
-++++
- meta/recipes-core/readline/readline_6.3.bb         |  2 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-core/readline/readline-6.3/readline63-003
-
-diff --git a/meta/recipes-core/readline/readline-6.3/readline63-003 b/meta/=
-recipes-core/readline/readline-6.3/readline63-003
-new file mode 100644
-index 0000000..98a9d81
---- /dev/null
-+++ b/meta/recipes-core/readline/readline-6.3/readline63-003
-@@ -0,0 +1,43 @@
-+readline: Security Advisory - readline - CVE-2014-2524
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Yue Tao &lt;<a href=3D"mailto:yue.tao@windriver.com">yue.ta=
-o@windriver.com</a>&gt;
-+
-+			   READLINE PATCH REPORT
-+			   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Readline-Release: 6.3
-+Patch-ID: readline63-003
-+
-+Bug-Reported-by:
-+Bug-Reference-ID:
-+Bug-Reference-URL:
-+
-+Bug-Description:
-+
-+There are debugging functions in the readline release that are theoretical=
-ly
-+exploitable as security problems.  They are not public functions, but have
-+global linkage.
-+
-+Patch (apply with `patch -p0'):
-+
-+*** ../readline-6.3/util.c	2013-09-02 13:36:12.000000000 -0400
-+--- util.c	2014-03-20 10:25:53.000000000 -0400
-+***************
-+*** 477,480 ****
-+--- 479,483 ----
-+  }
-+ =20
-++ #if defined (DEBUG)
-+  #if defined (USE_VARARGS)
-+  static FILE *_rl_tracefp;
-+***************
-+*** 539,542 ****
-+--- 542,546 ----
-+  }
-+  #endif
-++ #endif /* DEBUG */
-+ =20
-+ =20
-+
-diff --git a/meta/recipes-core/readline/readline_6.3.bb b/meta/recipes-core=
-/readline/readline_6.3.bb
-index aa30f66..2ae73ea 100644
---- a/meta/recipes-core/readline/readline_6.3.bb
-+++ b/meta/recipes-core/readline/readline_6.3.bb
-@@ -1,5 +1,7 @@
- require readline.inc
-=20
-+SRC_URI_append =3D " file://readline63-003"
-+
- SRC_URI[archive.md5sum] =3D "33c8fb279e981274f485fd91da77e94a"
- SRC_URI[archive.sha256sum] =3D "56ba6071b9462f980c5a72ab0023893b65ba6debb4=
-eeb475d7a563dc65cafd43"
-=20
-<span class=3D"sig">--=20
-1.9.1
-</span></pre>
-</blockquote>
-</body></html>
-
---=_ea950a620757640da9e0f1490324fb5a--
+--001a11376e6e9b0b9005216cc95e--
