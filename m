@@ -1,41 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id F1D05605D2
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DDA973D13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Oct 2015 13:13:55 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so165748292wic.1
+	Tue,  6 Oct 2015 13:13:54 +0000 (UTC)
+Received: by wicfx3 with SMTP id fx3so158248332wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Oct 2015 06:13:55 -0700 (PDT)
+	Tue, 06 Oct 2015 06:13:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-type:content-transfer-encoding;
-	bh=9OTG3m7MS2W+q/qG11Mm1UhKLeCBTnHF/cR1z1Lr7GA=;
-	b=YSoniLa4UtDOiF+rOhSNZ8f0G19qsOZKShKd8x3z2eS4moa9xnY+AUtQmhEyEcUaDY
-	thwe3/S5VblICZs+PxDDDWxin4PYS6pXXGH0praJXzSYT6s4uImpnZ01Dz6lJ/qxTpt8
-	57lzyHqNr9fqZnmEc48w09EzeH6aD7JQSlJrmHm391vUeDwAvBUey1D8cg5baUTvHBkd
-	wYz6rGiuuWW47SpsTQCmRoB8CpGbHpRfZ+kGblNkfGEj4TDeB6V304S/REVzBaaRuVAb
-	IDS8rxwG1xCXrZ1QOlZZOgwUKnMCcp3KvnrBTptW9YehuyQqrooshvRVCuMccHiHESvG
-	y99w==
-X-Gm-Message-State: ALoCoQmE+GoWBit7HNJEIaAsSOc+BGtmV3XCXWxQW7vCDZY+vfPTIgIkLY9ORaj61T584HH96HJy
-X-Received: by 10.180.39.136 with SMTP id p8mr19005114wik.10.1444137235164;
-	Tue, 06 Oct 2015 06:13:55 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=HrcVu6tifwJHmltFG9b463t6KYN1Ak7s7St7fiP/NWQ=;
+	b=TpOPKXaSiUJ3vNjnkczfC3Cuz/JHtWNEhyvhQnSIQQuqkdyeqKlFgfvDKwLJS+S+OL
+	OLC1uxpnvUIUYq5crfd3dn2XeW7tDxcbZPwOydIcLFLmEFrc5YwKeF2g4ph1xegm6+fG
+	QSne361GbBF2EfXf3U0G94M639r83bBCI+OGNa3GynTdk/OjV7mC4ZizTDQ/ddtJWLix
+	LQWHiB6jQJSa7kMLh/U9iHONgeh6iXsw7m55WvRBm7z0R8/LqC66fOLVy1BvTVKsz4bE
+	+vJXg5/aau8sD2OFYBvQUXQTDSnpehJLHqCot96KmM+qSftXyDi138ETBNHBiJUqnSjT
+	HBLg==
+X-Gm-Message-State: ALoCoQmcW4/4PPI+DeT5kHdBIn0yTM1Sksr57g2JMBSdG3gjjoFQPG3oamVpn0JahPvosAEy3pMU
+X-Received: by 10.180.86.165 with SMTP id q5mr5260873wiz.52.1444137234301;
+	Tue, 06 Oct 2015 06:13:54 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	jt3sm29408553wjc.12.2015.10.06.06.13.54
+	jt3sm29408553wjc.12.2015.10.06.06.13.53
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 06 Oct 2015 06:13:54 -0700 (PDT)
+	Tue, 06 Oct 2015 06:13:53 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Oct 2015 14:06:35 +0100
-Message-Id: <1444136795-1844-2-git-send-email-ross.burton@intel.com>
+Date: Tue,  6 Oct 2015 14:06:34 +0100
+Message-Id: <1444136795-1844-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1444136795-1844-1-git-send-email-ross.burton@intel.com>
-References: <1444136795-1844-1-git-send-email-ross.burton@intel.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] readline: actually apply readline63-003 (aka CVE-2014-2524)
+Subject: [PATCH 1/2] rpm: fix return without value in patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,38 +45,29 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 06 Oct 2015 13:13:57 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-This file wasn't named as a patch, nor told to apply explicity, so it was just
-unpacked to the work directory and not applied.  Rename the file so the patch is
-applied correctly.
-
-(thanks to Petter Mabäcker <petter@technux.se> for spotting this)
+The error patch in rpm-check-rootpath-reasonableness.patch did a bare return
+from a function that should be returning an int.  As this is the error path,
+return -1 instead.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../readline/readline-6.3/{readline63-003 => readline63-003.patch}      | 0
- meta/recipes-core/readline/readline_6.3.bb                              | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/readline/readline-6.3/{readline63-003 => readline63-003.patch} (100%)
+ meta/recipes-devtools/rpm/rpm/rpm-check-rootpath-reasonableness.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/readline/readline-6.3/readline63-003 b/meta/recipes-core/readline/readline-6.3/readline63-003.patch
-similarity index 100%
-rename from meta/recipes-core/readline/readline-6.3/readline63-003
-rename to meta/recipes-core/readline/readline-6.3/readline63-003.patch
-diff --git a/meta/recipes-core/readline/readline_6.3.bb b/meta/recipes-core/readline/readline_6.3.bb
-index 55964a6..6ba1c18 100644
---- a/meta/recipes-core/readline/readline_6.3.bb
-+++ b/meta/recipes-core/readline/readline_6.3.bb
-@@ -1,6 +1,6 @@
- require readline.inc
- 
--SRC_URI += "file://readline63-003 \
-+SRC_URI += "file://readline63-003.patch;striplevel=0 \
-             file://readline-dispatch-multikey.patch"
- 
- SRC_URI[archive.md5sum] = "33c8fb279e981274f485fd91da77e94a"
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-check-rootpath-reasonableness.patch b/meta/recipes-devtools/rpm/rpm/rpm-check-rootpath-reasonableness.patch
+index 3986030..3d8d645 100644
+--- a/meta/recipes-devtools/rpm/rpm/rpm-check-rootpath-reasonableness.patch
++++ b/meta/recipes-devtools/rpm/rpm/rpm-check-rootpath-reasonableness.patch
+@@ -37,7 +37,7 @@ index 40c42bd..88d85ab 100644
+ +    int ret,rootdir_len;
+ +
+ +    if(rootdir == NULL) {
+-+        return;
+++        return -1;
+ +    }
+ +
+ +    rootdir_len = strlen(rootdir);
 -- 
 2.1.4
 
