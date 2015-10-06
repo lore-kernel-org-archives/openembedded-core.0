@@ -1,36 +1,41 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 2301476AE2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 462E676E4B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Oct 2015 03:19:59 +0000 (UTC)
-Received: by iofh134 with SMTP id h134so208357328iof.0
+	Tue,  6 Oct 2015 03:54:56 +0000 (UTC)
+Received: by padhy16 with SMTP id hy16so56301420pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Oct 2015 20:20:00 -0700 (PDT)
+	Mon, 05 Oct 2015 20:54:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=5vlLtWHFPYZkNDfCFvOx2c2U/QKOX7RGq1rZcIL+db8=;
-	b=N+YIUed0ZgLoknyzUceQ8Alk2HDOHqYS3QCnFv57FZF8+kiOvrlh1tNwY4tz8tdOG1
-	if3GWvQ8KaauJ5dLoJ4rP6I2J5dvOYfX5b/QtoMKzKFYuRKxx6WfwmouALRo59UhySu4
-	zYkISjcWIaA+nbIX9QrhZbuolk/JichNC7dhQ5fZ3owsm9pwyq1ndRJVw6CCzXyitDss
-	R0U6tVgQhBxIobw9eK7Z774KAj9PJ+A9pg9q5Ns+zL493TRbu433g/qDfb8EXgl4osgK
-	W9m2K97nXB+AQeta8PYcNSnfonex0aGsJQ8TYAsaeF5u5maWwhEFfVZgYQuEHnhq4dl2
-	ncDw==
-X-Received: by 10.107.134.24 with SMTP id i24mr32195927iod.162.1444101599996; 
-	Mon, 05 Oct 2015 20:19:59 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id bc4sm6094425igb.2.2015.10.05.20.19.58
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 05 Oct 2015 20:19:59 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Oct 2015 20:19:28 -0700
-Message-Id: <1444101568-16639-8-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=IoF2Ldh/WEuuc5FKXpt7GWyoTCBcqxAqezx8jIPCo/U=;
+	b=uhy/nmG5ePYccUYZZ2cCO1lg39Oh1E5sltAJeCtlfZfsJnc2IvcUHXzOiJgmo2IzZN
+	FtBbxzIXGrUi03417A/Qy0X/kHlPH5BAFfrjNJh6n7c7hE22bdEKWz9GHy9PHC28aldm
+	2N996LAGUZ0di10qnVsVF+Wxyb71wTGclIS4Hx8gHdg9qwmvMh1nvT4/ctoXlVmAuJON
+	zMlpEYKgHvHe8IK3S1xTlj8YfzmAexiPjeV/swaNTxii2l+bDo4A0jQ7qcXmkOIDF7XE
+	BCmFMmOgpXNf+hXme3O0JkFFNZjir14hMgly9cthQpRZdt7w/RpjSxkLXC/oDR6v2LzU
+	dKkw==
+X-Received: by 10.68.249.66 with SMTP id ys2mr44999301pbc.82.1444103696898;
+	Mon, 05 Oct 2015 20:54:56 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:6121:2c7:f101:d73c?
+	([2601:646:8601:4580:6121:2c7:f101:d73c])
+	by smtp.gmail.com with ESMTPSA id
+	yq2sm30358241pbb.39.2015.10.05.20.54.56
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 05 Oct 2015 20:54:56 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3095\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
 In-Reply-To: <1444101568-16639-1-git-send-email-armccurdy@gmail.com>
+Date: Mon, 5 Oct 2015 20:54:53 -0700
+Message-Id: <B6E9CFBB-3448-4508-A1E3-8BE0DC7CD212@gmail.com>
 References: <1444101568-16639-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 7/7] busybox.inc: remove MAKEFLAGS over-ride from EXTRA_OEMAKE
+To: Andre McCurdy <armccurdy@gmail.com>
+X-Mailer: Apple Mail (2.3095)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/7] busybox fixes and cleanups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,32 +48,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Oct 2015 03:20:00 -0000
+X-List-Received-Date: Tue, 06 Oct 2015 03:54:57 -0000
+X-Groupsio-MsgNum: 71935
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_8994EDE2-06C6-4693-87D4-E89B2902A072";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-Busybox Kbuild likes to control its own MAKEFLAGS (it adds -rR,
-etc), so avoid over-riding MAKEFLAGS via EXTRA_OEMAKE.
-
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-core/busybox/busybox.inc | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index b380860..878e2bb 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -18,6 +18,10 @@ BUSYBOX_SPLIT_SUID ?= "1"
- export EXTRA_CFLAGS = "${CFLAGS}"
- export EXTRA_LDFLAGS = "${LDFLAGS}"
- 
-+# Busybox Kbuild likes to control its own MAKEFLAGS (it adds -rR,
-+# etc), so avoid over-riding MAKEFLAGS via EXTRA_OEMAKE.
-+EXTRA_OEMAKE = "-e"
-+
- EXTRA_OEMAKE += "'CC=${CC}' 'LD=${CCLD}'"
- EXTRA_OEMAKE += "V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y"
- 
--- 
-1.9.1
+--Apple-Mail=_8994EDE2-06C6-4693-87D4-E89B2902A072
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Oct 5, 2015, at 8:19 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> 
+> Further busybox recipe cleanups, to be applied on top of:
+> 
+>  busybox.inc: remove redundant @DATADIR@ replacement
+> 
+> Andre McCurdy (7):
+>  busybox_git: Enable getopt applet
+>  busybox.inc: don't export EXTRA_OEMAKE
+>  busybox: move common EXTRA_OEMAKE options into busybox.inc
+>  busybox.inc: explicitly include CC=${CC} on make command line
+>  busybox.inc: don't set .config CROSS_COMPILER_PREFIX
+>  busybox.inc: fix CONFIG_EXTRA_CFLAGS configmangle
+>  busybox.inc: remove MAKEFLAGS over-ride from EXTRA_OEMAKE
+> 
+> meta/recipes-core/busybox/busybox.inc       | 14 +++++++++-----
+> meta/recipes-core/busybox/busybox_1.23.2.bb |  2 --
+> meta/recipes-core/busybox/busybox_git.bb    |  3 +--
+> 3 files changed, 10 insertions(+), 9 deletions(-)
+> 
+
+LGTM
+
+
+
+--Apple-Mail=_8994EDE2-06C6-4693-87D4-E89B2902A072
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlYTRhAACgkQuwUzVZGdMxSbcQCfVXEd+/uugV4/ZzUweok4zp/B
+HOUAn2BwrDa6XJoVXZ+iMgC793hGU4/E
+=qM/j
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_8994EDE2-06C6-4693-87D4-E89B2902A072--
