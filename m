@@ -1,24 +1,34 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 48616766A3
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BF79762A2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Oct 2015 22:13:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t95MDpFB012875
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  6 Oct 2015 03:19:37 +0000 (UTC)
+Received: by igcpb10 with SMTP id pb10so77963678igc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Oct 2015 15:13:52 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 5 Oct 2015 15:13:51 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <randy.macleod@windriver.com>
-Date: Mon, 5 Oct 2015 15:13:51 -0700
-Message-ID: <1444083231-27314-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-Subject: [PATCH 1/1] pixbufcache: add processing for PIXBUFCACHE_SYSROOT_DEPS
+	Mon, 05 Oct 2015 20:19:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=sgn8AGI37ZQe4PLnFAuMooS2VTmVGgQ9YBx2vBHhhKE=;
+	b=mo+85iJKmDQ/b8xlDIltHdGCq03rEyWN75OeAFiy+COsOzFw0fX6KastIVGtFpPQpc
+	TmbCiKLz/pz0dOdRpMcFMA3vXGXjaYJsKtC3/3DQr0oI7JKHPsWDIb9afHvxDHJpwicW
+	DLBApYh8fCIseJYqYbK1dJnqbK1XIA1aqqGctX1uKDQ3vBEnX1Bk0hJ1aqmalIlPAM6u
+	d+BFzVu8le8QR7q5TZjT0XtZRFAqeg9tFdANGIJqQvR5hUgBZpa3hgx+Yk0l7Ztjm2Nw
+	OWuJ8S+Q7J84G1pxq3NhpZxDxAL4y/a/lHrA/SkcrsFnt1k4oh7uR5nD9Xae16t3LfML
+	1c9g==
+X-Received: by 10.50.57.102 with SMTP id h6mr12781162igq.29.1444101577190;
+	Mon, 05 Oct 2015 20:19:37 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id bc4sm6094425igb.2.2015.10.05.20.19.35
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 05 Oct 2015 20:19:35 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Oct 2015 20:19:21 -0700
+Message-Id: <1444101568-16639-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/7] busybox fixes and cleanups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +41,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Oct 2015 22:13:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 06 Oct 2015 03:19:37 -0000
 
-We want to depend on x:y instead of x:y_setscene, so strip
-off any _setscene's.
+Further busybox recipe cleanups, to be applied on top of:
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/classes/pixbufcache.bbclass |    4 ++++
- 1 file changed, 4 insertions(+)
+  busybox.inc: remove redundant @DATADIR@ replacement
 
-diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
-index dbe11e1..7692425 100644
---- a/meta/classes/pixbufcache.bbclass
-+++ b/meta/classes/pixbufcache.bbclass
-@@ -65,3 +65,7 @@ pixbufcache_sstate_postinst() {
- 	fi
- }
- 
-+PIXBUFCACHE_SYSROOT_DEPS ?= ""
-+
-+do_populate_sysroot_setscene[depends] += "${@d.getVar('PIXBUFCACHE_SYSROOT_DEPS', True).replace('_setscene', '')}"
-+
+Andre McCurdy (7):
+  busybox_git: Enable getopt applet
+  busybox.inc: don't export EXTRA_OEMAKE
+  busybox: move common EXTRA_OEMAKE options into busybox.inc
+  busybox.inc: explicitly include CC=${CC} on make command line
+  busybox.inc: don't set .config CROSS_COMPILER_PREFIX
+  busybox.inc: fix CONFIG_EXTRA_CFLAGS configmangle
+  busybox.inc: remove MAKEFLAGS over-ride from EXTRA_OEMAKE
+
+ meta/recipes-core/busybox/busybox.inc       | 14 +++++++++-----
+ meta/recipes-core/busybox/busybox_1.23.2.bb |  2 --
+ meta/recipes-core/busybox/busybox_git.bb    |  3 +--
+ 3 files changed, 10 insertions(+), 9 deletions(-)
+
 -- 
-1.7.9.5
+1.9.1
 
 
