@@ -1,42 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CF5076660
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A052605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Oct 2015 14:08:22 +0000 (UTC)
-Received: by qgt47 with SMTP id 47so175165201qgt.2
+	Tue,  6 Oct 2015 14:28:54 +0000 (UTC)
+Received: by wiclk2 with SMTP id lk2so162021522wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Oct 2015 07:08:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=J+yqT0K+N1Zdq1h1u5RUkZSo0wctyQf6slqgH/TeXus=;
-	b=g43/SWRs87qiYwnWKbZTZvguNf5isnHS/KpjbrorAWNdsFAZOmVTkDTJv56tkRzlI4
-	/dVSs6K2ivl14Lya0OWha3IZHd+jhBsqtCYNnIN6kASuJK1Uop71yuoA8Z5V8tkMZ8io
-	RKolPYm1puAcsq6RwUqa3Dg5dbkEoW5Yb4hPv24clo8/zFL4FuXtv/6gEe7tEmpSAfw3
-	Jt1wmR3ldxm/TdZav55/gFfCVa4O5KziaTPEngosX0bH6cDipBjXAiIGD4iPfCiHwba8
-	yb92sTQmPu1dXcACMLUquxG+eaCaX+FoqSIYYkMBlpPwjFzwZgSxT2LEH1ggCN/ya/I0
-	2xIQ==
-X-Gm-Message-State: ALoCoQn15PjtelFfnPTD6uD6S8Ibj+FH95tHeotSirR1WASpoUZawUXy8TIcmpWy8Z8ZnPug3xNd
-X-Received: by 10.140.32.119 with SMTP id g110mr46529297qgg.15.1444140502903; 
-	Tue, 06 Oct 2015 07:08:22 -0700 (PDT)
+	Tue, 06 Oct 2015 07:28:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=IJPlpOBJejDLi998uXdx9K9YUjPlUpgJ/AalzFluums=;
+	b=dm1BFrLViXaiKSzSOJLrOkICNTrGyMqrZLtCQBSTMp3xhnt968lCnOo4GS+IjDeOZ3
+	wKWnysZh2R2+7GXejHH2fmWKb0eKrlFeUbt8Yi0nTAZg+DMWXa7GYDgcDPR5WPo0NpJP
+	fO3oLfQwTz3lW54UhyKnXHaKFR+B7GWIKX3aCE+k1kPfLizShfqbDZ3S0E/863YOYhjt
+	IdpIfilsJcrQHFqgbKkdHaCJfrVKT0kuhppuxfdOgsUfK1I9mWkxaM7dunKeMJIsUvIl
+	9kTiQlORn3aOzshGcqMzYd91H3+I6SbOTtX3l+pW8YSMfGeh2lGttsplMC2Q1LjEK7MS
+	UO7g==
+X-Received: by 10.194.7.232 with SMTP id m8mr36761049wja.56.1444141734236;
+	Tue, 06 Oct 2015 07:28:54 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	hd7sm20084327wib.23.2015.10.06.07.28.52
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 06 Oct 2015 07:28:52 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 6 Oct 2015 16:28:57 +0200
+To: Phil Blundell <pb@pbcl.net>
+Message-ID: <20151006142857.GA2383@jama>
+References: <1444138615-5618-1-git-send-email-Martin.Jansa@gmail.com>
+	<1444139541.10310.4.camel@pbcl.net>
 MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Tue, 6 Oct 2015 07:08:03 -0700 (PDT)
-In-Reply-To: <7d91e0a2a4abbb2e84558856e1c2fa6a@technux.se>
-References: <cover.1413452836.git.kai.kang@windriver.com>
-	<6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
-	<b64576e3c49076498b7cfb0cbf9f3963@technux.se>
-	<CAJTo0LZjxvCgVLFGVhn0O2PCWTGYFOM46zZ7KG_tqOZgzd9xgQ@mail.gmail.com>
-	<fb59210fb91a5209c3d3ce6dbce38ff1@technux.se>
-	<CAJTo0LYiW1X+kZi0ra0JUMeywQVu4w492ULyRXcytpYFWiiwng@mail.gmail.com>
-	<7d91e0a2a4abbb2e84558856e1c2fa6a@technux.se>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 6 Oct 2015 15:08:03 +0100
-Message-ID: <CAJTo0LYP2bZAA9Svxxi_XQbg5LSS1yXzAbdvC5HFg4dWFU-Nzw@mail.gmail.com>
-To: petter@technux.se
-Cc: Openembedded core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] readline: Security Advisory - readline - CVE-2014-2524
+In-Reply-To: <1444139541.10310.4.camel@pbcl.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH] cortexa{7,15,17}: add VFPv4 tunes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,48 +48,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Oct 2015 14:08:23 -0000
-Content-Type: multipart/alternative; boundary=001a1139bc18aea5c2052170296d
+X-List-Received-Date: Tue, 06 Oct 2015 14:28:57 -0000
+X-Groupsio-MsgNum: 71949
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ibTvN161/egqYuK8"
+Content-Disposition: inline
 
---001a1139bc18aea5c2052170296d
-Content-Type: text/plain; charset=UTF-8
+--ibTvN161/egqYuK8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 6 October 2015 at 14:43, Petter Mab=C3=A4cker <petter@technux.se> wrote:
+On Tue, Oct 06, 2015 at 02:52:21PM +0100, Phil Blundell wrote:
+> On Tue, 2015-10-06 at 15:36 +0200, Martin Jansa wrote:
+> >=20
+> > * we should also update Cortex-A7 and Cortex-A15, to use=20
+> > -march=3Darmv7ve,
+> >   but the problem is that oe-core has gcc-4.[89] and gcc-5.2 and gcc
+> > -4.8
+> >   doesn't support it yet,
+>=20
+> Or you could make it use -mcpu=3Dcortex-a15, which works for all gcc
+> versions within living memory.  I've been using this change locally for
+> some months and it seems to work reasonably well:
 
-> Great. As you will notice also when formatted properly it will not apply
-> due to that readline63-001 and readline63-002 isn't applied so
-> 'patchlevel' is incorrect. That makes me wondering what the patching
-> strategy is? In my opinion we should consider adding the official
-> readline-6.3 patches as well. Should I add a bug report for that or leave
-> it as is (depending on the strategy...)?
->
+Thanks for comment.
 
-Adding the rest of the patches would have been a sensible thing to do.
-Right now, we're frozen as we're about to release 2.0, but a bug or patches
-post-release would be much appreciated.
+Yes, that's what we're doing now for our MACHINEs (dropping -march while ad=
+ding -mcpu).
 
-Ross
+But on current tunes I liked how hierarchical they are, so dropping
+common armv7a (or armv7ve) seems a bit strange in current design.
 
---001a1139bc18aea5c2052170296d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/c=
+onf/machine/include/arm/feature-arm-thumb.inc
+> index a94386f..22291dc 100644
+> --- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
+> +++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+> @@ -12,6 +12,7 @@ ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATU=
+RES', 'armv6',  't',  '', d
+>  ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', '=
+t2', '', d)}"
+>  ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv7r', '=
+t2', '', d)}"
+>  ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv7m', '=
+t2', '', d)}"
+> +ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexa15'=
+, 't2', '', d)}"
+> =20
+>  # If the device supports ARM, then respect ARM_THUMB_OPT (which can be "=
+arm" or "thumb")
+>  # If the defice doesn't support ARM, then always set "thumb" even when
+> diff --git a/meta/conf/machine/include/tune-cortexa15.inc b/meta/conf/mac=
+hine/include/tune-cortexa15.inc
+> index 5529777..f6c7d80 100644
+> --- a/meta/conf/machine/include/tune-cortexa15.inc
+> +++ b/meta/conf/machine/include/tune-cortexa15.inc
+> @@ -3,7 +3,9 @@ DEFAULTTUNE ?=3D "armv7a-neon"
+>  require conf/machine/include/arm/arch-armv7a.inc
+> =20
+>  TUNEVALID[cortexa15] =3D "Enable Cortex-A15 specific processor optimizat=
+ions"
+> -TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa15", " -=
+mtune=3Dcortex-a15", "", d)}"
+> +TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa15", " -=
+mcpu=3Dcortex-a15", "", d)}"
+> +
+> +MACHINEOVERRIDES =3D. "${@bb.utils.contains("TUNE_FEATURES", "cortexa15"=
+, "cortexa15:armv7a:", "" ,d)}"
+> =20
+>  # Little Endian base configs
+>  AVAILTUNES +=3D "cortexa15 cortexa15t cortexa15-neon cortexa15t-neon"
+> @@ -11,10 +13,10 @@ ARMPKGARCH_tune-cortexa15 =3D "cortexa15"
+>  ARMPKGARCH_tune-cortexa15t =3D "cortexa15"
+>  ARMPKGARCH_tune-cortexa15-neon =3D "cortexa15"
+>  ARMPKGARCH_tune-cortexa15t-neon =3D "cortexa15"
+> -TUNE_FEATURES_tune-cortexa15 =3D "${TUNE_FEATURES_tune-armv7a} cortexa15"
+> -TUNE_FEATURES_tune-cortexa15t =3D "${TUNE_FEATURES_tune-armv7at} cortexa=
+15"
+> -TUNE_FEATURES_tune-cortexa15-neon =3D "${TUNE_FEATURES_tune-armv7a-neon}=
+ cortexa15"
+> -TUNE_FEATURES_tune-cortexa15t-neon =3D "${TUNE_FEATURES_tune-armv7at-neo=
+n} cortexa15"
+> +TUNE_FEATURES_tune-cortexa15 =3D "arm vfp cortexa15"
+> +TUNE_FEATURES_tune-cortexa15t =3D "arm vftp thumb cortexa15"
+> +TUNE_FEATURES_tune-cortexa15-neon =3D "arm vfp neon cortexa15"
+> +TUNE_FEATURES_tune-cortexa15t-neon =3D "arm vfp neon thumb cortexa15"
+>  PACKAGE_EXTRA_ARCHS_tune-cortexa15 =3D "${PACKAGE_EXTRA_ARCHS_tune-armv7=
+a} cortexa15-vfp"
+>  PACKAGE_EXTRA_ARCHS_tune-cortexa15t =3D "${PACKAGE_EXTRA_ARCHS_tune-armv=
+7at} cortexa15-vfp cortexa15t2-vfp"
+>  PACKAGE_EXTRA_ARCHS_tune-cortexa15-neon =3D "${PACKAGE_EXTRA_ARCHS_tune-=
+armv7a-neon} cortexa15-vfp cortexa15-vfp-neon"
+>=20
+> p.
+>=20
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 October 2015 at 14:43, Petter Mab=C3=A4cker <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:petter@technux.se" target=3D"_blank">petter@technux.se</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><p>Great. As you will not=
-ice also when formatted properly it will not apply due to that readline63-0=
-01 and readline63-002 isn&#39;t applied so=C2=A0 &#39;patchlevel&#39; is in=
-correct. That makes me wondering what the patching strategy is? In my opini=
-on we should consider adding the official readline-6.3 patches as well. Sho=
-uld I add a bug report for that or leave it as is (depending on the strateg=
-y...)?</p>
-<div class=3D"gmail_extra"></div></blockquote></div><br>Adding the rest of =
-the patches would have been a sensible thing to do.=C2=A0 Right now, we&#39=
-;re frozen as we&#39;re about to release 2.0, but a bug or patches post-rel=
-ease would be much appreciated.</div><div class=3D"gmail_extra"><br></div><=
-div class=3D"gmail_extra">Ross</div></div>
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---001a1139bc18aea5c2052170296d--
+--ibTvN161/egqYuK8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlYT2pUACgkQN1Ujt2V2gByZKACePm1xoihzxGrsnWwfBq1IOjY4
+FY0An1zYvrlgUqRdArY8uFarvOaLVSOq
+=ajKg
+-----END PGP SIGNATURE-----
+
+--ibTvN161/egqYuK8--
