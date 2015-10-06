@@ -1,35 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E72173D26
+Return-Path: <clopez@igalia.com>
+Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
+	by mail.openembedded.org (Postfix) with ESMTP id 18A5465D6E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Oct 2015 16:12:40 +0000 (UTC)
-Received: by qgez77 with SMTP id z77so179194257qge.1
+	Tue,  6 Oct 2015 16:18:38 +0000 (UTC)
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: A2CCEADN8xNW/5tjdVteGQECAQGDCYFChUu0N4REGYEthhoCgTg8EAEBAQEBAQGBCoQlAQEEI1URCxgJFgsCAgkDAgECAUUGDQYCAoguAatflC0BCwEfhnOEfoUUgmmBRQEElgSCTYFhiGmbbjgrgkSBQDwziD8BAQE
+X-IPAS-Result: A2CCEADN8xNW/5tjdVteGQECAQGDCYFChUu0N4REGYEthhoCgTg8EAEBAQEBAQGBCoQlAQEEI1URCxgJFgsCAgkDAgECAUUGDQYCAoguAatflC0BCwEfhnOEfoUUgmmBRQEElgSCTYFhiGmbbjgrgkSBQDwziD8BAQE
+X-IronPort-AV: E=Sophos;i="5.17,644,1437429600"; 
+	d="asc'?scan'208";a="31245649"
+Received: from fanzine.igalia.com ([91.117.99.155])
+	by smtp4.mundo-r.com with ESMTP; 06 Oct 2015 18:18:37 +0200
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+	by fanzine.igalia.com with esmtps 
+	(Cipher TLS1.0:RSA_AES_256_CBC_SHA1:32) (Exim) id 1ZjUwn-0005Bc-N8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Oct 2015 09:12:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=rUnAfXncGjYj6QJs51XAsieiHpuAxAukrk5+xnBWHM8=;
-	b=HEPFbNJxDjYshKVPrRILic53ZopwnPwpNYGh9CcPIdtWvqudT+WbvA3Ba4dJTTmTnO
-	9SUchEafbC2ubBctnwv8d0CgodqRnlEu+U2OO2Fr7GFRYYy0UXMNb8sfnh+uTW44d+vC
-	D0j30VJUASgFCrZoSx1A0KWk1FiiIe+LPo6GiTP4ebEWoz5ozS4mJ43mentHJmPXLRoP
-	W/hrFwr6nRJuY/40kHGRFbU6oqxgjX57tMQi2c3j4poU9tnNCvv6X1z2WQdVlWSaJVX+
-	KUZMlSaWeM9d+nN2ewA1fejLQubLkkRMesZE2oYfDwc2OXZdyLtYdhrChUd1xnxE0sRQ
-	+E/g==
-X-Gm-Message-State: ALoCoQng0mn/eJM52TJjv/GkbZDsSvAn9JAFKEBysqnVuMRGAo/N6fnQZleUiFDFShsuSoH23EmW
-X-Received: by 10.140.235.147 with SMTP id g141mr47905321qhc.22.1444147960465; 
-	Tue, 06 Oct 2015 09:12:40 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Tue, 6 Oct 2015 09:12:21 -0700 (PDT)
-In-Reply-To: <1444143620-7764-1-git-send-email-clopez@igalia.com>
-References: <1444143620-7764-1-git-send-email-clopez@igalia.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 6 Oct 2015 17:12:21 +0100
-Message-ID: <CAJTo0LZ9gmfcoOCBLWoBejQ_q6+66UXgPcHv3c=AUE8qOGPWyw@mail.gmail.com>
-To: Carlos Alberto Lopez Perez <clopez@igalia.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+	Tue, 06 Oct 2015 18:18:37 +0200
+Received: from ip149.dynamic.igalia.com ([192.168.10.149])
+	by mail.igalia.com with esmtps 
+	(Cipher TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim)
+	id 1ZjUwn-0004F1-HZ for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Oct 2015 18:18:37 +0200
+To: OE-core <openembedded-core@lists.openembedded.org>
+references: <1444143620-7764-1-git-send-email-clopez@igalia.com>
+	<CAJTo0LZ9gmfcoOCBLWoBejQ_q6+66UXgPcHv3c=AUE8qOGPWyw@mail.gmail.com>
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
+	url=http://key.neutrino.es
+organization: Igalia S.L.
+message-id: <5613F457.9080804@igalia.com>
+Date: Tue, 6 Oct 2015 18:18:31 +0200
+user-agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:38.0) Gecko/20100101 Icedove/38.0
+mime-version: 1.0
+in-reply-to: <CAJTo0LZ9gmfcoOCBLWoBejQ_q6+66UXgPcHv3c=AUE8qOGPWyw@mail.gmail.com>
 Subject: Re: [PATCH] machine/qemu: Fix OpenGL/GLX support with xserver-xorg.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,39 +46,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Oct 2015 16:12:41 -0000
-Content-Type: multipart/alternative; boundary=001a11376e6e2fe684052171e6c5
+X-List-Received-Date: Tue, 06 Oct 2015 16:18:41 -0000
+X-Groupsio-MsgNum: 71958
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="doCMGWsXTp2dsk9sk3mAQ1wpwPlG0cFuT"
 
---001a11376e6e2fe684052171e6c5
-Content-Type: text/plain; charset=UTF-8
-
-On 6 October 2015 at 16:00, Carlos Alberto Lopez Perez <clopez@igalia.com>
-wrote:
-
->       root@qemux86:~# glxinfo | grep " render"
->       direct rendering: Yes
->       OpenGL renderer string: Software Rasterizer
->
-
-"Works" being a relative term for the old non-LLVM software renderer ;)
-
-Ross
-
---001a11376e6e2fe684052171e6c5
-Content-Type: text/html; charset=UTF-8
+--doCMGWsXTp2dsk9sk3mAQ1wpwPlG0cFuT
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 October 2015 at 16:00, Carlos Alberto Lopez Perez <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:clopez@igalia.com" target=3D"_blank">clopez@igalia.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":230" cl=
-ass=3D"a3s" style=3D"overflow:hidden">=C2=A0 =C2=A0 =C2=A0 root@qemux86:~# =
-glxinfo | grep &quot; render&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 direct rendering: Yes<br>
-=C2=A0 =C2=A0 =C2=A0 OpenGL renderer string: Software Rasterizer<br></div><=
-/blockquote></div><br>&quot;Works&quot; being a relative term for the old n=
-on-LLVM software renderer ;)</div><div class=3D"gmail_extra"><br></div><div=
- class=3D"gmail_extra">Ross</div></div>
+On 06/10/15 18:12, Burton, Ross wrote:
+> On 6 October 2015 at 16:00, Carlos Alberto Lopez Perez <clopez@igalia.c=
+om>
+> wrote:
+>=20
+>>       root@qemux86:~# glxinfo | grep " render"
+>>       direct rendering: Yes
+>>       OpenGL renderer string: Software Rasterizer
+>>
+>=20
+> "Works" being a relative term for the old non-LLVM software renderer ;)=
 
---001a11376e6e2fe684052171e6c5--
+>=20
+> Ross
+>=20
+
+Indeed, that is something that I also would like to fix.
+
+In any case, now I'm able to execute GL apps within qemu using the
+runqemu script, so is quite an improvement from the previous status-quo.
+
+
+--doCMGWsXTp2dsk9sk3mAQ1wpwPlG0cFuT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+Comment: You can fetch my GnuPG key from http://key.neutrino.es
+
+iQIcBAEBCgAGBQJWE/RXAAoJEJZQic5rlfiCARYQAMFWkFec2q/82qtGdWnaKqcV
+BFk9OB+R15+9rpe8v3K6MXZAKYUZ6JLseWJnPfsu6oIRXdrLNu4+XHvF/aftTe8c
+VvTW2VoOXeiPVtVFdhClR9BLSeSBAK/nKYEQBzAqEJLlfepCqjK6yOKgK1S250zr
+wXdA9gZjCyCN8Z1IVoB/bNn03CmhTXM6tBFtPWcH8/1HtRDOZcApD1QCuls+g4U1
+nzQfO7pSPEdBxif6T3abv0PwjEDISdQVjW+WHcnOL9fcjXB2vgx75IQchjhX9OBr
+vWVn7Q3+rvq/1vVSm1Jemw36I+OrPYqcRfjj0bTcYmdgeBVwQFSzhLP7m+0m2jcF
+Yv3WJh2U0LCZuJge/hnZRunbucCvLNotw8GVr0ME3GC42Y5TCCDQZLjmzKY0Gbfk
+YHq9f4/OVBSgQ7ObgCJrtB/XxXaK8QmIMagOBux3UA0l0fwtMYTetSgTnZM7vLuc
+JeJdN42E9cFUuZOIZ9Q1iKRJTJx6cEZiXUjPDRf6glOZ46J4QqYokQk6+GjrAoc2
+OtymUYhco1fSvTcAey5BEqs5nJ1dvxqWYmuIy04QYa1Algaf0KawYdHxrKqmZdnf
+6ZFm9u6ompq028fDv/4Dg0LtJWuZWSA1ayVUDcHE2Zeym5Se4KutIY9f82Mw1aLC
+45y3DYeukkYC11BPSkmX
+=egwg
+-----END PGP SIGNATURE-----
+
+--doCMGWsXTp2dsk9sk3mAQ1wpwPlG0cFuT--
