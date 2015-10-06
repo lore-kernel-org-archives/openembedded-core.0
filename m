@@ -1,36 +1,36 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 39CF576AE2
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B6917701A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Oct 2015 03:19:50 +0000 (UTC)
-Received: by ioiz6 with SMTP id z6so207614200ioi.2
+	Tue,  6 Oct 2015 03:19:53 +0000 (UTC)
+Received: by ioiz6 with SMTP id z6so207615127ioi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Oct 2015 20:19:50 -0700 (PDT)
+	Mon, 05 Oct 2015 20:19:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=6U6npt/EhbmBMqPFt5cnqg63TV2JvTBU8H8lzaMTyxc=;
-	b=c+/pzscWhcGW92UkqMTx9zeaZyxu2p/BCaBjs3FNKs15jrCI1sXhJycionu7tDqd45
-	1wvM0dOCamn41hoCNycIYxNiWeUDieeMWJdvRo2kk77lJb69j7DF0soVDWpOozPGO6O8
-	rIV2674xkCxVZ9wgEaLUooI1bueq/d4sQX6kv3aNo8JJucuQEl7iaBRYKPkd14rfzf8O
-	o2CBB+2+yNa+x8BpQ6eSYnDcYXFI+zM5bgmWbefC2CRR0A7abwdfG1hDhwBU2IV2bEet
-	le/+KM9mhIUPyk+dplmPpxb0trxqe0Bd9Wa8+tWS5NGo6OTTTyPiwDeONPAV9cUoKIEy
-	W+jw==
-X-Received: by 10.107.168.230 with SMTP id e99mr32533861ioj.95.1444101590858; 
-	Mon, 05 Oct 2015 20:19:50 -0700 (PDT)
+	bh=2ndViG1eIJuomaI4pftp6xefZ1o4VMLn1KmdYsh6Q88=;
+	b=Kv76muaMwGItFmUub27xi9hWni5uy4Z3o05VyamSdtd2R7XeHxSfHYrbNbG9N8Kc/j
+	VS4Kk+Hl4RJn7mcBQES2/g/KZ0VDqx2xzp4fu7rocihzCEEpxp9fyvH1Dy/oR8kjWj7N
+	GZ3f7G5iNbqcumckS0ECKQZ24VUETuL6xtbhd+4VlS+kYTFawPeNk7ZJU4cg8WlGgYDD
+	4aLk68pEmGuFy4dJHR1jtG0o89crEdgDnyRzbtSU2GLiJ/rwKOpcBx3Lt97XwDy8ULh2
+	BFRXbiXuLbHemRTtKgzYYk604C3nRjG59aVSzLLM+V3KHDUmES7MRI7C2OnmyPWQWmds
+	yBGQ==
+X-Received: by 10.107.47.32 with SMTP id j32mr31585533ioo.76.1444101594150;
+	Mon, 05 Oct 2015 20:19:54 -0700 (PDT)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id bc4sm6094425igb.2.2015.10.05.20.19.49
+	by smtp.gmail.com with ESMTPSA id bc4sm6094425igb.2.2015.10.05.20.19.52
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 05 Oct 2015 20:19:50 -0700 (PDT)
+	Mon, 05 Oct 2015 20:19:53 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Oct 2015 20:19:25 -0700
-Message-Id: <1444101568-16639-5-git-send-email-armccurdy@gmail.com>
+Date: Mon,  5 Oct 2015 20:19:26 -0700
+Message-Id: <1444101568-16639-6-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1444101568-16639-1-git-send-email-armccurdy@gmail.com>
 References: <1444101568-16639-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 4/7] busybox.inc: explicitly include CC=${CC} on make command line
+Subject: [PATCH 5/7] busybox.inc: don't set .config CROSS_COMPILER_PREFIX
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Oct 2015 03:19:53 -0000
+X-List-Received-Date: Tue, 06 Oct 2015 03:19:55 -0000
 
-The busybox build currently relies on 'make -e' to over-ride CC and
-the make command line to over-ride LD. Add CC to the make command line
-to make the CC over-ride more explicit and consistent with LD.
+Setting CROSS_COMPILER_PREFIX via .config is redundant (setting
+CROSS_COMPILE via the make command line will always over-ride it).
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/busybox/busybox.inc | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 949047b..a4ecfa4 100644
+index a4ecfa4..48a28bc 100644
 --- a/meta/recipes-core/busybox/busybox.inc
 +++ b/meta/recipes-core/busybox/busybox.inc
-@@ -18,7 +18,7 @@ BUSYBOX_SPLIT_SUID ?= "1"
- export EXTRA_CFLAGS = "${CFLAGS}"
- export EXTRA_LDFLAGS = "${LDFLAGS}"
+@@ -81,8 +81,7 @@ def features_to_busybox_del(d):
+ 	cnf, rem = features_to_busybox_settings(d)
+ 	return rem
  
--EXTRA_OEMAKE += "'LD=${CCLD}'"
-+EXTRA_OEMAKE += "'CC=${CC}' 'LD=${CCLD}'"
- EXTRA_OEMAKE += "V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y"
- 
- PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock"
+-configmangle = '/CROSS_COMPILER_PREFIX/d; \
+-		/CONFIG_EXTRA_CFLAGS/d; \
++configmangle = '/CONFIG_EXTRA_CFLAGS/d; \
+ 		'
+ OE_FEATURES := "${@features_to_busybox_conf(d)}"
+ OE_DEL      := "${@features_to_busybox_del(d)}"
+@@ -98,8 +97,7 @@ python () {
+                    ("\\n".join((d.expand("${OE_FEATURES}").split("\n")))))
+   d.setVar('configmangle_append',
+                  "/^### CROSS$/a\\\n%s\n" %
+-                  ("\\n".join(["CONFIG_CROSS_COMPILER_PREFIX=\"${TARGET_PREFIX}\"",
+-			       "CONFIG_EXTRA_CFLAGS=\"${CFLAGS}\" \"${HOST_CC_ARCH}\""
++                  ("\\n".join(["CONFIG_EXTRA_CFLAGS=\"${CFLAGS}\" \"${HOST_CC_ARCH}\""
+                         ])
+                   ))
+ }
 -- 
 1.9.1
 
