@@ -1,40 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 57345760F4
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id F1D05605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Oct 2015 12:59:12 +0000 (UTC)
-Received: by qkbi190 with SMTP id i190so64806153qkb.1
+	Tue,  6 Oct 2015 13:13:55 +0000 (UTC)
+Received: by wicfx3 with SMTP id fx3so165748292wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Oct 2015 05:59:13 -0700 (PDT)
+	Tue, 06 Oct 2015 06:13:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=DHstok1H5UeT9WI5AcH5Uu0Xchl7q404rBAzBtxATEE=;
-	b=bHj8vYWRoBoxu/8LefpuIX2bRPp6JQobXgRrb03Cyt/LKgeD1ff+7lHgfz/ELpUQuS
-	A0mM0nJVuEL1IjjhSmWKtLuf1FjjLJQcypkK5bwcisPGjfZO0H6C+E5esrjqvDDnK8TS
-	3yDZ4hc+RH0I+QyAjWuWD/nXsS4J/UgyRVfloqkvDps9+yFXykYzCPH+pk4X3c6y/3UG
-	eOqLXtVivqC0JYDtGoAZuMgLKy2sYfMIFs0bFLoiet0Pgw+Vm2IGSEksspbjfbZYX9M9
-	ivaLxyA2p2hDtUHRyMK2OTi8P8nqJyLHD5Caxc6ZYY6WqLycWUz/Dl2/2Oq1dmmL+jwl
-	nvCA==
-X-Gm-Message-State: ALoCoQkNmJIwvpBlayvfV/3zNnF/ddUZ/SKffttt++Klg5V/3wIEkCPYA+jdmuzuTOxdXtxJyahM
-X-Received: by 10.55.221.9 with SMTP id n9mr11750740qki.64.1444136352903; Tue,
-	06 Oct 2015 05:59:12 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-type:content-transfer-encoding;
+	bh=9OTG3m7MS2W+q/qG11Mm1UhKLeCBTnHF/cR1z1Lr7GA=;
+	b=YSoniLa4UtDOiF+rOhSNZ8f0G19qsOZKShKd8x3z2eS4moa9xnY+AUtQmhEyEcUaDY
+	thwe3/S5VblICZs+PxDDDWxin4PYS6pXXGH0praJXzSYT6s4uImpnZ01Dz6lJ/qxTpt8
+	57lzyHqNr9fqZnmEc48w09EzeH6aD7JQSlJrmHm391vUeDwAvBUey1D8cg5baUTvHBkd
+	wYz6rGiuuWW47SpsTQCmRoB8CpGbHpRfZ+kGblNkfGEj4TDeB6V304S/REVzBaaRuVAb
+	IDS8rxwG1xCXrZ1QOlZZOgwUKnMCcp3KvnrBTptW9YehuyQqrooshvRVCuMccHiHESvG
+	y99w==
+X-Gm-Message-State: ALoCoQmE+GoWBit7HNJEIaAsSOc+BGtmV3XCXWxQW7vCDZY+vfPTIgIkLY9ORaj61T584HH96HJy
+X-Received: by 10.180.39.136 with SMTP id p8mr19005114wik.10.1444137235164;
+	Tue, 06 Oct 2015 06:13:55 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	jt3sm29408553wjc.12.2015.10.06.06.13.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 06 Oct 2015 06:13:54 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Oct 2015 14:06:35 +0100
+Message-Id: <1444136795-1844-2-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1444136795-1844-1-git-send-email-ross.burton@intel.com>
+References: <1444136795-1844-1-git-send-email-ross.burton@intel.com>
 MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Tue, 6 Oct 2015 05:58:53 -0700 (PDT)
-In-Reply-To: <fb59210fb91a5209c3d3ce6dbce38ff1@technux.se>
-References: <cover.1413452836.git.kai.kang@windriver.com>
-	<6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
-	<b64576e3c49076498b7cfb0cbf9f3963@technux.se>
-	<CAJTo0LZjxvCgVLFGVhn0O2PCWTGYFOM46zZ7KG_tqOZgzd9xgQ@mail.gmail.com>
-	<fb59210fb91a5209c3d3ce6dbce38ff1@technux.se>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 6 Oct 2015 13:58:53 +0100
-Message-ID: <CAJTo0LYiW1X+kZi0ra0JUMeywQVu4w492ULyRXcytpYFWiiwng@mail.gmail.com>
-To: petter@technux.se
-Cc: Openembedded core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] readline: Security Advisory - readline - CVE-2014-2524
+Subject: [PATCH 2/2] readline: actually apply readline63-003 (aka CVE-2014-2524)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,49 +48,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Oct 2015 12:59:13 -0000
-Content-Type: multipart/alternative; boundary=001a1149d604529a0705216f3263
-
---001a1149d604529a0705216f3263
+X-List-Received-Date: Tue, 06 Oct 2015 13:13:57 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On 6 October 2015 at 12:23, Petter Mab=C3=A4cker <petter@technux.se> wrote:
+This file wasn't named as a patch, nor told to apply explicity, so it was just
+unpacked to the work directory and not applied.  Rename the file so the patch is
+applied correctly.
 
->  The patch must be applied by something/someone.. For example Debian
-> solves it by doing their own .diff patch (
-> http://http.debian.net/debian/pool/main/r/readline6/readline6_6.3-8.debia=
-n.tar.xz).
-> I can send a suggestion about how to solve this in a proper way.
->
+(thanks to Petter Mabäcker <petter@technux.se> for spotting this)
 
-Whoops, the file wasn't renamed to .patch and even after being renamed, it
-isn't actually a properly formatted patch.  I'll fix this up now.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../readline/readline-6.3/{readline63-003 => readline63-003.patch}      | 0
+ meta/recipes-core/readline/readline_6.3.bb                              | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/readline/readline-6.3/{readline63-003 => readline63-003.patch} (100%)
 
-Thanks for noticing!
+diff --git a/meta/recipes-core/readline/readline-6.3/readline63-003 b/meta/recipes-core/readline/readline-6.3/readline63-003.patch
+similarity index 100%
+rename from meta/recipes-core/readline/readline-6.3/readline63-003
+rename to meta/recipes-core/readline/readline-6.3/readline63-003.patch
+diff --git a/meta/recipes-core/readline/readline_6.3.bb b/meta/recipes-core/readline/readline_6.3.bb
+index 55964a6..6ba1c18 100644
+--- a/meta/recipes-core/readline/readline_6.3.bb
++++ b/meta/recipes-core/readline/readline_6.3.bb
+@@ -1,6 +1,6 @@
+ require readline.inc
+ 
+-SRC_URI += "file://readline63-003 \
++SRC_URI += "file://readline63-003.patch;striplevel=0 \
+             file://readline-dispatch-multikey.patch"
+ 
+ SRC_URI[archive.md5sum] = "33c8fb279e981274f485fd91da77e94a"
+-- 
+2.1.4
 
-Ross
 
---001a1149d604529a0705216f3263
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 October 2015 at 12:23, Petter Mab=C3=A4cker <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:petter@technux.se" target=3D"_blank">petter@technux.se</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra=
-">=C2=A0The patch must be applied by something/someone.. For example Debian=
- solves it by doing their own .diff patch (<a href=3D"http://http.debian.ne=
-t/debian/pool/main/r/readline6/readline6_6.3-8.debian.tar.xz" target=3D"_bl=
-ank">http://http.debian.net/debian/pool/main/r/readline6/readline6_6.3-8.de=
-bian.tar.xz</a>). I can send a suggestion about how to solve this in a prop=
-er way.</div>
-<div class=3D"gmail_extra"></div></blockquote></div><br>Whoops, the file wa=
-sn&#39;t renamed to .patch and even after being renamed, it isn&#39;t actua=
-lly a properly formatted patch.=C2=A0 I&#39;ll fix this up now.</div><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Thanks for notici=
-ng!</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
-ss</div></div>
-
---001a1149d604529a0705216f3263--
