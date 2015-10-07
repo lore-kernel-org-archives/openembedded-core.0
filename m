@@ -1,22 +1,27 @@
-Return-Path: <anujx.mittal@intel.com>
+Return-Path: <maxin.john@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E7A18734B8
+	by mail.openembedded.org (Postfix) with ESMTP id DED8260125
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Oct 2015 08:12:25 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 07 Oct 2015 01:12:26 -0700
+	Wed,  7 Oct 2015 08:19:38 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 07 Oct 2015 01:19:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,648,1437462000"; d="scan'208";a="786456816"
-Received: from yocto-pc.png.intel.com ([172.30.197.17])
-	by orsmga001.jf.intel.com with ESMTP; 07 Oct 2015 01:12:25 -0700
-From: Anuj Mittal <anujx.mittal@intel.com>
+X-IronPort-AV: E=Sophos;i="5.17,648,1437462000"; d="scan'208";a="805396604"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Oct 2015 01:19:38 -0700
+Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id D3C6B6A4083
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Oct 2015 01:18:40 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Oct 2015 16:02:44 +0800
-Message-Id: <1444204964-21670-2-git-send-email-anujx.mittal@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1444204964-21670-1-git-send-email-anujx.mittal@intel.com>
-References: <1444204964-21670-1-git-send-email-anujx.mittal@intel.com>
-Subject: [fido][PATCH 1/1] linux-firmware: upgrade to commit 75cc3ef8ba6712fd72c073b17a790282136cc743
+Date: Wed,  7 Oct 2015 06:33:00 +0300
+Message-Id: <1444188780-12319-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] cronie: clean up bugtracker info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,50 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Oct 2015 08:12:29 -0000
+X-List-Received-Date: Wed, 07 Oct 2015 08:19:39 -0000
 
-From: Cristian Iorga <cristian.iorga@intel.com>
+Update bugtracker web address
 
-- Intel copyright years changed;
-- Advanced Micro Devices copyright years changed;
-
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0120fa37d0215998947616a93a5b59cc4a40cd2a)
-Signed-off-by: Anuj Mittal <anujx.mittal@intel.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- .../linux-firmware/linux-firmware_git.bb           |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-extended/cronie/cronie_1.5.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 16ebf6a..fb9a6a2 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -7,12 +7,12 @@ SECTION = "kernel"
+diff --git a/meta/recipes-extended/cronie/cronie_1.5.0.bb b/meta/recipes-extended/cronie/cronie_1.5.0.bb
+index 38bd593..697501a 100644
+--- a/meta/recipes-extended/cronie/cronie_1.5.0.bb
++++ b/meta/recipes-extended/cronie/cronie_1.5.0.bb
+@@ -4,7 +4,7 @@ specified programs at scheduled times and related tools. It is based on the \
+ original cron and has security and configuration enhancements like the \
+ ability to use pam and SELinux."
+ HOMEPAGE = "https://fedorahosted.org/cronie/"
+-BUGTRACKER = "mmaslano@redhat.com"
++BUGTRACKER = "https://bugzilla.redhat.com"
  
- LICENSE = "Proprietary"
- 
--LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=07b0c31777bd686d8e1609c6940b5e74\
-+LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=6c7f97c6c62bdd9596d0238bb205118c \
-                     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
-                     file://LICENCE.qla2xxx;md5=f5ce8529ec5c17cb7f911d2721d90e91 \
--                    file://LICENCE.iwlwifi_firmware;md5=5106226b2863d00d8ed553221ddf8cd2 \
-+                    file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88 \
-                     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
-                     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
-                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
-@@ -24,7 +24,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=07b0c31777bd686d8e1609c6940b5e74\
-                     file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a \
-                    "
- 
--SRCREV = "0e5f63771d0df6d7859f7c4100a74d737c62ac88"
-+SRCREV = "75cc3ef8ba6712fd72c073b17a790282136cc743"
- PE = "1"
- PV = "0.0+git${SRCPV}"
- 
+ # Internet Systems Consortium License
+ LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & GPLv2+"
 -- 
-1.7.9.5
+2.4.0
 
 
