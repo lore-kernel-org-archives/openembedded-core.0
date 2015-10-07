@@ -1,32 +1,53 @@
-Return-Path: <clemens.lang@bmw-carit.de>
-X-Greylist: delayed 313 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 07 Oct 2015 10:03:00 UTC
-Received: from mail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AA1C60125
+Return-Path: <mike.looijmans@topicproducts.com>
+Received: from mx18-05.smtp.antispamcloud.com (mx18-05.smtp.antispamcloud.com
+	[207.244.64.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E8C360125
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Oct 2015 10:03:00 +0000 (UTC)
-Received: from exchange2010.bmw-carit.intra ([192.168.100.28]:62351
-	helo=mail.bmw-carit.de)
-	by mail.bmw-carit.de with esmtps (TLSv1:AES128-SHA:128)
-	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Clemens.Lang@bmw-carit.de>)
-	id 1ZjlTj-0006C3-2t; Wed, 07 Oct 2015 11:57:43 +0200
-Received: from localhost (172.20.20.163) by Exchange2010.bmw-carit.intra
-	(192.168.100.28) with Microsoft SMTP Server (TLS) id 14.3.123.3;
-	Wed, 7 Oct 2015 11:57:43 +0200
-X-CTCH-RefID: str=0001.0A0C0204.5614EC97.02F8, ss=1, re=0.000, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0
-Date: Wed, 7 Oct 2015 11:57:43 +0200
-From: Clemens Lang <clemens.lang@bmw-carit.de>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20151007095743.GD5122@ulm-bmuc496424.bmw-carit.de>
-References: <CAJTo0LZ4u-Q2nc+_phmq4NxR9o7Xyyij=tGmE-KxgsODhQdN5A@mail.gmail.com>
-	<1439800667-31696-1-git-send-email-clemens.lang@bmw-carit.de>
+	Wed,  7 Oct 2015 13:05:17 +0000 (UTC)
+Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
+	helo=TOP-EX01.TOPIC.LOCAL)
+	by mx18.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
+	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1ZjoPB-000230-6L for openembedded-core@lists.openembedded.org;
+	Wed, 07 Oct 2015 15:05:17 +0200
+Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Wed, 7 Oct 2015 15:04:18 +0200
+To: <openembedded-core@lists.openembedded.org>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <56151883.7000304@topic.nl>
+Date: Wed, 7 Oct 2015 15:05:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
 MIME-Version: 1.0
-In-Reply-To: <1439800667-31696-1-git-send-email-clemens.lang@bmw-carit.de>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Originating-IP: [172.20.20.163]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] archiver.bbclass: Run deploy_archives in $WORKDIR
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
+	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
+	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJrVRsYEhqSZm4ky4O8anRvFKadfus+qBtOnpRx
+	nGEMRi08CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
+	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
+	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
+	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
+	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OTh11z/z4WnEoC
+	8C13cWABWlhWPxtvTWQlG7LubmSVPcFB6J1fhOzjF0b4LXcjJZ5lorygWaquS4QUc2X9/UmaFDUh
+	sTbOm0n23gAH4LW5RBSd12aoSjUKxdXaKO35Ea/DrU+pok6SWPRM754kFPO4pu4=
+X-Report-Abuse-To: spam@mx99.antispamcloud.com
+X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJUb3OPwsHaH0Fvg5oXltHd/JUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
+	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
+	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
+	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
+X-Originating-IP: 88.159.208.100
+X-Spampanel-Domain: topic.nl
+X-Spampanel-Username: 88.159.208.100
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=88.159.208.100@topic.nl
+X-Spampanel-Outgoing-Class: ham
+X-Spampanel-Outgoing-Evidence: Combined (0.00)
+X-Recommended-Action: accept
+Subject: [RFC] Adding machine-specific default packages to an image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,71 +60,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Oct 2015 10:03:00 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 07 Oct 2015 13:05:21 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Hey,
+=EF=BB=BFSince our boards needs 'some' bitstream in the FPGA to become some=
+what useful,=20
+in the machine.conf I say:
 
-On Mon, Aug 17, 2015 at 10:37:47AM +0200, Clemens Lang wrote:
-> In recipes that are exempt from source code archiving due to
-> COPYLEFT_LICENSE_EXCLUDE, do_deploy_archives does not have a transitive
-> dependency on do_unpack. Given enough parallelism, this means
-> do_deploy_archives can run at the same time or before do_unpack.
-> 
-> Because do_deploy_archives did not specify a working directory, its
-> working directory was ${B}, which defaults to ${S}, which may be set by
-> a recipe to a directory that is created by do_unpack.
-> 
-> In this case, do_deploy_archives can fail because do_unpack deletes and
-> re-creates the directory and do_deploy_archives cannot change into the
-> non-existent directory. Avoid this problem by explicitly specifying
-> a working directory for do_deploy_archives (and for
-> do_deploy_all_archives as well for good measure).
-> 
-> Signed-off-by: Clemens Lang <clemens.lang@bmw-carit.de>
+MACHINE_FPGA_BITSTREAM ?=3D "fpga-image-miami-florida-gen-reference"
+MACHINE_EXTRA_RRECOMMENDS =3D "${MACHINE_FPGA_BITSTREAM} ..."
 
-So you merged this change in
- - OE Core e22685ff11af6d54c939aa8f327a0aaa1557fbbc
- - poky 76d7e8e9c9881afefafed3acfd1a72d97b025d75
-but it turns out that even with this fix, we occasionally see the same
-problem:
+This puts that into the packagegroup-base-machine RDEPENDS and hence it get=
+s=20
+installed on the board if you don't specify anything else.
 
-  00:06:02.343 NOTE: recipe nativesdk-mgu-can-1.0+gitAUTOINC+ed9c00caae-r0: task do_unpack: Started
-  00:06:02.344 ERROR: Build of do_deploy_archives failed
-  00:06:02.344 ERROR: Traceback (most recent call last):
-  00:06:02.344   File "/home/builder/src/base/poky/bitbake/lib/bb/build.py", line 497, in exec_task
-  00:06:02.345     return _exec_task(fn, task, d, quieterr)
-  00:06:02.345   File "/home/builder/src/base/poky/bitbake/lib/bb/build.py", line 440, in _exec_task
-  00:06:02.346     exec_func(func, localdata)
-  00:06:02.346   File "/home/builder/src/base/poky/bitbake/lib/bb/build.py", line 212, in exec_func
-  00:06:02.346     exec_func_python(func, d, runfile, cwd=adir)
-  00:06:02.347   File "/home/builder/src/base/poky/bitbake/lib/bb/build.py", line 237, in exec_func_python
-  00:06:02.347     os.chdir(cwd)
-  00:06:02.347 OSError: [Errno 2] No such file or directory: '/home/builder/src/base/build_xs-baytrail-hmgua1/tmp/work/i686-nativesdk-linux/nativesdk-mgu-can/1.0+gitAUTOINC+ed9c00caae-r0/git'
+However, I want to be able to pick alternative FPGA bitstream providers in =
+the=20
+image recipe. Without having to define a new machine for each and every pro=
+ject...
 
-Again, the license of the recipe that fails is "CLOSED". You can see
-that it tries to cd into ${S}, which is set to ${WORKDIR}/git by the
-recipe, even though do_deploy_archives[dirs] is set to ${WORKDIR} in
-archiver.bbclass. Any ideas why the working directory might still be
-${S}? Is there a way to see all flags of a task similar to bitbake -e
-(that output doesn't seem to contain it)?
+Currently, I do this by forcing packagegroup-base-machine and=20
+packagegroup-base-distro out of the IMAGE_INSTALL list (for some obscure=20
+reason, building packagegroup-base-distro also results in building the=20
+reference bitstream) and then add MACHINE_EXTRA_RRECOMMENDS directly to the=
+=20
+IMAGE_INSTALL list, so I can set MACHINE_FPGA_BITSTREAM to whichever I'd li=
+ke=20
+to have in this image.
 
-My initially proposed fix that adds the dependency works correctly,
-though. I think we should just acknowledge that do_unpack should be run
-before attempting any other tasks related to source code and merge the
-initial version of my patch instead to fix this problem.
+I was lookign for a way to have the machine configuration inject its packag=
+es=20
+into the IMAGE_INSTALL (or similar) list, so it can easily be overridden in=
+ an=20
+image recipe.
+
+Bluntly putting IMAGE_INSTALL+=3D"${MACHINE_FPGA_BITSTREAM}" into the=20
+machine.conf might work, but doesn't "feel" quite right. But there's=20
+apparently no other way to do this.
+
+An alternative would be to introduce an IMAGE_INSTALL_MACHINE variable that=
+=20
+gets added to the PACKAGE_INSTALL variable in image.bbclass. That would all=
+ow=20
+machines to inject their desirables into the image instead. It's a simple=20
+patch, I've pasted it below:
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 86a98bb..90c1c05 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -64,7 +64,8 @@ def check_image_features(d):
+
+  IMAGE_INSTALL ?=3D ""
+  IMAGE_INSTALL[type] =3D "list"
+-export PACKAGE_INSTALL ?=3D "${IMAGE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL}=
+=20
+${FEATURE_INSTALL}"
++IMAGE_INSTALL_MACHINE ?=3D ""
++export PACKAGE_INSTALL ?=3D "${IMAGE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL}=
+=20
+${FEATURE_INSTALL} ${IMAGE_IN
+  PACKAGE_INSTALL_ATTEMPTONLY ?=3D "${FEATURE_INSTALL_OPTIONAL}"
+
+  # Images are generally built explicitly, do not need to be part of world.
 
 
-Let me know what you think,
-Clemens Lang
--- 
-Clemens Lang • Development Specialist
-BMW Car IT GmbH • Lise-Meitner-Str. 14 • 89081 Ulm • http://bmw-carit.com
--------------------------------------------------------------------------
-BMW Car IT GmbH
-Geschäftsführer: Michael Würtenberger und Reinhard Stolle
-Sitz und Registergericht: München HRB 134810
--------------------------------------------------------------------------
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Embedded Products
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+Telefax: +31 (0) 499 33 69 70
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
+
 
