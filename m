@@ -1,36 +1,32 @@
-Return-Path: <changhyeok.bae@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id E27A060125
+Return-Path: <clemens.lang@bmw-carit.de>
+X-Greylist: delayed 313 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 07 Oct 2015 10:03:00 UTC
+Received: from mail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AA1C60125
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Oct 2015 09:58:22 +0000 (UTC)
-Received: by pacfv12 with SMTP id fv12so17413263pac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Oct 2015 02:58:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=SSGa3bi0H85XPu8r0XxQOErHMG+7ZkUGaHebvLTCyzE=;
-	b=jjViajJg89mu3h+UVpwXgl7Aq/hFqyvy4LQuh8ga39hE/Uax1y430f4oZuIx6U/xMv
-	p3q4q0w+KASha0kcaa8FsAt3UkmuKPEugVpTzW4Pt0vkmmM6FuLc3tVd8RynC5dKkt8b
-	BErNEtWTosgpMy/Q0+V07qKlzzxccSZzujcI/y2I0vaG1lIFYW2/7j5EYBIlNIytlXT+
-	QKtv6H12xp6jiao0Zs0VL4gz1C1lEE+Ki7mGVZMaC0woa1qdqNTdRkxeOpniZ5M38j4J
-	dw8icAZTvRrtXi6JVUq4WGnTqgjzeu6xPOQud5BUhNp/bwl3L10zZvgTfdCwwxU/H9Ih
-	d1jw==
+	Wed,  7 Oct 2015 10:03:00 +0000 (UTC)
+Received: from exchange2010.bmw-carit.intra ([192.168.100.28]:62351
+	helo=mail.bmw-carit.de)
+	by mail.bmw-carit.de with esmtps (TLSv1:AES128-SHA:128)
+	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Clemens.Lang@bmw-carit.de>)
+	id 1ZjlTj-0006C3-2t; Wed, 07 Oct 2015 11:57:43 +0200
+Received: from localhost (172.20.20.163) by Exchange2010.bmw-carit.intra
+	(192.168.100.28) with Microsoft SMTP Server (TLS) id 14.3.123.3;
+	Wed, 7 Oct 2015 11:57:43 +0200
+X-CTCH-RefID: str=0001.0A0C0204.5614EC97.02F8, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0
+Date: Wed, 7 Oct 2015 11:57:43 +0200
+From: Clemens Lang <clemens.lang@bmw-carit.de>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20151007095743.GD5122@ulm-bmuc496424.bmw-carit.de>
+References: <CAJTo0LZ4u-Q2nc+_phmq4NxR9o7Xyyij=tGmE-KxgsODhQdN5A@mail.gmail.com>
+	<1439800667-31696-1-git-send-email-clemens.lang@bmw-carit.de>
 MIME-Version: 1.0
-X-Received: by 10.68.65.13 with SMTP id t13mr121895pbs.43.1444211902497; Wed,
-	07 Oct 2015 02:58:22 -0700 (PDT)
-Received: by 10.66.53.236 with HTTP; Wed, 7 Oct 2015 02:58:22 -0700 (PDT)
-In-Reply-To: <5613BE22.7020801@linux.intel.com>
-References: <5613BE22.7020801@linux.intel.com>
-Date: Wed, 7 Oct 2015 18:58:22 +0900
-Message-ID: <CACrLJgDYYBBaxnmbJm-EWpadOgDpi9YdmT1RhfE-ZcWWrqaPmw@mail.gmail.com>
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: "tomas@sleepfive.com" <tomas@sleepfive.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: gobject introspection to oe-core
+In-Reply-To: <1439800667-31696-1-git-send-email-clemens.lang@bmw-carit.de>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Originating-IP: [172.20.20.163]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] archiver.bbclass: Run deploy_archives in $WORKDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,77 +39,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Oct 2015 09:58:24 -0000
-Content-Type: multipart/alternative; boundary=001a1137f0bc6dcefd052180c9f4
+X-List-Received-Date: Wed, 07 Oct 2015 10:03:00 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
---001a1137f0bc6dcefd052180c9f4
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hey,
 
-Hi
+On Mon, Aug 17, 2015 at 10:37:47AM +0200, Clemens Lang wrote:
+> In recipes that are exempt from source code archiving due to
+> COPYLEFT_LICENSE_EXCLUDE, do_deploy_archives does not have a transitive
+> dependency on do_unpack. Given enough parallelism, this means
+> do_deploy_archives can run at the same time or before do_unpack.
+> 
+> Because do_deploy_archives did not specify a working directory, its
+> working directory was ${B}, which defaults to ${S}, which may be set by
+> a recipe to a directory that is created by do_unpack.
+> 
+> In this case, do_deploy_archives can fail because do_unpack deletes and
+> re-creates the directory and do_deploy_archives cannot change into the
+> non-existent directory. Avoid this problem by explicitly specifying
+> a working directory for do_deploy_archives (and for
+> do_deploy_all_archives as well for good measure).
+> 
+> Signed-off-by: Clemens Lang <clemens.lang@bmw-carit.de>
 
-Thanks for your suggestion. I also would like to support gir in oe-core.
-However, I need to cleanup the recipes now as you said. I will think about
-it because of my schedule :(.
+So you merged this change in
+ - OE Core e22685ff11af6d54c939aa8f327a0aaa1557fbbc
+ - poky 76d7e8e9c9881afefafed3acfd1a72d97b025d75
+but it turns out that even with this fix, we occasionally see the same
+problem:
 
-I'll contact you when I'm ready for it.
-Thanks
+  00:06:02.343 NOTE: recipe nativesdk-mgu-can-1.0+gitAUTOINC+ed9c00caae-r0: task do_unpack: Started
+  00:06:02.344 ERROR: Build of do_deploy_archives failed
+  00:06:02.344 ERROR: Traceback (most recent call last):
+  00:06:02.344   File "/home/builder/src/base/poky/bitbake/lib/bb/build.py", line 497, in exec_task
+  00:06:02.345     return _exec_task(fn, task, d, quieterr)
+  00:06:02.345   File "/home/builder/src/base/poky/bitbake/lib/bb/build.py", line 440, in _exec_task
+  00:06:02.346     exec_func(func, localdata)
+  00:06:02.346   File "/home/builder/src/base/poky/bitbake/lib/bb/build.py", line 212, in exec_func
+  00:06:02.346     exec_func_python(func, d, runfile, cwd=adir)
+  00:06:02.347   File "/home/builder/src/base/poky/bitbake/lib/bb/build.py", line 237, in exec_func_python
+  00:06:02.347     os.chdir(cwd)
+  00:06:02.347 OSError: [Errno 2] No such file or directory: '/home/builder/src/base/build_xs-baytrail-hmgua1/tmp/work/i686-nativesdk-linux/nativesdk-mgu-can/1.0+gitAUTOINC+ed9c00caae-r0/git'
 
-2015=EB=85=84 10=EC=9B=94 6=EC=9D=BC =ED=99=94=EC=9A=94=EC=9D=BC, Alexander=
- Kanavin<alexander.kanavin@linux.intel.com>=EB=8B=98=EC=9D=B4
-=EC=9E=91=EC=84=B1=ED=95=9C =EB=A9=94=EC=8B=9C=EC=A7=80:
+Again, the license of the recipe that fails is "CLOSED". You can see
+that it tries to cd into ${S}, which is set to ${WORKDIR}/git by the
+recipe, even though do_deploy_archives[dirs] is set to ${WORKDIR} in
+archiver.bbclass. Any ideas why the working directory might still be
+${S}? Is there a way to see all flags of a task similar to bitbake -e
+(that output doesn't seem to contain it)?
 
-> Hello,
->
-> I'm looking into the possibility of adding gobject introspection support
-> directly to oe-core for Yocto 2.1 release (Spring 2016). This work would =
-of
-> course be based on meta-gir, but with the mandatory goal of producing
-> patches of sufficient quality that can be sent upstream.
->
-> I know the upstream tarball is a mess that mashes together several
-> different things and was never designed for cross-compiling; and meta-gir
-> is also difficult to understand: autotools-based build files are patched
-> using undocumented patchfiles, then again patched from the recipe using
-> sed, with no comments anywhere - all that needs to be sorted.
->
-> What's your take on this? Is it realistic? Would you be able to help out?
->
-> Regards,
-> Alexander
->
+My initially proposed fix that adds the dependency works correctly,
+though. I think we should just acknowledge that do_unpack should be run
+before attempting any other tasks related to source code and merge the
+initial version of my patch instead to fix this problem.
 
---001a1137f0bc6dcefd052180c9f4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi<div><br></div><div>Thanks for your suggestion. I also would like to supp=
-ort gir in oe-core. However, I need to cleanup the recipes now as you said.=
- I will think about it because of my schedule :(.</div><div><br></div><div>=
-I&#39;ll contact you when I&#39;m ready for it.</div><div>Thanks<span></spa=
-n><br><br>2015=EB=85=84 10=EC=9B=94 6=EC=9D=BC =ED=99=94=EC=9A=94=EC=9D=BC,=
- Alexander Kanavin&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com">=
-alexander.kanavin@linux.intel.com</a>&gt;=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
-=B1=ED=95=9C =EB=A9=94=EC=8B=9C=EC=A7=80:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->Hello,<br>
-<br>
-I&#39;m looking into the possibility of adding gobject introspection suppor=
-t directly to oe-core for Yocto 2.1 release (Spring 2016). This work would =
-of course be based on meta-gir, but with the mandatory goal of producing pa=
-tches of sufficient quality that can be sent upstream.<br>
-<br>
-I know the upstream tarball is a mess that mashes together several differen=
-t things and was never designed for cross-compiling; and meta-gir is also d=
-ifficult to understand: autotools-based build files are patched using undoc=
-umented patchfiles, then again patched from the recipe using sed, with no c=
-omments anywhere - all that needs to be sorted.<br>
-<br>
-What&#39;s your take on this? Is it realistic? Would you be able to help ou=
-t?<br>
-<br>
-Regards,<br>
-Alexander<br>
-</blockquote></div>
+Let me know what you think,
+Clemens Lang
+-- 
+Clemens Lang • Development Specialist
+BMW Car IT GmbH • Lise-Meitner-Str. 14 • 89081 Ulm • http://bmw-carit.com
+-------------------------------------------------------------------------
+BMW Car IT GmbH
+Geschäftsführer: Michael Würtenberger und Reinhard Stolle
+Sitz und Registergericht: München HRB 134810
+-------------------------------------------------------------------------
 
---001a1137f0bc6dcefd052180c9f4--
