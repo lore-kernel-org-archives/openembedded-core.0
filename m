@@ -1,21 +1,21 @@
 Return-Path: <alejandro.franco@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BE4BB6AC1E
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id ABD106AC1E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Oct 2015 00:09:46 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 06 Oct 2015 17:09:46 -0700
+	Wed,  7 Oct 2015 00:12:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 06 Oct 2015 17:12:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,646,1437462000"; d="scan'208";a="805172406"
+X-IronPort-AV: E=Sophos;i="5.17,646,1437462000"; d="scan'208";a="820909299"
 Received: from afshjern.zpn.intel.com ([10.219.26.48])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Oct 2015 17:09:46 -0700
+	by orsmga002.jf.intel.com with ESMTP; 06 Oct 2015 17:12:30 -0700
 From: Alex Franco <alejandro.franco@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Oct 2015 19:09:59 -0500
-Message-Id: <1444176599-12228-1-git-send-email-alejandro.franco@linux.intel.com>
+Date: Tue,  6 Oct 2015 19:13:16 -0500
+Message-Id: <1444176796-12700-1-git-send-email-alejandro.franco@linux.intel.com>
 X-Mailer: git-send-email 2.5.3
 Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH] core-image: rename from core-image-empty
+Subject: [PATCHv2] empty-image: rename from core-image-empty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,9 +28,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Oct 2015 00:09:46 -0000
+X-List-Received-Date: Wed, 07 Oct 2015 00:12:37 -0000
 
-As the image isn't a "core" image
+As the empty image isn't a "core" image
 
 [YOCTO #7664]
 
