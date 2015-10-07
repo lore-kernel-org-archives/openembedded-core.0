@@ -1,23 +1,37 @@
-Return-Path: <benjamin.esquivel@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6057C65CBC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 51D3360232
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Oct 2015 19:41:35 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 07 Oct 2015 12:41:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,650,1437462000"; d="scan'208";a="659835701"
-Received: from besquive-mobl2.zpn.intel.com ([10.219.17.236])
-	by orsmga003.jf.intel.com with ESMTP; 07 Oct 2015 12:41:35 -0700
-From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+	Wed,  7 Oct 2015 23:06:48 +0000 (UTC)
+Received: by wicgb1 with SMTP id gb1so1481767wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Oct 2015 16:06:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=tV6AKhy4dCVPyqVMFoGUJLTx5cr9PZpqWZ6s0bk2VLw=;
+	b=EtrraSXb0jqhayuTCZbrw7L+mMHj0gHvP4zBEQ2FEBNuD5vS89I7+q+CN/q0lKMJ/E
+	5QvLswzsPT0yeRz5SAIxZKnL84ffKomSNk1Fk8H4MLr6ul0sNMZ+ZyuYBZXrg/vZQvBO
+	qUuwNaAyM1HB4a4weIW86qRIjTWOJVqp31955mhGn+M29iT3Y7Ap4GSF6oIuuA8MjOrW
+	jNa+fTUSnFLggHoYlfrHSue9mC74HQDjsW1CuKl3azxmuHpHKvrBASYrLJ/i3nof20f1
+	XHEfVpYGGKK6JIg0EvxxS8WqnyWHIU1d1YmcCrBxxi8dMFFy5sxwmJdvwHtIAdOPqlea
+	l0qw==
+X-Gm-Message-State: ALoCoQmcfQdbAACigIJPI39E1HN7NdxsOWJwkETVkdVdIz346JM//b8AbiCR43wCI+Day092zkXr
+X-Received: by 10.180.211.177 with SMTP id nd17mr215826wic.69.1444259208027;
+	Wed, 07 Oct 2015 16:06:48 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	gl4sm42170705wjb.29.2015.10.07.16.06.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 07 Oct 2015 16:06:47 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Oct 2015 14:41:23 -0500
-Message-Id: <1444246883-475-1-git-send-email-benjamin.esquivel@linux.intel.com>
-X-Mailer: git-send-email 2.4.3
-In-Reply-To: <1441921274.14702.2.camel@linux.intel.com>
-References: <1441921274.14702.2.camel@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH V3] selftest/manifest.py: Test support for manifests
+Date: Wed,  7 Oct 2015 23:59:25 +0100
+Message-Id: <1444258765-13696-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] cups: fix non-deterministic xinetd behaviour
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,200 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Oct 2015 19:41:36 -0000
+X-List-Received-Date: Wed, 07 Oct 2015 23:06:50 -0000
 
-adding support for tests to verify that manifest contents
-contain entries that exist in an specified pkgdata dir
+cups configure looks at the *host* file system to decide if and how to install
+xinetd files, resulting in non-deterministic builds.
 
-tests added:
- - manifest.VerifyManifest.test_image_manifest_entries
- - manifest.VerifyManifest.test_SDK_manifest_entries
-test support written for future tests:
- -adding a setUpClass that supports other manifest tests
- -a get dir from bb var function that verifies if the dir exists
- -a ManifestEntry class defined with missing items list
- -check for the paths and fail gracefully if not there
- -debug prints for failure analysis
+Solve this by adding a PACKAGECONFIG for xinetd and pass it the correct path to
+use if enabled.
 
-[YOCTO#8028]
-
-Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oeqa/selftest/manifest.py | 163 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 163 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/manifest.py
+ meta/recipes-extended/cups/cups.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/selftest/manifest.py b/meta/lib/oeqa/selftest/manifest.py
-new file mode 100644
-index 0000000..c813c1d
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/manifest.py
-@@ -0,0 +1,163 @@
-+import unittest
-+import os
-+
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.commands import get_bb_var, bitbake
-+from oeqa.utils.decorators import testcase
-+
-+class ManifestEntry:
-+    '''A manifest item of a collection able to list missing packages'''
-+    def __init__(self, entry):
-+        self.file = entry
-+        self.missing = []
-+
-+class VerifyManifest(oeSelfTest):
-+    '''Tests for the manifest files and contents of an image'''
-+
-+    @classmethod
-+    def check_manifest_entries(self, manifest, path):
-+        manifest_errors = []
-+        try:
-+            with open(manifest, "r") as mfile:
-+                for line in mfile:
-+                    manifest_entry = os.path.join(path, line.split()[0])
-+                    self.log.debug("{}: looking for {}"\
-+                                    .format(self.classname, manifest_entry))
-+                    if not os.path.isfile(manifest_entry):
-+                        manifest_errors.append(manifest_entry)
-+                        self.log.debug("{}: {} not found"\
-+                                    .format(self.classname, manifest_entry))
-+        except OSError as e:
-+            self.log.debug("{}: checking of {} failed"\
-+                    .format(self.classname, manifest))
-+            raise e
-+
-+        return manifest_errors
-+
-+    #this will possibly move from here
-+    @classmethod
-+    def get_dir_from_bb_var(self, bb_var, target = None):
-+        target == self.buildtarget if target == None else target
-+        directory = get_bb_var(bb_var, target);
-+        if not directory or not os.path.isdir(directory):
-+            self.log.debug("{}: {} points to {} when target = {}"\
-+                    .format(self.classname, bb_var, directory, target))
-+            raise OSError
-+        return directory
-+
-+    @classmethod
-+    def setUpClass(self):
-+
-+        self.buildtarget = 'core-image-minimal'
-+        self.classname = 'VerifyManifest'
-+
-+        self.log.info("{}: doing bitbake {} as a prerequisite of the test"\
-+                .format(self.classname, self.buildtarget))
-+        if bitbake(self.buildtarget).status:
-+            self.log.debug("{} Failed to setup {}"\
-+                    .format(self.classname, self.buildtarget))
-+            unittest.SkipTest("{}: Cannot setup testing scenario"\
-+                    .format(self.classname))
-+
-+    def test_SDK_manifest_entries(self):
-+        '''Verifying the SDK manifest entries exist, this may take a build'''
-+
-+        # the setup should bitbake core-image-minimal and here it is required
-+        # to do an additional setup for the sdk
-+        sdktask = '-c populate_sdk'
-+        bbargs = sdktask + ' ' + self.buildtarget
-+        self.log.debug("{}: doing bitbake {} as a prerequisite of the test"\
-+                .format(self.classname, bbargs))
-+        if bitbake(bbargs).status:
-+            self.log.debug("{} Failed to bitbake {}"\
-+                    .format(self.classname, bbargs))
-+            unittest.SkipTest("{}: Cannot setup testing scenario"\
-+                    .format(self.classname))
-+
-+
-+        pkgdata_dir = reverse_dir = {}
-+        mfilename = mpath = m_entry = {}
-+        # get manifest location based on target to query about
-+        d_target= dict(target = self.buildtarget,
-+                         host = 'nativesdk-packagegroup-sdk-host')
-+        try:
-+            mdir = self.get_dir_from_bb_var('SDK_DEPLOY', self.buildtarget)
-+            for k in d_target.keys():
-+                mfilename[k] = "{}-toolchain-{}.{}.manifest".format(
-+                        get_bb_var("SDK_NAME", self.buildtarget),
-+                        get_bb_var("SDK_VERSION", self.buildtarget),
-+                        k)
-+                mpath[k] = os.path.join(mdir, mfilename[k])
-+                if not os.path.isfile(mpath[k]):
-+                    self.log.debug("{}: {} does not exist".format(
-+                        self.classname, mpath[k]))
-+                    raise IOError
-+                m_entry[k] = ManifestEntry(mpath[k])
-+
-+                pkgdata_dir[k] = self.get_dir_from_bb_var('PKGDATA_DIR',
-+                        d_target[k])
-+                reverse_dir[k] = os.path.join(pkgdata_dir[k],
-+                        'runtime-reverse')
-+                if not os.path.exists(reverse_dir[k]):
-+                    self.log.debug("{}: {} does not exist".format(
-+                        self.classname, reverse_dir[k]))
-+                    raise IOError
-+        except OSError:
-+            raise unittest.SkipTest("{}: Error in obtaining manifest dirs"\
-+                .format(self.classname))
-+        except IOError:
-+            msg = "{}: Error cannot find manifests in the specified dir:\n{}"\
-+                    .format(self.classname, mdir)
-+            self.fail(msg)
-+
-+        for k in d_target.keys():
-+            self.log.debug("{}: Check manifest {}".format(
-+                self.classname, m_entry[k].file))
-+
-+            m_entry[k].missing = self.check_manifest_entries(\
-+                                               m_entry[k].file,reverse_dir[k])
-+            if m_entry[k].missing:
-+                msg = '{}: {} Error has the following missing entries'\
-+                        .format(self.classname, m_entry[k].file)
-+                logmsg = msg+':\n'+'\n'.join(m_entry[k].missing)
-+                self.log.debug(logmsg)
-+                self.log.info(msg)
-+                self.fail(logmsg)
-+
-+    def test_image_manifest_entries(self):
-+        '''Verifying the image manifest entries exist'''
-+
-+        # get manifest location based on target to query about
-+        try:
-+            mdir = self.get_dir_from_bb_var('DEPLOY_DIR_IMAGE',
-+                                                self.buildtarget)
-+            mfilename = get_bb_var("IMAGE_LINK_NAME", self.buildtarget)\
-+                    + ".manifest"
-+            mpath = os.path.join(mdir, mfilename)
-+            if not os.path.isfile(mpath): raise IOError
-+            m_entry = ManifestEntry(mpath)
-+
-+            pkgdata_dir = {}
-+            pkgdata_dir = self.get_dir_from_bb_var('PKGDATA_DIR',
-+                                                self.buildtarget)
-+            revdir = os.path.join(pkgdata_dir, 'runtime-reverse')
-+            if not os.path.exists(revdir): raise IOError
-+        except OSError:
-+            raise unittest.SkipTest("{}: Error in obtaining manifest dirs"\
-+                .format(self.classname))
-+        except IOError:
-+            msg = "{}: Error cannot find manifests in dir:\n{}"\
-+                    .format(self.classname, mdir)
-+            self.fail(msg)
-+
-+        self.log.debug("{}: Check manifest {}"\
-+                            .format(self.classname, m_entry.file))
-+        m_entry.missing = self.check_manifest_entries(\
-+                                                    m_entry.file, revdir)
-+        if m_entry.missing:
-+            msg = '{}: {} Error has the following missing entries'\
-+                    .format(self.classname, m_entry.file)
-+            logmsg = msg+':\n'+'\n'.join(m_entry.missing)
-+            self.log.debug(logmsg)
-+            self.log.info(msg)
-+            self.fail(logmsg)
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index c0765dc..2c34da9 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -28,6 +28,7 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi',
+ PACKAGECONFIG[avahi] = "--enable-avahi,--disable-avahi,avahi"
+ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
+ PACKAGECONFIG[pam] = "--enable-pam, --disable-pam, libpam"
++PACKAGECONFIG[xinetd] = "--with-xinetd=${sysconfdir}/xinetd.d,--without-xinetd,xinetd"
+ 
+ EXTRA_OECONF = " \
+                --enable-gnutls \
 -- 
-2.4.3
+2.1.4
 
 
