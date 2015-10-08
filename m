@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AEAFC76710
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DD6A75A38
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Oct 2015 13:17:00 +0000 (UTC)
+	Thu,  8 Oct 2015 13:17:01 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t98DH1Bg020865
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t98DH1F2016100
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 8 Oct 2015 06:17:01 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 8 Oct 2015 06:17:00 -0700
+	Thu, 8 Oct 2015 06:17:01 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Oct 2015 06:16:55 -0700
-Message-ID: <9318d84577d6217a1b9a984a0fee72a5e86553e0.1444310101.git.liezhi.yang@windriver.com>
+Date: Thu, 8 Oct 2015 06:16:56 -0700
+Message-ID: <e7cb89598db33b53478804a0b08b1c6686e0a964.1444310101.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1444310101.git.liezhi.yang@windriver.com>
 References: <cover.1444310101.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/8] insane.bbclass: skip buildpath qa check when set INHIBIT_PACKAGE_STRIP
+Subject: [PATCH 5/8] insane.bbclass: fix for ignoring debug files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Oct 2015 13:17:00 -0000
+X-List-Received-Date: Thu, 08 Oct 2015 13:17:01 -0000
 Content-Type: text/plain
 
-There are build paths in the file when set INHIBIT_PACKAGE_STRIP.
-
-[YOCTO #8458]
+Some recipes put debug files in "usr/src/debug/" rather than ".debug".
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/insane.bbclass |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/classes/insane.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 664dfec..d6f7388 100644
+index d6f7388..947d7ac 100644
 --- a/meta/classes/insane.bbclass
 +++ b/meta/classes/insane.bbclass
-@@ -572,8 +572,11 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
-     """
-     Check for build paths inside target files and error if not found in the whitelist
-     """
--    # Ignore .debug files, not interesting
--    if path.find(".debug") != -1:
-+    # Ignore:
-+    # - .debug files
-+    # - which sets INHIBIT_PACKAGE_STRIP
-+    if path.find(".debug") != -1 or \
-+        d.getVar('INHIBIT_PACKAGE_STRIP', True) == "1":
+@@ -575,7 +575,7 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
+     # Ignore:
+     # - .debug files
+     # - which sets INHIBIT_PACKAGE_STRIP
+-    if path.find(".debug") != -1 or \
++    if path.find(".debug") != -1 or path.find("/src/debug/") != -1 or \
+         d.getVar('INHIBIT_PACKAGE_STRIP', True) == "1":
          return
  
-     # Ignore .pyc files, not interesting
 -- 
 1.7.9.5
 
