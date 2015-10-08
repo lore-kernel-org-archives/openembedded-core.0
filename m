@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1441F76710
+	by mail.openembedded.org (Postfix) with ESMTP id 925DE75A38
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Oct 2015 13:16:59 +0000 (UTC)
+	Thu,  8 Oct 2015 13:17:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t98DGxKh016087
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t98DH0MX016090
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 8 Oct 2015 06:17:00 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 8 Oct 2015 06:16:59 -0700
+	Thu, 8 Oct 2015 06:17:00 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Oct 2015 06:16:52 -0700
-Message-ID: <c7a39d8c201baa22f57213e4239d36c564a49a53.1444310101.git.liezhi.yang@windriver.com>
+Date: Thu, 8 Oct 2015 06:16:54 -0700
+Message-ID: <18a2e42949e3b3f6d18f1a72f2f870115731046e.1444310101.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1444310101.git.liezhi.yang@windriver.com>
 References: <cover.1444310101.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/8] insane.bbclass: do_package_qa depends on WARN_QA and ERROR_QA
+Subject: [PATCH 3/8] insane.bbclass: buildpaths: ignore .pyc files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,27 +36,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 08 Oct 2015 13:17:00 -0000
 Content-Type: text/plain
 
-do_package_qa() should rerun when WARN_QA or ERROR_QA changed
+The .pyc files usually contain build path like:
 
-[YOCTO #8445]
+i586-poky-linux-gcc  -m32 -march=i586 --sysroot=/buildarea/lyang1/test_p/tmp/sysroots/qemux86
+And:
+_PYTHON_PROJECT_BASE=/buildarea/lyang1/test_p/tmp/work/i586-poky-linux/python/2.7.9-r1/build
+
+They are safe, so ignore them.
+
+This can reduce 1065 QA issues for buildpaths in a world build.
+
+[YOCTO #8446]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/insane.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/insane.bbclass |    4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 05e31a7..61db3e1 100644
+index e3a8cd7..664dfec 100644
 --- a/meta/classes/insane.bbclass
 +++ b/meta/classes/insane.bbclass
-@@ -1113,6 +1113,7 @@ python do_package_qa () {
- }
+@@ -576,6 +576,10 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
+     if path.find(".debug") != -1:
+         return
  
- do_package_qa[rdeptask] = "do_packagedata"
-+do_package_qa[vardeps] += "${WARN_QA} ${ERROR_QA}"
- addtask do_package_qa after do_packagedata do_package before do_build
- 
- SSTATETASKS += "do_package_qa"
++    # Ignore .pyc files, not interesting
++    if path.endswith(".pyc"):
++        return
++
+     # Ignore symlinks
+     if os.path.islink(path):
+         return
 -- 
 1.7.9.5
 
