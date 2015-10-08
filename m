@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E4BD575A38
+	by mail.openembedded.org (Postfix) with ESMTP id E3AB460232
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  8 Oct 2015 13:16:59 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t98DGxDj020859
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t98DH0E8020862
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Oct 2015 06:16:59 -0700 (PDT)
+	Thu, 8 Oct 2015 06:17:00 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 8 Oct 2015 06:16:59 -0700
+	Thu, 8 Oct 2015 06:17:00 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Oct 2015 06:16:51 -0700
-Message-ID: <cover.1444310101.git.liezhi.yang@windriver.com>
+Date: Thu, 8 Oct 2015 06:16:53 -0700
+Message-ID: <e24694ec19142b36f5e455f67f9e6ac4cf4bb42a.1444310101.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1444310101.git.liezhi.yang@windriver.com>
+References: <cover.1444310101.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [YOCTO 2.1] [PATCH 0/8] fixes for package_qa_walk() and buildpaths
+Subject: [PATCH 2/8] insane.bbclass: make package_qa_walk() can print all the messages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,32 +36,72 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 08 Oct 2015 13:17:00 -0000
 Content-Type: text/plain
 
-The following changes since commit 4038970f8ce27ac0d7a0afe2cdaa9a65108dfff5:
+* If more than one files have the same QA issue, package_qa_walk() can
+  only print the last one, others are overrided, for example:
+  messages["host-user-contaminated"] = "foo1"
+  messages["host-user-contaminated"] = "foo2"
+  Only foo2 will be printed, this patch fixes the issue.
 
-  os-release: fix do_compile() when RPM signing is enabled (2015-10-07 00:08:07 +0100)
+* Remove unused parameter "path" from package_qa_walk()
+  The path is a useless parameter in package_qa_walk() since it has been
+  redined inside.
 
-are available in the git repository at:
+[YOCTO #8436]
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/buildpaths
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/buildpaths
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/insane.bbclass |   20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-Robert Yang (8):
-  insane.bbclass: do_package_qa depends on WARN_QA and ERROR_QA
-  insane.bbclass: make package_qa_walk() can print all the messages
-  insane.bbclass: buildpaths: ignore .pyc files
-  insane.bbclass: skip buildpath qa check when set
-    INHIBIT_PACKAGE_STRIP
-  insane.bbclass: fix for ignoring debug files
-  package.bbclass: strip archive files
-  autotools.bbclass: use relative path to run configure script
-  glibc-initial.inc: use relative path to run configure
-
- meta/classes/autotools.bbclass            |    4 +++-
- meta/classes/insane.bbclass               |   32 ++++++++++++++++++++++++-----
- meta/classes/package.bbclass              |   18 +++++++++++++++-
- meta/recipes-core/glibc/glibc-initial.inc |    2 +-
- 4 files changed, 48 insertions(+), 8 deletions(-)
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 61db3e1..e3a8cd7 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -749,8 +749,15 @@ def package_qa_check_staged(path,d):
+ 
+     return sane
+ 
++# Merge src dict's content into dest
++def package_qa_merge_dict(dest, src):
++    if len(dest) == len(src) and dest != src:
++        for w in src:
++            if dest[w] != src[w]:
++                dest[w] = src[w] + '\n' + dest[w]
++
+ # Walk over all files in a directory and call func
+-def package_qa_walk(path, warnfuncs, errorfuncs, skip, package, d):
++def package_qa_walk(warnfuncs, errorfuncs, skip, package, d):
+     import oe.qa
+ 
+     #if this will throw an exception, then fix the dict above
+@@ -766,9 +773,17 @@ def package_qa_walk(path, warnfuncs, errorfuncs, skip, package, d):
+             except:
+                 elf = None
+             for func in warnfuncs:
++                warnings_orig = warnings.copy()
+                 func(path, package, d, elf, warnings)
++                # warnings[foo] = "foo1" might be overrided by
++                # warnings [foo] = "foo2", check and merge.
++                package_qa_merge_dict(warnings, warnings_orig)
+             for func in errorfuncs:
++                errors_orig = errors.copy()
+                 func(path, package, d, elf, errors)
++                # errors[foo] = "foo1" might be overrided by
++                # errors [foo] = "foo2", check and merge.
++                package_qa_merge_dict(errors, errors_orig)
+ 
+     for w in warnings:
+         package_qa_handle_error(w, warnings[w], d)
+@@ -1094,8 +1109,7 @@ python do_package_qa () {
+             package_qa_handle_error("pkgname",
+                     "%s doesn't match the [a-z0-9.+-]+ regex" % package, d)
+ 
+-        path = "%s/%s" % (pkgdest, package)
+-        if not package_qa_walk(path, warnchecks, errorchecks, skip, package, d):
++        if not package_qa_walk(warnchecks, errorchecks, skip, package, d):
+             walk_sane  = False
+         if not package_qa_check_rdepends(package, pkgdest, skip, taskdeps, packages, d):
+             rdepends_sane = False
 -- 
 1.7.9.5
 
