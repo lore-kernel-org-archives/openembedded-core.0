@@ -1,37 +1,37 @@
 Return-Path: <rehsack@gmail.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id BAF2B73CBD
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id A75A476536
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Oct 2015 14:33:39 +0000 (UTC)
-Received: by wicge5 with SMTP id ge5so28674153wic.0
+	Thu,  8 Oct 2015 14:36:44 +0000 (UTC)
+Received: by wiclk2 with SMTP id lk2so31583925wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Oct 2015 07:33:39 -0700 (PDT)
+	Thu, 08 Oct 2015 07:36:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:content-type:content-transfer-encoding:subject:date:message-id
-	:cc:to:mime-version;
-	bh=3NAiNjjwVF+rmlvd43DqNTfslTL3j3XLgEF2syEdsx0=;
-	b=I534beCBQPyRDSybtsl0ymv5ftihmm8LoehyrVCQEkKoqQyDbGn3uS9LiFJiLH9IqJ
-	DW1TGt11ta65lUnzPKg3+JaBst/5GoZd5KTYJLENAM1BpIFFU4BK6pL92+wmPN1qELH5
-	9gYV1RokUoCTA8vLHf4fqfSIJUxea05YtnJ9cxxQkUtegetPCrxEzkch2gJ/W6gwL/Fh
-	yGL9ZpeMZz1psXAvGAsXVYTfxIKB8YVEC5oF2bXli6AuN2+whkRD/aCNDro78ngsbsn7
-	rh9YAS4KM3cwntLVAKSfQUwJlJyWCOKme5YFciyf34aZ1maPUOjhPu4m8wj0bb6WzuRX
-	P/cw==
-X-Received: by 10.194.22.165 with SMTP id e5mr7959774wjf.50.1444314819786;
-	Thu, 08 Oct 2015 07:33:39 -0700 (PDT)
+	h=from:content-type:content-transfer-encoding:subject:message-id:date
+	:to:mime-version;
+	bh=nHMdxSu/6AXTEiHG+VMZc4Q50qe0aBkuUqE0CSve5fM=;
+	b=kqhYmzPxRnXCaiyceWAwr6MQE5vJJojP8NooJ45k72/Htr+bRVtEsekV45nB12o61U
+	P2OpPQcbx6TwNBqdMQaflys6S+tSxu3lNVkUHwrN8hlwLuy2KsF/uzpRM+MbaaXdz/qe
+	6ZCSGhgGnXEf9f9SZunEIMKDFC+wkkM6xi+nLViuXBQMM6CHy5BUYjCAckmgnqOsAw67
+	wV9BikU+bK+JJw/ZaVAoOYeuPgZx5gfj5y6gh1sqNx7DmbY8cUuiXFwJCf/eK6/VpGG2
+	Pl5g7Y2c1Fo5CdC8z68UF31QrFW06YUbu0u5/I3QB/z3/ioK0jPRMErguiA+jDkO1PQv
+	8YxQ==
+X-Received: by 10.180.106.98 with SMTP id gt2mr4552522wib.31.1444315004177;
+	Thu, 08 Oct 2015 07:36:44 -0700 (PDT)
 Received: from ernie.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
-	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
-	gd10sm12868949wjb.47.2015.10.08.07.33.38
+	[87.139.84.12])
+	by smtp.gmail.com with ESMTPSA id g5sm7507878wix.13.2015.10.08.07.36.43
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 08 Oct 2015 07:33:39 -0700 (PDT)
+	Thu, 08 Oct 2015 07:36:43 -0700 (PDT)
 From: Jens Rehsack <rehsack@gmail.com>
-Date: Thu, 8 Oct 2015 16:33:37 +0200
-Message-Id: <A543BCF1-FAD0-4993-B357-1BE49B062F63@gmail.com>
+Message-Id: <6A0E85DF-31B7-4955-B4A2-0F3E099FCF99@gmail.com>
+Date: Thu, 8 Oct 2015 16:36:42 +0200
 To: OE-core <openembedded-core@lists.openembedded.org>
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
 X-Mailer: Apple Mail (2.2104)
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/2] gcc: Avoid non-aligned access for ARM5e
+Subject: [PATCH 1/1] Update libusb1 from 1.0.19 to 1.0.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,142 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Oct 2015 14:33:40 -0000
+X-List-Received-Date: Thu, 08 Oct 2015 14:36:44 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
+This updates libusb1 from 1.0.19 to 1.0.20
 
-[Icedtee Ticket #2153] -- see =
-http://icedtea.classpath.org/bugzilla/show_bug.cgi?id=3D2153
-
-This patch prevents gcc generate code on ARM5e accessing 64 bit values, =
-because gcc doesn't ensure they're 64 bit aligned.
-Accessing a 64 bit value from a 32 bit alignment causes segmentation =
-faults.
-
-Patch is taken from =
-https://github.com/archlinuxarm/PKGBUILDs/blob/master/core/gcc/0001-ARMv5-=
-disable-LDRD-STRD.patch
+2015-09-13: v1.0.20
+* Add Haiku support
+* Fix multiple memory and resource leaks (#16, #52, #76, #81)
+* Fix possible deadlock when executing transfer callback
+* New libusb_free_pollfds() API
+* Darwin: Fix devices not being detected on OS X 10.8 (#48)
+* Linux: Allow larger isochronous transfer submission (#23)
+* Windows: Fix broken builds Cygwin/MinGW builds and compiler warnings
+* Windows: Fix broken bus number lookup
+* Windows: Improve submission of control requests for composite devices
+* Examples: Add two-stage load support to fxload (#12)
+* Correctly report cancellations due to timeouts
+* Improve efficiency of event handling
+* Improve speed of transfer submission in multi-threaded environments
+* Various other bug fixes and improvements
+The (#xx) numbers are libusb issue numbers, see ie:
+https://github.com/libusb/libusb/issues/16
 
 Signed-off-by: Jens Rehsack <sno@netbsd.org>
 ---
- meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
- .../gcc/gcc-4.9/0065-ARMv5-disable-LDRD-STRD.patch | 24 =
-++++++++++++++++++++++
- meta/recipes-devtools/gcc/gcc-5.2.inc              |  1 +
- .../gcc/gcc-5.2/0042-ARMv5-disable-LDRD-STRD.patch | 24 =
-++++++++++++++++++++++
- 4 files changed, 50 insertions(+)
- create mode 100644 =
-meta/recipes-devtools/gcc/gcc-4.9/0065-ARMv5-disable-LDRD-STRD.patch
- create mode 100644 =
-meta/recipes-devtools/gcc/gcc-5.2/0042-ARMv5-disable-LDRD-STRD.patch
+ meta/recipes-support/libusb/{libusb1_1.0.19.bb =3D> libusb1_1.0.20.bb} =
+| 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libusb/{libusb1_1.0.19.bb =3D> =
+libusb1_1.0.20.bb} (85%)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc =
-b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 691ba5f..9a1b44e 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -80,6 +80,7 @@ SRC_URI =3D "\
-     =
-file://0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
-     file://0063-nativesdk-gcc-support.patch \
-     file://0064-handle-target-sysroot-multilib.patch \
-+    file://0065-ARMv5-disable-LDRD-STRD.patch \
- "
- SRC_URI[md5sum] =3D "6f831b4d251872736e8e9cc09746f327"
- SRC_URI[sha256sum] =3D =
-"2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
-diff --git =
-a/meta/recipes-devtools/gcc/gcc-4.9/0065-ARMv5-disable-LDRD-STRD.patch =
-b/meta/recipes-devtools/gcc/gcc-4.9/0065-ARMv5-disable-LDRD-STRD.patch
-new file mode 100644
-index 0000000..68fe3b9
---- /dev/null
-+++ =
-b/meta/recipes-devtools/gcc/gcc-4.9/0065-ARMv5-disable-LDRD-STRD.patch
-@@ -0,0 +1,24 @@
-+=46rom b1884b6d1950422a32f9ced0be6d5492e4315547 Mon Sep 17 00:00:00 =
-2001
-+From: Kevin Mihelich <kevin@archlinuxarm.org>
-+Date: Wed, 7 Jan 2015 18:43:57 -0700
-+Subject: [PATCH] ARMv5: disable LDRD/STRD
-+
-+---
-+ gcc/config/arm/arm.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gcc/config/arm/arm.h b/gcc/config/arm/arm.h
-+index c60d9a4..65c60b9 100644
-+--- a/gcc/config/arm/arm.h
-++++ b/gcc/config/arm/arm.h
-+@@ -282,7 +282,7 @@ extern void =
-(*arm_lang_output_object_attributes_hook)(void);
-+ /* Thumb-1 only.  */
-+ #define TARGET_THUMB1_ONLY		(TARGET_THUMB1 && =
-!arm_arch_notm)
-+=20
-+-#define TARGET_LDRD			(arm_arch5e && =
-ARM_DOUBLEWORD_ALIGN \
-++#define TARGET_LDRD			(arm_arch6 && =
-ARM_DOUBLEWORD_ALIGN \
-+                                          && !TARGET_THUMB1)
-+=20
-+ #define TARGET_CRC32			(arm_arch_crc)
-+--=20
-+2.2.1
-diff --git a/meta/recipes-devtools/gcc/gcc-5.2.inc =
-b/meta/recipes-devtools/gcc/gcc-5.2.inc
-index f6673e6..044e8ae 100644
---- a/meta/recipes-devtools/gcc/gcc-5.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-5.2.inc
-@@ -73,6 +73,7 @@ SRC_URI =3D "\
-            file://0039-libcc1-fix-libcc1-s-install-path-and-rpath.patch =
-\
-            file://0040-nativesdk-gcc-support.patch \
-            file://0041-handle-target-sysroot-multilib.patch \
-+           file://0042-ARMv5-disable-LDRD-STRD.patch \
+diff --git a/meta/recipes-support/libusb/libusb1_1.0.19.bb =
+b/meta/recipes-support/libusb/libusb1_1.0.20.bb
+similarity index 85%
+rename from meta/recipes-support/libusb/libusb1_1.0.19.bb
+rename to meta/recipes-support/libusb/libusb1_1.0.20.bb
+index a20e1fc..21b8b45 100644
+--- a/meta/recipes-support/libusb/libusb1_1.0.19.bb
++++ b/meta/recipes-support/libusb/libusb1_1.0.20.bb
+@@ -11,8 +11,8 @@ BBCLASSEXTEND =3D "native nativesdk"
+ SRC_URI =3D "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
            "
 =20
- BACKPORTS =3D ""
-diff --git =
-a/meta/recipes-devtools/gcc/gcc-5.2/0042-ARMv5-disable-LDRD-STRD.patch =
-b/meta/recipes-devtools/gcc/gcc-5.2/0042-ARMv5-disable-LDRD-STRD.patch
-new file mode 100644
-index 0000000..68fe3b9
---- /dev/null
-+++ =
-b/meta/recipes-devtools/gcc/gcc-5.2/0042-ARMv5-disable-LDRD-STRD.patch
-@@ -0,0 +1,24 @@
-+=46rom b1884b6d1950422a32f9ced0be6d5492e4315547 Mon Sep 17 00:00:00 =
-2001
-+From: Kevin Mihelich <kevin@archlinuxarm.org>
-+Date: Wed, 7 Jan 2015 18:43:57 -0700
-+Subject: [PATCH] ARMv5: disable LDRD/STRD
-+
-+---
-+ gcc/config/arm/arm.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gcc/config/arm/arm.h b/gcc/config/arm/arm.h
-+index c60d9a4..65c60b9 100644
-+--- a/gcc/config/arm/arm.h
-++++ b/gcc/config/arm/arm.h
-+@@ -282,7 +282,7 @@ extern void =
-(*arm_lang_output_object_attributes_hook)(void);
-+ /* Thumb-1 only.  */
-+ #define TARGET_THUMB1_ONLY		(TARGET_THUMB1 && =
-!arm_arch_notm)
-+=20
-+-#define TARGET_LDRD			(arm_arch5e && =
-ARM_DOUBLEWORD_ALIGN \
-++#define TARGET_LDRD			(arm_arch6 && =
-ARM_DOUBLEWORD_ALIGN \
-+                                          && !TARGET_THUMB1)
-+=20
-+ #define TARGET_CRC32			(arm_arch_crc)
-+--=20
-+2.2.1
+-SRC_URI[md5sum] =3D "f9e2bb5879968467e5ca756cb4e1fa7e"
+-SRC_URI[sha256sum] =3D =
+"6c502c816002f90d4f76050a6429c3a7e0d84204222cbff2dce95dd773ba6840"
++SRC_URI[md5sum] =3D "1d4eb194eaaa2bcfbba28102768c7dbf"
++SRC_URI[sha256sum] =3D =
+"cb057190ba0a961768224e4dc6883104c6f945b2bf2ef90d7da39e7c1834f7ff"
+=20
+ S =3D "${WORKDIR}/libusb-${PV}"
+=20
 --=20
 2.4.3
 
