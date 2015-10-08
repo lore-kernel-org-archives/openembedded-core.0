@@ -1,40 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id BE0C265D6E
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 6107460125
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Oct 2015 17:22:38 +0000 (UTC)
-Received: by wicgb1 with SMTP id gb1so35319852wic.1
+	Thu,  8 Oct 2015 21:00:50 +0000 (UTC)
+Received: by igbkq10 with SMTP id kq10so22203374igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Oct 2015 10:22:39 -0700 (PDT)
+	Thu, 08 Oct 2015 14:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=UNjOx1gBmwXQ0wihbxSz7wvf9dLDir+xl6taA1llhuQ=;
-	b=c3WOh3YGSF26ztLUoHgzrcgGu2NhzWTO4pl4eEISdYyJcoLKQwSxBB1ds+/ns6MRrK
-	awgY8DlwGQgJSk+r6Rc8pks+4ropjON4x35OFk7ujoiNpHsRY8Yxx98uwEUkysh5LI7u
-	nA4fVjgm/C8QETJijusuz+5ySwnoQVbcV4ir/OZiJnG9uwPHGd89JeqUnJNkZ4kkvMkO
-	hDIN0/N3/CI0uHlEEXehUfU2uzZPocrrwODGKaHldMZHDV3MKL3tgxnNiaOzdwpRBDdK
-	otVVW6Vs30q7oNnCPHcYZGPuR+ZQNHbeKuJLQhlcTT3yCGg5JoXgcg8RCW6iSNtTKkCx
-	wlvQ==
-X-Received: by 10.180.105.138 with SMTP id gm10mr5095451wib.37.1444324958988; 
-	Thu, 08 Oct 2015 10:22:38 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	kr10sm47402620wjc.25.2015.10.08.10.22.37
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 08 Oct 2015 10:22:37 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 8 Oct 2015 19:22:50 +0200
-To: Jens Rehsack <rehsack@gmail.com>
-Message-ID: <20151008172250.GM2385@jama>
-References: <2D0D4F06-AB53-4200-B729-AB982B4CBB46@gmail.com>
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=pgMnYbKU1TzVa8FZEEznTpekeYAI0kld3yWg3jVVhPw=;
+	b=wm4FLsozHkVWO4cciuO8nkvpzK9vao7Ks7b334jaTK97SiJeChH/pJWmXVyMSbsaP1
+	5JmF/GYM0dfWIhZEe7GGUJ+Sgm6ua8Ac0FMfUpDxfAXcWiAWgHvqU81DUMW4pWQqZ65y
+	a/TP/jICxnPw/F64j1NPULYqb/KL1miNicZvsu7SYM37O3LizFiQl9Ja0yeofyOtnLW9
+	BmpOSkduYILtDsAXfJudAnzFWGO1IJ7y/NZvWifzaOjXY1NUF8cPbJzC2h8TyZiOfgrG
+	aYnjW90a7FoYDAcB6MFOIhl2hC7dFjED6o1Hih4YXKsNJB+JqVQuDpVTJV0GikCFVDDC
+	mPfA==
+X-Received: by 10.50.43.170 with SMTP id x10mr6449556igl.68.1444338051037;
+	Thu, 08 Oct 2015 14:00:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2D0D4F06-AB53-4200-B729-AB982B4CBB46@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] udev: Don't introduce pci dependencies without pci being featured
+Sender: kergoth@gmail.com
+Received: by 10.79.65.204 with HTTP; Thu, 8 Oct 2015 14:00:31 -0700 (PDT)
+In-Reply-To: <5c927d04a3d915e5949f36f5ec9da9f81d8459bd.1444310101.git.liezhi.yang@windriver.com>
+References: <cover.1444310101.git.liezhi.yang@windriver.com>
+	<5c927d04a3d915e5949f36f5ec9da9f81d8459bd.1444310101.git.liezhi.yang@windriver.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 8 Oct 2015 14:00:31 -0700
+X-Google-Sender-Auth: KYS9_s_On1YmszjEfNNwxAJxFog
+Message-ID: <CABcZAN=wK-941ihO18dr68bxCa6vnN2LJgSz=LMynfoOZopVzA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/8] autotools.bbclass: use relative path to run configure script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,105 +45,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Oct 2015 17:22:41 -0000
-X-Groupsio-MsgNum: 72018
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="QqzFzR/RUlLahzby"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 08 Oct 2015 21:00:54 -0000
+Content-Type: multipart/alternative; boundary=089e01176cad77c14305219e2866
 
---QqzFzR/RUlLahzby
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--089e01176cad77c14305219e2866
+Content-Type: text/plain; charset=UTF-8
+
+On Thu, Oct 8, 2015 at 6:16 AM, Robert Yang <liezhi.yang@windriver.com>
+wrote:
+
+>  oe_runconf () {
+> -       cfgscript="${S}/configure"
+> +       # Use relative path for S to avoid buildpaths in files
+> +       relative_s=`python -c "import os; print os.path.relpath('${S}',
+> '.')"`
+> +       cfgscript="$relative_s/configure"
+>
+
+Why not just use inline python here, rather than calling out to an external
+python process at task execution time?
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--089e01176cad77c14305219e2866
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 08, 2015 at 05:26:11PM +0200, Jens Rehsack wrote:
-> Fixes that udev always requires PCI, idenpendently from machine or distro=
- features.
->=20
-> Signed-off-by: Jens Rehsack <sno@netbsd.org>
-> ---
->  meta/recipes-core/udev/udev.inc | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->=20
-> diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/ude=
-v.inc
-> index c378ae3..573ecca 100644
-> --- a/meta/recipes-core/udev/udev.inc
-> +++ b/meta/recipes-core/udev/udev.inc
-> @@ -12,7 +12,9 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5=
-fce4486a80fdaf4a4263 \
-> =20
->  LDFLAGS +=3D "-lrt"
-> =20
-> -DEPENDS =3D "glib-2.0 libusb usbutils pciutils glib-2.0-native gperf-nat=
-ive libxslt-native util-linux"
-> +DEPENDS =3D "glib-2.0 glib-2.0-native gperf-native libxslt-native util-l=
-inux"
-> +DEPENDS +=3D " ${@base_contains('MACHINE_FEATURES', 'usbhost', 'libusb u=
-sbutils', '', d)}"
-> +DEPENDS +=3D " ${@base_contains('MACHINE_FEATURES', 'pci', 'pciutils', '=
-', d)}"
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Oct 8, 2015 at 6:16 AM, Robert Yang <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriv=
+er.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":=
+18l" class=3D"a3s" style=3D"overflow:hidden">=C2=A0oe_runconf () {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0cfgscript=3D&quot;${S}/configure&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# Use relative path for S to avoid buildpaths i=
+n files<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0relative_s=3D`python -c &quot;import os; print =
+os.path.relpath(&#39;${S}&#39;, &#39;.&#39;)&quot;`<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cfgscript=3D&quot;$relative_s/configure&quot;</=
+div></blockquote></div><br>Why not just use inline python here, rather than=
+ calling out to an external python process at task execution time?<br>-- <b=
+r><div class=3D"gmail_signature">Christopher Larson<br>clarson at kergoth d=
+ot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib=
+<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
 
-NAK
-
-udev isn't (and shouldn't be) MACHINE_ARCH, so it cannot use
-MACHINE_FEATURES variable.
-
-Please change them to PACKAGECONFIG options and distro can decide to
-disable them for all MACHINEs (or at least for whole set of MACHINEs
-sharing the same TUNE_PKGARCH)
-
->  RPROVIDES_${PN} =3D "hotplug"
-> =20
->  PROVIDES =3D "libgudev"
-> @@ -39,10 +41,6 @@ RDEPENDS_${PN}-ptest +=3D "make perl python"
->  libexecdir =3D "${base_libdir}"
->  EXTRA_OECONF =3D "--disable-introspection \
->                  --with-rootlibdir=3D${base_libdir} \
-> -                --with-pci-ids-path=3D${datadir}/pci.ids \
-> -                ac_cv_file__usr_share_pci_ids=3Dno \
-> -                ac_cv_file__usr_share_hwdata_pci_ids=3Dno \
-> -                ac_cv_file__usr_share_misc_pci_ids=3Dyes \
->                  --sbindir=3D${base_sbindir} \
->                  --libexecdir=3D${nonarch_base_libdir} \
->                  --with-rootlibdir=3D${base_libdir} \
-> @@ -50,6 +48,8 @@ EXTRA_OECONF =3D "--disable-introspection \
->                  --without-systemdsystemunitdir \
->                 "
-> =20
-> +EXTRA_OECONF +=3D " ${@base_contains('MACHINE_FEATURES', 'pci', '--with-=
-pci-ids-path=3D${datadir}/pci.ids ac_cv_file__usr_share_pci_ids=3Dno ac_cv_=
-file__usr_share_hwdata_pci_ids=3Dno ac_cv_file__usr_share_misc_pci_ids=3Dye=
-s', '--without-pci-ids-path', d)}"
-> +
->  PACKAGES =3D+ "udev-cache"
->  PACKAGES =3D+ "libudev"
->  PACKAGES =3D+ "libgudev"
-> --=20
-> 2.4.3
->=20
-> --=20
-> Jens Rehsack - rehsack@gmail.com
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---QqzFzR/RUlLahzby
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlYWpmkACgkQN1Ujt2V2gBy7gACdEsOtM49G8yoQIjonf05y8lsO
-zwcAmgOpolRFraN5/nok0l1RiveUvhWL
-=w+mT
------END PGP SIGNATURE-----
-
---QqzFzR/RUlLahzby--
+--089e01176cad77c14305219e2866--
