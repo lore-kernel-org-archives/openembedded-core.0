@@ -1,24 +1,36 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id EF71776710
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 2557874242
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Oct 2015 14:17:02 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1ZkC0E-0005QM-6v from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 08 Oct 2015 07:17:02 -0700
-Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server id 14.3.224.2; Thu, 8 Oct 2015 15:17:01 +0100
-From: Awais Belal <awais_belal@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Oct 2015 19:16:57 +0500
-Message-ID: <1444313817-10841-1-git-send-email-awais_belal@mentor.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [][PATCH v2] mesa-demos: fix deadlock in sharedtex_mt
+	Thu,  8 Oct 2015 14:21:23 +0000 (UTC)
+Received: by wicfx3 with SMTP id fx3so30765916wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Oct 2015 07:21:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:content-type:content-transfer-encoding:subject:date:message-id
+	:cc:to:mime-version;
+	bh=5V9s4980mDxTAuuyA3yty/py3y3PFSQ97aOecChMAjA=;
+	b=T3ZopwCAtXDsDpAozV+7R0LYYALJtuChbFa0LLTaz5zBo8IxJkBwWwI9IwG8gt2lKE
+	phS+QrOhyCau9D5CANiOlf5FCNP2WdW4OeUIJLqQpO61mFeGz03zq0ms2RJrUm+pVR9l
+	evKWn37DeyViAa3bIJGlcFxyuOzF/b2CSPEWbguiN0FHR2in982iDPwNwhRP3AoYqIBC
+	q2dRcNEDnHu9TL4RpH/tPpQ5wT4DYNr/FYeeINlziw95fGV7xL90ZuqgavHXNec9V0ZT
+	TCRx6BJpTWUo4eod/ihpih1XnJCkeX7jhT46J8LOyFgFjmienahVtfHcS1ks0QG+wskq
+	QVpQ==
+X-Received: by 10.194.21.199 with SMTP id x7mr8937570wje.63.1444314083169;
+	Thu, 08 Oct 2015 07:21:23 -0700 (PDT)
+Received: from ernie.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
+	[87.139.84.12])
+	by smtp.gmail.com with ESMTPSA id d8sm5068113wiy.1.2015.10.08.07.21.22
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 08 Oct 2015 07:21:22 -0700 (PDT)
+From: Jens Rehsack <rehsack@gmail.com>
+Date: Thu, 8 Oct 2015 16:21:21 +0200
+Message-Id: <C5B806CA-2384-4924-8FA7-8BC6F146416A@gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Mailer: Apple Mail (2.2104)
+Subject: [PATCH 1/3] perl: fix Perl5 module builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,81 +43,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Oct 2015 14:17:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 08 Oct 2015 14:21:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-This patch fixes a deadlock that occurs between the main
-thread and rendering threads of the sharedtex_mt demo.
+This patch fixes some issues in classes providing cpan module build =
+support:
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
+* add support even for xs modules with more than 3 levels as
+  B::Hooks::End::Of::Scope or Math::Random::ISAAC::XS
+* correct handling of Module::Build (as far as stolen from pkgsrc
+  and my humble knowledge)
+* configure to install to vendor_libs as default, even when
+  inherited do_install remains unused (overwritten do_install)
+
+Signed-off-by: Jens Rehsack <sno@netbsd.org>
 ---
- ...10-sharedtex_mt-fix-rendering-thread-hang.patch | 43 ++++++++++++++++++++++
- meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb     |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/mesa-demos/0010-sharedtex_mt-fix-rendering-thread-hang.patch
+ meta/classes/cpan-base.bbclass  |  4 ++++
+ meta/classes/cpan.bbclass       |  2 +-
+ meta/classes/cpan_build.bbclass | 13 +++++++++++--
+ 3 files changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos/0010-sharedtex_mt-fix-rendering-thread-hang.patch b/meta/recipes-graphics/mesa/mesa-demos/0010-sharedtex_mt-fix-rendering-thread-hang.patch
-new file mode 100644
-index 0000000..7ce38b8
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa-demos/0010-sharedtex_mt-fix-rendering-thread-hang.patch
-@@ -0,0 +1,43 @@
-+From 525fa9ded72d22b53c5eb366f61e2ac1d407a2db Mon Sep 17 00:00:00 2001
-+From: Awais Belal <awais_belal@mentor.com>
-+Date: Thu, 8 Oct 2015 13:49:31 +0500
-+Subject: [PATCH] sharedtex_mt: fix rendering thread hang
+diff --git a/meta/classes/cpan-base.bbclass =
+b/meta/classes/cpan-base.bbclass
+index d9817ba..7810a4d 100644
+--- a/meta/classes/cpan-base.bbclass
++++ b/meta/classes/cpan-base.bbclass
+@@ -49,7 +49,11 @@ PERLVERSION[vardepvalue] =3D ""
+ FILES_${PN}-dbg +=3D "${PERLLIBDIRS}/auto/*/.debug \
+                     ${PERLLIBDIRS}/auto/*/*/.debug \
+                     ${PERLLIBDIRS}/auto/*/*/*/.debug \
++                    ${PERLLIBDIRS}/auto/*/*/*/*/.debug \
++                    ${PERLLIBDIRS}/auto/*/*/*/*/*/.debug \
+                     =
+${PERLLIBDIRS}/vendor_perl/${PERLVERSION}/auto/*/.debug \
+                     =
+${PERLLIBDIRS}/vendor_perl/${PERLVERSION}/auto/*/*/.debug \
+                     =
+${PERLLIBDIRS}/vendor_perl/${PERLVERSION}/auto/*/*/*/.debug \
++                    =
+${PERLLIBDIRS}/vendor_perl/${PERLVERSION}/auto/*/*/*/*/.debug \
++                    =
+${PERLLIBDIRS}/vendor_perl/${PERLVERSION}/auto/*/*/*/*/*/.debug \
+                     "
+diff --git a/meta/classes/cpan.bbclass b/meta/classes/cpan.bbclass
+index e2bbd2f..8e079e0 100644
+--- a/meta/classes/cpan.bbclass
++++ b/meta/classes/cpan.bbclass
+@@ -17,7 +17,7 @@ export PERLHOSTLIB =3D =
+"${STAGING_LIBDIR_NATIVE}/perl-native/perl/${@get_perl_vers
+=20
+ cpan_do_configure () {
+ 	export PERL5LIB=3D"${PERL_ARCHLIB}"
+-	yes '' | perl ${EXTRA_PERLFLAGS} Makefile.PL ${EXTRA_CPANFLAGS}
++	yes '' | perl ${EXTRA_PERLFLAGS} Makefile.PL INSTALLDIRS=3Dvendor =
+${EXTRA_CPANFLAGS}
+=20
+ 	# Makefile.PLs can exit with success without generating a
+ 	# Makefile, e.g. in cases of missing configure time
+diff --git a/meta/classes/cpan_build.bbclass =
+b/meta/classes/cpan_build.bbclass
+index 4f648a6..3653748 100644
+--- a/meta/classes/cpan_build.bbclass
++++ b/meta/classes/cpan_build.bbclass
+@@ -8,6 +8,7 @@ EXTRA_CPAN_BUILD_FLAGS ?=3D ""
+ # Env var which tells perl if it should use host (no) or target (yes) =
+settings
+ export PERLCONFIGTARGET =3D "${@is_target(d)}"
+ export PERL_ARCHLIB =3D =
+"${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version(d)}"
++export PERLHOSTLIB =3D =
+"${STAGING_LIBDIR_NATIVE}/perl-native/perl/${@get_perl_version(d)}/"
+ export LD =3D "${CCLD}"
+=20
+ cpan_build_do_configure () {
+@@ -24,14 +25,22 @@ cpan_build_do_configure () {
+ 				--install_path bindoc=3D${mandir}/man1 \
+ 				--install_path libdoc=3D${mandir}/man3 \
+                                 ${EXTRA_CPAN_BUILD_FLAGS}
 +
-+XNextEvent is a blocking call which locks up the display mutex
-+this causes the rendering threads to hang when they try call
-+glXSwapBuffers() as that tries to take the same mutex in
-+underlying calls through XCopyArea().
-+So we only go to XNextEvent when it has at least one event
-+and we wouldn't lock indefinitely.
-+
-+Signed-off-by: Awais Belal <awais_belal@mentor.com>
-+
-+Upstream-Status: Submitted [https://patchwork.freedesktop.org/patch/61350/]
-+---
-+ src/xdemos/sharedtex_mt.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/xdemos/sharedtex_mt.c b/src/xdemos/sharedtex_mt.c
-+index a90903a..1d503c4 100644
-+--- a/src/xdemos/sharedtex_mt.c
-++++ b/src/xdemos/sharedtex_mt.c
-+@@ -420,9 +420,14 @@ Resize(struct window *h, unsigned int width, unsigned int height)
-+ static void
-+ EventLoop(void)
-+ {
-++   int i;
-++   XEvent event;
-+    while (1) {
-+-      int i;
-+-      XEvent event;
-++      /* Do we have an event? */
-++      if (XPending(gDpy) == 0) {
-++         usleep(10000);
-++         continue;
-++      }
-+       XNextEvent(gDpy, &event);
-+       for (i = 0; i < NumWindows; i++) {
-+ 	 struct window *h = &Windows[i];
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
-index e451642..0094f55 100644
---- a/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
-+++ b/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
-@@ -19,6 +19,7 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/demos/${PV}/${BPN}-${PV}.tar.bz2 \
-     file://0007-Install-few-more-test-programs.patch \
-     file://0008-glsl-perf-Add-few-missing-.glsl-.vert-.frag-files-to.patch \
-     file://0009-glsl-perf-Install-.glsl-.vert-.frag-files.patch \
-+    file://0010-sharedtex_mt-fix-rendering-thread-hang.patch \
- "
- SRC_URI[md5sum] = "72613a2c8c013716db02e3ff59d29061"
- SRC_URI[sha256sum] = "e4bfecb5816ddd4b7b37c1bc876b63f1f7f06fda5879221a9774d0952f90ba92"
--- 
-1.9.1
++	# Build.PLs can exit with success without generating a
++	# Build, e.g. in cases of missing configure time
++	# dependencies. This is considered a best practice by
++	# cpantesters.org. See:
++	#  * http://wiki.cpantesters.org/wiki/CPANAuthorNotes
++	#  * =
+http://www.nntp.perl.org/group/perl.qa/2008/08/msg11236.html
++	[ -e Build ] || bbfatal "No Build was generated by Build.PL"
+ }
+=20
+ cpan_build_do_compile () {
+-        perl Build
++        perl Build verbose=3D1
+ }
+=20
+ cpan_build_do_install () {
+-	perl Build install
++	perl Build install --destdir ${D}
+ }
+=20
+ EXPORT_FUNCTIONS do_configure do_compile do_install
+--=20
+2.3.8 (Apple Git-58)
+
+--=20
+Jens Rehsack - rehsack@gmail.com
 
 
