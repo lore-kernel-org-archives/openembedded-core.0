@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 925DE75A38
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AEAFC76710
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  8 Oct 2015 13:17:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t98DH0MX016090
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t98DH1Bg020865
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Oct 2015 06:17:00 -0700 (PDT)
+	Thu, 8 Oct 2015 06:17:01 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Thu, 8 Oct 2015 06:17:00 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Oct 2015 06:16:54 -0700
-Message-ID: <18a2e42949e3b3f6d18f1a72f2f870115731046e.1444310101.git.liezhi.yang@windriver.com>
+Date: Thu, 8 Oct 2015 06:16:55 -0700
+Message-ID: <9318d84577d6217a1b9a984a0fee72a5e86553e0.1444310101.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1444310101.git.liezhi.yang@windriver.com>
 References: <cover.1444310101.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/8] insane.bbclass: buildpaths: ignore .pyc files
+Subject: [PATCH 4/8] insane.bbclass: skip buildpath qa check when set INHIBIT_PACKAGE_STRIP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,38 +36,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 08 Oct 2015 13:17:00 -0000
 Content-Type: text/plain
 
-The .pyc files usually contain build path like:
+There are build paths in the file when set INHIBIT_PACKAGE_STRIP.
 
-i586-poky-linux-gcc  -m32 -march=i586 --sysroot=/buildarea/lyang1/test_p/tmp/sysroots/qemux86
-And:
-_PYTHON_PROJECT_BASE=/buildarea/lyang1/test_p/tmp/work/i586-poky-linux/python/2.7.9-r1/build
-
-They are safe, so ignore them.
-
-This can reduce 1065 QA issues for buildpaths in a world build.
-
-[YOCTO #8446]
+[YOCTO #8458]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/insane.bbclass |    4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/insane.bbclass |    7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index e3a8cd7..664dfec 100644
+index 664dfec..d6f7388 100644
 --- a/meta/classes/insane.bbclass
 +++ b/meta/classes/insane.bbclass
-@@ -576,6 +576,10 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
-     if path.find(".debug") != -1:
+@@ -572,8 +572,11 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
+     """
+     Check for build paths inside target files and error if not found in the whitelist
+     """
+-    # Ignore .debug files, not interesting
+-    if path.find(".debug") != -1:
++    # Ignore:
++    # - .debug files
++    # - which sets INHIBIT_PACKAGE_STRIP
++    if path.find(".debug") != -1 or \
++        d.getVar('INHIBIT_PACKAGE_STRIP', True) == "1":
          return
  
-+    # Ignore .pyc files, not interesting
-+    if path.endswith(".pyc"):
-+        return
-+
-     # Ignore symlinks
-     if os.path.islink(path):
-         return
+     # Ignore .pyc files, not interesting
 -- 
 1.7.9.5
 
