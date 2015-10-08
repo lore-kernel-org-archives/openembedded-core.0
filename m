@@ -1,36 +1,37 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id C7DA873CBD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 76C8B65CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Oct 2015 21:01:14 +0000 (UTC)
-Received: by igbkq10 with SMTP id kq10so22211386igb.0
+	Thu,  8 Oct 2015 21:07:04 +0000 (UTC)
+Received: by qkdo1 with SMTP id o1so15861732qkd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Oct 2015 14:01:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=15XnuvOR4iVM5aDHWgzTmNC70JyFR3EuLBacoZ1D9Fk=;
-	b=uv3JrnCi4ih78zUFUt0ZCsr34M/MPPzD1diRW9YyW3PRHfz0+Diw93Kp3jusjZYnmh
-	7dteeg8MYcLj9Srj7WVigdMoQUUmdAOJeFyaawIlCta8RGigZdTZXsiPU7We+1exTIKv
-	AqpkduVDS52Kmx6S9m442bgty58dj1tYtVKCa7SPfNgBbxso+n6xfc/TkGRGz5264m89
-	UsYwqAhytnQ+hKfdmQcXTRnTRF2SKrRXOHy/VxC8vMwwhlIrpktoJTBNFctBe/CFXIwB
-	pL3Cz9VSJBIWjq9BHQ3KsVu4BjRRcnPk5sUaenSgjQdNyac3xwrnTWYoNsXK4ZXtRZvD
-	TWag==
-X-Received: by 10.50.147.6 with SMTP id tg6mr6466234igb.68.1444338075290; Thu,
-	08 Oct 2015 14:01:15 -0700 (PDT)
+	Thu, 08 Oct 2015 14:07:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=IGRy6C6sxvByaDP4DT3UKEx8B9303j58Du83s+V7ysw=;
+	b=BIu/HMSEaOBmhnUJlnq58QVQKcEkATxD4mbTTvZOy4IKlwiqDwGRS9p2Ja0IcO5uwd
+	yCUIC7pndJ3U1Vt5PnIuUGclmiXJArO9ob6Xn94Cl78uP2Bsi/4WHgdpYGnTUDSy56VP
+	H0f+G7/QZnioBmALXySZp9X38EEfWi/lf4ZLo/2H6/x68vSF0fkfTrQeiIJKbbU+tPfc
+	P4OPpm2JOiGjz3TE0gkyuWaXsDWDHI6/t+f0uU2oAbFJixeAI+F8BYczl1aZJigs5yfF
+	jQp7qivU6YMu/Edlph5fh7WH0dacGU18B1uTQO6gblFuULTZocxGjcfWlgP60ZuWcOTp
+	1uPw==
+X-Gm-Message-State: ALoCoQmmiVIDJh8IQbWHz/G86Z57MZB34r5R+xuAsXQVY/FvaTcWSIHhg+6+2eM3ljjF8PF9kSwn
+X-Received: by 10.55.200.71 with SMTP id c68mr6761752qkj.72.1444338424892;
+	Thu, 08 Oct 2015 14:07:04 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.65.204 with HTTP; Thu, 8 Oct 2015 14:00:55 -0700 (PDT)
-In-Reply-To: <CABcZAN=wK-941ihO18dr68bxCa6vnN2LJgSz=LMynfoOZopVzA@mail.gmail.com>
+Received: by 10.140.94.86 with HTTP; Thu, 8 Oct 2015 14:06:45 -0700 (PDT)
+In-Reply-To: <CABcZANm6GfP7sqVdcDo2x2v-Uq85Hns7WOG+s3K9j9N1NqG1EQ@mail.gmail.com>
 References: <cover.1444310101.git.liezhi.yang@windriver.com>
 	<5c927d04a3d915e5949f36f5ec9da9f81d8459bd.1444310101.git.liezhi.yang@windriver.com>
 	<CABcZAN=wK-941ihO18dr68bxCa6vnN2LJgSz=LMynfoOZopVzA@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 8 Oct 2015 14:00:55 -0700
-X-Google-Sender-Auth: 3QrpnMSn1R2x4QWYTpaBhXWyNfg
-Message-ID: <CABcZANm6GfP7sqVdcDo2x2v-Uq85Hns7WOG+s3K9j9N1NqG1EQ@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+	<CABcZANm6GfP7sqVdcDo2x2v-Uq85Hns7WOG+s3K9j9N1NqG1EQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 Oct 2015 22:06:45 +0100
+Message-ID: <CAJTo0Lbe64X4-vG4uBfypz9zDREU6vYiU0LWNk1aFe+CHYzZYg@mail.gmail.com>
+To: Christopher Larson <clarson@kergoth.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 7/8] autotools.bbclass: use relative path to run configure script
@@ -46,65 +47,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Oct 2015 21:01:17 -0000
-Content-Type: multipart/alternative; boundary=089e013c67c2e9d62805219e29fa
+X-List-Received-Date: Thu, 08 Oct 2015 21:07:06 -0000
+Content-Type: multipart/alternative; boundary=001a1139b448c070f305219e3ecf
 
---089e013c67c2e9d62805219e29fa
+--001a1139b448c070f305219e3ecf
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Oct 8, 2015 at 2:00 PM, Christopher Larson <clarson@kergoth.com>
-wrote:
+On 8 October 2015 at 22:00, Christopher Larson <clarson@kergoth.com> wrote:
 
-> On Thu, Oct 8, 2015 at 6:16 AM, Robert Yang <liezhi.yang@windriver.com>
-> wrote:
->
->>  oe_runconf () {
->> -       cfgscript="${S}/configure"
->> +       # Use relative path for S to avoid buildpaths in files
->> +       relative_s=`python -c "import os; print os.path.relpath('${S}',
->> '.')"`
->> +       cfgscript="$relative_s/configure"
+> +       # Use relative path for S to avoid buildpaths in files
+>>> +       relative_s=`python -c "import os; print os.path.relpath('${S}',
+>>> '.')"`
+>>> +       cfgscript="$relative_s/configure"
+>>>
 >>
+>> Why not just use inline python here, rather than calling out to an
+>> external python process at task execution time?
 >
-> Why not just use inline python here, rather than calling out to an
-> external python process at task execution time?
+>
+> Oh, nevermind, of course oe_runconf can be run from any number of paths :)
 
 
-Oh, nevermind, of course oe_runconf can be run from any number of paths :)
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Why not use realpath?
 
---089e013c67c2e9d62805219e29fa
+ross@flashheart ~/Yocto/poky/meta/recipes-devtools/qemu (mut)
+$ realpath --relative-to=. ~/Yocto/poky/meta/recipes-support/mpfr/
+../../recipes-support/mpfr
+
+Ross
+
+--001a1139b448c070f305219e3ecf
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Oct 8, 2015 at 2:00 PM, Christopher Larson <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""><d=
-iv class=3D"gmail_quote">On Thu, Oct 8, 2015 at 6:16 AM, Robert Yang <span =
-dir=3D"ltr">&lt;<a href=3D"mailto:liezhi.yang@windriver.com" target=3D"_bla=
-nk">liezhi.yang@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex"><div style=3D"overflow:hidden">=C2=A0oe_runconf () {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0cfgscript=3D&quot;${S}/configure&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Use relative path for S to avoid buildpaths i=
-n files<br>
+On 8 October 2015 at 22:00, Christopher Larson <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
+er-left-style:solid;padding-left:1ex"><span class=3D""><div class=3D"gmail_=
+quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:=
+solid;padding-left:1ex"><span><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
+rder-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">=
+<div style=3D"overflow:hidden">+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Use relative p=
+ath for S to avoid buildpaths in files<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0relative_s=3D`python -c &quot;import os; print =
 os.path.relpath(&#39;${S}&#39;, &#39;.&#39;)&quot;`<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0cfgscript=3D&quot;$relative_s/configure&quot;</=
 div></blockquote></div><br></span>Why not just use inline python here, rath=
 er than calling out to an external python process at task execution time?</=
-blockquote></div><br>Oh, nevermind, of course oe_runconf can be run from an=
-y number of paths :)<br>-- <br><div class=3D"gmail_signature">Christopher L=
-arson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, Ope=
-nZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics<=
-/div>
-</div></div>
+blockquote></div><br></span>Oh, nevermind, of course oe_runconf can be run =
+from any number of paths :)</blockquote></div><br>Why not use realpath?</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">ross@flas=
+hheart ~/Yocto/poky/meta/recipes-devtools/qemu (mut)</div><div class=3D"gma=
+il_extra">$ realpath --relative-to=3D. ~/Yocto/poky/meta/recipes-support/mp=
+fr/</div><div class=3D"gmail_extra">../../recipes-support/mpfr</div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---089e013c67c2e9d62805219e29fa--
+--001a1139b448c070f305219e3ecf--
