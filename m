@@ -1,41 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id BB4C165C8A
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B0C2860232
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Oct 2015 01:46:22 +0000 (UTC)
-Received: by padhy16 with SMTP id hy16so37834513pad.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Oct 2015 18:46:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=Oj/XbL5Ny02sjRu3ym0Uk6t725/MSaWx8B7jL6xlx0s=;
-	b=KSuXnCritShbXBBtqqkuyQByUEE7Ae2oT3MOTUjMJFMdU+YIyNWS1IdOUeAHBVSxM+
-	CAqh3XjCVDrVWBG5c3tHqAzJGrQqHoEX2bhsYGlR/LmwmrfRExTaxQlu8HFBHOQYP5qc
-	vh6cq7i84ltq1V4BMaIey6128TDztmZ/TaDppzwP2UYporZPLNDwhnpKl0eCE8SzxuUv
-	1WZ1e9Sc6tK4c0zXZiqznybGRusxjTeyUX6MRUTaFWUvXEgSuR1eSU0q8M/UJkaYs4fv
-	HGjRzavi1MQAhYmOU2w1PX4xd5s509yrU0AkDfxHJXdFVKfeErQ4pVdweEEGMR1ysQGR
-	Jggw==
-X-Received: by 10.67.5.102 with SMTP id cl6mr4989350pad.4.1444268783327;
-	Wed, 07 Oct 2015 18:46:23 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:787e:b3a8:cb23:6c63?
-	([2601:646:8601:4580:787e:b3a8:cb23:6c63])
-	by smtp.gmail.com with ESMTPSA id
-	xo2sm11824401pbb.48.2015.10.07.18.46.22
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 07 Oct 2015 18:46:22 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3095\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <56151883.7000304@topic.nl>
-Date: Wed, 7 Oct 2015 18:46:19 -0700
-Message-Id: <75FC5F07-596F-403F-9A25-8BF14FEFBB91@gmail.com>
-References: <56151883.7000304@topic.nl>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-X-Mailer: Apple Mail (2.3095)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] Adding machine-specific default packages to an image
+	Thu,  8 Oct 2015 02:13:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t982DtS2014840
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 7 Oct 2015 19:13:55 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 7 Oct 2015 19:13:54 -0700
+To: <petter@technux.se>, "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1413452836.git.kai.kang@windriver.com>
+	<6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
+	<b64576e3c49076498b7cfb0cbf9f3963@technux.se>
+	<CAJTo0LZjxvCgVLFGVhn0O2PCWTGYFOM46zZ7KG_tqOZgzd9xgQ@mail.gmail.com>
+	<fb59210fb91a5209c3d3ce6dbce38ff1@technux.se>
+	<CAJTo0LYiW1X+kZi0ra0JUMeywQVu4w492ULyRXcytpYFWiiwng@mail.gmail.com>
+	<7d91e0a2a4abbb2e84558856e1c2fa6a@technux.se>
+	<CAJTo0LYP2bZAA9Svxxi_XQbg5LSS1yXzAbdvC5HFg4dWFU-Nzw@mail.gmail.com>
+	<f6560c7a3f9ffd90e5a8bd754ce9e70a@technux.se>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <5615D160.6050709@windriver.com>
+Date: Thu, 8 Oct 2015 10:13:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
+MIME-Version: 1.0
+In-Reply-To: <f6560c7a3f9ffd90e5a8bd754ce9e70a@technux.se>
+Cc: Openembedded core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] readline: Security Advisory - readline - CVE-2014-2524
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,117 +42,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Oct 2015 01:46:23 -0000
-X-Groupsio-MsgNum: 71978
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_4FAC7BBF-3746-4210-A1B0-C932ADF23D1F";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 08 Oct 2015 02:14:01 -0000
+Content-Type: multipart/alternative;
+	boundary="------------020509020309080602030805"
 
---Apple-Mail=_4FAC7BBF-3746-4210-A1B0-C932ADF23D1F
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+--------------020509020309080602030805
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 2015年10月06日 23:30, Petter Mabäcker wrote:
+>
+> 2015-10-06 16:08 skrev Burton, Ross:
+>
+>>
+>> On 6 October 2015 at 14:43, Petter Mabäcker <petter@technux.se 
+>> <mailto:petter@technux.se>> wrote:
+>>
+>>     Great. As you will notice also when formatted properly it will
+>>     not apply due to that readline63-001 and readline63-002 isn't
+>>     applied so  'patchlevel' is incorrect. That makes me wondering
+>>     what the patching strategy is? In my opinion we should consider
+>>     adding the official readline-6.3 patches as well. Should I add a
+>>     bug report for that or leave it as is (depending on the strategy...)?
+>>
+>>
+>> Adding the rest of the patches would have been a sensible thing to 
+>> do.  Right now, we're frozen as we're about to release 2.0, but a bug 
+>> or patches post-release would be much appreciated.
+>> Ross
+> I have created a defect and assigned myself 
+> (https://bugzilla.yoctoproject.org/show_bug.cgi?id=8451) and will send 
+> something up when the normal integration is open again.
+> BR Petter
 
-> On Oct 7, 2015, at 6:05 AM, Mike Looijmans <mike.looijmans@topic.nl> =
-wrote:
->=20
-> Since our boards needs 'some' bitstream in the FPGA to become somewhat =
-useful, in the machine.conf I say:
->=20
-> MACHINE_FPGA_BITSTREAM ?=3D "fpga-image-miami-florida-gen-reference"
-> MACHINE_EXTRA_RRECOMMENDS =3D "${MACHINE_FPGA_BITSTREAM} ..."
->=20
-> This puts that into the packagegroup-base-machine RDEPENDS and hence =
-it gets installed on the board if you don't specify anything else.
->=20
-> However, I want to be able to pick alternative FPGA bitstream =
-providers in the image recipe. Without having to define a new machine =
-for each and every project=E2=80=A6
+Sorry for late reply that we had The National Day vacation. I can help 
+for this defect if you please.
 
-would IMAGE_FEATURES help ? IMAGE_FEATURE =3D blue and blue may be car =
-for one machine and truck for another.
-
->=20
-> Currently, I do this by forcing packagegroup-base-machine and =
-packagegroup-base-distro out of the IMAGE_INSTALL list (for some obscure =
-reason, building packagegroup-base-distro also results in building the =
-reference bitstream) and then add MACHINE_EXTRA_RRECOMMENDS directly to =
-the IMAGE_INSTALL list, so I can set MACHINE_FPGA_BITSTREAM to whichever =
-I'd like to have in this image.
->=20
-> I was lookign for a way to have the machine configuration inject its =
-packages into the IMAGE_INSTALL (or similar) list, so it can easily be =
-overridden in an image recipe.
->=20
-> Bluntly putting IMAGE_INSTALL+=3D"${MACHINE_FPGA_BITSTREAM}" into the =
-machine.conf might work, but doesn't "feel" quite right. But there's =
-apparently no other way to do this.
->=20
-> An alternative would be to introduce an IMAGE_INSTALL_MACHINE variable =
-that gets added to the PACKAGE_INSTALL variable in image.bbclass. That =
-would allow machines to inject their desirables into the image instead. =
-It's a simple patch, I've pasted it below:
->=20
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 86a98bb..90c1c05 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -64,7 +64,8 @@ def check_image_features(d):
->=20
-> IMAGE_INSTALL ?=3D ""
-> IMAGE_INSTALL[type] =3D "list"
-> -export PACKAGE_INSTALL ?=3D "${IMAGE_INSTALL} =
-${ROOTFS_BOOTSTRAP_INSTALL} ${FEATURE_INSTALL}"
-> +IMAGE_INSTALL_MACHINE ?=3D ""
-> +export PACKAGE_INSTALL ?=3D "${IMAGE_INSTALL} =
-${ROOTFS_BOOTSTRAP_INSTALL} ${FEATURE_INSTALL} ${IMAGE_IN
-> PACKAGE_INSTALL_ATTEMPTONLY ?=3D "${FEATURE_INSTALL_OPTIONAL}"
->=20
-> # Images are generally built explicitly, do not need to be part of =
-world.
->=20
->=20
-> Kind regards,
->=20
-> Mike Looijmans
-> System Expert
->=20
-> TOPIC Embedded Products
-> Eindhovenseweg 32-C, NL-5683 KH Best
-> Postbus 440, NL-5680 AK Best
-> Telefoon: +31 (0) 499 33 69 79
-> Telefax: +31 (0) 499 33 69 70
-> E-mail: mike.looijmans@topicproducts.com
-> Website: www.topicproducts.com
->=20
-> Please consider the environment before printing this e-mail
->=20
->=20
->=20
->=20
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+Regards,
+Neil | Kai Kang
 
 
---Apple-Mail=_4FAC7BBF-3746-4210-A1B0-C932ADF23D1F
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+--------------020509020309080602030805
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2015年10月06日 23:30, Petter Mabäcker
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:f6560c7a3f9ffd90e5a8bd754ce9e70a@technux.se"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <p>2015-10-06 16:08 skrev Burton, Ross:</p>
+      <blockquote type="cite" style="padding-left:5px;
+        border-left:#1010ff 2px solid; margin-left:5px; width:100%"><!-- html ignored --><!-- head ignored --><!-- meta ignored -->
+        <div dir="ltr">
+          <div class="gmail_extra"><br>
+            <div class="gmail_quote">On 6 October 2015 at 14:43, Petter
+              Mabäcker <span>&lt;<a moz-do-not-send="true"
+                  href="mailto:petter@technux.se">petter@technux.se</a>&gt;</span>
+              wrote:<br>
+              <blockquote class="gmail_quote" style="margin: 0 0 0 .8ex;
+                border-left: 1px #ccc solid; padding-left: 1ex;">
+                <p>Great. As you will notice also when formatted
+                  properly it will not apply due to that readline63-001
+                  and readline63-002 isn't applied so  'patchlevel' is
+                  incorrect. That makes me wondering what the patching
+                  strategy is? In my opinion we should consider adding
+                  the official readline-6.3 patches as well. Should I
+                  add a bug report for that or leave it as is (depending
+                  on the strategy...)?</p>
+                <div class="gmail_extra"> </div>
+              </blockquote>
+            </div>
+            <br>
+            Adding the rest of the patches would have been a sensible
+            thing to do.  Right now, we're frozen as we're about to
+            release 2.0, but a bug or patches post-release would be much
+            appreciated.</div>
+          <div class="gmail_extra"> </div>
+          <div class="gmail_extra">Ross</div>
+          <div class="gmail_extra"> </div>
+          <div class="gmail_extra"> </div>
+        </div>
+      </blockquote>
+      <div class="gmail_extra">I have created a defect and assigned
+        myself (<a class="moz-txt-link-freetext" href="https://bugzilla.yoctoproject.org/show_bug.cgi?id=8451">https://bugzilla.yoctoproject.org/show_bug.cgi?id=8451</a>)
+        and will send something up when the normal integration is open
+        again.</div>
+      <div class="gmail_extra"> </div>
+      <div class="gmail_extra">BR Petter</div>
+    </blockquote>
+    <br>
+    <font size="+1">Sorry for late reply that we had The National Day
+      vacation. I can help for this defect if you please.</font><br>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+  </body>
+</html>
 
-iEYEARECAAYFAlYVyu8ACgkQuwUzVZGdMxTRBACgiq8iCqFOKoAJHF1jcCYSgmrp
-r4QAn1lZTWu5rH+GNj0jdVtmHqvkewAZ
-=QPU9
------END PGP SIGNATURE-----
-
---Apple-Mail=_4FAC7BBF-3746-4210-A1B0-C932ADF23D1F--
+--------------020509020309080602030805--
