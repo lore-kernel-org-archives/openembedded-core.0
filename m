@@ -1,30 +1,21 @@
-Return-Path: <logan.buchy@gmail.com>
-Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
-	[209.85.160.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A70D76E3F
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 970747703F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Oct 2015 20:47:56 +0000 (UTC)
-Received: by ykba192 with SMTP id a192so85794552ykb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Oct 2015 13:47:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=U/BDL/dSQ1lIJERcz3wkV8RJocKQxTpAYBJr72fuxTM=;
-	b=XGcKSv8gMTQAiacPe4Rb+2MNGqnfyKgTLvZDnQdWYohUMs8kGbr4kaQWerh36xngN4
-	qjIjxbLepATJU388b5uFdXbdpBfFRTqh71sBtPp1ledBpZJjoA1AMfWiWzmSs/oqhCd8
-	hXTbJ40j+cfzsBo9vF2jV3WoyxiQpBmufAfBVdaV5VmUf/z1S4mZikDRhj7Snux/AkGB
-	4RU8MI0oxWvb7Jw67wZLUcROARQeE0PsSb6TPjk8GuB1e/Kp4zrPKJFMbFWMJBav76Kz
-	mQo9Q1F99TPu/K4uEadG4G09/8dUCo5dLOD1X0oH7ykJMpbN5jFE4VO3IDVD1X0ItYjQ
-	wKEw==
-MIME-Version: 1.0
-X-Received: by 10.129.109.142 with SMTP id i136mr10715426ywc.50.1444423676199; 
-	Fri, 09 Oct 2015 13:47:56 -0700 (PDT)
-Received: by 10.13.233.197 with HTTP; Fri, 9 Oct 2015 13:47:56 -0700 (PDT)
-Date: Fri, 9 Oct 2015 13:47:56 -0700
-Message-ID: <CAH=96PHKBTZ3M1gvgsr8meT67NvB4Hp808jSnBvjMgAG6QqR1g@mail.gmail.com>
-From: Logan Buchy <logan.buchy@gmail.com>
+	Fri,  9 Oct 2015 22:21:39 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 09 Oct 2015 15:21:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,660,1437462000"; d="scan'208";a="823302690"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.68])
+	by orsmga002.jf.intel.com with ESMTP; 09 Oct 2015 15:21:38 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Question regarding project organization with OE
+Date: Fri,  9 Oct 2015 17:21:44 -0500
+Message-Id: <1444429304-22379-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] bash: Disable custom memory allocator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,102 +28,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Oct 2015 20:48:00 -0000
-Content-Type: multipart/alternative; boundary=001a114daee0200d5a0521b21891
-
---001a114daee0200d5a0521b21891
+X-List-Received-Date: Fri, 09 Oct 2015 22:21:41 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Bash is failing trying to allocate memory [1] using the custom
+memory allocator if we disable it the issue is fixed.
 
-It's my first time posting here, I hope I have the right mailing list!
+The major distributions also disabled by default [2], so we
+don't have a good reason to use it.
 
-I've been looking into OE in the last few days as a candidate to replace
-the ageing build scripts in a project I am involved with.  I've been really
-impressed with OE's feature list - it ticks off a lot of boxes for our
-requirements.
+[YOCTO #8452]
 
-I am still working out some of the workflows though before we go ahead and
-make the switch, I was hoping someone could help me out.
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=8452#c0
+[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=8452#c5
 
-The project I am working on consists of several embedded targets.  All
-targets currently run on the same system-on-chip and are built with the
-same toolchain, though this will note be the case in the near future. The
-majority of the project exists as a monolithic application that is built
-with different DEFINEs in order to customize the application's behaviour.
-Each target also has a unique rootfs layout (different init scripts mostly).
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/recipes-extended/bash/bash.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-For the sake of clarity, lets call this application 'Foo', and two targets
-'alpha' and 'beta'.
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index c06f157..020409f 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -7,7 +7,7 @@ DEPENDS = "ncurses bison-native"
+ inherit autotools gettext texinfo update-alternatives ptest
+ 
+ EXTRA_AUTORECONF += "--exclude=autoheader"
+-EXTRA_OECONF = "--enable-job-control"
++EXTRA_OECONF = "--enable-job-control --without-bash-malloc"
+ 
+ # If NON_INTERACTIVE_LOGIN_SHELLS is defined, all login shells read the
+ # startup files, even if they are not interactive.
+-- 
+1.9.1
 
-I am trying to figure out the best was to setup recipes in order to
-maintain this structure.
 
-I'm thinking that managing the targets is best left to image-recipes in a
-separate layer.  Essentially adding:
-* recipes-core/images/target-alpha.bb
-* recipes-core/images/target-beta.bb
-
-Managing the 'Foo' application is currently done with a regular package
-recipe:
-* recipes-core/Foo/foo.bb
-
-However, I am not sure if the image recipes can dictate how to build Foo,
-the dependent recipe.  Is this possible? Is there an alternative workflow?
-
-Would it be better if 'targets' were managed as separate distros instead?
-Currently some targets use different kernel versions than others, and all
-targets use different kernel configs.  I haven't yet figured out if this is
-possible to specify from within an image recipe.
-
-Any help is appreciated!
-
-Thanks,
-Logan
-
---001a114daee0200d5a0521b21891
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><div><div><div><div><div>Hi,<br><br></div>It&#39;s my=
- first time posting here, I hope I have the right mailing list!=C2=A0 <br><=
-br>I&#39;ve
- been looking into OE in the last few days as a candidate to replace the
- ageing build scripts in a project I am involved with.=C2=A0 I&#39;ve been =
-really
- impressed with OE&#39;s feature list - it ticks off a lot of boxes for our=
-=20
-requirements.<br><br></div>I am still working out some of the workflows=20
-though before we go ahead and make the switch, I was hoping someone=20
-could help me out.<br><br></div>The project I am working on consists of=20
-several embedded targets.=C2=A0 All targets currently run on the same=20
-system-on-chip and are built with the same toolchain, though this will=20
-note be the case in the near future. The majority of the project exists=20
-as a monolithic application that is built with different DEFINEs in=20
-order to customize the application&#39;s behaviour.=C2=A0 Each target also =
-has a=20
-unique rootfs layout (different init scripts mostly).<br><br></div><div>For=
- the sake of clarity, lets call this application &#39;Foo&#39;, and two tar=
-gets &#39;alpha&#39; and &#39;beta&#39;.<br></div><div><br></div>I am tryin=
-g to figure out the best was to setup recipes in order to maintain this str=
-ucture.<br><br></div>I&#39;m thinking that managing the targets is best lef=
-t to image-recipes in a separate layer.=C2=A0 Essentially adding:<br>* reci=
-pes-core/images/<a href=3D"http://target-alpha.bb" target=3D"_blank">target=
--alpha.bb</a><br>* recipes-core/images/<a href=3D"http://target-beta.bb" ta=
-rget=3D"_blank">target-beta.bb</a><br><br></div><div>Managing the &#39;Foo&=
-#39; application is currently done with a regular package recipe:<br></div>=
-<div>* recipes-core/Foo/<a href=3D"http://foo.bb" target=3D"_blank">foo.bb<=
-/a><br><br></div><div>However,
- I am not sure if the image recipes can dictate how to build Foo, the=20
-dependent recipe.=C2=A0 Is this possible? Is there an alternative workflow?=
-<br><br></div><div>Would
- it be better if &#39;targets&#39; were managed as separate distros instead=
-?=C2=A0=20
-Currently some targets use different kernel versions than others, and=20
-all targets use different kernel configs.=C2=A0 I haven&#39;t yet figured o=
-ut if=20
-this is possible to specify from within an image recipe.<br><br></div><div>=
-Any help is appreciated!<br></div><div><br></div><div>Thanks,<br></div>Loga=
-n</div>
-
---001a114daee0200d5a0521b21891--
