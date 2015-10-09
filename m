@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A8A6760F4
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B9DB076AC4
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Oct 2015 02:44:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t992iiDn024518
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t992ii41027569
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Oct 2015 19:44:44 -0700 (PDT)
+	Thu, 8 Oct 2015 19:44:45 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Thu, 8 Oct 2015 19:44:44 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Oct 2015 19:44:38 -0700
-Message-ID: <b2de842f73e5dfd32e729f6bc9d14776696e534b.1444358567.git.liezhi.yang@windriver.com>
+Date: Thu, 8 Oct 2015 19:44:39 -0700
+Message-ID: <30751bce10a7a779df57f0fdc9186e1d50e32841.1444358567.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1444358567.git.liezhi.yang@windriver.com>
 References: <cover.1444358567.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/8] recipes-connectivity: cleanup CONFFILES
+Subject: [PATCH 4/8] recipes-extended: cleanup CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,97 +42,136 @@ The ${sysconfdir}/* are CONFFILES by default.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-connectivity/avahi/avahi.inc          |    2 --
- meta/recipes-connectivity/bind/bind_9.10.2-P4.bb   |   11 -----------
- .../nfs-utils/nfs-utils_1.3.1.bb                   |    2 +-
- meta/recipes-connectivity/openssh/openssh_7.1p1.bb |    3 ---
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb         |    1 -
- .../wpa-supplicant/wpa-supplicant_2.4.bb           |    1 -
- 6 files changed, 1 insertion(+), 19 deletions(-)
+ meta/recipes-extended/cronie/cronie_1.5.0.bb       |    1 -
+ meta/recipes-extended/cups/cups.inc                |    1 -
+ meta/recipes-extended/lighttpd/lighttpd_1.4.36.bb  |    2 --
+ meta/recipes-extended/logrotate/logrotate_3.9.1.bb |    3 +--
+ meta/recipes-extended/pam/libpam_1.2.1.bb          |    5 -----
+ meta/recipes-extended/procps/procps_3.3.10.bb      |    2 --
+ meta/recipes-extended/sudo/sudo.inc                |    2 --
+ meta/recipes-extended/sysklogd/sysklogd.inc        |    1 -
+ meta/recipes-extended/tzdata/tzdata_2015g.bb       |    1 -
+ meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |    2 --
+ 10 files changed, 1 insertion(+), 19 deletions(-)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 825197d..966dfe0 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -113,8 +113,6 @@ RRECOMMENDS_avahi-dev_append_libc-glibc = " gettext-dev"
- 
- RRECOMMENDS_avahi-dev[nodeprrecs] = "1"
- 
--CONFFILES_avahi-daemon = "${sysconfdir}/avahi/avahi-daemon.conf"
--
- INITSCRIPT_PACKAGES = "avahi-daemon avahi-dnsconfd"
- INITSCRIPT_NAME_avahi-daemon = "avahi-daemon"
- INITSCRIPT_PARAMS_avahi-daemon = "defaults 21 19"
-diff --git a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
-index 1e1e726..ee63b28 100644
---- a/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.10.2-P4.bb
-@@ -90,14 +90,3 @@ do_install_append() {
- 	install -m 0644 ${WORKDIR}/bind9 ${D}${sysconfdir}/default
+diff --git a/meta/recipes-extended/cronie/cronie_1.5.0.bb b/meta/recipes-extended/cronie/cronie_1.5.0.bb
+index 38bd593..d73dae3 100644
+--- a/meta/recipes-extended/cronie/cronie_1.5.0.bb
++++ b/meta/recipes-extended/cronie/cronie_1.5.0.bb
+@@ -78,4 +78,3 @@ do_install_append () {
  }
  
--CONFFILES_${PN} = " \
--	${sysconfdir}/bind/named.conf \
--	${sysconfdir}/bind/named.conf.local \
--	${sysconfdir}/bind/named.conf.options \
--	${sysconfdir}/bind/db.0 \
--	${sysconfdir}/bind/db.127 \
--	${sysconfdir}/bind/db.empty \
--	${sysconfdir}/bind/db.local \
--	${sysconfdir}/bind/db.root \
--	"
--
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-index 42101de..da44500 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-@@ -75,7 +75,7 @@ CONFFILES_${PN}-client += "${localstatedir}/lib/nfs/etab \
- 			   ${localstatedir}/lib/nfs/rmtab \
- 			   ${localstatedir}/lib/nfs/xtab \
- 			   ${localstatedir}/lib/nfs/statd/state \
--			   ${sysconfdir}/nfsmount.conf"
-+			   "
+ FILES_${PN} += "${sysconfdir}/cron*"
+-CONFFILES_${PN} += "${sysconfdir}/crontab"
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index c0765dc..9c66013 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -120,7 +120,6 @@ FILES_${PN} += "${datadir}/doc/cups/images \
+                 ${datadir}/doc/cups/*.css \
+                 ${datadir}/icons/ \
+                "
+-CONFFILES_${PN} += "${sysconfdir}/cups/cupsd.conf"
  
- FILES_${PN}-client = "${base_sbindir}/*mount.nfs* ${sbindir}/*statd \
- 		      ${sbindir}/rpc.idmapd ${sbindir}/sm-notify \
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.1p1.bb b/meta/recipes-connectivity/openssh/openssh_7.1p1.bb
-index eeeb4b4..1678d74 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.1p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.1p1.bb
-@@ -145,9 +145,6 @@ RCONFLICTS_${PN} = "dropbear"
- RCONFLICTS_${PN}-sshd = "dropbear"
- RCONFLICTS_${PN}-keygen = "ssh-keygen"
+ SYSROOT_PREPROCESS_FUNCS += "cups_sysroot_preprocess"
+ cups_sysroot_preprocess () {
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.36.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.36.bb
+index 67b6e37..cb277dc 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.36.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.36.bb
+@@ -67,8 +67,6 @@ do_install_append() {
  
--CONFFILES_${PN}-sshd = "${sysconfdir}/ssh/sshd_config"
--CONFFILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config"
+ FILES_${PN} += "${sysconfdir} /www"
+ 
+-CONFFILES_${PN} = "${sysconfdir}/lighttpd.conf"
 -
- ALTERNATIVE_PRIORITY = "90"
- ALTERNATIVE_${PN}-scp = "scp"
- ALTERNATIVE_${PN}-ssh = "ssh"
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-index adc38e1..7fc2d00 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-@@ -75,7 +75,6 @@ do_install_append () {
- 	chmod u+s ${D}${sbindir}/pppd
+ PACKAGES_DYNAMIC += "^lighttpd-module-.*"
+ 
+ python populate_packages_prepend () {
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
+index 7d0a159..96679ce 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
+@@ -27,8 +27,7 @@ PACKAGECONFIG ?= "\
+ PACKAGECONFIG[acl] = ",,acl"
+ PACKAGECONFIG[selinux] = ",,libselinux"
+ 
+-CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status \
+-		    ${sysconfdir}/logrotate.conf"
++CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status"
+ 
+ # If RPM_OPT_FLAGS is unset, it adds -g itself rather than obeying our
+ # optimization variables, so use it rather than EXTRA_CFLAGS.
+diff --git a/meta/recipes-extended/pam/libpam_1.2.1.bb b/meta/recipes-extended/pam/libpam_1.2.1.bb
+index ac3097e..0605e25 100644
+--- a/meta/recipes-extended/pam/libpam_1.2.1.bb
++++ b/meta/recipes-extended/pam/libpam_1.2.1.bb
+@@ -162,8 +162,3 @@ addtask pam_sanity before do_configure
+ 
+ BBCLASSEXTEND = "nativesdk native"
+ 
+-CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-session"
+-CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-auth"
+-CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-password"
+-CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-session-noninteractive"
+-CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-account"
+diff --git a/meta/recipes-extended/procps/procps_3.3.10.bb b/meta/recipes-extended/procps/procps_3.3.10.bb
+index dcfaba7..55699cc 100644
+--- a/meta/recipes-extended/procps/procps_3.3.10.bb
++++ b/meta/recipes-extended/procps/procps_3.3.10.bb
+@@ -43,8 +43,6 @@ do_install_append () {
+         fi
  }
  
--CONFFILES_${PN} = "${sysconfdir}/ppp/pap-secrets ${sysconfdir}/ppp/chap-secrets ${sysconfdir}/ppp/options"
- PACKAGES =+ "${PN}-oa ${PN}-oe ${PN}-radius ${PN}-winbind ${PN}-minconn ${PN}-password ${PN}-l2tp ${PN}-tools"
- FILES_${PN}        = "${sysconfdir} ${bindir} ${sbindir}/chat ${sbindir}/pppd ${systemd_unitdir}/system/ppp@.service"
- FILES_${PN}-dbg += "${libdir}/pppd/${PV}/.debug"
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
-index a124cf2..005ec6e 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
-@@ -42,7 +42,6 @@ PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
- FILES_wpa-supplicant-passphrase = "${bindir}/wpa_passphrase"
- FILES_wpa-supplicant-cli = "${sbindir}/wpa_cli"
- FILES_${PN} += "${datadir}/dbus-1/system-services/*"
--CONFFILES_${PN} += "${sysconfdir}/wpa_supplicant.conf"
+-CONFFILES_${PN} = "${sysconfdir}/sysctl.conf"
+-
+ bindir_progs = "free pkill pmap pgrep pwdx skill snice top uptime"
+ base_bindir_progs += "kill pidof ps watch"
+ base_sbindir_progs += "sysctl"
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index a25876b..2862450 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -19,8 +19,6 @@ inherit autotools
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib"
  
- do_configure () {
- 	${MAKE} -C wpa_supplicant clean
+-CONFFILES_${PN} = "${sysconfdir}/sudoers"
+-
+ EXTRA_OECONF = "--with-editor=/bin/vi --with-env-editor"
+ 
+ EXTRA_OECONF_append_libc-musl = " --disable-hardening "
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index bcf8aa7..0b84da6 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -22,7 +22,6 @@ SRC_URI = "http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar
+ SRC_URI_append_e500v2 = " file://no-vectorization.patch"
+ 
+ INITSCRIPT_NAME = "syslog"
+-CONFFILES_${PN} = "${sysconfdir}/syslog.conf.${BPN}"
+ 
+ CFLAGS_append = " -DSYSV"
+ 
+diff --git a/meta/recipes-extended/tzdata/tzdata_2015g.bb b/meta/recipes-extended/tzdata/tzdata_2015g.bb
+index 039a7c1..c2cba7b 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2015g.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2015g.bb
+@@ -204,4 +204,3 @@ FILES_${PN} += "${datadir}/zoneinfo/Pacific/Honolulu     \
+                 ${datadir}/zoneinfo/iso3166.tab          \
+                 ${datadir}/zoneinfo/Etc/*"
+ 
+-CONFFILES_${PN} += "${sysconfdir}/timezone ${sysconfdir}/localtime"
+diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
+index ffc03e5..7effdbf 100644
+--- a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
++++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
+@@ -64,5 +64,3 @@ do_install() {
+ 	       -e 's,@SBINDIR@,${sbindir},g' \
+ 	       ${D}${systemd_unitdir}/system/xinetd.service
+ }
+-
+-CONFFILES_${PN} = "${sysconfdir}/xinetd.conf"
 -- 
 1.7.9.5
 
