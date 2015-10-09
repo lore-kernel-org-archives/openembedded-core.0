@@ -1,39 +1,44 @@
-Return-Path: <petter@technux.se>
-Received: from bin-vsp-out-04.atm.binero.net (vsp-unauthed02.binero.net
-	[195.74.38.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B2D1605D2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 817BC734DA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Oct 2015 06:53:05 +0000 (UTC)
-X-Halon-ID: 607bd552-6e52-11e5-bfe4-005056917c0c
-Authorized-sender: petter@technux.se
-Received: from webmail.binero.se (unknown [195.74.38.9])
-	by bin-vsp-out-04.atm.binero.net (Halon Mail Gateway) with ESMTPA;
-	Fri,  9 Oct 2015 08:52:58 +0200 (CEST)
-MIME-Version: 1.0
-Date: Fri, 09 Oct 2015 08:53:02 +0200
-From: =?UTF-8?Q?Petter_Mab=C3=A4cker?= <petter@technux.se>
-To: Marko Lindqvist <cazfi74@gmail.com>
-Organization: Technux
-Mail-Reply-To: <petter@technux.se>
-In-Reply-To: <CAF6bG8eud0qLNLaqNtBVVgyff8iiSp=g1DsFUh6Sk-ECQthvvA@mail.gmail.com>
-References: <cover.1413452836.git.kai.kang@windriver.com>
-	<6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
-	<b64576e3c49076498b7cfb0cbf9f3963@technux.se>
-	<CAJTo0LZjxvCgVLFGVhn0O2PCWTGYFOM46zZ7KG_tqOZgzd9xgQ@mail.gmail.com>
-	<fb59210fb91a5209c3d3ce6dbce38ff1@technux.se>
-	<CAJTo0LYiW1X+kZi0ra0JUMeywQVu4w492ULyRXcytpYFWiiwng@mail.gmail.com>
-	<7d91e0a2a4abbb2e84558856e1c2fa6a@technux.se>
-	<CAJTo0LYP2bZAA9Svxxi_XQbg5LSS1yXzAbdvC5HFg4dWFU-Nzw@mail.gmail.com>
-	<CAF6bG8eud0qLNLaqNtBVVgyff8iiSp=g1DsFUh6Sk-ECQthvvA@mail.gmail.com>
-Message-ID: <0299971cf181f7c7cfbf7e7749295540@technux.se>
-X-Sender: petter@technux.se
-User-Agent: Binero Webmail/0.8.4
-Cc: Openembedded core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] readline: Security Advisory - readline - CVE-2014-2524
+	Fri,  9 Oct 2015 07:03:55 +0000 (UTC)
+Received: by pacex6 with SMTP id ex6so78693165pac.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Oct 2015 00:03:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=s4e5xZ2sB57tbvxNHCSEuRzdF7N0ndYTuV3TzpTKlS8=;
+	b=b9ARi45NPbYJgQAS+sYMzoF4hn30AH95Q9gi+MDoR23yU+jfIhUVAzSgQQ/ri7A+cB
+	+nwhCB0D/JU0l32iwxcd1eaSktXQ/vZPpkHpphaHrv9lF576ra9fTS7EXvMoNSVoK4eO
+	BTdh0FPEzHIMV8R6ZYdLhmv6Y3qsCEGI3yUQSAt2JmLgR+cGer5M8fDeKZc+DcKZ8TdJ
+	NQ68Q3HCGDsLsZ1FQNmsfj+f/ObWd7EpmtEjOkeO4e7/UktM2mbo0TUBjHq//r9mweSZ
+	dcv0Bd4EeCbYG2dI1x/823PB4EBxZ8QCGXVtjn4gDreHzsfX9q49bLBGkLlGIhvNSWb9
+	aM+Q==
+X-Received: by 10.68.202.9 with SMTP id ke9mr13556522pbc.85.1444374236110;
+	Fri, 09 Oct 2015 00:03:56 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:24ad:a72d:669c:5092?
+	([2601:646:8601:4580:24ad:a72d:669c:5092])
+	by smtp.gmail.com with ESMTPSA id of1sm358522pbc.11.2015.10.09.00.03.55
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 09 Oct 2015 00:03:55 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3096.1\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAP71Wjy4XmN6Ffu=reiNyR+_MDaSbGHwGU0DxRRz2msfQ_rgkg@mail.gmail.com>
+Date: Fri, 9 Oct 2015 00:03:50 -0700
+Message-Id: <30C6E750-ADC7-4C26-96B6-CFE4136B2944@gmail.com>
+References: <CAP71Wjy4XmN6Ffu=reiNyR+_MDaSbGHwGU0DxRRz2msfQ_rgkg@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+X-Mailer: Apple Mail (2.3096.1)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: issues with gcc 5 + mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: petter@technux.se
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -43,117 +48,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Oct 2015 06:53:08 -0000
-Content-Type: multipart/alternative;
-	boundary="=_282d5000b05e3f9b2be16d0019803cfc"
+X-List-Received-Date: Fri, 09 Oct 2015 07:03:56 -0000
+X-Groupsio-MsgNum: 72034
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_38409963-5983-4861-9F52-6B3BCDC139D3";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---=_282d5000b05e3f9b2be16d0019803cfc
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset=UTF-8
-
- 
-
-2015-10-08 06:31 skrev Marko Lindqvist: 
-
-> On 6 October 2015 at
-17:08, Burton, Ross <ross.burton@intel.com> wrote:
-> 
->> On 6 October
-2015 at 14:43, Petter Mabäcker <petter@technux.se> wrote: 
->> 
->>>
-Great. As you will notice also when formatted properly it will not apply
-due to that readline63-001 and readline63-002 isn't applied so
-'patchlevel' is incorrect. That makes me wondering what the patching
-strategy is? In my opinion we should consider adding the official
-readline-6.3 patches as well. Should I add a bug report for that or
-leave it as is (depending on the strategy...)?
->> Adding the rest of the
-patches would have been a sensible thing to do. Right now, we're frozen
-as we're about to release 2.0, but a bug or patches post-release would
-be much appreciated. Ross
-> 
-> The strategy I introduced in
-30a38ea1ee933fb134a5ee9000298703cab93692
-> was not to add the patches,
-but to fetch them as upstream source.
-> That was dropped when readline
-was updated to 6.3 (maybe there was no
-> patches for it at the time):
->
-66bc6f4127e88db18e260c71d181aecfd58c7999
-> 
-> - ML
-
-Hello Marko, 
-
-When
-looking at the dates for the 6.3 integration my guess is that no patches
-existed for 6.3 yet (compared to the dates for the patches..). I will
-give it a try to use your 5.2 strategy when applying the 6.3 patches to
-make it looks the same for both versions. Thanks for pointing this out!
-
-
-BR Petter 
-
-Petter Mabäcker
-
-Technux
-<petter@technux.se>
-www.technux.se
-
- 
-
---=_282d5000b05e3f9b2be16d0019803cfc
+--Apple-Mail=_38409963-5983-4861-9F52-6B3BCDC139D3
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=UTF-8
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
-<html><body style=3D'font-family: Helvetica,Arial,sans-serif'>
-<p>&nbsp;</p>
-<p>2015-10-08 06:31 skrev Marko Lindqvist:</p>
-<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
-x solid; margin-left:5px; width:100%"><!-- html ignored --><!-- head ignore=
-d --><!-- meta ignored -->
-<pre>On 6 October 2015 at 17:08, Burton, Ross &lt;<a href=3D"mailto:ross.bu=
-rton@intel.com">ross.burton@intel.com</a>&gt; wrote:</pre>
-<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
-x solid; margin-left:5px; width:100%">On 6 October 2015 at 14:43, Petter Ma=
-b&auml;cker &lt;<a href=3D"mailto:petter@technux.se">petter@technux.se</a>&=
-gt; wrote:
-<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
-x solid; margin-left:5px; width:100%">Great. As you will notice also when f=
-ormatted properly it will not apply due to that readline63-001 and readline=
-63-002 isn't applied so 'patchlevel' is incorrect. That makes me wondering =
-what the patching strategy is? In my opinion we should consider adding the =
-official readline-6.3 patches as well. Should I add a bug report for that o=
-r leave it as is (depending on the strategy...)?</blockquote>
-Adding the rest of the patches would have been a sensible thing to do. Righ=
-t now, we're frozen as we're about to release 2.0, but a bug or patches pos=
-t-release would be much appreciated. Ross</blockquote>
-<pre>The strategy I introduced in 30a38ea1ee933fb134a5ee9000298703cab93692
-was not to add the patches, but to fetch them as upstream source.
- That was dropped when readline was updated to 6.3 (maybe there was no
-patches for it at the time):
-66bc6f4127e88db18e260c71d181aecfd58c7999
+Content-Type: text/plain;
+	charset=us-ascii
 
 
- - ML </pre>
-</blockquote>
-<p>Hello Marko,</p>
-<p>When looking at the dates for the 6.3 integration my guess is that no pa=
-tches existed for 6.3 yet (compared to the dates for the patches..). I will=
- give it a try to use your 5.2 strategy when applying the 6.3 patches to ma=
-ke it looks the same for both versions. Thanks for pointing this out!</p>
-<p>BR Petter</p>
-<pre>&nbsp;</pre>
-<div>
-<pre>Petter Mab&auml;cker
+> On Oct 8, 2015, at 9:11 AM, Nicolas Dechesne =
+<nicolas.dechesne@linaro.org> wrote:
+>=20
+> hi,
+>=20
+> I am seeing this error on my board when compilng core-image-x11 based =
+image:
+>=20
+> root@ifc6410:~# glxgears
+> Running synchronized to the vertical refresh.  The framerate should be
+> approximately the same as the monitor refresh rate.
+> [   50.359341] Alignment trap: not handling instruction f4008a1f at =
+[<b6cf3f84>]
+> [   50.364408] Unhandled fault: alignment exception (0x801) at =
+0x000cd5bc
 
-Technux &lt;petter@technux.se&gt;
-www.technux.se</pre>
-</div>
-<pre><br /><br /><br /></pre>
-</body></html>
+alignment exception, you say its armv7 which should support unaligned =
+access, so why is this error showing up
+do you have it disabled in kernel ?
 
---=_282d5000b05e3f9b2be16d0019803cfc--
+> [   50.371419] pgd =3D ec024000
+> [   50.377885] [000cd5bc] *pgd=3Dfb85f835
+> Bus error
+>=20
+> While I initially thought it was something to do with my kernel or =
+firmware, I just thought about trying a build with GCCVERSION=3D"4.9.3" =
+and the issue is gone.
+>=20
+> I was having this issue as soon as EGL/GLES is being used, and I could =
+get it with both X11 or Weston/Wayland. This is running on IFC6410 (e.g. =
+an ARMv7 platform). The same images built for ARMv8 (DragonBoard 410c) =
+work fine.
+>=20
+> I am using Mesa Gallium/freedreno for the GPU. I have tried =
+armv7athf-neon and armv7at-neon, and both show the same issue.
+>=20
+> I would be curious to hear from others using similar platforms , =
+though it is likely something in mesa/gallium (so possibly in freedreno =
+bits)..  Maybe someone using etnaviv ? Or is anyone building images for =
+qemuarm v7?
+>=20
+> cheers
+> nico
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_38409963-5983-4861-9F52-6B3BCDC139D3
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlYXZtoACgkQuwUzVZGdMxRPhACfR4R8dA05HJ9Hoh4eMfJRvwsY
+3bEAnRXo6t266Wp/6irUSaUZx4GUf9V3
+=jcmz
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_38409963-5983-4861-9F52-6B3BCDC139D3--
