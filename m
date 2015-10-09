@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B9DB076AC4
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E2F1E77017
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Oct 2015 02:44:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t992ii41027569
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t992ijUG024521
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 8 Oct 2015 19:44:45 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 8 Oct 2015 19:44:44 -0700
+	Thu, 8 Oct 2015 19:44:45 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Oct 2015 19:44:39 -0700
-Message-ID: <30751bce10a7a779df57f0fdc9186e1d50e32841.1444358567.git.liezhi.yang@windriver.com>
+Date: Thu, 8 Oct 2015 19:44:40 -0700
+Message-ID: <9039c4beb03cffbe6b3e18a62ad377a60e6b3122.1444358567.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1444358567.git.liezhi.yang@windriver.com>
 References: <cover.1444358567.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/8] recipes-extended: cleanup CONFFILES
+Subject: [PATCH 5/8] recipes-core: cleanup CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Oct 2015 02:44:44 -0000
+X-List-Received-Date: Fri, 09 Oct 2015 02:44:45 -0000
 Content-Type: text/plain
 
 The ${sysconfdir}/* are CONFFILES by default.
@@ -42,136 +42,138 @@ The ${sysconfdir}/* are CONFFILES by default.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-extended/cronie/cronie_1.5.0.bb       |    1 -
- meta/recipes-extended/cups/cups.inc                |    1 -
- meta/recipes-extended/lighttpd/lighttpd_1.4.36.bb  |    2 --
- meta/recipes-extended/logrotate/logrotate_3.9.1.bb |    3 +--
- meta/recipes-extended/pam/libpam_1.2.1.bb          |    5 -----
- meta/recipes-extended/procps/procps_3.3.10.bb      |    2 --
- meta/recipes-extended/sudo/sudo.inc                |    2 --
- meta/recipes-extended/sysklogd/sysklogd.inc        |    1 -
- meta/recipes-extended/tzdata/tzdata_2015g.bb       |    1 -
- meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |    2 --
- 10 files changed, 1 insertion(+), 19 deletions(-)
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |    4 ----
+ meta/recipes-core/busybox/busybox.inc              |    3 ---
+ meta/recipes-core/dbus/dbus.inc                    |    2 --
+ meta/recipes-core/glibc/glibc-package.inc          |    1 -
+ .../init-ifupdown/init-ifupdown_1.0.bb             |    1 -
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 --
+ meta/recipes-core/netbase/netbase_5.3.bb           |    2 --
+ meta/recipes-core/systemd/systemd_225.bb           |    5 -----
+ .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    1 -
+ meta/recipes-core/udev/udev-extraconf_1.1.bb       |    1 -
+ 10 files changed, 22 deletions(-)
 
-diff --git a/meta/recipes-extended/cronie/cronie_1.5.0.bb b/meta/recipes-extended/cronie/cronie_1.5.0.bb
-index 38bd593..d73dae3 100644
---- a/meta/recipes-extended/cronie/cronie_1.5.0.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.5.0.bb
-@@ -78,4 +78,3 @@ do_install_append () {
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index e16fe72..f6eafb7 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -172,7 +172,3 @@ FILES_${PN} = "/"
+ FILES_${PN}-doc = "${docdir} ${datadir}/common-licenses"
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+-
+-CONFFILES_${PN} = "${sysconfdir}/fstab ${@['', '${sysconfdir}/hostname'][(d.getVar('hostname', True) != '')]} ${sysconfdir}/shells"
+-CONFFILES_${PN} += "${sysconfdir}/motd ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile"
+-
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index ed8f9fe..e3aabae 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -40,9 +40,6 @@ INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd"
+ SYSTEMD_PACKAGES = "${PN}-syslog"
+ SYSTEMD_SERVICE_${PN}-syslog = "busybox-syslog.service"
+ 
+-CONFFILES_${PN}-syslog = "${sysconfdir}/syslog-startup.conf.${BPN}"
+-CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
+-
+ RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
+ 
+ inherit cml1 systemd update-rc.d ptest
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 3971081..db5fcb4 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -35,8 +35,6 @@ USERADD_PARAM_${PN} = "--system --home ${localstatedir}/lib/dbus \
+                        --no-create-home --shell /bin/false \
+                        --user-group messagebus"
+ 
+-CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session.conf"
+-
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+ PACKAGES =+ "${PN}-lib"
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 5f60368..3c9d89c 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -208,7 +208,6 @@ pkg_postinst_nscd () {
+ 		fi
+ 	fi
  }
+-CONFFILES_nscd="${sysconfdir}/nscd.conf"
  
- FILES_${PN} += "${sysconfdir}/cron*"
--CONFFILES_${PN} += "${sysconfdir}/crontab"
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index c0765dc..9c66013 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -120,7 +120,6 @@ FILES_${PN} += "${datadir}/doc/cups/images \
-                 ${datadir}/doc/cups/*.css \
-                 ${datadir}/icons/ \
-                "
--CONFFILES_${PN} += "${sysconfdir}/cups/cupsd.conf"
+ SYSTEMD_PACKAGES = "nscd"
+ SYSTEMD_SERVICE_nscd = "nscd.service"
+diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
+index 733ae41..e8d87be 100644
+--- a/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
++++ b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
+@@ -38,4 +38,3 @@ PACKAGE_ARCH_qemuall = "${MACHINE_ARCH}"
+ RDEPENDS_${PN} = "netbase"
+ RCONFLICTS_${PN} = "netbase (< 1:5.0)"
  
- SYSROOT_PREPROCESS_FUNCS += "cups_sysroot_preprocess"
- cups_sysroot_preprocess () {
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.36.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.36.bb
-index 67b6e37..cb277dc 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.36.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.36.bb
-@@ -67,8 +67,6 @@ do_install_append() {
- 
- FILES_${PN} += "${sysconfdir} /www"
- 
--CONFFILES_${PN} = "${sysconfdir}/lighttpd.conf"
--
- PACKAGES_DYNAMIC += "^lighttpd-module-.*"
- 
- python populate_packages_prepend () {
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-index 7d0a159..96679ce 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-@@ -27,8 +27,7 @@ PACKAGECONFIG ?= "\
- PACKAGECONFIG[acl] = ",,acl"
- PACKAGECONFIG[selinux] = ",,libselinux"
- 
--CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status \
--		    ${sysconfdir}/logrotate.conf"
-+CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status"
- 
- # If RPM_OPT_FLAGS is unset, it adds -g itself rather than obeying our
- # optimization variables, so use it rather than EXTRA_CFLAGS.
-diff --git a/meta/recipes-extended/pam/libpam_1.2.1.bb b/meta/recipes-extended/pam/libpam_1.2.1.bb
-index ac3097e..0605e25 100644
---- a/meta/recipes-extended/pam/libpam_1.2.1.bb
-+++ b/meta/recipes-extended/pam/libpam_1.2.1.bb
-@@ -162,8 +162,3 @@ addtask pam_sanity before do_configure
- 
- BBCLASSEXTEND = "nativesdk native"
- 
--CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-session"
--CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-auth"
--CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-password"
--CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-session-noninteractive"
--CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-account"
-diff --git a/meta/recipes-extended/procps/procps_3.3.10.bb b/meta/recipes-extended/procps/procps_3.3.10.bb
-index dcfaba7..55699cc 100644
---- a/meta/recipes-extended/procps/procps_3.3.10.bb
-+++ b/meta/recipes-extended/procps/procps_3.3.10.bb
-@@ -43,8 +43,6 @@ do_install_append () {
-         fi
- }
- 
--CONFFILES_${PN} = "${sysconfdir}/sysctl.conf"
--
- bindir_progs = "free pkill pmap pgrep pwdx skill snice top uptime"
- base_bindir_progs += "kill pidof ps watch"
- base_sbindir_progs += "sysctl"
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index a25876b..2862450 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -19,8 +19,6 @@ inherit autotools
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib"
- 
--CONFFILES_${PN} = "${sysconfdir}/sudoers"
--
- EXTRA_OECONF = "--with-editor=/bin/vi --with-env-editor"
- 
- EXTRA_OECONF_append_libc-musl = " --disable-hardening "
-diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
-index bcf8aa7..0b84da6 100644
---- a/meta/recipes-extended/sysklogd/sysklogd.inc
-+++ b/meta/recipes-extended/sysklogd/sysklogd.inc
-@@ -22,7 +22,6 @@ SRC_URI = "http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar
- SRC_URI_append_e500v2 = " file://no-vectorization.patch"
- 
- INITSCRIPT_NAME = "syslog"
--CONFFILES_${PN} = "${sysconfdir}/syslog.conf.${BPN}"
- 
- CFLAGS_append = " -DSYSV"
- 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2015g.bb b/meta/recipes-extended/tzdata/tzdata_2015g.bb
-index 039a7c1..c2cba7b 100644
---- a/meta/recipes-extended/tzdata/tzdata_2015g.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2015g.bb
-@@ -204,4 +204,3 @@ FILES_${PN} += "${datadir}/zoneinfo/Pacific/Honolulu     \
-                 ${datadir}/zoneinfo/iso3166.tab          \
-                 ${datadir}/zoneinfo/Etc/*"
- 
--CONFFILES_${PN} += "${sysconfdir}/timezone ${sysconfdir}/localtime"
-diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-index ffc03e5..7effdbf 100644
---- a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-+++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-@@ -64,5 +64,3 @@ do_install() {
- 	       -e 's,@SBINDIR@,${sbindir},g' \
- 	       ${D}${systemd_unitdir}/system/xinetd.service
+-CONFFILES_${PN} = "${sysconfdir}/network/interfaces"
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index f90de6e..bd3795f 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -178,5 +178,3 @@ pkg_postinst_${PN} () {
+         rm -f "/etc/volatile.cache"
+     fi
  }
 -
--CONFFILES_${PN} = "${sysconfdir}/xinetd.conf"
+-CONFFILES_${PN} += "${sysconfdir}/init.d/checkroot.sh"
+diff --git a/meta/recipes-core/netbase/netbase_5.3.bb b/meta/recipes-core/netbase/netbase_5.3.bb
+index ccd89ff..7cff754 100644
+--- a/meta/recipes-core/netbase/netbase_5.3.bb
++++ b/meta/recipes-core/netbase/netbase_5.3.bb
+@@ -20,5 +20,3 @@ do_install () {
+ 	install -m 0644 etc-protocols ${D}${sysconfdir}/protocols
+ 	install -m 0644 etc-services ${D}${sysconfdir}/services
+ }
+-
+-CONFFILES_${PN} = "${sysconfdir}/hosts"
+diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
+index c2dad58..b816a2f 100644
+--- a/meta/recipes-core/systemd/systemd_225.bb
++++ b/meta/recipes-core/systemd/systemd_225.bb
+@@ -266,11 +266,6 @@ RRECOMMENDS_${PN}-binfmt = "kernel-module-binfmt-misc"
+ 
+ RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts kbd-keymaps"
+ 
+-CONFFILES_${PN} = "${sysconfdir}/systemd/journald.conf \
+-                ${sysconfdir}/systemd/logind.conf \
+-                ${sysconfdir}/systemd/system.conf \
+-                ${sysconfdir}/systemd/user.conf"
+-
+ FILES_${PN} = " ${base_bindir}/* \
+                 ${datadir}/bash-completion \
+                 ${datadir}/dbus-1/services \
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+index 49b1326..b92c68d 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+@@ -74,7 +74,6 @@ fi
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ FILES_${PN} = "${sysconfdir}/inittab"
+-CONFFILES_${PN} = "${sysconfdir}/inittab"
+ 
+ USE_VT ?= "1"
+ SYSVINIT_ENABLED_GETTYS ?= "1"
+diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+index 6fbd925..f6786e8 100644
+--- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
++++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+@@ -33,7 +33,6 @@ do_install() {
+ 
+ FILES_${PN} = "${sysconfdir}/udev"
+ RDEPENDS_${PN} = "udev"
+-CONFFILES_${PN} = "${sysconfdir}/udev/mount.blacklist"
+ 
+ # to replace udev-extra-rules from meta-oe
+ RPROVIDES_${PN} = "udev-extra-rules"
 -- 
 1.7.9.5
 
