@@ -1,23 +1,30 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3891E75A38
+Return-Path: <logan.buchy@gmail.com>
+Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
+	[209.85.160.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A70D76E3F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Oct 2015 17:18:47 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 09 Oct 2015 10:18:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,658,1437462000"; d="scan'208";a="788675308"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 09 Oct 2015 10:18:16 -0700
-Received: from localhost.localdomain (unknown [10.237.112.173])
-	by linux.intel.com (Postfix) with ESMTP id 140D16A4005;
-	Fri,  9 Oct 2015 10:17:17 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
+	Fri,  9 Oct 2015 20:47:56 +0000 (UTC)
+Received: by ykba192 with SMTP id a192so85794552ykb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Oct 2015 13:47:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=U/BDL/dSQ1lIJERcz3wkV8RJocKQxTpAYBJr72fuxTM=;
+	b=XGcKSv8gMTQAiacPe4Rb+2MNGqnfyKgTLvZDnQdWYohUMs8kGbr4kaQWerh36xngN4
+	qjIjxbLepATJU388b5uFdXbdpBfFRTqh71sBtPp1ledBpZJjoA1AMfWiWzmSs/oqhCd8
+	hXTbJ40j+cfzsBo9vF2jV3WoyxiQpBmufAfBVdaV5VmUf/z1S4mZikDRhj7Snux/AkGB
+	4RU8MI0oxWvb7Jw67wZLUcROARQeE0PsSb6TPjk8GuB1e/Kp4zrPKJFMbFWMJBav76Kz
+	mQo9Q1F99TPu/K4uEadG4G09/8dUCo5dLOD1X0oH7ykJMpbN5jFE4VO3IDVD1X0ItYjQ
+	wKEw==
+MIME-Version: 1.0
+X-Received: by 10.129.109.142 with SMTP id i136mr10715426ywc.50.1444423676199; 
+	Fri, 09 Oct 2015 13:47:56 -0700 (PDT)
+Received: by 10.13.233.197 with HTTP; Fri, 9 Oct 2015 13:47:56 -0700 (PDT)
+Date: Fri, 9 Oct 2015 13:47:56 -0700
+Message-ID: <CAH=96PHKBTZ3M1gvgsr8meT67NvB4Hp808jSnBvjMgAG6QqR1g@mail.gmail.com>
+From: Logan Buchy <logan.buchy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Oct 2015 20:16:26 +0300
-Message-Id: <1444410986-17870-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/testimage: Add support for test folder export.
+Subject: Question regarding project organization with OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,47 +37,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Oct 2015 17:18:48 -0000
+X-List-Received-Date: Fri, 09 Oct 2015 20:48:00 -0000
+Content-Type: multipart/alternative; boundary=001a114daee0200d5a0521b21891
 
-If tests are organized in folders then it will copy the whole
-folder to the export location. This should keep the original
-directory structure for exported oeqa/runtime.
+--001a114daee0200d5a0521b21891
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/classes/testimage.bbclass | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+Hi,
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index c575db1..e8989b7 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -238,11 +238,23 @@ def exportTests(d,tc):
-     bb.utils.mkdirhier(os.path.join(exportpath, "oeqa/runtime/files"))
-     bb.utils.mkdirhier(os.path.join(exportpath, "oeqa/utils"))
-     # copy test modules, this should cover tests in other layers too
-+    bbpath = d.getVar("BBPATH", True).split(':')
-     for t in tc.testslist:
-+        isfolder = False
-         if re.search("\w+\.\w+\.test_\S+", t):
-             t = '.'.join(t.split('.')[:3])
-         mod = pkgutil.get_loader(t)
--        shutil.copy2(mod.filename, os.path.join(exportpath, "oeqa/runtime"))
-+        # More depth than usual?
-+        if (t.count('.') > 2):
-+            for p in bbpath:
-+                foldername = os.path.join(p, 'lib',  os.sep.join(t.split('.')).rsplit(os.sep, 1)[0])
-+                if os.path.isdir(foldername):
-+                    isfolder = True
-+                    target_folder = os.path.join(exportpath, "oeqa", "runtime", os.path.basename(foldername))
-+                    if not os.path.exists(target_folder):
-+                        shutil.copytree(foldername, target_folder)
-+        if not isfolder:
-+            shutil.copy2(mod.filename, os.path.join(exportpath, "oeqa/runtime"))
-     # copy __init__.py files
-     oeqadir = pkgutil.get_loader("oeqa").filename
-     shutil.copy2(os.path.join(oeqadir, "__init__.py"), os.path.join(exportpath, "oeqa"))
--- 
-2.1.4
+It's my first time posting here, I hope I have the right mailing list!
 
+I've been looking into OE in the last few days as a candidate to replace
+the ageing build scripts in a project I am involved with.  I've been really
+impressed with OE's feature list - it ticks off a lot of boxes for our
+requirements.
 
+I am still working out some of the workflows though before we go ahead and
+make the switch, I was hoping someone could help me out.
+
+The project I am working on consists of several embedded targets.  All
+targets currently run on the same system-on-chip and are built with the
+same toolchain, though this will note be the case in the near future. The
+majority of the project exists as a monolithic application that is built
+with different DEFINEs in order to customize the application's behaviour.
+Each target also has a unique rootfs layout (different init scripts mostly).
+
+For the sake of clarity, lets call this application 'Foo', and two targets
+'alpha' and 'beta'.
+
+I am trying to figure out the best was to setup recipes in order to
+maintain this structure.
+
+I'm thinking that managing the targets is best left to image-recipes in a
+separate layer.  Essentially adding:
+* recipes-core/images/target-alpha.bb
+* recipes-core/images/target-beta.bb
+
+Managing the 'Foo' application is currently done with a regular package
+recipe:
+* recipes-core/Foo/foo.bb
+
+However, I am not sure if the image recipes can dictate how to build Foo,
+the dependent recipe.  Is this possible? Is there an alternative workflow?
+
+Would it be better if 'targets' were managed as separate distros instead?
+Currently some targets use different kernel versions than others, and all
+targets use different kernel configs.  I haven't yet figured out if this is
+possible to specify from within an image recipe.
+
+Any help is appreciated!
+
+Thanks,
+Logan
+
+--001a114daee0200d5a0521b21891
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div><div><div><div><div>Hi,<br><br></div>It&#39;s my=
+ first time posting here, I hope I have the right mailing list!=C2=A0 <br><=
+br>I&#39;ve
+ been looking into OE in the last few days as a candidate to replace the
+ ageing build scripts in a project I am involved with.=C2=A0 I&#39;ve been =
+really
+ impressed with OE&#39;s feature list - it ticks off a lot of boxes for our=
+=20
+requirements.<br><br></div>I am still working out some of the workflows=20
+though before we go ahead and make the switch, I was hoping someone=20
+could help me out.<br><br></div>The project I am working on consists of=20
+several embedded targets.=C2=A0 All targets currently run on the same=20
+system-on-chip and are built with the same toolchain, though this will=20
+note be the case in the near future. The majority of the project exists=20
+as a monolithic application that is built with different DEFINEs in=20
+order to customize the application&#39;s behaviour.=C2=A0 Each target also =
+has a=20
+unique rootfs layout (different init scripts mostly).<br><br></div><div>For=
+ the sake of clarity, lets call this application &#39;Foo&#39;, and two tar=
+gets &#39;alpha&#39; and &#39;beta&#39;.<br></div><div><br></div>I am tryin=
+g to figure out the best was to setup recipes in order to maintain this str=
+ucture.<br><br></div>I&#39;m thinking that managing the targets is best lef=
+t to image-recipes in a separate layer.=C2=A0 Essentially adding:<br>* reci=
+pes-core/images/<a href=3D"http://target-alpha.bb" target=3D"_blank">target=
+-alpha.bb</a><br>* recipes-core/images/<a href=3D"http://target-beta.bb" ta=
+rget=3D"_blank">target-beta.bb</a><br><br></div><div>Managing the &#39;Foo&=
+#39; application is currently done with a regular package recipe:<br></div>=
+<div>* recipes-core/Foo/<a href=3D"http://foo.bb" target=3D"_blank">foo.bb<=
+/a><br><br></div><div>However,
+ I am not sure if the image recipes can dictate how to build Foo, the=20
+dependent recipe.=C2=A0 Is this possible? Is there an alternative workflow?=
+<br><br></div><div>Would
+ it be better if &#39;targets&#39; were managed as separate distros instead=
+?=C2=A0=20
+Currently some targets use different kernel versions than others, and=20
+all targets use different kernel configs.=C2=A0 I haven&#39;t yet figured o=
+ut if=20
+this is possible to specify from within an image recipe.<br><br></div><div>=
+Any help is appreciated!<br></div><div><br></div><div>Thanks,<br></div>Loga=
+n</div>
+
+--001a114daee0200d5a0521b21891--
