@@ -1,38 +1,27 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 225F97391A
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EBC45759D5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Oct 2015 14:19:29 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so69016214wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Oct 2015 07:19:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=ONYwXFctOQG4VBevG0/UH7Pd51QSAT7Od1SNllta/Ys=;
-	b=DUqkeDtauIESghdeFGkZH8CmAYf6wgrZuAE0ad77YjNf5MjtOr/iJJ41IG9V1VbdQo
-	yj0FAS+OSk+JM5yiemtDOqSE8jzx3WDScrhG5uD6jabsDv0yXR3t/qaiqKPHjkGKVtzT
-	C+TJkv117TEYfp6ThVVxs7eAoSe/qmQEoHDyJ+uAc26Adx+X86/6TbdmifS7gLCN1cUg
-	ShPAAG8r4Joet/goF8kz0UjcQvZ9+CtRxULq2YJYJpR+feUnKCAmgTjjdPBB/XU9VTfg
-	TXU0B8eJ4k34X0CmM+KDTx7Rm6SvYm9a2ahVNueJEPm92N8qEzv2KAWXeRHORA3ADFgu
-	O11w==
-X-Received: by 10.180.88.164 with SMTP id bh4mr10392027wib.18.1444400369276;
-	Fri, 09 Oct 2015 07:19:29 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id o10sm2982103wia.4.2015.10.09.07.19.28
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 09 Oct 2015 07:19:28 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 9 Oct 2015 16:19:46 +0200
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20151009141946.GA2384@jama>
+	Fri,  9 Oct 2015 14:56:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t99EuWlH004673
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 9 Oct 2015 07:56:32 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 9 Oct 2015 07:56:32 -0700
+Message-ID: <5617D59E.30307@windriver.com>
+Date: Fri, 9 Oct 2015 22:56:30 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
 References: <cover.1444358567.git.liezhi.yang@windriver.com>
 	<c1a0f5138542a1f120dd58958d19efb20adbb223.1444358567.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <c1a0f5138542a1f120dd58958d19efb20adbb223.1444358567.git.liezhi.yang@windriver.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+	<20151009141946.GA2384@jama>
+In-Reply-To: <20151009141946.GA2384@jama>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/8] bitbake.conf: set CONFFILES by default
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,72 +36,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Oct 2015 14:19:30 -0000
-X-Groupsio-MsgNum: 72049
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="wac7ysb48OaltWcw"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 09 Oct 2015 14:56:37 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---wac7ysb48OaltWcw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 08, 2015 at 07:44:36PM -0700, Robert Yang wrote:
-> There are a lot of binary packages have files in /etc/, but only a few
-> of them have set CONFFILES, 187 packages are not set in a world build.
-> So treat all the files in /etc/ as CONFILES as Debian does
-> - Move the file out of /etc/ if it is not a conffile
-> - If /etc/foo can't be moved out, and is changed during
->   runtime, then create a symlink /etc/foo -> /var/foo
->=20
-> [YOCTO #8436]
->=20
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/conf/bitbake.conf |    1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 9ddd1c0..7a53819 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -269,6 +269,7 @@ PACKAGE_BEFORE_PN ?=3D ""
->  PACKAGES =3D "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale=
- ${PACKAGE_BEFORE_PN} ${PN}"
->  PACKAGES_DYNAMIC =3D "^${PN}-locale-.*"
->  FILES =3D ""
-> +CONFFILES =3D "${sysconfdir}/*"
 
-Should this be
-CONFFILS_${PN} ?
+On 10/09/2015 10:19 PM, Martin Jansa wrote:
+> On Thu, Oct 08, 2015 at 07:44:36PM -0700, Robert Yang wrote:
+>> There are a lot of binary packages have files in /etc/, but only a few
+>> of them have set CONFFILES, 187 packages are not set in a world build.
+>> So treat all the files in /etc/ as CONFILES as Debian does
+>> - Move the file out of /etc/ if it is not a conffile
+>> - If /etc/foo can't be moved out, and is changed during
+>>    runtime, then create a symlink /etc/foo -> /var/foo
+>>
+>> [YOCTO #8436]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   meta/conf/bitbake.conf |    1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index 9ddd1c0..7a53819 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -269,6 +269,7 @@ PACKAGE_BEFORE_PN ?= ""
+>>   PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
+>>   PACKAGES_DYNAMIC = "^${PN}-locale-.*"
+>>   FILES = ""
+>> +CONFFILES = "${sysconfdir}/*"
+>
+> Should this be
+> CONFFILS_${PN} ?
 
-> =20
->  FILES_${PN} =3D "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*=
-${SOLIBS} \
->              ${sysconfdir} ${sharedstatedir} ${localstatedir} \
-> --=20
-> 1.7.9.5
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I think that CONFFILES is better than CONFFILES_${PN}, since package.bbclass
+checks both CONFFILES and CONFFILES_pkg, if we use CONFFILES_${PN} here, then
+it doesn't work for the pkg like openssh-sshd and openssh-ssh, but CONFFILES
+works for them.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+// Robert
 
---wac7ysb48OaltWcw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+>
+>>
+>>   FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*${SOLIBS} \
+>>               ${sysconfdir} ${sharedstatedir} ${localstatedir} \
+>> --
+>> 1.7.9.5
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlYXzQEACgkQN1Ujt2V2gByNfQCfWj/14H768vUyCe1FR5MksBMV
-BJwAn0ioRuACIgm5DHRjlJVbHeB2SAS1
-=1wmH
------END PGP SIGNATURE-----
-
---wac7ysb48OaltWcw--
