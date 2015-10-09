@@ -1,42 +1,39 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id A4B2B734DA
+Return-Path: <petter@technux.se>
+Received: from bin-vsp-out-04.atm.binero.net (vsp-unauthed02.binero.net
+	[195.74.38.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B2D1605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Oct 2015 04:55:35 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so54263513wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Oct 2015 21:55:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to;
-	bh=j/Wh1DC5bW7GFzfr3KlOWQUq7n6EzVMRT0WBrOX4Q4E=;
-	b=TsVyO5Uzztcn80kw+904VX1rjw+bq3w2S2iHv5sk1hQpkfK/oLer57FcqlhHPWa1Ta
-	b8lkZc94tbUNBgzhwZOHKUF3sWUbrUsetEKCv1Tx4qdxoW+WMFYekqw7Ztsf6rZL5Fdi
-	42IyeUIhGwl0EbPXNC0ApoBJakORGmtquB7LLv8/Rrz1JvRXpwlblKmSR/RPZJ5LYrdX
-	bUk218SRKf/aJIySeM7+/gaY2PeLShDzXuXRbwpHxXjyvuWBli8W70M+5EOetB4nPDi2
-	MGjrwcULa3tKFTbtqAdJ4u7A40W+SkjdL3T2v5B0Fv9JAomW7v1DPmVMQxIKrZFbZ8lJ
-	7e/w==
-X-Received: by 10.194.62.112 with SMTP id x16mr11778382wjr.20.1444366535659;
-	Thu, 08 Oct 2015 21:55:35 -0700 (PDT)
-Received: from ernie.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
-	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
-	ld5sm50045013wjc.18.2015.10.08.21.55.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 08 Oct 2015 21:55:35 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-From: Jens Rehsack <rehsack@gmail.com>
-In-Reply-To: <B0FDDB1C-66ED-43C7-AA1B-735CE49563C2@gmail.com>
-Date: Fri, 9 Oct 2015 06:55:33 +0200
-Message-Id: <EA18EF0C-0CC2-4DAE-B2BE-9DCFA1FEE657@gmail.com>
-References: <B0FDDB1C-66ED-43C7-AA1B-735CE49563C2@gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.2104)
-Subject: Re: [PATCH 1/2] Allow recipe-individual configure scripts
+	Fri,  9 Oct 2015 06:53:05 +0000 (UTC)
+X-Halon-ID: 607bd552-6e52-11e5-bfe4-005056917c0c
+Authorized-sender: petter@technux.se
+Received: from webmail.binero.se (unknown [195.74.38.9])
+	by bin-vsp-out-04.atm.binero.net (Halon Mail Gateway) with ESMTPA;
+	Fri,  9 Oct 2015 08:52:58 +0200 (CEST)
+MIME-Version: 1.0
+Date: Fri, 09 Oct 2015 08:53:02 +0200
+From: =?UTF-8?Q?Petter_Mab=C3=A4cker?= <petter@technux.se>
+To: Marko Lindqvist <cazfi74@gmail.com>
+Organization: Technux
+Mail-Reply-To: <petter@technux.se>
+In-Reply-To: <CAF6bG8eud0qLNLaqNtBVVgyff8iiSp=g1DsFUh6Sk-ECQthvvA@mail.gmail.com>
+References: <cover.1413452836.git.kai.kang@windriver.com>
+	<6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
+	<b64576e3c49076498b7cfb0cbf9f3963@technux.se>
+	<CAJTo0LZjxvCgVLFGVhn0O2PCWTGYFOM46zZ7KG_tqOZgzd9xgQ@mail.gmail.com>
+	<fb59210fb91a5209c3d3ce6dbce38ff1@technux.se>
+	<CAJTo0LYiW1X+kZi0ra0JUMeywQVu4w492ULyRXcytpYFWiiwng@mail.gmail.com>
+	<7d91e0a2a4abbb2e84558856e1c2fa6a@technux.se>
+	<CAJTo0LYP2bZAA9Svxxi_XQbg5LSS1yXzAbdvC5HFg4dWFU-Nzw@mail.gmail.com>
+	<CAF6bG8eud0qLNLaqNtBVVgyff8iiSp=g1DsFUh6Sk-ECQthvvA@mail.gmail.com>
+Message-ID: <0299971cf181f7c7cfbf7e7749295540@technux.se>
+X-Sender: petter@technux.se
+User-Agent: Binero Webmail/0.8.4
+Cc: Openembedded core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] readline: Security Advisory - readline - CVE-2014-2524
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: petter@technux.se
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -46,186 +43,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Oct 2015 04:55:37 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 09 Oct 2015 06:53:08 -0000
+Content-Type: multipart/alternative;
+	boundary="=_282d5000b05e3f9b2be16d0019803cfc"
+
+--=_282d5000b05e3f9b2be16d0019803cfc
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+
+ 
+
+2015-10-08 06:31 skrev Marko Lindqvist: 
+
+> On 6 October 2015 at
+17:08, Burton, Ross <ross.burton@intel.com> wrote:
+> 
+>> On 6 October
+2015 at 14:43, Petter Mabäcker <petter@technux.se> wrote: 
+>> 
+>>>
+Great. As you will notice also when formatted properly it will not apply
+due to that readline63-001 and readline63-002 isn't applied so
+'patchlevel' is incorrect. That makes me wondering what the patching
+strategy is? In my opinion we should consider adding the official
+readline-6.3 patches as well. Should I add a bug report for that or
+leave it as is (depending on the strategy...)?
+>> Adding the rest of the
+patches would have been a sensible thing to do. Right now, we're frozen
+as we're about to release 2.0, but a bug or patches post-release would
+be much appreciated. Ross
+> 
+> The strategy I introduced in
+30a38ea1ee933fb134a5ee9000298703cab93692
+> was not to add the patches,
+but to fetch them as upstream source.
+> That was dropped when readline
+was updated to 6.3 (maybe there was no
+> patches for it at the time):
+>
+66bc6f4127e88db18e260c71d181aecfd58c7999
+> 
+> - ML
+
+Hello Marko, 
+
+When
+looking at the dates for the 6.3 integration my guess is that no patches
+existed for 6.3 yet (compared to the dates for the patches..). I will
+give it a try to use your 5.2 strategy when applying the 6.3 patches to
+make it looks the same for both versions. Thanks for pointing this out!
+
+
+BR Petter 
+
+Petter Mabäcker
+
+Technux
+<petter@technux.se>
+www.technux.se
+
+ 
+
+--=_282d5000b05e3f9b2be16d0019803cfc
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
 
-I found a typo in it - I sent a new Monday.
-
-> Am 08.10.2015 um 16:31 schrieb Jens Rehsack <rehsack@gmail.com>:
->=20
-> OpenJDK-8 has it's configure script at common/autotools - which will =
-cause
-> the entire assumption of ${S}/configure is regenerated by autoreconf, =
-intltoolize or alike
-> fails heavily.
->=20
-> Also - other configure mechanisms can be supported more similar (see =
-how pkgsrc
-> manages different ones ...)
->=20
-> Signed-off-by: Jens Rehsack <sno@netbsd.org>
-> ---
-> meta/classes/autotools.bbclass | 48 =
-+++++++++++++++++++++++-------------------
-> 1 file changed, 26 insertions(+), 22 deletions(-)
->=20
-> diff --git a/meta/classes/autotools.bbclass =
-b/meta/classes/autotools.bbclass
-> index 078f58f..4ab1d3b 100644
-> --- a/meta/classes/autotools.bbclass
-> +++ b/meta/classes/autotools.bbclass
-> @@ -21,7 +21,7 @@ def autotools_dep_prepend(d):
->=20
-> EXTRA_OEMAKE =3D ""
->=20
-> -DEPENDS_prepend =3D "${@autotools_dep_prepend(d)} "
-> +DEPENDS_prepend =3D "${@autotools_dep_prepend(d)}"
->=20
-> inherit siteinfo
->=20
-> @@ -77,17 +77,21 @@ CONFIGUREOPTS =3D " --build=3D${BUILD_SYS} \
-> 		  ${@append_libtool_sysroot(d)}"
-> CONFIGUREOPT_DEPTRACK ?=3D "--disable-dependency-tracking"
->=20
-> +AUTOTOOLS_SCRIPT_PATH ?=3D "${S}"
-> +CONFIGURE_SCRIPT ?=3D "${AUTOTOOLS_SCRIPT_PATH}/configure"
-> +
-> +AUTOTOOLS_AUXDIR ?=3D "${AUTOTOOLS_SCRIPT_PATH}"
->=20
-> oe_runconf () {
-> -	cfgscript=3D"${S}/configure"
-> +	cfgscript=3D"${CONFIGURE_SCRIPT}"
-> 	if [ -x "$cfgscript" ] ; then
-> 		bbnote "Running $cfgscript ${CONFIGUREOPTS} =
-${EXTRA_OECONF} $@"
-> 		set +e
-> 		${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} =
-${EXTRA_OECONF} "$@"
-> 		if [ "$?" !=3D "0" ]; then
-> 			echo "Configure failed. The contents of all =
-config.log files follows to aid debugging"
-> -			find ${S} -ignore_readdir_race -name config.log =
--print -exec cat {} \;
-> -			die "oe_runconf failed"
-> +			find ${B} -ignore_readdir_race -name config.log =
--print -exec cat {} \;
-> +			bbfatal "oe_runconf failed"
-> 		fi
-> 		set -e
-> 	else
-> @@ -95,8 +99,6 @@ oe_runconf () {
-> 	fi
-> }
->=20
-> -AUTOTOOLS_AUXDIR ?=3D "${S}"
-> -
-> CONFIGURESTAMPFILE =3D "${WORKDIR}/configure.sstate"
->=20
-> autotools_preconfigure() {
-> @@ -135,6 +137,9 @@ ACLOCALDIR =3D "${B}/aclocal-copy"
->=20
-> python autotools_copy_aclocals () {
->     s =3D d.getVar("S", True)
-> +    cfg_script =3D d.getVar("CONFIGURE_SCRIPT", True)
-> +    if os.path.dirname(cfg_script) !=3D ".":
-> +        s +=3D "/" + os.path.dirname(cfg_script)
->     if not os.path.exists(s + "/configure.in") and not =
-os.path.exists(s + "/configure.ac"):
->         if not d.getVar("AUTOTOOLS_COPYACLOCAL", False):
->             return
-> @@ -228,13 +233,13 @@ autotools_do_configure() {
-> 	( for ac in `find ${S} -ignore_readdir_race -name configure.in =
--o -name configure.ac`; do
-> 		rm -f `dirname $ac`/configure
-> 		done )
-> -	if [ -e ${S}/configure.in -o -e ${S}/configure.ac ]; then
-> +	if [ -e ${AUTOTOOLS_SCRIPT_PATH}/configure.in -o -e =
-${AUTOTOOLS_SCRIPT_PATH}/configure.ac ]; then
-> 		olddir=3D`pwd`
-> -		cd ${S}
-> +		cd ${AUTOTOOLS_SCRIPT_PATH}
-> 		ACLOCAL=3D"aclocal --system-acdir=3D${ACLOCALDIR}/"
-> 		if [ x"${acpaths}" =3D xdefault ]; then
-> 			acpaths=3D
-> -			for i in `find ${S} -ignore_readdir_race =
--maxdepth 2 -name \*.m4|grep -v 'aclocal.m4'| \
-> +			for i in `find ${AUTOTOOLS_SCRIPT_PATH} =
--ignore_readdir_race -maxdepth 2 -name \*.m4|grep -v 'aclocal.m4'| \
-> 				grep -v 'acinclude.m4' | grep -v =
-'aclocal-copy' | sed -e 's,\(.*/\).*$,\1,'|sort -u`; do
-> 				acpaths=3D"$acpaths -I $i"
-> 			done
-> @@ -265,21 +270,20 @@ autotools_do_configure() {
-> 				bbnote Executing glib-gettextize --force =
---copy
-> 				echo "no" | glib-gettextize --force =
---copy
-> 			fi
-> -		else if grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC =
->/dev/null; then
-> +		elif grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC =
->/dev/null; then
-> 			# We'd call gettextize here if it wasn't so =
-broken...
-> -				cp =
-${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
-> -				if [ -d ${S}/po/ ]; then
-> -					cp -f =
-${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po/
-> -					if [ ! -e =
-${S}/po/remove-potcdate.sin ]; then
-> -						cp =
-${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sin ${S}/po/
-> -					fi
-> +			cp =
-${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
-> +			if [ -d ${S}/po/ ]; then
-> +				cp -f =
-${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po/
-> +				if [ ! -e ${S}/po/remove-potcdate.sin ]; =
-then
-> +					cp =
-${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sin ${S}/po/
-> 				fi
-> -				for i in gettext.m4 iconv.m4 lib-ld.m4 =
-lib-link.m4 lib-prefix.m4 nls.m4 po.m4 progtest.m4; do
-> -					for j in `find ${S} =
--ignore_readdir_race -name $i | grep -v aclocal-copy`; do
-> -						rm $j
-> -					done
-> -				done
-> 			fi
-> +			for i in gettext.m4 iconv.m4 lib-ld.m4 =
-lib-link.m4 lib-prefix.m4 nls.m4 po.m4 progtest.m4; do
-> +				for j in `find ${S} -ignore_readdir_race =
--name $i | grep -v aclocal-copy`; do
-> +					rm $j
-> +				done
-> +			done
-> 		fi
-> 		mkdir -p m4
-> 		if grep "^[[:space:]]*[AI][CT]_PROG_INTLTOOL" =
-$CONFIGURE_AC >/dev/null; then
-> @@ -290,7 +294,7 @@ autotools_do_configure() {
-> 		ACLOCAL=3D"$ACLOCAL" autoreconf -Wcross --verbose =
---install --force ${EXTRA_AUTORECONF} $acpaths || die "autoreconf =
-execution failed."
-> 		cd $olddir
-> 	fi
-> -	if [ -e ${S}/configure ]; then
-> +	if [ -e ${CONFIGURE_SCRIPT} ]; then
-> 		oe_runconf
-> 	else
-> 		bbnote "nothing to configure"
-> --=20
-> 2.4.3
->=20
-> --=20
-> Jens Rehsack - rehsack@gmail.com
->=20
-
---=20
-Jens Rehsack - rehsack@gmail.com
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html><body style=3D'font-family: Helvetica,Arial,sans-serif'>
+<p>&nbsp;</p>
+<p>2015-10-08 06:31 skrev Marko Lindqvist:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px; width:100%"><!-- html ignored --><!-- head ignore=
+d --><!-- meta ignored -->
+<pre>On 6 October 2015 at 17:08, Burton, Ross &lt;<a href=3D"mailto:ross.bu=
+rton@intel.com">ross.burton@intel.com</a>&gt; wrote:</pre>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px; width:100%">On 6 October 2015 at 14:43, Petter Ma=
+b&auml;cker &lt;<a href=3D"mailto:petter@technux.se">petter@technux.se</a>&=
+gt; wrote:
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px; width:100%">Great. As you will notice also when f=
+ormatted properly it will not apply due to that readline63-001 and readline=
+63-002 isn't applied so 'patchlevel' is incorrect. That makes me wondering =
+what the patching strategy is? In my opinion we should consider adding the =
+official readline-6.3 patches as well. Should I add a bug report for that o=
+r leave it as is (depending on the strategy...)?</blockquote>
+Adding the rest of the patches would have been a sensible thing to do. Righ=
+t now, we're frozen as we're about to release 2.0, but a bug or patches pos=
+t-release would be much appreciated. Ross</blockquote>
+<pre>The strategy I introduced in 30a38ea1ee933fb134a5ee9000298703cab93692
+was not to add the patches, but to fetch them as upstream source.
+ That was dropped when readline was updated to 6.3 (maybe there was no
+patches for it at the time):
+66bc6f4127e88db18e260c71d181aecfd58c7999
 
 
+ - ML </pre>
+</blockquote>
+<p>Hello Marko,</p>
+<p>When looking at the dates for the 6.3 integration my guess is that no pa=
+tches existed for 6.3 yet (compared to the dates for the patches..). I will=
+ give it a try to use your 5.2 strategy when applying the 6.3 patches to ma=
+ke it looks the same for both versions. Thanks for pointing this out!</p>
+<p>BR Petter</p>
+<pre>&nbsp;</pre>
+<div>
+<pre>Petter Mab&auml;cker
+
+Technux &lt;petter@technux.se&gt;
+www.technux.se</pre>
+</div>
+<pre><br /><br /><br /></pre>
+</body></html>
+
+--=_282d5000b05e3f9b2be16d0019803cfc--
