@@ -1,40 +1,41 @@
-Return-Path: <petter@technux.se>
-Received: from bin-vsp-out-04.atm.binero.net (bin-mail-out-06.binero.net
-	[195.74.38.229])
-	by mail.openembedded.org (Postfix) with ESMTP id BF10673CBD
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 74E877680D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Oct 2015 07:14:51 +0000 (UTC)
-X-Halon-ID: 6b03e6e1-6e55-11e5-bfe4-005056917c0c
-Authorized-sender: petter@technux.se
-Received: from webmail.binero.se (unknown [195.74.38.9])
-	by bin-vsp-out-04.atm.binero.net (Halon Mail Gateway) with ESMTPA;
-	Fri,  9 Oct 2015 09:14:45 +0200 (CEST)
+	Fri,  9 Oct 2015 07:19:18 +0000 (UTC)
+Received: by iofh134 with SMTP id h134so82928605iof.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Oct 2015 00:19:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=MHqLhRtmOCWsQcCbuzehj+/Fh06yGDCLGae/3oN/fkw=;
+	b=zA5wjkNHFJW8bGxCIkVxeba222dPvpQSo7ClZiwmR6oxkeGlqmTIuHsKRgTWPpr8RU
+	bqQZoZoEnrxStvOG4TYh8he+CKjr44HdpM9A0zlf4Dd6cX0sDms4DByyBegaHXojhMip
+	/i5CEZhtrN+MWqFL61uiEqfPLNstfPWzfMuXF8Eq+xYETYZqPD9ducn/oqaHWz8yTlW8
+	E0byNAUpq/NutkqdZjRFSQXTMm12C3EFbwC9rAHaCHpbwPBf9fejUy8wO4hqOIc0rDBi
+	Mcke3ykixLxMcJs99EV2SdCy7VNcga2E7IgQ6iks9d7zU+urO6LLLi7Fqfo8iMfOAlZa
+	V4LA==
 MIME-Version: 1.0
-Date: Fri, 09 Oct 2015 09:14:48 +0200
-From: =?UTF-8?Q?Petter_Mab=C3=A4cker?= <petter@technux.se>
-To: Kang Kai <Kai.Kang@windriver.com>
-Organization: Technux
-Mail-Reply-To: <petter@technux.se>
-In-Reply-To: <5615D160.6050709@windriver.com>
-References: <cover.1413452836.git.kai.kang@windriver.com>
-	<6958f500cac37c3534a9f58a8bc7b90cc4c94b7f.1413452836.git.kai.kang@windriver.com>
-	<b64576e3c49076498b7cfb0cbf9f3963@technux.se>
-	<CAJTo0LZjxvCgVLFGVhn0O2PCWTGYFOM46zZ7KG_tqOZgzd9xgQ@mail.gmail.com>
-	<fb59210fb91a5209c3d3ce6dbce38ff1@technux.se>
-	<CAJTo0LYiW1X+kZi0ra0JUMeywQVu4w492ULyRXcytpYFWiiwng@mail.gmail.com>
-	<7d91e0a2a4abbb2e84558856e1c2fa6a@technux.se>
-	<CAJTo0LYP2bZAA9Svxxi_XQbg5LSS1yXzAbdvC5HFg4dWFU-Nzw@mail.gmail.com>
-	<f6560c7a3f9ffd90e5a8bd754ce9e70a@technux.se>
-	<5615D160.6050709@windriver.com>
-Message-ID: <389b8e3c8ef4cef01d4de0e47cfbaccb@technux.se>
-X-Sender: petter@technux.se
-User-Agent: Binero Webmail/0.8.4
-Cc: Openembedded core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] readline: Security Advisory - readline - CVE-2014-2524
+X-Received: by 10.107.150.199 with SMTP id y190mr14116661iod.133.1444375158388;
+	Fri, 09 Oct 2015 00:19:18 -0700 (PDT)
+Received: by 10.36.98.143 with HTTP; Fri, 9 Oct 2015 00:19:18 -0700 (PDT)
+In-Reply-To: <CAHiDW_FqJrLeBmqOCe_hK50WnV9qgWYLGMk+=+owp4Hrmkffnw@mail.gmail.com>
+References: <1443789718-6846-1-git-send-email-jussi.kukkonen@intel.com>
+	<560EA62E.5020901@opendreambox.org>
+	<CAHiDW_FqJrLeBmqOCe_hK50WnV9qgWYLGMk+=+owp4Hrmkffnw@mail.gmail.com>
+Date: Fri, 9 Oct 2015 09:19:18 +0200
+Message-ID: <CALbNGRR58ahf=31eD0EP2430qsd1iEAdg0hShtXGbUm2i6uvvw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libepoxy: RDEPEND on libgl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: petter@technux.se
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -44,146 +45,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Oct 2015 07:14:55 -0000
-Content-Type: multipart/alternative;
-	boundary="=_dcd09794073ef5f281ae865c3674529e"
-
---=_dcd09794073ef5f281ae865c3674529e
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 09 Oct 2015 07:19:18 -0000
 Content-Type: text/plain; charset=UTF-8
 
- 
+I did some tests with this: On a simple gtk2/3 image starting a gtk3
+application crashes complaining libgl*.so cannot be found. I checked:
+It does not help to install egl/gles2 on the image: libepoxy relies on
+libgl.
 
-2015-10-08 04:13 skrev Kang Kai: 
+Isn't this a bug? I thought one of the targets of libepoxy is to
+abstract away different gl implementations under a common API. Or in
+other words: Does this mean that running gtk3 requires desktop OpenGL
+installed?
 
-> On 2015年10月06日 23:30, Petter
-Mabäcker wrote: 
-> 
->> 2015-10-06 16:08 skrev Burton, Ross: 
->> 
->>> On
-6 October 2015 at 14:43, Petter Mabäcker <petter@technux.se> wrote:
->>>
+Andreas
 
->>>> Great. As you will notice also when formatted properly it will not
-apply due to that readline63-001 and readline63-002 isn't applied so
-'patchlevel' is incorrect. That makes me wondering what the patching
-strategy is? In my opinion we should consider adding the official
-readline-6.3 patches as well. Should I add a bug report for that or
-leave it as is (depending on the strategy...)?
->>> 
->>> Adding the rest
-of the patches would have been a sensible thing to do. Right now, we're
-frozen as we're about to release 2.0, but a bug or patches post-release
-would be much appreciated. 
->>> 
->>> Ross
->> 
->> I have created a defect
-and assigned myself
-(https://bugzilla.yoctoproject.org/show_bug.cgi?id=8451 [1]) and will
-send something up when the normal integration is open again. 
->> 
->> BR
-Petter
-> 
-> Sorry for late reply that we had The National Day vacation.
-I can help for this defect if you please.
-
-It's OK, I can send something
-up for this. See the discussion with Marko within the same thread about
-a recommended way forward
-(http://lists.openembedded.org/pipermail/openembedded-core/2015-October/111353.html).
-If you have any requirements for the verification of the bug please
-update the bug report with this info.
-
-BR Petter 
-
-> -- 
-> Regards,
->
-Neil | Kai Kang
-
-Petter Mabäcker
-
-Technux
-<petter@technux.se>
-www.technux.se
- 
-
-Links:
-------
-[1]
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=8451
-
---=_dcd09794073ef5f281ae865c3674529e
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=UTF-8
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
-<html><body style=3D'font-family: Helvetica,Arial,sans-serif'>
-<p>2015-10-08 04:13 skrev Kang Kai:</p>
-<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
-x solid; margin-left:5px; width:100%"><!-- html ignored --><!-- head ignore=
-d --><!-- meta ignored -->
-<div class=3D"moz-cite-prefix">On 2015=E5=B9=B410=E6=9C=8806=E6=97=A5 23:30=
-, Petter Mab&auml;cker wrote:</div>
-<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
-x solid; margin-left:5px; width:100%">
-<p>2015-10-06 16:08 skrev Burton, Ross:</p>
-<blockquote style=3D"padding-left: 5px; border-left: #1010ff  2px  solid; m=
-argin-left: 5px; width: 100%;">
-<div dir=3D"ltr">
-<div class=3D"gmail_extra"><br />
-<div class=3D"gmail_quote">On 6 October 2015 at 14:43, Petter Mab&auml;cker=
- <span>&lt;<a href=3D"mailto:petter@technux.se">petter@technux.se</a>&gt;</=
-span> wrote:<br />
-<blockquote class=3D"gmail_quote" style=3D"margin: 0  0  0  .8ex; border-le=
-ft: 1px  #ccc  solid; padding-left: 1ex;">
-<p>Great. As you will notice also when formatted properly it will not apply=
- due to that readline63-001 and readline63-002 isn't applied so&nbsp; 'patc=
-hlevel' is incorrect. That makes me wondering what the patching strategy is=
-? In my opinion we should consider adding the official readline-6.3 patches=
- as well. Should I add a bug report for that or leave it as is (depending o=
-n the strategy...)?</p>
-<div class=3D"gmail_extra">&nbsp;</div>
-</blockquote>
-</div>
-<br /> Adding the rest of the patches would have been a sensible thing to d=
-o.&nbsp; Right now, we're frozen as we're about to release 2.0, but a bug o=
-r patches post-release would be much appreciated.</div>
-<div class=3D"gmail_extra">&nbsp;</div>
-<div class=3D"gmail_extra">Ross</div>
-<div class=3D"gmail_extra">&nbsp;</div>
-<div class=3D"gmail_extra">&nbsp;</div>
-</div>
-</blockquote>
-<div class=3D"gmail_extra">I have created a defect and assigned myself (<a =
-class=3D"moz-txt-link-freetext" href=3D"https://bugzilla.yoctoproject.org/s=
-how_bug.cgi?id=3D8451">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D=
-8451</a>) and will send something up when the normal integration is open ag=
-ain.</div>
-<div class=3D"gmail_extra">&nbsp;</div>
-<div class=3D"gmail_extra">BR Petter</div>
-</blockquote>
-<br /><span style=3D"font-size: xx-small;">Sorry for late reply that we had=
- The National Day vacation. I can help for this defect if you please.</span=
-></blockquote>
-<p>It's OK, I can send something up for this. See the discussion with Marko=
- within the same thread about a recommended way forward (http://lists.opene=
-mbedded.org/pipermail/openembedded-core/2015-October/111353.html). If you h=
-ave any requirements for the verification of the bug please update the bug =
-report with this info.<br /><br />BR Petter <br /><br /></p>
-<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
-x solid; margin-left:5px; width:100%">
-<pre class=3D"moz-signature">--=20
-Regards,
-Neil | Kai Kang<br /><br /></pre>
-</blockquote>
-<pre>Petter Mab&auml;cker
-
-Technux &lt;petter@technux.se&gt;
-www.technux.se</pre>
-</body></html>
-
---=_dcd09794073ef5f281ae865c3674529e--
