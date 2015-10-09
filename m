@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CB0176E3F
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AC0EA76AC4
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  9 Oct 2015 02:44:45 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t992ij7R027572
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t992ikqJ024525
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Oct 2015 19:44:45 -0700 (PDT)
+	Thu, 8 Oct 2015 19:44:46 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Thu, 8 Oct 2015 19:44:45 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Oct 2015 19:44:41 -0700
-Message-ID: <5420813fb0882efe8261a884c9550d68e2b29505.1444358567.git.liezhi.yang@windriver.com>
+Date: Thu, 8 Oct 2015 19:44:42 -0700
+Message-ID: <74a20f8b78163ac27fb6fd2c6d4015c3c9572103.1444358567.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1444358567.git.liezhi.yang@windriver.com>
 References: <cover.1444358567.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/8] recipes-devtools: cleanup CONFFILES
+Subject: [PATCH 7/8] recipes-graphics: cleanup CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +42,33 @@ The ${sysconfdir}/* are CONFFILES by default.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb |    2 --
- meta/recipes-devtools/opkg/opkg_0.3.0.bb           |    1 -
- 2 files changed, 3 deletions(-)
+ .../xinput-calibrator/pointercal-xinput_0.0.bb     |    1 -
+ .../xorg-xserver/xserver-xf86-config_0.1.bb        |    3 ---
+ 2 files changed, 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-index ace3de4..861f011 100644
---- a/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
-@@ -28,8 +28,6 @@ do_install () {
+diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+index 65348c3..9b52505 100644
+--- a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
++++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+@@ -17,4 +17,3 @@ do_install() {
+ }
  
- FILES_${PN} = "${sysconfdir}/opkg/ "
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+-CONFFILES_${PN} = "${sysconfdir}/pointercal.xinput"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
+index e07c204..aa5099c 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
+@@ -13,9 +13,6 @@ SRC_URI_append_libc-musl = "\
  
--CONFFILES_${PN} += "${sysconfdir}/opkg/arch.conf"
+ S = "${WORKDIR}"
+ 
+-CONFFILES_${PN} = "${sysconfdir}/X11/xorg.conf"
+-CONFFILES_${PN}_append_libc-musl = " ${sysconfdir}/X11/xorg.conf.d/10-preload-modules.conf"
 -
- RREPLACES_${PN} = "opkg-config-base"
- RCONFLICTS_${PN} = "opkg-config-base"
- RPROVIDES_${PN} = "opkg-config-base"
-diff --git a/meta/recipes-devtools/opkg/opkg_0.3.0.bb b/meta/recipes-devtools/opkg/opkg_0.3.0.bb
-index 588250e..b510580 100644
---- a/meta/recipes-devtools/opkg/opkg_0.3.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.3.0.bb
-@@ -71,4 +71,3 @@ FILES_${PN} += "${systemd_unitdir}/system/"
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ ALLOW_EMPTY_${PN} = "1"
  
- BBCLASSEXTEND = "native nativesdk"
- 
--CONFFILES_${PN} = "${sysconfdir}/opkg/opkg.conf"
 -- 
 1.7.9.5
 
