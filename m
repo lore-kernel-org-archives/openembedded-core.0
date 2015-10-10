@@ -1,34 +1,35 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id AA654760F4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 250B2766F3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Oct 2015 15:32:28 +0000 (UTC)
-Received: by wiclk2 with SMTP id lk2so104727940wic.0
+	Sat, 10 Oct 2015 19:11:28 +0000 (UTC)
+Received: by igkz10 with SMTP id z10so23103264igk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Oct 2015 08:32:28 -0700 (PDT)
+	Sat, 10 Oct 2015 12:11:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:content-type; bh=C/S5JygkXLJHcXFRcRV86SMstfdR7F2sT+Lyi/ena4w=;
-	b=DFt1CjbP/NZCSPtc8oQU12rU0iGWQAuc9OpP8Ci90v5RgZY8H0A6RBKa/1uH0Ebd9U
-	Lnm878aVDuLHduBJ61pb34sbL5JkK9OtqdpcNvkUs7IGos451SwUQuM/CA6Coabhxron
-	z9441YqE2vAwxSTeA/MCDwpXPl/jjve+8SRqaRRFygRZj/hhjY8aaEw6BTpmuuCaZAFv
-	Vv/HbfeISAPXKoRqanbeOobZGcwKuDvio7ux7zMToARLdnLSy4hUR/FjRKuODt1+y04b
-	A0ToCL0kKz3TquJoxyMoUXZu1C5Byji+1LZ+JYhSB90xU9j8oPjhyvX99XrapIXXxcJD
-	Unpw==
-X-Received: by 10.180.12.195 with SMTP id a3mr4886686wic.71.1444491147946;
-	Sat, 10 Oct 2015 08:32:27 -0700 (PDT)
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=K258dM9ZeUPpGr1gdsqkxfK0AyaU4OzwpY6VapJlsqw=;
+	b=Cvfbc0X9++Y8Zig0Xt1lGM9WAZvNaechx+smPjFdHWO5G/w4c3mpBxQGqc71Busixe
+	axw2mPJpiXZwnUJ5xcCIx+MHU8NBec98AvIcbBo0YWuQPz55B0us3bf0VFeDMtDmqp/H
+	6U+kc7IDrINipD5uzvIJO40o2OLfJ9YicQhh2ZA3HD1RuyK7LQ4uS30wfrwtBccMiJzI
+	sMbEcIaKo0fIRt3S37vB27BN83YoWdRbsSeH5q4tzXRBJsFTuVEMsVBqom3PCBVTpSfK
+	OEPEl6w1g3KWMBZCLsPqXtwnawuJqII35fZJuIKhR8rwLpfGCBQptqqFTs3GovLd1dZP
+	fyyg==
+X-Received: by 10.50.138.9 with SMTP id qm9mr5412413igb.77.1444504288683; Sat,
+	10 Oct 2015 12:11:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20150514114002.GA2402@jama>
-	<1444403489-29494-1-git-send-email-Martin.Jansa@gmail.com>
-	<561900D1.5060906@igalia.com>
-In-Reply-To: <561900D1.5060906@igalia.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sat, 10 Oct 2015 15:32:18 +0000
-Message-ID: <CA+chaQffPJOrTzmZRoxUAJ1LnixtbJHLtJ5wm7eJAWGiZxnpXg@mail.gmail.com>
-To: Carlos Alberto Lopez Perez <clopez@igalia.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] webkitgtk, gcr, libsecret: force ARM mode
+Received: by 10.107.142.130 with HTTP; Sat, 10 Oct 2015 12:10:59 -0700 (PDT)
+In-Reply-To: <1444462027-27197-1-git-send-email-kai.kang@windriver.com>
+References: <1444462027-27197-1-git-send-email-kai.kang@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 10 Oct 2015 12:10:59 -0700
+Message-ID: <CAMKF1sq+bnhPoA=-OiStbVv5VoXbODQkXA2vBS9=S4=J22pMzA@mail.gmail.com>
+To: Kang Kai <kai.kang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-4.x: fix wrong warning when using the universal zero initializer {0}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,153 +42,294 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Oct 2015 15:32:31 -0000
-Content-Type: multipart/alternative; boundary=001a11c3516ec130260521c1cd58
-
---001a11c3516ec130260521c1cd58
+X-List-Received-Date: Sat, 10 Oct 2015 19:11:29 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Did you enable thumb in that build? It's not enabled by default.
+On Sat, Oct 10, 2015 at 12:27 AM,  <kai.kang@windriver.com> wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> When I upgrade efivar to 0.21, it fails to compile with error messages:
+>
+> | linux.c:850:9: error: missing braces around initializer
+> [-Werror=missing-braces]
+> |   struct ifreq ifr = { 0, };
+> |          ^
+>
+> It is a known issue of gcc. Backport patch from
+>
+> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53119
+>
+> to fix wrong warning when using the universal zero initializer {0}.
+>
 
-ARM_INSTRUCTION_SET is for recipes to use arm when distro selects thumb by
-default.
+This is ok to install.
 
-On Sat, Oct 10, 2015, 14:13 Carlos Alberto Lopez Perez <clopez@igalia.com>
-wrote:
-
-> On 09/10/15 17:11, Martin Jansa wrote:
-> > * gcr, libsecret are new since switch to gcc 5.2
-> > * webkitgtk is old but it was removed while migrating from
-> >   webkit-gtk to webkitgtl (like REQUIRED_DISTRO_FEATURES were) :/
-> >
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-4.8.inc              |   1 +
+>  ...-gcc-483-universal-initializer-no-warning.patch | 107 +++++++++++++++++++++
+>  meta/recipes-devtools/gcc/gcc-4.9.inc              |   1 +
+>  ...-gcc-483-universal-initializer-no-warning.patch | 107 +++++++++++++++++++++
+>  4 files changed, 216 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0051-gcc-483-universal-initializer-no-warning.patch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0065-gcc-483-universal-initializer-no-warning.patch
 >
-> > diff --git a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
-> b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
-> > index f14c868..e29666a 100644
-> > --- a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
-> > +++ b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
-> > @@ -70,3 +70,5 @@ FILES_${PN} +=
-> "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbu
-> >  FILES_${PN}-dbg +=
-> "${libdir}/webkit2gtk-4.0/injected-bundle/.debug/libwebkit2gtkinjectedbundle.so"
-> >  FILES_${PN}-dbg += "${libdir}/webkitgtk/webkit2gtk-4.0/.debug/*"
-> >
-> > +# http://errors.yoctoproject.org/Errors/Details/20370/
-> > +ARM_INSTRUCTION_SET = "arm"
-> >
->
-> I tried to build webkitgtk using current master of poky for machine
-> qemuarm and it built fine:
->
-> Build Configuration:
-> BB_VERSION        = "1.28.0"
-> BUILD_SYS         = "x86_64-linux"
-> NATIVELSBSTRING   = "Debian-8.1"
-> TARGET_SYS        = "arm-poky-linux-gnueabi"
-> MACHINE           = "qemuarm"
-> DISTRO            = "poky"
-> DISTRO_VERSION    = "2.0"
-> TUNE_FEATURES     = "arm armv5 thumb dsp"
-> TARGET_FPU        = "soft"
-> meta
-> meta-yocto
-> meta-yocto-bsp    = "master:ceeb52a2544045fe8432e36307a321f6e934de49"
->
->
->
->
-> Can you tell me how to reproduce this failure?
-> Also, what the ARM_INSTRUCTION_SET = "arm" line does?
-> Thanks.
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+> index 6a2454d..b3e1c33 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+> @@ -69,6 +69,7 @@ SRC_URI = "\
+>      file://0047-repomembug.patch \
+>      file://0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \
+>      file://target-gcc-includedir.patch \
+> +    file://0051-gcc-483-universal-initializer-no-warning.patch \
+>  "
+>  SRC_URI[md5sum] = "5a84a30839b2aca22a2d723de2a626ec"
+>  SRC_URI[sha256sum] = "4a80aa23798b8e9b5793494b8c976b39b8d9aa2e53cd5ed5534aff662a7f8695"
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0051-gcc-483-universal-initializer-no-warning.patch b/meta/recipes-devtools/gcc/gcc-4.8/0051-gcc-483-universal-initializer-no-warning.patch
+> new file mode 100644
+> index 0000000..fde227b
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-4.8/0051-gcc-483-universal-initializer-no-warning.patch
+> @@ -0,0 +1,107 @@
+> +Upstream-Status: Backport
+> +
+> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> +---
+> +Fix for https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53119
+> +wrong warning when using the universal zero initializer {0}
+> +
+> +Backported to GCC 4.8.3
+> +
+> +Subject: 2014-06-05  S. Gilles  <sgilles@terpmail.umd.edu>
+> +X-Git-Url: http://repo.or.cz/w/official-gcc.git/commitdiff_plain/95cdf3fdf2d440eb7775def8e35ab970651c33d9?hp=14a3093e9943937cbc63dfbf4d51ca60f8325b29
+> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@211289 138bc75d-0d04-0410-961f-82ee72b054a4
+> +
+> +--- gcc-4.8.3.org/gcc/c/c-typeck.c     2014-08-03 20:52:09.257042137 +0200
+> ++++ gcc-4.8.3/gcc/c/c-typeck.c 2014-08-03 20:57:10.645042614 +0200
+> +@@ -62,9 +62,9 @@
+> +    if expr.original_code == SIZEOF_EXPR.  */
+> + tree c_last_sizeof_arg;
+> +
+> +-/* Nonzero if we've already printed a "missing braces around initializer"
+> +-   message within this initializer.  */
+> +-static int missing_braces_mentioned;
+> ++/* Nonzero if we might need to print a "missing braces around
+> ++   initializer" message within this initializer.  */
+> ++static int found_missing_braces;
+> +
+> + static int require_constant_value;
+> + static int require_constant_elements;
+> +@@ -6379,6 +6379,9 @@
+> + /* 1 if this constructor is erroneous so far.  */
+> + static int constructor_erroneous;
+> +
+> ++/* 1 if this constructor is the universal zero initializer { 0 }.  */
+> ++static int constructor_zeroinit;
+> ++
+> + /* Structure for managing pending initializer elements, organized as an
+> +    AVL tree.  */
+> +
+> +@@ -6540,7 +6543,7 @@
+> +   constructor_stack = 0;
+> +   constructor_range_stack = 0;
+> +
+> +-  missing_braces_mentioned = 0;
+> ++  found_missing_braces = 0;
+> +
+> +   spelling_base = 0;
+> +   spelling_size = 0;
+> +@@ -6635,6 +6638,7 @@
+> +   constructor_type = type;
+> +   constructor_incremental = 1;
+> +   constructor_designated = 0;
+> ++  constructor_zeroinit = 1;
+> +   designator_depth = 0;
+> +   designator_erroneous = 0;
+> +
+> +@@ -6832,11 +6836,8 @@
+> +       set_nonincremental_init (braced_init_obstack);
+> +     }
+> +
+> +-  if (implicit == 1 && warn_missing_braces && !missing_braces_mentioned)
+> +-    {
+> +-      missing_braces_mentioned = 1;
+> +-      warning_init (OPT_Wmissing_braces, "missing braces around initializer");
+> +-    }
+> ++  if (implicit == 1)
+> ++    found_missing_braces = 1;
+> +
+> +   if (TREE_CODE (constructor_type) == RECORD_TYPE
+> +          || TREE_CODE (constructor_type) == UNION_TYPE)
+> +@@ -6969,16 +6970,23 @@
+> +       }
+> +     }
+> +
+> ++  if (vec_safe_length (constructor_elements) != 1)
+> ++    constructor_zeroinit = 0;
+> ++
+> ++  /* Warn when some structs are initialized with direct aggregation.  */
+> ++  if (!implicit && found_missing_braces && warn_missing_braces
+> ++      && !constructor_zeroinit)
+> ++    {
+> ++      warning_init (OPT_Wmissing_braces,
+> ++                  "missing braces around initializer");
+> ++    }
+> ++
+> +   /* Warn when some struct elements are implicitly initialized to zero.  */
+> +   if (warn_missing_field_initializers
+> +       && constructor_type
+> +       && TREE_CODE (constructor_type) == RECORD_TYPE
+> +       && constructor_unfilled_fields)
+> +     {
+> +-      bool constructor_zeroinit =
+> +-       (vec_safe_length (constructor_elements) == 1
+> +-        && integer_zerop ((*constructor_elements)[0].value));
+> +-
+> +       /* Do not warn for flexible array members or zero-length arrays.  */
+> +       while (constructor_unfilled_fields
+> +              && (!DECL_SIZE (constructor_unfilled_fields)
+> +@@ -8093,6 +8101,9 @@
+> +   designator_depth = 0;
+> +   designator_erroneous = 0;
+> +
+> ++  if (!implicit && value.value && !integer_zerop (value.value))
+> ++    constructor_zeroinit = 0;
+> ++
+> +   /* Handle superfluous braces around string cst as in
+> +      char x[] = {"foo"}; */
+> +   if (string_flag
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> index 691ba5f..95b553c 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> @@ -80,6 +80,7 @@ SRC_URI = "\
+>      file://0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
+>      file://0063-nativesdk-gcc-support.patch \
+>      file://0064-handle-target-sysroot-multilib.patch \
+> +    file://0065-gcc-483-universal-initializer-no-warning.patch \
+>  "
+>  SRC_URI[md5sum] = "6f831b4d251872736e8e9cc09746f327"
+>  SRC_URI[sha256sum] = "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0065-gcc-483-universal-initializer-no-warning.patch b/meta/recipes-devtools/gcc/gcc-4.9/0065-gcc-483-universal-initializer-no-warning.patch
+> new file mode 100644
+> index 0000000..fde227b
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9/0065-gcc-483-universal-initializer-no-warning.patch
+> @@ -0,0 +1,107 @@
+> +Upstream-Status: Backport
+> +
+> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> +---
+> +Fix for https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53119
+> +wrong warning when using the universal zero initializer {0}
+> +
+> +Backported to GCC 4.8.3
+> +
+> +Subject: 2014-06-05  S. Gilles  <sgilles@terpmail.umd.edu>
+> +X-Git-Url: http://repo.or.cz/w/official-gcc.git/commitdiff_plain/95cdf3fdf2d440eb7775def8e35ab970651c33d9?hp=14a3093e9943937cbc63dfbf4d51ca60f8325b29
+> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@211289 138bc75d-0d04-0410-961f-82ee72b054a4
+> +
+> +--- gcc-4.8.3.org/gcc/c/c-typeck.c     2014-08-03 20:52:09.257042137 +0200
+> ++++ gcc-4.8.3/gcc/c/c-typeck.c 2014-08-03 20:57:10.645042614 +0200
+> +@@ -62,9 +62,9 @@
+> +    if expr.original_code == SIZEOF_EXPR.  */
+> + tree c_last_sizeof_arg;
+> +
+> +-/* Nonzero if we've already printed a "missing braces around initializer"
+> +-   message within this initializer.  */
+> +-static int missing_braces_mentioned;
+> ++/* Nonzero if we might need to print a "missing braces around
+> ++   initializer" message within this initializer.  */
+> ++static int found_missing_braces;
+> +
+> + static int require_constant_value;
+> + static int require_constant_elements;
+> +@@ -6379,6 +6379,9 @@
+> + /* 1 if this constructor is erroneous so far.  */
+> + static int constructor_erroneous;
+> +
+> ++/* 1 if this constructor is the universal zero initializer { 0 }.  */
+> ++static int constructor_zeroinit;
+> ++
+> + /* Structure for managing pending initializer elements, organized as an
+> +    AVL tree.  */
+> +
+> +@@ -6540,7 +6543,7 @@
+> +   constructor_stack = 0;
+> +   constructor_range_stack = 0;
+> +
+> +-  missing_braces_mentioned = 0;
+> ++  found_missing_braces = 0;
+> +
+> +   spelling_base = 0;
+> +   spelling_size = 0;
+> +@@ -6635,6 +6638,7 @@
+> +   constructor_type = type;
+> +   constructor_incremental = 1;
+> +   constructor_designated = 0;
+> ++  constructor_zeroinit = 1;
+> +   designator_depth = 0;
+> +   designator_erroneous = 0;
+> +
+> +@@ -6832,11 +6836,8 @@
+> +       set_nonincremental_init (braced_init_obstack);
+> +     }
+> +
+> +-  if (implicit == 1 && warn_missing_braces && !missing_braces_mentioned)
+> +-    {
+> +-      missing_braces_mentioned = 1;
+> +-      warning_init (OPT_Wmissing_braces, "missing braces around initializer");
+> +-    }
+> ++  if (implicit == 1)
+> ++    found_missing_braces = 1;
+> +
+> +   if (TREE_CODE (constructor_type) == RECORD_TYPE
+> +          || TREE_CODE (constructor_type) == UNION_TYPE)
+> +@@ -6969,16 +6970,23 @@
+> +       }
+> +     }
+> +
+> ++  if (vec_safe_length (constructor_elements) != 1)
+> ++    constructor_zeroinit = 0;
+> ++
+> ++  /* Warn when some structs are initialized with direct aggregation.  */
+> ++  if (!implicit && found_missing_braces && warn_missing_braces
+> ++      && !constructor_zeroinit)
+> ++    {
+> ++      warning_init (OPT_Wmissing_braces,
+> ++                  "missing braces around initializer");
+> ++    }
+> ++
+> +   /* Warn when some struct elements are implicitly initialized to zero.  */
+> +   if (warn_missing_field_initializers
+> +       && constructor_type
+> +       && TREE_CODE (constructor_type) == RECORD_TYPE
+> +       && constructor_unfilled_fields)
+> +     {
+> +-      bool constructor_zeroinit =
+> +-       (vec_safe_length (constructor_elements) == 1
+> +-        && integer_zerop ((*constructor_elements)[0].value));
+> +-
+> +       /* Do not warn for flexible array members or zero-length arrays.  */
+> +       while (constructor_unfilled_fields
+> +              && (!DECL_SIZE (constructor_unfilled_fields)
+> +@@ -8093,6 +8101,9 @@
+> +   designator_depth = 0;
+> +   designator_erroneous = 0;
+> +
+> ++  if (!implicit && value.value && !integer_zerop (value.value))
+> ++    constructor_zeroinit = 0;
+> ++
+> +   /* Handle superfluous braces around string cst as in
+> +      char x[] = {"foo"}; */
+> +   if (string_flag
+> --
+> 2.6.1
 >
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---001a11c3516ec130260521c1cd58
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<p dir=3D"ltr">Did you enable thumb in that build? It&#39;s not enabled by =
-default.</p>
-<p dir=3D"ltr">ARM_INSTRUCTION_SET is for recipes to use arm when distro se=
-lects thumb by default.</p>
-
-<br><div class=3D"gmail_quote"><div dir=3D"ltr">On Sat, Oct 10, 2015, 14:13=
-=C2=A0Carlos Alberto Lopez Perez &lt;<a href=3D"mailto:clopez@igalia.com" t=
-arget=3D"_blank">clopez@igalia.com</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex">On 09/10/15 17:11, Martin Jansa wrote:<br>
-&gt; * gcr, libsecret are new since switch to gcc 5.2<br>
-&gt; * webkitgtk is old but it was removed while migrating from<br>
-&gt;=C2=A0 =C2=A0webkit-gtk to webkitgtl (like REQUIRED_DISTRO_FEATURES wer=
-e) :/<br>
-&gt;<br>
-&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.c=
-om" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
-&gt; ---<br>
-<br>
-&gt; diff --git a/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.8.=
-5.bb" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.8.5.bb</a> b/meta/re=
-cipes-sato/webkit/<a href=3D"http://webkitgtk_2.8.5.bb" rel=3D"noreferrer" =
-target=3D"_blank">webkitgtk_2.8.5.bb</a><br>
-&gt; index f14c868..e29666a 100644<br>
-&gt; --- a/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.8.5.bb" r=
-el=3D"noreferrer" target=3D"_blank">webkitgtk_2.8.5.bb</a><br>
-&gt; +++ b/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.8.5.bb" r=
-el=3D"noreferrer" target=3D"_blank">webkitgtk_2.8.5.bb</a><br>
-&gt; @@ -70,3 +70,5 @@ FILES_${PN} +=3D &quot;${libdir}/webkit2gtk-4.0/inje=
-cted-bundle/libwebkit2gtkinjectedbu<br>
-&gt;=C2=A0 FILES_${PN}-dbg +=3D &quot;${libdir}/webkit2gtk-4.0/injected-bun=
-dle/.debug/libwebkit2gtkinjectedbundle.so&quot;<br>
-&gt;=C2=A0 FILES_${PN}-dbg +=3D &quot;${libdir}/webkitgtk/webkit2gtk-4.0/.d=
-ebug/*&quot;<br>
-&gt;<br>
-&gt; +# <a href=3D"http://errors.yoctoproject.org/Errors/Details/20370/" re=
-l=3D"noreferrer" target=3D"_blank">http://errors.yoctoproject.org/Errors/De=
-tails/20370/</a><br>
-&gt; +ARM_INSTRUCTION_SET =3D &quot;arm&quot;<br>
-&gt;<br>
-<br>
-I tried to build webkitgtk using current master of poky for machine<br>
-qemuarm and it built fine:<br>
-<br>
-Build Configuration:<br>
-BB_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;1.28.0&quot;<br>
-BUILD_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;x86_64-linux&quot;<br>
-NATIVELSBSTRING=C2=A0 =C2=A0=3D &quot;Debian-8.1&quot;<br>
-TARGET_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;arm-poky-linux-gnueabi&quot=
-;<br>
-MACHINE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;qemuarm&quot;<br>
-DISTRO=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;poky&quot;<br>
-DISTRO_VERSION=C2=A0 =C2=A0 =3D &quot;2.0&quot;<br>
-TUNE_FEATURES=C2=A0 =C2=A0 =C2=A0=3D &quot;arm armv5 thumb dsp&quot;<br>
-TARGET_FPU=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;soft&quot;<br>
-meta<br>
-meta-yocto<br>
-meta-yocto-bsp=C2=A0 =C2=A0 =3D &quot;master:ceeb52a2544045fe8432e36307a321=
-f6e934de49&quot;<br>
-<br>
-<br>
-<br>
-<br>
-Can you tell me how to reproduce this failure?<br>
-Also, what the ARM_INSTRUCTION_SET =3D &quot;arm&quot; line does?<br>
-Thanks.<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---001a11c3516ec130260521c1cd58--
