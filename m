@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4270A77054
+	by mail.openembedded.org (Postfix) with ESMTP id 424BB77046
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Oct 2015 07:01:20 +0000 (UTC)
+	Sat, 10 Oct 2015 07:01:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9A71KBn010928
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9A71LoZ010931
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Oct 2015 00:01:20 -0700 (PDT)
+	Sat, 10 Oct 2015 00:01:21 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sat, 10 Oct 2015 00:01:20 -0700
+	Sat, 10 Oct 2015 00:01:21 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 10 Oct 2015 00:01:15 -0700
-Message-ID: <cover.1444460443.git.liezhi.yang@windriver.com>
+Date: Sat, 10 Oct 2015 00:01:17 -0700
+Message-ID: <7d5894179dbe02157b70688827cb6a654eaca7f9.1444460443.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1444460443.git.liezhi.yang@windriver.com>
+References: <cover.1444460443.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/5] meta: fix ALTERNATIVE_PRIORITY conflicts
+Subject: [PATCH 2/5] console-tools: fix ALTERNATIVE_PRIORITY conflict with kbd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +36,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sat, 10 Oct 2015 07:01:24 -0000
 Content-Type: text/plain
 
-The following changes since commit 4038970f8ce27ac0d7a0afe2cdaa9a65108dfff5:
+Conflicts:
+console-tools and kbd have the same priority 100 for chvt
+console-tools and kbd have the same priority 100 for deallocvt
+console-tools and kbd have the same priority 100 for fgconsole
+console-tools and kbd have the same priority 100 for openvt
 
-  os-release: fix do_compile() when RPM signing is enabled (2015-10-07 00:08:07 +0100)
+Turn down console-tools' priority to fix the conflict, the larger set
+of tools should use a lower priority.
 
-are available in the git repository at:
+[YOCTO #8477]
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/alternatives
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/alternatives
-
-Robert Yang (5):
-  debianutils: fix ALTERNATIVE_PRIORITY conflict with which
-  console-tools: fix ALTERNATIVE_PRIORITY conflict with kbd
-  util-linux: fix ALTERNATIVE_PRIORITY conflict with ncurses procps and
-    e2fsprogs
-  coreutils: fix ALTERNATIVE_PRIORITY conflict with procps and mktemp
-  gtk+3: fix ALTERNATIVE_PRIORITY conflict with gtk+
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  .../console-tools/console-tools_0.3.2.bb           |    2 +-
- meta/recipes-core/coreutils/coreutils_8.24.bb      |    2 +-
- meta/recipes-core/util-linux/util-linux.inc        |    2 +-
- meta/recipes-gnome/gtk+/gtk+3.inc                  |    1 +
- .../debianutils/debianutils_4.5.1.bb               |    2 +-
- 5 files changed, 5 insertions(+), 4 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/console-tools/console-tools_0.3.2.bb b/meta/recipes-core/console-tools/console-tools_0.3.2.bb
+index c60a5a0..a9805b3 100644
+--- a/meta/recipes-core/console-tools/console-tools_0.3.2.bb
++++ b/meta/recipes-core/console-tools/console-tools_0.3.2.bb
+@@ -29,7 +29,7 @@ do_configure_prepend () {
+ 
+ inherit autotools gettext update-alternatives
+ 
+-ALTERNATIVE_PRIORITY = "100"
++ALTERNATIVE_PRIORITY = "30"
+ 
+ bindir_progs = "chvt deallocvt fgconsole openvt"
+ ALTERNATIVE_${PN} = "${bindir_progs}"
 -- 
 1.7.9.5
 
