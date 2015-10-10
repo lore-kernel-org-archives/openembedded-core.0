@@ -1,34 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 82CC076E3F
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B8D1473D46
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Oct 2015 01:53:31 +0000 (UTC)
-Received: by qkas79 with SMTP id s79so40017420qka.0
+	Sat, 10 Oct 2015 07:01:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9A71Lpe024030
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Oct 2015 18:53:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=hZmdMzGLZrknEICRoVpSQRt+VUMCatKIjPIcfFtWIKM=;
-	b=bsbW9vwGyI4g9EIXosKoNHVy/pNxAfNtee5sE9G1Iw/tppT0RODujSzPbxu4WbVqR1
-	prjUWeI5xoBW6w35JWKTJQZiyPl8ud0qQ0FmY7dBn3R9kovpFS8QtqjulOpPOi5et0Jg
-	2FQ9zvBsgm99R+bneT7Acx7YsKrEr+DyYvcXYiGDagrNJgKUs5BuRxjjSudqd00CxV5h
-	ZFHj57jEsibY+K2y93juwY8qm+st3eIbCmT1xRg367wQNgN1AMwtzVewtLkGLrDgmt2L
-	pQma6tNuEUMD0AFr4EDDnO9MuzKmxv8f1UOtgPhnY8S6DqFpTQnm/urlCqE5EOfJuHOZ
-	jo+g==
-X-Received: by 10.55.22.70 with SMTP id g67mr18644935qkh.43.1444442011487;
-	Fri, 09 Oct 2015 18:53:31 -0700 (PDT)
-Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
-	by smtp.gmail.com with ESMTPSA id
-	187sm1941433qhf.16.2015.10.09.18.53.30
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 09 Oct 2015 18:53:30 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 10 Oct 2015 01:53:25 +0000
-Message-Id: <1444442005-105476-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.6.1
-Subject: [PATCH] grub-efi, gummiboot: Emit correct path in startup.nsh
+	Sat, 10 Oct 2015 00:01:22 -0700 (PDT)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Sat, 10 Oct 2015 00:01:21 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 10 Oct 2015 00:01:18 -0700
+Message-ID: <06bfd85c7df1c82a73d1c9126e6ab28a291beeb1.1444460443.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1444460443.git.liezhi.yang@windriver.com>
+References: <cover.1444460443.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 3/5] util-linux: fix ALTERNATIVE_PRIORITY conflict with ncurses procps and e2fsprogs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,60 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Oct 2015 01:53:33 -0000
+X-List-Received-Date: Sat, 10 Oct 2015 07:01:24 -0000
+Content-Type: text/plain
 
-when we generate hddimage and use it to prepare SD card
-using scripts/contrib/mkefidisk.sh as described here
+Conflicts:
+util-linux and ncurses have the same priority 100 for reset
+util-linux and procps have the same priority 100 for kill.1
+util-linux and procps have the same priority 100 for kill
+e2fsprogs and util-linux have the same priority 100 for libblkid.3
+e2fsprogs and util-linux have the same priority 100 for blkid.8
+e2fsprogs and util-linux have the same priority 100 for findfs.8
+e2fsprogs and util-linux have the same priority 100 for fsck.8
 
-http://elinux.org/Minnowboard:MinnowMaxYoctoProject
+Turn down util-linux' priority to fix the conflict, the larger set
+of tools should use a lower priority.
 
-The content of startup.nsh contains
+[YOCTO #8477]
 
-bootx64.efi
-
-but this file is actually not in same dir as startup.nsh
-its in /EFI/BOOT so for this to work entry in startup.nsh
-should be
-
-fs0:\EFI\BOOT\bootx64.efi
-
-Otherwise the image is D-O-A
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/grub-efi.bbclass  | 3 ++-
- meta/classes/gummiboot.bbclass | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-core/util-linux/util-linux.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index 4ddc2bb..9a4220a 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -52,7 +52,8 @@ efi_iso_populate() {
- 	mkdir -p ${EFIIMGDIR}/${EFIDIR}
- 	cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
- 	cp $iso_dir/vmlinuz ${EFIIMGDIR}
--	echo "${GRUB_IMAGE}" > ${EFIIMGDIR}/startup.nsh
-+	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
-+	echo "fs0:${EFIPATH}\\${GRUB_IMAGE}" > ${EFIIMGDIR}/startup.nsh
- 	if [ -f "$iso_dir/initrd" ] ; then
- 		cp $iso_dir/initrd ${EFIIMGDIR}
- 	fi
-diff --git a/meta/classes/gummiboot.bbclass b/meta/classes/gummiboot.bbclass
-index 3d9c08b..9a97ac1 100644
---- a/meta/classes/gummiboot.bbclass
-+++ b/meta/classes/gummiboot.bbclass
-@@ -46,7 +46,8 @@ efi_iso_populate() {
-         mkdir -p ${EFIIMGDIR}/${EFIDIR}
-         cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
-         cp $iso_dir/vmlinuz ${EFIIMGDIR}
--        echo "${DEST_EFI_IMAGE}" > ${EFIIMGDIR}/startup.nsh
-+        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
-+        echo "fs0:${EFIPATH}\\${DEST_EFI_IMAGE}" > ${EFIIMGDIR}/startup.nsh
-         if [ -f "$iso_dir/initrd" ] ; then
-             cp $iso_dir/initrd ${EFIIMGDIR}
-         fi
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 594108f..48d7e89 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -177,7 +177,7 @@ do_install_append_class-native () {
+ 	rm -f ${D}${base_sbindir}/nologin
+ }
+ 
+-ALTERNATIVE_PRIORITY = "100"
++ALTERNATIVE_PRIORITY = "50"
+ 
+ ALTERNATIVE_${PN}  = "dmesg kill more mkswap blockdev pivot_root switch_root"
+ ALTERNATIVE_${PN} += "mkfs.minix hexdump last lastb logger mesg renice wall"
 -- 
-2.6.1
+1.7.9.5
 
 
