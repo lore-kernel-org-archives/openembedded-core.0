@@ -1,36 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 05F5A77050
+Return-Path: <clopez@igalia.com>
+Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
+	by mail.openembedded.org (Postfix) with ESMTP id 62A7F76E4A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Oct 2015 19:15:58 +0000 (UTC)
-Received: by iodv82 with SMTP id v82so20353275iod.0
+	Sat, 10 Oct 2015 21:45:44 +0000 (UTC)
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: A2BxBwD4hRlW/5tjdVteHAEBAYMHhw6oMItLhgqDEzKBWH8CgSA8EAEBAQEBAQGBCoQnAQEEI2YLGAkhAgIPSBMIAoguAa9mk18BCyCGc4R+gTODYReCUoFFBZYTgk6BYYhrnAM4K4IRHYFWPIgdAQEB
+X-IPAS-Result: A2BxBwD4hRlW/5tjdVteHAEBAYMHhw6oMItLhgqDEzKBWH8CgSA8EAEBAQEBAQGBCoQnAQEEI2YLGAkhAgIPSBMIAoguAa9mk18BCyCGc4R+gTODYReCUoFFBZYTgk6BYYhrnAM4K4IRHYFWPIgdAQEB
+X-IronPort-AV: E=Sophos;i="5.17,664,1437429600"; 
+	d="asc'?scan'208";a="32310623"
+Received: from fanzine.igalia.com ([91.117.99.155])
+	by smtp4.mundo-r.com with ESMTP; 10 Oct 2015 23:45:44 +0200
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+	by fanzine.igalia.com with esmtps 
+	(Cipher TLS1.0:RSA_AES_256_CBC_SHA1:32) (Exim) id 1Zl1xX-0001DL-SJ
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Oct 2015 12:15:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=mpujlQwZrQhVLX/40WTwqGxR/dWWShi/T+IPKkCZfHI=;
-	b=yqfsJUmnm26lJUZR9DIngMk9ucA95p54B6THoHIPtrikLfs0VFPZz6uKylt+q9Y+5T
-	Tj4k3Q2gCxt4uD0Y+jYZzeTh3PYZ6PeygBRnBRhWLumgqai4s5HHkxzZcgM73fAl3GtC
-	Zu0QwVaT2YoV2e4CZdgkcQlT2ydtzyzwokWjG2iUAd/pPyV1o1p+9JH6F+RwufVSbuqB
-	ktqxoy4bwGnW718RIjQKGMdDCVPa3/4HequZy1v+R9K3IVgEAPY47fmP3nfyZ6IVP+VV
-	Rwpb3GsV2r0RS2qeClzOg3BSXxsq9jHfv5nGyYVX09T0V3KpfpxNUooiQzxZBBciGnZX
-	s6Ag==
-X-Received: by 10.107.3.14 with SMTP id 14mr19734948iod.49.1444504558914; Sat,
-	10 Oct 2015 12:15:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.142.130 with HTTP; Sat, 10 Oct 2015 12:15:29 -0700 (PDT)
-In-Reply-To: <561900D1.5060906@igalia.com>
-References: <20150514114002.GA2402@jama>
+	Sat, 10 Oct 2015 23:45:43 +0200
+Received: from fanzine.local.igalia.com ([192.168.10.13] helo=[10.76.0.6])
+	by mail.igalia.com with esmtps 
+	(Cipher TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim)
+	id 1Zl1xX-0001MM-Mg for <openembedded-core@lists.openembedded.org>;
+	Sat, 10 Oct 2015 23:45:43 +0200
+To: openembedded-core@lists.openembedded.org
+references: <20150514114002.GA2402@jama>
 	<1444403489-29494-1-git-send-email-Martin.Jansa@gmail.com>
 	<561900D1.5060906@igalia.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 10 Oct 2015 12:15:29 -0700
-Message-ID: <CAMKF1soUWoS8FPGAnwOO3=y7sqzmDRU6LBvA2om+MH8X5KGdiw@mail.gmail.com>
-To: Carlos Alberto Lopez Perez <clopez@igalia.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CA+chaQffPJOrTzmZRoxUAJ1LnixtbJHLtJ5wm7eJAWGiZxnpXg@mail.gmail.com>
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
+	url=http://key.neutrino.es
+x-enigmail-draft-status: N1110
+organization: Igalia S.L.
+message-id: <56198707.8@igalia.com>
+Date: Sat, 10 Oct 2015 23:45:43 +0200
+user-agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:38.0) Gecko/20100101 Icedove/38.0
+mime-version: 1.0
+in-reply-to: <CA+chaQffPJOrTzmZRoxUAJ1LnixtbJHLtJ5wm7eJAWGiZxnpXg@mail.gmail.com>
 Subject: Re: [PATCH] webkitgtk, gcr, libsecret: force ARM mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -44,71 +49,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Oct 2015 19:15:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 10 Oct 2015 21:45:46 -0000
+X-Groupsio-MsgNum: 72077
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="6V4U55orQSP4jo6xBmChO94hcC39R4Qiw"
 
-On Sat, Oct 10, 2015 at 5:13 AM, Carlos Alberto Lopez Perez
-<clopez@igalia.com> wrote:
-> On 09/10/15 17:11, Martin Jansa wrote:
->> * gcr, libsecret are new since switch to gcc 5.2
->> * webkitgtk is old but it was removed while migrating from
->>   webkit-gtk to webkitgtl (like REQUIRED_DISTRO_FEATURES were) :/
->>
->> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> ---
->
->> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
->> index f14c868..e29666a 100644
->> --- a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
->> +++ b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
->> @@ -70,3 +70,5 @@ FILES_${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbu
->>  FILES_${PN}-dbg += "${libdir}/webkit2gtk-4.0/injected-bundle/.debug/libwebkit2gtkinjectedbundle.so"
->>  FILES_${PN}-dbg += "${libdir}/webkitgtk/webkit2gtk-4.0/.debug/*"
->>
->> +# http://errors.yoctoproject.org/Errors/Details/20370/
->> +ARM_INSTRUCTION_SET = "arm"
->>
->
-> I tried to build webkitgtk using current master of poky for machine
-> qemuarm and it built fine:
+--6V4U55orQSP4jo6xBmChO94hcC39R4Qiw
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-That is fine, however keep in mind that poky is one of many
-distributions using OE build framework.
-there are many other which have different distribution policies and
-all of them use OE-Core and bitbake layers
-as must. So when you make changes to OE-Core or bitbake the scope is a
-bit wider. Testing it on Poky alone
-might not be sufficient. In this case the distro is choosing Thumb ISA
-as default for ARM architecture, you need
-to have that policy set to reproduce this error.
+On 10/10/15 17:32, Martin Jansa wrote:
+> Did you enable thumb in that build? It's not enabled by default.
+>=20
+> ARM_INSTRUCTION_SET is for recipes to use arm when distro selects thumb=
+ by
+> default.
 
->
-> Build Configuration:
-> BB_VERSION        = "1.28.0"
-> BUILD_SYS         = "x86_64-linux"
-> NATIVELSBSTRING   = "Debian-8.1"
-> TARGET_SYS        = "arm-poky-linux-gnueabi"
-> MACHINE           = "qemuarm"
-> DISTRO            = "poky"
-> DISTRO_VERSION    = "2.0"
-> TUNE_FEATURES     = "arm armv5 thumb dsp"
-> TARGET_FPU        = "soft"
-> meta
-> meta-yocto
-> meta-yocto-bsp    = "master:ceeb52a2544045fe8432e36307a321f6e934de49"
->
->
->
->
-> Can you tell me how to reproduce this failure?
-> Also, what the ARM_INSTRUCTION_SET = "arm" line does?
-> Thanks.
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+I assumed it was enabled by default if it was listed on the list printed
+on TUNE_FEATURES when starting bitbake. Seems not.
 
+I manually enabled it on the recipe of webkitgtk+ by setting
+'ARM_INSTRUCTION_SET =3D "thumb"' and I was able to reproduce the build
+failure.
+
+However, later I tried doing the same for a standard armv7a machine and
+it built fine.
+
+qemuarm is arvm6 with thumb1, and any armv7 or newer machine will prefer
+thumb2 instead. The compiler would automatically use thumb2 when
+enabling -mthumb on a armv7 or newer march.
+
+So, it built fine with -march=3Darmv7-a -mthumb
+
+Given that most people building webkitgtk+ will use armv7 or newer, I
+don't think disabling the possibility of building webkitgtk+ with thumb
+(thumb2) unconditionally is a good idea.
+
+I also tested to build gcr and libsecret. Both build also fine with
+-mthumb on armv7.
+
+
+So, could we set ARM_INSTRUCTION_SET=3Darm only for armv6 or older
+machines in this 3 recipes?
+
+
+--6V4U55orQSP4jo6xBmChO94hcC39R4Qiw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+Comment: You can fetch my GnuPG key from http://key.neutrino.es
+
+iQIcBAEBCgAGBQJWGYcHAAoJEJZQic5rlfiCOhgP/06ox7y6cpri4EfhYl+74ifO
+Vkh+jCygUJGvRtZrXMdEdfrHx7SqDj1B2c3n4rd3oUDIwQnqQYxHaHQAUkqXVEgU
+KDzyDj6wUUvagTBtddBz6ctuhfUKdj0gFL73VAx9Zg4hB8J0uEAx1yuwrYT+S4RR
+bRvZfG1rnNvExt8ISpwPhmBGuYU+xJyMmR+uWLsoh9Lxt6xeyyCoEG7Qr/cvEX10
+ZK4RXhlYAVb34EjD9UYsZ4zF9QnScV9Q2gZ0u+d5SLwy68+uuTU37ZuTA3jOcpPU
+BWxev6P6ZqfLCb1beqhXlib8p8IgCOFLQA3OfM9mXqv6JTH0jyxr3ZPptoawUOTF
+fiQM94wqMPm1Bbf1twzQWXbbwq8GoIG3QcVTrfLNxTplTrnwte7xQowNejJY2cfD
+Laqgds/CadxUmWQip/EM9+eqYb4F6EYfhwk1q2Ym98jkjyscJy6U1vyJ87spHYF9
+mAgmZbWKtKHbW+3Ql3pah1ufDSlIq6WlDyh8SfkTzmmHgsLuecIxNHmBWMFm7tHt
+z5OmmboZi42v38zDYZ1UMUw5AT2BOUhFWabQXm05aqEk4bixxfiR5J9O7Pb9qk6x
+SwRhc+EUgjuxZ5Ycwg9uG9aKhHL+uYX19rNfLUcQrmlz6km2d5r6bx1RV19zaryc
+bkgNoEggGoaDOrLH1S6B
+=DI3I
+-----END PGP SIGNATURE-----
+
+--6V4U55orQSP4jo6xBmChO94hcC39R4Qiw--
