@@ -1,26 +1,37 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E1AF076FF2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 213DC76536
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Oct 2015 11:17:07 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 12 Oct 2015 04:17:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,672,1437462000"; d="scan'208";a="808952513"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Oct 2015 04:17:06 -0700
-Message-ID: <561B96D1.9000703@linux.intel.com>
-Date: Mon, 12 Oct 2015 14:17:37 +0300
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.8.0
-MIME-Version: 1.0
+	Mon, 12 Oct 2015 12:10:51 +0000 (UTC)
+Received: by wijq8 with SMTP id q8so54774376wij.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Oct 2015 05:10:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=D5kbNenGwo+TK9V4o1pjx7Kch10446KqsWVVJ1G0Do0=;
+	b=Hk9qG4oFNYhCwRX4+zP6/SygSiWwzSOlDqeK7AsQ+deeKEdY8sSEM6M2KH2pVpfWtl
+	ctB9WKMRkQYHTc9yH6w5/mkSeLSI/dUm+cYx/e5kx/o/nypLn68qE1XUBdTPE/CjgJct
+	qQHDdP8yvAjiIUI4K8jQOfWWMGI5TnCXgCIwmjVEIwC9PtEiJL/VJQ8PZmhjZx1vlEu9
+	O/qLUkCv/xYGHvPZs7xRVLVMtgODDgjXVM8tscoJMmqMQeVz8UxiwBQeiZAIttpvoh4C
+	LUdO7N+UX2wePY33wOiW8drsrI9Z3ArqR32OURdLYdtO+ESf0/yTKClC25L2r/LPpm3g
+	/Mfg==
+X-Gm-Message-State: ALoCoQl94nkA6CJBBiyIqUQanBiveVxPktUXEgSckAqtIi++VnewomnJac6KrskvW+dP/2pvKlXt
+X-Received: by 10.194.249.100 with SMTP id yt4mr35490036wjc.74.1444651850963; 
+	Mon, 12 Oct 2015 05:10:50 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	12sm19503557wjw.15.2015.10.12.05.10.50
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 12 Oct 2015 05:10:50 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <20150514114002.GA2402@jama>	<1444403489-29494-1-git-send-email-Martin.Jansa@gmail.com>	<561900D1.5060906@igalia.com>	<CA+chaQffPJOrTzmZRoxUAJ1LnixtbJHLtJ5wm7eJAWGiZxnpXg@mail.gmail.com>
-	<56198707.8@igalia.com>
-In-Reply-To: <56198707.8@igalia.com>
-Subject: Re: [PATCH] webkitgtk, gcr, libsecret: force ARM mode
+Date: Mon, 12 Oct 2015 13:03:24 +0100
+Message-Id: <1444651405-11188-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/2] devtool: add new command for selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,20 +44,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Oct 2015 11:17:10 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Oct 2015 12:10:52 -0000
 
-On 10/11/2015 12:45 AM, Carlos Alberto Lopez Perez wrote:
+In selftest we want to exercise devtool's ability to use plugins from other
+layers, so add a basic command to reverse a string to meta-selftest.
 
-> So, could we set ARM_INSTRUCTION_SET=arm only for armv6 or older
-> machines in this 3 recipes?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta-selftest/lib/devtool/__init__.py |  0
+ meta-selftest/lib/devtool/test.py     | 15 +++++++++++++++
+ 2 files changed, 15 insertions(+)
+ create mode 100644 meta-selftest/lib/devtool/__init__.py
+ create mode 100644 meta-selftest/lib/devtool/test.py
 
-Indeed. Webkit has other issues on armv6 or older (JIT fails to build if 
-you try to), so I believe the upstream developers test the builds only 
-on v7 onwards nowadays, and don't actually support anything older.
-
-
-Alex
+diff --git a/meta-selftest/lib/devtool/__init__.py b/meta-selftest/lib/devtool/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/meta-selftest/lib/devtool/test.py b/meta-selftest/lib/devtool/test.py
+new file mode 100644
+index 0000000..106c322
+--- /dev/null
++++ b/meta-selftest/lib/devtool/test.py
+@@ -0,0 +1,15 @@
++import argparse
++
++def plugin_init(pluginlist):
++    """Plugin initialization"""
++    pass
++
++def selftest_reverse(args, config, basepath, workspace):
++    """Reverse the value passed to verify the plugin is executing."""
++    print args.value[::-1]
++
++def register_commands(subparsers, context):
++    parser_build = subparsers.add_parser('selftest-reverse', help='Reverse value (for selftest)',
++                                         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
++    parser_build.add_argument('value', help='Value to reverse')
++    parser_build.set_defaults(func=selftest_reverse)
+-- 
+2.1.4
 
 
