@@ -1,43 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EDAB65D6E
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CC4E65C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Oct 2015 08:02:40 +0000 (UTC)
-Received: by wicgb1 with SMTP id gb1so138412638wic.1
+	Mon, 12 Oct 2015 09:35:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9C9Zbcc023754
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Oct 2015 01:02:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=rZ4iaLsRENUSwG4u20JiktO02F6vBtO4vSge2BOudxY=;
-	b=xYzQVsyLd1BM595kJe3oafteXuU81qN+LeCU2vapG4PXJo/uXy61PuQGsnX9vYMdh+
-	gyOEIovYiA32iDi0cT6EfaqDcTahmlHqhmrq0OnhjS/q8qDmXBaEBAbtDvk4m98tM6tb
-	XiuAXJoK1KaO5nH+9mc7pj7mCSSvIQJOFdr4bJWL7DKcq24EA+XIFkHCionklho0NPtc
-	jPjYMBEEf5yQZ3+B3KqOCfkjw/PrDkzBOkKSVPzFDQfYQ3iTKxwxGrNeedfvGnyhTJxW
-	jqH0rL+nxMA6vAXSt/IEi4jK4LRhGxiTUC1oqEDeC+0RSh7pckmeSrbye3BQFa3vGEhv
-	W01A==
-X-Received: by 10.194.59.236 with SMTP id c12mr28701779wjr.23.1444636960389;
-	Mon, 12 Oct 2015 01:02:40 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id hs5sm9824134wib.6.2015.10.12.01.02.39
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 12 Oct 2015 01:02:39 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 12 Oct 2015 10:03:05 +0200
-To: Carlos Alberto Lopez Perez <clopez@igalia.com>
-Message-ID: <20151012080305.GA2392@jama>
-References: <20150514114002.GA2402@jama>
-	<1444403489-29494-1-git-send-email-Martin.Jansa@gmail.com>
-	<561900D1.5060906@igalia.com>
-	<CA+chaQffPJOrTzmZRoxUAJ1LnixtbJHLtJ5wm7eJAWGiZxnpXg@mail.gmail.com>
-	<56198707.8@igalia.com>
+	Mon, 12 Oct 2015 02:35:37 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 12 Oct 2015 02:35:36 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 12 Oct 2015 05:35:35 -0400
+Message-ID: <1444642535-196919-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <56198707.8@igalia.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] webkitgtk, gcr, libsecret: force ARM mode
+Subject: [PATCH] bzip2: fix bunzip2 -qt returns 0 for corrupt archives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,71 +31,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Oct 2015 08:02:43 -0000
-X-Groupsio-MsgNum: 72080
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="6TrnltStXW4iwmi0"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 12 Oct 2015 09:35:37 -0000
+Content-Type: text/plain
 
---6TrnltStXW4iwmi0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-On Sat, Oct 10, 2015 at 11:45:43PM +0200, Carlos Alberto Lopez Perez wrote:
-> On 10/10/15 17:32, Martin Jansa wrote:
-> > Did you enable thumb in that build? It's not enabled by default.
-> >=20
-> > ARM_INSTRUCTION_SET is for recipes to use arm when distro selects thumb=
- by
-> > default.
->=20
-> I assumed it was enabled by default if it was listed on the list printed
-> on TUNE_FEATURES when starting bitbake. Seems not.
->=20
-> I manually enabled it on the recipe of webkitgtk+ by setting
-> 'ARM_INSTRUCTION_SET =3D "thumb"' and I was able to reproduce the build
-> failure.
->=20
-> However, later I tried doing the same for a standard armv7a machine and
-> it built fine.
->=20
-> qemuarm is arvm6 with thumb1, and any armv7 or newer machine will prefer
-> thumb2 instead. The compiler would automatically use thumb2 when
-> enabling -mthumb on a armv7 or newer march.
->=20
-> So, it built fine with -march=3Darmv7-a -mthumb
->=20
-> Given that most people building webkitgtk+ will use armv7 or newer, I
-> don't think disabling the possibility of building webkitgtk+ with thumb
-> (thumb2) unconditionally is a good idea.
->=20
-> I also tested to build gcr and libsecret. Both build also fine with
-> -mthumb on armv7.
->=20
->=20
-> So, could we set ARM_INSTRUCTION_SET=3Darm only for armv6 or older
-> machines in this 3 recipes?
+"bzip2 -t FILE" returns 2 if FILE exists, but is not a valid bzip2 file.
+"bzip2 -qt FILE" returns 0 when this happens, although it does print out
+an error message as is does so.
 
-Yes, that would be better, I'm still waiting for answer about other
-layers, see:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7717#c6
+This has been fix by Debian, just port changes from Debian patch file
+"20-legacy.patch":
 
-In the meantime I'm using this to keep my world builds going.
+* Fixed "bunzip2 -qt returns 0 for corrupt archives" (Closes: #279025).
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
+ ...bunzip2-qt-returns-0-for-corrupt-archives.patch | 49 ++++++++++++++++++++++
+ meta/recipes-extended/bzip2/bzip2_1.0.6.bb         |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch
 
---6TrnltStXW4iwmi0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+diff --git a/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch b/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch
+new file mode 100644
+index 0000000..63d705d
+--- /dev/null
++++ b/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch
+@@ -0,0 +1,49 @@
++From 8068659388127e8e63f2d2297ba2348c72b20705 Mon Sep 17 00:00:00 2001
++From: Wenzong Fan <wenzong.fan@windriver.com>
++Date: Mon, 12 Oct 2015 03:19:51 -0400
++Subject: [PATCH] bzip2: fix bunzip2 -qt returns 0 for corrupt archives
++
++"bzip2 -t FILE" returns 2 if FILE exists, but is not a valid bzip2 file.
++"bzip2 -qt FILE" returns 0 when this happens, although it does print out
++an error message as is does so.
++
++This has been fix by Debian, just port changes from Debian patch file
++"20-legacy.patch":
++
++* Fixed "bunzip2 -qt returns 0 for corrupt archives" (Closes: #279025).
++
++Upstream-Status: Backport [Debian]
++
++Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
++---
++ bzip2.c | 14 ++++++++------
++ 1 file changed, 8 insertions(+), 6 deletions(-)
++
++diff --git a/bzip2.c b/bzip2.c
++index 6de9d1d..f2ce668 100644
++--- a/bzip2.c
+++++ b/bzip2.c
++@@ -2003,12 +2003,14 @@ IntNative main ( IntNative argc, Char *argv[] )
++             testf ( aa->name );
++ 	 }
++       }
++-      if (testFailsExist && noisy) {
++-         fprintf ( stderr,
++-           "\n"
++-           "You can use the `bzip2recover' program to attempt to recover\n"
++-           "data from undamaged sections of corrupted files.\n\n"
++-         );
+++      if (testFailsExist) {
+++         if (noisy) {
+++            fprintf ( stderr,
+++              "\n"
+++              "You can use the `bzip2recover' program to attempt to recover\n"
+++              "data from undamaged sections of corrupted files.\n\n"
+++            );
+++         }
++          setExit(2);
++          exit(exitValue);
++       }
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+index 233fe4c..d7b8c06 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;beginline=8;endline=37;md5=40d9d1eb05736d1bfc
+ PR = "r5"
+ 
+ SRC_URI = "http://www.bzip.org/${PV}/${BP}.tar.gz \
++           file://fix-bunzip2-qt-returns-0-for-corrupt-archives.patch \
+            file://configure.ac;subdir=${BP} \
+            file://Makefile.am;subdir=${BP} \
+            file://run-ptest"
+-- 
+1.9.1
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
 
-iEYEARECAAYFAlYbaTIACgkQN1Ujt2V2gBwTJgCgt376Z+cSAtJRuguUE74gfuns
-HpcAoKa6FfUy2Y8iImLnkVfOvjdFaXf+
-=efSo
------END PGP SIGNATURE-----
-
---6TrnltStXW4iwmi0--
