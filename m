@@ -1,45 +1,24 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D002865C8A
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DEE275A2F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Oct 2015 17:54:58 +0000 (UTC)
-Received: by wicgb1 with SMTP id gb1so59677416wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Oct 2015 10:54:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=ldA6jdyCKtR5up7gSKwqft5gKWAZ2eSKLSFrYPDIUTI=;
-	b=ScDl+yUVlgkh4mdzmDAAIavpEWcpm0MJrmE9A6gGmtd5e4Ts2boLuh1IkLCDCF4CcF
-	Cz4DgrdwO4RC6+k0pmZnunygc2ROWUNnoX3d3M8vdnxjvvCoRddtZZg8EHIriwYFvzfF
-	RmHiIcL/S5gFsY/+UhLM5gkflKEbTkCzYAjtixC60absQFv+AM6iicQ27bQltPy0xt18
-	96IylNfJ9Xg1VvbeJpxzt7H7llWnOHZhsPHQ7+rjD1VZIWRBJltyqtvhwYCBIao1XhU/
-	Lkm4+OSo+AZfW2QdkWAPmU6Kw9mx6qqVYlZz6RudDlMLLdL2TyzKbefbEiRUKxNyhMLM
-	AUSg==
-X-Received: by 10.180.79.5 with SMTP id f5mr14900957wix.79.1444672498865;
-	Mon, 12 Oct 2015 10:54:58 -0700 (PDT)
-Received: from ernie.rdm.local (rademacherexchange.de. [46.245.221.222])
-	by smtp.gmail.com with ESMTPSA id
-	p18sm11730198wik.19.2015.10.12.10.54.57
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 12 Oct 2015 10:54:57 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-From: Jens Rehsack <rehsack@gmail.com>
-In-Reply-To: <CAMKF1sreATF=J9rh-dK5fbsJt9szaJTmNyOOHg1gC+mVGNBZyg@mail.gmail.com>
-Date: Mon, 12 Oct 2015 19:54:55 +0200
-Message-Id: <B1E843F8-C2B2-403A-87E4-1D8AD3E13C63@gmail.com>
-References: <A543BCF1-FAD0-4993-B357-1BE49B062F63@gmail.com>
-	<9C694221-E92E-468E-A950-1D8B530757DD@gmail.com>
-	<6BA567C8-0D8A-402A-B733-2E9DECFD9844@gmail.com>
-	<32B54709-BA87-45AC-BDC0-22604B6D3979@gmail.com>
-	<6C58EED7-075B-4B58-B401-DB9EF31B8D50@gmail.com>
-	<CAMKF1sreATF=J9rh-dK5fbsJt9szaJTmNyOOHg1gC+mVGNBZyg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-X-Mailer: Apple Mail (2.2104)
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gcc: Avoid non-aligned access for ARM5e
+	Mon, 12 Oct 2015 18:36:32 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Oct 2015 11:36:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,674,1437462000"; d="scan'208";a="662820011"
+Received: from linux-vcyq.jf.intel.com ([10.7.198.81])
+	by orsmga003.jf.intel.com with ESMTP; 12 Oct 2015 11:36:27 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Oct 2015 11:30:24 -0700
+Message-Id: <1444674624-9191-2-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1444674624-9191-1-git-send-email-juro.bystricky@intel.com>
+References: <1435660700.7287.84.camel@intel.com>
+	<1444674624-9191-1-git-send-email-juro.bystricky@intel.com>
+Cc: richard.purdie@intel.com
+Subject: [daisy][PATCH v2 ] qemu: OpenSUSE 13.2 configure error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,64 +31,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Oct 2015 17:55:00 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 12 Oct 2015 18:36:32 -0000
 
+Under some circumstances, on OpenSUSE 13.2 qemu-native configure
+can fail with the error:
 
-> Am 12.10.2015 um 18:32 schrieb Khem Raj <raj.khem@gmail.com>:
->=20
-> On Mon, Oct 12, 2015 at 9:01 AM, Jens Rehsack <rehsack@gmail.com> =
-wrote:
->>=20
->>> Am 08.10.2015 um 18:40 schrieb Khem Raj <raj.khem@gmail.com>:
->> [...]
->> During hacking on the fix in meta/conf/machine/ I recognized that the =
-expected thump suffix in meta/conf/machine/include/tune-arm926ejs.inc
->> isn't there and modified the line as
->>=20
->> diff --git a/meta/conf/machine/include/tune-arm926ejs.inc =
-b/meta/conf/machine/include/tune-arm926ejs.inc
->> index 335e4e0..a310c9d 100644
->> --- a/meta/conf/machine/include/tune-arm926ejs.inc
->> +++ b/meta/conf/machine/include/tune-arm926ejs.inc
->> @@ -8,4 +8,4 @@ TUNE_CCARGS .=3D =
-"${@bb.utils.contains("TUNE_FEATURES", "arm926ejs", " -mtune=3Darm9
->> AVAILTUNES +=3D "arm926ejs"
->> ARMPKGARCH_tune-arm926ejs =3D "arm926ejs"
->> TUNE_FEATURES_tune-arm926ejs =3D "${TUNE_FEATURES_tune-armv5te} =
-arm926ejs"
->> -PACKAGE_EXTRA_ARCHS_tune-arm926ejs =3D =
-"${PACKAGE_EXTRA_ARCHS_tune-armv5te} arm926ejste"
->> +PACKAGE_EXTRA_ARCHS_tune-arm926ejs =3D =
-"${PACKAGE_EXTRA_ARCHS_tune-armv5te} arm926ejste arm926ejse"
->>=20
->=20
-> this is ok ?
+ERROR: User requested feature sdl
+        configure was not able to find it
 
-=46rom=20
+The following sequence can reproduce the build error:
 
-TUNE_FEATURES=3D"${TUNE_FEATURES_tune-${DEFAULTTUNE}}"
+$ bitbake libgpg-error-native
+$ bitbake qemu-native
 
-is ok probably the wrong question ;)
+Qemu configure tests for the presence/existance of SDL by
+trying to link against libSDL. libSDL in turn attempts to load
+libcrypt which will then attempt to load libgpg-error.
+The bitbaked libgpg-error will be built with ABI incompatible
+with the one required by libcrypt.
+The remedy is to force qemu configure to use the host's
+libgpg-error instead. This is achieved by modifying the linker
+library search order.
 
-Setting DEFAULTTUNE to arm926ejs results in expanding PACKAGE_ARCH from =
-TUNE_PKGARCH which is combined via
-=
-"${ARMPKGARCH}${ARMPKGSFX_THUMB}${ARMPKGSFX_DSP}${ARMPKGSFX_EABI}${ARMPKGS=
-FX_ENDIAN}${ARMPKGSFX_FPU}" in
-meta/conf/machine/include/arm/arch-arm.inc:12
+[YOCTO#7469]
 
-Since ARMPKGSFX_THUMB is set to "t" (or "t2" on ARMv6+) only when thumb =
-code should be generated and
-ARMPKGSFX_DSP is set to "e" when DSP is featured, both have to be =
-recognized.
+Upstream-Status: Inappropriate [configuration]
 
-The entire construct doesn't feel "ok'ish" - but it works and is more or =
-less reliable ...
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ .../qemu/files/qemu-libcrypt-search-path-fix.patch | 37 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_1.7.0.bb           |  2 ++
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/files/qemu-libcrypt-search-path-fix.patch
 
-Cheers
---=20
-Jens Rehsack - rehsack@gmail.com
+diff --git a/meta/recipes-devtools/qemu/files/qemu-libcrypt-search-path-fix.patch b/meta/recipes-devtools/qemu/files/qemu-libcrypt-search-path-fix.patch
+new file mode 100644
+index 0000000..e44d883
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/files/qemu-libcrypt-search-path-fix.patch
+@@ -0,0 +1,37 @@
++--- a/configure
+++++ b/configure
++@@ -1802,6 +1802,8 @@ if test -n "$cross_prefix" && test "$(ba
++ fi
++ 
++ sdl_too_old=no
+++sdl_cflags_ex="-L/usr/lib  -L/usr/lib64 -Wl,-rpath-link,/usr/lib  -Wl,-rpath-link,/usr/lib64"
+++ 
++ if test "$sdl" != "no" ; then
++   cat > $TMPC << EOF
++ #include <SDL.h>
++@@ -1814,7 +1816,7 @@ EOF
++   else
++     sdl_libs=`$sdlconfig --libs 2> /dev/null`
++   fi
++-  if compile_prog "$sdl_cflags" "$sdl_libs" ; then
+++  if compile_prog "$sdl_cflags $sdl_cflags_ex" "$sdl_libs" ; then
++     if test "$_sdlversion" -lt 121 ; then
++       sdl_too_old=yes
++     else
++@@ -1853,7 +1855,7 @@ if test "$sdl" = "yes" ; then
++ #endif
++ int main(void) { return 0; }
++ EOF
++-  if compile_prog "$sdl_cflags" "$sdl_libs" ; then
+++  if compile_prog "$sdl_cflags $sdl_cflags_ex" "$sdl_libs" ; then
++     sdl_libs="$sdl_libs -lX11"
++   fi
++   libs_softmmu="$sdl_libs $libs_softmmu"
++@@ -4287,6 +4289,7 @@ echo "OBJCOPY=$objcopy" >> $config_host_
++ echo "LD=$ld" >> $config_host_mak
++ echo "WINDRES=$windres" >> $config_host_mak
++ echo "LIBTOOL=$libtool" >> $config_host_mak
+++CFLAGS="$CFLAGS $sdl_cflags_ex"
++ echo "CFLAGS=$CFLAGS" >> $config_host_mak
++ echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
++ echo "QEMU_INCLUDES=$QEMU_INCLUDES" >> $config_host_mak
+diff --git a/meta/recipes-devtools/qemu/qemu_1.7.0.bb b/meta/recipes-devtools/qemu/qemu_1.7.0.bb
+index a519645..812d372 100644
+--- a/meta/recipes-devtools/qemu/qemu_1.7.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_1.7.0.bb
+@@ -7,6 +7,8 @@ SRC_URI += "file://fxrstorssefix.patch \
+             file://qemu-enlarge-env-entry-size.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+             file://ide-CVE-2014-2894.patch"
++            
++SRC_URI_append_virtclass-native = " file://qemu-libcrypt-search-path-fix.patch"
+ 
+ SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
+ SRC_URI[md5sum] = "32893941d40d052a5e649efcf06aca06"
+-- 
+2.1.4
 
 
