@@ -1,24 +1,26 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CC4E65C8A
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E1AF076FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Oct 2015 09:35:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9C9Zbcc023754
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Oct 2015 02:35:37 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 12 Oct 2015 02:35:36 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 12 Oct 2015 05:35:35 -0400
-Message-ID: <1444642535-196919-1-git-send-email-wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 12 Oct 2015 11:17:07 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 12 Oct 2015 04:17:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,672,1437462000"; d="scan'208";a="808952513"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Oct 2015 04:17:06 -0700
+Message-ID: <561B96D1.9000703@linux.intel.com>
+Date: Mon, 12 Oct 2015 14:17:37 +0300
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.8.0
 MIME-Version: 1.0
-Subject: [PATCH] bzip2: fix bunzip2 -qt returns 0 for corrupt archives
+To: openembedded-core@lists.openembedded.org
+References: <20150514114002.GA2402@jama>	<1444403489-29494-1-git-send-email-Martin.Jansa@gmail.com>	<561900D1.5060906@igalia.com>	<CA+chaQffPJOrTzmZRoxUAJ1LnixtbJHLtJ5wm7eJAWGiZxnpXg@mail.gmail.com>
+	<56198707.8@igalia.com>
+In-Reply-To: <56198707.8@igalia.com>
+Subject: Re: [PATCH] webkitgtk, gcr, libsecret: force ARM mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,95 +33,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Oct 2015 09:35:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 12 Oct 2015 11:17:10 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+On 10/11/2015 12:45 AM, Carlos Alberto Lopez Perez wrote:
 
-"bzip2 -t FILE" returns 2 if FILE exists, but is not a valid bzip2 file.
-"bzip2 -qt FILE" returns 0 when this happens, although it does print out
-an error message as is does so.
+> So, could we set ARM_INSTRUCTION_SET=arm only for armv6 or older
+> machines in this 3 recipes?
 
-This has been fix by Debian, just port changes from Debian patch file
-"20-legacy.patch":
+Indeed. Webkit has other issues on armv6 or older (JIT fails to build if 
+you try to), so I believe the upstream developers test the builds only 
+on v7 onwards nowadays, and don't actually support anything older.
 
-* Fixed "bunzip2 -qt returns 0 for corrupt archives" (Closes: #279025).
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- ...bunzip2-qt-returns-0-for-corrupt-archives.patch | 49 ++++++++++++++++++++++
- meta/recipes-extended/bzip2/bzip2_1.0.6.bb         |  1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch
-
-diff --git a/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch b/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch
-new file mode 100644
-index 0000000..63d705d
---- /dev/null
-+++ b/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch
-@@ -0,0 +1,49 @@
-+From 8068659388127e8e63f2d2297ba2348c72b20705 Mon Sep 17 00:00:00 2001
-+From: Wenzong Fan <wenzong.fan@windriver.com>
-+Date: Mon, 12 Oct 2015 03:19:51 -0400
-+Subject: [PATCH] bzip2: fix bunzip2 -qt returns 0 for corrupt archives
-+
-+"bzip2 -t FILE" returns 2 if FILE exists, but is not a valid bzip2 file.
-+"bzip2 -qt FILE" returns 0 when this happens, although it does print out
-+an error message as is does so.
-+
-+This has been fix by Debian, just port changes from Debian patch file
-+"20-legacy.patch":
-+
-+* Fixed "bunzip2 -qt returns 0 for corrupt archives" (Closes: #279025).
-+
-+Upstream-Status: Backport [Debian]
-+
-+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-+---
-+ bzip2.c | 14 ++++++++------
-+ 1 file changed, 8 insertions(+), 6 deletions(-)
-+
-+diff --git a/bzip2.c b/bzip2.c
-+index 6de9d1d..f2ce668 100644
-+--- a/bzip2.c
-++++ b/bzip2.c
-+@@ -2003,12 +2003,14 @@ IntNative main ( IntNative argc, Char *argv[] )
-+             testf ( aa->name );
-+ 	 }
-+       }
-+-      if (testFailsExist && noisy) {
-+-         fprintf ( stderr,
-+-           "\n"
-+-           "You can use the `bzip2recover' program to attempt to recover\n"
-+-           "data from undamaged sections of corrupted files.\n\n"
-+-         );
-++      if (testFailsExist) {
-++         if (noisy) {
-++            fprintf ( stderr,
-++              "\n"
-++              "You can use the `bzip2recover' program to attempt to recover\n"
-++              "data from undamaged sections of corrupted files.\n\n"
-++            );
-++         }
-+          setExit(2);
-+          exit(exitValue);
-+       }
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-index 233fe4c..d7b8c06 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;beginline=8;endline=37;md5=40d9d1eb05736d1bfc
- PR = "r5"
- 
- SRC_URI = "http://www.bzip.org/${PV}/${BP}.tar.gz \
-+           file://fix-bunzip2-qt-returns-0-for-corrupt-archives.patch \
-            file://configure.ac;subdir=${BP} \
-            file://Makefile.am;subdir=${BP} \
-            file://run-ptest"
--- 
-1.9.1
+Alex
 
 
