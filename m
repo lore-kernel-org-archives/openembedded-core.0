@@ -1,29 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DB7177022
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F7F877017
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Oct 2015 12:54:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t9CCsWMx001433; Mon, 12 Oct 2015 13:54:32 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id glFocQB45ZW0; Mon, 12 Oct 2015 13:54:32 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t9CCsG9B001427
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 12 Oct 2015 13:54:29 +0100
-Message-ID: <1444654455.3844.3.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: wenzong.fan@windriver.com
-Date: Mon, 12 Oct 2015 13:54:15 +0100
-In-Reply-To: <1444642535-196919-1-git-send-email-wenzong.fan@windriver.com>
-References: <1444642535-196919-1-git-send-email-wenzong.fan@windriver.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bzip2: fix bunzip2 -qt returns 0 for corrupt archives
+	Mon, 12 Oct 2015 13:49:25 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Oct 2015 06:49:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,673,1437462000"; d="scan'208";a="824745376"
+Received: from skhizaka-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.5.208])
+	by orsmga002.jf.intel.com with ESMTP; 12 Oct 2015 06:49:24 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Oct 2015 14:49:08 +0100
+Message-Id: <cover.1444657696.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 0/3] Misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,58 +28,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Oct 2015 12:54:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Oct 2015 13:49:26 -0000
 
-On Mon, 2015-10-12 at 05:35 -0400, wenzong.fan@windriver.com wrote:
-> From: Wenzong Fan <wenzong.fan@windriver.com>
-> 
-> "bzip2 -t FILE" returns 2 if FILE exists, but is not a valid bzip2 file.
-> "bzip2 -qt FILE" returns 0 when this happens, although it does print out
-> an error message as is does so.
-> 
-> This has been fix by Debian, just port changes from Debian patch file
-> "20-legacy.patch":
-> 
-> * Fixed "bunzip2 -qt returns 0 for corrupt archives" (Closes: #279025).
-> 
-> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-> ---
->  ...bunzip2-qt-returns-0-for-corrupt-archives.patch | 49 ++++++++++++++++++++++
->  meta/recipes-extended/bzip2/bzip2_1.0.6.bb         |  1 +
->  2 files changed, 50 insertions(+)
->  create mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch
-> 
-> diff --git a/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch b/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch
-> new file mode 100644
-> index 0000000..63d705d
-> --- /dev/null
-> +++ b/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch
-> @@ -0,0 +1,49 @@
-> +From 8068659388127e8e63f2d2297ba2348c72b20705 Mon Sep 17 00:00:00 2001
-> +From: Wenzong Fan <wenzong.fan@windriver.com>
-> +Date: Mon, 12 Oct 2015 03:19:51 -0400
-> +Subject: [PATCH] bzip2: fix bunzip2 -qt returns 0 for corrupt archives
-> +
-> +"bzip2 -t FILE" returns 2 if FILE exists, but is not a valid bzip2 file.
-> +"bzip2 -qt FILE" returns 0 when this happens, although it does print out
-> +an error message as is does so.
-> +
-> +This has been fix by Debian, just port changes from Debian patch file
-> +"20-legacy.patch":
-> +
-> +* Fixed "bunzip2 -qt returns 0 for corrupt archives" (Closes: #279025).
-> +
-> +Upstream-Status: Backport [Debian]
-> +
+The following changes since commit e42d8eff9eed7d1454b4f331d96dcee6dea232df:
 
-What is the upstream position on this issue? That they won't fix it? I'm
-not sure Backport is right for a debian patch since debian is not the
-bzip2 upstream.
+  bash: Disable custom memory allocator (2015-10-12 14:35:42 +0100)
 
-Cheers,
+are available in the git repository at:
 
-Richard
+  git://git.openembedded.org/openembedded-core-contrib paule/fixes4
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/fixes4
+
+Paul Eggleton (3):
+  common-licenses: use correct GFDL-1.1 license text
+  build-compare: drop PATCHTOOL setting
+  tzdata: reinstate changes reverted in 2014c upgrade
+
+ meta/files/common-licenses/GFDL-1.1                | 206 ++++++++-------------
+ .../build-compare/build-compare_git.bb             |   1 -
+ meta/recipes-extended/tzdata/tzdata_2015g.bb       |   5 +-
+ 3 files changed, 85 insertions(+), 127 deletions(-)
+
+-- 
+2.1.0
 
 
