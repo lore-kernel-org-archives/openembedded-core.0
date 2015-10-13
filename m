@@ -1,41 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BC3765C8A
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D40C665C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 15:34:47 +0000 (UTC)
-Received: by qkap81 with SMTP id p81so9943607qka.2
+	Tue, 13 Oct 2015 15:35:19 +0000 (UTC)
+Received: by igbif5 with SMTP id if5so2100375igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 08:34:47 -0700 (PDT)
+	Tue, 13 Oct 2015 08:35:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=o6HZ8kCZxG2Ew5NJq/nOyuG5xgEIeSZlvVP8HBvZscI=;
-	b=hhAKGBTnDi5pgXQSd9fbrKmGhEkjMjKgJacfTgEw6b6/nxC2sBjz2oC4em9HwiItrz
-	EKALZOifw0+KjLhdLVsl/WiIwglAkhBlCpDYD6a62MHLmGz6eRreebf7FXxQPs+9cJhJ
-	vGYrUjmI1UyMvICMM1s5P5NamGf1oRn5r66EX2mnnC7krM8dPsXkcMbd2W2apRqp2rQt
-	UBWn79jb29QGEZ2EN9i6HBzekAxVBMeKuPzDcHInKWXUavDUV0ZIsX1B+OhtpOIZf1Aw
-	In3ZHwTLQbOdvKhWxKgHNoEawxeqMwKbZNYP20Sywr1Z+OkKerKg1BbneyhFLYPxsL6u
-	Q1GQ==
-X-Received: by 10.194.9.97 with SMTP id y1mr44211743wja.84.1444750487161;
-	Tue, 13 Oct 2015 08:34:47 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	qh12sm9036684wic.20.2015.10.13.08.34.46
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 Oct 2015 08:34:46 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 13 Oct 2015 17:34:51 +0200
-To: Matt Porter <mporter@konsulko.com>
-Message-ID: <20151013153451.GH2396@jama>
-References: <1444749211-30044-1-git-send-email-mporter@konsulko.com>
-	<20151013151925.GG2396@jama> <20151013152247.GB31452@beef>
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=36QeBbc/ijtaKd4QWaAzXmp/rJGHyzw4ydBvr0qby28=;
+	b=razPBq2mQqLHvhPyig9z6a3T1v/rovwHSQnt/zj59177i1dN/jWoC3L/H9O2+QWWFQ
+	T/6lrlFrX3+bkr5mB1nALzZclwCkq5tJa6mT5Q8PG4OPtPZ7vT30IFvcxLwJpB1R5WVt
+	1B46BdJ8t10jdpRvqJ6UM922uTzYkbd4G7dxyAbXnu2Ddlq9p9bZRE/UW+13F1pq+oy0
+	WSzaWrUrUa9sv6J0cbRB4GkzX5ddtvpYwAF8Ojh2MDzrqsbYHDQfZAS8vQ27HIX4/wiq
+	fjndn5Z4sUXR3sASO3zZYVMSG/rPbWO7Ih0cdv6MUC/vggIQtKBmZZLz9JCoWnUBOjfb
+	gLBA==
+X-Received: by 10.50.60.74 with SMTP id f10mr15616595igr.10.1444750519571;
+	Tue, 13 Oct 2015 08:35:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20151013152247.GB31452@beef>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: Tom Rini <trini@konsulko.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libsdl: enable fbcon video when fbdev distro feature is present
+Sender: kergoth@gmail.com
+Received: by 10.79.65.204 with HTTP; Tue, 13 Oct 2015 08:34:56 -0700 (PDT)
+In-Reply-To: <1444749099-24780-1-git-send-email-ross.burton@intel.com>
+References: <1444749099-24780-1-git-send-email-ross.burton@intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Tue, 13 Oct 2015 08:34:56 -0700
+X-Google-Sender-Auth: CUjyos18xMymR4b0BhwONG6Y_GY
+Message-ID: <CABcZANk4a87rqOfjrro=563AgVBB8_Zs7-Lraf2DVh3+0nbu3Q@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] metadata_scm: rewrite git hash logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,115 +44,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Oct 2015 15:34:49 -0000
-X-Groupsio-MsgNum: 72118
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="it/zdz3K1bH9Y8/E"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 13 Oct 2015 15:35:23 -0000
+Content-Type: multipart/alternative; boundary=047d7b10ca7d821ab10521fe314a
 
---it/zdz3K1bH9Y8/E
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--047d7b10ca7d821ab10521fe314a
+Content-Type: text/plain; charset=UTF-8
+
+On Tue, Oct 13, 2015 at 8:11 AM, Ross Burton <ross.burton@intel.com> wrote:
+
+> The code to get the git and branch hash for the current commit in a
+> specific
+> repository was quite complex and prone to breakage, replace it with
+> subprocess
+> and git rev-parse.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>
+
+Nicely done, parsing output of porcelains = bad. :)
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--047d7b10ca7d821ab10521fe314a
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 13, 2015 at 11:22:47AM -0400, Matt Porter wrote:
-> On Tue, Oct 13, 2015 at 05:19:25PM +0200, Martin Jansa wrote:
-> > On Tue, Oct 13, 2015 at 11:13:31AM -0400, Matt Porter wrote:
-> > > The fbcon video backend is always disabled. Use the fbdev distro
-> > > feature flag to enable/disable the fbcon video backend.
-> > >=20
-> > > Signed-off-by: Matt Porter <mporter@konsulko.com>
-> > > Reviewed-by: Tom Rini <trini@konsulko.com>
-> > > ---
-> > >  meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 4 +++-
-> > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/rec=
-ipes-graphics/libsdl/libsdl_1.2.15.bb
-> > > index c0d5c6a..c604c6a 100644
-> > > --- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-> > > +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-> > > @@ -13,6 +13,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D27818cd7=
-fd83877a8e3ef82b82798ef4"
-> > >  PROVIDES =3D "virtual/libsdl"
-> >=20
-> > Can we please use PACKAGECONFIG here?
->=20
-> I noticed that libsdl2 does so, but stuck with the status quo below
-> for addressing this. So, if I understand correctly you'd like it
-> to be converted to be like the libsdl2 recipe, yes?
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
+ue, Oct 13, 2015 at 8:11 AM, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1mz" class=3D=
+"a3s" style=3D"overflow:hidden">The code to get the git and branch hash for=
+ the current commit in a specific<br>
+repository was quite complex and prone to breakage, replace it with subproc=
+ess<br>
+and git rev-parse.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
+s.burton@intel.com</a>&gt;</div></blockquote></div><br>Nicely done, parsing=
+ output of porcelains =3D bad. :)<br>-- <br><div class=3D"gmail_signature">=
+Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, Open=
+Embedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Men=
+tor Graphics</div>
+</div></div>
 
-yes, I don't see any other recipe using fbdev as DISTRO_FEATURE, so
-using it in PACKAGECONFIG would make it easier to enable/disable this.
-
-Converting other options currently using DISTRO_FEATURES isn't a must,
-but it would be nice to convert them as well.
-
->=20
-> -Matt
->=20
-> > >  DEPENDS =3D "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'di=
-rectfb', '', d)} \
-> > > +	   ${@bb.utils.contains('DISTRO_FEATURES', 'fbdev', 'fbdev', '', d)=
-} \
-> > >             ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtua=
-l/libgl', '', d)} \
-> > >             ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/l=
-ibx11 libxext libxrandr libxrender', '', d)} \
-> > >             ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'li=
-bglu', '', d)} \
-> > > @@ -40,10 +41,11 @@ EXTRA_OECONF =3D "--disable-static --enable-cdrom=
- --enable-threads --enable-timers
-> > >                  --enable-file --disable-oss --disable-esd --disable-=
-arts \
-> > >                  --disable-diskaudio --disable-nas --disable-esd-shar=
-ed --disable-esdtest \
-> > >                  --disable-mintaudio --disable-nasm --disable-video-d=
-ga \
-> > > -                --disable-video-fbcon --disable-video-ps2gs --disabl=
-e-video-ps3 \
-> > > +                --disable-video-ps2gs --disable-video-ps3 \
-> > >                  --disable-xbios --disable-gem --disable-video-dummy \
-> > >                  --enable-input-events --enable-input-tslib --enable-=
-pthreads \
-> > >                  ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', =
-'--enable-video-directfb', '--disable-video-directfb', d)} \
-> > > +		${@bb.utils.contains('DISTRO_FEATURES', 'fbdev', '--enable-video-f=
-bcon', '--disable-video-fbcon', d)} \
-> > >                  ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '-=
--enable-video-opengl', '--disable-video-opengl', d)} \
-> > >                  ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '--en=
-able-video-x11', '--disable-video-x11', d)} \
-> > >                  --disable-video-svga \
-> > > --=20
-> > > 2.1.4
-> > >=20
-> > > --=20
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >=20
-> > --=20
-> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->=20
->=20
-
-
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---it/zdz3K1bH9Y8/E
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlYdJJoACgkQN1Ujt2V2gByaOACghaC666JosAvB+Jg3WsyaajMi
-j7cAoJBjFATSV91LidRN6AelIyRPJGAv
-=Y5g0
------END PGP SIGNATURE-----
-
---it/zdz3K1bH9Y8/E--
+--047d7b10ca7d821ab10521fe314a--
