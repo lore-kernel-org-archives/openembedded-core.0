@@ -1,38 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C663A65C8A
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 14C5365C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 12:48:46 +0000 (UTC)
-Received: by qgez77 with SMTP id z77so12723401qge.1
+	Tue, 13 Oct 2015 13:03:54 +0000 (UTC)
+Received: by wicge5 with SMTP id ge5so190606824wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 05:48:47 -0700 (PDT)
+	Tue, 13 Oct 2015 06:03:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=056rmFG7UnYKycO3+9kLrBIKKZEAipb53Ui8fZmKCgU=;
-	b=fTBwSihoNUG6glBdahviquUoQWpvjUFuOaZBY3+4/LyWcaC4/95vbfXZMYnQYMQchO
-	njSH+bMxtTr/sTUGjv4GoQ3yz3mpTKCtzqKf593k035NA/C6txceo8yqiYJqkaOZBGv2
-	4Fpnd5jmAbx3OTXhPE86Galq9AdgDni/OJtC31UuOR6wpOsDPk4nU3oraLlrcpTbz3pl
-	EhocA0J/JYJZRaPHkIiMV32ltdxRd1zqtNaCIWFudnV+FOZm6vqDHtvWu0mkNhzjfFif
-	k7/x8gaxKC/70YywqqtAEx6ITo/GiqqFEenblBDglWLztemkI7fH5keeA5Zd+43O4Ce1
-	KApQ==
-X-Gm-Message-State: ALoCoQkOt8zIWYRqZxrEh9Hz1/yhflCjQ3BnudTB3UkNV4u9ZPXXmzsD6rDvKCmZ3DHe9FsyODGO
-X-Received: by 10.140.235.147 with SMTP id g141mr39040257qhc.22.1444740526886; 
-	Tue, 13 Oct 2015 05:48:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.82 with HTTP; Tue, 13 Oct 2015 05:48:27 -0700 (PDT)
-In-Reply-To: <561C66C6.4090408@windriver.com>
-References: <1444642535-196919-1-git-send-email-wenzong.fan@windriver.com>
-	<1444654455.3844.3.camel@linuxfoundation.org>
-	<561C66C6.4090408@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 13 Oct 2015 13:48:27 +0100
-Message-ID: <CAJTo0LaXbStAc_CYc2qLrxSbMK6wNfrQuMrUB0JS02Hn16fjxg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bzip2: fix bunzip2 -qt returns 0 for corrupt archives
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=WO1ttme/zItoJxhQM+6k4qkCHZpCk0mLjHOONNximb0=;
+	b=HfzCwbQGbJxXNrNuwKLwx5V3DxFkRsnf2UGzex5wZt6e1Yu/T7ibxEeJazW13RXaH2
+	JhqI1/NUNz09a/jOxmXRddJq1bavcqQuji7X+xN6UGgIja3+E5KJA4EHHzVSA0nb/ZfE
+	xCex9Vco9k29hPKJAapZMpomw3P+l3ZYR24eaSo9bbDyl0la+pB5VDNWgLBl8EWpnKKk
+	mLPIKx+KJCpGXEFyMjCZyzUb/Ua7cfaMNEc4YEGR8F81Gp5IOvYEB9TKTejAttj4RIdW
+	2YyGfVafItfWRG+US0VBzrzsTlbM+Lu+Bs7hyjQ2/dl6OnZOlyLOrJMi3wQaHFlnFr+y
+	lSZg==
+X-Gm-Message-State: ALoCoQmSxN9tAqjTw9ldbejW1pr8x69absPXcIXYAn2q4KSBfkpUxs9REzngJyu3YNWUbgXltEHV
+X-Received: by 10.181.29.102 with SMTP id jv6mr13115564wid.59.1444741434638;
+	Tue, 13 Oct 2015 06:03:54 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	jf3sm14960341wic.8.2015.10.13.06.03.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 13 Oct 2015 06:03:53 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Oct 2015 13:56:25 +0100
+Message-Id: <1444740985-23542-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] linux-yocto-custom: fix typo in Upstream-Status tag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,39 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Oct 2015 12:48:50 -0000
-Content-Type: multipart/alternative; boundary=001a11376e6ee5e6aa0521fbddeb
+X-List-Received-Date: Tue, 13 Oct 2015 13:03:56 -0000
 
---001a11376e6ee5e6aa0521fbddeb
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../linux/linux-yocto-custom/0001-linux-version-tweak.patch             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 13 October 2015 at 03:04, Robert Yang <liezhi.yang@windriver.com> wrote:
+diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch
+index 39c7ee8..1c88315 100644
+--- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch
++++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch
+@@ -3,7 +3,7 @@ From: Bruce Ashfield <bruce.ashfield@windriver.com>
+ Date: Mon, 11 Jun 2012 15:31:42 -0400
+ Subject: [PATCH] linux: version tweak
+ 
+-Upstream-Status: Inapproriate [example code]
++Upstream-Status: Inappropriate [example code]
+ 
+ Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-- 
+2.1.4
 
-> I wrongly thought that it was right, and we did have several "Backport
-> [Debian]"
-> in oe-core/meta, should it be a Pending or Pending [Debian], please ?
->
 
-If the Debian bug/patch doesn't refer to an upstream bug, I'd suggest
-Pending with a link to the debian bug# if there is one.
-
-Ross
-
---001a11376e6ee5e6aa0521fbddeb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 October 2015 at 03:04, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":67c" =
-class=3D"a3s" style=3D"overflow:hidden">I wrongly thought that it was right=
-, and we did have several &quot;Backport [Debian]&quot;<br>
-in oe-core/meta, should it be a Pending or Pending [Debian], please ?<br></=
-div></blockquote><div><br></div><div>If the Debian bug/patch doesn&#39;t re=
-fer to an upstream bug, I&#39;d suggest Pending with a link to the debian b=
-ug# if there is one.</div><div><br></div><div>Ross</div></div><br></div></d=
-iv>
-
---001a11376e6ee5e6aa0521fbddeb--
