@@ -1,37 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 14C5365C8A
+Return-Path: <george.l.musat@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id F33E765D6E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 13:03:54 +0000 (UTC)
-Received: by wicge5 with SMTP id ge5so190606824wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 06:03:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=WO1ttme/zItoJxhQM+6k4qkCHZpCk0mLjHOONNximb0=;
-	b=HfzCwbQGbJxXNrNuwKLwx5V3DxFkRsnf2UGzex5wZt6e1Yu/T7ibxEeJazW13RXaH2
-	JhqI1/NUNz09a/jOxmXRddJq1bavcqQuji7X+xN6UGgIja3+E5KJA4EHHzVSA0nb/ZfE
-	xCex9Vco9k29hPKJAapZMpomw3P+l3ZYR24eaSo9bbDyl0la+pB5VDNWgLBl8EWpnKKk
-	mLPIKx+KJCpGXEFyMjCZyzUb/Ua7cfaMNEc4YEGR8F81Gp5IOvYEB9TKTejAttj4RIdW
-	2YyGfVafItfWRG+US0VBzrzsTlbM+Lu+Bs7hyjQ2/dl6OnZOlyLOrJMi3wQaHFlnFr+y
-	lSZg==
-X-Gm-Message-State: ALoCoQmSxN9tAqjTw9ldbejW1pr8x69absPXcIXYAn2q4KSBfkpUxs9REzngJyu3YNWUbgXltEHV
-X-Received: by 10.181.29.102 with SMTP id jv6mr13115564wid.59.1444741434638;
-	Tue, 13 Oct 2015 06:03:54 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	jf3sm14960341wic.8.2015.10.13.06.03.53
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 13 Oct 2015 06:03:53 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Tue, 13 Oct 2015 13:45:25 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 13 Oct 2015 06:45:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,678,1437462000"; d="scan'208";a="791547459"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 13 Oct 2015 06:45:13 -0700
+Received: from localhost.localdomain (unknown [10.237.112.173])
+	by linux.intel.com (Postfix) with ESMTP id 35F796A4083;
+	Tue, 13 Oct 2015 06:44:13 -0700 (PDT)
+From: Lucian Musat <george.l.musat@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Oct 2015 13:56:25 +0100
-Message-Id: <1444740985-23542-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 13 Oct 2015 16:43:21 +0300
+Message-Id: <1444743801-2667-1-git-send-email-george.l.musat@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] linux-yocto-custom: fix typo in Upstream-Status tag
+Subject: [PATCH] oeqa/runexported: Add ability to run tests grouped in folders.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +30,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Oct 2015 13:03:56 -0000
+X-List-Received-Date: Tue, 13 Oct 2015 13:45:30 -0000
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+It can accept parameters like oeqa.runtime.<foldername> and it
+will run all test files from that folder.
+Also a small fix for detecting ssh_target_log symlink when it
+points to a nonexisting file.
+
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
 ---
- .../linux/linux-yocto-custom/0001-linux-version-tweak.patch             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/runexported.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch
-index 39c7ee8..1c88315 100644
---- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch
-+++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch
-@@ -3,7 +3,7 @@ From: Bruce Ashfield <bruce.ashfield@windriver.com>
- Date: Mon, 11 Jun 2012 15:31:42 -0400
- Subject: [PATCH] linux: version tweak
+diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
+index d273d2f..c3ce79a 100755
+--- a/meta/lib/oeqa/runexported.py
++++ b/meta/lib/oeqa/runexported.py
+@@ -49,7 +49,7 @@ class FakeTarget(object):
+     def exportStart(self):
+         self.sshlog = os.path.join(self.testdir, "ssh_target_log.%s" % self.datetime)
+         sshloglink = os.path.join(self.testdir, "ssh_target_log")
+-        if os.path.exists(sshloglink):
++        if os.path.lexists(sshloglink):
+             os.remove(sshloglink)
+         os.symlink(self.sshlog, sshloglink)
+         print("SSH log file: %s" %  self.sshlog)
+@@ -138,6 +138,12 @@ def main():
+         for test in tc.testslist:
+             print test
+     else:
++        for index, test in enumerate(tc.testslist):
++            if os.path.isdir(os.sep.join(test.split('.'))):
++                del tc.testslist[index]
++                for files in os.listdir(os.sep.join(test.split('.'))):
++                    if (files.endswith(".py")) and not files.startswith("_"):
++                        tc.testslist.insert(index, test+'.'+files.split('.')[0])
+         target.exportStart()
+         runTests(tc)
  
--Upstream-Status: Inapproriate [example code]
-+Upstream-Status: Inappropriate [example code]
- 
- Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
- Signed-off-by: Saul Wold <sgw@linux.intel.com>
 -- 
 2.1.4
 
