@@ -1,26 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 66A4777050
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 006927703A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 03:14:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9D3EdWU004609
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Oct 2015 20:14:39 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 12 Oct 2015 20:14:38 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Oct 2015 11:15:04 +0800
-Message-ID: <0ac22442d4b0be5e3d2a3725fca10279c73eabd4.1444706062.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1444706062.git.Qi.Chen@windriver.com>
-References: <cover.1444706062.git.Qi.Chen@windriver.com>
+	Tue, 13 Oct 2015 07:08:18 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 13 Oct 2015 00:08:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,676,1437462000"; d="scan'208";a="825614001"
+Received: from porlows1-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.4.182])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Oct 2015 00:08:17 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>, "Burton,
+	Ross" <ross.burton@intel.com>
+Date: Tue, 13 Oct 2015 08:08:16 +0100
+Message-ID: <12350428.oQrj5AvgHG@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <5617A53F.9070506@windriver.com>
+References: <cover.1444310101.git.liezhi.yang@windriver.com>
+	<CAJTo0LbgZb=Q+sAd9W82U9Y5AQsR1xcyoRUQy=6HeS5b1LN4XA@mail.gmail.com>
+	<5617A53F.9070506@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] toolchain-shar-extract.sh: fix path in example
+Cc: Christopher Larson <clarson@kergoth.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 7/8] autotools.bbclass: use relative path to run configure script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Oct 2015 03:14:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 13 Oct 2015 07:08:20 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-$env_setup_script already contains $target_sdk_dir.
-Fix the path in the example.
+On Friday 09 October 2015 19:30:07 Robert Yang wrote:
+> On 10/09/2015 06:51 PM, Burton, Ross wrote:
+> > On 9 October 2015 at 02:28, Robert Yang <liezhi.yang@windriver.com
+> > 
+> > <mailto:liezhi.yang@windriver.com>> wrote:
+> >     I'm afraid that realpath is not generally existed on the build host ?
+> > 
+> > It's part of coreutils on my Debian stable box.  I guess the real question
+> > is "does it exist on Centos 6?".  [looks].  Hmm, it's not present on
+> > that.
+> Ubuntu 14.03 desktop doesn't have it, either.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/files/toolchain-shar-extract.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Does readlink -f suffice ?
 
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 2ffc2d1..2eeb290 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -183,7 +183,7 @@ fi
- echo "SDK has been successfully set up and is ready to be used."
- echo "Each time you wish to use the SDK in a new shell session, you need to source the environment setup script e.g."
- for env_setup_script in `ls $target_sdk_dir/environment-setup-*`; do
--	echo " \$ . $target_sdk_dir/$env_setup_script"
-+	echo " \$ . $env_setup_script"
- done
- 
- exit 0
+Cheers,
+Paul
+
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
