@@ -1,56 +1,38 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 95C1765C8A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id C663A65C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 12:18:39 +0000 (UTC)
-Received: by igbni9 with SMTP id ni9so55980491igb.1
+	Tue, 13 Oct 2015 12:48:46 +0000 (UTC)
+Received: by qgez77 with SMTP id z77so12723401qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 05:18:39 -0700 (PDT)
+	Tue, 13 Oct 2015 05:48:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=wBT/89ZdFgvd3bayA7Ey5iPIglSkElPMifOVazb9xQs=;
-	b=hkfjsz1qSbasSN74FdyJgEHPVJ3QKwgiXFBevlvttX4OsJpOlML5TJoL+7eZRBR/Gv
-	Iskq04IaKGVNZgckUVoFGUAaBfx3vKD/SMAZdzw3IGEe3RM5esWVXYdvXFHffi1JFkbl
-	7e7OOmB89wb0Cx396p7NKPaAVnkTWNAwJvu054uEbX1Lkkwry8AXe5MUduD1fV+H4dZQ
-	waF9upOLlxizqxZnzYszVmP49KAwJ0xRhK8TsUc6luRKqi2omY//bHCpaEJZApdLlJVe
-	wKd5g4I98NfH1tqzAgmPDZPTkpAMrqbJI0Kq+UlQBsgNU5aZquwpMSnT/V6AFc0pZKWL
-	SaIA==
-X-Gm-Message-State: ALoCoQkfZUY/hjlqAgXju7kqEQfZYCHdolhiBe5yVQaqpu21X3EURaTvb6fI3Gj4S1iXBAZAroSF
-X-Received: by 10.50.61.243 with SMTP id t19mr17660708igr.22.1444738719299;
-	Tue, 13 Oct 2015 05:18:39 -0700 (PDT)
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com.
-	[209.85.223.171]) by smtp.gmail.com with ESMTPSA id
-	hz3sm4460447igb.19.2015.10.13.05.18.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 Oct 2015 05:18:37 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by iodv82 with SMTP id v82so18473785iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 05:18:37 -0700 (PDT)
+	bh=056rmFG7UnYKycO3+9kLrBIKKZEAipb53Ui8fZmKCgU=;
+	b=fTBwSihoNUG6glBdahviquUoQWpvjUFuOaZBY3+4/LyWcaC4/95vbfXZMYnQYMQchO
+	njSH+bMxtTr/sTUGjv4GoQ3yz3mpTKCtzqKf593k035NA/C6txceo8yqiYJqkaOZBGv2
+	4Fpnd5jmAbx3OTXhPE86Galq9AdgDni/OJtC31UuOR6wpOsDPk4nU3oraLlrcpTbz3pl
+	EhocA0J/JYJZRaPHkIiMV32ltdxRd1zqtNaCIWFudnV+FOZm6vqDHtvWu0mkNhzjfFif
+	k7/x8gaxKC/70YywqqtAEx6ITo/GiqqFEenblBDglWLztemkI7fH5keeA5Zd+43O4Ce1
+	KApQ==
+X-Gm-Message-State: ALoCoQkOt8zIWYRqZxrEh9Hz1/yhflCjQ3BnudTB3UkNV4u9ZPXXmzsD6rDvKCmZ3DHe9FsyODGO
+X-Received: by 10.140.235.147 with SMTP id g141mr39040257qhc.22.1444740526886; 
+	Tue, 13 Oct 2015 05:48:46 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.107.27.136 with SMTP id b130mr35719111iob.28.1444738717424; 
-	Tue, 13 Oct 2015 05:18:37 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Tue, 13 Oct 2015 05:18:37 -0700 (PDT)
-In-Reply-To: <1444738079.5251.29.camel@pbcl.net>
-References: <A543BCF1-FAD0-4993-B357-1BE49B062F63@gmail.com>
-	<9C694221-E92E-468E-A950-1D8B530757DD@gmail.com>
-	<6BA567C8-0D8A-402A-B733-2E9DECFD9844@gmail.com>
-	<32B54709-BA87-45AC-BDC0-22604B6D3979@gmail.com>
-	<6C58EED7-075B-4B58-B401-DB9EF31B8D50@gmail.com>
-	<CAMKF1sreATF=J9rh-dK5fbsJt9szaJTmNyOOHg1gC+mVGNBZyg@mail.gmail.com>
-	<B1E843F8-C2B2-403A-87E4-1D8AD3E13C63@gmail.com>
-	<CAP9ODKrCcmX=4bHACTyGpF9BNivvDcBEieTyOcbChHdZr67pkA@mail.gmail.com>
-	<1444738079.5251.29.camel@pbcl.net>
-Date: Tue, 13 Oct 2015 09:18:37 -0300
-Message-ID: <CAP9ODKpD=5Fjr34j2K2ASWjTLZXKhkqDhLFVLPbqLsyme57N2w@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
+Received: by 10.140.94.82 with HTTP; Tue, 13 Oct 2015 05:48:27 -0700 (PDT)
+In-Reply-To: <561C66C6.4090408@windriver.com>
+References: <1444642535-196919-1-git-send-email-wenzong.fan@windriver.com>
+	<1444654455.3844.3.camel@linuxfoundation.org>
+	<561C66C6.4090408@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 13 Oct 2015 13:48:27 +0100
+Message-ID: <CAJTo0LaXbStAc_CYc2qLrxSbMK6wNfrQuMrUB0JS02Hn16fjxg@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gcc: Avoid non-aligned access for ARM5e
+Subject: Re: [PATCH] bzip2: fix bunzip2 -qt returns 0 for corrupt archives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,25 +45,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Oct 2015 12:18:41 -0000
+X-List-Received-Date: Tue, 13 Oct 2015 12:48:50 -0000
+Content-Type: multipart/alternative; boundary=001a11376e6ee5e6aa0521fbddeb
+
+--001a11376e6ee5e6aa0521fbddeb
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Oct 13, 2015 at 9:07 AM, Phil Blundell <pb@pbcl.net> wrote:
-> On Tue, 2015-10-13 at 08:45 -0300, Otavio Salvador wrote:
->> I understand Khem is excitant to include more non-upstreamed patches
->> into GCC but I would prefer to have it included and Java working fine
->> than a local patch applied forever. :-(
+On 13 October 2015 at 03:04, Robert Yang <liezhi.yang@windriver.com> wrote:
+
+> I wrongly thought that it was right, and we did have several "Backport
+> [Debian]"
+> in oe-core/meta, should it be a Pending or Pending [Debian], please ?
 >
-> Maybe you'd like to file a bug against upstream GCC in that case.  I
-> think Khem already suggested this to Jens but he said he had "no time"
-> to do that.
 
-We don't require upstream bugzilla items for patches in all recipes so
-GCC should not be an exception. Sorry but I don't buy this argument
-and I think the patch is clear and short enough to go in.
+If the Debian bug/patch doesn't refer to an upstream bug, I'd suggest
+Pending with a link to the debian bug# if there is one.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Ross
 
+--001a11376e6ee5e6aa0521fbddeb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 October 2015 at 03:04, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":67c" =
+class=3D"a3s" style=3D"overflow:hidden">I wrongly thought that it was right=
+, and we did have several &quot;Backport [Debian]&quot;<br>
+in oe-core/meta, should it be a Pending or Pending [Debian], please ?<br></=
+div></blockquote><div><br></div><div>If the Debian bug/patch doesn&#39;t re=
+fer to an upstream bug, I&#39;d suggest Pending with a link to the debian b=
+ug# if there is one.</div><div><br></div><div>Ross</div></div><br></div></d=
+iv>
+
+--001a11376e6ee5e6aa0521fbddeb--
