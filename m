@@ -1,23 +1,37 @@
-Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 192D565C8A
+Return-Path: <mporter@konsulko.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A42765C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 14:58:57 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 13 Oct 2015 07:58:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,678,1437462000"; d="scan'208";a="579849650"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 13 Oct 2015 07:58:57 -0700
-Received: from fedora-ws.localdomain (unknown [10.237.112.240])
-	by linux.intel.com (Postfix) with ESMTP id A3DC96A4083;
-	Tue, 13 Oct 2015 07:57:58 -0700 (PDT)
-From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+	Tue, 13 Oct 2015 15:13:45 +0000 (UTC)
+Received: by igcpe7 with SMTP id pe7so18493492igc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Oct 2015 08:13:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ClU0hPjzQad7OrB09STIfYdxVrrXCiwz3qApQn+6+yk=;
+	b=kqxBmocF6hynd0uIZ3EfTx6NISACTXHCx0pE0NAHRHBD4A6R721/7mqsgznn/1+hky
+	us3Qp0n26nPdGMTmRmDQ9kd0u5ERUbWwob7fZ2K00PtVV48D3Qq7lFKHHNucCEOExjgS
+	cuplFvuOqrZfDTfdPpSW//tcmp3jmlq6NRoqZgn8Ljv5aaQqPOT2xaX7zGD/VpOhes/c
+	qf7Q9gpVBFrMkLNHj3c2E8aC+HqGEUNiuKnEoVL0ndsN4mcbprGhmdYaqmo4Jy9TRF/d
+	gt+z04EwZl6KUdFVv3EEVn2cS+1Yv6TRe0fbvj18QhpcH584j5D0ZNBspC8XnumZUFK5
+	wKOw==
+X-Gm-Message-State: ALoCoQnWeq4SMm0qYZRHF3GpZwAY0g+ERhW5jfqsoIZ664ysWBs9x5zjBVGruVvuMXio7/Y0HyIs
+X-Received: by 10.50.79.133 with SMTP id j5mr19235250igx.59.1444749225499;
+	Tue, 13 Oct 2015 08:13:45 -0700 (PDT)
+Received: from beef.ohporter.com (cpe-107-10-23-53.neo.res.rr.com.
+	[107.10.23.53]) by smtp.gmail.com with ESMTPSA id
+	ql6sm7146444igc.15.2015.10.13.08.13.44
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 13 Oct 2015 08:13:45 -0700 (PDT)
+From: Matt Porter <mporter@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Oct 2015 18:00:40 +0300
-Message-Id: <1444748440-9666-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] oeqa/selftest/bbtests: Updated bitbake TCs
+Date: Tue, 13 Oct 2015 11:13:31 -0400
+Message-Id: <1444749211-30044-1-git-send-email-mporter@konsulko.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Tom Rini <trini@konsulko.com>
+Subject: [PATCH] libsdl: enable fbcon video when fbdev distro feature is present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,90 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Oct 2015 14:59:00 -0000
+X-List-Received-Date: Tue, 13 Oct 2015 15:13:46 -0000
 
-- Added new TC test_force_task_1 (1354);
-check that do_package_write_rpm() re-executes
-upon changes in package image.
+The fbcon video backend is always disabled. Use the fbdev distro
+feature flag to enable/disable the fbcon video backend.
 
-- Updated TC test_force_task_2 (163);
-changed test recipe to zlib and added
-do_package() to the task execution list.
-
-- Removed unnecessary imports.
-
-Fix for bug [YOCTO #5875].
-
-Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+Signed-off-by: Matt Porter <mporter@konsulko.com>
+Reviewed-by: Tom Rini <trini@konsulko.com>
 ---
- meta/lib/oeqa/selftest/bbtests.py | 45 ++++++++++++++++++++++++++++++---------
- 1 file changed, 35 insertions(+), 10 deletions(-)
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
-index 3d6860f..46f1bfe 100644
---- a/meta/lib/oeqa/selftest/bbtests.py
-+++ b/meta/lib/oeqa/selftest/bbtests.py
-@@ -1,8 +1,5 @@
--import unittest
- import os
--import logging
- import re
--import shutil
+diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+index c0d5c6a..c604c6a 100644
+--- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
++++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
+ PROVIDES = "virtual/libsdl"
  
- import oeqa.utils.ftools as ftools
- from oeqa.selftest.base import oeSelfTest
-@@ -68,15 +65,43 @@ class BitbakeTests(oeSelfTest):
-         bitbake('-cclean man')
-         self.assertTrue("ERROR: Function failed: patch_do_patch" in result.output, msg = "Though no man-1.5h1-make.patch file exists, bitbake didn't output any err. message. bitbake output: %s" % result.output)
- 
-+    @testcase(1354)
-+    def test_force_task_1(self):
-+        # test 1 from bug 5875
-+        test_recipe = 'zlib'
-+        test_data = "Microsoft Made No Profit From Anyone's Zunes Yo"
-+        image_dir = get_bb_var('D', test_recipe)
-+        pkgsplit_dir = get_bb_var('PKGDEST', test_recipe)
-+        man_dir = get_bb_var('mandir', test_recipe)
-+
-+        bitbake('-c cleansstate %s' % test_recipe)
-+        bitbake(test_recipe)
-+        self.add_command_to_tearDown('bitbake -c clean %s' % test_recipe)
-+
-+        man_file = os.path.join(image_dir + man_dir, 'man3/zlib.3')
-+        ftools.append_file(man_file, test_data)
-+        bitbake('-c package -f %s' % test_recipe)
-+
-+        man_split_file = os.path.join(pkgsplit_dir, 'zlib-doc' + man_dir, 'man3/zlib.3')
-+        man_split_content = ftools.read_file(man_split_file)
-+        self.assertIn(test_data, man_split_content, 'The man file has not changed in packages-split.')
-+
-+        ret = bitbake(test_recipe)
-+        self.assertIn('task do_package_write_rpm:', ret.output, 'Task do_package_write_rpm did not re-executed.')
-+
-     @testcase(163)
--    def test_force_task(self):
--        bitbake('m4-native')
--        self.add_command_to_tearDown('bitbake -c clean m4-native')
--        result = bitbake('-C compile m4-native')
--        look_for_tasks = ['do_compile', 'do_install', 'do_populate_sysroot']
-+    def test_force_task_2(self):
-+        # test 2 from bug 5875
-+        test_recipe = 'zlib'
-+
-+        bitbake('-c cleansstate %s' % test_recipe)
-+        bitbake(test_recipe)
-+        self.add_command_to_tearDown('bitbake -c clean %s' % test_recipe)
-+
-+        result = bitbake('-C compile %s' % test_recipe)
-+        look_for_tasks = ['do_compile:', 'do_install:', 'do_populate_sysroot:', 'do_package:']
-         for task in look_for_tasks:
--            find_task = re.search("m4-native.*%s" % task, result.output)
--            self.assertTrue(find_task, msg = "Couldn't find %s task. bitbake output %s" % (task, result.output))
-+            self.assertIn(task, result.output, msg="Couldn't find %s task.")
- 
-     @testcase(167)
-     def test_bitbake_g(self):
+ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
++	   ${@bb.utils.contains('DISTRO_FEATURES', 'fbdev', 'fbdev', '', d)} \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'libglu', '', d)} \
+@@ -40,10 +41,11 @@ EXTRA_OECONF = "--disable-static --enable-cdrom --enable-threads --enable-timers
+                 --enable-file --disable-oss --disable-esd --disable-arts \
+                 --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
+                 --disable-mintaudio --disable-nasm --disable-video-dga \
+-                --disable-video-fbcon --disable-video-ps2gs --disable-video-ps3 \
++                --disable-video-ps2gs --disable-video-ps3 \
+                 --disable-xbios --disable-gem --disable-video-dummy \
+                 --enable-input-events --enable-input-tslib --enable-pthreads \
+                 ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', '--enable-video-directfb', '--disable-video-directfb', d)} \
++		${@bb.utils.contains('DISTRO_FEATURES', 'fbdev', '--enable-video-fbcon', '--disable-video-fbcon', d)} \
+                 ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
+                 ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '--enable-video-x11', '--disable-video-x11', d)} \
+                 --disable-video-svga \
 -- 
-2.1.0
+2.1.4
 
 
