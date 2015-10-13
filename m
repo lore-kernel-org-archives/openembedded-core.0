@@ -1,34 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id DB09F7701C
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 99403605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 21:42:21 +0000 (UTC)
-Received: by qkas79 with SMTP id s79so14853457qka.0
+	Tue, 13 Oct 2015 21:44:24 +0000 (UTC)
+Received: by igbkq10 with SMTP id kq10so102166178igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 14:42:22 -0700 (PDT)
+	Tue, 13 Oct 2015 14:44:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc:content-type;
-	bh=PerWLUUoduV1ipzCOBQUeBHvd8YHXgl9NqpSx1v/fkE=;
-	b=PG0WI8a10V+axI9NA1tonOAaoT8CI30zWZoSypckOtPoyBurDgplB4ahc56grT8tEu
-	clVmo5AcXT/Q10ta5ooXTY2FMGXTCCZSsqYkPkL389wdIvuxgxyvOpZbeiRrrBoX6c5o
-	F6qJCwYX0sJWbXcI6XXUoHMgmSPR7nrKfQceXIr/wQwAaX4qUifVcGZaMMZ4U1sKAC61
-	wj4jyA1Qxg99pL7dlL3SWXLcGxWtuT7JR3RgqvuZROpFl9q5epFEpg7EZd9odjhYGcoC
-	CSc5NqP4QVxx8aGy8q4rd3adKx2KUsm2q+XFGZT6xxqJlpJbETGRQ/Rg/2YNRT/3i/ao
-	hrKw==
-X-Gm-Message-State: ALoCoQnBwSgHPMzDRCmgY/+mfcS/Mnh93EySUug7aaqIqvnGaArP3NDGCOJuqI8Y5d9utytac39E
-X-Received: by 10.55.192.13 with SMTP id o13mr42259205qki.83.1444772541870;
-	Tue, 13 Oct 2015 14:42:21 -0700 (PDT)
+	bh=xF7VQemRCKPEVLDqxXaaopgQF1bEYf1oUiDNOY7DAHQ=;
+	b=cIgsbEECwv1OyQ9s0kH9boMMlLjh6tvsgA5/hnwPz6N9l8VTsK9piVwVksSP3nT4/g
+	WLV+r+qmH/aA8SKmRAWCFo4KTgmz56I+WP5eMF8IsMuJEeU6gbYM2TMNwH0KkOf8hdSA
+	IPnYT2o8TnghYf8wd04OQBYDZzow9tq96G33J6tXyGlGoQsPBtUireyzxIj2SdxVP2ZQ
+	MCd7HqmZsLNI5neC7I8lljgpqijO+e7fd0zs2oRbBh1Ac61pLsp7oOMDOPIDU1s+94hw
+	OsrvSBUXApmVRZn/Lyu++daBa6GglV4MQyf+x67vl8fi6UYeMT7Bl6yoyxjgaBgAm7M3
+	TOWA==
+X-Gm-Message-State: ALoCoQk6Fb3M5BqyzahUwJ7yv5jHRwqO8qxNTac2S+Og4KOfs9KWWNgTpmlxXdgCUw+nVx9D94n9
+X-Received: by 10.50.164.225 with SMTP id yt1mr283668igb.76.1444772664448;
+	Tue, 13 Oct 2015 14:44:24 -0700 (PDT)
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com.
+	[209.85.213.180])
+	by smtp.gmail.com with ESMTPSA id o74sm2400603ioo.8.2015.10.13.14.44.23
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 13 Oct 2015 14:44:23 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by igbni9 with SMTP id ni9so67051317igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Oct 2015 14:44:23 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.94.82 with HTTP; Tue, 13 Oct 2015 14:42:02 -0700 (PDT)
-In-Reply-To: <CAP9ODKpN0kbRtm7pvrky5pwFZ_1YPoZ-fy=kt+4CPB+NUoyBKA@mail.gmail.com>
+X-Received: by 10.50.30.233 with SMTP id v9mr23034545igh.5.1444772663259; Tue,
+	13 Oct 2015 14:44:23 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Tue, 13 Oct 2015 14:44:23 -0700 (PDT)
+In-Reply-To: <CAJTo0LbR=Fryhe-Jfgw9AW=ZjBTWE5gZQ2id3si55LpRZtmH-A@mail.gmail.com>
 References: <CAP9ODKpN0kbRtm7pvrky5pwFZ_1YPoZ-fy=kt+4CPB+NUoyBKA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 13 Oct 2015 22:42:02 +0100
-Message-ID: <CAJTo0LbR=Fryhe-Jfgw9AW=ZjBTWE5gZQ2id3si55LpRZtmH-A@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+	<CAJTo0LbR=Fryhe-Jfgw9AW=ZjBTWE5gZQ2id3si55LpRZtmH-A@mail.gmail.com>
+Date: Tue, 13 Oct 2015 18:44:23 -0300
+Message-ID: <CAP9ODKrks-DGP6mTJxMaVyY7-+Sit0_sBgndny3LouWjuG541A@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Error due GTK+3 new rdepends on libgl
@@ -44,42 +57,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Oct 2015 21:42:23 -0000
-Content-Type: multipart/alternative; boundary=001a11479cfc23cc64052203526e
-
---001a11479cfc23cc64052203526e
+X-List-Received-Date: Tue, 13 Oct 2015 21:44:24 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 13 October 2015 at 22:32, Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
-
-> This includes a forced rdepends on libgl and I see no reason for this.
+On Tue, Oct 13, 2015 at 6:42 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 13 October 2015 at 22:32, Otavio Salvador <otavio.salvador@ossystems.com.br> wrote:
+>>
+>> This includes a forced rdepends on libgl and I see no reason for this.
 >
+> Mainly because gtk3-demo will link to libGL.so on startup.
+>
+> It would be interesting to see what happens on platforms where libgl.so isn't available if you remove the dependency.  If GTK+ handles that gracefully then we can make the rdepends conditional on DISTRO_FEATURES.
 
-Mainly because gtk3-demo will link to libGL.so on startup.
+I am handling it in my side, meta-fsl-arm, however I think gtk3-demo
+ought to link to the library when building, no?
 
-It would be interesting to see what happens on platforms where libgl.so
-isn't available if you remove the dependency.  If GTK+ handles that
-gracefully then we can make the rdepends conditional on DISTRO_FEATURES.
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-Ross
-
---001a11479cfc23cc64052203526e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 October 2015 at 22:32, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salva=
-dor@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div id=3D":909" class=3D"a3s" style=3D"overflow:hidden">This includes a =
-forced rdepends on libgl and I see no reason for this.</div></blockquote><d=
-iv><br></div><div>Mainly because gtk3-demo will link to libGL.so on startup=
-.</div><div><br></div><div>It would be interesting to see what happens on p=
-latforms where libgl.so isn&#39;t available if you remove the dependency.=
-=C2=A0 If GTK+ handles that gracefully then we can make the rdepends condit=
-ional on DISTRO_FEATURES.</div><div><br></div><div>Ross</div></div></div></=
-div>
-
---001a11479cfc23cc64052203526e--
