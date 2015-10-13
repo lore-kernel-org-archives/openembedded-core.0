@@ -1,38 +1,41 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id E250965C8A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BC3765C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 15:29:45 +0000 (UTC)
-Received: by qgt47 with SMTP id 47so17490455qgt.2
+	Tue, 13 Oct 2015 15:34:47 +0000 (UTC)
+Received: by qkap81 with SMTP id p81so9943607qka.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 08:29:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=4q7ByeSx2mysRIC4IjS/m7uWh31jax7wvSVOtAb2ous=;
-	b=m5qMWsKBKrHFcv9fdYXbYw7qMxPLOv/gWRosmHPVorIcFg4WV0d6ygsCLBI4h8pEGk
-	wZR3PeZkfTWX3FPZwkceVhVeP/3P0n5NxoMf0Gk20jCDpYF6bS1earELZ/BXTtUDIN4o
-	bZRvVkftzI2KgDztwE9s3lRJOQlGPXkQBTJpB8gt7fsTaabsdYkHOJ/A14i3P4Kxqp6x
-	TF3yjBKTRSafcpzCFyHuFDr0FJpw1V3SG/WMf5s11L5H0WUnej57yAQVs/yXz/KFLC9o
-	LYBGYqGwmQZ1LF4iBZCGmiJl6/qheKQUOERIjau35LQhwyNKp3hBLmfrQJKgQU0ngQU9
-	ZaTg==
-X-Received: by 10.140.145.145 with SMTP id 139mr42478678qhr.100.1444750185562; 
-	Tue, 13 Oct 2015 08:29:45 -0700 (PDT)
-Received: from localhost ([177.194.195.186]) by smtp.gmail.com with ESMTPSA id
-	h198sm1350713qhc.47.2015.10.13.08.29.42
+	Tue, 13 Oct 2015 08:34:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=o6HZ8kCZxG2Ew5NJq/nOyuG5xgEIeSZlvVP8HBvZscI=;
+	b=hhAKGBTnDi5pgXQSd9fbrKmGhEkjMjKgJacfTgEw6b6/nxC2sBjz2oC4em9HwiItrz
+	EKALZOifw0+KjLhdLVsl/WiIwglAkhBlCpDYD6a62MHLmGz6eRreebf7FXxQPs+9cJhJ
+	vGYrUjmI1UyMvICMM1s5P5NamGf1oRn5r66EX2mnnC7krM8dPsXkcMbd2W2apRqp2rQt
+	UBWn79jb29QGEZ2EN9i6HBzekAxVBMeKuPzDcHInKWXUavDUV0ZIsX1B+OhtpOIZf1Aw
+	In3ZHwTLQbOdvKhWxKgHNoEawxeqMwKbZNYP20Sywr1Z+OkKerKg1BbneyhFLYPxsL6u
+	Q1GQ==
+X-Received: by 10.194.9.97 with SMTP id y1mr44211743wja.84.1444750487161;
+	Tue, 13 Oct 2015 08:34:47 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	qh12sm9036684wic.20.2015.10.13.08.34.46
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 13 Oct 2015 08:29:44 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation);
-	Tue, 13 Oct 2015 12:29:39 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Oct 2015 12:29:37 -0300
-Message-Id: <1444750177-22377-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.6.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] lib/oe/image.py: Fix dependency handling for compressed types
+	Tue, 13 Oct 2015 08:34:46 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 13 Oct 2015 17:34:51 +0200
+To: Matt Porter <mporter@konsulko.com>
+Message-ID: <20151013153451.GH2396@jama>
+References: <1444749211-30044-1-git-send-email-mporter@konsulko.com>
+	<20151013151925.GG2396@jama> <20151013152247.GB31452@beef>
+MIME-Version: 1.0
+In-Reply-To: <20151013152247.GB31452@beef>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: Tom Rini <trini@konsulko.com>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libsdl: enable fbcon video when fbdev distro feature is present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,58 +48,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Oct 2015 15:29:46 -0000
+X-List-Received-Date: Tue, 13 Oct 2015 15:34:49 -0000
+X-Groupsio-MsgNum: 72118
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="it/zdz3K1bH9Y8/E"
+Content-Disposition: inline
 
-The dependency code needs to also include the dependency of base
-types. For example:
+--it/zdz3K1bH9Y8/E
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- - sdcard.gz image with ext4
+On Tue, Oct 13, 2015 at 11:22:47AM -0400, Matt Porter wrote:
+> On Tue, Oct 13, 2015 at 05:19:25PM +0200, Martin Jansa wrote:
+> > On Tue, Oct 13, 2015 at 11:13:31AM -0400, Matt Porter wrote:
+> > > The fbcon video backend is always disabled. Use the fbdev distro
+> > > feature flag to enable/disable the fbcon video backend.
+> > >=20
+> > > Signed-off-by: Matt Porter <mporter@konsulko.com>
+> > > Reviewed-by: Tom Rini <trini@konsulko.com>
+> > > ---
+> > >  meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 4 +++-
+> > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/rec=
+ipes-graphics/libsdl/libsdl_1.2.15.bb
+> > > index c0d5c6a..c604c6a 100644
+> > > --- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+> > > +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+> > > @@ -13,6 +13,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D27818cd7=
+fd83877a8e3ef82b82798ef4"
+> > >  PROVIDES =3D "virtual/libsdl"
+> >=20
+> > Can we please use PACKAGECONFIG here?
+>=20
+> I noticed that libsdl2 does so, but stuck with the status quo below
+> for addressing this. So, if I understand correctly you'd like it
+> to be converted to be like the libsdl2 recipe, yes?
 
-The dependency chain needs to include:
+yes, I don't see any other recipe using fbdev as DISTRO_FEATURE, so
+using it in PACKAGECONFIG would make it easier to enable/disable this.
 
- - sdcard
- - ext4
- - gz
+Converting other options currently using DISTRO_FEATURES isn't a must,
+but it would be nice to convert them as well.
 
-Until this change, the ext4 dependency were not being taken into
-account when using the compressed one.
+>=20
+> -Matt
+>=20
+> > >  DEPENDS =3D "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'di=
+rectfb', '', d)} \
+> > > +	   ${@bb.utils.contains('DISTRO_FEATURES', 'fbdev', 'fbdev', '', d)=
+} \
+> > >             ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtua=
+l/libgl', '', d)} \
+> > >             ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/l=
+ibx11 libxext libxrandr libxrender', '', d)} \
+> > >             ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'li=
+bglu', '', d)} \
+> > > @@ -40,10 +41,11 @@ EXTRA_OECONF =3D "--disable-static --enable-cdrom=
+ --enable-threads --enable-timers
+> > >                  --enable-file --disable-oss --disable-esd --disable-=
+arts \
+> > >                  --disable-diskaudio --disable-nas --disable-esd-shar=
+ed --disable-esdtest \
+> > >                  --disable-mintaudio --disable-nasm --disable-video-d=
+ga \
+> > > -                --disable-video-fbcon --disable-video-ps2gs --disabl=
+e-video-ps3 \
+> > > +                --disable-video-ps2gs --disable-video-ps3 \
+> > >                  --disable-xbios --disable-gem --disable-video-dummy \
+> > >                  --enable-input-events --enable-input-tslib --enable-=
+pthreads \
+> > >                  ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', =
+'--enable-video-directfb', '--disable-video-directfb', d)} \
+> > > +		${@bb.utils.contains('DISTRO_FEATURES', 'fbdev', '--enable-video-f=
+bcon', '--disable-video-fbcon', d)} \
+> > >                  ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '-=
+-enable-video-opengl', '--disable-video-opengl', d)} \
+> > >                  ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '--en=
+able-video-x11', '--disable-video-x11', d)} \
+> > >                  --disable-video-svga \
+> > > --=20
+> > > 2.1.4
+> > >=20
+> > > --=20
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >=20
+> > --=20
+> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>=20
+>=20
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-
- meta/lib/oe/image.py | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
-
-diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
-index b0d81a6..b9eb3de 100644
---- a/meta/lib/oe/image.py
-+++ b/meta/lib/oe/image.py
-@@ -54,14 +54,16 @@ class ImageDepGraph(object):
-             base_type = self._image_base_type(node)
-             deps = (self.d.getVar('IMAGE_TYPEDEP_' + node, True) or "")
-             base_deps = (self.d.getVar('IMAGE_TYPEDEP_' + base_type, True) or "")
--            if deps != "" or base_deps != "":
--                graph[node] = deps
--
--                for dep in deps.split() + base_deps.split():
--                    if not dep in graph:
--                        add_node(dep)
--            else:
--                graph[node] = ""
-+
-+            graph[node] = ""
-+            for dep in deps.split() + base_deps.split():
-+                if not dep in graph[node]:
-+                    if graph[node] != "":
-+                        graph[node] += " "
-+                    graph[node] += dep
-+
-+                if not dep in graph:
-+                    add_node(dep)
- 
-         for fstype in image_fstypes:
-             add_node(fstype)
--- 
-2.6.1
 
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--it/zdz3K1bH9Y8/E
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlYdJJoACgkQN1Ujt2V2gByaOACghaC666JosAvB+Jg3WsyaajMi
+j7cAoJBjFATSV91LidRN6AelIyRPJGAv
+=Y5g0
+-----END PGP SIGNATURE-----
+
+--it/zdz3K1bH9Y8/E--
