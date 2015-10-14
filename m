@@ -1,25 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 19D57770BB
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A396770BB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Oct 2015 20:35:50 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Oct 2015 13:35:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,682,1437462000"; d="scan'208";a="792878651"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.25.92])
-	by orsmga001.jf.intel.com with ESMTP; 14 Oct 2015 13:35:51 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Oct 2015 21:35:48 +0100
-Message-ID: <15707551.cAIuaySr4R@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <0ac22442d4b0be5e3d2a3725fca10279c73eabd4.1444706062.git.Qi.Chen@windriver.com>
-References: <cover.1444706062.git.Qi.Chen@windriver.com>
-	<0ac22442d4b0be5e3d2a3725fca10279c73eabd4.1444706062.git.Qi.Chen@windriver.com>
+	Wed, 14 Oct 2015 21:38:51 +0000 (UTC)
+Received: by wijp11 with SMTP id p11so2700244wij.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Oct 2015 14:38:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=ZMdjlTtK9+D/ndW2zmtTtvwR3PY4cPrcaobftEp4bwU=;
+	b=u7rnO3Pj6ZTrPGiipq/O88/K/S/7xpNVZOb7o73uT29bhYRSkXcJ40QwD+ozY4vXfQ
+	KslUYqasNA8hWQ/WF/JjpC4u0Mjb++W/X/O5+Vd9JnMs1o5OqG/NKqYqA+FGrcbxhg7i
+	EZa/Jq6XqW7+Ous5jM1qJn4DBp2mqsQMu8FlfIT00d6Bmjsmzt1RsmEIUl7fq7SfiwuD
+	oR1tnMDst2ChodZGJY5hoBReZ8ABksYGuwGWp7QHec1w2z8gIWNGrWfO5A3yRDn/4LOU
+	E47k0Y9HhvdswzwVfN0qTCoUTyTbAusceZMc7tlfbbJQxQmQVYXcyhc8EmXLiFx0CzZH
+	5ldw==
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] toolchain-shar-extract.sh: fix path in example
+X-Received: by 10.180.86.165 with SMTP id q5mr29803489wiz.52.1444858731076;
+	Wed, 14 Oct 2015 14:38:51 -0700 (PDT)
+Received: by 10.194.169.6 with HTTP; Wed, 14 Oct 2015 14:38:51 -0700 (PDT)
+Date: Wed, 14 Oct 2015 14:38:51 -0700
+Message-ID: <CAJ86T=U7+d4niZ=hLgQywS6utiL5YJqw1r0E-+_friceOMm4ZQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: syslinux + gcc 5.2 build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +37,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Oct 2015 20:35:55 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 14 Oct 2015 21:38:52 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tuesday 13 October 2015 11:15:04 Chen Qi wrote:
-> $env_setup_script already contains $target_sdk_dir.
-> Fix the path in the example.
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/files/toolchain-shar-extract.sh | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/files/toolchain-shar-extract.sh
-> b/meta/files/toolchain-shar-extract.sh index 2ffc2d1..2eeb290 100644
-> --- a/meta/files/toolchain-shar-extract.sh
-> +++ b/meta/files/toolchain-shar-extract.sh
-> @@ -183,7 +183,7 @@ fi
->  echo "SDK has been successfully set up and is ready to be used."
->  echo "Each time you wish to use the SDK in a new shell session, you need to
-> source the environment setup script e.g." for env_setup_script in `ls
-> $target_sdk_dir/environment-setup-*`; do 
-> -	echo " \$ . $target_sdk_dir/$env_setup_script"
-> +	echo " \$ . $env_setup_script"
->  done
-> 
->  exit 0
+I'm seeing what looks like a gcc bug when building syslinux with
+certain combinations of TUNE_CCARGS. A specific combination which
+fails is:
 
-Oops, this was my fault - thanks for fixing. This was also recently reported as 
-[YOCTO #8431].
+  TUNE_CCARGS = " -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
+-fschedule-insns"
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+( ie the default flags set by tune-core2.inc with one additional flag:
+-fschedule-insns )
 
-Cheers,
-Paul
+Problem is only seen with gcc 5.2
 
--- 
+Compiler error is:
 
-Paul Eggleton
-Intel Open Source Technology Centre
+i686-rdk-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
+-fschedule-insns
+--sysroot=/home/andre/rdk/rdk-master/build-vbox32/tmp/sysroots/vbox32
+-O2 -pipe -g -feliminate-unused-debug-types -fstack-protector-strong
+-D_FORTIFY_SOURCE=2 -MT zlib/deflate.o -MD -Os -march=i386
+-falign-functions=0 -falign-jumps=0 -falign-labels=0 -ffast-math
+-fomit-frame-pointer -std=gnu99 -m32 -mpreferred-stack-boundary=2
+-fno-stack-protector -fwrapv -freg-struct-return -fPIC -fno-exceptions
+-fno-asynchronous-unwind-tables -fno-strict-aliasing
+-falign-functions=0 -falign-jumps=0 -falign-labels=0 -falign-loops=0
+-g -D__COM32__ -D__FIRMWARE_BIOS__ -nostdinc -iwithprefix include -I.
+-I/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/syslinux/6.03-r0/syslinux-6.03/com32/lib/sys
+-I/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/syslinux/6.03-r0/syslinux-6.03/com32/lib/../include
+-I/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/syslinux/6.03-r0/syslinux-6.03/com32/include/sys
+-I/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/syslinux/6.03-r0/syslinux-6.03/core/include
+-I/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/syslinux/6.03-r0/syslinux-6.03/com32/lib/
+-I/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/syslinux/6.03-r0/syslinux-6.03/com32/lib/sys/module
+-I/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/syslinux/6.03-r0/syslinux-6.03/bios/com32/lib//../..
+-W -Wall -Wstrict-prototypes -Wpointer-arith -Wwrite-strings
+-Wstrict-prototypes -Winline -DDYNAMIC_CRC_TABLE -DPNG_NO_CONSOLE_IO
+-DPNG_NO_WRITE_SUPPORTED -DPNG_NO_MNG_FEATURES -DPNG_NO_READ_tIME
+-DPNG_NO_WRITE_tIME -mregparm=3 -DREGPARM=3 -c -o zlib/deflate.o
+/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/syslinux/6.03-r0/syslinux-6.03/com32/lib/zlib/deflate.c
+
+/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/syslinux/6.03-r0/syslinux-6.03/com32/lib/zlib/deflate.c:
+In function 'deflate':
+/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/syslinux/6.03-r0/syslinux-6.03/com32/lib/zlib/deflate.c:892:1:
+error: unable to find a register to spill
+ }
+ ^
+/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/syslinux/6.03-r0/syslinux-6.03/com32/lib/zlib/deflate.c:892:1:
+error: this is the insn:
+(insn 745 1859 1860 94 (set (reg:QI 995)
+        (mem/j:QI (plus:SI (reg/v/f:SI 965 [orig:676 strm ] [676])
+                (const_int 48 [0x30])) [0 strm_54(D)->adler+0 S1
+A32])) /home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/syslinux/6.03-r0/syslinux-6.03/com32/lib/zlib/deflate.c:775
+86 {*movqi_internal}
+     (nil))
+/home/andre/rdk/rdk-master/build-vbox32/tmp/work/core2-32-rdk-linux/syslinux/6.03-r0/syslinux-6.03/com32/lib/zlib/deflate.c:892:
+confused by earlier errors, bailing out
 
