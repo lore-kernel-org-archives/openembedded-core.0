@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id DEE02770D3
+	by mail.openembedded.org (Postfix) with ESMTP id 0500C770D4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Oct 2015 20:23:50 +0000 (UTC)
+	Wed, 14 Oct 2015 20:23:51 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 14 Oct 2015 13:23:50 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 14 Oct 2015 13:23:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,682,1437462000"; d="scan'208";a="792867512"
+X-IronPort-AV: E=Sophos;i="5.17,682,1437462000"; d="scan'208";a="792867559"
 Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.25.92])
-	by orsmga001.jf.intel.com with ESMTP; 14 Oct 2015 13:23:51 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Oct 2015 13:23:53 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Oct 2015 21:23:32 +0100
-Message-Id: <79d75fee90c6dcfd0df900a692a71b13d21fddcf.1444854089.git.paul.eggleton@linux.intel.com>
+Date: Wed, 14 Oct 2015 21:23:34 +0100
+Message-Id: <2a9dd199f75da2e5d6d616342979bfc55bf526df.1444854089.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1444854089.git.paul.eggleton@linux.intel.com>
 References: <cover.1444854089.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1444854089.git.paul.eggleton@linux.intel.com>
 References: <cover.1444854089.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 3/5] classes/populate_sdk_ext: add note to env setup script
+Subject: [PATCH v2 5/5] toolchain-shar-extract.sh: print full-length title underline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +33,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 14 Oct 2015 20:23:52 -0000
 
-Print a note at the end of the environment setup script pointing to
-devtool.
+Print a line that's the full length of the title that it's underneath.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/files/toolchain-shar-extract.sh | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 0feb3b2..060a44a 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -236,6 +236,8 @@ sdk_ext_postinst() {
- 	# so put it at the end of $PATH.
- 	echo "export PATH=\$PATH:$target_sdk_dir/sysroots/${SDK_SYS}/${bindir_nativesdk}" >> $env_setup_script
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 2ffc2d1..568b580 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -68,8 +68,9 @@ while getopts ":yd:nDRS" OPT; do
+ 	esac
+ done
  
-+	echo "printf 'SDK environment now set up; additionally you may now run devtool to perform development tasks.\nRun devtool --help for further details.\n'" >> $env_setup_script
-+
- 	# For now this is where uninative.bbclass expects the tarball
- 	mv *-nativesdk-libc.tar.* $target_sdk_dir/`dirname ${oe_init_build_env_path}`
+-echo "@SDK_TITLE@ installer version @SDK_VERSION@"
+-echo "==========================================================="
++titlestr="@SDK_TITLE@ installer version @SDK_VERSION@"
++printf "%s\n" "$titlestr"
++printf "%${#titlestr}s\n" | tr " " "="
  
+ if [ $verbose = 1 ] ; then
+ 	set -x
 -- 
 2.1.0
 
