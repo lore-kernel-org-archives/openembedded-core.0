@@ -1,38 +1,42 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id A07CF758DB;
-	Wed, 14 Oct 2015 14:33:25 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t9EEXP3K032423; Wed, 14 Oct 2015 09:33:25 -0500
-Received: from [10.113.0.102] ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015101409332527-1903572 ;
-	Wed, 14 Oct 2015 09:33:25 -0500 
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1443597600-29477-1-git-send-email-adrian.ratiu@ni.com>
-	<1444373887-24315-1-git-send-email-adrian.ratiu@ni.com>
-	<20151013105339.GC2396@jama> <561CFBB4.4000404@ni.com>
-	<20151013130825.GE2396@jama> <561E614F.4070909@ni.com>
-	<20151014141650.GC22448@jama>
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Message-ID: <561E67B3.7010304@ni.com>
-Date: Wed, 14 Oct 2015 17:33:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 30FA2605D2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Oct 2015 14:37:37 +0000 (UTC)
+Received: by wieq12 with SMTP id q12so86435859wie.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Oct 2015 07:37:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=SGsX/2wnkQD9BiZwCuFntgsXNyvpM3jeyG507bVxJKU=;
+	b=S1FwvzknaIr6KRi/vISWN/bafToJdYaYKrFf2NXUbq+JTzkKns51G6dP7ZyhtVP0aJ
+	fvlvvF+XrGY51aIhPOHrGqKpmbPD6xv7DbyduIq5jISSXxDLL0TB9c2EpTO4FsJ2KZ7w
+	cmkt73IdMVXIL3bfSnvIBcNGMtm9LHFGCj6sA5s0PAKiRLjEuXZf7cZltNWIQel7Dxar
+	wl87rjamck1wHhWKnApRYjzDqi+ngG1fepzvYwimHlHcR4CakRlJH1AMNTKsH0eyaZLW
+	I1h4dk9cr35HKlfAXLLgoNNsRgFudaGn9eKKK6VPbVWwtLHX6gEMrbN4/rGoDXvMlwNo
+	7QqQ==
+X-Received: by 10.180.198.109 with SMTP id jb13mr5020253wic.17.1444833457028; 
+	Wed, 14 Oct 2015 07:37:37 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	he3sm10430166wjc.48.2015.10.14.07.37.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 14 Oct 2015 07:37:35 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 14 Oct 2015 16:37:51 +0200
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20151014143751.GD22448@jama>
+References: <1441369348-32182-3-git-send-email-Martin.Jansa@gmail.com>
+	<1441895486-26145-1-git-send-email-Martin.Jansa@gmail.com>
+	<20150929155055.GA14440@jama>
 MIME-Version: 1.0
-In-Reply-To: <20151014141650.GC22448@jama>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 10/14/2015 09:33:25 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 10/14/2015 09:33:25 AM,
-	Serialize complete at 10/14/2015 09:33:25 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-10-14_07:, , signatures=0
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] [meta-oe][PATCH v2] meta-oe: recipes-graphics: add libvncserver recipe
+In-Reply-To: <20150929155055.GA14440@jama>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: Re: [PATCHv2] fontcache: allow to pass extra parameters and environment to fc-cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,121 +49,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Oct 2015 14:33:27 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Wed, 14 Oct 2015 14:37:38 -0000
+X-Groupsio-MsgNum: 72174
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="wULyF7TL5taEdwHz"
+Content-Disposition: inline
 
-On 14.10.2015 17:16, Martin Jansa wrote:
-> On Wed, Oct 14, 2015 at 05:06:07PM +0300, Ioan-Adrian Ratiu wrote:
->> On 13.10.2015 16:08, Martin Jansa wrote:
->>> On Tue, Oct 13, 2015 at 03:40:20PM +0300, Ioan-Adrian Ratiu wrote:
->>>> On 13.10.2015 13:53, Martin Jansa wrote:
->>>>> On Fri, Oct 09, 2015 at 09:58:07AM +0300, Ioan-Adrian Ratiu wrote:
->>>>>> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
->>>>>> ---
->>>>>>     .../libvncserver/libvncserver_0.9.10.bb               | 19 +++++++++++++++++++
->>>>>>     1 file changed, 19 insertions(+)
->>>>>>     create mode 100644 meta-oe/recipes-graphics/libvncserver/libvncserver_0.9.10.bb
->>>>>>
->>>>>> diff --git a/meta-oe/recipes-graphics/libvncserver/libvncserver_0.9.10.bb b/meta-oe/recipes-graphics/libvncserver/libvncserver_0.9.10.bb
->>>>>> new file mode 100644
->>>>>> index 0000000..afa303c
->>>>>> --- /dev/null
->>>>>> +++ b/meta-oe/recipes-graphics/libvncserver/libvncserver_0.9.10.bb
->>>>>> @@ -0,0 +1,19 @@
->>>>>> +DESCRIPTION = "library for easy implementation of a RDP/VNC server"
->>>
->>> Use SUMMARY for such short description.
->>>
->>>>>> +HOMEPAGE = "https://libvnc.github.io"
->>>>>> +SECTION = "libs"
->>>>>> +PRIORITY = "optional"
->>>
->>> Drop PRIORITY, we don't use it anywhere.
->>>
->>>>>> +LICENSE = "GPLv2"
->>>>>> +LIC_FILES_CHKSUM = "file://COPYING;md5=361b6b837cad26c6900a926b62aada5f"
->>>>>> +
->>>>>> +DEPENDS += "zlib jpeg libpng gtk+ libgcrypt nettle gnutls gmp"
->>>>>> +RDEPENDS_${PN} += "libpng gtk+ libgcrypt"
->>>>>> +
->>>>>> +RCONFLICTS_${PN} = "x11vnc"
->>>>>
->>>>> This isn't enough to resolve conflicts with x11vnc in sysroot, this only
->>>>> prevent installing both packages in the same image.
->>>>>
->>>>>> +
->>>>>> +inherit autotools pkgconfig
->>>>>> +
->>>>>> +SRC_URI  = "git://github.com/LibVNC/libvncserver.git;tag=LibVNCServer-0.9.10"
->>>>>
->>>>> Set SRCREV matching with this tag, otherwise bitbake will always use git
->>>>> ls-remote to convert tag name to git SHA, which won't work for builds
->>>>> from premirror (possibly without access to network)
->>>>>
->>>>
->>>> This is easy to fix, however the above x11vnc conflict is not and I have
->>>> to check with upstream developers which might take awhile.
->>>>
->>>> Is it ok to blacklist libvncserver in patch v3 in order to not break
->>>> x11vnc until this is solved?
->>>
->>> I don't want to introduce more blacklisted recipes in meta-oe, so this
->>> won't be merged until it's resolved.
->>
->> Quick question: Fixing this involves adding a PACKAGECONFIG dependency
->> inside x11vnc on libvncserver. x11vnc is in the openembedded-core layer.
->
-> If such PACKAGECONFIG can be disabled by default, then it's ok.
->
->> Should I move libvncserver to oe-core, move x11vnc in meta-oe or should
->> I just let them reside in separate layers even though there is this
->> dependency?
->
-> oe-core (x11vnc) cannot by default depend on meta-oe (libvncserver), it
-> can be optional dependency, but without looking at the code my guess is
-> that this won't fix the issue.
->
-> Is the PACKAGECONFIG about using external libvncserver instead of
-> building own version inside x11vnc recipe? If my guess is right, then
-> oe-core will need to build own and meta-oe will need to remove such
-> PACKAGECONFIG in order to unblock building separate libvncserver.
->
-> If that's the case then moving libvncserver to oe-core or x11vnc to
-> meta-oe would be easier way forward.
+--wULyF7TL5taEdwHz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, this is correct (x11vnc's configured --with-system-libvncserver)
+On Tue, Sep 29, 2015 at 05:50:55PM +0200, Martin Jansa wrote:
+> On Thu, Sep 10, 2015 at 04:31:26PM +0200, Martin Jansa wrote:
+> > * this can be useful for passing extra parameters, pass
+> >   -v by default to see what's going on in do_rootfs
+> > * we need to use this for extra parameter we implemented
+> >   in fontconfig:
+> >   --ignore-mtime always use cache file regardless of font directory mti=
+me
+> >   because the checksum of fontcache generated in do_rootfs
+> >   doesn't match with /usr/share/fonts directory as seen on
+> >   target device causing fontconfig to re-create the cache
+> >   when fontconfig is used for first time or worse create
+> >   new cache in every user's home directory when /usr/
+> >   filesystem is read only and cache cannot be updated.
+> >=20
+> >   Running FC_DEBUG=3D16 fc-cache -v on such device shows:
+> >   FcCacheTimeValid dir "/usr/share/fonts" cache checksum 1441207803 dir=
+ checksum 1441206149
+> > * my guess is that the checksum is different, because pseudo
+> >   (which is unloaded when running qemuwrapper) or because some
+> >   influence of running the rootfs under qemu.
+>=20
+> ping
+>=20
+> was this postponed to 2.0? Any feedback would be nice.
+>=20
+> But thanks for applying the other 2, now we were able to implement this i=
+n our
+> layer with overlayed fontcache.bbclass and intercepts scripts.
 
->
-> Adding oe-core ML for their opinion.
->
-> Regards,
->>>
->>>>>> +
->>>>>> +S = "${WORKDIR}/git"
->>>>>> +
->>>>>> +EXTRA_OEMAKE_append=" SUBDIRS='libvncserver' "
->>>>>> --
->>>>>> 2.1.4
->>>>>>
->>>>>> --
->>>>>> _______________________________________________
->>>>>> Openembedded-devel mailing list
->>>>>> Openembedded-devel@lists.openembedded.org
->>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
->>>>>
->>>>>
->>>>>
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-devel mailing list
->>>> Openembedded-devel@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
->>>
->>>
->>>
->>
->
+ping2
+
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/classes/fontcache.bbclass                | 19 +++++++++++++++----
+> >  scripts/postinst-intercepts/update_font_cache |  4 ++--
+> >  2 files changed, 17 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bb=
+class
+> > index d122387..8ebdfc4 100644
+> > --- a/meta/classes/fontcache.bbclass
+> > +++ b/meta/classes/fontcache.bbclass
+> > @@ -9,12 +9,23 @@ inherit qemu
+> >  FONT_PACKAGES ??=3D "${PN}"
+> >  FONT_EXTRA_RDEPENDS ?=3D "fontconfig-utils"
+> >  FONTCONFIG_CACHE_DIR ?=3D "${localstatedir}/cache/fontconfig"
+> > +FONTCONFIG_CACHE_PARAMS ?=3D "-v"
+> > +# You can change this to e.g. FC_DEBUG=3D16 to debug fc-cache issues,
+> > +# something has to be set, because qemuwrapper is using this variable =
+after -E
+> > +# multiple variables aren't allowed because for qemu they are separated
+> > +# by comma and in -n "$D" case they should be separated by space
+> > +FONTCONFIG_CACHE_ENV ?=3D "FC_DEBUG=3D1"
+> >  fontcache_common() {
+> > -if [ "x$D" !=3D "x" ] ; then
+> > -	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=
+=3D${MLPREFIX} bindir=3D${bindir} \
+> > -		libdir=3D${libdir} base_libdir=3D${base_libdir} fontconfigcachedir=
+=3D${FONTCONFIG_CACHE_DIR}
+> > +if [ -n "$D" ] ; then
+> > +	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=
+=3D${MLPREFIX} \
+> > +		'bindir=3D"${bindir}"' \
+> > +		'libdir=3D"${libdir}"' \
+> > +		'base_libdir=3D"${base_libdir}"' \
+> > +		'fontconfigcachedir=3D"${FONTCONFIG_CACHE_DIR}"' \
+> > +		'fontconfigcacheparams=3D"${FONTCONFIG_CACHE_PARAMS}"' \
+> > +		'fontconfigcacheenv=3D"${FONTCONFIG_CACHE_ENV}"'
+> >  else
+> > -	fc-cache
+> > +	${FONTCONFIG_CACHE_ENV} fc-cache ${FONTCONFIG_CACHE_PARAMS}
+> >  fi
+> >  }
+> > =20
+> > diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/po=
+stinst-intercepts/update_font_cache
+> > index c8c6018..0deab3c 100644
+> > --- a/scripts/postinst-intercepts/update_font_cache
+> > +++ b/scripts/postinst-intercepts/update_font_cache
+> > @@ -1,5 +1,5 @@
+> >  #!/bin/sh
+> > =20
+> > -PSEUDO_UNLOAD=3D1 qemuwrapper -L $D -E LD_LIBRARY_PATH=3D$D/${libdir}:=
+$D/${base_libdir}\
+> > -					$D${bindir}/fc-cache --sysroot=3D$D
+> > +PSEUDO_UNLOAD=3D1 qemuwrapper -L $D -E LD_LIBRARY_PATH=3D$D/${libdir}:=
+$D/${base_libdir} \
+> > +					-E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=3D$D ${fo=
+ntconfigcacheparams}
+> >  chown -R root:root $D${fontconfigcachedir}
+> > --=20
+> > 2.5.1
+> >=20
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--wULyF7TL5taEdwHz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlYeaL4ACgkQN1Ujt2V2gBxZCwCggrLnbtH64PkjaYmrCIQTsjrZ
+ts0Anj+G7FEQ4dKkTeZnDnu+lrpzA2WR
+=aIf6
+-----END PGP SIGNATURE-----
+
+--wULyF7TL5taEdwHz--
