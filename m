@@ -1,32 +1,21 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 069F173CBD
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C51E73CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Oct 2015 13:31:56 +0000 (UTC)
-Received: from cpc5-cmbg17-2-0-cust97.5-4.cable.virginm.net ([86.30.112.98]
-	helo=phil-desktop)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1ZmM9r-0004Ws-Go; Wed, 14 Oct 2015 15:31:55 +0200
-Message-ID: <1444829509.5251.43.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Wed, 14 Oct 2015 14:31:49 +0100
-In-Reply-To: <CAP9ODKpD=5Fjr34j2K2ASWjTLZXKhkqDhLFVLPbqLsyme57N2w@mail.gmail.com>
-References: <A543BCF1-FAD0-4993-B357-1BE49B062F63@gmail.com>
-	<9C694221-E92E-468E-A950-1D8B530757DD@gmail.com>
-	<6BA567C8-0D8A-402A-B733-2E9DECFD9844@gmail.com>
-	<32B54709-BA87-45AC-BDC0-22604B6D3979@gmail.com>
-	<6C58EED7-075B-4B58-B401-DB9EF31B8D50@gmail.com>
-	<CAMKF1sreATF=J9rh-dK5fbsJt9szaJTmNyOOHg1gC+mVGNBZyg@mail.gmail.com>
-	<B1E843F8-C2B2-403A-87E4-1D8AD3E13C63@gmail.com>
-	<CAP9ODKrCcmX=4bHACTyGpF9BNivvDcBEieTyOcbChHdZr67pkA@mail.gmail.com>
-	<1444738079.5251.29.camel@pbcl.net>
-	<CAP9ODKpD=5Fjr34j2K2ASWjTLZXKhkqDhLFVLPbqLsyme57N2w@mail.gmail.com>
-X-Mailer: Evolution 3.16.5-1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gcc: Avoid non-aligned access for ARM5e
+	Wed, 14 Oct 2015 13:45:57 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Oct 2015 06:45:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,681,1437462000"; d="scan'208";a="826491762"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by orsmga002.jf.intel.com with ESMTP; 14 Oct 2015 06:45:57 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Oct 2015 05:37:55 +0000
+Message-Id: <1444801075-25837-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH] oeqa/selftest/buildoptions: Use the correct script for cleaning the workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,51 +28,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Oct 2015 13:31:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Oct 2015 13:45:58 -0000
 
-On Tue, 2015-10-13 at 09:18 -0300, Otavio Salvador wrote:
-> On Tue, Oct 13, 2015 at 9:07 AM, Phil Blundell <pb@pbcl.net> wrote:
-> > On Tue, 2015-10-13 at 08:45 -0300, Otavio Salvador wrote:
-> > > I understand Khem is excitant to include more non-upstreamed
-> > > patches
-> > > into GCC but I would prefer to have it included and Java working
-> > > fine
-> > > than a local patch applied forever. :-(
-> > 
-> > Maybe you'd like to file a bug against upstream GCC in that case. 
-> >  I
-> > think Khem already suggested this to Jens but he said he had "no
-> > time"
-> > to do that.
-> 
-> We don't require upstream bugzilla items for patches in all recipes 
-> so GCC should not be an exception. Sorry but I don't buy this 
-> argument and I think the patch is clear and short enough to go in.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-GCC is not necessarily an exception to that rule.  If the patch was a
-correct and proper fix for the bug then I would be happy to see it
-installed even without an upstream bugzilla entry.  But that is not the
-case here: the patch is, at best, a hack which happens to work around
-the problem in some circumstances.  It is not clear what the underlying
-bug is, or whether the patch is sufficient to avoid the bug in all
-cases (i.e. whether it might in fact happen for ARMv6 as well).  
+The script 'cleanupworkdir' does not exit, so changing it to 'cleanup-workdir'.
 
-Without knowing more about the underlying GCC bug it will be very diffi
-cult to determine when the actual bug has been fixed and it is safe to
-remove the patch, in which case we might end up carrying the patch
-around forever.
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/buildoptions.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Nor is the patch entirely harmless: turning off LDRD/STRD instructions
-across the board will cause code size and performance to get slightly
-worse for all users of the compiler.
-
-If none of the proponents of the patch are prepared to make the small
-amount of effort required to file an upstream bug then it's not at all
-obvious to me that oe-core as a project should accept these various
-burdens associated with installing this patch.
-
-p.
+diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
+index d76aef1..fbe0cd7 100644
+--- a/meta/lib/oeqa/selftest/buildoptions.py
++++ b/meta/lib/oeqa/selftest/buildoptions.py
+@@ -125,7 +125,7 @@ class BuildImagesTest(oeSelfTest):
+         This method is used to test the build of directfb image for arm arch.
+         In essence we build a coreimagedirectfb and test the exitcode of bitbake that in case of success is 0.
+         """
+-        self.add_command_to_tearDown('cleanupworkdir')
++        self.add_command_to_tearDown('cleanup-workdir')
+         self.write_config("DISTRO_FEATURES_remove = \"x11\"\nDISTRO_FEATURES_append = \" directfb\"\nMACHINE ??= \"qemuarm\"")
+         res = bitbake("core-image-directfb", ignore_status=True)
+         self.assertEqual(res.status, 0, "\ncoreimagedirectfb failed to build. Please check logs for further details.\nbitbake output %s" % res.output)
+@@ -136,7 +136,7 @@ class ArchiverTest(oeSelfTest):
+         """
+         Test for archiving the work directory and exporting the source files.
+         """
+-        self.add_command_to_tearDown('cleanupworkdir')
++        self.add_command_to_tearDown('cleanup-workdir')
+         self.write_config("INHERIT = \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nARCHIVER_MODE[srpm] = \"1\"")
+         res = bitbake("xcursor-transparent-theme", ignore_status=True)
+         self.assertEqual(res.status, 0, "\nCouldn't build xcursortransparenttheme.\nbitbake output %s" % res.output)
+-- 
+1.8.4.5
 
 
