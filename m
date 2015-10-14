@@ -1,25 +1,48 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id D79D073232;
-	Wed, 14 Oct 2015 14:42:00 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 14 Oct 2015 07:41:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,681,1437462000"; d="scan'208";a="826788994"
-Received: from apalani1-mobl.amr.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.5.185])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Oct 2015 07:41:57 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Oct 2015 15:41:55 +0100
-Message-ID: <2371185.tThFydMRSC@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <561E67B3.7010304@ni.com>
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id E3B8273232
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Oct 2015 14:43:53 +0000 (UTC)
+Received: by igbif5 with SMTP id if5so22423184igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Oct 2015 07:43:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=QBiDrV6FW2ipCOAkN3pIjZDRiN5dQvN8c4ChTOct4qs=;
+	b=TUv4C9zMywfDz9jjFFoGcJ+pcgLceWI7QuVXoF8YvRF0GHIMZU1dsVYHnbaiEKCUCV
+	qB8HQQ2n2BH3f4itHNBqPKMJHQHgBxThkSSPxD17VPG5r4I8SJkPXNzJhk3/m21WbjTc
+	4XbCgxGTvq3zMR1e1TrB3MI1f7SJ6BEDNj4h4/tz4qLC3Z4yIuWeKf+HW2F/8VOyIuGI
+	xEw53E/YXUEAPRGr1Spu4D82keIuzDsY1QrxXc47m1FvBDCeuZtolWGksJVDfHkRpwLX
+	mlLhtcKbPsEOYhNkqFh0BjLIbwwP6ez2LTJuv2S7jrv2oJQUGOH3Kn4vT2UwsNmOJd9m
+	lXaQ==
+X-Gm-Message-State: ALoCoQkojlOjQ8M4eb1gZ4iJygU1Wh7dKzDt8ix8XFtxZibQIfTdskHi6bSkyFmojfmRZB5RVgJP
+X-Received: by 10.50.79.135 with SMTP id j7mr4154499igx.73.1444833833451;
+	Wed, 14 Oct 2015 07:43:53 -0700 (PDT)
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com.
+	[209.85.223.180]) by smtp.gmail.com with ESMTPSA id
+	rj10sm9200023igc.20.2015.10.14.07.43.52
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 14 Oct 2015 07:43:52 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by iodv82 with SMTP id v82so57481380iod.0;
+	Wed, 14 Oct 2015 07:43:51 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.107.27.136 with SMTP id b130mr4658414iob.28.1444833831738;
+	Wed, 14 Oct 2015 07:43:51 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Wed, 14 Oct 2015 07:43:51 -0700 (PDT)
+In-Reply-To: <2371185.tThFydMRSC@peggleto-mobl.ger.corp.intel.com>
 References: <1443597600-29477-1-git-send-email-adrian.ratiu@ni.com>
 	<20151014141650.GC22448@jama> <561E67B3.7010304@ni.com>
-MIME-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org
+	<2371185.tThFydMRSC@peggleto-mobl.ger.corp.intel.com>
+Date: Wed, 14 Oct 2015 11:43:51 -0300
+Message-ID: <CAP9ODKqqGf9rQu3iei1LkjfpznmLTL4xmA2SwxAqGLxfszYiMw@mail.gmail.com>
+To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [oe] [meta-oe][PATCH v2] meta-oe: recipes-graphics: add libvncserver recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -33,112 +56,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Oct 2015 14:42:03 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 14 Oct 2015 14:43:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wednesday 14 October 2015 17:33:23 Ioan-Adrian Ratiu wrote:
-> On 14.10.2015 17:16, Martin Jansa wrote:
-> > On Wed, Oct 14, 2015 at 05:06:07PM +0300, Ioan-Adrian Ratiu wrote:
-> >> On 13.10.2015 16:08, Martin Jansa wrote:
-> >>> On Tue, Oct 13, 2015 at 03:40:20PM +0300, Ioan-Adrian Ratiu wrote:
-> >>>> On 13.10.2015 13:53, Martin Jansa wrote:
-> >>>>> On Fri, Oct 09, 2015 at 09:58:07AM +0300, Ioan-Adrian Ratiu wrote:
-> >>>>>> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> >>>>>> ---
-> >>>>>> 
-> >>>>>>     .../libvncserver/libvncserver_0.9.10.bb               | 19
-> >>>>>>     +++++++++++++++++++ 1 file changed, 19 insertions(+)
-> >>>>>>     create mode 100644
-> >>>>>>     meta-oe/recipes-
-graphics/libvncserver/libvncserver_0.9.10.bb>>>>>> 
-> >>>>>> diff --git
-> >>>>>> a/meta-oe/recipes-graphics/libvncserver/libvncserver_0.9.10.bb
-> >>>>>> b/meta-oe/recipes-graphics/libvncserver/libvncserver_0.9.10.bb new
-> >>>>>> file mode 100644
-> >>>>>> index 0000000..afa303c
-> >>>>>> --- /dev/null
-> >>>>>> +++ b/meta-oe/recipes-graphics/libvncserver/libvncserver_0.9.10.bb
-> >>>>>> @@ -0,0 +1,19 @@
-> >>>>>> +DESCRIPTION = "library for easy implementation of a RDP/VNC server"
-> >>> 
-> >>> Use SUMMARY for such short description.
-> >>> 
-> >>>>>> +HOMEPAGE = "https://libvnc.github.io"
-> >>>>>> +SECTION = "libs"
-> >>>>>> +PRIORITY = "optional"
-> >>> 
-> >>> Drop PRIORITY, we don't use it anywhere.
-> >>> 
-> >>>>>> +LICENSE = "GPLv2"
-> >>>>>> +LIC_FILES_CHKSUM =
-> >>>>>> "file://COPYING;md5=361b6b837cad26c6900a926b62aada5f"
-> >>>>>> +
-> >>>>>> +DEPENDS += "zlib jpeg libpng gtk+ libgcrypt nettle gnutls gmp"
-> >>>>>> +RDEPENDS_${PN} += "libpng gtk+ libgcrypt"
-> >>>>>> +
-> >>>>>> +RCONFLICTS_${PN} = "x11vnc"
-> >>>>> 
-> >>>>> This isn't enough to resolve conflicts with x11vnc in sysroot, this
-> >>>>> only
-> >>>>> prevent installing both packages in the same image.
-> >>>>> 
-> >>>>>> +
-> >>>>>> +inherit autotools pkgconfig
-> >>>>>> +
-> >>>>>> +SRC_URI  =
-> >>>>>> 
-"git://github.com/LibVNC/libvncserver.git;tag=LibVNCServer-0.9.10">>>>> 
-> >>>>> Set SRCREV matching with this tag, otherwise bitbake will always use
-> >>>>> git
-> >>>>> ls-remote to convert tag name to git SHA, which won't work for builds
-> >>>>> from premirror (possibly without access to network)
-> >>>> 
-> >>>> This is easy to fix, however the above x11vnc conflict is not and I
-> >>>> have
-> >>>> to check with upstream developers which might take awhile.
-> >>>> 
-> >>>> Is it ok to blacklist libvncserver in patch v3 in order to not break
-> >>>> x11vnc until this is solved?
-> >>> 
-> >>> I don't want to introduce more blacklisted recipes in meta-oe, so this
-> >>> won't be merged until it's resolved.
-> >> 
-> >> Quick question: Fixing this involves adding a PACKAGECONFIG dependency
-> >> inside x11vnc on libvncserver. x11vnc is in the openembedded-core layer.
-> > 
-> > If such PACKAGECONFIG can be disabled by default, then it's ok.
-> > 
-> >> Should I move libvncserver to oe-core, move x11vnc in meta-oe or should
-> >> I just let them reside in separate layers even though there is this
-> >> dependency?
-> > 
-> > oe-core (x11vnc) cannot by default depend on meta-oe (libvncserver), it
-> > can be optional dependency, but without looking at the code my guess is
-> > that this won't fix the issue.
-> > 
-> > Is the PACKAGECONFIG about using external libvncserver instead of
-> > building own version inside x11vnc recipe? If my guess is right, then
-> > oe-core will need to build own and meta-oe will need to remove such
-> > PACKAGECONFIG in order to unblock building separate libvncserver.
-> > 
-> > If that's the case then moving libvncserver to oe-core or x11vnc to
-> > meta-oe would be easier way forward.
-> 
-> Yes, this is correct (x11vnc's configured --with-system-libvncserver)
+On Wed, Oct 14, 2015 at 11:41 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> FWIW assuming it works and isn't specially patched, I think for x11vnc we'd
+> probably be better off using an external lib we can keep up-to-date rather than
+> a bundled one that might be out-of-date; that is to say, if we are to keep
+> x11vnc in OE-Core then we might as well also have libvncserver. (One might
+> possibly ask if we really need x11vnc there though, I don't have an answer to
+> that).
 
-FWIW assuming it works and isn't specially patched, I think for x11vnc we'd 
-probably be better off using an external lib we can keep up-to-date rather than 
-a bundled one that might be out-of-date; that is to say, if we are to keep 
-x11vnc in OE-Core then we might as well also have libvncserver. (One might 
-possibly ask if we really need x11vnc there though, I don't have an answer to 
-that).
-
-Cheers,
-Paul
+I think x11vnc could go to meta-oe. It does not seem to be widely used
+and a core component.
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
