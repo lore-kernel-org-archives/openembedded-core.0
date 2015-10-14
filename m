@@ -1,22 +1,52 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A6CA875F3A
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 153B876E3F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Oct 2015 15:06:29 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 14 Oct 2015 08:03:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,681,1437462000"; d="scan'208";a="810876385"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Oct 2015 08:01:04 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Oct 2015 18:01:01 +0300
-Message-Id: <1444834861-19459-3-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1444834861-19459-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1444834861-19459-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 2/2] package_manager: support GPG_PATH variable
+	Wed, 14 Oct 2015 17:44:36 +0000 (UTC)
+Received: by igbni9 with SMTP id ni9so84577593igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Oct 2015 10:44:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=QK8ZCoyv3K08EiF1aGThuzRVk2ICPWo11/rfI0pTgD8=;
+	b=Anvk3b1LHHzF+A/rhJ/8a82VICmjYy8+sEF/qv2lrfEjNGEEQeUdOgvp+4lUV4FzS5
+	jFzlgM7CVGf3bWJHw10kojkD9KAtL5WB8Defeke4pfqfu6fon+jPsG3DOsGz1nycFI6N
+	6HdeDIpAnfGVwEifYJlwRr/kpTdOFZCBXK7ewNqiWJ3qtSwDDaLOZCsqbUYIH4AI4TEC
+	8XArok9nkjuAlDmZ/HQ7PTh/tqoJ0tBQz5yNY0Xvob5ucn5h2ioDpYpXwL25JWPgbSN+
+	2bIltEqVbq/Tva2lkxgX7hBEQs0xbysN55agMAKYljhfNIh8ZIw+oE8oIXhCfTymjnnw
+	0kow==
+X-Gm-Message-State: ALoCoQnjODI8VdMoKKAO+8PvDHXZa9U5YrpRu0+iP1i6i2dQAuyXUKvY9Qn/yvEQ1X01tMC6+/LI
+X-Received: by 10.50.66.197 with SMTP id h5mr25560346igt.82.1444844677069;
+	Wed, 14 Oct 2015 10:44:37 -0700 (PDT)
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com.
+	[209.85.213.179])
+	by smtp.gmail.com with ESMTPSA id q10sm9487524igh.4.2015.10.14.10.44.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 14 Oct 2015 10:44:35 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by igbif5 with SMTP id if5so26295739igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Oct 2015 10:44:35 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.50.66.229 with SMTP id i5mr5877043igt.5.1444844675020; Wed,
+	14 Oct 2015 10:44:35 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Wed, 14 Oct 2015 10:44:34 -0700 (PDT)
+In-Reply-To: <CAP9ODKofedBS83=fKmPk_GyfV09UTUPRDxcCPgy7dAtozjsSUg@mail.gmail.com>
+References: <CAP9ODKpN0kbRtm7pvrky5pwFZ_1YPoZ-fy=kt+4CPB+NUoyBKA@mail.gmail.com>
+	<CAJTo0LbR=Fryhe-Jfgw9AW=ZjBTWE5gZQ2id3si55LpRZtmH-A@mail.gmail.com>
+	<CAHiDW_G10f50vzvQGWvnCc=2ztB0QLLTNrxDMLB-K9p6Wd=KUw@mail.gmail.com>
+	<CAP9ODKofedBS83=fKmPk_GyfV09UTUPRDxcCPgy7dAtozjsSUg@mail.gmail.com>
+Date: Wed, 14 Oct 2015 14:44:34 -0300
+Message-ID: <CAP9ODKo6AW5TYN640O86cPXj94_P48nETaNpU1f9OJRVKj+iiQ@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Error due GTK+3 new rdepends on libgl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,36 +59,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Oct 2015 15:06:31 -0000
+X-List-Received-Date: Wed, 14 Oct 2015 17:44:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-If defined, use GPG_PATH as the gpg home directory when signing package
-feeds. This setting is only used by package_manager if package feed
-singning has been enabled, i.e.  PACKAGE_FEED_SIGN="1".
+On Wed, Oct 14, 2015 at 9:54 AM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> On Wed, Oct 14, 2015 at 4:31 AM, Jussi Kukkonen
+> <jussi.kukkonen@intel.com> wrote:
+>> On 14 October 2015 at 00:42, Burton, Ross <ross.burton@intel.com> wrote:
+>>>
+>>>
+>>> On 13 October 2015 at 22:32, Otavio Salvador
+>>> <otavio.salvador@ossystems.com.br> wrote:
+>>>>
+>>>> This includes a forced rdepends on libgl and I see no reason for this.
+>>>
+>>>
+>>> Mainly because gtk3-demo will link to libGL.so on startup.
+>>>
+>>> It would be interesting to see what happens on platforms where libgl.so
+>>> isn't available if you remove the dependency.  If GTK+ handles that
+>>> gracefully then we can make the rdepends conditional on DISTRO_FEATURES.
+>>
+>>
+>> If dlopening libGL.so.1 fails, gtk3-demo will not run. I'm sure it's
+>> possible to patch it to fail gracefully (after all GL is only needed for one
+>> demo out of many) and I would guess upstream would take that as well, but
+>> for now I just did the minimum required to get the current dependencies
+>> correct in the recipe.
+>
+> In worse case, it would be a RRECOMMENDS. Anyway fixing it seems the
+> best way to handle this IMO.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/lib/oe/package_manager.py | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+This also breaks the generation of images using Wayland but no X11.
+This fails with mesa:
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index c34e436..5c2130b 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -133,8 +133,11 @@ class RpmIndexer(Indexer):
-             if pkgfeed_gpg_name:
-                 repomd_file = os.path.join(arch_dir, 'repodata', 'repomd.xml')
-                 gpg_cmd = "%s --detach-sign --armor --batch --no-tty --yes " \
--                          "--passphrase-file '%s' -u '%s' %s" % (gpg_bin,
--                          pkgfeed_gpg_pass, pkgfeed_gpg_name, repomd_file)
-+                          "--passphrase-file '%s' -u '%s' " % \
-+                          (gpg_bin, pkgfeed_gpg_pass, pkgfeed_gpg_name)
-+                if self.d.getVar('GPG_PATH', True):
-+                    gpg_cmd += "--homedir %s " % self.d.getVar('GPG_PATH', True)
-+                gpg_cmd += repomd_file
-                 repo_sign_cmds.append(gpg_cmd)
- 
-             rpm_dirs_found = True
+configure:
+        prefix:          /usr
+        exec_prefix:     /usr
+        libdir:          /usr/lib
+        includedir:      /usr/include
+        OpenGL:          yes (ES1: yes ES2: yes)
+        OSMesa:          no
+        DRI platform:    drm
+        DRI drivers:     swrast
+        DRI driver dir:  ${libdir}/dri
+        GLX:             no
+        EGL:             yes
+        EGL platforms:   drm wayland
+        EGL drivers:     builtin:egl_dri2
+        llvm:            no
+        Gallium:         no
+        Shared libs:     yes
+        Static libs:     no
+        Shared-glapi:    yes
+        CFLAGS:          -O2 -pipe -g -feliminate-unused-debug-types
+-fno-omit-frame-pointer -Wall -std=c99
+-Werror=implicit-function-declaration -Werror=missing-prototypes
+-fno-strict-aliasing -fno-builtin-memcmp
+        CXXFLAGS:        -O2 -pipe -g -feliminate-unused-debug-types
+-fno-omit-frame-pointer -fvisibility-inlines-hidden -Wall
+-fno-strict-aliasing -fno-builtin-memcmp
+        Macros:          -D_GNU_SOURCE -DNDEBUG -DHAVE_XLOCALE_H
+-DHAVE_SYS_SYSCTL_H -DHAVE_STRTOF -DHAVE_DLOPEN -DHAVE_POSIX_MEMALIGN
+-DHAVE_LIBDRM -DHAVE_LIBUDEV -DHAVE_ALIAS -DHAVE_MINCORE
+-DMESA_EGL_NO_X11_HEADERS
+        PYTHON2:         python2
+        Run 'make' to build Mesa
+
 -- 
-2.1.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
