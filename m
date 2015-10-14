@@ -1,24 +1,20 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id C34B8770C3
+	by mail.openembedded.org (Postfix) with ESMTP id C43BC770C4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Oct 2015 20:23:47 +0000 (UTC)
+	Wed, 14 Oct 2015 20:23:46 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 14 Oct 2015 13:23:47 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 14 Oct 2015 13:23:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,682,1437462000"; d="scan'208";a="792867478"
+X-IronPort-AV: E=Sophos;i="5.17,682,1437462000"; d="scan'208";a="792867471"
 Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.25.92])
-	by orsmga001.jf.intel.com with ESMTP; 14 Oct 2015 13:23:48 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Oct 2015 13:23:47 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Oct 2015 21:23:30 +0100
-Message-Id: <66b23e87a518da018beeac90a49ac50c24fdcd4f.1444854089.git.paul.eggleton@linux.intel.com>
+Date: Wed, 14 Oct 2015 21:23:29 +0100
+Message-Id: <cover.1444854089.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1444854089.git.paul.eggleton@linux.intel.com>
-References: <cover.1444854089.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1444854089.git.paul.eggleton@linux.intel.com>
-References: <cover.1444854089.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 1/5] classes/populate_sdk_ext: consistent indentation
+Subject: [PATCH v2 0/5] Extensible SDK fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +29,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 14 Oct 2015 20:23:52 -0000
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/populate_sdk_ext.bbclass | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Changes since v1:
+ * Simplify "prevent do_rootfs from executing on install" fix to avoid
+   creating a class that we don't need - just put the stubbing out of
+   do_rootfs in each bbappend file.
+ * Print a warning within the env setup script if the OE env setup
+   script has previously been sourced, because things won't work as
+   you might expect if that's been done.
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index c244d93..90033ba 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -238,11 +238,11 @@ sdk_ext_postinst() {
- 	mv *-nativesdk-libc.tar.* $target_sdk_dir/`dirname ${oe_init_build_env_path}`
- 
- 	if [ "$prepare_buildsystem" != "no" ]; then
--	    printf "Preparing build system...\n"
--	    # dash which is /bin/sh on Ubuntu will not preserve the
--	    # current working directory when first ran, nor will it set $1 when
--	    # sourcing a script. That is why this has to look so ugly.
--	    sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
-+		printf "Preparing build system...\n"
-+		# dash which is /bin/sh on Ubuntu will not preserve the
-+		# current working directory when first ran, nor will it set $1 when
-+		# sourcing a script. That is why this has to look so ugly.
-+		sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
- 	fi
- 	echo done
- }
+The following changes since commit 10e5df3503632a6e1c54612055b19f7258c3ae2f:
+
+  lib/oe/image.py: Fix dependency handling for compressed types (2015-10-14 18:08:22 +0300)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/extsdkfixes2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/extsdkfixes2
+
+Paul Eggleton (5):
+  classes/populate_sdk_ext: consistent indentation
+  classes/populate_sdk_ext: prevent do_rootfs from executing on install
+  classes/populate_sdk_ext: add note to env setup script
+  classes/populate_sdk_ext: detect and warn if running in OE environment
+  toolchain-shar-extract.sh: print full-length title underline
+
+ meta/classes/populate_sdk_ext.bbclass | 18 +++++++++++++-----
+ meta/files/ext-sdk-prepare.sh         | 16 ++++++++++++++++
+ meta/files/toolchain-shar-extract.sh  |  5 +++--
+ 3 files changed, 32 insertions(+), 7 deletions(-)
+ create mode 100644 meta/files/ext-sdk-prepare.sh
+
 -- 
 2.1.0
 
