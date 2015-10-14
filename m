@@ -1,38 +1,35 @@
-Return-Path: <joe@deserted.net>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CF98770C3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Oct 2015 19:27:31 +0000 (UTC)
-Received: by igbif5 with SMTP id if5so28293759igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Oct 2015 12:27:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:subject:date:message-id;
-	bh=ALfs3Ns63LBrEhYw2P6nfMqx9C+XqBgWaY6EulrnnIA=;
-	b=gsl6Fk6bFFfWRQ5HT7UxF+4v9QSRP2rsh1jnCS+fEJ6GP1OUwvX8w4Tx+pdpjLPywE
-	cUFFdDW1nFT0LHNHseogRC7/OkKZoYL9E09ExoMvV34d/OF6jXJPwrSbC0n/ZLOJkUsr
-	F36L+5mzraSGC/cQmFFENX1+XmI79gPAOfLkk+VSuNdYdOVpJ/J662/5NQH8j47/c1Sx
-	RKdSczIDqu0x6/UwQtvegZA7VmtAXi1iy2IMIAkuBvLnsBCLheBBe926PW3xDVCorrNv
-	iGvW5qI7o7NnxnoJoXMvxuGo0NSacnlPXDJOh6Gh4AcFyrAD0Xfoi/62H+VoPv1A4Ixi
-	0PFQ==
-X-Gm-Message-State: ALoCoQnR+z4UqZwuSrirzCL3KOyGnGa+oEfjEN3cEG3iB6bj/rbfUgJCH//qixSUhXeJ14BhMdTU
-X-Received: by 10.50.50.9 with SMTP id y9mr6428014ign.14.1444850851642;
-	Wed, 14 Oct 2015 12:27:31 -0700 (PDT)
-Received: from mir.deserted.net ([23.233.31.74])
-	by smtp.gmail.com with ESMTPSA id
-	o142sm4219582ioe.17.2015.10.14.12.27.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 14 Oct 2015 12:27:31 -0700 (PDT)
-Sender: Joe MacDonald <joe@deserted.net>
-From: Joe MacDonald <joe_macdonald@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Oct 2015 15:27:53 -0400
-Message-Id: <1444850873-21026-1-git-send-email-joe_macdonald@mentor.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] classes/base: provide hints on PACKAGECONFIG error
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-yk0-f172.google.com (mail-yk0-f172.google.com
+	[209.85.160.172])
+	by mail.openembedded.org (Postfix) with ESMTP id DBAE476FDE;
+	Wed, 14 Oct 2015 19:48:13 +0000 (UTC)
+Received: by ykaz22 with SMTP id z22so32194653yka.2;
+	Wed, 14 Oct 2015 12:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=OIHSJUr4isM+EYAp5dR2pIfZUk3MfmF4omKDtAUoujI=;
+	b=e24UiQUrWeJMnwIuK6OlfwFqgSoqqSVmKwFON0sY3NcMwT1PeOFE10GUcblrl3MlHD
+	MBTskGGspAeRDNxlnmJ6od9DHYS1ljnEDDZxpp4h1zqmqGAmTtevD5frn64FF++RacTq
+	ODChgZ+s1CNIT/8J1kNQOmSdUACevSoVNUvxTOYGRQGxpU0xHlpeTzQc1yX12jwUqvLb
+	Kva4L7tBkbfXQUH3P8qrsqjhw/V1/9/Rsyh4+p44JWIHVBoYxkVUQjwDtaRsIXRdDAap
+	D1uoQL8QEelSLuYJAUw31wmayqlIVF9D8INvJLuI0xzX2/EzuvpYyLvlFPzMy9CHaKyR
+	dfwQ==
+MIME-Version: 1.0
+X-Received: by 10.129.0.2 with SMTP id 2mr4109955ywa.127.1444852093195; Wed,
+	14 Oct 2015 12:48:13 -0700 (PDT)
+Received: by 10.13.217.201 with HTTP; Wed, 14 Oct 2015 12:48:13 -0700 (PDT)
+In-Reply-To: <20151014193033.GD3552@dent.vctlabs.com>
+References: <1439220090-3305-1-git-send-email-s.mueller-klieser@phytec.de>
+	<20151014193033.GD3552@dent.vctlabs.com>
+Date: Wed, 14 Oct 2015 15:48:13 -0400
+Message-ID: <CADkTA4MMRESA2E2H_0iruywU6AgzSwaZ8Sj03SBB25=ckGv41Q@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: openembedded-devel <openembedded-devel@lists.openembedded.org>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] kernel.bbclass: Fix do_shared_workdir task ordering
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,34 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Oct 2015 19:27:33 -0000
+X-List-Received-Date: Wed, 14 Oct 2015 19:48:14 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Commit 771f89498c introduces an error message that is very rarely hit and
-when it is, it is usually easy to trace the root cause very quickly.  The
-information provided in the error message isn't enough to lead you back to
-the actual failure, however, so expand upon it a bit, pinpointing the
-specific package and flag that fails.
+On Wed, Oct 14, 2015 at 3:30 PM, S. Lockwood-Childs <sjl@vctlabs.com> wrote:
+> http://patchwork.openembedded.org/patch/99875/
+>
+> Apparently this patch is still not in master, and I just ran across the
+> problem with an externally built module (omaplfb from omap3-sgx-modules)
+> in meta-ti layer.
+>
+> What's the plan for getting a correct Module.symver into shared_workdir
+> for external modules to build against? Above patch, or does someone have
+> an even better idea?
 
-Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
----
- meta/classes/base.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Richard and I sync'd on this while in Dublin @ ELCe, and the changes
+aren't missing
+from master by mistake .. but more because we are still working to come up with
+a comprehensive solution (tracked in bugzilla).
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index f078001..d711ae4 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -391,7 +391,8 @@ python () {
-             items = flagval.split(",")
-             num = len(items)
-             if num > 4:
--                bb.error("Only enable,disable,depend,rdepend can be specified!")
-+                bb.error("%s: PACKAGECONFIG[%s] Only enable,disable,depend,rdepend can be specified!"
-+                    % (d.getVar('PN', True), flag))
- 
-             if flag in pkgconfig:
-                 if num >= 3 and items[2]:
+The solution is pretty much what I described before, we are balancing
+applications
+and tasks that do not need kernel modules to be built, versus external modules
+that depend on symbols from other modules. The devil is in the
+details, and getting
+a non-racy, task locked solution that allows the recipe writer to
+explicitly decide
+whether they need modules built or not .. attempts at detecting the
+need, or forcing
+a one size fits all solution have all lead to dead ends.
+
+Since we are close to a release point, I'm still working on this out
+of the tree, and
+will propose some changes when the tree looks stable.
+
+For now, you can carry the patch locally, or you can append to the kernel module
+compilation task and do a second copy of the symvers file to the share
+directory.
+
+i.e. a variant of this:
+http://patchwork.openembedded.org/patch/94891/, done in a
+bbappend versus the class.
+
+Cheers,
+
+Bruce
+
+
+
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-1.9.1
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
