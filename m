@@ -1,20 +1,16 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id CBE7373710
+	by mail.openembedded.org (Postfix) with ESMTP id CDCC974242
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 14 Oct 2015 10:15:09 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 5498B608E7A
+	(Authenticated sender: joshuagl) with ESMTPSA id 10597608E37
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Oct 2015 11:14:49 +0100
-Message-Id: <28b84242632617016a08b36cfdb7d427aa1550ea.1444817583.git.joshua.lock@collabora.co.uk>
+Date: Wed, 14 Oct 2015 11:14:47 +0100
+Message-Id: <cover.1444817583.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1444817583.git.joshua.lock@collabora.co.uk>
-References: <cover.1444817583.git.joshua.lock@collabora.co.uk>
-In-Reply-To: <cover.1444817583.git.joshua.lock@collabora.co.uk>
-References: <cover.1444817583.git.joshua.lock@collabora.co.uk>
-Subject: [RFC PATCH 2/2] connman: tidy up connman-conf usage
+Subject: [RFC PATCH 0/2] Clean up connman-conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,50 +25,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 14 Oct 2015 10:15:12 -0000
 
-connman-conf is now a systemd oneshot so need not be sed'ed in to
-the ConnMan service file.
+As reported in YP#8399[1] we currently hack the connman service to try and
+execute a script which is only installed on qemu targets. This pair of
+patches changes the connman-conf recipe to install a oneshot systemd unit
+that is called before ConnMan, removes the ExecStartPre and adds an override
+to the RRECOMMENDS so that the connman-conf is only installed by default for
+qemu machines and images for other machines are left with an error in the
+journal about failing to start a service.
 
-Furthermore add connman-conf as RRECCOMENDS only for qemu machines.
+Please review the following changes for suitability for inclusion. If you have
+any objections or suggestions for improvement, please respond to the patches. If
+you agree with the changes, please provide your Acked-by.
 
-This cleans up connman-conf so that it is not automatically installed
-and unconditionally calling a script that doesn't exist for most
-machines.
+Regards,
 
-[YOCTO #8399]
+Joshua
 
-Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
----
- meta/recipes-connectivity/connman/connman.inc     | 5 -----
- meta/recipes-connectivity/connman/connman_1.30.bb | 2 +-
- 2 files changed, 1 insertion(+), 6 deletions(-)
+1. https://bugzilla.yoctoproject.org/show_bug.cgi?id=8399
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index ab7f86d..c5b58ac 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -68,11 +68,6 @@ python __anonymous () {
- 
- SYSTEMD_SERVICE_${PN} = "connman.service"
- SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
--SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
--
--do_compile_append() {
--	sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#" ${B}/src/connman.service
--}
- 
- do_install_append() {
- 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
-diff --git a/meta/recipes-connectivity/connman/connman_1.30.bb b/meta/recipes-connectivity/connman/connman_1.30.bb
-index 7d65ac9..87cf213 100644
---- a/meta/recipes-connectivity/connman/connman_1.30.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.30.bb
-@@ -10,5 +10,5 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
- SRC_URI[md5sum] = "4a3efdbd6796922db9c6f66da57887fa"
- SRC_URI[sha256sum] = "5c5e464bacc9c27ed4e7269fb9b5059f07947f5be26433b59212133663ffa991"
- 
--RRECOMMENDS_${PN} = "connman-conf"
-+RRECOMMENDS_${PN}_qemuall = "connman-conf"
- 
+The following changes since commit e42d8eff9eed7d1454b4f331d96dcee6dea232df:
+
+  bash: Disable custom memory allocator (2015-10-12 14:35:42 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib joshuagl/connman
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/connman
+
+Joshua Lock (2):
+  connman-conf: convert to systemd oneshot
+  connman: tidy up connman-conf usage
+
+ meta/recipes-connectivity/connman/connman-conf.bb           | 13 +++++++++++--
+ .../connman/connman-conf/qemuall/wired-connection.service   | 10 ++++++++++
+ meta/recipes-connectivity/connman/connman.inc               |  5 -----
+ meta/recipes-connectivity/connman/connman_1.30.bb           |  2 +-
+ 4 files changed, 22 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/wired-connection.service
+
 -- 
 2.1.4
 
