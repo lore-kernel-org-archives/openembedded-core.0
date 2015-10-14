@@ -1,24 +1,20 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0500C770D4
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 20402770C9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Oct 2015 20:23:51 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 14 Oct 2015 13:23:52 -0700
+	Wed, 14 Oct 2015 20:27:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 14 Oct 2015 13:27:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,682,1437462000"; d="scan'208";a="792867559"
+X-IronPort-AV: E=Sophos;i="5.17,682,1437462000"; d="scan'208";a="826791013"
 Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.25.92])
-	by orsmga001.jf.intel.com with ESMTP; 14 Oct 2015 13:23:53 -0700
+	by orsmga002.jf.intel.com with ESMTP; 14 Oct 2015 13:27:31 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Oct 2015 21:23:34 +0100
-Message-Id: <2a9dd199f75da2e5d6d616342979bfc55bf526df.1444854089.git.paul.eggleton@linux.intel.com>
+Date: Wed, 14 Oct 2015 21:27:24 +0100
+Message-Id: <cover.1444854425.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1444854089.git.paul.eggleton@linux.intel.com>
-References: <cover.1444854089.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1444854089.git.paul.eggleton@linux.intel.com>
-References: <cover.1444854089.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 5/5] toolchain-shar-extract.sh: print full-length title underline
+Subject: [PATCH 0/2] A couple of fixes for devtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +27,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Oct 2015 20:23:52 -0000
+X-List-Received-Date: Wed, 14 Oct 2015 20:27:32 -0000
 
-Print a line that's the full length of the title that it's underneath.
+The following changes since commit 10e5df3503632a6e1c54612055b19f7258c3ae2f:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/files/toolchain-shar-extract.sh | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+  lib/oe/image.py: Fix dependency handling for compressed types (2015-10-14 18:08:22 +0300)
 
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 2ffc2d1..568b580 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -68,8 +68,9 @@ while getopts ":yd:nDRS" OPT; do
- 	esac
- done
- 
--echo "@SDK_TITLE@ installer version @SDK_VERSION@"
--echo "==========================================================="
-+titlestr="@SDK_TITLE@ installer version @SDK_VERSION@"
-+printf "%s\n" "$titlestr"
-+printf "%${#titlestr}s\n" | tr " " "="
- 
- if [ $verbose = 1 ] ; then
- 	set -x
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool-fixes8
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool-fixes8
+
+Paul Eggleton (2):
+  devtool: extract: fix error handling
+  devtool: handle virtual providers
+
+ meta/lib/oe/recipeutils.py        |  6 +++++-
+ meta/lib/oeqa/selftest/devtool.py | 32 ++++++++++++++++++++++++++++++++
+ scripts/lib/devtool/standard.py   | 32 ++++++++++++++++++++++++++------
+ scripts/lib/devtool/upgrade.py    | 12 +++++++++---
+ 4 files changed, 72 insertions(+), 10 deletions(-)
+
 -- 
 2.1.0
 
