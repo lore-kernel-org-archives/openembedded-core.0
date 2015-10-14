@@ -1,26 +1,32 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 283B477056
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 056A477016
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Oct 2015 02:55:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9E2tKJt025234
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Oct 2015 19:55:20 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 13 Oct 2015 19:55:19 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Oct 2015 22:55:17 -0400
-Message-ID: <78bfcb15110eba4ebdaecda0c293e5a56009f4dd.1444791107.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1444791107.git.wenzong.fan@windriver.com>
-References: <cover.1444791107.git.wenzong.fan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1 v2] bzip2: fix bunzip2 -qt returns 0 for corrupt archives
+	Wed, 14 Oct 2015 05:03:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t9E53Vhm003570; Wed, 14 Oct 2015 06:03:31 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id dl9djtnz-Mmr; Wed, 14 Oct 2015 06:03:30 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t9E53H6t003554
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 14 Oct 2015 06:03:29 +0100
+Message-ID: <1444798997.3844.47.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 14 Oct 2015 08:03:17 +0300
+In-Reply-To: <2D1734FF-E28E-4B9D-AF22-A4911A5DE293@gmail.com>
+References: <CAP9ODKrxCLF1m-UR9_TYQboUQtWODG8erwgnmjFiWd_O57CEEw@mail.gmail.com>
+	<2D1734FF-E28E-4B9D-AF22-A4911A5DE293@gmail.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: glibc build error when it is rebuild due hash mismatch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,107 +39,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Oct 2015 02:55:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 14 Oct 2015 05:03:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+On Tue, 2015-10-13 at 09:52 -0700, Khem Raj wrote:
+> > On Oct 13, 2015, at 9:45 AM, Otavio Salvador <otavio.salvador@ossystems.com.br> wrote:
+> > 
+> > Hello,
+> > 
+> > From time to time I see following error:
+> > 
+> > | /usr/bin/install -c -m 644
+> > /home/otavio/src/yocto/build/tmp/work/cortexa9hf-vfp-neon-oel-linux-gnueabi/glibc/2.22-r0/build-arm-oel-linux-gnueabi/gnu/option-groups.h
+> > /home/otavio/src/yocto/build/tmp/work/cortexa9hf-vfp-neon-oel-linux-gnueabi/glibc/2.22-r0/image/usr/include/gnu/option-groups.h
+> > | /usr/bin/install -c -m 644
+> > /home/otavio/src/yocto/build/tmp/work/cortexa9hf-vfp-neon-oel-linux-gnueabi/glibc/2.22-r0/build-arm-oel-linux-gnueabi/gnu/lib-names-hard.h
+> > /home/otavio/src/yocto/build/tmp/work/cortexa9hf-vfp-neon-oel-linux-gnueabi/glibc/2.22-r0/image/usr/include/gnu/lib-names-hard.h
+> > | msgfmt -o rw.mo rw.po
+> > | /bin/bash: msgfmt: command not found
+> > | Makefile:84: recipe for target 'rw.mo' failed
+> > | make[2]: *** [rw.mo] Error 127
+> > | make[2]: *** Waiting for unfinished jobs....
+> > | make[2]: Leaving directory
+> > '/home/otavio/src/yocto/build/tmp/work/cortexa9hf-vfp-neon-oel-linux-gnueabi/glibc/2.22-r0/git/po'
+> > | Makefile:234: recipe for target 'po/subdir_install' failed
+> > 
+> > and it seems to happen when a rebuild of glibc is triggered due a
+> > change in the sstate hash. The host is a very minimal system so it
+> > explains why it does not provide the msgfmt in host and also might
+> > explain why it is not being catch in Yocto Project AB.
+> 
+> 
+> are we missing a dependency on gettext-native ? it could be that AB slaves have gettext installed on host
+> and you don’t.
 
-"bzip2 -t FILE" returns 2 if FILE exists, but is not a valid bzip2 file.
-"bzip2 -qt FILE" returns 0 when this happens, although it does print out
-an error message as is does so.
+Agreed, this does look like a missing gettext-native dependency
+somewhere in the system. Unfortunately gettext(native) is a pretty heavy
+dependency too :(
 
-This has been fix by Debian, just port changes from Debian patch file
-"20-legacy.patch".
+Cheers,
 
-Debian defect:
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=279025
+Richard
 
-Fix item from changelog:
-http://archive.debian.net/changelogs/pool/main/b/bzip2/bzip2_1.0.2-7/changelog
-
-  * Fixed "bunzip2 -qt returns 0 for corrupt archives" (Closes: #279025).
-
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- ...bunzip2-qt-returns-0-for-corrupt-archives.patch | 55 ++++++++++++++++++++++
- meta/recipes-extended/bzip2/bzip2_1.0.6.bb         |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch
-
-diff --git a/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch b/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch
-new file mode 100644
-index 0000000..ece90d9
---- /dev/null
-+++ b/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-bunzip2-qt-returns-0-for-corrupt-archives.patch
-@@ -0,0 +1,55 @@
-+From 8068659388127e8e63f2d2297ba2348c72b20705 Mon Sep 17 00:00:00 2001
-+From: Wenzong Fan <wenzong.fan@windriver.com>
-+Date: Mon, 12 Oct 2015 03:19:51 -0400
-+Subject: [PATCH] bzip2: fix bunzip2 -qt returns 0 for corrupt archives
-+
-+"bzip2 -t FILE" returns 2 if FILE exists, but is not a valid bzip2 file.
-+"bzip2 -qt FILE" returns 0 when this happens, although it does print out
-+an error message as is does so.
-+
-+This has been fix by Debian, just port changes from Debian patch file
-+"20-legacy.patch".
-+
-+Debian defect:
-+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=279025
-+
-+Fix item from changelog:
-+http://archive.debian.net/changelogs/pool/main/b/bzip2/bzip2_1.0.2-7/changelog
-+
-+  * Fixed "bunzip2 -qt returns 0 for corrupt archives" (Closes: #279025).
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-+---
-+ bzip2.c | 14 ++++++++------
-+ 1 file changed, 8 insertions(+), 6 deletions(-)
-+
-+diff --git a/bzip2.c b/bzip2.c
-+index 6de9d1d..f2ce668 100644
-+--- a/bzip2.c
-++++ b/bzip2.c
-+@@ -2003,12 +2003,14 @@ IntNative main ( IntNative argc, Char *argv[] )
-+             testf ( aa->name );
-+ 	 }
-+       }
-+-      if (testFailsExist && noisy) {
-+-         fprintf ( stderr,
-+-           "\n"
-+-           "You can use the `bzip2recover' program to attempt to recover\n"
-+-           "data from undamaged sections of corrupted files.\n\n"
-+-         );
-++      if (testFailsExist) {
-++         if (noisy) {
-++            fprintf ( stderr,
-++              "\n"
-++              "You can use the `bzip2recover' program to attempt to recover\n"
-++              "data from undamaged sections of corrupted files.\n\n"
-++            );
-++         }
-+          setExit(2);
-+          exit(exitValue);
-+       }
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-index 233fe4c..d7b8c06 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;beginline=8;endline=37;md5=40d9d1eb05736d1bfc
- PR = "r5"
- 
- SRC_URI = "http://www.bzip.org/${PV}/${BP}.tar.gz \
-+           file://fix-bunzip2-qt-returns-0-for-corrupt-archives.patch \
-            file://configure.ac;subdir=${BP} \
-            file://Makefile.am;subdir=${BP} \
-            file://run-ptest"
--- 
-1.9.1
 
 
