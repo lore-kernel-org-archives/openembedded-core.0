@@ -1,16 +1,37 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id CDCC974242
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id B272277085
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Oct 2015 10:15:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 10597608E37
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Oct 2015 11:14:47 +0100
-Message-Id: <cover.1444817583.git.joshua.lock@collabora.co.uk>
-X-Mailer: git-send-email 2.1.4
-Subject: [RFC PATCH 0/2] Clean up connman-conf
+	Wed, 14 Oct 2015 10:55:42 +0000 (UTC)
+Received: by qgt47 with SMTP id 47so38572662qgt.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Oct 2015 03:55:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=DFsv+EP7XICu5BaDlmmMTSN3UH5U6xLNF1aK6FPHtbk=;
+	b=V0zLApbWgEFls9//tZQprPlmvovq/Qn8D+L72UTicGEA2B6n3nTf76jh38SPjPjR5t
+	Pu5EVbhHnT19T3FUtbCvEb2h9kVQogi9Pz4kW/QsK5iuRnlGab3hfZMMNH4UCU38mABp
+	zxBuL7RNfBclVl/WWYNC0Zav13Uec7aXhrRP70YrbW2hTaUpOL876bR2Lvi4DnTYqC/2
+	syaQZcfupVDB7lB4TGewps5wbydg1d6QR2Xd3ct4wnJ9qyIUf7Qt6Eg9V+1BIc1/HBZD
+	WHawYJjvvPg+Np2mJ+LZTyXU0dU4oUXvMoGJK2dlYqoan7YLFkWDH7xYZooflpIQ9e/K
+	kpDQ==
+X-Gm-Message-State: ALoCoQkhECsdmYT+IqW/de072rbtd/dajMIhd+oGSwjuPLQMoBU/CHkkiHden/0nqXhh/ffnzq7h
+X-Received: by 10.140.44.11 with SMTP id f11mr3040386qga.80.1444820142326;
+	Wed, 14 Oct 2015 03:55:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.82 with HTTP; Wed, 14 Oct 2015 03:55:22 -0700 (PDT)
+In-Reply-To: <561DBD79.4090703@windriver.com>
+References: <1441950663-11139-1-git-send-email-wenzong.fan@windriver.com>
+	<561DBD79.4090703@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 14 Oct 2015 11:55:22 +0100
+Message-ID: <CAJTo0LabjLYKjAS2D8gDfR2dRHwP0Z+-91ccN9GkdvbqLTRWMQ@mail.gmail.com>
+To: wenzong fan <wenzong.fan@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mdadm: fix CFLAGS invalid issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,47 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Oct 2015 10:15:12 -0000
+X-List-Received-Date: Wed, 14 Oct 2015 10:55:42 -0000
+Content-Type: multipart/alternative; boundary=001a113b41bc591ff305220e67d3
 
-As reported in YP#8399[1] we currently hack the connman service to try and
-execute a script which is only installed on qemu targets. This pair of
-patches changes the connman-conf recipe to install a oneshot systemd unit
-that is called before ConnMan, removes the ExecStartPre and adds an override
-to the RRECOMMENDS so that the connman-conf is only installed by default for
-qemu machines and images for other machines are left with an error in the
-journal about failing to start a service.
+--001a113b41bc591ff305220e67d3
+Content-Type: text/plain; charset=UTF-8
 
-Please review the following changes for suitability for inclusion. If you have
-any objections or suggestions for improvement, please respond to the patches. If
-you agree with the changes, please provide your Acked-by.
+On 14 October 2015 at 03:27, wenzong fan <wenzong.fan@windriver.com> wrote:
 
-Regards,
+> Ping ...
+>
 
-Joshua
+This doesn't apply to master now, can you rebase please.
 
-1. https://bugzilla.yoctoproject.org/show_bug.cgi?id=8399
+Ross
 
-The following changes since commit e42d8eff9eed7d1454b4f331d96dcee6dea232df:
+--001a113b41bc591ff305220e67d3
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-  bash: Disable custom memory allocator (2015-10-12 14:35:42 +0100)
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 October 2015 at 03:27, wenzong fan <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:wenzong.fan@windriver.com" target=3D"_blank">wenzong.fan@windriver.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ck" =
+class=3D"a3s" style=3D"overflow:hidden">Ping ...<br></div></blockquote></di=
+v><br>This doesn&#39;t apply to master now, can you rebase please.</div><di=
+v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
+v>
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib joshuagl/connman
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/connman
-
-Joshua Lock (2):
-  connman-conf: convert to systemd oneshot
-  connman: tidy up connman-conf usage
-
- meta/recipes-connectivity/connman/connman-conf.bb           | 13 +++++++++++--
- .../connman/connman-conf/qemuall/wired-connection.service   | 10 ++++++++++
- meta/recipes-connectivity/connman/connman.inc               |  5 -----
- meta/recipes-connectivity/connman/connman_1.30.bb           |  2 +-
- 4 files changed, 22 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/wired-connection.service
-
--- 
-2.1.4
-
-
+--001a113b41bc591ff305220e67d3--
