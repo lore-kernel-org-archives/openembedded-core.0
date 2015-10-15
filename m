@@ -1,25 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C93E77032
+	by mail.openembedded.org (Postfix) with ESMTP id 54E0477032
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Oct 2015 14:39:57 +0000 (UTC)
+	Thu, 15 Oct 2015 14:39:58 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Oct 2015 07:39:57 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 15 Oct 2015 07:39:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,686,1437462000"; d="scan'208";a="827690462"
+X-IronPort-AV: E=Sophos;i="5.17,686,1437462000"; d="scan'208";a="827690482"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.23.219.46])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Oct 2015 07:39:57 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 15 Oct 2015 07:39:58 -0700
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Oct 2015 06:29:37 +0000
-Message-Id: <a122232253701935dc215de94c9be4eef7549cf7.1444890026.git.mariano.lopez@linux.intel.com>
+Date: Thu, 15 Oct 2015 06:29:38 +0000
+Message-Id: <9fb7f01e27a7c8df2e6efc9fca13acca19e2f54c.1444890026.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
 In-Reply-To: <cover.1444890026.git.mariano.lopez@linux.intel.com>
 References: <cover.1444890026.git.mariano.lopez@linux.intel.com>
 In-Reply-To: <cover.1444890026.git.mariano.lopez@linux.intel.com>
 References: <cover.1444890026.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/2] oetest: Add tearDownLocal class
+Subject: [PATCH 2/2] oeqa/runtime: Fix setUp and tearDown methods
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +32,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Oct 2015 14:39:57 -0000
+X-List-Received-Date: Thu, 15 Oct 2015 14:39:58 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-In the current state there are some runtime test that
-don't run the tearDown method fromm oeRuntimeTest class
-because the tearDown class is overwritten in the child
-class.
+Currently some of the runtime test overwrites
+the setUp and tearDown methods provided by
+oeRuntimeTest, this will avoid some checks
+required when running the test suit.
 
-This change adds tearDownLocal method in oeRuntimeTest
-class that will run after tearDown. This method can be
-overwritten in the child classes to implement specific
-test functionality.
+This patch changes the setUp and tearDown methods
+for their local counterparts, so when these
+tests are called, it will run the parent setUp
+and tearDown and also the local ones.
 
 [YOCTO #8465]
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/lib/oeqa/oetest.py | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/lib/oeqa/runtime/_ptest.py       | 2 +-
+ meta/lib/oeqa/runtime/date.py         | 4 ++--
+ meta/lib/oeqa/runtime/kernelmodule.py | 4 ++--
+ meta/lib/oeqa/runtime/scanelf.py      | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index e3bbc46..6f9edec 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -196,6 +196,12 @@ class oeRuntimeTest(oeTest):
-             print ("%s dump data stored in %s" % (self._testMethodName,
-                      self.tc.host_dumper.dump_dir))
+diff --git a/meta/lib/oeqa/runtime/_ptest.py b/meta/lib/oeqa/runtime/_ptest.py
+index 81c9c43..0621028 100644
+--- a/meta/lib/oeqa/runtime/_ptest.py
++++ b/meta/lib/oeqa/runtime/_ptest.py
+@@ -98,7 +98,7 @@ class PtestRunnerTest(oeRuntimeTest):
  
-+        self.tearDownLocal()
-+
-+    # Method to be run after tearDown and implemented by child classes
+         return complementary_pkgs.split()
+ 
+-    def setUp(self):
++    def setUpLocal(self):
+         self.ptest_log = os.path.join(oeRuntimeTest.tc.d.getVar("TEST_LOG_DIR",True), "ptest-%s.log" % oeRuntimeTest.tc.d.getVar('DATETIME', True))
+ 
+     @skipUnlessPassed('test_ssh')
+diff --git a/meta/lib/oeqa/runtime/date.py b/meta/lib/oeqa/runtime/date.py
+index 3a8fe84..447987e 100644
+--- a/meta/lib/oeqa/runtime/date.py
++++ b/meta/lib/oeqa/runtime/date.py
+@@ -4,11 +4,11 @@ import re
+ 
+ class DateTest(oeRuntimeTest):
+ 
+-    def setUp(self):
++    def setUpLocal(self):
+         if oeRuntimeTest.tc.d.getVar("VIRTUAL-RUNTIME_init_manager", True) == "systemd":
+             self.target.run('systemctl stop systemd-timesyncd')
+ 
+-    def tearDown(self):
 +    def tearDownLocal(self):
-+        pass
-+
-     #TODO: use package_manager.py to install packages on any type of image
-     def install_packages(self, packagelist):
-         for package in packagelist:
+         if oeRuntimeTest.tc.d.getVar("VIRTUAL-RUNTIME_init_manager", True) == "systemd":
+             self.target.run('systemctl start systemd-timesyncd')
+ 
+diff --git a/meta/lib/oeqa/runtime/kernelmodule.py b/meta/lib/oeqa/runtime/kernelmodule.py
+index 2e81720..38ca184 100644
+--- a/meta/lib/oeqa/runtime/kernelmodule.py
++++ b/meta/lib/oeqa/runtime/kernelmodule.py
+@@ -10,7 +10,7 @@ def setUpModule():
+ 
+ class KernelModuleTest(oeRuntimeTest):
+ 
+-    def setUp(self):
++    def setUpLocal(self):
+         self.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "hellomod.c"), "/tmp/hellomod.c")
+         self.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "hellomod_makefile"), "/tmp/Makefile")
+ 
+@@ -30,5 +30,5 @@ class KernelModuleTest(oeRuntimeTest):
+             (status, output) = self.target.run(cmd, 900)
+             self.assertEqual(status, 0, msg="\n".join([cmd, output]))
+ 
+-    def tearDown(self):
++    def tearDownLocal(self):
+         self.target.run('rm -f /tmp/Makefile /tmp/hellomod.c')
+diff --git a/meta/lib/oeqa/runtime/scanelf.py b/meta/lib/oeqa/runtime/scanelf.py
+index 43a024a..67e02ff 100644
+--- a/meta/lib/oeqa/runtime/scanelf.py
++++ b/meta/lib/oeqa/runtime/scanelf.py
+@@ -8,7 +8,7 @@ def setUpModule():
+ 
+ class ScanelfTest(oeRuntimeTest):
+ 
+-    def setUp(self):
++    def setUpLocal(self):
+         self.scancmd = 'scanelf --quiet --recursive --mount --ldpath --path'
+ 
+     @testcase(966)
 -- 
 1.8.4.5
 
