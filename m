@@ -1,25 +1,36 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 54E0477032
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A598277105
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Oct 2015 14:39:58 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Oct 2015 07:39:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,686,1437462000"; d="scan'208";a="827690482"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Oct 2015 07:39:58 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Oct 2015 06:29:38 +0000
-Message-Id: <9fb7f01e27a7c8df2e6efc9fca13acca19e2f54c.1444890026.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1444890026.git.mariano.lopez@linux.intel.com>
-References: <cover.1444890026.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1444890026.git.mariano.lopez@linux.intel.com>
-References: <cover.1444890026.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 2/2] oeqa/runtime: Fix setUp and tearDown methods
+	Thu, 15 Oct 2015 15:05:08 +0000 (UTC)
+Received: by igbdj2 with SMTP id dj2so13982725igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Oct 2015 08:05:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=BAZjjvasC3aBeFm+ncbsrA4zOecjsbx6KqkJiqfj0kE=;
+	b=E8KhhJRPjUUJk1bGu1X3TexjPfE0GlMafHCcQAFPIia2X+mdrjv/bhfcBDdUkUiv/+
+	AvhX0tUwEa9e7MByLdeQK7FduP8W07LGhLWuMjkBqEqKRgBXOrXZ+ZdPRnSppenQz2U3
+	fSReNXrFEgl0+t8WT3HsmEl0YQVN0QUt4PkZfktVwcnIIEBXxJq27bMo4NqAywIYrLNq
+	oHA4aBeO4wRn1t7E6GQ2oLbcKo/6mgJuta2iJJ/+TyLOvcsR03j1Y4HR9fwjTomaK/It
+	hhDpSSI0vZeRLHeEl3FWrE/PS4XqHp6kjPxEwOO4b2YBf5BVKCaSVO+XiZQjvkiLc5u5
+	s+sA==
+X-Received: by 10.50.112.33 with SMTP id in1mr7093948igb.11.1444921507960;
+	Thu, 15 Oct 2015 08:05:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.142.130 with HTTP; Thu, 15 Oct 2015 08:04:38 -0700 (PDT)
+In-Reply-To: <1444903356.5251.58.camel@pbcl.net>
+References: <CAJ86T=U7+d4niZ=hLgQywS6utiL5YJqw1r0E-+_friceOMm4ZQ@mail.gmail.com>
+	<4CDE18CB-CAC5-4BE6-9361-89750B612EB1@gmail.com>
+	<1444903356.5251.58.camel@pbcl.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 15 Oct 2015 08:04:38 -0700
+Message-ID: <CAMKF1srjY-XFmaYvbxBT8NrPa4PVO-opsoXE9hQBtYqvt0aPHA@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: syslinux + gcc 5.2 build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,95 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Oct 2015 14:39:58 -0000
+X-List-Received-Date: Thu, 15 Oct 2015 15:05:09 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+On Thu, Oct 15, 2015 at 3:02 AM, Phil Blundell <pb@pbcl.net> wrote:
+> On Wed, 2015-10-14 at 23:37 -0700, Khem Raj wrote:
+>> > On Oct 14, 2015, at 2:38 PM, Andre McCurdy <armccurdy@gmail.com>
+>> > wrote:
+>> >
+>> > I'm seeing what looks like a gcc bug when building syslinux with
+>> > certain combinations of TUNE_CCARGS. A specific combination which
+>> > fails is:
+>> >
+>> >  TUNE_CCARGS =3D " -m32 -march=3Dcore2 -mtune=3Dcore2 -msse3 -mfpmath=
+=3Dsse
+>> > -fschedule-insns=E2=80=9D
+>>
+>>
+>> and why would you use -fschedule-insns on something like ia32 with so
+>> few general purpose regs
+>> at disposal ?
+>
+> -fschedule-insns is enabled by default at -O2 anyway so I'm slightly
+> surprised that this is making a difference.  As far as I know it is
+> entirely reasonable to use that option on x86: there is still scope for
+> instruction reordering even though the number of GP regs is small.
+>
 
-Currently some of the runtime test overwrites
-the setUp and tearDown methods provided by
-oeRuntimeTest, this will avoid some checks
-required when running the test suit.
+There are other options that are also involved here, anyway what I was
+pointing to
+was that insn pass happens before machine regs are assigned so it may not a=
+lways
+work and cause this kind of ICEs especially on machines with smaller
+number of GPs
 
-This patch changes the setUp and tearDown methods
-for their local counterparts, so when these
-tests are called, it will run the parent setUp
-and tearDown and also the local ones.
+>> applying any insn schedule opts before machine registers are assigned
+>> may not always work.
+>
+> I don't really understand this comment.  Are you saying that you think
+> only -fschedule-insns2 should be used, not -fschedule-insns?
 
-[YOCTO #8465]
+insn2 is safer since its run after register allocation.
+so you wont have the register pressure issue.
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/lib/oeqa/runtime/_ptest.py       | 2 +-
- meta/lib/oeqa/runtime/date.py         | 4 ++--
- meta/lib/oeqa/runtime/kernelmodule.py | 4 ++--
- meta/lib/oeqa/runtime/scanelf.py      | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/meta/lib/oeqa/runtime/_ptest.py b/meta/lib/oeqa/runtime/_ptest.py
-index 81c9c43..0621028 100644
---- a/meta/lib/oeqa/runtime/_ptest.py
-+++ b/meta/lib/oeqa/runtime/_ptest.py
-@@ -98,7 +98,7 @@ class PtestRunnerTest(oeRuntimeTest):
- 
-         return complementary_pkgs.split()
- 
--    def setUp(self):
-+    def setUpLocal(self):
-         self.ptest_log = os.path.join(oeRuntimeTest.tc.d.getVar("TEST_LOG_DIR",True), "ptest-%s.log" % oeRuntimeTest.tc.d.getVar('DATETIME', True))
- 
-     @skipUnlessPassed('test_ssh')
-diff --git a/meta/lib/oeqa/runtime/date.py b/meta/lib/oeqa/runtime/date.py
-index 3a8fe84..447987e 100644
---- a/meta/lib/oeqa/runtime/date.py
-+++ b/meta/lib/oeqa/runtime/date.py
-@@ -4,11 +4,11 @@ import re
- 
- class DateTest(oeRuntimeTest):
- 
--    def setUp(self):
-+    def setUpLocal(self):
-         if oeRuntimeTest.tc.d.getVar("VIRTUAL-RUNTIME_init_manager", True) == "systemd":
-             self.target.run('systemctl stop systemd-timesyncd')
- 
--    def tearDown(self):
-+    def tearDownLocal(self):
-         if oeRuntimeTest.tc.d.getVar("VIRTUAL-RUNTIME_init_manager", True) == "systemd":
-             self.target.run('systemctl start systemd-timesyncd')
- 
-diff --git a/meta/lib/oeqa/runtime/kernelmodule.py b/meta/lib/oeqa/runtime/kernelmodule.py
-index 2e81720..38ca184 100644
---- a/meta/lib/oeqa/runtime/kernelmodule.py
-+++ b/meta/lib/oeqa/runtime/kernelmodule.py
-@@ -10,7 +10,7 @@ def setUpModule():
- 
- class KernelModuleTest(oeRuntimeTest):
- 
--    def setUp(self):
-+    def setUpLocal(self):
-         self.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "hellomod.c"), "/tmp/hellomod.c")
-         self.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "hellomod_makefile"), "/tmp/Makefile")
- 
-@@ -30,5 +30,5 @@ class KernelModuleTest(oeRuntimeTest):
-             (status, output) = self.target.run(cmd, 900)
-             self.assertEqual(status, 0, msg="\n".join([cmd, output]))
- 
--    def tearDown(self):
-+    def tearDownLocal(self):
-         self.target.run('rm -f /tmp/Makefile /tmp/hellomod.c')
-diff --git a/meta/lib/oeqa/runtime/scanelf.py b/meta/lib/oeqa/runtime/scanelf.py
-index 43a024a..67e02ff 100644
---- a/meta/lib/oeqa/runtime/scanelf.py
-+++ b/meta/lib/oeqa/runtime/scanelf.py
-@@ -8,7 +8,7 @@ def setUpModule():
- 
- class ScanelfTest(oeRuntimeTest):
- 
--    def setUp(self):
-+    def setUpLocal(self):
-         self.scancmd = 'scanelf --quiet --recursive --mount --ldpath --path'
- 
-     @testcase(966)
--- 
-1.8.4.5
-
+>
+> p.
+>
 
