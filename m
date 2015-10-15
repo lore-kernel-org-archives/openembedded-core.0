@@ -1,38 +1,39 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C915770CF
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id F11CC77085
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Oct 2015 11:18:56 +0000 (UTC)
-Received: by wicll6 with SMTP id ll6so14035582wic.1
+	Thu, 15 Oct 2015 11:31:25 +0000 (UTC)
+Received: by wicll6 with SMTP id ll6so14512334wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Oct 2015 04:18:56 -0700 (PDT)
+	Thu, 15 Oct 2015 04:31:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=o9hvzPhzHhjbmJfQCGa4uzsVcFeHfIaC2dnHJHeS79c=;
-	b=htzgU58Hy54gjpgmCVN17hy9OvgQJzva45qn3WPjKO5F37MNefMNmhbwg2PDfSG2Wy
-	Vqhe06UeVnZWfwHm1D7dmrs0aO/780ckuP9Tkw7QMSKsNYbmwec3zmhg0E0zc+pctItK
-	rnqaQTkpOQBYPOKrXwdCBi+9aWoUefh1XwtDugp1VHZvEqDCfTdXhJHpEbxYypMbKYQJ
-	0JjPfSMvhG+YG+OrVZGX3jiLMB0TE/+uwgN8I5i1bb4k4WrBmgzN/Tm921lAKzjkqXRC
-	l/pA/jPAyCn9ZZ2PK62dVCkbU+QYhVkpAg7eRabLFrYLU1ERTIsEMF0DiLOSPf/nn92i
-	CB3w==
-X-Received: by 10.180.186.74 with SMTP id fi10mr31738904wic.61.1444907936736; 
-	Thu, 15 Oct 2015 04:18:56 -0700 (PDT)
-Received: from ernie.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
-	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
-	hk5sm15850655wjb.6.2015.10.15.04.18.55
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 15 Oct 2015 04:18:55 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-From: Jens Rehsack <rehsack@gmail.com>
-In-Reply-To: <1444906192.5251.63.camel@pbcl.net>
-Date: Thu, 15 Oct 2015 13:18:53 +0200
-Message-Id: <2F004997-0069-4F36-972C-BFB6919EE288@gmail.com>
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=w/UWN/dXbYadqovFi99LUBHTigAZ53hF4ZqqTJNHqcs=;
+	b=03+IB3QBIhGAHRvHJTIFGCthj0p2bS2fKRYnxqLF4jCDlFxaAqB/ghn9561JiYQy+5
+	FTOhWxiF0ZRULmF2wRFvCBh6YfkI9VWnLZDhUwXxRFwOhkWXdxpnBu6yfKQwVKsjIr9D
+	U3GbcbqR5L6qmgjHOLWRYwIGzhU1n4syzl2Iwf+cumWHrkj5HvBtohsoGbMmRVJv6I2P
+	3pHtA2be9WQWC0pbk755UDgyrnbEjoL4AyRNdo8BF3DJaRhBStwOD62uDqcG94FX+WPR
+	/tyfq8XyjwvHO2jIw3T4HcHv6heJTQ9UWLp5d4e9CGr48UpOlVdymYz5J/GjvUa+T/kZ
+	8gTg==
+X-Received: by 10.194.52.67 with SMTP id r3mr11729379wjo.51.1444908685668;
+	Thu, 15 Oct 2015 04:31:25 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	lk5sm11067698wic.0.2015.10.15.04.31.24
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 15 Oct 2015 04:31:24 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 15 Oct 2015 13:31:47 +0200
+To: Phil Blundell <pb@pbcl.net>
+Message-ID: <20151015113146.GB2588@jama>
 References: <AEAA8709-CF45-4759-BDEF-24201C0B19DE@gmail.com>
 	<1444906192.5251.63.camel@pbcl.net>
-To: Phil Blundell <pb@pbcl.net>
-X-Mailer: Apple Mail (2.2104)
+MIME-Version: 1.0
+In-Reply-To: <1444906192.5251.63.camel@pbcl.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] ARM: handle missing thumb suffix
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,29 +48,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Oct 2015 11:18:58 -0000
+X-List-Received-Date: Thu, 15 Oct 2015 11:31:28 -0000
+X-Groupsio-MsgNum: 72220
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="RASg3xLB4tUQ4RcS"
+Content-Disposition: inline
+
+--RASg3xLB4tUQ4RcS
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-
-> Am 15.10.2015 um 12:49 schrieb Phil Blundell <pb@pbcl.net>:
-> 
+On Thu, Oct 15, 2015 at 11:49:52AM +0100, Phil Blundell wrote:
 > On Tue, 2015-10-13 at 22:37 +0200, Jens Rehsack wrote:
->> When enabling tune for arm926ejs, poky optionally appends suffixes 
->> for thumb and dsp support. Since sometimes arm926ejse (ARM code) and 
->> sometime arm926ejste (thumb code) is used in PACKAGE_ARCH, allow 
->> both.
-> 
+> > When enabling tune for arm926ejs, poky optionally appends suffixes=20
+> > for thumb and dsp support. Since sometimes arm926ejse (ARM code) and=20
+> > sometime arm926ejste (thumb code) is used in PACKAGE_ARCH, allow=20
+> > both.
+>=20
 > It seems like it is a bug for "arm926ejste" ever to be showing up in
 > PACKAGE_ARCH, and it would be better to fix the packaging code to not
 > do that.  ARM926EJ-S is a CPU not an architecture.
 
-The CPU is Kirkwood 6281, arm926ej-s is a design, like cortex-a9.
+It's package architecture for binary feeds with -mtune=3Darm926ejs and it
+can be built with or without -mthumb, that's why packages can be built
+in arm926ejse or arm926ejste package feed.
 
-Just to avoid some confusion ;)
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Cheers
--- 
-Jens Rehsack - rehsack@gmail.com
+--RASg3xLB4tUQ4RcS
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iEYEARECAAYFAlYfjqIACgkQN1Ujt2V2gBxc0ACghaUsYLr8oT4fy4fqGKS1i5/E
++ZYAniG3W17l86IX72ze7mdz9qw9C2T0
+=K08A
+-----END PGP SIGNATURE-----
+
+--RASg3xLB4tUQ4RcS--
