@@ -1,33 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id B2EC4770AD
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 9740D770AD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Oct 2015 00:46:47 +0000 (UTC)
-Received: by iodv82 with SMTP id v82so73945708iod.0
+	Thu, 15 Oct 2015 01:01:21 +0000 (UTC)
+Received: by wijq8 with SMTP id q8so106410097wij.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Oct 2015 17:46:47 -0700 (PDT)
+	Wed, 14 Oct 2015 18:01:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=VtC9+JNzKpFwUTHv5rh8MNLMI5TzgD4HSZeYFZpn6mc=;
-	b=xKMCQVehcgqYafqLazWIh3lnAjVVdHfIRdYrVvQNYE51Kb0CcButvjKfbuN3qW02pC
-	fXCMagrEllBlDDR5WlmALx6ZC0kkTg1PyHJnTECUY5TPxyqCt+TtJXdV1S6R1DGD8kmH
-	SgnfQ0e/+H7oI9sIsX+7CPtDzB6G7lYkPXFL73QijylLNbqfFau14qC+H75SFrfHdHS+
-	m5rRg3O5o8EXXaFzqoXWtiAlpZ1mNIN+5vB60sNfrJP46+KM1UjZXVWJwelucgeehUGd
-	trxtq0Nh8leblQUUlZ5ycN6xj28LyEB6llqy3EHD0P0swvv6E6eT8qdDoWSL5CWCpErQ
-	cgUA==
-X-Received: by 10.107.34.149 with SMTP id i143mr8194349ioi.195.1444870007853; 
-	Wed, 14 Oct 2015 17:46:47 -0700 (PDT)
+	bh=5pbqyoh52vZZlOFvO5mMqLJF3fOgWMp9fXS/w8ExSkU=;
+	b=ER1BW4UDx5Tki/EJ7U0VEYyEyQdWZ9rtSH9jd5RQ52R1unqNju9BJxWtSiyNqu663q
+	chiIL9pmz27k2Q6QOi/qlLT54DKuKlf2+QgmqPAIGjxBg4H8ek/ntZgu1BmWG/IIS7pz
+	E8Kgu8SV0DwlmymSAyeYVAbAgTmAQGu7RftmOzh8h+8hHiOIaRLqMkrV8DLgOZma5d8A
+	Tv7Ae1I4dfxQIDSB8qEyCfIOY7f5E7L6S6n3vtLOe3VlHViBHooKLAO+bxrD5wIyYHFG
+	axlu0Tkm7jVY7qKl+4Bz7VIP4qPabW3244updt5V+/jNl2PqLEAGCDSHT5LpqYluDUdU
+	9F7Q==
 MIME-Version: 1.0
-Received: by 10.107.142.130 with HTTP; Wed, 14 Oct 2015 17:46:18 -0700 (PDT)
+X-Received: by 10.180.12.178 with SMTP id z18mr22550131wib.17.1444870881453;
+	Wed, 14 Oct 2015 18:01:21 -0700 (PDT)
+Received: by 10.194.169.6 with HTTP; Wed, 14 Oct 2015 18:01:21 -0700 (PDT)
 In-Reply-To: <1444869896-19673-1-git-send-email-raj.khem@gmail.com>
 References: <1444869896-19673-1-git-send-email-raj.khem@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 14 Oct 2015 17:46:18 -0700
-Message-ID: <CAMKF1so2nvL+-WTA=0KazYOjBbFtdoc1cSuNv3GGTqnRaGbgjg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Oct 2015 18:01:21 -0700
+Message-ID: <CAJ86T=Wr4RPyOOCgFjO+Q6XN4dCJNe_ht26exEq+O6ewyW_WCQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] uclibc: Fix build with gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -41,16 +41,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Oct 2015 00:46:50 -0000
+X-List-Received-Date: Thu, 15 Oct 2015 01:01:25 -0000
 Content-Type: text/plain; charset=UTF-8
-
-please backport this to jethro as well. with out this uclibc images won't build.
 
 On Wed, Oct 14, 2015 at 5:44 PM, Khem Raj <raj.khem@gmail.com> wrote:
 > An agressive optimization in gcc5 meant that we get linking errors
 > with uclibc build, this patch fixes the issue by letting gcc know
 > that these funcitons are used.
->
+
+Just for reference, the same fix has been in uclibc-ng since June:
+
+  http://cgit.uclibc-ng.org/cgi/cgit/uclibc-ng.git/commit/?id=96807d27a3ea01f427b6b98618ca87e9c1c00683
+
+It looks like uclibc-ng is really becoming the new upstream for uclibc.
+
+
 > Change-Id: I8ecf3999a0855b3bbf4bc2df576be5351f9be5b0
 > Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
@@ -130,4 +135,9 @@ On Wed, Oct 14, 2015 at 5:44 PM, Khem Raj <raj.khem@gmail.com> wrote:
 > --
 > 2.6.1
 >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
