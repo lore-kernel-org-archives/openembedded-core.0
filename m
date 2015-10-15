@@ -1,22 +1,38 @@
-Return-Path: <benjamin.esquivel@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 25B92770EF
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id BB70177128
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Oct 2015 17:27:24 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 15 Oct 2015 10:27:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,686,1437462000"; d="scan'208";a="827562112"
-Received: from besquive-mobl2.amr.corp.intel.com (HELO
-	besquive-mobl2.zpn.intel.com) ([10.219.27.50])
-	by orsmga002.jf.intel.com with ESMTP; 15 Oct 2015 10:27:25 -0700
-From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Oct 2015 12:27:01 -0500
-Message-Id: <1444930021-4096-1-git-send-email-benjamin.esquivel@linux.intel.com>
-X-Mailer: git-send-email 2.4.3
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH] populate SDK: prepare calling of bb.utils for exceptions
+	Thu, 15 Oct 2015 20:02:52 +0000 (UTC)
+Received: by igbif5 with SMTP id if5so2889762igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Oct 2015 13:02:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=djk9dtTWjyxWDP40WWMmL9hl3IkwqQDt9e0iqi9AFv0=;
+	b=ensxlQPyyqg6QDUozb+k5k7hoCYTt+/af9uRQC4A/eGpwh/qxawcn72KoeZ9XzbEFi
+	osZwjx16CmpVFshtxxrqo2gAwYMycHnYBRidrbkWWmAp00mpCO3k1bscWHgf+aWNmiiY
+	G/GXNrx2TH/7Ympl/Yy7z5/4w9V6MOHx7tEB5m0Ix9L6XFThJRbCLlaoxw+O7p4l99fW
+	Iz5qfn0sb1GtlaYYbzJxWtpZ4aT0eKXK6IrtSBOogwRcC7SuuSTa/2/SIfPeWjIg1yLr
+	9Z2MmA/nZ2Eg6Y3la6XFOc4WYx/nl04ViLPJoY0x+53YYIQjwPEYmPCt3Bp6j4eQUl37
+	Yn3A==
+MIME-Version: 1.0
+X-Received: by 10.50.143.4 with SMTP id sa4mr931585igb.52.1444939372873; Thu,
+	15 Oct 2015 13:02:52 -0700 (PDT)
+Received: by 10.36.98.143 with HTTP; Thu, 15 Oct 2015 13:02:52 -0700 (PDT)
+In-Reply-To: <CAJTo0Lb+ocUQw0O=423w9MO9Tr=J64yTb==GxHzWhQgUu7=AvQ@mail.gmail.com>
+References: <cover.1444392901.git.jussi.kukkonen@intel.com>
+	<CALbNGRSLEKJUYXgMCdv_oB+JD++AemnvNyM8cmCqD7o26wXqeQ@mail.gmail.com>
+	<CALbNGRSUht+HkkJOkv0NZ38yjcOdahPRVOhar830BbcSFYEj9Q@mail.gmail.com>
+	<CAJTo0Lb+ocUQw0O=423w9MO9Tr=J64yTb==GxHzWhQgUu7=AvQ@mail.gmail.com>
+Date: Thu, 15 Oct 2015 22:02:52 +0200
+Message-ID: <CALbNGRTPFkfP5CRa=qH18OLX8D7qgxNQx35jOEJakfAUvXMZSw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [PATCH 0/1] Solving the GTK+ libgl runtime dependency issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,190 +45,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Oct 2015 17:27:29 -0000
+X-List-Received-Date: Thu, 15 Oct 2015 20:02:53 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-bb.utils.remove, bb.utils.movefile and bb.utils.mkdirhier can throw
-exceptions that need handling and proper error messages.
+On Thu, Oct 15, 2015 at 9:42 PM, Burton, Ross <ross.burton@intel.com> wrote=
+:
+> On 15 October 2015 at 18:26, Andreas M=C3=BCller <schnitzeltony@googlemai=
+l.com>
+> wrote:
+>
+>> I have several gtk3+ applications that stopped working. E.G
+>> network-manager-applet has stopped working: running
+>> nm-connection-editor fails with 'Couldn't open libGL.so.1'. Same for
+>> parole.
+>> I grepped network-manager-applet: there is not GtkGL or GdkGL found in
+>> the sources (ok - it could be the dependencies). I still get the
+>> feeling something goes wrong with libepoxy. And I am quite sure that
+>> I've seen both (nm-applet/parole) running with gtk3 requiring
+>> libepoxy...
+>>
+>
+> That's not good, sounds like a bug in GTK+3 - it shouldn't be initialisin=
+g
+> the GL code.
+>
+> The only bit of source that includes epoxy is gtkglarea.c.  libepoxy only
+> looks up libGL.so.1 when it's invoked.
+That makes it even more mysterious...
+>
+> What's the exact message you get, and bonus points if you can attach a gd=
+b
+> with debug symbols to get a backtrace.  Maybe something like Glade is
+> instantiating every class?
+>
+I moved this thread to core - I sent to wrong list - sorry
 
-[YOCTO#8213]
+Error messages are
+[operator@raspberrypi2 ~]$ nm-connection-editor
+Couldn't open libGL.so.1: libGL.so.1: cannot open shared object file:
+No such file or directory
+[operator@raspberrypi2 ~]$ parole
+Couldn't open libGL.so.1: libGL.so.1: cannot open shared object file:
+No such file or directory
 
-Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
----
- meta/lib/oe/sdk.py | 81 ++++++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 57 insertions(+), 24 deletions(-)
+Yes gdb is what I try next.
 
-diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
-index 53da0f0..cefe3d8 100644
---- a/meta/lib/oe/sdk.py
-+++ b/meta/lib/oe/sdk.py
-@@ -25,7 +25,7 @@ class Sdk(object):
-         else:
-             self.manifest_dir = manifest_dir
- 
--        bb.utils.remove(self.sdk_output, True)
-+        self.remove(self.sdk_output, True)
- 
-         self.install_order = Manifest.INSTALL_ORDER
- 
-@@ -34,29 +34,60 @@ class Sdk(object):
-         pass
- 
-     def populate(self):
--        bb.utils.mkdirhier(self.sdk_output)
-+        self.mkdirhier(self.sdk_output)
-+
- 
-         # call backend dependent implementation
-         self._populate()
- 
-         # Don't ship any libGL in the SDK
--        bb.utils.remove(os.path.join(self.sdk_output, self.sdk_native_path,
--                                     self.d.getVar('libdir_nativesdk', True).strip('/'),
--                                     "libGL*"))
-+        self.remove(os.path.join(self.sdk_output, self.sdk_native_path,
-+                         self.d.getVar('libdir_nativesdk', True).strip('/'),
-+                         "libGL*"))
- 
-         # Fix or remove broken .la files
--        bb.utils.remove(os.path.join(self.sdk_output, self.sdk_native_path,
--                                     self.d.getVar('libdir_nativesdk', True).strip('/'),
--                                     "*.la"))
-+        self.remove(os.path.join(self.sdk_output, self.sdk_native_path,
-+                         self.d.getVar('libdir_nativesdk', True).strip('/'),
-+                         "*.la"))
- 
-         # Link the ld.so.cache file into the hosts filesystem
-         link_name = os.path.join(self.sdk_output, self.sdk_native_path,
-                                  self.sysconfdir, "ld.so.cache")
--        bb.utils.mkdirhier(os.path.dirname(link_name))
-+        newdir = os.path.dirname(link_name)
-+        self.mkdirhier(newdir)
-+
-         os.symlink("/etc/ld.so.cache", link_name)
- 
-         execute_pre_post_process(self.d, self.d.getVar('SDK_POSTPROCESS_COMMAND', True))
- 
-+    def movefile(self, sourcefile, destdir):
-+        try:
-+            # FIXME: this check of movefile's return code to None should be
-+            # fixed within the function to use only exceptions to signal when
-+            # something goes wrong
-+            if (bb.utils.movefile(sourcefile, destdir) == None):
-+                raise Exception("moving {} to {} failed".format(
-+                                        sourcefile, destdir))
-+        except Exception as e:
-+            bb.warn(str(e))
-+            bb.error("unable to place {} in final SDK location".format(
-+                        sourcefile))
-+
-+    def mkdirhier(self, dirpath):
-+        try:
-+            bb.utils.mkdirhier(dirpath)
-+        except OSError as e:
-+            bb.warn(str(e))
-+            bb.error("cannot make dir for SDK: {}".format(dirpath))
-+
-+    def remove(self, path, recurse=False):
-+        try:
-+            bb.utils.remove(path, recurse)
-+        except Exception as e:
-+            bb.warn(str(e))
-+            bb.warn("cannot remove SDK dir: {}".format(path))
-+
-+
- 
- class RpmSdk(Sdk):
-     def __init__(self, d, manifest_dir=None):
-@@ -143,15 +174,15 @@ class RpmSdk(Sdk):
-                                             "lib",
-                                             "rpm"
-                                             )
--        bb.utils.mkdirhier(native_rpm_state_dir)
-+        self.mkdirhier(native_rpm_state_dir)
-         for f in glob.glob(os.path.join(self.sdk_output,
-                                         "var",
-                                         "lib",
-                                         "rpm",
-                                         "*")):
--            bb.utils.movefile(f, native_rpm_state_dir)
-+            self.movefile(f, native_rpm_state_dir)
- 
--        bb.utils.remove(os.path.join(self.sdk_output, "var"), True)
-+        self.remove(os.path.join(self.sdk_output, "var"), True)
- 
-         # Move host sysconfig data
-         native_sysconf_dir = os.path.join(self.sdk_output,
-@@ -159,10 +190,10 @@ class RpmSdk(Sdk):
-                                           self.d.getVar('sysconfdir',
-                                                         True).strip('/'),
-                                           )
--        bb.utils.mkdirhier(native_sysconf_dir)
-+        self.mkdirhier(native_sysconf_dir)
-         for f in glob.glob(os.path.join(self.sdk_output, "etc", "*")):
--            bb.utils.movefile(f, native_sysconf_dir)
--        bb.utils.remove(os.path.join(self.sdk_output, "etc"), True)
-+            self.movefile(f, native_sysconf_dir)
-+        self.remove(os.path.join(self.sdk_output, "etc"), True)
- 
- 
- class OpkgSdk(Sdk):
-@@ -219,12 +250,12 @@ class OpkgSdk(Sdk):
-         target_sysconfdir = os.path.join(self.sdk_target_sysroot, self.sysconfdir)
-         host_sysconfdir = os.path.join(self.sdk_host_sysroot, self.sysconfdir)
- 
--        bb.utils.mkdirhier(target_sysconfdir)
-+        self.mkdirhier(target_sysconfdir)
-         shutil.copy(self.target_conf, target_sysconfdir)
-         os.chmod(os.path.join(target_sysconfdir,
-                               os.path.basename(self.target_conf)), 0644)
- 
--        bb.utils.mkdirhier(host_sysconfdir)
-+        self.mkdirhier(host_sysconfdir)
-         shutil.copy(self.host_conf, host_sysconfdir)
-         os.chmod(os.path.join(host_sysconfdir,
-                               os.path.basename(self.host_conf)), 0644)
-@@ -232,11 +263,11 @@ class OpkgSdk(Sdk):
-         native_opkg_state_dir = os.path.join(self.sdk_output, self.sdk_native_path,
-                                              self.d.getVar('localstatedir_nativesdk', True).strip('/'),
-                                              "lib", "opkg")
--        bb.utils.mkdirhier(native_opkg_state_dir)
-+        self.mkdirhier(native_opkg_state_dir)
-         for f in glob.glob(os.path.join(self.sdk_output, "var", "lib", "opkg", "*")):
--            bb.utils.movefile(f, native_opkg_state_dir)
-+            self.movefile(f, native_opkg_state_dir)
- 
--        bb.utils.remove(os.path.join(self.sdk_output, "var"), True)
-+        self.remove(os.path.join(self.sdk_output, "var"), True)
- 
- 
- class DpkgSdk(Sdk):
-@@ -264,7 +295,7 @@ class DpkgSdk(Sdk):
-     def _copy_apt_dir_to(self, dst_dir):
-         staging_etcdir_native = self.d.getVar("STAGING_ETCDIR_NATIVE", True)
- 
--        bb.utils.remove(dst_dir, True)
-+        self.remove(dst_dir, True)
- 
-         shutil.copytree(os.path.join(staging_etcdir_native, "apt"), dst_dir)
- 
-@@ -306,11 +337,13 @@ class DpkgSdk(Sdk):
- 
-         native_dpkg_state_dir = os.path.join(self.sdk_output, self.sdk_native_path,
-                                              "var", "lib", "dpkg")
--        bb.utils.mkdirhier(native_dpkg_state_dir)
-+        self.mkdirhier(native_dpkg_state_dir)
-+
-         for f in glob.glob(os.path.join(self.sdk_output, "var", "lib", "dpkg", "*")):
--            bb.utils.movefile(f, native_dpkg_state_dir)
-+            self.movefile(f, native_dpkg_state_dir)
-+
-+        self.remove(os.path.join(self.sdk_output, "var"), True)
- 
--        bb.utils.remove(os.path.join(self.sdk_output, "var"), True)
- 
- 
- def sdk_list_installed_packages(d, target, format=None, rootfs_dir=None):
--- 
-2.4.3
-
+Andreas
 
