@@ -1,37 +1,37 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AB77770AD
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FB9E770DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Oct 2015 01:43:57 +0000 (UTC)
-Received: by payp3 with SMTP id p3so22770618pay.1
+	Thu, 15 Oct 2015 01:43:59 +0000 (UTC)
+Received: by pacao1 with SMTP id ao1so5902403pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Oct 2015 18:43:58 -0700 (PDT)
+	Wed, 14 Oct 2015 18:44:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=0h61tZoG1TDgF0gQbkifKuABus1V2UNXhEMh6bXZZDQ=;
-	b=yUrHnXTOE0u4miHa33MestuYCStCAS5i3bxghP5ozCRkIGsdCepOtBnYclJIjub7t6
-	5ySslaggUlvweu2RYjCNwR3oVIVw/mWepNY0f+ycRqw87drFdZWd77WT5DHGgWsyseLQ
-	N20FP6KIxJyx5LVTQ0BEKVt/xkbRVnI4uTFnngfkWy+aO7OKF/mjd69rvD/0JV/IA25a
-	KArxU36yYW7OPCXqaXKewlgWqpfcpp6tMkntHIYQZv3p1o2XhZKQtY2AsI5at6z3kpWC
-	s2nV1hGvj+nXXGe9gZ2DDeO3qOUVCEd2vQZ+HoAgrhQjLPTZSwFqwltX96W9zULyyEzy
-	dBGw==
-X-Received: by 10.67.24.97 with SMTP id ih1mr7089803pad.13.1444873438196;
-	Wed, 14 Oct 2015 18:43:58 -0700 (PDT)
+	bh=kH4k1KFcG0/gdT6e5ZUSlOcmcONo8ol4Guw+hJb0pjE=;
+	b=0Inx+5odpMlfFoUpu+zRyBk+36HP7pyuKcyn7GyvClNgsSRhjAWfP7HANqUb1W/5aP
+	XXTPpd8VisQ8qKDTVTh7DDxjVvZ9cxSNs9seRiEnCMGRqYkTEFFVD/HQIzSGyecM9qJr
+	NCBSLOXarIo4uH0f1i7+LNB/d6GTI4goSc172cHBdOfZs8ldhwIciCsc1btJb6+9PMpg
+	9bm3LN1R6SF/2JOkH/74eorVY1wBNu7mRIOZJZN+6WNOim6++jebYm22ohQI1XGi56ey
+	xTPDq8qC0jDafyBniI1wdVCy5GnLtVf99hmGmmDamwWLgj5GpcyY4CO9CHaGmlnRvonq
+	qPBA==
+X-Received: by 10.68.90.34 with SMTP id bt2mr7078572pbb.145.1444873440327;
+	Wed, 14 Oct 2015 18:44:00 -0700 (PDT)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	z6sm11928971pbt.51.2015.10.14.18.43.57
+	z6sm11928971pbt.51.2015.10.14.18.43.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 14 Oct 2015 18:43:57 -0700 (PDT)
+	Wed, 14 Oct 2015 18:43:59 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Oct 2015 18:43:20 -0700
-Message-Id: <1444873403-21093-9-git-send-email-armccurdy@gmail.com>
+Date: Wed, 14 Oct 2015 18:43:21 -0700
+Message-Id: <1444873403-21093-10-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1444873403-21093-1-git-send-email-armccurdy@gmail.com>
 References: <1444873403-21093-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 08/11] busybox: move common do_install_ptest() into busybox.inc
+Subject: [PATCH 09/11] busybox: re-order defconfig to align with busybox 1.24.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,65 +44,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Oct 2015 01:43:58 -0000
+X-List-Received-Date: Thu, 15 Oct 2015 01:44:00 -0000
 
-Current do_install_ptest() is common to all supported versions of
-busybox (1.23.2 and git), so move from version specific recipes into
-busybox.inc.
+No functional changes, simply re-order lines in defconfig so that
+the existing options don't move elsewhere in the file when run
+though busybox 1.24.0 'make oldconfig'.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-core/busybox/busybox.inc       | 6 ++++++
- meta/recipes-core/busybox/busybox_1.23.2.bb | 6 ------
- meta/recipes-core/busybox/busybox_git.bb    | 6 ------
- 3 files changed, 6 insertions(+), 12 deletions(-)
+ meta/recipes-core/busybox/busybox/defconfig | 38 ++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 878e2bb..e0e4591 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -304,6 +304,12 @@ do_install () {
-     fi
- }
+diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+index 4f5df9e..a5adea2 100644
+--- a/meta/recipes-core/busybox/busybox/defconfig
++++ b/meta/recipes-core/busybox/busybox/defconfig
+@@ -183,10 +183,15 @@ CONFIG_DATE=y
+ # CONFIG_FEATURE_DATE_ISOFMT is not set
+ # CONFIG_FEATURE_DATE_NANO is not set
+ CONFIG_FEATURE_DATE_COMPAT=y
++CONFIG_DD=y
++CONFIG_FEATURE_DD_SIGNAL_HANDLING=y
++# CONFIG_FEATURE_DD_THIRD_STATUS_LINE is not set
++# CONFIG_FEATURE_DD_IBS_OBS is not set
+ # CONFIG_HOSTID is not set
+ CONFIG_ID=y
+ CONFIG_GROUPS=y
+ CONFIG_SHUF=y
++CONFIG_SYNC=y
+ CONFIG_TEST=y
+ CONFIG_FEATURE_TEST_64=y
+ CONFIG_TOUCH=y
+@@ -211,10 +216,6 @@ CONFIG_CHROOT=y
+ CONFIG_CP=y
+ # CONFIG_FEATURE_CP_LONG_OPTIONS is not set
+ CONFIG_CUT=y
+-CONFIG_DD=y
+-CONFIG_FEATURE_DD_SIGNAL_HANDLING=y
+-# CONFIG_FEATURE_DD_THIRD_STATUS_LINE is not set
+-# CONFIG_FEATURE_DD_IBS_OBS is not set
+ CONFIG_DF=y
+ # CONFIG_FEATURE_DF_FANCY is not set
+ CONFIG_DIRNAME=y
+@@ -283,7 +284,6 @@ CONFIG_STAT=y
+ CONFIG_FEATURE_STAT_FORMAT=y
+ CONFIG_STTY=y
+ # CONFIG_SUM is not set
+-CONFIG_SYNC=y
+ # CONFIG_TAC is not set
+ CONFIG_TAIL=y
+ CONFIG_FEATURE_FANCY_TAIL=y
+@@ -553,6 +553,15 @@ CONFIG_FSTRIM=y
+ # CONFIG_FEATURE_MDEV_RENAME_REGEXP is not set
+ # CONFIG_FEATURE_MDEV_EXEC is not set
+ # CONFIG_FEATURE_MDEV_LOAD_FIRMWARE is not set
++CONFIG_MOUNT=y
++# CONFIG_FEATURE_MOUNT_FAKE is not set
++# CONFIG_FEATURE_MOUNT_VERBOSE is not set
++# CONFIG_FEATURE_MOUNT_HELPERS is not set
++# CONFIG_FEATURE_MOUNT_LABEL is not set
++CONFIG_FEATURE_MOUNT_NFS=y
++# CONFIG_FEATURE_MOUNT_CIFS is not set
++CONFIG_FEATURE_MOUNT_FLAGS=y
++CONFIG_FEATURE_MOUNT_FSTAB=y
+ # CONFIG_REV is not set
+ # CONFIG_ACPID is not set
+ # CONFIG_FEATURE_ACPID_COMPAT is not set
+@@ -599,15 +608,6 @@ CONFIG_LOSETUP=y
+ CONFIG_MKSWAP=y
+ # CONFIG_FEATURE_MKSWAP_UUID is not set
+ CONFIG_MORE=y
+-CONFIG_MOUNT=y
+-# CONFIG_FEATURE_MOUNT_FAKE is not set
+-# CONFIG_FEATURE_MOUNT_VERBOSE is not set
+-# CONFIG_FEATURE_MOUNT_HELPERS is not set
+-# CONFIG_FEATURE_MOUNT_LABEL is not set
+-CONFIG_FEATURE_MOUNT_NFS=y
+-# CONFIG_FEATURE_MOUNT_CIFS is not set
+-CONFIG_FEATURE_MOUNT_FLAGS=y
+-CONFIG_FEATURE_MOUNT_FSTAB=y
+ CONFIG_PIVOT_ROOT=y
+ CONFIG_RDATE=y
+ # CONFIG_RDEV is not set
+@@ -758,6 +758,11 @@ CONFIG_NC=y
+ CONFIG_PING=y
+ CONFIG_PING6=y
+ CONFIG_FEATURE_FANCY_PING=y
++CONFIG_WGET=y
++CONFIG_FEATURE_WGET_STATUSBAR=y
++CONFIG_FEATURE_WGET_AUTHENTICATION=y
++CONFIG_FEATURE_WGET_LONG_OPTIONS=y
++CONFIG_FEATURE_WGET_TIMEOUT=y
+ # CONFIG_WHOIS is not set
+ CONFIG_FEATURE_IPV6=y
+ # CONFIG_FEATURE_UNIX_LOCAL is not set
+@@ -885,11 +890,6 @@ CONFIG_UDHCPC_SLACK_FOR_BUGGY_SERVERS=80
+ CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS="-R -n"
+ # CONFIG_UDPSVD is not set
+ # CONFIG_VCONFIG is not set
+-CONFIG_WGET=y
+-CONFIG_FEATURE_WGET_STATUSBAR=y
+-CONFIG_FEATURE_WGET_AUTHENTICATION=y
+-CONFIG_FEATURE_WGET_LONG_OPTIONS=y
+-CONFIG_FEATURE_WGET_TIMEOUT=y
+ # CONFIG_ZCIP is not set
  
-+do_install_ptest () {
-+        cp -r ${B}/testsuite ${D}${PTEST_PATH}/
-+        cp ${B}/.config      ${D}${PTEST_PATH}/
-+        ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
-+}
-+
- inherit update-alternatives
- 
- ALTERNATIVE_PRIORITY = "50"
-diff --git a/meta/recipes-core/busybox/busybox_1.23.2.bb b/meta/recipes-core/busybox/busybox_1.23.2.bb
-index 554c816..e9f7eb6 100644
---- a/meta/recipes-core/busybox/busybox_1.23.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.23.2.bb
-@@ -43,9 +43,3 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
- 
- SRC_URI[tarball.md5sum] = "7925683d7dd105aabe9b6b618d48cc73"
- SRC_URI[tarball.sha256sum] = "05a6f9e21aad8c098e388ae77de7b2361941afa7157ef74216703395b14e319a"
--
--do_install_ptest () {
--        cp -r ${B}/testsuite ${D}${PTEST_PATH}/
--        cp ${B}/.config      ${D}${PTEST_PATH}/
--        ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
--}
-diff --git a/meta/recipes-core/busybox/busybox_git.bb b/meta/recipes-core/busybox/busybox_git.bb
-index 17de8ac..e9ff0bc 100644
---- a/meta/recipes-core/busybox/busybox_git.bb
-+++ b/meta/recipes-core/busybox/busybox_git.bb
-@@ -44,10 +44,4 @@ SRC_URI = "git://busybox.net/busybox.git \
-            file://getopts.cfg \
- "
- 
--do_install_ptest () {
--        cp -r ${B}/testsuite ${D}${PTEST_PATH}/
--        cp ${B}/.config      ${D}${PTEST_PATH}/
--        ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
--}
--
- DEFAULT_PREFERENCE = "-1"
+ #
 -- 
 1.9.1
 
