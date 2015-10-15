@@ -1,41 +1,27 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id F11CC77085
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 740D4770F9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Oct 2015 11:31:25 +0000 (UTC)
-Received: by wicll6 with SMTP id ll6so14512334wic.1
+	Thu, 15 Oct 2015 11:47:20 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 15 Oct 2015 04:47:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,685,1437462000"; d="scan'208";a="827558456"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Oct 2015 04:47:16 -0700
+Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 5A5866A4083
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Oct 2015 04:31:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=w/UWN/dXbYadqovFi99LUBHTigAZ53hF4ZqqTJNHqcs=;
-	b=03+IB3QBIhGAHRvHJTIFGCthj0p2bS2fKRYnxqLF4jCDlFxaAqB/ghn9561JiYQy+5
-	FTOhWxiF0ZRULmF2wRFvCBh6YfkI9VWnLZDhUwXxRFwOhkWXdxpnBu6yfKQwVKsjIr9D
-	U3GbcbqR5L6qmgjHOLWRYwIGzhU1n4syzl2Iwf+cumWHrkj5HvBtohsoGbMmRVJv6I2P
-	3pHtA2be9WQWC0pbk755UDgyrnbEjoL4AyRNdo8BF3DJaRhBStwOD62uDqcG94FX+WPR
-	/tyfq8XyjwvHO2jIw3T4HcHv6heJTQ9UWLp5d4e9CGr48UpOlVdymYz5J/GjvUa+T/kZ
-	8gTg==
-X-Received: by 10.194.52.67 with SMTP id r3mr11729379wjo.51.1444908685668;
-	Thu, 15 Oct 2015 04:31:25 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	lk5sm11067698wic.0.2015.10.15.04.31.24
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 15 Oct 2015 04:31:24 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 15 Oct 2015 13:31:47 +0200
-To: Phil Blundell <pb@pbcl.net>
-Message-ID: <20151015113146.GB2588@jama>
-References: <AEAA8709-CF45-4759-BDEF-24201C0B19DE@gmail.com>
-	<1444906192.5251.63.camel@pbcl.net>
-MIME-Version: 1.0
-In-Reply-To: <1444906192.5251.63.camel@pbcl.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] ARM: handle missing thumb suffix
+	Thu, 15 Oct 2015 04:46:16 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Oct 2015 10:00:40 +0300
+Message-Id: <1444892440-15251-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] toolchain-shar-extract.sh: provide proper path for env_setup_script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,45 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Oct 2015 11:31:28 -0000
-X-Groupsio-MsgNum: 72220
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="RASg3xLB4tUQ4RcS"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 15 Oct 2015 11:47:21 -0000
 
---RASg3xLB4tUQ4RcS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The toolchain install script suggest the user to source env_setup_script
+from wrong path now. eg:
 
-On Thu, Oct 15, 2015 at 11:49:52AM +0100, Phil Blundell wrote:
-> On Tue, 2015-10-13 at 22:37 +0200, Jens Rehsack wrote:
-> > When enabling tune for arm926ejs, poky optionally appends suffixes=20
-> > for thumb and dsp support. Since sometimes arm926ejse (ARM code) and=20
-> > sometime arm926ejste (thumb code) is used in PACKAGE_ARCH, allow=20
-> > both.
->=20
-> It seems like it is a bug for "arm926ejste" ever to be showing up in
-> PACKAGE_ARCH, and it would be better to fix the packaging code to not
-> do that.  ARM926EJ-S is a CPU not an architecture.
+" Each time you wish to use the SDK in a new shell session, you need to
+source the environment setup script e.g.
+$ . /opt/poky/2.0//opt/poky/2.0/environment-setup-armv5e-poky-linux-gnueabi
+"
 
-It's package architecture for binary feeds with -mtune=3Darm926ejs and it
-can be built with or without -mthumb, that's why packages can be built
-in arm926ejse or arm926ejste package feed.
+fix it.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/files/toolchain-shar-extract.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---RASg3xLB4tUQ4RcS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 2ffc2d1..2eeb290 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -183,7 +183,7 @@ fi
+ echo "SDK has been successfully set up and is ready to be used."
+ echo "Each time you wish to use the SDK in a new shell session, you need to source the environment setup script e.g."
+ for env_setup_script in `ls $target_sdk_dir/environment-setup-*`; do
+-	echo " \$ . $target_sdk_dir/$env_setup_script"
++	echo " \$ . $env_setup_script"
+ done
+ 
+ exit 0
+-- 
+2.4.0
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
 
-iEYEARECAAYFAlYfjqIACgkQN1Ujt2V2gBxc0ACghaUsYLr8oT4fy4fqGKS1i5/E
-+ZYAniG3W17l86IX72ze7mdz9qw9C2T0
-=K08A
------END PGP SIGNATURE-----
-
---RASg3xLB4tUQ4RcS--
