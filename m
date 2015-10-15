@@ -1,37 +1,37 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id EE158770C5
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 27AAD770C5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Oct 2015 01:43:51 +0000 (UTC)
-Received: by pabrc13 with SMTP id rc13so70669172pab.0
+	Thu, 15 Oct 2015 01:43:53 +0000 (UTC)
+Received: by pabrc13 with SMTP id rc13so70670036pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Oct 2015 18:43:52 -0700 (PDT)
+	Wed, 14 Oct 2015 18:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=2ndViG1eIJuomaI4pftp6xefZ1o4VMLn1KmdYsh6Q88=;
-	b=ya5f+Z4Zv7EQk1id4TYI+nBI8m5xf9puUxESmPHW6nm09S//42kNX/SkpnDuFF+ds8
-	M4MtDeBm3Gt46TChnss9MEkk7DRH3yEJsPVbfSFHiq3TktTb6Bls8xb67X1yBhVDNb40
-	Yu/278dUkWXS5nOa2rZ1uRDUdXqjnW55FnsB8WUnIUso9OIqt8x437vyiVx+e5/SE2BS
-	VSzn9ca78ZS3dUEZBUTPR+p5QQbH7gxPKlSJ00awAGGPPe9XAE55G28Jq8P+mkhonpEm
-	EAjEKAx92LVUBwuQo7rFLZjyfA2AbhAujYAAgppfdkW0beLnaYah6w4bKyy4YyzjyQ0T
-	R7yw==
-X-Received: by 10.66.230.169 with SMTP id sz9mr7007186pac.136.1444873432058;
-	Wed, 14 Oct 2015 18:43:52 -0700 (PDT)
+	bh=UdqL1sVZkqtJm0v5QfRb/DnPdU6aO8AdYG8K4BnuYSc=;
+	b=EO2v6Ed83kn3GMPQJf7sWh6zxH7DLVHXIvmn6VRuhbO3NTtiVkkn5fr19HLNkPww43
+	GKQ6oLC4RvVroQodgoGsIyujZxkb5XvOo2CxfXhhD/Wgsp3QEMMbSX/uxewv4kRbf2RU
+	spJ9JXTudeWE/89InOUwg8jyW+LB6E7cdiNI1X0Y91NvCmjPGnCx4XqL/Of9wE8j6o//
+	N1/Wgjzkoos0E+mNojsY/J43KD/zqMIJOQC16d2OfGc68L5HJpLNpa3e0LwjlA/zR1W4
+	Y3hFrrmG6Gw31WtoLQCDqkgExz9FlekPYwLIxprOwjNhodC4RzZbw5YoyQlmDo7yGiKZ
+	ObfA==
+X-Received: by 10.66.254.101 with SMTP id ah5mr7112335pad.10.1444873434284;
+	Wed, 14 Oct 2015 18:43:54 -0700 (PDT)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	z6sm11928971pbt.51.2015.10.14.18.43.50
+	z6sm11928971pbt.51.2015.10.14.18.43.52
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 14 Oct 2015 18:43:51 -0700 (PDT)
+	Wed, 14 Oct 2015 18:43:53 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Oct 2015 18:43:17 -0700
-Message-Id: <1444873403-21093-6-git-send-email-armccurdy@gmail.com>
+Date: Wed, 14 Oct 2015 18:43:18 -0700
+Message-Id: <1444873403-21093-7-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1444873403-21093-1-git-send-email-armccurdy@gmail.com>
 References: <1444873403-21093-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 05/11] busybox.inc: don't set .config CROSS_COMPILER_PREFIX
+Subject: [PATCH 06/11] busybox.inc: fix CONFIG_EXTRA_CFLAGS configmangle
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,37 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Oct 2015 01:43:52 -0000
+X-List-Received-Date: Thu, 15 Oct 2015 01:43:54 -0000
 
-Setting CROSS_COMPILER_PREFIX via .config is redundant (setting
-CROSS_COMPILE via the make command line will always over-ride it).
+With current busybox Kbuild, setting .config to:
+
+  CONFIG_EXTRA_CFLAGS="foo" "bar"
+
+and then running 'make oldconfig' results in .config containing:
+
+  CONFIG_EXTRA_CFLAGS="foo"
+
+ie the CONFIG_EXTRA_CFLAGS configmangle in the busybox.inc doesn't
+currently work as intended. Remove the extra \" \" to ensure that
+${HOST_CC_ARCH} gets added to CONFIG_EXTRA_CFLAGS.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-core/busybox/busybox.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index a4ecfa4..48a28bc 100644
+index 48a28bc..b380860 100644
 --- a/meta/recipes-core/busybox/busybox.inc
 +++ b/meta/recipes-core/busybox/busybox.inc
-@@ -81,8 +81,7 @@ def features_to_busybox_del(d):
- 	cnf, rem = features_to_busybox_settings(d)
- 	return rem
- 
--configmangle = '/CROSS_COMPILER_PREFIX/d; \
--		/CONFIG_EXTRA_CFLAGS/d; \
-+configmangle = '/CONFIG_EXTRA_CFLAGS/d; \
- 		'
- OE_FEATURES := "${@features_to_busybox_conf(d)}"
- OE_DEL      := "${@features_to_busybox_del(d)}"
-@@ -98,8 +97,7 @@ python () {
+@@ -97,7 +97,7 @@ python () {
                     ("\\n".join((d.expand("${OE_FEATURES}").split("\n")))))
    d.setVar('configmangle_append',
                   "/^### CROSS$/a\\\n%s\n" %
--                  ("\\n".join(["CONFIG_CROSS_COMPILER_PREFIX=\"${TARGET_PREFIX}\"",
--			       "CONFIG_EXTRA_CFLAGS=\"${CFLAGS}\" \"${HOST_CC_ARCH}\""
-+                  ("\\n".join(["CONFIG_EXTRA_CFLAGS=\"${CFLAGS}\" \"${HOST_CC_ARCH}\""
+-                  ("\\n".join(["CONFIG_EXTRA_CFLAGS=\"${CFLAGS}\" \"${HOST_CC_ARCH}\""
++                  ("\\n".join(["CONFIG_EXTRA_CFLAGS=\"${CFLAGS} ${HOST_CC_ARCH}\""
                          ])
                    ))
  }
