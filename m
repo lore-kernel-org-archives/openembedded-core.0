@@ -1,30 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CFFF77055
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 05A04770E7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 09:32:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9G9WbqB011622
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 16 Oct 2015 02:32:37 -0700 (PDT)
-Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Fri, 16 Oct 2015 02:32:36 -0700
-Message-ID: <5620C452.8040601@windriver.com>
-Date: Fri, 16 Oct 2015 17:33:06 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <cover.1444979576.git.Qi.Chen@windriver.com>	
-	<7314976f3f2463926748eec4fbf8c0a3111c4caf.1444979576.git.Qi.Chen@windriver.com>
-	<1444984136.19532.7.camel@pbcl.net>
-In-Reply-To: <1444984136.19532.7.camel@pbcl.net>
-X-Originating-IP: [128.224.162.211]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] openssl: don't move libcrypto to base_libdir
+	Fri, 16 Oct 2015 10:01:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t9GA1f0b030766; Fri, 16 Oct 2015 11:01:41 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id CwOJq0fyp9MV; Fri, 16 Oct 2015 11:01:41 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t9GA1SKC030744
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 16 Oct 2015 11:01:39 +0100
+Message-ID: <1444989688.17974.1.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+Date: Fri, 16 Oct 2015 11:01:28 +0100
+In-Reply-To: <1444930021-4096-1-git-send-email-benjamin.esquivel@linux.intel.com>
+References: <1444930021-4096-1-git-send-email-benjamin.esquivel@linux.intel.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] populate SDK: prepare calling of bb.utils for exceptions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,27 +36,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 09:32:43 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 16 Oct 2015 10:01:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 10/16/2015 04:28 PM, Phil Blundell wrote:
-> On Fri, 2015-10-16 at 15:14 +0800, Chen Qi wrote:
->> A patch more than two years ago moves libcrypto from libdir to base_libdir
->> for the reason of /usr split. And I don't think this reason still stands.
-> Why not?
->
-> p.
->
->
->
->
+On Thu, 2015-10-15 at 12:27 -0500, Benjamin Esquivel wrote:
+> +            if (bb.utils.movefile(sourcefile, destdir) == None):
+> +                raise Exception("moving {} to {} failed".format(
+> +                                        sourcefile, destdir))
 
-1) There are a bunch of /usr split patches on the mailing list and they 
-are not accepted.
-2) It was moved to /lib because dhclient started before mounting the 
-local filesystem on sysvinit.
-     Now, mounting local filesystem happens before dhclient in sysvinit.
+Its a minor issue, however rightly or wrongly, the vast majority of the
+code base uses "xxx %s %s" % (var, var2) instead of .format(). Is there
+a reason we should be using the latter as for consistency, the former
+would seem to make things more standardised?
 
-// Qi
+Cheers,
+
+Richard
+
+
+
 
