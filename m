@@ -1,37 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 89E3677128
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EAAF276FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 02:18:59 +0000 (UTC)
-Received: by iofl186 with SMTP id l186so110301093iof.2
+	Fri, 16 Oct 2015 02:27:05 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9G2R5E0007773
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Oct 2015 19:18:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=jwJwIi88w2cpkMwzBq7vBNpRgCTnji/HjPj82Ga5pCs=;
-	b=y8Hpmoty8DmOVPDH51pK5EtD4zS6voQYlfV6isb2bw603iL66e0OfVY8UTi6NcAp3n
-	a2TJwAfFOX8NkijiWyUiVaZiSsdoZUsUKOekxDF1SdbZBfvxMtnnNA9pNYC81bnZI2f4
-	P1wIgHVoHgUTLtwjrwVkWelz5D4TFujLnuF2MOfk//rouSi4GIN8Rtov5Ly7TXbKgGRo
-	iuyMg4l9rAgQLPZwS7CA5tlHrOSn+OqB9h1qZzbb5BaOH3MEyzD6Hw9FHTTHa7Pfj8vA
-	279x+Ic5EJIpPfC/LCeDMTU7yHdAENZNSe7s88gzInwC60TCtqtVGmyR5oKciWE6hTj+
-	5UIw==
-X-Received: by 10.107.38.210 with SMTP id m201mr12165739iom.98.1444961939572; 
-	Thu, 15 Oct 2015 19:18:59 -0700 (PDT)
+	Thu, 15 Oct 2015 19:27:05 -0700 (PDT)
+Received: from seebs-worktop (172.25.40.228) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 15 Oct 2015 19:27:04 -0700
+Date: Thu, 15 Oct 2015 21:27:04 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20151015212704.77942702@seebs-worktop>
+X-Mailer: Claws Mail 3.9.3 (GTK+ 2.24.23; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.65.204 with HTTP; Thu, 15 Oct 2015 19:18:40 -0700 (PDT)
-In-Reply-To: <1444957041-5419-1-git-send-email-psidhu@gateworks.com>
-References: <1444957041-5419-1-git-send-email-psidhu@gateworks.com>
-From: Christopher Larson <chris_larson@mentor.com>
-Date: Thu, 15 Oct 2015 19:18:40 -0700
-X-Google-Sender-Auth: pbCSEEM9_3UMvBEDQeaGh0uttcY
-Message-ID: <CABcZAN=9huQJ2oT=1uK+2F3ME=+KBEHOkWv1qdhrYPHyf_P_Ww@mail.gmail.com>
-To: Pushpal Sidhu <psidhu@gateworks.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] iw: fix build path
+Subject: Possible patch for build issue (mostly affects mingw, but see below)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,60 +31,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 02:19:02 -0000
-Content-Type: multipart/alternative; boundary=001a114028181f64c305222f6b2b
+X-List-Received-Date: Fri, 16 Oct 2015 02:27:07 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
---001a114028181f64c305222f6b2b
-Content-Type: text/plain; charset=UTF-8
+I'd like a second opinion on this. Without this, we had very strange build
+failures which ended up being using the build system g++ with the mingw
+"host" (in cross-canadian land, this would be the machine the compiler will
+run on) headers. On study, the issue seems to be that libcpp is now being
+built for the build machine, but it's using C++ as of 5.2.0... But
+EXTRA_BUILD_FLAGS does not override CXXFLAGS, only CFLAGS and LDFLAGS, so
+you end up with the regular host system CFLAGS, which are the mingw ones,
+being used with the build system compiler.
 
-On Thu, Oct 15, 2015 at 5:57 PM, Pushpal Sidhu <psidhu@gateworks.com> wrote:
+Without this, I couldn't build gcc 5.2 for mingw. With this (and adding
+libgomp to the RUNTIMETARGET_remove_mingw32 in meta-mingw), I could.
 
-> The source get's checked out into ${PN}-${PV}, not 'build'. Currently,
-> building
-> iw is broken because none of the source files are found.
->
+However, I don't think this is actually mingw specific. I think that,
+without this fix, *every* build ends up using the host system's CXXFLAGS
+to build a build-system libcpp, instead of the build system's. It's just
+that, since they're usually compatible-enough for libcpp, no one ever
+noticed.
 
-First, this message doesn't make sense. You're implying that bitbake thinks
-B is S, which it does not. Bitbake already knows the correct source tree
-path. The S = you add here is redundant, ${PN}-${PV} is the default value
-for S.
+(Sending it out to the list as a plain patch because it's easier to read; if
+people want a pretty formatted gcc patch for oe-core, I can do that, and I
+think this one should go upstream too.)
 
-If iw was failing to build with a separate build directory from source,
-you'd just need to remove B. That said, it's not, as far as I can tell. I
-build iw every day as is and it works just fine building with a separate
-build directory from source, so I suspect you have something wrong going on
-in your environment.
+Author: Peter Seebach <peter.seebach@windriver.com>
+Date:   Wed Oct 14 17:10:10 2015 -0500
+
+    Makefile.tpl: Also pass CXXFLAGS_FOR_BUILD
+    
+    When doing a FOR_BUILD thing, you have to override CFLAGS with
+    CFLAGS_FOR_BUILD. And if you use C++, you also have to override
+    CXXFLAGS with CXXFLAGS_FOR_BUILD, or you end up trying to use the
+    mingw headers for a host build.
+    
+    Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+
+diff --git a/Makefile.in b/Makefile.in
+index 36b4008..b64ef77 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -169,6 +169,7 @@ BUILD_EXPORTS = \
+ # built for the build system to override those in BASE_FLAGS_TO_PASS.
+ EXTRA_BUILD_FLAGS = \
+ 	CFLAGS="$(CFLAGS_FOR_BUILD)" \
++	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)" \
+ 	LDFLAGS="$(LDFLAGS_FOR_BUILD)"
+ 
+ # This is the list of directories to built for the host system.
+diff --git a/Makefile.tpl b/Makefile.tpl
+index 1ea1954..4f73d66 100644
+--- a/Makefile.tpl
++++ b/Makefile.tpl
+@@ -172,6 +172,7 @@ BUILD_EXPORTS = \
+ # built for the build system to override those in BASE_FLAGS_TO_PASS.
+ EXTRA_BUILD_FLAGS = \
+ 	CFLAGS="$(CFLAGS_FOR_BUILD)" \
++	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)" \
+ 	LDFLAGS="$(LDFLAGS_FOR_BUILD)"
+ 
+ # This is the list of directories to built for the host system.
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
---001a114028181f64c305222f6b2b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
-hu, Oct 15, 2015 at 5:57 PM, Pushpal Sidhu <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:psidhu@gateworks.com" target=3D"_blank">psidhu@gateworks.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"overflow:hi=
-dden">The source get&#39;s checked out into ${PN}-${PV}, not &#39;build&#39=
-;. Currently, building<br>
-iw is broken because none of the source files are found.<br></div></blockqu=
-ote><div><br></div><div>First, this message doesn&#39;t make sense. You&#39=
-;re implying that bitbake thinks B is S, which it does not. Bitbake already=
- knows the correct source tree path. The S =3D you add here is redundant, $=
-{PN}-${PV} is the default value for S.</div><div><br></div><div>If iw was f=
-ailing to build with a separate build directory from source, you&#39;d just=
- need to remove B. That said, it&#39;s not, as far as I can tell. I build i=
-w every day as is and it works just fine building with a separate build dir=
-ectory from source, so I suspect you have something wrong going on in your =
-environment.<br></div></div>-- <br><div><div dir=3D"ltr">Christopher Larson=
-<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus=
-<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div></=
-div>
-</div></div>
-
---001a114028181f64c305222f6b2b--
