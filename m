@@ -1,22 +1,41 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AC3F77135
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D2072770E2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 11:57:46 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 16 Oct 2015 04:57:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,688,1437462000"; d="scan'208";a="812530273"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Oct 2015 04:57:46 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Oct 2015 14:57:37 +0300
-Message-Id: <1444996657-4301-7-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1444996657-4301-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1444996657-4301-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 5/5] package signing: automatically export public keys
+	Fri, 16 Oct 2015 12:27:54 +0000 (UTC)
+Received: by igbhv6 with SMTP id hv6so12647674igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Oct 2015 05:27:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=VnkuDcPrBeysj5wT/OruNSxhNphuEsYBkYCnknH/NUo=;
+	b=hLlqj8LzZ1rQerfw4T3bQzho2nloZEdM/IH8YgXbr07gBaFaXox4qe18tqlDdoHknl
+	F5mhc/z5l5TOi1NGoNzFhFKEhjtwGWOWJlvcnwtsJgydn2VcWzKGCc5sJYOuEiP9AxWn
+	WgJdvIGLMui620GTSW2DhUToLZ1rOA3TkGtygSSqHaIRgO5Z0ZPqwB5CU7S4jSalU8Tz
+	3g7I1GljnuY6iX0vAfFPKF00RsUd63lj11uNXtvubj8q7+y300qs4Zplj9MgYTG9T0jI
+	ZrUyLMJ/SLXAKsl2OL967xe0Cysk9c65/HBxvS+ixwXX/tJsWWl4mj2hIzLzaXLksN1B
+	fLOw==
+MIME-Version: 1.0
+X-Received: by 10.50.50.238 with SMTP id f14mr1837683igo.64.1444998474532;
+	Fri, 16 Oct 2015 05:27:54 -0700 (PDT)
+Received: by 10.36.98.143 with HTTP; Fri, 16 Oct 2015 05:27:54 -0700 (PDT)
+In-Reply-To: <CAHiDW_E_B=4bLheE2W6DcOPKCNZRixiELGDVhfzHY8LM7CjeEw@mail.gmail.com>
+References: <cover.1444392901.git.jussi.kukkonen@intel.com>
+	<CALbNGRSLEKJUYXgMCdv_oB+JD++AemnvNyM8cmCqD7o26wXqeQ@mail.gmail.com>
+	<CALbNGRSUht+HkkJOkv0NZ38yjcOdahPRVOhar830BbcSFYEj9Q@mail.gmail.com>
+	<CAJTo0Lb+ocUQw0O=423w9MO9Tr=J64yTb==GxHzWhQgUu7=AvQ@mail.gmail.com>
+	<CALbNGRTPFkfP5CRa=qH18OLX8D7qgxNQx35jOEJakfAUvXMZSw@mail.gmail.com>
+	<CAHiDW_E_B=4bLheE2W6DcOPKCNZRixiELGDVhfzHY8LM7CjeEw@mail.gmail.com>
+Date: Fri, 16 Oct 2015 14:27:54 +0200
+Message-ID: <CALbNGRQUa0X=+oFF_3oTeWAgipeLjVK0svcxM8Tt0xkWpWexLQ@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [PATCH 0/1] Solving the GTK+ libgl runtime dependency issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,133 +48,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 11:57:46 -0000
+X-List-Received-Date: Fri, 16 Oct 2015 12:27:56 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Automatically export public key(s) of the signing key(s) from the gpg
-keyring. Adds a new simple recipe that does the actual task of exporting
-the keys.  This patch makes the RPM_GPG_PUBKEY and PACKAGE_FEED_GPG
-PUBKEY settings obsolete.
+On Fri, Oct 16, 2015 at 10:32 AM, Jussi Kukkonen
+<jussi.kukkonen@intel.com> wrote:
+> On 15 October 2015 at 20:26, Andreas M=C3=BCller <schnitzeltony@googlemai=
+l.com>
+> wrote:
+>>
+>> On Fri, Oct 9, 2015 at 2:20 PM, Jussi Kukkonen <jussi.kukkonen@intel.com=
+>
+>> wrote:
+>> >
+>> > Recap of the situation as I understand it:
+>> > * Gtk+3 works fine without any OpenGL, if GtkGLArea is not used
+>> > * When GtkGLArea is used, Gtk+ uses libepoxy which is supposed
+>> >   dlopen the correct libraries as they are needed
+>> I have several gtk3+ applications that stopped working. E.G
+>> network-manager-applet has stopped working: running
+>> nm-connection-editor fails with 'Couldn't open libGL.so.1'. Same for
+>> parole.
+>
+>
+> I just realized this  as well. Gdk initialization calls epoxy which calls
+> exit() if libGL.so.1 is not there. This is clearly a major problem as it
+> happens for all GTK+ applications, not just GL users.
+>
+> As an aside the reason this didn't come up before was that something seem=
+s
+> to cache that initialization: If I run an application with libGL.so.1 in
+> place once, I can then remove the library and run the application again
+> successfully... Not sure what's going on there but it did hide the proble=
+m
+> from me.
+>
+> A quick workaround is setting environment variable "GDK_GL=3Ddisabled". I=
+'m
+> looking at other possible fixes now.
+>
+> Jussi
+1. Thanks for taking care
+2. I can confirm GDK_GL=3Ddisabled makes application start properly.
+Same: this setting seems to be cached also as tested with following
+sequence:
+| GDK_GL=3Ddisabled nm-connection-editor -> starts
+| nm-connection-editor -> starts too
+3. The images I had in mind which considered working did work only
+because of libgl installed
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/classes/sign_package_feed.bbclass     |  7 +++++
- meta/classes/sign_rpm.bbclass              |  9 ++++--
- meta/recipes-core/meta/signing-keys.bb     | 45 ++++++++++++++++++++++++++++++
- meta/recipes-core/os-release/os-release.bb |  1 +
- 4 files changed, 59 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-core/meta/signing-keys.bb
-
-diff --git a/meta/classes/sign_package_feed.bbclass b/meta/classes/sign_package_feed.bbclass
-index 8877d90..4263810 100644
---- a/meta/classes/sign_package_feed.bbclass
-+++ b/meta/classes/sign_package_feed.bbclass
-@@ -21,4 +21,11 @@ python () {
-     for var in ('PACKAGE_FEED_GPG_NAME', 'PACKAGE_FEED_GPG_PASSPHRASE_FILE'):
-         if not d.getVar(var, True):
-             raise_sanity_error("You need to define %s in the config" % var, d)
-+
-+    # Set expected location of the public key
-+    d.setVar('PACKAGE_FEED_GPG_PUBKEY',
-+             os.path.join(d.getVar('STAGING_ETCDIR_NATIVE'),
-+                                   'PACKAGE-FEED-GPG-PUBKEY'))
- }
-+
-+do_package_index[depends] += "signing-keys:do_export_public_keys"
-diff --git a/meta/classes/sign_rpm.bbclass b/meta/classes/sign_rpm.bbclass
-index 4da1763..f0c3dc9 100644
---- a/meta/classes/sign_rpm.bbclass
-+++ b/meta/classes/sign_rpm.bbclass
-@@ -5,9 +5,6 @@
- #           Path to a file containing the passphrase of the signing key.
- # RPM_GPG_NAME
- #           Name of the key to sign with. May be key id or key name.
--# RPM_GPG_PUBKEY
--#           Path to a file containing the public key (in "armor" format)
--#           corresponding the signing key.
- # GPG_BIN
- #           Optional variable for specifying the gpg binary/wrapper to use for
- #           signing.
-@@ -24,6 +21,10 @@ python () {
-     for var in ('RPM_GPG_NAME', 'RPM_GPG_PASSPHRASE_FILE'):
-         if not d.getVar(var, True):
-             raise_sanity_error("You need to define %s in the config" % var, d)
-+
-+    # Set the expected location of the public key
-+    d.setVar('RPM_GPG_PUBKEY', os.path.join(d.getVar('STAGING_ETCDIR_NATIVE'),
-+                                            'RPM-GPG-PUBKEY'))
- }
- 
- 
-@@ -68,3 +69,5 @@ python sign_rpm () {
-     if rpmsign_wrapper(d, rpms, rpm_gpg_passphrase, rpm_gpg_name) != 0:
-         raise bb.build.FuncFailed("RPM signing failed")
- }
-+
-+do_package_index[depends] += "signing-keys:do_export_public_keys"
-diff --git a/meta/recipes-core/meta/signing-keys.bb b/meta/recipes-core/meta/signing-keys.bb
-new file mode 100644
-index 0000000..cc401f3
---- /dev/null
-+++ b/meta/recipes-core/meta/signing-keys.bb
-@@ -0,0 +1,45 @@
-+# Copyright (C) 2015 Intel Corporation
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+DESCRIPTION = "Make public keys of the signing keys available"
-+LICENSE = "MIT"
-+PACKAGES = ""
-+
-+do_fetch[noexec] = "1"
-+do_unpack[noexec] = "1"
-+do_patch[noexec] = "1"
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
-+do_install[noexec] = "1"
-+do_package[noexec] = "1"
-+do_packagedata[noexec] = "1"
-+do_package_write_ipk[noexec] = "1"
-+do_package_write_rpm[noexec] = "1"
-+do_package_write_deb[noexec] = "1"
-+do_populate_sysroot[noexec] = "1"
-+
-+EXCLUDE_FROM_WORLD = "1"
-+
-+def export_gpg_pubkey(d, keyid, path):
-+    import bb
-+    gpg_bin = d.getVar('GPG_BIN', True) or \
-+              bb.utils.which(os.getenv('PATH'), "gpg")
-+    cmd = '%s --batch --yes --export --armor -o %s %s' % \
-+          (gpg_bin, path, keyid)
-+    status, output = oe.utils.getstatusoutput(cmd)
-+    if status:
-+        raise bb.build.FuncFailed('Failed to export gpg public key (%s): %s' %
-+                                  (keyid, output))
-+
-+python do_export_public_keys () {
-+    if d.getVar("RPM_SIGN_PACKAGES", True):
-+        # Export public key of the rpm signing key
-+        export_gpg_pubkey(d, d.getVar("RPM_GPG_NAME", True),
-+                          d.getVar('RPM_GPG_PUBKEY', True))
-+
-+    if d.getVar('PACKAGE_FEED_SIGN', True) == '1':
-+        # Export public key of the feed signing key
-+        export_gpg_pubkey(d, d.getVar("PACKAGE_FEED_GPG_NAME", True),
-+                          d.getVar('PACKAGE_FEED_GPG_PUBKEY', True))
-+}
-+addtask do_export_public_keys before do_build
-diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
-index db82760..c690b82 100644
---- a/meta/recipes-core/os-release/os-release.bb
-+++ b/meta/recipes-core/os-release/os-release.bb
-@@ -37,6 +37,7 @@ python do_compile () {
-         shutil.copy2(rpm_gpg_pubkey, d.expand('${B}/rpm-gpg/RPM-GPG-KEY-%s' % distro_version))
- }
- do_compile[vardeps] += "${OS_RELEASE_FIELDS}"
-+do_compile[depends] += "signing-keys:do_export_public_keys"
- 
- do_install () {
-     install -d ${D}${sysconfdir}
--- 
-2.1.4
-
+Andreas
 
