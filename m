@@ -1,38 +1,40 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 5821B7713D
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 86F0A77167
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 17:43:37 +0000 (UTC)
-Received: by qgbb65 with SMTP id b65so1401859qgb.2
+	Fri, 16 Oct 2015 19:32:57 +0000 (UTC)
+Received: by pacfv9 with SMTP id fv9so30849787pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 10:43:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=+P8dF4Iy6zISzTdx/S1dHxTYeu0gTfMIP01M+jcmfDw=;
-	b=G6oFmqEprJ0Jym8JIZzVZy2FKLdtQBh/CRvrAm3HB7DYV7lSDHEH3g7p1faCbJsCnG
-	ZYzB1GpRK8N+aT91ilCLLJrVS7PmtWzXbU1Zp5akCRr9G8QoaxA76Asf9h/RtrvRvtKh
-	Dibww+s4BHnK5Wyp/ToNHWvMOS+9hGSXgZ6ZXWF28qNZcpsWuOB6Bw455vbND7rpbcL5
-	wxSSFAkXSrdtXjtPaJkl0JhbsU2wczUT9zTirCLOLox7NuRRP+77pln/1KncN8LrvBV+
-	TjHZTuhG/JRS5xSH1CwzuIH+06nqg1+iYo23CLz09UeHkEypxUupRZm9+b8cC2NaqPtf
-	k0Fg==
-X-Received: by 10.140.98.54 with SMTP id n51mr20366043qge.75.1445017417954;
-	Fri, 16 Oct 2015 10:43:37 -0700 (PDT)
-Received: from localhost ([177.194.195.186]) by smtp.gmail.com with ESMTPSA id
-	q67sm8139101qha.30.2015.10.16.10.43.34
+	Fri, 16 Oct 2015 12:32:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-type:content-transfer-encoding;
+	bh=UHdV3npMIxMia9yGSg1HqjBOBIaD4jYALt+KNbxhgNY=;
+	b=lMOOVhYOczIpn4KxweNhyq/PDd9qSR6Rjay6wC+5PejsfUnipI7QKy6bhNgwq7vDjQ
+	BwmvTKB5/eYXW4Ex75o5ZBXPSmHwGx6DEsA18FL+i/mkxMRY7QGb2wNzQgmuqWgHJNel
+	H1d3BxsR/0lMc/CRm++OhjGIlfIRbw2U8BF8qF6zZ71fy82oJIU2YK/yBwSoUNSnY2aT
+	9ohGOieXJCapbgwGkJRXiyFCfD9nXM9ZsyZ3MoHCxcs+7pScIId1Vuv8eMuFp0d7c/HS
+	iF4SNSz4hLyDv7DfkV/a8Dp0XFCZbMpJMwbd29pZgjtvAXBsh7doNvlnTJljD5muV0/v
+	upxQ==
+X-Received: by 10.68.196.161 with SMTP id in1mr18253356pbc.127.1445023978295; 
+	Fri, 16 Oct 2015 12:32:58 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1239:197c:ac43:581b:7cb1?
+	([2601:202:4000:1239:197c:ac43:581b:7cb1])
+	by smtp.googlemail.com with ESMTPSA id
+	ou1sm22670757pbb.0.2015.10.16.12.32.56
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Oct 2015 10:43:37 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation);
-	Fri, 16 Oct 2015 14:43:26 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Oct 2015 14:43:22 -0300
-Message-Id: <1445017402-20082-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.6.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] weston: Add PACKAGECONFIG options for XWayland and colord CMS
+	Fri, 16 Oct 2015 12:32:57 -0700 (PDT)
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+From: akuster808 <akuster808@gmail.com>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <562150E7.80604@gmail.com>
+Date: Fri, 16 Oct 2015 12:32:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+Subject: Auto builder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,38 +47,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 17:43:40 -0000
+X-List-Received-Date: Fri, 16 Oct 2015 19:33:01 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+Hello all,
 
- meta/recipes-graphics/wayland/weston_1.8.0.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Are there any plans on tagging the autobuilder and any other sources
+used to create and test the 2.0 release? It would be nice to try to
+avoid the issues we ran into earlier this year with a Dizzy release that
+has repressions.
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.8.0.bb b/meta/recipes-graphics/wayland/weston_1.8.0.bb
-index 342c604..a265b34 100644
---- a/meta/recipes-graphics/wayland/weston_1.8.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.8.0.bb
-@@ -22,7 +22,6 @@ DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
- DEPENDS += "wayland libinput virtual/egl pango"
- 
- EXTRA_OECONF = "--enable-setuid-install \
--                --disable-xwayland \
-                 --enable-simple-clients \
-                 --enable-clients \
-                 --enable-demo-clients-install \
-@@ -67,6 +66,10 @@ PACKAGECONFIG[lcms] = "--enable-lcms,--disable-lcms,lcms"
- PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp"
- # Weston with unwinding support
- PACKAGECONFIG[libunwind] = "--enable-libunwind,--disable-libunwind,libunwind"
-+# Weston with XWayland support
-+PACKAGECONFIG[xwayland] = "--enable-xwayland --disable-xwayland-test,--disable-xwayland,virtual/libx11 libxcb libxcb libxcursor cairo"
-+# colord CMS support
-+PACKAGECONFIG[colord] = "--enable-colord,--disable-colord,colord"
- 
- do_install_append() {
- 	# Weston doesn't need the .la files to load modules, so wipe them
--- 
-2.6.1
-
+regards,
+Armin
 
