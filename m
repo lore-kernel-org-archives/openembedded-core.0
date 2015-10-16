@@ -1,39 +1,24 @@
-Return-Path: <psidhu@gateworks.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 3893C7717F
+Return-Path: <kad@kad.name>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C0B477168
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 15:52:06 +0000 (UTC)
-Received: by wijq8 with SMTP id q8so17388998wij.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 08:52:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=+F8r3w3xDHVigzeheREEjaw50Tg+zL4Tgm++pW13vwE=;
-	b=kOQDVsppn1Xs3xbf9ebHHAZmk7Zq3D0M390IEM+0Bd3CFnDXrHa64aEfJ1ZRFrHq1h
-	OhqaW69tTSgSjnvuxDMq/cwTVYh96xrGbP7SSlTBtkS6vlX3YhPknXOOdOuYyZ6kB8mg
-	Y1RRnKk4mmm02uStugQTdHtOAJ+6jyDueVjGzsHksJ1/SnZm/WBzro5ovhi3tAn9xTmT
-	ugYegH8PEi++iKxEfiQywyQ8JhBzk0AeTOc/iA/3wr8bqe5JnoGrvazV1CmUWB05NsU3
-	eKk5mEQLxQzODI7Cd1BHDLL3J69YOee6CB5YP6sh7k34MANAL+kREKJS+vXPlpC2K4/A
-	3Ayg==
-X-Gm-Message-State: ALoCoQkaPe3oTNPTK/6A1NWV6SAhQnT9YemVsXL/evSDp+JXdFwJBM6IuWolgwc8ferWQOF1dFc7
-X-Received: by 10.194.216.100 with SMTP id op4mr17777647wjc.60.1445010725643; 
-	Fri, 16 Oct 2015 08:52:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.194.112.167 with HTTP; Fri, 16 Oct 2015 08:51:36 -0700 (PDT)
-In-Reply-To: <CAD1M062g+pg7ar1wkTmsGOijvPYCBJsYgETRuXFzcpSijPrcVQ@mail.gmail.com>
-References: <1444957041-5419-1-git-send-email-psidhu@gateworks.com>
-	<CABcZAN=9huQJ2oT=1uK+2F3ME=+KBEHOkWv1qdhrYPHyf_P_Ww@mail.gmail.com>
-	<CAD1M062g+pg7ar1wkTmsGOijvPYCBJsYgETRuXFzcpSijPrcVQ@mail.gmail.com>
-From: Pushpal Sidhu <psidhu@gateworks.com>
-Date: Fri, 16 Oct 2015 08:51:36 -0700
-Message-ID: <CAD1M061JExb-cdHPgnSRSracKG6+AeJu8Y-1fdR4zEhw-+8ktg@mail.gmail.com>
-To: Christopher Larson <chris_larson@mentor.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] iw: fix build path
+	Fri, 16 Oct 2015 16:18:26 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 16 Oct 2015 08:50:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,689,1437462000"; d="scan'208";a="812689337"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 16 Oct 2015 08:49:57 -0700
+Received: from akanevsk-mac01.fi.intel.com (akanevsk-mac01.fi.intel.com
+	[10.237.66.155])
+	by linux.intel.com (Postfix) with ESMTP id B9AD06A4005;
+	Fri, 16 Oct 2015 08:48:57 -0700 (PDT)
+From: "Alexander D. Kanevskiy" <kad@kad.name>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Oct 2015 18:49:21 +0300
+Message-Id: <1445010561-3705-1-git-send-email-kad@kad.name>
+X-Mailer: git-send-email 2.6.1
+Subject: [PATCH] combo-layer: introduce ability to exclude component from mass update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,83 +31,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 15:52:08 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 16 Oct 2015 16:18:27 -0000
 
-On Fri, Oct 16, 2015 at 8:34 AM, Pushpal Sidhu <psidhu@gateworks.com> wrote:
-> On Thu, Oct 15, 2015 at 7:18 PM, Christopher Larson
-> <chris_larson@mentor.com> wrote:
->> On Thu, Oct 15, 2015 at 5:57 PM, Pushpal Sidhu <psidhu@gateworks.com> wrote:
->>>
->>> The source get's checked out into ${PN}-${PV}, not 'build'. Currently,
->>> building
->>> iw is broken because none of the source files are found.
->>
->>
->> First, this message doesn't make sense. You're implying that bitbake thinks
->> B is S, which it does not. Bitbake already knows the correct source tree
->> path. The S = you add here is redundant, ${PN}-${PV} is the default value
->> for S.
->>
->> If iw was failing to build with a separate build directory from source,
->> you'd just need to remove B. That said, it's not, as far as I can tell. I
->> build iw every day as is and it works just fine building with a separate
->> build directory from source, so I suspect you have something wrong going on
->> in your environment.
->
-> I agree with you about setting S, I put it in there to be explicit
-> (I've seen other package do this for clarity sake). Here are the
-> errors I'm seeing (even in a clean build):
->
-> DEBUG: Executing shell function do_install
-> NOTE: make -j 4 -f
-> /usr/src/psidhu/gw-yocto-master/build/tmp/work/cortexa9hf-vfp-neon-poky-linux-gnueabi/iw/4.1-r0/iw-4.1/Makefile
-> PREFIX=/usr SBINDIR=/usr/sbin MANDIR=/usr/share/man
-> DESTDIR=/usr/src/psidhu/gw-yocto-master/build/tmp/work/cortexa9hf-vfp-neon-poky-linux-gnueabi/iw/4.1-r0/image
-> install
->  GEN  version.c
->  CC   version.o
->  CC   iw
-> arm-poky-linux-gnueabi-gcc: error: iw.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: genl.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: event.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: info.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: phy.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: interface.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: ibss.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: station.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: survey.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: util.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: ocb.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: mesh.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: mpath.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: mpp.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: scan.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: reg.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: reason.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: status.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: connect.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: link.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: offch.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: ps.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: cqm.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: bitrate.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: wowlan.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: coalesce.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: roc.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: p2p.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: vendor.o: No such file or directory
-> arm-poky-linux-gnueabi-gcc: error: sections.o: No such file or directory
-> make: *** [iw] Error 1
-> ERROR: oe_runmake failed
-> ERROR: Function failed: do_install (log file is located at
-> /usr/src/psidhu/gw-yocto-master/build/tmp/work/cortexa9hf-vfp-neon-poky-linux-gnueabi/iw/4.1-r0/temp/log.do_install.24334)
+There is no ability at the moment for situations where users would like
+to keep section in combo-layer.conf but don't update it, unless explicitly
+specified.
 
+Now, by adding "update = no" to desired section would exclude
+that repository from "combo-layer update" command.
 
-Oh wow, I see my entire problem. My build did in fact get dirtied up
-(had some legacy meta-layer my repo sync was pulling in). Anyways, I
-agree, this isn't a problem at all so this entire post can be
-disregarded.
+It is still possible to explicitly update it by "combo-layer update $section".
 
-- Pushpal
+By default, all repositories are assumed as "update = yes"
+
+Signed-off-by: Alexander D. Kanevskiy <kad@kad.name>
+---
+ scripts/combo-layer | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/combo-layer b/scripts/combo-layer
+index 7435a17..92c5cbb 100755
+--- a/scripts/combo-layer
++++ b/scripts/combo-layer
+@@ -73,7 +73,7 @@ class Configuration(object):
+                 else:
+                     # Apply special type transformations for some properties.
+                     # Type matches the RawConfigParser.get*() methods.
+-                    types = {'signoff': 'boolean'}
++                    types = {'signoff': 'boolean', 'update': 'boolean'}
+                     if name in types:
+                         value = getattr(parser, 'get' + types[name])(section, name)
+                     self.repos[repo][name] = value
+@@ -567,7 +567,7 @@ def get_repos(conf, repo_names):
+             sys.exit(1)
+ 
+     if not repos:
+-        repos = conf.repos
++        repos = [ repo for repo in conf.repos if conf.repos[repo].get("update", True) ]
+ 
+     return repos
+ 
+-- 
+2.6.1
+
 
