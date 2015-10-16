@@ -1,43 +1,33 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 86F0A77167
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B4C777163
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 19:32:57 +0000 (UTC)
-Received: by pacfv9 with SMTP id fv9so30849787pac.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 12:32:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-type:content-transfer-encoding;
-	bh=UHdV3npMIxMia9yGSg1HqjBOBIaD4jYALt+KNbxhgNY=;
-	b=lMOOVhYOczIpn4KxweNhyq/PDd9qSR6Rjay6wC+5PejsfUnipI7QKy6bhNgwq7vDjQ
-	BwmvTKB5/eYXW4Ex75o5ZBXPSmHwGx6DEsA18FL+i/mkxMRY7QGb2wNzQgmuqWgHJNel
-	H1d3BxsR/0lMc/CRm++OhjGIlfIRbw2U8BF8qF6zZ71fy82oJIU2YK/yBwSoUNSnY2aT
-	9ohGOieXJCapbgwGkJRXiyFCfD9nXM9ZsyZ3MoHCxcs+7pScIId1Vuv8eMuFp0d7c/HS
-	iF4SNSz4hLyDv7DfkV/a8Dp0XFCZbMpJMwbd29pZgjtvAXBsh7doNvlnTJljD5muV0/v
-	upxQ==
-X-Received: by 10.68.196.161 with SMTP id in1mr18253356pbc.127.1445023978295; 
-	Fri, 16 Oct 2015 12:32:58 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:197c:ac43:581b:7cb1?
-	([2601:202:4000:1239:197c:ac43:581b:7cb1])
-	by smtp.googlemail.com with ESMTPSA id
-	ou1sm22670757pbb.0.2015.10.16.12.32.56
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Oct 2015 12:32:57 -0700 (PDT)
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	Fri, 16 Oct 2015 20:05:22 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 16 Oct 2015 13:05:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,690,1437462000"; 
+	d="scan'208,217";a="582385246"
+Received: from besquive-mobl2.amr.corp.intel.com ([10.219.128.95])
+	by FMSMGA003.fm.intel.com with ESMTP; 16 Oct 2015 13:05:22 -0700
+Message-ID: <1445025921.6970.19.camel@linux.intel.com>
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <CAJTo0LaA-QhLiy5aUno_AAZpFAEnajOLEXuZU5+kPoPFRqeYow@mail.gmail.com>
+References: <1441921274.14702.2.camel@linux.intel.com>
+	<1444246883-475-1-git-send-email-benjamin.esquivel@linux.intel.com>
+	<CAJTo0LaA-QhLiy5aUno_AAZpFAEnajOLEXuZU5+kPoPFRqeYow@mail.gmail.com>
+Organization: Intel Corporation
+Date: Fri, 16 Oct 2015 15:05:21 -0500
+Mime-Version: 1.0
+X-Mailer: Evolution 3.16.5 (3.16.5-3.fc22) 
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
-From: akuster808 <akuster808@gmail.com>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <562150E7.80604@gmail.com>
-Date: Fri, 16 Oct 2015 12:32:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-Subject: Auto builder
+Subject: Re: [PATCH V3] selftest/manifest.py: Test support for manifests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: benjamin.esquivel@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -47,17 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 19:33:01 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Fri, 16 Oct 2015 20:05:27 -0000
+Content-Type: multipart/alternative; boundary="=-tT/tvFB3aJoigU2n/ka4"
+
+--=-tT/tvFB3aJoigU2n/ka4
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hello all,
+this test does a one way check from the .manifest to the pkgdata dir.
+This test is looking for entries in the manifest that do not exist in
+the pkgdata dir. The bug you mention is the other way around, things
+that are installed in the rootfs but not listed in the manifest. I
+believe a test for this would be necessary too though I am not sure
+that the bug is a genuine error yet.
+Benjamin 
+On Fri, 2015-10-16 at 17:20 +0100, Burton, Ross wrote:
+> On 7 October 2015 at 20:41, Benjamin Esquivel <
+> benjamin.esquivel@linux.intel.com> wrote:
+> > tests added:
+> >  - manifest.VerifyManifest.test_image_manifest_entries
+> > 
+> This test case isn't exposing a known bug in the manifests, where the
+> installed package list and the manifest don't match, specifically the
+> manifest is missing the locale packages (8444).
+> 
+> Ross
 
-Are there any plans on tagging the autobuilder and any other sources
-used to create and test the 2.0 release? It would be nice to try to
-avoid the issues we ran into earlier this year with a Dizzy release that
-has repressions.
+--=-tT/tvFB3aJoigU2n/ka4
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-regards,
-Armin
+<html><head></head><body><div>this test does a one way check from the .manifest to the pkgdata dir. This test is looking for entries in the manifest that do not exist in the pkgdata dir. The bug you mention is the other way around, things that are installed in the rootfs but not listed in the manifest. I believe a test for this would be necessary too though I am not sure that the bug is a genuine error yet.</div><div><br></div><div>Benjamin&nbsp;</div><div><br></div><div>On Fri, 2015-10-16 at 17:20 +0100, Burton, Ross wrote:</div><blockquote type="cite"><div dir="ltr"><div class="gmail_extra">On 7 October 2015 at 20:41, Benjamin Esquivel <span dir="ltr">&lt;<a href="mailto:benjamin.esquivel@linux.intel.com" target="_blank">benjamin.esquivel@linux.intel.com</a>&gt;</span> wrote:<br><div class="gmail_quote"><blockquote type="cite"><div id=":2vv" class="a3s" style="overflow:hidden">tests added:<br>
+&nbsp;- <span class="il">manifest</span>.VerifyManifest.test_image_manifest_entries<br></div><br></blockquote></div><br>This test case isn't exposing a known bug in the manifests, where the installed package list and the manifest don't match, specifically the manifest is missing the locale packages (8444).</div><div class="gmail_extra"><br></div><div class="gmail_extra">Ross</div></div>
+</blockquote></body></html>
 
+--=-tT/tvFB3aJoigU2n/ka4--
