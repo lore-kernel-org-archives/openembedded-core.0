@@ -1,24 +1,38 @@
-Return-Path: <kad@kad.name>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C0B477168
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id F2CD077153
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 16:18:26 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 16 Oct 2015 08:50:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,689,1437462000"; d="scan'208";a="812689337"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Oct 2015 08:49:57 -0700
-Received: from akanevsk-mac01.fi.intel.com (akanevsk-mac01.fi.intel.com
-	[10.237.66.155])
-	by linux.intel.com (Postfix) with ESMTP id B9AD06A4005;
-	Fri, 16 Oct 2015 08:48:57 -0700 (PDT)
-From: "Alexander D. Kanevskiy" <kad@kad.name>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Oct 2015 18:49:21 +0300
-Message-Id: <1445010561-3705-1-git-send-email-kad@kad.name>
-X-Mailer: git-send-email 2.6.1
-Subject: [PATCH] combo-layer: introduce ability to exclude component from mass update
+	Fri, 16 Oct 2015 16:20:43 +0000 (UTC)
+Received: by qgez77 with SMTP id z77so104126917qge.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Oct 2015 09:20:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=GAAL1PKrXS4AWCqI+hW6y9gHAY/R7xWxB/hdTrdaU/g=;
+	b=FnsuH1zGwh+Fc/iQ4sidiGRbtPmZAKvU+oDQCtYj7y69+UMifoRcvihFZggBQViiQs
+	IlzSm4GnB/RuUOavBo+x90ioR/uEoxALt3xwKp/0u24oOVx2zZ2j0AVlbHjALGhTtUEi
+	DKu80uy1o6lYxdZRby8y+2T5jBVMDiA9wuvNAgJ7/RZEDN9ENnea1O/T3o9mpMOh0q1M
+	1knZygVY3+s7j3Nmg22ZlE0E/X58/6iZllsnrVLXvYQji6BHIQBvhCgZjUutRpJ47UHF
+	XqHLDPoYGitesZ85TzuiKNVZqil7gM+tUr8dupciVNOORX5t1Q21dOh/b6/bOiFt/Z92
+	092A==
+X-Gm-Message-State: ALoCoQken0X7o831LuX10cwmNi3OmTBhFriDLqFlYyEKzZnDrqhEOlGcFeSet/9nHhyigJvMGjQ8
+X-Received: by 10.140.232.150 with SMTP id d144mr21179987qhc.17.1445012443388; 
+	Fri, 16 Oct 2015 09:20:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.82 with HTTP; Fri, 16 Oct 2015 09:20:23 -0700 (PDT)
+In-Reply-To: <1444246883-475-1-git-send-email-benjamin.esquivel@linux.intel.com>
+References: <1441921274.14702.2.camel@linux.intel.com>
+	<1444246883-475-1-git-send-email-benjamin.esquivel@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 16 Oct 2015 17:20:23 +0100
+Message-ID: <CAJTo0LaA-QhLiy5aUno_AAZpFAEnajOLEXuZU5+kPoPFRqeYow@mail.gmail.com>
+To: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3] selftest/manifest.py: Test support for manifests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,47 +45,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 16:18:27 -0000
+X-List-Received-Date: Fri, 16 Oct 2015 16:20:47 -0000
+Content-Type: multipart/alternative; boundary=001a113548526273b205223b2d66
 
-There is no ability at the moment for situations where users would like
-to keep section in combo-layer.conf but don't update it, unless explicitly
-specified.
+--001a113548526273b205223b2d66
+Content-Type: text/plain; charset=UTF-8
 
-Now, by adding "update = no" to desired section would exclude
-that repository from "combo-layer update" command.
+On 7 October 2015 at 20:41, Benjamin Esquivel <
+benjamin.esquivel@linux.intel.com> wrote:
 
-It is still possible to explicitly update it by "combo-layer update $section".
+> tests added:
+>  - manifest.VerifyManifest.test_image_manifest_entries
+>
 
-By default, all repositories are assumed as "update = yes"
+This test case isn't exposing a known bug in the manifests, where the
+installed package list and the manifest don't match, specifically the
+manifest is missing the locale packages (8444).
 
-Signed-off-by: Alexander D. Kanevskiy <kad@kad.name>
----
- scripts/combo-layer | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Ross
 
-diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 7435a17..92c5cbb 100755
---- a/scripts/combo-layer
-+++ b/scripts/combo-layer
-@@ -73,7 +73,7 @@ class Configuration(object):
-                 else:
-                     # Apply special type transformations for some properties.
-                     # Type matches the RawConfigParser.get*() methods.
--                    types = {'signoff': 'boolean'}
-+                    types = {'signoff': 'boolean', 'update': 'boolean'}
-                     if name in types:
-                         value = getattr(parser, 'get' + types[name])(section, name)
-                     self.repos[repo][name] = value
-@@ -567,7 +567,7 @@ def get_repos(conf, repo_names):
-             sys.exit(1)
- 
-     if not repos:
--        repos = conf.repos
-+        repos = [ repo for repo in conf.repos if conf.repos[repo].get("update", True) ]
- 
-     return repos
- 
--- 
-2.6.1
+--001a113548526273b205223b2d66
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra">On 7 October 2015 at 20:41, Ben=
+jamin Esquivel <span dir=3D"ltr">&lt;<a href=3D"mailto:benjamin.esquivel@li=
+nux.intel.com" target=3D"_blank">benjamin.esquivel@linux.intel.com</a>&gt;<=
+/span> wrote:<br><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<div id=3D":2vv" class=3D"a3s" style=3D"overflow:hidden">tests added:<br>
+=C2=A0- <span class=3D"il">manifest</span>.VerifyManifest.test_image_manife=
+st_entries<br></div></blockquote></div><br>This test case isn&#39;t exposin=
+g a known bug in the manifests, where the installed package list and the ma=
+nifest don&#39;t match, specifically the manifest is missing the locale pac=
+kages (8444).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
+_extra">Ross</div></div>
 
+--001a113548526273b205223b2d66--
