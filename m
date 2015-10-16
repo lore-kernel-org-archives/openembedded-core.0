@@ -1,22 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id AE88277122
+	by mail.openembedded.org (Postfix) with ESMTP id 9AC3F77135
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 11:57:45 +0000 (UTC)
+	Fri, 16 Oct 2015 11:57:46 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 16 Oct 2015 04:57:45 -0700
+	by orsmga102.jf.intel.com with ESMTP; 16 Oct 2015 04:57:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,688,1437462000"; d="scan'208";a="812530261"
+X-IronPort-AV: E=Sophos;i="5.17,688,1437462000"; d="scan'208";a="812530273"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Oct 2015 04:57:43 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 16 Oct 2015 04:57:46 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Oct 2015 14:57:36 +0300
-Message-Id: <1444996657-4301-6-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Fri, 16 Oct 2015 14:57:37 +0300
+Message-Id: <1444996657-4301-7-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1444996657-4301-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1444996657-4301-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH 5/5] Automatically export public keys used for package(feed) signing
+Subject: [PATCH 5/5] package signing: automatically export public keys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,12 +29,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 11:57:45 -0000
+X-List-Received-Date: Fri, 16 Oct 2015 11:57:46 -0000
 
-Automatically export public key(s) from the gpg keyring. Adds a new
-simple recipe that does the actual task of exporting the keys.  This
-patch makes the RPM_GPG_PUBKEY and PACKAGE_FEED_GPG PUBKEY settings
-obsolete.
+Automatically export public key(s) of the signing key(s) from the gpg
+keyring. Adds a new simple recipe that does the actual task of exporting
+the keys.  This patch makes the RPM_GPG_PUBKEY and PACKAGE_FEED_GPG
+PUBKEY settings obsolete.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
