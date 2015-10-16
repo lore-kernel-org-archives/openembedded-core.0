@@ -1,40 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id B1B1477161
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 8757777165
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 15:45:16 +0000 (UTC)
-Received: by wicgb1 with SMTP id gb1so14770952wic.1
+	Fri, 16 Oct 2015 15:48:22 +0000 (UTC)
+Received: by igbkq10 with SMTP id kq10so15975690igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 08:45:16 -0700 (PDT)
+	Fri, 16 Oct 2015 08:48:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=HNbkSTeAJZmwItoJOJpRtqkKTCP9epxhRTUAQmZozl0=;
-	b=fvLXkHcUSiIcGoTsyRxaa1nqvJMrjlqly4E016HlI2al0A74UOvfOnu427HvqnDdc/
-	V2XIK+iJgWi22HjI9k2yjqL5eDFU+ZOJBVkUDtojzrpsQs6yk60gP9+Yy+c9blyzszYX
-	XQ2ry8Z9w0VuA0/A/U6rcBQSMec9zPlc5UY4z05jd4h/lFcGDBtpcd8jeXKhY/OG89PM
-	bNwRpwGNpNOXj/zioVNX5qkF8TZL3mUJMpTClHnAzO3ysW/V6jal3Q7j4TEsASEKwf5b
-	PjCHUpuBaGlTmjgCCcFTkxDzFolSBPmQjr1uEtASGYXqOiFlEhlitmWQuGnbklASU4Ve
-	UBlQ==
-X-Gm-Message-State: ALoCoQkoqEWuxNCKeG/FVLg2nQIg7IhB6yEU6DTDp0vm1PqvwgwgC5kUdlJ9uYOPzu3dE53wVAK7
-X-Received: by 10.194.185.16 with SMTP id ey16mr19669156wjc.32.1445010315312; 
-	Fri, 16 Oct 2015 08:45:15 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	it4sm23211577wjb.0.2015.10.16.08.45.14
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=/KzXUt74gJYO/jE68V0q2JYrzkNcbTHFFeDQQVQ+PNE=;
+	b=A9WHTsoKMCiwRghdfpPqpNHWjKh/SfSfqhxxUP0l3qkeRDHTY3zpi6ceC4vtO4ZmVx
+	hxUiaBj+KUe3QuAemj2Rwd6H2VZxcBGcXSI2Ux7K1qhpHR3D28yFyLFfJ6MtB0VwwrHp
+	zKBas4GONEobLJ5II0lHs9wQehbvFYo7V0ETY1W6ff2NQ479yacvQJb/t8UOGg5PuJbU
+	mV9Vs2y7JUbSHeLlUbKjLbLMEZcPGaUzdmpPsXRVhZfbyiIRdKv2ViLutl50tNiVHEpE
+	dg68oqmwNTR260q1P5zQXA+b1mYdZNq2pi5n8v6+qjf06FW4IEqnf6M7T36/+Lx8yEUB
+	YD1Q==
+X-Gm-Message-State: ALoCoQlyp6SfE+oHgWDAmPsb+GcWmBNaPCXxYgR5ufN+Hmx6RcW5y7oJ20FdXrtGB55T0hyJFhEW
+X-Received: by 10.50.73.138 with SMTP id l10mr6632047igv.53.1445010502768;
+	Fri, 16 Oct 2015 08:48:22 -0700 (PDT)
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com.
+	[209.85.213.172])
+	by smtp.gmail.com with ESMTPSA id c17sm8229428ioc.0.2015.10.16.08.48.20
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 16 Oct 2015 08:45:14 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Oct 2015 16:37:40 +0100
-Message-Id: <1445009861-5993-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1445009861-5993-1-git-send-email-ross.burton@intel.com>
-References: <1445009861-5993-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/3] oeqa/selftest/wic: remove numbers from test names
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 16 Oct 2015 08:48:21 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by igdg1 with SMTP id g1so3808076igd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Oct 2015 08:48:20 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.50.77.104 with SMTP id r8mr5074561igw.19.1445010500674; Fri,
+	16 Oct 2015 08:48:20 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Fri, 16 Oct 2015 08:48:20 -0700 (PDT)
+In-Reply-To: <56211AC3.5020307@mlbassoc.com>
+References: <1445005527-2384-1-git-send-email-adrian.ratiu@ni.com>
+	<56210C4A.2090400@mlbassoc.com> <20151016144408.GB2544@jama>
+	<5621160F.2020004@mlbassoc.com>
+	<CAP9ODKobJGbJ+ASvNqQ7Td1a28fyqXrn2idBKjZ-NCZoxj9Vsw@mail.gmail.com>
+	<56211AC3.5020307@mlbassoc.com>
+Date: Fri, 16 Oct 2015 12:48:20 -0300
+Message-ID: <CAP9ODKoLa6UzT-eko8y2sfYcOCWiFCY22bjSyhJ4HE8Mo3MqnQ@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] x11vnc: move recipe to meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,202 +60,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 15:45:17 -0000
+X-List-Received-Date: Fri, 16 Oct 2015 15:48:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-There isn't any required ordering of tests, and the numbers meant that the tests
-didn't appear in oe-selftest --list-classes.
+On Fri, Oct 16, 2015 at 12:41 PM, Gary Thomas <gary@mlbassoc.com> wrote:
+> On 2015-10-16 09:29, Otavio Salvador wrote:
+>>
+>> On Fri, Oct 16, 2015 at 12:21 PM, Gary Thomas <gary@mlbassoc.com> wrote:
+>>>
+>>> On 2015-10-16 08:44, Martin Jansa wrote:
+>>>>
+>>>>
+>>>> On Fri, Oct 16, 2015 at 08:40:10AM -0600, Gary Thomas wrote:
+>>>>>
+>>>>>
+>>>>> On 2015-10-16 08:25, Ioan-Adrian Ratiu wrote:
+>>>>>>
+>>>>>>
+>>>>>> x11vnc can be configured with --use-system-libvncserver to use an
+>>>>>> external libvncserver which will be added to meta-oe. Since oe-core
+>>>>>> should not depend on meta-oe, we move x11vnc there.
+>>>>>>
+>>>>>> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+>>>>>
+>>>>>
+>>>>>
+>>>>> Just curious why not the other way - move libvncserver to OE-core?
+>>>>> x11vnc seems like one of the very few [and useful] X based tools that
+>>>>> are present in OE-core that it seems like a huge step backwards to
+>>>>> move it out.
+>>>>
+>>>>
+>>>>
+>>>> It was discussed in "[OE-core] [oe] [meta-oe][PATCH v2] meta-oe:
+>>>> recipes-graphics: add libvncserver recipe" thread and I agree with
+>>>> Otavio that x11vnc doesn't look so fundamental component used by most
+>>>> embedded builds to deserver being in the core.
+>>>
+>>>
+>>> Well, I tend to disagree and I don't think there has really been a
+>>> discussion - only one "no" (Otavio) and one "I don't know" (Paul).
+>>
+>>
+>> The recipe being in meta-oe, can be used anyway. It is just out of
+>> OE-Core.
+>>
+>> Anyway, what x11vnc has to provide to a core system? it even requires
+>> X11 which a lot of embedded systems are moving away from...
+>>
+>
+> Maybe for you, but not my customers - most of them insist on it.
+>
+> Yes, x11nvc in meta-oe is an answer, but I don't want to have to
+> drag in meta-oe (way too heavy for my tastes) just to be able to
+> use it (I use it all the time to debug customer systems that I only
+> have remote access to)...
+>
+> Maybe we should abandon Python or GDB (server) from OE-core as they
+> aren't used by all systems either??
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/selftest/wic.py | 46 +++++++++++++++++++++----------------------
- 1 file changed, 23 insertions(+), 23 deletions(-)
+Gary, I understand you use it a lot. Great.
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index a0464ad..1abd192 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -57,29 +57,29 @@ class Wic(oeSelfTest):
-         rmtree(self.resultdir, ignore_errors=True)
- 
-     @testcase(1208)
--    def test01_help(self):
-+    def test_help(self):
-         """Test wic --help"""
-         self.assertEqual(0, runCmd('wic --help').status)
- 
-     @testcase(1209)
--    def test02_createhelp(self):
-+    def test_createhelp(self):
-         """Test wic create --help"""
-         self.assertEqual(0, runCmd('wic create --help').status)
- 
-     @testcase(1210)
--    def test03_listhelp(self):
-+    def test_listhelp(self):
-         """Test wic list --help"""
-         self.assertEqual(0, runCmd('wic list --help').status)
- 
-     @testcase(1211)
--    def test04_build_image_name(self):
-+    def test_build_image_name(self):
-         """Test wic create directdisk --image-name core-image-minimal"""
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name core-image-minimal").status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
-     @testcase(1212)
--    def test05_build_artifacts(self):
-+    def test_build_artifacts(self):
-         """Test wic create directdisk providing all artifacts."""
-         vars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
-                         for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
-@@ -93,40 +93,40 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
-     @testcase(1157)
--    def test06_gpt_image(self):
-+    def test_gpt_image(self):
-         """Test creation of core-image-minimal with gpt table and UUID boot"""
-         self.assertEqual(0, runCmd("wic create directdisk-gpt "
-                                    "--image-name core-image-minimal").status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
- 
-     @testcase(1213)
--    def test07_unsupported_subcommand(self):
-+    def test_unsupported_subcommand(self):
-         """Test unsupported subcommand"""
-         self.assertEqual(1, runCmd('wic unsupported',
-                          ignore_status=True).status)
- 
-     @testcase(1214)
--    def test08_no_command(self):
-+    def test_no_command(self):
-         """Test wic without command"""
-         self.assertEqual(1, runCmd('wic', ignore_status=True).status)
- 
-     @testcase(1215)
--    def test09_help_overview(self):
-+    def test_help_overview(self):
-         """Test wic help overview"""
-         self.assertEqual(0, runCmd('wic help overview').status)
- 
-     @testcase(1216)
--    def test10_help_plugins(self):
-+    def test_help_plugins(self):
-         """Test wic help plugins"""
-         self.assertEqual(0, runCmd('wic help plugins').status)
- 
-     @testcase(1217)
--    def test11_help_kickstart(self):
-+    def test_help_kickstart(self):
-         """Test wic help kickstart"""
-         self.assertEqual(0, runCmd('wic help kickstart').status)
- 
-     @testcase(1264)
--    def test12_compress_gzip(self):
-+    def test_compress_gzip(self):
-         """Test compressing an image with gzip"""
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name core-image-minimal "
-@@ -135,7 +135,7 @@ class Wic(oeSelfTest):
-                                          "directdisk-*.direct.gz")))
- 
-     @testcase(1265)
--    def test13_compress_bzip2(self):
-+    def test_compress_bzip2(self):
-         """Test compressing an image with bzip2"""
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name core-image-minimal "
-@@ -144,7 +144,7 @@ class Wic(oeSelfTest):
-                                          "directdisk-*.direct.bz2")))
- 
-     @testcase(1266)
--    def test14_compress_xz(self):
-+    def test_compress_xz(self):
-         """Test compressing an image with xz"""
-         self.assertEqual(0, runCmd("wic create directdisk "
-                                    "--image-name core-image-minimal "
-@@ -153,14 +153,14 @@ class Wic(oeSelfTest):
-                                          "directdisk-*.direct.xz")))
- 
-     @testcase(1267)
--    def test15_wrong_compressor(self):
-+    def test_wrong_compressor(self):
-         """Test how wic breaks if wrong compressor is provided"""
-         self.assertEqual(2, runCmd("wic create directdisk "
-                                    "--image-name core-image-minimal "
-                                    "-c wrong", ignore_status=True).status)
- 
-     @testcase(1268)
--    def test16_rootfs_indirect_recipes(self):
-+    def test_rootfs_indirect_recipes(self):
-         """Test usage of rootfs plugin with rootfs recipes"""
-         wks = "directdisk-multi-rootfs"
-         self.assertEqual(0, runCmd("wic create %s "
-@@ -171,7 +171,7 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "%s*.direct" % wks)))
- 
-     @testcase(1269)
--    def test17_rootfs_artifacts(self):
-+    def test_rootfs_artifacts(self):
-         """Test usage of rootfs plugin with rootfs paths"""
-         vars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
-                         for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
-@@ -189,7 +189,7 @@ class Wic(oeSelfTest):
-                                      "%(wks)s-*.direct" % vars)))
- 
-     @testcase(1346)
--    def test18_iso_image(self):
-+    def test_iso_image(self):
-         """Test creation of hybrid iso image with legacy and EFI boot"""
-         self.assertEqual(0, runCmd("wic create mkhybridiso "
-                                    "--image-name core-image-minimal").status)
-@@ -197,7 +197,7 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.iso")))
- 
-     @testcase(1347)
--    def test19_image_env(self):
-+    def test_image_env(self):
-         """Test generation of <image>.env files."""
-         image = 'core-image-minimal'
-         stdir = get_bb_var('STAGING_DIR_TARGET', image)
-@@ -220,7 +220,7 @@ class Wic(oeSelfTest):
-                 self.assertTrue(content[var])
- 
-     @testcase(1351)
--    def test20_wic_image_type(self):
-+    def test_wic_image_type(self):
-         """Test building wic images by bitbake"""
-         self.assertEqual(0, bitbake('wic-image-minimal').status)
- 
-@@ -235,7 +235,7 @@ class Wic(oeSelfTest):
-             self.assertTrue(os.path.isfile(os.path.realpath(path)))
- 
-     @testcase(1348)
--    def test21_qemux86_directdisk(self):
-+    def test_qemux86_directdisk(self):
-         """Test creation of qemux-86-directdisk image"""
-         image = "qemux86-directdisk"
-         self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-@@ -243,7 +243,7 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
- 
-     @testcase(1349)
--    def test22_mkgummidisk(self):
-+    def test_mkgummidisk(self):
-         """Test creation of mkgummidisk image"""
-         image = "mkgummidisk"
-         self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
-@@ -251,7 +251,7 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
- 
-     @testcase(1350)
--    def test23_mkefidisk(self):
-+    def test_mkefidisk(self):
-         """Test creation of mkefidisk image"""
-         image = "mkefidisk"
-         self.assertEqual(0, runCmd("wic create %s -e core-image-minimal" \
+But OE-Core should be trimmed, not extended. The recipes in OE-Core
+ought to be used by a a lot of people or to provide a validation for
+something.
+
+Sorry but x11vnc does not provide either. If you don't want to bring
+meta-oe, you can copy the recipe. But the size of meta-oe is not a
+justification to keep something on OE-Core. Instead, it would be
+better if you could help to split meta-oe more and it ultimately would
+be smaller ;-)
+
 -- 
-2.1.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
