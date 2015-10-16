@@ -1,29 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 05A04770E7
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 625E776FDE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 10:01:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t9GA1f0b030766; Fri, 16 Oct 2015 11:01:41 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id CwOJq0fyp9MV; Fri, 16 Oct 2015 11:01:41 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t9GA1SKC030744
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 16 Oct 2015 11:01:39 +0100
-Message-ID: <1444989688.17974.1.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-Date: Fri, 16 Oct 2015 11:01:28 +0100
-In-Reply-To: <1444930021-4096-1-git-send-email-benjamin.esquivel@linux.intel.com>
-References: <1444930021-4096-1-git-send-email-benjamin.esquivel@linux.intel.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] populate SDK: prepare calling of bb.utils for exceptions
+	Fri, 16 Oct 2015 10:34:56 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 16 Oct 2015 03:34:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,688,1437462000"; d="scan'208";a="794711866"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.9.47])
+	by orsmga001.jf.intel.com with ESMTP; 16 Oct 2015 03:34:55 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Oct 2015 11:34:38 +0100
+Message-Id: <cover.1444991643.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 0/1] Fix ext SDK building with shared sstate-cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,24 +27,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 10:01:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Oct 2015 10:35:00 -0000
 
-On Thu, 2015-10-15 at 12:27 -0500, Benjamin Esquivel wrote:
-> +            if (bb.utils.movefile(sourcefile, destdir) == None):
-> +                raise Exception("moving {} to {} failed".format(
-> +                                        sourcefile, destdir))
+The following changes since commit 10e5df3503632a6e1c54612055b19f7258c3ae2f:
 
-Its a minor issue, however rightly or wrongly, the vast majority of the
-code base uses "xxx %s %s" % (var, var2) instead of .format(). Is there
-a reason we should be using the latter as for consistency, the former
-would seem to make things more standardised?
+  lib/oe/image.py: Fix dependency handling for compressed types (2015-10-14 18:08:22 +0300)
 
-Cheers,
+are available in the git repository at:
 
-Richard
+  git://git.openembedded.org/openembedded-core-contrib paule/extsdk-sstate-race
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/extsdk-sstate-race
 
+Paul Eggleton (1):
+  scripts/gen-lockedsig-cache: fix race with temp file creation
 
+ scripts/gen-lockedsig-cache | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+-- 
+2.1.0
 
 
