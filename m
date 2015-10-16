@@ -1,16 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id BA0147716B
+	by mail.openembedded.org (Postfix) with ESMTP id BBF4177171
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 16 Oct 2015 15:51:42 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 5544A600680
+	(Authenticated sender: joshuagl) with ESMTPSA id C9C5C608AEE
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Oct 2015 16:51:17 +0100
-Message-Id: <cover.1445010332.git.joshua.lock@collabora.co.uk>
+Date: Fri, 16 Oct 2015 16:51:19 +0100
+Message-Id: <b6bce626c72493902cc184d338ca6e34eb532f82.1445010543.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/6] Various metadata tweaks
+In-Reply-To: <cover.1445010332.git.joshua.lock@collabora.co.uk>
+References: <cover.1445010332.git.joshua.lock@collabora.co.uk>
+In-Reply-To: <cover.1445010543.git.joshua.lock@collabora.co.uk>
+References: <cover.1445010543.git.joshua.lock@collabora.co.uk>
+Subject: [PATCH 2/6] weston: add PACKAGECONFIG to build with systemd-login support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,39 +29,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 16 Oct 2015 15:51:46 -0000
 
-The following series are some tidy ups and changes made whilst
-porting a distro with systemd and a Weston + Xwayland userland to
-Jethro.
+Automatically enable this support for distributions which have
+systemd in DISTRO_FEATURES.
 
-Please consider them for inclusion.
+Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+---
+ meta/recipes-graphics/wayland/weston_1.8.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Regards,
-
-Joshua
-
-
-The following changes since commit 10e5df3503632a6e1c54612055b19f7258c3ae2f:
-
-  lib/oe/image.py: Fix dependency handling for compressed types (2015-10-14 18:08:22 +0300)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib joshuagl/cleanup
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/cleanup
-
-Joshua Lock (6):
-  systemd: build with compatibility libraries
-  weston: add PACKAGECONFIG to build with systemd-login support
-  systemd: make dbus an optional build time dependency
-  weston: add a PACKAGECONFIG option for xwayland support
-  xserver-xorg: add Xwayland RRECOMMENDS
-  xserver-xorg: drop empty ${PN}-security-policy package
-
- meta/recipes-core/systemd/systemd_225.bb            | 6 ++++--
- meta/recipes-graphics/wayland/weston_1.8.0.bb       | 6 +++++-
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 8 ++++----
- 3 files changed, 13 insertions(+), 7 deletions(-)
-
+diff --git a/meta/recipes-graphics/wayland/weston_1.8.0.bb b/meta/recipes-graphics/wayland/weston_1.8.0.bb
+index 342c604..9e057c5 100644
+--- a/meta/recipes-graphics/wayland/weston_1.8.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.8.0.bb
+@@ -39,6 +39,7 @@ EXTRA_OECONF_append_qemux86-64 = "\
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'launch', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+                   "
+ #
+ # Compositor choices
+@@ -67,6 +68,8 @@ PACKAGECONFIG[lcms] = "--enable-lcms,--disable-lcms,lcms"
+ PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp"
+ # Weston with unwinding support
+ PACKAGECONFIG[libunwind] = "--enable-libunwind,--disable-libunwind,libunwind"
++# Weston with systemd-login support
++PACKAGECONFIG[systemd] = ",,systemd dbus"
+ 
+ do_install_append() {
+ 	# Weston doesn't need the .la files to load modules, so wipe them
 -- 
 2.1.4
 
