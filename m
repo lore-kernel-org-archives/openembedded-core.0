@@ -1,38 +1,37 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C01577128
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 89E3677128
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 02:15:54 +0000 (UTC)
-Received: by igbif5 with SMTP id if5so4164005igb.1
+	Fri, 16 Oct 2015 02:18:59 +0000 (UTC)
+Received: by iofl186 with SMTP id l186so110301093iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Oct 2015 19:15:55 -0700 (PDT)
+	Thu, 15 Oct 2015 19:18:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type;
-	bh=dvj7CYNhJpAVrClm+vyfSfRc8UuU0zMAWxVc8NjZNrQ=;
-	b=RRy1F1aQVdYCk8Lmzg1VImtC7SlWnFS959pQMOThDR6D5YHLLOsJgZX4qNRLKvS/X0
-	AX2tstmzjf2pZFDjr0PxI0Ci6w7FVukhoGBYfRlh3tJodXLXuqtDI7+DBSVtTjMeGGT9
-	N1IKV/DgAlJnHrAoxez5B4F/3JusYRiW/4wPwBq933U9/GdF9/q/on+wzqOCfMkpYqjn
-	v4C7Bztp7cgCIZqdiN3AKSapoYdvmZZkdDjk+g9F9Ia3nY1MQ8gPmSCIMnFu9tbgGNfU
-	3eSwERv9xVhtpDVTt6ICjhJMXBmC/4IcHPxDGlrfx5UyRwpcD/3rBVndyrA9h1XbZdL9
-	X+pA==
-X-Received: by 10.50.147.6 with SMTP id tg6mr2474769igb.68.1444961754890; Thu,
-	15 Oct 2015 19:15:54 -0700 (PDT)
+	bh=jwJwIi88w2cpkMwzBq7vBNpRgCTnji/HjPj82Ga5pCs=;
+	b=y8Hpmoty8DmOVPDH51pK5EtD4zS6voQYlfV6isb2bw603iL66e0OfVY8UTi6NcAp3n
+	a2TJwAfFOX8NkijiWyUiVaZiSsdoZUsUKOekxDF1SdbZBfvxMtnnNA9pNYC81bnZI2f4
+	P1wIgHVoHgUTLtwjrwVkWelz5D4TFujLnuF2MOfk//rouSi4GIN8Rtov5Ly7TXbKgGRo
+	iuyMg4l9rAgQLPZwS7CA5tlHrOSn+OqB9h1qZzbb5BaOH3MEyzD6Hw9FHTTHa7Pfj8vA
+	279x+Ic5EJIpPfC/LCeDMTU7yHdAENZNSe7s88gzInwC60TCtqtVGmyR5oKciWE6hTj+
+	5UIw==
+X-Received: by 10.107.38.210 with SMTP id m201mr12165739iom.98.1444961939572; 
+	Thu, 15 Oct 2015 19:18:59 -0700 (PDT)
 MIME-Version: 1.0
 Sender: kergoth@gmail.com
-Received: by 10.79.65.204 with HTTP; Thu, 15 Oct 2015 19:15:35 -0700 (PDT)
-In-Reply-To: <1444930021-4096-1-git-send-email-benjamin.esquivel@linux.intel.com>
-References: <1444930021-4096-1-git-send-email-benjamin.esquivel@linux.intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Thu, 15 Oct 2015 19:15:35 -0700
-X-Google-Sender-Auth: LMAPRHl1BhgGWzI4Ufdmd2i62TA
-Message-ID: <CABcZANkYQD8esrYrhDWZdiXnp5tEdemmh0cGyqpGWX_zA_t5fA@mail.gmail.com>
-To: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-Cc: "paul.eggleton@linux.intel.com" <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
+Received: by 10.79.65.204 with HTTP; Thu, 15 Oct 2015 19:18:40 -0700 (PDT)
+In-Reply-To: <1444957041-5419-1-git-send-email-psidhu@gateworks.com>
+References: <1444957041-5419-1-git-send-email-psidhu@gateworks.com>
+From: Christopher Larson <chris_larson@mentor.com>
+Date: Thu, 15 Oct 2015 19:18:40 -0700
+X-Google-Sender-Auth: pbCSEEM9_3UMvBEDQeaGh0uttcY
+Message-ID: <CABcZAN=9huQJ2oT=1uK+2F3ME=+KBEHOkWv1qdhrYPHyf_P_Ww@mail.gmail.com>
+To: Pushpal Sidhu <psidhu@gateworks.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] populate SDK: prepare calling of bb.utils for exceptions
+Subject: Re: [PATCH] iw: fix build path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,87 +44,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 02:15:55 -0000
-Content-Type: multipart/alternative; boundary=089e013c67c21d4ab505222f604c
+X-List-Received-Date: Fri, 16 Oct 2015 02:19:02 -0000
+Content-Type: multipart/alternative; boundary=001a114028181f64c305222f6b2b
 
---089e013c67c21d4ab505222f604c
+--001a114028181f64c305222f6b2b
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Oct 15, 2015 at 10:27 AM, Benjamin Esquivel <
-benjamin.esquivel@linux.intel.com> wrote:
+On Thu, Oct 15, 2015 at 5:57 PM, Pushpal Sidhu <psidhu@gateworks.com> wrote:
 
-> +    def movefile(self, sourcefile, destdir):
-> +        try:
-> +            # FIXME: this check of movefile's return code to None should
-> be
-> +            # fixed within the function to use only exceptions to signal
-> when
-> +            # something goes wrong
-> +            if (bb.utils.movefile(sourcefile, destdir) == None):
-> +                raise Exception("moving {} to {} failed".format(
-> +                                        sourcefile, destdir))
-> +        except Exception as e:
-> +            bb.warn(str(e))
-> +            bb.error("unable to place {} in final SDK location".format(
-> +                        sourcefile))
-> +
-> +    def mkdirhier(self, dirpath):
-> +        try:
-> +            bb.utils.mkdirhier(dirpath)
-> +        except OSError as e:
-> +            bb.warn(str(e))
-> +            bb.error("cannot make dir for SDK: {}".format(dirpath))
+> The source get's checked out into ${PN}-${PV}, not 'build'. Currently,
+> building
+> iw is broken because none of the source files are found.
 >
 
-Shouldn't this be fatal?
+First, this message doesn't make sense. You're implying that bitbake thinks
+B is S, which it does not. Bitbake already knows the correct source tree
+path. The S = you add here is redundant, ${PN}-${PV} is the default value
+for S.
+
+If iw was failing to build with a separate build directory from source,
+you'd just need to remove B. That said, it's not, as far as I can tell. I
+build iw every day as is and it works just fine building with a separate
+build directory from source, so I suspect you have something wrong going on
+in your environment.
 -- 
 Christopher Larson
-clarson at kergoth dot com
+kergoth at gmail dot com
 Founder - BitBake, OpenEmbedded, OpenZaurus
 Maintainer - Tslib
 Senior Software Engineer, Mentor Graphics
 
---089e013c67c21d4ab505222f604c
+--001a114028181f64c305222f6b2b
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Oct 15, 2015 at 10:27 AM, Benjamin Esquivel <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:benjamin.esquivel@linux.intel.com" target=3D"_blank">benja=
-min.esquivel@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex"><div id=3D":1fa" class=3D"a3s" style=3D"overflow:hidden">+=C2=A0 =
-=C2=A0 def movefile(self, sourcefile, destdir):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # FIXME: this check of movefile&=
-#39;s return code to None should be<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # fixed within the function to u=
-se only exceptions to signal when<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # something goes wrong<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (bb.utils.movefile(sourcefile=
-, destdir) =3D=3D None):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise Exception(&q=
-uot;moving {} to {} failed&quot;.format(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sourcefi=
-le, destdir))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except Exception as e:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(str(e))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.error(&quot;unable to place {=
-} in final SDK location&quot;.format(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 sourcefile))<br>
-+<br>
-+=C2=A0 =C2=A0 def mkdirhier(self, dirpath):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.mkdirhier(dirpath)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except OSError as e:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(str(e))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.error(&quot;cannot make dir f=
-or SDK: {}&quot;.format(dirpath))</div></blockquote></div><br>Shouldn&#39;t=
- this be fatal?<br>-- <br><div class=3D"gmail_signature">Christopher Larson=
-<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaur=
-us<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
+hu, Oct 15, 2015 at 5:57 PM, Pushpal Sidhu <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:psidhu@gateworks.com" target=3D"_blank">psidhu@gateworks.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"overflow:hi=
+dden">The source get&#39;s checked out into ${PN}-${PV}, not &#39;build&#39=
+;. Currently, building<br>
+iw is broken because none of the source files are found.<br></div></blockqu=
+ote><div><br></div><div>First, this message doesn&#39;t make sense. You&#39=
+;re implying that bitbake thinks B is S, which it does not. Bitbake already=
+ knows the correct source tree path. The S =3D you add here is redundant, $=
+{PN}-${PV} is the default value for S.</div><div><br></div><div>If iw was f=
+ailing to build with a separate build directory from source, you&#39;d just=
+ need to remove B. That said, it&#39;s not, as far as I can tell. I build i=
+w every day as is and it works just fine building with a separate build dir=
+ectory from source, so I suspect you have something wrong going on in your =
+environment.<br></div></div>-- <br><div><div dir=3D"ltr">Christopher Larson=
+<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus=
+<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div></=
+div>
 </div></div>
 
---089e013c67c21d4ab505222f604c--
+--001a114028181f64c305222f6b2b--
