@@ -1,24 +1,24 @@
-Return-Path: <Peter.Seebach@windriver.com>
+Return-Path: <Wenzong.Fan@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EAAF276FF2
+	by mail.openembedded.org (Postfix) with ESMTP id 5797677120
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 02:27:05 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9G2R5E0007773
+	Fri, 16 Oct 2015 05:57:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9G5vj8I000476
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Oct 2015 19:27:05 -0700 (PDT)
-Received: from seebs-worktop (172.25.40.228) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 15 Oct 2015 19:27:04 -0700
-Date: Thu, 15 Oct 2015 21:27:04 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
+	Thu, 15 Oct 2015 22:57:45 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 15 Oct 2015 22:57:44 -0700
+From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20151015212704.77942702@seebs-worktop>
-X-Mailer: Claws Mail 3.9.3 (GTK+ 2.24.23; x86_64-pc-linux-gnu)
+Date: Fri, 16 Oct 2015 01:57:42 -0400
+Message-ID: <cover.1444974811.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Possible patch for build issue (mostly affects mingw, but see below)
+Subject: [PATCH 0/1 v2] mdadm: fix CFLAGS and ptest issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,68 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 02:27:07 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Oct 2015 05:57:45 -0000
+Content-Type: text/plain
 
-I'd like a second opinion on this. Without this, we had very strange build
-failures which ended up being using the build system g++ with the mingw
-"host" (in cross-canadian land, this would be the machine the compiler will
-run on) headers. On study, the issue seems to be that libcpp is now being
-built for the build machine, but it's using C++ as of 5.2.0... But
-EXTRA_BUILD_FLAGS does not override CXXFLAGS, only CFLAGS and LDFLAGS, so
-you end up with the regular host system CFLAGS, which are the mingw ones,
-being used with the build system compiler.
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-Without this, I couldn't build gcc 5.2 for mingw. With this (and adding
-libgomp to the RUNTIMETARGET_remove_mingw32 in meta-mingw), I could.
+V2 changes:
 
-However, I don't think this is actually mingw specific. I think that,
-without this fix, *every* build ends up using the host system's CXXFLAGS
-to build a build-system libcpp, instead of the build system's. It's just
-that, since they're usually compatible-enough for libcpp, no one ever
-noticed.
+* update commit subject:
+  mdadm: fix CFLAGS invalid issue -> mdadm: fix CFLAGS and ptest issue
 
-(Sending it out to the list as a plain patch because it's easier to read; if
-people want a pretty formatted gcc patch for oe-core, I can do that, and I
-think this one should go upstream too.)
+* rebase changes against latest master branch.
 
-Author: Peter Seebach <peter.seebach@windriver.com>
-Date:   Wed Oct 14 17:10:10 2015 -0500
+The following changes since commit 556c0ea92eb32ddb9c9a5e30a74b2ca24ac69c68:
 
-    Makefile.tpl: Also pass CXXFLAGS_FOR_BUILD
-    
-    When doing a FOR_BUILD thing, you have to override CFLAGS with
-    CFLAGS_FOR_BUILD. And if you use C++, you also have to override
-    CXXFLAGS with CXXFLAGS_FOR_BUILD, or you end up trying to use the
-    mingw headers for a host build.
-    
-    Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+  lib/oe/image.py: Fix dependency handling for compressed types (2015-10-14 18:08:37 +0300)
 
-diff --git a/Makefile.in b/Makefile.in
-index 36b4008..b64ef77 100644
---- a/Makefile.in
-+++ b/Makefile.in
-@@ -169,6 +169,7 @@ BUILD_EXPORTS = \
- # built for the build system to override those in BASE_FLAGS_TO_PASS.
- EXTRA_BUILD_FLAGS = \
- 	CFLAGS="$(CFLAGS_FOR_BUILD)" \
-+	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)" \
- 	LDFLAGS="$(LDFLAGS_FOR_BUILD)"
- 
- # This is the list of directories to built for the host system.
-diff --git a/Makefile.tpl b/Makefile.tpl
-index 1ea1954..4f73d66 100644
---- a/Makefile.tpl
-+++ b/Makefile.tpl
-@@ -172,6 +172,7 @@ BUILD_EXPORTS = \
- # built for the build system to override those in BASE_FLAGS_TO_PASS.
- EXTRA_BUILD_FLAGS = \
- 	CFLAGS="$(CFLAGS_FOR_BUILD)" \
-+	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)" \
- 	LDFLAGS="$(LDFLAGS_FOR_BUILD)"
- 
- # This is the list of directories to built for the host system.
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib wenzong/mdadm
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/mdadm
+
+Wenzong Fan (1):
+  mdadm: fix CFLAGS and ptest issue
+
+ .../mdadm/files/mdadm-fix-ptest-build-error.patch  | 34 ++++++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_3.3.4.bb         |  3 +-
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/mdadm/files/mdadm-fix-ptest-build-error.patch
+
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+1.9.1
+
 
