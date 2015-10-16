@@ -1,26 +1,28 @@
 Return-Path: <benjamin.esquivel@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 26AE27710B
+	by mail.openembedded.org (Postfix) with ESMTP id 66C2A77163
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 20:27:27 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 16 Oct 2015 13:27:28 -0700
+	Fri, 16 Oct 2015 20:28:07 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 16 Oct 2015 13:28:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,690,1437462000"; d="scan'208";a="795229300"
+X-IronPort-AV: E=Sophos;i="5.17,690,1437462000"; 
+	d="scan'208,217";a="828807964"
 Received: from besquive-mobl2.amr.corp.intel.com ([10.219.128.95])
-	by orsmga001.jf.intel.com with ESMTP; 16 Oct 2015 13:27:28 -0700
-Message-ID: <1445027247.6970.32.camel@linux.intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 16 Oct 2015 13:28:06 -0700
+Message-ID: <1445027286.6970.34.camel@linux.intel.com>
 From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>, 
-	openembedded-core@lists.openembedded.org
-In-Reply-To: <5620A07B.3050305@topic.nl>
+To: Christopher Larson <clarson@kergoth.com>
+In-Reply-To: <CABcZANkYQD8esrYrhDWZdiXnp5tEdemmh0cGyqpGWX_zA_t5fA@mail.gmail.com>
 References: <1444930021-4096-1-git-send-email-benjamin.esquivel@linux.intel.com>
-	<5620A07B.3050305@topic.nl>
+	<CABcZANkYQD8esrYrhDWZdiXnp5tEdemmh0cGyqpGWX_zA_t5fA@mail.gmail.com>
 Organization: Intel Corporation
-Date: Fri, 16 Oct 2015 15:27:27 -0500
+Date: Fri, 16 Oct 2015 15:28:06 -0500
 Mime-Version: 1.0
 X-Mailer: Evolution 3.16.5 (3.16.5-3.fc22) 
-Cc: paul.eggleton@linux.intel.com
+Cc: "paul.eggleton@linux.intel.com" <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] populate SDK: prepare calling of bb.utils for exceptions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,19 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 20:27:31 -0000
+X-List-Received-Date: Fri, 16 Oct 2015 20:28:07 -0000
+Content-Type: multipart/alternative; boundary="=-l1jKpp85VYgqnvCCeEhF"
+
+--=-l1jKpp85VYgqnvCCeEhF
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hello Mike, comments below:
-
-On Fri, 2015-10-16 at 09:00 +0200, Mike Looijmans wrote:
-> ﻿On 15-10-15 19:27, Benjamin Esquivel wrote:
-> > bb.utils.remove, bb.utils.movefile and bb.utils.mkdirhier can throw
-> > exceptions that need handling and proper error messages.
-> > 
-> > [YOCTO#8213]
-> ...
+On Thu, 2015-10-15 at 19:15 -0700, Christopher Larson wrote:
+> 
+> On Thu, Oct 15, 2015 at 10:27 AM, Benjamin Esquivel <
+> benjamin.esquivel@linux.intel.com> wrote:
+> > +    def movefile(self, sourcefile, destdir):
+> > +        try:
+> > +            # FIXME: this check of movefile's return code to None
+> > should be
+> > +            # fixed within the function to use only exceptions to
+> > signal when
+> > +            # something goes wrong
+> > +            if (bb.utils.movefile(sourcefile, destdir) == None):
+> > +                raise Exception("moving {} to {} failed".format(
+> > +                                        sourcefile, destdir))
+> > +        except Exception as e:
+> > +            bb.warn(str(e))
+> > +            bb.error("unable to place {} in final SDK
+> > location".format(
+> > +                        sourcefile))
+> > +
 > > +    def mkdirhier(self, dirpath):
 > > +        try:
 > > +            bb.utils.mkdirhier(dirpath)
@@ -55,56 +71,32 @@ On Fri, 2015-10-16 at 09:00 +0200, Mike Looijmans wrote:
 > > +            bb.warn(str(e))
 > > +            bb.error("cannot make dir for SDK:
 > > {}".format(dirpath))
-> ...
-> 
-> 
-> I see two bad things happening here:
-> 
-> - This will print a message, but continue processing as if nothing
-> bad 
-> happened, wreaking havoc later on when the caller might expect the
-> directory 
-> to actually exist and raise exceptions that are much harder to solve.
-The exception is not re-raised since this is the appropriate level of
-handling and you made me realize that this specific case will only be
-reached if the dir is not present and unable to be created so it should
-be changed for a bb.fatal instead of bb.error. thanks.
-> 
-> - It loses the information in the original exception, and since it
-> doesn't 
-> throw a new exception, the user is now left in the dark as to where
-> the 
-> problem occured, since there's no stack trace now.
-> 
-I will throw the trace to the log
-> 
-> For what I see in this code, it will actually make thing worse by
-> hiding 
-> errors and obscuring information. You're not "handling" the exception
-> here, 
-> you're almost "ignoring" them, which isn't quite the same.
-> 
-not agreed, current code hides errors in return codes which are not
-even checked.
-> 
-> 
-> Kind regards,
-> 
-> Mike Looijmans
-> System Expert
-> 
-> TOPIC Embedded Products
-> Eindhovenseweg 32-C, NL-5683 KH Best
-> Postbus 440, NL-5680 AK Best
-> Telefoon: +31 (0) 499 33 69 79
-> Telefax: +31 (0) 499 33 69 70
-> E-mail: mike.looijmans@topicproducts.com
-> Website: www.topicproducts.com
-> 
-> Please consider the environment before printing this e-mail
-> 
-> 
-> 
-> 
-> 
+> > 
+> Shouldn't this be fatal?
+correct, will change to fatal. Thanks.
 
+--=-l1jKpp85VYgqnvCCeEhF
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+<html><head></head><body><div>On Thu, 2015-10-15 at 19:15 -0700, Christopher Larson wrote:</div><blockquote type="cite"><div dir="ltr"><div class="gmail_extra"><br><div class="gmail_quote">On Thu, Oct 15, 2015 at 10:27 AM, Benjamin Esquivel <span dir="ltr">&lt;<a href="mailto:benjamin.esquivel@linux.intel.com" target="_blank">benjamin.esquivel@linux.intel.com</a>&gt;</span> wrote:<br><blockquote type="cite"><div id=":1fa" class="a3s" style="overflow:hidden">+&nbsp; &nbsp; def movefile(self, sourcefile, destdir):<br>
++&nbsp; &nbsp; &nbsp; &nbsp; try:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # FIXME: this check of movefile's return code to None should be<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # fixed within the function to use only exceptions to signal when<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # something goes wrong<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (bb.utils.movefile(sourcefile, destdir) == None):<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; raise Exception("moving {} to {} failed".format(<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; sourcefile, destdir))<br>
++&nbsp; &nbsp; &nbsp; &nbsp; except Exception as e:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bb.warn(str(e))<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bb.error("unable to place {} in final SDK location".format(<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; sourcefile))<br>
++<br>
++&nbsp; &nbsp; def mkdirhier(self, dirpath):<br>
++&nbsp; &nbsp; &nbsp; &nbsp; try:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bb.utils.mkdirhier(dirpath)<br>
++&nbsp; &nbsp; &nbsp; &nbsp; except OSError as e:<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bb.warn(str(e))<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bb.error("cannot make dir for SDK: {}".format(dirpath))</div><br></blockquote></div><br>Shouldn't this be fatal?<br></div></div></blockquote><div>correct, will change to fatal. Thanks.</div></body></html>
+
+--=-l1jKpp85VYgqnvCCeEhF--
