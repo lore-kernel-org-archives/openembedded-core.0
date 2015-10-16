@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BB5577129
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D10EC77129
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 07:13:56 +0000 (UTC)
+	Fri, 16 Oct 2015 07:13:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9G7DvM3010247
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9G7Dwtu000929
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 00:13:57 -0700 (PDT)
+	Fri, 16 Oct 2015 00:13:58 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 16 Oct 2015 00:13:56 -0700
+	14.3.248.2; Fri, 16 Oct 2015 00:13:58 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Oct 2015 15:14:27 +0800
-Message-ID: <cover.1444979576.git.Qi.Chen@windriver.com>
+Date: Fri, 16 Oct 2015 15:14:28 +0800
+Message-ID: <7314976f3f2463926748eec4fbf8c0a3111c4caf.1444979576.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1444979576.git.Qi.Chen@windriver.com>
+References: <cover.1444979576.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] openssl: don't move libcrypto to base_libdir
+Subject: [PATCH 1/1] openssl: don't move libcrypto to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,53 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 16 Oct 2015 07:13:58 -0000
 Content-Type: text/plain
 
-The following changes since commit e42d8eff9eed7d1454b4f331d96dcee6dea232df:
+For now, if 'openssl' is enabled for ntp, ntp would still be built
+without openssl & libcrypto. This is because that ntp thinks openssl
+and libcrypto locates under the same directory.
 
-  bash: Disable custom memory allocator (2015-10-12 14:35:42 +0100)
+A patch more than two years ago moves libcrypto from libdir to base_libdir
+for the reason of /usr split. And I don't think this reason still stands.
 
-are available in the git repository at:
+This patch removes the codes of moving libcrypto to base_libdir.
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/openssl-libcrypto
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/openssl-libcrypto
-
-Chen Qi (1):
-  openssl: don't move libcrypto to base_libdir
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/recipes-connectivity/openssl/openssl.inc | 11 ++---------
  1 file changed, 2 insertions(+), 9 deletions(-)
 
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index 8af423f..0145e3b 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -34,12 +34,12 @@ export AS = "${CC} -c"
+ inherit pkgconfig siteinfo multilib_header ptest
+ 
+ PACKAGES =+ "libcrypto libssl ${PN}-misc openssl-conf"
+-FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
++FILES_libcrypto = "${libdir}/libcrypto${SOLIBS}"
+ FILES_libssl = "${libdir}/libssl.so.*"
+ FILES_${PN} =+ " ${libdir}/ssl/*"
+ FILES_${PN}-misc = "${libdir}/ssl/misc ${bindir}/c_rehash"
+ RDEPENDS_${PN}-misc = "${@bb.utils.contains('PACKAGECONFIG', 'perl', 'perl', '', d)}"
+-FILES_${PN}-dev += "${base_libdir}/libcrypto${SOLIBSDEV}"
++FILES_${PN}-dev += "${libdir}/libcrypto${SOLIBSDEV}"
+ 
+ # Add the openssl.cnf file to the openssl-conf package.  Make the libcrypto
+ # package RRECOMMENDS on this package.  This will enable the configuration
+@@ -167,13 +167,6 @@ do_install () {
+ 	oe_libinstall -so libcrypto ${D}${libdir}
+ 	oe_libinstall -so libssl ${D}${libdir}
+ 
+-	# Moving libcrypto to /lib
+-	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
+-		mkdir -p ${D}/${base_libdir}/
+-		mv ${D}${libdir}/libcrypto* ${D}${base_libdir}/
+-		sed -i s#libdir=\$\{exec_prefix\}\/lib#libdir=${base_libdir}# ${D}/${libdir}/pkgconfig/libcrypto.pc
+-	fi
+-
+ 	install -d ${D}${includedir}
+ 	cp --dereference -R include/openssl ${D}${includedir}
+ 
 -- 
 1.9.1
 
