@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 80AE677176
+	by mail.openembedded.org (Postfix) with ESMTP id 80A1777175
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 16 Oct 2015 15:51:45 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 46F96608B77
+	(Authenticated sender: joshuagl) with ESMTPSA id 2CA56608B6D
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Oct 2015 16:51:23 +0100
-Message-Id: <8356a5ea7fbfc8d60811e507aaee69d9798bf20b.1445010543.git.joshua.lock@collabora.co.uk>
+Date: Fri, 16 Oct 2015 16:51:22 +0100
+Message-Id: <58e6014e94dd6be5c36cd613e06c477af7c3dc3a.1445010543.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445010332.git.joshua.lock@collabora.co.uk>
 References: <cover.1445010332.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445010543.git.joshua.lock@collabora.co.uk>
 References: <cover.1445010543.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH 6/6] xserver-xorg: drop empty ${PN}-security-policy package
+Subject: [PATCH 5/6] xserver-xorg: add Xwayland RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,48 +29,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 16 Oct 2015 15:51:46 -0000
 
-The SecurityPolicy hasn't been included since 2007[1] and the
-last remnants were removed from the code base in 2010[2].
-
-1. http://cgit.freedesktop.org/xorg/xserver/commit/?id=9d03cad1446c27b397c198cf6247e71e46bc9e6d
-2. http://cgit.freedesktop.org/xorg/xserver/commit/?id=19d03d4f49e08442f58cf02240e3e6bab04633d2
+Xwayland has the same runtime dependencies as the standard
+xserver so set RRECOMMENDS the same way.
 
 Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 ---
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 30b3485..91df2b7 100644
+index 9881c94..30b3485 100644
 --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
 +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -44,8 +44,7 @@ DEPENDS = "${PROTO_DEPS} ${LIB_DEPS} font-util"
- #          libextmod.so
- #          libdbe.so
- 
--PACKAGES =+ "${PN}-security-policy \
--             ${PN}-sdl \
-+PACKAGES =+ "${PN}-sdl \
-              ${PN}-fbdev \
-              ${PN}-xvfb \
-              ${PN}-utils \
-@@ -72,7 +71,7 @@ PACKAGES =+ "${PN}-security-policy \
+@@ -72,7 +72,9 @@ PACKAGES =+ "${PN}-security-policy \
  SUMMARY_xf86-video-modesetting = "X.Org X server -- modesetting display driver"
  INSANE_SKIP_xf86-video-modesetting = "xorg-driver-abi"
  
--XSERVER_RRECOMMENDS = "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config xkbcomp"
-+XSERVER_RRECOMMENDS = "xkeyboard-config rgb xserver-xf86-config xkbcomp"
- RRECOMMENDS_${PN} += "${XSERVER_RRECOMMENDS}"
- RRECOMMENDS_${PN}-xwayland += "${XSERVER_RRECOMMENDS}"
+-RRECOMMENDS_${PN} += "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config xkbcomp"
++XSERVER_RRECOMMENDS = "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config xkbcomp"
++RRECOMMENDS_${PN} += "${XSERVER_RRECOMMENDS}"
++RRECOMMENDS_${PN}-xwayland += "${XSERVER_RRECOMMENDS}"
  RDEPENDS_${PN}-xvfb += "xkeyboard-config"
-@@ -85,7 +84,6 @@ FILES_${PN}-dbg += "${libdir}/xorg/modules/.debug \
-                     ${libdir}/xorg/modules/*/.debug \
-                     ${libdir}/xorg/modules/*/*/.debug \
-                     "
--FILES_${PN}-security-policy += "${libdir}/xserver/SecurityPolicy"
- FILES_${PN}-sdl = "${bindir}/Xsdl"
- FILES_${PN}-fbdev = "${bindir}/Xfbdev"
- FILES_${PN}-xvfb = "${bindir}/Xvfb"
+ RDEPENDS_${PN}-module-exa = "${PN} (= ${EXTENDPKGV})"
+ 
 -- 
 2.1.4
 
