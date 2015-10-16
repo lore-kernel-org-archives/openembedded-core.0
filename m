@@ -1,33 +1,37 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 6993677153
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 438537715A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Oct 2015 15:41:14 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 07F76F811ED; Fri, 16 Oct 2015 09:41:14 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 63A98F811E0;
-	Fri, 16 Oct 2015 09:41:14 -0600 (MDT)
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-References: <1445005527-2384-1-git-send-email-adrian.ratiu@ni.com>
-	<56210C4A.2090400@mlbassoc.com> <20151016144408.GB2544@jama>
-	<5621160F.2020004@mlbassoc.com>
-	<CAP9ODKobJGbJ+ASvNqQ7Td1a28fyqXrn2idBKjZ-NCZoxj9Vsw@mail.gmail.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <56211AC3.5020307@mlbassoc.com>
-Date: Fri, 16 Oct 2015 09:41:55 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKobJGbJ+ASvNqQ7Td1a28fyqXrn2idBKjZ-NCZoxj9Vsw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] x11vnc: move recipe to meta-oe
+	Fri, 16 Oct 2015 15:45:14 +0000 (UTC)
+Received: by wijq8 with SMTP id q8so17109458wij.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Oct 2015 08:45:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=uPcwZpapqHHidRBMoWOYcsQFdckJrv8wGOV9JyvScDA=;
+	b=kafPwsaXwuQ0qmwqc+Aw3upFGaR6GVIxcfnwMgFmWYJoQQIFN7DbUuG+Lq3kMLsCCu
+	gixAcA9SNgryoPnE5pb3a8zqXpi/rr248IunXR20W5sFBSyCmXPvg36SjOxwtQy7wDww
+	mFvDxLiF9mdYZk6H3zTKOrq+b7ibpDu6bGs5cbfPmHXABxprpqJ6jdETUKdZWhOEq/Hw
+	gzF4pzFmLX37S+qFjpc1GZPQsHt1DNXhffuSLT3LxuCsTDcVo9A0Pnifjh1DUfv2/ue3
+	s7O3aVypPfFsTEl6gmTwLFt9+9yl96KS0JaGKvDGZFqdiOQyBZPn96wRKJC68ToaCk13
+	iFJQ==
+X-Gm-Message-State: ALoCoQlpe+Vie/DlHxyM/gTZzhmrIAI6DjEeGiTuzWynl88PXX9bfORLfiFagJvXM4xW5atb7A/y
+X-Received: by 10.180.88.198 with SMTP id bi6mr5740413wib.75.1445010314472;
+	Fri, 16 Oct 2015 08:45:14 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	it4sm23211577wjb.0.2015.10.16.08.45.13
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 16 Oct 2015 08:45:13 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Oct 2015 16:37:39 +0100
+Message-Id: <1445009861-5993-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/3] oeqa/selftest/wic: fix cleaning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,58 +44,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Oct 2015 15:41:15 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Oct 2015 15:45:16 -0000
 
-On 2015-10-16 09:29, Otavio Salvador wrote:
-> On Fri, Oct 16, 2015 at 12:21 PM, Gary Thomas <gary@mlbassoc.com> wrote:
->> On 2015-10-16 08:44, Martin Jansa wrote:
->>>
->>> On Fri, Oct 16, 2015 at 08:40:10AM -0600, Gary Thomas wrote:
->>>>
->>>> On 2015-10-16 08:25, Ioan-Adrian Ratiu wrote:
->>>>>
->>>>> x11vnc can be configured with --use-system-libvncserver to use an
->>>>> external libvncserver which will be added to meta-oe. Since oe-core
->>>>> should not depend on meta-oe, we move x11vnc there.
->>>>>
->>>>> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
->>>>
->>>>
->>>> Just curious why not the other way - move libvncserver to OE-core?
->>>> x11vnc seems like one of the very few [and useful] X based tools that
->>>> are present in OE-core that it seems like a huge step backwards to
->>>> move it out.
->>>
->>>
->>> It was discussed in "[OE-core] [oe] [meta-oe][PATCH v2] meta-oe:
->>> recipes-graphics: add libvncserver recipe" thread and I agree with
->>> Otavio that x11vnc doesn't look so fundamental component used by most
->>> embedded builds to deserver being in the core.
->>
->> Well, I tend to disagree and I don't think there has really been a
->> discussion - only one "no" (Otavio) and one "I don't know" (Paul).
->
-> The recipe being in meta-oe, can be used anyway. It is just out of OE-Core.
->
-> Anyway, what x11vnc has to provide to a core system? it even requires
-> X11 which a lot of embedded systems are moving away from...
->
+In some situations the native tools built in setUpClass() are wiped from the
+sysroot by the time the tests are executed, likely due to the cleanup performed
+in the base setUp() method.
 
-Maybe for you, but not my customers - most of them insist on it.
+Avoid this by doing all of the preparatory building in setUpLocal.
 
-Yes, x11nvc in meta-oe is an answer, but I don't want to have to
-drag in meta-oe (way too heavy for my tastes) just to be able to
-use it (I use it all the time to debug customer systems that I only
-have remote access to)...
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/selftest/wic.py | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
-Maybe we should abandon Python or GDB (server) from OE-core as they
-aren't used by all systems either??
-
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index f4c22f7..a0464ad 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -38,22 +38,20 @@ class Wic(oeSelfTest):
+     """Wic test class."""
+ 
+     resultdir = "/var/tmp/wic/build/"
+-
+-    @classmethod
+-    def setUpClass(cls):
+-        """Build wic runtime dependencies."""
+-        bitbake('syslinux syslinux-native parted-native gptfdisk-native '
+-                'dosfstools-native mtools-native')
+-        Wic.image_is_ready = False
++    image_is_ready = False
+ 
+     def setUpLocal(self):
+         """This code is executed before each test method."""
+-        features = 'IMAGE_FSTYPES += " hddimg"\nMACHINE_FEATURES_append = " efi"\n'
+-        self.append_config(features)
++        # Do this here instead of in setUpClass as the base setUp does some
++        # clean up which can result in the native tools built earlier in
++        # setUpClass being unavailable.
+         if not Wic.image_is_ready:
+-            # build core-image-minimal with required features
++            features = 'IMAGE_FSTYPES += " hddimg"\nMACHINE_FEATURES_append = " efi"\n'
++            self.append_config(features)
++
++            bitbake('syslinux syslinux-native parted-native gptfdisk-native '
++                    'dosfstools-native mtools-native')
+             bitbake('core-image-minimal')
+-            # set this class variable to avoid buiding image many times
+             Wic.image_is_ready = True
+ 
+         rmtree(self.resultdir, ignore_errors=True)
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+2.1.4
+
 
