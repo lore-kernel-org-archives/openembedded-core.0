@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id BB0D17716E
+	by mail.openembedded.org (Postfix) with ESMTP id BCDCC77173
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 16 Oct 2015 15:51:42 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 79CB860068B
+	(Authenticated sender: joshuagl) with ESMTPSA id E9AB7608B16
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Oct 2015 16:51:18 +0100
-Message-Id: <013344f3d3f8c35ecb40bb8282b05d6262927b73.1445010543.git.joshua.lock@collabora.co.uk>
+Date: Fri, 16 Oct 2015 16:51:20 +0100
+Message-Id: <9bdb8fa4fcc1a385fa4b2c50b8030d7074a07dbd.1445010543.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445010332.git.joshua.lock@collabora.co.uk>
 References: <cover.1445010332.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445010543.git.joshua.lock@collabora.co.uk>
 References: <cover.1445010543.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH 1/6] systemd: build with compatibility libraries
+Subject: [PATCH 3/6] systemd: make dbus an optional build time dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,13 +29,9 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 16 Oct 2015 15:51:46 -0000
 
-There are recipes in the Core metadata that have optional systemd
-support but expect the old, separate, libsystemd-foo pkg-config files
-(not the newer unified libsystemd).
-
-Add a PACKAGECONFIG option to build systemd with the compatibility
-pc files and default to enabling this option so that we can make use of
-them in the weston recipe.
+The dbus buildtime dependency is only required in order to build
+dbus related tests in modern systemd, make this a PACKAGECONFIG
+option.
 
 Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 ---
@@ -43,23 +39,23 @@ Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
-index c2dad58..594c5aa 100644
+index 594c5aa..74a93a4 100644
 --- a/meta/recipes-core/systemd/systemd_225.bb
 +++ b/meta/recipes-core/systemd/systemd_225.bb
-@@ -58,7 +58,7 @@ LDFLAGS_append_libc-uclibc = " -lrt"
+@@ -18,7 +18,7 @@ PROVIDES = "udev"
  
- GTKDOC_DOCDIR = "${S}/docs/"
+ PE = "1"
  
--PACKAGECONFIG ??= "xz ldconfig \
-+PACKAGECONFIG ??= "xz ldconfig compat \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
-@@ -89,6 +89,7 @@ PACKAGECONFIG[ldconfig] = "--enable-ldconfig,--disable-ldconfig,,"
- PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
+-DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup qemu-native util-linux"
++DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline libcap libcgroup qemu-native util-linux"
+ 
+ SECTION = "base/shell"
+ 
+@@ -90,6 +90,7 @@ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
  PACKAGECONFIG[valgrind] = "ac_cv_header_valgrind_memcheck_h=yes ac_cv_header_valgrind_valgrind_h=yes ,ac_cv_header_valgrind_memcheck_h=no ac_cv_header_valgrind_valgrind_h=no ,valgrind"
  PACKAGECONFIG[qrencode] = "--enable-qrencode,--disable-qrencode,qrencode"
-+PACKAGECONFIG[compat] = "--enable-compat-libs,--disable-compat-libs"
+ PACKAGECONFIG[compat] = "--enable-compat-libs,--disable-compat-libs"
++PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
  
  CACHED_CONFIGUREVARS += "ac_cv_path_KILL=${base_bindir}/kill"
  CACHED_CONFIGUREVARS += "ac_cv_path_KMOD=${base_bindir}/kmod"
