@@ -1,30 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 47CB87705D
+Return-Path: <alejandro.franco@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id CFD1373CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 16:41:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t9JGfSjs019752 for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 17:41:28 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ruHxiL8l92x3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 17:41:28 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t9JGfGIp019736
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 17:41:27 +0100
-Message-ID: <1445272876.17974.124.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Oct 2015 17:41:16 +0100
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] libc-package: Fix localedef multilib dependency issues
+	Mon, 19 Oct 2015 16:51:12 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 19 Oct 2015 09:51:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,702,1437462000"; 
+	d="scan'208,217";a="814508350"
+Received: from afshjern.zpn.intel.com (HELO [10.219.5.62]) ([10.219.5.62])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Oct 2015 09:51:12 -0700
+To: openembedded-core@lists.openembedded.org
+References: <1445249129-1475-1-git-send-email-ross.burton@intel.com>
+	<CAJTo0LaoQ4yp0AQtdKLQq22Nh=bgKgb4T8ApxyqxUc=U09FLkA@mail.gmail.com>
+	<CAJTo0LZhMs6Pr85oq2H_Tut12yx_f1JEbM+nsWpVOf1UC98ABg@mail.gmail.com>
+From: Alex Franco <alejandro.franco@linux.intel.com>
+Message-ID: <56251FB1.4090700@linux.intel.com>
+Date: Mon, 19 Oct 2015 11:52:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZhMs6Pr85oq2H_Tut12yx_f1JEbM+nsWpVOf1UC98ABg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] bitbake: add file-native to ASSUME_PROVIDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +34,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 16:41:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 19 Oct 2015 16:51:13 -0000
+Content-Type: multipart/alternative;
+	boundary="------------040808020301080301070601"
+
+--------------040808020301080301070601
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-Building nativesdk-glibc-locale results in many messages like:
+#2 seems more ubiquitous
 
-QA Issue: nativesdk-locale-base-en-sg rdepends on localedef, but it isn't a build dependency? [build-deps]
+Franco
 
-It should depend on ${MLPREFIX}localedef, not just localedef
-to fix these warnings.
+On 10/19/2015 11:11 AM, Burton, Ross wrote:
+>
+> On 19 October 2015 at 16:37, Burton, Ross <ross.burton@intel.com
+> <mailto:ross.burton@intel.com>> wrote:
+>
+>     Not sure what to do here.  If we install file-native directly into
+>     the sysroot we get occasional races on the file binary  causing
+>     build failures.  If we make file-native ASSUME_PROVIDED then rpm
+>     (and subversion) change their behaviour depending on the presence
+>     of libmagic-dev on the host (well, rpm4 requires libmagic, rpm5
+>     and subversion change their configuration).
+>
+>
+> Two proposals:
+>
+> 1) Tell RPM and Subversion to explicitly enable libmagic support so
+> they fail if libmagic-dev isn't installed on the host, and document
+> that libmagic-dev is a build requirement
+> 2) Change file-replacement-native to install libmagic, and add
+> file-replacement-native as a dependency to subversion-native and
+> rpm-native.
+>
+> Does anyone have a strong opinion either way?
+>
+> Ross
+>
+>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index 47be691..adb4230 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -236,8 +236,8 @@ python package_do_split_gconvs () {
-                 supported[locale] = charset
- 
-     def output_locale_source(name, pkgname, locale, encoding):
--        d.setVar('RDEPENDS_%s' % pkgname, 'localedef %s-localedata-%s %s-charmap-%s' % \
--        (mlprefix+bpn, legitimize_package_name(locale), mlprefix+bpn, legitimize_package_name(encoding)))
-+        d.setVar('RDEPENDS_%s' % pkgname, '%slocaledef %s-localedata-%s %s-charmap-%s' % \
-+        (mlprefix, mlprefix+bpn, legitimize_package_name(locale), mlprefix+bpn, legitimize_package_name(encoding)))
-         d.setVar('pkg_postinst_%s' % pkgname, d.getVar('locale_base_postinst', True) \
-         % (locale, encoding, locale))
-         d.setVar('pkg_postrm_%s' % pkgname, d.getVar('locale_base_postrm', True) % \
+--------------040808020301080301070601
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    #2 seems more ubiquitous<br>
+    <br>
+    Franco<br>
+    <br>
+    <div class="moz-cite-prefix">On 10/19/2015 11:11 AM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LZhMs6Pr85oq2H_Tut12yx_f1JEbM+nsWpVOf1UC98ABg@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 19 October 2015 at 16:37, Burton,
+            Ross <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:ross.burton@intel.com" target="_blank">ross.burton@intel.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div>Not sure what to do here.  If we install file-native
+                directly into the sysroot we get occasional races on the
+                file binary  causing build failures.  If we make
+                file-native ASSUME_PROVIDED then rpm (and subversion)
+                change their behaviour depending on the presence of
+                libmagic-dev on the host (well, rpm4 requires libmagic,
+                rpm5 and subversion change their configuration).</div>
+            </blockquote>
+          </div>
+          <br>
+          Two proposals:</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">1) Tell RPM and Subversion to
+          explicitly enable libmagic support so they fail if
+          libmagic-dev isn't installed on the host, and document that
+          libmagic-dev is a build requirement</div>
+        <div class="gmail_extra">2) Change file-replacement-native to
+          install libmagic, and add file-replacement-native as a
+          dependency to subversion-native and rpm-native.</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Does anyone have a strong opinion
+          either way?</div>
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
-
+--------------040808020301080301070601--
