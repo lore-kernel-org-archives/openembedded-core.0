@@ -1,25 +1,26 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FD3D7701C
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A29627702A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 22:03:18 +0000 (UTC)
-Received: by wijp11 with SMTP id p11so20019099wij.0
+	Mon, 19 Oct 2015 22:03:19 +0000 (UTC)
+Received: by wicll6 with SMTP id ll6so2133638wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 15:03:18 -0700 (PDT)
+	Mon, 19 Oct 2015 15:03:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=8CC1OxC/DxlYKr1jNROybnHaktns8Gc9ei4fqUX3V7U=;
-	b=AN2nFP89mnGl4tZJI9KJvIA+IAbNw5ukT4ghh6fsQXjPmBwcOPAWGOmZKpcHsMp+mU
-	o+zN8QSXdaBsMy74hpLawA9ByN8Yhzy75AcV+Z1npRQ0ibq0ZC59AMadqEIhikOWn35/
-	jc4AwEIvw8vcRFSPxWmyM/rwnPtGJqrl4yBSuzuSvUaowFyy8npfarFvdu6ccttNx2iJ
-	Pfx3zPwVxgUSZCqZeSMj3sSG0WGxA7k8etCfMRHfDjicwbxdFvSNvNYkVQh/Yx/y2TeG
-	VBHUKT5R9wai+FZK1E0KJq3sxpRzUsDvqFJbV0w2wAgwmtloWuOntiduKC26+BftiUyq
-	tyvQ==
-X-Gm-Message-State: ALoCoQndxyhKkvDptcMd2Fi1vx4+P11xTY0jQC2oHh/ZNVmO2ge5YPz7QT/58pUSsaI1GjN6Abif
-X-Received: by 10.194.63.81 with SMTP id e17mr39551138wjs.147.1445292198668;
-	Mon, 19 Oct 2015 15:03:18 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=5mMaEQS/eky8PlCiC9/dUX+mirZEFP2SXJ1zYE42baU=;
+	b=VlpLtHeMTlwQ8go7qJ5TEg13IXTUPSFr1NYx3TjzvI3NlzzytPFJxLJmPDv4Uvdzms
+	6EDQqiZJ5OoTGmcOJyiw++7fyadKdkiicYgeO0y/1xFzHrCB49CIl3D8Fv/x3Sg010Fj
+	JdE29NvDE/aXhA/XDBEmoDeR3WggrssoPkpgTqnba1NAyAevamjp7wfwmvIDUyNzyIJg
+	WOYR52FGLywwoUFgxqBEGB4ZMAL+0Wmz6Quy8itOjQP4I9xAa+XEjyXvuRkIbsSc5lGl
+	lrknPsJlW7ZhmlMD6XDGxRQPfAgmbhB2zYUKGZljNrRVYyql1IvnIV5lP/2K8VGUgmWz
+	dm/Q==
+X-Gm-Message-State: ALoCoQlyd+IzEbomI4BZhE0RZSrxh5MsyIxjM9VHieAT9fBHXZrwQ70WkmmE616BzAjKSWHuaxKz
+X-Received: by 10.194.115.101 with SMTP id jn5mr25521776wjb.134.1445292199428; 
+	Mon, 19 Oct 2015 15:03:19 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
 	jd7sm42607072wjb.19.2015.10.19.15.03.18
@@ -28,10 +29,12 @@ Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	Mon, 19 Oct 2015 15:03:18 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Oct 2015 22:55:39 +0100
-Message-Id: <1445291743-6618-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 19 Oct 2015 22:55:40 +0100
+Message-Id: <1445291743-6618-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH][V2 1/5] bitbake: add file-native to ASSUME_PROVIDED
+In-Reply-To: <1445291743-6618-1-git-send-email-ross.burton@intel.com>
+References: <1445291743-6618-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH][V2 2/5] sanity: check that the host has file installed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,28 +49,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 19 Oct 2015 22:03:20 -0000
 
-Various key parts of the core classes (for example, do_package and
-do_populate_sysroot) currently require file.  As it's not possible to build a
-file-native without invoking do_populate_sysroot mark file-native as
-ASSUME_PROVIDED and expect to use the host's binary.
+Now that file-native is ASSUME_PROVIDED, check that it's actually present.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/sanity.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 9ddd1c0..06971da 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -166,6 +166,7 @@ DATETIME = "${DATE}${TIME}"
- ASSUME_PROVIDED = "\
-     bzip2-native \
-     chrpath-native \
-+    file-native \
-     git-native \
-     grep-native \
-     diffstat-native \
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index d0b5cd0..ae86d26 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -3,7 +3,7 @@
+ #
+ 
+ SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar \
+-    gzip gawk chrpath wget cpio perl"
++    gzip gawk chrpath wget cpio perl file"
+ 
+ def bblayers_conf_file(d):
+     return os.path.join(d.getVar('TOPDIR', True), 'conf/bblayers.conf')
 -- 
 2.1.4
 
