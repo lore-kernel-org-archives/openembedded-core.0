@@ -1,37 +1,28 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
-	[209.85.217.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 127EB7708E
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id E107077129
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 14:17:14 +0000 (UTC)
-Received: by lbbes7 with SMTP id es7so55423668lbb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 07:17:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=ChSXH9e9v9NWAsIqmcCAS1GqmD0r2MaNBB+edYXLmks=;
-	b=q9whrxVpqkqJ/B09Iyz2r5muzIBKlHV0QBWsmvappDsYYnGsgpG0wfM6iEPvCVoOUS
-	2Zn2Au1v+MgiUw01qZkQzc0NfQhy/+PR/gJAWaPYT/Cucs6wlo8h8VxVZRnZLCi2tP7l
-	fZHgXkekhp3VnNEI0TNpSyOnSJ62ib8ARECvE1mg7jsMXMXApusWaBDwFTwhTBy9HP7/
-	577dPyb6Ne2bEX4rI/Skvu14RoRc9tdOR6+NKp9cJXluidpBndQNhJQmVfocl3DodQs0
-	wz8fwJCw/AgHXJJs66fiimsHcAC5otGc2SvgyfdPOqS8zRXlEEUAmBWtTOyo+H5WPzmn
-	sb3Q==
-X-Received: by 10.112.161.42 with SMTP id xp10mr14614058lbb.49.1445264234003; 
-	Mon, 19 Oct 2015 07:17:14 -0700 (PDT)
-Received: from umbar.auriga.ru ([81.95.26.90])
-	by smtp.gmail.com with ESMTPSA id
-	yb3sm5452380lbb.39.2015.10.19.07.17.13
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 19 Oct 2015 07:17:13 -0700 (PDT)
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Oct 2015 17:17:09 +0300
-Message-Id: <1445264230-1126-2-git-send-email-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 2.6.1
-In-Reply-To: <1445264230-1126-1-git-send-email-dbaryshkov@gmail.com>
-References: <1445264230-1126-1-git-send-email-dbaryshkov@gmail.com>
-Subject: [PATCH 2/3] qemu: drop hooking of libsdl from the host
+	Mon, 19 Oct 2015 14:19:12 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Oct 2015 07:19:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,702,1437462000"; d="scan'208";a="814396443"
+Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.157])
+	([10.219.5.157])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Oct 2015 07:19:12 -0700
+Message-ID: <5624FC5E.2040303@linux.intel.com>
+Date: Mon, 19 Oct 2015 09:21:18 -0500
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1445231631.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<1c795f9672bcf9ffe43d311177019f10ce997d3a.1445231631.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<722633449.5WlMM4sgsE@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <722633449.5WlMM4sgsE@peggleto-mobl.ger.corp.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] oeqa/utils/ftools: Checks before appending/reading files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +35,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 14:17:17 -0000
+X-List-Received-Date: Mon, 19 Oct 2015 14:19:13 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Now as libsdl recipe provides libsdl-native, there is no need to hook in
-extra library paths from host to compile qemu-native.
+Hi Paul,
 
-Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 8 --------
- 1 file changed, 8 deletions(-)
+On 10/19/2015 08:41 AM, Paul Eggleton wrote:
+> Hi Leo,
+>
+> On Monday 19 October 2015 05:24:44 leonardo.sandoval.gonzalez@linux.intel.com
+> wrote:
+>> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>>
+>> Before trying to append/read a file, check if file exists.
+>>
+>> Signed-off-by: Leonardo Sandoval
+>> <leonardo.sandoval.gonzalez@linux.intel.com> ---
+>>   meta/lib/oeqa/utils/ftools.py | 24 ++++++++++++++----------
+>>   1 file changed, 14 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/meta/lib/oeqa/utils/ftools.py b/meta/lib/oeqa/utils/ftools.py
+>> index 64ebe3d..70a55b8 100644
+>> --- a/meta/lib/oeqa/utils/ftools.py
+>> +++ b/meta/lib/oeqa/utils/ftools.py
+>> @@ -8,20 +8,24 @@ def write_file(path, data):
+>>
+>>   def append_file(path, data):
+>>       wdata = data.rstrip() + "\n"
+>> -    with open(path, "a") as f:
+>> +    if os.path.isfile(path):
+>> +        with open(path, "a") as f:
+>>               f.write(wdata)
+>
+> Hang on - opening a nonexistent file with mode 'a' is perfectly fine, it'll just
+> get created - why do we need this check?
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index abbace8..4320031 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -35,14 +35,6 @@ EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disa
- 				"
- export LIBTOOL="${HOST_SYS}-libtool"
- 
--do_configure_prepend_class-native() {
--	# Append build host pkg-config paths for native target since the host may provide sdl
--	BHOST_PKGCONFIG_PATH=$(PATH=/usr/bin:/bin pkg-config --variable pc_path pkg-config || echo "")
--	if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
--		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
--	fi
--}
--
- KVMENABLE = "--enable-kvm"
- KVMENABLE_darwin = "--disable-kvm"
- KVMENABLE_mingw32 = "--disable-kvm"
--- 
-2.6.1
+You are right, there is no need.
 
+>
+>
+>>   def read_file(path):
+>>       data = None
+>> -    with open(path) as f:
+>> -        data = f.read()
+>> +    if os.path.isfile(path):
+>> +        with open(path) as f:
+>> +            data = f.read()
+>>       return data
+>>
+>>   def remove_from_file(path, data):
+>> -    lines = read_file(path).splitlines()
+>> -    rmdata = data.strip().splitlines()
+>> -    for l in rmdata:
+>> -        for c in range(0, lines.count(l)):
+>> -            i = lines.index(l)
+>> -            del(lines[i])
+>> -    write_file(path, "\n".join(lines))
+>> +    rawdata = read_file(path)
+>> +    if rawdata:
+>> +        lines = rawdata.splitlines()
+>> +        rmdata = data.strip().splitlines()
+>> +        for l in rmdata:
+>> +            for c in range(0, lines.count(l)):
+>> +                i = lines.index(l)
+>> +                del(lines[i])
+>> +        write_file(path, "\n".join(lines))
+>
+> Checking a file exists before opening it isn't good practice. It's much better
+> to try opening it and if the open fails with IOError of errno.ENOENT then
+> ignore it (or rather, if e.errno  != errno.ENOENT then re-raise the
+ > exception).
+
+After applying patch into master
+
+http://lists.openembedded.org/pipermail/openembedded-core/2015-October/111704.html
+
+I saw this error:
+
+Traceback (most recent call last):
+   File 
+"/srv/ab/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/base.py", 
+line 110, in remove_config
+     ftools.remove_from_file(self.testinc_path, data)
+   File 
+"/srv/ab/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/ftools.py", 
+line 21, in remove_from_file
+     lines = read_file(path).splitlines()
+   File 
+"/srv/ab/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/ftools.py", 
+line 16, in read_file
+     with open(path) as f:
+IOError: [Errno 2] No such file or directory: 
+'/srv/ab/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/conf/selftest.inc'
+
+
+That is why I created the latter check. I will change it to use IOError, 
+safer and cleaner. Sending V2 today.
+
+Thanks for your comments.
+
+>
+> Cheers,
+> Paul
+>
 
