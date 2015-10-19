@@ -1,24 +1,28 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C98377097
+	by mail.openembedded.org (Postfix) with ESMTP id 2CD0675D2A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 13:33:24 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Oct 2015 06:32:55 -0700
+	Mon, 19 Oct 2015 13:34:37 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Oct 2015 06:34:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,702,1437462000"; d="scan'208";a="829999466"
-Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
-	([10.23.219.54])
-	by orsmga002.jf.intel.com with ESMTP; 19 Oct 2015 06:32:54 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Oct 2015 05:24:44 +0000
-Message-Id: <1c795f9672bcf9ffe43d311177019f10ce997d3a.1445231631.git.leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1445231631.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1445231631.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH 3/3] oeqa/utils/ftools: Checks before appending/reading files
+X-IronPort-AV: E=Sophos;i="5.17,702,1437462000"; d="scan'208";a="830324051"
+Received: from ggwalsh-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.6.253])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Oct 2015 06:34:37 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, "Burton,
+	Ross" <ross.burton@intel.com>
+Date: Mon, 19 Oct 2015 14:34:29 +0100
+Message-ID: <6286161.Ei9s0vA4WQ@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <CAJTo0Las=qdUxwGa3w+OibykzRuMnpVs+5oZGojxSGAibH1=QQ@mail.gmail.com>
+References: <1445249129-1475-1-git-send-email-ross.burton@intel.com>
+	<20151019120904.GB2549@jama>
+	<CAJTo0Las=qdUxwGa3w+OibykzRuMnpVs+5oZGojxSGAibH1=QQ@mail.gmail.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH 2/3] sanity: check that the host has file installed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,57 +35,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 13:33:25 -0000
+X-List-Received-Date: Mon, 19 Oct 2015 13:34:38 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+On Monday 19 October 2015 13:12:56 Burton, Ross wrote:
+> On 19 October 2015 at 13:09, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > file or filex?
+> 
+> Well that was embarassing.  I wonder how that test change made it into git.
 
-Before trying to append/read a file, check if file exists.
+Since this test isn't run on every build, it can be broken or unsatisfied and 
+the build will still start. Given how quick this check is and that people have 
+stumbled across the results of the check not having run, I wonder whether that 
+should be changed.
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/lib/oeqa/utils/ftools.py | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+Cheers,
+Paul
 
-diff --git a/meta/lib/oeqa/utils/ftools.py b/meta/lib/oeqa/utils/ftools.py
-index 64ebe3d..70a55b8 100644
---- a/meta/lib/oeqa/utils/ftools.py
-+++ b/meta/lib/oeqa/utils/ftools.py
-@@ -8,20 +8,24 @@ def write_file(path, data):
- 
- def append_file(path, data):
-     wdata = data.rstrip() + "\n"
--    with open(path, "a") as f:
-+    if os.path.isfile(path):
-+        with open(path, "a") as f:
-             f.write(wdata)
- 
- def read_file(path):
-     data = None
--    with open(path) as f:
--        data = f.read()
-+    if os.path.isfile(path):
-+        with open(path) as f:
-+            data = f.read()
-     return data
- 
- def remove_from_file(path, data):
--    lines = read_file(path).splitlines()
--    rmdata = data.strip().splitlines()
--    for l in rmdata:
--        for c in range(0, lines.count(l)):
--            i = lines.index(l)
--            del(lines[i])
--    write_file(path, "\n".join(lines))
-+    rawdata = read_file(path)
-+    if rawdata:
-+        lines = rawdata.splitlines()
-+        rmdata = data.strip().splitlines()
-+        for l in rmdata:
-+            for c in range(0, lines.count(l)):
-+                i = lines.index(l)
-+                del(lines[i])
-+        write_file(path, "\n".join(lines))
 -- 
-1.8.4.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
