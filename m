@@ -1,37 +1,37 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F79377055
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E36F7705F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 18:59:52 +0000 (UTC)
-Received: by igdg1 with SMTP id g1so46986853igd.1
+	Mon, 19 Oct 2015 18:59:55 +0000 (UTC)
+Received: by iow1 with SMTP id 1so207403626iow.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 11:59:52 -0700 (PDT)
+	Mon, 19 Oct 2015 11:59:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=spkChthvz51ux2cEAGAOO+WU+GLnJKzcE4S0nni/LfQ=;
-	b=kHB1vi1GsKltrMGY3xrKZWqeyaqEkW2UA1bqLiBAM9hv589YCPysDREfKs4p1Slumd
-	KplLrhad8jhRTFmQiVtvf9GK1nMxaNsWDiDXjblA4TG6wwzO/XBfL5hnD9rsDOfUvGJJ
-	6msGlrOPPsr/SLHBfkkimF97Hzj9G580+SqhW7pz3fkGaUGE4iVjWSSsCXdYTBKdqd79
-	p3E7BiuhfIC/f+ydrE/UmYWWTZWfXAXnSSzfRDdj+ztomHSpfFGga78TGbE0soOIk4Ny
-	AunrbHfgokpxwXI63/IVcCyWY5czsMYKMlGIloSDIEsX1lAuonZU2f8xu/kCDQkh344W
-	L2gw==
-X-Received: by 10.50.18.109 with SMTP id v13mr1664315igd.14.1445281192789;
-	Mon, 19 Oct 2015 11:59:52 -0700 (PDT)
+	bh=bWZySXxa7WJOb9qX2sdBUg6yifsbg7sqKQ5B52ahWtA=;
+	b=GFRvEPsp/cGPgSLID7K7MeCtFQiV8Z6CQTqDfHBMJdPblXvcAiTwmvYYrhFpYIQ6km
+	JeGbaCGmVyWWt/R/XbnEB+VSme9Bb/jf0YgsbpkTO7LZCv2z1t9dqRMa0K2TTmUh/iuF
+	4Y3MBi51wHLkOSMTS6bQNQQ3rmEX5gbVqSjQ1kbrsarkWp3BGhD3Ov6epObKm369BZd6
+	Bq0/a4NbKB5UAt4hBbty2upH4tDeYhU6Fnm3pU3WZu+9kORCX/OAkK4NLNlMo/jyOyJh
+	LIivPzbH6Yxfoj/NFW6PFCmiWVMn2fTgQROIG2zlpa/v+biCjhgAvKCGGdPBtf8GSFh3
+	Z+iQ==
+X-Received: by 10.107.169.18 with SMTP id s18mr34880042ioe.190.1445281195917; 
+	Mon, 19 Oct 2015 11:59:55 -0700 (PDT)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	ot2sm8240489igb.17.2015.10.19.11.59.51
+	ot2sm8240489igb.17.2015.10.19.11.59.54
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 19 Oct 2015 11:59:52 -0700 (PDT)
+	Mon, 19 Oct 2015 11:59:55 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Oct 2015 11:59:33 -0700
-Message-Id: <1445281177-3309-2-git-send-email-armccurdy@gmail.com>
+Date: Mon, 19 Oct 2015 11:59:34 -0700
+Message-Id: <1445281177-3309-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1445281177-3309-1-git-send-email-armccurdy@gmail.com>
 References: <1445281177-3309-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 1/5] tune-corei7.inc: fix PACKAGE_EXTRA_ARCHS_tune-corei7-32 typo
+Subject: [PATCH 2/5] tune-bonnell.inc: support for first generation Intel Atom CPUs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +44,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 18:59:53 -0000
+X-List-Received-Date: Mon, 19 Oct 2015 18:59:56 -0000
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/conf/machine/include/tune-corei7.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/machine/include/tune-bonnell.inc | 35 ++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-bonnell.inc
 
-diff --git a/meta/conf/machine/include/tune-corei7.inc b/meta/conf/machine/include/tune-corei7.inc
-index 42cf932..bea652f 100644
---- a/meta/conf/machine/include/tune-corei7.inc
-+++ b/meta/conf/machine/include/tune-corei7.inc
-@@ -20,7 +20,7 @@ AVAILTUNES += "corei7-32"
- TUNE_FEATURES_tune-corei7-32 = "${TUNE_FEATURES_tune-x86} corei7"
- BASE_LIB_tune-corei7-32 = "lib"
- TUNE_PKGARCH_tune-corei7-32 = "corei7-32"
--PACKAGE_EXTRA_ARCHS_tune-corei7-32 = "${PACKAGE_EXTRA_ARCHS_tune-core2} corei7-32"
-+PACKAGE_EXTRA_ARCHS_tune-corei7-32 = "${PACKAGE_EXTRA_ARCHS_tune-core2-32} corei7-32"
- 
- AVAILTUNES += "corei7-64"
- TUNE_FEATURES_tune-corei7-64 = "${TUNE_FEATURES_tune-x86-64} corei7"
+diff --git a/meta/conf/machine/include/tune-bonnell.inc b/meta/conf/machine/include/tune-bonnell.inc
+new file mode 100644
+index 0000000..f6d92dc
+--- /dev/null
++++ b/meta/conf/machine/include/tune-bonnell.inc
+@@ -0,0 +1,35 @@
++# Settings for the GCC(1) cpu-type "bonnell":
++#
++#      Intel Bonnell CPU with 64-bit extensions, MOVBE, MMX, SSE, SSE2, SSE3
++#      and SSSE3 instruction set support. 
++#
++# This tune is recommended for the processors based on the first generation
++# Bonnell (45nm) and Saltwell (32nm) Intel Atom CPUs.
++#
++DEFAULTTUNE ?= "bonnell-32"
++
++# Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
++require conf/machine/include/tune-core2.inc
++
++# Extra tune features
++TUNEVALID[bonnell] = "Enable bonnell specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "bonnell", " -march=bonnell -mtune=bonnell -msse3 -mfpmath=sse", "", d)}"
++
++# Extra tune selections
++AVAILTUNES += "bonnell-32"
++TUNE_FEATURES_tune-bonnell-32 = "${TUNE_FEATURES_tune-x86} bonnell"
++BASE_LIB_tune-bonnell-32 = "lib"
++TUNE_PKGARCH_tune-bonnell-32 = "bonnell-32"
++PACKAGE_EXTRA_ARCHS_tune-bonnell-32 = "${PACKAGE_EXTRA_ARCHS_tune-core2-32} bonnell-32"
++
++AVAILTUNES += "bonnell-64"
++TUNE_FEATURES_tune-bonnell-64 = "${TUNE_FEATURES_tune-x86-64} bonnell"
++BASE_LIB_tune-bonnell-64 = "lib64"
++TUNE_PKGARCH_tune-bonnell-64 = "bonnell-64"
++PACKAGE_EXTRA_ARCHS_tune-bonnell-64 = "${PACKAGE_EXTRA_ARCHS_tune-core2-64} bonnell-64"
++
++AVAILTUNES += "bonnell-64-x32"
++TUNE_FEATURES_tune-bonnell-64-x32 = "${TUNE_FEATURES_tune-x86-64-x32} bonnell"
++BASE_LIB_tune-bonnell-64-x32 = "libx32"
++TUNE_PKGARCH_tune-bonnell-64-x32 = "bonnell-64-x32"
++PACKAGE_EXTRA_ARCHS_tune-bonnell-64-x32 = "${PACKAGE_EXTRA_ARCHS_tune-core2-64-x32} bonnell-64-x32"
 -- 
 1.9.1
 
