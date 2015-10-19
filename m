@@ -1,33 +1,26 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id B50C876FF2
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 324D776F50
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 15:41:47 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-03.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1ZoCZH-0005Mk-JI from Noor_Ahsan@mentor.com ;
-	Mon, 19 Oct 2015 08:41:47 -0700
-Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.18]) by
-	SVR-IES-FEM-03.mgc.mentorg.com ([137.202.0.108]) with mapi id
-	14.03.0224.002; Mon, 19 Oct 2015 16:41:47 +0100
-From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: "ed.bartosh@linux.intel.com" <ed.bartosh@linux.intel.com>
-Thread-Topic: U-boot file is being removed when image-recipe is rebuild
-	which uses wic.bz2
-Thread-Index: AdEKhKgGSnfGRIbXS9+W9PrdxyfvIw==
-Date: Mon, 19 Oct 2015 15:41:46 +0000
-Message-ID: <365E1805BC95084CBE82381A0B86999401095F9A9A@EU-MBX-01.mgc.mentorg.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
+	Mon, 19 Oct 2015 15:48:51 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Oct 2015 08:48:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,702,1437462000"; d="scan'208";a="583863479"
+Received: from ggwalsh-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.6.253])
+	by FMSMGA003.fm.intel.com with ESMTP; 19 Oct 2015 08:48:22 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Oct 2015 16:48:21 +0100
+Message-ID: <8504001.BiVGHT1xCr@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <2351738d06a4f12133a1cb6cab4c3d4ea657dda0.1444854089.git.paul.eggleton@linux.intel.com>
+References: <cover.1444854089.git.paul.eggleton@linux.intel.com>
+	<2351738d06a4f12133a1cb6cab4c3d4ea657dda0.1444854089.git.paul.eggleton@linux.intel.com>
 MIME-Version: 1.0
-Cc: "Krishnakar, Srikanth" <Srikanth_Krishnakar@mentor.com>, "Larson,
-	Chris" <Chris_Larson@mentor.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: U-boot file is being removed when image-recipe is rebuild which uses wic.bz2
+Subject: Re: [PATCH v2 2/5] classes/populate_sdk_ext: prevent do_rootfs from executing on install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,126 +33,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 15:41:49 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_365E1805BC95084CBE82381A0B86999401095F9A9AEUMBX01mgcmen_"
-
---_000_365E1805BC95084CBE82381A0B86999401095F9A9AEUMBX01mgcmen_
+X-List-Received-Date: Mon, 19 Oct 2015 15:48:53 -0000
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Wednesday 14 October 2015 21:23:31 Paul Eggleton wrote:
+> In order to prepare the build system within the extensible SDK, we
+> actually go ahead and build the targets specified by SDK_TARGETS (by
+> default the image the SDK was built for). Assuming that's an image, we
+> don't actually need to build the image itself - we just need to have
+> everything done up to the point before building the image, so that we
+> have everything needed in the sysroot.
+> 
+> In order to do this, create temporary bbappends for each of the targets
+> in the workspace layer that stub out do_rootfs. This is a little bit of
+> a hack but is the least intrusive fix at this point. To make things a
+> bit tidier, I have split out the preparation commands into a separate
+> script so we can run that in the appropriate environment rather than all
+> the commands separately.
+> 
+> Fixes [YOCTO #7590].
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  meta/classes/populate_sdk_ext.bbclass |  5 ++++-
+>  meta/files/ext-sdk-prepare.sh         | 16 ++++++++++++++++
+>  2 files changed, 20 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/files/ext-sdk-prepare.sh
+> 
+> diff --git a/meta/classes/populate_sdk_ext.bbclass
+> b/meta/classes/populate_sdk_ext.bbclass index 90033ba..0feb3b2 100644
+> --- a/meta/classes/populate_sdk_ext.bbclass
+> +++ b/meta/classes/populate_sdk_ext.bbclass
+> @@ -203,6 +203,8 @@ install_tools() {
+>  	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
+> 
+>  	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2
+> ${SDK_OUTPUT}/${SDKPATH} +
+> +	install -m 0755 ${COREBASE}/meta/files/ext-sdk-prepare.sh
+> ${SDK_OUTPUT}/${SDKPATH} }
+> 
+>  # Since bitbake won't run as root it doesn't make sense to try and install
+> @@ -242,8 +244,9 @@ sdk_ext_postinst() {
+>  		# dash which is /bin/sh on Ubuntu will not preserve the
+>  		# current working directory when first ran, nor will it set $1 when
+>  		# sourcing a script. That is why this has to look so ugly.
+> -		sh -c ". buildtools/environment-setup* > preparing_build_system.log 
+&& cd
+> $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir
+> && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >>
+> preparing_build_system.log && bitbake ${SDK_TARGETS} >>
+> preparing_build_system.log" || { echo "SDK preparation failed: see
+> `pwd`/preparing_build_system.log" ; exit 1 ; } +		sh -c ".
+> buildtools/environment-setup* > preparing_build_system.log && cd
+> $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir
+> && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >>
+> preparing_build_system.log && $target_sdk_dir/ext-sdk-prepare.sh
+> $target_sdk_dir '${SDK_TARGETS}' >> preparing_build_system.log 2>&1" || {
+> echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit
+> 1 ; } fi
+> +	rm -f $target_sdk_dir/ext-sdk-prepare.sh
+>  	echo done
+>  }
+> 
+> diff --git a/meta/files/ext-sdk-prepare.sh b/meta/files/ext-sdk-prepare.sh
+> new file mode 100644
+> index 0000000..a5a46be
+> --- /dev/null
+> +++ b/meta/files/ext-sdk-prepare.sh
+> @@ -0,0 +1,16 @@
+> +#!/bin/sh
+> +
+> +# Prepare the build system within the extensible SDK
+> +
+> +target_sdk_dir="$1"
+> +sdk_targets="$2"
+> +
+> +# Avoid actually building images during this phase
+> +# This is a hack, to be sure, but we really don't need to do this here
+> +for sdktarget in $sdk_targets ; do
+> +	bbappend=`recipetool newappend $target_sdk_dir/workspace $sdktarget`
+> +	printf 'python do_rootfs_forcevariable () {\n   
+> bb.utils.mkdirhier(d.getVar("IMAGE_ROOTFS", True))\n}\n' > $bbappend
+> +	printf "Created bbappend %s\n" "$bbappend"
+> +done
+> +bitbake $sdk_targets || exit 1
+> +rm -rf $target_sdk_dir/workspace/appends/*
 
-We are using wi.bz2 as our image fstypes. The image gets created smoothly f=
-or the first time. Our wks file uses -sourceparam argument and mention the =
-u-boot file
+Unfortunately this doesn't avoid the error I was trying to avoid because 
+do_bootimg still executes:
 
-part u-boot --source rawcopy --sourceparams=3D"file=3Du-boot-mx6-solox.imx"=
- --ondisk mmcblk --no-table --align 1
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=7629
 
-The issue comes when something is added to image recipe and it get rebuild.=
- At that time somehow u-boot-mx6-solox.imx gets deleted from deploy folder =
-and we get this error
+I'd better send a v3.
 
-Error: exec_cmd: du -Lbks /home/noor/SB/release_2015.12/build_soloX/tmp/dep=
-loy/images/mx6-solox/u-boot-mx6-solox.imx returned '1' instead of 0
-Checking basic build environment...
-Done.
+Cheers,
+Paul
 
+-- 
 
-I was able to reproduce the error by cleaning image recipe and rebuilding i=
-t. I got the same error. So something is being done in wic setup which remo=
-ves the u-boot file. I need some help on this to resolve the issue of remov=
-al of u-boot.
+Paul Eggleton
+Intel Open Source Technology Centre
 
-Noor
-
---_000_365E1805BC95084CBE82381A0B86999401095F9A9AEUMBX01mgcmen_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri","sans-serif";}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hello,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">We are using wi.bz2 as our image fstypes. The image =
-gets created smoothly for the first time. Our wks file uses &#8211;sourcepa=
-ram argument and mention the u-boot file
-<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">part u-boot --source rawcopy --sourceparams=3D&quot;=
-file=3Du-boot-mx6-solox.imx&quot; --ondisk mmcblk --no-table --align 1<o:p>=
-</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">The issue comes when something is added to image rec=
-ipe and it get rebuild. At that time somehow u-boot-mx6-solox.imx gets dele=
-ted from deploy folder and we get this error<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Error: exec_cmd: du -Lbks /home/noor/SB/release_2015=
-.12/build_soloX/tmp/deploy/images/mx6-solox/u-boot-mx6-solox.imx returned '=
-1' instead of 0<o:p></o:p></p>
-<p class=3D"MsoNormal">Checking basic build environment...<o:p></o:p></p>
-<p class=3D"MsoNormal">Done.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I was able to reproduce the error by cleaning image =
-recipe and rebuilding it. I got the same error. So something is being done =
-in wic setup which removes the u-boot file. I need some help on this to res=
-olve the issue of removal of u-boot.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Noor<o:p></o:p></p>
-</div>
-</body>
-</html>
-
---_000_365E1805BC95084CBE82381A0B86999401095F9A9AEUMBX01mgcmen_--
