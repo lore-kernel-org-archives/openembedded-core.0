@@ -1,28 +1,35 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E107077129
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-lf0-f52.google.com (mail-lf0-f52.google.com
+	[209.85.215.52])
+	by mail.openembedded.org (Postfix) with ESMTP id CDEC377193
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 14:19:12 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 19 Oct 2015 07:19:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,702,1437462000"; d="scan'208";a="814396443"
-Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.157])
-	([10.219.5.157])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Oct 2015 07:19:12 -0700
-Message-ID: <5624FC5E.2040303@linux.intel.com>
-Date: Mon, 19 Oct 2015 09:21:18 -0500
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1445231631.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<1c795f9672bcf9ffe43d311177019f10ce997d3a.1445231631.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<722633449.5WlMM4sgsE@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <722633449.5WlMM4sgsE@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] oeqa/utils/ftools: Checks before appending/reading files
+	Mon, 19 Oct 2015 14:19:17 +0000 (UTC)
+Received: by lffz202 with SMTP id z202so30038962lff.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Oct 2015 07:19:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=8xOqGLNY7KKTsoISbmjolYgr81K5v9pS6ZunuChKQUw=;
+	b=jtUpiepNqGbUVVXJ0hIyYxmkDu470BPWcNVgOiyGBC5oeLUTM7u6bmRY298SHfwxqG
+	NTBz9wZHXtyhrCPhI/mMaTHhiR2WgeoSZzHsuy757/sww7GmMxm/Sg6ETeFMfB6tRPiv
+	aH//SfXlSLGWFRJbi8OyxkTVI6/juiARqxqBcp7p2I6vkl6oDe3q9GpGZMw/xbTUlZax
+	PfZSi6QnAYvWaM/4/fIAxs3EzAP3jDeiFIJ30hdILnquvjITQmyxGZUdrEnP3ZS9rG2m
+	uKn6Oo1n0ZW6YGySQcOByFegUn3HsH8McclgYSQ0G2zrGEYFty/I+zpUMdwGVry429Ea
+	F3+w==
+X-Received: by 10.25.143.146 with SMTP id r140mr9894182lfd.14.1445264357676;
+	Mon, 19 Oct 2015 07:19:17 -0700 (PDT)
+Received: from umbar.auriga.ru ([81.95.26.90])
+	by smtp.gmail.com with ESMTPSA id
+	f194sm1322909lfg.37.2015.10.19.07.19.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 19 Oct 2015 07:19:17 -0700 (PDT)
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Oct 2015 17:19:15 +0300
+Message-Id: <1445264355-1288-1-git-send-email-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 2.6.1
+Subject: [PATCH] apr: remove conflict with ccache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,108 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 14:19:13 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Oct 2015 14:19:19 -0000
 
-Hi Paul,
+If ccache is enabled, compiling apr-utils fails with the following error
+messages because libtool is confused by the "ccache gcc" appearing on
+the command line. Disable ccache for apr, so that ccache don't get
+enabled in all software using apr's rules.mk.
 
-On 10/19/2015 08:41 AM, Paul Eggleton wrote:
-> Hi Leo,
->
-> On Monday 19 October 2015 05:24:44 leonardo.sandoval.gonzalez@linux.intel.com
-> wrote:
->> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->>
->> Before trying to append/read a file, check if file exists.
->>
->> Signed-off-by: Leonardo Sandoval
->> <leonardo.sandoval.gonzalez@linux.intel.com> ---
->>   meta/lib/oeqa/utils/ftools.py | 24 ++++++++++++++----------
->>   1 file changed, 14 insertions(+), 10 deletions(-)
->>
->> diff --git a/meta/lib/oeqa/utils/ftools.py b/meta/lib/oeqa/utils/ftools.py
->> index 64ebe3d..70a55b8 100644
->> --- a/meta/lib/oeqa/utils/ftools.py
->> +++ b/meta/lib/oeqa/utils/ftools.py
->> @@ -8,20 +8,24 @@ def write_file(path, data):
->>
->>   def append_file(path, data):
->>       wdata = data.rstrip() + "\n"
->> -    with open(path, "a") as f:
->> +    if os.path.isfile(path):
->> +        with open(path, "a") as f:
->>               f.write(wdata)
->
-> Hang on - opening a nonexistent file with mode 'a' is perfectly fine, it'll just
-> get created - why do we need this check?
+The error message from apr-utils-native:
 
-You are right, there is no need.
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+---
+ meta/recipes-support/apr/apr_1.5.2.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
->
->
->>   def read_file(path):
->>       data = None
->> -    with open(path) as f:
->> -        data = f.read()
->> +    if os.path.isfile(path):
->> +        with open(path) as f:
->> +            data = f.read()
->>       return data
->>
->>   def remove_from_file(path, data):
->> -    lines = read_file(path).splitlines()
->> -    rmdata = data.strip().splitlines()
->> -    for l in rmdata:
->> -        for c in range(0, lines.count(l)):
->> -            i = lines.index(l)
->> -            del(lines[i])
->> -    write_file(path, "\n".join(lines))
->> +    rawdata = read_file(path)
->> +    if rawdata:
->> +        lines = rawdata.splitlines()
->> +        rmdata = data.strip().splitlines()
->> +        for l in rmdata:
->> +            for c in range(0, lines.count(l)):
->> +                i = lines.index(l)
->> +                del(lines[i])
->> +        write_file(path, "\n".join(lines))
->
-> Checking a file exists before opening it isn't good practice. It's much better
-> to try opening it and if the open fails with IOError of errno.ENOENT then
-> ignore it (or rather, if e.errno  != errno.ENOENT then re-raise the
- > exception).
+diff --git a/meta/recipes-support/apr/apr_1.5.2.bb b/meta/recipes-support/apr/apr_1.5.2.bb
+index e12a176..1c61e84 100644
+--- a/meta/recipes-support/apr/apr_1.5.2.bb
++++ b/meta/recipes-support/apr/apr_1.5.2.bb
+@@ -32,6 +32,11 @@ CACHED_CONFIGUREVARS += "apr_cv_mutex_recursive=yes"
+ #
+ CACHED_CONFIGUREVARS += "ac_cv_header_netinet_sctp_h=no ac_cv_header_netinet_sctp_uio_h=no"
+ 
++# Otherwise libtool fails to compile apr-utils
++# x86_64-linux-libtool: compile: unable to infer tagged configuration
++# x86_64-linux-libtool:   error: specify a tag with '--tag'
++CCACHE = ""
++
+ do_configure_prepend() {
+ 	# Avoid absolute paths for grep since it causes failures
+ 	# when using sstate between different hosts with different
+-- 
+2.6.1
 
-After applying patch into master
-
-http://lists.openembedded.org/pipermail/openembedded-core/2015-October/111704.html
-
-I saw this error:
-
-Traceback (most recent call last):
-   File 
-"/srv/ab/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/base.py", 
-line 110, in remove_config
-     ftools.remove_from_file(self.testinc_path, data)
-   File 
-"/srv/ab/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/ftools.py", 
-line 21, in remove_from_file
-     lines = read_file(path).splitlines()
-   File 
-"/srv/ab/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/ftools.py", 
-line 16, in read_file
-     with open(path) as f:
-IOError: [Errno 2] No such file or directory: 
-'/srv/ab/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/conf/selftest.inc'
-
-
-That is why I created the latter check. I will change it to use IOError, 
-safer and cleaner. Sending V2 today.
-
-Thanks for your comments.
-
->
-> Cheers,
-> Paul
->
 
