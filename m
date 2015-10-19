@@ -1,29 +1,29 @@
 Return-Path: <s.christ@phytec.de>
-Received: from root.phytec.de (mail.phytec.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 81A24770DF
+Received: from root.phytec.de (mail.phytec.co.uk [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FD9C77075
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 19 Oct 2015 08:17:39 +0000 (UTC)
 Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 541FAA00458
+	by root.phytec.de (Postfix) with ESMTP id AE86FA0048E
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 19 Oct 2015 10:17:53 +0200 (CEST)
 Received: from augenblix.phytec.de ([172.16.0.56])
 	by idefix.phytec.de (IBM Domino Release 9.0.1FP2 HF590)
-	with ESMTP id 2015101910173678-42258 ;
-	Mon, 19 Oct 2015 10:17:36 +0200 
+	with ESMTP id 2015101910173717-42260 ;
+	Mon, 19 Oct 2015 10:17:37 +0200 
 From: Stefan Christ <s.christ@phytec.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Oct 2015 10:15:36 +0200
-Message-Id: <1445242541-41638-3-git-send-email-s.christ@phytec.de>
+Date: Mon, 19 Oct 2015 10:15:38 +0200
+Message-Id: <1445242541-41638-5-git-send-email-s.christ@phytec.de>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1445242541-41638-1-git-send-email-s.christ@phytec.de>
 References: <1445242541-41638-1-git-send-email-s.christ@phytec.de>
 X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP2
-	HF590|December 11, 2014) at 19.10.2015 10:17:36,
+	HF590|December 11, 2014) at 19.10.2015 10:17:37,
 	Serialize by Router on Idefix/Phytec(Release 9.0.1FP2 HF590|December 11,
-	2014) at 19.10.2015 10:17:36,
-	Serialize complete at 19.10.2015 10:17:36
-Subject: [PATCH 2/7] linux-dtb.inc: fix file ending detection
+	2014) at 19.10.2015 10:17:37,
+	Serialize complete at 19.10.2015 10:17:37
+Subject: [PATCH 4/7] linux-dtb.inc: use same variable name DTB for all elements of KERNEL_DEVICETREE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,46 +38,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 19 Oct 2015 08:17:42 -0000
 
-Only search for 'dts' at the end of the filename. Don't trigger the
-warning when the device tree name only contains 'dts'. The sed command
-already replaces the string 'dts' only at the end.
-
 Signed-off-by: Stefan Christ <s.christ@phytec.de>
 ---
- meta/recipes-kernel/linux/linux-dtb.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/linux/linux-dtb.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index db2afb8..d73792a 100644
+index 0095155..f44851a 100644
 --- a/meta/recipes-kernel/linux/linux-dtb.inc
 +++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -8,7 +8,7 @@ python __anonymous () {
- do_compile_append() {
- 	if test -n "${KERNEL_DEVICETREE}"; then
- 		for DTB in ${KERNEL_DEVICETREE}; do
--			if echo ${DTB} | grep -q 'dts'; then
-+			if echo ${DTB} | grep -q '\.dts$'; then
- 				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
- 				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
- 			fi
-@@ -20,7 +20,7 @@ do_compile_append() {
- do_install_append() {
- 	if test -n "${KERNEL_DEVICETREE}"; then
- 		for DTB in ${KERNEL_DEVICETREE}; do
--			if echo ${DTB} | grep -q 'dts'; then
-+			if echo ${DTB} | grep -q '\.dts$'; then
- 				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
- 				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
- 			fi
-@@ -38,7 +38,7 @@ do_install_append() {
- do_deploy_append() {
- 	if test -n "${KERNEL_DEVICETREE}"; then
- 		for DTB in ${KERNEL_DEVICETREE}; do
--			if echo ${DTB} | grep -q 'dts'; then
-+			if echo ${DTB} | grep -q '\.dts$'; then
- 				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
- 				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
- 			fi
+@@ -58,9 +58,9 @@ do_deploy_append() {
+ 
+ pkg_postinst_kernel-devicetree () {
+ 	cd /${KERNEL_IMAGEDEST}
+-	for DTB_FILE in ${KERNEL_DEVICETREE}
++	for DTB in ${KERNEL_DEVICETREE}
+ 	do
+-		DTB_BASE_NAME=`basename ${DTB_FILE} | awk -F "." '{print $1}'`
++		DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+ 		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+ 		update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+ 	done
+@@ -68,9 +68,9 @@ pkg_postinst_kernel-devicetree () {
+ 
+ pkg_postrm_kernel-devicetree () {
+ 	cd /${KERNEL_IMAGEDEST}
+-	for DTB_FILE in ${KERNEL_DEVICETREE}
++	for DTB in ${KERNEL_DEVICETREE}
+ 	do
+-		DTB_BASE_NAME=`basename ${DTB_FILE} | awk -F "." '{print $1}'`
++		DTB_BASE_NAME=`basename ${DTB} | awk -F "." '{print $1}'`
+ 		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+ 		update-alternatives --remove ${DTB_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+ 	done
 -- 
 1.9.1
 
