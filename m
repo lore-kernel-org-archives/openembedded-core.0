@@ -1,22 +1,43 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 4945C75D4A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id EF9EC76FE2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 19:52:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 609B7608E7A
-To: openembedded-core@lists.openembedded.org
-References: <cover.1445010543.git.joshua.lock@collabora.co.uk>
-	<013344f3d3f8c35ecb40bb8282b05d6262927b73.1445010543.git.joshua.lock@collabora.co.uk>
-	<20151019125722.GC16160@ad.chargestorm.se>
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-Message-ID: <56254A15.20701@collabora.co.uk>
-Date: Mon, 19 Oct 2015 20:52:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Mon, 19 Oct 2015 20:13:02 +0000 (UTC)
+Received: by qgeo38 with SMTP id o38so124722386qge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Oct 2015 13:13:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=+09sm0G47icg9oKcAFctJb+LFECVdJiyTA7k0+qTM+g=;
+	b=HcT8NL1pKT92WoI7Eqt4H+9UmxxbIpVkC7CsSAY2oCdgivq93iH6FX+e9noTJ0pujd
+	bu2pChob0ORJaiElK3xvAQ63urZXuyUa4fGhbq9HBhBDqqQvOXsob5gOcK4mXjLs+ti8
+	vnVe4qCU2McpyJ8D1DKbblJ2MCMKAv8L1v6v7upe8TUcjFWSy7mj2Fx0+ye6D+ZlAFA9
+	pZVsHzQbEzVDsjmUvx51qSHxT/J35rSVp4XQVU/NbWb+8NGpMkcJhuewJ2iTjQ+L8Og2
+	vrffWSmtmCn5sIa3wa8TRbKKAdYkB1d1B8kpbbyq5wwak5clni6La5xWcgYeCYW+YWl+
+	Q2rw==
+X-Received: by 10.180.92.201 with SMTP id co9mr14997737wib.9.1445285582144;
+	Mon, 19 Oct 2015 13:13:02 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	ht5sm16335404wib.10.2015.10.19.13.13.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Oct 2015 13:13:01 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 19 Oct 2015 22:13:08 +0200
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20151019201308.GA2872@jama>
+References: <1444138615-5618-1-git-send-email-Martin.Jansa@gmail.com>
+	<1445277812-3941-1-git-send-email-Martin.Jansa@gmail.com>
+	<CAMKF1sqz7-0GYeuqR5foRyhDA4fFOgu1AS6PjscqqD66r3imrA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20151019125722.GC16160@ad.chargestorm.se>
-Subject: Re: [PATCH 1/6] systemd: build with compatibility libraries
+In-Reply-To: <CAMKF1sqz7-0GYeuqR5foRyhDA4fFOgu1AS6PjscqqD66r3imrA@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][WIP[[PATCH] feature-arm-vfp.inc: respect vfpv4 when setting -mfloat-abi andARMPKGSFX_EABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,56 +50,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 19:52:57 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Oct 2015 20:13:03 -0000
+X-Groupsio-MsgNum: 72370
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="pf9I7BMVVzbSWLtt"
+Content-Disposition: inline
 
-On 19/10/15 13:57, Anders Darander wrote:
-> * Joshua Lock <joshua.lock@collabora.co.uk> [151016 17:52]:
->
->> There are recipes in the Core metadata that have optional systemd
->> support but expect the old, separate, libsystemd-foo pkg-config files
->> (not the newer unified libsystemd).
->
-> Any size impact? Just wondering as you're changing the default.
-> (Assuming that it was off by default previously?)
+--pf9I7BMVVzbSWLtt
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The compat-libs (libsystemd-daemon libsystemd-login libsystemd-journal 
-libsystemd-id128) are packaged separately, so you only see an increase 
-in image size if something pulls them in to your image.
+On Mon, Oct 19, 2015 at 12:40:05PM -0700, Khem Raj wrote:
+> Why doesnt vfpv4 also imply vfp ? Isnt it a super set
 
-The -dev, -dbg and -ptest package sizes all increase slightly:
+As it's now adding it to TUNE_FEATURES it would duplicate -mfpu options
+with different values, this change should probably cover vfpv3 and
+vfpv3d16 as well as added in:
 
-joshuagl@owlbear:/srv/build/systemd-size$ buildhistory-diff -a | grep 
-PKGSIZE
-packages/i586-poky-linux/systemd/systemd-dbg: PKGSIZE changed from 
-54364265 to 55148696 (+1%)
-packages/i586-poky-linux/systemd/systemd-dev: PKGSIZE changed from 98921 
-to 105487 (+6%)
-packages/i586-poky-linux/systemd/systemd-ptest: PKGSIZE changed from 
-3156181 to 3156103 (0%)
+commit f9de9521477a1de8f6a399bcdc8260e28e34dfb3
+Author: Andr=E9 Draszik <git@andred.net>
+Date:   Fri Jul 24 14:14:30 2015 +0100
+
+    arch-armv7a.inc, feature-arm-vfp.inc: add tunes for vfpv3 and
+vfpv3d16
+
+vfpv4 as separate TUNE_FEATURE was added in:
+
+commit e97d152ca13556b41a236c1a4cfb11e77ff857d7
+Author: Kristof Robot <krirobo@gmail.com>
+Date:   Sun Jan 26 10:03:56 2014 +0100
+
+    Add Cortex A7 support for NEONv2 & FPv4
+
+So you should probably ask Kristof or Andre why they didn't include vfp
+as well. I'm just trying to fix missing -mfloat-abi=3Dhard when switching f=
+rom
+vfp to vfpv4.
 
 Regards,
 
-Joshua
+> On Oct 19, 2015 11:03 AM, "Martin Jansa" <martin.jansa@gmail.com> wrote:
+>=20
+> > * without this change it wasn't possible to use call-convention hard
+> >   together with vfpv4
+> > * also use ' inside quoted values
+> >
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/conf/machine/include/arm/feature-arm-vfp.inc | 9 +++++----
+> >  1 file changed, 5 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> > b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> > index 13927ff..440950a 100644
+> > --- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> > +++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+> > @@ -1,9 +1,10 @@
+> >  TUNEVALID[vfp] =3D "Enable Vector Floating Point (vfp) unit."
+> > -ARMPKGSFX_FPU .=3D "${@bb.utils.contains("TUNE_FEATURES", "vfp", "-vfp=
+", ""
+> > ,d)}"
+> > +ARMPKGSFX_FPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfp', '-vfp=
+', ''
+> > ,d)}"
+> >
+> >  TUNEVALID[vfpv4] =3D "Enable Vector Floating Point Version 4 (vfpv4) u=
+nit."
+> > -ARMPKGSFX_FPU .=3D "${@bb.utils.contains("TUNE_FEATURES", "vfpv4",
+> > "-vfpv4", "" ,d)}"
+> > +ARMPKGSFX_FPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv4',
+> > '-vfpv4', '' ,d)}"
+> >
+> >  TUNEVALID[callconvention-hard] =3D "Enable EABI hard float call conven=
+tion,
+> > requires VFP."
+> > -TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "vfp",
+> > bb.utils.contains("TUNE_FEATURES", "callconvention-hard", "
+> > -mfloat-abi=3Dhard", " -mfloat-abi=3Dsoftfp", d), "" ,d)}"
+> > -ARMPKGSFX_EABI .=3D "${@bb.utils.contains("TUNE_FEATURES", [
+> > "callconvention-hard", "vfp" ], "hf", "", d)}"
+> > +TUNE_CCARGS .=3D "${@bb.utils.contains_any('TUNE_FEATURES', [ 'vfp',
+> > 'vfpv4' ], bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', '
+> > -mfloat-abi=3Dhard', ' -mfloat-abi=3Dsoftfp', d), '' ,d)}"
+> > +ARMPKGSFX_EABI .=3D "${@bb.utils.contains('TUNE_FEATURES', [
+> > 'callconvention-hard', 'vfp' ], 'hf', '', d)}"
+> > +ARMPKGSFX_EABI .=3D "${@bb.utils.contains('TUNE_FEATURES', [
+> > 'callconvention-hard', 'vfpv4' ], 'hf', '', d)}"
+> > --
+> > 2.6.1
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
 
->
-> Cheers,
-> Anders
->
->
->> -PACKAGECONFIG ??= "xz ldconfig \
->> +PACKAGECONFIG ??= "xz ldconfig compat \
->>                      ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
->>                      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
->>                      ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
->> @@ -89,6 +89,7 @@ PACKAGECONFIG[ldconfig] = "--enable-ldconfig,--disable-ldconfig,,"
->>   PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
->>   PACKAGECONFIG[valgrind] = "ac_cv_header_valgrind_memcheck_h=yes ac_cv_header_valgrind_valgrind_h=yes ,ac_cv_header_valgrind_memcheck_h=no ac_cv_header_valgrind_valgrind_h=no ,valgrind"
->>   PACKAGECONFIG[qrencode] = "--enable-qrencode,--disable-qrencode,qrencode"
->> +PACKAGECONFIG[compat] = "--enable-compat-libs,--disable-compat-libs"
->
->>   CACHED_CONFIGUREVARS += "ac_cv_path_KILL=${base_bindir}/kill"
->>   CACHED_CONFIGUREVARS += "ac_cv_path_KMOD=${base_bindir}/kmod"
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--pf9I7BMVVzbSWLtt
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlYlTsYACgkQN1Ujt2V2gBy9oACgrv1kOqfS8DDvPIweXeVG9I37
+MH0AnRoAWDOt/UUs1Xp8EeVkOrXHya/E
+=0y7W
+-----END PGP SIGNATURE-----
+
+--pf9I7BMVVzbSWLtt--
