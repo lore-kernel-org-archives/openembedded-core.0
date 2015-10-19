@@ -1,49 +1,23 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D3E1977182
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9787877046
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 12:57:26 +0000 (UTC)
-Received: by lffy185 with SMTP id y185so110717408lff.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 05:57:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-type:content-disposition
-	:in-reply-to:organization:user-agent;
-	bh=pWVE4VkP805QitpbFVvMRUtiqLwcF7XdJYmW1bnw8SI=;
-	b=EBijWIn2r+vbO5wyMuTE8d89GT5KZ7CLkywTAkNcgU4fGuFuhEJeHt3kpKNdTThIOz
-	cuBuK5/VVQ9vCdYHHtZF6QAoJVuQ2DfMpKsgDeKiQozFTWPOewBUVuQssx82KSSOvONb
-	GlMRL/Inzg4+rFg94HtMs/MNPkuXeFYCkPZV/fVaAf4+YTyvHSpHE5D9ptY70izdMgVQ
-	b+knlSN+/nJspPmDpq3dWiywsXLqzEmOOQZEDCRS02PYpMWUB95+aLHzhLWkW2N6kD7Y
-	FmPo+NC/mhRipjh4nvDYtuYdV9UU8jMVzp/xifyhmUqFrgPQjZBkxAmLWq/bnSdUum/e
-	/UsA==
-X-Gm-Message-State: ALoCoQlmIsWzvKPeHlnwkCAgAO9cIVgcK9wOTPUoc8u49l4GfIrHSvI1okJi/8ZQjc0CFpFWxv03
-X-Received: by 10.25.157.131 with SMTP id g125mr9545563lfe.75.1445259445473;
-	Mon, 19 Oct 2015 05:57:25 -0700 (PDT)
-Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
-	[213.64.219.84]) by smtp.gmail.com with ESMTPSA id
-	k186sm1553459lfg.8.2015.10.19.05.57.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Oct 2015 05:57:24 -0700 (PDT)
-Date: Mon, 19 Oct 2015 14:57:22 +0200
-From: Anders Darander <anders@chargestorm.se>
+	Mon, 19 Oct 2015 13:31:10 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Oct 2015 06:31:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,702,1437462000"; d="scan'208";a="796925603"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by orsmga001.jf.intel.com with ESMTP; 19 Oct 2015 06:31:11 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20151019125722.GC16160@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <cover.1445010543.git.joshua.lock@collabora.co.uk>
-	<013344f3d3f8c35ecb40bb8282b05d6262927b73.1445010543.git.joshua.lock@collabora.co.uk>
-MIME-Version: 1.0
-In-Reply-To: <013344f3d3f8c35ecb40bb8282b05d6262927b73.1445010543.git.joshua.lock@collabora.co.uk>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Subject: Re: [PATCH 1/6] systemd: build with compatibility libraries
+Date: Mon, 19 Oct 2015 05:22:57 +0000
+Message-Id: <29ba7e8deffc6b3380998a72bc528f518fac3335.1445231631.git.leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1445231631.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1445231631.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Subject: [PATCH 1/3] oeqa/selftest: clean up selftest.inc in teardown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +30,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 12:57:28 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 19 Oct 2015 13:31:17 -0000
 
-* Joshua Lock <joshua.lock@collabora.co.uk> [151016 17:52]:
+From: Ross Burton <ross.burton@intel.com>
 
-> There are recipes in the Core metadata that have optional systemd
-> support but expect the old, separate, libsystemd-foo pkg-config files
-> (not the newer unified libsystemd).
+Test cases may want to do call bitbake in setUpClass() but at that point the
+previous selftest.inc is still present which could change the build
+configuration and result in any built artifacts being removed in the next
+bitbake invocation as part of the sysroot clean up.
 
-Any size impact? Just wondering as you're changing the default.
-(Assuming that it was off by default previously?)
+Resolve this by cleaning selftest.inc in the tearDown, the clean in setUp should
+be considered a safety net.
 
-Cheers,
-Anders
+[YOCTO #8466]
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/selftest/base.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> -PACKAGECONFIG ??= "xz ldconfig \
-> +PACKAGECONFIG ??= "xz ldconfig compat \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
-> @@ -89,6 +89,7 @@ PACKAGECONFIG[ldconfig] = "--enable-ldconfig,--disable-ldconfig,,"
->  PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
->  PACKAGECONFIG[valgrind] = "ac_cv_header_valgrind_memcheck_h=yes ac_cv_header_valgrind_valgrind_h=yes ,ac_cv_header_valgrind_memcheck_h=no ac_cv_header_valgrind_valgrind_h=no ,valgrind"
->  PACKAGECONFIG[qrencode] = "--enable-qrencode,--disable-qrencode,qrencode"
-> +PACKAGECONFIG[compat] = "--enable-compat-libs,--disable-compat-libs"
-
->  CACHED_CONFIGUREVARS += "ac_cv_path_KILL=${base_bindir}/kill"
->  CACHED_CONFIGUREVARS += "ac_cv_path_KMOD=${base_bindir}/kmod"
+diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
+index b2faa66..9bddc23 100644
+--- a/meta/lib/oeqa/selftest/base.py
++++ b/meta/lib/oeqa/selftest/base.py
+@@ -31,7 +31,7 @@ class oeSelfTest(unittest.TestCase):
+         self.testinc_bblayers_path = os.path.join(self.builddir, "conf/bblayers.inc")
+         self.testlayer_path = oeSelfTest.testlayer_path
+         self._extra_tear_down_commands = []
+-        self._track_for_cleanup = []
++        self._track_for_cleanup = [self.testinc_path]
+         super(oeSelfTest, self).__init__(methodName)
+ 
+     def setUp(self):
 -- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+1.8.4.5
+
 
