@@ -1,35 +1,28 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lf0-f52.google.com (mail-lf0-f52.google.com
-	[209.85.215.52])
-	by mail.openembedded.org (Postfix) with ESMTP id CDEC377193
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CD66E60088
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 14:19:17 +0000 (UTC)
-Received: by lffz202 with SMTP id z202so30038962lff.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 07:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=8xOqGLNY7KKTsoISbmjolYgr81K5v9pS6ZunuChKQUw=;
-	b=jtUpiepNqGbUVVXJ0hIyYxmkDu470BPWcNVgOiyGBC5oeLUTM7u6bmRY298SHfwxqG
-	NTBz9wZHXtyhrCPhI/mMaTHhiR2WgeoSZzHsuy757/sww7GmMxm/Sg6ETeFMfB6tRPiv
-	aH//SfXlSLGWFRJbi8OyxkTVI6/juiARqxqBcp7p2I6vkl6oDe3q9GpGZMw/xbTUlZax
-	PfZSi6QnAYvWaM/4/fIAxs3EzAP3jDeiFIJ30hdILnquvjITQmyxGZUdrEnP3ZS9rG2m
-	uKn6Oo1n0ZW6YGySQcOByFegUn3HsH8McclgYSQ0G2zrGEYFty/I+zpUMdwGVry429Ea
-	F3+w==
-X-Received: by 10.25.143.146 with SMTP id r140mr9894182lfd.14.1445264357676;
-	Mon, 19 Oct 2015 07:19:17 -0700 (PDT)
-Received: from umbar.auriga.ru ([81.95.26.90])
-	by smtp.gmail.com with ESMTPSA id
-	f194sm1322909lfg.37.2015.10.19.07.19.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 19 Oct 2015 07:19:17 -0700 (PDT)
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Oct 2015 17:19:15 +0300
-Message-Id: <1445264355-1288-1-git-send-email-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 2.6.1
-Subject: [PATCH] apr: remove conflict with ccache
+	Mon, 19 Oct 2015 14:44:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9JEiGf4006965
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 19 Oct 2015 07:44:16 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 19 Oct 2015 07:44:16 -0700
+To: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1445264230-1126-1-git-send-email-dbaryshkov@gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <562501BF.6010202@windriver.com>
+Date: Mon, 19 Oct 2015 09:44:15 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <1445264230-1126-1-git-send-email-dbaryshkov@gmail.com>
+Subject: Re: [PATCH 1/3] libsdl: support native compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,37 +35,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 14:19:19 -0000
+X-List-Received-Date: Mon, 19 Oct 2015 14:44:20 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-If ccache is enabled, compiling apr-utils fails with the following error
-messages because libtool is confused by the "ccache gcc" appearing on
-the command line. Disable ccache for apr, so that ccache don't get
-enabled in all software using apr's rules.mk.
+On 10/19/15 9:17 AM, Dmitry Eremin-Solenikov wrote:
+> qemu-native can use SDL backend for graphical output. Currently it is
+> expected to use libsdl provided by the host. However this can lead to
+> library incompatibilities between host and target. Make libsdl recipe
+> support native compilation.
 
-The error message from apr-utils-native:
+I don't object to the patch.. but we did have multiple problems in the past
+where libsdl (native) did not work with the host systems X11 or what-ever.
 
-Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
----
- meta/recipes-support/apr/apr_1.5.2.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+Various failure conditions about not linking, linking to the wrong libsdl, or
+execution failing are what made us prefer the host system's libsdl -- or simply
+disabling libsdl altogether.
 
-diff --git a/meta/recipes-support/apr/apr_1.5.2.bb b/meta/recipes-support/apr/apr_1.5.2.bb
-index e12a176..1c61e84 100644
---- a/meta/recipes-support/apr/apr_1.5.2.bb
-+++ b/meta/recipes-support/apr/apr_1.5.2.bb
-@@ -32,6 +32,11 @@ CACHED_CONFIGUREVARS += "apr_cv_mutex_recursive=yes"
- #
- CACHED_CONFIGUREVARS += "ac_cv_header_netinet_sctp_h=no ac_cv_header_netinet_sctp_uio_h=no"
- 
-+# Otherwise libtool fails to compile apr-utils
-+# x86_64-linux-libtool: compile: unable to infer tagged configuration
-+# x86_64-linux-libtool:   error: specify a tag with '--tag'
-+CCACHE = ""
-+
- do_configure_prepend() {
- 	# Avoid absolute paths for grep since it causes failures
- 	# when using sstate between different hosts with different
--- 
-2.6.1
+--Mark
+
+> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+> ---
+>  meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+> index c0d5c6a..c9f3e00 100644
+> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+> @@ -17,6 +17,7 @@ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d
+>             ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
+>             ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'libglu', '', d)} \
+>             tslib"
+> +DEPENDS_class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11-native libxrandr-native libxrender-native libxext-native', '', d)}"
+>  DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
+>  
+>  PR = "r3"
+> @@ -65,4 +66,4 @@ do_configure_prepend() {
+>          export SYSROOT=$PKG_CONFIG_SYSROOT_DIR
+>  }
+>  
+> -BBCLASSEXTEND = "nativesdk"
+> +BBCLASSEXTEND = "native nativesdk"
+> 
 
 
