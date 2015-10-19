@@ -1,42 +1,40 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 2564477070
+Return-Path: <ross.burton@intel.com>
+Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
+	[209.85.215.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 840E175D48
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 09:46:29 +0000 (UTC)
-Received: by qgem9 with SMTP id m9so3211779qge.1
+	Mon, 19 Oct 2015 10:13:04 +0000 (UTC)
+Received: by lffz202 with SMTP id z202so24674704lff.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 02:46:29 -0700 (PDT)
+	Mon, 19 Oct 2015 03:13:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=aDThiFgjs62b/uWWI14wjPhcxoceSDUhA0UIRN84PdE=;
-	b=RxbFhbdtwkp/9WaJ/XMrKgBgF7H1jUjxPEAKstQDOF9QipzVa7E/RHu8gFiSE6/IPT
-	7Bm0OVhYss7pz6MNaNd/GNfU6+Azk3EtB5MuuuVNid1k6xCRUzCMGmAPhxL+IkiJ9hBL
-	q/gt/3vfNmoYdNGRb6ZfJ7YkvUwukgdc13uvx2NxHgtvSZdF50h3+Lq6YGyCxpqcW1fA
-	oNNPoICBE7kMdz+Rr2GM8djE+k4KcSwXmVhB0poawmnvdzTJLORRkvq5OTpb0cvUyFq6
-	WP4mNmSsLCdJgZPG1tLDFdwN0xh2yFQNZXtlNWA+REY/pQXP54oXlJzQBGEEaLg1SahO
-	qsFA==
-X-Gm-Message-State: ALoCoQkRSJPX9oaY7ynit9Okreh0MTX1dxfpVQfbCcsubqBUaotgComqkyAdrGV3DwWP4+d557X6
-X-Received: by 10.140.234.66 with SMTP id f63mr33120845qhc.61.1445247989808;
-	Mon, 19 Oct 2015 02:46:29 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.98.55 with HTTP; Mon, 19 Oct 2015 02:46:10 -0700 (PDT)
-In-Reply-To: <20151019092110.GE3869@lws-christ>
-References: <1445242541-41638-1-git-send-email-s.christ@phytec.de>
-	<1445242541-41638-2-git-send-email-s.christ@phytec.de>
-	<CAP71Wjz2YEuj8qLEw63027bGcYKNAPOazv-8Rd+J5RQ2C50UKA@mail.gmail.com>
-	<20151019090300.GC3869@lws-christ>
-	<CAP71Wjzhq_UVTb0cZHWLs=FPp0YRseXb-Q0RyAQXjDAuKFFLuQ@mail.gmail.com>
-	<20151019092110.GE3869@lws-christ>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Mon, 19 Oct 2015 11:46:10 +0200
-Message-ID: <CAP71WjyN5pvA_VjwDcGLh6ze5P+e7afM025tYp8dcx1f-cMgZg@mail.gmail.com>
-To: Stefan Christ <s.christ@phytec.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/7] linux-dtb.inc: fix detection of ending '.dts'
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=schlHSpgS2W7Uuw2XGYjBb8skO07aFaPuwrDLNTQlIM=;
+	b=J3LYhwpio8E4fhzuhhQcTzPSESS6qan1WORkn0dIMpgMiIVCyCtLk2MGfuynrzEdGG
+	OoFo9qqXZNsXTmZHd3vz95j6Ww/WZBbEVRlgaiieyoVLP07R8jNsFPmfHP6+fj0cJnC7
+	6jlZq/iB6Faat6kUS8+us4KXvZ8xEk5VEwMYMesK8z6GKn4hXEt+yeQ4fKjIctq2bW8t
+	Z46L9anBI0SKsgwg9jhZk+5aujCSwBm13X12lyXHEk6xF88TPdDZohGRzPxjr2Nyf4A7
+	+78kyEa74idXO/Fn8wQxFBK5o5I+eIDiV8moaHn4cU3M5dcMJy38RbY1NZaULfDVLsRB
+	jdhQ==
+X-Gm-Message-State: ALoCoQnjLPTFMxsZ4tZAfEhIITCt5r7xRCTJVw1iCkLUEyS66EG02HEv47rEVgzH7y+gWOoGTgW8
+X-Received: by 10.180.208.103 with SMTP id md7mr18750653wic.47.1445249584080; 
+	Mon, 19 Oct 2015 03:13:04 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	he3sm39245624wjc.48.2015.10.19.03.13.03
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 19 Oct 2015 03:13:03 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Oct 2015 11:05:28 +0100
+Message-Id: <1445249129-1475-2-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1445249129-1475-1-git-send-email-ross.burton@intel.com>
+References: <1445249129-1475-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/3] sanity: check that the host has file installed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,15 +47,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 09:46:30 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 19 Oct 2015 10:13:05 -0000
 
-On Mon, Oct 19, 2015 at 11:21 AM, Stefan Christ <s.christ@phytec.de> wrote:
->
-> What about my rework patches? I will resend them if they are ok.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/sanity.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-i (very) quickly looked at them..
-#3, #4, #5 look sane.
-#6, #7, i am not sure if this is worth doing this change.. we'll see
-what others think about them..
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 34f8618..a1fed36 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -3,7 +3,7 @@
+ #
+ 
+ SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar \
+-    gzip gawk chrpath wget cpio perl"
++    gzip gawk chrpath wget cpio perl filex"
+ 
+ def bblayers_conf_file(d):
+     return os.path.join(d.getVar('TOPDIR', True), 'conf/bblayers.conf')
+-- 
+2.1.4
+
 
