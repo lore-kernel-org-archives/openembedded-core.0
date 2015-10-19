@@ -1,37 +1,37 @@
 Return-Path: <dbaryshkov@gmail.com>
 Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
 	[209.85.217.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 12E45770A5
+	by mail.openembedded.org (Postfix) with ESMTP id 127EB7708E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 14:17:15 +0000 (UTC)
-Received: by lbcao8 with SMTP id ao8so144648992lbc.3
+	Mon, 19 Oct 2015 14:17:14 +0000 (UTC)
+Received: by lbbes7 with SMTP id es7so55423668lbb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 07:17:15 -0700 (PDT)
+	Mon, 19 Oct 2015 07:17:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=piG+nkUeLcLTPKcVfsIRGD0J2FNwjjHyzGl/6A4mOis=;
-	b=f0RwL7lLelT6cepXaINhbEMhtwaZGC3PL9lfnYwExqlhTuE3YA9qelPZwiWl3Ez0TC
-	sfg429hKKsMbkuAMf70sEDERvcf8MVBpFBuiUpLay4RrmsHLmaHd8sJr/Bxf8OgNXDpE
-	qlRLp45pjwx2ulSVurZwPDXiGIBthd9GIc8KvJJcyHHinUTkhLtdCXs9bYBBQDTDdD4g
-	sEpo6MAEm2TJqqPuVI6Te90ADE328n6CZ88AmI1qdqc6xW9rnnNOKauvqRCAU6JhAWsj
-	gb1jas4IWo0gn9C44o5IkPQ1bh2PnDGEIM0d30UTRULorJ2hp83oBldflA71x3VqFIWS
-	gRBA==
-X-Received: by 10.112.163.193 with SMTP id yk1mr14776641lbb.1.1445264234966;
+	bh=ChSXH9e9v9NWAsIqmcCAS1GqmD0r2MaNBB+edYXLmks=;
+	b=q9whrxVpqkqJ/B09Iyz2r5muzIBKlHV0QBWsmvappDsYYnGsgpG0wfM6iEPvCVoOUS
+	2Zn2Au1v+MgiUw01qZkQzc0NfQhy/+PR/gJAWaPYT/Cucs6wlo8h8VxVZRnZLCi2tP7l
+	fZHgXkekhp3VnNEI0TNpSyOnSJ62ib8ARECvE1mg7jsMXMXApusWaBDwFTwhTBy9HP7/
+	577dPyb6Ne2bEX4rI/Skvu14RoRc9tdOR6+NKp9cJXluidpBndQNhJQmVfocl3DodQs0
+	wz8fwJCw/AgHXJJs66fiimsHcAC5otGc2SvgyfdPOqS8zRXlEEUAmBWtTOyo+H5WPzmn
+	sb3Q==
+X-Received: by 10.112.161.42 with SMTP id xp10mr14614058lbb.49.1445264234003; 
 	Mon, 19 Oct 2015 07:17:14 -0700 (PDT)
 Received: from umbar.auriga.ru ([81.95.26.90])
 	by smtp.gmail.com with ESMTPSA id
-	yb3sm5452380lbb.39.2015.10.19.07.17.14
+	yb3sm5452380lbb.39.2015.10.19.07.17.13
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 19 Oct 2015 07:17:14 -0700 (PDT)
+	Mon, 19 Oct 2015 07:17:13 -0700 (PDT)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Oct 2015 17:17:10 +0300
-Message-Id: <1445264230-1126-3-git-send-email-dbaryshkov@gmail.com>
+Date: Mon, 19 Oct 2015 17:17:09 +0300
+Message-Id: <1445264230-1126-2-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 2.6.1
 In-Reply-To: <1445264230-1126-1-git-send-email-dbaryshkov@gmail.com>
 References: <1445264230-1126-1-git-send-email-dbaryshkov@gmail.com>
-Subject: [PATCH 3/3] local.conf.sample: stop adding libsdl-native to ASSUME_PROVIDED
+Subject: [PATCH 2/3] qemu: drop hooking of libsdl from the host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,23 +46,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 19 Oct 2015 14:17:17 -0000
 
+Now as libsdl recipe provides libsdl-native, there is no need to hook in
+extra library paths from host to compile qemu-native.
+
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/conf/local.conf.sample | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-devtools/qemu/qemu.inc | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index 3ae24ab..dfdb912 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -205,7 +205,6 @@ BB_DISKMON_DIRS = "\
- # libsdl library available on your build system.
- PACKAGECONFIG_append_pn-qemu-native = " sdl"
- PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
--ASSUME_PROVIDED += "libsdl-native"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index abbace8..4320031 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -35,14 +35,6 @@ EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disa
+ 				"
+ export LIBTOOL="${HOST_SYS}-libtool"
  
- 
- # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
+-do_configure_prepend_class-native() {
+-	# Append build host pkg-config paths for native target since the host may provide sdl
+-	BHOST_PKGCONFIG_PATH=$(PATH=/usr/bin:/bin pkg-config --variable pc_path pkg-config || echo "")
+-	if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
+-		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
+-	fi
+-}
+-
+ KVMENABLE = "--enable-kvm"
+ KVMENABLE_darwin = "--disable-kvm"
+ KVMENABLE_mingw32 = "--disable-kvm"
 -- 
 2.6.1
 
