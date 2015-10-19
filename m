@@ -1,37 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
-	[209.85.215.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 3883575D4A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 228C47705F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 10:13:05 +0000 (UTC)
-Received: by lffz202 with SMTP id z202so24674100lff.3
+	Mon, 19 Oct 2015 12:08:58 +0000 (UTC)
+Received: by wikq8 with SMTP id q8so2533341wik.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 03:13:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=tiD7y+oEUmnoCXOmD3jEX81t4ZXgXIryfQM7v9Zqjq4=;
-	b=hl7z83N0CnZEnKaCXZeQOyF+2MJtZ9FUtnASzbTIjd3qp3sE6ZhB+fpOGlTTaWC0Ic
-	Rvl2uo1b4espkVWpTfopp7sP9W5gK/bzVqlxhJzNiOGNAZB8F9Rld3vjkPlhl1c6R0bU
-	O7yfERxzEG+IfWmZV9yvU801Eax7tY9RL8qxrkYB13VbJ7a7Jx0Yjr7Wo9qU4rEF9PVn
-	YsG1rbnygRXfPl70yrriTg98QFHGCYLSBZYQCVKpR/r9ovir2/OvBUnOyDOPQ2cjNrgo
-	4BnP8AGAMvLs60K3ERIkE35BObraI4XfE0uEwEEC5H0sr4AxCHYqaefdke+rNXdEKhhJ
-	Qq3w==
-X-Gm-Message-State: ALoCoQlvL0uDvoY8vKZddYCfKjm1pQXm8R0h4BdlI/AKdembOOPYw5u3Hdr/ihC29z8uWaMKXadc
-X-Received: by 10.180.85.226 with SMTP id k2mr20738511wiz.67.1445249583317;
-	Mon, 19 Oct 2015 03:13:03 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	he3sm39245624wjc.48.2015.10.19.03.13.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 19 Oct 2015 03:13:02 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Oct 2015 11:05:27 +0100
-Message-Id: <1445249129-1475-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 1/3] bitbake: add file-native to ASSUME_PROVIDED
+	Mon, 19 Oct 2015 05:08:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Dk7XNBiC6LkNjCdzRIhWVYFkRk3CuAuDMW23BB3clKE=;
+	b=N7yb4hCGBmOh5nmIh/7/jx6Dn8kkxCW9m+UiNufhIDYzEazHrVMTddt4Vn8OuMYauM
+	mtlvW9JnTzTfCuXvm+KIkUCDkaGlSM+I0kMhJdD41JfsBSqR0ETpJB4jRy3DEUUcUhUE
+	d575nAGfsi/GHl2i59pBu+IirISWv3fmarqdM4v0K4YOLittr0mAZrpEgTLWbmmfA5U3
+	BdOVNCb2jKqoY2mGYKsnyDAq98ejYx7Eu80s/V1VHlgXC4YOE1/0mB3RtHxUUHxVDPcQ
+	+XJpMf0buBGPK0YIG77cNoZtgjaiRN/qpXwq6vKnmSh0D9qstmCBgxUabWwPExNW58Rn
+	9G2Q==
+X-Received: by 10.194.236.200 with SMTP id uw8mr32008778wjc.126.1445256538125; 
+	Mon, 19 Oct 2015 05:08:58 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	y17sm1008528wib.15.2015.10.19.05.08.57
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Oct 2015 05:08:57 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 19 Oct 2015 14:09:04 +0200
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20151019120904.GB2549@jama>
+References: <1445249129-1475-1-git-send-email-ross.burton@intel.com>
+	<1445249129-1475-2-git-send-email-ross.burton@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1445249129-1475-2-git-send-email-ross.burton@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] sanity: check that the host has file installed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +48,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 10:13:06 -0000
+X-List-Received-Date: Mon, 19 Oct 2015 12:08:59 -0000
+X-Groupsio-MsgNum: 72328
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="VrqPEDrXMn8OVzN4"
+Content-Disposition: inline
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+--VrqPEDrXMn8OVzN4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 9ddd1c0..06971da 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -166,6 +166,7 @@ DATETIME = "${DATE}${TIME}"
- ASSUME_PROVIDED = "\
-     bzip2-native \
-     chrpath-native \
-+    file-native \
-     git-native \
-     grep-native \
-     diffstat-native \
--- 
-2.1.4
+On Mon, Oct 19, 2015 at 11:05:28AM +0100, Ross Burton wrote:
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/sanity.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 34f8618..a1fed36 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -3,7 +3,7 @@
+>  #
+> =20
+>  SANITY_REQUIRED_UTILITIES ?=3D "patch diffstat makeinfo git bzip2 tar \
+> -    gzip gawk chrpath wget cpio perl"
+> +    gzip gawk chrpath wget cpio perl filex"
 
+file or filex?
 
+> =20
+>  def bblayers_conf_file(d):
+>      return os.path.join(d.getVar('TOPDIR', True), 'conf/bblayers.conf')
+> --=20
+> 2.1.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--VrqPEDrXMn8OVzN4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlYk3V8ACgkQN1Ujt2V2gBxVtgCgrEqAz0hygmCyMxHpxPQlLSp7
+pHAAn0YpP10FQAwL5/5YI41WluymW66F
+=OYgp
+-----END PGP SIGNATURE-----
+
+--VrqPEDrXMn8OVzN4--
