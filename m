@@ -1,27 +1,37 @@
-Return-Path: <alejandro.franco@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CFD1373CBD
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
+	[209.85.217.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 82A4977035
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 16:51:12 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 19 Oct 2015 09:51:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,702,1437462000"; 
-	d="scan'208,217";a="814508350"
-Received: from afshjern.zpn.intel.com (HELO [10.219.5.62]) ([10.219.5.62])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Oct 2015 09:51:12 -0700
+	Mon, 19 Oct 2015 18:03:30 +0000 (UTC)
+Received: by lbcao8 with SMTP id ao8so149928492lbc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Oct 2015 11:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=9SqgXN/RYuSFQQMojNFrSiDyRCJRKr6JN28qpbFwVwM=;
+	b=LHL9RdK2rYaJKh9OJAzrHFDqjYPDZbOMgk+EsZB7h4G6BV+SyQtuhO9UIwC575gBNb
+	v3cKAcb0ENGLsZ7swYj8XiyXh++2n+gRo5GvYWt1fGRab2rEcEq3zEFUEJe2e4lKztOf
+	FtzLosN0E2i197CHmraqITyyT+6Aqz3gOUXU7XIeDAsbtSR9piirCMTs1kxLdrrucrfG
+	XINsUpCDxE+cppX1MHnZ2pN4L4s77Y9+yrlh9PsD5f5uTyG4SgLCYUtIaRwOmMaEucHc
+	r5N80YgO9BsUg6Wshg1/ukcuI4zEbWZKpu+vqledAlkrClxNwz0RdwQs0en+pNHOl2iJ
+	qg4w==
+X-Received: by 10.194.21.163 with SMTP id w3mr34967738wje.70.1445277808806;
+	Mon, 19 Oct 2015 11:03:28 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	hk5sm41548907wjb.6.2015.10.19.11.03.27
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Oct 2015 11:03:27 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <1445249129-1475-1-git-send-email-ross.burton@intel.com>
-	<CAJTo0LaoQ4yp0AQtdKLQq22Nh=bgKgb4T8ApxyqxUc=U09FLkA@mail.gmail.com>
-	<CAJTo0LZhMs6Pr85oq2H_Tut12yx_f1JEbM+nsWpVOf1UC98ABg@mail.gmail.com>
-From: Alex Franco <alejandro.franco@linux.intel.com>
-Message-ID: <56251FB1.4090700@linux.intel.com>
-Date: Mon, 19 Oct 2015 11:52:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZhMs6Pr85oq2H_Tut12yx_f1JEbM+nsWpVOf1UC98ABg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] bitbake: add file-native to ASSUME_PROVIDED
+Date: Mon, 19 Oct 2015 20:03:32 +0200
+Message-Id: <1445277812-3941-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.6.1
+In-Reply-To: <1444138615-5618-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1444138615-5618-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [RFC][WIP[[PATCH] feature-arm-vfp.inc: respect vfpv4 when setting -mfloat-abi andARMPKGSFX_EABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,108 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 16:51:13 -0000
-Content-Type: multipart/alternative;
-	boundary="------------040808020301080301070601"
+X-List-Received-Date: Mon, 19 Oct 2015 18:03:34 -0000
 
---------------040808020301080301070601
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+* without this change it wasn't possible to use call-convention hard
+  together with vfpv4
+* also use ' inside quoted values
 
-#2 seems more ubiquitous
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/conf/machine/include/arm/feature-arm-vfp.inc | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-Franco
-
-On 10/19/2015 11:11 AM, Burton, Ross wrote:
->
-> On 19 October 2015 at 16:37, Burton, Ross <ross.burton@intel.com
-> <mailto:ross.burton@intel.com>> wrote:
->
->     Not sure what to do here.  If we install file-native directly into
->     the sysroot we get occasional races on the file binary  causing
->     build failures.  If we make file-native ASSUME_PROVIDED then rpm
->     (and subversion) change their behaviour depending on the presence
->     of libmagic-dev on the host (well, rpm4 requires libmagic, rpm5
->     and subversion change their configuration).
->
->
-> Two proposals:
->
-> 1) Tell RPM and Subversion to explicitly enable libmagic support so
-> they fail if libmagic-dev isn't installed on the host, and document
-> that libmagic-dev is a build requirement
-> 2) Change file-replacement-native to install libmagic, and add
-> file-replacement-native as a dependency to subversion-native and
-> rpm-native.
->
-> Does anyone have a strong opinion either way?
->
-> Ross
->
->
+diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+index 13927ff..440950a 100644
+--- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
++++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
+@@ -1,9 +1,10 @@
+ TUNEVALID[vfp] = "Enable Vector Floating Point (vfp) unit."
+-ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "vfp", "-vfp", "" ,d)}"
++ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfp', '-vfp', '' ,d)}"
+ 
+ TUNEVALID[vfpv4] = "Enable Vector Floating Point Version 4 (vfpv4) unit."
+-ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "vfpv4", "-vfpv4", "" ,d)}"
++ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv4', '-vfpv4', '' ,d)}"
+ 
+ TUNEVALID[callconvention-hard] = "Enable EABI hard float call convention, requires VFP."
+-TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "vfp", bb.utils.contains("TUNE_FEATURES", "callconvention-hard", " -mfloat-abi=hard", " -mfloat-abi=softfp", d), "" ,d)}"
+-ARMPKGSFX_EABI .= "${@bb.utils.contains("TUNE_FEATURES", [ "callconvention-hard", "vfp" ], "hf", "", d)}"
++TUNE_CCARGS .= "${@bb.utils.contains_any('TUNE_FEATURES', [ 'vfp', 'vfpv4' ], bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', ' -mfloat-abi=hard', ' -mfloat-abi=softfp', d), '' ,d)}"
++ARMPKGSFX_EABI .= "${@bb.utils.contains('TUNE_FEATURES', [ 'callconvention-hard', 'vfp' ], 'hf', '', d)}"
++ARMPKGSFX_EABI .= "${@bb.utils.contains('TUNE_FEATURES', [ 'callconvention-hard', 'vfpv4' ], 'hf', '', d)}"
+-- 
+2.6.1
 
 
---------------040808020301080301070601
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    #2 seems more ubiquitous<br>
-    <br>
-    Franco<br>
-    <br>
-    <div class="moz-cite-prefix">On 10/19/2015 11:11 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LZhMs6Pr85oq2H_Tut12yx_f1JEbM+nsWpVOf1UC98ABg@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 19 October 2015 at 16:37, Burton,
-            Ross <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:ross.burton@intel.com" target="_blank">ross.burton@intel.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div>Not sure what to do here.  If we install file-native
-                directly into the sysroot we get occasional races on the
-                file binary  causing build failures.  If we make
-                file-native ASSUME_PROVIDED then rpm (and subversion)
-                change their behaviour depending on the presence of
-                libmagic-dev on the host (well, rpm4 requires libmagic,
-                rpm5 and subversion change their configuration).</div>
-            </blockquote>
-          </div>
-          <br>
-          Two proposals:</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">1) Tell RPM and Subversion to
-          explicitly enable libmagic support so they fail if
-          libmagic-dev isn't installed on the host, and document that
-          libmagic-dev is a build requirement</div>
-        <div class="gmail_extra">2) Change file-replacement-native to
-          install libmagic, and add file-replacement-native as a
-          dependency to subversion-native and rpm-native.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Does anyone have a strong opinion
-          either way?</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------040808020301080301070601--
