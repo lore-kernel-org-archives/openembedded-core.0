@@ -1,35 +1,37 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id E216C77055
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F79377055
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 18:59:49 +0000 (UTC)
-Received: by ioll68 with SMTP id l68so44452880iol.3
+	Mon, 19 Oct 2015 18:59:52 +0000 (UTC)
+Received: by igdg1 with SMTP id g1so46986853igd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 11:59:49 -0700 (PDT)
+	Mon, 19 Oct 2015 11:59:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=33auO67BVLtUyF85mLgB96YotDd+BaTQdYmPfOZt7a8=;
-	b=cbGsSn6Ifa6nr6piFGy8riNEW/WWF4JTmZ/jbY1Mq79MOdMHBeIsp3GWEUDxCs91pc
-	s/0xa9YRZ/WMppHW1JaHemJITen0JN8XLR29gXlnJ4NWq93YSzoOZ4GuQuUlpPUQsoEz
-	EUi9F5njb5VEWKOLKMOihrQiEFDDqLVCRuJjmaLR0DEztt0nJ9yU2uXAHvaySIQ3qIjQ
-	hAbK6sXT3EroKsdaWAx8iwhycdyiP5Q4Hjdi3dMZTLgOLi/36tcroOV9WsuRQrrZfw/y
-	6gU4oMdleptDuZvbhIvXFDRidUb/ofwzq+A6GrDhPHp4OfW7HnfjBZWsUre+X2/i2J0z
-	3JCg==
-X-Received: by 10.107.3.156 with SMTP id e28mr30039077ioi.151.1445281189409;
-	Mon, 19 Oct 2015 11:59:49 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=spkChthvz51ux2cEAGAOO+WU+GLnJKzcE4S0nni/LfQ=;
+	b=kHB1vi1GsKltrMGY3xrKZWqeyaqEkW2UA1bqLiBAM9hv589YCPysDREfKs4p1Slumd
+	KplLrhad8jhRTFmQiVtvf9GK1nMxaNsWDiDXjblA4TG6wwzO/XBfL5hnD9rsDOfUvGJJ
+	6msGlrOPPsr/SLHBfkkimF97Hzj9G580+SqhW7pz3fkGaUGE4iVjWSSsCXdYTBKdqd79
+	p3E7BiuhfIC/f+ydrE/UmYWWTZWfXAXnSSzfRDdj+ztomHSpfFGga78TGbE0soOIk4Ny
+	AunrbHfgokpxwXI63/IVcCyWY5czsMYKMlGIloSDIEsX1lAuonZU2f8xu/kCDQkh344W
+	L2gw==
+X-Received: by 10.50.18.109 with SMTP id v13mr1664315igd.14.1445281192789;
+	Mon, 19 Oct 2015 11:59:52 -0700 (PDT)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	ot2sm8240489igb.17.2015.10.19.11.59.48
+	ot2sm8240489igb.17.2015.10.19.11.59.51
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 19 Oct 2015 11:59:48 -0700 (PDT)
+	Mon, 19 Oct 2015 11:59:52 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Oct 2015 11:59:32 -0700
-Message-Id: <1445281177-3309-1-git-send-email-armccurdy@gmail.com>
+Date: Mon, 19 Oct 2015 11:59:33 -0700
+Message-Id: <1445281177-3309-2-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 0/5] tuning support for 1st and 2nd generation Intel Atom CPUs
+In-Reply-To: <1445281177-3309-1-git-send-email-armccurdy@gmail.com>
+References: <1445281177-3309-1-git-send-email-armccurdy@gmail.com>
+Subject: [PATCH 1/5] tune-corei7.inc: fix PACKAGE_EXTRA_ARCHS_tune-corei7-32 typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,23 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 18:59:52 -0000
+X-List-Received-Date: Mon, 19 Oct 2015 18:59:53 -0000
 
-Andre McCurdy (5):
-  tune-corei7.inc: fix PACKAGE_EXTRA_ARCHS_tune-corei7-32 typo
-  tune-bonnell.inc: support for first generation Intel Atom CPUs
-  tune-silvermont.inc: support for second generation Intel Atom CPUs
-  tune-atom.inc: include tune-bonnell.inc instead of tune-core2.inc
-  tune-corei7.inc: update comments regarding Silvermont support
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/conf/machine/include/tune-corei7.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/conf/machine/include/tune-atom.inc       |  4 +--
- meta/conf/machine/include/tune-bonnell.inc    | 35 ++++++++++++++++++++++++++
- meta/conf/machine/include/tune-corei7.inc     |  6 ++---
- meta/conf/machine/include/tune-silvermont.inc | 36 +++++++++++++++++++++++++++
- 4 files changed, 76 insertions(+), 5 deletions(-)
- create mode 100644 meta/conf/machine/include/tune-bonnell.inc
- create mode 100644 meta/conf/machine/include/tune-silvermont.inc
-
+diff --git a/meta/conf/machine/include/tune-corei7.inc b/meta/conf/machine/include/tune-corei7.inc
+index 42cf932..bea652f 100644
+--- a/meta/conf/machine/include/tune-corei7.inc
++++ b/meta/conf/machine/include/tune-corei7.inc
+@@ -20,7 +20,7 @@ AVAILTUNES += "corei7-32"
+ TUNE_FEATURES_tune-corei7-32 = "${TUNE_FEATURES_tune-x86} corei7"
+ BASE_LIB_tune-corei7-32 = "lib"
+ TUNE_PKGARCH_tune-corei7-32 = "corei7-32"
+-PACKAGE_EXTRA_ARCHS_tune-corei7-32 = "${PACKAGE_EXTRA_ARCHS_tune-core2} corei7-32"
++PACKAGE_EXTRA_ARCHS_tune-corei7-32 = "${PACKAGE_EXTRA_ARCHS_tune-core2-32} corei7-32"
+ 
+ AVAILTUNES += "corei7-64"
+ TUNE_FEATURES_tune-corei7-64 = "${TUNE_FEATURES_tune-x86-64} corei7"
 -- 
 1.9.1
 
