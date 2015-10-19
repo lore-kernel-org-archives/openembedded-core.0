@@ -1,38 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 18EA877097
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D3E1977182
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 12:13:15 +0000 (UTC)
-Received: by qgbb65 with SMTP id b65so49506238qgb.2
+	Mon, 19 Oct 2015 12:57:26 +0000 (UTC)
+Received: by lffy185 with SMTP id y185so110717408lff.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 05:13:15 -0700 (PDT)
+	Mon, 19 Oct 2015 05:57:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=8Gp61jydLEvDol3RxeGITxcnul/gDBfOe1MVoxQz8fY=;
-	b=DN6fxNIFz4mp3LuqmWWrtYUFLBNIkFskuaT4xuRR+tFwwfAi+ax1qwtlu7KHg2ZWdg
-	bxVsnA87y1ri0aTXbAJBq7p0WyyH1L05Eqbnty7LyAk+v4YAekthtId1hnWQ1cKYDs5y
-	XJva5JszbJG2YZwH1oPmcqsKjxdTV3j7h/5lK3JlHJZzOqZ5lBIyDwFLaBy569d7tD7/
-	b2rokRJ3Xt2E9o3w5ioOfZpUQa/yP2u5ay/8f2+Gfnxu9U2bONNqvkVZttOn+7o85YO4
-	MiLp17eMakf+aFpwqp2z4xGXjG4Szq9Y8b6Lfay4W2vw7GGq2gp+0aQW/bZZTXySQCUJ
-	dGWA==
-X-Gm-Message-State: ALoCoQkG0yyVSK0UpQIio7vOUyxI9H6L7LZ5viuXLOCfcFgbDz2RKK+1fyRmGF8/itXaFfnAnpOr
-X-Received: by 10.140.218.84 with SMTP id o81mr22380919qhb.22.1445256795590;
-	Mon, 19 Oct 2015 05:13:15 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-type:content-disposition
+	:in-reply-to:organization:user-agent;
+	bh=pWVE4VkP805QitpbFVvMRUtiqLwcF7XdJYmW1bnw8SI=;
+	b=EBijWIn2r+vbO5wyMuTE8d89GT5KZ7CLkywTAkNcgU4fGuFuhEJeHt3kpKNdTThIOz
+	cuBuK5/VVQ9vCdYHHtZF6QAoJVuQ2DfMpKsgDeKiQozFTWPOewBUVuQssx82KSSOvONb
+	GlMRL/Inzg4+rFg94HtMs/MNPkuXeFYCkPZV/fVaAf4+YTyvHSpHE5D9ptY70izdMgVQ
+	b+knlSN+/nJspPmDpq3dWiywsXLqzEmOOQZEDCRS02PYpMWUB95+aLHzhLWkW2N6kD7Y
+	FmPo+NC/mhRipjh4nvDYtuYdV9UU8jMVzp/xifyhmUqFrgPQjZBkxAmLWq/bnSdUum/e
+	/UsA==
+X-Gm-Message-State: ALoCoQlmIsWzvKPeHlnwkCAgAO9cIVgcK9wOTPUoc8u49l4GfIrHSvI1okJi/8ZQjc0CFpFWxv03
+X-Received: by 10.25.157.131 with SMTP id g125mr9545563lfe.75.1445259445473;
+	Mon, 19 Oct 2015 05:57:25 -0700 (PDT)
+Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
+	[213.64.219.84]) by smtp.gmail.com with ESMTPSA id
+	k186sm1553459lfg.8.2015.10.19.05.57.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Oct 2015 05:57:24 -0700 (PDT)
+Date: Mon, 19 Oct 2015 14:57:22 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20151019125722.GC16160@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <cover.1445010543.git.joshua.lock@collabora.co.uk>
+	<013344f3d3f8c35ecb40bb8282b05d6262927b73.1445010543.git.joshua.lock@collabora.co.uk>
 MIME-Version: 1.0
-Received: by 10.140.94.82 with HTTP; Mon, 19 Oct 2015 05:12:56 -0700 (PDT)
-In-Reply-To: <20151019120904.GB2549@jama>
-References: <1445249129-1475-1-git-send-email-ross.burton@intel.com>
-	<1445249129-1475-2-git-send-email-ross.burton@intel.com>
-	<20151019120904.GB2549@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Oct 2015 13:12:56 +0100
-Message-ID: <CAJTo0Las=qdUxwGa3w+OibykzRuMnpVs+5oZGojxSGAibH1=QQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] sanity: check that the host has file installed
+In-Reply-To: <013344f3d3f8c35ecb40bb8282b05d6262927b73.1445010543.git.joshua.lock@collabora.co.uk>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: Re: [PATCH 1/6] systemd: build with compatibility libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,32 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 12:13:17 -0000
-Content-Type: multipart/alternative; boundary=001a113734b4e9290f05227411d2
+X-List-Received-Date: Mon, 19 Oct 2015 12:57:28 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a113734b4e9290f05227411d2
-Content-Type: text/plain; charset=UTF-8
+* Joshua Lock <joshua.lock@collabora.co.uk> [151016 17:52]:
 
-On 19 October 2015 at 13:09, Martin Jansa <martin.jansa@gmail.com> wrote:
+> There are recipes in the Core metadata that have optional systemd
+> support but expect the old, separate, libsystemd-foo pkg-config files
+> (not the newer unified libsystemd).
 
-> file or filex?
->
+Any size impact? Just wondering as you're changing the default.
+(Assuming that it was off by default previously?)
 
-Well that was embarassing.  I wonder how that test change made it into git.
+Cheers,
+Anders
 
-Ross
 
---001a113734b4e9290f05227411d2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> -PACKAGECONFIG ??= "xz ldconfig \
+> +PACKAGECONFIG ??= "xz ldconfig compat \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+> @@ -89,6 +89,7 @@ PACKAGECONFIG[ldconfig] = "--enable-ldconfig,--disable-ldconfig,,"
+>  PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
+>  PACKAGECONFIG[valgrind] = "ac_cv_header_valgrind_memcheck_h=yes ac_cv_header_valgrind_valgrind_h=yes ,ac_cv_header_valgrind_memcheck_h=no ac_cv_header_valgrind_valgrind_h=no ,valgrind"
+>  PACKAGECONFIG[qrencode] = "--enable-qrencode,--disable-qrencode,qrencode"
+> +PACKAGECONFIG[compat] = "--enable-compat-libs,--disable-compat-libs"
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 October 2015 at 13:09, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2td" class=
-=3D"a3s" style=3D"overflow:hidden">file or filex?</div></blockquote><div><b=
-r></div><div>Well that was embarassing.=C2=A0 I wonder how that test change=
- made it into git.</div><div><br></div><div>Ross</div></div></div></div>
+>  CACHED_CONFIGUREVARS += "ac_cv_path_KILL=${base_bindir}/kill"
+>  CACHED_CONFIGUREVARS += "ac_cv_path_KMOD=${base_bindir}/kmod"
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
---001a113734b4e9290f05227411d2--
