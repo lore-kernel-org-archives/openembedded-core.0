@@ -1,23 +1,37 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F70F7702A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FD3D7701C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 21:39:05 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 19 Oct 2015 14:39:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,704,1437462000"; d="scan'208";a="814711696"
-Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
-	([10.23.219.54])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Oct 2015 14:39:06 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
+	Mon, 19 Oct 2015 22:03:18 +0000 (UTC)
+Received: by wijp11 with SMTP id p11so20019099wij.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Oct 2015 15:03:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=8CC1OxC/DxlYKr1jNROybnHaktns8Gc9ei4fqUX3V7U=;
+	b=AN2nFP89mnGl4tZJI9KJvIA+IAbNw5ukT4ghh6fsQXjPmBwcOPAWGOmZKpcHsMp+mU
+	o+zN8QSXdaBsMy74hpLawA9ByN8Yhzy75AcV+Z1npRQ0ibq0ZC59AMadqEIhikOWn35/
+	jc4AwEIvw8vcRFSPxWmyM/rwnPtGJqrl4yBSuzuSvUaowFyy8npfarFvdu6ccttNx2iJ
+	Pfx3zPwVxgUSZCqZeSMj3sSG0WGxA7k8etCfMRHfDjicwbxdFvSNvNYkVQh/Yx/y2TeG
+	VBHUKT5R9wai+FZK1E0KJq3sxpRzUsDvqFJbV0w2wAgwmtloWuOntiduKC26+BftiUyq
+	tyvQ==
+X-Gm-Message-State: ALoCoQndxyhKkvDptcMd2Fi1vx4+P11xTY0jQC2oHh/ZNVmO2ge5YPz7QT/58pUSsaI1GjN6Abif
+X-Received: by 10.194.63.81 with SMTP id e17mr39551138wjs.147.1445292198668;
+	Mon, 19 Oct 2015 15:03:18 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	jd7sm42607072wjb.19.2015.10.19.15.03.18
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 19 Oct 2015 15:03:18 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Oct 2015 21:38:43 +0000
-Message-Id: <1445290723-3041-2-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <1445290723-3041-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-References: <1445290723-3041-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH 2/2] oeqa/utils/ftools: From functions that expect data, check if None
+Date: Mon, 19 Oct 2015 22:55:39 +0100
+Message-Id: <1445291743-6618-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH][V2 1/5] bitbake: add file-native to ASSUME_PROVIDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,51 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 21:39:05 -0000
+X-List-Received-Date: Mon, 19 Oct 2015 22:03:20 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Various key parts of the core classes (for example, do_package and
+do_populate_sysroot) currently require file.  As it's not possible to build a
+file-native without invoking do_populate_sysroot mark file-native as
+ASSUME_PROVIDED and expect to use the host's binary.
 
-ftools functions that expect data may get 'None'; this patch does this check
-and return immediately if this is the case.
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oeqa/utils/ftools.py | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/conf/bitbake.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/utils/ftools.py b/meta/lib/oeqa/utils/ftools.py
-index 1ec8a09..1bd9a30 100644
---- a/meta/lib/oeqa/utils/ftools.py
-+++ b/meta/lib/oeqa/utils/ftools.py
-@@ -3,11 +3,17 @@ import re
- import errno
- 
- def write_file(path, data):
-+    # In case data is None, return immediately
-+    if data is None:
-+        return
-     wdata = data.rstrip() + "\n"
-     with open(path, "w") as f:
-         f.write(wdata)
- 
- def append_file(path, data):
-+    # In case data is None, return immediately
-+    if data is None:
-+        return
-     wdata = data.rstrip() + "\n"
-     with open(path, "a") as f:
-             f.write(wdata)
-@@ -19,6 +25,9 @@ def read_file(path):
-     return data
- 
- def remove_from_file(path, data):
-+    # In case data is None, return immediately
-+    if data is None:
-+        return
-     try:
-         rdata = read_file(path)
-     except IOError as e:
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 9ddd1c0..06971da 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -166,6 +166,7 @@ DATETIME = "${DATE}${TIME}"
+ ASSUME_PROVIDED = "\
+     bzip2-native \
+     chrpath-native \
++    file-native \
+     git-native \
+     grep-native \
+     diffstat-native \
 -- 
-1.8.4.5
+2.1.4
 
 
