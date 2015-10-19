@@ -1,39 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id E93FC75D2A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E09C77046
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 13:40:41 +0000 (UTC)
-Received: by qkbl190 with SMTP id l190so22282422qkb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 06:40:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=W5ik0bCEJ33RNuv6O5LLyqLpps75BaRTw+uabHdkS3M=;
-	b=BRKwOxcHZdd1V28s4F2ZeghTBC2iTejKqqM+UuSRQoueYmI+F/UFc4GwmiV8ZD6XpY
-	C8/d3GK1r9hpG0awkLpZPA/+3lh0z+QQS26NFKnHoU7weynaYVY2qO73cazouLoS9MDx
-	bYYUyGXjfpiho5SywfkNramPL+6Q4IFjWkJ9+iUrorFW9llA3UGMWE/zE3ZrrwU34K9V
-	LSWqNmtwaMooE3lWKCTVO8AvtYNGiTo5rW1xMny+OWrTmx18AbbbNcl37PC6Z/EZ6jyw
-	OTzeFCozqCxt61Uh+J3fs8lhytCjWbEII+ApotpU0eRjKla//lbMj2FLQ0bcEBcwWfaF
-	MPGA==
-X-Gm-Message-State: ALoCoQlO0p+7Zlwz/+KW3loju8a/Kfflj+LpPthFbFrpSExLo8OLrZ0FdCBT54V6d9fYZ6VuJtDn
-X-Received: by 10.55.192.13 with SMTP id o13mr35681417qki.83.1445262041686;
-	Mon, 19 Oct 2015 06:40:41 -0700 (PDT)
+	Mon, 19 Oct 2015 13:41:13 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 19 Oct 2015 06:41:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,702,1437462000"; d="scan'208";a="583777547"
+Received: from ggwalsh-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.6.253])
+	by FMSMGA003.fm.intel.com with ESMTP; 19 Oct 2015 06:41:14 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: leonardo.sandoval.gonzalez@linux.intel.com
+Date: Mon, 19 Oct 2015 14:41:09 +0100
+Message-ID: <722633449.5WlMM4sgsE@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <1c795f9672bcf9ffe43d311177019f10ce997d3a.1445231631.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1445231631.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<1c795f9672bcf9ffe43d311177019f10ce997d3a.1445231631.git.leonardo.sandoval.gonzalez@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.140.94.82 with HTTP; Mon, 19 Oct 2015 06:40:22 -0700 (PDT)
-In-Reply-To: <6286161.Ei9s0vA4WQ@peggleto-mobl.ger.corp.intel.com>
-References: <1445249129-1475-1-git-send-email-ross.burton@intel.com>
-	<20151019120904.GB2549@jama>
-	<CAJTo0Las=qdUxwGa3w+OibykzRuMnpVs+5oZGojxSGAibH1=QQ@mail.gmail.com>
-	<6286161.Ei9s0vA4WQ@peggleto-mobl.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Oct 2015 14:40:22 +0100
-Message-ID: <CAJTo0LaJY3qD5_ZWY2nd_YJY0DuHRee6CwbuzEoF_G7+_K0Kbg@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] sanity: check that the host has file installed
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] oeqa/utils/ftools: Checks before appending/reading files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,50 +34,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 13:40:43 -0000
-Content-Type: multipart/alternative; boundary=001a11479cfc9a7e580522754a4a
+X-List-Received-Date: Mon, 19 Oct 2015 13:41:16 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a11479cfc9a7e580522754a4a
-Content-Type: text/plain; charset=UTF-8
+Hi Leo,
 
-On 19 October 2015 at 14:34, Paul Eggleton <paul.eggleton@linux.intel.com>
+On Monday 19 October 2015 05:24:44 leonardo.sandoval.gonzalez@linux.intel.com 
 wrote:
+> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> 
+> Before trying to append/read a file, check if file exists.
+> 
+> Signed-off-by: Leonardo Sandoval
+> <leonardo.sandoval.gonzalez@linux.intel.com> ---
+>  meta/lib/oeqa/utils/ftools.py | 24 ++++++++++++++----------
+>  1 file changed, 14 insertions(+), 10 deletions(-)
+> 
+> diff --git a/meta/lib/oeqa/utils/ftools.py b/meta/lib/oeqa/utils/ftools.py
+> index 64ebe3d..70a55b8 100644
+> --- a/meta/lib/oeqa/utils/ftools.py
+> +++ b/meta/lib/oeqa/utils/ftools.py
+> @@ -8,20 +8,24 @@ def write_file(path, data):
+> 
+>  def append_file(path, data):
+>      wdata = data.rstrip() + "\n"
+> -    with open(path, "a") as f:
+> +    if os.path.isfile(path):
+> +        with open(path, "a") as f:
+>              f.write(wdata)
 
-> > Well that was embarassing.  I wonder how that test change made it into
-> git.
->
-> Since this test isn't run on every build, it can be broken or unsatisfied
-> and
-> the build will still start. Given how quick this check is and that people
-> have
-> stumbled across the results of the check not having run, I wonder whether
-> that
-> should be changed.
+Hang on - opening a nonexistent file with mode 'a' is perfectly fine, it'll just 
+get created - why do we need this check?
 
 
-Agreed.
+>  def read_file(path):
+>      data = None
+> -    with open(path) as f:
+> -        data = f.read()
+> +    if os.path.isfile(path):
+> +        with open(path) as f:
+> +            data = f.read()
+>      return data
+> 
+>  def remove_from_file(path, data):
+> -    lines = read_file(path).splitlines()
+> -    rmdata = data.strip().splitlines()
+> -    for l in rmdata:
+> -        for c in range(0, lines.count(l)):
+> -            i = lines.index(l)
+> -            del(lines[i])
+> -    write_file(path, "\n".join(lines))
+> +    rawdata = read_file(path)
+> +    if rawdata:
+> +        lines = rawdata.splitlines()
+> +        rmdata = data.strip().splitlines()
+> +        for l in rmdata:
+> +            for c in range(0, lines.count(l)):
+> +                i = lines.index(l)
+> +                del(lines[i])
+> +        write_file(path, "\n".join(lines))
 
-Ross
+Checking a file exists before opening it isn't good practice. It's much better 
+to try opening it and if the open fails with IOError of errno.ENOENT then 
+ignore it (or rather, if e.errno  != errno.ENOENT then re-raise the 
+exception).
 
---001a11479cfc9a7e580522754a4a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Cheers,
+Paul
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 October 2015 at 14:34, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@linu=
-x.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span c=
-lass=3D"">&gt; Well that was embarassing.=C2=A0 I wonder how that test chan=
-ge made it into git.<br>
-<br>
-</span>Since this test isn&#39;t run on every build, it can be broken or un=
-satisfied and<br>
-the build will still start. Given how quick this check is and that people h=
-ave<br>
-stumbled across the results of the check not having run, I wonder whether t=
-hat<br>
-should be changed.</blockquote></div><br>Agreed.</div><div class=3D"gmail_e=
-xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+-- 
 
---001a11479cfc9a7e580522754a4a--
+Paul Eggleton
+Intel Open Source Technology Centre
+
