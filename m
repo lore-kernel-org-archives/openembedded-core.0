@@ -1,26 +1,30 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 44E2F77086
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C309D65CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 15:29:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9JFTp1Q007334
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 08:29:51 -0700 (PDT)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 19 Oct 2015 08:29:51 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Oct 2015 10:29:49 -0500
-Message-ID: <1445268589-104714-2-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <1445268589-104714-1-git-send-email-mark.hatle@windriver.com>
-References: <1445268589-104714-1-git-send-email-mark.hatle@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH] gcc-5.2: Fix various _FOR_BUILD and related variables
+	Mon, 19 Oct 2015 15:34:08 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t9JFX1fn015603; Mon, 19 Oct 2015 16:34:06 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 1jUNwwI1gQ7I; Mon, 19 Oct 2015 16:34:06 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t9JFXrC2015676
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 19 Oct 2015 16:34:04 +0100
+Message-ID: <1445268833.17974.106.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Mon, 19 Oct 2015 16:33:53 +0100
+In-Reply-To: <562501BF.6010202@windriver.com>
+References: <1445264230-1126-1-git-send-email-dbaryshkov@gmail.com>
+	<562501BF.6010202@windriver.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] libsdl: support native compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,168 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 15:29:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 19 Oct 2015 15:34:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When doing a FOR_BUILD thing, you have to override CFLAGS with
-CFLAGS_FOR_BUILD. And if you use C++, you also have to override
-CXXFLAGS with CXXFLAGS_FOR_BUILD.
-Without this, when building for mingw, you end up trying to use
-the mingw headers for a host build.
+On Mon, 2015-10-19 at 09:44 -0500, Mark Hatle wrote:
+> On 10/19/15 9:17 AM, Dmitry Eremin-Solenikov wrote:
+> > qemu-native can use SDL backend for graphical output. Currently it is
+> > expected to use libsdl provided by the host. However this can lead to
+> > library incompatibilities between host and target. Make libsdl recipe
+> > support native compilation.
+> 
+> I don't object to the patch.. but we did have multiple problems in the past
+> where libsdl (native) did not work with the host systems X11 or what-ever.
+> 
+> Various failure conditions about not linking, linking to the wrong libsdl, or
+> execution failing are what made us prefer the host system's libsdl -- or simply
+> disabling libsdl altogether.
 
-The same goes for other variables as well, such as CPPFLAGS,
-CPP, and GMPINC.
+This is my big worry too. I remember a lot of problems trying to build a
+libsdl that worked on all of the different linux distros someone might
+run on. Previously we found that assuming a working libsdl or disabling
+it was much easier.
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-5.2.inc              |   1 +
- .../gcc/gcc-5.2/0042-cxxflags-for-build.patch      | 123 +++++++++++++++++++++
- 2 files changed, 124 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0042-cxxflags-for-build.patch
+How wide has the testing if this patch series been?
 
-diff --git a/meta/recipes-devtools/gcc/gcc-5.2.inc b/meta/recipes-devtools/gcc/gcc-5.2.inc
-index f6673e6..a6b385a 100644
---- a/meta/recipes-devtools/gcc/gcc-5.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-5.2.inc
-@@ -73,6 +73,7 @@ SRC_URI = "\
-            file://0039-libcc1-fix-libcc1-s-install-path-and-rpath.patch \
-            file://0040-nativesdk-gcc-support.patch \
-            file://0041-handle-target-sysroot-multilib.patch \
-+           file://0042-cxxflags-for-build.patch \
-           "
- 
- BACKPORTS = ""
-diff --git a/meta/recipes-devtools/gcc/gcc-5.2/0042-cxxflags-for-build.patch b/meta/recipes-devtools/gcc/gcc-5.2/0042-cxxflags-for-build.patch
-new file mode 100644
-index 0000000..1105e29
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-5.2/0042-cxxflags-for-build.patch
-@@ -0,0 +1,123 @@
-+Fix various _FOR_BUILD and related variables
-+
-+When doing a FOR_BUILD thing, you have to override CFLAGS with
-+CFLAGS_FOR_BUILD. And if you use C++, you also have to override
-+CXXFLAGS with CXXFLAGS_FOR_BUILD.
-+Without this, when building for mingw, you end up trying to use
-+the mingw headers for a host build.
-+
-+The same goes for other variables as well, such as CPPFLAGS,
-+CPP, and GMPINC.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+diff --git a/Makefile.in b/Makefile.in
-+index 9370174..011c29a 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -152,6 +152,7 @@ BUILD_EXPORTS = \
-+ 	CPP="$(CC_FOR_BUILD) -E"; export CPP; \
-+ 	CFLAGS="$(CFLAGS_FOR_BUILD)"; export CFLAGS; \
-+ 	CONFIG_SHELL="$(SHELL)"; export CONFIG_SHELL; \
-++	CPPFLAGS="$(CPPFLAGS_FOR_BUILD)"; export CPPFLAGS; \
-+ 	CXX="$(CXX_FOR_BUILD)"; export CXX; \
-+ 	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)"; export CXXFLAGS; \
-+ 	GCJ="$(GCJ_FOR_BUILD)"; export GCJ; \
-+@@ -170,6 +171,9 @@ BUILD_EXPORTS = \
-+ # built for the build system to override those in BASE_FLAGS_TO_PASS.
-+ EXTRA_BUILD_FLAGS = \
-+ 	CFLAGS="$(CFLAGS_FOR_BUILD)" \
-++	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)" \
-++	CPP="$(CC_FOR_BUILD) -E" \
-++	CPPFLAGS="$(CPPFLAGS_FOR_BUILD)" \
-+ 	LDFLAGS="$(LDFLAGS_FOR_BUILD)"
-+ 
-+ # This is the list of directories to built for the host system.
-+@@ -187,6 +191,7 @@ HOST_SUBDIR = @host_subdir@
-+ HOST_EXPORTS = \
-+ 	$(BASE_EXPORTS) \
-+ 	CC="$(CC)"; export CC; \
-++	CPP="$(CC) -E"; export CPP; \
-+ 	ADA_CFLAGS="$(ADA_CFLAGS)"; export ADA_CFLAGS; \
-+ 	CFLAGS="$(CFLAGS)"; export CFLAGS; \
-+ 	CONFIG_SHELL="$(SHELL)"; export CONFIG_SHELL; \
-+@@ -711,6 +715,7 @@ BASE_FLAGS_TO_PASS = \
-+ 	"CC_FOR_BUILD=$(CC_FOR_BUILD)" \
-+ 	"CFLAGS_FOR_BUILD=$(CFLAGS_FOR_BUILD)" \
-+ 	"CXX_FOR_BUILD=$(CXX_FOR_BUILD)" \
-++	"CXXFLAGS_FOR_BUILD=$(CXXFLAGS_FOR_BUILD)" \
-+ 	"EXPECT=$(EXPECT)" \
-+ 	"FLEX=$(FLEX)" \
-+ 	"INSTALL=$(INSTALL)" \
-+diff --git a/Makefile.tpl b/Makefile.tpl
-+index 1ea1954..78a59c3 100644
-+--- a/Makefile.tpl
-++++ b/Makefile.tpl
-+@@ -154,6 +154,7 @@ BUILD_EXPORTS = \
-+ 	CC="$(CC_FOR_BUILD)"; export CC; \
-+ 	CFLAGS="$(CFLAGS_FOR_BUILD)"; export CFLAGS; \
-+ 	CONFIG_SHELL="$(SHELL)"; export CONFIG_SHELL; \
-++	CPPFLAGS="$(CPPFLAGS_FOR_BUILD)"; export CPPFLAGS; \
-+ 	CXX="$(CXX_FOR_BUILD)"; export CXX; \
-+ 	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)"; export CXXFLAGS; \
-+ 	GCJ="$(GCJ_FOR_BUILD)"; export GCJ; \
-+@@ -172,6 +173,9 @@ BUILD_EXPORTS = \
-+ # built for the build system to override those in BASE_FLAGS_TO_PASS.
-+ EXTRA_BUILD_FLAGS = \
-+ 	CFLAGS="$(CFLAGS_FOR_BUILD)" \
-++	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)" \
-++	CPP="$(CC_FOR_BUILD) -E" \
-++	CPPFLAGS="$(CPPFLAGS_FOR_BUILD)" \
-+ 	LDFLAGS="$(LDFLAGS_FOR_BUILD)"
-+ 
-+ # This is the list of directories to built for the host system.
-+@@ -189,6 +193,7 @@ HOST_SUBDIR = @host_subdir@
-+ HOST_EXPORTS = \
-+ 	$(BASE_EXPORTS) \
-+ 	CC="$(CC)"; export CC; \
-++	CPP="$(CC) -E"; export CPP; \
-+ 	ADA_CFLAGS="$(ADA_CFLAGS)"; export ADA_CFLAGS; \
-+ 	CFLAGS="$(CFLAGS)"; export CFLAGS; \
-+ 	CONFIG_SHELL="$(SHELL)"; export CONFIG_SHELL; \
-+diff --git a/gcc/Makefile.in b/gcc/Makefile.in
-+index cd5bc4a..98ae4f4 100644
-+--- a/gcc/Makefile.in
-++++ b/gcc/Makefile.in
-+@@ -762,7 +762,7 @@ BUILD_LINKERFLAGS = $(BUILD_CXXFLAGS)
-+ # Native linker and preprocessor flags.  For x-fragment overrides.
-+ BUILD_LDFLAGS=@BUILD_LDFLAGS@
-+ BUILD_CPPFLAGS= -I. -I$(@D) -I$(srcdir) -I$(srcdir)/$(@D) \
-+-		-I$(srcdir)/../include @INCINTL@ $(CPPINC) $(CPPFLAGS)
-++		-I$(srcdir)/../include @INCINTL@ $(CPPINC) $(CPPFLAGS_FOR_BUILD)
-+ 
-+ # Actual name to use when installing a native compiler.
-+ GCC_INSTALL_NAME := $(shell echo gcc|sed '$(program_transform_name)')
-+diff --git a/gcc/configure b/gcc/configure
-+index c7ac14b..5ac63e4 100755
-+--- a/gcc/configure
-++++ b/gcc/configure
-+@@ -11521,7 +11521,7 @@ else
-+ 	CC="${CC_FOR_BUILD}" CFLAGS="${CFLAGS_FOR_BUILD}" \
-+ 	CXX="${CXX_FOR_BUILD}" CXXFLAGS="${CXXFLAGS_FOR_BUILD}" \
-+ 	LD="${LD_FOR_BUILD}" LDFLAGS="${LDFLAGS_FOR_BUILD}" \
-+-	GMPINC="" CPPFLAGS="${CPPFLAGS} -DGENERATOR_FILE" \
-++	GMPINC="" CPPFLAGS="${CPPFLAGS_FOR_BUILD} -DGENERATOR_FILE" \
-+ 	${realsrcdir}/configure \
-+ 		--enable-languages=${enable_languages-all} \
-+ 		--target=$target_alias --host=$build_alias --build=$build_alias
-+diff --git a/gcc/configure.ac b/gcc/configure.ac
-+index 50856e6..17a4dfd 100644
-+--- a/gcc/configure.ac
-++++ b/gcc/configure.ac
-+@@ -1633,7 +1633,7 @@ else
-+ 	CC="${CC_FOR_BUILD}" CFLAGS="${CFLAGS_FOR_BUILD}" \
-+ 	CXX="${CXX_FOR_BUILD}" CXXFLAGS="${CXXFLAGS_FOR_BUILD}" \
-+ 	LD="${LD_FOR_BUILD}" LDFLAGS="${LDFLAGS_FOR_BUILD}" \
-+-	GMPINC="" CPPFLAGS="${CPPFLAGS} -DGENERATOR_FILE" \
-++	GMPINC="" CPPFLAGS="${CPPFLAGS_FOR_BUILD} -DGENERATOR_FILE" \
-+ 	${realsrcdir}/configure \
-+ 		--enable-languages=${enable_languages-all} \
-+ 		--target=$target_alias --host=$build_alias --build=$build_alias
--- 
-1.9.3
+Cheers,
+
+Richard
 
 
