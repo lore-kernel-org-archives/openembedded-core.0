@@ -1,26 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 324D776F50
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 70B5D77043
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 15:48:51 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Oct 2015 08:48:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,702,1437462000"; d="scan'208";a="583863479"
-Received: from ggwalsh-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.6.253])
-	by FMSMGA003.fm.intel.com with ESMTP; 19 Oct 2015 08:48:22 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Oct 2015 16:48:21 +0100
-Message-ID: <8504001.BiVGHT1xCr@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <2351738d06a4f12133a1cb6cab4c3d4ea657dda0.1444854089.git.paul.eggleton@linux.intel.com>
-References: <cover.1444854089.git.paul.eggleton@linux.intel.com>
-	<2351738d06a4f12133a1cb6cab4c3d4ea657dda0.1444854089.git.paul.eggleton@linux.intel.com>
+	Mon, 19 Oct 2015 16:12:12 +0000 (UTC)
+Received: by obbzf10 with SMTP id zf10so142739577obb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Oct 2015 09:12:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type;
+	bh=hun8QNHY9AP76Lg8a6NVCdqzVjQ8dL97TpIMA10s7vU=;
+	b=ZpifZanMlEg3FXr8UqQnDE3OgzvvQQsqiTsiEC3t6aPhn0xrviEmDSNVYM8VTutZ6y
+	nhN1HCaOo/az6TRFdUnFDAht5+tO+pnCBF+W+cG7+24kEVTX0kL3bVUkQuUL2zro9fLe
+	G7tsf3k+70SLh5Hu2U94xbBsG+62wAXeckw8aJLD2KD1UH1JDsW9yaYo1UhHEt0pFtR/
+	xvkGk90K3EKbxcM5gK9npYZa2b6lcGWOfJr1+qzs6k6ceY51Ot+ZZNTqMIEOrfKo4v9Y
+	qOsMCA5MU5VHPJgygkkMJpb6SfyteA5dLp5GFQapTvGWYW5rU350PEP9LLvvIhe5OLyx
+	g6bA==
+X-Gm-Message-State: ALoCoQmlfitL879nZDqmcPrNoSXMgRgwry62qni2aXmHkVzSKZxfm2dQFwx51ugj8yg7L2KS5AxR
+X-Received: by 10.182.108.197 with SMTP id hm5mr18536895obb.57.1445271132773; 
+	Mon, 19 Oct 2015 09:12:12 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/5] classes/populate_sdk_ext: prevent do_rootfs from executing on install
+Received: by 10.202.195.66 with HTTP; Mon, 19 Oct 2015 09:11:53 -0700 (PDT)
+In-Reply-To: <CAJTo0LaoQ4yp0AQtdKLQq22Nh=bgKgb4T8ApxyqxUc=U09FLkA@mail.gmail.com>
+References: <1445249129-1475-1-git-send-email-ross.burton@intel.com>
+	<CAJTo0LaoQ4yp0AQtdKLQq22Nh=bgKgb4T8ApxyqxUc=U09FLkA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 19 Oct 2015 17:11:53 +0100
+Message-ID: <CAJTo0LZhMs6Pr85oq2H_Tut12yx_f1JEbM+nsWpVOf1UC98ABg@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] bitbake: add file-native to ASSUME_PROVIDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,105 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 15:48:53 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 19 Oct 2015 16:12:15 -0000
+Content-Type: multipart/alternative; boundary=089e0149d2aa7939470522776856
 
-On Wednesday 14 October 2015 21:23:31 Paul Eggleton wrote:
-> In order to prepare the build system within the extensible SDK, we
-> actually go ahead and build the targets specified by SDK_TARGETS (by
-> default the image the SDK was built for). Assuming that's an image, we
-> don't actually need to build the image itself - we just need to have
-> everything done up to the point before building the image, so that we
-> have everything needed in the sysroot.
-> 
-> In order to do this, create temporary bbappends for each of the targets
-> in the workspace layer that stub out do_rootfs. This is a little bit of
-> a hack but is the least intrusive fix at this point. To make things a
-> bit tidier, I have split out the preparation commands into a separate
-> script so we can run that in the appropriate environment rather than all
-> the commands separately.
-> 
-> Fixes [YOCTO #7590].
-> 
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
->  meta/classes/populate_sdk_ext.bbclass |  5 ++++-
->  meta/files/ext-sdk-prepare.sh         | 16 ++++++++++++++++
->  2 files changed, 20 insertions(+), 1 deletion(-)
->  create mode 100644 meta/files/ext-sdk-prepare.sh
-> 
-> diff --git a/meta/classes/populate_sdk_ext.bbclass
-> b/meta/classes/populate_sdk_ext.bbclass index 90033ba..0feb3b2 100644
-> --- a/meta/classes/populate_sdk_ext.bbclass
-> +++ b/meta/classes/populate_sdk_ext.bbclass
-> @@ -203,6 +203,8 @@ install_tools() {
->  	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
-> 
->  	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2
-> ${SDK_OUTPUT}/${SDKPATH} +
-> +	install -m 0755 ${COREBASE}/meta/files/ext-sdk-prepare.sh
-> ${SDK_OUTPUT}/${SDKPATH} }
-> 
->  # Since bitbake won't run as root it doesn't make sense to try and install
-> @@ -242,8 +244,9 @@ sdk_ext_postinst() {
->  		# dash which is /bin/sh on Ubuntu will not preserve the
->  		# current working directory when first ran, nor will it set $1 when
->  		# sourcing a script. That is why this has to look so ugly.
-> -		sh -c ". buildtools/environment-setup* > preparing_build_system.log 
-&& cd
-> $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir
-> && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >>
-> preparing_build_system.log && bitbake ${SDK_TARGETS} >>
-> preparing_build_system.log" || { echo "SDK preparation failed: see
-> `pwd`/preparing_build_system.log" ; exit 1 ; } +		sh -c ".
-> buildtools/environment-setup* > preparing_build_system.log && cd
-> $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir
-> && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >>
-> preparing_build_system.log && $target_sdk_dir/ext-sdk-prepare.sh
-> $target_sdk_dir '${SDK_TARGETS}' >> preparing_build_system.log 2>&1" || {
-> echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit
-> 1 ; } fi
-> +	rm -f $target_sdk_dir/ext-sdk-prepare.sh
->  	echo done
->  }
-> 
-> diff --git a/meta/files/ext-sdk-prepare.sh b/meta/files/ext-sdk-prepare.sh
-> new file mode 100644
-> index 0000000..a5a46be
-> --- /dev/null
-> +++ b/meta/files/ext-sdk-prepare.sh
-> @@ -0,0 +1,16 @@
-> +#!/bin/sh
-> +
-> +# Prepare the build system within the extensible SDK
-> +
-> +target_sdk_dir="$1"
-> +sdk_targets="$2"
-> +
-> +# Avoid actually building images during this phase
-> +# This is a hack, to be sure, but we really don't need to do this here
-> +for sdktarget in $sdk_targets ; do
-> +	bbappend=`recipetool newappend $target_sdk_dir/workspace $sdktarget`
-> +	printf 'python do_rootfs_forcevariable () {\n   
-> bb.utils.mkdirhier(d.getVar("IMAGE_ROOTFS", True))\n}\n' > $bbappend
-> +	printf "Created bbappend %s\n" "$bbappend"
-> +done
-> +bitbake $sdk_targets || exit 1
-> +rm -rf $target_sdk_dir/workspace/appends/*
+--089e0149d2aa7939470522776856
+Content-Type: text/plain; charset=UTF-8
 
-Unfortunately this doesn't avoid the error I was trying to avoid because 
-do_bootimg still executes:
+On 19 October 2015 at 16:37, Burton, Ross <ross.burton@intel.com> wrote:
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=7629
+> Not sure what to do here.  If we install file-native directly into the
+> sysroot we get occasional races on the file binary  causing build
+> failures.  If we make file-native ASSUME_PROVIDED then rpm (and subversion)
+> change their behaviour depending on the presence of libmagic-dev on the
+> host (well, rpm4 requires libmagic, rpm5 and subversion change their
+> configuration).
+>
 
-I'd better send a v3.
+Two proposals:
 
-Cheers,
-Paul
+1) Tell RPM and Subversion to explicitly enable libmagic support so they
+fail if libmagic-dev isn't installed on the host, and document that
+libmagic-dev is a build requirement
+2) Change file-replacement-native to install libmagic, and add
+file-replacement-native as a dependency to subversion-native and rpm-native.
 
--- 
+Does anyone have a strong opinion either way?
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
+--089e0149d2aa7939470522776856
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 October 2015 at 16:37, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>Not sure what to do=
+ here.=C2=A0 If we install file-native directly into the sysroot we get occ=
+asional races on the file binary =C2=A0causing build failures.=C2=A0 If we =
+make file-native ASSUME_PROVIDED then rpm (and subversion) change their beh=
+aviour depending on the presence of libmagic-dev on the host (well, rpm4 re=
+quires libmagic, rpm5 and subversion change their configuration).</div><div=
+></div></blockquote></div><br>Two proposals:</div><div class=3D"gmail_extra=
+"><br></div><div class=3D"gmail_extra">1) Tell RPM and Subversion to explic=
+itly enable libmagic support so they fail if libmagic-dev isn&#39;t install=
+ed on the host, and document that libmagic-dev is a build requirement</div>=
+<div class=3D"gmail_extra">2) Change file-replacement-native to install lib=
+magic, and add file-replacement-native as a dependency to subversion-native=
+ and rpm-native.</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
+ail_extra">Does anyone have a strong opinion either way?</div><div class=3D=
+"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--089e0149d2aa7939470522776856--
