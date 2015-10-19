@@ -1,31 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C23E67701C
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 365917704A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 16:24:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t9JGOYPx018559; Mon, 19 Oct 2015 17:24:34 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id P5JyB-UYHCjB; Mon, 19 Oct 2015 17:24:34 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t9JGOL34018545
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 19 Oct 2015 17:24:33 +0100
-Message-ID: <1445271861.17974.123.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Oct 2015 17:24:21 +0100
-In-Reply-To: <CAJTo0LZhMs6Pr85oq2H_Tut12yx_f1JEbM+nsWpVOf1UC98ABg@mail.gmail.com>
-References: <1445249129-1475-1-git-send-email-ross.burton@intel.com>
-	<CAJTo0LaoQ4yp0AQtdKLQq22Nh=bgKgb4T8ApxyqxUc=U09FLkA@mail.gmail.com>
-	<CAJTo0LZhMs6Pr85oq2H_Tut12yx_f1JEbM+nsWpVOf1UC98ABg@mail.gmail.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] bitbake: add file-native to ASSUME_PROVIDED
+	Mon, 19 Oct 2015 16:33:19 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Oct 2015 09:33:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,702,1437462000"; d="scan'208";a="830460963"
+Received: from ggwalsh-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.6.253])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Oct 2015 09:33:19 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Oct 2015 17:33:07 +0100
+Message-Id: <cover.1445272352.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH v3 0/5] Extensible SDK fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,42 +28,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 16:24:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Oct 2015 16:33:21 -0000
 
-On Mon, 2015-10-19 at 17:11 +0100, Burton, Ross wrote:
-> 
-> On 19 October 2015 at 16:37, Burton, Ross <ross.burton@intel.com>
-> wrote:
->         Not sure what to do here.  If we install file-native directly
->         into the sysroot we get occasional races on the file binary
->          causing build failures.  If we make file-native
->         ASSUME_PROVIDED then rpm (and subversion) change their
->         behaviour depending on the presence of libmagic-dev on the
->         host (well, rpm4 requires libmagic, rpm5 and subversion change
->         their configuration).
->         
-> 
-> Two proposals:
-> 
-> 
-> 1) Tell RPM and Subversion to explicitly enable libmagic support so
-> they fail if libmagic-dev isn't installed on the host, and document
-> that libmagic-dev is a build requirement
-> 2) Change file-replacement-native to install libmagic, and add
-> file-replacement-native as a dependency to subversion-native and
-> rpm-native.
->
-> Does anyone have a strong opinion either way?
+Changes since v2:
+ * Fix patch 2/5 to disable do_bootimg, do_bootdirectdisk and do_vmimg
+   as well as do_rootfs
+ * Add a proper commit message for patch 1/5
 
-I tend to become nervous about -dev requirements so whilst ugly, I'm
-leaning towards 2) which is what we've done for other similar issues
-IIRC.
 
-Cheers,
+The following changes since commit 10e5df3503632a6e1c54612055b19f7258c3ae2f:
 
-Richard
+  lib/oe/image.py: Fix dependency handling for compressed types (2015-10-14 18:08:22 +0300)
 
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/extsdkfixes2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/extsdkfixes2
+
+Paul Eggleton (5):
+  classes/populate_sdk_ext: consistent indentation
+  classes/populate_sdk_ext: prevent image construction from executing on
+    install
+  classes/populate_sdk_ext: add note to env setup script
+  classes/populate_sdk_ext: detect and warn if running in OE environment
+  toolchain-shar-extract.sh: print full-length title underline
+
+ meta/classes/populate_sdk_ext.bbclass | 18 +++++++++++++-----
+ meta/files/ext-sdk-prepare.sh         | 20 ++++++++++++++++++++
+ meta/files/toolchain-shar-extract.sh  |  5 +++--
+ 3 files changed, 36 insertions(+), 7 deletions(-)
+ create mode 100644 meta/files/ext-sdk-prepare.sh
+
+-- 
+2.1.0
 
 
