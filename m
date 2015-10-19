@@ -1,35 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 70B5D77043
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C23E67701C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 16:12:12 +0000 (UTC)
-Received: by obbzf10 with SMTP id zf10so142739577obb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 09:12:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type;
-	bh=hun8QNHY9AP76Lg8a6NVCdqzVjQ8dL97TpIMA10s7vU=;
-	b=ZpifZanMlEg3FXr8UqQnDE3OgzvvQQsqiTsiEC3t6aPhn0xrviEmDSNVYM8VTutZ6y
-	nhN1HCaOo/az6TRFdUnFDAht5+tO+pnCBF+W+cG7+24kEVTX0kL3bVUkQuUL2zro9fLe
-	G7tsf3k+70SLh5Hu2U94xbBsG+62wAXeckw8aJLD2KD1UH1JDsW9yaYo1UhHEt0pFtR/
-	xvkGk90K3EKbxcM5gK9npYZa2b6lcGWOfJr1+qzs6k6ceY51Ot+ZZNTqMIEOrfKo4v9Y
-	qOsMCA5MU5VHPJgygkkMJpb6SfyteA5dLp5GFQapTvGWYW5rU350PEP9LLvvIhe5OLyx
-	g6bA==
-X-Gm-Message-State: ALoCoQmlfitL879nZDqmcPrNoSXMgRgwry62qni2aXmHkVzSKZxfm2dQFwx51ugj8yg7L2KS5AxR
-X-Received: by 10.182.108.197 with SMTP id hm5mr18536895obb.57.1445271132773; 
-	Mon, 19 Oct 2015 09:12:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.202.195.66 with HTTP; Mon, 19 Oct 2015 09:11:53 -0700 (PDT)
-In-Reply-To: <CAJTo0LaoQ4yp0AQtdKLQq22Nh=bgKgb4T8ApxyqxUc=U09FLkA@mail.gmail.com>
+	Mon, 19 Oct 2015 16:24:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t9JGOYPx018559; Mon, 19 Oct 2015 17:24:34 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id P5JyB-UYHCjB; Mon, 19 Oct 2015 17:24:34 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t9JGOL34018545
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 19 Oct 2015 17:24:33 +0100
+Message-ID: <1445271861.17974.123.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 19 Oct 2015 17:24:21 +0100
+In-Reply-To: <CAJTo0LZhMs6Pr85oq2H_Tut12yx_f1JEbM+nsWpVOf1UC98ABg@mail.gmail.com>
 References: <1445249129-1475-1-git-send-email-ross.burton@intel.com>
 	<CAJTo0LaoQ4yp0AQtdKLQq22Nh=bgKgb4T8ApxyqxUc=U09FLkA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 19 Oct 2015 17:11:53 +0100
-Message-ID: <CAJTo0LZhMs6Pr85oq2H_Tut12yx_f1JEbM+nsWpVOf1UC98ABg@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
+	<CAJTo0LZhMs6Pr85oq2H_Tut12yx_f1JEbM+nsWpVOf1UC98ABg@mail.gmail.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/3] bitbake: add file-native to ASSUME_PROVIDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,56 +38,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Oct 2015 16:12:15 -0000
-Content-Type: multipart/alternative; boundary=089e0149d2aa7939470522776856
+X-List-Received-Date: Mon, 19 Oct 2015 16:24:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---089e0149d2aa7939470522776856
-Content-Type: text/plain; charset=UTF-8
-
-On 19 October 2015 at 16:37, Burton, Ross <ross.burton@intel.com> wrote:
-
-> Not sure what to do here.  If we install file-native directly into the
-> sysroot we get occasional races on the file binary  causing build
-> failures.  If we make file-native ASSUME_PROVIDED then rpm (and subversion)
-> change their behaviour depending on the presence of libmagic-dev on the
-> host (well, rpm4 requires libmagic, rpm5 and subversion change their
-> configuration).
+On Mon, 2015-10-19 at 17:11 +0100, Burton, Ross wrote:
+> 
+> On 19 October 2015 at 16:37, Burton, Ross <ross.burton@intel.com>
+> wrote:
+>         Not sure what to do here.  If we install file-native directly
+>         into the sysroot we get occasional races on the file binary
+>          causing build failures.  If we make file-native
+>         ASSUME_PROVIDED then rpm (and subversion) change their
+>         behaviour depending on the presence of libmagic-dev on the
+>         host (well, rpm4 requires libmagic, rpm5 and subversion change
+>         their configuration).
+>         
+> 
+> Two proposals:
+> 
+> 
+> 1) Tell RPM and Subversion to explicitly enable libmagic support so
+> they fail if libmagic-dev isn't installed on the host, and document
+> that libmagic-dev is a build requirement
+> 2) Change file-replacement-native to install libmagic, and add
+> file-replacement-native as a dependency to subversion-native and
+> rpm-native.
 >
+> Does anyone have a strong opinion either way?
 
-Two proposals:
+I tend to become nervous about -dev requirements so whilst ugly, I'm
+leaning towards 2) which is what we've done for other similar issues
+IIRC.
 
-1) Tell RPM and Subversion to explicitly enable libmagic support so they
-fail if libmagic-dev isn't installed on the host, and document that
-libmagic-dev is a build requirement
-2) Change file-replacement-native to install libmagic, and add
-file-replacement-native as a dependency to subversion-native and rpm-native.
+Cheers,
 
-Does anyone have a strong opinion either way?
+Richard
 
-Ross
 
---089e0149d2aa7939470522776856
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 October 2015 at 16:37, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>Not sure what to do=
- here.=C2=A0 If we install file-native directly into the sysroot we get occ=
-asional races on the file binary =C2=A0causing build failures.=C2=A0 If we =
-make file-native ASSUME_PROVIDED then rpm (and subversion) change their beh=
-aviour depending on the presence of libmagic-dev on the host (well, rpm4 re=
-quires libmagic, rpm5 and subversion change their configuration).</div><div=
-></div></blockquote></div><br>Two proposals:</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">1) Tell RPM and Subversion to explic=
-itly enable libmagic support so they fail if libmagic-dev isn&#39;t install=
-ed on the host, and document that libmagic-dev is a build requirement</div>=
-<div class=3D"gmail_extra">2) Change file-replacement-native to install lib=
-magic, and add file-replacement-native as a dependency to subversion-native=
- and rpm-native.</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Does anyone have a strong opinion either way?</div><div class=3D=
-"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---089e0149d2aa7939470522776856--
