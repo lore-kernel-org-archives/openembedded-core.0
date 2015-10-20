@@ -1,34 +1,51 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BA8076FF2
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 34B6A76FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 04:06:50 +0000 (UTC)
-Received: by iofz202 with SMTP id z202so9066642iof.2
+	Tue, 20 Oct 2015 04:48:11 +0000 (UTC)
+Received: by lbbes7 with SMTP id es7so6124908lbb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 21:06:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=0K9XJXDnPWQcqwerLydwcOObRNSsqXCSTSk/u4rkR3o=;
-	b=jyENymlwMmD1qMToW71bYRWNu4gpXua+TlITHlEMp+8SoPgclyOBMbGYStiKDcl27b
-	mgLwUCz4QKzYvL4qk772pxrFI34SzzQ7aYwd3lzl8O3SyZdt8yvogrFjbcbLkg06nBLN
-	sNogYTNiijD8OS/ihPP1zTOQXWh4Gx3I+ivvLeGhg3EmEr4bJtmU0DPau1cqqL2CQCop
-	XjbxNHbarUZ6A6bcCAbKwo1PnV2TYu7KKFY+7qJyHcsPXa4VtGMYHOcVeNauxlg53K6a
-	qLc7Q55GTTwMZcp8RgJYKgbyUcKE0AYH6X+szCNWohrfb3o36mlCKCqFhVMhK8Bd0Yvk
-	jIbw==
-X-Received: by 10.107.163.131 with SMTP id m125mr1408415ioe.111.1445314010492; 
-	Mon, 19 Oct 2015 21:06:50 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id g12sm9050157igh.2.2015.10.19.21.06.49
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 19 Oct 2015 21:06:49 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Mon, 19 Oct 2015 21:48:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-type:content-disposition
+	:in-reply-to:organization:user-agent;
+	bh=WaMPaLcyRT2tSf6ndXHNwS6XCQzfUAY7TizZOinAGBM=;
+	b=NiGsQmuRhvn2N/HvjcfS4pVzCPykt/ujvSAOGs9cNPHvsOB1V3nq1eM1V4jInzbCce
+	Wuov5XCbHPKRDjQMDu2MDmcmyac5cGvbp+49AhJuDrtF/JEM6BZ4bSMjU4Ug0CX7heFT
+	qlKtvbmluMCO7drlbYyhk8/5KifqCcHY8evjNUcRvZOVw1jw/LoSfQ2U3a9w+HJNlpnU
+	s9BCfO4MPQJG3vDqZJMrUsFdLNmUDUTVsCbqZQYt6NZDb/+hRajua8on7WvYLSp0ZFXS
+	bkGq7Pw0WNfOcONklzfoXxFF6c1N/80jPHvqkpHx2MyOIJokuWyqNyXHV/yBCN2TBV+/
+	37uA==
+X-Gm-Message-State: ALoCoQnhm71SpHIyXzQ3AVOjr84hSFU3NtBO8XhKU5buzMagUMQcbysNgQJjIpu2LRELiBHE+SHa
+X-Received: by 10.112.136.39 with SMTP id px7mr504611lbb.77.1445316490668;
+	Mon, 19 Oct 2015 21:48:10 -0700 (PDT)
+Received: from ad.chargestorm.se (h83-209-191-235.dynamic.se.alltele.net.
+	[83.209.191.235])
+	by smtp.gmail.com with ESMTPSA id 78sm181466lfs.35.2015.10.19.21.48.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 19 Oct 2015 21:48:10 -0700 (PDT)
+Date: Tue, 20 Oct 2015 06:48:08 +0200
+From: Anders Darander <anders@chargestorm.se>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Oct 2015 21:06:43 -0700
-Message-Id: <1445314003-16327-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] scons.bbclass: SCons packages don't require do_configure
+Message-ID: <20151020044808.GA7776@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <cover.1445010543.git.joshua.lock@collabora.co.uk>
+	<013344f3d3f8c35ecb40bb8282b05d6262927b73.1445010543.git.joshua.lock@collabora.co.uk>
+	<20151019125722.GC16160@ad.chargestorm.se>
+	<56254A15.20701@collabora.co.uk>
+MIME-Version: 1.0
+In-Reply-To: <56254A15.20701@collabora.co.uk>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: Re: [PATCH 1/6] systemd: build with compatibility libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,27 +58,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Oct 2015 04:06:51 -0000
+X-List-Received-Date: Tue, 20 Oct 2015 04:48:12 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/classes/scons.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+* Joshua Lock <joshua.lock@collabora.co.uk> [151019 21:53]:
 
-diff --git a/meta/classes/scons.bbclass b/meta/classes/scons.bbclass
-index b8de822..1579b05 100644
---- a/meta/classes/scons.bbclass
-+++ b/meta/classes/scons.bbclass
-@@ -2,6 +2,8 @@ DEPENDS += "python-scons-native"
- 
- EXTRA_OESCONS ?= ""
- 
-+do_configure[noexec] = "1"
-+
- scons_do_compile() {
-         ${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} || \
-         die "scons build execution failed."
+> On 19/10/15 13:57, Anders Darander wrote:
+> >* Joshua Lock <joshua.lock@collabora.co.uk> [151016 17:52]:
+
+> >>There are recipes in the Core metadata that have optional systemd
+> >>support but expect the old, separate, libsystemd-foo pkg-config files
+> >>(not the newer unified libsystemd).
+
+> >Any size impact? Just wondering as you're changing the default.
+> >(Assuming that it was off by default previously?)
+
+> The compat-libs (libsystemd-daemon libsystemd-login libsystemd-journal
+> libsystemd-id128) are packaged separately, so you only see an increase in
+> image size if something pulls them in to your image.
+
+Thanks!
+
+> The -dev, -dbg and -ptest package sizes all increase slightly:
+
+Ok. I'm personally less worried about those.
+
+Cheers,
+Anders
+
 -- 
-1.9.1
-
+Anders Darander
+ChargeStorm AB / eStorm AB
 
