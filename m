@@ -1,24 +1,48 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 84A20770B5
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 6423B755F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 16:29:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9KGTc8O024204
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 20 Oct 2015 17:14:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id E6E3A2E71F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 09:29:38 -0700 (PDT)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 20 Oct 2015 09:29:38 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Oct 2015 11:29:36 -0500
-Message-ID: <1445358577-170269-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.9.3
-MIME-Version: 1.0
-Subject: [PATCH] [jethro/master] Be more permissive on executable names
+	Tue, 20 Oct 2015 19:14:17 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id ZqYaH8y-EfyI
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Oct 2015 19:14:16 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id 7025D2E4B6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Oct 2015 19:14:16 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 52CB313CA
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Oct 2015 19:14:16 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 47CDF13C6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Oct 2015 19:14:16 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 45F9B34009
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Oct 2015 19:14:16 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id t9KHEG1A008672
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Oct 2015 19:14:16 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id t9KHEGRH008671
+	for openembedded-core@lists.openembedded.org;
+	Tue, 20 Oct 2015 19:14:16 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Oct 2015 19:14:13 +0200
+Message-Id: <cover.1445361177.git.pkj@axis.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 0/1] Avoid unnecessary useradd warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,19 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Oct 2015 16:29:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Oct 2015 17:14:21 -0000
 
-On mingw32 the executables are suffixed with .exe.  Add a wild car in to
-ensure these will be packaged if generated.
+This avoids unnecessary warnings when using GROUPMEMS_PARAM, or when
+using userdel or groupdel in EXTRA_USERS_PARAMS. A similar change was
+introduced for GROUPADD_PARAM and USERADD_PARAM in
+c0da4270c76375a7a8cbcc09319fe4570ebbc5bd.
 
-Mark Hatle (1):
-  gcc-target.inc: Add support for executable thats may have a suffix
+//Peter
 
- meta/recipes-devtools/gcc/gcc-target.inc | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+The following changes since commit 8578bc17b54da97d42b257b3c8f398ac52b91a9f:
+
+  libc-package: Fix localedef multilib dependency issues (2015-10-20 10:12:01 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/avoid_useradd_warnings
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/avoid_useradd_warnings
+
+Peter Kjellerstedt (1):
+  useradd_base.bbclass: Do not warn without a reason
+
+ meta/classes/useradd_base.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 -- 
-1.9.3
+2.1.0
 
 
