@@ -1,51 +1,29 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
-	[209.85.217.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 34B6A76FF2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 54D0D76FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 04:48:11 +0000 (UTC)
-Received: by lbbes7 with SMTP id es7so6124908lbb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 21:48:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-type:content-disposition
-	:in-reply-to:organization:user-agent;
-	bh=WaMPaLcyRT2tSf6ndXHNwS6XCQzfUAY7TizZOinAGBM=;
-	b=NiGsQmuRhvn2N/HvjcfS4pVzCPykt/ujvSAOGs9cNPHvsOB1V3nq1eM1V4jInzbCce
-	Wuov5XCbHPKRDjQMDu2MDmcmyac5cGvbp+49AhJuDrtF/JEM6BZ4bSMjU4Ug0CX7heFT
-	qlKtvbmluMCO7drlbYyhk8/5KifqCcHY8evjNUcRvZOVw1jw/LoSfQ2U3a9w+HJNlpnU
-	s9BCfO4MPQJG3vDqZJMrUsFdLNmUDUTVsCbqZQYt6NZDb/+hRajua8on7WvYLSp0ZFXS
-	bkGq7Pw0WNfOcONklzfoXxFF6c1N/80jPHvqkpHx2MyOIJokuWyqNyXHV/yBCN2TBV+/
-	37uA==
-X-Gm-Message-State: ALoCoQnhm71SpHIyXzQ3AVOjr84hSFU3NtBO8XhKU5buzMagUMQcbysNgQJjIpu2LRELiBHE+SHa
-X-Received: by 10.112.136.39 with SMTP id px7mr504611lbb.77.1445316490668;
-	Mon, 19 Oct 2015 21:48:10 -0700 (PDT)
-Received: from ad.chargestorm.se (h83-209-191-235.dynamic.se.alltele.net.
-	[83.209.191.235])
-	by smtp.gmail.com with ESMTPSA id 78sm181466lfs.35.2015.10.19.21.48.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Oct 2015 21:48:10 -0700 (PDT)
-Date: Tue, 20 Oct 2015 06:48:08 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20151020044808.GA7776@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <cover.1445010543.git.joshua.lock@collabora.co.uk>
-	<013344f3d3f8c35ecb40bb8282b05d6262927b73.1445010543.git.joshua.lock@collabora.co.uk>
-	<20151019125722.GC16160@ad.chargestorm.se>
-	<56254A15.20701@collabora.co.uk>
-MIME-Version: 1.0
-In-Reply-To: <56254A15.20701@collabora.co.uk>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Subject: Re: [PATCH 1/6] systemd: build with compatibility libraries
+	Tue, 20 Oct 2015 06:28:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t9K6SqTS012879; Tue, 20 Oct 2015 07:28:52 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id DrX64rH2Yxy9; Tue, 20 Oct 2015 07:28:52 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t9K6Scpt012876
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 20 Oct 2015 07:28:50 +0100
+Message-ID: <1445322518.17974.139.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alejandro Joya <alejandro.joya.cruz@intel.com>
+Date: Tue, 20 Oct 2015 07:28:38 +0100
+In-Reply-To: <1445288542-25427-1-git-send-email-alejandro.joya.cruz@intel.com>
+References: <1445288542-25427-1-git-send-email-alejandro.joya.cruz@intel.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] busybox: add virtual reference instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +36,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Oct 2015 04:48:12 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 20 Oct 2015 06:28:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Joshua Lock <joshua.lock@collabora.co.uk> [151019 21:53]:
+On Mon, 2015-10-19 at 16:02 -0500, Alejandro Joya wrote:
+> These recipes have a hardcoded dependency to busybox,
+> in order to be able to have a flexible selection,
+> instead of the hardcoded dependency, now it is point to  virtual reference
+> base-utils.
+> 
+> Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
+> ---
+>  meta/conf/distro/include/default-providers.inc             | 4 +++-
+>  meta/recipes-core/images/core-image-minimal-initramfs.bb   | 2 +-
+>  meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
+>  meta/recipes-core/packagegroups/packagegroup-core-boot.bb  | 4 ++--
+>  4 files changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+> index 9f84d5c..82a7100 100644
+> --- a/meta/conf/distro/include/default-providers.inc
+> +++ b/meta/conf/distro/include/default-providers.inc
+> @@ -13,6 +13,7 @@ PREFERRED_PROVIDER_virtual/mesa ?= "mesa"
+>  PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg-utils"
+>  PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-utils-native"
+>  PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
+> +PREFERRED_PROVIDER_virtual/base-utils ?= "busybox"
+>  PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
+>  
+>  #
+> @@ -23,7 +24,8 @@ VIRTUAL-RUNTIME_apm ?= "apm"
+>  VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
+>  VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
+>  VIRTUAL-RUNTIME_wireless-tools ?= "iw wireless-tools"
+> -
+> +VIRTUAL-RUNTIME_base-utils ?= "busybox"
+> +VIRTUAL-RUNTIME_base-utils-hwclock ?= "busybox-hwclock"
+>  #
+>  # Default recipe providers
+>  #
+> diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+> index 1f0fa95..50eca53 100644
+> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
+> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+> @@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
+>  the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
+>  first 'init' program more efficiently."
+>  
+> -PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi busybox udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
+> +PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi virtual/base-utils udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
 
-> On 19/10/15 13:57, Anders Darander wrote:
-> >* Joshua Lock <joshua.lock@collabora.co.uk> [151016 17:52]:
+You mean ${VIRTUAL-RUNTIME_base-utils} here, right?
 
-> >>There are recipes in the Core metadata that have optional systemd
-> >>support but expect the old, separate, libsystemd-foo pkg-config files
-> >>(not the newer unified libsystemd).
+>  # Do not pollute the initrd image with rootfs features
+>  IMAGE_FEATURES = ""
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+> index 6c37b9a..0664a95 100644
+> --- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+> +++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+> @@ -1,7 +1,7 @@
+>  SUMMARY = "Modular initramfs system"
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> -RDEPENDS_${PN} += "busybox"
+> +RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
+>  
+>  PR = "r2"
+>  
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+> index 09f5373..b3cf236 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+> @@ -24,7 +24,7 @@ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
+>  VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+>  VIRTUAL-RUNTIME_keymaps ?= "keymaps"
+>  
+> -SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwclock', '', d)} \
+> +SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc','${VIRTUAL-RUNTIME_base-utils-hwclock}', '', d)} \
+>                      modutils-initscripts \
+>                      init-ifupdown \
+>                      ${VIRTUAL-RUNTIME_initscripts} \
+> @@ -33,7 +33,7 @@ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwc
+>  RDEPENDS_${PN} = "\
+>      base-files \
+>      base-passwd \
+> -    busybox \
+> +    ${VIRTUAL-RUNTIME_base-utils \
 
-> >Any size impact? Just wondering as you're changing the default.
-> >(Assuming that it was off by default previously?)
+Missing }
 
-> The compat-libs (libsystemd-daemon libsystemd-login libsystemd-journal
-> libsystemd-id128) are packaged separately, so you only see an increase in
-> image size if something pulls them in to your image.
-
-Thanks!
-
-> The -dev, -dbg and -ptest package sizes all increase slightly:
-
-Ok. I'm personally less worried about those.
+Unfortunately each issue like this I see with the patch makes me wonder
+about the testing its had :(
 
 Cheers,
-Anders
 
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+Richard
+
+
+>      ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
+>      ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
+>      netbase \
+> -- 
+> 2.1.0
+> 
+
+
 
