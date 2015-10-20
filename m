@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id E0C4776F8C
+	by mail.openembedded.org (Postfix) with ESMTP id 1201D77002
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 09:47:30 +0000 (UTC)
+	Tue, 20 Oct 2015 09:47:32 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id D289F608EFE
+	(Authenticated sender: joshuagl) with ESMTPSA id 7DAF9608F1F
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Oct 2015 10:47:11 +0100
-Message-Id: <1a1ce45ceedb4a185b9cb03e36a56c5cd2485773.1445334356.git.joshua.lock@collabora.co.uk>
+Date: Tue, 20 Oct 2015 10:47:15 +0100
+Message-Id: <0bba4fe4dd90e1f8b4ac1bb25d894755caf8ca3a.1445334356.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445334356.git.joshua.lock@collabora.co.uk>
 References: <cover.1445334356.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445334356.git.joshua.lock@collabora.co.uk>
 References: <cover.1445334356.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v2 3/7] weston: add PACKAGECONFIG to build with systemd-login support
+Subject: [PATCH v2 7/7] xserver-xorg: drop empty ${PN}-security-policy package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,35 +29,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 20 Oct 2015 09:47:32 -0000
 
-Automatically enable this support for distributions which have
-systemd in DISTRO_FEATURES.
+The SecurityPolicy hasn't been included since 2007[1] and the
+last remnants were removed from the code base in 2010[2].
+
+1. http://cgit.freedesktop.org/xorg/xserver/commit/?id=9d03ca
+2. http://cgit.freedesktop.org/xorg/xserver/commit/?id=19d03d
 
 Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 ---
- meta/recipes-graphics/wayland/weston_1.8.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.8.0.bb b/meta/recipes-graphics/wayland/weston_1.8.0.bb
-index a2b1c8c..4f1269f 100644
---- a/meta/recipes-graphics/wayland/weston_1.8.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.8.0.bb
-@@ -40,6 +40,7 @@ EXTRA_OECONF_append_qemux86-64 = "\
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'launch', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
-                   "
- #
- # Compositor choices
-@@ -68,6 +69,8 @@ PACKAGECONFIG[lcms] = "--enable-lcms,--disable-lcms,lcms"
- PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp"
- # Weston with unwinding support
- PACKAGECONFIG[libunwind] = "--enable-libunwind,--disable-libunwind,libunwind"
-+# Weston with systemd-login support
-+PACKAGECONFIG[systemd] = ",,systemd dbus"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 30b3485..91df2b7 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -44,8 +44,7 @@ DEPENDS = "${PROTO_DEPS} ${LIB_DEPS} font-util"
+ #          libextmod.so
+ #          libdbe.so
  
- do_install_append() {
- 	# Weston doesn't need the .la files to load modules, so wipe them
+-PACKAGES =+ "${PN}-security-policy \
+-             ${PN}-sdl \
++PACKAGES =+ "${PN}-sdl \
+              ${PN}-fbdev \
+              ${PN}-xvfb \
+              ${PN}-utils \
+@@ -72,7 +71,7 @@ PACKAGES =+ "${PN}-security-policy \
+ SUMMARY_xf86-video-modesetting = "X.Org X server -- modesetting display driver"
+ INSANE_SKIP_xf86-video-modesetting = "xorg-driver-abi"
+ 
+-XSERVER_RRECOMMENDS = "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config xkbcomp"
++XSERVER_RRECOMMENDS = "xkeyboard-config rgb xserver-xf86-config xkbcomp"
+ RRECOMMENDS_${PN} += "${XSERVER_RRECOMMENDS}"
+ RRECOMMENDS_${PN}-xwayland += "${XSERVER_RRECOMMENDS}"
+ RDEPENDS_${PN}-xvfb += "xkeyboard-config"
+@@ -85,7 +84,6 @@ FILES_${PN}-dbg += "${libdir}/xorg/modules/.debug \
+                     ${libdir}/xorg/modules/*/.debug \
+                     ${libdir}/xorg/modules/*/*/.debug \
+                     "
+-FILES_${PN}-security-policy += "${libdir}/xserver/SecurityPolicy"
+ FILES_${PN}-sdl = "${bindir}/Xsdl"
+ FILES_${PN}-fbdev = "${bindir}/Xfbdev"
+ FILES_${PN}-xvfb = "${bindir}/Xvfb"
 -- 
 2.1.4
 
