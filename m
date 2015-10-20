@@ -1,41 +1,42 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 6069675A38
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F15D75A38
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 03:21:25 +0000 (UTC)
-Received: by pabrc13 with SMTP id rc13so6535630pab.0
+	Tue, 20 Oct 2015 03:23:49 +0000 (UTC)
+Received: by pabrc13 with SMTP id rc13so6593625pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 20:21:26 -0700 (PDT)
+	Mon, 19 Oct 2015 20:23:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=YuEssHEXUYAZcP5aAb2WoW9hqhkl5N5nUHrzNUK6vkY=;
-	b=0M/VIJv1WCSp2T/Xu8HJHqSUXaIt1viWrJXJG5ezrMQT07JNXLc3Vke1UMKcWqtLan
-	x13+kEXOO4cOSW+YLlI4SfTr8GQTCLy4l8RhdLxi0/ZQz/11Bm9U+O89mhUd4Gj72q0v
-	aPpPpEJoem6JMnV7Rh4htzsvvnlqT8mcqMj+x+B/4116sykLdHRZGTiuLxEDmjm1jSEL
-	IdUwsO7xfPUTlmxePsilUx7FwZ4xz7y9jcGxi1+1FcjiZQI+BX7XgHgjXhaRvMxKZCjh
-	5tCWpfPn9dmR/Ql/vxnPU+sfDg0bv+ouww+UO/ra+Yy47NDCvapTWiFKvcVcz2N6udie
-	RBWw==
-X-Received: by 10.66.157.135 with SMTP id wm7mr1177902pab.22.1445311286494;
-	Mon, 19 Oct 2015 20:21:26 -0700 (PDT)
+	bh=sD1J4AXug905Pyamc/vQaHcXspOknXKqRONYyaQfXxY=;
+	b=IyPYHQJeJeeCt/zrmnWbW6AL2azxCBWZOhIufJnZqgdM+YLkAPRv5e+h9bkyQKV4XZ
+	NuOXyKf6xfVK63uSeBhs/f8+TYTcI1RzAFViUza/LIgxLvxeNZxg7SDzXJtTpyAW4B7P
+	Ra5RnOiYve+78k0uMhFAHSCPefn7z5/m/hIDGCmpE7OMfXE5iwJdY71zFlBgcpEpc0+Q
+	0knmCHgEBE5ELU5+EmNeysIa1T5RwAO2yZggGCRkiIp+nkq+GsBpoj3gjoJFJLIVK6yp
+	H9NV6lwwnH64VahPRcM88zkJ+/lQO+b3Cg+QKosppkRKMjsAlkt2kkYlhNJwQjqx8zFM
+	TLVg==
+X-Received: by 10.66.221.104 with SMTP id qd8mr1094492pac.155.1445311429605;
+	Mon, 19 Oct 2015 20:23:49 -0700 (PDT)
 Received: from ?IPv6:2601:646:8601:4580:c43a:7500:299d:6c4e?
 	([2601:646:8601:4580:c43a:7500:299d:6c4e])
-	by smtp.gmail.com with ESMTPSA id zi1sm689877pbc.10.2015.10.19.20.21.25
+	by smtp.gmail.com with ESMTPSA id rz7sm699967pbc.7.2015.10.19.20.23.48
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 19 Oct 2015 20:21:26 -0700 (PDT)
+	Mon, 19 Oct 2015 20:23:49 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 9.1 \(3096.4\))
 X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1445291743-6618-5-git-send-email-ross.burton@intel.com>
-Date: Mon, 19 Oct 2015 20:21:24 -0700
-Message-Id: <75DA7EE8-0981-47CA-BF96-22F6F2596CC1@gmail.com>
-References: <1445291743-6618-1-git-send-email-ross.burton@intel.com>
-	<1445291743-6618-5-git-send-email-ross.burton@intel.com>
-To: Ross Burton <ross.burton@intel.com>
+In-Reply-To: <013344f3d3f8c35ecb40bb8282b05d6262927b73.1445010543.git.joshua.lock@collabora.co.uk>
+Date: Mon, 19 Oct 2015 20:23:48 -0700
+Message-Id: <F5A83BC1-2C25-4C65-9298-066627AFF5E8@gmail.com>
+References: <cover.1445010332.git.joshua.lock@collabora.co.uk>
+	<cover.1445010543.git.joshua.lock@collabora.co.uk>
+	<013344f3d3f8c35ecb40bb8282b05d6262927b73.1445010543.git.joshua.lock@collabora.co.uk>
+To: Joshua Lock <joshua.lock@collabora.co.uk>
 X-Mailer: Apple Mail (2.3096.4)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][V2 5/5] subversion: add explicit dependency on file-replacement-native for native builds
+Subject: Re: [PATCH 1/6] systemd: build with compatibility libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,43 +49,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Oct 2015 03:21:26 -0000
-X-Groupsio-MsgNum: 72384
+X-List-Received-Date: Tue, 20 Oct 2015 03:23:51 -0000
+X-Groupsio-MsgNum: 72385
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_069DB0B8-DE40-4AFA-AAF2-5FF8FEB39153";
+	boundary="Apple-Mail=_5DC73692-D3A7-4982-A249-741F0E26E886";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_069DB0B8-DE40-4AFA-AAF2-5FF8FEB39153
+--Apple-Mail=_5DC73692-D3A7-4982-A249-741F0E26E886
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=utf-8
 
 
-> On Oct 19, 2015, at 2:55 PM, Ross Burton <ross.burton@intel.com> =
+> On Oct 16, 2015, at 8:51 AM, Joshua Lock <joshua.lock@collabora.co.uk> =
 wrote:
 >=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
-> meta/recipes-devtools/subversion/subversion_1.8.13.bb | 1 +
-> 1 file changed, 1 insertion(+)
+> There are recipes in the Core metadata that have optional systemd
+> support but expect the old, separate, libsystemd-foo pkg-config files
+> (not the newer unified libsystemd).
 >=20
-> diff --git a/meta/recipes-devtools/subversion/subversion_1.8.13.bb =
-b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
-> index f843b95..9c9bdb1 100644
-> --- a/meta/recipes-devtools/subversion/subversion_1.8.13.bb
-> +++ b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
-> @@ -1,6 +1,7 @@
-> SUMMARY =3D "Subversion (svn) version control system client"
-> SECTION =3D "console/network"
-> DEPENDS =3D "apr-util serf sqlite3 file=E2=80=9D
+> Add a PACKAGECONFIG option to build systemd with the compatibility
+> pc files and default to enabling this option so that we can make use =
+of
+> them in the weston recipe.
+>=20
+> Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+> ---
+> meta/recipes-core/systemd/systemd_225.bb | 3 ++-
+> 1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd_225.bb =
+b/meta/recipes-core/systemd/systemd_225.bb
+> index c2dad58..594c5aa 100644
+> --- a/meta/recipes-core/systemd/systemd_225.bb
+> +++ b/meta/recipes-core/systemd/systemd_225.bb
+> @@ -58,7 +58,7 @@ LDFLAGS_append_libc-uclibc =3D " -lrt"
+>=20
+> GTKDOC_DOCDIR =3D "${S}/docs/"
+>=20
+> -PACKAGECONFIG ??=3D "xz ldconfig \
+> +PACKAGECONFIG ??=3D "xz ldconfig compat \
+>                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', =
+'pam', '', d)} \
+>                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', =
+'xkbcommon', '', d)} \
+>                    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', =
+'selinux', '', d)} \
+> @@ -89,6 +89,7 @@ PACKAGECONFIG[ldconfig] =3D =
+"--enable-ldconfig,--disable-ldconfig,,"
+> PACKAGECONFIG[selinux] =3D =
+"--enable-selinux,--disable-selinux,libselinux"
+> PACKAGECONFIG[valgrind] =3D "ac_cv_header_valgrind_memcheck_h=3Dyes =
+ac_cv_header_valgrind_valgrind_h=3Dyes =
+,ac_cv_header_valgrind_memcheck_h=3Dno =
+ac_cv_header_valgrind_valgrind_h=3Dno ,valgrind"
+> PACKAGECONFIG[qrencode] =3D =
+"--enable-qrencode,--disable-qrencode,qrencode"
+> +PACKAGECONFIG[compat] =3D =
+"--enable-compat-libs,--disable-compat-libs=E2=80=9D
 
-It already has file in DEPENDS which means native version will get =
-file-native on dependencies, right ?
+I would rather expect this to not be there in first place, if its needed =
+for some, then lets not enable it by default
+what would it take to fix weston ?
 
-> +DEPENDS_append_class-native =3D " file-replacement-native"
-> RDEPENDS_${PN} =3D "serf"
-> LICENSE =3D "Apache-2"
-> HOMEPAGE =3D "http://subversion.tigris.org"
+>=20
+> CACHED_CONFIGUREVARS +=3D "ac_cv_path_KILL=3D${base_bindir}/kill"
+> CACHED_CONFIGUREVARS +=3D "ac_cv_path_KMOD=3D${base_bindir}/kmod"
 > --
 > 2.1.4
 >=20
@@ -95,7 +125,7 @@ file-native on dependencies, right ?
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_069DB0B8-DE40-4AFA-AAF2-5FF8FEB39153
+--Apple-Mail=_5DC73692-D3A7-4982-A249-741F0E26E886
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -106,9 +136,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlYlszUACgkQuwUzVZGdMxQOxwCePOQaLDOGliWXL5Nd+Rqs6a7h
-h2kAoIqCrgpkPI6Bvc+ZwKS1vIFaSx4w
-=RPrs
+iEYEARECAAYFAlYls8QACgkQuwUzVZGdMxSggACdG1HDVLHyjl82QiJ4dAYf9/re
+NI0An0Fkb97YM8Z62GzkJR4YfZqsqGSf
+=Uxai
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_069DB0B8-DE40-4AFA-AAF2-5FF8FEB39153--
+--Apple-Mail=_5DC73692-D3A7-4982-A249-741F0E26E886--
