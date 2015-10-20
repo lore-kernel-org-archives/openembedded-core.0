@@ -1,41 +1,24 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id DA87576F8C
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 855DC76F8C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 09:37:37 +0000 (UTC)
-Received: by wicfv8 with SMTP id fv8so19558728wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 02:37:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=0T0tpsa325g3rQJEwyDZwKMq6zYy7pKCTEb/PmK3q8s=;
-	b=LHH3j3Wc9zoWDemT4Lat+DKFUdv37pvlF6hA6WryMQ2qFRRRFZXzyyByxCvAcfN00o
-	T5Xc3AHj9P2eEQ4fbMG0VpbtNLxAniklllenhjK/uRnDas3pEAriGUMsmlwl0Jwa5UfD
-	7l/Y6wVH3cjgpDOjkmhuudxVz2l6kD+CKkNEcvuropuRbpBWRF7H2luoO4qQiVBsA3O+
-	ifhuWou17jZfHyZdK37r3F8JUysaepxOoZdYWHRTreX2ElyR10KX1+mVK/O56dMQqNca
-	eO2GYCZ6/Yo3OI9DLw8QqXvDk45rAtG+qja60pQfBGGo7pppqbtY5rdCUXp8G8cxIoNi
-	gLIg==
-X-Gm-Message-State: ALoCoQmHtLPPCcOe4KC9KAZ1GRim+EA5bA2CN2pdguy7ui9/ByqbCxVPaA4pbzJ33pRF6ZapMXrA
-X-Received: by 10.180.210.234 with SMTP id mx10mr3374151wic.31.1445333857137; 
-	Tue, 20 Oct 2015 02:37:37 -0700 (PDT)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by smtp.gmail.com with ESMTPSA id r9sm2651583wjz.35.2015.10.20.02.37.35
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 20 Oct 2015 02:37:36 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.1 \(3096.4\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAP71Wjx+xcW0qG62zxskUGY_BbWCS1Yk9OvJQx+fKooKKKyuvg@mail.gmail.com>
-Date: Tue, 20 Oct 2015 11:37:35 +0200
-Message-Id: <65454D5E-98C5-4BA7-828B-05BBD56FB3E5@dominion.thruhere.net>
-References: <CAP71Wjx+xcW0qG62zxskUGY_BbWCS1Yk9OvJQx+fKooKKKyuvg@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-X-Mailer: Apple Mail (2.3096.4)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: How to handle mesa customization in BSP layers
+	Tue, 20 Oct 2015 09:40:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id DF8F3608B90
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1445010332.git.joshua.lock@collabora.co.uk>
+	<cover.1445010543.git.joshua.lock@collabora.co.uk>
+	<013344f3d3f8c35ecb40bb8282b05d6262927b73.1445010543.git.joshua.lock@collabora.co.uk>
+	<F5A83BC1-2C25-4C65-9298-066627AFF5E8@gmail.com>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+Message-ID: <56260C1D.9020901@collabora.co.uk>
+Date: Tue, 20 Oct 2015 10:40:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <F5A83BC1-2C25-4C65-9298-066627AFF5E8@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/6] systemd: build with compatibility libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,41 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Oct 2015 09:37:41 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 20 Oct 2015 09:40:50 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 20/10/15 04:23, Khem Raj wrote:
+>
+>> On Oct 16, 2015, at 8:51 AM, Joshua Lock <joshua.lock@collabora.co.uk> wrote:
+>>
+>> There are recipes in the Core metadata that have optional systemd
+>> support but expect the old, separate, libsystemd-foo pkg-config files
+>> (not the newer unified libsystemd).
+>>
+>> Add a PACKAGECONFIG option to build systemd with the compatibility
+>> pc files and default to enabling this option so that we can make use of
+>> them in the weston recipe.
+>>
+>> Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+>> ---
+>> meta/recipes-core/systemd/systemd_225.bb | 3 ++-
+>> 1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
+>> index c2dad58..594c5aa 100644
+>> --- a/meta/recipes-core/systemd/systemd_225.bb
+>> +++ b/meta/recipes-core/systemd/systemd_225.bb
+>> @@ -58,7 +58,7 @@ LDFLAGS_append_libc-uclibc = " -lrt"
+>>
+>> GTKDOC_DOCDIR = "${S}/docs/"
+>>
+>> -PACKAGECONFIG ??= "xz ldconfig \
+>> +PACKAGECONFIG ??= "xz ldconfig compat \
+>>                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
+>>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
+>>                     ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+>> @@ -89,6 +89,7 @@ PACKAGECONFIG[ldconfig] = "--enable-ldconfig,--disable-ldconfig,,"
+>> PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
+>> PACKAGECONFIG[valgrind] = "ac_cv_header_valgrind_memcheck_h=yes ac_cv_header_valgrind_valgrind_h=yes ,ac_cv_header_valgrind_memcheck_h=no ac_cv_header_valgrind_valgrind_h=no ,valgrind"
+>> PACKAGECONFIG[qrencode] = "--enable-qrencode,--disable-qrencode,qrencode"
+>> +PACKAGECONFIG[compat] = "--enable-compat-libs,--disable-compat-libs”
+>
+> I would rather expect this to not be there in first place, if its needed for some, then lets not enable it by default
+> what would it take to fix weston ?
 
-> Op 20 okt. 2015, om 11:32 heeft Nicolas Dechesne =
-<nicolas.dechesne@linaro.org> het volgende geschreven:
->=20
-> hi there,
->=20
-> in the meta-qcom BSP layer, I need to customize mesa to enable
-> Gallium/freedreno driver which is not enabled in OE-core by default. I
-> have been using a bbappend , see [1] so far.
->=20
-> However it was reported by Koen that his is causing issues, at least
-> in Angstrom, though it's not specific to this distro.. See github
-> comments on [2].
->=20
-> The issue is that mesa is arch specific, not machine specific. So if
-> you start mixing machines from the same arch, we are getting
-> unexpected/wrong rebuilds.
->=20
-> How am I supposed to handle that properly in a BSP layer? I don't
-> think that enabling the freedreno driver should be a distro config, am
-> i right?
+Very little effort, it seems - the backport for Weston is trivial.
 
-I agree that making it a DISTRO thing is not the right answer, but it is =
-exactly what I ended up doing: =
-https://github.com/Angstrom-distribution/meta-angstrom/commit/549d58dd00cd=
-0683d92b942e9574ef0d1e347e51
+I'll prepare a v2 series where this PACKAGECONFIG is added but not 
+enabled by default and add an extra change to backport the weston 
+configure.ac update for the new libsystemd pkg-config.
 
-In this specific case I think we should enable freedreno for armv7/armv8 =
-in OE-core, but the problem remains for other recipes like this.
+Regards,
 
-regards,
+Joshua
 
-Koen=
 
