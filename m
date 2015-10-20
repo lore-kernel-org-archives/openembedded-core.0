@@ -1,53 +1,37 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 6315E60088
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id D069476AE2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 17:14:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 15C502E71E
+	Tue, 20 Oct 2015 19:40:38 +0000 (UTC)
+Received: by wicfv8 with SMTP id fv8so44642386wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 19:14:17 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id aNCrvVTmwe7Q
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 19:14:16 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 7926F2E4BF
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 19:14:16 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 625711590
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 19:14:16 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 56D9E13D9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 19:14:16 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 53D2834009
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 19:14:16 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id t9KHEGYj008676
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 19:14:16 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id t9KHEGHs008675
-	for openembedded-core@lists.openembedded.org;
-	Tue, 20 Oct 2015 19:14:16 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Tue, 20 Oct 2015 12:40:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=rucddo+3u2vvoy5GYEBt3CL4u2rqFSEs46+fekRcfFI=;
+	b=gXPjIQsgodPx9e4bZlUX9fhvq1WWxyvGnfBuWxukf4qkTcB4l9/DlI+OBrAJZIHsM1
+	XKIKkkgsI0+yslAZh4d3kYPfjYoiTvoi2q0Xxhs2q3hvvqS6X2qWjjGQwF3X3kyodRBN
+	JZmGigZ4+h5zerIa15cBP9nHp5Pfac6eqVOm+IccEQ/488TZj/tfyT/8F+MvxeZn4Zht
+	v4RZw0JUp9a1gCwNcAmRKGEMXeKJGlpEmuCcMcD2MmBhGiaatXLPAUq9t80xOWfeSkGv
+	B943EPotu/NwWtDoOj71v5nW/67Iwe4w3zD1uKkEVUK1fCs1LRnTkNl6wsZD8bX1Wl3m
+	XkdA==
+X-Gm-Message-State: ALoCoQleHtwDmviQzg6+OLqI6xbBLTUJpbSFO5Gw5OAixJ21l5TFSb3BSeHulxKHUWEOIyPO/pix
+X-Received: by 10.194.240.4 with SMTP id vw4mr6193672wjc.89.1445370038330;
+	Tue, 20 Oct 2015 12:40:38 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	gd11sm257966wic.20.2015.10.20.12.40.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 20 Oct 2015 12:40:37 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Oct 2015 19:14:14 +0200
-Message-Id: <86b3e3d4931b4eb17db6bfdfb3184e576156e382.1445361177.git.pkj@axis.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1445361177.git.pkj@axis.com>
-References: <cover.1445361177.git.pkj@axis.com>
-In-Reply-To: <cover.1445361177.git.pkj@axis.com>
-References: <cover.1445361177.git.pkj@axis.com>
-Subject: [PATCH 1/1] useradd_base.bbclass: Do not warn without a reason
+Date: Tue, 20 Oct 2015 20:32:57 +0100
+Message-Id: <1445369579-14839-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/3] lib/oe/rootfs: tell intercepts where the native sysroot is
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,53 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Oct 2015 17:14:21 -0000
+X-List-Received-Date: Tue, 20 Oct 2015 19:40:39 -0000
 
-In c0da4270c76375a7a8cbcc09319fe4570ebbc5bd two bbwarn were changed to
-bbnote for the case where an added user or group already exists. The
-same should have been done for groupmems, groupdel and userdel as well
-since the warnings that are currently generated are superflouous.
+Some intercepts may want to access files in the native sysroot that are not on
+$PATH (such as something in $libexecdir) but any use of STAGING_DIR_NATIVE in
+the postinst that calls the intercept will be "baked" into the package, so if
+sstate is reused it will use paths that may not exist.
 
-The two remaining similar bbwarn for groupmod and usermod are left as
-is since there they actually make sense.
+Solve this by exporting the location of the native sysroot in the environment so
+the postinst and intercept can use an environment variable instead of a bitbake
+variable.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/useradd_base.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/lib/oe/rootfs.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.bbclass
-index 802f3a1..ab3cd35 100644
---- a/meta/classes/useradd_base.bbclass
-+++ b/meta/classes/useradd_base.bbclass
-@@ -104,7 +104,7 @@ perform_groupmems () {
- 			sleep $count
- 		done
- 	else
--		bbwarn "${PN}: group $groupname already contains $username, not re-adding it"
-+		bbnote "${PN}: group $groupname already contains $username, not re-adding it"
- 	fi
- 	if test "x$gshadow" = "xno"; then
- 		rm -f $rootdir${sysconfdir}/gshadow
-@@ -136,7 +136,7 @@ perform_groupdel () {
- 			sleep $count
- 		done
- 	else
--		bbwarn "${PN}: group $groupname doesn't exist, not removing it"
-+		bbnote "${PN}: group $groupname doesn't exist, not removing it"
- 	fi
- }
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 4e81263..ff29083 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -278,6 +278,7 @@ class Rootfs(object):
  
-@@ -164,7 +164,7 @@ perform_userdel () {
- 		       sleep $count
- 	       done
- 	else
--		bbwarn "${PN}: user $username doesn't exist, not removing it"
-+		bbnote "${PN}: user $username doesn't exist, not removing it"
- 	fi
- }
+         bb.note("Running intercept scripts:")
+         os.environ['D'] = self.image_rootfs
++        os.environ['STAGING_DIR_NATIVE'] = self.d.getVar('STAGING_DIR_NATIVE', True)
+         for script in os.listdir(intercepts_dir):
+             script_full = os.path.join(intercepts_dir, script)
  
 -- 
-2.1.0
+2.1.4
 
 
