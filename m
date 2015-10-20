@@ -1,36 +1,37 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id A1AC976104
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 676C776104
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 20:55:54 +0000 (UTC)
-Received: by wicll6 with SMTP id ll6so46784173wic.1
+	Tue, 20 Oct 2015 21:28:26 +0000 (UTC)
+Received: by wijp11 with SMTP id p11so66993954wij.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 13:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=canZEAZlWu+jVVwWbs3On5x9J2nFV0zTbZsCxdvppMk=;
-	b=Y2b70r6AFyab/wZq3vobZ1ACVO90DiRXvEDs2gVlSCNq9y9ZUAfsTtELqjB/5ePrph
-	gGufq0f7GZSGYIM0Z+nzt0jutXI3OHS8SImYN2NfNJ8V/4Dy85fedJfQCFxivl3meWXD
-	/yxvcROgl3bXOWtbBOUMx0/aR9ba8ByCm6U8U0Z2FCzwUvaJ6XTTJ/farqUHcssbxKzb
-	14fRc9786seP9euh7w03oHhhhpy93a5fpUt4tlUAlxHyibfX3zdoBBWqYrveP+KnxiSw
-	vnC7OWoq+uhtwxyoGq2FMiWTmzORCvIwZVaSGCvfyLVH8qIKAUciI2L9GGwBcdVQmZC9
-	Dogg==
-MIME-Version: 1.0
-X-Received: by 10.194.23.2 with SMTP id i2mr6489731wjf.106.1445374554112; Tue,
-	20 Oct 2015 13:55:54 -0700 (PDT)
-Received: by 10.194.140.38 with HTTP; Tue, 20 Oct 2015 13:55:54 -0700 (PDT)
-In-Reply-To: <1445332598.17974.142.camel@linuxfoundation.org>
-References: <1445281177-3309-1-git-send-email-armccurdy@gmail.com>
-	<1445281177-3309-5-git-send-email-armccurdy@gmail.com>
-	<1445332598.17974.142.camel@linuxfoundation.org>
-Date: Tue, 20 Oct 2015 13:55:54 -0700
-Message-ID: <CAJ86T=VpnYinWT8oU_j9EayUzhor13y74DuRA+5zV=824yxmBg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] tune-atom.inc: include tune-bonnell.inc instead of tune-core2.inc
+	Tue, 20 Oct 2015 14:28:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=rx0epXe25IZeEAHkTBcYUG1B3adP07Pan+cX7dPzQZ8=;
+	b=e+0Y/GkFOuLvSYuJl6vEnDEx919eB7T9rcH5bxeusmST7dWFA6BO6zJuc5Z9699/sN
+	8NRL0zwHSHFn2xxrII7hHaxiCpCOS7KFyYPgY2Bom7X/cKOLcmQPRgArWrz2W4EnA9KC
+	SsGZBPgzXpfUDImTPHGuOyS4DCMfl4aeRTIw3xoAWHhMEdp1vjcqoNknv7Z7Q32vH7/v
+	mqkbUbpECE5D76J/l6XsH2xM9CtKI2feVTWG0wXIrltTvW5Qgze71zVyHqStBi35HqFf
+	qlXQ87X8KEa64lcHiAVAqppTbPOZFlYGo8Ce+vcxGJtBR7a9prltJalEW2axnlySEe/o
+	r2bA==
+X-Gm-Message-State: ALoCoQlRcZIrpVk5x+zUu9u6BpXT7DfwkVcjXJ0b6BJk8TfeNd1eF2loAnxPlhCwVo1VmPbnUAPU
+X-Received: by 10.194.19.169 with SMTP id g9mr6361240wje.64.1445376506507;
+	Tue, 20 Oct 2015 14:28:26 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id w1sm6140784wjz.37.2015.10.20.14.28.25
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 20 Oct 2015 14:28:25 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Oct 2015 22:20:48 +0100
+Message-Id: <1445376048-30316-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] qemu: disable Valgrind
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,66 +44,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Oct 2015 20:55:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 20 Oct 2015 21:28:29 -0000
 
-On Tue, Oct 20, 2015 at 2:16 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2015-10-19 at 11:59 -0700, Andre McCurdy wrote:
->> Use 'atom' as an alias for the first generation Intel Atom CPUs.
->> ---
->>  meta/conf/machine/include/tune-atom.inc | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/conf/machine/include/tune-atom.inc b/meta/conf/machine/include/tune-atom.inc
->> index 5e1bb74..24cd676 100644
->> --- a/meta/conf/machine/include/tune-atom.inc
->> +++ b/meta/conf/machine/include/tune-atom.inc
->> @@ -1,2 +1,2 @@
->> -# Atom tunings are the same as core2 for now...
->> -require conf/machine/include/tune-core2.inc
->> +# Alias for the first generation of Intel Atom CPUs.
->> +require conf/machine/include/tune-bonnell.inc
->
-> This is actually pretty nasty to anyone who uses package feeds or
-> packages since all of a sudden, the system rebuilds with a completely
-> different package architecture. Not sure we can take this change for
-> that reason.
+Qemu has an automatic dependency on valgrind which cannot be disabled, which
+causes non-deterministic builds and build failures.  As Valgrind wasn't enabled
+previously make this deterministic by forcibly disabling it.
 
-OK. I was thinking the comment in tune-atom.inc "Atom tunings are the
-same as core2 FOR NOW..." gave people fair warning that tune-atom.inc
-might not remain an alias for tune-core2.inc forever, but no problem
-to drop this patch.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/qemu/qemu/no-valgrind.patch | 19 +++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.4.0.bb          |  1 +
+ 2 files changed, 20 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/no-valgrind.patch
 
-Another approach might be to drop tune-atom.inc altogether. Atom is
-now ambiguous in terms of defining a CPU architecture and it hasn't
-been a documented gcc x86 tuning option since gcc 4.8
+diff --git a/meta/recipes-devtools/qemu/qemu/no-valgrind.patch b/meta/recipes-devtools/qemu/qemu/no-valgrind.patch
+new file mode 100644
+index 0000000..91f7280
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/no-valgrind.patch
+@@ -0,0 +1,19 @@
++There isn't an option to enable or disable valgrind support, so disable it to avoid non-deterministic builds.
++
++Upstream-Status: Inappropriate
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++diff --git a/configure b/configure
++index b3c4f51..4d3929e 100755
++--- a/configure
+++++ b/configure
++@@ -4193,9 +4192,0 @@ valgrind_h=no
++-cat > $TMPC << EOF
++-#include <valgrind/valgrind.h>
++-int main(void) {
++-  return 0;
++-}
++-EOF
++-if compile_prog "" "" ; then
++-    valgrind_h=yes
++-fi
+diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0.bb b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
+index 59b1788..1505b80 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.4.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
+@@ -9,6 +9,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://smc91c111_fix1.patch \
+             file://smc91c111_fix2.patch \
+             file://smc91c111_fix3.patch \
++            file://no-valgrind.patch \
+            "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "186ee8194140a484a455f8e3c74589f4"
+-- 
+2.1.4
 
-  https://gcc.gnu.org/onlinedocs/gcc-4.8.5/gcc/i386-and-x86-64-Options.html#i386-and-x86-64-Options
-  https://gcc.gnu.org/onlinedocs/gcc-4.9.3/gcc/i386-and-x86-64-Options.html#i386-and-x86-64-Options
-  https://gcc.gnu.org/onlinedocs/gcc-5.2.0/gcc/x86-Options.html#x86-Options
-
-> I'd also like to understand how much of a difference these specific
-> tunes actually give. I know the Intel people have been trying to focus
-> on a smaller number of tunes that work well on the majority of platforms
-> rather than micro optimising the tunes.
->
-> Are there some benchmark numbers or other analysis which shows these
-> tunes as being more effective?
-
-Not that I'm aware of. My own tests suggest that the benefits of
-bonnell -vs- core2 tuning on a first generation Atom are pretty
-unspectacular (maybe ~0 to 5 % performance increase and ~5% increase
-in code size). I don't have a Silvermont board. This patch set was
-more about enabling further experiments though, so if solid benchmark
-improvements are a prerequisite then this patch set isn't ready to
-merge.
-
->
-> Cheers,
->
-> Richard
->
->
->
 
