@@ -1,26 +1,34 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 96706770CD
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id D8DF676F8C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 09:25:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9K9Pr03017328
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 20 Oct 2015 09:32:54 +0000 (UTC)
+Received: by qkfm62 with SMTP id m62so4686381qkf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 02:25:54 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 20 Oct 2015 02:25:53 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Oct 2015 02:25:50 -0700
-Message-ID: <3308987e7fd99e5ebf9e812966c5cf3719ce2271.1445333081.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1445333081.git.liezhi.yang@windriver.com>
-References: <cover.1445333081.git.liezhi.yang@windriver.com>
+	Tue, 20 Oct 2015 02:32:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+	:content-type;
+	bh=KIQExz9dxn5obvBb3GAMU/eVIAh5JFgPVq9Kf69hPaI=;
+	b=Ov5J50nqT5JVBuScQHLERCH3i01qN4q+9nb17btEJdTRg1NIG/XCaFGH7Ft0iqmFst
+	3m80aA/k6tL9URQrZjK9tFU0YYsD3+N2HnNPdblOfthME7Qh7jQWXgNKWarMufRcdIOx
+	KCWq4zR8XX4Z/XXAsDIhBNI4rpE0MyPR/JVHjTa5NG3SVz7Z2tm0CVmJbChJElninf47
+	kmOc/ajhBqLwBz9nzSqNwkRDQWFarGRPFR9OuiuZ5uzIvMXjIj5OGrbYWANrNFSDzYae
+	A4bWTj5fqpVSDtGSxZJLl+vJjSPx76TG2/in+7PSoIMN424/gLdiaHAUUtP5lz5HqL6Z
+	cUTg==
+X-Gm-Message-State: ALoCoQnaGwSdVC/XlkY7wLCJNnxzt3+6MBOZQOu14lPLpYtELWjJkWenKbxQnghst2RDqmd/Qm6f
+X-Received: by 10.55.31.232 with SMTP id n101mr2389163qkh.107.1445333575000;
+	Tue, 20 Oct 2015 02:32:55 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/3] prserv.bbclass: remove it since it is null
+Received: by 10.140.98.55 with HTTP; Tue, 20 Oct 2015 02:32:35 -0700 (PDT)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Tue, 20 Oct 2015 11:32:35 +0200
+Message-ID: <CAP71Wjx+xcW0qG62zxskUGY_BbWCS1Yk9OvJQx+fKooKKKyuvg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: How to handle mesa customization in BSP layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Oct 2015 09:25:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Oct 2015 09:32:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/package.bbclass |    1 -
- meta/classes/prserv.bbclass  |    2 --
- 2 files changed, 3 deletions(-)
- delete mode 100644 meta/classes/prserv.bbclass
+hi there,
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 09230b5..a86b680 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -39,7 +39,6 @@
- #    packaging steps
- 
- inherit packagedata
--inherit prserv
- inherit chrpath
- 
- # Need the package_qa_handle_error() in insane.bbclass
-diff --git a/meta/classes/prserv.bbclass b/meta/classes/prserv.bbclass
-deleted file mode 100644
-index 139597f..0000000
---- a/meta/classes/prserv.bbclass
-+++ /dev/null
-@@ -1,2 +0,0 @@
--
--
--- 
-1.7.9.5
+in the meta-qcom BSP layer, I need to customize mesa to enable
+Gallium/freedreno driver which is not enabled in OE-core by default. I
+have been using a bbappend , see [1] so far.
 
+However it was reported by Koen that his is causing issues, at least
+in Angstrom, though it's not specific to this distro.. See github
+comments on [2].
+
+The issue is that mesa is arch specific, not machine specific. So if
+you start mixing machines from the same arch, we are getting
+unexpected/wrong rebuilds.
+
+How am I supposed to handle that properly in a BSP layer? I don't
+think that enabling the freedreno driver should be a distro config, am
+i right?
+
+thanks
+nico
+
+[1] https://github.com/ndechesne/meta-qcom/blob/master/recipes-graphics/mesa/mesa_10.%25.bbappend
+[2] https://github.com/ndechesne/meta-qcom/commit/dc00771aaba1051a3c679dd8f782089b499cbdbb
 
