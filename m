@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 68B89770DC
+	by mail.openembedded.org (Postfix) with ESMTP id 6AAAD770DE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 09:47:31 +0000 (UTC)
+	Tue, 20 Oct 2015 09:47:30 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 1B581608F0E
+	(Authenticated sender: joshuagl) with ESMTPSA id 37DBF608EF7
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Oct 2015 10:47:12 +0100
-Message-Id: <f8642636a68071a0e33fa74d61fcb9cea566e5d7.1445334356.git.joshua.lock@collabora.co.uk>
+Date: Tue, 20 Oct 2015 10:47:09 +0100
+Message-Id: <b70ac0755830d8ce2f2c08dee89b7c965c4f39a4.1445334356.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445334356.git.joshua.lock@collabora.co.uk>
 References: <cover.1445334356.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445334356.git.joshua.lock@collabora.co.uk>
 References: <cover.1445334356.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v2 4/7] systemd: make dbus an optional build time dependency
+Subject: [PATCH v2 1/7] systemd: add PACKAEGCONFIG to build with compatibility libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,33 +29,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 20 Oct 2015 09:47:33 -0000
 
-The dbus buildtime dependency is only required in order to build
-dbus related tests in modern systemd, make this a PACKAGECONFIG
-option.
+Systemd < 209 shipped separate pc files for various interfaces, these
+can still be generated for compatibility with code using the older
+interfaces.
+
+Add a PACKAGECONFIG option to build systemd with the compatibility
+pc files.
 
 Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+
+FIX: systemd-compat
 ---
- meta/recipes-core/systemd/systemd_225.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd_225.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
-index 9388046..ac3e9b8 100644
+index c2dad58..9388046 100644
 --- a/meta/recipes-core/systemd/systemd_225.bb
 +++ b/meta/recipes-core/systemd/systemd_225.bb
-@@ -18,7 +18,7 @@ PROVIDES = "udev"
- 
- PE = "1"
- 
--DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup qemu-native util-linux"
-+DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline libcap libcgroup qemu-native util-linux"
- 
- SECTION = "base/shell"
- 
-@@ -90,6 +90,7 @@ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
+@@ -89,6 +89,7 @@ PACKAGECONFIG[ldconfig] = "--enable-ldconfig,--disable-ldconfig,,"
+ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
  PACKAGECONFIG[valgrind] = "ac_cv_header_valgrind_memcheck_h=yes ac_cv_header_valgrind_valgrind_h=yes ,ac_cv_header_valgrind_memcheck_h=no ac_cv_header_valgrind_valgrind_h=no ,valgrind"
  PACKAGECONFIG[qrencode] = "--enable-qrencode,--disable-qrencode,qrencode"
- PACKAGECONFIG[compat] = "--enable-compat-libs,--disable-compat-libs"
-+PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
++PACKAGECONFIG[compat] = "--enable-compat-libs,--disable-compat-libs"
  
  CACHED_CONFIGUREVARS += "ac_cv_path_KILL=${base_bindir}/kill"
  CACHED_CONFIGUREVARS += "ac_cv_path_KMOD=${base_bindir}/kmod"
