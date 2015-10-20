@@ -1,35 +1,41 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DCA976FDE
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 12CA876FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 03:38:12 +0000 (UTC)
-Received: by wicll6 with SMTP id ll6so25821769wic.0
+	Tue, 20 Oct 2015 04:03:12 +0000 (UTC)
+Received: by pasz6 with SMTP id z6so7527842pas.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2015 20:38:12 -0700 (PDT)
+	Mon, 19 Oct 2015 21:03:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=5WP7iWQaUZt9d9XvOgiJxCv4EEBFkxAdnDCXHPJOYs4=;
-	b=hJpKgDMbQSLOFJDqyooGJtBLK1lPUtKc5LUit5H+b0NKKxDcGwmEiMkt5Up21RCYLA
-	WS78jA4LwlCZe9zXA0FzH13T1XJgmYVPhnTabLpPwaeYWmcgysQ/y7rmKWxyVCey3dve
-	L++XmIbkve2L0TxzUvgJFYpIwaUkB0W1S9kGsJeNopBoOeCGh8g04WldDWpNZHnvheQm
-	+Bpy5iqPXndQDQJ7VBrWKMKPvW0UzvwuvsFoZu4tLt4sNQjtr9hvKsXbtRlf+mKkTHhF
-	r0IvTwszXUuoyiQZm6ZQFkxP2DizG0UwmxVgwksGPn4L8rr9g9Dj7mJ0YwhVuRBuK4Ow
-	w4iA==
-MIME-Version: 1.0
-X-Received: by 10.194.62.112 with SMTP id x16mr1142816wjr.132.1445312292481;
-	Mon, 19 Oct 2015 20:38:12 -0700 (PDT)
-Received: by 10.194.140.38 with HTTP; Mon, 19 Oct 2015 20:38:12 -0700 (PDT)
-In-Reply-To: <3B495823-4B5B-4DC7-8718-66578F037D27@gmail.com>
-References: <1445309772-4373-1-git-send-email-armccurdy@gmail.com>
-	<3B495823-4B5B-4DC7-8718-66578F037D27@gmail.com>
-Date: Mon, 19 Oct 2015 20:38:12 -0700
-Message-ID: <CAJ86T=VAuc_ZHEGWe4Q7fdkeYZ1KyrZidu3805qc_cBwNnDqsg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python: don't append -D__SOFTFP__ to TARGET_CC_ARCH for armv6/armv7a
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=D21VeEj+KbvSAIFkDPbo2hKC+O/J+eyaVPIfQ8kc8k8=;
+	b=F6x2t/4XohtZtPeW4Xmt/qzhKcRgLiLS2xb1xTdiDs5ewG8YIfBAb9e9yaUC5zg53z
+	mfyHKobZMwSD7t+fmhaI+NvVtsEl2aZPKSLRxCuvnKuxB1eGCyo4mj9mOsLp+CfFeSNV
+	edKjPDFBKOnH7/wBMYIZUfVaPzMFnwk+cDBunpKEJokLJfFIKIXXEddY1NVa5V4sPzSU
+	mseeeJA0QItOkAR+7xTHzzFhnA8oKbo2iVMYL8pnmVq5Sij+MkroTmaYSvTm2+eItC6m
+	qzM4IkNvirJXWxhoUCVxwHOr1SIBO5evtgI4+9bbIt5zeVKGQYNFPa4S8hGqGexe0oRt
+	rWPg==
+X-Received: by 10.66.231.103 with SMTP id tf7mr1285771pac.85.1445313792732;
+	Mon, 19 Oct 2015 21:03:12 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:c43a:7500:299d:6c4e?
+	([2601:646:8601:4580:c43a:7500:299d:6c4e])
+	by smtp.gmail.com with ESMTPSA id sz9sm832992pab.13.2015.10.19.21.03.11
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 19 Oct 2015 21:03:12 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.1 \(3096.4\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1445268589-104714-2-git-send-email-mark.hatle@windriver.com>
+Date: Mon, 19 Oct 2015 21:03:03 -0700
+Message-Id: <9DDEC8CD-9064-4CAC-9B89-A2B3037BD559@gmail.com>
+References: <1445268589-104714-1-git-send-email-mark.hatle@windriver.com>
+	<1445268589-104714-2-git-send-email-mark.hatle@windriver.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+X-Mailer: Apple Mail (2.3096.4)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gcc-5.2: Fix various _FOR_BUILD and related variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,83 +48,220 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Oct 2015 03:38:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 20 Oct 2015 04:03:13 -0000
+X-Groupsio-MsgNum: 72387
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_5D90E05C-ECE4-46F1-B55C-EFE4A9E72367";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_5D90E05C-ECE4-46F1-B55C-EFE4A9E72367
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On Mon, Oct 19, 2015 at 8:20 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Oct 19, 2015, at 7:56 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> Remove obsolete hack which seems to date back to (at least) 2009. It's
->> potentially harmful as python TARGET_CC_ARCH flags can leak through to
->> other packages via the sysroot _sysconfigdata.py.
->>
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->> meta/recipes-devtools/python/python3_3.4.3.bb | 5 +----
->> meta/recipes-devtools/python/python_2.7.9.bb  | 5 -----
->> 2 files changed, 1 insertion(+), 9 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipe=
-s-devtools/python/python3_3.4.3.bb
->> index f61d278..a33f10f 100644
->> --- a/meta/recipes-devtools/python/python3_3.4.3.bb
->> +++ b/meta/recipes-devtools/python/python3_3.4.3.bb
->> @@ -56,10 +56,7 @@ CACHED_CONFIGUREVARS =3D "ac_cv_have_chflags=3Dno \
->>                 ac_cv_file__dev_ptmx=3Dyes \
->>                 ac_cv_file__dev_ptc=3Dno \
->> "
->> -# The 3 lines below are copied from the libffi recipe, ctypes ships its=
- own copy of the libffi sources
->> -#Somehow gcc doesn't set __SOFTFP__ when passing -mfloatabi=3Dsoftp :(
->> -TARGET_CC_ARCH_append_armv6 =3D " -D__SOFTFP__"
->> -TARGET_CC_ARCH_append_armv7a =3D " -D__SOFTFP__=E2=80=9D
->
-> this is OK although, it would be interesting to know if you build any mod=
-ules that used ctypes.so
 
--D__SOFTFP__ shows up unexpectedly on the gcc command line when
-building gpsd from meta-oe.
+> On Oct 19, 2015, at 8:29 AM, Mark Hatle <mark.hatle@windriver.com> =
+wrote:
+>=20
+> When doing a FOR_BUILD thing, you have to override CFLAGS with
+> CFLAGS_FOR_BUILD. And if you use C++, you also have to override
+> CXXFLAGS with CXXFLAGS_FOR_BUILD.
+> Without this, when building for mingw, you end up trying to use
+> the mingw headers for a host build.
+>=20
+> The same goes for other variables as well, such as CPPFLAGS,
+> CPP, and GMPINC.
 
-> even if it did work it seems wrong to pass this flag atleast it should ch=
-eck for callconvention=3Dhard
->
->> +
->
->> TARGET_CC_ARCH +=3D "-DNDEBUG -fno-inline"
->> EXTRA_OEMAKE +=3D "CROSS_COMPILE=3Dyes"
->> EXTRA_OECONF +=3D "CROSSPYTHONPATH=3D${STAGING_LIBDIR_NATIVE}/python${PY=
-THON_MAJMIN}/lib-dynload/ --without-ensurepip"
->> diff --git a/meta/recipes-devtools/python/python_2.7.9.bb b/meta/recipes=
--devtools/python/python_2.7.9.bb
->> index f7e2f27..bc20417 100644
->> --- a/meta/recipes-devtools/python/python_2.7.9.bb
->> +++ b/meta/recipes-devtools/python/python_2.7.9.bb
->> @@ -34,11 +34,6 @@ inherit autotools multilib_header python-dir pythonna=
-tive
->>
->> CONFIGUREOPTS +=3D " --with-system-ffi "
->>
->> -# The 3 lines below are copied from the libffi recipe, ctypes ships its=
- own copy of the libffi sources
->> -#Somehow gcc doesn't set __SOFTFP__ when passing -mfloatabi=3Dsoftp :(
->> -TARGET_CC_ARCH_append_armv6 =3D " -D__SOFTFP__"
->> -TARGET_CC_ARCH_append_armv7a =3D " -D__SOFTFP__"
->> -
->> # The following is a hack until we drop ac_cv_sizeof_off_t from site fil=
-es
->> EXTRA_OECONF +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', =
-'ac_cv_sizeof_off_t=3D8', '', d)} ac_cv_file__dev_ptmx=3Dyes ac_cv_file__de=
-v_ptc=3Dno"
->>
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+this is ok to install.
 
+>=20
+> Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+> meta/recipes-devtools/gcc/gcc-5.2.inc              |   1 +
+> .../gcc/gcc-5.2/0042-cxxflags-for-build.patch      | 123 =
++++++++++++++++++++++
+> 2 files changed, 124 insertions(+)
+> create mode 100644 =
+meta/recipes-devtools/gcc/gcc-5.2/0042-cxxflags-for-build.patch
+>=20
+> diff --git a/meta/recipes-devtools/gcc/gcc-5.2.inc =
+b/meta/recipes-devtools/gcc/gcc-5.2.inc
+> index f6673e6..a6b385a 100644
+> --- a/meta/recipes-devtools/gcc/gcc-5.2.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-5.2.inc
+> @@ -73,6 +73,7 @@ SRC_URI =3D "\
+>            =
+file://0039-libcc1-fix-libcc1-s-install-path-and-rpath.patch \
+>            file://0040-nativesdk-gcc-support.patch \
+>            file://0041-handle-target-sysroot-multilib.patch \
+> +           file://0042-cxxflags-for-build.patch \
+>           "
+>=20
+> BACKPORTS =3D ""
+> diff --git =
+a/meta/recipes-devtools/gcc/gcc-5.2/0042-cxxflags-for-build.patch =
+b/meta/recipes-devtools/gcc/gcc-5.2/0042-cxxflags-for-build.patch
+> new file mode 100644
+> index 0000000..1105e29
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-5.2/0042-cxxflags-for-build.patch
+> @@ -0,0 +1,123 @@
+> +Fix various _FOR_BUILD and related variables
+> +
+> +When doing a FOR_BUILD thing, you have to override CFLAGS with
+> +CFLAGS_FOR_BUILD. And if you use C++, you also have to override
+> +CXXFLAGS with CXXFLAGS_FOR_BUILD.
+> +Without this, when building for mingw, you end up trying to use
+> +the mingw headers for a host build.
+> +
+> +The same goes for other variables as well, such as CPPFLAGS,
+> +CPP, and GMPINC.
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+> +Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> +
+> +diff --git a/Makefile.in b/Makefile.in
+> +index 9370174..011c29a 100644
+> +--- a/Makefile.in
+> ++++ b/Makefile.in
+> +@@ -152,6 +152,7 @@ BUILD_EXPORTS =3D \
+> + 	CPP=3D"$(CC_FOR_BUILD) -E"; export CPP; \
+> + 	CFLAGS=3D"$(CFLAGS_FOR_BUILD)"; export CFLAGS; \
+> + 	CONFIG_SHELL=3D"$(SHELL)"; export CONFIG_SHELL; \
+> ++	CPPFLAGS=3D"$(CPPFLAGS_FOR_BUILD)"; export CPPFLAGS; \
+> + 	CXX=3D"$(CXX_FOR_BUILD)"; export CXX; \
+> + 	CXXFLAGS=3D"$(CXXFLAGS_FOR_BUILD)"; export CXXFLAGS; \
+> + 	GCJ=3D"$(GCJ_FOR_BUILD)"; export GCJ; \
+> +@@ -170,6 +171,9 @@ BUILD_EXPORTS =3D \
+> + # built for the build system to override those in =
+BASE_FLAGS_TO_PASS.
+> + EXTRA_BUILD_FLAGS =3D \
+> + 	CFLAGS=3D"$(CFLAGS_FOR_BUILD)" \
+> ++	CXXFLAGS=3D"$(CXXFLAGS_FOR_BUILD)" \
+> ++	CPP=3D"$(CC_FOR_BUILD) -E" \
+> ++	CPPFLAGS=3D"$(CPPFLAGS_FOR_BUILD)" \
+> + 	LDFLAGS=3D"$(LDFLAGS_FOR_BUILD)"
+> +
+> + # This is the list of directories to built for the host system.
+> +@@ -187,6 +191,7 @@ HOST_SUBDIR =3D @host_subdir@
+> + HOST_EXPORTS =3D \
+> + 	$(BASE_EXPORTS) \
+> + 	CC=3D"$(CC)"; export CC; \
+> ++	CPP=3D"$(CC) -E"; export CPP; \
+> + 	ADA_CFLAGS=3D"$(ADA_CFLAGS)"; export ADA_CFLAGS; \
+> + 	CFLAGS=3D"$(CFLAGS)"; export CFLAGS; \
+> + 	CONFIG_SHELL=3D"$(SHELL)"; export CONFIG_SHELL; \
+> +@@ -711,6 +715,7 @@ BASE_FLAGS_TO_PASS =3D \
+> + 	"CC_FOR_BUILD=3D$(CC_FOR_BUILD)" \
+> + 	"CFLAGS_FOR_BUILD=3D$(CFLAGS_FOR_BUILD)" \
+> + 	"CXX_FOR_BUILD=3D$(CXX_FOR_BUILD)" \
+> ++	"CXXFLAGS_FOR_BUILD=3D$(CXXFLAGS_FOR_BUILD)" \
+> + 	"EXPECT=3D$(EXPECT)" \
+> + 	"FLEX=3D$(FLEX)" \
+> + 	"INSTALL=3D$(INSTALL)" \
+> +diff --git a/Makefile.tpl b/Makefile.tpl
+> +index 1ea1954..78a59c3 100644
+> +--- a/Makefile.tpl
+> ++++ b/Makefile.tpl
+> +@@ -154,6 +154,7 @@ BUILD_EXPORTS =3D \
+> + 	CC=3D"$(CC_FOR_BUILD)"; export CC; \
+> + 	CFLAGS=3D"$(CFLAGS_FOR_BUILD)"; export CFLAGS; \
+> + 	CONFIG_SHELL=3D"$(SHELL)"; export CONFIG_SHELL; \
+> ++	CPPFLAGS=3D"$(CPPFLAGS_FOR_BUILD)"; export CPPFLAGS; \
+> + 	CXX=3D"$(CXX_FOR_BUILD)"; export CXX; \
+> + 	CXXFLAGS=3D"$(CXXFLAGS_FOR_BUILD)"; export CXXFLAGS; \
+> + 	GCJ=3D"$(GCJ_FOR_BUILD)"; export GCJ; \
+> +@@ -172,6 +173,9 @@ BUILD_EXPORTS =3D \
+> + # built for the build system to override those in =
+BASE_FLAGS_TO_PASS.
+> + EXTRA_BUILD_FLAGS =3D \
+> + 	CFLAGS=3D"$(CFLAGS_FOR_BUILD)" \
+> ++	CXXFLAGS=3D"$(CXXFLAGS_FOR_BUILD)" \
+> ++	CPP=3D"$(CC_FOR_BUILD) -E" \
+> ++	CPPFLAGS=3D"$(CPPFLAGS_FOR_BUILD)" \
+> + 	LDFLAGS=3D"$(LDFLAGS_FOR_BUILD)"
+> +
+> + # This is the list of directories to built for the host system.
+> +@@ -189,6 +193,7 @@ HOST_SUBDIR =3D @host_subdir@
+> + HOST_EXPORTS =3D \
+> + 	$(BASE_EXPORTS) \
+> + 	CC=3D"$(CC)"; export CC; \
+> ++	CPP=3D"$(CC) -E"; export CPP; \
+> + 	ADA_CFLAGS=3D"$(ADA_CFLAGS)"; export ADA_CFLAGS; \
+> + 	CFLAGS=3D"$(CFLAGS)"; export CFLAGS; \
+> + 	CONFIG_SHELL=3D"$(SHELL)"; export CONFIG_SHELL; \
+> +diff --git a/gcc/Makefile.in b/gcc/Makefile.in
+> +index cd5bc4a..98ae4f4 100644
+> +--- a/gcc/Makefile.in
+> ++++ b/gcc/Makefile.in
+> +@@ -762,7 +762,7 @@ BUILD_LINKERFLAGS =3D $(BUILD_CXXFLAGS)
+> + # Native linker and preprocessor flags.  For x-fragment overrides.
+> + BUILD_LDFLAGS=3D@BUILD_LDFLAGS@
+> + BUILD_CPPFLAGS=3D -I. -I$(@D) -I$(srcdir) -I$(srcdir)/$(@D) \
+> +-		-I$(srcdir)/../include @INCINTL@ $(CPPINC) $(CPPFLAGS)
+> ++		-I$(srcdir)/../include @INCINTL@ $(CPPINC) =
+$(CPPFLAGS_FOR_BUILD)
+> +
+> + # Actual name to use when installing a native compiler.
+> + GCC_INSTALL_NAME :=3D $(shell echo gcc|sed =
+'$(program_transform_name)')
+> +diff --git a/gcc/configure b/gcc/configure
+> +index c7ac14b..5ac63e4 100755
+> +--- a/gcc/configure
+> ++++ b/gcc/configure
+> +@@ -11521,7 +11521,7 @@ else
+> + 	CC=3D"${CC_FOR_BUILD}" CFLAGS=3D"${CFLAGS_FOR_BUILD}" \
+> + 	CXX=3D"${CXX_FOR_BUILD}" CXXFLAGS=3D"${CXXFLAGS_FOR_BUILD}" \
+> + 	LD=3D"${LD_FOR_BUILD}" LDFLAGS=3D"${LDFLAGS_FOR_BUILD}" \
+> +-	GMPINC=3D"" CPPFLAGS=3D"${CPPFLAGS} -DGENERATOR_FILE" \
+> ++	GMPINC=3D"" CPPFLAGS=3D"${CPPFLAGS_FOR_BUILD} -DGENERATOR_FILE" =
+\
+> + 	${realsrcdir}/configure \
+> + 		--enable-languages=3D${enable_languages-all} \
+> + 		--target=3D$target_alias --host=3D$build_alias =
+--build=3D$build_alias
+> +diff --git a/gcc/configure.ac b/gcc/configure.ac
+> +index 50856e6..17a4dfd 100644
+> +--- a/gcc/configure.ac
+> ++++ b/gcc/configure.ac
+> +@@ -1633,7 +1633,7 @@ else
+> + 	CC=3D"${CC_FOR_BUILD}" CFLAGS=3D"${CFLAGS_FOR_BUILD}" \
+> + 	CXX=3D"${CXX_FOR_BUILD}" CXXFLAGS=3D"${CXXFLAGS_FOR_BUILD}" \
+> + 	LD=3D"${LD_FOR_BUILD}" LDFLAGS=3D"${LDFLAGS_FOR_BUILD}" \
+> +-	GMPINC=3D"" CPPFLAGS=3D"${CPPFLAGS} -DGENERATOR_FILE" \
+> ++	GMPINC=3D"" CPPFLAGS=3D"${CPPFLAGS_FOR_BUILD} -DGENERATOR_FILE" =
+\
+> + 	${realsrcdir}/configure \
+> + 		--enable-languages=3D${enable_languages-all} \
+> + 		--target=3D$target_alias --host=3D$build_alias =
+--build=3D$build_alias
+> --
+> 1.9.3
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_5D90E05C-ECE4-46F1-B55C-EFE4A9E72367
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlYlvP8ACgkQuwUzVZGdMxTaRQCdFGz05OXmHwCu20a/ojUKmcYs
+HzgAnRNCHHG2lDFyAVR3D+I7xgpbhG0T
+=pH94
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_5D90E05C-ECE4-46F1-B55C-EFE4A9E72367--
