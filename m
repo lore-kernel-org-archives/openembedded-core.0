@@ -1,29 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 54D0D76FF2
+Return-Path: <mike.looijmans@topic.nl>
+Received: from atl4mhob02.myregisteredsite.com
+	(atl4mhob02.myregisteredsite.com [209.17.115.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CAC376FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 06:28:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t9K6SqTS012879; Tue, 20 Oct 2015 07:28:52 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id DrX64rH2Yxy9; Tue, 20 Oct 2015 07:28:52 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t9K6Scpt012876
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 20 Oct 2015 07:28:50 +0100
-Message-ID: <1445322518.17974.139.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alejandro Joya <alejandro.joya.cruz@intel.com>
-Date: Tue, 20 Oct 2015 07:28:38 +0100
-In-Reply-To: <1445288542-25427-1-git-send-email-alejandro.joya.cruz@intel.com>
-References: <1445288542-25427-1-git-send-email-alejandro.joya.cruz@intel.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] busybox: add virtual reference instead
+	Tue, 20 Oct 2015 06:43:52 +0000 (UTC)
+Received: from mailpod.hostingplatform.com ([10.30.71.205])
+	by atl4mhob02.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	t9K6hoLo021437 for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Oct 2015 02:43:50 -0400
+Received: (qmail 30615 invoked by uid 0); 20 Oct 2015 06:43:50 -0000
+X-TCPREMOTEIP: 88.159.208.100
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO mikebuntu.TOPIC.LOCAL)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 20 Oct 2015 06:43:50 -0000
+From: Mike Looijmans <mike.looijmans@topic.nl>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Oct 2015 08:43:47 +0200
+Message-Id: <1445323427-29234-1-git-send-email-mike.looijmans@topic.nl>
+X-Mailer: git-send-email 1.9.1
+Cc: Mike Looijmans <mike.looijmans@topic.nl>
+Subject: [PATCH] initscripts/sysfs.sh: Mount devtmpfs on /dev/ if needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,110 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Oct 2015 06:28:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Oct 2015 06:43:55 -0000
 
-On Mon, 2015-10-19 at 16:02 -0500, Alejandro Joya wrote:
-> These recipes have a hardcoded dependency to busybox,
-> in order to be able to have a flexible selection,
-> instead of the hardcoded dependency, now it is point to  virtual reference
-> base-utils.
-> 
-> Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
-> ---
->  meta/conf/distro/include/default-providers.inc             | 4 +++-
->  meta/recipes-core/images/core-image-minimal-initramfs.bb   | 2 +-
->  meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
->  meta/recipes-core/packagegroups/packagegroup-core-boot.bb  | 4 ++--
->  4 files changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-> index 9f84d5c..82a7100 100644
-> --- a/meta/conf/distro/include/default-providers.inc
-> +++ b/meta/conf/distro/include/default-providers.inc
-> @@ -13,6 +13,7 @@ PREFERRED_PROVIDER_virtual/mesa ?= "mesa"
->  PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg-utils"
->  PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-utils-native"
->  PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
-> +PREFERRED_PROVIDER_virtual/base-utils ?= "busybox"
->  PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
->  
->  #
-> @@ -23,7 +24,8 @@ VIRTUAL-RUNTIME_apm ?= "apm"
->  VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
->  VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
->  VIRTUAL-RUNTIME_wireless-tools ?= "iw wireless-tools"
-> -
-> +VIRTUAL-RUNTIME_base-utils ?= "busybox"
-> +VIRTUAL-RUNTIME_base-utils-hwclock ?= "busybox-hwclock"
->  #
->  # Default recipe providers
->  #
-> diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-> index 1f0fa95..50eca53 100644
-> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-> @@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
->  the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
->  first 'init' program more efficiently."
->  
-> -PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi busybox udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
-> +PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi virtual/base-utils udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
+When booting from an initrd disk, or when the kernel config option
+DEVTMPFS_MOUNT isn't provided, /dev/ will not be mounted at boot.
 
-You mean ${VIRTUAL-RUNTIME_base-utils} here, right?
+This small addition will check if /dev/ is "useful", and if not, will
+mount devtmpfs if the kernel provides it.
 
->  # Do not pollute the initrd image with rootfs features
->  IMAGE_FEATURES = ""
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-> index 6c37b9a..0664a95 100644
-> --- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-> +++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-> @@ -1,7 +1,7 @@
->  SUMMARY = "Modular initramfs system"
->  LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-> -RDEPENDS_${PN} += "busybox"
-> +RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
->  
->  PR = "r2"
->  
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-> index 09f5373..b3cf236 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-> @@ -24,7 +24,7 @@ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
->  VIRTUAL-RUNTIME_initscripts ?= "initscripts"
->  VIRTUAL-RUNTIME_keymaps ?= "keymaps"
->  
-> -SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwclock', '', d)} \
-> +SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc','${VIRTUAL-RUNTIME_base-utils-hwclock}', '', d)} \
->                      modutils-initscripts \
->                      init-ifupdown \
->                      ${VIRTUAL-RUNTIME_initscripts} \
-> @@ -33,7 +33,7 @@ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwc
->  RDEPENDS_${PN} = "\
->      base-files \
->      base-passwd \
-> -    busybox \
-> +    ${VIRTUAL-RUNTIME_base-utils \
+With this change, it is possible to set an initscripts style image type
+to "cpio.gz" and boot it as initrd. Without this change, the image won't
+work properly because of the missing devices.
 
-Missing }
+Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+---
+ meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Unfortunately each issue like this I see with the patch makes me wonder
-about the testing its had :(
-
-Cheers,
-
-Richard
-
-
->      ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
->      ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
->      netbase \
-> -- 
-> 2.1.0
-> 
-
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
+index 0cfe76e..0a52c90 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
+@@ -21,3 +21,7 @@ fi
+ if [ -e /sys/kernel/debug ] && grep -q debugfs /proc/filesystems; then
+   mount -t debugfs debugfs /sys/kernel/debug
+ fi
++
++if ! [ -e /dev/zero ] && [ -e /dev ] && grep -q devtmpfs /proc/filesystems; then
++  mount -n -t devtmpfs devtmpfs /dev
++fi
+-- 
+1.9.1
 
 
