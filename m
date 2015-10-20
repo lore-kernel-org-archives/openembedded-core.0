@@ -1,40 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 0256976FD0
+Return-Path: <alejandro.joya.cruz@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 085F076F8C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 21:41:09 +0000 (UTC)
-Received: by wikq8 with SMTP id q8so66154363wik.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 14:41:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=6xFGUVqUB9ncUcr5q/z7wcUvSp04KZoXqXP8nrSRlJE=;
-	b=TJRTXSsbLQEZDWPRXWX3S9/O6g8vWj11EE5wXgzcJtpohDbj5zn25XdnlBQOZGIw3B
-	8GlhC+rBo9Fhw1QgKyDNSwKPoFHFkoAJl6G4nwS5UEkBxqHw7Xts3pSvaObimuCDjCp0
-	K8r2YZS839r8qPiHfKr9p+7nl08BIGOYfVr1MgsqSmZYZk+jIsKuYNqN6pUmsjvjHoG8
-	E22wb/WZ8UNMuGVS5fe9Ju5J1i9iCLr9nak0QELODR4ivgZTEAqmQACsQFnALTT0b23Q
-	9OuVeu89g+T0GH7+NO10nCSsXRUsrQi6W7d9O8yFkKNBtNv0fOtY/wnsIqRgL70mLSrQ
-	OfyA==
-X-Gm-Message-State: ALoCoQkB0va+jgBmwjmPXzHYQgoH1gBFEBABL48+ZKkSdbAFLhdVwSwFK4Ck2+uij+rrvxly+K/6
-X-Received: by 10.194.134.98 with SMTP id pj2mr7428457wjb.30.1445377269005;
-	Tue, 20 Oct 2015 14:41:09 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	lf10sm6209805wjb.23.2015.10.20.14.41.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 20 Oct 2015 14:41:08 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Tue, 20 Oct 2015 23:31:37 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 20 Oct 2015 16:31:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,709,1437462000"; d="scan'208";a="668381681"
+Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.70])
+	by orsmga003.jf.intel.com with ESMTP; 20 Oct 2015 16:31:37 -0700
+From: Alejandro Joya <alejandro.joya.cruz@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Oct 2015 22:33:28 +0100
-Message-Id: <1445376809-25202-4-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1445376809-25202-1-git-send-email-ross.burton@intel.com>
-References: <1445376809-25202-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH][V3 4/5] rpm: add explicit dependency on file-replacement-native for native builds
+Date: Tue, 20 Oct 2015 18:31:16 -0500
+Message-Id: <1445383876-15185-1-git-send-email-alejandro.joya.cruz@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [meta-oe][PATCH v2] busybox: add virtual reference instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,52 +27,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Oct 2015 21:41:11 -0000
+X-List-Received-Date: Tue, 20 Oct 2015 23:31:38 -0000
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+These recipes have a hardcoded dependency to busybox,
+in order to be able to have a flexible selection,
+instead of the hardcoded dependency, now it is point to  virtual reference
+base-utils.
+
+Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
 ---
- meta/recipes-devtools/rpm/rpm_4.11.2.bb  | 1 +
- meta/recipes-devtools/rpm/rpm_5.4+cvs.bb | 1 +
- meta/recipes-devtools/rpm/rpm_5.4.14.bb  | 1 +
- 3 files changed, 3 insertions(+)
+ meta/conf/distro/include/default-providers.inc             | 3 +++
+ meta/recipes-core/images/core-image-minimal-initramfs.bb   | 2 +-
+ meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb  | 4 ++--
+ 4 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_4.11.2.bb b/meta/recipes-devtools/rpm/rpm_4.11.2.bb
-index bc36f99..f4a2110 100644
---- a/meta/recipes-devtools/rpm/rpm_4.11.2.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.11.2.bb
-@@ -23,6 +23,7 @@ LICENSE = "GPL-2.0+"
- LIC_FILES_CHKSUM ??= "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 9f84d5c..bb382bd 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -13,6 +13,7 @@ PREFERRED_PROVIDER_virtual/mesa ?= "mesa"
+ PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg-utils"
+ PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-utils-native"
+ PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
++PREFERRED_PROVIDER_virtual/base-utils ?= "busybox"
+ PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
  
- DEPENDS = "db libxml2 xz findutils file popt nss bzip2 elfutils attr zlib acl gzip python"
-+DEPENDS_append_class-native = " file-replacement-native"
+ #
+@@ -23,6 +24,8 @@ VIRTUAL-RUNTIME_apm ?= "apm"
+ VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
+ VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
+ VIRTUAL-RUNTIME_wireless-tools ?= "iw wireless-tools"
++VIRTUAL-RUNTIME_base-utils ?= "busybox"
++VIRTUAL-RUNTIME_base-utils-hwclock ?= "busybox-hwclock"
  
- SRC_URI += "http://rpm.org/releases/rpm-4.11.x/${BP}.tar.bz2 \
-             file://use-pkgconfig-for-python.patch \
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-index 8903f3b..951b251 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-@@ -43,6 +43,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ #
+ # Default recipe providers
+diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+index 1f0fa95..a26286e 100644
+--- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
++++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
+ the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
+ first 'init' program more efficiently."
  
- DEPENDS = "libpcre attr acl popt ossp-uuid file byacc-native"
-+DEPENDS_append_class-native = " file-replacement-native"
+-PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi busybox udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
++PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
  
- S = "${WORKDIR}/rpm"
+ # Do not pollute the initrd image with rootfs features
+ IMAGE_FEATURES = ""
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+index 6c37b9a..0664a95 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Modular initramfs system"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-RDEPENDS_${PN} += "busybox"
++RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
  
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-index b450c6f..73b3734 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-@@ -41,6 +41,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ PR = "r2"
  
- DEPENDS = "libpcre attr acl popt ossp-uuid file byacc-native"
-+DEPENDS_append_class-native = " file-replacement-native"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index 09f5373..7e40445 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -24,7 +24,7 @@ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
+ VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+ VIRTUAL-RUNTIME_keymaps ?= "keymaps"
  
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
+-SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwclock', '', d)} \
++SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc','${VIRTUAL-RUNTIME_base-utils-hwclock}', '', d)} \
+                     modutils-initscripts \
+                     init-ifupdown \
+                     ${VIRTUAL-RUNTIME_initscripts} \
+@@ -33,7 +33,7 @@ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwc
+ RDEPENDS_${PN} = "\
+     base-files \
+     base-passwd \
+-    busybox \
++    ${VIRTUAL-RUNTIME_base-utils} \
+     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
+     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
+     netbase \
 -- 
-2.1.4
+2.1.0
 
 
