@@ -1,27 +1,37 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FA4B769A7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id A92F373D46
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Oct 2015 16:05:23 +0000 (UTC)
-Received: from svr-orw-fem-04.mgc.mentorg.com ([147.34.97.41])
-	by relay1.mentorg.com with esmtp 
-	id 1ZovtD-0005WA-MU from Noor_Ahsan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 21 Oct 2015 09:05:23 -0700
-Received: from gemini.alm.mentorg.com (147.34.91.1) by
-	svr-orw-fem-04.mgc.mentorg.com (147.34.97.41) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Wed, 21 Oct 2015 09:05:23 -0700
-Received: from pkl-ahsann-ubuntu.pkl.mentorg.com
-	(pkl-ahsann-ubuntu.pkl.mentorg.com [137.202.157.70])	by
-	gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id t9LG5KGI017217;
-	Wed, 21 Oct 2015 11:05:22 -0500
-From: "Noor, Ahsan" <noor_ahsan@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Oct 2015 21:04:28 +0500
-Message-ID: <1445443468-8394-1-git-send-email-noor_ahsan@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
+	Wed, 21 Oct 2015 16:10:14 +0000 (UTC)
+Received: by qkca6 with SMTP id a6so41034509qkc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Oct 2015 09:10:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=tKy+FAFU5jvJ/Sg1WT0lnVwX9IYR0bFWIDfZv87Rz0I=;
+	b=c4RF4jwxuTMMyjSgVkMaAdc0iMANuQtYv0+RMzNIigk8WoRJpDR0wh5YoIymqO5MzV
+	TxA3OnIJpAApr1ThqnS86veOBQZDj8n/H7qJRMZuIbD8MsrEbih658YQ4O4ss/fr2k2w
+	ASqPtHvdrpDnL8nfbxzl3VbO65vxabA2kDUyCqebp1ORjdCaKpSf54GauJFVvLTTPGqd
+	8eYNGTDTBOBlFj5TUPGzmUTNvMXH/Dofh9gvPMf2Ghu81PN/pyXh1mZm+PJCrxjiTpDH
+	0YWp2SCMJDUT1S+aG4qvVa3S1DLI+n4fG+ranbAYHArVjuZPzTki7fGNPEf/jnBKYRNn
+	2NQw==
+X-Gm-Message-State: ALoCoQkmsfeY41KLQWIBqk2yR9/hiOCsqmAgCvsDMr1YY1o11nTuNw7LZ2f/JRlNSJgzmclUrgWf
+X-Received: by 10.140.165.196 with SMTP id l187mr13047319qhl.93.1445443814233; 
+	Wed, 21 Oct 2015 09:10:14 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [RFC] rawcopy.py: Copy source file in image creation build folder
+Received: by 10.140.94.82 with HTTP; Wed, 21 Oct 2015 09:09:54 -0700 (PDT)
+In-Reply-To: <f8642636a68071a0e33fa74d61fcb9cea566e5d7.1445334356.git.joshua.lock@collabora.co.uk>
+References: <cover.1445334356.git.joshua.lock@collabora.co.uk>
+	<f8642636a68071a0e33fa74d61fcb9cea566e5d7.1445334356.git.joshua.lock@collabora.co.uk>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 21 Oct 2015 17:09:54 +0100
+Message-ID: <CAJTo0LZLoorMg6Jro+7GN0--hB8e4dFcxNNFLMcS6qTc5T9qrQ@mail.gmail.com>
+To: Joshua Lock <joshua.lock@collabora.co.uk>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 4/7] systemd: make dbus an optional build time dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,38 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Oct 2015 16:05:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 Oct 2015 16:10:15 -0000
+Content-Type: multipart/alternative; boundary=001a1134f6741765e005229f9d38
 
-From: Noor <noor_ahsan@mentor.com>
+--001a1134f6741765e005229f9d38
+Content-Type: text/plain; charset=UTF-8
 
-* When a file is given using --sourceparams then wic directly use that file
-  instead of copying them to build folder. At time of assmebling it os.rename
-  is called which rename all the files to name. In that process the original
-  file get renamed. When image recipe is rebuilt then wic complains about
-  missing file which renamed in previous build.
+On 20 October 2015 at 10:47, Joshua Lock <joshua.lock@collabora.co.uk>
+wrote:
 
-Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
----
- scripts/lib/wic/plugins/source/rawcopy.py |    4 ++++
- 1 file changed, 4 insertions(+)
+> +PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
+>
 
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
-index f0691ba..f17da27 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -74,6 +74,10 @@ class RawCopyPlugin(SourcePlugin):
-             dd_cmd = "dd if=%s of=%s ibs=%s skip=1 conv=notrunc" % \
-                     (src, dst, source_params['skip'])
-             exec_cmd(dd_cmd)
-+        else:
-+            dst = os.path.join(cr_workdir, source_params['file'])
-+            dd_cmd = "cp src dst"
-+            exec_cmd(dd_cmd)
- 
-         # get the size in the right units for kickstart (kB)
-         du_cmd = "du -Lbks %s" % dst
--- 
-1.7.9.5
+This also disables the code by default which is a change from the previous
+behaviour, which needs to be documented at least.  Also as they're for the
+test suite, should we enable dbus by default if ptest is enabled?
 
+Ross
 
+--001a1134f6741765e005229f9d38
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 October 2015 at 10:47, Joshua Lock <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:joshua.lock@collabora.co.uk" target=3D"_blank">joshua.lock@collabora.=
+co.uk</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":6=
+3h" class=3D"a3s" style=3D"overflow:hidden">+PACKAGECONFIG[dbus] =3D &quot;=
+--enable-dbus,--disable-dbus,dbus&quot;<br></div></blockquote></div><br>Thi=
+s also disables the code by default which is a change from the previous beh=
+aviour, which needs to be documented at least.=C2=A0 Also as they&#39;re fo=
+r the test suite, should we enable dbus by default if ptest is enabled?</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
+></div>
+
+--001a1134f6741765e005229f9d38--
