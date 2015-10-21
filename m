@@ -1,24 +1,16 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id AD6AD758DB
+Return-Path: <andrew.shadura@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EC5975D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Oct 2015 16:18:13 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Oct 2015 09:18:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,712,1437462000"; d="scan'208";a="668898382"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 21 Oct 2015 09:18:13 -0700
-Received: from localhost.localdomain (lbworker-161.fi.intel.com
-	[10.237.71.161])
-	by linux.intel.com (Postfix) with ESMTP id CDA726A4083;
-	Wed, 21 Oct 2015 09:17:12 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Oct 2015 16:18:08 +0000
-Message-Id: <1445444288-8237-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] rootfs.py: add more info to the warning message
+	Wed, 21 Oct 2015 17:41:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrewsh) with ESMTPSA id AEB25600816
+From: Andrew Shadura <andrew.shadura@collabora.co.uk>
+To: OE Core <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Oct 2015 19:41:07 +0200
+Message-Id: <c64105ff4adca9a4e05280aa52644919d646d660.1445449278.git.andrew.shadura@collabora.co.uk>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] cups: explicitly configure with systemd when needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +23,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Oct 2015 16:18:15 -0000
+X-List-Received-Date: Wed, 21 Oct 2015 17:41:21 -0000
 
-Since the log_check_regex can potentially be false positive it
-makes sense to print the whole line where error is found.
-This way user will be able to see the error and understand
-if it's valid or not.
+Add PACKAGECONFIG for systemd, enable it when systemd is enabled
+in DISTRO_FEATURES. Pass the correct path to systemd units,
+ensure they're installed into the package.
 
-[YOCTO: #7789]
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Andrew Shadura <andrew.shadura@collabora.co.uk>
 ---
- meta/lib/oe/rootfs.py | 1 +
- 1 file changed, 1 insertion(+)
+I hope this patch will be merged before jethro is released :)
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 4e81263..f7daf32 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -66,6 +66,7 @@ class Rootfs(object):
-                 m = r.search(line)
-                 if m:
-                     found_error = 1
-+                    bb.warn('[log_check] In line: [%s]' % line)
-                     bb.warn('[log_check] %s: found an error message in the logfile (keyword \'%s\'):\n[log_check] %s'
- 				    % (self.d.getVar('PN', True), m.group(), line))
+ meta/recipes-extended/cups/cups.inc | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 2c34da9..ad980fc 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -24,10 +24,12 @@ GROUPADD_PARAM_${PN} = "--system lpadmin"
+ SYSTEMD_SERVICE_${PN} = "cups.socket cups.path cups.service"
  
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
+ PACKAGECONFIG[avahi] = "--enable-avahi,--disable-avahi,avahi"
+ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
+ PACKAGECONFIG[pam] = "--enable-pam, --disable-pam, libpam"
++PACKAGECONFIG[systemd] = "--with-systemd=${systemd_system_unitdir},--without-systemd,systemd"
+ PACKAGECONFIG[xinetd] = "--with-xinetd=${sysconfdir}/xinetd.d,--without-xinetd,xinetd"
+ 
+ EXTRA_OECONF = " \
+@@ -100,6 +102,7 @@ FILES_${PN} += "${libdir}/cups/backend \
+ 		${libdir}/cups/monitor \
+ 		${libdir}/cups/notifier \
+ 		${libdir}/cups/daemon \
++		${systemd_system_unitdir} \
+ 	       "
+ 
+ FILES_${PN}-lib = "${libdir}/libcups.so.*"
 -- 
 2.1.4
 
