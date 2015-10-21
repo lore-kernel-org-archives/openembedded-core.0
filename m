@@ -1,41 +1,20 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 821B5766F3
+Return-Path: <alejandro.joya.cruz@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 93A807705E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Oct 2015 14:01:21 +0000 (UTC)
-Received: by wicll6 with SMTP id ll6so76005396wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Oct 2015 07:01:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-	:mime-version:content-type:content-transfer-encoding;
-	bh=YMaHkDhQrC2mdJICTXNcLqJjWq1jGuDp1jjX36SQMss=;
-	b=M0+WNz5RRbMc0g5mFx7Ya87+e4Lid6aCWUNe6HWQRDxRURd/2uANTZPwBm0YeBwKFG
-	8uNzurEDY04f5Ed0NEJAT/jeYfF/rBAvDeV8P/PhW0T3enGejn2o3tt73QM3JJbGqua6
-	BbGnooVt5bbjbSrtLQNWdBDTset653YOnBNVMiTXHBlC5kDuL6eHEZUFwbq9TD+YKECN
-	GlpCMmXKwuUPKglKxEVzPd59mk4u8UY8GccGZU0YBHDYNd+Tc21TO06TFSfGVvX4PUjP
-	JNQ1BQlCBOc97z7JfUn5144z47B4jDz4l0xISPs+bqi9eEi2kAhfJJ3E34DwL6knLmRL
-	9+IQ==
-X-Gm-Message-State: ALoCoQlu92IO6VbpA7CJqhGHpMdYoU59l5dFIAJCxvRkcCOLP6dQkoBmTfTgN5nu71KqxDH4mwyU
-X-Received: by 10.180.11.1 with SMTP id m1mr36077564wib.69.1445436081364;
-	Wed, 21 Oct 2015 07:01:21 -0700 (PDT)
-Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
-	by smtp.googlemail.com with ESMTPSA id
-	jh4sm6153472wjb.33.2015.10.21.07.01.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 21 Oct 2015 07:01:20 -0700 (PDT)
-To: openembedded-core <openembedded-core@lists.openembedded.org>,
-	openembedded-devel <openembedded-devel@lists.openembedded.org>
-From: Steffen Sledz <sledz@dresearch-fe.de>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <56279AAF.4050704@dresearch-fe.de>
-Date: Wed, 21 Oct 2015 16:01:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-Subject: cups-filters
+	Wed, 21 Oct 2015 15:43:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Oct 2015 08:43:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,712,1437462000"; d="scan'208";a="831831832"
+Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.70])
+	by orsmga002.jf.intel.com with ESMTP; 21 Oct 2015 08:42:59 -0700
+From: Alejandro Joya <alejandro.joya.cruz@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 Oct 2015 10:42:47 -0500
+Message-Id: <1445442167-30670-1-git-send-email-alejandro.joya.cruz@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH v2] busybox: add virtual reference instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,20 +27,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Oct 2015 14:01:21 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 21 Oct 2015 15:43:32 -0000
 
-Does anybody know about a recipe providing cups-filters?
+These recipes have a hardcoded dependency to busybox,
+in order to be able to have a flexible selection,
+instead of the hardcoded dependency, now it is point to  virtual reference
+base-utils.
 
-http://layers.openembedded.org was not really helpful here.
+Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
+---
+ meta/conf/distro/include/default-providers.inc             | 3 +++
+ meta/recipes-core/images/core-image-minimal-initramfs.bb   | 2 +-
+ meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb  | 4 ++--
+ 4 files changed, 7 insertions(+), 4 deletions(-)
 
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 9f84d5c..bb382bd 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -13,6 +13,7 @@ PREFERRED_PROVIDER_virtual/mesa ?= "mesa"
+ PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg-utils"
+ PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-utils-native"
+ PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
++PREFERRED_PROVIDER_virtual/base-utils ?= "busybox"
+ PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
+ 
+ #
+@@ -23,6 +24,8 @@ VIRTUAL-RUNTIME_apm ?= "apm"
+ VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
+ VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
+ VIRTUAL-RUNTIME_wireless-tools ?= "iw wireless-tools"
++VIRTUAL-RUNTIME_base-utils ?= "busybox"
++VIRTUAL-RUNTIME_base-utils-hwclock ?= "busybox-hwclock"
+ 
+ #
+ # Default recipe providers
+diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+index 1f0fa95..a26286e 100644
+--- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
++++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
+ the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
+ first 'init' program more efficiently."
+ 
+-PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi busybox udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
++PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
+ 
+ # Do not pollute the initrd image with rootfs features
+ IMAGE_FEATURES = ""
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+index 6c37b9a..0664a95 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Modular initramfs system"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-RDEPENDS_${PN} += "busybox"
++RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
+ 
+ PR = "r2"
+ 
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index 09f5373..7e40445 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -24,7 +24,7 @@ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
+ VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+ VIRTUAL-RUNTIME_keymaps ?= "keymaps"
+ 
+-SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwclock', '', d)} \
++SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc','${VIRTUAL-RUNTIME_base-utils-hwclock}', '', d)} \
+                     modutils-initscripts \
+                     init-ifupdown \
+                     ${VIRTUAL-RUNTIME_initscripts} \
+@@ -33,7 +33,7 @@ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwc
+ RDEPENDS_${PN} = "\
+     base-files \
+     base-passwd \
+-    busybox \
++    ${VIRTUAL-RUNTIME_base-utils} \
+     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
+     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
+     netbase \
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+2.1.0
+
 
