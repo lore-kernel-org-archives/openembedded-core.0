@@ -1,20 +1,37 @@
-Return-Path: <alejandro.joya.cruz@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 93A807705E
+Return-Path: <psidhu@gateworks.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 39261607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Oct 2015 15:43:31 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Oct 2015 08:43:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,712,1437462000"; d="scan'208";a="831831832"
-Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.70])
-	by orsmga002.jf.intel.com with ESMTP; 21 Oct 2015 08:42:59 -0700
-From: Alejandro Joya <alejandro.joya.cruz@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Oct 2015 10:42:47 -0500
-Message-Id: <1445442167-30670-1-git-send-email-alejandro.joya.cruz@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH v2] busybox: add virtual reference instead
+	Wed, 21 Oct 2015 15:45:04 +0000 (UTC)
+Received: by padhk11 with SMTP id hk11so58198970pad.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Oct 2015 08:45:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=bqhnHfgYJFdwzxQ/qYbJPEjJbLU66deVFohtmBJ4coA=;
+	b=AlpFYWHlPtKRJZachnJOqV2J9lnQvn7aAhmHJz7WgVYj2FNrxCVftpmBES0MVhTQMk
+	EG8vpeKebT+2QZzmSWElN7WVGRouA2f03EnqGGFQMWgWmThJEZK2sm/JuwAEHiTJspB/
+	w3kKRNEjkmFLtFl3XndBYpmSVxBrjcLeDgIyC/F1d+ZPR6Uw0yyVKvtZOWePzwOHzbU4
+	G2g2hgp0+Gj13TcjhSAZqkKgLTHUZXbR4CiZfFzI0T8y15QO55pkbFG68a2SKumLvpi9
+	4MV7uFU4LRcNRNKes+Lia8YD5jvEzizHywwg+WHa+Kd3q+r8A2g0WwaCCqlnQq8trxdF
+	PN5g==
+X-Gm-Message-State: ALoCoQlR1CeR7HEegEqUR/PpEd5xUseKXHqi9HQZk9Ne0xqH32n+SAy2bQ4gFAH67ZXb9Vg8+Yxu
+X-Received: by 10.66.150.161 with SMTP id uj1mr11378252pab.148.1445442304891; 
+	Wed, 21 Oct 2015 08:45:04 -0700 (PDT)
+Received: from psidhu.gw (68-189-91-139.static.snlo.ca.charter.com.
+	[68.189.91.139]) by smtp.gmail.com with ESMTPSA id
+	ix1sm9826097pbd.40.2015.10.21.08.45.03
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 21 Oct 2015 08:45:04 -0700 (PDT)
+From: Pushpal Sidhu <psidhu@gateworks.com>
+To: alexander.kanavin@linux.intel.com
+Date: Wed, 21 Oct 2015 08:44:47 -0700
+Message-Id: <1445442287-11355-1-git-send-email-psidhu@gateworks.com>
+X-Mailer: git-send-email 2.6.2
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] gnome-desktop: add xkeyboard-config dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,91 +44,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Oct 2015 15:43:32 -0000
+X-List-Received-Date: Wed, 21 Oct 2015 15:45:09 -0000
 
-These recipes have a hardcoded dependency to busybox,
-in order to be able to have a flexible selection,
-instead of the hardcoded dependency, now it is point to  virtual reference
-base-utils.
+gnome-desktop will fail during do_configure if xkeyboard-config had not already
+been built. Please see the following for the error:
 
-Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
+| configure: error: Package requirements (gdk-pixbuf-2.0 >= 2.21.3
+|                                  gtk+-3.0 >= 3.3.6
+|                                  glib-2.0 >= 2.38.0
+|                                  gio-2.0 >= 2.38.0
+|                                  gsettings-desktop-schemas >= 3.5.91
+|                                  xrandr >= 1.3
+|                                  xext >= 1.1
+|                                  xkeyboard-config
+|                                  iso-codes) were not met:
+|
+| No package 'xkeyboard-config' found
+
+Add dependency of xkeyboard-config to this to resolve this issue.
+
+Signed-off-by: Pushpal Sidhu <psidhu@gateworks.com>
 ---
- meta/conf/distro/include/default-providers.inc             | 3 +++
- meta/recipes-core/images/core-image-minimal-initramfs.bb   | 2 +-
- meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
- meta/recipes-core/packagegroups/packagegroup-core-boot.bb  | 4 ++--
- 4 files changed, 7 insertions(+), 4 deletions(-)
+ meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 9f84d5c..bb382bd 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -13,6 +13,7 @@ PREFERRED_PROVIDER_virtual/mesa ?= "mesa"
- PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg-utils"
- PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-utils-native"
- PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
-+PREFERRED_PROVIDER_virtual/base-utils ?= "busybox"
- PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
+diff --git a/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb
+index aa11fa2..3765697 100644
+--- a/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb
++++ b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb
+@@ -10,7 +10,7 @@ inherit gnome pkgconfig
+ SRC_URI[archive.md5sum] = "ab5bf4cc94ad63639f42adcc1542b1f0"
+ SRC_URI[archive.sha256sum] = "3a8f196b46eb9dbd3ba2afb8fb5fef6a8825539d449a02181311242e22227bd0"
  
- #
-@@ -23,6 +24,8 @@ VIRTUAL-RUNTIME_apm ?= "apm"
- VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
- VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
- VIRTUAL-RUNTIME_wireless-tools ?= "iw wireless-tools"
-+VIRTUAL-RUNTIME_base-utils ?= "busybox"
-+VIRTUAL-RUNTIME_base-utils-hwclock ?= "busybox-hwclock"
+-DEPENDS += "gsettings-desktop-schemas gconf libxrandr virtual/libx11 gtk+3 glib-2.0 gnome-doc-utils gnome-common startup-notification iso-codes"
++DEPENDS += "gsettings-desktop-schemas gconf libxrandr virtual/libx11 gtk+3 glib-2.0 gnome-doc-utils gnome-common startup-notification xkeyboard-config iso-codes"
  
- #
- # Default recipe providers
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 1f0fa95..a26286e 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
- the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
- first 'init' program more efficiently."
- 
--PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi busybox udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
-+PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
- 
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 6c37b9a..0664a95 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "Modular initramfs system"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--RDEPENDS_${PN} += "busybox"
-+RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
- 
- PR = "r2"
- 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-index 09f5373..7e40445 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-@@ -24,7 +24,7 @@ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
- VIRTUAL-RUNTIME_initscripts ?= "initscripts"
- VIRTUAL-RUNTIME_keymaps ?= "keymaps"
- 
--SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwclock', '', d)} \
-+SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc','${VIRTUAL-RUNTIME_base-utils-hwclock}', '', d)} \
-                     modutils-initscripts \
-                     init-ifupdown \
-                     ${VIRTUAL-RUNTIME_initscripts} \
-@@ -33,7 +33,7 @@ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwc
- RDEPENDS_${PN} = "\
-     base-files \
-     base-passwd \
--    busybox \
-+    ${VIRTUAL-RUNTIME_base-utils} \
-     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
-     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
-     netbase \
+ inherit distro_features_check
+ REQUIRED_DISTRO_FEATURES = "x11"
 -- 
-2.1.0
+2.6.2
 
 
