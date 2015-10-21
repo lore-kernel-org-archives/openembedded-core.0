@@ -1,20 +1,28 @@
-Return-Path: <alejandro.joya.cruz@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 085F076F8C
+Return-Path: <Jian.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A0A4F76E70
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Oct 2015 23:31:37 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 20 Oct 2015 16:31:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,709,1437462000"; d="scan'208";a="668381681"
-Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.70])
-	by orsmga003.jf.intel.com with ESMTP; 20 Oct 2015 16:31:37 -0700
-From: Alejandro Joya <alejandro.joya.cruz@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Oct 2015 18:31:16 -0500
-Message-Id: <1445383876-15185-1-git-send-email-alejandro.joya.cruz@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [meta-oe][PATCH v2] busybox: add virtual reference instead
+	Wed, 21 Oct 2015 02:47:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9L2l3LC027106
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Oct 2015 19:47:03 -0700 (PDT)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 20 Oct 2015 19:47:03 -0700
+Message-ID: <5626FB88.9090603@windriver.com>
+Date: Wed, 21 Oct 2015 10:42:16 +0800
+From: Liu Jian <jian.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1444286871-8615-1-git-send-email-jian.liu@windriver.com>
+	<562091F8.40805@windriver.com>
+In-Reply-To: <562091F8.40805@windriver.com>
+Subject: Re: [PATCH] base.bbclass: considering multilib when setting LICENSE_EXCLUSION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,91 +35,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Oct 2015 23:31:38 -0000
+X-List-Received-Date: Wed, 21 Oct 2015 02:47:05 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-These recipes have a hardcoded dependency to busybox,
-in order to be able to have a flexible selection,
-instead of the hardcoded dependency, now it is point to  virtual reference
-base-utils.
+Ping
 
-Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
----
- meta/conf/distro/include/default-providers.inc             | 3 +++
- meta/recipes-core/images/core-image-minimal-initramfs.bb   | 2 +-
- meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
- meta/recipes-core/packagegroups/packagegroup-core-boot.bb  | 4 ++--
- 4 files changed, 7 insertions(+), 4 deletions(-)
+于 2015年10月16日 13:58, Liu Jian 写道:
+> Hi All,
+>
+> Will you going to merge this patch?
+> I have ever discuss with Robert Yang and he agreed to integrated it.
+>
+> Thanks!
+> Jian
+>
+>
+> 于 2015年10月08日 14:47, Jian Liu 写道:
+>> The PACKAGES is not mapped with MLPREFIX when setting LICENSE_EXCLUSION
+>> in base.bbclass. For example,
+>>    For libgcc-dev,
+>>      LICENSE_EXCLUSION-libgcc-dev=1
+>>     but for lib32-libgcc-dev,
+>>      LICENSE_EXCLUSION-libgcc-dev=1
+>> Obviously it is wrong for lib32-libgcc-dev.
+>>
+>> Add MLPREFIX before the package name during setting LICENSE_EXCLUSION
+>>
+>> Signed-off-by: Jian Liu <jian.liu@windriver.com>
+>> ---
+>>   meta/classes/base.bbclass | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+>> index f078001..89c8f04 100644
+>> --- a/meta/classes/base.bbclass
+>> +++ b/meta/classes/base.bbclass
+>> @@ -512,7 +512,8 @@ python () {
+>>                   if unskipped_pkgs:
+>>                       for pkg in skipped_pkgs:
+>>                           bb.debug(1, "SKIPPING the package " + pkg + 
+>> " at do_rootfs because it's " + recipe_license)
+>> -                        d.setVar('LICENSE_EXCLUSION-' + pkg, 1)
+>> +                        mlprefix = d.getVar('MLPREFIX', True)
+>> +                        d.setVar('LICENSE_EXCLUSION-' + mlprefix + 
+>> pkg, 1)
+>>                       for pkg in unskipped_pkgs:
+>>                           bb.debug(1, "INCLUDING the package " + pkg)
+>>                   elif all_skipped or incompatible_license(d, 
+>> bad_licenses):
+>
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 9f84d5c..bb382bd 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -13,6 +13,7 @@ PREFERRED_PROVIDER_virtual/mesa ?= "mesa"
- PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg-utils"
- PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-utils-native"
- PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
-+PREFERRED_PROVIDER_virtual/base-utils ?= "busybox"
- PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
- 
- #
-@@ -23,6 +24,8 @@ VIRTUAL-RUNTIME_apm ?= "apm"
- VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
- VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
- VIRTUAL-RUNTIME_wireless-tools ?= "iw wireless-tools"
-+VIRTUAL-RUNTIME_base-utils ?= "busybox"
-+VIRTUAL-RUNTIME_base-utils-hwclock ?= "busybox-hwclock"
- 
- #
- # Default recipe providers
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 1f0fa95..a26286e 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
- the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
- first 'init' program more efficiently."
- 
--PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi busybox udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
-+PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi ${VIRTUAL-RUNTIME_base-utils} udev base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
- 
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 6c37b9a..0664a95 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "Modular initramfs system"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--RDEPENDS_${PN} += "busybox"
-+RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
- 
- PR = "r2"
- 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-index 09f5373..7e40445 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-@@ -24,7 +24,7 @@ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
- VIRTUAL-RUNTIME_initscripts ?= "initscripts"
- VIRTUAL-RUNTIME_keymaps ?= "keymaps"
- 
--SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwclock', '', d)} \
-+SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc','${VIRTUAL-RUNTIME_base-utils-hwclock}', '', d)} \
-                     modutils-initscripts \
-                     init-ifupdown \
-                     ${VIRTUAL-RUNTIME_initscripts} \
-@@ -33,7 +33,7 @@ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwc
- RDEPENDS_${PN} = "\
-     base-files \
-     base-passwd \
--    busybox \
-+    ${VIRTUAL-RUNTIME_base-utils} \
-     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
-     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
-     netbase \
 -- 
-2.1.0
+Jian Liu
+Email: jian.liu@windriver.com
+Office Phone: 86-10-84778539
 
 
