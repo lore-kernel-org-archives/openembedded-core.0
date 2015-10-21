@@ -1,37 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C38A275D4A
+Return-Path: <roy@currantlabs.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BA2375E80
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Oct 2015 21:02:30 +0000 (UTC)
-Received: by wicfx6 with SMTP id fx6so109026729wic.1
+	Wed, 21 Oct 2015 23:06:05 +0000 (UTC)
+Received: by pacfv9 with SMTP id fv9so70388845pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Oct 2015 14:02:30 -0700 (PDT)
+	Wed, 21 Oct 2015 16:06:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=lqPsQ0v6VS+tuI5Tmsz8iww0aThCJER895BYy9xc+Q4=;
-	b=CmRzLhoUxMTnEUpaMI7SOMNQ55SnlPgr1Hd7+Ans/71hPl+FWKSL9siAvO6JrHHVQU
-	pETbHSq1jMv7JnIB6BWq9sqmkjQksI47t5A/uSLwSkGO3xAsBkmDj1OWt0Q0XWLiZzsu
-	Q5m5Tbk4h72xQFo7mbkzi+TJjjKU8qnW+uJtrPIGYPppfiCqpcbg/TlRKyxc7bZqFvRy
-	qZX5yuVmHqTlK1oe2X287/O2fQuNzEVAjmhG+Cil7i6hoZCj/yQuMwbWyfGgvGIqcE04
-	GSYxiI8IoIWfauer+YUoiR39SiCdBs1uDERNW3RS7JGd4+gxue++UpgYeD3H94PtWuEb
-	0haA==
-X-Gm-Message-State: ALoCoQkSkamaVFStjLOm2657whZxmM2WCZ+Sa+D7vSwsYz3rkJVLJsnuU6/Jkk3tODryoXAkpmGX
-X-Received: by 10.194.205.162 with SMTP id lh2mr12785754wjc.61.1445461350440; 
-	Wed, 21 Oct 2015 14:02:30 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	jt3sm2347046wjc.12.2015.10.21.14.02.29
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 21 Oct 2015 14:02:29 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=C0MvegXDU4Nb3FZWpILEViV1qK6faM/FwDWX2Qluk8A=;
+	b=Jld/b509siCsoJSsSz93gBv2mUCnv/RKGceRgKKuK+Y1DLWo6mYwGU8CC6c11Wxv6Z
+	b2RJ8M8HRXM/hZ58KHTjrnpcsjQv3jGRnbDqodyn+oi1deSwWpXc8FtTkPipqwG/4JJJ
+	iY+mx8CtzG6lvCC+/Vu41KZucoull5YAKHfZFTqX5YkcMrHVu5Rfx0zjoc5VWrepAXlW
+	si6/SI8p4z5HBO9RaAxv4fpSSEBOoclTH3AkT2SDPtWky746c9Ji5pC5Qe5DOE0LSDRF
+	3sh+6c8780FyZ/8DNcippaNQJKoUtBL9HT6i5MNeJarSpA1gzStQotSXox7DnG++ZW//
+	Udhg==
+X-Gm-Message-State: ALoCoQkAa3WDmC8QV+pwyb1/me+45cyPXNlAAA2uwKConjtbBn4WW4GOw1DivqNbEq/C+uoAQwuu
+X-Received: by 10.66.120.237 with SMTP id lf13mr13230963pab.25.1445468765993; 
+	Wed, 21 Oct 2015 16:06:05 -0700 (PDT)
+Received: from localhost.localdomain (c-67-169-68-81.hsd1.ca.comcast.net.
+	[67.169.68.81]) by smtp.gmail.com with ESMTPSA id
+	yh3sm10990411pbb.82.2015.10.21.16.06.05
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 21 Oct 2015 16:06:05 -0700 (PDT)
+From: Tzu-Jung Lee <roy@currantlabs.com>
+X-Google-Original-From: Tzu-Jung Lee <roylee17@currantlabs.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Oct 2015 21:54:51 +0100
-Message-Id: <cover.1445460650.git.ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 00/23][jethro] Selftest and other fixes
+Date: Wed, 21 Oct 2015 23:06:45 +0000
+Message-Id: <1445468805-22100-1-git-send-email-roylee17@currantlabs.com>
+X-Mailer: git-send-email 2.6.2
+Cc: Tzu-Jung Lee <roylee17@currantlabs.com>
+Subject: [meta-oe][PATCH] devtool: add sync command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,185 +45,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Oct 2015 21:02:31 -0000
+X-List-Received-Date: Wed, 21 Oct 2015 23:06:06 -0000
 
-Hi,
+The sync command is similar to the extract command, except it
+fetches the sync'ed and patched branch to an existing git repository.
 
-A series of patches that mainly fix various sanity and selftest failures on
-the autobuilder, and a few 2.0-targetted bugs.
+This enables users to keep track the upstream development while
+maintaining their own local git repository at the same time.
 
-Ross
+Signed-off-by: Tzu-Jung Lee <roylee17@currantlabs.com>
+---
+ scripts/lib/devtool/standard.py | 73 +++++++++++++++++++++++++++++++----------
+ 1 file changed, 56 insertions(+), 17 deletions(-)
 
-The following changes since commit 8578bc17b54da97d42b257b3c8f398ac52b91a9f:
-
-  libc-package: Fix localedef multilib dependency issues (2015-10-20 10:12:01 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/jut
-
-for you to fetch changes up to 9e63faaa752251b45a986e0de797ba8aa806b601:
-
-  oeqa/selftest: improve config writing and cleanup (2015-10-21 21:25:22 +0100)
-
-----------------------------------------------------------------
-Alejandro Hernandez (1):
-      archiver.bbclass: Fixes and improves archiver class for kernel and gcc packages
-
-Alex Franco (1):
-      sanity.bbclass: expand warning when chmod fails
-
-Benjamin Esquivel (2):
-      populate SDK: prepare calling of bb.utils for exceptions
-      oeqa/selftest/manifest.py: Test support for manifests
-
-Chen Qi (2):
-      openssh: fix file permission for /etc/pam.d/sshd
-      sudo: fix file permission for /etc/pam.d/sudo
-
-Daniel Istrate (2):
-      oeqa/selftest/bbtests: Updated bitbake TCs
-      oeqa/selftest/wic: corrected testcase decorator for test18_iso_image
-
-Leonardo Sandoval (3):
-      oeqa/utils/ftools: Ignore the exception if file does not exist
-      oeqa/utils/ftools: From functions that expect data, check if None
-      oeqa/selftest/buildoptions: Use the correct script for cleaning the workdir
-
-Mark Hatle (1):
-      gcc-5.2: Fix various _FOR_BUILD and related variables
-
-Matt Madison (1):
-      i2c-tools: fix inverted RDEPENDS
-
-Paul Eggleton (1):
-      devtool: handle virtual providers
-
-Peter Kjellerstedt (1):
-      useradd_base.bbclass: Do not warn without a reason
-
-Ross Burton (8):
-      rpm: remove spurious build dependencies
-      qemu: disable Valgrind
-      oeqa/selftest/bbtests: clean up local DL_DIR/SSTATE_DIR safely
-      oeqa/selftest: verify that devtool can use plugins in other layers
-      oeqa/selftest/wic: fix cleaning
-      oeqa/selftest/wic: remove numbers from test names
-      oeqa/selftest: clean up selftest.inc in teardown
-      oeqa/selftest: improve config writing and cleanup
-
- meta-selftest/lib/devtool/__init__.py              |   0
- meta-selftest/lib/devtool/test.py                  |  11 ++
- meta/classes/archiver.bbclass                      |  27 +++-
- meta/classes/sanity.bbclass                        |   4 +-
- meta/classes/useradd_base.bbclass                  |   6 +-
- meta/lib/oe/recipeutils.py                         |   6 +-
- meta/lib/oe/sdk.py                                 |  76 +++++++---
- meta/lib/oeqa/selftest/base.py                     |   2 +-
- meta/lib/oeqa/selftest/bbtests.py                  |  60 +++++---
- meta/lib/oeqa/selftest/buildoptions.py             |   8 +-
- meta/lib/oeqa/selftest/devtool.py                  |  44 ++++++
- meta/lib/oeqa/selftest/imagefeatures.py            |  16 +-
- meta/lib/oeqa/selftest/manifest.py                 | 163 +++++++++++++++++++++
- meta/lib/oeqa/selftest/wic.py                      |  67 ++++-----
- meta/lib/oeqa/utils/ftools.py                      |  20 ++-
- meta/recipes-connectivity/openssh/openssh_7.1p1.bb |   2 +-
- meta/recipes-devtools/gcc/gcc-5.2.inc              |   1 +
- .../gcc/gcc-5.2/0042-cxxflags-for-build.patch      | 123 ++++++++++++++++
- meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb |   3 +-
- meta/recipes-devtools/qemu/qemu/no-valgrind.patch  |  19 +++
- meta/recipes-devtools/qemu/qemu_2.4.0.bb           |   1 +
- meta/recipes-devtools/rpm/rpm_4.11.2.bb            |   2 +-
- meta/recipes-extended/sudo/sudo_1.8.14p3.bb        |   2 +-
- scripts/lib/devtool/standard.py                    |  24 ++-
- scripts/lib/devtool/upgrade.py                     |  12 +-
- 25 files changed, 578 insertions(+), 121 deletions(-)
- create mode 100644 meta-selftest/lib/devtool/__init__.py
- create mode 100644 meta-selftest/lib/devtool/test.py
- create mode 100644 meta/lib/oeqa/selftest/manifest.py
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0042-cxxflags-for-build.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/no-valgrind.patch
-
-Alejandro Hernandez (1):
-  archiver.bbclass: Fixes and improves archiver class for kernel and gcc
-    packages
-
-Alex Franco (1):
-  sanity.bbclass: expand warning when chmod fails
-
-Benjamin Esquivel (2):
-  populate SDK: prepare calling of bb.utils for exceptions
-  oeqa/selftest/manifest.py: Test support for manifests
-
-Chen Qi (2):
-  openssh: fix file permission for /etc/pam.d/sshd
-  sudo: fix file permission for /etc/pam.d/sudo
-
-Daniel Istrate (2):
-  oeqa/selftest/bbtests: Updated bitbake TCs
-  oeqa/selftest/wic: corrected testcase decorator for test18_iso_image
-
-Leonardo Sandoval (3):
-  oeqa/utils/ftools: Ignore the exception if file does not exist
-  oeqa/utils/ftools: From functions that expect data, check if None
-  oeqa/selftest/buildoptions: Use the correct script for cleaning the
-    workdir
-
-Mark Hatle (1):
-  gcc-5.2: Fix various _FOR_BUILD and related variables
-
-Matt Madison (1):
-  i2c-tools: fix inverted RDEPENDS
-
-Paul Eggleton (1):
-  devtool: handle virtual providers
-
-Peter Kjellerstedt (1):
-  useradd_base.bbclass: Do not warn without a reason
-
-Ross Burton (8):
-  rpm: remove spurious build dependencies
-  qemu: disable Valgrind
-  oeqa/selftest/bbtests: clean up local DL_DIR/SSTATE_DIR safely
-  oeqa/selftest: verify that devtool can use plugins in other layers
-  oeqa/selftest/wic: fix cleaning
-  oeqa/selftest/wic: remove numbers from test names
-  oeqa/selftest: clean up selftest.inc in teardown
-  oeqa/selftest: improve config writing and cleanup
-
- meta-selftest/lib/devtool/__init__.py              |   0
- meta-selftest/lib/devtool/test.py                  |  11 ++
- meta/classes/archiver.bbclass                      |  27 +++-
- meta/classes/sanity.bbclass                        |   4 +-
- meta/classes/useradd_base.bbclass                  |   6 +-
- meta/lib/oe/recipeutils.py                         |   6 +-
- meta/lib/oe/sdk.py                                 |  76 +++++++---
- meta/lib/oeqa/selftest/base.py                     |   2 +-
- meta/lib/oeqa/selftest/bbtests.py                  |  60 +++++---
- meta/lib/oeqa/selftest/buildoptions.py             |   8 +-
- meta/lib/oeqa/selftest/devtool.py                  |  44 ++++++
- meta/lib/oeqa/selftest/imagefeatures.py            |  16 +-
- meta/lib/oeqa/selftest/manifest.py                 | 163 +++++++++++++++++++++
- meta/lib/oeqa/selftest/wic.py                      |  67 ++++-----
- meta/lib/oeqa/utils/ftools.py                      |  20 ++-
- meta/recipes-connectivity/openssh/openssh_7.1p1.bb |   2 +-
- meta/recipes-devtools/gcc/gcc-5.2.inc              |   1 +
- .../gcc/gcc-5.2/0042-cxxflags-for-build.patch      | 123 ++++++++++++++++
- meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb |   3 +-
- meta/recipes-devtools/qemu/qemu/no-valgrind.patch  |  19 +++
- meta/recipes-devtools/qemu/qemu_2.4.0.bb           |   1 +
- meta/recipes-devtools/rpm/rpm_4.11.2.bb            |   2 +-
- meta/recipes-extended/sudo/sudo_1.8.14p3.bb        |   2 +-
- scripts/lib/devtool/standard.py                    |  24 ++-
- scripts/lib/devtool/upgrade.py                     |  12 +-
- 25 files changed, 578 insertions(+), 121 deletions(-)
- create mode 100644 meta-selftest/lib/devtool/__init__.py
- create mode 100644 meta-selftest/lib/devtool/test.py
- create mode 100644 meta/lib/oeqa/selftest/manifest.py
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0042-cxxflags-for-build.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/no-valgrind.patch
-
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 5d7e903..2c6b7b3 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -234,7 +234,29 @@ def extract(args, config, basepath, workspace):
+         return 1
+ 
+     srctree = os.path.abspath(args.srctree)
+-    initial_rev = _extract_source(srctree, args.keep_temp, args.branch, rd)
++    initial_rev = _extract_source(srctree, args.keep_temp, args.branch, False, rd)
++    logger.info('Source tree extracted to %s' % srctree)
++
++    if initial_rev:
++        return 0
++    else:
++        return 1
++
++def sync(args, config, basepath, workspace):
++    """Entry point for the devtool 'sync' subcommand"""
++    import bb
++
++    tinfoil = _prep_extract_operation(config, basepath, args.recipename)
++    if not tinfoil:
++        # Error already shown
++        return 1
++
++    rd = parse_recipe(config, tinfoil, args.recipename, True)
++    if not rd:
++        return 1
++
++    srctree = os.path.abspath(args.srctree)
++    initial_rev = _extract_source(srctree, args.keep_temp, args.branch, True, rd)
+     logger.info('Source tree extracted to %s' % srctree)
+ 
+     if initial_rev:
+@@ -289,7 +311,7 @@ def _prep_extract_operation(config, basepath, recipename):
+     return tinfoil
+ 
+ 
+-def _extract_source(srctree, keep_temp, devbranch, d):
++def _extract_source(srctree, keep_temp, devbranch, sync, d):
+     """Extract sources of a recipe"""
+     import bb.event
+     import oe.recipeutils
+@@ -308,21 +330,26 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+ 
+     _check_compatible_recipe(pn, d)
+ 
+-    if os.path.exists(srctree):
+-        if not os.path.isdir(srctree):
+-            raise DevtoolError("output path %s exists and is not a directory" %
+-                               srctree)
+-        elif os.listdir(srctree):
+-            raise DevtoolError("output path %s already exists and is "
+-                               "non-empty" % srctree)
++    if sync:
++        if not os.path.exists(srctree):
++                raise DevtoolError("output path %s does not exist" % srctree)
++    else:
++        if os.path.exists(srctree):
++            if not os.path.isdir(srctree):
++                raise DevtoolError("output path %s exists and is not a directory" %
++                                   srctree)
++            elif os.listdir(srctree):
++                raise DevtoolError("output path %s already exists and is "
++                                   "non-empty" % srctree)
+ 
+-    if 'noexec' in (d.getVarFlags('do_unpack', False) or []):
+-        raise DevtoolError("The %s recipe has do_unpack disabled, unable to "
+-                           "extract source" % pn)
++        if 'noexec' in (d.getVarFlags('do_unpack', False) or []):
++            raise DevtoolError("The %s recipe has do_unpack disabled, unable to "
++                               "extract source" % pn)
+ 
+-    # Prepare for shutil.move later on
+-    bb.utils.mkdirhier(srctree)
+-    os.rmdir(srctree)
++    if not sync:
++        # Prepare for shutil.move later on
++        bb.utils.mkdirhier(srctree)
++        os.rmdir(srctree)
+ 
+     # We don't want notes to be printed, they are too verbose
+     origlevel = bb.logger.getEffectiveLevel()
+@@ -431,8 +458,11 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+             logger.info('Adding local source files to srctree...')
+             shutil.move(os.path.join(tempdir, 'oe-local-files'), srcsubdir)
+ 
++        if sync:
++            bb.process.run('git fetch file://' + srcsubdir + ' ' + devbranch + ':' + devbranch, cwd=srctree)
++        else:
++            shutil.move(srcsubdir, srctree)
+ 
+-        shutil.move(srcsubdir, srctree)
+     finally:
+         bb.logger.setLevel(origlevel)
+ 
+@@ -532,7 +562,7 @@ def modify(args, config, basepath, workspace):
+     commits = []
+     srctree = os.path.abspath(args.srctree)
+     if args.extract:
+-        initial_rev = _extract_source(args.srctree, False, args.branch, rd)
++        initial_rev = _extract_source(args.srctree, False, args.branch, False, rd)
+         if not initial_rev:
+             return 1
+         logger.info('Source tree extracted to %s' % srctree)
+@@ -1107,6 +1137,15 @@ def register_commands(subparsers, context):
+     parser_extract.add_argument('--keep-temp', action="store_true", help='Keep temporary directory (for debugging)')
+     parser_extract.set_defaults(func=extract)
+ 
++    parser_sync = subparsers.add_parser('sync', help='Synchronize the source for an existing recipe',
++                                       description='Synchronize the source for an existing recipe',
++                                       formatter_class=argparse.ArgumentDefaultsHelpFormatter)
++    parser_sync.add_argument('recipename', help='Name for recipe to sync the source for')
++    parser_sync.add_argument('srctree', help='Path to where to sync the source tree')
++    parser_sync.add_argument('--branch', '-b', default="devtool", help='Name for development branch to checkout')
++    parser_sync.add_argument('--keep-temp', action="store_true", help='Keep temporary directory (for debugging)')
++    parser_sync.set_defaults(func=sync)
++
+     parser_update_recipe = subparsers.add_parser('update-recipe', help='Apply changes from external source tree to recipe',
+                                        description='Applies changes from external source tree to a recipe (updating/adding/removing patches as necessary, or by updating SRCREV)')
+     parser_update_recipe.add_argument('recipename', help='Name of recipe to update')
 -- 
-2.1.4
+2.6.2
 
 
