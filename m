@@ -1,60 +1,24 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 126D775CD0
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 57CAB75CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 09:01:39 +0000 (UTC)
-Received: by lfbn126 with SMTP id n126so5873712lfb.2
+	Thu, 22 Oct 2015 09:33:49 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9M9XmLY013633
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 02:01:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=dresearch-fe_de.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-type:content-transfer-encoding;
-	bh=9RicdyFUhDzLxETi0XZ3sM0/KNY1YHeBWrt91MKKLso=;
-	b=vdp34Wpx6lCaEWnlyDsp9OktaoeZoZRKCqGhYIkIszc7HlSqkIQzNyVn91JQYqo5Kg
-	0FbpjIoKD7qY9NWnylHHnFDGR4d8iryYd633NqagnMlQC433BZh8kvvAhExYDP/qXox8
-	Q6FPg1cD08nHiZGkQQE6EPYlWseQPqoZ96Zx2EZGkbZd5EEvq1h4g/pnnZVDtKPYBXdU
-	CxgN5wiJ6MoDGhxvvIvujsPOZSLjlOZVSSOqi3o5dB6oKHMwFrs6iz65bO9XQftucjsN
-	TmbVcqUZdZjfKT/xIJ0A6fyO4zX3x/MF8Y0M9QmHg0ABcoywqGGBvWOgQJg+Tv3+RUoO
-	Db0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=9RicdyFUhDzLxETi0XZ3sM0/KNY1YHeBWrt91MKKLso=;
-	b=EbxKzgE7aCK1hYgnD6Z944gjjSvqmHhunkTOKlGumzT9xiVMpz2kpobzqA7QHvsB+5
-	51DER8SyLBw/1MqkNUcfjWRvV5eCJQ2lSdsT46Nl3tyeUp6B1HJ5m2RF78Z1uNOqa8f2
-	pBXiyJomoOYicD84+eo4oV1ARDmLxcqkz+qXk6F4HIPAE70sS0zadRC2w/YTkUZg7GX3
-	b/QbN+jh78nvxXpQp3NyJWhwjgOQbumZWK1bS/XuiTogspaz2xlllSrFDpVzTkptZtEj
-	jwObtdxf0zKl7cA8t4i0ZajpQbavNA03+Aa8VEwruhZlsKANBqcOybocd/b6J61rj4Fa
-	k95Q==
-X-Gm-Message-State: ALoCoQm3Vzn8Gu5ZJe1bD+NenV+i8Oam/taIugyQsy2dT2gpndZaZZxjgo1Dynw2mNiaP4JFQjlq
-X-Received: by 10.25.165.84 with SMTP id o81mr5192988lfe.80.1445504498669;
-	Thu, 22 Oct 2015 02:01:38 -0700 (PDT)
-Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
-	by smtp.googlemail.com with ESMTPSA id
-	m17sm1883832lfb.16.2015.10.22.02.01.37
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 22 Oct 2015 02:01:37 -0700 (PDT)
-To: Richard Leitner <richard.leitner@skidata.com>,
-	openembedded-devel@lists.openembedded.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Martin Jansa <martin.jansa@gmail.com>,
-	Koen Kooi <koen@dominion.thruhere.net>
-References: <56279AAF.4050704@dresearch-fe.de> <5628952C.8080706@skidata.com>
-	<5628A3BE.3010403@dresearch-fe.de> <5628A439.1030200@skidata.com>
-From: Steffen Sledz <sledz@dresearch-fe.de>
-Message-ID: <5628A5F0.2060009@dresearch-fe.de>
-Date: Thu, 22 Oct 2015 11:01:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Thu, 22 Oct 2015 02:33:49 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 22 Oct 2015 02:33:48 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Oct 2015 05:33:47 -0400
+Message-ID: <1445506427-15720-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <5628A439.1030200@skidata.com>
-Cc: Benjamin Reikowski <reikowski@dresearch-fe.de>
-Subject: Re: [oe] cups-filters
+Subject: [PATCH] gnupg: set development_version as no
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,37 +31,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 09:01:43 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 22 Oct 2015 09:33:51 -0000
+Content-Type: text/plain
 
-On 22.10.2015 10:54, Richard Leitner wrote:
-> On 10/22/2015 10:52 AM, Steffen Sledz wrote:
->> On 22.10.2015 09:50, Richard Leitner wrote:
->>> On 10/21/2015 04:01 PM, Steffen Sledz wrote:
->>>> Does anybody know about a recipe providing cups-filters?
->>>>
->>>> http://layers.openembedded.org was not really helpful here.
->>>
->>> I have one which works for my purposes but it is not really tested...
->>> It is based on something I found somewhere on the web (I don't remember
->>> the source).
->>
->> Any plans to make this part of an official layer?
->>
-> Currently I have no time for creating and testing a clean patch for it.
-> But if anybody has time and motivation, feel free to do it ;-)
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-I could try to prepare one.
+The development_version used to mark if gnupg is a beta version. The
+checking logic in autogen.sh always assume that gnupg is beta if below
+command is not run in gnupg's git-repo:
 
-@layer-maintainers: What would be the right layer for this? openembedded-core or meta-oe?
+  './autogen.sh --find-version 2 1 7'
 
+This does not work for integration. Set development_version as no to
+fix runtime issue:
+
+  $gpg --list-sigs
+  gpg: NOTE: THIS IS A DEVELOPMENT VERSION!
+  gpg: It is only intended for test purposes and should NOT be
+  gpg: used in a production environment or with production keys!
+
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
+ .../configure-set-development_version-as-no.patch  | 36 ++++++++++++++++++++++
+ meta/recipes-support/gnupg/gnupg_2.1.7.bb          |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-support/gnupg/gnupg/configure-set-development_version-as-no.patch
+
+diff --git a/meta/recipes-support/gnupg/gnupg/configure-set-development_version-as-no.patch b/meta/recipes-support/gnupg/gnupg/configure-set-development_version-as-no.patch
+new file mode 100644
+index 0000000..3c71040
+--- /dev/null
++++ b/meta/recipes-support/gnupg/gnupg/configure-set-development_version-as-no.patch
+@@ -0,0 +1,36 @@
++From 6cdc55816048afb52f1c3a706c0ba99dfc069b89 Mon Sep 17 00:00:00 2001
++From: Wenzong Fan <wenzong.fan@windriver.com>
++Date: Thu, 22 Oct 2015 02:51:46 -0400
++Subject: [PATCH] gnupg: set development_version as no
++
++The development_version used to mark if gnupg is a beta version. The
++checking logic in autogen.sh always assume that gnupg is beta if below
++command is not run in gnupg's git-repo:
++
++  './autogen.sh --find-version 2 1 7'
++
++This does not work for integration.
++
++Upstream-Status: Inappropriate [configuration]
++
++Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
++---
++ configure.ac | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/configure.ac b/configure.ac
++index b38aa06..ea40c19 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -70,7 +70,7 @@ NEED_NPTH_VERSION=0.91
++ NEED_GNUTLS_VERSION=3.0
++ 
++ 
++-development_version=mym4_isbeta
+++development_version=no
++ PACKAGE=$PACKAGE_NAME
++ PACKAGE_GT=${PACKAGE_NAME}2
++ VERSION=$PACKAGE_VERSION
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/gnupg/gnupg_2.1.7.bb b/meta/recipes-support/gnupg/gnupg_2.1.7.bb
+index 48c7c96..638af6d 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.1.7.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.1.7.bb
+@@ -12,6 +12,7 @@ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://pkgconfig.patch \
+            file://use-pkgconfig-instead-of-npth-config.patch \
+            file://dirmngr-uses-libgpg-error.patch \
++           file://configure-set-development_version-as-no.patch \
+           "
+ 
+ SRC_URI[md5sum] = "ebdf92b15b8bcd8579b643c7f41a3238"
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+1.9.1
+
 
