@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D36E77155
+	by mail.openembedded.org (Postfix) with ESMTP id CCAF57711C
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:20 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 52266609016
+	(Authenticated sender: joshuagl) with ESMTPSA id BD88060029B
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:21:31 +0100
-Message-Id: <ead4a552464309e6ef3381590994b6cea225ca20.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:21:33 +0100
+Message-Id: <33c3a74b0266c53773d7ca3983f9ff50c00b9000.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 10/52] classes/base: provide hints on PACKAGECONFIG error
+Subject: [PATCH v3 12/52] image-live: make SYSLINUX_ROOT changable in image recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,34 +29,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Oct 2015 15:22:21 -0000
 
-From: Joe MacDonald <joe_macdonald@mentor.com>
+From: Chris Hallinan <challinan@gmail.com>
 
-Commit 771f89498c introduces an error message that is very rarely hit and
-when it is, it is usually easy to trace the root cause very quickly.  The
-information provided in the error message isn't enough to lead you back to
-the actual failure, however, so expand upon it a bit, pinpointing the
-specific package and flag that fails.
-
-Signed-off-by: Joe MacDonald <joe_macdonald@mentor.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/base.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/image-live.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index f078001..d711ae4 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -391,7 +391,8 @@ python () {
-             items = flagval.split(",")
-             num = len(items)
-             if num > 4:
--                bb.error("Only enable,disable,depend,rdepend can be specified!")
-+                bb.error("%s: PACKAGECONFIG[%s] Only enable,disable,depend,rdepend can be specified!"
-+                    % (d.getVar('PN', True), flag))
- 
-             if flag in pkgconfig:
-                 if num >= 3 and items[2]:
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index fa7a131..23e4a5c 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -2,7 +2,7 @@
+ AUTO_SYSLINUXCFG = "1"
+ INITRD_IMAGE ?= "core-image-minimal-initramfs"
+ INITRD ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE}-${MACHINE}.cpio.gz"
+-SYSLINUX_ROOT = "root=/dev/ram0"
++SYSLINUX_ROOT ?= "root=/dev/ram0"
+ SYSLINUX_TIMEOUT ?= "50"
+ SYSLINUX_LABELS ?= "boot install"
+ LABELS_append = " ${SYSLINUX_LABELS} "
 -- 
 2.1.4
 
