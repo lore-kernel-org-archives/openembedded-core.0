@@ -1,31 +1,53 @@
-Return-Path: <rpjday@crashcourse.ca>
-X-Greylist: delayed 596 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 22 Oct 2015 16:35:40 UTC
-Received: from smtp684.redcondor.net (smtp684.redcondor.net [208.80.206.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 19BBF77129
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 7978060124
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 16:35:40 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp684.redcondor.net ({700db0a8-6fb7-4c8b-9b2a-6812225182d8})
-	via TCP (outbound) with ESMTPS id 20151022162543473_0684
+	Thu, 22 Oct 2015 18:10:08 +0000 (UTC)
+Received: by igdg1 with SMTP id g1so113582igd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 16:25:43 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-X-RC-RCPT: <openembedded-core@lists.openembedded.org>
-Received: from [173.38.117.90] (port=37608 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1ZpIh9-0002Ec-HA for openembedded-core@lists.openembedded.org;
-	Thu, 22 Oct 2015 12:26:27 -0400
-Date: Thu, 22 Oct 2015 12:25:35 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1510221223420.24305@localhost>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Thu, 22 Oct 2015 11:10:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=v66wduK6KrbHn4iU18putEP27C00Yd8AKqfsK1m70es=;
+	b=fviVZ/ESswnyLlSUFr0AQbhzETwxQZ+utNX4kqzRXPH9gnQHrbd/YNRfbTPOW/FS2E
+	Godr9FucqakXwrv0UpucQRRFRwMGkLs0QLO4Mra3Vb+Z6EMs+/HnVLw45WvvUyDldDYZ
+	1qWnZ+hO71Fisj8xbNSlmysV5dqdOmbBaQd2XtgEkifx5h/LJkyuf3Vizo02TIWlzA+d
+	B/2Yu+wvVsyGvhkY7c+qvkWb/CpPZkj4dXILzek1OKp2t6TSeCRdE4Qu+4I5aIw5vlRn
+	kM/tylfkWd/tmo2D/Pt2jqpbbDVEPeQwienN+cTMxlHuSl6vv16E6lewkqHzHJZT1RHy
+	eygA==
+X-Gm-Message-State: ALoCoQmUP1c72ljPAfdZbNXaGRewnT8MXYSIBNaQF+tivgEfCkm8S6Lef52UYuGVygIhHBAs3oyH
+X-Received: by 10.50.43.129 with SMTP id w1mr15301266igl.96.1445537408488;
+	Thu, 22 Oct 2015 11:10:08 -0700 (PDT)
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com.
+	[209.85.213.176]) by smtp.gmail.com with ESMTPSA id
+	i134sm6496334ioi.11.2015.10.22.11.10.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 22 Oct 2015 11:10:07 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by igbhv6 with SMTP id hv6so193879igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Oct 2015 11:10:07 -0700 (PDT)
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Subject: [PATCH] Add entry for qemumips64 to local.conf.sample.
+X-Received: by 10.50.43.225 with SMTP id z1mr36717092igl.19.1445537407252;
+	Thu, 22 Oct 2015 11:10:07 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Thu, 22 Oct 2015 11:10:07 -0700 (PDT)
+In-Reply-To: <365E1805BC95084CBE82381A0B86999401095FB12A@EU-MBX-01.mgc.mentorg.com>
+References: <365E1805BC95084CBE82381A0B86999401095F9A9A@EU-MBX-01.mgc.mentorg.com>
+	<365E1805BC95084CBE82381A0B86999401095FA549@EU-MBX-01.mgc.mentorg.com>
+	<365E1805BC95084CBE82381A0B86999401095FB12A@EU-MBX-01.mgc.mentorg.com>
+Date: Thu, 22 Oct 2015 16:10:07 -0200
+Message-ID: <CAP9ODKph1Zssvm=Mjyz1kTDG4J6dFP-8ntW2hgX+RM9r1OAhWA@mail.gmail.com>
+To: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Krishnakar,
+	Srikanth" <Srikanth_Krishnakar@mentor.com>, "Larson,
+	Chris" <Chris_Larson@mentor.com>
+Subject: Re: U-boot file is being removed when image-recipe is rebuild which uses wic.bz2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +60,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 16:35:42 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 22 Oct 2015 18:10:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Wed, Oct 21, 2015 at 11:38 AM, Ahsan, Noor <Noor_Ahsan@mentor.com> wrote:
+> Your help will be much appreciated. I am trying to locate the issue but no
+> luck yet.
 
-For whatever reason, qemumips64 isn't mentioned in local.conf.sample
-as a valid target machine.
+We reproduced this at O.S. Systems autobuilder today[1]. It seems very
+close to what you see.
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+1. http://ci.ossystems.com.br/job/fsl-community-bsp-master-next_x11-imx6qsabresd/869/console
 
----
-
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index 3ae24ab..92ee7a1 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -20,6 +20,7 @@
- #MACHINE ?= "qemuarm"
- #MACHINE ?= "qemuarm64"
- #MACHINE ?= "qemumips"
-+#MACHINE ?= "qemumips64"
- #MACHINE ?= "qemuppc"
- #MACHINE ?= "qemux86"
- #MACHINE ?= "qemux86-64"
+Can you take a look and confirm it is the same issue?
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
