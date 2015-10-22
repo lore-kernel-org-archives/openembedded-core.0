@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 2759577138
+	by mail.openembedded.org (Postfix) with ESMTP id 5ACAA7716E
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:24 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 84EEA600F5A
+	(Authenticated sender: joshuagl) with ESMTPSA id B9CCF600F5C
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:22:06 +0100
-Message-Id: <aecaa0e8739db1c228a6db78225a717d9f348a5b.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:22:08 +0100
+Message-Id: <8876ae6b9ece47e818bf03dcd4a4ba79a330cf42.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 45/52] archiver.bbclass: Fixes and improves archiver class for kernel and gcc packages
+Subject: [PATCH v3 47/52] systemd: add PACKAGECONFIG to build with compatibility libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,105 +29,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Oct 2015 15:22:28 -0000
 
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Systemd < 209 shipped separate pc files for various interfaces, these
+can still be generated for compatibility with code using the older
+interfaces.
 
-gcc packages use a shared source directory, this causes an issue since the archiver will
-try to patch the same source several times (one for each gcc package), producing an error,
-the archiver class used stamp-base to check this, nonetheless our gcc packages no longer
-use stamp-base, they use gcc-shared instead, which is what broke this functionality.
-This patch adds a check to see whether or not the source should be patched,
-avoiding patching the source when it shouldn't.
+Add a PACKAGECONFIG option to build systemd with the compatibility
+pc files.
 
-Also, we dont need to create multiple identical tarballs for all gcc packages,
-this patch fixes this and creates a single source tarball for gcc.
+Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 
-When requesting patched sources, a race condition is created for linux-yocto tasks,
-unpack_and_patch is executed along with kernel_configme, which most of the time
-causes errors during configure, since kernel_configme task is specific to the kernel,
-simply modifying the tasks order by creating a dependency to kernel_configme was impossible,
-causing errors on all other packages that didnt use kernel_configme, this is fixed by
-creating a special case for the kernel, adding tasks with correct dependencies,
-avoiding the race condition and behaving the way it should for all other packages as well.
-
-[YOCTO #8378]
-
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+FIX: systemd-compat
 ---
- meta/classes/archiver.bbclass | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+ meta/recipes-core/systemd/systemd_225.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index eec8024..41a552c 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -157,7 +157,7 @@ python do_ar_patched() {
-     # Get the ARCHIVER_OUTDIR before we reset the WORKDIR
-     ar_outdir = d.getVar('ARCHIVER_OUTDIR', True)
-     bb.note('Archiving the patched source...')
--    d.setVar('WORKDIR', d.getVar('ARCHIVER_WORKDIR', True))
-+    d.setVar('WORKDIR', ar_outdir)
-     create_tarball(d, d.getVar('S', True), 'patched', ar_outdir)
- }
+diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
+index c2dad58..9388046 100644
+--- a/meta/recipes-core/systemd/systemd_225.bb
++++ b/meta/recipes-core/systemd/systemd_225.bb
+@@ -89,6 +89,7 @@ PACKAGECONFIG[ldconfig] = "--enable-ldconfig,--disable-ldconfig,,"
+ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
+ PACKAGECONFIG[valgrind] = "ac_cv_header_valgrind_memcheck_h=yes ac_cv_header_valgrind_valgrind_h=yes ,ac_cv_header_valgrind_memcheck_h=no ac_cv_header_valgrind_valgrind_h=no ,valgrind"
+ PACKAGECONFIG[qrencode] = "--enable-qrencode,--disable-qrencode,qrencode"
++PACKAGECONFIG[compat] = "--enable-compat-libs,--disable-compat-libs"
  
-@@ -202,6 +202,10 @@ def create_tarball(d, srcdir, suffix, ar_outdir):
-     """
-     import tarfile
- 
-+    # Make sure we are only creating a single tarball for gcc sources
-+    if d.getVar('SRC_URI', True) == "" and 'gcc' in d.getVar('PN', True):
-+        return
-+
-     bb.utils.mkdirhier(ar_outdir)
-     tarname = os.path.join(ar_outdir, '%s-%s.tar.gz' % \
-             (d.getVar('PF', True), suffix))
-@@ -246,11 +250,9 @@ python do_unpack_and_patch() {
-             [ 'patched', 'configured'] and \
-             d.getVarFlag('ARCHIVER_MODE', 'diff', True) != '1':
-         return
--
--    ar_outdir = d.getVar('ARCHIVER_OUTDIR', True)
--
-     # Change the WORKDIR to make do_unpack do_patch run in another dir.
--    d.setVar('WORKDIR', d.getVar('ARCHIVER_WORKDIR', True))
-+    ar_outdir = d.getVar('ARCHIVER_OUTDIR', True)
-+    d.setVar('WORKDIR', ar_outdir)
- 
-     # The changed 'WORKDIR' also casued 'B' changed, create dir 'B' for the
-     # possibly requiring of the following tasks (such as some recipes's
-@@ -270,7 +272,11 @@ python do_unpack_and_patch() {
-         src = d.getVar('S', True).rstrip('/')
-         src_orig = '%s.orig' % src
-         oe.path.copytree(src, src_orig)
--    bb.build.exec_func('do_patch', d)
-+
-+    # Make sure gcc sources are patched only once
-+    if not ((d.getVar('SRC_URI', True) == "" and 'gcc' in d.getVar('PN', True))):
-+        bb.build.exec_func('do_patch', d)
-+
-     # Create the patches
-     if d.getVarFlag('ARCHIVER_MODE', 'diff', True) == '1':
-         bb.note('Creating diff gz...')
-@@ -341,7 +347,6 @@ do_deploy_archives[sstate-inputdirs] = "${ARCHIVER_TOPDIR}"
- do_deploy_archives[sstate-outputdirs] = "${DEPLOY_DIR_SRC}"
- 
- addtask do_ar_original after do_unpack
--addtask do_unpack_and_patch after do_patch
- addtask do_ar_patched after do_unpack_and_patch
- addtask do_ar_configured after do_unpack_and_patch
- addtask do_dumpdata
-@@ -354,3 +359,11 @@ do_deploy_all_archives[recideptask] = "do_${BB_DEFAULT_TASK}"
- do_deploy_all_archives() {
-         :
- }
-+
-+python () {
-+    # Add tasks in the correct order, specifically for linux-yocto to avoid race condition
-+    if bb.data.inherits_class('kernel-yocto', d):
-+        bb.build.addtask('do_kernel_configme', 'do_configure', 'do_unpack_and_patch', d)
-+    else:
-+        bb.build.addtask('do_unpack_and_patch', None, 'do_patch', d)
-+}
+ CACHED_CONFIGUREVARS += "ac_cv_path_KILL=${base_bindir}/kill"
+ CACHED_CONFIGUREVARS += "ac_cv_path_KMOD=${base_bindir}/kmod"
 -- 
 2.1.4
 
