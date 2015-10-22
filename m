@@ -1,16 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id A13457712D
+	by mail.openembedded.org (Postfix) with ESMTP id A20FC77131
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:19 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 0ABA160029B
+	(Authenticated sender: joshuagl) with ESMTPSA id 73D27608FD7
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:21:21 +0100
-Message-Id: <cover.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:21:25 +0100
+Message-Id: <ef16c20e6936218ff96c599cce0200c34f5017dd.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v3 00/52] Various metadata tweaks v3
+In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
+References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
+In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
+References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
+Subject: [PATCH v3 04/52] gcc-4.x: fix wrong warning when using the universal zero initializer {0}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,195 +29,282 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Oct 2015 15:22:20 -0000
 
+From: Kai Kang <kai.kang@windriver.com>
 
-The following series are some tidy ups and changes made whilst
-porting a distro with systemd and a Weston + Xwayland userland to
-Jethro.
+When I upgrade efivar to 0.21, it fails to compile with error messages:
 
-Please consider them for inclusion.
+| linux.c:850:9: error: missing braces around initializer
+[-Werror=missing-braces]
+|   struct ifreq ifr = { 0, };
+|          ^
 
-Changes since v2:
-* Backport weston patch to make enabling/disabling of systemd-login explicit
-* Mention the change in default behaviour regarding systemds dbus-related tests
+It is a known issue of gcc. Backport patch from
 
-Regards,
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53119
 
-Joshua
+to fix wrong warning when using the universal zero initializer {0}.
 
-The following changes since commit 10e5df3503632a6e1c54612055b19f7258c3ae2f:
-
-  lib/oe/image.py: Fix dependency handling for compressed types (2015-10-14 18:08:22 +0300)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib joshuagl/cleanup
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/cleanup
-
-Alejandro Hernandez (1):
-  archiver.bbclass: Fixes and improves archiver class for kernel and gcc
-    packages
-
-Alex Franco (2):
-  test-empty-image: rename from core-image-empty
-  sanity.bbclass: expand warning when chmod fails
-
-Benjamin Esquivel (2):
-  populate SDK: prepare calling of bb.utils for exceptions
-  oeqa/selftest/manifest.py: Test support for manifests
-
-Chen Qi (2):
-  openssh: fix file permission for /etc/pam.d/sshd
-  sudo: fix file permission for /etc/pam.d/sudo
-
-Chris Hallinan (1):
-  image-live: make SYSLINUX_ROOT changable in image recipes
-
-Daniel Istrate (2):
-  oeqa/selftest/bbtests: Updated bitbake TCs
-  oeqa/selftest/wic: corrected testcase decorator for test18_iso_image
-
-Joe MacDonald (1):
-  classes/base: provide hints on PACKAGECONFIG error
-
-Joshua Lock (6):
-  systemd: add PACKAGECONFIG to build with compatibility libraries
-  weston: add PACKAGECONFIG to build with systemd-login support
-  systemd: make dbus an optional build time dependency
-  weston: add a PACKAGECONFIG option for xwayland support
-  xserver-xorg: add Xwayland RRECOMMENDS
-  xserver-xorg: drop empty ${PN}-security-policy package
-
-Kai Kang (1):
-  gcc-4.x: fix wrong warning when using the universal zero initializer
-    {0}
-
-Khem Raj (1):
-  grub-efi, gummiboot: Emit correct path in startup.nsh
-
-Leonardo Sandoval (3):
-  oeqa/utils/ftools: Ignore the exception if file does not exist
-  oeqa/utils/ftools: From functions that expect data, check if None
-  oeqa/selftest/buildoptions: Use the correct script for cleaning the
-    workdir
-
-Mariano Lopez (2):
-  oetest: Add tearDownLocal class
-  oeqa/runtime: Fix setUp and tearDown methods
-
-Mark Hatle (1):
-  gcc-5.2: Fix various _FOR_BUILD and related variables
-
-Matt Madison (1):
-  i2c-tools: fix inverted RDEPENDS
-
-Maxin B. John (1):
-  toolchain-shar-extract.sh: provide proper path for env_setup_script
-
-Paul Eggleton (11):
-  common-licenses: use correct GFDL-1.1 license text
-  build-compare: drop PATCHTOOL setting
-  tzdata: reinstate changes reverted in 2014c upgrade
-  devtool: extract: fix error handling
-  scripts/gen-lockedsig-cache: fix race with temp file creation
-  classes/populate_sdk_ext: consistent indentation
-  classes/populate_sdk_ext: prevent image construction from executing on
-    install
-  classes/populate_sdk_ext: add note to env setup script
-  classes/populate_sdk_ext: detect and warn if running in OE environment
-  toolchain-shar-extract.sh: print full-length title underline
-  devtool: handle virtual providers
-
-Peter Kjellerstedt (1):
-  useradd_base.bbclass: Do not warn without a reason
-
-Richard Purdie (2):
-  libc-package: Fix localedef multilib dependency issues
-  build-appliance-image: Update to jethro head revision
-
-Robert Yang (1):
-  coreutils: fix for native and nativesdk
-
-Ross Burton (10):
-  linux-yocto-custom: fix typo in Upstream-Status tag
-  metadata_scm: rewrite git hash logic
-  rpm: remove spurious build dependencies
-  qemu: disable Valgrind
-  oeqa/selftest/bbtests: clean up local DL_DIR/SSTATE_DIR safely
-  oeqa/selftest: verify that devtool can use plugins in other layers
-  oeqa/selftest/wic: fix cleaning
-  oeqa/selftest: clean up selftest.inc in teardown
-  oeqa/selftest/wic: remove numbers from test names
-  oeqa/selftest: improve config writing and cleanup
-
- meta-selftest/lib/devtool/__init__.py              |   0
- meta-selftest/lib/devtool/test.py                  |  11 ++
- .../{core-image-empty.bb => test-empty-image.bb}   |   1 -
- .../0001-linux-version-tweak.patch                 |   2 +-
- meta/classes/archiver.bbclass                      |  27 ++-
- meta/classes/base.bbclass                          |   3 +-
- meta/classes/grub-efi.bbclass                      |   3 +-
- meta/classes/gummiboot.bbclass                     |   3 +-
- meta/classes/image-live.bbclass                    |   2 +-
- meta/classes/libc-package.bbclass                  |   4 +-
- meta/classes/metadata_scm.bbclass                  |  23 +--
- meta/classes/populate_sdk_ext.bbclass              |  18 +-
- meta/classes/sanity.bbclass                        |   4 +-
- meta/classes/useradd_base.bbclass                  |   6 +-
- meta/files/common-licenses/GFDL-1.1                | 206 ++++++++-------------
- meta/files/ext-sdk-prepare.sh                      |  20 ++
- meta/files/toolchain-shar-extract.sh               |   7 +-
- meta/lib/oe/recipeutils.py                         |   6 +-
- meta/lib/oe/sdk.py                                 |  76 +++++---
- meta/lib/oeqa/oetest.py                            |   6 +
- meta/lib/oeqa/runtime/_ptest.py                    |   2 +-
- meta/lib/oeqa/runtime/date.py                      |   4 +-
- meta/lib/oeqa/runtime/kernelmodule.py              |   4 +-
- meta/lib/oeqa/runtime/scanelf.py                   |   2 +-
- meta/lib/oeqa/selftest/base.py                     |   2 +-
- meta/lib/oeqa/selftest/bbtests.py                  |  60 ++++--
- meta/lib/oeqa/selftest/buildoptions.py             |   8 +-
- meta/lib/oeqa/selftest/devtool.py                  |  44 +++++
- meta/lib/oeqa/selftest/imagefeatures.py            |  16 +-
- meta/lib/oeqa/selftest/manifest.py                 | 163 ++++++++++++++++
- meta/lib/oeqa/selftest/wic.py                      |  67 ++++---
- meta/lib/oeqa/utils/ftools.py                      |  20 +-
- meta/recipes-connectivity/openssh/openssh_7.1p1.bb |   2 +-
- meta/recipes-core/coreutils/coreutils_8.24.bb      |   2 +-
- .../images/build-appliance-image_12.0.1.bb         |   2 +-
- meta/recipes-core/systemd/systemd_225.bb           |   4 +-
- .../build-compare/build-compare_git.bb             |   1 -
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
  meta/recipes-devtools/gcc/gcc-4.8.inc              |   1 +
- ...-gcc-483-universal-initializer-no-warning.patch | 107 +++++++++++
+ ...-gcc-483-universal-initializer-no-warning.patch | 107 +++++++++++++++++++++
  meta/recipes-devtools/gcc/gcc-4.9.inc              |   1 +
- ...-gcc-483-universal-initializer-no-warning.patch | 107 +++++++++++
- meta/recipes-devtools/gcc/gcc-5.2.inc              |   1 +
- .../gcc/gcc-5.2/0042-cxxflags-for-build.patch      | 123 ++++++++++++
- meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb |   3 +-
- meta/recipes-devtools/qemu/qemu/no-valgrind.patch  |  19 ++
- meta/recipes-devtools/qemu/qemu_2.4.0.bb           |   1 +
- meta/recipes-devtools/rpm/rpm_4.11.2.bb            |   2 +-
- meta/recipes-extended/sudo/sudo_1.8.14p3.bb        |   2 +-
- meta/recipes-extended/tzdata/tzdata_2015g.bb       |   5 +-
- .../weston/explicit-enable-disable-systemd.patch   |  70 +++++++
- .../wayland/weston/libsystemd.patch                |  53 ++++++
- meta/recipes-graphics/wayland/weston_1.8.0.bb      |   8 +-
- .../recipes-graphics/xorg-xserver/xserver-xorg.inc |   8 +-
- scripts/gen-lockedsig-cache                        |   4 +
- scripts/lib/devtool/standard.py                    |  32 +++-
- scripts/lib/devtool/upgrade.py                     |  12 +-
- 56 files changed, 1101 insertions(+), 289 deletions(-)
- create mode 100644 meta-selftest/lib/devtool/__init__.py
- create mode 100644 meta-selftest/lib/devtool/test.py
- rename meta-selftest/recipes-test/images/{core-image-empty.bb => test-empty-image.bb} (86%)
- create mode 100644 meta/files/ext-sdk-prepare.sh
- create mode 100644 meta/lib/oeqa/selftest/manifest.py
+ ...-gcc-483-universal-initializer-no-warning.patch | 107 +++++++++++++++++++++
+ 4 files changed, 216 insertions(+)
  create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0051-gcc-483-universal-initializer-no-warning.patch
  create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0065-gcc-483-universal-initializer-no-warning.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0042-cxxflags-for-build.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/no-valgrind.patch
- create mode 100644 meta/recipes-graphics/wayland/weston/explicit-enable-disable-systemd.patch
- create mode 100644 meta/recipes-graphics/wayland/weston/libsystemd.patch
 
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+index 6a2454d..b3e1c33 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.8.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+@@ -69,6 +69,7 @@ SRC_URI = "\
+     file://0047-repomembug.patch \
+     file://0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \
+     file://target-gcc-includedir.patch \
++    file://0051-gcc-483-universal-initializer-no-warning.patch \
+ "
+ SRC_URI[md5sum] = "5a84a30839b2aca22a2d723de2a626ec"
+ SRC_URI[sha256sum] = "4a80aa23798b8e9b5793494b8c976b39b8d9aa2e53cd5ed5534aff662a7f8695"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0051-gcc-483-universal-initializer-no-warning.patch b/meta/recipes-devtools/gcc/gcc-4.8/0051-gcc-483-universal-initializer-no-warning.patch
+new file mode 100644
+index 0000000..fde227b
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.8/0051-gcc-483-universal-initializer-no-warning.patch
+@@ -0,0 +1,107 @@
++Upstream-Status: Backport
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
++Fix for https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53119
++wrong warning when using the universal zero initializer {0}
++
++Backported to GCC 4.8.3
++
++Subject: 2014-06-05  S. Gilles  <sgilles@terpmail.umd.edu>
++X-Git-Url: http://repo.or.cz/w/official-gcc.git/commitdiff_plain/95cdf3fdf2d440eb7775def8e35ab970651c33d9?hp=14a3093e9943937cbc63dfbf4d51ca60f8325b29
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@211289 138bc75d-0d04-0410-961f-82ee72b054a4
++
++--- gcc-4.8.3.org/gcc/c/c-typeck.c	2014-08-03 20:52:09.257042137 +0200
+++++ gcc-4.8.3/gcc/c/c-typeck.c	2014-08-03 20:57:10.645042614 +0200
++@@ -62,9 +62,9 @@
++    if expr.original_code == SIZEOF_EXPR.  */
++ tree c_last_sizeof_arg;
++ 
++-/* Nonzero if we've already printed a "missing braces around initializer"
++-   message within this initializer.  */
++-static int missing_braces_mentioned;
+++/* Nonzero if we might need to print a "missing braces around
+++   initializer" message within this initializer.  */
+++static int found_missing_braces;
++ 
++ static int require_constant_value;
++ static int require_constant_elements;
++@@ -6379,6 +6379,9 @@
++ /* 1 if this constructor is erroneous so far.  */
++ static int constructor_erroneous;
++ 
+++/* 1 if this constructor is the universal zero initializer { 0 }.  */
+++static int constructor_zeroinit;
+++
++ /* Structure for managing pending initializer elements, organized as an
++    AVL tree.  */
++ 
++@@ -6540,7 +6543,7 @@
++   constructor_stack = 0;
++   constructor_range_stack = 0;
++ 
++-  missing_braces_mentioned = 0;
+++  found_missing_braces = 0;
++ 
++   spelling_base = 0;
++   spelling_size = 0;
++@@ -6635,6 +6638,7 @@
++   constructor_type = type;
++   constructor_incremental = 1;
++   constructor_designated = 0;
+++  constructor_zeroinit = 1;
++   designator_depth = 0;
++   designator_erroneous = 0;
++ 
++@@ -6832,11 +6836,8 @@
++ 	set_nonincremental_init (braced_init_obstack);
++     }
++ 
++-  if (implicit == 1 && warn_missing_braces && !missing_braces_mentioned)
++-    {
++-      missing_braces_mentioned = 1;
++-      warning_init (OPT_Wmissing_braces, "missing braces around initializer");
++-    }
+++  if (implicit == 1)
+++    found_missing_braces = 1;
++ 
++   if (TREE_CODE (constructor_type) == RECORD_TYPE
++ 	   || TREE_CODE (constructor_type) == UNION_TYPE)
++@@ -6969,16 +6970,23 @@
++ 	}
++     }
++ 
+++  if (vec_safe_length (constructor_elements) != 1)
+++    constructor_zeroinit = 0;
+++
+++  /* Warn when some structs are initialized with direct aggregation.  */
+++  if (!implicit && found_missing_braces && warn_missing_braces
+++      && !constructor_zeroinit)
+++    {
+++      warning_init (OPT_Wmissing_braces,
+++		    "missing braces around initializer");
+++    }
+++
++   /* Warn when some struct elements are implicitly initialized to zero.  */
++   if (warn_missing_field_initializers
++       && constructor_type
++       && TREE_CODE (constructor_type) == RECORD_TYPE
++       && constructor_unfilled_fields)
++     {
++-	bool constructor_zeroinit =
++-	 (vec_safe_length (constructor_elements) == 1
++-	  && integer_zerop ((*constructor_elements)[0].value));
++-
++ 	/* Do not warn for flexible array members or zero-length arrays.  */
++ 	while (constructor_unfilled_fields
++ 	       && (!DECL_SIZE (constructor_unfilled_fields)
++@@ -8093,6 +8101,9 @@
++   designator_depth = 0;
++   designator_erroneous = 0;
++ 
+++  if (!implicit && value.value && !integer_zerop (value.value))
+++    constructor_zeroinit = 0;
+++
++   /* Handle superfluous braces around string cst as in
++      char x[] = {"foo"}; */
++   if (string_flag
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index 691ba5f..95b553c 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -80,6 +80,7 @@ SRC_URI = "\
+     file://0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
+     file://0063-nativesdk-gcc-support.patch \
+     file://0064-handle-target-sysroot-multilib.patch \
++    file://0065-gcc-483-universal-initializer-no-warning.patch \
+ "
+ SRC_URI[md5sum] = "6f831b4d251872736e8e9cc09746f327"
+ SRC_URI[sha256sum] = "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0065-gcc-483-universal-initializer-no-warning.patch b/meta/recipes-devtools/gcc/gcc-4.9/0065-gcc-483-universal-initializer-no-warning.patch
+new file mode 100644
+index 0000000..fde227b
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0065-gcc-483-universal-initializer-no-warning.patch
+@@ -0,0 +1,107 @@
++Upstream-Status: Backport
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
++Fix for https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53119
++wrong warning when using the universal zero initializer {0}
++
++Backported to GCC 4.8.3
++
++Subject: 2014-06-05  S. Gilles  <sgilles@terpmail.umd.edu>
++X-Git-Url: http://repo.or.cz/w/official-gcc.git/commitdiff_plain/95cdf3fdf2d440eb7775def8e35ab970651c33d9?hp=14a3093e9943937cbc63dfbf4d51ca60f8325b29
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@211289 138bc75d-0d04-0410-961f-82ee72b054a4
++
++--- gcc-4.8.3.org/gcc/c/c-typeck.c	2014-08-03 20:52:09.257042137 +0200
+++++ gcc-4.8.3/gcc/c/c-typeck.c	2014-08-03 20:57:10.645042614 +0200
++@@ -62,9 +62,9 @@
++    if expr.original_code == SIZEOF_EXPR.  */
++ tree c_last_sizeof_arg;
++ 
++-/* Nonzero if we've already printed a "missing braces around initializer"
++-   message within this initializer.  */
++-static int missing_braces_mentioned;
+++/* Nonzero if we might need to print a "missing braces around
+++   initializer" message within this initializer.  */
+++static int found_missing_braces;
++ 
++ static int require_constant_value;
++ static int require_constant_elements;
++@@ -6379,6 +6379,9 @@
++ /* 1 if this constructor is erroneous so far.  */
++ static int constructor_erroneous;
++ 
+++/* 1 if this constructor is the universal zero initializer { 0 }.  */
+++static int constructor_zeroinit;
+++
++ /* Structure for managing pending initializer elements, organized as an
++    AVL tree.  */
++ 
++@@ -6540,7 +6543,7 @@
++   constructor_stack = 0;
++   constructor_range_stack = 0;
++ 
++-  missing_braces_mentioned = 0;
+++  found_missing_braces = 0;
++ 
++   spelling_base = 0;
++   spelling_size = 0;
++@@ -6635,6 +6638,7 @@
++   constructor_type = type;
++   constructor_incremental = 1;
++   constructor_designated = 0;
+++  constructor_zeroinit = 1;
++   designator_depth = 0;
++   designator_erroneous = 0;
++ 
++@@ -6832,11 +6836,8 @@
++ 	set_nonincremental_init (braced_init_obstack);
++     }
++ 
++-  if (implicit == 1 && warn_missing_braces && !missing_braces_mentioned)
++-    {
++-      missing_braces_mentioned = 1;
++-      warning_init (OPT_Wmissing_braces, "missing braces around initializer");
++-    }
+++  if (implicit == 1)
+++    found_missing_braces = 1;
++ 
++   if (TREE_CODE (constructor_type) == RECORD_TYPE
++ 	   || TREE_CODE (constructor_type) == UNION_TYPE)
++@@ -6969,16 +6970,23 @@
++ 	}
++     }
++ 
+++  if (vec_safe_length (constructor_elements) != 1)
+++    constructor_zeroinit = 0;
+++
+++  /* Warn when some structs are initialized with direct aggregation.  */
+++  if (!implicit && found_missing_braces && warn_missing_braces
+++      && !constructor_zeroinit)
+++    {
+++      warning_init (OPT_Wmissing_braces,
+++		    "missing braces around initializer");
+++    }
+++
++   /* Warn when some struct elements are implicitly initialized to zero.  */
++   if (warn_missing_field_initializers
++       && constructor_type
++       && TREE_CODE (constructor_type) == RECORD_TYPE
++       && constructor_unfilled_fields)
++     {
++-	bool constructor_zeroinit =
++-	 (vec_safe_length (constructor_elements) == 1
++-	  && integer_zerop ((*constructor_elements)[0].value));
++-
++ 	/* Do not warn for flexible array members or zero-length arrays.  */
++ 	while (constructor_unfilled_fields
++ 	       && (!DECL_SIZE (constructor_unfilled_fields)
++@@ -8093,6 +8101,9 @@
++   designator_depth = 0;
++   designator_erroneous = 0;
++ 
+++  if (!implicit && value.value && !integer_zerop (value.value))
+++    constructor_zeroinit = 0;
+++
++   /* Handle superfluous braces around string cst as in
++      char x[] = {"foo"}; */
++   if (string_flag
 -- 
 2.1.4
 
