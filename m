@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EFED77182
+	by mail.openembedded.org (Postfix) with ESMTP id A80187714A
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:23 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 91DF8600F52
+	(Authenticated sender: joshuagl) with ESMTPSA id 108D460029B
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:21:58 +0100
-Message-Id: <86a7e68803aca58feca9b6cf479552d14b00996c.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:22:02 +0100
+Message-Id: <2285ff17a391fa22f2095da701bc6f2c9615ae7b.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 37/52] oeqa/selftest/bbtests: Updated bitbake TCs
+Subject: [PATCH v3 41/52] oeqa/selftest/wic: fix cleaning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,92 +27,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 15:22:27 -0000
+X-List-Received-Date: Thu, 22 Oct 2015 15:22:28 -0000
 
-From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+From: Ross Burton <ross.burton@intel.com>
 
-- Added new TC test_force_task_1 (1354);
-check that do_package_write_rpm() re-executes
-upon changes in package image.
+In some situations the native tools built in setUpClass() are wiped from the
+sysroot by the time the tests are executed, likely due to the cleanup performed
+in the base setUp() method.
 
-- Updated TC test_force_task_2 (163);
-changed test recipe to zlib and added
-do_package() to the task execution list.
+Avoid this by doing all of the preparatory building in setUpLocal.
 
-- Removed unnecessary imports.
-
-Fix for bug [YOCTO #5875].
-
-Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oeqa/selftest/bbtests.py | 45 ++++++++++++++++++++++++++++++---------
- 1 file changed, 35 insertions(+), 10 deletions(-)
+ meta/lib/oeqa/selftest/wic.py | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
-index af0773d..1c0e588 100644
---- a/meta/lib/oeqa/selftest/bbtests.py
-+++ b/meta/lib/oeqa/selftest/bbtests.py
-@@ -1,8 +1,5 @@
--import unittest
- import os
--import logging
- import re
--import shutil
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index f4c22f7..ca9a598 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -38,22 +38,19 @@ class Wic(oeSelfTest):
+     """Wic test class."""
  
- import oeqa.utils.ftools as ftools
- from oeqa.selftest.base import oeSelfTest
-@@ -68,15 +65,43 @@ class BitbakeTests(oeSelfTest):
-         bitbake('-cclean man')
-         self.assertTrue("ERROR: Function failed: patch_do_patch" in result.output, msg = "Though no man-1.5h1-make.patch file exists, bitbake didn't output any err. message. bitbake output: %s" % result.output)
+     resultdir = "/var/tmp/wic/build/"
+-
+-    @classmethod
+-    def setUpClass(cls):
+-        """Build wic runtime dependencies."""
+-        bitbake('syslinux syslinux-native parted-native gptfdisk-native '
+-                'dosfstools-native mtools-native')
+-        Wic.image_is_ready = False
++    image_is_ready = False
  
-+    @testcase(1354)
-+    def test_force_task_1(self):
-+        # test 1 from bug 5875
-+        test_recipe = 'zlib'
-+        test_data = "Microsoft Made No Profit From Anyone's Zunes Yo"
-+        image_dir = get_bb_var('D', test_recipe)
-+        pkgsplit_dir = get_bb_var('PKGDEST', test_recipe)
-+        man_dir = get_bb_var('mandir', test_recipe)
+     def setUpLocal(self):
+         """This code is executed before each test method."""
+-        features = 'IMAGE_FSTYPES += " hddimg"\nMACHINE_FEATURES_append = " efi"\n'
+-        self.append_config(features)
++        self.write_config('IMAGE_FSTYPES += " hddimg"\nMACHINE_FEATURES_append = " efi"\n')
 +
-+        bitbake('-c cleansstate %s' % test_recipe)
-+        bitbake(test_recipe)
-+        self.add_command_to_tearDown('bitbake -c clean %s' % test_recipe)
-+
-+        man_file = os.path.join(image_dir + man_dir, 'man3/zlib.3')
-+        ftools.append_file(man_file, test_data)
-+        bitbake('-c package -f %s' % test_recipe)
-+
-+        man_split_file = os.path.join(pkgsplit_dir, 'zlib-doc' + man_dir, 'man3/zlib.3')
-+        man_split_content = ftools.read_file(man_split_file)
-+        self.assertIn(test_data, man_split_content, 'The man file has not changed in packages-split.')
-+
-+        ret = bitbake(test_recipe)
-+        self.assertIn('task do_package_write_rpm:', ret.output, 'Task do_package_write_rpm did not re-executed.')
-+
-     @testcase(163)
--    def test_force_task(self):
--        bitbake('m4-native')
--        self.add_command_to_tearDown('bitbake -c clean m4-native')
--        result = bitbake('-C compile m4-native')
--        look_for_tasks = ['do_compile', 'do_install', 'do_populate_sysroot']
-+    def test_force_task_2(self):
-+        # test 2 from bug 5875
-+        test_recipe = 'zlib'
-+
-+        bitbake('-c cleansstate %s' % test_recipe)
-+        bitbake(test_recipe)
-+        self.add_command_to_tearDown('bitbake -c clean %s' % test_recipe)
-+
-+        result = bitbake('-C compile %s' % test_recipe)
-+        look_for_tasks = ['do_compile:', 'do_install:', 'do_populate_sysroot:', 'do_package:']
-         for task in look_for_tasks:
--            find_task = re.search("m4-native.*%s" % task, result.output)
--            self.assertTrue(find_task, msg = "Couldn't find %s task. bitbake output %s" % (task, result.output))
-+            self.assertIn(task, result.output, msg="Couldn't find %s task.")
++        # Do this here instead of in setUpClass as the base setUp does some
++        # clean up which can result in the native tools built earlier in
++        # setUpClass being unavailable.
+         if not Wic.image_is_ready:
+-            # build core-image-minimal with required features
++            bitbake('syslinux syslinux-native parted-native gptfdisk-native '
++                    'dosfstools-native mtools-native')
+             bitbake('core-image-minimal')
+-            # set this class variable to avoid buiding image many times
+             Wic.image_is_ready = True
  
-     @testcase(167)
-     def test_bitbake_g(self):
+         rmtree(self.resultdir, ignore_errors=True)
 -- 
 2.1.4
 
