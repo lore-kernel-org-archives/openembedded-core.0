@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id F2EC777155
+	by mail.openembedded.org (Postfix) with ESMTP id 19E5C77181
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 15:22:22 +0000 (UTC)
+	Thu, 22 Oct 2015 15:22:23 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 5C8A4600F81
+	(Authenticated sender: joshuagl) with ESMTPSA id 779A460029B
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:21:56 +0100
-Message-Id: <5eaa4fa30e2362e6dd572b8a6f7a909b608e14bf.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:21:57 +0100
+Message-Id: <aa3b859524bb693d3b150a8873a2ee24c78eac0a.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 35/52] oeqa/utils/ftools: From functions that expect data, check if None
+Subject: [PATCH v3 36/52] oeqa/selftest/bbtests: clean up local DL_DIR/SSTATE_DIR safely
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,49 +29,56 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Oct 2015 15:22:26 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+From: Ross Burton <ross.burton@intel.com>
 
-ftools functions that expect data may get 'None'; this patch does this check
-and return immediately if this is the case.
+Now that the selftests clean selftest.inc in the tearDown using bitbake in a
+function passed to addCleanup (which happens after teardown) will use the
+default configuration and not the customised one.
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+As the intention was to clean away the temporary DL_DIR and SSTATE_DIR, simple
+use track_for_cleanup to delete the entire directory instead.
+
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oeqa/utils/ftools.py | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/lib/oeqa/selftest/bbtests.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/ftools.py b/meta/lib/oeqa/utils/ftools.py
-index 1ec8a09..1bd9a30 100644
---- a/meta/lib/oeqa/utils/ftools.py
-+++ b/meta/lib/oeqa/utils/ftools.py
-@@ -3,11 +3,17 @@ import re
- import errno
- 
- def write_file(path, data):
-+    # In case data is None, return immediately
-+    if data is None:
-+        return
-     wdata = data.rstrip() + "\n"
-     with open(path, "w") as f:
-         f.write(wdata)
- 
- def append_file(path, data):
-+    # In case data is None, return immediately
-+    if data is None:
-+        return
-     wdata = data.rstrip() + "\n"
-     with open(path, "a") as f:
-             f.write(wdata)
-@@ -19,6 +25,9 @@ def read_file(path):
-     return data
- 
- def remove_from_file(path, data):
-+    # In case data is None, return immediately
-+    if data is None:
-+        return
-     try:
-         rdata = read_file(path)
-     except IOError as e:
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index 3d6860f..af0773d 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -101,6 +101,8 @@ class BitbakeTests(oeSelfTest):
+         self.write_config("""DL_DIR = \"${TOPDIR}/download-selftest\"
+ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+ """)
++        self.track_for_cleanup(os.path.join(self.builddir, "download-selftest"))
++
+         bitbake('-ccleanall man')
+         result = bitbake('-c fetch man', ignore_status=True)
+         bitbake('-ccleanall man')
+@@ -116,12 +118,13 @@ doesn't exist, yet fetcher didn't report any error. bitbake output: %s" % result
+         self.write_config("""DL_DIR = \"${TOPDIR}/download-selftest\"
+ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+ """)
++        self.track_for_cleanup(os.path.join(self.builddir, "download-selftest"))
++
+         data = 'SRC_URI_append = ";downloadfilename=test-aspell.tar.gz"'
+         self.write_recipeinc('aspell', data)
+         bitbake('-ccleanall aspell')
+         result = bitbake('-c fetch aspell', ignore_status=True)
+         self.delete_recipeinc('aspell')
+-        self.addCleanup(bitbake, '-ccleanall aspell')
+         self.assertEqual(result.status, 0, msg = "Couldn't fetch aspell. %s" % result.output)
+         self.assertTrue(os.path.isfile(os.path.join(get_bb_var("DL_DIR"), 'test-aspell.tar.gz')), msg = "File rename failed. No corresponding test-aspell.tar.gz file found under %s" % str(get_bb_var("DL_DIR")))
+         self.assertTrue(os.path.isfile(os.path.join(get_bb_var("DL_DIR"), 'test-aspell.tar.gz.done')), "File rename failed. No corresponding test-aspell.tar.gz.done file found under %s" % str(get_bb_var("DL_DIR")))
+@@ -181,6 +184,7 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+         self.write_config("""DL_DIR = \"${TOPDIR}/download-selftest\"
+ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+ """)
++        self.track_for_cleanup(os.path.join(self.builddir, "download-selftest"))
+         self.write_recipeinc('man',"\ndo_fail_task () {\nexit 1 \n}\n\naddtask do_fail_task before do_fetch\n" )
+         runCmd('bitbake -c cleanall man xcursor-transparent-theme')
+         result = runCmd('bitbake man xcursor-transparent-theme -k', ignore_status=True)
 -- 
 2.1.4
 
