@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id D83D077156
+	by mail.openembedded.org (Postfix) with ESMTP id F22E27713B
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:20 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 471B5600F80
+	(Authenticated sender: joshuagl) with ESMTPSA id 5C2E9600F81
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:21:37 +0100
-Message-Id: <13282223b07787a92c251f89251e8a49a0e4e3eb.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:21:38 +0100
+Message-Id: <59a3789c678bf58c0a04b8def416246654680841.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 16/52] oeqa/runtime: Fix setUp and tearDown methods
+Subject: [PATCH v3 17/52] classes/populate_sdk_ext: consistent indentation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,93 +29,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Oct 2015 15:22:21 -0000
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-Currently some of the runtime test overwrites
-the setUp and tearDown methods provided by
-oeRuntimeTest, this will avoid some checks
-required when running the test suit.
+Make indentation consistent here in preparation for the changes that
+follow.
 
-This patch changes the setUp and tearDown methods
-for their local counterparts, so when these
-tests are called, it will run the parent setUp
-and tearDown and also the local ones.
-
-[YOCTO #8465]
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/runtime/_ptest.py       | 2 +-
- meta/lib/oeqa/runtime/date.py         | 4 ++--
- meta/lib/oeqa/runtime/kernelmodule.py | 4 ++--
- meta/lib/oeqa/runtime/scanelf.py      | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ meta/classes/populate_sdk_ext.bbclass | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/_ptest.py b/meta/lib/oeqa/runtime/_ptest.py
-index 81c9c43..0621028 100644
---- a/meta/lib/oeqa/runtime/_ptest.py
-+++ b/meta/lib/oeqa/runtime/_ptest.py
-@@ -98,7 +98,7 @@ class PtestRunnerTest(oeRuntimeTest):
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index c244d93..90033ba 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -238,11 +238,11 @@ sdk_ext_postinst() {
+ 	mv *-nativesdk-libc.tar.* $target_sdk_dir/`dirname ${oe_init_build_env_path}`
  
-         return complementary_pkgs.split()
- 
--    def setUp(self):
-+    def setUpLocal(self):
-         self.ptest_log = os.path.join(oeRuntimeTest.tc.d.getVar("TEST_LOG_DIR",True), "ptest-%s.log" % oeRuntimeTest.tc.d.getVar('DATETIME', True))
- 
-     @skipUnlessPassed('test_ssh')
-diff --git a/meta/lib/oeqa/runtime/date.py b/meta/lib/oeqa/runtime/date.py
-index 3a8fe84..447987e 100644
---- a/meta/lib/oeqa/runtime/date.py
-+++ b/meta/lib/oeqa/runtime/date.py
-@@ -4,11 +4,11 @@ import re
- 
- class DateTest(oeRuntimeTest):
- 
--    def setUp(self):
-+    def setUpLocal(self):
-         if oeRuntimeTest.tc.d.getVar("VIRTUAL-RUNTIME_init_manager", True) == "systemd":
-             self.target.run('systemctl stop systemd-timesyncd')
- 
--    def tearDown(self):
-+    def tearDownLocal(self):
-         if oeRuntimeTest.tc.d.getVar("VIRTUAL-RUNTIME_init_manager", True) == "systemd":
-             self.target.run('systemctl start systemd-timesyncd')
- 
-diff --git a/meta/lib/oeqa/runtime/kernelmodule.py b/meta/lib/oeqa/runtime/kernelmodule.py
-index 2e81720..38ca184 100644
---- a/meta/lib/oeqa/runtime/kernelmodule.py
-+++ b/meta/lib/oeqa/runtime/kernelmodule.py
-@@ -10,7 +10,7 @@ def setUpModule():
- 
- class KernelModuleTest(oeRuntimeTest):
- 
--    def setUp(self):
-+    def setUpLocal(self):
-         self.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "hellomod.c"), "/tmp/hellomod.c")
-         self.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "hellomod_makefile"), "/tmp/Makefile")
- 
-@@ -30,5 +30,5 @@ class KernelModuleTest(oeRuntimeTest):
-             (status, output) = self.target.run(cmd, 900)
-             self.assertEqual(status, 0, msg="\n".join([cmd, output]))
- 
--    def tearDown(self):
-+    def tearDownLocal(self):
-         self.target.run('rm -f /tmp/Makefile /tmp/hellomod.c')
-diff --git a/meta/lib/oeqa/runtime/scanelf.py b/meta/lib/oeqa/runtime/scanelf.py
-index 43a024a..67e02ff 100644
---- a/meta/lib/oeqa/runtime/scanelf.py
-+++ b/meta/lib/oeqa/runtime/scanelf.py
-@@ -8,7 +8,7 @@ def setUpModule():
- 
- class ScanelfTest(oeRuntimeTest):
- 
--    def setUp(self):
-+    def setUpLocal(self):
-         self.scancmd = 'scanelf --quiet --recursive --mount --ldpath --path'
- 
-     @testcase(966)
+ 	if [ "$prepare_buildsystem" != "no" ]; then
+-	    printf "Preparing build system...\n"
+-	    # dash which is /bin/sh on Ubuntu will not preserve the
+-	    # current working directory when first ran, nor will it set $1 when
+-	    # sourcing a script. That is why this has to look so ugly.
+-	    sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
++		printf "Preparing build system...\n"
++		# dash which is /bin/sh on Ubuntu will not preserve the
++		# current working directory when first ran, nor will it set $1 when
++		# sourcing a script. That is why this has to look so ugly.
++		sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
+ 	fi
+ 	echo done
+ }
 -- 
 2.1.4
 
