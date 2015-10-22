@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id A20FC77131
+	by mail.openembedded.org (Postfix) with ESMTP id 9F6A87711C
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:19 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 73D27608FD7
+	(Authenticated sender: joshuagl) with ESMTPSA id 2438E600F52
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:21:25 +0100
-Message-Id: <ef16c20e6936218ff96c599cce0200c34f5017dd.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:21:22 +0100
+Message-Id: <d22252a9e0729abb5e1dd39fc2b6359caf948c43.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 04/52] gcc-4.x: fix wrong warning when using the universal zero initializer {0}
+Subject: [PATCH v3 01/52] common-licenses: use correct GFDL-1.1 license text
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,282 +29,370 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Oct 2015 15:22:20 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-When I upgrade efivar to 0.21, it fails to compile with error messages:
+It seems that the GFDL 1.1 license file that was originally committed
+was actually the 1.2 version. Replace it with the 1.1 version fetched
+from http://www.gnu.org/licenses/old-licenses/fdl-1.1.txt.
 
-| linux.c:850:9: error: missing braces around initializer
-[-Werror=missing-braces]
-|   struct ifreq ifr = { 0, };
-|          ^
-
-It is a known issue of gcc. Backport patch from
-
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53119
-
-to fix wrong warning when using the universal zero initializer {0}.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.8.inc              |   1 +
- ...-gcc-483-universal-initializer-no-warning.patch | 107 +++++++++++++++++++++
- meta/recipes-devtools/gcc/gcc-4.9.inc              |   1 +
- ...-gcc-483-universal-initializer-no-warning.patch | 107 +++++++++++++++++++++
- 4 files changed, 216 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0051-gcc-483-universal-initializer-no-warning.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0065-gcc-483-universal-initializer-no-warning.patch
+ meta/files/common-licenses/GFDL-1.1 | 206 ++++++++++++++----------------------
+ 1 file changed, 82 insertions(+), 124 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index 6a2454d..b3e1c33 100644
---- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -69,6 +69,7 @@ SRC_URI = "\
-     file://0047-repomembug.patch \
-     file://0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch \
-     file://target-gcc-includedir.patch \
-+    file://0051-gcc-483-universal-initializer-no-warning.patch \
- "
- SRC_URI[md5sum] = "5a84a30839b2aca22a2d723de2a626ec"
- SRC_URI[sha256sum] = "4a80aa23798b8e9b5793494b8c976b39b8d9aa2e53cd5ed5534aff662a7f8695"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0051-gcc-483-universal-initializer-no-warning.patch b/meta/recipes-devtools/gcc/gcc-4.8/0051-gcc-483-universal-initializer-no-warning.patch
-new file mode 100644
-index 0000000..fde227b
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.8/0051-gcc-483-universal-initializer-no-warning.patch
-@@ -0,0 +1,107 @@
-+Upstream-Status: Backport
+diff --git a/meta/files/common-licenses/GFDL-1.1 b/meta/files/common-licenses/GFDL-1.1
+index 4a0fe1c..1d74223 100644
+--- a/meta/files/common-licenses/GFDL-1.1
++++ b/meta/files/common-licenses/GFDL-1.1
+@@ -1,8 +1,7 @@
+-		GNU Free Documentation License
+-		  Version 1.2, November 2002
++                GNU Free Documentation License
++                   Version 1.1, March 2000
+ 
+-
+- Copyright (C) 2000,2001,2002  Free Software Foundation, Inc.
++ Copyright (C) 2000  Free Software Foundation, Inc.
+      51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+  Everyone is permitted to copy and distribute verbatim copies
+  of this license document, but changing it is not allowed.
+@@ -11,12 +10,12 @@
+ 0. PREAMBLE
+ 
+ The purpose of this License is to make a manual, textbook, or other
+-functional and useful document "free" in the sense of freedom: to
+-assure everyone the effective freedom to copy and redistribute it,
+-with or without modifying it, either commercially or noncommercially.
+-Secondarily, this License preserves for the author and publisher a way
+-to get credit for their work, while not being considered responsible
+-for modifications made by others.
++written document "free" in the sense of freedom: to assure everyone
++the effective freedom to copy and redistribute it, with or without
++modifying it, either commercially or noncommercially.  Secondarily,
++this License preserves for the author and publisher a way to get
++credit for their work, while not being considered responsible for
++modifications made by others.
+ 
+ This License is a kind of "copyleft", which means that derivative
+ works of the document must themselves be free in the same sense.  It
+@@ -34,15 +33,11 @@ principally for works whose purpose is instruction or reference.
+ 
+ 1. APPLICABILITY AND DEFINITIONS
+ 
+-This License applies to any manual or other work, in any medium, that
+-contains a notice placed by the copyright holder saying it can be
+-distributed under the terms of this License.  Such a notice grants a
+-world-wide, royalty-free license, unlimited in duration, to use that
+-work under the conditions stated herein.  The "Document", below,
+-refers to any such manual or work.  Any member of the public is a
+-licensee, and is addressed as "you".  You accept the license if you
+-copy, modify or distribute the work in a way requiring permission
+-under copyright law.
++This License applies to any manual or other work that contains a
++notice placed by the copyright holder saying it can be distributed
++under the terms of this License.  The "Document", below, refers to any
++such manual or work.  Any member of the public is a licensee, and is
++addressed as "you".
+ 
+ A "Modified Version" of the Document means any work containing the
+ Document or a portion of it, either copied verbatim, or with
+@@ -52,7 +47,7 @@ A "Secondary Section" is a named appendix or a front-matter section of
+ the Document that deals exclusively with the relationship of the
+ publishers or authors of the Document to the Document's overall subject
+ (or to related matters) and contains nothing that could fall directly
+-within that overall subject.  (Thus, if the Document is in part a
++within that overall subject.  (For example, if the Document is in part a
+ textbook of mathematics, a Secondary Section may not explain any
+ mathematics.)  The relationship could be a matter of historical
+ connection with the subject or with related matters, or of legal,
+@@ -61,40 +56,33 @@ them.
+ 
+ The "Invariant Sections" are certain Secondary Sections whose titles
+ are designated, as being those of Invariant Sections, in the notice
+-that says that the Document is released under this License.  If a
+-section does not fit the above definition of Secondary then it is not
+-allowed to be designated as Invariant.  The Document may contain zero
+-Invariant Sections.  If the Document does not identify any Invariant
+-Sections then there are none.
++that says that the Document is released under this License.
+ 
+ The "Cover Texts" are certain short passages of text that are listed,
+ as Front-Cover Texts or Back-Cover Texts, in the notice that says that
+-the Document is released under this License.  A Front-Cover Text may
+-be at most 5 words, and a Back-Cover Text may be at most 25 words.
++the Document is released under this License.
+ 
+ A "Transparent" copy of the Document means a machine-readable copy,
+ represented in a format whose specification is available to the
+-general public, that is suitable for revising the document
++general public, whose contents can be viewed and edited directly and
+ straightforwardly with generic text editors or (for images composed of
+ pixels) generic paint programs or (for drawings) some widely available
+ drawing editor, and that is suitable for input to text formatters or
+ for automatic translation to a variety of formats suitable for input
+ to text formatters.  A copy made in an otherwise Transparent file
+-format whose markup, or absence of markup, has been arranged to thwart
+-or discourage subsequent modification by readers is not Transparent.
+-An image format is not Transparent if used for any substantial amount
+-of text.  A copy that is not "Transparent" is called "Opaque".
++format whose markup has been designed to thwart or discourage
++subsequent modification by readers is not Transparent.  A copy that is
++not "Transparent" is called "Opaque".
+ 
+ Examples of suitable formats for Transparent copies include plain
+ ASCII without markup, Texinfo input format, LaTeX input format, SGML
+ or XML using a publicly available DTD, and standard-conforming simple
+-HTML, PostScript or PDF designed for human modification.  Examples of
+-transparent image formats include PNG, XCF and JPG.  Opaque formats
+-include proprietary formats that can be read and edited only by
+-proprietary word processors, SGML or XML for which the DTD and/or
++HTML designed for human modification.  Opaque formats include
++PostScript, PDF, proprietary formats that can be read and edited only
++by proprietary word processors, SGML or XML for which the DTD and/or
+ processing tools are not generally available, and the
+-machine-generated HTML, PostScript or PDF produced by some word
+-processors for output purposes only.
++machine-generated HTML produced by some word processors for output
++purposes only.
+ 
+ The "Title Page" means, for a printed book, the title page itself,
+ plus such following pages as are needed to hold, legibly, the material
+@@ -103,21 +91,6 @@ formats which do not have any title page as such, "Title Page" means
+ the text near the most prominent appearance of the work's title,
+ preceding the beginning of the body of the text.
+ 
+-A section "Entitled XYZ" means a named subunit of the Document whose
+-title either is precisely XYZ or contains XYZ in parentheses following
+-text that translates XYZ in another language.  (Here XYZ stands for a
+-specific section name mentioned below, such as "Acknowledgements",
+-"Dedications", "Endorsements", or "History".)  To "Preserve the Title"
+-of such a section when you modify the Document means that it remains a
+-section "Entitled XYZ" according to this definition.
+-
+-The Document may include Warranty Disclaimers next to the notice which
+-states that this License applies to the Document.  These Warranty
+-Disclaimers are considered to be included by reference in this
+-License, but only as regards disclaiming warranties: any other
+-implication that these Warranty Disclaimers may have is void and has
+-no effect on the meaning of this License.
+-
+ 
+ 2. VERBATIM COPYING
+ 
+@@ -137,10 +110,9 @@ you may publicly display copies.
+ 
+ 3. COPYING IN QUANTITY
+ 
+-If you publish printed copies (or copies in media that commonly have
+-printed covers) of the Document, numbering more than 100, and the
+-Document's license notice requires Cover Texts, you must enclose the
+-copies in covers that carry, clearly and legibly, all these Cover
++If you publish printed copies of the Document numbering more than 100,
++and the Document's license notice requires Cover Texts, you must enclose
++the copies in covers that carry, clearly and legibly, all these Cover
+ Texts: Front-Cover Texts on the front cover, and Back-Cover Texts on
+ the back cover.  Both covers must also clearly and legibly identify
+ you as the publisher of these copies.  The front cover must present
+@@ -158,15 +130,16 @@ pages.
+ If you publish or distribute Opaque copies of the Document numbering
+ more than 100, you must either include a machine-readable Transparent
+ copy along with each Opaque copy, or state in or with each Opaque copy
+-a computer-network location from which the general network-using
+-public has access to download using public-standard network protocols
+-a complete Transparent copy of the Document, free of added material.
+-If you use the latter option, you must take reasonably prudent steps,
+-when you begin distribution of Opaque copies in quantity, to ensure
+-that this Transparent copy will remain thus accessible at the stated
+-location until at least one year after the last time you distribute an
+-Opaque copy (directly or through your agents or retailers) of that
+-edition to the public.
++a publicly-accessible computer-network location containing a complete
++Transparent copy of the Document, free of added material, which the
++general network-using public has access to download anonymously at no
++charge using public-standard network protocols.  If you use the latter
++option, you must take reasonably prudent steps, when you begin
++distribution of Opaque copies in quantity, to ensure that this
++Transparent copy will remain thus accessible at the stated location
++until at least one year after the last time you distribute an Opaque
++copy (directly or through your agents or retailers) of that edition to
++the public.
+ 
+ It is requested, but not required, that you contact the authors of the
+ Document well before redistributing any large number of copies, to give
+@@ -190,8 +163,7 @@ A. Use in the Title Page (and on the covers, if any) a title distinct
+ B. List on the Title Page, as authors, one or more persons or entities
+    responsible for authorship of the modifications in the Modified
+    Version, together with at least five of the principal authors of the
+-   Document (all of its principal authors, if it has fewer than five),
+-   unless they release you from this requirement.
++   Document (all of its principal authors, if it has less than five).
+ C. State on the Title page the name of the publisher of the
+    Modified Version, as the publisher.
+ D. Preserve all the copyright notices of the Document.
+@@ -203,10 +175,10 @@ F. Include, immediately after the copyright notices, a license notice
+ G. Preserve in that license notice the full lists of Invariant Sections
+    and required Cover Texts given in the Document's license notice.
+ H. Include an unaltered copy of this License.
+-I. Preserve the section Entitled "History", Preserve its Title, and add
+-   to it an item stating at least the title, year, new authors, and
++I. Preserve the section entitled "History", and its title, and add to
++   it an item stating at least the title, year, new authors, and
+    publisher of the Modified Version as given on the Title Page.  If
+-   there is no section Entitled "History" in the Document, create one
++   there is no section entitled "History" in the Document, create one
+    stating the title, year, authors, and publisher of the Document as
+    given on its Title Page, then add an item describing the Modified
+    Version as stated in the previous sentence.
+@@ -217,18 +189,17 @@ J. Preserve the network location, if any, given in the Document for
+    You may omit a network location for a work that was published at
+    least four years before the Document itself, or if the original
+    publisher of the version it refers to gives permission.
+-K. For any section Entitled "Acknowledgements" or "Dedications",
+-   Preserve the Title of the section, and preserve in the section all
+-   the substance and tone of each of the contributor acknowledgements
++K. In any section entitled "Acknowledgements" or "Dedications",
++   preserve the section's title, and preserve in the section all the
++   substance and tone of each of the contributor acknowledgements
+    and/or dedications given therein.
+ L. Preserve all the Invariant Sections of the Document,
+    unaltered in their text and in their titles.  Section numbers
+    or the equivalent are not considered part of the section titles.
+-M. Delete any section Entitled "Endorsements".  Such a section
++M. Delete any section entitled "Endorsements".  Such a section
+    may not be included in the Modified Version.
+-N. Do not retitle any existing section to be Entitled "Endorsements"
++N. Do not retitle any existing section as "Endorsements"
+    or to conflict in title with any Invariant Section.
+-O. Preserve any Warranty Disclaimers.
+ 
+ If the Modified Version includes new front-matter sections or
+ appendices that qualify as Secondary Sections and contain no material
+@@ -237,7 +208,7 @@ of these sections as invariant.  To do this, add their titles to the
+ list of Invariant Sections in the Modified Version's license notice.
+ These titles must be distinct from any other section titles.
+ 
+-You may add a section Entitled "Endorsements", provided it contains
++You may add a section entitled "Endorsements", provided it contains
+ nothing but endorsements of your Modified Version by various
+ parties--for example, statements of peer review or that the text has
+ been approved by an organization as the authoritative definition of a
+@@ -265,7 +236,7 @@ License, under the terms defined in section 4 above for modified
+ versions, provided that you include in the combination all of the
+ Invariant Sections of all of the original documents, unmodified, and
+ list them all as Invariant Sections of your combined work in its
+-license notice, and that you preserve all their Warranty Disclaimers.
++license notice.
+ 
+ The combined work need only contain one copy of this License, and
+ multiple identical Invariant Sections may be replaced with a single
+@@ -276,11 +247,11 @@ author or publisher of that section if known, or else a unique number.
+ Make the same adjustment to the section titles in the list of
+ Invariant Sections in the license notice of the combined work.
+ 
+-In the combination, you must combine any sections Entitled "History"
+-in the various original documents, forming one section Entitled
+-"History"; likewise combine any sections Entitled "Acknowledgements",
+-and any sections Entitled "Dedications".  You must delete all sections
+-Entitled "Endorsements".
++In the combination, you must combine any sections entitled "History"
++in the various original documents, forming one section entitled
++"History"; likewise combine any sections entitled "Acknowledgements",
++and any sections entitled "Dedications".  You must delete all sections
++entitled "Endorsements."
+ 
+ 
+ 6. COLLECTIONS OF DOCUMENTS
+@@ -301,20 +272,18 @@ other respects regarding verbatim copying of that document.
+ 
+ A compilation of the Document or its derivatives with other separate
+ and independent documents or works, in or on a volume of a storage or
+-distribution medium, is called an "aggregate" if the copyright
+-resulting from the compilation is not used to limit the legal rights
+-of the compilation's users beyond what the individual works permit.
+-When the Document is included in an aggregate, this License does not
+-apply to the other works in the aggregate which are not themselves
+-derivative works of the Document.
++distribution medium, does not as a whole count as a Modified Version
++of the Document, provided no compilation copyright is claimed for the
++compilation.  Such a compilation is called an "aggregate", and this
++License does not apply to the other self-contained works thus compiled
++with the Document, on account of their being thus compiled, if they
++are not themselves derivative works of the Document.
+ 
+ If the Cover Text requirement of section 3 is applicable to these
+-copies of the Document, then if the Document is less than one half of
+-the entire aggregate, the Document's Cover Texts may be placed on
+-covers that bracket the Document within the aggregate, or the
+-electronic equivalent of covers if the Document is in electronic form.
+-Otherwise they must appear on printed covers that bracket the whole
+-aggregate.
++copies of the Document, then if the Document is less than one quarter
++of the entire aggregate, the Document's Cover Texts may be placed on
++covers that surround only the Document within the aggregate.
++Otherwise they must appear on covers around the whole aggregate.
+ 
+ 
+ 8. TRANSLATION
+@@ -325,17 +294,10 @@ Replacing Invariant Sections with translations requires special
+ permission from their copyright holders, but you may include
+ translations of some or all Invariant Sections in addition to the
+ original versions of these Invariant Sections.  You may include a
+-translation of this License, and all the license notices in the
+-Document, and any Warranty Disclaimers, provided that you also include
+-the original English version of this License and the original versions
+-of those notices and disclaimers.  In case of a disagreement between
+-the translation and the original version of this License or a notice
+-or disclaimer, the original version will prevail.
+-
+-If a section in the Document is Entitled "Acknowledgements",
+-"Dedications", or "History", the requirement (section 4) to Preserve
+-its Title (section 1) will typically require changing the actual
+-title.
++translation of this License provided that you also include the
++original English version of this License.  In case of a disagreement
++between the translation and the original English version of this
++License, the original English version will prevail.
+ 
+ 
+ 9. TERMINATION
+@@ -373,23 +335,19 @@ To use this License in a document you have written, include a copy of
+ the License in the document and put the following copyright and
+ license notices just after the title page:
+ 
+-    Copyright (c)  YEAR  YOUR NAME.
+-    Permission is granted to copy, distribute and/or modify this document
+-    under the terms of the GNU Free Documentation License, Version 1.2
+-    or any later version published by the Free Software Foundation;
+-    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+-    A copy of the license is included in the section entitled "GNU
+-    Free Documentation License".
+-
+-If you have Invariant Sections, Front-Cover Texts and Back-Cover Texts,
+-replace the "with...Texts." line with this:
+-
+-    with the Invariant Sections being LIST THEIR TITLES, with the
+-    Front-Cover Texts being LIST, and with the Back-Cover Texts being LIST.
+-
+-If you have Invariant Sections without Cover Texts, or some other
+-combination of the three, merge those two alternatives to suit the
+-situation.
++      Copyright (c)  YEAR  YOUR NAME.
++      Permission is granted to copy, distribute and/or modify this document
++      under the terms of the GNU Free Documentation License, Version 1.1
++      or any later version published by the Free Software Foundation;
++      with the Invariant Sections being LIST THEIR TITLES, with the
++      Front-Cover Texts being LIST, and with the Back-Cover Texts being LIST.
++      A copy of the license is included in the section entitled "GNU
++      Free Documentation License".
 +
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+Fix for https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53119
-+wrong warning when using the universal zero initializer {0}
-+
-+Backported to GCC 4.8.3
-+
-+Subject: 2014-06-05  S. Gilles  <sgilles@terpmail.umd.edu>
-+X-Git-Url: http://repo.or.cz/w/official-gcc.git/commitdiff_plain/95cdf3fdf2d440eb7775def8e35ab970651c33d9?hp=14a3093e9943937cbc63dfbf4d51ca60f8325b29
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@211289 138bc75d-0d04-0410-961f-82ee72b054a4
-+
-+--- gcc-4.8.3.org/gcc/c/c-typeck.c	2014-08-03 20:52:09.257042137 +0200
-++++ gcc-4.8.3/gcc/c/c-typeck.c	2014-08-03 20:57:10.645042614 +0200
-+@@ -62,9 +62,9 @@
-+    if expr.original_code == SIZEOF_EXPR.  */
-+ tree c_last_sizeof_arg;
-+ 
-+-/* Nonzero if we've already printed a "missing braces around initializer"
-+-   message within this initializer.  */
-+-static int missing_braces_mentioned;
-++/* Nonzero if we might need to print a "missing braces around
-++   initializer" message within this initializer.  */
-++static int found_missing_braces;
-+ 
-+ static int require_constant_value;
-+ static int require_constant_elements;
-+@@ -6379,6 +6379,9 @@
-+ /* 1 if this constructor is erroneous so far.  */
-+ static int constructor_erroneous;
-+ 
-++/* 1 if this constructor is the universal zero initializer { 0 }.  */
-++static int constructor_zeroinit;
-++
-+ /* Structure for managing pending initializer elements, organized as an
-+    AVL tree.  */
-+ 
-+@@ -6540,7 +6543,7 @@
-+   constructor_stack = 0;
-+   constructor_range_stack = 0;
-+ 
-+-  missing_braces_mentioned = 0;
-++  found_missing_braces = 0;
-+ 
-+   spelling_base = 0;
-+   spelling_size = 0;
-+@@ -6635,6 +6638,7 @@
-+   constructor_type = type;
-+   constructor_incremental = 1;
-+   constructor_designated = 0;
-++  constructor_zeroinit = 1;
-+   designator_depth = 0;
-+   designator_erroneous = 0;
-+ 
-+@@ -6832,11 +6836,8 @@
-+ 	set_nonincremental_init (braced_init_obstack);
-+     }
-+ 
-+-  if (implicit == 1 && warn_missing_braces && !missing_braces_mentioned)
-+-    {
-+-      missing_braces_mentioned = 1;
-+-      warning_init (OPT_Wmissing_braces, "missing braces around initializer");
-+-    }
-++  if (implicit == 1)
-++    found_missing_braces = 1;
-+ 
-+   if (TREE_CODE (constructor_type) == RECORD_TYPE
-+ 	   || TREE_CODE (constructor_type) == UNION_TYPE)
-+@@ -6969,16 +6970,23 @@
-+ 	}
-+     }
-+ 
-++  if (vec_safe_length (constructor_elements) != 1)
-++    constructor_zeroinit = 0;
-++
-++  /* Warn when some structs are initialized with direct aggregation.  */
-++  if (!implicit && found_missing_braces && warn_missing_braces
-++      && !constructor_zeroinit)
-++    {
-++      warning_init (OPT_Wmissing_braces,
-++		    "missing braces around initializer");
-++    }
-++
-+   /* Warn when some struct elements are implicitly initialized to zero.  */
-+   if (warn_missing_field_initializers
-+       && constructor_type
-+       && TREE_CODE (constructor_type) == RECORD_TYPE
-+       && constructor_unfilled_fields)
-+     {
-+-	bool constructor_zeroinit =
-+-	 (vec_safe_length (constructor_elements) == 1
-+-	  && integer_zerop ((*constructor_elements)[0].value));
-+-
-+ 	/* Do not warn for flexible array members or zero-length arrays.  */
-+ 	while (constructor_unfilled_fields
-+ 	       && (!DECL_SIZE (constructor_unfilled_fields)
-+@@ -8093,6 +8101,9 @@
-+   designator_depth = 0;
-+   designator_erroneous = 0;
-+ 
-++  if (!implicit && value.value && !integer_zerop (value.value))
-++    constructor_zeroinit = 0;
-++
-+   /* Handle superfluous braces around string cst as in
-+      char x[] = {"foo"}; */
-+   if (string_flag
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 691ba5f..95b553c 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -80,6 +80,7 @@ SRC_URI = "\
-     file://0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
-     file://0063-nativesdk-gcc-support.patch \
-     file://0064-handle-target-sysroot-multilib.patch \
-+    file://0065-gcc-483-universal-initializer-no-warning.patch \
- "
- SRC_URI[md5sum] = "6f831b4d251872736e8e9cc09746f327"
- SRC_URI[sha256sum] = "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0065-gcc-483-universal-initializer-no-warning.patch b/meta/recipes-devtools/gcc/gcc-4.9/0065-gcc-483-universal-initializer-no-warning.patch
-new file mode 100644
-index 0000000..fde227b
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.9/0065-gcc-483-universal-initializer-no-warning.patch
-@@ -0,0 +1,107 @@
-+Upstream-Status: Backport
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+Fix for https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53119
-+wrong warning when using the universal zero initializer {0}
-+
-+Backported to GCC 4.8.3
-+
-+Subject: 2014-06-05  S. Gilles  <sgilles@terpmail.umd.edu>
-+X-Git-Url: http://repo.or.cz/w/official-gcc.git/commitdiff_plain/95cdf3fdf2d440eb7775def8e35ab970651c33d9?hp=14a3093e9943937cbc63dfbf4d51ca60f8325b29
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@211289 138bc75d-0d04-0410-961f-82ee72b054a4
-+
-+--- gcc-4.8.3.org/gcc/c/c-typeck.c	2014-08-03 20:52:09.257042137 +0200
-++++ gcc-4.8.3/gcc/c/c-typeck.c	2014-08-03 20:57:10.645042614 +0200
-+@@ -62,9 +62,9 @@
-+    if expr.original_code == SIZEOF_EXPR.  */
-+ tree c_last_sizeof_arg;
-+ 
-+-/* Nonzero if we've already printed a "missing braces around initializer"
-+-   message within this initializer.  */
-+-static int missing_braces_mentioned;
-++/* Nonzero if we might need to print a "missing braces around
-++   initializer" message within this initializer.  */
-++static int found_missing_braces;
-+ 
-+ static int require_constant_value;
-+ static int require_constant_elements;
-+@@ -6379,6 +6379,9 @@
-+ /* 1 if this constructor is erroneous so far.  */
-+ static int constructor_erroneous;
-+ 
-++/* 1 if this constructor is the universal zero initializer { 0 }.  */
-++static int constructor_zeroinit;
-++
-+ /* Structure for managing pending initializer elements, organized as an
-+    AVL tree.  */
-+ 
-+@@ -6540,7 +6543,7 @@
-+   constructor_stack = 0;
-+   constructor_range_stack = 0;
-+ 
-+-  missing_braces_mentioned = 0;
-++  found_missing_braces = 0;
-+ 
-+   spelling_base = 0;
-+   spelling_size = 0;
-+@@ -6635,6 +6638,7 @@
-+   constructor_type = type;
-+   constructor_incremental = 1;
-+   constructor_designated = 0;
-++  constructor_zeroinit = 1;
-+   designator_depth = 0;
-+   designator_erroneous = 0;
-+ 
-+@@ -6832,11 +6836,8 @@
-+ 	set_nonincremental_init (braced_init_obstack);
-+     }
-+ 
-+-  if (implicit == 1 && warn_missing_braces && !missing_braces_mentioned)
-+-    {
-+-      missing_braces_mentioned = 1;
-+-      warning_init (OPT_Wmissing_braces, "missing braces around initializer");
-+-    }
-++  if (implicit == 1)
-++    found_missing_braces = 1;
-+ 
-+   if (TREE_CODE (constructor_type) == RECORD_TYPE
-+ 	   || TREE_CODE (constructor_type) == UNION_TYPE)
-+@@ -6969,16 +6970,23 @@
-+ 	}
-+     }
-+ 
-++  if (vec_safe_length (constructor_elements) != 1)
-++    constructor_zeroinit = 0;
-++
-++  /* Warn when some structs are initialized with direct aggregation.  */
-++  if (!implicit && found_missing_braces && warn_missing_braces
-++      && !constructor_zeroinit)
-++    {
-++      warning_init (OPT_Wmissing_braces,
-++		    "missing braces around initializer");
-++    }
-++
-+   /* Warn when some struct elements are implicitly initialized to zero.  */
-+   if (warn_missing_field_initializers
-+       && constructor_type
-+       && TREE_CODE (constructor_type) == RECORD_TYPE
-+       && constructor_unfilled_fields)
-+     {
-+-	bool constructor_zeroinit =
-+-	 (vec_safe_length (constructor_elements) == 1
-+-	  && integer_zerop ((*constructor_elements)[0].value));
-+-
-+ 	/* Do not warn for flexible array members or zero-length arrays.  */
-+ 	while (constructor_unfilled_fields
-+ 	       && (!DECL_SIZE (constructor_unfilled_fields)
-+@@ -8093,6 +8101,9 @@
-+   designator_depth = 0;
-+   designator_erroneous = 0;
-+ 
-++  if (!implicit && value.value && !integer_zerop (value.value))
-++    constructor_zeroinit = 0;
-++
-+   /* Handle superfluous braces around string cst as in
-+      char x[] = {"foo"}; */
-+   if (string_flag
++If you have no Invariant Sections, write "with no Invariant Sections"
++instead of saying which ones are invariant.  If you have no
++Front-Cover Texts, write "no Front-Cover Texts" instead of
++"Front-Cover Texts being LIST"; likewise for Back-Cover Texts.
+ 
+ If your document contains nontrivial examples of program code, we
+ recommend releasing these examples in parallel under your choice of
 -- 
 2.1.4
 
