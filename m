@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 8ECBA7717A
+	by mail.openembedded.org (Postfix) with ESMTP id A828377131
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:22 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id EB8D160029B
+	(Authenticated sender: joshuagl) with ESMTPSA id 128FD600F52
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:21:52 +0100
-Message-Id: <33960902b9c36575ddda3d926d70fa13bbad85f6.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:21:53 +0100
+Message-Id: <f775e4cffe45edb673a414a2038c4f2b09b9b827.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 31/52] qemu: disable Valgrind
+Subject: [PATCH v3 32/52] useradd_base.bbclass: Do not warn without a reason
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,56 +29,53 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Oct 2015 15:22:25 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-Qemu has an automatic dependency on valgrind which cannot be disabled, which
-causes non-deterministic builds and build failures.  As Valgrind wasn't enabled
-previously make this deterministic by forcibly disabling it.
+In c0da4270c76375a7a8cbcc09319fe4570ebbc5bd two bbwarn were changed to
+bbnote for the case where an added user or group already exists. The
+same should have been done for groupmems, groupdel and userdel as well
+since the warnings that are currently generated are superflouous.
 
+The two remaining similar bbwarn for groupmod and usermod are left as
+is since there they actually make sense.
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/qemu/qemu/no-valgrind.patch | 19 +++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.4.0.bb          |  1 +
- 2 files changed, 20 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/no-valgrind.patch
+ meta/classes/useradd_base.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu/no-valgrind.patch b/meta/recipes-devtools/qemu/qemu/no-valgrind.patch
-new file mode 100644
-index 0000000..91f7280
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/no-valgrind.patch
-@@ -0,0 +1,19 @@
-+There isn't an option to enable or disable valgrind support, so disable it to avoid non-deterministic builds.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/configure b/configure
-+index b3c4f51..4d3929e 100755
-+--- a/configure
-++++ b/configure
-+@@ -4193,9 +4192,0 @@ valgrind_h=no
-+-cat > $TMPC << EOF
-+-#include <valgrind/valgrind.h>
-+-int main(void) {
-+-  return 0;
-+-}
-+-EOF
-+-if compile_prog "" "" ; then
-+-    valgrind_h=yes
-+-fi
-diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0.bb b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
-index 59b1788..1505b80 100644
---- a/meta/recipes-devtools/qemu/qemu_2.4.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
-@@ -9,6 +9,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://smc91c111_fix1.patch \
-             file://smc91c111_fix2.patch \
-             file://smc91c111_fix3.patch \
-+            file://no-valgrind.patch \
-            "
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
- SRC_URI[md5sum] = "186ee8194140a484a455f8e3c74589f4"
+diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.bbclass
+index 802f3a1..ab3cd35 100644
+--- a/meta/classes/useradd_base.bbclass
++++ b/meta/classes/useradd_base.bbclass
+@@ -104,7 +104,7 @@ perform_groupmems () {
+ 			sleep $count
+ 		done
+ 	else
+-		bbwarn "${PN}: group $groupname already contains $username, not re-adding it"
++		bbnote "${PN}: group $groupname already contains $username, not re-adding it"
+ 	fi
+ 	if test "x$gshadow" = "xno"; then
+ 		rm -f $rootdir${sysconfdir}/gshadow
+@@ -136,7 +136,7 @@ perform_groupdel () {
+ 			sleep $count
+ 		done
+ 	else
+-		bbwarn "${PN}: group $groupname doesn't exist, not removing it"
++		bbnote "${PN}: group $groupname doesn't exist, not removing it"
+ 	fi
+ }
+ 
+@@ -164,7 +164,7 @@ perform_userdel () {
+ 		       sleep $count
+ 	       done
+ 	else
+-		bbwarn "${PN}: user $username doesn't exist, not removing it"
++		bbnote "${PN}: user $username doesn't exist, not removing it"
+ 	fi
+ }
+ 
 -- 
 2.1.4
 
