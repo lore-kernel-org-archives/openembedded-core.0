@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 870687714F
+	by mail.openembedded.org (Postfix) with ESMTP id 9D28477154
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:20 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 2A388609014
+	(Authenticated sender: joshuagl) with ESMTPSA id 96220608F9D
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:21:30 +0100
-Message-Id: <a46fb1a06be2df00a0bceb4e60ebdecb55b5974c.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:21:32 +0100
+Message-Id: <b388468deda8d81df80d1509226196a5390183a8.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 09/52] devtool: extract: fix error handling
+Subject: [PATCH v3 11/52] toolchain-shar-extract.sh: provide proper path for env_setup_script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,50 +29,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Oct 2015 15:22:21 -0000
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+From: "Maxin B. John" <maxin.john@intel.com>
 
-If recipe parsing fails we need to exit out instead of attempting to use
-the data object that's set to None, which resulted in a traceback.
+The toolchain install script suggest the user to source env_setup_script
+from wrong path now. eg:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+" Each time you wish to use the SDK in a new shell session, you need to
+source the environment setup script e.g.
+$ . /opt/poky/2.0//opt/poky/2.0/environment-setup-armv5e-poky-linux-gnueabi
+"
+
+fix it.
+
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- scripts/lib/devtool/standard.py | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/files/toolchain-shar-extract.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 6ce3144..5d7e903 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -225,6 +225,9 @@ def extract(args, config, basepath, workspace):
-     import bb
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 2ffc2d1..2eeb290 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -183,7 +183,7 @@ fi
+ echo "SDK has been successfully set up and is ready to be used."
+ echo "Each time you wish to use the SDK in a new shell session, you need to source the environment setup script e.g."
+ for env_setup_script in `ls $target_sdk_dir/environment-setup-*`; do
+-	echo " \$ . $target_sdk_dir/$env_setup_script"
++	echo " \$ . $env_setup_script"
+ done
  
-     tinfoil = _prep_extract_operation(config, basepath, args.recipename)
-+    if not tinfoil:
-+        # Error already shown
-+        return 1
- 
-     rd = parse_recipe(config, tinfoil, args.recipename, True)
-     if not rd:
-@@ -271,6 +274,8 @@ def _prep_extract_operation(config, basepath, recipename):
-        trying to extract a package. Returns the tinfoil instance to be used."""
-     tinfoil = setup_tinfoil(basepath=basepath)
-     rd = parse_recipe(config, tinfoil, recipename, True)
-+    if not rd:
-+        return None
- 
-     if bb.data.inherits_class('kernel-yocto', rd):
-         tinfoil.shutdown()
-@@ -500,6 +505,9 @@ def modify(args, config, basepath, workspace):
-                            args.srctree)
-     if args.extract:
-         tinfoil = _prep_extract_operation(config, basepath, args.recipename)
-+        if not tinfoil:
-+            # Error already shown
-+            return 1
-     else:
-         tinfoil = setup_tinfoil(basepath=basepath)
- 
+ exit 0
 -- 
 2.1.4
 
