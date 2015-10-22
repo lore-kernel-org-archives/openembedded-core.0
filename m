@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id AD5F77716E
+	by mail.openembedded.org (Postfix) with ESMTP id DC70D7715E
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:21 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 1527A600F5A
+	(Authenticated sender: joshuagl) with ESMTPSA id 47643608F9D
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:21:44 +0100
-Message-Id: <1f7752282ffb47d2621030ddb2fa42a5e491d6d2.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:21:46 +0100
+Message-Id: <f6609aca5c533325411567a79130114654c50f3b.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 23/52] devtool: handle virtual providers
+Subject: [PATCH v3 25/52] sanity.bbclass: expand warning when chmod fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,192 +29,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Oct 2015 15:22:24 -0000
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+From: Alex Franco <alejandro.franco@linux.intel.com>
 
-For modify / extract / upgrade, if the specified "recipe" is not
-actually a recipe but a virtual target such as virtual/kernel, map it
-correctly to the actual recipe and make sure we use that name within the
-workspace. Thanks to Chris Larson for reminding me this was still broken
-and for a hint on how to fix it.
+As suggested, add exception message to warning in
+sanity.bbclass when chmod fails on TMPDIR.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+[YOCTO #7669]
+
+Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oe/recipeutils.py        |  6 +++++-
- meta/lib/oeqa/selftest/devtool.py | 32 ++++++++++++++++++++++++++++++++
- scripts/lib/devtool/standard.py   | 24 ++++++++++++++++++------
- scripts/lib/devtool/upgrade.py    | 12 +++++++++---
- 4 files changed, 64 insertions(+), 10 deletions(-)
+ meta/classes/sanity.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index 207c300..119a688 100644
---- a/meta/lib/oe/recipeutils.py
-+++ b/meta/lib/oe/recipeutils.py
-@@ -31,9 +31,13 @@ def pn_to_recipe(cooker, pn):
-     import bb.providers
- 
-     if pn in cooker.recipecache.pkg_pn:
--        filenames = cooker.recipecache.pkg_pn[pn]
-         best = bb.providers.findBestProvider(pn, cooker.data, cooker.recipecache, cooker.recipecache.pkg_pn)
-         return best[3]
-+    elif pn in cooker.recipecache.providers:
-+        filenames = cooker.recipecache.providers[pn]
-+        eligible, foundUnique = bb.providers.filterProviders(filenames, pn, cooker.expanded_data, cooker.recipecache)
-+        filename = eligible[0]
-+        return filename
-     else:
-         return None
- 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index baa56d6..e4de309 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -466,6 +466,28 @@ class DevtoolTests(DevtoolBase):
-         # Try building
-         bitbake(testrecipe)
- 
-+    def test_devtool_modify_virtual(self):
-+        # Try modifying a virtual recipe
-+        virtrecipe = 'virtual/libx11'
-+        realrecipe = 'libx11'
-+        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(tempdir)
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        result = runCmd('devtool modify %s -x %s' % (virtrecipe, tempdir))
-+        self.assertTrue(os.path.exists(os.path.join(tempdir, 'Makefile.am')), 'Extracted source could not be found')
-+        self.assertTrue(os.path.exists(os.path.join(self.workspacedir, 'conf', 'layer.conf')), 'Workspace directory not created')
-+        matches = glob.glob(os.path.join(self.workspacedir, 'appends', '%s_*.bbappend' % realrecipe))
-+        self.assertTrue(matches, 'bbappend not created %s' % result.output)
-+        # Test devtool status
-+        result = runCmd('devtool status')
-+        self.assertNotIn(virtrecipe, result.output)
-+        self.assertIn(realrecipe, result.output)
-+        # Check git repo
-+        self._check_src_repo(tempdir)
-+        # This is probably sufficient
-+
-+
-     @testcase(1169)
-     def test_devtool_update_recipe(self):
-         # Check preconditions
-@@ -805,6 +827,16 @@ class DevtoolTests(DevtoolBase):
-         self.assertTrue(os.path.exists(os.path.join(tempdir, 'Makefile.am')), 'Extracted source could not be found')
-         self._check_src_repo(tempdir)
- 
-+    def test_devtool_extract_virtual(self):
-+        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        # Try devtool extract
-+        self.track_for_cleanup(tempdir)
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        result = runCmd('devtool extract virtual/libx11 %s' % tempdir)
-+        self.assertTrue(os.path.exists(os.path.join(tempdir, 'Makefile.am')), 'Extracted source could not be found')
-+        self._check_src_repo(tempdir)
-+
-     @testcase(1168)
-     def test_devtool_reset_all(self):
-         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 5d7e903..1285974 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -45,6 +45,10 @@ def add(args, config, basepath, workspace):
-     if reason:
-         raise DevtoolError(reason)
- 
-+    # FIXME this ought to be in validate_pn but we're using that in other contexts
-+    if '/' in args.recipename:
-+        raise DevtoolError('"/" is not a valid character in recipe names')
-+
-     srctree = os.path.abspath(args.srctree)
-     if os.path.exists(srctree):
-         if args.fetch:
-@@ -514,6 +518,14 @@ def modify(args, config, basepath, workspace):
-     rd = parse_recipe(config, tinfoil, args.recipename, True)
-     if not rd:
-         return 1
-+
-+    pn = rd.getVar('PN', True)
-+    if pn != args.recipename:
-+        logger.info('Mapping %s to %s' % (args.recipename, pn))
-+    if pn in workspace:
-+        raise DevtoolError("recipe %s is already in your workspace" %
-+                           pn)
-+
-     recipefile = rd.getVar('FILE', True)
-     appendname = os.path.splitext(os.path.basename(recipefile))[0]
-     if args.wildcard:
-@@ -524,9 +536,9 @@ def modify(args, config, basepath, workspace):
-         raise DevtoolError("Another variant of recipe %s is already in your "
-                            "workspace (only one variant of a recipe can "
-                            "currently be worked on at once)"
--                           % args.recipename)
-+                           % pn)
- 
--    _check_compatible_recipe(args.recipename, rd)
-+    _check_compatible_recipe(pn, rd)
- 
-     initial_rev = None
-     commits = []
-@@ -574,11 +586,11 @@ def modify(args, config, basepath, workspace):
- 
-         f.write('\ninherit externalsrc\n')
-         f.write('# NOTE: We use pn- overrides here to avoid affecting multiple variants in the case where the recipe uses BBCLASSEXTEND\n')
--        f.write('EXTERNALSRC_pn-%s = "%s"\n' % (args.recipename, srctree))
-+        f.write('EXTERNALSRC_pn-%s = "%s"\n' % (pn, srctree))
- 
-         b_is_s = use_external_build(args.same_dir, args.no_same_dir, rd)
-         if b_is_s:
--            f.write('EXTERNALSRC_BUILD_pn-%s = "%s"\n' % (args.recipename, srctree))
-+            f.write('EXTERNALSRC_BUILD_pn-%s = "%s"\n' % (pn, srctree))
- 
-         if bb.data.inherits_class('kernel', rd):
-             f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout do_fetch do_unpack"\n')
-@@ -587,9 +599,9 @@ def modify(args, config, basepath, workspace):
-             for commit in commits:
-                 f.write('# commit: %s\n' % commit)
- 
--    _add_md5(config, args.recipename, appendfile)
-+    _add_md5(config, pn, appendfile)
- 
--    logger.info('Recipe %s now set up to build from %s' % (args.recipename, srctree))
-+    logger.info('Recipe %s now set up to build from %s' % (pn, srctree))
- 
-     return 0
- 
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 4f850cf..d387623 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -300,7 +300,13 @@ def upgrade(args, config, basepath, workspace):
-     if not rd:
-         return 1
- 
--    standard._check_compatible_recipe(args.recipename, rd)
-+    pn = rd.getVar('PN', True)
-+    if pn != args.recipename:
-+        logger.info('Mapping %s to %s' % (args.recipename, pn))
-+    if pn in workspace:
-+        raise DevtoolError("recipe %s is already in your workspace" % pn)
-+
-+    standard._check_compatible_recipe(pn, rd)
-     if rd.getVar('PV', True) == args.version and rd.getVar('SRCREV', True) == args.srcrev:
-         raise DevtoolError("Current and upgrade versions are the same version" % version)
- 
-@@ -315,11 +321,11 @@ def upgrade(args, config, basepath, workspace):
-         _upgrade_error(e, rf, args.srctree)
-     except DevtoolError as e:
-         _upgrade_error(e, rf, args.srctree)
--    standard._add_md5(config, args.recipename, os.path.dirname(rf))
-+    standard._add_md5(config, pn, os.path.dirname(rf))
- 
-     af = _write_append(rf, args.srctree, args.same_dir, args.no_same_dir, rev2,
-                        config.workspace_path, rd)
--    standard._add_md5(config, args.recipename, af)
-+    standard._add_md5(config, pn, af)
-     logger.info('Upgraded source extracted to %s' % args.srctree)
-     return 0
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 34f8618..d0b5cd0 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -843,8 +843,8 @@ def check_sanity_everybuild(status, d):
+             os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISUID)
+             os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISGID)
+             os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISVTX)
+-        except OSError:
+-            bb.warn("Unable to chmod TMPDIR: %s" % tmpdir)
++        except OSError as exc:
++            bb.warn("Unable to chmod TMPDIR: %s" % exc)
+         with open(checkfile, "w") as f:
+             f.write(tmpdir)
  
 -- 
 2.1.4
