@@ -1,22 +1,24 @@
 Return-Path: <benjamin.esquivel@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A87B60088
+	by mail.openembedded.org (Postfix) with ESMTP id AE0E9605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 22:45:53 +0000 (UTC)
+	Thu, 22 Oct 2015 22:45:54 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Oct 2015 15:45:53 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 22 Oct 2015 15:45:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,184,1444719600"; d="scan'208";a="817378701"
+X-IronPort-AV: E=Sophos;i="5.20,184,1444719600"; d="scan'208";a="817378716"
 Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
 	([10.23.219.54])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Oct 2015 15:45:54 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 22 Oct 2015 15:45:55 -0700
 From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 22:45:09 +0000
-Message-Id: <1445553911-12721-1-git-send-email-benjamin.esquivel@linux.intel.com>
+Date: Thu, 22 Oct 2015 22:45:11 +0000
+Message-Id: <1445553911-12721-3-git-send-email-benjamin.esquivel@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <1445553911-12721-1-git-send-email-benjamin.esquivel@linux.intel.com>
+References: <1445553911-12721-1-git-send-email-benjamin.esquivel@linux.intel.com>
 Cc: brian.avery@intel.com, randy.e.witt@intel.com
-Subject: [PATCH 0/2] adding runtest/systemd boot time test
+Subject: [PATCH 2/2] systemd: skip service tests on long boot times
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +33,73 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Oct 2015 22:45:56 -0000
 
-=Introduction=
-there has been a number of bugs filed against failing systemd services,
-or units, that appear to be random and very hard to reproduce. The bugs
-have been found at the autobuilder instances and not much information
-about what caused the failure can be found
+arrange the runtime systemd services testing to depend upon the
+checking of the boot time to be less than systemd's unit (services)
+start timeout
+this will prevent the service tests failing on a condition that is
+well known to happen when the virtual target is choked on IO/CPU
+resources
 
-example bugs for the aforementioned errors are YOCTO#8142 and
-YOCTO#8141, there are others
+[YOCTO#8142]
 
-these errors seemingly can be reproduced by constraining the resources
-on the target for testing, putting a low amount of CPU at disposal and
-making it test with other test targets simultaneously to also constrain
-IO has gotten the failure to show up often enough to debug it
+Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+---
+ meta/lib/oeqa/runtime/systemd.py | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-further debug showed that the service tests were failing due to the
-kernel booting in a long time, a number of seconds that exceeds systemd's
-timeout for units to finalize coming up. 404 failure samples were
-checked and all of them showed a boot time that exceeded the timeout
-
-=Change Description=
-this change creates a test that measures the target boot time against
-the unit timeout default, which is 90 seconds. If the booting time
-exceeded 90 seconds then the test fails
-
-the tests that check for systemd services are now dependant upon this
-test, if the boot time test fails then the tests that check services
-will be skipped
-
-Benjamin Esquivel (2):
-  systemd: test target boot time against unit timeout
-  systemd: skip service tests on long boot times
-
- meta/lib/oeqa/runtime/systemd.py | 83 +++++++++++++++++++++++++++++++++++++---
- 1 file changed, 78 insertions(+), 5 deletions(-)
-
+diff --git a/meta/lib/oeqa/runtime/systemd.py b/meta/lib/oeqa/runtime/systemd.py
+index 251d06e..4e0a556 100644
+--- a/meta/lib/oeqa/runtime/systemd.py
++++ b/meta/lib/oeqa/runtime/systemd.py
+@@ -80,7 +80,7 @@ class SystemdBasicTests(SystemdTest):
+             time.sleep(10)
+ 
+     @testcase(550)
+-    @skipUnlessPassed('test_systemd_basic')
++    @skipUnlessPassed('test_systemd_boot_time')
+     def test_systemd_failed(self):
+         settled, output = self.settle()
+         self.assertTrue(settled, msg="Timed out waiting for systemd to settle:\n" + output)
+@@ -98,13 +98,13 @@ class SystemdServiceTests(SystemdTest):
+         if not self.hasPackage('avahi-daemon'):
+             raise unittest.SkipTest("Testcase dependency not met: need avahi-daemon installed on target")
+ 
+-    @skipUnlessPassed('test_systemd_basic')
++    @skipUnlessPassed('test_systemd_boot_time')
+     def test_systemd_status(self):
+         self.check_for_avahi()
+         self.systemctl('status --full', 'avahi-daemon.service')
+ 
+     @testcase(695)
+-    @skipUnlessPassed('test_systemd_status')
++    @skipUnlessPassed('test_systemd_boot_time')
+     def test_systemd_stop_start(self):
+         self.check_for_avahi()
+         self.systemctl('stop', 'avahi-daemon.service')
+@@ -113,7 +113,7 @@ class SystemdServiceTests(SystemdTest):
+         self.systemctl('is-active', 'avahi-daemon.service', verbose=True)
+ 
+     @testcase(696)
+-    @skipUnlessPassed('test_systemd_basic')
++    @skipUnlessPassed('test_systemd_boot_time')
+     def test_systemd_disable_enable(self):
+         self.check_for_avahi()
+         self.systemctl('disable', 'avahi-daemon.service')
+@@ -122,12 +122,12 @@ class SystemdServiceTests(SystemdTest):
+         self.systemctl('is-enabled', 'avahi-daemon.service')
+ 
+ class SystemdJournalTests(SystemdTest):
+-    @skipUnlessPassed('test_ssh')
++    @skipUnlessPassed('test_systemd_basic')
+     def test_systemd_journal(self):
+         (status, output) = self.target.run('journalctl')
+         self.assertEqual(status, 0, output)
+ 
+-    @skipUnlessPassed('test_systemd_basic')
++    @skipUnlessPassed('test_systemd_journal')
+     def test_systemd_boot_time(self, systemd_TimeoutStartSec=90):
+         """
+         Compare the target boot time from journalctl against TimeoutStartSec
 -- 
 1.8.4.5
 
