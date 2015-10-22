@@ -1,23 +1,23 @@
-Return-Path: <costin.c.constantin@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 128FB770CA
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CB7777106
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 14:05:46 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Oct 2015 07:04:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,182,1444719600"; d="scan'208";a="669553334"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 22 Oct 2015 07:04:34 -0700
-Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id 0B28D6A4005;
-	Thu, 22 Oct 2015 07:03:33 -0700 (PDT)
-From: Costin Constantin <costin.c.constantin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 17:16:12 +0300
-Message-Id: <1445523372-6290-1-git-send-email-costin.c.constantin@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] scripts/oe-publish-sdk: YP#6659
+	Thu, 22 Oct 2015 15:01:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 1565A600F52
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1445334356.git.joshua.lock@collabora.co.uk>
+	<f8642636a68071a0e33fa74d61fcb9cea566e5d7.1445334356.git.joshua.lock@collabora.co.uk>
+	<CAJTo0LZLoorMg6Jro+7GN0--hB8e4dFcxNNFLMcS6qTc5T9qrQ@mail.gmail.com>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+Message-ID: <5628FA55.8030507@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:01:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZLoorMg6Jro+7GN0--hB8e4dFcxNNFLMcS6qTc5T9qrQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 4/7] systemd: make dbus an optional build time dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,33 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 14:05:47 -0000
+X-List-Received-Date: Thu, 22 Oct 2015 15:01:48 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This patch fixes a small bug that prevents seting a git repo in exported SDK
-layers dir. Before setting a git repo, that directory needs to be created.
+On 21/10/15 17:09, Burton, Ross wrote:
+>
+> On 20 October 2015 at 10:47, Joshua Lock <joshua.lock@collabora.co.uk
+> <mailto:joshua.lock@collabora.co.uk>> wrote:
+>
+>     +PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
+>
+>
+> This also disables the code by default which is a change from the
+> previous behaviour, which needs to be documented at least.  Also as
+> they're for the test suite, should we enable dbus by default if ptest is
+> enabled?
 
-Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
----
- scripts/oe-publish-sdk | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Indeed, I'll submit a v3 which mentions this in the commit message.
 
-diff --git a/scripts/oe-publish-sdk b/scripts/oe-publish-sdk
-index 1737c9f..c4c35bd 100755
---- a/scripts/oe-publish-sdk
-+++ b/scripts/oe-publish-sdk
-@@ -101,9 +101,9 @@ def publish(args):
- 
-     # Setting up the git repo
-     if not is_remote:
--        cmd = 'set -e; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; fi; git add -A .; git commit -q -m "init repo" || true;' % destination
-+        cmd = 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; fi; git add -A .; git commit -q -m "init repo" || true;' % (destination, destination)
-     else:
--        cmd = "ssh %s 'set -e; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; fi; git add -A .; git commit -q -m \"init repo\" || true;'" % (host, destdir)
-+        cmd = "ssh %s 'set -e; mkdir-p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; fi; git add -A .; git commit -q -m \"init repo\" || true;'" % (host, destdir, destdir)
-     ret = subprocess.call(cmd, shell=True)
-     if ret == 0:
-         logger.info('SDK published successfully')
--- 
-2.1.4
+Selfishly I'd rather we didn't enable it by default where ptest is enabled.
 
+We'd like to push changes to build d-bus with systemd support by default 
+and to have dbus in the default DEPENDS would cause a dependency loop.
+
+Of course if the feeling is that systemd with dbus tests in ptest is a 
+more useful default than dbus with systemd support, I can submit that 
+change.
+
+Cheers,
+
+Joshua
 
