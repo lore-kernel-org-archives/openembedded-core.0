@@ -1,20 +1,31 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1960E75D4A
+Return-Path: <rpjday@crashcourse.ca>
+X-Greylist: delayed 626 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 22 Oct 2015 08:24:52 UTC
+Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
+	by mail.openembedded.org (Postfix) with ESMTP id E1D8176710
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 00:17:35 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Oct 2015 17:17:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,179,1444719600"; d="scan'208";a="799692494"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.145])
-	by orsmga001.jf.intel.com with ESMTP; 21 Oct 2015 17:17:35 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Oct 2015 17:11:11 -0700
-Message-Id: <1445472671-24263-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] ref-manual: Updated ADT Installer Extras
+	Thu, 22 Oct 2015 08:24:52 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
+	via TCP (outbound) with ESMTPS id 20151022081425772_0485
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Oct 2015 08:14:25 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [68.118.117.2] (port=45060 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1ZpB1g-0003Zj-5j for openembedded-core@lists.openembedded.org;
+	Thu, 22 Oct 2015 04:15:09 -0400
+Date: Thu, 22 Oct 2015 04:14:15 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1510220413020.4613@localhost>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+MIME-Version: 1.0
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: why does local.conf.sample not mention qemumips64?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,58 +38,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 00:17:38 -0000
+X-List-Received-Date: Thu, 22 Oct 2015 08:24:55 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-opkg 0.3.0 requires also libarchive.
 
-[YOCTO#8308]
+  not sure i asked this once upon a time but since the OE layer
+contains a machine definition for qemumips64, why doesn't
+local.conf.sample contain a sample line for that? just curious.
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- documentation/ref-manual/introduction.xml | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+rday
 
-diff --git a/documentation/ref-manual/introduction.xml b/documentation/ref-manual/introduction.xml
-index 5148acb..e9309ef 100644
---- a/documentation/ref-manual/introduction.xml
-+++ b/documentation/ref-manual/introduction.xml
-@@ -250,7 +250,7 @@
-                         Packages needed if you are going to be using the
-                         <ulink url='&YOCTO_DOCS_ADT_URL;#using-the-adt-installer'>Application Development Toolkit (ADT) Installer</ulink>:
-                         <literallayout class='monospaced'>
--     $ sudo apt-get install autoconf automake libtool libglib2.0-dev
-+     $ sudo apt-get install autoconf automake libtool libglib2.0-dev libarchive-dev
-                         </literallayout></para></listitem>
-                     <listitem><para><emphasis>OpenEmbedded Self-Test (<filename>oe-selftest</filename>):</emphasis>
-                         Packages needed if you are going to run
-@@ -294,7 +294,7 @@
-                         Packages needed if you are going to be using the
-                         <ulink url='&YOCTO_DOCS_ADT_URL;#using-the-adt-installer'>Application Development Toolkit (ADT) Installer</ulink>:
-                         <literallayout class='monospaced'>
--     $ sudo dnf install autoconf automake libtool glib2-devel
-+     $ sudo dnf install autoconf automake libtool glib2-devel libarchive-devel
-                         </literallayout></para></listitem>
-                     <listitem><para><emphasis>OpenEmbedded Self-Test (<filename>oe-selftest</filename>):</emphasis>
-                         Packages needed if you are going to run
-@@ -337,7 +337,7 @@
-                         Packages needed if you are going to be using the
-                         <ulink url='&YOCTO_DOCS_ADT_URL;#using-the-adt-installer'>Application Development Toolkit (ADT) Installer</ulink>:
-                         <literallayout class='monospaced'>
--     $ sudo zypper install autoconf automake libtool glib2-devel
-+     $ sudo zypper install autoconf automake libtool glib2-devel libarchive-devel
-                         </literallayout></para></listitem>
-                     <listitem><para><emphasis>OpenEmbedded Self-Test (<filename>oe-selftest</filename>):</emphasis>
-                         Packages needed if you are going to run
-@@ -392,7 +392,7 @@
-                         Packages needed if you are going to be using the
-                         <ulink url='&YOCTO_DOCS_ADT_URL;#using-the-adt-installer'>Application Development Toolkit (ADT) Installer</ulink>:
-                         <literallayout class='monospaced'>
--     $ sudo dnf install autoconf automake libtool glib2-devel
-+     $ sudo dnf install autoconf automake libtool glib2-devel libarchive-devel
-                         </literallayout></para></listitem>
-                     <listitem><para><emphasis>OpenEmbedded Self-Test (<filename>oe-selftest</filename>):</emphasis>
-                         Packages needed if you are going to run
 -- 
-1.9.1
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
