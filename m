@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id A828377131
+	by mail.openembedded.org (Postfix) with ESMTP id DA7C277153
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:22 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 128FD600F52
+	(Authenticated sender: joshuagl) with ESMTPSA id 42534600F80
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:21:53 +0100
-Message-Id: <f775e4cffe45edb673a414a2038c4f2b09b9b827.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:21:55 +0100
+Message-Id: <1136f9e02d9cbe2c2cda189321d72b763649ba42.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 32/52] useradd_base.bbclass: Do not warn without a reason
+Subject: [PATCH v3 34/52] oeqa/utils/ftools: Ignore the exception if file does not exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,55 +27,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 15:22:25 -0000
+X-List-Received-Date: Thu, 22 Oct 2015 15:22:26 -0000
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-In c0da4270c76375a7a8cbcc09319fe4570ebbc5bd two bbwarn were changed to
-bbnote for the case where an added user or group already exists. The
-same should have been done for groupmems, groupdel and userdel as well
-since the warnings that are currently generated are superflouous.
+There may be cases where the configuration file (path) does not exist,
+thus the remove_from_file should catch this exception. In case the exception
+is not the latter (errno.ENOENT), then re-raise it.
 
-The two remaining similar bbwarn for groupmod and usermod are left as
-is since there they actually make sense.
+[YOCTO #8540]
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/useradd_base.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/utils/ftools.py | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.bbclass
-index 802f3a1..ab3cd35 100644
---- a/meta/classes/useradd_base.bbclass
-+++ b/meta/classes/useradd_base.bbclass
-@@ -104,7 +104,7 @@ perform_groupmems () {
- 			sleep $count
- 		done
- 	else
--		bbwarn "${PN}: group $groupname already contains $username, not re-adding it"
-+		bbnote "${PN}: group $groupname already contains $username, not re-adding it"
- 	fi
- 	if test "x$gshadow" = "xno"; then
- 		rm -f $rootdir${sysconfdir}/gshadow
-@@ -136,7 +136,7 @@ perform_groupdel () {
- 			sleep $count
- 		done
- 	else
--		bbwarn "${PN}: group $groupname doesn't exist, not removing it"
-+		bbnote "${PN}: group $groupname doesn't exist, not removing it"
- 	fi
- }
+diff --git a/meta/lib/oeqa/utils/ftools.py b/meta/lib/oeqa/utils/ftools.py
+index 64ebe3d..1ec8a09 100644
+--- a/meta/lib/oeqa/utils/ftools.py
++++ b/meta/lib/oeqa/utils/ftools.py
+@@ -1,5 +1,6 @@
+ import os
+ import re
++import errno
  
-@@ -164,7 +164,7 @@ perform_userdel () {
- 		       sleep $count
- 	       done
- 	else
--		bbwarn "${PN}: user $username doesn't exist, not removing it"
-+		bbnote "${PN}: user $username doesn't exist, not removing it"
- 	fi
- }
+ def write_file(path, data):
+     wdata = data.rstrip() + "\n"
+@@ -18,7 +19,15 @@ def read_file(path):
+     return data
  
+ def remove_from_file(path, data):
+-    lines = read_file(path).splitlines()
++    try:
++        rdata = read_file(path)
++    except IOError as e:
++        # if file does not exit, just quit, otherwise raise an exception
++        if e.errno == errno.ENOENT:
++            return
++        else:
++            raise
++    lines = rdata.splitlines()
+     rmdata = data.strip().splitlines()
+     for l in rmdata:
+         for c in range(0, lines.count(l)):
 -- 
 2.1.4
 
