@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id A00BE7713B
+	by mail.openembedded.org (Postfix) with ESMTP id BA2717719A
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:24 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 06D6B600F80
+	(Authenticated sender: joshuagl) with ESMTPSA id 243DF600F52
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:22:10 +0100
-Message-Id: <9eee014571bdb372719e495d69074628190fa822.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:22:11 +0100
+Message-Id: <0e811b0395ac077e3f8723af7bb90396e5d3824b.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 49/52] systemd: make dbus an optional build time dependency
+Subject: [PATCH v3 50/52] weston: add a PACKAGECONFIG option for xwayland support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,39 +29,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Oct 2015 15:22:28 -0000
 
-The dbus buildtime dependency is only required in order to build
-dbus related tests in modern systemd, make this a PACKAGECONFIG
-option.
-
-This changes the default behaviour to no longer build dbus
-related tests without explicitly enabling the PACKAGECONFIG.
-
 Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 ---
- meta/recipes-core/systemd/systemd_225.bb | 3 ++-
+ meta/recipes-graphics/wayland/weston_1.8.0.bb | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
-index 9388046..ac3e9b8 100644
---- a/meta/recipes-core/systemd/systemd_225.bb
-+++ b/meta/recipes-core/systemd/systemd_225.bb
-@@ -18,7 +18,7 @@ PROVIDES = "udev"
+diff --git a/meta/recipes-graphics/wayland/weston_1.8.0.bb b/meta/recipes-graphics/wayland/weston_1.8.0.bb
+index ec7d4f4..544144d 100644
+--- a/meta/recipes-graphics/wayland/weston_1.8.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.8.0.bb
+@@ -24,7 +24,6 @@ DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
+ DEPENDS += "wayland libinput virtual/egl pango"
  
- PE = "1"
+ EXTRA_OECONF = "--enable-setuid-install \
+-                --disable-xwayland \
+                 --enable-simple-clients \
+                 --enable-clients \
+                 --enable-demo-clients-install \
+@@ -72,6 +71,8 @@ PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp"
+ PACKAGECONFIG[libunwind] = "--enable-libunwind,--disable-libunwind,libunwind"
+ # Weston with systemd-login support
+ PACKAGECONFIG[systemd] = ",,systemd dbus"
++# Weston with Xwayland support
++PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland,libxcb libxcursor cairo"
  
--DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup qemu-native util-linux"
-+DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline libcap libcgroup qemu-native util-linux"
- 
- SECTION = "base/shell"
- 
-@@ -90,6 +90,7 @@ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
- PACKAGECONFIG[valgrind] = "ac_cv_header_valgrind_memcheck_h=yes ac_cv_header_valgrind_valgrind_h=yes ,ac_cv_header_valgrind_memcheck_h=no ac_cv_header_valgrind_valgrind_h=no ,valgrind"
- PACKAGECONFIG[qrencode] = "--enable-qrencode,--disable-qrencode,qrencode"
- PACKAGECONFIG[compat] = "--enable-compat-libs,--disable-compat-libs"
-+PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
- 
- CACHED_CONFIGUREVARS += "ac_cv_path_KILL=${base_bindir}/kill"
- CACHED_CONFIGUREVARS += "ac_cv_path_KMOD=${base_bindir}/kmod"
+ do_install_append() {
+ 	# Weston doesn't need the .la files to load modules, so wipe them
 -- 
 2.1.4
 
