@@ -1,36 +1,21 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B1338770A3
+Return-Path: <andrew.shadura@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id E9730770A3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 13:28:25 +0000 (UTC)
-Received: by ioll68 with SMTP id l68so91456606iol.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 06:28:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=7UzBCHgrq+aWxip8bKVsmvX/AzPzhIzBNkYJgxymCJM=;
-	b=UW4LDHemfTAcL0OUAVNxb/sgzWiO/HSBH3SldIFw5r+v67LWpZXFXgj2qCeTkHJyXc
-	gPaSuEb9iIauVTbRhG9nUlk6avnGEguaR8VGTAmVJm6EF92BbKWkiTivnd2SM7wsxVMK
-	8mDmnta2OP2E6MWs56+CwdiNXCSihPxMX2KFi5xfx7KuS1o6+jLloquFt818hZoK/o43
-	QtHdHJBOrf75z4/VRXSn5MSvNrLVfWnoUqN4VTZQabiy+tfXlZrlWQ/IIgZ/U/U8Hg/a
-	T2D1BWu8cWdV4i6okVhcRfF8l0B66DMsHry4q692S0na3fMUXoawZlF1AwTdntA2E4SC
-	N1GQ==
-MIME-Version: 1.0
-X-Received: by 10.107.160.67 with SMTP id j64mr15145675ioe.128.1445520505254; 
-	Thu, 22 Oct 2015 06:28:25 -0700 (PDT)
-Received: by 10.64.21.232 with HTTP; Thu, 22 Oct 2015 06:28:25 -0700 (PDT)
-In-Reply-To: <562501BF.6010202@windriver.com>
-References: <1445264230-1126-1-git-send-email-dbaryshkov@gmail.com>
-	<562501BF.6010202@windriver.com>
-Date: Thu, 22 Oct 2015 16:28:25 +0300
-Message-ID: <CALT56yP_6HL4vgFGkTMrqpzSnJmOXEv-=vP1Dz2YLJ7321jM4Q@mail.gmail.com>
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] libsdl: support native compilation
+	Thu, 22 Oct 2015 14:00:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrewsh) with ESMTPSA id 61EF8600FED
+From: Andrew Shadura <andrew.shadura@collabora.co.uk>
+To: OE Core <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Oct 2015 16:00:27 +0200
+Message-Id: <11321f065e34ca094a0aff494291662852f05805.1445522417.git.andrew.shadura@collabora.co.uk>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <c64105ff4adca9a4e05280aa52644919d646d660.1445449278.git.andrew.shadura@collabora.co.uk>
+References: <c64105ff4adca9a4e05280aa52644919d646d660.1445449278.git.andrew.shadura@collabora.co.uk>
+	<CAJTo0LZ4eNqiyX0JzPEb=FLAk=k=2p2c2+c5mKd77a0zquepAw@mail.gmail.com>
+	<94093E93-77C6-403A-9E9F-69C02C6C8D11@collabora.co.uk>
+	<CAJTo0Lada89cW8Hs=P65aHfRKiiZuu13jDu3PO=3NkJq_Wt7xA@mail.gmail.com>
+Subject: [PATCH v2] cups: update systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,66 +28,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 13:28:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 22 Oct 2015 14:00:42 -0000
 
-Hello,
+Add PACKAGECONFIG for systemd, enable it when systemd is enabled
+in DISTRO_FEATURES. Pass the correct path to systemd units,
+ensure they're installed into the package.
 
-2015-10-19 17:44 GMT+03:00 Mark Hatle <mark.hatle@windriver.com>:
-> On 10/19/15 9:17 AM, Dmitry Eremin-Solenikov wrote:
->> qemu-native can use SDL backend for graphical output. Currently it is
->> expected to use libsdl provided by the host. However this can lead to
->> library incompatibilities between host and target. Make libsdl recipe
->> support native compilation.
->
-> I don't object to the patch.. but we did have multiple problems in the past
-> where libsdl (native) did not work with the host systems X11 or what-ever.
->
-> Various failure conditions about not linking, linking to the wrong libsdl, or
-> execution failing are what made us prefer the host system's libsdl -- or simply
-> disabling libsdl altogether.
+Drop custom systemd unit files, use those shipped by the upstream
+instead.
 
-The issue that get me to this patch was an issue with linking of qemu.
-Debian provides versioned symbols in libdbus, OE does not. Libdbus
-from sysroot overrode system one. So system libsdl which used system-wide
-libpulse* (which expected libdbus with versioned symbols) could not be linked
-to the qemu.
+Signed-off-by: Andrew Shadura <andrew.shadura@collabora.co.uk>
+---
+ meta/recipes-extended/cups/cups.inc          | 14 +++-----------
+ meta/recipes-extended/cups/cups/cups.path    |  8 --------
+ meta/recipes-extended/cups/cups/cups.service | 10 ----------
+ meta/recipes-extended/cups/cups/cups.socket  |  8 --------
+ 4 files changed, 3 insertions(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-extended/cups/cups/cups.path
+ delete mode 100644 meta/recipes-extended/cups/cups/cups.service
+ delete mode 100644 meta/recipes-extended/cups/cups/cups.socket
 
-Richard: this was tested on my system only. If you don't want to break things
-before release, what about merging them after next Yocto/OE-Core release?
-
->
-> --Mark
->
->> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
->> ---
->>  meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
->> index c0d5c6a..c9f3e00 100644
->> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
->> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
->> @@ -17,6 +17,7 @@ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d
->>             ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
->>             ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'libglu', '', d)} \
->>             tslib"
->> +DEPENDS_class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11-native libxrandr-native libxrender-native libxext-native', '', d)}"
->>  DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
->>
->>  PR = "r3"
->> @@ -65,4 +66,4 @@ do_configure_prepend() {
->>          export SYSROOT=$PKG_CONFIG_SYSROOT_DIR
->>  }
->>
->> -BBCLASSEXTEND = "nativesdk"
->> +BBCLASSEXTEND = "native nativesdk"
->>
->
-
-
-
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 2c34da9..ac2abf5 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -7,9 +7,6 @@ SRC_URI = "http://www.cups.org/software/${PV}/${BP}-source.tar.bz2 \
+            file://use_echo_only_in_init.patch \
+            file://0001-don-t-try-to-run-generated-binaries.patch \
+            file://cups_serverbin.patch \
+-           file://cups.socket \
+-           file://cups.path \
+-           file://cups.service \
+ 	  "
+ 
+ LEAD_SONAME = "libcupsdriver.so"
+@@ -21,13 +18,15 @@ inherit autotools-brokensep binconfig useradd systemd
+ USERADD_PACKAGES = "${PN}"
+ GROUPADD_PARAM_${PN} = "--system lpadmin"
+ 
+-SYSTEMD_SERVICE_${PN} = "cups.socket cups.path cups.service"
++SYSTEMD_SERVICE_${PN} = "org.cups.cupsd.socket org.cups.cupsd.path org.cups.cupsd.service org.cups.cups-lpd.socket org.cups.cups-lpd@.service"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
+ PACKAGECONFIG[avahi] = "--enable-avahi,--disable-avahi,avahi"
+ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
+ PACKAGECONFIG[pam] = "--enable-pam, --disable-pam, libpam"
++PACKAGECONFIG[systemd] = "--with-systemd=${systemd_system_unitdir},--without-systemd,systemd"
+ PACKAGECONFIG[xinetd] = "--with-xinetd=${sysconfdir}/xinetd.d,--without-xinetd,xinetd"
+ 
+ EXTRA_OECONF = " \
+@@ -75,13 +74,6 @@ do_install () {
+ 	    rm -rf ${D}${sysconfdir}/init.d/
+ 	    rm -rf ${D}${sysconfdir}/rc*
+ 	fi
+-
+-	# Install systemd unit files
+-	install -d ${D}${systemd_unitdir}/system
+-	install -m 0644 ${WORKDIR}/cups.socket ${D}${systemd_unitdir}/system
+-	install -m 0644 ${WORKDIR}/cups.path ${D}${systemd_unitdir}/system
+-	install -m 0644 ${WORKDIR}/cups.service ${D}${systemd_unitdir}/system
+-	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/cups.service
+ }
+ 
+ python do_package_append() {
+diff --git a/meta/recipes-extended/cups/cups/cups.path b/meta/recipes-extended/cups/cups/cups.path
+deleted file mode 100644
+index de8cc57..0000000
+--- a/meta/recipes-extended/cups/cups/cups.path
++++ /dev/null
+@@ -1,8 +0,0 @@
+-[Unit]
+-Description=CUPS Printer Service Spool
+-
+-[Path]
+-PathExistsGlob=/var/spool/cups/d*
+-
+-[Install]
+-WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/cups/cups/cups.service b/meta/recipes-extended/cups/cups/cups.service
+deleted file mode 100644
+index 7d3e839..0000000
+--- a/meta/recipes-extended/cups/cups/cups.service
++++ /dev/null
+@@ -1,10 +0,0 @@
+-[Unit]
+-Description=CUPS Printing Service
+-
+-[Service]
+-ExecStart=@SBINDIR@/cupsd -f
+-PrivateTmp=true
+-
+-[Install]
+-Also=cups.socket cups.path
+-WantedBy=printer.target
+diff --git a/meta/recipes-extended/cups/cups/cups.socket b/meta/recipes-extended/cups/cups/cups.socket
+deleted file mode 100644
+index 3314870..0000000
+--- a/meta/recipes-extended/cups/cups/cups.socket
++++ /dev/null
+@@ -1,8 +0,0 @@
+-[Unit]
+-Description=CUPS Printing Service Sockets
+-
+-[Socket]
+-ListenStream=/var/run/cups/cups.sock
+-
+-[Install]
+-WantedBy=sockets.target
 -- 
-With best wishes
-Dmitry
+2.1.4
+
 
