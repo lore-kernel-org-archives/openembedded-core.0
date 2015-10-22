@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id ED80E7711C
+	by mail.openembedded.org (Postfix) with ESMTP id A2BC37712D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 15:22:24 +0000 (UTC)
+	Thu, 22 Oct 2015 15:24:01 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 587F4600F5A
-From: Joshua Lock <joshua.lock@collabora.co.uk>
+	(Authenticated sender: joshuagl) with ESMTPSA id 9F9D060029B
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:22:13 +0100
-Message-Id: <5731fcf016c36668b57a1661e24f67332202211e.1445527096.git.joshua.lock@collabora.co.uk>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+Message-ID: <5628FF8E.8070706@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:23:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 52/52] xserver-xorg: drop empty ${PN}-security-policy package
+Subject: Re: [PATCH v3 00/52] Various metadata tweaks v3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,51 +27,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 15:22:29 -0000
+X-List-Received-Date: Thu, 22 Oct 2015 15:24:02 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The SecurityPolicy hasn't been included since 2007[1] and the
-last remnants were removed from the code base in 2010[2].
+On 22/10/15 16:21, Joshua Lock wrote:
+>
+> The following series are some tidy ups and changes made whilst
+> porting a distro with systemd and a Weston + Xwayland userland to
+> Jethro.
 
-1. http://cgit.freedesktop.org/xorg/xserver/commit/?id=9d03ca
-2. http://cgit.freedesktop.org/xorg/xserver/commit/?id=19d03d
+Ugh, please ignore - due to user error driving the pull request scripts 
+this series includes a bunch of patches I didn't write that are already 
+merged.
 
-Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
----
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Sincere apologies,
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 30b3485..91df2b7 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -44,8 +44,7 @@ DEPENDS = "${PROTO_DEPS} ${LIB_DEPS} font-util"
- #          libextmod.so
- #          libdbe.so
- 
--PACKAGES =+ "${PN}-security-policy \
--             ${PN}-sdl \
-+PACKAGES =+ "${PN}-sdl \
-              ${PN}-fbdev \
-              ${PN}-xvfb \
-              ${PN}-utils \
-@@ -72,7 +71,7 @@ PACKAGES =+ "${PN}-security-policy \
- SUMMARY_xf86-video-modesetting = "X.Org X server -- modesetting display driver"
- INSANE_SKIP_xf86-video-modesetting = "xorg-driver-abi"
- 
--XSERVER_RRECOMMENDS = "${PN}-security-policy xkeyboard-config rgb xserver-xf86-config xkbcomp"
-+XSERVER_RRECOMMENDS = "xkeyboard-config rgb xserver-xf86-config xkbcomp"
- RRECOMMENDS_${PN} += "${XSERVER_RRECOMMENDS}"
- RRECOMMENDS_${PN}-xwayland += "${XSERVER_RRECOMMENDS}"
- RDEPENDS_${PN}-xvfb += "xkeyboard-config"
-@@ -85,7 +84,6 @@ FILES_${PN}-dbg += "${libdir}/xorg/modules/.debug \
-                     ${libdir}/xorg/modules/*/.debug \
-                     ${libdir}/xorg/modules/*/*/.debug \
-                     "
--FILES_${PN}-security-policy += "${libdir}/xserver/SecurityPolicy"
- FILES_${PN}-sdl = "${bindir}/Xsdl"
- FILES_${PN}-fbdev = "${bindir}/Xfbdev"
- FILES_${PN}-xvfb = "${bindir}/Xvfb"
--- 
-2.1.4
+Joshua
 
 
