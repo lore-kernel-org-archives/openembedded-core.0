@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 149197713C
+	by mail.openembedded.org (Postfix) with ESMTP id 572157711C
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:21 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 76F8F600F82
+	(Authenticated sender: joshuagl) with ESMTPSA id B559560029B
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:21:39 +0100
-Message-Id: <d2a2962897b89731a5705b0cbc7c6f36aa53dcc8.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:21:41 +0100
+Message-Id: <41afc48ab979dff6ebb3ea4003dd6baefff7f644.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 18/52] classes/populate_sdk_ext: prevent image construction from executing on install
+Subject: [PATCH v3 20/52] classes/populate_sdk_ext: detect and warn if running in OE environment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,80 +31,33 @@ X-List-Received-Date: Thu, 22 Oct 2015 15:22:22 -0000
 
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-In order to prepare the build system within the extensible SDK, we
-actually go ahead and build the targets specified by SDK_TARGETS (by
-default the image the SDK was built for). Assuming that's an image, we
-don't actually need to build the image itself - we just need to have
-everything done up to the point before building the image, so that we
-have everything needed in the sysroot.
-
-In order to do this, create temporary bbappends for each of the targets
-in the workspace layer that stub out do_rootfs and related tasks if they
-exist. This is a little bit of a hack but is the least intrusive fix at
-this point. To make things a bit tidier, I have split out the
-preparation commands into a separate script so we can run that in the
-appropriate environment rather than all the commands separately.
-
-Fixes [YOCTO #7590].
+If you run the extensible SDK environment setup script in a shell
+session where oe-init-build-env has been run already, and attempt to use
+the two together, strange things happen - you may not even be running
+devtool from the extensible SDK, but the OE tree. This isn't a supported
+use case anyway, so show a warning recommending starting a new shell
+session.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/populate_sdk_ext.bbclass |  5 ++++-
- meta/files/ext-sdk-prepare.sh         | 20 ++++++++++++++++++++
- 2 files changed, 24 insertions(+), 1 deletion(-)
- create mode 100644 meta/files/ext-sdk-prepare.sh
+ meta/classes/populate_sdk_ext.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 90033ba..0feb3b2 100644
+index 060a44a..249ec36 100644
 --- a/meta/classes/populate_sdk_ext.bbclass
 +++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -203,6 +203,8 @@ install_tools() {
- 	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
+@@ -238,6 +238,9 @@ sdk_ext_postinst() {
  
- 	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}
-+
-+	install -m 0755 ${COREBASE}/meta/files/ext-sdk-prepare.sh ${SDK_OUTPUT}/${SDKPATH}
- }
+ 	echo "printf 'SDK environment now set up; additionally you may now run devtool to perform development tasks.\nRun devtool --help for further details.\n'" >> $env_setup_script
  
- # Since bitbake won't run as root it doesn't make sense to try and install
-@@ -242,8 +244,9 @@ sdk_ext_postinst() {
- 		# dash which is /bin/sh on Ubuntu will not preserve the
- 		# current working directory when first ran, nor will it set $1 when
- 		# sourcing a script. That is why this has to look so ugly.
--		sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
-+		sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && $target_sdk_dir/ext-sdk-prepare.sh $target_sdk_dir '${SDK_TARGETS}' >> preparing_build_system.log 2>&1" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
- 	fi
-+	rm -f $target_sdk_dir/ext-sdk-prepare.sh
- 	echo done
- }
++	# Warn if trying to use external bitbake and the ext SDK together
++	echo "(which bitbake > /dev/null 2>&1 && echo 'WARNING: attempting to use the extensible SDK in an environment set up to run bitbake - this may lead to unexpected results. Please source this script in a new shell session instead.') || true" >> $env_setup_script
++
+ 	# For now this is where uninative.bbclass expects the tarball
+ 	mv *-nativesdk-libc.tar.* $target_sdk_dir/`dirname ${oe_init_build_env_path}`
  
-diff --git a/meta/files/ext-sdk-prepare.sh b/meta/files/ext-sdk-prepare.sh
-new file mode 100644
-index 0000000..160c71e
---- /dev/null
-+++ b/meta/files/ext-sdk-prepare.sh
-@@ -0,0 +1,20 @@
-+#!/bin/sh
-+
-+# Prepare the build system within the extensible SDK
-+
-+target_sdk_dir="$1"
-+sdk_targets="$2"
-+
-+# Avoid actually building images during this phase, but still
-+# ensure all dependencies are extracted from sstate
-+# This is a hack, to be sure, but we really don't need to do this here
-+for sdktarget in $sdk_targets ; do
-+	bbappend=`recipetool newappend $target_sdk_dir/workspace $sdktarget`
-+	printf 'python do_rootfs_forcevariable () {\n    bb.utils.mkdirhier(d.getVar("IMAGE_ROOTFS", True))\n}\n' > $bbappend
-+	printf 'python do_bootimg () {\n    pass\n}\n' >> $bbappend
-+	printf 'python do_bootdirectdisk () {\n    pass\n}\n' >> $bbappend
-+	printf 'python do_vmimg () {\n    pass\n}\n' >> $bbappend
-+	printf "Created bbappend %s\n" "$bbappend"
-+done
-+bitbake $sdk_targets || exit 1
-+rm -rf $target_sdk_dir/workspace/appends/*
 -- 
 2.1.4
 
