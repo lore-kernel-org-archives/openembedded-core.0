@@ -1,38 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B5DB770C5
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C768C75E80
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 11:20:33 +0000 (UTC)
-Received: by qgeo38 with SMTP id o38so53053500qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 04:20:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=u2W6gAwsNV9xM6hZAthF72AIHBUgtn7RnQsrqJcB2co=;
-	b=LqPPB5UrZxa8EvPSqQ+7UUsRFavIDJXMqsXrj3KdknEeVR6bpfMG02bnCZpM9JCxKG
-	S4GTfQb9nSypxvT7q1nibGqrxEw+ITLij1rQRT343MjuyFPHjrzQTB10PFKTgoZ2GuAC
-	SVu7rPQUV9S0WxHq3tavWlzOn7e/yRkIL31NAcHoSbcPX0t1G1Nrp/Zj6gM94ymKM4DP
-	r98Q5ayuEhhCnUpU74MLOWJovz8QIzLT17hrZ6vxnaxRoZIQSRO56qaYiIBhDEyU2R6t
-	XQWrMheX9TpLS8wRt6jyrNhsAZ9c4GJ2xPN9YvQksAR6N0oVa8uVtRjDmKlFo9aYoEFD
-	yVOg==
-X-Gm-Message-State: ALoCoQkxT3WI7U/GGbhACaWcbL1M7Q7MZFlaoq0tncGhXsPpkqxQwgc815ngS7o5+SJe2kcv1wcj
-X-Received: by 10.140.132.11 with SMTP id 11mr18799775qhe.64.1445512833632;
-	Thu, 22 Oct 2015 04:20:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.82 with HTTP; Thu, 22 Oct 2015 04:20:14 -0700 (PDT)
-In-Reply-To: <94093E93-77C6-403A-9E9F-69C02C6C8D11@collabora.co.uk>
-References: <c64105ff4adca9a4e05280aa52644919d646d660.1445449278.git.andrew.shadura@collabora.co.uk>
-	<CAJTo0LZ4eNqiyX0JzPEb=FLAk=k=2p2c2+c5mKd77a0zquepAw@mail.gmail.com>
-	<94093E93-77C6-403A-9E9F-69C02C6C8D11@collabora.co.uk>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Oct 2015 12:20:14 +0100
-Message-ID: <CAJTo0Lada89cW8Hs=P65aHfRKiiZuu13jDu3PO=3NkJq_Wt7xA@mail.gmail.com>
-To: Andrew Shadura <andrew.shadura@collabora.co.uk>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cups: explicitly configure with systemd when needed
+	Thu, 22 Oct 2015 11:58:20 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t9MBwJ5x013664 for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Oct 2015 06:58:19 -0500
+Received: from adi-pc-linux.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015102206581959-339254 ;
+	Thu, 22 Oct 2015 06:58:19 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Oct 2015 14:58:18 +0300
+Message-Id: <1445515098-17984-1-git-send-email-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.1.4
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 10/22/2015 06:58:19 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 10/22/2015 06:58:19 AM,
+	Serialize complete at 10/22/2015 06:58:19 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-10-22_06:, , signatures=0
+Subject: [PATCH] base-files: stage /etc/skel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,50 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 11:20:34 -0000
-Content-Type: multipart/alternative; boundary=001a113502d0f7a0aa0522afaef5
+X-List-Received-Date: Thu, 22 Oct 2015 11:58:21 -0000
 
---001a113502d0f7a0aa0522afaef5
-Content-Type: text/plain; charset=UTF-8
+Having skel in the staging area lets other recipes access these files.
+For ex. recipes inheriting useradd, if passing "-m" to USERADD_PARAM,
+.bashrc and .profile are put automatically in $HOME, as expected.
 
-On 22 October 2015 at 12:06, Andrew Shadura <andrew.shadura@collabora.co.uk>
-wrote:
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/recipes-core/base-files/base-files_3.0.14.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> >This isn't needed as systemd.bbclass handles it for you.
->
->
-> Well, that's what I thought too, but no, in fact it doesn't.
->
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index e16fe72..b71d5c5 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -167,6 +167,10 @@ do_install_append_linuxstdbase() {
+         done
+ }
+ 
++sysroot_stage_all_append () {
++	sysroot_stage_dir ${D}${sysconfdir}/skel ${SYSROOT_DESTDIR}${sysconfdir}/skel
++}
++
+ PACKAGES = "${PN}-doc ${PN} ${PN}-dev ${PN}-dbg"
+ FILES_${PN} = "/"
+ FILES_${PN}-doc = "${docdir} ${datadir}/common-licenses"
+-- 
+2.1.4
 
-That would be because SYSTEMD_SERVICES doesn't list the extra units that
-using --enable-systemd installs, because SYSTEMD_SERVICES is set up to use
-the local units that were added before cups had native units.
 
-If you're going to use the integrated units, please remove the redundant
-copies.
-
-Ross
-
---001a113502d0f7a0aa0522afaef5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 October 2015 at 12:06, Andrew Shadura <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:andrew.shadura@collabora.co.uk" target=3D"_blank">andrew.shadura=
-@collabora.co.uk</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><s=
-pan class=3D"">&gt;This isn&#39;t needed as systemd.bbclass handles it for =
-you.<br>
-<br>
-<br>
-</span>Well, that&#39;s what I thought too, but no, in fact it doesn&#39;t.=
-<br></blockquote></div><br></div><div class=3D"gmail_extra">That would be b=
-ecause SYSTEMD_SERVICES doesn&#39;t list the extra units that using --enabl=
-e-systemd installs, because SYSTEMD_SERVICES is set up to use the local uni=
-ts that were added before cups had native units.</div><div class=3D"gmail_e=
-xtra"><br></div><div class=3D"gmail_extra">If you&#39;re going to use the i=
-ntegrated units, please remove the redundant copies.</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113502d0f7a0aa0522afaef5--
