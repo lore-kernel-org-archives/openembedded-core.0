@@ -1,21 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E421C60232
+	by mail.openembedded.org (Postfix) with ESMTP id ABA07607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 21:49:59 +0000 (UTC)
+	Thu, 22 Oct 2015 21:50:01 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Oct 2015 14:49:59 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 22 Oct 2015 14:50:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,184,1444719600"; d="scan'208";a="669848751"
+X-IronPort-AV: E=Sophos;i="5.20,184,1444719600"; d="scan'208";a="669848796"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.23.219.46])
-	by orsmga003.jf.intel.com with ESMTP; 22 Oct 2015 14:49:59 -0700
+	by orsmga003.jf.intel.com with ESMTP; 22 Oct 2015 14:50:02 -0700
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 13:39:18 +0000
-Message-Id: <cover.1445520365.git.mariano.lopez@linux.intel.com>
+Date: Thu, 22 Oct 2015 13:39:20 +0000
+Message-Id: <91875c3a02436a231743919c42c17584904016c7.1445520365.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH 0/2] Enable logs for ping test fail
+In-Reply-To: <cover.1445520365.git.mariano.lopez@linux.intel.com>
+References: <cover.1445520365.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1445520365.git.mariano.lopez@linux.intel.com>
+References: <cover.1445520365.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 2/2] runqemu-ifup: Check if the tap interface is set up correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,26 +36,58 @@ X-List-Received-Date: Thu, 22 Oct 2015 21:50:01 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-These two patches add some logging and checking on the interfaces
-when qemu is started.
+The process to set up a tap interface is as follows:
+    - tap interface is created
+    - An IP address is assigned to the tap interface
+    - The interface is bring up
+    - A route is added to the target using the tap
+      interface
 
-The following changes since commit 8578bc17b54da97d42b257b3c8f398ac52b91a9f:
+Of all the previous steps, only the first one is
+check if it was sucessful. The status of the others
+are ignored and all of them are required to have
+basic connectivity in the target.
 
-  libc-package: Fix localedef multilib dependency issues (2015-10-20 10:12:01 +0100)
+This patch adds the checks for the rest of the stpes
+needed to set up the tap interface.
 
-are available in the git repository at:
+[YOCTO #8550]
 
-  git://git.yoctoproject.org/poky-contrib mariano/bug8550
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug8550
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ scripts/runqemu-ifup | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-Mariano Lopez (2):
-  qemurunner: Show the output of runqemu script
-  runqemu-ifup: Check if the tap interface is set up correctly
-
- meta/lib/oeqa/utils/qemurunner.py |  1 +
- scripts/runqemu-ifup              | 15 +++++++++++++++
- 2 files changed, 16 insertions(+)
-
+diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
+index b5a3db9..d9bd894 100755
+--- a/scripts/runqemu-ifup
++++ b/scripts/runqemu-ifup
+@@ -91,10 +91,25 @@ fi
+ 
+ n=$[ (`echo $TAP | sed 's/tap//'` * 2) + 1 ]
+ $IFCONFIG addr add 192.168.7.$n/32 broadcast 192.168.7.255 dev $TAP
++STATUS=$?
++if [ $STATUS -ne 0 ]; then
++    echo "Failed to set up IP addressing on $TAP"
++    exit 1
++fi
+ $IFCONFIG link set dev $TAP up
++STATUS=$?
++if [ $STATUS -ne 0 ]; then
++    echo "Failed to bring up $TAP"
++    exit 1
++fi
+ 
+ dest=$[ (`echo $TAP | sed 's/tap//'` * 2) + 2 ]
+ $IFCONFIG route add to 192.168.7.$dest dev $TAP
++STATUS=$?
++if [ $STATUS -ne 0 ]; then
++    echo "Failed to add route to 192.168.7.$dest using $TAP"
++    exit 1
++fi
+ 
+ # setup NAT for tap0 interface to have internet access in QEMU
+ $IPTABLES -A POSTROUTING -t nat -j MASQUERADE -s 192.168.7.$n/32
 -- 
 1.8.4.5
 
