@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id F22E27713B
+	by mail.openembedded.org (Postfix) with ESMTP id 030E47715E
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:20 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 5C2E9600F81
+	(Authenticated sender: joshuagl) with ESMTPSA id ED67D600F52
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:21:38 +0100
-Message-Id: <59a3789c678bf58c0a04b8def416246654680841.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:21:34 +0100
+Message-Id: <588de5198c641ea1cfc3e01a6d129296bd2f706b.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 17/52] classes/populate_sdk_ext: consistent indentation
+Subject: [PATCH v3 13/52] scripts/gen-lockedsig-cache: fix race with temp file creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +31,37 @@ X-List-Received-Date: Thu, 22 Oct 2015 15:22:21 -0000
 
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-Make indentation consistent here in preparation for the changes that
-follow.
+As part of populating the sstate-cache with an artifact (.tgz file) we
+create a temp file and then atomically move it to the final name. Due to
+the glob used in this script such temp files were being matched, and
+between the time they were matched and the time the script started
+copying files, the temp file may have vanished.
+
+This fixes random "No such file or directory" failures building the
+extensible SDK on build setups where the sstate-cache directory is shared
+amongst multiple build machines.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ scripts/gen-lockedsig-cache | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index c244d93..90033ba 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -238,11 +238,11 @@ sdk_ext_postinst() {
- 	mv *-nativesdk-libc.tar.* $target_sdk_dir/`dirname ${oe_init_build_env_path}`
+diff --git a/scripts/gen-lockedsig-cache b/scripts/gen-lockedsig-cache
+index c93b2c0..806c1e4 100755
+--- a/scripts/gen-lockedsig-cache
++++ b/scripts/gen-lockedsig-cache
+@@ -34,6 +34,10 @@ for s in sigs:
+     files |= set(glob.glob(p))
  
- 	if [ "$prepare_buildsystem" != "no" ]; then
--	    printf "Preparing build system...\n"
--	    # dash which is /bin/sh on Ubuntu will not preserve the
--	    # current working directory when first ran, nor will it set $1 when
--	    # sourcing a script. That is why this has to look so ugly.
--	    sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
-+		printf "Preparing build system...\n"
-+		# dash which is /bin/sh on Ubuntu will not preserve the
-+		# current working directory when first ran, nor will it set $1 when
-+		# sourcing a script. That is why this has to look so ugly.
-+		sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
- 	fi
- 	echo done
- }
+ for f in files:
++    _, ext = os.path.splitext(f)
++    if not ext in ['.tgz', '.siginfo', '.sig']:
++        # Most likely a temp file, skip it
++        continue
+     dst = f.replace(sys.argv[2], sys.argv[3])
+     destdir = os.path.dirname(dst)
+     mkdir(destdir)
 -- 
 2.1.4
 
