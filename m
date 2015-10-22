@@ -1,30 +1,36 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C768C75E80
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B1338770A3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 11:58:20 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t9MBwJ5x013664 for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 06:58:19 -0500
-Received: from adi-pc-linux.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015102206581959-339254 ;
-	Thu, 22 Oct 2015 06:58:19 -0500 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 14:58:18 +0300
-Message-Id: <1445515098-17984-1-git-send-email-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.1.4
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 10/22/2015 06:58:19 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 10/22/2015 06:58:19 AM,
-	Serialize complete at 10/22/2015 06:58:19 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-10-22_06:, , signatures=0
-Subject: [PATCH] base-files: stage /etc/skel
+	Thu, 22 Oct 2015 13:28:25 +0000 (UTC)
+Received: by ioll68 with SMTP id l68so91456606iol.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Oct 2015 06:28:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=7UzBCHgrq+aWxip8bKVsmvX/AzPzhIzBNkYJgxymCJM=;
+	b=UW4LDHemfTAcL0OUAVNxb/sgzWiO/HSBH3SldIFw5r+v67LWpZXFXgj2qCeTkHJyXc
+	gPaSuEb9iIauVTbRhG9nUlk6avnGEguaR8VGTAmVJm6EF92BbKWkiTivnd2SM7wsxVMK
+	8mDmnta2OP2E6MWs56+CwdiNXCSihPxMX2KFi5xfx7KuS1o6+jLloquFt818hZoK/o43
+	QtHdHJBOrf75z4/VRXSn5MSvNrLVfWnoUqN4VTZQabiy+tfXlZrlWQ/IIgZ/U/U8Hg/a
+	T2D1BWu8cWdV4i6okVhcRfF8l0B66DMsHry4q692S0na3fMUXoawZlF1AwTdntA2E4SC
+	N1GQ==
+MIME-Version: 1.0
+X-Received: by 10.107.160.67 with SMTP id j64mr15145675ioe.128.1445520505254; 
+	Thu, 22 Oct 2015 06:28:25 -0700 (PDT)
+Received: by 10.64.21.232 with HTTP; Thu, 22 Oct 2015 06:28:25 -0700 (PDT)
+In-Reply-To: <562501BF.6010202@windriver.com>
+References: <1445264230-1126-1-git-send-email-dbaryshkov@gmail.com>
+	<562501BF.6010202@windriver.com>
+Date: Thu, 22 Oct 2015 16:28:25 +0300
+Message-ID: <CALT56yP_6HL4vgFGkTMrqpzSnJmOXEv-=vP1Dz2YLJ7321jM4Q@mail.gmail.com>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] libsdl: support native compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +43,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 11:58:21 -0000
+X-List-Received-Date: Thu, 22 Oct 2015 13:28:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Having skel in the staging area lets other recipes access these files.
-For ex. recipes inheriting useradd, if passing "-m" to USERADD_PARAM,
-.bashrc and .profile are put automatically in $HOME, as expected.
+Hello,
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
----
- meta/recipes-core/base-files/base-files_3.0.14.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+2015-10-19 17:44 GMT+03:00 Mark Hatle <mark.hatle@windriver.com>:
+> On 10/19/15 9:17 AM, Dmitry Eremin-Solenikov wrote:
+>> qemu-native can use SDL backend for graphical output. Currently it is
+>> expected to use libsdl provided by the host. However this can lead to
+>> library incompatibilities between host and target. Make libsdl recipe
+>> support native compilation.
+>
+> I don't object to the patch.. but we did have multiple problems in the past
+> where libsdl (native) did not work with the host systems X11 or what-ever.
+>
+> Various failure conditions about not linking, linking to the wrong libsdl, or
+> execution failing are what made us prefer the host system's libsdl -- or simply
+> disabling libsdl altogether.
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index e16fe72..b71d5c5 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -167,6 +167,10 @@ do_install_append_linuxstdbase() {
-         done
- }
- 
-+sysroot_stage_all_append () {
-+	sysroot_stage_dir ${D}${sysconfdir}/skel ${SYSROOT_DESTDIR}${sysconfdir}/skel
-+}
-+
- PACKAGES = "${PN}-doc ${PN} ${PN}-dev ${PN}-dbg"
- FILES_${PN} = "/"
- FILES_${PN}-doc = "${docdir} ${datadir}/common-licenses"
+The issue that get me to this patch was an issue with linking of qemu.
+Debian provides versioned symbols in libdbus, OE does not. Libdbus
+from sysroot overrode system one. So system libsdl which used system-wide
+libpulse* (which expected libdbus with versioned symbols) could not be linked
+to the qemu.
+
+Richard: this was tested on my system only. If you don't want to break things
+before release, what about merging them after next Yocto/OE-Core release?
+
+>
+> --Mark
+>
+>> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+>> ---
+>>  meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+>> index c0d5c6a..c9f3e00 100644
+>> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+>> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+>> @@ -17,6 +17,7 @@ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d
+>>             ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
+>>             ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'libglu', '', d)} \
+>>             tslib"
+>> +DEPENDS_class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11-native libxrandr-native libxrender-native libxext-native', '', d)}"
+>>  DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
+>>
+>>  PR = "r3"
+>> @@ -65,4 +66,4 @@ do_configure_prepend() {
+>>          export SYSROOT=$PKG_CONFIG_SYSROOT_DIR
+>>  }
+>>
+>> -BBCLASSEXTEND = "nativesdk"
+>> +BBCLASSEXTEND = "native nativesdk"
+>>
+>
+
+
+
 -- 
-2.1.4
-
+With best wishes
+Dmitry
 
