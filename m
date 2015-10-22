@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D16877160
+	by mail.openembedded.org (Postfix) with ESMTP id 3C91F77154
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 22 Oct 2015 15:22:21 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 138AF600F5A
+	(Authenticated sender: joshuagl) with ESMTPSA id 8C9AC608F9D
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 16:21:35 +0100
-Message-Id: <6d47b3c277a3bb0f031084c24903a3412d7f4550.1445527096.git.joshua.lock@collabora.co.uk>
+Date: Thu, 22 Oct 2015 16:21:40 +0100
+Message-Id: <ea1d566bc2ff61f2e086effb9ca6551b263eacbe.1445527096.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1445527096.git.joshua.lock@collabora.co.uk>
 References: <cover.1445527096.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v3 14/52] test-empty-image: rename from core-image-empty
+Subject: [PATCH v3 19/52] classes/populate_sdk_ext: add note to env setup script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,35 +29,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 22 Oct 2015 15:22:21 -0000
 
-From: Alex Franco <alejandro.franco@linux.intel.com>
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-As the empty image isn't a "core" image, and it's meant for testing
+Print a note at the end of the environment setup script pointing to
+devtool.
 
-Additionally, don't set LICENSE as it is inherited from image
-
-[YOCTO #7664]
-
-Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../recipes-test/images/{core-image-empty.bb => test-empty-image.bb}     | 1 -
- 1 file changed, 1 deletion(-)
- rename meta-selftest/recipes-test/images/{core-image-empty.bb => test-empty-image.bb} (86%)
+ meta/classes/populate_sdk_ext.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta-selftest/recipes-test/images/core-image-empty.bb b/meta-selftest/recipes-test/images/test-empty-image.bb
-similarity index 86%
-rename from meta-selftest/recipes-test/images/core-image-empty.bb
-rename to meta-selftest/recipes-test/images/test-empty-image.bb
-index 550567c..88d8d61 100644
---- a/meta-selftest/recipes-test/images/core-image-empty.bb
-+++ b/meta-selftest/recipes-test/images/test-empty-image.bb
-@@ -2,6 +2,5 @@ SUMMARY = "An empty image."
- IMAGE_INSTALL = ""
- IMAGE_LINGUAS = ""
- PACKAGE_INSTALL = ""
--LICENSE = "MIT"
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 0feb3b2..060a44a 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -236,6 +236,8 @@ sdk_ext_postinst() {
+ 	# so put it at the end of $PATH.
+ 	echo "export PATH=\$PATH:$target_sdk_dir/sysroots/${SDK_SYS}/${bindir_nativesdk}" >> $env_setup_script
  
- inherit image
++	echo "printf 'SDK environment now set up; additionally you may now run devtool to perform development tasks.\nRun devtool --help for further details.\n'" >> $env_setup_script
++
+ 	# For now this is where uninative.bbclass expects the tarball
+ 	mv *-nativesdk-libc.tar.* $target_sdk_dir/`dirname ${oe_init_build_env_path}`
+ 
 -- 
 2.1.4
 
