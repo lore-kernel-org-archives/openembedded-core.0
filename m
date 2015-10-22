@@ -1,34 +1,19 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id A3829770C5
+Return-Path: <andrew.shadura@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D1E277107
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 10:59:32 +0000 (UTC)
-Received: by qkca6 with SMTP id a6so51848468qkc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 03:59:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=WjR4AE5cqXkjiQzrLya/C5kg6zP1OkvcsZVCnel5LOg=;
-	b=U1dtNYwjz7VfMuXLnBHszD5aVphraX1yIx0rRQfQpxOKifK7SJ3gJPojeBC70yG880
-	gRN9Nx0emE0576LY0TBdWvJqetK6vCpOuYYaTM9wdhxNxLj3ngLdtl2Qq6+bvZq/afbG
-	AziiBci9JQpx/pSWGxcDXlN+EhziqBEnfa+5liMOjH9CtRU/4ngp/h5TuYH4PIJ0CzZm
-	xotbG4lChUk5GwlImpjs3Cal1651Xq5IxQfUmPpOyCxsCiLtyHep5jpjazI3fHLK9+a0
-	dsYut9ZD9bhBqPC6Ndr/PzjYKMXbJA12c5TZS/8c9/42o1j4VEAZ8B1PqmzN99CcpSgd
-	0zfg==
-X-Gm-Message-State: ALoCoQmc3VpVc0PwSt7pqtdWPrw2CwlMRT8S3sBxoqwnx40/E47LIJb00Vhr0oEVAJ6ladSoMVNL
-X-Received: by 10.55.192.13 with SMTP id o13mr17210906qki.83.1445511572982;
-	Thu, 22 Oct 2015 03:59:32 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.82 with HTTP; Thu, 22 Oct 2015 03:59:13 -0700 (PDT)
-In-Reply-To: <c64105ff4adca9a4e05280aa52644919d646d660.1445449278.git.andrew.shadura@collabora.co.uk>
+	Thu, 22 Oct 2015 11:06:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrewsh) with ESMTPSA id B5FCC600FA0
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAJTo0LZ4eNqiyX0JzPEb=FLAk=k=2p2c2+c5mKd77a0zquepAw@mail.gmail.com>
 References: <c64105ff4adca9a4e05280aa52644919d646d660.1445449278.git.andrew.shadura@collabora.co.uk>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Oct 2015 11:59:13 +0100
-Message-ID: <CAJTo0LZ4eNqiyX0JzPEb=FLAk=k=2p2c2+c5mKd77a0zquepAw@mail.gmail.com>
-To: Andrew Shadura <andrew.shadura@collabora.co.uk>
+	<CAJTo0LZ4eNqiyX0JzPEb=FLAk=k=2p2c2+c5mKd77a0zquepAw@mail.gmail.com>
+MIME-Version: 1.0
+From: Andrew Shadura <andrew.shadura@collabora.co.uk>
+Date: Thu, 22 Oct 2015 13:06:24 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <94093E93-77C6-403A-9E9F-69C02C6C8D11@collabora.co.uk>
 Cc: OE Core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] cups: explicitly configure with systemd when needed
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,35 +28,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 10:59:36 -0000
-Content-Type: multipart/alternative; boundary=001a11479cfcd3a9a10522af63fe
+X-List-Received-Date: Thu, 22 Oct 2015 11:06:30 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=UTF-8
 
---001a11479cfcd3a9a10522af63fe
-Content-Type: text/plain; charset=UTF-8
-
-On 21 October 2015 at 18:41, Andrew Shadura <andrew.shadura@collabora.co.uk>
-wrote:
-
-> +               ${systemd_system_unitdir} \
+On 22 October 2015 12:59:13 CEST, "Burton, Ross" <ross.burton@intel.com> wrote:
+>On 21 October 2015 at 18:41, Andrew Shadura
+><andrew.shadura@collabora.co.uk>
+>wrote:
 >
+>> +               ${systemd_system_unitdir} \
+>>
+>
+>This isn't needed as systemd.bbclass handles it for you.
 
-This isn't needed as systemd.bbclass handles it for you.
 
-Ross
+Well, that's what I thought too, but no, in fact it doesn't. 
 
---001a11479cfcd3a9a10522af63fe
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+-- 
+Cheers,
+  Andrew
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 October 2015 at 18:41, Andrew Shadura <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:andrew.shadura@collabora.co.uk" target=3D"_blank">andrew.shadura=
-@collabora.co.uk</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
-iv id=3D":689" class=3D"a3s" style=3D"overflow:hidden">+=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${systemd_system_unitdir} \<br></div>=
-</blockquote></div><br>This isn&#39;t needed as systemd.bbclass handles it =
-for you.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
-a">Ross</div></div>
-
---001a11479cfcd3a9a10522af63fe--
