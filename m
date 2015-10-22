@@ -1,34 +1,21 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id D0704770A3
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CD25577118
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 15:17:45 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-02.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1ZpHcf-0007W4-Mf from Noor_Ahsan@mentor.com ;
-	Thu, 22 Oct 2015 08:17:45 -0700
-Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.18]) by
-	SVR-IES-FEM-02.mgc.mentorg.com ([137.202.0.106]) with mapi id
-	14.03.0224.002; Thu, 22 Oct 2015 16:17:45 +0100
-From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [RFC] rawcopy.py: Copy source file in image creation
-	build folder
-Thread-Index: AQHRDBpMmQJRJH2xI0egLkJjuEGttZ53e44AgAAloOA=
-Date: Thu, 22 Oct 2015 15:17:44 +0000
-Message-ID: <365E1805BC95084CBE82381A0B86999401095FBD20@EU-MBX-01.mgc.mentorg.com>
-References: <1445443468-8394-1-git-send-email-noor_ahsan@mentor.com>
-	<5628EC6A.2090803@linux.intel.com>
-In-Reply-To: <5628EC6A.2090803@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
+	Thu, 22 Oct 2015 15:18:20 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 22 Oct 2015 08:18:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,182,1444719600"; d="scan'208";a="669605283"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.73])
+	by orsmga003.jf.intel.com with ESMTP; 22 Oct 2015 08:18:20 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Oct 2015 10:18:36 -0500
+Message-Id: <cover.1445525963.git.anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Subject: Re: [RFC] rawcopy.py: Copy source file in image creation build folder
+Subject: [PATCH 0/3] runqemu improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,33 +28,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 15:17:48 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Oct 2015 15:18:21 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+The first patch enable support for use kvm without vhost a new option (kvm-vhost)
+was added for use kvm with vhost,
 
+The second and third patch enables usage of virtio devices/drivers in qemu machines
+by default, I ran all oe-core qemu machines with core-image-minimal, i tested 
+arm, arm64, arm-lsb, x86, x86-64, x86-64-lsb running sanity tests and x86 with
+core-image-rt.
 
------Original Message-----
-From: Leonardo Sandoval [mailto:leonardo.sandoval.gonzalez@linux.intel.com]=
-=20
-Sent: Thursday, October 22, 2015 7:02 PM
-To: Ahsan, Noor; openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [RFC] rawcopy.py: Copy source file in image creation=
- build folder
+The following changes since commit 8578bc17b54da97d42b257b3c8f398ac52b91a9f:
 
+  libc-package: Fix localedef multilib dependency issues (2015-10-20 10:12:01 +0100)
 
-> +        else:
-> +            dst =3D os.path.join(cr_workdir, source_params['file'])
-> +            dd_cmd =3D "cp src dst"
-> +            exec_cmd(dd_cmd)
->
+are available in the git repository at:
 
-the constructed dst variable is not being included into the dd_cmd, is it? =
-I would expect something like
+  git://git.yoctoproject.org/poky-contrib alimon/runqemu_changes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/runqemu_changes
 
-dd_cmd =3D "cp %s %s" % (src, dst)
+Aníbal Limón (3):
+  runqemu: Enable support for kvm without vhost in x86 and x86_64
+  linux-yocto{,-rt}: Enable support for virtio drivers in qemu machines.
+  runqemu-internal: Enable support for use virtio devices.
 
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb |  1 +
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb  |  1 +
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb    |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.19.bb    |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb     |  2 +-
+ scripts/runqemu                                  | 31 +++++++++-----
+ scripts/runqemu-internal                         | 53 +++++++-----------------
+ 7 files changed, 42 insertions(+), 50 deletions(-)
 
-yeah missed out. Will look into that but does this mechanism make sense?
+-- 
+2.1.4
+
 
