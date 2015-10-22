@@ -1,26 +1,25 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C8E960088
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 42F65607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 18:57:10 +0000 (UTC)
+	Thu, 22 Oct 2015 21:50:00 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 22 Oct 2015 11:57:10 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 22 Oct 2015 14:50:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,183,1444719600"; d="scan'208";a="669750081"
-Received: from unknown (HELO swold-mobl.jf.intel.com) ([10.254.23.93])
-	by orsmga003.jf.intel.com with ESMTP; 22 Oct 2015 11:57:10 -0700
-To: Andre McCurdy <armccurdy@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <1445281177-3309-1-git-send-email-armccurdy@gmail.com>
-From: Saul Wold <sgw@linux.intel.com>
-Message-ID: <56293186.9090501@linux.intel.com>
-Date: Thu, 22 Oct 2015 11:57:10 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.1.0
-MIME-Version: 1.0
-In-Reply-To: <1445281177-3309-1-git-send-email-armccurdy@gmail.com>
-Cc: "dvhart@linux.intel.com" <dvhart@linux.intel.com>
-Subject: Re: [PATCH 0/5] tuning support for 1st and 2nd generation Intel Atom CPUs
+X-IronPort-AV: E=Sophos;i="5.20,184,1444719600"; d="scan'208";a="669848769"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by orsmga003.jf.intel.com with ESMTP; 22 Oct 2015 14:50:01 -0700
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Oct 2015 13:39:19 +0000
+Message-Id: <d7061d7afd3379f116acdcfffc6baded1addfdb4.1445520365.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1445520365.git.mariano.lopez@linux.intel.com>
+References: <cover.1445520365.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1445520365.git.mariano.lopez@linux.intel.com>
+References: <cover.1445520365.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/2] qemurunner: Show the output of runqemu script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 18:57:12 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Oct 2015 21:50:01 -0000
 
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Hi Andre,
+This change will show runqemu output in the logs
+when running the runtime tests. This is helpful
+for debugging testimage errors.
 
+[YOCTO #8550]
 
-On 10/19/2015 11:59 AM, Andre McCurdy wrote:
-> Andre McCurdy (5):
->    tune-corei7.inc: fix PACKAGE_EXTRA_ARCHS_tune-corei7-32 typo
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-This change makes sense and addresses an issue.
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 6fe75b8..bdc6e0a 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -210,6 +210,7 @@ class QemuRunner:
+                 self.stop_thread()
+                 return False
+ 
++            logger.info("Output from runqemu:\n%s", self.getOutput(output))
+             logger.info("Waiting at most %d seconds for login banner" % self.boottime)
+             endtime = time.time() + self.boottime
+             socklist = [self.server_socket]
+-- 
+1.8.4.5
 
->    tune-bonnell.inc: support for first generation Intel Atom CPUs
->    tune-silvermont.inc: support for second generation Intel Atom CPUs
->    tune-atom.inc: include tune-bonnell.inc instead of tune-core2.inc
->    tune-corei7.inc: update comments regarding Silvermont support
->
-I am not sure these make sense, it adds additional complexity to an 
-already complex testing matrix.
-
-Both the bonnell and silvermont tunes are fully part of their respective 
-core* tune settings, there is no real need to become more specific. We 
-know that newer code is starting to use intrinsics that can determine 
-the correct extensions based on the CPU type.
-
-I know you replied partly to RP's query, but is there something specific 
-your trying to accomplish with these additional .incs that we don't 
-already do and if so what?
-
-Sau!
-meta-intel maintainer
-
->   meta/conf/machine/include/tune-atom.inc       |  4 +--
->   meta/conf/machine/include/tune-bonnell.inc    | 35 ++++++++++++++++++++++++++
->   meta/conf/machine/include/tune-corei7.inc     |  6 ++---
->   meta/conf/machine/include/tune-silvermont.inc | 36 +++++++++++++++++++++++++++
->   4 files changed, 76 insertions(+), 5 deletions(-)
->   create mode 100644 meta/conf/machine/include/tune-bonnell.inc
->   create mode 100644 meta/conf/machine/include/tune-silvermont.inc
->
 
