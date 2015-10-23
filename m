@@ -1,40 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E49036013D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 2623D7705D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 17:41:29 +0000 (UTC)
-Received: by pasz6 with SMTP id z6so123782756pas.2
+	Fri, 23 Oct 2015 20:15:24 +0000 (UTC)
+Received: by qgbb65 with SMTP id b65so75775655qgb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 10:41:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=vhof5R3zxqCSDL8XaZKq9x+1uom6wjnQi6S5xZKIOLk=;
-	b=ci0bckDwEpIZbD0X1diZbZmbq5EyDkIAS2MmHLHvdmOIQoTdSVWbxl/vPhBfv+yzIM
-	eECIH7YbZe1D6q9CUYVjTDJjsI0ZE7vZU6k5jqDpVzx0KhiWwVTCXSmI0VBDPgGJ9nFN
-	f9KejlxhjFFePnn1biHwnwL98svHh6iX0K4wORUc/ao/VXFdNxin2NryQBi1ufg71lFQ
-	LS+o5qxbtr3U+sddROKjTYzPhSVtmOTzYTqb8dQjqgjoat3W9xo83hlJeDxMRzpu/IcP
-	cObRLgj6/lCpTIV5OrJCmUTrwsqGZFHrhtG88hRuzAuOKuwOQO8X0sTn4J8/3zqj1P/A
-	lhOQ==
-X-Received: by 10.66.144.169 with SMTP id sn9mr5440712pab.15.1445622089847;
-	Fri, 23 Oct 2015 10:41:29 -0700 (PDT)
-Received: from ?IPv6:2601:647:4c02:370d:a92e:f22c:14b6:b7ad?
-	([2601:647:4c02:370d:a92e:f22c:14b6:b7ad])
-	by smtp.gmail.com with ESMTPSA id
-	ou3sm20039648pbb.44.2015.10.23.10.41.28
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 23 Oct 2015 10:41:29 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.1 \(3096.4\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
+	Fri, 23 Oct 2015 13:15:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=D53h1VTKqpeBKvrAO23PEnV8G8HBma2caXeOgEz5ZuI=;
+	b=Vu1TUL+jCzZNvJJnGtTouSjcuEefkXo3LQbsm4oUUS/SXQbBnZMeI4tMeOdPTzugcS
+	rs/Htx5YXO5eMXPp4odzNYIOp66go9BIllhE+h6WTlweP2TSk1R5nwXTD/Bm9skTSFxG
+	reRyKtn6eOgbJCgx6hKZn69zSdclnG+pQH58E+4KC3Y0xerrlpt90L50APP77gzZMpRH
+	0pAmrO1ozEkYD0kNJyWLnF1KwN/DR5BS4WdO5Fp5yQl0KjvSDCXZYqoJNrrO5Rm/q509
+	AF7YHAXEV1K6odwAKXvmeHMrFiE8jpifGLEPbGrlB3FBKwGrNB9g1ymMc0VLUGPsW9tA
+	BaEg==
+X-Gm-Message-State: ALoCoQmRJx44zHWuToYAAHRwzH9vN9+isMB9s0Q3+/Isty1e505AOagmynhvkoIODxgqpozlDAbs
+X-Received: by 10.140.132.11 with SMTP id 11mr29731955qhe.64.1445631324529;
+	Fri, 23 Oct 2015 13:15:24 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.82 with HTTP; Fri, 23 Oct 2015 13:15:05 -0700 (PDT)
 In-Reply-To: <1445620987-11004-1-git-send-email-psidhu@gateworks.com>
-Date: Fri, 23 Oct 2015 10:41:24 -0700
-Message-Id: <08C9931A-D3D5-4A9D-B41A-0E6B72ABDFEF@gmail.com>
 References: <1445620987-11004-1-git-send-email-psidhu@gateworks.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 23 Oct 2015 21:15:05 +0100
+Message-ID: <CAJTo0LYKycvgn4p3J88fjbWgc6Dh24q6dt9MJTr64e8LDByFyQ@mail.gmail.com>
 To: Pushpal Sidhu <psidhu@gateworks.com>
-X-Mailer: Apple Mail (2.3096.4)
-Cc: alexander.kanavin@intel.com, openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] webkitgtk: Add upstream patch to fix build problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -48,60 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Oct 2015 17:41:33 -0000
-X-Groupsio-MsgNum: 72590
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_DA0A51D9-B9D1-43D2-BFA9-F6F3EB943F1E";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Fri, 23 Oct 2015 20:15:26 -0000
+Content-Type: multipart/alternative; boundary=001a113502d093418f0522cb45de
 
---Apple-Mail=_DA0A51D9-B9D1-43D2-BFA9-F6F3EB943F1E
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+--001a113502d093418f0522cb45de
+Content-Type: text/plain; charset=UTF-8
 
+On 23 October 2015 at 18:23, Pushpal Sidhu <psidhu@gateworks.com> wrote:
 
-> On Oct 23, 2015, at 10:23 AM, Pushpal Sidhu <psidhu@gateworks.com> =
-wrote:
->=20
-> =46rom upstream webkit: fd15a368fa73fe08d91cc1dd7ef05c0c5a3ae851
->=20
-> Webkit will fail to compile under certain circumstances. Please see
-> https://bugs.webkit.org/show_bug.cgi?id=3D149172 for more details.
-
-
-this is ok to install.
-
->=20
-> Signed-off-by: Pushpal Sidhu <psidhu@gateworks.com>
-> ---
-> ...ailure-with-ACCELERATED_2D_CANVAS-when-ca.patch | 35 =
-++++++++++++++++++++++
-> meta/recipes-sato/webkit/webkitgtk_2.8.5.bb        |  1 +
-> 2 files changed, 36 insertions(+)
-> create mode 100644 =
-meta/recipes-sato/webkit/files/0002-GTK-Build-failure-with-ACCELERATED_2D_=
-CANVAS-when-ca.patch
->=20
-> diff --git =
-a/meta/recipes-sato/webkit/files/0002-GTK-Build-failure-with-ACCELERATED_2=
-D_CANVAS-when-ca.patch =
-b/meta/recipes-sato/webkit/files/0002-GTK-Build-failure-with-ACCELERATED_2=
-D_CANVAS-when-ca.patch
-> new file mode 100644
-> index 0000000..5d43e0f
-> --- /dev/null
-> +++ =
-b/meta/recipes-sato/webkit/files/0002-GTK-Build-failure-with-ACCELERATED_2=
-D_CANVAS-when-ca.patch
-> @@ -0,0 +1,35 @@
-> +=46rom 6ea42d4fa6f3f6dd18c37cb7b6e1faea6afefba4 Mon Sep 17 00:00:00 =
-2001
+> +From 6ea42d4fa6f3f6dd18c37cb7b6e1faea6afefba4 Mon Sep 17 00:00:00 2001
 > +From: "clopez@igalia.com" <clopez@igalia.com>
 > +Date: Tue, 15 Sep 2015 21:50:18 +0000
-> +Subject: [PATCH] [GTK] Build failure with ACCELERATED_2D_CANVAS when =
-cairo-gl has
+> +Subject: [PATCH] [GTK] Build failure with ACCELERATED_2D_CANVAS when
+> cairo-gl has
 > + built with OpenGLESv2 support only.
-> + https://bugs.webkit.org/show_bug.cgi?id=3D149172
+> + https://bugs.webkit.org/show_bug.cgi?id=149172
 > +
 > +Reviewed by Martin Robinson.
 > +
@@ -110,65 +67,50 @@ cairo-gl has
 > +* platform/graphics/glx/GLContextGLX.cpp:
 > +(WebCore::GLContextGLX::cairoDevice):
 > +
-> +git-svn-id: http://svn.webkit.org/repository/webkit/trunk@189826 =
-268f45cc-cd09-0410-ab3c-d52691b4dbfc
+> +git-svn-id: http://svn.webkit.org/repository/webkit/trunk@189826
+> 268f45cc-cd09-0410-ab3c-d52691b4dbfc
 > +---
-> + Source/WebCore/platform/graphics/glx/GLContextGLX.cpp | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/Source/WebCore/platform/graphics/glx/GLContextGLX.cpp =
-b/Source/WebCore/platform/graphics/glx/GLContextGLX.cpp
-> +index 7890d8d..4ed3a43 100644
-> +--- a/Source/WebCore/platform/graphics/glx/GLContextGLX.cpp
-> ++++ b/Source/WebCore/platform/graphics/glx/GLContextGLX.cpp
-> +@@ -266,7 +266,7 @@ cairo_device_t* GLContextGLX::cairoDevice()
-> +     if (m_cairoDevice)
-> +         return m_cairoDevice;
-> +
-> +-#if ENABLE(ACCELERATED_2D_CANVAS)
-> ++#if ENABLE(ACCELERATED_2D_CANVAS) && CAIRO_HAS_GLX_FUNCTIONS
-> +     m_cairoDevice =3D cairo_glx_device_create(sharedX11Display(), =
-m_context);
-> + #endif
-> +
-> +--
-> +2.6.2
-> +
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb =
-b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
-> index e29666a..68634a9 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
-> @@ -13,6 +13,7 @@ LIC_FILES_CHKSUM =3D =
-"file://Source/JavaScriptCore/COPYING.LIB;md5=3Dd0c6d6397a5d842
-> SRC_URI =3D "\
->   http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
->   =
-file://0001-This-patch-fixes-a-command-line-that-is-too-long-ove.patch \
-> +  =
-file://0002-GTK-Build-failure-with-ACCELERATED_2D_CANVAS-when-ca.patch \
->   file://gcc5.patch \
->   "
-> SRC_URI[md5sum] =3D "df79991848a5096d3a75289ebce547ae"
-> --
-> 2.6.2
->=20
+>
 
+No Upstream-Status or Signed-off-by tags, and please explain at least a
+little bit what the problem is in the commit message.
 
---Apple-Mail=_DA0A51D9-B9D1-43D2-BFA9-F6F3EB943F1E
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+Ross
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+--001a113502d093418f0522cb45de
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-iEYEARECAAYFAlYqcUgACgkQuwUzVZGdMxREGQCfZJfSbTTgesJB70NLCniBSZ7/
-+Y8AnjIo6yBMl3ddYgrEKo0tU0pLbbCH
-=UiTB
------END PGP SIGNATURE-----
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 October 2015 at 18:23, Pushpal Sidhu <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:psidhu@gateworks.com" target=3D"_blank">psidhu@gateworks.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":rx" class=3D"=
+a3s" style=3D"overflow:hidden">+From 6ea42d4fa6f3f6dd18c37cb7b6e1faea6afefb=
+a4 Mon Sep 17 00:00:00 2001<br>
++From: &quot;<a href=3D"mailto:clopez@igalia.com">clopez@igalia.com</a>&quo=
+t; &lt;<a href=3D"mailto:clopez@igalia.com">clopez@igalia.com</a>&gt;<br>
++Date: Tue, 15 Sep 2015 21:50:18 +0000<br>
++Subject: [PATCH] [GTK] Build failure with ACCELERATED_2D_CANVAS when cairo=
+-gl has<br>
++ built with OpenGLESv2 support only.<br>
++ <a href=3D"https://bugs.webkit.org/show_bug.cgi?id=3D149172" rel=3D"noref=
+errer" target=3D"_blank">https://bugs.webkit.org/show_bug.cgi?id=3D149172</=
+a><br>
++<br>
++Reviewed by Martin Robinson.<br>
++<br>
++No new tests, no behavior change.<br>
++<br>
++* platform/graphics/glx/GLContextGLX.cpp:<br>
++(WebCore::GLContextGLX::cairoDevice):<br>
++<br>
++git-svn-id: <a href=3D"http://svn.webkit.org/repository/webkit/trunk@18982=
+6" rel=3D"noreferrer" target=3D"_blank">http://svn.webkit.org/repository/we=
+bkit/trunk@189826</a> 268f45cc-cd09-0410-ab3c-d52691b4dbfc<br>
++---</div></blockquote></div><br>No Upstream-Status or Signed-off-by tags, =
+and please explain at least a little bit what the problem is in the commit =
+message.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
+a">Ross</div></div>
 
---Apple-Mail=_DA0A51D9-B9D1-43D2-BFA9-F6F3EB943F1E--
+--001a113502d093418f0522cb45de--
