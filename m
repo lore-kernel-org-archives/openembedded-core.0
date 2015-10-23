@@ -1,16 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 02FE173D46
+	by mail.openembedded.org (Postfix) with ESMTP id F0E4073D46
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 08:33:25 +0000 (UTC)
+	Fri, 23 Oct 2015 08:35:28 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id E6FC36092E9
+	(Authenticated sender: joshuagl) with ESMTPSA id 17F99609301
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Oct 2015 09:31:31 +0100
-Message-Id: <cover.1445588979.git.joshua.lock@collabora.co.uk>
+Date: Fri, 23 Oct 2015 09:31:32 +0100
+Message-Id: <2fe9d9797425d0d83b36d193a6dc83730cb94925.1445588979.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v4 0/6] Various metadata tweaks v4
+In-Reply-To: <cover.1445588979.git.joshua.lock@collabora.co.uk>
+References: <cover.1445588979.git.joshua.lock@collabora.co.uk>
+In-Reply-To: <cover.1445588979.git.joshua.lock@collabora.co.uk>
+References: <cover.1445588979.git.joshua.lock@collabora.co.uk>
+Subject: [PATCH v4 1/6] systemd: add PACKAGECONFIG to build with compatibility libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,51 +27,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Oct 2015 08:33:26 -0000
+X-List-Received-Date: Fri, 23 Oct 2015 08:35:29 -0000
 
-The following series are some tidy ups and changes made whilst
-porting a distro with systemd and a Weston + Xwayland userland to
-Jethro.
+Systemd < 209 shipped separate pc files for various interfaces, these
+can still be generated for compatibility with code using the older
+interfaces.
 
-Please consider them for inclusion.
+Add a PACKAGECONFIG option to build systemd with the compatibility
+pc files.
 
-Changes since v3:
-* Only submit the 6 patches I created, sorry about the spam
+Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 
-Changes since v2:
-* Backport weston patch to make enabling/disabling of systemd-login explicit
-* Mention the change in default behaviour regarding systemds dbus-related tests
+FIX: systemd-compat
+---
+ meta/recipes-core/systemd/systemd_225.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Regards,
-
-Joshua
-
-The following changes since commit 73f8a0bf3b99d480bf97e266da0fb048714b4caf:
-
-  build-appliance-image: Update to jethro head revision (2015-10-21 23:13:03 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib joshuagl/cleanup
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/cleanup
-
-Joshua Lock (6):
-  systemd: add PACKAGECONFIG to build with compatibility libraries
-  weston: add PACKAGECONFIG to build with systemd-login support
-  systemd: make dbus an optional build time dependency
-  weston: add a PACKAGECONFIG option for xwayland support
-  xserver-xorg: add Xwayland RRECOMMENDS
-  xserver-xorg: drop empty ${PN}-security-policy package
-
- meta/recipes-core/systemd/systemd_225.bb           |  4 +-
- .../weston/explicit-enable-disable-systemd.patch   | 70 ++++++++++++++++++++++
- .../wayland/weston/libsystemd.patch                | 53 ++++++++++++++++
- meta/recipes-graphics/wayland/weston_1.8.0.bb      |  8 ++-
- .../recipes-graphics/xorg-xserver/xserver-xorg.inc |  8 +--
- 5 files changed, 137 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/weston/explicit-enable-disable-systemd.patch
- create mode 100644 meta/recipes-graphics/wayland/weston/libsystemd.patch
-
+diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
+index c2dad58..9388046 100644
+--- a/meta/recipes-core/systemd/systemd_225.bb
++++ b/meta/recipes-core/systemd/systemd_225.bb
+@@ -89,6 +89,7 @@ PACKAGECONFIG[ldconfig] = "--enable-ldconfig,--disable-ldconfig,,"
+ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
+ PACKAGECONFIG[valgrind] = "ac_cv_header_valgrind_memcheck_h=yes ac_cv_header_valgrind_valgrind_h=yes ,ac_cv_header_valgrind_memcheck_h=no ac_cv_header_valgrind_valgrind_h=no ,valgrind"
+ PACKAGECONFIG[qrencode] = "--enable-qrencode,--disable-qrencode,qrencode"
++PACKAGECONFIG[compat] = "--enable-compat-libs,--disable-compat-libs"
+ 
+ CACHED_CONFIGUREVARS += "ac_cv_path_KILL=${base_bindir}/kill"
+ CACHED_CONFIGUREVARS += "ac_cv_path_KMOD=${base_bindir}/kmod"
 -- 
 2.1.4
 
