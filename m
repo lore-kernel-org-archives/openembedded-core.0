@@ -1,24 +1,27 @@
-Return-Path: <benjamin.esquivel@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id AE0E9605D2
+Return-Path: <biannm@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DABA60124
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Oct 2015 22:45:54 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Oct 2015 15:45:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,184,1444719600"; d="scan'208";a="817378716"
-Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
-	([10.23.219.54])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Oct 2015 15:45:55 -0700
-From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 22:45:11 +0000
-Message-Id: <1445553911-12721-3-git-send-email-benjamin.esquivel@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <1445553911-12721-1-git-send-email-benjamin.esquivel@linux.intel.com>
-References: <1445553911-12721-1-git-send-email-benjamin.esquivel@linux.intel.com>
-Cc: brian.avery@intel.com, randy.e.witt@intel.com
-Subject: [PATCH 2/2] systemd: skip service tests on long boot times
+	Fri, 23 Oct 2015 02:10:48 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="102174320"
+Received: from bogon (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 23 Oct 2015 10:13:01 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t9N2ABYX021376
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Oct 2015 10:10:11 +0800
+Received: from localhost.localdomain (10.167.226.31) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Fri, 23 Oct 2015 10:10:42 +0800
+From: Bian Naimeng <biannm@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 23 Oct 2015 10:10:36 +0800
+Message-ID: <1445566236-9759-1-git-send-email-biannm@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.31]
+Subject: [PATCH] smart/rpm: nativesdk should get RPM_ETCRPM from SDKTARGETSYSROOT not NATIVE_SYSROOT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,76 +34,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 22:45:56 -0000
+X-List-Received-Date: Fri, 23 Oct 2015 02:10:53 -0000
+Content-Type: text/plain
 
-arrange the runtime systemd services testing to depend upon the
-checking of the boot time to be less than systemd's unit (services)
-start timeout
-this will prevent the service tests failing on a condition that is
-well known to happen when the virtual target is choked on IO/CPU
-resources
+The config file of rpm will be installed into SDKTARGETSYSROOT for each architecture,
+so RPM_ETCRPM should be set to SDKTARGETSYSROOT/etc/rpm.
 
-[YOCTO#8142]
-
-Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
 ---
- meta/lib/oeqa/runtime/systemd.py | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/recipes-devtools/python/python-smartpm_git.bb | 14 ++++++++++----
+ meta/recipes-devtools/rpm/rpm_5.4+cvs.bb           | 22 ++++++++++++++--------
+ meta/recipes-devtools/rpm/rpm_5.4.14.bb            | 22 ++++++++++++++--------
+ 3 files changed, 38 insertions(+), 20 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/systemd.py b/meta/lib/oeqa/runtime/systemd.py
-index 251d06e..4e0a556 100644
---- a/meta/lib/oeqa/runtime/systemd.py
-+++ b/meta/lib/oeqa/runtime/systemd.py
-@@ -80,7 +80,7 @@ class SystemdBasicTests(SystemdTest):
-             time.sleep(10)
+diff --git a/meta/recipes-devtools/python/python-smartpm_git.bb b/meta/recipes-devtools/python/python-smartpm_git.bb
+index d6c378b..21faafe 100644
+--- a/meta/recipes-devtools/python/python-smartpm_git.bb
++++ b/meta/recipes-devtools/python/python-smartpm_git.bb
+@@ -92,20 +92,26 @@ do_install_append() {
+    fi
+ }
  
-     @testcase(550)
--    @skipUnlessPassed('test_systemd_basic')
-+    @skipUnlessPassed('test_systemd_boot_time')
-     def test_systemd_failed(self):
-         settled, output = self.settle()
-         self.assertTrue(settled, msg="Timed out waiting for systemd to settle:\n" + output)
-@@ -98,13 +98,13 @@ class SystemdServiceTests(SystemdTest):
-         if not self.hasPackage('avahi-daemon'):
-             raise unittest.SkipTest("Testcase dependency not met: need avahi-daemon installed on target")
+-add_native_wrapper() {
++add_native_or_sdk_wrapper() {
++	if [ "$1" = "sdk" ]; then
++		RPM_ETCRPM='$'{RPM_ETCRPM-'$'SDKTARGETSYSROOT/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('base_prefix', True))}/rpm}
++	else
++		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm}
++	fi
++
+         create_wrapper ${D}/${bindir}/smart \
+ 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
++		RPM_ETCRPM=${RPM_ETCRPM} \
+ 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
+ }
  
--    @skipUnlessPassed('test_systemd_basic')
-+    @skipUnlessPassed('test_systemd_boot_time')
-     def test_systemd_status(self):
-         self.check_for_avahi()
-         self.systemctl('status --full', 'avahi-daemon.service')
+ do_install_append_class-native() {
+         sed -i -e 's|^#!.*/usr/bin/env python|#! /usr/bin/env nativepython|' ${D}${bindir}/smart
+-        add_native_wrapper
++        add_native_or_sdk_wrapper "native"
+ }
  
-     @testcase(695)
--    @skipUnlessPassed('test_systemd_status')
-+    @skipUnlessPassed('test_systemd_boot_time')
-     def test_systemd_stop_start(self):
-         self.check_for_avahi()
-         self.systemctl('stop', 'avahi-daemon.service')
-@@ -113,7 +113,7 @@ class SystemdServiceTests(SystemdTest):
-         self.systemctl('is-active', 'avahi-daemon.service', verbose=True)
+ do_install_append_class-nativesdk() {
+-        add_native_wrapper
++        add_native_or_sdk_wrapper "sdk"
+ }
  
-     @testcase(696)
--    @skipUnlessPassed('test_systemd_basic')
-+    @skipUnlessPassed('test_systemd_boot_time')
-     def test_systemd_disable_enable(self):
-         self.check_for_avahi()
-         self.systemctl('disable', 'avahi-daemon.service')
-@@ -122,12 +122,12 @@ class SystemdServiceTests(SystemdTest):
-         self.systemctl('is-enabled', 'avahi-daemon.service')
+ PACKAGES = "${PN}-dev ${PN}-dbg ${PN}-doc smartpm \
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+index 8903f3b..e452445 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+@@ -488,41 +488,47 @@ do_install_append() {
  
- class SystemdJournalTests(SystemdTest):
--    @skipUnlessPassed('test_ssh')
-+    @skipUnlessPassed('test_systemd_basic')
-     def test_systemd_journal(self):
-         (status, output) = self.target.run('journalctl')
-         self.assertEqual(status, 0, output)
+ }
  
--    @skipUnlessPassed('test_systemd_basic')
-+    @skipUnlessPassed('test_systemd_journal')
-     def test_systemd_boot_time(self, systemd_TimeoutStartSec=90):
-         """
-         Compare the target boot time from journalctl against TimeoutStartSec
+-add_native_wrapper() {
++add_native_or_sdk_wrapper() {
++	if [ $1 = "sdk" ]; then
++		RPM_ETCRPM='$'{RPM_ETCRPM-'$'SDKTARGETSYSROOT/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('base_prefix', True))}/rpm}
++	else
++		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} 
++	fi
++
+         create_wrapper ${D}/${bindir}/rpm \
+ 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
++		RPM_ETCRPM=${RPM_ETCRPM} \
+ 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
+ 
+         create_wrapper ${D}/${bindir}/rpm2cpio \
+ 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
++		RPM_ETCRPM=${RPM_ETCRPM} \
+ 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
+ 
+         create_wrapper ${D}/${bindir}/rpmbuild \
+ 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
++		RPM_ETCRPM=${RPM_ETCRPM} \
+ 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
+ 
+         create_wrapper ${D}/${bindir}/rpmconstant \
+ 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
++		RPM_ETCRPM=${RPM_ETCRPM} \
+ 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
+ 
+ 	for rpm_binary in ${D}/${libdir}/rpm/bin/rpm* ${D}/${libdir}/rpm/bin/debugedit; do
+         	create_wrapper $rpm_binary \
+ 			RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+-			RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
++			RPM_ETCRPM=${RPM_ETCRPM} \
+ 			RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
+ 	done
+ }
+ 
+ do_install_append_class-native() {
+-	add_native_wrapper
++	add_native_or_sdk_wrapper "native"
+ }
+ 
+ do_install_append_class-nativesdk() {
+-	add_native_wrapper
++	add_native_or_sdk_wrapper "sdk"
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+index b450c6f..75a7c3b 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+@@ -477,41 +477,47 @@ do_install_append() {
+ 
+ }
+ 
+-add_native_wrapper() {
++add_native_or_sdk_wrapper() {
++	if [ "$1" = "sdk" ]; then
++		RPM_ETCRPM='$'{RPM_ETCRPM-'$'SDKTARGETSYSROOT/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('base_prefix', True))}/rpm}
++	else
++		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm}
++	fi
++
+         create_wrapper ${D}/${bindir}/rpm \
+ 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
++		RPM_ETCRPM=${RPM_ETCRPM} \
+ 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
+ 
+         create_wrapper ${D}/${bindir}/rpm2cpio \
+ 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
++		RPM_ETCRPM=${RPM_ETCRPM} \
+ 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
+ 
+         create_wrapper ${D}/${bindir}/rpmbuild \
+ 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
++		RPM_ETCRPM=${RPM_ETCRPM} \
+ 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
+ 
+         create_wrapper ${D}/${bindir}/rpmconstant \
+ 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+-		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
++		RPM_ETCRPM=${RPM_ETCRPM} \
+ 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
+ 
+ 	for rpm_binary in ${D}/${libdir}/rpm/bin/rpm* ${D}/${libdir}/rpm/bin/debugedit; do
+         	create_wrapper $rpm_binary \
+ 			RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+-			RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
++			RPM_ETCRPM=${RPM_ETCRPM} \
+ 			RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
+ 	done
+ }
+ 
+ do_install_append_class-native() {
+-	add_native_wrapper
++	add_native_or_sdk_wrapper "native"
+ }
+ 
+ do_install_append_class-nativesdk() {
+-	add_native_wrapper
++	add_native_or_sdk_wrapper "sdk"
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-1.8.4.5
+1.9.1
 
 
