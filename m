@@ -1,53 +1,33 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C218A75E80
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C49575E80
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 15:52:56 +0000 (UTC)
-Received: by iow1 with SMTP id 1so128315845iow.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 08:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=K1rpz05yis9Ph1E1HuF5o7Ggl05HvB1mb6J9WUO4Y9M=;
-	b=wvjIJucZpPSb14fCRfrWZDc/3Uc6W4xkFTaHADZlGLEAL7Ytx6m1wHiep/7sU41aZG
-	P/wzgYQxyoUw1+6eqTyJPNZG/U+PwuN0HnQ/Bplmir3J57/ClxZtQorVISXrU1eIBpQ6
-	r7u9dRcqMR1n9S3Br8m5GjrpeHzcmPffzqfx+tvWDJe0f+ZiIpxrysZQ86cz9ykQ8kOV
-	iT4Us1Y8s7dkD/ynjxbkMClARf4cE5Qr7ou02VFdkDjfbFc9bB4QqqGFUPGj4QeNJdEj
-	cET4JHfsoOxFiT2zd20sLgBHuVQgdCAe6w7+T5UKE26NLLhep/Ob6oM2je//f7VUQCEN
-	f5DQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kergoth_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=K1rpz05yis9Ph1E1HuF5o7Ggl05HvB1mb6J9WUO4Y9M=;
-	b=MHPiiOD3ShND3xjWoWpxEo+gCvM/G3BjmhIpZZyOeP7FXnEpMOxCNnSG1vtXUKZfCi
-	3CaJKH62GvDswj900GoWFXfPrYN/32fxWTsdXh76Z8TR8v6plb4ndgQLMWPNja/QWCmH
-	bwYUPLO/G4SanezCf8zKFaf/nKhnH5Ks574mcbgoBD2filoSWqtFtc67o7KSsMuWOjL4
-	LL+qdDbbYM3yA0h9OViYGgvVKwJ5nKe9LRQAoTHqeVNQvCo0Pj3qcEOZGv7IQhlhtXiX
-	1oB6nbZhXU8pEPefYx03Qpe5D5td6eUA+7cZKFQkHStXRQ/zcTpfCHd7lLeC0GT6OdYO
-	NjAw==
-X-Received: by 10.107.134.94 with SMTP id i91mr20855113iod.74.1445615576150;
-	Fri, 23 Oct 2015 08:52:56 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.65.204 with HTTP; Fri, 23 Oct 2015 08:52:36 -0700 (PDT)
-In-Reply-To: <CAJTo0LaKdMib+D292Yo4YZy4H96qJ7_BJnppqggV5_8YaP0AcA@mail.gmail.com>
-References: <cover.1445596115.git.pkj@axis.com>
-	<b1fb2b65b6ffde36ca2d6e8f24874ff7004de038.1445596115.git.pkj@axis.com>
-	<CAJTo0LaKdMib+D292Yo4YZy4H96qJ7_BJnppqggV5_8YaP0AcA@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Fri, 23 Oct 2015 08:52:36 -0700
-X-Google-Sender-Auth: MuTUdTzSYN25sDtJ-Av4W9OyINw
-Message-ID: <CABcZAN=q05OJu62PPoNSrQ4KDRp7KwbgH3UyobYmTeJ+ov53ww@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] useradd-staticids.bbclass: Do not require trailing colons
+	Fri, 23 Oct 2015 15:57:21 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Oct 2015 08:57:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,187,1444719600"; d="scan'208";a="586731976"
+Received: from besquive-mobl2.zpn.intel.com ([10.219.128.84])
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Oct 2015 08:57:21 -0700
+Message-ID: <1445615841.985.69.camel@linux.intel.com>
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+To: "Avery, Brian" <brian.avery@intel.com>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <D24EB9A9.3F537%brian.avery@intel.com>
+References: <1445553911-12721-1-git-send-email-benjamin.esquivel@linux.intel.com>
+	<1445553911-12721-2-git-send-email-benjamin.esquivel@linux.intel.com>
+	<D24EB9A9.3F537%brian.avery@intel.com>
+Organization: Intel Corporation
+Date: Fri, 23 Oct 2015 10:57:21 -0500
+Mime-Version: 1.0
+X-Mailer: Evolution 3.16.5 (3.16.5-3.fc22) 
+Cc: "Witt, Randy E" <randy.e.witt@intel.com>
+Subject: Re: [PATCH 1/2] systemd: test target boot time against unit timeout
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: benjamin.esquivel@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -57,91 +37,212 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Oct 2015 15:52:56 -0000
-Content-Type: multipart/alternative; boundary=001a113ec89ce5f87c0522c79ac3
+X-List-Received-Date: Fri, 23 Oct 2015 15:57:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a113ec89ce5f87c0522c79ac3
-Content-Type: text/plain; charset=UTF-8
+This reminds me I haven't been able to parse your logs to check your
+data. If what you say is true, that the failure is presented when the
+system (kernel + userspace) booted in less than 90 secs, then I can
+make 2 observations:
 
-On Fri, Oct 23, 2015 at 8:20 AM, Burton, Ross <ross.burton@intel.com> wrote:
+1. your data and Randy's diverge, Randy's data has every systemd
+failure tied to a timeout message and a boot time greater than the
+unit's timeout. I would happily investigate further, if you send me
+your logs.
+2. my test would not be really as effective as I think to catch the
+condition.
 
-> On 23 October 2015 at 11:38, Peter Kjellerstedt <
-> peter.kjellerstedt@axis.com> wrote:
->
->> -                        field = line.rstrip().split(":")
->> +                        # Make sure there always are at least seven
->> elements in
->> +                        # the field list. This allows for leaving out
->> trailing
->> +                        # colons in the passwd file.
->> +                        line = line.rstrip() + "::::::"
->> +                        field = line.split(":")
->>
->
-> It's a stylist thing but I prefer padding the field list instead of
-> manipulating the input string. Something like
->
->   field = line.strip().split(":")
->   field += [''] * (7 - len(field))
->
+Things to take into account:
 
-Agreed, but I think this is cleaner:
+A. I'm using Randy's data to compare against yours because you both
+used the same method. I have my data that I obtained with a different
+method that supports my point too.
+B. (Randy/Brian)'s method and Benjamin's method threw data that they 3
+assume is the condition that made the autobuilder's fail, while I don't
+say they are wrong, this is not data coming out of the actual failures
+of the autobuilder. Having that said, I would not disprove your
+nice/ionice change nor adding this test to check if it can be a single
+trap for the systemd errors which right now have too many faces. 
 
-def iter_extend(iterable, length, obj=None):
-    """Ensure that iterable is the specified length by extending with obj"""
-    return itertools.islice(itertools.chain(iterable,
-itertools.repeat(obj)), length)
+Benjamin
 
-fields = iter_extend(line.rstrip().split(":"), 7)
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+On Thu, 2015-10-22 at 23:10 +0000, Avery, Brian wrote:
+> The problem with this is one of the runs I did had a lot of systemd
+> timeout failures but the stats were like:
+> 
+> Fails:
+> min startup time: 54 sec
+> avg startup time: 114 sec
+> max startup time: 260 sec
+> 
+> Successes:
+> min startup time: 46 sec
+> avg startup time: 110 sec
+> max startup time: 266 sec
+> 
+> so I¹m not sure that the time is a good indicator.
+> 
+> These numbers are pulled from the jounalctl line in the
+> ssh_target_log
+> file that looks like:
+> 
+> Oct 21 11:19:40 qemux86 systemd[1]: Startup finished in 42.255s
+> (kernel) +
+> 3min 10.075s (userspace) = 3min 52.331s.
+> 
+> 
+> -b
+> 
+> 
+> 
+> On 10/22/15, 3:45 PM, "Benjamin Esquivel"
+> <benjamin.esquivel@linux.intel.com> wrote:
+> 
+> > the new test:
+> > oeqa.runtime.systemd.SystemdJournalTests.test_systemd_boot_time
+> > will query the target boot time from journactl and will
+> > compare it against the default systemd's unit start timeout:
+> > (TimeoutStartSec)
+> > 
+> > if the boot time is greater than the timeout, it will fail
+> > 
+> > the reason is because once the boot time exceeds the unit start
+> > timeout then it is uncertain that the systemd units are able to
+> > properly come up and function
+> > 
+> > when this test fails, the rest of the systemd units (services)
+> > should be
+> > skipped
+> > 
+> > this test also prints the startup time in the test log like:
+> > ...
+> > test_systemd_boot_time (oeqa.runtime.systemd.SystemdJournalTests)
+> > ...
+> > Startup finished in 6.922s (kernel) + 52.089s (userspace) =
+> > 59.011s.
+> > ...
+> > 
+> > [YOCTO#8141]
+> > 
+> > Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com
+> > >
+> > ---
+> > meta/lib/oeqa/runtime/systemd.py | 73
+> > ++++++++++++++++++++++++++++++++++++++++
+> > 1 file changed, 73 insertions(+)
+> > 
+> > diff --git a/meta/lib/oeqa/runtime/systemd.py
+> > b/meta/lib/oeqa/runtime/systemd.py
+> > index c74394c..251d06e 100644
+> > --- a/meta/lib/oeqa/runtime/systemd.py
+> > +++ b/meta/lib/oeqa/runtime/systemd.py
+> > @@ -21,6 +21,33 @@ class SystemdTest(oeRuntimeTest):
+> >         self.assertEqual(status, expected, message)
+> >         return output
+> > 
+> > +    def journalctl(self, args='',l_match_units=[]):
+> > +        """
+> > +        Request for the journalctl output to the current target
+> > system
+> > +
+> > +        Arguments:
+> > +        -args, an optional argument pass through argument
+> > +        -l_match_units, an optional list of units to filter the
+> > output
+> > +        Returns:
+> > +        -string output of the journalctl command
+> > +        Raises:
+> > +        -AssertionError, on remote commands that fail
+> > +        -ValueError, on a journalctl call with filtering by
+> > l_match_units that
+> > +        returned no entries
+> > +        """
+> > +        query_units=""
+> > +        if len(l_match_units):
+> > +            query_units = ['_SYSTEMD_UNIT='+unit for unit in
+> > l_match_units]
+> > +            query_units = " ".join(query_units)
+> > +        command = 'journalctl %s %s' %(args, query_units)
+> > +        status, output = self.target.run(command)
+> > +        if status:
+> > +            raise AssertionError("Command '%s' returned non-zero
+> > exit \
+> > +                    code %d:\n%s" % (command, status, output))
+> > +        if len(output) == 1 and "-- No entries --" in output:
+> > +            raise ValueError("List of units to match: %s, returned
+> > no
+> > entries"
+> > +                    % l_match_units)
+> > +        return output
+> > 
+> > class SystemdBasicTests(SystemdTest):
+> > 
+> > @@ -99,3 +126,49 @@ class SystemdJournalTests(SystemdTest):
+> >     def test_systemd_journal(self):
+> >         (status, output) = self.target.run('journalctl')
+> >         self.assertEqual(status, 0, output)
+> > +
+> > +    @skipUnlessPassed('test_systemd_basic')
+> > +    def test_systemd_boot_time(self, systemd_TimeoutStartSec=90):
+> > +        """
+> > +        Compare the target boot time from journalctl against
+> > TimeoutStartSec
+> > +
+> > +        Arguments:
+> > +        -systemd_TimeoutStartSec, an optional argument containing
+> > systemd's
+> > +        unit start timeout
+> > +        """
+> > +
+> > +        expr_items=["Startup finished","kernel",
+> > "userspace","\.$"]
+> > +        try:
+> > +            output = self.journalctl(args="-o cat --reverse")
+> > +        except AssertionError:
+> > +            self.fail("Error occurred while calling journalctl")
+> > +        if not len(output):
+> > +            self.fail("Error: unable to obtain the startup time
+> > from\
+> > +                    systemd journal")
+> > +
+> > +        # check for the regular expression items that match the
+> > startup
+> > time
+> > +        for line in output.split('\n'):
+> > +            check_match =
+> > "".join(re.findall(".*".join(expr_items),
+> > line))
+> > +            if check_match: break
+> > +        # put the startup time in the test log
+> > +        if check_match:
+> > +            print "\n%s" % check_match
+> > +        else:
+> > +            self.fail("Error while obtaining the boot time from
+> > journalctl")
+> > +        boot_time_sec = 0
+> > +
+> > +        # get the numeric values from the string and convert them
+> > to
+> > seconds
+> > +        # same data will be placed in list and string for
+> > manipulation
+> > +        l_boot_time = check_match.split(" ")[-2:]
+> > +        s_boot_time = " ".join(l_boot_time)
+> > +        # Obtain the minutes it took to boot
+> > +        if l_boot_time[0].endswith('min') and
+> > l_boot_time[0][0].isdigit():
+> > +            boot_time_min = s_boot_time.split("min")[0]
+> > +            # convert to seconds and accumulate it
+> > +            boot_time_sec += int(boot_time_min) * 60
+> > +        # Obtain the seconds it took to boot and accumulate
+> > +        boot_time_sec += float(l_boot_time[1].split("s")[0])
+> > +        #Assert the target boot time against systemd's unit start
+> > timeout
+> > +        msg = "Target boot time %s exceeds systemd's
+> > TimeoutStartSec %s"\
+> > +                %(boot_time_sec, systemd_TimeoutStartSec)
+> > +        self.assertTrue(boot_time_sec < systemd_TimeoutStartSec,
+> > msg =
+> > msg)
 
---001a113ec89ce5f87c0522c79ac3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Fri, Oct 23, 2015 at 8:20 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
-order-left-style:solid;padding-left:1ex"><div class=3D"gmail_extra"><span><=
-div class=3D"gmail_quote">On 23 October 2015 at 11:38, Peter Kjellerstedt <=
-span dir=3D"ltr">&lt;<a href=3D"mailto:peter.kjellerstedt@axis.com" target=
-=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;</span> wrote:<br><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width=
-:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-lef=
-t:1ex"><div style=3D"overflow:hidden">-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 field =3D line.rstrip().sp=
-lit(&quot;:&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 # Make sure there always are at least seven elements in<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 # the field list. This allows for leaving out trailing<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 # colons in the passwd file.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 line =3D line.rstrip() + &quot;::::::&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 field =3D line.split(&quot;:&quot;)</div></blockquote></div><br>=
-</span>It&#39;s a stylist thing but I prefer padding the field list instead=
- of manipulating the input string. Something like</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">=C2=A0 field =3D line.strip().s=
-plit(&quot;:&quot;)</div><div class=3D"gmail_extra">=C2=A0 field +=3D [&#39=
-;&#39;] * (7 - len(field))</div></blockquote></div><br clear=3D"all"><div>A=
-greed, but I think this is cleaner:</div><div><br></div><div><div>def iter_=
-extend(iterable, length, obj=3DNone):</div><div>=C2=A0 =C2=A0 &quot;&quot;&=
-quot;Ensure that iterable is the specified length by extending with obj&quo=
-t;&quot;&quot;</div><div>=C2=A0 =C2=A0 return itertools.islice(itertools.ch=
-ain(iterable, itertools.repeat(obj)), length)</div></div><div><br></div><di=
-v>fields =3D iter_extend(line.rstrip().split(&quot;:&quot;), 7)</div>-- <br=
-><div>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake=
-, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Enginee=
-r, Mentor Graphics</div>
-</div></div>
-
---001a113ec89ce5f87c0522c79ac3--
