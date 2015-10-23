@@ -1,24 +1,24 @@
 Return-Path: <randy.e.witt@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 014D975E2D
+	by mail.openembedded.org (Postfix) with ESMTP id 0E66F73D27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 03:30:41 +0000 (UTC)
+	Fri, 23 Oct 2015 03:30:42 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga103.fm.intel.com with ESMTP; 22 Oct 2015 20:30:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,185,1444719600"; d="scan'208";a="670011201"
+X-IronPort-AV: E=Sophos;i="5.20,185,1444719600"; d="scan'208";a="670011203"
 Received: from bitbang.jf.intel.com ([10.7.199.99])
 	by orsmga003.jf.intel.com with ESMTP; 22 Oct 2015 20:30:42 -0700
 From: Randy Witt <randy.e.witt@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2015 20:30:36 -0700
-Message-Id: <80093b6693dad32322aba0119f466a76fc468c67.1445570852.git.randy.e.witt@linux.intel.com>
+Date: Thu, 22 Oct 2015 20:30:38 -0700
+Message-Id: <76493b8df3e5aab311096cb4ae3729626e46699b.1445570852.git.randy.e.witt@linux.intel.com>
 X-Mailer: git-send-email 2.4.3
 In-Reply-To: <4b16c77c29407f38c4c17f5bddbaec2cd5339c82.1445570852.git.randy.e.witt@linux.intel.com>
 References: <4b16c77c29407f38c4c17f5bddbaec2cd5339c82.1445570852.git.randy.e.witt@linux.intel.com>
 In-Reply-To: <cover.1445570852.git.randy.e.witt@linux.intel.com>
 References: <cover.1445570852.git.randy.e.witt@linux.intel.com>
-Subject: [PATCH 3/5] populate_sdk_base: Ensure PKGDATA_DIR exists
+Subject: [PATCH 5/5] wic/utils/oe/misc.py: Preserve PATH when running native tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,26 +33,61 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 23 Oct 2015 03:30:42 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Previously exec_native_cmd() would remove all items from PATH except for
+the native sysroot. This can cause issues for the tools that are created
+using create_wrapper().
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Now instead of wiping out the PATH, run a sanity check to check if the
+command is in the native sysroot.
+
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
 ---
- meta/classes/populate_sdk_base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/wic/utils/oe/misc.py | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 36876e8..0a0ba91 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -188,7 +188,7 @@ populate_sdk_log_check() {
- 	done
- }
+diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
+index 7370d93..c6d2e5f 100644
+--- a/scripts/lib/wic/utils/oe/misc.py
++++ b/scripts/lib/wic/utils/oe/misc.py
+@@ -82,6 +82,12 @@ def exec_cmd(cmd_and_args, as_shell=False, catch=3):
  
--do_populate_sdk[dirs] = "${TOPDIR}"
-+do_populate_sdk[dirs] = "${TOPDIR} ${PKGDATA_DIR}"
- do_populate_sdk[depends] += "${@' '.join([x + ':do_populate_sysroot' for x in d.getVar('SDK_DEPENDS', True).split()])}  ${@d.getVarFlag('do_rootfs', 'depends', False)}"
- do_populate_sdk[rdepends] = "${@' '.join([x + ':do_populate_sysroot' for x in d.getVar('SDK_RDEPENDS', True).split()])}"
- do_populate_sdk[recrdeptask] += "do_packagedata do_package_write_rpm do_package_write_ipk do_package_write_deb"
+     return out
+ 
++def cmd_in_path(cmd, path):
++    import scriptpath
++
++    scriptpath.add_bitbake_lib_path()
++
++    return bb.utils.which(path, cmd) != "" or False
+ 
+ def exec_native_cmd(cmd_and_args, native_sysroot, catch=3):
+     """
+@@ -92,15 +98,21 @@ def exec_native_cmd(cmd_and_args, native_sysroot, catch=3):
+     Always need to execute native commands as_shell
+     """
+     native_paths = \
+-        "export PATH=%s/sbin:%s/usr/sbin:%s/usr/bin" % \
++        "%s/sbin:%s/usr/sbin:%s/usr/bin" % \
+         (native_sysroot, native_sysroot, native_sysroot)
+-    native_cmd_and_args = "%s;%s" % (native_paths, cmd_and_args)
++    native_cmd_and_args = "export PATH=%s:$PATH;%s" % \
++                           (native_paths, cmd_and_args)
+     msger.debug("exec_native_cmd: %s" % cmd_and_args)
+ 
+-    args = cmd_and_args.split()
++    # The reason -1 is used is because there may be "export" commands.
++    args = cmd_and_args.split(';')[-1].split()
+     msger.debug(args)
+ 
+-    ret, out = _exec_cmd(native_cmd_and_args, True, catch)
++    # If the command isn't in the native sysroot say we failed.
++    if cmd_in_path(args[0], native_paths):
++        ret, out = _exec_cmd(native_cmd_and_args, True, catch)
++    else:
++        ret = 127
+ 
+     if ret == 127: # shell command-not-found
+         prog = args[0]
 -- 
 2.4.3
 
