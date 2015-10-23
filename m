@@ -1,37 +1,37 @@
-Return-Path: <jpuhlman@mvista.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 14B9460125
+Return-Path: <psidhu@gateworks.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id DC85273CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 17:18:15 +0000 (UTC)
-Received: by padhk11 with SMTP id hk11so123548547pad.1
+	Fri, 23 Oct 2015 17:23:29 +0000 (UTC)
+Received: by pacfv9 with SMTP id fv9so129161457pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 10:18:15 -0700 (PDT)
+	Fri, 23 Oct 2015 10:23:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=nxqCuGqtj1OxTKDZvkIbqwAtT8w9/6ky8xWtql1r1oE=;
-	b=akvP+kUxNDZ/SrkHk6zmSN96RaR5G6YnlYJbfco1UFIUireUNe3JDO/u8SYEQULlQ7
-	1CfblfpMDbTVY/J3+8jl2WNs5NH2ADJb1lixsWjIcXUKiV/sTwfL8Cpgcvb7OiDWUTLS
-	DXcPzHCo0hHEqHkMZ2dH9HdkECq3EKrlFPiwvtlcFv1RrJuzKUGGtSpC8dGMH2pAJ/HL
-	Q82fbemSLd7K4xSx6ntRjOPiOP6qPUdRcjieVnXWNZIYvKVHS7nQ+u+wteI7RYwucS2e
-	3FgkxgECprSx/fm4fSg9cYhJQlzzSID7hbVaOW9kgW5a6m66Fj7DhrLslcU41pfpEmp/
-	PMrQ==
-X-Gm-Message-State: ALoCoQmerDqI6mTpaG1ej+HWT1xfw4zkhBosRtT6zXao1KqdTJpxzqFEnAQCcLcb6k2A//QwDUUY
-X-Received: by 10.68.182.5 with SMTP id ea5mr6342743pbc.148.1445620695788;
-	Fri, 23 Oct 2015 10:18:15 -0700 (PDT)
-Received: from localhost.localdomain
-	(99-0-9-164.lightspeed.frokca.sbcglobal.net. [99.0.9.164])
-	by smtp.gmail.com with ESMTPSA id
-	ux3sm20014269pac.18.2015.10.23.10.18.13
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 23 Oct 2015 10:18:14 -0700 (PDT)
-From: Jeremy Puhlman <jpuhlman@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Oct 2015 10:18:07 -0700
-Message-Id: <1445620687-9578-1-git-send-email-jpuhlman@mvista.com>
+	bh=1OmaduB7eRYUQ76UA8Y8jUfLklnqnRRFFLOR2C9XDRM=;
+	b=Tt/OfHsf4JdLGIepP67ogmdfnkOViaB0JtJHSiDSBsBLq8/Yx90lM3wGAiDqCSCJS4
+	gykcH1JDkoj26hPxwX2QhtotaM4DMeuers0fMfLv7iiqD3kWWwjR+6uac8Ekl0ZTwigP
+	7tmIWRes4sceU3bOCkupLr1Kj+v+JKMcfKQUumj++8akyWmjJJsPtwzeyB9IK55yETeP
+	fAfB5s4zLy0U8pDU8wl1SXCBbd1x6FnsQMfI0Q0IQEgPGxhuk5SQf5n9XkBFgPhA/wGg
+	CFYdx1qOMXGJ4zj+lRrfh0WIj9706pTfVsCVd7nojp6ahvtDBXyuljyyWaXp80gVOo2o
+	91wQ==
+X-Gm-Message-State: ALoCoQnGnU5Bhay4+m8ytIb4B7Es6o6FKYcrEHKHSw1XJMNYUDl01Z9Mtda+tZ33zzdTTfpoZq70
+X-Received: by 10.66.242.138 with SMTP id wq10mr25560212pac.2.1445621009875;
+	Fri, 23 Oct 2015 10:23:29 -0700 (PDT)
+Received: from psidhu.gw (68-189-91-139.static.snlo.ca.charter.com.
+	[68.189.91.139]) by smtp.gmail.com with ESMTPSA id
+	ir5sm20005011pbc.13.2015.10.23.10.23.28
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 23 Oct 2015 10:23:29 -0700 (PDT)
+From: Pushpal Sidhu <psidhu@gateworks.com>
+To: alexander.kanavin@intel.com
+Date: Fri, 23 Oct 2015 10:23:07 -0700
+Message-Id: <1445620987-11004-1-git-send-email-psidhu@gateworks.com>
 X-Mailer: git-send-email 2.6.2
-Subject: [PATCH] Perl: Use CC version not $Config(gccversion)
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] webkitgtk: Add upstream patch to fix build problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,64 +44,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Oct 2015 17:18:16 -0000
+X-List-Received-Date: Fri, 23 Oct 2015 17:23:31 -0000
 
-Get version data from querying $CC rather then
-$Config(gccversion) which comes from running version of
-perl. Since perl-native is not likely compiled by gcc
-5 at this point, it will never trigger the required
-fixes for gcc 5.
+From upstream webkit: fd15a368fa73fe08d91cc1dd7ef05c0c5a3ae851
 
-[YOCTO #8367]
+Webkit will fail to compile under certain circumstances. Please see
+https://bugs.webkit.org/show_bug.cgi?id=149172 for more details.
 
-Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Pushpal Sidhu <psidhu@gateworks.com>
 ---
- .../perl/perl/perl-errno-generation-gcc5.patch     | 23 ++++++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.22.0.bb          |  1 +
- 2 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch
+ ...ailure-with-ACCELERATED_2D_CANVAS-when-ca.patch | 35 ++++++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.8.5.bb        |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/files/0002-GTK-Build-failure-with-ACCELERATED_2D_CANVAS-when-ca.patch
 
-diff --git a/meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch b/meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch
+diff --git a/meta/recipes-sato/webkit/files/0002-GTK-Build-failure-with-ACCELERATED_2D_CANVAS-when-ca.patch b/meta/recipes-sato/webkit/files/0002-GTK-Build-failure-with-ACCELERATED_2D_CANVAS-when-ca.patch
 new file mode 100644
-index 0000000..efbc55d
+index 0000000..5d43e0f
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch
-@@ -0,0 +1,23 @@
-+Upstream-Status:Inappropriate [embedded specific]
++++ b/meta/recipes-sato/webkit/files/0002-GTK-Build-failure-with-ACCELERATED_2D_CANVAS-when-ca.patch
+@@ -0,0 +1,35 @@
++From 6ea42d4fa6f3f6dd18c37cb7b6e1faea6afefba4 Mon Sep 17 00:00:00 2001
++From: "clopez@igalia.com" <clopez@igalia.com>
++Date: Tue, 15 Sep 2015 21:50:18 +0000
++Subject: [PATCH] [GTK] Build failure with ACCELERATED_2D_CANVAS when cairo-gl has
++ built with OpenGLESv2 support only.
++ https://bugs.webkit.org/show_bug.cgi?id=149172
 +
-+The upstream code assumes that the compiler version used to compiler miniperl/perl-native
-+is the same as the one being used to build the perl binary. Since most people are not running
-+systems with gcc 5, it is unlikely that it will work on any supported host. Switch out gccversion
-+for the version extracted from $CC --version.
++Reviewed by Martin Robinson.
 +
-+--- perl-5.22.0/ext/Errno/Errno_pm.PL	2015-10-19 18:01:20.622143786 -0400
-++++ perl-5.22.0-fixed/ext/Errno/Errno_pm.PL	2015-10-19 17:50:35.662137367 -0400
-+@@ -224,9 +224,12 @@
++No new tests, no behavior change.
++
++* platform/graphics/glx/GLContextGLX.cpp:
++(WebCore::GLContextGLX::cairoDevice):
++
++git-svn-id: http://svn.webkit.org/repository/webkit/trunk@189826 268f45cc-cd09-0410-ab3c-d52691b4dbfc
++---
++ Source/WebCore/platform/graphics/glx/GLContextGLX.cpp | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Source/WebCore/platform/graphics/glx/GLContextGLX.cpp b/Source/WebCore/platform/graphics/glx/GLContextGLX.cpp
++index 7890d8d..4ed3a43 100644
++--- a/Source/WebCore/platform/graphics/glx/GLContextGLX.cpp
+++++ b/Source/WebCore/platform/graphics/glx/GLContextGLX.cpp
++@@ -266,7 +266,7 @@ cairo_device_t* GLContextGLX::cairoDevice()
++     if (m_cairoDevice)
++         return m_cairoDevice;
 + 
-+     {	# BeOS (support now removed) did not enter this block
-+     # invoke CPP and read the output
-++        my $compiler = $ENV{'CC'};
-++        my $compiler_out = `$compiler --version`;
-++        my @compiler_version = split / /,$compiler_out; 
++-#if ENABLE(ACCELERATED_2D_CANVAS)
+++#if ENABLE(ACCELERATED_2D_CANVAS) && CAIRO_HAS_GLX_FUNCTIONS
++     m_cairoDevice = cairo_glx_device_create(sharedX11Display(), m_context);
++ #endif
 + 
-+ 	my $inhibit_linemarkers = '';
-+-	if ($Config{gccversion} =~ /\A(\d+)\./ and $1 >= 5) {
-++	if (@compiler_version[2] =~ /\A(\d+)\./ and $1 >= 5) {
-+ 	    # GCC 5.0 interleaves expanded macros with line numbers breaking
-+ 	    # each line into multiple lines. RT#123784
-+ 	    $inhibit_linemarkers = ' -P';
-diff --git a/meta/recipes-devtools/perl/perl_5.22.0.bb b/meta/recipes-devtools/perl/perl_5.22.0.bb
-index 3ce7849..66e074d 100644
---- a/meta/recipes-devtools/perl/perl_5.22.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.22.0.bb
-@@ -62,6 +62,7 @@ SRC_URI += " \
-         file://ext-ODBM_File-hints-linux.pl-link-libgdbm_compat.patch \
-         file://ext-ODBM_File-t-odbm.t-fix-the-path-of-dbmt_common.p.patch \
-         file://perl-PathTools-don-t-filter-out-blib-from-INC.patch \
-+        file://perl-errno-generation-gcc5.patch \
- "
- 
- # Fix test case issues
++-- 
++2.6.2
++
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
+index e29666a..68634a9 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://Source/JavaScriptCore/COPYING.LIB;md5=d0c6d6397a5d842
+ SRC_URI = "\
+   http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+   file://0001-This-patch-fixes-a-command-line-that-is-too-long-ove.patch \
++  file://0002-GTK-Build-failure-with-ACCELERATED_2D_CANVAS-when-ca.patch \
+   file://gcc5.patch \
+   "
+ SRC_URI[md5sum] = "df79991848a5096d3a75289ebce547ae"
 -- 
 2.6.2
 
