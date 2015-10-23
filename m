@@ -1,28 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D96E075E80
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id BC2866013D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 13:08:41 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 23 Oct 2015 06:08:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,186,1444719600"; d="scan'208";a="833844535"
-Received: from fermanka-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.4.48])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Oct 2015 06:08:14 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Fri, 23 Oct 2015 14:08:13 +0100
-Message-ID: <1661111.RNAJBORNki@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <alpine.LFD.2.20.1510230854570.5915@localhost>
-References: <alpine.LFD.2.20.1510230754010.4583@localhost>
-	<2338694.BfAL3tqMdu@peggleto-mobl.ger.corp.intel.com>
-	<alpine.LFD.2.20.1510230854570.5915@localhost>
+	Fri, 23 Oct 2015 14:25:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 0947E600FD9
+To: openembedded-core@lists.openembedded.org
+References: <1445420828-7756-1-git-send-email-b28495@freescale.com>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+Message-ID: <562A4373.6090406@collabora.co.uk>
+Date: Fri, 23 Oct 2015 15:25:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: why does sysfsutils-2.1.0.bb set S = "${WORKDIR}/sysfsutils-${PV}"?
+In-Reply-To: <1445420828-7756-1-git-send-email-b28495@freescale.com>
+Subject: Re: [fido][PATCH] oprofile: update --with-kernel option to find perf_event.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,66 +27,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Oct 2015 13:08:42 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 23 Oct 2015 14:26:00 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Friday 23 October 2015 08:57:39 Robert P. J. Day wrote:
-> On Fri, 23 Oct 2015, Paul Eggleton wrote:
-> > Hi Robert,
-> > 
-> > On Friday 23 October 2015 08:02:11 Robert P. J. Day wrote:
-> > >   side note: the first in a small set of posts where i simply want to
-> > > 
-> > > clarify minor oddities i run across in oe-core, not because they have
-> > > any desperate need to be fixed, but more because when i'm teaching
-> > > courses in oe/yocto, i run across the occasional weirdness that
-> > > puzzles students, and forces me to try to explain it, and sometimes
-> > > the explanation is, "that's just silly." so here's the first one.
-> > > 
-> > >   as i read in bitbake.conf, the default source directory for any
-> > > 
-> > > recipe is defined as:
-> > >   S = "${WORKDIR}/${BP}"
-> > > 
-> > > which suggests that, as long as processing a recipe ends up using that
-> > > value as the source directory, there is no need for a recipe to
-> > > redefine S. kind of obvious, no?
-> > > 
-> > >   in the case of sysfsutils-2.1.0.bb, one sees the line:
-> > > S = "${WORKDIR}/sysfsutils-${PV}"
-> > > 
-> > > which, given the standard definitions for variables BP and PV, seems
-> > > to expand into precisely the default value given in bitbake.conf.
-> > > 
-> > >   so, unless i'm missing something, is there any actual need for that
-> > > 
-> > > line in the sysfsutils recipe file? is there something more subtle
-> > > going on here that i don't understand?
-> > 
-> > I don't think so, it appears that line goes way back to the initial
-> > population of the repository. Looks like we could just drop it.
-> 
->   thanks for the clarification. i realize that stuff like this is
-> annoyingly pedantic for developers and expert users, but it's
-> *exactly* the kind of thing students in my classes occasionally point
-> out and ask me to explain, and i stand there looking kind of baffled,
-> muttering, "what the hell ..."
+On 21/10/15 10:47, b28495@freescale.com wrote:
+> From: Ting Liu <ting.liu@freescale.com>
+>
+> Update --with-kernel=${STAGING_DIR_HOST}/${prefix} to find kernel
+> headers (linux/*.h) to fix the error:
+> | checking kernel supports perf_events... unknown -- perf_event.h not found
+> | ERROR: You requested to build oprofile with '--with-kernel=/buildarea/lyang1/test_f2/tmp/work-shared/qemux86/kernel-source',
+> | but headers were not accessible at the given location.
+> | Be sure you have run the following command from within your kernel source tree:
+> |      make headers_install INSTALL_HDR_PATH=<kernel-hdrs-install-dir>
+> | Then pass <kernel-hdrs-install-dir> to oprofile's '--with-kernel' configure option.
+> | configure: error: Unable to build oprofile. Exiting.
+>
+> This is part of the commit b5b3085d9d6a351a1de86f95d5c8ba28dbfbddbb which
+> already applied in poky master branch.
 
-Indeed, having recently been in a classroom situation at the Yocto Project Dev 
-Day (standing at the back helpling/heckling the presenter rather than teaching 
-;) I know what you mean.
+I've queued this patch in my joshuagl/fido-next[1] branch.
 
->   i'm about to update all my courseware so i'll just collect as many
-> of those as i can find and submit as a single patch.
+Thanks,
 
-Great, thanks!
+Joshua
 
-Cheers,
-Paul
+1. 
+http://cgit.openembedded.org/openembedded-core-contrib/log/?h=joshuagl/fido-next
 
--- 
+>
+> Signed-off-by: Ting Liu <ting.liu@freescale.com>
+> ---
+>   meta/recipes-kernel/oprofile/oprofile.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-kernel/oprofile/oprofile.inc b/meta/recipes-kernel/oprofile/oprofile.inc
+> index 49e6b16..435e4ed 100644
+> --- a/meta/recipes-kernel/oprofile/oprofile.inc
+> +++ b/meta/recipes-kernel/oprofile/oprofile.inc
+> @@ -27,7 +27,7 @@ SRC_URI = "file://filemode-fix.patch \
+>
+>   inherit autotools pkgconfig ptest
+>
+> -EXTRA_OECONF = "--with-kernel=${STAGING_KERNEL_DIR}  --without-x ac_cv_prog_XSLTPROC="
+> +EXTRA_OECONF = "--with-kernel=${STAGING_DIR_HOST}${prefix}  --without-x ac_cv_prog_XSLTPROC="
+>   do_configure () {
+>   	cp ${WORKDIR}/acinclude.m4 ${S}/
+>   	autotools_do_configure
+>
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
