@@ -1,43 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E17075E80
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail5.wrs.com (unknown [64.129.254.146])
+	by mail.openembedded.org (Postfix) with ESMTP id DA11C7680C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 21:17:19 +0000 (UTC)
-Received: by qgbb65 with SMTP id b65so77048495qgb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 14:17:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=IY81hHCRHJN84gwNZUdd6utAeiOHZ494OWfFtigWqNw=;
-	b=DJcZrgwy+yduLcNdtOKeWzFdjDfgprPaZaBH/NaOW9HyLWdK0rUYHQ/8FS6hX1mRdS
-	20vKB4A9Bt03zFjT6Pz4ITLNVZhmc5v5AI2CiMlJKEd1GLsbUy93yfCdcz/gCvddCJYM
-	Ex2yydpR183GeFVhy/+AZZ7O4es8EsMPH6aphHWhiUaBSp+8ZHzXTN6lJtyaHY8TPXWl
-	YYp8RO4fvDezRUoTa7olVOhHVMF0324oghOOSqjHsk6FsSmAyDdm9hvvql+3fXaU/n+a
-	IiQgBrFI6TQQg9Ro489mduNURj+jYfMmtSbiVnyFU2D5F8XP3gv1S1z4c7gxuf+GDLJC
-	dneg==
-X-Gm-Message-State: ALoCoQlyQu6an83hD2c5uCOeO8XLj+r9KKXl7Z4r39ESFr1HvCe5Yyd7giXfwfscrKKOQAtRS77G
-X-Received: by 10.140.109.74 with SMTP id k68mr28755860qgf.77.1445635039995;
-	Fri, 23 Oct 2015 14:17:19 -0700 (PDT)
+	Fri, 23 Oct 2015 21:19:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9NKIaRn008854
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 23 Oct 2015 13:18:36 -0700
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Fri, 23 Oct 2015 13:18:36 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Fri, 23 Oct 2015 16:18:29 -0400
+Message-ID: <cccedafdc0245df4e0dd6f39b64510653a0f5cf6.1445631234.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1445631234.git.bruce.ashfield@windriver.com>
+References: <cover.1445631234.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-Received: by 10.140.94.82 with HTTP; Fri, 23 Oct 2015 14:17:00 -0700 (PDT)
-In-Reply-To: <CAP71WjyN5pvA_VjwDcGLh6ze5P+e7afM025tYp8dcx1f-cMgZg@mail.gmail.com>
-References: <1445242541-41638-1-git-send-email-s.christ@phytec.de>
-	<1445242541-41638-2-git-send-email-s.christ@phytec.de>
-	<CAP71Wjz2YEuj8qLEw63027bGcYKNAPOazv-8Rd+J5RQ2C50UKA@mail.gmail.com>
-	<20151019090300.GC3869@lws-christ>
-	<CAP71Wjzhq_UVTb0cZHWLs=FPp0YRseXb-Q0RyAQXjDAuKFFLuQ@mail.gmail.com>
-	<20151019092110.GE3869@lws-christ>
-	<CAP71WjyN5pvA_VjwDcGLh6ze5P+e7afM025tYp8dcx1f-cMgZg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 23 Oct 2015 22:17:00 +0100
-Message-ID: <CAJTo0La+TivBoTBVGoc6SE7PFU=M+Kfw42bOMPTthTqvNKb-cA@mail.gmail.com>
-To: Stefan Christ <s.christ@phytec.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/7] linux-dtb.inc: fix detection of ending '.dts'
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/6] linux-yocto/4.1: drm/i915: Fix the VBT child device parsing for BSW
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,45 +33,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Oct 2015 21:17:25 -0000
-Content-Type: multipart/alternative; boundary=001a1139af2408ed280522cc2378
+X-List-Received-Date: Fri, 23 Oct 2015 21:19:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a1139af2408ed280522cc2378
-Content-Type: text/plain; charset=UTF-8
+Updating the 4.1 SRCREVs to integrate the following fix:
 
-Hi Stefan,
+[
+    drm/i915: Fix the VBT child device parsing for BSW
 
-On 19 October 2015 at 10:46, Nicolas Dechesne <nicolas.dechesne@linaro.org>
-wrote:
+    Recent BSW VBT has a VBT child device size 37 bytes instead of the 33
+    bytes our code assumes. This means we fail to parse the VBT and thus
+    fail to detect eDP ports properly and just register them as DP ports
+    instead.
 
-> i (very) quickly looked at them..
-> #3, #4, #5 look sane.
-> #6, #7, i am not sure if this is worth doing this change.. we'll see
-> what others think about them..
->
+    Fix it up by using the reported child device size from the VBT instead
+    of assuming it matches out struct defintions.
 
-Can you drop 1 and 2 and rebase the remaining patches?  The rest of the
-series doesn't apply if 1 and 2 are dropped.
+    The latest spec I have shows that the child device size should be 36
+    bytes for rev >= 195, however on my BSW the size is actually 37 bytes.
+    And our current struct definition is 33 bytes.
 
-Ross
+    Feels like the entire VBT parses would need to be rewritten to handle
+    changes in the layout better, but for now I've decided to do just the
+    bare minimum to get my eDP port back.
 
---001a1139af2408ed280522cc2378
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+    Cc: Vijay Purushothaman <vijay.a.purushothaman@linux.intel.com>
+    Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+    Reviewed-by: Damien Lespiau <damien.lespiau@intel.com>
+    Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+    (cherry picked from commit 90e4f1592bb6e82f6690f0e05a8aadcf04d7bce7)
+    Signed-off-by: abdul arif abdul muttalib
+    <abdul.arif.b.abdul.muttalib@intel.com>
+    Signed-off-by: Tan Jui Nee <jui.nee.tan@intel.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+]
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Stefan,</div><div class=3D"g=
-mail_extra"><br><div class=3D"gmail_quote">On 19 October 2015 at 10:46, Nic=
-olas Dechesne <span dir=3D"ltr">&lt;<a href=3D"mailto:nicolas.dechesne@lina=
-ro.org" target=3D"_blank">nicolas.dechesne@linaro.org</a>&gt;</span> wrote:=
-<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex"><div id=3D":1pg" class=3D"a3s" style=3D"=
-overflow:hidden">i (very) quickly looked at them..<br>
-#3, #4, #5 look sane.<br>
-#6, #7, i am not sure if this is worth doing this change.. we&#39;ll see<br=
->
-what others think about them..</div></blockquote></div><br>Can you drop 1 a=
-nd 2 and rebase the remaining patches?=C2=A0 The rest of the series doesn&#=
-39;t apply if 1 and 2 are dropped.</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 16 ++++++++--------
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
---001a1139af2408ed280522cc2378--
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+index fe3eab5a555a..ce20eb2e46b5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+@@ -2,7 +2,7 @@ KBRANCH ?= "standard/preempt-rt/base"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-SRCREV_machine ?= "8acaa791408f146069473a96e3d98bed8be86244"
++SRCREV_machine ?= "f7e4bbfef684e29b1257eaf2d7f534b38e2e1b1e"
+ SRCREV_meta ?= "d8bbf59771fb915fa71debc8591bf6c69d8fa49c"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+index da12edb106df..13a940db37bd 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.1.8"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "52a4a9f4a2b408ef3a0745372e44cc362832d86d"
++SRCREV_machine ?= "dbe692d91c8e55d1430f2c45fd578c8e4e71e482"
+ SRCREV_meta ?= "d8bbf59771fb915fa71debc8591bf6c69d8fa49c"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+index 44c34ece8309..84352d95ccaa 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/base"
+ KBRANCH_qemux86-64 ?= "standard/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "187e28708b478b5d01a7df9e6410a340347e4819"
+-SRCREV_machine_qemuarm64 ?= "52a4a9f4a2b408ef3a0745372e44cc362832d86d"
+-SRCREV_machine_qemumips ?= "dd6b1f0940dbffd5e0feef2beecbc89a25da8e8f"
+-SRCREV_machine_qemuppc ?= "52a4a9f4a2b408ef3a0745372e44cc362832d86d"
+-SRCREV_machine_qemux86 ?= "52a4a9f4a2b408ef3a0745372e44cc362832d86d"
+-SRCREV_machine_qemux86-64 ?= "52a4a9f4a2b408ef3a0745372e44cc362832d86d"
+-SRCREV_machine_qemumips64 ?= "8458e792e2c595f48bc5b2924e20e844f2a96522"
+-SRCREV_machine ?= "52a4a9f4a2b408ef3a0745372e44cc362832d86d"
++SRCREV_machine_qemuarm ?= "bc11ecf659e30c8687604e086450ae1ff90c0169"
++SRCREV_machine_qemuarm64 ?= "dbe692d91c8e55d1430f2c45fd578c8e4e71e482"
++SRCREV_machine_qemumips ?= "181e2c553ffaae19d08a6730e98d288c7e337d39"
++SRCREV_machine_qemuppc ?= "dbe692d91c8e55d1430f2c45fd578c8e4e71e482"
++SRCREV_machine_qemux86 ?= "dbe692d91c8e55d1430f2c45fd578c8e4e71e482"
++SRCREV_machine_qemux86-64 ?= "dbe692d91c8e55d1430f2c45fd578c8e4e71e482"
++SRCREV_machine_qemumips64 ?= "2684711a16ed21f114d834742f860cee532f7438"
++SRCREV_machine ?= "dbe692d91c8e55d1430f2c45fd578c8e4e71e482"
+ SRCREV_meta ?= "d8bbf59771fb915fa71debc8591bf6c69d8fa49c"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
+-- 
+2.1.0
+
+
