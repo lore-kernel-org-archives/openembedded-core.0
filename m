@@ -1,27 +1,20 @@
-Return-Path: <biannm@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DABA60124
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id AD4817570D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 02:10:48 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="102174320"
-Received: from bogon (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 23 Oct 2015 10:13:01 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t9N2ABYX021376
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 10:10:11 +0800
-Received: from localhost.localdomain (10.167.226.31) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Fri, 23 Oct 2015 10:10:42 +0800
-From: Bian Naimeng <biannm@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Oct 2015 10:10:36 +0800
-Message-ID: <1445566236-9759-1-git-send-email-biannm@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.226.31]
-Subject: [PATCH] smart/rpm: nativesdk should get RPM_ETCRPM from SDKTARGETSYSROOT not NATIVE_SYSROOT
+	Fri, 23 Oct 2015 03:30:28 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 22 Oct 2015 20:30:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,185,1444719600"; d="scan'208";a="670011157"
+Received: from bitbang.jf.intel.com ([10.7.199.99])
+	by orsmga003.jf.intel.com with ESMTP; 22 Oct 2015 20:30:29 -0700
+From: Randy Witt <randy.e.witt@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Oct 2015 20:30:23 -0700
+Message-Id: <cover.1445570852.git.randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 2.4.3
+Subject: [PATCH 0/5] Fix live images when using the extensible sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,175 +27,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Oct 2015 02:10:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 23 Oct 2015 03:30:31 -0000
 
-The config file of rpm will be installed into SDKTARGETSYSROOT for each architecture,
-so RPM_ETCRPM should be set to SDKTARGETSYSROOT/etc/rpm.
+The following changes since commit 505a82673ac2487df5ea343a6422c2fc47018831:
 
-Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
----
- meta/recipes-devtools/python/python-smartpm_git.bb | 14 ++++++++++----
- meta/recipes-devtools/rpm/rpm_5.4+cvs.bb           | 22 ++++++++++++++--------
- meta/recipes-devtools/rpm/rpm_5.4.14.bb            | 22 ++++++++++++++--------
- 3 files changed, 38 insertions(+), 20 deletions(-)
+  build-appliance-image: Update to jethro head revision (2015-10-21 23:13:11 +0100)
 
-diff --git a/meta/recipes-devtools/python/python-smartpm_git.bb b/meta/recipes-devtools/python/python-smartpm_git.bb
-index d6c378b..21faafe 100644
---- a/meta/recipes-devtools/python/python-smartpm_git.bb
-+++ b/meta/recipes-devtools/python/python-smartpm_git.bb
-@@ -92,20 +92,26 @@ do_install_append() {
-    fi
- }
- 
--add_native_wrapper() {
-+add_native_or_sdk_wrapper() {
-+	if [ "$1" = "sdk" ]; then
-+		RPM_ETCRPM='$'{RPM_ETCRPM-'$'SDKTARGETSYSROOT/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('base_prefix', True))}/rpm}
-+	else
-+		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm}
-+	fi
-+
-         create_wrapper ${D}/${bindir}/smart \
- 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
--		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
-+		RPM_ETCRPM=${RPM_ETCRPM} \
- 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
- }
- 
- do_install_append_class-native() {
-         sed -i -e 's|^#!.*/usr/bin/env python|#! /usr/bin/env nativepython|' ${D}${bindir}/smart
--        add_native_wrapper
-+        add_native_or_sdk_wrapper "native"
- }
- 
- do_install_append_class-nativesdk() {
--        add_native_wrapper
-+        add_native_or_sdk_wrapper "sdk"
- }
- 
- PACKAGES = "${PN}-dev ${PN}-dbg ${PN}-doc smartpm \
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-index 8903f3b..e452445 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-@@ -488,41 +488,47 @@ do_install_append() {
- 
- }
- 
--add_native_wrapper() {
-+add_native_or_sdk_wrapper() {
-+	if [ $1 = "sdk" ]; then
-+		RPM_ETCRPM='$'{RPM_ETCRPM-'$'SDKTARGETSYSROOT/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('base_prefix', True))}/rpm}
-+	else
-+		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} 
-+	fi
-+
-         create_wrapper ${D}/${bindir}/rpm \
- 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
--		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
-+		RPM_ETCRPM=${RPM_ETCRPM} \
- 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
- 
-         create_wrapper ${D}/${bindir}/rpm2cpio \
- 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
--		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
-+		RPM_ETCRPM=${RPM_ETCRPM} \
- 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
- 
-         create_wrapper ${D}/${bindir}/rpmbuild \
- 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
--		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
-+		RPM_ETCRPM=${RPM_ETCRPM} \
- 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
- 
-         create_wrapper ${D}/${bindir}/rpmconstant \
- 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
--		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
-+		RPM_ETCRPM=${RPM_ETCRPM} \
- 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
- 
- 	for rpm_binary in ${D}/${libdir}/rpm/bin/rpm* ${D}/${libdir}/rpm/bin/debugedit; do
-         	create_wrapper $rpm_binary \
- 			RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
--			RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
-+			RPM_ETCRPM=${RPM_ETCRPM} \
- 			RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
- 	done
- }
- 
- do_install_append_class-native() {
--	add_native_wrapper
-+	add_native_or_sdk_wrapper "native"
- }
- 
- do_install_append_class-nativesdk() {
--	add_native_wrapper
-+	add_native_or_sdk_wrapper "sdk"
- }
- 
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-index b450c6f..75a7c3b 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-@@ -477,41 +477,47 @@ do_install_append() {
- 
- }
- 
--add_native_wrapper() {
-+add_native_or_sdk_wrapper() {
-+	if [ "$1" = "sdk" ]; then
-+		RPM_ETCRPM='$'{RPM_ETCRPM-'$'SDKTARGETSYSROOT/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('base_prefix', True))}/rpm}
-+	else
-+		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm}
-+	fi
-+
-         create_wrapper ${D}/${bindir}/rpm \
- 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
--		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
-+		RPM_ETCRPM=${RPM_ETCRPM} \
- 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
- 
-         create_wrapper ${D}/${bindir}/rpm2cpio \
- 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
--		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
-+		RPM_ETCRPM=${RPM_ETCRPM} \
- 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
- 
-         create_wrapper ${D}/${bindir}/rpmbuild \
- 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
--		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
-+		RPM_ETCRPM=${RPM_ETCRPM} \
- 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
- 
-         create_wrapper ${D}/${bindir}/rpmconstant \
- 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
--		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
-+		RPM_ETCRPM=${RPM_ETCRPM} \
- 		RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
- 
- 	for rpm_binary in ${D}/${libdir}/rpm/bin/rpm* ${D}/${libdir}/rpm/bin/debugedit; do
-         	create_wrapper $rpm_binary \
- 			RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
--			RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
-+			RPM_ETCRPM=${RPM_ETCRPM} \
- 			RPM_LOCALEDIRRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('datadir', True), d.getVar('bindir', True))}/locale
- 	done
- }
- 
- do_install_append_class-native() {
--	add_native_wrapper
-+	add_native_or_sdk_wrapper "native"
- }
- 
- do_install_append_class-nativesdk() {
--	add_native_wrapper
-+	add_native_or_sdk_wrapper "sdk"
- }
- 
- BBCLASSEXTEND = "native nativesdk"
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib rewitt/codepage
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rewitt/codepage
+
+Randy Witt (3):
+  Add 850 codepage to uninative-tarball
+  mtools_4.0.18.bb: Use create_wrapper() for mcopy
+  wic/utils/oe/misc.py: Preserve PATH when running native tools
+
+Richard Purdie (2):
+  scripts/oe-pkgdata-util: Fix variable name in error handling
+  populate_sdk_base: Ensure PKGDATA_DIR exists
+
+ meta/classes/populate_sdk_base.bbclass        |  2 +-
+ meta/recipes-core/meta/uninative-tarball.bb   |  1 +
+ meta/recipes-devtools/mtools/mtools_4.0.18.bb |  5 +++++
+ scripts/lib/wic/utils/oe/misc.py              | 20 ++++++++++++++++----
+ scripts/oe-pkgdata-util                       |  2 +-
+ 5 files changed, 24 insertions(+), 6 deletions(-)
+
 -- 
-1.9.1
+2.4.3
 
 
