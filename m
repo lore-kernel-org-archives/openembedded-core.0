@@ -1,35 +1,36 @@
-Return-Path: <psidhu@gateworks.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 95ACA75E80
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 0006D75E80
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 20:21:40 +0000 (UTC)
-Received: by wicll6 with SMTP id ll6so45770434wic.0
+	Fri, 23 Oct 2015 20:30:48 +0000 (UTC)
+Received: by qgbb65 with SMTP id b65so76105089qgb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 13:21:40 -0700 (PDT)
+	Fri, 23 Oct 2015 13:30:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=/rLrjiuK52WqqmVcUSMTS2qYEVtpy3NPhWthZY0p75k=;
-	b=ZLtPLsFv1e1FNAzcQv0vHls1+pLo5DArWSvfzW4nei+qAU88mthODyn6BvqZeKNC6b
-	UwU95EdSCj+s+esDAALikOEuhQquQorqRrZxLiiQuup4j6GekDPX/+5/QM0pA8UCyw++
-	4ULBUABqtjno6C8ILTtjMktyDvhzx6eUsGT5zFKGqfNWRB4z2gUZDEfQCI+0UJQj7x6u
-	FgYWOzFZ/27vuyMvjDl6K6wy1WgF0rbNF4MjD42ZaogwvI8UIPgtCtnk9bEkGCFPr5Ab
-	ObA9GB3bN/f/Nw/Kj4AUjjENLFl5hkDb9+Hv5wI4WbnTuXMQLsuw4XZheUS3UHHJ/bLU
-	bMwg==
-X-Gm-Message-State: ALoCoQm/wNooVqiRk0lKgNc43McT0MWaigYpYFW8r9CQLpgVNjnW0uGjQWic4gwiwI7EyzNIyGgr
-X-Received: by 10.181.13.48 with SMTP id ev16mr6356102wid.40.1445631700463;
-	Fri, 23 Oct 2015 13:21:40 -0700 (PDT)
+	bh=qjRWwxKx5FDYH/VaYHs1oFKx9gu/JXNmlbI3gKtX3wI=;
+	b=Ky80rSp83FD3k1VtokP0VgHm+pnybNWR92UEGSglb78IFlSMAyFY2XVB/Tfq/RQCl5
+	d/c7Zs7ucaWOAW9fXSddPmmrBEyS3Pvtorc1t4pO+1riplAs6BLguHwcf/iI3YtzGzNg
+	0KgprEqK5Yq8VrhCwFqDZAx/IW8zt7hCDdkMmKDA87rqQqkXn4VO57EWTUYsZuvV3LNg
+	aq7viCCgLZBnoauWx8DpbP/b7EFX7tm+q0Qeec06d6ZV5Ebq/5bNixzV4TSTKhLgVAOY
+	Cfkeqb8+jHYsfUN3AsTnB6BSR0QLYjJtfXFKVOci1VgzVaPxsBTLjk20IHO8bWbyNedL
+	0VRQ==
+X-Gm-Message-State: ALoCoQkHIUyDzD+xj94DyyhX3kVy32sXa+oT3uKHb3XJfdJvqBP7NAxfPZ6YenLoAKYbEPfm4dUs
+X-Received: by 10.140.16.21 with SMTP id 21mr14302917qga.87.1445632248045;
+	Fri, 23 Oct 2015 13:30:48 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.194.112.167 with HTTP; Fri, 23 Oct 2015 13:21:10 -0700 (PDT)
-In-Reply-To: <CAJTo0LYKycvgn4p3J88fjbWgc6Dh24q6dt9MJTr64e8LDByFyQ@mail.gmail.com>
+Received: by 10.140.94.82 with HTTP; Fri, 23 Oct 2015 13:30:28 -0700 (PDT)
+In-Reply-To: <CAD1M063TPymcvdfn_qn+Ze+PFGs83D-q+0u=UuRPnf3vDcB+fQ@mail.gmail.com>
 References: <1445620987-11004-1-git-send-email-psidhu@gateworks.com>
 	<CAJTo0LYKycvgn4p3J88fjbWgc6Dh24q6dt9MJTr64e8LDByFyQ@mail.gmail.com>
-From: Pushpal Sidhu <psidhu@gateworks.com>
-Date: Fri, 23 Oct 2015 13:21:10 -0700
-Message-ID: <CAD1M063TPymcvdfn_qn+Ze+PFGs83D-q+0u=UuRPnf3vDcB+fQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAD1M063TPymcvdfn_qn+Ze+PFGs83D-q+0u=UuRPnf3vDcB+fQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 23 Oct 2015 21:30:28 +0100
+Message-ID: <CAJTo0LYR7RMwyW750FMi7sViiK+PutyL3UKriJ=GV7z4zh_q3Q@mail.gmail.com>
+To: Pushpal Sidhu <psidhu@gateworks.com>
 Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] webkitgtk: Add upstream patch to fix build problem
@@ -45,43 +46,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Oct 2015 20:21:41 -0000
+X-List-Received-Date: Fri, 23 Oct 2015 20:30:49 -0000
+Content-Type: multipart/alternative; boundary=001a11c051d49f11010522cb7c9c
+
+--001a11c051d49f11010522cb7c9c
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Oct 23, 2015 at 1:15 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 23 October 2015 at 18:23, Pushpal Sidhu <psidhu@gateworks.com> wrote:
->>
->> +From 6ea42d4fa6f3f6dd18c37cb7b6e1faea6afefba4 Mon Sep 17 00:00:00 2001
->> +From: "clopez@igalia.com" <clopez@igalia.com>
->> +Date: Tue, 15 Sep 2015 21:50:18 +0000
->> +Subject: [PATCH] [GTK] Build failure with ACCELERATED_2D_CANVAS when
->> cairo-gl has
->> + built with OpenGLESv2 support only.
->> + https://bugs.webkit.org/show_bug.cgi?id=149172
->> +
->> +Reviewed by Martin Robinson.
->> +
->> +No new tests, no behavior change.
->> +
->> +* platform/graphics/glx/GLContextGLX.cpp:
->> +(WebCore::GLContextGLX::cairoDevice):
->> +
->> +git-svn-id: http://svn.webkit.org/repository/webkit/trunk@189826
->> 268f45cc-cd09-0410-ab3c-d52691b4dbfc
->> +---
->
->
-> No Upstream-Status or Signed-off-by tags, and please explain at least a
-> little bit what the problem is in the commit message.
->
-> Ross
+On 23 October 2015 at 21:21, Pushpal Sidhu <psidhu@gateworks.com> wrote:
 
-The patch is from a git format-patch, so the original commiter didn't
-do a sign-off. However, because I backported this patch, I supposed I
-can add my own name and extend the original patch's commit message to
-include Upstream-Status and add info on the problem. Will that work
-for you?
+> The patch is from a git format-patch, so the original commiter didn't
+> do a sign-off. However, because I backported this patch, I supposed I
+> can add my own name and extend the original patch's commit message to
+> include Upstream-Status and add info on the problem. Will that work
+> for you?
+>
 
-- Pushpal
+Yes, that's exactly what is expected - we need to know in the patch itself
+who is signing off on it being added to oe-core.
 
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+
+Ross
+
+--001a11c051d49f11010522cb7c9c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 October 2015 at 21:21, Pushpal Sidhu <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:psidhu@gateworks.com" target=3D"_blank">psidhu@gateworks.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
+-left-style:solid;padding-left:1ex"><div id=3D":1kc" class=3D"" style=3D"ov=
+erflow:hidden">The patch is from a git format-patch, so the original commit=
+er didn&#39;t<br>
+do a sign-off. However, because I backported this patch, I supposed I<br>
+can add my own name and extend the original patch&#39;s commit message to<b=
+r>
+include Upstream-Status and add info on the problem. Will that work<br>
+for you?<div class=3D""><div id=3D":u0" class=3D"" tabindex=3D"0"></div></d=
+iv></div></blockquote></div><br>Yes, that&#39;s exactly what is expected - =
+we need to know in the patch itself who is signing off on it being added to=
+ oe-core.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra"><a href=3D"http://www.openembedded.org/wiki/Commit_Patch_Message_Guidel=
+ines">http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines</a><=
+br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
+ss</div></div>
+
+--001a11c051d49f11010522cb7c9c--
