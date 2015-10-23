@@ -1,26 +1,38 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 58F117709E
+Return-Path: <psidhu@gateworks.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 95ACA75E80
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 20:18:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9NKIeod029331
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 23 Oct 2015 13:18:40 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 23 Oct 2015 13:18:40 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 23 Oct 2015 16:18:33 -0400
-Message-ID: <e6c420c0f851a3c9631780664d492deb7fd5a87d.1445631234.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1445631234.git.bruce.ashfield@windriver.com>
-References: <cover.1445631234.git.bruce.ashfield@windriver.com>
+	Fri, 23 Oct 2015 20:21:40 +0000 (UTC)
+Received: by wicll6 with SMTP id ll6so45770434wic.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Oct 2015 13:21:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=/rLrjiuK52WqqmVcUSMTS2qYEVtpy3NPhWthZY0p75k=;
+	b=ZLtPLsFv1e1FNAzcQv0vHls1+pLo5DArWSvfzW4nei+qAU88mthODyn6BvqZeKNC6b
+	UwU95EdSCj+s+esDAALikOEuhQquQorqRrZxLiiQuup4j6GekDPX/+5/QM0pA8UCyw++
+	4ULBUABqtjno6C8ILTtjMktyDvhzx6eUsGT5zFKGqfNWRB4z2gUZDEfQCI+0UJQj7x6u
+	FgYWOzFZ/27vuyMvjDl6K6wy1WgF0rbNF4MjD42ZaogwvI8UIPgtCtnk9bEkGCFPr5Ab
+	ObA9GB3bN/f/Nw/Kj4AUjjENLFl5hkDb9+Hv5wI4WbnTuXMQLsuw4XZheUS3UHHJ/bLU
+	bMwg==
+X-Gm-Message-State: ALoCoQm/wNooVqiRk0lKgNc43McT0MWaigYpYFW8r9CQLpgVNjnW0uGjQWic4gwiwI7EyzNIyGgr
+X-Received: by 10.181.13.48 with SMTP id ev16mr6356102wid.40.1445631700463;
+	Fri, 23 Oct 2015 13:21:40 -0700 (PDT)
 MIME-Version: 1.0
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/6] linux-yocto/3.19: fix ARM boot with gcc5.x
+Received: by 10.194.112.167 with HTTP; Fri, 23 Oct 2015 13:21:10 -0700 (PDT)
+In-Reply-To: <CAJTo0LYKycvgn4p3J88fjbWgc6Dh24q6dt9MJTr64e8LDByFyQ@mail.gmail.com>
+References: <1445620987-11004-1-git-send-email-psidhu@gateworks.com>
+	<CAJTo0LYKycvgn4p3J88fjbWgc6Dh24q6dt9MJTr64e8LDByFyQ@mail.gmail.com>
+From: Pushpal Sidhu <psidhu@gateworks.com>
+Date: Fri, 23 Oct 2015 13:21:10 -0700
+Message-ID: <CAD1M063TPymcvdfn_qn+Ze+PFGs83D-q+0u=UuRPnf3vDcB+fQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] webkitgtk: Add upstream patch to fix build problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +45,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Oct 2015 20:18:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 23 Oct 2015 20:21:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Updating the SRCREVs to apply the same fix as 3.14 and 4.1 already
-have to fix qemuarm boots with gcc5.x
+On Fri, Oct 23, 2015 at 1:15 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 23 October 2015 at 18:23, Pushpal Sidhu <psidhu@gateworks.com> wrote:
+>>
+>> +From 6ea42d4fa6f3f6dd18c37cb7b6e1faea6afefba4 Mon Sep 17 00:00:00 2001
+>> +From: "clopez@igalia.com" <clopez@igalia.com>
+>> +Date: Tue, 15 Sep 2015 21:50:18 +0000
+>> +Subject: [PATCH] [GTK] Build failure with ACCELERATED_2D_CANVAS when
+>> cairo-gl has
+>> + built with OpenGLESv2 support only.
+>> + https://bugs.webkit.org/show_bug.cgi?id=149172
+>> +
+>> +Reviewed by Martin Robinson.
+>> +
+>> +No new tests, no behavior change.
+>> +
+>> +* platform/graphics/glx/GLContextGLX.cpp:
+>> +(WebCore::GLContextGLX::cairoDevice):
+>> +
+>> +git-svn-id: http://svn.webkit.org/repository/webkit/trunk@189826
+>> 268f45cc-cd09-0410-ab3c-d52691b4dbfc
+>> +---
+>
+>
+> No Upstream-Status or Signed-off-by tags, and please explain at least a
+> little bit what the problem is in the commit message.
+>
+> Ross
 
-[YOCTO: #8415]
+The patch is from a git format-patch, so the original commiter didn't
+do a sign-off. However, because I backported this patch, I supposed I
+can add my own name and extend the original patch's commit message to
+include Upstream-Status and add info on the problem. Will that work
+for you?
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto_3.19.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.19.bb b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-index 4143a093627e..3c10bcb54899 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/common-pc"
- KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "963b4df663dba2584ac864e0c016825de0046558"
-+SRCREV_machine_qemuarm ?= "857048f10bfe7089ca6007e72431f1c098b07115"
- SRCREV_machine_qemuarm64 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
- SRCREV_machine_qemumips ?= "cedbbc7b5e72df2e820bb9e7885f12132c5e2fff"
- SRCREV_machine_qemuppc ?= "23a83386e10986a63e6cef712a045445499d002b"
- SRCREV_machine_qemux86 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
- SRCREV_machine_qemux86-64 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
- SRCREV_machine_qemumips64 ?= "3eb70cea3532e22ab1b6da9864446621229e6616"
--SRCREV_machine ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
-+SRCREV_machine ?= "151571a39785218a57c3ae3355cd63694890cc8d"
- SRCREV_meta ?= "1016714868249d64fc16692fd7679672b1efa17b"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.19.git;name=machine;branch=${KBRANCH}; \
--- 
-2.1.0
-
+- Pushpal
 
