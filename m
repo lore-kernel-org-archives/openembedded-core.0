@@ -1,45 +1,36 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7962F77054
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id F2AF077054
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 10:38:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 634C7180F2;
-	Fri, 23 Oct 2015 12:38:33 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id RQu+5YPLjWBH; Fri, 23 Oct 2015 12:38:31 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 92C571810C;
-	Fri, 23 Oct 2015 12:38:31 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 7B041128;
-	Fri, 23 Oct 2015 12:38:31 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 6D93F121;
-	Fri, 23 Oct 2015 12:38:31 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 6B8E53404E;
-	Fri, 23 Oct 2015 12:38:31 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id t9NAcVd6005181;
-	Fri, 23 Oct 2015 12:38:31 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id t9NAcVA5005180;
-	Fri, 23 Oct 2015 12:38:31 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Oct 2015 12:38:18 +0200
-Message-Id: <b1fb2b65b6ffde36ca2d6e8f24874ff7004de038.1445596115.git.pkj@axis.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1445596115.git.pkj@axis.com>
-References: <cover.1445596115.git.pkj@axis.com>
-In-Reply-To: <cover.1445596115.git.pkj@axis.com>
-References: <cover.1445596115.git.pkj@axis.com>
-Subject: [PATCH 1/1] useradd-staticids.bbclass: Do not require trailing colons
+	Fri, 23 Oct 2015 10:40:43 +0000 (UTC)
+Received: by qkfm62 with SMTP id m62so69011141qkf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Oct 2015 03:40:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ef4Jds4ohyRpsuo/B2+2ZRYoL9jfa6+RdEuYMlrqKoY=;
+	b=CTuN4FjiSWkuZW2TlPyAVRLhtE3ySq4Dx5BsMQcVQHbw5EDEueobhcjZHVftQzQTeF
+	5DPB9YirbKE9+aKJ/H7xMKh6kHOZIjqv24p8mbQRIx/BVxkkZLE0xM4vYST4qZN9Rv20
+	Sg2A1GDns96zijnQ+gs8Pci4WxXYu1Pu9xfcJi5b1Wm1THWVAtnwN7OBYRQ0tfI/3yJS
+	lNpqLUCMi299EH6b7c5ccOTiKi38pdsXvNNEIxOvxo3S3fwjv9NxXvduLRu2lQHakOc+
+	ndcjldBOA6yVGFKbkxXxSvxV3KANTzZfajlZNLAWEOq+S7y4ZcWYJB7hFgCs9RvP7fmJ
+	+spQ==
+X-Gm-Message-State: ALoCoQnZXkaXoaQ3Sr3ZK53IGANsvIUu2Iw9hNmccR/4taM4wc94OMuK0ZsIn7ThQajeRCIGI46l
+X-Received: by 10.55.43.129 with SMTP id r1mr24445839qkr.104.1445596843543;
+	Fri, 23 Oct 2015 03:40:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.82 with HTTP; Fri, 23 Oct 2015 03:40:24 -0700 (PDT)
+In-Reply-To: <1445506427-15720-1-git-send-email-wenzong.fan@windriver.com>
+References: <1445506427-15720-1-git-send-email-wenzong.fan@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 23 Oct 2015 11:40:24 +0100
+Message-ID: <CAJTo0LY=QaJ-a9U=59_RgJAxR+LJUciXQiBv=jujHHVDR6SDpA@mail.gmail.com>
+To: wenzong fan <wenzong.fan@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gnupg: set development_version as no
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,50 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Oct 2015 10:38:33 -0000
+X-List-Received-Date: Fri, 23 Oct 2015 10:40:44 -0000
+Content-Type: multipart/alternative; boundary=001a1147ba9e59292c0522c33e59
 
-Before, the users and groups specified in the passwd file and the
-groups file had to have trailing colons to make sure there were enough
-elements in the definitions, or bitbake would thow a Python exception.
-After this change one can omit the trailing colons, which especially
-simplifies passwd files used only to specify static UIDs.
+--001a1147ba9e59292c0522c33e59
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/useradd-staticids.bbclass | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+On 22 October 2015 at 10:33, <wenzong.fan@windriver.com> wrote:
 
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index 421a70a..aa1b15b 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -84,7 +84,11 @@ def update_useradd_static_config(d):
-                     for line in f:
-                         if line.startswith('#'):
-                             continue
--                        field = line.rstrip().split(":")
-+                        # Make sure there always are at least seven elements in
-+                        # the field list. This allows for leaving out trailing
-+                        # colons in the passwd file.
-+                        line = line.rstrip() + "::::::"
-+                        field = line.split(":")
-                         if field[0] == uaargs.LOGIN:
-                             if uaargs.uid and field[2] and (uaargs.uid != field[2]):
-                                 bb.warn("%s: Changing username %s's uid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.uid, field[2]))
-@@ -220,7 +224,11 @@ def update_useradd_static_config(d):
-                     for line in f:
-                         if line.startswith('#'):
-                             continue
--                        field = line.rstrip().split(":")
-+                        # Make sure there always are at least four elements in
-+                        # the field list. This allows for leaving out trailing
-+                        # colons in the group file.
-+                        line = line.rstrip() + ":::"
-+                        field = line.split(":")
-                         if field[0] == gaargs.GROUP and field[2]:
-                             if gaargs.gid and (gaargs.gid != field[2]):
-                                 bb.warn("%s: Changing groupname %s's gid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), gaargs.GROUP, gaargs.gid, field[2]))
--- 
-2.1.0
+> +-development_version=mym4_isbeta
+> ++development_version=no
+>
 
+I'd say that a neater fix would be to change the logic in autogen,sh to set
+beta=no in the find-version logic.  There's a chance you can use the
+argument that taking an upstream tarball and re-running autoconf shouldn't
+be considered a development release to get it upstreamed then.
 
+Ross
+
+--001a1147ba9e59292c0522c33e59
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 October 2015 at 10:33,  <span dir=3D"ltr">&lt;<a href=3D"mailto:wenzo=
+ng.fan@windriver.com" target=3D"_blank">wenzong.fan@windriver.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":314" class=3D"a3=
+s" style=3D"overflow:hidden">+-development_version=3Dmym4_isbeta<br>
+++development_version=3Dno<br></div></blockquote></div><br>I&#39;d say that=
+ a neater fix would be to change the logic in autogen,sh to set beta=3Dno i=
+n the find-version logic.=C2=A0 There&#39;s a chance you can use the argume=
+nt that taking an upstream tarball and re-running autoconf shouldn&#39;t be=
+ considered a development release to get it upstreamed then.</div><div clas=
+s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1147ba9e59292c0522c33e59--
