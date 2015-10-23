@@ -1,24 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D343D7704E
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp484.redcondor.net (smtp484.redcondor.net [208.80.204.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FBFE6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 11:22:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9NBM53t001628
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 23 Oct 2015 12:02:20 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp484.redcondor.net ({c48374e7-08df-40d9-a0de-96cc9883a037})
+	via TCP (outbound) with ESMTPS id 20151023120220099_0484
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 04:22:05 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 23 Oct 2015 04:22:04 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Oct 2015 04:22:03 -0700
-Message-ID: <cover.1445599274.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Fri, 23 Oct 2015 12:02:20 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [173.38.117.71] (port=43520 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Zpb3o-00087h-09 for openembedded-core@lists.openembedded.org;
+	Fri, 23 Oct 2015 08:03:04 -0400
+Date: Fri, 23 Oct 2015 08:02:11 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1510230754010.4583@localhost>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-Subject: [PATCH 0/1] e2fsprogs: backport a patch to fix filetype for hardlink
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: why does sysfsutils-2.1.0.bb set S = "${WORKDIR}/sysfsutils-${PV}"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +36,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Oct 2015 11:22:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 23 Oct 2015 12:02:22 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-The following changes since commit 73f8a0bf3b99d480bf97e266da0fb048714b4caf:
 
-  build-appliance-image: Update to jethro head revision (2015-10-21 23:13:03 +0100)
+  side note: the first in a small set of posts where i simply want to
+clarify minor oddities i run across in oe-core, not because they have
+any desperate need to be fixed, but more because when i'm teaching
+courses in oe/yocto, i run across the occasional weirdness that
+puzzles students, and forces me to try to explain it, and sometimes
+the explanation is, "that's just silly." so here's the first one.
 
-are available in the git repository at:
+  as i read in bitbake.conf, the default source directory for any
+recipe is defined as:
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/e2fsprogs
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/e2fsprogs
+  S = "${WORKDIR}/${BP}"
 
-Robert Yang (1):
-  e2fsprogs: backport a patch to fix filetype for hardlink
+which suggests that, as long as processing a recipe ends up using that
+value as the source directory, there is no need for a recipe to
+redefine S. kind of obvious, no?
 
- ...ate-hardlinks-with-the-correct-directory-.patch |   81 ++++++++++++++++++++
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |    1 +
- 2 files changed, 82 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/copy-in-create-hardlinks-with-the-correct-directory-.patch
+  in the case of sysfsutils-2.1.0.bb, one sees the line:
+
+S = "${WORKDIR}/sysfsutils-${PV}"
+
+which, given the standard definitions for variables BP and PV, seems
+to expand into precisely the default value given in bitbake.conf.
+
+  so, unless i'm missing something, is there any actual need for that
+line in the sysfsutils recipe file? is there something more subtle
+going on here that i don't understand?
+
+rday
 
 -- 
-1.7.9.5
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
