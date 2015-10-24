@@ -1,50 +1,46 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F46D60125
+	by mail.openembedded.org (Postfix) with ESMTP id 28B17769A7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Oct 2015 09:46:00 +0000 (UTC)
+	Sat, 24 Oct 2015 09:50:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 4A2052E76C;
-	Sat, 24 Oct 2015 11:45:59 +0200 (CEST)
+	by bes.se.axis.com (Postfix) with ESMTP id 308272E77A;
+	Sat, 24 Oct 2015 11:50:49 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id CrZ7Hga-ylvx; Sat, 24 Oct 2015 11:45:58 +0200 (CEST)
+	with LMTP id 57WjVb1Kyzu2; Sat, 24 Oct 2015 11:50:47 +0200 (CEST)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 2A53C2E59D;
-	Sat, 24 Oct 2015 11:45:57 +0200 (CEST)
+	by bes.se.axis.com (Postfix) with ESMTP id BD76D2E76C;
+	Sat, 24 Oct 2015 11:50:46 +0200 (CEST)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id E24E215F;
-	Sat, 24 Oct 2015 11:45:57 +0200 (CEST)
+	by postfix.imss71 (Postfix) with ESMTP id A5342161;
+	Sat, 24 Oct 2015 11:50:46 +0200 (CEST)
 Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id D56DE9A;
-	Sat, 24 Oct 2015 11:45:57 +0200 (CEST)
-Received: from xmail3.se.axis.com (xmail3.se.axis.com [10.0.5.75])
-	by thoth.se.axis.com (Postfix) with ESMTP id D29B6340B3;
-	Sat, 24 Oct 2015 11:45:57 +0200 (CEST)
-Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail3.se.axis.com
-	([10.0.5.75]) with mapi; Sat, 24 Oct 2015 11:45:57 +0200
+	by boulder.se.axis.com (Postfix) with ESMTP id 9875B160;
+	Sat, 24 Oct 2015 11:50:46 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 94B23340B3;
+	Sat, 24 Oct 2015 11:50:46 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id t9O9okVs016315;
+	Sat, 24 Oct 2015 11:50:46 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id t9O9okUT016314;
+	Sat, 24 Oct 2015 11:50:46 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: 'Christopher Larson' <clarson@kergoth.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Date: Sat, 24 Oct 2015 11:45:56 +0200
-Thread-Topic: [OE-core] [PATCH 1/1] useradd-staticids.bbclass: Do not
-	require trailing colons
-Thread-Index: AdENquXD7fUXAw9VR9WXxTHBeZ3iIAAlSW+g
-Message-ID: <A612847CFE53224C91B23E3A5B48BAC7C6EFC82C7F@xmail3.se.axis.com>
-References: <cover.1445596115.git.pkj@axis.com>
-	<b1fb2b65b6ffde36ca2d6e8f24874ff7004de038.1445596115.git.pkj@axis.com>
-	<CAJTo0LaKdMib+D292Yo4YZy4H96qJ7_BJnppqggV5_8YaP0AcA@mail.gmail.com>
-	<CABcZAN=q05OJu62PPoNSrQ4KDRp7KwbgH3UyobYmTeJ+ov53ww@mail.gmail.com>
-In-Reply-To: <CABcZAN=q05OJu62PPoNSrQ4KDRp7KwbgH3UyobYmTeJ+ov53ww@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US, sv-SE
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] useradd-staticids.bbclass: Do not require trailing colons
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 24 Oct 2015 11:50:17 +0200
+Message-Id: <af0600e67e141cfa53a796602b98e740192f859e.1445679443.git.pkj@axis.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1445679443.git.pkj@axis.com>
+References: <cover.1445679443.git.pkj@axis.com>
+In-Reply-To: <cover.1445679443.git.pkj@axis.com>
+References: <cover.1445679443.git.pkj@axis.com>
+Cc: Christopher Larson <clarson@kergoth.com>
+Subject: [PATCHv2 1/1] useradd-staticids.bbclass: Do not require trailing colons
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,186 +53,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Oct 2015 09:46:02 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_A612847CFE53224C91B23E3A5B48BAC7C6EFC82C7Fxmail3seaxisc_"
+X-List-Received-Date: Sat, 24 Oct 2015 09:50:50 -0000
 
---_000_A612847CFE53224C91B23E3A5B48BAC7C6EFC82C7Fxmail3seaxisc_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Before, the users and groups specified in the passwd file and the
+groups file had to have trailing colons to make sure there were enough
+elements in the definitions, or bitbake would throw a Python
+exception.  After this change one can omit the trailing colons, which
+especially simplifies passwd files used only to specify static UIDs.
 
-SSBjaGFuZ2VkIGl0IHRvOg0KDQogICAgZGVmIGxpc3RfZXh0ZW5kKGl0ZXJhYmxlLCBsZW5ndGgs
-IG9iaiA9IE5vbmUpOg0KICAgICAgICAiIiJFbnN1cmUgdGhhdCBpdGVyYWJsZSBpcyB0aGUgc3Bl
-Y2lmaWVkIGxlbmd0aCBieSBleHRlbmRpbmcgd2l0aCBvYmoNCiAgICAgICAgYW5kIHJldHVybiBp
-dCBhcyBhIGxpc3QiIiINCiAgICAgICAgcmV0dXJuIGxpc3QoaXRlcnRvb2xzLmlzbGljZShpdGVy
-dG9vbHMuY2hhaW4oaXRlcmFibGUsIGl0ZXJ0b29scy5yZXBlYXQob2JqKSksIGxlbmd0aCkpDQoN
-CmJlY2F1c2UgSSBnb3QNCg0KRXhjZXB0aW9uOiBUeXBlRXJyb3I6ICdpdGVydG9vbHMuaXNsaWNl
-JyBvYmplY3QgaGFzIG5vIGF0dHJpYnV0ZSAnX19nZXRpdGVtX18nDQoNCm90aGVyd2lzZS4NCg0K
-TmV3IHBhdGNoIGNvbWluZyB1cC4NCg0KLy9QZXRlcg0KDQpGcm9tOiBrZXJnb3RoQGdtYWlsLmNv
-bSBbbWFpbHRvOmtlcmdvdGhAZ21haWwuY29tXSBPbiBCZWhhbGYgT2YgQ2hyaXN0b3BoZXIgTGFy
-c29uDQpTZW50OiAyMyBPY3RvYmVyIDIwMTUgMTc6NTMNClRvOiBCdXJ0b24sIFJvc3MNCkNjOiBQ
-ZXRlciBLamVsbGVyc3RlZHQ7IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
-IDEvMV0gdXNlcmFkZC1zdGF0aWNpZHMuYmJjbGFzczogRG8gbm90IHJlcXVpcmUgdHJhaWxpbmcg
-Y29sb25zDQoNCg0KT24gRnJpLCBPY3QgMjMsIDIwMTUgYXQgODoyMCBBTSwgQnVydG9uLCBSb3Nz
-IDxyb3NzLmJ1cnRvbkBpbnRlbC5jb208bWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbT4+IHdy
-b3RlOg0KT24gMjMgT2N0b2JlciAyMDE1IGF0IDExOjM4LCBQZXRlciBLamVsbGVyc3RlZHQgPHBl
-dGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbTxtYWlsdG86cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMu
-Y29tPj4gd3JvdGU6DQotICAgICAgICAgICAgICAgICAgICAgICAgZmllbGQgPSBsaW5lLnJzdHJp
-cCgpLnNwbGl0KCI6IikNCisgICAgICAgICAgICAgICAgICAgICAgICAjIE1ha2Ugc3VyZSB0aGVy
-ZSBhbHdheXMgYXJlIGF0IGxlYXN0IHNldmVuIGVsZW1lbnRzIGluDQorICAgICAgICAgICAgICAg
-ICAgICAgICAgIyB0aGUgZmllbGQgbGlzdC4gVGhpcyBhbGxvd3MgZm9yIGxlYXZpbmcgb3V0IHRy
-YWlsaW5nDQorICAgICAgICAgICAgICAgICAgICAgICAgIyBjb2xvbnMgaW4gdGhlIHBhc3N3ZCBm
-aWxlLg0KKyAgICAgICAgICAgICAgICAgICAgICAgIGxpbmUgPSBsaW5lLnJzdHJpcCgpICsgIjo6
-Ojo6OiINCisgICAgICAgICAgICAgICAgICAgICAgICBmaWVsZCA9IGxpbmUuc3BsaXQoIjoiKQ0K
-DQpJdCdzIGEgc3R5bGlzdCB0aGluZyBidXQgSSBwcmVmZXIgcGFkZGluZyB0aGUgZmllbGQgbGlz
-dCBpbnN0ZWFkIG9mIG1hbmlwdWxhdGluZyB0aGUgaW5wdXQgc3RyaW5nLiBTb21ldGhpbmcgbGlr
-ZQ0KDQogIGZpZWxkID0gbGluZS5zdHJpcCgpLnNwbGl0KCI6IikNCiAgZmllbGQgKz0gWycnXSAq
-ICg3IC0gbGVuKGZpZWxkKSkNCg0KQWdyZWVkLCBidXQgSSB0aGluayB0aGlzIGlzIGNsZWFuZXI6
-DQoNCmRlZiBpdGVyX2V4dGVuZChpdGVyYWJsZSwgbGVuZ3RoLCBvYmo9Tm9uZSk6DQogICAgIiIi
-RW5zdXJlIHRoYXQgaXRlcmFibGUgaXMgdGhlIHNwZWNpZmllZCBsZW5ndGggYnkgZXh0ZW5kaW5n
-IHdpdGggb2JqIiIiDQogICAgcmV0dXJuIGl0ZXJ0b29scy5pc2xpY2UoaXRlcnRvb2xzLmNoYWlu
-KGl0ZXJhYmxlLCBpdGVydG9vbHMucmVwZWF0KG9iaikpLCBsZW5ndGgpDQoNCmZpZWxkcyA9IGl0
-ZXJfZXh0ZW5kKGxpbmUucnN0cmlwKCkuc3BsaXQoIjoiKSwgNykNCi0tDQpDaHJpc3RvcGhlciBM
-YXJzb24NCmNsYXJzb24gYXQga2VyZ290aCBkb3QgY29tDQpGb3VuZGVyIC0gQml0QmFrZSwgT3Bl
-bkVtYmVkZGVkLCBPcGVuWmF1cnVzDQpNYWludGFpbmVyIC0gVHNsaWINClNlbmlvciBTb2Z0d2Fy
-ZSBFbmdpbmVlciwgTWVudG9yIEdyYXBoaWNzDQo=
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/classes/useradd-staticids.bbclass | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
---_000_A612847CFE53224C91B23E3A5B48BAC7C6EFC82C7Fxmail3seaxisc_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
+index 421a70a..924d6ea 100644
+--- a/meta/classes/useradd-staticids.bbclass
++++ b/meta/classes/useradd-staticids.bbclass
+@@ -2,6 +2,7 @@
+ # we need a function to reformat the params based on a static file
+ def update_useradd_static_config(d):
+     import argparse
++    import itertools
+     import re
+ 
+     class myArgumentParser( argparse.ArgumentParser ):
+@@ -16,6 +17,11 @@ def update_useradd_static_config(d):
+         def error(self, message):
+             raise bb.build.FuncFailed(message)
+ 
++    def list_extend(iterable, length, obj = None):
++        """Ensure that iterable is the specified length by extending with obj
++        and return it as a list"""
++        return list(itertools.islice(itertools.chain(iterable, itertools.repeat(obj)), length))
++
+     # We parse and rewrite the useradd components
+     def rewrite_useradd(params):
+         # The following comes from --help on useradd from shadow
+@@ -84,7 +90,10 @@ def update_useradd_static_config(d):
+                     for line in f:
+                         if line.startswith('#'):
+                             continue
+-                        field = line.rstrip().split(":")
++                        # Make sure there always are at least seven elements in
++                        # the field list. This allows for leaving out trailing
++                        # colons in the passwd file.
++                        field = list_extend(line.rstrip().split(":"), 7)
+                         if field[0] == uaargs.LOGIN:
+                             if uaargs.uid and field[2] and (uaargs.uid != field[2]):
+                                 bb.warn("%s: Changing username %s's uid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.uid, field[2]))
+@@ -220,7 +229,10 @@ def update_useradd_static_config(d):
+                     for line in f:
+                         if line.startswith('#'):
+                             continue
+-                        field = line.rstrip().split(":")
++                        # Make sure there always are at least four elements in
++                        # the field list. This allows for leaving out trailing
++                        # colons in the group file.
++                        field = list_extend(line.rstrip().split(":"), 4)
+                         if field[0] == gaargs.GROUP and field[2]:
+                             if gaargs.gid and (gaargs.gid != field[2]):
+                                 bb.warn("%s: Changing groupname %s's gid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), gaargs.GROUP, gaargs.gid, field[2]))
+-- 
+2.1.0
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+PGhlYWQ+PG1ldGEgaHR0cC1lcXVpdj1Db250ZW50LVR5cGUgY29udGVu
-dD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij48bWV0YSBuYW1lPUdlbmVyYXRvciBjb250ZW50
-PSJNaWNyb3NvZnQgV29yZCAxMiAoZmlsdGVyZWQgbWVkaXVtKSI+PHN0eWxlPjwhLS0NCi8qIEZv
-bnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6IkNhbWJyaWEgTWF0
-aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQt
-ZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAyIDQ7fQ0KQGZvbnQt
-ZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAxMSA2IDQgMyA1IDQgNCAy
-IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglwYW5vc2UtMToyIDEx
-IDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
-IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
-b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcg
-Um9tYW4iLCJzZXJpZiI7fQ0KYTpsaW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUt
-cHJpb3JpdHk6OTk7DQoJY29sb3I6Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30N
-CmE6dmlzaXRlZCwgc3Bhbi5Nc29IeXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3Jp
-dHk6OTk7DQoJY29sb3I6cHVycGxlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bh
-bi5FbWFpbFN0eWxlMTcNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1m
-YW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjsNCgljb2xvcjojOTQzNjM0O30NCi5Nc29DaHBE
-ZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5O30NCkBwYWdlIFdvcmRTZWN0aW9u
-MQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzIuMHB0IDcyLjBwdCA3Mi4wcHQg
-NzIuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9z
-dHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVk
-aXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28g
-OV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJl
-ZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPjwvaGVh
-ZD48Ym9keSBsYW5nPUVOLVVTIGxpbms9Ymx1ZSB2bGluaz1wdXJwbGU+PGRpdiBjbGFzcz1Xb3Jk
-U2VjdGlvbjE+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTEuMHB0
-O2ZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7Y29sb3I6Izk0MzYzNCc+SSBjaGFu
-Z2VkIGl0IHRvOjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+PHNwYW4g
-c3R5bGU9J2ZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlm
-Ijtjb2xvcjojOTQzNjM0Jz48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNv
-Tm9ybWFsPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OkNvbnNvbGFz
-O2NvbG9yOiM5NDM2MzQnPsKgwqDCoCBkZWYgbGlzdF9leHRlbmQoaXRlcmFibGUsIGxlbmd0aCwg
-b2JqID0gTm9uZSk6PG86cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPU1zb05vcm1hbD48c3Bh
-biBzdHlsZT0nZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTpDb25zb2xhcztjb2xvcjojOTQz
-NjM0Jz7CoMKgwqDCoMKgwqDCoCAmcXVvdDsmcXVvdDsmcXVvdDtFbnN1cmUgdGhhdCBpdGVyYWJs
-ZSBpcyB0aGUgc3BlY2lmaWVkIGxlbmd0aCBieSBleHRlbmRpbmcgd2l0aCBvYmo8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTEu
-MHB0O2ZvbnQtZmFtaWx5OkNvbnNvbGFzO2NvbG9yOiM5NDM2MzQnPsKgwqDCoMKgwqDCoMKgIGFu
-ZCByZXR1cm4gaXQgYXMgYSBsaXN0JnF1b3Q7JnF1b3Q7JnF1b3Q7PG86cD48L286cD48L3NwYW4+
-PC9wPjxwIGNsYXNzPU1zb05vcm1hbD48c3BhbiBzdHlsZT0nZm9udC1zaXplOjExLjBwdDtmb250
-LWZhbWlseTpDb25zb2xhcztjb2xvcjojOTQzNjM0Jz7CoCDCoMKgwqDCoMKgwqByZXR1cm4gbGlz
-dChpdGVydG9vbHMuaXNsaWNlKGl0ZXJ0b29scy5jaGFpbihpdGVyYWJsZSwgaXRlcnRvb2xzLnJl
-cGVhdChvYmopKSwgbGVuZ3RoKSk8bzpwPjwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNvTm9y
-bWFsPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiJDYWxpYnJpIiwi
-c2Fucy1zZXJpZiI7Y29sb3I6Izk0MzYzNCc+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPjxw
-IGNsYXNzPU1zb05vcm1hbD48c3BhbiBzdHlsZT0nZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
-eToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO2NvbG9yOiM5NDM2MzQnPmJlY2F1c2UgSSBnb3QgPG86
-cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPU1zb05vcm1hbD48c3BhbiBzdHlsZT0nZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO2NvbG9yOiM5NDM2
-MzQnPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+PHNwYW4g
-c3R5bGU9J2ZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6Q29uc29sYXM7Y29sb3I6Izk0MzYz
-NCc+RXhjZXB0aW9uOiBUeXBlRXJyb3I6ICdpdGVydG9vbHMuaXNsaWNlJyBvYmplY3QgaGFzIG5v
-IGF0dHJpYnV0ZSAnX19nZXRpdGVtX18nIDxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz1N
-c29Ob3JtYWw+PHNwYW4gc3R5bGU9J2ZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6IkNhbGli
-cmkiLCJzYW5zLXNlcmlmIjtjb2xvcjojOTQzNjM0Jz48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48
-L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7Y29sb3I6Izk0MzYzNCc+b3RoZXJ3aXNlLjxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+PHNwYW4gc3R5bGU9J2ZvbnQt
-c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjtjb2xvcjojOTQz
-NjM0Jz48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFu
-IHN0eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJp
-ZiI7Y29sb3I6Izk0MzYzNCc+TmV3IHBhdGNoIGNvbWluZyB1cC48bzpwPjwvbzpwPjwvc3Bhbj48
-L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7Y29sb3I6Izk0MzYzNCc+PG86cD4mbmJzcDs8
-L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPU1zb05vcm1hbD48c3BhbiBzdHlsZT0nZm9udC1zaXpl
-OjExLjBwdDtmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO2NvbG9yOiM5NDM2MzQn
-Pi8vUGV0ZXI8bzpwPjwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFuIHN0
-eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7
-Y29sb3I6Izk0MzYzNCc+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPjxkaXYgc3R5bGU9J2Jv
-cmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowY20gMGNtIDBj
-bSA0LjBwdCc+PGRpdj48ZGl2IHN0eWxlPSdib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNC
-NUM0REYgMS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSc+PHAgY2xhc3M9TXNvTm9ybWFs
-PjxiPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiJUYWhvbWEiLCJz
-YW5zLXNlcmlmIic+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTAuMHB0
-O2ZvbnQtZmFtaWx5OiJUYWhvbWEiLCJzYW5zLXNlcmlmIic+IGtlcmdvdGhAZ21haWwuY29tIFtt
-YWlsdG86a2VyZ290aEBnbWFpbC5jb21dIDxiPk9uIEJlaGFsZiBPZiA8L2I+Q2hyaXN0b3BoZXIg
-TGFyc29uPGJyPjxiPlNlbnQ6PC9iPiAyMyBPY3RvYmVyIDIwMTUgMTc6NTM8YnI+PGI+VG86PC9i
-PiBCdXJ0b24sIFJvc3M8YnI+PGI+Q2M6PC9iPiBQZXRlciBLamVsbGVyc3RlZHQ7IE9FLWNvcmU8
-YnI+PGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIDEvMV0gdXNlcmFkZC1zdGF0
-aWNpZHMuYmJjbGFzczogRG8gbm90IHJlcXVpcmUgdHJhaWxpbmcgY29sb25zPG86cD48L286cD48
-L3NwYW4+PC9wPjwvZGl2PjwvZGl2PjxwIGNsYXNzPU1zb05vcm1hbD48bzpwPiZuYnNwOzwvbzpw
-PjwvcD48ZGl2PjxkaXY+PHAgY2xhc3M9TXNvTm9ybWFsPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPjxk
-aXY+PHAgY2xhc3M9TXNvTm9ybWFsPk9uIEZyaSwgT2N0IDIzLCAyMDE1IGF0IDg6MjAgQU0sIEJ1
-cnRvbiwgUm9zcyAmbHQ7PGEgaHJlZj0ibWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbSIgdGFy
-Z2V0PSJfYmxhbmsiPnJvc3MuYnVydG9uQGludGVsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9v
-OnA+PC9wPjxkaXY+PGRpdj48cCBjbGFzcz1Nc29Ob3JtYWw+T24gMjMgT2N0b2JlciAyMDE1IGF0
-IDExOjM4LCBQZXRlciBLamVsbGVyc3RlZHQgJmx0OzxhIGhyZWY9Im1haWx0bzpwZXRlci5ramVs
-bGVyc3RlZHRAYXhpcy5jb20iIHRhcmdldD0iX2JsYW5rIj5wZXRlci5ramVsbGVyc3RlZHRAYXhp
-cy5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD48ZGl2PjxwIGNsYXNzPU1zb05vcm1h
-bD4tJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZmllbGQgPSBsaW5lLnJzdHJpcCgpLnNwbGl0
-KCZxdW90OzomcXVvdDspPGJyPismbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAjIE1ha2Ugc3Vy
-ZSB0aGVyZSBhbHdheXMgYXJlIGF0IGxlYXN0IHNldmVuIGVsZW1lbnRzIGluPGJyPismbmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAjIHRoZSBmaWVsZCBsaXN0LiBUaGlzIGFsbG93cyBmb3IgbGVh
-dmluZyBvdXQgdHJhaWxpbmc8YnI+KyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICMgY29sb25z
-IGluIHRoZSBwYXNzd2QgZmlsZS48YnI+KyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGxpbmUg
-PSBsaW5lLnJzdHJpcCgpICsgJnF1b3Q7Ojo6Ojo6JnF1b3Q7PGJyPismbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7ICZuYnNwOyBmaWVsZCA9IGxpbmUuc3BsaXQoJnF1b3Q7OiZxdW90Oyk8bzpwPjwvbzpwPjwv
-cD48L2Rpdj48L2Rpdj48cCBjbGFzcz1Nc29Ob3JtYWw+PGJyPkl0J3MgYSBzdHlsaXN0IHRoaW5n
-IGJ1dCBJIHByZWZlciBwYWRkaW5nIHRoZSBmaWVsZCBsaXN0IGluc3RlYWQgb2YgbWFuaXB1bGF0
-aW5nIHRoZSBpbnB1dCBzdHJpbmcuIFNvbWV0aGluZyBsaWtlPG86cD48L286cD48L3A+PC9kaXY+
-PGRpdj48cCBjbGFzcz1Nc29Ob3JtYWw+PG86cD4mbmJzcDs8L286cD48L3A+PC9kaXY+PGRpdj48
-cCBjbGFzcz1Nc29Ob3JtYWw+Jm5ic3A7IGZpZWxkID0gbGluZS5zdHJpcCgpLnNwbGl0KCZxdW90
-OzomcXVvdDspPG86cD48L286cD48L3A+PC9kaXY+PGRpdj48cCBjbGFzcz1Nc29Ob3JtYWw+Jm5i
-c3A7IGZpZWxkICs9IFsnJ10gKiAoNyAtIGxlbihmaWVsZCkpPG86cD48L286cD48L3A+PC9kaXY+
-PC9kaXY+PHAgY2xhc3M9TXNvTm9ybWFsPjxiciBjbGVhcj1hbGw+PG86cD48L286cD48L3A+PGRp
-dj48cCBjbGFzcz1Nc29Ob3JtYWw+QWdyZWVkLCBidXQgSSB0aGluayB0aGlzIGlzIGNsZWFuZXI6
-PG86cD48L286cD48L3A+PC9kaXY+PGRpdj48cCBjbGFzcz1Nc29Ob3JtYWw+PG86cD4mbmJzcDs8
-L286cD48L3A+PC9kaXY+PGRpdj48ZGl2PjxwIGNsYXNzPU1zb05vcm1hbD5kZWYgaXRlcl9leHRl
-bmQoaXRlcmFibGUsIGxlbmd0aCwgb2JqPU5vbmUpOjxvOnA+PC9vOnA+PC9wPjwvZGl2PjxkaXY+
-PHAgY2xhc3M9TXNvTm9ybWFsPiZuYnNwOyAmbmJzcDsgJnF1b3Q7JnF1b3Q7JnF1b3Q7RW5zdXJl
-IHRoYXQgaXRlcmFibGUgaXMgdGhlIHNwZWNpZmllZCBsZW5ndGggYnkgZXh0ZW5kaW5nIHdpdGgg
-b2JqJnF1b3Q7JnF1b3Q7JnF1b3Q7PG86cD48L286cD48L3A+PC9kaXY+PGRpdj48cCBjbGFzcz1N
-c29Ob3JtYWw+Jm5ic3A7ICZuYnNwOyByZXR1cm4gaXRlcnRvb2xzLmlzbGljZShpdGVydG9vbHMu
-Y2hhaW4oaXRlcmFibGUsIGl0ZXJ0b29scy5yZXBlYXQob2JqKSksIGxlbmd0aCk8bzpwPjwvbzpw
-PjwvcD48L2Rpdj48L2Rpdj48ZGl2PjxwIGNsYXNzPU1zb05vcm1hbD48bzpwPiZuYnNwOzwvbzpw
-PjwvcD48L2Rpdj48ZGl2PjxwIGNsYXNzPU1zb05vcm1hbD5maWVsZHMgPSBpdGVyX2V4dGVuZChs
-aW5lLnJzdHJpcCgpLnNwbGl0KCZxdW90OzomcXVvdDspLCA3KTxvOnA+PC9vOnA+PC9wPjwvZGl2
-PjxwIGNsYXNzPU1zb05vcm1hbD4tLSA8bzpwPjwvbzpwPjwvcD48ZGl2PjxwIGNsYXNzPU1zb05v
-cm1hbD5DaHJpc3RvcGhlciBMYXJzb248YnI+Y2xhcnNvbiBhdCBrZXJnb3RoIGRvdCBjb208YnI+
-Rm91bmRlciAtIEJpdEJha2UsIE9wZW5FbWJlZGRlZCwgT3BlblphdXJ1czxicj5NYWludGFpbmVy
-IC0gVHNsaWI8YnI+U2VuaW9yIFNvZnR3YXJlIEVuZ2luZWVyLCBNZW50b3IgR3JhcGhpY3M8bzpw
-PjwvbzpwPjwvcD48L2Rpdj48L2Rpdj48L2Rpdj48L2Rpdj48L2Rpdj48L2JvZHk+PC9odG1sPg==
 
---_000_A612847CFE53224C91B23E3A5B48BAC7C6EFC82C7Fxmail3seaxisc_--
