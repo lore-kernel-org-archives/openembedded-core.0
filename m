@@ -1,37 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B8A673710
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F46D60125
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Oct 2015 00:13:07 +0000 (UTC)
-Received: by wicll6 with SMTP id ll6so50717340wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Oct 2015 17:13:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=qmgKMcrRxLKJsnOqjbt3OY8jHVu0PVcN0pmJf0ky8Nk=;
-	b=FN6M+reruUyBdLQluMjBH3b6XXNin8sWqCP8YH9CGWu7ANdsD1SETi9Y6lzE97dnVX
-	CD4pdRnNCIeyAResTTcH00hZ5Y0SI2zz0keS6j2Vys8YmWgeXh/T0Wujt7FO6pM8J5pD
-	ja8xqd/nC/cR1dTxp6jon+Jsj59Kn+YGBK/9QkugrukkyECkgjz+RTnNZa5HELyxrIo1
-	QXVEcoaMIDpPZMZywWNTCDNTKYwEKIz9zc7OljvQ+93/5JX34FOvwPxwZVxum/KbnYJj
-	UwVn71AIzKLOInyFpPXc4c/9yQeFPFHrF8XqE+mOQQdTkY/BfITHc9cMPKN0ljCAj7yM
-	ij0Q==
-X-Gm-Message-State: ALoCoQmYsPn9od0LRhxikuhxqCIi9okhd+BwiwD9rkvm8BDdisBadX8xBBVaeDQ6DVC3MLB2WafD
-X-Received: by 10.194.184.7 with SMTP id eq7mr7526897wjc.26.1445645587702;
-	Fri, 23 Oct 2015 17:13:07 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	ly4sm25171080wjb.4.2015.10.23.17.13.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 23 Oct 2015 17:13:07 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Oct 2015 01:05:23 +0100
-Message-Id: <1445645123-14558-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] sstate: respect GPG_BIN and GPG_HOME
+	Sat, 24 Oct 2015 09:46:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 4A2052E76C;
+	Sat, 24 Oct 2015 11:45:59 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id CrZ7Hga-ylvx; Sat, 24 Oct 2015 11:45:58 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id 2A53C2E59D;
+	Sat, 24 Oct 2015 11:45:57 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id E24E215F;
+	Sat, 24 Oct 2015 11:45:57 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id D56DE9A;
+	Sat, 24 Oct 2015 11:45:57 +0200 (CEST)
+Received: from xmail3.se.axis.com (xmail3.se.axis.com [10.0.5.75])
+	by thoth.se.axis.com (Postfix) with ESMTP id D29B6340B3;
+	Sat, 24 Oct 2015 11:45:57 +0200 (CEST)
+Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail3.se.axis.com
+	([10.0.5.75]) with mapi; Sat, 24 Oct 2015 11:45:57 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: 'Christopher Larson' <clarson@kergoth.com>, "Burton, Ross"
+	<ross.burton@intel.com>
+Date: Sat, 24 Oct 2015 11:45:56 +0200
+Thread-Topic: [OE-core] [PATCH 1/1] useradd-staticids.bbclass: Do not
+	require trailing colons
+Thread-Index: AdENquXD7fUXAw9VR9WXxTHBeZ3iIAAlSW+g
+Message-ID: <A612847CFE53224C91B23E3A5B48BAC7C6EFC82C7F@xmail3.se.axis.com>
+References: <cover.1445596115.git.pkj@axis.com>
+	<b1fb2b65b6ffde36ca2d6e8f24874ff7004de038.1445596115.git.pkj@axis.com>
+	<CAJTo0LaKdMib+D292Yo4YZy4H96qJ7_BJnppqggV5_8YaP0AcA@mail.gmail.com>
+	<CABcZAN=q05OJu62PPoNSrQ4KDRp7KwbgH3UyobYmTeJ+ov53ww@mail.gmail.com>
+In-Reply-To: <CABcZAN=q05OJu62PPoNSrQ4KDRp7KwbgH3UyobYmTeJ+ov53ww@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] useradd-staticids.bbclass: Do not require trailing colons
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,73 +57,186 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Oct 2015 00:13:09 -0000
+X-List-Received-Date: Sat, 24 Oct 2015 09:46:02 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_A612847CFE53224C91B23E3A5B48BAC7C6EFC82C7Fxmail3seaxisc_"
 
-The package feed signing code supports the user providing the path to the gpg
-binary and an alternative gpg 'home' (usually ~/.gnupg), which are useful for
-both deployment and QA purposes.
+--_000_A612847CFE53224C91B23E3A5B48BAC7C6EFC82C7Fxmail3seaxisc_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Factor out the gpg command line construction to a function which can fetch both
-of these variables, and also use pipes.quote() to sanitise the arguments when
-used in a shell context.
+SSBjaGFuZ2VkIGl0IHRvOg0KDQogICAgZGVmIGxpc3RfZXh0ZW5kKGl0ZXJhYmxlLCBsZW5ndGgs
+IG9iaiA9IE5vbmUpOg0KICAgICAgICAiIiJFbnN1cmUgdGhhdCBpdGVyYWJsZSBpcyB0aGUgc3Bl
+Y2lmaWVkIGxlbmd0aCBieSBleHRlbmRpbmcgd2l0aCBvYmoNCiAgICAgICAgYW5kIHJldHVybiBp
+dCBhcyBhIGxpc3QiIiINCiAgICAgICAgcmV0dXJuIGxpc3QoaXRlcnRvb2xzLmlzbGljZShpdGVy
+dG9vbHMuY2hhaW4oaXRlcmFibGUsIGl0ZXJ0b29scy5yZXBlYXQob2JqKSksIGxlbmd0aCkpDQoN
+CmJlY2F1c2UgSSBnb3QNCg0KRXhjZXB0aW9uOiBUeXBlRXJyb3I6ICdpdGVydG9vbHMuaXNsaWNl
+JyBvYmplY3QgaGFzIG5vIGF0dHJpYnV0ZSAnX19nZXRpdGVtX18nDQoNCm90aGVyd2lzZS4NCg0K
+TmV3IHBhdGNoIGNvbWluZyB1cC4NCg0KLy9QZXRlcg0KDQpGcm9tOiBrZXJnb3RoQGdtYWlsLmNv
+bSBbbWFpbHRvOmtlcmdvdGhAZ21haWwuY29tXSBPbiBCZWhhbGYgT2YgQ2hyaXN0b3BoZXIgTGFy
+c29uDQpTZW50OiAyMyBPY3RvYmVyIDIwMTUgMTc6NTMNClRvOiBCdXJ0b24sIFJvc3MNCkNjOiBQ
+ZXRlciBLamVsbGVyc3RlZHQ7IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
+IDEvMV0gdXNlcmFkZC1zdGF0aWNpZHMuYmJjbGFzczogRG8gbm90IHJlcXVpcmUgdHJhaWxpbmcg
+Y29sb25zDQoNCg0KT24gRnJpLCBPY3QgMjMsIDIwMTUgYXQgODoyMCBBTSwgQnVydG9uLCBSb3Nz
+IDxyb3NzLmJ1cnRvbkBpbnRlbC5jb208bWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbT4+IHdy
+b3RlOg0KT24gMjMgT2N0b2JlciAyMDE1IGF0IDExOjM4LCBQZXRlciBLamVsbGVyc3RlZHQgPHBl
+dGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbTxtYWlsdG86cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMu
+Y29tPj4gd3JvdGU6DQotICAgICAgICAgICAgICAgICAgICAgICAgZmllbGQgPSBsaW5lLnJzdHJp
+cCgpLnNwbGl0KCI6IikNCisgICAgICAgICAgICAgICAgICAgICAgICAjIE1ha2Ugc3VyZSB0aGVy
+ZSBhbHdheXMgYXJlIGF0IGxlYXN0IHNldmVuIGVsZW1lbnRzIGluDQorICAgICAgICAgICAgICAg
+ICAgICAgICAgIyB0aGUgZmllbGQgbGlzdC4gVGhpcyBhbGxvd3MgZm9yIGxlYXZpbmcgb3V0IHRy
+YWlsaW5nDQorICAgICAgICAgICAgICAgICAgICAgICAgIyBjb2xvbnMgaW4gdGhlIHBhc3N3ZCBm
+aWxlLg0KKyAgICAgICAgICAgICAgICAgICAgICAgIGxpbmUgPSBsaW5lLnJzdHJpcCgpICsgIjo6
+Ojo6OiINCisgICAgICAgICAgICAgICAgICAgICAgICBmaWVsZCA9IGxpbmUuc3BsaXQoIjoiKQ0K
+DQpJdCdzIGEgc3R5bGlzdCB0aGluZyBidXQgSSBwcmVmZXIgcGFkZGluZyB0aGUgZmllbGQgbGlz
+dCBpbnN0ZWFkIG9mIG1hbmlwdWxhdGluZyB0aGUgaW5wdXQgc3RyaW5nLiBTb21ldGhpbmcgbGlr
+ZQ0KDQogIGZpZWxkID0gbGluZS5zdHJpcCgpLnNwbGl0KCI6IikNCiAgZmllbGQgKz0gWycnXSAq
+ICg3IC0gbGVuKGZpZWxkKSkNCg0KQWdyZWVkLCBidXQgSSB0aGluayB0aGlzIGlzIGNsZWFuZXI6
+DQoNCmRlZiBpdGVyX2V4dGVuZChpdGVyYWJsZSwgbGVuZ3RoLCBvYmo9Tm9uZSk6DQogICAgIiIi
+RW5zdXJlIHRoYXQgaXRlcmFibGUgaXMgdGhlIHNwZWNpZmllZCBsZW5ndGggYnkgZXh0ZW5kaW5n
+IHdpdGggb2JqIiIiDQogICAgcmV0dXJuIGl0ZXJ0b29scy5pc2xpY2UoaXRlcnRvb2xzLmNoYWlu
+KGl0ZXJhYmxlLCBpdGVydG9vbHMucmVwZWF0KG9iaikpLCBsZW5ndGgpDQoNCmZpZWxkcyA9IGl0
+ZXJfZXh0ZW5kKGxpbmUucnN0cmlwKCkuc3BsaXQoIjoiKSwgNykNCi0tDQpDaHJpc3RvcGhlciBM
+YXJzb24NCmNsYXJzb24gYXQga2VyZ290aCBkb3QgY29tDQpGb3VuZGVyIC0gQml0QmFrZSwgT3Bl
+bkVtYmVkZGVkLCBPcGVuWmF1cnVzDQpNYWludGFpbmVyIC0gVHNsaWINClNlbmlvciBTb2Z0d2Fy
+ZSBFbmdpbmVlciwgTWVudG9yIEdyYXBoaWNzDQo=
 
-[ YOCTO #8559 ]
+--_000_A612847CFE53224C91B23E3A5B48BAC7C6EFC82C7Fxmail3seaxisc_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/sstate.bbclass | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+PGhlYWQ+PG1ldGEgaHR0cC1lcXVpdj1Db250ZW50LVR5cGUgY29udGVu
+dD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij48bWV0YSBuYW1lPUdlbmVyYXRvciBjb250ZW50
+PSJNaWNyb3NvZnQgV29yZCAxMiAoZmlsdGVyZWQgbWVkaXVtKSI+PHN0eWxlPjwhLS0NCi8qIEZv
+bnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6IkNhbWJyaWEgTWF0
+aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQt
+ZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAyIDQ7fQ0KQGZvbnQt
+ZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAxMSA2IDQgMyA1IDQgNCAy
+IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglwYW5vc2UtMToyIDEx
+IDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
+IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
+b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcg
+Um9tYW4iLCJzZXJpZiI7fQ0KYTpsaW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUt
+cHJpb3JpdHk6OTk7DQoJY29sb3I6Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30N
+CmE6dmlzaXRlZCwgc3Bhbi5Nc29IeXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3Jp
+dHk6OTk7DQoJY29sb3I6cHVycGxlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bh
+bi5FbWFpbFN0eWxlMTcNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1m
+YW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjsNCgljb2xvcjojOTQzNjM0O30NCi5Nc29DaHBE
+ZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5O30NCkBwYWdlIFdvcmRTZWN0aW9u
+MQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzIuMHB0IDcyLjBwdCA3Mi4wcHQg
+NzIuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9z
+dHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVk
+aXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28g
+OV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJl
+ZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPjwvaGVh
+ZD48Ym9keSBsYW5nPUVOLVVTIGxpbms9Ymx1ZSB2bGluaz1wdXJwbGU+PGRpdiBjbGFzcz1Xb3Jk
+U2VjdGlvbjE+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTEuMHB0
+O2ZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7Y29sb3I6Izk0MzYzNCc+SSBjaGFu
+Z2VkIGl0IHRvOjxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+PHNwYW4g
+c3R5bGU9J2ZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlm
+Ijtjb2xvcjojOTQzNjM0Jz48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNv
+Tm9ybWFsPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OkNvbnNvbGFz
+O2NvbG9yOiM5NDM2MzQnPsKgwqDCoCBkZWYgbGlzdF9leHRlbmQoaXRlcmFibGUsIGxlbmd0aCwg
+b2JqID0gTm9uZSk6PG86cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPU1zb05vcm1hbD48c3Bh
+biBzdHlsZT0nZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTpDb25zb2xhcztjb2xvcjojOTQz
+NjM0Jz7CoMKgwqDCoMKgwqDCoCAmcXVvdDsmcXVvdDsmcXVvdDtFbnN1cmUgdGhhdCBpdGVyYWJs
+ZSBpcyB0aGUgc3BlY2lmaWVkIGxlbmd0aCBieSBleHRlbmRpbmcgd2l0aCBvYmo8bzpwPjwvbzpw
+Pjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTEu
+MHB0O2ZvbnQtZmFtaWx5OkNvbnNvbGFzO2NvbG9yOiM5NDM2MzQnPsKgwqDCoMKgwqDCoMKgIGFu
+ZCByZXR1cm4gaXQgYXMgYSBsaXN0JnF1b3Q7JnF1b3Q7JnF1b3Q7PG86cD48L286cD48L3NwYW4+
+PC9wPjxwIGNsYXNzPU1zb05vcm1hbD48c3BhbiBzdHlsZT0nZm9udC1zaXplOjExLjBwdDtmb250
+LWZhbWlseTpDb25zb2xhcztjb2xvcjojOTQzNjM0Jz7CoCDCoMKgwqDCoMKgwqByZXR1cm4gbGlz
+dChpdGVydG9vbHMuaXNsaWNlKGl0ZXJ0b29scy5jaGFpbihpdGVyYWJsZSwgaXRlcnRvb2xzLnJl
+cGVhdChvYmopKSwgbGVuZ3RoKSk8bzpwPjwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNvTm9y
+bWFsPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiJDYWxpYnJpIiwi
+c2Fucy1zZXJpZiI7Y29sb3I6Izk0MzYzNCc+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPjxw
+IGNsYXNzPU1zb05vcm1hbD48c3BhbiBzdHlsZT0nZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO2NvbG9yOiM5NDM2MzQnPmJlY2F1c2UgSSBnb3QgPG86
+cD48L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPU1zb05vcm1hbD48c3BhbiBzdHlsZT0nZm9udC1z
+aXplOjExLjBwdDtmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO2NvbG9yOiM5NDM2
+MzQnPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+PHNwYW4g
+c3R5bGU9J2ZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6Q29uc29sYXM7Y29sb3I6Izk0MzYz
+NCc+RXhjZXB0aW9uOiBUeXBlRXJyb3I6ICdpdGVydG9vbHMuaXNsaWNlJyBvYmplY3QgaGFzIG5v
+IGF0dHJpYnV0ZSAnX19nZXRpdGVtX18nIDxvOnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz1N
+c29Ob3JtYWw+PHNwYW4gc3R5bGU9J2ZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6IkNhbGli
+cmkiLCJzYW5zLXNlcmlmIjtjb2xvcjojOTQzNjM0Jz48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48
+L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7Y29sb3I6Izk0MzYzNCc+b3RoZXJ3aXNlLjxv
+OnA+PC9vOnA+PC9zcGFuPjwvcD48cCBjbGFzcz1Nc29Ob3JtYWw+PHNwYW4gc3R5bGU9J2ZvbnQt
+c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjtjb2xvcjojOTQz
+NjM0Jz48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFu
+IHN0eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJp
+ZiI7Y29sb3I6Izk0MzYzNCc+TmV3IHBhdGNoIGNvbWluZyB1cC48bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7Y29sb3I6Izk0MzYzNCc+PG86cD4mbmJzcDs8
+L286cD48L3NwYW4+PC9wPjxwIGNsYXNzPU1zb05vcm1hbD48c3BhbiBzdHlsZT0nZm9udC1zaXpl
+OjExLjBwdDtmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO2NvbG9yOiM5NDM2MzQn
+Pi8vUGV0ZXI8bzpwPjwvbzpwPjwvc3Bhbj48L3A+PHAgY2xhc3M9TXNvTm9ybWFsPjxzcGFuIHN0
+eWxlPSdmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7
+Y29sb3I6Izk0MzYzNCc+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPjxkaXYgc3R5bGU9J2Jv
+cmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowY20gMGNtIDBj
+bSA0LjBwdCc+PGRpdj48ZGl2IHN0eWxlPSdib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNC
+NUM0REYgMS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSc+PHAgY2xhc3M9TXNvTm9ybWFs
+PjxiPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiJUYWhvbWEiLCJz
+YW5zLXNlcmlmIic+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSdmb250LXNpemU6MTAuMHB0
+O2ZvbnQtZmFtaWx5OiJUYWhvbWEiLCJzYW5zLXNlcmlmIic+IGtlcmdvdGhAZ21haWwuY29tIFtt
+YWlsdG86a2VyZ290aEBnbWFpbC5jb21dIDxiPk9uIEJlaGFsZiBPZiA8L2I+Q2hyaXN0b3BoZXIg
+TGFyc29uPGJyPjxiPlNlbnQ6PC9iPiAyMyBPY3RvYmVyIDIwMTUgMTc6NTM8YnI+PGI+VG86PC9i
+PiBCdXJ0b24sIFJvc3M8YnI+PGI+Q2M6PC9iPiBQZXRlciBLamVsbGVyc3RlZHQ7IE9FLWNvcmU8
+YnI+PGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIDEvMV0gdXNlcmFkZC1zdGF0
+aWNpZHMuYmJjbGFzczogRG8gbm90IHJlcXVpcmUgdHJhaWxpbmcgY29sb25zPG86cD48L286cD48
+L3NwYW4+PC9wPjwvZGl2PjwvZGl2PjxwIGNsYXNzPU1zb05vcm1hbD48bzpwPiZuYnNwOzwvbzpw
+PjwvcD48ZGl2PjxkaXY+PHAgY2xhc3M9TXNvTm9ybWFsPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPjxk
+aXY+PHAgY2xhc3M9TXNvTm9ybWFsPk9uIEZyaSwgT2N0IDIzLCAyMDE1IGF0IDg6MjAgQU0sIEJ1
+cnRvbiwgUm9zcyAmbHQ7PGEgaHJlZj0ibWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbSIgdGFy
+Z2V0PSJfYmxhbmsiPnJvc3MuYnVydG9uQGludGVsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9v
+OnA+PC9wPjxkaXY+PGRpdj48cCBjbGFzcz1Nc29Ob3JtYWw+T24gMjMgT2N0b2JlciAyMDE1IGF0
+IDExOjM4LCBQZXRlciBLamVsbGVyc3RlZHQgJmx0OzxhIGhyZWY9Im1haWx0bzpwZXRlci5ramVs
+bGVyc3RlZHRAYXhpcy5jb20iIHRhcmdldD0iX2JsYW5rIj5wZXRlci5ramVsbGVyc3RlZHRAYXhp
+cy5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD48ZGl2PjxwIGNsYXNzPU1zb05vcm1h
+bD4tJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZmllbGQgPSBsaW5lLnJzdHJpcCgpLnNwbGl0
+KCZxdW90OzomcXVvdDspPGJyPismbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAjIE1ha2Ugc3Vy
+ZSB0aGVyZSBhbHdheXMgYXJlIGF0IGxlYXN0IHNldmVuIGVsZW1lbnRzIGluPGJyPismbmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAjIHRoZSBmaWVsZCBsaXN0LiBUaGlzIGFsbG93cyBmb3IgbGVh
+dmluZyBvdXQgdHJhaWxpbmc8YnI+KyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICMgY29sb25z
+IGluIHRoZSBwYXNzd2QgZmlsZS48YnI+KyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGxpbmUg
+PSBsaW5lLnJzdHJpcCgpICsgJnF1b3Q7Ojo6Ojo6JnF1b3Q7PGJyPismbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwOyBmaWVsZCA9IGxpbmUuc3BsaXQoJnF1b3Q7OiZxdW90Oyk8bzpwPjwvbzpwPjwv
+cD48L2Rpdj48L2Rpdj48cCBjbGFzcz1Nc29Ob3JtYWw+PGJyPkl0J3MgYSBzdHlsaXN0IHRoaW5n
+IGJ1dCBJIHByZWZlciBwYWRkaW5nIHRoZSBmaWVsZCBsaXN0IGluc3RlYWQgb2YgbWFuaXB1bGF0
+aW5nIHRoZSBpbnB1dCBzdHJpbmcuIFNvbWV0aGluZyBsaWtlPG86cD48L286cD48L3A+PC9kaXY+
+PGRpdj48cCBjbGFzcz1Nc29Ob3JtYWw+PG86cD4mbmJzcDs8L286cD48L3A+PC9kaXY+PGRpdj48
+cCBjbGFzcz1Nc29Ob3JtYWw+Jm5ic3A7IGZpZWxkID0gbGluZS5zdHJpcCgpLnNwbGl0KCZxdW90
+OzomcXVvdDspPG86cD48L286cD48L3A+PC9kaXY+PGRpdj48cCBjbGFzcz1Nc29Ob3JtYWw+Jm5i
+c3A7IGZpZWxkICs9IFsnJ10gKiAoNyAtIGxlbihmaWVsZCkpPG86cD48L286cD48L3A+PC9kaXY+
+PC9kaXY+PHAgY2xhc3M9TXNvTm9ybWFsPjxiciBjbGVhcj1hbGw+PG86cD48L286cD48L3A+PGRp
+dj48cCBjbGFzcz1Nc29Ob3JtYWw+QWdyZWVkLCBidXQgSSB0aGluayB0aGlzIGlzIGNsZWFuZXI6
+PG86cD48L286cD48L3A+PC9kaXY+PGRpdj48cCBjbGFzcz1Nc29Ob3JtYWw+PG86cD4mbmJzcDs8
+L286cD48L3A+PC9kaXY+PGRpdj48ZGl2PjxwIGNsYXNzPU1zb05vcm1hbD5kZWYgaXRlcl9leHRl
+bmQoaXRlcmFibGUsIGxlbmd0aCwgb2JqPU5vbmUpOjxvOnA+PC9vOnA+PC9wPjwvZGl2PjxkaXY+
+PHAgY2xhc3M9TXNvTm9ybWFsPiZuYnNwOyAmbmJzcDsgJnF1b3Q7JnF1b3Q7JnF1b3Q7RW5zdXJl
+IHRoYXQgaXRlcmFibGUgaXMgdGhlIHNwZWNpZmllZCBsZW5ndGggYnkgZXh0ZW5kaW5nIHdpdGgg
+b2JqJnF1b3Q7JnF1b3Q7JnF1b3Q7PG86cD48L286cD48L3A+PC9kaXY+PGRpdj48cCBjbGFzcz1N
+c29Ob3JtYWw+Jm5ic3A7ICZuYnNwOyByZXR1cm4gaXRlcnRvb2xzLmlzbGljZShpdGVydG9vbHMu
+Y2hhaW4oaXRlcmFibGUsIGl0ZXJ0b29scy5yZXBlYXQob2JqKSksIGxlbmd0aCk8bzpwPjwvbzpw
+PjwvcD48L2Rpdj48L2Rpdj48ZGl2PjxwIGNsYXNzPU1zb05vcm1hbD48bzpwPiZuYnNwOzwvbzpw
+PjwvcD48L2Rpdj48ZGl2PjxwIGNsYXNzPU1zb05vcm1hbD5maWVsZHMgPSBpdGVyX2V4dGVuZChs
+aW5lLnJzdHJpcCgpLnNwbGl0KCZxdW90OzomcXVvdDspLCA3KTxvOnA+PC9vOnA+PC9wPjwvZGl2
+PjxwIGNsYXNzPU1zb05vcm1hbD4tLSA8bzpwPjwvbzpwPjwvcD48ZGl2PjxwIGNsYXNzPU1zb05v
+cm1hbD5DaHJpc3RvcGhlciBMYXJzb248YnI+Y2xhcnNvbiBhdCBrZXJnb3RoIGRvdCBjb208YnI+
+Rm91bmRlciAtIEJpdEJha2UsIE9wZW5FbWJlZGRlZCwgT3BlblphdXJ1czxicj5NYWludGFpbmVy
+IC0gVHNsaWI8YnI+U2VuaW9yIFNvZnR3YXJlIEVuZ2luZWVyLCBNZW50b3IgR3JhcGhpY3M8bzpw
+PjwvbzpwPjwvcD48L2Rpdj48L2Rpdj48L2Rpdj48L2Rpdj48L2Rpdj48L2JvZHk+PC9odG1sPg==
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index d09e27a..ba18f54 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -268,6 +268,20 @@ def sstate_install(ss, d):
- sstate_install[vardepsexclude] += "SSTATE_DUPWHITELIST STATE_MANMACH SSTATE_MANFILEPREFIX"
- sstate_install[vardeps] += "${SSTATEPOSTINSTFUNCS}"
- 
-+def sstate_build_gpg_command(d, *args, **kwargs):
-+    # Returns a list for subprocess.call() unless passed flatten=True when this
-+    # returns a flattened string.
-+    l = [d.getVar("GPG_BIN", True) or "gpg"]
-+    if d.getVar("GPG_PATH", True):
-+        l += ["--homedir", d.getVar("GPG_PATH", True)]
-+    l += args
-+
-+    if kwargs.get("flatten", False):
-+        import pipes
-+        return " ".join(map(pipes.quote, l))
-+    else:
-+        return l
-+
- def sstate_installpkg(ss, d):
-     import oe.path
-     import subprocess
-@@ -296,7 +310,7 @@ def sstate_installpkg(ss, d):
-     d.setVar('SSTATE_PKG', sstatepkg)
- 
-     if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG", True), False):
--        if subprocess.call(["gpg", "--verify", sstatepkg + ".sig", sstatepkg]) != 0:
-+        if subprocess.call(sstate_build_gpg_command(d, "--verify", sstatepkg + ".sig", sstatepkg)) != 0:
-             bb.warn("Cannot verify signature on sstate package %s" % sstatepkg)
- 
-     for f in (d.getVar('SSTATEPREINSTFUNCS', True) or '').split() + ['sstate_unpack_package'] + (d.getVar('SSTATEPOSTUNPACKFUNCS', True) or '').split():
-@@ -672,12 +686,12 @@ sstate_create_package () {
- 	else
- 		tar -cz --file=$TFILE --files-from=/dev/null
- 	fi
--	chmod 0664 $TFILE 
-+	chmod 0664 $TFILE
- 	mv -f $TFILE ${SSTATE_PKG}
- 
- 	if [ -n "${SSTATE_SIG_KEY}" ]; then
- 		rm -f ${SSTATE_PKG}.sig
--		echo ${SSTATE_SIG_PASSPHRASE} | gpg --batch --passphrase-fd 0 --detach-sign --local-user ${SSTATE_SIG_KEY} --output ${SSTATE_PKG}.sig ${SSTATE_PKG}
-+		echo ${SSTATE_SIG_PASSPHRASE} | ${@sstate_build_gpg_command(d, "--batch", "--passphrase-fd", "0", "--detach-sign", "--local-user", "${SSTATE_SIG_KEY}", "--output", "${SSTATE_PKG}.sig", "${SSTATE_PKG}", flatten=True)}
- 	fi
- 
- 	cd ${WORKDIR}
--- 
-2.1.4
-
-
+--_000_A612847CFE53224C91B23E3A5B48BAC7C6EFC82C7Fxmail3seaxisc_--
