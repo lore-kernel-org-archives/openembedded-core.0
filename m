@@ -1,52 +1,41 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id D6A4960034
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DAFD60125
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Oct 2015 12:22:45 +0000 (UTC)
-Received: by qgeo38 with SMTP id o38so100782670qge.0
+	Sun, 25 Oct 2015 18:43:44 +0000 (UTC)
+Received: by wicfx6 with SMTP id fx6so87341603wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Oct 2015 05:22:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linaro_org.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=lzkUB3OFF8kpCHMUu3Tfz1Yj7aqMeHKd81FbWcS5o8s=;
-	b=0+5QVr4ABXPfDIwTM8TjlsOsoO8vZbXzvP+zTaMv6cI+zWk13M8JCIErAyqM4j0U++
-	7VJz7izaT6Ee4eZzAPgtrxPvD1n6obrc75QP5YqEx17Ouqbkci3wcIGv3cmimVhIy8fX
-	nZqGgF9esf/wDgL5B76Uoc7IbCYlLWhc0f+DfbKn3rvOO9rjBShltpiyjJlP5p4GiIgX
-	srrdEgHKKT12rJdBIVChqnGPgEa1L+rcthyDscSJBXfmBJ1aSZjg3EWDe/q44wtyeX8H
-	IvxVJEMcv7gTpjEJBhB/Psgl5bWdQDqeRPzM9RJL8Ta1U+s85N7Ut+z2IdxMSyuXUqyc
-	yAcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=lzkUB3OFF8kpCHMUu3Tfz1Yj7aqMeHKd81FbWcS5o8s=;
-	b=fxFTUM98EklVrQ7YERc49JkQVhXFPGZw+iKA13PDZ9/tuyQ8Rkv5V+vPXrG699LeYG
-	u3+4aWHjfJBJIuGGPrA6kVCxhTOv/H/e2x2mEezHuUWHoebUwspEshnNJLypAhCwI7yK
-	Rlf9YC0Dy3IdbTM6LEVeCjdTBrxpaSoDnOzMYAlaovdbtnfkLNYQERteNv6hPENmqKqS
-	e6stEfEqRg/TAGD6wdUAtJAyn8ZHAhmknRPHw9nppcGhGm6vih7hHem7CwLr7Z7T99YA
-	jB1ljSIniS7sbJRFCPfqkOjN8phFzWVqeKy6OC9pNfOu3w0WHit97dkmCkfYdAN3a7eH
-	NCwA==
-X-Gm-Message-State: ALoCoQm0Jk9iUQF+6GEvszmBaRov25eR4mFSst0+H+rjCb+ae70ucwVxBCul7xPf2EM8axoWPE3M
-MIME-Version: 1.0
-X-Received: by 10.140.19.13 with SMTP id 13mr35660241qgg.97.1445775765584;
-	Sun, 25 Oct 2015 05:22:45 -0700 (PDT)
-Received: by 10.140.98.55 with HTTP; Sun, 25 Oct 2015 05:22:45 -0700 (PDT)
-Received: by 10.140.98.55 with HTTP; Sun, 25 Oct 2015 05:22:45 -0700 (PDT)
-In-Reply-To: <562BFF92.9020407@gmail.com>
-References: <CAP71Wjx+xcW0qG62zxskUGY_BbWCS1Yk9OvJQx+fKooKKKyuvg@mail.gmail.com>
-	<65454D5E-98C5-4BA7-828B-05BBD56FB3E5@dominion.thruhere.net>
-	<562BFF92.9020407@gmail.com>
-Date: Sun, 25 Oct 2015 13:22:45 +0100
-Message-ID: <CAP71WjyLE=8uCDQgxbJ1yUqBhS9YWcjLTOzTJgqGVDKhT6xfQg@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: How to handle mesa customization in BSP layers
+	Sun, 25 Oct 2015 11:43:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=CamPiDbNwPDzdIEyjZmnRSIZFZdWotpVbR3LTuGnuuc=;
+	b=dlHFLTAn28xmjgk65Z5/THqdNLtnKGlHPXgl1OYLRXIC4ArMFU8jWLM1CS1xxEeRXm
+	I/Qcqqhf+JPPmie57G6ZQRCk8g7s9E7jF1VY8VZOmVV6MPIq/qiufZEKifVDSMu3IqaG
+	tlvRn/cE1bV6WwV9wfdaW9XCi/Mb6rqTT+tksIcmHasg6mJW6WPTktSiXLa/uU0YylAO
+	uHYO0z6r5jL9BMGN1wcGNAA/mz06aGGdQm7KctwHL09J7an7CHohBWxz9ZJgC5sChnJw
+	gryFZ6v0/C0lxDtagTpFg3Dr72Bn0ahSnEwA9NRdsTYMSDmvu/LhruACzA/8/TdKqHxY
+	K1sA==
+X-Received: by 10.180.211.230 with SMTP id nf6mr16117695wic.30.1445798624395; 
+	Sun, 25 Oct 2015 11:43:44 -0700 (PDT)
+Received: from ernie.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
+	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
+	ee1sm11031785wic.17.2015.10.25.11.43.43
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 25 Oct 2015 11:43:43 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+From: Jens Rehsack <rehsack@gmail.com>
+In-Reply-To: <CADe5tdMyJ+u6t5AgYn0cWC7ew2-=Yy2TnM_0KVBBd5-_rnUYUA@mail.gmail.com>
+Date: Sun, 25 Oct 2015 19:43:42 +0100
+Message-Id: <8591B54B-FF17-4D30-B80A-DFD687EFCBE5@gmail.com>
+References: <1445620687-9578-1-git-send-email-jpuhlman@mvista.com>
+	<A4A69420-4397-4ACA-9471-66126153BE89@gmail.com>
+	<CADe5tdMyJ+u6t5AgYn0cWC7ew2-=Yy2TnM_0KVBBd5-_rnUYUA@mail.gmail.com>
+To: Jeremy Puhlman <jpuhlman@mvista.com>
+X-Mailer: Apple Mail (2.2104)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Perl: Use CC version not $Config(gccversion)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,102 +48,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Oct 2015 12:22:47 -0000
-Content-Type: multipart/alternative; boundary=001a11355f60eede720522ece6ba
-
---001a11355f60eede720522ece6ba
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 25 Oct 2015 18:43:46 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Le 25 oct. 2015 00:00, "Trevor Woerner" <twoerner@gmail.com> a =C3=A9crit :
->
-> On 10/20/15 05:37, Koen Kooi wrote:
-> >> Op 20 okt. 2015, om 11:32 heeft Nicolas Dechesne <
-nicolas.dechesne@linaro.org> het volgende geschreven:
-> >>
-> >>
-> >> The issue is that mesa is arch specific, not machine specific. So if
-> >> you start mixing machines from the same arch, we are getting
-> >> unexpected/wrong rebuilds.
-> > In this specific case I think we should enable freedreno for
-armv7/armv8 in OE-core, but the problem remains for other recipes like this=
-.
->
-> Are you suggesting that every armv7 device should have their mesa tuned
-> for freedreno and freedreno added to their filesystem? That seems quite
-> overly-broad!
 
-No. Only building the driver. It won't be installed unless you add it into
-your image.
+> Am 25.10.2015 um 00:17 schrieb Jeremy Puhlman <jpuhlman@mvista.com>:
+>=20
+>=20
+> On Oct 24, 2015 5:15 AM, "Jens Rehsack" <rehsack@gmail.com> wrote:
+> >
+> >
+> > > Am 23.10.2015 um 19:18 schrieb Jeremy Puhlman =
+<jpuhlman@mvista.com>:
+> > >
+> > > Get version data from querying $CC rather then
+> > > $Config(gccversion) which comes from running version of
+> > > perl. Since perl-native is not likely compiled by gcc
+> > > 5 at this point, it will never trigger the required
+> > > fixes for gcc 5.
+> > >
+> > > [YOCTO #8367]
+> > >
+> > > Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+> > > ---
+> > > .../perl/perl/perl-errno-generation-gcc5.patch     | 23 =
+++++++++++++++++++++++
+> > > meta/recipes-devtools/perl/perl_5.22.0.bb          |  1 +
+> > > 2 files changed, 24 insertions(+)
+> > > create mode 100644 =
+meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch
+> > >
+> > > diff --git =
+a/meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch =
+b/meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch
+> > > new file mode 100644
+> > > index 0000000..efbc55d
+> > > --- /dev/null
+> > > +++ =
+b/meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch
+> > > @@ -0,0 +1,23 @@
+> > > +Upstream-Status:Inappropriate [embedded specific]
+> >
+> > Did you ask p5-porters?
+> >
+> > I strongly suggest to open an RT for 2 reasons:
+> >
+> > 1) Let the people know that I'm not the only one encountering =
+problems with the way they deal situation
+>=20
+> Yeah we have been having fun cross compiling perl since 2000, lots of =
+fun.
+>=20
+> > 2) Those tickets enlighten over time.
+> >
+> > Cross-compiling is not restricted to embedded.
+> >
+> > The patch self looks more than sane and I'm happy to support it when =
+reported (so tell me the ticket number or put me on CC when creating the =
+ticket).
+>=20
+> Is there a specific mailing list?
 
->
-> On the surface[1] it would seem as though the decisions as to how one
-> builds mesa and which graphics solution to install is more similar to
-> the decision as to which DEFAULTTUNE to use, rather than which
-> architecture is involved?
->
+Kind-of, see https://rt.perl.org and use perlbug =
+(http://perldoc.perl.org/perlbug.html)
 
-DEFAULTTUNE is a generic config that impacts all packages. What Koen
-proposed is to change mesa to build more drivers by default.
+> > > +The upstream code assumes that the compiler version used to =
+compiler miniperl/perl-native
+> > > +is the same as the one being used to build the perl binary. Since =
+most people are not running
+> > > +systems with gcc 5, it is unlikely that it will work on any =
+supported host. Switch out gccversion
+> > > +for the version extracted from $CC --version.
+> > > +
+> > > +--- perl-5.22.0/ext/Errno/Errno_pm.PL        2015-10-19 =
+18:01:20.622143786 -0400
+> > > ++++ perl-5.22.0-fixed/ext/Errno/Errno_pm.PL  2015-10-19 =
+17:50:35.662137367 -0400
+> > > +@@ -224,9 +224,12 @@
+> > > +
+> > > +     {       # BeOS (support now removed) did not enter this =
+block
+> > > +     # invoke CPP and read the output
+> > > ++        my $compiler =3D $ENV{'CC'};
+> > > ++        my $compiler_out =3D `$compiler --version`;
+> > > ++        my @compiler_version =3D split / /,$compiler_out;
+> > > +
+> > > +     my $inhibit_linemarkers =3D '';
+> > > +-    if ($Config{gccversion} =3D~ /\A(\d+)\./ and $1 >=3D 5) {
+> > > ++    if (@compiler_version[2] =3D~ /\A(\d+)\./ and $1 >=3D 5) {
+> > > +         # GCC 5.0 interleaves expanded macros with line numbers =
+breaking
+> > > +         # each line into multiple lines. RT#123784
+> > > +         $inhibit_linemarkers =3D ' -P';
+> > > diff --git a/meta/recipes-devtools/perl/perl_5.22.0.bb =
+b/meta/recipes-devtools/perl/perl_5.22.0.bb
+> > > index 3ce7849..66e074d 100644
+> > > --- a/meta/recipes-devtools/perl/perl_5.22.0.bb
+> > > +++ b/meta/recipes-devtools/perl/perl_5.22.0.bb
+> > > @@ -62,6 +62,7 @@ SRC_URI +=3D " \
+> > >         =
+file://ext-ODBM_File-hints-linux.pl-link-libgdbm_compat.patch \
+> > >         =
+file://ext-ODBM_File-t-odbm.t-fix-the-path-of-dbmt_common.p.patch \
+> > >         file://perl-PathTools-don-t-filter-out-blib-from-INC.patch =
+\
+> > > +        file://perl-errno-generation-gcc5.patch \
+> > > "
+> > >
+> > > # Fix test case issues
 
->
->
->
->
->
->
-> [1] which is my way of saying "I don't have the experience of actually
-> having done this, unlike you people" ;-)
+--=20
+Jens Rehsack - rehsack@gmail.com
 
---001a11355f60eede720522ece6ba
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr"><br>
-Le=C2=A025 oct. 2015 00:00, &quot;Trevor Woerner&quot; &lt;<a href=3D"mailt=
-o:twoerner@gmail.com">twoerner@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br>
-&gt;<br>
-&gt; On 10/20/15 05:37, Koen Kooi wrote:<br>
-&gt; &gt;&gt; Op 20 okt. 2015, om 11:32 heeft Nicolas Dechesne &lt;<a href=
-=3D"mailto:nicolas.dechesne@linaro.org">nicolas.dechesne@linaro.org</a>&gt;=
- het volgende geschreven:<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; The issue is that mesa is arch specific, not machine specific=
-. So if<br>
-&gt; &gt;&gt; you start mixing machines from the same arch, we are getting<=
-br>
-&gt; &gt;&gt; unexpected/wrong rebuilds.<br>
-&gt; &gt; In this specific case I think we should enable freedreno for armv=
-7/armv8 in OE-core, but the problem remains for other recipes like this.<br=
->
-&gt;<br>
-&gt; Are you suggesting that every armv7 device should have their mesa tune=
-d<br>
-&gt; for freedreno and freedreno added to their filesystem? That seems quit=
-e<br>
-&gt; overly-broad!</p>
-<p dir=3D"ltr">No. Only building the driver. It won&#39;t be installed unle=
-ss you add it into your image.</p>
-<p dir=3D"ltr">&gt;<br>
-&gt; On the surface[1] it would seem as though the decisions as to how one<=
-br>
-&gt; builds mesa and which graphics solution to install is more similar to<=
-br>
-&gt; the decision as to which DEFAULTTUNE to use, rather than which<br>
-&gt; architecture is involved?<br>
-&gt;</p>
-<p dir=3D"ltr">DEFAULTTUNE is a generic config that impacts all packages. W=
-hat Koen proposed is to change mesa to build more drivers by default.</p>
-<p dir=3D"ltr">&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; [1] which is my way of saying &quot;I don&#39;t have the experience of=
- actually<br>
-&gt; having done this, unlike you people&quot; ;-)<br>
-</p>
-
---001a11355f60eede720522ece6ba--
