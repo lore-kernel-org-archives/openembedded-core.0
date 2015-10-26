@@ -1,25 +1,41 @@
-Return-Path: <saul.wold@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3049360657
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FAFB73D27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Oct 2015 18:04:33 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 26 Oct 2015 11:03:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,201,1444719600"; d="scan'208";a="835437500"
-Received: from fburke-mobl1.amr.corp.intel.com ([10.254.102.233])
-	by orsmga002.jf.intel.com with ESMTP; 26 Oct 2015 11:03:13 -0700
-Message-ID: <1445882593.18706.73.camel@intel.com>
-From: Saul Wold <saul.wold@intel.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Mon, 26 Oct 2015 11:03:13 -0700
-In-Reply-To: <5ca9afcb13639cc38ed268cae4a82709c148759c.1445631234.git.bruce.ashfield@windriver.com>
-References: <cover.1445631234.git.bruce.ashfield@windriver.com>
-	<5ca9afcb13639cc38ed268cae4a82709c148759c.1445631234.git.bruce.ashfield@windriver.com>
-X-Mailer: Evolution 3.12.11 (3.12.11-1.fc21) 
-Mime-Version: 1.0
+	Mon, 26 Oct 2015 18:15:09 +0000 (UTC)
+Received: by wicll6 with SMTP id ll6so127104069wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Oct 2015 11:15:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=lazG9dLRT59KWec9WSibBa9qxv7XzbkoBQ+Am/07Bos=;
+	b=vmpR2Akk3Rwy6EtllzQ6eXeNMJrJmsw+s/oElpSRLE5DPMeFZEkETxN3nzpMbZKJsT
+	5Va4Bq2B4NOocVxUdSrGyWQEhNern55ZyA7NgPrwfZe8G8NGQcUz1DYPRweY+iNVomWs
+	LZ0Xf6AbBZAdXTvZ+gXBIxNDiJxiT0s/YFMW3KBgkeyOQtX06KMde8XJAOtpr+bxYgOI
+	bwZvyzntxt2mOCt/PFhCVLMEtx8qkrVEiy5tcDEYAiEhPYQBCQjKvGTkuO9ib1qZ/iTR
+	J3NS4facQY6smQ6SvhSfhY9kjKDJeuVdOJeYVqkr7XsNjUaRIrk2Ot+NR27TvAEOXORD
+	FpKw==
+X-Received: by 10.28.10.142 with SMTP id 136mr2440563wmk.84.1445883309853;
+	Mon, 26 Oct 2015 11:15:09 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	jh4sm35866674wjb.33.2015.10.26.11.15.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 26 Oct 2015 11:15:09 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 26 Oct 2015 19:15:21 +0100
+To: Mark Hatle <mark.hatle@windriver.com>
+Message-ID: <20151026181521.GF2554@jama>
+References: <1445873454-108723-1-git-send-email-mark.hatle@windriver.com>
+	<1445873454-108723-2-git-send-email-mark.hatle@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <1445873454-108723-2-git-send-email-mark.hatle@windriver.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/6] linux-yocto: skip kernel meta data branches when finding machine branch
+Subject: Re: [jethro/master][PATCH 1/1] local.conf.sample: Disable image-prelink by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,48 +48,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Oct 2015 18:04:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Oct 2015 18:15:10 -0000
+X-Groupsio-MsgNum: 72646
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="QXO0/MSS4VvK6f+D"
+Content-Disposition: inline
 
-On Fri, 2015-10-23 at 16:18 -0400, Bruce Ashfield wrote:
-> Before the fetcher validated the specified SRCREV was reachable on a
-> specified branch, linux-yocto style kernel's were comparing the value
-> of KBRANCH and branch on the SRC_URI and then allowing a SRC_URI
-> specified branch to override KBRANCH.
-> 
-> With the introduction of kernel meta data on the SRC_URI, this routine
-> is incorrectly picking up a kernel-cache repository and then attempting
-> to apply that branch information to the kernel repository.
-> 
-> The rationalization of the branch specification is largely no longer
-> required, and will may be removed in the future. But for now, to keep
-> changes minimal, we can simply not return branch information that comes
-> from kernel meta data by checking the 'type' parameter and skipping
-> if it is of type 'kmeta'.
-> 
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-Tested-by: Saul Wold <sgw@linux.intel.com>
+--QXO0/MSS4VvK6f+D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Oct 26, 2015 at 10:30:54AM -0500, Mark Hatle wrote:
+> Due to problems with the prelinker itself, we need to disable the
+> image-prelink by default.  This will hopefully be re-enabled in the near
+> future.
+
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+
+We had to disable it in our builds back in Dylan days.
+
+Regards,
+
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 > ---
->  meta/classes/kernel-yocto.bbclass | 4 +++-
+>  meta/conf/local.conf.sample | 4 +++-
 >  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-> index 325f94c73560..00d9667fe0a6 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -52,7 +52,9 @@ def get_machine_branch(d, default):
->          parm = urldata.parm
->          if "branch" in parm:
->              branches = urldata.parm.get("branch").split(',')
-> -            return branches[0]
-> +            btype = urldata.parm.get("type")
-> +            if btype != "kmeta":
-> +                return branches[0]
->  	    
->      return default
->  
+>=20
+> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+> index 3ae24ab..9d1480e 100644
+> --- a/meta/conf/local.conf.sample
+> +++ b/meta/conf/local.conf.sample
+> @@ -128,7 +128,9 @@ EXTRA_IMAGE_FEATURES =3D "debug-tweaks"
+>  #   - 'image-swab' to perform host system intrusion detection
+>  # NOTE: if listing mklibs & prelink both, then make sure mklibs is befor=
+e prelink
+>  # NOTE: mklibs also needs to be explicitly enabled for a given image, se=
+e local.conf.extended
+> -USER_CLASSES ?=3D "buildstats image-mklibs image-prelink"
+> +# NOTE: image-prelink is currently broken due to problems with the preli=
+nker.  It is advised
+> +# that you do NOT run the prelinker at this time.=20
+> +USER_CLASSES ?=3D "buildstats image-mklibs"
+> =20
+> =20
+>  #
+> --=20
+> 1.9.3
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--QXO0/MSS4VvK6f+D
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlYubbcACgkQN1Ujt2V2gByz7wCgu0W7cVP4uPBIMTY6boGCPbka
+EowAn2SlE/OBgpE/4EJ8LrGdVjrRVxG5
+=6hcv
+-----END PGP SIGNATURE-----
+
+--QXO0/MSS4VvK6f+D--
