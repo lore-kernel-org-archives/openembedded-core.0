@@ -1,27 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 8187E73D27
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id CBFD8766F3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Oct 2015 12:09:29 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Oct 2015 05:08:38 -0700
+	Mon, 26 Oct 2015 13:28:50 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 26 Oct 2015 06:28:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,201,1444719600"; d="scan'208";a="671857024"
+X-IronPort-AV: E=Sophos;i="5.20,201,1444719600"; d="scan'208";a="803199005"
 Received: from randjicd-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.27.7])
-	by orsmga003.jf.intel.com with ESMTP; 26 Oct 2015 05:08:37 -0700
+	by orsmga001.jf.intel.com with ESMTP; 26 Oct 2015 06:28:37 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Mon, 26 Oct 2015 12:08:35 +0000
-Message-ID: <2756512.QMAWZ5dkze@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <562E0FB3.10001@linux.intel.com>
-References: <1445634201-13944-1-git-send-email-psidhu@gateworks.com>
-	<562E0FB3.10001@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] webkitgtk: Add upstream patch to fix build problem
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Oct 2015 13:28:26 +0000
+Message-Id: <2de8b9fb251e9c4ef578faf1efff171d7266a1a1.1445866022.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1445866022.git.paul.eggleton@linux.intel.com>
+References: <cover.1445866022.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1445866022.git.paul.eggleton@linux.intel.com>
+References: <cover.1445866022.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] oeqa/utils/decorators: fix missing keyword arguments on decorators
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,24 +32,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Oct 2015 12:09:32 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 26 Oct 2015 13:28:52 -0000
 
-On Monday 26 October 2015 13:34:11 Alexander Kanavin wrote:
-> On 10/24/2015 12:03 AM, Pushpal Sidhu wrote:
-> > +Upstream-Status: Backport [webkit-2.10.0]
-> 
-> Why not update the recipe to latest 2.10 release instead?
+We need to handle keyword arguments here or sending a keyword argument
+to a decorated function that accepts keyword arguments will trigger an
+error. (This showed up when testcase decorators were added to the
+recipetool.RecipetoolTests.test_recipetool_appendsrcfiles_basic_subdir
+test).
 
-At this stage of the release it's too late for upgrades; we could certainly do 
-that for master after the release though.
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/lib/oeqa/utils/decorators.py | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Cheers,
-Paul
-
+diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
+index 2169a20..0d79223 100644
+--- a/meta/lib/oeqa/utils/decorators.py
++++ b/meta/lib/oeqa/utils/decorators.py
+@@ -57,11 +57,11 @@ class skipIfFailure(object):
+         self.testcase = testcase
+ 
+     def __call__(self,f):
+-        def wrapped_f(*args):
++        def wrapped_f(*args, **kwargs):
+             res = getResults()
+             if self.testcase in (res.getFailList() or res.getErrorList()):
+                 raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
+-            return f(*args)
++            return f(*args, **kwargs)
+         wrapped_f.__name__ = f.__name__
+         return wrapped_f
+ 
+@@ -71,11 +71,11 @@ class skipIfSkipped(object):
+         self.testcase = testcase
+ 
+     def __call__(self,f):
+-        def wrapped_f(*args):
++        def wrapped_f(*args, **kwargs):
+             res = getResults()
+             if self.testcase in res.getSkipList():
+                 raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
+-            return f(*args)
++            return f(*args, **kwargs)
+         wrapped_f.__name__ = f.__name__
+         return wrapped_f
+ 
+@@ -85,13 +85,13 @@ class skipUnlessPassed(object):
+         self.testcase = testcase
+ 
+     def __call__(self,f):
+-        def wrapped_f(*args):
++        def wrapped_f(*args, **kwargs):
+             res = getResults()
+             if self.testcase in res.getSkipList() or \
+                     self.testcase in res.getFailList() or \
+                     self.testcase in res.getErrorList():
+                 raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
+-            return f(*args)
++            return f(*args, **kwargs)
+         wrapped_f.__name__ = f.__name__
+         wrapped_f._depends_on = self.testcase
+         return wrapped_f
+@@ -102,8 +102,8 @@ class testcase(object):
+         self.test_case = test_case
+ 
+     def __call__(self, func):
+-        def wrapped_f(*args):
+-            return func(*args)
++        def wrapped_f(*args, **kwargs):
++            return func(*args, **kwargs)
+         wrapped_f.test_case = self.test_case
+         wrapped_f.__name__ = func.__name__
+         return wrapped_f
 -- 
+2.1.0
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
