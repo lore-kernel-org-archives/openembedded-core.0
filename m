@@ -1,21 +1,25 @@
-Return-Path: <jin@mediatomb.cc>
-X-Greylist: delayed 390 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 26 Oct 2015 15:19:38 UTC
-Received: from static.88-198-224-151.clients.your-server.de
-	(static.88-198-224-151.clients.your-server.de [88.198.224.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DE81608B7
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E85F73D27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Oct 2015 15:19:38 +0000 (UTC)
-Received: by static.88-198-224-151.clients.your-server.de (Postfix,
-	from userid 500)
-	id 499EB1A00F0; Mon, 26 Oct 2015 16:13:07 +0100 (CET)
-Date: Mon, 26 Oct 2015 16:13:07 +0100
-From: Sergey 'Jin' Bostandzhyan <jin@mediatomb.cc>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20151026151307.GA16394@deadlock.dhs.org>
+	Mon, 26 Oct 2015 15:30:57 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9QFUuOq018034
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 26 Oct 2015 08:30:56 -0700 (PDT)
+Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 26 Oct 2015 08:30:56 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 26 Oct 2015 10:30:54 -0500
+Message-ID: <1445873454-108723-2-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.9.3
+In-Reply-To: <1445873454-108723-1-git-send-email-mark.hatle@windriver.com>
+References: <1445873454-108723-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.20 (2009-12-10)
-Subject: Problem with RDEPENDS in multimachine builds for allarch packages
+Subject: [jethro/master][PATCH 1/1] local.conf.sample: Disable image-prelink by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,87 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Oct 2015 15:19:39 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 26 Oct 2015 15:30:59 -0000
+Content-Type: text/plain
 
-Hi,
+Due to problems with the prelinker itself, we need to disable the
+image-prelink by default.  This will hopefully be re-enabled in the near
+future.
 
-I recently ran into a problem that I described here:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=8578 and while debugging
-this issue an other problem came to light.
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/conf/local.conf.sample | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-I have a multimachine configuration (armv5/imx6) and the same distro for both
-of them (poky 2.0 RC based).
-
-I have some allarch packages which have no DEPENDS, however which have an
-RDEPENDS_${PN} setting.
-
-I can see that even though there were no changes to the recipe itself and 
-also no changes to the recipes listed in RDEPENDS, my recipe still gets 
-rebuilt each time.
-
-What we tried:
-
-<bluelightning> so cleansstate the recipe, change machine, cleansstate again,
-                then build it, then change machine, build it again and note
-                the first task that executes
-
-The logs for these steps, one with RDEPENDS and one without are at the end of
-this mail. I can see that with present RDEPENDS "real" tasks get executed
-even though no changes occured in the recipe; this is not the case when I 
-drop RDEPENDS.
-
-Is this a bug or is this just something that needs to be documented?
-What is the "desired" behaviour?
-
-Kind regards,
-Sergey
-
-
-What I get with RDEPENDS is:
-
-***********
-NOTE: Running setscene task 347 of 374 (/oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_populate_sysroot_setscene)
-NOTE: Running setscene task 350 of 374 (/oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_packagedata_setscene)
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_populate_sysroot_setscene: Started
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_packagedata_setscene: Started
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 352 of 374 (/oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_package_setscene)
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_setscene: Started
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_setscene: Succeeded
-NOTE: Running task 1175 of 1181 (ID: 14, /oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_package_write_ipk)
-NOTE: Running task 1176 of 1181 (ID: 9, /oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_package_qa)
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_write_ipk: Started
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_qa: Started
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_qa: Succeeded
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_write_ipk: Succeeded
-NOTE: Running noexec task 1179 of 1181 (ID: 10, /oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_build)
-NOTE: Running task 1180 of 1181 (ID: 11, /oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_rm_work)
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_rm_work: Started
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_rm_work: Succeeded
-NOTE: Running task 1181 of 1181 (ID: 12, /oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_rm_work_all)
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_rm_work_all: Started
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_rm_work_all: Succeeded
-***********
-
-We can see that some "real" tasks are getting executed (do_package_write_ipk).
-
-Now, when I remove the RDEPENDS from my recipe the log gets much shorter:
-
-***********
-NOTE: Running setscene task 73 of 76 (/oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_populate_sysroot_setscene)
-NOTE: Running setscene task 74 of 76 (/oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_package_write_ipk_setscene)
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_populate_sysroot_setscene: Started
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_write_ipk_setscene: Started
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 75 of 76 (/oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_packagedata_setscene)
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_packagedata_setscene: Started
-NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_packagedata_setscene: Succeeded
-***********
-
-Here no "real" tasks get executed.
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 3ae24ab..9d1480e 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -128,7 +128,9 @@ EXTRA_IMAGE_FEATURES = "debug-tweaks"
+ #   - 'image-swab' to perform host system intrusion detection
+ # NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
+ # NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
+-USER_CLASSES ?= "buildstats image-mklibs image-prelink"
++# NOTE: image-prelink is currently broken due to problems with the prelinker.  It is advised
++# that you do NOT run the prelinker at this time. 
++USER_CLASSES ?= "buildstats image-mklibs"
+ 
+ 
+ #
+-- 
+1.9.3
 
 
