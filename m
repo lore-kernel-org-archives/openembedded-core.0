@@ -1,24 +1,26 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0625D73695
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 8187E73D27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Oct 2015 11:33:25 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Oct 2015 04:33:25 -0700
+	Mon, 26 Oct 2015 12:09:29 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Oct 2015 05:08:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,201,1444719600"; d="scan'208";a="803119632"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 26 Oct 2015 04:33:25 -0700
-Message-ID: <562E0FB3.10001@linux.intel.com>
-Date: Mon, 26 Oct 2015 13:34:11 +0200
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.8.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+X-IronPort-AV: E=Sophos;i="5.20,201,1444719600"; d="scan'208";a="671857024"
+Received: from randjicd-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.27.7])
+	by orsmga003.jf.intel.com with ESMTP; 26 Oct 2015 05:08:37 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Mon, 26 Oct 2015 12:08:35 +0000
+Message-ID: <2756512.QMAWZ5dkze@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <562E0FB3.10001@linux.intel.com>
 References: <1445634201-13944-1-git-send-email-psidhu@gateworks.com>
-In-Reply-To: <1445634201-13944-1-git-send-email-psidhu@gateworks.com>
+	<562E0FB3.10001@linux.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v2] webkitgtk: Add upstream patch to fix build problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -32,17 +34,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Oct 2015 11:33:27 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Oct 2015 12:09:32 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 10/24/2015 12:03 AM, Pushpal Sidhu wrote:
+On Monday 26 October 2015 13:34:11 Alexander Kanavin wrote:
+> On 10/24/2015 12:03 AM, Pushpal Sidhu wrote:
+> > +Upstream-Status: Backport [webkit-2.10.0]
+> 
+> Why not update the recipe to latest 2.10 release instead?
 
-> +Upstream-Status: Backport [webkit-2.10.0]
+At this stage of the release it's too late for upgrades; we could certainly do 
+that for master after the release though.
 
-Why not update the recipe to latest 2.10 release instead?
+Cheers,
+Paul
 
+-- 
 
-Alex
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
