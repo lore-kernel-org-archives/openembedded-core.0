@@ -1,41 +1,28 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DAFD60125
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8997873E11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Oct 2015 18:43:44 +0000 (UTC)
-Received: by wicfx6 with SMTP id fx6so87341603wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Oct 2015 11:43:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=CamPiDbNwPDzdIEyjZmnRSIZFZdWotpVbR3LTuGnuuc=;
-	b=dlHFLTAn28xmjgk65Z5/THqdNLtnKGlHPXgl1OYLRXIC4ArMFU8jWLM1CS1xxEeRXm
-	I/Qcqqhf+JPPmie57G6ZQRCk8g7s9E7jF1VY8VZOmVV6MPIq/qiufZEKifVDSMu3IqaG
-	tlvRn/cE1bV6WwV9wfdaW9XCi/Mb6rqTT+tksIcmHasg6mJW6WPTktSiXLa/uU0YylAO
-	uHYO0z6r5jL9BMGN1wcGNAA/mz06aGGdQm7KctwHL09J7an7CHohBWxz9ZJgC5sChnJw
-	gryFZ6v0/C0lxDtagTpFg3Dr72Bn0ahSnEwA9NRdsTYMSDmvu/LhruACzA/8/TdKqHxY
-	K1sA==
-X-Received: by 10.180.211.230 with SMTP id nf6mr16117695wic.30.1445798624395; 
-	Sun, 25 Oct 2015 11:43:44 -0700 (PDT)
-Received: from ernie.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
-	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
-	ee1sm11031785wic.17.2015.10.25.11.43.43
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 25 Oct 2015 11:43:43 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-From: Jens Rehsack <rehsack@gmail.com>
-In-Reply-To: <CADe5tdMyJ+u6t5AgYn0cWC7ew2-=Yy2TnM_0KVBBd5-_rnUYUA@mail.gmail.com>
-Date: Sun, 25 Oct 2015 19:43:42 +0100
-Message-Id: <8591B54B-FF17-4D30-B80A-DFD687EFCBE5@gmail.com>
-References: <1445620687-9578-1-git-send-email-jpuhlman@mvista.com>
-	<A4A69420-4397-4ACA-9471-66126153BE89@gmail.com>
-	<CADe5tdMyJ+u6t5AgYn0cWC7ew2-=Yy2TnM_0KVBBd5-_rnUYUA@mail.gmail.com>
-To: Jeremy Puhlman <jpuhlman@mvista.com>
-X-Mailer: Apple Mail (2.2104)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Perl: Use CC version not $Config(gccversion)
+	Mon, 26 Oct 2015 02:00:15 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9Q20EGM018656
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 25 Oct 2015 19:00:14 -0700 (PDT)
+Received: from [128.224.162.154] (128.224.162.154) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 25 Oct 2015 19:00:14 -0700
+Message-ID: <562D892C.3090800@windriver.com>
+Date: Mon, 26 Oct 2015 10:00:12 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1445506427-15720-1-git-send-email-wenzong.fan@windriver.com>
+	<CAJTo0LY=QaJ-a9U=59_RgJAxR+LJUciXQiBv=jujHHVDR6SDpA@mail.gmail.com>
+In-Reply-To: <CAJTo0LY=QaJ-a9U=59_RgJAxR+LJUciXQiBv=jujHHVDR6SDpA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gnupg: set development_version as no
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,117 +35,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Oct 2015 18:43:46 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 26 Oct 2015 02:00:16 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 10/23/2015 06:40 PM, Burton, Ross wrote:
+>
+> On 22 October 2015 at 10:33, <wenzong.fan@windriver.com
+> <mailto:wenzong.fan@windriver.com>> wrote:
+>
+>     +-development_version=mym4_isbeta
+>     ++development_version=no
+>
+>
+> I'd say that a neater fix would be to change the logic in autogen,sh to
+> set beta=no in the find-version logic.  There's a chance you can use the
+> argument that taking an upstream tarball and re-running autoconf
+> shouldn't be considered a development release to get it upstreamed then.
 
-> Am 25.10.2015 um 00:17 schrieb Jeremy Puhlman <jpuhlman@mvista.com>:
->=20
->=20
-> On Oct 24, 2015 5:15 AM, "Jens Rehsack" <rehsack@gmail.com> wrote:
-> >
-> >
-> > > Am 23.10.2015 um 19:18 schrieb Jeremy Puhlman =
-<jpuhlman@mvista.com>:
-> > >
-> > > Get version data from querying $CC rather then
-> > > $Config(gccversion) which comes from running version of
-> > > perl. Since perl-native is not likely compiled by gcc
-> > > 5 at this point, it will never trigger the required
-> > > fixes for gcc 5.
-> > >
-> > > [YOCTO #8367]
-> > >
-> > > Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-> > > ---
-> > > .../perl/perl/perl-errno-generation-gcc5.patch     | 23 =
-++++++++++++++++++++++
-> > > meta/recipes-devtools/perl/perl_5.22.0.bb          |  1 +
-> > > 2 files changed, 24 insertions(+)
-> > > create mode 100644 =
-meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch
-> > >
-> > > diff --git =
-a/meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch =
-b/meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch
-> > > new file mode 100644
-> > > index 0000000..efbc55d
-> > > --- /dev/null
-> > > +++ =
-b/meta/recipes-devtools/perl/perl/perl-errno-generation-gcc5.patch
-> > > @@ -0,0 +1,23 @@
-> > > +Upstream-Status:Inappropriate [embedded specific]
-> >
-> > Did you ask p5-porters?
-> >
-> > I strongly suggest to open an RT for 2 reasons:
-> >
-> > 1) Let the people know that I'm not the only one encountering =
-problems with the way they deal situation
->=20
-> Yeah we have been having fun cross compiling perl since 2000, lots of =
-fun.
->=20
-> > 2) Those tickets enlighten over time.
-> >
-> > Cross-compiling is not restricted to embedded.
-> >
-> > The patch self looks more than sane and I'm happy to support it when =
-reported (so tell me the ticket number or put me on CC when creating the =
-ticket).
->=20
-> Is there a specific mailing list?
+Ok, I'll update the patch.
 
-Kind-of, see https://rt.perl.org and use perlbug =
-(http://perldoc.perl.org/perlbug.html)
+Thanks
+Wenzong
 
-> > > +The upstream code assumes that the compiler version used to =
-compiler miniperl/perl-native
-> > > +is the same as the one being used to build the perl binary. Since =
-most people are not running
-> > > +systems with gcc 5, it is unlikely that it will work on any =
-supported host. Switch out gccversion
-> > > +for the version extracted from $CC --version.
-> > > +
-> > > +--- perl-5.22.0/ext/Errno/Errno_pm.PL        2015-10-19 =
-18:01:20.622143786 -0400
-> > > ++++ perl-5.22.0-fixed/ext/Errno/Errno_pm.PL  2015-10-19 =
-17:50:35.662137367 -0400
-> > > +@@ -224,9 +224,12 @@
-> > > +
-> > > +     {       # BeOS (support now removed) did not enter this =
-block
-> > > +     # invoke CPP and read the output
-> > > ++        my $compiler =3D $ENV{'CC'};
-> > > ++        my $compiler_out =3D `$compiler --version`;
-> > > ++        my @compiler_version =3D split / /,$compiler_out;
-> > > +
-> > > +     my $inhibit_linemarkers =3D '';
-> > > +-    if ($Config{gccversion} =3D~ /\A(\d+)\./ and $1 >=3D 5) {
-> > > ++    if (@compiler_version[2] =3D~ /\A(\d+)\./ and $1 >=3D 5) {
-> > > +         # GCC 5.0 interleaves expanded macros with line numbers =
-breaking
-> > > +         # each line into multiple lines. RT#123784
-> > > +         $inhibit_linemarkers =3D ' -P';
-> > > diff --git a/meta/recipes-devtools/perl/perl_5.22.0.bb =
-b/meta/recipes-devtools/perl/perl_5.22.0.bb
-> > > index 3ce7849..66e074d 100644
-> > > --- a/meta/recipes-devtools/perl/perl_5.22.0.bb
-> > > +++ b/meta/recipes-devtools/perl/perl_5.22.0.bb
-> > > @@ -62,6 +62,7 @@ SRC_URI +=3D " \
-> > >         =
-file://ext-ODBM_File-hints-linux.pl-link-libgdbm_compat.patch \
-> > >         =
-file://ext-ODBM_File-t-odbm.t-fix-the-path-of-dbmt_common.p.patch \
-> > >         file://perl-PathTools-don-t-filter-out-blib-from-INC.patch =
-\
-> > > +        file://perl-errno-generation-gcc5.patch \
-> > > "
-> > >
-> > > # Fix test case issues
-
---=20
-Jens Rehsack - rehsack@gmail.com
-
+>
+> Ross
 
