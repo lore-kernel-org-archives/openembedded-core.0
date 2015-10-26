@@ -1,29 +1,27 @@
-Return-Path: <s.christ@phytec.de>
-Received: from root.phytec.de (mail.microcatalog.org.uk [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 2575960657
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id AE14760034
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Oct 2015 08:22:49 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 5B849A00412
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Oct 2015 09:23:08 +0100 (CET)
-Received: from augenblix.phytec.de ([172.16.0.56])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP2 HF590)
-	with ESMTP id 2015102609224930-4122 ;
-	Mon, 26 Oct 2015 09:22:49 +0100 
-From: Stefan Christ <s.christ@phytec.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Oct 2015 09:20:35 +0100
-Message-Id: <1445847637-46008-3-git-send-email-s.christ@phytec.de>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1445847637-46008-1-git-send-email-s.christ@phytec.de>
-References: <1445847637-46008-1-git-send-email-s.christ@phytec.de>
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP2
-	HF590|December 11, 2014) at 26.10.2015 09:22:49,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP2 HF590|December 11,
-	2014) at 26.10.2015 09:22:49,
-	Serialize complete at 26.10.2015 09:22:49
-Subject: [PATCH v2 3/5] linux-dtb.inc: explicit test for empty string not needed
+	Mon, 26 Oct 2015 09:20:53 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 26 Oct 2015 02:20:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,200,1444719600"; d="scan'208";a="819463494"
+Received: from randjicd-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.27.7])
+	by fmsmga001.fm.intel.com with ESMTP; 26 Oct 2015 02:20:38 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Tzu-Jung Lee <roy@currantlabs.com>
+Date: Mon, 26 Oct 2015 09:20:37 +0000
+Message-ID: <7693189.S1Wl4IG7qW@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <1445468805-22100-1-git-send-email-roylee17@currantlabs.com>
+References: <1445468805-22100-1-git-send-email-roylee17@currantlabs.com>
+MIME-Version: 1.0
+Cc: Tzu-Jung Lee <roylee17@currantlabs.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [meta-oe][PATCH] devtool: add sync command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,111 +34,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Oct 2015 08:22:52 -0000
+X-List-Received-Date: Mon, 26 Oct 2015 09:20:54 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The for loop already handles the case when KERNEL_DEVICETREE is empty.
+Hi Tzu-Jung,
 
-Signed-off-by: Stefan Christ <s.christ@phytec.de>
----
- meta/recipes-kernel/linux/linux-dtb.inc | 78 +++++++++++++++------------------
- 1 file changed, 36 insertions(+), 42 deletions(-)
+Thanks for the patch.
 
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 173e945..2b8b11f 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -6,54 +6,48 @@ python __anonymous () {
- }
- 
- do_compile_append() {
--	if test -n "${KERNEL_DEVICETREE}"; then
--		for DTB in ${KERNEL_DEVICETREE}; do
--			if echo ${DTB} | grep -q '/dts/'; then
--				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
--				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
--			fi
--			oe_runmake ${DTB}
--		done
--	fi
-+	for DTB in ${KERNEL_DEVICETREE}; do
-+		if echo ${DTB} | grep -q '/dts/'; then
-+			bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
-+			DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
-+		fi
-+		oe_runmake ${DTB}
-+	done
- }
- 
- do_install_append() {
--	if test -n "${KERNEL_DEVICETREE}"; then
--		for DTB in ${KERNEL_DEVICETREE}; do
--			if echo ${DTB} | grep -q '/dts/'; then
--				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
--				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
--			fi
--			DTB_BASE_NAME=`basename ${DTB} .dtb`
--			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			DTB_PATH="${B}/arch/${ARCH}/boot/dts/${DTB}"
--			if [ ! -e "${DTB_PATH}" ]; then
--				DTB_PATH="${B}/arch/${ARCH}/boot/${DTB}"
--			fi
--			install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
--		done
--	fi
-+	for DTB in ${KERNEL_DEVICETREE}; do
-+		if echo ${DTB} | grep -q '/dts/'; then
-+			bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
-+			DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
-+		fi
-+		DTB_BASE_NAME=`basename ${DTB} .dtb`
-+		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-+		DTB_PATH="${B}/arch/${ARCH}/boot/dts/${DTB}"
-+		if [ ! -e "${DTB_PATH}" ]; then
-+			DTB_PATH="${B}/arch/${ARCH}/boot/${DTB}"
-+		fi
-+		install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
-+	done
- }
- 
- do_deploy_append() {
--	if test -n "${KERNEL_DEVICETREE}"; then
--		for DTB in ${KERNEL_DEVICETREE}; do
--			if echo ${DTB} | grep -q '/dts/'; then
--				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
--				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
--			fi
--			DTB_BASE_NAME=`basename ${DTB} .dtb`
--			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			DTB_PATH="${B}/arch/${ARCH}/boot/dts/${DTB}"
--			if [ ! -e "${DTB_PATH}" ]; then
--				DTB_PATH="${B}/arch/${ARCH}/boot/${DTB}"
--			fi
--			install -d ${DEPLOYDIR}
--			install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.dtb
--			ln -sf ${DTB_NAME}.dtb ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.dtb
--		done
--	fi
-+	for DTB in ${KERNEL_DEVICETREE}; do
-+		if echo ${DTB} | grep -q '/dts/'; then
-+			bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
-+			DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
-+		fi
-+		DTB_BASE_NAME=`basename ${DTB} .dtb`
-+		DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-+		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-+		DTB_PATH="${B}/arch/${ARCH}/boot/dts/${DTB}"
-+		if [ ! -e "${DTB_PATH}" ]; then
-+			DTB_PATH="${B}/arch/${ARCH}/boot/${DTB}"
-+		fi
-+		install -d ${DEPLOYDIR}
-+		install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.dtb
-+		ln -sf ${DTB_NAME}.dtb ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.dtb
-+	done
- }
- 
- pkg_postinst_kernel-devicetree () {
+On Wednesday 21 October 2015 23:06:45 Tzu-Jung Lee wrote:
+> The sync command is similar to the extract command, except it
+> fetches the sync'ed and patched branch to an existing git repository.
+> 
+> This enables users to keep track the upstream development while
+> maintaining their own local git repository at the same time.
+> 
+> Signed-off-by: Tzu-Jung Lee <roylee17@currantlabs.com>
+> ---
+>  scripts/lib/devtool/standard.py | 73
+> +++++++++++++++++++++++++++++++---------- 1 file changed, 56 insertions(+),
+> 17 deletions(-)
+> 
+> diff --git a/scripts/lib/devtool/standard.py
+> b/scripts/lib/devtool/standard.py index 5d7e903..2c6b7b3 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -234,7 +234,29 @@ def extract(args, config, basepath, workspace):
+>          return 1
+> 
+>      srctree = os.path.abspath(args.srctree)
+> -    initial_rev = _extract_source(srctree, args.keep_temp, args.branch, rd)
+> +    initial_rev = _extract_source(srctree, args.keep_temp, args.branch,
+> False, rd) 
+> +    logger.info('Source tree extracted to %s' % srctree)
+> +
+> +    if initial_rev:
+> +        return 0
+> +    else:
+> +        return 1
+
+Hmm, so your patch shows this check being added but it's there in master. Are 
+you patching an older version?
+
+
+> +def sync(args, config, basepath, workspace):
+> +    """Entry point for the devtool 'sync' subcommand"""
+> +    import bb
+> +
+> +    tinfoil = _prep_extract_operation(config, basepath, args.recipename)
+> +    if not tinfoil:
+> +        # Error already shown
+> +        return 1
+> +
+> +    rd = parse_recipe(config, tinfoil, args.recipename, True)
+> +    if not rd:
+> +        return 1
+> +
+> +    srctree = os.path.abspath(args.srctree)
+> +    initial_rev = _extract_source(srctree, args.keep_temp, args.branch,
+> True, rd) logger.info('Source tree extracted to %s' % srctree)
+> 
+>      if initial_rev:
+> @@ -289,7 +311,7 @@ def _prep_extract_operation(config, basepath,
+> recipename): return tinfoil
+> 
+> 
+> -def _extract_source(srctree, keep_temp, devbranch, d):
+> +def _extract_source(srctree, keep_temp, devbranch, sync, d):
+>      """Extract sources of a recipe"""
+>      import bb.event
+>      import oe.recipeutils
+> @@ -308,21 +330,26 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+> 
+>      _check_compatible_recipe(pn, d)
+> 
+> -    if os.path.exists(srctree):
+> -        if not os.path.isdir(srctree):
+> -            raise DevtoolError("output path %s exists and is not a
+> directory" % -                               srctree)
+> -        elif os.listdir(srctree):
+> -            raise DevtoolError("output path %s already exists and is "
+> -                               "non-empty" % srctree)
+> +    if sync:
+> +        if not os.path.exists(srctree):
+> +                raise DevtoolError("output path %s does not exist" %
+> srctree) +    else:
+> +        if os.path.exists(srctree):
+> +            if not os.path.isdir(srctree):
+> +                raise DevtoolError("output path %s exists and is not a
+> directory" % +                                   srctree)
+> +            elif os.listdir(srctree):
+> +                raise DevtoolError("output path %s already exists and is "
+> +                                   "non-empty" % srctree)
+> 
+> -    if 'noexec' in (d.getVarFlags('do_unpack', False) or []):
+> -        raise DevtoolError("The %s recipe has do_unpack disabled, unable to
+> " -                           "extract source" % pn)
+> +        if 'noexec' in (d.getVarFlags('do_unpack', False) or []):
+> +            raise DevtoolError("The %s recipe has do_unpack disabled,
+> unable to " +                               "extract source" % pn)
+> 
+> -    # Prepare for shutil.move later on
+> -    bb.utils.mkdirhier(srctree)
+> -    os.rmdir(srctree)
+> +    if not sync:
+> +        # Prepare for shutil.move later on
+> +        bb.utils.mkdirhier(srctree)
+> +        os.rmdir(srctree)
+> 
+>      # We don't want notes to be printed, they are too verbose
+>      origlevel = bb.logger.getEffectiveLevel()
+> @@ -431,8 +458,11 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+>              logger.info('Adding local source files to srctree...')
+>              shutil.move(os.path.join(tempdir, 'oe-local-files'), srcsubdir)
+> 
+> +        if sync:
+> +            bb.process.run('git fetch file://' + srcsubdir + ' ' +
+> devbranch + ':' + devbranch, cwd=srctree) 
+> +        else:
+> +            shutil.move(srcsubdir, srctree)
+> 
+> -        shutil.move(srcsubdir, srctree)
+>      finally:
+>          bb.logger.setLevel(origlevel)
+> 
+> @@ -532,7 +562,7 @@ def modify(args, config, basepath, workspace):
+>      commits = []
+>      srctree = os.path.abspath(args.srctree)
+>      if args.extract:
+> -        initial_rev = _extract_source(args.srctree, False, args.branch, rd)
+> +        initial_rev = _extract_source(args.srctree, False, args.branch,
+> False, rd) if not initial_rev:
+>              return 1
+>          logger.info('Source tree extracted to %s' % srctree)
+> @@ -1107,6 +1137,15 @@ def register_commands(subparsers, context):
+>      parser_extract.add_argument('--keep-temp', action="store_true",
+> help='Keep temporary directory (for debugging)')
+> parser_extract.set_defaults(func=extract)
+> 
+> +    parser_sync = subparsers.add_parser('sync', help='Synchronize the
+> source for an existing recipe', +                                      
+> description='Synchronize the source for an existing recipe', +             
+>                         
+> formatter_class=argparse.ArgumentDefaultsHelpFormatter) +   
+> parser_sync.add_argument('recipename', help='Name for recipe to sync the
+> source for') +    parser_sync.add_argument('srctree', help='Path to where
+> to sync the source tree') +    parser_sync.add_argument('--branch', '-b',
+> default="devtool", help='Name for development branch to checkout') +   
+> parser_sync.add_argument('--keep-temp', action="store_true", help='Keep
+> temporary directory (for debugging)') +   
+> parser_sync.set_defaults(func=sync)
+> +
+>      parser_update_recipe = subparsers.add_parser('update-recipe',
+> help='Apply changes from external source tree to recipe',
+> description='Applies changes from external source tree to a recipe
+> (updating/adding/removing patches as necessary, or by updating SRCREV)')
+> parser_update_recipe.add_argument('recipename', help='Name of recipe to
+> update')
+
+Exploring the use case a bit more, do you anticipate using this sync command 
+in conjunction with a recipe that's in the workspace, or standalone?
+
+Cheers,
+Paul
+
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
