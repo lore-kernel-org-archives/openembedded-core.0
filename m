@@ -1,32 +1,35 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (unknown [64.129.254.146])
-	by mail.openembedded.org (Postfix) with ESMTP id 327D26013D
+Return-Path: <alejandro.joya.cruz@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CACA873D27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Oct 2015 21:35:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9QLZeHl029835
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 26 Oct 2015 14:35:40 -0700
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 26 Oct 2015 14:35:39 -0700
-To: Phil Blundell <pb@pbcl.net>
-References: <562E3896.6080405@windriver.com>
-	<1445875841.5251.107.camel@pbcl.net> <562E58BE.9060003@windriver.com>
-	<1445878220.5251.110.camel@pbcl.net> <562E5AF1.3080807@windriver.com>
-	<1445894299.6900.8.camel@pbcl.net>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <562E9CAA.7000805@windriver.com>
-Date: Mon, 26 Oct 2015 16:35:38 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <1445894299.6900.8.camel@pbcl.net>
-Cc: Patches and discussions about the oe-core layer
+	Mon, 26 Oct 2015 22:45:13 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 26 Oct 2015 15:45:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,202,1444719600"; d="scan'208";a="803664745"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+	by orsmga001.jf.intel.com with ESMTP; 26 Oct 2015 15:45:14 -0700
+Received: from fmsmsx117.amr.corp.intel.com (10.18.116.17) by
+	FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Mon, 26 Oct 2015 15:45:13 -0700
+Received: from fmsmsx106.amr.corp.intel.com ([169.254.5.48]) by
+	fmsmsx117.amr.corp.intel.com ([169.254.3.150]) with mapi id
+	14.03.0248.002; Mon, 26 Oct 2015 15:45:13 -0700
+From: "Joya Cruz, Alejandro" <alejandro.joya.cruz@intel.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Prelink problems -- need help!
+Thread-Topic: [OE-core][PATCH v2] busybox: add virtual reference instead
+Thread-Index: AQHRDBc4RZT/F3W+IUefREUajmRLKJ5+3RMA
+Date: Mon, 26 Oct 2015 22:45:13 +0000
+Message-ID: <1445899504.14064.9.camel@intel.com>
+References: <1445442167-30670-1-git-send-email-alejandro.joya.cruz@intel.com>
+In-Reply-To: <1445442167-30670-1-git-send-email-alejandro.joya.cruz@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.219.128.105]
+MIME-Version: 1.0
+Subject: Re: [PATCH v2] busybox: add virtual reference instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,40 +42,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Oct 2015 21:35:42 -0000
+X-List-Received-Date: Mon, 26 Oct 2015 22:45:15 -0000
+Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-ID: <60E7C0DFD83EF94592FEB64CA2ECA073@intel.com>
+Content-Transfer-Encoding: base64
 
-On 10/26/15 4:18 PM, Phil Blundell wrote:
-> On Mon, 2015-10-26 at 11:55 -0500, Mark Hatle wrote:
->> -last- time I got concrete numbers on a complex boot process.  It was on the
->> order of 1-5% boot time.. and a fairly large number of pages saved.. (which
->> reduced fragmentation as well as saved memory.)
-> 
-> I'm slightly surprised at the 5% figure.  Martin Jansa posted some
-> statistics in another thread earlier today which showed an improvement
-> from prelink of just under 0.5% (0.24 seconds saved out of 49.51 seconds
-> total) and that's more like what I would have expected.  What sort of
-> binaries were you running on the system you measured?
-
-At the time, it was systemd, X11, a custom control module and a custom UI
-program.  The custom UI program was written in C++ and had a heck of a lot of
-libraries attached, and lots of RPC via dbus.
-
-> I also don't entirely understand the fragmentation argument.  We're not
-> talking about a no-mmu configuration here, are we?
-
-Fragmentation takes time and can slow down memory allocation.  We've got both
-the kernel page allocation, as well as the internal glibc memory allocation.
-They work together, but are not the same.  (glibc will grab pages of memory from
-the kernel and then dish them out.  As this memory fragments, it has to pull
-more from the kernel to compensate... as well as free blocks to get more
-contiguous memory allocated).. It's a bit of a viscous cycle of some small systems.
-
---Mark
-
-> p.
-> 
-> 
-
+QW55IGNvbW1lbnRzIG9uIHRoaXM/DQoNCk9uIG1pw6ksIDIwMTUtMTAtMjEgYXQgMTA6NDIgLTA1
+MDAsIEFsZWphbmRybyBKb3lhIHdyb3RlOg0KPiBUaGVzZSByZWNpcGVzIGhhdmUgYSBoYXJkY29k
+ZWQgZGVwZW5kZW5jeSB0byBidXN5Ym94LA0KPiBpbiBvcmRlciB0byBiZSBhYmxlIHRvIGhhdmUg
+YSBmbGV4aWJsZSBzZWxlY3Rpb24sDQo+IGluc3RlYWQgb2YgdGhlIGhhcmRjb2RlZCBkZXBlbmRl
+bmN5LCBub3cgaXQgaXMgcG9pbnQgdG8gIHZpcnR1YWwgcmVmZXJlbmNlDQo+IGJhc2UtdXRpbHMu
+DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBBbGVqYW5kcm8gSm95YSA8YWxlamFuZHJvLmpveWEuY3J1
+ekBpbnRlbC5jb20+DQo+IC0tLQ0KPiAgbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL2RlZmF1bHQt
+cHJvdmlkZXJzLmluYyAgICAgICAgICAgICB8IDMgKysrDQo+ICBtZXRhL3JlY2lwZXMtY29yZS9p
+bWFnZXMvY29yZS1pbWFnZS1taW5pbWFsLWluaXRyYW1mcy5iYiAgIHwgMiArLQ0KPiAgbWV0YS9y
+ZWNpcGVzLWNvcmUvaW5pdHJkc2NyaXB0cy9pbml0cmFtZnMtZnJhbWV3b3JrXzEuMC5iYiB8IDIg
+Ky0NCj4gIG1ldGEvcmVjaXBlcy1jb3JlL3BhY2thZ2Vncm91cHMvcGFja2FnZWdyb3VwLWNvcmUt
+Ym9vdC5iYiAgfCA0ICsrLS0NCj4gIDQgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA0
+IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvY29uZi9kaXN0cm8vaW5jbHVk
+ZS9kZWZhdWx0LXByb3ZpZGVycy5pbmMgYi9tZXRhL2NvbmYvZGlzdHJvL2luY2x1ZGUvZGVmYXVs
+dC1wcm92aWRlcnMuaW5jDQo+IGluZGV4IDlmODRkNWMuLmJiMzgyYmQgMTAwNjQ0DQo+IC0tLSBh
+L21ldGEvY29uZi9kaXN0cm8vaW5jbHVkZS9kZWZhdWx0LXByb3ZpZGVycy5pbmMNCj4gKysrIGIv
+bWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL2RlZmF1bHQtcHJvdmlkZXJzLmluYw0KPiBAQCAtMTMs
+NiArMTMsNyBAQCBQUkVGRVJSRURfUFJPVklERVJfdmlydHVhbC9tZXNhID89ICJtZXNhIg0KPiAg
+UFJFRkVSUkVEX1BST1ZJREVSX3ZpcnR1YWwvdXBkYXRlLWFsdGVybmF0aXZlcyA/PSAib3BrZy11
+dGlscyINCj4gIFBSRUZFUlJFRF9QUk9WSURFUl92aXJ0dWFsL3VwZGF0ZS1hbHRlcm5hdGl2ZXMt
+bmF0aXZlID89ICJvcGtnLXV0aWxzLW5hdGl2ZSINCj4gIFBSRUZFUlJFRF9QUk9WSURFUl92aXJ0
+dWFsL2xpYngxMSA/PSAibGlieDExIg0KPiArUFJFRkVSUkVEX1BST1ZJREVSX3ZpcnR1YWwvYmFz
+ZS11dGlscyA/PSAiYnVzeWJveCINCj4gIFBSRUZFUlJFRF9QUk9WSURFUl94Zjg2LXZpZGVvLWlu
+dGVsID89ICJ4Zjg2LXZpZGVvLWludGVsIg0KPiAgDQo+ICAjDQo+IEBAIC0yMyw2ICsyNCw4IEBA
+IFZJUlRVQUwtUlVOVElNRV9hcG0gPz0gImFwbSINCj4gIFZJUlRVQUwtUlVOVElNRV9hbHNhLXN0
+YXRlID89ICJhbHNhLXN0YXRlIg0KPiAgVklSVFVBTC1SVU5USU1FX2dldG9wdCA/PSAidXRpbC1s
+aW51eC1nZXRvcHQiDQo+ICBWSVJUVUFMLVJVTlRJTUVfd2lyZWxlc3MtdG9vbHMgPz0gIml3IHdp
+cmVsZXNzLXRvb2xzIg0KPiArVklSVFVBTC1SVU5USU1FX2Jhc2UtdXRpbHMgPz0gImJ1c3lib3gi
+DQo+ICtWSVJUVUFMLVJVTlRJTUVfYmFzZS11dGlscy1od2Nsb2NrID89ICJidXN5Ym94LWh3Y2xv
+Y2siDQo+ICANCj4gICMNCj4gICMgRGVmYXVsdCByZWNpcGUgcHJvdmlkZXJzDQo+IGRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtY29yZS9pbWFnZXMvY29yZS1pbWFnZS1taW5pbWFsLWluaXRyYW1m
+cy5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2ltYWdlcy9jb3JlLWltYWdlLW1pbmltYWwtaW5pdHJh
+bWZzLmJiDQo+IGluZGV4IDFmMGZhOTUuLmEyNjI4NmUgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVj
+aXBlcy1jb3JlL2ltYWdlcy9jb3JlLWltYWdlLW1pbmltYWwtaW5pdHJhbWZzLmJiDQo+ICsrKyBi
+L21ldGEvcmVjaXBlcy1jb3JlL2ltYWdlcy9jb3JlLWltYWdlLW1pbmltYWwtaW5pdHJhbWZzLmJi
+DQo+IEBAIC0zLDcgKzMsNyBAQCBERVNDUklQVElPTiA9ICJTbWFsbCBpbWFnZSBjYXBhYmxlIG9m
+IGJvb3RpbmcgYSBkZXZpY2UuIFRoZSBrZXJuZWwgaW5jbHVkZXMgXA0KPiAgdGhlIE1pbmltYWwg
+UkFNLWJhc2VkIEluaXRpYWwgUm9vdCBGaWxlc3lzdGVtIChpbml0cmFtZnMpLCB3aGljaCBmaW5k
+cyB0aGUgXA0KPiAgZmlyc3QgJ2luaXQnIHByb2dyYW0gbW9yZSBlZmZpY2llbnRseS4iDQo+ICAN
+Cj4gLVBBQ0tBR0VfSU5TVEFMTCA9ICJpbml0cmFtZnMtbGl2ZS1ib290IGluaXRyYW1mcy1saXZl
+LWluc3RhbGwgaW5pdHJhbWZzLWxpdmUtaW5zdGFsbC1lZmkgYnVzeWJveCB1ZGV2IGJhc2UtcGFz
+c3dkICR7Uk9PVEZTX0JPT1RTVFJBUF9JTlNUQUxMfSINCj4gK1BBQ0tBR0VfSU5TVEFMTCA9ICJp
+bml0cmFtZnMtbGl2ZS1ib290IGluaXRyYW1mcy1saXZlLWluc3RhbGwgaW5pdHJhbWZzLWxpdmUt
+aW5zdGFsbC1lZmkgJHtWSVJUVUFMLVJVTlRJTUVfYmFzZS11dGlsc30gdWRldiBiYXNlLXBhc3N3
+ZCAke1JPT1RGU19CT09UU1RSQVBfSU5TVEFMTH0iDQo+ICANCj4gICMgRG8gbm90IHBvbGx1dGUg
+dGhlIGluaXRyZCBpbWFnZSB3aXRoIHJvb3RmcyBmZWF0dXJlcw0KPiAgSU1BR0VfRkVBVFVSRVMg
+PSAiIg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHJkc2NyaXB0cy9pbml0
+cmFtZnMtZnJhbWV3b3JrXzEuMC5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2luaXRyZHNjcmlwdHMv
+aW5pdHJhbWZzLWZyYW1ld29ya18xLjAuYmINCj4gaW5kZXggNmMzN2I5YS4uMDY2NGE5NSAxMDA2
+NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHJkc2NyaXB0cy9pbml0cmFtZnMtZnJh
+bWV3b3JrXzEuMC5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS9pbml0cmRzY3JpcHRzL2lu
+aXRyYW1mcy1mcmFtZXdvcmtfMS4wLmJiDQo+IEBAIC0xLDcgKzEsNyBAQA0KPiAgU1VNTUFSWSA9
+ICJNb2R1bGFyIGluaXRyYW1mcyBzeXN0ZW0iDQo+ICBMSUNFTlNFID0gIk1JVCINCj4gIExJQ19G
+SUxFU19DSEtTVU0gPSAiZmlsZTovLyR7Q09SRUJBU0V9L21ldGEvQ09QWUlORy5NSVQ7bWQ1PTNk
+YTljZmJjYjc4OGM4MGEwMzg0MzYxYjRkZTIwNDIwIg0KPiAtUkRFUEVORFNfJHtQTn0gKz0gImJ1
+c3lib3giDQo+ICtSREVQRU5EU18ke1BOfSArPSAiJHtWSVJUVUFMLVJVTlRJTUVfYmFzZS11dGls
+c30iDQo+ICANCj4gIFBSID0gInIyIg0KPiAgDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+Y29yZS9wYWNrYWdlZ3JvdXBzL3BhY2thZ2Vncm91cC1jb3JlLWJvb3QuYmIgYi9tZXRhL3JlY2lw
+ZXMtY29yZS9wYWNrYWdlZ3JvdXBzL3BhY2thZ2Vncm91cC1jb3JlLWJvb3QuYmINCj4gaW5kZXgg
+MDlmNTM3My4uN2U0MDQ0NSAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvcGFja2Fn
+ZWdyb3Vwcy9wYWNrYWdlZ3JvdXAtY29yZS1ib290LmJiDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1j
+b3JlL3BhY2thZ2Vncm91cHMvcGFja2FnZWdyb3VwLWNvcmUtYm9vdC5iYg0KPiBAQCAtMjQsNyAr
+MjQsNyBAQCBWSVJUVUFMLVJVTlRJTUVfaW5pdF9tYW5hZ2VyID89ICJzeXN2aW5pdCINCj4gIFZJ
+UlRVQUwtUlVOVElNRV9pbml0c2NyaXB0cyA/PSAiaW5pdHNjcmlwdHMiDQo+ICBWSVJUVUFMLVJV
+TlRJTUVfa2V5bWFwcyA/PSAia2V5bWFwcyINCj4gIA0KPiAtU1lTVklOSVRfU0NSSVBUUyA9ICIk
+e0BiYi51dGlscy5jb250YWlucygnTUFDSElORV9GRUFUVVJFUycsICdydGMnLCAnYnVzeWJveC1o
+d2Nsb2NrJywgJycsIGQpfSBcDQo+ICtTWVNWSU5JVF9TQ1JJUFRTID0gIiR7QGJiLnV0aWxzLmNv
+bnRhaW5zKCdNQUNISU5FX0ZFQVRVUkVTJywgJ3J0YycsJyR7VklSVFVBTC1SVU5USU1FX2Jhc2Ut
+dXRpbHMtaHdjbG9ja30nLCAnJywgZCl9IFwNCj4gICAgICAgICAgICAgICAgICAgICAgbW9kdXRp
+bHMtaW5pdHNjcmlwdHMgXA0KPiAgICAgICAgICAgICAgICAgICAgICBpbml0LWlmdXBkb3duIFwN
+Cj4gICAgICAgICAgICAgICAgICAgICAgJHtWSVJUVUFMLVJVTlRJTUVfaW5pdHNjcmlwdHN9IFwN
+Cj4gQEAgLTMzLDcgKzMzLDcgQEAgU1lTVklOSVRfU0NSSVBUUyA9ICIke0BiYi51dGlscy5jb250
+YWlucygnTUFDSElORV9GRUFUVVJFUycsICdydGMnLCAnYnVzeWJveC1od2MNCj4gIFJERVBFTkRT
+XyR7UE59ID0gIlwNCj4gICAgICBiYXNlLWZpbGVzIFwNCj4gICAgICBiYXNlLXBhc3N3ZCBcDQo+
+IC0gICAgYnVzeWJveCBcDQo+ICsgICAgJHtWSVJUVUFMLVJVTlRJTUVfYmFzZS11dGlsc30gXA0K
+PiAgICAgICR7QGJiLnV0aWxzLmNvbnRhaW5zKCJESVNUUk9fRkVBVFVSRVMiLCAic3lzdmluaXQi
+LCAiJHtTWVNWSU5JVF9TQ1JJUFRTfSIsICIiLCBkKX0gXA0KPiAgICAgICR7QGJiLnV0aWxzLmNv
+bnRhaW5zKCJNQUNISU5FX0ZFQVRVUkVTIiwgImtleWJvYXJkIiwgIiR7VklSVFVBTC1SVU5USU1F
+X2tleW1hcHN9IiwgIiIsIGQpfSBcDQo+ICAgICAgbmV0YmFzZSBcDQoNCg==
 
