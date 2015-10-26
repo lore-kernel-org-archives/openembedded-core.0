@@ -1,35 +1,36 @@
-Return-Path: <alejandro.joya.cruz@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id CACA873D27
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Oct 2015 22:45:13 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 26 Oct 2015 15:45:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,202,1444719600"; d="scan'208";a="803664745"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
-	by orsmga001.jf.intel.com with ESMTP; 26 Oct 2015 15:45:14 -0700
-Received: from fmsmsx117.amr.corp.intel.com (10.18.116.17) by
-	FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Mon, 26 Oct 2015 15:45:13 -0700
-Received: from fmsmsx106.amr.corp.intel.com ([169.254.5.48]) by
-	fmsmsx117.amr.corp.intel.com ([169.254.3.150]) with mapi id
-	14.03.0248.002; Mon, 26 Oct 2015 15:45:13 -0700
-From: "Joya Cruz, Alejandro" <alejandro.joya.cruz@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][PATCH v2] busybox: add virtual reference instead
-Thread-Index: AQHRDBc4RZT/F3W+IUefREUajmRLKJ5+3RMA
-Date: Mon, 26 Oct 2015 22:45:13 +0000
-Message-ID: <1445899504.14064.9.camel@intel.com>
-References: <1445442167-30670-1-git-send-email-alejandro.joya.cruz@intel.com>
-In-Reply-To: <1445442167-30670-1-git-send-email-alejandro.joya.cruz@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.219.128.105]
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6752973D27;
+	Mon, 26 Oct 2015 22:49:18 +0000 (UTC)
+Received: by ioll68 with SMTP id l68so204111319iol.3;
+	Mon, 26 Oct 2015 15:49:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=JVdJ4M9FQqYL7cA/vBdqWml25jp2JXymruhTPQ0405s=;
+	b=1Kd79BcKmjx0fRTJdoBAX/gmsN5nfGOjYsNpMpKCHsZxKpb+is5XH/Sxf6N/myRRrf
+	/5IyKVqm8n3fHHVfDA0CrTxsc1F8KoklbvvInrH5Y8beOL6cQM/FTXznyZPNJaTcmg1w
+	UkZ6ke1tI6cQC5ZjuLINqJDpB+7RPAqvgQ7gMdRtYNNqvW38SPyOKW5cxY0ze9TBbBaL
+	leuOx7Imq+FVY0IdAS5Aa8r3RIfkvnqYVROTWnUyT1PA3p4MPXyIryWFMn671tBYs6PI
+	wqxm0KF5zEEMUu3TsdMGgVUbatL8OnqGEyp/QylfLr1quRpn5Ps9oRBwfgBS4WeUREot
+	HZ1Q==
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] busybox: add virtual reference instead
+X-Received: by 10.107.135.95 with SMTP id j92mr33404099iod.148.1445899758768; 
+	Mon, 26 Oct 2015 15:49:18 -0700 (PDT)
+Received: by 10.36.31.131 with HTTP; Mon, 26 Oct 2015 15:49:18 -0700 (PDT)
+In-Reply-To: <20151026204716.GJ2554@jama>
+References: <20151026204716.GJ2554@jama>
+Date: Mon, 26 Oct 2015 23:49:18 +0100
+Message-ID: <CALbNGRQCwyFKti9sgx0MHkxFbwuksupsjsnQ0UmK=dWQ47AZaw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, Failed tasks 2015-10-26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,89 +43,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Oct 2015 22:45:15 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <60E7C0DFD83EF94592FEB64CA2ECA073@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 26 Oct 2015 22:49:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
-QW55IGNvbW1lbnRzIG9uIHRoaXM/DQoNCk9uIG1pw6ksIDIwMTUtMTAtMjEgYXQgMTA6NDIgLTA1
-MDAsIEFsZWphbmRybyBKb3lhIHdyb3RlOg0KPiBUaGVzZSByZWNpcGVzIGhhdmUgYSBoYXJkY29k
-ZWQgZGVwZW5kZW5jeSB0byBidXN5Ym94LA0KPiBpbiBvcmRlciB0byBiZSBhYmxlIHRvIGhhdmUg
-YSBmbGV4aWJsZSBzZWxlY3Rpb24sDQo+IGluc3RlYWQgb2YgdGhlIGhhcmRjb2RlZCBkZXBlbmRl
-bmN5LCBub3cgaXQgaXMgcG9pbnQgdG8gIHZpcnR1YWwgcmVmZXJlbmNlDQo+IGJhc2UtdXRpbHMu
-DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBBbGVqYW5kcm8gSm95YSA8YWxlamFuZHJvLmpveWEuY3J1
-ekBpbnRlbC5jb20+DQo+IC0tLQ0KPiAgbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL2RlZmF1bHQt
-cHJvdmlkZXJzLmluYyAgICAgICAgICAgICB8IDMgKysrDQo+ICBtZXRhL3JlY2lwZXMtY29yZS9p
-bWFnZXMvY29yZS1pbWFnZS1taW5pbWFsLWluaXRyYW1mcy5iYiAgIHwgMiArLQ0KPiAgbWV0YS9y
-ZWNpcGVzLWNvcmUvaW5pdHJkc2NyaXB0cy9pbml0cmFtZnMtZnJhbWV3b3JrXzEuMC5iYiB8IDIg
-Ky0NCj4gIG1ldGEvcmVjaXBlcy1jb3JlL3BhY2thZ2Vncm91cHMvcGFja2FnZWdyb3VwLWNvcmUt
-Ym9vdC5iYiAgfCA0ICsrLS0NCj4gIDQgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA0
-IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvY29uZi9kaXN0cm8vaW5jbHVk
-ZS9kZWZhdWx0LXByb3ZpZGVycy5pbmMgYi9tZXRhL2NvbmYvZGlzdHJvL2luY2x1ZGUvZGVmYXVs
-dC1wcm92aWRlcnMuaW5jDQo+IGluZGV4IDlmODRkNWMuLmJiMzgyYmQgMTAwNjQ0DQo+IC0tLSBh
-L21ldGEvY29uZi9kaXN0cm8vaW5jbHVkZS9kZWZhdWx0LXByb3ZpZGVycy5pbmMNCj4gKysrIGIv
-bWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL2RlZmF1bHQtcHJvdmlkZXJzLmluYw0KPiBAQCAtMTMs
-NiArMTMsNyBAQCBQUkVGRVJSRURfUFJPVklERVJfdmlydHVhbC9tZXNhID89ICJtZXNhIg0KPiAg
-UFJFRkVSUkVEX1BST1ZJREVSX3ZpcnR1YWwvdXBkYXRlLWFsdGVybmF0aXZlcyA/PSAib3BrZy11
-dGlscyINCj4gIFBSRUZFUlJFRF9QUk9WSURFUl92aXJ0dWFsL3VwZGF0ZS1hbHRlcm5hdGl2ZXMt
-bmF0aXZlID89ICJvcGtnLXV0aWxzLW5hdGl2ZSINCj4gIFBSRUZFUlJFRF9QUk9WSURFUl92aXJ0
-dWFsL2xpYngxMSA/PSAibGlieDExIg0KPiArUFJFRkVSUkVEX1BST1ZJREVSX3ZpcnR1YWwvYmFz
-ZS11dGlscyA/PSAiYnVzeWJveCINCj4gIFBSRUZFUlJFRF9QUk9WSURFUl94Zjg2LXZpZGVvLWlu
-dGVsID89ICJ4Zjg2LXZpZGVvLWludGVsIg0KPiAgDQo+ICAjDQo+IEBAIC0yMyw2ICsyNCw4IEBA
-IFZJUlRVQUwtUlVOVElNRV9hcG0gPz0gImFwbSINCj4gIFZJUlRVQUwtUlVOVElNRV9hbHNhLXN0
-YXRlID89ICJhbHNhLXN0YXRlIg0KPiAgVklSVFVBTC1SVU5USU1FX2dldG9wdCA/PSAidXRpbC1s
-aW51eC1nZXRvcHQiDQo+ICBWSVJUVUFMLVJVTlRJTUVfd2lyZWxlc3MtdG9vbHMgPz0gIml3IHdp
-cmVsZXNzLXRvb2xzIg0KPiArVklSVFVBTC1SVU5USU1FX2Jhc2UtdXRpbHMgPz0gImJ1c3lib3gi
-DQo+ICtWSVJUVUFMLVJVTlRJTUVfYmFzZS11dGlscy1od2Nsb2NrID89ICJidXN5Ym94LWh3Y2xv
-Y2siDQo+ICANCj4gICMNCj4gICMgRGVmYXVsdCByZWNpcGUgcHJvdmlkZXJzDQo+IGRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtY29yZS9pbWFnZXMvY29yZS1pbWFnZS1taW5pbWFsLWluaXRyYW1m
-cy5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2ltYWdlcy9jb3JlLWltYWdlLW1pbmltYWwtaW5pdHJh
-bWZzLmJiDQo+IGluZGV4IDFmMGZhOTUuLmEyNjI4NmUgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVj
-aXBlcy1jb3JlL2ltYWdlcy9jb3JlLWltYWdlLW1pbmltYWwtaW5pdHJhbWZzLmJiDQo+ICsrKyBi
-L21ldGEvcmVjaXBlcy1jb3JlL2ltYWdlcy9jb3JlLWltYWdlLW1pbmltYWwtaW5pdHJhbWZzLmJi
-DQo+IEBAIC0zLDcgKzMsNyBAQCBERVNDUklQVElPTiA9ICJTbWFsbCBpbWFnZSBjYXBhYmxlIG9m
-IGJvb3RpbmcgYSBkZXZpY2UuIFRoZSBrZXJuZWwgaW5jbHVkZXMgXA0KPiAgdGhlIE1pbmltYWwg
-UkFNLWJhc2VkIEluaXRpYWwgUm9vdCBGaWxlc3lzdGVtIChpbml0cmFtZnMpLCB3aGljaCBmaW5k
-cyB0aGUgXA0KPiAgZmlyc3QgJ2luaXQnIHByb2dyYW0gbW9yZSBlZmZpY2llbnRseS4iDQo+ICAN
-Cj4gLVBBQ0tBR0VfSU5TVEFMTCA9ICJpbml0cmFtZnMtbGl2ZS1ib290IGluaXRyYW1mcy1saXZl
-LWluc3RhbGwgaW5pdHJhbWZzLWxpdmUtaW5zdGFsbC1lZmkgYnVzeWJveCB1ZGV2IGJhc2UtcGFz
-c3dkICR7Uk9PVEZTX0JPT1RTVFJBUF9JTlNUQUxMfSINCj4gK1BBQ0tBR0VfSU5TVEFMTCA9ICJp
-bml0cmFtZnMtbGl2ZS1ib290IGluaXRyYW1mcy1saXZlLWluc3RhbGwgaW5pdHJhbWZzLWxpdmUt
-aW5zdGFsbC1lZmkgJHtWSVJUVUFMLVJVTlRJTUVfYmFzZS11dGlsc30gdWRldiBiYXNlLXBhc3N3
-ZCAke1JPT1RGU19CT09UU1RSQVBfSU5TVEFMTH0iDQo+ICANCj4gICMgRG8gbm90IHBvbGx1dGUg
-dGhlIGluaXRyZCBpbWFnZSB3aXRoIHJvb3RmcyBmZWF0dXJlcw0KPiAgSU1BR0VfRkVBVFVSRVMg
-PSAiIg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHJkc2NyaXB0cy9pbml0
-cmFtZnMtZnJhbWV3b3JrXzEuMC5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2luaXRyZHNjcmlwdHMv
-aW5pdHJhbWZzLWZyYW1ld29ya18xLjAuYmINCj4gaW5kZXggNmMzN2I5YS4uMDY2NGE5NSAxMDA2
-NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHJkc2NyaXB0cy9pbml0cmFtZnMtZnJh
-bWV3b3JrXzEuMC5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS9pbml0cmRzY3JpcHRzL2lu
-aXRyYW1mcy1mcmFtZXdvcmtfMS4wLmJiDQo+IEBAIC0xLDcgKzEsNyBAQA0KPiAgU1VNTUFSWSA9
-ICJNb2R1bGFyIGluaXRyYW1mcyBzeXN0ZW0iDQo+ICBMSUNFTlNFID0gIk1JVCINCj4gIExJQ19G
-SUxFU19DSEtTVU0gPSAiZmlsZTovLyR7Q09SRUJBU0V9L21ldGEvQ09QWUlORy5NSVQ7bWQ1PTNk
-YTljZmJjYjc4OGM4MGEwMzg0MzYxYjRkZTIwNDIwIg0KPiAtUkRFUEVORFNfJHtQTn0gKz0gImJ1
-c3lib3giDQo+ICtSREVQRU5EU18ke1BOfSArPSAiJHtWSVJUVUFMLVJVTlRJTUVfYmFzZS11dGls
-c30iDQo+ICANCj4gIFBSID0gInIyIg0KPiAgDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-Y29yZS9wYWNrYWdlZ3JvdXBzL3BhY2thZ2Vncm91cC1jb3JlLWJvb3QuYmIgYi9tZXRhL3JlY2lw
-ZXMtY29yZS9wYWNrYWdlZ3JvdXBzL3BhY2thZ2Vncm91cC1jb3JlLWJvb3QuYmINCj4gaW5kZXgg
-MDlmNTM3My4uN2U0MDQ0NSAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvcGFja2Fn
-ZWdyb3Vwcy9wYWNrYWdlZ3JvdXAtY29yZS1ib290LmJiDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1j
-b3JlL3BhY2thZ2Vncm91cHMvcGFja2FnZWdyb3VwLWNvcmUtYm9vdC5iYg0KPiBAQCAtMjQsNyAr
-MjQsNyBAQCBWSVJUVUFMLVJVTlRJTUVfaW5pdF9tYW5hZ2VyID89ICJzeXN2aW5pdCINCj4gIFZJ
-UlRVQUwtUlVOVElNRV9pbml0c2NyaXB0cyA/PSAiaW5pdHNjcmlwdHMiDQo+ICBWSVJUVUFMLVJV
-TlRJTUVfa2V5bWFwcyA/PSAia2V5bWFwcyINCj4gIA0KPiAtU1lTVklOSVRfU0NSSVBUUyA9ICIk
-e0BiYi51dGlscy5jb250YWlucygnTUFDSElORV9GRUFUVVJFUycsICdydGMnLCAnYnVzeWJveC1o
-d2Nsb2NrJywgJycsIGQpfSBcDQo+ICtTWVNWSU5JVF9TQ1JJUFRTID0gIiR7QGJiLnV0aWxzLmNv
-bnRhaW5zKCdNQUNISU5FX0ZFQVRVUkVTJywgJ3J0YycsJyR7VklSVFVBTC1SVU5USU1FX2Jhc2Ut
-dXRpbHMtaHdjbG9ja30nLCAnJywgZCl9IFwNCj4gICAgICAgICAgICAgICAgICAgICAgbW9kdXRp
-bHMtaW5pdHNjcmlwdHMgXA0KPiAgICAgICAgICAgICAgICAgICAgICBpbml0LWlmdXBkb3duIFwN
-Cj4gICAgICAgICAgICAgICAgICAgICAgJHtWSVJUVUFMLVJVTlRJTUVfaW5pdHNjcmlwdHN9IFwN
-Cj4gQEAgLTMzLDcgKzMzLDcgQEAgU1lTVklOSVRfU0NSSVBUUyA9ICIke0BiYi51dGlscy5jb250
-YWlucygnTUFDSElORV9GRUFUVVJFUycsICdydGMnLCAnYnVzeWJveC1od2MNCj4gIFJERVBFTkRT
-XyR7UE59ID0gIlwNCj4gICAgICBiYXNlLWZpbGVzIFwNCj4gICAgICBiYXNlLXBhc3N3ZCBcDQo+
-IC0gICAgYnVzeWJveCBcDQo+ICsgICAgJHtWSVJUVUFMLVJVTlRJTUVfYmFzZS11dGlsc30gXA0K
-PiAgICAgICR7QGJiLnV0aWxzLmNvbnRhaW5zKCJESVNUUk9fRkVBVFVSRVMiLCAic3lzdmluaXQi
-LCAiJHtTWVNWSU5JVF9TQ1JJUFRTfSIsICIiLCBkKX0gXA0KPiAgICAgICR7QGJiLnV0aWxzLmNv
-bnRhaW5zKCJNQUNISU5FX0ZFQVRVUkVTIiwgImtleWJvYXJkIiwgIiR7VklSVFVBTC1SVU5USU1F
-X2tleW1hcHN9IiwgIiIsIGQpfSBcDQo+ICAgICAgbmV0YmFzZSBcDQoNCg==
+On Mon, Oct 26, 2015 at 9:47 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> === common (2) ===
+>     * /meta-openembedded/meta-oe/recipes-graphics/gerbil/gerbil_git.bb, do_compile
+>     * /openembedded-core/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb, do_compile
+^ Hope I find time for this one. What DISTRO features were set: x11 and wayland?
+
+Andreas
 
