@@ -1,28 +1,37 @@
-Return-Path: <Jian.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9626A73E11
+Return-Path: <s.christ@phytec.de>
+Received: from root.phytec.de (mail.x-arc.de [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 643F460657
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Oct 2015 03:27:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9Q3R0cV010571
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Oct 2015 20:27:04 -0700 (PDT)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 25 Oct 2015 20:26:59 -0700
-Message-ID: <562D9C5F.4040500@windriver.com>
-Date: Mon, 26 Oct 2015 11:22:07 +0800
-From: Liu Jian <jian.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+	Mon, 26 Oct 2015 08:18:43 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id B1C11A0025F;
+	Mon, 26 Oct 2015 09:19:01 +0100 (CET)
+Received: from lws-christ ([172.16.11.109])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP2 HF590)
+	with ESMTP id 2015102609184271-4119 ;
+	Mon, 26 Oct 2015 09:18:42 +0100 
+Date: Mon, 26 Oct 2015 09:18:38 +0100
+From: Stefan Christ <s.christ@phytec.de>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20151026081837.GB3460@lws-christ>
+References: <1445242541-41638-1-git-send-email-s.christ@phytec.de>
+	<1445242541-41638-2-git-send-email-s.christ@phytec.de>
+	<CAP71Wjz2YEuj8qLEw63027bGcYKNAPOazv-8Rd+J5RQ2C50UKA@mail.gmail.com>
+	<20151019090300.GC3869@lws-christ>
+	<CAP71Wjzhq_UVTb0cZHWLs=FPp0YRseXb-Q0RyAQXjDAuKFFLuQ@mail.gmail.com>
+	<20151019092110.GE3869@lws-christ>
+	<CAP71WjyN5pvA_VjwDcGLh6ze5P+e7afM025tYp8dcx1f-cMgZg@mail.gmail.com>
+	<CAJTo0La+TivBoTBVGoc6SE7PFU=M+Kfw42bOMPTthTqvNKb-cA@mail.gmail.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1444286871-8615-1-git-send-email-jian.liu@windriver.com>
-	<562091F8.40805@windriver.com>
-In-Reply-To: <562091F8.40805@windriver.com>
-Subject: Re: [PATCH] base.bbclass: considering multilib when setting LICENSE_EXCLUSION
+In-Reply-To: <CAJTo0La+TivBoTBVGoc6SE7PFU=M+Kfw42bOMPTthTqvNKb-cA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP2
+	HF590|December 11, 2014) at 26.10.2015 09:18:42,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP2 HF590|December 11,
+	2014) at 26.10.2015 09:18:42
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] linux-dtb.inc: fix detection of ending '.dts'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Oct 2015 03:27:04 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 26 Oct 2015 08:18:44 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ping
+Hi,=20
 
-于 2015年10月16日 13:58, Liu Jian 写道:
-> Hi All,
->
-> Will you going to merge this patch?
-> I have ever discuss with Robert Yang and he agreed to integrated it.
->
-> Thanks!
-> Jian
->
->
-> 于 2015年10月08日 14:47, Jian Liu 写道:
->> The PACKAGES is not mapped with MLPREFIX when setting LICENSE_EXCLUSION
->> in base.bbclass. For example,
->>    For libgcc-dev,
->>      LICENSE_EXCLUSION-libgcc-dev=1
->>     but for lib32-libgcc-dev,
->>      LICENSE_EXCLUSION-libgcc-dev=1
->> Obviously it is wrong for lib32-libgcc-dev.
->>
->> Add MLPREFIX before the package name during setting LICENSE_EXCLUSION
->>
->> Signed-off-by: Jian Liu <jian.liu@windriver.com>
->> ---
->>   meta/classes/base.bbclass | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
->> index f078001..89c8f04 100644
->> --- a/meta/classes/base.bbclass
->> +++ b/meta/classes/base.bbclass
->> @@ -512,7 +512,8 @@ python () {
->>                   if unskipped_pkgs:
->>                       for pkg in skipped_pkgs:
->>                           bb.debug(1, "SKIPPING the package " + pkg + 
->> " at do_rootfs because it's " + recipe_license)
->> -                        d.setVar('LICENSE_EXCLUSION-' + pkg, 1)
->> +                        mlprefix = d.getVar('MLPREFIX', True)
->> +                        d.setVar('LICENSE_EXCLUSION-' + mlprefix + 
->> pkg, 1)
->>                       for pkg in unskipped_pkgs:
->>                           bb.debug(1, "INCLUDING the package " + pkg)
->>                   elif all_skipped or incompatible_license(d, 
->> bad_licenses):
->
+On Fri, Oct 23, 2015 at 10:17:00PM +0100, Burton, Ross wrote:
+> Hi Stefan,
+>=20
+> On 19 October 2015 at 10:46, Nicolas Dechesne <nicolas.dechesne@linaro.or=
+g>
+> wrote:
+>=20
+> > i (very) quickly looked at them..
+> > #3, #4, #5 look sane.
+> > #6, #7, i am not sure if this is worth doing this change.. we'll see
+> > what others think about them..
+> >
+>=20
+> Can you drop 1 and 2 and rebase the remaining patches?  The rest of the
+> series doesn't apply if 1 and 2 are dropped.
 
--- 
-Jian Liu
-Email: jian.liu@windriver.com
-Office Phone: 86-10-84778539
+Sure. I will send a v2.
+
+Mit freundlichen Gr=C3=BC=C3=9Fen / Kind regards,
+	Stefan Christ
 
 
