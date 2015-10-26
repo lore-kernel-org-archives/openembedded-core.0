@@ -1,24 +1,30 @@
-Return-Path: <jin@mediatomb.cc>
-Received: from static.88-198-224-151.clients.your-server.de
-	(static.88-198-224-151.clients.your-server.de [88.198.224.151])
-	by mail.openembedded.org (Postfix) with ESMTP id A08BA73695
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 79EB060657
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Oct 2015 16:26:51 +0000 (UTC)
-Received: by static.88-198-224-151.clients.your-server.de (Postfix,
-	from userid 500)
-	id A31711A00F0; Mon, 26 Oct 2015 17:26:50 +0100 (CET)
-Date: Mon, 26 Oct 2015 17:26:50 +0100
-From: Sergey 'Jin' Bostandzhyan <jin@mediatomb.cc>
-To: Christopher Larson <clarson@kergoth.com>
-Message-ID: <20151026162650.GA16758@deadlock.dhs.org>
-References: <20151026151307.GA16394@deadlock.dhs.org>
-	<CABcZANn=aL5i2UOVF-p69yBCB2xv_Sn0G_82NetvQa4WXCiKtg@mail.gmail.com>
+	Mon, 26 Oct 2015 16:45:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9QGjqjh004600
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 26 Oct 2015 09:45:52 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 26 Oct 2015 09:45:51 -0700
+To: Phil Blundell <pb@pbcl.net>, Patches and discussions about the oe-core
+	layer <openembedded-core@lists.openembedded.org>
+References: <562E3896.6080405@windriver.com>
+	<1445875841.5251.107.camel@pbcl.net>
+From: Mark Hatle <mark.hatle@windriver.com>
+X-Enigmail-Draft-Status: N1110
+Organization: Wind River Systems
+Message-ID: <562E58BE.9060003@windriver.com>
+Date: Mon, 26 Oct 2015 11:45:50 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.3.0
 MIME-Version: 1.0
-In-Reply-To: <CABcZANn=aL5i2UOVF-p69yBCB2xv_Sn0G_82NetvQa4WXCiKtg@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-12-10)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Problem with RDEPENDS in multimachine builds for allarch packages
+In-Reply-To: <1445875841.5251.107.camel@pbcl.net>
+Subject: Re: Prelink problems -- need help!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +37,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Oct 2015 16:26:54 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 26 Oct 2015 16:45:53 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 26, 2015 at 09:13:22AM -0700, Christopher Larson wrote:
-> Afaik the most likely cause is your rdepends isn't allarch, so is being rebuilt
-> for the new machine, which causes yours to be rebuilt since it depends on it.
+On 10/26/15 11:10 AM, Phil Blundell wrote:
+> [Cc list trimmed]
+> 
+> On Mon, 2015-10-26 at 09:28 -0500, Mark Hatle wrote:
+>> As you can see, pretty much everything is currently broken and I'm
+>> struggling to
+>> find community people with the right skill sets to help me resolve
+>> the issues.
+> 
+> I think it's true that prelink is a technology which has largely had
+> its day, and I could well imagine that upstream Red Hat is no longer
+> very interested in it.  https://fedorahosted.org/fesco/ticket/1183 has
+> a summary of some of the reasons why.
+> 
+> Before investing any significant amount of time in fixing up prelink
+> (and from what you've described it sounds like it might indeed be a
+> significant effort to get it working again on all platforms) it might
+> be a good idea to make sure we are still convinced that prelink
+> provides useful and meaningful benefits for OE-core users.
+> 
 
-So, that means that anything arch specific listed in RDEPENDS will
-always cause the package to rebuild even if there were no changes in the
-package itself nor in the RDEPENDS packages? Is this really the desired
-behaviour?
+I do think prelink has a purpose.  Especially for embedded systems.
 
-I'd expect that if nothing has changed, nothing should get rebuild.. I
-often saw a huge number of packages being rebuilt and could never
-explain why this was happening, now it's becoming clear that probably
-some of them had some RDEPENDS set.
+The biggest reason I see against prelink is ASLR.  I agree 100% that if you want
+ASLR (Address Randomization) you should not be using the prelinker.
 
-If you say it's not a bug - ok, now I at least know what's happening.
-Still, imho it would be nice and it would speed up things if only stuff
-that has really changed or stuff that depends on other things that have 
-really changed gets triggered.
+Usually secondary reasons include if you are doing field upgrades at a package
+level -- it means you also need the ability to prelink on the device which cause
+have other performance ramifications and such during this upgrade process.
 
-Kind regards,
-Sergey
+I agree with some of the information on the Fedora hosted link you pointed to,
+but disagree with others.
+
+While some of the modern hashing techniques and such do improve run-time dynamic
+link performance, there is still a hit that we must take.  For devices that need
+quick boot times, quick startup, or are memory constrained, the prelinker can
+still help.  (Memory usage on very small systems is a good example.  Memory
+usage can be reduced in larger applications by reducing the number of
+Copy-on-write pages required to handle the relocation information.)
+
+I probably would not use the prelinker on a workstation/server any longer.  I
+might not use it on a 'larger' embedded system, but on a more traditional
+embedded system I do think it still has merit.
+
+(Probably a discussion for the future, due to the ASLR, is should the prelinker
+be enabled by default -- even if it works -- but that is a discussion for later.)
+
+> If the answer to that is yes then I probably could spare a bit of time
+> to look at the ARM and MIPS issues at least.
+
+I can certainly use any help you have.  I have someone looking into the ARM
+issues with me.  It APPEARS the primary behavior there has to do with IFUNC
+behavior to things like memcpy has changed, causing the prelinker to do the
+wrong thing(s).  But I have few additional details at this time.
+
+I've reached out to parts of the MIPS community for help, but we'll see if I get
+any type of response.  (MIPS, especially 32-bit, I'm very surprised has broken
+recently.  I haven't seen many changes in regard to the way binaries are loaded
+on MIPS -- so the issue must be related to a more fundamental optimization or
+bug in the prelink.)
+
+Thanks for the offer, let me know if you find anything.  I'll certainly respond
+as I make progress trying to go through the issues.
+
+--Mark
+
+> p.
+> 
 
 
