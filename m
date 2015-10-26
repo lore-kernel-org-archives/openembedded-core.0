@@ -1,31 +1,21 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A02796013D
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C437760657
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Oct 2015 23:02:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9QN2NtK012898
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 26 Oct 2015 16:02:24 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 26 Oct 2015 16:02:23 -0700
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1445873454-108723-1-git-send-email-mark.hatle@windriver.com>
-	<1445873454-108723-2-git-send-email-mark.hatle@windriver.com>
-	<20151026181521.GF2554@jama> <562E7C74.5090105@windriver.com>
-	<20151026195647.GH2554@jama>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <562EB0FE.9030705@windriver.com>
-Date: Mon, 26 Oct 2015 18:02:22 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
+	Mon, 26 Oct 2015 23:11:41 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 26 Oct 2015 16:11:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,202,1444719600"; d="scan'208";a="820017742"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.171])
+	by fmsmga001.fm.intel.com with ESMTP; 26 Oct 2015 16:11:41 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Oct 2015 17:12:08 -0600
+Message-Id: <1445901128-17752-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-In-Reply-To: <20151026195647.GH2554@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [jethro/master][PATCH 1/1] local.conf.sample: Disable image-prelink by default
+Subject: [PATCH] acpid: Upgrade to 2.0.25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,90 +28,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Oct 2015 23:02:26 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Oct 2015 23:11:43 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 10/26/15 2:56 PM, Martin Jansa wrote:
-> On Mon, Oct 26, 2015 at 02:18:12PM -0500, Mark Hatle wrote:
->> On 10/26/15 1:15 PM, Martin Jansa wrote:
->>> On Mon, Oct 26, 2015 at 10:30:54AM -0500, Mark Hatle wrote:
->>>> Due to problems with the prelinker itself, we need to disable the
->>>> image-prelink by default.  This will hopefully be re-enabled in the near
->>>> future.
->>>
->>> Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
->>>
->>> We had to disable it in our builds back in Dylan days.
->>
->> FYI this is working just fine in Dizzy.  I've heard reports it works in Fido.
->> This is the first that I know it's universally broken.  (It's possible there
->> were some issues in Fido, as I have not verified it either way.. but Dizzy
->> definitely works and passes expected testings.)
-> 
-> The main reason why we disabled it back then was that it was causing
-> debug symbols in -dbg packages not matching the prelinked binary in the
-> image
-> 
->   The size of dynamic relocation section(rel.dyn) was changed from 0027a0
->   to 003b70 by prelinking. Hence, the code section offset was also changed
->   from 015550 to 016920.
->   So, we can not use the dwarf file (.debug/libc-2.14.1.so) made before
->   prelinking.
-> 
->   The number of relocations was 1296 when i use prelinked libraries.
->   This value was same on non-prelink. But the number of relative
->   relocations has decreased from 2296 to 328.
-> 
-> Then we did some benchmarks on our target and they didn't show any
-> significant difference with and without prelink, for 4 stages of our
-> boot we got:
-> 
-> 7.06 -> 7.08, 0.28%
-> 5.63 -> 5.75, 2.09%
-> 10.47 -> 10.53, 0.53%
-> 26.11 -> 26.15, 0.15%
-> 
-> So we have disabled it and never looked back.
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/recipes-bsp/acpid/acpid_2.0.23.bb | 7 -------
+ meta/recipes-bsp/acpid/acpid_2.0.25.bb | 7 +++++++
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+ delete mode 100644 meta/recipes-bsp/acpid/acpid_2.0.23.bb
+ create mode 100644 meta/recipes-bsp/acpid/acpid_2.0.25.bb
 
-If I get things working again, I'll look into that.  I suspect that was fixed
-shortly after, I remebmer there being some debug/dwarf patches going in around
-that time frame.
-
---Mark
-
-> Regards,
-> 
->>>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->>>> ---
->>>>  meta/conf/local.conf.sample | 4 +++-
->>>>  1 file changed, 3 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
->>>> index 3ae24ab..9d1480e 100644
->>>> --- a/meta/conf/local.conf.sample
->>>> +++ b/meta/conf/local.conf.sample
->>>> @@ -128,7 +128,9 @@ EXTRA_IMAGE_FEATURES = "debug-tweaks"
->>>>  #   - 'image-swab' to perform host system intrusion detection
->>>>  # NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
->>>>  # NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
->>>> -USER_CLASSES ?= "buildstats image-mklibs image-prelink"
->>>> +# NOTE: image-prelink is currently broken due to problems with the prelinker.  It is advised
->>>> +# that you do NOT run the prelinker at this time. 
->>>> +USER_CLASSES ?= "buildstats image-mklibs"
->>>>  
->>>>  
->>>>  #
->>>> -- 
->>>> 1.9.3
->>>>
->>>> -- 
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>
-> 
+diff --git a/meta/recipes-bsp/acpid/acpid_2.0.23.bb b/meta/recipes-bsp/acpid/acpid_2.0.23.bb
+deleted file mode 100644
+index a5317a4..0000000
+--- a/meta/recipes-bsp/acpid/acpid_2.0.23.bb
++++ /dev/null
+@@ -1,7 +0,0 @@
+-require acpid.inc
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+-                    file://acpid.h;endline=24;md5=324a9cf225ae69ddaad1bf9d942115b5"
+-
+-SRC_URI[md5sum] = "d7bcdcdefcd53b03730e50ba842554ea"
+-SRC_URI[sha256sum] = "4396aaec13510c3a1faa941a15a4b5335b6ae4fbec8438b9249b88c3b66187ee"
+diff --git a/meta/recipes-bsp/acpid/acpid_2.0.25.bb b/meta/recipes-bsp/acpid/acpid_2.0.25.bb
+new file mode 100644
+index 0000000..f00d25a
+--- /dev/null
++++ b/meta/recipes-bsp/acpid/acpid_2.0.25.bb
+@@ -0,0 +1,7 @@
++require acpid.inc
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
++                    file://acpid.h;endline=24;md5=324a9cf225ae69ddaad1bf9d942115b5"
++
++SRC_URI[md5sum] = "69bb0cc4a0a89eb2dfecc4851087f568"
++SRC_URI[sha256sum] = "0b700a8072bec162c512f72cbe419195601ab3e0ffd2138f9bd95ed3097a5c68"
+-- 
+2.1.4
 
 
