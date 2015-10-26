@@ -1,29 +1,21 @@
-Return-Path: <mark.hatle@windriver.com>
-X-Greylist: delayed 1884 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 26 Oct 2015 15:00:05 UTC
-Received: from mail5.wrs.com (unknown [64.129.254.146])
-	by mail.openembedded.org (Postfix) with ESMTP id 27189758D2;
-	Mon, 26 Oct 2015 15:00:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9QESesg019217
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 26 Oct 2015 07:28:40 -0700
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 26 Oct 2015 07:28:39 -0700
-To: Yocto Project <yocto@yoctoproject.org>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>,
-	<openembedded-devel@lists.openembedded.org>
-From: Mark Hatle <mark.hatle@windriver.com>
-X-Enigmail-Draft-Status: N1110
-Organization: Wind River Systems
-Message-ID: <562E3896.6080405@windriver.com>
-Date: Mon, 26 Oct 2015 09:28:38 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
+Return-Path: <jin@mediatomb.cc>
+X-Greylist: delayed 390 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 26 Oct 2015 15:19:38 UTC
+Received: from static.88-198-224-151.clients.your-server.de
+	(static.88-198-224-151.clients.your-server.de [88.198.224.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DE81608B7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Oct 2015 15:19:38 +0000 (UTC)
+Received: by static.88-198-224-151.clients.your-server.de (Postfix,
+	from userid 500)
+	id 499EB1A00F0; Mon, 26 Oct 2015 16:13:07 +0100 (CET)
+Date: Mon, 26 Oct 2015 16:13:07 +0100
+From: Sergey 'Jin' Bostandzhyan <jin@mediatomb.cc>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20151026151307.GA16394@deadlock.dhs.org>
 MIME-Version: 1.0
-Subject: Prelink problems -- need help!
+User-Agent: Mutt/1.5.20 (2009-12-10)
+Subject: Problem with RDEPENDS in multimachine builds for allarch packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,54 +28,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Oct 2015 15:00:08 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 26 Oct 2015 15:19:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I'm cross posting this in an effort to ask for help for the cross-prelink
-project.  (If you are unaware of what the prelinker does, it goes through and
-adjusts the relocation addresses to predefined values in an attempt to speed up
-executable load times.  For embedded systems, this can be fairly critical in
-meeting boot and runtime load performance targets.)
+Hi,
 
-As some people might be aware, the upstream 'prelink' project that was
-maintained by Jakub Jelinek at Red Hat appears to have been abandoned.
+I recently ran into a problem that I described here:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=8578 and while debugging
+this issue an other problem came to light.
 
-I've been the maintainer for the Yocto Project's 'prelink-cross' project for a
-few years, but my work has been dealing with compilation issues and other things
-that have to do with using the prelinker in a cross compilation environment.
+I have a multimachine configuration (armv5/imx6) and the same distro for both
+of them (poky 2.0 RC based).
 
-This means that unfortunately I'm in a situation where I am having problems
-trying to fix the problems in the prelinker itself, but I am not an ELF expert.
- Currently the cross prelinker appears to be broken for pretty much every
-architecture and I need help trying to resolve these problems.
+I have some allarch packages which have no DEPENDS, however which have an
+RDEPENDS_${PN} setting.
 
-Issues I know of right now:
+I can see that even though there were no changes to the recipe itself and 
+also no changes to the recipes listed in RDEPENDS, my recipe still gets 
+rebuilt each time.
 
-Introduction of RTYPE_CLASS_EXTERN_PROTECTED_DATA appears to be causing failures
-on ARM32, x86 and x86_64.
+What we tried:
 
-Some possibly unrelated issue is causing various items to relocate incorrectly
-(IFUNCs perhaps) on ARMv7 builds.
+<bluelightning> so cleansstate the recipe, change machine, cleansstate again,
+                then build it, then change machine, build it again and note
+                the first task that executes
 
-Power is no longer working properly, most likely due to an optimization in the
-way the PPC GOT table(s) are setup.
+The logs for these steps, one with RDEPENDS and one without are at the end of
+this mail. I can see that with present RDEPENDS "real" tasks get executed
+even though no changes occured in the recipe; this is not the case when I 
+drop RDEPENDS.
 
-Power64 hasn't been working properly for a while, possibly due to the switch to
-ELFv2.
+Is this a bug or is this just something that needs to be documented?
+What is the "desired" behaviour?
 
-MIPS and MIPS64 also do not appear to be working, and I've not found a possible
-cause.
+Kind regards,
+Sergey
 
-As you can see, pretty much everything is currently broken and I'm struggling to
-find community people with the right skill sets to help me resolve the issues.
 
-The current state of my work in progress is available at:
+What I get with RDEPENDS is:
 
-git://git.yoctoproject.org/prelink-cross
+***********
+NOTE: Running setscene task 347 of 374 (/oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_populate_sysroot_setscene)
+NOTE: Running setscene task 350 of 374 (/oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_packagedata_setscene)
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_populate_sysroot_setscene: Started
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_packagedata_setscene: Started
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 352 of 374 (/oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_package_setscene)
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_setscene: Started
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_setscene: Succeeded
+NOTE: Running task 1175 of 1181 (ID: 14, /oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_package_write_ipk)
+NOTE: Running task 1176 of 1181 (ID: 9, /oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_package_qa)
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_write_ipk: Started
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_qa: Started
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_qa: Succeeded
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_write_ipk: Succeeded
+NOTE: Running noexec task 1179 of 1181 (ID: 10, /oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_build)
+NOTE: Running task 1180 of 1181 (ID: 11, /oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_rm_work)
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_rm_work: Started
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_rm_work: Succeeded
+NOTE: Running task 1181 of 1181 (ID: 12, /oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_rm_work_all)
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_rm_work_all: Started
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_rm_work_all: Succeeded
+***********
 
-branch cross_prelink_staging
+We can see that some "real" tasks are getting executed (do_package_write_ipk).
 
-If you think you can help, please let me know.
---Mark
+Now, when I remove the RDEPENDS from my recipe the log gets much shorter:
+
+***********
+NOTE: Running setscene task 73 of 76 (/oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_populate_sysroot_setscene)
+NOTE: Running setscene task 74 of 76 (/oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_package_write_ipk_setscene)
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_populate_sysroot_setscene: Started
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_write_ipk_setscene: Started
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running setscene task 75 of 76 (/oe/dss-oe/yocto/dS/meta-digitalstrom-devel/recipes-digitalstrom/dss11-help/dss11-installation-manual-tr-tr_0.9.bb, do_packagedata_setscene)
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_packagedata_setscene: Started
+NOTE: recipe dss11-installation-manual-tr-tr-0.9-r2: task do_packagedata_setscene: Succeeded
+***********
+
+Here no "real" tasks get executed.
+
 
