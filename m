@@ -1,35 +1,35 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id E5D1373695
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 5364273695
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Oct 2015 17:17:47 +0000 (UTC)
-Received: by wikq8 with SMTP id q8so221806570wik.1
+	Tue, 27 Oct 2015 17:18:08 +0000 (UTC)
+Received: by wicll6 with SMTP id ll6so169613363wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Oct 2015 10:17:47 -0700 (PDT)
+	Tue, 27 Oct 2015 10:18:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
 	bh=v8T414yalc/qnyz+2D/hK/zmFxNIHat9xJKVJzeHdS0=;
-	b=TzmY3XtI1pqMdIrcDoBK8/0iSUBPqYALgQkWUhHWbnxppSdGZKV40Kp8krLt5fEIST
-	rAcrBN74HZJPeBIqC7/Z1fWRLVfNyljscNMz0Lot9plDRXrMxDlNs40cHiWJXVR3mypB
-	guuX10t7Pk7a2wQbKErq/B5ckEvclj7Wie2l5D8J23DdDTyp/n5JMpVmAJYf66xR4oAK
-	utE203y6R5N3J1eIWUy7Qhstj9YaCHDkXbZJcJVG9Vn7lWPtH7xgpkaNeaCI9l0Kp4Ed
-	TMm4DnV9oU48og7MLLqzRgEqgBJ5tTunEpG2Jf7JbJ4m852NB2i3iSky5iPmZ7AKQlW5
-	2A9A==
-X-Received: by 10.180.189.5 with SMTP id ge5mr27315745wic.85.1445966267445;
-	Tue, 27 Oct 2015 10:17:47 -0700 (PDT)
+	b=QHcZR0fbrbBivf9o63Web+GGqfEqJqigguYcUgLoi9o4dSAoBOiMDdwTwogqOSg6qa
+	8lNbxYMrfQOLhEjDsDJN3eb5Mjd8qaq+cz6pshcDO2epM7qHq4D08HpmHPbRHWzvnGsy
+	kIE9SZtvi9OUuzD7VaGSBQx6VHcvC23zK2JHe+yfx0zDvm2gR6jqAiQqr1LcrJ6kBKC8
+	rrsYMd9qD1ZeEHPQUvCfi0/MrkvOr68rgqQpst8vj9blNQ4sJeTQlplCuMv3zYkRjyeU
+	KIZaWk39CvmQQiK/PugjW7nhPiIHBFzUkLIGqXgdK6qcJ0jET2ol9anWLer4TCOTtY0/
+	Crtw==
+X-Received: by 10.180.126.3 with SMTP id mu3mr11812062wib.40.1445966288770;
+	Tue, 27 Oct 2015 10:18:08 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	cq8sm17284941wib.12.2015.10.27.10.17.43
+	p18sm18493293wik.21.2015.10.27.10.18.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 27 Oct 2015 10:17:44 -0700 (PDT)
+	Tue, 27 Oct 2015 10:18:05 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Oct 2015 18:18:00 +0100
-Message-Id: <1445966280-23695-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Tue, 27 Oct 2015 18:18:20 +0100
+Message-Id: <1445966300-26006-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.2
-Subject: [PATCH][dizzy] fontcache: allow to pass extra parameters and environment to fc-cache
+Subject: [PATCH][fido] fontcache: allow to pass extra parameters and environment to fc-cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,7 +42,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Oct 2015 17:17:50 -0000
+X-List-Received-Date: Tue, 27 Oct 2015 17:18:11 -0000
 
 * this can be useful for passing extra parameters, pass
   -v by default to see what's going on in do_rootfs
