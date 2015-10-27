@@ -1,38 +1,35 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 02F9875CC2
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id E5D1373695
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Oct 2015 16:05:48 +0000 (UTC)
-Received: by qgbb65 with SMTP id b65so148551584qgb.2
+	Tue, 27 Oct 2015 17:17:47 +0000 (UTC)
+Received: by wikq8 with SMTP id q8so221806570wik.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Oct 2015 09:05:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=KQ+c7ddvAybu3n/HmuCEcIGZ2B8HWepbI6agdBCCDH0=;
-	b=VVUq0O6Mn3O3/2HgogVdWMlhdq++IfFhuO3ThFQ+cMOAN7oO/uqKn7WdEWnVeaj7CB
-	PYlYxw/kByrC7U5C/vcOPGogdN3zcyVNfbsdcYPn6YwskcFxfeZNJizWmNg0NcNFeZbX
-	1A4bG6qkWez9zm0kY9RKF8JNwdgZkLN/cLPDGiedMjK60IcMYvtjnoPO9LiL4anl9QjT
-	Cbmbmm17/+vx2sKfOar1bqm81z7BtJF61mHMDAPfaBFaRVc9Tr2Iqh8tlanHXB0ktw3h
-	sGVMTE3MqSA5FtzWeGgy0u9XIfenVMch93Qs1NXA3BsH66wcLFSafz3GivZ+zJpQHBvU
-	YYJg==
-X-Received: by 10.140.132.139 with SMTP id 133mr53123740qhe.49.1445961947914; 
-	Tue, 27 Oct 2015 09:05:47 -0700 (PDT)
-Received: from localhost ([177.100.174.62]) by smtp.gmail.com with ESMTPSA id
-	i139sm15248256qhc.30.2015.10.27.09.05.45
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 27 Oct 2015 09:05:46 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation);
-	Tue, 27 Oct 2015 14:05:42 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Oct 2015 14:05:40 -0200
-Message-Id: <1445961940-12110-1-git-send-email-otavio@ossystems.com.br>
+	Tue, 27 Oct 2015 10:17:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=v8T414yalc/qnyz+2D/hK/zmFxNIHat9xJKVJzeHdS0=;
+	b=TzmY3XtI1pqMdIrcDoBK8/0iSUBPqYALgQkWUhHWbnxppSdGZKV40Kp8krLt5fEIST
+	rAcrBN74HZJPeBIqC7/Z1fWRLVfNyljscNMz0Lot9plDRXrMxDlNs40cHiWJXVR3mypB
+	guuX10t7Pk7a2wQbKErq/B5ckEvclj7Wie2l5D8J23DdDTyp/n5JMpVmAJYf66xR4oAK
+	utE203y6R5N3J1eIWUy7Qhstj9YaCHDkXbZJcJVG9Vn7lWPtH7xgpkaNeaCI9l0Kp4Ed
+	TMm4DnV9oU48og7MLLqzRgEqgBJ5tTunEpG2Jf7JbJ4m852NB2i3iSky5iPmZ7AKQlW5
+	2A9A==
+X-Received: by 10.180.189.5 with SMTP id ge5mr27315745wic.85.1445966267445;
+	Tue, 27 Oct 2015 10:17:47 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	cq8sm17284941wib.12.2015.10.27.10.17.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 27 Oct 2015 10:17:44 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Oct 2015 18:18:00 +0100
+Message-Id: <1445966280-23695-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.2
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] u-boot: Update to 2015.10 release
+Subject: [PATCH][dizzy] fontcache: allow to pass extra parameters and environment to fc-cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,93 +42,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Oct 2015 16:05:49 -0000
+X-List-Received-Date: Tue, 27 Oct 2015 17:17:50 -0000
 
-The U-Boot 2015.10 has been released at October 20th 2015. This also
-removes the GCC workaround, for the inline behavior, as this version
-properlu supports the GCC 5.2 as compiler.
+* this can be useful for passing extra parameters, pass
+  -v by default to see what's going on in do_rootfs
+* we need to use this for extra parameter we implemented
+  in fontconfig:
+  --ignore-mtime always use cache file regardless of font directory mtime
+  because the checksum of fontcache generated in do_rootfs
+  doesn't match with /usr/share/fonts directory as seen on
+  target device causing fontconfig to re-create the cache
+  when fontconfig is used for first time or worse create
+  new cache in every user's home directory when /usr/
+  filesystem is read only and cache cannot be updated.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  Running FC_DEBUG=16 fc-cache -v on such device shows:
+  FcCacheTimeValid dir "/usr/share/fonts" cache checksum 1441207803 dir checksum 1441206149
+* my guess is that the checksum is different, because pseudo
+  (which is unloaded when running qemuwrapper) or because some
+  influence of running the rootfs under qemu.
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
+ meta/classes/fontcache.bbclass                | 19 +++++++++++++++----
+ scripts/postinst-intercepts/update_font_cache |  4 ++--
+ 2 files changed, 17 insertions(+), 6 deletions(-)
 
- .../{u-boot-fw-utils_2015.07.bb => u-boot-fw-utils_2015.10.bb}    | 6 +++---
- .../{u-boot-mkimage_2015.07.bb => u-boot-mkimage_2015.10.bb}      | 6 +++---
- meta/recipes-bsp/u-boot/{u-boot_2015.07.bb => u-boot_2015.10.bb}  | 8 +++-----
- 3 files changed, 9 insertions(+), 11 deletions(-)
- rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2015.07.bb => u-boot-fw-utils_2015.10.bb} (91%)
- rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2015.07.bb => u-boot-mkimage_2015.10.bb} (84%)
- rename meta/recipes-bsp/u-boot/{u-boot_2015.07.bb => u-boot_2015.10.bb} (55%)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.10.bb
-similarity index 91%
-rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.07.bb
-rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.10.bb
-index 0df7a05..93c06e1 100644
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.10.bb
-@@ -4,12 +4,12 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
- SECTION = "bootloader"
- DEPENDS = "mtd-utils"
+diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
+index d122387..8ebdfc4 100644
+--- a/meta/classes/fontcache.bbclass
++++ b/meta/classes/fontcache.bbclass
+@@ -9,12 +9,23 @@ inherit qemu
+ FONT_PACKAGES ??= "${PN}"
+ FONT_EXTRA_RDEPENDS ?= "fontconfig-utils"
+ FONTCONFIG_CACHE_DIR ?= "${localstatedir}/cache/fontconfig"
++FONTCONFIG_CACHE_PARAMS ?= "-v"
++# You can change this to e.g. FC_DEBUG=16 to debug fc-cache issues,
++# something has to be set, because qemuwrapper is using this variable after -E
++# multiple variables aren't allowed because for qemu they are separated
++# by comma and in -n "$D" case they should be separated by space
++FONTCONFIG_CACHE_ENV ?= "FC_DEBUG=1"
+ fontcache_common() {
+-if [ "x$D" != "x" ] ; then
+-	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=${MLPREFIX} bindir=${bindir} \
+-		libdir=${libdir} base_libdir=${base_libdir} fontconfigcachedir=${FONTCONFIG_CACHE_DIR}
++if [ -n "$D" ] ; then
++	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=${MLPREFIX} \
++		'bindir="${bindir}"' \
++		'libdir="${libdir}"' \
++		'base_libdir="${base_libdir}"' \
++		'fontconfigcachedir="${FONTCONFIG_CACHE_DIR}"' \
++		'fontconfigcacheparams="${FONTCONFIG_CACHE_PARAMS}"' \
++		'fontconfigcacheenv="${FONTCONFIG_CACHE_ENV}"'
+ else
+-	fc-cache
++	${FONTCONFIG_CACHE_ENV} fc-cache ${FONTCONFIG_CACHE_PARAMS}
+ fi
+ }
  
--# This revision corresponds to the tag "v2015.07"
-+# This revision corresponds to the tag "v2015.10"
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "33711bdd4a4dce942fb5ae85a68899a8357bdd94"
-+SRCREV = "5ec0003b19cbdf06ccd6941237cbc0d1c3468e2d"
+diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
+index c8c6018..0deab3c 100644
+--- a/scripts/postinst-intercepts/update_font_cache
++++ b/scripts/postinst-intercepts/update_font_cache
+@@ -1,5 +1,5 @@
+ #!/bin/sh
  
--PV = "v2015.07+git${SRCPV}"
-+PV = "v2015.10+git${SRCPV}"
- 
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.07.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.10.bb
-similarity index 84%
-rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2015.07.bb
-rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2015.10.bb
-index ba29bbb..301b6e2 100644
---- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.10.bb
-@@ -5,12 +5,12 @@ SECTION = "bootloader"
- 
- DEPENDS = "openssl"
- 
--# This revision corresponds to the tag "v2015.07"
-+# This revision corresponds to the tag "v2015.10"
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "33711bdd4a4dce942fb5ae85a68899a8357bdd94"
-+SRCREV = "5ec0003b19cbdf06ccd6941237cbc0d1c3468e2d"
- 
--PV = "v2015.07+git${SRCPV}"
-+PV = "v2015.10+git${SRCPV}"
- 
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2015.07.bb b/meta/recipes-bsp/u-boot/u-boot_2015.10.bb
-similarity index 55%
-rename from meta/recipes-bsp/u-boot/u-boot_2015.07.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2015.10.bb
-index 4746c33..e0fab95 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2015.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2015.10.bb
-@@ -2,13 +2,11 @@ require u-boot.inc
- 
- DEPENDS += "dtc-native"
- 
--# This revision corresponds to the tag "v2015.07"
-+# This revision corresponds to the tag "v2015.10"
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "33711bdd4a4dce942fb5ae85a68899a8357bdd94"
-+SRCREV = "5ec0003b19cbdf06ccd6941237cbc0d1c3468e2d"
- 
- SRC_URI += "file://0001-u-boot-mpc85xx-u-boot-.lds-remove-_GLOBAL_OFFSET_TAB.patch"
- 
--PV = "v2015.07+git${SRCPV}"
--
--EXTRA_OEMAKE_append = " KCFLAGS=-fgnu89-inline"
-+PV = "v2015.10+git${SRCPV}"
+-PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
+-					$D${bindir}/fc-cache --sysroot=$D
++PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir} \
++					-E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D ${fontconfigcacheparams}
+ chown -R root:root $D${fontconfigcachedir}
 -- 
 2.6.2
 
