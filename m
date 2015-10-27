@@ -1,26 +1,41 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BB2B7570D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Oct 2015 10:54:06 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Oct 2015 03:54:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,204,1444719600"; d="scan'208";a="804188393"
-Received: from fcheverx-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.10.27])
-	by orsmga001.jf.intel.com with ESMTP; 27 Oct 2015 03:54:06 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Juro Bystricky <juro.bystricky@intel.com>
-Date: Tue, 27 Oct 2015 10:54:04 +0000
-Message-ID: <2301436.IaKdEq206M@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <1445472671-24263-1-git-send-email-juro.bystricky@intel.com>
-References: <1445472671-24263-1-git-send-email-juro.bystricky@intel.com>
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id DF8F875D4A;
+	Tue, 27 Oct 2015 12:01:36 +0000 (UTC)
+Received: by wicll6 with SMTP id ll6so156120580wic.0;
+	Tue, 27 Oct 2015 05:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=m6WMRI75kja3HlHsTVsGk5jkPWW6FbPmQX2TVS93+e0=;
+	b=auG2Qh/pPy1D+yae0D58HBAZHulBsV4r8nTpWE6hPpyCAvYySybc0EK4Lo8k7FO8Zi
+	Olu57X0EPwmbIhOef+BVzU8Jrdh/0cAnauYl0EofCM+PciPTUiXYwheinDM/+QmC1aLd
+	gjheshfBjfd7KQeeqzLIu8xryDXPDbvMY3mqLRqp0/AVtm76ZhOmZQDhThglAlkPKZmt
+	GymWKTwXy7kWphzliLdVQe/B15gquGATTU0HjhDlUT+c2U29DjGm58heKPPp+4E+kpze
+	9HYSEhDwirWrDqN7zlkddu285r8xsCqXRL3MQImyh0jhD/N2Yqe1CLPJnaf6DQqQU90H
+	iGaw==
+X-Received: by 10.194.142.166 with SMTP id rx6mr27046344wjb.54.1445947296649; 
+	Tue, 27 Oct 2015 05:01:36 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id h7sm44433972wjz.7.2015.10.27.05.01.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 27 Oct 2015 05:01:35 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 27 Oct 2015 13:01:53 +0100
+To: Andreas =?iso-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Message-ID: <20151027120153.GD2577@jama>
+References: <20151026204716.GJ2554@jama>
+	<CALbNGRQCwyFKti9sgx0MHkxFbwuksupsjsnQ0UmK=dWQ47AZaw@mail.gmail.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] ref-manual: Updated ADT Installer Extras
+In-Reply-To: <CALbNGRQCwyFKti9sgx0MHkxFbwuksupsjsnQ0UmK=dWQ47AZaw@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, Failed tasks 2015-10-26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,24 +48,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Oct 2015 10:54:07 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 27 Oct 2015 12:01:37 -0000
+X-Groupsio-MsgNum: 72671
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="wULyF7TL5taEdwHz"
+Content-Disposition: inline
 
-Hi Juro,
+--wULyF7TL5taEdwHz
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wednesday 21 October 2015 17:11:11 Juro Bystricky wrote:
-> opkg 0.3.0 requires also libarchive.
+On Mon, Oct 26, 2015 at 11:49:18PM +0100, Andreas M=FCller wrote:
+> On Mon, Oct 26, 2015 at 9:47 PM, Martin Jansa <martin.jansa@gmail.com> wr=
+ote:
+>=20
+> > =3D=3D=3D common (2) =3D=3D=3D
+> >     * /meta-openembedded/meta-oe/recipes-graphics/gerbil/gerbil_git.bb,=
+ do_compile
+> >     * /openembedded-core/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb=
+, do_compile
+> ^ Hope I find time for this one. What DISTRO features were set: x11 and w=
+ayland?
 
-Patches for the manuals should be against the yocto-docs repository and be 
-sent to the yocto@yoctoproject.org mailing list, ccing Scott Rifenbark 
-<srifenbark@gmail.com>. Could you please re-send it?
+yes, both are in
 
-Thanks,
-Paul
+OE qemuarm@ ~/oe/world/shr-core $ grep ^DISTRO_FEATURES=3D env.libsdl2=20
+DISTRO_FEATURES=3D"alsa argp bluetooth ext2 irda largefile pcmcia usbgadget=
+ usbhost wifi xattr nfs zeroconf pci 3g nfc x11 ipv4 ipv6 libc-backtrace li=
+bc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt=
+                                       libc-crypt-ufc libc-db-aliases libc-=
+envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse                       =
+               libc-getlogin libc-idn libc-inet-anl libc-libm libc-locales =
+libc-locale-code         libc-memusage libc-nis libc-nsswitch libc-rcmd lib=
+c-rtld-debug libc-spawn libc-streams libc-sunrpc                           =
+            libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-p=
+osix-regexp libc-posix-regexp-glibc                                    libc=
+-posix-wchar-io ld-is-gold systemd opengl wayland pulseaudio bluez5"
 
--- 
+OE qemuarm@ ~/oe/world/shr-core $ grep ^PACKAGECONFIG=3D env.libsdl2       =
+                                                                           =
+        =20
+PACKAGECONFIG=3D"     opengl     alsa          pulseaudio     wayland     x=
+11 "
 
-Paul Eggleton
-Intel Open Source Technology Centre
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--wULyF7TL5taEdwHz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlYvZ68ACgkQN1Ujt2V2gBzaAgCfTRRYP69Yi8ts5ymN/FwOrLf1
++/0AoJ/WZ3dZPQz80Jks1uV1OM0HABNL
+=0clZ
+-----END PGP SIGNATURE-----
+
+--wULyF7TL5taEdwHz--
