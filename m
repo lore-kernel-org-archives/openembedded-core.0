@@ -1,46 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EFF375CC2
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B1D7A75D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Oct 2015 18:45:46 +0000 (UTC)
-Received: by qgem9 with SMTP id m9so152682857qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Oct 2015 11:45:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=0npanUC2H7JWfXF1eicotJtLFmhDtqOhk5IrYjQgrB4=;
-	b=WNxDCzForfEsrJ5HYzAvX0HfSxP34enWuAlHVKg3jmj0ptrWFGJJqpQigL6gwybheh
-	WUnXXYx5yipn+0D/s9QLu9j6bfQlIx3xodYP7o3+/a11I3eKrsGYJZgaCN/TtFuhH07n
-	e4O75xKNfEa6lvGhT/1ysJyvWKU4d76x9yurV5RgaCeIS+px8V1hiEddK1NNKCsnwfbp
-	2Nlz4uMurcQNEDao3ONqbnVWZZ1DZ19FSFbByQS82eMu9CG06V0N6X1WyEDeKsgLLQG5
-	nCm6NcVE/BTv1Jnwcd+M/waY63QeTkGnYdjrJeEmRd7Wbe3xHwVamjgKZ229W8eBZjlh
-	uUSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=0npanUC2H7JWfXF1eicotJtLFmhDtqOhk5IrYjQgrB4=;
-	b=W+v8t5tfOZ10gShOpO7fS4nUxOdiYEhVXaXaHsBYQensYTVNPQF8y9ScHnFlU6egwd
-	98bkGbJ2RHz3SMB924mdbN4U5KpQaZl9GxkXkCgxalCX2tgnKJOB5bLyOwRVS3AEKVIR
-	INqdt/XWbpPzfSft15Y2p1m6aBioCAMnuGBUUKpPQ8KCkhxLflvZedNXENzaMl2OeVfa
-	hrgnf3yO3XkyEQKHQn9csOQUFrdaGSM8lJBJnjNaQO3kq22NL38fTkp89nxnWtdsNC/b
-	FUrWkUwA+vBr0FTIy3dJAuaNKVVOTd3JaOI6i5N565VhLFO05ykIZ4IQ/fEpe5JgThkr
-	3sDA==
-X-Gm-Message-State: ALoCoQm/T1g1siZnGxDqDI6MQ1ui5BvW2jOB91le5RplJJAwUYUEdIFa1qM3B+gqpOIcCCSm62ID
-X-Received: by 10.140.16.21 with SMTP id 21mr38209265qga.87.1445971546966;
-	Tue, 27 Oct 2015 11:45:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.82 with HTTP; Tue, 27 Oct 2015 11:45:27 -0700 (PDT)
-In-Reply-To: <6aacdcc20175b509fa9adca8a7bfa861e443ee09.1445954460.git.liezhi.yang@windriver.com>
+	Tue, 27 Oct 2015 19:04:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9RJ41wM013174
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 27 Oct 2015 12:04:01 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 27 Oct 2015 12:04:01 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, Robert Yang
+	<liezhi.yang@windriver.com>
 References: <cover.1445954460.git.liezhi.yang@windriver.com>
 	<6aacdcc20175b509fa9adca8a7bfa861e443ee09.1445954460.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 27 Oct 2015 18:45:27 +0000
-Message-ID: <CAJTo0La8YZQafC-8SKdBt_4K5N8TsHU6bq3oeykJ6-j6pc6isw@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+	<CAJTo0La8YZQafC-8SKdBt_4K5N8TsHU6bq3oeykJ6-j6pc6isw@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+X-Enigmail-Draft-Status: N1110
+Organization: Wind River Systems
+Message-ID: <562FCAA0.3020109@windriver.com>
+Date: Tue, 27 Oct 2015 14:04:00 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0La8YZQafC-8SKdBt_4K5N8TsHU6bq3oeykJ6-j6pc6isw@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] python-smartpm-native: prefer same arch when install
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,92 +39,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Oct 2015 18:45:48 -0000
-Content-Type: multipart/alternative; boundary=001a11c051d469a4e905231a7c10
+X-List-Received-Date: Tue, 27 Oct 2015 19:04:09 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 8bit
 
---001a11c051d469a4e905231a7c10
-Content-Type: text/plain; charset=UTF-8
+On 10/27/15 1:45 PM, Burton, Ross wrote:
+> 
+> On 27 October 2015 at 14:05, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+> 
+>     We had made smart install multilib RDEPENDS correctly from
+>     package_manager.py, but it couldn't handle RRECOMMANDS, this patch fix
+>     the issue from python-smartpm-native, and make it work well.
+> 
+>     The logic is: when pkg_A rdepends/rrecommands pkg_B, then let pkg_B use
+>     pkg_A's arch when possible.
+> 
+> 
+> I added this patch and rebuilt core-image-sato, then ran buildhistory-diff:
+> 
+> Changes to images/intel_corei7_64/glibc/core-image-sato
+> (installed-package-names.txt):
+>   lib32-ncurses-terminfo-base was added
+>   lib32-libjpeg9 was added
+>   lib32-glibc-gconv-iso8859-1 was added
+>   lib32-shared-mime-info was added
+>   lib32-libxml2 was added
+>   lib32-wpa-supplicant-cli was added
+>   lib32-libgdk-pixbuf-2.0-loader-png was added
+>   lib32-wpa-supplicant-passphrase was added
+>   lib32-pango-module-basic-fc was added
+>   lib32-bash was added
+>   lib32-libgdk-pixbuf-2.0-loader-jpeg was added
+>   lib32-libgdk-pixbuf-2.0-loader-gif was added
+>   lib32-libgdk-pixbuf-2.0-loader-xpm was added
+>   lib32-glibc-gconv was added
+> 
+> Some of those are good (gdk-pixbuf and pango), some bad (bash,
+> wpa-supplicant-cli), some probably bugs in packages that should be allarch
+> (termino, shared-mime-info).
 
-On 27 October 2015 at 14:05, Robert Yang <liezhi.yang@windriver.com> wrote:
+bash, wpa-supplicant-cli is a good example of why this is an issue.  RPM luckily
+says, well we've got two versions of bash, lets resolve this by following the
+ELF resolution rule.  So while two packages may exist in the manifest, you won't
+get any conflicts and space is likely not duplicated.
 
-> We had made smart install multilib RDEPENDS correctly from
-> package_manager.py, but it couldn't handle RRECOMMANDS, this patch fix
-> the issue from python-smartpm-native, and make it work well.
->
-> The logic is: when pkg_A rdepends/rrecommands pkg_B, then let pkg_B use
-> pkg_A's arch when possible.
->
+But you can't automatically say "give me any bash, but give me arch specific
+versions of everything else".  The default in RPM is if I ask for 'bash', give
+me any version of bash.. if I ask for 'bash.i586' I was -the- i586 version.
 
-I added this patch and rebuilt core-image-sato, then ran buildhistory-diff:
+This is why the fix for this is either adjust the behavior (as Robert has done)
+to suck in more dependencies and consider the ELF resolver to be adequate -- or
+to add some kind of a hint to the recipe mechanisms that select dependencies
+must be of the same arch type.  One we handle in the resolver, and one we could
+handle when we generate the packages themselves.
 
-Changes to images/intel_corei7_64/glibc/core-image-sato
-(installed-package-names.txt):
-  lib32-ncurses-terminfo-base was added
-  lib32-libjpeg9 was added
-  lib32-glibc-gconv-iso8859-1 was added
-  lib32-shared-mime-info was added
-  lib32-libxml2 was added
-  lib32-wpa-supplicant-cli was added
-  lib32-libgdk-pixbuf-2.0-loader-png was added
-  lib32-wpa-supplicant-passphrase was added
-  lib32-pango-module-basic-fc was added
-  lib32-bash was added
-  lib32-libgdk-pixbuf-2.0-loader-jpeg was added
-  lib32-libgdk-pixbuf-2.0-loader-gif was added
-  lib32-libgdk-pixbuf-2.0-loader-xpm was added
-  lib32-glibc-gconv was added
+I'm not sure there is an obvious solution, I prefer the later with a variant of
+the former myself.  (Variant being if all things are equal we weight
+dependencies to match the arch.. but if something is already in with that
+provide we use it..)  Then the hint would cause the produced packages to be able
+to say they need explicit versions of the plugins.
 
-Some of those are good (gdk-pixbuf and pango), some bad (bash,
-wpa-supplicant-cli), some probably bugs in packages that should be allarch
-(termino, shared-mime-info).
+> I'm undecided what we do about this.  Fixing the dependency chains is good, but
+> we're definitely pulling in more than expected.
 
-I'm undecided what we do about this.  Fixing the dependency chains is good,
-but we're definitely pulling in more than expected.
+I agree, I have a feeling what I wrote about is the right answer... but I don't
+have any code to prove it.. and I'm not sure that we should be making that big
+of a change right now.
 
-Ross
+Robert's patch SHOULD resolve the problem at the expense of a slightly larger
+resolution manifest, which may be acceptable.
 
---001a11c051d469a4e905231a7c10
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--Mark
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 October 2015 at 14:05, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204=
-);border-left-style:solid;padding-left:1ex"><div id=3D":28a" class=3D"" sty=
-le=3D"overflow:hidden">We had made <span class=3D"">smart</span> install mu=
-ltilib RDEPENDS correctly from<br>
-package_manager.py, but it couldn&#39;t handle RRECOMMANDS, this patch fix<=
-br>
-the issue from python-smartpm-native, and make it work well.<br>
-<br>
-The logic is: when pkg_A rdepends/rrecommands pkg_B, then let pkg_B use<br>
-pkg_A&#39;s arch when possible.</div></blockquote></div><br>I added this pa=
-tch and rebuilt core-image-sato, then ran buildhistory-diff:</div><div clas=
-s=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_=
-extra">Changes to images/intel_corei7_64/glibc/core-image-sato (installed-p=
-ackage-names.txt):</div><div class=3D"gmail_extra">=C2=A0 lib32-ncurses-ter=
-minfo-base was added</div><div class=3D"gmail_extra">=C2=A0 lib32-libjpeg9 =
-was added</div><div class=3D"gmail_extra">=C2=A0 lib32-glibc-gconv-iso8859-=
-1 was added</div><div class=3D"gmail_extra">=C2=A0 lib32-shared-mime-info w=
-as added</div><div class=3D"gmail_extra">=C2=A0 lib32-libxml2 was added</di=
-v><div class=3D"gmail_extra">=C2=A0 lib32-wpa-supplicant-cli was added</div=
-><div class=3D"gmail_extra">=C2=A0 lib32-libgdk-pixbuf-2.0-loader-png was a=
-dded</div><div class=3D"gmail_extra">=C2=A0 lib32-wpa-supplicant-passphrase=
- was added</div><div class=3D"gmail_extra">=C2=A0 lib32-pango-module-basic-=
-fc was added</div><div class=3D"gmail_extra">=C2=A0 lib32-bash was added</d=
-iv><div class=3D"gmail_extra">=C2=A0 lib32-libgdk-pixbuf-2.0-loader-jpeg wa=
-s added</div><div class=3D"gmail_extra">=C2=A0 lib32-libgdk-pixbuf-2.0-load=
-er-gif was added</div><div class=3D"gmail_extra">=C2=A0 lib32-libgdk-pixbuf=
--2.0-loader-xpm was added</div><div class=3D"gmail_extra">=C2=A0 lib32-glib=
-c-gconv was added</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
-mail_extra">Some of those are good (gdk-pixbuf and pango), some bad (bash, =
-wpa-supplicant-cli), some probably bugs in packages that should be allarch =
-(termino, shared-mime-info).</div><div class=3D"gmail_extra"><br></div><div=
- class=3D"gmail_extra">I&#39;m undecided what we do about this.=C2=A0 Fixin=
-g the dependency chains is good, but we&#39;re definitely pulling in more t=
-han expected.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
-_extra">Ross</div></div></div>
+> Ross
+> 
+> 
 
---001a11c051d469a4e905231a7c10--
+
