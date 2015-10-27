@@ -1,23 +1,26 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B1B2770CA
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BB2B7570D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Oct 2015 10:45:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9RAjK2X006148
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 27 Oct 2015 03:45:20 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 27 Oct 2015 03:45:20 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <bruce.ashfield@windriver.co>
-Date: Tue, 27 Oct 2015 18:45:17 +0800
-Message-ID: <cover.1445942620.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 27 Oct 2015 10:54:06 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Oct 2015 03:54:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,204,1444719600"; d="scan'208";a="804188393"
+Received: from fcheverx-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.10.27])
+	by orsmga001.jf.intel.com with ESMTP; 27 Oct 2015 03:54:06 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Date: Tue, 27 Oct 2015 10:54:04 +0000
+Message-ID: <2301436.IaKdEq206M@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <1445472671-24263-1-git-send-email-juro.bystricky@intel.com>
+References: <1445472671-24263-1-git-send-email-juro.bystricky@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] kernel.bbclass: add kernel-devsrc to kernel-dev's RDEPENDS
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] ref-manual: Updated ADT Installer Extras
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,25 +33,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Oct 2015 10:45:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 Oct 2015 10:54:07 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The following changes since commit 505a82673ac2487df5ea343a6422c2fc47018831:
+Hi Juro,
 
-  build-appliance-image: Update to jethro head revision (2015-10-21 23:13:11 +0100)
+On Wednesday 21 October 2015 17:11:11 Juro Bystricky wrote:
+> opkg 0.3.0 requires also libarchive.
 
-are available in the git repository at:
+Patches for the manuals should be against the yocto-docs repository and be 
+sent to the yocto@yoctoproject.org mailing list, ccing Scott Rifenbark 
+<srifenbark@gmail.com>. Could you please re-send it?
 
-  git://git.pokylinux.org/poky-contrib hongxu/kernel-dev
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/kernel-dev
-
-Hongxu Jia (1):
-  kernel.bbclass: add kernel-devsrc to kernel-dev's RDEPENDS
-
- meta/classes/kernel.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Thanks,
+Paul
 
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
