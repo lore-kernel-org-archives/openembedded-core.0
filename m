@@ -1,47 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 55DD87570D
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (unknown [64.129.254.146])
+	by mail.openembedded.org (Postfix) with ESMTP id 976FA7570D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Oct 2015 10:40:36 +0000 (UTC)
-Received: by qkbl190 with SMTP id l190so120212024qkb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Oct 2015 03:40:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=gtr1jtJt37VCISOegiFR3/f12ug7j+3FfxDIhvc1Hjg=;
-	b=AqlhAK3AJ6uzOzl2oi0KB3jUAoNjAS6tpJy3vS+z+0faNLozool3P7aEQhI1iPd5KD
-	4v+UhPGYMjuEadneDb9G+xB8/3S1t6F8rwAGWoY+J3SKUrO/kiCGB7Da5RDfq2nmuzAX
-	5N2jjc+bwp/jrNBr0ch7hxVwgGdpDgzBH+oSuimb0P+GpymXZuPs85yx5530bLD4dbTC
-	ZmavFIB2Dx+6rCEX06HRkgrSnvmiLBUaNXFSU4fKHueIVVomTPrRdx/GNXTy/4FLkcMc
-	fXf/QcC6DzZVboIqejZXxXYKLY6fvg+jvWAZ8mCRfXt3D2U0CEU8WK/ocPgrJJ/ua3pm
-	2M1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=gtr1jtJt37VCISOegiFR3/f12ug7j+3FfxDIhvc1Hjg=;
-	b=PIT5ttW/k8MjA7ZFlmZOkFoxtk49IsfYr6KK7rCGmY2BJDf0A5/19r3moEKqql+fom
-	6+8SKDGKbaWGXoXOriVLsSi1xO4+csXQGAjHOtGTXhqO5aLEIXmAbbmUAr4EUmDfg/+E
-	fGaDB7yb5K/YPHTY6yve62NlVJtHbS/mNMnJ3dThiShep2hocMERjSZ8te2aZpZiUN6r
-	YWkXjksfoISQdJXCwQzexqa1BA181NSzHSLWfYMTwZk2WdD7xOtLYddh1KTsPL3iejDL
-	mN2c878TMy/IERtB8+H1LUc9HDUP6X2tcKd1sjtT3E+Bso5C1TCLihYnTMIi0dnX8KVU
-	rB4A==
-X-Gm-Message-State: ALoCoQlhWFTA//YfCgPWkT5Tr+08i8BvYZ1BshgN+4yA5ofBbD/6C6+wHrt4qMGxmix30St4tl9R
-X-Received: by 10.55.221.9 with SMTP id n9mr48124173qki.64.1445942437023; Tue,
-	27 Oct 2015 03:40:37 -0700 (PDT)
+	Tue, 27 Oct 2015 10:45:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9RAjMnD014827
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 27 Oct 2015 03:45:22 -0700
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 27 Oct 2015 03:45:21 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <bruce.ashfield@windriver.co>
+Date: Tue, 27 Oct 2015 18:45:18 +0800
+Message-ID: <34a726445da94bca0bf2f56f9823f176b837ac1d.1445942620.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1445942620.git.hongxu.jia@windriver.com>
+References: <cover.1445942620.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Received: by 10.140.94.82 with HTTP; Tue, 27 Oct 2015 03:40:17 -0700 (PDT)
-In-Reply-To: <1445914371-56565-1-git-send-email-biannm@cn.fujitsu.com>
-References: <1445914371-56565-1-git-send-email-biannm@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 27 Oct 2015 10:40:17 +0000
-Message-ID: <CAJTo0LZ9zjDUCZ-jUqSPmEMZhnXAeu9wC184BUUcs5DVqtStqg@mail.gmail.com>
-To: Bian Naimeng <biannm@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-smartpm: define LOCKED_KEEP to avoid running error
+Subject: [PATCH 1/1] kernel.bbclass: add kernel-devsrc to kernel-dev's RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,61 +32,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Oct 2015 10:40:37 -0000
-Content-Type: multipart/alternative; boundary=001a1149d604532f13052313b5d4
+X-List-Received-Date: Tue, 27 Oct 2015 10:45:22 -0000
+Content-Type: text/plain
 
---001a1149d604532f13052313b5d4
-Content-Type: text/plain; charset=UTF-8
+In kernel-dev package, Nothing in ${KERNEL_SRC_PATH}.
+...
+$ find packages-split/kernel-dev
+packages-split/kernel-dev
+packages-split/kernel-dev/boot
+packages-split/kernel-dev/boot/System.map-4.1.10-WR8.0.0.0_standard
+packages-split/kernel-dev/boot/Module.symvers-4.1.10-WR8.0.0.0_standard
+packages-split/kernel-dev/boot/config-4.1.10-WR8.0.0.0_standard
+..
 
-On 27 October 2015 at 02:52, Bian Naimeng <biannm@cn.fujitsu.com> wrote:
+And package kernel-devsrc included ${KERNEL_SRC_PATH}, so we add
+kernel-devsrc to kernel-dev's RDEPENDS
 
-> +From daaec43ecf3f0d0f89cef586327aa1063a4c44c6 Mon Sep 17 00:00:00 2001
-> +From: Bian Naimeng <biannm@cn.fujitsu.com>
-> +Date: Tue, 27 Oct 2015 11:08:52 +0900
-> +Subject: [PATCH] Fix a undefined error
-> +
-> +LOCKED_KEEP is undefined, so the following error will be caught.
-> +
-> +  /usr/lib/python2.7/site-packages/smart/transaction.py", line 1230, in
-> run
-> +    locked[pkg] = (LOCKED_KEEP, None)
-> +
-> +  NameError: global name 'LOCKED_KEEP' is not defined
-> +
-> +Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
->
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/classes/kernel.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-This patch is missing an Upstream-Status.
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 5e8b6cf..a07c5c1 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -357,7 +357,7 @@ PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-mod
+ FILES_${PN} = ""
+ FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
+ FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
+-FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
++FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* /lib/modules/${KERNEL_VERSION}/build"
+ FILES_kernel-vmlinux = "/boot/vmlinux*"
+ FILES_kernel-modules = ""
+ RDEPENDS_kernel = "kernel-base"
+@@ -368,6 +368,7 @@ PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')
+ RDEPENDS_kernel-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', 'kernel-vmlinux', '', d)}"
+ PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
+ RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
++RDEPENDS_kernel-dev += "kernel-devsrc"
+ ALLOW_EMPTY_kernel = "1"
+ ALLOW_EMPTY_kernel-base = "1"
+ ALLOW_EMPTY_kernel-image = "1"
+-- 
+1.9.1
 
-Ross
 
---001a1149d604532f13052313b5d4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 October 2015 at 02:52, Bian Naimeng <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:biannm@cn.fujitsu.com" target=3D"_blank">biannm@cn.fujitsu.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ny" class=
-=3D"a3s" style=3D"overflow:hidden">+From daaec43ecf3f0d0f89cef586327aa1063a=
-4c44c6 Mon Sep 17 00:00:00 2001<br>
-+From: Bian Naimeng &lt;<a href=3D"mailto:biannm@cn.fujitsu.com">biannm@cn.=
-fujitsu.com</a>&gt;<br>
-+Date: Tue, 27 Oct 2015 11:08:52 +0900<br>
-+Subject: [PATCH] Fix a undefined error<br>
-+<br>
-+LOCKED_KEEP is undefined, so the following error will be caught.<br>
-+<br>
-+=C2=A0 /usr/lib/python2.7/site-packages/smart/transaction.py&quot;, line 1=
-230, in run<br>
-+=C2=A0 =C2=A0 locked[pkg] =3D (LOCKED_KEEP, None)<br>
-+<br>
-+=C2=A0 NameError: global name &#39;LOCKED_KEEP&#39; is not defined<br>
-+<br>
-+Signed-off-by: Bian Naimeng &lt;<a href=3D"mailto:biannm@cn.fujitsu.com">b=
-iannm@cn.fujitsu.com</a>&gt;</div></blockquote></div><br>This patch is miss=
-ing an Upstream-Status.</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">Ross</div></div>
-
---001a1149d604532f13052313b5d4--
