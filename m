@@ -1,21 +1,29 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 87076755F4
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (unknown [64.129.254.146])
+	by mail.openembedded.org (Postfix) with ESMTP id 719A87570D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Oct 2015 23:14:07 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 26 Oct 2015 16:14:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,202,1444719600"; d="scan'208";a="588518889"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.171])
-	by FMSMGA003.fm.intel.com with ESMTP; 26 Oct 2015 16:14:07 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Oct 2015 17:13:22 -0600
-Message-Id: <1445901202-17852-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
+	Tue, 27 Oct 2015 00:40:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9R0ermW001707
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Oct 2015 17:40:53 -0700
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 26 Oct 2015 17:40:52 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <562E3896.6080405@windriver.com>
+	<1445875841.5251.107.camel@pbcl.net> <562E58BE.9060003@windriver.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <562EC814.4080508@windriver.com>
+Date: Mon, 26 Oct 2015 19:40:52 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.3.0
 MIME-Version: 1.0
-Subject: [PATCH] acpid: Upgrade to 2.0.25
+In-Reply-To: <562E58BE.9060003@windriver.com>
+Subject: Re: Prelink problems -- need help!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,32 +36,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Oct 2015 23:14:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 27 Oct 2015 00:40:56 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/recipes-bsp/acpid/{acpid_2.0.23.bb => acpid_2.0.25.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-bsp/acpid/{acpid_2.0.23.bb => acpid_2.0.25.bb} (55%)
+On 10/26/15 11:45 AM, Mark Hatle wrote:
+> On 10/26/15 11:10 AM, Phil Blundell wrote:
+>> [Cc list trimmed]
+>>
+>> On Mon, 2015-10-26 at 09:28 -0500, Mark Hatle wrote:
+>>> As you can see, pretty much everything is currently broken and I'm
+>>> struggling to
+>>> find community people with the right skill sets to help me resolve
+>>> the issues.
+>>
+>> I think it's true that prelink is a technology which has largely had
+>> its day, and I could well imagine that upstream Red Hat is no longer
+>> very interested in it.  https://fedorahosted.org/fesco/ticket/1183 has
+>> a summary of some of the reasons why.
+>>
+>> Before investing any significant amount of time in fixing up prelink
+>> (and from what you've described it sounds like it might indeed be a
+>> significant effort to get it working again on all platforms) it might
+>> be a good idea to make sure we are still convinced that prelink
+>> provides useful and meaningful benefits for OE-core users.
+>>
+> 
+> I do think prelink has a purpose.  Especially for embedded systems.
+> 
+> The biggest reason I see against prelink is ASLR.  I agree 100% that if you want
+> ASLR (Address Randomization) you should not be using the prelinker.
+> 
+> Usually secondary reasons include if you are doing field upgrades at a package
+> level -- it means you also need the ability to prelink on the device which cause
+> have other performance ramifications and such during this upgrade process.
+> 
+> I agree with some of the information on the Fedora hosted link you pointed to,
+> but disagree with others.
+> 
+> While some of the modern hashing techniques and such do improve run-time dynamic
+> link performance, there is still a hit that we must take.  For devices that need
+> quick boot times, quick startup, or are memory constrained, the prelinker can
+> still help.  (Memory usage on very small systems is a good example.  Memory
+> usage can be reduced in larger applications by reducing the number of
+> Copy-on-write pages required to handle the relocation information.)
+> 
+> I probably would not use the prelinker on a workstation/server any longer.  I
+> might not use it on a 'larger' embedded system, but on a more traditional
+> embedded system I do think it still has merit.
+> 
+> (Probably a discussion for the future, due to the ASLR, is should the prelinker
+> be enabled by default -- even if it works -- but that is a discussion for later.)
+> 
+>> If the answer to that is yes then I probably could spare a bit of time
+>> to look at the ARM and MIPS issues at least.
+> 
+> I can certainly use any help you have.  I have someone looking into the ARM
+> issues with me.  It APPEARS the primary behavior there has to do with IFUNC
+> behavior to things like memcpy has changed, causing the prelinker to do the
+> wrong thing(s).  But I have few additional details at this time.
+> 
+> I've reached out to parts of the MIPS community for help, but we'll see if I get
+> any type of response.  (MIPS, especially 32-bit, I'm very surprised has broken
+> recently.  I haven't seen many changes in regard to the way binaries are loaded
+> on MIPS -- so the issue must be related to a more fundamental optimization or
+> bug in the prelink.)
+> 
+> Thanks for the offer, let me know if you find anything.  I'll certainly respond
+> as I make progress trying to go through the issues.
 
-diff --git a/meta/recipes-bsp/acpid/acpid_2.0.23.bb b/meta/recipes-bsp/acpid/acpid_2.0.25.bb
-similarity index 55%
-rename from meta/recipes-bsp/acpid/acpid_2.0.23.bb
-rename to meta/recipes-bsp/acpid/acpid_2.0.25.bb
-index a5317a4..f00d25a 100644
---- a/meta/recipes-bsp/acpid/acpid_2.0.23.bb
-+++ b/meta/recipes-bsp/acpid/acpid_2.0.25.bb
-@@ -3,5 +3,5 @@ require acpid.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
-                     file://acpid.h;endline=24;md5=324a9cf225ae69ddaad1bf9d942115b5"
- 
--SRC_URI[md5sum] = "d7bcdcdefcd53b03730e50ba842554ea"
--SRC_URI[sha256sum] = "4396aaec13510c3a1faa941a15a4b5335b6ae4fbec8438b9249b88c3b66187ee"
-+SRC_URI[md5sum] = "69bb0cc4a0a89eb2dfecc4851087f568"
-+SRC_URI[sha256sum] = "0b700a8072bec162c512f72cbe419195601ab3e0ffd2138f9bd95ed3097a5c68"
--- 
-2.1.4
+I just wanted to update folks on where I'm at.
+
+On the Intel IA32 architecture, the problem appears to have been triggered by
+the ELF_RTYPE_CLASS_EXTERN_PROTECTED_DATA that went in after March of this year.
+ I've not been able to track down what is causing the bad behavior -- but fully
+dropping support for that class type allows the prelink to "mostly work".
+
+On ARM the issues appear to have some problem related to IFUNCs, but I still
+don't have any data beyond that at this point.
+
+> --Mark
+> 
+>> p.
+>>
+> 
 
 
