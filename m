@@ -1,30 +1,29 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (unknown [64.129.254.146])
-	by mail.openembedded.org (Postfix) with ESMTP id AF87275894
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B47875D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Oct 2015 01:36:06 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9S1a5O1002515
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 27 Oct 2015 18:36:05 -0700
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 27 Oct 2015 18:36:05 -0700
-Message-ID: <56302682.5010006@windriver.com>
-Date: Wed, 28 Oct 2015 09:36:02 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Wed, 28 Oct 2015 02:11:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9S2BdKG017180
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 27 Oct 2015 19:11:39 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 27 Oct 2015 19:11:39 -0700
+Message-ID: <56302ED9.6010307@windriver.com>
+Date: Wed, 28 Oct 2015 10:11:37 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <cover.1445942620.git.hongxu.jia@windriver.com>	<34a726445da94bca0bf2f56f9823f176b837ac1d.1445942620.git.hongxu.jia@windriver.com>
-	<CADkTA4PTc-jyJLKzARJftXU2g-jAVBN-_nAdwLdc509Hg7dtyA@mail.gmail.com>
-In-Reply-To: <CADkTA4PTc-jyJLKzARJftXU2g-jAVBN-_nAdwLdc509Hg7dtyA@mail.gmail.com>
-Cc: "Ashfield, Bruce" <bruce.ashfield@windriver.co>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] kernel.bbclass: add kernel-devsrc to kernel-dev's RDEPENDS
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1445954460.git.liezhi.yang@windriver.com>
+	<6aacdcc20175b509fa9adca8a7bfa861e443ee09.1445954460.git.liezhi.yang@windriver.com>
+	<CAJTo0La8YZQafC-8SKdBt_4K5N8TsHU6bq3oeykJ6-j6pc6isw@mail.gmail.com>
+In-Reply-To: <CAJTo0La8YZQafC-8SKdBt_4K5N8TsHU6bq3oeykJ6-j6pc6isw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] python-smartpm-native: prefer same arch when install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,80 +36,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Oct 2015 01:36:07 -0000
+X-List-Received-Date: Wed, 28 Oct 2015 02:11:41 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/27/2015 09:46 PM, Bruce Ashfield wrote:
-> On Tue, Oct 27, 2015 at 6:45 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->> In kernel-dev package, Nothing in ${KERNEL_SRC_PATH}.
-> Honestly, I'd rather leave this as-is for now.
->
-> I have a feature/bugzilla (call it what you want) for the 2.1 release to re-work
-> the partitioning of these packages.
->
-> kernel-dev and devsrc have been like this for a while now, and if someone
-> really wants the source on their target, they've been adding devsrc as their
-> package.
->
-> If the split changes such that kernel-dev doesn't end up bringing the source,
-> I'd rather not create another set of users that we need to migrate to some
-> new packaging scheme.
-
-OK, so we will wait your re-work, please drop this patch
-
-//Hongxu
 
 
-> Bruce
+On 10/28/2015 02:45 AM, Burton, Ross wrote:
 >
->> ...
->> $ find packages-split/kernel-dev
->> packages-split/kernel-dev
->> packages-split/kernel-dev/boot
->> packages-split/kernel-dev/boot/System.map-4.1.10-WR8.0.0.0_standard
->> packages-split/kernel-dev/boot/Module.symvers-4.1.10-WR8.0.0.0_standard
->> packages-split/kernel-dev/boot/config-4.1.10-WR8.0.0.0_standard
->> ..
->>
->> And package kernel-devsrc included ${KERNEL_SRC_PATH}, so we add
->> kernel-devsrc to kernel-dev's RDEPENDS
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/classes/kernel.bbclass | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index 5e8b6cf..a07c5c1 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -357,7 +357,7 @@ PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-mod
->>   FILES_${PN} = ""
->>   FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
->>   FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
->> -FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
->> +FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* /lib/modules/${KERNEL_VERSION}/build"
->>   FILES_kernel-vmlinux = "/boot/vmlinux*"
->>   FILES_kernel-modules = ""
->>   RDEPENDS_kernel = "kernel-base"
->> @@ -368,6 +368,7 @@ PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')
->>   RDEPENDS_kernel-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', 'kernel-vmlinux', '', d)}"
->>   PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
->>   RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
->> +RDEPENDS_kernel-dev += "kernel-devsrc"
->>   ALLOW_EMPTY_kernel = "1"
->>   ALLOW_EMPTY_kernel-base = "1"
->>   ALLOW_EMPTY_kernel-image = "1"
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> On 27 October 2015 at 14:05, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     We had made smart install multilib RDEPENDS correctly from
+>     package_manager.py, but it couldn't handle RRECOMMANDS, this patch fix
+>     the issue from python-smartpm-native, and make it work well.
+>
+>     The logic is: when pkg_A rdepends/rrecommands pkg_B, then let pkg_B use
+>     pkg_A's arch when possible.
 >
 >
+> I added this patch and rebuilt core-image-sato, then ran buildhistory-diff:
+>
+> Changes to images/intel_corei7_64/glibc/core-image-sato
+> (installed-package-names.txt):
+>    lib32-ncurses-terminfo-base was added
+>    lib32-libjpeg9 was added
+>    lib32-glibc-gconv-iso8859-1 was added
+>    lib32-shared-mime-info was added
+>    lib32-libxml2 was added
+>    lib32-wpa-supplicant-cli was added
+>    lib32-libgdk-pixbuf-2.0-loader-png was added
+>    lib32-wpa-supplicant-passphrase was added
+>    lib32-pango-module-basic-fc was added
+>    lib32-bash was added
+>    lib32-libgdk-pixbuf-2.0-loader-jpeg was added
+>    lib32-libgdk-pixbuf-2.0-loader-gif was added
+>    lib32-libgdk-pixbuf-2.0-loader-xpm was added
+>    lib32-glibc-gconv was added
+>
+> Some of those are good (gdk-pixbuf and pango), some bad (bash,
+> wpa-supplicant-cli), some probably bugs in packages that should be allarch
+> (termino, shared-mime-info).
 
+I think that lacking something so that it doesn't work is worse than have more
+things but works ?
+
+// Robert
+
+>
+> I'm undecided what we do about this.  Fixing the dependency chains is good, but
+> we're definitely pulling in more than expected.
+>
+> Ross
 
