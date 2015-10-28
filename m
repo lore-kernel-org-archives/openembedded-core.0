@@ -1,24 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (unknown [64.129.254.146])
-	by mail.openembedded.org (Postfix) with ESMTP id C06127669F
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 284E6755F4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Oct 2015 02:30:10 +0000 (UTC)
+	Wed, 28 Oct 2015 04:34:34 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9S2U9YQ003601
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9S4YY1n028303
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Oct 2015 19:30:10 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
+	Tue, 27 Oct 2015 21:34:34 -0700 (PDT)
+Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 27 Oct 2015 19:30:09 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	14.3.248.2; Tue, 27 Oct 2015 21:34:34 -0700
+From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Oct 2015 10:30:08 +0800
-Message-ID: <cover.1445998986.git.Qi.Chen@windriver.com>
+Date: Wed, 28 Oct 2015 12:34:55 +0800
+Message-ID: <1446006895-19195-1-git-send-email-jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH 0/1] nfs-utils/statd: fix a segfault
+Subject: [PATCH] qemu: enable user mode for mips64 and mips64el
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Oct 2015 02:30:14 -0000
+X-List-Received-Date: Wed, 28 Oct 2015 04:34:38 -0000
 Content-Type: text/plain
 
-The following changes since commit f787b688f2884ce3fa888b4041030538c7d2bf55:
+From: Jackie Huang <jackie.huang@windriver.com>
 
-  oeqa/utils/decorators: fix missing keyword arguments on decorators (2015-10-27 07:22:22 +0000)
+- remove mips64 and mips64el from softmmuonly list
+  to enable user mode, they have been supported
+  since 2012.
+- keep the softmmuonly list and for loop although
+  there is only one for now in case more supported
+  arches added.
 
-are available in the git repository at:
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ meta/recipes-devtools/qemu/qemu-targets.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/nfs-utils-segfault
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/nfs-utils-segfault
-
-Chen Qi (1):
-  nfs-utils/statd: fix a segfault
-
- ...tatd-fix-a-segfault-caused-by-improper-us.patch | 113 +++++++++++++++++++++
- .../nfs-utils/nfs-utils_1.3.1.bb                   |   1 +
- 2 files changed, 114 insertions(+)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-nfs-utils-statd-fix-a-segfault-caused-by-improper-us.patch
-
+diff --git a/meta/recipes-devtools/qemu/qemu-targets.inc b/meta/recipes-devtools/qemu/qemu-targets.inc
+index 5c35655..a3e46a8 100644
+--- a/meta/recipes-devtools/qemu/qemu-targets.inc
++++ b/meta/recipes-devtools/qemu/qemu-targets.inc
+@@ -7,7 +7,7 @@ def get_qemu_target_list(d):
+     archs = d.getVar('QEMU_TARGETS', True).split()
+     tos = d.getVar('HOST_OS', True)
+     softmmuonly = ""
+-    for arch in ['mips64', 'mips64el', 'ppcemb']:
++    for arch in ['ppcemb']:
+         if arch in archs:
+             softmmuonly += arch + "-softmmu,"
+             archs.remove(arch)
 -- 
 1.9.1
 
