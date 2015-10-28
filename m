@@ -1,32 +1,34 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B1D7A75D4A
+Return-Path: <tylerwhall@gmail.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 22AAF75D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Oct 2015 19:04:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9RJ41wM013174
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 27 Oct 2015 12:04:01 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 27 Oct 2015 12:04:01 -0700
-To: "Burton, Ross" <ross.burton@intel.com>, Robert Yang
-	<liezhi.yang@windriver.com>
-References: <cover.1445954460.git.liezhi.yang@windriver.com>
-	<6aacdcc20175b509fa9adca8a7bfa861e443ee09.1445954460.git.liezhi.yang@windriver.com>
-	<CAJTo0La8YZQafC-8SKdBt_4K5N8TsHU6bq3oeykJ6-j6pc6isw@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-X-Enigmail-Draft-Status: N1110
-Organization: Wind River Systems
-Message-ID: <562FCAA0.3020109@windriver.com>
-Date: Tue, 27 Oct 2015 14:04:00 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0La8YZQafC-8SKdBt_4K5N8TsHU6bq3oeykJ6-j6pc6isw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] python-smartpm-native: prefer same arch when install
+	Wed, 28 Oct 2015 00:02:02 +0000 (UTC)
+Received: by igpw7 with SMTP id w7so17765687igp.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Oct 2015 17:02:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=ANlEQRhGJVwtEumXlfBcCXnY1BjJRMJEEqdKJfhVvf0=;
+	b=Nj+BhBnKJpxhgzHZAlYs80WNFtFko2G1tb837KxHnWMnwolVnYwZeOtGQ+bGAEX2Pn
+	4ls2DGNSmBWRn08VL1Ix8UAjaMBuiPxjosfDjW7DJFL9XT9IauJGyISs8+qz8NKZuZhB
+	tPMTHbFYoKU1Se2sPnn2+bcCgo9yDKpLF9vvF9ZTJVRdA85FAzxkMh//0MBmoGftBtWW
+	4BaBKXDLHv+keQ/Ya1BxPKUbHxQySjcfkj0x3jUbFfoCa1mPOpV9MGefqndzxZf7Y11w
+	Z8pGiCXH59UFgSu0EnKF9czSaR/ir3/v/sWEbg68Zny311v4ZXl+4J8drBSVqG/vlOXZ
+	VTFA==
+X-Received: by 10.50.32.33 with SMTP id f1mr26985973igi.33.1445990522467;
+	Tue, 27 Oct 2015 17:02:02 -0700 (PDT)
+Received: from metric.localdomain (cpe-76-177-101-4.natcky.res.rr.com.
+	[76.177.101.4]) by smtp.gmail.com with ESMTPSA id
+	e38sm15653939ioi.14.2015.10.27.17.02.01
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 27 Oct 2015 17:02:01 -0700 (PDT)
+From: Tyler Hall <tylerwhall@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Oct 2015 20:00:51 -0400
+Message-Id: <1445990451-2993-1-git-send-email-tylerwhall@gmail.com>
+X-Mailer: git-send-email 2.6.1
+Subject: [PATCH] classes/cpan-base: fix libdir for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,81 +41,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Oct 2015 19:04:09 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 28 Oct 2015 00:02:04 -0000
 
-On 10/27/15 1:45 PM, Burton, Ross wrote:
-> 
-> On 27 October 2015 at 14:05, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
-> 
->     We had made smart install multilib RDEPENDS correctly from
->     package_manager.py, but it couldn't handle RRECOMMANDS, this patch fix
->     the issue from python-smartpm-native, and make it work well.
-> 
->     The logic is: when pkg_A rdepends/rrecommands pkg_B, then let pkg_B use
->     pkg_A's arch when possible.
-> 
-> 
-> I added this patch and rebuilt core-image-sato, then ran buildhistory-diff:
-> 
-> Changes to images/intel_corei7_64/glibc/core-image-sato
-> (installed-package-names.txt):
->   lib32-ncurses-terminfo-base was added
->   lib32-libjpeg9 was added
->   lib32-glibc-gconv-iso8859-1 was added
->   lib32-shared-mime-info was added
->   lib32-libxml2 was added
->   lib32-wpa-supplicant-cli was added
->   lib32-libgdk-pixbuf-2.0-loader-png was added
->   lib32-wpa-supplicant-passphrase was added
->   lib32-pango-module-basic-fc was added
->   lib32-bash was added
->   lib32-libgdk-pixbuf-2.0-loader-jpeg was added
->   lib32-libgdk-pixbuf-2.0-loader-gif was added
->   lib32-libgdk-pixbuf-2.0-loader-xpm was added
->   lib32-glibc-gconv was added
-> 
-> Some of those are good (gdk-pixbuf and pango), some bad (bash,
-> wpa-supplicant-cli), some probably bugs in packages that should be allarch
-> (termino, shared-mime-info).
+Immediate expansion of perl_get_libdirs() is too early for
+BBCLASSEXTEND. This results in a packaging QA error when building a cpan
+recipe as nativesdk. The split debug files do not get picked up by the
+dbg package because it looks in the wrong libdir.
 
-bash, wpa-supplicant-cli is a good example of why this is an issue.  RPM luckily
-says, well we've got two versions of bash, lets resolve this by following the
-ELF resolution rule.  So while two packages may exist in the manifest, you won't
-get any conflicts and space is likely not duplicated.
+The is_target() function remains because it is used elsewhere.
 
-But you can't automatically say "give me any bash, but give me arch specific
-versions of everything else".  The default in RPM is if I ask for 'bash', give
-me any version of bash.. if I ask for 'bash.i586' I was -the- i586 version.
+Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
+---
+ meta/classes/cpan-base.bbclass | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-This is why the fix for this is either adjust the behavior (as Robert has done)
-to suck in more dependencies and consider the ELF resolver to be adequate -- or
-to add some kind of a hint to the recipe mechanisms that select dependencies
-must be of the same arch type.  One we handle in the resolver, and one we could
-handle when we generate the packages themselves.
-
-I'm not sure there is an obvious solution, I prefer the later with a variant of
-the former myself.  (Variant being if all things are equal we weight
-dependencies to match the arch.. but if something is already in with that
-provide we use it..)  Then the hint would cause the produced packages to be able
-to say they need explicit versions of the plugins.
-
-> I'm undecided what we do about this.  Fixing the dependency chains is good, but
-> we're definitely pulling in more than expected.
-
-I agree, I have a feeling what I wrote about is the right answer... but I don't
-have any code to prove it.. and I'm not sure that we should be making that big
-of a change right now.
-
-Robert's patch SHOULD resolve the problem at the expense of a slightly larger
-resolution manifest, which may be acceptable.
-
---Mark
-
-> Ross
-> 
-> 
+diff --git a/meta/classes/cpan-base.bbclass b/meta/classes/cpan-base.bbclass
+index d9817ba..080ce92 100644
+--- a/meta/classes/cpan-base.bbclass
++++ b/meta/classes/cpan-base.bbclass
+@@ -29,20 +29,13 @@ def get_perl_version(d):
+             return m.group(1)
+     return None
+ 
+-# Determine where the library directories are
+-def perl_get_libdirs(d):
+-    libdir = d.getVar('libdir', True)
+-    if is_target(d) == "no":
+-        libdir += '/perl-native'
+-    libdir += '/perl'
+-    return libdir
+-
+ def is_target(d):
+     if not bb.data.inherits_class('native', d):
+         return "yes"
+     return "no"
+ 
+-PERLLIBDIRS := "${@perl_get_libdirs(d)}"
++PERLLIBDIRS = "${libdir}/perl"
++PERLLIBDIRS_class-native = "${libdir}/perl-native"
+ PERLVERSION := "${@get_perl_version(d)}"
+ PERLVERSION[vardepvalue] = ""
+ 
+-- 
+2.6.1
 
 
