@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AD2076E04
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 107CB76FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Oct 2015 14:54:37 +0000 (UTC)
-Received: by qkcl124 with SMTP id l124so877196qkc.3
+	Wed, 28 Oct 2015 14:59:28 +0000 (UTC)
+Received: by wicll6 with SMTP id ll6so15880245wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Oct 2015 07:54:37 -0700 (PDT)
+	Wed, 28 Oct 2015 07:59:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Ysj+m7OKWim5VaZuMMLwnAEmtSR2w1o71RTHxfuORik=;
-	b=rLEwNTDN53Rnh5OQrLwr7S60gsHYwctgIQKx9/YmdbAkI2/poZpuVv9JEd/Clh9r1w
-	ooRbm7UJ4a6In5e3mj/Rof0sEjTmlwS7wGT5cSfLmuZSg9cJB/c6jYoou6gYn+n274Yb
-	P7reZQB9L2+1L6adFPjv6Yv7O1rRw9SfYs00CnR/3U/CQB6W3R61+LwzFQnw8XRdb/vo
-	yYzuxWeWnfTMMtj35E1Cpig5ypXDHQTx+xk3ZppSSqe8TmMHkcg0WU91uUCTcuK5ZBQJ
-	5/RW9OXmGloTh56S3WCNWmPTOhXEJFy85rLhBP5ZMKwB1p3CUJOkYydrx7+kFjzn50Hv
-	wroQ==
+	h=from:to:subject:date:message-id;
+	bh=fqjrAUMxg0jq2l0WJpOHxDLfkAOlP6U+HIG72q5Q8MM=;
+	b=iErQi7viuj3atH06ZQ4FuHa+n/x2IyOlKgCoPFAqy3qm5lZOnWU2kecKnGjpUv+I+Z
+	7NtkBD3hpY8RF0/Qbt4n/PCU00Z8N73srpbfFoSLI8ujXLnYxYV6Hv6dLySU/UGxmrks
+	8xBtAckxNNmJhAesndw/ADDeSOB3ttb2DdTGkD9WtBSX+Z83T/7DNgPHVWgWx31aFeJm
+	6rrSpD8LzvNFNtEoUeJ+6R0EdjnBkv20sLoEYniWrcbD3Y01AjAw8MboeNljx3czKnBm
+	hHx0dgem99rclHf66TXvg1pv/tMl2VfQG290nttj/mbIvElbc3qltzmHTs+xlIr4HVe5
+	EYTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Ysj+m7OKWim5VaZuMMLwnAEmtSR2w1o71RTHxfuORik=;
-	b=eiLMlIeCI/LjFjUlmtuUXbIOW3i7XB7blIKtbTUFokipBLyXg8Mb2ofArBXIEH7GxX
-	LIDtzM00heZiGh7Yx/P2E4fq++DEHinozZrQzH3Nr3Aq1nhEVXWXLbY6uLOa+ky1oG3B
-	6A0qOsssqDkuF5WHtGRpHBiecaS4rPeiZKrUhqu2ET8K7iO48J2yBDoewlXipsOe6BeG
-	vlGizM/ckjvVh+RmC66tBoauXU4I9y0X7ghIkKnTbx05Qs067Myng6/AJAQKLw6IDN31
-	JFJQspp1MP6ZzI4tfgcG4SD38uPPYCo1Xi83+48R24OLDcpYSeznKShOFr1HRi82xupD
-	JQ+g==
-X-Gm-Message-State: ALoCoQnS1DO0TdgHjpmcD05UUEVyMjJCJ6rrmGFB4teg805gMINvTwCeZq8FYHl54cyzqVEhH1AY
-X-Received: by 10.55.72.70 with SMTP id v67mr20562534qka.83.1446044077675;
-	Wed, 28 Oct 2015 07:54:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.82 with HTTP; Wed, 28 Oct 2015 07:54:18 -0700 (PDT)
-In-Reply-To: <1446043703-2497-1-git-send-email-george.l.musat@intel.com>
-References: <1446043703-2497-1-git-send-email-george.l.musat@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 28 Oct 2015 14:54:18 +0000
-Message-ID: <CAJTo0LYxEoO90mzG1VaNxbENwWq+aAfm0g6=gYpEHw0odp=gig@mail.gmail.com>
-To: Lucian Musat <george.l.musat@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/runtime: Removed obsolete testcase dmesg.
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=fqjrAUMxg0jq2l0WJpOHxDLfkAOlP6U+HIG72q5Q8MM=;
+	b=cT44IPRYMAXwr5hcPoGwSvbAl6KTtnh6QBY+lJ4LE10jwpxCP3lgFleXtNzjuEK34j
+	H5vbLzjkMdCJ0jNi98rf0bFikoTN9wp7BKCsA9W5Q6X/gzk3qow50KVNFvM/lQ+oeYOE
+	Uo+5+Wo2vmUad20pyPLVKS2oQS+nn+7j2xAHSSGBUnB6sDK3sQjlXw3+oXvRQgPmMVQy
+	bazUIMLTkLXu7lny0E3DcbtLIYKIcYZmt70HCY9O3TuYbQNHYTgNleUQVlNuxmP14tHn
+	gcn2kGNXwPZoFBWx8USIJzyQMpWU6pQRAjyHEwdOD8IYJUuXU4RM2iIZVm4d9amRtgP/
+	BTYg==
+X-Gm-Message-State: ALoCoQm0+x4RyY4LISIJy6Je5rceroGhXVhossX543BBfB4GY7APS/vol3dzqZHk46Nn/sVJEZXa
+X-Received: by 10.180.187.169 with SMTP id ft9mr3359259wic.23.1446044367776;
+	Wed, 28 Oct 2015 07:59:27 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	s127sm4684639wmb.8.2015.10.28.07.59.26
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 28 Oct 2015 07:59:27 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Oct 2015 14:51:36 +0000
+Message-Id: <1446043896-27225-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oeqa/runtime: remove dmesg test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,48 +54,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Oct 2015 14:54:38 -0000
-Content-Type: multipart/alternative; boundary=001a114a97f694722905232b5f3b
+X-List-Received-Date: Wed, 28 Oct 2015 14:59:30 -0000
 
---001a114a97f694722905232b5f3b
-Content-Type: text/plain; charset=UTF-8
+This has been obsoleted by parselogs.
 
-On 28 October 2015 at 14:48, Lucian Musat <george.l.musat@intel.com> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/testimage.bbclass                        |  4 ++--
+ meta/lib/oeqa/runtime/dmesg.py                        | 12 ------------
+ meta/recipes-extended/images/core-image-kernel-dev.bb |  2 +-
+ 3 files changed, 3 insertions(+), 15 deletions(-)
+ delete mode 100644 meta/lib/oeqa/runtime/dmesg.py
 
-> The dmesg parser test was made obsolete by the parselogs testcase,
-> that searches in all the logs, including dmesg.
-> ---
->  meta/lib/oeqa/runtime/dmesg.py | 12 ------------
->  1 file changed, 12 deletions(-)
->
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index b4d4a69..d571672 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -36,9 +36,9 @@ RPMTESTSUITE = "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'smart rpm', '', d)
+ 
+ DEFAULT_TEST_SUITES = "ping auto"
+ DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
+-DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog xorg scp vnc date dmesg parselogs ${RPMTESTSUITE} \
++DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog xorg scp vnc date parselogs ${RPMTESTSUITE} \
+     ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python', '', d)}"
+-DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman syslog xorg scp vnc date perl ldd gcc kernelmodule dmesg python parselogs ${RPMTESTSUITE}"
++DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman syslog xorg scp vnc date perl ldd gcc kernelmodule python parselogs ${RPMTESTSUITE}"
+ DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "ping buildcvs buildiptables buildsudoku connman date df gcc kernelmodule ldd pam parselogs perl python scp ${RPMTESTSUITE} ssh syslog logrotate"
+ DEFAULT_TEST_SUITES_pn-meta-toolchain = "auto"
+ 
+diff --git a/meta/lib/oeqa/runtime/dmesg.py b/meta/lib/oeqa/runtime/dmesg.py
+deleted file mode 100644
+index 5831471..0000000
+--- a/meta/lib/oeqa/runtime/dmesg.py
++++ /dev/null
+@@ -1,12 +0,0 @@
+-import unittest
+-from oeqa.oetest import oeRuntimeTest
+-from oeqa.utils.decorators import *
+-
+-
+-class DmesgTest(oeRuntimeTest):
+-
+-    @testcase(215)
+-    @skipUnlessPassed('test_ssh')
+-    def test_dmesg(self):
+-        (status, output) = self.target.run('dmesg | grep -v mmci-pl18x | grep -v "error changing net interface name" | grep -iv "dma timeout" | grep -v usbhid | grep -i error')
+-        self.assertEqual(status, 1, msg = "Error messages in dmesg log: %s" % output)
+diff --git a/meta/recipes-extended/images/core-image-kernel-dev.bb b/meta/recipes-extended/images/core-image-kernel-dev.bb
+index 6b636ed..26b88c9 100644
+--- a/meta/recipes-extended/images/core-image-kernel-dev.bb
++++ b/meta/recipes-extended/images/core-image-kernel-dev.bb
+@@ -17,4 +17,4 @@ CORE_IMAGE_EXTRA_INSTALL += "${KERNEL_DEV_MODULE} \
+ IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"
+ 
+ # Let's define our own subset to test, we can later add a on-target kernel build even!
+-DEFAULT_TEST_SUITES = "ping ssh df connman syslog scp date dmesg parselogs"
++DEFAULT_TEST_SUITES = "ping ssh df connman syslog scp date parselogs"
+-- 
+2.1.4
 
-The dmesg test is still referenced in a few places.
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/qa&id=df9087c48c1eb9553c2e8ed0e821bfaf69ca0a29
-is a bit more complete and funnily enough I was going to resubmit it today.
 
-Ross
-
---001a114a97f694722905232b5f3b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 28 October 2015 at 14:48, Lucian Musat <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:george.l.musat@intel.com" target=3D"_blank">george.=
-l.musat@intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div =
-class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bor=
-der-left-style:solid;padding-left:1ex">The dmesg parser test was made obsol=
-ete by the parselogs testcase,<br>
-that searches in all the logs, including dmesg.<br>
----<br>
-=C2=A0meta/lib/oeqa/runtime/dmesg.py | 12 ------------<br>
-=C2=A01 file changed, 12 deletions(-)<br></blockquote><div><br></div><div>T=
-he dmesg test is still referenced in a few places. =C2=A0<a href=3D"http://=
-git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dross/qa&amp;id=
-=3Ddf9087c48c1eb9553c2e8ed0e821bfaf69ca0a29" target=3D"_blank">http://git.y=
-octoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dross/qa&amp;id=3Ddf9=
-087c48c1eb9553c2e8ed0e821bfaf69ca0a29</a> is a bit more complete and funnil=
-y enough I was going to resubmit it today.</div><div><br></div><div>Ross</d=
-iv></div></div></div>
-
---001a114a97f694722905232b5f3b--
