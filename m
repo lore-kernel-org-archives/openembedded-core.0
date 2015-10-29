@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id ABBA675D4A
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (unknown [64.129.254.146])
+	by mail.openembedded.org (Postfix) with ESMTP id 15932607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 07:39:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t9T7djDH015579; Thu, 29 Oct 2015 07:39:45 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id iUoJ5ElISK-C; Thu, 29 Oct 2015 07:39:45 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t9T7dTqp015566
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 29 Oct 2015 07:39:40 GMT
-Message-ID: <1446104369.4521.25.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 29 Oct 2015 07:39:29 +0000
-In-Reply-To: <CAJTo0LY-DAxN5+wbgkOv0TsVHUWfPtJ_yJN8cBdxCx5NP5UOJg@mail.gmail.com>
-References: <C5B806CA-2384-4924-8FA7-8BC6F146416A@gmail.com>
-	<611CD789-ACC1-47CE-9503-2C40F26E4BB1@gmail.com>
-	<CAJTo0LY-DAxN5+wbgkOv0TsVHUWfPtJ_yJN8cBdxCx5NP5UOJg@mail.gmail.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] perl: fix Perl5 module builds
+	Thu, 29 Oct 2015 07:54:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9T7sBkB024232
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Oct 2015 00:54:11 -0700
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 29 Oct 2015 00:54:11 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Oct 2015 15:54:11 +0800
+Message-ID: <cover.1446105200.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] coreutils: fix reporting 'unknown' by `uname -p' and `uname -i'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,35 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Oct 2015 07:39:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Oct 2015 07:54:12 -0000
+Content-Type: text/plain
 
-On Thu, 2015-10-29 at 07:31 +0000, Burton, Ross wrote:
-> On 28 October 2015 at 10:26, Jens Rehsack <rehsack@gmail.com> wrote:
->         Since it's two weeks ago since submitted and this patch series
->         fixes several problems how yocto deals with perl module
->         distributions, I'd like to get a more concrete explanation why
->         an infrastructure fix isn't validated during feature freeze
->         for branching.
->
->         None of the three patches adds a feature, they all fix broken
->         infrastructure of perl module handling in Yocto which should
->         better now validated than after branching.
->         Since after freeze the master branch might become unstable for
->         a while, I might not be able to re-submit.
+The following changes since commit f787b688f2884ce3fa888b4041030538c7d2bf55:
 
->
-> These patches are in the current build under consideration for merging
-> in time for the Jethro release.  Sorry for the lack of feedback on
-> them, this release has been cursed with autobuilder stability problems
-> which have taken up a lot of our time.
+  oeqa/utils/decorators: fix missing keyword arguments on decorators (2015-10-27 07:22:22 +0000)
 
-Given the last round of autobuilder results, I just merged them.
+are available in the git repository at:
 
-Cheers,
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/coreutils-uname
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/coreutils-uname
 
-Richard
+Chen Qi (1):
+  coreutils: fix reporting 'unknown' by `uname -p' and `uname -i'
 
+ ...e-report-processor-and-hardware-correctly.patch | 64 ++++++++++++++++++++++
+ meta/recipes-core/coreutils/coreutils_8.24.bb      |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-core/coreutils/coreutils-8.24/0001-uname-report-processor-and-hardware-correctly.patch
+
+-- 
+1.9.1
 
 
