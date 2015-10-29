@@ -1,29 +1,35 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (unknown [64.129.254.146])
-	by mail.openembedded.org (Postfix) with ESMTP id CE5EA76E3F
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 87B0276E3F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 21:01:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9TL11LT011532
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 29 Oct 2015 14:01:06 -0700
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 29 Oct 2015 14:01:01 -0700
-To: Juro Bystricky <juro.bystricky@intel.com>,
-	<openembedded-core@lists.openembedded.org>, <jurobystricky@hotmail.com>
-References: <1446151418-16034-1-git-send-email-juro.bystricky@intel.com>
-	<1446151418-16034-2-git-send-email-juro.bystricky@intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <5632890B.2010405@windriver.com>
-Date: Thu, 29 Oct 2015 16:00:59 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <1446151418-16034-2-git-send-email-juro.bystricky@intel.com>
-Subject: Re: [PATCH 1/1] glibc: Allow 64 bit atomics for x86
+	Thu, 29 Oct 2015 21:01:41 +0000 (UTC)
+Received: by pasz6 with SMTP id z6so51008811pas.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Oct 2015 14:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=/x4n3h4avyyPHkNPq3JbknHRCYmRs537Ql2+b8kZg9c=;
+	b=R4ZMUfoaevU6bdXGcTJ62FXXCSw+553HyEf6i6wrQn54Babo4dQR1OQjcybjteyZQO
+	o3dcI1LrcLJiqSdtjS7h0jzUqYk91ks5/AcfIir8fIFfdyV8hOkRTHsJFLlYy2qTvvrF
+	WhgBC7rJRL1T8YLJYOIdvYKiEVos9MRq+SYkln0wYI9d0R3HN3fuNXUUzvAn2rXMJjAB
+	VlggEbaO+1wbSWtQVHIxEnn1g6S2Sj4wvadrTBRYeq7jNEy+QBjUH6lEGxwJ/0BWSRQX
+	ZRuV+IrTfahyLtQRSpHIVbNcRnjAEgIvjSPgYYiWioHg7fVNsIVH5owCU/9tcHEN+5rx
+	7gzA==
+X-Received: by 10.66.253.232 with SMTP id ad8mr4133701pad.21.1446152501682;
+	Thu, 29 Oct 2015 14:01:41 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	es4sm3991578pbc.42.2015.10.29.14.01.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 29 Oct 2015 14:01:40 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Oct 2015 14:01:35 -0700
+Message-Id: <1446152495-5451-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] lsof: don't export EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,88 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Oct 2015 21:01:10 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Oct 2015 21:01:41 -0000
 
-On 10/29/15 3:43 PM, Juro Bystricky wrote:
-> This patch fixes [YOCTO#8140].
-> 
-> The fix consist of allowing 64bit atomic ops for x86.
-> This should be safe for i586 and newer CPUs.
-> It also makes the synchronization more efficient.
+EXTRA_OEMAKE is private to OE and shouldn't be exported to
+the lsof build.
 
-I'm not sure this is correct.. see below.
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-extended/lsof/lsof_4.89.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> ---
->  .../glibc/glibc/use_64bit_atomics.patch            | 24 ++++++++++++++++++++++
->  meta/recipes-core/glibc/glibc_2.22.bb              |  1 +
->  2 files changed, 25 insertions(+)
->  create mode 100644 meta/recipes-core/glibc/glibc/use_64bit_atomics.patch
-> 
-> diff --git a/meta/recipes-core/glibc/glibc/use_64bit_atomics.patch b/meta/recipes-core/glibc/glibc/use_64bit_atomics.patch
-> new file mode 100644
-> index 0000000..eb7f2b2
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/use_64bit_atomics.patch
-> @@ -0,0 +1,24 @@
-> +This patch alows using 64 bit atomic instructions on a
-> +32 bit platform. This is safe, providing x86 is Pentium or
-> +later (would not work on i386, i486). Using 64 bit atomic 
-> +instructions bypasses code containing a bug as documented in
-> +https://bugzilla.yoctoproject.org/show_bug.cgi?id=8140
-> +
-> +Upstream-Status: TBD
-> +
-> +Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> +
-> +
-> +Index: libc/sysdeps/i386/i486/bits/atomic.h
-> +===================================================================
-> +--- libc.orig/sysdeps/i386/i486/bits/atomic.h
-> ++++ libc/sysdeps/i386/i486/bits/atomic.h
-> +@@ -54,7 +54,7 @@ typedef uintmax_t uatomic_max_t;
-> + # endif
-> + #endif
-> + 
-> +-#define __HAVE_64B_ATOMICS 0
-> ++#define __HAVE_64B_ATOMICS 1
-> + #define USE_ATOMIC_COMPILER_BUILTINS 0
-
-The patch will enable it for i486 and above, but you comment says i486 isn't
-supported.
-
-Normally you'd resolve this by creating a new
-
-sysdeps/i386/i586/bits/atomic.h
-
-(include or copy the original file)
-
-and adjust the HAVE_64B_ATOMICS value at that point.
-
-Then the sources will work for older systems and newer.
-
-While 386/486 is likely not used much these days... I do also have a concern
-about Quark CPUs.  Do you know if they support the 64B ATOMICS?  (I suspect they
-do not.)  If that is the case, we might need to special case this patch and make
-it 'i686' and above?
-
---Mark
-
-> + 
-> diff --git a/meta/recipes-core/glibc/glibc_2.22.bb b/meta/recipes-core/glibc/glibc_2.22.bb
-> index 020e417..2494ad7 100644
-> --- a/meta/recipes-core/glibc/glibc_2.22.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.22.bb
-> @@ -50,6 +50,7 @@ SRC_URI_append_class-nativesdk = "\
->             file://0001-nativesdk-glibc-Look-for-host-system-ld.so.cache-as-.patch \
->             file://0002-nativesdk-glibc-Fix-buffer-overrun-with-a-relocated-.patch \
->             file://0003-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch \
-> +           file://use_64bit_atomics.patch \
->  "
->  
->  S = "${WORKDIR}/git"
-> 
+diff --git a/meta/recipes-extended/lsof/lsof_4.89.bb b/meta/recipes-extended/lsof/lsof_4.89.bb
+index 9b7de9a..0e9d071 100644
+--- a/meta/recipes-extended/lsof/lsof_4.89.bb
++++ b/meta/recipes-extended/lsof/lsof_4.89.bb
+@@ -44,7 +44,8 @@ do_configure () {
+ 
+ export I = "${STAGING_INCDIR}"
+ export L = "${STAGING_INCDIR}"
+-export EXTRA_OEMAKE = ""
++
++EXTRA_OEMAKE = ""
+ 
+ do_compile () {
+ 	oe_runmake 'CC=${CC}' 'CFGL=${LDFLAGS} -L./lib -llsof' 'DEBUG=' 'INCL=${CFLAGS}'
+-- 
+1.9.1
 
 
