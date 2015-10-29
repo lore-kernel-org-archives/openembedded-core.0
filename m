@@ -1,38 +1,59 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 18B9875A38
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 5071873CC7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 11:47:19 +0000 (UTC)
-Received: by wmff134 with SMTP id f134so23338043wmf.0
+	Thu, 29 Oct 2015 11:52:33 +0000 (UTC)
+Received: by iody8 with SMTP id y8so42387051iod.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 04:47:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to;
-	bh=Nf56aMsXF2Uf9SK4xoQB+HJBkjxIGZoK9BcD2kg+KnA=;
-	b=yWvEzlNqzWRGWfgMwddprhbYjrp0O5vMR24q0J72Y/h+6553gzvB3GsfpO2mzM3Fus
-	QTgV+tD/jRCZWd2G+EqKcJZIyTpuHTz8yQiLXoKo9+b2AvrKI6N/3da4II9H9YlXy2qa
-	Vc+Y+vWrUsdMt6d0hL3bQDpXkrxXEyui1/eRKDiPjZMAfLBwwi9pOIfbtvvPm8OKCC7W
-	zGI6bIKucH8xlvcNqA6ZqyY2ScLf62OZEzFwIEfm7pjZDy4qQH6CkYHKg091g6tPEYAD
-	A6tX0FguhzztnG7Iofn5OCdp+I2I5NXW+lDBlSUJHk3wPSCFrmY6UzKOLM3I0PPilziF
-	9eiw==
-X-Received: by 10.28.145.134 with SMTP id t128mr5967376wmd.64.1446119239619;
-	Thu, 29 Oct 2015 04:47:19 -0700 (PDT)
-Received: from ernie.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
-	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
-	bh5sm1369397wjb.42.2015.10.29.04.47.18
+	Thu, 29 Oct 2015 04:52:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems_com_br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-type;
+	bh=NQtKKrrZ8Ffw3iFbFKPGSIElMEH+qulJiDcsVFGRxNM=;
+	b=gsFJ392aw2SPtS6I58lRd7Bv4CNL7orRuDABYfey3Yjhm/w0YIHXozsTzUscUYBMeu
+	/4dlsS0S704RIt1v+9yn9tiAhqwVK9yQbA6E4KraO6wts2kB8t0bQr8FOdZAh8xfiL8A
+	hYyCieq/WR04ByH8xsgFMeRFgRczOsZJIrJjOoRfTnROfxcLe4eKeKI6Yqw/AFhti0yG
+	ymTUR/F8FuIVYbT5SAFtLHo98rJkQP2lka78+cqdcI+q5XD2j1CDdbVyFKVLDcjVbDyg
+	sNRQnKQblQc4bEaBOsgUri/vZ+ff06gGwvkZPRxccaoCXXHHc2a915XvqD/yY9YL9NZf
+	MczA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=NQtKKrrZ8Ffw3iFbFKPGSIElMEH+qulJiDcsVFGRxNM=;
+	b=kwRqkKyZQfiuKZPlr5eC33Wt0d6WeAUBjrksRc0vaV8A2F1JvVE3zZiHwDY6hPkqok
+	VjdDBwGrO6mayLf0H5IX9086rG0L2jgTLPBnCppXbWC5rgeyg3BGkuq/16H3CrBpzQGX
+	1qRgYGGYcNGoYwDc8EkYup1EcSWpD1LJ7L70m6Q9AX0OXtwUmjoZ5Y1xiTMSM/dhCaJL
+	lB0QKu//bje2jnO+fuSKnjwuweQXmjDRVSu+ggJphbQ7Ldp3E1qSlbN3ko0/FRpLmaAa
+	iYgjrN7euoMcfqRHZTfWYiO5Nm1XKJYleId6ja2nZMqDVYP7suHz+pcdFu68ltPWtOe5
+	j+tw==
+X-Gm-Message-State: ALoCoQlH7fVt7YPFTvT0GvYWBtNRGOXvhBEsj5jvE4HZuTj7xVq2MwRKETN5Zy2HnY4xpi89AOZi
+X-Received: by 10.107.32.17 with SMTP id g17mr3386911iog.55.1446119553745;
+	Thu, 29 Oct 2015 04:52:33 -0700 (PDT)
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com.
+	[209.85.223.175])
+	by smtp.gmail.com with ESMTPSA id c23sm916312iod.0.2015.10.29.04.52.32
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 29 Oct 2015 04:47:18 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-From: Jens Rehsack <rehsack@gmail.com>
-In-Reply-To: <6A0E85DF-31B7-4955-B4A2-0F3E099FCF99@gmail.com>
-Date: Thu, 29 Oct 2015 12:47:18 +0100
-Message-Id: <16FB52C0-E87A-40C9-A677-F1220982FB30@gmail.com>
-References: <6A0E85DF-31B7-4955-B4A2-0F3E099FCF99@gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.2104)
-Subject: Re: [PATCH 1/1] Update libusb1 from 1.0.19 to 1.0.20
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 29 Oct 2015 04:52:32 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by iody8 with SMTP id y8so42386331iod.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Oct 2015 04:52:32 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.107.17.18 with SMTP id z18mr3194051ioi.28.1446119552122;
+	Thu, 29 Oct 2015 04:52:32 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Thu, 29 Oct 2015 04:52:32 -0700 (PDT)
+In-Reply-To: <64124F70-A6D7-4B9E-BAEC-883D2AB76956@gmail.com>
+References: <64124F70-A6D7-4B9E-BAEC-883D2AB76956@gmail.com>
+Date: Thu, 29 Oct 2015 09:52:32 -0200
+Message-ID: <CAP9ODKoBcBJu7Doiyd+HkTLe-=KO8c4S8dV5SxdCKKw=qK9X5g@mail.gmail.com>
+To: Jens Rehsack <rehsack@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] udev: Don't introduce usb or pci dependencies without usb or pci being featured
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,68 +66,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Oct 2015 11:47:21 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 29 Oct 2015 11:52:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-> Am 08.10.2015 um 16:36 schrieb Jens Rehsack <rehsack@gmail.com>:
->=20
-> This updates libusb1 from 1.0.19 to 1.0.20
->=20
-> 2015-09-13: v1.0.20
-> * Add Haiku support
-> * Fix multiple memory and resource leaks (#16, #52, #76, #81)
-> * Fix possible deadlock when executing transfer callback
-> * New libusb_free_pollfds() API
-> * Darwin: Fix devices not being detected on OS X 10.8 (#48)
-> * Linux: Allow larger isochronous transfer submission (#23)
-> * Windows: Fix broken builds Cygwin/MinGW builds and compiler warnings
-> * Windows: Fix broken bus number lookup
-> * Windows: Improve submission of control requests for composite =
-devices
-> * Examples: Add two-stage load support to fxload (#12)
-> * Correctly report cancellations due to timeouts
-> * Improve efficiency of event handling
-> * Improve speed of transfer submission in multi-threaded environments
-> * Various other bug fixes and improvements
-> The (#xx) numbers are libusb issue numbers, see ie:
-> https://github.com/libusb/libusb/issues/16
->=20
+On Tue, Oct 13, 2015 at 5:37 PM, Jens Rehsack <rehsack@gmail.com> wrote:
+>
+> Fixes that udev always requires PCI or USB, idenpendently from DISTRO_FEATURES
+> or PACKAGECONFIG.
+>
 > Signed-off-by: Jens Rehsack <sno@netbsd.org>
-> ---
-> meta/recipes-support/libusb/{libusb1_1.0.19.bb =3D> libusb1_1.0.20.bb} =
-| 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
-> rename meta/recipes-support/libusb/{libusb1_1.0.19.bb =3D> =
-libusb1_1.0.20.bb} (85%)
->=20
-> diff --git a/meta/recipes-support/libusb/libusb1_1.0.19.bb =
-b/meta/recipes-support/libusb/libusb1_1.0.20.bb
-> similarity index 85%
-> rename from meta/recipes-support/libusb/libusb1_1.0.19.bb
-> rename to meta/recipes-support/libusb/libusb1_1.0.20.bb
-> index a20e1fc..21b8b45 100644
-> --- a/meta/recipes-support/libusb/libusb1_1.0.19.bb
-> +++ b/meta/recipes-support/libusb/libusb1_1.0.20.bb
-> @@ -11,8 +11,8 @@ BBCLASSEXTEND =3D "native nativesdk"
-> SRC_URI =3D "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
->           "
->=20
-> -SRC_URI[md5sum] =3D "f9e2bb5879968467e5ca756cb4e1fa7e"
-> -SRC_URI[sha256sum] =3D =
-"6c502c816002f90d4f76050a6429c3a7e0d84204222cbff2dce95dd773ba6840"
-> +SRC_URI[md5sum] =3D "1d4eb194eaaa2bcfbba28102768c7dbf"
-> +SRC_URI[sha256sum] =3D =
-"cb057190ba0a961768224e4dc6883104c6f945b2bf2ef90d7da39e7c1834f7ff"
->=20
-> S =3D "${WORKDIR}/libusb-${PV}"
->=20
-> --=20
-> 2.4.3
 
-Ping :)
---=20
-Jens Rehsack - rehsack@gmail.com
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
