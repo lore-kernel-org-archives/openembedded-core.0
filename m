@@ -1,28 +1,22 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (unknown [64.129.254.146])
-	by mail.openembedded.org (Postfix) with ESMTP id D933C76710
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 84DE4763F2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 00:06:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9T06HWH015297
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Oct 2015 17:06:17 -0700
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 28 Oct 2015 17:06:16 -0700
+	Thu, 29 Oct 2015 00:14:23 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 29 Oct 2015 01:14:19 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id BD02628BA22;
+	Thu, 29 Oct 2015 01:14:19 +0100 (CET)
+From: Tudor Florea <tudor.florea@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <56315EE5.3070100@balister.org>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <563162F8.3050102@windriver.com>
-Date: Wed, 28 Oct 2015 19:06:16 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
+Date: Thu, 29 Oct 2015 01:14:18 +0100
+Message-ID: <1446077658-61623-1-git-send-email-tudor.florea@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <56315EE5.3070100@balister.org>
-Subject: Re: Native patch appears broken on Fedora 21
+Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] unzip: CVE-2015-7696, CVE-2015-7697
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +29,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Oct 2015 00:06:19 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Oct 2015 00:14:25 -0000
+Content-Type: text/plain
 
-On 10/28/15 6:48 PM, Philip Balister wrote:
-> I've been chasing an annoying build failure in a clients u-boot recipe.
-> 
-> One of the patches adds an executable python script to the u-boot tools
-> directory and runs it as part of the build.
-> 
-> With recent master on a Fedora 20 system, it works.
-> 
-> Recent master on Fedora 21, the script does not end up marked as
-> executable so build fails.
-> 
-> After much thinking and poking and remembering how this is supposed to
-> work I get the brilliant idea to copy the patch binary from the F20
-> machine to the F21 machine. Problem goes away.
-> 
-> Something is weird here, I can't believe this is the only patch in the
-> system that marks a file executable and runs it, but maybe it is.
+CVE-2015-7696: Fixes a heap overflow triggered by unzipping a file with password
+CVE-2015-7697: Fixes a denial of service with a file that never finishes unzipping
 
-Most of the time I patch things in, and then run a chmod to ensure it's
-executable.  Then I'm sure it will work.  (Patch doing mode changes is 'fairly
-new'...)
+References:
+http://www.openwall.com/lists/oss-security/2015/10/11/5
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-7696
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-7697
 
---Mark
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+---
+ .../unzip/unzip/CVE-2015-7696.patch                | 38 ++++++++++++++++++++++
+ .../unzip/unzip/CVE-2015-7697.patch                | 31 ++++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb           |  2 ++
+ 3 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch
 
-> Versions of patch.
-> 
-> F20 GNU patch 2.7.1
-> F21 GNU patch 2.7.5
-> 
-> Looking at the patch changelog didn't help.
-> 
-> Anyone have any ideas what to do about this?
-> 
-> Philip
-> 
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch b/meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch
+new file mode 100644
+index 0000000..ea93823
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch
+@@ -0,0 +1,38 @@
++Upstream-Status: Backport
++Signed-off-by: Tudor Florea <tudor.flore@enea.com>
++
++From 68efed87fabddd450c08f3112f62a73f61d493c9 Mon Sep 17 00:00:00 2001
++From: Petr Stodulka <pstodulk@redhat.com>
++Date: Mon, 14 Sep 2015 18:23:17 +0200
++Subject: [PATCH 1/2] upstream fix for heap overflow
++
++https://bugzilla.redhat.com/attachment.cgi?id=1073002
++---
++ crypt.c | 12 +++++++++++-
++ 1 file changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/crypt.c b/crypt.c
++index 784e411..a8975f2 100644
++--- a/crypt.c
+++++ b/crypt.c
++@@ -465,7 +465,17 @@ int decrypt(__G__ passwrd)
++     GLOBAL(pInfo->encrypted) = FALSE;
++     defer_leftover_input(__G);
++     for (n = 0; n < RAND_HEAD_LEN; n++) {
++-        b = NEXTBYTE;
+++        /* 2012-11-23 SMS.  (OUSPG report.)
+++         * Quit early if compressed size < HEAD_LEN.  The resulting
+++         * error message ("unable to get password") could be improved,
+++         * but it's better than trying to read nonexistent data, and
+++         * then continuing with a negative G.csize.  (See
+++         * fileio.c:readbyte()).
+++         */
+++        if ((b = NEXTBYTE) == (ush)EOF)
+++        {
+++            return PK_ERR;
+++        }
++         h[n] = (uch)b;
++         Trace((stdout, " (%02x)", h[n]));
++     }
++-- 
++2.4.6
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch b/meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch
+new file mode 100644
+index 0000000..da68988
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch
+@@ -0,0 +1,31 @@
++Upstream-Status: Backport
++Signed-off-by: Tudor Florea <tudor.flore@enea.com>
++
++From bd8a743ee0a77e65ad07ef4196c4cd366add3f26 Mon Sep 17 00:00:00 2001
++From: Kamil Dudka <kdudka@redhat.com>
++Date: Mon, 14 Sep 2015 18:24:56 +0200
++Subject: [PATCH 2/2] fix infinite loop when extracting empty bzip2 data
++
++---
++ extract.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/extract.c b/extract.c
++index 7134bfe..29db027 100644
++--- a/extract.c
+++++ b/extract.c
++@@ -2733,6 +2733,12 @@ __GDEF
++     int repeated_buf_err;
++     bz_stream bstrm;
++ 
+++    if (G.incnt <= 0 && G.csize <= 0L) {
+++        /* avoid an infinite loop */
+++        Trace((stderr, "UZbunzip2() got empty input\n"));
+++        return 2;
+++    }
+++
++ #if (defined(DLL) && !defined(NO_SLIDE_REDIR))
++     if (G.redirect_slide)
++         wsize = G.redirect_size, redirSlide = G.redirect_buffer;
++-- 
++2.4.6
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index 4a0a713..9e63d3a 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -14,6 +14,8 @@ SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
+ 	file://09-cve-2014-8139-crc-overflow.patch \
+ 	file://10-cve-2014-8140-test-compr-eb.patch \
+ 	file://11-cve-2014-8141-getzip64data.patch \
++	file://CVE-2015-7696.patch \
++	file://CVE-2015-7697.patch \
+ "
+ 
+ SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
+-- 
+1.9.1
 
 
