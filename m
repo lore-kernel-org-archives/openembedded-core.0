@@ -1,40 +1,28 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 0189B76710
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (unknown [64.129.254.146])
+	by mail.openembedded.org (Postfix) with ESMTP id D933C76710
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Oct 2015 23:58:44 +0000 (UTC)
-Received: by padhk11 with SMTP id hk11so21089604pad.1
+	Thu, 29 Oct 2015 00:06:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9T06HWH015297
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Oct 2015 16:58:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-type:content-transfer-encoding;
-	bh=Hw9o+Qym7em9ISnwEc28E7Xfw2WIc5euNLCF1jSqYRU=;
-	b=rTYETlceZOxZ8pTNTWc9K8wxTW4z/ISfGnvmHjjRTdBruL2RKz5vq7WbrYpU09qyvm
-	IXYZmJAT3D74jnC0gvswvfl7wn98nW6LJnrzJdes/SAoIVd50S8TND9I9s0HQ5nZf/qd
-	nIE7Y6PORSvwGiV8ds0W//DcmHQ5rMY0i4zwd448bgx1BdRTcTMy3PcV+Twc33uDaS/D
-	ww6/0M/ohGTo8FxiD9EmmQe2b1KCNGK+/0d7Ke2l4bsJ4RShT4Z+D8TMOkKkvmGrqPs9
-	c9AxKLIHKYfDDe/RoFus/CBiVmP2UgwuZIrvxXDcXzvubrDfVn/wz+idstNiYsFTK9zV
-	Gz7Q==
-X-Received: by 10.66.124.200 with SMTP id mk8mr36201767pab.25.1446076724615;
-	Wed, 28 Oct 2015 16:58:44 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:64b8:1072:ca0d:242?
-	([2601:202:4000:1239:64b8:1072:ca0d:242])
-	by smtp.googlemail.com with ESMTPSA id
-	oi3sm30334475pbb.53.2015.10.28.16.58.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 28 Oct 2015 16:58:43 -0700 (PDT)
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: akuster808 <akuster808@gmail.com>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <56316130.5090908@gmail.com>
-Date: Wed, 28 Oct 2015 16:58:41 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Wed, 28 Oct 2015 17:06:17 -0700
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 28 Oct 2015 17:06:16 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <56315EE5.3070100@balister.org>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <563162F8.3050102@windriver.com>
+Date: Wed, 28 Oct 2015 19:06:16 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.3.0
 MIME-Version: 1.0
-Subject: [Fido][Dizzy] tzdata and tzcode back port request
+In-Reply-To: <56315EE5.3070100@balister.org>
+Subject: Re: Native patch appears broken on Fedora 21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,28 +35,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Oct 2015 23:58:47 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Thu, 29 Oct 2015 00:06:19 -0000
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
 
-Please backport these changes from master to Fido and Dizzy.
+On 10/28/15 6:48 PM, Philip Balister wrote:
+> I've been chasing an annoying build failure in a clients u-boot recipe.
+> 
+> One of the patches adds an executable python script to the u-boot tools
+> directory and runs it as part of the build.
+> 
+> With recent master on a Fedora 20 system, it works.
+> 
+> Recent master on Fedora 21, the script does not end up marked as
+> executable so build fails.
+> 
+> After much thinking and poking and remembering how this is supposed to
+> work I get the brilliant idea to copy the patch binary from the F20
+> machine to the F21 machine. Problem goes away.
+> 
+> Something is weird here, I can't believe this is the only patch in the
+> system that marks a file executable and runs it, but maybe it is.
 
-tzcode: update to 2015g
-931dda4d9adbefa68b8e6e9796d55a9e3d2bfcee
+Most of the time I patch things in, and then run a chmod to ensure it's
+executable.  Then I'm sure it will work.  (Patch doing mode changes is 'fairly
+new'...)
 
+--Mark
 
-tzdata: update to 2015g
-a0e7311b207e6ea156c89c22388695192ba57f43
+> Versions of patch.
+> 
+> F20 GNU patch 2.7.1
+> F21 GNU patch 2.7.5
+> 
+> Looking at the patch changelog didn't help.
+> 
+> Anyone have any ideas what to do about this?
+> 
+> Philip
+> 
 
-
-and possible
-
-tzdata: reinstate changes reverted in 2014c upgrade
-402723ead0b07255497bc137327f2aac0f6c74b0
-
-Fido is at rev 'd' so you may want to backport 'e' or just jump to 'g'
-
-dizzy is at 'b'.. who is maintaining that ; )
-
-- Armin
 
