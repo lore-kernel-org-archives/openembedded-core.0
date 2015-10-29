@@ -1,37 +1,34 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D5BC73695
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 353F3770D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 10:50:08 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-05.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1ZrkmV-0006RU-JR from Noor_Ahsan@mentor.com ;
-	Thu, 29 Oct 2015 03:50:07 -0700
-Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.245]) by
-	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
-	14.03.0224.002; Thu, 29 Oct 2015 10:50:07 +0000
-From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: "ed.bartosh@linux.intel.com" <ed.bartosh@linux.intel.com>
-Thread-Topic: U-boot file is being removed when image-recipe is rebuild
-	which uses wic.bz2
-Thread-Index: AQHREL0SeK+5Z1memUCtZHGQFzlVr55/ZTtQgAARRoCAAAMMUIAAImwAgAKxVLA=
-Date: Thu, 29 Oct 2015 10:50:06 +0000
-Message-ID: <365E1805BC95084CBE82381A0B8699940121B4F9C3@EU-MBX-03.mgc.mentorg.com>
-References: <20151027134031.GA12305@linux.intel.com>
-	<365E1805BC95084CBE82381A0B8699940121B4E446@EU-MBX-03.mgc.mentorg.com>
-	<20151027152729.GA14663@linux.intel.com>
-	<365E1805BC95084CBE82381A0B8699940121B4E51B@EU-MBX-03.mgc.mentorg.com>
-	<20151027174136.GA28537@linux.intel.com>
-In-Reply-To: <20151027174136.GA28537@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: U-boot file is being removed when image-recipe is rebuild which uses wic.bz2
+	Thu, 29 Oct 2015 10:50:11 +0000 (UTC)
+Received: by wmff134 with SMTP id f134so21952395wmf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Oct 2015 03:50:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=dhmUJ0ixqBqlkbDUAuw5WXhisAQt94HzcuvrwE+Q4Kk=;
+	b=Z7DP8r0Tq/8zh9Qjin7kv6vVMkqsoxDcitDub1dfkzanZ7f67umP5Sbbs5Rw5Pvfkj
+	k7AC34q7ccQpCcq4S+Ax1r6AXifuofpTWxY2OoMtPQCqXxqThQGTShBS/ArYzhV7vR2A
+	8pFfByd/eqFCSn69SoFoDwv7TXnVmwQGjhkuLTgWPG+uQ1jArIXbyPgwzG0fctkFwTfg
+	FXgLGWIFDeIbPMPEr3TOUL57iO9sdegS4sBPjlu4Xfjqo0aOEhzyH2JnkSrSVpLtwe7x
+	itHwjv85oIEDcX8QnPomPlxTviPKQffXUvXSu0TSRdHhAhswa+Qil3ZbOkyjrOT8wBVR
+	VYwA==
+X-Received: by 10.28.144.143 with SMTP id s137mr6285181wmd.26.1446115811666;
+	Thu, 29 Oct 2015 03:50:11 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	bo7sm1113887wjb.46.2015.10.29.03.50.10
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 29 Oct 2015 03:50:10 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Oct 2015 11:50:32 +0100
+Message-Id: <1446115832-17364-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCH] libunwind: fix build for qemuarm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,198 +41,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Oct 2015 10:50:11 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 29 Oct 2015 10:50:12 -0000
 
-Ed,
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ ...Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch | 61 ++++++++++++++++++++++
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |  1 +
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
 
-Any update on this.=20
-
-
-I think os.rename should remain there. We should copy the file in build fol=
-der in rawcopy. Right now we don't copy it but in others we copy things in =
-build folder.
-
-Noor
-
------Original Message-----
-From: Ed Bartosh [mailto:ed.bartosh@linux.intel.com]=20
-Sent: Tuesday, October 27, 2015 10:42 PM
-To: Ahsan, Noor
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: U-boot file is being removed when image-recipe is rebuild whic=
-h uses wic.bz2
-
-On Tue, Oct 27, 2015 at 03:40:49PM +0000, Ahsan, Noor wrote:
-> This is my wks file
->=20
-> part u-boot --source rawcopy=20
-> --sourceparams=3D"file=3Du-boot-mx6-solox.imx" --ondisk mmcblk --no-table=
-=20
-> --align 1 part /boot --source bootimg-partition --ondisk mmcblk=20
-> --fstype=3Dvfat --label boot --active --align 4096 --size 8M=20
-> --extra-space 0 part / --source rootfs --ondisk mmcblk --fstype=3Dext4=20
-> --label root --align 4096
->=20
-> u-boot-mx6-solox.imx gets removed after wic is called.
->=20
-> It is in fsimage.py. see os.rename(source, image_file + '.p%d' % part['nu=
-m']).
->=20
->=20
-> def assemble(self, image_file):
->         msger.debug("Installing partitions")
->=20
->         for part in self.partitions:
->             source =3D part['source_file']
->             if source:
->                 # install source_file contents into a partition
->                 cmd =3D "dd if=3D%s of=3D%s bs=3D%d seek=3D%d count=3D%d =
-conv=3Dnotrunc" % \
->                       (source, image_file, self.sector_size,
->                        part['start'], part['size'])
->                 exec_cmd(cmd)
->=20
->                 msger.debug("Installed %s in partition %d, sectors %d-%d,=
+diff --git a/meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch b/meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
+new file mode 100644
+index 0000000..d552502
+--- /dev/null
++++ b/meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
+@@ -0,0 +1,62 @@
++From 24484e80b3e329c9edee1995e102f8612eedb79c Mon Sep 17 00:00:00 2001
++From: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
++Date: Tue, 13 May 2014 23:32:27 +0200
++Subject: [PATCH] Add AO_REQUIRE_CAS to fix build on ARM < v6
++
++ARM earlier than ARMv6, such as ARMv4 and ARMv5 do not provide
++optimize atomic operations in libatomic_ops. Since libunwind is using
++such operations, it should define AO_REQUIRE_CAS before including
++<atomic_ops.h> so that libatomic_ops knows it should use emulated
++atomic operations instead (even though they are obviously a lot more
++expensive).
++
++Also, while real atomic operations are all inline functions and
++therefore linking against libatomic_ops was not required, the emulated
++atomic operations actually require linking against libatomic_ops, so
++the commented AC_CHECK_LIB test in acinclude.m4 is uncommented to make
++sure we link against libatomic_ops.
++
++Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++
++Upstream-Status: Pending
++Taken from:
++https://raw.githubusercontent.com/rdnetto/teapot-buildroot/master/package/libunwind/libunwind-02-Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
++
++---
++ acinclude.m4          | 8 +-------
++ include/libunwind_i.h | 1 +
++ 2 files changed, 2 insertions(+), 7 deletions(-)
++
++diff --git a/acinclude.m4 b/acinclude.m4
++index 497f7c2..9c15af1 100644
++--- a/acinclude.m4
+++++ b/acinclude.m4
++@@ -22,11 +22,5 @@ fi])
++ AC_DEFUN([CHECK_ATOMIC_OPS],
++ [dnl Check whether the system has the atomic_ops package installed.
++   AC_CHECK_HEADERS(atomic_ops.h)
++-#
++-# Don't link against libatomic_ops for now.  We don't want libunwind
++-# to depend on libatomic_ops.so.  Fortunately, none of the platforms
++-# we care about so far need libatomic_ops.a (everything is done via
++-# inline macros).
++-#
++-#  AC_CHECK_LIB(atomic_ops, main)
+++  AC_CHECK_LIB(atomic_ops, main)
++ ])
++diff --git a/include/libunwind_i.h b/include/libunwind_i.h
++index 23f615e..deabdfd 100644
++--- a/include/libunwind_i.h
+++++ b/include/libunwind_i.h
++@@ -95,6 +95,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
++ 	(pthread_mutex_unlock != NULL ? pthread_mutex_unlock (l) : 0)
++ 
++ #ifdef HAVE_ATOMIC_OPS_H
+++# define AO_REQUIRE_CAS
++ # include <atomic_ops.h>
++ static inline int
++ cmpxchg_ptr (void *addr, void *old, void *new)
++-- 
++1.9.2
++
+diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
+index 29bdf94..aa62bcc 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
+@@ -6,6 +6,7 @@ SRC_URI += "\
+     file://Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch \
+     file://Link-libunwind-to-libgcc_s-rather-than-libgcc.patch \
+     file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch \
++    file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
  "
->                             "size %d sectors" % \
->                             (source, part['num'], part['start'],
->                              part['start'] + part['size'] - 1,=20
-> part['size']))
->=20
->                 os.rename(source, image_file + '.p%d' % part['num'])
->=20
+ 
+ SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
+-- 
+2.6.2
 
-Thank you for the info! I'll try to reproduce the issue.
-
-Wild guess: would copying a file instead of renaming it solve the issue?
-
-
-Regards,
-Ed
-
-> -----Original Message-----
-> From: Ed Bartosh [mailto:ed.bartosh@linux.intel.com]
-> Sent: Tuesday, October 27, 2015 8:27 PM
-> To: Ahsan, Noor
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: U-boot file is being removed when image-recipe is rebuild=20
-> which uses wic.bz2
->=20
-> On Tue, Oct 27, 2015 at 02:28:02PM +0000, Ahsan, Noor wrote:
-> > Hello,
-> >=20
-> > I have identified the issue and sent and RFC on mailing list. One feedb=
-ack I received was replace dd_cmd =3D "cp src dst" with dd_cmd =3D "cp %s %=
-s" % (src, dst) which was and off sight from me. I need more detailed revie=
-w of it.
->=20
-> Can you point me out where the renaming you've mentioned is happening?
->=20
-> Anyway it would be good if I could reproduce the issue to better understa=
-nd it. Can you provide more details about your configuration?
->=20
-> Regards,
-> Ed
->=20
->=20
-> >=20
-> > Noor
-> >=20
-> > -----Original Message-----
-> > From: Ed Bartosh [mailto:ed.bartosh@linux.intel.com]
-> > Sent: Tuesday, October 27, 2015 6:41 PM
-> > To: Ahsan, Noor
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: U-boot file is being removed when image-recipe is=20
-> > rebuild which uses wic.bz2
-> >=20
-> > Hi Noor,
-> >=20
-> > Sorry for delay. I missed your e-mail somehow.
-> >=20
-> > Can you please show your recipe, wks file and the details of your build=
- configuration(MACHINE, bblayers, etc) ?
-> >=20
-> > ---
-> > Regards,
-> > Ed
->=20
-> > Date: Thu, 22 Oct 2015 10:14:02 +0000
-> > From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-> > To: "openembedded-core@lists.openembedded.org"
-> >  <openembedded-core@lists.openembedded.org>
-> > Subject: Re: [OE-core] [RFC] rawcopy.py: Copy source file in image=20
-> > creation  build folder
-> >=20
-> >=20
-> >=20
-> > -----Original Message-----
-> > From: Ahsan, Noor
-> > Sent: Wednesday, October 21, 2015 9:04 PM
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Ahsan, Noor
-> > Subject: [RFC] rawcopy.py: Copy source file in image creation build=20
-> > folder
-> >=20
-> > From: Noor <noor_ahsan@mentor.com>
-> >=20
-> > * When a file is given using --sourceparams then wic directly use that =
-file
-> >   instead of copying them to build folder. At time of assmebling it os.=
-rename
-> >   is called which rename all the files to name. In that process the ori=
-ginal
-> >   file get renamed. When image recipe is rebuilt then wic complains abo=
-ut
-> >   missing file which renamed in previous build.
-> >=20
-> > Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
-> > ---
-> >  scripts/lib/wic/plugins/source/rawcopy.py |    4 ++++
-> >  1 file changed, 4 insertions(+)
-> >=20
-> > diff --git a/scripts/lib/wic/plugins/source/rawcopy.py
-> > b/scripts/lib/wic/plugins/source/rawcopy.py
-> > index f0691ba..f17da27 100644
-> > --- a/scripts/lib/wic/plugins/source/rawcopy.py
-> > +++ b/scripts/lib/wic/plugins/source/rawcopy.py
-> > @@ -74,6 +74,10 @@ class RawCopyPlugin(SourcePlugin):
-> >              dd_cmd =3D "dd if=3D%s of=3D%s ibs=3D%s skip=3D1 conv=3Dno=
-trunc" % \
-> >                      (src, dst, source_params['skip'])
-> >              exec_cmd(dd_cmd)
-> > +        else:
-> > +            dst =3D os.path.join(cr_workdir, source_params['file'])
-> > +            dd_cmd =3D "cp src dst"
-> > +            exec_cmd(dd_cmd)
-> >=20
-> >=20
-> > dd_cmd will be replaced by cp_cmd but I need review of all impact of th=
-is so that I can send proper patch.
-> >=20
-> >=20
-> >          # get the size in the right units for kickstart (kB)
-> >          du_cmd =3D "du -Lbks %s" % dst
-> > --
-> > 1.7.9.5
-> >=20
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
->=20
-> --
-> --
-> Regards,
-> Ed
-
---
---
-Regards,
-Ed
 
