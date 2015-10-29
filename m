@@ -1,39 +1,34 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 18925755F4
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 912BB755F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 21:31:42 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 29 Oct 2015 14:31:15 -0700
+	Thu, 29 Oct 2015 21:34:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 29 Oct 2015 14:34:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,216,1444719600"; d="scan'208";a="674614648"
-Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
-	by orsmga003.jf.intel.com with ESMTP; 29 Oct 2015 14:31:16 -0700
-Received: from orsmsx156.amr.corp.intel.com (10.22.240.22) by
-	ORSMSX102.amr.corp.intel.com (10.22.225.129) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Thu, 29 Oct 2015 14:31:14 -0700
-Received: from orsmsx109.amr.corp.intel.com ([169.254.2.19]) by
-	ORSMSX156.amr.corp.intel.com ([169.254.8.249]) with mapi id
-	14.03.0248.002; Thu, 29 Oct 2015 14:31:14 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: "Hatle, Mark G (Wind River)" <mark.hatle@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "jurobystricky@hotmail.com"
-	<jurobystricky@hotmail.com>
-Thread-Topic: [OE-core] [PATCH 1/1] glibc: Allow 64 bit atomics for x86
-Thread-Index: AQHREott3rbiPCLq50yapwd6c82ivJ6DahSA//+SIkA=
-Date: Thu, 29 Oct 2015 21:31:14 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6108DAD4F@ORSMSX109.amr.corp.intel.com>
-References: <1446151418-16034-1-git-send-email-juro.bystricky@intel.com>
-	<1446151418-16034-2-git-send-email-juro.bystricky@intel.com>
-	<5632890B.2010405@windriver.com>
-In-Reply-To: <5632890B.2010405@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
+X-IronPort-AV: E=Sophos;i="5.20,216,1444719600"; d="scan'208";a="806901873"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 29 Oct 2015 14:34:29 -0700
+Received: by linux.intel.com (Postfix, from userid 48)
+	id AC52E6A4087; Thu, 29 Oct 2015 14:33:27 -0700 (PDT)
+Received: from 10.252.141.62 (SquirrelMail authenticated user randy.e.witt)
+	by linux.intel.com with HTTP; Thu, 29 Oct 2015 14:33:27 -0700 (PDT)
+Message-ID: <64198.10.252.141.62.1446154407.squirrel@linux.intel.com>
+In-Reply-To: <CAFoFrHZEFPucHjumrwKE4zs+n8EjcE3hJC_k2SotcrUwr6fphw@mail.gmail.com>
+References: <CAFoFrHaiWeGDoRqDAqnKdKy30d+NihfsrvgT4z06F+8OZV0ApA@mail.gmail.com>
+	<CAFoFrHZEFPucHjumrwKE4zs+n8EjcE3hJC_k2SotcrUwr6fphw@mail.gmail.com>
+Date: Thu, 29 Oct 2015 14:33:27 -0700 (PDT)
+From: randy.e.witt@linux.intel.com
+To: "Naresh Bhat" <naresh.bhat@linaro.org>
+User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] glibc: Allow 64 bit atomics for x86
+X-Priority: 3 (Normal)
+Importance: Normal
+Cc: Matt Fleming <matt.fleming@intel.com>, "Neri,
+	Ricardo" <ricardo.neri@intel.com>,
+	oe-core <openembedded-core@lists.openembedded.org>,
+	"luv@lists.01.org" <luv@lists.01.org>
+Subject: Re: luvOS yocto based project - "hvc0" respawning too fast
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,122 +41,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Oct 2015 21:31:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 29 Oct 2015 21:34:32 -0000
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
-Thanks for your quick reply.
-Yes, the way you propose to apply the patch is cleaner, leaving i386 and i4=
-86 unaffected.=20
-However, they do not work already, so I cannot  do them any more harm.
-Quark does support cmpxchg8b, so in theory it should work. But as you point=
-ed out,
-there are many errata for Quark atomic ops, so it is not guaranteed.
+Hi Naresh,
 
+> +OE core ML
+>
+> On 27 October 2015 at 16:17, Naresh Bhat <naresh.bhat@linaro.org> wrote:
+>> Hi Randy,
+>>
+>> The luvOS project is based on luv-yocto frame work.  I have built the
+>> luvOS project for AArch64 architecture using qemuarm64.conf machine
+>> configuration file and boot the luvOS image on QEMU machine (used
+>> latest QEMU git repository image i.e. qemu-system-aarch64 QEMU
+>> v2.4.50)
+>>
+>> I am facing the following issue on the console "INIT: Id "hvc0"
+>> respawning too fast: disabled for 5 minutes"
+>>
 
+The easiest way for you to get around this without creating your own image
+is to probably mimc what runqemu does. (which is the expected consumer of
+the qemu images)
 
-
-> -----Original Message-----
-> From: Mark Hatle [mailto:mark.hatle@windriver.com]
-> Sent: Thursday, October 29, 2015 2:01 PM
-> To: Bystricky, Juro; openembedded-core@lists.openembedded.org;
-> jurobystricky@hotmail.com
-> Subject: Re: [OE-core] [PATCH 1/1] glibc: Allow 64 bit atomics for x86
->=20
-> On 10/29/15 3:43 PM, Juro Bystricky wrote:
-> > This patch fixes [YOCTO#8140].
-> >
-> > The fix consist of allowing 64bit atomic ops for x86.
-> > This should be safe for i586 and newer CPUs.
-> > It also makes the synchronization more efficient.
->=20
-> I'm not sure this is correct.. see below.
->=20
-> > Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> > ---
-> >  .../glibc/glibc/use_64bit_atomics.patch            | 24
-> ++++++++++++++++++++++
-> >  meta/recipes-core/glibc/glibc_2.22.bb              |  1 +
-> >  2 files changed, 25 insertions(+)
-> >  create mode 100644
-> > meta/recipes-core/glibc/glibc/use_64bit_atomics.patch
-> >
-> > diff --git a/meta/recipes-core/glibc/glibc/use_64bit_atomics.patch
-> > b/meta/recipes-core/glibc/glibc/use_64bit_atomics.patch
-> > new file mode 100644
-> > index 0000000..eb7f2b2
-> > --- /dev/null
-> > +++ b/meta/recipes-core/glibc/glibc/use_64bit_atomics.patch
-> > @@ -0,0 +1,24 @@
-> > +This patch alows using 64 bit atomic instructions on a
-> > +32 bit platform. This is safe, providing x86 is Pentium or later
-> > +(would not work on i386, i486). Using 64 bit atomic instructions
-> > +bypasses code containing a bug as documented in
-> > +https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D8140
-> > +
-> > +Upstream-Status: TBD
-> > +
-> > +Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> > +
-> > +
-> > +Index: libc/sysdeps/i386/i486/bits/atomic.h
-> >
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +--- libc.orig/sysdeps/i386/i486/bits/atomic.h
-> > ++++ libc/sysdeps/i386/i486/bits/atomic.h
-> > +@@ -54,7 +54,7 @@ typedef uintmax_t uatomic_max_t;  # endif  #endif
-> > +
-> > +-#define __HAVE_64B_ATOMICS 0
-> > ++#define __HAVE_64B_ATOMICS 1
-> > + #define USE_ATOMIC_COMPILER_BUILTINS 0
->=20
-> The patch will enable it for i486 and above, but you comment says i486 is=
-n't
-> supported.
->=20
-> Normally you'd resolve this by creating a new
->=20
-> sysdeps/i386/i586/bits/atomic.h
->=20
-> (include or copy the original file)
->=20
-> and adjust the HAVE_64B_ATOMICS value at that point.
->=20
-> Then the sources will work for older systems and newer.
->=20
-> While 386/486 is likely not used much these days... I do also have a conc=
-ern
-> about Quark CPUs.  Do you know if they support the 64B ATOMICS?  (I
-> suspect they do not.)  If that is the case, we might need to special case=
- this
-> patch and make it 'i686' and above?
->=20
-> --Mark
->=20
-> > +
-> > diff --git a/meta/recipes-core/glibc/glibc_2.22.bb
-> > b/meta/recipes-core/glibc/glibc_2.22.bb
-> > index 020e417..2494ad7 100644
-> > --- a/meta/recipes-core/glibc/glibc_2.22.bb
-> > +++ b/meta/recipes-core/glibc/glibc_2.22.bb
-> > @@ -50,6 +50,7 @@ SRC_URI_append_class-nativesdk =3D "\
-> >             file://0001-nativesdk-glibc-Look-for-host-system-ld.so.cach=
-e-as-
-> .patch \
-> >             file://0002-nativesdk-glibc-Fix-buffer-overrun-with-a-reloc=
-ated-
-> .patch \
-> >
-> > file://0003-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch
-> > \
-> > +           file://use_64bit_atomics.patch \
-> >  "
-> >
-> >  S =3D "${WORKDIR}/git"
-> >
+If you add "-device virtio-serial-device -chardev null,id=virtcon -device
+virtconsole,chardev=virtcon" to the qemu commandline, this will add the
+second serial port.
+>> ...
+>> .....
+>>     [-] kernel-efi-warnings
+>>       [+] EFI_BOOT_SERVICES_*_illegal_access... passed
+>>
+>> Ran 3 testsuites and 64 unittests, 53 passes, 15 fails, 3 skipped.
+>>
+>> Linux UEFI Validation Distribution 2.0-dev qemuarm64 ttyAMA0
+>>
+>> INIT: Id "hvc0" respawning too fast: disabled for 5 minutes
+>> Linux UEFI Validation Distribution 2.0-dev qemuarm64 ttyAMA0
+>>
+>> qemuarm64 login: root
+>> root@qemuarm64:~#
+>> root@qemuarm64:~#
+>>
+>>
+>> Can you please let me know how did you tested this patch on QEMU and
+>> what are the parameter's you have passed for command line ? Can you
+>> please help me to overcome from the above issue ?
+>>
+>> I am using following script to launch the QEMU -
+>> https://wiki.linaro.org/LEG/Engineering/luvOS#How_to_test_luvOS_image_on_QEMU
+>> and I can see the below patch introduced the hvc0
+>>
+>> [nareshbhat@Lenovo luv-yocto]$ git show
+>> f44e043c752470b1ed4d22f3732dc0b362f83fd9
+>> commit f44e043c752470b1ed4d22f3732dc0b362f83fd9
+>> Author: Randy Witt <randy.e.witt@linux.intel.com>
+>> Date:   Thu Aug 27 19:42:43 2015 -0700
+>>
+>>     qemuarm64.conf: Make the second serial console /dev/hvc0
+>>
+>>     Since the qemu for aarch64 must use a virtual console for the second
+>>     serial port rather than emulating actual hardware, make sure the
+>> correct
+>>     device is specified so that a tty is actually started.
+>>
+>>     (From OE-Core rev: 5b720a69f0d181ab2de6032a6e3f5a0ee4a14302)
+>>
+>>     Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+>>     Signed-off-by: Ross Burton <ross.burton@intel.com>
+>>     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>
+>> diff --git a/meta/conf/machine/qemuarm64.conf
+>> b/meta/conf/machine/qemuarm64.conf
+>> index 7bbdad7..8459d0f 100644
+>> --- a/meta/conf/machine/qemuarm64.conf
+>> +++ b/meta/conf/machine/qemuarm64.conf
+>> @@ -9,4 +9,4 @@ MACHINE_FEATURES = ""
+>>
+>>  KERNEL_IMAGETYPE = "Image"
+>>
+>> -SERIAL_CONSOLES = "38400;ttyAMA0 38400;ttyAMA1"
+>> +SERIAL_CONSOLES = "38400;ttyAMA0 38400;hvc0"
+>> [nareshbhat@Lenovo luv-yocto]$
+>>
+>>
+>> Thanks and Regards
+>> -Naresh
+>
 
 
