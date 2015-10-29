@@ -1,23 +1,36 @@
-Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A2639770E3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 14:48:38 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 29 Oct 2015 07:48:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,214,1444719600"; d="scan'208";a="822351628"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Oct 2015 07:48:19 -0700
-Received: from fedora-ws.localdomain (unknown [10.237.112.240])
-	by linux.intel.com (Postfix) with ESMTP id A93116A4005;
-	Thu, 29 Oct 2015 07:47:16 -0700 (PDT)
-From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Oct 2015 16:50:10 +0200
-Message-Id: <1446130211-14862-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCHv2 1/2] oeqa/selftest/signing: New test for Signing packages in the package feeds.
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 24E8573CC7;
+	Thu, 29 Oct 2015 15:42:37 +0000 (UTC)
+Received: by pacfv9 with SMTP id fv9so46033222pac.3;
+	Thu, 29 Oct 2015 08:42:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:content-type:subject:date:message-id:to:mime-version;
+	bh=1sv62GivlyS/SokGsrnD3+kT7C9wZdU7xhciurwWI+o=;
+	b=ObfTKQrw0obBazXfeo0UHH1KlChUkmUntVS0Cy6pudgSWSwhXDqJ7I9Q2me4YELxvR
+	SYIkHGublWtj8Lt7VdRSShcVxw6dxN/CgyDcWBg5DAuYj2UwmZRuvd/aTtaeG799neI2
+	/q6d2h2hJg0i4Yu2FWixQu1KmAslu3R3YG9yK71dBamJB3+xjGoENKd+/y8LHs6C/k5/
+	UoUEzqDoa+Zzz97jvmwMAKUZjWI2ZBy8Pu8Ijl8sJQR63NxANCArOVF2MSkMamn11uEM
+	5YRLV+ilPvVY+Vjqx5PXMsUygKbocaYZNKJc9tJ25vyusAfHIAz28ulGsNNkE2SYpamC
+	/7RQ==
+X-Received: by 10.68.165.194 with SMTP id za2mr2612312pbb.72.1446133357530;
+	Thu, 29 Oct 2015 08:42:37 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:6965:30d8:7236:17cb?
+	([2601:646:8601:4580:6965:30d8:7236:17cb])
+	by smtp.gmail.com with ESMTPSA id n1sm3095369pap.7.2015.10.29.08.42.36
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 29 Oct 2015 08:42:36 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Pgp-Agent: GPGMail 2.6b2
+Date: Thu, 29 Oct 2015 08:42:31 -0700
+Message-Id: <9D79B6D4-2FE1-4C77-A359-C0F47DCC090D@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Martin Jansa <Openembedded-devel@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 9.1 \(3096.5\))
+X-Mailer: Apple Mail (2.3096.5)
+Subject: State of libcs in OE-Core glibc/uclibc/musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,223 +43,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Oct 2015 14:48:39 -0000
+X-List-Received-Date: Thu, 29 Oct 2015 15:42:38 -0000
+X-Groupsio-MsgNum: 72740
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_C0428F87-7D62-493C-A891-83A5D35B4D4B";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-[YOCTO # 8134] This test verifies features introduced in bug 8134.
+--Apple-Mail=_C0428F87-7D62-493C-A891-83A5D35B4D4B
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-It requires as resources the files from meta-selftest/files/signing:
-For 'gpg --gen-key' the used input was:
-key: RSA
-key-size: 2048
-key-valid: 0
-realname: testuser
-email: testuser@email.com
-comment: nocomment
-passphrase: test123
+Hi All,
 
-Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
----
- meta-selftest/files/signing/key.pub    | 30 ++++++++++++++
- meta-selftest/files/signing/key.secret | 59 ++++++++++++++++++++++++++
- meta-selftest/files/signing/secret.txt |  1 +
- meta/lib/oeqa/selftest/signing.py      | 76 ++++++++++++++++++++++++++++++++++
- 4 files changed, 166 insertions(+)
- create mode 100644 meta-selftest/files/signing/key.pub
- create mode 100644 meta-selftest/files/signing/key.secret
- create mode 100644 meta-selftest/files/signing/secret.txt
- create mode 100644 meta/lib/oeqa/selftest/signing.py
+I would like to get everyone=E2=80=99s opinion on the libcs we maintain =
+in OE-Core, as of now, we have
 
-diff --git a/meta-selftest/files/signing/key.pub b/meta-selftest/files/signing/key.pub
-new file mode 100644
-index 0000000..e197bb3
---- /dev/null
-+++ b/meta-selftest/files/signing/key.pub
-@@ -0,0 +1,30 @@
-+-----BEGIN PGP PUBLIC KEY BLOCK-----
-+Version: GnuPG v1
-+
-+mQENBFYeMycBCADISkEj+u+3SkGbmC4b09StA3Fk4J8bKZrTTpQqUhOH4QFIQpso
-+q96Q907h/ABAgB+IV0SGIeN866E7BqToqoXZ74X6EoyXWdndaMaFZSj+oNqqg6Gi
-+hVsuGNpvRyyXSCYW8w9H2lFx09UufFrUxoSeP2iVdJJaUAmb8e00PCwkYrS2BZEa
-+tO2VgllbaqczldmlUGnkIZt8YUSQSI/xZBDYUvbcZYBaOnDH1SDQl26f+bgyeIyS
-+TW5TZb96o4tMfiifgPoqAapAxQLahG0WtjF/n1yNV5wUNQYsEQf6/h6W2rHGsCP5
-+6FVFnr/ZPVam9iHUxL4lvJSI8dEH37s9GmarABEBAAG0LXRlc3R1c2VyIChub2Nv
-+bW1lbnQpIDx0ZXN0dXNlckB0ZXN0ZW1haWwuY29tPokBOAQTAQIAIgUCVh4zJwIb
-+AwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQezExa11krVLM2wf/fW1C8DPx
-+tZEyl6iPXFjNotslo+t2TL6jPefC22KmbokJCtCnxcopBjQRuhUSNDTkXkUdVagy
-+TaaYILV8XGajTmcVGQTaKeh+j6TM6CBGApQB5KhHvZCyvNBrGcNyuiex0Sm/rIhS
-+fZre6ptZM/026W2kLwwJESXzHJEqCoFmU6aSOUCVyiDgMfcNw6c4NmEoqZtLdnxU
-+B7Nac98o933AIvaaQMGtKIOcyOM7P/dyv8eMc38z2ew5bEB8E9aSdg5koXb3zIt5
-+IKea631k4INAsFFyLMQNSmmKV7RK0miF5b4hGyekrYZRtiic5+dq5aWnVka4hBfi
-+x31euxwQE87gQLkBDQRWHjMnAQgAt7C9QCFPWzLGQuQ/YaQub+8s2lYNQnmfwDHm
-+5PuON+Wj/f5GyQhHKsbdUAPZ7GsjFIQnva7xNYYF/IvpC+0saB5NLMkBzjfIsg92
-+6MkadAKlOR2o9gKlF59mulsJmJqNFTXiRcVXvpUnU8WB9ECmm321XfYHhk+4EMay
-+H3OUZ0k6dEmvrWBTKNTR7M0z6j/jW+8J3vP3L9k1H+OV0EZwAKXfbh1lN4H467jY
-+3gA7FU1WDmA06HphoSaFUEGTuXGtrRP0eksCUj3BtVygXnyQb379dISDOWcs/9Ke
-+v3KMrZWgDnA4pH1eQpjycBhwKOCHYyhSSVOwCS3DGkaaklmQZwARAQABiQEfBBgB
-+AgAJBQJWHjMnAhsMAAoJEHsxMWtdZK1SoPsIAKadG/tvS5COCyF8FuriL89Ysfov
-+kMRKeb9hsMDbKX2lm3UtoS5ErmpkEUO/SbazQYm6/vYc8noQquqhkIdCljIvpWDv
-+17tXEFfTGA493dlTTEWFt5bvzbQN6OhBu3904lAE4JGtlOOa9OKDeguwXbneLOyl
-+dnlj2f7rw05cB9t/RDu7T11dTI39BMTUUm1lpWxYJk41o59b9g+fpJZkiIAJwnN3
-+MwM1u9/AWfTqjNRgMAO5dIYceceTwGogujG+xz93flt+NjQhILG0T9jd0DFBgIAX
-+Zq4PzX5aFDKjGoFaOOZ6r+kppBLH/HN6okMGIcfqaPPdnJI1MXFQvFzUNpo=
-+=2cSJ
-+-----END PGP PUBLIC KEY BLOCK-----
-diff --git a/meta-selftest/files/signing/key.secret b/meta-selftest/files/signing/key.secret
-new file mode 100644
-index 0000000..d30d7cd
---- /dev/null
-+++ b/meta-selftest/files/signing/key.secret
-@@ -0,0 +1,59 @@
-+-----BEGIN PGP PRIVATE KEY BLOCK-----
-+Version: GnuPG v1
-+
-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
-+=b+vR
-+-----END PGP PRIVATE KEY BLOCK-----
-diff --git a/meta-selftest/files/signing/secret.txt b/meta-selftest/files/signing/secret.txt
-new file mode 100644
-index 0000000..5271a52
---- /dev/null
-+++ b/meta-selftest/files/signing/secret.txt
-@@ -0,0 +1 @@
-+test123
-diff --git a/meta/lib/oeqa/selftest/signing.py b/meta/lib/oeqa/selftest/signing.py
-new file mode 100644
-index 0000000..fd8a52c
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/signing.py
-@@ -0,0 +1,76 @@
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var
-+import os
-+import glob
-+from oeqa.utils.decorators import testcase
-+
-+
-+class Signing(oeSelfTest):
-+
-+    gpg_dir = ""
-+    pub_key_name = 'key.pub'
-+    secret_key_name = 'key.secret'
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        # Import the gpg keys
-+
-+        cls.gpg_dir = os.path.join(cls.testlayer_path, 'files/signing/')
-+
-+        # key.secret key.pub are located in gpg_dir
-+        pub_key_location = cls.gpg_dir + cls.pub_key_name
-+        secret_key_location = cls.gpg_dir + cls.secret_key_name
-+        runCmd('gpg --homedir %s --import %s %s' % (cls.gpg_dir, pub_key_location, secret_key_location))
-+
-+    @classmethod
-+    def tearDownClass(cls):
-+        # Delete the files generated by 'gpg --import'
-+
-+        gpg_files = glob.glob(cls.gpg_dir + '*.gpg*')
-+        random_seed_file = cls.gpg_dir + 'random_seed'
-+        gpg_files.append(random_seed_file)
-+
-+        for gpg_file in gpg_files:
-+            runCmd('rm -f ' + gpg_file)
-+
-+    @testcase(1362)
-+    def test_signing_packages(self):
-+        """
-+        Summary:     Test that packages can be signed in the package feed
-+        Expected:    Package should be signed with the correct key
-+        Product:     oe-core
-+        Author:      Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        """
-+
-+        package_classes = get_bb_var('PACKAGE_CLASSES')
-+        if 'package_rpm' not in package_classes:
-+            self.skipTest('This test requires RPM Packaging.')
-+
-+        test_recipe = 'ed'
-+
-+        feature = 'INHERIT += "sign_rpm"\n'
-+        feature += 'RPM_GPG_PASSPHRASE_FILE = "%ssecret.txt"\n' % self.gpg_dir
-+        feature += 'RPM_GPG_NAME = "testuser"\n'
-+        feature += 'RPM_GPG_PUBKEY = "%s%s"\n' % (self.gpg_dir, self.pub_key_name)
-+        feature += 'GPG_PATH = "%s"\n' % self.gpg_dir
-+
-+        self.write_config(feature)
-+
-+        bitbake('-c cleansstate %s' % test_recipe)
-+        bitbake('-c clean %s' % test_recipe)
-+        bitbake(test_recipe)
-+        self.add_command_to_tearDown('bitbake -c clean %s' % test_recipe)
-+
-+        pf = get_bb_var('PF', test_recipe)
-+        deploy_dir_rpm = get_bb_var('DEPLOY_DIR_RPM', test_recipe)
-+        package_arch = get_bb_var('PACKAGE_ARCH', test_recipe)
-+        staging_bindir_native = get_bb_var('STAGING_BINDIR_NATIVE')
-+
-+        pkg_deploy = os.path.join(deploy_dir_rpm, package_arch, '.'.join((pf, package_arch, 'rpm')))
-+
-+        runCmd('%s/rpm --import %s%s' % (staging_bindir_native, self.gpg_dir, self.pub_key_name))
-+
-+        ret = runCmd('%s/rpm --checksig %s' % (staging_bindir_native, pkg_deploy))
-+        # tmp/deploy/rpm/i586/ed-1.9-r0.i586.rpm: rsa sha1 md5 OK
-+        self.assertIn('rsa sha1 md5 OK', ret.output, 'Package signed incorrectly.')
--- 
-2.1.0
+glibc + cross localedef + kconfig patches which are left overs from =
+eglibc days
+uclibc - which is more of less unmaintained
 
+Its a significant effort to keep forward porting the kconfig changes =
+since it touches everywhere in glibc, (I do it in my local glibc tree)
+almost every week there is a commit in upstream glibc which breaks the =
+kconfig patches, I know there are distribution profiles
+like poky-tiny which uses glibc in this capacity, and may be then their =
+are other custom one=E2=80=99s made on top, I would like us to not carry =
+major
+patches which almost makes our component a fork due to obvious =
+maintenance cost. I think there is viable alternatives to tiny libcs in =
+musl now.
 
+I would like to make a proposal for 2.1 release where
+
+1. Drop kconfig support in glibc and we become inline with upstream
+2. Move musl support to OE-Core from meta-musl
+3. Drop uclibc or leave it in current broken state, I would like to pull =
+it out into a layer in meta-openembedded and we can leave the core =
+plumbing as it is in OE-Core
+4. Poky-tiny switches to use musl
+
+may other disto=E2=80=99s have moved to using musl as system C library =
+e.g. alpine linux, openwrt, and I am also deploying it in  real products
+its pretty mature and well maintained with very healthy community around =
+it. Right now meta-musl is capable of building and running
+core-image-sato/core-image-weston for all supported Qemu arches in =
+OE-Core, the amount of software it can build is no less than uclibc
+support in OE-Core.
+
+if collectively we think, this is a good move then I can work on all of =
+above items in early phases of 2.1 so we can settle any
+outstanding issues, due to the shuffle especially in poky-tiny
+
+Thoughts ?
+
+-Khem
+
+--Apple-Mail=_C0428F87-7D62-493C-A891-83A5D35B4D4B
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlYyPmwACgkQuwUzVZGdMxRdBQCggUE4bS/ecLiOtzMoGIU6lFNt
+RNYAmwbOGyB9N2/ZGK2jJGyL6Q51wPCd
+=ljpM
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_C0428F87-7D62-493C-A891-83A5D35B4D4B--
