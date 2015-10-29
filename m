@@ -1,34 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 353F3770D0
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id BF54E73CC7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 10:50:11 +0000 (UTC)
-Received: by wmff134 with SMTP id f134so21952395wmf.1
+	Thu, 29 Oct 2015 11:47:00 +0000 (UTC)
+Received: by wicfv8 with SMTP id fv8so40391191wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 03:50:11 -0700 (PDT)
+	Thu, 29 Oct 2015 04:47:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=dhmUJ0ixqBqlkbDUAuw5WXhisAQt94HzcuvrwE+Q4Kk=;
-	b=Z7DP8r0Tq/8zh9Qjin7kv6vVMkqsoxDcitDub1dfkzanZ7f67umP5Sbbs5Rw5Pvfkj
-	k7AC34q7ccQpCcq4S+Ax1r6AXifuofpTWxY2OoMtPQCqXxqThQGTShBS/ArYzhV7vR2A
-	8pFfByd/eqFCSn69SoFoDwv7TXnVmwQGjhkuLTgWPG+uQ1jArIXbyPgwzG0fctkFwTfg
-	FXgLGWIFDeIbPMPEr3TOUL57iO9sdegS4sBPjlu4Xfjqo0aOEhzyH2JnkSrSVpLtwe7x
-	itHwjv85oIEDcX8QnPomPlxTviPKQffXUvXSu0TSRdHhAhswa+Qil3ZbOkyjrOT8wBVR
-	VYwA==
-X-Received: by 10.28.144.143 with SMTP id s137mr6285181wmd.26.1446115811666;
-	Thu, 29 Oct 2015 03:50:11 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	bo7sm1113887wjb.46.2015.10.29.03.50.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 Oct 2015 03:50:10 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Oct 2015 11:50:32 +0100
-Message-Id: <1446115832-17364-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.6.2
-Subject: [PATCH] libunwind: fix build for qemuarm
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=l8SVP7E1SyhNN8crkPknKaHlJ8CPUNg3luzThAzj64g=;
+	b=E6lRewjkeb0Jz4t7Y9DI2PxA0Yt9Lrh77x2B/0kzChZSHj7Grfb4YN7/F8EvhMTcIU
+	GjYm8dPkHd1Ojy59qY4ZHoa1t/8UL2qlKHIl1hDONxR08RgXpP91YSan675FZDC4QJWd
+	AKhGa2gWHaJSDbKUu8Ub6hnbeANvljoIOfc4XbsCB0MD3a6G0D6Vfc6nCC6BxaeIORWW
+	oI0UxX9ULhYs6x1Uk1MfKs5E3sMKarn0pGUMGuLjStMxNMxbZKqgWabyhYGR7Q+tFTLM
+	Y9kZ5uxS/g65t8Q6sNeVzskLVa2w58kIJjYcfAklOhag08ygYabdloUn9aix+RKh7XTL
+	7WzQ==
+X-Received: by 10.194.71.84 with SMTP id s20mr1665548wju.89.1446119220249;
+	Thu, 29 Oct 2015 04:47:00 -0700 (PDT)
+Received: from ernie.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
+	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
+	bh5sm1369397wjb.42.2015.10.29.04.46.59
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 29 Oct 2015 04:46:59 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+From: Jens Rehsack <rehsack@gmail.com>
+In-Reply-To: <64124F70-A6D7-4B9E-BAEC-883D2AB76956@gmail.com>
+Date: Thu, 29 Oct 2015 12:46:58 +0100
+Message-Id: <BA125892-677A-46E4-941A-F562797EB8BD@gmail.com>
+References: <64124F70-A6D7-4B9E-BAEC-883D2AB76956@gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.2104)
+Subject: Re: [PATCH 1/2] udev: Don't introduce usb or pci dependencies without usb or pci being featured
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,96 +45,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Oct 2015 10:50:12 -0000
+X-List-Received-Date: Thu, 29 Oct 2015 11:47:03 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- ...Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch | 61 ++++++++++++++++++++++
- meta/recipes-support/libunwind/libunwind_1.1.bb    |  1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
 
-diff --git a/meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch b/meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
-new file mode 100644
-index 0000000..d552502
---- /dev/null
-+++ b/meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
-@@ -0,0 +1,62 @@
-+From 24484e80b3e329c9edee1995e102f8612eedb79c Mon Sep 17 00:00:00 2001
-+From: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
-+Date: Tue, 13 May 2014 23:32:27 +0200
-+Subject: [PATCH] Add AO_REQUIRE_CAS to fix build on ARM < v6
-+
-+ARM earlier than ARMv6, such as ARMv4 and ARMv5 do not provide
-+optimize atomic operations in libatomic_ops. Since libunwind is using
-+such operations, it should define AO_REQUIRE_CAS before including
-+<atomic_ops.h> so that libatomic_ops knows it should use emulated
-+atomic operations instead (even though they are obviously a lot more
-+expensive).
-+
-+Also, while real atomic operations are all inline functions and
-+therefore linking against libatomic_ops was not required, the emulated
-+atomic operations actually require linking against libatomic_ops, so
-+the commented AC_CHECK_LIB test in acinclude.m4 is uncommented to make
-+sure we link against libatomic_ops.
-+
-+Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+Upstream-Status: Pending
-+Taken from:
-+https://raw.githubusercontent.com/rdnetto/teapot-buildroot/master/package/libunwind/libunwind-02-Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
-+
-+---
-+ acinclude.m4          | 8 +-------
-+ include/libunwind_i.h | 1 +
-+ 2 files changed, 2 insertions(+), 7 deletions(-)
-+
-+diff --git a/acinclude.m4 b/acinclude.m4
-+index 497f7c2..9c15af1 100644
-+--- a/acinclude.m4
-++++ b/acinclude.m4
-+@@ -22,11 +22,5 @@ fi])
-+ AC_DEFUN([CHECK_ATOMIC_OPS],
-+ [dnl Check whether the system has the atomic_ops package installed.
-+   AC_CHECK_HEADERS(atomic_ops.h)
-+-#
-+-# Don't link against libatomic_ops for now.  We don't want libunwind
-+-# to depend on libatomic_ops.so.  Fortunately, none of the platforms
-+-# we care about so far need libatomic_ops.a (everything is done via
-+-# inline macros).
-+-#
-+-#  AC_CHECK_LIB(atomic_ops, main)
-++  AC_CHECK_LIB(atomic_ops, main)
-+ ])
-+diff --git a/include/libunwind_i.h b/include/libunwind_i.h
-+index 23f615e..deabdfd 100644
-+--- a/include/libunwind_i.h
-++++ b/include/libunwind_i.h
-+@@ -95,6 +95,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
-+ 	(pthread_mutex_unlock != NULL ? pthread_mutex_unlock (l) : 0)
-+ 
-+ #ifdef HAVE_ATOMIC_OPS_H
-++# define AO_REQUIRE_CAS
-+ # include <atomic_ops.h>
-+ static inline int
-+ cmpxchg_ptr (void *addr, void *old, void *new)
-+-- 
-+1.9.2
-+
-diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
-index 29bdf94..aa62bcc 100644
---- a/meta/recipes-support/libunwind/libunwind_1.1.bb
-+++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
-@@ -6,6 +6,7 @@ SRC_URI += "\
-     file://Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch \
-     file://Link-libunwind-to-libgcc_s-rather-than-libgcc.patch \
-     file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch \
-+    file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
- "
- 
- SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
--- 
-2.6.2
+> Am 13.10.2015 um 22:37 schrieb Jens Rehsack <rehsack@gmail.com>:
+>=20
+>=20
+> Fixes that udev always requires PCI or USB, idenpendently from =
+DISTRO_FEATURES
+> or PACKAGECONFIG.
+>=20
+> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+> ---
+> meta/recipes-core/udev/udev.inc | 13 ++++++++-----
+> 1 file changed, 8 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/udev/udev.inc =
+b/meta/recipes-core/udev/udev.inc
+> index c378ae3..8d12900 100644
+> --- a/meta/recipes-core/udev/udev.inc
+> +++ b/meta/recipes-core/udev/udev.inc
+> @@ -12,7 +12,14 @@ LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
+>=20
+> LDFLAGS +=3D "-lrt"
+>=20
+> -DEPENDS =3D "glib-2.0 libusb usbutils pciutils glib-2.0-native =
+gperf-native libxslt-native util-linux"
+> +PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'usbhost', =
+'usb', '', d)} \
+> +  ${@base_contains('DISTRO_FEATURES', 'pci', 'pci', '', d)}"
+> +
+> +DEPENDS =3D "glib-2.0 glib-2.0-native gperf-native libxslt-native =
+util-linux"
+> +
+> +PACKAGECONFIG[usb] =3D =
+"--with-usb-ids-path=3D${datadir}/usb.ids,--without-usb-ids-path,libusb =
+usbutils"
+> +PACKAGECONFIG[pci] =3D "--with-pci-ids-path=3D${datadir}/pci.ids =
+ac_cv_file__usr_share_pci_ids=3Dno =
+ac_cv_file__usr_share_hwdata_pci_ids=3Dno =
+ac_cv_file__usr_share_misc_pci_ids=3Dyes,--without-pci-ids-path,pciutils"
+> +
+> RPROVIDES_${PN} =3D "hotplug"
+>=20
+> PROVIDES =3D "libgudev"
+> @@ -39,10 +46,6 @@ RDEPENDS_${PN}-ptest +=3D "make perl python"
+> libexecdir =3D "${base_libdir}"
+> EXTRA_OECONF =3D "--disable-introspection \
+>                 --with-rootlibdir=3D${base_libdir} \
+> -                --with-pci-ids-path=3D${datadir}/pci.ids \
+> -                ac_cv_file__usr_share_pci_ids=3Dno \
+> -                ac_cv_file__usr_share_hwdata_pci_ids=3Dno \
+> -                ac_cv_file__usr_share_misc_pci_ids=3Dyes \
+>                 --sbindir=3D${base_sbindir} \
+>                 --libexecdir=3D${nonarch_base_libdir} \
+>                 --with-rootlibdir=3D${base_libdir} \
+> --=20
+> 1.9.1
+
+Ping ;)
+
+--=20
+Jens Rehsack - rehsack@gmail.com
 
 
