@@ -1,40 +1,30 @@
-Return-Path: <ed.bartosh@linux.intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FA2473CC7
+	by mail.openembedded.org (Postfix) with ESMTP id A9A8375E2D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 12:21:42 +0000 (UTC)
+	Thu, 29 Oct 2015 12:27:33 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 29 Oct 2015 05:21:42 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 29 Oct 2015 05:27:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,214,1444719600"; d="scan'208";a="590290159"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 29 Oct 2015 05:21:42 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 4240F6A4005;
-	Thu, 29 Oct 2015 05:20:40 -0700 (PDT)
-Date: Thu, 29 Oct 2015 14:21:37 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-Message-ID: <20151029122137.GA9445@linux.intel.com>
-References: <20151027134031.GA12305@linux.intel.com>
-	<365E1805BC95084CBE82381A0B8699940121B4E446@EU-MBX-03.mgc.mentorg.com>
-	<20151027152729.GA14663@linux.intel.com>
-	<365E1805BC95084CBE82381A0B8699940121B4E51B@EU-MBX-03.mgc.mentorg.com>
-	<20151027174136.GA28537@linux.intel.com>
-	<365E1805BC95084CBE82381A0B8699940121B4F9C3@EU-MBX-03.mgc.mentorg.com>
+X-IronPort-AV: E=Sophos;i="5.20,214,1444719600"; d="scan'208";a="590292578"
+Received: from djwalsh-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.4.5])
+	by FMSMGA003.fm.intel.com with ESMTP; 29 Oct 2015 05:27:32 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Jens Rehsack <rehsack@gmail.com>
+Date: Thu, 29 Oct 2015 12:27:31 +0000
+Message-ID: <1556288.oU3CJGhmjq@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.11; x86_64; ; )
+In-Reply-To: <16FB52C0-E87A-40C9-A677-F1220982FB30@gmail.com>
+References: <6A0E85DF-31B7-4955-B4A2-0F3E099FCF99@gmail.com>
+	<16FB52C0-E87A-40C9-A677-F1220982FB30@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <365E1805BC95084CBE82381A0B8699940121B4F9C3@EU-MBX-03.mgc.mentorg.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: U-boot file is being removed when image-recipe is rebuild which uses wic.bz2
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] Update libusb1 from 1.0.19 to 1.0.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -44,190 +34,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Oct 2015 12:21:45 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 29 Oct 2015 12:27:34 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Oct 29, 2015 at 10:50:06AM +0000, Ahsan, Noor wrote:
-> Ed,
-> 
-> Any update on this. 
->
-> 
-> I think os.rename should remain there. We should copy the file in build folder in rawcopy. Right now we don't copy it but in others we copy things in build folder.
->
-I'm ok with the patch then if you update it according to Leonardo's
-suggestion.
+Hi Jens,
 
+On Thursday 29 October 2015 12:47:18 Jens Rehsack wrote:
+> > Am 08.10.2015 um 16:36 schrieb Jens Rehsack <rehsack@gmail.com>:
+> > 
+> > This updates libusb1 from 1.0.19 to 1.0.20
+> > 
+> > 2015-09-13: v1.0.20
+> > * Add Haiku support
+> > * Fix multiple memory and resource leaks (#16, #52, #76, #81)
+> > * Fix possible deadlock when executing transfer callback
+> > * New libusb_free_pollfds() API
+> > * Darwin: Fix devices not being detected on OS X 10.8 (#48)
+> > * Linux: Allow larger isochronous transfer submission (#23)
+> > * Windows: Fix broken builds Cygwin/MinGW builds and compiler warnings
+> > * Windows: Fix broken bus number lookup
+> > * Windows: Improve submission of control requests for composite devices
+> > * Examples: Add two-stage load support to fxload (#12)
+> > * Correctly report cancellations due to timeouts
+> > * Improve efficiency of event handling
+> > * Improve speed of transfer submission in multi-threaded environments
+> > * Various other bug fixes and improvements
+> > The (#xx) numbers are libusb issue numbers, see ie:
+> > https://github.com/libusb/libusb/issues/16
+> > 
+> > Signed-off-by: Jens Rehsack <sno@netbsd.org>
+> > ---
+> > meta/recipes-support/libusb/{libusb1_1.0.19.bb => libusb1_1.0.20.bb} | 4
+> > ++-- 1 file changed, 2 insertions(+), 2 deletions(-)
+> > rename meta/recipes-support/libusb/{libusb1_1.0.19.bb =>
+> > libusb1_1.0.20.bb} (85%)
+> > 
+> > diff --git a/meta/recipes-support/libusb/libusb1_1.0.19.bb
+> > b/meta/recipes-support/libusb/libusb1_1.0.20.bb similarity index 85%
+> > rename from meta/recipes-support/libusb/libusb1_1.0.19.bb
+> > rename to meta/recipes-support/libusb/libusb1_1.0.20.bb
+> > index a20e1fc..21b8b45 100644
+> > --- a/meta/recipes-support/libusb/libusb1_1.0.19.bb
+> > +++ b/meta/recipes-support/libusb/libusb1_1.0.20.bb
+> > @@ -11,8 +11,8 @@ BBCLASSEXTEND = "native nativesdk"
+> > SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
+> > 
+> >           "
+> > 
+> > -SRC_URI[md5sum] = "f9e2bb5879968467e5ca756cb4e1fa7e"
+> > -SRC_URI[sha256sum] =
+> > "6c502c816002f90d4f76050a6429c3a7e0d84204222cbff2dce95dd773ba6840"
+> > +SRC_URI[md5sum] = "1d4eb194eaaa2bcfbba28102768c7dbf"
+> > +SRC_URI[sha256sum] =
+> > "cb057190ba0a961768224e4dc6883104c6f945b2bf2ef90d7da39e7c1834f7ff"
+> > 
+> > S = "${WORKDIR}/libusb-${PV}"
+> 
+> Ping :)
 
+At this point in the release it's too late for version upgrades unless the 
+upgrade fixes a critical issue and applying the patch to fix that issue is more 
+risky than the upgrade. I should imagine Ross has this queued for master when 
+the release happens and we diverge.
 
-> Noor
-> 
-> -----Original Message-----
-> From: Ed Bartosh [mailto:ed.bartosh@linux.intel.com] 
-> Sent: Tuesday, October 27, 2015 10:42 PM
-> To: Ahsan, Noor
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: U-boot file is being removed when image-recipe is rebuild which uses wic.bz2
-> 
-> On Tue, Oct 27, 2015 at 03:40:49PM +0000, Ahsan, Noor wrote:
-> > This is my wks file
-> > 
-> > part u-boot --source rawcopy 
-> > --sourceparams="file=u-boot-mx6-solox.imx" --ondisk mmcblk --no-table 
-> > --align 1 part /boot --source bootimg-partition --ondisk mmcblk 
-> > --fstype=vfat --label boot --active --align 4096 --size 8M 
-> > --extra-space 0 part / --source rootfs --ondisk mmcblk --fstype=ext4 
-> > --label root --align 4096
-> > 
-> > u-boot-mx6-solox.imx gets removed after wic is called.
-> > 
-> > It is in fsimage.py. see os.rename(source, image_file + '.p%d' % part['num']).
-> > 
-> > 
-> > def assemble(self, image_file):
-> >         msger.debug("Installing partitions")
-> > 
-> >         for part in self.partitions:
-> >             source = part['source_file']
-> >             if source:
-> >                 # install source_file contents into a partition
-> >                 cmd = "dd if=%s of=%s bs=%d seek=%d count=%d conv=notrunc" % \
-> >                       (source, image_file, self.sector_size,
-> >                        part['start'], part['size'])
-> >                 exec_cmd(cmd)
-> > 
-> >                 msger.debug("Installed %s in partition %d, sectors %d-%d, "
-> >                             "size %d sectors" % \
-> >                             (source, part['num'], part['start'],
-> >                              part['start'] + part['size'] - 1, 
-> > part['size']))
-> > 
-> >                 os.rename(source, image_file + '.p%d' % part['num'])
-> > 
-> 
-> Thank you for the info! I'll try to reproduce the issue.
-> 
-> Wild guess: would copying a file instead of renaming it solve the issue?
-> 
-> 
-> Regards,
-> Ed
-> 
-> > -----Original Message-----
-> > From: Ed Bartosh [mailto:ed.bartosh@linux.intel.com]
-> > Sent: Tuesday, October 27, 2015 8:27 PM
-> > To: Ahsan, Noor
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: U-boot file is being removed when image-recipe is rebuild 
-> > which uses wic.bz2
-> > 
-> > On Tue, Oct 27, 2015 at 02:28:02PM +0000, Ahsan, Noor wrote:
-> > > Hello,
-> > > 
-> > > I have identified the issue and sent and RFC on mailing list. One feedback I received was replace dd_cmd = "cp src dst" with dd_cmd = "cp %s %s" % (src, dst) which was and off sight from me. I need more detailed review of it.
-> > 
-> > Can you point me out where the renaming you've mentioned is happening?
-> > 
-> > Anyway it would be good if I could reproduce the issue to better understand it. Can you provide more details about your configuration?
-> > 
-> > Regards,
-> > Ed
-> > 
-> > 
-> > > 
-> > > Noor
-> > > 
-> > > -----Original Message-----
-> > > From: Ed Bartosh [mailto:ed.bartosh@linux.intel.com]
-> > > Sent: Tuesday, October 27, 2015 6:41 PM
-> > > To: Ahsan, Noor
-> > > Cc: openembedded-core@lists.openembedded.org
-> > > Subject: Re: U-boot file is being removed when image-recipe is 
-> > > rebuild which uses wic.bz2
-> > > 
-> > > Hi Noor,
-> > > 
-> > > Sorry for delay. I missed your e-mail somehow.
-> > > 
-> > > Can you please show your recipe, wks file and the details of your build configuration(MACHINE, bblayers, etc) ?
-> > > 
-> > > ---
-> > > Regards,
-> > > Ed
-> > 
-> > > Date: Thu, 22 Oct 2015 10:14:02 +0000
-> > > From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-> > > To: "openembedded-core@lists.openembedded.org"
-> > >  <openembedded-core@lists.openembedded.org>
-> > > Subject: Re: [OE-core] [RFC] rawcopy.py: Copy source file in image 
-> > > creation  build folder
-> > > 
-> > > 
-> > > 
-> > > -----Original Message-----
-> > > From: Ahsan, Noor
-> > > Sent: Wednesday, October 21, 2015 9:04 PM
-> > > To: openembedded-core@lists.openembedded.org
-> > > Cc: Ahsan, Noor
-> > > Subject: [RFC] rawcopy.py: Copy source file in image creation build 
-> > > folder
-> > > 
-> > > From: Noor <noor_ahsan@mentor.com>
-> > > 
-> > > * When a file is given using --sourceparams then wic directly use that file
-> > >   instead of copying them to build folder. At time of assmebling it os.rename
-> > >   is called which rename all the files to name. In that process the original
-> > >   file get renamed. When image recipe is rebuilt then wic complains about
-> > >   missing file which renamed in previous build.
-> > > 
-> > > Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
-> > > ---
-> > >  scripts/lib/wic/plugins/source/rawcopy.py |    4 ++++
-> > >  1 file changed, 4 insertions(+)
-> > > 
-> > > diff --git a/scripts/lib/wic/plugins/source/rawcopy.py
-> > > b/scripts/lib/wic/plugins/source/rawcopy.py
-> > > index f0691ba..f17da27 100644
-> > > --- a/scripts/lib/wic/plugins/source/rawcopy.py
-> > > +++ b/scripts/lib/wic/plugins/source/rawcopy.py
-> > > @@ -74,6 +74,10 @@ class RawCopyPlugin(SourcePlugin):
-> > >              dd_cmd = "dd if=%s of=%s ibs=%s skip=1 conv=notrunc" % \
-> > >                      (src, dst, source_params['skip'])
-> > >              exec_cmd(dd_cmd)
-> > > +        else:
-> > > +            dst = os.path.join(cr_workdir, source_params['file'])
-> > > +            dd_cmd = "cp src dst"
-> > > +            exec_cmd(dd_cmd)
-> > > 
-> > > 
-> > > dd_cmd will be replaced by cp_cmd but I need review of all impact of this so that I can send proper patch.
-> > > 
-> > > 
-> > >          # get the size in the right units for kickstart (kB)
-> > >          du_cmd = "du -Lbks %s" % dst
-> > > --
-> > > 1.7.9.5
-> > > 
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > 
-> > 
-> > --
-> > --
-> > Regards,
-> > Ed
-> 
-> --
-> --
-> Regards,
-> Ed
+Cheers,
+Paul
 
 -- 
---
-Regards,
-Ed
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
