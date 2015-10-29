@@ -1,34 +1,29 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 528F9755F4
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (unknown [64.129.254.146])
+	by mail.openembedded.org (Postfix) with ESMTP id CE5EA76E3F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 21:00:32 +0000 (UTC)
-Received: by pacfv9 with SMTP id fv9so53116705pac.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 14:00:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=RzYq2zS6lRxw7840CtbvEXKlbEUfOTho+GbMl/2WEIA=;
-	b=v6p1ycjuLO45NceugPen9FQI8ySxlK3JUv2+ALa9vDKYBxh3EEysQNsYt3SP7e02Ht
-	RchqTtjsMPrsnF/AlAQdUNJVCEe1X+PTBBVWbnVKEgaMPsTMls6yjAQJYABp9WkDyIa/
-	mlD498+FzT5uLUQM3KxES8xOBn/zYEXobEmy2H8X0yHf/HZZb0J7XPycr4MMDFa3qAk3
-	0Wg+uEfd5xHxgq8gTLmxaCsQdAcCUPVC1BiyPsHb3uvstW1iyagQ2hJ5sZiMk9Y1qi8z
-	FVjSrl4Lq0gTIx7xaI/5KorWa3tNv0Ukie3BdEhV8RLXNhDQjvntu8OtVRaUrMKp4g89
-	Fd6A==
-X-Received: by 10.68.228.200 with SMTP id sk8mr4211525pbc.115.1446152432993;
-	Thu, 29 Oct 2015 14:00:32 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id yp9sm4042423pab.1.2015.10.29.14.00.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 29 Oct 2015 14:00:31 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Oct 2015 14:00:22 -0700
-Message-Id: <1446152422-5384-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] cmake.bbclass: don't duplicate CMAKE_C_FLAGS in CMAKE_C_FLAGS_RELEASE
+	Thu, 29 Oct 2015 21:01:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9TL11LT011532
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 29 Oct 2015 14:01:06 -0700
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 29 Oct 2015 14:01:01 -0700
+To: Juro Bystricky <juro.bystricky@intel.com>,
+	<openembedded-core@lists.openembedded.org>, <jurobystricky@hotmail.com>
+References: <1446151418-16034-1-git-send-email-juro.bystricky@intel.com>
+	<1446151418-16034-2-git-send-email-juro.bystricky@intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <5632890B.2010405@windriver.com>
+Date: Thu, 29 Oct 2015 16:00:59 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <1446151418-16034-2-git-send-email-juro.bystricky@intel.com>
+Subject: Re: [PATCH 1/1] glibc: Allow 64 bit atomics for x86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,48 +36,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Oct 2015 21:00:36 -0000
+X-List-Received-Date: Thu, 29 Oct 2015 21:01:10 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-The base CMAKE_<LANG>_FLAGS are included for all build types,
-therefore the CMAKE_<LANG>_FLAGS_RELEASE should contain only
-additional flags or over-rides.
+On 10/29/15 3:43 PM, Juro Bystricky wrote:
+> This patch fixes [YOCTO#8140].
+> 
+> The fix consist of allowing 64bit atomic ops for x86.
+> This should be safe for i586 and newer CPUs.
+> It also makes the synchronization more efficient.
 
-  https://cmake.org/cmake/help/v3.2/variable/CMAKE_LANG_FLAGS.html
+I'm not sure this is correct.. see below.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/classes/cmake.bbclass | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> ---
+>  .../glibc/glibc/use_64bit_atomics.patch            | 24 ++++++++++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.22.bb              |  1 +
+>  2 files changed, 25 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc/use_64bit_atomics.patch
+> 
+> diff --git a/meta/recipes-core/glibc/glibc/use_64bit_atomics.patch b/meta/recipes-core/glibc/glibc/use_64bit_atomics.patch
+> new file mode 100644
+> index 0000000..eb7f2b2
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/use_64bit_atomics.patch
+> @@ -0,0 +1,24 @@
+> +This patch alows using 64 bit atomic instructions on a
+> +32 bit platform. This is safe, providing x86 is Pentium or
+> +later (would not work on i386, i486). Using 64 bit atomic 
+> +instructions bypasses code containing a bug as documented in
+> +https://bugzilla.yoctoproject.org/show_bug.cgi?id=8140
+> +
+> +Upstream-Status: TBD
+> +
+> +Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> +
+> +
+> +Index: libc/sysdeps/i386/i486/bits/atomic.h
+> +===================================================================
+> +--- libc.orig/sysdeps/i386/i486/bits/atomic.h
+> ++++ libc/sysdeps/i386/i486/bits/atomic.h
+> +@@ -54,7 +54,7 @@ typedef uintmax_t uatomic_max_t;
+> + # endif
+> + #endif
+> + 
+> +-#define __HAVE_64B_ATOMICS 0
+> ++#define __HAVE_64B_ATOMICS 1
+> + #define USE_ATOMIC_COMPILER_BUILTINS 0
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index ae3cc02..70e8677 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -18,8 +18,8 @@ OECMAKE_AR ?= "${AR}"
- # Compiler flags
- OECMAKE_C_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CFLAGS}"
- OECMAKE_CXX_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS}"
--OECMAKE_C_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} ${CFLAGS} -DNDEBUG"
--OECMAKE_CXX_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} ${CXXFLAGS} -DNDEBUG"
-+OECMAKE_C_FLAGS_RELEASE ?= "-DNDEBUG"
-+OECMAKE_CXX_FLAGS_RELEASE ?= "-DNDEBUG"
- OECMAKE_C_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CPPFLAGS} ${LDFLAGS}"
- OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LDFLAGS}"
- 
-@@ -53,9 +53,9 @@ set( CMAKE_AR ${OECMAKE_AR} CACHE FILEPATH "Archiver" )
- set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
- set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
- set( CMAKE_ASM_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "ASM FLAGS" )
--set( CMAKE_C_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "CFLAGS for release" )
--set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXXFLAGS for release" )
--set( CMAKE_ASM_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "ASM FLAGS for release" )
-+set( CMAKE_C_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "Additional CFLAGS for release" )
-+set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "Additional CXXFLAGS for release" )
-+set( CMAKE_ASM_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "Additional ASM FLAGS for release" )
- set( CMAKE_C_LINK_FLAGS "${OECMAKE_C_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
- set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
- 
--- 
-1.9.1
+The patch will enable it for i486 and above, but you comment says i486 isn't
+supported.
+
+Normally you'd resolve this by creating a new
+
+sysdeps/i386/i586/bits/atomic.h
+
+(include or copy the original file)
+
+and adjust the HAVE_64B_ATOMICS value at that point.
+
+Then the sources will work for older systems and newer.
+
+While 386/486 is likely not used much these days... I do also have a concern
+about Quark CPUs.  Do you know if they support the 64B ATOMICS?  (I suspect they
+do not.)  If that is the case, we might need to special case this patch and make
+it 'i686' and above?
+
+--Mark
+
+> + 
+> diff --git a/meta/recipes-core/glibc/glibc_2.22.bb b/meta/recipes-core/glibc/glibc_2.22.bb
+> index 020e417..2494ad7 100644
+> --- a/meta/recipes-core/glibc/glibc_2.22.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.22.bb
+> @@ -50,6 +50,7 @@ SRC_URI_append_class-nativesdk = "\
+>             file://0001-nativesdk-glibc-Look-for-host-system-ld.so.cache-as-.patch \
+>             file://0002-nativesdk-glibc-Fix-buffer-overrun-with-a-relocated-.patch \
+>             file://0003-nativesdk-glibc-Raise-the-size-of-arrays-containing-.patch \
+> +           file://use_64bit_atomics.patch \
+>  "
+>  
+>  S = "${WORKDIR}/git"
+> 
 
 
