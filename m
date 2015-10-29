@@ -1,27 +1,31 @@
-Return-Path: <mcrowe@brightsign.biz>
-X-Greylist: delayed 902 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 29 Oct 2015 12:43:51 UTC
-Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
-	by mail.openembedded.org (Postfix) with ESMTP id BCA2E755F4
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (unknown [64.129.254.146])
+	by mail.openembedded.org (Postfix) with ESMTP id A668A75A38
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 12:43:50 +0000 (UTC)
-Received: from [86.30.112.98] (HELO elite.brightsign)
-	by relay.appriver.com (CommuniGate Pro SMTP 6.1.2)
-	with ESMTP id 631605692; Thu, 29 Oct 2015 08:28:48 -0400
-Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
-	by elite.brightsign with esmtp (Exim 4.84)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1ZrmJk-0006B7-0O; Thu, 29 Oct 2015 12:28:32 +0000
-Received: from mac by chuckie with local (Exim 4.84)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1ZrmJj-0001YW-Va; Thu, 29 Oct 2015 12:28:31 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Oct 2015 12:28:21 +0000
-Message-Id: <1446121701-5848-1-git-send-email-mac@mcrowe.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] allarch: Force TARGET_*FLAGS variable values
+	Thu, 29 Oct 2015 14:33:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9TEXLA8001148
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 29 Oct 2015 07:33:21 -0700
+Received: from [172.25.44.6] (172.25.44.6) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 29 Oct 2015 07:33:21 -0700
+To: Kang Kai <Kai.Kang@windriver.com>, "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1442546459.git.kai.kang@windriver.com>
+	<49a75fb1c8a88fbaf77f9b19b054802cc21559d6.1442546459.git.kai.kang@windriver.com>
+	<CAJTo0LayLRNJPRe69m8D12qBC0j8+j-DiHAwjZRY_V06T9to+Q@mail.gmail.com>
+	<55FF64E9.2000103@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <56322E30.703@windriver.com>
+Date: Thu, 29 Oct 2015 10:33:20 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <55FF64E9.2000103@windriver.com>
+X-Originating-IP: [172.25.44.6]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] bind: 9.10.2-P4 -> 9.10.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,41 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Oct 2015 12:43:52 -0000
+X-List-Received-Date: Thu, 29 Oct 2015 14:33:24 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-TARGET_CPPFLAGS, TARGET_CFLAGS, TARGET_CPPFLAGS and TARGET_LDFLAGS may
-differ between MACHINEs. Since they are exported they affect task hashes
-even if unused which leads to multiple variants of allarch packages
-existing in sstate and bouncing in the sysroot when switching between
-MACHINEs.
+On 2015-09-20 10:01 PM, Kang Kai wrote:
+> On 2015年09月18日 18:53, Burton, Ross wrote:
+>>
+>> On 18 September 2015 at 04:22, <kai.kang@windriver.com
+>> <mailto:kai.kang@windriver.com>> wrote:
+>>
+>>     Upgrade bind to 9.10.3 to fix CVE issues.
+>>
+>>
+>> Sorry, but we just had the M3 build so can you submit this as a patch
+>> to 9.10.2-P4 instead of an upgrade?
+>>
+>> Ross
+>
+> OK. I'll do that.
 
-allarch packages shouldn't be using these variables anyway, so let's
-ensure they have a fixed value in order to avoid this problem.
+Ross,
 
-(Compare with 05a70ac30b37cab0952f1b9df501993a9dec70da and
-14f4d016fef9d660da1e7e91aec4a0e807de59ab.)
+Kai has been working on other things.
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/classes/allarch.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+9.10.3 appears to be a bug fix only minor upgev.
+If Kai can show that there are only bug fixes can
+we accept that version for oe-core-2.0.1?
 
-diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-index 2fea7c0..4af38d7 100644
---- a/meta/classes/allarch.bbclass
-+++ b/meta/classes/allarch.bbclass
-@@ -27,6 +27,10 @@ python () {
-         d.setVar("PACKAGE_EXTRA_ARCHS", "")
-         d.setVar("SDK_ARCH", "none")
-         d.setVar("SDK_CC_ARCH", "none")
-+        d.setVar("TARGET_CPPFLAGS", "none")
-+        d.setVar("TARGET_CFLAGS", "none")
-+        d.setVar("TARGET_CXXFLAGS", "none")
-+        d.setVar("TARGET_LDFLAGS", "none")
- 
-         # Avoid this being unnecessarily different due to nuances of
-         # the target machine that aren't important for "all" arch
+../Randy
+
+>
+> --
+> Regards,
+> Neil | Kai Kang
+>
+>
+>
+
+
 -- 
-2.1.4
-
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
