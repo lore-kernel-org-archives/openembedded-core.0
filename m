@@ -1,62 +1,40 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 5071873CC7
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FA2473CC7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 11:52:33 +0000 (UTC)
-Received: by iody8 with SMTP id y8so42387051iod.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 04:52:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems_com_br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-type;
-	bh=NQtKKrrZ8Ffw3iFbFKPGSIElMEH+qulJiDcsVFGRxNM=;
-	b=gsFJ392aw2SPtS6I58lRd7Bv4CNL7orRuDABYfey3Yjhm/w0YIHXozsTzUscUYBMeu
-	/4dlsS0S704RIt1v+9yn9tiAhqwVK9yQbA6E4KraO6wts2kB8t0bQr8FOdZAh8xfiL8A
-	hYyCieq/WR04ByH8xsgFMeRFgRczOsZJIrJjOoRfTnROfxcLe4eKeKI6Yqw/AFhti0yG
-	ymTUR/F8FuIVYbT5SAFtLHo98rJkQP2lka78+cqdcI+q5XD2j1CDdbVyFKVLDcjVbDyg
-	sNRQnKQblQc4bEaBOsgUri/vZ+ff06gGwvkZPRxccaoCXXHHc2a915XvqD/yY9YL9NZf
-	MczA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=NQtKKrrZ8Ffw3iFbFKPGSIElMEH+qulJiDcsVFGRxNM=;
-	b=kwRqkKyZQfiuKZPlr5eC33Wt0d6WeAUBjrksRc0vaV8A2F1JvVE3zZiHwDY6hPkqok
-	VjdDBwGrO6mayLf0H5IX9086rG0L2jgTLPBnCppXbWC5rgeyg3BGkuq/16H3CrBpzQGX
-	1qRgYGGYcNGoYwDc8EkYup1EcSWpD1LJ7L70m6Q9AX0OXtwUmjoZ5Y1xiTMSM/dhCaJL
-	lB0QKu//bje2jnO+fuSKnjwuweQXmjDRVSu+ggJphbQ7Ldp3E1qSlbN3ko0/FRpLmaAa
-	iYgjrN7euoMcfqRHZTfWYiO5Nm1XKJYleId6ja2nZMqDVYP7suHz+pcdFu68ltPWtOe5
-	j+tw==
-X-Gm-Message-State: ALoCoQlH7fVt7YPFTvT0GvYWBtNRGOXvhBEsj5jvE4HZuTj7xVq2MwRKETN5Zy2HnY4xpi89AOZi
-X-Received: by 10.107.32.17 with SMTP id g17mr3386911iog.55.1446119553745;
-	Thu, 29 Oct 2015 04:52:33 -0700 (PDT)
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com.
-	[209.85.223.175])
-	by smtp.gmail.com with ESMTPSA id c23sm916312iod.0.2015.10.29.04.52.32
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 Oct 2015 04:52:32 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by iody8 with SMTP id y8so42386331iod.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 04:52:32 -0700 (PDT)
+	Thu, 29 Oct 2015 12:21:42 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 29 Oct 2015 05:21:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,214,1444719600"; d="scan'208";a="590290159"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 29 Oct 2015 05:21:42 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 4240F6A4005;
+	Thu, 29 Oct 2015 05:20:40 -0700 (PDT)
+Date: Thu, 29 Oct 2015 14:21:37 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
+Message-ID: <20151029122137.GA9445@linux.intel.com>
+References: <20151027134031.GA12305@linux.intel.com>
+	<365E1805BC95084CBE82381A0B8699940121B4E446@EU-MBX-03.mgc.mentorg.com>
+	<20151027152729.GA14663@linux.intel.com>
+	<365E1805BC95084CBE82381A0B8699940121B4E51B@EU-MBX-03.mgc.mentorg.com>
+	<20151027174136.GA28537@linux.intel.com>
+	<365E1805BC95084CBE82381A0B8699940121B4F9C3@EU-MBX-03.mgc.mentorg.com>
 MIME-Version: 1.0
-X-Received: by 10.107.17.18 with SMTP id z18mr3194051ioi.28.1446119552122;
-	Thu, 29 Oct 2015 04:52:32 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Thu, 29 Oct 2015 04:52:32 -0700 (PDT)
-In-Reply-To: <64124F70-A6D7-4B9E-BAEC-883D2AB76956@gmail.com>
-References: <64124F70-A6D7-4B9E-BAEC-883D2AB76956@gmail.com>
-Date: Thu, 29 Oct 2015 09:52:32 -0200
-Message-ID: <CAP9ODKoBcBJu7Doiyd+HkTLe-=KO8c4S8dV5SxdCKKw=qK9X5g@mail.gmail.com>
-To: Jens Rehsack <rehsack@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] udev: Don't introduce usb or pci dependencies without usb or pci being featured
+In-Reply-To: <365E1805BC95084CBE82381A0B8699940121B4F9C3@EU-MBX-03.mgc.mentorg.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: U-boot file is being removed when image-recipe is rebuild which uses wic.bz2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -66,20 +44,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Oct 2015 11:52:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 29 Oct 2015 12:21:45 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Oct 13, 2015 at 5:37 PM, Jens Rehsack <rehsack@gmail.com> wrote:
+On Thu, Oct 29, 2015 at 10:50:06AM +0000, Ahsan, Noor wrote:
+> Ed,
+> 
+> Any update on this. 
 >
-> Fixes that udev always requires PCI or USB, idenpendently from DISTRO_FEATURES
-> or PACKAGECONFIG.
+> 
+> I think os.rename should remain there. We should copy the file in build folder in rawcopy. Right now we don't copy it but in others we copy things in build folder.
 >
-> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+I'm ok with the patch then if you update it according to Leonardo's
+suggestion.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+
+
+> Noor
+> 
+> -----Original Message-----
+> From: Ed Bartosh [mailto:ed.bartosh@linux.intel.com] 
+> Sent: Tuesday, October 27, 2015 10:42 PM
+> To: Ahsan, Noor
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: U-boot file is being removed when image-recipe is rebuild which uses wic.bz2
+> 
+> On Tue, Oct 27, 2015 at 03:40:49PM +0000, Ahsan, Noor wrote:
+> > This is my wks file
+> > 
+> > part u-boot --source rawcopy 
+> > --sourceparams="file=u-boot-mx6-solox.imx" --ondisk mmcblk --no-table 
+> > --align 1 part /boot --source bootimg-partition --ondisk mmcblk 
+> > --fstype=vfat --label boot --active --align 4096 --size 8M 
+> > --extra-space 0 part / --source rootfs --ondisk mmcblk --fstype=ext4 
+> > --label root --align 4096
+> > 
+> > u-boot-mx6-solox.imx gets removed after wic is called.
+> > 
+> > It is in fsimage.py. see os.rename(source, image_file + '.p%d' % part['num']).
+> > 
+> > 
+> > def assemble(self, image_file):
+> >         msger.debug("Installing partitions")
+> > 
+> >         for part in self.partitions:
+> >             source = part['source_file']
+> >             if source:
+> >                 # install source_file contents into a partition
+> >                 cmd = "dd if=%s of=%s bs=%d seek=%d count=%d conv=notrunc" % \
+> >                       (source, image_file, self.sector_size,
+> >                        part['start'], part['size'])
+> >                 exec_cmd(cmd)
+> > 
+> >                 msger.debug("Installed %s in partition %d, sectors %d-%d, "
+> >                             "size %d sectors" % \
+> >                             (source, part['num'], part['start'],
+> >                              part['start'] + part['size'] - 1, 
+> > part['size']))
+> > 
+> >                 os.rename(source, image_file + '.p%d' % part['num'])
+> > 
+> 
+> Thank you for the info! I'll try to reproduce the issue.
+> 
+> Wild guess: would copying a file instead of renaming it solve the issue?
+> 
+> 
+> Regards,
+> Ed
+> 
+> > -----Original Message-----
+> > From: Ed Bartosh [mailto:ed.bartosh@linux.intel.com]
+> > Sent: Tuesday, October 27, 2015 8:27 PM
+> > To: Ahsan, Noor
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: U-boot file is being removed when image-recipe is rebuild 
+> > which uses wic.bz2
+> > 
+> > On Tue, Oct 27, 2015 at 02:28:02PM +0000, Ahsan, Noor wrote:
+> > > Hello,
+> > > 
+> > > I have identified the issue and sent and RFC on mailing list. One feedback I received was replace dd_cmd = "cp src dst" with dd_cmd = "cp %s %s" % (src, dst) which was and off sight from me. I need more detailed review of it.
+> > 
+> > Can you point me out where the renaming you've mentioned is happening?
+> > 
+> > Anyway it would be good if I could reproduce the issue to better understand it. Can you provide more details about your configuration?
+> > 
+> > Regards,
+> > Ed
+> > 
+> > 
+> > > 
+> > > Noor
+> > > 
+> > > -----Original Message-----
+> > > From: Ed Bartosh [mailto:ed.bartosh@linux.intel.com]
+> > > Sent: Tuesday, October 27, 2015 6:41 PM
+> > > To: Ahsan, Noor
+> > > Cc: openembedded-core@lists.openembedded.org
+> > > Subject: Re: U-boot file is being removed when image-recipe is 
+> > > rebuild which uses wic.bz2
+> > > 
+> > > Hi Noor,
+> > > 
+> > > Sorry for delay. I missed your e-mail somehow.
+> > > 
+> > > Can you please show your recipe, wks file and the details of your build configuration(MACHINE, bblayers, etc) ?
+> > > 
+> > > ---
+> > > Regards,
+> > > Ed
+> > 
+> > > Date: Thu, 22 Oct 2015 10:14:02 +0000
+> > > From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
+> > > To: "openembedded-core@lists.openembedded.org"
+> > >  <openembedded-core@lists.openembedded.org>
+> > > Subject: Re: [OE-core] [RFC] rawcopy.py: Copy source file in image 
+> > > creation  build folder
+> > > 
+> > > 
+> > > 
+> > > -----Original Message-----
+> > > From: Ahsan, Noor
+> > > Sent: Wednesday, October 21, 2015 9:04 PM
+> > > To: openembedded-core@lists.openembedded.org
+> > > Cc: Ahsan, Noor
+> > > Subject: [RFC] rawcopy.py: Copy source file in image creation build 
+> > > folder
+> > > 
+> > > From: Noor <noor_ahsan@mentor.com>
+> > > 
+> > > * When a file is given using --sourceparams then wic directly use that file
+> > >   instead of copying them to build folder. At time of assmebling it os.rename
+> > >   is called which rename all the files to name. In that process the original
+> > >   file get renamed. When image recipe is rebuilt then wic complains about
+> > >   missing file which renamed in previous build.
+> > > 
+> > > Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+> > > ---
+> > >  scripts/lib/wic/plugins/source/rawcopy.py |    4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > > 
+> > > diff --git a/scripts/lib/wic/plugins/source/rawcopy.py
+> > > b/scripts/lib/wic/plugins/source/rawcopy.py
+> > > index f0691ba..f17da27 100644
+> > > --- a/scripts/lib/wic/plugins/source/rawcopy.py
+> > > +++ b/scripts/lib/wic/plugins/source/rawcopy.py
+> > > @@ -74,6 +74,10 @@ class RawCopyPlugin(SourcePlugin):
+> > >              dd_cmd = "dd if=%s of=%s ibs=%s skip=1 conv=notrunc" % \
+> > >                      (src, dst, source_params['skip'])
+> > >              exec_cmd(dd_cmd)
+> > > +        else:
+> > > +            dst = os.path.join(cr_workdir, source_params['file'])
+> > > +            dd_cmd = "cp src dst"
+> > > +            exec_cmd(dd_cmd)
+> > > 
+> > > 
+> > > dd_cmd will be replaced by cp_cmd but I need review of all impact of this so that I can send proper patch.
+> > > 
+> > > 
+> > >          # get the size in the right units for kickstart (kB)
+> > >          du_cmd = "du -Lbks %s" % dst
+> > > --
+> > > 1.7.9.5
+> > > 
+> > > --
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > 
+> > 
+> > --
+> > --
+> > Regards,
+> > Ed
+> 
+> --
+> --
+> Regards,
+> Ed
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+--
+Regards,
+Ed
 
