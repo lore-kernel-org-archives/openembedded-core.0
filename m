@@ -1,22 +1,32 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 84DE4763F2
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8045176FD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 00:14:23 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 29 Oct 2015 01:14:19 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4200)	id BD02628BA22;
-	Thu, 29 Oct 2015 01:14:19 +0100 (CET)
-From: Tudor Florea <tudor.florea@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Oct 2015 01:14:18 +0100
-Message-ID: <1446077658-61623-1-git-send-email-tudor.florea@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 29 Oct 2015 01:43:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9T1hLGL018214
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 28 Oct 2015 18:43:21 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 28 Oct 2015 18:43:20 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, Alexander Kanavin
+	<alexander.kanavin@linux.intel.com>
+References: <cover.1446009435.git.kai.kang@windriver.com>
+	<484dd4883f19d258e29e343f1b0735d2940d7424.1446009435.git.kai.kang@windriver.com>
+	<CAHiDW_EvNU3w7gKaz1N_=ZZU+wfGkf696i78TZf3-PZbGaRTrg@mail.gmail.com>
+	<56309F82.203@windriver.com> <5630A999.1030605@linux.intel.com>
+	<CAJTo0LYJGSbo-vPOn9oS03tnd08G6=tTxuwJB8-eMyUR=1B_5Q@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <563179B8.6070305@windriver.com>
+Date: Thu, 29 Oct 2015 09:43:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH] unzip: CVE-2015-7696, CVE-2015-7697
+In-Reply-To: <CAJTo0LYJGSbo-vPOn9oS03tnd08G6=tTxuwJB8-eMyUR=1B_5Q@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] libxml2: fix unsafe memory access
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,121 +39,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Oct 2015 00:14:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 29 Oct 2015 01:43:21 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060304000409020304050105"
 
-CVE-2015-7696: Fixes a heap overflow triggered by unzipping a file with password
-CVE-2015-7697: Fixes a denial of service with a file that never finishes unzipping
+--------------060304000409020304050105
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-References:
-http://www.openwall.com/lists/oss-security/2015/10/11/5
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-7696
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-7697
+On 2015年10月28日 19:15, Burton, Ross wrote:
+>
+> On 28 October 2015 at 10:55, Alexander Kanavin 
+> <alexander.kanavin@linux.intel.com 
+> <mailto:alexander.kanavin@linux.intel.com>> wrote:
+>
+>         I suppose Backport is the best choice in upstream status [ Pending
+>         Submitted Accepted Backport Denied Inappropriate ]. Though it
+>         is not
+>         from official upstream, it is from somewhere else as listed in
+>         the patch.
+>
+>
+>     'Submitted [where]' is the right choice here, I think.
+>
+>
+> Yes, this is exactly what Submitted is for.
 
-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
----
- .../unzip/unzip/CVE-2015-7696.patch                | 38 ++++++++++++++++++++++
- .../unzip/unzip/CVE-2015-7697.patch                | 31 ++++++++++++++++++
- meta/recipes-extended/unzip/unzip_6.0.bb           |  2 ++
- 3 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch
- create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch
+OK. I'll send V2.
 
-diff --git a/meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch b/meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch
-new file mode 100644
-index 0000000..ea93823
---- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch
-@@ -0,0 +1,38 @@
-+Upstream-Status: Backport
-+Signed-off-by: Tudor Florea <tudor.flore@enea.com>
-+
-+From 68efed87fabddd450c08f3112f62a73f61d493c9 Mon Sep 17 00:00:00 2001
-+From: Petr Stodulka <pstodulk@redhat.com>
-+Date: Mon, 14 Sep 2015 18:23:17 +0200
-+Subject: [PATCH 1/2] upstream fix for heap overflow
-+
-+https://bugzilla.redhat.com/attachment.cgi?id=1073002
-+---
-+ crypt.c | 12 +++++++++++-
-+ 1 file changed, 11 insertions(+), 1 deletion(-)
-+
-+diff --git a/crypt.c b/crypt.c
-+index 784e411..a8975f2 100644
-+--- a/crypt.c
-++++ b/crypt.c
-+@@ -465,7 +465,17 @@ int decrypt(__G__ passwrd)
-+     GLOBAL(pInfo->encrypted) = FALSE;
-+     defer_leftover_input(__G);
-+     for (n = 0; n < RAND_HEAD_LEN; n++) {
-+-        b = NEXTBYTE;
-++        /* 2012-11-23 SMS.  (OUSPG report.)
-++         * Quit early if compressed size < HEAD_LEN.  The resulting
-++         * error message ("unable to get password") could be improved,
-++         * but it's better than trying to read nonexistent data, and
-++         * then continuing with a negative G.csize.  (See
-++         * fileio.c:readbyte()).
-++         */
-++        if ((b = NEXTBYTE) == (ush)EOF)
-++        {
-++            return PK_ERR;
-++        }
-+         h[n] = (uch)b;
-+         Trace((stdout, " (%02x)", h[n]));
-+     }
-+-- 
-+2.4.6
-diff --git a/meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch b/meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch
-new file mode 100644
-index 0000000..da68988
---- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch
-@@ -0,0 +1,31 @@
-+Upstream-Status: Backport
-+Signed-off-by: Tudor Florea <tudor.flore@enea.com>
-+
-+From bd8a743ee0a77e65ad07ef4196c4cd366add3f26 Mon Sep 17 00:00:00 2001
-+From: Kamil Dudka <kdudka@redhat.com>
-+Date: Mon, 14 Sep 2015 18:24:56 +0200
-+Subject: [PATCH 2/2] fix infinite loop when extracting empty bzip2 data
-+
-+---
-+ extract.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/extract.c b/extract.c
-+index 7134bfe..29db027 100644
-+--- a/extract.c
-++++ b/extract.c
-+@@ -2733,6 +2733,12 @@ __GDEF
-+     int repeated_buf_err;
-+     bz_stream bstrm;
-+ 
-++    if (G.incnt <= 0 && G.csize <= 0L) {
-++        /* avoid an infinite loop */
-++        Trace((stderr, "UZbunzip2() got empty input\n"));
-++        return 2;
-++    }
-++
-+ #if (defined(DLL) && !defined(NO_SLIDE_REDIR))
-+     if (G.redirect_slide)
-+         wsize = G.redirect_size, redirSlide = G.redirect_buffer;
-+-- 
-+2.4.6
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index 4a0a713..9e63d3a 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -14,6 +14,8 @@ SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
- 	file://09-cve-2014-8139-crc-overflow.patch \
- 	file://10-cve-2014-8140-test-compr-eb.patch \
- 	file://11-cve-2014-8141-getzip64data.patch \
-+	file://CVE-2015-7696.patch \
-+	file://CVE-2015-7697.patch \
- "
- 
- SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
+Thanks,
+Kai
+
+>
+> Ross
+>
+>
+
+
 -- 
-1.9.1
+Regards,
+Neil | Kai Kang
 
 
+--------------060304000409020304050105
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2015年10月28日 19:15, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LYJGSbo-vPOn9oS03tnd08G6=tTxuwJB8-eMyUR=1B_5Q@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 28 October 2015 at 10:55,
+            Alexander Kanavin <span dir="ltr">&lt;<a
+                moz-do-not-send="true"
+                href="mailto:alexander.kanavin@linux.intel.com"
+                target="_blank"><a class="moz-txt-link-abbreviated" href="mailto:alexander.kanavin@linux.intel.com">alexander.kanavin@linux.intel.com</a></a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex"><span
+                class="">
+                <blockquote class="gmail_quote" style="margin:0 0 0
+                  .8ex;border-left:1px #ccc solid;padding-left:1ex">I
+                  suppose Backport is the best choice in upstream status
+                  [ Pending<br>
+                  Submitted Accepted Backport Denied Inappropriate ].
+                  Though it is not<br>
+                  from official upstream, it is from somewhere else as
+                  listed in the patch.<br>
+                </blockquote>
+                <br>
+              </span>
+              'Submitted [where]' is the right choice here, I think.<br>
+            </blockquote>
+          </div>
+          <br>
+          Yes, this is exactly what Submitted is for.</div>
+      </div>
+    </blockquote>
+    <br>
+    OK. I'll send V2.<br>
+    <br>
+    Thanks,<br>
+    Kai<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LYJGSbo-vPOn9oS03tnd08G6=tTxuwJB8-eMyUR=1B_5Q@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+    </blockquote>
+    <br>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+  </body>
+</html>
+
+--------------060304000409020304050105--
