@@ -1,24 +1,28 @@
-Return-Path: <Awais_Belal@mentor.com>
+Return-Path: <Noor_Ahsan@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id C7AA8607A5
+	by mail.openembedded.org (Postfix) with ESMTP id 0A40376F58
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Oct 2015 13:08:39 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-02.mgc.mentorg.com)
+	Fri, 30 Oct 2015 13:39:33 +0000 (UTC)
+Received: from svr-orw-fem-02x.mgc.mentorg.com ([147.34.96.206]
+	helo=SVR-ORW-FEM-02.mgc.mentorg.com)
 	by relay1.mentorg.com with esmtp 
-	id 1Zs9Q7-00003b-TG from Awais_Belal@mentor.com 
+	id 1Zs9u1-00076u-Ts from Noor_Ahsan@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Oct 2015 06:08:40 -0700
-Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-02.mgc.mentorg.com (137.202.0.106) with Microsoft SMTP
-	Server id 14.3.224.2; Fri, 30 Oct 2015 13:08:38 +0000
-From: Awais Belal <awais_belal@mentor.com>
+	Fri, 30 Oct 2015 06:39:33 -0700
+Received: from gemini.alm.mentorg.com (147.34.91.1) by
+	svr-orw-fem-02.mgc.mentorg.com (147.34.96.168) with Microsoft SMTP
+	Server (TLS) id 14.3.224.2; Fri, 30 Oct 2015 06:39:33 -0700
+Received: from pkl-ahsann-ubuntu.pkl.mentorg.com
+	(pkl-ahsann-ubuntu.pkl.mentorg.com [137.202.157.70])	by
+	gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id t9UDdUIi002295;
+	Fri, 30 Oct 2015 08:39:32 -0500
+From: "Noor, Ahsan" <noor_ahsan@mentor.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Oct 2015 18:08:33 +0500
-Message-ID: <1446210513-16152-1-git-send-email-awais_belal@mentor.com>
-X-Mailer: git-send-email 1.9.1
+Date: Fri, 30 Oct 2015 18:38:29 +0500
+Message-ID: <1446212309-5674-1-git-send-email-noor_ahsan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [RFC][PATCH] python: ensure usage of host modules while cross compiling
+Subject: [PATCH] rawcopy.py: Copy source file in image creation build folder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,73 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Oct 2015 13:08:40 -0000
+X-List-Received-Date: Fri, 30 Oct 2015 13:39:34 -0000
 Content-Type: text/plain
 
-The issue is generally seen on x86 type of machines passing
--march=bdverX (X=3,4 etc) flags but in general this should
-cause a problem when freshly built target modules are tried
-for an import during the cross build process.
-Aiding the PYTHONPATH with CROSSPYTHONPATH which contains
-the native modules resolves the issue.
+From: Noor <noor_ahsan@mentor.com>
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
+* In wks file when a file name is given using --sourceparams then wic directly
+  use that file instead of copying them to build folder. "assemble" function in
+  partitionedfs.py calls os.rename which renames the file given in --sourceparams.
+  When image recipe is rebuilt then wic complains about missing file which was
+  renamed in previous build.
+
+Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
 ---
- ...e-of-native-modules-while-cross-compiling.patch | 31 ++++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.9.bb       |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/0001-ensure-usage-of-native-modules-while-cross-compiling.patch
+ scripts/lib/wic/plugins/source/rawcopy.py |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python/0001-ensure-usage-of-native-modules-while-cross-compiling.patch b/meta/recipes-devtools/python/python/0001-ensure-usage-of-native-modules-while-cross-compiling.patch
-new file mode 100644
-index 0000000..1e87e89
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/0001-ensure-usage-of-native-modules-while-cross-compiling.patch
-@@ -0,0 +1,31 @@
-+From 4eb30173f2d254f19d5ef18fabed3bdb2e5c1182 Mon Sep 17 00:00:00 2001
-+From: Awais Belal <awais_belal@mentor.com>
-+Date: Fri, 30 Oct 2015 17:47:07 +0500
-+Subject: [PATCH] ensure usage of native modules while cross compiling
-+
-+The PYTHONPATH variable augments the default search path and
-+is prepended to it. We need to make sure that host modules
-+are used while cross compiling otherwise an illegal instruction
-+error is generated if the modules built for target are imported.
-+
-+Signed-off-by: Awais Belal <awais_belal@mentor.com>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 87a4f02..fa9e0dd 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -33,7 +33,7 @@ if test "$cross_compiling" = yes; then
-+ 	    AC_MSG_ERROR([python$PACKAGE_VERSION interpreter not found])
-+ 	fi
-+         AC_MSG_RESULT($interp)
-+-	PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib:$(srcdir)/Lib/plat-$(MACHDEP) '$interp
-++	PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(CROSSPYTHONPATH):$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib:$(srcdir)/Lib/plat-$(MACHDEP) '$interp
-+     fi
-+ elif test "$cross_compiling" = maybe; then
-+     AC_MSG_ERROR([Cross compiling required --host=HOST-TUPLE and --build=ARCH])
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/python/python_2.7.9.bb b/meta/recipes-devtools/python/python_2.7.9.bb
-index f7e2f27..9a43cf7 100644
---- a/meta/recipes-devtools/python/python_2.7.9.bb
-+++ b/meta/recipes-devtools/python/python_2.7.9.bb
-@@ -26,6 +26,7 @@ SRC_URI += "\
-   file://parallel-makeinst-create-bindir.patch \
-   file://use_sysroot_ncurses_instead_of_host.patch \
-   file://avoid_parallel_make_races_on_pgen.patch \
-+  file://0001-ensure-usage-of-native-modules-while-cross-compiling.patch \
- "
+diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
+index f0691ba..8481168 100644
+--- a/scripts/lib/wic/plugins/source/rawcopy.py
++++ b/scripts/lib/wic/plugins/source/rawcopy.py
+@@ -74,6 +74,10 @@ class RawCopyPlugin(SourcePlugin):
+             dd_cmd = "dd if=%s of=%s ibs=%s skip=1 conv=notrunc" % \
+                     (src, dst, source_params['skip'])
+             exec_cmd(dd_cmd)
++        else:
++             dst = os.path.join(cr_workdir, source_params['file'])
++             cp_cmd = "cp %s %s" % (src, dst)
++             exec_cmd(cp_cmd)
  
- S = "${WORKDIR}/Python-${PV}"
+         # get the size in the right units for kickstart (kB)
+         du_cmd = "du -Lbks %s" % dst
 -- 
-1.9.1
+1.7.9.5
 
 
