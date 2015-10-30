@@ -1,42 +1,32 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C895759B4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AC95D7709E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Oct 2015 04:48:08 +0000 (UTC)
-Received: by padhk11 with SMTP id hk11so62018136pad.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Oct 2015 21:48:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=jTZav45d7VLBryOMVwQKUnFTHwfYdYdX7Yxsh8kGxxU=;
-	b=kpXjzux9q19vJ0dM5j+LXDneNlPgJCjxa/OulnTqz4PkJ1Z5HdWuyRvn1eSc/zxt+e
-	YIByFHP92S+Y+AD+kuu7U9hOl5tDAln3byv5K0d9DvfxTzj6eX6ZkUJA5XuHXAt4qlgU
-	tfIZg6tJIZYfzu9geSVCQAxfY4hFfXaX6nt5vlxX+G94Rrd7NVb7fFUFD+AwU7gxmWuh
-	dmqIvK9o5RVnJjldCjbIcWIcAw+YJYt/6SNViw0nJZDEZzRL+wkI47fs4qtw3dhvCjri
-	Z0hKkaoJeiqTIhDImtNxBD4+mPBmmtrk/PGNUoT5/T9SbGDOGXhxR9Ms3scdJ39lW4ec
-	HX1Q==
-X-Received: by 10.66.90.231 with SMTP id bz7mr6308498pab.47.1446180488686;
-	Thu, 29 Oct 2015 21:48:08 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:b58d:9ca7:5d3e:274a?
-	([2601:646:8601:4580:b58d:9ca7:5d3e:274a])
-	by smtp.gmail.com with ESMTPSA id
-	bz2sm5314871pad.32.2015.10.29.21.48.07
-	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 29 Oct 2015 21:48:08 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.1 \(3096.5\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1445873454-108723-2-git-send-email-mark.hatle@windriver.com>
-Date: Thu, 29 Oct 2015 21:48:03 -0700
-Message-Id: <B098287C-1FC3-42C2-B3F8-531887D3D4A2@gmail.com>
-References: <1445873454-108723-1-git-send-email-mark.hatle@windriver.com>
-	<1445873454-108723-2-git-send-email-mark.hatle@windriver.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-X-Mailer: Apple Mail (2.3096.5)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [jethro/master][PATCH 1/1] local.conf.sample: Disable image-prelink by default
+	Fri, 30 Oct 2015 07:13:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t9U7DcYB010675; Fri, 30 Oct 2015 07:13:38 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 7OmAOZF1HI0Q; Fri, 30 Oct 2015 07:13:38 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t9U7DMWa010671
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 30 Oct 2015 07:13:33 GMT
+Message-ID: <1446189202.4521.45.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randy Witt <rewitt@declaratino.com>
+Date: Fri, 30 Oct 2015 07:13:22 +0000
+In-Reply-To: <CAP5N7XEJ0R4aZBB+biq+LKSmWrYBHooas5S61wtcq9yLbSB07Q@mail.gmail.com>
+References: <1446151418-16034-1-git-send-email-juro.bystricky@intel.com>
+	<1446151418-16034-2-git-send-email-juro.bystricky@intel.com>
+	<1446157200.4521.40.camel@linuxfoundation.org>
+	<CAP5N7XEJ0R4aZBB+biq+LKSmWrYBHooas5S61wtcq9yLbSB07Q@mail.gmail.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: jurobystricky@hotmail.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] glibc: Allow 64 bit atomics for x86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,77 +39,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Oct 2015 04:48:11 -0000
-X-Groupsio-MsgNum: 72768
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_CE84F385-543D-4CE0-984C-5E0D0CB99AC2";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_CE84F385-543D-4CE0-984C-5E0D0CB99AC2
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
-
-
-> On Oct 26, 2015, at 8:30 AM, Mark Hatle <mark.hatle@windriver.com> =
-wrote:
->=20
-> Due to problems with the prelinker itself, we need to disable the
-> image-prelink by default.  This will hopefully be re-enabled in the =
-near
-> future.
->=20
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
-> meta/conf/local.conf.sample | 4 +++-
-> 1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-> index 3ae24ab..9d1480e 100644
-> --- a/meta/conf/local.conf.sample
-> +++ b/meta/conf/local.conf.sample
-> @@ -128,7 +128,9 @@ EXTRA_IMAGE_FEATURES =3D "debug-tweaks"
-> #   - 'image-swab' to perform host system intrusion detection
-> # NOTE: if listing mklibs & prelink both, then make sure mklibs is =
-before prelink
-> # NOTE: mklibs also needs to be explicitly enabled for a given image, =
-see local.conf.extended
-> -USER_CLASSES ?=3D "buildstats image-mklibs image-prelink"
-> +# NOTE: image-prelink is currently broken due to problems with the =
-prelinker.  It is advised
-> +# that you do NOT run the prelinker at this time.
-> +USER_CLASSES ?=3D "buildstats image-mklibs=E2=80=9D
-
-
-this looks good
-
->=20
->=20
-> #
-> --
-> 1.9.3
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_CE84F385-543D-4CE0-984C-5E0D0CB99AC2
+X-List-Received-Date: Fri, 30 Oct 2015 07:13:48 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+On Thu, 2015-10-29 at 15:29 -0700, Randy Witt wrote:
+> 
+> 
+> On Thu, Oct 29, 2015 at 3:20 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>         On Thu, 2015-10-29 at 13:43 -0700, Juro Bystricky wrote:
+>         > This patch fixes [YOCTO#8140].
+>         >
+>         > The fix consist of allowing 64bit atomic ops for x86.
+>         > This should be safe for i586 and newer CPUs.
+>         > It also makes the synchronization more efficient.
+>         >
+>         > Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+>         > ---
+>         >  .../glibc/glibc/use_64bit_atomics.patch            | 24
+>         ++++++++++++++++++++++
+>         >  meta/recipes-core/glibc/glibc_2.22.bb              |  1 +
+>         >  2 files changed, 25 insertions(+)
+>         >  create mode 100644
+>         meta/recipes-core/glibc/glibc/use_64bit_atomics.patch
+>         
+>         Since the patch is only changing nativesdk 32 bit x86 and we
+>         know that
+>         the 32 bit SDK is pretty broken at the moment I've merged this
+>         on the
+>         basis that it can't really make it any worse. There is
+>         pressure to move
+>         to the next rc candidate for 2.0.
+>         
+>         I would like to get to the bottom of the real issue here and I
+>         still
+>         suspect 32 bit x86 images are likely broken too :/.
+>
+>
+> With Juro's change I built core-image-minimal using a 32-bit
+> buildtools on a 32-bit host(vm) and that appears to boot fine using
+> runqemu.
 
-iEUEARECAAYFAlYy9ocACgkQuwUzVZGdMxR7lgCfTbOHZ3x+izqeN7Nsa0F8JFEE
-A04Al2Mb++buhhNyQy3jkdw0YUVSbSo=
-=f9JR
------END PGP SIGNATURE-----
+Right, but can we run bitbake in a qemux86 image (on target) or does it
+show the same issue as bug 8140? If it shows the same issue, futexes are
+likely bust on 32 bit x86 targets too.
 
---Apple-Mail=_CE84F385-543D-4CE0-984C-5E0D0CB99AC2--
+Cheers,
+
+Richard
+
+
+
+
+
+
