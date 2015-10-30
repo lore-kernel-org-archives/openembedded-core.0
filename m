@@ -1,37 +1,31 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CFA075D4A
+Return-Path: <haris.okanovic@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 233AC75D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Oct 2015 18:54:08 +0000 (UTC)
-Received: by wicll6 with SMTP id ll6so16553471wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Oct 2015 11:54:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=TNwEcACrJrI1gWBkv90dfHFbJWmajC4JXOowO5XHO30=;
-	b=RXzMWrrQ3NjVeW7gs4VKfFkar6YrCUL/RipYgcw7+JMQk7PO+kmQKU/lmv3HGzE0Q3
-	p7UoxVXO7h9FdOR+G8j7czHtItQpA97ttsoqIVEm+uz76JgzEMLCvic6BXnxYAYo+KA5
-	2cFeunZ1A/7XKiRsp6IP5Ssk2aPmOxWihVfXzDBqnQfbFgFYtn4IH+/hFgH/76JxS+V5
-	wMKrcT91y8u6Pu7ProJwEjVYx6wxas51CZbIM7GQmOU8mMBQGPG5FetaV2PF0UqQGlKP
-	PS7tBu1L8d/yM+jfW3uiMZikwMj5VMt2NTex2cyFMbphAfv38iUmBaXEH2HHs8CZa/sH
-	tmtQ==
-MIME-Version: 1.0
-X-Received: by 10.194.90.169 with SMTP id bx9mr11531456wjb.1.1446231248298;
-	Fri, 30 Oct 2015 11:54:08 -0700 (PDT)
-Received: by 10.194.140.38 with HTTP; Fri, 30 Oct 2015 11:54:08 -0700 (PDT)
-In-Reply-To: <562F85E4.3090200@pseudoterminal.org>
-References: <1443390491-23728-1-git-send-email-dv@pseudoterminal.org>
-	<1443390491-23728-4-git-send-email-dv@pseudoterminal.org>
-	<CAJTo0LY2cDqCZe99YZP3bXuTq1bKdMaDAze6aEQJ2N1Vcb-K2g@mail.gmail.com>
-	<562F85E4.3090200@pseudoterminal.org>
-Date: Fri, 30 Oct 2015 11:54:08 -0700
-Message-ID: <CAJ86T=W+V0_KUUD4ncoSnjm1_8C_aQ7SBzXE86Gd8XxSzX8yUQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/7] gstreamer1.0-plugins-bad: upgrade to version 1.6.0
+	Fri, 30 Oct 2015 20:12:58 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t9UKCwUv022784 for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Oct 2015 15:12:58 -0500
+Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015103015125856-1144291 ;
+	Fri, 30 Oct 2015 15:12:58 -0500 
+From: Haris Okanovic <haris.okanovic@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Oct 2015 15:12:56 -0500
+Message-Id: <1446235976-7118-1-git-send-email-haris.okanovic@ni.com>
+X-Mailer: git-send-email 2.6.2
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 10/30/2015 03:12:58 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 10/30/2015 03:12:58 PM,
+	Serialize complete at 10/30/2015 03:12:58 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-10-30_14:, , signatures=0
+Cc: Haris Okanovic <haris.okanovic@ni.com>
+Subject: [Fido] [PATCH] openssh: Backport CVE-2015-5600 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,45 +38,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Oct 2015 18:54:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 30 Oct 2015 20:12:59 -0000
 
-On Tue, Oct 27, 2015 at 7:10 AM, Carlos Rafael Giani
-<dv@pseudoterminal.org> wrote:
-> On 10/26/2015 06:20 PM, Burton, Ross wrote:
->
-> Hi Carlos,
->
-> On 27 September 2015 at 22:48, Carlos Rafael Giani <dv@pseudoterminal.org>
-> wrote:
->>
->> 0001-gl-do-not-check-for-GL-GLU-EGL-GLES2-libs-if-disable.patch is now
->> in upstream, and therefore not needed as a separate patch anymore.
->>
->> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
->
->
-> I started looking for pieces to queue for when master re-opens and
-> discovered that this doesn't apply anymore, so the branch will need
-> rebasing.
->
-> Cheers,
-> Ross
->
->
-> Yes, I know. I am waiting until Jethro is released, then I'll send a v2 of
-> these patches.
+only query each keyboard-interactive device once per
+authentication request regardless of how many times it is listed
 
-Hi Carlos,
+Source:
+http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/auth2-chall.c?f=h#rev1.43
+http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/auth2-chall.c.diff?r2=1.43&r1=1.42&f=u
 
-Are these patches available in a public git repo somewhere? I'd like
-to start testing now.
+Bug report:
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-5600
+https://bugzilla.redhat.com/show_bug.cgi?id=1245969
 
+Testing:
+Built in Fido and installed to x86_64 test system.
+Verified both 'keyboard-interactive' and 'publickey' logon works with
+root and a regular user from an openssh 7.1p1-1 client on Arch.
 
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+Reviewed-by: Rich Tollerton <rich.tollerton@ni.com>
+Reviewed-by: Ken Sharp <ken.sharp@ni.com>
+Natinst-ReviewBoard-ID: 115602
+Natinst-CAR-ID: 541263
+
+---
+
+This patch only applies to Fido and earlier releases. Bug is already
+fixed in Jethro which builds OpenSSH 7.1.
+---
+ .../openssh/openssh/CVE-2015-5600.patch            | 50 ++++++++++++++++++++++
+ meta/recipes-connectivity/openssh/openssh_6.7p1.bb |  1 +
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-5600.patch
+
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2015-5600.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2015-5600.patch
+new file mode 100644
+index 0000000..fa1c85e
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2015-5600.patch
+@@ -0,0 +1,50 @@
++From b47bdee5621f95387c9ac5b999fd859ccb1213a9 Mon Sep 17 00:00:00 2001
++From: "djm@openbsd.org" <djm@openbsd.org>
++Date: Sat, 18 Jul 2015 07:57:14 +0000
++Subject: [PATCH] CVE-2015-5600
++
++only query each keyboard-interactive device once per
++ authentication request regardless of how many times it is listed; ok markus@
++
++Source:
++http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/auth2-chall.c?f=h#rev1.43
++http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/auth2-chall.c.diff?r2=1.43&r1=1.42&f=u
++
++Upstream-Status: Backport
++---
++ auth2-chall.c | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/auth2-chall.c b/auth2-chall.c
++index ea4eb6952f8c13928c3fc595007f2d844dde422f..065361d3ec22f4f131308d1b4497afada3c3cb78 100644
++--- a/auth2-chall.c
+++++ b/auth2-chall.c
++@@ -83,6 +83,7 @@ struct KbdintAuthctxt
++ 	void *ctxt;
++ 	KbdintDevice *device;
++ 	u_int nreq;
+++	u_int devices_done;
++ };
++ 
++ #ifdef USE_PAM
++@@ -169,11 +170,15 @@ kbdint_next_device(Authctxt *authctxt, KbdintAuthctxt *kbdintctxt)
++ 		if (len == 0)
++ 			break;
++ 		for (i = 0; devices[i]; i++) {
++-			if (!auth2_method_allowed(authctxt,
+++			if ((kbdintctxt->devices_done & (1 << i)) != 0 ||
+++			    !auth2_method_allowed(authctxt,
++ 			    "keyboard-interactive", devices[i]->name))
++ 				continue;
++-			if (strncmp(kbdintctxt->devices, devices[i]->name, len) == 0)
+++			if (strncmp(kbdintctxt->devices, devices[i]->name,
+++			    len) == 0) {
++ 				kbdintctxt->device = devices[i];
+++				kbdintctxt->devices_done |= 1 << i;
+++			}
++ 		}
++ 		t = kbdintctxt->devices;
++ 		kbdintctxt->devices = t[len] ? xstrdup(t+len+1) : NULL;
++-- 
++2.6.2
++
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.7p1.bb b/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
+index aa71cc1..9246284 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
+@@ -25,6 +25,7 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+            file://CVE-2015-6563.patch  \
+            file://CVE-2015-6564.patch \
+            file://CVE-2015-6565.patch \
++           file://CVE-2015-5600.patch \
+            "
+ 
+ PAM_SRC_URI = "file://sshd"
+-- 
+2.6.2
+
 
