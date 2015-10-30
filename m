@@ -1,29 +1,42 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D5A2673CC7;
-	Fri, 30 Oct 2015 03:50:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9U3owXQ012137
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 29 Oct 2015 20:50:58 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 29 Oct 2015 20:50:58 -0700
-To: Yocto Project <yocto@yoctoproject.org>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>,
-	<openembedded-devel@lists.openembedded.org>
-References: <562E3896.6080405@windriver.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-X-Enigmail-Draft-Status: N1110
-Organization: Wind River Systems
-Message-ID: <5632E921.1030405@windriver.com>
-Date: Thu, 29 Oct 2015 22:50:57 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <562E3896.6080405@windriver.com>
-Subject: Re: Prelink status
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C895759B4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Oct 2015 04:48:08 +0000 (UTC)
+Received: by padhk11 with SMTP id hk11so62018136pad.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Oct 2015 21:48:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=jTZav45d7VLBryOMVwQKUnFTHwfYdYdX7Yxsh8kGxxU=;
+	b=kpXjzux9q19vJ0dM5j+LXDneNlPgJCjxa/OulnTqz4PkJ1Z5HdWuyRvn1eSc/zxt+e
+	YIByFHP92S+Y+AD+kuu7U9hOl5tDAln3byv5K0d9DvfxTzj6eX6ZkUJA5XuHXAt4qlgU
+	tfIZg6tJIZYfzu9geSVCQAxfY4hFfXaX6nt5vlxX+G94Rrd7NVb7fFUFD+AwU7gxmWuh
+	dmqIvK9o5RVnJjldCjbIcWIcAw+YJYt/6SNViw0nJZDEZzRL+wkI47fs4qtw3dhvCjri
+	Z0hKkaoJeiqTIhDImtNxBD4+mPBmmtrk/PGNUoT5/T9SbGDOGXhxR9Ms3scdJ39lW4ec
+	HX1Q==
+X-Received: by 10.66.90.231 with SMTP id bz7mr6308498pab.47.1446180488686;
+	Thu, 29 Oct 2015 21:48:08 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:b58d:9ca7:5d3e:274a?
+	([2601:646:8601:4580:b58d:9ca7:5d3e:274a])
+	by smtp.gmail.com with ESMTPSA id
+	bz2sm5314871pad.32.2015.10.29.21.48.07
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 29 Oct 2015 21:48:08 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.1 \(3096.5\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1445873454-108723-2-git-send-email-mark.hatle@windriver.com>
+Date: Thu, 29 Oct 2015 21:48:03 -0700
+Message-Id: <B098287C-1FC3-42C2-B3F8-531887D3D4A2@gmail.com>
+References: <1445873454-108723-1-git-send-email-mark.hatle@windriver.com>
+	<1445873454-108723-2-git-send-email-mark.hatle@windriver.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+X-Mailer: Apple Mail (2.3096.5)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [jethro/master][PATCH 1/1] local.conf.sample: Disable image-prelink by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,100 +49,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Oct 2015 03:51:01 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 30 Oct 2015 04:48:11 -0000
+X-Groupsio-MsgNum: 72768
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_CE84F385-543D-4CE0-984C-5E0D0CB99AC2";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-I just wanted to update everyone on where we are at.  (I won't bore anyone with
-any followups past this.)
-
-IA32 (32-bit and 64-bit):
-
-We believe the problems are resolved.  The error was a combination of prior
-patch merge issues and a bug in glibc 2.22.  A patch for the glibc 2.22 has
-already been sent to the GLIBC community and I have a change ready for OE.
+--Apple-Mail=_CE84F385-543D-4CE0-984C-5E0D0CB99AC2
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
 
-ARM:
-
-The same glibc 2.22 bug affected ARM as well as IA32.
-
-Also it appears that a patch that went in last fall to enable IFUNC on arm
-somehow had a hunk dropped from it.  Now that we've identified and restored this
-hunk, it appears to be working again.
-
-
-MIPS32/MIPS64 (o32, n32, n64):
-
-A new section was added, SHT_MIPS_ABIFLAGS, this was confusing the prelinker
-causing it to refused to continue.  A patch has gone in to instruct the
-prelinker how to handle this new section (ignore it).
-
-
-Power (32-bit):
-
-We are still investigating changes that have happened in the past year+ to
-binutils and glibc for Power systems.
-
-Power (64-bit):
-
-It is likely this will not work anytime soon.  The ABI has changed and is no
-longer compatible with the previous methods of prelinking.  This is fairly low
-priority to be fixed, as it's been broken for a while now.
-
-
-If anyone has any expertise on Power 32-bit or 64-bit ELF, I'm still looking for
-help there to get these issues resolved.
-
---Mark
-
-On 10/26/15 9:28 AM, Mark Hatle wrote:
-> I'm cross posting this in an effort to ask for help for the cross-prelink
-> project.  (If you are unaware of what the prelinker does, it goes through and
-> adjusts the relocation addresses to predefined values in an attempt to speed up
-> executable load times.  For embedded systems, this can be fairly critical in
-> meeting boot and runtime load performance targets.)
-> 
-> As some people might be aware, the upstream 'prelink' project that was
-> maintained by Jakub Jelinek at Red Hat appears to have been abandoned.
-> 
-> I've been the maintainer for the Yocto Project's 'prelink-cross' project for a
-> few years, but my work has been dealing with compilation issues and other things
-> that have to do with using the prelinker in a cross compilation environment.
-> 
-> This means that unfortunately I'm in a situation where I am having problems
-> trying to fix the problems in the prelinker itself, but I am not an ELF expert.
->  Currently the cross prelinker appears to be broken for pretty much every
-> architecture and I need help trying to resolve these problems.
-> 
-> Issues I know of right now:
-> 
-> Introduction of RTYPE_CLASS_EXTERN_PROTECTED_DATA appears to be causing failures
-> on ARM32, x86 and x86_64.
-> 
-> Some possibly unrelated issue is causing various items to relocate incorrectly
-> (IFUNCs perhaps) on ARMv7 builds.
-> 
-> Power is no longer working properly, most likely due to an optimization in the
-> way the PPC GOT table(s) are setup.
-> 
-> Power64 hasn't been working properly for a while, possibly due to the switch to
-> ELFv2.
-> 
-> MIPS and MIPS64 also do not appear to be working, and I've not found a possible
-> cause.
-> 
-> As you can see, pretty much everything is currently broken and I'm struggling to
-> find community people with the right skill sets to help me resolve the issues.
-> 
-> The current state of my work in progress is available at:
-> 
-> git://git.yoctoproject.org/prelink-cross
-> 
-> branch cross_prelink_staging
-> 
-> If you think you can help, please let me know.
-> --Mark
-> 
+> On Oct 26, 2015, at 8:30 AM, Mark Hatle <mark.hatle@windriver.com> =
+wrote:
+>=20
+> Due to problems with the prelinker itself, we need to disable the
+> image-prelink by default.  This will hopefully be re-enabled in the =
+near
+> future.
+>=20
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+> meta/conf/local.conf.sample | 4 +++-
+> 1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+> index 3ae24ab..9d1480e 100644
+> --- a/meta/conf/local.conf.sample
+> +++ b/meta/conf/local.conf.sample
+> @@ -128,7 +128,9 @@ EXTRA_IMAGE_FEATURES =3D "debug-tweaks"
+> #   - 'image-swab' to perform host system intrusion detection
+> # NOTE: if listing mklibs & prelink both, then make sure mklibs is =
+before prelink
+> # NOTE: mklibs also needs to be explicitly enabled for a given image, =
+see local.conf.extended
+> -USER_CLASSES ?=3D "buildstats image-mklibs image-prelink"
+> +# NOTE: image-prelink is currently broken due to problems with the =
+prelinker.  It is advised
+> +# that you do NOT run the prelinker at this time.
+> +USER_CLASSES ?=3D "buildstats image-mklibs=E2=80=9D
 
 
+this looks good
+
+>=20
+>=20
+> #
+> --
+> 1.9.3
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_CE84F385-543D-4CE0-984C-5E0D0CB99AC2
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEUEARECAAYFAlYy9ocACgkQuwUzVZGdMxR7lgCfTbOHZ3x+izqeN7Nsa0F8JFEE
+A04Al2Mb++buhhNyQy3jkdw0YUVSbSo=
+=f9JR
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_CE84F385-543D-4CE0-984C-5E0D0CB99AC2--
