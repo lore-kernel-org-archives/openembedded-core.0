@@ -1,28 +1,30 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A40376F58
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DE5A75D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Oct 2015 13:39:33 +0000 (UTC)
-Received: from svr-orw-fem-02x.mgc.mentorg.com ([147.34.96.206]
-	helo=SVR-ORW-FEM-02.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1Zs9u1-00076u-Ts from Noor_Ahsan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Oct 2015 06:39:33 -0700
-Received: from gemini.alm.mentorg.com (147.34.91.1) by
-	svr-orw-fem-02.mgc.mentorg.com (147.34.96.168) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Fri, 30 Oct 2015 06:39:33 -0700
-Received: from pkl-ahsann-ubuntu.pkl.mentorg.com
-	(pkl-ahsann-ubuntu.pkl.mentorg.com [137.202.157.70])	by
-	gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id t9UDdUIi002295;
-	Fri, 30 Oct 2015 08:39:32 -0500
-From: "Noor, Ahsan" <noor_ahsan@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Oct 2015 18:38:29 +0500
-Message-ID: <1446212309-5674-1-git-send-email-noor_ahsan@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH] rawcopy.py: Copy source file in image creation build folder
+	Fri, 30 Oct 2015 14:49:55 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t9UEnubD022133 for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Oct 2015 09:49:56 -0500
+Received: from adi-pc-linux.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015103009495583-1110411 ;
+	Fri, 30 Oct 2015 09:49:55 -0500 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Oct 2015 16:49:54 +0200
+Message-Id: <1446216594-18616-1-git-send-email-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.1.4
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 10/30/2015 09:49:56 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 10/30/2015 09:49:56 AM,
+	Serialize complete at 10/30/2015 09:49:56 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-10-30_10:, , signatures=0
+Subject: [PATCH 1/1] ptest-runner: Allow running of specific tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,38 +37,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Oct 2015 13:39:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Oct 2015 14:49:57 -0000
 
-From: Noor <noor_ahsan@mentor.com>
+By default ptest-runner executes all ptests found in a system.
+With this change, ptest-runner can be given a list of ptest
+package names to run (the default is still available).
 
-* In wks file when a file name is given using --sourceparams then wic directly
-  use that file instead of copying them to build folder. "assemble" function in
-  partitionedfs.py calls os.rename which renames the file given in --sourceparams.
-  When image recipe is rebuilt then wic complains about missing file which was
-  renamed in previous build.
+For example, to run only the zlib and rt-tests ptests:
+"ptest-runner zlib rt-tests"
 
-Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 ---
- scripts/lib/wic/plugins/source/rawcopy.py |    4 ++++
- 1 file changed, 4 insertions(+)
+ .../ptest-runner/files/ptest-runner                | 53 ++++++++++++++++------
+ 1 file changed, 40 insertions(+), 13 deletions(-)
+ mode change 100644 => 100755 meta/recipes-support/ptest-runner/files/ptest-runner
 
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
-index f0691ba..8481168 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -74,6 +74,10 @@ class RawCopyPlugin(SourcePlugin):
-             dd_cmd = "dd if=%s of=%s ibs=%s skip=1 conv=notrunc" % \
-                     (src, dst, source_params['skip'])
-             exec_cmd(dd_cmd)
-+        else:
-+             dst = os.path.join(cr_workdir, source_params['file'])
-+             cp_cmd = "cp %s %s" % (src, dst)
-+             exec_cmd(cp_cmd)
+diff --git a/meta/recipes-support/ptest-runner/files/ptest-runner b/meta/recipes-support/ptest-runner/files/ptest-runner
+old mode 100644
+new mode 100755
+index c618f11..204cbdf
+--- a/meta/recipes-support/ptest-runner/files/ptest-runner
++++ b/meta/recipes-support/ptest-runner/files/ptest-runner
+@@ -1,26 +1,53 @@
+ #!/bin/sh
+-ANYFAILED=no
+-echo "START: $0"
  
-         # get the size in the right units for kickstart (kB)
-         du_cmd = "du -Lbks %s" % dst
+-for libdir in /usr/lib*
+-do
++determine_ptests_to_run()
++{
++    for libdir in /usr/lib*
++    do
++	[ ! -d "$libdir" ] && continue
+ 
+-    [ ! -d "$libdir" ] && continue
++	for x in `ls -d $libdir/*/ptest 2>/dev/null`
++	do
++	    [ ! -f $x/run-ptest ] && continue
++            [ -h `dirname $x` ] && continue
+ 
+-    for x in `ls -d $libdir/*/ptest 2>/dev/null`
+-    do
+-        [ ! -f $x/run-ptest ] && continue
+-        [ -h `dirname $x` ] && continue
++	    #found a ptest in the system
++	    PTEST_FOUND=$(basename $(dirname $x))
++
++	    # when no pkg-names were specified, by default run each one
++	    if [[ -z $@ ]]; then
++		printf " $x"
++	    else
++		#check if this ptest has been asked for and add it
++		if [[ $@ =~ $PTEST_FOUND ]]; then
++			printf " $x"
++		fi
++	    fi
++	done
++    done
++}
+ 
++run_ptests()
++{
++    ANYFAILED=no
++
++    #the paths were sanity-checked in determine_ptests_to_run()
++    for ptst_path in $PTESTS_TO_RUN
++    do
+         date "+%Y-%m-%dT%H:%M"
+-        echo "BEGIN: $x"
+-        cd "$x"
++        echo "BEGIN: $ptst_path"
++        cd "$ptst_path"
+         ./run-ptest || ANYFAILED=yes
+-        echo "END: $x"
++        echo "END: $ptest_path"
+         date "+%Y-%m-%dT%H:%M"
+     done
+-done
++}
++
++echo "START: $0"
++PTESTS_TO_RUN=$(determine_ptests_to_run $@)
++run_ptests
+ echo "STOP: $0"
++
+ if [ "$ANYFAILED" = "yes"  ]; then
+     exit 1
+ fi
 -- 
-1.7.9.5
+2.1.4
 
 
