@@ -1,31 +1,36 @@
-Return-Path: <haris.okanovic@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 233AC75D4A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Oct 2015 20:12:58 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t9UKCwUv022784 for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Oct 2015 15:12:58 -0500
-Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015103015125856-1144291 ;
-	Fri, 30 Oct 2015 15:12:58 -0500 
-From: Haris Okanovic <haris.okanovic@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Oct 2015 15:12:56 -0500
-Message-Id: <1446235976-7118-1-git-send-email-haris.okanovic@ni.com>
-X-Mailer: git-send-email 2.6.2
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 10/30/2015 03:12:58 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 10/30/2015 03:12:58 PM,
-	Serialize complete at 10/30/2015 03:12:58 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-10-30_14:, , signatures=0
-Cc: Haris Okanovic <haris.okanovic@ni.com>
-Subject: [Fido] [PATCH] openssh: Backport CVE-2015-5600 fix
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 34D5E75D4A;
+	Fri, 30 Oct 2015 20:55:02 +0000 (UTC)
+Received: by iody8 with SMTP id y8so92236753iod.1;
+	Fri, 30 Oct 2015 13:55:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=pGHF7kzacS4zHBGv0SqDaSM9/CacVdh7W0dNMG6MAog=;
+	b=wQseUa4G3Y6xDndSVLtWO2MJkmx1vwnXH9CxTNTPArCa6/bFvZ4xLsfGZI+LO6YG0b
+	JL629cgv2tlOOmTjoLKnflSpWXjm1G9hBPSZpONSnUW8FKt0IeTDFZgL3qcP4qVoJwUX
+	Pubw35wmyDF59BRVqlNyHnrArBQzYPGSelijKK13DXBP4Ks9BDt7y00BcO/CfbiPOKFP
+	L0gmfR17KYfUyGB8BLiKrQxfYvRZRPyPLy4632IlzlmWW3LwgWMyPZLScmz2d7MCi87C
+	/mhwteUlo1kpa2Y7vswoNW2bFcyWYnK9vCQsIuWF582y2HmK3Rub0AqKBH7sDs+w2mWb
+	8SwA==
+X-Received: by 10.107.3.77 with SMTP id 74mr11582520iod.49.1446238502631; Fri,
+	30 Oct 2015 13:55:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.38.133 with HTTP; Fri, 30 Oct 2015 13:54:33 -0700 (PDT)
+In-Reply-To: <CAJ86T=UyxiAS3hf_t_R0PVrOqiO4CP1M8qgbw4toGiaC0ZT1HA@mail.gmail.com>
+References: <9D79B6D4-2FE1-4C77-A359-C0F47DCC090D@gmail.com>
+	<5633990D.3090308@gmail.com>
+	<CAJ86T=UyxiAS3hf_t_R0PVrOqiO4CP1M8qgbw4toGiaC0ZT1HA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 30 Oct 2015 13:54:33 -0700
+Message-ID: <CAMKF1sqcE8r_wRwKnfhg7T=Q2knr8yBLPpxn+6T=N5j31ndgPA@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] State of libcs in OE-Core glibc/uclibc/musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,109 +43,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Oct 2015 20:12:59 -0000
+X-List-Received-Date: Fri, 30 Oct 2015 20:55:07 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-only query each keyboard-interactive device once per
-authentication request regardless of how many times it is listed
+On Fri, Oct 30, 2015 at 11:31 AM, Andre McCurdy <armccurdy@gmail.com> wrote=
+:
+> On Fri, Oct 30, 2015 at 9:21 AM, akuster808 <akuster808@gmail.com> wrote:
+>>
+>>
+>> On 10/29/2015 08:42 AM, Khem Raj wrote:
+>>> Hi All,
+>>>
+>>> I would like to get everyone=E2=80=99s opinion on the libcs we maintain=
+ in OE-Core, as of now, we have
+>>>
+>>> glibc + cross localedef + kconfig patches which are left overs from egl=
+ibc days
+>>> uclibc - which is more of less unmaintained
+>>>
+>>> Its a significant effort to keep forward porting the kconfig changes si=
+nce it touches everywhere in glibc, (I do it in my local glibc tree)
+>>> almost every week there is a commit in upstream glibc which breaks the =
+kconfig patches, I know there are distribution profiles
+>>> like poky-tiny which uses glibc in this capacity, and may be then their=
+ are other custom one=E2=80=99s made on top, I would like us to not carry m=
+ajor
+>>> patches which almost makes our component a fork due to obvious maintena=
+nce cost. I think there is viable alternatives to tiny libcs in musl now.
+>>>
+>>> I would like to make a proposal for 2.1 release where
+>>>
+>>> 1. Drop kconfig support in glibc and we become inline with upstream
+>>
+>> Inline with upstream make a lot of sence and will help make maintenance
+>> simpler going forward.
+>>
+>>> 2. Move musl support to OE-Core from meta-musl
+>>
+>> I see no issue with this.
+>>
+>>> 3. Drop uclibc or leave it in current broken state, I would like to pul=
+l it out into a layer in meta-openembedded and we can leave the core plumbi=
+ng as it is in OE-Core
+>> If its not being maintained, then drop by 2.1.
+>
+> Maintenance of uclibc seems to have moved to the uclibc-ng project:
+>
+>   http://www.uclibc-ng.org/
+>
+> Developers are active and they make regular releases. Buildroot
+> switched to uclibc-ng as the default uclibc a few months ago and it
+> seems to be working OK for them:
+>
+>   http://git.buildroot.net/buildroot/commit/?id=3D68d4a3b5a6a6d03d67418e0=
+b637628ecf9cbf192
 
-Source:
-http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/auth2-chall.c?f=h#rev1.43
-http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/auth2-chall.c.diff?r2=1.43&r1=1.42&f=u
+Thats something needs to waited and watched.
 
-Bug report:
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-5600
-https://bugzilla.redhat.com/show_bug.cgi?id=1245969
-
-Testing:
-Built in Fido and installed to x86_64 test system.
-Verified both 'keyboard-interactive' and 'publickey' logon works with
-root and a regular user from an openssh 7.1p1-1 client on Arch.
-
-Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
-Reviewed-by: Rich Tollerton <rich.tollerton@ni.com>
-Reviewed-by: Ken Sharp <ken.sharp@ni.com>
-Natinst-ReviewBoard-ID: 115602
-Natinst-CAR-ID: 541263
-
----
-
-This patch only applies to Fido and earlier releases. Bug is already
-fixed in Jethro which builds OpenSSH 7.1.
----
- .../openssh/openssh/CVE-2015-5600.patch            | 50 ++++++++++++++++++++++
- meta/recipes-connectivity/openssh/openssh_6.7p1.bb |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-5600.patch
-
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2015-5600.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2015-5600.patch
-new file mode 100644
-index 0000000..fa1c85e
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2015-5600.patch
-@@ -0,0 +1,50 @@
-+From b47bdee5621f95387c9ac5b999fd859ccb1213a9 Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Sat, 18 Jul 2015 07:57:14 +0000
-+Subject: [PATCH] CVE-2015-5600
-+
-+only query each keyboard-interactive device once per
-+ authentication request regardless of how many times it is listed; ok markus@
-+
-+Source:
-+http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/auth2-chall.c?f=h#rev1.43
-+http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/auth2-chall.c.diff?r2=1.43&r1=1.42&f=u
-+
-+Upstream-Status: Backport
-+---
-+ auth2-chall.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/auth2-chall.c b/auth2-chall.c
-+index ea4eb6952f8c13928c3fc595007f2d844dde422f..065361d3ec22f4f131308d1b4497afada3c3cb78 100644
-+--- a/auth2-chall.c
-++++ b/auth2-chall.c
-+@@ -83,6 +83,7 @@ struct KbdintAuthctxt
-+ 	void *ctxt;
-+ 	KbdintDevice *device;
-+ 	u_int nreq;
-++	u_int devices_done;
-+ };
-+ 
-+ #ifdef USE_PAM
-+@@ -169,11 +170,15 @@ kbdint_next_device(Authctxt *authctxt, KbdintAuthctxt *kbdintctxt)
-+ 		if (len == 0)
-+ 			break;
-+ 		for (i = 0; devices[i]; i++) {
-+-			if (!auth2_method_allowed(authctxt,
-++			if ((kbdintctxt->devices_done & (1 << i)) != 0 ||
-++			    !auth2_method_allowed(authctxt,
-+ 			    "keyboard-interactive", devices[i]->name))
-+ 				continue;
-+-			if (strncmp(kbdintctxt->devices, devices[i]->name, len) == 0)
-++			if (strncmp(kbdintctxt->devices, devices[i]->name,
-++			    len) == 0) {
-+ 				kbdintctxt->device = devices[i];
-++				kbdintctxt->devices_done |= 1 << i;
-++			}
-+ 		}
-+ 		t = kbdintctxt->devices;
-+ 		kbdintctxt->devices = t[len] ? xstrdup(t+len+1) : NULL;
-+-- 
-+2.6.2
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.7p1.bb b/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
-index aa71cc1..9246284 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
-@@ -25,6 +25,7 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
-            file://CVE-2015-6563.patch  \
-            file://CVE-2015-6564.patch \
-            file://CVE-2015-6565.patch \
-+           file://CVE-2015-5600.patch \
-            "
- 
- PAM_SRC_URI = "file://sshd"
--- 
-2.6.2
-
+>
+>
+>>> 4. Poky-tiny switches to use musl
+>>
+>> If Poky-tiny is meant to showcase the smallest of the small , then that
+>> make sense.
+>>
+>> - armin
+>>
+>>>
+>>> may other disto=E2=80=99s have moved to using musl as system C library =
+e.g. alpine linux, openwrt, and I am also deploying it in  real products
+>>> its pretty mature and well maintained with very healthy community aroun=
+d it. Right now meta-musl is capable of building and running
+>>> core-image-sato/core-image-weston for all supported Qemu arches in OE-C=
+ore, the amount of software it can build is no less than uclibc
+>>> support in OE-Core.
+>>>
+>>> if collectively we think, this is a good move then I can work on all of=
+ above items in early phases of 2.1 so we can settle any
+>>> outstanding issues, due to the shuffle especially in poky-tiny
+>>>
+>>> Thoughts ?
+>>>
+>>> -Khem
+>>>
+>>>
+>>>
+>> --
+>> _______________________________________________
+>> Openembedded-devel mailing list
+>> Openembedded-devel@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
