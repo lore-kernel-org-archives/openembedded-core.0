@@ -1,30 +1,34 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B65F375894
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C0FB75D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Oct 2015 22:44:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9UMiTZ5002416
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 30 Oct 2015 15:44:29 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 30 Oct 2015 15:44:29 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <5633E452.9040500@windriver.com>
-	<CAMKF1sp4Jd5765g2mvDAir6MgO_4pNRvByNV9_MPjrQX-NviEw@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <5633F2CC.6090903@windriver.com>
-Date: Fri, 30 Oct 2015 17:44:28 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sp4Jd5765g2mvDAir6MgO_4pNRvByNV9_MPjrQX-NviEw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: PowerPC / gcc / prelink
+	Fri, 30 Oct 2015 23:07:18 +0000 (UTC)
+Received: by obcqt19 with SMTP id qt19so56041298obc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Oct 2015 16:07:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=kSouYzIQl9Demp3Gijq8w/lixzZvLU3fCK7alTDOwiA=;
+	b=NSuMMiU5+E22Nn5Lo9yBXP0vEXWdH1wN7e8Yb6zuWv64zoDoKER+ggiVTRqAu2m7tj
+	8igKLVIcKFLkjgB9WTXiCOZ82XxYdLGAoD7iXRpVCPFHv/E1Mw4CLJnhLKcwBadbYihG
+	noq/n2x7lu66GA4lnpraH33l1cOKzRGIFA1voqYtyifgmC9u9Somk3wmwBDNFkH9nWfA
+	PAZzUGIkLjTBrbvVgA/7JE5TY2MVpM3Hs3pWLw0F8BvjOnn3EFnlt4k03gduc/lbOYzJ
+	BG8vzZ7Iwf+uNfjabEZHq/9lZZqjyEb4835LzEZkfn+StujrhTp1DLJx174p+LMOXykp
+	X7Xw==
+X-Received: by 10.60.69.65 with SMTP id c1mr7417966oeu.38.1446246438004;
+	Fri, 30 Oct 2015 16:07:18 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id p3sm3730009oei.9.2015.10.30.16.07.16
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 30 Oct 2015 16:07:17 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Oct 2015 16:07:10 -0700
+Message-Id: <1446246430-15984-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] cairo: fix license for cairo-script-interpreter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Oct 2015 22:44:31 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Oct 2015 23:07:23 -0000
 
-On 10/30/15 4:59 PM, Khem Raj wrote:
-> On Fri, Oct 30, 2015 at 2:42 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->> I finally chased down the PowerPC prelink problem.  It appears to be within GCC.
->>
->> On most systems GCC (for PPC) is configured with --enable-secureplt.  However,
->> the OE-Core version is not.  The prelinker assumes that for certain types of
->> relocations that the PPC_GOT table will exist, otherwise it gives up.  (It
->> doesn't know how to do the relocations in the old style .bss-got table.)
->>
->> I'm wondering if there is a reason that PPC is defaulting to the old style
->> .bss-got (other then the secureplt was not enabled by default).
->>
->> Is this something we should do in all cases, or should this become a
->> DISTRO_FEATURE like the mips 'mplt' setting?
->>
->>
->> I'm still building systems and running tests, but adding --enable-secureplt to
->> both the gcc-cross-initial, and gcc-cross appear to have resolved the prelinking
->> issues.
-> 
-> enabling secureplt is ok, ensure that binutils is configured correctly as well.
+Without an explicit license, cairo-script-interpreter inherits
+the default LICENSE and isn't packaged in builds which blacklist
+GPLv3.
 
-binutils 2.25.1 has all of the support needed for secure-plt.  So I don't
-believe there are any issues there.
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-graphics/cairo/cairo.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I'll prepare a patch that changes the default configuration.
-
---Mark
-
-> 
->>
->> --Mark
+diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
+index 1e45318..45651ba 100644
+--- a/meta/recipes-graphics/cairo/cairo.inc
++++ b/meta/recipes-graphics/cairo/cairo.inc
+@@ -9,11 +9,14 @@ Extension."
+ HOMEPAGE = "http://cairographics.org"
+ BUGTRACKER = "http://bugs.freedesktop.org"
+ SECTION = "libs"
++
+ LICENSE = "MPL-1 & LGPLv2.1 & GPLv3+"
+ LICENSE_${PN} = "MPL-1 & LGPLv2.1"
+ LICENSE_${PN}-dev = "MPL-1 & LGPLv2.1"
+ LICENSE_${PN}-gobject = "MPL-1 & LGPLv2.1"
++LICENSE_${PN}-script-interpreter = "MPL-1 & LGPLv2.1"
+ LICENSE_${PN}-perf-utils = "GPLv3+"
++
+ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+ DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
+ 
+-- 
+1.9.1
 
 
