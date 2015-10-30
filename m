@@ -1,26 +1,20 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 024817709E
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 02F7375E80
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Oct 2015 07:51:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9U7oLl5024373
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Oct 2015 00:51:19 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 30 Oct 2015 00:50:21 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Oct 2015 15:50:19 +0800
-Message-ID: <f8f5893dae8e77dc271ecf1cd5d98f44adb75bf2.1446191361.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1446191361.git.Qi.Chen@windriver.com>
-References: <cover.1446191361.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] toolchain-script: use immediate expansion for TOOLCHAIN_CONFIGSITE_NOCACHE
+	Fri, 30 Oct 2015 08:51:05 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 30 Oct 2015 01:51:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,217,1444719600"; d="scan'208";a="838691995"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by orsmga002.jf.intel.com with ESMTP; 30 Oct 2015 01:50:53 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Oct 2015 10:53:49 +0200
+Message-Id: <1446195229-12338-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH][jethro][master] gcr: Require x11 DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Oct 2015 07:51:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Oct 2015 08:51:06 -0000
 
-Use immediate expansion for the assignment to avoid other classes modifying
-variables like HOST_ARCH which changes the result. This happens in the
-meta-environment recipe. It inherits cross-canadian which changes HOST_ARCH
-from TARGET_ARCH to SDK_ARCH, resulting in wrong site config files in the
-generated SDK.
+This enables a world build without x11. GTK3DISTROFEATURES is not used
+because gtk+-x11.pc is still required.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+[YOCTO #8611]
+
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/classes/toolchain-scripts.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index d0b2b91..4427369 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -98,7 +98,7 @@ EOF
- }
+The bug is currently targeted for 2.0.1
+
+
+ meta/recipes-gnome/gcr/gcr_3.16.0.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-gnome/gcr/gcr_3.16.0.bb b/meta/recipes-gnome/gcr/gcr_3.16.0.bb
+index 4c9fe2e..f3bbaee 100644
+--- a/meta/recipes-gnome/gcr/gcr_3.16.0.bb
++++ b/meta/recipes-gnome/gcr/gcr_3.16.0.bb
+@@ -7,7 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
  
- #we get the cached site config in the runtime
--TOOLCHAIN_CONFIGSITE_NOCACHE = "${@siteinfo_get_files(d, True)}"
-+TOOLCHAIN_CONFIGSITE_NOCACHE := "${@siteinfo_get_files(d, True)}"
- TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${STAGING_DIR}/${MLPREFIX}${MACHINE}/${target_datadir}/${TARGET_SYS}_config_site.d"
- TOOLCHAIN_NEED_CONFIGSITE_CACHE ??= "virtual/${MLPREFIX}libc ncurses"
+ DEPENDS = "gtk+3 p11-kit glib-2.0 libgcrypt vala"
  
+-inherit autotools gnomebase gtk-icon-cache gtk-doc
++inherit autotools gnomebase gtk-icon-cache gtk-doc distro_features_check
++REQUIRED_DISTRO_FEATURES = "x11"
+ 
+ SRC_URI[archive.md5sum] = "d5835680be0b6a838e02a528d5378d9c"
+ SRC_URI[archive.sha256sum] = "ecfe8df41cc88158364bb15addc670b11e539fe844742983629ba2323888d075"
 -- 
-1.9.1
+2.1.4
 
 
