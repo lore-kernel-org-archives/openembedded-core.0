@@ -1,41 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id E066975D4A
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 97868759B4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Oct 2015 01:06:37 +0000 (UTC)
-Received: by pasz6 with SMTP id z6so88690869pas.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Oct 2015 18:06:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=112tTNK/vbAF+g1q13dT/soTmMMwDdTW2ZAsmZ2EWLc=;
-	b=cFFTdgA4s5IMkb7X1D8SzdUHoLnfEdxB5jpoa2XWsRnYXo0aeIWdxM3p3aW3Nnav8y
-	J0wHQCbTuAijDILxYrdl7SnQyQ7rHrpmYUCqq9DOXnMe96UPR9qzCIOXZONzQcn3lk2H
-	nBD+0YEjHs17AD34ifoC53AxFoYy5oo76ho5Akwev4XHiWQP98ko6hS55l/I4iMUVCet
-	WVO29g3ybn6RvQMOmzT+PteCBKNUemnUfQ0ZNpc8u3AU04FLnvkv/Tro7PdHlTc+DHS9
-	0ZPTg1vNLooivRAng9HiXdG9u4bmIXQRc2u9F0zC9j6GDiEWNt3fPzmOoNZ1Qkc38q3I
-	JbUA==
-X-Received: by 10.68.228.3 with SMTP id se3mr12092679pbc.114.1446253598098;
-	Fri, 30 Oct 2015 18:06:38 -0700 (PDT)
-Received: from ?IPv6:2601:641:c000:1d0:9139:22be:56a:125d?
-	([2601:641:c000:1d0:9139:22be:56a:125d])
-	by smtp.gmail.com with ESMTPSA id
-	xe9sm10501436pbc.4.2015.10.30.18.06.36
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 30 Oct 2015 18:06:37 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.1 \(3096.5\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <alpine.LFD.2.20.1510221223420.24305@localhost>
-Date: Fri, 30 Oct 2015 18:06:33 -0700
-Message-Id: <1AF2F35D-302D-4D33-8E9B-F1DB81D2D3F6@gmail.com>
-References: <alpine.LFD.2.20.1510221223420.24305@localhost>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-Mailer: Apple Mail (2.3096.5)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Add entry for qemumips64 to local.conf.sample.
+	Sat, 31 Oct 2015 22:14:22 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 31 Oct 2015 15:14:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,225,1444719600"; d="scan'208";a="675809774"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga003.jf.intel.com with ESMTP; 31 Oct 2015 15:14:22 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id 594116A4083;
+	Sat, 31 Oct 2015 15:13:20 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  1 Nov 2015 00:14:16 +0200
+Message-Id: <1446329656-21330-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] dbus: upgrade to 1.10.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,85 +30,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Oct 2015 01:06:40 -0000
-X-Groupsio-MsgNum: 72794
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_0626A374-0433-48D9-BDCA-A9E6A9A6E197";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Sat, 31 Oct 2015 22:14:23 -0000
 
---Apple-Mail=_0626A374-0433-48D9-BDCA-A9E6A9A6E197
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+This upgrade should fix qemu build failure on Ubuntu 1.5.10
+caused by system pulseaudio requirement for newer libdbus.
+
+qemu-native build with old dbus breaks on configure step
+with a lot of errors similar to this:
+libpulsecommon-6.0.so: undefined reference to
+`dbus_watch_get_enabled@LIBDBUS_1_3'
+
+[YOCTO #8553]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ .../{dbus-test_1.8.20.bb => dbus-test_1.10.2.bb}    |  4 ++--
+ meta/recipes-core/dbus/dbus.inc                     |  6 ++++--
+ meta/recipes-core/dbus/dbus/python-config.patch     | 21 ++++++---------------
+ meta/recipes-core/dbus/dbus_1.10.2.bb               |  4 ++++
+ meta/recipes-core/dbus/dbus_1.8.20.bb               |  4 ----
+ 5 files changed, 16 insertions(+), 23 deletions(-)
+ rename meta/recipes-core/dbus/{dbus-test_1.8.20.bb => dbus-test_1.10.2.bb} (93%)
+ create mode 100644 meta/recipes-core/dbus/dbus_1.10.2.bb
+ delete mode 100644 meta/recipes-core/dbus/dbus_1.8.20.bb
+
+diff --git a/meta/recipes-core/dbus/dbus-test_1.8.20.bb b/meta/recipes-core/dbus/dbus-test_1.10.2.bb
+similarity index 93%
+rename from meta/recipes-core/dbus/dbus-test_1.8.20.bb
+rename to meta/recipes-core/dbus/dbus-test_1.10.2.bb
+index 704070b..1e05f54 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.8.20.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.10.2.bb
+@@ -18,8 +18,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+            "
+ 
+-SRC_URI[md5sum] = "b49890bbabedab3a1c3f4f73c7ff8b2b"
+-SRC_URI[sha256sum] = "5c4fbf4c64621c96e871da91d2b729a5b00536e116d3c4612a469d924b1b703a"
++SRC_URI[md5sum] = "2428919cc77b8d0028d65ee4d5dbef31"
++SRC_URI[sha256sum] = "aef3f49595df09b0824433ee993cda748ede93693a719a831562ae1616b6bb9e"
+ 
+ S="${WORKDIR}/dbus-${PV}"
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/dbus:"
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 3971081..bfb7bee 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -55,9 +55,12 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-monitor \
+                ${bindir}/dbus-launch \
+                ${bindir}/dbus-run-session \
++               ${bindir}/dbus-test-tool \
++               ${bindir}/dbus-update-activation-environment \
+                ${libexecdir}/dbus* \
+                ${sysconfdir} \
+                ${localstatedir} \
++               ${datadir}/dbus-1 \
+                ${datadir}/dbus-1/services \
+                ${datadir}/dbus-1/system-services \
+                ${systemd_unitdir}/system/"
+@@ -83,8 +86,7 @@ EXTRA_OECONF = "--disable-tests \
+                 --disable-xml-docs \
+                 --disable-doxygen-docs \
+                 --disable-libaudit \
+-                --disable-systemd \
+-                --without-dbus-glib"
++                --disable-systemd"
+ 
+ EXTRA_OECONF_append_class-native = " --disable-selinux"
+ 
+diff --git a/meta/recipes-core/dbus/dbus/python-config.patch b/meta/recipes-core/dbus/dbus/python-config.patch
+index 2944002..c8393e5 100644
+--- a/meta/recipes-core/dbus/dbus/python-config.patch
++++ b/meta/recipes-core/dbus/dbus/python-config.patch
+@@ -1,24 +1,15 @@
+-When building the dbus-ptest package, we have to enable python.  However
+-checking if the host-system python has the necessary library isn't useful.
+-
+-Disable the python module check for cross compiling.
+-
+-Upstream-Status: Inappropriate [oe specific]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+---- dbus-1.6.8/configure.ac.orig	2013-07-11 14:15:58.834554799 -0500
+-+++ dbus-1.6.8/configure.ac	2013-07-11 14:14:40.969554848 -0500
+-@@ -257,13 +257,6 @@
++--- dbus-1.10.2/configure.ac.orig	2015-10-31 21:19:38.046633745 +0200
+++++ dbus-1.10.2/configure.ac	2015-10-31 21:38:57.080231733 +0200
++@@ -279,13 +279,6 @@
+    # full test coverage is required, Python is a hard dependency
+-   AC_MSG_NOTICE([Full test coverage (--enable-tests=yes) requires Python, dbus-python, pygobject])
++   AC_MSG_NOTICE([Full test coverage (--enable-tests=yes) requires Python, dbus-python, pygi])
+    AM_PATH_PYTHON([2.6])
+ -  AC_MSG_CHECKING([for Python modules for full test coverage])
+--  if "$PYTHON" -c "import dbus, gobject, dbus.mainloop.glib"; then
++-  if "$PYTHON" -c "import dbus, gi.repository.GObject, dbus.mainloop.glib"; then
+ -    AC_MSG_RESULT([yes])
+ -  else
+ -    AC_MSG_RESULT([no])
+--    AC_MSG_ERROR([cannot import dbus, gobject, dbus.mainloop.glib Python modules])
++-    AC_MSG_ERROR([cannot import dbus, gi.repository.GObject, dbus.mainloop.glib Python modules])
+ -  fi
+  else
+    # --enable-tests not given: do not abort if Python is missing
+diff --git a/meta/recipes-core/dbus/dbus_1.10.2.bb b/meta/recipes-core/dbus/dbus_1.10.2.bb
+new file mode 100644
+index 0000000..03a7877
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus_1.10.2.bb
+@@ -0,0 +1,4 @@
++include dbus.inc
++
++SRC_URI[md5sum] = "2428919cc77b8d0028d65ee4d5dbef31"
++SRC_URI[sha256sum] = "aef3f49595df09b0824433ee993cda748ede93693a719a831562ae1616b6bb9e"
+diff --git a/meta/recipes-core/dbus/dbus_1.8.20.bb b/meta/recipes-core/dbus/dbus_1.8.20.bb
+deleted file mode 100644
+index a8f2094..0000000
+--- a/meta/recipes-core/dbus/dbus_1.8.20.bb
++++ /dev/null
+@@ -1,4 +0,0 @@
+-include dbus.inc
+-
+-SRC_URI[md5sum] = "b49890bbabedab3a1c3f4f73c7ff8b2b"
+-SRC_URI[sha256sum] = "5c4fbf4c64621c96e871da91d2b729a5b00536e116d3c4612a469d924b1b703a"
+-- 
+2.1.4
 
 
-> On Oct 22, 2015, at 9:25 AM, Robert P. J. Day <rpjday@crashcourse.ca> =
-wrote:
->=20
->=20
-> For whatever reason, qemumips64 isn't mentioned in local.conf.sample
-> as a valid target machine.
->=20
-> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
->=20
-> ---
->=20
-> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-> index 3ae24ab..92ee7a1 100644
-> --- a/meta/conf/local.conf.sample
-> +++ b/meta/conf/local.conf.sample
-> @@ -20,6 +20,7 @@
-> #MACHINE ?=3D "qemuarm"
-> #MACHINE ?=3D "qemuarm64"
-> #MACHINE ?=3D "qemumips"
-> +#MACHINE ?=3D =E2=80=9Cqemumips64"
-
-Make sure that Qemu is also enabling mips64
-
-> #MACHINE ?=3D "qemuppc"
-> #MACHINE ?=3D "qemux86"
-> #MACHINE ?=3D "qemux86-64"
->=20
-> --
->=20
-> =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Robert P. J. Day                                 Ottawa, Ontario, =
-CANADA
->                        http://crashcourse.ca
->=20
-> Twitter:                                       =
-http://twitter.com/rpjday
-> LinkedIn:                               =
-http://ca.linkedin.com/in/rpjday
-> =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_0626A374-0433-48D9-BDCA-A9E6A9A6E197
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlY0FB4ACgkQuwUzVZGdMxTodgCfTAh0dWzscmTWZO8BCeBv+R1z
-bTkAnjYrmTd2kgXT5gwqZ+uzPwfaailu
-=SBLg
------END PGP SIGNATURE-----
-
---Apple-Mail=_0626A374-0433-48D9-BDCA-A9E6A9A6E197--
