@@ -1,47 +1,50 @@
-Return-Path: <roylee17@currantlabs.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 29C0B60125
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B98D60232
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Nov 2015 19:20:20 +0000 (UTC)
-Received: by padec8 with SMTP id ec8so47697499pad.1
+	Mon,  2 Nov 2015 19:33:57 +0000 (UTC)
+Received: by qgbb65 with SMTP id b65so124444335qgb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Nov 2015 11:20:20 -0800 (PST)
+	Mon, 02 Nov 2015 11:33:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=currantlabs_com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=IrSBCwdH3mzReoW29kW6hRrztqQJgMv8RekSQsEkmM0=;
-	b=frOoEjXlSMkZbYYubKYzc/Sx6o7F7mi6V5MPgQhefkewSBOZpruGf/4MXyjj2vi8e2
-	SIZc+q2v2dmgwkyRnFMD27+mdI0Kd3OydqTCnsgi0CN5e5TxRISsipnQZCAEXlvBAJ8S
-	k27Mi7529itxhBn1WNO858OHxuIGhl1cRQ39gkcL65p6KJJli62hxfUxu2uTdc6Mbk5l
-	2nnScfbXhFPGVcoofnyl9aIUOYfmxrV1yvlr8x9jUxjuBmyrQKdxwajI5RnUgLVLKEVu
-	gG3NHiE2LPcaOVw1Y2yQ4YVCKk9si7lVDb3jezqGRhHdJEMmaUtYWwaUPB3Z4/ORbBRR
-	CyWw==
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=QJmOf/E0WFfMCFO9ybOG9A5HSlWnAJSeBImLx7hKLJw=;
+	b=ydn+U3q3rj8Cw6NB8XgC+2YUgZJYY3XWnwbpQcPq3OTCXQNI0lUx/eOOGLfzLqaLG8
+	YxjMLTT+mCFP48ZTDjNx7hUbMiyIotBBecWfWvmlt+NGBJ13jg+QxaMooMU/jJ+NLKDK
+	ndB+KAslAGg2A4HCKCqbBtYxYoXGNDpgYuFIDUSjzFl8ARkdyUGgw7vh5PYQnO4kSHb1
+	LMExlW2QfNGaPJBmsIYLxTDgSQn1ViOvJEvJEpxiakp6iczTXhcvSj2Ydxp6g8VttT1w
+	xSB2pUSZo+5lA1AGvy2LmbZm+TEwx4A7gjUhahv1/+WuxDSedyrTQJNHoPMIWionlZLu
+	GVRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=IrSBCwdH3mzReoW29kW6hRrztqQJgMv8RekSQsEkmM0=;
-	b=Ef12MPDkHN1QaQGiKRafNSyYzQ7xhzx8jW3rkErFROMxBfWnge8v/Ra9IgrU4t6F/F
-	9Zd0LDHRNZSj7yPvFOUto5yf2eDM5G8JGG4u+Gy0kRgp/IlzrrbL2IXK6b6nzE9C8ohx
-	62neKdlEVl0OMLUTusPd6ipjefvuRmY1jXX/nGfoohfzLxyaffSLksqZ5PP3rlwD0qzQ
-	arrRfqMrK8jrre6N+ecRGK47Uo5YRjaRvVhbEV+g3lb9DT4GhV6i2e13clu+KJN/8IoO
-	Xcgp+RWf9HZPva6v9l6tVeOjqrTwU4ZueJP6uCDRFfulIcmeI5wYoyEn+M4nNSb0eBX9
-	IAig==
-X-Gm-Message-State: ALoCoQnWO1IAZqp48/ZmDNpoufoJviGxf37FNu1E2GG7bUYfmiNURXFrmE/gOojrq+FfEve1Rlx4
-X-Received: by 10.68.213.1 with SMTP id no1mr28871670pbc.77.1446492020509;
-	Mon, 02 Nov 2015 11:20:20 -0800 (PST)
-Received: from localhost.localdomain (c-73-222-19-194.hsd1.ca.comcast.net.
-	[73.222.19.194]) by smtp.gmail.com with ESMTPSA id
-	hl2sm25387848pbb.58.2015.11.02.11.20.19
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 02 Nov 2015 11:20:19 -0800 (PST)
-From: Tzu-Jung Lee <roylee17@currantlabs.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Nov 2015 19:21:25 +0000
-Message-Id: <1446492085-29311-1-git-send-email-roylee17@currantlabs.com>
-X-Mailer: git-send-email 2.6.2
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH] devtool: include do_patch in SRCTREECOVEREDTASKS
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=QJmOf/E0WFfMCFO9ybOG9A5HSlWnAJSeBImLx7hKLJw=;
+	b=a3bRbz4OC1at710BfkKXPbYiV/ZzbVnuNEjRLT+zu3Bd+SCbgZpSRpodFMeU+FUXNO
+	ScoYqk8lvQ5xG+YYjoXga3ioenTaDJhqbnv8sQ8Y3+22o2izRPrj6i0W87Sq0EuAFojx
+	nHA9ExmY2ZeaBgX1h1SJEZ8XzckDZQiVuJVNO03V/AbUXKE3KYsiYF88dJ0F8Y972i4o
+	ALPy9vspWrS7EVAgczxozm4pc9QiLdUgop7P5B24XlD9Tkps2qKLV/GqfMybDcwn4Cp8
+	KZBavIPY9mkewTisjklUh6A9B1FqHXt4lim6O4hssXii5cMCpvqWI8kb6kiv+vSqgRqM
+	e1VQ==
+X-Gm-Message-State: ALoCoQnwbhudQKZ7+kFzvzNWtS7U/c8h4p1wk3zIJ6SiAKlrKiWuxAmNsR5MBbJKQHb6GQDFwPlV
+X-Received: by 10.141.28.76 with SMTP id f73mr33508465qhe.17.1446492837286;
+	Mon, 02 Nov 2015 11:33:57 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.94.82 with HTTP; Mon, 2 Nov 2015 11:33:37 -0800 (PST)
+In-Reply-To: <CAJ86T=V7GwD_T-O0RYnVXSzmwB=jB7wxrXCecMS9XcC7bvPtpg@mail.gmail.com>
+References: <cover.1444976827.git.kai.kang@windriver.com>
+	<5631E434.7010006@windriver.com>
+	<CAJTo0Lb3YOuRWMNMnTOq=4gUuzX4Kr4egur7mxVE7widHBty2g@mail.gmail.com>
+	<CAJ86T=V7GwD_T-O0RYnVXSzmwB=jB7wxrXCecMS9XcC7bvPtpg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 2 Nov 2015 19:33:37 +0000
+Message-ID: <CAJTo0LZgEe2D9Xnucoc1OU42Zehaciwrmdfpo4qbq4J5=oWVcw@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] Upgrade sqlite to 3.9.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,28 +57,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Nov 2015 19:20:24 -0000
+X-List-Received-Date: Mon, 02 Nov 2015 19:34:02 -0000
+Content-Type: multipart/alternative; boundary=001a11423d0cbce0d6052393dbcc
 
-The external source of kernel has been patched during the
-construction of git repository. Include the do_patch task in the
-SRCTREECOVEREDTASKS.
+--001a11423d0cbce0d6052393dbcc
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Tzu-Jung Lee <roylee17@currantlabs.com>
+On 2 November 2015 at 18:52, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 7b87558..a7747c7 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -623,7 +623,7 @@ def modify(args, config, basepath, workspace):
-             f.write('EXTERNALSRC_BUILD_pn-%s = "%s"\n' % (pn, srctree))
- 
-         if bb.data.inherits_class('kernel', rd):
--            f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout do_fetch do_unpack"\n')
-+            f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout do_fetch do_unpack do_patch"\n')
-         if initial_rev:
-             f.write('\n# initial_rev: %s\n' % initial_rev)
-             for commit in commits:
--- 
-2.6.2
+> Is there a ross/mut branch of oe-core somewhere? Or only poky?
+>
 
+Sorry, it's branched from poky for testing purposes and convenience on the
+autobuilder.
 
+Ross
+
+--001a11423d0cbce0d6052393dbcc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 November 2015 at 18:52, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2cs" class=3D"a=
+3s" style=3D"overflow:hidden">Is there a ross/mut branch of oe-core somewhe=
+re? Or only poky?<br></div></blockquote></div><br>Sorry, it&#39;s branched =
+from poky for testing purposes and convenience on the autobuilder.</div><di=
+v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
+v>
+
+--001a11423d0cbce0d6052393dbcc--
