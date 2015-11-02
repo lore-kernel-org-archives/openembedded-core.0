@@ -1,25 +1,27 @@
-Return-Path: <andrew.shadura@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 89E3A770A7
+Return-Path: <saul.wold@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2349460232
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Nov 2015 14:47:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: andrewsh) with ESMTPSA id 941D06087E2
-To: OE Core <openembedded-core@lists.openembedded.org>
-References: <c64105ff4adca9a4e05280aa52644919d646d660.1445449278.git.andrew.shadura@collabora.co.uk>
-	<CAJTo0LZ4eNqiyX0JzPEb=FLAk=k=2p2c2+c5mKd77a0zquepAw@mail.gmail.com>
-	<94093E93-77C6-403A-9E9F-69C02C6C8D11@collabora.co.uk>
-	<CAJTo0Lada89cW8Hs=P65aHfRKiiZuu13jDu3PO=3NkJq_Wt7xA@mail.gmail.com>
-	<11321f065e34ca094a0aff494291662852f05805.1445522417.git.andrew.shadura@collabora.co.uk>
-From: Andrew Shadura <andrew.shadura@collabora.co.uk>
-Organization: Collabora Limited
-Message-ID: <56377794.4090301@collabora.co.uk>
-Date: Mon, 2 Nov 2015 15:47:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <11321f065e34ca094a0aff494291662852f05805.1445522417.git.andrew.shadura@collabora.co.uk>
-Subject: Re: [PATCH v2] cups: update systemd support
+	Mon,  2 Nov 2015 16:56:27 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 02 Nov 2015 08:56:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,234,1444719600"; d="scan'208";a="809804380"
+Received: from npmosele-mobl2.amr.corp.intel.com ([10.254.79.168])
+	by orsmga001.jf.intel.com with ESMTP; 02 Nov 2015 08:56:19 -0800
+Message-ID: <1446483378.18706.313.camel@intel.com>
+From: Saul Wold <saul.wold@intel.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Date: Mon, 02 Nov 2015 08:56:18 -0800
+In-Reply-To: <562F85E4.3090200@pseudoterminal.org>
+References: <1443390491-23728-1-git-send-email-dv@pseudoterminal.org>
+	<1443390491-23728-4-git-send-email-dv@pseudoterminal.org>
+	<CAJTo0LY2cDqCZe99YZP3bXuTq1bKdMaDAze6aEQJ2N1Vcb-K2g@mail.gmail.com>
+	<562F85E4.3090200@pseudoterminal.org>
+X-Mailer: Evolution 3.12.11 (3.12.11-1.fc21) 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/7] gstreamer1.0-plugins-bad: upgrade to version 1.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,54 +34,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Nov 2015 14:47:54 -0000
-X-Groupsio-MsgNum: 72816
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="ke6dbaPvDVG475ifvRA5v12TL114aHPBU"
+X-List-Received-Date: Mon, 02 Nov 2015 16:56:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---ke6dbaPvDVG475ifvRA5v12TL114aHPBU
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2015-10-27 at 15:10 +0100, Carlos Rafael Giani wrote:
+> On 10/26/2015 06:20 PM, Burton, Ross wrote:
+> 
+> > Hi Carlos,
+> > 
+> > On 27 September 2015 at 22:48, Carlos Rafael Giani
+> > <dv@pseudoterminal.org> wrote:
+> >         0001-gl-do-not-check-for-GL-GLU-EGL-GLES2-libs-if-disable.patch is now
+> >         in upstream, and therefore not needed as a separate patch
+> >         anymore.
+> >         
+> >         Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+> >         
+> > 
+> > 
+> > I started looking for pieces to queue for when master re-opens and
+> > discovered that this doesn't apply anymore, so the branch will need
+> > rebasing.
+> > 
+> > 
+> > Cheers,
+> > Ross
+> 
+> Yes, I know. I am waiting until Jethro is released, then I'll send a
+> v2 of these patches.
+Please consider updating to the 1.6.1 release, which was just dropped in
+the last couple of weeks?
 
-On 22/10/15 16:00, Andrew Shadura wrote:
-> Add PACKAGECONFIG for systemd, enable it when systemd is enabled
-> in DISTRO_FEATURES. Pass the correct path to systemd units,
-> ensure they're installed into the package.
->=20
-> Drop custom systemd unit files, use those shipped by the upstream
-> instead.
->=20
-> Signed-off-by: Andrew Shadura <andrew.shadura@collabora.co.uk>
+Thanks
+   Sau!
 
-Anything about this patch?
-
---=20
-Cheers,
-  Andrew
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---ke6dbaPvDVG475ifvRA5v12TL114aHPBU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBCAAGBQJWN3eUAAoJEEFnG7NKhJOBK/wQAIDOi7lD2Gvwv6oEEDf0yEd5
-imgrMqP36wHtVgrj0g7tWr/cZ0IzAFKRobC5ayEiGkfiyp4/M29ECiUu2lEucY57
-Zydv+M9C5Q9QSlrPc0peQWRM2xAsCs7eXM4XAWdBnuuupJPtetAvPYw1FxF/aOKX
-NWVXlok66HrgFfmxX6oGZfeAuvwSUU1LEYAZlgWKB88ebM+pKMmNVx7PCCko805t
-VXROLKwcEUWXQKriKR1pbRF/KZWNX+bIIoL2MkJjdSA/wKMEvukCS1LeE18Y6h8e
-NsBFAwqhpmbLKKY5UqSEoo/bHnrw5JXEPmfccK5bPCoB3/WoihKgxlE5SZyX9dyX
-P1N4kXGqbLJpRdJLQA6nree3fp7eqfZ1vHF9xf51BwXTyECSIrem+3HdY9ffaNLr
-Zj6a5BfQzvWGrZGDwyOHXtY5Qwg/vasS97zpezMGxHjGCNegyRjXjbwI4WRmJfZ6
-A6UsvROSLH577E2OBXE1+P3uuQQQm21bdhRIXoCD1d+V5xZChPiKZ1dhJmgdwsbU
-qfqmtGQps3G0htl3LGNzjKmHkQvNpA26dqKRkkwI96y/xqnEmUfB5GqJ0RMDybqt
-IH5FqNJS0y0o3BQk5zksQI6VusUt/nY1gP/b59PxjA42aji41tfXkHVmJzX5Jilu
-Wcj0b61feQKhdQtojSpO
-=Pi4K
------END PGP SIGNATURE-----
-
---ke6dbaPvDVG475ifvRA5v12TL114aHPBU--
