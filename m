@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F094A60125
+X-Greylist: delayed 2826 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 02 Nov 2015 08:00:03 UTC
+Received: from mail5.wrs.com (unknown [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D34475D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Nov 2015 07:12:58 +0000 (UTC)
+	Mon,  2 Nov 2015 08:00:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tA27CvGP012075
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 1 Nov 2015 23:12:57 -0800 (PST)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tA27Cth9004478
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Sun, 1 Nov 2015 23:12:56 -0800
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 1 Nov 2015 23:12:57 -0800
+	14.3.248.2; Sun, 1 Nov 2015 23:12:55 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>
-Date: Mon, 2 Nov 2015 15:12:50 +0800
-Message-ID: <4e960b4b187cd48e690046bd856103ac87fc2485.1446448302.git.hongxu.jia@windriver.com>
+Date: Mon, 2 Nov 2015 15:12:49 +0800
+Message-ID: <cover.1446448302.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1446448302.git.hongxu.jia@windriver.com>
-References: <cover.1446448302.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] default-distrovars: remove less from WHITELIST_GPL-3.0
+Subject: [PATCH 0/1] default-distrovars: remove less from WHITELIST_GPL-3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +33,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Nov 2015 07:12:59 -0000
+X-List-Received-Date: Mon, 02 Nov 2015 08:00:04 -0000
 Content-Type: text/plain
 
-As oe-core commit 37c8c2c5f6937520eaf9f5d981f9315e36eba4bb and
-fa7bdf96b8eb8b5078db38249c5c60ec511c35c6 said, Mark Nudelman
-(author of less) has given permission to utilize a generic 2-clause
-BSD, so we remove it from WHITELIST_GPL-3.0 which caused
-a QA Warning while INCOMPATIBLE_LICENSE += "GPLv3 LGPLv3 GPLv3+ LGPLv3+"
-...
-|NOTE: INCLUDING less as buildable despite INCOMPATIBLE_LICENSE
-because it has been whitelisted
-...
+The following changes since commit 370a2916c4559c17952392b872322e8e490b124c:
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
+  build-appliance-image: Update to jethro head revision (2015-10-29 22:20:40 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/less
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/less
+
+Hongxu Jia (1):
+  default-distrovars: remove less from WHITELIST_GPL-3.0
+
  meta/conf/distro/include/default-distrovars.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index 8366904..8866f0d 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -24,7 +24,7 @@ IMAGE_FEATURES ?= ""
- # This is a list of packages that are used by the build system to build the distribution, they are not
- # directly part of the distribution. 
- HOSTTOOLS_WHITELIST_GPL-3.0 ?= ""
--WHITELIST_GPL-3.0 ?= "less"
-+WHITELIST_GPL-3.0 ?= ""
- LGPLv2_WHITELIST_GPL-3.0 ?= "libassuan gnutls libtasn1 libidn"
- 
- COMMERCIAL_AUDIO_PLUGINS ?= ""
 -- 
 1.9.1
 
