@@ -1,27 +1,36 @@
-Return-Path: <saul.wold@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2349460232
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id AE62375CC2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Nov 2015 16:56:27 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 02 Nov 2015 08:56:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,234,1444719600"; d="scan'208";a="809804380"
-Received: from npmosele-mobl2.amr.corp.intel.com ([10.254.79.168])
-	by orsmga001.jf.intel.com with ESMTP; 02 Nov 2015 08:56:19 -0800
-Message-ID: <1446483378.18706.313.camel@intel.com>
-From: Saul Wold <saul.wold@intel.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Date: Mon, 02 Nov 2015 08:56:18 -0800
-In-Reply-To: <562F85E4.3090200@pseudoterminal.org>
-References: <1443390491-23728-1-git-send-email-dv@pseudoterminal.org>
-	<1443390491-23728-4-git-send-email-dv@pseudoterminal.org>
-	<CAJTo0LY2cDqCZe99YZP3bXuTq1bKdMaDAze6aEQJ2N1Vcb-K2g@mail.gmail.com>
-	<562F85E4.3090200@pseudoterminal.org>
-X-Mailer: Evolution 3.12.11 (3.12.11-1.fc21) 
-Mime-Version: 1.0
+	Mon,  2 Nov 2015 18:52:04 +0000 (UTC)
+Received: by wicll6 with SMTP id ll6so56019450wic.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 Nov 2015 10:52:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=9ZZClqBgO+96HyX6yaM5/2ZHJ11coacfY5Nay7g/i9k=;
+	b=LQAO8bjTrhjwj8Oc7t6JnFiEWsUNxK9+l8kBjScNWODj1MorTmHbxDUVvD4LIp8RaZ
+	ah6eWiWsxkLcQjsrrlQyvL171pdFU4uiTq8Els+EMiuF36RuOblySOspRYLh8cJA+2rT
+	haiSZfNdOeJVDtis+5P2k6mnlt/mjI7i4UO+nXkXl/paXcvcdLT/7RB2xEFtmv49uudC
+	MjlfbKcqPjnBH6Wkyzd4UWWH8YEzxCldY8cfw2kdiDh0Z9NsAkFzHilCRxLX7vH5rWPY
+	8vEy2ESGhd3ax7vE7eANWR6TwL15D3Uipf0Hu0lzYnzkdAAyHyCttMR1sjnqYXD3kgCu
+	p8Ag==
+MIME-Version: 1.0
+X-Received: by 10.194.175.100 with SMTP id bz4mr25156186wjc.123.1446490323985; 
+	Mon, 02 Nov 2015 10:52:03 -0800 (PST)
+Received: by 10.194.140.38 with HTTP; Mon, 2 Nov 2015 10:52:03 -0800 (PST)
+In-Reply-To: <CAJTo0Lb3YOuRWMNMnTOq=4gUuzX4Kr4egur7mxVE7widHBty2g@mail.gmail.com>
+References: <cover.1444976827.git.kai.kang@windriver.com>
+	<5631E434.7010006@windriver.com>
+	<CAJTo0Lb3YOuRWMNMnTOq=4gUuzX4Kr4egur7mxVE7widHBty2g@mail.gmail.com>
+Date: Mon, 2 Nov 2015 10:52:03 -0800
+Message-ID: <CAJ86T=V7GwD_T-O0RYnVXSzmwB=jB7wxrXCecMS9XcC7bvPtpg@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/7] gstreamer1.0-plugins-bad: upgrade to version 1.6.0
+Subject: Re: [PATCH 0/1] Upgrade sqlite to 3.9.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,46 +43,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Nov 2015 16:56:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Nov 2015 18:52:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2015-10-27 at 15:10 +0100, Carlos Rafael Giani wrote:
-> On 10/26/2015 06:20 PM, Burton, Ross wrote:
-> 
-> > Hi Carlos,
-> > 
-> > On 27 September 2015 at 22:48, Carlos Rafael Giani
-> > <dv@pseudoterminal.org> wrote:
-> >         0001-gl-do-not-check-for-GL-GLU-EGL-GLES2-libs-if-disable.patch is now
-> >         in upstream, and therefore not needed as a separate patch
-> >         anymore.
-> >         
-> >         Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
-> >         
-> > 
-> > 
-> > I started looking for pieces to queue for when master re-opens and
-> > discovered that this doesn't apply anymore, so the branch will need
-> > rebasing.
-> > 
-> > 
-> > Cheers,
-> > Ross
-> 
-> Yes, I know. I am waiting until Jethro is released, then I'll send a
-> v2 of these patches.
-Please consider updating to the 1.6.1 release, which was just dropped in
-the last couple of weeks?
+On Mon, Nov 2, 2015 at 4:16 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 29 October 2015 at 09:17, Kang Kai <Kai.Kang@windriver.com> wrote:
+>>>
+>>> Kai Kang (1):
+>>>    sqlite: 3.8.10.2 -> 3.9.0
+>>
+>>
+>> Ping.
+>
+> As Stephen's weekly status mails show, we're frozen whilst 2.0 is being
+> prepared.  This patch has been merged into my staging branch (ross/mut) for
+> when we thaw.
 
-Thanks
-   Sau!
+Hi Ross,
 
-> -- 
+Is there a ross/mut branch of oe-core somewhere? Or only poky?
+
+> Ross
+>
+> --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+>
 
