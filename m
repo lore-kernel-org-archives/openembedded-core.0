@@ -1,24 +1,29 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id A49B5607A5
+Return-Path: <Jian.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8725775A31
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Nov 2015 07:00:22 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1ZtVZt-00075o-Mg from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Nov 2015 23:00:21 -0800
-Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server id 14.3.224.2; Tue, 3 Nov 2015 07:00:19 +0000
-From: Awais Belal <awais_belal@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Nov 2015 12:00:17 +0500
-Message-ID: <1446534017-6890-1-git-send-email-awais_belal@mentor.com>
-X-Mailer: git-send-email 1.9.1
+	Tue,  3 Nov 2015 09:22:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tA39MnX0024839
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 3 Nov 2015 01:22:49 -0800 (PST)
+Received: from [128.224.163.183] (128.224.163.183) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 3 Nov 2015 01:22:49 -0800
+To: Khem Raj <raj.khem@gmail.com>
+References: <1446445418-31492-1-git-send-email-jian.liu@windriver.com>
+	<CAMKF1sqBfdSMphfZJ_O3nEd3cMA7A=5tKa2Xu0wGUsSr-HtuNg@mail.gmail.com>
+From: Jian Liu <jian.liu@windriver.com>
+Message-ID: <56387CE7.5040907@windriver.com>
+Date: Tue, 3 Nov 2015 17:22:47 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
 MIME-Version: 1.0
-Subject: [PATCH] python: ensure usage of host modules while cross compiling
+In-Reply-To: <CAMKF1sqBfdSMphfZJ_O3nEd3cMA7A=5tKa2Xu0wGUsSr-HtuNg@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] archiver.bbclass: do checkout for kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,73 +36,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Nov 2015 07:00:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Nov 2015 09:22:51 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-The issue is generally seen on x86 type of machines passing
--march=bdverX (X=3,4 etc) flags but in general this should
-cause a problem when freshly built target modules are tried
-for an import during the cross build process.
-Aiding the PYTHONPATH with CROSSPYTHONPATH which contains
-the native modules resolves the issue.
+Hi,
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
----
- ...e-of-native-modules-while-cross-compiling.patch | 31 ++++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.9.bb       |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/0001-ensure-usage-of-native-modules-while-cross-compiling.patch
+I test linux-dummy linux-yocto-dev linux-yocto-rt linux-yocto-tiny and 
+the result is as follows,
 
-diff --git a/meta/recipes-devtools/python/python/0001-ensure-usage-of-native-modules-while-cross-compiling.patch b/meta/recipes-devtools/python/python/0001-ensure-usage-of-native-modules-while-cross-compiling.patch
-new file mode 100644
-index 0000000..1e87e89
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/0001-ensure-usage-of-native-modules-while-cross-compiling.patch
-@@ -0,0 +1,31 @@
-+From 4eb30173f2d254f19d5ef18fabed3bdb2e5c1182 Mon Sep 17 00:00:00 2001
-+From: Awais Belal <awais_belal@mentor.com>
-+Date: Fri, 30 Oct 2015 17:47:07 +0500
-+Subject: [PATCH] ensure usage of native modules while cross compiling
-+
-+The PYTHONPATH variable augments the default search path and
-+is prepended to it. We need to make sure that host modules
-+are used while cross compiling otherwise an illegal instruction
-+error is generated if the modules built for target are imported.
-+
-+Signed-off-by: Awais Belal <awais_belal@mentor.com>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 87a4f02..fa9e0dd 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -33,7 +33,7 @@ if test "$cross_compiling" = yes; then
-+ 	    AC_MSG_ERROR([python$PACKAGE_VERSION interpreter not found])
-+ 	fi
-+         AC_MSG_RESULT($interp)
-+-	PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib:$(srcdir)/Lib/plat-$(MACHDEP) '$interp
-++	PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(CROSSPYTHONPATH):$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib:$(srcdir)/Lib/plat-$(MACHDEP) '$interp
-+     fi
-+ elif test "$cross_compiling" = maybe; then
-+     AC_MSG_ERROR([Cross compiling required --host=HOST-TUPLE and --build=ARCH])
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/python/python_2.7.9.bb b/meta/recipes-devtools/python/python_2.7.9.bb
-index f7e2f27..9a43cf7 100644
---- a/meta/recipes-devtools/python/python_2.7.9.bb
-+++ b/meta/recipes-devtools/python/python_2.7.9.bb
-@@ -26,6 +26,7 @@ SRC_URI += "\
-   file://parallel-makeinst-create-bindir.patch \
-   file://use_sysroot_ncurses_instead_of_host.patch \
-   file://avoid_parallel_make_races_on_pgen.patch \
-+  file://0001-ensure-usage-of-native-modules-while-cross-compiling.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
--- 
-1.9.1
+linux-dummy: this package just meets some dependency and there is no 
+source code for it.
+                       The patch does not impact it
+linux-yocto, linux-yocto-dev, linux-yocto-rt, linux-yocto-tiny: The S 
+variable of all packages is set to STAGING_KERNEK_DIR.
+                        do_fetch and do_unpack just leave a bare git 
+repo of kernel and do_kernel_checkout gets the source code
+
+Thanks!
+Jian
+
+On 2015年11月03日 05:30, Khem Raj wrote:
+> On Sun, Nov 1, 2015 at 10:23 PM, Jian Liu <jian.liu@windriver.com> wrote:
+>> The repo of kernel is bare git repository and we need to checkout to get
+>> the source code.
+> it should be linux-yocto I think, or do we have all kernels as bare git repos ?
+>
+>> Signed-off-by: Jian Liu <jian.liu@windriver.com>
+>>
+>> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+>> index 41a552c..7387fbf 100644
+>> --- a/meta/classes/archiver.bbclass
+>> +++ b/meta/classes/archiver.bbclass
+>> @@ -66,6 +66,11 @@ python () {
+>>       ar_recipe = d.getVarFlag('ARCHIVER_MODE', 'recipe', True)
+>>
+>>       if ar_src == "original":
+>> +        # For kernel, it is bare repo, we need to checkout
+>> +        if bb.data.inherits_class('kernel-yocto', d):
+>> +            bb.build.addtask('do_ar_original', 'do_kernel_metadata', 'do_validate_branches', d)
+>> +        else:
+>> +            bb.build.addtask('do_ar_original', None, 'do_unpack', d)
+>>           d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_original' % pn)
+>>       elif ar_src == "patched":
+>>           d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_patched' % pn)
+>> @@ -113,6 +118,12 @@ python do_ar_original() {
+>>
+>>       ar_outdir = d.getVar('ARCHIVER_OUTDIR', True)
+>>       bb.note('Archiving the original source...')
+>> +    # For kernel, the source code is shared
+>> +    if bb.data.inherits_class('kernel-yocto', d):
+> is this linux-yocto specific
+>
+>> +        srcdir = d.getVar('S', True)
+>> +        create_tarball(d, srcdir, 'original', ar_outdir)
+>> +        return
+>> +
+>>       fetch = bb.fetch2.Fetch([], d)
+>>       for url in fetch.urls:
+>>           local = fetch.localpath(url).rstrip("/");
+>> @@ -346,7 +357,6 @@ python do_deploy_archives_setscene () {
+>>   do_deploy_archives[sstate-inputdirs] = "${ARCHIVER_TOPDIR}"
+>>   do_deploy_archives[sstate-outputdirs] = "${DEPLOY_DIR_SRC}"
+>>
+>> -addtask do_ar_original after do_unpack
+>>   addtask do_ar_patched after do_unpack_and_patch
+>>   addtask do_ar_configured after do_unpack_and_patch
+>>   addtask do_dumpdata
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
