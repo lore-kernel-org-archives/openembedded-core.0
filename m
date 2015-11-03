@@ -1,47 +1,39 @@
-Return-Path: <ruslan@babayev.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 889E571633
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id B224F607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Nov 2015 23:14:00 +0000 (UTC)
-Received: by padhx2 with SMTP id hx2so23845347pad.1
+	Tue,  3 Nov 2015 23:28:33 +0000 (UTC)
+Received: by pabfh17 with SMTP id fh17so32071153pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Nov 2015 15:14:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=babayev.com; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-type;
-	bh=VCNhaN6nmhx6z3uRz/aV3aZWWVs9LAcNU7M20NNu43k=;
-	b=OggBavCQgtAZlBiXIl3Ai1VurO7G6KCa4+JzjpdibKdRAwHfMTXccDA785xruOiDZF
-	9zeHEb8wXCpCOFmr4ETOjlLOrk7CDbO2vugH+YM7iCpbavpfh1gPbyyy7XqO/SvAXENA
-	kfZog440lEcIpDRDQW7EqWsFyIZtpGL01egzA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-type;
-	bh=VCNhaN6nmhx6z3uRz/aV3aZWWVs9LAcNU7M20NNu43k=;
-	b=byPaDySCodXbJHcPyh2/TXHazg/vSHEWFJg6HTO+ERTx1ystFU5vfZc5TCaDGPxQsV
-	p+oinBAPN7p3fs87XawaekofENY2zTUuNhbyuFCk/svXuoPtsWq/PZVSZ5ulgkS/xvL7
-	CTdwQRAtXwpkW4kxS3SjJFzPlOXsxEK73lBwOEH0af8tnDgUhRmDOKmrPagQOkqGReX9
-	0JOyGxBukO2P7wd9R8yZK6YWtrRZbztRS8eKkqp7HV7f83oVINLm6rsAaVxbOResKHnO
-	XVOY8oXRhcb3BPpBpbT65q88vqDsA38W+svsFlHObdUzevWCk0/PKWQIxjKdn0zHq0Rb
-	rPvQ==
-X-Gm-Message-State: ALoCoQm2tcVgOwqi+0iBL2ThHKwAhEkBJk/IKnxzv4ZNGgEYfzElLr4H8tar7FtLX26foI9uJ4lX
-X-Received: by 10.68.220.194 with SMTP id py2mr36135717pbc.37.1446592441233;
-	Tue, 03 Nov 2015 15:14:01 -0800 (PST)
-Received: from localhost ([50.247.64.110]) by smtp.gmail.com with ESMTPSA id
-	yh3sm31406861pbb.82.2015.11.03.15.14.00
+	Tue, 03 Nov 2015 15:28:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=4bs6mK4aGPuj7UjtMU7xzugkNm9AH6R+RMxda35Btn8=;
+	b=d0HigIYxJG7AvC9JBZ2IBqeEzcvEcGj5iVyvoqBxQ14M6nvRwpuJ+8q4+hF0gqLWJn
+	nTabAKrhdY2W9M5whWAweTvbz9Y8+1sXuPN1jOS5ejK1+Js3fQrHg/c5y0237ic4m3SS
+	146QlqcCCP85kVMOy5gCK8IrwwuiBH423dm6k+Pr3ZsARh27QsHUp13RZQlI41NDEk5S
+	tbvy53NVadm+9yB+ZUbEz2tqLeHL9JAGBuDrb8ZEZUUyd9AvnAeHRKqvfnsYg5WkSfTL
+	l2mNEu3TQ16sNVqIMGBwyaJIs5+8qYyGTzxeBRxEhzpp+/k5eoEd2v4FkRKtr7bTgsV3
+	Oc3A==
+X-Received: by 10.68.218.132 with SMTP id pg4mr36460793pbc.129.1446593313710; 
+	Tue, 03 Nov 2015 15:28:33 -0800 (PST)
+Received: from [10.43.100.29] ([64.2.3.194])
+	by smtp.googlemail.com with ESMTPSA id
+	fk8sm31575321pab.33.2015.11.03.15.28.32
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 Nov 2015 15:14:00 -0800 (PST)
+	Tue, 03 Nov 2015 15:28:32 -0800 (PST)
+To: Ruslan Babayev <ruslan@babayev.com>,
+	openembedded-core@lists.openembedded.org
 References: <87d1vqk67s.fsf@babayev.com>
-	<CAJTo0LbrjPSFEdc0q1yZmSsCyPQ0gPUxkCodiaUrve9B8ybKoA@mail.gmail.com>
-User-agent: mu4e 0.9.15; emacs 24.5.1
-From: Ruslan Babayev <ruslan@babayev.com>
-To: "Burton\, Ross" <ross.burton@intel.com>
-In-reply-to: <CAJTo0LbrjPSFEdc0q1yZmSsCyPQ0gPUxkCodiaUrve9B8ybKoA@mail.gmail.com>
-Date: Tue, 03 Nov 2015 16:14:01 -0800
-Message-ID: <87a8quk4dy.fsf@babayev.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <5639431F.6000408@gmail.com>
+Date: Tue, 3 Nov 2015 15:28:31 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+In-Reply-To: <87d1vqk67s.fsf@babayev.com>
 Subject: Re: Add LibreSSL support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -55,103 +47,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Nov 2015 23:14:02 -0000
-Content-Type: multipart/mixed; boundary="=-=-="
+X-List-Received-Date: Tue, 03 Nov 2015 23:28:36 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
---=-=-=
-Content-Type: text/plain
+Ruslan,
 
+any reason version 2.3.1 was not picked?
 
-Burton, Ross writes:
+I believe 2.2.4 is missing  (CVE-2015-5333 and CVE-2015-5334)
 
->
-> I think I'd prefer oe-core to have just the one provider of the openssl
-> APIs, so if oe-core sticks with openssl then libressl should go into
-> another layer, meta-networking maybe?
->
+- armin
 
-Thanks for feedback Ross. Moved it to meta-networking.
+On 11/03/2015 03:34 PM, Ruslan Babayev wrote:
+> Please find attached the patch to add support for LibreSSL.
+> 
+> OpenSSL is still preferred, so you'd have add these to your local.conf
+> 
+> PREFERRED_PROVIDER_openssl ?= "openssl"
+> PREFERRED_PROVIDER_openssl-native ?= "openssl-native"
+> PREFERRED_PROVIDER_nativesdk-openssl ?= "nativesdk-openssl"
+> 
+> 
+> 
 
-
---=-=-=
-Content-Type: text/x-patch
-Content-Disposition: inline;
- filename=0001-meta-networking-recipes-connectivity-add-libressl-re.patch
-
-From 5b41fed5cea2123bffd13c0d724c4ff75e8a5d8a Mon Sep 17 00:00:00 2001
-From: Ruslan Babayev <ruslan@babayev.com>
-Date: Tue, 3 Nov 2015 15:08:34 -0800
-Subject: [PATCH] meta-networking: recipes-connectivity: add libressl recipe
-
-Signed-off-by: Ruslan Babayev <ruslan@babayev.com>
----
- .../libressl/files/gnuc_prereq.patch                 | 13 +++++++++++++
- .../recipes-connectivity/libressl/libressl.inc       | 20 ++++++++++++++++++++
- .../recipes-connectivity/libressl/libressl_2.2.4.bb  |  6 ++++++
- 3 files changed, 39 insertions(+)
- create mode 100644 meta-networking/recipes-connectivity/libressl/files/gnuc_prereq.patch
- create mode 100644 meta-networking/recipes-connectivity/libressl/libressl.inc
- create mode 100644 meta-networking/recipes-connectivity/libressl/libressl_2.2.4.bb
-
-diff --git a/meta-networking/recipes-connectivity/libressl/files/gnuc_prereq.patch b/meta-networking/recipes-connectivity/libressl/files/gnuc_prereq.patch
-new file mode 100644
-index 0000000..61fa51a
---- /dev/null
-+++ b/meta-networking/recipes-connectivity/libressl/files/gnuc_prereq.patch
-@@ -0,0 +1,13 @@
-+Index: libressl-2.2.4/crypto/bn/bn_lcl.h
-+===================================================================
-+--- libressl-2.2.4.orig/crypto/bn/bn_lcl.h
-++++ libressl-2.2.4/crypto/bn/bn_lcl.h
-+@@ -259,7 +259,7 @@ extern "C" {
-+ #  endif
-+ # elif defined(__mips) && defined(_LP64)
-+ #  if defined(__GNUC__) && __GNUC__>=2
-+-#   if __GNUC__>=4 && __GNUC_MINOR__>=4 /* "h" constraint is no more since 4.4 */
-++#   if __GNUC_PREREQ(4,4) /* "h" constraint is no more since 4.4 */
-+ #     define BN_UMULT_HIGH(a,b)		 (((__uint128_t)(a)*(b))>>64)
-+ #     define BN_UMULT_LOHI(low,high,a,b) ({	\
-+ 	__uint128_t ret=(__uint128_t)(a)*(b);	\
-diff --git a/meta-networking/recipes-connectivity/libressl/libressl.inc b/meta-networking/recipes-connectivity/libressl/libressl.inc
-new file mode 100644
-index 0000000..d0acdc4
---- /dev/null
-+++ b/meta-networking/recipes-connectivity/libressl/libressl.inc
-@@ -0,0 +1,20 @@
-+SUMMARY = "LibreSSL fork of OpenSSL"
-+DESCRIPTION = "Secure Socket Layer (SSL) binary and related cryptographic tools."
-+HOMEPAGE = "http://www.libressl.org/"
-+SECTION = "libs/network"
-+
-+LICENSE = "openssl"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=01f9bb4d275f5eeea905377bef3de622"
-+
-+SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${PV}.tar.gz"
-+
-+S = "${WORKDIR}/libressl-${PV}"
-+
-+inherit pkgconfig autotools
-+
-+PROVIDES += "openssl"
-+
-+RPROVIDES_${PN} += "openssl"
-+RCONFLICTS_${PN} += "openssl"
-+
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta-networking/recipes-connectivity/libressl/libressl_2.2.4.bb b/meta-networking/recipes-connectivity/libressl/libressl_2.2.4.bb
-new file mode 100644
-index 0000000..f2f6fc2
---- /dev/null
-+++ b/meta-networking/recipes-connectivity/libressl/libressl_2.2.4.bb
-@@ -0,0 +1,6 @@
-+require libressl.inc
-+
-+SRC_URI += " file://gnuc_prereq.patch"
-+
-+SRC_URI[md5sum] = "bae037598bd63987666302f9644de237"
-+SRC_URI[sha256sum] = "6b409859be8654afc3862549494e097017e64c8d167f12584383586306ef9a7e"
--- 
-2.6.2
-
-
---=-=-=--
