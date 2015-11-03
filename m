@@ -1,47 +1,36 @@
-Return-Path: <ruslan@babayev.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 94B5271633
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-yk0-f181.google.com (mail-yk0-f181.google.com
+	[209.85.160.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 97BB471633
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Nov 2015 23:53:33 +0000 (UTC)
-Received: by padda3 with SMTP id da3so4049845pad.1
+	Tue,  3 Nov 2015 23:58:12 +0000 (UTC)
+Received: by ykba4 with SMTP id a4so44752364ykb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Nov 2015 15:53:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=babayev.com; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-type;
-	bh=JHAKsPUYfsDqqrkl7+1EcKe3SwJwgdIc6lTq2SgqbDQ=;
-	b=aozwp5foBfD9glsFL1hoUN+TGX993QsHuNsKdIfgIegaUR9G8fFIhYBRh3/+s319aN
-	JjYENZ1P6DPwCXaoE8gqF2m2+Or/jF6AYyO7HCQaia6NoUdM2x9nwLxdFv1b4YUKcki9
-	xXvz/EtYYdeb1Xd/07g4yGznDfCh2q8Hyp0d4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-type;
-	bh=JHAKsPUYfsDqqrkl7+1EcKe3SwJwgdIc6lTq2SgqbDQ=;
-	b=K5D3e4kd24r7cGXtwj2EW6r/kIxA/8GL2g8bGZNWtd+tFEpdoz1M3d4w5BcXIeVsFe
-	lVBqUmhuXKtL1u9VMNHCST83TkAAXlDMXNeB8fQe5VXXs9NthV/3p4Mt1pulBA/hh4yo
-	UMjO++OcuyoDaGqR8Z3OKm4Fp3UKEAqGrggeARyuclsrlQXW+bPBgk67XiJk8GojVqjj
-	N/2YhORyuqGy4hH4zlC6voLKMif3305SeYmR0d+1KPVFyFVeHkg2z/bC6ba0QTgZei7n
-	I3iQITZQdST5EZ+WnQEMFiDVD6qTaLWPKc6FHBttLYOu5Bee19jUuPpRNKAtzXdvy4cR
-	jfmw==
-X-Gm-Message-State: ALoCoQmS0LLHzMAkK4joJjC54+e0EOCeIXLPi62i0OP65lEGCD9cM6j9d7F6Wty1CBRwVH5xwHNb
-X-Received: by 10.66.123.68 with SMTP id ly4mr14607394pab.147.1446594813819;
-	Tue, 03 Nov 2015 15:53:33 -0800 (PST)
-Received: from localhost ([50.247.64.110]) by smtp.gmail.com with ESMTPSA id
-	tn2sm31619666pac.0.2015.11.03.15.53.33
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 Nov 2015 15:53:33 -0800 (PST)
-References: <87d1vqk67s.fsf@babayev.com> <5639431F.6000408@gmail.com>
-User-agent: mu4e 0.9.15; emacs 24.5.1
-From: Ruslan Babayev <ruslan@babayev.com>
-To: akuster808 <akuster808@gmail.com>
-In-reply-to: <5639431F.6000408@gmail.com>
-Date: Tue, 03 Nov 2015 16:53:33 -0800
-Message-ID: <878u6ek2k2.fsf@babayev.com>
+	Tue, 03 Nov 2015 15:58:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=qrGGS5midAmMdeiojWeQa1bjYdiWTiTfoRtP86vR5GQ=;
+	b=Nat3I/exPaG6zknXmzhZzXs3pG+bhXj17EFVn76wxjIRulzJLyLlp/LR7juyfB4tKq
+	hLbs+1/gkFJlrY4WaaJJKDb9IeXUGFC3h+beLujHFG60rkRUI9dAWnk5W8M7exRAlga9
+	2LgreTW3cc/WX8gNjOegQJpfNmhJfs1u4oZethIo/xUpl9NDEuGJI4kRBiLLjYoUSq8h
+	+uhKOKxlPNGRByuQeBHDE0MZBq7onbgfVuxLiL4VFMdbd26JoRxWgoe8+MYw7jPanxBE
+	gvkGsSqCdbm+nTpea13XRimSeMVV+0v6aFaRcXC/0/aYUcCOF1oES05+H4wFJ9ei2tzR
+	NJuQ==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Add LibreSSL support
+X-Received: by 10.31.178.151 with SMTP id b145mr16116745vkf.54.1446595092218; 
+	Tue, 03 Nov 2015 15:58:12 -0800 (PST)
+Received: by 10.31.237.197 with HTTP; Tue, 3 Nov 2015 15:58:12 -0800 (PST)
+In-Reply-To: <1446590054-31188-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+References: <1446590054-31188-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Tue, 3 Nov 2015 17:58:12 -0600
+Message-ID: <CACS+7ZSrrrmyc3hAUU6RJUSEpPvoBeQOLyFmjadJSqgJjoyVJg@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: leonardo.sandoval.gonzalez@linux.intel.com
+Cc: benoit.rapidel+yocto@exmachina.fr,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] terminal: Support old tmux version (<1.9) when querying height value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Nov 2015 23:53:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Nov 2015 23:58:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Armin,
-
-It is the latest stable. And it looks like this patch has made it into
-2.2.4
-
-http://ftp.openbsd.org/pub/OpenBSD/patches/5.8/common/007_obj2txt.patch.sig
-
-akuster808 writes:
-
-> Ruslan,
+On 3 November 2015 at 16:34,
+<leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 >
-> any reason version 2.3.1 was not picked?
+> Old tmux version (< 1.9) does not support nested formats on the -F parameter, so
+> if nested format does not give any answer, do the query in two steps.
 >
-> I believe 2.2.4 is missing  (CVE-2015-5333 and CVE-2015-5334)
->
-> - armin
->
-> On 11/03/2015 03:34 PM, Ruslan Babayev wrote:
->> Please find attached the patch to add support for LibreSSL.
->> 
->> OpenSSL is still preferred, so you'd have add these to your local.conf
->> 
->> PREFERRED_PROVIDER_openssl ?= "openssl"
->> PREFERRED_PROVIDER_openssl-native ?= "openssl-native"
->> PREFERRED_PROVIDER_nativesdk-openssl ?= "nativesdk-openssl"
->> 
->> 
->> 
+> Tested on tmux 1.6.
 
+Yeah, I noticed this shortly after I submitted the fix for 1.9 but
+didn't think much of it. What system are you using that has tmux 1.6?
+
+>
+> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> ---
+>  meta/lib/oe/terminal.py |   15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+> index 52a8913..686b1ce 100644
+> --- a/meta/lib/oe/terminal.py
+> +++ b/meta/lib/oe/terminal.py
+> @@ -218,11 +218,24 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
+>
+>  def check_tmux_pane_size(tmux):
+>      import subprocess as sub
+> +    size = 0
+>      try:
+>          p = sub.Popen('%s list-panes -F "#{?pane_active,#{pane_height},}"' % tmux,
+>                  shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
+>          out, err = p.communicate()
+> -        size = int(out.strip())
+> +        try:
+> +            size = int(out.strip())
+> +        except ValueError:
+> +            # Older tmux versions (< 1.9) does not support nested formats,
+> +            # so try it in two steps
+> +            p = sub.Popen('%s list-panes -F "#{?pane_active,yes,no}"' % tmux,
+> +                shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
+> +            out, err = p.communicate()
+> +            if "yes" in out.strip():
+> +                p = sub.Popen('%s list-panes -F "#{pane_height}"' % tmux,
+> +                              shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
+> +                out, err = p.communicate()
+> +                size = int(out.strip())
+>      except OSError as exc:
+>          import errno
+>          if exc.errno == errno.ENOENT:
+> --
+> 1.7.10.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
