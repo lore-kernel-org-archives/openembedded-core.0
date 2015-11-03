@@ -1,26 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (unknown [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CE6ED76104
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BEE8770CA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Nov 2015 00:07:14 +0000 (UTC)
+	Tue,  3 Nov 2015 00:07:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tA307Ebj026781
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tA307FBX015817
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Nov 2015 16:07:15 -0800
+	Mon, 2 Nov 2015 16:07:15 -0800 (PST)
 Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 2 Nov 2015 16:07:14 -0800
+	Mon, 2 Nov 2015 16:07:15 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 2 Nov 2015 18:07:09 -0600
-Message-ID: <1446509230-116578-4-git-send-email-mark.hatle@windriver.com>
+Date: Mon, 2 Nov 2015 18:07:10 -0600
+Message-ID: <1446509230-116578-5-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <1446509230-116578-1-git-send-email-mark.hatle@windriver.com>
 References: <1446509230-116578-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] prelink: Fix various prelink issues on IA32, ARM, and MIPS.
+Subject: [PATCH 4/4] Revert "local.conf.sample: Disable image-prelink by default"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Nov 2015 00:07:14 -0000
+X-List-Received-Date: Tue, 03 Nov 2015 00:07:15 -0000
 Content-Type: text/plain
 
-Fix the following issues:
+This reverts commit 6dd28030f323d7106a02ec54ce4e249561ab0836.
 
-IA32 / ARM - Resync to glibc-2.22, fix a mismatch w/ glibc's ld.so
-MIPS - Ignore the new SHT_MIPS_ABIFLAGS
-ARM - Fix missing ARM IFUNC support chunk
-
-Also upstream prelink project no longer has a 'trunk' directory.
-
-[Yocto #8627]
-[Yocto #8227]
+Prelink now works properly again.  Re-enable the functionality.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-devtools/prelink/prelink_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/local.conf.sample | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index 79a5f50..e223ef6 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -8,7 +8,7 @@ and executables, so that far fewer relocations need to be resolved at \
- runtime and thus programs come up faster."
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
--SRCREV = "cdee5a4dd226cc5e9f30f370067a9031f398ef3c"
-+SRCREV = "927979bbd115eeb8a75db3231906ef6aca4c4eb6"
- PV = "1.0+git${SRCPV}"
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 9d1480e..3ae24ab 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -128,9 +128,7 @@ EXTRA_IMAGE_FEATURES = "debug-tweaks"
+ #   - 'image-swab' to perform host system intrusion detection
+ # NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
+ # NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
+-# NOTE: image-prelink is currently broken due to problems with the prelinker.  It is advised
+-# that you do NOT run the prelinker at this time. 
+-USER_CLASSES ?= "buildstats image-mklibs"
++USER_CLASSES ?= "buildstats image-mklibs image-prelink"
+ 
  
  #
-@@ -35,7 +35,7 @@ SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink \
- TARGET_OS_ORIG := "${TARGET_OS}"
- OVERRIDES_append = ":${TARGET_OS_ORIG}"
- 
--S = "${WORKDIR}/git/trunk"
-+S = "${WORKDIR}/git"
- 
- inherit autotools 
- 
 -- 
 1.9.3
 
