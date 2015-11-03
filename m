@@ -1,26 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BEE8770CA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EA2C76104
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Nov 2015 00:07:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tA307FBX015817
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  3 Nov 2015 00:10:49 +0000 (UTC)
+Received: by iodd200 with SMTP id d200so3656724iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Nov 2015 16:07:15 -0800 (PST)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 2 Nov 2015 16:07:15 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 2 Nov 2015 18:07:10 -0600
-Message-ID: <1446509230-116578-5-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <1446509230-116578-1-git-send-email-mark.hatle@windriver.com>
-References: <1446509230-116578-1-git-send-email-mark.hatle@windriver.com>
+	Mon, 02 Nov 2015 16:10:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=l5ejSS6YfNn2Pj4VTyxta41bwLFUh0dfyWSikOLxwjI=;
+	b=HxHKtmCnvr+KTss/Wgwy9Vehmwj3a5/laQvi4qG5kvXW43DaD53yMqCo57NNasY1Y5
+	aZHmS5ptiYmczMv8UQHR0GYFz/o/WfsB91YIqVRgkJHF1mhq0nW+1WgthyVDZ4psVflv
+	IkgG7g6X2ER1T7ZUF67RvaIbd+I/O32vxFcRS3oAj9GZXT2RqCWyil48VFOjjFX/s/uD
+	e9BKf2iZjqRF0/me4YvgmS7yJtQMoDUlbB+EcM39WBelqb12L5jXtm58IhLYF0aT81xS
+	FOuxaVyVaaHMQq3v74f9zAkNm2VlRHHydqxRm/Ne7atV5eLXwFgVibh//TRoU77+6mqr
+	PeDw==
+X-Received: by 10.107.4.3 with SMTP id 3mr6750443ioe.195.1446509449430; Mon,
+	02 Nov 2015 16:10:49 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 4/4] Revert "local.conf.sample: Disable image-prelink by default"
+Received: by 10.107.38.133 with HTTP; Mon, 2 Nov 2015 16:10:20 -0800 (PST)
+In-Reply-To: <1446509230-116578-5-git-send-email-mark.hatle@windriver.com>
+References: <1446509230-116578-1-git-send-email-mark.hatle@windriver.com>
+	<1446509230-116578-5-git-send-email-mark.hatle@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 2 Nov 2015 16:10:20 -0800
+Message-ID: <CAMKF1srqHEUBJTxNvsoXyCf5HWPGb4cCxQ1a0cJntLN7_+X2RQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] Revert "local.conf.sample: Disable image-prelink by default"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Nov 2015 00:07:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Nov 2015 00:10:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This reverts commit 6dd28030f323d7106a02ec54ce4e249561ab0836.
+On Mon, Nov 2, 2015 at 4:07 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> This reverts commit 6dd28030f323d7106a02ec54ce4e249561ab0836.
+>
+> Prelink now works properly again.  Re-enable the functionality.
+>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>  meta/conf/local.conf.sample | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+> index 9d1480e..3ae24ab 100644
+> --- a/meta/conf/local.conf.sample
+> +++ b/meta/conf/local.conf.sample
+> @@ -128,9 +128,7 @@ EXTRA_IMAGE_FEATURES = "debug-tweaks"
+>  #   - 'image-swab' to perform host system intrusion detection
+>  # NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
+>  # NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
+> -# NOTE: image-prelink is currently broken due to problems with the prelinker.  It is advised
+> -# that you do NOT run the prelinker at this time.
+> -USER_CLASSES ?= "buildstats image-mklibs"
+> +USER_CLASSES ?= "buildstats image-mklibs image-prelink"
 
-Prelink now works properly again.  Re-enable the functionality.
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/conf/local.conf.sample | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-index 9d1480e..3ae24ab 100644
---- a/meta/conf/local.conf.sample
-+++ b/meta/conf/local.conf.sample
-@@ -128,9 +128,7 @@ EXTRA_IMAGE_FEATURES = "debug-tweaks"
- #   - 'image-swab' to perform host system intrusion detection
- # NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
- # NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
--# NOTE: image-prelink is currently broken due to problems with the prelinker.  It is advised
--# that you do NOT run the prelinker at this time. 
--USER_CLASSES ?= "buildstats image-mklibs"
-+USER_CLASSES ?= "buildstats image-mklibs image-prelink"
- 
- 
- #
--- 
-1.9.3
-
+With all the discussions around benefits of it recently, I think its
+better disabled IMO,
 
