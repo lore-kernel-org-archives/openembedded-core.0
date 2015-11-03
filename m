@@ -1,29 +1,23 @@
-Return-Path: <Jian.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8725775A31
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D21971633
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Nov 2015 09:22:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tA39MnX0024839
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 3 Nov 2015 01:22:49 -0800 (PST)
-Received: from [128.224.163.183] (128.224.163.183) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 3 Nov 2015 01:22:49 -0800
-To: Khem Raj <raj.khem@gmail.com>
-References: <1446445418-31492-1-git-send-email-jian.liu@windriver.com>
-	<CAMKF1sqBfdSMphfZJ_O3nEd3cMA7A=5tKa2Xu0wGUsSr-HtuNg@mail.gmail.com>
-From: Jian Liu <jian.liu@windriver.com>
-Message-ID: <56387CE7.5040907@windriver.com>
-Date: Tue, 3 Nov 2015 17:22:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sqBfdSMphfZJ_O3nEd3cMA7A=5tKa2Xu0wGUsSr-HtuNg@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] archiver.bbclass: do checkout for kernel
+	Tue,  3 Nov 2015 17:22:36 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 03 Nov 2015 09:22:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,239,1444719600"; d="scan'208";a="593317222"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 03 Nov 2015 09:22:36 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id D36FF6A4083;
+	Tue,  3 Nov 2015 09:21:32 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Nov 2015 19:22:30 +0200
+Message-Id: <1446571350-7902-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] qemu-native: fix build on Ubuntu 15.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,78 +30,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Nov 2015 09:22:51 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 03 Nov 2015 17:22:39 -0000
 
-Hi,
+Build of qemu-native on Ubuntu 15.10 fails on configure step.
+The reason for this is that system dbus version is higher than
+oe dbus version and system pulseaudio libraries require newer dbus.
 
-I test linux-dummy linux-yocto-dev linux-yocto-rt linux-yocto-tiny and 
-the result is as follows,
+It causes configure to break with a lot of errors similar to this:
+  libpulsecommon-6.0.so: undefined reference to dbus_watch_get_enabled@LIBDBUS_1_3
 
-linux-dummy: this package just meets some dependency and there is no 
-source code for it.
-                       The patch does not impact it
-linux-yocto, linux-yocto-dev, linux-yocto-rt, linux-yocto-tiny: The S 
-variable of all packages is set to STAGING_KERNEK_DIR.
-                        do_fetch and do_unpack just leave a bare git 
-repo of kernel and do_kernel_checkout gets the source code
+Fixed by building qemu-native with the system dbus on Ubuntu 15.10
 
-Thanks!
-Jian
+Note: This is a workaround. It must be removed when oe dbus is upgraded
+to the version >= system dbus version (1.10.0 at the moment).
 
-On 2015年11月03日 05:30, Khem Raj wrote:
-> On Sun, Nov 1, 2015 at 10:23 PM, Jian Liu <jian.liu@windriver.com> wrote:
->> The repo of kernel is bare git repository and we need to checkout to get
->> the source code.
-> it should be linux-yocto I think, or do we have all kernels as bare git repos ?
->
->> Signed-off-by: Jian Liu <jian.liu@windriver.com>
->>
->> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
->> index 41a552c..7387fbf 100644
->> --- a/meta/classes/archiver.bbclass
->> +++ b/meta/classes/archiver.bbclass
->> @@ -66,6 +66,11 @@ python () {
->>       ar_recipe = d.getVarFlag('ARCHIVER_MODE', 'recipe', True)
->>
->>       if ar_src == "original":
->> +        # For kernel, it is bare repo, we need to checkout
->> +        if bb.data.inherits_class('kernel-yocto', d):
->> +            bb.build.addtask('do_ar_original', 'do_kernel_metadata', 'do_validate_branches', d)
->> +        else:
->> +            bb.build.addtask('do_ar_original', None, 'do_unpack', d)
->>           d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_original' % pn)
->>       elif ar_src == "patched":
->>           d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_patched' % pn)
->> @@ -113,6 +118,12 @@ python do_ar_original() {
->>
->>       ar_outdir = d.getVar('ARCHIVER_OUTDIR', True)
->>       bb.note('Archiving the original source...')
->> +    # For kernel, the source code is shared
->> +    if bb.data.inherits_class('kernel-yocto', d):
-> is this linux-yocto specific
->
->> +        srcdir = d.getVar('S', True)
->> +        create_tarball(d, srcdir, 'original', ar_outdir)
->> +        return
->> +
->>       fetch = bb.fetch2.Fetch([], d)
->>       for url in fetch.urls:
->>           local = fetch.localpath(url).rstrip("/");
->> @@ -346,7 +357,6 @@ python do_deploy_archives_setscene () {
->>   do_deploy_archives[sstate-inputdirs] = "${ARCHIVER_TOPDIR}"
->>   do_deploy_archives[sstate-outputdirs] = "${DEPLOY_DIR_SRC}"
->>
->> -addtask do_ar_original after do_unpack
->>   addtask do_ar_patched after do_unpack_and_patch
->>   addtask do_ar_configured after do_unpack_and_patch
->>   addtask do_dumpdata
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+[YOCTO #8553]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index abbace8..b17da2f 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -40,6 +40,12 @@ do_configure_prepend_class-native() {
+ 	BHOST_PKGCONFIG_PATH=$(PATH=/usr/bin:/bin pkg-config --variable pc_path pkg-config || echo "")
+ 	if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
+ 		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
++		# link with system dbus on Ubuntu 15.10
++		# FIXME: remove below 4 lines when oe dbus is upgraded
++		if [ -r /etc/lsb-release -a "$(lsb_release -is)$(lsb_release -rs)" = "Ubuntu15.10" ] ; then
++			libs=$(PKG_CONFIG_ALLOW_SYSTEM_LIBS=1 PKG_CONFIG_PATH=$BHOST_PKGCONFIG_PATH PATH=/usr/bin:/bin pkg-config --libs dbus-1 || echo "")
++			[ -n "$libs" ] && export LDFLAGS="$libs $LDFLAGS"
++		fi
+ 	fi
+ }
+ 
+-- 
+2.1.4
 
 
