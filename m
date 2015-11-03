@@ -1,44 +1,47 @@
-Return-Path: <ruslan@babayev.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id B0C8871633
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A3CF76104
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Nov 2015 22:34:31 +0000 (UTC)
-Received: by padhx2 with SMTP id hx2so22937394pad.1
+	Tue,  3 Nov 2015 22:38:39 +0000 (UTC)
+Received: by qkas77 with SMTP id s77so9774603qka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Nov 2015 14:34:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=babayev.com; s=google;
-	h=user-agent:from:to:subject:date:message-id:mime-version
-	:content-type; bh=kEZVnH5DCFfzH7E68OBiL9mvwNhl8j21Ib76Vx3quF4=;
-	b=cFfwq0gHGgPpA1MZ9nUWz6Ta2bGa8RBx4wyGDGz8VBXl98m8NRRhmk1PKtepHfubxV
-	fbkU1XT3scVWDYGz662w3a+OrneQp0m9TsYFcukJJIR57HeLls3NwBCN1bPH4xSeGbz/
-	PsG2RoG74ny2GVvh92laNkCrdMD7bSw5N2zNw=
+	Tue, 03 Nov 2015 14:38:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=Vw/qCgGjTpcUQ1nE8SThpR3wp6ScVyPp2WgJ1IEwJ7g=;
+	b=GQprpWU+cEaFvz8p432zJguWQvA1/3ABfnlohSFsNQFfLXtQP9tSbNECm5YNdiqWyu
+	u3iz4OfZIz4H920n9hNzJiKQgEdoqpKgu8k98q/QWuh5Ym9bfPxLThTC6gtyyPOrhEVV
+	+CiChv8NaFDwXAyyB2YEPqB6ja+r+bhomvPnKYTWFfWwispcL9iHTNzz+XWGtPzYukge
+	x47fRtn5RdjliLPMzzR0PVfDLsLEr8+929q8c7Qx3PPZPCPwAa7FQE+Mg36js7+fIGnh
+	hRlli+Cifxg1uzwbVgs7wGsKubzbl0o8WFYiAgUDJKPrJNYaSfWSXA7xeCwnv1+tQE1F
+	QXDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:user-agent:from:to:subject:date:message-id
-	:mime-version:content-type;
-	bh=kEZVnH5DCFfzH7E68OBiL9mvwNhl8j21Ib76Vx3quF4=;
-	b=Ow0vXYuqrNF4x+bgTdMYYbfdmobieUZ6A93HW+w+SxvRpgEE/WIIelBxpAW37wwcq3
-	a2TBzcDgXYFM1tyWKoIEAhncymfjUusvrWAhbgvOfH9ZwkimaH6Djao8BAHvzV/YaKhj
-	tVPBSbGcWvp9ocuVFbYPLGuV4HAA+YUy2FIwHmaMQwC5TeqKHXCXjMPNQCi+xBoaFzix
-	WRBvMbaZTSvN9jg62fhbqtV9U8LSBuc82Zu4H3Zt8M/i9wsn0A+Fs+PEqP4A8cbmQk08
-	avMpwpEofaY89btGBNCiTCMHXW1gUhyNmcL6tvkondtMpYAIJn9+UIdoJl0Z79wTmo0I
-	GyiA==
-X-Gm-Message-State: ALoCoQmfnspBGkwVD4uDYhFSMBAJRU2VVYFiD+xTzpQdj0EzD6h++IslmBfaMdxh9OJIgjmi7JRL
-X-Received: by 10.66.102.101 with SMTP id fn5mr35939893pab.111.1446590071482; 
-	Tue, 03 Nov 2015 14:34:31 -0800 (PST)
-Received: from localhost ([50.247.64.110]) by smtp.gmail.com with ESMTPSA id
-	so4sm31346314pbc.72.2015.11.03.14.34.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 03 Nov 2015 14:34:31 -0800 (PST)
-User-agent: mu4e 0.9.15; emacs 24.5.1
-From: Ruslan Babayev <ruslan@babayev.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 03 Nov 2015 15:34:31 -0800
-Message-ID: <87d1vqk67s.fsf@babayev.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Vw/qCgGjTpcUQ1nE8SThpR3wp6ScVyPp2WgJ1IEwJ7g=;
+	b=DBtkVEkCskAVvuVvGHrlOJk+t4OhjfGVDgLHbexHH52vFPHoS4L7xwtByhCwOUyRc5
+	wrkyupgBc9meYjsku/t0lJajhKd3zBSPNEGzGRO5TlHwUhKqzXZXyuW0VuxgMzcUjB2E
+	JL6cGmcCIt55mrmkD/HEc/HtVGkk5zHNu0yEqGMhxB8TwuCb5iqLlMAbZsDcvn2F1O5d
+	PyKQUoLZeo7MGHMfAOsFBSHIPavviXBTOJMiO38ivNjmVIbUoFnYoj+Ulq/BRi+Uqgq3
+	ARdvabZj+gCEUBU6olg00Xicw9mFgwmdj1mOZ+G7/m0q5EEBu/1PeBaUrUlPdonbT6aM
+	7gXw==
+X-Gm-Message-State: ALoCoQmU9h9ZoUpnrh1usMN6tUp5YbqG4ICzSBj2dV/tqwmO7PqLkOCjtoFCUCK1wLTWEfu/O2Bl
+X-Received: by 10.55.72.70 with SMTP id v67mr40050423qka.83.1446590319155;
+	Tue, 03 Nov 2015 14:38:39 -0800 (PST)
 MIME-Version: 1.0
-Subject: Add LibreSSL support
+Received: by 10.140.94.82 with HTTP; Tue, 3 Nov 2015 14:38:19 -0800 (PST)
+In-Reply-To: <87d1vqk67s.fsf@babayev.com>
+References: <87d1vqk67s.fsf@babayev.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 3 Nov 2015 22:38:19 +0000
+Message-ID: <CAJTo0LbrjPSFEdc0q1yZmSsCyPQ0gPUxkCodiaUrve9B8ybKoA@mail.gmail.com>
+To: Ruslan Babayev <ruslan@babayev.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Add LibreSSL support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,110 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Nov 2015 22:34:31 -0000
-Content-Type: multipart/mixed; boundary="=-=-="
+X-List-Received-Date: Tue, 03 Nov 2015 22:38:39 -0000
+Content-Type: multipart/alternative; boundary=001a114a97f61c066b0523aa8e05
 
---=-=-=
-Content-Type: text/plain
+--001a114a97f61c066b0523aa8e05
+Content-Type: text/plain; charset=UTF-8
 
-Please find attached the patch to add support for LibreSSL.
+On 3 November 2015 at 23:34, Ruslan Babayev <ruslan@babayev.com> wrote:
 
-OpenSSL is still preferred, so you'd have add these to your local.conf
+> Please find attached the patch to add support for LibreSSL.
+>
 
-PREFERRED_PROVIDER_openssl ?= "openssl"
-PREFERRED_PROVIDER_openssl-native ?= "openssl-native"
-PREFERRED_PROVIDER_nativesdk-openssl ?= "nativesdk-openssl"
+I think I'd prefer oe-core to have just the one provider of the openssl
+APIs, so if oe-core sticks with openssl then libressl should go into
+another layer, meta-networking maybe?
 
+Ross
 
---=-=-=
-Content-Type: text/x-patch
-Content-Disposition: inline; filename=0001-Add-LibreSSL.patch
+--001a114a97f61c066b0523aa8e05
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From db63d8224c0779d6de466014adf10e0a092a210c Mon Sep 17 00:00:00 2001
-From: Ruslan Babayev <ruslan@babayev.com>
-Date: Mon, 2 Nov 2015 17:56:27 -0800
-Subject: [PATCH] Add LibreSSL
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 November 2015 at 23:34, Ruslan Babayev <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:ruslan@babayev.com" target=3D"_blank">ruslan@babayev.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3me" class=3D"=
+a3s" style=3D"overflow:hidden">Please find attached the patch to add suppor=
+t for LibreSSL.<br></div></blockquote></div><br>I think I&#39;d prefer oe-c=
+ore to have just the one provider of the openssl APIs, so if oe-core sticks=
+ with openssl then libressl should go into another layer, meta-networking m=
+aybe?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+Ross</div></div>
 
----
- meta/conf/distro/include/default-providers.inc       |  3 +++
- .../libressl/files/gnuc_prereq.patch                 | 13 +++++++++++++
- meta/recipes-connectivity/libressl/libressl.inc      | 20 ++++++++++++++++++++
- meta/recipes-connectivity/libressl/libressl_2.2.4.bb |  6 ++++++
- 4 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-connectivity/libressl/files/gnuc_prereq.patch
- create mode 100644 meta/recipes-connectivity/libressl/libressl.inc
- create mode 100644 meta/recipes-connectivity/libressl/libressl_2.2.4.bb
-
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 9f84d5c..205f1cd 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -49,3 +49,6 @@ PREFERRED_PROVIDER_bluez-hcidump ?= "${@bb.utils.contains('DISTRO_FEATURES','blu
- # Alternative is ltp-ddt in meta-oe: meta-oe/recipes-devtools/ltp-ddt/ltp-ddt_0.0.4.bb
- PREFERRED_PROVIDER_ltp ?= "ltp"
- PREFERRED_PROVIDER_getopt ?= "util-linux-getopt"
-+PREFERRED_PROVIDER_openssl ?= "openssl"
-+PREFERRED_PROVIDER_openssl-native ?= "openssl-native"
-+PREFERRED_PROVIDER_nativesdk-openssl ?= "nativesdk-openssl"
-diff --git a/meta/recipes-connectivity/libressl/files/gnuc_prereq.patch b/meta/recipes-connectivity/libressl/files/gnuc_prereq.patch
-new file mode 100644
-index 0000000..61fa51a
---- /dev/null
-+++ b/meta/recipes-connectivity/libressl/files/gnuc_prereq.patch
-@@ -0,0 +1,13 @@
-+Index: libressl-2.2.4/crypto/bn/bn_lcl.h
-+===================================================================
-+--- libressl-2.2.4.orig/crypto/bn/bn_lcl.h
-++++ libressl-2.2.4/crypto/bn/bn_lcl.h
-+@@ -259,7 +259,7 @@ extern "C" {
-+ #  endif
-+ # elif defined(__mips) && defined(_LP64)
-+ #  if defined(__GNUC__) && __GNUC__>=2
-+-#   if __GNUC__>=4 && __GNUC_MINOR__>=4 /* "h" constraint is no more since 4.4 */
-++#   if __GNUC_PREREQ(4,4) /* "h" constraint is no more since 4.4 */
-+ #     define BN_UMULT_HIGH(a,b)		 (((__uint128_t)(a)*(b))>>64)
-+ #     define BN_UMULT_LOHI(low,high,a,b) ({	\
-+ 	__uint128_t ret=(__uint128_t)(a)*(b);	\
-diff --git a/meta/recipes-connectivity/libressl/libressl.inc b/meta/recipes-connectivity/libressl/libressl.inc
-new file mode 100644
-index 0000000..d0acdc4
---- /dev/null
-+++ b/meta/recipes-connectivity/libressl/libressl.inc
-@@ -0,0 +1,20 @@
-+SUMMARY = "LibreSSL fork of OpenSSL"
-+DESCRIPTION = "Secure Socket Layer (SSL) binary and related cryptographic tools."
-+HOMEPAGE = "http://www.libressl.org/"
-+SECTION = "libs/network"
-+
-+LICENSE = "openssl"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=01f9bb4d275f5eeea905377bef3de622"
-+
-+SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-${PV}.tar.gz"
-+
-+S = "${WORKDIR}/libressl-${PV}"
-+
-+inherit pkgconfig autotools
-+
-+PROVIDES += "openssl"
-+
-+RPROVIDES_${PN} += "openssl"
-+RCONFLICTS_${PN} += "openssl"
-+
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-connectivity/libressl/libressl_2.2.4.bb b/meta/recipes-connectivity/libressl/libressl_2.2.4.bb
-new file mode 100644
-index 0000000..f2f6fc2
---- /dev/null
-+++ b/meta/recipes-connectivity/libressl/libressl_2.2.4.bb
-@@ -0,0 +1,6 @@
-+require libressl.inc
-+
-+SRC_URI += " file://gnuc_prereq.patch"
-+
-+SRC_URI[md5sum] = "bae037598bd63987666302f9644de237"
-+SRC_URI[sha256sum] = "6b409859be8654afc3862549494e097017e64c8d167f12584383586306ef9a7e"
--- 
-2.6.2
-
-
---=-=-=--
+--001a114a97f61c066b0523aa8e05--
