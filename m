@@ -1,35 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D80760125
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 562FD76104
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Nov 2015 21:31:27 +0000 (UTC)
-Received: by iodd200 with SMTP id d200so253429iod.0
+	Tue,  3 Nov 2015 00:07:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tA307CdC026778
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Nov 2015 13:31:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=jcGcl8AukZeckxI/kxcK4g2Iqvex0tKdLKqGmsSga/k=;
-	b=jNJzLhqVZX3sOzLjArPpH84w6qt8546Eksvw/0I9DkAs6NsVz2OtTiOYPdrJOVJeWd
-	qAWtNaxNV+bfPU6mvxNxKEHNPs2zynQdjKosSs1JPwT+7q01tIg9PCqFFkqwPPkTVR0c
-	bG+Tmc45Tu965VvdFv2axdTk37YAcVQpf+LSkIoNDutJ1WFjs8arwRDckKTH2e26FPDr
-	r7pKA9CIbysZqYcmCcyqvmgVoygnrFGu43VmXUxlBDySp4iiGhGX5d1FvcgTp9nu4KuF
-	kWvX0dW+qYPZz0q32AIHbI8NYwOpXfqY2bG0ishSvNAeQ2W+tMq5Y0RQYntvFddlNPNu
-	vsYQ==
-X-Received: by 10.107.4.3 with SMTP id 3mr6136000ioe.195.1446499887533; Mon,
-	02 Nov 2015 13:31:27 -0800 (PST)
+	Mon, 2 Nov 2015 16:07:12 -0800
+Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 2 Nov 2015 16:07:11 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 2 Nov 2015 18:07:06 -0600
+Message-ID: <1446509230-116578-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.9.3
 MIME-Version: 1.0
-Received: by 10.107.38.133 with HTTP; Mon, 2 Nov 2015 13:30:58 -0800 (PST)
-In-Reply-To: <1446445418-31492-1-git-send-email-jian.liu@windriver.com>
-References: <1446445418-31492-1-git-send-email-jian.liu@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 2 Nov 2015 13:30:58 -0800
-Message-ID: <CAMKF1sqBfdSMphfZJ_O3nEd3cMA7A=5tKa2Xu0wGUsSr-HtuNg@mail.gmail.com>
-To: Jian Liu <jian.liu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] archiver.bbclass: do checkout for kernel
+Subject: [PATCH 0/4] [Jethro/master] Fix prelink support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,61 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Nov 2015 21:31:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 03 Nov 2015 00:07:13 -0000
+Content-Type: text/plain
 
-On Sun, Nov 1, 2015 at 10:23 PM, Jian Liu <jian.liu@windriver.com> wrote:
-> The repo of kernel is bare git repository and we need to checkout to get
-> the source code.
+Fix prelink support for Jethro/Master.
 
-it should be linux-yocto I think, or do we have all kernels as bare git repos ?
+* Fix glibc defect with it's prelink API
+* Fix GCC configuration for PowerPC (32-bit)
+* Update to newer prelink release (fix IA32, ARM and MIPS)
+* Revert image-prelink being disabled
 
->
-> Signed-off-by: Jian Liu <jian.liu@windriver.com>
->
-> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-> index 41a552c..7387fbf 100644
-> --- a/meta/classes/archiver.bbclass
-> +++ b/meta/classes/archiver.bbclass
-> @@ -66,6 +66,11 @@ python () {
->      ar_recipe = d.getVarFlag('ARCHIVER_MODE', 'recipe', True)
->
->      if ar_src == "original":
-> +        # For kernel, it is bare repo, we need to checkout
-> +        if bb.data.inherits_class('kernel-yocto', d):
-> +            bb.build.addtask('do_ar_original', 'do_kernel_metadata', 'do_validate_branches', d)
-> +        else:
-> +            bb.build.addtask('do_ar_original', None, 'do_unpack', d)
->          d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_original' % pn)
->      elif ar_src == "patched":
->          d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_patched' % pn)
-> @@ -113,6 +118,12 @@ python do_ar_original() {
->
->      ar_outdir = d.getVar('ARCHIVER_OUTDIR', True)
->      bb.note('Archiving the original source...')
-> +    # For kernel, the source code is shared
-> +    if bb.data.inherits_class('kernel-yocto', d):
+Changes are availabe in the git repository at:
 
-is this linux-yocto specific
+git://git.yoctoproject.org/poky-contrib mhatle/jethro_prelink
 
-> +        srcdir = d.getVar('S', True)
-> +        create_tarball(d, srcdir, 'original', ar_outdir)
-> +        return
-> +
->      fetch = bb.fetch2.Fetch([], d)
->      for url in fetch.urls:
->          local = fetch.localpath(url).rstrip("/");
-> @@ -346,7 +357,6 @@ python do_deploy_archives_setscene () {
->  do_deploy_archives[sstate-inputdirs] = "${ARCHIVER_TOPDIR}"
->  do_deploy_archives[sstate-outputdirs] = "${DEPLOY_DIR_SRC}"
->
-> -addtask do_ar_original after do_unpack
->  addtask do_ar_patched after do_unpack_and_patch
->  addtask do_ar_configured after do_unpack_and_patch
->  addtask do_dumpdata
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+Mark Hatle (4):
+  glibc: Fix ld.so / prelink interface for
+    ELF_RTYPE_CLASS_EXTERN_PROTECTED_DATA
+  gcc: Update default Power GCC settings to use secure-plt
+  prelink: Fix various prelink issues on IA32, ARM, and MIPS.
+  Revert "local.conf.sample: Disable image-prelink by default"
+
+ meta/conf/local.conf.sample                        |  4 +-
+ ...TYPE_CLASS_EXTERN_PROTECTED_DATA-for-prel.patch | 84 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.22.bb              |  1 +
+ meta/recipes-devtools/gcc/gcc-common.inc           |  5 ++
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |  1 +
+ meta/recipes-devtools/gcc/gcc-cross-initial.inc    |  1 +
+ meta/recipes-devtools/prelink/prelink_git.bb       |  4 +-
+ 7 files changed, 95 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-core/glibc/glibc/0028-Clear-ELF_RTYPE_CLASS_EXTERN_PROTECTED_DATA-for-prel.patch
+
+-- 
+1.9.3
+
 
