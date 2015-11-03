@@ -1,24 +1,21 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1613976E70
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B84A971633
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Nov 2015 22:21:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tA3MLEH9003430
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 3 Nov 2015 14:21:15 -0800 (PST)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 3 Nov 2015 14:21:14 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Nov 2015 16:21:12 -0600
-Message-ID: <1446589273-23317-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.9.3
-MIME-Version: 1.0
-Subject: [PATCH] [jethro/master] Fix mips XLP and Octeon3 assembly
+	Tue,  3 Nov 2015 22:32:00 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Nov 2015 14:32:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,240,1444719600"; d="scan'208";a="811069014"
+Received: from lsandov1-mobl-linux.zpn.intel.com ([10.219.5.41])
+	by orsmga001.jf.intel.com with ESMTP; 03 Nov 2015 14:31:59 -0800
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Nov 2015 16:34:14 -0600
+Message-Id: <1446590054-31188-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Cc: benoit.rapidel+yocto@exmachina.fr
+Subject: [PATCH] terminal: Support old tmux version (<1.9) when querying height value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,23 +28,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Nov 2015 22:21:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Nov 2015 22:32:02 -0000
 
-There is a clash in the machine value, as Octeon3 was assigned one value
-by binutils, but the XLP patch decided to use the same value.  Since the
-XLP value was not officially assigned, change it to avoid the clash.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-This fixes an issue where certain instructions, such as DMUL, may be 
-assembled incorrectly due to the clash.
+Old tmux version (< 1.9) does not support nested formats on the -F parameter, so
+if nested format does not give any answer, do the query in two steps.
 
-Mark Hatle (1):
-  binutils: Fix XLP / Octeon 3 instruction clash
+Tested on tmux 1.6.
 
- .../binutils/binutils/0012-Add-XLP-instructions-support.patch     | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/lib/oe/terminal.py |   15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 52a8913..686b1ce 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -218,11 +218,24 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
+ 
+ def check_tmux_pane_size(tmux):
+     import subprocess as sub
++    size = 0
+     try:
+         p = sub.Popen('%s list-panes -F "#{?pane_active,#{pane_height},}"' % tmux,
+                 shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
+         out, err = p.communicate()
+-        size = int(out.strip())
++        try:
++            size = int(out.strip())
++        except ValueError:
++            # Older tmux versions (< 1.9) does not support nested formats,
++            # so try it in two steps
++            p = sub.Popen('%s list-panes -F "#{?pane_active,yes,no}"' % tmux,
++                shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
++            out, err = p.communicate()
++            if "yes" in out.strip():
++                p = sub.Popen('%s list-panes -F "#{pane_height}"' % tmux,
++                              shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
++                out, err = p.communicate()
++                size = int(out.strip())
+     except OSError as exc:
+         import errno
+         if exc.errno == errno.ENOENT:
 -- 
-1.9.3
+1.7.10.4
 
 
