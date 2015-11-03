@@ -1,38 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E5F576E70
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id A49B5607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Nov 2015 04:52:37 +0000 (UTC)
-Received: by ioll68 with SMTP id l68so8292562iol.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Nov 2015 20:52:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Ibk9c68jYu/oFTM2A7Uj0SBQW+AWWJ5D7yCrh1oI2XE=;
-	b=oDdgi5zykO7yZAnecaGET/3JAYno0tUK8jyvTaJV1EAHtdX1OQgiV2EFuRldF98MDt
-	4vJVhZh9uBb4l0IsVciofPUiVg0A7OPuWet4cyIy0LxqUWJJd/Bdi1mI8Ao8HSgEtAB3
-	x06vR7dr90m0YAJsSrQgAyFkv6swlMZLCxKzV+zbJ4m1zu45cGOJLws56RRdSkU62j1O
-	k/vrxei8e/NV1uGE5Sgkl1y6D4PmZpWIY9Sd8ldAp4LVgQFn9sQgjze/z6q/RmM0hIdO
-	HbrUeVmnux5W3DW1VLC6S9OaW1T8vmtiMeuZbqfeqqmuWKjS0PQauAl15vd6T3ypuBhB
-	kjRQ==
-X-Received: by 10.107.4.3 with SMTP id 3mr7749544ioe.195.1446526357337; Mon,
-	02 Nov 2015 20:52:37 -0800 (PST)
+	Tue,  3 Nov 2015 07:00:22 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1ZtVZt-00075o-Mg from Awais_Belal@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 02 Nov 2015 23:00:21 -0800
+Received: from awais-Precision-M4700.pkl.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server id 14.3.224.2; Tue, 3 Nov 2015 07:00:19 +0000
+From: Awais Belal <awais_belal@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 3 Nov 2015 12:00:17 +0500
+Message-ID: <1446534017-6890-1-git-send-email-awais_belal@mentor.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.107.38.133 with HTTP; Mon, 2 Nov 2015 20:52:07 -0800 (PST)
-In-Reply-To: <5638162C.304@windriver.com>
-References: <1446509230-116578-1-git-send-email-mark.hatle@windriver.com>
-	<1446509230-116578-5-git-send-email-mark.hatle@windriver.com>
-	<CAMKF1srqHEUBJTxNvsoXyCf5HWPGb4cCxQ1a0cJntLN7_+X2RQ@mail.gmail.com>
-	<5638162C.304@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 2 Nov 2015 20:52:07 -0800
-Message-ID: <CAMKF1sqPhFgAYjp5DYB_ANnEG=TMgW-7Y22HY+yTkQ0eboHz6g@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] Revert "local.conf.sample: Disable image-prelink by default"
+Subject: [PATCH] python: ensure usage of host modules while cross compiling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,111 +31,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Nov 2015 04:52:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 03 Nov 2015 07:00:22 -0000
+Content-Type: text/plain
 
-On Mon, Nov 2, 2015 at 6:04 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> On 11/2/15 6:10 PM, Khem Raj wrote:
->> On Mon, Nov 2, 2015 at 4:07 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->>> This reverts commit 6dd28030f323d7106a02ec54ce4e249561ab0836.
->>>
->>> Prelink now works properly again.  Re-enable the functionality.
->>>
->>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->>> ---
->>>  meta/conf/local.conf.sample | 4 +---
->>>  1 file changed, 1 insertion(+), 3 deletions(-)
->>>
->>> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
->>> index 9d1480e..3ae24ab 100644
->>> --- a/meta/conf/local.conf.sample
->>> +++ b/meta/conf/local.conf.sample
->>> @@ -128,9 +128,7 @@ EXTRA_IMAGE_FEATURES = "debug-tweaks"
->>>  #   - 'image-swab' to perform host system intrusion detection
->>>  # NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
->>>  # NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
->>> -# NOTE: image-prelink is currently broken due to problems with the prelinker.  It is advised
->>> -# that you do NOT run the prelinker at this time.
->>> -USER_CLASSES ?= "buildstats image-mklibs"
->>> +USER_CLASSES ?= "buildstats image-mklibs image-prelink"
->>
->> With all the discussions around benefits of it recently, I think its
->> better disabled IMO,
->>
->
-> I disagree.  I've got rough estimate figures for prelink improvement to the system.
->
+The issue is generally seen on x86 type of machines passing
+-march=bdverX (X=3,4 etc) flags but in general this should
+cause a problem when freshly built target modules are tried
+for an import during the cross build process.
+Aiding the PYTHONPATH with CROSSPYTHONPATH which contains
+the native modules resolves the issue.
 
-core-image-sato is one image, we do not know if all apps in world
-build are prelink friendly, I have seen atleast some packages
-misbehave, (net-snmp on mips32) when using applications from meta-oe
-and big C++ applications internally, Debugging failures due to prelink
-issues is very hard, thats why I think
-making it default may not give best experience for users.
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+---
+ ...e-of-native-modules-while-cross-compiling.patch | 31 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.9.bb       |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/0001-ensure-usage-of-native-modules-while-cross-compiling.patch
 
-> core-image-sato w/ systemd enabled:
->
-> MIPS64 - n64 - 1.5MB of ram saved
-> MIPS64 - n32 - 500KB of ram saved
-> MIPS32 - n32 - 300KB of ram saved
->
-> ARM - 560k of ram saved
->
-> PPC - 380k of ram saved
->
-> IA32 - forgot to write it down, was around 500k.
->
->
-> Testing also showed sysvinit saves even more memory due to COW pages then
-> systemd.  (I was a bit surprised by that.)  My testing consisted of building a
-> filesystem and booting it.  Waiting for everything to 'finish' and then
-> comparing the output of the 'free' command in KB.
->
->
-> As for startup time savings, I don't have specific figures BUT, for a few key
-> cases the load time of the executable is up to 50% faster.  For instance busybox
-> on the qemux86-64.  Keep in mind that busybox is pretty simple and uses only a
-> few libraries.  The more libraries in use, the more prelink will affect load times.
->
-> The busybox binary loading and then exiting (LD_BIND_NOW=1 LD_DEBUG=statistics):
->
-> (not prelinked with LD_BIND_NOW defined to simulate worst case, all relocations
-> needed)
->
->        566:
->        566:     runtime linker statistics:
->        566:       total startup time in dynamic loader: 182539970 cycles
->        566:                 time needed for relocation: 40894259 cycles (22.4%)
->
->        566:                      number of relocations: 443
->        566:           number of relocations from cache: 3
->        566:             number of relative relocations: 1200
->        566:                time needed to load objects: 63004343 cycles (34.5%)
->
->        566:
->        566:     runtime linker statistics:
->        566:                final number of relocations: 445
->        566:     final number of relocations from cache: 3
->
-> (prelinked, same LD_BIND_NOW defined)
->
->        524:
->        524:     runtime linker statistics:
->        524:       total startup time in dynamic loader: 32420607 cycles
->        524:                 time needed for relocation: 2812608 cycles (8.6%)
->        524:                      number of relocations: 4
->        524:           number of relocations from cache: 76
->        524:             number of relative relocations: 0
->        524:                time needed to load objects: 15549810 cycles (47.9%)
->
->        524:
->        524:     runtime linker statistics:
->        524:                final number of relocations: 6
->        524:     final number of relocations from cache: 76
->
-> (both of the above were run with a hot cache, multiple times until the system
-> stabilized and returned results that were fairly consistent)
->
-> So the executable load time dropped to 17% (32420607/182539970) of the original
-> value due to being prelinked.
+diff --git a/meta/recipes-devtools/python/python/0001-ensure-usage-of-native-modules-while-cross-compiling.patch b/meta/recipes-devtools/python/python/0001-ensure-usage-of-native-modules-while-cross-compiling.patch
+new file mode 100644
+index 0000000..1e87e89
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/0001-ensure-usage-of-native-modules-while-cross-compiling.patch
+@@ -0,0 +1,31 @@
++From 4eb30173f2d254f19d5ef18fabed3bdb2e5c1182 Mon Sep 17 00:00:00 2001
++From: Awais Belal <awais_belal@mentor.com>
++Date: Fri, 30 Oct 2015 17:47:07 +0500
++Subject: [PATCH] ensure usage of native modules while cross compiling
++
++The PYTHONPATH variable augments the default search path and
++is prepended to it. We need to make sure that host modules
++are used while cross compiling otherwise an illegal instruction
++error is generated if the modules built for target are imported.
++
++Signed-off-by: Awais Belal <awais_belal@mentor.com>
++---
++ configure.ac | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/configure.ac b/configure.ac
++index 87a4f02..fa9e0dd 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -33,7 +33,7 @@ if test "$cross_compiling" = yes; then
++ 	    AC_MSG_ERROR([python$PACKAGE_VERSION interpreter not found])
++ 	fi
++         AC_MSG_RESULT($interp)
++-	PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib:$(srcdir)/Lib/plat-$(MACHDEP) '$interp
+++	PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(CROSSPYTHONPATH):$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib:$(srcdir)/Lib/plat-$(MACHDEP) '$interp
++     fi
++ elif test "$cross_compiling" = maybe; then
++     AC_MSG_ERROR([Cross compiling required --host=HOST-TUPLE and --build=ARCH])
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/python/python_2.7.9.bb b/meta/recipes-devtools/python/python_2.7.9.bb
+index f7e2f27..9a43cf7 100644
+--- a/meta/recipes-devtools/python/python_2.7.9.bb
++++ b/meta/recipes-devtools/python/python_2.7.9.bb
+@@ -26,6 +26,7 @@ SRC_URI += "\
+   file://parallel-makeinst-create-bindir.patch \
+   file://use_sysroot_ncurses_instead_of_host.patch \
+   file://avoid_parallel_make_races_on_pgen.patch \
++  file://0001-ensure-usage-of-native-modules-while-cross-compiling.patch \
+ "
+ 
+ S = "${WORKDIR}/Python-${PV}"
+-- 
+1.9.1
+
 
