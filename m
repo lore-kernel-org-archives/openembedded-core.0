@@ -1,23 +1,22 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D21971633
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 460AC73D46
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Nov 2015 17:22:36 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 03 Nov 2015 09:22:37 -0800
+	Tue,  3 Nov 2015 20:28:01 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 03 Nov 2015 12:28:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,239,1444719600"; d="scan'208";a="593317222"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 03 Nov 2015 09:22:36 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id D36FF6A4083;
-	Tue,  3 Nov 2015 09:21:32 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.20,239,1444719600"; d="scan'208";a="842341359"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Nov 2015 12:28:01 -0800
+From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Nov 2015 19:22:30 +0200
-Message-Id: <1446571350-7902-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] qemu-native: fix build on Ubuntu 15.10
+Date: Tue,  3 Nov 2015 20:27:08 +0000
+Message-Id: <1446582428-14443-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Cc: bruce.ashfield@windriver.com
+Subject: [PATCH] yocto-bsp: Avoid duplication of user patches ({{=machine}}-user-patches.scc)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,45 +29,434 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Nov 2015 17:22:39 -0000
+X-List-Received-Date: Tue, 03 Nov 2015 20:28:04 -0000
 
-Build of qemu-native on Ubuntu 15.10 fails on configure step.
-The reason for this is that system dbus version is higher than
-oe dbus version and system pulseaudio libraries require newer dbus.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-It causes configure to break with a lot of errors similar to this:
-  libpulsecommon-6.0.so: undefined reference to dbus_watch_get_enabled@LIBDBUS_1_3
+In linux-yocto-dev or linux-yocto_X.YY bbappend files, the SRC_URI includes
+{{=machine}}-standard.scc, which in turn includes {{=machine}}-user-parches.scc,
+thus there is no need to include it again on the corresponding bbappend file.
 
-Fixed by building qemu-native with the system dbus on Ubuntu 15.10
+[YOCTO #8486]
 
-Note: This is a workaround. It must be removed when oe dbus is upgraded
-to the version >= system dbus version (1.10.0 at the moment).
-
-[YOCTO #8553]
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../target/arch/arm/recipes-kernel/linux/linux-yocto-dev.bbappend      | 1 -
+ .../target/arch/arm/recipes-kernel/linux/linux-yocto_3.14.bbappend     | 3 +--
+ .../target/arch/arm/recipes-kernel/linux/linux-yocto_3.19.bbappend     | 3 +--
+ .../target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbapend       | 1 -
+ .../target/arch/i386/recipes-kernel/linux/linux-yocto-dev.bbappend     | 1 -
+ .../target/arch/i386/recipes-kernel/linux/linux-yocto_3.14.bbappend    | 3 +--
+ .../target/arch/i386/recipes-kernel/linux/linux-yocto_3.19.bbappend    | 3 +--
+ .../target/arch/i386/recipes-kernel/linux/linux-yocto_4.1.bbappend     | 1 -
+ .../target/arch/mips/recipes-kernel/linux/linux-yocto-dev.bbappend     | 1 -
+ .../target/arch/mips/recipes-kernel/linux/linux-yocto_3.14.bbappend    | 3 +--
+ .../target/arch/mips/recipes-kernel/linux/linux-yocto_3.19.bbappend    | 3 +--
+ .../target/arch/mips/recipes-kernel/linux/linux-yocto_4.1.bbappend     | 1 -
+ .../target/arch/mips64/recipes-kernel/linux/linux-yocto-dev.bbappend   | 1 -
+ .../target/arch/mips64/recipes-kernel/linux/linux-yocto_3.14.bbappend  | 3 +--
+ .../target/arch/mips64/recipes-kernel/linux/linux-yocto_3.19.bbappend  | 3 +--
+ .../target/arch/mips64/recipes-kernel/linux/linux-yocto_4.1.bbappend   | 1 -
+ .../target/arch/powerpc/recipes-kernel/linux/linux-yocto-dev.bbappend  | 1 -
+ .../target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.14.bbappend | 1 -
+ .../target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.19.bbappend | 1 -
+ .../target/arch/powerpc/recipes-kernel/linux/linux-yocto_4.1.bbappend  | 1 -
+ .../target/arch/qemu/recipes-kernel/linux/linux-yocto-dev.bbappend     | 1 -
+ .../target/arch/qemu/recipes-kernel/linux/linux-yocto_3.14.bbappend    | 1 -
+ .../target/arch/qemu/recipes-kernel/linux/linux-yocto_3.19.bbappend    | 1 -
+ .../target/arch/qemu/recipes-kernel/linux/linux-yocto_4.1.bbappend     | 1 -
+ .../target/arch/x86_64/recipes-kernel/linux/linux-yocto-dev.bbappend   | 1 -
+ .../target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.14.bbappend  | 1 -
+ .../target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.19.bbappend  | 1 -
+ .../target/arch/x86_64/recipes-kernel/linux/linux-yocto_4.1.bbappend   | 1 -
+ 28 files changed, 8 insertions(+), 36 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index abbace8..b17da2f 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -40,6 +40,12 @@ do_configure_prepend_class-native() {
- 	BHOST_PKGCONFIG_PATH=$(PATH=/usr/bin:/bin pkg-config --variable pc_path pkg-config || echo "")
- 	if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
- 		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
-+		# link with system dbus on Ubuntu 15.10
-+		# FIXME: remove below 4 lines when oe dbus is upgraded
-+		if [ -r /etc/lsb-release -a "$(lsb_release -is)$(lsb_release -rs)" = "Ubuntu15.10" ] ; then
-+			libs=$(PKG_CONFIG_ALLOW_SYSTEM_LIBS=1 PKG_CONFIG_PATH=$BHOST_PKGCONFIG_PATH PATH=/usr/bin:/bin pkg-config --libs dbus-1 || echo "")
-+			[ -n "$libs" ] && export LDFLAGS="$libs $LDFLAGS"
-+		fi
- 	fi
- }
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-dev.bbappend b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-dev.bbappend
+index 2fa6231..c336007 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-dev.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-dev.bbappend
+@@ -21,6 +21,5 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index 1e1cc51..b7603aa 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+@@ -30,4 +29,4 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+ # the appropriate changes committed to the upstream linux-yocto repo
+ #SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+ #SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
+-#LINUX_VERSION = "3.14"
+\ No newline at end of file
++#LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index 97e1bb8..729afed 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+@@ -30,4 +29,4 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+ # the appropriate changes committed to the upstream linux-yocto repo
+ #SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+ #SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
+-#LINUX_VERSION = "3.19"
+\ No newline at end of file
++#LINUX_VERSION = "3.19"
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbapend b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbapend
+index 2ffb7a6..8ba7b5f 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbapend
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbapend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-dev.bbappend b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-dev.bbappend
+index 2fa6231..c336007 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-dev.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-dev.bbappend
+@@ -21,6 +21,5 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index fbb49ed..be92ec5 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+@@ -30,4 +29,4 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+ # the appropriate changes committed to the upstream linux-yocto repo
+ #SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+ #SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
+-#LINUX_VERSION = "3.14"
+\ No newline at end of file
++#LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index 0c2cb5a..7c5772b 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+@@ -30,4 +29,4 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+ # the appropriate changes committed to the upstream linux-yocto repo
+ #SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+ #SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
+-#LINUX_VERSION = "3.19"
+\ No newline at end of file
++#LINUX_VERSION = "3.19"
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_4.1.bbappend
+index d4862b5..0489ef5 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_4.1.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-dev.bbappend b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-dev.bbappend
+index 2fa6231..c336007 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-dev.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-dev.bbappend
+@@ -21,6 +21,5 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index 1e1cc51..b7603aa 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+@@ -30,4 +29,4 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+ # the appropriate changes committed to the upstream linux-yocto repo
+ #SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+ #SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
+-#LINUX_VERSION = "3.14"
+\ No newline at end of file
++#LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index 97e1bb8..729afed 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+@@ -30,4 +29,4 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+ # the appropriate changes committed to the upstream linux-yocto repo
+ #SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+ #SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
+-#LINUX_VERSION = "3.19"
+\ No newline at end of file
++#LINUX_VERSION = "3.19"
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_4.1.bbappend
+index 61adafd..38adca3 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_4.1.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-dev.bbappend b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-dev.bbappend
+index 2fa6231..c336007 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-dev.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-dev.bbappend
+@@ -21,6 +21,5 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index fb6cdef..8ec4117 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+@@ -30,4 +29,4 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+ # the appropriate changes committed to the upstream linux-yocto repo
+ SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "dbe5b52e93ff114b2c0f5da6f6af91f52c18f2b8"
+ SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "6eddbf47875ef48ddc5864957a7b63363100782b"
+-#LINUX_VERSION = "3.14"
+\ No newline at end of file
++#LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index 134aeec..a1f2cc3 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+@@ -30,4 +29,4 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+ # the appropriate changes committed to the upstream linux-yocto repo
+ #SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+ #SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
+-#LINUX_VERSION = "3.19"
+\ No newline at end of file
++#LINUX_VERSION = "3.19"
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_4.1.bbappend
+index 851d306..f98cf0c 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_4.1.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-dev.bbappend b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-dev.bbappend
+index 2fa6231..c336007 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-dev.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-dev.bbappend
+@@ -21,6 +21,5 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index e688384..b7603aa 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index ded9e85..729afed 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_4.1.bbappend
+index 61adafd..38adca3 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_4.1.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-dev.bbappend b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-dev.bbappend
+index be479be..3555285 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-dev.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-dev.bbappend
+@@ -51,6 +51,5 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index 626019c..08a997a 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -51,7 +51,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index b4798b7..cdc00a9 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -51,7 +51,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_4.1.bbappend
+index dc8a5be..6a24dc2 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_4.1.bbappend
+@@ -51,7 +51,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-dev.bbappend b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-dev.bbappend
+index 2fa6231..c336007 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-dev.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-dev.bbappend
+@@ -21,6 +21,5 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index ca0b497..7c5dcc7 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index dba63c3..92b68cc 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_4.1.bbappend
+index 9cc2a7f..7f49bfc 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_4.1.bbappend
+@@ -22,7 +22,6 @@ KERNEL_FEATURES_append_{{=machine}} += " cfg/smp.scc"
+ 
+ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-config.cfg \
+-            file://{{=machine}}-user-patches.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
 -- 
-2.1.4
+1.8.4.5
 
 
