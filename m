@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id AE87D77115
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 392EA75E2D
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  4 Nov 2015 19:55:13 +0000 (UTC)
-Received: by wmec75 with SMTP id c75so122506490wme.1
+Received: by wmeg8 with SMTP id g8so50727378wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Nov 2015 11:55:13 -0800 (PST)
+	Wed, 04 Nov 2015 11:55:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel_com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=3fFAv44J5tRofrjW9QNLlYbwud08IICPy+1ZkA/8J/g=;
-	b=bawxCQ2Fr1YEf9L3jEovMS0+FAx+BNq4JfZlv7pbnw04Uzp/np/zEHW1lygRX46W+c
-	+fjz470u3zpxVLK7KsXNRtwA1wJdKvNZOa5H5Tzr6w+audk54BIQUBC5FXw+g3krqfHA
-	UR3NVE1N0svrWbKSxP12AOn4ImHNrDKhDdAfVuasdq8AEyKxSZzmN5bdJ8oROYUN0aL0
-	kDM/hhAFlywtSIAgz5cXXiCxM80erVz2kT8i4PveSq0o8bZQr2UREUOWxMWV/NY5oVVM
-	o+kWWf37XNV0xV9ZFgq2rMpj9M14gEVaZR2Eg0JOI0hURlXSzpEhlxbUfVoUbqsFmW/S
-	SdWQ==
+	bh=on6Ng8ZNwnBa8D5z3P45VCEagaSqVMuZPmE3uiGf1hU=;
+	b=KWAIy65pTYA6nbq8hAyZp30minmkEzapsQTwqlOi1wOYOMLQfrNtT40lYURJ4FnP7L
+	kWfZZnkYA3NORLlBeWVJQLhTQOiLpKrpyHrDL+rz4NczRaIRBC7e/OgpZ+/paFnJatES
+	lj9wl76Dje1Xj7XGky5Pi6k2rDUAjLXtKbem4sRmymIXi6RAiyaURclGHpzF6Xq0Wrg7
+	Bjn7SFZnbhatvJkmYparS8gsAn8eQl9A+r7O6oWquJTSosplTBk8ZVU6JVnAJW4NdcUg
+	WlYi14poSoy2ohuPuNXf8l9Dck/pz/ffD+IqKIHGa0Moq2Ti183sZwWV06LkEdOX5GlZ
+	qtGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=3fFAv44J5tRofrjW9QNLlYbwud08IICPy+1ZkA/8J/g=;
-	b=WDZHaWPGsfazNoF6XGAjhiRHk4eHOrb4WHrHyiSiW1n7K/+u3AaI5atkRd66Gj1ZDE
-	aw4Wg2dG//fU87vitu7MWTiPVoqgD1YEaTh6NS+As/zji7EjazyBQ+05yiWacMmYW09v
-	cl9O5tUkyAyIccvQfbzzrueeufYzdvFoHelLOl6QIJB+oIQBGw2/b2CXryXA7HQTxHVg
-	PeGxbc2jH6MWER+0VgmO6g4B8t38yohzE5HTbQTh1cdUy4sw/9awXBNuxw/W1lTFAqB8
-	vyg4TbtDdBiUF2Xtw184jlgYxC9VxRhl0T+VzRfs+t5LyjHFtR2SFdynUBYPSQAZkOAS
-	Yw3g==
-X-Gm-Message-State: ALoCoQky7/oHHx0UcKFUJMaTuUvfOMQDWqrVDPOPJ3I+MEV+qaEwueFxHiTfQDycr+iMvEo7s901
-X-Received: by 10.28.92.16 with SMTP id q16mr30720687wmb.94.1446666913281;
+	bh=on6Ng8ZNwnBa8D5z3P45VCEagaSqVMuZPmE3uiGf1hU=;
+	b=KkHdWebSOSocOCc2vemD2l+AVkeMjnhpPiVuQXYsunpLrH7Cr6XHC9/rNXCpmHNUHk
+	kVw3w50mGSU8hH9iMOkIdEwAL03Qk4cwn0aSW1JllrVPWvF55iV6oJUweKiPTbyTpQ4M
+	/HBsqItAWMi1Bm/8gTVRftZHepq9sW05YeokqM8ZX3UzZFugDZO6izehLsGl3ROOpltv
+	syOE9rhu7ky8nlcY4A15okaQQ8SuyOMJbbc6cJS71VhrKC3x6B/LYwgZcpA+pxYTfPvp
+	onjL4oOmAPnrqFLc4fbPnI+uHTq3nz2Wu/OmNpj+V0lvNB42loAIIqWQGINZoD9X7w94
+	XgLw==
+X-Gm-Message-State: ALoCoQmoVf021xh4+//JXBqAOgwEvjNDWriCKuMr7SweIxu3rI9PwnfpRIEuUAaSAmpZxUmKzRi9
+X-Received: by 10.28.211.143 with SMTP id k137mr5697142wmg.49.1446666913927;
 	Wed, 04 Nov 2015 11:55:13 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id w9sm3206881wjf.20.2015.11.04.11.55.12
+	by smtp.gmail.com with ESMTPSA id w9sm3206881wjf.20.2015.11.04.11.55.13
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 04 Nov 2015 11:55:12 -0800 (PST)
+	Wed, 04 Nov 2015 11:55:13 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Nov 2015 19:47:00 +0000
-Message-Id: <1446666421-2549-3-git-send-email-ross.burton@intel.com>
+Date: Wed,  4 Nov 2015 19:47:01 +0000
+Message-Id: <1446666421-2549-4-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1446666421-2549-1-git-send-email-ross.burton@intel.com>
 References: <1446666421-2549-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 3/4] gcr: remove Vala dependency
+Subject: [PATCH 4/4] at: modify sources in do_patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Nov 2015 19:55:14 -0000
+X-List-Received-Date: Wed, 04 Nov 2015 19:55:16 -0000
 
-The Vala support in GCR requires gobject-introspection so even with the build
-dependency on Vala it isn't enabled, so remove the build dependency and
-explicitly disable Vala support.
+Instead of copying the forked source files into ${S} in do_compile_prepend(), do
+it in a do_patch() postfunc.  This ensures that the source archiver sees the
+changes for compliance and legal verification.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-gnome/gcr/gcr_3.16.0.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-extended/at/at_3.1.16.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/gcr/gcr_3.16.0.bb b/meta/recipes-gnome/gcr/gcr_3.16.0.bb
-index 057c815..cf4be84 100644
---- a/meta/recipes-gnome/gcr/gcr_3.16.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.16.0.bb
-@@ -5,7 +5,7 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+diff --git a/meta/recipes-extended/at/at_3.1.16.bb b/meta/recipes-extended/at/at_3.1.16.bb
+index 0512bcb..b11b587 100644
+--- a/meta/recipes-extended/at/at_3.1.16.bb
++++ b/meta/recipes-extended/at/at_3.1.16.bb
+@@ -47,10 +47,10 @@ INITSCRIPT_PARAMS = "defaults"
  
--DEPENDS = "gtk+3 p11-kit glib-2.0 libgcrypt vala"
-+DEPENDS = "gtk+3 p11-kit glib-2.0 libgcrypt"
+ SYSTEMD_SERVICE_${PN} = "atd.service"
  
- inherit autotools gnomebase gtk-icon-cache gtk-doc distro_features_check
- # depends on gtk+3
-@@ -14,6 +14,8 @@ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- SRC_URI[archive.md5sum] = "d5835680be0b6a838e02a528d5378d9c"
- SRC_URI[archive.sha256sum] = "ecfe8df41cc88158364bb15addc670b11e539fe844742983629ba2323888d075"
+-
+-do_compile_prepend () {
++copy_sources() {
+ 	cp -f ${WORKDIR}/posixtm.[ch] ${S}
+ }
++do_patch[postfuncs] += "copy_sources"
  
-+EXTRA_OECONF = "--disable-vala"
-+
- FILES_${PN} += " \
-     ${datadir}/dbus-1 \
-     ${datadir}/gcr-3 \
+ do_install () {
+ 	oe_runmake -e "IROOT=${D}" install
 -- 
 2.1.4
 
