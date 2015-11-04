@@ -1,40 +1,45 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 88DC077009
+	by mail.openembedded.org (Postfix) with ESMTP id 87F6660125
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  4 Nov 2015 00:06:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 830102E1D8;
-	Wed,  4 Nov 2015 01:06:20 +0100 (CET)
+	by bes.se.axis.com (Postfix) with ESMTP id 5B7132E1DB;
+	Wed,  4 Nov 2015 01:06:19 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id d7lv-CB6loTY; Wed,  4 Nov 2015 01:06:18 +0100 (CET)
+	with LMTP id iRpb1QLN0uUY; Wed,  4 Nov 2015 01:06:18 +0100 (CET)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 4517D2E1D7;
+	by bes.se.axis.com (Postfix) with ESMTP id 528872E1D8;
 	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 212F0152;
+	by postfix.imss71 (Postfix) with ESMTP id 38EAB158;
 	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
 Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 136429E;
-	Wed,  4 Nov 2015 01:06:17 +0100 (CET)
+	by boulder.se.axis.com (Postfix) with ESMTP id 1E354151;
+	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id D54903E58B;
-	Wed,  4 Nov 2015 01:06:17 +0100 (CET)
+	by seth.se.axis.com (Postfix) with ESMTP id 141543E592;
+	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id tA406Hv3009216;
-	Wed, 4 Nov 2015 01:06:17 +0100
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id tA406I4n009228;
+	Wed, 4 Nov 2015 01:06:18 +0100
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id tA406HUs009214;
-	Wed, 4 Nov 2015 01:06:17 +0100
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id tA406I8Q009227;
+	Wed, 4 Nov 2015 01:06:18 +0100
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Nov 2015 01:06:04 +0100
-Message-Id: <cover.1446595453.git.pkj@axis.com>
+Date: Wed,  4 Nov 2015 01:06:07 +0100
+Message-Id: <80c440e102c4e93b14d11d4ae0dfb4c92158a303.1446595453.git.pkj@axis.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 0/5] Improvements for useradd-staticids.bbclass
+In-Reply-To: <cover.1446595453.git.pkj@axis.com>
+References: <cover.1446595453.git.pkj@axis.com>
+In-Reply-To: <cover.1446595453.git.pkj@axis.com>
+References: <cover.1446595453.git.pkj@axis.com>
+Subject: [PATCH 3/5] useradd-staticids.bbclass: Simplify some logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,72 +54,73 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 04 Nov 2015 00:06:24 -0000
 
-This series of patches aims to improve useradd-staticids.bbclass.
+The [<on_true>, <on_false>][not <condition>] construct may solve the
+problem of implementing a conditional operator, but it is not very
+readable. At least I find this:
 
-We are currently using useradd-staticids.bbclass to make sure all
-users and groups have well defined IDs. So far we have had the
-definitions of the users both in the recipes and in the passwd file
-used by useradd-staticids.bbclass. Since we have a huge number of
-recipes that create users, having to duplicate the definitions all
-over the place has turned out to be a burden we should be able to
-avoid.
+    uaargs.groupid = field[3] or uaargs.gid or uaargs.groupname
 
-So the current plan for us is to have one passwd file per layer with
-the definitions of all users that layer needs. These definitions do
-not include the static IDs for the users. Instead the static IDs for
-the users are specified in a distro specific passwd-static file. There
-is also a distro specific group-static file for the group IDs. With
-that in place it should be enough to define a user as:
+a lot more readable than this:
 
-USERADD_PARAM_${PN} = "--system foobar"
+    uaargs.groupid = [uaargs.gid, uaargs.groupname][not uaargs.gid]
+    uaargs.groupid = [field[3], uaargs.groupid][not field[3]]
 
-in a recipe and let useradd-staticids.bbclass handle the specifics for
-how that user should be defined.
+Also, the official conditional operator since Python 2.5 (<on_true> if
+<condition> else <on_false>) does not evaluate both <on_false> and
+<on_true> as [<on_true>, <on_false>][not <condition>] does.
 
-The above worked fine for all users that had a primary group with the
-same name as the user. However, it turned out that for users that
-wanted some other primary group, specifying it in the passwd file was
-not enough. We still had to add --gid <some group> in the recipe where
-<some group> had to match what was specified in the passwd file. This
-was less than optimal, and somewhat defeated the setup.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/classes/useradd-staticids.bbclass | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-It also turned out that for users with a primary group that does not
-match the user name, useradd-staticids.bbclass would still add the
-creation of a group with the same name as the user (when it parsed the
-passwd-static file) and the add another creation of the correct group
-(when it parsed the passwd file).
-
-So after spending quite a lot of time on trying to decode how
-rewrite_useradd() calculated the --gid option, I came up with this
-series of changes that should correct the problems described above and
-make the code easier to understand while (hopefully) maintaining
-compatibility with the old code.
-
-I fully understand that this is very late for Jethro and do not really
-expect it to make it into 2.0.0, but if at all possible I hope it can
-make it since that would make my life much easier. :)
-
-//Peter
-
-The following changes since commit fc45deac89ef63ca1c44e763c38ced7dfd72cbe1:
-
-  build-appliance-image: Update to jethro head revision (2015-11-03 14:03:03 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/useradd_improvements
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/useradd_improvements
-
-Peter Kjellerstedt (5):
-  useradd-staticids.bbclass: Treat mutually exclusive options as such
-  useradd-staticids.bbclass: Make --no-user-group have effect
-  useradd-staticids.bbclass: Simplify some logic
-  useradd-staticids.bbclass: Simplify the logic for when to add groups
-  useradd-staticids.bbclass: Read passwd/group files before parsing
-
- meta/classes/useradd-staticids.bbclass | 192 ++++++++++++++++++---------------
- 1 file changed, 103 insertions(+), 89 deletions(-)
-
+diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
+index c2e6579..0e855e9 100644
+--- a/meta/classes/useradd-staticids.bbclass
++++ b/meta/classes/useradd-staticids.bbclass
+@@ -97,7 +97,7 @@ def update_useradd_static_config(d):
+                         if field[0] == uaargs.LOGIN:
+                             if uaargs.uid and field[2] and (uaargs.uid != field[2]):
+                                 bb.warn("%s: Changing username %s's uid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.uid, field[2]))
+-                            uaargs.uid = [field[2], uaargs.uid][not field[2]]
++                            uaargs.uid = field[2] or uaargs.uid
+ 
+                             # Determine the possible groupname
+                             # Unless the group name (or gid) is specified, we assume that the LOGIN is the groupname
+@@ -107,9 +107,8 @@ def update_useradd_static_config(d):
+                             # is used, and we disable the user_group option.
+                             #
+                             user_group = uaargs.user_group is None or uaargs.user_group is True
+-                            uaargs.groupname = [uaargs.LOGIN, uaargs.gid][not user_group]
+-                            uaargs.groupid = [uaargs.gid, uaargs.groupname][not uaargs.gid]
+-                            uaargs.groupid = [field[3], uaargs.groupid][not field[3]]
++                            uaargs.groupname = uaargs.LOGIN if user_group else uaargs.gid
++                            uaargs.groupid = field[3] or uaargs.gid or uaargs.groupname
+ 
+                             if not uaargs.gid or uaargs.gid != uaargs.groupid:
+                                 if (uaargs.groupid and uaargs.groupid.isdigit()) and (uaargs.groupname and uaargs.groupname.isdigit()) and (uaargs.groupid != uaargs.groupname):
+@@ -123,7 +122,7 @@ def update_useradd_static_config(d):
+                                     uaargs.gid = uaargs.groupid
+                                     uaargs.user_group = None
+                                     groupadd = d.getVar("GROUPADD_PARAM_%s" % pkg, True)
+-                                    newgroup = "%s %s" % (['', ' --system'][uaargs.system], uaargs.groupname)
++                                    newgroup = "%s %s" % (' --system' if uaargs.system else '', uaargs.groupname)
+                                     if groupadd:
+                                         d.setVar("GROUPADD_PARAM_%s" % pkg, "%s ; %s" % (groupadd, newgroup))
+                                     else:
+@@ -140,9 +139,9 @@ def update_useradd_static_config(d):
+                                     else:
+                                         d.setVar("GROUPADD_PARAM_%s" % pkg, newgroup)
+ 
+-                            uaargs.comment = ["'%s'" % field[4], uaargs.comment][not field[4]]
+-                            uaargs.home_dir = [field[5], uaargs.home_dir][not field[5]]
+-                            uaargs.shell = [field[6], uaargs.shell][not field[6]]
++                            uaargs.comment = "'%s'" % field[4] if field[4] else uaargs.comment
++                            uaargs.home_dir = field[5] or uaargs.home_dir
++                            uaargs.shell = field[6] or uaargs.shell
+                             break
+ 
+             # Should be an error if a specific option is set...
 -- 
 2.1.0
 
