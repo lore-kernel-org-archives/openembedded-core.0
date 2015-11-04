@@ -1,24 +1,26 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EDE77702B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C93660125
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Nov 2015 13:58:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tA4DwQGL010373
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Nov 2015 05:58:26 -0800 (PST)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 4 Nov 2015 05:58:26 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 4 Nov 2015 05:58:24 -0800
-Message-ID: <cover.1446645475.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Wed,  4 Nov 2015 15:43:35 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 04 Nov 2015 07:43:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,243,1444719600"; d="scan'208";a="811654649"
+Received: from atharazi-mobl2.amr.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.130.179])
+	by orsmga001.jf.intel.com with ESMTP; 04 Nov 2015 07:43:35 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Tzu-Jung Lee <roylee17@currantlabs.com>
+Date: Wed, 04 Nov 2015 15:43:34 +0000
+Message-ID: <2284541.9QoD5dI8B4@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.8-100.fc21.x86_64; KDE/4.14.11; x86_64; ; )
+In-Reply-To: <1446492085-29311-1-git-send-email-roylee17@currantlabs.com>
+References: <1446492085-29311-1-git-send-email-roylee17@currantlabs.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] cross-canadian/libgcc: fix aarch64's multilib SDK
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] devtool: include do_patch in SRCTREECOVEREDTASKS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Nov 2015 13:58:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 04 Nov 2015 15:43:38 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The following changes since commit e44ed8c18e395b9c055aefee113b90708e8a8a2f:
+On Monday 02 November 2015 19:21:25 Tzu-Jung Lee wrote:
+> The external source of kernel has been patched during the
+> construction of git repository. Include the do_patch task in the
+> SRCTREECOVEREDTASKS.
+> 
+> Signed-off-by: Tzu-Jung Lee <roylee17@currantlabs.com>
+> 
+> diff --git a/scripts/lib/devtool/standard.py
+> b/scripts/lib/devtool/standard.py index 7b87558..a7747c7 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -623,7 +623,7 @@ def modify(args, config, basepath, workspace):
+>              f.write('EXTERNALSRC_BUILD_pn-%s = "%s"\n' % (pn, srctree))
+> 
+>          if bb.data.inherits_class('kernel', rd):
+> -            f.write('SRCTREECOVEREDTASKS = "do_validate_branches
+> do_kernel_checkout do_fetch do_unpack"\n') +           
+> f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout
+> do_fetch do_unpack do_patch"\n') if initial_rev:
+>              f.write('\n# initial_rev: %s\n' % initial_rev)
+>              for commit in commits:
 
-  build-appliance-image: Update to jethro head revision (2015-11-03 14:02:57 +0000)
+Seems reasonable - I can't think why this would have been legitimately 
+excluded, though I wonder if it had something to do with linux-yocto vs. more 
+traditional OE kernel recipes.
 
-are available in the git repository at:
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/aarch64_lib32
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/aarch64_lib32
+(This will get queued for master, but we can backport to jethro after the 
+release.)
 
-Robert Yang (1):
-  cross-canadian/libgcc: fix aarch64's multilib SDK
-
- meta/classes/cross-canadian.bbclass         |    3 +++
- meta/recipes-devtools/gcc/libgcc-common.inc |   24 +++++++++++++++++-------
- meta/recipes-devtools/gcc/libgcc.inc        |    2 +-
- 3 files changed, 21 insertions(+), 8 deletions(-)
+Cheers,
+Paul
 
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
