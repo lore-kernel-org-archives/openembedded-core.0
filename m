@@ -1,41 +1,20 @@
-Return-Path: <Javier.Viguera@digi.com>
-X-Greylist: delayed 414 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 04 Nov 2015 10:10:51 UTC
-Received: from mail1.bemta8.messagelabs.com (mail1.bemta8.messagelabs.com
-	[216.82.243.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2983360125
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 780A373D46
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Nov 2015 10:10:51 +0000 (UTC)
-Received: from [216.82.241.132] by server-4.bemta-8.messagelabs.com id
-	E2/63-24484-D08D9365; Wed, 04 Nov 2015 10:03:57 +0000
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-10.tower-45.messagelabs.com!1446631436!2627925!1
-X-Originating-IP: [192.109.95.98]
-X-StarScan-Received: 
-X-StarScan-Version: 7.19.2; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 16767 invoked from network); 4 Nov 2015 10:03:57 -0000
-Received: from unknown (HELO DOR-VMS-XCH01.digi.com) (192.109.95.98)
-	by server-10.tower-45.messagelabs.com with AES256-SHA encrypted SMTP;
-	4 Nov 2015 10:03:57 -0000
-Received: from DOR-SMS-XCH01.digi.com ([fe80::894b:3bdc:74ae:6efc]) by
-	DOR-VMS-XCH01.digi.com ([::1]) with mapi id 14.03.0248.002;
-	Wed, 4 Nov 2015 11:03:56 +0100
-From: "Viguera, Javier" <Javier.Viguera@digi.com>
-To: "'openembedded-core@lists.openembedded.org'"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Question about bluetooth bbclass
-Thread-Index: AdEW6Bvn+zG+k54XSLKcZmUfnZ3+rA==
-Date: Wed, 4 Nov 2015 10:03:55 +0000
-Message-ID: <DA8287CC96892A4EB4FCF4FB3FBDA1AB1D7D7A@dor-sms-xch01.digi.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.101.2.250]
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: Clean
+	Wed,  4 Nov 2015 11:58:14 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2; Wed, 4 Nov 2015
+	12:58:10 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 4 Nov 2015 12:58:08 +0100
+Message-ID: <1446638288-63316-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Question about bluetooth bbclass
+Received-SPF: None (SESTOEX03.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH][dizzy] libxml2: CVE-2015-7942
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,46 +27,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Nov 2015 10:10:57 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 04 Nov 2015 11:58:18 -0000
+Content-Type: text/plain
 
-Hi all,
+Fixes heap-based buffer overflow in xmlParseConditionalSections().
 
-One question about bluetooth class.
+Upstream patch:
+https://git.gnome.org/browse/libxml2/commit/
+?id=9b8512337d14c8ddf662fcb98b0135f225a1c489
 
-The Yocto reference manual and also the bluetooth.bbclass says that the way=
- to use the class is:
+Upstream bug:
+https://bugzilla.gnome.org/show_bug.cgi?id=756456
 
-# Use this with:
-#  inherit bluetooth
-#  PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth'=
-, '${BLUEZ}', '', d)}
-#  PACKAGECONFIG[bluez4] =3D "--enable-bluez4,--disable-bluez4,bluez4"
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+---
+ meta/recipes-core/libxml/libxml2.inc               |  1 +
+ .../libxml/libxml2/CVE-2015-7942.patch             | 58 ++++++++++++++++++++++
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
 
-Is the ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '',=
- d)} needed at all?
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 840a8eb..15a2421 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -23,6 +23,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml-m4-use-pkgconfig.patch \
+            file://libxml2-CVE-2014-3660.patch \
+            file://0001-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch \
++           file://CVE-2015-7942.patch \
+           "
+ 
+ BINCONFIG = "${bindir}/xml2-config"
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
+new file mode 100644
+index 0000000..738ae94
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
+@@ -0,0 +1,58 @@
++From 9b8512337d14c8ddf662fcb98b0135f225a1c489 Mon Sep 17 00:00:00 2001
++From: Daniel Veillard <veillard@redhat.com>
++Date: Mon, 23 Feb 2015 11:29:20 +0800
++Subject: Cleanup conditional section error handling
++
++For https://bugzilla.gnome.org/show_bug.cgi?id=744980
++
++The error handling of Conditional Section also need to be
++straightened as the structure of the document can't be
++guessed on a failure there and it's better to stop parsing
++as further errors are likely to be irrelevant.
++
++Fixes CVE-2015-7942.
++Upstream-Status: Backport
++
++Upstream patch:
++https://git.gnome.org/browse/libxml2/commit/
++?id=9b8512337d14c8ddf662fcb98b0135f225a1c489
++
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ parser.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/parser.c b/parser.c
++index bbe97eb..fe603ac 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -6770,6 +6770,8 @@ xmlParseConditionalSections(xmlParserCtxtPtr ctxt) {
++ 	SKIP_BLANKS;
++ 	if (RAW != '[') {
++ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
+++	    xmlStopParser(ctxt);
+++	    return;
++ 	} else {
++ 	    if (ctxt->input->id != id) {
++ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
++@@ -6830,6 +6832,8 @@ xmlParseConditionalSections(xmlParserCtxtPtr ctxt) {
++ 	SKIP_BLANKS;
++ 	if (RAW != '[') {
++ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
+++	    xmlStopParser(ctxt);
+++	    return;
++ 	} else {
++ 	    if (ctxt->input->id != id) {
++ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
++@@ -6885,6 +6889,8 @@ xmlParseConditionalSections(xmlParserCtxtPtr ctxt) {
++ 
++     } else {
++ 	xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID_KEYWORD, NULL);
+++	xmlStopParser(ctxt);
+++	return;
++     }
++ 
++     if (RAW == 0)
++-- 
++cgit v0.11.2
++
+-- 
+1.9.1
 
-The class code is:
-
-BLUEZ ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', bb.utils.c=
-ontains('DISTRO_FEATURES', 'bluez5', 'bluez5', 'bluez4', d), '', d)}"
-
-So if I understand this correctly, the BLUEZ variable is already checking t=
-he DISTRO_FEATURES and will be empty if 'bluetooth' is not there, so wouldn=
-'t just a:
-
-inherit bluetooth
-PACKAGECONFIG ??=3D "${BLUEZ}"
-...
-
-be enough?
-
-_____
-
-JAVIER VIGUERA
-SOFTWARE ENGINEERING
-
-Digi International Spain S.A.U.
 
