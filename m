@@ -1,36 +1,45 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-yk0-f181.google.com (mail-yk0-f181.google.com
-	[209.85.160.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 97BB471633
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A882F770FD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Nov 2015 23:58:12 +0000 (UTC)
-Received: by ykba4 with SMTP id a4so44752364ykb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Nov 2015 15:58:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=qrGGS5midAmMdeiojWeQa1bjYdiWTiTfoRtP86vR5GQ=;
-	b=Nat3I/exPaG6zknXmzhZzXs3pG+bhXj17EFVn76wxjIRulzJLyLlp/LR7juyfB4tKq
-	hLbs+1/gkFJlrY4WaaJJKDb9IeXUGFC3h+beLujHFG60rkRUI9dAWnk5W8M7exRAlga9
-	2LgreTW3cc/WX8gNjOegQJpfNmhJfs1u4oZethIo/xUpl9NDEuGJI4kRBiLLjYoUSq8h
-	+uhKOKxlPNGRByuQeBHDE0MZBq7onbgfVuxLiL4VFMdbd26JoRxWgoe8+MYw7jPanxBE
-	gvkGsSqCdbm+nTpea13XRimSeMVV+0v6aFaRcXC/0/aYUcCOF1oES05+H4wFJ9ei2tzR
-	NJuQ==
-MIME-Version: 1.0
-X-Received: by 10.31.178.151 with SMTP id b145mr16116745vkf.54.1446595092218; 
-	Tue, 03 Nov 2015 15:58:12 -0800 (PST)
-Received: by 10.31.237.197 with HTTP; Tue, 3 Nov 2015 15:58:12 -0800 (PST)
-In-Reply-To: <1446590054-31188-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-References: <1446590054-31188-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-Date: Tue, 3 Nov 2015 17:58:12 -0600
-Message-ID: <CACS+7ZSrrrmyc3hAUU6RJUSEpPvoBeQOLyFmjadJSqgJjoyVJg@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: leonardo.sandoval.gonzalez@linux.intel.com
-Cc: benoit.rapidel+yocto@exmachina.fr,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] terminal: Support old tmux version (<1.9) when querying height value
+	Wed,  4 Nov 2015 00:06:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 2616A181A9;
+	Wed,  4 Nov 2015 01:06:19 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id bSpxfmGzIgJ6; Wed,  4 Nov 2015 01:06:18 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 4EF36181A6;
+	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 354DA157;
+	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 1BBF0150;
+	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 06AA134263;
+	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id tA406HIk009224;
+	Wed, 4 Nov 2015 01:06:18 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id tA406H4d009223;
+	Wed, 4 Nov 2015 01:06:17 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Nov 2015 01:06:06 +0100
+Message-Id: <7ae67837c74e97d421f0e9c021f8f4992a81ed97.1446595453.git.pkj@axis.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1446595453.git.pkj@axis.com>
+References: <cover.1446595453.git.pkj@axis.com>
+In-Reply-To: <cover.1446595453.git.pkj@axis.com>
+References: <cover.1446595453.git.pkj@axis.com>
+Subject: [PATCH 2/5] useradd-staticids.bbclass: Make --no-user-group have effect
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,63 +52,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Nov 2015 23:58:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 04 Nov 2015 00:06:24 -0000
 
-On 3 November 2015 at 16:34,
-<leonardo.sandoval.gonzalez@linux.intel.com> wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->
-> Old tmux version (< 1.9) does not support nested formats on the -F parameter, so
-> if nested format does not give any answer, do the query in two steps.
->
-> Tested on tmux 1.6.
+If --no-user-group is specified in USERADD_PARAM_${PN} for a user and
+no --gid is specified, then we should not assume that the group name
+for the user is the user name.
 
-Yeah, I noticed this shortly after I submitted the fix for 1.9 but
-didn't think much of it. What system are you using that has tmux 1.6?
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/classes/useradd-staticids.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> ---
->  meta/lib/oe/terminal.py |   15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-> index 52a8913..686b1ce 100644
-> --- a/meta/lib/oe/terminal.py
-> +++ b/meta/lib/oe/terminal.py
-> @@ -218,11 +218,24 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
->
->  def check_tmux_pane_size(tmux):
->      import subprocess as sub
-> +    size = 0
->      try:
->          p = sub.Popen('%s list-panes -F "#{?pane_active,#{pane_height},}"' % tmux,
->                  shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
->          out, err = p.communicate()
-> -        size = int(out.strip())
-> +        try:
-> +            size = int(out.strip())
-> +        except ValueError:
-> +            # Older tmux versions (< 1.9) does not support nested formats,
-> +            # so try it in two steps
-> +            p = sub.Popen('%s list-panes -F "#{?pane_active,yes,no}"' % tmux,
-> +                shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
-> +            out, err = p.communicate()
-> +            if "yes" in out.strip():
-> +                p = sub.Popen('%s list-panes -F "#{pane_height}"' % tmux,
-> +                              shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
-> +                out, err = p.communicate()
-> +                size = int(out.strip())
->      except OSError as exc:
->          import errno
->          if exc.errno == errno.ENOENT:
-> --
-> 1.7.10.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
+index 9d59aca..c2e6579 100644
+--- a/meta/classes/useradd-staticids.bbclass
++++ b/meta/classes/useradd-staticids.bbclass
+@@ -107,7 +107,7 @@ def update_useradd_static_config(d):
+                             # is used, and we disable the user_group option.
+                             #
+                             user_group = uaargs.user_group is None or uaargs.user_group is True
+-                            uaargs.groupname = [uaargs.gid, uaargs.LOGIN][not uaargs.gid or user_group]
++                            uaargs.groupname = [uaargs.LOGIN, uaargs.gid][not user_group]
+                             uaargs.groupid = [uaargs.gid, uaargs.groupname][not uaargs.gid]
+                             uaargs.groupid = [field[3], uaargs.groupid][not field[3]]
+ 
+-- 
+2.1.0
+
 
