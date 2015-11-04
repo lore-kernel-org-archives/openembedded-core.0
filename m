@@ -1,45 +1,45 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 87F6660125
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A7AA5770EE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Nov 2015 00:06:21 +0000 (UTC)
+	Wed,  4 Nov 2015 00:06:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 5B7132E1DB;
-	Wed,  4 Nov 2015 01:06:19 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+	by bastet.se.axis.com (Postfix) with ESMTP id 48421181A8;
+	Wed,  4 Nov 2015 01:06:21 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id iRpb1QLN0uUY; Wed,  4 Nov 2015 01:06:18 +0100 (CET)
+	with LMTP id ux0z4va-CJYd; Wed,  4 Nov 2015 01:06:18 +0100 (CET)
 Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 528872E1D8;
+	by bastet.se.axis.com (Postfix) with ESMTP id 45250181A5;
 	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
 Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 38EAB158;
+	by postfix.imss71 (Postfix) with ESMTP id 31215156;
 	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
 Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 1E354151;
+	by boulder.se.axis.com (Postfix) with ESMTP id 1804C13F;
 	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 141543E592;
-	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
+	by seth.se.axis.com (Postfix) with ESMTP id ED36D3E58F;
+	Wed,  4 Nov 2015 01:06:17 +0100 (CET)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id tA406I4n009228;
-	Wed, 4 Nov 2015 01:06:18 +0100
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id tA406HIk009220;
+	Wed, 4 Nov 2015 01:06:17 +0100
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id tA406I8Q009227;
-	Wed, 4 Nov 2015 01:06:18 +0100
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id tA406Hug009219;
+	Wed, 4 Nov 2015 01:06:17 +0100
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Nov 2015 01:06:07 +0100
-Message-Id: <80c440e102c4e93b14d11d4ae0dfb4c92158a303.1446595453.git.pkj@axis.com>
+Date: Wed,  4 Nov 2015 01:06:05 +0100
+Message-Id: <c0cb049e0ef23329e3109316bf6f88882ef9716f.1446595453.git.pkj@axis.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1446595453.git.pkj@axis.com>
 References: <cover.1446595453.git.pkj@axis.com>
 In-Reply-To: <cover.1446595453.git.pkj@axis.com>
 References: <cover.1446595453.git.pkj@axis.com>
-Subject: [PATCH 3/5] useradd-staticids.bbclass: Simplify some logic
+Subject: [PATCH 1/5] useradd-staticids.bbclass: Treat mutually exclusive options as such
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,73 +54,104 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 04 Nov 2015 00:06:24 -0000
 
-The [<on_true>, <on_false>][not <condition>] construct may solve the
-problem of implementing a conditional operator, but it is not very
-readable. At least I find this:
-
-    uaargs.groupid = field[3] or uaargs.gid or uaargs.groupname
-
-a lot more readable than this:
-
-    uaargs.groupid = [uaargs.gid, uaargs.groupname][not uaargs.gid]
-    uaargs.groupid = [field[3], uaargs.groupid][not field[3]]
-
-Also, the official conditional operator since Python 2.5 (<on_true> if
-<condition> else <on_false>) does not evaluate both <on_false> and
-<on_true> as [<on_true>, <on_false>][not <condition>] does.
+The useradd options --create-home/--no-create-home and
+--user-group/--no-user-group are mutually exclusive and should be
+treated as such.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/useradd-staticids.bbclass | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ meta/classes/useradd-staticids.bbclass | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
 diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index c2e6579..0e855e9 100644
+index 924d6ea..9d59aca 100644
 --- a/meta/classes/useradd-staticids.bbclass
 +++ b/meta/classes/useradd-staticids.bbclass
-@@ -97,7 +97,7 @@ def update_useradd_static_config(d):
-                         if field[0] == uaargs.LOGIN:
-                             if uaargs.uid and field[2] and (uaargs.uid != field[2]):
-                                 bb.warn("%s: Changing username %s's uid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.uid, field[2]))
--                            uaargs.uid = [field[2], uaargs.uid][not field[2]]
-+                            uaargs.uid = field[2] or uaargs.uid
+@@ -37,21 +37,21 @@ def update_useradd_static_config(d):
+         parser.add_argument("-k", "--skel", metavar="SKEL_DIR", help="use this alternative skeleton directory")
+         parser.add_argument("-K", "--key", metavar="KEY=VALUE", help="override /etc/login.defs defaults")
+         parser.add_argument("-l", "--no-log-init", help="do not add the user to the lastlog and faillog databases", action="store_true")
+-        parser.add_argument("-m", "--create-home", help="create the user's home directory", action="store_true")
+-        parser.add_argument("-M", "--no-create-home", help="do not create the user's home directory", action="store_true")
+-        parser.add_argument("-N", "--no-user-group", help="do not create a group with the same name as the user", action="store_true")
++        parser.add_argument("-m", "--create-home", help="create the user's home directory", action="store_const", const=True)
++        parser.add_argument("-M", "--no-create-home", dest="create_home", help="do not create the user's home directory", action="store_const", const=False)
++        parser.add_argument("-N", "--no-user-group", dest="user_group", help="do not create a group with the same name as the user", action="store_const", const=False)
+         parser.add_argument("-o", "--non-unique", help="allow to create users with duplicate (non-unique UID)", action="store_true")
+         parser.add_argument("-p", "--password", metavar="PASSWORD", help="encrypted password of the new account")
+         parser.add_argument("-R", "--root", metavar="CHROOT_DIR", help="directory to chroot into")
+         parser.add_argument("-r", "--system", help="create a system account", action="store_true")
+         parser.add_argument("-s", "--shell", metavar="SHELL", help="login shell of the new account")
+         parser.add_argument("-u", "--uid", metavar="UID", help="user ID of the new account")
+-        parser.add_argument("-U", "--user-group", help="create a group with the same name as the user", action="store_true")
++        parser.add_argument("-U", "--user-group", help="create a group with the same name as the user", action="store_const", const=True)
+         parser.add_argument("LOGIN", help="Login name of the new user")
  
-                             # Determine the possible groupname
-                             # Unless the group name (or gid) is specified, we assume that the LOGIN is the groupname
-@@ -107,9 +107,8 @@ def update_useradd_static_config(d):
+         # Return a list of configuration files based on either the default
+         # files/passwd or the contents of USERADD_UID_TABLES
+-        # paths are resulved via BBPATH
++        # paths are resolved via BBPATH
+         def get_passwd_list(d):
+             str = ""
+             bbpath = d.getVar('BBPATH', True)
+@@ -106,7 +106,8 @@ def update_useradd_static_config(d):
+                             # So if the implicit username-group creation is on, then the implicit groupname (LOGIN)
                              # is used, and we disable the user_group option.
                              #
-                             user_group = uaargs.user_group is None or uaargs.user_group is True
--                            uaargs.groupname = [uaargs.LOGIN, uaargs.gid][not user_group]
--                            uaargs.groupid = [uaargs.gid, uaargs.groupname][not uaargs.gid]
--                            uaargs.groupid = [field[3], uaargs.groupid][not field[3]]
-+                            uaargs.groupname = uaargs.LOGIN if user_group else uaargs.gid
-+                            uaargs.groupid = field[3] or uaargs.gid or uaargs.groupname
+-                            uaargs.groupname = [uaargs.gid, uaargs.LOGIN][not uaargs.gid or uaargs.user_group]
++                            user_group = uaargs.user_group is None or uaargs.user_group is True
++                            uaargs.groupname = [uaargs.gid, uaargs.LOGIN][not uaargs.gid or user_group]
+                             uaargs.groupid = [uaargs.gid, uaargs.groupname][not uaargs.gid]
+                             uaargs.groupid = [field[3], uaargs.groupid][not field[3]]
  
-                             if not uaargs.gid or uaargs.gid != uaargs.groupid:
-                                 if (uaargs.groupid and uaargs.groupid.isdigit()) and (uaargs.groupname and uaargs.groupname.isdigit()) and (uaargs.groupid != uaargs.groupname):
-@@ -123,7 +122,7 @@ def update_useradd_static_config(d):
+@@ -120,7 +121,7 @@ def update_useradd_static_config(d):
+                                     # We don't have a number, so we have to add a name
+                                     bb.debug(1, "Adding group %s!" % (uaargs.groupname))
                                      uaargs.gid = uaargs.groupid
-                                     uaargs.user_group = None
+-                                    uaargs.user_group = False
++                                    uaargs.user_group = None
                                      groupadd = d.getVar("GROUPADD_PARAM_%s" % pkg, True)
--                                    newgroup = "%s %s" % (['', ' --system'][uaargs.system], uaargs.groupname)
-+                                    newgroup = "%s %s" % (' --system' if uaargs.system else '', uaargs.groupname)
+                                     newgroup = "%s %s" % (['', ' --system'][uaargs.system], uaargs.groupname)
                                      if groupadd:
-                                         d.setVar("GROUPADD_PARAM_%s" % pkg, "%s ; %s" % (groupadd, newgroup))
-                                     else:
-@@ -140,9 +139,9 @@ def update_useradd_static_config(d):
-                                     else:
-                                         d.setVar("GROUPADD_PARAM_%s" % pkg, newgroup)
+@@ -131,7 +132,7 @@ def update_useradd_static_config(d):
+                                     # We have a group name and a group number to assign it to
+                                     bb.debug(1, "Adding group %s  gid (%s)!" % (uaargs.groupname, uaargs.groupid))
+                                     uaargs.gid = uaargs.groupid
+-                                    uaargs.user_group = False
++                                    uaargs.user_group = None
+                                     groupadd = d.getVar("GROUPADD_PARAM_%s" % pkg, True)
+                                     newgroup = "-g %s %s" % (uaargs.gid, uaargs.groupname)
+                                     if groupadd:
+@@ -161,16 +162,16 @@ def update_useradd_static_config(d):
+             newparam += ['', ' --skel %s' % uaargs.skel][uaargs.skel != None]
+             newparam += ['', ' --key %s' % uaargs.key][uaargs.key != None]
+             newparam += ['', ' --no-log-init'][uaargs.no_log_init]
+-            newparam += ['', ' --create-home'][uaargs.create_home]
+-            newparam += ['', ' --no-create-home'][uaargs.no_create_home]
+-            newparam += ['', ' --no-user-group'][uaargs.no_user_group]
++            newparam += ['', ' --create-home'][uaargs.create_home is True]
++            newparam += ['', ' --no-create-home'][uaargs.create_home is False]
++            newparam += ['', ' --no-user-group'][uaargs.user_group is False]
+             newparam += ['', ' --non-unique'][uaargs.non_unique]
+             newparam += ['', ' --password %s' % uaargs.password][uaargs.password != None]
+             newparam += ['', ' --root %s' % uaargs.root][uaargs.root != None]
+             newparam += ['', ' --system'][uaargs.system]
+             newparam += ['', ' --shell %s' % uaargs.shell][uaargs.shell != None]
+             newparam += ['', ' --uid %s' % uaargs.uid][uaargs.uid != None]
+-            newparam += ['', ' --user-group'][uaargs.user_group]
++            newparam += ['', ' --user-group'][uaargs.user_group is True]
+             newparam += ' %s' % uaargs.LOGIN
  
--                            uaargs.comment = ["'%s'" % field[4], uaargs.comment][not field[4]]
--                            uaargs.home_dir = [field[5], uaargs.home_dir][not field[5]]
--                            uaargs.shell = [field[6], uaargs.shell][not field[6]]
-+                            uaargs.comment = "'%s'" % field[4] if field[4] else uaargs.comment
-+                            uaargs.home_dir = field[5] or uaargs.home_dir
-+                            uaargs.shell = field[6] or uaargs.shell
-                             break
+             newparams.append(newparam)
+@@ -192,7 +193,7 @@ def update_useradd_static_config(d):
  
-             # Should be an error if a specific option is set...
+         # Return a list of configuration files based on either the default
+         # files/group or the contents of USERADD_GID_TABLES
+-        # paths are resulved via BBPATH
++        # paths are resolved via BBPATH
+         def get_group_list(d):
+             str = ""
+             bbpath = d.getVar('BBPATH', True)
 -- 
 2.1.0
 
