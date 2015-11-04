@@ -1,45 +1,28 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A6C28770D0
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B50D76FC4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Nov 2015 00:06:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 1CFB5181A6;
-	Wed,  4 Nov 2015 01:06:20 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id Yo4Hv1xHVX8S; Wed,  4 Nov 2015 01:06:18 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 8A0B1181A8;
-	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 55DCE13F;
-	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 3EFF99E;
-	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 3999A3E58B;
-	Wed,  4 Nov 2015 01:06:18 +0100 (CET)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id tA406IdS009236;
-	Wed, 4 Nov 2015 01:06:18 +0100
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id tA406I8F009235;
-	Wed, 4 Nov 2015 01:06:18 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Nov 2015 01:06:09 +0100
-Message-Id: <d2e824d17dae9f9583a11ee2165096e7cff533b0.1446595453.git.pkj@axis.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1446595453.git.pkj@axis.com>
+	Wed,  4 Nov 2015 00:33:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tA40XYoY003041
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 3 Nov 2015 16:33:34 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 3 Nov 2015 16:33:34 -0800
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	<openembedded-core@lists.openembedded.org>
 References: <cover.1446595453.git.pkj@axis.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <5639525D.6010609@windriver.com>
+Date: Tue, 3 Nov 2015 18:33:33 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.3.0
+MIME-Version: 1.0
 In-Reply-To: <cover.1446595453.git.pkj@axis.com>
-References: <cover.1446595453.git.pkj@axis.com>
-Subject: [PATCH 5/5] useradd-staticids.bbclass: Read passwd/group files before parsing
+Subject: Re: [PATCH 0/5] Improvements for useradd-staticids.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,266 +35,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Nov 2015 00:06:24 -0000
+X-List-Received-Date: Wed, 04 Nov 2015 00:33:39 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Read and merge the passwd/group files before parsing the user and
-group definitions. This means they will only be read once per
-recipe. This solves a problem where if a user was definied in multiple
-files, it could generate group definitions for groups that should not
-be created. E.g., if the first passwd file read defines a user as:
+I looked over this series (I have not tried it, but) everything looks ok to me.
+ I did make one comment on a minor hunk -- but otherwise I don't see any issues.
 
-foobar::1234::::
+The python style police might have some further comments.
 
-and the second passwd file defines it as:
+Acked-by: Mark Hatle <mark.hatle@windriver.com>
 
-foobar:::nogroup:The foobar user:/:/bin/sh
 
-then a foobar group would be created even if the user will use the
-nogroup as its primary group.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/useradd-staticids.bbclass | 168 ++++++++++++++++++---------------
- 1 file changed, 93 insertions(+), 75 deletions(-)
-
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index df4902e..a9b506d 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -22,6 +22,30 @@ def update_useradd_static_config(d):
-         and return it as a list"""
-         return list(itertools.islice(itertools.chain(iterable, itertools.repeat(obj)), length))
- 
-+    def merge_files(file_list, exp_fields):
-+        """Read each passwd/group file in file_list, split each line and create
-+        a dictionary with the user/group names as keys and the split lines as
-+        values. If the user/group name already exists in the dictionary, then
-+        update any fields in the list with the values from the new list (if they
-+        are set)."""
-+        id_table = dict()
-+        for conf in file_list.split():
-+            if os.path.exists(conf):
-+                f = open(conf, "r")
-+                for line in f:
-+                    if line.startswith('#'):
-+                        continue
-+                    # Make sure there always are at least exp_fields elements in
-+                    # the field list. This allows for leaving out trailing
-+                    # colons in the files.
-+                    fields = list_extend(line.rstrip().split(":"), exp_fields)
-+                    if fields[0] not in id_table:
-+                        id_table[fields[0]] = fields
-+                    else:
-+                        id_table[fields[0]] = list(itertools.imap(lambda x, y: x or y, fields, id_table[fields[0]]))
-+
-+        return id_table
-+
-     # We parse and rewrite the useradd components
-     def rewrite_useradd(params):
-         # The following comes from --help on useradd from shadow
-@@ -63,6 +87,7 @@ def update_useradd_static_config(d):
-             return str
- 
-         newparams = []
-+        users = None
-         for param in re.split('''[ \t]*;[ \t]*(?=(?:[^'"]|'[^']*'|"[^"]*")*$)''', params):
-             param = param.strip()
-             if not param:
-@@ -72,10 +97,9 @@ def update_useradd_static_config(d):
-             except:
-                 raise bb.build.FuncFailed("%s: Unable to parse arguments for USERADD_PARAM_%s: '%s'" % (d.getVar('PN', True), pkg, param))
- 
--            # files/passwd or the contents of USERADD_UID_TABLES
-+            # Read all passwd files specified in USERADD_UID_TABLES or files/passwd
-             # Use the standard passwd layout:
-             #  username:password:user_id:group_id:comment:home_directory:login_shell
--            # (we want to process in reverse order, as 'last found' in the list wins)
-             #
-             # If a field is left blank, the original value will be used.  The 'username'
-             # field is required.
-@@ -84,61 +108,57 @@ def update_useradd_static_config(d):
-             # in the useradd command may introduce a security hole.  It's assumed that
-             # all new users get the default ('*' which prevents login) until the user is
-             # specifically configured by the system admin.
--            for conf in get_passwd_list(d).split()[::-1]:
--                if os.path.exists(conf):
--                    f = open(conf, "r")
--                    for line in f:
--                        if line.startswith('#'):
--                            continue
--                        # Make sure there always are at least seven elements in
--                        # the field list. This allows for leaving out trailing
--                        # colons in the passwd file.
--                        field = list_extend(line.rstrip().split(":"), 7)
--                        if field[0] == uaargs.LOGIN:
--                            if uaargs.uid and field[2] and (uaargs.uid != field[2]):
--                                bb.warn("%s: Changing username %s's uid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.uid, field[2]))
--                            uaargs.uid = field[2] or uaargs.uid
--
--                            # Determine the possible groupname
--                            # Unless the group name (or gid) is specified, we assume that the LOGIN is the groupname
--                            #
--                            # By default the system has creation of the matching groups enabled
--                            # So if the implicit username-group creation is on, then the implicit groupname (LOGIN)
--                            # is used, and we disable the user_group option.
--                            #
--                            user_group = uaargs.user_group is None or uaargs.user_group is True
--                            uaargs.groupname = uaargs.LOGIN if user_group else uaargs.gid
--                            uaargs.groupid = field[3] or uaargs.gid or uaargs.groupname
--
--                            if uaargs.groupid and uaargs.gid != uaargs.groupid:
--                                newgroup = None
--                                if not uaargs.groupid.isdigit():
--                                    # We don't have a group number, so we have to add a name
--                                    bb.debug(1, "Adding group %s!" % uaargs.groupid)
--                                    newgroup = "%s %s" % (' --system' if uaargs.system else '', uaargs.groupid)
--                                elif uaargs.groupname and not uaargs.groupname.isdigit():
--                                    # We have a group name and a group number to assign it to
--                                    bb.debug(1, "Adding group %s (gid %s)!" % (uaargs.groupname, uaargs.groupid))
--                                    newgroup = "-g %s %s" % (uaargs.groupid, uaargs.groupname)
--                                else:
--                                    # We want to add a group, but we don't know it's name... so we can't add the group...
--                                    # We have to assume the group has previously been added or we'll fail on the adduser...
--                                    # Note: specifying the actual gid is very rare in OE, usually the group name is specified.
--                                    bb.warn("%s: Changing gid for login %s to %s, verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.groupid))
--
--                                uaargs.gid = uaargs.groupid
--                                uaargs.user_group = None
--                                if newgroup:
--                                    groupadd = d.getVar("GROUPADD_PARAM_%s" % pkg, True)
--                                    if groupadd:
--                                        d.setVar("GROUPADD_PARAM_%s" % pkg, "%s ; %s" % (groupadd, newgroup))
--                                    else:
--                                        d.setVar("GROUPADD_PARAM_%s" % pkg, newgroup)
--
--                            uaargs.comment = "'%s'" % field[4] if field[4] else uaargs.comment
--                            uaargs.home_dir = field[5] or uaargs.home_dir
--                            uaargs.shell = field[6] or uaargs.shell
--                            break
-+            if not users:
-+                users = merge_files(get_passwd_list(d), 7)
-+
-+            if uaargs.LOGIN not in users:
-+                continue
-+
-+            field = users[uaargs.LOGIN]
-+
-+            if uaargs.uid and field[2] and (uaargs.uid != field[2]):
-+                bb.warn("%s: Changing username %s's uid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.uid, field[2]))
-+            uaargs.uid = field[2] or uaargs.uid
-+
-+            # Determine the possible groupname
-+            # Unless the group name (or gid) is specified, we assume that the LOGIN is the groupname
-+            #
-+            # By default the system has creation of the matching groups enabled
-+            # So if the implicit username-group creation is on, then the implicit groupname (LOGIN)
-+            # is used, and we disable the user_group option.
-+            #
-+            user_group = uaargs.user_group is None or uaargs.user_group is True
-+            uaargs.groupname = uaargs.LOGIN if user_group else uaargs.gid
-+            uaargs.groupid = field[3] or uaargs.gid or uaargs.groupname
-+
-+            if uaargs.groupid and uaargs.gid != uaargs.groupid:
-+                newgroup = None
-+                if not uaargs.groupid.isdigit():
-+                    # We don't have a group number, so we have to add a name
-+                    bb.debug(1, "Adding group %s!" % uaargs.groupid)
-+                    newgroup = "%s %s" % (' --system' if uaargs.system else '', uaargs.groupid)
-+                elif uaargs.groupname and not uaargs.groupname.isdigit():
-+                    # We have a group name and a group number to assign it to
-+                    bb.debug(1, "Adding group %s (gid %s)!" % (uaargs.groupname, uaargs.groupid))
-+                    newgroup = "-g %s %s" % (uaargs.groupid, uaargs.groupname)
-+                else:
-+                    # We want to add a group, but we don't know it's name... so we can't add the group...
-+                    # We have to assume the group has previously been added or we'll fail on the adduser...
-+                    # Note: specifying the actual gid is very rare in OE, usually the group name is specified.
-+                    bb.warn("%s: Changing gid for login %s to %s, verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.groupid))
-+
-+                uaargs.gid = uaargs.groupid
-+                uaargs.user_group = None
-+                if newgroup:
-+                    groupadd = d.getVar("GROUPADD_PARAM_%s" % pkg, True)
-+                    if groupadd:
-+                        d.setVar("GROUPADD_PARAM_%s" % pkg, "%s; %s" % (groupadd, newgroup))
-+                    else:
-+                        d.setVar("GROUPADD_PARAM_%s" % pkg, newgroup)
-+
-+            uaargs.comment = "'%s'" % field[4] if field[4] else uaargs.comment
-+            uaargs.home_dir = field[5] or uaargs.home_dir
-+            uaargs.shell = field[6] or uaargs.shell
- 
-             # Should be an error if a specific option is set...
-             if d.getVar('USERADD_ERROR_DYNAMIC', True) == '1' and not ((uaargs.uid and uaargs.uid.isdigit()) and uaargs.gid):
-@@ -171,7 +191,7 @@ def update_useradd_static_config(d):
- 
-             newparams.append(newparam)
- 
--        return " ;".join(newparams).strip()
-+        return ";".join(newparams).strip()
- 
-     # We parse and rewrite the groupadd components
-     def rewrite_groupadd(params):
-@@ -200,6 +220,7 @@ def update_useradd_static_config(d):
-             return str
- 
-         newparams = []
-+        groups = None
-         for param in re.split('''[ \t]*;[ \t]*(?=(?:[^'"]|'[^']*'|"[^"]*")*$)''', params):
-             param = param.strip()
-             if not param:
-@@ -210,7 +231,7 @@ def update_useradd_static_config(d):
-             except:
-                 raise bb.build.FuncFailed("%s: Unable to parse arguments for GROUPADD_PARAM_%s: '%s'" % (d.getVar('PN', True), pkg, param))
- 
--            # Need to iterate over layers and open the right file(s)
-+            # Read all group files specified in USERADD_GID_TABLES or files/group
-             # Use the standard group layout:
-             #  groupname:password:group_id:group_members
-             #
-@@ -219,21 +240,18 @@ def update_useradd_static_config(d):
-             #
-             # Note: similar to the passwd file, the 'password' filed is ignored
-             # Note: group_members is ignored, group members must be configured with the GROUPMEMS_PARAM
--            for conf in get_group_list(d).split()[::-1]:
--                if os.path.exists(conf):
--                    f = open(conf, "r")
--                    for line in f:
--                        if line.startswith('#'):
--                            continue
--                        # Make sure there always are at least four elements in
--                        # the field list. This allows for leaving out trailing
--                        # colons in the group file.
--                        field = list_extend(line.rstrip().split(":"), 4)
--                        if field[0] == gaargs.GROUP and field[2]:
--                            if gaargs.gid and (gaargs.gid != field[2]):
--                                bb.warn("%s: Changing groupname %s's gid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), gaargs.GROUP, gaargs.gid, field[2]))
--                            gaargs.gid = field[2]
--                            break
-+            if not groups:
-+                groups = merge_files(get_group_list(d), 4)
-+
-+            if gaargs.GROUP not in groups:
-+                continue
-+
-+            field = groups[gaargs.GROUP]
-+
-+            if field[2]:
-+                if gaargs.gid and (gaargs.gid != field[2]):
-+                    bb.warn("%s: Changing groupname %s's gid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), gaargs.GROUP, gaargs.gid, field[2]))
-+                gaargs.gid = field[2]
- 
-             if d.getVar('USERADD_ERROR_DYNAMIC', True) == '1' and not (gaargs.gid and gaargs.gid.isdigit()):
-                 #bb.error("Skipping recipe %s, package %s which adds groupname %s does not have a static gid defined." % (d.getVar('PN', True),  pkg, gaargs.GROUP))
-@@ -251,7 +269,7 @@ def update_useradd_static_config(d):
- 
-             newparams.append(newparam)
- 
--        return " ;".join(newparams).strip()
-+        return ";".join(newparams).strip()
- 
-     # Load and process the users and groups, rewriting the adduser/addgroup params
-     useradd_packages = d.getVar('USERADD_PACKAGES', True)
--- 
-2.1.0
+On 11/3/15 6:06 PM, Peter Kjellerstedt wrote:
+> This series of patches aims to improve useradd-staticids.bbclass.
+> 
+> We are currently using useradd-staticids.bbclass to make sure all
+> users and groups have well defined IDs. So far we have had the
+> definitions of the users both in the recipes and in the passwd file
+> used by useradd-staticids.bbclass. Since we have a huge number of
+> recipes that create users, having to duplicate the definitions all
+> over the place has turned out to be a burden we should be able to
+> avoid.
+> 
+> So the current plan for us is to have one passwd file per layer with
+> the definitions of all users that layer needs. These definitions do
+> not include the static IDs for the users. Instead the static IDs for
+> the users are specified in a distro specific passwd-static file. There
+> is also a distro specific group-static file for the group IDs. With
+> that in place it should be enough to define a user as:
+> 
+> USERADD_PARAM_${PN} = "--system foobar"
+> 
+> in a recipe and let useradd-staticids.bbclass handle the specifics for
+> how that user should be defined.
+> 
+> The above worked fine for all users that had a primary group with the
+> same name as the user. However, it turned out that for users that
+> wanted some other primary group, specifying it in the passwd file was
+> not enough. We still had to add --gid <some group> in the recipe where
+> <some group> had to match what was specified in the passwd file. This
+> was less than optimal, and somewhat defeated the setup.
+> 
+> It also turned out that for users with a primary group that does not
+> match the user name, useradd-staticids.bbclass would still add the
+> creation of a group with the same name as the user (when it parsed the
+> passwd-static file) and the add another creation of the correct group
+> (when it parsed the passwd file).
+> 
+> So after spending quite a lot of time on trying to decode how
+> rewrite_useradd() calculated the --gid option, I came up with this
+> series of changes that should correct the problems described above and
+> make the code easier to understand while (hopefully) maintaining
+> compatibility with the old code.
+> 
+> I fully understand that this is very late for Jethro and do not really
+> expect it to make it into 2.0.0, but if at all possible I hope it can
+> make it since that would make my life much easier. :)
+> 
+> //Peter
+> 
+> The following changes since commit fc45deac89ef63ca1c44e763c38ced7dfd72cbe1:
+> 
+>   build-appliance-image: Update to jethro head revision (2015-11-03 14:03:03 +0000)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib pkj/useradd_improvements
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/useradd_improvements
+> 
+> Peter Kjellerstedt (5):
+>   useradd-staticids.bbclass: Treat mutually exclusive options as such
+>   useradd-staticids.bbclass: Make --no-user-group have effect
+>   useradd-staticids.bbclass: Simplify some logic
+>   useradd-staticids.bbclass: Simplify the logic for when to add groups
+>   useradd-staticids.bbclass: Read passwd/group files before parsing
+> 
+>  meta/classes/useradd-staticids.bbclass | 192 ++++++++++++++++++---------------
+>  1 file changed, 103 insertions(+), 89 deletions(-)
+> 
 
 
