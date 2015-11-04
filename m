@@ -1,30 +1,47 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 9771460125
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 501BA75E2D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Nov 2015 18:16:34 +0000 (UTC)
-Received: by wmll128 with SMTP id l128so121449881wml.0
+	Wed,  4 Nov 2015 19:55:11 +0000 (UTC)
+Received: by wicll6 with SMTP id ll6so39031742wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Nov 2015 10:16:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=Kdqr34YLUipKnPbJcPv4UQgrRIClKVvkcQaOPmrCuvo=;
-	b=SDjxrdHzQppee0qBGfezUNnVbAxSCb7mZnh7dUYK8dKNjv86IDODvMy604suLnRAmh
-	S8MnSAo4rRb3TleJKzAUM9deajJvFhg6Qo6qTWNQZR+mOMBQ1YtbX27PpIya89coTtve
-	TVWGEs6t19fl6/PAG7CS+ozfWMPztFvkqh2Kse4u1j0Zd9f08QO/iz2ZCBye66ZAysGJ
-	8vqykpdTQiv4yHpzQPjB/QZNBnG/vZr1SREasUnYbxSKLOboYHy96VsW/24I/2Y7bi2g
-	/WM2fD2avXs8JShNFWXZxKojLnu9EQyQoTheQ8mJd1K9YoFXDCYbj5NUO2MaD+xuEDSi
-	e7mg==
-MIME-Version: 1.0
-X-Received: by 10.28.87.67 with SMTP id l64mr25928986wmb.72.1446660994545;
-	Wed, 04 Nov 2015 10:16:34 -0800 (PST)
-Received: by 10.194.140.38 with HTTP; Wed, 4 Nov 2015 10:16:34 -0800 (PST)
-Date: Wed, 4 Nov 2015 10:16:34 -0800
-Message-ID: <CAJ86T=W-yx=peF_w-g4U7hkZN2u+RR2wbY7eACDEKADLQ-r2jw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>, 
-	Joshua Lock <joshua.lock@collabora.co.uk>
-Subject: fido backports to support SH4 + uclibc
+	Wed, 04 Nov 2015 11:55:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=9U7K2zZMHL0AEWAzDrRN6UTdiFRxSk2aSpa7Zm2Ha1I=;
+	b=OSg3T2Agy2dpZ4ChjFkfQ6H7+ODhZ4z/cSzlTfqJ7zG4BXNmelYAvvmEx4jAphpHiC
+	PJCQNqoAsFMB3ECyMT8zQMQF0xCAFW10Np3Gva9ujVxr13N9CoepFNx4anIENFjm6EDz
+	AmCD3ZyIa5aGD3EFy6ywJx/oFrBhqBRL26WdeZ2sDxkA6+R7ewGdZm+QM6Ldox9+q4QU
+	8PAMG33Vu1yDnzXt++BUUQIB7YsXiTkp7QypnL4QGH5Bd/vSCiLxXLJs1WMpa3/2+lvX
+	q+HtrRkgLj96azcmP7KGkR5ISdrUhUanXpePknXnyUZdDFpX7RWtdn9QVL7IQR6t3IzX
+	s/BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=9U7K2zZMHL0AEWAzDrRN6UTdiFRxSk2aSpa7Zm2Ha1I=;
+	b=a4FS+nxA+Pj1/+BtSgT77WaHhbeMhu3vgXGtoH4r+j23iLZuUJAkDDh3CRNFxlv2Fu
+	2qf69l8cjgwhfDMBcCNNbLVHhx6Ph1NE2QhBy9RnMgD6U6bOdWr+QDJCKfTN4zjw54Ye
+	ptK8fj53gAK1HYtCD+/TYWB7DI+SI8Ax6AJcYvX9DRKfII1bp4w4TVKqNHYxETd/RUQF
+	9YmU2/Y3JW5zH/fzdFHIvaoDe7X1jqixQNA+jl3c24M4r8LEAEFHegioGgb9GsakZMk9
+	tG4ccIv3IniUKkzMARoPh7H2R2/iN1l8tfYNf3CrKOt5nn0pe5NlLyLXYb/HAgFGvOPa
+	Z8sg==
+X-Gm-Message-State: ALoCoQkZcxu5R7CegT28olWpR01hrZ7g5mROmx75YVo30of2Fmqc05p73WdhFQY6y2FS27UBVTbx
+X-Received: by 10.194.179.41 with SMTP id dd9mr3977313wjc.123.1446666911890;
+	Wed, 04 Nov 2015 11:55:11 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id w9sm3206881wjf.20.2015.11.04.11.55.10
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 04 Nov 2015 11:55:11 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Nov 2015 19:46:58 +0000
+Message-Id: <1446666421-2549-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/4] readline: rename patch to contain CVE reference
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,20 +54,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Nov 2015 18:16:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 04 Nov 2015 19:55:12 -0000
 
-Hi Joshua,
+To help automated scanning of CVEs, put the CVE ID in the filename.
 
-Could you please consider backporting the following fixes to fido.
-They are required in order to successfully build for SH4 + uclibc +
-blacklist GPLv3.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../readline-6.3/{readline63-003.patch => readline-cve-2014-2524.patch} | 0
+ meta/recipes-core/readline/readline_6.3.bb                              | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/readline/readline-6.3/{readline63-003.patch => readline-cve-2014-2524.patch} (100%)
 
-  aa20c3d uclibc: backport upstream fix for SH4
-  898e9d7 libiconv_1.11.1: merge build and packaging fixes from libiconv_1.14
-  7d2da0e libiconv_1.11.1: fix LICENSE declaration, LGPL -> LGPLv2.0
-  d46333d gettext_0.16.1: add -lrt and -lpthread to LDFLAGS for uclibc builds
-  d95d92a gettext_0.16.1: remove obsolete uclibc specific patch
+diff --git a/meta/recipes-core/readline/readline-6.3/readline63-003.patch b/meta/recipes-core/readline/readline-6.3/readline-cve-2014-2524.patch
+similarity index 100%
+rename from meta/recipes-core/readline/readline-6.3/readline63-003.patch
+rename to meta/recipes-core/readline/readline-6.3/readline-cve-2014-2524.patch
+diff --git a/meta/recipes-core/readline/readline_6.3.bb b/meta/recipes-core/readline/readline_6.3.bb
+index 6ba1c18..fc362ae 100644
+--- a/meta/recipes-core/readline/readline_6.3.bb
++++ b/meta/recipes-core/readline/readline_6.3.bb
+@@ -1,6 +1,6 @@
+ require readline.inc
+ 
+-SRC_URI += "file://readline63-003.patch;striplevel=0 \
++SRC_URI += "file://readline-cve-2014-2524.patch;striplevel=0 \
+             file://readline-dispatch-multikey.patch"
+ 
+ SRC_URI[archive.md5sum] = "33c8fb279e981274f485fd91da77e94a"
+-- 
+2.1.4
 
-Thanks.
 
