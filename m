@@ -1,25 +1,24 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B8B3F73D46
+Return-Path: <radek.dostal@streamunlimited.com>
+X-Greylist: delayed 386 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 04 Nov 2015 16:13:24 UTC
+Received: from bsmtp5.bon.at (bsmtp5.bon.at [195.3.86.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 6979660125
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Nov 2015 16:02:07 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Nov 2015 08:02:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,243,1444719600"; d="scan'208";a="843033911"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Nov 2015 08:01:53 -0800
-From: mariano.lopez@linux.intel.com
+	Wed,  4 Nov 2015 16:13:24 +0000 (UTC)
+Received: from bsmtp4.bon.at (unknown [192.168.181.106])
+	by bsmtp5.bon.at (Postfix) with ESMTPS id 3nrXtD3YR1z5w5H
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Nov 2015 17:07:00 +0100 (CET)
+Received: from rdostal-desktop.sue.net (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp4.bon.at (Postfix) with ESMTPSA id 3nrXt94pGxz5tlh;
+	Wed,  4 Nov 2015 17:06:57 +0100 (CET)
+From: Radek Dostal <radek.dostal@streamunlimited.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Nov 2015 07:50:48 +0000
-Message-Id: <0a5ae2e581cfc43ee2a40626ac61c7191c3c6b1b.1446623061.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1446623061.git.mariano.lopez@linux.intel.com>
-References: <cover.1446623061.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1446623061.git.mariano.lopez@linux.intel.com>
-References: <cover.1446623061.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 3/3] package_manager.py: Delete installed_pkgs.txt file
+Date: Wed,  4 Nov 2015 17:06:41 +0100
+Message-Id: <1446653201-6456-1-git-send-email-radek.dostal@streamunlimited.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Radek Dostal <radek.dostal@streamunlimited.com>
+Subject: [PATCH] u-boot.inc: properly specify CC for EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Nov 2015 16:02:07 -0000
+X-List-Received-Date: Wed, 04 Nov 2015 16:13:25 -0000
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+${TOOLCHAIN_OPTIONS} does not contain some important flags such as
+"-march=armv7-a -mfloat-abi=hard -mfpu=neon -mtune=cortex-a8". It only
+specifies sysroot as mentioned in commit 923eb657 "u-boot.inc: update
+linker arguments to pass --sysroot arg"
 
-This change removes the file installed_pkgs.txt after it
-was used for installation of complementary packages. This
-file was causing confusion when left in the WORKDIR after
-the build.
+Fixes bug: u-boot 2014.04 build breaks with error:
+"fatal error: gnu/stubs-soft.h: No such file or directory"
+when building with hard float compiler as compiler does not receive
+flag "-mfloat-abi=hard"
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Before this patch only gcc compiler could be used due to CC explicitly
+being set to gcc.
+
+Signed-off-by: Radek Dostal <radek.dostal@streamunlimited.com>
+Acked-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- meta/lib/oe/package_manager.py | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-bsp/u-boot/u-boot.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 964fddc..bc33473 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -625,6 +625,7 @@ class PackageManager(object):
-                      "'%s' returned %d:\n%s" %
-                      (' '.join(cmd), e.returncode, e.output))
-         self.install(complementary_pkgs.split(), attempt_only=True)
-+        os.remove(installed_pkgs_file)
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index e66ffd1..be22e0c 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -14,7 +14,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
  
-     def deploy_dir_lock(self):
-         if self.deploy_dir is None:
+ inherit uboot-config deploy
+ 
+-EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}" V=1'
++EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC}" V=1'
+ EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
+ 
+ PACKAGECONFIG ??= "openssl"
 -- 
-1.8.4.5
+1.9.1
 
 
