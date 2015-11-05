@@ -1,26 +1,20 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3703C7702B
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 9881C766B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 08:20:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tA58KqM3016872
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  5 Nov 2015 08:32:21 +0000 (UTC)
+Received: from localhost.localdomain (chello062178118086.5.14.vie.surfer.at
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 142DD239DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Nov 2015 00:20:53 -0800 (PST)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 5 Nov 2015 00:20:52 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Nov 2015 00:20:51 -0800
-Message-ID: <88477fa50093b85e65b17c746a637c7259b87018.1446711613.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1446711613.git.liezhi.yang@windriver.com>
-References: <cover.1446711613.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] gcc-multilib-config: make aarch64 support multilib
+	Thu,  5 Nov 2015 09:32:19 +0100 (CET)
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Nov 2015 09:32:10 +0100
+Message-Id: <1446712332-17113-5-git-send-email-dv@pseudoterminal.org>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <1446712332-17113-1-git-send-email-dv@pseudoterminal.org>
+References: <1446712332-17113-1-git-send-email-dv@pseudoterminal.org>
+Subject: [PATCH 5/7] gstreamer1.0-plugins-ugly: upgrade to version 1.6.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +27,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 08:20:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Nov 2015 08:32:22 -0000
 
-Fixed:
-MACHINE = qemuarm64
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
-
-$ bitbake core-image-minimal -cpopulate_sdk
-
-WARNING: gcc multilib setup is not supported for TARGET_ARCH=aarch64
-WARNING: gcc multilib setup is not supported for TARGET_ARCH=aarch64
-
-[YOCTO #8638]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- meta/recipes-devtools/gcc/gcc-multilib-config.inc |    7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc     | 6 ++++--
+ ...1.0-plugins-ugly_1.4.5.bb => gstreamer1.0-plugins-ugly_1.6.1.bb} | 4 ++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.4.5.bb => gstreamer1.0-plugins-ugly_1.6.1.bb} (66%)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-index 1c0a45a..a0a2ac0 100644
---- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-+++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-@@ -29,6 +29,9 @@ python gcc_multilib_setup() {
-     bb.utils.remove(build_conf_dir, True)
-     ml_globs = ('%s/*/t-linux64' % src_conf_dir,
-                 '%s/*/linux64.h' % src_conf_dir,
-+                '%s/aarch64/t-aarch64' % src_conf_dir,
-+                '%s/aarch64/aarch64.h' % src_conf_dir,
-+                '%s/aarch64/aarch64-cores.def' % src_conf_dir,
-                 '%s/*/linux.h' % src_conf_dir,
-                 '%s/linux.h' % src_conf_dir)
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
+index 63ba316..eb49e22 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
+@@ -19,12 +19,14 @@ PACKAGECONFIG[lame]     = "--enable-lame,--disable-lame,lame"
+ PACKAGECONFIG[mad]      = "--enable-mad,--disable-mad,libmad"
+ PACKAGECONFIG[mpeg2dec] = "--enable-mpeg2dec,--disable-mpeg2dec,mpeg2dec"
+ PACKAGECONFIG[x264]     = "--enable-x264,--disable-x264,x264"
++PACKAGECONFIG[amrnb]    = "--enable-amrnb,--disable-amrnb,opencore-amr"
++PACKAGECONFIG[amrwb]    = "--enable-amrwb,--disable-amrwb,opencore-amr"
  
-@@ -130,6 +133,8 @@ python gcc_multilib_setup() {
-         'mips64'    : ['gcc/config/mips/t-linux64'],
-         'powerpc'   : ['gcc/config/rs6000/t-linux64'],
-         'powerpc64' : ['gcc/config/rs6000/t-linux64'],
-+        'aarch64'   : ['gcc/config/aarch64/t-aarch64'],
-+        'arm'       : ['gcc/config/aarch64/t-aarch64'],
-     }
  
-     gcc_header_config_files = {
-@@ -140,6 +145,8 @@ python gcc_multilib_setup() {
-         'mips64'    : ['gcc/config/mips/linux.h', 'gcc/config/mips/linux64.h'],
-         'powerpc'   : ['gcc/config/rs6000/linux64.h'],
-         'powerpc64' : ['gcc/config/rs6000/linux64.h'],
-+        'aarch64'   : ['gcc/config/aarch64/aarch64.h'],
-+        'arm'       : ['gcc/config/aarch64/aarch64.h'],
-     }
+ EXTRA_OECONF += " \
+-    --disable-amrnb \
+-    --disable-amrwb \
+     --disable-sidplay \
+     --disable-twolame \
+     "
  
-     libdir32 = 'SYSTEMLIBS_DIR'
++FILES_${PN}-x264 += "${datadir}/gstreamer-1.0/presets/GstX264Enc.prs"
++FILES_${PN}-amrnb += "${datadir}/gstreamer-1.0/presets/GstAmrnbEnc.prs"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.6.1.bb
+similarity index 66%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.4.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.6.1.bb
+index 25cb28c..635a0a0 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.4.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.6.1.bb
+@@ -3,8 +3,8 @@ include gstreamer1.0-plugins-ugly.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068 "
+ 
+-SRC_URI[md5sum] = "6954beed7bb9a93e426dee543ff46393"
+-SRC_URI[sha256sum] = "5cd5e81cf618944f4dc935f1669b2125e8bb2fe9cc7dc8dc15b72237aca49067"
++SRC_URI[md5sum] = "2c20faa2406afb840699e97e913d8fb4"
++SRC_URI[sha256sum] = "0cc3f90e4322efe1f774272e8fe5c185be37cf7999cd5ca7e0e0607e03d56a57"
+ 
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ 
 -- 
-1.7.9.5
+2.5.0
 
 
