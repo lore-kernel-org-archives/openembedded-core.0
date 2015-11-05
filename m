@@ -1,40 +1,20 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 4023C75EE7
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 52EA475EE7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 16:19:02 +0000 (UTC)
-Received: by pasz6 with SMTP id z6so95108417pas.2
+	Thu,  5 Nov 2015 16:20:11 +0000 (UTC)
+Received: from localhost.localdomain (chello062178118086.5.14.vie.surfer.at
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 915D0237C4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Nov 2015 08:19:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=eFfUTntGBSVw2gVU8ziDWVOHRQh/6c8D9/ecQkfO+iI=;
-	b=yYjgKZtJhnqb7lPHXqFwq41Ch/PCS8NVXl0YW9GMK+E5wu4/XXPqqxrN2g9tV5gYwS
-	h1aPTTwq2AQIKqus7wRd6ntQD2CEj5QTIW/WPbWj124GIppllrIujx8Bp749PB2ZVDKh
-	zqcxnHlt300+9MnN/60NC7X8hjU/cP2HMVLX2cVpY/3BnriBkyaQxHEMnaesovxJh7rz
-	t/KpNJwUGRPm12li+fE+9AcfGfQKg4jm0MFCRuYPPNg4uNqoYKYUK4rgv6/A2tkzMzY7
-	QKF+dJKLRWSZlI5YCBGfb6O+ccQU5RpgpLtDoTiEgRHMLLe2d/Sktcj50cthEWZJY4WP
-	LshA==
-X-Received: by 10.66.245.169 with SMTP id xp9mr10463905pac.8.1446740342622;
-	Thu, 05 Nov 2015 08:19:02 -0800 (PST)
-Received: from ?IPv6:2601:646:8601:4580:a868:fcfa:97f1:9015?
-	([2601:646:8601:4580:a868:fcfa:97f1:9015])
-	by smtp.gmail.com with ESMTPSA id d7sm8761849pas.31.2015.11.05.08.19.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 05 Nov 2015 08:19:01 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3106\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1446703751-58313-1-git-send-email-wenzong.fan@windriver.com>
-Date: Thu, 5 Nov 2015 08:18:57 -0800
-Message-Id: <11B9075E-35C1-4101-8072-D44DCDF9A210@gmail.com>
-References: <1446703751-58313-1-git-send-email-wenzong.fan@windriver.com>
-To: wenzong.fan@windriver.com
-X-Mailer: Apple Mail (2.3106)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] openssl: fix mips64 configure support
+	Thu,  5 Nov 2015 17:20:09 +0100 (CET)
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Nov 2015 17:20:00 +0100
+Message-Id: <1446740400-6198-1-git-send-email-dv@pseudoterminal.org>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <CAJTo0Lbu2rC=Ucug+-yGGStmZcR5GZkV9kc5w++8OqauM0Q=tg@mail.gmail.com>
+References: <CAJTo0Lbu2rC=Ucug+-yGGStmZcR5GZkV9kc5w++8OqauM0Q=tg@mail.gmail.com>
+Subject: [PATCH 6/7 v2] gstreamer1.0-libav: upgrade to version 1.6.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,71 +27,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 16:19:04 -0000
-X-Groupsio-MsgNum: 72929
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_70254608-97A5-4A72-8A71-672B130CB910";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 05 Nov 2015 16:20:13 -0000
 
---Apple-Mail=_70254608-97A5-4A72-8A71-672B130CB910
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+The lgpl PACKAGECONFIG is replaced by a gpl one,
+since the LGPL build is the default now. There is no
+--enable-lgpl switch anymore, it got replaced by
+--enable-gpl.
+
+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc             | 4 ++--
+ .../workaround-to-build-gst-libav-for-i586-with-gcc.patch            | 2 +-
+ .../{gstreamer1.0-libav_1.4.5.bb => gstreamer1.0-libav_1.6.1.bb}     | 5 ++---
+ 3 files changed, 5 insertions(+), 6 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.4.5.bb => gstreamer1.0-libav_1.6.1.bb} (83%)
+
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
+index 84e6e95..5d86205 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
+@@ -3,7 +3,7 @@ SECTION = "multimedia"
+ LICENSE = "GPLv2+ & LGPLv2+ & ( (GPLv2+ & LGPLv2.1+) | (GPLv3+ & LGPLv3+) )"
+ LICENSE_FLAGS = "commercial"
+ HOMEPAGE = "http://www.gstreamer.net/"
+-DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base zlib bzip2"
++DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base zlib bzip2 xz"
+ 
+ inherit autotools pkgconfig
+ 
+@@ -12,7 +12,7 @@ inherit autotools pkgconfig
+ # libav copy included in the gst-libav package.
+ PACKAGECONFIG ??= " orc yasm "
+ PACKAGECONFIG[libav] = "--with-system-libav,,libav"
+-PACKAGECONFIG[lgpl]  = "--enable-lgpl,,"
++PACKAGECONFIG[gpl]  = "--enable-gpl,--disable-gpl,"
+ PACKAGECONFIG[yasm]  = "--enable-yasm,--disable-yasm,yasm-native"
+ PACKAGECONFIG[orc]  = "--enable-orc,--disable-orc,orc"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
+index ccadea4..36abf86 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
+@@ -22,5 +22,5 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+ +            ( (unsigned char*)(h->non_zero_count[mb_xy]) ) [i] = 16;
+ +        }
+          h->cur_pic.mb_type[mb_xy] = mb_type;
+-         h->last_qscale_diff = 0;
++         sl->last_qscale_diff = 0;
+          return 0;
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb
+similarity index 83%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb
+index 97fc7ec..99b01c8 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb
+@@ -3,7 +3,6 @@ include gstreamer1.0-libav.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LIB;md5=6762ed442b3822387a51c92d928ead0d \
+                     file://ext/libav/gstav.h;beginline=1;endline=18;md5=a752c35267d8276fd9ca3db6994fca9c \
+-                    file://gst-libs/ext/libav/LICENSE;md5=ea66e97a7ac1db978cf3529068a8c948 \
+                     file://gst-libs/ext/libav/COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://gst-libs/ext/libav/COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://gst-libs/ext/libav/COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
+@@ -14,8 +13,8 @@ SRC_URI = " \
+     file://0001-Disable-yasm-for-libav-when-disable-yasm.patch \
+     file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
+ "
+-SRC_URI[md5sum] = "f4922a46adbcbe7bd01331ff5dc7979d"
+-SRC_URI[sha256sum] = "605c62624604f3bb5c870844cc1f2711779cc533b004c2aa1d8c0d58557afbbc"
++SRC_URI[md5sum] = "058b22411e1690eee5b71d1ab44eab25"
++SRC_URI[sha256sum] = "24d5e8e8b8c825af1a19aa80a27aba268ec383c8133fd4ef66e0e572ff6137a9"
+ 
+ LIBAV_EXTRA_CONFIGURE_COMMON_ARG = "--target-os=linux \
+   --cc='${CC}' --as='${CC}' --ld='${CC}' --nm='${NM}' --ar='${AR}' \
+-- 
+2.5.0
 
 
-> On Nov 4, 2015, at 10:09 PM, wenzong.fan@windriver.com wrote:
->=20
-> From: Wenzong Fan <wenzong.fan@windriver.com>
->=20
-> Match target name linux-mips64 as well, all mips64 targets will have
-> mips(32) userspace.
-
-this comment seems to be not relevant to the change
-
->=20
-> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-> ---
-> meta/recipes-connectivity/openssl/openssl.inc | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-connectivity/openssl/openssl.inc =
-b/meta/recipes-connectivity/openssl/openssl.inc
-> index 8af423f..b69cb4c 100644
-> --- a/meta/recipes-connectivity/openssl/openssl.inc
-> +++ b/meta/recipes-connectivity/openssl/openssl.inc
-> @@ -115,7 +115,7 @@ do_configure () {
-> 	linux-mipsel)
-> 		target=3Ddebian-mipsel
-> 		;;
-> -        linux-*-mips64)
-> +        linux-*-mips64 | linux-mips64)
->                target=3Dlinux-mips
->                 ;;
-> 	linux-microblaze*|linux-nios2*)
-> --
-> 1.9.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_70254608-97A5-4A72-8A71-672B130CB910
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlY7gXQACgkQuwUzVZGdMxS7JACfcJbc/IuHhZbrKHDvSZyfy5pO
-/gUAnjQCBPhCKRMCxjbxavJBCthCzuHW
-=1x16
------END PGP SIGNATURE-----
-
---Apple-Mail=_70254608-97A5-4A72-8A71-672B130CB910--
