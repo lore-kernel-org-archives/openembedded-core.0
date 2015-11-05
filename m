@@ -1,25 +1,25 @@
 Return-Path: <mcrowe@brightsign.biz>
 Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 7912275D4A
+	by mail.openembedded.org (Postfix) with ESMTP id 75B8575D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 14:47:15 +0000 (UTC)
+	Thu,  5 Nov 2015 14:47:45 +0000 (UTC)
 Received: from [86.30.112.98] (HELO elite.brightsign)
 	by relay.appriver.com (CommuniGate Pro SMTP 6.1.2)
-	with ESMTP id 635310916; Thu, 05 Nov 2015 09:47:15 -0500
+	with ESMTP id 635311336; Thu, 05 Nov 2015 09:47:45 -0500
 Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
 	by elite.brightsign with esmtp (Exim 4.84)
 	(envelope-from <mcrowe@brightsign.biz>)
-	id 1ZuLol-0009Zv-MX; Thu, 05 Nov 2015 14:47:11 +0000
+	id 1ZuLpH-0009aO-Ux; Thu, 05 Nov 2015 14:47:43 +0000
 Received: from mac by chuckie with local (Exim 4.84)
 	(envelope-from <mcrowe@brightsign.biz>)
-	id 1ZuLol-0001Zm-Lj; Thu, 05 Nov 2015 14:47:11 +0000
+	id 1ZuLpH-0001au-Ty; Thu, 05 Nov 2015 14:47:43 +0000
 From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Nov 2015 14:47:01 +0000
-Message-Id: <1446734821-6011-1-git-send-email-mac@mcrowe.com>
+Date: Thu,  5 Nov 2015 14:47:40 +0000
+Message-Id: <1446734860-6091-1-git-send-email-mac@mcrowe.com>
 X-Mailer: git-send-email 2.1.4
 Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] bitbake.conf, module.bbclass: Support opting out of legacy EXTRA_OEMAKE
+Subject: [PATCH] kernel: Permit overriding of KERNEL_IMAGETYPE_FOR_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 14:47:18 -0000
+X-List-Received-Date: Thu, 05 Nov 2015 14:47:45 -0000
 
-Give recipes and classes the ability to opt out of EXTRA_OEMAKE
-containing the legacy value without removing other recipe-specific or
-local additions.
-
-The default value of EXTRA_OEMAKE="-e MAKEFLAGS=" is unfortunate. It
-causes breakage and unintended behaviour in various recipes.
-
-It is particularly toxic when variables are passed on the command line
-to make since they then don't survive calling into a submake.
-
-In particular this breaks building modules when LD=gold since the
-overridden LD=${KERNEL_LD} is lost by the time the kernel's Makefile is
-invoked.
-
-This solution isn't pretty either, but it may be a good small first step
-towards a future utopia where EXTRA_OEMAKE needn't contain "-e
-MAKEFLAGS=" by default at all.
+Commit a1690131691507bbf5853540229b3ad775b836bf removed the ability of
+recipes to set KERNEL_IMAGETYPE_FOR_MAKE. This can be fixed by only
+setting KERNEL_IMAGETYPE_FOR_MAKE if it doesn't already have a
+value. This should hopefully be a good enough approximation to the
+behaviour prior to that commit to keep such recipes working.
 
 Signed-off-by: Mike Crowe <mac@mcrowe.com>
-Acked-by: Phil Blundell <pb@pbcl.net>
 ---
- meta/classes/module.bbclass | 4 ++++
- meta/conf/bitbake.conf      | 3 ++-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ meta/classes/kernel.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index 0952c0c..4913aac 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -4,6 +4,10 @@ addtask make_scripts after do_patch before do_compile
- do_make_scripts[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
- do_make_scripts[depends] += "virtual/kernel:do_shared_workdir"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 5e8b6cf..8d780c3 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -21,7 +21,8 @@ python __anonymous () {
  
-+# -e MAKEFLAGS= is toxic when building modules since it will cause
-+# none of the variables passed to make on the command line to make it
-+# through to submakes.
-+EXTRA_OEMAKE_LEGACY = ""
- EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
+     kerneltype = d.getVar('KERNEL_IMAGETYPE', True)
  
- module_do_compile() {
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 06971da..93ab02a 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -477,7 +477,8 @@ export BUILD_STRIP = "${BUILD_PREFIX}strip"
- export BUILD_NM = "${BUILD_PREFIX}nm"
+-    d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", re.sub(r'\.gz$', '', kerneltype))
++    if not d.getVar("KERNEL_IMAGETYPE_FOR_MAKE", False):
++        d.setVar("KERNEL_IMAGETYPE_FOR_MAKE", re.sub(r'\.gz$', '', kerneltype))
  
- export MAKE = "make"
--EXTRA_OEMAKE = "-e MAKEFLAGS="
-+EXTRA_OEMAKE_LEGACY = "-e MAKEFLAGS="
-+EXTRA_OEMAKE = "${EXTRA_OEMAKE_LEGACY}"
- EXTRA_OECONF = ""
- export LC_ALL = "C"
- 
+     image = d.getVar('INITRAMFS_IMAGE', True)
+     if image:
 -- 
 2.1.4
 
