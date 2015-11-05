@@ -1,20 +1,40 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 52EA475EE7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 8082F75EE7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 16:20:11 +0000 (UTC)
-Received: from localhost.localdomain (chello062178118086.5.14.vie.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 915D0237C4
+	Thu,  5 Nov 2015 16:23:32 +0000 (UTC)
+Received: by pabfh17 with SMTP id fh17so91677961pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 17:20:09 +0100 (CET)
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Nov 2015 17:20:00 +0100
-Message-Id: <1446740400-6198-1-git-send-email-dv@pseudoterminal.org>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <CAJTo0Lbu2rC=Ucug+-yGGStmZcR5GZkV9kc5w++8OqauM0Q=tg@mail.gmail.com>
-References: <CAJTo0Lbu2rC=Ucug+-yGGStmZcR5GZkV9kc5w++8OqauM0Q=tg@mail.gmail.com>
-Subject: [PATCH 6/7 v2] gstreamer1.0-libav: upgrade to version 1.6.1
+	Thu, 05 Nov 2015 08:23:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=IsVQfNcHtM8I1HWOTL28PcVtYXmybwcWgJWdzeTq61Y=;
+	b=HLQg1NzPWq09fFP/kBPMklncPB+f1tZ0AwtBbD+ByWPWzZL/tR1/6XdvV7zwv8V1oY
+	Mwt12DLi/SzK+3C3vkqrpmLt1Q1uZBzvUwVonkNCtCEpNfD6RgZRp8zbPAEGfnqOS4QO
+	nk1BcIIQ3/9y02gg/ftfuYJWUMPTX/AgraYhQtDO48FewpejBtKJOUtM+snKABBW53/Q
+	Wnw9UwPmxRzV1VXxcJiAMjr77O6Fo80EmCAN+MuHtEc3V0j971bU6/HCJbHNXxgVn8Gg
+	J7MYzb3drQnmhCD1n+TtO+OM09DKNukmwUtxgA3Lf8JC1sSeaxgl04hNogkm0htmWisV
+	P/NA==
+X-Received: by 10.69.26.36 with SMTP id iv4mr10521309pbd.0.1446740613227;
+	Thu, 05 Nov 2015 08:23:33 -0800 (PST)
+Received: from ?IPv6:2601:646:8601:4580:a868:fcfa:97f1:9015?
+	([2601:646:8601:4580:a868:fcfa:97f1:9015])
+	by smtp.gmail.com with ESMTPSA id er1sm8819913pbb.6.2015.11.05.08.23.32
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 05 Nov 2015 08:23:32 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3106\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1446734821-6011-1-git-send-email-mac@mcrowe.com>
+Date: Thu, 5 Nov 2015 08:23:31 -0800
+Message-Id: <37C467A4-7065-4F95-B666-94ABB1E7248B@gmail.com>
+References: <1446734821-6011-1-git-send-email-mac@mcrowe.com>
+To: Mike Crowe <mac@mcrowe.com>
+X-Mailer: Apple Mail (2.3106)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bitbake.conf, module.bbclass: Support opting out of legacy EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,81 +47,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 16:20:13 -0000
+X-List-Received-Date: Thu, 05 Nov 2015 16:23:33 -0000
+X-Groupsio-MsgNum: 72931
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_1CF21CD7-81B4-4345-ADF3-C55D54B93495";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-The lgpl PACKAGECONFIG is replaced by a gpl one,
-since the LGPL build is the default now. There is no
---enable-lgpl switch anymore, it got replaced by
---enable-gpl.
-
-Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc             | 4 ++--
- .../workaround-to-build-gst-libav-for-i586-with-gcc.patch            | 2 +-
- .../{gstreamer1.0-libav_1.4.5.bb => gstreamer1.0-libav_1.6.1.bb}     | 5 ++---
- 3 files changed, 5 insertions(+), 6 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.4.5.bb => gstreamer1.0-libav_1.6.1.bb} (83%)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
-index 84e6e95..5d86205 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
-@@ -3,7 +3,7 @@ SECTION = "multimedia"
- LICENSE = "GPLv2+ & LGPLv2+ & ( (GPLv2+ & LGPLv2.1+) | (GPLv3+ & LGPLv3+) )"
- LICENSE_FLAGS = "commercial"
- HOMEPAGE = "http://www.gstreamer.net/"
--DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base zlib bzip2"
-+DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base zlib bzip2 xz"
- 
- inherit autotools pkgconfig
- 
-@@ -12,7 +12,7 @@ inherit autotools pkgconfig
- # libav copy included in the gst-libav package.
- PACKAGECONFIG ??= " orc yasm "
- PACKAGECONFIG[libav] = "--with-system-libav,,libav"
--PACKAGECONFIG[lgpl]  = "--enable-lgpl,,"
-+PACKAGECONFIG[gpl]  = "--enable-gpl,--disable-gpl,"
- PACKAGECONFIG[yasm]  = "--enable-yasm,--disable-yasm,yasm-native"
- PACKAGECONFIG[orc]  = "--enable-orc,--disable-orc,orc"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
-index ccadea4..36abf86 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
-@@ -22,5 +22,5 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
- +            ( (unsigned char*)(h->non_zero_count[mb_xy]) ) [i] = 16;
- +        }
-          h->cur_pic.mb_type[mb_xy] = mb_type;
--         h->last_qscale_diff = 0;
-+         sl->last_qscale_diff = 0;
-          return 0;
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb
-similarity index 83%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb
-index 97fc7ec..99b01c8 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb
-@@ -3,7 +3,6 @@ include gstreamer1.0-libav.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://COPYING.LIB;md5=6762ed442b3822387a51c92d928ead0d \
-                     file://ext/libav/gstav.h;beginline=1;endline=18;md5=a752c35267d8276fd9ca3db6994fca9c \
--                    file://gst-libs/ext/libav/LICENSE;md5=ea66e97a7ac1db978cf3529068a8c948 \
-                     file://gst-libs/ext/libav/COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://gst-libs/ext/libav/COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://gst-libs/ext/libav/COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
-@@ -14,8 +13,8 @@ SRC_URI = " \
-     file://0001-Disable-yasm-for-libav-when-disable-yasm.patch \
-     file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
- "
--SRC_URI[md5sum] = "f4922a46adbcbe7bd01331ff5dc7979d"
--SRC_URI[sha256sum] = "605c62624604f3bb5c870844cc1f2711779cc533b004c2aa1d8c0d58557afbbc"
-+SRC_URI[md5sum] = "058b22411e1690eee5b71d1ab44eab25"
-+SRC_URI[sha256sum] = "24d5e8e8b8c825af1a19aa80a27aba268ec383c8133fd4ef66e0e572ff6137a9"
- 
- LIBAV_EXTRA_CONFIGURE_COMMON_ARG = "--target-os=linux \
-   --cc='${CC}' --as='${CC}' --ld='${CC}' --nm='${NM}' --ar='${AR}' \
--- 
-2.5.0
+--Apple-Mail=_1CF21CD7-81B4-4345-ADF3-C55D54B93495
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Nov 5, 2015, at 6:47 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> 
+> export MAKE = "make"
+> -EXTRA_OEMAKE = "-e MAKEFLAGS="
+> +EXTRA_OEMAKE_LEGACY = "-e MAKEFLAGS="
+> +EXTRA_OEMAKE = "${EXTRA_OEMAKE_LEGACY}"
+
+may be this should be a weak assignment.
+
+--Apple-Mail=_1CF21CD7-81B4-4345-ADF3-C55D54B93495
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlY7goMACgkQuwUzVZGdMxSNcgCeI3rTVoIUe/tJlG1BpGAoIbzh
+L/AAn1YDsbZfREwotqJpFzweHKKrqQ73
+=2ZN8
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_1CF21CD7-81B4-4345-ADF3-C55D54B93495--
