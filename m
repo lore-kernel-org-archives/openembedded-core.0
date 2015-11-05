@@ -1,48 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 40A0A75D4A
+Return-Path: <adrian.freihofer@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 310D97709E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 09:15:42 +0000 (UTC)
-Received: by qkas77 with SMTP id s77so26712564qka.0
+	Thu,  5 Nov 2015 10:31:09 +0000 (UTC)
+Received: by wmll128 with SMTP id l128so9329093wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Nov 2015 01:15:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=SfTgSActbtcEna/6VUEETZ19JobwO9Hm7GDQJhI0auY=;
-	b=S9QwAODFh+ZGRLOk9xd5zFIe+65/L91zktLGZH1nwSh2OObFRz75F9eiO/Hwd7+ucO
-	be0bSHnAztMvg25qODlNXyaVPQ66SZKxs/z6lgXbyxJEryz5JX+woycpE/0OdQhDFuhK
-	qXXAgK00y7fViJbg5cfWSf1ia8JMI/I6e31RghgTS5RqjAjZJ0l/4rMpi62UhoYVWuzK
-	dTkzGGiddmyVW9YlgDI4qg/uyoaXR5V7S4V8H+YlhK8vYbTKrt9TAzTWfqQG6SYjIhaK
-	UR8qn9Zf9T502YTPCDvvm8ziNJR17/L8gMmDPPeY8kwUMxJDrZR86TYtLzRh7P2AzI/O
-	OhiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=SfTgSActbtcEna/6VUEETZ19JobwO9Hm7GDQJhI0auY=;
-	b=IEUpDryWq+vAp/0GBHvgoQNm21MB/3VcVwWeSmS4mzbg6DXu0lMomtAXjUxExrLboO
-	Gtf1oTOm8R8VGq0Uz6b/jtBDQmgHEMo6BIywBzZvT7W8+pePsbylVpMuD5HFguaLW8v+
-	DL9iQ9dLcdJ1PSvDpvQ03SLr5+N6c60aBK+iw6giCYwgMnbPIIvIFEsPZLxykYc1qwmi
-	bDKQXhIRzInM/oS13ZSB5sn+QCpO/lZUU9Rm9v4RUn/mYHc9z3kWFVjShqjZYvu5hEgx
-	RApQ0fz3oXdc1chqNL9iLJxkGRMEUcbmjJOTmGD8/eb9rvBUXf7WnTlVgm9WUsw/MK5l
-	7tbA==
-X-Gm-Message-State: ALoCoQkIdbXIP8PNVm7SsD+DyCi7DIv5S5E0Gw3pB8loA+wx0wpRf9zmubADwDu45vOBC02aygDM
-X-Received: by 10.55.79.207 with SMTP id d198mr5940223qkb.49.1446714942257;
-	Thu, 05 Nov 2015 01:15:42 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.94.82 with HTTP; Thu, 5 Nov 2015 01:15:22 -0800 (PST)
-In-Reply-To: <1446712332-17113-6-git-send-email-dv@pseudoterminal.org>
-References: <1446712332-17113-1-git-send-email-dv@pseudoterminal.org>
-	<1446712332-17113-6-git-send-email-dv@pseudoterminal.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 5 Nov 2015 09:15:22 +0000
-Message-ID: <CAJTo0Lbu2rC=Ucug+-yGGStmZcR5GZkV9kc5w++8OqauM0Q=tg@mail.gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/7] gstreamer1.0-libav: upgrade to version 1.6.1
+	Thu, 05 Nov 2015 02:31:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=HuMBTP4e6NTmca5gWJX8ke0ZqS03n2JLk+7SxFcJR1Q=;
+	b=MuwJhtpuzJjvijbf9bj0Oc6Uhiocg5Ap8BWyYmaVa4YDm9Ca8W4U95+5byNCY+0z8S
+	vmMdZBMQTabNYeJFmSCyX+gZUOEMjfptmYrCvvqqqlezd2PxW5TBTmNRWIHGldHm/HCI
+	MTj77UC1BKppYbkHPA3PXjcGRvLuDbcMuUTwTtbjJ0Jn2bXkhQhvY1EWCnMPmpmwX5AY
+	DfI333cuJWp6SpeZsRIkayr1eQxRYesUc9sXW3k6DFPDGMvBso3uzrJuuvbG4E4MJ2H3
+	m4NIzSKhEhJV3j0R+NWq8+pLXgI4PyPHbjpO5HiBRPiuKlXzNT6FWi8TLXmlAdiR/5HT
+	cSRg==
+X-Received: by 10.28.92.203 with SMTP id q194mr2518403wmb.37.1446719469255;
+	Thu, 05 Nov 2015 02:31:09 -0800 (PST)
+Received: from chl500346.neratec.local (mail.neratec.com. [46.140.151.2])
+	by smtp.gmail.com with ESMTPSA id
+	jh4sm6197148wjb.33.2015.11.05.02.31.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Nov 2015 02:31:08 -0800 (PST)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Nov 2015 11:29:58 +0100
+Message-Id: <1446719398-14391-1-git-send-email-adrian.freihofer@gmail.com>
+X-Mailer: git-send-email 2.4.3
+Subject: [PATCH] libqmi: update to 1.12.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,34 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 09:15:44 -0000
-Content-Type: multipart/alternative; boundary=001a114a9ada398ef70523c79271
+X-List-Received-Date: Thu, 05 Nov 2015 10:31:11 -0000
 
---001a114a9ada398ef70523c79271
-Content-Type: text/plain; charset=UTF-8
+Building ModemManager fails with previous version of libqmi.
+---
+ .../libqmi/{libqmi_1.12.2.bb => libqmi_1.12.6.bb}                     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta-oe/recipes-connectivity/libqmi/{libqmi_1.12.2.bb => libqmi_1.12.6.bb} (80%)
 
-On 5 November 2015 at 08:32, Carlos Rafael Giani <dv@pseudoterminal.org>
-wrote:
+diff --git a/meta-oe/recipes-connectivity/libqmi/libqmi_1.12.2.bb b/meta-oe/recipes-connectivity/libqmi/libqmi_1.12.6.bb
+similarity index 80%
+rename from meta-oe/recipes-connectivity/libqmi/libqmi_1.12.2.bb
+rename to meta-oe/recipes-connectivity/libqmi/libqmi_1.12.6.bb
+index 789692b..7a15527 100644
+--- a/meta-oe/recipes-connectivity/libqmi/libqmi_1.12.2.bb
++++ b/meta-oe/recipes-connectivity/libqmi/libqmi_1.12.6.bb
+@@ -12,5 +12,5 @@ DEPENDS = "glib-2.0"
+ inherit autotools pkgconfig
+ 
+ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "5b3b6b37a57e2fa828fd4cb6f86d7a9f"
+-SRC_URI[sha256sum] = "d1661d73b510482b29b93b7e396756c433d35360b3d44c72afa7921339a98624"
++SRC_URI[md5sum] = "24c9eb300662ba6cff0152de89bd9ec0"
++SRC_URI[sha256sum] = "0857bffece4e8ddfa7f721dd9ca63b4c78de345ac9ae2faebf04062cacba3780"
+-- 
+2.4.3
 
-> +PACKAGECONFIG[gpl]  = "--enable-gpl,,"
->
 
-Can you make this explicit by also having --disable-gpl please.
-
-Ross
-
---001a114a9ada398ef70523c79271
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 November 2015 at 08:32, Carlos Rafael Giani <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:dv@pseudoterminal.org" target=3D"_blank">dv@pseudoterminal.or=
-g</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ip" =
-class=3D"a3s" style=3D"overflow:hidden">+PACKAGECONFIG[gpl]=C2=A0 =3D &quot=
-;--enable-gpl,,&quot;<br></div></blockquote></div><br>Can you make this exp=
-licit by also having --disable-gpl please.</div><div class=3D"gmail_extra">=
-<br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a114a9ada398ef70523c79271--
