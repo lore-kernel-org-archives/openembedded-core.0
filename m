@@ -1,24 +1,24 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C92B17707F
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 33CFA75E2D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 06:09:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tA569Dik016243
+	Thu,  5 Nov 2015 08:20:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tA58KqOw015586
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Nov 2015 22:09:13 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 4 Nov 2015 22:09:12 -0800
-From: <wenzong.fan@windriver.com>
+	Thu, 5 Nov 2015 00:20:52 -0800 (PST)
+Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 5 Nov 2015 00:20:51 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Nov 2015 01:09:11 -0500
-Message-ID: <1446703751-58313-1-git-send-email-wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Date: Thu, 5 Nov 2015 00:20:50 -0800
+Message-ID: <cover.1446711613.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH] openssl: fix mips64 configure support
+Subject: [PATCH 0/1] gcc-multilib-config: make aarch64 support multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 06:09:15 -0000
+X-List-Received-Date: Thu, 05 Nov 2015 08:20:57 -0000
 Content-Type: text/plain
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+The following changes since commit e44ed8c18e395b9c055aefee113b90708e8a8a2f:
 
-Match target name linux-mips64 as well, all mips64 targets will have
-mips(32) userspace.
+  build-appliance-image: Update to jethro head revision (2015-11-03 14:02:57 +0000)
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- meta/recipes-connectivity/openssl/openssl.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 8af423f..b69cb4c 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -115,7 +115,7 @@ do_configure () {
- 	linux-mipsel)
- 		target=debian-mipsel
- 		;;
--        linux-*-mips64)
-+        linux-*-mips64 | linux-mips64)
-                target=linux-mips
-                 ;;
- 	linux-microblaze*|linux-nios2*)
+  git://git.openembedded.org/openembedded-core-contrib rbt/lib32-gcc
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/lib32-gcc
+
+Robert Yang (1):
+  gcc-multilib-config: make aarch64 support multilib
+
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc |    7 +++++++
+ 1 file changed, 7 insertions(+)
+
 -- 
-1.9.1
+1.7.9.5
 
 
