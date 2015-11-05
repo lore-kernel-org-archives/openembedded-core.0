@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 33CFA75E2D
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3703C7702B
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  5 Nov 2015 08:20:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tA58KqOw015586
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tA58KqM3016872
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Nov 2015 00:20:52 -0800 (PST)
+	Thu, 5 Nov 2015 00:20:53 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 5 Nov 2015 00:20:51 -0800
+	Thu, 5 Nov 2015 00:20:52 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Nov 2015 00:20:50 -0800
-Message-ID: <cover.1446711613.git.liezhi.yang@windriver.com>
+Date: Thu, 5 Nov 2015 00:20:51 -0800
+Message-ID: <88477fa50093b85e65b17c746a637c7259b87018.1446711613.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1446711613.git.liezhi.yang@windriver.com>
+References: <cover.1446711613.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] gcc-multilib-config: make aarch64 support multilib
+Subject: [PATCH 1/1] gcc-multilib-config: make aarch64 support multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,56 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 05 Nov 2015 08:20:57 -0000
 Content-Type: text/plain
 
-The following changes since commit e44ed8c18e395b9c055aefee113b90708e8a8a2f:
+Fixed:
+MACHINE = qemuarm64
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
 
-  build-appliance-image: Update to jethro head revision (2015-11-03 14:02:57 +0000)
+$ bitbake core-image-minimal -cpopulate_sdk
 
-are available in the git repository at:
+WARNING: gcc multilib setup is not supported for TARGET_ARCH=aarch64
+WARNING: gcc multilib setup is not supported for TARGET_ARCH=aarch64
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/lib32-gcc
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/lib32-gcc
+[YOCTO #8638]
 
-Robert Yang (1):
-  gcc-multilib-config: make aarch64 support multilib
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-devtools/gcc/gcc-multilib-config.inc |    7 +++++++
  1 file changed, 7 insertions(+)
 
+diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+index 1c0a45a..a0a2ac0 100644
+--- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
++++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+@@ -29,6 +29,9 @@ python gcc_multilib_setup() {
+     bb.utils.remove(build_conf_dir, True)
+     ml_globs = ('%s/*/t-linux64' % src_conf_dir,
+                 '%s/*/linux64.h' % src_conf_dir,
++                '%s/aarch64/t-aarch64' % src_conf_dir,
++                '%s/aarch64/aarch64.h' % src_conf_dir,
++                '%s/aarch64/aarch64-cores.def' % src_conf_dir,
+                 '%s/*/linux.h' % src_conf_dir,
+                 '%s/linux.h' % src_conf_dir)
+ 
+@@ -130,6 +133,8 @@ python gcc_multilib_setup() {
+         'mips64'    : ['gcc/config/mips/t-linux64'],
+         'powerpc'   : ['gcc/config/rs6000/t-linux64'],
+         'powerpc64' : ['gcc/config/rs6000/t-linux64'],
++        'aarch64'   : ['gcc/config/aarch64/t-aarch64'],
++        'arm'       : ['gcc/config/aarch64/t-aarch64'],
+     }
+ 
+     gcc_header_config_files = {
+@@ -140,6 +145,8 @@ python gcc_multilib_setup() {
+         'mips64'    : ['gcc/config/mips/linux.h', 'gcc/config/mips/linux64.h'],
+         'powerpc'   : ['gcc/config/rs6000/linux64.h'],
+         'powerpc64' : ['gcc/config/rs6000/linux64.h'],
++        'aarch64'   : ['gcc/config/aarch64/aarch64.h'],
++        'arm'       : ['gcc/config/aarch64/aarch64.h'],
+     }
+ 
+     libdir32 = 'SYSTEMLIBS_DIR'
 -- 
 1.7.9.5
 
