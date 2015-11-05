@@ -1,26 +1,40 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C20A875A31
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E4A875A31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 19:55:09 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 05 Nov 2015 11:54:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,248,1444719600"; d="scan'208";a="843534249"
-Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.145])
-	([10.219.5.145])
-	by orsmga002.jf.intel.com with ESMTP; 05 Nov 2015 11:54:56 -0800
-Message-ID: <563BB4A2.3020800@linux.intel.com>
-Date: Thu, 05 Nov 2015 13:57:22 -0600
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
-MIME-Version: 1.0
+	Thu,  5 Nov 2015 20:29:11 +0000 (UTC)
+Received: by pacdm15 with SMTP id dm15so72986074pac.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Nov 2015 12:29:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-type:content-transfer-encoding;
+	bh=AW0Z0LN3NQz2JXxyYNCw8YlWSbv1l4+anzB/bPox8w0=;
+	b=L/2TtuDBNLIYL+LQfZDqBIgQ6O6O2npeLzx05Kwf/UBIPVhfGHsIOvCqpiAg2zrQ/y
+	cXJldUilS+IISaH8op8OyC/QV6QDhc3eiE+MljMB9tlQs3pzTRB5U0iKkRmMlj5ky5Re
+	2q7og3mY6yQGKlXDPZwlI1KMokGbexg3r8FZmbUH2RsV9GbAXmtFt2lvbOHr952KZ3RF
+	yAdhrgurXTCbGwRFk52tDlXMzZkiIqAd3mDb9QNzrsD+eUmp2uat1srSmwzW7tjranii
+	CgLxWG/o7IsgbUsjiQfMtWuUj97Krrd3vKrEiuk35M3t0Z49aswU0sJWpgi6A+YULJWJ
+	Rrww==
+X-Received: by 10.66.192.73 with SMTP id he9mr12268345pac.138.1446755352239;
+	Thu, 05 Nov 2015 12:29:12 -0800 (PST)
+Received: from [10.43.100.29] ([64.2.3.194])
+	by smtp.googlemail.com with ESMTPSA id
+	ro3sm9447767pbc.69.2015.11.05.12.29.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 05 Nov 2015 12:29:10 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
-References: <1446590054-31188-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <1446590054-31188-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: benoit.rapidel+yocto@exmachina.fr
-Subject: Re: [PATCH] terminal: Support old tmux version (<1.9) when querying height value
+References: <1446160961-25182-1-git-send-email-akuster808@gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <563BBC15.7030407@gmail.com>
+Date: Thu, 5 Nov 2015 12:29:09 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <1446160961-25182-1-git-send-email-akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: Re: [master][jethro][fido][PATCH] libxslt: CVE-2015-7995
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,56 +47,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 19:55:13 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Thu, 05 Nov 2015 20:29:12 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-This patch did not solve the case when multiple panes are present. I 
-will send a V2 patch.
+Ping.
 
+- armin
 
-On 11/03/2015 04:34 PM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->
-> Old tmux version (< 1.9) does not support nested formats on the -F parameter, so
-> if nested format does not give any answer, do the query in two steps.
->
-> Tested on tmux 1.6.
->
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+On 10/29/2015 04:22 PM, Armin Kuster wrote:
+> From: Armin Kuster <akuster@mvista.com>
+> 
+> This is a is being give a High rating so please consider it for
+> all 1.1.28 versions.
+> 
+> A type confusion error within the libxslt "xsltStylePreCompute()"
+> function in preproc.c can lead to a DoS. Confirmed in version 1.1.28,
+> other versions may also be affected.
+> 
+> Signed-off-by: Armin Kuster <akuster@mvista.com>
 > ---
->   meta/lib/oe/terminal.py |   15 ++++++++++++++-
->   1 file changed, 14 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-> index 52a8913..686b1ce 100644
-> --- a/meta/lib/oe/terminal.py
-> +++ b/meta/lib/oe/terminal.py
-> @@ -218,11 +218,24 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
->
->   def check_tmux_pane_size(tmux):
->       import subprocess as sub
-> +    size = 0
->       try:
->           p = sub.Popen('%s list-panes -F "#{?pane_active,#{pane_height},}"' % tmux,
->                   shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
->           out, err = p.communicate()
-> -        size = int(out.strip())
-> +        try:
-> +            size = int(out.strip())
-> +        except ValueError:
-> +            # Older tmux versions (< 1.9) does not support nested formats,
-> +            # so try it in two steps
-> +            p = sub.Popen('%s list-panes -F "#{?pane_active,yes,no}"' % tmux,
-> +                shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
-> +            out, err = p.communicate()
-> +            if "yes" in out.strip():
-> +                p = sub.Popen('%s list-panes -F "#{pane_height}"' % tmux,
-> +                              shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
-> +                out, err = p.communicate()
-> +                size = int(out.strip())
->       except OSError as exc:
->           import errno
->           if exc.errno == errno.ENOENT:
->
+>  .../libxslt/libxslt/CVE-2015-7995.patch            | 33 ++++++++++++++++++++++
+>  meta/recipes-support/libxslt/libxslt_1.1.28.bb     |  3 +-
+>  2 files changed, 35 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch
+> 
+> diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch b/meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch
+> new file mode 100644
+> index 0000000..e4d09c2
+> --- /dev/null
+> +++ b/meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch
+> @@ -0,0 +1,33 @@
+> +From 7ca19df892ca22d9314e95d59ce2abdeff46b617 Mon Sep 17 00:00:00 2001
+> +From: Daniel Veillard <veillard@redhat.com>
+> +Date: Thu, 29 Oct 2015 19:33:23 +0800
+> +Subject: Fix for type confusion in preprocessing attributes
+> +
+> +CVE-2015-7995 http://www.openwall.com/lists/oss-security/2015/10/27/10
+> +We need to check that the parent node is an element before dereferencing
+> +its namespace
+> +
+> +Upstream-Status: Backport
+> +
+> +https://git.gnome.org/browse/libxslt/commit/?id=7ca19df892ca22d9314e95d59ce2abdeff46b617
+> +
+> +Signed-off-by: Armin Kuster <akuster@mvista.com>
+> +
+> +---
+> + libxslt/preproc.c | 3 ++-
+> + 1 file changed, 2 insertions(+), 1 deletion(-)
+> +
+> +Index: libxslt-1.1.28/libxslt/preproc.c
+> +===================================================================
+> +--- libxslt-1.1.28.orig/libxslt/preproc.c
+> ++++ libxslt-1.1.28/libxslt/preproc.c
+> +@@ -2245,7 +2245,8 @@ xsltStylePreCompute(xsltStylesheetPtr st
+> + 	} else if (IS_XSLT_NAME(inst, "attribute")) {
+> + 	    xmlNodePtr parent = inst->parent;
+> + 
+> +-	    if ((parent == NULL) || (parent->ns == NULL) ||
+> ++	    if ((parent == NULL) ||
+> ++	        (parent->type != XML_ELEMENT_NODE) || (parent->ns == NULL) ||
+> + 		((parent->ns != inst->ns) &&
+> + 		 (!xmlStrEqual(parent->ns->href, inst->ns->href))) ||
+> + 		(!xmlStrEqual(parent->name, BAD_CAST "attribute-set"))) {
+> diff --git a/meta/recipes-support/libxslt/libxslt_1.1.28.bb b/meta/recipes-support/libxslt/libxslt_1.1.28.bb
+> index 166bcd8..87fabec 100644
+> --- a/meta/recipes-support/libxslt/libxslt_1.1.28.bb
+> +++ b/meta/recipes-support/libxslt/libxslt_1.1.28.bb
+> @@ -10,7 +10,8 @@ DEPENDS = "libxml2"
+>  
+>  SRC_URI = "ftp://xmlsoft.org/libxslt//libxslt-${PV}.tar.gz \
+>             file://pkgconfig_fix.patch \
+> -           file://pkgconfig.patch"
+> +           file://pkgconfig.patch \
+> +           file://CVE-2015-7995.patch"
+>  
+>  SRC_URI[md5sum] = "9667bf6f9310b957254fdcf6596600b7"
+>  SRC_URI[sha256sum] = "5fc7151a57b89c03d7b825df5a0fae0a8d5f05674c0e7cf2937ecec4d54a028c"
+> 
 
