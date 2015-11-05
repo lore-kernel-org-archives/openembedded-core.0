@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ABE960125
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CEA860125
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 20:31:50 +0000 (UTC)
-Received: by qgeb1 with SMTP id b1so23271945qge.1
+	Thu,  5 Nov 2015 21:08:32 +0000 (UTC)
+Received: by qkcn129 with SMTP id n129so38283669qkc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Nov 2015 12:31:51 -0800 (PST)
+	Thu, 05 Nov 2015 13:08:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel_com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=cB1CRPO5zoxMZaEQaL178KzlM3ewNQEnVEE6sBchfwE=;
-	b=kgWzLnm82gXEljVm77qf0xHTB07UmQn0ulZquNaxW07NSpBj3K7KTdqwqSIBXDaosX
-	eik8kHhX4hVvg4zzrNkSCu8PXO7ZdsjAP64awSeV9JPCPZyxMrTOqCy4X/tjOCTWohnT
-	fDyR9V9WDtjCCmFXD2kfC7sjUgHLt6JCvyMZiV7A7mWVzAkBTeznALJNAgnkr0BLT67K
-	9lwO7dev3cjw5wcc6RMv+OU5jM6VEh1mmDTRF0nqIWrZMaFDaVMlfh1/LNgqXUtKJrtB
-	jvfKiosXO5SrXVp+sICaQFM5M0uMQ3Aq+bsWV8kGZqUj+aCP7ew5rpfNa9uvSwi2V2u3
-	xeBA==
+	bh=73TFcFTiTLMGZtYLZODDv5eKTkdrbYNn9BQXAL/Ou10=;
+	b=omCss2DcdFcWZZ924MsVDbyprLt2OL/kP3m2uEE773osuCHP8yBbGldySuAVCTH/Zn
+	MuTJk+H065dMBGELsUOmE9G+DCm7sx6jc37i96EFCWPe/KewOLFzFwqt6JkLkG/9g/km
+	V2tunI7BLeZFutUDd450kCN9zboDDRIjEK2ZWAspAv76dIE0IuYf8zVvzvlkB+MeZovT
+	0wc6zx8DmggUkA0I2iNFFOxduRKpiqXkTm2uwa3HSdaQlC2T7beFPUmq1SzXcez9tgAr
+	dUTfZOHXmZqacQjGw0FjWPGY2ystv+e5khawt9WciEaUV0jIyAWltGeiMdRKg2JMPZTu
+	XYrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=cB1CRPO5zoxMZaEQaL178KzlM3ewNQEnVEE6sBchfwE=;
-	b=i8gEDUkCUKVlzR8emxXH7ScVTIw3xdT2p90bB2Hzncp2keScqZhazlfuSfdQ9tgSp2
-	CA0gSLNxsQlVDyFbKmHq6wmEUOh6XRIttpNjUKwQB4avI4+fqxLa7xqL9+xoF2xwAzj6
-	rVhfnv7Ad0f24VT8OODUk4qoCrtn0w983z+jRZ/ffy6J7uTOI7eCUZ/OflDqZ87HyOyW
-	a26jxAThIvhJ1sECieGkK+sy5MuYZqL8gXriupn95LnHUPiqUEDAFyhRXMq/Mjt9u0mz
-	o2aMEp7x/cvwNPiufQGx7o+wa9qUc1MmTYaWMLuUgvZxlp7Ctr40+HLvHEK+LtROz/Ab
-	Glwg==
-X-Gm-Message-State: ALoCoQld0ZuFGJYCY9AqNe6502FotNCTCE1IzkN69qXRhe5NEDuU/FCX5G6UNN79RLUfcs1Zri9C
-X-Received: by 10.140.20.98 with SMTP id 89mr9638480qgi.15.1446755510958; Thu,
-	05 Nov 2015 12:31:50 -0800 (PST)
+	bh=73TFcFTiTLMGZtYLZODDv5eKTkdrbYNn9BQXAL/Ou10=;
+	b=DWmEuIH2Iix+AZ1N8MISWp+Hy6wgUJHM0YNDXcDmJuntkBzglya7w4mBL12mCDRlQE
+	aYbAly+zgPleb8jus14aTI/40iTOBmte5xHo3At6VRZhAKdJ8DZuB7UyOv6Ue62V3N3H
+	r+4MkfSU8j3X92FukVtVtcLvEXMjmq9XT7LUb2ej+qcnw7HUQ4lOolkApOmYLWa994lJ
+	sM7BzGapqlU1tv+TxgiqvXkThulBkxDC/N3AXOxNl9p2bnB3fmrxoU+qfo0h3BDMbfHC
+	M0mdeBU0i7ZPTL0QlsAxATn0y9Ezo0oDIj860xvtdmK2xMV4gFEyij3y8/QH46OmrJsj
+	/tbg==
+X-Gm-Message-State: ALoCoQldhDEqEXozTdq5aGcp5ukMPZhDgkJ1/WxRfX7spfVyIDNk4/LK6g+yPhrzZn+Qwj8GGmwE
+X-Received: by 10.55.78.143 with SMTP id c137mr9672800qkb.72.1446757712899;
+	Thu, 05 Nov 2015 13:08:32 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.94.82 with HTTP; Thu, 5 Nov 2015 12:31:31 -0800 (PST)
-In-Reply-To: <563BBC15.7030407@gmail.com>
-References: <1446160961-25182-1-git-send-email-akuster808@gmail.com>
-	<563BBC15.7030407@gmail.com>
+Received: by 10.140.94.82 with HTTP; Thu, 5 Nov 2015 13:08:13 -0800 (PST)
+In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B610D473B5@ORSMSX110.amr.corp.intel.com>
+References: <1445268589-104714-1-git-send-email-mark.hatle@windriver.com>
+	<6E51916E4A1F32428260031F4C7CD2B610D473B5@ORSMSX110.amr.corp.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 5 Nov 2015 20:31:31 +0000
-Message-ID: <CAJTo0LZiu2tUe_oYz_EL9MMZd5ONCyU9MKcJ+5kHyX0pW9sTHQ@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [master][jethro][fido][PATCH] libxslt: CVE-2015-7995
+Date: Thu, 5 Nov 2015 21:08:13 +0000
+Message-ID: <CAJTo0Lapy65UBQuf7bUXUtkw64bJ0wq8keT6wd+rwUqWnJ43LA@mail.gmail.com>
+To: "Bystricky, Juro" <juro.bystricky@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Fix GCC 5.2 "_FOR_BUILD" and related variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +56,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 20:31:51 -0000
-Content-Type: multipart/alternative; boundary=001a11c126fc4ed3920523d10476
+X-List-Received-Date: Thu, 05 Nov 2015 21:08:34 -0000
+Content-Type: multipart/alternative; boundary=001a114a8f688dd0390523d187e9
 
---001a11c126fc4ed3920523d10476
+--001a114a8f688dd0390523d187e9
 Content-Type: text/plain; charset=UTF-8
 
-On 5 November 2015 at 20:29, akuster808 <akuster808@gmail.com> wrote:
+On 5 November 2015 at 18:13, Bystricky, Juro <juro.bystricky@intel.com>
+wrote:
 
-> Ping.
+> The patch works unmodified  (and solves mingw build problems) for gcc 4.9.
+> as well,
+> providing gcc-4.9.inc is  patched the same way as gcc-5.2.inc
 >
 
-Queued in mut, will be hitting the AB soon.
+Can you send a proper patch for that?
 
+Cheers,
 Ross
 
---001a11c126fc4ed3920523d10476
+--001a114a8f688dd0390523d187e9
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 November 2015 at 20:29, akuster808 <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2as" class=3D"a3=
-s" style=3D"overflow:hidden">Ping.<div class=3D"yj6qo ajU"><div id=3D":27a"=
- class=3D"ajR" tabindex=3D"0"></div></div></div></blockquote></div><br>Queu=
-ed in mut, will be hitting the AB soon.</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">Ross</div></div>
+On 5 November 2015 at 18:13, Bystricky, Juro <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:juro.bystricky@intel.com" target=3D"_blank">juro.bystricky@intel=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":qz=
+" class=3D"a3s" style=3D"overflow:hidden">The patch works unmodified=C2=A0 =
+(and solves mingw build problems) for gcc 4.9. as well,<br>
+providing gcc-4.9.inc is=C2=A0 patched the same way as gcc-5.2.inc<br></div=
+></blockquote></div><br>Can you send a proper patch for that?</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Cheers,</div><div c=
+lass=3D"gmail_extra">Ross</div></div>
 
---001a11c126fc4ed3920523d10476--
+--001a114a8f688dd0390523d187e9--
