@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 27EFF75D4A
+	by mail.openembedded.org (Postfix) with ESMTP id 014C77708E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 22:00:14 +0000 (UTC)
+	Thu,  5 Nov 2015 22:00:56 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 3E266600A81
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-References: <CAJ86T=W-yx=peF_w-g4U7hkZN2u+RR2wbY7eACDEKADLQ-r2jw@mail.gmail.com>
+	(Authenticated sender: joshuagl) with ESMTPSA id A00EC600A81
+To: openembedded-core@lists.openembedded.org
+References: <1446235976-7118-1-git-send-email-haris.okanovic@ni.com>
 From: Joshua Lock <joshua.lock@collabora.co.uk>
-Message-ID: <563BD16A.5070803@collabora.co.uk>
-Date: Thu, 5 Nov 2015 22:00:10 +0000
+Message-ID: <563BD196.2010005@collabora.co.uk>
+Date: Thu, 5 Nov 2015 22:00:54 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.3.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=W-yx=peF_w-g4U7hkZN2u+RR2wbY7eACDEKADLQ-r2jw@mail.gmail.com>
-Subject: Re: fido backports to support SH4 + uclibc
+In-Reply-To: <1446235976-7118-1-git-send-email-haris.okanovic@ni.com>
+Subject: Re: [Fido] [PATCH] openssh: Backport CVE-2015-5600 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,21 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 22:00:15 -0000
+X-List-Received-Date: Thu, 05 Nov 2015 22:00:57 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04/11/15 18:16, Andre McCurdy wrote:
-> Hi Joshua,
+On 30/10/15 20:12, Haris Okanovic wrote:
+> only query each keyboard-interactive device once per
+> authentication request regardless of how many times it is listed
 >
-> Could you please consider backporting the following fixes to fido.
-> They are required in order to successfully build for SH4 + uclibc +
-> blacklist GPLv3.
+> Source:
+> http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/auth2-chall.c?f=h#rev1.43
+> http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/auth2-chall.c.diff?r2=1.43&r1=1.42&f=u
+>
+> Bug report:
+> https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-5600
+> https://bugzilla.redhat.com/show_bug.cgi?id=1245969
+>
+> Testing:
+> Built in Fido and installed to x86_64 test system.
+> Verified both 'keyboard-interactive' and 'publickey' logon works with
+> root and a regular user from an openssh 7.1p1-1 client on Arch.
 
-Done. Pushed to my joshuagl/fido-next branch of 
-openembedded-core-contrib and undergoing testing now.
+Thanks, I've pushed this change to my joshuagl/fido-next branch of 
+openembedded-core-contrib and am testing it now.
 
-Thanks,
+Regards,
 
 Joshua
 
@@ -49,13 +59,90 @@ Joshua
 http://cgit.openembedded.org/openembedded-core-contrib/log/?h=joshuagl/fido-next
 
 >
->    aa20c3d uclibc: backport upstream fix for SH4
->    898e9d7 libiconv_1.11.1: merge build and packaging fixes from libiconv_1.14
->    7d2da0e libiconv_1.11.1: fix LICENSE declaration, LGPL -> LGPLv2.0
->    d46333d gettext_0.16.1: add -lrt and -lpthread to LDFLAGS for uclibc builds
->    d95d92a gettext_0.16.1: remove obsolete uclibc specific patch
+> Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+> Reviewed-by: Rich Tollerton <rich.tollerton@ni.com>
+> Reviewed-by: Ken Sharp <ken.sharp@ni.com>
+> Natinst-ReviewBoard-ID: 115602
+> Natinst-CAR-ID: 541263
 >
-> Thanks.
+> ---
+>
+> This patch only applies to Fido and earlier releases. Bug is already
+> fixed in Jethro which builds OpenSSH 7.1.
+> ---
+>   .../openssh/openssh/CVE-2015-5600.patch            | 50 ++++++++++++++++++++++
+>   meta/recipes-connectivity/openssh/openssh_6.7p1.bb |  1 +
+>   2 files changed, 51 insertions(+)
+>   create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-5600.patch
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2015-5600.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2015-5600.patch
+> new file mode 100644
+> index 0000000..fa1c85e
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh/CVE-2015-5600.patch
+> @@ -0,0 +1,50 @@
+> +From b47bdee5621f95387c9ac5b999fd859ccb1213a9 Mon Sep 17 00:00:00 2001
+> +From: "djm@openbsd.org" <djm@openbsd.org>
+> +Date: Sat, 18 Jul 2015 07:57:14 +0000
+> +Subject: [PATCH] CVE-2015-5600
+> +
+> +only query each keyboard-interactive device once per
+> + authentication request regardless of how many times it is listed; ok markus@
+> +
+> +Source:
+> +http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/auth2-chall.c?f=h#rev1.43
+> +http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/ssh/auth2-chall.c.diff?r2=1.43&r1=1.42&f=u
+> +
+> +Upstream-Status: Backport
+> +---
+> + auth2-chall.c | 9 +++++++--
+> + 1 file changed, 7 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/auth2-chall.c b/auth2-chall.c
+> +index ea4eb6952f8c13928c3fc595007f2d844dde422f..065361d3ec22f4f131308d1b4497afada3c3cb78 100644
+> +--- a/auth2-chall.c
+> ++++ b/auth2-chall.c
+> +@@ -83,6 +83,7 @@ struct KbdintAuthctxt
+> + 	void *ctxt;
+> + 	KbdintDevice *device;
+> + 	u_int nreq;
+> ++	u_int devices_done;
+> + };
+> +
+> + #ifdef USE_PAM
+> +@@ -169,11 +170,15 @@ kbdint_next_device(Authctxt *authctxt, KbdintAuthctxt *kbdintctxt)
+> + 		if (len == 0)
+> + 			break;
+> + 		for (i = 0; devices[i]; i++) {
+> +-			if (!auth2_method_allowed(authctxt,
+> ++			if ((kbdintctxt->devices_done & (1 << i)) != 0 ||
+> ++			    !auth2_method_allowed(authctxt,
+> + 			    "keyboard-interactive", devices[i]->name))
+> + 				continue;
+> +-			if (strncmp(kbdintctxt->devices, devices[i]->name, len) == 0)
+> ++			if (strncmp(kbdintctxt->devices, devices[i]->name,
+> ++			    len) == 0) {
+> + 				kbdintctxt->device = devices[i];
+> ++				kbdintctxt->devices_done |= 1 << i;
+> ++			}
+> + 		}
+> + 		t = kbdintctxt->devices;
+> + 		kbdintctxt->devices = t[len] ? xstrdup(t+len+1) : NULL;
+> +--
+> +2.6.2
+> +
+> diff --git a/meta/recipes-connectivity/openssh/openssh_6.7p1.bb b/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
+> index aa71cc1..9246284 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_6.7p1.bb
+> @@ -25,6 +25,7 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+>              file://CVE-2015-6563.patch  \
+>              file://CVE-2015-6564.patch \
+>              file://CVE-2015-6565.patch \
+> +           file://CVE-2015-5600.patch \
+>              "
+>
+>   PAM_SRC_URI = "file://sshd"
 >
 
 
