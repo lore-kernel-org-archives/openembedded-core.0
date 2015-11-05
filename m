@@ -1,30 +1,62 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 91F2D76E70
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 96E9475D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 13:43:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tA5DhYob021061
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 5 Nov 2015 05:43:36 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 5 Nov 2015 05:43:34 -0800
-To: Robert Yang <liezhi.yang@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1446711613.git.liezhi.yang@windriver.com>
-	<88477fa50093b85e65b17c746a637c7259b87018.1446711613.git.liezhi.yang@windriver.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <563B5D05.9060609@windriver.com>
-Date: Thu, 5 Nov 2015 07:43:33 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
+	Thu,  5 Nov 2015 14:22:14 +0000 (UTC)
+Received: by igbdj2 with SMTP id dj2so11725142igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Nov 2015 06:22:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems_com_br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-type;
+	bh=D8lWy50w4cEJmEpq7G87sg1mybMUb6aYwpf+tZTh/vQ=;
+	b=Mp8bVqesVIkfFFxPKZK69hGxGSK43jyPtbz1tlgTAypJnSX9b1i7xxvpuMVsScP9nK
+	iSnQxjAJwvE8iLeouR+zAtWUC15SUTFzvN0GIXPo/GWDpjUSgWygl31WfIeN3MIGQYl/
+	GwObVC48r3aZyE9Wom9jZ6ZDpNr3rA3tGXN/TK88g0k4RcMgVvVadKd3GpifGAALWwvB
+	Nm6u7lToVnms1SvCB2aIE8U9vP5PeuKJCA7SEHVEMRy1k/bJxSNW9zC0L/xN4twqqpkD
+	3SLwht0K7b4jlKxKVWUY7+4jKed33WhgTG38G4agEm8okRrtURmn+WMxWb5SmMubnPYV
+	xuDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=D8lWy50w4cEJmEpq7G87sg1mybMUb6aYwpf+tZTh/vQ=;
+	b=Dr3DWPe79wvhdRM47q6/nyfrJ0aZYkfxXzH0FYUKQQlI8iPunfbHAcdY1ZJP+Aovwi
+	KhmhLjKz+CF0ePEC/sYFBjLYZpcXQMW/mZqEG5ctD8/dSL9iImPbKo2Yw6b1+xQvCwyF
+	dUF74bUT5YwQUS8T13PMBYna2fvm48BUMSd03uqjC1rSBcQI0lc26lIJQkdB8QZ9tLxg
+	m8+6PB7lqQozmdyamORn6REC9XRaMZ2imj9uf+pbDuLEPLVObh5pWSJcA2sV7/OV2PFK
+	6q7zxJNwg54sORdIXLFE+/UbYUd0bSvsljpVjTLiBr2Hb7M2UyK6yd1ONo5ZsklKrObf
+	ITZQ==
+X-Gm-Message-State: ALoCoQmhuonqPY6/4cVePVWqZwW2ND9axwqjFKjmRq62Un5KVBoaa6gQyFLZ35IT4HdOSoS8/28y
+X-Received: by 10.50.79.165 with SMTP id k5mr1522963igx.76.1446733334442;
+	Thu, 05 Nov 2015 06:22:14 -0800 (PST)
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com.
+	[209.85.223.181]) by smtp.gmail.com with ESMTPSA id
+	x1sm11235910igl.14.2015.11.05.06.22.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Nov 2015 06:22:13 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by ioll68 with SMTP id l68so91932056iol.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Nov 2015 06:22:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <88477fa50093b85e65b17c746a637c7259b87018.1446711613.git.liezhi.yang@windriver.com>
-Cc: Richard Purdie <richard.purdie@intel.com>
-Subject: Re: [PATCH 1/1] gcc-multilib-config: make aarch64 support multilib
+X-Received: by 10.107.17.160 with SMTP id 32mr41292ior.28.1446733332568; Thu,
+	05 Nov 2015 06:22:12 -0800 (PST)
+Received: by 10.36.15.197 with HTTP; Thu, 5 Nov 2015 06:22:12 -0800 (PST)
+In-Reply-To: <563B56B6.6070307@pseudoterminal.org>
+References: <1446653201-6456-1-git-send-email-radek.dostal@streamunlimited.com>
+	<CAP9ODKqFTU76yL_DqeNku4G3502R00C4K8qwdEtCp5zk1pmJRw@mail.gmail.com>
+	<563B56B6.6070307@pseudoterminal.org>
+Date: Thu, 5 Nov 2015 12:22:12 -0200
+Message-ID: <CAP9ODKrhSmSsx1aSY0oyoqYeV8zHm_NVtp3mH=4X8zX-BEmL3w@mail.gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot.inc: properly specify CC for EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,75 +69,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 13:43:40 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Nov 2015 14:22:20 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 11/5/15 2:20 AM, Robert Yang wrote:
-> Fixed:
-> MACHINE = qemuarm64
-> require conf/multilib.conf
-> MULTILIBS = "multilib:lib32"
-> DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
-> 
-> $ bitbake core-image-minimal -cpopulate_sdk
-> 
-> WARNING: gcc multilib setup is not supported for TARGET_ARCH=aarch64
-> WARNING: gcc multilib setup is not supported for TARGET_ARCH=aarch64
-> 
-> [YOCTO #8638]
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-multilib-config.inc |    7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-> index 1c0a45a..a0a2ac0 100644
-> --- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-> @@ -29,6 +29,9 @@ python gcc_multilib_setup() {
->      bb.utils.remove(build_conf_dir, True)
->      ml_globs = ('%s/*/t-linux64' % src_conf_dir,
->                  '%s/*/linux64.h' % src_conf_dir,
-> +                '%s/aarch64/t-aarch64' % src_conf_dir,
-> +                '%s/aarch64/aarch64.h' % src_conf_dir,
-> +                '%s/aarch64/aarch64-cores.def' % src_conf_dir,
->                  '%s/*/linux.h' % src_conf_dir,
->                  '%s/linux.h' % src_conf_dir)
->  
-> @@ -130,6 +133,8 @@ python gcc_multilib_setup() {
->          'mips64'    : ['gcc/config/mips/t-linux64'],
->          'powerpc'   : ['gcc/config/rs6000/t-linux64'],
->          'powerpc64' : ['gcc/config/rs6000/t-linux64'],
-> +        'aarch64'   : ['gcc/config/aarch64/t-aarch64'],
-> +        'arm'       : ['gcc/config/aarch64/t-aarch64'],
->      }
->  
->      gcc_header_config_files = {
-> @@ -140,6 +145,8 @@ python gcc_multilib_setup() {
->          'mips64'    : ['gcc/config/mips/linux.h', 'gcc/config/mips/linux64.h'],
->          'powerpc'   : ['gcc/config/rs6000/linux64.h'],
->          'powerpc64' : ['gcc/config/rs6000/linux64.h'],
-> +        'aarch64'   : ['gcc/config/aarch64/aarch64.h'],
-> +        'arm'       : ['gcc/config/aarch64/aarch64.h'],
->      }
+Hello Carlos,
 
-I'm not sure the above is correct in this case.  As I believe GCC treats aarch64
-and arm as different architectures unlike MIPS, Power and IA32.
+On Thu, Nov 5, 2015 at 11:16 AM, Carlos Rafael Giani
+<dv@pseudoterminal.org> wrote:
+> So, this is because of the TOOLCHAIN_OPTIONS ?
+> Also, what about the ${CC} ? Right now it won't work properly with clang for
+> example.
 
-In this case, I would expect two specific cross compilers to be generated, one
-for armv7 and one for aarch64, instead of a combination single compiler that
-understand both.
+The clang is problem might involve us to rework something but all this
+needs to be based on last U-Boot releases; we shouldn't put
+workarounds and hacks on OE-Core without good reasons.
 
-So in this case, it might be better to have an exception to the warning
-message...  (unless I'm wrong, in which case this IS likely a correct fix....)
+Has the clang been tested with 2015.10?
 
-Hopefully Khem and/or Richard will be able to comment as they are more familiar
-with this code path.
-
->  
->      libdir32 = 'SYSTEMLIBS_DIR'
-> 
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
