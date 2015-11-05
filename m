@@ -1,60 +1,25 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id E71E376A51
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 7912275D4A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 14:41:07 +0000 (UTC)
-Received: by iody8 with SMTP id y8so91256520iod.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Nov 2015 06:41:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems_com_br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-type;
-	bh=MFBDcpI/aIKvfMSBS8lOc0zXyg+VV3nFDfcqV0kA2jQ=;
-	b=m9cnvpqpwBt/uNiwprOLW0AcUksJb+C4K55pCLd03Iw5+BLPejw/kY/g263NoAJR90
-	HPKj9RHRu9oRU/GWo1nG74WPtNuBbflMXWpnpoNj376h5zY5wvp0oGAOpGeujuy7JFds
-	brus6sHbKMlNvmqQHbm7hYaSulk5lj6K2oM1hlboDEJXf38pJHibRjkeu49hAWaykpND
-	O72IaA5miu8pBDcAQPxpgZkMl0CoK3c6j/M5nehZu9k7J1sHdkfqcKoU9rnSwMGoRBW+
-	ycZ0loeWTSzQ0hRh/J4273NH89A6F72JP/CeN4TrzAgQ6f6pFJ/dQ60bSh3Avh8zEpOj
-	cg+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=MFBDcpI/aIKvfMSBS8lOc0zXyg+VV3nFDfcqV0kA2jQ=;
-	b=IH/YuIw+X9DPU+6pIMmxSFjN+MUWpQ+ScTU+DNPxKiSEs4x9RnOz6hDfQr5AG17poX
-	U2SSmpO76oyd6iJoZ4qwvwvbZUKb5G1TU3APLTMOD01VFjsW9y77uXG0kLs66ZIiboUn
-	Nwagk3WWJPb//8UaUqKQKSttnMmUwSWB14rE9GsjpnUF9v/JSJKBXD13+PeRDsYRpKAT
-	+0BBSwWqHI3OC9UyzaPYp3oPEtc0qrFBcJXDdw6T+fBwr25NDn3XyFv28AQj/vU7UelW
-	iQcsl64whRtlW/UKCeMTOjewwczvCTW8p3oGySl8AW7NfqMSA2Yv3usWNtE3YJYT3MVU
-	Zq0A==
-X-Gm-Message-State: ALoCoQl+IZ9w6czW8PgDnDtWc0fLM/ABkLzhLhGukZA0ZVGvUdTDq2yBK9L7M2oCqx/zEMChP1Ec
-X-Received: by 10.107.153.13 with SMTP id b13mr11223443ioe.143.1446734468189; 
-	Thu, 05 Nov 2015 06:41:08 -0800 (PST)
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com.
-	[209.85.223.181])
-	by smtp.gmail.com with ESMTPSA id c23sm2997564iod.0.2015.11.05.06.41.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 05 Nov 2015 06:41:07 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by iodd200 with SMTP id d200so91453423iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Nov 2015 06:41:06 -0800 (PST)
-MIME-Version: 1.0
-X-Received: by 10.107.17.160 with SMTP id 32mr161074ior.28.1446734466709; Thu,
-	05 Nov 2015 06:41:06 -0800 (PST)
-Received: by 10.36.15.197 with HTTP; Thu, 5 Nov 2015 06:41:06 -0800 (PST)
-In-Reply-To: <1446676702-26773-1-git-send-email-cyril.chemparathy@xilinx.com>
-References: <1446676702-26773-1-git-send-email-cyril.chemparathy@xilinx.com>
-Date: Thu, 5 Nov 2015 12:41:06 -0200
-Message-ID: <CAP9ODKoWUzXCDwMcUd+_kuexTXgx0khwfy+riuQyXjWt4O812A@mail.gmail.com>
-To: Cyril Chemparathy <cyril.chemparathy@xilinx.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot.inc: allow externalsrc u-boot builds
+	Thu,  5 Nov 2015 14:47:15 +0000 (UTC)
+Received: from [86.30.112.98] (HELO elite.brightsign)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.1.2)
+	with ESMTP id 635310916; Thu, 05 Nov 2015 09:47:15 -0500
+Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
+	by elite.brightsign with esmtp (Exim 4.84)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1ZuLol-0009Zv-MX; Thu, 05 Nov 2015 14:47:11 +0000
+Received: from mac by chuckie with local (Exim 4.84)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1ZuLol-0001Zm-Lj; Thu, 05 Nov 2015 14:47:11 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Nov 2015 14:47:01 +0000
+Message-Id: <1446734821-6011-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] bitbake.conf, module.bbclass: Support opting out of legacy EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,21 +32,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 14:41:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 05 Nov 2015 14:47:18 -0000
 
-On Wed, Nov 4, 2015 at 8:38 PM, Cyril Chemparathy
-<cyril.chemparathy@xilinx.com> wrote:
-> When building with EXTERNALSRC u-boot repositories, S != B, and
-> therefore the following changes are required.
->
-> Signed-off-by: Cyril Chemparathy <cyril.chemparathy@xilinx.com>
+Give recipes and classes the ability to opt out of EXTRA_OEMAKE
+containing the legacy value without removing other recipe-specific or
+local additions.
 
-One simplification that can be done is to use ${B}/build when building
-using UBOOT_MACHINE; this allow the removal of comparing of  S and B.
+The default value of EXTRA_OEMAKE="-e MAKEFLAGS=" is unfortunate. It
+causes breakage and unintended behaviour in various recipes.
 
+It is particularly toxic when variables are passed on the command line
+to make since they then don't survive calling into a submake.
+
+In particular this breaks building modules when LD=gold since the
+overridden LD=${KERNEL_LD} is lost by the time the kernel's Makefile is
+invoked.
+
+This solution isn't pretty either, but it may be a good small first step
+towards a future utopia where EXTRA_OEMAKE needn't contain "-e
+MAKEFLAGS=" by default at all.
+
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+Acked-by: Phil Blundell <pb@pbcl.net>
+---
+ meta/classes/module.bbclass | 4 ++++
+ meta/conf/bitbake.conf      | 3 ++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+index 0952c0c..4913aac 100644
+--- a/meta/classes/module.bbclass
++++ b/meta/classes/module.bbclass
+@@ -4,6 +4,10 @@ addtask make_scripts after do_patch before do_compile
+ do_make_scripts[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
+ do_make_scripts[depends] += "virtual/kernel:do_shared_workdir"
+ 
++# -e MAKEFLAGS= is toxic when building modules since it will cause
++# none of the variables passed to make on the command line to make it
++# through to submakes.
++EXTRA_OEMAKE_LEGACY = ""
+ EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
+ 
+ module_do_compile() {
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 06971da..93ab02a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -477,7 +477,8 @@ export BUILD_STRIP = "${BUILD_PREFIX}strip"
+ export BUILD_NM = "${BUILD_PREFIX}nm"
+ 
+ export MAKE = "make"
+-EXTRA_OEMAKE = "-e MAKEFLAGS="
++EXTRA_OEMAKE_LEGACY = "-e MAKEFLAGS="
++EXTRA_OEMAKE = "${EXTRA_OEMAKE_LEGACY}"
+ EXTRA_OECONF = ""
+ export LC_ALL = "C"
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.1.4
+
 
