@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FA4B76E70
+	by mail.openembedded.org (Postfix) with ESMTP id C7DB660125
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 13:26:04 +0000 (UTC)
+	Thu,  5 Nov 2015 13:26:05 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Nov 2015 05:26:05 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 05 Nov 2015 05:26:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,247,1444719600"; d="scan'208";a="843801131"
+X-IronPort-AV: E=Sophos;i="5.20,247,1444719600"; d="scan'208";a="843801147"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Nov 2015 05:26:04 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 05 Nov 2015 05:26:05 -0800
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Nov 2015 15:29:04 +0200
-Message-Id: <8deb55d76b4815adda2c2dc178bdf5e31964a320.1446729162.git.jussi.kukkonen@intel.com>
+Date: Thu,  5 Nov 2015 15:29:05 +0200
+Message-Id: <7daeae6c3cf1832ee9bc324f11a3a6a9eec95215.1446729162.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <824e863ff0a986c0c812f25fbe5bebcf060bde02.1446729162.git.jussi.kukkonen@intel.com>
 References: <824e863ff0a986c0c812f25fbe5bebcf060bde02.1446729162.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1446729162.git.jussi.kukkonen@intel.com>
 References: <cover.1446729162.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 5/6] at-spi2-atk: Upgrade 2.16.0 -> 2.18.1
+Subject: [PATCH 6/6] libsoup-2.4: Upgrade 2.50.0 -> 2.52.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 13:26:04 -0000
+X-List-Received-Date: Thu, 05 Nov 2015 13:26:06 -0000
+
+Don't build the now-included vala bindings: This requires gobject-introspection.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../atk/{at-spi2-atk_2.16.0.bb => at-spi2-atk_2.18.1.bb}              | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/atk/{at-spi2-atk_2.16.0.bb => at-spi2-atk_2.18.1.bb} (82%)
+ .../libsoup/{libsoup-2.4_2.50.0.bb => libsoup-2.4_2.52.1.bb}        | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.50.0.bb => libsoup-2.4_2.52.1.bb} (82%)
 
-diff --git a/meta/recipes-support/atk/at-spi2-atk_2.16.0.bb b/meta/recipes-support/atk/at-spi2-atk_2.18.1.bb
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.50.0.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.52.1.bb
 similarity index 82%
-rename from meta/recipes-support/atk/at-spi2-atk_2.16.0.bb
-rename to meta/recipes-support/atk/at-spi2-atk_2.18.1.bb
-index 7d95fdb..f2e543f 100644
---- a/meta/recipes-support/atk/at-spi2-atk_2.16.0.bb
-+++ b/meta/recipes-support/atk/at-spi2-atk_2.18.1.bb
-@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e9f288ba982d60518f375b5898283886"
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+rename from meta/recipes-support/libsoup/libsoup-2.4_2.50.0.bb
+rename to meta/recipes-support/libsoup/libsoup-2.4_2.52.1.bb
+index 044db31..55d8b9e 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.50.0.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.52.1.bb
+@@ -9,6 +9,8 @@ SECTION = "x11/gnome/libs"
  
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "8936488c8cdce0e158f80b2e247527f9"
--SRC_URI[sha256sum] = "78efc45ec36383bf785f8636e64a8d866defeb020e00a08f92978f1fc3772ff9"
-+SRC_URI[md5sum] = "d7040a55df975865ab0d74a4b325afb5"
-+SRC_URI[sha256sum] = "c4b15f9386d34d464ddad5f6cc85669742c016df87141ceee93513245979c12d"
+ DEPENDS = "glib-2.0 gnutls libxml2 sqlite3 intltool-native"
  
- DEPENDS = "dbus glib-2.0 atk at-spi2-core"
++EXTRA_OECONF = "--disable-vala"
++
+ # libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards.  Enable
+ # by default but let it be easily disabled.
+ PACKAGECONFIG ??= "gnome"
+@@ -17,8 +19,8 @@ PACKAGECONFIG[gnome] = "--with-gnome,--without-gnome"
+ SHRT_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "9a84d66e1b7ccd3bd340574b11eccc15"
+-SRC_URI[sha256sum] = "1e01365ac4af3817187ea847f9d3588c27eee01fc519a5a7cb212bb78b0f667b"
++SRC_URI[md5sum] = "b80f11674724ab38f96426875bc0e2e5"
++SRC_URI[sha256sum] = "0e19bca047ad50b28e8ed7663840f9e45a94909148822ca44dcb3e8cafb5cc48"
+ 
+ S = "${WORKDIR}/libsoup-${PV}"
  
 -- 
 2.1.4
