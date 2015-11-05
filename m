@@ -1,27 +1,63 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 55A4F76230
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 71A48770A2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 15:44:13 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Nov 2015 07:44:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,248,1444719600"; d="scan'208";a="678997601"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 05 Nov 2015 07:44:13 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 7D2956A4005
+	Thu,  5 Nov 2015 15:47:26 +0000 (UTC)
+Received: by iodd200 with SMTP id d200so93763222iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 07:43:10 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Nov 2015 17:44:41 +0200
-Message-Id: <1446738281-19058-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 3/5] python-pycurl: update version to 7.19.5.2
+	Thu, 05 Nov 2015 07:47:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems_com_br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=t+I9ZnhgfoD8KsC3KNg99+rZw3wnsS9RCxXZkDwx/rc=;
+	b=dnlh2N5p8Yrftd3ZxEPeKh9fqdlFMPB97kn374CEoEc91NBYQF/ZBKRj6Bw8w7IwwA
+	+5RTD0+cOluVS3snMm/5VHCLB29z/1VGVQ7voW2Nz9CZcKXJ05sM2p8L5jV4Ds4vBoNK
+	wEV1/94RxZyWsftRYFSTMkZMWDzNXcdtmj+GUMns10oU0CgOzXk7Jm/voSYvENzGft2M
+	l0lymh89FMd05Z8NcJp3dLk2gw7+j/ZtHFpzXh7okwVKt4n8SAWQRB/a/MuuFma9aT/a
+	Apn2hc8M7ttQFPw+ddAJNUF8YdfUrfnFpy6lYFZ3d23OMqgu7GoDQWx+qeNBYwbCrXEn
+	I9Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=t+I9ZnhgfoD8KsC3KNg99+rZw3wnsS9RCxXZkDwx/rc=;
+	b=IGoujui9rJKkirNrgE/LKe85mcwwKisuSv4xuvtj620z8pc2pH7AaseQWTmqjMWQtl
+	UflNVaxWLxCiFMPRJ2BmZmdzkTQdiH6gLslEvtC/8oH2/3/4k+K0TYjrjUMhRTjh9cQT
+	Cf189BeasSp2xioPKN+QQtLWJKv8lczaT/2Tf7vPLqMuKu7GNenZiEsFKiMGnCPfOzPW
+	x8l7Ki57/WrXeaIeCRStDx9kzQVZEb7IBuBenXhpE6u9minkTaHvEZgmvyXbrdWqMPBz
+	W92uTrrF/JCk+7PR0czONvtyoQr3hAE7nr+NylUIWDxr9QKSLGMPd7E5Y/hzARn9FaSW
+	TFlQ==
+X-Gm-Message-State: ALoCoQkCy+Ks3fuG7CqTABHrzGzmkH+DeoW/+MKTww8s+ZfCHgF4yX/YHV0N4KpispvfN5cBY9Ti
+X-Received: by 10.107.12.193 with SMTP id 62mr10701108iom.173.1446738446837;
+	Thu, 05 Nov 2015 07:47:26 -0800 (PST)
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com.
+	[209.85.223.171])
+	by smtp.gmail.com with ESMTPSA id i69sm222083iod.27.2015.11.05.07.47.25
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Nov 2015 07:47:25 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by ioc74 with SMTP id 74so28215664ioc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Nov 2015 07:47:25 -0800 (PST)
+MIME-Version: 1.0
+X-Received: by 10.107.17.160 with SMTP id 32mr589849ior.28.1446738445414; Thu,
+	05 Nov 2015 07:47:25 -0800 (PST)
+Received: by 10.36.15.197 with HTTP; Thu, 5 Nov 2015 07:47:25 -0800 (PST)
+In-Reply-To: <563B7395.1010104@streamunlimited.com>
+References: <1446653201-6456-1-git-send-email-radek.dostal@streamunlimited.com>
+	<CAP9ODKqFTU76yL_DqeNku4G3502R00C4K8qwdEtCp5zk1pmJRw@mail.gmail.com>
+	<563B7395.1010104@streamunlimited.com>
+Date: Thu, 5 Nov 2015 13:47:25 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKq-WgcW8vpj5ZvrEby7tm5HKAa7zstTQmHphP0r=DObRw@mail.gmail.com>
+Message-ID: <CAP9ODKq-WgcW8vpj5ZvrEby7tm5HKAa7zstTQmHphP0r=DObRw@mail.gmail.com>
+To: =?UTF-8?Q?Radek_Dost=C3=A1l?= <radek.dostal@streamunlimited.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot.inc: properly specify CC for EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,74 +70,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 15:44:14 -0000
+X-List-Received-Date: Thu, 05 Nov 2015 15:47:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-No change in License. Updated no-static-link.patch
+On Thu, Nov 5, 2015 at 1:19 PM, Radek Dost=C3=A1l
+<radek.dostal@streamunlimited.com> wrote:
+>> This build error has been fixed in new U-Boot releases and if the
+>> board required an old version (and cannot be updated) the fix should
+>> be done on the recipe and not on the common file as it can change,
+>> behind the scenes, what is in use for several recipes without notice.
+>
+> Thanks a lot for your valuable input. I was not aware of the fact that it
+> was fixed in the upstream already. If you know the commit out of your hea=
+d,
+> it would be great if you could share it.
 
-README.rst: license checksum changed to reflect the Copyright update
-COPYING-MIT: checksum changed to reflect the Copyright update
+I don't know; I strongly advise the upgrade for the board if you have
+the resources (schematic, time, ...) otherwise a recipe workaround is
+the best alternative.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- .../python/python-pycurl/no-static-link.patch                | 12 ++++++------
- .../{python-pycurl_7.19.5.1.bb => python-pycurl_7.19.5.2.bb} |  8 ++++----
- 2 files changed, 10 insertions(+), 10 deletions(-)
- rename meta/recipes-devtools/python/{python-pycurl_7.19.5.1.bb => python-pycurl_7.19.5.2.bb} (72%)
-
-diff --git a/meta/recipes-devtools/python/python-pycurl/no-static-link.patch b/meta/recipes-devtools/python/python-pycurl/no-static-link.patch
-index c5349ee..212779c 100644
---- a/meta/recipes-devtools/python/python-pycurl/no-static-link.patch
-+++ b/meta/recipes-devtools/python/python-pycurl/no-static-link.patch
-@@ -1,12 +1,12 @@
- Upstream-Status: Pending
- 
- Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
--
--Index: pycurl-7.19.3.1/setup.py
--===================================================================
----- pycurl-7.19.3.1.orig/setup.py	2014-07-16 12:57:24.065346887 +0000
--+++ pycurl-7.19.3.1/setup.py	2014-07-16 12:57:53.057347678 +0000
--@@ -147,7 +147,7 @@
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+diff -Naur pycurl-7.19.5.2-orig/setup.py pycurl-7.19.5.2/setup.py
-+--- pycurl-7.19.5.2-orig/setup.py	2015-11-02 15:42:24.000000000 +0200
-++++ pycurl-7.19.5.2/setup.py	2015-11-02 17:59:36.121527273 +0200
-+@@ -154,7 +154,7 @@
-          optbuf = ''
-          sslhintbuf = ''
-          errtext = ''
-diff --git a/meta/recipes-devtools/python/python-pycurl_7.19.5.1.bb b/meta/recipes-devtools/python/python-pycurl_7.19.5.2.bb
-similarity index 72%
-rename from meta/recipes-devtools/python/python-pycurl_7.19.5.1.bb
-rename to meta/recipes-devtools/python/python-pycurl_7.19.5.2.bb
-index 0d0effe..094105c 100644
---- a/meta/recipes-devtools/python/python-pycurl_7.19.5.1.bb
-+++ b/meta/recipes-devtools/python/python-pycurl_7.19.5.2.bb
-@@ -2,9 +2,9 @@ SUMMARY = "Python bindings for libcurl"
- HOMEPAGE = "http://pycurl.sourceforge.net/"
- SECTION = "devel/python"
- LICENSE = "LGPLv2.1+ | MIT"
--LIC_FILES_CHKSUM = "file://README.rst;beginline=166;endline=181;md5=57e5ab0c0f964533fc59d93dec5695bb \
-+LIC_FILES_CHKSUM = "file://README.rst;beginline=166;endline=182;md5=e5c36c3ca7e9f0bf6e144267dd760861 \
-                     file://COPYING-LGPL;md5=3579a9fd0221d49a237aaa33492f988c \
--                    file://COPYING-MIT;md5=e8200955c773b2a0fd6cea36ea5e87be"
-+                    file://COPYING-MIT;md5=0c3eb58d2e99f3102e2ce2db4eb172f1"
- 
- DEPENDS = "curl python"
- RDEPENDS_${PN} = "python-core curl"
-@@ -15,8 +15,8 @@ SRC_URI = "\
-   file://no-static-link.patch \
- "
- 
--SRC_URI[archive.md5sum] = "f44cd54256d7a643ab7b16e3f409b26b"
--SRC_URI[archive.sha256sum] = "6e9770f80459757f73bd71af82fbb29cd398b38388cdf1beab31ea91a331bc6c"
-+SRC_URI[archive.md5sum] = "59cea96cc3027a1a7ed5020e69d4009a"
-+SRC_URI[archive.sha256sum] = "98cc821555d152977fac99b6e5cb0f759275aabdf14e4928890c6fcc944ab736"
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
- inherit distutils
--- 
-2.4.0
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
