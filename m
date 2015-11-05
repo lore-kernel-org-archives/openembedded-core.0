@@ -1,39 +1,48 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E4A875A31
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 7ABE960125
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 20:29:11 +0000 (UTC)
-Received: by pacdm15 with SMTP id dm15so72986074pac.3
+	Thu,  5 Nov 2015 20:31:50 +0000 (UTC)
+Received: by qgeb1 with SMTP id b1so23271945qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Nov 2015 12:29:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-type:content-transfer-encoding;
-	bh=AW0Z0LN3NQz2JXxyYNCw8YlWSbv1l4+anzB/bPox8w0=;
-	b=L/2TtuDBNLIYL+LQfZDqBIgQ6O6O2npeLzx05Kwf/UBIPVhfGHsIOvCqpiAg2zrQ/y
-	cXJldUilS+IISaH8op8OyC/QV6QDhc3eiE+MljMB9tlQs3pzTRB5U0iKkRmMlj5ky5Re
-	2q7og3mY6yQGKlXDPZwlI1KMokGbexg3r8FZmbUH2RsV9GbAXmtFt2lvbOHr952KZ3RF
-	yAdhrgurXTCbGwRFk52tDlXMzZkiIqAd3mDb9QNzrsD+eUmp2uat1srSmwzW7tjranii
-	CgLxWG/o7IsgbUsjiQfMtWuUj97Krrd3vKrEiuk35M3t0Z49aswU0sJWpgi6A+YULJWJ
-	Rrww==
-X-Received: by 10.66.192.73 with SMTP id he9mr12268345pac.138.1446755352239;
-	Thu, 05 Nov 2015 12:29:12 -0800 (PST)
-Received: from [10.43.100.29] ([64.2.3.194])
-	by smtp.googlemail.com with ESMTPSA id
-	ro3sm9447767pbc.69.2015.11.05.12.29.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 05 Nov 2015 12:29:10 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <1446160961-25182-1-git-send-email-akuster808@gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <563BBC15.7030407@gmail.com>
-Date: Thu, 5 Nov 2015 12:29:09 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Thu, 05 Nov 2015 12:31:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=cB1CRPO5zoxMZaEQaL178KzlM3ewNQEnVEE6sBchfwE=;
+	b=kgWzLnm82gXEljVm77qf0xHTB07UmQn0ulZquNaxW07NSpBj3K7KTdqwqSIBXDaosX
+	eik8kHhX4hVvg4zzrNkSCu8PXO7ZdsjAP64awSeV9JPCPZyxMrTOqCy4X/tjOCTWohnT
+	fDyR9V9WDtjCCmFXD2kfC7sjUgHLt6JCvyMZiV7A7mWVzAkBTeznALJNAgnkr0BLT67K
+	9lwO7dev3cjw5wcc6RMv+OU5jM6VEh1mmDTRF0nqIWrZMaFDaVMlfh1/LNgqXUtKJrtB
+	jvfKiosXO5SrXVp+sICaQFM5M0uMQ3Aq+bsWV8kGZqUj+aCP7ew5rpfNa9uvSwi2V2u3
+	xeBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=cB1CRPO5zoxMZaEQaL178KzlM3ewNQEnVEE6sBchfwE=;
+	b=i8gEDUkCUKVlzR8emxXH7ScVTIw3xdT2p90bB2Hzncp2keScqZhazlfuSfdQ9tgSp2
+	CA0gSLNxsQlVDyFbKmHq6wmEUOh6XRIttpNjUKwQB4avI4+fqxLa7xqL9+xoF2xwAzj6
+	rVhfnv7Ad0f24VT8OODUk4qoCrtn0w983z+jRZ/ffy6J7uTOI7eCUZ/OflDqZ87HyOyW
+	a26jxAThIvhJ1sECieGkK+sy5MuYZqL8gXriupn95LnHUPiqUEDAFyhRXMq/Mjt9u0mz
+	o2aMEp7x/cvwNPiufQGx7o+wa9qUc1MmTYaWMLuUgvZxlp7Ctr40+HLvHEK+LtROz/Ab
+	Glwg==
+X-Gm-Message-State: ALoCoQld0ZuFGJYCY9AqNe6502FotNCTCE1IzkN69qXRhe5NEDuU/FCX5G6UNN79RLUfcs1Zri9C
+X-Received: by 10.140.20.98 with SMTP id 89mr9638480qgi.15.1446755510958; Thu,
+	05 Nov 2015 12:31:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1446160961-25182-1-git-send-email-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
+Received: by 10.140.94.82 with HTTP; Thu, 5 Nov 2015 12:31:31 -0800 (PST)
+In-Reply-To: <563BBC15.7030407@gmail.com>
+References: <1446160961-25182-1-git-send-email-akuster808@gmail.com>
+	<563BBC15.7030407@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 5 Nov 2015 20:31:31 +0000
+Message-ID: <CAJTo0LZiu2tUe_oYz_EL9MMZd5ONCyU9MKcJ+5kHyX0pW9sTHQ@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [master][jethro][fido][PATCH] libxslt: CVE-2015-7995
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,83 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 20:29:12 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Nov 2015 20:31:51 -0000
+Content-Type: multipart/alternative; boundary=001a11c126fc4ed3920523d10476
 
-Ping.
+--001a11c126fc4ed3920523d10476
+Content-Type: text/plain; charset=UTF-8
 
-- armin
+On 5 November 2015 at 20:29, akuster808 <akuster808@gmail.com> wrote:
 
-On 10/29/2015 04:22 PM, Armin Kuster wrote:
-> From: Armin Kuster <akuster@mvista.com>
-> 
-> This is a is being give a High rating so please consider it for
-> all 1.1.28 versions.
-> 
-> A type confusion error within the libxslt "xsltStylePreCompute()"
-> function in preproc.c can lead to a DoS. Confirmed in version 1.1.28,
-> other versions may also be affected.
-> 
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> ---
->  .../libxslt/libxslt/CVE-2015-7995.patch            | 33 ++++++++++++++++++++++
->  meta/recipes-support/libxslt/libxslt_1.1.28.bb     |  3 +-
->  2 files changed, 35 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch
-> 
-> diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch b/meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch
-> new file mode 100644
-> index 0000000..e4d09c2
-> --- /dev/null
-> +++ b/meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch
-> @@ -0,0 +1,33 @@
-> +From 7ca19df892ca22d9314e95d59ce2abdeff46b617 Mon Sep 17 00:00:00 2001
-> +From: Daniel Veillard <veillard@redhat.com>
-> +Date: Thu, 29 Oct 2015 19:33:23 +0800
-> +Subject: Fix for type confusion in preprocessing attributes
-> +
-> +CVE-2015-7995 http://www.openwall.com/lists/oss-security/2015/10/27/10
-> +We need to check that the parent node is an element before dereferencing
-> +its namespace
-> +
-> +Upstream-Status: Backport
-> +
-> +https://git.gnome.org/browse/libxslt/commit/?id=7ca19df892ca22d9314e95d59ce2abdeff46b617
-> +
-> +Signed-off-by: Armin Kuster <akuster@mvista.com>
-> +
-> +---
-> + libxslt/preproc.c | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +Index: libxslt-1.1.28/libxslt/preproc.c
-> +===================================================================
-> +--- libxslt-1.1.28.orig/libxslt/preproc.c
-> ++++ libxslt-1.1.28/libxslt/preproc.c
-> +@@ -2245,7 +2245,8 @@ xsltStylePreCompute(xsltStylesheetPtr st
-> + 	} else if (IS_XSLT_NAME(inst, "attribute")) {
-> + 	    xmlNodePtr parent = inst->parent;
-> + 
-> +-	    if ((parent == NULL) || (parent->ns == NULL) ||
-> ++	    if ((parent == NULL) ||
-> ++	        (parent->type != XML_ELEMENT_NODE) || (parent->ns == NULL) ||
-> + 		((parent->ns != inst->ns) &&
-> + 		 (!xmlStrEqual(parent->ns->href, inst->ns->href))) ||
-> + 		(!xmlStrEqual(parent->name, BAD_CAST "attribute-set"))) {
-> diff --git a/meta/recipes-support/libxslt/libxslt_1.1.28.bb b/meta/recipes-support/libxslt/libxslt_1.1.28.bb
-> index 166bcd8..87fabec 100644
-> --- a/meta/recipes-support/libxslt/libxslt_1.1.28.bb
-> +++ b/meta/recipes-support/libxslt/libxslt_1.1.28.bb
-> @@ -10,7 +10,8 @@ DEPENDS = "libxml2"
->  
->  SRC_URI = "ftp://xmlsoft.org/libxslt//libxslt-${PV}.tar.gz \
->             file://pkgconfig_fix.patch \
-> -           file://pkgconfig.patch"
-> +           file://pkgconfig.patch \
-> +           file://CVE-2015-7995.patch"
->  
->  SRC_URI[md5sum] = "9667bf6f9310b957254fdcf6596600b7"
->  SRC_URI[sha256sum] = "5fc7151a57b89c03d7b825df5a0fae0a8d5f05674c0e7cf2937ecec4d54a028c"
-> 
+> Ping.
+>
 
+Queued in mut, will be hitting the AB soon.
+
+Ross
+
+--001a11c126fc4ed3920523d10476
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 5 November 2015 at 20:29, akuster808 <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2as" class=3D"a3=
+s" style=3D"overflow:hidden">Ping.<div class=3D"yj6qo ajU"><div id=3D":27a"=
+ class=3D"ajR" tabindex=3D"0"></div></div></div></blockquote></div><br>Queu=
+ed in mut, will be hitting the AB soon.</div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11c126fc4ed3920523d10476--
