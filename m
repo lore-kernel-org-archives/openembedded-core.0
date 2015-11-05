@@ -1,20 +1,48 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ED6177138
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 5850475E2D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 08:32:23 +0000 (UTC)
-Received: from localhost.localdomain (chello062178118086.5.14.vie.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 3917322151
+	Thu,  5 Nov 2015 08:56:19 +0000 (UTC)
+Received: by qgec40 with SMTP id c40so365798qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 09:32:19 +0100 (CET)
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Nov 2015 09:32:11 +0100
-Message-Id: <1446712332-17113-6-git-send-email-dv@pseudoterminal.org>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1446712332-17113-1-git-send-email-dv@pseudoterminal.org>
-References: <1446712332-17113-1-git-send-email-dv@pseudoterminal.org>
-Subject: [PATCH 6/7] gstreamer1.0-libav: upgrade to version 1.6.1
+	Thu, 05 Nov 2015 00:56:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=v+fGKW0Ap1/HfqkTDAGuYdz660N8v+YqRVfTK0fQ4CA=;
+	b=ZVhREpgcPGErPf5Lak5ZhpLev1F/x+ZHJzskObl2Fb0Gc3HieL3N5G/+T0l/1IoxRL
+	8SebFfiJx7oWX49AV/lOX1yy5jBy+SgQh0dh8Ew/P8rpEtT1OXEXILEgo4Nfn1AQuho2
+	O5RZYKXBoA5sW9ohde9S4TxRxvqnJFnMRDPJkDpUe34dzBd9hbHfVjfjqJmJbmPPxgWB
+	AgxarxdyPzTnBFxDxd2nWVcfaqnhnP2vaJdOz1Ty1hyf38xPDSbPGB5+MmqiP4+w3bYg
+	7GWDsQvOYlU2+FRAYHEHnxKbleBZjxodjlVtQGB6OMZljZsVDdl/lCM/fQmjjo2/MtGA
+	r1hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=v+fGKW0Ap1/HfqkTDAGuYdz660N8v+YqRVfTK0fQ4CA=;
+	b=SWZAUqlfe6/B+vousHmyqaNYuAf/rGyt8Q0Oo0nZ9IjTrclthAApR6veCphEBJJeEd
+	9SylfP0jj06RVih4FKsjyIM3m1bHSqMK8NQN9ThRKPOVovFkQi/rUsuTKXI2uEBKngEh
+	sqNSBQA7zls7naoAjA88D0EAwZE8fkA+BIKFzn7J6KohizqY5pBbH3eeyGJRrbsPSg62
+	O0WhhojQkq2J5PR4zrZSoyYbGK96+uQnHqra+LMt4wFbJEtH7So680OWMhL6vuX73InO
+	g4kGDO/EDBY7wEl4WPDiDt+uAaCpvP4MSctQmrJTwLa14TH2iLKnBqd6i1TPHzdctFzg
+	cvgg==
+X-Gm-Message-State: ALoCoQnfCZFNfyACOtx5An6Cy6tdlXPV5BTAtHrMuoENPOH2Z+Noug604EwjiODbETaLqB8SxKWS
+X-Received: by 10.140.171.197 with SMTP id r188mr6630676qhr.93.1446713779828; 
+	Thu, 05 Nov 2015 00:56:19 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.94.82 with HTTP; Thu, 5 Nov 2015 00:56:00 -0800 (PST)
+In-Reply-To: <563AB0D2.4000305@windriver.com>
+References: <cover.1446623061.git.mariano.lopez@linux.intel.com>
+	<563AB0D2.4000305@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 5 Nov 2015 08:56:00 +0000
+Message-ID: <CAJTo0LZAOCRdF0XPuOw0JDZ5J2L-FzbcXSOnERt8WcZ=pYLDpQ@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Delete WORKDIR/installed_pkgs.txt after use
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,81 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 08:32:24 -0000
+X-List-Received-Date: Thu, 05 Nov 2015 08:56:21 -0000
+Content-Type: multipart/alternative; boundary=001a113a7dfaf04ebf0523c74c68
 
-The lgpl PACKAGECONFIG is replaced by a gpl one,
-since the LGPL build is the default now. There is no
---enable-lgpl switch anymore, it got replaced by
---enable-gpl.
+--001a113a7dfaf04ebf0523c74c68
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc             | 4 ++--
- .../workaround-to-build-gst-libav-for-i586-with-gcc.patch            | 2 +-
- .../{gstreamer1.0-libav_1.4.5.bb => gstreamer1.0-libav_1.6.1.bb}     | 5 ++---
- 3 files changed, 5 insertions(+), 6 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.4.5.bb => gstreamer1.0-libav_1.6.1.bb} (83%)
+On 5 November 2015 at 01:28, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
-index 84e6e95..132b63d 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
-@@ -3,7 +3,7 @@ SECTION = "multimedia"
- LICENSE = "GPLv2+ & LGPLv2+ & ( (GPLv2+ & LGPLv2.1+) | (GPLv3+ & LGPLv3+) )"
- LICENSE_FLAGS = "commercial"
- HOMEPAGE = "http://www.gstreamer.net/"
--DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base zlib bzip2"
-+DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base zlib bzip2 xz"
- 
- inherit autotools pkgconfig
- 
-@@ -12,7 +12,7 @@ inherit autotools pkgconfig
- # libav copy included in the gst-libav package.
- PACKAGECONFIG ??= " orc yasm "
- PACKAGECONFIG[libav] = "--with-system-libav,,libav"
--PACKAGECONFIG[lgpl]  = "--enable-lgpl,,"
-+PACKAGECONFIG[gpl]  = "--enable-gpl,,"
- PACKAGECONFIG[yasm]  = "--enable-yasm,--disable-yasm,yasm-native"
- PACKAGECONFIG[orc]  = "--enable-orc,--disable-orc,orc"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
-index ccadea4..36abf86 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
-@@ -22,5 +22,5 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
- +            ( (unsigned char*)(h->non_zero_count[mb_xy]) ) [i] = 16;
- +        }
-          h->cur_pic.mb_type[mb_xy] = mb_type;
--         h->last_qscale_diff = 0;
-+         sl->last_qscale_diff = 0;
-          return 0;
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb
-similarity index 83%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb
-index 97fc7ec..99b01c8 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb
-@@ -3,7 +3,6 @@ include gstreamer1.0-libav.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://COPYING.LIB;md5=6762ed442b3822387a51c92d928ead0d \
-                     file://ext/libav/gstav.h;beginline=1;endline=18;md5=a752c35267d8276fd9ca3db6994fca9c \
--                    file://gst-libs/ext/libav/LICENSE;md5=ea66e97a7ac1db978cf3529068a8c948 \
-                     file://gst-libs/ext/libav/COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://gst-libs/ext/libav/COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://gst-libs/ext/libav/COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
-@@ -14,8 +13,8 @@ SRC_URI = " \
-     file://0001-Disable-yasm-for-libav-when-disable-yasm.patch \
-     file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
- "
--SRC_URI[md5sum] = "f4922a46adbcbe7bd01331ff5dc7979d"
--SRC_URI[sha256sum] = "605c62624604f3bb5c870844cc1f2711779cc533b004c2aa1d8c0d58557afbbc"
-+SRC_URI[md5sum] = "058b22411e1690eee5b71d1ab44eab25"
-+SRC_URI[sha256sum] = "24d5e8e8b8c825af1a19aa80a27aba268ec383c8133fd4ef66e0e572ff6137a9"
- 
- LIBAV_EXTRA_CONFIGURE_COMMON_ARG = "--target-os=linux \
-   --cc='${CC}' --as='${CC}' --ld='${CC}' --nm='${NM}' --ar='${AR}' \
--- 
-2.5.0
+> The installed_pkgs.txt is very useful as a reference when we want to know
+> which pkgs are installed, there is no other easy way to know.
+>
 
+There's a manifest in the deploy directory which has the advantage of being
+correct.
 
+Ross
+
+--001a113a7dfaf04ebf0523c74c68
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 5 November 2015 at 01:28, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":30" c=
+lass=3D"a3s" style=3D"overflow:hidden">The installed_pkgs.txt is very usefu=
+l as a reference when we want to know<br>
+which pkgs are installed, there is no other easy way to know.</div></blockq=
+uote><div><br></div><div>There&#39;s a manifest in the deploy directory whi=
+ch has the advantage of being correct.</div><div><br></div><div>Ross=C2=A0<=
+/div></div></div></div>
+
+--001a113a7dfaf04ebf0523c74c68--
