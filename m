@@ -1,27 +1,30 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id CF89177029
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B4D477029
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 15:48:06 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 05 Nov 2015 07:48:05 -0800
+	Thu,  5 Nov 2015 15:48:30 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Nov 2015 07:48:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,248,1444719600"; d="scan'208";a="843356636"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 05 Nov 2015 07:48:05 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 5FC576A4005
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 07:47:02 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Nov 2015 17:48:18 +0200
-Message-Id: <1446738498-19155-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 2/5] bbclass: fix spelling mistakes
+X-IronPort-AV: E=Sophos;i="5.20,248,1444719600"; 
+	d="scan'208,217";a="843902184"
+Received: from mlopezva-mobl2.zpn.intel.com (HELO [10.219.16.157])
+	([10.219.16.157])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Nov 2015 07:48:04 -0800
+Message-ID: <563B7A38.6010200@linux.intel.com>
+Date: Thu, 05 Nov 2015 09:48:08 -0600
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>, 
+	Robert Yang <liezhi.yang@windriver.com>
+References: <cover.1446623061.git.mariano.lopez@linux.intel.com>
+	<563AB0D2.4000305@windriver.com>
+	<CAJTo0LZAOCRdF0XPuOw0JDZ5J2L-FzbcXSOnERt8WcZ=pYLDpQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZAOCRdF0XPuOw0JDZ5J2L-FzbcXSOnERt8WcZ=pYLDpQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Delete WORKDIR/installed_pkgs.txt after use
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,199 +37,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 15:48:09 -0000
+X-List-Received-Date: Thu, 05 Nov 2015 15:48:31 -0000
+Content-Type: multipart/alternative;
+	boundary="------------070101030307020507020700"
 
-Fix some spelling mistakes in bbclass files
+--------------070101030307020507020700
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/classes/allarch.bbclass             | 2 +-
- meta/classes/archiver.bbclass            | 2 +-
- meta/classes/buildhistory.bbclass        | 2 +-
- meta/classes/chrpath.bbclass             | 4 ++--
- meta/classes/crosssdk.bbclass            | 2 +-
- meta/classes/module-base.bbclass         | 2 +-
- meta/classes/package.bbclass             | 4 ++--
- meta/classes/package_deb.bbclass         | 2 +-
- meta/classes/siteinfo.bbclass            | 2 +-
- meta/classes/spdx.bbclass                | 2 +-
- meta/classes/tinderclient.bbclass        | 2 +-
- meta/classes/update-alternatives.bbclass | 2 +-
- 12 files changed, 14 insertions(+), 14 deletions(-)
+On 11/05/2015 02:56 AM, Burton, Ross wrote:
+>
+> On 5 November 2015 at 01:28, Robert Yang <liezhi.yang@windriver.com 
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     The installed_pkgs.txt is very useful as a reference when we want
+>     to know
+>     which pkgs are installed, there is no other easy way to know.
+>
 
-diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-index 2fea7c0..3826643 100644
---- a/meta/classes/allarch.bbclass
-+++ b/meta/classes/allarch.bbclass
-@@ -1,5 +1,5 @@
- #
--# This class is used for architecture independent recipes/data files (usally scripts)
-+# This class is used for architecture independent recipes/data files (usually scripts)
- #
- 
- # Expand STAGING_DIR_HOST since for cross-canadian/native/nativesdk, this will
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 41a552c..f4a34df 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -254,7 +254,7 @@ python do_unpack_and_patch() {
-     ar_outdir = d.getVar('ARCHIVER_OUTDIR', True)
-     d.setVar('WORKDIR', ar_outdir)
- 
--    # The changed 'WORKDIR' also casued 'B' changed, create dir 'B' for the
-+    # The changed 'WORKDIR' also caused 'B' changed, create dir 'B' for the
-     # possibly requiring of the following tasks (such as some recipes's
-     # do_patch required 'B' existed).
-     bb.utils.mkdirhier(d.getVar('B', True))
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 4db0441..c3da773 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -24,7 +24,7 @@ sstate_install[vardepsexclude] += "buildhistory_emit_pkghistory"
- SSTATEPOSTINSTFUNCS[vardepvalueexclude] .= "| buildhistory_emit_pkghistory"
- 
- #
--# Write out metadata about this package for comparision when writing future packages
-+# Write out metadata about this package for comparison when writing future packages
- #
- python buildhistory_emit_pkghistory() {
-     if not d.getVar('BB_CURRENTTASK', True) in ['packagedata', 'packagedata_setscene']:
-diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
-index e9160af..9c68855 100644
---- a/meta/classes/chrpath.bbclass
-+++ b/meta/classes/chrpath.bbclass
-@@ -6,7 +6,7 @@ def process_file_linux(cmd, fpath, rootdir, baseprefix, tmpdir, d):
- 
-     p = sub.Popen([cmd, '-l', fpath],stdout=sub.PIPE,stderr=sub.PIPE)
-     err, out = p.communicate()
--    # If returned succesfully, process stderr for results
-+    # If returned successfully, process stderr for results
-     if p.returncode != 0:
-         return
- 
-@@ -45,7 +45,7 @@ def process_file_darwin(cmd, fpath, rootdir, baseprefix, tmpdir, d):
- 
-     p = sub.Popen([d.expand("${HOST_PREFIX}otool"), '-L', fpath],stdout=sub.PIPE,stderr=sub.PIPE)
-     err, out = p.communicate()
--    # If returned succesfully, process stderr for results
-+    # If returned successfully, process stderr for results
-     if p.returncode != 0:
-         return
-     for l in err.split("\n"):
-diff --git a/meta/classes/crosssdk.bbclass b/meta/classes/crosssdk.bbclass
-index 87d5cf5..7315c38 100644
---- a/meta/classes/crosssdk.bbclass
-+++ b/meta/classes/crosssdk.bbclass
-@@ -30,7 +30,7 @@ baselib = "lib"
- do_populate_sysroot[stamp-extra-info] = ""
- do_packagedata[stamp-extra-info] = ""
- 
--# Need to force this to ensure consitency accross architectures
-+# Need to force this to ensure consitency across architectures
- EXTRA_OECONF_GCC_FLOAT = ""
- 
- USE_NLS = "no"
-diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
-index 8be26c4..cdff0a5 100644
---- a/meta/classes/module-base.bbclass
-+++ b/meta/classes/module-base.bbclass
-@@ -19,7 +19,7 @@ KERNEL_OBJECT_SUFFIX = ".ko"
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- # Function to ensure the kernel scripts are created. Expected to
--# be called before do_compile. See module.bbclass for an exmaple.
-+# be called before do_compile. See module.bbclass for an example.
- do_make_scripts() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS 
- 	make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index a86b680..2bae341 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1513,7 +1513,7 @@ python package_do_shlibs() {
-             rpath = []
-             p = sub.Popen([d.expand("${HOST_PREFIX}otool"), '-l', file],stdout=sub.PIPE,stderr=sub.PIPE)
-             err, out = p.communicate()
--            # If returned succesfully, process stderr for results
-+            # If returned successfully, process stderr for results
-             if p.returncode == 0:
-                 for l in err.split("\n"):
-                     l = l.strip()
-@@ -1522,7 +1522,7 @@ python package_do_shlibs() {
- 
-         p = sub.Popen([d.expand("${HOST_PREFIX}otool"), '-L', file],stdout=sub.PIPE,stderr=sub.PIPE)
-         err, out = p.communicate()
--        # If returned succesfully, process stderr for results
-+        # If returned successfully, process stderr for results
-         if p.returncode == 0:
-             for l in err.split("\n"):
-                 l = l.strip()
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index d2fea4f..5feeeb0 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -21,7 +21,7 @@ APT_ARGS = "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS", Tr
- # INSTALL_BASEARCH_DEB - install base architecutre
- # INSTALL_ARCHS_DEB - list of available archs
- # INSTALL_PACKAGES_NORMAL_DEB - packages to be installed
--# INSTALL_PACKAGES_ATTEMPTONLY_DEB - packages attemped to be installed only
-+# INSTALL_PACKAGES_ATTEMPTONLY_DEB - packages attempted to be installed only
- # INSTALL_PACKAGES_LINGUAS_DEB - additional packages for uclibc
- # INSTALL_TASK_DEB - task name
- 
-diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
-index 9f6eac4..b715b6c 100644
---- a/meta/classes/siteinfo.bbclass
-+++ b/meta/classes/siteinfo.bbclass
-@@ -8,7 +8,7 @@
- #
- # 'what' can be one of
- # * target: Returns the target name ("<arch>-<os>")
--# * endianess: Return "be" for big endian targets, "le" for little endian
-+# * endianness: Return "be" for big endian targets, "le" for little endian
- # * bits: Returns the bit size of the target, either "32" or "64"
- # * libc: Returns the name of the c library used by the target
- #
-diff --git a/meta/classes/spdx.bbclass b/meta/classes/spdx.bbclass
-index 454c53e..0c92765 100644
---- a/meta/classes/spdx.bbclass
-+++ b/meta/classes/spdx.bbclass
-@@ -232,7 +232,7 @@ def run_fossology(foss_command, full_spdx):
-     # Package info
-     package_info = {}
-     if full_spdx:
--        # All mandatory, only one occurance
-+        # All mandatory, only one occurrence
-         package_info['PackageCopyrightText'] = re.findall('PackageCopyrightText: (.*?</text>)', foss_output, re.S)[0]
-         package_info['PackageLicenseDeclared'] = re.findall('PackageLicenseDeclared: (.*)', foss_output)[0]
-         package_info['PackageLicenseConcluded'] = re.findall('PackageLicenseConcluded: (.*)', foss_output)[0]
-diff --git a/meta/classes/tinderclient.bbclass b/meta/classes/tinderclient.bbclass
-index 6984efd..2bc75fc 100644
---- a/meta/classes/tinderclient.bbclass
-+++ b/meta/classes/tinderclient.bbclass
-@@ -142,7 +142,7 @@ def tinder_send_http(d, status, _log):
- 
-     selector = url + "/xml/build_status.pl"
- 
--    # now post it - in chunks of 10.000 charachters
-+    # now post it - in chunks of 10.000 characters
-     new_log = _log
-     while len(new_log) > 0:
-         content_type, body = tinder_format_http_post(d,status,new_log[0:18000])
-diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-index a3c1657..825cc88 100644
---- a/meta/classes/update-alternatives.bbclass
-+++ b/meta/classes/update-alternatives.bbclass
-@@ -61,7 +61,7 @@
- ALTERNATIVE_PRIORITY = "10"
- 
- # We need special processing for vardeps because it can not work on
--# modified flag values.  So we agregate the flags into a new variable
-+# modified flag values.  So we aggregate the flags into a new variable
- # and include that vairable in the set.
- UPDALTVARS  = "ALTERNATIVE ALTERNATIVE_LINK_NAME ALTERNATIVE_TARGET ALTERNATIVE_PRIORITY"
- 
--- 
-2.4.0
+You can also use  function image_list_installed_packages from oe.rootfs
 
+Mariano
 
+>
+> There's a manifest in the deploy directory which has the advantage of 
+> being correct.
+>
+> Ross
+
+--------------070101030307020507020700
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    On 11/05/2015 02:56 AM, Burton, Ross wrote:<br>
+    <blockquote
+cite="mid:CAJTo0LZAOCRdF0XPuOw0JDZ5J2L-FzbcXSOnERt8WcZ=pYLDpQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 5 November 2015 at 01:28, Robert
+            Yang <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:liezhi.yang@windriver.com" target="_blank">liezhi.yang@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":30" class="a3s" style="overflow:hidden">The
+                installed_pkgs.txt is very useful as a reference when we
+                want to know<br>
+                which pkgs are installed, there is no other easy way to
+                know.</div>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    You can also use  function image_list_installed_packages from
+    oe.rootfs<br>
+    <br>
+    Mariano<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LZAOCRdF0XPuOw0JDZ5J2L-FzbcXSOnERt8WcZ=pYLDpQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div><br>
+            </div>
+            <div>There's a manifest in the deploy directory which has
+              the advantage of being correct.</div>
+            <div><br>
+            </div>
+            <div>Ross </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+  </body>
+</html>
+
+--------------070101030307020507020700--
