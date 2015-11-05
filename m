@@ -1,29 +1,38 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C1F2160125
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 871B375A31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 17:41:57 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 05 Nov 2015 09:41:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,248,1444719600"; d="scan'208";a="843446084"
-Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.145])
-	([10.219.5.145])
-	by orsmga002.jf.intel.com with ESMTP; 05 Nov 2015 09:41:55 -0800
-Message-ID: <563B9576.40202@linux.intel.com>
-Date: Thu, 05 Nov 2015 11:44:22 -0600
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
+	Thu,  5 Nov 2015 17:57:18 +0000 (UTC)
+Received: by igpw7 with SMTP id w7so16268513igp.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Nov 2015 09:57:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=snA3DhAb7E9kZBcjekeQfaxfYbeCnuVYCx7FWot+gi4=;
+	b=PdyW/0UxCdMCXq785sFjkUhuxXZI+s5We6okU2bhnk8lj3sC4cMGjTgV9xSriOzehp
+	ZsfqSsdcJOtVhG55JHvKJbjr8DHzoP2CcaoYQLA8CdRsqYJmQLh8EpayovIgUDvDhmAG
+	4cdKGqGVPf6QoFVkZV29GfgrDBsts5TI7fwbG9xmKpu+34c8jdIwBvkdwo7+fqQemETE
+	V38BSzpvkMV8FIHZBwi+WfMnOi6fVW8Hi+l9NhP2VtJumdv5wOIsJ9v1qJD5Xb1PvpsF
+	SQVINyl/lMI5Bt4ZUa1yrfubLUKbaRjNFZNXyObBs1YaejdmKY93YWvEdo5mEX1JThrm
+	RMVg==
+X-Received: by 10.50.20.67 with SMTP id l3mr4389450ige.75.1446746238135; Thu,
+	05 Nov 2015 09:57:18 -0800 (PST)
 MIME-Version: 1.0
-To: Dan McGregor <danismostlikely@gmail.com>
-References: <1446590054-31188-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-	<CACS+7ZSrrrmyc3hAUU6RJUSEpPvoBeQOLyFmjadJSqgJjoyVJg@mail.gmail.com>
-In-Reply-To: <CACS+7ZSrrrmyc3hAUU6RJUSEpPvoBeQOLyFmjadJSqgJjoyVJg@mail.gmail.com>
-Cc: benoit.rapidel+yocto@exmachina.fr,
+Received: by 10.107.38.133 with HTTP; Thu, 5 Nov 2015 09:56:48 -0800 (PST)
+In-Reply-To: <CABcZANk1pdUdzYycZuOgPUoWMC4yXPFKUuL1umqiOmC6bKK-4w@mail.gmail.com>
+References: <1446734821-6011-1-git-send-email-mac@mcrowe.com>
+	<37C467A4-7065-4F95-B666-94ABB1E7248B@gmail.com>
+	<CABcZANk1pdUdzYycZuOgPUoWMC4yXPFKUuL1umqiOmC6bKK-4w@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 5 Nov 2015 09:56:48 -0800
+Message-ID: <CAMKF1sp3Nms5j6psF65uDrJvMF74MhDYf1rk2OCV_mxTbxduJw@mail.gmail.com>
+To: Christopher Larson <clarson@kergoth.com>
+Cc: Mike Crowe <mac@mcrowe.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] terminal: Support old tmux version (<1.9) when querying height value
+Subject: Re: [PATCH] bitbake.conf, module.bbclass: Support opting out of legacy EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,77 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 17:42:00 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Nov 2015 17:57:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-
-On 11/03/2015 05:58 PM, Dan McGregor wrote:
-> On 3 November 2015 at 16:34,
-> <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
->> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+On Thu, Nov 5, 2015 at 8:27 AM, Christopher Larson <clarson@kergoth.com> wrote:
 >>
->> Old tmux version (< 1.9) does not support nested formats on the -F parameter, so
->> if nested format does not give any answer, do the query in two steps.
+>> >
+>> > export MAKE = "make"
+>> > -EXTRA_OEMAKE = "-e MAKEFLAGS="
+>> > +EXTRA_OEMAKE_LEGACY = "-e MAKEFLAGS="
+>> > +EXTRA_OEMAKE = "${EXTRA_OEMAKE_LEGACY}"
 >>
->> Tested on tmux 1.6.
+>> may be this should be a weak assignment.
 >
-> Yeah, I noticed this shortly after I submitted the fix for 1.9 but
-> didn't think much of it. What system are you using that has tmux 1.6?
 >
+> That's the habit, but this is bitbake.conf. Anything a recipe does will be
+> long after this.
 
-debian wheezy.
-
-Benoit, can you report the issues you are seeing on tmux1.9 and the tmux 
-output from the -F commands?
-
-Seems than when n-panes are open, we get n outputs so clearly calling 
-int() is not enough, so current solution just works when n=1
-
-
->>
->> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->> ---
->>   meta/lib/oe/terminal.py |   15 ++++++++++++++-
->>   1 file changed, 14 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
->> index 52a8913..686b1ce 100644
->> --- a/meta/lib/oe/terminal.py
->> +++ b/meta/lib/oe/terminal.py
->> @@ -218,11 +218,24 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
->>
->>   def check_tmux_pane_size(tmux):
->>       import subprocess as sub
->> +    size = 0
->>       try:
->>           p = sub.Popen('%s list-panes -F "#{?pane_active,#{pane_height},}"' % tmux,
->>                   shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
->>           out, err = p.communicate()
->> -        size = int(out.strip())
->> +        try:
->> +            size = int(out.strip())
->> +        except ValueError:
->> +            # Older tmux versions (< 1.9) does not support nested formats,
->> +            # so try it in two steps
->> +            p = sub.Popen('%s list-panes -F "#{?pane_active,yes,no}"' % tmux,
->> +                shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
->> +            out, err = p.communicate()
->> +            if "yes" in out.strip():
->> +                p = sub.Popen('%s list-panes -F "#{pane_height}"' % tmux,
->> +                              shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
->> +                out, err = p.communicate()
->> +                size = int(out.strip())
->>       except OSError as exc:
->>           import errno
->>           if exc.errno == errno.ENOENT:
->> --
->> 1.7.10.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+True, however ?= will convey that its overridable.
 
