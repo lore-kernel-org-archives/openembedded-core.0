@@ -1,39 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 575C4766B2
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-yk0-f172.google.com (mail-yk0-f172.google.com
+	[209.85.160.172])
+	by mail.openembedded.org (Postfix) with ESMTP id A1318766B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Nov 2015 02:23:20 +0000 (UTC)
-Received: by ioc74 with SMTP id 74so9908429ioc.2
+	Thu,  5 Nov 2015 03:51:17 +0000 (UTC)
+Received: by ykba4 with SMTP id a4so110566320ykb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Nov 2015 18:23:20 -0800 (PST)
+	Wed, 04 Nov 2015 19:51:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=2QamyPoVq7Eru62COLuZwzIFQJG3eF7KHxvjar4c5as=;
-	b=0ff7iN2zW8hSpB6e09hm8k2m5Zx1xJpMOWdEmiI9XudiLABr7AiTnpy5IUlGT8haMp
-	GRDkehPXPZrNGe4aeVrtveS9HUfHzKzUiIcmScmA6KLt7KMMUnXno22mRXJU/vGDkZLq
-	VehbmFWdBxmCeHEV5/Q86mhC4I1VadsDwhXU08LWC6VxRN2Qv1HQwXZiTaHHkI4M9uU7
-	ABviJtikO15U0WyJCzIeKHX3eGbfbQpWiDkvhVZUgBLL8q8l5+jETASOwOU2E3qN7gZZ
-	RnCWRhOgq/WWLhRsMcBH/bCyNYExMA9Y67cOVRN2cy3NPUWgghkFYVJOeeX8m4s8txV1
-	0ypA==
-X-Received: by 10.107.4.3 with SMTP id 3mr7714206ioe.195.1446690200847; Wed,
-	04 Nov 2015 18:23:20 -0800 (PST)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=XBIOLU0uZNDXi2ItJ402+G4OYy8dLFFImgXC+hB0HMA=;
+	b=A3xHY9W4MLmwpnd4tbgKY7dyZmDnzVq3zDzF8X6HH5/pDbR7rR6c4bojKs5gejUree
+	3Ek+vmBjlei55bqCengUO02fqk/Mx15Rkmen6L5xoyb0iTmjPu8XR6ei1R2o0IGjHjyu
+	yPdtHg6ES63fWkHGSWyRVNl+nWXYKTIjnlKJLNaFYf/NtEFPlxMb8wjTDZ9tIEZdE8W2
+	zXLn4EuQGniFAoitGGRkPmLYJBfEzdsQDgSvf++xxF2aApazL8lADqIP/T1VxuDPqYJB
+	7atrU2rlvJ1J4wOwGscJ4fubCYyykKx4ccBubxwfRVLuumags2wq/2JpL3FPXJB5t+db
+	tQKA==
 MIME-Version: 1.0
-Received: by 10.107.38.133 with HTTP; Wed, 4 Nov 2015 18:22:51 -0800 (PST)
-In-Reply-To: <563ABB70.8060400@windriver.com>
-References: <1446445418-31492-1-git-send-email-jian.liu@windriver.com>
-	<CAMKF1sqBfdSMphfZJ_O3nEd3cMA7A=5tKa2Xu0wGUsSr-HtuNg@mail.gmail.com>
-	<56387CE7.5040907@windriver.com>
-	<6A9FCF09-82E7-4A16-AEDD-D081F67704E7@gmail.com>
-	<563ABB70.8060400@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 4 Nov 2015 18:22:51 -0800
-Message-ID: <CAMKF1spD5BoS+b8h72_4pOXvaDU5xJ5snnONVQFP57Ez7TTfRQ@mail.gmail.com>
-To: Jian Liu <jian.liu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] archiver.bbclass: do checkout for kernel
+X-Received: by 10.31.153.140 with SMTP id b134mr4949546vke.114.1446695477358; 
+	Wed, 04 Nov 2015 19:51:17 -0800 (PST)
+Received: by 10.31.237.197 with HTTP; Wed, 4 Nov 2015 19:51:17 -0800 (PST)
+In-Reply-To: <DE880971-2EB7-4743-9719-813084667AAE@gmail.com>
+References: <14E2F88D-9954-4A8A-B0FF-7B7CB53909D7@gmail.com>
+	<DE880971-2EB7-4743-9719-813084667AAE@gmail.com>
+Date: Wed, 4 Nov 2015 21:51:17 -0600
+Message-ID: <CACS+7ZRUwVkcPsgftNAO-9wuhs4unRsVTRNjA=VVa9qCMS6Fzw@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Jens Rehsack <rehsack@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] autotools: Allow recipe-individual configure scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,64 +42,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Nov 2015 02:23:23 -0000
+X-List-Received-Date: Thu, 05 Nov 2015 03:51:19 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 4, 2015 at 6:14 PM, Jian Liu <jian.liu@windriver.com> wrote:
-> Hi,
+On 28 October 2015 at 04:20, Jens Rehsack <rehsack@gmail.com> wrote:
 >
-> All kernels I list bellow will perform do_fetch(), do_unpack(),
-> do_kernel_checkout().
-> do_unpack() will put a bare git repo under WORKDIR and then
-> do_kernel_checkout()
-> will move the bare repo to bitbake/tmp/work-share/<board
-> name>/kernel-source(value of variable S),
-> then performing "git checkout".
->
-> So do_ar_original must wait until do_kernel_checkout() is completed and t=
-hen
-> make tarball using the code under S.
-> Do I make that clear?
->
->
-> You refer to kernels other than linux-yocto. Can you give me an example?
-> I do not know how to build such kernel.
-
-Add another BSP layer e.g. meta-raspberrypi to your bblayers.conf
-and then MACHINE=3Draspberrypi2
-
-and see what you are trying to do still holds.
-
->
-> Thanks!
-> Jian
->
->
-> On 2015=E5=B9=B411=E6=9C=8804=E6=97=A5 13:57, Khem Raj wrote:
->>>
->>> On Nov 3, 2015, at 1:22 AM, Jian Liu<jian.liu@windriver.com>  wrote:
->>> >
->>> >Hi,
->>> >
->>> >I test linux-dummy linux-yocto-dev linux-yocto-rt linux-yocto-tiny and
->>> > the result is as follows,
->>> >
->>> >linux-dummy: this package just meets some dependency and there is no
->>> > source code for it.
->>> >                      The patch does not impact it
->>> >linux-yocto, linux-yocto-dev, linux-yocto-rt, linux-yocto-tiny: The S
->>> > variable of all packages is set to STAGING_KERNEK_DIR.
->>> >                       do_fetch and do_unpack just leave a bare git re=
-po
->>> > of kernel and do_kernel_checkout gets the source code
->>> >
+>> Am 13.10.2015 um 22:35 schrieb Jens Rehsack <rehsack@gmail.com>:
 >>
->> does it cover the case when kernel is not linux-yocto was basic question=
-,
->> I am not clear if thats covered in any of above
 >>
->>> >Thanks!
+>> OpenJDK-8 has it's configure script at common/autotools - which will cause
+>> the entire assumption of ${S}/configure is regenerated by autoreconf, intltoolize or alike
+>> fails heavily.
+>>
+>> Also - other configure mechanisms can be supported more similar (see how pkgsrc
+>> manages different ones ...)
+>>
+>> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+>> ---
+>> meta/classes/autotools.bbclass | 43 +++++++++++++++++++++---------------------
+>> 1 file changed, 22 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+>> index 078f58f..d546a5c 100644
+>> --- a/meta/classes/autotools.bbclass
+>> +++ b/meta/classes/autotools.bbclass
+>> @@ -77,16 +77,20 @@ CONFIGUREOPTS = " --build=${BUILD_SYS} \
+>>                 ${@append_libtool_sysroot(d)}"
+>> CONFIGUREOPT_DEPTRACK ?= "--disable-dependency-tracking"
+>>
+>> +AUTOTOOLS_SCRIPT_PATH ?= "${S}"
+>> +CONFIGURE_SCRIPT ?= "${AUTOTOOLS_SCRIPT_PATH}/configure"
+>> +
+>> +AUTOTOOLS_AUXDIR ?= "${AUTOTOOLS_SCRIPT_PATH}"
+>>
+>> oe_runconf () {
+>> -     cfgscript="${S}/configure"
+>> +     cfgscript="${CONFIGURE_SCRIPT}"
+>>       if [ -x "$cfgscript" ] ; then
+>>               bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
+>>               set +e
+>>               ${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"
+>>               if [ "$?" != "0" ]; then
+>>                       echo "Configure failed. The contents of all config.log files follows to aid debugging"
+>> -                     find ${S} -ignore_readdir_race -name config.log -print -exec cat {} \;
+>> +                     find ${B} -ignore_readdir_race -name config.log -print -exec cat {} \;
+>>                       die "oe_runconf failed"
+>>               fi
+>>               set -e
+>> @@ -95,8 +99,6 @@ oe_runconf () {
+>>       fi
+>> }
+>>
+>> -AUTOTOOLS_AUXDIR ?= "${S}"
+>> -
+>> CONFIGURESTAMPFILE = "${WORKDIR}/configure.sstate"
+>>
+>> autotools_preconfigure() {
+>> @@ -134,7 +136,7 @@ do_configure[postfuncs] += "autotools_postconfigure"
+>> ACLOCALDIR = "${B}/aclocal-copy"
+>>
+>> python autotools_copy_aclocals () {
+>> -    s = d.getVar("S", True)
+>> +    s = d.getVar("AUTOTOOLS_SCRIPT_PATH", True)
+>>     if not os.path.exists(s + "/configure.in") and not os.path.exists(s + "/configure.ac"):
+>>         if not d.getVar("AUTOTOOLS_COPYACLOCAL", False):
+>>             return
+>> @@ -228,13 +230,13 @@ autotools_do_configure() {
+>>       ( for ac in `find ${S} -ignore_readdir_race -name configure.in -o -name configure.ac`; do
+>>               rm -f `dirname $ac`/configure
+>>               done )
+>> -     if [ -e ${S}/configure.in -o -e ${S}/configure.ac ]; then
+>> +     if [ -e ${AUTOTOOLS_SCRIPT_PATH}/configure.in -o -e ${AUTOTOOLS_SCRIPT_PATH}/configure.ac ]; then
+>>               olddir=`pwd`
+>> -             cd ${S}
+>> +             cd ${AUTOTOOLS_SCRIPT_PATH}
+>>               ACLOCAL="aclocal --system-acdir=${ACLOCALDIR}/"
+>>               if [ x"${acpaths}" = xdefault ]; then
+>>                       acpaths=
+>> -                     for i in `find ${S} -ignore_readdir_race -maxdepth 2 -name \*.m4|grep -v 'aclocal.m4'| \
+>> +                     for i in `find ${AUTOTOOLS_SCRIPT_PATH} -ignore_readdir_race -maxdepth 2 -name \*.m4|grep -v 'aclocal.m4'| \
+>>                               grep -v 'acinclude.m4' | grep -v 'aclocal-copy' | sed -e 's,\(.*/\).*$,\1,'|sort -u`; do
+>>                               acpaths="$acpaths -I $i"
+>>                       done
+>> @@ -265,21 +267,20 @@ autotools_do_configure() {
+>>                               bbnote Executing glib-gettextize --force --copy
+>>                               echo "no" | glib-gettextize --force --copy
+>>                       fi
+>> -             else if grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC >/dev/null; then
+>> +             elif grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC >/dev/null; then
+>>                       # We'd call gettextize here if it wasn't so broken...
+>> -                             cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
+>> -                             if [ -d ${S}/po/ ]; then
+>> -                                     cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po/
+>> -                                     if [ ! -e ${S}/po/remove-potcdate.sin ]; then
+>> -                                             cp ${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sin ${S}/po/
+>> -                                     fi
+>> +                     cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
+>> +                     if [ -d ${S}/po/ ]; then
+>> +                             cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po/
+>> +                             if [ ! -e ${S}/po/remove-potcdate.sin ]; then
+>> +                                     cp ${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sin ${S}/po/
+>>                               fi
+>> -                             for i in gettext.m4 iconv.m4 lib-ld.m4 lib-link.m4 lib-prefix.m4 nls.m4 po.m4 progtest.m4; do
+>> -                                     for j in `find ${S} -ignore_readdir_race -name $i | grep -v aclocal-copy`; do
+>> -                                             rm $j
+>> -                                     done
+>> -                             done
+>>                       fi
+>> +                     for i in gettext.m4 iconv.m4 lib-ld.m4 lib-link.m4 lib-prefix.m4 nls.m4 po.m4 progtest.m4; do
+>> +                             for j in `find ${S} -ignore_readdir_race -name $i | grep -v aclocal-copy`; do
+>> +                                     rm $j
+>> +                             done
+>> +                     done
+>>               fi
+>>               mkdir -p m4
+>>               if grep "^[[:space:]]*[AI][CT]_PROG_INTLTOOL" $CONFIGURE_AC >/dev/null; then
+>> @@ -290,7 +291,7 @@ autotools_do_configure() {
+>>               ACLOCAL="$ACLOCAL" autoreconf -Wcross --verbose --install --force ${EXTRA_AUTORECONF} $acpaths || die "autoreconf execution failed."
+>>               cd $olddir
+>>       fi
+>> -     if [ -e ${S}/configure ]; then
+>> +     if [ -e ${CONFIGURE_SCRIPT} ]; then
+>>               oe_runconf
+>>       else
+>>               bbnote "nothing to configure"
+>> --
+>> 1.9.1
+>>
+>>
+>> --
+>> Jens Rehsack - rehsack@gmail.com
 >
+> Is there anything wrong with this patch which prevents it further evaluation?
 >
+> Since OpenJDK-8 needs this one, because of the weird concept in autotools.bbclass dealing with configure files flying around in ${S}.
+>
+> Read: This patch fixes a weird behavior of autotools.bbclass which prevents recipes as OpenJDK-8 can be integrated without days of working around poky infrastructure.
+>
+
+I don't see anything wrong with this patch; I suspect they're waiting
+for the jethro release cycle to end before this gets merged to master.
+I do hope it goes to jethro, though.
+
+
+> Cheers
+> --
+> Jens Rehsack - rehsack@gmail.com
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
