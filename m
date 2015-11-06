@@ -1,49 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id A5A6573D46
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A53E77029
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 23:04:52 +0000 (UTC)
-Received: by qgad10 with SMTP id d10so103191422qga.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Nov 2015 15:04:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=TW8BeVRs/SM5WE7zGY/N9aQ+WxNr1pM7eA1ZViQN0/Q=;
-	b=Gb9D0e8x7nD5E3eOKB5xk3xD/j6kMCV5En2cCU9bVjEP1wWUFnMPnN8LQt0+OWr/TV
-	bipKC4C/tWBE7pIVhxCkrvdqZbN+xICZWiO+HFyjH6fIBy0xmAXUgrIMIENtT173YksV
-	iZovdZKF8qmcSSfe4cQET96j3eoM7a1Z4KBiD+Ce7VTRsdO9eTdk4/hgZA/ldU0K2Sdy
-	lUMx3StNxbWHvQKes4z8oIuKThCLQnc2F1RW/6wPf7733n9VWddb0RIQ5VWxRlB7Nntj
-	BZC2DhM5BVF5dxpoYO8SfxIHIY4zYjl9eY9hzEspVdgQw+wexfPRUwiSllXyIWkl/f0i
-	YMig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=TW8BeVRs/SM5WE7zGY/N9aQ+WxNr1pM7eA1ZViQN0/Q=;
-	b=fkmEitEkZPKVZnEuXlOPmUILKPrCV+wvs1ImilOW0lfWaxkqCF0y4ymTaeX6bHPby3
-	RFc2h6J8/UkHkTsqzdC1h2iQ66WME9z5Zo2HJf2FAmLaywyCgv6joBwYOvnSvZHbskgd
-	CaeXCMOWWrFjLf59dAjoDoxspmr8PRcrFbTKhOSNFT945hzpVBeSxtmK6cgoM4JbXvkW
-	kAkHzFiV2jVQXrZnAgL2Nv+nk4JxIg9PjhB3tZ642vWasTPB90ESj6esrlInhbSGSHic
-	Je04JKKis+QtL1CJb4jZS5Ff7Zs2ks43g6+qKUElN8b5hokq+TK475V90JXI+PKuK34J
-	6/Ow==
-X-Gm-Message-State: ALoCoQlMAgTH7nv+eYxBIUeohjULgUKer8floTSJr4THf33oqs/NxwKvOYx5zH1D0eYlTo8avWeR
-X-Received: by 10.140.132.11 with SMTP id 11mr17138785qhe.64.1446851092485;
-	Fri, 06 Nov 2015 15:04:52 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.94.110 with HTTP; Fri, 6 Nov 2015 15:04:33 -0800 (PST)
-In-Reply-To: <CAMKF1soxAD=Yv9e8Y+xLcEso39_N7CkfY=4ud-V6dhMSO27Giw@mail.gmail.com>
-References: <1446824182-8839-1-git-send-email-ross.burton@intel.com>
-	<CAMKF1soxAD=Yv9e8Y+xLcEso39_N7CkfY=4ud-V6dhMSO27Giw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 6 Nov 2015 23:04:33 +0000
-Message-ID: <CAJTo0LZKNvvAM0GXob59neWfDv5GuYrWcF7xkJ9q8f7bw8cafg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libaio: don't disable linking to the system libraries
+	Fri,  6 Nov 2015 23:22:45 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 06 Nov 2015 15:22:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,254,1444719600"; d="scan'208";a="845143239"
+Received: from lsandov1-mobl-linux.zpn.intel.com ([10.219.5.145])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Nov 2015 15:22:42 -0800
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Nov 2015 17:25:08 -0600
+Message-Id: <1446852308-19752-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH v2] terminal: Open a new window instead of split on older tmux versions (<1.9)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,51 +27,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Nov 2015 23:04:55 -0000
-Content-Type: multipart/alternative; boundary=001a113502d06946600523e745a0
+X-List-Received-Date: Fri, 06 Nov 2015 23:22:46 -0000
 
---001a113502d06946600523e745a0
-Content-Type: text/plain; charset=UTF-8
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-On 6 November 2015 at 21:35, Khem Raj <raj.khem@gmail.com> wrote:
+If an old version is detected (<1.9), create a new window instead of split:
+the reason is that there is no easy way to get the active pane height if no
+nested formats are supported.
 
-> It might be due to AS NEEDED becoming default in linker. That now the
-> positions of command line Argument will matter.
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/lib/oe/terminal.py |   20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
+
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 52a8913..a4a8c97 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -131,7 +131,7 @@ class TmuxRunning(Terminal):
+             raise UnsupportedTerminal('tmux is not running')
+ 
+         if not check_tmux_pane_size('tmux'):
+-            raise UnsupportedTerminal('tmux pane too small')
++            raise UnsupportedTerminal('tmux pane too small or tmux < 1.9 version is being used')
+ 
+         Terminal.__init__(self, sh_cmd, title, env, d)
+ 
+@@ -218,6 +218,12 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
+ 
+ def check_tmux_pane_size(tmux):
+     import subprocess as sub
++    # On older tmux versions (<1.9), return false. The reason
++    # is that there is no easy way to get the height of the active panel
++    # on current window without nested formats (available from version 1.9)
++    vernum = check_terminal_version("tmux")
++    if vernum and LooseVersion(vernum) < '1.9':
++        return False
+     try:
+         p = sub.Popen('%s list-panes -F "#{?pane_active,#{pane_height},}"' % tmux,
+                 shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
+@@ -229,14 +235,16 @@ def check_tmux_pane_size(tmux):
+             return None
+         else:
+             raise
+-    if size/2 >= 19:
+-        return True
+-    return False
++
++    return size/2 >= 19
+ 
+ def check_terminal_version(terminalName):
+     import subprocess as sub
+     try:
+-        p = sub.Popen(['sh', '-c', '%s --version' % terminalName],stdout=sub.PIPE,stderr=sub.PIPE)
++        cmdversion = '%s --version' % terminalName
++        if terminalName.startswith('tmux'):
++            cmdversion = '%s -V' % terminalName
++        p = sub.Popen(['sh', '-c', cmdversion], stdout=sub.PIPE,stderr=sub.PIPE)
+         out, err = p.communicate()
+         ver_info = out.rstrip().split('\n')
+     except OSError as exc:
+@@ -251,6 +259,8 @@ def check_terminal_version(terminalName):
+             vernum = ver.split(' ')[-1]
+         if ver.startswith('GNOME Terminal'):
+             vernum = ver.split(' ')[-1]
++        if ver.startswith('tmux'):
++            vernum = ver.split()[-1]
+     return vernum
+ 
+ def distro_name():
+-- 
+1.7.10.4
 
 
-The command line upstream uses -nostdlib so most distributions do something
-to make it build with fortify enabled: for example debian adds -lgcc -lc to
-the link.  I'm not sure what the difference between -nostdlib -lgcc -lc and
-a normal link is, if there is a difference?
-
-> Isnt this line redundant see the below line adds same
->
-Yes, bad hunk left from previous workings.  I'll fix.
-
-Ross
-
---001a113502d06946600523e745a0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 November 2015 at 21:35, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> =
-wrote:</div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb=
-(204,204,204);border-left-style:solid;padding-left:1ex">It might be due to =
-AS NEEDED becoming default in linker. That now the positions of command lin=
-e Argument will matter.</blockquote><div><br></div><div>The command line up=
-stream uses -nostdlib so most distributions do something to make it build w=
-ith fortify enabled: for example debian adds -lgcc -lc to the link.=C2=A0 I=
-&#39;m not sure what the difference between -nostdlib -lgcc -lc and a norma=
-l link is, if there is a difference?</div><div style=3D"font-size:13px"><di=
-v class=3D"adm"><div id=3D"q_150decfaec57406e_2" class=3D"h4"></div></div><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:so=
-lid;padding-left:1ex"><p dir=3D"ltr">Isnt this line redundant see the below=
- line adds same</p></blockquote><div>Yes, bad hunk left from previous worki=
-ngs.=C2=A0 I&#39;ll fix.</div><div><br></div><div>Ross=C2=A0<br></div></div=
-></div></div>
-
---001a113502d06946600523e745a0--
