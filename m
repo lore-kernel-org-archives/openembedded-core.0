@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D3D2C770B4
+	by mail.openembedded.org (Postfix) with ESMTP id 58F2660124
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 17:01:59 +0000 (UTC)
+	Fri,  6 Nov 2015 17:02:00 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 06 Nov 2015 09:01:59 -0800
+	by orsmga103.jf.intel.com with ESMTP; 06 Nov 2015 09:02:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="844321659"
+X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="844321668"
 Received: from bdiacone-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.8.207])
-	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2015 09:01:58 -0800
+	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2015 09:02:00 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Nov 2015 17:01:41 +0000
-Message-Id: <d4481df5121af988a8f26417a492a2a7644143cd.1446829227.git.paul.eggleton@linux.intel.com>
+Date: Fri,  6 Nov 2015 17:01:42 +0000
+Message-Id: <ed263aa890ef831e0dcac7668c8988f91577ee4f.1446829227.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1446829227.git.paul.eggleton@linux.intel.com>
 References: <cover.1446829227.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1446829227.git.paul.eggleton@linux.intel.com>
 References: <cover.1446829227.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/4] verify-homepage: tidy up output and comments
+Subject: [PATCH 4/4] verify-homepage: fix recipe file selection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,62 +34,51 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 06 Nov 2015 17:02:00 -0000
 
-* Set up and use a proper logger
-* Tweak output messages and comments
+* We need to check all recipe files, not just the preferred ones
+  (i.e. we have multiple recipes for different versions of the same
+  piece of software). Print the recipe file name (without path) so we
+  can tell the difference between them.
+* We can skip BBCLASSEXTENDed variants of recipes
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/contrib/verify-homepage.py | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ scripts/contrib/verify-homepage.py | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
 diff --git a/scripts/contrib/verify-homepage.py b/scripts/contrib/verify-homepage.py
-index 3e73339..522824b 100755
+index 522824b..265ff65 100755
 --- a/scripts/contrib/verify-homepage.py
 +++ b/scripts/contrib/verify-homepage.py
-@@ -1,6 +1,7 @@
- #!/usr/bin/env python
- 
--# This script is used for verify HOMEPAGE.
-+# This script can be used to verify HOMEPAGE values for all recipes in
-+# the current configuration.
- # The result is influenced by network environment, since the timeout of connect url is 5 seconds as default.
- 
- import sys
-@@ -14,16 +15,19 @@ scripts_path = os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + '/.
- lib_path = scripts_path + '/lib'
- sys.path = sys.path + [lib_path]
- import scriptpath
-+import scriptutils
- 
- # Allow importing bitbake modules
- bitbakepath = scriptpath.add_bitbake_lib_path()
- 
- import bb.tinfoil
- 
-+logger = scriptutils.logger_create('verify_homepage')
-+
- def wgetHomepage(pn, homepage):
-     result = subprocess.call('wget ' + '-q -T 5 -t 1 --spider ' + homepage, shell = True)
-     if result:
--        bb.warn("Failed to verify HOMEPAGE (%s) of %s" % (homepage, pn))
-+        logger.warn("%s: failed to verify HOMEPAGE: %s " % (pn, homepage))
-         return 1
-     else:
-         return 0
-@@ -44,10 +48,9 @@ def verifyHomepage(bbhandler):
+@@ -36,15 +36,21 @@ def verifyHomepage(bbhandler):
+     pkg_pn = bbhandler.cooker.recipecache.pkg_pn
+     pnlist = sorted(pkg_pn)
+     count = 0
++    checked = []
+     for pn in pnlist:
+-        fn = pkg_pn[pn].pop()
+-        data = bb.cache.Cache.loadDataFull(fn, bbhandler.cooker.collection.get_file_appends(fn), bbhandler.config_data)
+-        homepage = data.getVar("HOMEPAGE", True)
+-        if homepage:
+-            try:
+-                urllib2.urlopen(homepage, timeout=5)
+-            except Exception:
+-                count = count + wgetHomepage(pn, homepage)
++        for fn in pkg_pn[pn]:
++            # There's no point checking multiple BBCLASSEXTENDed variants of the same recipe
++            realfn, _ = bb.cache.Cache.virtualfn2realfn(fn)
++            if realfn in checked:
++                continue
++            data = bb.cache.Cache.loadDataFull(realfn, bbhandler.cooker.collection.get_file_appends(realfn), bbhandler.config_data)
++            homepage = data.getVar("HOMEPAGE", True)
++            if homepage:
++                try:
++                    urllib2.urlopen(homepage, timeout=5)
++                except Exception:
++                    count = count + wgetHomepage(os.path.basename(realfn), homepage)
++            checked.append(realfn)
      return count
  
  if __name__=='__main__':
--    failcount = 0
-     bbhandler = bb.tinfoil.Tinfoil()
-     bbhandler.prepare()
--    print "Start to verify HOMEPAGE:"
-+    logger.info("Start verifying HOMEPAGE:")
-     failcount = verifyHomepage(bbhandler)
--    print "finish to verify HOMEPAGE."
--    print "Summary: %s failed" % failcount
-+    logger.info("Finished verifying HOMEPAGE.")
-+    logger.info("Summary: %s failed" % failcount)
 -- 
 2.1.0
 
