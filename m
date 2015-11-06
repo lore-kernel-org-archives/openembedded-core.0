@@ -1,25 +1,40 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9437D770F4
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 763C175EE7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 13:17:13 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Nov 2015 05:17:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="844167524"
-Received: from bdiacone-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.8.207])
-	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2015 05:17:12 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Nov 2015 13:17:00 +0000
-Message-Id: <034009fed4e0ca40048f069841961690202c233f.1446815768.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1446815768.git.paul.eggleton@linux.intel.com>
-References: <cover.1446815768.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1446815768.git.paul.eggleton@linux.intel.com>
-References: <cover.1446815768.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/3] oe-selftest: add test for bitbake-layers show-recipes
+	Fri,  6 Nov 2015 13:18:14 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so29978124wmw.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Nov 2015 05:18:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=QEXEbgPEhnl3xwdDap1m0vYPX3i4vlBGOXjxPxK23Lo=;
+	b=WDOn9pqTL9fypII1qXIIiECfcKj6GBU0RjtCcpBltGpGJQe3Z0z/N7U7bRMvwL1boF
+	Kt1km7uRtDlUWfBYOTlC9NFtgB/qMwu7Ya1T0vKA6lw0nF04Zu07GOFv2yx2Opr5xeas
+	7DFfU5UcZR8LCK1TBmS6E0L16G/ltnTo1+3JzSTGYk4BXC0RBSMJ+Gq2w9cJc8nufxfP
+	GDkiUD2PDyEvLdK2eZZ+6qlMCqQmZ3RTrAh9LrXBf56IasF3xNNcZ0t/1JgkINk5jW4c
+	Zp5pCvmZHmL+vYlMqBiS3ECOTVGtc7BJE6uw05iN1g/pi94pkJiAbkpEAE1YKlXWXEZG
+	n1zw==
+X-Received: by 10.28.55.7 with SMTP id e7mr9557055wma.18.1446815894474;
+	Fri, 06 Nov 2015 05:18:14 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id b1sm131987wjx.12.2015.11.06.05.18.13
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 06 Nov 2015 05:18:13 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 6 Nov 2015 14:18:31 +0100
+To: Mike Crowe <mac@mcrowe.com>
+Message-ID: <20151106131831.GA2550@jama>
+References: <1446734821-6011-1-git-send-email-mac@mcrowe.com>
+	<CAJ86T=WxqbJ83S4RESL_oKX9gYNg6-aAPGUYR3btSQBhKQo-1g@mail.gmail.com>
+	<20151106103004.GA7454@mcrowe.com>
+MIME-Version: 1.0
+In-Reply-To: <20151106103004.GA7454@mcrowe.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bitbake.conf, module.bbclass: Support opting out of legacy EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,50 +47,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Nov 2015 13:17:13 -0000
+X-List-Received-Date: Fri, 06 Nov 2015 13:18:19 -0000
+X-Groupsio-MsgNum: 72994
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="cWoXeonUoKmBZSoM"
+Content-Disposition: inline
 
-Add a test for bitbake-layers show-recipes including the recently
-added -i option.
+--cWoXeonUoKmBZSoM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/lib/oeqa/selftest/bblayers.py | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+On Fri, Nov 06, 2015 at 10:30:04AM +0000, Mike Crowe wrote:
+> On Friday 06 November 2015 at 01:16:46 -0800, Andre McCurdy wrote:
+> > On Thu, Nov 5, 2015 at 6:47 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> > > Give recipes and classes the ability to opt out of EXTRA_OEMAKE
+> > > containing the legacy value without removing other recipe-specific or
+> > > local additions.
+> >=20
+> > Isn't this possible already from within a recipe or class by using
+> >=20
+> >   EXTRA_OEMAKE =3D ...
+> >=20
+> > instead of
+> >=20
+> >   EXTRA_OEMAKE +=3D ...
+> >=20
+> > ie what autotools.bbclass, kernel.bbclass and many recipes do already.
+> >=20
+> > For the specific case of module.bbclass, changing the EXTRA_OEMAKE
+> > assignment to '=3D' might require some recipes to be tweaked to so that
+> > they "inherit module" before adding their own options to EXTRA_OEMAKE,
+> > but it seems like a cleaner solution?
+>=20
+> It would be, but I was afraid of what I might break. I suspect that there
+> are many unseen third-party and local recipes that inherit module.bbclass.
+>=20
+> It would be great to get to the point that EXTRA_OEMAKE is empty by defau=
+lt
+> but I imagine that the experts are already aware of the difficulties with
+> doing this which is why the current value has lasted so long.
 
-diff --git a/meta/lib/oeqa/selftest/bblayers.py b/meta/lib/oeqa/selftest/bblayers.py
-index 20c17e4..5452925 100644
---- a/meta/lib/oeqa/selftest/bblayers.py
-+++ b/meta/lib/oeqa/selftest/bblayers.py
-@@ -60,3 +60,28 @@ class BitbakeLayers(oeSelfTest):
-         result = runCmd('bitbake-layers remove-layer */meta-skeleton')
-         result = runCmd('bitbake-layers show-layers')
-         self.assertNotIn('meta-skeleton', result.output, msg = "meta-skeleton should have been removed at this step.  bitbake-layers show-layers output: %s" % result.output)
-+
-+    def test_bitbakelayers_showrecipes(self):
-+        result = runCmd('bitbake-layers show-recipes')
-+        self.assertIn('aspell:', result.output)
-+        self.assertIn('mtd-utils:', result.output)
-+        self.assertIn('linux-yocto:', result.output)
-+        self.assertIn('core-image-minimal:', result.output)
-+        result = runCmd('bitbake-layers show-recipes mtd-utils')
-+        self.assertIn('mtd-utils:', result.output)
-+        self.assertNotIn('aspell:', result.output)
-+        result = runCmd('bitbake-layers show-recipes -i kernel')
-+        self.assertIn('linux-yocto:', result.output)
-+        self.assertNotIn('mtd-utils:', result.output)
-+        result = runCmd('bitbake-layers show-recipes -i image')
-+        self.assertIn('core-image-minimal', result.output)
-+        self.assertNotIn('linux-yocto:', result.output)
-+        self.assertNotIn('mtd-utils:', result.output)
-+        result = runCmd('bitbake-layers show-recipes -i cmake,pkgconfig')
-+        self.assertIn('libproxy:', result.output)
-+        self.assertNotIn('mtd-utils:', result.output) # doesn't inherit either
-+        self.assertNotIn('wget:', result.output) # doesn't inherit cmake
-+        self.assertNotIn('waffle:', result.output) # doesn't inherit pkgconfig
-+        result = runCmd('bitbake-layers show-recipes -i nonexistentclass', ignore_status=True)
-+        self.assertNotEqual(result.status, 0, 'bitbake-layers show-recipes -i nonexistentclass should have failed')
-+        self.assertIn('ERROR:', result.output)
--- 
-2.1.0
+Is it really good goal to get rid of "-e"?
 
+I know that the environment used in bitbake tasks is already well
+defined and controlled, but I still find a bit more control with -e to
+be useful in many cases.
 
+I know I'll be able to return -e where useful, but what's the main
+advantage of removing it from default?
+
+Regards,
+
+>=20
+> Mike.
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--cWoXeonUoKmBZSoM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlY8mwoACgkQN1Ujt2V2gBw3LgCfcrucweLDJRG64uHwP0OtDlMG
+bZYAn00sDbS0ijTAVWe6jBwDJokic2V0
+=rlGP
+-----END PGP SIGNATURE-----
+
+--cWoXeonUoKmBZSoM--
