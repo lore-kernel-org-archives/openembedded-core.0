@@ -1,35 +1,34 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 47DF676F58
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id D231E60124
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 08:56:25 +0000 (UTC)
-Received: by pacdm15 with SMTP id dm15so92552026pac.3
+	Fri,  6 Nov 2015 09:06:11 +0000 (UTC)
+Received: by wmnn186 with SMTP id n186so36012057wmn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Nov 2015 00:56:26 -0800 (PST)
+	Fri, 06 Nov 2015 01:06:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=W1EizmgrWHzLi+V8M2eytfQwBIb6eHDG7nqvGyi3ENA=;
-	b=uhnPQ1hUjREjbI39InPmGxkXA0P+lyszhC/JFCh1lQgArhUQ8j9Pxk8AihyZggO6Xk
-	lTRncLpq49qulrlpQDoWP1a/CexOuwWQkLRHAdLJFOkfE7fzdEAohyV5Uf0Pv2aEfrrk
-	wnUmWL61WKD7xeJWzWM2Ch77wz61MT2eWkFfc1bgSRMzKuZEWiWc7diPkE3Z/dyCb6lB
-	gV5oOyfahyCepb119OATsKduzMTFCUOTQPcHJXZBxkJqc6PO01jByKAq9LdsbI0+7HcJ
-	d/QvWcpWUFsX3DDG7yoGDUTnI4R16Bvcuy3XigCr/SnxAZiQbdGjFaqIEUcx2qKgfg0w
-	wrew==
-X-Received: by 10.68.172.228 with SMTP id bf4mr16181022pbc.169.1446800186097; 
-	Fri, 06 Nov 2015 00:56:26 -0800 (PST)
-Received: from e6520.gateway.sonic.net
-	(173-228-90-44.dsl.dynamic.fusionbroadband.com. [173.228.90.44])
-	by smtp.gmail.com with ESMTPSA id
-	rn7sm12611411pab.23.2015.11.06.00.56.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 06 Nov 2015 00:56:24 -0800 (PST)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=FOjx+O5ycHbgWQLFfx3XDIXyVeiQXL/tWtmufKqqihU=;
+	b=DpyxgOKqBfFqjylyqLIbRXAVh0YS8Vs/bumoWry2NRg5CMxe/y7gpnpa7J+KCa7uMV
+	0pM9k25P5W2bOzkbOPkF2XXYRKBGEnX0xZ2lZrca+OcpI/4ORO2fa0zbnZmSaHQI/g7P
+	E7rq50unOMUi2qvrTIVGE/6lBdedC7DDVVpyb5aPYln3R3ZpZzblsoLgb4z3ym+RlT4P
+	dk8ARDgi849UTbgpMtRBRqejpS9pnzibVXVLPGJXC5JOUlylyQmrxWJ8LdbaN35Hr79L
+	PKCbQekD0r1FC1JGYk9g8upYSvwbXw12jmvs2Ja8qCgDPMFk9fL1DDRSvxGpERaGV/1c
+	OQqw==
+MIME-Version: 1.0
+X-Received: by 10.28.11.13 with SMTP id 13mr8421673wml.4.1446800771144; Fri,
+	06 Nov 2015 01:06:11 -0800 (PST)
+Received: by 10.194.140.38 with HTTP; Fri, 6 Nov 2015 01:06:11 -0800 (PST)
+In-Reply-To: <563BD16A.5070803@collabora.co.uk>
+References: <CAJ86T=W-yx=peF_w-g4U7hkZN2u+RR2wbY7eACDEKADLQ-r2jw@mail.gmail.com>
+	<563BD16A.5070803@collabora.co.uk>
+Date: Fri, 6 Nov 2015 01:06:11 -0800
+Message-ID: <CAJ86T=ULNoNNJWL1-S10WoaBPvs=6BkjO=-+vrymUgwWYR8ehw@mail.gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Nov 2015 00:56:18 -0800
-Message-Id: <1446800178-7223-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] cmake: update 3.3.1 -> 3.3.2
+To: Joshua Lock <joshua.lock@collabora.co.uk>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: fido backports to support SH4 + uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,47 +41,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Nov 2015 08:56:28 -0000
+X-List-Received-Date: Fri, 06 Nov 2015 09:06:14 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- .../cmake/{cmake-native_3.3.1.bb => cmake-native_3.3.2.bb}          | 0
- meta/recipes-devtools/cmake/cmake.inc                               | 6 +++---
- meta/recipes-devtools/cmake/{cmake_3.3.1.bb => cmake_3.3.2.bb}      | 0
- 3 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.3.1.bb => cmake-native_3.3.2.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.3.1.bb => cmake_3.3.2.bb} (100%)
+On Thu, Nov 5, 2015 at 2:00 PM, Joshua Lock <joshua.lock@collabora.co.uk> wrote:
+> On 04/11/15 18:16, Andre McCurdy wrote:
+>>
+>> Hi Joshua,
+>>
+>> Could you please consider backporting the following fixes to fido.
+>> They are required in order to successfully build for SH4 + uclibc +
+>> blacklist GPLv3.
+>
+> Done. Pushed to my joshuagl/fido-next branch of openembedded-core-contrib
+> and undergoing testing now.
+>
+> Thanks,
+>
+> Joshua
+>
+> 1.
+> http://cgit.openembedded.org/openembedded-core-contrib/log/?h=joshuagl/fido-next
+>
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.3.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.3.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.3.1.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.3.2.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 57e93ac..c912bcc 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -11,13 +11,13 @@ LIC_FILES_CHKSUM = "file://Copyright.txt;md5=3ba5a6c34481652ce573e5c4e1d707e4 \
- 
- CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV',1).split('.')[0:2])}"
- 
--SRC_URI = "http://www.cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-+SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://support-oe-qt4-tools-names.patch \
-            file://qt4-fail-silent.patch \
-            "
- 
--SRC_URI[md5sum] = "52638576f4e1e621fed6c3410d3a1b12"
--SRC_URI[sha256sum] = "cd65022c6a0707f1c7112f99e9c981677fdd5518f7ddfa0f778d4cee7113e3d6"
-+SRC_URI[md5sum] = "5febbd11bcaac854a27eebaf4a124be2"
-+SRC_URI[sha256sum] = "e75a178d6ebf182b048ebfe6e0657c49f0dc109779170bad7ffcb17463f2fc22"
- 
- inherit autotools
- 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.3.1.bb b/meta/recipes-devtools/cmake/cmake_3.3.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.3.1.bb
-rename to meta/recipes-devtools/cmake/cmake_3.3.2.bb
--- 
-1.9.1
+Thanks!
 
+>>
+>>    aa20c3d uclibc: backport upstream fix for SH4
+>>    898e9d7 libiconv_1.11.1: merge build and packaging fixes from
+>> libiconv_1.14
+>>    7d2da0e libiconv_1.11.1: fix LICENSE declaration, LGPL -> LGPLv2.0
+>>    d46333d gettext_0.16.1: add -lrt and -lpthread to LDFLAGS for uclibc
+>> builds
+>>    d95d92a gettext_0.16.1: remove obsolete uclibc specific patch
+>>
+>> Thanks.
+>>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
