@@ -1,33 +1,33 @@
 Return-Path: <amarnath.valluri@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C06B876E3F
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 58ABF75EE7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 13:18:29 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Nov 2015 05:18:29 -0800
+	Fri,  6 Nov 2015 13:20:59 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 06 Nov 2015 05:20:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="844168234"
-Received: from irsmsx153.ger.corp.intel.com ([163.33.192.75])
-	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2015 05:18:28 -0800
+X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="679717702"
+Received: from irsmsx105.ger.corp.intel.com ([163.33.3.28])
+	by orsmga003.jf.intel.com with ESMTP; 06 Nov 2015 05:20:52 -0800
 Received: from irsmsx110.ger.corp.intel.com ([169.254.15.151]) by
-	IRSMSX153.ger.corp.intel.com ([169.254.9.208]) with mapi id
-	14.03.0248.002; Fri, 6 Nov 2015 13:18:27 +0000
+	irsmsx105.ger.corp.intel.com ([169.254.7.75]) with mapi id
+	14.03.0248.002; Fri, 6 Nov 2015 13:18:19 +0000
 From: "Valluri, Amarnath" <amarnath.valluri@intel.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [oe][PATCH 1/2] nginx: Add support for altering
-	build	configuration
-Thread-Index: AQHRGJV9qVcKOSQOyUKTqrXbzt+Mq56O+g11
-Date: Fri, 6 Nov 2015 13:18:26 +0000
-Message-ID: <D3C33C4430ACA6488F343D1125FCCECC38033958@irsmsx110.ger.corp.intel.com>
-References: <1446815913-9343-1-git-send-email-amarnath.valluri@intel.com>
-In-Reply-To: <1446815913-9343-1-git-send-email-amarnath.valluri@intel.com>
+Thread-Topic: [OE-core] [oe][PATCH 2/2] nginx: Fix systemd service file
+Thread-Index: AQHRGJV14TuBQlo/n0K03LNGqeNE1p6O+eMt
+Date: Fri, 6 Nov 2015 13:18:19 +0000
+Message-ID: <D3C33C4430ACA6488F343D1125FCCECC3803394C@irsmsx110.ger.corp.intel.com>
+References: <1446815913-9343-1-git-send-email-amarnath.valluri@intel.com>,
+	<1446815913-9343-2-git-send-email-amarnath.valluri@intel.com>
+In-Reply-To: <1446815913-9343-2-git-send-email-amarnath.valluri@intel.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.3.86.135]
 MIME-Version: 1.0
-Subject: Re: [oe][PATCH 1/2] nginx: Add support for altering build	configuration
+Subject: Re: [oe][PATCH 2/2] nginx: Fix systemd service file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,7 +40,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Nov 2015 13:18:29 -0000
+X-List-Received-Date: Fri, 06 Nov 2015 13:21:01 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
@@ -52,41 +52,44 @@ ounces@lists.openembedded.org] on behalf of Amarnath Valluri [amarnath.vall=
 uri@intel.com]
 Sent: Friday, November 06, 2015 3:18 PM
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [oe][PATCH 1/2] nginx: Add support for altering build   =
-     configuration
+Subject: [OE-core] [oe][PATCH 2/2] nginx: Fix systemd service file
 
-Passing EXTRA_OECONF to ./configure, this allows to alter build
-configure
+systemd service file expects full path of the executatbles.
 
 Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
 ---
- meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta-webserver/recipes-httpd/nginx/files/nginx.service | 2 +-
+ meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb      | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/meta-webserver/recipes-httpd/nginx/files/nginx.service b/meta-=
+webserver/recipes-httpd/nginx/files/nginx.service
+index 705450e..9926a4b 100644
+--- a/meta-webserver/recipes-httpd/nginx/files/nginx.service
++++ b/meta-webserver/recipes-httpd/nginx/files/nginx.service
+@@ -4,7 +4,7 @@ After=3Dnetwork.target
+ [Service]
+ Type=3Dforking
+ PIDFile=3D@SYSCONFDIR@/nginx/run/nginx.pid
+-ExecStartPre=3Dmkdir -p @LOCALSTATEDIR@/log/nginx
++ExecStartPre=3D@BASEBINDIR@/mkdir -p @LOCALSTATEDIR@/log/nginx
+ ExecStart=3D@SYSCONFDIR@/init.d/nginx start
+ ExecStop=3D@SYSCONFDIR@/init.d/nginx stop
+ [Install]
 diff --git a/meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb b/meta-webse=
 rver/recipes-httpd/nginx/nginx_1.9.5.bb
-index a251523..1c9bff7 100644
+index 1c9bff7..87c953b 100644
 --- a/meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb
 +++ b/meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb
-@@ -27,6 +27,8 @@ inherit update-rc.d useradd
- CFLAGS_append =3D " -fPIE -pie"
- CXXFLAGS_append =3D " -fPIE -pie"
-
-+EXTRA_OECONF =3D ""
-+
- do_configure () {
-        if [ "${SITEINFO_BITS}" =3D "64" ]; then
-                PTRSIZE=3D8
-@@ -55,7 +57,8 @@ do_configure () {
-        --pid-path=3D/run/nginx/nginx.pid \
-        --prefix=3D${prefix} \
-        --with-http_ssl_module \
--       --with-http_gzip_static_module
-+       --with-http_gzip_static_module \
-+       ${EXTRA_OECONF}
+@@ -94,6 +94,7 @@ do_install () {
+             install -m 0644 ${WORKDIR}/nginx.service ${D}${systemd_unitdir=
+}/system/
+             sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' \
+                     -e 's,@LOCALSTATEDIR@,${localstatedir},g' \
++                    -e 's,@BASEBINDIR@,${base_bindir},g' \
+                     ${D}${systemd_unitdir}/system/nginx.service
+         fi
  }
-
- do_install () {
 --
 1.9.1
 
