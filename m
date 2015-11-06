@@ -1,25 +1,25 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 95564770E0
+	by mail.openembedded.org (Postfix) with ESMTP id 86C277709E
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  6 Nov 2015 16:18:05 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga101.fm.intel.com with ESMTP; 06 Nov 2015 08:18:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="679816472"
+X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="679816473"
 Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
 	([10.23.219.54])
 	by orsmga003.jf.intel.com with ESMTP; 06 Nov 2015 08:18:04 -0800
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Nov 2015 16:17:01 +0000
-Message-Id: <f0b7fb551a528aa16d482117f32d10a2db7e327b.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Fri,  6 Nov 2015 16:17:02 +0000
+Message-Id: <b413fa3ac49fd133da8f4128c539153d285029a7.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
 In-Reply-To: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
 References: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
 In-Reply-To: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
 References: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH 2/3] yocto-bsp: Set KTYPE to user selected base branch
+Subject: [PATCH 3/3] yocto-bsp: Set SRCREV meta/machine revisions to AUTOREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,396 +36,857 @@ X-List-Received-Date: Fri, 06 Nov 2015 16:18:05 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Fixes the hardcode branch name set to KTYPE, where its value is used as a base branch
-when user decides to create a new branch. Tested on x86_64 architecture.
-
-[YOCTO #8630]
+By default, checkout to latest revision from the machine branch specified by
+the user.
 
 Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- .../target/arch/arm/recipes-kernel/linux/files/machine-preempt-rt.scc  | 3 ++-
- .../target/arch/arm/recipes-kernel/linux/files/machine-standard.scc    | 3 ++-
- .../target/arch/arm/recipes-kernel/linux/files/machine-tiny.scc        | 3 ++-
- .../target/arch/i386/recipes-kernel/linux/files/machine-preempt-rt.scc | 3 ++-
- .../target/arch/i386/recipes-kernel/linux/files/machine-standard.scc   | 3 ++-
- .../target/arch/i386/recipes-kernel/linux/files/machine-tiny.scc       | 3 ++-
- .../target/arch/mips/recipes-kernel/linux/files/machine-preempt-rt.scc | 3 ++-
- .../target/arch/mips/recipes-kernel/linux/files/machine-standard.scc   | 3 ++-
- .../target/arch/mips/recipes-kernel/linux/files/machine-tiny.scc       | 3 ++-
- .../arch/mips64/recipes-kernel/linux/files/machine-preempt-rt.scc      | 3 ++-
- .../target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc | 3 ++-
- .../target/arch/mips64/recipes-kernel/linux/files/machine-tiny.scc     | 3 ++-
- .../arch/powerpc/recipes-kernel/linux/files/machine-preempt-rt.scc     | 3 ++-
- .../arch/powerpc/recipes-kernel/linux/files/machine-standard.scc       | 3 ++-
- .../target/arch/powerpc/recipes-kernel/linux/files/machine-tiny.scc    | 3 ++-
- .../target/arch/qemu/recipes-kernel/linux/files/machine-preempt-rt.scc | 3 ++-
- .../target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc   | 3 ++-
- .../target/arch/qemu/recipes-kernel/linux/files/machine-tiny.scc       | 3 ++-
- .../arch/x86_64/recipes-kernel/linux/files/machine-preempt-rt.scc      | 3 ++-
- .../target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc | 3 ++-
- .../target/arch/x86_64/recipes-kernel/linux/files/machine-tiny.scc     | 3 ++-
- 21 files changed, 42 insertions(+), 21 deletions(-)
+ .../arch/arm/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend      | 6 +++---
+ .../arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend    | 6 +++---
+ .../arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend    | 6 +++---
+ .../arch/arm/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend     | 6 +++---
+ .../target/arch/arm/recipes-kernel/linux/linux-yocto_3.14.bbappend  | 6 +++---
+ .../target/arch/arm/recipes-kernel/linux/linux-yocto_3.19.bbappend  | 6 +++---
+ .../target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbappend   | 6 +++---
+ .../arch/i386/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend     | 6 +++---
+ .../arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend   | 6 +++---
+ .../arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend   | 6 +++---
+ .../arch/i386/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend    | 6 +++---
+ .../target/arch/i386/recipes-kernel/linux/linux-yocto_3.14.bbappend | 6 +++---
+ .../target/arch/i386/recipes-kernel/linux/linux-yocto_3.19.bbappend | 6 +++---
+ .../target/arch/i386/recipes-kernel/linux/linux-yocto_4.1.bbappend  | 6 +++---
+ .../arch/mips/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend     | 6 +++---
+ .../arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend   | 6 +++---
+ .../arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend   | 6 +++---
+ .../arch/mips/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend    | 6 +++---
+ .../target/arch/mips/recipes-kernel/linux/linux-yocto_3.14.bbappend | 6 +++---
+ .../target/arch/mips/recipes-kernel/linux/linux-yocto_3.19.bbappend | 6 +++---
+ .../target/arch/mips/recipes-kernel/linux/linux-yocto_4.1.bbappend  | 6 +++---
+ .../arch/mips64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend   | 6 +++---
+ .../arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend | 6 +++---
+ .../arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend | 6 +++---
+ .../arch/mips64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend  | 6 +++---
+ .../arch/mips64/recipes-kernel/linux/linux-yocto_3.14.bbappend      | 2 +-
+ .../arch/mips64/recipes-kernel/linux/linux-yocto_3.19.bbappend      | 6 +++---
+ .../arch/mips64/recipes-kernel/linux/linux-yocto_4.1.bbappend       | 6 +++---
+ .../arch/powerpc/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend  | 6 +++---
+ .../powerpc/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend     | 6 +++---
+ .../powerpc/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend     | 6 +++---
+ .../arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend | 6 +++---
+ .../arch/powerpc/recipes-kernel/linux/linux-yocto_3.14.bbappend     | 6 +++---
+ .../arch/powerpc/recipes-kernel/linux/linux-yocto_3.19.bbappend     | 6 +++---
+ .../arch/powerpc/recipes-kernel/linux/linux-yocto_4.1.bbappend      | 6 +++---
+ .../arch/qemu/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend     | 6 +++---
+ .../arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend   | 6 +++---
+ .../arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend   | 6 +++---
+ .../arch/qemu/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend    | 6 +++---
+ .../target/arch/qemu/recipes-kernel/linux/linux-yocto_3.14.bbappend | 6 +++---
+ .../target/arch/qemu/recipes-kernel/linux/linux-yocto_3.19.bbappend | 6 +++---
+ .../target/arch/qemu/recipes-kernel/linux/linux-yocto_4.1.bbappend  | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend   | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend  | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto_3.14.bbappend      | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto_3.19.bbappend      | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto_4.1.bbappend       | 6 +++---
+ 49 files changed, 145 insertions(+), 145 deletions(-)
 
-diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-preempt-rt.scc
-index ca5f3b5..ea6966c 100644
---- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-preempt-rt.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-preempt-rt.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-preempt-rt.scc
- define KMACHINE {{=machine}}
--define KTYPE preempt-rt
-+
- define KARCH arm
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+index 5f8db03..c56e9e5 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-preempt-rt.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "f35992f80c81dc5fa1a97165dfd5cbb84661f7cb"
+-#SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "1b534b2f8bbe9b8a773268cfa30a4850346f6f5f"
++SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+index 471ccbc..15b9b1b 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-standard.scc
-index 9014c2c..405972d 100644
---- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-standard.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-standard.scc
- define KMACHINE {{=machine}}
--define KTYPE standard
-+
- define KARCH arm
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+index 4de82fa..caefcfc 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+index bbff78d..0a47a4e 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-tiny.scc
-index 3f1c252..921b7e7 100644
---- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-tiny.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-tiny.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-tiny.scc
- define KMACHINE {{=machine}}
--define KTYPE tiny
-+
- define KARCH arm
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index 1e1cc51..270f48e 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index 97e1bb8..c8312e9 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-preempt-rt.scc
-index 619ee3f..7146e23 100644
---- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-preempt-rt.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-preempt-rt.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-preempt-rt.scc
- define KMACHINE {{=machine}}
--define KTYPE preempt-rt
-+
- define KARCH i386
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbappend
+index 2ffb7a6..4ac4483 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+index 5f8db03..c56e9e5 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-preempt-rt.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-standard.scc
-index 682012f..67a54be 100644
---- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-standard.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-standard.scc
- define KMACHINE {{=machine}}
--define KTYPE standard
-+
- define KARCH i386
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "f35992f80c81dc5fa1a97165dfd5cbb84661f7cb"
+-#SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "1b534b2f8bbe9b8a773268cfa30a4850346f6f5f"
++SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+index 471ccbc..15b9b1b 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+index 4de82fa..caefcfc 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-tiny.scc
-index cc75196..91373b3 100644
---- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-tiny.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-tiny.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-tiny.scc
- define KMACHINE {{=machine}}
--define KTYPE tiny
-+
- define KARCH i386
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+index bbff78d..0a47a4e 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index fbb49ed..43e1372 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-preempt-rt.scc
-index 176190c..a128255 100644
---- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-preempt-rt.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-preempt-rt.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-preempt-rt.scc
- define KMACHINE {{=machine}}
--define KTYPE preempt-rt
-+
- define KARCH mips
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index 0c2cb5a..56e8302 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_4.1.bbappend
+index d4862b5..daa5784 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/linux-yocto_4.1.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-standard.scc
-index f05dd85..7c9dc52 100644
---- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-standard.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-standard.scc
- define KMACHINE {{=machine}}
--define KTYPE standard
-+
- define KARCH mips
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+index 5f8db03..c56e9e5 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-preempt-rt.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "f35992f80c81dc5fa1a97165dfd5cbb84661f7cb"
+-#SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "1b534b2f8bbe9b8a773268cfa30a4850346f6f5f"
++SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+index c7e7989..7c6bc7f 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-tiny.scc
-index f71c775..64f395b 100644
---- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-tiny.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-tiny.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-tiny.scc
- define KMACHINE {{=machine}}
--define KTYPE tiny
-+
- define KARCH mips
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+index a9ba0ae..7f20379 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+index bbff78d..0a47a4e 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-preempt-rt.scc
-index 176190c..a128255 100644
---- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-preempt-rt.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-preempt-rt.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-preempt-rt.scc
- define KMACHINE {{=machine}}
--define KTYPE preempt-rt
-+
- define KARCH mips
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index 1e1cc51..270f48e 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index 97e1bb8..c8312e9 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc
-index f05dd85..7c9dc52 100644
---- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-standard.scc
- define KMACHINE {{=machine}}
--define KTYPE standard
-+
- define KARCH mips
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_4.1.bbappend
+index 61adafd..854ba62 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/linux-yocto_4.1.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+index 5f8db03..c56e9e5 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-preempt-rt.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-tiny.scc
-index f71c775..64f395b 100644
---- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-tiny.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-tiny.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-tiny.scc
- define KMACHINE {{=machine}}
--define KTYPE tiny
-+
- define KARCH mips
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "f35992f80c81dc5fa1a97165dfd5cbb84661f7cb"
+-#SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "1b534b2f8bbe9b8a773268cfa30a4850346f6f5f"
++SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+index c7e7989..7c6bc7f 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+index a9ba0ae..7f20379 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-preempt-rt.scc
-index 40c9267..91ccfb8 100644
---- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-preempt-rt.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-preempt-rt.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-preempt-rt.scc
- define KMACHINE {{=machine}}
--define KTYPE preempt-rt
-+
- define KARCH powerpc
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+index bbff78d..0a47a4e 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index fb6cdef..777ec4d 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -26,7 +26,7 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-standard.scc
-index 7a1d35b..89b344f 100644
---- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-standard.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-standard.scc
- define KMACHINE {{=machine}}
--define KTYPE standard
-+
- define KARCH powerpc
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+ SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "dbe5b52e93ff114b2c0f5da6f6af91f52c18f2b8"
+ SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "6eddbf47875ef48ddc5864957a7b63363100782b"
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index 134aeec..2632826 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_4.1.bbappend
+index 851d306..f2f6318 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/linux-yocto_4.1.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-tiny.scc
-index 1bf94b2..2701fd8 100644
---- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-tiny.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-tiny.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-tiny.scc
- define KMACHINE {{=machine}}
--define KTYPE tiny
-+
- define KARCH powerpc
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+index 7a25446..4700d98 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-preempt-rt.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "f35992f80c81dc5fa1a97165dfd5cbb84661f7cb"
+-#SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "1b534b2f8bbe9b8a773268cfa30a4850346f6f5f"
++SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+index 471ccbc..15b9b1b 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-preempt-rt.scc
-index 6aaffb8..a81b858 100644
---- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-preempt-rt.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-preempt-rt.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-preempt-rt.scc
- define KMACHINE {{=machine}}
--define KTYPE preempt-rt
-+
- define KARCH {{=qemuarch}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+index 4de82fa..caefcfc 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+index bbff78d..0a47a4e 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc
-index d2a03ec..14554da 100644
---- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc
-@@ -1,6 +1,6 @@
- # yocto-bsp-filename {{=machine}}-standard.scc
- define KMACHINE {{=machine}}
--define KTYPE standard
-+
- define KARCH {{=qemuarch}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index e688384..7d70513 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- {{ if qemuarch == "i386" or qemuarch == "x86_64": }}
-@@ -14,6 +14,7 @@ include bsp/mti-malta32/mti-malta32-be-standard
- {{ if qemuarch == "mips64": }}
- include bsp/mti-malta64/mti-malta64-be-standard
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index ded9e85..c66c33f 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-tiny.scc
-index 6c098fe..41d4c6f 100644
---- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-tiny.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-tiny.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-tiny.scc
- define KMACHINE {{=machine}}
--define KTYPE tiny
-+
- define KARCH {{=qemuarch}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_4.1.bbappend
+index 61adafd..854ba62 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/linux-yocto_4.1.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+index ce5e1a0..9e5aa97 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+@@ -55,8 +55,8 @@ SRC_URI += "file://{{=machine}}-preempt-rt.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-preempt-rt.scc
-index fd5320b..bbeeecd 100644
---- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-preempt-rt.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-preempt-rt.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-preempt-rt.scc
- define KMACHINE {{=machine}}
--define KTYPE preempt-rt
-+
- define KARCH x86_64
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "f35992f80c81dc5fa1a97165dfd5cbb84661f7cb"
+-#SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "1b534b2f8bbe9b8a773268cfa30a4850346f6f5f"
++SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+index 7879ce2..1faac44 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+@@ -55,8 +55,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "0143c6ebb4a2d63b241df5f608b19f483f7eb9e0"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "8f55bee2403176a50cc0dd41811aa60fcf07243c"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+index f7ef4bb..51fc7d0 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+@@ -55,8 +55,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc
-index 569f967..9c9cc90 100644
---- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-standard.scc
- define KMACHINE {{=machine}}
--define KTYPE standard
-+
- define KARCH x86_64
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "0143c6ebb4a2d63b241df5f608b19f483f7eb9e0"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "8f55bee2403176a50cc0dd41811aa60fcf07243c"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+index 1990419..14ee16f 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+@@ -55,8 +55,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "0143c6ebb4a2d63b241df5f608b19f483f7eb9e0"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "8f55bee2403176a50cc0dd41811aa60fcf07243c"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index 626019c..634a21f 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -55,8 +55,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
-diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-tiny.scc
-index fb21432..b53706f 100644
---- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-tiny.scc
-+++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-tiny.scc
-@@ -1,10 +1,11 @@
- # yocto-bsp-filename {{=machine}}-tiny.scc
- define KMACHINE {{=machine}}
--define KTYPE tiny
-+
- define KARCH x86_64
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "0143c6ebb4a2d63b241df5f608b19f483f7eb9e0"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "8f55bee2403176a50cc0dd41811aa60fcf07243c"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index b4798b7..e54d470 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -55,8 +55,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
- {{ if need_new_kbranch == "y": }}
-+define KTYPE {{=new_kbranch}}
- branch {{=machine}}
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "0143c6ebb4a2d63b241df5f608b19f483f7eb9e0"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "8f55bee2403176a50cc0dd41811aa60fcf07243c"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_4.1.bbappend
+index dc8a5be..4cff8e3 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/linux-yocto_4.1.bbappend
+@@ -55,8 +55,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
  
- include {{=machine}}.scc
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "0143c6ebb4a2d63b241df5f608b19f483f7eb9e0"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "8f55bee2403176a50cc0dd41811aa60fcf07243c"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+index 7a25446..4700d98 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-preempt-rt.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "f35992f80c81dc5fa1a97165dfd5cbb84661f7cb"
+-#SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "1b534b2f8bbe9b8a773268cfa30a4850346f6f5f"
++SRCREV_machine_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-rt_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+\ No newline at end of file
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+index 471ccbc..15b9b1b 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+index 4de82fa..caefcfc 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+index bbff78d..0a47a4e 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-tiny.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto-tiny_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.14.bbappend b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.14.bbappend
+index ca0b497..cc7bb92 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.14.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.14.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.14"
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.19.bbappend b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.19.bbappend
+index dba63c3..5b21e9f 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.19.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_3.19.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "3.19"
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_4.1.bbappend b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_4.1.bbappend
+index 9cc2a7f..8f76f07 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_4.1.bbappend
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/linux-yocto_4.1.bbappend
+@@ -26,8 +26,8 @@ SRC_URI += "file://{{=machine}}-standard.scc \
+             file://{{=machine}}-user-features.scc \
+            "
+ 
+-# uncomment and replace these SRCREVs with the real commit ids once you've had
++# replace these SRCREVs with the real commit ids once you've had
+ # the appropriate changes committed to the upstream linux-yocto repo
+-#SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "840bb8c059418c4753415df56c9aff1c0d5354c8"
+-#SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "4fd76cc4f33e0afd8f906b1e8f231b6d13b6c993"
++SRCREV_machine_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
++SRCREV_meta_pn-linux-yocto_{{=machine}} ?= "${AUTOREV}"
+ #LINUX_VERSION = "4.1"
 -- 
 1.8.4.5
 
