@@ -1,48 +1,62 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id A945360124
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 6243C75EE7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 10:38:29 +0000 (UTC)
-Received: by qkcl124 with SMTP id l124so43392870qkc.3
+	Fri,  6 Nov 2015 10:54:11 +0000 (UTC)
+Received: by igdg1 with SMTP id g1so33123094igd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Nov 2015 02:38:29 -0800 (PST)
+	Fri, 06 Nov 2015 02:54:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	d=ossystems_com_br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
 	:cc:content-type;
-	bh=aAQHeFoOKTOaXHL76efWgFa0PXiO45lOPbRed2CazJc=;
-	b=0xyAgWD67V6TnibXB/SYB3uSBrBoDrJTEqi+7FHls95u3g2dTjoDSzWsX1QtsHSSa2
-	pOUhxoLkCxH407hnF3dCNbMaOoy8kZia+LyfJijiIm6Hv5xKRDbPhd/2wPjm+HDV5Ihj
-	vDTgrWP2xPYMxmR12aTyoA4jnJ1Q+/oYErRVHSRwCszVMkaVt1aflWPu7CKj8fdNYFqA
-	ZJW1l5AU+Tr6G/LzhE4ZMXm/kJlsgeSKTTHOE719DRpoV721e7hEc1Dju1yPMzFY5PJq
-	Wk5AmI8jwNrsL+3uMO6jUSU21E1cfDqd/sWaHs85vCsyuG2Im0TTsw26sgzmae9sjIAi
-	6JFw==
+	bh=DShjjmpisGxV2HIGR2QlN1fPwdP0YUj0N1SoBDJRCfA=;
+	b=XJDGWYcM1RcMrOWCwFAWHX96Jb4/IsHIW1WUxw8h2lXcGeCLI7AvAFC0TCGv3N0wDd
+	gCy7J/TVvfGObJmuvUeUT3boPEajmRTpG86bISb3v2OweecWBqvtmFm5vh5n18YvFXSB
+	l1nM3x3RIxRUWr1ohs25GVrkMzm5iYwVuPAJe9EU28hSFAykdMOkDXEOHjEMM1WFbyDQ
+	vZ7pA84T7Y0B9kCPQ0ni7ENiH0vwRT1MD+uspN16nHUE72G0ncY1LyjjLjR99AEqbTws
+	epM6Mk7sUh1I4tko+hi2e1BVN1UnWSkW60uSsdi57VyW5v8o/lp4INXDPLXZz0dTS4kc
+	y4pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc:content-type;
-	bh=aAQHeFoOKTOaXHL76efWgFa0PXiO45lOPbRed2CazJc=;
-	b=c6u83eygVJ3p37eYkD+4QJnwQGFNJnpjOFjq+d+sNoqCPX6AIwc9fHbuS//aBB6sDR
-	OnnV7ArwJFU/6vY3cnDD91ggW2xJi1s/wBOAzp5rFuumpuPDgKtzoxeH6H9/JS4egZ5h
-	bHNkz/BiQCLw2i3GPwc6k3qAclK0GomjkxpGtcMWJ0vwCaida2HenjLv6gHNheUjBBq8
-	T5mFS6dS1Wxv/NZQVMJW1jVPrBYIlM3majhS8OlPScIKvr6fUdelSRkxpVg3V4ZL1OFT
-	VolEaGy/rPmP1GwtPvpw3VAokA5Qi3lGdfUwiS53ayYcZGZ1OJ6+ih2Wnubx2slog5XX
-	FqFg==
-X-Gm-Message-State: ALoCoQmYRz8nYNjE4WG+DjSUjMc3HoZ/NSMn/bzWQWJRvz1N1J4p7RYPtwGdo3bhV7a+8T+VhYNY
-X-Received: by 10.55.73.144 with SMTP id w138mr12587062qka.104.1446806309375; 
-	Fri, 06 Nov 2015 02:38:29 -0800 (PST)
+	bh=DShjjmpisGxV2HIGR2QlN1fPwdP0YUj0N1SoBDJRCfA=;
+	b=MJ9Mv0EwIj42yR0s0nqFTNYNH2TvCkYrjXIvKbFvDX0i+wwqJ1FR7JtNfC4dmqA6Tt
+	8byKgBTw89p3nokLd7hGD4MNTkg5725SpsxQovYTy+wlbKRUET+n2OTDBaOM60/G3YEb
+	dAMN93g32vLa3Hl3QH21pPN00b+I7DiFTsXYruV0DXFlDVSHxXRjQjfm98bSqvjEmt4U
+	MWMKoTb7QvhInXjzPCATt5HB30KOivmKUJ6di+jW9CRFREHuD+jhgDx5c24qvYIYGPCv
+	qoeJ197P14S7g6bemdf7yNrC2WjUf2L+yV4g9rh2xo8Iz1XcT+7Uo27lEO445GRIRfFd
+	DPjA==
+X-Gm-Message-State: ALoCoQkXAa1yjXU6OTj8zYh4M1kAaEV5sGxPvhZEU16MWUkcQmrrwag7w9IZiiOGGhJzHlsLiyme
+X-Received: by 10.50.60.6 with SMTP id d6mr8889254igr.54.1446807251725;
+	Fri, 06 Nov 2015 02:54:11 -0800 (PST)
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com.
+	[209.85.223.180])
+	by smtp.gmail.com with ESMTPSA id np7sm260086igb.0.2015.11.06.02.54.10
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 06 Nov 2015 02:54:10 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by ioc74 with SMTP id 74so54472251ioc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Nov 2015 02:54:09 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.94.110 with HTTP; Fri, 6 Nov 2015 02:38:10 -0800 (PST)
-In-Reply-To: <6de991e55463cce5bac0bcc3d9af46cbd044b062.1444974811.git.wenzong.fan@windriver.com>
-References: <cover.1444974811.git.wenzong.fan@windriver.com>
-	<6de991e55463cce5bac0bcc3d9af46cbd044b062.1444974811.git.wenzong.fan@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 6 Nov 2015 10:38:10 +0000
-Message-ID: <CAJTo0LaeZWRHqL6r5e0qWT9oLehe+Uv5B3t2mYyzG-7TxRwvhg@mail.gmail.com>
-To: wenzong fan <wenzong.fan@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1 v2] mdadm: fix CFLAGS and ptest issue
+X-Received: by 10.107.17.160 with SMTP id 32mr5040025ior.28.1446807249829;
+	Fri, 06 Nov 2015 02:54:09 -0800 (PST)
+Received: by 10.36.15.197 with HTTP; Fri, 6 Nov 2015 02:54:09 -0800 (PST)
+In-Reply-To: <CAJTo0LYA78vJehCoLLeGu8DwQCrRF=bV7RKs=BvH4fY8SsmSZQ@mail.gmail.com>
+References: <1445961940-12110-1-git-send-email-otavio@ossystems.com.br>
+	<CAJTo0LYA78vJehCoLLeGu8DwQCrRF=bV7RKs=BvH4fY8SsmSZQ@mail.gmail.com>
+Date: Fri, 6 Nov 2015 08:54:09 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKqpBeaHjWjsirLirO+cdSVtWF8XQAVKEbag7xods4b=bA@mail.gmail.com>
+Message-ID: <CAP9ODKqpBeaHjWjsirLirO+cdSVtWF8XQAVKEbag7xods4b=bA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: Update to 2015.10 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,58 +69,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Nov 2015 10:38:29 -0000
-Content-Type: multipart/alternative; boundary=001a114a9f44214a210523dcd8d9
-
---001a114a9f44214a210523dcd8d9
+X-List-Received-Date: Fri, 06 Nov 2015 10:54:12 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 16 October 2015 at 06:57, <wenzong.fan@windriver.com> wrote:
-
-> * Also fix ptest build error caused by global CFLAGS:
+On Fri, Nov 6, 2015 at 7:18 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 27 October 2015 at 16:05, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> >
+> > The U-Boot 2015.10 has been released at October 20th 2015. This also
+> > removes the GCC workaround, for the inline behavior, as this version
+> > properlu supports the GCC 5.2 as compiler.
 >
->   raid6check.c: In function 'check_stripes':
->   raid6check.c:315:8: error: 'stripe_buf' may be used uninitialized \
->   in this function [-Werror=maybe-uninitialized]
+> Breaks on the autobuilder:
 >
+> arch/powerpc/lib/cache.oarch/powerpc/cpu/mpc83xx/cpu.o: In function `ld_le16':
+> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc-lsb/build/build/tmp/work/mpc8315e_rdb-poky-linux/u-boot/v2015.10+gitAUTOINC+5ec0003b19-r0/git/./arch/powerpc/include/asm/byteorder.h:12: multiple definition of `ld_le16'
+> arch/powerpc/cpu/mpc83xx/traps.o:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc-lsb/build/build/tmp/work/mpc8315e_rdb-poky-linux/u-boot/v2015.10+gitAUTOINC+5ec0003b19-r0/git/./arch/powerpc/include/asm/byteorder.h:12: first defined here
+> arch/powerpc/cpu/mpc83xx/cpu.o: In function `ld_le16':
+> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc-lsb/build/build/tmp/work/mpc8315e_rdb-poky-linux/u-boot/v2015.10+gitAUTOINC+5ec0003b19-r0/git/./arch/powerpc/include/asm/byteorder.h:12: multiple definition of `st_le16'
+> [and another hundred pages or so]
+>
+> http://errors.yoctoproject.org/Errors/Details/21468/
 
-We're now seeing this instead when building the ptest part on poky-lsb
-(which turns on more security flags):
+I am checking it; thanks for putting it into AB.
 
-raid6check.c: In function 'check_stripes':
-raid6check.c:352:2: error: ignoring return value of 'posix_memalign',
-declared with attribute warn_unused_result [-Werror=unused-result]
-  posix_memalign((void**)&stripe_buf, 4096, raid_disks * chunk_size);
-  ^
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-(http://errors.yoctoproject.org/Errors/Details/21490/)
-
-Ross
-
---001a114a9f44214a210523dcd8d9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 October 2015 at 06:57,  <span dir=3D"ltr">&lt;<a href=3D"mailto:wenzo=
-ng.fan@windriver.com" target=3D"_blank">wenzong.fan@windriver.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-le=
-ft-style:solid;padding-left:1ex"><div id=3D":2b1" class=3D"" style=3D"overf=
-low:hidden">* Also fix ptest build error caused by global CFLAGS:<br>
-<br>
-=C2=A0 raid6check.c: In function &#39;check_stripes&#39;:<br>
-=C2=A0 raid6check.c:315:8: error: &#39;stripe_buf&#39; may be used uninitia=
-lized \<br>
-=C2=A0 in this function [-Werror=3Dmaybe-uninitialized]</div></blockquote><=
-/div><br>We&#39;re now seeing this instead when building the ptest part on =
-poky-lsb (which turns on more security flags):</div><br>raid6check.c: In fu=
-nction &#39;check_stripes&#39;:<br>raid6check.c:352:2: error: ignoring retu=
-rn value of &#39;posix_memalign&#39;, declared with attribute warn_unused_r=
-esult [-Werror=3Dunused-result]<br>=C2=A0 posix_memalign((void**)&amp;strip=
-e_buf, 4096, raid_disks * chunk_size);<br>=C2=A0 ^<div><br></div><div>(<a h=
-ref=3D"http://errors.yoctoproject.org/Errors/Details/21490/">http://errors.=
-yoctoproject.org/Errors/Details/21490/</a>)</div><div><br></div><div>Ross</=
-div></div>
-
---001a114a9f44214a210523dcd8d9--
