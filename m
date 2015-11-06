@@ -1,47 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 27B3675EE7
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 70B2F60124
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 09:18:46 +0000 (UTC)
-Received: by qkcn129 with SMTP id n129so43265973qkc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Nov 2015 01:18:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=prLwydX3WU9jDlAGgCxJAijiRzlh4RM2JaibWnm/yuQ=;
-	b=NiH1AvkIZmQzWFgC5WekFI1LtRKcd/u2fM+r5wLp0Mt101n0AtDRe/ijkaM+7vKGzl
-	syL8EARNMlBkWuHWuJ1L4JxDuPhlvOXwlidSRs+tWtDYiXzJqCrd7Lr5plfV9k/yJjiB
-	Decz7//g3Egry1/G7J+1Vqzqu/oMS0MqrvxUKRo5qi0541OXwX7pJoB5MQbWuUEaGGAA
-	48/T9W7SODZ1faEBvA1iDN4e8CnDVOdFkkEG36i41H8q7SfoP4AkoSJdyc3tPH3n6Rw5
-	qddnLO+UTaYVeulxfeg9x1FLon4bUCW5GBc7q6jMlPDqEVk5gtVpYMkb1q0376uEnsNd
-	rXjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=prLwydX3WU9jDlAGgCxJAijiRzlh4RM2JaibWnm/yuQ=;
-	b=TBtgG0u75ikTIq+KzJSyrxWtm9FiUi2wtG3M+gdHZnkLlEhrTDaTWmP2tR0wSdjq53
-	s01zEKI/VQUEPP6rw9RFhPGIaltMYHqfT+lXTJmmNqbzI1JWkFljgaeynlSMRLt87ylB
-	eGXfHXMK84IRSLugKy/00hg6tWws+BxOPXvoYZuaTTQ3YtVLSw0t1DmwplQ8a20TFj+X
-	U44oZkOl1zQ4o0lLsb/4HUtmiCwIy4kN55SuKKfeDotG4REy+qCPyLDH5O/fxWcucOyN
-	mSzGet7vGr63CT7EMkjTz2xJTthxbhxXLwmtnLlwjwRiSTPyAVZrTbVsPEcSumEtzrfv
-	BZsg==
-X-Gm-Message-State: ALoCoQlhpTLAZ+kObMkB7ju2nYvYjVG7pexmVYuK+kwE0U4rHzlkIVaOk1zBXNuolVwoSTApvKK4
-X-Received: by 10.55.73.144 with SMTP id w138mr12328212qka.104.1446801526782; 
-	Fri, 06 Nov 2015 01:18:46 -0800 (PST)
+	Fri,  6 Nov 2015 09:33:11 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0224.002; Fri, 6 Nov 2015 10:33:06 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Thread-Topic: [OE-core] [PATCH 2/5] bbclass: fix spelling mistakes
+Thread-Index: AQHRF+FqvbmFA1n6NUWx6V+Y3VMhLJ6OuovA
+Date: Fri, 6 Nov 2015 09:33:06 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E4825A85206@SESTOEX04.enea.se>
+References: <1446738498-19155-1-git-send-email-maxin.john@intel.com>
+In-Reply-To: <1446738498-19155-1-git-send-email-maxin.john@intel.com>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.142.231]
 MIME-Version: 1.0
-Received: by 10.140.94.110 with HTTP; Fri, 6 Nov 2015 01:18:27 -0800 (PST)
-In-Reply-To: <1445961940-12110-1-git-send-email-otavio@ossystems.com.br>
-References: <1445961940-12110-1-git-send-email-otavio@ossystems.com.br>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 6 Nov 2015 09:18:27 +0000
-Message-ID: <CAJTo0LYA78vJehCoLLeGu8DwQCrRF=bV7RKs=BvH4fY8SsmSZQ@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Update to 2015.10 release
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/5] bbclass: fix spelling mistakes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,61 +34,275 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Nov 2015 09:18:47 -0000
-Content-Type: multipart/alternative; boundary=001a114a9f441096120523dbbb78
-
---001a114a9f441096120523dbbb78
-Content-Type: text/plain; charset=UTF-8
-
-On 27 October 2015 at 16:05, Otavio Salvador <otavio@ossystems.com.br>
-wrote:
->
-> The U-Boot 2015.10 has been released at October 20th 2015. This also
-> removes the GCC workaround, for the inline behavior, as this version
-> properlu supports the GCC 5.2 as compiler.
-
-
-Breaks on the autobuilder:
-
-arch/powerpc/lib/cache.oarch/powerpc/cpu/mpc83xx/cpu.o: In function
-`ld_le16':
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc-lsb/build/build/tmp/work/mpc8315e_rdb-poky-linux/u-boot/v2015.10+gitAUTOINC+5ec0003b19-r0/git/./arch/powerpc/include/asm/byteorder.h:12:
-multiple definition of `ld_le16'
-arch/powerpc/cpu/mpc83xx/traps.o:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc-lsb/build/build/tmp/work/mpc8315e_rdb-poky-linux/u-boot/v2015.10+gitAUTOINC+5ec0003b19-r0/git/./arch/powerpc/include/asm/byteorder.h:12:
-first defined here
-arch/powerpc/cpu/mpc83xx/cpu.o: In function `ld_le16':
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc-lsb/build/build/tmp/work/mpc8315e_rdb-poky-linux/u-boot/v2015.10+gitAUTOINC+5ec0003b19-r0/git/./arch/powerpc/include/asm/byteorder.h:12:
-multiple definition of `st_le16'
-[and another hundred pages or so]
-
-http://errors.yoctoproject.org/Errors/Details/21468/
-
-Ross
-
---001a114a9f441096120523dbbb78
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Fri, 06 Nov 2015 09:33:14 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br>On 27 October 2015 at 16:05, Otavio Salvador &lt;<a hr=
-ef=3D"mailto:otavio@ossystems.com.br">otavio@ossystems.com.br</a>&gt; wrote=
-:<br>&gt;<br>&gt; The U-Boot 2015.10 has been released at October 20th 2015=
-. This also<br>&gt; removes the GCC workaround, for the inline behavior, as=
- this version<br>&gt; properlu supports the GCC 5.2 as compiler.<br><br><br=
->Breaks on the autobuilder:<br><br>arch/powerpc/lib/cache.oarch/powerpc/cpu=
-/mpc83xx/cpu.o: In function `ld_le16&#39;:<br>/home/pokybuild/yocto-autobui=
-lder/yocto-worker/nightly-ppc-lsb/build/build/tmp/work/mpc8315e_rdb-poky-li=
-nux/u-boot/v2015.10+gitAUTOINC+5ec0003b19-r0/git/./arch/powerpc/include/asm=
-/byteorder.h:12: multiple definition of `ld_le16&#39;<br>arch/powerpc/cpu/m=
-pc83xx/traps.o:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc-l=
-sb/build/build/tmp/work/mpc8315e_rdb-poky-linux/u-boot/v2015.10+gitAUTOINC+=
-5ec0003b19-r0/git/./arch/powerpc/include/asm/byteorder.h:12: first defined =
-here<br>arch/powerpc/cpu/mpc83xx/cpu.o: In function `ld_le16&#39;:<br>/home=
-/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc-lsb/build/build/tmp/w=
-ork/mpc8315e_rdb-poky-linux/u-boot/v2015.10+gitAUTOINC+5ec0003b19-r0/git/./=
-arch/powerpc/include/asm/byteorder.h:12: multiple definition of `st_le16&#3=
-9;<div>[and another hundred pages or so]</div><div><br></div><div><a href=
-=3D"http://errors.yoctoproject.org/Errors/Details/21468/">http://errors.yoc=
-toproject.org/Errors/Details/21468/</a><br></div><div><br></div><div>Ross</=
-div></div>
+Hi Maxin,
 
---001a114a9f441096120523dbbb78--
+I think the warning below " bb.warn" is incorrect, it should be " dirname" =
+instead of " patch",  see below:
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/classes/spdx.bbcla=
+ss (master)
+
+def get_ver_code(dirname):
+    chksums =3D []
+    for f_dir, f in list_files(dirname):
+        hash =3D hash_file(os.path.join(dirname, f_dir, f))
+        if not hash is None:
+            chksums.append(hash)
+        else:
+            bb.warn("SPDX: Could not hash file: " + patch) <<< dirname
+
+Could you please have a look at this as well?
+
+Regrads
+//Sona
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Maxin B. John
+> Sent: den 5 november 2015 16:48
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 2/5] bbclass: fix spelling mistakes
+>=20
+> Fix some spelling mistakes in bbclass files
+>=20
+> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> ---
+>  meta/classes/allarch.bbclass             | 2 +-
+>  meta/classes/archiver.bbclass            | 2 +-
+>  meta/classes/buildhistory.bbclass        | 2 +-
+>  meta/classes/chrpath.bbclass             | 4 ++--
+>  meta/classes/crosssdk.bbclass            | 2 +-
+>  meta/classes/module-base.bbclass         | 2 +-
+>  meta/classes/package.bbclass             | 4 ++--
+>  meta/classes/package_deb.bbclass         | 2 +-
+>  meta/classes/siteinfo.bbclass            | 2 +-
+>  meta/classes/spdx.bbclass                | 2 +-
+>  meta/classes/tinderclient.bbclass        | 2 +-
+>  meta/classes/update-alternatives.bbclass | 2 +-
+>  12 files changed, 14 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass =
+index
+> 2fea7c0..3826643 100644
+> --- a/meta/classes/allarch.bbclass
+> +++ b/meta/classes/allarch.bbclass
+> @@ -1,5 +1,5 @@
+>  #
+> -# This class is used for architecture independent recipes/data files (us=
+ally
+> scripts)
+> +# This class is used for architecture independent recipes/data files
+> +(usually scripts)
+>  #
+>=20
+>  # Expand STAGING_DIR_HOST since for cross-canadian/native/nativesdk, thi=
+s
+> will diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.b=
+bclass
+> index 41a552c..f4a34df 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -254,7 +254,7 @@ python do_unpack_and_patch() {
+>      ar_outdir =3D d.getVar('ARCHIVER_OUTDIR', True)
+>      d.setVar('WORKDIR', ar_outdir)
+>=20
+> -    # The changed 'WORKDIR' also casued 'B' changed, create dir 'B' for =
+the
+> +    # The changed 'WORKDIR' also caused 'B' changed, create dir 'B' for
+> + the
+>      # possibly requiring of the following tasks (such as some recipes's
+>      # do_patch required 'B' existed).
+>      bb.utils.mkdirhier(d.getVar('B', True)) diff --git
+> a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+> index 4db0441..c3da773 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -24,7 +24,7 @@ sstate_install[vardepsexclude] +=3D
+> "buildhistory_emit_pkghistory"
+>  SSTATEPOSTINSTFUNCS[vardepvalueexclude] .=3D "|
+> buildhistory_emit_pkghistory"
+>=20
+>  #
+> -# Write out metadata about this package for comparision when writing fut=
+ure
+> packages
+> +# Write out metadata about this package for comparison when writing
+> +future packages
+>  #
+>  python buildhistory_emit_pkghistory() {
+>      if not d.getVar('BB_CURRENTTASK', True) in ['packagedata',
+> 'packagedata_setscene']:
+> diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass =
+index
+> e9160af..9c68855 100644
+> --- a/meta/classes/chrpath.bbclass
+> +++ b/meta/classes/chrpath.bbclass
+> @@ -6,7 +6,7 @@ def process_file_linux(cmd, fpath, rootdir, baseprefix,
+> tmpdir, d):
+>=20
+>      p =3D sub.Popen([cmd, '-l', fpath],stdout=3Dsub.PIPE,stderr=3Dsub.PI=
+PE)
+>      err, out =3D p.communicate()
+> -    # If returned succesfully, process stderr for results
+> +    # If returned successfully, process stderr for results
+>      if p.returncode !=3D 0:
+>          return
+>=20
+> @@ -45,7 +45,7 @@ def process_file_darwin(cmd, fpath, rootdir, baseprefix=
+,
+> tmpdir, d):
+>=20
+>      p =3D sub.Popen([d.expand("${HOST_PREFIX}otool"), '-L',
+> fpath],stdout=3Dsub.PIPE,stderr=3Dsub.PIPE)
+>      err, out =3D p.communicate()
+> -    # If returned succesfully, process stderr for results
+> +    # If returned successfully, process stderr for results
+>      if p.returncode !=3D 0:
+>          return
+>      for l in err.split("\n"):
+> diff --git a/meta/classes/crosssdk.bbclass b/meta/classes/crosssdk.bbclas=
+s
+> index 87d5cf5..7315c38 100644
+> --- a/meta/classes/crosssdk.bbclass
+> +++ b/meta/classes/crosssdk.bbclass
+> @@ -30,7 +30,7 @@ baselib =3D "lib"
+>  do_populate_sysroot[stamp-extra-info] =3D ""
+>  do_packagedata[stamp-extra-info] =3D ""
+>=20
+> -# Need to force this to ensure consitency accross architectures
+> +# Need to force this to ensure consitency across architectures
+>  EXTRA_OECONF_GCC_FLOAT =3D ""
+>=20
+>  USE_NLS =3D "no"
+> diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-
+> base.bbclass
+> index 8be26c4..cdff0a5 100644
+> --- a/meta/classes/module-base.bbclass
+> +++ b/meta/classes/module-base.bbclass
+> @@ -19,7 +19,7 @@ KERNEL_OBJECT_SUFFIX =3D ".ko"
+>  PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+>=20
+>  # Function to ensure the kernel scripts are created. Expected to -# be c=
+alled
+> before do_compile. See module.bbclass for an exmaple.
+> +# be called before do_compile. See module.bbclass for an example.
+>  do_make_scripts() {
+>  	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+>  	make CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" AR=3D"${KERNEL_AR}" \
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index a86b680..2bae341 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1513,7 +1513,7 @@ python package_do_shlibs() {
+>              rpath =3D []
+>              p =3D sub.Popen([d.expand("${HOST_PREFIX}otool"), '-l',
+> file],stdout=3Dsub.PIPE,stderr=3Dsub.PIPE)
+>              err, out =3D p.communicate()
+> -            # If returned succesfully, process stderr for results
+> +            # If returned successfully, process stderr for results
+>              if p.returncode =3D=3D 0:
+>                  for l in err.split("\n"):
+>                      l =3D l.strip()
+> @@ -1522,7 +1522,7 @@ python package_do_shlibs() {
+>=20
+>          p =3D sub.Popen([d.expand("${HOST_PREFIX}otool"), '-L',
+> file],stdout=3Dsub.PIPE,stderr=3Dsub.PIPE)
+>          err, out =3D p.communicate()
+> -        # If returned succesfully, process stderr for results
+> +        # If returned successfully, process stderr for results
+>          if p.returncode =3D=3D 0:
+>              for l in err.split("\n"):
+>                  l =3D l.strip()
+> diff --git a/meta/classes/package_deb.bbclass
+> b/meta/classes/package_deb.bbclass
+> index d2fea4f..5feeeb0 100644
+> --- a/meta/classes/package_deb.bbclass
+> +++ b/meta/classes/package_deb.bbclass
+> @@ -21,7 +21,7 @@ APT_ARGS =3D "${@['', '--no-install-
+> recommends'][d.getVar("NO_RECOMMENDATIONS", Tr  #
+> INSTALL_BASEARCH_DEB - install base architecutre  # INSTALL_ARCHS_DEB -
+> list of available archs  # INSTALL_PACKAGES_NORMAL_DEB - packages to be
+> installed -# INSTALL_PACKAGES_ATTEMPTONLY_DEB - packages attemped to
+> be installed only
+> +# INSTALL_PACKAGES_ATTEMPTONLY_DEB - packages attempted to be
+> installed
+> +only
+>  # INSTALL_PACKAGES_LINGUAS_DEB - additional packages for uclibc  #
+> INSTALL_TASK_DEB - task name
+>=20
+> diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclas=
+s index
+> 9f6eac4..b715b6c 100644
+> --- a/meta/classes/siteinfo.bbclass
+> +++ b/meta/classes/siteinfo.bbclass
+> @@ -8,7 +8,7 @@
+>  #
+>  # 'what' can be one of
+>  # * target: Returns the target name ("<arch>-<os>") -# * endianess: Retu=
+rn
+> "be" for big endian targets, "le" for little endian
+> +# * endianness: Return "be" for big endian targets, "le" for little
+> +endian
+>  # * bits: Returns the bit size of the target, either "32" or "64"
+>  # * libc: Returns the name of the c library used by the target  # diff -=
+-git
+> a/meta/classes/spdx.bbclass b/meta/classes/spdx.bbclass index
+> 454c53e..0c92765 100644
+> --- a/meta/classes/spdx.bbclass
+> +++ b/meta/classes/spdx.bbclass
+> @@ -232,7 +232,7 @@ def run_fossology(foss_command, full_spdx):
+>      # Package info
+>      package_info =3D {}
+>      if full_spdx:
+> -        # All mandatory, only one occurance
+> +        # All mandatory, only one occurrence
+>          package_info['PackageCopyrightText'] =3D
+> re.findall('PackageCopyrightText: (.*?</text>)', foss_output, re.S)[0]
+>          package_info['PackageLicenseDeclared'] =3D
+> re.findall('PackageLicenseDeclared: (.*)', foss_output)[0]
+>          package_info['PackageLicenseConcluded'] =3D
+> re.findall('PackageLicenseConcluded: (.*)', foss_output)[0] diff --git
+> a/meta/classes/tinderclient.bbclass b/meta/classes/tinderclient.bbclass
+> index 6984efd..2bc75fc 100644
+> --- a/meta/classes/tinderclient.bbclass
+> +++ b/meta/classes/tinderclient.bbclass
+> @@ -142,7 +142,7 @@ def tinder_send_http(d, status, _log):
+>=20
+>      selector =3D url + "/xml/build_status.pl"
+>=20
+> -    # now post it - in chunks of 10.000 charachters
+> +    # now post it - in chunks of 10.000 characters
+>      new_log =3D _log
+>      while len(new_log) > 0:
+>          content_type, body =3D
+> tinder_format_http_post(d,status,new_log[0:18000])
+> diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/upda=
+te-
+> alternatives.bbclass
+> index a3c1657..825cc88 100644
+> --- a/meta/classes/update-alternatives.bbclass
+> +++ b/meta/classes/update-alternatives.bbclass
+> @@ -61,7 +61,7 @@
+>  ALTERNATIVE_PRIORITY =3D "10"
+>=20
+>  # We need special processing for vardeps because it can not work on -#
+> modified flag values.  So we agregate the flags into a new variable
+> +# modified flag values.  So we aggregate the flags into a new variable
+>  # and include that vairable in the set.
+>  UPDALTVARS  =3D "ALTERNATIVE ALTERNATIVE_LINK_NAME
+> ALTERNATIVE_TARGET ALTERNATIVE_PRIORITY"
+>=20
+> --
+> 2.4.0
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
