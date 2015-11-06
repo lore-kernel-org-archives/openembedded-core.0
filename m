@@ -1,21 +1,25 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AA5176E3F
+	by mail.openembedded.org (Postfix) with ESMTP id 95564770E0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 16:18:04 +0000 (UTC)
+	Fri,  6 Nov 2015 16:18:05 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga101.fm.intel.com with ESMTP; 06 Nov 2015 08:18:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="679816470"
+X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="679816472"
 Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
 	([10.23.219.54])
 	by orsmga003.jf.intel.com with ESMTP; 06 Nov 2015 08:18:04 -0800
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Nov 2015 16:16:59 +0000
-Message-Id: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Fri,  6 Nov 2015 16:17:01 +0000
+Message-Id: <f0b7fb551a528aa16d482117f32d10a2db7e327b.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH 0/3] yocto-bsp: Fixes on unpacking/patching issues
+In-Reply-To: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
+In-Reply-To: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Subject: [PATCH 2/3] yocto-bsp: Set KTYPE to user selected base branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,96 +36,396 @@ X-List-Received-Date: Fri, 06 Nov 2015 16:18:05 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Patches 0002/0003 allows building generate BSP layers by the yocto-bsp. Patch
-0001 is a rename from an original bad prefix bbappend file.
+Fixes the hardcode branch name set to KTYPE, where its value is used as a base branch
+when user decides to create a new branch. Tested on x86_64 architecture.
 
-The following changes since commit fc45deac89ef63ca1c44e763c38ced7dfd72cbe1:
+[YOCTO #8630]
 
-  build-appliance-image: Update to jethro head revision (2015-11-03 14:03:03 +0000)
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ .../target/arch/arm/recipes-kernel/linux/files/machine-preempt-rt.scc  | 3 ++-
+ .../target/arch/arm/recipes-kernel/linux/files/machine-standard.scc    | 3 ++-
+ .../target/arch/arm/recipes-kernel/linux/files/machine-tiny.scc        | 3 ++-
+ .../target/arch/i386/recipes-kernel/linux/files/machine-preempt-rt.scc | 3 ++-
+ .../target/arch/i386/recipes-kernel/linux/files/machine-standard.scc   | 3 ++-
+ .../target/arch/i386/recipes-kernel/linux/files/machine-tiny.scc       | 3 ++-
+ .../target/arch/mips/recipes-kernel/linux/files/machine-preempt-rt.scc | 3 ++-
+ .../target/arch/mips/recipes-kernel/linux/files/machine-standard.scc   | 3 ++-
+ .../target/arch/mips/recipes-kernel/linux/files/machine-tiny.scc       | 3 ++-
+ .../arch/mips64/recipes-kernel/linux/files/machine-preempt-rt.scc      | 3 ++-
+ .../target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc | 3 ++-
+ .../target/arch/mips64/recipes-kernel/linux/files/machine-tiny.scc     | 3 ++-
+ .../arch/powerpc/recipes-kernel/linux/files/machine-preempt-rt.scc     | 3 ++-
+ .../arch/powerpc/recipes-kernel/linux/files/machine-standard.scc       | 3 ++-
+ .../target/arch/powerpc/recipes-kernel/linux/files/machine-tiny.scc    | 3 ++-
+ .../target/arch/qemu/recipes-kernel/linux/files/machine-preempt-rt.scc | 3 ++-
+ .../target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc   | 3 ++-
+ .../target/arch/qemu/recipes-kernel/linux/files/machine-tiny.scc       | 3 ++-
+ .../arch/x86_64/recipes-kernel/linux/files/machine-preempt-rt.scc      | 3 ++-
+ .../target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc | 3 ++-
+ .../target/arch/x86_64/recipes-kernel/linux/files/machine-tiny.scc     | 3 ++-
+ 21 files changed, 42 insertions(+), 21 deletions(-)
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lsandov1/yocto-bsp-intel-bug8630
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/yocto-bsp-intel-bug8630
-
-Leonardo Sandoval (3):
-  yocto-bsp: Typo on the file extension
-  yocto-bsp: Set KTYPE to user selected base branch
-  yocto-bsp: Set SRCREV meta/machine revisions to AUTOREV
-
- .../arch/arm/recipes-kernel/linux/files/machine-preempt-rt.scc      | 3 ++-
- .../target/arch/arm/recipes-kernel/linux/files/machine-standard.scc | 3 ++-
- .../target/arch/arm/recipes-kernel/linux/files/machine-tiny.scc     | 3 ++-
- .../arch/arm/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend      | 6 +++---
- .../arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend    | 6 +++---
- .../arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend    | 6 +++---
- .../arch/arm/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend     | 6 +++---
- .../target/arch/arm/recipes-kernel/linux/linux-yocto_3.14.bbappend  | 6 +++---
- .../target/arch/arm/recipes-kernel/linux/linux-yocto_3.19.bbappend  | 6 +++---
- .../linux/{linux-yocto_4.1.bbapend => linux-yocto_4.1.bbappend}     | 6 +++---
- .../arch/i386/recipes-kernel/linux/files/machine-preempt-rt.scc     | 3 ++-
- .../arch/i386/recipes-kernel/linux/files/machine-standard.scc       | 3 ++-
- .../target/arch/i386/recipes-kernel/linux/files/machine-tiny.scc    | 3 ++-
- .../arch/i386/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend     | 6 +++---
- .../arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend   | 6 +++---
- .../arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend   | 6 +++---
- .../arch/i386/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend    | 6 +++---
- .../target/arch/i386/recipes-kernel/linux/linux-yocto_3.14.bbappend | 6 +++---
- .../target/arch/i386/recipes-kernel/linux/linux-yocto_3.19.bbappend | 6 +++---
- .../target/arch/i386/recipes-kernel/linux/linux-yocto_4.1.bbappend  | 6 +++---
- .../arch/mips/recipes-kernel/linux/files/machine-preempt-rt.scc     | 3 ++-
- .../arch/mips/recipes-kernel/linux/files/machine-standard.scc       | 3 ++-
- .../target/arch/mips/recipes-kernel/linux/files/machine-tiny.scc    | 3 ++-
- .../arch/mips/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend     | 6 +++---
- .../arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend   | 6 +++---
- .../arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend   | 6 +++---
- .../arch/mips/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend    | 6 +++---
- .../target/arch/mips/recipes-kernel/linux/linux-yocto_3.14.bbappend | 6 +++---
- .../target/arch/mips/recipes-kernel/linux/linux-yocto_3.19.bbappend | 6 +++---
- .../target/arch/mips/recipes-kernel/linux/linux-yocto_4.1.bbappend  | 6 +++---
- .../arch/mips64/recipes-kernel/linux/files/machine-preempt-rt.scc   | 3 ++-
- .../arch/mips64/recipes-kernel/linux/files/machine-standard.scc     | 3 ++-
- .../target/arch/mips64/recipes-kernel/linux/files/machine-tiny.scc  | 3 ++-
- .../arch/mips64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend   | 6 +++---
- .../arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend | 6 +++---
- .../arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend | 6 +++---
- .../arch/mips64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend  | 6 +++---
- .../arch/mips64/recipes-kernel/linux/linux-yocto_3.14.bbappend      | 2 +-
- .../arch/mips64/recipes-kernel/linux/linux-yocto_3.19.bbappend      | 6 +++---
- .../arch/mips64/recipes-kernel/linux/linux-yocto_4.1.bbappend       | 6 +++---
- .../arch/powerpc/recipes-kernel/linux/files/machine-preempt-rt.scc  | 3 ++-
- .../arch/powerpc/recipes-kernel/linux/files/machine-standard.scc    | 3 ++-
- .../target/arch/powerpc/recipes-kernel/linux/files/machine-tiny.scc | 3 ++-
- .../arch/powerpc/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend  | 6 +++---
- .../powerpc/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend     | 6 +++---
- .../powerpc/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend     | 6 +++---
- .../arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend | 6 +++---
- .../arch/powerpc/recipes-kernel/linux/linux-yocto_3.14.bbappend     | 6 +++---
- .../arch/powerpc/recipes-kernel/linux/linux-yocto_3.19.bbappend     | 6 +++---
- .../arch/powerpc/recipes-kernel/linux/linux-yocto_4.1.bbappend      | 6 +++---
- .../arch/qemu/recipes-kernel/linux/files/machine-preempt-rt.scc     | 3 ++-
- .../arch/qemu/recipes-kernel/linux/files/machine-standard.scc       | 3 ++-
- .../target/arch/qemu/recipes-kernel/linux/files/machine-tiny.scc    | 3 ++-
- .../arch/qemu/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend     | 6 +++---
- .../arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend   | 6 +++---
- .../arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend   | 6 +++---
- .../arch/qemu/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend    | 6 +++---
- .../target/arch/qemu/recipes-kernel/linux/linux-yocto_3.14.bbappend | 6 +++---
- .../target/arch/qemu/recipes-kernel/linux/linux-yocto_3.19.bbappend | 6 +++---
- .../target/arch/qemu/recipes-kernel/linux/linux-yocto_4.1.bbappend  | 6 +++---
- .../arch/x86_64/recipes-kernel/linux/files/machine-preempt-rt.scc   | 3 ++-
- .../arch/x86_64/recipes-kernel/linux/files/machine-standard.scc     | 3 ++-
- .../target/arch/x86_64/recipes-kernel/linux/files/machine-tiny.scc  | 3 ++-
- .../arch/x86_64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend   | 6 +++---
- .../arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend | 6 +++---
- .../arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend | 6 +++---
- .../arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend  | 6 +++---
- .../arch/x86_64/recipes-kernel/linux/linux-yocto_3.14.bbappend      | 6 +++---
- .../arch/x86_64/recipes-kernel/linux/linux-yocto_3.19.bbappend      | 6 +++---
- .../arch/x86_64/recipes-kernel/linux/linux-yocto_4.1.bbappend       | 6 +++---
- 70 files changed, 187 insertions(+), 166 deletions(-)
- rename scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/{linux-yocto_4.1.bbapend => linux-yocto_4.1.bbappend} (83%)
-
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-preempt-rt.scc
+index ca5f3b5..ea6966c 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-preempt-rt.scc
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-preempt-rt.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-preempt-rt.scc
+ define KMACHINE {{=machine}}
+-define KTYPE preempt-rt
++
+ define KARCH arm
+ 
+ include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-standard.scc
+index 9014c2c..405972d 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-standard.scc
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-standard.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-standard.scc
+ define KMACHINE {{=machine}}
+-define KTYPE standard
++
+ define KARCH arm
+ 
+ include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-tiny.scc
+index 3f1c252..921b7e7 100644
+--- a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-tiny.scc
++++ b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/files/machine-tiny.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-tiny.scc
+ define KMACHINE {{=machine}}
+-define KTYPE tiny
++
+ define KARCH arm
+ 
+ include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-preempt-rt.scc
+index 619ee3f..7146e23 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-preempt-rt.scc
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-preempt-rt.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-preempt-rt.scc
+ define KMACHINE {{=machine}}
+-define KTYPE preempt-rt
++
+ define KARCH i386
+ 
+ include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-standard.scc
+index 682012f..67a54be 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-standard.scc
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-standard.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-standard.scc
+ define KMACHINE {{=machine}}
+-define KTYPE standard
++
+ define KARCH i386
+ 
+ include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-tiny.scc
+index cc75196..91373b3 100644
+--- a/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-tiny.scc
++++ b/scripts/lib/bsp/substrate/target/arch/i386/recipes-kernel/linux/files/machine-tiny.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-tiny.scc
+ define KMACHINE {{=machine}}
+-define KTYPE tiny
++
+ define KARCH i386
+ 
+ include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-preempt-rt.scc
+index 176190c..a128255 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-preempt-rt.scc
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-preempt-rt.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-preempt-rt.scc
+ define KMACHINE {{=machine}}
+-define KTYPE preempt-rt
++
+ define KARCH mips
+ 
+ include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-standard.scc
+index f05dd85..7c9dc52 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-standard.scc
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-standard.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-standard.scc
+ define KMACHINE {{=machine}}
+-define KTYPE standard
++
+ define KARCH mips
+ 
+ include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-tiny.scc
+index f71c775..64f395b 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-tiny.scc
++++ b/scripts/lib/bsp/substrate/target/arch/mips/recipes-kernel/linux/files/machine-tiny.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-tiny.scc
+ define KMACHINE {{=machine}}
+-define KTYPE tiny
++
+ define KARCH mips
+ 
+ include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-preempt-rt.scc
+index 176190c..a128255 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-preempt-rt.scc
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-preempt-rt.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-preempt-rt.scc
+ define KMACHINE {{=machine}}
+-define KTYPE preempt-rt
++
+ define KARCH mips
+ 
+ include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc
+index f05dd85..7c9dc52 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-standard.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-standard.scc
+ define KMACHINE {{=machine}}
+-define KTYPE standard
++
+ define KARCH mips
+ 
+ include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-tiny.scc
+index f71c775..64f395b 100644
+--- a/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-tiny.scc
++++ b/scripts/lib/bsp/substrate/target/arch/mips64/recipes-kernel/linux/files/machine-tiny.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-tiny.scc
+ define KMACHINE {{=machine}}
+-define KTYPE tiny
++
+ define KARCH mips
+ 
+ include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-preempt-rt.scc
+index 40c9267..91ccfb8 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-preempt-rt.scc
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-preempt-rt.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-preempt-rt.scc
+ define KMACHINE {{=machine}}
+-define KTYPE preempt-rt
++
+ define KARCH powerpc
+ 
+ include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-standard.scc
+index 7a1d35b..89b344f 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-standard.scc
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-standard.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-standard.scc
+ define KMACHINE {{=machine}}
+-define KTYPE standard
++
+ define KARCH powerpc
+ 
+ include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-tiny.scc
+index 1bf94b2..2701fd8 100644
+--- a/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-tiny.scc
++++ b/scripts/lib/bsp/substrate/target/arch/powerpc/recipes-kernel/linux/files/machine-tiny.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-tiny.scc
+ define KMACHINE {{=machine}}
+-define KTYPE tiny
++
+ define KARCH powerpc
+ 
+ include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-preempt-rt.scc
+index 6aaffb8..a81b858 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-preempt-rt.scc
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-preempt-rt.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-preempt-rt.scc
+ define KMACHINE {{=machine}}
+-define KTYPE preempt-rt
++
+ define KARCH {{=qemuarch}}
+ 
+ include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc
+index d2a03ec..14554da 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-standard.scc
+@@ -1,6 +1,6 @@
+ # yocto-bsp-filename {{=machine}}-standard.scc
+ define KMACHINE {{=machine}}
+-define KTYPE standard
++
+ define KARCH {{=qemuarch}}
+ 
+ {{ if qemuarch == "i386" or qemuarch == "x86_64": }}
+@@ -14,6 +14,7 @@ include bsp/mti-malta32/mti-malta32-be-standard
+ {{ if qemuarch == "mips64": }}
+ include bsp/mti-malta64/mti-malta64-be-standard
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-tiny.scc
+index 6c098fe..41d4c6f 100644
+--- a/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-tiny.scc
++++ b/scripts/lib/bsp/substrate/target/arch/qemu/recipes-kernel/linux/files/machine-tiny.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-tiny.scc
+ define KMACHINE {{=machine}}
+-define KTYPE tiny
++
+ define KARCH {{=qemuarch}}
+ 
+ include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-preempt-rt.scc b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-preempt-rt.scc
+index fd5320b..bbeeecd 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-preempt-rt.scc
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-preempt-rt.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-preempt-rt.scc
+ define KMACHINE {{=machine}}
+-define KTYPE preempt-rt
++
+ define KARCH x86_64
+ 
+ include {{=map_preempt_rt_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc
+index 569f967..9c9cc90 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-standard.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-standard.scc
+ define KMACHINE {{=machine}}
+-define KTYPE standard
++
+ define KARCH x86_64
+ 
+ include {{=map_standard_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
+diff --git a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-tiny.scc b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-tiny.scc
+index fb21432..b53706f 100644
+--- a/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-tiny.scc
++++ b/scripts/lib/bsp/substrate/target/arch/x86_64/recipes-kernel/linux/files/machine-tiny.scc
+@@ -1,10 +1,11 @@
+ # yocto-bsp-filename {{=machine}}-tiny.scc
+ define KMACHINE {{=machine}}
+-define KTYPE tiny
++
+ define KARCH x86_64
+ 
+ include {{=map_tiny_kbranch(need_new_kbranch, new_kbranch, existing_kbranch)}}
+ {{ if need_new_kbranch == "y": }}
++define KTYPE {{=new_kbranch}}
+ branch {{=machine}}
+ 
+ include {{=machine}}.scc
 -- 
 1.8.4.5
 
