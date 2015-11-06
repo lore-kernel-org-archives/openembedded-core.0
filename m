@@ -1,30 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D4DC260124
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D0A075D22
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 12:37:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tA6CZfh6010561 for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Nov 2015 12:37:15 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6VOOcgFeFSi5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 12:37:15 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tA6Cb1o0010623
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Nov 2015 12:37:12 GMT
-Message-ID: <1446813421.15270.168.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 06 Nov 2015 12:37:01 +0000
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] base: Improve handling of switching virtual/x providers
+	Fri,  6 Nov 2015 13:01:34 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 06 Nov 2015 05:01:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="844153849"
+Received: from bdiacone-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.8.207])
+	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2015 05:01:28 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Nov 2015 13:01:14 +0000
+Message-Id: <cover.1446814828.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 0/6] Misc fixes for OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,67 +28,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Nov 2015 12:37:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Nov 2015 13:01:35 -0000
 
-If you build virtual/kernel, then change PREFERRED_PROVIDER_virtual/kernel from say
-"linux-yocto" to "linux-yocto-dev", you see errors from the sysroot about overlapping
-files. The automatic uninstall logic doesn't trigger since the other recipes is
-still technically parsed/buildable.
+Some typo corrections and minor bug fixes.
 
-What we can do is look at the value of PREFERRED_PROVIDER_virtual/X and raise SkipRecipe
-(skip parsing) if it provides this thing and its not selected. We skip cases no preferred
-provider is set, or the value is in MULTI_PROVIDER_WHITELIST.We also inform the user
-if they try to build something which conflicts with the configuration:
 
-$ bitbake linux-yocto-tiny
-ERROR: Nothing PROVIDES 'linux-yocto-tiny'
-ERROR: linux-yocto-tiny was skipped: PREFERRED_PROVIDER_virtual/kernel set to linux-yocto, not linux-yocto-tiny
+The following changes since commit e44ed8c18e395b9c055aefee113b90708e8a8a2f:
 
-[YOCTO #4102]
+  build-appliance-image: Update to jethro head revision (2015-11-03 14:02:57 +0000)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+are available in the git repository at:
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 44ca781..b8f2aea 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -204,7 +204,7 @@ def buildcfg_neededvars(d):
-         bb.fatal('The following variable(s) were not set: %s\nPlease set them directly, or choose a MACHINE or DISTRO that sets them.' % ', '.join(pesteruser))
- 
- addhandler base_eventhandler
--base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.runqueue.sceneQueueComplete"
-+base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.runqueue.sceneQueueComplete bb.event.RecipeParsed"
- python base_eventhandler() {
-     import bb.runqueue
- 
-@@ -257,6 +257,25 @@ python base_eventhandler() {
-             bb.debug(1, "Executing SceneQueue Completion commands: %s" % "\n".join(cmds))
-             bb.build.exec_func("completion_function", e.data)
-             os.remove(completions)
-+
-+    if isinstance(e, bb.event.RecipeParsed):
-+        #
-+        # If we have multiple providers of virtual/X and a PREFERRED_PROVIDER_virtual/X is set
-+        # skip parsing for all the other providers which will mean they get uninstalled from the
-+        # sysroot since they're now "unreachable". This makes switching virtual/kernel work in 
-+        # particular.
-+        #
-+        pn = d.getVar('PN', True)
-+        source_mirror_fetch = d.getVar('SOURCE_MIRROR_FETCH', False)
-+        if not source_mirror_fetch:
-+            provs = (d.getVar("PROVIDES", True) or "").split()
-+            multiwhitelist = (d.getVar("MULTI_PROVIDER_WHITELIST", True) or "").split()
-+            for p in provs:
-+                if p.startswith("virtual/") and p not in multiwhitelist:
-+                    profprov = d.getVar("PREFERRED_PROVIDER_" + p, True)
-+                    if profprov and pn != profprov:
-+                        bb.warn("PREFERRED_PROVIDER_%s set to %s, not %s" % (p, profprov, pn))
-+                        raise bb.parse.SkipPackage("PREFERRED_PROVIDER_%s set to %s, not %s" % (p, profprov, pn))
- }
- 
- CONFIGURESTAMPFILE = "${WORKDIR}/configure.sstate"
+  git://git.openembedded.org/openembedded-core-contrib paule/misc-fixes-1
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/misc-fixes-1
 
+Paul Eggleton (6):
+  meta/conf/layer.conf: fix typo
+  meta: Fix typos in Upstream-Status labels
+  gitignore: fix overzealous exclusion
+  conf/distro/include: drop old recipes from include files
+  classes/buildhistory: split package history values only once
+  classes/distrodata: split SRC_URI properly before determining type
+
+ .gitignore                                         |  2 +-
+ meta/classes/buildhistory.bbclass                  |  2 +-
+ meta/classes/distrodata.bbclass                    |  4 +-
+ meta/conf/distro/include/as-needed.inc             |  3 --
+ meta/conf/distro/include/distro_alias.inc          | 58 ----------------------
+ meta/conf/layer.conf                               |  2 +-
+ .../openssl/crypto_use_bigint_in_x86-64_perl.patch |  2 +-
+ .../autogen/autogen/redirect-output-dir.patch      |  2 +-
+ ...oring-is-success-if-not-sound-card-device.patch |  2 +-
+ 9 files changed, 8 insertions(+), 69 deletions(-)
+
+-- 
+2.1.0
 
 
