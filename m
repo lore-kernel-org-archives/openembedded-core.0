@@ -1,37 +1,37 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 024F87713A
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id CA92A7713B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 08:47:47 +0000 (UTC)
-Received: by pasz6 with SMTP id z6so120638416pas.2
+	Fri,  6 Nov 2015 08:47:49 +0000 (UTC)
+Received: by pabfh17 with SMTP id fh17so116512315pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Nov 2015 00:47:48 -0800 (PST)
+	Fri, 06 Nov 2015 00:47:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=qTHyGNNY8RVWsQgekuOfGF9V63pIo4pV1bGYB89qH58=;
-	b=mbIOZPwrZ5pjRcxgR3JsJVtVv32VQ5cssdfLcKD9VVExa17SixGMtjMdD9paBXXZwq
-	CX48n5BY98SByUAuxP228oQFmPOKOzAnNuEBDPqvw8a2tPlEQ+LgzxDLq7IjBshvlKTt
-	+z3ENMCg2iW13DZrkhuhKk/ZjCXAj/lhjIhq+p04N+k9k54pwNc8aw/Ax0+GaaU+nS5d
-	3kLzgtfCt/H3NKQH4760iKBEid9NUOz3OS5dZxm9l0a4J+eL87Asxci3fXio4V+mSE1h
-	cmo+IDIcmIbB+66gACMWM8uY47ZLS02nBid+/N4nR/I63emwwBQ0CymoJ+KcLnTt2x/L
-	JG+w==
-X-Received: by 10.66.179.6 with SMTP id dc6mr297677pac.67.1446799668033;
-	Fri, 06 Nov 2015 00:47:48 -0800 (PST)
+	bh=THSpxYe9v/Iuq55t0UzQndOg6E7nBaWzdxMYVXsBiqQ=;
+	b=D2LkO/fVyXlFB/UZccEicmGr0SRqKZzgPBzOMw0uZ2gHgqIntx5tLy/OHJ8o1/FZgy
+	+ssrGtLa+/S4Amel80yuARKetvvo6n+w1w//8HRXS6uY4OKFHIptYbN37p6AzWt17X8p
+	WOusiW2/4g2/4wAg+sQS7dhzEPM1KqBc8zhuM260J7QYA/5iq7T3oYbUV2gp8y8gxeDt
+	mFV+8ALchGkOD4S3px4M+hUq3lgULYbz/pLf+8gslNoW8gRDNDhPrFrFHEqt0DG5FWBm
+	kzzt4OG5M9gvLdoJmn6pCqIGOVggO/noFcXRZOxVj5fMM+s3AxKL6HQG7iule3KCdn0K
+	Bnsg==
+X-Received: by 10.66.102.34 with SMTP id fl2mr15932416pab.59.1446799670389;
+	Fri, 06 Nov 2015 00:47:50 -0800 (PST)
 Received: from e6520.gateway.sonic.net
 	(173-228-90-44.dsl.dynamic.fusionbroadband.com. [173.228.90.44])
 	by smtp.gmail.com with ESMTPSA id
-	yz3sm12533923pbb.37.2015.11.06.00.47.46
+	yz3sm12533923pbb.37.2015.11.06.00.47.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 06 Nov 2015 00:47:47 -0800 (PST)
+	Fri, 06 Nov 2015 00:47:49 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Nov 2015 00:47:10 -0800
-Message-Id: <1446799631-7037-11-git-send-email-armccurdy@gmail.com>
+Date: Fri,  6 Nov 2015 00:47:11 -0800
+Message-Id: <1446799631-7037-12-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1446799631-7037-1-git-send-email-armccurdy@gmail.com>
 References: <1446799631-7037-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 10/11] busybox: disable support for mounting NFS file systems on Linux < 2.6.23
+Subject: [PATCH 11/11] busybox: enable resize applet
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +44,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Nov 2015 08:47:48 -0000
+X-List-Received-Date: Fri, 06 Nov 2015 08:47:50 -0000
 
-The busybox CONFIG_FEATURE_MOUNT_NFS config option is described as:
+The /etc/profile script contains a call to resize, which improves
+the usability of shells run on the serial console.
 
-  Enable mounting of NFS file systems on Linux kernels prior
-  to version 2.6.23. Note that in this case mounting of NFS
-  over IPv6 will not be possible.
+  http://git.openembedded.org/openembedded-core/commit/?id=cc6360f4c4d97e0000f9d3545f381224ee99ce7d
 
-Since OE-core sets OLDEST_KERNEL = "2.6.32", CONFIG_FEATURE_MOUNT_NFS
-is not required in the default busybox defconfig.
+Unfortunately the resize applet is not currently enabled in busybox
+defconfig, so resize is never called. Fix that.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-core/busybox/busybox/defconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/busybox/busybox/resize.cfg | 2 ++
+ meta/recipes-core/busybox/busybox_1.24.1.bb  | 1 +
+ meta/recipes-core/busybox/busybox_git.bb     | 1 +
+ 3 files changed, 4 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/resize.cfg
 
-diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index 77274d0..ffea6be 100644
---- a/meta/recipes-core/busybox/busybox/defconfig
-+++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -52,7 +52,7 @@ CONFIG_FEATURE_SUID_CONFIG_QUIET=y
- # CONFIG_FEATURE_PREFER_APPLETS is not set
- CONFIG_BUSYBOX_EXEC_PATH="/proc/self/exe"
- CONFIG_FEATURE_SYSLOG=y
--CONFIG_FEATURE_HAVE_RPC=y
-+# CONFIG_FEATURE_HAVE_RPC is not set
+diff --git a/meta/recipes-core/busybox/busybox/resize.cfg b/meta/recipes-core/busybox/busybox/resize.cfg
+new file mode 100644
+index 0000000..a1d9c95
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/resize.cfg
+@@ -0,0 +1,2 @@
++CONFIG_RESIZE=y
++CONFIG_FEATURE_RESIZE_PRINT=y
+diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
+index 92bbee1..7d2a7b2 100644
+--- a/meta/recipes-core/busybox/busybox_1.24.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
+@@ -36,6 +36,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://sha1sum.cfg \
+            file://sha256sum.cfg \
+            file://getopts.cfg \
++           file://resize.cfg \
+ "
  
- #
- # Build Options
-@@ -563,7 +563,7 @@ CONFIG_MOUNT=y
- # CONFIG_FEATURE_MOUNT_VERBOSE is not set
- # CONFIG_FEATURE_MOUNT_HELPERS is not set
- # CONFIG_FEATURE_MOUNT_LABEL is not set
--CONFIG_FEATURE_MOUNT_NFS=y
-+# CONFIG_FEATURE_MOUNT_NFS is not set
- # CONFIG_FEATURE_MOUNT_CIFS is not set
- CONFIG_FEATURE_MOUNT_FLAGS=y
- CONFIG_FEATURE_MOUNT_FSTAB=y
+ SRC_URI[tarball.md5sum] = "be98a40cadf84ce2d6b05fa41a275c6a"
+diff --git a/meta/recipes-core/busybox/busybox_git.bb b/meta/recipes-core/busybox/busybox_git.bb
+index d968fad..220977a 100644
+--- a/meta/recipes-core/busybox/busybox_git.bb
++++ b/meta/recipes-core/busybox/busybox_git.bb
+@@ -42,6 +42,7 @@ SRC_URI = "git://busybox.net/busybox.git \
+            file://sha1sum.cfg \
+            file://sha256sum.cfg \
+            file://getopts.cfg \
++           file://resize.cfg \
+ "
+ 
+ DEFAULT_PREFERENCE = "-1"
 -- 
 1.9.1
 
