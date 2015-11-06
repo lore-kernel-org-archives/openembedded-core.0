@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D1F5770EE
+	by mail.openembedded.org (Postfix) with ESMTP id E809A7702B
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  6 Nov 2015 15:28:44 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 06 Nov 2015 07:28:45 -0800
+	by orsmga102.jf.intel.com with ESMTP; 06 Nov 2015 07:28:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="595303976"
+X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="595303983"
 Received: from bdiacone-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.8.207])
-	by FMSMGA003.fm.intel.com with ESMTP; 06 Nov 2015 07:28:43 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 06 Nov 2015 07:28:44 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Nov 2015 15:28:23 +0000
-Message-Id: <168b542a344efab916fdf0efecbefb53fc15fb36.1446823542.git.paul.eggleton@linux.intel.com>
+Date: Fri,  6 Nov 2015 15:28:24 +0000
+Message-Id: <5374378cedacc05246232cb4d20986f9539b5943.1446823542.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1446823542.git.paul.eggleton@linux.intel.com>
 References: <cover.1446823542.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1446823542.git.paul.eggleton@linux.intel.com>
 References: <cover.1446823542.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 02/11] libunwind: add SUMMARY
+Subject: [PATCH 03/11] stress: add SUMMARY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,18 +36,18 @@ X-List-Received-Date: Fri, 06 Nov 2015 15:28:46 -0000
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-support/libunwind/libunwind.inc | 1 +
+ meta/recipes-extended/stress/stress_1.0.4.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
-index 6660af2..068858b 100644
---- a/meta/recipes-support/libunwind/libunwind.inc
-+++ b/meta/recipes-support/libunwind/libunwind.inc
+diff --git a/meta/recipes-extended/stress/stress_1.0.4.bb b/meta/recipes-extended/stress/stress_1.0.4.bb
+index 4b7e4ba..e9179d3 100644
+--- a/meta/recipes-extended/stress/stress_1.0.4.bb
++++ b/meta/recipes-extended/stress/stress_1.0.4.bb
 @@ -1,3 +1,4 @@
-+SUMMARY = "Library for obtaining the call-chain of a program"
- DESCRIPTION = "a portable and efficient C programming interface (API) to determine the call-chain of a program"
- HOMEPAGE = "http://www.nongnu.org/libunwind"
- LICENSE = "MIT"
++SUMMARY = "System load testing utility"
+ DESCRIPTION = "Deliberately simple workload generator for POSIX systems. It \
+ imposes a configurable amount of CPU, memory, I/O, and disk stress on the system."
+ HOMEPAGE = "http://people.seas.harvard.edu/~apw/stress/"
 -- 
 2.1.0
 
