@@ -1,40 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 763C175EE7
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C06B876E3F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 13:18:14 +0000 (UTC)
-Received: by wmww144 with SMTP id w144so29978124wmw.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Nov 2015 05:18:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=QEXEbgPEhnl3xwdDap1m0vYPX3i4vlBGOXjxPxK23Lo=;
-	b=WDOn9pqTL9fypII1qXIIiECfcKj6GBU0RjtCcpBltGpGJQe3Z0z/N7U7bRMvwL1boF
-	Kt1km7uRtDlUWfBYOTlC9NFtgB/qMwu7Ya1T0vKA6lw0nF04Zu07GOFv2yx2Opr5xeas
-	7DFfU5UcZR8LCK1TBmS6E0L16G/ltnTo1+3JzSTGYk4BXC0RBSMJ+Gq2w9cJc8nufxfP
-	GDkiUD2PDyEvLdK2eZZ+6qlMCqQmZ3RTrAh9LrXBf56IasF3xNNcZ0t/1JgkINk5jW4c
-	Zp5pCvmZHmL+vYlMqBiS3ECOTVGtc7BJE6uw05iN1g/pi94pkJiAbkpEAE1YKlXWXEZG
-	n1zw==
-X-Received: by 10.28.55.7 with SMTP id e7mr9557055wma.18.1446815894474;
-	Fri, 06 Nov 2015 05:18:14 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id b1sm131987wjx.12.2015.11.06.05.18.13
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 Nov 2015 05:18:13 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 6 Nov 2015 14:18:31 +0100
-To: Mike Crowe <mac@mcrowe.com>
-Message-ID: <20151106131831.GA2550@jama>
-References: <1446734821-6011-1-git-send-email-mac@mcrowe.com>
-	<CAJ86T=WxqbJ83S4RESL_oKX9gYNg6-aAPGUYR3btSQBhKQo-1g@mail.gmail.com>
-	<20151106103004.GA7454@mcrowe.com>
+	Fri,  6 Nov 2015 13:18:29 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Nov 2015 05:18:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="844168234"
+Received: from irsmsx153.ger.corp.intel.com ([163.33.192.75])
+	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2015 05:18:28 -0800
+Received: from irsmsx110.ger.corp.intel.com ([169.254.15.151]) by
+	IRSMSX153.ger.corp.intel.com ([169.254.9.208]) with mapi id
+	14.03.0248.002; Fri, 6 Nov 2015 13:18:27 +0000
+From: "Valluri, Amarnath" <amarnath.valluri@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [oe][PATCH 1/2] nginx: Add support for altering
+	build	configuration
+Thread-Index: AQHRGJV9qVcKOSQOyUKTqrXbzt+Mq56O+g11
+Date: Fri, 6 Nov 2015 13:18:26 +0000
+Message-ID: <D3C33C4430ACA6488F343D1125FCCECC38033958@irsmsx110.ger.corp.intel.com>
+References: <1446815913-9343-1-git-send-email-amarnath.valluri@intel.com>
+In-Reply-To: <1446815913-9343-1-git-send-email-amarnath.valluri@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.3.86.135]
 MIME-Version: 1.0
-In-Reply-To: <20151106103004.GA7454@mcrowe.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf, module.bbclass: Support opting out of legacy EXTRA_OEMAKE
+Subject: Re: [oe][PATCH 1/2] nginx: Add support for altering build	configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,79 +40,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Nov 2015 13:18:19 -0000
-X-Groupsio-MsgNum: 72994
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="cWoXeonUoKmBZSoM"
-Content-Disposition: inline
-
---cWoXeonUoKmBZSoM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 06 Nov 2015 13:18:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 06, 2015 at 10:30:04AM +0000, Mike Crowe wrote:
-> On Friday 06 November 2015 at 01:16:46 -0800, Andre McCurdy wrote:
-> > On Thu, Nov 5, 2015 at 6:47 AM, Mike Crowe <mac@mcrowe.com> wrote:
-> > > Give recipes and classes the ability to opt out of EXTRA_OEMAKE
-> > > containing the legacy value without removing other recipe-specific or
-> > > local additions.
-> >=20
-> > Isn't this possible already from within a recipe or class by using
-> >=20
-> >   EXTRA_OEMAKE =3D ...
-> >=20
-> > instead of
-> >=20
-> >   EXTRA_OEMAKE +=3D ...
-> >=20
-> > ie what autotools.bbclass, kernel.bbclass and many recipes do already.
-> >=20
-> > For the specific case of module.bbclass, changing the EXTRA_OEMAKE
-> > assignment to '=3D' might require some recipes to be tweaked to so that
-> > they "inherit module" before adding their own options to EXTRA_OEMAKE,
-> > but it seems like a cleaner solution?
->=20
-> It would be, but I was afraid of what I might break. I suspect that there
-> are many unseen third-party and local recipes that inherit module.bbclass.
->=20
-> It would be great to get to the point that EXTRA_OEMAKE is empty by defau=
-lt
-> but I imagine that the experts are already aware of the difficulties with
-> doing this which is why the current value has lasted so long.
+sorry for noice: please ignore these patches. Wrong list
+________________________________________
+From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
+ounces@lists.openembedded.org] on behalf of Amarnath Valluri [amarnath.vall=
+uri@intel.com]
+Sent: Friday, November 06, 2015 3:18 PM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [oe][PATCH 1/2] nginx: Add support for altering build   =
+     configuration
 
-Is it really good goal to get rid of "-e"?
+Passing EXTRA_OECONF to ./configure, this allows to alter build
+configure
 
-I know that the environment used in bitbake tasks is already well
-defined and controlled, but I still find a bit more control with -e to
-be useful in many cases.
+Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+---
+ meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-I know I'll be able to return -e where useful, but what's the main
-advantage of removing it from default?
+diff --git a/meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb b/meta-webse=
+rver/recipes-httpd/nginx/nginx_1.9.5.bb
+index a251523..1c9bff7 100644
+--- a/meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb
++++ b/meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb
+@@ -27,6 +27,8 @@ inherit update-rc.d useradd
+ CFLAGS_append =3D " -fPIE -pie"
+ CXXFLAGS_append =3D " -fPIE -pie"
 
-Regards,
++EXTRA_OECONF =3D ""
++
+ do_configure () {
+        if [ "${SITEINFO_BITS}" =3D "64" ]; then
+                PTRSIZE=3D8
+@@ -55,7 +57,8 @@ do_configure () {
+        --pid-path=3D/run/nginx/nginx.pid \
+        --prefix=3D${prefix} \
+        --with-http_ssl_module \
+-       --with-http_gzip_static_module
++       --with-http_gzip_static_module \
++       ${EXTRA_OECONF}
+ }
 
->=20
-> Mike.
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ do_install () {
+--
+1.9.1
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+---------------------------------------------------------------------
+Intel Finland Oy
+Registered Address: PL 281, 00181 Helsinki
+Business Identity Code: 0357606 - 4
+Domiciled in Helsinki
 
---cWoXeonUoKmBZSoM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
+---------------------------------------------------------------------
+Intel Finland Oy
+Registered Address: PL 281, 00181 Helsinki =
 
-iEYEARECAAYFAlY8mwoACgkQN1Ujt2V2gBw3LgCfcrucweLDJRG64uHwP0OtDlMG
-bZYAn00sDbS0ijTAVWe6jBwDJokic2V0
-=rlGP
------END PGP SIGNATURE-----
+Business Identity Code: 0357606 - 4 =
 
---cWoXeonUoKmBZSoM--
+Domiciled in Helsinki =
+
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
+
+
