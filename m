@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id BB73F76E3F
+	by mail.openembedded.org (Postfix) with ESMTP id BF49777139
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 15:28:50 +0000 (UTC)
+	Fri,  6 Nov 2015 15:28:51 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 06 Nov 2015 07:28:52 -0800
+	by orsmga102.jf.intel.com with ESMTP; 06 Nov 2015 07:28:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="595304006"
+X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="595304009"
 Received: from bdiacone-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.8.207])
-	by FMSMGA003.fm.intel.com with ESMTP; 06 Nov 2015 07:28:50 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 06 Nov 2015 07:28:51 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Nov 2015 15:28:30 +0000
-Message-Id: <a188a7883ec0eae75c0aa6168a85516735b6eaea.1446823542.git.paul.eggleton@linux.intel.com>
+Date: Fri,  6 Nov 2015 15:28:31 +0000
+Message-Id: <03d50321cbce26d1785891991b1d3566400919a8.1446823542.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1446823542.git.paul.eggleton@linux.intel.com>
 References: <cover.1446823542.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1446823542.git.paul.eggleton@linux.intel.com>
 References: <cover.1446823542.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 09/11] mmc-utils: set SUMMARY instead of DESCRIPTION
+Subject: [PATCH 10/11] gstreamer1.0-meta-base: set SUMMARY instead of DESCRIPTION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,19 +39,19 @@ will be defaulted from it.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index 546f7f2..c50ba54 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
+index 3ef10c3..ffffa63 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-meta-base.bb
 @@ -1,4 +1,4 @@
--DESCRIPTION = "Userspace tools for MMC/SD devices"
-+SUMMARY = "Userspace tools for MMC/SD devices"
- HOMEPAGE = "http://git.kernel.org/cgit/linux/kernel/git/cjb/mmc-utils.git/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=17;md5=d7747fc87f1eb22b946ef819969503f0"
+-DESCRIPTION = "Gstreamer1.0 package groups"
++SUMMARY = "Gstreamer1.0 package groups"
+ LICENSE = "MIT"
+ 
+ inherit packagegroup
 -- 
 2.1.0
 
