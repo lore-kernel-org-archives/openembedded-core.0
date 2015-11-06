@@ -1,25 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 905057711B
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E78560124
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 13:01:36 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Nov 2015 05:01:36 -0800
+	Fri,  6 Nov 2015 13:16:40 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 06 Nov 2015 05:16:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="844154001"
-Received: from bdiacone-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.8.207])
-	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2015 05:01:36 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="829145558"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 06 Nov 2015 05:16:12 -0800
+Received: from avalluri-GigaByte.fi.intel.com (avalluri-gigabyte.fi.intel.com
+	[10.237.68.36]) (using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 0273A2E055B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Nov 2015 05:15:08 -0800 (PST)
+From: Amarnath Valluri <amarnath.valluri@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Nov 2015 13:01:20 +0000
-Message-Id: <a31d9c5f3d7e38d40e4a909f6f53d70d0a31b957.1446814828.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1446814828.git.paul.eggleton@linux.intel.com>
-References: <cover.1446814828.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1446814828.git.paul.eggleton@linux.intel.com>
-References: <cover.1446814828.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 6/6] classes/distrodata: split SRC_URI properly before determining type
+Date: Fri,  6 Nov 2015 15:18:32 +0200
+Message-Id: <1446815913-9343-1-git-send-email-amarnath.valluri@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [oe][PATCH 1/2] nginx: Add support for altering build configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,41 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Nov 2015 13:01:36 -0000
+X-List-Received-Date: Fri, 06 Nov 2015 13:16:41 -0000
 
-We weren't splitting SRC_URI values containing multiple URIs here; this
-didn't cause any errors except when a trailing ; was left on a URI, in
-which case the next URI was considered part of the parameter, which
-didn't contain a = and therefore was considered invalid.
+Passing EXTRA_OECONF to ./configure, this allows to alter build
+configure
 
-We only care about the first URI in SRC_URI in this context (since
-that's the upstream URI by convention) so split it as we should and take
-the first item.
-
-Fixes [YOCTO #8645].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
 ---
- meta/classes/distrodata.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index 5a4c1b6..44c06e1 100644
---- a/meta/classes/distrodata.bbclass
-+++ b/meta/classes/distrodata.bbclass
-@@ -271,9 +271,9 @@ python do_checkpkg() {
-         from bb.fetch2 import FetchError, NoMethodError, decodeurl
+diff --git a/meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb b/meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb
+index a251523..1c9bff7 100644
+--- a/meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb
++++ b/meta-webserver/recipes-httpd/nginx/nginx_1.9.5.bb
+@@ -27,6 +27,8 @@ inherit update-rc.d useradd
+ CFLAGS_append = " -fPIE -pie"
+ CXXFLAGS_append = " -fPIE -pie"
  
-         """first check whether a uri is provided"""
--        src_uri = d.getVar('SRC_URI', True)
-+        src_uri = (d.getVar('SRC_URI', True) or '').split()
-         if src_uri:
--            uri_type, _, _, _, _, _ = decodeurl(src_uri)
-+            uri_type, _, _, _, _, _ = decodeurl(src_uri[0])
-         else:
-             uri_type = "none"
++EXTRA_OECONF = ""
++
+ do_configure () {
+ 	if [ "${SITEINFO_BITS}" = "64" ]; then
+ 		PTRSIZE=8
+@@ -55,7 +57,8 @@ do_configure () {
+ 	--pid-path=/run/nginx/nginx.pid \
+ 	--prefix=${prefix} \
+ 	--with-http_ssl_module \
+-	--with-http_gzip_static_module
++	--with-http_gzip_static_module \
++	${EXTRA_OECONF}
+ }
  
+ do_install () {
 -- 
-2.1.0
+1.9.1
+
+---------------------------------------------------------------------
+Intel Finland Oy
+Registered Address: PL 281, 00181 Helsinki 
+Business Identity Code: 0357606 - 4 
+Domiciled in Helsinki 
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
 
