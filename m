@@ -1,25 +1,21 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CBF07702B
+	by mail.openembedded.org (Postfix) with ESMTP id 3AA5176E3F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 16:18:05 +0000 (UTC)
+	Fri,  6 Nov 2015 16:18:04 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga101.fm.intel.com with ESMTP; 06 Nov 2015 08:18:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="679816471"
+X-IronPort-AV: E=Sophos;i="5.20,252,1444719600"; d="scan'208";a="679816470"
 Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
 	([10.23.219.54])
 	by orsmga003.jf.intel.com with ESMTP; 06 Nov 2015 08:18:04 -0800
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Nov 2015 16:17:00 +0000
-Message-Id: <48c8f8e24d50045df2482a57608ea06125724ee0.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Fri,  6 Nov 2015 16:16:59 +0000
+Message-Id: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1446823405.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH 1/3] yocto-bsp: Typo on the file extension
+Subject: [PATCH 0/3] yocto-bsp: Fixes on unpacking/patching issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,19 +32,96 @@ X-List-Received-Date: Fri, 06 Nov 2015 16:18:05 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-By mistake, the file was introduced with wrong extension, so changing to the
-correct one.
+Patches 0002/0003 allows building generate BSP layers by the yocto-bsp. Patch
+0001 is a rename from an original bad prefix bbappend file.
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- .../linux/{linux-yocto_4.1.bbapend => linux-yocto_4.1.bbappend}           | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/{linux-yocto_4.1.bbapend => linux-yocto_4.1.bbappend} (100%)
+The following changes since commit fc45deac89ef63ca1c44e763c38ced7dfd72cbe1:
 
-diff --git a/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbapend b/scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbappend
-similarity index 100%
-rename from scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbapend
-rename to scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/linux-yocto_4.1.bbappend
+  build-appliance-image: Update to jethro head revision (2015-11-03 14:03:03 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lsandov1/yocto-bsp-intel-bug8630
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/yocto-bsp-intel-bug8630
+
+Leonardo Sandoval (3):
+  yocto-bsp: Typo on the file extension
+  yocto-bsp: Set KTYPE to user selected base branch
+  yocto-bsp: Set SRCREV meta/machine revisions to AUTOREV
+
+ .../arch/arm/recipes-kernel/linux/files/machine-preempt-rt.scc      | 3 ++-
+ .../target/arch/arm/recipes-kernel/linux/files/machine-standard.scc | 3 ++-
+ .../target/arch/arm/recipes-kernel/linux/files/machine-tiny.scc     | 3 ++-
+ .../arch/arm/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend      | 6 +++---
+ .../arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend    | 6 +++---
+ .../arch/arm/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend    | 6 +++---
+ .../arch/arm/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend     | 6 +++---
+ .../target/arch/arm/recipes-kernel/linux/linux-yocto_3.14.bbappend  | 6 +++---
+ .../target/arch/arm/recipes-kernel/linux/linux-yocto_3.19.bbappend  | 6 +++---
+ .../linux/{linux-yocto_4.1.bbapend => linux-yocto_4.1.bbappend}     | 6 +++---
+ .../arch/i386/recipes-kernel/linux/files/machine-preempt-rt.scc     | 3 ++-
+ .../arch/i386/recipes-kernel/linux/files/machine-standard.scc       | 3 ++-
+ .../target/arch/i386/recipes-kernel/linux/files/machine-tiny.scc    | 3 ++-
+ .../arch/i386/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend     | 6 +++---
+ .../arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend   | 6 +++---
+ .../arch/i386/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend   | 6 +++---
+ .../arch/i386/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend    | 6 +++---
+ .../target/arch/i386/recipes-kernel/linux/linux-yocto_3.14.bbappend | 6 +++---
+ .../target/arch/i386/recipes-kernel/linux/linux-yocto_3.19.bbappend | 6 +++---
+ .../target/arch/i386/recipes-kernel/linux/linux-yocto_4.1.bbappend  | 6 +++---
+ .../arch/mips/recipes-kernel/linux/files/machine-preempt-rt.scc     | 3 ++-
+ .../arch/mips/recipes-kernel/linux/files/machine-standard.scc       | 3 ++-
+ .../target/arch/mips/recipes-kernel/linux/files/machine-tiny.scc    | 3 ++-
+ .../arch/mips/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend     | 6 +++---
+ .../arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend   | 6 +++---
+ .../arch/mips/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend   | 6 +++---
+ .../arch/mips/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend    | 6 +++---
+ .../target/arch/mips/recipes-kernel/linux/linux-yocto_3.14.bbappend | 6 +++---
+ .../target/arch/mips/recipes-kernel/linux/linux-yocto_3.19.bbappend | 6 +++---
+ .../target/arch/mips/recipes-kernel/linux/linux-yocto_4.1.bbappend  | 6 +++---
+ .../arch/mips64/recipes-kernel/linux/files/machine-preempt-rt.scc   | 3 ++-
+ .../arch/mips64/recipes-kernel/linux/files/machine-standard.scc     | 3 ++-
+ .../target/arch/mips64/recipes-kernel/linux/files/machine-tiny.scc  | 3 ++-
+ .../arch/mips64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend   | 6 +++---
+ .../arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend | 6 +++---
+ .../arch/mips64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend | 6 +++---
+ .../arch/mips64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend  | 6 +++---
+ .../arch/mips64/recipes-kernel/linux/linux-yocto_3.14.bbappend      | 2 +-
+ .../arch/mips64/recipes-kernel/linux/linux-yocto_3.19.bbappend      | 6 +++---
+ .../arch/mips64/recipes-kernel/linux/linux-yocto_4.1.bbappend       | 6 +++---
+ .../arch/powerpc/recipes-kernel/linux/files/machine-preempt-rt.scc  | 3 ++-
+ .../arch/powerpc/recipes-kernel/linux/files/machine-standard.scc    | 3 ++-
+ .../target/arch/powerpc/recipes-kernel/linux/files/machine-tiny.scc | 3 ++-
+ .../arch/powerpc/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend  | 6 +++---
+ .../powerpc/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend     | 6 +++---
+ .../powerpc/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend     | 6 +++---
+ .../arch/powerpc/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend | 6 +++---
+ .../arch/powerpc/recipes-kernel/linux/linux-yocto_3.14.bbappend     | 6 +++---
+ .../arch/powerpc/recipes-kernel/linux/linux-yocto_3.19.bbappend     | 6 +++---
+ .../arch/powerpc/recipes-kernel/linux/linux-yocto_4.1.bbappend      | 6 +++---
+ .../arch/qemu/recipes-kernel/linux/files/machine-preempt-rt.scc     | 3 ++-
+ .../arch/qemu/recipes-kernel/linux/files/machine-standard.scc       | 3 ++-
+ .../target/arch/qemu/recipes-kernel/linux/files/machine-tiny.scc    | 3 ++-
+ .../arch/qemu/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend     | 6 +++---
+ .../arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend   | 6 +++---
+ .../arch/qemu/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend   | 6 +++---
+ .../arch/qemu/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend    | 6 +++---
+ .../target/arch/qemu/recipes-kernel/linux/linux-yocto_3.14.bbappend | 6 +++---
+ .../target/arch/qemu/recipes-kernel/linux/linux-yocto_3.19.bbappend | 6 +++---
+ .../target/arch/qemu/recipes-kernel/linux/linux-yocto_4.1.bbappend  | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/files/machine-preempt-rt.scc   | 3 ++-
+ .../arch/x86_64/recipes-kernel/linux/files/machine-standard.scc     | 3 ++-
+ .../target/arch/x86_64/recipes-kernel/linux/files/machine-tiny.scc  | 3 ++-
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto-rt_3.14.bbappend   | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.14.bbappend | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_3.19.bbappend | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto-tiny_4.1.bbappend  | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto_3.14.bbappend      | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto_3.19.bbappend      | 6 +++---
+ .../arch/x86_64/recipes-kernel/linux/linux-yocto_4.1.bbappend       | 6 +++---
+ 70 files changed, 187 insertions(+), 166 deletions(-)
+ rename scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/{linux-yocto_4.1.bbapend => linux-yocto_4.1.bbappend} (83%)
+
 -- 
 1.8.4.5
 
