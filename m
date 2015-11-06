@@ -1,32 +1,47 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4916773D46
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id B4AD873D46
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 20:14:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tA6KEN1N020473
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 6 Nov 2015 12:14:23 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 6 Nov 2015 12:14:23 -0800
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-References: <cover.1446595453.git.pkj@axis.com>
-	<d2e824d17dae9f9583a11ee2165096e7cff533b0.1446595453.git.pkj@axis.com>
-	<5639522B.5050604@windriver.com>
-	<A612847CFE53224C91B23E3A5B48BAC7C6F013F187@xmail3.se.axis.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <563D0A1E.9060601@windriver.com>
-Date: Fri, 6 Nov 2015 14:14:22 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
+	Fri,  6 Nov 2015 20:38:36 +0000 (UTC)
+Received: by qkcn129 with SMTP id n129so50162701qkc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Nov 2015 12:38:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=LxqJbF21aGvivktjizz581x1DUnqB2QhXtL046lKQ6k=;
+	b=IudTbXMV39aibkP9SN1MnB6YeFLtilLzeJhOI6oxX5IRw0J+GN257RivWmNSxuP2Tm
+	ptTOVgbH5R71w37Xf4hRQHOoNx8Piey0k8KcVVZd7ZoXb8lSEgbNMw4Z3TiaKM63tkXs
+	LOkhTP99NDm7wBNfJEB55K7giQHu85mvfAfBzbJZztPhWoVHPUWiK0NFkAXGZguvJ7xn
+	bJy2v+ddeV0w/ZMNTTlIgQWr9eKza4GgvVm9+d2xx3O8EAqwQ7HrHPANhYMoWw+JT5A9
+	cBD9Sd7CMf3LBS8O42IMf3fJQbYY+xI0XicfumjE9N3yol8+jdE9e+Jr3DmIqGmaBas8
+	SZoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=LxqJbF21aGvivktjizz581x1DUnqB2QhXtL046lKQ6k=;
+	b=OOJlvpHGqWXSp2qz0zYXVzaJxoer7c3KA/yz4MeAn5ZhfISPuh5DgrPGec/KKQ2CvM
+	CLpyi2ijj0IoXHOEsQgba8weOOfpGwLjejq8hLHoocQ/6fuVRs8fRb1X0W2d0DQJgo0q
+	Qw9qDdumKfSPeo+VGkHaeb+UEPfGyuNKHee7TxcFRbW4KYdxHIbOwlLBSyeFZk3Jx5xV
+	hYkxfP8MftVr7OJGkACoIPzJ8m5cR9QyKt8fWEfPZwa7X4brCaI/mZzcaNok9vS2PMeC
+	JC90KS+Q/TE+69g7/MN7vb7XrGW1vHROlBkjShuUtHPb6Du7++zsOikAqISnrBtGVJdp
+	IzSA==
+X-Gm-Message-State: ALoCoQkIswpwyvLj0c4PJw4SUd5J9REhL6tQmJ/5kwqrl/mmrIeK78wCP0icnb/u6dxpIOVcwKbI
+X-Received: by 10.55.79.207 with SMTP id d198mr14867639qkb.49.1446842316158;
+	Fri, 06 Nov 2015 12:38:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <A612847CFE53224C91B23E3A5B48BAC7C6F013F187@xmail3.se.axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] useradd-staticids.bbclass: Read passwd/group files before parsing
+Received: by 10.140.94.110 with HTTP; Fri, 6 Nov 2015 12:38:16 -0800 (PST)
+In-Reply-To: <cover.1446729162.git.jussi.kukkonen@intel.com>
+References: <cover.1446729162.git.jussi.kukkonen@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 6 Nov 2015 20:38:16 +0000
+Message-ID: <CAJTo0LZbx2rXSyvqED6Mi2aJ37tPFXuK2UggiyKCmmk7sAt_8w@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/6] Upgrades: GLib & friends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,98 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Nov 2015 20:14:28 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Nov 2015 20:38:37 -0000
+Content-Type: multipart/alternative; boundary=001a114a9ada4d14840523e53a0b
 
-On 11/6/15 2:09 PM, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: Mark Hatle [mailto:mark.hatle@windriver.com]
->> Sent: den 4 november 2015 01:33
->> To: Peter Kjellerstedt; openembedded-core@lists.openembedded.org
->> Subject: Re: [PATCH 5/5] useradd-staticids.bbclass: Read passwd/group
->> files before parsing
->>
->> On 11/3/15 6:06 PM, Peter Kjellerstedt wrote:
->>> Read and merge the passwd/group files before parsing the user and
->>> group definitions. This means they will only be read once per
->>> recipe. This solves a problem where if a user was definied in multiple
->>> files, it could generate group definitions for groups that should not
->>> be created. E.g., if the first passwd file read defines a user as:
->>>
->>> foobar::1234::::
->>>
->>> and the second passwd file defines it as:
->>>
->>> foobar:::nogroup:The foobar user:/:/bin/sh
->>>
->>> then a foobar group would be created even if the user will use the
->>> nogroup as its primary group.
->>
->> One minor thing
->>
->>> @@ -251,7 +269,7 @@ def update_useradd_static_config(d):
->>>
->>>              newparams.append(newparam)
->>>
->>> -        return " ;".join(newparams).strip()
->>> +        return ";".join(newparams).strip()
->>>
->>>      # Load and process the users and groups, rewriting the adduser/addgroup params
->>>      useradd_packages = d.getVar('USERADD_PACKAGES', True)
->>>
->>
->> The space was required because you could generate a user/group add 
->> line that ended with a string.  Without the space, you could end up 
->> merging two sets of arguments causing a failure condition.
->>
->> So I think that it should be retained unless there is a specific 
->> reason you believe it should be removed.
-> 
-> I cannot see how that space can make any difference. Each set of 
-> useradd/grouppadd options added to newparams has the user/group 
-> name at the end of the string. And if that somehow interferes with 
-> the semicolon, then the code in useradd.bbclass which simply does 
-> "cut -d ';'" to split the useradd/groupadd line would break already.
+--001a114a9ada4d14840523e53a0b
+Content-Type: text/plain; charset=UTF-8
 
-The contents when originally parsed my be run as arguments to a shell script or
-as parameters to these functions.
+On 5 November 2015 at 13:27, Jussi Kukkonen <jussi.kukkonen@intel.com>
+wrote:
 
-In the shell script world not have a space can confuse the argument parsing into
-thinking the ; is part of the argument.
+> This should be a cosmetic issue (as custom allocators didn't
+> really work before either) and is already fixed in upstream Qemu.
+>
 
-You don't have that in the python world with the split behavior.
+As this is pretty ugly, can we backport the fix to our qemu?
 
-> Actually, now that I think about it, I do wonder why 
-> useradd-staticids.bbclass use this advanced variant to split the 
-> useradd/groupadd lines:
-> 
->         for param in re.split('''[ \t]*;[ \t]*(?=(?:[^'"]|'[^']*'|"[^"]*")*$)''', params):
+Ross
 
-It is perfectly legal to allow a ';' in the middle of a parameter (that allows
-it), a parameter that is quoted.
+--001a114a9ada4d14840523e53a0b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Something like:
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 5 November 2015 at 13:27, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3h=
+n" class=3D"a3s" style=3D"overflow:hidden"> This should be a cosmetic issue=
+ (as custom allocators didn&#39;t<br>
+really work before either) and is already fixed in upstream Qemu.<br></div>=
+</blockquote></div><br>As this is pretty ugly, can we backport the fix to o=
+ur qemu?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
+a">Ross</div></div>
 
-adduser -c "This user;that user;all users" -d /home/allusers alluser
-
-it's odd, but I've certainly seen people put ';' in the comment before.. and it
-is legal in other palces, like the home dir and such -- just not advised.
-
-> when this would do the job just as well:
-> 
->         for param in params.split(';'):
-> 
-> given that that is what useradd.bbclass does. It looks as if tries 
-> to support something like --comment "something with a ; in it", but 
-> using that would break in useradd.bbclass anyway...
-
-Then the useradd class is broken in this case.  The --comment processing needs
-to work, it's just rarely used in the normal case, but very much used in the
-"lets take a previously generated passwd file and reuse it" case of the
-adduser-static.
-
-> //Peter
-> 
-
-
+--001a114a9ada4d14840523e53a0b--
