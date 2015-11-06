@@ -1,47 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 67C4560124
+Return-Path: <mac@mcrowe.com>
+X-Greylist: delayed 458 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 06 Nov 2015 10:37:45 UTC
+Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 4107F60124
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Nov 2015 10:36:29 +0000 (UTC)
-Received: by qkao63 with SMTP id o63so1374097qka.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Nov 2015 02:36:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Dd3mZD9DA2S8amUZBh3aHGdCVllbYtF8BicFQBRwZUU=;
-	b=m96vwXSExjVFi98FYZAHBL2OSF3WPzM7dxQkWh8XWZm89ju7a+cNeMZI3TFP1k95Bn
-	L+jaxswNQjmM1fqB1U8c4wEEJq9NI3VNmiEFzAGpXh3RhRfEdXr/LZFpBmI/iFVPDYNL
-	3coiEgMbmUeiqYxy3k/gAGPwyjX9DXH8FBl9hak9PSbGv/MO1SxWyvc+jCzWsdGFAi7H
-	8EoTBan9Cy+IapQBeONqjKvgLGDgHOtExte7YFeusLJmp+OrWLe6CyFnsQsuo9d4IxQM
-	DmevnYDk+8JUgkApE3MpgyOI9+t7XXLEH5LbaRgcNXpRljZHy63QYx5/knUEsL96zCLw
-	p+9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Dd3mZD9DA2S8amUZBh3aHGdCVllbYtF8BicFQBRwZUU=;
-	b=R/UWEvKhIsaN1RtpE8mbkDAzMY2+B1at9fhH0+z1edJoNNCk6X0Rkizg6cMf8lBPYn
-	kY2nkV3m+hEi0wcW5Uuub4QkxNekCNH9km169eKenRpB72zUY0ubtigcAm91lKb982l9
-	nLldlNhgWULe9DAZZIwMy38i3h6GPZ5i1KMfwvmcwKZJ8J3zdzSdP+HOI9BbWT18xyXe
-	ezkGsvsmo1xIhIfI2rY2YVA4PVLs8y71yUk63Jx0Ha2FawD04IdiBgbnr9FOcMlRhZC7
-	beQMbiMRY3lvBE3qZjIjqZH1ND2f9QZo9DT4aJ4uoVmOJUOuirHtorNs8FHloTQISJ9F
-	dyJA==
-X-Gm-Message-State: ALoCoQkac4fG+NpKS0Q3dTrEzxSmC7EfUR/XlCfYU1svgXZ7acN/ZKYkTxJry3koluW8Qxzgxdou
-X-Received: by 10.55.78.143 with SMTP id c137mr12303703qkb.72.1446806189849;
-	Fri, 06 Nov 2015 02:36:29 -0800 (PST)
+	Fri,  6 Nov 2015 10:37:44 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by avasout06 with smtp
+	id eAW51r0030BmcFC01AW6N9; Fri, 06 Nov 2015 10:30:06 +0000
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.1 cv=E4sw3vpl c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=0Bzu9jTXAAAA:8
+	a=-An2I_7KAAAA:8 a=kj9zAlcOel0A:10 a=qtqOOiqGOCEA:10
+	a=pohJM8352FWg_SwRCbwA:9 a=CjuIK1q_8ugA:10
+Received: from mac by deneb with local (Exim 4.84)
+	(envelope-from <mac@mcrowe.com>)
+	id 1ZueHU-0002UQ-W7; Fri, 06 Nov 2015 10:30:04 +0000
+Date: Fri, 6 Nov 2015 10:30:04 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20151106103004.GA7454@mcrowe.com>
+References: <1446734821-6011-1-git-send-email-mac@mcrowe.com>
+	<CAJ86T=WxqbJ83S4RESL_oKX9gYNg6-aAPGUYR3btSQBhKQo-1g@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.140.94.110 with HTTP; Fri, 6 Nov 2015 02:36:10 -0800 (PST)
-In-Reply-To: <6A0E85DF-31B7-4955-B4A2-0F3E099FCF99@gmail.com>
-References: <6A0E85DF-31B7-4955-B4A2-0F3E099FCF99@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 6 Nov 2015 10:36:10 +0000
-Message-ID: <CAJTo0Lb7w0XAJ-H-T2Uz-mdmjUZGFX9wQyzCUJ_4bU8re9rswQ@mail.gmail.com>
-To: Jens Rehsack <rehsack@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] Update libusb1 from 1.0.19 to 1.0.20
+In-Reply-To: <CAJ86T=WxqbJ83S4RESL_oKX9gYNg6-aAPGUYR3btSQBhKQo-1g@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bitbake.conf, module.bbclass: Support opting out of legacy EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,99 +39,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Nov 2015 10:36:33 -0000
-Content-Type: multipart/alternative; boundary=001a114a8f680174880523dcd100
+X-List-Received-Date: Fri, 06 Nov 2015 10:37:47 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a114a8f680174880523dcd100
-Content-Type: text/plain; charset=UTF-8
+On Friday 06 November 2015 at 01:16:46 -0800, Andre McCurdy wrote:
+> On Thu, Nov 5, 2015 at 6:47 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> > Give recipes and classes the ability to opt out of EXTRA_OEMAKE
+> > containing the legacy value without removing other recipe-specific or
+> > local additions.
+> 
+> Isn't this possible already from within a recipe or class by using
+> 
+>   EXTRA_OEMAKE = ...
+> 
+> instead of
+> 
+>   EXTRA_OEMAKE += ...
+> 
+> ie what autotools.bbclass, kernel.bbclass and many recipes do already.
+> 
+> For the specific case of module.bbclass, changing the EXTRA_OEMAKE
+> assignment to '=' might require some recipes to be tweaked to so that
+> they "inherit module" before adding their own options to EXTRA_OEMAKE,
+> but it seems like a cleaner solution?
 
-On 8 October 2015 at 15:36, Jens Rehsack <rehsack@gmail.com> wrote:
+It would be, but I was afraid of what I might break. I suspect that there
+are many unseen third-party and local recipes that inherit module.bbclass.
 
-> This updates libusb1 from 1.0.19 to 1.0.20
->
-> 2015-09-13: v1.0.20
-> * Add Haiku support
-> * Fix multiple memory and resource leaks (#16, #52, #76, #81)
-> * Fix possible deadlock when executing transfer callback
-> * New libusb_free_pollfds() API
-> * Darwin: Fix devices not being detected on OS X 10.8 (#48)
-> * Linux: Allow larger isochronous transfer submission (#23)
-> * Windows: Fix broken builds Cygwin/MinGW builds and compiler warnings
-> * Windows: Fix broken bus number lookup
-> * Windows: Improve submission of control requests for composite devices
-> * Examples: Add two-stage load support to fxload (#12)
-> * Correctly report cancellations due to timeouts
-> * Improve efficiency of event handling
-> * Improve speed of transfer submission in multi-threaded environments
-> * Various other bug fixes and improvements
-> The (#xx) numbers are libusb issue numbers, see ie:
-> https://github.com/libusb/libusb/issues/16
->
+It would be great to get to the point that EXTRA_OEMAKE is empty by default
+but I imagine that the experts are already aware of the difficulties with
+doing this which is why the current value has lasted so long.
 
-And apparently introduces a parallel make race :(
+Mike.
 
-mv: cannot stat `libusb_1_0_la-sync.loT': No such file or directory
-mv: cannot stat `libusb_1_0_la-descriptor.loT': No such file or directory
-mv: cannot stat `libusb_1_0_la-core.loT': No such file or directory
-mv: cannot stat `libusb_1_0_la-hotplug.loT': No such file or directory
-mv: cannot stat `libusb_1_0_la-io.loT': No such file or directory
-i686-poky-linux-libtool:   error: 'os/libusb_1_0_la-linux_usbfs.lo' is not
-a valid libtool object
-make[3]: *** [libusb-1.0.la] Error 1
-make[3]: Leaving directory
-`/home/pokybuild/yocto-autobuilder/yocto-worker/ptest-x86/build/build/tmp/work/core2-32-poky-linux/libusb1/1.0.20-r0/build/libusb'
-make[2]: *** [all-recursive] Error 1
-
-(full log at http://errors.yoctoproject.org/Errors/Details/21443/)
-
-Ross
-
---001a114a8f680174880523dcd100
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 October 2015 at 15:36, Jens Rehsack <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:rehsack@gmail.com" target=3D"_blank">rehsack@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-st=
-yle:solid;padding-left:1ex"><div id=3D":nb" class=3D"" style=3D"overflow:hi=
-dden">This updates libusb1 from 1.0.19 to 1.0.20<br>
-<br>
-2015-09-13: v1.0.20<br>
-* Add Haiku support<br>
-* Fix multiple memory and resource leaks (#16, #52, #76, #81)<br>
-* Fix possible deadlock when executing transfer callback<br>
-* New libusb_free_pollfds() API<br>
-* Darwin: Fix devices not being detected on OS X 10.8 (#48)<br>
-* Linux: Allow larger isochronous transfer submission (#23)<br>
-* Windows: Fix broken builds Cygwin/MinGW builds and compiler warnings<br>
-* Windows: Fix broken bus number lookup<br>
-* Windows: Improve submission of control requests for composite devices<br>
-* Examples: Add two-stage load support to fxload (#12)<br>
-* Correctly report cancellations due to timeouts<br>
-* Improve efficiency of event handling<br>
-* Improve speed of transfer submission in multi-threaded environments<br>
-* Various other bug fixes and improvements<br>
-The (#xx) numbers are <span class=3D"">libusb</span> issue numbers, see ie:=
-<br>
-<a href=3D"https://github.com/libusb/libusb/issues/16" rel=3D"noreferrer" t=
-arget=3D"_blank">https://github.com/<span class=3D"">libusb</span>/<span cl=
-ass=3D"">libusb</span>/issues/16</a></div></blockquote></div><br>And appare=
-ntly introduces a parallel make race :(<br><br>mv: cannot stat `libusb_1_0_=
-la-sync.loT&#39;: No such file or directory<br>mv: cannot stat `libusb_1_0_=
-la-descriptor.loT&#39;: No such file or directory<br>mv: cannot stat `libus=
-b_1_0_la-core.loT&#39;: No such file or directory<br>mv: cannot stat `libus=
-b_1_0_la-hotplug.loT&#39;: No such file or directory<br>mv: cannot stat `li=
-busb_1_0_la-io.loT&#39;: No such file or directory<br>i686-poky-linux-libto=
-ol: =C2=A0 error: &#39;os/libusb_1_0_la-linux_usbfs.lo&#39; is not a valid =
-libtool object<br>make[3]: *** [<a href=3D"http://libusb-1.0.la">libusb-1.0=
-.la</a>] Error 1<br>make[3]: Leaving directory `/home/pokybuild/yocto-autob=
-uilder/yocto-worker/ptest-x86/build/build/tmp/work/core2-32-poky-linux/libu=
-sb1/1.0.20-r0/build/libusb&#39;<br>make[2]: *** [all-recursive] Error 1<br>=
-</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">(full=
- log at=C2=A0<a href=3D"http://errors.yoctoproject.org/Errors/Details/21443=
-/">http://errors.yoctoproject.org/Errors/Details/21443/</a>)</div><div clas=
-s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a114a8f680174880523dcd100--
