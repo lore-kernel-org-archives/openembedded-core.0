@@ -1,26 +1,28 @@
 Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AA13F770B4
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 13B28770EE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Nov 2015 06:43:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tA76hNNL006298
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Nov 2015 22:43:23 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 6 Nov 2015 22:43:22 -0800
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 7 Nov 2015 01:43:19 -0500
-Message-ID: <89c0590779e8e6436ec26ba671fa8ca5409d8ffa.1446878344.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1446878344.git.wenzong.fan@windriver.com>
-References: <cover.1446878344.git.wenzong.fan@windriver.com>
+	Sat,  7 Nov 2015 07:07:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tA777AFT031590
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 6 Nov 2015 23:07:10 -0800
+Received: from [128.224.162.154] (128.224.162.154) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 6 Nov 2015 23:07:09 -0800
+Message-ID: <563DA31B.5080404@windriver.com>
+Date: Sat, 7 Nov 2015 15:07:07 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1 v4] rpcbind: don't use '-w' for starting rpcbind
+To: Khem Raj <raj.khem@gmail.com>
+References: <1446703751-58313-1-git-send-email-wenzong.fan@windriver.com>
+	<11B9075E-35C1-4101-8072-D44DCDF9A210@gmail.com>
+In-Reply-To: <11B9075E-35C1-4101-8072-D44DCDF9A210@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] openssl: fix mips64 configure support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +35,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Nov 2015 06:43:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 07 Nov 2015 07:07:12 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Li Wang <li.wang@windriver.com>
+On 11/06/2015 12:18 AM, Khem Raj wrote:
+>
+>> On Nov 4, 2015, at 10:09 PM, wenzong.fan@windriver.com wrote:
+>>
+>> From: Wenzong Fan <wenzong.fan@windriver.com>
+>>
+>> Match target name linux-mips64 as well, all mips64 targets will have
+>> mips(32) userspace.
+>
+> this comment seems to be not relevant to the change
+>
 
-While runing:
+What about:
 
-$ systemctl restart rpcbind
-$ systemctl status rpcbind
+If target name is linux-mips64, set it as linux-mips to get it build 
+with mips(32) userspace.
 
-There are errors like below:
-  rpcbind[1722]: Cannot open '/tmp/rpcbind.xdr' file for reading, \
-    errno 2 (No such file or directory)
-  rpcbind[1722]: Cannot open '/tmp/portmap.xdr' file for reading, \
-    errno 2 (No such file or directory)
+Thanks
+Wenzong
 
-'-w' causes rpcbind to do a "warm start" by read a state file when
-rpcbind starts up. The state file is created when rpcbind terminates.
-
-The state file is not always there, the patch refers to:
-  https://bugs.launchpad.net/ubuntu/+source/rpcbind/+bug/835833
-
-Signed-off-by: Li Wang <li.wang@windriver.com>
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- meta/recipes-extended/rpcbind/rpcbind/rpcbind.service | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
-index b3ae254..9cdade4 100644
---- a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
-+++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
-@@ -5,7 +5,7 @@ Requires=rpcbind.socket
- [Service]
- Type=forking
- EnvironmentFile=-@SYSCONFDIR@/rpcbind.conf
--ExecStart=@SBINDIR@/rpcbind -w $RPCBIND_OPTS
-+ExecStart=@SBINDIR@/rpcbind $RPCBIND_OPTS
- SuccessExitStatus=2
- 
- [Install]
--- 
-1.9.1
-
+>>
+>> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+>> ---
+>> meta/recipes-connectivity/openssl/openssl.inc | 2 +-
+>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+>> index 8af423f..b69cb4c 100644
+>> --- a/meta/recipes-connectivity/openssl/openssl.inc
+>> +++ b/meta/recipes-connectivity/openssl/openssl.inc
+>> @@ -115,7 +115,7 @@ do_configure () {
+>> 	linux-mipsel)
+>> 		target=debian-mipsel
+>> 		;;
+>> -        linux-*-mips64)
+>> +        linux-*-mips64 | linux-mips64)
+>>                 target=linux-mips
+>>                  ;;
+>> 	linux-microblaze*|linux-nios2*)
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
