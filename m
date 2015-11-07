@@ -1,24 +1,49 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E2E8877109
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D45860043
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Nov 2015 17:53:53 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Nov 2015 09:53:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,258,1444719600"; d="scan'208";a="814235990"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.145])
-	by orsmga001.jf.intel.com with ESMTP; 07 Nov 2015 09:53:53 -0800
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  7 Nov 2015 09:46:42 -0800
-Message-Id: <1446918402-432-2-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1446918402-432-1-git-send-email-juro.bystricky@intel.com>
-References: <6E51916E4A1F32428260031F4C7CD2B610D4B8C6@ORSMSX110.amr.corp.intel.com>
-	<1446918402-432-1-git-send-email-juro.bystricky@intel.com>
-Cc: richard.purdie@intel.com
-Subject: [PATCH] gcc-4.9: Fix various _FOR_BUILD and related variables
+	Sat,  7 Nov 2015 23:32:01 +0000 (UTC)
+Received: by qkcl124 with SMTP id l124so58078721qkc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 07 Nov 2015 15:32:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=2rgIlGRjQMPozQuM1W/6kPU1O97DSLgaJBJ/LSsBaTY=;
+	b=SpfmCZO+IFHFo+p96V4NmjRTdEnSL67zf88XR+pkeqY4imQ5cdEpiGWISJoCjqyReV
+	omhtaoIct0cbnUIscKxdJKi+E1/uYWwQugrdT5ukVkFCBAIYdlK4xa1KiksO926ga5aT
+	oKSEi93NA7USGtnOFYIpQak+tQqhQMZJcy7+8uYm7rX6y2RcavuWb+ltuki1wXso9hiT
+	rDI7jszEPdKI+0nP8kaboVSshLjWDAQJpC+AfhDFeteJJH7d2m/0KznWQxruJqlBAwcv
+	bJUc0fuCf+GFoJGJQFlsGv0AkWvre0Fa9eQgHHca7sBQKSL5Z7d8xzRUwM+riyQs22Ap
+	pXlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=2rgIlGRjQMPozQuM1W/6kPU1O97DSLgaJBJ/LSsBaTY=;
+	b=anF2QZF5byKGRJ1LWWMqUhK40yNyJTW2sAut8lMSQW9cNaNAUvrYQWzErUGGg5Wedk
+	D9WYVZRfOuK/oUbn+7BTSx+183ModX/RnnYdsg1SnepYssrV74aw2wJvnhBvBVXVc+fO
+	Oe4jxDUNC5R4xw07MABoQE8EYIxJIUcEzLIIs9T9ozGkzGlugOI5cfDWEqoI4m0tXkzc
+	902KtfTw68xtZ38fpSvTqdFJToVD8Gz+AQv8itn23Pu7c/5X0LvBDgApN8neH9CJwCQ+
+	guAE3+jop+4udHTdNKd1EC3wzWxQYCBXiJAnKeLB/IOj0imVjckfYmXYwSEFt5h/tf2R
+	WgJw==
+X-Gm-Message-State: ALoCoQmtBfe+I2fOYi8lDxGEZdHp6gxeDDD4gzX87M52ssffE5gAoMD3iyX1st5Fi8kmNTOY1NT7
+X-Received: by 10.55.73.144 with SMTP id w138mr20990685qka.104.1446939121380; 
+	Sat, 07 Nov 2015 15:32:01 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.94.110 with HTTP; Sat, 7 Nov 2015 15:31:41 -0800 (PST)
+In-Reply-To: <A2AEDEA2-FB1D-4D6F-8B2F-F420AC123C9B@gmail.com>
+References: <6A0E85DF-31B7-4955-B4A2-0F3E099FCF99@gmail.com>
+	<CAJTo0Lb7w0XAJ-H-T2Uz-mdmjUZGFX9wQyzCUJ_4bU8re9rswQ@mail.gmail.com>
+	<A2AEDEA2-FB1D-4D6F-8B2F-F420AC123C9B@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 7 Nov 2015 23:31:41 +0000
+Message-ID: <CAJTo0LYOMeiaie9=3i908aAj3H4U0_qSdf7RmXSofosBMzcW9w@mail.gmail.com>
+To: Jens Rehsack <rehsack@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] Update libusb1 from 1.0.19 to 1.0.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,168 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Nov 2015 17:53:54 -0000
+X-List-Received-Date: Sat, 07 Nov 2015 23:32:02 -0000
+Content-Type: multipart/alternative; boundary=001a114a9f4457876a0523fbc43c
 
-This patch is based on the patch for gcc-5.2 (41cbfd7af60f93a4bd496b7b6bf477215a286950)
+--001a114a9f4457876a0523fbc43c
+Content-Type: text/plain; charset=UTF-8
 
-When doing a FOR_BUILD thing, you have to override CFLAGS with
-CFLAGS_FOR_BUILD. And if you use C++, you also have to override
-CXXFLAGS with CXXFLAGS_FOR_BUILD.
-Without this, when building for mingw, you end up trying to use
-the mingw headers for a host build.
+On 7 November 2015 at 10:36, Jens Rehsack <rehsack@gmail.com> wrote:
 
-The same goes for other variables as well, such as CPPFLAGS,
-CPP, and GMPINC.
+> I look into it and send a v2, if necessary
+>
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- meta/recipes-devtools/gcc/gcc-4.9.inc              |   1 +
- .../gcc/gcc-4.9/0066-cxxflags-for-build.patch      | 123 +++++++++++++++++++++
- 2 files changed, 124 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0066-cxxflags-for-build.patch
+Thanks Jens!
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 95b553c..6ac3685 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -81,6 +81,7 @@ SRC_URI = "\
-     file://0063-nativesdk-gcc-support.patch \
-     file://0064-handle-target-sysroot-multilib.patch \
-     file://0065-gcc-483-universal-initializer-no-warning.patch \
-+    file://0066-cxxflags-for-build.patch \
- "
- SRC_URI[md5sum] = "6f831b4d251872736e8e9cc09746f327"
- SRC_URI[sha256sum] = "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0066-cxxflags-for-build.patch b/meta/recipes-devtools/gcc/gcc-4.9/0066-cxxflags-for-build.patch
-new file mode 100644
-index 0000000..1105e29
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.9/0066-cxxflags-for-build.patch
-@@ -0,0 +1,123 @@
-+Fix various _FOR_BUILD and related variables
-+
-+When doing a FOR_BUILD thing, you have to override CFLAGS with
-+CFLAGS_FOR_BUILD. And if you use C++, you also have to override
-+CXXFLAGS with CXXFLAGS_FOR_BUILD.
-+Without this, when building for mingw, you end up trying to use
-+the mingw headers for a host build.
-+
-+The same goes for other variables as well, such as CPPFLAGS,
-+CPP, and GMPINC.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+diff --git a/Makefile.in b/Makefile.in
-+index 9370174..011c29a 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -152,6 +152,7 @@ BUILD_EXPORTS = \
-+ 	CPP="$(CC_FOR_BUILD) -E"; export CPP; \
-+ 	CFLAGS="$(CFLAGS_FOR_BUILD)"; export CFLAGS; \
-+ 	CONFIG_SHELL="$(SHELL)"; export CONFIG_SHELL; \
-++	CPPFLAGS="$(CPPFLAGS_FOR_BUILD)"; export CPPFLAGS; \
-+ 	CXX="$(CXX_FOR_BUILD)"; export CXX; \
-+ 	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)"; export CXXFLAGS; \
-+ 	GCJ="$(GCJ_FOR_BUILD)"; export GCJ; \
-+@@ -170,6 +171,9 @@ BUILD_EXPORTS = \
-+ # built for the build system to override those in BASE_FLAGS_TO_PASS.
-+ EXTRA_BUILD_FLAGS = \
-+ 	CFLAGS="$(CFLAGS_FOR_BUILD)" \
-++	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)" \
-++	CPP="$(CC_FOR_BUILD) -E" \
-++	CPPFLAGS="$(CPPFLAGS_FOR_BUILD)" \
-+ 	LDFLAGS="$(LDFLAGS_FOR_BUILD)"
-+ 
-+ # This is the list of directories to built for the host system.
-+@@ -187,6 +191,7 @@ HOST_SUBDIR = @host_subdir@
-+ HOST_EXPORTS = \
-+ 	$(BASE_EXPORTS) \
-+ 	CC="$(CC)"; export CC; \
-++	CPP="$(CC) -E"; export CPP; \
-+ 	ADA_CFLAGS="$(ADA_CFLAGS)"; export ADA_CFLAGS; \
-+ 	CFLAGS="$(CFLAGS)"; export CFLAGS; \
-+ 	CONFIG_SHELL="$(SHELL)"; export CONFIG_SHELL; \
-+@@ -711,6 +715,7 @@ BASE_FLAGS_TO_PASS = \
-+ 	"CC_FOR_BUILD=$(CC_FOR_BUILD)" \
-+ 	"CFLAGS_FOR_BUILD=$(CFLAGS_FOR_BUILD)" \
-+ 	"CXX_FOR_BUILD=$(CXX_FOR_BUILD)" \
-++	"CXXFLAGS_FOR_BUILD=$(CXXFLAGS_FOR_BUILD)" \
-+ 	"EXPECT=$(EXPECT)" \
-+ 	"FLEX=$(FLEX)" \
-+ 	"INSTALL=$(INSTALL)" \
-+diff --git a/Makefile.tpl b/Makefile.tpl
-+index 1ea1954..78a59c3 100644
-+--- a/Makefile.tpl
-++++ b/Makefile.tpl
-+@@ -154,6 +154,7 @@ BUILD_EXPORTS = \
-+ 	CC="$(CC_FOR_BUILD)"; export CC; \
-+ 	CFLAGS="$(CFLAGS_FOR_BUILD)"; export CFLAGS; \
-+ 	CONFIG_SHELL="$(SHELL)"; export CONFIG_SHELL; \
-++	CPPFLAGS="$(CPPFLAGS_FOR_BUILD)"; export CPPFLAGS; \
-+ 	CXX="$(CXX_FOR_BUILD)"; export CXX; \
-+ 	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)"; export CXXFLAGS; \
-+ 	GCJ="$(GCJ_FOR_BUILD)"; export GCJ; \
-+@@ -172,6 +173,9 @@ BUILD_EXPORTS = \
-+ # built for the build system to override those in BASE_FLAGS_TO_PASS.
-+ EXTRA_BUILD_FLAGS = \
-+ 	CFLAGS="$(CFLAGS_FOR_BUILD)" \
-++	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)" \
-++	CPP="$(CC_FOR_BUILD) -E" \
-++	CPPFLAGS="$(CPPFLAGS_FOR_BUILD)" \
-+ 	LDFLAGS="$(LDFLAGS_FOR_BUILD)"
-+ 
-+ # This is the list of directories to built for the host system.
-+@@ -189,6 +193,7 @@ HOST_SUBDIR = @host_subdir@
-+ HOST_EXPORTS = \
-+ 	$(BASE_EXPORTS) \
-+ 	CC="$(CC)"; export CC; \
-++	CPP="$(CC) -E"; export CPP; \
-+ 	ADA_CFLAGS="$(ADA_CFLAGS)"; export ADA_CFLAGS; \
-+ 	CFLAGS="$(CFLAGS)"; export CFLAGS; \
-+ 	CONFIG_SHELL="$(SHELL)"; export CONFIG_SHELL; \
-+diff --git a/gcc/Makefile.in b/gcc/Makefile.in
-+index cd5bc4a..98ae4f4 100644
-+--- a/gcc/Makefile.in
-++++ b/gcc/Makefile.in
-+@@ -762,7 +762,7 @@ BUILD_LINKERFLAGS = $(BUILD_CXXFLAGS)
-+ # Native linker and preprocessor flags.  For x-fragment overrides.
-+ BUILD_LDFLAGS=@BUILD_LDFLAGS@
-+ BUILD_CPPFLAGS= -I. -I$(@D) -I$(srcdir) -I$(srcdir)/$(@D) \
-+-		-I$(srcdir)/../include @INCINTL@ $(CPPINC) $(CPPFLAGS)
-++		-I$(srcdir)/../include @INCINTL@ $(CPPINC) $(CPPFLAGS_FOR_BUILD)
-+ 
-+ # Actual name to use when installing a native compiler.
-+ GCC_INSTALL_NAME := $(shell echo gcc|sed '$(program_transform_name)')
-+diff --git a/gcc/configure b/gcc/configure
-+index c7ac14b..5ac63e4 100755
-+--- a/gcc/configure
-++++ b/gcc/configure
-+@@ -11521,7 +11521,7 @@ else
-+ 	CC="${CC_FOR_BUILD}" CFLAGS="${CFLAGS_FOR_BUILD}" \
-+ 	CXX="${CXX_FOR_BUILD}" CXXFLAGS="${CXXFLAGS_FOR_BUILD}" \
-+ 	LD="${LD_FOR_BUILD}" LDFLAGS="${LDFLAGS_FOR_BUILD}" \
-+-	GMPINC="" CPPFLAGS="${CPPFLAGS} -DGENERATOR_FILE" \
-++	GMPINC="" CPPFLAGS="${CPPFLAGS_FOR_BUILD} -DGENERATOR_FILE" \
-+ 	${realsrcdir}/configure \
-+ 		--enable-languages=${enable_languages-all} \
-+ 		--target=$target_alias --host=$build_alias --build=$build_alias
-+diff --git a/gcc/configure.ac b/gcc/configure.ac
-+index 50856e6..17a4dfd 100644
-+--- a/gcc/configure.ac
-++++ b/gcc/configure.ac
-+@@ -1633,7 +1633,7 @@ else
-+ 	CC="${CC_FOR_BUILD}" CFLAGS="${CFLAGS_FOR_BUILD}" \
-+ 	CXX="${CXX_FOR_BUILD}" CXXFLAGS="${CXXFLAGS_FOR_BUILD}" \
-+ 	LD="${LD_FOR_BUILD}" LDFLAGS="${LDFLAGS_FOR_BUILD}" \
-+-	GMPINC="" CPPFLAGS="${CPPFLAGS} -DGENERATOR_FILE" \
-++	GMPINC="" CPPFLAGS="${CPPFLAGS_FOR_BUILD} -DGENERATOR_FILE" \
-+ 	${realsrcdir}/configure \
-+ 		--enable-languages=${enable_languages-all} \
-+ 		--target=$target_alias --host=$build_alias --build=$build_alias
--- 
-1.9.1
+Ross
 
+--001a114a9f4457876a0523fbc43c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 November 2015 at 10:36, Jens Rehsack <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:rehsack@gmail.com" target=3D"_blank">rehsack@gmail.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":3r0" class=3D"a3s" s=
+tyle=3D"overflow:hidden">I look into it and send a v2, if necessary<br></di=
+v></blockquote></div><br>Thanks Jens!</div><div class=3D"gmail_extra"><br><=
+/div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114a9f4457876a0523fbc43c--
