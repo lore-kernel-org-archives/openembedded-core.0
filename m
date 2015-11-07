@@ -1,26 +1,29 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 42F6377117
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CE89876104
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Nov 2015 08:30:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tA78UFR4001526
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 7 Nov 2015 00:30:15 -0800
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Sat, 7 Nov 2015 00:30:14 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <jeffrey.honig@windriver.com>
-Date: Sat, 7 Nov 2015 16:30:08 +0800
-Message-ID: <0a72056f922b7b7037370ad0f2d92bf4cda9b2c8.1446884806.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1446884806.git.hongxu.jia@windriver.com>
-References: <cover.1446884806.git.hongxu.jia@windriver.com>
+	Sat,  7 Nov 2015 09:28:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tA79S5OC023257
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 7 Nov 2015 01:28:05 -0800 (PST)
+Received: from [128.224.162.154] (128.224.162.154) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Sat, 7 Nov 2015 01:28:03 -0800
+Message-ID: <563DC421.6030207@windriver.com>
+Date: Sat, 7 Nov 2015 17:28:01 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] cpan_build/bbclass: add perl to DEPENDS with target override
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1444974811.git.wenzong.fan@windriver.com>
+	<6de991e55463cce5bac0bcc3d9af46cbd044b062.1444974811.git.wenzong.fan@windriver.com>
+	<CAJTo0LaeZWRHqL6r5e0qWT9oLehe+Uv5B3t2mYyzG-7TxRwvhg@mail.gmail.com>
+In-Reply-To: <CAJTo0LaeZWRHqL6r5e0qWT9oLehe+Uv5B3t2mYyzG-7TxRwvhg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1 v2] mdadm: fix CFLAGS and ptest issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Nov 2015 08:30:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 07 Nov 2015 09:28:18 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-While build for target at task cpan_build_do_configure,
-it requires ${STAGING_LIBDIR}/perl/config.sh which is
-provided by perl. So add perl to DEPENDS with target
-override.
+On 11/06/2015 06:38 PM, Burton, Ross wrote:
+>
+> On 16 October 2015 at 06:57, <wenzong.fan@windriver.com
+> <mailto:wenzong.fan@windriver.com>> wrote:
+>
+>     * Also fix ptest build error caused by global CFLAGS:
+>
+>        raid6check.c: In function 'check_stripes':
+>        raid6check.c:315:8: error: 'stripe_buf' may be used uninitialized \
+>        in this function [-Werror=maybe-uninitialized]
+>
+>
+> We're now seeing this instead when building the ptest part on poky-lsb
+> (which turns on more security flags):
+>
+> raid6check.c: In function 'check_stripes':
+> raid6check.c:352:2: error: ignoring return value of 'posix_memalign',
+> declared with attribute warn_unused_result [-Werror=unused-result]
+>    posix_memalign((void**)&stripe_buf, 4096, raid_disks * chunk_size);
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/classes/cpan_build.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+I'll fix the patch and send v2 out.
 
-diff --git a/meta/classes/cpan_build.bbclass b/meta/classes/cpan_build.bbclass
-index fac074d..9bfe334 100644
---- a/meta/classes/cpan_build.bbclass
-+++ b/meta/classes/cpan_build.bbclass
-@@ -11,6 +11,7 @@ export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version
- export PERLHOSTLIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${@get_perl_version(d)}/"
- export LD = "${CCLD}"
- 
-+DEPENDS_append_class-target = " perl"
- cpan_build_do_configure () {
- 	if [ "${@is_target(d)}" = "yes" ]; then
- 		# build for target
--- 
-1.9.1
+Thanks
+Wenzong
 
+>
+>
+> (http://errors.yoctoproject.org/Errors/Details/21490/)
+>
+> Ross
 
