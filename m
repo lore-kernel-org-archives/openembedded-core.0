@@ -1,49 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D45860043
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CE5074197
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Nov 2015 23:32:01 +0000 (UTC)
-Received: by qkcl124 with SMTP id l124so58078721qkc.3
+	Sun,  8 Nov 2015 10:19:39 +0000 (UTC)
+Received: by wiby19 with SMTP id y19so2657005wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Nov 2015 15:32:01 -0800 (PST)
+	Sun, 08 Nov 2015 02:19:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel_com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=2rgIlGRjQMPozQuM1W/6kPU1O97DSLgaJBJ/LSsBaTY=;
-	b=SpfmCZO+IFHFo+p96V4NmjRTdEnSL67zf88XR+pkeqY4imQ5cdEpiGWISJoCjqyReV
-	omhtaoIct0cbnUIscKxdJKi+E1/uYWwQugrdT5ukVkFCBAIYdlK4xa1KiksO926ga5aT
-	oKSEi93NA7USGtnOFYIpQak+tQqhQMZJcy7+8uYm7rX6y2RcavuWb+ltuki1wXso9hiT
-	rDI7jszEPdKI+0nP8kaboVSshLjWDAQJpC+AfhDFeteJJH7d2m/0KznWQxruJqlBAwcv
-	bJUc0fuCf+GFoJGJQFlsGv0AkWvre0Fa9eQgHHca7sBQKSL5Z7d8xzRUwM+riyQs22Ap
-	pXlQ==
+	bh=DYy80M0YZ7R4k93hbAduP01RIdYtr6I2DDtGT5epu4k=;
+	b=BTTQmalj6+wKSResJWsoutDz/e2kUtfIERdSNo6onAyqXf2gNea3RADAwxHlMPLgtq
+	xYu09eO1+YLFFXHYJ+qngWu2ikl/TVl+Sc6uJMINT7MLUaptknBpPBoMP5NjBoFlOUGN
+	wv1L5nY5NirGlm8kvtF/iSN5d7gn1+CPEo9jVNh4U2dEg73rHPtPISq7Qc7ty4Yqak0n
+	KSn6bbxCUsKQv7/36osHFSpzYDAMvlcpcVCFWyzZsC5JlIWjnIF6k/bFXI5Nn3NGP9cA
+	Rxlts7sVi7yVN91KFI2s9HzlHU3E4WbfCW9tz3mglDzi0EVL7z7ozoulzN62UTzwdM1H
+	H0Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=2rgIlGRjQMPozQuM1W/6kPU1O97DSLgaJBJ/LSsBaTY=;
-	b=anF2QZF5byKGRJ1LWWMqUhK40yNyJTW2sAut8lMSQW9cNaNAUvrYQWzErUGGg5Wedk
-	D9WYVZRfOuK/oUbn+7BTSx+183ModX/RnnYdsg1SnepYssrV74aw2wJvnhBvBVXVc+fO
-	Oe4jxDUNC5R4xw07MABoQE8EYIxJIUcEzLIIs9T9ozGkzGlugOI5cfDWEqoI4m0tXkzc
-	902KtfTw68xtZ38fpSvTqdFJToVD8Gz+AQv8itn23Pu7c/5X0LvBDgApN8neH9CJwCQ+
-	guAE3+jop+4udHTdNKd1EC3wzWxQYCBXiJAnKeLB/IOj0imVjckfYmXYwSEFt5h/tf2R
-	WgJw==
-X-Gm-Message-State: ALoCoQmtBfe+I2fOYi8lDxGEZdHp6gxeDDD4gzX87M52ssffE5gAoMD3iyX1st5Fi8kmNTOY1NT7
-X-Received: by 10.55.73.144 with SMTP id w138mr20990685qka.104.1446939121380; 
-	Sat, 07 Nov 2015 15:32:01 -0800 (PST)
+	bh=DYy80M0YZ7R4k93hbAduP01RIdYtr6I2DDtGT5epu4k=;
+	b=ADUrlZmcLXk37txjkerr5xiYPPoDyLKJBo95E7Ufig8chSyMSrDJRuvOdlAceb+eqC
+	hVqtkjDDQhFgK4+1DOXYjxuke/2aPNU/ggsr4QfHu6l6mbWXZsuJN1GoeTJobj1OJMom
+	thrOZuptNszVFifazot663oRfXTffOIm0IRQ6xBhv9hXwJjwEIlGFKNYLCNzxhv46Uws
+	FPLx7+jZTwfhyPVLI0h/R35Uop6rc5sfoUFRkJxOGip6shECb6m9rzx2vhtQQi3bxRwS
+	JOkHyY9gp57c6yc88oAOgcHOm6D+d7PAA77u1ZQEB3zEHNX7G3/LGRRc5urvRstlqmz5
+	FqJg==
+X-Gm-Message-State: ALoCoQmNQJ8tTiB3A8jGM/pgejUcpkfXWrfF0GrcL2asRJpxJIduY1QbKx8XEbHFBpL/lGgXaMN2
+X-Received: by 10.194.105.38 with SMTP id gj6mr22870176wjb.130.1446977979146; 
+	Sun, 08 Nov 2015 02:19:39 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.94.110 with HTTP; Sat, 7 Nov 2015 15:31:41 -0800 (PST)
-In-Reply-To: <A2AEDEA2-FB1D-4D6F-8B2F-F420AC123C9B@gmail.com>
-References: <6A0E85DF-31B7-4955-B4A2-0F3E099FCF99@gmail.com>
-	<CAJTo0Lb7w0XAJ-H-T2Uz-mdmjUZGFX9wQyzCUJ_4bU8re9rswQ@mail.gmail.com>
-	<A2AEDEA2-FB1D-4D6F-8B2F-F420AC123C9B@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 7 Nov 2015 23:31:41 +0000
-Message-ID: <CAJTo0LYOMeiaie9=3i908aAj3H4U0_qSdf7RmXSofosBMzcW9w@mail.gmail.com>
-To: Jens Rehsack <rehsack@gmail.com>
+Received: by 10.27.216.207 with HTTP; Sun, 8 Nov 2015 02:19:09 -0800 (PST)
+In-Reply-To: <CAJTo0LZbx2rXSyvqED6Mi2aJ37tPFXuK2UggiyKCmmk7sAt_8w@mail.gmail.com>
+References: <cover.1446729162.git.jussi.kukkonen@intel.com>
+	<CAJTo0LZbx2rXSyvqED6Mi2aJ37tPFXuK2UggiyKCmmk7sAt_8w@mail.gmail.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Sun, 8 Nov 2015 12:19:09 +0200
+Message-ID: <CAHiDW_Hh6ZitOvA8G8i-uZ1VfvYKrKgxsfkKeaU2DXEyBtvnww@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] Update libusb1 from 1.0.19 to 1.0.20
+Subject: Re: [PATCH 0/6] Upgrades: GLib & friends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +55,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Nov 2015 23:32:02 -0000
-Content-Type: multipart/alternative; boundary=001a114a9f4457876a0523fbc43c
+X-List-Received-Date: Sun, 08 Nov 2015 10:19:41 -0000
+Content-Type: multipart/alternative; boundary=001a1130cd4671fab1052404d094
 
---001a114a9f4457876a0523fbc43c
+--001a1130cd4671fab1052404d094
 Content-Type: text/plain; charset=UTF-8
 
-On 7 November 2015 at 10:36, Jens Rehsack <rehsack@gmail.com> wrote:
+On 6 November 2015 at 22:38, Burton, Ross <ross.burton@intel.com> wrote:
 
-> I look into it and send a v2, if necessary
+>
+> On 5 November 2015 at 13:27, Jussi Kukkonen <jussi.kukkonen@intel.com>
+> wrote:
+>
+>> This should be a cosmetic issue (as custom allocators didn't
+>> really work before either) and is already fixed in upstream Qemu.
+>>
+>
+> As this is pretty ugly, can we backport the fix to our qemu?
 >
 
-Thanks Jens!
+Sure, it looks like a minimal patch. I'll add it to the patch set.
 
-Ross
+Alternatively, moving to qemu 2.4.1 (that was released this week) will
+solve the issue as well.
 
---001a114a9f4457876a0523fbc43c
+Jussi
+
+--001a1130cd4671fab1052404d094
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 November 2015 at 10:36, Jens Rehsack <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:rehsack@gmail.com" target=3D"_blank">rehsack@gmail.com</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":3r0" class=3D"a3s" s=
-tyle=3D"overflow:hidden">I look into it and send a v2, if necessary<br></di=
-v></blockquote></div><br>Thanks Jens!</div><div class=3D"gmail_extra"><br><=
-/div><div class=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 6=
+ November 2015 at 22:38, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=
+=3D"gmail_extra"><span class=3D""><br><div class=3D"gmail_quote">On 5 Novem=
+ber 2015 at 13:27, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"mailto:j=
+ussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"overflow:hid=
+den"> This should be a cosmetic issue (as custom allocators didn&#39;t<br>
+really work before either) and is already fixed in upstream Qemu.<br></div>=
+</blockquote></div><br></span>As this is pretty ugly, can we backport the f=
+ix to our qemu?</div></div></blockquote><div><br></div><div>Sure, it looks =
+like a minimal patch. I&#39;ll add it to the patch set.</div><div><br></div=
+><div>Alternatively, moving to qemu 2.4.1 (that was released this week) wil=
+l solve the issue as well.</div><div><br></div><div>Jussi=C2=A0</div></div>=
+</div></div>
 
---001a114a9f4457876a0523fbc43c--
+--001a1130cd4671fab1052404d094--
