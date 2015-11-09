@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F372771A1
+	by mail.openembedded.org (Postfix) with ESMTP id 4109877176
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  9 Nov 2015 14:50:19 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 06:50:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,266,1444719600"; d="scan'208";a="596917679"
+X-IronPort-AV: E=Sophos;i="5.20,266,1444719600"; d="scan'208";a="596917692"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 06:50:16 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 06:50:18 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Nov 2015 16:50:44 +0200
-Message-Id: <3f64858239e0c5456317aedbd7a16acccc168c35.1447080392.git.alexander.kanavin@linux.intel.com>
+Date: Mon,  9 Nov 2015 16:50:45 +0200
+Message-Id: <7b88c3c59a1abd796c28bd0bef9ce56f1ff0ed41.1447080392.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 22/29] gstreamer: enable gobject introspection
+Subject: [PATCH 23/29] gnomebase.bbclass: enable gobject introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,804 +33,524 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 Nov 2015 14:50:19 -0000
 
+This also requires various tweaks to recipes that depend on this class, which are included in this commit as well.
+
+One of those tweaks is that pygobject is finally updated to the latest upstream release.
+
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../recipes-multimedia/gstreamer/gst-player_git.bb |   2 +-
- .../gstreamer/gst-plugins-package.inc              |   1 +
- ...-don-t-hardcode-libtool-name-when-running.patch |  42 +++
- .../gstreamer/gstreamer1.0-plugins-bad_1.4.5.bb    |   1 +
- .../gstreamer/gstreamer1.0-plugins-base.inc        |   4 +
- ...-don-t-hardcode-libtool-name-when-running.patch | 168 ++++++++++++
- ...-prefix-calls-to-pkg-config-with-PKG_CONF.patch | 298 +++++++++++++++++++++
- ...ssing-include-directories-when-calling-in.patch |  28 ++
- ...ncorrect-reference-to-gstreamer-sdp-in-Ma.patch |  27 ++
- .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |   4 +
- .../gstreamer/gstreamer1.0-plugins.inc             |  10 +-
- .../gstreamer/gstreamer1.0-rtsp-server.inc         |   9 +-
- ...ode-libtool-name-when-using-introspection.patch |  27 ++
- .../gstreamer/gstreamer1.0-rtsp-server_1.4.5.bb    |   2 +
- meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |  12 +-
- 15 files changed, 630 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-riff-add-missing-include-directories-when-calling-in.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-Don-t-hardcode-libtool-name-when-using-introspection.patch
+ meta/classes/gnomebase.bbclass                     |   5 +-
+ ...c-add-sysroot-path-to-GI_DATADIR-don-t-se.patch |  41 +++++++
+ .../python/python-pygobject_2.28.3.bb              |  53 ---------
+ .../python/python-pygobject_3.18.0.bb              |  29 +++++
+ .../gsettings-desktop-schemas_3.16.1.bb            |   2 +-
+ meta/recipes-gnome/librsvg/librsvg_2.40.10.bb      |   3 -
+ ...ation-paths-for-.gir-and-.typelib-as-reco.patch |  32 ++++++
+ meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb      |   3 +-
+ meta/recipes-graphics/pango/pango.inc              |   3 +-
+ ...op-introspection-macros-from-acinclude.m4.patch | 121 +++++++++++++++++++++
+ meta/recipes-graphics/pango/pango_1.36.8.bb        |   1 +
+ meta/recipes-support/atk/atk_2.16.0.bb             |   2 +-
+ ...file.am-install-gir-typelib-using-datadir.patch |  34 ++++++
+ meta/recipes-support/vte/vte.inc                   |   4 +-
+ meta/recipes-support/vte/vte_0.28.2.bb             |   3 +-
+ 15 files changed, 268 insertions(+), 68 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
+ delete mode 100644 meta/recipes-devtools/python/python-pygobject_2.28.3.bb
+ create mode 100644 meta/recipes-devtools/python/python-pygobject_3.18.0.bb
+ create mode 100644 meta/recipes-gnome/libwnck/files/0001-Fix-installation-paths-for-.gir-and-.typelib-as-reco.patch
+ create mode 100644 meta/recipes-graphics/pango/pango/0001-Drop-introspection-macros-from-acinclude.m4.patch
+ create mode 100644 meta/recipes-support/vte/vte-0.28.2/0001-Makefile.am-install-gir-typelib-using-datadir.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-player_git.bb b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-index 9850242..418324a 100644
---- a/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-player_git.bb
-@@ -16,7 +16,7 @@ SRCREV = "5386c5b984d40ef5434673ed62204e69aaf52645"
+diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclass
+index d22ba5a..8310193 100644
+--- a/meta/classes/gnomebase.bbclass
++++ b/meta/classes/gnomebase.bbclass
+@@ -20,7 +20,7 @@ FILES_${PN} += "${datadir}/application-registry  \
  
- S = "${WORKDIR}/git"
- 
--inherit autotools gtk-doc lib_package pkgconfig distro_features_check
-+inherit autotools gtk-doc lib_package pkgconfig distro_features_check gobject-introspection
- 
- ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-index cb1be06..cabf56f 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
-@@ -8,6 +8,7 @@ python split_gstreamer10_packages () {
- 
-     do_split_packages(d, glibdir, '^lib(.*)\.so\.*', 'lib%s', 'gstreamer %s library', extra_depends='', allow_links=True)
-     do_split_packages(d, gst_libdir, 'libgst(.*)\.so$', d.expand('${PN}-%s'), 'GStreamer plugin for %s', postinst=postinst, extra_depends='')
-+    do_split_packages(d, glibdir+'/girepository-1.0', 'Gst(.*)-1.0\.typelib$', d.expand('${PN}-%s-typelib'), 'GStreamer typelib file for %s', postinst=postinst, extra_depends='')
-     do_split_packages(d, gst_libdir, 'libgst(.*)\.la$', d.expand('${PN}-%s-dev'), 'GStreamer plugin for %s (development files)', extra_depends=d.expand('${PN}-dev'))
-     do_split_packages(d, gst_libdir, 'libgst(.*)\.a$', d.expand('${PN}-%s-staticdev'), 'GStreamer plugin for %s (static development files)', extra_depends=d.expand('${PN}-staticdev'))
- }
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch
-new file mode 100644
-index 0000000..10f0220
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch
-@@ -0,0 +1,42 @@
-+From 2eb24d8cd90002c7c1bf202598fa9db29ca03450 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 27 Oct 2015 14:36:58 +0200
-+Subject: [PATCH] Makefile.am: don't hardcode libtool name when running
-+ introspection tools
-+
-+Upstream-Status: Pending [review on oe-core list]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ gst-libs/gst/insertbin/Makefile.am | 2 +-
-+ gst-libs/gst/mpegts/Makefile.am    | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/gst-libs/gst/insertbin/Makefile.am b/gst-libs/gst/insertbin/Makefile.am
-+index 6379a0b..315f034 100644
-+--- a/gst-libs/gst/insertbin/Makefile.am
-++++ b/gst-libs/gst/insertbin/Makefile.am
-+@@ -43,7 +43,7 @@ GstInsertBin-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstinsertbin-@GS
-+ 		--library=libgstinsertbin-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--include=GstBase-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-base-@GST_API_VERSION@ \
-+ 		--pkg-export gstreamer-insertbin-@GST_API_VERSION@ \
-+diff --git a/gst-libs/gst/mpegts/Makefile.am b/gst-libs/gst/mpegts/Makefile.am
-+index 0cee304..37caf0d 100644
-+--- a/gst-libs/gst/mpegts/Makefile.am
-++++ b/gst-libs/gst/mpegts/Makefile.am
-+@@ -78,7 +78,7 @@ GstMpegts-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstmpegts-@GST_API_
-+ 		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-video-@GST_API_VERSION@` \
-+ 		--library=libgstmpegts-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-video-@GST_API_VERSION@ \
-+ 		--pkg-export gstreamer-mpegts-@GST_API_VERSION@ \
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.5.bb
-index 6873669..bfa1377 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.5.bb
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
- 
- SRC_URI += "file://0001-gl-do-not-check-for-GL-GLU-EGL-GLES2-libs-if-disable.patch \
-            file://0001-glimagesink-Downrank-to-marginal.patch \
-+           file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
-            "
- 
- SRC_URI[md5sum] = "e0bb39412cf4a48fe0397bcf3a7cd451"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-index 47f3f40..13cd9d5 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-@@ -37,3 +37,7 @@ EXTRA_OECONF += " \
- FILES_${MLPREFIX}libgsttag-1.0 += "${datadir}/gst-plugins-base/1.0/license-translations.dict"
- 
- CACHED_CONFIGUREVARS_append_x86 = " ac_cv_header_emmintrin_h=no ac_cv_header_xmmintrin_h=no"
-+
-+do_compile_prepend() {
-+        export GIR_EXTRA_LIBS_PATH="${B}/gst-libs/gst/tag/.libs:${B}/gst-libs/gst/video/.libs:${B}/gst-libs/gst/audio/.libs"
-+}
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch
-new file mode 100644
-index 0000000..ef602d1
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch
-@@ -0,0 +1,168 @@
-+From 7e25c76b811b07a691b0eb90f5ad049087501d61 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 26 Oct 2015 16:34:07 +0200
-+Subject: [PATCH 1/4] Makefile.am: don't hardcode libtool name when running
-+ introspection tools
-+
-+Upstream-Status: Pending [review on oe-core maillist]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ gst-libs/gst/allocators/Makefile.am | 2 +-
-+ gst-libs/gst/app/Makefile.am        | 2 +-
-+ gst-libs/gst/audio/Makefile.am      | 2 +-
-+ gst-libs/gst/fft/Makefile.am        | 2 +-
-+ gst-libs/gst/pbutils/Makefile.am    | 2 +-
-+ gst-libs/gst/riff/Makefile.am       | 2 +-
-+ gst-libs/gst/rtp/Makefile.am        | 2 +-
-+ gst-libs/gst/rtsp/Makefile.am       | 2 +-
-+ gst-libs/gst/sdp/Makefile.am        | 2 +-
-+ gst-libs/gst/tag/Makefile.am        | 2 +-
-+ gst-libs/gst/video/Makefile.am      | 2 +-
-+ 11 files changed, 11 insertions(+), 11 deletions(-)
-+
-+diff --git a/gst-libs/gst/allocators/Makefile.am b/gst-libs/gst/allocators/Makefile.am
-+index c550ab0..f2b045e 100644
-+--- a/gst-libs/gst/allocators/Makefile.am
-++++ b/gst-libs/gst/allocators/Makefile.am
-+@@ -35,7 +35,7 @@ GstAllocators-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstallocators-@
-+ 		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+ 		--library=libgstallocators-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg-export gstreamer-allocators-@GST_API_VERSION@ \
-+ 		--output $@ \
-+diff --git a/gst-libs/gst/app/Makefile.am b/gst-libs/gst/app/Makefile.am
-+index e89057a..512a1b8 100644
-+--- a/gst-libs/gst/app/Makefile.am
-++++ b/gst-libs/gst/app/Makefile.am
-+@@ -52,7 +52,7 @@ GstApp-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstapp-@GST_API_VERSIO
-+ 		--library=libgstapp-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--include=GstBase-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-base-@GST_API_VERSION@ \
-+ 		--pkg-export gstreamer-app-@GST_API_VERSION@ \
-+diff --git a/gst-libs/gst/audio/Makefile.am b/gst-libs/gst/audio/Makefile.am
-+index 0e67b9b..350f922 100644
-+--- a/gst-libs/gst/audio/Makefile.am
-++++ b/gst-libs/gst/audio/Makefile.am
-+@@ -103,7 +103,7 @@ GstAudio-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstaudio-@GST_API_VE
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--include=GstBase-@GST_API_VERSION@ \
-+ 		--include=GstTag-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-base-@GST_API_VERSION@ \
-+ 		--pkg-export gstreamer-audio-@GST_API_VERSION@ \
-+diff --git a/gst-libs/gst/fft/Makefile.am b/gst-libs/gst/fft/Makefile.am
-+index 99c71ba..c1bdbda 100644
-+--- a/gst-libs/gst/fft/Makefile.am
-++++ b/gst-libs/gst/fft/Makefile.am
-+@@ -64,7 +64,7 @@ GstFft-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstfft-@GST_API_VERSIO
-+ 		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+ 		--library=libgstfft-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg-export gstreamer-fft-@GST_API_VERSION@ \
-+ 		--output $@ \
-+diff --git a/gst-libs/gst/pbutils/Makefile.am b/gst-libs/gst/pbutils/Makefile.am
-+index c0f0091..42ea274 100644
-+--- a/gst-libs/gst/pbutils/Makefile.am
-++++ b/gst-libs/gst/pbutils/Makefile.am
-+@@ -94,7 +94,7 @@ GstPbutils-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstpbutils-@GST_AP
-+ 		--include=GstTag-@GST_API_VERSION@ \
-+ 		--include=GstVideo-@GST_API_VERSION@ \
-+ 		--include=GstAudio-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-tag-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-video-@GST_API_VERSION@ \
-+diff --git a/gst-libs/gst/riff/Makefile.am b/gst-libs/gst/riff/Makefile.am
-+index 974efd4..c7cb581 100644
-+--- a/gst-libs/gst/riff/Makefile.am
-++++ b/gst-libs/gst/riff/Makefile.am
-+@@ -42,7 +42,7 @@ GstRiff-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstriff-@GST_API_VERS
-+ 		--include=GstAudio-@GST_API_VERSION@ \
-+ 		--include=GstTag-@GST_API_VERSION@ \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-tag-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-audio-@GST_API_VERSION@ \
-+diff --git a/gst-libs/gst/rtp/Makefile.am b/gst-libs/gst/rtp/Makefile.am
-+index 15126ff..24e77c8 100644
-+--- a/gst-libs/gst/rtp/Makefile.am
-++++ b/gst-libs/gst/rtp/Makefile.am
-+@@ -44,7 +44,7 @@ GstRtp-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstrtp-@GST_API_VERSIO
-+ 		--library=libgstrtp-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--include=GstBase-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-base-@GST_API_VERSION@ \
-+ 		--pkg-export gstreamer-rtp-@GST_API_VERSION@ \
-+diff --git a/gst-libs/gst/rtsp/Makefile.am b/gst-libs/gst/rtsp/Makefile.am
-+index b6e1e9d..1120051 100644
-+--- a/gst-libs/gst/rtsp/Makefile.am
-++++ b/gst-libs/gst/rtsp/Makefile.am
-+@@ -72,7 +72,7 @@ GstRtsp-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstrtsp-@GST_API_VERS
-+ 		--include=Gio-2.0 \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--include=GstSdp-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gio-2.0 \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-sdp-@GST_API_VERSION@ \
-+diff --git a/gst-libs/gst/sdp/Makefile.am b/gst-libs/gst/sdp/Makefile.am
-+index e15fa93..53d1dbc 100644
-+--- a/gst-libs/gst/sdp/Makefile.am
-++++ b/gst-libs/gst/sdp/Makefile.am
-+@@ -31,7 +31,7 @@ GstSdp-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstsdp-@GST_API_VERSIO
-+ 		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+ 		--library=libgstsdp-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg-export gstreamer-sdp-@GST_API_VERSION@ \
-+ 		--output $@ \
-+diff --git a/gst-libs/gst/tag/Makefile.am b/gst-libs/gst/tag/Makefile.am
-+index 1883636..e6dd9ea 100644
-+--- a/gst-libs/gst/tag/Makefile.am
-++++ b/gst-libs/gst/tag/Makefile.am
-+@@ -44,7 +44,7 @@ GstTag-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgsttag-@GST_API_VERSIO
-+ 		--library=libgsttag-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--include=GstBase-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-base-@GST_API_VERSION@ \
-+ 		--pkg-export gstreamer-tag-@GST_API_VERSION@ \
-+diff --git a/gst-libs/gst/video/Makefile.am b/gst-libs/gst/video/Makefile.am
-+index 3932947..2fd5882 100644
-+--- a/gst-libs/gst/video/Makefile.am
-++++ b/gst-libs/gst/video/Makefile.am
-+@@ -100,7 +100,7 @@ GstVideo-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstvideo-@GST_API_VE
-+ 		--library=libgstvideo-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--include=GstBase-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-base-@GST_API_VERSION@ \
-+ 		--pkg-export gstreamer-video-@GST_API_VERSION@ \
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch
-new file mode 100644
-index 0000000..677c55a
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch
-@@ -0,0 +1,298 @@
-+From b616d1cad28e34dbcfa9ab43a5f7420ccf87b1bb Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 26 Oct 2015 16:38:18 +0200
-+Subject: [PATCH 2/4] Makefile.am: prefix calls to pkg-config with
-+ PKG_CONFIG_SYSROOT_DIR
-+
-+Upstream-Status: Pending [review on oe-core maillist]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ gst-libs/gst/allocators/Makefile.am |  4 ++--
-+ gst-libs/gst/app/Makefile.am        |  4 ++--
-+ gst-libs/gst/audio/Makefile.am      | 12 ++++++------
-+ gst-libs/gst/fft/Makefile.am        |  4 ++--
-+ gst-libs/gst/pbutils/Makefile.am    | 12 ++++++------
-+ gst-libs/gst/riff/Makefile.am       |  8 ++++----
-+ gst-libs/gst/rtp/Makefile.am        |  8 ++++----
-+ gst-libs/gst/rtsp/Makefile.am       |  4 ++--
-+ gst-libs/gst/sdp/Makefile.am        |  4 ++--
-+ gst-libs/gst/tag/Makefile.am        |  8 ++++----
-+ gst-libs/gst/video/Makefile.am      |  8 ++++----
-+ 11 files changed, 38 insertions(+), 38 deletions(-)
-+
-+diff --git a/gst-libs/gst/allocators/Makefile.am b/gst-libs/gst/allocators/Makefile.am
-+index f2b045e..24825d9 100644
-+--- a/gst-libs/gst/allocators/Makefile.am
-++++ b/gst-libs/gst/allocators/Makefile.am
-+@@ -32,7 +32,7 @@ GstAllocators-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstallocators-@
-+ 		--c-include "gst/allocators/allocators.h" \
-+ 		-I$(top_srcdir)/gst-libs \
-+ 		-I$(top_builddir)/gst-libs \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+ 		--library=libgstallocators-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--libtool="$(LIBTOOL)" \
-+@@ -56,7 +56,7 @@ typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
-+ 		$(INTROSPECTION_COMPILER) \
-+ 		--includedir=$(srcdir) \
-+ 		--includedir=$(builddir) \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+ 		$(INTROSPECTION_COMPILER_OPTS) $< -o $(@F)
-+ 
-+ CLEANFILES = $(BUILT_GIRSOURCES) $(typelibs_DATA)
-+diff --git a/gst-libs/gst/app/Makefile.am b/gst-libs/gst/app/Makefile.am
-+index 512a1b8..91b2f0e 100644
-+--- a/gst-libs/gst/app/Makefile.am
-++++ b/gst-libs/gst/app/Makefile.am
-+@@ -47,8 +47,8 @@ GstApp-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstapp-@GST_API_VERSIO
-+ 		--c-include "gst/app/app.h" \
-+ 		-I$(top_srcdir)/gst-libs \
-+ 		-I$(top_builddir)/gst-libs \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-+ 		--library=libgstapp-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--include=GstBase-@GST_API_VERSION@ \
-+diff --git a/gst-libs/gst/audio/Makefile.am b/gst-libs/gst/audio/Makefile.am
-+index 350f922..ac43b19 100644
-+--- a/gst-libs/gst/audio/Makefile.am
-++++ b/gst-libs/gst/audio/Makefile.am
-+@@ -93,12 +93,12 @@ GstAudio-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstaudio-@GST_API_VE
-+ 		-I$(top_srcdir)/gst-libs \
-+ 		-I$(top_builddir)/gst-libs \
-+ 		--c-include "gst/audio/audio.h" \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-+ 		--add-include-path="$(top_builddir)/gst-libs/gst/tag/" \
-+ 		--library=libgstaudio-@GST_API_VERSION@.la \
-+-		--library-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=libdir gstreamer-@GST_API_VERSION@` \
-+-		--library-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=libdir gstreamer-base-@GST_API_VERSION@` \
-++		--library-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=libdir gstreamer-@GST_API_VERSION@` \
-++		--library-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=libdir gstreamer-base-@GST_API_VERSION@` \
-+ 		--library-path="$(top_builddir)/gst-libs/gst/tag/" \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--include=GstBase-@GST_API_VERSION@ \
-+@@ -127,8 +127,8 @@ typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
-+ 		--includedir=$(srcdir) \
-+ 		--includedir=$(builddir) \
-+ 		--includedir="$(top_builddir)/gst-libs/gst/tag/" \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+ 		$(INTROSPECTION_COMPILER_OPTS) $< -o $(@F)
-+ 
-+ CLEANFILES += $(BUILT_GIRSOURCES) $(typelibs_DATA)
-+diff --git a/gst-libs/gst/fft/Makefile.am b/gst-libs/gst/fft/Makefile.am
-+index c1bdbda..3527352 100644
-+--- a/gst-libs/gst/fft/Makefile.am
-++++ b/gst-libs/gst/fft/Makefile.am
-+@@ -61,7 +61,7 @@ GstFft-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstfft-@GST_API_VERSIO
-+ 		--c-include "gst/fft/fft.h" \
-+ 		-I$(top_srcdir)/gst-libs \
-+ 		-I$(top_builddir)/gst-libs \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+ 		--library=libgstfft-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--libtool="$(LIBTOOL)" \
-+@@ -85,7 +85,7 @@ typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
-+ 		$(INTROSPECTION_COMPILER) \
-+ 		--includedir=$(srcdir) \
-+ 		--includedir=$(builddir) \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+ 		$(INTROSPECTION_COMPILER_OPTS) $< -o $(@F)
-+ 
-+ CLEANFILES = $(BUILT_GIRSOURCES) $(typelibs_DATA)
-+diff --git a/gst-libs/gst/pbutils/Makefile.am b/gst-libs/gst/pbutils/Makefile.am
-+index 42ea274..54b3103 100644
-+--- a/gst-libs/gst/pbutils/Makefile.am
-++++ b/gst-libs/gst/pbutils/Makefile.am
-+@@ -79,14 +79,14 @@ GstPbutils-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstpbutils-@GST_AP
-+ 		--c-include "gst/pbutils/pbutils.h" \
-+ 		-I$(top_srcdir)/gst-libs \
-+ 		-I$(top_builddir)/gst-libs \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-+ 		--add-include-path="$(top_builddir)/gst-libs/gst/tag/" \
-+ 		--add-include-path="$(top_builddir)/gst-libs/gst/video/" \
-+ 		--add-include-path="$(top_builddir)/gst-libs/gst/audio/" \
-+ 		--library=libgstpbutils-@GST_API_VERSION@.la \
-+-		--library-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=libdir gstreamer-@GST_API_VERSION@` \
-+-		--library-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=libdir gstreamer-base-@GST_API_VERSION@` \
-++		--library-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=libdir gstreamer-@GST_API_VERSION@` \
-++		--library-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=libdir gstreamer-base-@GST_API_VERSION@` \
-+ 		--library-path="$(top_builddir)/gst-libs/gst/tag/" \
-+ 		--library-path="$(top_builddir)/gst-libs/gst/video/" \
-+ 		--library-path="$(top_builddir)/gst-libs/gst/audio/" \
-+@@ -119,8 +119,8 @@ typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
-+ 		$(INTROSPECTION_COMPILER) \
-+ 		--includedir=$(srcdir) \
-+ 		--includedir=$(builddir) \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-+ 		--includedir="$(top_builddir)/gst-libs/gst/tag/" \
-+ 		--includedir="$(top_builddir)/gst-libs/gst/video/" \
-+ 		--includedir="$(top_builddir)/gst-libs/gst/audio/" \
-+diff --git a/gst-libs/gst/riff/Makefile.am b/gst-libs/gst/riff/Makefile.am
-+index c7cb581..009e86a 100644
-+--- a/gst-libs/gst/riff/Makefile.am
-++++ b/gst-libs/gst/riff/Makefile.am
-+@@ -36,8 +36,8 @@ GstRiff-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstriff-@GST_API_VERS
-+ 		--c-include "gst/riff/riff.h" \
-+ 		--add-include-path=$(builddir)/../tag \
-+ 		--add-include-path=$(builddir)/../audio \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-+ 		--library=libgstriff-@GST_API_VERSION@.la \
-+ 		--include=GstAudio-@GST_API_VERSION@ \
-+ 		--include=GstTag-@GST_API_VERSION@ \
-+@@ -68,8 +68,8 @@ typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
-+ 		--includedir=$(builddir) \
-+ 		--includedir=$(builddir)/../tag \
-+ 		--includedir=$(builddir)/../audio \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-+ 		$(INTROSPECTION_COMPILER_OPTS) $< -o $(@F)
-+ 
-+ CLEANFILES = $(BUILT_GIRSOURCES) $(typelibs_DATA)
-+diff --git a/gst-libs/gst/rtp/Makefile.am b/gst-libs/gst/rtp/Makefile.am
-+index 24e77c8..3c07a6f 100644
-+--- a/gst-libs/gst/rtp/Makefile.am
-++++ b/gst-libs/gst/rtp/Makefile.am
-+@@ -39,8 +39,8 @@ GstRtp-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstrtp-@GST_API_VERSIO
-+ 		--warn-all \
-+ 		--c-include "gst/rtp/rtp.h" \
-+ 		-I$(top_srcdir)/gst-libs \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-+ 		--library=libgstrtp-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--include=GstBase-@GST_API_VERSION@ \
-+@@ -67,8 +67,8 @@ typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
-+ 		$(INTROSPECTION_COMPILER) \
-+ 		--includedir=$(srcdir) \
-+ 		--includedir=$(builddir) \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-+ 		$(INTROSPECTION_COMPILER_OPTS) $< -o $(@F)
-+ 
-+ CLEANFILES = $(BUILT_GIRSOURCES) $(typelibs_DATA)
-+diff --git a/gst-libs/gst/rtsp/Makefile.am b/gst-libs/gst/rtsp/Makefile.am
-+index 1120051..274529a 100644
-+--- a/gst-libs/gst/rtsp/Makefile.am
-++++ b/gst-libs/gst/rtsp/Makefile.am
-+@@ -67,7 +67,7 @@ GstRtsp-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstrtsp-@GST_API_VERS
-+ 		-I$(top_builddir)/gst-libs \
-+ 		-I$(top_srcdir)/gst-libs \
-+ 		--add-include-path=$(builddir)/../sdp \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+ 		--library=libgstrtsp-@GST_API_VERSION@.la \
-+ 		--include=Gio-2.0 \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+@@ -97,7 +97,7 @@ typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
-+ 		--includedir=$(srcdir) \
-+ 		--includedir=$(builddir) \
-+ 		--includedir=$(builddir)/../sdp \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+ 		$(INTROSPECTION_COMPILER_OPTS) $< -o $(@F)
-+ 
-+ CLEANFILES += $(BUILT_GIRSOURCES) $(typelibs_DATA)
-+diff --git a/gst-libs/gst/sdp/Makefile.am b/gst-libs/gst/sdp/Makefile.am
-+index 53d1dbc..31a7768 100644
-+--- a/gst-libs/gst/sdp/Makefile.am
-++++ b/gst-libs/gst/sdp/Makefile.am
-+@@ -28,7 +28,7 @@ GstSdp-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstsdp-@GST_API_VERSIO
-+ 		--warn-all \
-+ 		--c-include "gst/sdp/sdp.h" \
-+ 		-I$(top_srcdir)/gst-libs \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+ 		--library=libgstsdp-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--libtool="$(LIBTOOL)" \
-+@@ -52,7 +52,7 @@ typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
-+ 		$(INTROSPECTION_COMPILER) \
-+ 		--includedir=$(srcdir) \
-+ 		--includedir=$(builddir) \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+ 		$(INTROSPECTION_COMPILER_OPTS) $< -o $(@F)
-+ 
-+ CLEANFILES = $(BUILT_GIRSOURCES) $(typelibs_DATA)
-+diff --git a/gst-libs/gst/tag/Makefile.am b/gst-libs/gst/tag/Makefile.am
-+index e6dd9ea..e7fe84e 100644
-+--- a/gst-libs/gst/tag/Makefile.am
-++++ b/gst-libs/gst/tag/Makefile.am
-+@@ -39,8 +39,8 @@ GstTag-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgsttag-@GST_API_VERSIO
-+ 		--c-include "gst/tag/tag.h" \
-+ 		-I$(top_srcdir)/gst-libs \
-+ 		-I$(top_builddir)/gst-libs \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-+ 		--library=libgsttag-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--include=GstBase-@GST_API_VERSION@ \
-+@@ -67,8 +67,8 @@ typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
-+ 		$(INTROSPECTION_COMPILER) \
-+ 		--includedir=$(srcdir) \
-+ 		--includedir=$(builddir) \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-+ 		$(INTROSPECTION_COMPILER_OPTS) $< -o $(@F)
-+ 
-+ CLEANFILES = $(BUILT_GIRSOURCES) $(typelibs_DATA)
-+diff --git a/gst-libs/gst/video/Makefile.am b/gst-libs/gst/video/Makefile.am
-+index 2fd5882..b7fb599 100644
-+--- a/gst-libs/gst/video/Makefile.am
-++++ b/gst-libs/gst/video/Makefile.am
-+@@ -95,8 +95,8 @@ GstVideo-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstvideo-@GST_API_VE
-+ 		--c-include "gst/video/video.h" \
-+ 		-I$(top_srcdir)/gst-libs \
-+ 		-I$(top_builddir)/gst-libs \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+-		--add-include-path=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-+ 		--library=libgstvideo-@GST_API_VERSION@.la \
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--include=GstBase-@GST_API_VERSION@ \
-+@@ -123,8 +123,8 @@ typelibs_DATA = $(BUILT_GIRSOURCES:.gir=.typelib)
-+ 		$(INTROSPECTION_COMPILER) \
-+ 		--includedir=$(srcdir) \
-+ 		--includedir=$(builddir) \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+-		--includedir=`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-++		--includedir=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-base-@GST_API_VERSION@` \
-+ 		$(INTROSPECTION_COMPILER_OPTS) $< -o $(@F)
-+ 
-+ CLEANFILES += $(BUILT_GIRSOURCES) $(typelibs_DATA)
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-riff-add-missing-include-directories-when-calling-in.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-riff-add-missing-include-directories-when-calling-in.patch
-new file mode 100644
-index 0000000..cb4e688
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-riff-add-missing-include-directories-when-calling-in.patch
-@@ -0,0 +1,28 @@
-+From 08871a79a46685fbf3555987330ff80ba74885b1 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 26 Oct 2015 17:29:37 +0200
-+Subject: [PATCH 3/4] riff: add missing include directories when calling
-+ introspection scanner
-+
-+Upstream-Status: Pending [review on oe-core maillist]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ gst-libs/gst/riff/Makefile.am | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/gst-libs/gst/riff/Makefile.am b/gst-libs/gst/riff/Makefile.am
-+index 009e86a..ba40f87 100644
-+--- a/gst-libs/gst/riff/Makefile.am
-++++ b/gst-libs/gst/riff/Makefile.am
-+@@ -34,6 +34,8 @@ GstRiff-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstriff-@GST_API_VERS
-+ 		--strip-prefix=Gst \
-+ 		--warn-all \
-+ 		--c-include "gst/riff/riff.h" \
-++                -I$(top_srcdir)/gst-libs \
-++                -I$(top_builddir)/gst-libs \
-+ 		--add-include-path=$(builddir)/../tag \
-+ 		--add-include-path=$(builddir)/../audio \
-+ 		--add-include-path=$(PKG_CONFIG_SYSROOT_DIR)`PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" $(PKG_CONFIG) --variable=girdir gstreamer-@GST_API_VERSION@` \
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch
-new file mode 100644
-index 0000000..6cf280b
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch
-@@ -0,0 +1,27 @@
-+From 485294933e166c053903db524a03b3d1eed73e44 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 26 Oct 2015 17:30:14 +0200
-+Subject: [PATCH 4/4] rtsp: drop incorrect reference to gstreamer-sdp in
-+ Makefile.am
-+
-+Upstream-Status: Pending [review on oe-core maillist]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ gst-libs/gst/rtsp/Makefile.am | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/gst-libs/gst/rtsp/Makefile.am b/gst-libs/gst/rtsp/Makefile.am
-+index 274529a..e2fb948 100644
-+--- a/gst-libs/gst/rtsp/Makefile.am
-++++ b/gst-libs/gst/rtsp/Makefile.am
-+@@ -75,7 +75,6 @@ GstRtsp-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstrtsp-@GST_API_VERS
-+ 		--libtool="$(LIBTOOL)" \
-+ 		--pkg gio-2.0 \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+-		--pkg gstreamer-sdp-@GST_API_VERSION@ \
-+ 		--pkg-export gstreamer-rtsp-@GST_API_VERSION@ \
-+ 		--add-init-section="gst_init(NULL,NULL);" \
-+ 		--output $@ \
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-index b09c2cb..e996123 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-@@ -22,6 +22,10 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
-             file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
-             file://0004-subparse-set-need_segment-after-sink-pad-received-GS.patch \
-             file://encodebin-Need-more-buffers-in-output-queue-for-bett.patch \
-+            file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
-+            file://0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch \
-+            file://0003-riff-add-missing-include-directories-when-calling-in.patch \
-+            file://0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch \
- "
- 
- SRC_URI[md5sum] = "357165af625c0ca353ab47c5d843920e"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-index f1783b7..7f2a063 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-@@ -4,7 +4,7 @@ BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
- SECTION = "multimedia"
- DEPENDS = "gstreamer1.0"
+ FILES_${PN}-doc += "${datadir}/devhelp"
  
 -inherit autotools pkgconfig
 +inherit autotools pkgconfig gobject-introspection
  
- GSTREAMER_1_0_DEBUG ?= "--disable-debug"
- GSTREAMER_1_0_GIT_BRANCH ?= "master"
-@@ -55,5 +55,11 @@ delete_liblink_m4_file() {
- 	rm "${S}/m4/lib-link.m4" || true
+ do_install_append() {
+ 	rm -rf ${D}${localstatedir}/lib/scrollkeeper/*
+@@ -28,6 +28,3 @@ do_install_append() {
+ 	rm -f ${D}${datadir}/applications/*.cache
  }
  
--do_configure[prefuncs] += " delete_liblink_m4_file "
-+delete_pkg_m4_file() {
-+	# This m4 file is out of date and is missing PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
-+	rm "${S}/common/m4/pkg.m4" || true
-+}
-+
-+do_configure[prefuncs] += " delete_liblink_m4_file delete_pkg_m4_file"
-+
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-index 28a9420..ebdfe20 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
-@@ -10,5 +10,12 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz
- 
- S = "${WORKDIR}/${PNREAL}-${PV}"
- 
--inherit autotools pkgconfig 
-+inherit autotools pkgconfig gobject-introspection
-+
-+delete_pkg_m4_file() {
-+        # This m4 file is out of date and is missing PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
-+        rm "${S}/common/m4/pkg.m4" || true
-+}
-+
-+do_configure[prefuncs] += " delete_pkg_m4_file"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-Don-t-hardcode-libtool-name-when-using-introspection.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-Don-t-hardcode-libtool-name-when-using-introspection.patch
+-EXTRA_OECONF += "--disable-introspection"
+-
+-UNKNOWN_CONFIGURE_WHITELIST += "--disable-introspection"
+diff --git a/meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch b/meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
 new file mode 100644
-index 0000000..89d6384
+index 0000000..a391f7e
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-Don-t-hardcode-libtool-name-when-using-introspection.patch
-@@ -0,0 +1,27 @@
-+From 4a12569e5ae5be63cd92a9b178860026a99746b1 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
+@@ -0,0 +1,41 @@
++From 5e5350d730f85957a42c6d846d347d080e7dd996 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 27 Oct 2015 16:55:45 +0200
-+Subject: [PATCH] Don't hardcode libtool name when using introspection
++Date: Fri, 23 Oct 2015 12:40:34 +0300
++Subject: [PATCH] configure.ac: add sysroot path to GI_DATADIR; don't set
++ introspection scanner and compiler paths
 +
 +Upstream-Status: Pending [review on oe-core maillist]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ gst/rtsp-server/Makefile.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ configure.ac | 8 +-------
++ 1 file changed, 1 insertion(+), 7 deletions(-)
 +
-+diff --git a/gst/rtsp-server/Makefile.am b/gst/rtsp-server/Makefile.am
-+index 4fcd366..c67f5ab 100644
-+--- a/gst/rtsp-server/Makefile.am
-++++ b/gst/rtsp-server/Makefile.am
-+@@ -87,7 +87,7 @@ GstRtspServer-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstrtspserver-@
-+ 		--include=Gst-@GST_API_VERSION@ \
-+ 		--include=GstRtsp-@GST_API_VERSION@ \
-+ 		--include=GstNet-@GST_API_VERSION@ \
-+-		--libtool="$(top_builddir)/libtool" \
-++		--libtool="$(LIBTOOL)" \
-+ 		--pkg gstreamer-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-rtsp-@GST_API_VERSION@ \
-+ 		--pkg gstreamer-net-@GST_API_VERSION@ \
++diff --git a/configure.ac b/configure.ac
++index 2c0cfbd..cfcb3bf 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -194,7 +194,7 @@ PKG_CHECK_MODULES(GI,
++     gobject-introspection-1.0 >= introspection_required_version
++ )
++ 
++-GI_DATADIR=$($PKG_CONFIG --variable=gidatadir gobject-introspection-1.0)
+++GI_DATADIR=$PKG_CONFIG_SYSROOT_DIR$($PKG_CONFIG --variable=gidatadir gobject-introspection-1.0)
++ AC_SUBST(GI_DATADIR)
++ 
++ if test "$enable_cairo" != no; then
++@@ -219,12 +219,6 @@ AC_ARG_WITH(common,
++     with_common=yes)
++ AM_CONDITIONAL(WITH_COMMON, test "$with_common" = "yes")
++ 
++-INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
++-INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
++-
++-AC_SUBST(INTROSPECTION_SCANNER)
++-AC_SUBST(INTROSPECTION_COMPILER)
++-
++ # compiler warnings, errors, required cflags, and code coverage support
++ GNOME_COMPILE_WARNINGS([maximum])
++ AC_MSG_CHECKING(for Gnome code coverage support)
 +-- 
 +2.1.4
 +
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.4.5.bb
-index bb9b42b..4af7075 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.4.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.4.5.bb
-@@ -2,5 +2,7 @@ include gstreamer1.0-rtsp-server.inc
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
- 
-+SRC_URI += "file://0001-Don-t-hardcode-libtool-name-when-using-introspection.patch"
+diff --git a/meta/recipes-devtools/python/python-pygobject_2.28.3.bb b/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
+deleted file mode 100644
+index 81d37b4..0000000
+--- a/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
++++ /dev/null
+@@ -1,53 +0,0 @@
+-SUMMARY = "Python GObject bindings"
+-SECTION = "devel/python"
+-LICENSE = "LGPLv2.1"
+-
+-RECIPE_NO_UPDATE_REASON = "Newer versions of python-pygobject depend on gobject-introspection which doesn't cross-compile"
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
+-DEPENDS = "python python-pygobject-native libffi glib-2.0"
+-DEPENDS_class-native = "python-native libffi-native glib-2.0-native"
+-RDEPENDS_class-native = ""
+-
+-MAJ_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
+-
+-SRC_URI = "${GNOME_MIRROR}/pygobject/${MAJ_VER}/pygobject-${PV}.tar.bz2 \
+-           file://obsolete_automake_macros.patch \
+-"
+-
+-# libtool-native doesn't have fixinstall.patch applied which means
+-# that libs get relinked at installation time. This triggers a 
+-# relinking along the lines of:
+-# gcc -L/tmp/foo/media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/lib -lpyglib-2.0-python -o .libs/_glib.so
+-# where /tmp/foo is DESTDIR and pyglib-2.0-python may be installed/reinstalled
+-# at the same time as the gcc command runs.
+-# If this happens between the handoff between gcc and ld, you can see:
+-# /bin/ld: cannot find -lpyglib-2.0-python
+-# Adding a dependency rule like  install-pyglibLTLIBRARIES: install-libLTLIBRARIES
+-# would be ideal but automake can't cope with that without manually 
+-# defining the whole function. Give up and disable parallel make in native builds.
+-PARALLEL_MAKEINST_class-native = ""
+-
+-SRC_URI[md5sum] = "aa64900b274c4661a5c32e52922977f9"
+-SRC_URI[sha256sum] = "7da88c169a56efccc516cebd9237da3fe518a343095a664607b368fe21df95b6"
+-S = "${WORKDIR}/pygobject-${PV}"
+-
+-EXTRA_OECONF += "--disable-introspection"
+-
+-inherit autotools distutils-base pkgconfig
+-
+-# necessary to let the call for python-config succeed
+-export BUILD_SYS
+-export HOST_SYS
+-export STAGING_INCDIR
+-export STAGING_LIBDIR
+-
+-PACKAGES += "${PN}-lib"
+-
+-RDEPENDS_${PN} += "python-textutils"
+-
+-FILES_${PN} = "${libdir}/python*"
+-FILES_${PN}-lib = "${libdir}/lib*.so.*"
+-FILES_${PN}-dev += "${bindir} ${datadir}"
+-
+-BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-devtools/python/python-pygobject_3.18.0.bb b/meta/recipes-devtools/python/python-pygobject_3.18.0.bb
+new file mode 100644
+index 0000000..366cfa9
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-pygobject_3.18.0.bb
+@@ -0,0 +1,29 @@
++SUMMARY = "Python GObject bindings"
++SECTION = "devel/python"
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
 +
- SRC_URI[md5sum] = "a9f9b8899ec7ab33663cda7627db40d3"
- SRC_URI[sha256sum] = "3089254bd31b7c1f1cf2c034a3b3551f92878f9e3cab65cef3a901a04c0f1d37"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-index be8aa8f..d75cbde 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-@@ -7,7 +7,7 @@ SECTION = "multimedia"
- LICENSE = "LGPLv2+"
- DEPENDS = "glib-2.0 libxml2 bison-native flex-native"
- 
--inherit autotools pkgconfig gettext
-+inherit autotools pkgconfig gettext gobject-introspection
- 
- PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
- PACKAGECONFIG[check] = "--enable-check,--disable-check"
-@@ -27,3 +27,13 @@ FILES_${PN} += " ${libdir}/gstreamer-1.0/*.so"
- FILES_${PN}-dev += " ${libdir}/gstreamer-1.0/*.la ${libdir}/gstreamer-1.0/*.a"
- FILES_${PN}-dbg += " ${libdir}/gstreamer-1.0/.debug/ ${libexecdir}/gstreamer-1.0/.debug/"
- 
-+delete_pkg_m4_file() {
-+        # This m4 file is out of date and is missing PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
-+        rm "${S}/common/m4/pkg.m4" || true
-+}
++inherit autotools pkgconfig gnomebase distutils3-base
 +
-+do_configure[prefuncs] += " delete_pkg_m4_file"
++DEPENDS = "python3 glib-2.0 gnome-common"
 +
-+do_compile_prepend() {
-+        export GIR_EXTRA_LIBS_PATH="${B}/gst/.libs"
-+}
++SRCNAME="pygobject"
++SRC_URI = " \
++    http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
++    file://0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch \
++"
++SRC_URI[md5sum] = "2ac5d4398e7ecabf64b3deb65c799516"
++SRC_URI[sha256sum] = "1c3ba1112d3713cd5c86260312bfeb0de1f84f18808e51072c50b29d46156dc9"
++
++S = "${WORKDIR}/${SRCNAME}-${PV}"
++
++BBCLASSEXTEND = "native"
++
++export STAGING_LIBDIR
++export STAGING_INCDIR
++export BUILD_SYS
++export HOST_SYS
++
++EXTRA_OECONF = "--disable-cairo"
++
++RDEPENDS_${PN} += "python3-setuptools"
+diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.16.1.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.16.1.bb
+index f2f2c75..efb813a 100644
+--- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.16.1.bb
++++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.16.1.bb
+@@ -5,7 +5,7 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+-DEPENDS = "glib-2.0 intltool-native gobject-introspection-stub-native"
++DEPENDS = "glib-2.0 intltool-native"
+ 
+ inherit gnomebase gsettings gettext
+ 
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.10.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.10.bb
+index 06552c2..ebaa408 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.40.10.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.40.10.bb
+@@ -19,8 +19,6 @@ SRC_URI[archive.sha256sum] = "965c807438ce90b204e930ff80c92eba1606a2f6fd5ccfd093
+ 
+ CACHED_CONFIGUREVARS = "ac_cv_path_GDK_PIXBUF_QUERYLOADERS=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders"
+ 
+-EXTRA_OECONF = "--disable-introspection --disable-vala"
+-
+ # The older ld (2.22) on the host (Centos 6.5) doesn't have the
+ # -Bsymbolic-functions option, we can disable it for native.
+ EXTRA_OECONF_append_class-native = " --enable-Bsymbolic=auto"
+@@ -37,7 +35,6 @@ do_install_append() {
+ }
+ 
+ PACKAGES =+ "librsvg-gtk rsvg"
+-FILES_${PN} = "${libdir}/*.so.*"
+ FILES_${PN}-dbg += "${libdir}/gdk-pixbuf-2.0/*/loaders/.debug"
+ FILES_rsvg = "${bindir}/rsvg* \
+ 	      ${datadir}/pixmaps/svg-viewer.svg \
+diff --git a/meta/recipes-gnome/libwnck/files/0001-Fix-installation-paths-for-.gir-and-.typelib-as-reco.patch b/meta/recipes-gnome/libwnck/files/0001-Fix-installation-paths-for-.gir-and-.typelib-as-reco.patch
+new file mode 100644
+index 0000000..993c18a
+--- /dev/null
++++ b/meta/recipes-gnome/libwnck/files/0001-Fix-installation-paths-for-.gir-and-.typelib-as-reco.patch
+@@ -0,0 +1,32 @@
++From c41bed70e28112246cc06d31b2cf39091d63b52d Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 26 Oct 2015 19:43:21 +0200
++Subject: [PATCH] Fix installation paths for .gir and .typelib as recommended
++ by gobject-introspection documentation.
++
++Upstream-Status: Pending [review on oe-core list]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ libwnck/Makefile.am | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/libwnck/Makefile.am b/libwnck/Makefile.am
++index 4a105e6..a0b249a 100644
++--- a/libwnck/Makefile.am
+++++ b/libwnck/Makefile.am
++@@ -182,10 +182,10 @@ Wnck_3_0_gir_SCANNERFLAGS = --pkg-export=libwnck-3.0
++ Wnck_3_0_gir_FILES = $(introspection_sources)
++ INTROSPECTION_GIRS += Wnck-3.0.gir
++ 
++-girdir = $(INTROSPECTION_GIRDIR)
+++girdir = $(datadir)/gir-1.0
++ gir_DATA = $(INTROSPECTION_GIRS)
++ 
++-typelibdir = $(INTROSPECTION_TYPELIBDIR)
+++typelibdir = $(libdir)/girepository-1.0
++ typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
++ 
++ CLEANFILES += $(gir_DATA) $(typelib_DATA)
++-- 
++2.1.4
++
+diff --git a/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb b/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
+index 3ee1ae9..b0da43e 100644
+--- a/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
++++ b/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
+@@ -5,12 +5,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+ BPN = "libwnck"
+ 
+ SECTION = "x11/libs"
+-DEPENDS = "gobject-introspection-stub gtk+3 gdk-pixbuf-native libxres"
++DEPENDS = "gtk+3 gdk-pixbuf-native libxres"
+ 
+ PACKAGECONFIG ??= "startup-notification"
+ PACKAGECONFIG[startup-notification] = "--enable-startup-notification,--disable-startup-notification,startup-notification"
+ 
+ inherit gnomebase
++SRC_URI += "file://0001-Fix-installation-paths-for-.gir-and-.typelib-as-reco.patch"
+ SRC_URI[archive.md5sum] = "4538672e0d775fadedf10abeb8020047"
+ SRC_URI[archive.sha256sum] = "f5080076346609b4c36394b879f3a86b92ced3b90a37cb54c8e9a14f00e7921c"
+ 
+diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+index df0fdf6..cb38a0c 100644
+--- a/meta/recipes-graphics/pango/pango.inc
++++ b/meta/recipes-graphics/pango/pango.inc
+@@ -38,8 +38,7 @@ EXTRA_AUTORECONF = ""
+ # seems to go wrong with default cflags
+ FULL_OPTIMIZATION_arm = "-O2"
+ 
+-EXTRA_OECONF = "--disable-introspection \
+-		--enable-explicit-deps=no \
++EXTRA_OECONF = "--enable-explicit-deps=no \
+ 	        --disable-debug \
+ 	        --with-mlprefix=${MLPREFIX}"
+ 
+diff --git a/meta/recipes-graphics/pango/pango/0001-Drop-introspection-macros-from-acinclude.m4.patch b/meta/recipes-graphics/pango/pango/0001-Drop-introspection-macros-from-acinclude.m4.patch
+new file mode 100644
+index 0000000..812da21
+--- /dev/null
++++ b/meta/recipes-graphics/pango/pango/0001-Drop-introspection-macros-from-acinclude.m4.patch
+@@ -0,0 +1,121 @@
++From 867a512eddbeb1899d3e7096df3da1dd0ce3e7b7 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 23 Oct 2015 14:06:17 +0300
++Subject: [PATCH] Drop introspection macros from acinclude.m4
++
++They take precendence over our customized macros, and so
++introspection doesn't work correctly.
++
++Upstream-Status: Pending [review on oe-core list]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ acinclude.m4 | 96 ------------------------------------------------------------
++ 1 file changed, 96 deletions(-)
++
++diff --git a/acinclude.m4 b/acinclude.m4
++index 8899c7c..48fd5d8 100644
++--- a/acinclude.m4
+++++ b/acinclude.m4
++@@ -55,99 +55,3 @@ AC_DEFUN([JH_CHECK_XML_CATALOG],
++ ])
++ 
++ 
++-dnl REMOVE THIS WHEN introspection.m4 is widely available
++-dnl
++-dnl -*- mode: autoconf -*-
++-dnl Copyright 2009 Johan Dahlin
++-dnl
++-dnl This file is free software; the author(s) gives unlimited
++-dnl permission to copy and/or distribute it, with or without
++-dnl modifications, as long as this notice is preserved.
++-dnl
++-
++-# serial 1
++-
++-m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
++-[
++-    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
++-    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
++-    AC_BEFORE([LT_INIT],[$0])dnl setup libtool first
++-
++-    dnl enable/disable introspection
++-    m4_if([$2], [require],
++-    [dnl
++-        enable_introspection=yes
++-    ],[dnl
++-        AC_ARG_ENABLE(introspection,
++-                  AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
++-                                 [Enable introspection for this build]),, 
++-                                 [enable_introspection=auto])
++-    ])dnl
++-
++-    AC_MSG_CHECKING([for gobject-introspection])
++-
++-    dnl presence/version checking
++-    AS_CASE([$enable_introspection],
++-    [no], [dnl
++-        found_introspection="no (disabled, use --enable-introspection to enable)"
++-    ],dnl
++-    [yes],[dnl
++-        PKG_CHECK_EXISTS([gobject-introspection-1.0],,
++-                         AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
++-        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1],
++-                         found_introspection=yes,
++-                         AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
++-    ],dnl
++-    [auto],[dnl
++-        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1], found_introspection=yes, found_introspection=no)
++-    ],dnl
++-    [dnl	
++-        AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
++-    ])dnl
++-
++-    AC_MSG_RESULT([$found_introspection])
++-
++-    INTROSPECTION_SCANNER=
++-    INTROSPECTION_COMPILER=
++-    INTROSPECTION_GENERATE=
++-    INTROSPECTION_GIRDIR=
++-    INTROSPECTION_TYPELIBDIR=
++-    if test "x$found_introspection" = "xyes"; then
++-       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
++-       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
++-       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
++-       INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
++-       INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
++-       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
++-       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
++-       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
++-    fi
++-    AC_SUBST(INTROSPECTION_SCANNER)
++-    AC_SUBST(INTROSPECTION_COMPILER)
++-    AC_SUBST(INTROSPECTION_GENERATE)
++-    AC_SUBST(INTROSPECTION_GIRDIR)
++-    AC_SUBST(INTROSPECTION_TYPELIBDIR)
++-    AC_SUBST(INTROSPECTION_CFLAGS)
++-    AC_SUBST(INTROSPECTION_LIBS)
++-    AC_SUBST(INTROSPECTION_MAKEFILE)
++-
++-    AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
++-])
++-
++-
++-dnl Usage:
++-dnl   GOBJECT_INTROSPECTION_CHECK([minimum-g-i-version])
++-
++-AC_DEFUN([GOBJECT_INTROSPECTION_CHECK],
++-[
++-  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1])
++-])
++-
++-dnl Usage:
++-dnl   GOBJECT_INTROSPECTION_REQUIRE([minimum-g-i-version])
++-
++-
++-AC_DEFUN([GOBJECT_INTROSPECTION_REQUIRE],
++-[
++-  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1], [require])
++-])
++-- 
++2.1.4
++
+diff --git a/meta/recipes-graphics/pango/pango_1.36.8.bb b/meta/recipes-graphics/pango/pango_1.36.8.bb
+index f4e4250..c9dae65 100644
+--- a/meta/recipes-graphics/pango/pango_1.36.8.bb
++++ b/meta/recipes-graphics/pango/pango_1.36.8.bb
+@@ -4,6 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
+ 
+ SRC_URI += "file://run-ptest \
+             file://multilib-fix-clean.patch \
++            file://0001-Drop-introspection-macros-from-acinclude.m4.patch \
+ "
+ 
+ SRC_URI[archive.md5sum] = "217a9a753006275215fa9fa127760ece"
+diff --git a/meta/recipes-support/atk/atk_2.16.0.bb b/meta/recipes-support/atk/atk_2.16.0.bb
+index 0f8f9b5..67a65d7 100644
+--- a/meta/recipes-support/atk/atk_2.16.0.bb
++++ b/meta/recipes-support/atk/atk_2.16.0.bb
+@@ -18,4 +18,4 @@ SRC_URI[archive.sha256sum] = "095f986060a6a0b22eb15eef84ae9f14a1cf8082488faa6886
+ BBCLASSEXTEND = "native"
+ 
+ EXTRA_OECONF = "--disable-glibtest \
+-                --disable-introspection"
++               "
+diff --git a/meta/recipes-support/vte/vte-0.28.2/0001-Makefile.am-install-gir-typelib-using-datadir.patch b/meta/recipes-support/vte/vte-0.28.2/0001-Makefile.am-install-gir-typelib-using-datadir.patch
+new file mode 100644
+index 0000000..6971b7b
+--- /dev/null
++++ b/meta/recipes-support/vte/vte-0.28.2/0001-Makefile.am-install-gir-typelib-using-datadir.patch
+@@ -0,0 +1,34 @@
++From 4d6c01666e50068935e116cb98f7d142936597ed Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 27 Oct 2015 15:23:54 +0200
++Subject: [PATCH] Makefile.am: install gir/typelib using $(datadir)
++
++This is recommended by gobject-introspection docs, and works
++in sysroot environments.
++
++Upstream-Status: Pending [review on oe-core list]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ src/Makefile.am | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/Makefile.am b/src/Makefile.am
++index 1971458..4929f0c 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -182,10 +182,10 @@ Vte_@VTE_API_VERSION_U@_gir_FILES = \
++ 
++ INTROSPECTION_GIRS += Vte-$(VTE_API_VERSION).gir
++ 
++-girdir = $(INTROSPECTION_GIRDIR)
+++girdir = $(datadir)/gir-1.0
++ nodist_gir_DATA = $(INTROSPECTION_GIRS)
++ 
++-typelibdir = $(INTROSPECTION_TYPELIBDIR)
+++typelibdir = $(libdir)/girepository-1.0
++ nodist_typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
++ 
++ CLEANFILES += $(nodist_gir_DATA) $(nodist_typelib_DATA)
++-- 
++2.1.4
++
+diff --git a/meta/recipes-support/vte/vte.inc b/meta/recipes-support/vte/vte.inc
+index 07b9e10..6cf860d 100644
+--- a/meta/recipes-support/vte/vte.inc
++++ b/meta/recipes-support/vte/vte.inc
+@@ -1,13 +1,13 @@
+ SUMMARY = "Virtual terminal emulator GTK+ widget library"
+ BUGTRACKER = "https://bugzilla.gnome.org/buglist.cgi?product=vte"
+ LICENSE = "LGPLv2.0"
+-DEPENDS = " glib-2.0 gtk+ intltool-native ncurses gobject-introspection-stub"
++DEPENDS = " glib-2.0 gtk+ intltool-native ncurses"
+ RDEPENDS_libvte = "vte-termcap"
+ 
+ inherit gnome gtk-doc distro_features_check
+ ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
+ 
+-EXTRA_OECONF = "--disable-python --disable-introspection"
++EXTRA_OECONF = "--disable-python"
+ 
+ PACKAGES =+ "libvte vte-termcap"
+ FILES_libvte = "${libdir}/*.so.* ${libexecdir}/gnome-pty-helper"
+diff --git a/meta/recipes-support/vte/vte_0.28.2.bb b/meta/recipes-support/vte/vte_0.28.2.bb
+index 8b4e7f7..c047d9f 100644
+--- a/meta/recipes-support/vte/vte_0.28.2.bb
++++ b/meta/recipes-support/vte/vte_0.28.2.bb
+@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
+ PR = "r6"
+ 
+ SRC_URI += "file://obsolete_automake_macros.patch \
+-            file://cve-2012-2738.patch"
++            file://cve-2012-2738.patch \
++            file://0001-Makefile.am-install-gir-typelib-using-datadir.patch"
+ 
+ CFLAGS += "-D_GNU_SOURCE"
+ 
 -- 
 2.1.4
 
