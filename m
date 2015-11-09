@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4109877176
+	by mail.openembedded.org (Postfix) with ESMTP id DC8F977199
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  9 Nov 2015 14:50:19 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 06:50:19 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 06:50:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,266,1444719600"; d="scan'208";a="596917692"
+X-IronPort-AV: E=Sophos;i="5.20,266,1444719600"; d="scan'208";a="596917699"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 06:50:18 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 06:50:19 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Nov 2015 16:50:45 +0200
-Message-Id: <7b88c3c59a1abd796c28bd0bef9ce56f1ff0ed41.1447080392.git.alexander.kanavin@linux.intel.com>
+Date: Mon,  9 Nov 2015 16:50:46 +0200
+Message-Id: <8d2b670642b94f0d06b3152ca4daec3adc9f2b15.1447080392.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 23/29] gnomebase.bbclass: enable gobject introspection
+Subject: [PATCH 24/29] webkitgtk: enable gobject introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,526 +31,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Nov 2015 14:50:19 -0000
-
-This also requires various tweaks to recipes that depend on this class, which are included in this commit as well.
-
-One of those tweaks is that pygobject is finally updated to the latest upstream release.
+X-List-Received-Date: Mon, 09 Nov 2015 14:50:20 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/classes/gnomebase.bbclass                     |   5 +-
- ...c-add-sysroot-path-to-GI_DATADIR-don-t-se.patch |  41 +++++++
- .../python/python-pygobject_2.28.3.bb              |  53 ---------
- .../python/python-pygobject_3.18.0.bb              |  29 +++++
- .../gsettings-desktop-schemas_3.16.1.bb            |   2 +-
- meta/recipes-gnome/librsvg/librsvg_2.40.10.bb      |   3 -
- ...ation-paths-for-.gir-and-.typelib-as-reco.patch |  32 ++++++
- meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb      |   3 +-
- meta/recipes-graphics/pango/pango.inc              |   3 +-
- ...op-introspection-macros-from-acinclude.m4.patch | 121 +++++++++++++++++++++
- meta/recipes-graphics/pango/pango_1.36.8.bb        |   1 +
- meta/recipes-support/atk/atk_2.16.0.bb             |   2 +-
- ...file.am-install-gir-typelib-using-datadir.patch |  34 ++++++
- meta/recipes-support/vte/vte.inc                   |   4 +-
- meta/recipes-support/vte/vte_0.28.2.bb             |   3 +-
- 15 files changed, 268 insertions(+), 68 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
- delete mode 100644 meta/recipes-devtools/python/python-pygobject_2.28.3.bb
- create mode 100644 meta/recipes-devtools/python/python-pygobject_3.18.0.bb
- create mode 100644 meta/recipes-gnome/libwnck/files/0001-Fix-installation-paths-for-.gir-and-.typelib-as-reco.patch
- create mode 100644 meta/recipes-graphics/pango/pango/0001-Drop-introspection-macros-from-acinclude.m4.patch
- create mode 100644 meta/recipes-support/vte/vte-0.28.2/0001-Makefile.am-install-gir-typelib-using-datadir.patch
+ ...Introspection.cmake-prefix-variables-obta.patch | 27 +++++++++++++++
+ ...ng-introspection-files-add-CMAKE_C_FLAGS-.patch | 40 ++++++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.8.5.bb        |  6 ++--
+ 3 files changed, 71 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+ create mode 100644 meta/recipes-sato/webkit/files/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
 
-diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclass
-index d22ba5a..8310193 100644
---- a/meta/classes/gnomebase.bbclass
-+++ b/meta/classes/gnomebase.bbclass
-@@ -20,7 +20,7 @@ FILES_${PN} += "${datadir}/application-registry  \
- 
- FILES_${PN}-doc += "${datadir}/devhelp"
- 
--inherit autotools pkgconfig
-+inherit autotools pkgconfig gobject-introspection
- 
- do_install_append() {
- 	rm -rf ${D}${localstatedir}/lib/scrollkeeper/*
-@@ -28,6 +28,3 @@ do_install_append() {
- 	rm -f ${D}${datadir}/applications/*.cache
- }
- 
--EXTRA_OECONF += "--disable-introspection"
--
--UNKNOWN_CONFIGURE_WHITELIST += "--disable-introspection"
-diff --git a/meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch b/meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
+diff --git a/meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch b/meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
 new file mode 100644
-index 0000000..a391f7e
+index 0000000..fae3b0b
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
-@@ -0,0 +1,41 @@
-+From 5e5350d730f85957a42c6d846d347d080e7dd996 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+@@ -0,0 +1,27 @@
++From 317a5ac120c44987219bc03486cd2f2d1842c9b9 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 23 Oct 2015 12:40:34 +0300
-+Subject: [PATCH] configure.ac: add sysroot path to GI_DATADIR; don't set
-+ introspection scanner and compiler paths
-+
-+Upstream-Status: Pending [review on oe-core maillist]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ configure.ac | 8 +-------
-+ 1 file changed, 1 insertion(+), 7 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 2c0cfbd..cfcb3bf 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -194,7 +194,7 @@ PKG_CHECK_MODULES(GI,
-+     gobject-introspection-1.0 >= introspection_required_version
-+ )
-+ 
-+-GI_DATADIR=$($PKG_CONFIG --variable=gidatadir gobject-introspection-1.0)
-++GI_DATADIR=$PKG_CONFIG_SYSROOT_DIR$($PKG_CONFIG --variable=gidatadir gobject-introspection-1.0)
-+ AC_SUBST(GI_DATADIR)
-+ 
-+ if test "$enable_cairo" != no; then
-+@@ -219,12 +219,6 @@ AC_ARG_WITH(common,
-+     with_common=yes)
-+ AM_CONDITIONAL(WITH_COMMON, test "$with_common" = "yes")
-+ 
-+-INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
-+-INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
-+-
-+-AC_SUBST(INTROSPECTION_SCANNER)
-+-AC_SUBST(INTROSPECTION_COMPILER)
-+-
-+ # compiler warnings, errors, required cflags, and code coverage support
-+ GNOME_COMPILE_WARNINGS([maximum])
-+ AC_MSG_CHECKING(for Gnome code coverage support)
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-devtools/python/python-pygobject_2.28.3.bb b/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
-deleted file mode 100644
-index 81d37b4..0000000
---- a/meta/recipes-devtools/python/python-pygobject_2.28.3.bb
-+++ /dev/null
-@@ -1,53 +0,0 @@
--SUMMARY = "Python GObject bindings"
--SECTION = "devel/python"
--LICENSE = "LGPLv2.1"
--
--RECIPE_NO_UPDATE_REASON = "Newer versions of python-pygobject depend on gobject-introspection which doesn't cross-compile"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
--DEPENDS = "python python-pygobject-native libffi glib-2.0"
--DEPENDS_class-native = "python-native libffi-native glib-2.0-native"
--RDEPENDS_class-native = ""
--
--MAJ_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
--
--SRC_URI = "${GNOME_MIRROR}/pygobject/${MAJ_VER}/pygobject-${PV}.tar.bz2 \
--           file://obsolete_automake_macros.patch \
--"
--
--# libtool-native doesn't have fixinstall.patch applied which means
--# that libs get relinked at installation time. This triggers a 
--# relinking along the lines of:
--# gcc -L/tmp/foo/media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/lib -lpyglib-2.0-python -o .libs/_glib.so
--# where /tmp/foo is DESTDIR and pyglib-2.0-python may be installed/reinstalled
--# at the same time as the gcc command runs.
--# If this happens between the handoff between gcc and ld, you can see:
--# /bin/ld: cannot find -lpyglib-2.0-python
--# Adding a dependency rule like  install-pyglibLTLIBRARIES: install-libLTLIBRARIES
--# would be ideal but automake can't cope with that without manually 
--# defining the whole function. Give up and disable parallel make in native builds.
--PARALLEL_MAKEINST_class-native = ""
--
--SRC_URI[md5sum] = "aa64900b274c4661a5c32e52922977f9"
--SRC_URI[sha256sum] = "7da88c169a56efccc516cebd9237da3fe518a343095a664607b368fe21df95b6"
--S = "${WORKDIR}/pygobject-${PV}"
--
--EXTRA_OECONF += "--disable-introspection"
--
--inherit autotools distutils-base pkgconfig
--
--# necessary to let the call for python-config succeed
--export BUILD_SYS
--export HOST_SYS
--export STAGING_INCDIR
--export STAGING_LIBDIR
--
--PACKAGES += "${PN}-lib"
--
--RDEPENDS_${PN} += "python-textutils"
--
--FILES_${PN} = "${libdir}/python*"
--FILES_${PN}-lib = "${libdir}/lib*.so.*"
--FILES_${PN}-dev += "${bindir} ${datadir}"
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-devtools/python/python-pygobject_3.18.0.bb b/meta/recipes-devtools/python/python-pygobject_3.18.0.bb
-new file mode 100644
-index 0000000..366cfa9
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-pygobject_3.18.0.bb
-@@ -0,0 +1,29 @@
-+SUMMARY = "Python GObject bindings"
-+SECTION = "devel/python"
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
-+
-+inherit autotools pkgconfig gnomebase distutils3-base
-+
-+DEPENDS = "python3 glib-2.0 gnome-common"
-+
-+SRCNAME="pygobject"
-+SRC_URI = " \
-+    http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
-+    file://0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch \
-+"
-+SRC_URI[md5sum] = "2ac5d4398e7ecabf64b3deb65c799516"
-+SRC_URI[sha256sum] = "1c3ba1112d3713cd5c86260312bfeb0de1f84f18808e51072c50b29d46156dc9"
-+
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+BBCLASSEXTEND = "native"
-+
-+export STAGING_LIBDIR
-+export STAGING_INCDIR
-+export BUILD_SYS
-+export HOST_SYS
-+
-+EXTRA_OECONF = "--disable-cairo"
-+
-+RDEPENDS_${PN} += "python3-setuptools"
-diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.16.1.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.16.1.bb
-index f2f2c75..efb813a 100644
---- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.16.1.bb
-+++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.16.1.bb
-@@ -5,7 +5,7 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
--DEPENDS = "glib-2.0 intltool-native gobject-introspection-stub-native"
-+DEPENDS = "glib-2.0 intltool-native"
- 
- inherit gnomebase gsettings gettext
- 
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.10.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.10.bb
-index 06552c2..ebaa408 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.40.10.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.40.10.bb
-@@ -19,8 +19,6 @@ SRC_URI[archive.sha256sum] = "965c807438ce90b204e930ff80c92eba1606a2f6fd5ccfd093
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_GDK_PIXBUF_QUERYLOADERS=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders"
- 
--EXTRA_OECONF = "--disable-introspection --disable-vala"
--
- # The older ld (2.22) on the host (Centos 6.5) doesn't have the
- # -Bsymbolic-functions option, we can disable it for native.
- EXTRA_OECONF_append_class-native = " --enable-Bsymbolic=auto"
-@@ -37,7 +35,6 @@ do_install_append() {
- }
- 
- PACKAGES =+ "librsvg-gtk rsvg"
--FILES_${PN} = "${libdir}/*.so.*"
- FILES_${PN}-dbg += "${libdir}/gdk-pixbuf-2.0/*/loaders/.debug"
- FILES_rsvg = "${bindir}/rsvg* \
- 	      ${datadir}/pixmaps/svg-viewer.svg \
-diff --git a/meta/recipes-gnome/libwnck/files/0001-Fix-installation-paths-for-.gir-and-.typelib-as-reco.patch b/meta/recipes-gnome/libwnck/files/0001-Fix-installation-paths-for-.gir-and-.typelib-as-reco.patch
-new file mode 100644
-index 0000000..993c18a
---- /dev/null
-+++ b/meta/recipes-gnome/libwnck/files/0001-Fix-installation-paths-for-.gir-and-.typelib-as-reco.patch
-@@ -0,0 +1,32 @@
-+From c41bed70e28112246cc06d31b2cf39091d63b52d Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 26 Oct 2015 19:43:21 +0200
-+Subject: [PATCH] Fix installation paths for .gir and .typelib as recommended
-+ by gobject-introspection documentation.
++Date: Tue, 27 Oct 2015 16:02:19 +0200
++Subject: [PATCH] FindGObjectIntrospection.cmake: prefix variables obtained
++ from pkg-config with PKG_CONFIG_SYSROOT_DIR
 +
 +Upstream-Status: Pending [review on oe-core list]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ libwnck/Makefile.am | 4 ++--
++ Source/cmake/FindGObjectIntrospection.cmake | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/Source/cmake/FindGObjectIntrospection.cmake b/Source/cmake/FindGObjectIntrospection.cmake
++index e1f49b4..03a4446 100644
++--- a/Source/cmake/FindGObjectIntrospection.cmake
+++++ b/Source/cmake/FindGObjectIntrospection.cmake
++@@ -26,6 +26,7 @@ macro(_GIR_GET_PKGCONFIG_VAR _outvar _varname _extra_args)
++     else ()
++         string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
++         string(REGEX REPLACE " +$" ""  _result "${_result}")
+++        string(CONCAT _result $ENV{PKG_CONFIG_SYSROOT_DIR} "${_result}")
++         separate_arguments(_result)
++         set(${_outvar} ${_result} CACHE INTERNAL "")
++     endif ()
++-- 
++2.1.4
++
+diff --git a/meta/recipes-sato/webkit/files/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch b/meta/recipes-sato/webkit/files/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
+new file mode 100644
+index 0000000..c4584c6
+--- /dev/null
++++ b/meta/recipes-sato/webkit/files/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
+@@ -0,0 +1,40 @@
++From f42434706e2686b28ac7c2d0362665c51d26faad Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Wed, 28 Oct 2015 14:18:57 +0200
++Subject: [PATCH] When building introspection files, add CMAKE_C_FLAGS to the
++ compiler flags.
++
++g-ir-compiler is using a C compiler internally, so it needs to set
++the proper flags for it.
++
++Upstream-Status: Pending [review on oe-core list] 
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ Source/WebKit2/PlatformGTK.cmake | 4 ++--
 + 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/libwnck/Makefile.am b/libwnck/Makefile.am
-+index 4a105e6..a0b249a 100644
-+--- a/libwnck/Makefile.am
-++++ b/libwnck/Makefile.am
-+@@ -182,10 +182,10 @@ Wnck_3_0_gir_SCANNERFLAGS = --pkg-export=libwnck-3.0
-+ Wnck_3_0_gir_FILES = $(introspection_sources)
-+ INTROSPECTION_GIRS += Wnck-3.0.gir
-+ 
-+-girdir = $(INTROSPECTION_GIRDIR)
-++girdir = $(datadir)/gir-1.0
-+ gir_DATA = $(INTROSPECTION_GIRS)
-+ 
-+-typelibdir = $(INTROSPECTION_TYPELIBDIR)
-++typelibdir = $(libdir)/girepository-1.0
-+ typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
-+ 
-+ CLEANFILES += $(gir_DATA) $(typelib_DATA)
++diff --git a/Source/WebKit2/PlatformGTK.cmake b/Source/WebKit2/PlatformGTK.cmake
++index 058c241..37d7412 100644
++--- a/Source/WebKit2/PlatformGTK.cmake
+++++ b/Source/WebKit2/PlatformGTK.cmake
++@@ -823,7 +823,7 @@ add_custom_command(
++     OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
++     DEPENDS WebKit2
++     DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
++-    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations LDFLAGS=
+++    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
++         LD_LIBRARY_PATH="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
++         ${INTROSPECTION_SCANNER}
++         --quiet
++@@ -863,7 +863,7 @@ add_custom_command(
++     OUTPUT ${CMAKE_BINARY_DIR}/WebKit2WebExtension-${WEBKITGTK_API_VERSION}.gir
++     DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
++     DEPENDS ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
++-    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations LDFLAGS=
+++    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
++         LD_LIBRARY_PATH="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
++         ${INTROSPECTION_SCANNER}
++         --quiet
 +-- 
 +2.1.4
 +
-diff --git a/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb b/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
-index 3ee1ae9..b0da43e 100644
---- a/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
-+++ b/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
-@@ -5,12 +5,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
- BPN = "libwnck"
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
+index e29666a..f21dc4b 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
+@@ -14,11 +14,13 @@ SRC_URI = "\
+   http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+   file://0001-This-patch-fixes-a-command-line-that-is-too-long-ove.patch \
+   file://gcc5.patch \
++  file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch \
++  file://0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch \
+   "
+ SRC_URI[md5sum] = "df79991848a5096d3a75289ebce547ae"
+ SRC_URI[sha256sum] = "3d1f0c534935f43fd74df90f2648fcee672d60f1f57a30fa557a77891ae04d20"
  
- SECTION = "x11/libs"
--DEPENDS = "gobject-introspection-stub gtk+3 gdk-pixbuf-native libxres"
-+DEPENDS = "gtk+3 gdk-pixbuf-native libxres"
+-inherit cmake lib_package pkgconfig perlnative pythonnative distro_features_check
++inherit cmake lib_package pkgconfig perlnative pythonnative distro_features_check gobject-introspection
  
- PACKAGECONFIG ??= "startup-notification"
- PACKAGECONFIG[startup-notification] = "--enable-startup-notification,--disable-startup-notification,startup-notification"
- 
- inherit gnomebase
-+SRC_URI += "file://0001-Fix-installation-paths-for-.gir-and-.typelib-as-reco.patch"
- SRC_URI[archive.md5sum] = "4538672e0d775fadedf10abeb8020047"
- SRC_URI[archive.sha256sum] = "f5080076346609b4c36394b879f3a86b92ced3b90a37cb54c8e9a14f00e7921c"
- 
-diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
-index df0fdf6..cb38a0c 100644
---- a/meta/recipes-graphics/pango/pango.inc
-+++ b/meta/recipes-graphics/pango/pango.inc
-@@ -38,8 +38,7 @@ EXTRA_AUTORECONF = ""
- # seems to go wrong with default cflags
- FULL_OPTIMIZATION_arm = "-O2"
- 
--EXTRA_OECONF = "--disable-introspection \
--		--enable-explicit-deps=no \
-+EXTRA_OECONF = "--enable-explicit-deps=no \
- 	        --disable-debug \
- 	        --with-mlprefix=${MLPREFIX}"
- 
-diff --git a/meta/recipes-graphics/pango/pango/0001-Drop-introspection-macros-from-acinclude.m4.patch b/meta/recipes-graphics/pango/pango/0001-Drop-introspection-macros-from-acinclude.m4.patch
-new file mode 100644
-index 0000000..812da21
---- /dev/null
-+++ b/meta/recipes-graphics/pango/pango/0001-Drop-introspection-macros-from-acinclude.m4.patch
-@@ -0,0 +1,121 @@
-+From 867a512eddbeb1899d3e7096df3da1dd0ce3e7b7 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 23 Oct 2015 14:06:17 +0300
-+Subject: [PATCH] Drop introspection macros from acinclude.m4
-+
-+They take precendence over our customized macros, and so
-+introspection doesn't work correctly.
-+
-+Upstream-Status: Pending [review on oe-core list]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ acinclude.m4 | 96 ------------------------------------------------------------
-+ 1 file changed, 96 deletions(-)
-+
-+diff --git a/acinclude.m4 b/acinclude.m4
-+index 8899c7c..48fd5d8 100644
-+--- a/acinclude.m4
-++++ b/acinclude.m4
-+@@ -55,99 +55,3 @@ AC_DEFUN([JH_CHECK_XML_CATALOG],
-+ ])
-+ 
-+ 
-+-dnl REMOVE THIS WHEN introspection.m4 is widely available
-+-dnl
-+-dnl -*- mode: autoconf -*-
-+-dnl Copyright 2009 Johan Dahlin
-+-dnl
-+-dnl This file is free software; the author(s) gives unlimited
-+-dnl permission to copy and/or distribute it, with or without
-+-dnl modifications, as long as this notice is preserved.
-+-dnl
-+-
-+-# serial 1
-+-
-+-m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
-+-[
-+-    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
-+-    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
-+-    AC_BEFORE([LT_INIT],[$0])dnl setup libtool first
-+-
-+-    dnl enable/disable introspection
-+-    m4_if([$2], [require],
-+-    [dnl
-+-        enable_introspection=yes
-+-    ],[dnl
-+-        AC_ARG_ENABLE(introspection,
-+-                  AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
-+-                                 [Enable introspection for this build]),, 
-+-                                 [enable_introspection=auto])
-+-    ])dnl
-+-
-+-    AC_MSG_CHECKING([for gobject-introspection])
-+-
-+-    dnl presence/version checking
-+-    AS_CASE([$enable_introspection],
-+-    [no], [dnl
-+-        found_introspection="no (disabled, use --enable-introspection to enable)"
-+-    ],dnl
-+-    [yes],[dnl
-+-        PKG_CHECK_EXISTS([gobject-introspection-1.0],,
-+-                         AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
-+-        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1],
-+-                         found_introspection=yes,
-+-                         AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
-+-    ],dnl
-+-    [auto],[dnl
-+-        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1], found_introspection=yes, found_introspection=no)
-+-    ],dnl
-+-    [dnl	
-+-        AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
-+-    ])dnl
-+-
-+-    AC_MSG_RESULT([$found_introspection])
-+-
-+-    INTROSPECTION_SCANNER=
-+-    INTROSPECTION_COMPILER=
-+-    INTROSPECTION_GENERATE=
-+-    INTROSPECTION_GIRDIR=
-+-    INTROSPECTION_TYPELIBDIR=
-+-    if test "x$found_introspection" = "xyes"; then
-+-       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
-+-       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
-+-       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
-+-       INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
-+-       INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
-+-       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
-+-       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
-+-       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
-+-    fi
-+-    AC_SUBST(INTROSPECTION_SCANNER)
-+-    AC_SUBST(INTROSPECTION_COMPILER)
-+-    AC_SUBST(INTROSPECTION_GENERATE)
-+-    AC_SUBST(INTROSPECTION_GIRDIR)
-+-    AC_SUBST(INTROSPECTION_TYPELIBDIR)
-+-    AC_SUBST(INTROSPECTION_CFLAGS)
-+-    AC_SUBST(INTROSPECTION_LIBS)
-+-    AC_SUBST(INTROSPECTION_MAKEFILE)
-+-
-+-    AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
-+-])
-+-
-+-
-+-dnl Usage:
-+-dnl   GOBJECT_INTROSPECTION_CHECK([minimum-g-i-version])
-+-
-+-AC_DEFUN([GOBJECT_INTROSPECTION_CHECK],
-+-[
-+-  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1])
-+-])
-+-
-+-dnl Usage:
-+-dnl   GOBJECT_INTROSPECTION_REQUIRE([minimum-g-i-version])
-+-
-+-
-+-AC_DEFUN([GOBJECT_INTROSPECTION_REQUIRE],
-+-[
-+-  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1], [require])
-+-])
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-graphics/pango/pango_1.36.8.bb b/meta/recipes-graphics/pango/pango_1.36.8.bb
-index f4e4250..c9dae65 100644
---- a/meta/recipes-graphics/pango/pango_1.36.8.bb
-+++ b/meta/recipes-graphics/pango/pango_1.36.8.bb
-@@ -4,6 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
- 
- SRC_URI += "file://run-ptest \
-             file://multilib-fix-clean.patch \
-+            file://0001-Drop-introspection-macros-from-acinclude.m4.patch \
- "
- 
- SRC_URI[archive.md5sum] = "217a9a753006275215fa9fa127760ece"
-diff --git a/meta/recipes-support/atk/atk_2.16.0.bb b/meta/recipes-support/atk/atk_2.16.0.bb
-index 0f8f9b5..67a65d7 100644
---- a/meta/recipes-support/atk/atk_2.16.0.bb
-+++ b/meta/recipes-support/atk/atk_2.16.0.bb
-@@ -18,4 +18,4 @@ SRC_URI[archive.sha256sum] = "095f986060a6a0b22eb15eef84ae9f14a1cf8082488faa6886
- BBCLASSEXTEND = "native"
- 
- EXTRA_OECONF = "--disable-glibtest \
--                --disable-introspection"
-+               "
-diff --git a/meta/recipes-support/vte/vte-0.28.2/0001-Makefile.am-install-gir-typelib-using-datadir.patch b/meta/recipes-support/vte/vte-0.28.2/0001-Makefile.am-install-gir-typelib-using-datadir.patch
-new file mode 100644
-index 0000000..6971b7b
---- /dev/null
-+++ b/meta/recipes-support/vte/vte-0.28.2/0001-Makefile.am-install-gir-typelib-using-datadir.patch
-@@ -0,0 +1,34 @@
-+From 4d6c01666e50068935e116cb98f7d142936597ed Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 27 Oct 2015 15:23:54 +0200
-+Subject: [PATCH] Makefile.am: install gir/typelib using $(datadir)
-+
-+This is recommended by gobject-introspection docs, and works
-+in sysroot environments.
-+
-+Upstream-Status: Pending [review on oe-core list]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ src/Makefile.am | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 1971458..4929f0c 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -182,10 +182,10 @@ Vte_@VTE_API_VERSION_U@_gir_FILES = \
-+ 
-+ INTROSPECTION_GIRS += Vte-$(VTE_API_VERSION).gir
-+ 
-+-girdir = $(INTROSPECTION_GIRDIR)
-++girdir = $(datadir)/gir-1.0
-+ nodist_gir_DATA = $(INTROSPECTION_GIRS)
-+ 
-+-typelibdir = $(INTROSPECTION_TYPELIBDIR)
-++typelibdir = $(libdir)/girepository-1.0
-+ nodist_typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
-+ 
-+ CLEANFILES += $(nodist_gir_DATA) $(nodist_typelib_DATA)
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-support/vte/vte.inc b/meta/recipes-support/vte/vte.inc
-index 07b9e10..6cf860d 100644
---- a/meta/recipes-support/vte/vte.inc
-+++ b/meta/recipes-support/vte/vte.inc
-@@ -1,13 +1,13 @@
- SUMMARY = "Virtual terminal emulator GTK+ widget library"
- BUGTRACKER = "https://bugzilla.gnome.org/buglist.cgi?product=vte"
- LICENSE = "LGPLv2.0"
--DEPENDS = " glib-2.0 gtk+ intltool-native ncurses gobject-introspection-stub"
-+DEPENDS = " glib-2.0 gtk+ intltool-native ncurses"
- RDEPENDS_libvte = "vte-termcap"
- 
- inherit gnome gtk-doc distro_features_check
- ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
- 
--EXTRA_OECONF = "--disable-python --disable-introspection"
-+EXTRA_OECONF = "--disable-python"
- 
- PACKAGES =+ "libvte vte-termcap"
- FILES_libvte = "${libdir}/*.so.* ${libexecdir}/gnome-pty-helper"
-diff --git a/meta/recipes-support/vte/vte_0.28.2.bb b/meta/recipes-support/vte/vte_0.28.2.bb
-index 8b4e7f7..c047d9f 100644
---- a/meta/recipes-support/vte/vte_0.28.2.bb
-+++ b/meta/recipes-support/vte/vte_0.28.2.bb
-@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
- PR = "r6"
- 
- SRC_URI += "file://obsolete_automake_macros.patch \
--            file://cve-2012-2738.patch"
-+            file://cve-2012-2738.patch \
-+            file://0001-Makefile.am-install-gir-typelib-using-datadir.patch"
- 
- CFLAGS += "-D_GNU_SOURCE"
- 
+ # depends on libxt
+ REQUIRED_DISTRO_FEATURES = "x11"
+@@ -45,7 +47,7 @@ PACKAGECONFIG[libsecret] = "-DENABLE_CREDENTIAL_STORAGE=ON,-DENABLE_CREDENTIAL_S
+ EXTRA_OECMAKE = " \
+ 		-DPORT=GTK \
+ 		-DCMAKE_BUILD_TYPE=Release \
+-		-DENABLE_INTROSPECTION=OFF \
++		-DENABLE_INTROSPECTION=ON \
+ 		-DENABLE_GTKDOC=OFF \
+ 		-DENABLE_MINIBROWSER=ON \
+ 		"
 -- 
 2.1.4
 
