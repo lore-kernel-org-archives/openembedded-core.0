@@ -1,24 +1,22 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 80D6E7707F
+	by mail.openembedded.org (Postfix) with ESMTP id 589F776230
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Nov 2015 12:41:11 +0000 (UTC)
+	Mon,  9 Nov 2015 12:41:08 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 04:41:00 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 04:40:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,265,1444719600"; d="scan'208";a="596861431"
+X-IronPort-AV: E=Sophos;i="5.20,265,1444719600"; d="scan'208";a="596861426"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 04:41:00 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 04:40:59 -0800
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Nov 2015 14:43:59 +0200
-Message-Id: <662f06a28213cfec134998e6acfc12112ac02866.1447072488.git.jussi.kukkonen@intel.com>
+Date: Mon,  9 Nov 2015 14:43:58 +0200
+Message-Id: <090fbaaf8c5d1b0a51169fce3b9c6ef822103dc7.1447072488.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <090fbaaf8c5d1b0a51169fce3b9c6ef822103dc7.1447072488.git.jussi.kukkonen@intel.com>
-References: <090fbaaf8c5d1b0a51169fce3b9c6ef822103dc7.1447072488.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1447072488.git.jussi.kukkonen@intel.com>
 References: <cover.1447072488.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv2 2/8] glib-2.0: Upgrade 2.44.1 -> 2.46.1
+Subject: [PATCHv2 1/8] qemu: Backport malloc-trace disabling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,80 +31,131 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 Nov 2015 12:41:12 -0000
 
-Fix cross-compilation build issue in gio tests.
+Allocation tracing has been removed from GLib 2.46 and trying to use
+it results in an ugly warning: Backport patch to not use it in Qemu.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- ...on-t-depend-on-a-data-file-that-s-not-bui.patch | 38 ++++++++++++++++++++++
- .../{glib-2.0_2.44.1.bb => glib-2.0_2.46.1.bb}     |  5 +--
- 2 files changed, 41 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-Don-t-depend-on-a-data-file-that-s-not-bui.patch
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.44.1.bb => glib-2.0_2.46.1.bb} (78%)
+ .../qemu/qemu/trace-remove-malloc-tracing.patch    | 97 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.4.0.bb           |  1 +
+ 2 files changed, 98 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/trace-remove-malloc-tracing.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-Don-t-depend-on-a-data-file-that-s-not-bui.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-Don-t-depend-on-a-data-file-that-s-not-bui.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/trace-remove-malloc-tracing.patch b/meta/recipes-devtools/qemu/qemu/trace-remove-malloc-tracing.patch
 new file mode 100644
-index 0000000..5f3fef0
+index 0000000..73d699f
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-Don-t-depend-on-a-data-file-that-s-not-bui.patch
-@@ -0,0 +1,38 @@
-+From 99dabcb02e2b3f90a12d17a9995752fcae57b522 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Thu, 5 Nov 2015 11:08:32 +0200
-+Subject: [PATCH] gio/tests: Don't depend on a data file that's not built
++++ b/meta/recipes-devtools/qemu/qemu/trace-remove-malloc-tracing.patch
+@@ -0,0 +1,97 @@
++From 98cf48f60aa4999f5b2808569a193a401a390e6a Mon Sep 17 00:00:00 2001
++From: Paolo Bonzini <pbonzini@redhat.com>
++Date: Wed, 16 Sep 2015 17:38:44 +0200
++Subject: [PATCH] trace: remove malloc tracing
 +
-+data.gresource is not built when cross-compiling: Don't
-+add it to test_data in that case.
++The malloc vtable is not supported anymore in glib, because it broke
++when constructors called g_malloc.  Remove tracing of g_malloc,
++g_realloc and g_free calls.
 +
++Note that, for systemtap users, glib also provides tracepoints
++glib.mem_alloc, glib.mem_free, glib.mem_realloc, glib.slice_alloc
++and glib.slice_free.
++
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++Reviewed-by: Alberto Garcia <berto@igalia.com>
++Message-id: 1442417924-25831-1-git-send-email-pbonzini@redhat.com
++Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
++
++
++For Yocto:
++Upstream-Status: Backport [commit 98cf48f60a, included in 2.4.1]
 +Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Upstream-Status: Backport [https://bugzilla.gnome.org/show_bug.cgi?id=757628]
++
 +---
-+ gio/tests/Makefile.am | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ trace-events |    3 ---
++ vl.c         |   27 ---------------------------
++ 2 files changed, 0 insertions(+), 30 deletions(-)
 +
-+diff --git a/gio/tests/Makefile.am b/gio/tests/Makefile.am
-+index 894cf43..cc7deb3 100644
-+--- a/gio/tests/Makefile.am
-++++ b/gio/tests/Makefile.am
-+@@ -76,7 +76,6 @@ dist_test_data = \
-+ 	$(NULL)
++diff --git a/trace-events b/trace-events
++index 6790292..b813ae4 100644
++--- a/trace-events
+++++ b/trace-events
++@@ -603,9 +603,6 @@ scsi_request_sense(int target, int lun, int tag) "target %d lun %d tag %d"
++ vm_state_notify(int running, int reason) "running %d reason %d"
++ load_file(const char *name, const char *path) "name %s location %s"
++ runstate_set(int new_state) "new state %d"
++-g_malloc(size_t size, void *ptr) "size %zu ptr %p"
++-g_realloc(void *ptr, size_t size, void *newptr) "ptr %p size %zu newptr %p"
++-g_free(void *ptr) "ptr %p"
++ system_wakeup_request(int reason) "reason=%d"
++ qemu_system_shutdown_request(void) ""
++ qemu_system_powerdown_request(void) ""
++diff --git a/vl.c b/vl.c
++index f2bd8d2..ea9e0e6 100644
++--- a/vl.c
+++++ b/vl.c
++@@ -2703,26 +2703,6 @@ static const QEMUOption *lookup_opt(int argc, char **argv,
++     return popt;
++ }
 + 
-+ test_data = \
-+-	test.gresource				\
-+ 	$(NULL)
++-static gpointer malloc_and_trace(gsize n_bytes)
++-{
++-    void *ptr = malloc(n_bytes);
++-    trace_g_malloc(n_bytes, ptr);
++-    return ptr;
++-}
++-
++-static gpointer realloc_and_trace(gpointer mem, gsize n_bytes)
++-{
++-    void *ptr = realloc(mem, n_bytes);
++-    trace_g_realloc(mem, n_bytes, ptr);
++-    return ptr;
++-}
++-
++-static void free_and_trace(gpointer mem)
++-{
++-    trace_g_free(mem);
++-    free(mem);
++-}
++-
++ static int machine_set_property(void *opaque,
++                                 const char *name, const char *value,
++                                 Error **errp)
++@@ -2950,11 +2930,6 @@ int main(int argc, char **argv, char **envp)
++     bool userconfig = true;
++     const char *log_mask = NULL;
++     const char *log_file = NULL;
++-    GMemVTable mem_trace = {
++-        .malloc = malloc_and_trace,
++-        .realloc = realloc_and_trace,
++-        .free = free_and_trace,
++-    };
++     const char *trace_events = NULL;
++     const char *trace_file = NULL;
++     ram_addr_t maxram_size;
++@@ -2970,8 +2945,6 @@ int main(int argc, char **argv, char **envp)
++     error_set_progname(argv[0]);
++     qemu_init_exec_dir(argv[0]);
 + 
-+ uninstalled_test_extra_programs = \
-+@@ -520,6 +519,8 @@ libresourceplugin_la_SOURCES = resourceplugin.c plugin_resources.c
-+ libresourceplugin_la_LDFLAGS = -avoid-version -module -export-dynamic $(no_undefined)
-+ libresourceplugin_la_LIBADD = $(LDADD)
++-    g_mem_set_vtable(&mem_trace);
++-
++     module_call_init(MODULE_INIT_QOM);
 + 
-++test_data += test.gresource
-++
-+ # libtool contains a bug whereby the created .la file doesn't contain the correct dlname='' in the case that
-+ # you're building a library but not installing it.  This is apparently because the only considered use for an
-+ # uninstalled library is as a convenience library for linking (despite the fact that we give -module).  The lack
++     qemu_add_opts(&qemu_drive_opts);
 +-- 
-+2.6.2
++1.7.0.4
 +
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.46.1.bb
-similarity index 78%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.46.1.bb
-index 1e3d36a..22fd34a 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.46.1.bb
-@@ -15,9 +15,10 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch \
-            file://allow-run-media-sdX-drive-mount-if-username-root.patch \
- 	   file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
-+	   file://0001-gio-tests-Don-t-depend-on-a-data-file-that-s-not-bui.patch \
-           "
- 
- SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
- 
--SRC_URI[md5sum] = "83efba4722a9674b97437d1d99af79db"
--SRC_URI[sha256sum] = "8811deacaf8a503d0a9b701777ea079ca6a4277be10e3d730d2112735d5eca07"
-+SRC_URI[md5sum] = "c90e93ceb45100ffc1d40ec5d2ca3248"
-+SRC_URI[sha256sum] = "5a1f03b952ebc3a7e9f612b8724f70898183e31503db329b4f15d07163c8fdfb"
+diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0.bb b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
+index 1505b80..7fdae32 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.4.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
+@@ -10,6 +10,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://smc91c111_fix2.patch \
+             file://smc91c111_fix3.patch \
+             file://no-valgrind.patch \
++            file://trace-remove-malloc-tracing.patch \
+            "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "186ee8194140a484a455f8e3c74589f4"
 -- 
 2.1.4
 
