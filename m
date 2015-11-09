@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A7E457716F
+	by mail.openembedded.org (Postfix) with ESMTP id 50FF877140
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Nov 2015 14:50:04 +0000 (UTC)
+	Mon,  9 Nov 2015 14:50:05 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 06:50:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,266,1444719600"; d="scan'208";a="596917574"
+X-IronPort-AV: E=Sophos;i="5.20,266,1444719600"; d="scan'208";a="596917583"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 06:50:04 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 06:50:05 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Nov 2015 16:50:32 +0200
-Message-Id: <b4d96f582150b1e80c23be4428d1330a999b5442.1447080392.git.alexander.kanavin@linux.intel.com>
+Date: Mon,  9 Nov 2015 16:50:33 +0200
+Message-Id: <f525dc7f074815ab97b69afc5016847d25d80926.1447080392.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 10/29] udev: enable gobject introspection
+Subject: [PATCH 11/29] vala: enable the use of vapigen by packages with vala support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,158 +33,101 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 Nov 2015 14:50:05 -0000
 
+Now that gobject-introspection is supported, generation of .vapi
+files for develeloping Vala code against gobject-based libraries
+should be supported as well.
+
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-core/udev/udev.inc                    | 10 ++++---
- ...file.am-don-t-hardcode-g-ir-compiler-name.patch | 27 ++++++++++++++++++
- ...c-use-PKG_CONFIG_SYSROOT_PATH-when-findin.patch | 32 ++++++++++++++++++++++
- ....am-use-libtool-when-running-g-ir-scanner.patch | 26 ++++++++++++++++++
- 4 files changed, 91 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-core/udev/udev/0001-Makefile.am-don-t-hardcode-g-ir-compiler-name.patch
- create mode 100644 meta/recipes-core/udev/udev/0001-configure.ac-use-PKG_CONFIG_SYSROOT_PATH-when-findin.patch
- create mode 100644 meta/recipes-core/udev/udev/0002-Makefile.am-use-libtool-when-running-g-ir-scanner.patch
+ meta/recipes-devtools/vala/vala.inc                | 10 ++++++
+ ...001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch | 38 ++++++++++++++++++++++
+ meta/recipes-devtools/vala/vala_0.28.0.bb          |  4 ++-
+ 3 files changed, 51 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/vala/vala/0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index c378ae3..ea5fb24 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -19,6 +19,9 @@ PROVIDES = "libgudev"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-            file://0001-Fixing-keyboard_force_release.sh-shell-script-path.patch \
-+           file://0001-configure.ac-use-PKG_CONFIG_SYSROOT_PATH-when-findin.patch \
-+           file://0002-Makefile.am-use-libtool-when-running-g-ir-scanner.patch \
-+           file://0001-Makefile.am-don-t-hardcode-g-ir-compiler-name.patch \
-            file://avoid-mouse-autosuspend.patch \
-            file://run.rules \
-            file://udev.rules \
-@@ -33,12 +36,11 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-            file://run-ptest \
-            file://init"
- 
--inherit autotools pkgconfig update-rc.d ptest
-+inherit autotools pkgconfig update-rc.d ptest gobject-introspection
- RDEPENDS_${PN}-ptest += "make perl python"
- 
- libexecdir = "${base_libdir}"
--EXTRA_OECONF = "--disable-introspection \
--                --with-rootlibdir=${base_libdir} \
-+EXTRA_OECONF = "--with-rootlibdir=${base_libdir} \
-                 --with-pci-ids-path=${datadir}/pci.ids \
-                 ac_cv_file__usr_share_pci_ids=no \
-                 ac_cv_file__usr_share_hwdata_pci_ids=no \
-@@ -72,7 +74,7 @@ FILES_${PN}-dbg += "${libexecdir}/.debug"
- FILES_${PN}-dbg += "${base_libdir}/udev/.debug/"
- FILES_${PN}-dbg += "${base_libdir}/udev/.debug/*"
- FILES_${PN}-dbg += "${nonarch_base_libdir}/udev/.debug/*"
--FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc \
-+FILES_${PN}-dev += "${datadir}/pkgconfig/udev.pc \
-                    ${includedir}/libudev.h ${libdir}/libudev.so ${libdir}/libudev.la \
-                    ${libdir}/libudev.a ${libdir}/pkgconfig/libudev.pc \
-                    ${includedir}/gudev* ${libdir}/libgudev*.so ${libdir}/libgudev*.la \
-diff --git a/meta/recipes-core/udev/udev/0001-Makefile.am-don-t-hardcode-g-ir-compiler-name.patch b/meta/recipes-core/udev/udev/0001-Makefile.am-don-t-hardcode-g-ir-compiler-name.patch
-new file mode 100644
-index 0000000..859c47c
---- /dev/null
-+++ b/meta/recipes-core/udev/udev/0001-Makefile.am-don-t-hardcode-g-ir-compiler-name.patch
-@@ -0,0 +1,27 @@
-+From c00a9a5cca2fe805c5c3de85ad3962df55927bbc Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 3 Nov 2015 15:49:48 +0200
-+Subject: [PATCH] Makefile.am: don't hardcode g-ir-compiler name
+diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+index 63056fd..a0ace39 100644
+--- a/meta/recipes-devtools/vala/vala.inc
++++ b/meta/recipes-devtools/vala/vala.inc
+@@ -3,6 +3,9 @@ DESCRIPTION = "Vala is a C#-like language dedicated to ease GObject programming.
+ Vala compiles to plain C and has no runtime environment nor penalities whatsoever."
+ SECTION = "devel"
+ DEPENDS = "bison-native flex-native libxslt-native glib-2.0"
 +
-+Upstream-Status: Inappropriate [upstream is dead]
++# vala-native contains a native version of vapigen, which we use instead of the target one
++DEPENDS_append_class-target = " vala-native"
+ BBCLASSEXTEND = "native"
+ HOMEPAGE = "http://vala-project.org"
+ LICENSE = "LGPLv2.1"
+@@ -16,3 +19,10 @@ inherit autotools pkgconfig
+ FILES_${PN} += "${datadir}/${BPN}-${SHRT_VER}/vapi ${libdir}/${BPN}-${SHRT_VER}/"
+ FILES_${PN}-doc += "${datadir}/devhelp"
+ FILES_${PN}-dbg += "${libdir}/${BPN}-${SHRT_VER}/.debug"
++
++SYSROOT_PREPROCESS_FUNCS_append_class-target += "vapigen_sysroot_preprocess"
++
++# Link native vapigen into target sysroot so that it is used when building vapi files.
++vapigen_sysroot_preprocess() {
++        ln -f -s ${STAGING_BINDIR_NATIVE}/vapigen* ${STAGING_BINDIR}
++}
+diff --git a/meta/recipes-devtools/vala/vala/0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch b/meta/recipes-devtools/vala/vala/0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch
+new file mode 100644
+index 0000000..ecab0fc
+--- /dev/null
++++ b/meta/recipes-devtools/vala/vala/0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch
+@@ -0,0 +1,38 @@
++From dbb1c58e86f2af4613f3ac9571d9b163d4bca675 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 23 Oct 2015 16:13:54 +0300
++Subject: [PATCH] vapigen.m4: use $PKG_CONFIG_SYSROOT_DIR
++
++This is necessary in cross-compiling environments, where directories
++returned by pkg-config should be prefixed with sysroot location.
++
++Upstream-Status: Pending [review in oe-core list]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ Makefile.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ vapigen/vapigen.m4 | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
 +
-+diff --git a/Makefile.am b/Makefile.am
-+index c7e7447..9d32acc 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -469,7 +469,7 @@ src/gudev/GUdev-1.0.gir: libgudev-1.0.la $(G_IR_SCANNER)
-+ 		$(top_srcdir)/src/gudev/gudevenumerator.c
++diff --git a/vapigen/vapigen.m4 b/vapigen/vapigen.m4
++index 2c435e7..6228991 100644
++--- a/vapigen/vapigen.m4
+++++ b/vapigen/vapigen.m4
++@@ -82,12 +82,12 @@ AC_DEFUN([VAPIGEN_CHECK],
 + 
-+ src/gudev/GUdev-1.0.typelib: src/gudev/GUdev-1.0.gir $(G_IR_COMPILER)
-+-	$(AM_V_GEN)g-ir-compiler $< -o $@
-++	$(AM_V_GEN)$(G_IR_COMPILER) $< -o $@
++   AS_CASE([$enable_vala],
++     [yes], [
++-      VAPIGEN=`$PKG_CONFIG --variable=vapigen $vapigen_pkg_name`
++-      VAPIGEN_MAKEFILE=`$PKG_CONFIG --variable=datadir $vapigen_pkg_name`/vala/Makefile.vapigen
+++      VAPIGEN=$PKG_CONFIG_SYSROOT_DIR`$PKG_CONFIG --variable=vapigen $vapigen_pkg_name`
+++      VAPIGEN_MAKEFILE=$PKG_CONFIG_SYSROOT_DIR`$PKG_CONFIG --variable=datadir $vapigen_pkg_name`/vala/Makefile.vapigen
++       AS_IF([test "x$2" = "x"], [
++-          VAPIGEN_VAPIDIR=`$PKG_CONFIG --variable=vapidir $vapigen_pkg_name`
+++          VAPIGEN_VAPIDIR=$PKG_CONFIG_SYSROOT_DIR`$PKG_CONFIG --variable=vapidir $vapigen_pkg_name`
++         ], [
++-          VAPIGEN_VAPIDIR=`$PKG_CONFIG --variable=vapidir_versioned $vapigen_pkg_name`
+++          VAPIGEN_VAPIDIR=$PKG_CONFIG_SYSROOT_DIR`$PKG_CONFIG --variable=vapidir_versioned $vapigen_pkg_name`
++         ])
++     ])
 + 
-+ girdir = $(GIRDIR)
-+ gir_DATA = src/gudev/GUdev-1.0.gir
 +-- 
 +2.1.4
 +
-diff --git a/meta/recipes-core/udev/udev/0001-configure.ac-use-PKG_CONFIG_SYSROOT_PATH-when-findin.patch b/meta/recipes-core/udev/udev/0001-configure.ac-use-PKG_CONFIG_SYSROOT_PATH-when-findin.patch
-new file mode 100644
-index 0000000..658e924
---- /dev/null
-+++ b/meta/recipes-core/udev/udev/0001-configure.ac-use-PKG_CONFIG_SYSROOT_PATH-when-findin.patch
-@@ -0,0 +1,32 @@
-+From 54fd0dfd3b2961afe8c1bcd06b9cdf08f9df0a92 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 29 Oct 2015 14:04:08 +0200
-+Subject: [PATCH 1/2] configure.ac: use PKG_CONFIG_SYSROOT_PATH when finding
-+ out the location of introspection binaries
-+
-+Upstream-Status: Inappropriate [upstream is dead]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ configure.ac | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 0500313..689c6b9 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -134,9 +134,9 @@ AC_ARG_ENABLE([introspection],
-+ AS_IF([test "x$enable_introspection" = "xyes"], [
-+        PKG_CHECK_MODULES([INTROSPECTION], [gobject-introspection-1.0 >= 0.6.2])
-+        AC_DEFINE([ENABLE_INTROSPECTION], [1], [enable GObject introspection support])
-+-       AC_SUBST([G_IR_SCANNER], [$($PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0)])
-+-       AC_SUBST([G_IR_COMPILER], [$($PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0)])
-+-       AC_SUBST([G_IR_GENERATE], [$($PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0)])
-++       AC_SUBST([G_IR_SCANNER], [$PKG_CONFIG_SYSROOT_DIR$($PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0)])
-++       AC_SUBST([G_IR_COMPILER], [$PKG_CONFIG_SYSROOT_DIR$($PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0)])
-++       AC_SUBST([G_IR_GENERATE], [$PKG_CONFIG_SYSROOT_DIR$($PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0)])
-+        AC_SUBST([GIRDIR], [$($PKG_CONFIG --define-variable=datadir=${datadir} --variable=girdir gobject-introspection-1.0)])
-+        AC_SUBST([GIRTYPELIBDIR], [$($PKG_CONFIG --define-variable=libdir=${libdir} --variable=typelibdir gobject-introspection-1.0)])
-+ ])
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-core/udev/udev/0002-Makefile.am-use-libtool-when-running-g-ir-scanner.patch b/meta/recipes-core/udev/udev/0002-Makefile.am-use-libtool-when-running-g-ir-scanner.patch
-new file mode 100644
-index 0000000..b5373fc
---- /dev/null
-+++ b/meta/recipes-core/udev/udev/0002-Makefile.am-use-libtool-when-running-g-ir-scanner.patch
-@@ -0,0 +1,26 @@
-+From 47bdabf2e07dee5e09d171653c2dbe9fee009a5b Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 29 Oct 2015 14:05:26 +0200
-+Subject: [PATCH 2/2] Makefile.am: use --libtool when running g-ir-scanner
-+
-+Upstream-Status: Inappropriate [upstream is dead]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ Makefile.am | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 2e32e69..c7e7447 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -443,6 +443,7 @@ src/gudev/GUdev-1.0.gir: libgudev-1.0.la $(G_IR_SCANNER)
-+ 		--warn-all \
-+ 		--namespace GUdev \
-+ 		--nsversion=1.0 \
-++                --libtool=$(LIBTOOL) \
-+ 		--include=GObject-2.0 \
-+ 		--library=gudev-1.0 \
-+ 		--library-path=$(top_builddir)/src \
-+-- 
-+2.1.4
-+
+diff --git a/meta/recipes-devtools/vala/vala_0.28.0.bb b/meta/recipes-devtools/vala/vala_0.28.0.bb
+index 120906c..de9a46b 100644
+--- a/meta/recipes-devtools/vala/vala_0.28.0.bb
++++ b/meta/recipes-devtools/vala/vala_0.28.0.bb
+@@ -1,6 +1,8 @@
+ require ${BPN}.inc
+ 
+-SRC_URI += " file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.patch"
++SRC_URI += " file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.patch \
++             file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
++"
+ 
+ SRC_URI[md5sum] = "8d4ceac3451a0d5497e7be38e5e4c2ad"
+ SRC_URI[sha256sum] = "0d9e3bd3f82145664875f7c29b2f544ba92d2814f75412948f774c0727fc977f"
 -- 
 2.1.4
 
