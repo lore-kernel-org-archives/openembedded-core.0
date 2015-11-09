@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AA8D770A0
+	by mail.openembedded.org (Postfix) with ESMTP id B43987713F
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  9 Nov 2015 12:41:11 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 04:41:04 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 04:41:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,265,1444719600"; d="scan'208";a="596861536"
+X-IronPort-AV: E=Sophos;i="5.20,265,1444719600"; d="scan'208";a="596861550"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 04:41:03 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 04:41:04 -0800
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Nov 2015 14:44:02 +0200
-Message-Id: <9ca29868b674dd7aa3eec5b1dbc1075ee0b9976d.1447072488.git.jussi.kukkonen@intel.com>
+Date: Mon,  9 Nov 2015 14:44:03 +0200
+Message-Id: <89b809eaef8b1fcf71287300bc8a29d813b384e0.1447072488.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <090fbaaf8c5d1b0a51169fce3b9c6ef822103dc7.1447072488.git.jussi.kukkonen@intel.com>
 References: <090fbaaf8c5d1b0a51169fce3b9c6ef822103dc7.1447072488.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1447072488.git.jussi.kukkonen@intel.com>
 References: <cover.1447072488.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv2 5/8] atk: Upgrade 2.16.0 -> 2.18.0
+Subject: [PATCHv2 6/8] atk-spi2-core: Upgrade 2.16.0 -> 2.18.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,27 +35,27 @@ X-List-Received-Date: Mon, 09 Nov 2015 12:41:12 -0000
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-support/atk/{atk_2.16.0.bb => atk_2.18.0.bb} | 4 ++--
+ .../atk/{at-spi2-core_2.16.0.bb => at-spi2-core_2.18.1.bb}            | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/atk/{atk_2.16.0.bb => atk_2.18.0.bb} (78%)
+ rename meta/recipes-support/atk/{at-spi2-core_2.16.0.bb => at-spi2-core_2.18.1.bb} (84%)
 
-diff --git a/meta/recipes-support/atk/atk_2.16.0.bb b/meta/recipes-support/atk/atk_2.18.0.bb
-similarity index 78%
-rename from meta/recipes-support/atk/atk_2.16.0.bb
-rename to meta/recipes-support/atk/atk_2.18.0.bb
-index 0f8f9b5..83bcae0 100644
---- a/meta/recipes-support/atk/atk_2.16.0.bb
-+++ b/meta/recipes-support/atk/atk_2.18.0.bb
-@@ -12,8 +12,8 @@ DEPENDS = "glib-2.0"
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.16.0.bb b/meta/recipes-support/atk/at-spi2-core_2.18.1.bb
+similarity index 84%
+rename from meta/recipes-support/atk/at-spi2-core_2.16.0.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.18.1.bb
+index 7c12b54..53fa1f5 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.16.0.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.18.1.bb
+@@ -8,8 +8,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0001-nls.m4-Take-it-from-gettext-0.15.patch \
+           "
  
- inherit gnomebase gtk-doc
+-SRC_URI[md5sum] = "be6eeea370f913b7639b609913b2cf02"
+-SRC_URI[sha256sum] = "1c0b77fb8ce81abbf1d80c0afee9858b3f9229f673b7881995fe0fc16b1a74d0"
++SRC_URI[md5sum] = "5f13ba8cfd97cf817261954ef49ebd48"
++SRC_URI[sha256sum] = "57d555be4cc64905454687bf9bb7dc1e68531bee93befa77222d94ea083f01cf"
  
--SRC_URI[archive.md5sum] = "c7c5002bd6e58b4723a165f1bf312116"
--SRC_URI[archive.sha256sum] = "095f986060a6a0b22eb15eef84ae9f14a1cf8082488faa6886d94c37438ae562"
-+SRC_URI[archive.md5sum] = "fd3678f35004b4c92e3da39356996054"
-+SRC_URI[archive.sha256sum] = "ce6c48d77bf951083029d5a396dd552d836fff3c1715d3a7022e917e46d0c92b"
- 
- BBCLASSEXTEND = "native"
+ DEPENDS = "dbus glib-2.0 virtual/libx11 libxi libxtst intltool-native gettext-native"
  
 -- 
 2.1.4
