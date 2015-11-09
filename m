@@ -1,30 +1,27 @@
-Return-Path: <Randy.MacLeod@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3944476FC4
+	by mail.openembedded.org (Postfix) with ESMTP id 0C49B76B7C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Nov 2015 01:45:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tA91gtbf016454
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 8 Nov 2015 17:42:55 -0800 (PST)
-Received: from [172.25.44.6] (172.25.44.6) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 8 Nov 2015 17:42:53 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Jens Rehsack
-	<rehsack@gmail.com>
-References: <9EEC2D18-21A2-40BA-97B3-D8DD67015AC9@gmail.com>
-	<1444032741.5118.5.camel@linuxfoundation.org>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <563FFA16.6070606@windriver.com>
-Date: Sun, 8 Nov 2015 20:42:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Mon,  9 Nov 2015 04:46:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tA94kRWL000553
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 8 Nov 2015 20:46:28 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 8 Nov 2015 20:46:26 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <jeffrey.honig@windriver.com>
+Date: Sun, 8 Nov 2015 23:46:25 -0500
+Message-ID: <1447044385-172869-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1446884486-23655-2-git-send-email-hongxu.jia@windriver.com>
+References: <1446884486-23655-1-git-send-email-hongxu.jia@windriver.com>
+	<1446884486-23655-2-git-send-email-hongxu.jia@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <1444032741.5118.5.camel@linuxfoundation.org>
-X-Originating-IP: [172.25.44.6]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Should openssl(-native) build-depends on perl-native?
+Subject: [meta-perl][PATCH] libhtml-tree-perl: fix shebang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,76 +34,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Nov 2015 01:45:06 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Nov 2015 04:46:30 -0000
+Content-Type: text/plain
 
-On 2015-10-05 04:12 AM, Richard Purdie wrote:
-> On Sat, 2015-10-03 at 14:51 +0200, Jens Rehsack wrote:
->> I hit a build error never seen before:
->>
->> | gcc  -I.. -I../.. -I../modes -I../asn1 -I../evp -I../../include  -fPIC -DOPENSSL_PIC -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -DL_ENDIAN     -DTERMIO -isystem/home/sno/fsl-community-bsp/ornithologen-kann-man-mit-voegeln-eine-freude-machen/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe -Wall -Wa,--noexecstack -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS -DOPENSSL_IA32_SSE2 -DOPENSSL_BN_ASM_MONT -DOPENSSL_BN_ASM_MONT5 -DOPENSSL_BN_ASM_GF2m -DSHA1_ASM -DSHA256_ASM -DSHA512_ASM -DMD5_ASM -DAES_ASM -DVPAES_ASM -DBSAES_ASM -DWHIRLPOOL_ASM -DGHASH_ASM -DECP_NISTZ256_ASM -isystem/home/sno/fsl-community-bsp/ornithologen-kann-man-mit-voegeln-eine-freude-machen/tmp/sysroots/x86_64-linux/usr/include  -c -o sha512.o sha512.c
->> | /home/sno/perl5/perlbrew/perls/perl-5.6.2/bin/perl asm/sha1-x86_64.pl elf > sha1-x86_64.s
->> | Can't locate bigint.pm in @INC (@INC contains: /home/sno/perl5/perlbrew/perls/perl-5.6.2/lib/5.6.2/x86_64-linux /home/sno/perl5/perlbrew/perls/perl-5.6.2/lib/5.6.2 /home/sno/perl5/perlbrew/perls/perl-5.6.2/lib/site_perl/5.6.2/x86_64-linux /home/sno/perl5/perlbrew/perls/perl-5.6.2/lib/site_perl/5.6.2 /home/sno/perl5/perlbrew/perls/perl-5.6.2/lib/site_perl .) at asm/../../perlasm/x86_64-xlate.pl line 200.
->> | BEGIN failed--compilation aborted at asm/../../perlasm/x86_64-xlate.pl line 200.
->> | make[2]: *** [sha1-x86_64.s] Error 141
->> | make[2]: Leaving directory `/home/sno/fsl-community-bsp/ornithologen-kann-man-mit-voegeln-eine-freude-machen/tmp/work/x86_64-linux/openssl-native/1.0.2d-r0/openssl-1.0.2d/crypto/sha'
->> | make[1]: *** [subdirs] Error 1
->> | make[1]: Leaving directory `/home/sno/fsl-community-bsp/ornithologen-kann-man-mit-voegeln-eine-freude-machen/tmp/work/x86_64-linux/openssl-native/1.0.2d-r0/openssl-1.0.2d/crypto'
->> | make: *** [build_crypto] Error 1
->> | ERROR: oe_runmake failed
->> | WARNING: /home/sno/fsl-community-bsp/ornithologen-kann-man-mit-voegeln-eine-freude-machen/tmp/work/x86_64-linux/openssl-native/1.0.2d-r0/temp/run.do_compile.15132:1 exit 1 from
->> |   exit 1
->> | ERROR: Function failed: do_compile (log file is located at /home/sno/fsl-community-bsp/ornithologen-kann-man-mit-voegeln-eine-freude-machen/tmp/work/x86_64-linux/openssl-native/1.0.2d-r0/temp/log.do_compile.15132)
->> ERROR: Task 1531 (virtual:native:/home/sno/fsl-community-bsp/sources/poky/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb, do_compile) failed with exit code '1'
->>
->> Seems I recently used the same session to run my own module tests for a perl module to upload.
->> OTOH - it's easy to avoid such a problem by depending on perl-native for openssl(-native).
->
-> Whilst you could add this dependency, it would have quite a significant
-> impact on build time. We rely on there being a working perl on the
-> native system for autotools so there isn't really a good reason to do
-> this.
+There is a build failure while installing libhtml-tree-perl to sdk:
+...
+|Computing transaction...error: Can't install nativesdk-libhtml-tree-
+perl-5.03-r0.1@x86_64_nativesdk: no package provides tmp/sysroots/
+x86_64-linux/usr/bin/perl-native/perl.real
+...
 
-openssl fails to build on Fedora 23 with this signature.
-I suspect that bigint.pm isn't standard and that we
-need to re-work:
-
-commit cd3eddcf2842b9a360f72caf4337ab2968462bb2
-Author: Cristian Iorga <cristian.iorga@intel.com>
-Date:   Tue Jun 16 00:32:15 2015 +0300
-
-     openssl: fix building on x32 systems
-
-     Fix build on Fedora 21 i686.
-
-     When building on x32 systems where the default type is 32bit,
-     make sure that 64bit integers can be represented transparently.
-
-     Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-     Signed-off-by: Ross Burton <ross.burton@intel.com>
-
+The rpm detects the shebang of perl script, so we correct it.
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
+ .../libhtml/files/bin-htmltree-fix-shebang.patch   | 25 ++++++++++++++++++++++
+ .../recipes-perl/libhtml/libhtml-tree-perl_5.03.bb |  4 +++-
+ 2 files changed, 28 insertions(+), 1 deletion(-)
+ create mode 100644 meta-perl/recipes-perl/libhtml/files/bin-htmltree-fix-shebang.patch
 
-$ git show cd3eddcf2842b9a360f72caf4337ab2968462bb2 | grep bigint
-+Subject: [PATCH] crypto: use bigint in x86-64 perl
-++	use bigint;
-              file://crypto_use_bigint_in_x86-64_perl.patch \
-
-
-More later in the week unless someone has fixed this already.
-
-../Randy
-
->
-> Cheers,
->
-> Richard
->
-
-
+diff --git a/meta-perl/recipes-perl/libhtml/files/bin-htmltree-fix-shebang.patch b/meta-perl/recipes-perl/libhtml/files/bin-htmltree-fix-shebang.patch
+new file mode 100644
+index 0000000..4266f05
+--- /dev/null
++++ b/meta-perl/recipes-perl/libhtml/files/bin-htmltree-fix-shebang.patch
+@@ -0,0 +1,25 @@
++From 28ee994780459c3552d3cbbd6b011d054a41c439 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Sun, 8 Nov 2015 23:33:31 -0500
++Subject: [PATCH] bin/htmltree: fix shebang
++
++Upstream-Status: Pending
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ bin/htmltree | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/bin/htmltree b/bin/htmltree
++index 8bf3db2..f9927e5 100755
++--- a/bin/htmltree
+++++ b/bin/htmltree
++@@ -1,4 +1,4 @@
++-#!/usr/bin/perl
+++#!/usr/bin/env perl
++ # Time-stamp: "2000-10-02 14:48:15 MDT"
++ #
++ # Parse the given HTML file(s) and dump the parse tree
++-- 
++1.9.1
++
+diff --git a/meta-perl/recipes-perl/libhtml/libhtml-tree-perl_5.03.bb b/meta-perl/recipes-perl/libhtml/libhtml-tree-perl_5.03.bb
+index 0b457e3..8eb0e06 100644
+--- a/meta-perl/recipes-perl/libhtml/libhtml-tree-perl_5.03.bb
++++ b/meta-perl/recipes-perl/libhtml/libhtml-tree-perl_5.03.bb
+@@ -11,7 +11,9 @@ HOMEPAGE = "http://www.cpan.org/authors/id/C/CJ/CJM/HTML-Tree-${PV}.readme"
+ LICENSE = "Artistic-1.0 | GPL-1.0+"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3eb57a8958cae73cb65e7d0c26339242"
+ 
+-SRC_URI = "${CPAN_MIRROR}/authors/id/C/CJ/CJM/HTML-Tree-${PV}.tar.gz"
++SRC_URI = "${CPAN_MIRROR}/authors/id/C/CJ/CJM/HTML-Tree-${PV}.tar.gz \
++           file://bin-htmltree-fix-shebang.patch \
++"
+ SRC_URI[md5sum] = "d9271d60b872ed6fbe68b2d0fe8c450e"
+ SRC_URI[sha256sum] = "7d6d73fca622aa74855a8b088faa39454a0f91b7af83c9ec0387f01eefc2148f"
+ 
 -- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
-Canada, K2K 2W5
+1.9.1
+
 
