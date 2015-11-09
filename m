@@ -1,62 +1,35 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id DE05E65CBF
+Return-Path: <rich.tollerton@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A5EC65CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Nov 2015 21:11:39 +0000 (UTC)
-Received: by iody8 with SMTP id y8so199421677iod.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Nov 2015 13:11:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems_com_br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-type;
-	bh=73AWrwqSKijP0U+4i8xrM3Ks+wH09CnmRfHbwNOiShg=;
-	b=ZX84zZoXUda+lnA9+uASVqgRFEJocXMLyNyD1wYl43vUhQ3aLq6nSQWcl9rPeF6IGY
-	+nLfkTeVqLCb4PR4/blEjam4gREI2Gver/beJI35VkqbtJh4H8SdJvKkSSChchkH/ChC
-	s8e8QO9YXaQKt1lGhO4XF7gWcxB7gn7xz4brqWfgURPc3hUIQ87IX/0xcwKQMpXbSwUZ
-	fpxAz6YyemiTfoVqevIO2SP/shex/oC8LOGBCDJgeCR9yBv+rNHgIQzJvdttGwv4YViQ
-	fifl3xXXQotEIpKQjf52glEnf9He1AOYKmIRG/psg2GX6FZ9HR7wdCDhi9+4Z69gQpys
-	20JA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=73AWrwqSKijP0U+4i8xrM3Ks+wH09CnmRfHbwNOiShg=;
-	b=WnZ+3LJfxSGTL6ba7hUrdMbEuiWQeQtCl2l7Sv1Ze5FRZzNaVq+HM1oo6UtjlN+4hf
-	w/p9TPEXKI/h0/d7r6kqcZGutJZuBARTQUW/li0RUgo0Do8OB9CfAq6xguqxpqjfvruY
-	dPSHUACX6Rxg6ZBt/r1PzQR+n90LHUhz/jQbErw4GXBx/3fY2m5RnXXt448bbaowTuLn
-	s5vWCnI3fu532aM+bRW5QyV0xetW/+YkutyUSDqneauXbNHtI51H+cZl+QCQGmeDarG2
-	WABrbZttNCUH9OglKXAA+bHySJ2vXndzw8kkuYm2o0j+kfFlNtBgBwohOiZ9sZSDiuVl
-	fBug==
-X-Gm-Message-State: ALoCoQmk6gZY8gDF4adZ9+TbIMJdsp6zhhtpWgF7gPx3zj6wJM/lkJelJWQHe2BxjgaJU9H0JLWk
-X-Received: by 10.107.8.69 with SMTP id 66mr627192ioi.34.1447103499654;
-	Mon, 09 Nov 2015 13:11:39 -0800 (PST)
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com.
-	[209.85.223.182])
-	by smtp.gmail.com with ESMTPSA id h64sm192121ioh.41.2015.11.09.13.11.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 09 Nov 2015 13:11:38 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by iofh3 with SMTP id h3so32348731iof.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Nov 2015 13:11:37 -0800 (PST)
+	Mon,  9 Nov 2015 21:15:54 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tA9LFskl016510 for <openembedded-core@lists.openembedded.org>;
+	Mon, 9 Nov 2015 15:15:54 -0600
+Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015110915155400-1841230 ;
+	Mon, 9 Nov 2015 15:15:54 -0600 
+From: Richard Tollerton <rich.tollerton@ni.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>,
+	openembedded-core@lists.openembedded.org
+In-Reply-To: <1447077707-31620-1-git-send-email-adrian.ratiu@ni.com>
+References: <1447077707-31620-1-git-send-email-adrian.ratiu@ni.com>
+User-Agent: Notmuch/0.20.2 (http://notmuchmail.org) Emacs/24.5.2
+	(x86_64-unknown-linux-gnu)
+Date: Mon, 09 Nov 2015 15:15:54 -0600
+Message-ID: <87h9ku6fhx.fsf@weregild.amer.corp.natinst.com>
 MIME-Version: 1.0
-X-Received: by 10.107.151.131 with SMTP id z125mr501965iod.192.1447103497693; 
-	Mon, 09 Nov 2015 13:11:37 -0800 (PST)
-Received: by 10.36.15.197 with HTTP; Mon, 9 Nov 2015 13:11:37 -0800 (PST)
-In-Reply-To: <20151109202937.GH8499@bill-the-cat>
-References: <1445961940-12110-1-git-send-email-otavio@ossystems.com.br>
-	<20151109202937.GH8499@bill-the-cat>
-Date: Mon, 9 Nov 2015 19:11:37 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKoZR+w+CmPv0gcpJfDf=QqkFNgPOmAX22YJ5RrjAHfkAg@mail.gmail.com>
-Message-ID: <CAP9ODKoZR+w+CmPv0gcpJfDf=QqkFNgPOmAX22YJ5RrjAHfkAg@mail.gmail.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Update to 2015.10 release
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 11/09/2015 03:15:54 PM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 11/09/2015 03:15:54 PM,
+	Serialize complete at 11/09/2015 03:15:54 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-11-09_17:, , signatures=0
+Subject: Re: [PATCH] util-linux: create util-linux-runuser package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,34 +42,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Nov 2015 21:11:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 09 Nov 2015 21:15:59 -0000
+Content-Type: text/plain
 
-Hello Tom,
+Ioan-Adrian Ratiu <adrian.ratiu@ni.com> writes:
 
-On Mon, Nov 9, 2015 at 6:29 PM, Tom Rini <trini@konsulko.com> wrote:
-> On Tue, Oct 27, 2015 at 02:05:40PM -0200, Otavio Salvador wrote:
->
->> The U-Boot 2015.10 has been released at October 20th 2015. This also
->> removes the GCC workaround, for the inline behavior, as this version
->> properlu supports the GCC 5.2 as compiler.
->>
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->
-> Sorry for being late on this.  Please make sure to cherry-pick at least
-> c139b5ff0999ec3d44a02ebdb623a92e5782e53e from upstream (or a number of
-> boards won't boot Linux) and possibly even
-> fb3db635757f68e68ab3e943396c34886529b88e /
-> 2bb5b638791d0f4f7d2f0e5c276e70a1034805ce /
-> 347ea94e2a954ab70f64a3f43d9b374cf4640f26 which are some important MIPS
-> fixes.
+>  RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin"
+>  RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs "
 
-I queued those here for the next patch version however it seems noone
-has yet cooked a proper fix for the ppc issue. Are you aware of anyone
-working on it?
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Should we add util-linux-runuser to either RDEPENDS or RRECOMMENDS?
 
