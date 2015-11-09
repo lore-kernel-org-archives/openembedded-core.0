@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B531A77153
+	by mail.openembedded.org (Postfix) with ESMTP id 4ED6F77140
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Nov 2015 14:50:08 +0000 (UTC)
+	Mon,  9 Nov 2015 14:50:09 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 06:50:08 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 06:50:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,266,1444719600"; d="scan'208";a="596917610"
+X-IronPort-AV: E=Sophos;i="5.20,266,1444719600"; d="scan'208";a="596917636"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 06:50:08 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 06:50:09 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Nov 2015 16:50:36 +0200
-Message-Id: <82c63d708f91717fca38bdd34bd2cf50b54e5930.1447080392.git.alexander.kanavin@linux.intel.com>
+Date: Mon,  9 Nov 2015 16:50:37 +0200
+Message-Id: <7e9d0d940859f675f2f9689af29aba7bd5eb48eb.1447080392.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 14/29] gconf: enable gobject-introspection
+Subject: [PATCH 15/29] gtk+: enable gobject introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +35,40 @@ X-List-Received-Date: Mon, 09 Nov 2015 14:50:09 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-gnome/gnome/gconf_3.2.6.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-gnome/gtk+/gtk+.inc | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-index 17fdafa..8bb5094 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-@@ -3,8 +3,8 @@ SECTION = "x11/gnome"
- LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
+index a197b9d..3ccdbe8 100644
+--- a/meta/recipes-gnome/gtk+/gtk+.inc
++++ b/meta/recipes-gnome/gtk+/gtk+.inc
+@@ -25,13 +25,12 @@ PACKAGECONFIG[x11] = "--with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS
+ # without --with-gdktarget=directfb it will check for cairo-xlib which isn't available without X11 DISTRO_FEATURE
+ PACKAGECONFIG[directfb] = "--with-gdktarget=directfb,,directfb"
  
--DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native gobject-introspection-stub"
--DEPENDS_class-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native gobject-introspection-stub-native"
-+DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native"
-+DEPENDS_class-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native gobject-introspection-native"
+-inherit autotools gtk-doc pkgconfig update-alternatives gtk-immodules-cache
++inherit autotools gtk-doc pkgconfig update-alternatives gtk-immodules-cache gobject-introspection
  
+ PACKAGES += "libgail gtk-demo"
  
- inherit gnomebase gtk-doc gettext
-@@ -20,7 +20,7 @@ SRC_URI[archive.sha256sum] = "1912b91803ab09a5eed34d364bf09fe3a2a9c96751fde03a4e
- S = "${WORKDIR}/GConf-${PV}"
+-FILES_${PN} = "${bindir}/gtk-update-icon-cache-2.0 \
++FILES_${PN} += "${bindir}/gtk-update-icon-cache-2.0 \
+ 	${bindir}/gtk-query-immodules-2.0 \
+-	${libdir}/lib*${SOLIBS} \
+ 	${datadir}/themes ${sysconfdir} \
+ 	${libdir}/gtk-2.0/${LIBV}/engines/libpixmap.so"
  
- EXTRA_OECONF = "--enable-shared --disable-static --enable-debug=yes \
--                --disable-introspection --disable-orbit --with-openldap=no --disable-gtk"
-+                --disable-orbit --with-openldap=no --disable-gtk"
+@@ -71,6 +70,10 @@ RRECOMMENDS_${PN}_libc-glibc = "${GTKGLIBC_RRECOMMENDS}"
+ ALTERNATIVE_${PN} = "gtk-update-icon-cache"
+ ALTERNATIVE_TARGET[gtk-update-icon-cache] = "${bindir}/gtk-update-icon-cache-2.0"
  
- # Disable PolicyKit by default
- PACKAGECONFIG ??= ""
++do_compile_prepend() {
++        export GIR_EXTRA_LIBS_PATH="${B}/gdk/.libs"
++}
++
+ do_install () {
+ 	autotools_do_install
+ 
 -- 
 2.1.4
 
