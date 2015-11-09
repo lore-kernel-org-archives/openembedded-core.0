@@ -1,24 +1,29 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id F24B177151
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 50E5374197
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Nov 2015 12:41:11 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 04:41:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,265,1444719600"; d="scan'208";a="596861593"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 04:41:07 -0800
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Nov 2015 14:44:05 +0200
-Message-Id: <84d5b3dc3832a7cd24b5362d35556e86b28d2f26.1447072488.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <090fbaaf8c5d1b0a51169fce3b9c6ef822103dc7.1447072488.git.jussi.kukkonen@intel.com>
-References: <090fbaaf8c5d1b0a51169fce3b9c6ef822103dc7.1447072488.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1447072488.git.jussi.kukkonen@intel.com>
-References: <cover.1447072488.git.jussi.kukkonen@intel.com>
-Subject: [PATCHv2 8/8] libsoup-2.4: Upgrade 2.50.0 -> 2.52.1
+	Mon,  9 Nov 2015 12:43:28 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tA9ChRS1007221
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 9 Nov 2015 04:43:27 -0800 (PST)
+Received: from [128.224.162.186] (128.224.162.186) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 9 Nov 2015 04:43:27 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1445333081.git.liezhi.yang@windriver.com>
+	<b6a5e9973afe805490f6aee8967026bc47f2692b.1445333081.git.liezhi.yang@windriver.com>
+	<CAJTo0LaOD2_=aDwHi9fjGzWZ2+hcMtUnjHMFsSOTABWiozuSTQ@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <564094ED.4050402@windriver.com>
+Date: Mon, 9 Nov 2015 20:43:25 +0800
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaOD2_=aDwHi9fjGzWZ2+hcMtUnjHMFsSOTABWiozuSTQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] bitbake-prserv-tool: check file name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,44 +36,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Nov 2015 12:41:12 -0000
+X-List-Received-Date: Mon, 09 Nov 2015 12:43:32 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Don't build the now-included vala bindings: This requires gobject-introspection.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- .../libsoup/{libsoup-2.4_2.50.0.bb => libsoup-2.4_2.52.1.bb}        | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.50.0.bb => libsoup-2.4_2.52.1.bb} (82%)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.50.0.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.52.1.bb
-similarity index 82%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.50.0.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.52.1.bb
-index 044db31..55d8b9e 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.50.0.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.52.1.bb
-@@ -9,6 +9,8 @@ SECTION = "x11/gnome/libs"
- 
- DEPENDS = "glib-2.0 gnutls libxml2 sqlite3 intltool-native"
- 
-+EXTRA_OECONF = "--disable-vala"
-+
- # libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards.  Enable
- # by default but let it be easily disabled.
- PACKAGECONFIG ??= "gnome"
-@@ -17,8 +19,8 @@ PACKAGECONFIG[gnome] = "--with-gnome,--without-gnome"
- SHRT_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "9a84d66e1b7ccd3bd340574b11eccc15"
--SRC_URI[sha256sum] = "1e01365ac4af3817187ea847f9d3588c27eee01fc519a5a7cb212bb78b0f667b"
-+SRC_URI[md5sum] = "b80f11674724ab38f96426875bc0e2e5"
-+SRC_URI[sha256sum] = "0e19bca047ad50b28e8ed7663840f9e45a94909148822ca44dcb3e8cafb5cc48"
- 
- S = "${WORKDIR}/libsoup-${PV}"
- 
--- 
-2.1.4
+On 11/09/2015 06:33 PM, Burton, Ross wrote:
+>
+> On 20 October 2015 at 10:25, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     Fixed:
+>     $ bitbake-prserv-tool import /tmp/1
+>        File "/path/to/lib/bb/parse/__init__.py", line 114, in
+>     handle(fn='/tmp/1', data=<bb.data_smart.DataSmart object at 0x2369bd0>,
+>     include=True):
+>                           return h['handle'](fn, data, include)
+>          >    raise ParseError("not a BitBake file", fn)
+>
+>     ParseError: ParseError in /tmp/1: not a BitBake file
+>
+>     But 1.conf works well, its help also shows "<file.conf>", so check the
+>     filename and print proper error message.
+>
+>
+> This breaks the selftest:
+>
+> ======================================================================
+> FAIL: test_import_export_override_db (oeqa.selftest.prservice.BitbakePrTests)
+> ----------------------------------------------------------------------
+> Traceback (most recent call last):
+>    File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/decorators.py",
+> line 106, in wrapped_f
+>      return func(*args, **kwargs)
+>    File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/prservice.py",
+> line 97, in test_import_export_override_db
+>      self.run_test_pr_export_import('m4', replace_current_db=False)
+>    File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/prservice.py",
+> line 74, in run_test_pr_export_import
+>      self.assertEqual(export_result.status, 0, msg="PR Service database export
+> failed: %s" % export_result.output)
+> AssertionError: 1 != 0 : PR Service database export failed: ERROR:
+> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/export.inc
+> must end with .conf!
+>
+> ======================================================================
+> FAIL: test_import_export_replace_db (oeqa.selftest.prservice.BitbakePrTests)
+> ----------------------------------------------------------------------
+> Traceback (most recent call last):
+>    File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/decorators.py",
+> line 106, in wrapped_f
+>      return func(*args, **kwargs)
+>    File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/prservice.py",
+> line 93, in test_import_export_replace_db
+>      self.run_test_pr_export_import('m4')
+>    File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/prservice.py",
+> line 74, in run_test_pr_export_import
+>      self.assertEqual(export_result.status, 0, msg="PR Service database export
+> failed: %s" % export_result.output)
+> AssertionError: 1 != 0 : PR Service database export failed: ERROR:
+> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/export.inc
+> must end with .conf!
 
+Maybe selftest should use export.conf rather than export.inc ?
+
+// Robert
+
+>
+> Ross
 
