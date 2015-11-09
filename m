@@ -1,22 +1,26 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C928E770E3
+	by mail.openembedded.org (Postfix) with ESMTP id C810B7707F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Nov 2015 18:35:04 +0000 (UTC)
+	Mon,  9 Nov 2015 18:35:05 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Nov 2015 10:35:04 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 09 Nov 2015 10:35:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,266,1444719600"; d="scan'208";a="681578993"
+X-IronPort-AV: E=Sophos;i="5.20,266,1444719600"; d="scan'208";a="681579009"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.23.219.46])
-	by orsmga003.jf.intel.com with ESMTP; 09 Nov 2015 10:35:04 -0800
+	by orsmga003.jf.intel.com with ESMTP; 09 Nov 2015 10:35:06 -0800
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Nov 2015 10:23:45 +0000
-Message-Id: <cover.1447063562.git.mariano.lopez@linux.intel.com>
+Date: Mon,  9 Nov 2015 10:23:46 +0000
+Message-Id: <a744450f36d71255d87a7bb8f39b32faf1027aef.1447063562.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1447063562.git.mariano.lopez@linux.intel.com>
+References: <cover.1447063562.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1447063562.git.mariano.lopez@linux.intel.com>
+References: <cover.1447063562.git.mariano.lopez@linux.intel.com>
 Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH 0/6] Create image manifest
+Subject: [PATCH 1/6] license.bbclass: Split license create manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +37,101 @@ X-List-Received-Date: Mon, 09 Nov 2015 18:35:07 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-When building the rootfs the rootfs is created but the recipes
-that deployed files in the image doesn't show up. Usually these
-recipes include the bootloaders and the kernel.
+This changes moves the writing of the licenses to a
+separated function that could be called for other packages.
 
-With these patches a new manifest will be created that includes
-the deployed recipes that were in the deployed. The format of the
-manifest is different because the recipes doesn't install packages,
-instead the recipes deploy files into the image
+With these change it will be easier to reuse the writing of
+the license for the packages deployed but not installed in
+the rootfs.
 
 [YOCTO #6772]
 
-The following changes since commit fc45deac89ef63ca1c44e763c38ced7dfd72cbe1:
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/classes/license.bbclass | 36 ++++++++++++++++++++++--------------
+ 1 file changed, 22 insertions(+), 14 deletions(-)
 
-  build-appliance-image: Update to jethro head revision (2015-11-03 14:03:03 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mariano/bug6772
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug6772
-
-Mariano Lopez (6):
-  license.bbclass: Split license create manifest
-  license.bbclass: Added get_boot_dependencies function
-  license.bbclass: Added function get_deployed_dependencies
-  license.bbclass: Added get_package_from_deployed
-  license.bbclass: Add function get_deployed_files
-  icense.bbclass: Create image license manifest
-
- meta/classes/license.bbclass | 219 +++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 200 insertions(+), 19 deletions(-)
-
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index c616a20..98f1733 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -26,14 +26,9 @@ python write_package_manifest() {
+ }
+ 
+ python license_create_manifest() {
+-    import re
+     import oe.packagedata
+     from oe.rootfs import image_list_installed_packages
+ 
+-    bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE", True) or "").split()
+-    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
+-    bad_licenses = expand_wildcard_licenses(d, bad_licenses)
+-
+     build_images_from_feeds = d.getVar('BUILD_IMAGES_FROM_FEEDS', True)
+     if build_images_from_feeds == "1":
+         return 0
+@@ -49,8 +44,18 @@ python license_create_manifest() {
+             pkg_lic_name = "LICENSE_" + pkg_name
+             pkg_dic[pkg_name]["LICENSE"] = pkg_dic[pkg_name][pkg_lic_name]
+ 
+-    license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
++    rootfs_license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
+                         d.getVar('IMAGE_NAME', True), 'license.manifest')
++    write_license_files(d, rootfs_license_manifest, pkg_dic)
++}
++
++def write_license_files(d, license_manifest, pkg_dic):
++    import re
++
++    bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE", True) or "").split()
++    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
++    bad_licenses = expand_wildcard_licenses(d, bad_licenses)
++
+     with open(license_manifest, "w") as license_file:
+         for pkg in sorted(pkg_dic):
+             if bad_licenses:
+@@ -98,15 +103,16 @@ python license_create_manifest() {
+     if copy_lic_manifest == "1":
+         rootfs_license_dir = os.path.join(d.getVar('IMAGE_ROOTFS', 'True'), 
+                                 'usr', 'share', 'common-licenses')
+-        os.makedirs(rootfs_license_dir)
++        bb.utils.mkdirhier(rootfs_license_dir)
+         rootfs_license_manifest = os.path.join(rootfs_license_dir,
+-                                                'license.manifest')
+-        os.link(license_manifest, rootfs_license_manifest)
++                os.path.split(license_manifest)[1])
++        if not os.path.exists(rootfs_license_manifest):
++            os.link(license_manifest, rootfs_license_manifest)
+ 
+         if copy_lic_dirs == "1":
+             for pkg in sorted(pkg_dic):
+                 pkg_rootfs_license_dir = os.path.join(rootfs_license_dir, pkg)
+-                os.makedirs(pkg_rootfs_license_dir)
++                bb.utils.mkdirhier(pkg_rootfs_license_dir)
+                 pkg_license_dir = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
+                                             pkg_dic[pkg]["PN"]) 
+                 licenses = os.listdir(pkg_license_dir)
+@@ -124,14 +130,16 @@ python license_create_manifest() {
+                         if not os.path.exists(rootfs_license):
+                             os.link(pkg_license, rootfs_license)
+ 
+-                        os.symlink(os.path.join('..', lic), pkg_rootfs_license)
++                        if not os.path.exists(pkg_rootfs_license):
++                            os.symlink(os.path.join('..', lic), pkg_rootfs_license)
+                     else:
+-                        if oe.license.license_ok(canonical_license(d,
+-                            lic), bad_licenses) == False:
++                        if (oe.license.license_ok(canonical_license(d,
++                                lic), bad_licenses) == False or
++                                os.path.exists(pkg_rootfs_license)):
+                             continue
+ 
+                         os.link(pkg_license, pkg_rootfs_license)
+-}
++
+ 
+ python do_populate_lic() {
+     """
 -- 
 1.8.4.5
 
