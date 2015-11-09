@@ -1,50 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id AC1C674197
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 19EBA7713F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Nov 2015 14:34:05 +0000 (UTC)
-Received: by qkao63 with SMTP id o63so29419952qka.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Nov 2015 06:34:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=vW+cilvSEBEP5GBqcgApprYtNIsBfwrrHYJ0WW8chS0=;
-	b=seZqZxZJ4PVJ/nWzLAmWvFKKSgQ4B42sawhvnNYeG4AAmB8GelnU0KG6KA3zwwNiJt
-	4k0IErUxp8BtjpT3WVxnaMuHsTw6zDgepb9CF36lqIkoWbpvHsyVNfAigigUVSL75cwG
-	bMC4moWVSGjd4p/9WNHnWShPm73dlhmqc6rJ6cHSZT7y8YWhcWI/+8OOJA2zOnxwnRDM
-	cnVAXRlv/D0doQ4tTQ3z8/XCvQQPZa5gmzHwmh46O6jJZD+UxN2DDDwyM7tFOS+KwbJX
-	mLCmW0JwZkS2L63Paag31SJnJJmcDek8I92I5y2ic0PlsQnkm6KDFBvWryEZ6TY3zApW
-	gWbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=vW+cilvSEBEP5GBqcgApprYtNIsBfwrrHYJ0WW8chS0=;
-	b=dUeHDV1x6mOp+5Li7ZUrC02PWqMn18Nu5l9G2c4OA++a45LzOuHsgz/00JbHGueOF0
-	GIEcGgjYHcSJgpiju/qxezY0sdk1qps0QB4vZV3bQ6BXlRpzLMbXRZ7NlTUmWpoBjdau
-	cc0TJskQBbeHMLiLvW4YDvwkHZEJumRj//cBKf10HMENiW5an2QD1mfEW9XdkzBNtMNF
-	f7DpUf285hzY491/ojVdOBF1rTpEvdUFXmXO7QxS1pN9lNwa8RAo/gvSDqJi4eb9DIq/
-	DWXgGnPiQBZ5w9e1uj6y5z5QaVt9wRsjyg6RqnJbsE2icD5/BBSWh/AR28D2lii6T7FJ
-	SruQ==
-X-Gm-Message-State: ALoCoQm1OLpkRTUYOwGoB7WiM5u+Lg97maejIoSTrquGWTBqP5/8ThrkGHNx+aJl+f8JpEsCK9sQ
-X-Received: by 10.55.212.89 with SMTP id l86mr30056825qki.64.1447079645409;
-	Mon, 09 Nov 2015 06:34:05 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.94.110 with HTTP; Mon, 9 Nov 2015 06:33:45 -0800 (PST)
-In-Reply-To: <564094ED.4050402@windriver.com>
-References: <cover.1445333081.git.liezhi.yang@windriver.com>
-	<b6a5e9973afe805490f6aee8967026bc47f2692b.1445333081.git.liezhi.yang@windriver.com>
-	<CAJTo0LaOD2_=aDwHi9fjGzWZ2+hcMtUnjHMFsSOTABWiozuSTQ@mail.gmail.com>
-	<564094ED.4050402@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 9 Nov 2015 14:33:45 +0000
-Message-ID: <CAJTo0LaU=2GbBh7F6d+yGz+nUFZKd9x3cvSi4mU_=7xG2QY_Dg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] bitbake-prserv-tool: check file name
+	Mon,  9 Nov 2015 14:40:28 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 06:40:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,266,1444719600"; d="scan'208";a="681425930"
+Received: from pdelcroi-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.3.221])
+	by orsmga003.jf.intel.com with ESMTP; 09 Nov 2015 06:40:27 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Nov 2015 14:40:08 +0000
+Message-Id: <2137166d10c937a2e34223a936f80697bf92d73d.1447079927.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1447079927.git.paul.eggleton@linux.intel.com>
+References: <cover.1447079927.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1447079927.git.paul.eggleton@linux.intel.com>
+References: <cover.1447079927.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] classes/metadata_scm: fix git errors showing up on non-git repositories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +32,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Nov 2015 14:34:06 -0000
-Content-Type: multipart/alternative; boundary=001a114998f43a0e2905241c7c52
+X-List-Received-Date: Mon, 09 Nov 2015 14:40:28 -0000
 
---001a114998f43a0e2905241c7c52
-Content-Type: text/plain; charset=UTF-8
+Fixes the following error showing up for layers that aren't a git repo
+(or aren't parented by one):
 
-On 9 November 2015 at 12:43, Robert Yang <liezhi.yang@windriver.com> wrote:
+fatal: Not a git repository (or any of the parent directories): .git
 
-> Maybe selftest should use export.conf rather than export.inc ?
->
+This was because we weren't intercepting stderr. We might as well just
+use bb.process.run() here which does that and returns stdout and stderr
+separately.
 
-It's a configuration file that is typically included, so I'd say .inc is
-perfectly reasonable.  Better error reporting in the Python would be useful
-so it doesn't just throw an exception.
+(This was a regression that came in with OE-Core revision
+3aac11076e22ac4fea48f5404110bb959547a9fe).
 
-Ross
+Fixes [YOCTO #8661].
 
---001a114998f43a0e2905241c7c52
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/metadata_scm.bbclass | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 November 2015 at 12:43, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3el" =
-class=3D"a3s" style=3D"overflow:hidden">Maybe selftest should use export.co=
-nf rather than export.inc ?<br></div></blockquote></div><br>It&#39;s a conf=
-iguration file that is typically included, so I&#39;d say .inc is perfectly=
- reasonable.=C2=A0 Better error reporting in the Python would be useful so =
-it doesn&#39;t just throw an exception.</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">Ross</div></div>
+diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
+index 64465fa..0f7f423 100644
+--- a/meta/classes/metadata_scm.bbclass
++++ b/meta/classes/metadata_scm.bbclass
+@@ -65,19 +65,19 @@ def base_get_metadata_svn_revision(path, d):
+     return revision
+ 
+ def base_get_metadata_git_branch(path, d):
+-    import subprocess
++    import bb.process
+ 
+     try:
+-        return subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"],
+-                                       cwd=path).strip()
+-    except:
+-        return "<unknown>"
++        rev, _ = bb.process.run('git rev-parse --abbrev-ref HEAD', cwd=path)
++    except bb.process.ExecutionError:
++        rev = '<unknown>'
++    return rev.strip()
+ 
+ def base_get_metadata_git_revision(path, d):
+-    import subprocess
++    import bb.process
+ 
+     try:
+-        return subprocess.check_output(["git", "rev-parse", "HEAD"],
+-                                       cwd=path).strip()
+-    except:
+-        return "<unknown>"
++        rev, _ = bb.process.run('git rev-parse HEAD', cwd=path)
++    except bb.process.ExecutionError:
++        rev = '<unknown>'
++    return rev.strip()
+-- 
+2.1.0
 
---001a114998f43a0e2905241c7c52--
+
