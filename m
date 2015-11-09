@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 456B477150
+	by mail.openembedded.org (Postfix) with ESMTP id 008FB77153
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  9 Nov 2015 14:50:00 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 06:49:59 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 09 Nov 2015 06:50:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,266,1444719600"; d="scan'208";a="596917417"
+X-IronPort-AV: E=Sophos;i="5.20,266,1444719600"; d="scan'208";a="596917436"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 06:49:58 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Nov 2015 06:50:00 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Nov 2015 16:50:26 +0200
-Message-Id: <cdcf732996e010e79a2541ca0019b3496789b98f.1447080392.git.alexander.kanavin@linux.intel.com>
+Date: Mon,  9 Nov 2015 16:50:28 +0200
+Message-Id: <c15a73a76eee974df50173a865ec56dc437c425f.1447080392.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 04/29] gtk-doc-stub: remove introspection stubs
+Subject: [PATCH 06/29] python3-native: use the previous version of python-config script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,348 +33,77 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 Nov 2015 14:50:02 -0000
 
-As we provide the full introspection support, we need to remove
-the stubs from this package that conflict with it.
+In python 3.4 python-config was rewritten in shell, ironically
+to support cross-compilation:
+https://bugs.python.org/issue16235
+
+This new shell version is broken in several ways, and doesn't
+have our oe-specific tweaks. Let's revert to the old script,
+which is still provided.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...t-Import-introspection-stub-machinery-too.patch | 305 +++++++++++++++++++++
- .../recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb |   6 +-
- 2 files changed, 309 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-gnome/gtk-doc-stub/files/0001-Revert-Import-introspection-stub-machinery-too.patch
+ .../python/python3-native_3.4.3.bb                 |  1 +
+ ...the-shell-version-of-python-config-that-w.patch | 38 ++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-Do-not-use-the-shell-version-of-python-config-that-w.patch
 
-diff --git a/meta/recipes-gnome/gtk-doc-stub/files/0001-Revert-Import-introspection-stub-machinery-too.patch b/meta/recipes-gnome/gtk-doc-stub/files/0001-Revert-Import-introspection-stub-machinery-too.patch
+diff --git a/meta/recipes-devtools/python/python3-native_3.4.3.bb b/meta/recipes-devtools/python/python3-native_3.4.3.bb
+index 464ff05..6b949b9 100644
+--- a/meta/recipes-devtools/python/python3-native_3.4.3.bb
++++ b/meta/recipes-devtools/python/python3-native_3.4.3.bb
+@@ -26,6 +26,7 @@ file://makerace.patch \
+ ${DISTRO_SRC_URI} \
+ file://sysconfig.py-add-_PYTHON_PROJECT_SRC.patch \
+ file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
++file://0001-Do-not-use-the-shell-version-of-python-config-that-w.patch \
+ "
+ SRC_URI[md5sum] = "7d092d1bba6e17f0d9bd21b49e441dd5"
+ SRC_URI[sha256sum] = "b5b3963533768d5fc325a4d7a6bd6f666726002d696f1d399ec06b043ea996b8"
+diff --git a/meta/recipes-devtools/python/python3/0001-Do-not-use-the-shell-version-of-python-config-that-w.patch b/meta/recipes-devtools/python/python3/0001-Do-not-use-the-shell-version-of-python-config-that-w.patch
 new file mode 100644
-index 0000000..80b0521
+index 0000000..b7e0ac6
 --- /dev/null
-+++ b/meta/recipes-gnome/gtk-doc-stub/files/0001-Revert-Import-introspection-stub-machinery-too.patch
-@@ -0,0 +1,305 @@
-+From d636be29bf95396b4e27fcd17ff84cb7091cca91 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/python/python3/0001-Do-not-use-the-shell-version-of-python-config-that-w.patch
+@@ -0,0 +1,38 @@
++From 045c99b5f1eb6e4e0d8ad1ef9f0ba6574f738150 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 8 Oct 2015 15:37:40 +0300
-+Subject: [PATCH] Revert "Import introspection stub machinery too"
++Date: Fri, 23 Oct 2015 12:25:09 +0300
++Subject: [PATCH] Do not use the shell version of python-config that was
++ introduced in 3.4
 +
-+This reverts commit 3dfd0a09de696ec8c544762747f8a0f77153622e.
-+As we provide the full introspection support, we need to remove
-+the stubs from this package that conflict with it.
++Revert instead to the original python version: it has our tweaks and
++outputs directories correctly.
 +
-+Upstream-Status: Pending [review on oe-core list]
++Upstream-Status: Inappropriate [oe-specific]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ Makefile               |   4 --
-+ Makefile.introspection | 163 -------------------------------------------------
-+ introspection.m4       |  96 -----------------------------
-+ 3 files changed, 263 deletions(-)
-+ delete mode 100644 Makefile.introspection
-+ delete mode 100644 introspection.m4
++ Makefile.pre.in | 9 +++------
++ 1 file changed, 3 insertions(+), 6 deletions(-)
 +
-+diff --git a/Makefile b/Makefile
-+index 7cb6ce5..ad4231a 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -23,7 +23,3 @@ install: $(bin_programs)
++diff --git a/Makefile.pre.in b/Makefile.pre.in
++index d7fc9a0..47e60bc 100644
++--- a/Makefile.pre.in
+++++ b/Makefile.pre.in
++@@ -1270,12 +1270,9 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
++ 	sed -e "s,@EXENAME@,$(BINDIR)/python$(LDVERSION)$(EXE)," < $(srcdir)/Misc/python-config.in >python-config.py
++ 	# Replace makefile compat. variable references with shell script compat. ones; $(VAR) -> ${VAR}
++ 	sed -e 's,\$$(\([A-Za-z0-9_]*\)),\$$\{\1\},g' < Misc/python-config.sh >python-config
++-	# On Darwin, always use the python version of the script, the shell
++-	# version doesn't use the compiler customizations that are provided
++-	# in python (_osx_support.py).
++-	if test `uname -s` = Darwin; then \
++-		cp python-config.py python-config; \
++-	fi
+++	# In OpenEmbedded, always use the python version of the script, the shell
+++	# version is broken in multiple ways, and doesn't return correct directories
+++	cp python-config.py python-config
 + 
-+ 	mkdir -p $(DESTDIR)$(datarootdir)/aclocal/
-+ 	install -m 0644 $(srcdir)/gtk-doc.m4 $(DESTDIR)$(datarootdir)/aclocal/gtk-doc.m4
-+-
-+-	mkdir -p $(DESTDIR)$(datarootdir)/gobject-introspection-1.0
-+-	install -m 0644 $(srcdir)/Makefile.introspection $(DESTDIR)$(datarootdir)/gobject-introspection-1.0/Makefile.introspection
-+-	install -m 0644 $(srcdir)/introspection.m4 $(DESTDIR)$(datarootdir)/aclocal/introspection.m4
-+diff --git a/Makefile.introspection b/Makefile.introspection
-+deleted file mode 100644
-+index 755dd15..0000000
-+--- a/Makefile.introspection
-++++ /dev/null
-+@@ -1,163 +0,0 @@
-+-# -*- Mode: make -*-
-+-# Copyright 2009-2010 Johan Dahlin
-+-#
-+-# This file is free software; the author(s) gives unlimited
-+-# permission to copy and/or distribute it, with or without
-+-# modifications, as long as this notice is preserved.
-+-#
-+-# * Input variables:
-+-#
-+-#   INTROSPECTION_GIRS - List of GIRS that should be generated
-+-#   INTROSPECTION_SCANNER - Command to invoke scanner, normally set by
-+-#      GOBJECT_INTROSPECTION_REQUIRE/CHECK() in introspection.m4
-+-#   INTROSPECTION_SCANNER_ARGS - Additional args to pass in to the scanner
-+-#   INTROSPECTION_SCANNER_ENV - Environment variables to set before running
-+-#      the scanner
-+-#   INTROSPECTION_COMPILER - Command to invoke compiler, normally set by
-+-#      GOBJECT_INTROSPECTION_REQUIRE/CHECK() in introspection.m4
-+-#   INTROSPECTION_COMPILER_ARGS - Additional args to pass in to the compiler
-+-#
-+-# * Simple tutorial
-+-#
-+-# Add this to configure.ac:
-+-#   -Wno-portability to AM_INIT_AUTOMAKE
-+-#   GOBJECT_INTROSPECTION_CHECK([0.6.7])
-+-#
-+-# Add this to Makefile.am where your library/program is built:
-+-#   include $(INTROSPECTION_MAKEFILE)
-+-#   INTROSPECTION_GIRS = YourLib-1.0.gir
-+-#   YourLib_1_0_gir_NAMESPACE = YourLib
-+-#   YourLib_1_0_gir_VERSION = 1.0
-+-#   YourLib_1_0_gir_LIBS = libyourlib.la
-+-#   YourLib_1_0_gir_FILES = $(libyourlib_1_0_SOURCES)
-+-#   girdir = $(datadir)/gir-1.0
-+-#   dist_gir_DATA = YourLib-1.0.gir
-+-#   typelibdir = $(libdir)/girepository-1.0
-+-#   typelib_DATA = YourLib-1.0.typelib
-+-#   CLEANFILES = $(dist_gir_DATA) $(typelib_DATA)
-+-#
-+-
-+-# Make sure the required variables are set, these should under normal
-+-# circumstances come from introspection.m4
-+-$(if $(INTROSPECTION_SCANNER),,$(error Need to define INTROSPECTION_SCANNER))
-+-$(if $(INTROSPECTION_COMPILER),,$(error Need to define INTROSPECTION_COMPILER))
-+-
-+-# Private functions
-+-
-+-## Transform the gir filename to something which can reference through a variable
-+-## without automake/make complaining, eg Gtk-2.0.gir -> Gtk_2_0_gir
-+-_gir_name = $(subst /,_,$(subst -,_,$(subst .,_,$(1))))
-+-
-+-# Namespace and Version is either fetched from the gir filename
-+-# or the _NAMESPACE/_VERSION variable combo
-+-_gir_namespace = $(or $($(_gir_name)_NAMESPACE),$(firstword $(subst -, ,$(notdir $(1)))))
-+-_gir_version = $(or $($(_gir_name)_VERSION),$(lastword $(subst -, ,$(1:.gir=))))
-+-
-+-# _PROGRAM is an optional variable which needs it's own --program argument
-+-_gir_program = $(if $($(_gir_name)_PROGRAM),--program=$($(_gir_name)_PROGRAM))
-+-
-+-# Variables which provides a list of things
-+-_gir_libraries = $(foreach lib,$($(_gir_name)_LIBS),--library=$(lib))
-+-_gir_packages = $(foreach pkg,$($(_gir_name)_PACKAGES),--pkg=$(pkg))
-+-_gir_includes = $(foreach include,$($(_gir_name)_INCLUDES),--include=$(include))
-+-_gir_export_packages = $(foreach pkg,$($(_gir_name)_EXPORT_PACKAGES),--pkg-export=$(pkg))
-+-
-+-# Reuse the LIBTOOL variable from automake if it's set, but
-+-# work around MSYS weirdness: When running g-ir-scanner, MSYS changes
-+-# a command-line argument --libtool="/bin/sh ../../libtool" into
-+-# --libtool=c:/opt/msys/1.0/bin/libtool. So just use sh.exe without path
-+-# because we already "know" where the libtool configure produced is.
-+-_gir_libtool = $(if $(findstring MINGW32,$(shell uname -s)),--libtool="$(top_builddir)/libtool",$(if $(LIBTOOL),--libtool="$(LIBTOOL)"))
-+-
-+-# Macros for AM_SILENT_RULES prettiness
-+-_gir_verbosity = $(if $(AM_DEFAULT_VERBOSITY),$(AM_DEFAULT_VERBOSITY),1)
-+-
-+-_gir_silent_scanner_prefix = $(_gir_silent_scanner_prefix_$(V))
-+-_gir_silent_scanner_prefix_ = $(_gir_silent_scanner_prefix_$(_gir_verbosity))
-+-_gir_silent_scanner_prefix_0 = @echo "  GISCAN $(1)";
-+-_gir_silent_scanner_opts = $(_gir_silent_scanner_opts_$(V))
-+-_gir_silent_scanner_opts_ = $(_gir_silent_scanner_opts_$(_gir_verbosity))
-+-_gir_silent_scanner_opts_0 = --quiet
-+-
-+-_gir_silent_compiler = $(_gir_silent_compiler_$(V))
-+-_gir_silent_compiler_ = $(_gir_silent_compiler_$(_gir_verbosity))
-+-_gir_silent_compiler_0 = @echo "  GICOMP $(1)";
-+-
-+-#
-+-# Creates a GIR by scanning C headers/sources
-+-# $(1) - Name of the gir file (output)
-+-#
-+-# If output is Gtk-2.0.gir then you should name the variables like
-+-# Gtk_2_0_gir_NAMESPACE, Gtk_2_0_gir_VERSION etc.
-+-# Required variables:
-+-# FILES - C sources and headers which should be scanned
-+-#
-+-# One of these variables are required:
-+-# LIBS - Library where the symbol represented in the gir can be found
-+-# PROGRAM - Program where the symbol represented in the gir can be found
-+-#
-+-# Optional variables
-+-# NAMESPACE - Namespace of the gir, first letter capital,
-+-#   rest should be lower case, for instance: 'Gtk', 'Clutter', 'ClutterGtk'.
-+-#   If not present the namespace will be fetched from the gir filename,
-+-#   the part before the first dash. For 'Gtk-2.0', namespace will be 'Gtk'.
-+-# VERSION - Version of the gir, if not present, will be fetched from gir
-+-# filename, the part after the first dash. For 'Gtk-2.0', version will be '2.0'.
-+-# LIBTOOL - Command to invoke libtool, usually set by automake
-+-# SCANNERFLAGS - Flags to pass in to the scanner, see g-ir-scanner(1) for a list
-+-# CFLAGS - Flags to pass in to the parser when scanning headers
-+-# LDFLAGS - Linker flags used by the scanner
-+-# PACKAGES - list of pkg-config names which cflags are required to parse
-+-#   the headers of this gir
-+-# INCLUDES - Gir files to include without the .gir suffix, for instance
-+-#   GLib-2.0, Gtk-2.0. This is needed for all libraries which you depend on that
-+-#   provides introspection information.
-+-# EXPORT_PACKAGES - list of pkg-config names that are provided by this gir.
-+-#   By default the names in the PACKAGES variable will be used.
-+-#
-+-
-+-define introspection-scanner
-+-
-+-# Basic sanity check, to make sure required variables are set
-+-$(if $($(_gir_name)_FILES),,$(error Need to define $(_gir_name)_FILES))
-+-$(if $(or $(findstring --header-only,$($(_gir_name)_SCANNERFLAGS)),
-+-          $($(_gir_name)_LIBS),
-+-          $($(_gir_name)_PROGRAM)),,
-+-    $(error Need to define $(_gir_name)_LIBS or $(_gir_name)_PROGRAM))
-+-
-+-# Only dependencies we know are actually filenames goes into _FILES, make
-+-# sure these are built before running the scanner. Libraries and programs
-+-# needs to be added manually.
-+-$(1): $$($(_gir_name)_FILES)
-+-	@ $(MKDIR_P) $(dir $(1))
-+-	$(_gir_silent_scanner_prefix) $(INTROSPECTION_SCANNER_ENV) $(INTROSPECTION_SCANNER) $(_gir_silent_scanner_opts) \
-+-	$(INTROSPECTION_SCANNER_ARGS) \
-+-	  --namespace=$(_gir_namespace) \
-+-	  --nsversion=$(_gir_version) \
-+-	  $(_gir_libtool) \
-+-	  $(_gir_packages) \
-+-	  $(_gir_includes) \
-+-	  $(_gir_export_packages) \
-+-	  $(_gir_program) \
-+-	  $(_gir_libraries) \
-+-	  $($(_gir_name)_SCANNERFLAGS) \
-+-	  $($(_gir_name)_CFLAGS) \
-+-	  $($(_gir_name)_LDFLAGS) \
-+-	  $$^ \
-+-	  --output $(1)
-+-endef
-+-
-+-$(foreach gir,$(INTROSPECTION_GIRS),$(eval $(call introspection-scanner,$(gir))))
-+-
-+-#
-+-# Compiles a gir into a typelib
-+-# $(1): gir filename (input)
-+-# $(2): typelib filename (output)
-+-#
-+-define introspection-compiler
-+-$(_gir_silent_compiler) $(INTROSPECTION_COMPILER) $(INTROSPECTION_COMPILER_ARGS) --includedir=. $(1) -o $(2)
-+-endef
-+-
-+-# Simple rule to compile a typelib.
-+-%.typelib: %.gir
-+-	$(call introspection-compiler,$<,$@)
-+diff --git a/introspection.m4 b/introspection.m4
-+deleted file mode 100644
-+index d89c3d9..0000000
-+--- a/introspection.m4
-++++ /dev/null
-+@@ -1,96 +0,0 @@
-+-dnl -*- mode: autoconf -*-
-+-dnl Copyright 2009 Johan Dahlin
-+-dnl
-+-dnl This file is free software; the author(s) gives unlimited
-+-dnl permission to copy and/or distribute it, with or without
-+-dnl modifications, as long as this notice is preserved.
-+-dnl
-+-
-+-# serial 1
-+-
-+-m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
-+-[
-+-    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
-+-    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
-+-    AC_BEFORE([LT_INIT],[$0])dnl setup libtool first
-+-
-+-    dnl enable/disable introspection
-+-    m4_if([$2], [require],
-+-    [dnl
-+-        enable_introspection=yes
-+-    ],[dnl
-+-        AC_ARG_ENABLE(introspection,
-+-                  AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
-+-                                 [Enable introspection for this build]),, 
-+-                                 [enable_introspection=auto])
-+-    ])dnl
-+-
-+-    AC_MSG_CHECKING([for gobject-introspection])
-+-
-+-    dnl presence/version checking
-+-    AS_CASE([$enable_introspection],
-+-    [no], [dnl
-+-        found_introspection="no (disabled, use --enable-introspection to enable)"
-+-    ],dnl
-+-    [yes],[dnl
-+-        PKG_CHECK_EXISTS([gobject-introspection-1.0],,
-+-                         AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
-+-        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1],
-+-                         found_introspection=yes,
-+-                         AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
-+-    ],dnl
-+-    [auto],[dnl
-+-        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1], found_introspection=yes, found_introspection=no)
-+-	dnl Canonicalize enable_introspection
-+-	enable_introspection=$found_introspection
-+-    ],dnl
-+-    [dnl	
-+-        AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
-+-    ])dnl
-+-
-+-    AC_MSG_RESULT([$found_introspection])
-+-
-+-    INTROSPECTION_SCANNER=
-+-    INTROSPECTION_COMPILER=
-+-    INTROSPECTION_GENERATE=
-+-    INTROSPECTION_GIRDIR=
-+-    INTROSPECTION_TYPELIBDIR=
-+-    if test "x$found_introspection" = "xyes"; then
-+-       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
-+-       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
-+-       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
-+-       INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
-+-       INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
-+-       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
-+-       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
-+-       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
-+-    fi
-+-    AC_SUBST(INTROSPECTION_SCANNER)
-+-    AC_SUBST(INTROSPECTION_COMPILER)
-+-    AC_SUBST(INTROSPECTION_GENERATE)
-+-    AC_SUBST(INTROSPECTION_GIRDIR)
-+-    AC_SUBST(INTROSPECTION_TYPELIBDIR)
-+-    AC_SUBST(INTROSPECTION_CFLAGS)
-+-    AC_SUBST(INTROSPECTION_LIBS)
-+-    AC_SUBST(INTROSPECTION_MAKEFILE)
-+-
-+-    AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
-+-])
-+-
-+-
-+-dnl Usage:
-+-dnl   GOBJECT_INTROSPECTION_CHECK([minimum-g-i-version])
-+-
-+-AC_DEFUN([GOBJECT_INTROSPECTION_CHECK],
-+-[
-+-  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1])
-+-])
-+-
-+-dnl Usage:
-+-dnl   GOBJECT_INTROSPECTION_REQUIRE([minimum-g-i-version])
-+-
-+-
-+-AC_DEFUN([GOBJECT_INTROSPECTION_REQUIRE],
-+-[
-+-  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1], [require])
-+-])
++ 
++ # Install the include files
 +-- 
 +2.1.4
 +
-diff --git a/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb b/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb
-index 40f3243..69b406a 100644
---- a/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb
-+++ b/meta/recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb
-@@ -4,12 +4,14 @@ SECTION = "x11/base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
--PROVIDES = "gtk-doc gobject-introspection-stub"
-+PROVIDES = "gtk-doc"
- 
- SRCREV = "1dea266593edb766d6d898c79451ef193eb17cfa"
- PV = "1.1+git${SRCPV}"
- 
--SRC_URI = "git://git.gnome.org/${BPN}"
-+SRC_URI = "git://git.gnome.org/${BPN} \
-+	   file://0001-Revert-Import-introspection-stub-machinery-too.patch \
-+	  "
- 
- S = "${WORKDIR}/git"
- 
 -- 
 2.1.4
 
