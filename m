@@ -1,50 +1,48 @@
-Return-Path: <roylee17@currantlabs.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id F126473D46
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id DA66773D46
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Nov 2015 10:30:43 +0000 (UTC)
-Received: by pasz6 with SMTP id z6so201274983pas.2
+	Mon,  9 Nov 2015 10:33:37 +0000 (UTC)
+Received: by qgeb1 with SMTP id b1so86031502qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Nov 2015 02:30:43 -0800 (PST)
+	Mon, 09 Nov 2015 02:33:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=currantlabs_com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=XYT8dXt5NshcC0PtlWxin3aND53XS4+yk7WSJWZpXsY=;
-	b=vp04kQE/4eVMbOTar2g8daEp6Qm90w2a+fxWZdgY0U4pKNOnUacEfnzWNAxlXbRrCv
-	MaLqZ01lO5YwfpVZkL7cXUKCqocD3nF59y8BMuW2kaFkSu23de0TZeGCFsccay8mGfTo
-	bAdgNiJ/F7XsydSLx6NXONGqMohokXcuobKxQkqoLHd225cPK88UgARzlIpGcAo+xaFn
-	u4VlXKn9fcoYYE5ggDQzCsf+R3jR9g59R7d+B3hrxScLRG5kUbeubQQIpQf7kPsL613k
-	ESduDQ+2Ik8rU54h4nCqh79yvw2OfyOUttZxo4+EiWBMTklngKRaBqSymJVietsYH0i7
-	LwGA==
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=hB4KVLfDm8QDzObXv2tSSa26ROlRiLSvqFDUzZuZ8qg=;
+	b=HiZl1HxCPZG707p9W2+nG3LO4VJGkSbiLthtmyFq4V2idmnHz6Z7lSajcTpOJl2iJY
+	DH/qZUWxfOe+OK5ASHanGx2ssy1eJSoze+RUXBXMd1fpMGGMikCHdqBY7o9azM4sHlYP
+	kZNOxZVczQgS7jXfl25IZUD/WRrjCEp0QkJrGGTg+Dclgs2/S7VZgw2IDdbhyeeI7yu5
+	imPD0hqtvibWwG/maYmi91CEOi9qbOlp7i3Y060k25FgBb8nV32oZYYK3NqTdp67PfNh
+	zwXFmYHan9OdzJURr364u2kgNxs5LJAWFMab5mRE+REDZBH6jJbnMd1ecBwYfXe1nmYs
+	5MlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=XYT8dXt5NshcC0PtlWxin3aND53XS4+yk7WSJWZpXsY=;
-	b=DeXkwNy0siXdKf2lPSbDq+CWaUdUNG9iYJzMttQsrD/5eeAcfmqn0rbbULz6wh2v+H
-	a9Ji4DSVWEpwJ3n9qXbLwvguCQGhWv5Hhu7GnLjtRDop1eKlCZcE84GtqAztXo59tr/X
-	/mcFLKvz65YfUZ2qdwANwZFduG2GSpRVIqSlipsmIWCh9scNpRL4vIcND0jS6gHnJsZl
-	OBIp163HgL+/Zp2VhJG2oZzu7S6RPwIuYtkgWqRCPlzFwMgI2FXO/Fc9vmtnzSxXcguR
-	d0SltH42jsE/MxO9SN+OKHgj14Y2v23rkDH68haU5VTOdK2/6X78MgKyUrxCtTG1I2DQ
-	SCNg==
-X-Gm-Message-State: ALoCoQkTFIioU1tUclyqUhbsbJ4vtG9EjVoHlOsxpKLMv1NF8bnx2S7i+3sDnyrlZf+IcSBAq9gu
-X-Received: by 10.68.228.228 with SMTP id sl4mr38872650pbc.51.1447065043033;
-	Mon, 09 Nov 2015 02:30:43 -0800 (PST)
-Received: from Tzu-Jungs-iMac.local.net (c-67-169-68-81.hsd1.ca.comcast.net.
-	[67.169.68.81]) by smtp.gmail.com with ESMTPSA id
-	kj3sm15506461pbc.59.2015.11.09.02.30.41
-	(version=TLSv1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 09 Nov 2015 02:30:41 -0800 (PST)
-From: Tzu-Jung Lee <roylee17@currantlabs.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Nov 2015 02:30:32 -0800
-Message-Id: <1447065032-27427-1-git-send-email-roylee17@currantlabs.com>
-X-Mailer: git-send-email 2.6.3
-In-Reply-To: <2702139.DZhhJoAPGz@peggleto-mobl.ger.corp.intel.com>
-References: <2702139.DZhhJoAPGz@peggleto-mobl.ger.corp.intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH v3] devtool: add sync command
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=hB4KVLfDm8QDzObXv2tSSa26ROlRiLSvqFDUzZuZ8qg=;
+	b=BK17FRD297NVQTkkdE+ybmFia10VbZoP8JHzjcc17PFUv4q6HsTRj5nEK23BMdFWd/
+	rupzpZO8kDeA/uEpBvw9WZtUxeR6uKnkei2j90rdxhqFsTFebHfHSMrvBBb0FHBDLV60
+	5cos7IdmXTW540X9cbh93BTRg/0y0caFhG46tyZUlHFOUHgzpgI67Uz18FSv1nGh1NKW
+	yamHqYVBoz8moYHWX2IFKXacQ28Xm0J0jm0F+woY6qt2o9jJi1yr7jqw9BNNYi5PbEEa
+	Qur6g0CB0GjhG6ftFX7+HRY+XIsSeKgPyokhU9Cjz44dwhrDl2YB2lv+5OpXvrQZ+Fxr
+	fv5A==
+X-Gm-Message-State: ALoCoQmS7rYHCci2Q38TNLMqjl1g4NpKBoEeJAGkZ2uyrsdUSa+klOKAhvH9+XiMF3KItjcUgKqk
+X-Received: by 10.141.28.76 with SMTP id f73mr30029445qhe.17.1447065217834;
+	Mon, 09 Nov 2015 02:33:37 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.94.110 with HTTP; Mon, 9 Nov 2015 02:33:18 -0800 (PST)
+In-Reply-To: <b6a5e9973afe805490f6aee8967026bc47f2692b.1445333081.git.liezhi.yang@windriver.com>
+References: <cover.1445333081.git.liezhi.yang@windriver.com>
+	<b6a5e9973afe805490f6aee8967026bc47f2692b.1445333081.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Nov 2015 10:33:18 +0000
+Message-ID: <CAJTo0LaOD2_=aDwHi9fjGzWZ2+hcMtUnjHMFsSOTABWiozuSTQ@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] bitbake-prserv-tool: check file name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,183 +55,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Nov 2015 10:30:44 -0000
+X-List-Received-Date: Mon, 09 Nov 2015 10:33:38 -0000
+Content-Type: multipart/alternative; boundary=001a11423d0c46b7b10524192010
 
-The sync command is similar to the extract command, except it
-fetches the sync'ed and patched branch to an existing git repository.
+--001a11423d0c46b7b10524192010
+Content-Type: text/plain; charset=UTF-8
 
-This enables users to keep track the upstream development while
-maintaining their own local git repository at the same time.
+On 20 October 2015 at 10:25, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-Signed-off-by: Tzu-Jung Lee <roylee17@currantlabs.com>
+> Fixed:
+> $ bitbake-prserv-tool import /tmp/1
+>   File "/path/to/lib/bb/parse/__init__.py", line 114, in
+> handle(fn='/tmp/1', data=<bb.data_smart.DataSmart object at 0x2369bd0>,
+> include=True):
+>                      return h['handle'](fn, data, include)
+>     >    raise ParseError("not a BitBake file", fn)
+>
+> ParseError: ParseError in /tmp/1: not a BitBake file
+>
+> But 1.conf works well, its help also shows "<file.conf>", so check the
+> filename and print proper error message.
+>
 
----
-Thanks for the reminder :-)
+This breaks the selftest:
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index c5c647b..8efd262 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -238,7 +238,29 @@ def extract(args, config, basepath, workspace):
-         return 1
- 
-     srctree = os.path.abspath(args.srctree)
--    initial_rev = _extract_source(srctree, args.keep_temp, args.branch, rd)
-+    initial_rev = _extract_source(srctree, args.keep_temp, args.branch, False, rd)
-+    logger.info('Source tree extracted to %s' % srctree)
-+
-+    if initial_rev:
-+        return 0
-+    else:
-+        return 1
-+
-+def sync(args, config, basepath, workspace):
-+    """Entry point for the devtool 'sync' subcommand"""
-+    import bb
-+
-+    tinfoil = _prep_extract_operation(config, basepath, args.recipename)
-+    if not tinfoil:
-+        # Error already shown
-+        return 1
-+
-+    rd = parse_recipe(config, tinfoil, args.recipename, True)
-+    if not rd:
-+        return 1
-+
-+    srctree = os.path.abspath(args.srctree)
-+    initial_rev = _extract_source(srctree, args.keep_temp, args.branch, True, rd)
-     logger.info('Source tree extracted to %s' % srctree)
- 
-     if initial_rev:
-@@ -293,7 +315,7 @@ def _prep_extract_operation(config, basepath, recipename):
-     return tinfoil
- 
- 
--def _extract_source(srctree, keep_temp, devbranch, d):
-+def _extract_source(srctree, keep_temp, devbranch, sync, d):
-     """Extract sources of a recipe"""
-     import bb.event
-     import oe.recipeutils
-@@ -312,21 +334,26 @@ def _extract_source(srctree, keep_temp, devbranch, d):
- 
-     _check_compatible_recipe(pn, d)
- 
--    if os.path.exists(srctree):
--        if not os.path.isdir(srctree):
--            raise DevtoolError("output path %s exists and is not a directory" %
--                               srctree)
--        elif os.listdir(srctree):
--            raise DevtoolError("output path %s already exists and is "
--                               "non-empty" % srctree)
-+    if sync:
-+        if not os.path.exists(srctree):
-+                raise DevtoolError("output path %s does not exist" % srctree)
-+    else:
-+        if os.path.exists(srctree):
-+            if not os.path.isdir(srctree):
-+                raise DevtoolError("output path %s exists and is not a directory" %
-+                                   srctree)
-+            elif os.listdir(srctree):
-+                raise DevtoolError("output path %s already exists and is "
-+                                   "non-empty" % srctree)
- 
--    if 'noexec' in (d.getVarFlags('do_unpack', False) or []):
--        raise DevtoolError("The %s recipe has do_unpack disabled, unable to "
--                           "extract source" % pn)
-+        if 'noexec' in (d.getVarFlags('do_unpack', False) or []):
-+            raise DevtoolError("The %s recipe has do_unpack disabled, unable to "
-+                               "extract source" % pn)
- 
--    # Prepare for shutil.move later on
--    bb.utils.mkdirhier(srctree)
--    os.rmdir(srctree)
-+    if not sync:
-+        # Prepare for shutil.move later on
-+        bb.utils.mkdirhier(srctree)
-+        os.rmdir(srctree)
- 
-     # We don't want notes to be printed, they are too verbose
-     origlevel = bb.logger.getEffectiveLevel()
-@@ -430,13 +457,35 @@ def _extract_source(srctree, keep_temp, devbranch, d):
-             if haspatches:
-                 bb.process.run('git checkout patches', cwd=srcsubdir)
- 
--        # Move oe-local-files directory to srctree
--        if os.path.exists(os.path.join(tempdir, 'oe-local-files')):
--            logger.info('Adding local source files to srctree...')
--            shutil.move(os.path.join(tempdir, 'oe-local-files'), srcsubdir)
-+        tempdir_localdir = os.path.join(tempdir, 'oe-local-files')
-+        srctree_localdir = os.path.join(srctree, 'oe-local-files')
- 
-+        if sync:
-+            bb.process.run('git fetch file://' + srcsubdir + ' ' + devbranch + ':' + devbranch, cwd=srctree)
-+
-+            # Move oe-local-files directory to srctree
-+            # As the oe-local-files is not part of the constructed git tree,
-+            # remove them directly during the synchrounizating might surprise
-+            # the users.  Instead, we move it to oe-local-files.bak and remind
-+            # user in the log message.
-+            if os.path.exists(srctree_localdir + '.bak'):
-+                shutil.rmtree(srctree_localdir, srctree_localdir + '.bak')
-+
-+            if os.path.exists(srctree_localdir):
-+                logger.info('Backing up current local file directory %s' % srctree_localdir)
-+                shutil.move(srctree_localdir, srctree_localdir + '.bak')
-+
-+            if os.path.exists(tempdir_localdir):
-+                logger.info('Syncing local source files to srctree...')
-+                shutil.copytree(tempdir_localdir, srctree_localdir)
-+        else:
-+            # Move oe-local-files directory to srctree
-+            if os.path.exists(tempdir_localdir):
-+                logger.info('Adding local source files to srctree...')
-+                shutil.move(tempdir_localdir, srcsubdir)
-+
-+            shutil.move(srcsubdir, srctree)
- 
--        shutil.move(srcsubdir, srctree)
-     finally:
-         bb.logger.setLevel(origlevel)
- 
-@@ -544,7 +593,7 @@ def modify(args, config, basepath, workspace):
-     commits = []
-     srctree = os.path.abspath(args.srctree)
-     if args.extract:
--        initial_rev = _extract_source(args.srctree, False, args.branch, rd)
-+        initial_rev = _extract_source(args.srctree, False, args.branch, False, rd)
-         if not initial_rev:
-             return 1
-         logger.info('Source tree extracted to %s' % srctree)
-@@ -1119,6 +1168,15 @@ def register_commands(subparsers, context):
-     parser_extract.add_argument('--keep-temp', action="store_true", help='Keep temporary directory (for debugging)')
-     parser_extract.set_defaults(func=extract)
- 
-+    parser_sync = subparsers.add_parser('sync', help='Synchronize the source for an existing recipe',
-+                                       description='Synchronize the source for an existing recipe',
-+                                       formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-+    parser_sync.add_argument('recipename', help='Name for recipe to sync the source for')
-+    parser_sync.add_argument('srctree', help='Path to where to sync the source tree')
-+    parser_sync.add_argument('--branch', '-b', default="devtool", help='Name for development branch to checkout')
-+    parser_sync.add_argument('--keep-temp', action="store_true", help='Keep temporary directory (for debugging)')
-+    parser_sync.set_defaults(func=sync)
-+
-     parser_update_recipe = subparsers.add_parser('update-recipe', help='Apply changes from external source tree to recipe',
-                                        description='Applies changes from external source tree to a recipe (updating/adding/removing patches as necessary, or by updating SRCREV)')
-     parser_update_recipe.add_argument('recipename', help='Name of recipe to update')
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index d387623..5410c9d 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -312,7 +312,7 @@ def upgrade(args, config, basepath, workspace):
- 
-     rf = None
-     try:
--        rev1 = standard._extract_source(args.srctree, False, 'devtool-orig', rd)
-+        rev1 = standard._extract_source(args.srctree, False, 'devtool-orig', False, rd)
-         rev2, md5, sha256 = _extract_new_source(args.version, args.srctree, args.no_patch,
-                                                 args.srcrev, args.branch, args.keep_temp,
-                                                 tinfoil, rd)
--- 
-2.6.3
+======================================================================
+FAIL: test_import_export_override_db
+(oeqa.selftest.prservice.BitbakePrTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/decorators.py",
+line 106, in wrapped_f
+    return func(*args, **kwargs)
+  File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/prservice.py",
+line 97, in test_import_export_override_db
+    self.run_test_pr_export_import('m4', replace_current_db=False)
+  File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/prservice.py",
+line 74, in run_test_pr_export_import
+    self.assertEqual(export_result.status, 0, msg="PR Service database
+export failed: %s" % export_result.output)
+AssertionError: 1 != 0 : PR Service database export failed: ERROR:
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/export.inc
+must end with .conf!
 
+======================================================================
+FAIL: test_import_export_replace_db (oeqa.selftest.prservice.BitbakePrTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/decorators.py",
+line 106, in wrapped_f
+    return func(*args, **kwargs)
+  File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/prservice.py",
+line 93, in test_import_export_replace_db
+    self.run_test_pr_export_import('m4')
+  File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/prservice.py",
+line 74, in run_test_pr_export_import
+    self.assertEqual(export_result.status, 0, msg="PR Service database
+export failed: %s" % export_result.output)
+AssertionError: 1 != 0 : PR Service database export failed: ERROR:
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/export.inc
+must end with .conf!
 
+Ross
+
+--001a11423d0c46b7b10524192010
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 October 2015 at 10:25, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204=
+);border-left-style:solid;padding-left:1ex"><div style=3D"overflow:hidden">=
+Fixed:<br>
+$ bitbake-<span>prserv</span>-tool import /tmp/1<br>
+=C2=A0 File &quot;/path/to/lib/bb/parse/__init__.py&quot;, line 114, in han=
+dle(fn=3D&#39;/tmp/1&#39;, data=3D&lt;bb.data_smart.DataSmart object at 0x2=
+369bd0&gt;, include=3DTrue):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0return h[&#39;handle&#39;](fn, data, include)<br>
+=C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 raise ParseError(&quot;not a BitBake file&q=
+uot;, fn)<br>
+<br>
+ParseError: ParseError in /tmp/1: not a BitBake file<br>
+<br>
+But 1.conf works well, its help also shows &quot;&lt;file.conf&gt;&quot;, s=
+o check the<br>
+filename and print proper error message.</div></blockquote></div><br>This b=
+reaks the=C2=A0selftest:</div><div class=3D"gmail_extra"><br>=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>FAIL: test_import_expor=
+t_override_db (oeqa.selftest.prservice.BitbakePrTests)<br>-----------------=
+-----------------------------------------------------<br>Traceback (most re=
+cent call last):<br>=C2=A0 File &quot;/home/pokybuild/yocto-autobuilder/yoc=
+to-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/decorators.py&quot;=
+, line 106, in wrapped_f<br>=C2=A0 =C2=A0 return func(*args, **kwargs)<br>=
+=C2=A0 File &quot;/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe=
+-selftest/build/meta/lib/oeqa/selftest/prservice.py&quot;, line 97, in test=
+_import_export_override_db<br>=C2=A0 =C2=A0 self.run_test_pr_export_import(=
+&#39;m4&#39;, replace_current_db=3DFalse)<br>=C2=A0 File &quot;/home/pokybu=
+ild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/=
+selftest/prservice.py&quot;, line 74, in run_test_pr_export_import<br>=C2=
+=A0 =C2=A0 self.assertEqual(export_result.status, 0, msg=3D&quot;PR Service=
+ database export failed: %s&quot; % export_result.output)<br>AssertionError=
+: 1 !=3D 0 : PR Service database export failed: ERROR: /home/pokybuild/yoct=
+o-autobuilder/yocto-worker/nightly-oe-selftest/build/build/export.inc must =
+end with .conf!<br><br>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D<br>FAIL: test_import_export_replace_db (oeqa.selftest.prservice.B=
+itbakePrTests)<br>---------------------------------------------------------=
+-------------<br>Traceback (most recent call last):<br>=C2=A0 File &quot;/h=
+ome/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta=
+/lib/oeqa/utils/decorators.py&quot;, line 106, in wrapped_f<br>=C2=A0 =C2=
+=A0 return func(*args, **kwargs)<br>=C2=A0 File &quot;/home/pokybuild/yocto=
+-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/=
+prservice.py&quot;, line 93, in test_import_export_replace_db<br>=C2=A0 =C2=
+=A0 self.run_test_pr_export_import(&#39;m4&#39;)<br>=C2=A0 File &quot;/home=
+/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/li=
+b/oeqa/selftest/prservice.py&quot;, line 74, in run_test_pr_export_import<b=
+r>=C2=A0 =C2=A0 self.assertEqual(export_result.status, 0, msg=3D&quot;PR Se=
+rvice database export failed: %s&quot; % export_result.output)<br>Assertion=
+Error: 1 !=3D 0 : PR Service database export failed: ERROR: /home/pokybuild=
+/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/export.inc =
+must end with .conf!<br><br></div><div class=3D"gmail_extra">Ross</div></di=
+v>
+
+--001a11423d0c46b7b10524192010--
