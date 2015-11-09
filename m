@@ -1,29 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 50E5374197
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D5F276E3F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Nov 2015 12:43:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tA9ChRS1007221
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Nov 2015 04:43:27 -0800 (PST)
-Received: from [128.224.162.186] (128.224.162.186) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 9 Nov 2015 04:43:27 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1445333081.git.liezhi.yang@windriver.com>
-	<b6a5e9973afe805490f6aee8967026bc47f2692b.1445333081.git.liezhi.yang@windriver.com>
-	<CAJTo0LaOD2_=aDwHi9fjGzWZ2+hcMtUnjHMFsSOTABWiozuSTQ@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <564094ED.4050402@windriver.com>
-Date: Mon, 9 Nov 2015 20:43:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaOD2_=aDwHi9fjGzWZ2+hcMtUnjHMFsSOTABWiozuSTQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] bitbake-prserv-tool: check file name
+	Mon,  9 Nov 2015 14:01:48 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tA9E1m4O019373 for <openembedded-core@lists.openembedded.org>;
+	Mon, 9 Nov 2015 08:01:48 -0600
+Received: from adi-pc-linux.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015110908014824-1811322 ;
+	Mon, 9 Nov 2015 08:01:48 -0600 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 9 Nov 2015 16:01:47 +0200
+Message-Id: <1447077707-31620-1-git-send-email-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.1.4
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 11/09/2015 08:01:48 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 11/09/2015 08:01:48 AM,
+	Serialize complete at 11/09/2015 08:01:48 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-11-09_13:, , signatures=0
+Subject: [PATCH] util-linux: create util-linux-runuser package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,79 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Nov 2015 12:43:32 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Nov 2015 14:01:50 -0000
 
+Split runuser into its own package (previously provided by util-linux).
+Since runuser is compiled only when DISTRO_FEATURES includes pam,
+the creation of util-linux-runuser is also constrainted by this.
 
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-On 11/09/2015 06:33 PM, Burton, Ross wrote:
->
-> On 20 October 2015 at 10:25, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     Fixed:
->     $ bitbake-prserv-tool import /tmp/1
->        File "/path/to/lib/bb/parse/__init__.py", line 114, in
->     handle(fn='/tmp/1', data=<bb.data_smart.DataSmart object at 0x2369bd0>,
->     include=True):
->                           return h['handle'](fn, data, include)
->          >    raise ParseError("not a BitBake file", fn)
->
->     ParseError: ParseError in /tmp/1: not a BitBake file
->
->     But 1.conf works well, its help also shows "<file.conf>", so check the
->     filename and print proper error message.
->
->
-> This breaks the selftest:
->
-> ======================================================================
-> FAIL: test_import_export_override_db (oeqa.selftest.prservice.BitbakePrTests)
-> ----------------------------------------------------------------------
-> Traceback (most recent call last):
->    File
-> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/decorators.py",
-> line 106, in wrapped_f
->      return func(*args, **kwargs)
->    File
-> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/prservice.py",
-> line 97, in test_import_export_override_db
->      self.run_test_pr_export_import('m4', replace_current_db=False)
->    File
-> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/prservice.py",
-> line 74, in run_test_pr_export_import
->      self.assertEqual(export_result.status, 0, msg="PR Service database export
-> failed: %s" % export_result.output)
-> AssertionError: 1 != 0 : PR Service database export failed: ERROR:
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/export.inc
-> must end with .conf!
->
-> ======================================================================
-> FAIL: test_import_export_replace_db (oeqa.selftest.prservice.BitbakePrTests)
-> ----------------------------------------------------------------------
-> Traceback (most recent call last):
->    File
-> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/utils/decorators.py",
-> line 106, in wrapped_f
->      return func(*args, **kwargs)
->    File
-> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/prservice.py",
-> line 93, in test_import_export_replace_db
->      self.run_test_pr_export_import('m4')
->    File
-> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/prservice.py",
-> line 74, in run_test_pr_export_import
->      self.assertEqual(export_result.status, 0, msg="PR Service database export
-> failed: %s" % export_result.output)
-> AssertionError: 1 != 0 : PR Service database export failed: ERROR:
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/export.inc
-> must end with .conf!
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 594108f..10a1ded 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -34,6 +34,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+              util-linux-partx ${PN}-bash-completion util-linux-hwclock \
+              util-linux-findfs util-linux-getopt util-linux-sulogin"
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
++PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
+ 
+ PACKAGES_DYNAMIC = "^util-linux-lib.*"
+ 
+@@ -85,6 +86,7 @@ FILES_util-linux-partx = "${sbindir}/partx"
+ FILES_util-linux-hwclock = "${base_sbindir}/hwclock.${BPN}"
+ FILES_util-linux-findfs = "${sbindir}/findfs"
+ FILES_util-linux-getopt = "${base_bindir}/getopt.${BPN}"
++FILES_util-linux-runuser = "${sbindir}/runuser"
+ 
+ FILES_util-linux-pylibmount = "${libdir}/${PYTHON_DIR}/dist-packages/libmount/pylibmount.so \
+                                ${libdir}/${PYTHON_DIR}/dist-packages/libmount/__init__.*"
+@@ -106,6 +108,8 @@ RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
+ # reset calls 'tput'
+ RDEPENDS_util-linux-reset += "ncurses"
+ 
++RDEPENDS_util-linux-runuser += "libpam"
++
+ RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin"
+ RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs "
+ 
+-- 
+2.1.4
 
-Maybe selftest should use export.conf rather than export.inc ?
-
-// Robert
-
->
-> Ross
 
