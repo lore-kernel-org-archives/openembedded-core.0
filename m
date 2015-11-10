@@ -1,47 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id C984375EE7
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C129265CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 10:08:57 +0000 (UTC)
-Received: by qgea14 with SMTP id a14so85149694qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 02:08:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Cuf5a3uUCxGg7mdzccsClc9fWyY/CAAzfLWLxQa8uaE=;
-	b=o14BLu3Hells6a3GD5jhSLSJBSeN6miThIX2kxZysJZ9Rcsr4X++2uIS1zbkCUB5mk
-	o0ETpWOwqYfEQCqC8erdVAL9LOIGqFhUf/hhGgMZQjMu9jXGLK+6enucuMfuG7bFzkbD
-	TMF1NUAUqS36B2oVSlOzEVCoJgKe7SDfwoGeGPVIYsFiV0ffZNMuoMyo5K0tGtFl9SgC
-	g1pPsFrQD7o+LrZNkj8osGhwr/NR+i88U106ThZtezKJ3vqjPpKA60l7eHBaOD3WfN3a
-	aFTjuzZTSRSSm/XKcJkpKd3DRBup+2Op6L/G+lBjOE+C2wHPfpMdstYBNb9kW04NobAd
-	ylQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Cuf5a3uUCxGg7mdzccsClc9fWyY/CAAzfLWLxQa8uaE=;
-	b=Bwal9Lm6o7WJoiM+lux5AyyoRn/ucg5dAhjSBVSlKKoKKaGDDOUjIGkDP8Cv4m/Njt
-	SZixkWNqwpvfsEPmM6GFXWY6UejSRJ2AkeoSF343Nj3oMWmynEU77EgsWx3cSC5mwmKk
-	ZLvaeCmKCfTjGt/GJzjqJy9qgLgO5T1Rb7aEh5w/UkBrw3bDtmf+I4YS4C3fXfW0X/+P
-	cNhoEdNSUsZ/QZSWy6OZbORAbWp7/lAebXcSnpJxqERrXDyOPwclpbJh+s8tzUW65b/9
-	VmqdDZ45Xj92H8ioxbYUAToYycf62/vh/Tu+kqHq28Oy7K/vK19yndDMlWmnOBtKJSp3
-	MJ4g==
-X-Gm-Message-State: ALoCoQmjItMFEhJmm/+N/fueQ7wSZfcuSqRP2HSzOxX56MM5hKrFHWHShIcQhHoHsJpSva0gswYX
-X-Received: by 10.140.46.119 with SMTP id j110mr3058309qga.77.1447150137335;
-	Tue, 10 Nov 2015 02:08:57 -0800 (PST)
+	Tue, 10 Nov 2015 10:29:00 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 10 Nov 2015 02:29:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,270,1444719600"; d="scan'208";a="597469302"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.0.72])
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Nov 2015 02:28:59 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: mariano.lopez@linux.intel.com
+Date: Tue, 10 Nov 2015 10:28:57 +0000
+Message-ID: <5525899.qQeO2PZXPI@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.10-100.fc21.x86_64; KDE/4.14.11; x86_64; ;
+	)
+In-Reply-To: <94f00319ebc710b27356de8c8ce8b7f48f1ad2c8.1447077439.git.mariano.lopez@linux.intel.com>
+References: <cover.1447077439.git.mariano.lopez@linux.intel.com>
+	<94f00319ebc710b27356de8c8ce8b7f48f1ad2c8.1447077439.git.mariano.lopez@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.140.94.110 with HTTP; Tue, 10 Nov 2015 02:08:37 -0800 (PST)
-In-Reply-To: <1447131417-29782-1-git-send-email-rongqing.li@windriver.com>
-References: <1447131417-29782-1-git-send-email-rongqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Nov 2015 10:08:37 +0000
-Message-ID: <CAJTo0LZ1x7vK=CJsCh4JxVJakWTCpkW=9Qi7JhuoAwZ-veJ0iQ@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] e2fsprogs: fix the ptest
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2 2/6] license.bbclass: Added get_boot_dependencies function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +34,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 10:08:59 -0000
-Content-Type: multipart/alternative; boundary=001a11395aaadf75be05242ce576
+X-List-Received-Date: Tue, 10 Nov 2015 10:29:05 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a11395aaadf75be05242ce576
-Content-Type: text/plain; charset=UTF-8
+Hi Mariano,
 
-On 10 November 2015 at 04:56, <rongqing.li@windriver.com> wrote:
+On Monday 09 November 2015 14:04:39 mariano.lopez@linux.intel.com wrote:
+> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+> 
+> This function gets the dependencies from the classes that
+> create a boot image, this is required because sometimes
+> the bootloader dependecy is in these classes. The current
+> classes covered are bootimg and bootdirectdisk because
+> these are the only clases that add dependencies.
+> 
+> [YOCTO #6772]
+> 
+> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+> ---
+>  meta/classes/license.bbclass | 31 +++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+> 
+> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> index 98f1733..d1bfe61 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -49,6 +49,37 @@ python license_create_manifest() {
+>      write_license_files(d, rootfs_license_manifest, pkg_dic)
+>  }
+> 
+> +def get_boot_dependencies(d):
+> +    """ Return the dependencies from boot tasks """
+> +
+> +    depends = ""
+> +    boot_depends_string = ""
+> +    taskdepdata = d.getVar("BB_TASKDEPDATA", True)
+> +    # Only bootimg and bootdirectdisk include the depends flag
+> +    boot_tasks = ["do_bootimg", "do_bootdirectdisk",]
+> +
+> +    for task in boot_tasks:
+> +        boot_depends_string = "%s %s" % (boot_depends_string,
+> +                d.getVarFlag(task, "depends", True) or "")
+> +    boot_depends = [dep.split(":")[0] for dep
+> +                in boot_depends_string.split()
+> +                if not dep.split(":")[0].endswith("-native")]
+> +    for dep in boot_depends:
+> +        pkgs_file = os.path.join(d.getVar('PKGDATA_DIR', True), dep)
+> +        # If the package and dependency name is the same
+> +        if os.path.exists(pkgs_file):
+> +            depends = "%s %s" % (depends, dep)
+> +        # We need to search for the provider of the dependency
+> +        else:
+> +            for taskdep in taskdepdata.itervalues():
+> +                # The fifth field contains what the task provides
+> +                if dep in taskdep[4]:
+> +                    pkgs_file = os.path.join(d.getVar('PKGDATA_DIR', True),
+> taskdep[0]) 
+> +                    if os.path.isfile(pkgs_file):
+> +                        depends = "%s %s" % (depends, taskdep[0])
+> +                        break
 
-> ++            goal = last_goal - 1 >= 0; last_goal - 1, 0;
->
+Can you explain what you're getting out of looking into PKGDATA_DIR here? I'm 
+not sure this is correct.
 
-I'm guessing this was a ternary expression gone wrong and the intended code
-was:
+Cheers,
+Paul
 
-  goal = last_goal -1 >= 0 ? last_goal - 1 : 0;
+-- 
 
-This patch makes a *massive* difference to build times (see the header
-comments) so please verify that large images (i.e. core-image-sato-sdk) are
-both valid and constructed in the same timescale as before.
+Paul Eggleton
+Intel Open Source Technology Centre
 
-Ross
-
---001a11395aaadf75be05242ce576
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 November 2015 at 04:56,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rong=
-qing.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5gv" class=3D"a=
-3s" style=3D"overflow:hidden">++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g=
-oal =3D last_goal - 1 &gt;=3D 0; last_goal - 1, 0;<br></div></blockquote></=
-div><br>I&#39;m guessing this was a ternary expression gone wrong and the i=
-ntended code was:</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
-mail_extra">=C2=A0 goal =3D last_goal -1 &gt;=3D 0 ? last_goal - 1 : 0;</di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">This patc=
-h makes a *massive* difference to build times (see the header comments) so =
-please verify that large images (i.e. core-image-sato-sdk) are both valid a=
-nd constructed in the same timescale as before.</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11395aaadf75be05242ce576--
