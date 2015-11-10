@@ -1,35 +1,35 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id CB4F877168
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 20E9776294
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 09:05:46 +0000 (UTC)
-Received: by wmnn186 with SMTP id n186so147404539wmn.1
+	Tue, 10 Nov 2015 09:07:13 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so66269478wmw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 01:05:46 -0800 (PST)
+	Tue, 10 Nov 2015 01:07:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=cghg2CmooGsYjH9WbIOEPDCqX5tv3OmTOd01wjFUXA4=;
-	b=zM5/W26u63HfWAEKnwLW8d1mW+z6fe0N5eUW6eB25+Qt/EUwW8rOQHKWQPThTWOU6K
-	l125VW2XkS8tTHNVKZaZ5RShRXOOuSVUK9IQWLTGjv9JOhbkzG6DFBJdJieBTgnfAAUf
-	3ke4QK/yxG5xNxDwx7IUCDYK7nxPyUfUXfni0vOv/anSNIs3n61b7aSTsykNqIraGXHW
-	AmsOkhMEWS8kdzHK+lbepXyTDiwEuwD+wW8i4HMk346VOIk4/5mLACVifvgT+2p32UUC
-	NW1niYBar6PEm4dCPEs6R+mYLe9qwAmD2L6iRxs+XQudiXJ7T1LGlI0HDLckgp/1jKUG
-	lP2Q==
-X-Received: by 10.28.128.210 with SMTP id b201mr3139652wmd.69.1447146346165;
-	Tue, 10 Nov 2015 01:05:46 -0800 (PST)
+	bh=o/kcmwq29SoVSrgFB4qVgXScFB1y84gxk1dkmQo0B8E=;
+	b=PdHErxw3ahE6AN2NL49Bs3bWA9aw3j8Xv06+I/r+hvH/uS1hCWexoa9dCeimQ/3/0G
+	g7Zo/909LO2o+UPsO1IldciPR1P7DIPhBUdm38+Hs3jKYrdeFN+pbLZJ5JGQnAnqnV1I
+	UYUtTdeVM2KpCedwC9d9aig2VxdX4feTvjdG1XgdyX9+pUsTBIvLtFFzmueue+stCoRu
+	cpiK4bPgvlcOKwKOulXOnB88KOchWKMN/Mkwu2eWKswzHozDbLJoV/XJLizJd15A0uWX
+	x6U06ro+gXQosyF+pAaWklXYO3Z4bZP7joRw8ec4MEqJw8h9GSNRNdYbfGmVpxEDjoUZ
+	gO3g==
+X-Received: by 10.194.7.97 with SMTP id i1mr2970579wja.87.1447146433136;
+	Tue, 10 Nov 2015 01:07:13 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id q1sm2334615wjy.31.2015.11.10.01.05.45
+	by smtp.gmail.com with ESMTPSA id h4sm2328176wjx.41.2015.11.10.01.07.12
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 10 Nov 2015 01:05:45 -0800 (PST)
+	Tue, 10 Nov 2015 01:07:12 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Nov 2015 10:05:49 +0100
-Message-Id: <1447146349-29607-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Tue, 10 Nov 2015 10:07:16 +0100
+Message-Id: <1447146436-1296-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.2
 In-Reply-To: <1447145891-13916-1-git-send-email-Martin.Jansa@gmail.com>
 References: <1447145891-13916-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH] rootfs_*.bbclass: don't add BUILDNAME to do_rootfs vardepsexclude
+Subject: [PATCH][dizzy] image.bbclass: don't let do_rootfs depend on BUILDNAME
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,53 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 09:05:47 -0000
+X-List-Received-Date: Tue, 10 Nov 2015 09:07:15 -0000
 
-* rootfs_*.bbclass doesn't use this variable anymore, so we can drop it
+From: Chen Qi <Qi.Chen@windriver.com>
 
+BUILDNAME is set by cooker as a string of current time. Letting do_rootfs
+task depend on this variable gets us no benefit. Besides, letting do_rootfs
+task depend on this variable will cause us trouble when executing
+`bitbake -S none core-image-minimal'. With current code, this command
+gives us error complaining about the different bashhash of do_rootfs task.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/rootfs_deb.bbclass | 1 -
- meta/classes/rootfs_ipk.bbclass | 1 -
- meta/classes/rootfs_rpm.bbclass | 1 -
- 3 files changed, 3 deletions(-)
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index d51b458..f79fca6 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -8,7 +8,6 @@ ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
- do_rootfs[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot"
- do_populate_sdk[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot bzip2-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_deb"
--rootfs_deb_do_rootfs[vardepsexclude] += "BUILDNAME"
- do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
- 
- do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index dd144e4..d417800 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -13,7 +13,6 @@ do_rootfs[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_popu
- do_populate_sdk[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_ipk"
- do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
--rootfs_ipk_do_rootfs[vardepsexclude] += "BUILDNAME"
- 
- do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
- do_populate_sdk[lockfiles] += "${WORKDIR}/ipk.lock"
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index d85d001..b4cd55b 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -22,7 +22,6 @@ do_rootfs[depends] += "${RPMROOTFSDEPENDS}"
- do_populate_sdk[depends] += "${RPMROOTFSDEPENDS}"
- 
- do_rootfs[recrdeptask] += "do_package_write_rpm"
--rootfs_rpm_do_rootfs[vardepsexclude] += "BUILDNAME"
- do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
- 
- # RPM doesn't work with multiple rootfs generation at once due to collisions in the use of files 
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 1c0fda7..c0f9775 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -94,7 +94,7 @@ def rootfs_variables(d):
+                  'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','RM_OLD_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS','SDK_OS',
+                  'SDK_OUTPUT','SDKPATHNATIVE','SDKTARGETSYSROOT','SDK_DIR','SDK_VENDOR','SDKIMAGE_INSTALL_COMPLEMENTARY','SDK_PACKAGE_ARCHS','SDK_OUTPUT','SDKTARGETSYSROOT','MULTILIBRE_ALLOW_REP',
+                  'MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS','PACKAGE_ARCHS',
+-                 'PACKAGE_CLASSES','TARGET_VENDOR','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','BUILDNAME','USE_DEVFS',
++                 'PACKAGE_CLASSES','TARGET_VENDOR','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
+                  'STAGING_KERNEL_DIR','COMPRESSIONTYPES']
+     variables.extend(command_variables(d))
+     variables.extend(variable_depends(d))
 -- 
 2.6.2
 
