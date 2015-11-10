@@ -1,44 +1,29 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id D84B676294
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 955E8736B6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 16:25:44 +0000 (UTC)
-Received: by igbxm8 with SMTP id xm8so3906282igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 08:25:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Zihdx1KKD5C1/JJEPH54KY1mscx3MFlftUwWCBtGjbA=;
-	b=EY/wD5geGsMX19FbYO9KNV0T6CnVCx8gXZZX329vf0Lxn2TThmBCcPVAP3hmGP2y66
-	Wb+7cqfRodgLf29MTx3a+dOcuXb3BSmPCUcoX4kX3FH1D8kEQ407uFVxkwVfAmmADnAR
-	un3gjyVnnTv0ewCwOLVdhhXOL1k+qEmkieQf/igPE69TD2eTtowmu7yJBAfSCVIl5MTt
-	/G87Vf2U7zHxoC/t1ZfRQ+8+ysFXhCUsvxJokeoPzT7jI/4TT4u6w1GWoN2xmLMFwCSN
-	STLN4L2ujGgKaAlrp1ijbF3xtDXzRDpEkkC9KLhm1bPBRg2nJLjMpJL2FPYusiGHH03E
-	uOgQ==
-MIME-Version: 1.0
-X-Received: by 10.50.50.197 with SMTP id e5mr4472442igo.64.1447172744720; Tue,
-	10 Nov 2015 08:25:44 -0800 (PST)
-Received: by 10.36.31.131 with HTTP; Tue, 10 Nov 2015 08:25:44 -0800 (PST)
-In-Reply-To: <CAP9ODKo1o+FAk+_B0pgSvCdU1AYQ-Bn+m5Sp1kNfbyQ=71E+vA@mail.gmail.com>
-References: <CAHiDW_Hx6Xi91=8rg3pD_B7F_+wfL2vMUbJTXYh6XGLzksBm7w@mail.gmail.com>
-	<5641FF6D.7000508@linux.intel.com>
-	<3967262.YS5vrjTqP1@peggleto-mobl.ger.corp.intel.com>
-	<564207E6.9090409@linux.intel.com>
-	<CAJTo0LYdyoLGS6ws1nKzagF=osJ7d1hdc+FdTOh_bAoeD2sqSQ@mail.gmail.com>
-	<56420AE4.1090500@linux.intel.com>
-	<CAP9ODKoMdtxRCAhsOHoJoV9wkmr=sUaHgTb5X3zY9h2YpfnDUw@mail.gmail.com>
-	<56420F4A.9030507@linux.intel.com>
-	<CAP9ODKo1o+FAk+_B0pgSvCdU1AYQ-Bn+m5Sp1kNfbyQ=71E+vA@mail.gmail.com>
-Date: Tue, 10 Nov 2015 17:25:44 +0100
-Message-ID: <CALbNGRRaP3PiKW1J3-njDEy4d7B0tqVkw-tgi9ERwBEJ7v52uw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
+	Tue, 10 Nov 2015 16:39:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAAGd4dZ032668
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 10 Nov 2015 08:39:04 -0800
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 10 Nov 2015 08:39:03 -0800
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Remove vala from oe-core
+References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
+	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <56421DA6.5080700@windriver.com>
+Date: Tue, 10 Nov 2015 10:39:02 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <56420F08.1050209@linux.intel.com>
+Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,33 +36,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 16:25:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 10 Nov 2015 16:39:06 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 10, 2015 at 4:39 PM, Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
-> On Tue, Nov 10, 2015 at 1:37 PM, Alexander Kanavin
-> <alexander.kanavin@linux.intel.com> wrote:
->> On 11/10/2015 05:29 PM, Otavio Salvador wrote:
->>
->>>> PACKAGECONFIG alone is not sufficient; to build the bindings properly,
->>>> the
->>>> package also needs to inherit vala.bbclass:
->>>>
->>>>
->>>> https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/tree/meta/classes/vala.bbclass?h=akanavin/gobject-introspection-experimental
->>>
->>>
->>> and this belong to meta-vala (or other). This reduces the core and
->>> this is something we really should to push for.
->>
->>
->> If this class is moved to meta-vala, how do you make packages in oe-core
->> inherit it, or otherwise do what it does?
->
-> bbappend files? :)
+On 11/10/15 9:36 AM, Alexander Kanavin wrote:
+> On 11/10/2015 04:31 PM, Mark Hatle wrote:
+>> Is there a way that the qemu calls can be replaced by calls to an actual running
+>> board (via SSH perhaps) to get the necessary information?  While inconvenient
+>> this might be a valid workaround.
+> 
+> Theoretically, yes. Copy the sysroot and the build tree to the board (to 
+> some safe location, obviously), then execute the arch-dependent bits of 
+> the process remotely, then copy the output files back. Slow, but doable. 
+> The executable wrapper mechanism for that is already provided by the 
+> patchset.
+> 
+> I would however first seriously look into reengineering g-o so that it's 
+> architecture-independent, and doesn't require such awful contortions. 
 
-What get's solved or better by moving back and forth recipes and adding appends?
+I don't disagree with you there...
 
-Andreas
+> Primarily, two things:
+> 1) It should be easy to build transient introspection binaries for the 
+> native architecture, instead of building them for the target together 
+> with the rest of the package. Those binaries produce textual output 
+> (essentially a list of classes/signals/properties) which is 
+> architecture-independent.
+> 2) The binary introspection database in .typelib files should not be a 
+> raw dump of a C structure, and should be actually the same on all 
+> architectures.
+> 
+>> Also is there any facility to caching the gobject responses (other then standard
+>> sstate-cache) so for machine that do not have QEMU support we can used a cached
+>> set of responses?  (I'm not sure if these responses could be considered to be a
+>> global cache, or if they are distribution specific in configuration.  Likely the
+>> later.)
+> 
+> This requires custom bitbake support I'm afraid, a specialist needs to 
+> answer this.
+> 
+
+Let me rephrase.  Instead of calling out to qemu (or a real target) for a
+gobject and result.  Can the result be cached (like we do with the config-site
+info?)  This would allow me to run say a MIPS64 n64 gobject build, cache the
+results and use it on my octeon3 build (which can't run in QEMU.)
+
+--Mark
+
+> 
+> Alex
+> 
+
 
