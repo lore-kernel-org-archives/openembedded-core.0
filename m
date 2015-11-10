@@ -1,70 +1,49 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DBC274197
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C5CE736B6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 16:52:44 +0000 (UTC)
-Received: by igl9 with SMTP id 9so57648265igl.0
+	Tue, 10 Nov 2015 17:41:18 +0000 (UTC)
+Received: by qgeb1 with SMTP id b1so3756573qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 08:52:45 -0800 (PST)
+	Tue, 10 Nov 2015 09:41:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems_com_br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=jhFxQckWRPdLFYBVJH9bzdc4JNoOt21UzUwRHG6+uC4=;
-	b=ArmHqTIoJwF2A0cWnvdaQz3T3bcFJ93KLATtsJk51K5xse7JdsnpvT5LquoaokuGZj
-	SqhyZRVCQjKmAoaa/SWnTI2J3OEh+vLUsFtr8iKgxvr8+i0zS2u9ZY4ct6WcZQxoGNHB
-	mFd03NcnPyTepNam6qy+HJ3/PD0dWLVyxpTPNVTYf2JeSUKlOkQ94BLtp/dHFiPdQaMH
-	stcqHCmYwLIhhmruHTEQRxbFVD61zYgq3FAnieVn3ILs+9oKVru+gGSxZY1CXPVAN1Ax
-	EXRiQTpPDECpKzkSBSP8hcV9HUrSJFo71bkzuITx8xS+iOv3Iz4/1Gd0KaB6PwSTy1J6
-	f1EQ==
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=6mF3H4RpZD1QfQyWLdz1S4izWeJo6aQ49QuOxVyqi5o=;
+	b=kLlxrpdqzhlZ4oB/lRX3a2kXkFAiLywDzAChqZgNSrSKocsFzFi75LKyvRDXvUbIjZ
+	SLYafqxz8j2DpyuDHvn1gFLcgKsywThfQwhYQOYFvOEATSPJ5LTPg4MQ5WvRDNulmCzC
+	+zRf4Hq8mXOXL2+AUO7cRqHhq3jmXfH0m1ywJrZWQoz0/xbD7JnlKA80VuQHUbANvLaL
+	FzIqbBX8CTpBu8GPIjkwwKazS7ol7FUmg7cHB9TmfPFejTHYjrK6ak2Cy9jMAWCjIP4s
+	S+3mDdoSW1Kd+2/EiD6KG2vqKF0DxL+SddisPvfBYcp0pihg/Jsz0NpWT2qgo7TXaOUv
+	Pifw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=jhFxQckWRPdLFYBVJH9bzdc4JNoOt21UzUwRHG6+uC4=;
-	b=jttZfsJWcwtATqEjjVzaKYYcIvoXspRCrO3Vr+dcK4uLDYXeWU8072hULOy8s7YbYM
-	t21gmOMtCLr+zQKS7sh4beXq2DZ57oIfTLJYOiWZhVegqBX/QmvdJEhzaryZYhaolREs
-	uOuN00uUr8l5WJPjLp12873WlSG6t4XxWvcM82VkBG0gpWtSuc8PnhWeEypMXPjx2FBb
-	UGHbisXUqzVXV/YoI69XsjBynkyVyGQ2m7IzVeYmFdk8t2OIJj1QLqurev1rBSUTQWfq
-	9K8UNOZntkcID4J+xDTptowC0P5kiX+2COJUkVuCt569sK3ZiTSSTtfOk2GYU+NNwpTy
-	3TfA==
-X-Gm-Message-State: ALoCoQnQNT/pSS8hhtkboqwBoNxIuylaD4EiNACeFJzlQf8H2leYx2kW7/BbHvRqhgTEf6iivtYn
-X-Received: by 10.50.43.131 with SMTP id w3mr26832278igl.12.1447174365164;
-	Tue, 10 Nov 2015 08:52:45 -0800 (PST)
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com.
-	[209.85.213.177]) by smtp.gmail.com with ESMTPSA id
-	qf8sm1629045igb.19.2015.11.10.08.52.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 10 Nov 2015 08:52:43 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by igl9 with SMTP id 9so57647421igl.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 08:52:43 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=6mF3H4RpZD1QfQyWLdz1S4izWeJo6aQ49QuOxVyqi5o=;
+	b=TfZgSXsbt+I3gtxW62uREYRgEGkBUwJK0fjxFBxJB32Ztbh04TGUCITMxhvy06EeNz
+	HP/wNeJPYsLGxri4NTPJlt38fKyU7wVi+PTsWPNrHT5F2NE32lOotUC5wLGQOdB8lnpT
+	nuUX5qCX98LpRMtWAS7JMgSTJyCMWCeYy70MTDnRlY8PAijK0JcKwYaXCY3dcAS+TJLT
+	bLQoXWtmOZxx+fSYZekijsaXSJGeNJp6GpPcPbNBD6ZqyaSpV9IonirYbTWVqyBVe0i0
+	TwJzkba6iz0qcAV4ETwmk2VfdUDHuG7Ib0wc7XmkTnP6qzLYJyf0BKZGhBmw/wcpJ1/G
+	fQnw==
+X-Gm-Message-State: ALoCoQks8mBcFOcxYuAR2KdgHpExE5jiIzz0vGfGvxpqEkUtkVzLWmYK8ceqMFxhILgmh3I/ba3x
+X-Received: by 10.140.171.197 with SMTP id r188mr6352253qhr.93.1447177278019; 
+	Tue, 10 Nov 2015 09:41:18 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.50.85.110 with SMTP id g14mr11013464igz.46.1447174363241;
-	Tue, 10 Nov 2015 08:52:43 -0800 (PST)
-Received: by 10.36.15.197 with HTTP; Tue, 10 Nov 2015 08:52:43 -0800 (PST)
-In-Reply-To: <CALbNGRRaP3PiKW1J3-njDEy4d7B0tqVkw-tgi9ERwBEJ7v52uw@mail.gmail.com>
-References: <CAHiDW_Hx6Xi91=8rg3pD_B7F_+wfL2vMUbJTXYh6XGLzksBm7w@mail.gmail.com>
-	<5641FF6D.7000508@linux.intel.com>
-	<3967262.YS5vrjTqP1@peggleto-mobl.ger.corp.intel.com>
-	<564207E6.9090409@linux.intel.com>
-	<CAJTo0LYdyoLGS6ws1nKzagF=osJ7d1hdc+FdTOh_bAoeD2sqSQ@mail.gmail.com>
-	<56420AE4.1090500@linux.intel.com>
-	<CAP9ODKoMdtxRCAhsOHoJoV9wkmr=sUaHgTb5X3zY9h2YpfnDUw@mail.gmail.com>
-	<56420F4A.9030507@linux.intel.com>
-	<CAP9ODKo1o+FAk+_B0pgSvCdU1AYQ-Bn+m5Sp1kNfbyQ=71E+vA@mail.gmail.com>
-	<CALbNGRRaP3PiKW1J3-njDEy4d7B0tqVkw-tgi9ERwBEJ7v52uw@mail.gmail.com>
-Date: Tue, 10 Nov 2015 14:52:43 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKqL0kirHamzrcDSc4W=RHg4Ue32WyuTMtA1zaZJiBCm0Q@mail.gmail.com>
-Message-ID: <CAP9ODKqL0kirHamzrcDSc4W=RHg4Ue32WyuTMtA1zaZJiBCm0Q@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Remove vala from oe-core
+Received: by 10.140.94.110 with HTTP; Tue, 10 Nov 2015 09:40:58 -0800 (PST)
+In-Reply-To: <56421DA6.5080700@windriver.com>
+References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
+	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
+	<56421DA6.5080700@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 10 Nov 2015 17:40:58 +0000
+Message-ID: <CAJTo0LYEYg+1oP8WwBbNYfM2mWGrFNyM3LgOXQUdL3JPC5BTsQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -77,46 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 16:52:46 -0000
+X-List-Received-Date: Tue, 10 Nov 2015 17:41:22 -0000
+Content-Type: multipart/alternative; boundary=001a113a7dfa95731f0524333757
+
+--001a113a7dfa95731f0524333757
 Content-Type: text/plain; charset=UTF-8
+
+On 10 November 2015 at 16:39, Mark Hatle <mark.hatle@windriver.com> wrote:
+
+> Let me rephrase.  Instead of calling out to qemu (or a real target) for a
+> gobject and result.  Can the result be cached (like we do with the
+> config-site
+> info?)  This would allow me to run say a MIPS64 n64 gobject build, cache
+> the
+> results and use it on my octeon3 build (which can't run in QEMU.)
+>
+
+The metadata contains stuff like type sizes and alignment but wouldn't it
+be possible to have some sort of map from machine to close-enough qemu
+machine?  So for octeon3 is qemumips64 is close enough, run that.
+
+(to be honest I thought the qemu runner support as used by the postinsts
+already did this)
+
+Ross
+
+--001a113a7dfa95731f0524333757
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 10, 2015 at 2:25 PM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> On Tue, Nov 10, 2015 at 4:39 PM, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->> On Tue, Nov 10, 2015 at 1:37 PM, Alexander Kanavin
->> <alexander.kanavin@linux.intel.com> wrote:
->>> On 11/10/2015 05:29 PM, Otavio Salvador wrote:
->>>
->>>>> PACKAGECONFIG alone is not sufficient; to build the bindings properly=
-,
->>>>> the
->>>>> package also needs to inherit vala.bbclass:
->>>>>
->>>>>
->>>>> https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/tree/meta/cla=
-sses/vala.bbclass?h=3Dakanavin/gobject-introspection-experimental
->>>>
->>>>
->>>> and this belong to meta-vala (or other). This reduces the core and
->>>> this is something we really should to push for.
->>>
->>>
->>> If this class is moved to meta-vala, how do you make packages in oe-cor=
-e
->>> inherit it, or otherwise do what it does?
->>
->> bbappend files? :)
->
-> What get's solved or better by moving back and forth recipes and adding a=
-ppends?
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 November 2015 at 16:39, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":62f" cl=
+ass=3D"a3s" style=3D"overflow:hidden">Let me rephrase.=C2=A0 Instead of cal=
+ling out to qemu (or a real target) for a<br>
+gobject and result.=C2=A0 Can the result be cached (like we do with the con=
+fig-site<br>
+info?)=C2=A0 This would allow me to run say a MIPS64 n64 gobject build, cac=
+he the<br>
+results and use it on my octeon3 build (which can&#39;t run in QEMU.)</div>=
+</blockquote></div><br>The metadata contains stuff like type sizes and alig=
+nment but wouldn&#39;t it be possible to have some sort of map from machine=
+ to close-enough qemu machine?=C2=A0 So for octeon3 is qemumips64 is close =
+enough, run that.</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
+mail_extra">(to be honest I thought the qemu runner support as used by the =
+postinsts already did this)</div><div class=3D"gmail_extra"><br></div><div =
+class=3D"gmail_extra">Ross</div></div>
 
-I see no real benefit on Vala being into the oe-core; it can be add as
-all the other layers we have. This helps to reduce the oe-core size.
-
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
+--001a113a7dfa95731f0524333757--
