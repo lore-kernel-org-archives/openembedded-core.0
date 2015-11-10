@@ -1,23 +1,24 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-X-Greylist: delayed 343 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 10 Nov 2015 22:41:15 UTC
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 58DC3766B2
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 054CF65CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 22:41:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 74F946007D3
-To: akuster808 <akuster808@gmail.com>
-References: <563C0420.6000308@gmail.com>
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-Message-ID: <56427131.7040408@collabora.co.uk>
-Date: Tue, 10 Nov 2015 22:35:29 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <563C0420.6000308@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Fido] readline CVE-2014-2524
+	Tue, 10 Nov 2015 23:10:28 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
+	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1ZwI3T-0006VF-Fq; Wed, 11 Nov 2015 00:10:23 +0100
+Message-ID: <1447197016.2907.2.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Tue, 10 Nov 2015 23:10:16 +0000
+In-Reply-To: <56421DA6.5080700@windriver.com>
+References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
+	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
+	<56421DA6.5080700@windriver.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,20 +31,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 22:41:16 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Tue, 10 Nov 2015 23:10:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/11/15 01:36, akuster808 wrote:
-> please backport from Master
->
-> 9a02df0e932106bcb3dda0a7a2eb1113719fb4ee
->
-> readline: actually apply readline63-003 (aka CVE-2014-2524)
+On Tue, 2015-11-10 at 10:39 -0600, Mark Hatle wrote:
+> Let me rephrase.  Instead of calling out to qemu (or a real target) for a
+> gobject and result.  Can the result be cached (like we do with the config-site
+> info?)  This would allow me to run say a MIPS64 n64 gobject build, cache the
+> results and use it on my octeon3 build (which can't run in QEMU.)
 
-Thanks, I've queued this in my joshuagl/fido-next branch.
+Why does gobject-introspection (presumably giscanner, right?) need to
+run binaries on the target at all?  I thought it operated mostly on the
+source code.
 
-Regards,
+p.
 
-Joshua
+
 
