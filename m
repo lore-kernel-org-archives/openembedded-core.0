@@ -1,24 +1,27 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 18477770D8
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B7465766B2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 15:31:08 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 10 Nov 2015 07:31:08 -0800
+	Tue, 10 Nov 2015 15:35:42 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 10 Nov 2015 07:35:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,270,1444719600"; d="scan'208";a="597610046"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.0.72])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Nov 2015 07:31:07 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Nov 2015 15:30:55 +0000
-Message-Id: <2533e4f39428988e23427cf44d64daa7dcb19180.1447169394.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1447169394.git.paul.eggleton@linux.intel.com>
-References: <cover.1447169394.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1447169394.git.paul.eggleton@linux.intel.com>
-References: <cover.1447169394.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] classes/license: fix intermittent license collection warning
+X-IronPort-AV: E=Sophos;i="5.20,271,1444719600"; d="scan'208";a="816357564"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 10 Nov 2015 07:35:36 -0800
+Message-ID: <56420F08.1050209@linux.intel.com>
+Date: Tue, 10 Nov 2015 17:36:40 +0200
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.8.0
+MIME-Version: 1.0
+To: Mark Hatle <mark.hatle@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
+	<5641FFD4.1050506@windriver.com>
+In-Reply-To: <5641FFD4.1050506@windriver.com>
+Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +34,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 15:31:09 -0000
+X-List-Received-Date: Tue, 10 Nov 2015 15:35:50 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fixes the following warning sometimes appearing during image builds:
+On 11/10/2015 04:31 PM, Mark Hatle wrote:
+> Is there a way that the qemu calls can be replaced by calls to an actual running
+> board (via SSH perhaps) to get the necessary information?  While inconvenient
+> this might be a valid workaround.
 
-WARNING: The license listed ABC was not in the licenses collected for recipe xyz
+Theoretically, yes. Copy the sysroot and the build tree to the board (to 
+some safe location, obviously), then execute the arch-dependent bits of 
+the process remotely, then copy the output files back. Slow, but doable. 
+The executable wrapper mechanism for that is already provided by the 
+patchset.
 
-The files being looked for here, which runs during do_rootfs,
-are written out by the do_populate_lic task for each recipe. However,
-there was no explicit dependency between do_rootfs and all of the
-do_populate_lic tasks to ensure they had run - only an implicit link via
-do_build, so it is possible that sometimes they had not depending on how
-the tasks were scheduled. Add an explicit set of dependencies to fix
-this.
+I would however first seriously look into reengineering g-o so that it's 
+architecture-independent, and doesn't require such awful contortions. 
+Primarily, two things:
+1) It should be easy to build transient introspection binaries for the 
+native architecture, instead of building them for the target together 
+with the rest of the package. Those binaries produce textual output 
+(essentially a list of classes/signals/properties) which is 
+architecture-independent.
+2) The binary introspection database in .typelib files should not be a 
+raw dump of a C structure, and should be actually the same on all 
+architectures.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/license.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+> Also is there any facility to caching the gobject responses (other then standard
+> sstate-cache) so for machine that do not have QEMU support we can used a cached
+> set of responses?  (I'm not sure if these responses could be considered to be a
+> global cache, or if they are distribution specific in configuration.  Likely the
+> later.)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index c616a20..8ad4614 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -474,6 +474,7 @@ do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
- do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
- 
- ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest; license_create_manifest; "
-+do_rootfs[recrdeptask] += "do_populate_lic"
- 
- do_populate_lic_setscene[dirs] = "${LICSSTATEDIR}/${PN}"
- do_populate_lic_setscene[cleandirs] = "${LICSSTATEDIR}"
--- 
-2.1.0
+This requires custom bitbake support I'm afraid, a specialist needs to 
+answer this.
 
+
+
+Alex
 
