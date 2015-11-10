@@ -1,37 +1,29 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id B4DC576E3F
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EC0B77041
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 00:12:28 +0000 (UTC)
-Received: by wmww144 with SMTP id w144so97468506wmw.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Nov 2015 16:12:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=XmKjix2mMFo8QyUrKkhg/rVwCduayIdijBU4WtyYKH0=;
-	b=kZ5jsi2ycafuafbJZDO9FtDWtee5ns/0vhX8EIYval3hZKLgTVbF3PCU4JaoLXXser
-	myqMXxjQVQlOEylOLiQA18b5SOa0yvpgd2uwGQa33MzGdJoXQCYMw9pnPKPpAl9XdyId
-	cJUXhmtIlkDwl+ad9OBuxs21rpD21lni4dM6CUJFW6rWgGo1osncj0PbHjLzKITAEFKz
-	kKDBnRG1M0pPTG2LtF+lv8ZGis+KFYACZ6bowt1y9zvFdnIRlk24I5NtK3GbXhcF0AvR
-	+CZX928gaIt0imk1II+22VpRY1y3QzpEh/mh15Klpl3341IcSNikWgO1ZIVs/pAvFZfa
-	jm1Q==
-X-Received: by 10.28.139.143 with SMTP id n137mr1179485wmd.8.1447114348301;
-	Mon, 09 Nov 2015 16:12:28 -0800 (PST)
-Received: from localhost.localdomain (p4FDF01E7.dip0.t-ipconnect.de.
-	[79.223.1.231]) by smtp.googlemail.com with ESMTPSA id
-	j4sm1103469wmg.18.2015.11.09.16.12.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 09 Nov 2015 16:12:27 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Nov 2015 01:12:15 +0100
-Message-Id: <1447114335-32437-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 2.1.0
+	Tue, 10 Nov 2015 01:41:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAA1fXNB026711
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 9 Nov 2015 17:41:33 -0800 (PST)
+Received: from [128.224.162.186] (128.224.162.186) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 9 Nov 2015 17:41:32 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1446645475.git.liezhi.yang@windriver.com>
+	<3da4fc0c20bf2ab7ac4c489aaa37d707e769d6c3.1446645475.git.liezhi.yang@windriver.com>
+	<CAJTo0Lb6zSiunoe73fu==ZHD6yFsT+4d9FTRmxDgfpV-p0tY=Q@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <56414B4A.6020701@windriver.com>
+Date: Tue, 10 Nov 2015 09:41:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Subject: [PATCH] glew: set correct version in our configuration
+In-Reply-To: <CAJTo0Lb6zSiunoe73fu==ZHD6yFsT+4d9FTRmxDgfpV-p0tY=Q@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] cross-canadian/libgcc: fix aarch64's multilib SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +36,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 00:12:29 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 10 Nov 2015 01:41:35 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This error came up during libreoffice implementation failing for wron version
-reported by pkg-config:
 
-| configure: error: Package requirements (glew >= 1.10.0) were not met:
-|
-| Requested 'glew >= 1.10.0' but version of glew is 1.9.0
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- meta/recipes-graphics/glew/glew/autotools.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 11/10/2015 12:27 AM, Burton, Ross wrote:
+>
+> On 4 November 2015 at 13:58, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     The arm toolchain has a "-gnueabi" suffix, but aarch64 doesn't,
+>     this makes multilib sdk doesn't work, for example:
+>
+>     MACHINE = qemuarm64
+>     require conf/multilib.conf
+>     MULTILIBS = "multilib:lib32"
+>     DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
+>
+>     $ bitbake core-image-minimal -cpopulate_sdk
+>
+>     Then extract SDK, the
+>     environment-setup-armv7a-vfp-neon-pokymllib32-linux-gnueabi
+>     doesn't work since:
+>     * The CC is arm-pokymllib32-linux-gnueabi-gcc
+>        which doesn't exist, the patch for cross-canadian.bbclass
+>        fixes problem.
+>     * Need aarch64-poky-linux/usr/lib/arm-poky-linux-linux-gnueabi
+>        which doesn't exist, the patch for libgcc-common.inc fixes the
+>        problem.
+>
+>     [YOCTO #8616]
+>
+>
+> This breaks the allarch sstate sanity test on the autobuilder which verifies
+> that allarch recipes don't have different hashes for a no-op change to the machine.
 
-diff --git a/meta/recipes-graphics/glew/glew/autotools.patch b/meta/recipes-graphics/glew/glew/autotools.patch
-index 7dfe087..89737dc 100644
---- a/meta/recipes-graphics/glew/glew/autotools.patch
-+++ b/meta/recipes-graphics/glew/glew/autotools.patch
-@@ -20,7 +20,7 @@ Index: glew/configure.ac
- +# Process this file with autoconf to produce a configure script.
- +
- +AC_PREREQ([2.62])
--+AC_INIT([glew], [1.9.0], [BUG-REPORT-ADDRESS])
-++AC_INIT([glew], [1.12.0], [BUG-REPORT-ADDRESS])
- +AC_CONFIG_SRCDIR([src/glew.c])
- +AC_CONFIG_HEADERS([config.h])
- +AM_INIT_AUTOMAKE([-Wall -Werror foreign])
--- 
-2.1.0
+Sorry, I will check and update it.
 
+// Robert
+
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/242/steps/Running%20oe-selftest/logs/stdio
+>
+> Ross
 
