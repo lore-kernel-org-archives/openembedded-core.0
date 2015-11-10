@@ -1,24 +1,31 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1377E736B6
+	by mail.openembedded.org (Postfix) with ESMTP id 07DD976F58
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 05:06:48 +0000 (UTC)
+	Tue, 10 Nov 2015 06:03:09 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAA56mgK027408
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Nov 2015 21:06:48 -0800 (PST)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 9 Nov 2015 21:06:47 -0800
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Nov 2015 12:56:57 +0800
-Message-ID: <1447131417-29782-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAA639GB027547
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 9 Nov 2015 22:03:09 -0800 (PST)
+Received: from [128.224.162.186] (128.224.162.186) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 9 Nov 2015 22:03:08 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1445333081.git.liezhi.yang@windriver.com>
+	<b6a5e9973afe805490f6aee8967026bc47f2692b.1445333081.git.liezhi.yang@windriver.com>
+	<CAJTo0LaOD2_=aDwHi9fjGzWZ2+hcMtUnjHMFsSOTABWiozuSTQ@mail.gmail.com>
+	<564094ED.4050402@windriver.com>
+	<CAJTo0LaU=2GbBh7F6d+yGz+nUFZKd9x3cvSi4mU_=7xG2QY_Dg@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <5641889A.8070107@windriver.com>
+Date: Tue, 10 Nov 2015 14:03:06 +0800
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Subject: [PATCH] e2fsprogs: fix the ptest
+In-Reply-To: <CAJTo0LaU=2GbBh7F6d+yGz+nUFZKd9x3cvSi4mU_=7xG2QY_Dg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] bitbake-prserv-tool: check file name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,77 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 05:06:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Nov 2015 06:03:10 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Roy Li <rongqing.li@windriver.com>
 
-1. a hard-coded path in ptest is used, fix it.
-2. fix the cache_inode.patch, the m_bigjournal test case show it has
-a off-by-one issue
 
-  /usr/lib64/e2fsprogs/ptest/test# ./test_one m_big
-  m_bigjournal: journal over 4GB in size: failed
-  /usr/lib64/e2fsprogs/ptest/test#
-  /usr/lib64/e2fsprogs/ptest/test# cat m_bigjournal
-  m_bigjournal.1.log   m_bigjournal.failed
-  .failed _Gaming_Socketed_GT3-1:/usr/lib64/e2fsprogs/ptest/test# cat m_bigjournal.
-  --- m_bigjournal/expect.1	2015-11-09 08:33:14.000000000 +0000
-  +++ m_bigjournal.1.log	2015-11-10 02:42:08.337571000 +0000
-  @@ -52,8 +52,8 @@
-     Reserved GDT blocks at 2-672
-     Block bitmap at 673 (+673), Inode bitmap at 1185 (+1185)
-     Inode table at 1697-1697 (+1697)
-  -  31836 free blocks, 5 free inodes, 2 directories, 5 unused inodes
-  -  Free blocks: 764-1184, 1269-1696, 1781-32767
-  +  31837 free blocks, 5 free inodes, 2 directories, 5 unused inodes
-  +  Free blocks: 763-1184, 1269-1696, 1781-32767
-     Free inodes: 12-16
-   Group 1: (Blocks 32768-65535) [INODE_UNINIT]
-     Backup superblock at 32768, Group descriptors at 32769-32769
-  @@ -542,8 +542,8 @@
-   Group 79: (Blocks 2588672-2621439) [INODE_UNINIT]
-     Block bitmap at 752 (bg #0 + 752), Inode bitmap at 1264 (bg #0 + 1264)
-     Inode table at 1776-1776 (bg #0 + 1776)
-  -  30047 free blocks, 16 free inodes, 0 directories, 16 unused inodes
-  -  Free blocks: 2591393-2621439
-  +  30046 free blocks, 16 free inodes, 0 directories, 16 unused inodes
-  +  Free blocks: 2591394-2621439
-     Free inodes: 1265-1280
-   Group 80: (Blocks 2621440-2654207) [INODE_UNINIT, BLOCK_UNINIT]
-     Block bitmap at 753 (bg #0 + 753), Inode bitmap at 1265 (bg #0 + 1265)
-  /usr/lib64/e2fsprogs/ptest/test#
+On 11/09/2015 10:33 PM, Burton, Ross wrote:
+>
+> On 9 November 2015 at 12:43, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     Maybe selftest should use export.conf rather than export.inc ?
+>
+>
+> It's a configuration file that is typically included, so I'd say .inc is
+> perfectly reasonable.  Better error reporting in the Python would be useful so
+> it doesn't just throw an exception.
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-devtools/e2fsprogs/e2fsprogs/cache_inode.patch | 2 +-
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb         | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+Thanks, I will update it to both check .inc and .conf.
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/cache_inode.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/cache_inode.patch
-index f9ef8e5..4de78e5 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/cache_inode.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/cache_inode.patch
-@@ -37,7 +37,7 @@ Index: e2fsprogs-1.42.9/lib/ext2fs/alloc.c
-  	int	c_ratio;
-  
- +        if (!goal)
--+            goal = last_goal;
-++            goal = last_goal - 1 >= 0; last_goal - 1, 0;
- +
-  	EXT2_CHECK_MAGIC(fs, EXT2_ET_MAGIC_EXT2FS_FILSYS);
-  
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-index ce7d2e8..a7b9816 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-@@ -114,4 +114,5 @@ do_install_ptest() {
- 	cp -a ${B}/tests ${D}${PTEST_PATH}/test
- 	cp -a ${S}/tests/* ${D}${PTEST_PATH}/test
- 	sed -e 's!../e2fsck/e2fsck!e2fsck!g' -i ${D}${PTEST_PATH}/test/*/expect*
-+	sed -e 's!/usr/lib/e2fsprogs/ptest!${PTEST_PATH}!g' -i ${D}${PTEST_PATH}/test/test_*
- }
--- 
-1.9.1
+// Robert
 
+>
+> Ross
 
