@@ -1,29 +1,23 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4871477145
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B73CA736B6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 14:31:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAAEVnfq029719
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 10 Nov 2015 06:31:50 -0800
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 10 Nov 2015 06:31:48 -0800
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-X-Enigmail-Draft-Status: N1110
-Organization: Wind River Systems
-Message-ID: <5641FFD4.1050506@windriver.com>
-Date: Tue, 10 Nov 2015 08:31:48 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
+	Tue, 10 Nov 2015 14:36:35 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 10 Nov 2015 06:36:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,270,1444719600"; d="scan'208";a="847579574"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Nov 2015 06:36:36 -0800
+Received: from fedora-ws.localdomain (unknown [10.237.112.240])
+	by linux.intel.com (Postfix) with ESMTP id 4111A6A4083;
+	Tue, 10 Nov 2015 06:35:31 -0800 (PST)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Nov 2015 16:38:38 +0200
+Message-Id: <1447166319-6756-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCHv3 1/2] oeqa/selftest/signing: New test for Signing packages in the package feeds.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,280 +30,223 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 14:31:51 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 10 Nov 2015 14:36:37 -0000
 
-On 11/9/15 8:50 AM, Alexander Kanavin wrote:
-> 1. Introduction
-> 
-> This patchset adds support for gobject introspection to oe-core. 
-> Gir files go to -dev packages, typelib files go to main packages 
-> (they are packaged together with libraries that are 
-> introspected).
-> 
-> The work is based on a meta-gir layer, which was used as a proof of
-> concept; overall approach is same and some implementation ideas were 
-> used, but this implementation is otherwise different, and hopefully 
-> simpler and cleaner.
+[YOCTO # 8134] This test verifies features introduced in bug 8134.
 
-I have a concern since this uses QEMU.  What do we do for BSPs that do NOT have
-QEMU support?
+It requires as resources the files from meta-selftest/files/signing:
+For 'gpg --gen-key' the used input was:
+key: RSA
+key-size: 2048
+key-valid: 0
+realname: testuser
+email: testuser@email.com
+comment: nocomment
+passphrase: test123
 
-I realize QEMU supports most of the major arch families, but once we enable
-certain tuning flags and such there are a fair number of common configurations
-that do not have QEMU support.
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+---
+ meta-selftest/files/signing/key.pub    | 30 ++++++++++++++
+ meta-selftest/files/signing/key.secret | 59 ++++++++++++++++++++++++++
+ meta-selftest/files/signing/secret.txt |  1 +
+ meta/lib/oeqa/selftest/signing.py      | 76 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 166 insertions(+)
+ create mode 100644 meta-selftest/files/signing/key.pub
+ create mode 100644 meta-selftest/files/signing/key.secret
+ create mode 100644 meta-selftest/files/signing/secret.txt
+ create mode 100644 meta/lib/oeqa/selftest/signing.py
 
-> 
-> 2. 30 second tutorial for adding introspection support to a package:
-> 
-> a. Inherit gobject-introspection class (or a class that inherits it,
-> such as gnome-base).
-> 
-> b. Make sure introspection is not disabled anywhere in the recipe or
-> its includes.
-> 
-> c. Try to build the recipe; if this results in build errors that look 
-> like something is unable to find .so libraries, check where these libraries 
-> are in the source tree and add GIR_EXTRA_LIBS_PATH=${B}/something/.libs
-> to the recipe.
-> 
-> c. Any other errors probably mean that introspection support in a package
-> is not entirely standard, and breaks down in a cross-compilation environment.
-> Custom-made fixing is needed then.
-
-Is there a way that the qemu calls can be replaced by calls to an actual running
-board (via SSH perhaps) to get the necessary information?  While inconvenient
-this might be a valid workaround.
-
-Also is there any facility to caching the gobject responses (other then standard
-sstate-cache) so for machine that do not have QEMU support we can used a cached
-set of responses?  (I'm not sure if these responses could be considered to be a
-global cache, or if they are distribution specific in configuration.  Likely the
-later.)
-
-> 
-> 3. How to verify that introspection works in an image:
-> 
-> a. Build core-image-sato.
-> 
-> b. Start terminal, start python3 in the terminal.
-> 
-> c. Type out something like:
-> 
->>>> from gi.repository import GLib
->>>> GLib.get_host_name()
-> 
-> d. Also, try something more advanced, for example:
-> http://python-gtk-3-tutorial.readthedocs.org/en/latest/introduction.html
-> 
-> 
-> 4. Request for testing - I would like this patchset to be checked on three
-> levels:
-> 
-> a. Test it in all of the build environments you have. Let me know any errors
-> or warnings. Also let me know, if some package can be built with introspection
-> enabled, but is not.
-> 
-> b. Check the patchset for correct use of Yocto idioms. It touches a lot of things
-> in a lot of different ways, and maybe there are better ways to do what it does.
-> 
-> c. Check that the overall design is sensible: how things work is hopefully
-> explained in comments and commit messages.
-> 
-> 
-> 5. Known issues:
-> 
-> - there is no way to globally switch off the whole thing at the moment;
-> this should probably be a DISTRO_FEATURE (also see the next item)
-
-I agree.  For tunes where QEMU can't be used there should be a way to switch
-this behavior off.  I don't know if it should be a DISTRO_FEATURE or other switch.
-
-> - qemu-ppc64 crashes out immediately; so anything that supports introspection 
-> cannot be built on that architecture:
-> Invalid data memory access: 0x00000040d89c5008
-> ...
-> 
-> - gcr introspection is disabled in x86_64, because introspection helper binary
-> goes into an infinite loop under qemu (on that architecture only).
-> 
-> - gcr and libsecret introspection is disabled in mips64, because introspection helper
-> binary fails an assertion in libgpg-error
-> 
-> - webkit introspection is disabled in powerpc, because qemu-ppc crashes out when
-> running g-ir-compiler
-
-We should definitely inspect the items above and see if any of them are bugs in
-the built software or due to the QEMU application environment.
-
-> - the patchset has not been tested with layers in meta-oe; just making oe-core 
-> build without errors on all standard architectures has been a big, long task.
-
-Thanks for the work.  Hopefully this and the work to follow will make it easier
-to build more complex gobject based components in the future.
-
-> - the whole thing should be documented in Yocto manuals
-> 
-> The following changes since commit fc45deac89ef63ca1c44e763c38ced7dfd72cbe1:
-> 
->   build-appliance-image: Update to jethro head revision (2015-11-03 14:03:03 +0000)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib akanavin/gobject-introspection-experimental
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/gobject-introspection-experimental
-> 
-> Alexander Kanavin (29):
->   qemu.bbclass: add qemu_wrapper_cmdline()
->   qemu: don't blacklist mips64 when building runners of userspace
->     binaries
->   gobject-introspection: add the recipe
->   gtk-doc-stub: remove introspection stubs
->   gobject-introspection.bbclass: add a class that enables gobject
->     introspection
->   python3-native: use the previous version of python-config script
->   avahi-ui: remove the dependency on python-pygtk by disabling
->     avahi-discover
->   python-pygtk: remove the recipe
->   avahi: enable gobject-introspection
->   udev: enable gobject introspection
->   vala: enable the use of vapigen by packages with vala support
->   gcr: enable generation of vapi files using vapigen
->   gdk-pixbuf: enable gobject introspection
->   gconf: enable gobject-introspection
->   gtk+: enable gobject introspection
->   gtk+3: enable gobject-introspection
->   libsecret: enable generation of vapi files using vapigen
->   clutter: enable gobject introspection
->   vala.bbclass: remove pre-packaged vapigen.m4 from tarballs
->   libsoup-2.4: enable gobject introspection
->   at-spi2-core: enable gobject introspection
->   gstreamer: enable gobject introspection
->   gnomebase.bbclass: enable gobject introspection
->   webkitgtk: enable gobject introspection
->   gcr: disable gobject introspection on x86-64 for now
->   gcr: disable gobject-introspection on mips64
->   libsecret: disable gobject-introspection on mips64
->   webkitgtk: disable gobject-introspection on powerpc
->   packagegroup-core-x11-sato: add python-pygobject and gtk+3
-> 
->  meta/classes/gnomebase.bbclass                     |   5 +-
->  meta/classes/gobject-introspection.bbclass         |  36 +++
->  meta/classes/qemu.bbclass                          |  23 +-
->  meta/classes/vala.bbclass                          |   6 +
->  meta/conf/distro/include/distro_alias.inc          |   1 -
->  meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb |  16 +-
->  meta/recipes-connectivity/avahi/avahi.inc          |  12 +-
->  .../packagegroups/packagegroup-self-hosted.bb      |   1 -
->  meta/recipes-core/udev/udev.inc                    |  10 +-
->  ...file.am-don-t-hardcode-g-ir-compiler-name.patch |  27 ++
->  ...c-use-PKG_CONFIG_SYSROOT_PATH-when-findin.patch |  32 +++
->  ....am-use-libtool-when-running-g-ir-scanner.patch |  26 ++
->  ...c-add-sysroot-path-to-GI_DATADIR-don-t-se.patch |  41 +++
->  .../python/python-pygobject_2.28.3.bb              |  53 ----
->  .../python/python-pygobject_3.18.0.bb              |  29 ++
->  .../python/python-pygtk/acinclude.m4               |  90 ------
->  .../add-gtk-types.defs-into-gdk.c-dependence.patch |  32 ---
->  .../python/python-pygtk/fix-gtkunixprint.patch     |  20 --
->  .../python/python-pygtk/fix-pygtk-2.0.pc.patch     |  13 -
->  .../python/python-pygtk/nodocs.patch               |  15 -
->  .../prevent_to_get_display_during_import.patch     |  16 --
->  .../python/python-pygtk/python-pygtk2/acinclude.m4 |  90 ------
->  .../update-dependences-of-defs.c.patch             |  38 ---
->  .../recipes-devtools/python/python-pygtk_2.24.0.bb |  55 ----
->  .../python/python3-native_3.4.3.bb                 |   1 +
->  ...the-shell-version-of-python-config-that-w.patch |  38 +++
->  meta/recipes-devtools/qemu/qemu-targets.inc        |   2 +-
->  meta/recipes-devtools/vala/vala.inc                |  10 +
->  ...001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch |  38 +++
->  meta/recipes-devtools/vala/vala_0.28.0.bb          |   4 +-
->  meta/recipes-gnome/gcr/gcr_3.16.0.bb               |  22 +-
->  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb |   7 +-
->  meta/recipes-gnome/gnome/gconf_3.2.6.bb            |   6 +-
->  ...config-paths-with-PKG_CONFIG_SYSROOT_DIR-.patch |  99 +++++++
->  ...01-giscanner-add-a-use-ldd-wrapper-option.patch |  48 ++++
->  ...1-giscanner-add-use-binary-wrapper-option.patch |  52 ++++
->  ...c-add-host-gi-and-gi-cross-wrapper-option.patch | 158 +++++++++++
->  .../gobject-introspection_1.44.0.bb                | 146 ++++++++++
->  .../gsettings-desktop-schemas_3.16.1.bb            |   2 +-
->  meta/recipes-gnome/gtk+/gtk+.inc                   |   9 +-
->  meta/recipes-gnome/gtk+/gtk+3.inc                  |  10 +-
->  ...t-Import-introspection-stub-machinery-too.patch | 305 +++++++++++++++++++++
->  .../recipes-gnome/gtk-doc-stub/gtk-doc-stub_git.bb |   6 +-
->  meta/recipes-gnome/librsvg/librsvg_2.40.10.bb      |   3 -
->  meta/recipes-gnome/libsecret/libsecret_0.18.2.bb   |  14 +-
->  ...ation-paths-for-.gir-and-.typelib-as-reco.patch |  32 +++
->  meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb      |   3 +-
->  meta/recipes-graphics/clutter/clutter-1.0.inc      |   5 +-
->  meta/recipes-graphics/clutter/clutter-gst-3.0.inc  |   4 +-
->  meta/recipes-graphics/clutter/clutter-gtk-1.0.inc  |   3 +-
->  meta/recipes-graphics/cogl/cogl-1.0.inc            |   8 +-
->  meta/recipes-graphics/mx/mx.inc                    |   5 +-
->  meta/recipes-graphics/pango/pango.inc              |   3 +-
->  ...op-introspection-macros-from-acinclude.m4.patch | 121 ++++++++
->  meta/recipes-graphics/pango/pango_1.36.8.bb        |   1 +
->  .../recipes-multimedia/gstreamer/gst-player_git.bb |   2 +-
->  .../gstreamer/gst-plugins-package.inc              |   1 +
->  ...-don-t-hardcode-libtool-name-when-running.patch |  42 +++
->  .../gstreamer/gstreamer1.0-plugins-bad_1.4.5.bb    |   1 +
->  .../gstreamer/gstreamer1.0-plugins-base.inc        |   4 +
->  ...-don-t-hardcode-libtool-name-when-running.patch | 168 ++++++++++++
->  ...-prefix-calls-to-pkg-config-with-PKG_CONF.patch | 298 ++++++++++++++++++++
->  ...ssing-include-directories-when-calling-in.patch |  28 ++
->  ...ncorrect-reference-to-gstreamer-sdp-in-Ma.patch |  27 ++
->  .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |   4 +
->  .../gstreamer/gstreamer1.0-plugins.inc             |  10 +-
->  .../gstreamer/gstreamer1.0-rtsp-server.inc         |   9 +-
->  ...ode-libtool-name-when-using-introspection.patch |  27 ++
->  .../gstreamer/gstreamer1.0-rtsp-server_1.4.5.bb    |   2 +
->  meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |  12 +-
->  .../packagegroups/packagegroup-core-x11-sato.bb    |   2 +
->  ...Introspection.cmake-prefix-variables-obta.patch |  27 ++
->  ...ng-introspection-files-add-CMAKE_C_FLAGS-.patch |  40 +++
->  meta/recipes-sato/webkit/webkitgtk_2.8.5.bb        |  13 +-
->  meta/recipes-support/atk/at-spi2-core_2.16.0.bb    |   4 +-
->  meta/recipes-support/atk/atk_2.16.0.bb             |   2 +-
->  meta/recipes-support/libsoup/libsoup-2.4_2.50.0.bb |   2 +-
->  ...file.am-install-gir-typelib-using-datadir.patch |  34 +++
->  meta/recipes-support/vte/vte.inc                   |   4 +-
->  meta/recipes-support/vte/vte_0.28.2.bb             |   3 +-
->  80 files changed, 2106 insertions(+), 512 deletions(-)
->  create mode 100644 meta/classes/gobject-introspection.bbclass
->  create mode 100644 meta/recipes-core/udev/udev/0001-Makefile.am-don-t-hardcode-g-ir-compiler-name.patch
->  create mode 100644 meta/recipes-core/udev/udev/0001-configure.ac-use-PKG_CONFIG_SYSROOT_PATH-when-findin.patch
->  create mode 100644 meta/recipes-core/udev/udev/0002-Makefile.am-use-libtool-when-running-g-ir-scanner.patch
->  create mode 100644 meta/recipes-devtools/python/python-pygobject/0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch
->  delete mode 100644 meta/recipes-devtools/python/python-pygobject_2.28.3.bb
->  create mode 100644 meta/recipes-devtools/python/python-pygobject_3.18.0.bb
->  delete mode 100644 meta/recipes-devtools/python/python-pygtk/acinclude.m4
->  delete mode 100644 meta/recipes-devtools/python/python-pygtk/add-gtk-types.defs-into-gdk.c-dependence.patch
->  delete mode 100644 meta/recipes-devtools/python/python-pygtk/fix-gtkunixprint.patch
->  delete mode 100644 meta/recipes-devtools/python/python-pygtk/fix-pygtk-2.0.pc.patch
->  delete mode 100644 meta/recipes-devtools/python/python-pygtk/nodocs.patch
->  delete mode 100644 meta/recipes-devtools/python/python-pygtk/prevent_to_get_display_during_import.patch
->  delete mode 100644 meta/recipes-devtools/python/python-pygtk/python-pygtk2/acinclude.m4
->  delete mode 100644 meta/recipes-devtools/python/python-pygtk/update-dependences-of-defs.c.patch
->  delete mode 100644 meta/recipes-devtools/python/python-pygtk_2.24.0.bb
->  create mode 100644 meta/recipes-devtools/python/python3/0001-Do-not-use-the-shell-version-of-python-config-that-w.patch
->  create mode 100644 meta/recipes-devtools/vala/vala/0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch
->  create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Prefix-pkg-config-paths-with-PKG_CONFIG_SYSROOT_DIR-.patch
->  create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-a-use-ldd-wrapper-option.patch
->  create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-giscanner-add-use-binary-wrapper-option.patch
->  create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0002-configure.ac-add-host-gi-and-gi-cross-wrapper-option.patch
->  create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection_1.44.0.bb
->  create mode 100644 meta/recipes-gnome/gtk-doc-stub/files/0001-Revert-Import-introspection-stub-machinery-too.patch
->  create mode 100644 meta/recipes-gnome/libwnck/files/0001-Fix-installation-paths-for-.gir-and-.typelib-as-reco.patch
->  create mode 100644 meta/recipes-graphics/pango/pango/0001-Drop-introspection-macros-from-acinclude.m4.patch
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-riff-add-missing-include-directories-when-calling-in.patch
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-Don-t-hardcode-libtool-name-when-using-introspection.patch
->  create mode 100644 meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
->  create mode 100644 meta/recipes-sato/webkit/files/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
->  create mode 100644 meta/recipes-support/vte/vte-0.28.2/0001-Makefile.am-install-gir-typelib-using-datadir.patch
-> 
+diff --git a/meta-selftest/files/signing/key.pub b/meta-selftest/files/signing/key.pub
+new file mode 100644
+index 0000000..e197bb3
+--- /dev/null
++++ b/meta-selftest/files/signing/key.pub
+@@ -0,0 +1,30 @@
++-----BEGIN PGP PUBLIC KEY BLOCK-----
++Version: GnuPG v1
++
++mQENBFYeMycBCADISkEj+u+3SkGbmC4b09StA3Fk4J8bKZrTTpQqUhOH4QFIQpso
++q96Q907h/ABAgB+IV0SGIeN866E7BqToqoXZ74X6EoyXWdndaMaFZSj+oNqqg6Gi
++hVsuGNpvRyyXSCYW8w9H2lFx09UufFrUxoSeP2iVdJJaUAmb8e00PCwkYrS2BZEa
++tO2VgllbaqczldmlUGnkIZt8YUSQSI/xZBDYUvbcZYBaOnDH1SDQl26f+bgyeIyS
++TW5TZb96o4tMfiifgPoqAapAxQLahG0WtjF/n1yNV5wUNQYsEQf6/h6W2rHGsCP5
++6FVFnr/ZPVam9iHUxL4lvJSI8dEH37s9GmarABEBAAG0LXRlc3R1c2VyIChub2Nv
++bW1lbnQpIDx0ZXN0dXNlckB0ZXN0ZW1haWwuY29tPokBOAQTAQIAIgUCVh4zJwIb
++AwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQezExa11krVLM2wf/fW1C8DPx
++tZEyl6iPXFjNotslo+t2TL6jPefC22KmbokJCtCnxcopBjQRuhUSNDTkXkUdVagy
++TaaYILV8XGajTmcVGQTaKeh+j6TM6CBGApQB5KhHvZCyvNBrGcNyuiex0Sm/rIhS
++fZre6ptZM/026W2kLwwJESXzHJEqCoFmU6aSOUCVyiDgMfcNw6c4NmEoqZtLdnxU
++B7Nac98o933AIvaaQMGtKIOcyOM7P/dyv8eMc38z2ew5bEB8E9aSdg5koXb3zIt5
++IKea631k4INAsFFyLMQNSmmKV7RK0miF5b4hGyekrYZRtiic5+dq5aWnVka4hBfi
++x31euxwQE87gQLkBDQRWHjMnAQgAt7C9QCFPWzLGQuQ/YaQub+8s2lYNQnmfwDHm
++5PuON+Wj/f5GyQhHKsbdUAPZ7GsjFIQnva7xNYYF/IvpC+0saB5NLMkBzjfIsg92
++6MkadAKlOR2o9gKlF59mulsJmJqNFTXiRcVXvpUnU8WB9ECmm321XfYHhk+4EMay
++H3OUZ0k6dEmvrWBTKNTR7M0z6j/jW+8J3vP3L9k1H+OV0EZwAKXfbh1lN4H467jY
++3gA7FU1WDmA06HphoSaFUEGTuXGtrRP0eksCUj3BtVygXnyQb379dISDOWcs/9Ke
++v3KMrZWgDnA4pH1eQpjycBhwKOCHYyhSSVOwCS3DGkaaklmQZwARAQABiQEfBBgB
++AgAJBQJWHjMnAhsMAAoJEHsxMWtdZK1SoPsIAKadG/tvS5COCyF8FuriL89Ysfov
++kMRKeb9hsMDbKX2lm3UtoS5ErmpkEUO/SbazQYm6/vYc8noQquqhkIdCljIvpWDv
++17tXEFfTGA493dlTTEWFt5bvzbQN6OhBu3904lAE4JGtlOOa9OKDeguwXbneLOyl
++dnlj2f7rw05cB9t/RDu7T11dTI39BMTUUm1lpWxYJk41o59b9g+fpJZkiIAJwnN3
++MwM1u9/AWfTqjNRgMAO5dIYceceTwGogujG+xz93flt+NjQhILG0T9jd0DFBgIAX
++Zq4PzX5aFDKjGoFaOOZ6r+kppBLH/HN6okMGIcfqaPPdnJI1MXFQvFzUNpo=
++=2cSJ
++-----END PGP PUBLIC KEY BLOCK-----
+diff --git a/meta-selftest/files/signing/key.secret b/meta-selftest/files/signing/key.secret
+new file mode 100644
+index 0000000..d30d7cd
+--- /dev/null
++++ b/meta-selftest/files/signing/key.secret
+@@ -0,0 +1,59 @@
++-----BEGIN PGP PRIVATE KEY BLOCK-----
++Version: GnuPG v1
++
++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
++=b+vR
++-----END PGP PRIVATE KEY BLOCK-----
+diff --git a/meta-selftest/files/signing/secret.txt b/meta-selftest/files/signing/secret.txt
+new file mode 100644
+index 0000000..5271a52
+--- /dev/null
++++ b/meta-selftest/files/signing/secret.txt
+@@ -0,0 +1 @@
++test123
+diff --git a/meta/lib/oeqa/selftest/signing.py b/meta/lib/oeqa/selftest/signing.py
+new file mode 100644
+index 0000000..879c3e0
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/signing.py
+@@ -0,0 +1,76 @@
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var
++import os
++import glob
++from oeqa.utils.decorators import testcase
++
++
++class Signing(oeSelfTest):
++
++    gpg_dir = ""
++    pub_key_name = 'key.pub'
++    secret_key_name = 'key.secret'
++
++    @classmethod
++    def setUpClass(cls):
++        # Import the gpg keys
++
++        cls.gpg_dir = os.path.join(cls.testlayer_path, 'files/signing/')
++
++        # key.secret key.pub are located in gpg_dir
++        pub_key_location = cls.gpg_dir + cls.pub_key_name
++        secret_key_location = cls.gpg_dir + cls.secret_key_name
++        runCmd('gpg --homedir %s --import %s %s' % (cls.gpg_dir, pub_key_location, secret_key_location))
++
++    @classmethod
++    def tearDownClass(cls):
++        # Delete the files generated by 'gpg --import'
++
++        gpg_files = glob.glob(cls.gpg_dir + '*.gpg*')
++        random_seed_file = cls.gpg_dir + 'random_seed'
++        gpg_files.append(random_seed_file)
++
++        for gpg_file in gpg_files:
++            runCmd('rm -f ' + gpg_file)
++
++    @testcase(1362)
++    def test_signing_packages(self):
++        """
++        Summary:     Test that packages can be signed in the package feed
++        Expected:    Package should be signed with the correct key
++        Product:     oe-core
++        Author:      Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        """
++
++        package_classes = get_bb_var('PACKAGE_CLASSES')
++        if 'package_rpm' not in package_classes:
++            self.skipTest('This test requires RPM Packaging.')
++
++        test_recipe = 'ed'
++
++        feature = 'INHERIT += "sign_rpm"\n'
++        feature += 'RPM_GPG_PASSPHRASE_FILE = "%ssecret.txt"\n' % self.gpg_dir
++        feature += 'RPM_GPG_NAME = "testuser"\n'
++        feature += 'RPM_GPG_PUBKEY = "%s%s"\n' % (self.gpg_dir, self.pub_key_name)
++        feature += 'GPG_PATH = "%s"\n' % self.gpg_dir
++
++        self.write_config(feature)
++
++        bitbake('-c cleansstate %s' % test_recipe)
++        bitbake(test_recipe)
++        self.add_command_to_tearDown('bitbake -c clean %s' % test_recipe)
++
++        pf = get_bb_var('PF', test_recipe)
++        deploy_dir_rpm = get_bb_var('DEPLOY_DIR_RPM', test_recipe)
++        package_arch = get_bb_var('PACKAGE_ARCH', test_recipe).replace('-', '_')
++        staging_bindir_native = get_bb_var('STAGING_BINDIR_NATIVE')
++
++        pkg_deploy = os.path.join(deploy_dir_rpm, package_arch, '.'.join((pf, package_arch, 'rpm')))
++
++        runCmd('%s/rpm --import %s%s' % (staging_bindir_native, self.gpg_dir, self.pub_key_name))
++
++        ret = runCmd('%s/rpm --checksig %s' % (staging_bindir_native, pkg_deploy))
++        # tmp/deploy/rpm/i586/ed-1.9-r0.i586.rpm: rsa sha1 md5 OK
++        self.assertIn('rsa sha1 md5 OK', ret.output, 'Package signed incorrectly.')
++
+-- 
+2.1.0
 
 
