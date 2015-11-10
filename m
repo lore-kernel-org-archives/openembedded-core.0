@@ -1,31 +1,35 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 07DD976F58
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id EE42875EE7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 06:03:09 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAA639GB027547
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Nov 2015 22:03:09 -0800 (PST)
-Received: from [128.224.162.186] (128.224.162.186) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 9 Nov 2015 22:03:08 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1445333081.git.liezhi.yang@windriver.com>
-	<b6a5e9973afe805490f6aee8967026bc47f2692b.1445333081.git.liezhi.yang@windriver.com>
-	<CAJTo0LaOD2_=aDwHi9fjGzWZ2+hcMtUnjHMFsSOTABWiozuSTQ@mail.gmail.com>
-	<564094ED.4050402@windriver.com>
-	<CAJTo0LaU=2GbBh7F6d+yGz+nUFZKd9x3cvSi4mU_=7xG2QY_Dg@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <5641889A.8070107@windriver.com>
-Date: Tue, 10 Nov 2015 14:03:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Tue, 10 Nov 2015 08:31:19 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tAA8VJwn002182 for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Nov 2015 02:31:19 -0600
+Received: from adi-pc-linux ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015111002311924-1887246 ;
+	Tue, 10 Nov 2015 02:31:19 -0600 
+Date: Tue, 10 Nov 2015 10:31:14 +0200
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: Richard Tollerton <rich.tollerton@ni.com>
+Message-ID: <20151110103114.44b2e812@adi-pc-linux>
+In-Reply-To: <87h9ku6fhx.fsf@weregild.amer.corp.natinst.com>
+References: <1447077707-31620-1-git-send-email-adrian.ratiu@ni.com>
+	<87h9ku6fhx.fsf@weregild.amer.corp.natinst.com>
+Organization: National Instruments
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaU=2GbBh7F6d+yGz+nUFZKd9x3cvSi4mU_=7xG2QY_Dg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] bitbake-prserv-tool: check file name
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 11/10/2015 02:31:19 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 11/10/2015 02:31:19 AM,
+	Serialize complete at 11/10/2015 02:31:19 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-11-10_06:, , signatures=0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] util-linux: create util-linux-runuser package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,28 +42,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 06:03:10 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Tue, 10 Nov 2015 08:31:20 -0000
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
+On Mon, 9 Nov 2015 15:15:54 -0600
+Richard Tollerton <rich.tollerton@ni.com> wrote:
 
+> Ioan-Adrian Ratiu <adrian.ratiu@ni.com> writes:
+> 
+> >  RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin"
+> >  RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs "
+> 
+> Should we add util-linux-runuser to either RDEPENDS or RRECOMMENDS?
 
-On 11/09/2015 10:33 PM, Burton, Ross wrote:
->
-> On 9 November 2015 at 12:43, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     Maybe selftest should use export.conf rather than export.inc ?
->
->
-> It's a configuration file that is typically included, so I'd say .inc is
-> perfectly reasonable.  Better error reporting in the Python would be useful so
-> it doesn't just throw an exception.
+Yes, definitely to RDEPENDS since users of util-linux might expect
+runuser as it was provided by default. Thanks for spotting this.
 
-Thanks, I will update it to both check .inc and .conf.
-
-// Robert
-
->
-> Ross
+I also missed the commit message typo, fixed in v2.
 
