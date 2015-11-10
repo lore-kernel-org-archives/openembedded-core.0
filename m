@@ -1,68 +1,52 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 0822F766B2
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 401DD74197
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 15:39:19 +0000 (UTC)
-Received: by iofh3 with SMTP id h3so4458443iof.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 07:39:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems_com_br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-type;
-	bh=MNq4LPKW6g0niVTOycYi9vM8jblBEk/H9GRz42dzBUg=;
-	b=e4NAIzXRfi8hjfW6QugW/fo8pjq7kZt4Cti4RRjKUosf6w3nAnCUH4juJAXa8UTpLB
-	8eo1zzkiDP7wlRkQ9I3g9D1DH38u4awgW66XQpnnPyemlh+bU4NrpyYPsV9luhrTY72A
-	hjwkJ65iDNi670lbnEREDEQvubVGtzwQFPwtdsvFpcUYdyoUZy9oBF6vm85pmIxvbcSR
-	EgizA3w40WHpuEPB/BUFs+MPrsYtJmP/oOb0CSGsBOjOjocg+pqGTfF7EOgiML3craG8
-	KMGI6HhrUxp8sfKP5joSrhDKkiHBUTn0cskpQwoT5GIitnf0m80SgylWuO03qneNbcxh
-	Ubiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=MNq4LPKW6g0niVTOycYi9vM8jblBEk/H9GRz42dzBUg=;
-	b=LSAS96JNH5/JyvdXgzJYPeNcU13CEANLchf7BNPB0h4Uf2QLPXO8+6sCgwvuI/ixlB
-	1w6n9QFeiYZ1OSsFcAfJkyUyR07gfR96fQw8PeHMrBou1s8N5iOAKgW5ppvREH4Z5YmY
-	JczZ4Vg/Olk05S4VZAVaA6kNfoNgwAv9uNMtrInHICuYBVfjZ0lRyqWbrQ4LhNtlb6Pg
-	DFwh9ekZoCpc271Qf4MB5Svm4/lmTqIlOcCyRME/1uV7ixWpKVOuqPSmmH2YZTxGTuHs
-	ynCA5eLcNBSLeAEZJMaUk0dYNmnt8MDivYVrI2KOuEW4Z+1ywDmLvWAt1qA6WgolFFHS
-	2m6A==
-X-Gm-Message-State: ALoCoQmUsWQaAKAa8gozAR/ltL1s04mHb7/xMo4zypLF9GcTLqo0/XNN1WVoY6Ud93DLHkABbHRx
-X-Received: by 10.107.32.17 with SMTP id g17mr5132589iog.55.1447169959814;
-	Tue, 10 Nov 2015 07:39:19 -0800 (PST)
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com.
-	[209.85.223.172])
-	by smtp.gmail.com with ESMTPSA id xg6sm6896190igb.6.2015.11.10.07.39.18
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 10 Nov 2015 07:39:18 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by iodd200 with SMTP id d200so4627313iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 07:39:18 -0800 (PST)
+	Tue, 10 Nov 2015 15:54:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 700D62E0A7;
+	Tue, 10 Nov 2015 16:54:26 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id g-XKMeQtgXLI; Tue, 10 Nov 2015 16:54:24 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id 941282E1A0;
+	Tue, 10 Nov 2015 16:54:24 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 74042D45;
+	Tue, 10 Nov 2015 16:54:24 +0100 (CET)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 68D109B;
+	Tue, 10 Nov 2015 16:54:24 +0100 (CET)
+Received: from xmail4.se.axis.com (xmail4.se.axis.com [10.0.5.46])
+	by seth.se.axis.com (Postfix) with ESMTP id 6403F3E2ED;
+	Tue, 10 Nov 2015 16:54:24 +0100 (CET)
+Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail4.se.axis.com
+	([fe80::2dfa:6a3a:302a:d4e8%14]) with mapi;
+	Tue, 10 Nov 2015 16:54:24 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Tue, 10 Nov 2015 16:54:23 +0100
+Thread-Topic: [PATCH 5/5] useradd-staticids.bbclass: Read passwd/group files
+	before parsing
+Thread-Index: AdEYz8Ao/XAKZDNfTKySC1tyy8SYVgCD9G1Q
+Message-ID: <A612847CFE53224C91B23E3A5B48BAC7C6F0358BFF@xmail3.se.axis.com>
+References: <cover.1446595453.git.pkj@axis.com>
+	<d2e824d17dae9f9583a11ee2165096e7cff533b0.1446595453.git.pkj@axis.com>
+	<5639522B.5050604@windriver.com>
+	<A612847CFE53224C91B23E3A5B48BAC7C6F013F187@xmail3.se.axis.com>
+	<563D0A1E.9060601@windriver.com>
+In-Reply-To: <563D0A1E.9060601@windriver.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
 MIME-Version: 1.0
-X-Received: by 10.107.160.198 with SMTP id j189mr4130502ioe.37.1447169958349; 
-	Tue, 10 Nov 2015 07:39:18 -0800 (PST)
-Received: by 10.36.15.197 with HTTP; Tue, 10 Nov 2015 07:39:18 -0800 (PST)
-In-Reply-To: <56420F4A.9030507@linux.intel.com>
-References: <CAHiDW_Hx6Xi91=8rg3pD_B7F_+wfL2vMUbJTXYh6XGLzksBm7w@mail.gmail.com>
-	<5641FF6D.7000508@linux.intel.com>
-	<3967262.YS5vrjTqP1@peggleto-mobl.ger.corp.intel.com>
-	<564207E6.9090409@linux.intel.com>
-	<CAJTo0LYdyoLGS6ws1nKzagF=osJ7d1hdc+FdTOh_bAoeD2sqSQ@mail.gmail.com>
-	<56420AE4.1090500@linux.intel.com>
-	<CAP9ODKoMdtxRCAhsOHoJoV9wkmr=sUaHgTb5X3zY9h2YpfnDUw@mail.gmail.com>
-	<56420F4A.9030507@linux.intel.com>
-Date: Tue, 10 Nov 2015 13:39:18 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKo1o+FAk+_B0pgSvCdU1AYQ-Bn+m5Sp1kNfbyQ=71E+vA@mail.gmail.com>
-Message-ID: <CAP9ODKo1o+FAk+_B0pgSvCdU1AYQ-Bn+m5Sp1kNfbyQ=71E+vA@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Remove vala from oe-core
+Subject: Re: [PATCH 5/5] useradd-staticids.bbclass: Read passwd/group files before parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -75,32 +59,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 15:39:20 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 10 Nov 2015 15:54:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 10, 2015 at 1:37 PM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 11/10/2015 05:29 PM, Otavio Salvador wrote:
->
->>> PACKAGECONFIG alone is not sufficient; to build the bindings properly,
->>> the
->>> package also needs to inherit vala.bbclass:
->>>
->>>
->>> https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/tree/meta/classes/vala.bbclass?h=akanavin/gobject-introspection-experimental
->>
->>
->> and this belong to meta-vala (or other). This reduces the core and
->> this is something we really should to push for.
->
->
-> If this class is moved to meta-vala, how do you make packages in oe-core
-> inherit it, or otherwise do what it does?
+> -----Original Message-----
+> From: Mark Hatle [mailto:mark.hatle@windriver.com]
+> Sent: den 6 november 2015 21:14
+> To: Peter Kjellerstedt
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [PATCH 5/5] useradd-staticids.bbclass: Read passwd/group
+> files before parsing
+>=20
+> On 11/6/15 2:09 PM, Peter Kjellerstedt wrote:
+> >> -----Original Message-----
+> >> From: Mark Hatle [mailto:mark.hatle@windriver.com]
+> >> Sent: den 4 november 2015 01:33
+> >> To: Peter Kjellerstedt; openembedded-core@lists.openembedded.org
+> >> Subject: Re: [PATCH 5/5] useradd-staticids.bbclass: Read
+> >> passwd/group files before parsing
+> >>
+> >> On 11/3/15 6:06 PM, Peter Kjellerstedt wrote:
+> >>> Read and merge the passwd/group files before parsing the user and
+> >>> group definitions. This means they will only be read once per
+> >>> recipe. This solves a problem where if a user was definied in
+> >>> multiple files, it could generate group definitions for groups=20
+> >>> that should not be created. E.g., if the first passwd file read=20
+> >>> defines a user as:
+> >>>
+> >>> foobar::1234::::
+> >>>
+> >>> and the second passwd file defines it as:
+> >>>
+> >>> foobar:::nogroup:The foobar user:/:/bin/sh
+> >>>
+> >>> then a foobar group would be created even if the user will use the
+> >>> nogroup as its primary group.
+> >>
+> >> One minor thing
+> >>
+> >>> @@ -251,7 +269,7 @@ def update_useradd_static_config(d):
+> >>>
+> >>>              newparams.append(newparam)
+> >>>
+> >>> -        return " ;".join(newparams).strip()
+> >>> +        return ";".join(newparams).strip()
+> >>>
+> >>>      # Load and process the users and groups, rewriting the adduser/a=
+ddgroup params
+> >>>      useradd_packages =3D d.getVar('USERADD_PACKAGES', True)
+> >>>
+> >>
+> >> The space was required because you could generate a user/group add
+> >> line that ended with a string.  Without the space, you could end up
+> >> merging two sets of arguments causing a failure condition.
+> >>
+> >> So I think that it should be retained unless there is a specific
+> >> reason you believe it should be removed.
+> >
+> > I cannot see how that space can make any difference. Each set of
+> > useradd/grouppadd options added to newparams has the user/group
+> > name at the end of the string. And if that somehow interferes with
+> > the semicolon, then the code in useradd.bbclass which simply does
+> > "cut -d ';'" to split the useradd/groupadd line would break already.
+>=20
+> The contents when originally parsed my be run as arguments to a shell
+> script or as parameters to these functions.
+>=20
+> In the shell script world not have a space can confuse the argument
+> parsing into thinking the ; is part of the argument.
 
-bbappend files? :)
+No shell I have heard of (bash, zsh and dash comes to mind) would be=20
+affected by the lack of a space before the semicolon. Moreover, this=20
+is never actually parsed by a shell (except as part of a variable value).=20
+The semicolon is used by useradd.bbclass to split the variables, after=20
+which it lets the shell evaluate the part before the semicolon (which=20
+will ignore any trailing whitespace).
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> You don't have that in the python world with the split behavior.
+>=20
+> > Actually, now that I think about it, I do wonder why
+> > useradd-staticids.bbclass use this advanced variant to split the
+> > useradd/groupadd lines:
+> >
+> >         for param in re.split('''[ \t]*;[ \t]*(?=3D(?:[^'"]|'[^']*'|"[^=
+"]*")*$)''', params):
+>=20
+> It is perfectly legal to allow a ';' in the middle of a parameter (that
+> allows it), a parameter that is quoted.
+
+Sure, and the code above handles some cases, but definitely not all.=20
+E.g., this would not be parsed as intended by useradd-staticids.bbclass:
+
+USERADD_PARAMS_${PN} +=3D "-c Comment\ with\ an\ \'\ in\ it oddcomment; \
+                         -c Other\ odd \'\ comment otheruser"
+
+but it would be handled correctly by useradd.bbclass...
+
+> Something like:
+>=20
+> adduser -c "This user;that user;all users" -d /home/allusers alluser
+>=20
+> it's odd, but I've certainly seen people put ';' in the comment
+> before.. and it is legal in other palces, like the home dir and=20
+> such -- just not advised.
+
+It may be legal, but it has never been supported by the adduser.bbclass.=20
+And thus it has never worked in practice to take an existing passwd=20
+file that contains a semicolon in the comment field and expect it to=20
+work as input to adduser-staticids.bbclass.
+
+Moreover, neither adduser.bbclass nor adduser-staticids.bbclass will=20
+handle a semicolon correctly in any other field. And let's not get=20
+started on other special characters like ", \, $ and > which could=20
+wreak havoc on both classes in a correctly crafted passwd file.
+
+> > when this would do the job just as well:
+> >
+> >         for param in params.split(';'):
+> >
+> > given that that is what useradd.bbclass does. It looks as if tries
+> > to support something like --comment "something with a ; in it", but
+> > using that would break in useradd.bbclass anyway...
+>=20
+> Then the useradd class is broken in this case.  The --comment
+> processing needs to work, it's just rarely used in the normal=20
+> case, but very much used in the "lets take a previously generated=20
+> passwd file and reuse it" case of the adduser-static.
+>=20
+> > //Peter
+
+So, from reading the code in both adduser.bbclass and=20
+adduser-staticids.bbclass, having spaces or no spaces before the=20
+semicolon in the USERADD_PARAM_${PN} variable cannot make any=20
+difference to how the users are created in the end. Thus it should=20
+be safe to remove them.
+
+//Peter
+
 
