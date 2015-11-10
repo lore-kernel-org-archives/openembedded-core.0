@@ -1,47 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C5CE736B6
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AD68676294
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 17:41:18 +0000 (UTC)
-Received: by qgeb1 with SMTP id b1so3756573qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 09:41:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=6mF3H4RpZD1QfQyWLdz1S4izWeJo6aQ49QuOxVyqi5o=;
-	b=kLlxrpdqzhlZ4oB/lRX3a2kXkFAiLywDzAChqZgNSrSKocsFzFi75LKyvRDXvUbIjZ
-	SLYafqxz8j2DpyuDHvn1gFLcgKsywThfQwhYQOYFvOEATSPJ5LTPg4MQ5WvRDNulmCzC
-	+zRf4Hq8mXOXL2+AUO7cRqHhq3jmXfH0m1ywJrZWQoz0/xbD7JnlKA80VuQHUbANvLaL
-	FzIqbBX8CTpBu8GPIjkwwKazS7ol7FUmg7cHB9TmfPFejTHYjrK6ak2Cy9jMAWCjIP4s
-	S+3mDdoSW1Kd+2/EiD6KG2vqKF0DxL+SddisPvfBYcp0pihg/Jsz0NpWT2qgo7TXaOUv
-	Pifw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=6mF3H4RpZD1QfQyWLdz1S4izWeJo6aQ49QuOxVyqi5o=;
-	b=TfZgSXsbt+I3gtxW62uREYRgEGkBUwJK0fjxFBxJB32Ztbh04TGUCITMxhvy06EeNz
-	HP/wNeJPYsLGxri4NTPJlt38fKyU7wVi+PTsWPNrHT5F2NE32lOotUC5wLGQOdB8lnpT
-	nuUX5qCX98LpRMtWAS7JMgSTJyCMWCeYy70MTDnRlY8PAijK0JcKwYaXCY3dcAS+TJLT
-	bLQoXWtmOZxx+fSYZekijsaXSJGeNJp6GpPcPbNBD6ZqyaSpV9IonirYbTWVqyBVe0i0
-	TwJzkba6iz0qcAV4ETwmk2VfdUDHuG7Ib0wc7XmkTnP6qzLYJyf0BKZGhBmw/wcpJ1/G
-	fQnw==
-X-Gm-Message-State: ALoCoQks8mBcFOcxYuAR2KdgHpExE5jiIzz0vGfGvxpqEkUtkVzLWmYK8ceqMFxhILgmh3I/ba3x
-X-Received: by 10.140.171.197 with SMTP id r188mr6352253qhr.93.1447177278019; 
-	Tue, 10 Nov 2015 09:41:18 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.94.110 with HTTP; Tue, 10 Nov 2015 09:40:58 -0800 (PST)
-In-Reply-To: <56421DA6.5080700@windriver.com>
+	Tue, 10 Nov 2015 18:25:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAAIPPm9004362
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 10 Nov 2015 10:25:25 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 10 Nov 2015 10:25:24 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
 	<56421DA6.5080700@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Nov 2015 17:40:58 +0000
-Message-ID: <CAJTo0LYEYg+1oP8WwBbNYfM2mWGrFNyM3LgOXQUdL3JPC5BTsQ@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
+	<CAJTo0LYEYg+1oP8WwBbNYfM2mWGrFNyM3LgOXQUdL3JPC5BTsQ@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <56423693.5050207@windriver.com>
+Date: Tue, 10 Nov 2015 12:25:23 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYEYg+1oP8WwBbNYfM2mWGrFNyM3LgOXQUdL3JPC5BTsQ@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,53 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 17:41:22 -0000
-Content-Type: multipart/alternative; boundary=001a113a7dfa95731f0524333757
+X-List-Received-Date: Tue, 10 Nov 2015 18:25:38 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---001a113a7dfa95731f0524333757
-Content-Type: text/plain; charset=UTF-8
+On 11/10/15 11:40 AM, Burton, Ross wrote:
+> 
+> On 10 November 2015 at 16:39, Mark Hatle <mark.hatle@windriver.com
+> <mailto:mark.hatle@windriver.com>> wrote:
+> 
+>     Let me rephrase.  Instead of calling out to qemu (or a real target) for a
+>     gobject and result.  Can the result be cached (like we do with the config-site
+>     info?)  This would allow me to run say a MIPS64 n64 gobject build, cache the
+>     results and use it on my octeon3 build (which can't run in QEMU.)
+> 
+> 
+> The metadata contains stuff like type sizes and alignment but wouldn't it be
+> possible to have some sort of map from machine to close-enough qemu machine?  So
+> for octeon3 is qemumips64 is close enough, run that.
+> 
+> (to be honest I thought the qemu runner support as used by the postinsts already
+> did this)
 
-On 10 November 2015 at 16:39, Mark Hatle <mark.hatle@windriver.com> wrote:
+That would work in many cases.. the problem is that it requires "yet another"
+sysroot or whatnot to be able to build the runner.
 
-> Let me rephrase.  Instead of calling out to qemu (or a real target) for a
-> gobject and result.  Can the result be cached (like we do with the
-> config-site
-> info?)  This would allow me to run say a MIPS64 n64 gobject build, cache
-> the
-> results and use it on my octeon3 build (which can't run in QEMU.)
->
+(I think QEMU supports pretty much all of the major, and some minor
+architectures these days... it just doesn't support many of the semi-specific
+optimizations.)
 
-The metadata contains stuff like type sizes and alignment but wouldn't it
-be possible to have some sort of map from machine to close-enough qemu
-machine?  So for octeon3 is qemumips64 is close enough, run that.
+--Mark
 
-(to be honest I thought the qemu runner support as used by the postinsts
-already did this)
+> Ross
 
-Ross
 
---001a113a7dfa95731f0524333757
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 November 2015 at 16:39, Mark Hatle <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":62f" cl=
-ass=3D"a3s" style=3D"overflow:hidden">Let me rephrase.=C2=A0 Instead of cal=
-ling out to qemu (or a real target) for a<br>
-gobject and result.=C2=A0 Can the result be cached (like we do with the con=
-fig-site<br>
-info?)=C2=A0 This would allow me to run say a MIPS64 n64 gobject build, cac=
-he the<br>
-results and use it on my octeon3 build (which can&#39;t run in QEMU.)</div>=
-</blockquote></div><br>The metadata contains stuff like type sizes and alig=
-nment but wouldn&#39;t it be possible to have some sort of map from machine=
- to close-enough qemu machine?=C2=A0 So for octeon3 is qemumips64 is close =
-enough, run that.</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
-mail_extra">(to be honest I thought the qemu runner support as used by the =
-postinsts already did this)</div><div class=3D"gmail_extra"><br></div><div =
-class=3D"gmail_extra">Ross</div></div>
-
---001a113a7dfa95731f0524333757--
