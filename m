@@ -1,30 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 657E975EE7
+Return-Path: <trini@konsulko.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 7335F74197
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 11:10:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tAABASca007955 for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 11:10:40 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id eBkqvoGIO7Sz
+	Tue, 10 Nov 2015 12:52:21 +0000 (UTC)
+Received: by qkas77 with SMTP id s77so81105097qka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 11:10:40 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tAABARVi007949
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 11:10:39 GMT
-Message-ID: <1447149505.3559.220.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Nov 2015 09:58:25 +0000
-Mime-Version: 1.0
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Subject: [PATCH] insane: Don't depend on BB_TASKDEPDATA
+	Tue, 10 Nov 2015 04:52:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=prpDvkRLNLmGF8kuJ5r/ZItRmbre5DMlMsum8zWCUmM=;
+	b=WRmymBMdbrMHVQJIbzxPtXgPQBFjvr6DSkmqEoUunNUFr+bn5Qpl9wh9HKJIjQXXR3
+	KylFNu7XoVMhc+reTTR0Sksa9Qc8fvClAQE6DnzCGmI1VkQxcyxilEKkSeVSBX0bFowl
+	ngcz2ojK6MpCjs11hEkMjqmShfOd/ETO45T8s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent;
+	bh=prpDvkRLNLmGF8kuJ5r/ZItRmbre5DMlMsum8zWCUmM=;
+	b=nMSIDY9NDxqiODKkZ+4TrezrY18gAii9+BJfZPPk5XIO77Wf6c9Zd14issAOQ1/uIJ
+	rMDgqVdHA1GzPmRXJNmGMWJRW6M0mAPbp+b244oFLM4FhMdpbWPu+j1JomMKdXEoGqwI
+	2rsBU0wyOvOOjg9OI7IDMPUhFk/t3cuzjTHISHVGiarNe68oTF+GhAm5+cunaC6LujOE
+	xCtyYh6P2tkYKjNh5LHpf5+qwj+MkpaT/xEA988lQGudzV+ZWWX7eSosc6tx6vuWONVD
+	L285kqtUCvg+dEK/8aNIMNOypIn3A6CZitJILVukKiR5nVToZDA4iMVZLTykMw4pBeLu
+	fNQg==
+X-Gm-Message-State: ALoCoQlkctmlizca8dGYydAFdm3mym1nHjKavRjqexBgpGJmXwNamhv8NnHsaBYPJ2k5qZMGI0ew
+X-Received: by 10.55.74.7 with SMTP id x7mr3877505qka.71.1447159942016;
+	Tue, 10 Nov 2015 04:52:22 -0800 (PST)
+Received: from bill-the-cat (cpe-75-180-230-22.ec.res.rr.com. [75.180.230.22])
+	by smtp.gmail.com with ESMTPSA id
+	h49sm1216551qgh.41.2015.11.10.04.52.20
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 10 Nov 2015 04:52:21 -0800 (PST)
+Date: Tue, 10 Nov 2015 07:53:03 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Message-ID: <20151110125303.GS8499@bill-the-cat>
+References: <1447153302-2408-1-git-send-email-otavio@ossystems.com.br>
+MIME-Version: 1.0
+In-Reply-To: <1447153302-2408-1-git-send-email-otavio@ossystems.com.br>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] u-boot: Update to 2015.10 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +56,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 11:10:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Nov 2015 12:52:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The dependency data in BB_TASKDEPDATA is encoded into the sstate checksum
-in a much more reliable format. This dependency runs the risk of depending
-on the string representation of a dict which is a bad idea. Therefore
-remove the dependency.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/insane.bbclass | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index a77438d..1a970c0 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1112,6 +1112,7 @@ python do_package_qa () {
-     bb.note("DONE with PACKAGE QA")
- }
- 
-+do_package_qa[vardepsexclude] = "BB_TASKDEPDATA"
- do_package_qa[rdeptask] = "do_packagedata"
- addtask do_package_qa after do_packagedata do_package before do_build
- 
+On Tue, Nov 10, 2015 at 09:01:42AM -0200, Otavio Salvador wrote:
 
 
+> The U-Boot 2015.10 has been released at October 20th 2015. This also
+> removes the GCC workaround, for the inline behavior, as this version
+> properlu supports the GCC 5.2 as compiler.
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+
+Reviewed-by: Tom Rini <trini@konsulko.com>
+
+-- 
+Tom
 
