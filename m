@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 70886770D8
+	by mail.openembedded.org (Postfix) with ESMTP id 657E975EE7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 11:10:03 +0000 (UTC)
+	Tue, 10 Nov 2015 11:10:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tAABA37t007896 for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 11:10:03 GMT
+	tAABASca007955 for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Nov 2015 11:10:40 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id nI4ccPJ8eGKi
+	with LMTP id eBkqvoGIO7Sz
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 11:10:03 +0000 (GMT)
+	Tue, 10 Nov 2015 11:10:40 +0000 (GMT)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tAAB9iE9007868
+	tAABARVi007949
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 11:09:57 GMT
-Message-ID: <1447149461.3559.218.camel@linuxfoundation.org>
+	Tue, 10 Nov 2015 11:10:39 GMT
+Message-ID: <1447149505.3559.220.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Nov 2015 09:57:41 +0000
+Date: Tue, 10 Nov 2015 09:58:25 +0000
 Mime-Version: 1.0
 X-Mailer: Evolution 3.12.11-0ubuntu3 
-Subject: [PATCH] lib/oe/copy_buildsystem: Don't expand BB_TASKDEPDATA
+Subject: [PATCH] insane: Don't depend on BB_TASKDEPDATA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 11:10:03 -0000
+X-List-Received-Date: Tue, 10 Nov 2015 11:10:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The value isn't a string so don't try and expand it.
+The dependency data in BB_TASKDEPDATA is encoded into the sstate checksum
+in a much more reliable format. This dependency runs the risk of depending
+on the string representation of a dict which is a bad idea. Therefore
+remove the dependency.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oe/copy_buildsystem.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/insane.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
-index 979578c..23166f9 100644
---- a/meta/lib/oe/copy_buildsystem.py
-+++ b/meta/lib/oe/copy_buildsystem.py
-@@ -70,7 +70,7 @@ class BuildSystem(object):
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index a77438d..1a970c0 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1112,6 +1112,7 @@ python do_package_qa () {
+     bb.note("DONE with PACKAGE QA")
+ }
  
- def generate_locked_sigs(sigfile, d):
-     bb.utils.mkdirhier(os.path.dirname(sigfile))
--    depd = d.getVar('BB_TASKDEPDATA', True)
-+    depd = d.getVar('BB_TASKDEPDATA', False)
-     tasks = ['%s.%s' % (v[2], v[1]) for v in depd.itervalues()]
-     bb.parse.siggen.dump_lockedsigs(sigfile, tasks)
++do_package_qa[vardepsexclude] = "BB_TASKDEPDATA"
+ do_package_qa[rdeptask] = "do_packagedata"
+ addtask do_package_qa after do_packagedata do_package before do_build
  
 
 
