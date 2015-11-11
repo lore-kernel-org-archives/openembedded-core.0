@@ -1,29 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 958C6770B4
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D10757707B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 13:51:09 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 11 Nov 2015 05:51:09 -0800
+	Wed, 11 Nov 2015 13:54:53 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 11 Nov 2015 05:54:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,276,1444719600"; d="scan'208";a="834203406"
-Received: from bpgilles-mobl4.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.8.193])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Nov 2015 05:51:08 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 11 Nov 2015 13:51:07 +0000
-Message-ID: <15398717.rKBpfSWNbS@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.10-100.fc21.x86_64; KDE/4.14.11; x86_64; ;
-	)
-In-Reply-To: <CAJTo0LZmTD3s3u8KrWJz7ka1zjR=HAACjQHyOTwWUTFSbpvLdw@mail.gmail.com>
-References: <1447240308-2849-1-git-send-email-ross.burton@intel.com>
-	<4611513.VyrzVSX4hN@peggleto-mobl.ger.corp.intel.com>
-	<CAJTo0LZmTD3s3u8KrWJz7ka1zjR=HAACjQHyOTwWUTFSbpvLdw@mail.gmail.com>
+X-IronPort-AV: E=Sophos;i="5.20,276,1444719600"; d="scan'208";a="847900768"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 11 Nov 2015 05:54:53 -0800
+Message-ID: <564348EE.6020604@linux.intel.com>
+Date: Wed, 11 Nov 2015 15:55:58 +0200
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.8.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] systemd: fix Upstream-Status tag
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
+	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
+	<56421DA6.5080700@windriver.com> <56433886.3060700@linux.intel.com>
+	<564343E9.9020702@windriver.com> <56434723.5090605@linux.intel.com>
+	<CAPybu_13B8Y8z4dZv0HgCHjHCpPX9oBu2+PNuew9bdYAD0JVbw@mail.gmail.com>
+In-Reply-To: <CAPybu_13B8Y8z4dZv0HgCHjHCpPX9oBu2+PNuew9bdYAD0JVbw@mail.gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +37,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 13:51:09 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 11 Nov 2015 13:54:55 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 11 November 2015 13:34:57 Burton, Ross wrote:
-> On 11 November 2015 at 13:27, Paul Eggleton <paul.eggleton@linux.intel.com>
-> 
-> wrote:
-> > FWIW, I'd always thought "Rejected" would have been a more accurate label
-> > to
-> > use... on the other hand perhaps it's a bit late to be changing that now
-> > though.
-> 
-> Agreed.  We could change the guidelines to allow both but prefer Rejected?
+On 11/11/2015 03:50 PM, Ricardo Ribalda Delgado wrote:
+> Can you point to a .git file with architecture-dependent data.
 
-That would work for me, we'd avoid issues of current values needing to be 
-updated immediately at least...
+Gir files do not contain architecture-dependent data. Typelib files do.
 
-> Or is that too much effort when there's more important things to fix - this
-> could bikeshed easily. :)
+> I would love to help on this issue. I want to use the python api for gstream.
 
-Hopefully this issue isn't too subjective ;)
+You can checkout my branch on poky-contrib (see the original message in 
+the thread), and then follow the instructions to build an image and try 
+out the python gobject introspection in it (again, see the original 
+thread message for instructions).
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Alex
 
