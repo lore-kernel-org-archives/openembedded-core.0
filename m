@@ -1,25 +1,43 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id DA03177146
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A9C07713F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 15:50:27 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 11 Nov 2015 07:50:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,276,1444719600"; d="scan'208";a="598342173"
-Received: from sentry.rb.intel.com ([10.237.105.108])
-	by FMSMGA003.fm.intel.com with ESMTP; 11 Nov 2015 07:50:03 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Nov 2015 17:51:08 +0200
-Message-Id: <a17aa3975514886add53b9add383218567a496f3.1447256967.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1447256967.git.cristian.iorga@intel.com>
-References: <cover.1447256967.git.cristian.iorga@intel.com>
+	Wed, 11 Nov 2015 16:21:48 +0000 (UTC)
+Received: by igvi2 with SMTP id i2so122522833igv.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Nov 2015 08:21:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=+o7Hiq+U7FvXKogGIOZI+kJvKGDvdyAD/x9LDICu+bk=;
+	b=p/LLTdP3A96vfdjZgGYUVC43Kox6uWcQtMmjl0Be1p6FP1yXRuTk1IFI00VIBWe5Go
+	RxApSDClCAjT6iqxn7ytZa6c7ngMF53EXfkZ99HxnOnO6CfFX7Cq/+NW3myKO2V8APay
+	zTNhBYd66IHs7Feje1tMWcT7ig+TCUTKMJOPgkHm6TW9E8w6SW3+a5ta3onXcHR254FL
+	dalkpUsj3gv9fQA2DuhfD8uYitzpnzmJcDM0fVrQJG/E1t9qoxn+wNdnPBiEFFRGoCXv
+	/Mdj2CAqBwTBI6mTyWG46vyW8FI3gibLL2wyc5xOiIy69YZ0ws4Z98Lj8euc6IbPXfd1
+	mXVw==
+X-Received: by 10.50.156.103 with SMTP id wd7mr9574380igb.75.1447258907966;
+	Wed, 11 Nov 2015 08:21:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <cover.1447256967.git.cristian.iorga@intel.com>
-References: <cover.1447256967.git.cristian.iorga@intel.com>
-Subject: [PATCH 1/2] qemu: upgrade to 2.4.1
+Received: by 10.107.12.205 with HTTP; Wed, 11 Nov 2015 08:21:18 -0800 (PST)
+In-Reply-To: <20151111123715.GK8060@bill-the-cat>
+References: <1446653201-6456-1-git-send-email-radek.dostal@streamunlimited.com>
+	<CAP9ODKqFTU76yL_DqeNku4G3502R00C4K8qwdEtCp5zk1pmJRw@mail.gmail.com>
+	<563B56B6.6070307@pseudoterminal.org>
+	<CAP9ODKrhSmSsx1aSY0oyoqYeV8zHm_NVtp3mH=4X8zX-BEmL3w@mail.gmail.com>
+	<563B6674.1030106@pseudoterminal.org>
+	<20151110130935.GU8499@bill-the-cat>
+	<58549136-994C-4F05-9310-5235F4E2F618@gmail.com>
+	<20151111123715.GK8060@bill-the-cat>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 11 Nov 2015 08:21:18 -0800
+Message-ID: <CAMKF1srEU3eSo2egf2es8qFxTq26xOJ8ogc8AWU7i0J13ubV=Q@mail.gmail.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>
+Subject: Re: [PATCH] u-boot.inc: properly specify CC for EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,104 +50,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 15:50:28 -0000
+X-List-Received-Date: Wed, 11 Nov 2015 16:21:52 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch removed,
-inluded upstream
+On Wed, Nov 11, 2015 at 4:37 AM, Tom Rini <trini@konsulko.com> wrote:
+> On Tue, Nov 10, 2015 at 07:59:03PM -0800, Khem Raj wrote:
+>>
+>> > On Nov 10, 2015, at 5:09 AM, Tom Rini <trini@konsulko.com> wrote:
+>> >
+>> > On Thu, Nov 05, 2015 at 03:23:48PM +0100, Carlos Rafael Giani wrote:
+>> >> On 11/05/2015 03:22 PM, Otavio Salvador wrote:
+>> >>> Hello Carlos,
+>> >>>
+>> >>> On Thu, Nov 5, 2015 at 11:16 AM, Carlos Rafael Giani
+>> >>> <dv@pseudoterminal.org> wrote:
+>> >>>> So, this is because of the TOOLCHAIN_OPTIONS ?
+>> >>>> Also, what about the ${CC} ? Right now it won't work properly with =
+clang for
+>> >>>> example.
+>> >>> The clang is problem might involve us to rework something but all th=
+is
+>> >>> needs to be based on last U-Boot releases; we shouldn't put
+>> >>> workarounds and hacks on OE-Core without good reasons.
+>> >>>
+>> >>> Has the clang been tested with 2015.10?
+>> >>
+>> >> Still, then I'd add something to output an error message like
+>> >> "U-Boot can only be compiled with gcc". Right now, the error
+>> >> messages that would occur would be highly confusing and misleading.
+>> >
+>> > U-Boot supports clang, but it's not as well tested as other things.
+>> > However, this patch is still wrong as we do not want to try and force
+>> > flags to gcc, just like we don't with the kernel.  For more on U-Boot,
+>> > see doc/README.clang (And then possibly do some fixups, I'm not having
+>> > super luck with it right now, but I'm in a bit of a rush right now).
+>> >
+>>
+>> This patch is however injecting flags externally, so in case you were to=
+ use
+>> clang with OE in context the TOOLCHAIN_OPTION will be appropriately set =
+as well
+>> so this should work fine. As far as u-boot=E2=80=99s own build architect=
+ure is concerned
+>> its fine. I think the real problem is arising due to toolchain defaults =
+in OE
+>> e.g. when we default to hard float gcc does not really use hard-float un=
+less specified on commandline. One can argue that OE should be fixed for th=
+at or gcc
+>> should be using the right ABI as default which corresponds to default co=
+nfigs as used for gcc in toolchain.
+>>
+>> One concern here I have is that when we switch float-abi like this, what=
+ is the impact on u-boot itself, has it ever been build and tested with har=
+d-float, as long as there are no float function arguments this should not d=
+o anything to code
+>> but then we need report on this.
+>
+> First, no, like the kernel, you do not go mucking with the float options
+> that U-Boot wants to use.  OE is correctly today letting U-Boot enforce
+> what it wants (and then from time to time exposing latent bug from cases
+> where the toolchain ends up overriding us).
+>
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-devtools/qemu/qemu.inc                |  1 -
- ..._mutex_lock_iothread-fix-race-condition-a.patch | 45 ----------------------
- .../qemu/{qemu_2.4.0.bb => qemu_2.4.1.bb}          |  4 +-
- 3 files changed, 2 insertions(+), 48 deletions(-)
- delete mode 100644 meta/recipes-devtools/qemu/qemu/cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch
- rename meta/recipes-devtools/qemu/{qemu_2.4.0.bb => qemu_2.4.1.bb} (85%)
+so here u-boot does have some expectations from toolchain, and at one
+side it claims independence of hosted environment. So u-boot should be
+adding -ffreestanding -nostdinc -nodefaultlibs  -nostdlib to its
+compiler/linker flags otherwise toolchains can insert anything into
+uboot
+even without adding options on cmdline.
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index abbace8..a2b08ae 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -21,7 +21,6 @@ SRC_URI = "\
-     file://wacom.patch \
-     file://add-ptest-in-makefile.patch \
-     file://run-ptest \
--    file://cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch \
-     "
- 
- SRC_URI_append_class-native = "\
-diff --git a/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch b/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch
-deleted file mode 100644
-index 45dffab..0000000
---- a/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--Upstream-Status: Submitted
--
--From f354b9333408d411854af058cc44cceda60b4473 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
--Date: Thu, 3 Sep 2015 14:07:34 -0500
--Subject: [PATCH] cpus.c: qemu_mutex_lock_iothread fix race condition at cpu
-- thread init
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--When QEMU starts the RCU thread executes qemu_mutex_lock_thread
--causing error "qemu:qemu_cpu_kick_thread: No such process" and exits.
--
--This isn't occur frequently but in glibc the thread id can exist and
--this not guarantee that the thread is on active/running state. If is
--inserted a sleep(1) after newthread assignment [1] the issue appears.
--
--So not make assumption that thread exist if first_cpu->thread is set
--then change the validation of cpu to created that is set into cpu
--threads (kvm, tcg, dummy).
--
--[1] https://sourceware.org/git/?p=glibc.git;a=blob;f=nptl/pthread_create.c;h=d10f4ea8004e1d8f3a268b95cc0f8d93b8d89867;hb=HEAD#l621
--
--Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-----
-- cpus.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/cpus.c b/cpus.c
--index 7e4786e..05e5400 100644
----- a/cpus.c
--+++ b/cpus.c
--@@ -1171,7 +1171,7 @@ void qemu_mutex_lock_iothread(void)
--      * TCG code execution.
--      */
--     if (!tcg_enabled() || qemu_in_vcpu_thread() ||
---        !first_cpu || !first_cpu->thread) {
--+        !first_cpu || !first_cpu->created) {
--         qemu_mutex_lock(&qemu_global_mutex);
--         atomic_dec(&iothread_requesting_mutex);
--     } else {
---- 
--1.9.1
--
-diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0.bb b/meta/recipes-devtools/qemu/qemu_2.4.1.bb
-similarity index 85%
-rename from meta/recipes-devtools/qemu/qemu_2.4.0.bb
-rename to meta/recipes-devtools/qemu/qemu_2.4.1.bb
-index 1505b80..1f39cb5 100644
---- a/meta/recipes-devtools/qemu/qemu_2.4.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.4.1.bb
-@@ -12,8 +12,8 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://no-valgrind.patch \
-            "
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
--SRC_URI[md5sum] = "186ee8194140a484a455f8e3c74589f4"
--SRC_URI[sha256sum] = "72b0b991bbcc540663a019e1e8c4f714053b691dda32c9b9ee80b25f367e6620"
-+SRC_URI[md5sum] = "a895e93ec1dafc34bc64ed676f0d55a6"
-+SRC_URI[sha256sum] = "e3d5cf4c8b1f9129c9c797329a515bfb6b3b1ded0ab8b394c8a316490fe3a177"
- 
- COMPATIBLE_HOST_class-target_mips64 = "null"
- 
--- 
-2.5.0
+Radek, add -D__ARM_PCS_VFP to CFLAGS and that can get this going
 
+
+> Second, it's currently a bit of a moot point as U-Boot for clang for ARM
+> needs a bit of attention again as how we deal with global data is once
+> again making clang unhappy and no one has gone and fixed it again.
+>
+
+Can you explain the problem a bit more ?
+
+> --
+> Tom
 
