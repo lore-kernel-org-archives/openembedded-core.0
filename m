@@ -1,42 +1,38 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id D194175EE7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 01:32:42 +0000 (UTC)
-Received: by pasz6 with SMTP id z6so14988464pas.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 17:32:42 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
+	[209.85.160.169])
+	by mail.openembedded.org (Postfix) with ESMTP id EFD55736B6;
+	Wed, 11 Nov 2015 02:01:48 +0000 (UTC)
+Received: by ykba77 with SMTP id a77so27701933ykb.2;
+	Tue, 10 Nov 2015 18:01:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=A0rVkVTC/4X7Ls915UJ40OWMcgxiKvSo6YBxOA4kTtE=;
-	b=AvVIg59bh+B3ahVI3R0KFMl7Y44xB3scG6KEBmdeqInC628r149of8WLmTWOLSwSoQ
-	kHnrSoVwSr17pRIz4qrsnqCQZo+/U/ocPLcw4ZFP0PV/7SqS6EdOD9og8cP+TCswvdfG
-	87glIfbX9HRsmIe+zrYt5s6rKGEQeC8pC04CSFSytOjOfn1vcMKaRmA6EBze94A/I8Pb
-	yqcoKAcO+Y8I+Zk6Qen0oHxvKwP299TrNa+lj28X7J4zWp8AmKilhJ13d/2oWico8uQ/
-	fXlYuqZuAk8cGz02KcMnPBhLEO9yhqgqAUOImDjcmhMwN1/qRk0SN1+j4xd431dykAWe
-	0zDg==
-X-Received: by 10.66.188.49 with SMTP id fx17mr10319104pac.95.1447205562381;
-	Tue, 10 Nov 2015 17:32:42 -0800 (PST)
-Received: from [10.43.100.29] ([64.2.3.194])
-	by smtp.googlemail.com with ESMTPSA id
-	ck9sm6482221pad.28.2015.11.10.17.32.40
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 Nov 2015 17:32:41 -0800 (PST)
-To: Tudor Florea <Tudor.Florea@enea.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1435890305-23163-1-git-send-email-tudor.florea@enea.com>
-	<26724FB0BFCB3D4C91BDE184751AA3A428CB1D4B@SESTOEX04.enea.se>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <56429AB8.2020800@gmail.com>
-Date: Tue, 10 Nov 2015 17:32:40 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=5eyHFJBEgHbTdd7/jgiaBJ/L0k6MD9iUksoClmqGxoE=;
+	b=kcUXgFzckh+zvwzO6C4sl3neOJTFfzba4MTvvPT+OjqVtaPxFDzeg6F/YA9nw0gBN6
+	V6HifFtFsQm+wEthnYUiZj5kwNJmEKkJgULq0aPMwk2Zmuxmqvd9I2Wg/xkph8UFBgA8
+	AG0+ElCkgZJNimAsbwCJxwGP4XNIbgiR66ZZdb0CP5/QmjvIefFxGe+YR4bulNGlBMcH
+	DYKI0WzA+DArEnNFe866EYDhb9c/5u8AhrM0+SSM5qMiWtk94YN7pduSOFg1TDQ0SAcO
+	DFPJ4v4Z8f4jFfU/lRmJoqaTSd+O1/rmEQrS8wPLpFREdcph1ZKFHdFnTEiQs+X2iFtg
+	hPBw==
 MIME-Version: 1.0
-In-Reply-To: <26724FB0BFCB3D4C91BDE184751AA3A428CB1D4B@SESTOEX04.enea.se>
-Subject: Re: [dizzy] [PATCH] python: Backport CVE-2013-1752 fix from upstream
+X-Received: by 10.13.216.75 with SMTP id a72mr6443546ywe.312.1447207308724;
+	Tue, 10 Nov 2015 18:01:48 -0800 (PST)
+Received: by 10.31.202.196 with HTTP; Tue, 10 Nov 2015 18:01:48 -0800 (PST)
+In-Reply-To: <E48EA04B-494B-4D42-999B-A99E70ED7A0C@gmail.com>
+References: <1439220090-3305-1-git-send-email-s.mueller-klieser@phytec.de>
+	<20151014193033.GD3552@dent.vctlabs.com>
+	<CADkTA4MMRESA2E2H_0iruywU6AgzSwaZ8Sj03SBB25=ckGv41Q@mail.gmail.com>
+	<E48EA04B-494B-4D42-999B-A99E70ED7A0C@gmail.com>
+Date: Tue, 10 Nov 2015 21:01:48 -0500
+Message-ID: <CADkTA4OWFTjTnHU7G0cgMeHosU6TvUOLz4xqK5RSJNHtajxX-w@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Jens Rehsack <rehsack@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [oe] kernel.bbclass: Fix do_shared_workdir task ordering
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,115 +45,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 01:32:47 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Nov 2015 02:01:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Tue, Nov 10, 2015 at 4:33 AM, Jens Rehsack <rehsack@gmail.com> wrote:
+>
+>> Am 14.10.2015 um 21:48 schrieb Bruce Ashfield <bruce.ashfield@gmail.com>:
+>>
+>> On Wed, Oct 14, 2015 at 3:30 PM, S. Lockwood-Childs <sjl@vctlabs.com> wrote:
+>>> http://patchwork.openembedded.org/patch/99875/
+>>>
+>>> Apparently this patch is still not in master, and I just ran across the
+>>> problem with an externally built module (omaplfb from omap3-sgx-modules)
+>>> in meta-ti layer.
+>>>
+>>> What's the plan for getting a correct Module.symver into shared_workdir
+>>> for external modules to build against? Above patch, or does someone have
+>>> an even better idea?
+>>
+>> Richard and I sync'd on this while in Dublin @ ELCe, and the changes
+>> aren't missing
+>> from master by mistake .. but more because we are still working to come up with
+>> a comprehensive solution (tracked in bugzilla).
+>>
+>> The solution is pretty much what I described before, we are balancing
+>> applications
+>> and tasks that do not need kernel modules to be built, versus external modules
+>> that depend on symbols from other modules. The devil is in the
+>> details, and getting
+>> a non-racy, task locked solution that allows the recipe writer to
+>> explicitly decide
+>> whether they need modules built or not .. attempts at detecting the
+>> need, or forcing
+>> a one size fits all solution have all lead to dead ends.
+>>
+>> Since we are close to a release point, I'm still working on this out
+>> of the tree, and
+>> will propose some changes when the tree looks stable.
+>>
+>> For now, you can carry the patch locally, or you can append to the kernel module
+>> compilation task and do a second copy of the symvers file to the share
+>> directory.
+>>
+>> i.e. a variant of this:
+>> http://patchwork.openembedded.org/patch/94891/, done in a
+>> bbappend versus the class.
+>>
+>> Cheers,
+>>
+>> Bruce
+>
+> This is kind of insane to try a fix duplicating a job in a probably wrong way
+> (even a tiny) because of performance issue.
 
+I have a fix already queued for this, but I'm currently out of the office ..
+I swear, every time I go on vacation, someone brings this up.
 
-On 11/10/2015 04:57 PM, Tudor Florea wrote:
-> There was not feedback on this.
-> Under the same CVE there lay actually many python vulnerabilities that are still applicable for dizzy branch.
-> Among those only poplib module is covered (python-2.7.3-CVE-2013-1752-poplib-fix.patch)
-> This patch covers httplib modules and I have also a patch for the remaining modules.
-> Should I (re)send the patch?
+I've been waiting for the smoke to clear on the 2.0 release before
+posting it .. so please, just a bit more patience and I'll send out
+that series.
 
-yes.
+>
+> Any 3rd party kernel module depends on do_shared_workdir - so do_shared_workdir
+> must wait for do_compile_kernelmodules - that's it by design (build is done
+> relying on dependencies ordered in a directed, noncyclical graph.
+>
+> Since compile_kernelmodules is between compile and strip, I vote for
+>
+> $ git diff
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 5e8b6cf..49d7561 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -253,7 +253,7 @@ kernel_do_install() {
+>  }
+>  do_install[prefuncs] += "package_get_auto_pr"
+>
+> -addtask shared_workdir after do_compile before do_compile_kernelmodules
+> +addtask shared_workdir after do_compile_kernelmodules before do_strip
+>  addtask shared_workdir_setscene
+>
+>  do_shared_workdir_setscene () {
+>
+> But that's surely kind of smell, whether before do_strip and do_install is
+> preferred. Mandatory is, that do_shared_workdir must not be processed before
+> do_compile_kernelmodules finishes.
+>
+> There is no way to avoid it, and if those 5 seconds slow down your build,
+> there is probably another thing which should be fixed.
 
-regards,
-Armin
+It's not 5 seconds. It is much more on some machines and configurations.
 
-> Regards
->   Tudor.
-> 
-> 
-> -----Original Message-----
-> From: Tudor Florea [mailto:tudor.florea@enea.com] 
-> Sent: Friday, July 03, 2015 5:25 AM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Tudor Florea <Tudor.Florea@enea.com>
-> Subject: [dizzy] [PATCH] python: Backport CVE-2013-1752 fix from upstream
-> 
-> This back ported patch fixes CVE-2013-1752 for httplib
-> References:
-> http://bugs.python.org/issue16037
-> https://access.redhat.com/security/cve/CVE-2013-1752
-> 
-> The httplib module / package can read arbitrary amounts of data from its socket when it's parsing the HTTP header. This may lead to issues when a user connects to a broken HTTP server or something that isn't a HTTP at all
-> 
-> Signed-off-by: Tudor Florea <tudor.florea@enea.com>
-> ---
->  .../python-2.7.3-CVE-2013-1752-httplib-fix.patch   | 45 ++++++++++++++++++++++
->  meta/recipes-devtools/python/python_2.7.3.bb       |  1 +
->  2 files changed, 46 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-httplib-fix.patch
-> 
-> diff --git a/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-httplib-fix.patch b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-httplib-fix.patch
-> new file mode 100644
-> index 0000000..e68f53f
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-htt
-> +++ plib-fix.patch
-> @@ -0,0 +1,45 @@
-> +Upstream-Status: Backport
-> +
-> +CVE-2013-1752: httplib: HTTPMessage.readheaders() raises an 
-> +HTTPException when more than 100 headers are read.
-> +Patch by Jyrki Pulliainen and Daniel Eriksson.
-> +
-> +Signed-off-by: Tudor Florea <tudor.florea@enea.com>
-> +---
-> +diff -r 133ee2b48e52 Lib/httplib.py
-> +--- a/Lib/httplib.py	Fri Aug 01 23:51:51 2014 -0700
-> ++++ b/Lib/httplib.py	Sat Aug 02 13:59:25 2014 +0000
-> +@@ -214,6 +214,7 @@
-> + 
-> + # maximal line length when calling readline().
-> + _MAXLINE = 65536
-> ++_MAXHEADERS = 100
-> + 
-> + class HTTPMessage(mimetools.Message):
-> + 
-> +@@ -271,6 +272,8 @@
-> +         elif self.seekable:
-> +             tell = self.fp.tell
-> +         while True:
-> ++            if len(hlist) > _MAXHEADERS:
-> ++                raise HTTPException("got more than %d headers" % 
-> ++ _MAXHEADERS)
-> +             if tell:
-> +                 try:
-> +                     startofline = tell() diff -r 133ee2b48e52 
-> +Lib/test/test_httplib.py
-> +--- a/Lib/test/test_httplib.py	Fri Aug 01 23:51:51 2014 -0700
-> ++++ b/Lib/test/test_httplib.py	Sat Aug 02 13:59:25 2014 +0000
-> +@@ -262,6 +262,13 @@
-> +         if resp.read() != "":
-> +             self.fail("Did not expect response from HEAD request")
-> + 
-> ++    def test_too_many_headers(self):
-> ++        headers = '\r\n'.join('Header%d: foo' % i for i in xrange(200)) + '\r\n'
-> ++        text = ('HTTP/1.1 200 OK\r\n' + headers)
-> ++        s = FakeSocket(text)
-> ++        r = httplib.HTTPResponse(s)
-> ++        self.assertRaises(httplib.HTTPException, r.begin)
-> ++
-> +     def test_send_file(self):
-> +         expected = 'GET /foo HTTP/1.1\r\nHost: example.com\r\n' \
-> +                    'Accept-Encoding: identity\r\nContent-Length:'
-> diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
-> index cbe8d7f..d603587 100644
-> --- a/meta/recipes-devtools/python/python_2.7.3.bb
-> +++ b/meta/recipes-devtools/python/python_2.7.3.bb
-> @@ -40,6 +40,7 @@ SRC_URI += "\
->    file://posix_close.patch \
->    file://python-2.7.3-CVE-2014-7185.patch \
->    file://python2.7.3-nossl3.patch \
-> +  file://python-2.7.3-CVE-2013-1752-httplib-fix.patch \
->  "
->  
->  S = "${WORKDIR}/Python-${PV}"
+The point is that not everyone who is building modules depends on
+other modules and not everyone that is building against the kernel
+may even want modules built.
+
+The fix is to just re-copy the symbols after kernel modules are
+built, and put the onus on the recipe writer to depend on the
+right task/variant. By default, do_shared_workdir won't have that
+dependency, but anyone with a recipe that does depend on other
+module symbols will get that extra copy and dependency created.
+
+Bruce
+
+>
+> Cheers
 > --
-> 1.9.1
-> 
+> Jens Rehsack - rehsack@gmail.com
+>
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
