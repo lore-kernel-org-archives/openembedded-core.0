@@ -1,49 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 71A5E77140
+Return-Path: <s.christ@phytec.de>
+Received: from root.phytec.de (mail.visioncatalog.com [217.6.246.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 558CD770CA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 15:40:21 +0000 (UTC)
-Received: by wmvv187 with SMTP id v187so61664216wmv.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 07:40:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=IFMFCCt22Lx9tA9IsRXYrhlFjCozIIdjffGLeo/AExM=;
-	b=WA8Bz+J1Q5bhPoWyqUARwEi8dcujXBHNT+hpEPuiH3Fmx98ApkhG98UwVfhy0elgtT
-	EISrd0p+TLqHVGcYxwbBVqeKsWHO37ahnS7k1KuSo1w13garklY3rkT6ewxKeGzPGTWP
-	QwxlhtS+2udKjM8gN9AWjhzAnIlZxEmhD3Z9CXTpPN43i+ErZ/dfj6BeH0M2INCNEc45
-	e2Otk9xZkcJhx92bNWsf3f4cSb6LHgjPeyR9CyTyseGIT8U2ipLRhMrTZ+6BNsFDJkgs
-	FKvQkEUpy/8aIMN37B4vZrVWOzhd4K6sdOv4KDQaP0NEvJEfEilRHngNM4LTolyRS2Ws
-	ryEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=IFMFCCt22Lx9tA9IsRXYrhlFjCozIIdjffGLeo/AExM=;
-	b=Zj9a9oadVLyamZ2vIfF0rH0P6dpUmjX9b65KbTPtLNziZHHALnM18Tc0tl4LTS8wDy
-	5hQ5A7Ioy2SZUkfNta9kFqlQRezot47qmrp2hoM/R+0evWAREU7asB25NGI/y9P6raR9
-	wftfLUEqhy0uqh7kMU6vOtdeg5ctWKCrrscyfM6k0Da3U9weq+MMRpXuIsBTSQaF7I8/
-	Pups39oP040wuxDeIFWl126IzJMy7qfvEgOUK5nYfH0Pp1J5keS5OIx7PhAN6NV/4UcC
-	lz0sMPvyvheeHg2TOXKsx3OY5bDfvJgJQYI+TuG/grs2ixgEEYzP0hkCZZvEUuUAtv1Q
-	9G1Q==
-X-Gm-Message-State: ALoCoQmHwNR1US8ELEH7z18qtbiDiAh6AdK/HRXXy5vlmAde0nKXyE1my0Yk6lL5q/Hs1h4usOkc
-X-Received: by 10.28.134.205 with SMTP id i196mr37337467wmd.17.1447256421020; 
-	Wed, 11 Nov 2015 07:40:21 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	e79sm25875470wmd.16.2015.11.11.07.40.20
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 Nov 2015 07:40:20 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Nov 2015 15:32:01 +0000
-Message-Id: <1447255921-9535-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1447255921-9535-1-git-send-email-ross.burton@intel.com>
-References: <1447255921-9535-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH][V2 2/2] openssl: use subdir= instead of moving files in do_configure_prepend()
+	Wed, 11 Nov 2015 15:47:44 +0000 (UTC)
+Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
+	by root.phytec.de (Postfix) with ESMTP id B6C0DA0018D;
+	Wed, 11 Nov 2015 16:48:07 +0100 (CET)
+Received: from lws-christ ([172.16.11.123])
+	by idefix.phytec.de (IBM Domino Release 9.0.1FP2 HF590)
+	with ESMTP id 2015111116474270-22548 ;
+	Wed, 11 Nov 2015 16:47:42 +0100 
+Date: Wed, 11 Nov 2015 16:47:37 +0100
+From: Stefan Christ <s.christ@phytec.de>
+To: Joshua Lock <joshua.lock@collabora.co.uk>
+Message-ID: <20151111154737.GB2391@lws-christ>
+References: <1444724953-43197-1-git-send-email-s.christ@phytec.de>
+	<561D7E75.2050901@collabora.co.uk>
+MIME-Version: 1.0
+In-Reply-To: <561D7E75.2050901@collabora.co.uk>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP2
+	HF590|December 11, 2014) at 11.11.2015 16:47:42,
+	Serialize by Router on Idefix/Phytec(Release 9.0.1FP2 HF590|December 11,
+	2014) at 11.11.2015 16:47:42
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd: fix networking setup when ipv6 modules are missing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,58 +37,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 15:40:22 -0000
+X-List-Received-Date: Wed, 11 Nov 2015 15:47:46 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-For clarity and correctness of source archiving, don't move find.pl from WORKDIR
-to S in do_configure_prepend but tell the fetcher to put it in the right place
-when unpacking.
+Hi,
 
-Also re-order the files in SRC_URI so that patches are grouped together.
+> I've queued this change in my joshuagl/fido-next branch[1].
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-connectivity/openssl/openssl_1.0.2d.bb | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+When will this patch/branch be merged into the openembedded-core's fido bra=
+nch?
+Is there any schedule for that?
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-index 659e0bd..8e8d05f 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
- export DIRS = "crypto ssl apps engines"
- export OE_LDFLAGS="${LDFLAGS}"
- 
--SRC_URI += "file://configure-targets.patch \
-+SRC_URI += "file://find.pl;subdir=${BP}/util/ \
-+            file://run-ptest \
-+            file://configure-targets.patch \
-             file://shared-libs.patch \
-             file://oe-ldflags.patch \
-             file://engines-install-in-libdir-ssl.patch \
-@@ -29,11 +31,9 @@ SRC_URI += "file://configure-targets.patch \
-             file://openssl_fix_for_x32.patch \
-             file://fix-cipher-des-ede3-cfb1.patch \
-             file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
--            file://find.pl \
-             file://openssl-fix-des.pod-error.patch \
-             file://Makefiles-ptest.patch \
-             file://ptest-deps.patch \
--            file://run-ptest \
-             file://crypto_use_bigint_in_x86-64_perl.patch \
-             file://openssl-1.0.2a-x32-asm.patch \
-             file://ptest_makefile_deps.patch  \
-@@ -53,10 +53,6 @@ FILES_${PN}-engines-dbg = "${libdir}/ssl/engines/.debug"
- PARALLEL_MAKE = ""
- PARALLEL_MAKEINST = ""
- 
--do_configure_prepend() {
--  cp ${WORKDIR}/find.pl ${S}/util/find.pl
--}
--
- # The crypto_use_bigint patch means that perl's bignum module needs to be
- # installed, but some distributions (for example Fedora 23) don't ship it by
- # default.  As the resulting error is very misleading check for bignum before
--- 
-2.1.4
+Mit freundlichen Gr=C3=BC=C3=9Fen / Kind regards,
+	Stefan Christ
 
+On Tue, Oct 13, 2015 at 10:58:13PM +0100, Joshua Lock wrote:
+> On 13/10/15 09:29, Stefan Christ wrote:
+> >If the ipv6 kernel modules are missing, e.g. /lib/modules/<version>
+> >doesn't match the runnig kernel, networkd doesn't bring up the
+> >interfaces correctly. Backport fix from systemd version v220.
+> >
+> >Signed-off-by: Stefan Christ <s.christ@phytec.de>
+> >---
+> >Hi,
+> >
+> >this patch is only for the fido branch. The current master uses the syst=
+emd
+> >version v225 which already fixes the problem.
+> >
+> >Kind regards
+> >	Stefan
+>=20
+> Thanks Stefan,
+>=20
+> I've queued this change in my joshuagl/fido-next branch[1].
+>=20
+> Regards,
+>=20
+> Joshua
+>=20
+> 1. http://cgit.openembedded.org/openembedded-core-contrib/log/?h=3Djoshua=
+gl/fido-next
+>=20
+> >
+> >---
+> >  ...-fix-IFF=5FUP-when-ipv6-support-is-disabled.patch | 78 ++++++++++++=
+++++++++++
+> >  meta/recipes-core/systemd/systemd=5F219.bb           |  1 +
+> >  2 files changed, 79 insertions(+)
+> >  create mode 100644 meta/recipes-core/systemd/systemd/0016-networkd-fix=
+-IFF=5FUP-when-ipv6-support-is-disabled.patch
+> >
+> >diff --git a/meta/recipes-core/systemd/systemd/0016-networkd-fix-IFF=5FU=
+P-when-ipv6-support-is-disabled.patch b/meta/recipes-core/systemd/systemd/0=
+016-networkd-fix-IFF=5FUP-when-ipv6-support-is-disabled.patch
+> >new file mode 100644
+> >index 0000000..72f9a91
+> >--- /dev/null
+> >+++ b/meta/recipes-core/systemd/systemd/0016-networkd-fix-IFF=5FUP-when-=
+ipv6-support-is-disabled.patch
+> >@@ -0,0 +1,78 @@
+> >+From b1362f4f60f192aa62effd9c19e0d98b68050f5a Mon Sep 17 00:00:00 2001
+> >+From: Tom Gundersen <teg@jklm.no>
+> >+Date: Tue, 8 Sep 2015 12:53:46 +0200
+> >+Subject: [PATCH] networkd: fix IFF=5FUP when ipv6 support is disabled
+> >+
+> >+Passing ipv6 options (even when they should be noops) caused IFF=5FUP to
+> >+fail when ipv6 was supported.
+> >+
+> >+Fixes: https://bugs.freedesktop.org/show=5Fbug.cgi?id=3D90103
+> >+
+> >+(Backport from v220 to v219)
+> >+Signed-off-by: Stefan Christ <s.christ@phytec.de>
+> >+---
+> >+ src/network/networkd-link.c | 43 +++++++++++++++++++++++--------------=
+------
+> >+ 1 file changed, 23 insertions(+), 20 deletions(-)
+> >+
+> >+diff --git a/src/network/networkd-link.c b/src/network/networkd-link.c
+> >+index f716e82..1aa1550 100644
+> >+--- a/src/network/networkd-link.c
+> >++++ b/src/network/networkd-link.c
+> >+@@ -1104,31 +1104,34 @@ static int link=5Fup(Link *link) {
+> >+                 return r;
+> >+         }
+> >+
+> >+-        r =3D sd=5Frtnl=5Fmessage=5Fopen=5Fcontainer(req, AF=5FINET6);
+> >+-        if (r < 0) {
+> >+-                log=5Flink=5Ferror(link, "Could not open AF=5FINET6 co=
+ntainer: %s", strerror(-r));
+> >+-                return r;
+> >+-        }
+> >+-
+> >+-        ipv6ll=5Fmode =3D link=5Fipv6ll=5Fenabled(link) ? IN6=5FADDR=
+=5FGEN=5FMODE=5FEUI64 : IN6=5FADDR=5FGEN=5FMODE=5FNONE;
+> >+-        r =3D sd=5Frtnl=5Fmessage=5Fappend=5Fu8(req, IFLA=5FINET6=5FAD=
+DR=5FGEN=5FMODE, ipv6ll=5Fmode);
+> >+-        if (r < 0) {
+> >+-                log=5Flink=5Ferror(link, "Could not append IFLA=5FINET=
+6=5FADDR=5FGEN=5FMODE: %s", strerror(-r));
+> >+-                return r;
+> >+-        }
+> >++        if (socket=5Fipv6=5Fis=5Fsupported()) {
+> >++                /* if the kernel lacks ipv6 support setting IFF=5FUP f=
+ails if any ipv6 options are passed */
+> >++                r =3D sd=5Frtnl=5Fmessage=5Fopen=5Fcontainer(req, AF=
+=5FINET6);
+> >++                if (r < 0) {
+> >++                        log=5Flink=5Ferror(link, "Could not open AF=5F=
+INET6 container: %s", strerror(-r));
+> >++                        return r;
+> >++                }
+> >+
+> >+-        if (!in=5Faddr=5Fis=5Fnull(AF=5FINET6, &link->network->ipv6=5F=
+token)) {
+> >+-                r =3D sd=5Frtnl=5Fmessage=5Fappend=5Fin6=5Faddr(req, I=
+FLA=5FINET6=5FTOKEN, &link->network->ipv6=5Ftoken.in6);
+> >++                ipv6ll=5Fmode =3D link=5Fipv6ll=5Fenabled(link) ? IN6=
+=5FADDR=5FGEN=5FMODE=5FEUI64 : IN6=5FADDR=5FGEN=5FMODE=5FNONE;
+> >++                r =3D sd=5Frtnl=5Fmessage=5Fappend=5Fu8(req, IFLA=5FIN=
+ET6=5FADDR=5FGEN=5FMODE, ipv6ll=5Fmode);
+> >+                 if (r < 0) {
+> >+-                        log=5Flink=5Ferror(link, "Could not append IFL=
+A=5FINET6=5FTOKEN: %s", strerror(-r));
+> >++                        log=5Flink=5Ferror(link, "Could not append IFL=
+A=5FINET6=5FADDR=5FGEN=5FMODE: %s", strerror(-r));
+> >+                         return r;
+> >+                 }
+> >+-        }
+> >+
+> >+-        r =3D sd=5Frtnl=5Fmessage=5Fclose=5Fcontainer(req);
+> >+-        if (r < 0) {
+> >+-                log=5Flink=5Ferror(link, "Could not close AF=5FINET6 c=
+ontainer: %s", strerror(-r));
+> >+-                return r;
+> >++                if (!in=5Faddr=5Fis=5Fnull(AF=5FINET6, &link->network-=
+>ipv6=5Ftoken)) {
+> >++                        r =3D sd=5Frtnl=5Fmessage=5Fappend=5Fin6=5Fadd=
+r(req, IFLA=5FINET6=5FTOKEN, &link->network->ipv6=5Ftoken.in6);
+> >++                        if (r < 0) {
+> >++                                log=5Flink=5Ferror(link, "Could not ap=
+pend IFLA=5FINET6=5FTOKEN: %s", strerror(-r));
+> >++                                return r;
+> >++                        }
+> >++                }
+> >++
+> >++                r =3D sd=5Frtnl=5Fmessage=5Fclose=5Fcontainer(req);
+> >++                if (r < 0) {
+> >++                        log=5Flink=5Ferror(link, "Could not close AF=
+=5FINET6 container: %s", strerror(-r));
+> >++                        return r;
+> >++                }
+> >+         }
+> >+
+> >+         r =3D sd=5Frtnl=5Fmessage=5Fclose=5Fcontainer(req);
+> >+--
+> >+1.9.1
+> >+
+> >diff --git a/meta/recipes-core/systemd/systemd=5F219.bb b/meta/recipes-c=
+ore/systemd/systemd=5F219.bb
+> >index b972dd4..e531c04 100644
+> >--- a/meta/recipes-core/systemd/systemd=5F219.bb
+> >+++ b/meta/recipes-core/systemd/systemd=5F219.bb
+> >@@ -43,6 +43,7 @@ SRC=5FURI =3D "git://github.com/systemd/systemd-stable=
+;branch=3Dv219-stable;protocol=3Dg
+> >             file://0012-systemd-tmpfiles.c-Honor-ordering-within-files-=
+as-th.patch \
+> >             file://0014-Revert-rules-remove-firmware-loading-rules.patc=
+h \
+> >             file://0015-Revert-udev-remove-userspace-firmware-loading-s=
+uppor.patch \
+> >+           file://0016-networkd-fix-IFF=5FUP-when-ipv6-support-is-disab=
+led.patch \
+> >             file://tmpfiles-pam.patch \
+> >             file://0001-Revert-core-mount-add-dependencies-to-dynamical=
+ly-mo.patch \
+> >             file://touchscreen.rules \
+> >
+>=20
+> --=20
+> =5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
+=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
