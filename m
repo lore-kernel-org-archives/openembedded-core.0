@@ -1,35 +1,35 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id E4CD8771A5
+Return-Path: <aws.ismail@gmail.com>
+Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 8273D771AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 22:21:49 +0000 (UTC)
-Received: by pacdm15 with SMTP id dm15so42861009pac.3
+	Wed, 11 Nov 2015 22:35:42 +0000 (UTC)
+Received: by obbnk6 with SMTP id nk6so33205884obb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 14:21:49 -0800 (PST)
+	Wed, 11 Nov 2015 14:35:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=RmRuJC6SDn+BztYj9onM6Xnqi6oKgZfjJ/eet6xgPQU=;
-	b=NHbayKyXg8tLvILjqkeUZG3eOTMuz7TzZx00NAQYYMqZ2xO520m/XTT2np6L7GOAmR
-	OkWTZCtYvIzp8cDZnjXdEK2ndVpKjA+4dPaaaApyJ5QsyolKZT7yTFpEcMZyA0KnyAJt
-	gfaKudSHOhCin6aLciR+mOABjGKCMkUuecDR7VImc6Kbh114H1Fyh5UQ9t6RudoNG3K2
-	0It+jWlaiWrKyMxO0P98oIj7KVQxWOZEnn00NIYFEnTtOlZUrXKTO64iRaSOT+xeEhg5
-	JjsUSRkbuuzC2x++rKQSdUKhrKx9BDMUkntGPGjHB5ZS3uebPyW8dnDrkbBTabANQN0I
-	jutw==
-X-Received: by 10.68.130.69 with SMTP id oc5mr17765046pbb.140.1447280509706;
-	Wed, 11 Nov 2015 14:21:49 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id j5sm641257pbq.74.2015.11.11.14.21.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 Nov 2015 14:21:48 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Nov 2015 14:21:46 -0800
-Message-Id: <1447280506-25885-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [master][jethro][fido][PATCH] libxml2: fix CVE-2015-7942 and CVE-2015-8035
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=ZpU3aTuBUlaRBODlScwIoBu60rSr3+YVaDTqi4MG99Q=;
+	b=o9zabmgeKVQrHGcUgLrrOtFNjfNtIodqdG/pYfsL6YyX+V3OeTI6jVLH9k3FyzT0oc
+	uX/i35x2g0qQOCWgQ+27AMOI8HzcAFMBah+DhLahWwl/p66Qq7hLc57PQq5BVT1x/uOq
+	xLBx54WL0pC0xbjwVhBfNobetcqZ/Q1yUjJWCJcrkGS9CmrONHc0y8vf7Rq8Qzp0Ua09
+	PWUJnyQCb4InWpmW9HvpsNyzUQwMCmmmKjFqykQokJPAs4xOsypOfPzDS04n7V4HyBmO
+	sPYl9rMgKPfDWv+bNIJZSzGsIQQCPzI4GpNZZoKuMKLWg8zfoiHsfavmrCB2z6d5VjJB
+	Mrgw==
+X-Received: by 10.182.129.138 with SMTP id nw10mr6817721obb.24.1447281342301; 
+	Wed, 11 Nov 2015 14:35:42 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.182.41.39 with HTTP; Wed, 11 Nov 2015 14:35:22 -0800 (PST)
+In-Reply-To: <563BB4A2.3020800@linux.intel.com>
+References: <1446590054-31188-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+	<563BB4A2.3020800@linux.intel.com>
+From: Aws Ismail <aws.ismail@gmail.com>
+Date: Wed, 11 Nov 2015 17:35:22 -0500
+Message-ID: <CAMHMu0MdEZMZF7bZ77tO897wy1yyS2a3hE0+3fi-hZqt2YZe_g@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: benoit.rapidel+yocto@exmachina.fr, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] terminal: Support old tmux version (<1.9) when querying height value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,146 +42,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 22:21:53 -0000
+X-List-Received-Date: Wed, 11 Nov 2015 22:35:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Armin Kuster <akuster@mvista.com>
+I have verified that the patch does not work. I am using tmux v1.8
+with the latest jethro poky.
 
-CVE-2015-7942 libxml2: heap-based buffer overflow in xmlParseConditionalSections()
-CVE-2015-8035 libxml2: DoS when parsing specially crafted XML document if XZ support is enabled
-
-[YOCTO #8641]
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-core/libxml/libxml2.inc               |  2 +
- .../libxml/libxml2/CVE-2015-7942.patch             | 55 ++++++++++++++++++++++
- .../libxml/libxml2/CVE-2015-8035.patch             | 41 ++++++++++++++++
- 3 files changed, 98 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
-
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 1c3c37d..6ada401 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -21,6 +21,8 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml-m4-use-pkgconfig.patch \
-            file://configure.ac-fix-cross-compiling-warning.patch \
-            file://0001-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch \
-+           file://CVE-2015-7942.patch \
-+           file://CVE-2015-8035.patch \
-           "
- 
- BINCONFIG = "${bindir}/xml2-config"
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
-new file mode 100644
-index 0000000..12d5ea3
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
-@@ -0,0 +1,55 @@
-+libxml2: CVE-2015-7942
-+
-+From 9b8512337d14c8ddf662fcb98b0135f225a1c489 Mon Sep 17 00:00:00 2001
-+From: Daniel Veillard <veillard@redhat.com>
-+Date: Mon, 23 Feb 2015 11:29:20 +0800
-+Subject: Cleanup conditional section error handling
-+
-+For https://bugzilla.gnome.org/show_bug.cgi?id=744980
-+
-+The error handling of Conditional Section also need to be
-+straightened as the structure of the document can't be
-+guessed on a failure there and it's better to stop parsing
-+as further errors are likely to be irrelevant.
-+
-+Upstream Status: Backport
-+https://git.gnome.org/browse/libxml2/patch/?id=9b8512337d14c8ddf662fcb98b0135f225a1c489
-+
-+[YOCTO #8641]
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ parser.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+Index: libxml2-2.9.2/parser.c
-+===================================================================
-+--- libxml2-2.9.2.orig/parser.c
-++++ libxml2-2.9.2/parser.c
-+@@ -6783,6 +6783,8 @@ xmlParseConditionalSections(xmlParserCtx
-+ 	SKIP_BLANKS;
-+ 	if (RAW != '[') {
-+ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
-++	    xmlStopParser(ctxt);
-++	    return;
-+ 	} else {
-+ 	    if (ctxt->input->id != id) {
-+ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
-+@@ -6843,6 +6845,8 @@ xmlParseConditionalSections(xmlParserCtx
-+ 	SKIP_BLANKS;
-+ 	if (RAW != '[') {
-+ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
-++	    xmlStopParser(ctxt);
-++	    return;
-+ 	} else {
-+ 	    if (ctxt->input->id != id) {
-+ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
-+@@ -6898,6 +6902,8 @@ xmlParseConditionalSections(xmlParserCtx
-+ 
-+     } else {
-+ 	xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID_KEYWORD, NULL);
-++	xmlStopParser(ctxt);
-++	return;
-+     }
-+ 
-+     if (RAW == 0)
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
-new file mode 100644
-index 0000000..7d71bb7
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
-@@ -0,0 +1,41 @@
-+libxml2: CVE-2015-8035
-+
-+From f0709e3ca8f8947f2d91ed34e92e38a4c23eae63 Mon Sep 17 00:00:00 2001
-+From: Daniel Veillard <veillard@redhat.com>
-+Date: Tue, 3 Nov 2015 15:31:25 +0800
-+Subject: CVE-2015-8035 Fix XZ compression support loop
-+
-+For https://bugzilla.gnome.org/show_bug.cgi?id=757466
-+DoS when parsing specially crafted XML document if XZ support
-+is compiled in (which wasn't the case for 2.9.2 and master since
-+Nov 2013, fixed in next commit !)
-+
-+Upstream Status: Backport
-+https://git.gnome.org/browse/libxml2/patch/?id=f0709e3ca8f8947f2d91ed34e92e38a4c23eae63
-+
-+[YOCTO #8641]
-+
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ xzlib.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/xzlib.c b/xzlib.c
-+index 0dcb9f4..1fab546 100644
-+--- a/xzlib.c
-++++ b/xzlib.c
-+@@ -581,6 +581,10 @@ xz_decomp(xz_statep state)
-+             xz_error(state, LZMA_DATA_ERROR, "compressed data error");
-+             return -1;
-+         }
-++        if (ret == LZMA_PROG_ERROR) {
-++            xz_error(state, LZMA_PROG_ERROR, "compression error");
-++            return -1;
-++        }
-+     } while (strm->avail_out && ret != LZMA_STREAM_END);
-+ 
-+     /* update available output and crc check value */
-+-- 
-+cgit v0.11.2
-+
--- 
-2.3.5
-
+On Thu, Nov 5, 2015 at 2:57 PM, Leonardo Sandoval
+<leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+> This patch did not solve the case when multiple panes are present. I will
+> send a V2 patch.
+>
+>
+>
+> On 11/03/2015 04:34 PM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
+>>
+>> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>>
+>> Old tmux version (< 1.9) does not support nested formats on the -F
+>> parameter, so
+>> if nested format does not give any answer, do the query in two steps.
+>>
+>> Tested on tmux 1.6.
+>>
+>> Signed-off-by: Leonardo Sandoval
+>> <leonardo.sandoval.gonzalez@linux.intel.com>
+>> ---
+>>   meta/lib/oe/terminal.py |   15 ++++++++++++++-
+>>   1 file changed, 14 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+>> index 52a8913..686b1ce 100644
+>> --- a/meta/lib/oe/terminal.py
+>> +++ b/meta/lib/oe/terminal.py
+>> @@ -218,11 +218,24 @@ def spawn(name, sh_cmd, title=None, env=None,
+>> d=None):
+>>
+>>   def check_tmux_pane_size(tmux):
+>>       import subprocess as sub
+>> +    size = 0
+>>       try:
+>>           p = sub.Popen('%s list-panes -F
+>> "#{?pane_active,#{pane_height},}"' % tmux,
+>>                   shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
+>>           out, err = p.communicate()
+>> -        size = int(out.strip())
+>> +        try:
+>> +            size = int(out.strip())
+>> +        except ValueError:
+>> +            # Older tmux versions (< 1.9) does not support nested
+>> formats,
+>> +            # so try it in two steps
+>> +            p = sub.Popen('%s list-panes -F "#{?pane_active,yes,no}"' %
+>> tmux,
+>> +                shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
+>> +            out, err = p.communicate()
+>> +            if "yes" in out.strip():
+>> +                p = sub.Popen('%s list-panes -F "#{pane_height}"' % tmux,
+>> +                              shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
+>> +                out, err = p.communicate()
+>> +                size = int(out.strip())
+>>       except OSError as exc:
+>>           import errno
+>>           if exc.errno == errno.ENOENT:
+>>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
