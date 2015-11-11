@@ -1,37 +1,29 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
-	[209.85.215.49])
-	by mail.openembedded.org (Postfix) with ESMTP id A70007702B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 958C6770B4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 13:50:50 +0000 (UTC)
-Received: by lfdo63 with SMTP id o63so16431709lfd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 05:50:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=UNQArYlxanf9eNKjPhot6pG+yL5Pts9wYOnG17LHaCA=;
-	b=b5JNGYGM0Kz4xl7d6qsf1pYhzAkQFEWMH7RgUiMugLm++/5b6ZP5x2mYDbFXwB18Pi
-	8EcwfPCsrisvT9kPs19HCEMG1h6811nbcZwwIdeZFjk8QcUNHqmuo848IK6RYfxQrYM0
-	2JD1MbuxiogsjJWWxT/7kqIixZeNFypDxrGFJGu1qkjKQC8bS6enP9inSXGrcbcaxiDz
-	aUVvLG71pbfjXc2Kzxkbi7PsY5buP8LGfnut8RLB3b2G14yc3YoIq4XqwThYi3DPYRw8
-	ToG38t+fAW4nkVpIO7+cvIvooTHAyT6TI/qCj47yg8hHI2vZ8Z+B+OfhSksoUz6nzGTv
-	6x8Q==
-X-Received: by 10.25.160.213 with SMTP id j204mr4368397lfe.85.1447249850277;
-	Wed, 11 Nov 2015 05:50:50 -0800 (PST)
+	Wed, 11 Nov 2015 13:51:09 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 11 Nov 2015 05:51:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,276,1444719600"; d="scan'208";a="834203406"
+Received: from bpgilles-mobl4.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.8.193])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Nov 2015 05:51:08 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 11 Nov 2015 13:51:07 +0000
+Message-ID: <15398717.rKBpfSWNbS@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.10-100.fc21.x86_64; KDE/4.14.11; x86_64; ;
+	)
+In-Reply-To: <CAJTo0LZmTD3s3u8KrWJz7ka1zjR=HAACjQHyOTwWUTFSbpvLdw@mail.gmail.com>
+References: <1447240308-2849-1-git-send-email-ross.burton@intel.com>
+	<4611513.VyrzVSX4hN@peggleto-mobl.ger.corp.intel.com>
+	<CAJTo0LZmTD3s3u8KrWJz7ka1zjR=HAACjQHyOTwWUTFSbpvLdw@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.114.245.193 with HTTP; Wed, 11 Nov 2015 05:50:29 -0800 (PST)
-In-Reply-To: <56434723.5090605@linux.intel.com>
-References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
-	<56421DA6.5080700@windriver.com> <56433886.3060700@linux.intel.com>
-	<564343E9.9020702@windriver.com> <56434723.5090605@linux.intel.com>
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Wed, 11 Nov 2015 14:50:29 +0100
-Message-ID: <CAPybu_13B8Y8z4dZv0HgCHjHCpPX9oBu2+PNuew9bdYAD0JVbw@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] systemd: fix Upstream-Status tag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,91 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 13:50:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 11 Nov 2015 13:51:09 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hello Alexander
+On Wednesday 11 November 2015 13:34:57 Burton, Ross wrote:
+> On 11 November 2015 at 13:27, Paul Eggleton <paul.eggleton@linux.intel.com>
+> 
+> wrote:
+> > FWIW, I'd always thought "Rejected" would have been a more accurate label
+> > to
+> > use... on the other hand perhaps it's a bit late to be changing that now
+> > though.
+> 
+> Agreed.  We could change the guidelines to allow both but prefer Rejected?
 
-Can you point to a .git file with architecture-dependent data.
+That would work for me, we'd avoid issues of current values needing to be 
+updated immediately at least...
 
-I would love to help on this issue. I want to use the python api for gstream.
+> Or is that too much effort when there's more important things to fix - this
+> could bikeshed easily. :)
 
-Thanks
+Hopefully this issue isn't too subjective ;)
 
-
-
-On Wed, Nov 11, 2015 at 2:48 PM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 11/11/2015 03:34 PM, Mark Hatle wrote:
->
->> Also has anyone looked at the .typelib information and determined if any
->> of it
->> is available via direct inspection via readelf, dwarf interpretation or
->> other
->> method that does not require execution?  Is there a definition of the
->> .typelib
->> information anywhere and some simple examples of how its generated by the
->> runtime objects?  (To pursue this, the way forward is to determine a way
->> to
->> generate the .typelib by reading the chosen binaries in some way -- and
->> then
->> running a 'ptest' like check that the generated and runtime versions
->> result in
->> the same data.)
->
->
-> You can simply take a look at any of the .gir files: they are XMLs that are
-> used to generate typelibs and contain essentially the same information.
->
-> I think it's totally unrealistic to extract all the high-level OOP semantics
-> from .so libraries with readelf and friends.
->
-> For instance, gstreamer pipelines:
->
->
->     <class name="Bin"
->            c:symbol-prefix="bin"
->            c:type="GstBin"
->            parent="Element"
->            glib:type-name="GstBin"
->            glib:get-type="gst_bin_get_type"
->            glib:type-struct="BinClass">
->       <implements name="ChildProxy"/>
->       <constructor name="new" c:identifier="gst_bin_new">
->         <return-value transfer-ownership="none">
->           <type name="Element" c:type="GstElement*"/>
->         </return-value>
->         <parameters>
->           <parameter name="name"
->                      transfer-ownership="none"
->                      nullable="1"
->                      allow-none="1">
->             <doc xml:space="preserve">the name of the new bin</doc>
->             <type name="utf8" c:type="const gchar*"/>
->           </parameter>
->         </parameters>
->       </constructor>
->       <virtual-method name="add_element">
->         <return-value transfer-ownership="none">
->           <type name="gboolean" c:type="gboolean"/>
->         </return-value>
->         <parameters>
-> ...
->
-> etc etc etc.
->
->
->
-> Alex
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+Cheers,
+Paul
 
 -- 
-Ricardo Ribalda
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
