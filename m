@@ -1,31 +1,49 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C42F736B6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4204D77086
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 13:34:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tABDYZab028198
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 11 Nov 2015 05:34:35 -0800
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 11 Nov 2015 05:34:34 -0800
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
-	<56421DA6.5080700@windriver.com> <56433886.3060700@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-X-Enigmail-Draft-Status: N1110
-Organization: Wind River Systems
-Message-ID: <564343E9.9020702@windriver.com>
-Date: Wed, 11 Nov 2015 07:34:33 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
+	Wed, 11 Nov 2015 13:35:17 +0000 (UTC)
+Received: by qgeb1 with SMTP id b1so23164431qge.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Nov 2015 05:35:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=gi3bTi603Bc+1Fh89FKjNA29ABiQEnVYiUISRFXvcM0=;
+	b=1IFPDOdzVX75AnomLVBDmRbDp+/fdkiSqydMqQJWgQJCQyUzGhEwerTlpQ7IWVdJXq
+	G56o25bxpa9wfGiKJUMhf5cAPRa3GepBH0qUzhsXA7rYGeVsxgCsiCNo9+ybweKR5slT
+	HcEK9Wo6gs96baG9vPEOfBH5bmTsMTH9xLLqOYYVjewyN6hVptPRUZwitACV2Ek5DmZ4
+	ejbeEGEvCksgZVMtVkCxgvO3R6FHcCXbuEpKqUbJwDA/L5C+mCtEoZXpNtawcvB4o3QE
+	exRWs+MHgpA+IIx7LagSKUMqOB4AaD0OBryyZ8EAB41ggP0qNVJk/On63wTE3IHSdtRf
+	TIdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=gi3bTi603Bc+1Fh89FKjNA29ABiQEnVYiUISRFXvcM0=;
+	b=GMgcrQZICBQ2K1koEtME+cBYr8rq1Ng6X2YfXl9F64wraV6Q9i5cC74QOMCoYDlg8b
+	LpXw1qrQ69CzOhUFtxubtmhlErHILgc/lnOmLn0V/EBhOPh8gvqSclZM6t4nwLx97Qqa
+	rRTX0HOtqoe/DvxYvxN7uiwytGYceLU5a9yRoI/snJgXZ4Vqy2dDVEKFVICW078lAwIe
+	Im2jJv9CYwHSsHltuzUpwzzQaRTqk0HnWu9V6NbqeulwEzX2FDoCo8Oq6+H54ueJNh1G
+	Zz0MglY9aup9zZgBNgk0wZBzXz3ZxpUBef7ayeHfsH6c1Ai7hDAoUXbF/A/PwMotOeag
+	E1Ag==
+X-Gm-Message-State: ALoCoQmzKDrKIZ11jVOXW/1jgBXRSyuKVhnSgSsQ0EWlBuvqK1w9GxPMte1LwP4BTG3Gf4d8bHij
+X-Received: by 10.140.171.197 with SMTP id r188mr11384766qhr.93.1447248917273; 
+	Wed, 11 Nov 2015 05:35:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <56433886.3060700@linux.intel.com>
-Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
+Received: by 10.140.94.110 with HTTP; Wed, 11 Nov 2015 05:34:57 -0800 (PST)
+In-Reply-To: <4611513.VyrzVSX4hN@peggleto-mobl.ger.corp.intel.com>
+References: <1447240308-2849-1-git-send-email-ross.burton@intel.com>
+	<1447240308-2849-2-git-send-email-ross.burton@intel.com>
+	<4611513.VyrzVSX4hN@peggleto-mobl.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 11 Nov 2015 13:34:57 +0000
+Message-ID: <CAJTo0LZmTD3s3u8KrWJz7ka1zjR=HAACjQHyOTwWUTFSbpvLdw@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] systemd: fix Upstream-Status tag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,56 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 13:34:37 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 11 Nov 2015 13:35:20 -0000
+Content-Type: multipart/alternative; boundary=001a113a7dfa9dcd9b052443e5dc
 
-On 11/11/15 6:45 AM, Alexander Kanavin wrote:
-> On 11/10/2015 06:39 PM, Mark Hatle wrote:
-> 
->>> This requires custom bitbake support I'm afraid, a specialist needs to
->>> answer this.
->>>
->>
->> Let me rephrase.  Instead of calling out to qemu (or a real target) for a
->> gobject and result.  Can the result be cached (like we do with the config-site
->> info?)  This would allow me to run say a MIPS64 n64 gobject build, cache the
->> results and use it on my octeon3 build (which can't run in QEMU.)
-> 
-> The results in this case are .typelib files. They are raw dumps of a C 
-> structure in memory - different compilers may produce different binary 
-> representations of those. I wouldn't trust that they are the same and 
-> that it's okay to copy them around like this. What makes you confident 
-> that they are?
+--001a113a7dfa9dcd9b052443e5dc
+Content-Type: text/plain; charset=UTF-8
 
-For the same architecture (i.e. MIPS64) and the same ABI (n64), the resulting
-data structures, packing and similar should all be standard.  Only the generated
-instructions and execution order would/could change.
+On 11 November 2015 at 13:27, Paul Eggleton <paul.eggleton@linux.intel.com>
+wrote:
 
-So you would need a way to generate, cache, store the results by arch/abi combo
-in order to do this.  The issue of course is that you would need to declare the
-arch and abi -- the tune files are the natural place to do this (we really are
-declaring it there ANYWAY), and the tune features in many cases may have already
-done this...
+> FWIW, I'd always thought "Rejected" would have been a more accurate label
+> to
+> use... on the other hand perhaps it's a bit late to be changing that now
+> though.
+>
 
-Something to consider -- the alternative is the dual object (one generic
-[arch/abi], one optimized for the tune) that can be used to run on QEMU.  Twice
-the compile time but should work fine.
+Agreed.  We could change the guidelines to allow both but prefer Rejected?
+Or is that too much effort when there's more important things to fix - this
+could bikeshed easily. :)
 
+Ross
 
-Also has anyone looked at the .typelib information and determined if any of it
-is available via direct inspection via readelf, dwarf interpretation or other
-method that does not require execution?  Is there a definition of the .typelib
-information anywhere and some simple examples of how its generated by the
-runtime objects?  (To pursue this, the way forward is to determine a way to
-generate the .typelib by reading the chosen binaries in some way -- and then
-running a 'ptest' like check that the generated and runtime versions result in
-the same data.)
+--001a113a7dfa9dcd9b052443e5dc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---Mark
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 November 2015 at 13:27, Paul Eggleton <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@l=
+inux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
+ id=3D":53p" class=3D"a3s" style=3D"overflow:hidden">FWIW, I&#39;d always t=
+hought &quot;Rejected&quot; would have been a more accurate label to<br>
+use... on the other hand perhaps it&#39;s a bit late to be changing that no=
+w<br>
+though.<br></div></blockquote></div><br>Agreed.=C2=A0 We could change the g=
+uidelines to allow both but prefer Rejected?=C2=A0 Or is that too much effo=
+rt when there&#39;s more important things to fix - this could bikeshed easi=
+ly. :)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
+>Ross</div></div>
 
-> 
-> Alex
-> 
-
-
+--001a113a7dfa9dcd9b052443e5dc--
