@@ -1,52 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F1A977195
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B959B77182
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 18:36:55 +0000 (UTC)
-Received: by qgad10 with SMTP id d10so30005416qga.3
+	Wed, 11 Nov 2015 18:40:06 +0000 (UTC)
+Received: by iofh3 with SMTP id h3so42196938iof.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 10:36:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	Wed, 11 Nov 2015 10:40:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=shBNss0LYIjRPDROVlNeI070FWUxvsZY5qbKaQIkxFQ=;
-	b=Uv0h+xzfpjhBfm9vPdYNBzM4W4e9lDzkCvHVIYAAuPT1sg7qbyHnPqpaUpOFO+sWtx
-	gH4bLonDmf/dcQQkhn4jXHiVMvgDv5TRhsLaMjbGb95BAfgvx2PBfEyet1tz2h0o1xng
-	p6jcuSBh5TVYRJfEefbjt0EdD6E3W2kKJRn2sYQj/qXQ5mJJRhxJSmhYFCM+/pPnknzY
-	5JCH7A5E4GMAz7MKT/LwTuhv5Q8ltHu7UncAXdJvHQysA9U8TAdh0n11uaBC7UdZWcnA
-	CxK36pfVhOnIMN1qMhcvkrc7tFA2/qUt8E9Alx1B/iNLVNB0p6v6e8Qd6wIxeiq7MxE6
-	crbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=shBNss0LYIjRPDROVlNeI070FWUxvsZY5qbKaQIkxFQ=;
-	b=bbF2AX6WlXqIXnb46hxwDd73SPWWNfGQBO+JIMUwAeUJ3Dj1SHXJ1a3N1ff8nN5RWG
-	fA5YbEG5sJn5S0lDo3ykjPNTZHOxZrE6or4sl649UYOgzP/TdldHrtin9FDHmMnqmO0R
-	wYi3jnUKni+HewLRJHmAfnguMxvdODZ9n5Uz5sncmZxpkEM75acSXDEPa4+4H+4Lhsjk
-	1xrRSN0NMMOJjzaWTeVKN0TRn8eVI//y+FKx7lkLUQRVluQOa+x2CvhAbnAwUeZFpRVi
-	Hzr2NPdUwAjMlmzVM4RPJyGMN6rDodsnz5+lDs4FxB54VBGbZXfX4YmLlelNPAGDJpBZ
-	6bcg==
-X-Gm-Message-State: ALoCoQlVbmaJ/9Bumb0CunPuldpZJFIoMJH7nN3EIxL1EUTKU0odEdUyAnSphBDSIILUktdSQUH8
-X-Received: by 10.140.17.8 with SMTP id 8mr12141607qgc.80.1447267015880; Wed,
-	11 Nov 2015 10:36:55 -0800 (PST)
+	bh=iX/Ak87d4caQExWoRy73RGCPx1uk2c12bmi39Fuuq0Y=;
+	b=QMvwnQsUXU0EmfS/ed5K9jaLcUFDquTCoHviwOeQ4HFYgaHXuTqD/SSTCnnhFW2Bde
+	f0CIH/ZK3v2IocAa4n5o40j9/UNBd3Y3iciSCiRsUlUDNdjpHdxqCY4km7QLaB/jzvbT
+	TygTkIRQ1MSzXzrnX5VrE2UtezkQnvLL7i0Xj15aLiFqXITMKr0iFkvb0cYArq7CfVBz
+	Dw2kuUrQCe/PLv7f07PhGckR+p5CbhcICdtQs3RN/68chSg0kyX2SWKjzuEa2PZ7IpaP
+	sxoWsvGA1p4Qc6FdcUCmFa5Msn/PeJ/NrNmDg8muiSEuw1Myt60OL7pftcRAnjB+AU7M
+	PAnQ==
+X-Received: by 10.107.162.137 with SMTP id l131mr8307446ioe.49.1447267206388; 
+	Wed, 11 Nov 2015 10:40:06 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.94.110 with HTTP; Wed, 11 Nov 2015 10:36:36 -0800 (PST)
-In-Reply-To: <CAMKF1soMHOgJ3bFSqQJkvQ29OJ9Q7Tty2gPOs-LymS3i0RiOZg@mail.gmail.com>
-References: <1447240308-2849-1-git-send-email-ross.burton@intel.com>
-	<1447240308-2849-2-git-send-email-ross.burton@intel.com>
-	<4611513.VyrzVSX4hN@peggleto-mobl.ger.corp.intel.com>
-	<CAMKF1soMHOgJ3bFSqQJkvQ29OJ9Q7Tty2gPOs-LymS3i0RiOZg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 11 Nov 2015 18:36:36 +0000
-Message-ID: <CAJTo0LbvdUZ1JYZ9vZJSgHiVxnwQdD-gR47UBDh4yFGgJaQhqQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+Received: by 10.107.12.205 with HTTP; Wed, 11 Nov 2015 10:39:36 -0800 (PST)
+In-Reply-To: <1447263707-27696-3-git-send-email-akuster808@gmail.com>
+References: <1447263707-27696-1-git-send-email-akuster808@gmail.com>
+	<1447263707-27696-3-git-send-email-akuster808@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 11 Nov 2015 10:39:36 -0800
+Message-ID: <CAMKF1srWCBeKpNEEDS2s3MxTYGvoH1iJdiQGj0L5rg6Y49LedQ@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] systemd: fix Upstream-Status tag
+Subject: Re: [PATCH 2/2] ldsoconf: allow extension via local.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 18:36:59 -0000
-Content-Type: multipart/alternative; boundary=001a11c0ca6060a59f0524481caa
-
---001a11c0ca6060a59f0524481caa
+X-List-Received-Date: Wed, 11 Nov 2015 18:40:08 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 11 November 2015 at 17:48, Khem Raj <raj.khem@gmail.com> wrote:
-
-> for a non-native english speaker like me both just means same :) lets
-> stick to one and move on.
+On Wed, Nov 11, 2015 at 9:41 AM, Armin Kuster <akuster808@gmail.com> wrote:
+> From: Armin Kuster <akuster@mvista.com>
 >
+> this allows extending ldconfig search path from local.conf
+>
+> Signed-off-by: Armin Kuster <akuster@mvista.com>
+> ---
+>  meta/classes/image-ldconfig.bbclass | 6 ++++++
+>  meta/conf/bitbake.conf              | 3 +++
+>  2 files changed, 9 insertions(+)
+>
+> diff --git a/meta/classes/image-ldconfig.bbclass b/meta/classes/image-ldconfig.bbclass
+> index e9946da..ce10673 100644
+> --- a/meta/classes/image-ldconfig.bbclass
+> +++ b/meta/classes/image-ldconfig.bbclass
+> @@ -11,6 +11,12 @@ ld_so_conf() {
+>
+>      rm -f ${STAGING_DIR_NATIVE}${sysconfdir_native}/ld.so.conf
+>
+> +    # dump addition lib possible defined in local.conf
+> +    for file in ${LDSOCONF};
+> +    do
+> +        echo ${file} >> ${STAGING_LDSO_CONF_DIR}/ld.so.conf
+> +    done
+> +
+>      # save lib dirs as defined in recipes
+>      for file in `find ${STAGING_LDSO_CONF_DIR}/*/* -name "ld.so.conf"`;
+>      do
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index f0471f4..1f78c49 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -815,4 +815,7 @@ MULTILIB_VARIANTS ??= ""
+>  #
+>  # ldconfig stuff
+>  #
+> +EXTRA_LDSOCONF ??= ""
+> +LDSOCONF = "/lib /lib64 /usr/lib /usr/lib64"
 
-There is a small semantic difference, but must... resist... bikeshedding...
-;)
+is this going to exist always even when multilib is disbled ?
+how about mips n32/o32/n64 all being in same rootfs
 
-Ross
+> +LSSOCONF += "${EXTRA_LDSOCONF}"
+>  STAGING_LDSO_CONF_DIR = "${TMPDIR}/work-shared/ldconfig"
+> --
+> 2.3.5
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a11c0ca6060a59f0524481caa
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 November 2015 at 17:48, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":1j6" class=3D"a3s" st=
-yle=3D"overflow:hidden">for a non-native english speaker like me both just =
-means same :) lets<br>
-stick to one and move on.</div></blockquote></div><br></div><div class=3D"g=
-mail_extra">There is a small semantic difference, but must... resist... bik=
-eshedding... ;)</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Ross</div></div>
-
---001a11c0ca6060a59f0524481caa--
