@@ -1,46 +1,35 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 940BE77193
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id E4CD8771A5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 19:22:44 +0000 (UTC)
-Received: by pacdm15 with SMTP id dm15so38943182pac.3
+	Wed, 11 Nov 2015 22:21:49 +0000 (UTC)
+Received: by pacdm15 with SMTP id dm15so42861009pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 11:22:44 -0800 (PST)
+	Wed, 11 Nov 2015 14:21:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-type:content-transfer-encoding;
-	bh=gR1NHRBsHFD3FX02VYdsvT7MkUvKLF2MuIUp/mWPr7U=;
-	b=WkTjVU/28MZNSrCgQyP72KfYiEF8ZU4zkLY1Hz8PmBVWOYVU+dOwb7fTLlTf+94o7Q
-	oHeHpzK3nHdCCdrJiVqTobfYxOjsg57oAaUm0maVFLlA7vRw7W1VcAzBYHYVHHYvB16+
-	zRjJnlIdKVs1FZIa3778yRVPPyu9rwmJfU9iG9dAjSJY2h3MNM3t4/N3vvvtfOgBa8Wz
-	6CuKYe/iECZDm6mq6H5DvLVYseD8qE4FNOZ/M1ZN975M1q1kDijluq2m43Fou+KassjB
-	AMoPDXgUWys8uAVQfqt4l5t6SHNewMKszYHPKiLOfgZiEAHgI74+f8G1ZfEqGuflRMlO
-	zcyQ==
-X-Received: by 10.66.219.228 with SMTP id pr4mr16532067pac.99.1447269764773;
-	Wed, 11 Nov 2015 11:22:44 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1239:b99e:8fcb:e922:8a29?
-	([2601:202:4000:1239:b99e:8fcb:e922:8a29])
-	by smtp.googlemail.com with ESMTPSA id
-	in6sm10696766pbd.86.2015.11.11.11.22.42
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 11 Nov 2015 11:22:43 -0800 (PST)
-To: Khem Raj <raj.khem@gmail.com>
-References: <1447263707-27696-1-git-send-email-akuster808@gmail.com>
-	<1447263707-27696-3-git-send-email-akuster808@gmail.com>
-	<CAMKF1srWCBeKpNEEDS2s3MxTYGvoH1iJdiQGj0L5rg6Y49LedQ@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <56439581.60906@gmail.com>
-Date: Wed, 11 Nov 2015 11:22:41 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1srWCBeKpNEEDS2s3MxTYGvoH1iJdiQGj0L5rg6Y49LedQ@mail.gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] ldsoconf: allow extension via local.conf
+	h=from:to:cc:subject:date:message-id;
+	bh=RmRuJC6SDn+BztYj9onM6Xnqi6oKgZfjJ/eet6xgPQU=;
+	b=NHbayKyXg8tLvILjqkeUZG3eOTMuz7TzZx00NAQYYMqZ2xO520m/XTT2np6L7GOAmR
+	OkWTZCtYvIzp8cDZnjXdEK2ndVpKjA+4dPaaaApyJ5QsyolKZT7yTFpEcMZyA0KnyAJt
+	gfaKudSHOhCin6aLciR+mOABjGKCMkUuecDR7VImc6Kbh114H1Fyh5UQ9t6RudoNG3K2
+	0It+jWlaiWrKyMxO0P98oIj7KVQxWOZEnn00NIYFEnTtOlZUrXKTO64iRaSOT+xeEhg5
+	JjsUSRkbuuzC2x++rKQSdUKhrKx9BDMUkntGPGjHB5ZS3uebPyW8dnDrkbBTabANQN0I
+	jutw==
+X-Received: by 10.68.130.69 with SMTP id oc5mr17765046pbb.140.1447280509706;
+	Wed, 11 Nov 2015 14:21:49 -0800 (PST)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207])
+	by smtp.gmail.com with ESMTPSA id j5sm641257pbq.74.2015.11.11.14.21.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 11 Nov 2015 14:21:48 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Nov 2015 14:21:46 -0800
+Message-Id: <1447280506-25885-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [master][jethro][fido][PATCH] libxml2: fix CVE-2015-7942 and CVE-2015-8035
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,91 +42,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 19:22:46 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Nov 2015 22:21:53 -0000
 
+From: Armin Kuster <akuster@mvista.com>
 
+CVE-2015-7942 libxml2: heap-based buffer overflow in xmlParseConditionalSections()
+CVE-2015-8035 libxml2: DoS when parsing specially crafted XML document if XZ support is enabled
 
-On 11/11/2015 10:39 AM, Khem Raj wrote:
-> On Wed, Nov 11, 2015 at 9:41 AM, Armin Kuster <akuster808@gmail.com> wrote:
->> From: Armin Kuster <akuster@mvista.com>
->>
->> this allows extending ldconfig search path from local.conf
->>
->> Signed-off-by: Armin Kuster <akuster@mvista.com>
->> ---
->>  meta/classes/image-ldconfig.bbclass | 6 ++++++
->>  meta/conf/bitbake.conf              | 3 +++
->>  2 files changed, 9 insertions(+)
->>
->> diff --git a/meta/classes/image-ldconfig.bbclass b/meta/classes/image-ldconfig.bbclass
->> index e9946da..ce10673 100644
->> --- a/meta/classes/image-ldconfig.bbclass
->> +++ b/meta/classes/image-ldconfig.bbclass
->> @@ -11,6 +11,12 @@ ld_so_conf() {
->>
->>      rm -f ${STAGING_DIR_NATIVE}${sysconfdir_native}/ld.so.conf
->>
->> +    # dump addition lib possible defined in local.conf
->> +    for file in ${LDSOCONF};
->> +    do
->> +        echo ${file} >> ${STAGING_LDSO_CONF_DIR}/ld.so.conf
->> +    done
->> +
->>      # save lib dirs as defined in recipes
->>      for file in `find ${STAGING_LDSO_CONF_DIR}/*/* -name "ld.so.conf"`;
->>      do
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index f0471f4..1f78c49 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -815,4 +815,7 @@ MULTILIB_VARIANTS ??= ""
->>  #
->>  # ldconfig stuff
->>  #
->> +EXTRA_LDSOCONF ??= ""
->> +LDSOCONF = "/lib /lib64 /usr/lib /usr/lib64"
-> 
-> is this going to exist always even when multilib is disbled ?
+[YOCTO #8641]
 
-A sane default make more sense.
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/recipes-core/libxml/libxml2.inc               |  2 +
+ .../libxml/libxml2/CVE-2015-7942.patch             | 55 ++++++++++++++++++++++
+ .../libxml/libxml2/CVE-2015-8035.patch             | 41 ++++++++++++++++
+ 3 files changed, 98 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
 
-These libs are currently hardcoded in ldconfig-native.
-#define LIBDIR "/usr/lib"
-#define LIBDIR32 "/usr/lib32"
-#define LIBDIR64 "/usr/lib64"
-#define SLIBDIR "/lib"
-#define SLIBDIR32 "/lib32"
-#define SLIBDIR64 "/lib64"
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 1c3c37d..6ada401 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -21,6 +21,8 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml-m4-use-pkgconfig.patch \
+            file://configure.ac-fix-cross-compiling-warning.patch \
+            file://0001-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch \
++           file://CVE-2015-7942.patch \
++           file://CVE-2015-8035.patch \
+           "
+ 
+ BINCONFIG = "${bindir}/xml2-config"
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
+new file mode 100644
+index 0000000..12d5ea3
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
+@@ -0,0 +1,55 @@
++libxml2: CVE-2015-7942
++
++From 9b8512337d14c8ddf662fcb98b0135f225a1c489 Mon Sep 17 00:00:00 2001
++From: Daniel Veillard <veillard@redhat.com>
++Date: Mon, 23 Feb 2015 11:29:20 +0800
++Subject: Cleanup conditional section error handling
++
++For https://bugzilla.gnome.org/show_bug.cgi?id=744980
++
++The error handling of Conditional Section also need to be
++straightened as the structure of the document can't be
++guessed on a failure there and it's better to stop parsing
++as further errors are likely to be irrelevant.
++
++Upstream Status: Backport
++https://git.gnome.org/browse/libxml2/patch/?id=9b8512337d14c8ddf662fcb98b0135f225a1c489
++
++[YOCTO #8641]
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ parser.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++Index: libxml2-2.9.2/parser.c
++===================================================================
++--- libxml2-2.9.2.orig/parser.c
+++++ libxml2-2.9.2/parser.c
++@@ -6783,6 +6783,8 @@ xmlParseConditionalSections(xmlParserCtx
++ 	SKIP_BLANKS;
++ 	if (RAW != '[') {
++ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
+++	    xmlStopParser(ctxt);
+++	    return;
++ 	} else {
++ 	    if (ctxt->input->id != id) {
++ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
++@@ -6843,6 +6845,8 @@ xmlParseConditionalSections(xmlParserCtx
++ 	SKIP_BLANKS;
++ 	if (RAW != '[') {
++ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
+++	    xmlStopParser(ctxt);
+++	    return;
++ 	} else {
++ 	    if (ctxt->input->id != id) {
++ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
++@@ -6898,6 +6902,8 @@ xmlParseConditionalSections(xmlParserCtx
++ 
++     } else {
++ 	xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID_KEYWORD, NULL);
+++	xmlStopParser(ctxt);
+++	return;
++     }
++ 
++     if (RAW == 0)
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
+new file mode 100644
+index 0000000..7d71bb7
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
+@@ -0,0 +1,41 @@
++libxml2: CVE-2015-8035
++
++From f0709e3ca8f8947f2d91ed34e92e38a4c23eae63 Mon Sep 17 00:00:00 2001
++From: Daniel Veillard <veillard@redhat.com>
++Date: Tue, 3 Nov 2015 15:31:25 +0800
++Subject: CVE-2015-8035 Fix XZ compression support loop
++
++For https://bugzilla.gnome.org/show_bug.cgi?id=757466
++DoS when parsing specially crafted XML document if XZ support
++is compiled in (which wasn't the case for 2.9.2 and master since
++Nov 2013, fixed in next commit !)
++
++Upstream Status: Backport
++https://git.gnome.org/browse/libxml2/patch/?id=f0709e3ca8f8947f2d91ed34e92e38a4c23eae63
++
++[YOCTO #8641]
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ xzlib.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/xzlib.c b/xzlib.c
++index 0dcb9f4..1fab546 100644
++--- a/xzlib.c
+++++ b/xzlib.c
++@@ -581,6 +581,10 @@ xz_decomp(xz_statep state)
++             xz_error(state, LZMA_DATA_ERROR, "compressed data error");
++             return -1;
++         }
+++        if (ret == LZMA_PROG_ERROR) {
+++            xz_error(state, LZMA_PROG_ERROR, "compression error");
+++            return -1;
+++        }
++     } while (strm->avail_out && ret != LZMA_STREAM_END);
++ 
++     /* update available output and crc check value */
++-- 
++cgit v0.11.2
++
+-- 
+2.3.5
 
-looks like I missed lib32 versions.
-
-> how about mips n32/o32/n64 all being in same rootfs
-
-not checked today either. Maybe we can use this scheme to dynamically
-append ldconfig search patches for the mips example?
-
-
-ldconfig just gives a warning if the lib dirs don't not exist.
-
-sounds like this needs to be extended to handle multi lib better or in a
-saner method.
-
-
-thanks,
-- armin
-
-
-> 
->> +LSSOCONF += "${EXTRA_LDSOCONF}"
->>  STAGING_LDSO_CONF_DIR = "${TMPDIR}/work-shared/ldconfig"
->> --
->> 2.3.5
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
