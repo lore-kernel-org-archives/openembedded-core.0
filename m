@@ -1,29 +1,28 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 92F2677141
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 97B1877141
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 17:32:35 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 11 Nov 2015 09:32:35 -0800
+	Wed, 11 Nov 2015 17:38:33 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Nov 2015 09:38:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,276,1444719600"; d="scan'208";a="848640511"
+X-IronPort-AV: E=Sophos;i="5.20,276,1444719600"; d="scan'208";a="817375305"
 Received: from ebrookes-mobl6.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.9.9])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Nov 2015 09:32:34 -0800
+	by orsmga001.jf.intel.com with ESMTP; 11 Nov 2015 09:38:31 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Mariano Lopez <mariano.lopez@linux.intel.com>
-Date: Wed, 11 Nov 2015 17:32:32 +0000
-Message-ID: <2812661.EBxroKJ9r9@peggleto-mobl.ger.corp.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Nov 2015 17:38:29 +0000
+Message-ID: <1721282.5zui7k1hQG@peggleto-mobl.ger.corp.intel.com>
 Organization: Intel Corporation
 User-Agent: KMail/4.14.9 (Linux/4.1.10-100.fc21.x86_64; KDE/4.14.11; x86_64; ;
 	)
-In-Reply-To: <564204A6.4020401@linux.intel.com>
-References: <cover.1447077439.git.mariano.lopez@linux.intel.com>
-	<3148403.VDOZ21eHXB@peggleto-mobl.ger.corp.intel.com>
-	<564204A6.4020401@linux.intel.com>
+In-Reply-To: <1447262253.3559.249.camel@linuxfoundation.org>
+References: <CAHiDW_Hx6Xi91=8rg3pD_B7F_+wfL2vMUbJTXYh6XGLzksBm7w@mail.gmail.com>
+	<56420F4A.9030507@linux.intel.com>
+	<1447262253.3559.249.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2 6/6] license.bbclass: Create image license manifest
+Subject: Re: [RFC] Remove vala from oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,217 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 17:32:36 -0000
+X-List-Received-Date: Wed, 11 Nov 2015 17:38:36 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Tuesday 10 November 2015 08:52:22 Mariano Lopez wrote:
-> On 11/10/2015 04:42 AM, Paul Eggleton wrote:
-> > On Monday 09 November 2015 14:04:43 mariano.lopez@linux.intel.com wrote:
-> >> From: Mariano Lopez <mariano.lopez@linux.intel.com>
-> >> 
-> >> This change adds the license_deployed_manifest function
-> >> that will create the manifest for the packages deployed
-> >> in the image but not installed in rootfs.
+On Wednesday 11 November 2015 09:17:33 Richard Purdie wrote:
+> On Tue, 2015-11-10 at 17:37 +0200, Alexander Kanavin wrote:
+> > On 11/10/2015 05:29 PM, Otavio Salvador wrote:
+> > >> PACKAGECONFIG alone is not sufficient; to build the bindings properly,
+> > >> the package also needs to inherit vala.bbclass:
+> > >> 
+> > >> https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/tree/meta/class
+> > >> es/vala.bbclass?h=akanavin/gobject-introspection-experimental> > 
+> > > and this belong to meta-vala (or other). This reduces the core and
+> > > this is something we really should to push for.
 > > 
-> > Again, not "in the image" but "next to the image". I'd suggest giving an
-> > example or two here so that it's clear what's being referred to.
-> > 
-> >> This new function was added to ROOTFS_POSTPROCESS_COMMAND
-> >> so it will run after every rootfs task. Because of this
-> >> it could run few times for a single build and get different
-> >> dependencies. Sometimes this dependencies won't include all
-> >> the deployed packages, in order to avoid missing licenses a
-> >> tmp file is create during the build and deleted after the
-> >> build (LICENSE_TMP_JSON).
-> >> 
-> >> This change also modify the write_license_files because
-> >> the image manifest is different from the root manifest.
-> >> 
-> >> [YOCTO #6772]
-> >> 
-> >> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-> >> ---
-> >> 
-> >>   meta/classes/license.bbclass | 78
-> >> 
-> >> +++++++++++++++++++++++++++++++++++++++++--- 1 file changed, 73
-> >> insertions(+), 5 deletions(-)
-> >> 
-> >> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> >> index 463dd54..fa8807e 100644
-> >> --- a/meta/classes/license.bbclass
-> >> +++ b/meta/classes/license.bbclass
-> >> @@ -11,6 +11,7 @@ LICENSE_CREATE_PACKAGE[type] = "boolean"
-> >> 
-> >>   LICENSE_CREATE_PACKAGE ??= "0"
-> >>   LICENSE_PACKAGE_SUFFIX ??= "-lic"
-> >>   LICENSE_FILES_DIRECTORY ??= "${datadir}/licenses/"
-> >> 
-> >> +LICENSE_TMP_JSON ?= "${LICENSE_DIRECTORY}/deploy_packages.json"
-> >> 
-> >>   addtask populate_lic after do_patch before do_build
-> >>   do_populate_lic[dirs] = "${LICSSTATEDIR}/${PN}"
-> >> 
-> >> @@ -49,6 +50,59 @@ python license_create_manifest() {
-> >> 
-> >>       write_license_files(d, rootfs_license_manifest, pkg_dic)
-> >>   
-> >>   }
-> >> 
-> >> +python license_deployed_manifest_task() {
-> >> +    license_deployed_manifest(d)
-> >> +}
-> >> +
-> >> +def license_deployed_manifest(d):
-> >> +    """ Write the license manifest for the deployed packages.
-> >> +        The deployed packages usually includes the bootloader
-> >> +        and extra files to boot the target.
-> >> +    """
-> >> +    import json
-> >> +
-> >> +    packages = ""
-> >> +    dep_dic = {}
-> >> +    pkg_dic = {}
-> >> +    info_dir = os.path.join(d.getVar("PKGDATA_DIR",True), "runtime")
-> >> +
-> >> +    # Sometimes the initramfs image is build and it doesn't have
-> >> +    # the boot dependencies. In order to overcome this it is
-> >> +    # necessary to get save previous dependencies found. This is
-> >> +    # why the json_file is used (and deleted once the build is done)
-> >> +    json_file = d.getVar("LICENSE_TMP_JSON", True)
-> >> +    json_lock = bb.utils.lockfile("%s.lock" % json_file)
-> >> +    if os.path.exists(json_file):
-> >> +        with open(json_file) as f:
-> >> +            pkg_dic = json.loads(f.read())
-> >> +
-> >> +    dep_dic = get_deployed_dependencies(d)
-> >> +    for dep in dep_dic.keys():
-> >> +        # At least one package of the deployed dependency is needed
-> >> +        # to get the version.
-> >> +        pkg = get_package_from_deployed(d, dep)
-> >> +        if pkg and pkg not in pkg_dic.keys():
-> >> +            data_file = os.path.join(info_dir, pkg)
-> >> +            pkg_dic[pkg] = oe.packagedata.read_pkgdatafile(data_file)
-> >> +            # It is necessary to mark this will be used for image
-> >> manifest
-> >> +            pkg_dic[pkg]["IMAGE_MANIFEST"] = True
-> >> +            pkg_dic[pkg]["FILES"] = \
-> >> +                    get_deployed_files(d, dep_dic[dep])
-> >> +            if not "LICENSE" in pkg_dic[pkg].keys():
-> >> +                pkg_lic = "LICENSE_" + pkg
-> >> +                pkg_dic[pkg]["LICENSE"] = pkg_dic[pkg][pkg_lic]
-> >> +
-> >> +    with open(json_file, "w") as f:
-> >> +        json.dump(pkg_dic, f, indent=4)
-> >> +    bb.utils.unlockfile(json_lock)
-> >> +
-> >> +    # Because it might be called several times we lock the license file
-> >> +    image_license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY',
-> >> True), +            d.getVar('IMAGE_NAME', True),
-> >> 'image_license.manifest')
-> >> +    manifest_lock = bb.utils.lockfile("%s.lock" %
-> >> image_license_manifest)
-> >> +    write_license_files(d, image_license_manifest, pkg_dic)
-> >> +    bb.utils.unlockfile(manifest_lock)
-> >> +
-> >> 
-> >>   def get_deployed_dependencies(d):
-> >>       """ Get all the deployed dependencies of an image """
-> >> 
-> >> @@ -154,6 +208,11 @@ def get_deployed_files(d, man_file):
-> >>               dep_files = "%s %s" % (dep_files, os.path.basename(f))
-> >>       
-> >>       return dep_files
-> >> 
-> >> +python license_delete_tmp_files () {
-> >> +    json_file = d.getVar("LICENSE_TMP_JSON", True)
-> >> +    os.remove(json_file)
-> >> +}
-> >> +
-> >> 
-> >>   def write_license_files(d, license_manifest, pkg_dic):
-> >>       import re
-> >> 
-> >> @@ -175,10 +234,18 @@ def write_license_files(d, license_manifest,
-> >> pkg_dic): pkg_dic[pkg]["LICENSES"] = re.sub('  *', ' ',
-> >> pkg_dic[pkg]["LICENSES"]) pkg_dic[pkg]["LICENSES"] =
-> >> pkg_dic[pkg]["LICENSES"].split()
-> >> 
-> >> -            license_file.write("PACKAGE NAME: %s\n" % pkg)
-> >> -            license_file.write("PACKAGE VERSION: %s\n" %
-> >> pkg_dic[pkg]["PV"]) -            license_file.write("RECIPE NAME: %s\n" %
-> >> pkg_dic[pkg]["PN"]) -            license_file.write("LICENSE: %s\n\n" %
-> >> pkg_dic[pkg]["LICENSE"]) +            if not "IMAGE_MANIFEST" in
-> >> pkg_dic[pkg]:
-> >> +                # Rootfs manifest
-> >> +                license_file.write("PACKAGE NAME: %s\n" % pkg)
-> >> +                license_file.write("PACKAGE VERSION: %s\n" %
-> >> pkg_dic[pkg]["PV"]) +                license_file.write("RECIPE NAME:
-> >> %s\n"
-> >> % pkg_dic[pkg]["PN"]) +                license_file.write("LICENSE:
-> >> %s\n\n"
-> >> % pkg_dic[pkg]["LICENSE"]) +            else:
-> >> +                # Image manifest
-> >> +                license_file.write("RECIPE NAME: %s\n" %
-> >> pkg_dic[pkg]["PN"]) +                license_file.write("VERSION: %s\n" %
-> >> pkg_dic[pkg]["PV"]) +                license_file.write("LICENSE: %s\n" %
-> >> pkg_dic[pkg]["LICENSE"]) +               
-> >> license_file.write("FILES:%s\n\n"
-> >> % pkg_dic[pkg]["FILES"])
-> >> 
-> >>               # If the package doesn't contain any file, that is, its
-> >>               size is
-> >> 
-> >> 0, the license # isn't relevant as far as the final image is concerned.
-> >> So
-> >> doing license check @@ -586,7 +653,8 @@ SSTATETASKS += "do_populate_lic"
-> >> 
-> >>   do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
-> >>   do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
-> >> 
-> >> -ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest;
-> >> license_create_manifest; " +ROOTFS_POSTPROCESS_COMMAND_prepend =
-> >> "write_package_manifest; license_create_manifest;
-> >> license_deployed_manifest_task; " +IMAGE_POSTPROCESS_COMMAND_prepend = "
-> >> license_delete_tmp_files; "
-> >> 
-> >>   do_populate_lic_setscene[dirs] = "${LICSSTATEDIR}/${PN}"
-> >>   do_populate_lic_setscene[cleandirs] = "${LICSSTATEDIR}"
-> > 
-> > A couple of things:
-> > 
-> > 1) Please take care to use the appropriate terminology. "package" has a
-> > specific meaning; what we are dealing with here is files deployed directly
-> > from recipes, packages aren't involved (or shouldn't be).
+> > If this class is moved to meta-vala, how do you make packages in oe-core
+> > inherit it, or otherwise do what it does?
 > 
-> The terminology here is used because I reused the code to write rootfs
-> manifest. I can change the terminology of this function or I can write a
-> function just for the image manifest.
-
-Understood, but I was referring more to how you describe things in the commit 
-message and elsewhere in the code.
-
-> > 2) You're looking into PKGDATA_DIR, as I mentioned in one of my other
-> > replies I don't think this is right. The risk is that if a recipe doesn't
-> > actually write out any packages, the manifest will be incomplete. We need
-> > a different approach here where pkgdata isn't involved at all. IIRC my
-> > earlier suggestion was to use what is written out by do_populate_lic,
-> > i.e. tmp/deploy/licenses/ - if that isn't practical we can have that task
-> > write out the LICENSE value to a separate file, and that will then work
-> > for any recipe.
+> Much as I dislike this, you could do something like:
 > 
-> The use of PKGDATA_DIR is for the version of the deployed files, getting
-> the license from here was just because it was practical. Is there
-> another way to get the version without using PKGDATA_DIR?
+> inherit ${@base_contains('PACKAGECONFIG', 'vala', 'vala', '')}
 
-In the context you're in, I'm not sure there is. However, I'm tempted to say 
-if we're writing out LICENSE to a separate file during do_populate_lic, we 
-might as well do the same with PV.
+Hmm, that's a bit yucky I have to agree. It also won't allow you to enable the 
+PACKAGECONFIG value from a bbappend.
 
 Cheers,
 Paul
-
 
 -- 
 
