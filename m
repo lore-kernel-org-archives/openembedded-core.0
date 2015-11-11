@@ -1,49 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4204D77086
+Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 2396876B7C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 13:35:17 +0000 (UTC)
-Received: by qgeb1 with SMTP id b1so23164431qge.1
+	Wed, 11 Nov 2015 13:42:36 +0000 (UTC)
+Received: by qkas77 with SMTP id s77so11700926qka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 05:35:17 -0800 (PST)
+	Wed, 11 Nov 2015 05:42:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel_com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=gi3bTi603Bc+1Fh89FKjNA29ABiQEnVYiUISRFXvcM0=;
-	b=1IFPDOdzVX75AnomLVBDmRbDp+/fdkiSqydMqQJWgQJCQyUzGhEwerTlpQ7IWVdJXq
-	G56o25bxpa9wfGiKJUMhf5cAPRa3GepBH0qUzhsXA7rYGeVsxgCsiCNo9+ybweKR5slT
-	HcEK9Wo6gs96baG9vPEOfBH5bmTsMTH9xLLqOYYVjewyN6hVptPRUZwitACV2Ek5DmZ4
-	ejbeEGEvCksgZVMtVkCxgvO3R6FHcCXbuEpKqUbJwDA/L5C+mCtEoZXpNtawcvB4o3QE
-	exRWs+MHgpA+IIx7LagSKUMqOB4AaD0OBryyZ8EAB41ggP0qNVJk/On63wTE3IHSdtRf
-	TIdw==
+	bh=AByomwRCw6yfppGNbHFAxCU8sfHlpp3i+2Uk8wbhp8w=;
+	b=x/C710B7mLEQmsDw1np3GJ6gYQZWZYalQXOkcQG4N0cZoiXCDYjvyxSG0MMbcBJGSt
+	A7PNnubLvHZ1hRzpMV5hhFY8x/wUj5ZgYm4eSDlijSRynzQo5qJMs01lsvqtliMUsluv
+	gAVqSTo6kRP6Mn2K4wSnTgqQn6VqepnzXk/t2jLfly/UNG7F9K+3HoHx3l69CI08WICH
+	VpOTsEIpRNLc2S5IYt3y7xlit3lwjVDQ4UUNZDif2VIb5goJsZ0Qc8CdTkvZDi3/eP9Y
+	LzRwGaFRsjB0MPUv0rk+P/GYpeWlDNMWWd3XrgEGL2EXiU0AnIVb6Cz4nM/pZxUyyFig
+	kYQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=gi3bTi603Bc+1Fh89FKjNA29ABiQEnVYiUISRFXvcM0=;
-	b=GMgcrQZICBQ2K1koEtME+cBYr8rq1Ng6X2YfXl9F64wraV6Q9i5cC74QOMCoYDlg8b
-	LpXw1qrQ69CzOhUFtxubtmhlErHILgc/lnOmLn0V/EBhOPh8gvqSclZM6t4nwLx97Qqa
-	rRTX0HOtqoe/DvxYvxN7uiwytGYceLU5a9yRoI/snJgXZ4Vqy2dDVEKFVICW078lAwIe
-	Im2jJv9CYwHSsHltuzUpwzzQaRTqk0HnWu9V6NbqeulwEzX2FDoCo8Oq6+H54ueJNh1G
-	Zz0MglY9aup9zZgBNgk0wZBzXz3ZxpUBef7ayeHfsH6c1Ai7hDAoUXbF/A/PwMotOeag
-	E1Ag==
-X-Gm-Message-State: ALoCoQmzKDrKIZ11jVOXW/1jgBXRSyuKVhnSgSsQ0EWlBuvqK1w9GxPMte1LwP4BTG3Gf4d8bHij
-X-Received: by 10.140.171.197 with SMTP id r188mr11384766qhr.93.1447248917273; 
-	Wed, 11 Nov 2015 05:35:17 -0800 (PST)
+	bh=AByomwRCw6yfppGNbHFAxCU8sfHlpp3i+2Uk8wbhp8w=;
+	b=ahhzD7UKDDEfv3YSBv+Py+qch0NbgLI3h/HbByhnrB+s54jDw5Qkv6CDKDo6r2TDhK
+	ZB7zl96LhxTNNKTqGQqFqnoPvuVdr+bWzfkEP0venzI1YsgypfVKwiXCv2A8z2Uk3+kA
+	p0As398h2NQ5bNKDfx63Py39p8MkbmENDjCc4omJJ3VabIIZhoNvhNl1AZw4JnzgWj1J
+	3ZQ7ue21FAR2e0CxlYheZkwDFQ65cWiOBj/cMCtXXeqx8lcwEkXGGxc2hrBqmeDKDaF+
+	o0ZLdmSQPipvkYHS3Z9QBOqbnz/s3wi7mYAPJ/wTXR9ryiXtdf3S64D2oEPzrS6LRdGh
+	kJNA==
+X-Gm-Message-State: ALoCoQm2t86lj+SJZQX7j4wT85GxapNC5VFtCr8dtJ8g6KrdfC814OjpXgcp+BF/SP5EutCSI333
+X-Received: by 10.55.73.144 with SMTP id w138mr10606258qka.104.1447249356258; 
+	Wed, 11 Nov 2015 05:42:36 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.94.110 with HTTP; Wed, 11 Nov 2015 05:34:57 -0800 (PST)
-In-Reply-To: <4611513.VyrzVSX4hN@peggleto-mobl.ger.corp.intel.com>
-References: <1447240308-2849-1-git-send-email-ross.burton@intel.com>
-	<1447240308-2849-2-git-send-email-ross.burton@intel.com>
-	<4611513.VyrzVSX4hN@peggleto-mobl.ger.corp.intel.com>
+Received: by 10.140.94.110 with HTTP; Wed, 11 Nov 2015 05:42:16 -0800 (PST)
+In-Reply-To: <20151111101548.GA2564@jama>
+References: <20151111101548.GA2564@jama>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 11 Nov 2015 13:34:57 +0000
-Message-ID: <CAJTo0LZmTD3s3u8KrWJz7ka1zjR=HAACjQHyOTwWUTFSbpvLdw@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Wed, 11 Nov 2015 13:42:16 +0000
+Message-ID: <CAJTo0LZPwD=HYXBZ-dJ4XgkLnTCwr+T2HDU1vzdb8EgWsc=YZg@mail.gmail.com>
+To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] systemd: fix Upstream-Status tag
+Subject: Re: [oe] State of bitbake world, Failed tasks 2015-11-10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 13:35:20 -0000
-Content-Type: multipart/alternative; boundary=001a113a7dfa9dcd9b052443e5dc
+X-List-Received-Date: Wed, 11 Nov 2015 13:42:38 -0000
+Content-Type: multipart/alternative; boundary=001a114a9f44c81327052443ffe0
 
---001a113a7dfa9dcd9b052443e5dc
+--001a114a9f44c81327052443ffe0
 Content-Type: text/plain; charset=UTF-8
 
-On 11 November 2015 at 13:27, Paul Eggleton <paul.eggleton@linux.intel.com>
-wrote:
+On 11 November 2015 at 10:15, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-> FWIW, I'd always thought "Rejected" would have been a more accurate label
-> to
-> use... on the other hand perhaps it's a bit late to be changing that now
-> though.
+> Finally some good results, only libsdl2 from oe-core is failing with
+> default configuration (you need to disable wayland PACKAGECONFIG to get
+> it built).
 >
 
-Agreed.  We could change the guidelines to allow both but prefer Rejected?
-Or is that too much effort when there's more important things to fix - this
-could bikeshed easily. :)
+I had a quick look at this: the wayland packageconfig requires the gles2
+packageconfig.  If this is trivial to resolve there'll be a patch shortly.
 
 Ross
 
---001a113a7dfa9dcd9b052443e5dc
+--001a114a9f44c81327052443ffe0
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 November 2015 at 13:27, Paul Eggleton <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@l=
-inux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
- id=3D":53p" class=3D"a3s" style=3D"overflow:hidden">FWIW, I&#39;d always t=
-hought &quot;Rejected&quot; would have been a more accurate label to<br>
-use... on the other hand perhaps it&#39;s a bit late to be changing that no=
-w<br>
-though.<br></div></blockquote></div><br>Agreed.=C2=A0 We could change the g=
-uidelines to allow both but prefer Rejected?=C2=A0 Or is that too much effo=
-rt when there&#39;s more important things to fix - this could bikeshed easi=
-ly. :)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
->Ross</div></div>
+On 11 November 2015 at 10:15, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":55g" clas=
+s=3D"a3s" style=3D"overflow:hidden">Finally some good results, only libsdl2=
+ from oe-core is failing with<br>
+default configuration (you need to disable wayland PACKAGECONFIG to get<br>
+it built).<br></div></blockquote></div><br>I had a quick look at this: the =
+wayland packageconfig requires the gles2 packageconfig.=C2=A0 If this is tr=
+ivial to resolve there&#39;ll be a patch shortly.</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a113a7dfa9dcd9b052443e5dc--
+--001a114a9f44c81327052443ffe0--
