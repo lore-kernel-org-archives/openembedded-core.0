@@ -1,46 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 0758460043
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AC7E7706C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 15:02:51 +0000 (UTC)
-Received: by wmdw130 with SMTP id w130so116346372wmd.0
+	Wed, 11 Nov 2015 15:40:20 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so164319610wmw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 07:02:51 -0800 (PST)
+	Wed, 11 Nov 2015 07:40:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel_com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=quHH7ytKH09upjyQBiVVD8QlTM5U8dByOWkS59mx1Wo=;
-	b=ihY3uwaUYDwTR4UyCPphksxkNEII3g/zmj8DWqYEplJbVelqvg6YL0IuJG0FTVpdhz
-	qcBj7VGMOY3OwTtVAzctoEb0Mtgk9NYKk6Ha/ttvqyTbWezhxnKerZz612zNPlEQbKIO
-	L0I7tCQ8qsutsdsBBoSu1YYqORq63OwNqdd2Nws8k8ub7ATVczd5dGEg6lln2bcdvIIX
-	FV/jl0lA/BMI+PBJaqQA6bdpqCK18XBx32gh3t1iu1vgBf+yKlCrYlaaDFL6OS9SHUFa
-	RKia8edpz67lY4glqzLroBfVoBM6bon3anScOF/pNGojZnG5ach1dfDkKv+yVznJD4g6
-	pL7g==
+	bh=yMV81wbYB0oWsIOWmqC8qoYvyehnWfBHu66ZM2Ixp8s=;
+	b=V0yMexMiZkIW71X+iTCYcU2DmBy/EwzUd+xrGuVXY4mIv2vAVDQRn+mbu1or/zvvYS
+	eLmsy2/pfnpDKOGNaWTFgxBCFHfvE2G1Lw5wvtXW2smxpX0YRULH2etXj5bJWA6o3rSb
+	8a947RkFCvZmgiq+hhekHXiumigLdoUX0/o86A4ZC2mUs80cA/fXBTeJW0U99xX3paCl
+	debMXieaFGB3NI2bQVuwRWFLS/XY8cAQxFn3Gr4RiN8TaIseJHwqKH7F6uI/2j0v7J4P
+	0dT5bBzoQVRQA3v1mWVGXGBZMLkMUbOslHS/Q4EAk5rLgeBaxGv3CfahLQFtW/JkRfoW
+	8SdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=quHH7ytKH09upjyQBiVVD8QlTM5U8dByOWkS59mx1Wo=;
-	b=grgQuvSi2XvBwPGKkDCUB05kokkEwSNYv9dkpaQ5iObvy1GccKd5i2WML39FUzQY8v
-	n4tXaAjVtIYu5O6dPR3QRyC5nDC2G4a54RgQJ6naG50XgNYOjUAJF8D183AizomouZDQ
-	YItDonI2Mfb51icY1eoW+x6T+U1g0DCWXKiX99uRMVKcpcM/V//KBmtDPE0phQMuqeu/
-	Xu637Og3hGoevojRWULr32+IfFdTlykgVwJnEeQXoIvWrEVcN4cVWJThrV7OIOHQvcdX
-	sKHqi5owraRuf16zmuugMWw8hIeFTFSQBVLya1EvtXv4Y21Q/5YPuvD2Ig61iRDHeShA
-	ofDA==
-X-Gm-Message-State: ALoCoQkhaEhyBFbzEmUX5WpdtgC7onVst/iIJW28BRGfQZKCj0atEPnVxQPXz2YjvEyHhbRnm3bu
-X-Received: by 10.194.189.228 with SMTP id gl4mr10627315wjc.44.1447254171207; 
-	Wed, 11 Nov 2015 07:02:51 -0800 (PST)
+	bh=yMV81wbYB0oWsIOWmqC8qoYvyehnWfBHu66ZM2Ixp8s=;
+	b=aaUDAZCRBqcFYr/dNMymRAeNEBWplA59WLFp/DFSjYoDaPSpR4iv9CgHgKboUm0Hwq
+	TltCJwdMY07vjnV30TDuMbe70NVySoaN+Jfgfr6eVmlqOtTDFrf2QCeXl73JNHrZ209o
+	LBBaDl2wcA/DYJEAB7DD1eIzDK21GpxQkXoqiZ5XKaWCVvP4oHJeah1Gr+ysqMyCASdK
+	RFWwTCYqQX7RBrrHHNHMGhJRaaDSRQQySwcRrlURV648uBaXKM5GyybirDVzgLn2eLJH
+	7EKvpsKt1db2XSWS0XqeDfGonfBGy6KOfIiVY0DBxPLlSipnm8f4lUjDjqo/EPocQty6
+	qYaw==
+X-Gm-Message-State: ALoCoQmAFDNb9r/+fJUzikF68VIjUDwc4OaxuVvC1b0u0t+/F8b851Bk+/tZVzih2xyDrOqLIqFV
+X-Received: by 10.28.19.65 with SMTP id 62mr40257998wmt.6.1447256420315;
+	Wed, 11 Nov 2015 07:40:20 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id u4sm3065770wjz.4.2015.11.11.07.02.50
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	e79sm25875470wmd.16.2015.11.11.07.40.19
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 Nov 2015 07:02:50 -0800 (PST)
+	Wed, 11 Nov 2015 07:40:19 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Nov 2015 14:54:34 +0000
-Message-Id: <1447253674-26930-1-git-send-email-ross.burton@intel.com>
+Date: Wed, 11 Nov 2015 15:32:00 +0000
+Message-Id: <1447255921-9535-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] openssl: sanity check that the bignum module is present
+Subject: [PATCH][V2 1/2] openssl: sanity check that the bignum module is present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,7 +53,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 15:02:52 -0000
+X-List-Received-Date: Wed, 11 Nov 2015 15:40:22 -0000
 
 The crypto_use_bigint_in_x86-64_perl patch uses the "bigint" module to
 transparently support 64-bit integers on 32-bit hosts.  Whilst bigint (part of
@@ -67,14 +67,14 @@ that it is available and alert the user if it isn't.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/openssl/openssl_1.0.2d.bb | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ meta/recipes-connectivity/openssl/openssl_1.0.2d.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-index fd56841..69b0d44 100644
+index fd56841..659e0bd 100644
 --- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
 +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-@@ -56,3 +56,15 @@ PARALLEL_MAKEINST = ""
+@@ -56,3 +56,13 @@ PARALLEL_MAKEINST = ""
  do_configure_prepend() {
    cp ${WORKDIR}/find.pl ${S}/util/find.pl
  }
@@ -83,13 +83,11 @@ index fd56841..69b0d44 100644
 +# installed, but some distributions (for example Fedora 23) don't ship it by
 +# default.  As the resulting error is very misleading check for bignum before
 +# building.
-+do_checkperl() {
++do_configure_prepend() {
 +	if ! perl -Mbigint -e true; then
 +		bbfatal "The perl module 'bignum' was not found but this is required to build openssl.  Please install this module (often packaged as perl-bignum) and re-run bitbake."
 +	fi
 +}
-+addtask checkperl before do_compileq
-+do_checkperl[nostamp] = "1"
 -- 
 2.1.4
 
