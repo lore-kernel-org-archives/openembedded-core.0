@@ -1,26 +1,27 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B7D8E736B6
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B72A8736B6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 13:13:09 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 11 Nov 2015 05:13:10 -0800
+	Wed, 11 Nov 2015 13:27:30 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 11 Nov 2015 05:27:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,275,1444719600"; d="scan'208";a="598267074"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 11 Nov 2015 05:13:09 -0800
-Message-ID: <56433F27.60001@linux.intel.com>
-Date: Wed, 11 Nov 2015 15:14:15 +0200
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.8.0
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="5.20,275,1444719600"; d="scan'208";a="847885324"
+Received: from bpgilles-mobl4.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.8.193])
+	by orsmga002.jf.intel.com with ESMTP; 11 Nov 2015 05:27:26 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>	<5641FFD4.1050506@windriver.com>	<56420F08.1050209@linux.intel.com>	<56421DA6.5080700@windriver.com>	<1447197016.2907.2.camel@pbcl.net>	<CAJTo0LZ9XcwwEhXwm0awgZ-cb9wDOC6XkiqShXyUYqG6Qi-Fhw@mail.gmail.com>
-	<56433A3D.9060104@linux.intel.com>
-In-Reply-To: <56433A3D.9060104@linux.intel.com>
-Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
+Date: Wed, 11 Nov 2015 13:27:25 +0000
+Message-ID: <4611513.VyrzVSX4hN@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.10-100.fc21.x86_64; KDE/4.14.11; x86_64; ;
+	)
+In-Reply-To: <1447240308-2849-2-git-send-email-ross.burton@intel.com>
+References: <1447240308-2849-1-git-send-email-ross.burton@intel.com>
+	<1447240308-2849-2-git-send-email-ross.burton@intel.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH 2/2] systemd: fix Upstream-Status tag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +34,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 13:13:10 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Nov 2015 13:27:31 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 11/11/2015 02:53 PM, Alexander Kanavin wrote:
+On Wednesday 11 November 2015 11:11:48 Ross Burton wrote:
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  .../0022-Use-getenv-when-secure-versions-are-not-available.patch        | 2
+> +- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git
+> a/meta/recipes-core/systemd/systemd/0022-Use-getenv-when-secure-versions-ar
+> e-not-available.patch
+> b/meta/recipes-core/systemd/systemd/0022-Use-getenv-when-secure-versions-ar
+> e-not-available.patch index 30e3817..5af78d5 100644
+> ---
+> a/meta/recipes-core/systemd/systemd/0022-Use-getenv-when-secure-versions-ar
+> e-not-available.patch +++
+> b/meta/recipes-core/systemd/systemd/0022-Use-getenv-when-secure-versions-ar
+> e-not-available.patch @@ -7,8 +7,8 @@ musl doesnt implement secure version,
+> so we default to it if configure does not detect a secure imeplementation
+> 
+>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +Upstream-Status: Denied
+>  ---
+> -Upstream-Status: Rejected
+> 
+>   src/basic/missing.h | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 
->> Same reason gtk-doc's scanner executes code: vast amounts of relevant
->> information can't reliably be extracted from source but is trivial to
->> introspect at runtime (GObject hierarchy, properties, signals, etc).
->
-> Yep; the real problem is that GObject is implementing OOP semantics in a
-> language that doesn't natively support them. So you can't extract
-> information about those either from the source code, or from the
-> finished binaries, or during binary build. The only way to do it is to
-> run the actual binary and ask it to describe itself.
+FWIW, I'd always thought "Rejected" would have been a more accurate label to 
+use... on the other hand perhaps it's a bit late to be changing that now 
+though.
 
-FWIW, I also think that GObject made a disastrous decision to avoid a 
-high-level IDL with a preprocessor-to-C tool to describe those things 
-(similar to what Qt does with Qt-specific extensions to C++); instead, 
-they force everyone to write GObject boilerplate directly in C, which is 
-absolutely horrible to read, write and maintain. Just try reading the 
-GObject developer's manual without getting a headache.
+Cheers,
+Paul
 
-It's partly out of these frustrations that Vala was born, and Gnome made 
-the decision to switch to Javascript on top of gobject introspection.
+-- 
 
-Alex
+Paul Eggleton
+Intel Open Source Technology Centre
 
