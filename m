@@ -1,37 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id B959B77182
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id E548F762B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 18:40:06 +0000 (UTC)
-Received: by iofh3 with SMTP id h3so42196938iof.3
+	Wed, 11 Nov 2015 18:44:21 +0000 (UTC)
+Received: by qkas77 with SMTP id s77so15092087qka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 10:40:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Wed, 11 Nov 2015 10:44:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=iX/Ak87d4caQExWoRy73RGCPx1uk2c12bmi39Fuuq0Y=;
-	b=QMvwnQsUXU0EmfS/ed5K9jaLcUFDquTCoHviwOeQ4HFYgaHXuTqD/SSTCnnhFW2Bde
-	f0CIH/ZK3v2IocAa4n5o40j9/UNBd3Y3iciSCiRsUlUDNdjpHdxqCY4km7QLaB/jzvbT
-	TygTkIRQ1MSzXzrnX5VrE2UtezkQnvLL7i0Xj15aLiFqXITMKr0iFkvb0cYArq7CfVBz
-	Dw2kuUrQCe/PLv7f07PhGckR+p5CbhcICdtQs3RN/68chSg0kyX2SWKjzuEa2PZ7IpaP
-	sxoWsvGA1p4Qc6FdcUCmFa5Msn/PeJ/NrNmDg8muiSEuw1Myt60OL7pftcRAnjB+AU7M
-	PAnQ==
-X-Received: by 10.107.162.137 with SMTP id l131mr8307446ioe.49.1447267206388; 
-	Wed, 11 Nov 2015 10:40:06 -0800 (PST)
+	bh=I8aStuknIE26L8a1eMyim7cki7mzRG03tP14YFPRcm0=;
+	b=oGU6AMJLVbMLR97CO3QRRniHN6BFToac3GsUGC511pUZ1l4s3CkO8tk3HnDbqWfQ4H
+	B4jwdxjRq8MvI8fhkNRE2Be2QqrPD2bu19+/3bbw/VZOlzWAU9qjKlbL2t67Aeuxd54P
+	NsRk1KtdtV3vtH7UAWd8+B5SL01QY4Z7RZ8q7JwOvpnd+IXTnlOiBYivWG92DnclBBYp
+	wPxxWOKHZpT+1S0pBS1pXHU9TepJFsBUZRblXu25YzYxcKI25Mc/q3li9mcRBH7u6s/E
+	MS7HaSPW+odFHMtEhthsYirVOeY6tdLkKadfngZcyGOqq5aZU4JRINRABopUGWtAgm9d
+	VVzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=I8aStuknIE26L8a1eMyim7cki7mzRG03tP14YFPRcm0=;
+	b=go1/DhMf9QvwwO57uWEzguLEmDAFEOhTidLdguOhimKsHaupzC1knQnM5vOI8kpUUu
+	qvldsUUFVr2NP5zG/WPr0trKopFYs6GAQUs8F3Swpka09Lrq2Fy+5WJ6YnZdyuC7jY//
+	4fwlnbMdgA+BG8Y3EGS5/51Js9kSX/OzsI4QtYTz47oh3+dUYCZ9uk+PnK///+441fWJ
+	28b/rEjgzAKL5HBd6B2MP8ulfqqZDaaWEkBJ00nQcpKe1+PZ/6+xQppow2sYnW9c2AGH
+	B2KxuciTD7GHTj7XCw4DCaZMUECl7va3Ozij1AG6WJTJnI5XtRlQNEUl/lCtuMY/1LuH
+	KIlw==
+X-Gm-Message-State: ALoCoQmj7bIDvFcbZV175W64Y04GKmU1nyKMjga4zJZSTyO8P5vtmCl4AorjRqxSwJ8nq1MzHW4R
+X-Received: by 10.55.78.143 with SMTP id c137mr12022108qkb.72.1447267461649;
+	Wed, 11 Nov 2015 10:44:21 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.12.205 with HTTP; Wed, 11 Nov 2015 10:39:36 -0800 (PST)
-In-Reply-To: <1447263707-27696-3-git-send-email-akuster808@gmail.com>
-References: <1447263707-27696-1-git-send-email-akuster808@gmail.com>
-	<1447263707-27696-3-git-send-email-akuster808@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 11 Nov 2015 10:39:36 -0800
-Message-ID: <CAMKF1srWCBeKpNEEDS2s3MxTYGvoH1iJdiQGj0L5rg6Y49LedQ@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] ldsoconf: allow extension via local.conf
+Received: by 10.140.94.110 with HTTP; Wed, 11 Nov 2015 10:44:02 -0800 (PST)
+In-Reply-To: <563C5648.5050009@jp.fujitsu.com>
+References: <563C5648.5050009@jp.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 11 Nov 2015 18:44:02 +0000
+Message-ID: <CAJTo0LZsG+_bo5=+bYrfP3theSrW-aw2TR4Y-Ax_JVY3YnEKDg@mail.gmail.com>
+To: Fan Xin <fan.xin@jp.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wpa-supplicant: upgrade to 2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,59 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 18:40:08 -0000
+X-List-Received-Date: Wed, 11 Nov 2015 18:44:23 -0000
+Content-Type: multipart/alternative; boundary=001a114a8f68f26cda052448361b
+
+--001a114a8f68f26cda052448361b
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Nov 11, 2015 at 9:41 AM, Armin Kuster <akuster808@gmail.com> wrote:
-> From: Armin Kuster <akuster@mvista.com>
->
-> this allows extending ldconfig search path from local.conf
->
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> ---
->  meta/classes/image-ldconfig.bbclass | 6 ++++++
->  meta/conf/bitbake.conf              | 3 +++
->  2 files changed, 9 insertions(+)
->
-> diff --git a/meta/classes/image-ldconfig.bbclass b/meta/classes/image-ldconfig.bbclass
-> index e9946da..ce10673 100644
-> --- a/meta/classes/image-ldconfig.bbclass
-> +++ b/meta/classes/image-ldconfig.bbclass
-> @@ -11,6 +11,12 @@ ld_so_conf() {
->
->      rm -f ${STAGING_DIR_NATIVE}${sysconfdir_native}/ld.so.conf
->
-> +    # dump addition lib possible defined in local.conf
-> +    for file in ${LDSOCONF};
-> +    do
-> +        echo ${file} >> ${STAGING_LDSO_CONF_DIR}/ld.so.conf
-> +    done
-> +
->      # save lib dirs as defined in recipes
->      for file in `find ${STAGING_LDSO_CONF_DIR}/*/* -name "ld.so.conf"`;
->      do
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index f0471f4..1f78c49 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -815,4 +815,7 @@ MULTILIB_VARIANTS ??= ""
->  #
->  # ldconfig stuff
->  #
-> +EXTRA_LDSOCONF ??= ""
-> +LDSOCONF = "/lib /lib64 /usr/lib /usr/lib64"
+On 6 November 2015 at 07:27, Fan Xin <fan.xin@jp.fujitsu.com> wrote:
 
-is this going to exist always even when multilib is disbled ?
-how about mips n32/o32/n64 all being in same rootfs
-
-> +LSSOCONF += "${EXTRA_LDSOCONF}"
->  STAGING_LDSO_CONF_DIR = "${TMPDIR}/work-shared/ldconfig"
-> --
-> 2.3.5
+> 1. upgrade to 2.5
+> 2. remove eight patches since they have been modified in 2.5
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+Did you verify that the patches are not required anymore, or did you just
+drop the patches that don't apply?
+
+Also, this patch doesn't apply, can you try re-sending it?
+
+Ross
+
+--001a114a8f68f26cda052448361b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 November 2015 at 07:27, Fan Xin <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:fan.xin@jp.fujitsu.com" target=3D"_blank">fan.xin@jp.fujitsu.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":ly" class=3D"a3=
+s" style=3D"overflow:hidden">1. upgrade to 2.5<br>
+2. remove eight patches since they have been modified in 2.5<br></div></blo=
+ckquote></div><br>Did you verify that the patches are not required anymore,=
+ or did you just drop the patches that don&#39;t apply?</div><div class=3D"=
+gmail_extra"><br></div><div class=3D"gmail_extra">Also, this patch doesn&#3=
+9;t apply, can you try re-sending it?</div><div class=3D"gmail_extra"><br><=
+/div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114a8f68f26cda052448361b--
