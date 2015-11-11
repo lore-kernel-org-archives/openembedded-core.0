@@ -1,47 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 6715875EE7
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8063B76294
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 23:40:37 +0000 (UTC)
-Received: by qgea14 with SMTP id a14so11981146qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Nov 2015 15:40:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=7ItOeA74hAfZ2bX2+kfYVfvCZKFmxkhH5zyzxZ3AtKQ=;
-	b=SUCq7vAmyEjC9S0MVaetzP8Sriq8xVwYPTi7CtU/1seOsgRdrIu2lnaJCCHh7HfRLJ
-	+pS7cNrY0mVvGljI+hvdxEVcaIDgnVMh5Xxx/N5O9d3mnIXWPF06+uTPFimzDkvqwlby
-	6OzzbECOYMqbVlLkz7tv5saDPOZ4/B+tnJCxXiun850wKMCbVj+C/TvzY+ZXVjBO6mwT
-	AfWv5m2NB1XHH16r40u16GE0rkhR7btYbjin5vi8Fghp0yRtmvGJO3rqieNP6XOD1pEE
-	jqVC1xsuq8Ywb+AWFPD6ZuJlUR4MYyRCDXda9Shy0M2fg3P7QCOZ4g405zEdhlc8FGOk
-	7tQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=7ItOeA74hAfZ2bX2+kfYVfvCZKFmxkhH5zyzxZ3AtKQ=;
-	b=nAVE012aU1av8p5a+HzfGSUcJstyw2kNYqBIHlm6j+RmXqXJ/oMgL9ZT3I8U1unZvs
-	FwvmjcjfKPrXOkgRkpVD6hCeuOV6evIYO1DxBr1J6ZqXnKdld/wo2HuQOmpcaIifPpfL
-	7UKijyEq4eB44UXu3HYnk2YIS6Xb06nUQnaX2RWvy8xU5E6Nxi98qupGXlQ8jnpiL0Qv
-	dXrxRUO8bzP5FvTQ5rq62ZiWb9/z2dZph7zGp/yUQwFlw0BdlTwxzjbVKr6n+8eXyYV6
-	Tj84mo3mDduCjAn9WmeHil67r53uoAsAbt3CpywsNPb6RQKKORDfBTUJay5qyfqMMdy5
-	bkWA==
-X-Gm-Message-State: ALoCoQnlw7BY5mC0rb4OFsbQ1P9Z6rzQf7jAcWl50SCoj2/lFNLU6F7q2myTYbvnWlbcKCMaUidc
-X-Received: by 10.141.23.20 with SMTP id z20mr8276784qhd.52.1447198838079;
-	Tue, 10 Nov 2015 15:40:38 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.94.110 with HTTP; Tue, 10 Nov 2015 15:40:18 -0800 (PST)
-In-Reply-To: <1447197016.2907.2.camel@pbcl.net>
+	Wed, 11 Nov 2015 00:15:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAB0FNS1025705
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 10 Nov 2015 16:15:23 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 10 Nov 2015 16:15:22 -0800
+To: "Burton, Ross" <ross.burton@intel.com>, Phil Blundell <pb@pbcl.net>
 References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
 	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
 	<56421DA6.5080700@windriver.com> <1447197016.2907.2.camel@pbcl.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Nov 2015 23:40:18 +0000
-Message-ID: <CAJTo0LZ9XcwwEhXwm0awgZ-cb9wDOC6XkiqShXyUYqG6Qi-Fhw@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
+	<CAJTo0LZ9XcwwEhXwm0awgZ-cb9wDOC6XkiqShXyUYqG6Qi-Fhw@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <56428899.2080404@windriver.com>
+Date: Tue, 10 Nov 2015 18:15:21 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZ9XcwwEhXwm0awgZ-cb9wDOC6XkiqShXyUYqG6Qi-Fhw@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,42 +38,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Nov 2015 23:40:39 -0000
-Content-Type: multipart/alternative; boundary=001a11423c80a9da5d0524383c07
+X-List-Received-Date: Wed, 11 Nov 2015 00:15:28 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---001a11423c80a9da5d0524383c07
-Content-Type: text/plain; charset=UTF-8
+On 11/10/15 5:40 PM, Burton, Ross wrote:
+> 
+> On 10 November 2015 at 23:10, Phil Blundell <pb@pbcl.net <mailto:pb@pbcl.net>>
+> wrote:
+> 
+>     Why does gobject-introspection (presumably giscanner, right?) need to
+>     run binaries on the target at all?  I thought it operated mostly on the
+>     source code.
+> 
+> 
+> Same reason gtk-doc's scanner executes code: vast amounts of relevant
+> information can't reliably be extracted from source but is trivial to introspect
+> at runtime (GObject hierarchy, properties, signals, etc).
 
-On 10 November 2015 at 23:10, Phil Blundell <pb@pbcl.net> wrote:
+I wonder if any of this could be 'discovered' via objdump or readelf.
 
-> Why does gobject-introspection (presumably giscanner, right?) need to
-> run binaries on the target at all?  I thought it operated mostly on the
-> source code.
->
+In the past we did something like this by setting 'return' values as strings in
+a program.  We let the compiler optimize the settings (ensuring only the real
+value was retained) and then used objdump to read the string out of the binary.
+ It worked really well for this type of thing.
 
-Same reason gtk-doc's scanner executes code: vast amounts of relevant
-information can't reliably be extracted from source but is trivial to
-introspect at runtime (GObject hierarchy, properties, signals, etc).
+Problem of course is when the binary is not self sufficient and requires others
+to be linked so the optimization is not possible.
 
-Ross
+--Mark
 
---001a11423c80a9da5d0524383c07
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> Ross
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 November 2015 at 23:10, Phil Blundell <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</span> wrote:=
-<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex"><div id=3D":5kh" class=3D"a3s" style=3D"=
-overflow:hidden">Why does gobject-introspection (presumably giscanner, righ=
-t?) need to<br>
-run binaries on the target at all?=C2=A0 I thought it operated mostly on th=
-e<br>
-source code.</div></blockquote></div><br>Same reason gtk-doc&#39;s scanner =
-executes code: vast amounts of relevant information can&#39;t reliably be e=
-xtracted from source but is trivial to introspect at runtime (GObject hiera=
-rchy, properties, signals, etc).</div><div class=3D"gmail_extra"><br></div>=
-<div class=3D"gmail_extra">Ross</div></div>
 
---001a11423c80a9da5d0524383c07--
