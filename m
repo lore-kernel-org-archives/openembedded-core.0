@@ -1,34 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E36C77177
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 92F2677141
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 17:21:06 +0000 (UTC)
-Received: by iouu10 with SMTP id u10so31824595iou.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 09:21:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=8RFqUhvXOLGsifdVSTfbSqklJW3rNx1STOe+MjvcXxI=;
-	b=reWZ/Uf7NRJBJ9U+kCPAex5wKeWpzff1WqquImOny4Z8OIWAsH6pDL7BIXVK+Ihr9L
-	InTcx47Ec9b56lV2JtHlZcb5s7fWL77PrTuzgXLThPovFpbu9nyhXxJMR8giEH6qTzM8
-	C9ib5Ji2r/TI7K0KWcnervC47odSJHqC07/ORU7ZfgraIhcpXxGNrXxE/3olSCzFlQzn
-	SyT1oknAi1hE/9g5BY8AH1fNrTwuAclSyAkdHStmzQdPZ7klkcNo6Dpscu2rUckA7iHV
-	OhkYcdJgWEaYMKuhUAMRE06O9BzvHc60ysJUqGce5sPUbdTHqqA6v6ZraNkG3hVkmToQ
-	58Jw==
-X-Received: by 10.107.162.137 with SMTP id l131mr7971370ioe.49.1447262466687; 
-	Wed, 11 Nov 2015 09:21:06 -0800 (PST)
+	Wed, 11 Nov 2015 17:32:35 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 11 Nov 2015 09:32:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,276,1444719600"; d="scan'208";a="848640511"
+Received: from ebrookes-mobl6.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.9.9])
+	by fmsmga002.fm.intel.com with ESMTP; 11 Nov 2015 09:32:34 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Mariano Lopez <mariano.lopez@linux.intel.com>
+Date: Wed, 11 Nov 2015 17:32:32 +0000
+Message-ID: <2812661.EBxroKJ9r9@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.10-100.fc21.x86_64; KDE/4.14.11; x86_64; ;
+	)
+In-Reply-To: <564204A6.4020401@linux.intel.com>
+References: <cover.1447077439.git.mariano.lopez@linux.intel.com>
+	<3148403.VDOZ21eHXB@peggleto-mobl.ger.corp.intel.com>
+	<564204A6.4020401@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.107.12.205 with HTTP; Wed, 11 Nov 2015 09:20:37 -0800 (PST)
-In-Reply-To: <1447261783.3559.246.camel@linuxfoundation.org>
-References: <1447261783.3559.246.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 11 Nov 2015 09:20:37 -0800
-Message-ID: <CAMKF1sq8xNMQ5ovvSpzn8NfCU+T5nFmf_joB75e-y--seoKXxw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc: Drop 4.8
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2 6/6] license.bbclass: Create image license manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,86 +36,220 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 17:21:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 11 Nov 2015 17:32:36 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Nov 11, 2015 at 9:09 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> We have 5.2 and 4.9, we don't really need 4.8 now and it can be moved
-> out to other layers if anyone still wants/needs it.
+On Tuesday 10 November 2015 08:52:22 Mariano Lopez wrote:
+> On 11/10/2015 04:42 AM, Paul Eggleton wrote:
+> > On Monday 09 November 2015 14:04:43 mariano.lopez@linux.intel.com wrote:
+> >> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+> >> 
+> >> This change adds the license_deployed_manifest function
+> >> that will create the manifest for the packages deployed
+> >> in the image but not installed in rootfs.
+> > 
+> > Again, not "in the image" but "next to the image". I'd suggest giving an
+> > example or two here so that it's clear what's being referred to.
+> > 
+> >> This new function was added to ROOTFS_POSTPROCESS_COMMAND
+> >> so it will run after every rootfs task. Because of this
+> >> it could run few times for a single build and get different
+> >> dependencies. Sometimes this dependencies won't include all
+> >> the deployed packages, in order to avoid missing licenses a
+> >> tmp file is create during the build and deleted after the
+> >> build (LICENSE_TMP_JSON).
+> >> 
+> >> This change also modify the write_license_files because
+> >> the image manifest is different from the root manifest.
+> >> 
+> >> [YOCTO #6772]
+> >> 
+> >> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+> >> ---
+> >> 
+> >>   meta/classes/license.bbclass | 78
+> >> 
+> >> +++++++++++++++++++++++++++++++++++++++++--- 1 file changed, 73
+> >> insertions(+), 5 deletions(-)
+> >> 
+> >> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> >> index 463dd54..fa8807e 100644
+> >> --- a/meta/classes/license.bbclass
+> >> +++ b/meta/classes/license.bbclass
+> >> @@ -11,6 +11,7 @@ LICENSE_CREATE_PACKAGE[type] = "boolean"
+> >> 
+> >>   LICENSE_CREATE_PACKAGE ??= "0"
+> >>   LICENSE_PACKAGE_SUFFIX ??= "-lic"
+> >>   LICENSE_FILES_DIRECTORY ??= "${datadir}/licenses/"
+> >> 
+> >> +LICENSE_TMP_JSON ?= "${LICENSE_DIRECTORY}/deploy_packages.json"
+> >> 
+> >>   addtask populate_lic after do_patch before do_build
+> >>   do_populate_lic[dirs] = "${LICSSTATEDIR}/${PN}"
+> >> 
+> >> @@ -49,6 +50,59 @@ python license_create_manifest() {
+> >> 
+> >>       write_license_files(d, rootfs_license_manifest, pkg_dic)
+> >>   
+> >>   }
+> >> 
+> >> +python license_deployed_manifest_task() {
+> >> +    license_deployed_manifest(d)
+> >> +}
+> >> +
+> >> +def license_deployed_manifest(d):
+> >> +    """ Write the license manifest for the deployed packages.
+> >> +        The deployed packages usually includes the bootloader
+> >> +        and extra files to boot the target.
+> >> +    """
+> >> +    import json
+> >> +
+> >> +    packages = ""
+> >> +    dep_dic = {}
+> >> +    pkg_dic = {}
+> >> +    info_dir = os.path.join(d.getVar("PKGDATA_DIR",True), "runtime")
+> >> +
+> >> +    # Sometimes the initramfs image is build and it doesn't have
+> >> +    # the boot dependencies. In order to overcome this it is
+> >> +    # necessary to get save previous dependencies found. This is
+> >> +    # why the json_file is used (and deleted once the build is done)
+> >> +    json_file = d.getVar("LICENSE_TMP_JSON", True)
+> >> +    json_lock = bb.utils.lockfile("%s.lock" % json_file)
+> >> +    if os.path.exists(json_file):
+> >> +        with open(json_file) as f:
+> >> +            pkg_dic = json.loads(f.read())
+> >> +
+> >> +    dep_dic = get_deployed_dependencies(d)
+> >> +    for dep in dep_dic.keys():
+> >> +        # At least one package of the deployed dependency is needed
+> >> +        # to get the version.
+> >> +        pkg = get_package_from_deployed(d, dep)
+> >> +        if pkg and pkg not in pkg_dic.keys():
+> >> +            data_file = os.path.join(info_dir, pkg)
+> >> +            pkg_dic[pkg] = oe.packagedata.read_pkgdatafile(data_file)
+> >> +            # It is necessary to mark this will be used for image
+> >> manifest
+> >> +            pkg_dic[pkg]["IMAGE_MANIFEST"] = True
+> >> +            pkg_dic[pkg]["FILES"] = \
+> >> +                    get_deployed_files(d, dep_dic[dep])
+> >> +            if not "LICENSE" in pkg_dic[pkg].keys():
+> >> +                pkg_lic = "LICENSE_" + pkg
+> >> +                pkg_dic[pkg]["LICENSE"] = pkg_dic[pkg][pkg_lic]
+> >> +
+> >> +    with open(json_file, "w") as f:
+> >> +        json.dump(pkg_dic, f, indent=4)
+> >> +    bb.utils.unlockfile(json_lock)
+> >> +
+> >> +    # Because it might be called several times we lock the license file
+> >> +    image_license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY',
+> >> True), +            d.getVar('IMAGE_NAME', True),
+> >> 'image_license.manifest')
+> >> +    manifest_lock = bb.utils.lockfile("%s.lock" %
+> >> image_license_manifest)
+> >> +    write_license_files(d, image_license_manifest, pkg_dic)
+> >> +    bb.utils.unlockfile(manifest_lock)
+> >> +
+> >> 
+> >>   def get_deployed_dependencies(d):
+> >>       """ Get all the deployed dependencies of an image """
+> >> 
+> >> @@ -154,6 +208,11 @@ def get_deployed_files(d, man_file):
+> >>               dep_files = "%s %s" % (dep_files, os.path.basename(f))
+> >>       
+> >>       return dep_files
+> >> 
+> >> +python license_delete_tmp_files () {
+> >> +    json_file = d.getVar("LICENSE_TMP_JSON", True)
+> >> +    os.remove(json_file)
+> >> +}
+> >> +
+> >> 
+> >>   def write_license_files(d, license_manifest, pkg_dic):
+> >>       import re
+> >> 
+> >> @@ -175,10 +234,18 @@ def write_license_files(d, license_manifest,
+> >> pkg_dic): pkg_dic[pkg]["LICENSES"] = re.sub('  *', ' ',
+> >> pkg_dic[pkg]["LICENSES"]) pkg_dic[pkg]["LICENSES"] =
+> >> pkg_dic[pkg]["LICENSES"].split()
+> >> 
+> >> -            license_file.write("PACKAGE NAME: %s\n" % pkg)
+> >> -            license_file.write("PACKAGE VERSION: %s\n" %
+> >> pkg_dic[pkg]["PV"]) -            license_file.write("RECIPE NAME: %s\n" %
+> >> pkg_dic[pkg]["PN"]) -            license_file.write("LICENSE: %s\n\n" %
+> >> pkg_dic[pkg]["LICENSE"]) +            if not "IMAGE_MANIFEST" in
+> >> pkg_dic[pkg]:
+> >> +                # Rootfs manifest
+> >> +                license_file.write("PACKAGE NAME: %s\n" % pkg)
+> >> +                license_file.write("PACKAGE VERSION: %s\n" %
+> >> pkg_dic[pkg]["PV"]) +                license_file.write("RECIPE NAME:
+> >> %s\n"
+> >> % pkg_dic[pkg]["PN"]) +                license_file.write("LICENSE:
+> >> %s\n\n"
+> >> % pkg_dic[pkg]["LICENSE"]) +            else:
+> >> +                # Image manifest
+> >> +                license_file.write("RECIPE NAME: %s\n" %
+> >> pkg_dic[pkg]["PN"]) +                license_file.write("VERSION: %s\n" %
+> >> pkg_dic[pkg]["PV"]) +                license_file.write("LICENSE: %s\n" %
+> >> pkg_dic[pkg]["LICENSE"]) +               
+> >> license_file.write("FILES:%s\n\n"
+> >> % pkg_dic[pkg]["FILES"])
+> >> 
+> >>               # If the package doesn't contain any file, that is, its
+> >>               size is
+> >> 
+> >> 0, the license # isn't relevant as far as the final image is concerned.
+> >> So
+> >> doing license check @@ -586,7 +653,8 @@ SSTATETASKS += "do_populate_lic"
+> >> 
+> >>   do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
+> >>   do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
+> >> 
+> >> -ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest;
+> >> license_create_manifest; " +ROOTFS_POSTPROCESS_COMMAND_prepend =
+> >> "write_package_manifest; license_create_manifest;
+> >> license_deployed_manifest_task; " +IMAGE_POSTPROCESS_COMMAND_prepend = "
+> >> license_delete_tmp_files; "
+> >> 
+> >>   do_populate_lic_setscene[dirs] = "${LICSSTATEDIR}/${PN}"
+> >>   do_populate_lic_setscene[cleandirs] = "${LICSSTATEDIR}"
+> > 
+> > A couple of things:
+> > 
+> > 1) Please take care to use the appropriate terminology. "package" has a
+> > specific meaning; what we are dealing with here is files deployed directly
+> > from recipes, packages aren't involved (or shouldn't be).
+> 
+> The terminology here is used because I reused the code to write rootfs
+> manifest. I can change the terminology of this function or I can write a
+> function just for the image manifest.
 
-OK with me.
+Understood, but I was referring more to how you describe things in the commit 
+message and elsewhere in the code.
 
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> [posting the diffstat rather than a huge patch]
->
->  gcc-4.8.inc                                                             |  119
->  gcc-4.8/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch                      |   42
->  gcc-4.8/0002-uclibc-conf.patch                                          |   53
->  gcc-4.8/0003-gcc-uclibc-locale-ctype_touplow_t.patch                    |   87
->  gcc-4.8/0004-uclibc-locale.patch                                        | 2862 ----------
->  gcc-4.8/0005-uclibc-locale-no__x.patch                                  |  257
->  gcc-4.8/0006-uclibc-locale-wchar_fix.patch                              |   68
->  gcc-4.8/0007-uclibc-locale-update.patch                                 |  542 -
->  gcc-4.8/0008-missing-execinfo_h.patch                                   |   28
->  gcc-4.8/0009-c99-snprintf.patch                                         |   28
->  gcc-4.8/0010-c99-complex-ugly-hack.patch                                |   29
->  gcc-4.8/0011-index_macro.patch                                          |   44
->  gcc-4.8/0012-libmudflap-susv3-legacy.patch                              |   64
->  gcc-4.8/0013-libstdc-namespace.patch                                    |   54
->  gcc-4.8/0014-sh-pr24836.patch                                           |   45
->  gcc-4.8/0015-arm-Use-TARGET_ENDIAN_OPTION-for-determining-MULTILI.patch |   29
->  gcc-4.8/0016-gcc-poison-system-directories.patch                        |  221
->  gcc-4.8/0017-gcc-poison-dir-extend.patch                                |   39
->  gcc-4.8/0018-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch                  |   73
->  gcc-4.8/0019-64-bit-multilib-hack.patch                                 |   79
->  gcc-4.8/0020-optional-libstdc.patch                                     |  102
->  gcc-4.8/0021-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch                 |   59
->  gcc-4.8/0022-COLLECT_GCC_OPTIONS.patch                                  |   38
->  gcc-4.8/0023-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch   |   88
->  gcc-4.8/0024-PR-target-32219.patch                                      |   67
->  gcc-4.8/0025-fortran-cross-compile-hack.patch                           |   46
->  gcc-4.8/0026-libgcc-sjlj-check.patch                                    |   74
->  gcc-4.8/0027-cpp-honor-sysroot.patch                                    |   54
->  gcc-4.8/0028-MIPS64-Default-to-N64-ABI.patch                            |   31
->  gcc-4.8/0029-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch |  209
->  gcc-4.8/0030-gcc-Fix-argument-list-too-long-error.patch                 |   40
->  gcc-4.8/0031-Disable-sdt.patch                                          |  113
->  gcc-4.8/0032-libtool.patch                                              |   42
->  gcc-4.8/0033-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch    |   43
->  gcc-4.8/0034-Use-the-multilib-config-files-from-B-instead-of-usin.patch |  102
->  gcc-4.8/0035-wcast-qual-PR-55383.patch                                  |   55
->  gcc-4.8/0038-gcc-4.8-build-args.patch                                   |   64
->  gcc-4.8/0040-fix-g++-sysroot.patch                                      |   40
->  gcc-4.8/0041-libtool-avoid-libdir.patch                                 |   19
->  gcc-4.8/0042-pr57748.patch                                              |   78
->  gcc-4.8/0043-cpp.patch                                                  |   40
->  gcc-4.8/0044-gengtypes.patch                                            |   97
->  gcc-4.8/0046-libatomic-deptracking.patch                                |   41
->  gcc-4.8/0047-repomembug.patch                                           |   53
->  gcc-4.8/0049-Enable-SPE-AltiVec-generation-on-powepc-linux-target.patch |   42
->  gcc-4.8/0051-gcc-483-universal-initializer-no-warning.patch             |  107
->  gcc-4.8/target-gcc-includedir.patch                                     |   81
->  gcc-cross-canadian_4.8.bb                                               |    5
->  gcc-cross-initial_4.8.bb                                                |    2
->  gcc-cross_4.8.bb                                                        |    3
->  gcc-crosssdk-initial_4.8.bb                                             |    3
->  gcc-crosssdk_4.8.bb                                                     |    2
->  gcc-runtime_4.8.bb                                                      |    3
->  gcc-sanitizers_4.8.bb                                                   |    2
->  gcc-source_4.8.bb                                                       |    4
->  gcc_4.8.bb                                                              |    9
->  libgcc-initial_4.8.bb                                                   |    2
->  libgcc_4.8.bb                                                           |    2
->  libgfortran_4.8.bb                                                      |    3
->  59 files changed, 6628 deletions(-)
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > 2) You're looking into PKGDATA_DIR, as I mentioned in one of my other
+> > replies I don't think this is right. The risk is that if a recipe doesn't
+> > actually write out any packages, the manifest will be incomplete. We need
+> > a different approach here where pkgdata isn't involved at all. IIRC my
+> > earlier suggestion was to use what is written out by do_populate_lic,
+> > i.e. tmp/deploy/licenses/ - if that isn't practical we can have that task
+> > write out the LICENSE value to a separate file, and that will then work
+> > for any recipe.
+> 
+> The use of PKGDATA_DIR is for the version of the deployed files, getting
+> the license from here was just because it was practical. Is there
+> another way to get the version without using PKGDATA_DIR?
+
+In the context you're in, I'm not sure there is. However, I'm tempted to say 
+if we're writing out LICENSE to a separate file during do_populate_lic, we 
+might as well do the same with PV.
+
+Cheers,
+Paul
+
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
