@@ -1,28 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 97B1877141
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E5217716E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 17:38:33 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Nov 2015 09:38:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,276,1444719600"; d="scan'208";a="817375305"
-Received: from ebrookes-mobl6.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.9.9])
-	by orsmga001.jf.intel.com with ESMTP; 11 Nov 2015 09:38:31 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Wed, 11 Nov 2015 17:41:51 +0000 (UTC)
+Received: by pacdm15 with SMTP id dm15so36647472pac.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Nov 2015 09:41:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=HFu1kT2OaWeKjmCCNMzZlWjXmA38uFmfdARv8KlE3vQ=;
+	b=SA/bdW2bcriAz1/hkLhfwVZYhfw7G69lcYilIlioAMyu7L03WSKgtyZW0J1heMAN7c
+	swX9Jqc/ACpD3Y2ZbejVgh0OI8IO/STESWrxmwz3mVWCN0BjuEP8PKNbXpdAJ6Vu5Ugk
+	ydx5FaGY2UGff+eVSq5f1Z3paZ7ztKYqxXDVfzgGOmTx/QlIx2H8/SDkdrzi67HX6tnW
+	zEeKtb6qvu7e51lJszz43aeTC+woD9i3KoLcw6gj+VDWgVij2Ie4wbHLcXat9p/LVVlx
+	PNU6tdNJKqusb3YjftRawpYAAFhEuDPnv7Ethji6LnO32U8MKeSgo5QZRL7jfTjgZJak
+	8xeg==
+X-Received: by 10.68.216.100 with SMTP id op4mr16116592pbc.47.1447263711621;
+	Wed, 11 Nov 2015 09:41:51 -0800 (PST)
+Received: from Pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	v17sm10395426pbs.69.2015.11.11.09.41.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 11 Nov 2015 09:41:50 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Nov 2015 17:38:29 +0000
-Message-ID: <1721282.5zui7k1hQG@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.10-100.fc21.x86_64; KDE/4.14.11; x86_64; ;
-	)
-In-Reply-To: <1447262253.3559.249.camel@linuxfoundation.org>
-References: <CAHiDW_Hx6Xi91=8rg3pD_B7F_+wfL2vMUbJTXYh6XGLzksBm7w@mail.gmail.com>
-	<56420F4A.9030507@linux.intel.com>
-	<1447262253.3559.249.camel@linuxfoundation.org>
-MIME-Version: 1.0
-Subject: Re: [RFC] Remove vala from oe-core
+Date: Wed, 11 Nov 2015 09:41:45 -0800
+Message-Id: <1447263707-27696-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH 0/2] Add ldconfig alt lib search paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,36 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 17:38:36 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 11 Nov 2015 17:41:52 -0000
 
-On Wednesday 11 November 2015 09:17:33 Richard Purdie wrote:
-> On Tue, 2015-11-10 at 17:37 +0200, Alexander Kanavin wrote:
-> > On 11/10/2015 05:29 PM, Otavio Salvador wrote:
-> > >> PACKAGECONFIG alone is not sufficient; to build the bindings properly,
-> > >> the package also needs to inherit vala.bbclass:
-> > >> 
-> > >> https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/tree/meta/class
-> > >> es/vala.bbclass?h=akanavin/gobject-introspection-experimental> > 
-> > > and this belong to meta-vala (or other). This reduces the core and
-> > > this is something we really should to push for.
-> > 
-> > If this class is moved to meta-vala, how do you make packages in oe-core
-> > inherit it, or otherwise do what it does?
-> 
-> Much as I dislike this, you could do something like:
-> 
-> inherit ${@base_contains('PACKAGECONFIG', 'vala', 'vala', '')}
+I have a customer who wanted to define alt ldconfig search paths on a per recipe 
+basis and adding hardcoded search paths in ldconfig-native does not scale well.
 
-Hmm, that's a bit yucky I have to agree. It also won't allow you to enable the 
-PACKAGECONFIG value from a bbappend.
+Here is a prototype scheme to allow extending
+the search path for ldconfig-native without hardcoding.
 
-Cheers,
-Paul
+Alt search paths can be defined in a recipe or via
+local.conf.
+
+This works in this form but I suspect there are cleaner or better schemes.
+
+enjoy.
+
+Armin Kuster (2):
+  ldconfig: add method to extend ldconfig search dirs
+  ldsoconf: allow extension via local.conf
+
+ meta/classes/image-ldconfig.bbclass | 32 ++++++++++++++++++++++++++++++++
+ meta/classes/ldconfig.bbclass       | 27 +++++++++++++++++++++++++++
+ meta/conf/bitbake.conf              |  8 ++++++++
+ 3 files changed, 67 insertions(+)
+ create mode 100644 meta/classes/image-ldconfig.bbclass
+ create mode 100644 meta/classes/ldconfig.bbclass
 
 -- 
+2.3.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
