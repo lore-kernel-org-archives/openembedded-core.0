@@ -1,41 +1,37 @@
 Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E620677140
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A35E77140
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 16:27:45 +0000 (UTC)
-Received: by wmdw130 with SMTP id w130so119701889wmd.0
+	Wed, 11 Nov 2015 16:29:44 +0000 (UTC)
+Received: by wmec201 with SMTP id c201so54143738wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 08:27:45 -0800 (PST)
+	Wed, 11 Nov 2015 08:29:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to;
-	bh=YC+3xZ2WtnuIRs0MNscybLc4nGZzxpGqc0LJ0YC5doo=;
-	b=SR/JbVcopVQpBzoAAP1u9kvuQHxN7vYNDRpuIIYSvpnHsDXFunIul+q+CnnsHC2Pf8
-	O9YO/WclK0rNxeKJTKAsUcbMIFC1EeHP65ECcgKd8ipfyVb7LHY8G0gaJC1JIip7Ztwu
-	7VD/wR84STV3V4RvVLEsBgm++3IAJHM3yQEa3MXDgd6qjggasmaAxXdKRN5IH7glYndw
-	LmZ48U1r7XJhuPm10bRsrAFcv0EFOiZPO4h1ktZwXPUvMUbDLm6CAbbLvYLeB0F4EIZN
-	yVf3uvm6vJ6qwRchGIC3h/xyHbA1FXFlmYVHvZgob5HmXUk6Sg9IzRw0kA86p6HrqqRV
-	RS8Q==
-X-Received: by 10.194.92.138 with SMTP id cm10mr11279382wjb.6.1447259265170;
-	Wed, 11 Nov 2015 08:27:45 -0800 (PST)
+	bh=1Na/8F9xYA2y3DDE8AMX9VyNaa1Xxp+/ypUpbxKHT+4=;
+	b=GSEXnk4T6aPVVhayBNM5aPvXSRnH/HgJV29xj1aUBeLTA5dr56PaLQX+dNqgRC1D0U
+	1CC8JNxWZ8HFVuSugPkCYQjuRIlt8UhqnYp7m9Pttoq7lQkrcNgkjRP7LTGclacgaSPw
+	LDanmZFLzxm2hUoCRKD19GCWkLE40ignkOLcN3zJrQK360zkyCaUD+hzrb1NQsVGn4mZ
+	r80djDczbNoKtWTYFlQEbCkesaEZ6/uVxk68mUT9nYeaANnj3h1ufBnUqTjC88HWDzrG
+	1O4hNh4q43jVsISkO4NOWGt6nH9F085e6gk88KUHKzV0qvBok8OjUFmu8w1lEyQuP1el
+	bGvQ==
+X-Received: by 10.28.63.22 with SMTP id m22mr26263530wma.58.1447259384802;
+	Wed, 11 Nov 2015 08:29:44 -0800 (PST)
 Received: from ernie.rdm.local (rademacherexchange.de. [46.245.221.222])
-	by smtp.gmail.com with ESMTPSA id
-	r65sm26051873wmb.20.2015.11.11.08.27.44
+	by smtp.gmail.com with ESMTPSA id q1sm9751921wje.39.2015.11.11.08.29.43
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 11 Nov 2015 08:27:44 -0800 (PST)
+	Wed, 11 Nov 2015 08:29:44 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
 From: Jens Rehsack <rehsack@gmail.com>
-In-Reply-To: <CAJTo0Lav3zHGErVDp+h-o1tCa2HCDruU8+4=NGND7kOyyu-5pA@mail.gmail.com>
-Date: Wed, 11 Nov 2015 17:27:43 +0100
-Message-Id: <BEFC06DF-1D58-4FB3-AF0F-2733DF33085A@gmail.com>
-References: <9EEC2D18-21A2-40BA-97B3-D8DD67015AC9@gmail.com>
-	<1444032741.5118.5.camel@linuxfoundation.org>
-	<563FFA16.6070606@windriver.com>
-	<CAJTo0Lav3zHGErVDp+h-o1tCa2HCDruU8+4=NGND7kOyyu-5pA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+In-Reply-To: <1447253674-26930-1-git-send-email-ross.burton@intel.com>
+Date: Wed, 11 Nov 2015 17:29:43 +0100
+Message-Id: <4D2DB967-E3D9-4602-B374-3D49B44AC751@gmail.com>
+References: <1447253674-26930-1-git-send-email-ross.burton@intel.com>
+To: Ross Burton <ross.burton@intel.com>
 X-Mailer: Apple Mail (2.2104)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Should openssl(-native) build-depends on perl-native?
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] openssl: sanity check that the bignum module is present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,51 +44,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 16:27:47 -0000
+X-List-Received-Date: Wed, 11 Nov 2015 16:29:45 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-> Am 09.11.2015 um 13:17 schrieb Burton, Ross <ross.burton@intel.com>:
+> Am 11.11.2015 um 15:54 schrieb Ross Burton <ross.burton@intel.com>:
 >=20
+> The crypto_use_bigint_in_x86-64_perl patch uses the "bigint" module to
+> transparently support 64-bit integers on 32-bit hosts.  Whilst bigint =
+(part of
+> bignum) is a core Perl module not all distributions install it =
+(notable Fedora
+> 23).
 >=20
-> On 9 November 2015 at 01:42, Randy MacLeod =
-<randy.macleod@windriver.com> wrote:
-> openssl fails to build on Fedora 23 with this signature.
-> I suspect that bigint.pm isn't standard and that we
-> need to re-work:
+> As the error message when bignum isn't installed is obscure, add a =
+task to check
+> that it is available and alert the user if it isn't.
 >=20
-> commit cd3eddcf2842b9a360f72caf4337ab2968462bb2
-> Author: Cristian Iorga <cristian.iorga@intel.com>
-> Date:   Tue Jun 16 00:32:15 2015 +0300
+> [ YOCTO #8562 ]
 >=20
->     openssl: fix building on x32 systems
->=20
->     Fix build on Fedora 21 i686.
->=20
->     When building on x32 systems where the default type is 32bit,
->     make sure that 64bit integers can be represented transparently.
->=20
->     Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
->     Signed-off-by: Ross Burton <ross.burton@intel.com>
->=20
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
+> meta/recipes-connectivity/openssl/openssl_1.0.2d.bb | 12 ++++++++++++
+> 1 file changed, 12 insertions(+)
 >=20
-> $ git show cd3eddcf2842b9a360f72caf4337ab2968462bb2 | grep bigint
-> +Subject: [PATCH] crypto: use bigint in x86-64 perl
-> ++      use bigint;
->              file://crypto_use_bigint_in_x86-64_perl.patch \
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb =
+b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+> index fd56841..69b0d44 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+> @@ -56,3 +56,15 @@ PARALLEL_MAKEINST =3D ""
+> do_configure_prepend() {
+>   cp ${WORKDIR}/find.pl ${S}/util/find.pl
+> }
+> +
+> +# The crypto_use_bigint patch means that perl's bignum module needs =
+to be
+> +# installed, but some distributions (for example Fedora 23) don't =
+ship it by
+> +# default.  As the resulting error is very misleading check for =
+bignum before
+> +# building.
+> +do_checkperl() {
+> +	if ! perl -Mbigint -e true; then
+> +		bbfatal "The perl module 'bignum' was not found but this =
+is required to build openssl.  Please install this module (often =
+packaged as perl-bignum) and re-run bitbake."
+> +	fi
+> +}
+> +addtask checkperl before do_compileq
+> +do_checkperl[nostamp] =3D "1"
+> --=20
+> 2.1.4
 >=20
->=20
-> More later in the week unless someone has fixed this already.
->=20
-> That's right (#8562).  Installing perl-bignum should fix that.  =
-Ideally someone who understands perl can rewrite the patch so that it =
-works out of the box on F23.
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-In my special case I have a very limited perl environment for testing =
-some modules before uploading them to cpan ;)
-It'll help to clean up my PATH before running bitbake ^^
+That looks very good - I check it when I'm home on my CI machine where =
+the ancient perls live :)
 
 Cheers
 --=20
