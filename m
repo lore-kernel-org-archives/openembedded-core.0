@@ -1,24 +1,24 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 97AF177193
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 390E777154
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 08:42:30 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Nov 2015 00:42:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,281,1444719600"; d="scan'208";a="849267260"
-Received: from mbabyjoh-mobl.fi.intel.com ([10.237.72.71])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Nov 2015 00:42:29 -0800
-Date: Thu, 12 Nov 2015 10:43:17 +0200
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Fan Xin <fan.xin@jp.fujitsu.com>
-Message-ID: <20151112084316.GA22724@mbabyjoh-mobl.fi.intel.com>
-References: <563C5648.5050009@jp.fujitsu.com>
+	Thu, 12 Nov 2015 08:51:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAC8pe2c002837
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Nov 2015 00:51:40 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 12 Nov 2015 00:51:39 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 12 Nov 2015 00:51:37 -0800
+Message-ID: <cover.1447318250.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-In-Reply-To: <563C5648.5050009@jp.fujitsu.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wpa-supplicant: upgrade to 2.5
+Subject: [PATCH 0/2] meta: fix gdbm and clutter-gst-3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 08:42:32 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 12 Nov 2015 08:51:41 -0000
+Content-Type: text/plain
 
-Hi,
+The following changes since commit e44ed8c18e395b9c055aefee113b90708e8a8a2f:
 
-On Fri, Nov 06, 2015 at 04:27:04PM +0900, Fan Xin wrote:
-> wpa-supplicant: upgrade to 2.5
-> 
-> 1. upgrade to 2.5
-> 2. remove eight patches since they have been modified in 2.5
-> 
-> Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
-> ---
->  ...integer-underflow-in-WMM-Action-frame-par.patch | 45 -------------
+  build-appliance-image: Update to jethro head revision (2015-11-03 14:02:57 +0000)
 
-In addition to what Ross mentioned, http://hostap.epitest.fi redirects
-to http://w1.fi
+are available in the git repository at:
 
-So, it will be nice to update the SRC_URI, HOMEPAGE and BUGTRACKER to use
-w1.fi instead.
+  git://git.openembedded.org/openembedded-core-contrib rbt/2fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/2fixes
 
-Best Regards,
-Maxin
+Robert Yang (2):
+  gdbm 1.8.3: install libgdbm_compat
+  clutter-gst-3.0: add --enable/disable-gudev
+
+ meta/recipes-graphics/clutter/clutter-gst-3.0.inc  |   15 ++++++-
+ .../0001-configure.ac-add-enable-gudev.patch       |   45 ++++++++++++++++++++
+ meta/recipes-support/gdbm/gdbm_1.8.3.bb            |    1 +
+ 3 files changed, 60 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/clutter/clutter-gst-3.0/0001-configure.ac-add-enable-gudev.patch
+
+-- 
+1.7.9.5
+
 
