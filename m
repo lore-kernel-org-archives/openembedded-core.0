@@ -1,34 +1,24 @@
-Return-Path: <aws.ismail@gmail.com>
-Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
-	[209.85.218.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 679AF771B9
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E4783771AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 23:09:36 +0000 (UTC)
-Received: by oixx65 with SMTP id x65so12297037oix.0
+	Thu, 12 Nov 2015 03:14:08 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAC3E87U013583
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 15:09:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=+rrZNSsT+bVVqYzDl1J2gSesz2QShb1nDGGjePrPR0k=;
-	b=nDrYqH/kPjrhOurM+lgLVnFiUZRNOOgj8aqxfP/t5zviECu9j+9IsFa/epifuaStt7
-	7rjiQgyTsZ6dbNWbcys8hWAa4N2zVknh38oyRrw2NKqU1X9PZYFUY4ALp+je8OXmKIpl
-	bVLPBVyxDdUlPMictsY4BiOdnBPwy5VlKrtRv7S3NrzX8o/zYKvOmY+uX7GWCSWyZDII
-	i+jwzug2ucW99utBlfK3SYvgnvZVuYBRgzmcJ1mfMeuaZTwayvcVeIv8yK2JPD0/eAkH
-	NhTmaRI9zmQ5I5+Bhk/6kF/nB9tLMUWBiN5D7jPGkBgJBp+2SAtASCAPcVAcFJCv2sZi
-	5AqQ==
-X-Received: by 10.202.45.206 with SMTP id t197mr6592254oit.110.1447283376558; 
-	Wed, 11 Nov 2015 15:09:36 -0800 (PST)
+	Wed, 11 Nov 2015 19:14:08 -0800
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 11 Nov 2015 19:14:07 -0800
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 12 Nov 2015 11:04:06 +0800
+Message-ID: <1447297446-18024-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.182.41.39 with HTTP; Wed, 11 Nov 2015 15:09:17 -0800 (PST)
-In-Reply-To: <1446852308-19752-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-References: <1446852308-19752-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-From: Aws Ismail <aws.ismail@gmail.com>
-Date: Wed, 11 Nov 2015 18:09:17 -0500
-Message-ID: <CAMHMu0P4_AwDZ2nC54ra5pqf5QehD9aaQ2zSGYnbMpA8JYdtmQ@mail.gmail.com>
-To: leonardo.sandoval.gonzalez@linux.intel.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] terminal: Open a new window instead of split on older tmux versions (<1.9)
+Subject: [PATCH][v2] e2fsprogs: fix the ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,86 +31,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Nov 2015 23:09:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 12 Nov 2015 03:14:12 -0000
+Content-Type: text/plain
 
-I verified this does work under tmux v1.8 with latest poky jethro.
+From: Roy Li <rongqing.li@windriver.com>
 
-On Fri, Nov 6, 2015 at 6:25 PM,
-<leonardo.sandoval.gonzalez@linux.intel.com> wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->
-> If an old version is detected (<1.9), create a new window instead of split:
-> the reason is that there is no easy way to get the active pane height if no
-> nested formats are supported.
->
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> ---
->  meta/lib/oe/terminal.py |   20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-> index 52a8913..a4a8c97 100644
-> --- a/meta/lib/oe/terminal.py
-> +++ b/meta/lib/oe/terminal.py
-> @@ -131,7 +131,7 @@ class TmuxRunning(Terminal):
->              raise UnsupportedTerminal('tmux is not running')
->
->          if not check_tmux_pane_size('tmux'):
-> -            raise UnsupportedTerminal('tmux pane too small')
-> +            raise UnsupportedTerminal('tmux pane too small or tmux < 1.9 version is being used')
->
->          Terminal.__init__(self, sh_cmd, title, env, d)
->
-> @@ -218,6 +218,12 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
->
->  def check_tmux_pane_size(tmux):
->      import subprocess as sub
-> +    # On older tmux versions (<1.9), return false. The reason
-> +    # is that there is no easy way to get the height of the active panel
-> +    # on current window without nested formats (available from version 1.9)
-> +    vernum = check_terminal_version("tmux")
-> +    if vernum and LooseVersion(vernum) < '1.9':
-> +        return False
->      try:
->          p = sub.Popen('%s list-panes -F "#{?pane_active,#{pane_height},}"' % tmux,
->                  shell=True,stdout=sub.PIPE,stderr=sub.PIPE)
-> @@ -229,14 +235,16 @@ def check_tmux_pane_size(tmux):
->              return None
->          else:
->              raise
-> -    if size/2 >= 19:
-> -        return True
-> -    return False
-> +
-> +    return size/2 >= 19
->
->  def check_terminal_version(terminalName):
->      import subprocess as sub
->      try:
-> -        p = sub.Popen(['sh', '-c', '%s --version' % terminalName],stdout=sub.PIPE,stderr=sub.PIPE)
-> +        cmdversion = '%s --version' % terminalName
-> +        if terminalName.startswith('tmux'):
-> +            cmdversion = '%s -V' % terminalName
-> +        p = sub.Popen(['sh', '-c', cmdversion], stdout=sub.PIPE,stderr=sub.PIPE)
->          out, err = p.communicate()
->          ver_info = out.rstrip().split('\n')
->      except OSError as exc:
-> @@ -251,6 +259,8 @@ def check_terminal_version(terminalName):
->              vernum = ver.split(' ')[-1]
->          if ver.startswith('GNOME Terminal'):
->              vernum = ver.split(' ')[-1]
-> +        if ver.startswith('tmux'):
-> +            vernum = ver.split()[-1]
->      return vernum
->
->  def distro_name():
-> --
-> 1.7.10.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+1. a hard-coded path in ptest is used, fix it.
+2. fix the m_bigjournal ptest failure by resetting cache goal properly
+3. fix the removal test.log error by adding the correct path before
+test.log
+
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../e2fsprogs/e2fsprogs/0001-reset-last_goal.patch | 51 ++++++++++++++++++++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs/run-ptest |  2 +-
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |  2 +
+ 3 files changed, 54 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-reset-last_goal.patch
+
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-reset-last_goal.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-reset-last_goal.patch
+new file mode 100644
+index 0000000..864e01e
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-reset-last_goal.patch
+@@ -0,0 +1,51 @@
++reset last_goal when ext2fs_extent_node_split is called.
++
++Upstream-Status: Inappropriate
++
++cache_inode.patch speeds up the making ext* filesystem, but it leads
++to the m_bigjournal ptest failure; In fact, when ext2fs_extent_node_split 
++is called, the cache goal should be reset
++
++the patch fixes the m_bigjournal ptest failure, and does not lost the
++speed.
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ lib/ext2fs/alloc.c  | 2 +-
++ lib/ext2fs/extent.c | 3 +++
++ 2 files changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/lib/ext2fs/alloc.c b/lib/ext2fs/alloc.c
++index 830fc22..5bab9db 100644
++--- a/lib/ext2fs/alloc.c
+++++ b/lib/ext2fs/alloc.c
++@@ -160,7 +160,7 @@ errcode_t ext2fs_new_inode(ext2_filsys fs, ext2_ino_t dir,
++ 	return 0;
++ }
++ 
++-static blk64_t last_goal = 0;
+++blk64_t last_goal = 0;
++ 
++ /*
++  * Stupid algorithm --- we now just search forward starting from the
++diff --git a/lib/ext2fs/extent.c b/lib/ext2fs/extent.c
++index 5cdc2e4..044a17a 100644
++--- a/lib/ext2fs/extent.c
+++++ b/lib/ext2fs/extent.c
++@@ -819,6 +819,8 @@ errcode_t ext2fs_extent_replace(ext2_extent_handle_t handle,
++  *
++  * handle will be left pointing at original record.
++  */
+++extern blk64_t last_goal;
+++
++ errcode_t ext2fs_extent_node_split(ext2_extent_handle_t handle)
++ {
++ 	errcode_t			retval = 0;
++@@ -936,6 +938,7 @@ errcode_t ext2fs_extent_node_split(ext2_extent_handle_t handle)
++ 			group = group & ~((1 << (log_flex)) - 1);
++ 		goal_blk = ext2fs_group_first_block2(handle->fs, group);
++ 	}
+++	last_goal = goal_blk;
++ 	retval = ext2fs_alloc_block2(handle->fs, goal_blk, block_buf,
++ 				    &new_node_pblk);
++ 	if (retval)
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+index 1ac2513..e02fc7f 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+@@ -5,7 +5,7 @@ cd ./test
+ if [ $? -eq 0 ]
+ then
+ 	echo "PASS: e2fsprogs"
+-	rm test.log
++	rm ../test.log
+ else
+ 	echo "FAIL: e2fsprogs"
+ fi
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+index ce7d2e8..c021306 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+@@ -24,6 +24,7 @@ SRC_URI += "file://acinclude.m4 \
+             file://CVE-2015-0247.patch \
+             file://0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch \
+             file://copy-in-create-hardlinks-with-the-correct-directory-.patch \
++            file://0001-reset-last_goal.patch \
+ "
+ 
+ SRC_URI[md5sum] = "3f8e41e63b432ba114b33f58674563f7"
+@@ -114,4 +115,5 @@ do_install_ptest() {
+ 	cp -a ${B}/tests ${D}${PTEST_PATH}/test
+ 	cp -a ${S}/tests/* ${D}${PTEST_PATH}/test
+ 	sed -e 's!../e2fsck/e2fsck!e2fsck!g' -i ${D}${PTEST_PATH}/test/*/expect*
++	sed -e 's!/usr/lib/e2fsprogs/ptest!${PTEST_PATH}!g' -i ${D}${PTEST_PATH}/test/test_*
+ }
+-- 
+1.9.1
+
 
