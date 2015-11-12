@@ -1,54 +1,46 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 21B497721C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id BE37377226
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 14:03:31 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so34483062wme.0
+	Thu, 12 Nov 2015 14:32:32 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so202968178wmw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 06:03:31 -0800 (PST)
+	Thu, 12 Nov 2015 06:32:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=dresearch-fe_de.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=ZmSe23yOpDuWs7PGT/ij6fVjItDCqcLad0cIDAH/K8k=;
-	b=QqcK914VhpD0sKBJfD03PTMIKtyfdjvyTRZuWystdz77yglMvrgZgzgntvvYcMtOxT
-	NDVN9URtn99P5lWhhKG7xlVlO24cFej70ULNAsRGg3vTUiLG+7ACJVUhyn0C0aMAqQBL
-	Y8gZ2SCGiIe3XsCUpMr7NYAh1cKma4ca3OQfcdtLJYpvtQNRXb00Ofaw383ldWwPuiBy
-	fN3HjOioghEE5x3e++0hY6QOIQg+t2nynHnjIBted+/SmmfeFbaTNYL6INrDuvTare1t
-	9KZspSq94ssC+ie/rqT57oTH6pNjVFUS6zZkBra+JXbzNNdW3IIZPu58dJkrcNpe2qLS
-	tnFA==
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=+Cbhu7CufWvDHDRYFOmaIM/YrpFzylAKZZ7S0X+0j+I=;
+	b=scWQerrhVvUoK8BcAmeXedr2x77JD+DNdL/FfJTg9QMZGrqQYAOpcWBLW02R/XGx/3
+	3I3uZShxeRH3lEqmPCFo5G/ecU66YCJSCj6qrvW1kKeoRGQ2ZavpgmtLkwxkrUuNTddx
+	Y7pxoO0lDSo2LQSg+qqlbiB/D0xZfl2aN3IUcsWegaTDzvb1afcfkyl/1TnI0TMjuPkG
+	bPm+Tpw+DYGRGEhoKz5yOzWWo67k/OlB11pJPUisEgJTpJ0aAS4MnfHKbochfnYSSzq5
+	qmi1PJEbR1H5ZN2IiQ+X7VLbWsYUdD0jaWVExRmEcbX3l6FBo8SpuR/gSpwsOsLfOYly
+	19kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=ZmSe23yOpDuWs7PGT/ij6fVjItDCqcLad0cIDAH/K8k=;
-	b=jKiXo5/WWhf9TSPZ/4eSIfsRQCT9enhn2FJJcDuD/nE7ZPKhvrpP2TM1gvRc7kvyqT
-	Rcnhl/w+CsoxrMToXLdhmNVsa9BnqJvqxOe4RC6eUsdLRUYjLMGsng2P7IjsG7hi1ssZ
-	4XmG/1Xj2SdplVtt1rsKBw6egx4gKyNehB6jMXd29zn1UGxoA5lvwOguHnz1KzYgoLzz
-	A7rUfyz9S0q2YOrcLSIje0hLLtPQlBSjXdI54NCxwKGmmwqHYkVQem48QYRz0W1BbQV+
-	4gq/LC5HcSd0sGyH5CKtMQ/S83Ai27Svm4dkOcm5ftFBLyFgZ6s7YXIfPvtvW51MvkpF
-	cuEw==
-X-Gm-Message-State: ALoCoQm9Cq33QoIfAQum2aGdTJKAPezKPMILy3bN+Dbwa7AodRX67LxwT3aaGU2xV6ASJG512Qgq
-X-Received: by 10.28.125.201 with SMTP id y192mr10870248wmc.23.1447337011358; 
-	Thu, 12 Nov 2015 06:03:31 -0800 (PST)
-Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
-	by smtp.googlemail.com with ESMTPSA id
-	q141sm15216774wmg.3.2015.11.12.06.03.30
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=+Cbhu7CufWvDHDRYFOmaIM/YrpFzylAKZZ7S0X+0j+I=;
+	b=Km4Si5mseDdRwxwwR/HgOw6HUUKSV7laC+Y4aIa9UVE//gDlqrcMyS+oXen58THTIV
+	4xvIql05ptDXCaNGnePmeRzhkZViBCrojDEjF++BUXN/gRgj5uK4+dyfaw+aipAAlvBP
+	UntxVcMbxfXN4w7iBQoFaEwbshP9XS9dCl2FNNn6/rp7vN1PjoWTb69RKxHH9S2acLXB
+	qg/VLPWKjIy4ObrKL2a8epcV2umMOjiLqYm63TRF13+Yy+x1mfX1pYGOHYYmdyeWRUhu
+	IGQ571oBFIHGN6WcUo7vSK454kKEQMSeTpgDZJxztH6Hv+xaYC783J9QyWT+5rlVzLkO
+	gZ0g==
+X-Gm-Message-State: ALoCoQmUur2DZpoHcrgYeT8QII95bQYk3ez9md4kYlekmZjZlhIU26x7XFhL++Wez1UO+jxMLqn4
+X-Received: by 10.194.20.130 with SMTP id n2mr18849964wje.115.1447338752343;
+	Thu, 12 Nov 2015 06:32:32 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id l1sm4201099wmb.1.2015.11.12.06.32.31
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 12 Nov 2015 06:03:30 -0800 (PST)
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-References: <1447161703-4174-2-git-send-email-sledz@dresearch-fe.de>
-	<564352C5.9060208@dresearch-fe.de>
-From: Steffen Sledz <sledz@dresearch-fe.de>
-Message-ID: <56449C31.4070802@dresearch-fe.de>
-Date: Thu, 12 Nov 2015 15:03:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <564352C5.9060208@dresearch-fe.de>
-Subject: Re: [PATCH] busybox: add UPDATE_ALTERNATIVE for syslog-service
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 12 Nov 2015 06:32:31 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Nov 2015 14:24:12 +0000
+Message-Id: <1447338252-17802-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] lib/oe/distro_check: don't set empty proxy keys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,18 +53,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 14:03:32 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 Nov 2015 14:32:33 -0000
 
-This fixes [YOCTO-8688].
+If the proxies dictionary has a proxy set to None urllib will throw an exception
+instead of not using a proxy (abridged stack):
 
+File: '/home/ross/Yocto/poky/meta/lib/oe/distro_check.py', lineno: 43, function: get_links_from_url
+ *** 0043:    with create_socket(url,d) as sock:
+     0044:        webpage = sock.read()
+File: '/home/ross/Yocto/poky/meta/lib/oe/distro_check.py', lineno: 5, function: create_socket
+     0003:def create_socket(url, d):
+     0004:    import urllib
+ *** 0005:    socket = urllib.urlopen(url, proxies=get_proxies(d))
+File: '/usr/lib/python2.7/urllib.py', lineno: 87, function: urlopen
+     0086:    if data is None:
+ *** 0087:        return opener.open(url)
+File: '/usr/lib/python2.7/urllib.py', lineno: 203, function: open
+     0201:        else:
+     0202:            proxy = None
+ *** 0203:        name = 'open_' + urltype
+     0204:        self.type = urltype
+     0205:        name = name.replace('-', '_')
+Exception: TypeError: cannot concatenate 'str' and 'NoneType' objects
+
+Filter out unset values so that the dictionary only has valid assignments in.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oe/distro_check.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
+index f92cd2e..8655a6f 100644
+--- a/meta/lib/oe/distro_check.py
++++ b/meta/lib/oe/distro_check.py
+@@ -9,10 +9,12 @@ def create_socket(url, d):
+         socket.close()
+ 
+ def get_proxies(d):
+-    import os
+-    proxykeys = ['http', 'https', 'ftp', 'ftps', 'no', 'all']
+-    proxyvalues = map(lambda key: d.getVar(key+'_proxy', True), proxykeys)
+-    return dict(zip(proxykeys, proxyvalues))
++    proxies = {}
++    for key in ['http', 'https', 'ftp', 'ftps', 'no', 'all']:
++        proxy = d.getVar(key + '_proxy', True)
++        if proxy:
++            proxies[key] = proxy
++    return proxies
+ 
+ def get_links_from_url(url, d):
+     "Return all the href links found on the web location"
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+2.1.4
+
 
