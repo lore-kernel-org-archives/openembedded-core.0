@@ -1,35 +1,28 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id EA15577220
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 16:13:17 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so40849670wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 08:13:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:content-type:content-transfer-encoding:subject:date:message-id
-	:cc:to:mime-version;
-	bh=sudDx67EG5IetfoS9H5r5X+6J2k4dWwCbk7ixoU/vQQ=;
-	b=kzGv4Nnlu7wl5qwwu4oNgC7KKsZM0vwxudWMN1LhrGoc3EvVEm/ontq77UBIL8lcK6
-	PNmW2A0VsXgtkW1QGz7z6LsocOxXGhFU2BsZ6jxR/lg7cEXpnikF7C4PoDpyez33TpAb
-	NRpHHGYHg27piq6YMOoK2+GFGN/f+ZBDGwWKo1vWGa8QTuVYeriqcWbV1hN86HQnYt0Q
-	tgyeau5UVN64ucV5FgFeQmKMyYONPErNXKmX0nszwtsha/CE3iqgZ0vBc+MgK1DtMxxp
-	6dYDUG9up97zGi4u+HUlGPBYg3L22GPN87od246B1tYzpPCzeLrMyB6+Aj3tIQUslvUX
-	78rg==
-X-Received: by 10.28.19.65 with SMTP id 62mr17804364wmt.35.1447344797495;
-	Thu, 12 Nov 2015 08:13:17 -0800 (PST)
-Received: from walter.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
-	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
-	t126sm31455464wmd.18.2015.11.12.08.13.16
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 12 Nov 2015 08:13:16 -0800 (PST)
-From: Jens Rehsack <rehsack@gmail.com>
-Date: Thu, 12 Nov 2015 17:13:15 +0100
-Message-Id: <EAB26B29-7295-417E-B128-E8B2CB534DD4@gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Mailer: Apple Mail (2.2104)
-Subject: [PATCH] kernel: fix race condition between compile_kernelmodules and shared_workdir
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D38EE7722C;
+	Thu, 12 Nov 2015 16:46:39 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Nov 2015 08:46:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,282,1444719600"; d="scan'208";a="835789123"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Nov 2015 08:46:40 -0800
+Received: by linux.intel.com (Postfix, from userid 48)
+	id 239E86A4087; Thu, 12 Nov 2015 08:45:35 -0800 (PST)
+Received: from 10.252.13.130
+	(SquirrelMail authenticated user alexander.kanavin)
+	by linux.intel.com with HTTP; Thu, 12 Nov 2015 18:45:34 +0200 (EET)
+Message-ID: <58488.10.252.13.130.1447346734.squirrel@linux.intel.com>
+Date: Thu, 12 Nov 2015 18:45:34 +0200 (EET)
+From: alexander.kanavin@linux.intel.com
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
+MIME-Version: 1.0
+X-Priority: 3 (Normal)
+Importance: Normal
+Subject: qt4 moves out of oe-core - to meta-qt4, or to meta-oe?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,70 +35,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 16:13:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 12 Nov 2015 16:46:40 -0000
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
+Hello,
 
-Fixes https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D8127 which =
-causes
-[ 1225.089323] 8189es: Unknown symbol cfg80211_scan_done (err -22)
-[ 1225.095916] 8189es: no symbol version for =
-cfg80211_remain_on_channel_expired
-when loading external compiled 8189es module.
+now that 2.0 is out, it's time to move the Qt4 recipes out of oe-core.
+This has been discussed previously here:
+http://lists.openembedded.org/pipermail/openembedded-core/2015-June/106355.html
 
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
----
- meta/classes/kernel.bbclass      | 8 ++++++++
- meta/classes/module-base.bbclass | 2 +-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+I'm not sure where the recipes should land, and want to ask your opinion.
+The options are:
+1) Make a new layer, meta-qt4, under meta-openembedded tree. Move also
+everything in meta-oe/recipes-qt (and possibly other spots) to that layer.
+This is somewhat more disruptive to people's layer configurations, but
+would clearly separate qt4, and slim down meta-oe.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 5e8b6cf..b75a462 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -217,6 +217,14 @@ do_compile_kernelmodules() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
- 	if (grep -q -i -e '^CONFIG_MODULES=3Dy$' ${B}/.config); then
- 		oe_runmake -C ${B} ${PARALLEL_MAKE} modules =
-CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
-+
-+		# Module.symvers gets updated during the=20
-+		# building of the kernel modules. We need to
-+		# update this in the shared workdir since some
-+		# external kernel modules has a dependency on
-+		# other kernel modules and will look at this
-+		# file to do symbol lookups
-+		cp Module.symvers ${STAGING_KERNEL_BUILDDIR}/
- 	else
- 		bbnote "no modules to compile"
- 	fi
-diff --git a/meta/classes/module-base.bbclass =
-b/meta/classes/module-base.bbclass
-index 8be26c4..cf4b02e 100644
---- a/meta/classes/module-base.bbclass
-+++ b/meta/classes/module-base.bbclass
-@@ -1,7 +1,7 @@
- inherit kernel-arch
-=20
- # This is instead of DEPENDS =3D "virtual/kernel"
--do_configure[depends] +=3D "virtual/kernel:do_shared_workdir"
-+do_configure[depends] +=3D "virtual/kernel:do_compile_kernelmodules"
-=20
- export OS =3D "${TARGET_OS}"
- export CROSS_COMPILE =3D "${TARGET_PREFIX}"
---=20
-2.4.9 (Apple Git-60)
+2) Simply move the qt4 recipes from oe-core to meta-oe/recipes-qt, so they
+will be next to all the qt4-based software. This is less disruptive, but
+adds bloat to meta-oe.
 
-Since 2.0 is out without any such a patch - which leaves probably lots =
-of people with broken modules
-after upgrading to jethro, please use such a patch (optimized for not =
-waiting when no 3rd party modules
-are involved) - which hopefully avoids Bruce's performance issue and =
-fixes the race condition.
+Preferences?
 
-Cheers
---=20
-Jens Rehsack - rehsack@gmail.com
-
+Alex
 
