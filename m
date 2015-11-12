@@ -1,49 +1,50 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 84EE277291
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 088B1772A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 23:46:42 +0000 (UTC)
-Received: by ioir85 with SMTP id r85so41194721ioi.1
+	Thu, 12 Nov 2015 23:47:20 +0000 (UTC)
+Received: by igvi2 with SMTP id i2so25924202igv.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 15:46:43 -0800 (PST)
+	Thu, 12 Nov 2015 15:47:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type;
-	bh=VmGssAUXXVpC1vL8Tq6K01G+nwAqDm5SYY73J1hhAM4=;
-	b=QgUOW18wHUXORql/TUnEoRMVmAu1dqVXEpM33XMb5OkJF6WtExqhKE/3f06tOOPQmX
-	xCj4XpPvb0MVWI5m0Y8W8J3TMp9tVuMDw9ZwFJUObnNA19wLSz+pS/nM2r9dlE5jQXbj
-	BBqq0OTiJq5KgD9umN3dgJg/kBvu0yHfkafYZpTJGA264D3PoS6mPpkI08rgM2qao0Io
-	Hf4LhTufshEjlaA8bx6BOXbv4WLSOuRDFYojYlJabO3BLSkiYnIejWbvMD8fU5R/2Sls
-	IcHUPo3g0CotR2eEXqTKyNfatJm7lV/5HTT9bQBTxcOhgTmcdbXbHmM+bmR5nsDKJRYb
-	m3jQ==
+	bh=YfqmDyN6875QAVIFctCpX6J8pwN2SmWuuXlT+2RWdLk=;
+	b=MltEQd1CC21KMwUkVsCw30BwsKczcuu7DkrcYNntI0izLD8e/4FpXF6d9yi7mM9Lsj
+	KdvK5l9fVhx6A1wJXH0HUHiMg9pvsGAV2e0YN4pV45U3mTwBnvPz0dJ/DbJkmzDKMrTn
+	mPKgledDYTOExcL001G8Upc9+mhih9/4NIVASmRinasg8r21f8pT1bJFdZf57KmFhsR+
+	FIrlbzVIA8/oAnJJX6JzS7odH2zP9Md1XGacBWWDmCbq9rcNR0rgaWd5CokAEUG/GGE2
+	bJADYruo7SwteUJPxUrRBLp9spuPE+OJVyZB62zRMU9QRtWjU1+AyHcJAkMwdU/W9nu6
+	E3Bg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mentor_com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type;
-	bh=VmGssAUXXVpC1vL8Tq6K01G+nwAqDm5SYY73J1hhAM4=;
-	b=HmRPNzl+vFq9usFHp6p4uP/t+jA6DqFNuxcvVKUI171T5zLw7Pc1KcfxjY7LBaARLc
-	l8Go2u5uW2ie3YuCAxzYILKloq0+x60oBzPdVLMYn5kFKHmK4WcAqOgfJmqLWz+MdRbT
-	LuxfC2MUIvdNHGqWkoSNF3INJA/j9lwXtP59QZxkKorNo75fLQNAiPxI+ALYT9KF19mk
-	Mzmtsb+4Q+FNixUW0DdaQ8bO1wvHVXYqhtmRERksRDtvRL0s3K6c+NOcnQ6h38gVGhrK
-	S5mn3LPJqYuhJgccSLna87iO11nunfb49p66qD8hixCgA5/oCaMV7IAkIeiAMOlqmqZX
-	hnpA==
-X-Received: by 10.107.38.70 with SMTP id m67mr19564044iom.98.1447372002922;
-	Thu, 12 Nov 2015 15:46:42 -0800 (PST)
+	bh=YfqmDyN6875QAVIFctCpX6J8pwN2SmWuuXlT+2RWdLk=;
+	b=U5qQiZ/S0QvuVZyjn4EhlhButBbliq7SnAuoCL9D4+i2HOsMsbLRStM3iRh6A2Rn1O
+	m3abrorxcUHg8RLExZtcXAxhdj5pEYjiodHNnx4dQee272RHRozt6DkIVv0qlBxhN9r1
+	fttFA1xnDZoddknojODYgorbypJJZ5xzpykkLL2MQL0Cec/iBdp1ngUnczG/4nTIbYcM
+	BWjLXTyZShCgRlE1l9+/uD5rwEabfiDhNmJJ4fyu4DSfnRgvX6K+kzcgmG1YMyFdnoqe
+	VOxIuf9UUj7czqrghbGDeVVSDZBNw/3Ol0fA/xxzhMmHn7Jo14pQcy1KyzdgE85OjNzU
+	MUdQ==
+X-Received: by 10.50.136.132 with SMTP id qa4mr225764igb.68.1447372040783;
+	Thu, 12 Nov 2015 15:47:20 -0800 (PST)
 MIME-Version: 1.0
 Sender: kergoth@gmail.com
-Received: by 10.79.93.7 with HTTP; Thu, 12 Nov 2015 15:46:23 -0800 (PST)
-In-Reply-To: <0608c916d5ea89bc95112b583a04de0cc81a6374.1447371041.git.chris_larson@mentor.com>
+Received: by 10.79.93.7 with HTTP; Thu, 12 Nov 2015 15:47:01 -0800 (PST)
+In-Reply-To: <36a4020afc01b3c43075a13a8116cc7fe2d9de0f.1447371041.git.chris_larson@mentor.com>
 References: <cover.1447371041.git.chris_larson@mentor.com>
 	<0608c916d5ea89bc95112b583a04de0cc81a6374.1447371041.git.chris_larson@mentor.com>
+	<36a4020afc01b3c43075a13a8116cc7fe2d9de0f.1447371041.git.chris_larson@mentor.com>
 From: Christopher Larson <chris_larson@mentor.com>
-Date: Thu, 12 Nov 2015 16:46:23 -0700
-X-Google-Sender-Auth: xElM_zckYKqNZxFJzlxKzWsEIJg
-Message-ID: <CABcZAN=d_jt6VwZ560X95Tt_=Mt-fEu1NO__+rJVvML0yy_E4A@mail.gmail.com>
+Date: Thu, 12 Nov 2015 16:47:01 -0700
+X-Google-Sender-Auth: Uhvoi2KA5qto-OnoSsZVPaKXj7Y
+Message-ID: <CABcZANnEDK7LM-PDrjOrKPLcZscV1tN60aKu+o7wn=C4FRx8EA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 1/7] image_types: improve wks path specification
+Subject: Re: [PATCH 2/7] sysprof: use packageconfig for the gui
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,10 +57,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 23:46:46 -0000
-Content-Type: multipart/alternative; boundary=001a1140fe4017982a0524608ec1
+X-List-Received-Date: Thu, 12 Nov 2015 23:47:23 -0000
+Content-Type: multipart/alternative; boundary=089e0149bbc259501905246090e7
 
---001a1140fe4017982a0524608ec1
+--089e0149bbc259501905246090e7
 Content-Type: text/plain; charset=UTF-8
 
 On Thu, Nov 12, 2015 at 4:40 PM, Christopher Larson <kergoth@gmail.com>
@@ -67,61 +68,29 @@ wrote:
 
 > From: Christopher Larson <chris_larson@mentor.com>
 >
-> Hardcoding a full input path with zero flexibility goes against everything
-> the
-> Yocto Project is about. Rework it to let the user specify the wks base
-> filename with WKS_FILE and it'll search the layers for the wks file and use
-> it.
+> This makes the gtk dependencies optional.
 >
 > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 > ---
->  meta/classes/image_types.bbclass | 22 +++++++++++++++-------
->  1 file changed, 15 insertions(+), 7 deletions(-)
+>  .../sysprof/files/gui-argument.patch               | 35
+> ++++++++++++++++++++++
+>  meta/recipes-kernel/sysprof/sysprof_git.bb         |  9 ++++--
+>  2 files changed, 41 insertions(+), 3 deletions(-)
+>  create mode 100644 meta/recipes-kernel/sysprof/files/gui-argument.patch
 >
-> diff --git a/meta/classes/image_types.bbclass
-> b/meta/classes/image_types.bbclass
-> index 5036919..431df3a 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -170,15 +170,23 @@ IMAGE_CMD_ubi () {
->
->  IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o
-> ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}"
->
-> +WKS_FILE ?= "${FILE_DIRNAME}/${IMAGE_BASENAME}.${MACHINE}.wks"
-> +WKS_FULL_PATH = "${@bb.utils.which('${WKS_SEARCH_PATH}', '${WKS_FILE}')
-> if not os.path.isabs('${WKS_FILE}') else '${WKS_FILE}'}"
-> +WKS_FULL_PATH[vardepvalue] = "${WKS_FULL_PATH}"
-> +WKS_SEARCH_PATH ?= "${@':'.join('%s/scripts/lib/wic/canned-wks' % l for l
-> in '${BBLAYERS}'.split())}"
-> +
->  IMAGE_CMD_wic () {
-> -       out=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}
-> -       wks=${FILE_DIRNAME}/${IMAGE_BASENAME}.${MACHINE}.wks
-> -       [ -e $wks ] || wks=${FILE_DIRNAME}/${IMAGE_BASENAME}.wks
-> -       [ -e $wks ] || bbfatal "Kiskstart file $wks doesn't exist"
-> -       BUILDDIR=${TOPDIR} wic create $wks --vars
-> ${STAGING_DIR_TARGET}/imgdata/ -e ${IMAGE_BASENAME} -o $out/
-> -       mv $out/build/${IMAGE_BASENAME}*.direct $out.rootfs.wic
-> -       rm -rf $out/
-> +       out="${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}"
-> +       wks="${WKS_FULL_PATH}"
-> +       if [ ! -e "$wks" ]; then
-> +               bbfatal "Kickstart file $wks doesn't exist"
-> +       fi
-> +
-> +       BUILDDIR="${TOPDIR}" wic create "$wks" --vars
-> "${STAGING_DIR_TARGET}/imgdata/" -e "${IMAGE_BASENAME}" -o "$out/"
-> +       mv "$out/build/$(basename "${wks%.wks}")"*.direct "$out.rootfs.wic"
-> +       rm -rf "$out/"
->  }
-> +IMAGE_CMD_wic[file-checksums] += "${WKS_FULLPATH}"
+> diff --git a/meta/recipes-kernel/sysprof/files/gui-argument.patch
+> b/meta/recipes-kernel/sysprof/files/gui-argument.patch
+> new file mode 100644
+> index 0000000..d4744e3
+> --- /dev/null
+> +++ b/meta/recipes-kernel/sysprof/files/gui-argument.patch
+> @@ -0,0 +1,35 @@
+> +Add the ability to explicitly enable/diable GUI support
 >
 
-Gah, I'll have to fix this and re-submit if needed, the varname is typoed,
-missing _. Also, it might be worth excluding WKS_FULL_PATH from vardeps
-entirely -- having to rerun the image build if a layer is moved isn't
-ideal, and we already have it in file-checksums.
+And there's a typo in this patch description. Hrmph.
+
+
 -- 
 Christopher Larson
 kergoth at gmail dot com
@@ -129,7 +98,7 @@ Founder - BitBake, OpenEmbedded, OpenZaurus
 Maintainer - Tslib
 Senior Software Engineer, Mentor Graphics
 
---001a1140fe4017982a0524608ec1
+--089e0149bbc259501905246090e7
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -137,79 +106,37 @@ Content-Transfer-Encoding: quoted-printable
 On Thu, Nov 12, 2015 at 4:40 PM, Christopher Larson <span dir=3D"ltr">&lt;<=
 a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>=
 &gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2d1" class=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2nc" class=
 =3D"a3s" style=3D"overflow:hidden">From: Christopher Larson &lt;<a href=3D"=
 mailto:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
 <br>
-Hardcoding a full input path with zero flexibility goes against everything =
-the<br>
-Yocto Project is about. Rework it to let the user specify the wks base<br>
-filename with WKS_FILE and it&#39;ll search the layers for the wks file and=
- use<br>
-it.<br>
+This makes the gtk dependencies optional.<br>
 <br>
 Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
 .com">chris_larson@mentor.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/classes/image_types.bbclass | 22 +++++++++++++++-------<br>
-=C2=A01 file changed, 15 insertions(+), 7 deletions(-)<br>
+=C2=A0.../sysprof/files/gui-argument.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0| 35 ++++++++++++++++++++++<br>
+=C2=A0meta/recipes-kernel/sysprof/<a href=3D"http://sysprof_git.bb" rel=3D"=
+noreferrer" target=3D"_blank">sysprof_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 9 ++++--<br>
+=C2=A02 files changed, 41 insertions(+), 3 deletions(-)<br>
+=C2=A0create mode 100644 meta/recipes-kernel/sysprof/files/gui-argument.pat=
+ch<br>
 <br>
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bb=
-class<br>
-index 5036919..431df3a 100644<br>
---- a/meta/classes/image_types.bbclass<br>
-+++ b/meta/classes/image_types.bbclass<br>
-@@ -170,15 +170,23 @@ IMAGE_CMD_ubi () {<br>
-<br>
-=C2=A0IMAGE_CMD_ubifs =3D &quot;mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_D=
-IR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}&quot;<br>
-<br>
-+WKS_FILE ?=3D &quot;${FILE_DIRNAME}/${IMAGE_BASENAME}.${MACHINE}.wks&quot;=
-<br>
-+WKS_FULL_PATH =3D &quot;${@bb.utils.which(&#39;${WKS_SEARCH_PATH}&#39;, &#=
-39;${WKS_FILE}&#39;) if not os.path.isabs(&#39;${WKS_FILE}&#39;) else &#39;=
-${WKS_FILE}&#39;}&quot;<br>
-+WKS_FULL_PATH[vardepvalue] =3D &quot;${WKS_FULL_PATH}&quot;<br>
-+WKS_SEARCH_PATH ?=3D &quot;${@&#39;:&#39;.join(&#39;%s/scripts/lib/wic/can=
-ned-wks&#39; % l for l in &#39;${BBLAYERS}&#39;.split())}&quot;<br>
-+<br>
-=C2=A0IMAGE_CMD_wic () {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0out=3D${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0wks=3D${FILE_DIRNAME}/${IMAGE_BASENAME}.${MACHI=
-NE}.wks<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0[ -e $wks ] || wks=3D${FILE_DIRNAME}/${IMAGE_BA=
-SENAME}.wks<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0[ -e $wks ] || bbfatal &quot;Kiskstart file $wk=
-s doesn&#39;t exist&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0BUILDDIR=3D${TOPDIR} wic create $wks --vars ${S=
-TAGING_DIR_TARGET}/imgdata/ -e ${IMAGE_BASENAME} -o $out/<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0mv $out/build/${IMAGE_BASENAME}*.direct $out.ro=
-otfs.wic<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf $out/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0out=3D&quot;${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}&q=
-uot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0wks=3D&quot;${WKS_FULL_PATH}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ! -e &quot;$wks&quot; ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbfatal &quot;Kicks=
-tart file $wks doesn&#39;t exist&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0BUILDDIR=3D&quot;${TOPDIR}&quot; wic create &qu=
-ot;$wks&quot; --vars &quot;${STAGING_DIR_TARGET}/imgdata/&quot; -e &quot;${=
-IMAGE_BASENAME}&quot; -o &quot;$out/&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0mv &quot;$out/build/$(basename &quot;${wks%.wks=
-}&quot;)&quot;*.direct &quot;$out.rootfs.wic&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf &quot;$out/&quot;<br>
-=C2=A0}<br>
-+IMAGE_CMD_wic[file-checksums] +=3D &quot;${WKS_FULLPATH}&quot;</div></bloc=
-kquote></div><br>Gah, I&#39;ll have to fix this and re-submit if needed, th=
-e varname is typoed, missing _. Also, it might be worth excluding WKS_FULL_=
-PATH from vardeps entirely -- having to rerun the image build if a layer is=
- moved isn&#39;t ideal, and we already have it in file-checksums.=C2=A0<br>=
--- <br><div class=3D"gmail_signature"><div dir=3D"ltr">Christopher Larson<b=
-r>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<b=
-r>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div></di=
-v>
+diff --git a/meta/recipes-kernel/sysprof/files/gui-argument.patch b/meta/re=
+cipes-kernel/sysprof/files/gui-argument.patch<br>
+new file mode 100644<br>
+index 0000000..d4744e3<br>
+--- /dev/null<br>
++++ b/meta/recipes-kernel/sysprof/files/gui-argument.patch<br>
+@@ -0,0 +1,35 @@<br>
++Add the ability to explicitly enable/diable GUI support</div></blockquote>=
+</div><br>And there&#39;s a typo in this patch description. Hrmph.<br><br c=
+lear=3D"all"><div><br></div>-- <br><div class=3D"gmail_signature"><div dir=
+=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder - BitBak=
+e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
+er, Mentor Graphics</div></div>
 </div></div>
 
---001a1140fe4017982a0524608ec1--
+--089e0149bbc259501905246090e7--
