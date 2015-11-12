@@ -1,40 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 219A7772A1
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CB5F77280
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 23:41:49 +0000 (UTC)
-Received: by padhx2 with SMTP id hx2so79740930pad.1
+	Thu, 12 Nov 2015 23:41:53 +0000 (UTC)
+Received: by pabfh17 with SMTP id fh17so79795388pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 15:41:49 -0800 (PST)
+	Thu, 12 Nov 2015 15:41:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=lQnoPumX5CNeHSH0u4YHczH03oFgtoGExDtNwgeLNtQ=;
-	b=CJs4Y9G37FqPc1peFR6O2/v+KKTCX1pIq+yCPRAHKqb259hJ14/bX0FS4oKat3bZ9Y
-	qJj3aA39rnHftolz16BlPBKPm04k9hkZV5IOBcxd+Jcfp84kpmv0D582gCgy+I1rcyhv
-	NrYb6gsw/v0LiTb6PN9Pk3SBhvpCrdpjwuwHfg6nk6qzx8wNyFzeg+W06vzucgt5t3Ui
-	ShHZ9oJhcejF8P39rAvlFVogRh4Pn93LUOcshPcAe4Qk4smSRqMLfRUzi04KhuWKF8in
-	p3zc/D2gCqQ9iE7aii6zly2xe/2aboE+9RIZw+qZ4M85zaQgd9mzMm7YW9/rgcMrGT1T
-	/05g==
-X-Received: by 10.68.215.67 with SMTP id og3mr27248324pbc.30.1447371709684;
-	Thu, 12 Nov 2015 15:41:49 -0800 (PST)
+	bh=wCuOFPh5KBhVTGXhK3GPsR8wE8dwaWk5m+Ot7Ogug3U=;
+	b=HJEane01HWUM+RaRf9/vfSBfXNtHZA7ivaBIHMmWSfQOm/oVX9QiBevAuIa6h26+re
+	Ltu5IrShTJFYRdL4J/7pgseW5UFDMvv5PsaiNi1VLTm1wfnfPOade0OjNUTXLthbnEtc
+	yninQXszRayOIaEvP7qKtnMehMiLiIY8oup31BnVNwF45ctABr2NceySkLZsIbTS9VjW
+	JzYFefbRmgauj5rRO4hA5wIG3Sovi29OuhrAhSvBMftAlMwOGnNGYYy7vd35fZvFJYxc
+	x9dMwRwIclyh65lK1muAAm71N7pUulYsCEAls1gToqlrqYOgnZwgga9meUUdvBtjrfM5
+	/SmQ==
+X-Received: by 10.68.198.101 with SMTP id jb5mr1659942pbc.119.1447371713661;
+	Thu, 12 Nov 2015 15:41:53 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	it10sm16733638pbc.14.2015.11.12.15.41.46
+	it10sm16733638pbc.14.2015.11.12.15.41.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 12 Nov 2015 15:41:48 -0800 (PST)
+	Thu, 12 Nov 2015 15:41:52 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Nov 2015 16:41:30 -0700
-Message-Id: <05b7cc8c957a9756e7af964a09bc2a89e0aedd9f.1447371049.git.chris_larson@mentor.com>
+Date: Thu, 12 Nov 2015 16:41:31 -0700
+Message-Id: <b13cbf19a553ab7b8ec0afd7901d2982cb543a3d.1447371049.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
 In-Reply-To: <130d9a6c1f4ecea86748a44b73f51d8ddb2e63da.1447371049.git.chris_larson@mentor.com>
 References: <130d9a6c1f4ecea86748a44b73f51d8ddb2e63da.1447371049.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1447371049.git.chris_larson@mentor.com>
 References: <cover.1447371049.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 3/4] systemd: add myhostname to nsswitch.conf
+Subject: [PATCH 4/4] systemd: arrange for volatile /etc/resolv.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,43 +47,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 23:41:49 -0000
+X-List-Received-Date: Thu, 12 Nov 2015 23:41:53 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-We don't need nss-myhostname on systemd systems, because systemd already
-provides myhostname, but we weren't configuring nsswitch to use it. Being able
-to resolve the hostname is useful for a number of different applications, so
-enable it using the same postinst/prerm bits which are in nss-myhostname.
+On sysvinit systems, volatiles is configured to make /etc/resolv.conf symlink
+to a file in a volatile path, which lets us write to /etc/resolv.conf for
+read-only-rootfs. For systemd, this isn't set up unless we enable
+systemd-resolved, which we don't by default. When it's not enabled, create the
+/etc/resolv.conf symlink and ensure the volatile path is created on boot with
+tmpfiles.d.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-core/systemd/systemd_225.bb | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ meta/recipes-core/systemd/systemd_225.bb | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
-index 18c2448..20515f5 100644
+index 20515f5..095448d 100644
 --- a/meta/recipes-core/systemd/systemd_225.bb
 +++ b/meta/recipes-core/systemd/systemd_225.bb
-@@ -397,6 +397,18 @@ ALTERNATIVE_TARGET[runlevel] = "${base_bindir}/systemctl"
- ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
- ALTERNATIVE_PRIORITY[runlevel] ?= "300"
+@@ -196,6 +196,13 @@ do_install() {
+ 	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ]; then
+ 		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf', d)}
+ 	fi
++	if ! ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false', d)}; then
++		# if resolved is disabled, it won't handle the link of resolv.conf, so
++		# set it up ourselves
++		ln -s ../run/resolv.conf ${D}${sysconfdir}/resolv.conf
++		echo 'L! ${sysconfdir}/resolv.conf - - - - ../run/resolv.conf' >>${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
++		echo 'f /run/resolv.conf 0644 root root' >>${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
++	fi
+ 	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${systemd_unitdir}/systemd-sysv-install
+ }
  
-+pkg_postinst_${PN} () {
-+	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
-+		-e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 myhostname \3\4\5/' \
-+		-i $D${sysconfdir}/nsswitch.conf
-+}
-+
-+pkg_prerm_${PN} () {
-+	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
-+		-e '/^hosts:/s/\s*myhostname//' \
-+		-i $D${sysconfdir}/nsswitch.conf
-+}
-+
- pkg_postinst_udev-hwdb () {
- 	if test -n "$D"; then
- 		${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
+@@ -290,6 +297,7 @@ FILES_${PN} = " ${base_bindir}/* \
+                 ${sysconfdir}/tmpfiles.d/ \
+                 ${sysconfdir}/xdg/ \
+                 ${sysconfdir}/init.d/README \
++                ${sysconfdir}/resolv.conf \
+                 ${rootlibexecdir}/systemd/* \
+                 ${systemd_unitdir}/* \
+                 ${base_libdir}/security/*.so \
 -- 
 2.2.1
 
