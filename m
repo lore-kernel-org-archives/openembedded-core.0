@@ -1,40 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 773DB772B9
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
+	[209.85.220.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 24E7C772B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 23:41:11 +0000 (UTC)
-Received: by pasz6 with SMTP id z6so82470589pas.2
+	Thu, 12 Nov 2015 23:41:15 +0000 (UTC)
+Received: by padhx2 with SMTP id hx2so79727217pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 15:41:12 -0800 (PST)
+	Thu, 12 Nov 2015 15:41:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=F6FYxuKizAA/JypNt3ebee+yr7L/DBAgUIsJJpb7jDo=;
-	b=ntl9nWP7PMJvLkcv2R/PONoJk32zF0Uan1h33BSDkb9Qz3x6jB/pq47GuRmDKKWgNL
-	ZJ96CEIVeENxu4XNsW0TYNMuYEiZkh2kX0c7IMhUpWSv+mwwdfQwHfvj93TeaTocDXBQ
-	C8T5GeDNBmdpLtQWEAfdSSbr0CCn53kNT8iwDUm73mcMITjPoTL3NvvCQpiPOm12CgNE
-	+A3DDQX+vysDdICfY/Dojb/q/CP1okB6uPjunqHMOyhyRRMLW+SX+flTVTAcCKvHhc3Q
-	aN3/i+2WE6OwBVnz2wxf3jy1tPE2WZB3j0dJTSxlB3Wl6snFrK8y/nCqlEMGafbgL9RO
-	jIHQ==
-X-Received: by 10.68.169.34 with SMTP id ab2mr27449807pbc.44.1447371672016;
-	Thu, 12 Nov 2015 15:41:12 -0800 (PST)
+	bh=jngrMKdjArFzQ/pkRtV7nHi/kYGXWcF/VY4W1ems8ug=;
+	b=UxwVP/p7/wHwOYQVKcrtRzeBxp6UKLEesDryxzC0r5UiQcQ7kqRaQh3uqCxNSLUwH3
+	bkXazjz+Zq3OS9HD+WzKHQlx9xhhkt6yl51If06xo+dTU9Kie+KI69ZxkjwoVxLxZAJl
+	AzIHfv5UXpWHZ6IUmck9dYdXev/18sHdHAbf+pP5HajmtZRWjCXjr8NuvwekOP/gx9wh
+	1fEiqZgdWdjPl+rKPhcnfZpcZHgqCUn5l0Ohm1nXAlipggV7aM6Cww2fjR9lnMhRli/V
+	TBj9sO13rxQZB95jfh59//PKRDGdJiqkmcRwhipZAjoxWtE0QtCzm/TNnoucdYzqEFBJ
+	eHqQ==
+X-Received: by 10.68.219.40 with SMTP id pl8mr26972669pbc.136.1447371675697;
+	Thu, 12 Nov 2015 15:41:15 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	yz3sm16726614pbb.37.2015.11.12.15.41.08
+	yz3sm16726614pbb.37.2015.11.12.15.41.12
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 12 Nov 2015 15:41:10 -0800 (PST)
+	Thu, 12 Nov 2015 15:41:14 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Nov 2015 16:40:37 -0700
-Message-Id: <5f83d8d082767ede01945a5298495e1564c2de96.1447371041.git.chris_larson@mentor.com>
+Date: Thu, 12 Nov 2015 16:40:38 -0700
+Message-Id: <25235c4c941f0db5e08dbdea09244fb1ed743630.1447371041.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
 In-Reply-To: <0608c916d5ea89bc95112b583a04de0cc81a6374.1447371041.git.chris_larson@mentor.com>
 References: <0608c916d5ea89bc95112b583a04de0cc81a6374.1447371041.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1447371041.git.chris_larson@mentor.com>
 References: <cover.1447371041.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 6/7] psplash: add systemd support
+Subject: [PATCH 7/7] nativesdk-perl: set PERL5LIB based on wrapper path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,110 +47,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 23:41:11 -0000
+X-List-Received-Date: Thu, 12 Nov 2015 23:41:15 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
+Rather than relying on OECORE_NATIVE_SYSROOT, we can operate relative to the
+wrapper binary location.
+
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-core/psplash/files/psplash-quit.service | 11 +++++++++++
- .../recipes-core/psplash/files/psplash-start.service | 11 +++++++++++
- meta/recipes-core/psplash/psplash_git.bb             | 20 +++++++++++++++-----
- 3 files changed, 37 insertions(+), 5 deletions(-)
- create mode 100755 meta/recipes-core/psplash/files/psplash-quit.service
- create mode 100755 meta/recipes-core/psplash/files/psplash-start.service
+ meta/recipes-devtools/perl/perl_5.22.0.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/psplash/files/psplash-quit.service b/meta/recipes-core/psplash/files/psplash-quit.service
-new file mode 100755
-index 0000000..14bd499
---- /dev/null
-+++ b/meta/recipes-core/psplash/files/psplash-quit.service
-@@ -0,0 +1,11 @@
-+[Unit]
-+Description=Terminate Psplash Boot Screen
-+After=psplash-start.service
+diff --git a/meta/recipes-devtools/perl/perl_5.22.0.bb b/meta/recipes-devtools/perl/perl_5.22.0.bb
+index 9df8d04..ea0677a 100644
+--- a/meta/recipes-devtools/perl/perl_5.22.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.22.0.bb
+@@ -244,9 +244,11 @@ do_install() {
+         ln -s Config_heavy.pl ${D}${libdir}/perl/${PV}/Config_heavy-target.pl
+ }
+ 
++REL_PERLLIB = "${@os.path.relpath('${libdir}', '${bindir}')}/perl"
 +
-+[Service]
-+Type=oneshot
-+ExecStart=/usr/bin/psplash-write QUIT
-+TimeoutSec=20
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-core/psplash/files/psplash-start.service b/meta/recipes-core/psplash/files/psplash-start.service
-new file mode 100755
-index 0000000..502b150
---- /dev/null
-+++ b/meta/recipes-core/psplash/files/psplash-start.service
-@@ -0,0 +1,11 @@
-+[Unit]
-+Description=Starts Psplash Boot screen
-+Wants=systemd-vconsole-setup.service
-+After=systemd-vconsole-setup.service systemd-udev-trigger.service systemd-udevd.service
-+DefaultDependencies=no
-+
-+[Service]
-+ExecStart=/usr/bin/psplash
-+
-+[Install]
-+WantedBy=sysinit.target
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index b3b6479..acf294f 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -12,6 +12,8 @@ PR = "r15"
- SRC_URI = "git://git.yoctoproject.org/${BPN} \
-            file://0001-psplash-fb-Convert-psplash_fb_plot_pixel-to-a-static.patch \
-            file://psplash-init \
-+           file://psplash-start.service \
-+           file://psplash-quit.service \
-            ${SPLASH_IMAGES}"
+ do_install_append_class-nativesdk () {
+         create_wrapper ${D}${bindir}/perl \
+-            PERL5LIB='$PERL5LIB:$OECORE_NATIVE_SYSROOT/${libdir_nativesdk}/perl/site_perl/${PV}:$OECORE_NATIVE_SYSROOT/${libdir_nativesdk}/perl/vendor_perl/${PV}:$OECORE_NATIVE_SYSROOT/${libdir_nativesdk}/perl/${PV}'
++            PERL5LIB='$PERL5LIB:`dirname $realpath`/${REL_PERLLIB}/site_perl/${PV}:`dirname $realpath`/${REL_PERLLIB}/vendor_perl/${PV}:`dirname $realpath`/${REL_PERLLIB}/${PV}'
+ }
  
- SPLASH_IMAGES = "file://psplash-poky-img.h;outsuffix=default"
-@@ -66,11 +68,13 @@ python __anonymous() {
- 
- S = "${WORKDIR}/git"
- 
--inherit autotools pkgconfig update-rc.d update-alternatives
-+inherit autotools pkgconfig update-rc.d update-alternatives systemd
- 
- ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE_LINK_NAME[psplash] = "${bindir}/psplash"
- 
-+SYSTEMD_SERVICE_${PN} = "psplash-start.service psplash-quit.service"
-+
- python do_compile () {
-     import shutil
- 
-@@ -97,8 +101,15 @@ python do_compile () {
- 
- do_install_append() {
- 	install -d ${D}/mnt/.psplash/
--	install -d ${D}${sysconfdir}/init.d/
--	install -m 0755 ${WORKDIR}/psplash-init ${D}${sysconfdir}/init.d/psplash.sh
-+	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
-+		install -d ${D}${sysconfdir}/init.d/
-+		install -m 0755 ${WORKDIR}/psplash-init ${D}${sysconfdir}/init.d/psplash.sh
-+	fi
-+	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-+		install -d ${D}${systemd_unitdir}/system
-+		install -m 0644 ${WORKDIR}/psplash-quit.service ${D}${systemd_unitdir}/system
-+		install -m 0644 ${WORKDIR}/psplash-start.service ${D}${systemd_unitdir}/system
-+	fi
- 	install -d ${D}${bindir}
- 	for i in ${SPLASH_INSTALL} ; do
- 		install -m 0755 $i ${D}${bindir}/$i
-@@ -111,9 +122,8 @@ FILES_${PN} += "/mnt/.psplash"
- INITSCRIPT_NAME = "psplash.sh"
- INITSCRIPT_PARAMS = "start 0 S . stop 20 0 1 6 ."
- 
--DEPENDS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
- pkg_postinst_${PN} () {
--	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
- 		if [ -n "$D" ]; then
- 			OPTS="--root=$D"
- 		fi
+ PACKAGE_PREPROCESS_FUNCS += "perl_package_preprocess"
 -- 
 2.2.1
 
