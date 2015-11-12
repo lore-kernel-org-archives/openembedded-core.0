@@ -1,40 +1,35 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 8125A77283
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 42F7D77280
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 23:40:19 +0000 (UTC)
-Received: by pasz6 with SMTP id z6so82446634pas.2
+	Thu, 12 Nov 2015 23:40:35 +0000 (UTC)
+Received: by pasz6 with SMTP id z6so82453242pas.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 15:40:20 -0800 (PST)
+	Thu, 12 Nov 2015 15:40:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=99GYnkO1HpY64DMukDTLGuO6ouv3CB3hAZE28JOUN3g=;
-	b=SyAlJoTVBvKwmpUH+oJe1rgBcpIxLIONE29bkjtgS5S+IAYUBHrIRLijl4GWDyN7SQ
-	ICA4hzls161AcfIqYam5xv1EwJ/EuSut7BasH881BLOnWDcG78tcbk8CF/jO1oVVw5vN
-	SGXEpSc4G2S/24mcoAhsi1UmOh2zfdIVaQ2zik/Xj2az//wwE5o1ccC33rSWQyYE+jFY
-	fGXl/FbJDAC1qlQ9glTc+isqQILt8FT1OHBSRAaEXZ2qCmCaqI74YJ97uXOzns0HW6yP
-	aonarszdSxobULpuEcJOdqXr5bGJCRmuRh85K5lvDhRNRIvP4m93sW/ZfU6ujuz5FOdO
-	FcRQ==
-X-Received: by 10.68.57.137 with SMTP id i9mr27478605pbq.66.1447371620465;
-	Thu, 12 Nov 2015 15:40:20 -0800 (PST)
+	h=from:to:cc:subject:date:message-id;
+	bh=jz+F6fzKE5Wmi37H3pIEazx7OG6MSki7Xr/F00+APvQ=;
+	b=xvueclWfchYzQdiQPiwCm4zOCxPWKjI7CrScIjFR2KbHwUZE5HJsPQmgZzI8yLlgvo
+	lwASTDn3141MXwycdOzPln/M4CKHRYZ26gMNhD89FCrieZzr5Y3fmSaIgUqr33vutoyc
+	yUKuexnbhtkkf4nr6HSyfXc6KJsZtYgbTPi1JgHtFLo7T/+SxBaLlgsO/gv5wb+js3si
+	7mHpaO8KBLc4jDBX0HR4OE/Xk4RebO1dnMGOH4BLuk+/7je8ggXvY0unqF2BMXzPh3xM
+	oRDh1+fRo32iuUmea2MTnsG2LGYsK9S6ZGSXMk87CKCPl+nC61hIpo30mFZLeHCGCPaq
+	yrPQ==
+X-Received: by 10.67.4.38 with SMTP id cb6mr27284218pad.34.1447371635785;
+	Thu, 12 Nov 2015 15:40:35 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	cs5sm16739866pbc.15.2015.11.12.15.40.14
+	wq1sm16715245pbc.49.2015.11.12.15.40.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 12 Nov 2015 15:40:17 -0800 (PST)
+	Thu, 12 Nov 2015 15:40:33 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Nov 2015 16:39:22 -0700
-Message-Id: <05f060cedf44633b7dbc4b191c35e21178da55bb.1447371033.git.chris_larson@mentor.com>
+Date: Thu, 12 Nov 2015 16:40:23 -0700
+Message-Id: <cover.1447371041.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
-In-Reply-To: <fb3e5cc3095925f349046ed1da766ea2765e0949.1447371033.git.chris_larson@mentor.com>
-References: <fb3e5cc3095925f349046ed1da766ea2765e0949.1447371033.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1447371033.git.chris_larson@mentor.com>
-References: <cover.1447371033.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 11/11] openjade-native: statically link local libs
+Subject: [PATCH 0/7] Misc improvements 1 from Mentor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,63 +42,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 23:40:22 -0000
+X-List-Received-Date: Thu, 12 Nov 2015 23:40:35 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-Statically link local libs to avoid gold link issue. This is clearly
-a workaround, but does get us past the failures with systems using gold by
-default until we find a better solution.
+This is the second of three pull requests / patch series from Mentor's queue
+of changes destined for oe-core master (not jethro). This series includes
+a few recipe improvements and adds the ability to supply and use wks files
+from a different layer than the image.
 
-[YOCTO #2972]
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- .../openjade/openjade-native_1.3.2.bb              | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
+The following changes since commit e44ed8c18e395b9c055aefee113b90708e8a8a2f:
 
-diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-index fa7aa62..355ed6a 100644
---- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-+++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-@@ -24,6 +24,10 @@ SRC_URI[sha256sum] = "1d2d7996cc94f9b87d0c51cf0e028070ac177c4123ecbfd7ac1cb8d0b7
- 
- inherit autotools-brokensep native
- 
-+# Statically link local libs to avoid gold link issue [YOCTO #2972]
-+PACKAGECONFIG ?= "static-only-libs"
-+PACKAGECONFIG[static-only-libs] = "--enable-static --disable-shared,--enable-static --enable-shared,,"
-+
- EXTRA_OECONF = "--enable-spincludedir=${STAGING_INCDIR}/OpenSP \
-                 --enable-splibdir=${STAGING_LIBDIR}"
- 
-@@ -57,14 +61,20 @@ do_compile_prepend () {
- do_install() {
- 	# Refer to http://www.linuxfromscratch.org/blfs/view/stable/pst/openjade.html
- 	# for details.
--	install -d ${D}${bindir}	
--	install -m 0755 ${S}/jade/.libs/openjade ${D}${bindir}/openjade
-+	install -d ${D}${bindir} ${D}${libdir}
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'static-only-libs', 'true', 'false', d)}; then
-+		install -m 0755 jade/openjade ${D}${bindir}/openjade
-+		oe_libinstall -a -C style libostyle ${D}${libdir}
-+		oe_libinstall -a -C spgrove libospgrove ${D}${libdir}
-+		oe_libinstall -a -C grove libogrove ${D}${libdir}
-+	else
-+		install -m 0755 jade/.libs/openjade ${D}${bindir}/openjade
-+		oe_libinstall -a -so -C style libostyle ${D}${libdir}
-+		oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
-+		oe_libinstall -a -so -C grove libogrove ${D}${libdir}
-+	fi
- 	ln -sf openjade ${D}${bindir}/jade
- 
--	oe_libinstall -a -so -C style libostyle ${D}${libdir}
--	oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
--	oe_libinstall -a -so -C grove libogrove ${D}${libdir}
--
- 	install -d ${D}${datadir}/sgml/openjade-${PV}
- 	install -m 644 dsssl/catalog ${D}${datadir}/sgml/openjade-${PV}
- 	install -m 644 dsssl/*.dtd ${D}${datadir}/sgml/openjade-${PV}
+  build-appliance-image: Update to jethro head revision (2015-11-03 14:02:57 +0000)
+
+are available in the git repository at:
+
+  git://github.com/kergoth/openembedded-core mentor-misc-improvements-1-after-jethro
+  https://github.com/kergoth/openembedded-core/tree/mentor-misc-improvements-1-after-jethro
+
+Christopher Larson (7):
+  image_types: improve wks path specification
+  sysprof: use packageconfig for the gui
+  sysprof: add missing gdk-pixbuf/pango deps
+  systemd: for valgrind, define VALGRIND=1
+  bluez5: enable sysvinit support
+  psplash: add systemd support
+  nativesdk-perl: set PERL5LIB based on wrapper path
+
+ meta/classes/image_types.bbclass                   | 22 ++++---
+ meta/recipes-connectivity/bluez5/bluez5.inc        |  8 ++-
+ meta/recipes-connectivity/bluez5/bluez5/init       | 68 ++++++++++++++++++++++
+ .../psplash/files/psplash-quit.service             | 11 ++++
+ .../psplash/files/psplash-start.service            | 11 ++++
+ meta/recipes-core/psplash/psplash_git.bb           | 20 +++++--
+ meta/recipes-core/systemd/systemd_225.bb           |  3 +
+ meta/recipes-devtools/perl/perl_5.22.0.bb          |  4 +-
+ .../sysprof/files/gui-argument.patch               | 35 +++++++++++
+ meta/recipes-kernel/sysprof/sysprof_git.bb         |  9 ++-
+ 10 files changed, 174 insertions(+), 17 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/init
+ create mode 100755 meta/recipes-core/psplash/files/psplash-quit.service
+ create mode 100755 meta/recipes-core/psplash/files/psplash-start.service
+ create mode 100644 meta/recipes-kernel/sysprof/files/gui-argument.patch
+
 -- 
 2.2.1
 
