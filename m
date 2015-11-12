@@ -1,46 +1,34 @@
-Return-Path: <ross.burton@intel.com>
+Return-Path: <armccurdy@gmail.com>
 Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A7A177223
+	by mail.openembedded.org (Postfix) with ESMTP id EFFEA77266
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 19:59:36 +0000 (UTC)
-Received: by wmdw130 with SMTP id w130so2127751wmd.0
+	Thu, 12 Nov 2015 19:59:38 +0000 (UTC)
+Received: by wmdw130 with SMTP id w130so2129251wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 11:59:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Lp/+tS8i+uMKDQwhSJD1ZlQe8uhTowIJzul+tK9r6FU=;
-	b=pG5C0mL65WEJuaFuSZfE2NAC6H+/RW6PwnCgf6q3vZUKRUX8r6dUbF8paPbTObN18k
-	VJPpv3AbHxOdNXCogmlvzXiKvjNOeoMZF8lhAMdd0biDfu5sZfgTtni+VaTU+31THLkW
-	nKfiV+g0/dD6h3G5vEXVsbY6sRKodssoPFsavNjZC/fDiJkpGJ14x8RKe6zOgb7QE6DK
-	SR0pz773uE6USkegURFhXuMLj0BRkvnUz1xrUbkAH0gY4YeZ+rk2jWQkW60nq8ymayln
-	pcez2hleaqW+2BdmweisMeM1Pw2xmhcJ4MExM2nqFB1MQZun4vtRn4ocO/5cyz9loQ1u
-	kw3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Lp/+tS8i+uMKDQwhSJD1ZlQe8uhTowIJzul+tK9r6FU=;
-	b=W457ZK3ukOD9C5E8Q+WiLDQNwn8aXcZZBI3P9UXtvyiQSSl3r631IxmTj+6HxWulg2
-	QhWpPFICM0iSXVfNe29cvpn5M1Byf8Oz6fHMc2XpjHeILKbyeKH3veM+xUqkj3N26ccf
-	epLiZnvy6vaIcRaxcljzt9Q33tV4SbvBzzVrSTg7caodeKxf6qJEp7JzFGU+W5HmkYMc
-	i0oYm/lgIlU1q5vJlSMh5RWFlgh/lrStQEapLgjUhHylep4tA3uDaE0On50Ef5JyKE/8
-	DsDtPwUfqoiiIjVceSr2cTTineQUA0PKaNz+TYfH0x2rzJzHNPTPkPsU4/EX8FVs6aj+
-	+KAw==
-X-Gm-Message-State: ALoCoQmAka4qenmKvXitxYIQ80MtV2Xc27tmhuSvqZVpay5HAT7x4dVoQbOiXU/I63ikSCsTBI55
-X-Received: by 10.28.88.205 with SMTP id m196mr20564069wmb.7.1447358376234;
-	Thu, 12 Nov 2015 11:59:36 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id v4sm6585996wjx.18.2015.11.12.11.59.35
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 12 Nov 2015 11:59:35 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Nov 2015 19:51:14 +0000
-Message-Id: <1447357874-13594-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] gstreamer1.0: fix install race
+	Thu, 12 Nov 2015 11:59:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=vWsP4f5zLhcgntDEJb0BB7BS0YMbmYkik3Fqf6GnaZQ=;
+	b=zRYlGs6x8zipABpZn+KGRK8Nu2emdF4rAg/M7Qrj03goCDVV8HGs2H7ZzKc7FtlVqs
+	SiIpQWMzPKUDFm9OLfKeYCaAwilE1FMK9LvvfvwdWik7WZXye3LMxVfcH6ll3jADgO/s
+	M4WF2qwl4GyK3rn05cSBcC8FWh7BU6aNsiHG+MNheskIEt10qK0ZF0dXnJxUvigq+a7V
+	2SpcxZfJxtG+r5ScMy4IUy/9FE9ZZFsC62QBAWJZsddJ3QPU3GQ7m9081PXpdUSkQSMg
+	CbVphnMxTp6G+Y3hBqNUWRv+AjCvDSd8QDGjTcWgOud7DefsUgjE5Brngs4eYytT3XcY
+	CyQw==
+MIME-Version: 1.0
+X-Received: by 10.194.9.104 with SMTP id y8mr18495931wja.106.1447358378549;
+	Thu, 12 Nov 2015 11:59:38 -0800 (PST)
+Received: by 10.194.140.38 with HTTP; Thu, 12 Nov 2015 11:59:38 -0800 (PST)
+In-Reply-To: <CAJTo0LYoc6vqX=vU645oWxL74z__7BNRCrNMjcX3RDt9XHkDEQ@mail.gmail.com>
+References: <1447303449-20796-1-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LYoc6vqX=vU645oWxL74z__7BNRCrNMjcX3RDt9XHkDEQ@mail.gmail.com>
+Date: Thu, 12 Nov 2015 11:59:38 -0800
+Message-ID: <CAJ86T=WZg5sBm9pfOVWv9Fxg2QAqj8u=jTYe6WnA3NyaiG+RAA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bootimg.bbclass: make default KERNEL_IMAGETYPE match kernel.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,62 +41,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 19:59:36 -0000
+X-List-Received-Date: Thu, 12 Nov 2015 19:59:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The install hook needs to be a data hook not an exec hook (because automake),
-the explicit dependency upstream added to fix the ordering results in
-install-helpersPROGRAMS executing twice and potentially racing.
+On Thu, Nov 12, 2015 at 2:15 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 12 November 2015 at 04:44, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>> -KERNEL_IMAGETYPE ??= "bzImage"
+>> +KERNEL_IMAGETYPE ??= "zImage"
+>
+> Or would it be better to unify on bzImage for master?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../gstreamer/gstreamer1.0/fix-install-hook.patch  | 24 ++++++++++++++++++++++
- .../gstreamer/gstreamer1.0_1.6.1.bb                |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/fix-install-hook.patch
+I'm not sure. I guess most people set their preferred image type via
+machine config and for those that don't, switching the default is just
+going to cause confusion rather than being helpful.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/fix-install-hook.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/fix-install-hook.patch
-new file mode 100644
-index 0000000..ed75cf8
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/fix-install-hook.patch
-@@ -0,0 +1,24 @@
-+This needs to be a install-data-hook not an install-exec-hook as the helpers are
-+installed into helperdir which is considered data (only path variables with
-+"exec" in are considered executables).
-+
-+The explicit dependency on install-helpersPROGRAMS was an attempt at solving
-+this, but this causes occasional races where install-helpersPROGRAMS can run
-+twice in parallel (once via install-all, once via the hook's dependency).
-+
-+Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=758029]
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/libs/gst/helpers/Makefile.am b/libs/gst/helpers/Makefile.am
-+index 0ae9ab0..2530a34 100644
-+--- a/libs/gst/helpers/Makefile.am
-++++ b/libs/gst/helpers/Makefile.am
-+@@ -23,7 +23,7 @@ gst_ptp_helper_CFLAGS = $(GST_OBJ_CFLAGS) $(GIO_CFLAGS)
-+ gst_ptp_helper_LDADD = $(GST_OBJ_LIBS) $(GIO_LIBS) $(CAP_LIBS)
-+ endif
-+ 
-+-install-exec-hook: install-helpersPROGRAMS
-++install-data-hook:
-+ if HAVE_PTP
-+ if HAVE_PTP_HELPER_SETUID
-+ 	- chown root $(DESTDIR)$(helpersdir)/gst-ptp-helper
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.1.bb
-index 2359249..9618eaf 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.6.1.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
- SRC_URI = " \
-     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
-     file://0001-Fix-crash-with-gst-inspect.patch \
-+    file://fix-install-hook.patch \
- "
- SRC_URI[md5sum] = "e72e2dc2ee06bfc045bb6010c89de520"
- SRC_URI[sha256sum] = "973a3f213c8d41d6dd0e4e7e38fd6cccacd5ae1ac09e1179a8d5d869ef0a5c9c"
--- 
-2.1.4
+I did wonder about moving the default definition from kernel.bbclass
+into bitbake.conf though. Then the duplicate default definition in
+bootimg.bbclass could be removed.
 
+> (this patch would be suitable for jethro)
+>
+> Ross
 
