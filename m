@@ -1,31 +1,48 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 961AA771C6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 337B77720C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 12:10:50 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout06 with smtp
-	id gcAo1r0010BmcFC01cApnR; Thu, 12 Nov 2015 12:10:49 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.1 cv=E4sw3vpl c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=0Bzu9jTXAAAA:8
-	a=-An2I_7KAAAA:8 a=kj9zAlcOel0A:10 a=qtqOOiqGOCEA:10
-	a=ayZzyg9wDIXhpXhpT8EA:9 a=CjuIK1q_8ugA:10
-Received: from mac by deneb with local (Exim 4.84)
-	(envelope-from <mac@mcrowe.com>) id 1ZwqiG-0003xf-3Q
-	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Nov 2015 12:10:48 +0000
-Date: Thu, 12 Nov 2015 12:10:48 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <20151112121048.GA13777@mcrowe.com>
-References: <1446734821-6011-1-git-send-email-mac@mcrowe.com>
-	<CAJ86T=WxqbJ83S4RESL_oKX9gYNg6-aAPGUYR3btSQBhKQo-1g@mail.gmail.com>
-	<20151106103004.GA7454@mcrowe.com>
+	Thu, 12 Nov 2015 12:12:28 +0000 (UTC)
+Received: by igbxm8 with SMTP id xm8so39647989igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Nov 2015 04:12:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=a5FV4QDX0EZazV20zsbrQh6tfiU1VGjWYccEoBC0DQ8=;
+	b=gWDa4qeHGumDeUEuCMxgkev3HjKE8bbDYVGhyBFaL8qTDCeA22+0lDN1UMAov6yDnK
+	auo8FlToEgNeHBrfpbCL62qoRktnBLazj7cQXZoObtjXHhIBUQoDMIAZzdQ/zU974kRT
+	xBTmr+T9YOeHpEYAQIb0ZvqpCde6LLmsz7K6uRPNB0ttxye8jHTpmVd9ue+Vl4YZiWoo
+	qYFlJ1A2d9NP7rjiXDD81/KgMXVgz1zn/UYXz8BCSaQ01Tn8CyXFZgJ07UgYyOfPqQoS
+	uGkUv1eweTKD1XTK3CYgd7n0enCFW8oLAHMVgfaGgGM7Ux2iyXsPXU50bvM4UvJpTSt9
+	RDMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=a5FV4QDX0EZazV20zsbrQh6tfiU1VGjWYccEoBC0DQ8=;
+	b=TuL1LE8jXBQJbodK4ZVzXMOjmG3pQsJEA1Hz9tjnXKnhV1AdiW+fgopeT0GRbZS4cN
+	BrsRepmg7ELeh+HnHHKdeCyEcwQAtJWFc/QGnTZ3PAC2NRGCHCyKH1hx0oaYuYQ75BST
+	LVZM77zE1g8xjbVM/b5aDkoK78vd+OUflcgvD6vFokdNT8HYwBBvc4AXymGyvHVR4jJ2
+	+xP8XkRoxY5Mh5UYCRSa+DytSdQRzQdvgOHrjUgrJoN4Ge8AJfZ01ubWlwBd3E2GH7Hu
+	1QYJhvbrP8JSOwCNRGRq+PBcSOJUJdUvBkly0PF5MSYv9ARiqtTyGX6YjpbNIxqGOmYQ
+	2H0A==
+X-Gm-Message-State: ALoCoQlkbraiVFivQFuSUjUrJxWUCgKtVnsrIrnEIEPmycHbk6DrfX5dsR1UIX9tiZ5BMUhZ0pG3
+X-Received: by 10.50.112.100 with SMTP id ip4mr15317677igb.78.1447330348496;
+	Thu, 12 Nov 2015 04:12:28 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20151106103004.GA7454@mcrowe.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCH] bitbake.conf, module.bbclass: Support opting out of legacy EXTRA_OEMAKE
+Received: by 10.107.136.141 with HTTP; Thu, 12 Nov 2015 04:12:09 -0800 (PST)
+In-Reply-To: <20151112114311.GD2574@jama>
+References: <20151112114311.GD2574@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 12 Nov 2015 12:12:09 +0000
+Message-ID: <CAJTo0LaeSCxpDbt2QmKXyE+hdYJs5Sb7NuVPZ3=1ZzyfrVfd7A@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, test-dependencies 2015-11-12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,37 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 12:10:55 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 12 Nov 2015 12:12:30 -0000
+Content-Type: multipart/alternative; boundary=089e01161d004b9467052456dbdf
 
-On Friday 06 November 2015 at 10:30:04 +0000, Mike Crowe wrote:
-> It would be great to get to the point that EXTRA_OEMAKE is empty by default
-> but I imagine that the experts are already aware of the difficulties with
-> doing this which is why the current value has lasted so long.
+--089e01161d004b9467052456dbdf
+Content-Type: text/plain; charset=UTF-8
 
-I had a go at this. Fewer recipes than I expected seem to be affected.
+On 12 November 2015 at 11:43, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-With bitbake.conf containing EXTRA_OEMAKE = "", the following recipes
-needed to be changed to explicitly set EXTRA_OEMAKE = "-e MAKEFLAGS=":
+> WARN: clutter-gst-3.0: clutter-gst-3.0 rdepends on libgudev, but it isn't
+> a build dependency?
+> WARN: gammu: gammu rdepends on libgudev, but it isn't a build dependency?
+> WARN: gstreamer1.0-plugins-good: gstreamer1.0-plugins-good-video4linux2
+> rdepends on libgudev, but it isn't a build dependency?
+>
 
- meta/recipes-bsp/pciutils/pciutils_3.3.1.bb
- meta/recipes-connectivity/openssl/openssl.inc
- meta/recipes-core/busybox/busybox.inc
- meta/recipes-devtools/perl/perl_5.22.0.bb
+Looks like oe-core should take gudev for consistency between init systems.
 
-for core-image-minimal to build successfully[1].
+Ross
 
-I tried core-image-sato but got stuck when apr-util-native wouldn't compile
-for me[2], even with stock master.
+--089e01161d004b9467052456dbdf
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-So, perhaps the situation isn't quite as bad as I feared and it might be
-possible to change the default value of EXTRA_OEMAKE.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 November 2015 at 11:43, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1z2" clas=
+s=3D"a3s" style=3D"overflow:hidden">WARN: clutter-gst-3.0: clutter-gst-3.0 =
+rdepends on libgudev, but it isn&#39;t a build dependency?<br>WARN: gammu: =
+gammu rdepends on libgudev, but it isn&#39;t a build dependency?<br>WARN: g=
+streamer1.0-plugins-good: gstreamer1.0-plugins-good-video4linux2 rdepends o=
+n libgudev, but it isn&#39;t a build dependency?<br></div></blockquote><div=
+><br></div><div>Looks like oe-core should take gudev for consistency betwee=
+n init systems.</div><div><br></div><div>Ross=C2=A0</div></div><br></div></=
+div>
 
-Mike.
-
-[1] I suspect that perl isn't required by core-image-minimal. That list is
-    my complete set of changes from trying to get core-image-sato to build.
-
-[2] x86_64-linux-libtool: compile: unable to infer tagged configuration
-
+--089e01161d004b9467052456dbdf--
