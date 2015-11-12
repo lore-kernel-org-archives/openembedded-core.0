@@ -1,40 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id BFF1F7729C
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 0519077283
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 23:40:09 +0000 (UTC)
-Received: by pabfh17 with SMTP id fh17so79752796pab.0
+	Thu, 12 Nov 2015 23:40:13 +0000 (UTC)
+Received: by pacdm15 with SMTP id dm15so79557825pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 15:40:10 -0800 (PST)
+	Thu, 12 Nov 2015 15:40:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=ikN23Bfsk341di5ePQfSQVmHtq+bmhjwVhb5xtFX14I=;
-	b=rXrQhijZM4img1RCp/z594Hq8g+fwlbfJTg5T0UrUK7jF1c3xGWHBq/La7Z6QuWZfq
-	Fi7EsN+FAUuA3vC8f52bomITfA4EuuegeLAPDLcMqM3e/ZvVNjGPaTKycpbIfD/zFb40
-	zUDFXfv5E/CxOI7wfGB7ELqg3Bexm3081Mxj9adnLctlKNtEEvPQ/3SEDnY0MQ8dFqCP
-	iG4duToDQBH8AuaFAGXzQyowEe+eEa96VuFNyDDaQUxvxmW2GZ/h6mBvocAXXAh0PjSu
-	FZlc6tjr+fHo1qnUjSib8POCmdFjFdGasYL/Onv7XatJfji9juX/tIWEoKDjGTTb9buv
-	QPqg==
-X-Received: by 10.66.156.106 with SMTP id wd10mr26648409pab.150.1447371609918; 
-	Thu, 12 Nov 2015 15:40:09 -0800 (PST)
+	bh=Xv6laAyfw61LfcMaLi/5jjjn9fmPFWrBNmLQiS5S6pk=;
+	b=h1dE+ixrT8+HwECpeHo0ibRn8z+wMHwAMcr6ejo8s40cDCmUoMBmwftJXD8L9zo3kM
+	H4Q3xO6Tnd1S/L+CKavtYJ3EMU/JfR+nfIEQqvhEH7znuaiRdAttsTjt+VmWdh8zyKTO
+	rPj4C1cF1lmuFl3/nDDYi08hcfGuHxCHbVmZ2AbAC44J1j2hh9ofxr7spBdD5GO2xcq6
+	6Xk33PjCKS9l1dUahTymbV1Gv4A+3MPECcilcLB08rLlLw6cvJSjQ+zVRUW+qdsprenu
+	1X1hF9YbBDrGRpKxHMMzFiVETBK+XdK5lVGp1TQzFctK87S/U4Cd+sll3cZWYVf+Rm3E
+	LFkQ==
+X-Received: by 10.67.4.69 with SMTP id cc5mr26985379pad.142.1447371614112;
+	Thu, 12 Nov 2015 15:40:14 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	cs5sm16739866pbc.15.2015.11.12.15.40.06
+	cs5sm16739866pbc.15.2015.11.12.15.40.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 12 Nov 2015 15:40:08 -0800 (PST)
+	Thu, 12 Nov 2015 15:40:12 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Nov 2015 16:39:20 -0700
-Message-Id: <45e3f6a8077682bdcc1f70c68acbbe9b7971e551.1447371033.git.chris_larson@mentor.com>
+Date: Thu, 12 Nov 2015 16:39:21 -0700
+Message-Id: <81889bf57fd69d60d4ba70033c5d3184a7d8e00b.1447371033.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
 In-Reply-To: <fb3e5cc3095925f349046ed1da766ea2765e0949.1447371033.git.chris_larson@mentor.com>
 References: <fb3e5cc3095925f349046ed1da766ea2765e0949.1447371033.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1447371033.git.chris_larson@mentor.com>
 References: <cover.1447371033.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 09/11] connman: depend on readline
+Subject: [PATCH 10/11] sysklogd: inhibit updatercd for non-sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,32 +47,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 23:40:09 -0000
+X-List-Received-Date: Thu, 12 Nov 2015 23:40:14 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-When the client is enabled, which we do by default, readline is required.
-Currently it gets pulled in by other dependencies of connman, indirectly,
-but we should be explicit rather than relying on this.
+This recipe doesn't inherit systemd, so we need to take care of it ourselves.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-connectivity/connman/connman.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/sysklogd/sysklogd.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index afdb3f2..6324d7a 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
- 
- inherit autotools pkgconfig systemd update-rc.d bluetooth
- 
--DEPENDS  = "dbus glib-2.0 ppp iptables"
-+DEPENDS  = "dbus glib-2.0 ppp iptables readline"
- 
- INC_PR = "r20"
- 
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index bcf8aa7..85b3cdc 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -56,3 +56,8 @@ pkg_prerm_${PN} () {
+ 	fi
+ 	fi
+ }
++
++python () {
++    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
++        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
++}
 -- 
 2.2.1
 
