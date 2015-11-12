@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 390E777154
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C595A7717F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 08:51:39 +0000 (UTC)
+	Thu, 12 Nov 2015 08:51:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAC8pe2c002837
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAC8peMR018074
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 00:51:40 -0800 (PST)
+	Thu, 12 Nov 2015 00:51:41 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 12 Nov 2015 00:51:39 -0800
+	Thu, 12 Nov 2015 00:51:40 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Nov 2015 00:51:37 -0800
-Message-ID: <cover.1447318250.git.liezhi.yang@windriver.com>
+Date: Thu, 12 Nov 2015 00:51:38 -0800
+Message-ID: <a7b9d82ce0f3f166c730037fe550a8076b8a6e01.1447318250.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1447318250.git.liezhi.yang@windriver.com>
+References: <cover.1447318250.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] meta: fix gdbm and clutter-gst-3.0
+Subject: [PATCH 1/2] gdbm 1.8.3: install libgdbm_compat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,25 +36,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 12 Nov 2015 08:51:41 -0000
 Content-Type: text/plain
 
-The following changes since commit e44ed8c18e395b9c055aefee113b90708e8a8a2f:
+It has been built but not installed by default, while 1.11 builds and
+installs it.
 
-  build-appliance-image: Update to jethro head revision (2015-11-03 14:02:57 +0000)
+Fixed when build non_gplv3 + perl:
+powerpc64-wrs-linux-gcc -m64 -mhard-float -mcpu=e6500
+--sysroot=/mnt/docker/test_p/bitbake_build/tmp/sysroots/fsl-t2xxx
+-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -
+fstack-protector -shared NDBM_File.o  -o
+../../lib/auto/NDBM_File/NDBM_File.so   \
+   -lgdbm -lgdbm_compat         \
 
-are available in the git repository at:
+ld: cannot find -lgdbm_compat
+collect2: error: ld returned 1 exit status
+Makefile:473: recipe for target '../../lib/auto/NDBM_File/NDBM_File.so' failed
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/2fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/2fixes
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-support/gdbm/gdbm_1.8.3.bb |    1 +
+ 1 file changed, 1 insertion(+)
 
-Robert Yang (2):
-  gdbm 1.8.3: install libgdbm_compat
-  clutter-gst-3.0: add --enable/disable-gudev
-
- meta/recipes-graphics/clutter/clutter-gst-3.0.inc  |   15 ++++++-
- .../0001-configure.ac-add-enable-gudev.patch       |   45 ++++++++++++++++++++
- meta/recipes-support/gdbm/gdbm_1.8.3.bb            |    1 +
- 3 files changed, 60 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/clutter/clutter-gst-3.0/0001-configure.ac-add-enable-gudev.patch
-
+diff --git a/meta/recipes-support/gdbm/gdbm_1.8.3.bb b/meta/recipes-support/gdbm/gdbm_1.8.3.bb
+index af01b6c..b253dc1 100644
+--- a/meta/recipes-support/gdbm/gdbm_1.8.3.bb
++++ b/meta/recipes-support/gdbm/gdbm_1.8.3.bb
+@@ -19,6 +19,7 @@ inherit autotools texinfo
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ do_install_append () {
++    oe_runmake install-compat DESTDIR=${D}
+     install -d ${D}${includedir}/gdbm
+     install -m 0644 ${S}/dbm.h ${D}${includedir}/
+     install -m 0644 ${S}/ndbm.h ${D}${includedir}/
 -- 
 1.7.9.5
 
