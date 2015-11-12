@@ -1,27 +1,38 @@
-Return-Path: <kei@nohguchi.com>
-X-Greylist: delayed 402 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 12 Nov 2015 22:06:15 UTC
-Received: from love.nohguchi.org (love.nohguchi.org [76.191.185.49])
-	by mail.openembedded.org (Postfix) with ESMTP id B9D0B77265
+Return-Path: <twoerner@gmail.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 64AC477262
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 22:06:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by love.nohguchi.org (Postfix) with ESMTP id CA82C26C47F6;
-	Thu, 12 Nov 2015 13:59:33 -0800 (PST)
-X-Virus-Scanned: amavisd-new at nohguchi.org
-Received: from love.nohguchi.org ([127.0.0.1])
-	by localhost (love.noguchis.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rExImQcxvtBW; Thu, 12 Nov 2015 13:59:33 -0800 (PST)
-Received: from life.localdomain (life.nohguchi.com [76.191.185.50])
-	by love.nohguchi.org (Postfix) with ESMTPA id AF62726C47F3;
-	Thu, 12 Nov 2015 13:59:33 -0800 (PST)
-From: Kei Nohguchi <kei@nohguchi.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Thu, 12 Nov 2015 13:59:22 -0800
-Message-Id: <1447365562-23888-1-git-send-email-kei@nohguchi.com>
-X-Mailer: git-send-email 2.3.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] Fixes [YOCTO #8684] Add python-ast, Python Abstruct Syntax Tree package
+	Thu, 12 Nov 2015 23:14:18 +0000 (UTC)
+Received: by igvi2 with SMTP id i2so25497228igv.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Nov 2015 15:14:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-type:content-transfer-encoding;
+	bh=i7QZey1xR28P4D0xWpgtFuB2N6CQnHEIjA6kxLVq60Y=;
+	b=fYoEa6Y+lDFwGeNUhtoIwPJy0gzkALedsnfL/qnxz7riee8wv1H/DJuDZMcLPFNQlQ
+	WgoVd2XLKFBbiewCJe9ikswa6hkEm/JxF72QQr08n6Zh6dAJ4Pz90pVs8/V6LSgpH2Jt
+	IOyTrKgEM6LmEC5hLcRf8rlfozPnBSPowCMS6wHDbk0n6RCXnFMQA4Cd8KhKOFFlNM6G
+	7DSrbkkOgYXawXm5JHmYhKwnc2FRx9hIF4CfvSo1PqRZrg3W99SU2/bGO37soOsTVzax
+	gKaViECothBCihX7ozXShVHPRkrEQ7g8H2sNRhLvJlAVIU8FrIGXsRBNo8NmulWuYlYV
+	DCxA==
+X-Received: by 10.50.155.41 with SMTP id vt9mr119928igb.22.1447370058027;
+	Thu, 12 Nov 2015 15:14:18 -0800 (PST)
+Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	rt7sm376151igb.11.2015.11.12.15.14.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 12 Nov 2015 15:14:16 -0800 (PST)
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+From: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <56451D46.50707@gmail.com>
+Date: Thu, 12 Nov 2015 18:14:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
+MIME-Version: 1.0
+Subject: oecommit ml
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,73 +45,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 22:06:18 -0000
+X-List-Received-Date: Thu, 12 Nov 2015 23:14:18 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Adding python-ast package in the generate-manifest-2.7.py, to
-automatically generate the python-ast package in the
-python-2.7-manifest.inc file.  As mentioned in the [YOCTO #8684],
-python-ast is required by the Ansible script on our OpenSwitch target
-system, and we don't believe we can layer this package inside our
-OpenSwitch specific layer.  And also, generate-manifest-2.7.py is the
-right place, as python-ast might be used by other recipes.
+It seems I missed some announcement. At first I thought I had been
+unsubscribed from the openembedded-commits mailing list (since I haven't
+received any emails on that list since about the end of September). So I
+looked up http://lists.openembedded.org/pipermail/openembedded-commits/
+and it seems to have gone quiet about that time too.
 
-Signed-off-by: Kei Nohguchi <kei@nohguchi.com>
----
- meta/recipes-devtools/python/python-2.7-manifest.inc | 10 +++++++---
- scripts/contrib/python/generate-manifest-2.7.py      |  3 +++
- 2 files changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
-index 4cd7a0c..273d606 100644
---- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-+++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
-@@ -5,9 +5,9 @@
- 
-  
- 
--PROVIDES+="${PN}-2to3 ${PN}-argparse ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-contextlib ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils ${PN}-distutils-staticdev ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib "
-+PROVIDES+="${PN}-2to3 ${PN}-argparse ${PN}-ast ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-contextlib ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils ${PN}-distutils-staticdev ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib "
- 
--PACKAGES="${PN}-dbg ${PN}-2to3 ${PN}-argparse ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-contextlib ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils-staticdev ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib ${PN}-modules"
-+PACKAGES="${PN}-dbg ${PN}-2to3 ${PN}-argparse ${PN}-ast ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-contextlib ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-dev ${PN}-difflib ${PN}-distutils-staticdev ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib ${PN}-modules"
- 
- SUMMARY_${PN}-2to3="Python automated Python 2 to 3 code translator"
- RDEPENDS_${PN}-2to3="${PN}-core"
-@@ -17,6 +17,10 @@ SUMMARY_${PN}-argparse="Python command line argument parser"
- RDEPENDS_${PN}-argparse="${PN}-core ${PN}-codecs ${PN}-textutils"
- FILES_${PN}-argparse="${libdir}/python2.7/argparse.* "
- 
-+SUMMARY_${PN}-ast="Python Abstruct Syntax Trees"
-+RDEPENDS_${PN}-ast="${PN}-core"
-+FILES_${PN}-ast="${libdir}/python2.7/ast.* "
-+
- SUMMARY_${PN}-audio="Python Audio Handling"
- RDEPENDS_${PN}-audio="${PN}-core"
- FILES_${PN}-audio="${libdir}/python2.7/wave.* ${libdir}/python2.7/chunk.* ${libdir}/python2.7/sndhdr.* ${libdir}/python2.7/lib-dynload/ossaudiodev.so ${libdir}/python2.7/lib-dynload/audioop.so ${libdir}/python2.7/audiodev.* ${libdir}/python2.7/sunaudio.* ${libdir}/python2.7/sunau.* ${libdir}/python2.7/toaiff.* "
-@@ -282,7 +286,7 @@ RDEPENDS_${PN}-zlib="${PN}-core"
- FILES_${PN}-zlib="${libdir}/python2.7/lib-dynload/zlib.so "
- 
- SUMMARY_${PN}-modules="All Python modules"
--RDEPENDS_${PN}-modules="${PN}-2to3 ${PN}-argparse ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-contextlib ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-difflib ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib  "
-+RDEPENDS_${PN}-modules="${PN}-2to3 ${PN}-argparse ${PN}-ast ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-contextlib ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-difflib ${PN}-distutils ${PN}-doctest ${PN}-elementtree ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib  "
- ALLOW_EMPTY_${PN}-modules = "1"
- 
- 
-diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
-index 922ebe4..3c5eb89 100755
---- a/scripts/contrib/python/generate-manifest-2.7.py
-+++ b/scripts/contrib/python/generate-manifest-2.7.py
-@@ -391,6 +391,9 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-argparse", "Python command line argument parser", "${PN}-core ${PN}-codecs ${PN}-textutils",
-     "argparse.*" )
- 
-+    m.addPackage( "${PN}-ast", "Python Abstruct Syntax Trees", "${PN}-core",
-+    "ast.*" )
-+
-     m.addPackage( "${PN}-contextlib", "Python utilities for with-statement" +
-     "contexts.", "${PN}-core",
-     "${libdir}/python${PYTHON_MAJMIN}/contextlib.*" )
--- 
-2.6.1
-
+I liked being able to watch the commits to see what was going in, and to
+check if my patches were added (before sending "ping"s, without having
+to "git pull" and search). Is there a new workflow for seeing what's
+going in?
 
