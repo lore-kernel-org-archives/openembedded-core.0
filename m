@@ -1,29 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 1641977259;
-	Thu, 12 Nov 2015 19:09:00 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 12 Nov 2015 11:09:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,283,1444719600"; d="scan'208";a="818489890"
-Received: from avanloen-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.11.137])
-	by orsmga001.jf.intel.com with ESMTP; 12 Nov 2015 11:08:57 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Thu, 12 Nov 2015 19:08:55 +0000
-Message-ID: <4335862.fNWyiaI9Bu@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.10-100.fc21.x86_64; KDE/4.14.11; x86_64; ;
-	)
-In-Reply-To: <CALbNGRTcwpywgtSJvm-q6aZHK5vaF5BFcxmKseHYjcy6aWnmBg@mail.gmail.com>
-References: <58488.10.252.13.130.1447346734.squirrel@linux.intel.com>
-	<CALbNGRTcwpywgtSJvm-q6aZHK5vaF5BFcxmKseHYjcy6aWnmBg@mail.gmail.com>
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DCE0A7725A
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Nov 2015 19:12:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tACJBv4A020438
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 12 Nov 2015 11:11:57 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 12 Nov 2015 11:11:57 -0800
+To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+References: <1447351617-7516-1-git-send-email-alexandre.belloni@free-electrons.com>
+	<5644D9F1.2030705@windriver.com> <20151112184340.GE4230@piout.net>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <5644E47C.70904@windriver.com>
+Date: Thu, 12 Nov 2015 13:11:56 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.3.0
 MIME-Version: 1.0
-Cc: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: qt4 moves out of oe-core - to meta-qt4, or to meta-oe?
+In-Reply-To: <20151112184340.GE4230@piout.net>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] tune-cortexa5.inc: Allow tuning for vfpv3d16, vfpv3 and neon-vfpv4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,54 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 19:09:01 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Thu, 12 Nov 2015 19:12:20 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-On Thursday 12 November 2015 18:03:27 Andreas M=FCller wrote:
-> On Thu, Nov 12, 2015 at 5:45 PM,  <alexander.kanavin@linux.intel.com>=
- wrote:
-> > Hello,
-> >=20
-> > now that 2.0 is out, it's time to move the Qt4 recipes out of oe-co=
-re.
-> > This has been discussed previously here:
-> > http://lists.openembedded.org/pipermail/openembedded-core/2015-June=
-/106355
-> > .html
-> >=20
-> > I'm not sure where the recipes should land, and want to ask your op=
-inion.
-> > The options are:
-> > 1) Make a new layer, meta-qt4, under meta-openembedded tree. Move a=
-lso
-> > everything in meta-oe/recipes-qt (and possibly other spots) to that=
- layer.
-> > This is somewhat more disruptive to people's layer configurations, =
-but
-> > would clearly separate qt4, and slim down meta-oe.
-> >=20
-> > 2) Simply move the qt4 recipes from oe-core to meta-oe/recipes-qt, =
-so they
-> > will be next to all the qt4-based software. This is less disruptive=
-, but
-> > adds bloat to meta-oe.
-> >=20
-> > Preferences?
->=20
-> 1) or even better in a separate repo
+On 11/12/15 12:43 PM, Alexandre Belloni wrote:
+> On 12/11/2015 at 12:26:57 -0600, Mark Hatle wrote :
+>> Seems odd to me that the package arch are the same between the generic (assumed
+>> to be the default ARMv7a, which is USUALLY VFPv4-D32 in most cases.)
+>>
+>> If we want to limit to v3 and/or D16.  It might make sense for a different
+>> package arch, otherwise there is no way to separate the feeds in a
+>> multiple-machine configuration with different per-target optimizations.
+>>
+>> (similarly the -neon versions as well, but that is existing code)
+>>
+> 
+> Yeah, I'm also not sure this is the correct thing but all the package
+> arch for tune-armv7a* are armv7a so I've replicated that.
+> 
+> Also, I just realized there are no users for armv7a*-vfpv3* in oe-core,
+> maybe I should leave those tunes in my soc specific BSP layer?
+> 
 
-To be honest, I had anticipated this being a separate meta-qt4 repo mys=
-elf. It=20
-would be consistent with what has been done with Qt 5 and much earlier =
-with=20
-Qt 3.
+There are a lot of tunes defined that have no direct oe-core users.  We try to
+define things we think are useful and supported by the included toolchain.
 
-Cheers,
-Paul
+External BSPs may be required to actually test it.
 
---=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
+--Mark
 
