@@ -1,26 +1,27 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EAFDC77154
+Return-Path: <maxin.john@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 08ED777154
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 08:51:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAC8pfca020228
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Thu, 12 Nov 2015 08:52:56 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 12 Nov 2015 00:52:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,281,1444719600"; d="scan'208";a="598940294"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 12 Nov 2015 00:52:54 -0800
+Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 207466A4083
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 00:51:41 -0800
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 12 Nov 2015 00:51:41 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Nov 2015 00:51:39 -0800
-Message-ID: <8d5508408ad7f619d8981aaf098592e2fa2244a8.1447318250.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1447318250.git.liezhi.yang@windriver.com>
-References: <cover.1447318250.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] clutter-gst-3.0: add --enable/disable-gudev
+	Thu, 12 Nov 2015 00:51:48 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Nov 2015 10:53:22 +0200
+Message-Id: <1447318403-23267-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/2] ethtool: bump version to 4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,108 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 08:51:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Nov 2015 08:52:57 -0000
 
-Fix dangling dependns on gudev, and systemd doesn't provide libgudev, so
-it can't be enabled when systemd either.
+4.0 -> 4.2
 
-Fixed:
-libtool: error: cannot find the library 'tmp/sysroots/qemuarm64/usr/lib64/libgudev-1.0.la' or unhandled argument
-'tmp/sysroots/qemuarm64/usr/lib64/libgudev-1.0.la'
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/recipes-graphics/clutter/clutter-gst-3.0.inc  |   15 ++++++-
- .../0001-configure.ac-add-enable-gudev.patch       |   45 ++++++++++++++++++++
- 2 files changed, 59 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/clutter/clutter-gst-3.0/0001-configure.ac-add-enable-gudev.patch
+ meta/recipes-extended/ethtool/{ethtool_4.0.bb => ethtool_4.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_4.0.bb => ethtool_4.2.bb} (88%)
 
-diff --git a/meta/recipes-graphics/clutter/clutter-gst-3.0.inc b/meta/recipes-graphics/clutter/clutter-gst-3.0.inc
-index d4fed71..c29bc7a 100644
---- a/meta/recipes-graphics/clutter/clutter-gst-3.0.inc
-+++ b/meta/recipes-graphics/clutter/clutter-gst-3.0.inc
-@@ -4,7 +4,12 @@ LICENSE = "LGPLv2+"
+diff --git a/meta/recipes-extended/ethtool/ethtool_4.0.bb b/meta/recipes-extended/ethtool/ethtool_4.2.bb
+similarity index 88%
+rename from meta/recipes-extended/ethtool/ethtool_4.0.bb
+rename to meta/recipes-extended/ethtool/ethtool_4.2.bb
+index 13f2b1c..95df784 100644
+--- a/meta/recipes-extended/ethtool/ethtool_4.0.bb
++++ b/meta/recipes-extended/ethtool/ethtool_4.2.bb
+@@ -11,8 +11,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://avoid_parallel_tests.patch \
+            "
  
- inherit clutter
+-SRC_URI[md5sum] = "0a1c78787c7dcf077016ed86372a472f"
+-SRC_URI[sha256sum] = "e200516727cc9583e8b63fd6e72f667f9ed41bb4f0577ff4803b60c64cfd1dbc"
++SRC_URI[md5sum] = "5b55f7cd76e901dfc2738ac22cab96ca"
++SRC_URI[sha256sum] = "f84226db8dd18afaf91d8d00f5cb8f87ec3d7f787d2a3605de08d6dfa95ab8ef"
  
--SRC_URI += "file://0001-Install-example-binary-needed-for-core-image-clutter.patch"
-+SRC_URI += "file://0001-Install-example-binary-needed-for-core-image-clutter.patch \
-+            file://0001-configure.ac-add-enable-gudev.patch \
-+            "
-+
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[gudev] = "--enable-gudev,--disable-gudev,udev"
- 
- DEPENDS = "gstreamer1.0-plugins-base gstreamer1.0-plugins-bad clutter-1.0"
- RDEPENDS_${PN} += "gstreamer1.0-meta-base"
-@@ -12,6 +17,14 @@ PACKAGES  =+ "${PN}-examples"
- 
- EXTRA_OECONF += "--disable-introspection"
- 
-+python () {
-+    if bb.utils.contains('EXTRA_OECONF', '--enable-gudev', True, False, d) and \
-+        bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
-+            bb.warn("%s: gudev can't be enabled since systemd doesn't provide libgudev" % \
-+                    d.getVar("PN", True))
-+            d.appendVar('EXTRA_OECONF', ' --disable-gudev')
-+}
-+
- FILES_${PN}          += "${libdir}/gstreamer-1.0/lib*.so"
- FILES_${PN}-dev      += "${libdir}/gstreamer-1.0/*.la"
- FILES_${PN}-dbg      += "${libdir}/gstreamer-1.0/.debug/lib*.so"
-diff --git a/meta/recipes-graphics/clutter/clutter-gst-3.0/0001-configure.ac-add-enable-gudev.patch b/meta/recipes-graphics/clutter/clutter-gst-3.0/0001-configure.ac-add-enable-gudev.patch
-new file mode 100644
-index 0000000..59f9fd8
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-gst-3.0/0001-configure.ac-add-enable-gudev.patch
-@@ -0,0 +1,45 @@
-+From 3454c53e9d906ef7e39e82e81a446bcece566e53 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Wed, 11 Nov 2015 22:34:51 -0800
-+Subject: [PATCH] configure.ac: add --enable-gudev
-+
-+So that we can enable/disable gudev support clearly
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ configure.ac |   11 ++++++++++-
-+ 1 file changed, 10 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 92022cb..595c944 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -209,13 +209,22 @@ AS_IF([test "x$have_cogl_osx" = xyes],
-+         AC_SUBST([GL_LDFLAGS])
-+       ])
-+ 
-+-PKG_CHECK_MODULES(GUDEV,
-++have_gudev=no
-++AC_ARG_ENABLE([gudev],
-++              [AC_HELP_STRING([--enable-gudev=@<:@no/yes@:>@],
-++                              [Enable gudev support @<:@default=no@:>@])],
-++              [],
-++              enable_gudev=gudev)
-++
-++AS_IF([test "x$enable_gudev" = "xyes"], [
-++    PKG_CHECK_MODULES(GUDEV,
-+                  [gudev-1.0],
-+                  [
-+                    have_gudev=yes
-+                    AC_DEFINE([HAVE_GUDEV], [1],
-+                              ["Defined if gudev is available"])
-+                  ],[ have_gudev=no ])
-++])
-+ 
-+ dnl ========================================================================
-+ dnl Experimental support for hardware accelerated decoders.
-+-- 
-+1.7.9.5
-+
+ inherit autotools ptest
+ RDEPENDS_${PN}-ptest += "make"
 -- 
-1.7.9.5
+2.4.0
 
 
