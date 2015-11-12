@@ -1,34 +1,36 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id EFFEA77266
+Return-Path: <mario.goulart@gmail.com>
+Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
+	[209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E4C77724B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 19:59:38 +0000 (UTC)
-Received: by wmdw130 with SMTP id w130so2129251wmd.0
+	Thu, 12 Nov 2015 20:17:16 +0000 (UTC)
+Received: by qkfo3 with SMTP id o3so27405587qkf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 11:59:38 -0800 (PST)
+	Thu, 12 Nov 2015 12:17:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=vWsP4f5zLhcgntDEJb0BB7BS0YMbmYkik3Fqf6GnaZQ=;
-	b=zRYlGs6x8zipABpZn+KGRK8Nu2emdF4rAg/M7Qrj03goCDVV8HGs2H7ZzKc7FtlVqs
-	SiIpQWMzPKUDFm9OLfKeYCaAwilE1FMK9LvvfvwdWik7WZXye3LMxVfcH6ll3jADgO/s
-	M4WF2qwl4GyK3rn05cSBcC8FWh7BU6aNsiHG+MNheskIEt10qK0ZF0dXnJxUvigq+a7V
-	2SpcxZfJxtG+r5ScMy4IUy/9FE9ZZFsC62QBAWJZsddJ3QPU3GQ7m9081PXpdUSkQSMg
-	CbVphnMxTp6G+Y3hBqNUWRv+AjCvDSd8QDGjTcWgOud7DefsUgjE5Brngs4eYytT3XcY
-	CyQw==
-MIME-Version: 1.0
-X-Received: by 10.194.9.104 with SMTP id y8mr18495931wja.106.1447358378549;
-	Thu, 12 Nov 2015 11:59:38 -0800 (PST)
-Received: by 10.194.140.38 with HTTP; Thu, 12 Nov 2015 11:59:38 -0800 (PST)
-In-Reply-To: <CAJTo0LYoc6vqX=vU645oWxL74z__7BNRCrNMjcX3RDt9XHkDEQ@mail.gmail.com>
-References: <1447303449-20796-1-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LYoc6vqX=vU645oWxL74z__7BNRCrNMjcX3RDt9XHkDEQ@mail.gmail.com>
-Date: Thu, 12 Nov 2015 11:59:38 -0800
-Message-ID: <CAJ86T=WZg5sBm9pfOVWv9Fxg2QAqj8u=jTYe6WnA3NyaiG+RAA@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bootimg.bbclass: make default KERNEL_IMAGETYPE match kernel.bbclass
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=qdyYz/NYaHGNNvWNXJ6D54chN5CbuZBIWHsPnXltZE0=;
+	b=07QyVrm/fOEt9958fXb/W+um30NPuijnu7P7GkP6DEvxTf478oRUDa/bzVv0Ivy6jW
+	hNwQamErcrN679yFNwfpSM7z21kk9WLIBG3Bg30XaLkC0euY63T1dMFH+krlzL35/Tjd
+	zN/lE9YN2QxHzTcCEA24kT5BxEW6AZSTQYM/ecPbMSIuH9RKZiJfQ0eAHtaAJ1gnOmAi
+	xrsisc/BTIcwhJ5FFitKSK5bgIs9o8TVn4fS9QLdMlgSF3odX7GTi0b9jut3Nb0kI18w
+	7cfdSGFmaC8E5Cy9KTt/mWvOIrY4M/ttKifB//OuGDBtvEV7B/ifH1SmOEJlSSZ5cXYz
+	6NBQ==
+X-Received: by 10.55.49.197 with SMTP id x188mr18622794qkx.45.1447359437165;
+	Thu, 12 Nov 2015 12:17:17 -0800 (PST)
+Received: from mario.lab.ossystems.com.br ([177.100.174.62])
+	by smtp.gmail.com with ESMTPSA id m8sm4491564qki.3.2015.11.12.12.17.15
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 12 Nov 2015 12:17:16 -0800 (PST)
+Sender: Mario Domenech Goulart <mario.goulart@gmail.com>
+From: Mario Domenech Goulart <mario@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Nov 2015 18:16:55 -0200
+Message-Id: <1447359415-7526-1-git-send-email-mario@ossystems.com.br>
+X-Mailer: git-send-email 2.1.4
+Organization: O.S. Systems Software LTDA.
+Cc: Mario Domenech Goulart <mario@ossystems.com.br>
+Subject: [PATCH] linux-yocto-custom: reference the kernel-yocto class (not linux-yocto)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,27 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 19:59:40 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 12 Nov 2015 20:17:17 -0000
 
-On Thu, Nov 12, 2015 at 2:15 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 12 November 2015 at 04:44, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> -KERNEL_IMAGETYPE ??= "bzImage"
->> +KERNEL_IMAGETYPE ??= "zImage"
->
-> Or would it be better to unify on bzImage for master?
+The comment that describes the recipe references the linux-yocto
+class, which doesn't exist.  The kernel-yocto class is actually used
+by linux-yocto.inc, which the recipe requires.
 
-I'm not sure. I guess most people set their preferred image type via
-machine config and for those that don't, switching the default is just
-going to cause confusion rather than being helpful.
+Signed-off-by: Mario Domenech Goulart <mario@ossystems.com.br>
+---
+ meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I did wonder about moving the default definition from kernel.bbclass
-into bitbake.conf though. Then the duplicate default definition in
-bootimg.bbclass could be removed.
+diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+index 6194d4f..6eee42c 100644
+--- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
++++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+@@ -1,6 +1,6 @@
+ # linux-yocto-custom.bb:
+ #
+-#   An example kernel recipe that uses the linux-yocto and oe-core
++#   An example kernel recipe that uses the kernel-yocto and oe-core
+ #   kernel classes to apply a subset of yocto kernel management to git
+ #   managed kernel repositories.
+ #
+-- 
+2.1.4
 
-> (this patch would be suitable for jethro)
->
-> Ross
 
