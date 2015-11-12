@@ -1,38 +1,27 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id A5C5F77242;
-	Thu, 12 Nov 2015 18:58:52 +0000 (UTC)
-Received: by wmww144 with SMTP id w144so213611180wmw.1;
-	Thu, 12 Nov 2015 10:58:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=W4F3Z598IereMruzIXJFwyXnb27TQ5cGicirU7JnZwo=;
-	b=IUOPLGd1kffWuoFp0BCQ1rsN07uC8Rx4sgUaXJKp6ztIQ9XZPGbKt1kQRIu9wPtUdE
-	hX5YoLVWGt9GFYbrZQ4eSadjWEXTA1Y5OnxTo9U13W0VuMbtl/waBBplPHcgUIn19aez
-	/Fh7AXmEs6gqeVZ/0QONQSb/kwtr2tu1Hl/mGc73EfyEYdu1zRP6uY5O6efCUVekt/41
-	dUEgkM23/xey3kOEelYitSQKW6gxpP74NUZBZT81czCeY62sMLmxCwiBPiqfRizVNN4b
-	gbRHUMEvpMR+7qTQzbia9usuCfDDiuPB8BfQH8frf31xcRxg9IhkddDgS3AGq3vGBP7C
-	iBKg==
-X-Received: by 10.28.63.22 with SMTP id m22mr33704771wma.58.1447354732168;
-	Thu, 12 Nov 2015 10:58:52 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	at4sm15903478wjc.9.2015.11.12.10.58.50
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 12 Nov 2015 10:58:50 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 12 Nov 2015 19:59:07 +0100
-To: alexander.kanavin@linux.intel.com
-Message-ID: <20151112185907.GL2574@jama>
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 1641977259;
+	Thu, 12 Nov 2015 19:09:00 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 12 Nov 2015 11:09:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,283,1444719600"; d="scan'208";a="818489890"
+Received: from avanloen-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.11.137])
+	by orsmga001.jf.intel.com with ESMTP; 12 Nov 2015 11:08:57 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Thu, 12 Nov 2015 19:08:55 +0000
+Message-ID: <4335862.fNWyiaI9Bu@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.10-100.fc21.x86_64; KDE/4.14.11; x86_64; ;
+	)
+In-Reply-To: <CALbNGRTcwpywgtSJvm-q6aZHK5vaF5BFcxmKseHYjcy6aWnmBg@mail.gmail.com>
 References: <58488.10.252.13.130.1447346734.squirrel@linux.intel.com>
-	<20151112171915.GK2574@jama>
-	<58904.10.252.13.130.1447349938.squirrel@linux.intel.com>
+	<CALbNGRTcwpywgtSJvm-q6aZHK5vaF5BFcxmKseHYjcy6aWnmBg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <58904.10.252.13.130.1447349938.squirrel@linux.intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-devel@lists.openembedded.org,
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
 	openembedded-core@lists.openembedded.org
 Subject: Re: qt4 moves out of oe-core - to meta-qt4, or to meta-oe?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,51 +36,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 18:58:53 -0000
-X-Groupsio-MsgNum: 73307
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="00hq2S6J2Jlg6EbK"
-Content-Disposition: inline
-
---00hq2S6J2Jlg6EbK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 12 Nov 2015 19:09:01 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Thu, Nov 12, 2015 at 07:38:58PM +0200, alexander.kanavin@linux.intel.com=
+On Thursday 12 November 2015 18:03:27 Andreas M=FCller wrote:
+> On Thu, Nov 12, 2015 at 5:45 PM,  <alexander.kanavin@linux.intel.com>=
  wrote:
-> > There is already enough meta-oe bloat moved from oe-core:
-> >
-> > http://lists.openembedded.org/pipermail/openembedded-core/2015-November=
-/112665.html
-> >
-> > WARN: qt-mobility-embedded: qt-mobility-embedded rdepends on glib-2.0, =
+> > Hello,
+> >=20
+> > now that 2.0 is out, it's time to move the Qt4 recipes out of oe-co=
+re.
+> > This has been discussed previously here:
+> > http://lists.openembedded.org/pipermail/openembedded-core/2015-June=
+/106355
+> > .html
+> >=20
+> > I'm not sure where the recipes should land, and want to ask your op=
+inion.
+> > The options are:
+> > 1) Make a new layer, meta-qt4, under meta-openembedded tree. Move a=
+lso
+> > everything in meta-oe/recipes-qt (and possibly other spots) to that=
+ layer.
+> > This is somewhat more disruptive to people's layer configurations, =
 but
-> > it isn't a build dependency?
+> > would clearly separate qt4, and slim down meta-oe.
+> >=20
+> > 2) Simply move the qt4 recipes from oe-core to meta-oe/recipes-qt, =
+so they
+> > will be next to all the qt4-based software. This is less disruptive=
+, but
+> > adds bloat to meta-oe.
+> >=20
+> > Preferences?
 >=20
-> If increasing bloat is a problem, why do recipes in meta-oe need to be
-> maintained indefinitely? Old cruft can be dropped from meta-oe, just as it
-> is dropped from oe-core. Just ask the public if it's ok, set a timeframe,
-> and do it.
->=20
-> qt-mobility in particular has been dead for several years, and doesn't
-> even have official upstream tarballs anymore. Why spend time fixing it?
+> 1) or even better in a separate repo
 
-That's why there is increasing number of PNBLACKLISTs with each release.
+To be honest, I had anticipated this being a separate meta-qt4 repo mys=
+elf. It=20
+would be consistent with what has been done with Qt 5 and much earlier =
+with=20
+Qt 3.
+
+Cheers,
+Paul
 
 --=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---00hq2S6J2Jlg6EbK
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Paul Eggleton
+Intel Open Source Technology Centre
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlZE4XsACgkQN1Ujt2V2gByO+ACbB87WSUnGp4f85wLbGsz7d88J
-bRoAniMWuR2yD+m71jStsPLGUqkJXX0/
-=C4ub
------END PGP SIGNATURE-----
-
---00hq2S6J2Jlg6EbK--
