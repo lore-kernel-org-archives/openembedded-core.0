@@ -1,36 +1,36 @@
-Return-Path: <mario.goulart@gmail.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E4C77724B
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id B645E75A52
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 20:17:16 +0000 (UTC)
-Received: by qkfo3 with SMTP id o3so27405587qkf.1
+	Thu, 12 Nov 2015 20:21:29 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so2940580wmw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 12:17:17 -0800 (PST)
+	Thu, 12 Nov 2015 12:21:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=qdyYz/NYaHGNNvWNXJ6D54chN5CbuZBIWHsPnXltZE0=;
-	b=07QyVrm/fOEt9958fXb/W+um30NPuijnu7P7GkP6DEvxTf478oRUDa/bzVv0Ivy6jW
-	hNwQamErcrN679yFNwfpSM7z21kk9WLIBG3Bg30XaLkC0euY63T1dMFH+krlzL35/Tjd
-	zN/lE9YN2QxHzTcCEA24kT5BxEW6AZSTQYM/ecPbMSIuH9RKZiJfQ0eAHtaAJ1gnOmAi
-	xrsisc/BTIcwhJ5FFitKSK5bgIs9o8TVn4fS9QLdMlgSF3odX7GTi0b9jut3Nb0kI18w
-	7cfdSGFmaC8E5Cy9KTt/mWvOIrY4M/ttKifB//OuGDBtvEV7B/ifH1SmOEJlSSZ5cXYz
-	6NBQ==
-X-Received: by 10.55.49.197 with SMTP id x188mr18622794qkx.45.1447359437165;
-	Thu, 12 Nov 2015 12:17:17 -0800 (PST)
-Received: from mario.lab.ossystems.com.br ([177.100.174.62])
-	by smtp.gmail.com with ESMTPSA id m8sm4491564qki.3.2015.11.12.12.17.15
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 12 Nov 2015 12:17:16 -0800 (PST)
-Sender: Mario Domenech Goulart <mario.goulart@gmail.com>
-From: Mario Domenech Goulart <mario@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Nov 2015 18:16:55 -0200
-Message-Id: <1447359415-7526-1-git-send-email-mario@ossystems.com.br>
-X-Mailer: git-send-email 2.1.4
-Organization: O.S. Systems Software LTDA.
-Cc: Mario Domenech Goulart <mario@ossystems.com.br>
-Subject: [PATCH] linux-yocto-custom: reference the kernel-yocto class (not linux-yocto)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=UlcSl+We2Sn/dYNQhPq1mVhZcD6FbDxAZzNhmPUi/I4=;
+	b=zI0naxPst1pCUIZCRV3mfcu/Nw98n/v8+hvzZw9QubjjeLZjj6+9CoG5KjV1utzKye
+	XXAf+EBNhBGkFfCLSLYstbEwM0Ac6LfSbBOWJVewG0llzQW1y+xqPebXNuXsAgZwryVw
+	BirRnA3BpdP50dOlI1N2iQ3asPa1wvEfTYitFaP44ZQZfLqySYxJd/3W+EQJCfSbFU+D
+	4S4T3CufMxrTht5WF79pNc5PLHXvo9atCImFFDWmunj0AzDkdjW2awF8sj9GMsoxe82g
+	esiRm7pDrwg11siN1aepvTy0wS30AjNYhoXrr+Bf49YWT/1UF9blHmKiDFIchtTT5hvS
+	8DQQ==
+MIME-Version: 1.0
+X-Received: by 10.28.46.137 with SMTP id u131mr18971233wmu.61.1447359689084;
+	Thu, 12 Nov 2015 12:21:29 -0800 (PST)
+Received: by 10.194.140.38 with HTTP; Thu, 12 Nov 2015 12:21:29 -0800 (PST)
+In-Reply-To: <20151112121048.GA13777@mcrowe.com>
+References: <1446734821-6011-1-git-send-email-mac@mcrowe.com>
+	<CAJ86T=WxqbJ83S4RESL_oKX9gYNg6-aAPGUYR3btSQBhKQo-1g@mail.gmail.com>
+	<20151106103004.GA7454@mcrowe.com>
+	<20151112121048.GA13777@mcrowe.com>
+Date: Thu, 12 Nov 2015 12:21:29 -0800
+Message-ID: <CAJ86T=XZ4meizhB1-m-2UhNoFAkTsq4M8VyBzbxs4QrSG2G_=g@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Mike Crowe <mac@mcrowe.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bitbake.conf, module.bbclass: Support opting out of legacy EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 20:17:17 -0000
+X-List-Received-Date: Thu, 12 Nov 2015 20:21:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The comment that describes the recipe references the linux-yocto
-class, which doesn't exist.  The kernel-yocto class is actually used
-by linux-yocto.inc, which the recipe requires.
+On Thu, Nov 12, 2015 at 4:10 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> On Friday 06 November 2015 at 10:30:04 +0000, Mike Crowe wrote:
+>> It would be great to get to the point that EXTRA_OEMAKE is empty by default
+>> but I imagine that the experts are already aware of the difficulties with
+>> doing this which is why the current value has lasted so long.
+>
+> I had a go at this. Fewer recipes than I expected seem to be affected.
+>
+> With bitbake.conf containing EXTRA_OEMAKE = "", the following recipes
+> needed to be changed to explicitly set EXTRA_OEMAKE = "-e MAKEFLAGS=":
+>
+>  meta/recipes-bsp/pciutils/pciutils_3.3.1.bb
+>  meta/recipes-connectivity/openssl/openssl.inc
+>  meta/recipes-core/busybox/busybox.inc
 
-Signed-off-by: Mario Domenech Goulart <mario@ossystems.com.br>
----
- meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Busybox doesn't need make -e if you have my busybox cleanup patches
+(posted to the list recently, but not merged to master or mut yet).
 
-diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-index 6194d4f..6eee42c 100644
---- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-+++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-@@ -1,6 +1,6 @@
- # linux-yocto-custom.bb:
- #
--#   An example kernel recipe that uses the linux-yocto and oe-core
-+#   An example kernel recipe that uses the kernel-yocto and oe-core
- #   kernel classes to apply a subset of yocto kernel management to git
- #   managed kernel repositories.
- #
--- 
-2.1.4
-
+>  meta/recipes-devtools/perl/perl_5.22.0.bb
+>
+> for core-image-minimal to build successfully[1].
+>
+> I tried core-image-sato but got stuck when apr-util-native wouldn't compile
+> for me[2], even with stock master.
+>
+> So, perhaps the situation isn't quite as bad as I feared and it might be
+> possible to change the default value of EXTRA_OEMAKE.
+>
+> Mike.
+>
+> [1] I suspect that perl isn't required by core-image-minimal. That list is
+>     my complete set of changes from trying to get core-image-sato to build.
+>
+> [2] x86_64-linux-libtool: compile: unable to infer tagged configuration
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
