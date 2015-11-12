@@ -1,40 +1,35 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 24E7C772B2
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 91AEE77280
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 23:41:15 +0000 (UTC)
-Received: by padhx2 with SMTP id hx2so79727217pad.1
+	Thu, 12 Nov 2015 23:41:28 +0000 (UTC)
+Received: by pacdm15 with SMTP id dm15so79589390pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Nov 2015 15:41:15 -0800 (PST)
+	Thu, 12 Nov 2015 15:41:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=jngrMKdjArFzQ/pkRtV7nHi/kYGXWcF/VY4W1ems8ug=;
-	b=UxwVP/p7/wHwOYQVKcrtRzeBxp6UKLEesDryxzC0r5UiQcQ7kqRaQh3uqCxNSLUwH3
-	bkXazjz+Zq3OS9HD+WzKHQlx9xhhkt6yl51If06xo+dTU9Kie+KI69ZxkjwoVxLxZAJl
-	AzIHfv5UXpWHZ6IUmck9dYdXev/18sHdHAbf+pP5HajmtZRWjCXjr8NuvwekOP/gx9wh
-	1fEiqZgdWdjPl+rKPhcnfZpcZHgqCUn5l0Ohm1nXAlipggV7aM6Cww2fjR9lnMhRli/V
-	TBj9sO13rxQZB95jfh59//PKRDGdJiqkmcRwhipZAjoxWtE0QtCzm/TNnoucdYzqEFBJ
-	eHqQ==
-X-Received: by 10.68.219.40 with SMTP id pl8mr26972669pbc.136.1447371675697;
-	Thu, 12 Nov 2015 15:41:15 -0800 (PST)
+	h=from:to:cc:subject:date:message-id;
+	bh=IhBAvxZUN0bfCI8dfhmeyKKH/fYSs69SmMzFcm4LIgE=;
+	b=i35ZSLcKBRex0aTuHBshH7YFMs1iKR6kCINFQf4gu+ZCy3mIC9t1QqOWukvLx/B8Yq
+	ecwZoLNjYviPzuYHOXF6wigzVOQbGs8C1tAgJHjqR9v4237W4TIjwWyYd/pr4e2PLVYJ
+	WQwvw4mMxY8nuOl++hVTCAbSy2ZbB8CnE++aWsKliPcekf/CRIyNEv18Yj9WkNp9lm5P
+	dCh8J5I7/rS0e7xOuxK65vMdVLpJxp6Bd6/oCttV7mwUwMlwOLpWw0mDVGynnbGTceHl
+	6HCQovlZIRHoH1XgFNENTxDgpL8QrGEVELLwKy+bwXB2PO+l413/soqwKWO5uZwPUFZh
+	Njvg==
+X-Received: by 10.66.170.238 with SMTP id ap14mr26669465pac.128.1447371689071; 
+	Thu, 12 Nov 2015 15:41:29 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	yz3sm16726614pbb.37.2015.11.12.15.41.12
+	wq1sm16717225pbc.49.2015.11.12.15.41.25
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 12 Nov 2015 15:41:14 -0800 (PST)
+	Thu, 12 Nov 2015 15:41:27 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Nov 2015 16:40:38 -0700
-Message-Id: <25235c4c941f0db5e08dbdea09244fb1ed743630.1447371041.git.chris_larson@mentor.com>
+Date: Thu, 12 Nov 2015 16:41:18 -0700
+Message-Id: <cover.1447371049.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
-In-Reply-To: <0608c916d5ea89bc95112b583a04de0cc81a6374.1447371041.git.chris_larson@mentor.com>
-References: <0608c916d5ea89bc95112b583a04de0cc81a6374.1447371041.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1447371041.git.chris_larson@mentor.com>
-References: <cover.1447371041.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 7/7] nativesdk-perl: set PERL5LIB based on wrapper path
+Subject: [PATCH 0/4] Misc improvements 2 from Mentor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,35 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 23:41:15 -0000
+X-List-Received-Date: Thu, 12 Nov 2015 23:41:28 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-Rather than relying on OECORE_NATIVE_SYSROOT, we can operate relative to the
-wrapper binary location.
+This is the final of three pull requests / patch series from Mentor's queue of
+changes destined for oe-core master (not jethro). This series includes a small
+number of improvements which may be more contentious or may require more
+consideration and review.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/recipes-devtools/perl/perl_5.22.0.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.22.0.bb b/meta/recipes-devtools/perl/perl_5.22.0.bb
-index 9df8d04..ea0677a 100644
---- a/meta/recipes-devtools/perl/perl_5.22.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.22.0.bb
-@@ -244,9 +244,11 @@ do_install() {
-         ln -s Config_heavy.pl ${D}${libdir}/perl/${PV}/Config_heavy-target.pl
- }
- 
-+REL_PERLLIB = "${@os.path.relpath('${libdir}', '${bindir}')}/perl"
-+
- do_install_append_class-nativesdk () {
-         create_wrapper ${D}${bindir}/perl \
--            PERL5LIB='$PERL5LIB:$OECORE_NATIVE_SYSROOT/${libdir_nativesdk}/perl/site_perl/${PV}:$OECORE_NATIVE_SYSROOT/${libdir_nativesdk}/perl/vendor_perl/${PV}:$OECORE_NATIVE_SYSROOT/${libdir_nativesdk}/perl/${PV}'
-+            PERL5LIB='$PERL5LIB:`dirname $realpath`/${REL_PERLLIB}/site_perl/${PV}:`dirname $realpath`/${REL_PERLLIB}/vendor_perl/${PV}:`dirname $realpath`/${REL_PERLLIB}/${PV}'
- }
- 
- PACKAGE_PREPROCESS_FUNCS += "perl_package_preprocess"
+The following changes since commit e44ed8c18e395b9c055aefee113b90708e8a8a2f:
+
+  build-appliance-image: Update to jethro head revision (2015-11-03 14:02:57 +0000)
+
+are available in the git repository at:
+
+  git://github.com/kergoth/openembedded-core mentor-misc-improvements-2-after-jethro
+  https://github.com/kergoth/openembedded-core/tree/mentor-misc-improvements-2-after-jethro
+
+Christopher Larson (4):
+  linux-dtb.inc: use absolute upd-alt paths
+  opkg-utils: add update-alternatives PACKAGECONFIG
+  systemd: add myhostname to nsswitch.conf
+  systemd: arrange for volatile /etc/resolv.conf
+
+ meta/recipes-core/systemd/systemd_225.bb           | 20 ++++++++++++++++++++
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 12 +++++++++---
+ meta/recipes-kernel/linux/linux-dtb.inc            |  4 ++--
+ 3 files changed, 31 insertions(+), 5 deletions(-)
+
 -- 
 2.2.1
 
