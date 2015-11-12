@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D1778771CE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7909B771CF
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 Nov 2015 07:34:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAC7Ygw6018626
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAC7YhKs018794
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Nov 2015 23:34:42 -0800
+	Wed, 11 Nov 2015 23:34:43 -0800 (PST)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Wed, 11 Nov 2015 23:34:42 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Nov 2015 23:34:39 -0800
-Message-ID: <70acbfcac541d52baad29e7fd76796e3d3f6a964.1447313581.git.liezhi.yang@windriver.com>
+Date: Wed, 11 Nov 2015 23:34:40 -0800
+Message-ID: <54aaee8a73f43e01c9b2ed7a1652e96a392e00d6.1447313581.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1447313581.git.liezhi.yang@windriver.com>
 References: <cover.1447313581.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] prexport.bbclass: avoid export for native and crosssdk
+Subject: [PATCH 2/2] bitbake-prserv-tool: check file name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,41 +36,42 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 12 Nov 2015 07:34:43 -0000
 Content-Type: text/plain
 
-* The prservice is only used by do_package, the native or crosssdk
-  doesn't have do_package.
-* Change WARN to NOTE when no AUTOPR found, the prexport_handler()
-  checks all the parsed recipes, but a lot of them may not be built, for
-  example, the lower version or broken recipes. So change WARN to NOTE to
-  not confuse user.
+Fixed:
+$ bitbake-prserv-tool import /tmp/1
+  File "/path/to/lib/bb/parse/__init__.py", line 114, in handle(fn='/tmp/1', data=<bb.data_smart.DataSmart object at 0x2369bd0>, include=True):
+                     return h['handle'](fn, data, include)
+    >    raise ParseError("not a BitBake file", fn)
+
+ParseError: ParseError in /tmp/1: not a BitBake file
+
+But 1.conf or 1.inc works well, check the filename and print proper
+error message.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/prexport.bbclass |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ scripts/bitbake-prserv-tool |    9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/classes/prexport.bbclass b/meta/classes/prexport.bbclass
-index 5a1cb33..809ec10 100644
---- a/meta/classes/prexport.bbclass
-+++ b/meta/classes/prexport.bbclass
-@@ -8,7 +8,8 @@ PRSERV_DUMPFILE ??= "${PRSERV_DUMPDIR}/prserv.inc"
+diff --git a/scripts/bitbake-prserv-tool b/scripts/bitbake-prserv-tool
+index 28c2416..fa31b52 100755
+--- a/scripts/bitbake-prserv-tool
++++ b/scripts/bitbake-prserv-tool
+@@ -86,6 +86,15 @@ do_migrate_localcount ()
  
- python prexport_handler () {
-     import bb.event
--    if not e.data:
-+    if not e.data or bb.data.inherits_class('native', e.data) or \
-+        bb.data.inherits_class('crosssdk', e.data):
-         return
+ [ $# -eq 0 ] && help  && exit 1
  
-     if isinstance(e, bb.event.RecipeParsed):
-@@ -21,7 +22,7 @@ python prexport_handler () {
-             bb.fatal("prexport_handler: export failed!")
-         (metainfo, datainfo) = retval
-         if not datainfo:
--            bb.warn("prexport_handler: No AUTOPR values found for %s" % ver)
-+            bb.note("prexport_handler: No AUTOPR values found for %s" % ver)
-             return
-         oe.prservice.prserv_export_tofile(e.data, None, datainfo, False)
-         if 'AUTOINC' in ver:
++case $2 in
++*.conf|*.inc)
++    ;;
++*)
++    echo ERROR: $2 must end with .conf or .inc!
++    exit 1
++    ;;
++esac
++
+ case $1 in
+ export)
+     do_export $2
 -- 
 1.7.9.5
 
