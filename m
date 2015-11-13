@@ -1,27 +1,35 @@
-Return-Path: <Nathan_Lynch@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FCDE77328
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id E7F8A7732D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 22:18:20 +0000 (UTC)
-Received: from svr-orw-fem-06.mgc.mentorg.com ([147.34.97.120])
-	by relay1.mentorg.com with esmtp 
-	id 1ZxMfk-0004x4-MC from Nathan_Lynch@mentor.com ;
-	Fri, 13 Nov 2015 14:18:20 -0800
-Received: from wedge.localnet (147.34.91.1) by svr-orw-fem-06.mgc.mentorg.com
-	(147.34.97.120) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 13 Nov 2015 14:18:19 -0800
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1447432009-9129-1-git-send-email-otavio@ossystems.com.br>
-	<1447432009-9129-2-git-send-email-otavio@ossystems.com.br>
-From: Nathan Lynch <Nathan_Lynch@mentor.com>
-Message-ID: <564661AB.9040201@mentor.com>
-Date: Fri, 13 Nov 2015 16:18:19 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <1447432009-9129-2-git-send-email-otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] lttng-tools: Upgrade to 2.7 release
+	Fri, 13 Nov 2015 23:10:42 +0000 (UTC)
+Received: by padhx2 with SMTP id hx2so113380659pad.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Nov 2015 15:10:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=hdQs05Q8jA+Stk6GnIGgvSmJftrJsMsQANOUg+4c7lY=;
+	b=usWygF9M5xLqot8oGpWGDxlDs+G1arABbqk7M+KHIOzJObLY5OZT2qJZrTqBilaPeK
+	R0nSh0CbRg+POGp0KTzaMGAFPxhTwtSbWS52WX9dj0xWf8CG9yR4iYlWYz98pZFdmWBf
+	yWtVctJ2CHtrXWvvqgAbjQDsDoq0EsgKqOJM7BwmuwpQfMmNEhBw8qkxF2FlkKw3H09W
+	PW5tg9vT/gbKb/jAGMECpvZVZHYwiCrpl0iAxrkUZ94yq00AuK0UcEk/cgovgJrgjCIi
+	FMrpc3A6BO9cnKSxnT2Q0EIAm9QGk5InAmvj9agf/olfb1EVgBLN0ExNJaRwUHEC2Q5H
+	wopw==
+X-Received: by 10.66.158.129 with SMTP id wu1mr35318056pab.146.1447456242286; 
+	Fri, 13 Nov 2015 15:10:42 -0800 (PST)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	ws6sm22370501pbc.33.2015.11.13.15.10.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 13 Nov 2015 15:10:39 -0800 (PST)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Nov 2015 16:10:36 -0700
+Message-Id: <cover.1447455202.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 2.2.1
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCHv2 0/6] Misc improvements 1 from Mentor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,46 +42,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 22:18:22 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Nov 2015 23:10:46 -0000
 
-On 11/13/2015 10:26 AM, Otavio Salvador wrote:
-> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-> similarity index 90%
-> rename from meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb
-> rename to meta/recipes-kernel/lttng/lttng-tools_git.bb
-> index 909acc3..17310ac 100644
-> --- a/meta/recipes-kernel/lttng/lttng-tools_2.6.0.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
->  DEPENDS = "liburcu popt lttng-ust libxml2"
->  RDEPENDS_${PN}-ptest += "make perl bash"
->  
-> -SRCREV = "d522c1f14285e2e8b10b7c0cd011847696ffe779"
-> +SRCREV = "d71e55a5f1f423eeaa47c08e5797e47ce8e825fb"
->  
->  PYTHON_OPTION = "am_cv_python_pyexecdir='${libdir}/python${PYTHON_BASEVERSION}/site-packages' \
->                   am_cv_python_pythondir='${libdir}/python${PYTHON_BASEVERSION}/site-packages' \
-> @@ -23,13 +23,9 @@ PACKAGECONFIG[python] = "--enable-python-bindings ${PYTHON_OPTION},,python swig-
->  PACKAGECONFIG[lttng-ust] = "--enable-lttng-ust, --disable-lttng-ust, lttng-ust"
->  PACKAGECONFIG[kmod] = "--enable-kmod, --disable-kmod, kmod"
->  
-> -SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.6 \
-> +SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.7 \
->             file://runtest-2.4.0.patch \
-> -           file://extern-decls.patch \
-> -           file://run-ptest \
-> -           file://lttng-tools-Fix-live-timer-calculation-error.patch \
-> -           file://0001-Fix-sessiond-disable-match-app-event-by-name.patch \
-> -	  "
-> +           file://run-ptest"
->  
->  S = "${WORKDIR}/git"
+From: Christopher Larson <chris_larson@mentor.com>
 
-Does this recipe need a PV assignment now?
+This is the second of three pull requests / patch series from Mentor's queue
+of changes destined for oe-core master (not jethro). This series includes
+a few recipe improvements and adds the ability to supply and use wks files
+from a different layer than the image.
 
-Also consider folding in
-http://lists.openembedded.org/pipermail/openembedded-core/2015-October/112087.html
+v2 changes:
+
+- dropped the nativesdk-perl wrapper patch, I'll prep a separate patch series
+- sysprof: fixed typo in its patch
+- image_types: restored support for ${IMAGE_BASENAME}.wks to not break tests,
+  correct the search path to include scripts/ for other layers, fixed other
+  issues iwth the search, and fixed the file-checksums usage so changes to the
+  wks contents cause the image to be rebuilt
+
+
+The following changes since commit e44ed8c18e395b9c055aefee113b90708e8a8a2f:
+
+  build-appliance-image: Update to jethro head revision (2015-11-03 14:02:57 +0000)
+
+are available in the git repository at:
+
+  git://github.com/kergoth/openembedded-core mentor-misc-improvements-1-after-jethro
+  https://github.com/kergoth/openembedded-core/tree/mentor-misc-improvements-1-after-jethro
+
+Christopher Larson (6):
+  image_types: improve wks path specification
+  sysprof: use packageconfig for the gui
+  sysprof: add missing gdk-pixbuf/pango deps
+  systemd: for valgrind, define VALGRIND=1
+  bluez5: enable sysvinit support
+  psplash: add systemd support
+
+ meta/classes/image_types.bbclass                   | 36 +++++++++---
+ meta/recipes-connectivity/bluez5/bluez5.inc        |  8 ++-
+ meta/recipes-connectivity/bluez5/bluez5/init       | 68 ++++++++++++++++++++++
+ .../psplash/files/psplash-quit.service             | 11 ++++
+ .../psplash/files/psplash-start.service            | 11 ++++
+ meta/recipes-core/psplash/psplash_git.bb           | 20 +++++--
+ meta/recipes-core/systemd/systemd_225.bb           |  3 +
+ .../sysprof/files/gui-argument.patch               | 35 +++++++++++
+ meta/recipes-kernel/sysprof/sysprof_git.bb         |  9 ++-
+ 9 files changed, 185 insertions(+), 16 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/init
+ create mode 100755 meta/recipes-core/psplash/files/psplash-quit.service
+ create mode 100755 meta/recipes-core/psplash/files/psplash-start.service
+ create mode 100644 meta/recipes-kernel/sysprof/files/gui-argument.patch
+
+-- 
+2.2.1
 
 
