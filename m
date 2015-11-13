@@ -1,35 +1,31 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
-	[209.85.217.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DA2B77308
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 16491772DA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 13:10:22 +0000 (UTC)
-Received: by lbbcs9 with SMTP id cs9so53291908lbb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 05:10:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=xGiV4mux4MQCHDPiM6qd8GJ3OfSf8066z9g/5Bf0sXw=;
-	b=IGajHCgdWXSpK5YqrofmcHUHZOXn9nFP+IYADjZV4yANB91EBzshhpWN3LQxsyrCye
-	6FCvPdMM3AS7VuUJBUtv8geXhepR+nigtoywI7s3gmOHk1oMnCwEn7962DyJV2UGtMO2
-	w0Ki1NHmdvWU9QPB6AEK5UbxBrL9DDnNpyOcrqlNTrTf+dCfVLB6GiAWoPkRIp9b3WmZ
-	I1HGWwzDDElOwwYS1Mf0Z2W70UYLzb4/FV3KwUJl0kPS5/vWCHd4HOd8eO3I8MAvGHaJ
-	MSNxWobm0xuRNLokM4xOdX9y4xn8lnaLYI6THkd5ad/b68v4FEdIz/ptZD7YOx3A6Mo/
-	HRLg==
-X-Received: by 10.112.154.7 with SMTP id vk7mr10332084lbb.48.1447420221784;
-	Fri, 13 Nov 2015 05:10:21 -0800 (PST)
-Received: from localhost.localdomain (m83-185-243-97.cust.tele2.se.
-	[83.185.243.97]) by smtp.gmail.com with ESMTPSA id
-	f194sm3120646lfg.37.2015.11.13.05.10.20
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Nov 2015 05:10:21 -0800 (PST)
-From: Ming Liu <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Nov 2015 14:10:14 +0100
-Message-Id: <1447420214-18048-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] image-vm.bbclass: uses IMAGE_LINK_NAME
+	Fri, 13 Nov 2015 13:53:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tADDrfOg002305
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 13 Nov 2015 05:53:41 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Fri, 13 Nov 2015 05:53:40 -0800
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
+	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
+	<56421DA6.5080700@windriver.com> <56433886.3060700@linux.intel.com>
+	<564343E9.9020702@windriver.com> <5643497F.1080106@linux.intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <5645EB64.4020200@windriver.com>
+Date: Fri, 13 Nov 2015 07:53:40 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <5643497F.1080106@linux.intel.com>
+Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,31 +38,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 13:10:26 -0000
+X-List-Received-Date: Fri, 13 Nov 2015 13:53:43 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+On 11/11/15 7:58 AM, Alexander Kanavin wrote:
+> On 11/11/2015 03:34 PM, Mark Hatle wrote:
+> 
+>> For the same architecture (i.e. MIPS64) and the same ABI (n64), the resulting
+>> data structures, packing and similar should all be standard.  Only the generated
+>> instructions and execution order would/could change.
+>>
+>> So you would need a way to generate, cache, store the results by arch/abi combo
+>> in order to do this.  The issue of course is that you would need to declare the
+>> arch and abi -- the tune files are the natural place to do this (we really are
+>> declaring it there ANYWAY), and the tune features in many cases may have already
+>> done this...
+>>
+>> Something to consider -- the alternative is the dual object (one generic
+>> [arch/abi], one optimized for the tune) that can be used to run on QEMU.  Twice
+>> the compile time but should work fine.
+> 
+> Hmm, maybe it's simpler to just fix QEMU so it can handle the missing 
+> instructions?
 
-Uses ${IMAGE_LINK_NAME} instead of ${IMAGE_BASENAME}-${MACHINE}.
+Unfortunately it's not reasonable in my experience.  The problem is that anyone
+who implements a BSP/machine that includes so far unknown instructions to qemu
+would be required to implement them.
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/classes/image-vm.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+As most people don't understand the instruction implementation in QEMU, I'm not
+sure this is reasonable.
 
-diff --git a/meta/classes/image-vm.bbclass b/meta/classes/image-vm.bbclass
-index 5ddd1cb..575a4b7 100644
---- a/meta/classes/image-vm.bbclass
-+++ b/meta/classes/image-vm.bbclass
-@@ -10,7 +10,7 @@ do_bootdirectdisk[depends] += "${@'${INITRD_IMAGE}:do_rootfs' if '${INITRD_IMAGE
- 
- # need to define the dependency and the ROOTFS for directdisk
- do_bootdirectdisk[depends] += "${PN}:do_rootfs"
--ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext4"
-+ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.ext4"
- 
- # creating VM images relies on having a hddimg so ensure we inherit it here.
- inherit boot-directdisk
--- 
-1.9.1
+I really want to get the gir support into oe-core, but I'm concerned that doing
+things this way is going to cause a significant gap in functionality for many of
+the machines that use OE.
+
+--Mark
+
+> 
+> Alex
+> 
 
 
