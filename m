@@ -1,30 +1,20 @@
-Return-Path: <alexandre.belloni@free-electrons.com>
-Received: from mail.free-electrons.com (down.free-electrons.com
-	[37.187.137.238])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D9D6772C8
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EE397727C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 09:34:45 +0000 (UTC)
-Received: by mail.free-electrons.com (Postfix, from userid 110)
-	id 8FB4C43C; Fri, 13 Nov 2015 10:34:44 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	mail.free-electrons.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT,
-	URIBL_BLOCKED shortcircuit=ham autolearn=disabled version=3.4.0
-Received: from localhost (unknown [88.191.26.124])
-	by mail.free-electrons.com (Postfix) with ESMTPSA id 57E0221D;
-	Fri, 13 Nov 2015 10:33:59 +0100 (CET)
-Date: Fri, 13 Nov 2015 10:33:59 +0100
-From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20151113093359.GH4230@piout.net>
-References: <1447351617-7516-1-git-send-email-alexandre.belloni@free-electrons.com>
-	<20151112191500.GM2574@jama>
-MIME-Version: 1.0
-In-Reply-To: <20151112191500.GM2574@jama>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] tune-cortexa5.inc: Allow tuning for vfpv3d16, vfpv3 and neon-vfpv4
+	Fri, 13 Nov 2015 09:43:45 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Nov 2015 01:43:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,286,1444719600"; d="scan'208";a="599686485"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by FMSMGA003.fm.intel.com with ESMTP; 13 Nov 2015 01:43:40 -0800
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Nov 2015 11:46:56 +0200
+Message-Id: <cover.1447405312.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/19] X11 & GTK+ version upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,111 +27,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 09:34:45 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 13 Nov 2015 09:43:47 -0000
 
-On 12/11/2015 at 20:15:00 +0100, Martin Jansa wrote :
-> On Thu, Nov 12, 2015 at 07:06:57PM +0100, Alexandre Belloni wrote:
-> > Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-> 
-> Please check
-> http://lists.openembedded.org/pipermail/openembedded-core/2015-October/111318.html
-> thread and following discussion.
-> 
+This patchset requires the patches in jku/glib-et-al branch,
+and that branch _is included_ in the one linked here.
 
-Yeah, I saw that one but I'm not sure what conclusion I should draw
-regarding the vfp selection. I understand the mtune/mcpu still needs
-some work.
+Most of the X upgrades are minor bumps as usual. xf86-video-omap upgrade
+I could not test myself but the changes look innocent enough so I
+included it.
 
-> > ---
-> >  meta/conf/machine/include/tune-cortexa5.inc | 34 +++++++++++++++++++++++++++--
-> >  1 file changed, 32 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
-> > index 139e65c8285d..56ea93e81d5e 100644
-> > --- a/meta/conf/machine/include/tune-cortexa5.inc
-> > +++ b/meta/conf/machine/include/tune-cortexa5.inc
-> > @@ -6,31 +6,61 @@ TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
-> >  TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "cortexa5", " -mtune=cortex-a5", "", d)}"
-> >  
-> >  # Little Endian base configs
-> > -AVAILTUNES += "cortexa5 cortexa5t cortexa5-neon cortexa5t-neon"
-> > +AVAILTUNES += "cortexa5 cortexa5t cortexa5-vfpv3d16 cortexa5t-vfpv3d16 cortexa5-vfpv3 cortexa5t-vfpv3 cortexa5-neon cortexa5t-neon cortexa5-neon-vfpv4 cortexa5t-neon-vfpv4"
-> >  ARMPKGARCH_tune-cortexa5 = "cortexa5"
-> >  ARMPKGARCH_tune-cortexa5t = "cortexa5"
-> > +ARMPKGARCH_tune-cortexa5-vfpv3d16 = "cortexa5"
-> > +ARMPKGARCH_tune-cortexa5t-vfpv3d16 = "cortexa5"
-> > +ARMPKGARCH_tune-cortexa5-vfpv3 = "cortexa5"
-> > +ARMPKGARCH_tune-cortexa5t-vfpv3 = "cortexa5"
-> >  ARMPKGARCH_tune-cortexa5-neon = "cortexa5"
-> >  ARMPKGARCH_tune-cortexa5t-neon = "cortexa5"
-> >  TUNE_FEATURES_tune-cortexa5 = "${TUNE_FEATURES_tune-armv7a} cortexa5"
-> >  TUNE_FEATURES_tune-cortexa5t = "${TUNE_FEATURES_tune-armv7at} cortexa5"
-> > +TUNE_FEATURES_tune-cortexa5-vfpv3d16 = "${TUNE_FEATURES_tune-armv7a-vfpv3d16} cortexa5"
-> > +TUNE_FEATURES_tune-cortexa5t-vfpv3d16 = "${TUNE_FEATURES_tune-armv7at-vfpv3d16} cortexa5"
-> > +TUNE_FEATURES_tune-cortexa5-vfpv3 = "${TUNE_FEATURES_tune-armv7a-vfpv3} cortexa5"
-> > +TUNE_FEATURES_tune-cortexa5t-vfpv3 = "${TUNE_FEATURES_tune-armv7at-vfpv3} cortexa5"
-> >  TUNE_FEATURES_tune-cortexa5-neon = "${TUNE_FEATURES_tune-armv7a-neon} cortexa5"
-> >  TUNE_FEATURES_tune-cortexa5t-neon = "${TUNE_FEATURES_tune-armv7at-neon} cortexa5"
-> >  PACKAGE_EXTRA_ARCHS_tune-cortexa5 = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} cortexa5-vfp"
-> >  PACKAGE_EXTRA_ARCHS_tune-cortexa5t = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortexa5-vfp cortexa5t2-vfp"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5-vfpv3d16 = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-vfpv3d16} cortexa5-vfp cortexa5-vfp-vfpv3d16"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5t-vfpv3d16 = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-vfpv3d16} cortexa5-vfp cortexa5-vfp-vfpv3d16 cortexa5t2-vfp cortexa5t2-vfp-vfpv3d16"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-vfpv3} cortexa5-vfp cortexa5-vfp-vfpv3"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5t-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-vfpv3} cortexa5-vfp cortexa5-vfp-vfpv3 cortexa5t2-vfp cortexa5t2-vfp-vfpv3"
-> >  PACKAGE_EXTRA_ARCHS_tune-cortexa5-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon} cortexa5-vfp cortexa5-vfp-neon"
-> >  PACKAGE_EXTRA_ARCHS_tune-cortexa5t-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon} cortexa5-vfp cortexa5-vfp-neon cortexa5t2-vfp cortexa5t2-vfp-neon"
-> >  
-> >  # VFP Tunes
-> > -AVAILTUNES += "cortexa5hf cortexa5thf cortexa5hf-neon cortexa5thf-neon"
-> > +AVAILTUNES += "cortexa5hf cortexa5thf cortexa5hf-neon cortexa5thf-neon cortexa5hf-vfpv3d16 cortexa5thf-vfpv3d16 cortexa5hf-vfpv3 cortexa5thf-vfpv3 cortexa5hf-neon-vfpv4 cortexa5thf-neon-vfpv4"
-> >  ARMPKGARCH_tune-cortexa5hf = "cortexa5"
-> >  ARMPKGARCH_tune-cortexa5thf = "cortexa5"
-> > +ARMPKGARCH_tune-cortexa5hf-vfpv3d16 = "cortexa5"
-> > +ARMPKGARCH_tune-cortexa5thf-vfpv3d16 = "cortexa5"
-> > +ARMPKGARCH_tune-cortexa5hf-vfpv3 = "cortexa5"
-> > +ARMPKGARCH_tune-cortexa5thf-vfpv3 = "cortexa5"
-> >  ARMPKGARCH_tune-cortexa5hf-neon = "cortexa5"
-> >  ARMPKGARCH_tune-cortexa5thf-neon = "cortexa5"
-> > +ARMPKGARCH_tune-cortexa5hf-neon-vfpv4 = "cortexa5"
-> > +ARMPKGARCH_tune-cortexa5thf-neon-vfpv4 = "cortexa5"
-> >  TUNE_FEATURES_tune-cortexa5hf ?= "${TUNE_FEATURES_tune-armv7ahf} cortexa5"
-> >  TUNE_FEATURES_tune-cortexa5thf ?= "${TUNE_FEATURES_tune-armv7athf} cortexa5"
-> > +TUNE_FEATURES_tune-cortexa5hf-vfpv3d16 ?= "${TUNE_FEATURES_tune-armv7ahf-vfpv3d16} cortexa5"
-> > +TUNE_FEATURES_tune-cortexa5thf-vfpv3d16 ?= "${TUNE_FEATURES_tune-armv7athf-vfpv3d16} cortexa5"
-> > +TUNE_FEATURES_tune-cortexa5hf-vfpv3 ?= "${TUNE_FEATURES_tune-armv7ahf-vfpv3} cortexa5"
-> > +TUNE_FEATURES_tune-cortexa5thf-vfpv3 ?= "${TUNE_FEATURES_tune-armv7athf-vfpv3} cortexa5"
-> >  TUNE_FEATURES_tune-cortexa5hf-neon ?= "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa5"
-> >  TUNE_FEATURES_tune-cortexa5thf-neon ?= "${TUNE_FEATURES_tune-armv7athf-neon} cortexa5"
-> > +TUNE_FEATURES_tune-cortexa5hf-neon-vfpv4 ?= "${TUNE_FEATURES_tune-armv7ahf-neon-vfpv4} cortexa5"
-> > +TUNE_FEATURES_tune-cortexa5thf-neon-vfpv4 ?= "${TUNE_FEATURES_tune-armv7athf-neon-vfpv4} cortexa5"
-> >  PACKAGE_EXTRA_ARCHS_tune-cortexa5hf = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} cortexa5hf-vfp"
-> >  PACKAGE_EXTRA_ARCHS_tune-cortexa5thf = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa5hf-vfp cortexa5t2hf-vfp"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5hf-vfpv3d16 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-vfpv3d16} cortexa5hf-vfp cortexa5hf-vfp-vfpv3d16"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5thf-vfpv3d16 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3d16} cortexa5hf-vfp cortexa5hf-vfp-vfpv3d16 cortexa5t2hf-vfp cortexa5t2hf-vfp-vfpv3d16"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5hf-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-vfpv3} cortexa5hf-vfp cortexa5hf-vfp-vfpv3"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5thf-vfpv3 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3} cortexa5hf-vfp cortexa5hf-vfp-vfpv3 cortexa5t2hf-vfp cortexa5t2hf-vfp-vfpv3"
-> >  PACKAGE_EXTRA_ARCHS_tune-cortexa5hf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} cortexa5hf-vfp cortexa5hf-vfp-neon"
-> >  PACKAGE_EXTRA_ARCHS_tune-cortexa5thf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} cortexa5hf-vfp cortexa5hf-vfp-neon cortexa5t2hf-vfp cortexa5t2hf-vfp-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5hf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4} cortexa5hf-vfp cortexa5hf-vfp-neon cortexa5hf-vfp-vfpv4-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5thf-neon-vfpv4 = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4} cortexa5hf-vfp cortexa5hf-vfp-neon cortexa5t2hf-vfp cortexa5t2hf-vfp-neon cortexa5hf-vfp-vfpv4-neon cortexa5t2hf-vfp-vfpv4-neon"
-> > -- 
-> > 2.5.0
-> > 
-> > -- 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> -- 
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Notable changes:
+ * Pango is now a simple library (no modules, engines or configuration)
+ * GdkPixbuf dropped support for some rare formats (wbmp, ras, pcx)
+ * GTK upgraded to 3.18 series
+ * XOrg 1.18 (video ABI 20)
+
+ - Jussi
 
 
+The following changes since commit 84d5b3dc3832a7cd24b5362d35556e86b28d2f26:
+
+  libsoup-2.4: Upgrade 2.50.0 -> 2.52.1 (2015-11-09 14:29:50 +0200)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/x11-gtk-upgrades
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/x11-gtk-upgrades
+
+Jussi Kukkonen (19):
+  gdk-pixbuf: Upgrade 2.30.8 -> 2.32.1
+  pango: Upgrade 1.36.8 -> 1.38.1
+  librsvg: Upgrade 2.40.10 -> 2.40.11
+  adwaita-icon-theme: Upgrade 3.16.2.1 -> 3.18.0
+  gtk+3: Upgrade 3.16.6 -> 3.18.2
+  package_regex.inc: Add gtk-icon-utils-native
+  gtk-icon-utils-native: Upgrade 3.16.6 -> 3.18.2
+  libxi: Upgrade 1.7.4 -> 1.7.5
+  pixman: Upgrade 0.32.6 -> 0.32.8
+  libxcb: Upgrade 1.11 -> 1.11.1
+  libxcb: Remove unused git-version of the recipe
+  xserver-xorg: Upgrade 1.17.2 -> 1.18.0
+  xorg-driver-input: add xorg configuration to FILES
+  xf86-input-evdev: Upgrade 2.9.2 -> 2.10.0
+  xf86-input-synaptics: Upgrade 1.8.2 -> 1.8.3
+  xf86-video-omap: Upgrade 0.4.3 -> 0.4.4
+  xinput: Upgrade 1.6.1 -> 1.6.2
+  xkbcomp: Upgrade 1.3.0 -> 1.3.1
+  xkeyboard-config: Upgrade 2.15 -> 2.16
+
+ meta/conf/distro/include/package_regex.inc         |   1 +
+ ...ps-Be-more-careful-about-integer-overflow.patch |  89 -----------
+ .../{gdk-pixbuf_2.30.8.bb => gdk-pixbuf_2.32.1.bb} |   5 +-
+ .../Create-symlinks-when-installing-cursors.patch  | 178 ---------------------
+ ...me_3.16.2.1.bb => adwaita-icon-theme_3.18.0.bb} |   5 +-
+ meta/recipes-gnome/gtk+/gtk+3.inc                  |   5 +-
+ .../gtk+/{gtk+3_3.16.6.bb => gtk+3_3.18.2.bb}      |   4 +-
+ ...e_3.16.6.bb => gtk-icon-utils-native_3.18.2.bb} |   4 +-
+ .../{librsvg_2.40.10.bb => librsvg_2.40.11.bb}     |   4 +-
+ meta/recipes-graphics/pango/pango.inc              |  50 +-----
+ .../pango/pango/multilib-fix-clean.patch           |  75 ---------
+ meta/recipes-graphics/pango/pango_1.36.8.bb        |  10 --
+ meta/recipes-graphics/pango/pango_1.38.1.bb        |   9 ++
+ .../xorg-app/{xinput_1.6.1.bb => xinput_1.6.2.bb}  |   6 +-
+ .../{xkbcomp_1.3.0.bb => xkbcomp_1.3.1.bb}         |   4 +-
+ ...t-evdev_2.9.2.bb => xf86-input-evdev_2.10.0.bb} |   4 +-
+ ...tics_1.8.2.bb => xf86-input-synaptics_1.8.3.bb} |   6 +-
+ ...put_dpms-Replace-logical-with-bitwise-ope.patch |  31 ----
+ ...ideo-omap_0.4.3.bb => xf86-video-omap_0.4.4.bb} |   6 +-
+ .../xorg-driver/xorg-driver-input.inc              |   4 +-
+ .../xorg-lib/{libxcb.inc => libxcb_1.11.1.bb}      |  13 +-
+ meta/recipes-graphics/xorg-lib/libxcb_1.11.bb      |  10 --
+ meta/recipes-graphics/xorg-lib/libxcb_git.bb       |  10 --
+ .../xorg-lib/{libxi_1.7.4.bb => libxi_1.7.5.bb}    |   4 +-
+ ...0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch |   2 +-
+ .../{pixman_0.32.6.bb => pixman_0.32.8.bb}         |   4 +-
+ ...ard-config_2.15.bb => xkeyboard-config_2.16.bb} |   4 +-
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |   2 +-
+ ...e-__GLIBC__-guard-for-glibc-specific-code.patch |  31 ----
+ ...erver-xorg_1.17.2.bb => xserver-xorg_1.18.0.bb} |   6 +-
+ 30 files changed, 57 insertions(+), 529 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-pixops-Be-more-careful-about-integer-overflow.patch
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.30.8.bb => gdk-pixbuf_2.32.1.bb} (94%)
+ delete mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/Create-symlinks-when-installing-cursors.patch
+ rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.16.2.1.bb => adwaita-icon-theme_3.18.0.bb} (85%)
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.16.6.bb => gtk+3_3.18.2.bb} (83%)
+ rename meta/recipes-gnome/gtk+/{gtk-icon-utils-native_3.16.6.bb => gtk-icon-utils-native_3.18.2.bb} (94%)
+ rename meta/recipes-gnome/librsvg/{librsvg_2.40.10.bb => librsvg_2.40.11.bb} (92%)
+ delete mode 100644 meta/recipes-graphics/pango/pango/multilib-fix-clean.patch
+ delete mode 100644 meta/recipes-graphics/pango/pango_1.36.8.bb
+ create mode 100644 meta/recipes-graphics/pango/pango_1.38.1.bb
+ rename meta/recipes-graphics/xorg-app/{xinput_1.6.1.bb => xinput_1.6.2.bb} (66%)
+ rename meta/recipes-graphics/xorg-app/{xkbcomp_1.3.0.bb => xkbcomp_1.3.1.bb} (78%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-evdev_2.9.2.bb => xf86-input-evdev_2.10.0.bb} (83%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-synaptics_1.8.2.bb => xf86-input-synaptics_1.8.3.bb} (74%)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-omap/0001-drmmode_output_dpms-Replace-logical-with-bitwise-ope.patch
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-omap_0.4.3.bb => xf86-video-omap_0.4.4.bb} (84%)
+ rename meta/recipes-graphics/xorg-lib/{libxcb.inc => libxcb_1.11.1.bb} (80%)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxcb_1.11.bb
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxcb_git.bb
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.7.4.bb => libxi_1.7.5.bb} (81%)
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.32.6.bb => pixman_0.32.8.bb} (90%)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.15.bb => xkeyboard-config_2.16.bb} (88%)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-use-__GLIBC__-guard-for-glibc-specific-code.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.17.2.bb => xserver-xorg_1.18.0.bb} (78%)
 
 -- 
-Alexandre Belloni, Free Electrons
-Embedded Linux, Kernel and Android engineering
-http://free-electrons.com
+2.1.4
+
 
