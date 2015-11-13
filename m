@@ -1,24 +1,23 @@
-Return-Path: <Jian.Liu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CC15E772DF
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E44FB772E4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 10:10:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tADAA4PM021867
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 02:10:04 -0800
-Received: from pek-jliu7-d1.corp.ad.wrs.com (128.224.162.138) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 13 Nov 2015 02:10:03 -0800
-From: Jian Liu <jian.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Nov 2015 18:09:49 +0800
-Message-ID: <1447409389-406-1-git-send-email-jian.liu@windriver.com>
+	Fri, 13 Nov 2015 11:08:27 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tADB8GS6016713
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 13 Nov 2015 03:08:16 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Fri, 13 Nov 2015 03:08:16 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Fri, 13 Nov 2015 19:08:05 +0800
+Message-ID: <cover.1447412835.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] archiver.bbclass: fix an exception of the mode configured
+Subject: [PATCH 0/1] wpa-supplicant: Fix CVE-2015-8041
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +30,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 10:10:05 -0000
+X-List-Received-Date: Fri, 13 Nov 2015 11:08:28 -0000
 Content-Type: text/plain
 
-gcc-source does not have the task do_configure, so if configured mode is set,
-the task do_ar_configured depends on do_configure.
-This will cause an error.
+The following changes since commit fc45deac89ef63ca1c44e763c38ced7dfd72cbe1:
 
-Signed-off-by: Jian Liu <jian.liu@windriver.com>
----
- archiver.bbclass |   15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+  build-appliance-image: Update to jethro head revision (2015-11-03 14:03:03 +0000)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 41a552c..3d1952a 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -73,8 +73,18 @@ python () {
-         # We can't use "addtask do_ar_configured after do_configure" since it
-         # will cause the deptask of do_populate_sysroot to run not matter what
-         # archives we need, so we add the depends here.
--        d.appendVarFlag('do_ar_configured', 'depends', ' %s:do_configure' % pn)
--        d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_configured' % pn)
-+        ##
-+        # For some specific packages like gcc-source, do_configure may be deleted.
-+        deltask = d.getVar('__BBDELTASKS', False)
-+        noexec = d.getVarFlag('do_configure', 'noexec')
-+        os.system("echo deltask=%s, noexec=%s, pn=%s >> /tmp/tasks.txt" %(deltask,noexec,pn))
-+        #if 'do_configure' in (d.getVar('__BBDELTASKS', False) or []) or d.getVarFlag('do_configure', 'noexec') == '1':
-+        if d.getVarFlag('do_configure', 'noexec') == '1' or 'do_configure' not in d.getVar('__BBTASKS', False):
-+            pass
-+        else:
-+            bb.build.addtask('do_ar_configured', None, 'do_unpack_and_patch', d)
-+            d.appendVarFlag('do_ar_configured', 'depends', ' %s:do_configure' % pn)
-+            d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_configured' % pn)
-     elif ar_src:
-         bb.fatal("Invalid ARCHIVER_MODE[src]: %s" % ar_src)
- 
-@@ -348,7 +358,6 @@ do_deploy_archives[sstate-outputdirs] = "${DEPLOY_DIR_SRC}"
- 
- addtask do_ar_original after do_unpack
- addtask do_ar_patched after do_unpack_and_patch
--addtask do_ar_configured after do_unpack_and_patch
- addtask do_dumpdata
- addtask do_ar_recipe
- addtask do_deploy_archives before do_build
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/wpa-supplicant
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/wpa-supplicant
+
+Hongxu Jia (1):
+  wpa-supplicant: Fix CVE-2015-8041
+
+ ...load-length-validation-in-NDEF-record-par.patch | 64 ++++++++++++++++++++++
+ .../wpa-supplicant/wpa-supplicant_2.4.bb           |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-NFC-Fix-payload-length-validation-in-NDEF-record-par.patch
+
+-- 
+1.9.1
+
 
