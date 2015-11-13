@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3768677157
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A4C77716A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 08:03:32 +0000 (UTC)
+	Fri, 13 Nov 2015 08:03:33 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAD83WA7028071
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAD83YqD019243
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 00:03:32 -0800 (PST)
+	Fri, 13 Nov 2015 00:03:34 -0800
 Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 13 Nov 2015 00:03:31 -0800
+	14.3.248.2; Fri, 13 Nov 2015 00:03:33 -0800
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Nov 2015 16:03:27 +0800
-Message-ID: <82c25587d2605454e393bc8d94be99949d3c33ac.1447401669.git.jackie.huang@windriver.com>
+Date: Fri, 13 Nov 2015 16:03:28 +0800
+Message-ID: <d048302af2e51dfaf60c8bc12cc51cdc172f81ce.1447401669.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1447401669.git.jackie.huang@windriver.com>
 References: <cover.1447401669.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/5] libav: fix CVE-2015-6820
+Subject: [PATCH 4/5] libav: fix CVE-2015-6823
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,102 +33,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 08:03:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 13 Nov 2015 08:03:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-Cherry-pick patch from ffmpeg to fix CVE-2015-6820:
-http://git.videolan.org/?p=ffmpeg.git;a=commit;h=79a98294da6cd85f8c86b34764c5e0c43b09eea3
+Cherry-pick patch from ffmpeg to fix CVE-2015-6823:
+http://git.videolan.org/?p=ffmpeg.git;a=commit;h=f7068bf277a37479aecde2832208d820682b35e6
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- .../libav/libav/libav-fix-CVE-2015-6820.patch      | 66 ++++++++++++++++++++++
+ .../libav/libav/libav-fix-CVE-2015-6823.patch      | 45 ++++++++++++++++++++++
  meta/recipes-multimedia/libav/libav_9.18.bb        |  1 +
- 2 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-multimedia/libav/libav/libav-fix-CVE-2015-6820.patch
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libav/libav/libav-fix-CVE-2015-6823.patch
 
-diff --git a/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2015-6820.patch b/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2015-6820.patch
+diff --git a/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2015-6823.patch b/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2015-6823.patch
 new file mode 100644
-index 0000000..00b124c
+index 0000000..198353b
 --- /dev/null
-+++ b/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2015-6820.patch
-@@ -0,0 +1,66 @@
++++ b/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2015-6823.patch
+@@ -0,0 +1,45 @@
 +Upstream-Status: Pending
 +
-+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-6820
++https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-6823
 +
 +Cherry-pick from:
-+http://git.videolan.org/?p=ffmpeg.git;a=commit;h=79a98294da6cd85f8c86b34764c5e0c43b09eea3
++http://git.videolan.org/?p=ffmpeg.git;a=commit;h=f7068bf277a37479aecde2832208d820682b35e6
 +
 +Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 +---
-+From 79a98294da6cd85f8c86b34764c5e0c43b09eea3 Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michaelni@gmx.at>
-+Date: Wed, 1 Jul 2015 02:05:43 +0200
-+Subject: [PATCH] avcodec/aacsbr: check that the element type matches before
-+ applying SBR
++From f7068bf277a37479aecde2832208d820682b35e6 Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Mon, 13 Jul 2015 15:46:10 +0200
++Subject: [PATCH] avcodec/alac: Clear pointers in allocate_buffers()
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+Fixes out of array access
-+Fixes: signal_sigsegv_3670fc0_2818_cov_2307326154_moon.mux
++Fixes: 06a4edb39ad8a9883175f9bd428334a2_signal_sigsegv_7ffff713351a_706_mov__alac__ALAC_6ch.mov
 +
-+Found-by: Mateusz "j00ru" Jurczyk and Gynvael Coldwind
-+Signed-off-by: Michael Niedermayer <michaelni@gmx.at>
++Found-by: Samuel Groß, Mateusz "j00ru" Jurczyk and Gynvael Coldwind
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
 +---
-+ libavcodec/aacsbr.c | 8 ++++++++
-+ libavcodec/sbr.h    | 1 +
-+ 2 files changed, 9 insertions(+)
++ libavcodec/alac.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+diff --git a/libavcodec/aacsbr.c b/libavcodec/aacsbr.c
-+index 7e98834..ca6dad7 100644
-+--- a/libavcodec/aacsbr.c
-++++ b/libavcodec/aacsbr.c
-+@@ -1019,6 +1019,8 @@ static unsigned int read_sbr_data(AACContext *ac, SpectralBandReplication *sbr,
-+ {
-+     unsigned int cnt = get_bits_count(gb);
++diff --git a/libavcodec/alac.c b/libavcodec/alac.c
++index b0527f1..a5948bb 100644
++--- a/libavcodec/alac.c
+++++ b/libavcodec/alac.c
++@@ -534,6 +534,12 @@ static int allocate_buffers(ALACContext *alac)
++     int ch;
++     int buf_size = alac->max_samples_per_frame * sizeof(int32_t);
 + 
-++    sbr->id_aac = id_aac;
-++
-+     if (id_aac == TYPE_SCE || id_aac == TYPE_CCE) {
-+         if (read_sbr_single_channel_element(ac, sbr, gb)) {
-+             sbr_turnoff(sbr);
-+@@ -1695,6 +1697,12 @@ void ff_sbr_apply(AACContext *ac, SpectralBandReplication *sbr, int id_aac,
-+     int nch = (id_aac == TYPE_CPE) ? 2 : 1;
-+     int err;
-+ 
-++    if (id_aac != sbr->id_aac) {
-++        av_log(ac->avctx, AV_LOG_ERROR,
-++            "element type mismatch %d != %d\n", id_aac, sbr->id_aac);
-++        sbr_turnoff(sbr);
+++    for (ch = 0; ch < 2; ch++) {
+++        alac->predict_error_buffer[ch]  = NULL;
+++        alac->output_samples_buffer[ch] = NULL;
+++        alac->extra_bits_buffer[ch]     = NULL;
 ++    }
 ++
-+     if (!sbr->kx_and_m_pushed) {
-+         sbr->kx[0] = sbr->kx[1];
-+         sbr->m[0] = sbr->m[1];
-+diff --git a/libavcodec/sbr.h b/libavcodec/sbr.h
-+index e28fccd..ff00acb 100644
-+--- a/libavcodec/sbr.h
-++++ b/libavcodec/sbr.h
-+@@ -137,6 +137,7 @@ typedef struct AACSBRContext {
-+ struct SpectralBandReplication {
-+     int                sample_rate;
-+     int                start;
-++    int                id_aac;
-+     int                reset;
-+     SpectrumParameters spectrum_params;
-+     int                bs_amp_res_header;
++     for (ch = 0; ch < FFMIN(alac->channels, 2); ch++) {
++         FF_ALLOC_OR_GOTO(alac->avctx, alac->predict_error_buffer[ch],
++                          buf_size, buf_alloc_fail);
 +-- 
 +1.9.1
 +
 diff --git a/meta/recipes-multimedia/libav/libav_9.18.bb b/meta/recipes-multimedia/libav/libav_9.18.bb
-index 4564def..7d0cc70 100644
+index 7d0cc70..026f4df 100644
 --- a/meta/recipes-multimedia/libav/libav_9.18.bb
 +++ b/meta/recipes-multimedia/libav/libav_9.18.bb
-@@ -6,4 +6,5 @@ SRC_URI[sha256sum] = "0875e835da683eef1a7bac75e1884634194149d7479d1538ba9fbe1614
- SRC_URI += "file://libav-fix-CVE-2014-9676.patch \
+@@ -7,4 +7,5 @@ SRC_URI += "file://libav-fix-CVE-2014-9676.patch \
              file://libav-fix-CVE-2015-1872.patch \
              file://libav-fix-CVE-2015-3395.patch \
-+            file://libav-fix-CVE-2015-6820.patch \
+             file://libav-fix-CVE-2015-6820.patch \
++            file://libav-fix-CVE-2015-6823.patch \
             "
 -- 
 1.9.1
