@@ -1,35 +1,57 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0875077300
+Return-Path: <mhalstead@linuxfoundation.org>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 2217377330
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 21:58:26 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 13 Nov 2015 13:58:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,289,1444719600"; 
-	d="scan'208,217";a="850694585"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
-	by fmsmga002.fm.intel.com with ESMTP; 13 Nov 2015 13:58:27 -0800
-Received: from fmsmsx102.amr.corp.intel.com (10.18.124.200) by
-	FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Fri, 13 Nov 2015 13:58:25 -0800
-Received: from fmsmsx101.amr.corp.intel.com ([169.254.1.182]) by
-	FMSMSX102.amr.corp.intel.com ([169.254.10.190]) with mapi id
-	14.03.0248.002; Fri, 13 Nov 2015 13:58:25 -0800
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Yocto Project Status WW46
-Thread-Index: AdEeXmn6CtB615y5QB6Xbf+6v6by5w==
-Date: Fri, 13 Nov 2015 21:58:24 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E560C95A5@fmsmsx101.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.107]
+	Fri, 13 Nov 2015 22:03:11 +0000 (UTC)
+Received: by pabfh17 with SMTP id fh17so112250307pab.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Nov 2015 14:03:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=sender:subject:to:references:cc:from:openpgp:message-id:date
+	:user-agent:mime-version:in-reply-to:content-type;
+	bh=OHCX9TXX1+MfbojuHDBWgpDjj5TFSwAnk5QsCTgYuoM=;
+	b=CnKLoApagBL8aBvRydhWYsYr+6cR9f7aDiVTVGOaezo1VuLouNYG1ANpfb3HAkkxAE
+	2bmhIaQvJGgbHRNqxN/K/5JBMl5/q7YwpBC/Lo1E/PJhvW4bdtP/Ok24z/2AMwm/6sNr
+	ZUvADw7CoXwzO0f45+Ru/EJmnXXkCXrf3oh9g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:sender:subject:to:references:cc:from:openpgp
+	:message-id:date:user-agent:mime-version:in-reply-to:content-type;
+	bh=OHCX9TXX1+MfbojuHDBWgpDjj5TFSwAnk5QsCTgYuoM=;
+	b=fchcltHrFarYR+ccQAF1qvTj1JG7CyLKFttN1DcEf64oSQdVssEV6wuWb3kr9yvqxL
+	uNJaByw1GS9LGhI6QEdAoyFXKr2uVe/YkJbx9VmZ5ZGFS2HX9CmZBABnNdXgog/A5WO2
+	AUUG+6Z/EvFClEu4m2X/eBhiPHsx9F+NA/ybx5hPW35HFy1qyRuDH4ijVdQy32eEqbpb
+	r6HVoqY7HpUVYeYTVEkfe8PGm5Ve6bxd79rdTHFKqGpGqc/yPtHFoHzsZK8oPrlQQBaI
+	fyp3drpGqmAiK8CYgcDZtSCOkP8Q2VaECl0MthnIwx/+dq2bMMFu3tGzhyIUOdDmtk6l
+	Ht9g==
+X-Gm-Message-State: ALoCoQkmHcz9OTP28OmZDsMc/ZmKTckuk86M8GW7C2VB0pS6k/pZjcpnSUUdqwilYGUbEXiW0iIN
+X-Received: by 10.66.253.135 with SMTP id aa7mr35229869pad.14.1447452191496;
+	Fri, 13 Nov 2015 14:03:11 -0800 (PST)
+Received: from [192.168.17.200] (50-39-160-18.bvtn.or.frontiernet.net.
+	[50.39.160.18]) by smtp.gmail.com with ESMTPSA id
+	db8sm22304165pad.43.2015.11.13.14.03.10
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 13 Nov 2015 14:03:10 -0800 (PST)
+Sender: Michael Halstead <mhalstead@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+References: <56451D46.50707@gmail.com> <20151113115958.GD2567@jama>
+	<056F5AC5-DD52-4BF7-B88D-4312C40DFA2A@gmail.com>
+	<564658A0.60609@yoctoproject.org>
+	<DC4D8315-D63D-495C-B3AF-2932584B319C@gmail.com>
+	<564659EF.8070606@yoctoproject.org>
+	<447B01D9-C528-4B24-9B45-812CA1C6685D@gmail.com>
+From: Michael Halstead <michael@yoctoproject.org>
+Openpgp: id=D1F2407285E571ED12A407A73373170601861969
+Message-ID: <56465E1B.8040900@yoctoproject.org>
+Date: Fri, 13 Nov 2015 14:03:07 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Subject: Yocto Project Status WW46
+In-Reply-To: <447B01D9-C528-4B24-9B45-812CA1C6685D@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: oecommit ml
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,521 +64,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 21:58:27 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E560C95A5fmsmsx101amrcor_"
+X-List-Received-Date: Fri, 13 Nov 2015 22:03:14 -0000
+X-Groupsio-MsgNum: 73431
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="pU6EuwaNeSuSUlA5DAbM2itX0sOXdpb5v"
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E560C95A5fmsmsx101amrcor_
-Content-Type: text/plain; charset="us-ascii"
+--pU6EuwaNeSuSUlA5DAbM2itX0sOXdpb5v
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 
-Current Dev Position: YP 2.1 Planning
-Next Deadline: YP 2.1 M1 Cutoff December 7, 2015 noon GMT
 
-SWAT team rotation: Tracy -> Alejandro
-https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
+On 11/13/2015 01:50 PM, Khem Raj wrote:
+>> On Nov 13, 2015, at 1:45 PM, Michael Halstead <michael@yoctoproject.or=
+g> wrote:
+>>
+>> Bitbake is disabled with the note:
+>>
+>> # interferes with patchwork sice it sends emails after the patches are=
 
-Key Status/Updates:
+>> closed
+>> # we could re-enable it if the mails went to someother ml may be
+>> bitbake-commits
+>>
+>> This happens because it was mailing bitbake-devel@lists.openembedded.o=
+rg
+>>
+>> We can mail openembedded-commits@lists.openembedded.org which would wo=
+rk
+>> fine. Or I can create a bitbake-commits@lists.openembedded.org. Which =
+is
+>> better?
+> I think mailing to openembedded-commits@lists.openembedded.org might be=
+ ok. with [bitbake] in message subject for filtering help.
 
-  *   2.0 was released!
-  *   Undergoing planning for 2.1
-  *   Have various queued patches being processed ready for merging
-  *   Found a key performance improvement in bitbake cache handling which w=
-ill improve bitbake interactivity (bitbake -p with hot cache is about twice=
- as fast)
-  *   Initial focus on 2.1 is like dealing with autobuilder issues remainin=
-g from 2.0 and looking at tooling/process improvements to patch workflow, S=
-WAT team and error reporting/handling
-
-Key YP 2.1 Dates:
-YP 2.1 M1 Cutoff (Feature Freeze) date is December 7, 2015 noon GMT
-YP 2.1 M1 Target release date is December 24, 2015
-YP 2.1 M2 Cutoff (Feature Freeze) date is January 25, 2016 noon GMT
-YP 2.1 M2 Target release date is February 12, 2016
-YP 2.1 M3 Cutoff (Feature Freeze) date is February 29, 2016 noon GMT
-YP 2.1 M3 Target release date is March 18, 2016
-YP 2.1 M4 / Final Cutoff: March 28, 2016 noon GMT - Stabilization only mile=
-stone.
-YP 2.1 Final Release Target: April 29, 2016
-
-Key Status Links for YP:
-https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.1_Status
-https://wiki.yoctoproject.org/wiki/Yocto_2.1_Schedule
-https://wiki.yoctoproject.org/wiki/Yocto_2.1_Features
-
-Tracking Metrics:
-            WDD 2181 (last week 2089)
-(https://wiki.yoctoproject.org/charts/combo.html)
-
-[If anyone has suggestions for other information you'd like to see on this =
-weekly status update, let us know!]
-
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-*   Work Telephone:          (503) 712-0534
-*    Cell:                                (208) 244-4460
-* Email:                             stephen.k.jolley@intel.com
+I've altered the script to include [reponame] in the subject of all
+e-mails and enabled for bitbake.
 
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E560C95A5fmsmsx101amrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Michael Halstead
+Yocto Project / SysAdmin
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:p=3D"urn:schemas-m=
-icrosoft-com:office:powerpoint" xmlns:a=3D"urn:schemas-microsoft-com:office=
-:access" xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns:s=3D"=
-uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" xmlns:rs=3D"urn:schemas-microsof=
-t-com:rowset" xmlns:z=3D"#RowsetSchema" xmlns:b=3D"urn:schemas-microsoft-co=
-m:office:publisher" xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadshee=
-t" xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" xmlns=
-:odc=3D"urn:schemas-microsoft-com:office:odc" xmlns:oa=3D"urn:schemas-micro=
-soft-com:office:activation" xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
-xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" xmlns:rtc=3D"http://m=
-icrosoft.com/officenet/conferencing" xmlns:D=3D"DAV:" xmlns:Repl=3D"http://=
-schemas.microsoft.com/repl/" xmlns:mt=3D"http://schemas.microsoft.com/share=
-point/soap/meetings/" xmlns:x2=3D"http://schemas.microsoft.com/office/excel=
-/2003/xml" xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" xmlns:ois=
-=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" xmlns:dir=3D"http://=
-schemas.microsoft.com/sharepoint/soap/directory/" xmlns:ds=3D"http://www.w3=
-.org/2000/09/xmldsig#" xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint=
-/dsp" xmlns:udc=3D"http://schemas.microsoft.com/data/udc" xmlns:xsd=3D"http=
-://www.w3.org/2001/XMLSchema" xmlns:sub=3D"http://schemas.microsoft.com/sha=
-repoint/soap/2002/1/alerts/" xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#"=
- xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" xmlns:sps=3D"http://=
-schemas.microsoft.com/sharepoint/soap/" xmlns:xsi=3D"http://www.w3.org/2001=
-/XMLSchema-instance" xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/so=
-ap" xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" xmlns:udc=
-p2p=3D"http://schemas.microsoft.com/data/udc/parttopart" xmlns:wf=3D"http:/=
-/schemas.microsoft.com/sharepoint/soap/workflow/" xmlns:dsss=3D"http://sche=
-mas.microsoft.com/office/2006/digsig-setup" xmlns:dssi=3D"http://schemas.mi=
-crosoft.com/office/2006/digsig" xmlns:mdssi=3D"http://schemas.openxmlformat=
-s.org/package/2006/digital-signature" xmlns:mver=3D"http://schemas.openxmlf=
-ormats.org/markup-compatibility/2006" xmlns:m=3D"http://schemas.microsoft.c=
-om/office/2004/12/omml" xmlns:mrels=3D"http://schemas.openxmlformats.org/pa=
-ckage/2006/relationships" xmlns:spwp=3D"http://microsoft.com/sharepoint/web=
-partpages" xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/20=
-06/types" xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/200=
-6/messages" xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/Sli=
-deLibrary/" xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortal=
-Server/PublishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" xmlns:=
-st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;
-	font-family:"Calibri","sans-serif";}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:1238058789;
-	mso-list-template-ids:1264644674;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1
-	{mso-list-id:1664427905;
-	mso-list-template-ids:1571857772;}
-@list l1:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l1:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Current Dev Position: YP 2.1 Planning</span><s=
-pan style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot=
-;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Next Deadline: YP 2.1 M1 Cutoff December 7, 20=
-15 noon GMT</span><span style=3D"font-size:12.0pt;font-family:&quot;Times N=
-ew Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">SWAT team rotation: Tracy -&gt; Alejandro
-</span><span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&qu=
-ot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoctoproject=
-.org/wiki/Yocto_Build_Failure_Swat_Team"><span style=3D"font-size:11.0pt;fo=
-nt-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_=
-Build_Failure_Swat_Team</span></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Key Status/Updates:</span><span style=3D"font-=
-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p=
-></o:p></span></p>
-<ul style=3D"margin-top:0in" type=3D"disc">
-<li class=3D"MsoNormal" style=3D"color:black;mso-list:l1 level1 lfo3;vertic=
-al-align:baseline">
-<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">2.0 wa=
-s released!<o:p></o:p></span></li><li class=3D"MsoNormal" style=3D"color:bl=
-ack;mso-list:l1 level1 lfo3;vertical-align:baseline">
-<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">Underg=
-oing planning for 2.1<o:p></o:p></span></li><li class=3D"MsoNormal" style=
-=3D"color:black;mso-list:l1 level1 lfo3;vertical-align:baseline">
-<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">Have v=
-arious queued patches being processed ready for merging<o:p></o:p></span></=
-li><li class=3D"MsoNormal" style=3D"color:black;mso-list:l1 level1 lfo3;ver=
-tical-align:baseline">
-<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">Found =
-a key performance improvement in bitbake cache handling which will improve =
-bitbake interactivity (bitbake -p with hot cache is about twice as fast)<o:=
-p></o:p></span></li><li class=3D"MsoNormal" style=3D"color:black;mso-list:l=
-1 level1 lfo3;vertical-align:baseline">
-<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">Initia=
-l focus on 2.1 is like dealing with autobuilder issues remaining from 2.0 a=
-nd looking at tooling/process improvements to patch workflow, SWAT team and=
- error reporting/handling<o:p></o:p></span></li></ul>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Key YP 2.1 Dates:</span><span style=3D"font-si=
-ze:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p><=
-/o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">YP 2.1 M1 Cutoff (F=
-eature Freeze) date is December 7, 2015 noon GMT</span><span style=3D"font-=
-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p=
-></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">YP 2.1 M1 Target re=
-lease date is December 24, 2015</span><span style=3D"font-size:12.0pt;font-=
-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p=
->
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">YP 2.1 M2 Cutoff (F=
-eature Freeze) date is January 25, 2016 noon GMT</span><span style=3D"font-=
-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p=
-></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">YP 2.1 M2 Target re=
-lease date is February 12, 2016</span><span style=3D"font-size:12.0pt;font-=
-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p=
->
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">YP 2.1 M3 Cutoff (F=
-eature Freeze) date is February 29, 2016 noon GMT</span><span style=3D"font=
--size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:=
-p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">YP 2.1 M3 Target re=
-lease date is March 18, 2016</span><span style=3D"font-size:12.0pt;font-fam=
-ily:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">YP 2.1 M4 / Final C=
-utoff: March 28, 2016 noon GMT - Stabilization only milestone.</span><span =
-style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;ser=
-if&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">YP 2.1 Final Releas=
-e Target: April 29, 2016</span><span style=3D"font-size:12.0pt;font-family:=
-&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Key Status Links for YP:</span><span style=3D"=
-font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"=
-><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoctoproject=
-.org/wiki/Yocto_Project_v2.1_Status"><span style=3D"font-size:11.0pt;font-f=
-amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_Proj=
-ect_v2.1_Status</span></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoctoproject=
-.org/wiki/Yocto_2.1_Schedule"><span style=3D"font-size:11.0pt;font-family:C=
-onsolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.1_Schedul=
-e</span></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoctoproject=
-.org/wiki/Yocto_2.1_Features"><span style=3D"font-size:11.0pt;font-family:C=
-onsolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.1_Feature=
-s</span></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Tracking Metrics:</span><span style=3D"font-si=
-ze:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p><=
-/o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; WDD 2181 (last week 2089)</span><span style=3D"font-si=
-ze:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p><=
-/o:p></span></p>
-<p class=3D"MsoNormal" style=3D"text-indent:.5in"><span style=3D"font-famil=
-y:Consolas;color:black">(</span><span style=3D"font-size:12.0pt;font-family=
-:&quot;Times New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoc=
-toproject.org/charts/combo.html"><span style=3D"font-size:11.0pt;font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:#1155CC">https://wiki.yoct=
-oproject.org/charts/combo.html</span></a></span><span style=3D"font-family:=
-Consolas;color:black">)</span><span style=3D"font-size:12.0pt;font-family:&=
-quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Consolas;color:black">&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
-<span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&qu=
-ot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">[If anyone has suggestions for other informati=
-on you&#8217;d like to see on this weekly status update, let us know!]<o:p>=
-</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Thanks,</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,&quot;serif&quot;;color:purple">Stephen K. Jolley</span></i></b><b><i><=
-span style=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-se=
-rif&quot;;color:purple"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Wingdings;color:black">(<=
-/span><span style=3D"font-family:&quot;MS Sans Serif&quot;,&quot;serif&quot=
-;;color:teal">
-</span><span style=3D"font-size:8.0pt;font-family:&quot;MS Sans Serif&quot;=
-,&quot;serif&quot;;color:teal">&nbsp;&nbsp;</span><b><span style=3D"font-si=
-ze:8.0pt;font-family:&quot;Comic Sans MS&quot;;color:teal">Work Telephone</=
-span></b><span style=3D"font-family:&quot;MS Sans Serif&quot;,&quot;serif&q=
-uot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-,&quot;serif&quot;">(503) 712-0534<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;,&quot;serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;,&quot;serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-,&quot;serif&quot;">(208) 244-4460<span style=3D"color:black"><o:p></o:p></=
-span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;,&quot;serif&quot;;color:teal">:<=
-/span><span lang=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans =
-Serif&quot;,&quot;serif&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,&q=
-uot;sans-serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+>> Michael Halstead
+>> Yocto Project / SysAdmin
+>>
+>> On 11/13/2015 01:41 PM, Khem Raj wrote:
+>>>> On Nov 13, 2015, at 1:39 PM, Michael Halstead <michael@yoctoproject.=
+org> wrote:
+>>>>
+>>>> It seems git-notify was sending mail as "cia@cia.navi.cx" and that w=
+as
+>>>> causing the mail server to get added to blacklists so it was disable=
+d.
+>>>> I've changed the script and re-enabled it for:
+>>>>
+>>>> openembedded-core
+>>>> meta-openembedded
+>>>> OpenEmbedded (but I don't know if we need it)
+>>> bitbake too plz.
+>>>
+>>>> Michael Halstead
+>>>> Yocto Project / SysAdmin
+>>>>
+>>>> On 11/13/2015 12:47 PM, Khem Raj wrote:
+>>>>>> On Nov 13, 2015, at 3:59 AM, Martin Jansa <martin.jansa@gmail.com>=
+ wrote:
+>>>>>>
+>>>>>> On Thu, Nov 12, 2015 at 06:14:14PM -0500, Trevor Woerner wrote:
+>>>>>>> It seems I missed some announcement. At first I thought I had bee=
+n
+>>>>>>> unsubscribed from the openembedded-commits mailing list (since I =
+haven't
+>>>>>>> received any emails on that list since about the end of September=
+). So I
+>>>>>>> looked up http://lists.openembedded.org/pipermail/openembedded-co=
+mmits/
+>>>>>>> and it seems to have gone quiet about that time too.
+>>>>>> I've already asked Paul and Michael few times on IRC in last few w=
+eeks.
+>>>>>>
+>>>>>> I haven't received any reply from Michael, adding him to To, now.
+>>>>> I see that git-notify hooks have been disabled explicitly for all r=
+epos in update.secondary file. thats why the messages are not being
+>>>>> sent. We can enable them but I would like to know the reason they w=
+ere disabled in first place. Since we do not have this under some
+>>>>> sort of revision history, I can not find information for them as we=
+ll. So we need this info before we enable them back.
+>>>>>
+>>>>>>> I liked being able to watch the commits to see what was going in,=
+ and to
+>>>>>>> check if my patches were added (before sending "ping"s, without h=
+aving
+>>>>>>> to "git pull" and search). Is there a new workflow for seeing wha=
+t's
+>>>>>>> going in?
+>>>>>> Yes, I find them useful too (e.g. to report issue with commit whic=
+h was
+>>>>>> recently merged) or in general to know that it's worth doing "git =
+pull".
+>>>>>>
+>>>>>> --
+>>>>>> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>>>>>> --
+>>>>>> _______________________________________________
+>>>>>> Openembedded-core mailing list
+>>>>>> Openembedded-core@lists.openembedded.org
+>>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E560C95A5fmsmsx101amrcor_--
+
+
+--pU6EuwaNeSuSUlA5DAbM2itX0sOXdpb5v
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQEcBAEBCAAGBQJWRl4bAAoJEH9hAclg9EfIQ10H/2XIl2PQNj95/yvAqoTBTqeL
+RDuzIFwNzRCKEJgYbxvBt2E3UmnyLPYXl4/aflSbqaF97z5vxcYlu1rPv4jYcVRP
+eKZriUgqZalqaR/MuLb45ql6gGiluib5dSnx9CBygUwBxP1NbAbuCxoJOqbTUyT7
+agRykJr3oJGfDb9NcMxA6V9s5K4WXBhR6Rx0ci6ee4ORP3yFL4cXzc4srt9aarVX
+v7DNycv2R9bAHYd6bZIJ14w7DL7hxOFp028fFPYRD5ROA0cMKbHX49YLq7Hp+8aI
+VeiSiI/EUk2RAGu7iKjkY25moCE9c9H6MvMEs2fG54ZStMNqJkMkJ74DRG5e4pE=
+=cqGV
+-----END PGP SIGNATURE-----
+
+--pU6EuwaNeSuSUlA5DAbM2itX0sOXdpb5v--
