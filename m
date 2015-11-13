@@ -1,33 +1,30 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 74FF577334
+Return-Path: <aws.ismail@gmail.com>
+Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B1CE77337
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 16:31:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tADGV1iv030026
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 13 Nov 2015 08:31:02 -0800
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 13 Nov 2015 08:31:01 -0800
-To: <alexander.kanavin@linux.intel.com>
-References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
-	<56421DA6.5080700@windriver.com> <56433886.3060700@linux.intel.com>
-	<564343E9.9020702@windriver.com> <5643497F.1080106@linux.intel.com>
-	<5645EB64.4020200@windriver.com>
-	<60657.10.252.13.130.1447431170.squirrel@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <56461044.2020202@windriver.com>
-Date: Fri, 13 Nov 2015 10:31:00 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
+	Fri, 13 Nov 2015 16:34:39 +0000 (UTC)
+Received: by obbww6 with SMTP id ww6so77515833obb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Nov 2015 08:34:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to:content-type;
+	bh=Irp5MRX/aWgi3zoC4ERnlrVbPXKW1hOojvRjNGnU+gE=;
+	b=IGfDfECXTNFZ1PovaSuBb9lQ3TS8FS92+88RBTzqrFbUxLhalrlsU5xQR0g2X5xW0g
+	n2SH1eJfv71c0oMVsOw0CGGkMO2w4KLzXXNN+bT0dC/gbHTFT/ZB6lRcoW4WSd8z7b5q
+	KPKOgidYijkC3YVklovGGQeh0uANvjCDX9vhxONmeR8XsRqDX8bMXSh9hG/jkmxkk57B
+	1cHHy6L97uWACqb9B+hd67/eRaqOt0KciR+CpzAaJy/umq2VGnRylwHx6VlJYZwCcNXp
+	P4RD0cJIac8B/Bm/+sTKFE2kLoad4FakaOIBWl4PyzlUlHv+yAuIMiMc3XvT8WoE62Jk
+	wnsA==
+X-Received: by 10.182.129.138 with SMTP id nw10mr13502621obb.24.1447432479942; 
+	Fri, 13 Nov 2015 08:34:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <60657.10.252.13.130.1447431170.squirrel@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
+Received: by 10.182.41.39 with HTTP; Fri, 13 Nov 2015 08:34:20 -0800 (PST)
+From: Aws Ismail <aws.ismail@gmail.com>
+Date: Fri, 13 Nov 2015 11:34:20 -0500
+Message-ID: <CAMHMu0MyG2djSqi-ao6UyATX03+TuTtT_ajOUY8hvWPrkPFOhQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: how to use runqemu with multiple tap devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,48 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 16:31:03 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Nov 2015 16:34:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 11/13/15 10:12 AM, alexander.kanavin@linux.intel.com wrote:
->>> Hmm, maybe it's simpler to just fix QEMU so it can handle the missing
->>> instructions?
->>
->> Unfortunately it's not reasonable in my experience.  The problem is that
->> anyone
->> who implements a BSP/machine that includes so far unknown instructions to
->> qemu
->> would be required to implement them.
->>
->> As most people don't understand the instruction implementation in QEMU,
->> I'm not
->> sure this is reasonable.
-> 
-> If someone is competent enough to add new instructions to the compiler,
-> they should be competent enough to figure out how to do the same in QEMU,
-> no?
+Hi,
 
-That's the problem right there.  The same developers rarely do that work.
+I noticed that runqemu starts with one TAP device by default. Inside
+the VM this would be eth1 vNIC device. Is it possible to start the VM
+with multiple tap devices (i.e. eth1, eth2, eth3, etc.)?
 
-The compiler today support many more instructions for a given architecture
-family then QEMU models for that same architecture.
+I have tried using the "runqemu-gen-tapdevs" script, which creates
+multiple tap devices successfully (on the host), but when I try to add
+the new tap devices as part of the qemuparams it fails.
 
-IA32 -- some of the current and even some former generate i7 instructions fall
-under this problem.  If you host system does not have the same instruction set,
-QEMU doesn't know how to emulate everything.
+The only way I was able to boot the VM with multiple vNICs was to use
+the simple "-net nic ..."  qemuparam option, but then this vNIC won't
+be configured and won't have a proper address like what's done to the
+default one by runqemu.
 
-MIPS64 (Such as the Octeon III) is a good example.
+Am I missing something, or does this mean that the runqemu-internal
+script would need to be modified to support multiple vNICs in the
+QEMU_CMD?
 
-PowerPC has many variants as well that QEMU does not support.
-
-It would be wonderful if there was a tie together of what gcc/as and qemu
-supported -- at least from an application perspective, but that simply doesn't
-happen in the real world.
-
---Mark
-
-> Alex
-> 
-
+Thanks.
 
