@@ -1,40 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 09D5B772D4
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C752772D4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 12:20:38 +0000 (UTC)
-Received: by igvi2 with SMTP id i2so34774679igv.0
+	Fri, 13 Nov 2015 12:25:04 +0000 (UTC)
+Received: by wmec201 with SMTP id c201so28299650wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 04:20:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=EgeYniHqIFYvrvQ64hoNMir1XKRr6TICe18G2wTFB/U=;
-	b=veUPM5PphQ1fv2JpjtVgLCefJTtaLwo/niEod2kXfwnebYNrmtIN4wjYcwn9o1XPjj
-	IHzHnm+ceTpzrkiRQPwDd6vlinR0noabtZkeTlX7+WINzBOV2nHCpiiEwj8tE25+akOg
-	VeDiPvS30k9U14+OZsS3qaU0mdJz313dNWRSpAYMrx2P84f5Lwd0i7+m7IlO3JNwKiaW
-	kqfO0viwkWqzRHWUETbMxxr2jAwyKYNfpGDYewZwQjVmtuOFGpWBjj7lyIDJ0sVu58sA
-	PQCmuWi1UQ+sSndyPbZ6bjhQZdExgKP/So/2cRXReTXjdIrRlQOa/mXRi/EzJPxMpRQ+
-	yYeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=EgeYniHqIFYvrvQ64hoNMir1XKRr6TICe18G2wTFB/U=;
-	b=J7pP9gnQ+68mK4Sl0RD7cQm4ejAdKC/wOmBS1NWiLnAUjq/d/z1w92pLfKsAHW7PcK
-	+lnVtc+4eNpprHSiOlQwcHFvOPVHfAtFXm13OaBXDGu8Rm7dCvQVmnhkwM0eGG5boN7o
-	c8HfNiiYKsH7dRJjfGGOOw6RzLutf2Le+2ovwDRd7CAUSPxpoQcm+UKRxDIwwH2xzZGS
-	/Y88GXEJr+lZNSnS1QLZkVdZBxUzKkEeys/h5RmWHToP6ZEJ2vQxhAZnfN5GquwrCZdS
-	OWiB6M2RoKktiP9L9A5SF1X6TUIeXzuHk7v3sCAjoccR4vnWtz/9MtDFI0RjgZ8+b4JD
-	8ySg==
-X-Gm-Message-State: ALoCoQnnJ4vqMERTseS3kcTD9+t2PnKELDDJUgfFdTpqefypFgSRWobTpFAaO4eEsnafs+TmsmxR
-X-Received: by 10.50.59.211 with SMTP id b19mr292001igr.64.1447417238673; Fri,
-	13 Nov 2015 04:20:38 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Fri, 13 Nov 2015 04:20:19 -0800 (PST)
-In-Reply-To: <E6C2BE5A-51EC-4D69-A685-6C00173B022C@gmail.com>
+	Fri, 13 Nov 2015 04:25:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=Nlv5GyoWn5UaIiix8jyymR+vjDRlK/34F6078GYQ/8I=;
+	b=BIcG9obn7RRfvkvCMmgNPXGKRZC1E65bk+Dx1rTY1OMhiZOcjPxpNa/jZnB0QBvkYU
+	h0uMyE7nzlRmZ1MP5ze3Ho5fyWr2AQxx6J1eXNZ7FfDk1Q3qiTHO2DuEWtnhRkG/hyjk
+	D+oEN/9LncQN9LLozkzmmOocpEtkyXwCtIry38+l/eBdPvW35QJANO4B4zEOrmBoWTJZ
+	pq6m9CyLjbiIe5dJRLtkG0gAKooU6qLuZFn9DD3E6czqw7hsA6E5uwGlBBm3J7JnyaiJ
+	ReePhDKzbOqc8GLdC+NXOiWd+3qlbI+3eiLJKc1JWVGf+sqaJ8sXCcWKGcyotlj0er4+
+	QSlw==
+X-Received: by 10.28.87.21 with SMTP id l21mr3596166wmb.6.1447417504891;
+	Fri, 13 Nov 2015 04:25:04 -0800 (PST)
+Received: from walter.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
+	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
+	wx10sm19643477wjb.40.2015.11.13.04.25.04
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 13 Nov 2015 04:25:04 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+From: Jens Rehsack <rehsack@gmail.com>
+In-Reply-To: <CAJTo0LZsH7A7vjZNDQ4BBNYheanAG=k0YTTjkSqO3oMMD=xKHQ@mail.gmail.com>
+Date: Fri, 13 Nov 2015 13:25:03 +0100
+Message-Id: <D142A1E6-7289-4801-A1E1-314E139AB8DD@gmail.com>
 References: <6A0E85DF-31B7-4955-B4A2-0F3E099FCF99@gmail.com>
 	<CAJTo0Lb7w0XAJ-H-T2Uz-mdmjUZGFX9wQyzCUJ_4bU8re9rswQ@mail.gmail.com>
 	<A2AEDEA2-FB1D-4D6F-8B2F-F420AC123C9B@gmail.com>
@@ -43,10 +36,9 @@ References: <6A0E85DF-31B7-4955-B4A2-0F3E099FCF99@gmail.com>
 	<CAJTo0LYqWk_2oqjFxZ44b+yAfAq8c_a1QiCH5erFKTmFvxg-Kw@mail.gmail.com>
 	<CAJTo0LYa6-gOECqfbfDZeDXcJKwMNesiUR9Z-N7j0bxKK-pjhw@mail.gmail.com>
 	<E6C2BE5A-51EC-4D69-A685-6C00173B022C@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 13 Nov 2015 12:20:19 +0000
-Message-ID: <CAJTo0LZsH7A7vjZNDQ4BBNYheanAG=k0YTTjkSqO3oMMD=xKHQ@mail.gmail.com>
-To: Jens Rehsack <rehsack@gmail.com>
+	<CAJTo0LZsH7A7vjZNDQ4BBNYheanAG=k0YTTjkSqO3oMMD=xKHQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.2104)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] Update libusb1 from 1.0.19 to 1.0.20
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -61,33 +53,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 12:20:43 -0000
-Content-Type: multipart/alternative; boundary=047d7bd757585a789205246b164a
+X-List-Received-Date: Fri, 13 Nov 2015 12:25:09 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
---047d7bd757585a789205246b164a
-Content-Type: text/plain; charset=UTF-8
 
-On 13 November 2015 at 12:18, Jens Rehsack <rehsack@gmail.com> wrote:
-
+> Am 13.11.2015 um 13:20 schrieb Burton, Ross <ross.burton@intel.com>:
+> 
+> 
+> On 13 November 2015 at 12:18, Jens Rehsack <rehsack@gmail.com> wrote:
 > Since we both didn't see something, I send a v2 with PARALLEL_MAKE = ""
->
+> 
+> I'm not letting a makefile defeat me! :)
 
-I'm not letting a makefile defeat me! :)
+Yeah, but I have in openjdk-8 enough challenges to accept, so no waste
+time on such a tiny thing.
 
-Ross
+Cheers
+-- 
+Jens Rehsack - rehsack@gmail.com
 
---047d7bd757585a789205246b164a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 November 2015 at 12:18, Jens Rehsack <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:rehsack@gmail.com" target=3D"_blank">rehsack@gmail.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div id=3D":3o" class=3D"a3s" s=
-tyle=3D"overflow:hidden">Since we both didn&#39;t see something, I send a v=
-2 with PARALLEL_MAKE =3D &quot;&quot;</div></blockquote><div><br></div><div=
->I&#39;m not letting a makefile defeat me! :)</div><div><br></div><div>Ross=
-=C2=A0</div></div></div></div>
-
---047d7bd757585a789205246b164a--
