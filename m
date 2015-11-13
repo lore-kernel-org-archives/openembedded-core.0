@@ -1,35 +1,38 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CB9777002
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id EA59A77316
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 16:13:54 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 13 Nov 2015 08:13:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,288,1444719600"; d="scan'208";a="849896471"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 13 Nov 2015 08:13:54 -0800
-Received: by linux.intel.com (Postfix, from userid 48)
-	id 586256A4087; Fri, 13 Nov 2015 08:12:50 -0800 (PST)
-Received: from 10.252.13.130
-	(SquirrelMail authenticated user alexander.kanavin)
-	by linux.intel.com with HTTP; Fri, 13 Nov 2015 18:12:50 +0200 (EET)
-Message-ID: <60657.10.252.13.130.1447431170.squirrel@linux.intel.com>
-In-Reply-To: <5645EB64.4020200@windriver.com>
-References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
-	<56421DA6.5080700@windriver.com> <56433886.3060700@linux.intel.com>
-	<564343E9.9020702@windriver.com> <5643497F.1080106@linux.intel.com>
-	<5645EB64.4020200@windriver.com>
-Date: Fri, 13 Nov 2015 18:12:50 +0200 (EET)
-From: alexander.kanavin@linux.intel.com
-To: "Mark Hatle" <mark.hatle@windriver.com>
-User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
-MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
+	Fri, 13 Nov 2015 16:26:56 +0000 (UTC)
+Received: by qkao63 with SMTP id o63so52033152qka.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Nov 2015 08:26:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=from:to:cc:subject:date:message-id:organization;
+	bh=mjkau+JPNsoPdz+qoBHgIWUb+n0nyHEM85t7zBpW6ak=;
+	b=NuAyEenhStr4qcaP/hqd9/9QMtubx+VDxCAlYQSed5u6OIqnW9l+rjfgG2jGor6qD6
+	+YtKaDx3d8+r6QuZAjM6D9phEZm0lWelok7L+kNT9JnkXLJiqQY2PYoBzV6tRQ/8UWPD
+	BjFMmrVMLVK/7SIgG4KdZBhGlsaj3eCCd7ozrPt+dVZpKlg2RKGcrcoSM+WAso/d43f0
+	TUfkXkBx2Lme/elEsNux7QJWXofm1I70wn13MW8QPFM7cxwueFP8qo8PfMaJsDp9TdKD
+	nztGmMHr0lLBJeEUrH1LmRd6pHTt9Amtpj310jPM1Jnaw6YdfyICIGyZunYojR5x4bMA
+	oPOA==
+X-Received: by 10.141.4.4 with SMTP id g4mr6429555qhd.45.1447432016556;
+	Fri, 13 Nov 2015 08:26:56 -0800 (PST)
+Received: from localhost ([177.100.174.62]) by smtp.gmail.com with ESMTPSA id
+	g140sm5448190qhc.22.2015.11.13.08.26.53
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 13 Nov 2015 08:26:55 -0800 (PST)
+Received: by localhost (sSMTP sendmail emulation);
+	Fri, 13 Nov 2015 14:26:50 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Nov 2015 14:26:47 -0200
+Message-Id: <1447432009-9129-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.6.2
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 1/3] lttng-modules: Upgrade to 2.7 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,26 +45,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 16:13:55 -0000
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 13 Nov 2015 16:26:58 -0000
 
->> Hmm, maybe it's simpler to just fix QEMU so it can handle the missing
->> instructions?
->
-> Unfortunately it's not reasonable in my experience.  The problem is that
-> anyone
-> who implements a BSP/machine that includes so far unknown instructions to
-> qemu
-> would be required to implement them.
->
-> As most people don't understand the instruction implementation in QEMU,
-> I'm not
-> sure this is reasonable.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-If someone is competent enough to add new instructions to the compiler,
-they should be competent enough to figure out how to do the same in QEMU,
-no?
+ meta/recipes-kernel/lttng/lttng-modules_git.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Alex
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_git.bb b/meta/recipes-kernel/lttng/lttng-modules_git.bb
+index 54544fe..46cc1f0 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_git.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_git.bb
+@@ -2,18 +2,18 @@ SECTION = "devel"
+ SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
+ DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
+ LICENSE = "LGPLv2.1 & GPLv2 & MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=1412caf5a1aa90d6a48588a4794c0eac \
++LIC_FILES_CHKSUM = "file://LICENSE;md5=362844633a08753bd96ab322a6c7f9f6 \
+                     file://gpl-2.0.txt;md5=751419260aa954499f7abaabaa882bbe \
+                     file://lgpl-2.1.txt;md5=243b725d71bb5df4a1e5920b344b86ad"
+ 
+ inherit module
+ 
+-SRCREV = "7a88f8b50696dd71e80c08661159caf8e119bf51"
+-PV = "2.6.2+git${SRCPV}"
++SRCREV = "4247236df9113aca059d79c78d85779c1ff4edb0"
++PV = "2.7.0+git${SRCPV}"
+ 
+ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|arm).*-linux'
+ 
+-SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.6"
++SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.7"
+ 
+ export INSTALL_MOD_DIR="kernel/lttng-modules"
+ 
+-- 
+2.6.2
+
 
