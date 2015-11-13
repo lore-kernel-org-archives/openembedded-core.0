@@ -1,35 +1,36 @@
 Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DF7B77223
+X-Greylist: delayed 620 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 13 Nov 2015 01:05:50 UTC
+Received: from mgwkm03.jp.fujitsu.com (mgwkm03.jp.fujitsu.com [202.219.69.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 30AEE75A52
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 00:49:54 +0000 (UTC)
-Received: from yt-mxoi2.gw.nic.fujitsu.com (unknown [192.168.229.69]) by
-	mgwym02.jp.fujitsu.com with smtp
-	id 5a42_54f1_2ee4a80a_7d47_4db0_b9ef_f45c89be250d;
-	Fri, 13 Nov 2015 09:49:46 +0900
-Received: from m3051.s.css.fujitsu.com (m3051.s.css.fujitsu.com
-	[10.134.21.209])
-	by yt-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 28266AC00B2
+	Fri, 13 Nov 2015 01:05:50 +0000 (UTC)
+Received: from kw-mxoi2.gw.nic.fujitsu.com (unknown [192.168.231.133]) by
+	mgwkm03.jp.fujitsu.com with smtp
+	id 2ba1_1c40_93d88877_0ace_401d_98ac_8f9a1074e6c2;
+	Fri, 13 Nov 2015 09:55:24 +0900
+Received: from m3050.s.css.fujitsu.com (msm.b.css.fujitsu.com [10.134.21.208])
+	by kw-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id A5416AC02CF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 09:49:45 +0900 (JST)
+	Fri, 13 Nov 2015 09:55:23 +0900 (JST)
 Received: from omame (omame.fct.css.fujitsu.com [10.24.14.171])
-	by m3051.s.css.fujitsu.com (Postfix) with ESMTP id 1DBFE1A4;
-	Fri, 13 Nov 2015 09:49:45 +0900 (JST)
+	by m3050.s.css.fujitsu.com (Postfix) with ESMTP id 8D35418D;
+	Fri, 13 Nov 2015 09:55:23 +0900 (JST)
 Received: from [10.24.19.99] (fan1.utsfd.cs.fujitsu.co.jp [10.24.19.99])
-	by omame (Postfix) with ESMTPSA id 000181E0089;
-	Fri, 13 Nov 2015 09:49:44 +0900 (JST)
-To: "Burton, Ross" <ross.burton@intel.com>
+	by omame (Postfix) with ESMTPSA id 743E81E0089;
+	Fri, 13 Nov 2015 09:55:23 +0900 (JST)
+To: "Maxin B. John" <maxin.john@intel.com>
 References: <563C5648.5050009@jp.fujitsu.com>
-	<CAJTo0LZsG+_bo5=+bYrfP3theSrW-aw2TR4Y-Ax_JVY3YnEKDg@mail.gmail.com>
+	<20151112084316.GA22724@mbabyjoh-mobl.fi.intel.com>
 From: Fan Xin <fan.xin@jp.fujitsu.com>
-Message-ID: <564533DA.9050204@jp.fujitsu.com>
-Date: Fri, 13 Nov 2015 09:50:34 +0900
+Message-ID: <5645352D.3030907@jp.fujitsu.com>
+Date: Fri, 13 Nov 2015 09:56:13 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.2.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZsG+_bo5=+bYrfP3theSrW-aw2TR4Y-Ax_JVY3YnEKDg@mail.gmail.com>
+In-Reply-To: <20151112084316.GA22724@mbabyjoh-mobl.fi.intel.com>
 X-TM-AS-MML: disable
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] wpa-supplicant: upgrade to 2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,41 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 00:49:56 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 13 Nov 2015 01:05:54 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 Hi
 
- > Did you verify that the patches are not required anymore, or did you
- > just drop the patches that don't apply?
+ > In addition to what Ross mentioned, http://hostap.epitest.fi redirects
+ > to http://w1.fi
+ >
+ > So, it will be nice to update the SRC_URI, HOMEPAGE and BUGTRACKER to use
+ > w1.fi instead.
 Thanks for your comment.
-Yes, I have verified that these patches have been applied in the source 
-files of wpa_supplicant 2.5.
 
-And I confirmed the ChangeLog of wpa_supplicant 2.5 that these 
-vulnerabilities have been modified.
-http://w1.fi/cgit/hostap/plain/wpa_supplicant/ChangeLog
+As you said, these items also should be updated.
+I will update them and resend the patch later.
 
- > Also, this patch doesn't apply, can you try re-sending it?
-OK, I will resend it later.
+Thanks for your kindly reminder.
 
+Best Regards,
 Fan
 
-On 2015年11月12日 03:44, Burton, Ross wrote:
+On 2015年11月12日 17:43, Maxin B. John wrote:
+> Hi,
 >
-> On 6 November 2015 at 07:27, Fan Xin <fan.xin@jp.fujitsu.com
-> <mailto:fan.xin@jp.fujitsu.com>> wrote:
+> On Fri, Nov 06, 2015 at 04:27:04PM +0900, Fan Xin wrote:
+>> wpa-supplicant: upgrade to 2.5
+>>
+>> 1. upgrade to 2.5
+>> 2. remove eight patches since they have been modified in 2.5
+>>
+>> Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+>> ---
+>>   ...integer-underflow-in-WMM-Action-frame-par.patch | 45 -------------
 >
->     1. upgrade to 2.5
->     2. remove eight patches since they have been modified in 2.5
+> In addition to what Ross mentioned, http://hostap.epitest.fi redirects
+> to http://w1.fi
 >
+> So, it will be nice to update the SRC_URI, HOMEPAGE and BUGTRACKER to use
+> w1.fi instead.
 >
-> Did you verify that the patches are not required anymore, or did you
-> just drop the patches that don't apply?
+> Best Regards,
+> Maxin
 >
-> Also, this patch doesn't apply, can you try re-sending it?
->
-> Ross
-
 
