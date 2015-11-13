@@ -1,47 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id E8ACE77346
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EE337734D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 20:44:46 +0000 (UTC)
-Received: by igvi2 with SMTP id i2so43968374igv.0
+	Fri, 13 Nov 2015 20:47:21 +0000 (UTC)
+Received: by pacej9 with SMTP id ej9so3645133pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 12:44:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=xVJ5W5+JC1FWpmWH+VCGG3AgCc7O9di0Sz9y9Cmhkig=;
-	b=yjs6ayoirmnJBFAYpRTprpGZpewPenwNFpw1rqIZzIvZ4UsEWNAmgOKDHorA/3K16U
-	xsSAlV29YrcS6HKvWHG5fMBI1AseM0TRFEAofViiJo87w5Pwhi8EaZcfU/N80hhyyI7r
-	/47UIAFkrIfL2VhePLlm8pciXxYQItO8bX7WttFW5viIWKHgheUemNFkz6Km6Vd2+n4v
-	Ah88xpQ0abSz80BoSa/bT2UMNGQjEVpkgOasJbU6+xkh4VBaSOeKqm71ZOz9un0F3pJN
-	GBTMMZ0Pgl3HNUFP4OeWzo60LEs19ZjqCpqoOur9wMSnMFVt7ulKs6CMLS9W6JhaQrJi
-	UBLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=xVJ5W5+JC1FWpmWH+VCGG3AgCc7O9di0Sz9y9Cmhkig=;
-	b=QPDkS8o7UvlX2DHCI1QyDx/Du/7o0duv4vumHSoaBU1zsp49qnFoWdbParRkvdrb0H
-	On89CYgFcWw3f6Rng3EO6Pt5HldUxTqRf1qYB73mJ6712BD7j2B9alOcgQpav1q0U+dl
-	FcJh2ltjHuh8MwLOhUj9bI0PywYOqFshIAGjhRdcCaoAl1XC4Yo/J2GqNLzC/gncYLaM
-	x6vGD5Jk6S29/sIeGQWJ1pGP3PBomqTs6F2p4ELZy8nnqIEtb6aQYaFnv9Hwu7Bh206S
-	BLHX0KIBqGuRrAXqvvrBSY7zhLwQsYpW3eadc+WPXVTP5aIN0ykg8AnjHjlImsf63O+Z
-	20Uw==
-X-Gm-Message-State: ALoCoQlAg982KGyGwi/Ir2P2pFaxS4nIQeblpDzRE2JPh7YHFZAgXJmzqAtULK6RIdXuPntsKdzm
-X-Received: by 10.50.43.161 with SMTP id x1mr5175334igl.64.1447447486873; Fri,
-	13 Nov 2015 12:44:46 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Fri, 13 Nov 2015 12:44:27 -0800 (PST)
-In-Reply-To: <cover.1447224734.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1447224734.git.alejandro.hernandez@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 13 Nov 2015 20:44:27 +0000
-Message-ID: <CAJTo0LaE+fVE5qyH05JeW6HjJuVTGs4AG9awhPW_ozQTyoTe=w@mail.gmail.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] python3: Upgrade from 3.4.3 to 3.5
+	Fri, 13 Nov 2015 12:47:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=7bRrMWEozxqBg4bfOnoO/4QAIoLndJBKx0oMDQXC844=;
+	b=KSLCJDDiXcEcYm9ovOx4e1qzXKBdUaOFgxvG7K6SqyqRRkPtvzSO4nJL4bKE8xK5XF
+	+POLdczXov/SJdR1QxLPP/ce+rhGzpZqFeNj+AhknMJi3iz22EpyZeYHzL9YyvkBXnFH
+	8K/hphHalPWLTeAznqfm8fQ9ZePS2BJ1tCNhwL6kbjULDSzZDGAF26QsasqM4A6lU5So
+	jX/pg7INMgIhVWvsVsuUk8UQJXXevudplRfm4++22WIinBrWFSFeG4yFqA5+az0FtQT1
+	1KpTr0gEBp9qU7TCXyKBviIo+y+ymw7v3loJRJ4pSVGhGWqHT6xpjxtcjKYKLuWS7DFx
+	J9RA==
+X-Received: by 10.66.155.74 with SMTP id vu10mr2838933pab.80.1447447642252;
+	Fri, 13 Nov 2015 12:47:22 -0800 (PST)
+Received: from ?IPv6:2601:646:8802:5d5c:75e8:34a4:b27c:d575?
+	([2601:646:8802:5d5c:75e8:34a4:b27c:d575])
+	by smtp.gmail.com with ESMTPSA id
+	sg4sm22143290pac.48.2015.11.13.12.47.20
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 13 Nov 2015 12:47:21 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3111\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <20151113115958.GD2567@jama>
+Date: Fri, 13 Nov 2015 12:47:17 -0800
+Message-Id: <056F5AC5-DD52-4BF7-B88D-4312C40DFA2A@gmail.com>
+References: <56451D46.50707@gmail.com> <20151113115958.GD2567@jama>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.3111)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: oecommit ml
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,66 +48,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 20:44:50 -0000
-Content-Type: multipart/alternative; boundary=089e0111bffe495b7e0524722100
+X-List-Received-Date: Fri, 13 Nov 2015 20:47:22 -0000
+X-Groupsio-MsgNum: 73424
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_9681E97D-644B-40C3-8174-BF56B5914CB7";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---089e0111bffe495b7e0524722100
-Content-Type: text/plain; charset=UTF-8
-
-On 11 November 2015 at 06:57, Alejandro Hernandez <
-alejandro.hernandez@linux.intel.com> wrote:
-
-> Upgrades from python 3.4.3 to python 3.5, rebases some patches,
-> modifies the related classes accordingly and also fixes
-> an issue with python3-pip
->
-This failed on the autobuilder in the world-lsb target:
-
-| ./Programs/_freeze_importlib \
-|
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/work/x86-pokymllib32-linux/lib32-python3/3.5.0-r1.0/Python-3.5.0/Lib/importlib/_bootstrap.py
-Python/importlib.h
-| ./Programs/_freeze_importlib \
-|
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/work/x86-pokymllib32-linux/lib32-python3/3.5.0-r1.0/Python-3.5.0/Lib/importlib/_bootstrap_external.py
-Python/importlib_external.h
-| ./Programs/_freeze_importlib: error while loading shared libraries:
-libz.so.1: cannot open shared object file: No such file or directory
-| ./Programs/_freeze_importlib: error while loading shared libraries:
-libz.so.1: cannot open shared object file: No such file or directory
-
-Considering zlib is a DEPENDS I have no idea why this happens. :(
-
-Ross
-
---089e0111bffe495b7e0524722100
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_9681E97D-644B-40C3-8174-BF56B5914CB7
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 November 2015 at 06:57, Alejandro Hernandez <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:alejandro.hernandez@linux.intel.com" target=3D"_blank">aleja=
-ndro.hernandez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">=
-<div id=3D":2bv" class=3D"" style=3D"overflow:hidden">Upgrades from <span c=
-lass=3D"">python</span> 3.4.3 to <span class=3D"">python</span> 3.5, rebase=
-s some patches,<br>
-modifies the related classes accordingly and also fixes<br>
-an issue with python3-pip<br></div></blockquote></div>This failed on the au=
-tobuilder in the world-lsb target:<br><br>| ./Programs/_freeze_importlib \<=
-br>| 		/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/bui=
-ld/build/tmp/work/x86-pokymllib32-linux/lib32-python3/3.5.0-r1.0/Python-3.5=
-.0/Lib/importlib/_bootstrap.py Python/importlib.h<br>| ./Programs/_freeze_i=
-mportlib \<br>| 		/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-wo=
-rld-lsb/build/build/tmp/work/x86-pokymllib32-linux/lib32-python3/3.5.0-r1.0=
-/Python-3.5.0/Lib/importlib/_bootstrap_external.py Python/importlib_externa=
-l.h<br>| ./Programs/_freeze_importlib: error while loading shared libraries=
-: libz.so.1: cannot open shared object file: No such file or directory<br>|=
- ./Programs/_freeze_importlib: error while loading shared libraries: libz.s=
-o.1: cannot open shared object file: No such file or directory<br></div><di=
-v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Considering zl=
-ib is a DEPENDS I have no idea why this happens. :(</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---089e0111bffe495b7e0524722100--
+> On Nov 13, 2015, at 3:59 AM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
+>=20
+> On Thu, Nov 12, 2015 at 06:14:14PM -0500, Trevor Woerner wrote:
+>> It seems I missed some announcement. At first I thought I had been
+>> unsubscribed from the openembedded-commits mailing list (since I =
+haven't
+>> received any emails on that list since about the end of September). =
+So I
+>> looked up =
+http://lists.openembedded.org/pipermail/openembedded-commits/
+>> and it seems to have gone quiet about that time too.
+>=20
+> I've already asked Paul and Michael few times on IRC in last few =
+weeks.
+>=20
+> I haven't received any reply from Michael, adding him to To, now.
+
+
+I see that git-notify hooks have been disabled explicitly for all repos =
+in update.secondary file. thats why the messages are not being
+sent. We can enable them but I would like to know the reason they were =
+disabled in first place. Since we do not have this under some
+sort of revision history, I can not find information for them as well. =
+So we need this info before we enable them back.
+
+>=20
+>> I liked being able to watch the commits to see what was going in, and =
+to
+>> check if my patches were added (before sending "ping"s, without =
+having
+>> to "git pull" and search). Is there a new workflow for seeing what's
+>> going in?
+>=20
+> Yes, I find them useful too (e.g. to report issue with commit which =
+was
+> recently merged) or in general to know that it's worth doing "git =
+pull".
+>=20
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_9681E97D-644B-40C3-8174-BF56B5914CB7
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlZGTF0ACgkQuwUzVZGdMxQh7QCfcGRgHZpMvKMl9nqOrd3PpQTT
+l1YAn2ZTbw/PJIv8o3kDouNlvRgmQMe7
+=5j+q
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_9681E97D-644B-40C3-8174-BF56B5914CB7--
