@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id DB76C772E7
+	by mail.openembedded.org (Postfix) with ESMTP id 1DED4772C6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 09:44:05 +0000 (UTC)
+	Fri, 13 Nov 2015 09:44:07 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 13 Nov 2015 01:44:06 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 13 Nov 2015 01:44:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,286,1444719600"; d="scan'208";a="599686893"
+X-IronPort-AV: E=Sophos;i="5.20,286,1444719600"; d="scan'208";a="599686917"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 13 Nov 2015 01:44:05 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 13 Nov 2015 01:44:07 -0800
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Nov 2015 11:46:58 +0200
-Message-Id: <00c5a47035bc8adad2e9ae6ac627b798fcc7bc04.1447405312.git.jussi.kukkonen@intel.com>
+Date: Fri, 13 Nov 2015 11:46:59 +0200
+Message-Id: <49e9eb9e067080e01e5266f2417f643a6a9970f0.1447405312.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <b4fe5f127cf4ee60ee730ca6467acb20132f890a.1447405312.git.jussi.kukkonen@intel.com>
 References: <b4fe5f127cf4ee60ee730ca6467acb20132f890a.1447405312.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1447405312.git.jussi.kukkonen@intel.com>
 References: <cover.1447405312.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 13/19] xorg-driver-input: add xorg configuration to FILES
+Subject: [PATCH 14/19] xf86-input-evdev: Upgrade 2.9.2 -> 2.10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 09:44:06 -0000
+X-List-Received-Date: Fri, 13 Nov 2015 09:44:07 -0000
 
-It's common for input drivers to to add files into
-${datadir}/X11/xorg.conf.d/.
+This version installs the 10-evdev.conf configuration file
+that is no longer included in xserver-xorg.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.8.2.bb | 2 --
- meta/recipes-graphics/xorg-driver/xorg-driver-input.inc         | 4 +++-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ .../{xf86-input-evdev_2.9.2.bb => xf86-input-evdev_2.10.0.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-evdev_2.9.2.bb => xf86-input-evdev_2.10.0.bb} (83%)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.8.2.bb b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.8.2.bb
-index 19c122f..32db25b 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.8.2.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-synaptics_1.8.2.bb
-@@ -14,5 +14,3 @@ SRC_URI[md5sum] = "8ed68e8cc674dd61adb280704764aafb"
- SRC_URI[sha256sum] = "7b0e164ebd02a680e0c695955e783059f37edb0c2656398e0a972adc8e698c80"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.9.2.bb b/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.0.bb
+similarity index 83%
+rename from meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.9.2.bb
+rename to meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.0.bb
+index 66428df..3d06f03 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.9.2.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-evdev_2.10.0.bb
+@@ -16,5 +16,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fefe33b1cf0cacba0e72e3b0fa0f0e16"
  
- DEPENDS += "libxi mtdev libxtst libevdev"
--
--FILES_${PN} += "${datadir}/X11/xorg.conf.d"
-diff --git a/meta/recipes-graphics/xorg-driver/xorg-driver-input.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-input.inc
-index fbec064..21b60c4 100644
---- a/meta/recipes-graphics/xorg-driver/xorg-driver-input.inc
-+++ b/meta/recipes-graphics/xorg-driver/xorg-driver-input.inc
-@@ -7,5 +7,7 @@ python add_xorg_abi_depends() {
- }
- PACKAGEFUNCS =+ "add_xorg_abi_depends"
+ DEPENDS += "mtdev libevdev"
  
--FILES_${PN} += " ${libdir}/xorg/modules/input/*.so"
-+FILES_${PN} += " ${libdir}/xorg/modules/input/*.so \
-+                 ${datadir}/X11/xorg.conf.d \
-+                 "
- FILES_${PN}-dbg += " ${libdir}/xorg/modules/input/.debug"
+-SRC_URI[md5sum] = "99eebf171e6c7bffc42d4fc430d47454"
+-SRC_URI[sha256sum] = "792329b531afc6928ccda94e4b51a5520d4ddf8ef9a00890a5d0d31898acefec"
++SRC_URI[md5sum] = "b1183c55125981d346102d1be704760b"
++SRC_URI[sha256sum] = "d097298eb07b7a9edf4493b5c3c058041458ca52c8c62dbd4f40b84c5086d117"
 -- 
 2.1.4
 
