@@ -1,22 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 56B7C772D4
+	by mail.openembedded.org (Postfix) with ESMTP id 7EB89772D5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 09:43:52 +0000 (UTC)
+	Fri, 13 Nov 2015 09:43:53 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga101.fm.intel.com with ESMTP; 13 Nov 2015 01:43:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,286,1444719600"; d="scan'208";a="599686532"
+X-IronPort-AV: E=Sophos;i="5.20,286,1444719600"; d="scan'208";a="599686548"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 13 Nov 2015 01:43:51 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 13 Nov 2015 01:43:53 -0800
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Nov 2015 11:46:46 +0200
-Message-Id: <b4fe5f127cf4ee60ee730ca6467acb20132f890a.1447405312.git.jussi.kukkonen@intel.com>
+Date: Fri, 13 Nov 2015 11:46:47 +0200
+Message-Id: <0d1025e2caf91f17cc4b91b879839cd09b42cce4.1447405312.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <b4fe5f127cf4ee60ee730ca6467acb20132f890a.1447405312.git.jussi.kukkonen@intel.com>
+References: <b4fe5f127cf4ee60ee730ca6467acb20132f890a.1447405312.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1447405312.git.jussi.kukkonen@intel.com>
 References: <cover.1447405312.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 01/19] gdk-pixbuf: Upgrade 2.30.8 -> 2.32.1
+Subject: [PATCH 02/19] pango: Upgrade 1.36.8 -> 1.38.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,132 +33,216 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 13 Nov 2015 09:43:53 -0000
 
-Remove a backported patch.
+Pango is now a simple a simple library and no longer has
+ - modules
+ - engines
+ - configuration
+Dropping all related things from the recipe.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- ...ps-Be-more-careful-about-integer-overflow.patch | 89 ----------------------
- .../{gdk-pixbuf_2.30.8.bb => gdk-pixbuf_2.32.1.bb} |  5 +-
- 2 files changed, 2 insertions(+), 92 deletions(-)
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-pixops-Be-more-careful-about-integer-overflow.patch
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.30.8.bb => gdk-pixbuf_2.32.1.bb} (94%)
+ meta/recipes-graphics/pango/pango.inc              | 50 +--------------
+ .../pango/pango/multilib-fix-clean.patch           | 75 ----------------------
+ meta/recipes-graphics/pango/pango_1.36.8.bb        | 10 ---
+ meta/recipes-graphics/pango/pango_1.38.1.bb        |  9 +++
+ 4 files changed, 11 insertions(+), 133 deletions(-)
+ delete mode 100644 meta/recipes-graphics/pango/pango/multilib-fix-clean.patch
+ delete mode 100644 meta/recipes-graphics/pango/pango_1.36.8.bb
+ create mode 100644 meta/recipes-graphics/pango/pango_1.38.1.bb
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-pixops-Be-more-careful-about-integer-overflow.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-pixops-Be-more-careful-about-integer-overflow.patch
+diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+index df0fdf6..c0109b2 100644
+--- a/meta/recipes-graphics/pango/pango.inc
++++ b/meta/recipes-graphics/pango/pango.inc
+@@ -21,51 +21,20 @@ PACKAGECONFIG[ptest] = "--enable-installed-tests,--disable-installed-tests,glib-
+ BBCLASSEXTEND = "native"
+ DEPENDS_class-native = "glib-2.0-native cairo-native harfbuzz-native"
+ 
+-PACKAGES_DYNAMIC += "^pango-module-.*"
+-
+-RRECOMMENDS_${PN} = "pango-module-basic-fc"
+-
+ inherit gnomebase gtk-doc qemu ptest
+ 
+-# Create a pango-modules package
+-ALLOW_EMPTY_${BPN}-modules = "1"
+-PACKAGES += "${BPN}-modules"
+-RRECOMMENDS_${BPN}-modules =  "${@" ".join([p for p in d.getVar('PACKAGES', True).split() if p.find("pango-module") != -1])}"
+-
+-
+ EXTRA_AUTORECONF = ""
+ 
+ # seems to go wrong with default cflags
+ FULL_OPTIMIZATION_arm = "-O2"
+ 
+ EXTRA_OECONF = "--disable-introspection \
+-		--enable-explicit-deps=no \
+ 	        --disable-debug \
+-	        --with-mlprefix=${MLPREFIX}"
++	        "
+ 
+ LEAD_SONAME = "libpango-1.0*"
+ LIBV = "1.8.0"
+ 
+-pango_postinst() {
+-if ! [ -e $D${sysconfdir}/pango ] ; then
+-	mkdir -p $D${sysconfdir}/pango
+-fi
+-
+-if [ -n "$D" ]; then
+-	${@qemu_run_binary(d, '$D','${bindir}/${MLPREFIX}pango-querymodules')} \
+-		$D${libdir}/pango/${LIBV}/modules/*.so \
+-		> $D${sysconfdir}/pango/${MLPREFIX}pango.modules 2>/dev/null
+-
+-	[ $? -ne 0 ] && exit 1
+-
+-	sed -i -e "s:$D::" $D${sysconfdir}/pango/${MLPREFIX}pango.modules
+-
+-	exit 0
+-else
+-	${bindir}/${MLPREFIX}pango-querymodules > /etc/pango/${MLPREFIX}pango.modules
+-fi
+-}
+-
+ # This binary needs to be compiled for the host architecture.  This isn't pretty!
+ do_compile_prepend () {
+ 	if ${@base_contains('DISTRO_FEATURES', 'ptest', 'true', 'false', d)}; then
+@@ -73,22 +42,7 @@ do_compile_prepend () {
+ 	fi
+ }
+ 
+-do_install_append () {
+-	if [ "${MLPREFIX}" != "" ]; then
+-		mv ${D}/${bindir}/pango-querymodules ${D}/${bindir}/${MLPREFIX}pango-querymodules 
+-	fi
+-}
+-
+-
+-python populate_packages_prepend () {
+-    pango_postinst = d.getVar("pango_postinst", True)
+-
+-    modules_root = d.expand('${libdir}/pango/${LIBV}/modules')
+-
+-    do_split_packages(d, modules_root, '^pango-(.*)\.so$', 'pango-module-%s', 'Pango module %s', pango_postinst)
+-}
+-
+-FILES_${PN} = "${sysconfdir}/pango/* ${bindir}/* ${libdir}/libpango*${SOLIBS}"
++FILES_${PN} = "${bindir}/* ${libdir}/libpango*${SOLIBS}"
+ FILES_${PN}-dbg += "${libdir}/pango/${LIBV}/modules/.debug"
+ FILES_${PN}-dev += "${libdir}/pango/${LIBV}/modules/*.la"
+ 
+diff --git a/meta/recipes-graphics/pango/pango/multilib-fix-clean.patch b/meta/recipes-graphics/pango/pango/multilib-fix-clean.patch
 deleted file mode 100644
-index fe7c1d5..0000000
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-pixops-Be-more-careful-about-integer-overflow.patch
+index ad414dd..0000000
+--- a/meta/recipes-graphics/pango/pango/multilib-fix-clean.patch
 +++ /dev/null
-@@ -1,89 +0,0 @@
--From ffec86ed5010c5a2be14f47b33bcf4ed3169a199 Mon Sep 17 00:00:00 2001
--From: Matthias Clasen <mclasen@redhat.com>
--Date: Mon, 13 Jul 2015 00:33:40 -0400
--Subject: [PATCH] pixops: Be more careful about integer overflow
+@@ -1,75 +0,0 @@
+-Upstream-Status: Pending
 -
--Our loader code is supposed to handle out-of-memory and overflow
--situations gracefully, reporting errors instead of aborting. But
--if you load an image at a specific size, we also execute our
--scaling code, which was not careful enough about overflow in some
--places.
+-Updated to apply to pango-1.32.5
 -
--This commit makes the scaling code silently return if it fails to
--allocate filter tables. This is the best we can do, since
--gdk_pixbuf_scale() is not taking a GError.
+-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+-diff -Nurd pango-1.32.5/configure.ac pango-1.32.5/configure.ac
+---- pango-1.32.5/configure.ac	2012-12-07 04:43:25.000000000 +0200
+-+++ pango-1.32.5/configure.ac	2013-01-09 08:27:40.328516792 +0200
+-@@ -213,6 +213,11 @@
 -
--https://bugzilla.gnome.org/show_bug.cgi?id=752297
+- AC_SUBST(PANGO_DEBUG_FLAGS)
 -
--Upstream-Status: backport
--
--Signed-off-by: Li Zhou <li.zhou@windriver.com>
-----
-- gdk-pixbuf/pixops/pixops.c |   22 +++++++++++++++++-----
-- 1 file changed, 17 insertions(+), 5 deletions(-)
--
--diff --git a/gdk-pixbuf/pixops/pixops.c b/gdk-pixbuf/pixops/pixops.c
--index 29a1c14..ce51745 100644
----- a/gdk-pixbuf/pixops/pixops.c
--+++ b/gdk-pixbuf/pixops/pixops.c
--@@ -1272,7 +1272,16 @@ make_filter_table (PixopsFilter *filter)
--   int i_offset, j_offset;
--   int n_x = filter->x.n;
--   int n_y = filter->y.n;
---  int *weights = g_new (int, SUBSAMPLE * SUBSAMPLE * n_x * n_y);
--+  gsize n_weights;
--+  int *weights;
+-+AC_ARG_WITH(mlprefix,
+-+            AC_HELP_STRING([--with-mlprefix=<ARG>], [multilib prefix]),
+-+            mlprefix_str=$withval, mlprefix_str="")
+-+AC_DEFINE_UNQUOTED([MLPREFIX], ["$mlprefix_str"], [multilib prefix.])
 -+
--+  n_weights = SUBSAMPLE * SUBSAMPLE * n_x * n_y;
--+  if (n_weights / (SUBSAMPLE * SUBSAMPLE * n_x) != n_y)
--+    return NULL; /* overflow, bail */
--+
--+  weights = g_try_new (int, n_weights);
--+  if (!weights)
--+    return NULL; /* overflow, bail */
-- 
--   for (i_offset=0; i_offset < SUBSAMPLE; i_offset++)
--     for (j_offset=0; j_offset < SUBSAMPLE; j_offset++)
--@@ -1347,8 +1356,11 @@ pixops_process (guchar         *dest_buf,
--   if (x_step == 0 || y_step == 0)
--     return; /* overflow, bail out */
-- 
---  line_bufs = g_new (guchar *, filter->y.n);
--   filter_weights = make_filter_table (filter);
--+  if (!filter_weights)
--+    return; /* overflow, bail out */
--+
--+  line_bufs = g_new (guchar *, filter->y.n);
-- 
--   check_shift = check_size ? get_check_shift (check_size) : 0;
-- 
--@@ -1468,7 +1480,7 @@ tile_make_weights (PixopsFilterDimension *dim,
-- 		   double                 scale)
-- {
--   int n = ceil (1 / scale + 1);
---  double *pixel_weights = g_new (double, SUBSAMPLE * n);
--+  double *pixel_weights = g_malloc_n (sizeof (double) * SUBSAMPLE, n);
--   int offset;
--   int i;
-- 
--@@ -1526,7 +1538,7 @@ bilinear_magnify_make_weights (PixopsFilterDimension *dim,
+- AC_ARG_ENABLE(rebuilds,
+-               [AC_HELP_STRING([--disable-rebuilds],
+-                               [disable all source autogeneration rules])],,
+-diff -Nurd pango-1.32.5/pango/modules.c pango-1.32.5/pango/modules.c
+---- pango-1.32.5/pango/modules.c	2012-12-17 20:27:56.000000000 +0200
+-+++ pango-1.32.5/pango/modules.c	2013-01-09 08:31:16.336512052 +0200
+-@@ -555,11 +555,11 @@
+-       files = g_new (char *, 3);
+-
+-       files[0] = g_build_filename (pango_get_sysconf_subdirectory (),
+--                                   "pango.modules",
+-+                                   MLPREFIX "pango.modules",
+-                                    NULL);
+-       files[1] = g_build_filename (pango_get_lib_subdirectory (),
+-                                    MODULE_VERSION,
+--                                   "modules.cache",
+-+                                   MLPREFIX "modules.cache",
+-                                    NULL);
+-       files[2] = NULL;
 -     }
-- 
--   dim->n = n;
---  dim->weights = g_new (double, SUBSAMPLE * n);
--+  dim->weights = g_malloc_n (sizeof (double) * SUBSAMPLE, n);
-- 
--   pixel_weights = dim->weights;
-- 
--@@ -1617,7 +1629,7 @@ bilinear_box_make_weights (PixopsFilterDimension *dim,
-- 			   double                 scale)
-- {
--   int n = ceil (1/scale + 3.0);
---  double *pixel_weights = g_new (double, SUBSAMPLE * n);
--+  double *pixel_weights = g_malloc_n (sizeof (double) * SUBSAMPLE, n);
--   double w;
--   int offset, i;
-- 
---- 
--1.7.9.5
+-@@ -674,7 +674,8 @@
+-       if (!no_module_warning)
+-	{
+-	  gchar *filename = g_build_filename (pango_get_sysconf_subdirectory (),
+--					      "pango.modules",
+-+/* For multilib case, keep multiple config file for different libs */
+-+					      MLPREFIX "pango.modules",
+-					      NULL);
+-	  g_critical ("No modules found:\n"
+-		      "No builtin or dynamically loaded modules were found.\n"
+-diff -Nurd pango-1.32.5/pango/modules.c.rej pango-1.32.5/pango/modules.c.rej
+---- pango-1.32.5/pango/modules.c.rej	1970-01-01 02:00:00.000000000 +0200
+-+++ pango-1.32.5/pango/modules.c.rej	2013-01-09 08:27:40.328516792 +0200
+-@@ -0,0 +1,12 @@
+-+--- pango/modules.c	2010-09-22 03:37:01.000000000 +0800
+-++++ pango/modules.c	2012-05-08 21:21:02.000000000 +0800
+-+@@ -529,7 +529,8 @@
+-+
+-+   if (!file_str)
+-+     file_str = g_build_filename (pango_get_sysconf_subdirectory (),
+-+-				 "pango.modules",
+-++/* For multilib case, keep multiple config file for different libs */
+-++				 MLPREFIX "pango.modules",
+-+ 				 NULL);
+-+
+-+   files = pango_split_file_list (file_str);
+-diff -Nurd pango-1.32.5/pango/querymodules.c pango-1.32.5/pango/querymodules.c
+---- pango-1.32.5/pango/querymodules.c	2012-08-28 15:27:18.000000000 +0300
+-+++ pango-1.32.5/pango/querymodules.c	2013-01-09 08:31:47.828511359 +0200
+-@@ -304,7 +304,7 @@
 -
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb
-similarity index 94%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb
-index 68f3850..6e3cb02 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb
-@@ -17,11 +17,10 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://extending-libinstall-dependencies.patch \
-            file://run-ptest \
-            file://fatal-loader.patch \
--           file://0001-pixops-Be-more-careful-about-integer-overflow.patch \
-            "
- 
--SRC_URI[md5sum] = "4fed0d54432f1b69fc6e66e608bd5542"
--SRC_URI[sha256sum] = "4853830616113db4435837992c0aebd94cbb993c44dc55063cee7f72a7bef8be"
-+SRC_URI[md5sum] = "b1590189a2e89fab9f871959c168508c"
-+SRC_URI[sha256sum] = "4432b74f25538c7d6bcb3ca51adabdd666168955f25812a2568dc9637697f3bc"
- 
- inherit autotools pkgconfig gettext pixbufcache ptest-gnome
- 
+-       cache_file = g_build_filename (pango_get_lib_subdirectory (),
+-                                      MODULE_VERSION,
+--                                     "modules.cache",
+-+                                     MLPREFIX "modules.cache",
+-                                      NULL);
+-       err = NULL;
+-       if (!g_file_set_contents (cache_file, contents->str, -1, &err))
+diff --git a/meta/recipes-graphics/pango/pango_1.36.8.bb b/meta/recipes-graphics/pango/pango_1.36.8.bb
+deleted file mode 100644
+index f4e4250..0000000
+--- a/meta/recipes-graphics/pango/pango_1.36.8.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require pango.inc
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
+-
+-SRC_URI += "file://run-ptest \
+-            file://multilib-fix-clean.patch \
+-"
+-
+-SRC_URI[archive.md5sum] = "217a9a753006275215fa9fa127760ece"
+-SRC_URI[archive.sha256sum] = "18dbb51b8ae12bae0ab7a958e7cf3317c9acfc8a1e1103ec2f147164a0fc2d07"
+diff --git a/meta/recipes-graphics/pango/pango_1.38.1.bb b/meta/recipes-graphics/pango/pango_1.38.1.bb
+new file mode 100644
+index 0000000..d85c17b
+--- /dev/null
++++ b/meta/recipes-graphics/pango/pango_1.38.1.bb
+@@ -0,0 +1,9 @@
++require pango.inc
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
++
++SRC_URI += "file://run-ptest \
++"
++
++SRC_URI[archive.md5sum] = "7fde35d4a127b55ce8bbcefe109bc80d"
++SRC_URI[archive.sha256sum] = "1320569f6c6d75d6b66172b2d28e59c56ee864ee9df202b76799c4506a214eb7"
 -- 
 2.1.4
 
