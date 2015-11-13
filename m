@@ -1,26 +1,33 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E47A77157
+Return-Path: <Jian.Liu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6484F7729B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 08:03:35 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAD83ZRq015630
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 00:03:35 -0800 (PST)
-Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 13 Nov 2015 00:03:34 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Nov 2015 16:03:29 +0800
-Message-ID: <c095b63acbbda5dffd16cecd668a06b9be9c72ef.1447401669.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1447401669.git.jackie.huang@windriver.com>
-References: <cover.1447401669.git.jackie.huang@windriver.com>
+	Fri, 13 Nov 2015 08:17:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAD8H1Tn019557
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 13 Nov 2015 00:17:01 -0800
+Received: from [128.224.162.138] (128.224.162.138) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 13 Nov 2015 00:17:00 -0800
+To: Khem Raj <raj.khem@gmail.com>
+References: <1446445418-31492-1-git-send-email-jian.liu@windriver.com>
+	<CAMKF1sqBfdSMphfZJ_O3nEd3cMA7A=5tKa2Xu0wGUsSr-HtuNg@mail.gmail.com>
+	<56387CE7.5040907@windriver.com>
+	<6A9FCF09-82E7-4A16-AEDD-D081F67704E7@gmail.com>
+	<563ABB70.8060400@windriver.com>
+	<CAMKF1spD5BoS+b8h72_4pOXvaDU5xJ5snnONVQFP57Ez7TTfRQ@mail.gmail.com>
+From: Jian Liu <jian.liu@windriver.com>
+Message-ID: <56459C6D.90202@windriver.com>
+Date: Fri, 13 Nov 2015 16:16:45 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
 MIME-Version: 1.0
-Subject: [PATCH 5/5] libav: fix CVE-2015-6824
+In-Reply-To: <CAMKF1spD5BoS+b8h72_4pOXvaDU5xJ5snnONVQFP57Ez7TTfRQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] archiver.bbclass: do checkout for kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,85 +40,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 08:03:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 13 Nov 2015 08:17:06 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Hi Raj,
 
-Cherry-pick patch from ffmpeg to fix CVE-2015-6824:
-http://git.videolan.org/?p=ffmpeg.git;a=commit;h=a5d44d5c220e12ca0cb7a4eceb0f74759cb13111
+I tried meta-rasberrypi with my patch and it works well.
+The tasks of the recipe linux-rasberrypi is similar with linux-yocto and 
+linux-rasberrypi also inherits linux-yocto.bbclass
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../libav/libav/libav-fix-CVE-2015-6824.patch      | 46 ++++++++++++++++++++++
- meta/recipes-multimedia/libav/libav_9.18.bb        |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-multimedia/libav/libav/libav-fix-CVE-2015-6824.patch
+I read the codes of archiver and it seems that kernel is recognised by 
+"bb.data.inherits_class('kernel-yocto', d)" when kernel needs to be 
+handled specially
 
-diff --git a/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2015-6824.patch b/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2015-6824.patch
-new file mode 100644
-index 0000000..2b19bd2
---- /dev/null
-+++ b/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2015-6824.patch
-@@ -0,0 +1,46 @@
-+Upstream-Status: Pending
-+
-+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-6824
-+
-+Cherry-pick from:
-+http://git.videolan.org/?p=ffmpeg.git;a=commit;h=a5d44d5c220e12ca0cb7a4eceb0f74759cb13111
-+
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+From a5d44d5c220e12ca0cb7a4eceb0f74759cb13111 Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michael@niedermayer.cc>
-+Date: Wed, 15 Jul 2015 19:20:19 +0200
-+Subject: [PATCH] swscale/utils: Clear pix buffers
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Fixes use of uninitialized memory
-+Fixes: a96874b9466b6edc660a519c7ad47977_signal_sigsegv_7ffff713351a_744_nc_sample.avi with memlimit 2147483648
-+
-+Found-by: Samuel Groß, Mateusz "j00ru" Jurczyk and Gynvael Coldwind
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+---
-+ libswscale/utils.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/libswscale/utils.c b/libswscale/utils.c
-+index c384aa5..16f187a 100644
-+--- a/libswscale/utils.c
-++++ b/libswscale/utils.c
-+@@ -1496,9 +1496,9 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
-+ 
-+     /* Allocate pixbufs (we use dynamic allocation because otherwise we would
-+      * need to allocate several megabytes to handle all possible cases) */
-+-    FF_ALLOC_OR_GOTO(c, c->lumPixBuf,  c->vLumBufSize * 3 * sizeof(int16_t *), fail);
-+-    FF_ALLOC_OR_GOTO(c, c->chrUPixBuf, c->vChrBufSize * 3 * sizeof(int16_t *), fail);
-+-    FF_ALLOC_OR_GOTO(c, c->chrVPixBuf, c->vChrBufSize * 3 * sizeof(int16_t *), fail);
-++    FF_ALLOCZ_OR_GOTO(c, c->lumPixBuf,  c->vLumBufSize * 3 * sizeof(int16_t *), fail);
-++    FF_ALLOCZ_OR_GOTO(c, c->chrUPixBuf, c->vChrBufSize * 3 * sizeof(int16_t *), fail);
-++    FF_ALLOCZ_OR_GOTO(c, c->chrVPixBuf, c->vChrBufSize * 3 * sizeof(int16_t *), fail);
-+     if (CONFIG_SWSCALE_ALPHA && isALPHA(c->srcFormat) && isALPHA(c->dstFormat))
-+         FF_ALLOCZ_OR_GOTO(c, c->alpPixBuf, c->vLumBufSize * 3 * sizeof(int16_t *), fail);
-+     /* Note we need at least one pixel more at the end because of the MMX code
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-multimedia/libav/libav_9.18.bb b/meta/recipes-multimedia/libav/libav_9.18.bb
-index 026f4df..4378dbe 100644
---- a/meta/recipes-multimedia/libav/libav_9.18.bb
-+++ b/meta/recipes-multimedia/libav/libav_9.18.bb
-@@ -8,4 +8,5 @@ SRC_URI += "file://libav-fix-CVE-2014-9676.patch \
-             file://libav-fix-CVE-2015-3395.patch \
-             file://libav-fix-CVE-2015-6820.patch \
-             file://libav-fix-CVE-2015-6823.patch \
-+            file://libav-fix-CVE-2015-6824.patch \
-            "
--- 
-1.9.1
+What do you think?
+
+Thanks!
+Jian
+
+On 2015年11月05日 10:22, Khem Raj wrote:
+> On Wed, Nov 4, 2015 at 6:14 PM, Jian Liu <jian.liu@windriver.com> wrote:
+>> Hi,
+>>
+>> All kernels I list bellow will perform do_fetch(), do_unpack(),
+>> do_kernel_checkout().
+>> do_unpack() will put a bare git repo under WORKDIR and then
+>> do_kernel_checkout()
+>> will move the bare repo to bitbake/tmp/work-share/<board
+>> name>/kernel-source(value of variable S),
+>> then performing "git checkout".
+>>
+>> So do_ar_original must wait until do_kernel_checkout() is completed and then
+>> make tarball using the code under S.
+>> Do I make that clear?
+>>
+>>
+>> You refer to kernels other than linux-yocto. Can you give me an example?
+>> I do not know how to build such kernel.
+> Add another BSP layer e.g. meta-raspberrypi to your bblayers.conf
+> and then MACHINE=raspberrypi2
+>
+> and see what you are trying to do still holds.
+>
+>> Thanks!
+>> Jian
+>>
+>>
+>> On 2015年11月04日 13:57, Khem Raj wrote:
+>>>> On Nov 3, 2015, at 1:22 AM, Jian Liu<jian.liu@windriver.com>  wrote:
+>>>>> Hi,
+>>>>>
+>>>>> I test linux-dummy linux-yocto-dev linux-yocto-rt linux-yocto-tiny and
+>>>>> the result is as follows,
+>>>>>
+>>>>> linux-dummy: this package just meets some dependency and there is no
+>>>>> source code for it.
+>>>>>                       The patch does not impact it
+>>>>> linux-yocto, linux-yocto-dev, linux-yocto-rt, linux-yocto-tiny: The S
+>>>>> variable of all packages is set to STAGING_KERNEK_DIR.
+>>>>>                        do_fetch and do_unpack just leave a bare git repo
+>>>>> of kernel and do_kernel_checkout gets the source code
+>>>>>
+>>> does it cover the case when kernel is not linux-yocto was basic question,
+>>> I am not clear if thats covered in any of above
+>>>
+>>>>> Thanks!
+>>
 
 
