@@ -1,29 +1,26 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E8B2677289
+	by mail.openembedded.org (Postfix) with ESMTP id 615B977283
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Nov 2015 09:24:15 +0000 (UTC)
+	Fri, 13 Nov 2015 09:34:19 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAD9OF5e020935
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 13 Nov 2015 01:24:15 -0800
-Received: from [128.224.163.148] (128.224.163.148) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 13 Nov 2015 01:24:14 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1446645475.git.liezhi.yang@windriver.com>
-	<3da4fc0c20bf2ab7ac4c489aaa37d707e769d6c3.1446645475.git.liezhi.yang@windriver.com>
-	<CAJTo0Lb6zSiunoe73fu==ZHD6yFsT+4d9FTRmxDgfpV-p0tY=Q@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <5645AC3C.80804@windriver.com>
-Date: Fri, 13 Nov 2015 17:24:12 +0800
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAD9YJFD021153
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Nov 2015 01:34:19 -0800
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Fri, 13 Nov 2015 01:34:18 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Nov 2015 17:24:05 +0800
+Message-ID: <5885b8399573ccaa5fa45cec84d696ceaf999ee6.1447406020.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.6.1
+In-Reply-To: <cover.1447406020.git.kai.kang@windriver.com>
+References: <cover.1447406020.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb6zSiunoe73fu==ZHD6yFsT+4d9FTRmxDgfpV-p0tY=Q@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] cross-canadian/libgcc: fix aarch64's multilib SDK
+Subject: [PATCH 1/1] toolchain-scripts.bbclass: do not expand vars which starts with multilib prefixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,64 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Nov 2015 09:24:17 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Nov 2015 09:34:21 -0000
+Content-Type: text/plain
 
+From: Kai Kang <kai.kang@windriver.com>
 
+When set MULTILIBS with two or more items, such as
 
-On 11/10/2015 12:27 AM, Burton, Ross wrote:
->
-> On 4 November 2015 at 13:58, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     The arm toolchain has a "-gnueabi" suffix, but aarch64 doesn't,
->     this makes multilib sdk doesn't work, for example:
->
->     MACHINE = qemuarm64
->     require conf/multilib.conf
->     MULTILIBS = "multilib:lib32"
->     DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
->
->     $ bitbake core-image-minimal -cpopulate_sdk
->
->     Then extract SDK, the
->     environment-setup-armv7a-vfp-neon-pokymllib32-linux-gnueabi
->     doesn't work since:
->     * The CC is arm-pokymllib32-linux-gnueabi-gcc
->        which doesn't exist, the patch for cross-canadian.bbclass
->        fixes problem.
->     * Need aarch64-poky-linux/usr/lib/arm-poky-linux-linux-gnueabi
->        which doesn't exist, the patch for libgcc-common.inc fixes the
->        problem.
->
->     [YOCTO #8616]
->
->
-> This breaks the allarch sstate sanity test on the autobuilder which verifies
-> that allarch recipes don't have different hashes for a no-op change to the machine.
+MULTILIBS = "multilib:lib32 multilib:lib64"
 
-Hi Ross,
+It expands depends once in mutlib.bbclass, and expand again in
+toolchain-scripts.bbclass that causes error:
 
-After more investigations, the different between:
-MACHINE=qemux86 bitbake -Snone meta-toolchain
-MACHINE=qemuarm bitbake -Snone meta-toolchain
+| ERROR: Nothing PROVIDES 'virtual/lib32-lib64-libc'.
 
-is do_extra_symlinks' checksum, there is an ABIEXTENSION for
-nativesdk-libgcc-initial when qemuarm (eabi), and no "eabi" when
-qemux86.
+Check before expand a var. If starts with a multilib prefix, ignore it.
 
-But as the commit said, the "eabi" is a must for qemuarm since its compiler
-arm-pokymllib32-linux-gnueabi-gcc contains eabi, otherwise it doesn't work.
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/classes/toolchain-scripts.bbclass | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-Maybe let the test case don't compare between qemuarm and qemux86 since
-arm is special ? Or do you have any other suggestions, please ?
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index d0b2b91..3878a42 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -146,7 +146,17 @@ python __anonymous () {
+     deps = ""
+     for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE', True) or "").split():
+         deps += " %s:do_populate_sysroot" % dep
+-        for variant in (d.getVar('MULTILIB_VARIANTS', True) or "").split():
++
++        ml_variants = (d.getVar('MULTILIB_VARIANTS', True) or "").split()
++        extended = False
++        for variant in ml_variants:
++            if dep.startswith(variant) or dep.startswith('virtual/' + variant):
++                extended = True
++                break
++        if extended:
++            continue
++
++        for variant in ml_variants:
+             clsextend = oe.classextend.ClassExtender(variant, d)
+             newdep = clsextend.extend_name(dep)
+             deps += " %s:do_populate_sysroot" % newdep
+-- 
+2.6.1
 
-
-// Robert
-
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/242/steps/Running%20oe-selftest/logs/stdio
->
-> Ross
 
