@@ -1,30 +1,48 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AEB2177323
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 05D4777371
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Nov 2015 10:07:57 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAEA7uTi020369
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Sat, 14 Nov 2015 02:07:56 -0800
-Received: from [128.224.162.154] (128.224.162.154) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Sat, 14 Nov 2015 02:07:55 -0800
-Message-ID: <564707F9.3080701@windriver.com>
-Date: Sat, 14 Nov 2015 18:07:53 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Sat, 14 Nov 2015 10:46:14 +0000 (UTC)
+Received: by iofh3 with SMTP id h3so120617174iof.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 14 Nov 2015 02:46:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=DBtiaxTRdNI6vhSxviOTcegRk89XdHDlPuVGIj7hsGQ=;
+	b=xqZyNIsTgk4ALrMukouwF5IcIyifxV1vN7d8ztW3Zt7/Qu1cHN+gWl23cd618KA4gR
+	LDJzJjRS195TSIj4RyuGTmiQ0OIpIt9jUFgjDv3QnbZQqDTvUt6EyCHi2+mdBzYgaAUF
+	M/bEovqiJB/wP7+C1h43w1sSgXUu63i/tRQSzLtegGIQhWdxFK5S6vjAins+d19W3HDs
+	TpEkFxVumYOln+2ai3GpsJk46TwkDP06I1BQhE/gHDLfeqze1YOPSinJMA8q5yeBr0eR
+	5wJUJXut2OGSGFsMPY2n8q+cvc4D7aPl99c69WyuslEvylC2Sjl5lZ6Loj/NdHD9gD9v
+	XTKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=DBtiaxTRdNI6vhSxviOTcegRk89XdHDlPuVGIj7hsGQ=;
+	b=E4WZNj8J+ogaQeyjYJVIgm10zyu9oV3y6p0C9KTH7eCsIpoyT9cpIYxU8HEslU4iEl
+	EEWQPQhQYI0ISLksOQpel8Ni1Ns8bjcyL6312DmTp95wiC8I4z3NQlC6V5hjsj098X14
+	9f3z7adaoAh/Rs/BkQCFhtFLO2YpeQLZm7UXjmAENX7jNOVTqhvAIMuUAubWRjxa+4or
+	B1mxH/d2GWKpk6wOORajYtT0wjoRtS+HO/vXy8oU21rp55vJWupfLRtd3L7MCwRY9Ox/
+	EnSMt4ffFkm1IEDuylYtfX+1veBau+Sn+fs/QoN29zAchOojFmVubSFWBfwpEklnoP9C
+	Q+vQ==
+X-Gm-Message-State: ALoCoQlB7L13fmKKDPAsYfIqZw2Np4kgN0DXRBYCvKqfzPZqLOXn3xgM1ZwyOb2UyT3SNrPE43Pf
+X-Received: by 10.107.3.144 with SMTP id e16mr20455132ioi.99.1447497974820;
+	Sat, 14 Nov 2015 02:46:14 -0800 (PST)
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1447482114-165655-1-git-send-email-wenzong.fan@windriver.com>
-	<CA+chaQdbNP38CKVzf_O8y4o4MExSpddf5eB_EavXOB36J_p_tQ@mail.gmail.com>
-	<5646FC87.1020005@windriver.com> <20151114094923.GC2564@jama>
-In-Reply-To: <20151114094923.GC2564@jama>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-plugins-bad: disable uvch264 for systemd
+Received: by 10.107.136.141 with HTTP; Sat, 14 Nov 2015 02:45:55 -0800 (PST)
+In-Reply-To: <CAJTo0LaE+fVE5qyH05JeW6HjJuVTGs4AG9awhPW_ozQTyoTe=w@mail.gmail.com>
+References: <cover.1447224734.git.alejandro.hernandez@linux.intel.com>
+	<CAJTo0LaE+fVE5qyH05JeW6HjJuVTGs4AG9awhPW_ozQTyoTe=w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 14 Nov 2015 10:45:55 +0000
+Message-ID: <CAJTo0LZD448ofKVJC+Py84g0i1S6QrJW+cLvkUhMHJ64UXKwzw@mail.gmail.com>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] python3: Upgrade from 3.4.3 to 3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,132 +55,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Nov 2015 10:08:02 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 14 Nov 2015 10:46:17 -0000
+Content-Type: multipart/alternative; boundary=001a113ecf409a51d605247de28b
 
-On 11/14/2015 05:49 PM, Martin Jansa wrote:
-> On Sat, Nov 14, 2015 at 05:19:03PM +0800, wenzong fan wrote:
->> On 11/14/2015 04:23 PM, Martin Jansa wrote:
->>> NAK, see
->>> http://lists.openembedded.org/pipermail/openembedded-core/2015-November/112685.html
->>
->> Hi Martin
->>
->> Thanks for your reply.
->>
->> If we build oe-core + systemd only (without meta-oe), it will fail with:
->>
->> ERROR: Nothing PROVIDES 'libgudev' (but
->> /path/to/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.4.5.bb
->> DEPENDS on or otherwise requires it)
->> ERROR: udev PROVIDES libgudev but was skipped: 'systemd' in DISTRO_FEATURES
->> ERROR: Required build target 'gstreamer1.0-plugins-bad' has no buildable
->> providers.
->> Missing or unbuildable dependency chain was:
->> ['gstreamer1.0-plugins-bad', 'libgudev']
->>
->> We should not get oe-core depends on meta-oe, I incline to disable
->> libgudev for systemd by default.
+--001a113ecf409a51d605247de28b
+Content-Type: text/plain; charset=UTF-8
+
+On 13 November 2015 at 20:44, Burton, Ross <ross.burton@intel.com> wrote:
+
+> This failed on the autobuilder in the world-lsb target:
 >
-> udev should provide libgudev for oe-core, but I see it was skipped:
-> ERROR: udev PROVIDES libgudev but was skipped: 'systemd' in DISTRO_FEATURES
+> | ./Programs/_freeze_importlib \
+> |
+> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/work/x86-pokymllib32-linux/lib32-python3/3.5.0-r1.0/
+> Python-3.5.0/Lib/importlib/_bootstrap.py Python/importlib.h
+> | ./Programs/_freeze_importlib \
+> |
+> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/work/x86-pokymllib32-linux/lib32-python3/3.5.0-r1.0/
+> Python-3.5.0/Lib/importlib/_bootstrap_external.py Python
+> /importlib_external.h
+> | ./Programs/_freeze_importlib: error while loading shared libraries:
+> libz.so.1: cannot open shared object file: No such file or directory
+> | ./Programs/_freeze_importlib: error while loading shared libraries:
+> libz.so.1: cannot open shared object file: No such file or directory
 >
-> How is that supposed to work when systemd is enabled as well as udev?
->
-> Does the sysvinit image nowadays use udev package from systemd recipe?
-
-No, sysvinit image uses the independent "udev" package. But systemd 
-image used the one from itself.
-
-It may conflicts build both systemd and independent udev package:
-
-commit e07e0f80d6c794adf154be74eca503d191c35cc6
-Author: Ross Burton <ross.burton@intel.com>
-Date:   Mon Jan 21 12:15:31 2013 +0000
-
-     udev: skip in systemd distros, to fix world builds
-
-     (From OE-Core rev: 1179e43d67c96367480e563a36684d550d83fcbe)
-
-     Signed-off-by: Ross Burton <ross.burton@intel.com>
-     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/recipes-core/udev/udev.inc 
-b/meta/recipes-core/udev/udev.inc
-index 9f60b17..facad0c 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -99,3 +99,9 @@ do_install_append () {
-
-         echo 'udev_run="/var/run/udev"' >> ${D}${sysconfdir}/udev/udev.conf
-  }
-+
-+# As systemd also builds udev, skip this package if we're doing a 
-systemd build.
-+python () {
-+    if oe.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d):
-+        raise bb.parse.SkipPackage("'systemd' in DISTRO_FEATURES")
-+}
-
-
-Thanks
-Wenzong
-
->
-> Regards,
->
->> Does it make sense?
->>
->> Thanks
->> Wenzong
->>
->>>
->>> On Sat, Nov 14, 2015 at 7:21 AM, <wenzong.fan@windriver.com
->>> <mailto:wenzong.fan@windriver.com>> wrote:
->>>
->>>      From: Wenzong Fan <wenzong.fan@windriver.com
->>>      <mailto:wenzong.fan@windriver.com>>
->>>
->>>      Disable uvch264 to remove the dependency to libgudev which has been
->>>      removed from systemd project.
->>>
->>>      Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com
->>>      <mailto:wenzong.fan@windriver.com>>
->>>      ---
->>>        meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 3 ++-
->>>        1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>>      diff --git
->>>      a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
->>>      b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
->>>      index cdedb60..863925d 100644
->>>      --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
->>>      +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
->>>      @@ -20,7 +20,8 @@ PACKAGECONFIG ??= " \
->>>            ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland',
->>>      '', d)} \
->>>            ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez',
->>>      '', d)} \
->>>            ${@bb.utils.contains('DISTRO_FEATURES', 'directfb',
->>>      'directfb', '', d)} \
->>>      -    orc curl uvch264 neon sndfile \
->>>      +    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '',
->>>      'uvch264', d)} \
->>>      +    orc curl neon sndfile \
->>>            hls sbc dash bz2 smoothstreaming \
->>>            "
->>>
->>>      --
->>>      1.9.1
->>>
->>>      --
->>>      _______________________________________________
->>>      Openembedded-core mailing list
->>>      Openembedded-core@lists.openembedded.org
->>>      <mailto:Openembedded-core@lists.openembedded.org>
->>>      http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>>
+> Considering zlib is a DEPENDS I have no idea why this happens. :(
 >
 
+The problem appears to be that _freeze_importlib is a binary compiled and
+ran at build time but using the target compiler.  For you your build
+environment and the target environment were probably close enough that it
+works, on some ABs the loader paths are different, and obviously if you
+build for a different architecture it just fails.
+
+| ./Programs/_freeze_importlib: 1: ./Programs/_freeze_importlib: Syntax
+error: word unexpected (expecting ")")
+
+$ file _freeze_importlib
+_freeze_importlib: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV),
+dynamically linked, interpreter /lib/ld-linux.so.3, for GNU/Linux 2.6.32,
+BuildID[sha1]=f5defa61a5f1e65c6be7219dc1bfff59d510cd78, not stripped
+
+Yeah running an ARM binary on x86 isn't going to work.
+
+Ross
+
+--001a113ecf409a51d605247de28b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 November 2015 at 20:44, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
+er-left-style:solid;padding-left:1ex"><div class=3D"gmail_extra">This faile=
+d on the autobuilder in the world-lsb target:<br><br>| ./Programs/_freeze_i=
+mportlib \<br>| 		/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-wo=
+rld-lsb/build/build/tmp/work/x86-pokymllib32-linux/lib32-python3/3.5.0-r1.0=
+/<span>Python</span>-3.5.0/Lib/importlib/_bootstrap.py <span>Python</span>/=
+importlib.h<br>| ./Programs/_freeze_importlib \<br>| 		/home/pokybuild/yoct=
+o-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/work/x86-pokym=
+llib32-linux/lib32-python3/3.5.0-r1.0/<span>Python</span>-3.5.0/Lib/importl=
+ib/_bootstrap_external.py <span>Python</span>/importlib_external.h<br>| ./P=
+rograms/_freeze_importlib: error while loading shared libraries: libz.so.1:=
+ cannot open shared object file: No such file or directory<br>| ./Programs/=
+_freeze_importlib: error while loading shared libraries: libz.so.1: cannot =
+open shared object file: No such file or directory<br></div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">Considering zlib is a DEPE=
+NDS I have no idea why this happens. :(</div></blockquote></div><div class=
+=3D"gmail_extra"><br></div>The problem appears to be that _freeze_importlib=
+ is a binary compiled and ran at build time but using the target compiler.=
+=C2=A0 For you your build environment and the target environment were proba=
+bly close enough that it works, on some ABs the loader paths are different,=
+ and obviously if you build for a different architecture it just fails.<br>=
+</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">| ./P=
+rograms/_freeze_importlib: 1: ./Programs/_freeze_importlib: Syntax error: w=
+ord unexpected (expecting &quot;)&quot;)<br></div><div class=3D"gmail_extra=
+"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">$ file _f=
+reeze_importlib</div><div class=3D"gmail_extra">_freeze_importlib: ELF 32-b=
+it LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpr=
+eter /lib/ld-linux.so.3, for GNU/Linux 2.6.32, BuildID[sha1]=3Df5defa61a5f1=
+e65c6be7219dc1bfff59d510cd78, not stripped</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Yeah running an ARM binary on x86 isn&=
+#39;t going to work.</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div></div>
+
+--001a113ecf409a51d605247de28b--
