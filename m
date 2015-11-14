@@ -1,39 +1,24 @@
-Return-Path: <kevron.m.rees@intel.com>
-X-Greylist: delayed 453 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 14 Nov 2015 01:31:51 UTC
-Received: from p3nlsmtpcp01-04.prod.phx3.secureserver.net
-	(p3nlsmtpcp01-04.prod.phx3.secureserver.net [184.168.200.145])
-	by mail.openembedded.org (Postfix) with ESMTP id 0175077342
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F4787732C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Nov 2015 01:31:51 +0000 (UTC)
-Received: from p3plcpnl0626.prod.phx3.secureserver.net ([50.62.176.153])
-	by : HOSTING RELAY : with SMTP
-	id xPZiZhUxvkuQwxPZiZVRRL; Fri, 13 Nov 2015 18:24:18 -0700
-Received: from 50-39-187-133.bvtn.or.frontiernet.net ([50.39.187.133]:57568
-	helo=localhost.localdomain)
-	by p3plcpnl0626.prod.phx3.secureserver.net with esmtpsa
-	(TLSv1.2:AES128-SHA256:128) (Exim 4.85)
-	(envelope-from <kevron.m.rees@intel.com>)
-	id 1ZxPZi-0007k8-9P; Fri, 13 Nov 2015 18:24:18 -0700
-From: Kevron Rees <kevron.m.rees@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Nov 2015 17:24:10 -0800
-Message-Id: <1447464250-12204-1-git-send-email-kevron.m.rees@intel.com>
-X-Mailer: git-send-email 2.1.4
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - p3plcpnl0626.prod.phx3.secureserver.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - intel.com
-X-Get-Message-Sender-Via: p3plcpnl0626.prod.phx3.secureserver.net: authenticated_id:
-	kev@tripzero.io
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-CMAE-Envelope: MS4wfKU2oDBFAAZajl853nwN71VTARLyAAQTqHKVgm/Z0vbg2HnNvE1FzBQHCtv6L7lEwSbIPhCLjdQ8vlP/JeI/+3SLAfesmWFffuszg6TA9EYEmrngha7UI7aE/jc2/g5aQWntlHyCe1wN/ZUod5ocUUobst+/pm+I9jglZZLCPyL4ogXDSAAFMVYfQKi1zhfkhfxRDYozorBLbosTj3zuhb3X5n5Us6j+XVLXjZ7MVz2Y
-Cc: tripzero.kev@gmail.com
-Subject: [PATCH] cmake.bbclass: remove ${prefix} assignment
+	Sat, 14 Nov 2015 06:21:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAE6LuDJ025197
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Nov 2015 22:21:56 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 13 Nov 2015 22:21:55 -0800
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 14 Nov 2015 01:21:54 -0500
+Message-ID: <1447482114-165655-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] gstreamer1.0-plugins-bad: disable uvch264 for systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,36 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Nov 2015 01:31:55 -0000
+X-List-Received-Date: Sat, 14 Nov 2015 06:22:01 -0000
+Content-Type: text/plain
 
-CMAKE_INSTALL_PREFIX has a different semantic meaning than ${prefix}[1].  cmake treats
-CMAKE_INSTALL_PREFIX the same as the DESTDIR environment variable.  Setting
-CMAKE_INSTALL_PREFIX to ${prefix} is inappropriate.
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-This will likely break a lot of cmake recipes that have do_post_install hacks to get
-around this bug.
+Disable uvch264 to remove the dependency to libgudev which has been
+removed from systemd project.
 
-[1] - https://cmake.org/cmake/help/v3.0/variable/CMAKE_INSTALL_PREFIX.html
-
-Signed-off-by: Kevron Rees <kevron.m.rees@intel.com>
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- meta/classes/cmake.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index ae3cc02..b7d5950 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -108,7 +108,7 @@ cmake_do_configure() {
- 	cmake \
- 	  ${OECMAKE_SITEFILE} \
- 	  ${OECMAKE_SOURCEPATH} \
--	  -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
-+	  -DCMAKE_INSTALL_PREFIX:PATH="" \
- 	  -DCMAKE_INSTALL_BINDIR:PATH=${bindir} \
- 	  -DCMAKE_INSTALL_SBINDIR:PATH=${sbindir} \
- 	  -DCMAKE_INSTALL_LIBEXECDIR:PATH=${libexecdir} \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+index cdedb60..863925d 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+@@ -20,7 +20,8 @@ PACKAGECONFIG ??= " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+-    orc curl uvch264 neon sndfile \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'uvch264', d)} \
++    orc curl neon sndfile \
+     hls sbc dash bz2 smoothstreaming \
+     "
+ 
 -- 
-2.1.4
+1.9.1
 
 
