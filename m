@@ -1,33 +1,35 @@
 Return-Path: <adrian.freihofer@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CD6A7737F
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 6865E77382
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Nov 2015 21:35:30 +0000 (UTC)
-Received: by wmvv187 with SMTP id v187so126874776wmv.1
+	Sat, 14 Nov 2015 21:35:31 +0000 (UTC)
+Received: by wmdw130 with SMTP id w130so68371359wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Nov 2015 13:35:30 -0800 (PST)
+	Sat, 14 Nov 2015 13:35:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=qD89JfFr0iR6/AVsglUNxjPAySoNaZdw2wf9SCT593c=;
-	b=b98Sqb1mYzKShCaSd/dDfim9xva37owGWrmeK+CG7EBHapHVwJuHf65O7Qittz+c96
-	/tA+a8vH7Cm7V9XvQqp/pohbyCLAPbSoP3XysqlRQfCKPZN/Yfbofw0opEeDVrendHRf
-	tRgIGPLn/ALCF1W+7edw225SsV9qGRrHfTlnMUaHA7CJBcpDdiWldtRW7wC3RAqh/ydY
-	Jr7wc9INDHeiGV8ex2q1md/MGnm4GIbjoL7BA1+o6NkvC8DBL14dTEutxxLk1+ZQ+63l
-	dnoPHEakuhDLL/q9pOeSdr9UVLR8wiQsIsNCOaboKZcsyBzkDnou1WJr+l47LzRcBFqW
-	jwJA==
-X-Received: by 10.28.146.82 with SMTP id u79mr10336639wmd.96.1447536930902;
-	Sat, 14 Nov 2015 13:35:30 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=iAXb+c3RF+FLcdqfhkxrec2VZT9+SsXTH830SIw5tkk=;
+	b=M+ZzMqpMd8SA/rf8famPOFnjfIIjAWeTe0Ir4/ZpzGQ8pROwx3OGD+OaKedSbCoSLZ
+	Z8ylWrFbALeqsgzxMJ7YxOjG7VGsWUVXJB5Phm1wqLGO+N8fdI/b1S+uQwCNKY2OXCTl
+	EFMSzbpTQ53buG66J43Tyi1puns9ix40jdd/sXrsbv0w6N6wl8GGK7MF+uKxWWKM5g34
+	GQi3WkbC0fENP7A7uRzNc5gc2n150CuHiTcWFkbpsVJveWPD/mxMUufqct7MSJKmV/2n
+	7KACTxRixEXwfaf1yqKCMjxHhFAy+bXp0K1MJTbsZcQtMaehs0hhqkWjf23EtHCDSJXs
+	lllg==
+X-Received: by 10.194.7.97 with SMTP id i1mr33504089wja.87.1447536931883;
+	Sat, 14 Nov 2015 13:35:31 -0800 (PST)
 Received: from chl500346.lan.ffah.ch (c-82-192-248-24.customer.ggaweb.ch.
 	[82.192.248.24]) by smtp.gmail.com with ESMTPSA id
 	c4sm14784681wjs.36.2015.11.14.13.35.30
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 14 Nov 2015 13:35:30 -0800 (PST)
+	Sat, 14 Nov 2015 13:35:31 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 14 Nov 2015 22:35:05 +0100
-Message-Id: <1447536908-21449-1-git-send-email-adrian.freihofer@gmail.com>
+Date: Sat, 14 Nov 2015 22:35:06 +0100
+Message-Id: <1447536908-21449-2-git-send-email-adrian.freihofer@gmail.com>
 X-Mailer: git-send-email 2.4.3
-Subject: [meta-oe][PATCH 0/3] runqemu improve networking
+In-Reply-To: <1447536908-21449-1-git-send-email-adrian.freihofer@gmail.com>
+References: <1447536908-21449-1-git-send-email-adrian.freihofer@gmail.com>
+Subject: [meta-oe][PATCH 1/3] connman: fix qemu config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,31 +44,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 14 Nov 2015 21:35:32 -0000
 
-This patch series adds two features to runqemu:
-- Support the emulation of more than one NIC
-- Add a hostonly networking mode. This networking mode enables
-  the user to implement different virtual networking environments
-  such as a bridged network as discussed in #7887.
+If a network interface is configured by kernel boot parameters
+and the image is booted in qemu, connman takes the IP settings
+from /proc/cmdline for this NIC.
+The regex for parsing /proc/cmdline is invalid.
 
-Note: Without the first patch connman fails if the virtual device
-      provides more than one NIC.
+Signed-off-by: Adrian Freihofer <adrian.freihofer@gmail.com>
+---
+ meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-@Aws Ismail: I'm using this since more than one year. Would be great
-             if you could test this and provide feedback.
-
-Adrian Freihofer (3):
-  connman: fix qemu config
-  runqemu: add support for multiple NICs
-  runqemu: support hostonly net mode
-
- .../connman/connman-conf/qemuall/wired-setup       |  6 ++--
- scripts/runqemu                                    |  7 +++-
- scripts/runqemu-gen-tapdevs                        | 11 ++++---
- scripts/runqemu-ifdown                             | 33 +++++++++++--------
- scripts/runqemu-ifup                               | 38 +++++++++++++---------
- scripts/runqemu-internal                           | 21 +++++++-----
- 6 files changed, 72 insertions(+), 44 deletions(-)
-
+diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup b/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup
+index c46899e..4a61513 100644
+--- a/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup
++++ b/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup
+@@ -2,8 +2,10 @@
+ 
+ CONFIGF=/var/lib/connman/wired.config
+ 
+-# Extract wired network config from /proc/cmdline
+-NET_CONF=`cat /proc/cmdline |sed -ne 's/^.*ip=\([^ ]*\):\([^ ]*\):\([^ ]*\):\([^ ]*\).*$/\1\/\4\/\3/p'`
++# Extract wired network config (IPv4 = <client-ip>/<netmask>/<gw-ip>) from /proc/cmdline
++# "ip=<client-ip>:<server-ip>:<gw-ip>:<netmask>:<hostname>:<device>:<autoconf>:<dns0-ip>:<dns1-ip> "
++NET_CONF=`cat /proc/cmdline |sed -ne 's/^.*ip=\([0-9.]*\):\([0-9.]*\):\([0-9.]*\):\([0-9.]*\).*$/\1\/\4\/\3/p'`
++NET_CONF=${NET_CONF=%/}
+ 
+ # Check if eth0 is already set via kernel cmdline
+ if [ "x$NET_CONF" = "x" ]; then
 -- 
 2.4.3
 
