@@ -1,24 +1,26 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E5EE677300
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B655773A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 01:54:27 +0000 (UTC)
+	Mon, 16 Nov 2015 01:54:29 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAG1sRFP017228
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAG1sTPI001696
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Nov 2015 17:54:27 -0800 (PST)
+	Sun, 15 Nov 2015 17:54:29 -0800
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 15 Nov 2015 17:54:27 -0800
+	14.3.248.2; Sun, 15 Nov 2015 17:54:28 -0800
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Nov 2015 09:44:08 +0800
-Message-ID: <cover.1447638105.git.kai.kang@windriver.com>
+Date: Mon, 16 Nov 2015 09:44:09 +0800
+Message-ID: <8bce2ad60dbf1ba7d56b7d8b5dcdac99ee6670ca.1447638105.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.6.1
+In-Reply-To: <cover.1447638105.git.kai.kang@windriver.com>
+References: <cover.1447638105.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] Add do_configure as dependency only when it exists
+Subject: [PATCH 1/1] archiver.bbclass: fix an exception of the mode configured
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,21 +38,40 @@ Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-The following changes since commit fc45deac89ef63ca1c44e763c38ced7dfd72cbe1:
+If ARCHIVER_MODE[src] is set with 'configured', the task
+do_ar_configured depends on do_configure. Package gcc-source
+has deleted task do_configure, then causes error:
 
-  build-appliance-image: Update to jethro head revision (2015-11-03 14:03:03 +0000)
+| ERROR: Task do_ar_configured in .../meta/recipes-devtools/gcc/gcc-source_5.2.bb
+| depends upon non-existent task do_configure in .../meta/recipes-devtools/gcc/gcc-source_5.2.bb
 
-are available in the git repository at:
+Only add the dependency when the task exits.
 
-  git://git.yoctoproject.org/poky-contrib kangkai/archiver
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=kangkai/archiver
-
-Kai Kang (1):
-  archiver.bbclass: fix an exception of the mode configured
-
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
  meta/classes/archiver.bbclass | 9 +++++++--
  1 file changed, 7 insertions(+), 2 deletions(-)
 
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 41a552c..0874553 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -73,8 +73,13 @@ python () {
+         # We can't use "addtask do_ar_configured after do_configure" since it
+         # will cause the deptask of do_populate_sysroot to run not matter what
+         # archives we need, so we add the depends here.
+-        d.appendVarFlag('do_ar_configured', 'depends', ' %s:do_configure' % pn)
+-        d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_configured' % pn)
++        #
++        # For some specific packages like gcc-source, do_configure may be deleted.
++        if 'do_configure' not in (d.getVar('__BBTASKS', False) or []):
++            pass
++        else:
++            d.appendVarFlag('do_ar_configured', 'depends', ' %s:do_configure' % pn)
++            d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_configured' % pn)
+     elif ar_src:
+         bb.fatal("Invalid ARCHIVER_MODE[src]: %s" % ar_src)
+ 
 -- 
 2.6.1
 
