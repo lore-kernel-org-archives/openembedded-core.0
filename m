@@ -1,36 +1,50 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AAE76E268
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id DF8C8734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 15:55:37 +0000 (UTC)
-Received: by igcph11 with SMTP id ph11so59744455igc.1
+	Mon, 16 Nov 2015 15:55:58 +0000 (UTC)
+Received: by iouu10 with SMTP id u10so157611669iou.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 07:55:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Mon, 16 Nov 2015 07:55:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=pBlyiwP63u6jpMPiDBl4snvXFcRFNaEcsgJWunpTFSM=;
-	b=LMCm77r2Priqw7lBRH9Ik1wnRT5mtCxhsgccnw2QMoGYwPA0EYBA978f0GO39H4e63
-	mQAwEhz5ckzlVZvaJMLmIJ2lvSOxOSbwziZ1yXBCC9OyQ1xoQw7nWeLOws+clGnujgsc
-	RMLrZovOkJefE//cnUTMSjBE4/vnZ5EgnMuflArHibQc9o+SMuw9RFt/sStZYKpK6jjP
-	xsWcT9HY1TOA/Da0rO1Ez8vFicTJwU+22wIPwl4RDZVmXiNpZdCV1qYKDblxPQ32jjAz
-	9+m5VWQ1QIC3ipMWnYwPHC6mEvp9JT0aqBAWRrn39AxDOWHHckFdeOOq5AqB4Xg8+g61
-	J5Gw==
-X-Received: by 10.50.150.37 with SMTP id uf5mr18112680igb.10.1447689338095;
-	Mon, 16 Nov 2015 07:55:38 -0800 (PST)
+	bh=Mj8FdYkuLka0jbY6B+ott3LYLJa7rlUYGWhxb6wBc44=;
+	b=aK1LCOs4ig89kF48gdyKH9tz19vLuvT98VsmQ/33D7XOdRCqe3EYBz8OM5DlRx0QEy
+	38kismKGDd3Ahd/IjJw+pmk+vcZQAvG+WfSDSqj27T+MnI5YbYpmIEXBz0a+meYwKboQ
+	Pa39xZinXuSHNbrYPTxDr3p8JgF2smlQgcjqxS6PMgRi8zg3XzPjarTDsv6Nq115uHeu
+	e5hPuvriMoeApQ8tD2nIU/V4/fTeS2B/y4rg46ULywW3wgCkzqVBZZa64G6JaPjX1so0
+	a5gPUmQwz/9mHYFKV+J0FuYGPUYu7tAcMxBz7MZjkKDLVvJoxV7S+ZLkoRG/0SIgaJny
+	li+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Mj8FdYkuLka0jbY6B+ott3LYLJa7rlUYGWhxb6wBc44=;
+	b=K2p/0ExalnwHLfDjkmgPSuYeYuEwqJ1tWsWTfweqpd8mFWIm086X2sEaqwxEMhewiw
+	yOgd9nVsQ6CZsdLa7QUGBzV9W89GSt/ZIohSzeayD9siNOK50fhxyom1fcH6fvfaDYRG
+	fX523yv/CPE/6YKqn94RPlMZANQm0g2MTyMwkpk03slh1AKkwLcYD1wYqxudnSZGA7Fq
+	4N8f7P5+2sxMDhFWBOFS5XL8i+29M5TZq/mkc+YlDg2gXn8iNGgnM4mkYvXuDCaod4iB
+	3KCRqkgwKncmbx4CH26tR7oA0h9A7t0bx45fQoqTDJafpa+/C2eGzpcB/UORxkKwg3s4
+	ozOQ==
+X-Gm-Message-State: ALoCoQk1Z6UKNVO/fFRiv83Hzw/KBWcGleuQGqNB1lDLXoX1rc4Nu5WCZzJePeuEDuu8uMuVjTcK
+X-Received: by 10.107.3.144 with SMTP id e16mr28631166ioi.99.1447689359257;
+	Mon, 16 Nov 2015 07:55:59 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.79.93.7 with HTTP; Mon, 16 Nov 2015 07:55:18 -0800 (PST)
-In-Reply-To: <CAJTo0LZdW1+V8Sg1u05bEW8GYe8HjeWK=af4dReF9jer5GJ3YQ@mail.gmail.com>
-References: <cover.1447455202.git.chris_larson@mentor.com>
-	<a2976f346a9ddf2822929c54c9e81b7b24f0e1d6.1447455202.git.chris_larson@mentor.com>
-	<CAJTo0LZdW1+V8Sg1u05bEW8GYe8HjeWK=af4dReF9jer5GJ3YQ@mail.gmail.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Mon, 16 Nov 2015 08:55:18 -0700
-Message-ID: <CABcZANmGD44BuZP_tn4MWvHVK85Duf2e9uo83foECQVtcHYjaA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+Received: by 10.107.136.141 with HTTP; Mon, 16 Nov 2015 07:55:39 -0800 (PST)
+In-Reply-To: <CABcZANnm-hty1_MznJDsLLGWrSA2T+bpMxVG2mgEegeZJtbahg@mail.gmail.com>
+References: <cover.1447371033.git.chris_larson@mentor.com>
+	<7dfc5c44d99054fd0f087bd1b4102aef0511029e.1447371033.git.chris_larson@mentor.com>
+	<CAJTo0LZbY3d718R8WL4mLuS-hxKiWTgHYBNf51VPwUfbbNSeAw@mail.gmail.com>
+	<CABcZANnm-hty1_MznJDsLLGWrSA2T+bpMxVG2mgEegeZJtbahg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Nov 2015 15:55:39 +0000
+Message-ID: <CAJTo0LZQgEWa0ZT1uoFmBd7C6aXJzqAeofdwN7TgSCbUUAzpww@mail.gmail.com>
+To: Christopher Larson <kergoth@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 3/6] sysprof: add missing gdk-pixbuf/pango deps
+Subject: Re: [PATCH 08/11] systemd: drop unneeded $D check in prerm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,61 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 15:55:38 -0000
-Content-Type: multipart/alternative; boundary=001a11c2c350be125d0524aa70cc
+X-List-Received-Date: Mon, 16 Nov 2015 15:55:59 -0000
+Content-Type: multipart/alternative; boundary=001a113ecf40010e320524aa7258
 
---001a11c2c350be125d0524aa70cc
+--001a113ecf40010e320524aa7258
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Nov 16, 2015 at 8:12 AM, Burton, Ross <ross.burton@intel.com> wrote:
+On 16 November 2015 at 15:54, Christopher Larson <kergoth@gmail.com> wrote:
 
-> On 13 November 2015 at 23:10, Christopher Larson <kergoth@gmail.com>
-> wrote:
+> Er, yes, no idea how I missed that when reviewing the diffs. That was
+> meant to stay local. Sorry about that.
 >
->> -PACKAGECONFIG[gui] = "--enable-gui,--disable-gui,gtk+ libglade"
->> +PACKAGECONFIG[gui] = "--enable-gui,--disable-gui,gtk+ gdk-pixbuf pango
->> libglade"
->>
->
-> As you're patching something you just introduced, I squashed these.
 
+Don't bother with a v2 by the way, I dropped that chunk when merging to mut.
 
-Conceptually, they're independent, since these additional deps weren't in
-the original DEPENDS either, so the first makes it conditional, the second
-alters what the deps of the recipe are, but I don't feel too strongly about
-it, squashing is okay too.
--- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Ross
 
---001a11c2c350be125d0524aa70cc
+--001a113ecf40010e320524aa7258
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Nov 16, 2015 at 8:12 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""><di=
-v class=3D"gmail_quote">On 13 November 2015 at 23:10, Christopher Larson <s=
-pan dir=3D"ltr">&lt;<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">=
-kergoth@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
-div style=3D"overflow:hidden">-PACKAGECONFIG[gui] =3D &quot;--enable-gui,--=
-disable-gui,gtk+ libglade&quot;<br>
-+PACKAGECONFIG[gui] =3D &quot;--enable-gui,--disable-gui,gtk+ gdk-pixbuf pa=
-ngo libglade&quot;<br></div></blockquote></div><br></span>As you&#39;re pat=
-ching something you just introduced, I squashed these.</blockquote></div><b=
-r>Conceptually, they&#39;re independent, since these additional deps weren&=
-#39;t in the original DEPENDS either, so the first makes it conditional, th=
-e second alters what the deps of the recipe are, but I don&#39;t feel too s=
-trongly about it, squashing is okay too.<br>-- <br><div class=3D"gmail_sign=
-ature"><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>F=
-ounder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior =
-Software Engineer, Mentor Graphics</div></div>
-</div></div>
+On 16 November 2015 at 15:54, Christopher Larson <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra=
+">Er, yes, no idea how I missed that when reviewing the diffs. That was mea=
+nt to stay local. Sorry about that.</div></blockquote><div><br></div><div>D=
+on&#39;t bother with a v2 by the way, I dropped that chunk when merging to =
+mut.</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
 
---001a11c2c350be125d0524aa70cc--
+--001a113ecf40010e320524aa7258--
