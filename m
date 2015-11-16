@@ -1,27 +1,30 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 59E93763F8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B96DB76E04
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 08:57:59 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 16 Nov 2015 00:58:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,301,1444719600"; d="scan'208";a="839503259"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Nov 2015 00:58:00 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 6D2BC6A4083
+	Mon, 16 Nov 2015 09:08:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tAG98KZ9031920 for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Nov 2015 09:08:43 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id lRCR7Ku6F2Qk
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 00:56:54 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Nov 2015 10:58:50 +0200
-Message-Id: <1447664330-13081-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] mc: upgrade to 4.8.15
+	Mon, 16 Nov 2015 09:08:43 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tAG98SQR031924
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Nov 2015 09:08:39 GMT
+Message-ID: <1447664908.21491.5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 16 Nov 2015 09:08:28 +0000
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] layer.conf: Correct gcc-cross dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,36 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 08:58:03 -0000
+X-List-Received-Date: Mon, 16 Nov 2015 09:08:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-4.8.14 -> 4.8.15
+The dependency listed in layer.conf is incorrect, gcc-cross DEPENDS
+on ${TARGET_PREFIX}libc-for-gcc, not virtual/libc. These happen to
+resolve the same values however they may not always both be built.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-extended/mc/{mc_4.8.14.bb => mc_4.8.15.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/mc/{mc_4.8.14.bb => mc_4.8.15.bb} (93%)
+The result of this was that gcc-cross gets a different task hash
+depending on whether virtual/libc was included in the build.
+Specifically "bitbake m4" and "bitbake virtual/kernel" would result
+in different task checksums.
 
-diff --git a/meta/recipes-extended/mc/mc_4.8.14.bb b/meta/recipes-extended/mc/mc_4.8.15.bb
-similarity index 93%
-rename from meta/recipes-extended/mc/mc_4.8.14.bb
-rename to meta/recipes-extended/mc/mc_4.8.15.bb
-index 3b6c2ff..ed53760 100644
---- a/meta/recipes-extended/mc/mc_4.8.14.bb
-+++ b/meta/recipes-extended/mc/mc_4.8.15.bb
-@@ -8,9 +8,8 @@ RDEPENDS_${PN} = "ncurses-terminfo"
+The fix is to use the correct dependency name.
+
+[YOCTO #8692]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 9773632..82d9c41 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -41,7 +41,7 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+ "
  
- SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
-            "
--
--SRC_URI[md5sum] = "fe1cb75643c2bd4df64bbcf2dab76905"
--SRC_URI[sha256sum] = "61fd0fd2280c3d09d7e0aec8ab001fc89dad8e4fd9941f386414667b55152ec5"
-+SRC_URI[md5sum] = "db48ce26ba425a61edc51930e94227fd"
-+SRC_URI[sha256sum] = "f74e3da70410975cdeb27ee9a66d1dd812250b6d3ede364bca728dd5a48e5471"
- 
- inherit autotools gettext pkgconfig
- 
--- 
-2.4.0
+ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+-  gcc-cross-${TARGET_ARCH}->virtual/libc \
++  gcc-cross-${TARGET_ARCH}->virtual/${TARGET_PREFIX}libc-for-gcc \
+   gcc-cross-${TARGET_ARCH}->linux-libc-headers \
+   ppp-dialin->ppp \
+   resolvconf->bash \
+
 
 
