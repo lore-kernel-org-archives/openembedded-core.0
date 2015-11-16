@@ -1,38 +1,47 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 97A3F6E268
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B8C96E268
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 15:58:15 +0000 (UTC)
-Received: by ioc74 with SMTP id 74so163777896ioc.2
+	Mon, 16 Nov 2015 16:08:51 +0000 (UTC)
+Received: by iofh3 with SMTP id h3so164536348iof.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 07:58:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Mon, 16 Nov 2015 08:08:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=bQ56Gi6TuiMF2uW4pYGUmP04FGeQ8xkq7XVW4p9u1NY=;
-	b=cKvKaCRQ2Fw0Ei4A0SRfBWf6+NzwTXUO56KJqiher8/h0S60jLHsrZjkxWkjYO/+k7
-	ayfufczVSl3RRS4C51XsxP5fjZIcS4FbQG621q/5+kk9YhBVjT8bW72MeUHVUqh1d2V6
-	ROnRwjeJMTe+/JcbNxbD8WxaQ7jx0YfIOI3z94RW31suty/MB/yYt3UDB0ATMCv6LtoQ
-	tUutOE0f5SiCdtphNb/FkKlMX5ti8TwhUR2L8SoEMTjjEa7D0hU7p3lhUVrzUQzFMhTD
-	nl+76HoCLpTqMhnEm5lap0JYYKsSdHk9BRDZSnXM/I+S9xqus1rJKFCQ+6WlXyMtKlmi
-	wjpw==
-X-Received: by 10.107.3.42 with SMTP id 42mr32879952iod.83.1447689495900; Mon,
-	16 Nov 2015 07:58:15 -0800 (PST)
+	bh=8Cb1KgGszzsRo8F5yGvuKqQFlcNqQtCEzfNc+uQffOQ=;
+	b=NmFD9bX+d582Re4xAlq073rTw7SaWbfkZcwb8mMrmuYEtxcfdohKeMxJMuafhsW852
+	xQxKp2BLs+R7qxz+GHO709dccBJ8g2jzCpCi1dAgKn9I+86bV6onc6N7DGOlT5TnTjky
+	JvtnSzHV843kYqr1QZJk9YdEwsbw1vB6jxeyC/DachDfTgiAfaJSAH/K25WDdMqYIKTn
+	Q0Guqihd0ogupaIRbMGuHC4P/qIWXjdKVWmwMXBugCL8ZerXyNYCwuJ7IDLXQ+Zzp/KH
+	Yn7I1BjqWuUYmBfQMzbdCpn0ZkP0Ajj+roNvapHOhyXvrPpAUbs+DMc0KiLLv9cg1z4w
+	Uuog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=8Cb1KgGszzsRo8F5yGvuKqQFlcNqQtCEzfNc+uQffOQ=;
+	b=B3hokB4MNzhep1CRzYo64jP8AkvJdiXVCuj47zeOy/REDwx2j/4J9XQ5jhdQ/eYPNX
+	kujPXhTl74umKZfJqnNSrYqCJ1WjWABVK8B2UN/p/B/fVYQoc6mcKy3QJgLoW56rRfkV
+	9ufZUEwQ5674dDpo+eVBU3OLA6SnBP39XAkfJlFeWOHGVM0mNvakACkK+68GkDnGPgvg
+	8LPjX6QVl0jDdo7zJjrWMd20Q7mLnIdlwBCKhpdosW2GAF4YcEG6/2zo8Qdm3GoYF5Tm
+	HWYtVhxkria4o5JbHXMaYLv//3mFCrjaYhL0Hb7oNerULb78RjldTjpdbzg1Lls89rqU
+	7BRw==
+X-Gm-Message-State: ALoCoQmrZ0iFz3SlFGQP9g6jSdT5zL+EOv4QmOLDCc6nw66Wstl4kZyV3893NFKl7vcMMYklwL9e
+X-Received: by 10.107.135.30 with SMTP id j30mr30635498iod.148.1447690131859; 
+	Mon, 16 Nov 2015 08:08:51 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.79.93.7 with HTTP; Mon, 16 Nov 2015 07:57:55 -0800 (PST)
-In-Reply-To: <CAJTo0LZQgEWa0ZT1uoFmBd7C6aXJzqAeofdwN7TgSCbUUAzpww@mail.gmail.com>
-References: <cover.1447371033.git.chris_larson@mentor.com>
-	<7dfc5c44d99054fd0f087bd1b4102aef0511029e.1447371033.git.chris_larson@mentor.com>
-	<CAJTo0LZbY3d718R8WL4mLuS-hxKiWTgHYBNf51VPwUfbbNSeAw@mail.gmail.com>
-	<CABcZANnm-hty1_MznJDsLLGWrSA2T+bpMxVG2mgEegeZJtbahg@mail.gmail.com>
-	<CAJTo0LZQgEWa0ZT1uoFmBd7C6aXJzqAeofdwN7TgSCbUUAzpww@mail.gmail.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Mon, 16 Nov 2015 08:57:55 -0700
-Message-ID: <CABcZAN=DNx0UgfmgRq3isNKv4oRBCApxy-w=OYHJkJDuoUfiYA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+Received: by 10.107.136.141 with HTTP; Mon, 16 Nov 2015 08:08:32 -0800 (PST)
+In-Reply-To: <cover.1447401669.git.jackie.huang@windriver.com>
+References: <cover.1447401669.git.jackie.huang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Nov 2015 16:08:32 +0000
+Message-ID: <CAJTo0LYJ19n9vgH_p+dLi-cNrnmDbYqweXJbGwjnaEhj6351XA@mail.gmail.com>
+To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 08/11] systemd: drop unneeded $D check in prerm
+Subject: Re: [PATCH 0/5] libav: fix 5 CVE issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,53 +54,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 15:58:19 -0000
-Content-Type: multipart/alternative; boundary=001a113ed34425fd040524aa7a23
+X-List-Received-Date: Mon, 16 Nov 2015 16:08:53 -0000
+Content-Type: multipart/alternative; boundary=001a113ec64a0e12d30524aaa0e3
 
---001a113ed34425fd040524aa7a23
+--001a113ec64a0e12d30524aaa0e3
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Nov 16, 2015 at 8:55 AM, Burton, Ross <ross.burton@intel.com> wrote:
+On 13 November 2015 at 08:03, <jackie.huang@windriver.com> wrote:
 
-> On 16 November 2015 at 15:54, Christopher Larson <kergoth@gmail.com>
-> wrote:
+> Jackie Huang (4):
+>   libav: fix CVE-2015-3395
+>   libav: fix CVE-2015-6820
+>   libav: fix CVE-2015-6823
+>   libav: fix CVE-2015-6824
 >
->> Er, yes, no idea how I missed that when reviewing the diffs. That was
->> meant to stay local. Sorry about that.
->>
->
-> Don't bother with a v2 by the way, I dropped that chunk when merging to
-> mut.
+> Kai Kang (1):
+>   libav: fix CVE-2015-1872
 >
 
-Ah, thanks.
--- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+I'd tend to lean towards squashing these int a single "libav: fix CVEs"
+commit which adds all five of those patches in a single operation (but as
+separate patches for tracking), but it's hard to have a strong opinion
+either way.
 
---001a113ed34425fd040524aa7a23
+However is the Pending upstream-status appropriate?  Is this the right time
+to bring up swapping libav for ffmpeg again?
+
+Ross
+
+--001a113ec64a0e12d30524aaa0e3
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Nov 16, 2015 at 8:55 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On =
-16 November 2015 at 15:54, Christopher Larson <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra">E=
-r, yes, no idea how I missed that when reviewing the diffs. That was meant =
-to stay local. Sorry about that.</div></blockquote><div><br></div></span><d=
-iv>Don&#39;t bother with a v2 by the way, I dropped that chunk when merging=
- to mut.</div></blockquote></div><br>Ah, thanks.<br>-- <br><div class=3D"gm=
-ail_signature"><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot =
-com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br=
->Senior Software Engineer, Mentor Graphics</div></div>
-</div></div>
+On 13 November 2015 at 08:03,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jack=
+ie.huang@windriver.com" target=3D"_blank">jackie.huang@windriver.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":e3" class=3D"=
+a3s" style=3D"overflow:hidden">Jackie Huang (4):<br>
+=C2=A0 libav: fix CVE-2015-3395<br>
+=C2=A0 libav: fix CVE-2015-6820<br>
+=C2=A0 libav: fix CVE-2015-6823<br>
+=C2=A0 libav: fix CVE-2015-6824<br>
+<br>
+Kai Kang (1):<br>
+=C2=A0 libav: fix CVE-2015-1872</div></blockquote></div><br>I&#39;d tend to=
+ lean towards squashing these int a single &quot;libav: fix CVEs&quot; comm=
+it which adds all five of those patches in a single operation (but as separ=
+ate patches for tracking), but it&#39;s hard to have a strong opinion eithe=
+r way.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
+>However is the Pending upstream-status appropriate?=C2=A0 Is this the righ=
+t time to bring up swapping libav for ffmpeg again?</div><div class=3D"gmai=
+l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a113ed34425fd040524aa7a23--
+--001a113ec64a0e12d30524aaa0e3--
