@@ -1,46 +1,64 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 40419762B4
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 66FBE7665F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 10:54:45 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so169705824wme.0
+	Mon, 16 Nov 2015 11:20:09 +0000 (UTC)
+Received: by pabfh17 with SMTP id fh17so175126450pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 02:54:45 -0800 (PST)
+	Mon, 16 Nov 2015 03:20:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=gjdkOhrA2P0mhfL+rcvNz7Nz0dBvGmUI/6hAENmZc+w=;
-	b=Zd+K2gBoT0Bc+RAL/jptHBMwa2g0/NKQ5qiqojSDpIlp08Xkr7+1ER9xIrzIL7CN2f
-	auOM6mWjPkOs3l3P4DbUEPpwE4cliQ44B8njwpF9+Q4xDd5oADP+MCwMv879eOT5s5pz
-	vg1zuODG8uYC818Ta7CA7n5EYqIPSKV3HP87TKtKc5Z96GA+9WG991UoMWnn1CRoimm3
-	E5kRtYVAyj+d2s/+uJyqf1v8JAzoidwXkm2PYKaskI8sYAqM7uuBlWuBR32yXh0bejrV
-	PbYkO6wqqV3HlzdmEdufVqt8P1NqiRgiB+ldXs133SKYtHSIaGVk/OSGIq6laHhxgiCz
-	7MLw==
+	d=ossystems_com_br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-type;
+	bh=dREfq6Zr6a95WkjdvSg+4l/1PJEFsmrcenGZZCxtiqc=;
+	b=GokF/fv/6IsYcRJnhmO3wxavnLQquss/0c1j6UlTe50nEAaOmfCW3gpeLarIgao4Zm
+	qynvryuNDkz5TilzkXAbf5hakpGOZE1Bo/tfI8EarzlqovIUOV5QrPTcJJrVW4vjbzNd
+	3J/Zy/M35WxZ1jzSymbL2T3K/n/v1Hdt9xo74P0uGFZ1vg7AgdI2xs8spX3ZueSZrsx7
+	lJ4+Fj6lezHzj0UnxNO3UT1OKjHzbxHQzQUCBNpN7VHkDjrgMrBJG5F3NM1xy99M8dTZ
+	8JHj1BfOInvcL/RIFx8ffkm8LrmrDEkRY+x9kSB+NF8DT5feB/8KoSrATrfV8bi+xUJK
+	nXaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=gjdkOhrA2P0mhfL+rcvNz7Nz0dBvGmUI/6hAENmZc+w=;
-	b=Sdn5m9Obj8TPabW2/Xl0mYtcmjHVl865lKoNot9FCJ3fO2/CuGjQqqGHJ9Iy/JBHwj
-	JoJ+rs++f1gNPaNsbcL7klJaHE/2OJlbkHW/TH+OIrfKecy2+culXAmkpwv5qcvrdund
-	vc0rBryMzYefkenK1z1hPVjrCj0O+HtQ59CGqrROwVEnYnYITcrkJSnFsWWjro+A7S2j
-	X8XaLMXGel01QJH4WnCXXz1u2jQ2PPFs2UzaQxnYzl0wUGNhYn9F6g9Bc3vsiiI5a7+u
-	NcfF39HlBz8LlV22GNM9f0ZSXkhckqF760rp7014cujwzPIUIFwbm6Fh+4b4XdsQFVk5
-	PPTQ==
-X-Gm-Message-State: ALoCoQk+NmtjXYzAhmTNXT4BO5gHQju9HnVtUkKpmExqHAqYP+uxEX8tgN/9Y/JP84syE79FWgGr
-X-Received: by 10.28.210.74 with SMTP id j71mr6122352wmg.96.1447671285529;
-	Mon, 16 Nov 2015 02:54:45 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	s2sm17958142wmd.13.2015.11.16.02.54.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 16 Nov 2015 02:54:44 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Nov 2015 10:46:21 +0000
-Message-Id: <1447670781-13736-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] libusb1: fix make install race
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=dREfq6Zr6a95WkjdvSg+4l/1PJEFsmrcenGZZCxtiqc=;
+	b=R5Pxb+vZBfli3QNoI0njcOFfOaFMVBH5nYejzcbaLfQJ9dE0f20SBdiLTDOM6VtaFd
+	HtZbyhpSSZCsjThDjG5tqkNkDY0QptcgWs/qhSG+LViUQv3uxXP6YQVR3Gz3mgPSbK6m
+	obfJ10iiOJiHMXac8GEWNo+v2/7jusk4CEwg4SOrjX6r1ZWbZHr0mzfGCiDxn6SYDJFY
+	12Iau15TpwNkrytTh2MmXkmBCpRglZ4hCqw+Ht6OgFo7mMjBvv+jPFNIvF3622U4DBU+
+	RxndnHiKGcDVHtEfwNVQ1VcQDWZ/bH3oCd8B2NqQgNioR/rI6K29d+kzJSpRR7Hbd0fI
+	UL1A==
+X-Gm-Message-State: ALoCoQmFekexjV579zRKOq94Gvwdq7a5hiWKolDOh8F9z0Txslaqm+eRmqGfZMlnjfw2f+CExTvW
+X-Received: by 10.66.162.38 with SMTP id xx6mr52431850pab.57.1447672809661;
+	Mon, 16 Nov 2015 03:20:09 -0800 (PST)
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com.
+	[209.85.220.43]) by smtp.gmail.com with ESMTPSA id
+	ph8sm35953623pbc.8.2015.11.16.03.20.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 16 Nov 2015 03:20:08 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by pacdm15 with SMTP id dm15so172584540pac.3;
+	Mon, 16 Nov 2015 03:20:07 -0800 (PST)
+MIME-Version: 1.0
+X-Received: by 10.68.229.39 with SMTP id sn7mr53784260pbc.164.1447672807773;
+	Mon, 16 Nov 2015 03:20:07 -0800 (PST)
+Received: by 10.66.197.129 with HTTP; Mon, 16 Nov 2015 03:20:07 -0800 (PST)
+In-Reply-To: <5649A542.8000307@linux.intel.com>
+References: <58488.10.252.13.130.1447346734.squirrel@linux.intel.com>
+	<CALbNGRTcwpywgtSJvm-q6aZHK5vaF5BFcxmKseHYjcy6aWnmBg@mail.gmail.com>
+	<4335862.fNWyiaI9Bu@peggleto-mobl.ger.corp.intel.com>
+	<CAP9ODKqk4B_i+59asEqoVNjkynBWTACD0cM4f0JdxMCopprTkA@mail.gmail.com>
+	<20151113114617.GB2567@jama> <5649A542.8000307@linux.intel.com>
+Date: Mon, 16 Nov 2015 09:20:07 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKpU_6sVy6iidiCem8Sb+EWAgNCVrvOPmOhr4_uMt174Hw@mail.gmail.com>
+Message-ID: <CAP9ODKpU_6sVy6iidiCem8Sb+EWAgNCVrvOPmOhr4_uMt174Hw@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] qt4 moves out of oe-core - to meta-qt4, or to meta-oe?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,56 +71,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 10:54:47 -0000
+X-List-Received-Date: Mon, 16 Nov 2015 11:20:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-There's an install race in when building in parallel, remove a redundant rule to
-stop it happening.
+On Mon, Nov 16, 2015 at 7:43 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> On 11/13/2015 01:46 PM, Martin Jansa wrote:
+>
+>>>>> 1) or even better in a separate repo
+>>>>
+>>>>
+>>>> To be honest, I had anticipated this being a separate meta-qt4 repo
+>>>> myself. It
+>>>> would be consistent with what has been done with Qt 5 and much earlier
+>>>> with
+>>>> Qt 3.
+>>>
+>>>
+>>> Agreed.
+>>
+>>
+>> I'm also fine with separate layer.
+>>
+>> Even better for me, I'll be less tempted to include it in my world
+>> builds and to fix qt-mobility-* issues.
+>
+>
+> Making a separate repository with this layer is even more disruptive, and
+> complicates administration and maintenance. I'm not going to handle those.
+> So I'll make a meta-qt4 layer under meta-oe, and it's fine if there is no
+> official maintainer or ongoing build testing for it at least until someone
+> volunteers to pick it up.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-support/libusb/libusb1/no-dll.patch | 19 +++++++++++++++++++
- meta/recipes-support/libusb/libusb1_1.0.20.bb    |  1 +
- 2 files changed, 20 insertions(+)
- create mode 100644 meta/recipes-support/libusb/libusb1/no-dll.patch
+I will nack the patch to include it onto meta-oe; I also guess that
+Martin will also nack it.
 
-diff --git a/meta/recipes-support/libusb/libusb1/no-dll.patch b/meta/recipes-support/libusb/libusb1/no-dll.patch
-new file mode 100644
-index 0000000..6e6bb83
---- /dev/null
-+++ b/meta/recipes-support/libusb/libusb1/no-dll.patch
-@@ -0,0 +1,19 @@
-+As all invokes all-recursive which uses sub-makes to invoke all-am, the
-+resulting makefile wants to build libusb-1.0.la twice. In non-parallel builds
-+the second attempt is skipped as the target already exists, but in highly
-+parallel builds it's likely that two makes will be building libusb-1.0.la at the
-+same time.
-+
-+Solve this by removing the explicit all target, which as libusb-1.0.dll isn't
-+built under Linux is redundant anyway.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/libusb/Makefile.am b/libusb/Makefile.am
-+index 0cab0a0..c880213 100644
-+--- a/libusb/Makefile.am
-++++ b/libusb/Makefile.am
-+@@ -1,2 +0,0 @@
-+-all: libusb-1.0.la libusb-1.0.dll
-+-
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.20.bb b/meta/recipes-support/libusb/libusb1_1.0.20.bb
-index 21b8b45..4cad2d4 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.20.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.20.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
- BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
-+           file://no-dll.patch \
-           "
- 
- SRC_URI[md5sum] = "1d4eb194eaaa2bcfbba28102768c7dbf"
+Make it another layer as suggested, please.
+
 -- 
-2.1.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
