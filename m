@@ -1,52 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A79A6E268
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id A170E6E268
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 15:05:32 +0000 (UTC)
-Received: by iouu10 with SMTP id u10so155927553iou.0
+	Mon, 16 Nov 2015 15:09:12 +0000 (UTC)
+Received: by igbxm8 with SMTP id xm8so58868019igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 07:05:32 -0800 (PST)
+	Mon, 16 Nov 2015 07:09:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel_com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=JXBmi4V8GghInLVKkl4FE7+Nk34CKHf8CeVD93rYTms=;
-	b=WmGI2IjYMPCkPPDp2+OxV9MRqdciUoemLk2PiP2cHxKdDaNsCqtQ5Ux98411KsXf2R
-	UWWfXReyPq4gK9S9wwOh7Cn8wRtncJU5QGbF8weBUEWtMIZxYkz952eFnJZwipoEyvuE
-	noUr+wglaT4smuUjpA64vXgomcFuhS3haFgQ021zFQ+2fO9Mb4N9V/emecqdKfOAd6PJ
-	mEpsbgl774HLmY28rbvLxhJ+hxEIHkkGmTke0kGIfhnTotdWAGfHm/Eej5eSm49BGDu+
-	RyI5vb4MoUJhO6ms9aydfLSjq6iUgkDuy01OMmsZ/Hdfa++UPkbzhzBwydgU+0aFpC9l
-	Sl/w==
+	bh=o8o2BSQhBeWuxEDZNOSwXz0TpCp6aIqe7Q/+bVzX5q0=;
+	b=w2dnDqR3GXJnalaCjptiGSL5Lz7Bk9tpPL6dV/YVpKfqbLU0nyQWFBHDc9xD0uFAiy
+	mxCq3c8CUV51B1QJDYqQH3IDJzAewepT2ICuXzL1eecIMx4Aw8lVEA9ccBY1t24ysf/g
+	KkSRtd7JTZUkkyPGmP7u4k/HhdAuJYXJ1bOORCgAPT20RL5/V1mU14YhqPsXtXEkf9yP
+	uwuE4PudRCtbFBE1BqRgNA+m81LDncS4bLZGJZyHduu4k+Jv9ySAp4MkLiSc3tU0GHd4
+	yBW7pI4FWS5rEbBQIQLb3fq2eGqYWwk1wZFVsLrrVGu+d7tmnIm/z3UiGiERsqB3PBTu
+	UlCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=JXBmi4V8GghInLVKkl4FE7+Nk34CKHf8CeVD93rYTms=;
-	b=C74Urws8wgkNzms6jqkm2DXS5nqpXf8r8G0GWrgDvCKvgwM0yWIEbceUQODbsFu+zN
-	tsGfFD/SK0f0O+RQx95cJoztNvUdhsOkCFXTGvuUfIfAKtHQHnpaGSbpLj3mjWIquGgG
-	ErXkkWgjxHqUwez4tenVxgJF7qI9tXNHM5NAPbQG+5qRfzCYx/IWuxmHe/Lx2kXkJaSz
-	0jX/QtY1dYQkyeg2Pgh5b0CTPM1qHhy+F/q3cGUSPTNM2fBq/l3LLapZjpO8i+1LZC5d
-	SYLXw5y7+jyHhdsDfFEknY7vIHJYnW5RfVqCQQdxHB5tBRQkoB5+V250SuPZKYfRFc37
-	zc1A==
-X-Gm-Message-State: ALoCoQnI9eYpQDwzKSvCqB1TmUHgj2mVSMbTi/Apw8GZkmtj5p5wJrDyH+HZCiOYYEilo+rgU3M1
-X-Received: by 10.107.3.144 with SMTP id e16mr28416046ioi.99.1447686331692;
-	Mon, 16 Nov 2015 07:05:31 -0800 (PST)
+	bh=o8o2BSQhBeWuxEDZNOSwXz0TpCp6aIqe7Q/+bVzX5q0=;
+	b=eR1isZ4c0OihLBnZ9l7ds1C+5sTkFbXc4FaG2KhThth358imXrKgIP8LMOfvO44Y26
+	nkkpwIQRafNQD/9bp46Mf725TdmJuRun6Y7Z+rAOxpJa3jHwcmWroSaU2jBRxJvxy23K
+	HP1tkrWgXvGb30W5Nvmo5xovSjpxSnJjsIf7lWGpSn7EHn2Z1qyARQ+WTC5A03Q/NRRF
+	0sIpijodQVbh7Psq1UV7YNlSNXLKhzuFaGSPJ65w8uzzmcLT8ZD6WfsWWGELjnqUzihT
+	EoNF7R0TVRaWkX9+ZpTx+uwY9hg7p9x35pBPdce/lpuWrioFgZCNS1J7SRwFa1xi3njI
+	zASg==
+X-Gm-Message-State: ALoCoQm9Pfq6RcY9EoG6VHOIrjhRs4qIwWRW/03WNGg7Iql2Dv+Iqewb4ESNtbITGIVBqdMzFS5t
+X-Received: by 10.50.155.33 with SMTP id vt1mr5589863igb.64.1447686552337;
+	Mon, 16 Nov 2015 07:09:12 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Mon, 16 Nov 2015 07:05:12 -0800 (PST)
-In-Reply-To: <CAP9ODKrR+6G7tCZQNukw11yKGbxhB=FUEe53=n3KGgXUu9s5YQ@mail.gmail.com>
-References: <1447432009-9129-1-git-send-email-otavio@ossystems.com.br>
-	<1447432009-9129-2-git-send-email-otavio@ossystems.com.br>
-	<564661AB.9040201@mentor.com>
-	<CAP9ODKrR+6G7tCZQNukw11yKGbxhB=FUEe53=n3KGgXUu9s5YQ@mail.gmail.com>
+Received: by 10.107.136.141 with HTTP; Mon, 16 Nov 2015 07:08:52 -0800 (PST)
+In-Reply-To: <1447652032-31142-1-git-send-email-jian.liu@windriver.com>
+References: <1447652032-31142-1-git-send-email-jian.liu@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Nov 2015 15:05:12 +0000
-Message-ID: <CAJTo0LaSAEduWF_NWiU7h5H6rtCs+BBXeP8y0H4pkfwqqo6yog@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Nathan Lynch <Nathan_Lynch@mentor.com>,
-	Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] lttng-tools: Upgrade to 2.7 release
+Date: Mon, 16 Nov 2015 15:08:52 +0000
+Message-ID: <CAJTo0LZcvVSoNnndi1qU5Pv3K5UfmpkcfRhzdQwFot6BeHrbvA@mail.gmail.com>
+To: Jian Liu <jian.liu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] archiver.bbclass: fix an exception of the mode configured
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,36 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 15:05:33 -0000
-Content-Type: multipart/alternative; boundary=001a113ecf408c12370524a9bda9
+X-List-Received-Date: Mon, 16 Nov 2015 15:09:13 -0000
+Content-Type: multipart/alternative; boundary=001a11343daab2e1c30524a9cae9
 
---001a113ecf408c12370524a9bda9
+--001a11343daab2e1c30524a9cae9
 Content-Type: text/plain; charset=UTF-8
 
-On 16 November 2015 at 11:42, Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
+On 16 November 2015 at 05:33, Jian Liu <jian.liu@windriver.com> wrote:
 
-> I think it applies fine, I can add it to the serie if Ross prefer
-> though... Ross?
+> +        if d.getVarFlag('do_configure', 'noexec') == '1' or
+> 'do_configure' not in d.getVar('__BBTASKS', False):
 >
 
-Yeah I've updated the patch and merge it to staging.
+__BBTASKS is internal so shouldn't beused unless you have an awesome
+reason.  Richard tells me that d.getVarFlag('do_configure', 'task') is
+probably what you want.
 
 Ross
 
---001a113ecf408c12370524a9bda9
+--001a11343daab2e1c30524a9cae9
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 November 2015 at 11:42, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salva=
-dor@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div id=3D":28r" class=3D"a3s" style=3D"overflow:hidden">I think it appli=
-es fine, I can add it to the serie if Ross prefer<br>
-though... Ross?</div></blockquote><div><br></div><div>Yeah I&#39;ve updated=
- the patch and merge it to staging.</div><div><br></div><div>Ross=C2=A0</di=
-v></div><br></div></div>
+On 16 November 2015 at 05:33, Jian Liu <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:jian.liu@windriver.com" target=3D"_blank">jian.liu@windriver.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
+-left-style:solid;padding-left:1ex"><div id=3D":3d3" class=3D"" style=3D"ov=
+erflow:hidden">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if d.getVarFlag(&#39;do_configu=
+re&#39;, &#39;noexec&#39;) =3D=3D &#39;1&#39; or &#39;do_configure&#39; not=
+ in d.getVar(&#39;__BBTASKS&#39;, False):<br></div></blockquote></div><br>_=
+_BBTASKS is internal so shouldn&#39;t beused unless you have an awesome rea=
+son.=C2=A0 Richard tells me that d.getVarFlag(&#39;do_configure&#39;, &#39;=
+task&#39;) is probably what you want.</div><div class=3D"gmail_extra"><br><=
+/div><div class=3D"gmail_extra">Ross</div></div>
 
---001a113ecf408c12370524a9bda9--
+--001a11343daab2e1c30524a9cae9--
