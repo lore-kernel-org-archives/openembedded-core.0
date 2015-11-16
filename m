@@ -1,48 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 209F46E268
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id BDD016E268
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 15:19:10 +0000 (UTC)
-Received: by ioc74 with SMTP id 74so162491047ioc.2
+	Mon, 16 Nov 2015 15:54:42 +0000 (UTC)
+Received: by ioir85 with SMTP id r85so123105328ioi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 07:19:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	Mon, 16 Nov 2015 07:54:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=q22/V8nLTWeNwazFkWKzrhz2UELBASz870NX4+aWMU0=;
-	b=gAn1/oF0u3wAnN5ZS2OHWBWUrkSER251ATY6aM73fTsAaMhAoX/k2mBGjBHPkXnn9X
-	obib6dWzPQiybr6VKbn71/kCSTEtqPBFB7XwdVHTKKXbBY3ZFMPZJmLebkrh19xQ9p2P
-	yfC0Bzj5qlKdv7K1tg3T7ESNKPJF9hIBDlFW8MAy7VqnlL5Z6jL2TpqIgJ9K4SMSOj60
-	IXqQteMx6dxSbC3ylfofTVDcR9yJbDMS+mfNu5QvjyThN6EmW/ZT0l2OlFcwpVlIVKsc
-	DnfAyy2FxZuzytC3C9DMBtTxFk8XyqWc3o1zFTwWllp3VZUNQJkuggeLxguJKbgjk85r
-	MCIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=q22/V8nLTWeNwazFkWKzrhz2UELBASz870NX4+aWMU0=;
-	b=DrO1fw4pgvxE/m16YLAdm85IqCbuh2Z2/LhsV+j0H21UFJAzBzE+AXRDkchemcXN7L
-	RkA0JmkebVjGWjfF4IIngjPCKs61hSrAfPlg5QbXksygHBuWsHWN3gVAWXkZqdJljh/R
-	JhSu6OaK55U+gEmBXUpsG38UGBjo2J68IzNo2+/Igv1O2BhU6KV6yErsDPh0iimB2TwM
-	v/A1YPUs0R8lAIpLJAhK/PLt2cJPCluXLe3NzpkzsxLdNnlqsGsCKX8AFPH+jlWBseTu
-	2q4mx+dK+dc2rwfDQBo1O2Vvq5KkZBQNZyDHpvfFACa54+JuZbVccD5gpTlZ4k8bd296
-	nZkg==
-X-Gm-Message-State: ALoCoQmS35zRMpKuulkAPM8z6N7k2hQcTKX3atR9KrlodWt9ZftalFKIK1UHMNjCaILD6WonrbnJ
-X-Received: by 10.107.135.30 with SMTP id j30mr30417631iod.148.1447687150480; 
-	Mon, 16 Nov 2015 07:19:10 -0800 (PST)
+	bh=fUMENJ7VCwAMEvl4F1chPCz6sl45cRZLKe94ClOD6gc=;
+	b=FXJSWmNehGK84jIKXIzmuyV9N60Fm2E5xPJbAfQZOSn2rBt06al362y8JYQKIQyVgr
+	Am1iLLR1mZHNrrobVpY5swvqb18U9FMWWHok6FvjcE1vXJbKtnuISJ5YOQvPjwD3h2d0
+	6XT18HIRhfcv4RruNyPd2xLNy1+k7jpdm+q8oS2gaR3jI/2ftJdOh+J9C6Zup1NttQjh
+	csVim42pKmvtMBU9Sgeh1ZwdjQh9qOF4eR835+yJJRr4bGNnjDULv+CKpsuknU4SGocU
+	I0mXMjkIs/N6uB1jdE53YUJ3SBJO0Mf7HGrEaXMCSy0ONUvxME6WhmNgPuEej1n5wVlh
+	K8GA==
+X-Received: by 10.107.38.83 with SMTP id m80mr6464467iom.98.1447689282400;
+	Mon, 16 Nov 2015 07:54:42 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Mon, 16 Nov 2015 07:18:50 -0800 (PST)
-In-Reply-To: <7dfc5c44d99054fd0f087bd1b4102aef0511029e.1447371033.git.chris_larson@mentor.com>
+Received: by 10.79.93.7 with HTTP; Mon, 16 Nov 2015 07:54:22 -0800 (PST)
+In-Reply-To: <CAJTo0LZbY3d718R8WL4mLuS-hxKiWTgHYBNf51VPwUfbbNSeAw@mail.gmail.com>
 References: <cover.1447371033.git.chris_larson@mentor.com>
 	<7dfc5c44d99054fd0f087bd1b4102aef0511029e.1447371033.git.chris_larson@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Nov 2015 15:18:50 +0000
-Message-ID: <CAJTo0LZbY3d718R8WL4mLuS-hxKiWTgHYBNf51VPwUfbbNSeAw@mail.gmail.com>
-To: Christopher Larson <kergoth@gmail.com>
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
+	<CAJTo0LZbY3d718R8WL4mLuS-hxKiWTgHYBNf51VPwUfbbNSeAw@mail.gmail.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Mon, 16 Nov 2015 08:54:22 -0700
+Message-ID: <CABcZANnm-hty1_MznJDsLLGWrSA2T+bpMxVG2mgEegeZJtbahg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 08/11] systemd: drop unneeded $D check in prerm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -56,47 +43,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 15:19:12 -0000
-Content-Type: multipart/alternative; boundary=001a113ec64a5a68020524a9eef3
+X-List-Received-Date: Mon, 16 Nov 2015 15:54:43 -0000
+Content-Type: multipart/alternative; boundary=001a1140ca026c3b140524aa6d62
 
---001a113ec64a5a68020524a9eef3
+--001a1140ca026c3b140524aa6d62
 Content-Type: text/plain; charset=UTF-8
 
-On 12 November 2015 at 23:39, Christopher Larson <kergoth@gmail.com> wrote:
+On Mon, Nov 16, 2015 at 8:18 AM, Burton, Ross <ross.burton@intel.com> wrote:
 
-> diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
-> index 315c17f..1f5bbcc 100644
-> --- a/meta/classes/qemu.bbclass
-> +++ b/meta/classes/qemu.bbclass
-> @@ -50,3 +50,8 @@ QEMU_EXTRAOPTIONS_ppc64e5500 = " -cpu e5500"
->  QEMU_EXTRAOPTIONS_ppce6500 = " -cpu e6500"
->  QEMU_EXTRAOPTIONS_ppc64e6500 = " -cpu e6500"
->  QEMU_EXTRAOPTIONS_ppc7400   = " -cpu 7400"
-> +
-> +python () {
-> +    if "QEMU_EXTRAOPTIONS" in d and
-> d.expand("QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}") not in d and
-> d.getVar("PACKAGE_ARCH", True) != "all":
-> +        bb.fatal("Incorrect use of overrides rather than PACKAGE_ARCH for
-> QEMU_EXTRAOPTIONS")
-> +}
+> On 12 November 2015 at 23:39, Christopher Larson <kergoth@gmail.com>
+> wrote:
+>
+>> diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+>> index 315c17f..1f5bbcc 100644
+>> --- a/meta/classes/qemu.bbclass
+>> +++ b/meta/classes/qemu.bbclass
+>> @@ -50,3 +50,8 @@ QEMU_EXTRAOPTIONS_ppc64e5500 = " -cpu e5500"
+>>  QEMU_EXTRAOPTIONS_ppce6500 = " -cpu e6500"
+>>  QEMU_EXTRAOPTIONS_ppc64e6500 = " -cpu e6500"
+>>  QEMU_EXTRAOPTIONS_ppc7400   = " -cpu 7400"
+>> +
+>> +python () {
+>> +    if "QEMU_EXTRAOPTIONS" in d and
+>> d.expand("QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}") not in d and
+>> d.getVar("PACKAGE_ARCH", True) != "all":
+>> +        bb.fatal("Incorrect use of overrides rather than PACKAGE_ARCH
+>> for QEMU_EXTRAOPTIONS")
+>> +}
+>>
+>
+> I think you meant to split this out.
 >
 
-I think you meant to split this out.
+Er, yes, no idea how I missed that when reviewing the diffs. That was meant
+to stay local. Sorry about that.
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
-Ross
-
---001a113ec64a5a68020524a9eef3
+--001a1140ca026c3b140524aa6d62
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 November 2015 at 23:39, Christopher Larson <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4v0" class=3D=
-"a3s" style=3D"overflow:hidden">diff --git a/meta/classes/qemu.bbclass b/me=
-ta/classes/qemu.bbclass<br>
+On Mon, Nov 16, 2015 at 8:18 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_=
+extra"><span class=3D""><div class=3D"gmail_quote">On 12 November 2015 at 2=
+3:39, Christopher Larson <span dir=3D"ltr">&lt;<a href=3D"mailto:kergoth@gm=
+ail.com" target=3D"_blank">kergoth@gmail.com</a>&gt;</span> wrote:<br><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex"><div style=3D"overflow:hidden">diff --git a/meta/=
+classes/qemu.bbclass b/meta/classes/qemu.bbclass<br>
 index 315c17f..1f5bbcc 100644<br>
 --- a/meta/classes/qemu.bbclass<br>
 +++ b/meta/classes/qemu.bbclass<br>
@@ -112,8 +114,12 @@ U_EXTRAOPTIONS_${PACKAGE_ARCH}&quot;) not in d and d.getVar(&quot;PACKAGE_A=
 RCH&quot;, True) !=3D &quot;all&quot;:<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Incorrect use of overrides rath=
 er than PACKAGE_ARCH for QEMU_EXTRAOPTIONS&quot;)<br>
-+}</div></blockquote></div><br>I think you meant to split this out.</div><d=
-iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
-iv>
++}</div></blockquote></div><br></span>I think you meant to split this out.<=
+/div></blockquote></div><br>Er, yes, no idea how I missed that when reviewi=
+ng the diffs. That was meant to stay local. Sorry about that.<br>-- <br><di=
+v class=3D"gmail_signature"><div dir=3D"ltr">Christopher Larson<br>kergoth =
+at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintain=
+er - Tslib<br>Senior Software Engineer, Mentor Graphics</div></div>
+</div></div>
 
---001a113ec64a5a68020524a9eef3--
+--001a1140ca026c3b140524aa6d62--
