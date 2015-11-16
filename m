@@ -1,50 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 531B7762B4
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 40419762B4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 10:38:11 +0000 (UTC)
-Received: by igvg19 with SMTP id g19so72016306igv.1
+	Mon, 16 Nov 2015 10:54:45 +0000 (UTC)
+Received: by wmec201 with SMTP id c201so169705824wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 02:38:11 -0800 (PST)
+	Mon, 16 Nov 2015 02:54:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Lp1Mce3ozXZhS8Zhq3/LJXSkocvrH0sd3UVevNIAcwQ=;
-	b=QBqW58ai9SDk6RU63dqKCAAWAYUXCoeHexDRZuKXJavOG2c/sYxhTw+lIqDlvnfzoI
-	ejTi8AGyL4/CKrEFor6TWcRuf/buJk1ABqKssUlOfvTvh6rn9oa7rd3c+raeHh8xoH+y
-	oORirDK03slCAvbB4l8co3LcJXafgw5cY0wtrS6zjUZ22kZnNuzxnSrpmeWprdKk6FB2
-	0Xfd0xhZLE155sLfnSw3/G1fkIaNe4YYKcv1zga49HuNpnDhVar62aUhH5LoA2OG6vWg
-	cVKxTAac2Cfacxdcu1XE0Of/lU0ysm4bwGA5BMkMQl0OmDOYzQ4fuw/R4dDY+eTO6mrm
-	to9A==
+	h=from:to:subject:date:message-id;
+	bh=gjdkOhrA2P0mhfL+rcvNz7Nz0dBvGmUI/6hAENmZc+w=;
+	b=Zd+K2gBoT0Bc+RAL/jptHBMwa2g0/NKQ5qiqojSDpIlp08Xkr7+1ER9xIrzIL7CN2f
+	auOM6mWjPkOs3l3P4DbUEPpwE4cliQ44B8njwpF9+Q4xDd5oADP+MCwMv879eOT5s5pz
+	vg1zuODG8uYC818Ta7CA7n5EYqIPSKV3HP87TKtKc5Z96GA+9WG991UoMWnn1CRoimm3
+	E5kRtYVAyj+d2s/+uJyqf1v8JAzoidwXkm2PYKaskI8sYAqM7uuBlWuBR32yXh0bejrV
+	PbYkO6wqqV3HlzdmEdufVqt8P1NqiRgiB+ldXs133SKYtHSIaGVk/OSGIq6laHhxgiCz
+	7MLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Lp1Mce3ozXZhS8Zhq3/LJXSkocvrH0sd3UVevNIAcwQ=;
-	b=C/Zmn5tW+lTvW9AKxgxEK9cNTFMX/tb9Hjuv+PctDvQY8FwY5bCK3A5LZrl0UBtkzW
-	VNInHm2Pfggk7R2uyvlNnLUTnY1rrRGW2Yui+QvjCLEzOGA+rB50955jmg3sqDHhTB33
-	OWrgU6ulLUifQo2uHGqav8KOu6CJO1/JAtMf3po4WX0dOFiBiVAa4lUBhsM+FDJAe0yY
-	eeI1GjEc09ukTQ6ggLQrtOdWU1cOEY8WqbwMAxOWELr2M4YOQ8l7DQw0/55gXx5i2QRm
-	lm5CRE2DxEduYcgATmhpsFjz3lowmyAhbuUYn9adnErO1OUdFThW7XyP/8chaX0uiEqh
-	emuA==
-X-Gm-Message-State: ALoCoQlyjWpnRRSUqv0c5yXkIMrTrc5ywNHfednybCopnnBVWrf7U9+4Nq+J4TY61px+amq9V55Z
-X-Received: by 10.50.79.129 with SMTP id j1mr14632402igx.52.1447670291098;
-	Mon, 16 Nov 2015 02:38:11 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Mon, 16 Nov 2015 02:37:51 -0800 (PST)
-In-Reply-To: <20151112185907.GL2574@jama>
-References: <58488.10.252.13.130.1447346734.squirrel@linux.intel.com>
-	<20151112171915.GK2574@jama>
-	<58904.10.252.13.130.1447349938.squirrel@linux.intel.com>
-	<20151112185907.GL2574@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Nov 2015 10:37:51 +0000
-Message-ID: <CAJTo0LbxLwz7ijSoAmbj6ij51cGynk9Omf=M+QvbPQ7ahmo2Mg@mail.gmail.com>
-To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] qt4 moves out of oe-core - to meta-qt4, or to meta-oe?
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=gjdkOhrA2P0mhfL+rcvNz7Nz0dBvGmUI/6hAENmZc+w=;
+	b=Sdn5m9Obj8TPabW2/Xl0mYtcmjHVl865lKoNot9FCJ3fO2/CuGjQqqGHJ9Iy/JBHwj
+	JoJ+rs++f1gNPaNsbcL7klJaHE/2OJlbkHW/TH+OIrfKecy2+culXAmkpwv5qcvrdund
+	vc0rBryMzYefkenK1z1hPVjrCj0O+HtQ59CGqrROwVEnYnYITcrkJSnFsWWjro+A7S2j
+	X8XaLMXGel01QJH4WnCXXz1u2jQ2PPFs2UzaQxnYzl0wUGNhYn9F6g9Bc3vsiiI5a7+u
+	NcfF39HlBz8LlV22GNM9f0ZSXkhckqF760rp7014cujwzPIUIFwbm6Fh+4b4XdsQFVk5
+	PPTQ==
+X-Gm-Message-State: ALoCoQk+NmtjXYzAhmTNXT4BO5gHQju9HnVtUkKpmExqHAqYP+uxEX8tgN/9Y/JP84syE79FWgGr
+X-Received: by 10.28.210.74 with SMTP id j71mr6122352wmg.96.1447671285529;
+	Mon, 16 Nov 2015 02:54:45 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	s2sm17958142wmd.13.2015.11.16.02.54.44
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 16 Nov 2015 02:54:44 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Nov 2015 10:46:21 +0000
+Message-Id: <1447670781-13736-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] libusb1: fix make install race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,84 +53,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 10:38:12 -0000
-Content-Type: multipart/alternative; boundary=089e011609fc740d670524a601f0
+X-List-Received-Date: Mon, 16 Nov 2015 10:54:47 -0000
 
---089e011609fc740d670524a601f0
-Content-Type: text/plain; charset=UTF-8
+There's an install race in when building in parallel, remove a redundant rule to
+stop it happening.
 
-On 12 November 2015 at 18:59, Martin Jansa <martin.jansa@gmail.com> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-support/libusb/libusb1/no-dll.patch | 19 +++++++++++++++++++
+ meta/recipes-support/libusb/libusb1_1.0.20.bb    |  1 +
+ 2 files changed, 20 insertions(+)
+ create mode 100644 meta/recipes-support/libusb/libusb1/no-dll.patch
 
-> > > There is already enough meta-oe bloat moved from oe-core:
-> > >
-> > >
-> http://lists.openembedded.org/pipermail/openembedded-core/2015-November/112665.html
-> > >
-> > > WARN: qt-mobility-embedded: qt-mobility-embedded rdepends on glib-2.0,
-> but
-> > > it isn't a build dependency?
-> >
-> > If increasing bloat is a problem, why do recipes in meta-oe need to be
-> > maintained indefinitely? Old cruft can be dropped from meta-oe, just as
-> it
-> > is dropped from oe-core. Just ask the public if it's ok, set a timeframe,
-> > and do it.
-> >
-> > qt-mobility in particular has been dead for several years, and doesn't
-> > even have official upstream tarballs anymore. Why spend time fixing it?
->
-> That's why there is increasing number of PNBLACKLISTs with each release.
->
+diff --git a/meta/recipes-support/libusb/libusb1/no-dll.patch b/meta/recipes-support/libusb/libusb1/no-dll.patch
+new file mode 100644
+index 0000000..6e6bb83
+--- /dev/null
++++ b/meta/recipes-support/libusb/libusb1/no-dll.patch
+@@ -0,0 +1,19 @@
++As all invokes all-recursive which uses sub-makes to invoke all-am, the
++resulting makefile wants to build libusb-1.0.la twice. In non-parallel builds
++the second attempt is skipped as the target already exists, but in highly
++parallel builds it's likely that two makes will be building libusb-1.0.la at the
++same time.
++
++Solve this by removing the explicit all target, which as libusb-1.0.dll isn't
++built under Linux is redundant anyway.
++
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++diff --git a/libusb/Makefile.am b/libusb/Makefile.am
++index 0cab0a0..c880213 100644
++--- a/libusb/Makefile.am
+++++ b/libusb/Makefile.am
++@@ -1,2 +0,0 @@
++-all: libusb-1.0.la libusb-1.0.dll
++-
+diff --git a/meta/recipes-support/libusb/libusb1_1.0.20.bb b/meta/recipes-support/libusb/libusb1_1.0.20.bb
+index 21b8b45..4cad2d4 100644
+--- a/meta/recipes-support/libusb/libusb1_1.0.20.bb
++++ b/meta/recipes-support/libusb/libusb1_1.0.20.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
++           file://no-dll.patch \
+           "
+ 
+ SRC_URI[md5sum] = "1d4eb194eaaa2bcfbba28102768c7dbf"
+-- 
+2.1.4
 
-The recipes were removed from oe-core as they're dead upstream, and
-basically as a courtesy moved to meta-oe so anyone still using dead
-software can still build it.  If they're just bitrotting and literally
-nobody is using the recipes then they should be removed: meta-oe isn't a
-historical archive that you're expected to maintain for the next decade.
 
-Ross
-
---089e011609fc740d670524a601f0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 November 2015 at 18:59, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt;=
- &gt; There is already enough meta-oe bloat moved from oe-core:<br>
-&gt; &gt;<br>
-&gt; &gt; <a href=3D"http://lists.openembedded.org/pipermail/openembedded-c=
-ore/2015-November/112665.html" rel=3D"noreferrer" target=3D"_blank">http://=
-lists.openembedded.org/pipermail/openembedded-core/2015-November/112665.htm=
-l</a><br>
-&gt; &gt;<br>
-&gt; &gt; WARN: qt-mobility-embedded: qt-mobility-embedded rdepends on glib=
--2.0, but<br>
-&gt; &gt; it isn&#39;t a build dependency?<br>
-&gt;<br>
-&gt; If increasing bloat is a problem, why do recipes in meta-oe need to be=
-<br>
-&gt; maintained indefinitely? Old cruft can be dropped from meta-oe, just a=
-s it<br>
-&gt; is dropped from oe-core. Just ask the public if it&#39;s ok, set a tim=
-eframe,<br>
-&gt; and do it.<br>
-&gt;<br>
-&gt; qt-mobility in particular has been dead for several years, and doesn&#=
-39;t<br>
-&gt; even have official upstream tarballs anymore. Why spend time fixing it=
-?<br>
-<br>
-</span>That&#39;s why there is increasing number of PNBLACKLISTs with each =
-release.<br>
-<div class=3D"HOEnZb"></div></blockquote></div><br>The recipes were removed=
- from oe-core as they&#39;re dead upstream, and basically as a courtesy mov=
-ed to meta-oe so anyone still using dead software can still build it.=C2=A0=
- If they&#39;re just bitrotting and literally nobody is using the recipes t=
-hen they should be removed: meta-oe isn&#39;t a historical archive that you=
-&#39;re expected to maintain for the next decade.</div><div class=3D"gmail_=
-extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---089e011609fc740d670524a601f0--
