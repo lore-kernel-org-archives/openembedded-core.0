@@ -1,64 +1,47 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 87BDA7665F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 1912D60043
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 11:42:49 +0000 (UTC)
-Received: by padhx2 with SMTP id hx2so173234146pad.1
+	Mon, 16 Nov 2015 13:57:43 +0000 (UTC)
+Received: by ioir85 with SMTP id r85so119287535ioi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 03:42:49 -0800 (PST)
+	Mon, 16 Nov 2015 05:57:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems_com_br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=1OVNfZP01bj9+X1ayOlp1cGNVL6mBGTFX3zBpPmd61g=;
-	b=fAjOoYHCMiUYi3WS7EDoN9jqaAtsVQekAcO7ncZys51HYky6gzpg8n46yCSVI3c5JY
-	FXsSgeAqJunbU3VrtBr5P+0PrRGhy8IYdzR97swVYrYfpykqI65UcgFGd/UBs9bHXJO1
-	JqjXxGGPEAMywWiJVrf9NsWxGKllx/LLlUIZtHwRwnT6WqJv6O82u24wfGEmg8FaSIts
-	qTFyp2mimCNxQ2FGf1EEJja8nAlgoAkQUi4aQ46opyg49xMOcgaM9LcZzbMqt3s8l8Yt
-	b6zlZCwTACFwcqthg8qTB9oSgVoVSoUu0azRxLf9bFfY1TP8IFHr37KPjnzfwslGCDZz
-	bo4g==
+	bh=jdsyzIjwnKDRaVv+HRmSzYeI6pQdGQcUzgRksL84vPM=;
+	b=PpuhmYCK8FbYc1gcmaHcyCX5tLb/o3tGbA3k+/tb2m0WaXvsfpvtcowgBMYuAZ5qTT
+	OQTQNOiqQnpNwl2JlG3mo+e8PcW4flFFz/cox7yyi6d8rYoh6+P6YVqtt5Tvg3y/zlrL
+	299MgbA8ST7OVeLjnAqIol69u+JtI7i9bIDWCGvmlLyc2T1pT4XkoOCMBmacEcRBUbkL
+	3GHHIUHHQZxZA3DmZnNgKHjz30Z/Oe1mjgVEuypcxie7cnP+sst5YM41jSyxegX9od/j
+	cZWSavkAHhL0jFxvVqfoNQQqBZPy99Em/OURClD6uZGef+1z18RNtl+Jt1n0671zhzsD
+	z/5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=1OVNfZP01bj9+X1ayOlp1cGNVL6mBGTFX3zBpPmd61g=;
-	b=AwtjQLrs3t0OnoNbAUpN8viXKjN4nDYTTLrqG6LYhYvUk7O1ER5hEgzZkeFWl9D1Pt
-	lUVqQweL1yTV0b6H1Ir9zazEMkEsrnn9xWndrAiCzByTTFAgyTt40ubeo4UFmqS8pt0O
-	LryoowYEk+zK9PZj0Y+yoQpVnrgdoR4S4+JWgNCzhMOfppqtbFU8aO242oola9F5WJRO
-	54T8qfxQScAp6KLzF9VoIDt6aHmlFME0jNaTwdtpjIHtPFFyBdeqO/ABt5KrTmIgC1pu
-	uvrVE3zoQgwnUaqyP+AKvWvb8qVER/+GzuRT/LVaqjS0isf2fn5iN/YMwRqMofG8VcEN
-	qewg==
-X-Gm-Message-State: ALoCoQlRz3gfUSOioNLRxK4dR7+Z++2J3W1MDFMzV2Sf/PfkY5E5QPrDdqzb2uAwKmdFxjei8LEJ
-X-Received: by 10.66.155.74 with SMTP id vu10mr21437176pab.80.1447674169592;
-	Mon, 16 Nov 2015 03:42:49 -0800 (PST)
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com.
-	[209.85.220.51]) by smtp.gmail.com with ESMTPSA id
-	qn5sm36232601pac.41.2015.11.16.03.42.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Nov 2015 03:42:48 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by pabfh17 with SMTP id fh17so175654287pab.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 03:42:47 -0800 (PST)
+	bh=jdsyzIjwnKDRaVv+HRmSzYeI6pQdGQcUzgRksL84vPM=;
+	b=ObuUHozG6rfhgPs+dZ+JFEDGtpjJ7zT1mrPK4uZKF4H88aUGIkqNOdK0ah+YUWLF8Z
+	Gz9C12zEnoDecdYXcS2rUSE3sJfP81ANAFW7qzkIMXGSa/PkGQfgYKVNatYo/eV7xZhY
+	cLFLF9TD2jxTnfTV/7phdJr0oupwwEddxZsGQ5hYD8wMNXxkXCfkx0H51yPI8x3wjnb/
+	TSsWRc/vFBGqNBQNeLdXMeVFK+jud4UgbMrdkHJGcGu7mrLKhH9PaUiCrrlt6cLXXn9b
+	b1LyeN+yzSHZMMpLVzWY2gm2iVCF91DVbUwbvdK5JgNHlMtT7dylyYmAponJd0West3A
+	v/DQ==
+X-Gm-Message-State: ALoCoQn5ViwwRsycJqlbI3caa88hjbnwHc2agC9zwyDCCfnPajnsbg3hmj3zbsReX8tSY8Gkn0Ak
+X-Received: by 10.107.130.155 with SMTP id m27mr36476353ioi.133.1447682263796; 
+	Mon, 16 Nov 2015 05:57:43 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.68.228.228 with SMTP id sl4mr53270570pbc.51.1447674167499;
-	Mon, 16 Nov 2015 03:42:47 -0800 (PST)
-Received: by 10.66.197.129 with HTTP; Mon, 16 Nov 2015 03:42:47 -0800 (PST)
-In-Reply-To: <564661AB.9040201@mentor.com>
-References: <1447432009-9129-1-git-send-email-otavio@ossystems.com.br>
-	<1447432009-9129-2-git-send-email-otavio@ossystems.com.br>
-	<564661AB.9040201@mentor.com>
-Date: Mon, 16 Nov 2015 09:42:47 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKrR+6G7tCZQNukw11yKGbxhB=FUEe53=n3KGgXUu9s5YQ@mail.gmail.com>
-Message-ID: <CAP9ODKrR+6G7tCZQNukw11yKGbxhB=FUEe53=n3KGgXUu9s5YQ@mail.gmail.com>
-To: Nathan Lynch <Nathan_Lynch@mentor.com>, "Burton,
-	Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] lttng-tools: Upgrade to 2.7 release
+Received: by 10.107.136.141 with HTTP; Mon, 16 Nov 2015 05:57:24 -0800 (PST)
+In-Reply-To: <cover.1447659023.git.wenzong.fan@windriver.com>
+References: <cover.1447659023.git.wenzong.fan@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Nov 2015 13:57:24 +0000
+Message-ID: <CAJTo0Lb_4Cyt+40faL1tddvJv5PDiG4cWcN9bjfGsBRU5yfY6Q@mail.gmail.com>
+To: wenzong fan <wenzong.fan@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] qemu: fix CVE-2015-5225, CVE-2015-6855, CVE-2015-7295
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,26 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 11:42:49 -0000
+X-List-Received-Date: Mon, 16 Nov 2015 13:57:45 -0000
+Content-Type: multipart/alternative; boundary=001a113ecd9414e1f40524a8cb0b
+
+--001a113ecd9414e1f40524a8cb0b
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Nov 13, 2015 at 8:18 PM, Nathan Lynch <Nathan_Lynch@mentor.com> wrote:
-> On 11/13/2015 10:26 AM, Otavio Salvador wrote:
-...
->>  S = "${WORKDIR}/git"
+On 16 November 2015 at 07:32, <wenzong.fan@windriver.com> wrote:
+
+> Wenzong Fan (3):
+>   qemu: fix CVE-2015-5225
+>   qemu: fix CVE-2015-6855
+>   qemu: fix CVE-2015-7295
 >
-> Does this recipe need a PV assignment now?
 
-Agreed; I sent a v2 with this. Thanks for spotting it.
+Master has the 2.4.0.1 upgrade now, can you rebase this series?  At least
+5225 is fixed there already.
 
-> Also consider folding in
-> http://lists.openembedded.org/pipermail/openembedded-core/2015-October/112087.html
+Ross
 
-I think it applies fine, I can add it to the serie if Ross prefer
-though... Ross?
+--001a113ecd9414e1f40524a8cb0b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 November 2015 at 07:32,  <span dir=3D"ltr">&lt;<a href=3D"mailto:wenz=
+ong.fan@windriver.com" target=3D"_blank">wenzong.fan@windriver.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3u5" class=3D"a=
+3s" style=3D"overflow:hidden">Wenzong Fan (3):<br>
+=C2=A0 qemu: fix CVE-2015-5225<br>
+=C2=A0 qemu: fix CVE-2015-6855<br>
+=C2=A0 qemu: fix CVE-2015-7295</div></blockquote><div><br></div><div>Master=
+ has the 2.4.0.1 upgrade now, can you rebase this series?=C2=A0 At least 52=
+25 is fixed there already.</div><div><br></div><div>Ross=C2=A0</div></div><=
+/div></div>
 
+--001a113ecd9414e1f40524a8cb0b--
