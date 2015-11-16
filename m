@@ -1,36 +1,50 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwkm04.jp.fujitsu.com (mgwkm04.jp.fujitsu.com [202.219.69.171])
-	by mail.openembedded.org (Postfix) with ESMTP id D561F76294
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 531B7762B4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 10:37:07 +0000 (UTC)
-Received: from kw-mxoi2.gw.nic.fujitsu.com (unknown [192.168.231.133]) by
-	mgwkm04.jp.fujitsu.com with smtp
-	id 2286_4add_fc6aff9c_c6a0_4e6b_81a4_fff47a61b1ae;
-	Mon, 16 Nov 2015 19:37:03 +0900
-Received: from m3051.s.css.fujitsu.com (m3051.s.css.fujitsu.com
-	[10.134.21.209])
-	by kw-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id C51FBAC01D1
+	Mon, 16 Nov 2015 10:38:11 +0000 (UTC)
+Received: by igvg19 with SMTP id g19so72016306igv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 19:37:02 +0900 (JST)
-Received: from omame (omame.fct.css.fujitsu.com [10.24.14.171])
-	by m3051.s.css.fujitsu.com (Postfix) with ESMTP id 99FB7172;
-	Mon, 16 Nov 2015 19:37:02 +0900 (JST)
-Received: from [10.24.19.99] (fan1.utsfd.cs.fujitsu.co.jp [10.24.19.99])
-	by omame (Postfix) with ESMTPSA id 7F6291E0089;
-	Mon, 16 Nov 2015 19:37:02 +0900 (JST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <563C5648.5050009@jp.fujitsu.com>
-	<CAJTo0LZsG+_bo5=+bYrfP3theSrW-aw2TR4Y-Ax_JVY3YnEKDg@mail.gmail.com>
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-Message-ID: <5649B202.1060301@jp.fujitsu.com>
-Date: Mon, 16 Nov 2015 19:37:54 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
+	Mon, 16 Nov 2015 02:38:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=Lp1Mce3ozXZhS8Zhq3/LJXSkocvrH0sd3UVevNIAcwQ=;
+	b=QBqW58ai9SDk6RU63dqKCAAWAYUXCoeHexDRZuKXJavOG2c/sYxhTw+lIqDlvnfzoI
+	ejTi8AGyL4/CKrEFor6TWcRuf/buJk1ABqKssUlOfvTvh6rn9oa7rd3c+raeHh8xoH+y
+	oORirDK03slCAvbB4l8co3LcJXafgw5cY0wtrS6zjUZ22kZnNuzxnSrpmeWprdKk6FB2
+	0Xfd0xhZLE155sLfnSw3/G1fkIaNe4YYKcv1zga49HuNpnDhVar62aUhH5LoA2OG6vWg
+	cVKxTAac2Cfacxdcu1XE0Of/lU0ysm4bwGA5BMkMQl0OmDOYzQ4fuw/R4dDY+eTO6mrm
+	to9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Lp1Mce3ozXZhS8Zhq3/LJXSkocvrH0sd3UVevNIAcwQ=;
+	b=C/Zmn5tW+lTvW9AKxgxEK9cNTFMX/tb9Hjuv+PctDvQY8FwY5bCK3A5LZrl0UBtkzW
+	VNInHm2Pfggk7R2uyvlNnLUTnY1rrRGW2Yui+QvjCLEzOGA+rB50955jmg3sqDHhTB33
+	OWrgU6ulLUifQo2uHGqav8KOu6CJO1/JAtMf3po4WX0dOFiBiVAa4lUBhsM+FDJAe0yY
+	eeI1GjEc09ukTQ6ggLQrtOdWU1cOEY8WqbwMAxOWELr2M4YOQ8l7DQw0/55gXx5i2QRm
+	lm5CRE2DxEduYcgATmhpsFjz3lowmyAhbuUYn9adnErO1OUdFThW7XyP/8chaX0uiEqh
+	emuA==
+X-Gm-Message-State: ALoCoQlyjWpnRRSUqv0c5yXkIMrTrc5ywNHfednybCopnnBVWrf7U9+4Nq+J4TY61px+amq9V55Z
+X-Received: by 10.50.79.129 with SMTP id j1mr14632402igx.52.1447670291098;
+	Mon, 16 Nov 2015 02:38:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZsG+_bo5=+bYrfP3theSrW-aw2TR4Y-Ax_JVY3YnEKDg@mail.gmail.com>
-X-TM-AS-MML: disable
+Received: by 10.107.136.141 with HTTP; Mon, 16 Nov 2015 02:37:51 -0800 (PST)
+In-Reply-To: <20151112185907.GL2574@jama>
+References: <58488.10.252.13.130.1447346734.squirrel@linux.intel.com>
+	<20151112171915.GK2574@jama>
+	<58904.10.252.13.130.1447349938.squirrel@linux.intel.com>
+	<20151112185907.GL2574@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Nov 2015 10:37:51 +0000
+Message-ID: <CAJTo0LbxLwz7ijSoAmbj6ij51cGynk9Omf=M+QvbPQ7ahmo2Mg@mail.gmail.com>
+To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] wpa-supplicant: upgrade to 2.5
+Subject: Re: [oe] qt4 moves out of oe-core - to meta-qt4, or to meta-oe?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,647 +57,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 10:37:09 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 16 Nov 2015 10:38:12 -0000
+Content-Type: multipart/alternative; boundary=089e011609fc740d670524a601f0
 
-wpa-supplicant: upgrade to 2.5
+--089e011609fc740d670524a601f0
+Content-Type: text/plain; charset=UTF-8
 
-1. upgrade to 2.5
-2. remove eight patches since they have been applied in 2.5
-3. update SRC_URI, HOMEPAGE and BUGTRACKER to use w1.fi instead
+On 12 November 2015 at 18:59, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-Signed-off-by: Fan Xin <fan.xin at jp.fujitsu.com>
----
-...integer-underflow-in-WMM-Action-frame-par.patch | 45 -------------
-...r-Fix-payload-length-validation-for-Commi.patch | 77 
-----------------------
-...e-SSID-element-length-before-copying-it-C.patch | 47 -------------
-...Fix-HTTP-chunked-transfer-encoding-parser.patch | 53 ---------------
-...ver-Fix-payload-length-validation-for-Com.patch | 70 --------------------
-...r-Fix-Total-Length-parsing-for-fragment-r.patch | 56 ----------------
-...ver-Fix-Total-Length-parsing-for-fragment.patch | 54 ---------------
-...eer-Fix-asymmetric-fragmentation-behavior.patch | 36 ----------
-...wpa-supplicant_2.4.bb => wpa-supplicant_2.5.bb} | 20 ++----
-9 files changed, 6 insertions(+), 452 deletions(-)
-delete mode 100644 
-meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
-delete mode 100644 
-meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-EAP-pwd-peer-Fix-payload-length-validation-for-Commi.patch
-delete mode 100644 
-meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-P2P-Validate-SSID-element-length-before-copying-it-C.patch
-delete mode 100644 
-meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-Fix-HTTP-chunked-transfer-encoding-parser.patch
-delete mode 100644 
-meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-EAP-pwd-server-Fix-payload-length-validation-for-Com.patch
-delete mode 100644 
-meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-EAP-pwd-peer-Fix-Total-Length-parsing-for-fragment-r.patch
-delete mode 100644 
-meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0004-EAP-pwd-server-Fix-Total-Length-parsing-for-fragment.patch
-delete mode 100644 
-meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0005-EAP-pwd-peer-Fix-asymmetric-fragmentation-behavior.patch
-rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant_2.4.bb 
-=> wpa-supplicant_2.5.bb} (77%)
-
-diff --git 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch 
-b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
-deleted file mode 100644
-index 882674f..0000000
---- 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--Upstream-Status: Backport
--
--Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
--
--From ef566a4d4f74022e1fdb0a2addfe81e6de9f4aae Mon Sep 17 00:00:00 2001
--From: Jouni Malinen <j@w1.fi>
--Date: Wed, 29 Apr 2015 02:21:53 +0300
--Subject: [PATCH] AP WMM: Fix integer underflow in WMM Action frame parser
--
--The length of the WMM Action frame was not properly validated and the
--length of the information elements (int left) could end up being
--negative. This would result in reading significantly past the stack
--buffer while parsing the IEs in ieee802_11_parse_elems() and while doing
--so, resulting in segmentation fault.
--
--This can result in an invalid frame being used for a denial of service
--attack (hostapd process killed) against an AP with a driver that uses
--hostapd for management frame processing (e.g., all mac80211-based
--drivers).
--
--Thanks to Kostya Kortchinsky of Google security team for discovering and
--reporting this issue.
--
--Signed-off-by: Jouni Malinen <j@w1.fi>
-----
-- src/ap/wmm.c | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/src/ap/wmm.c b/src/ap/wmm.c
--index 6d4177c..314e244 100644
----- a/src/ap/wmm.c
--+++ b/src/ap/wmm.c
--@@ -274,6 +274,9 @@ void hostapd_wmm_action(struct hostapd_data *hapd,
-- return;
-- }
--
--+ if (left < 0)
--+ return; /* not a valid WMM Action frame */
--+
-- /* extract the tspec info element */
-- if (ieee802_11_parse_elems(pos, left, &elems, 1) == ParseFailed) {
-- hostapd_logger(hapd, mgmt->sa, HOSTAPD_MODULE_IEEE80211,
----
--1.9.1
--
-diff --git 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-EAP-pwd-peer-Fix-payload-length-validation-for-Commi.patch 
-b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-EAP-pwd-peer-Fix-payload-length-validation-for-Commi.patch
-deleted file mode 100644
-index a2bafc8..0000000
---- 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-EAP-pwd-peer-Fix-payload-length-validation-for-Commi.patch
-+++ /dev/null
-@@ -1,77 +0,0 @@
--Upstream-Status: Backport
--
--Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
--
--From dd2f043c9c43d156494e33d7ce22db96e6ef42c7 Mon Sep 17 00:00:00 2001
--From: Jouni Malinen <j@w1.fi>
--Date: Fri, 1 May 2015 16:37:45 +0300
--Subject: [PATCH 1/5] EAP-pwd peer: Fix payload length validation for Commit
-- and Confirm
--
--The length of the received Commit and Confirm message payloads was not
--checked before reading them. This could result in a buffer read
--overflow when processing an invalid message.
--
--Fix this by verifying that the payload is of expected length before
--processing it. In addition, enforce correct state transition sequence to
--make sure there is no unexpected behavior if receiving a Commit/Confirm
--message before the previous exchanges have been completed.
--
--Thanks to Kostya Kortchinsky of Google security team for discovering and
--reporting this issue.
--
--Signed-off-by: Jouni Malinen <j@w1.fi>
-----
-- src/eap_peer/eap_pwd.c | 29 +++++++++++++++++++++++++++++
-- 1 file changed, 29 insertions(+)
--
--diff --git a/src/eap_peer/eap_pwd.c b/src/eap_peer/eap_pwd.c
--index f2b0926..a629437 100644
----- a/src/eap_peer/eap_pwd.c
--+++ b/src/eap_peer/eap_pwd.c
--@@ -355,6 +355,23 @@ eap_pwd_perform_commit_exchange(struct eap_sm *sm, 
-struct eap_pwd_data *data,
-- BIGNUM *mask = NULL, *x = NULL, *y = NULL, *cofactor = NULL;
-- u16 offset;
-- u8 *ptr, *scalar = NULL, *element = NULL;
--+ size_t prime_len, order_len;
--+
--+ if (data->state != PWD_Commit_Req) {
--+ ret->ignore = TRUE;
--+ goto fin;
--+ }
--+
--+ prime_len = BN_num_bytes(data->grp->prime);
--+ order_len = BN_num_bytes(data->grp->order);
--+
--+ if (payload_len != 2 * prime_len + order_len) {
--+ wpa_printf(MSG_INFO,
--+ "EAP-pwd: Unexpected Commit payload length %u (expected %u)",
--+ (unsigned int) payload_len,
--+ (unsigned int) (2 * prime_len + order_len));
--+ goto fin;
--+ }
--
-- if (((data->private_value = BN_new()) == NULL) ||
-- ((data->my_element = EC_POINT_new(data->grp->group)) == NULL) ||
--@@ -554,6 +571,18 @@ eap_pwd_perform_confirm_exchange(struct eap_sm 
-*sm, struct eap_pwd_data *data,
-- u8 conf[SHA256_MAC_LEN], *cruft = NULL, *ptr;
-- int offset;
--
--+ if (data->state != PWD_Confirm_Req) {
--+ ret->ignore = TRUE;
--+ goto fin;
--+ }
--+
--+ if (payload_len != SHA256_MAC_LEN) {
--+ wpa_printf(MSG_INFO,
--+ "EAP-pwd: Unexpected Confirm payload length %u (expected %u)",
--+ (unsigned int) payload_len, SHA256_MAC_LEN);
--+ goto fin;
--+ }
--+
-- /*
-- * first build up the ciphersuite which is group | random_function |
-- * prf
----
--1.9.1
--
-diff --git 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-P2P-Validate-SSID-element-length-before-copying-it-C.patch 
-b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-P2P-Validate-SSID-element-length-before-copying-it-C.patch
-deleted file mode 100644
-index e108a93..0000000
---- 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-P2P-Validate-SSID-element-length-before-copying-it-C.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From 9ed4eee345f85e3025c33c6e20aa25696e341ccd Mon Sep 17 00:00:00 2001
--From: Jouni Malinen <jouni@qca.qualcomm.com>
--Date: Tue, 7 Apr 2015 11:32:11 +0300
--Subject: [PATCH] P2P: Validate SSID element length before copying it
-- (CVE-2015-1863)
--
--This fixes a possible memcpy overflow for P2P dev->oper_ssid in
--p2p_add_device(). The length provided by the peer device (0..255 bytes)
--was used without proper bounds checking and that could have resulted in
--arbitrary data of up to 223 bytes being written beyond the end of the
--dev->oper_ssid[] array (of which about 150 bytes would be beyond the
--heap allocation) when processing a corrupted management frame for P2P
--peer discovery purposes.
--
--This could result in corrupted state in heap, unexpected program
--behavior due to corrupted P2P peer device information, denial of service
--due to process crash, exposure of memory contents during GO Negotiation,
--and potentially arbitrary code execution.
--
--Thanks to Google security team for reporting this issue and smart
--hardware research group of Alibaba security team for discovering it.
--
--Signed-off-by: Jouni Malinen <jouni@qca.qualcomm.com>
--
--Upstream-Status: Backport
--
--Signed-off-by: Yue Tao <yue.tao@windriver.com>
--
-----
-- src/p2p/p2p.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/p2p/p2p.c b/src/p2p/p2p.c
--index f584fae..a45fe73 100644
----- a/src/p2p/p2p.c
--+++ b/src/p2p/p2p.c
--@@ -778,6 +778,7 @@ int p2p_add_device(struct p2p_data *p2p, const u8 
-*addr, int freq,
-- if (os_memcmp(addr, p2p_dev_addr, ETH_ALEN) != 0)
-- os_memcpy(dev->interface_addr, addr, ETH_ALEN);
-- if (msg.ssid &&
--+ msg.ssid[1] <= sizeof(dev->oper_ssid) &&
-- (msg.ssid[1] != P2P_WILDCARD_SSID_LEN ||
-- os_memcmp(msg.ssid + 2, P2P_WILDCARD_SSID, P2P_WILDCARD_SSID_LEN)
-- != 0)) {
----
--1.7.9.5
--
-diff --git 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-Fix-HTTP-chunked-transfer-encoding-parser.patch 
-b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-Fix-HTTP-chunked-transfer-encoding-parser.patch
-deleted file mode 100644
-index 2568ea1..0000000
---- 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-WPS-Fix-HTTP-chunked-transfer-encoding-parser.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--Upstream-Status: Backport
--
--Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
--
--From 5acd23f4581da58683f3cf5e36cb71bbe4070bd7 Mon Sep 17 00:00:00 2001
--From: Jouni Malinen <j@w1.fi>
--Date: Tue, 28 Apr 2015 17:08:33 +0300
--Subject: [PATCH] WPS: Fix HTTP chunked transfer encoding parser
--
--strtoul() return value may end up overflowing the int h->chunk_size and
--resulting in a negative value to be stored as the chunk_size. This could
--result in the following memcpy operation using a very large length
--argument which would result in a buffer overflow and segmentation fault.
--
--This could have been used to cause a denial service by any device that
--has been authorized for network access (either wireless or wired). This
--would affect both the WPS UPnP functionality in a WPS AP (hostapd with
--upnp_iface parameter set in the configuration) and WPS ER
--(wpa_supplicant with WPS_ER_START control interface command used).
--
--Validate the parsed chunk length value to avoid this. In addition to
--rejecting negative values, we can also reject chunk size that would be
--larger than the maximum configured body length.
--
--Thanks to Kostya Kortchinsky of Google security team for discovering and
--reporting this issue.
--
--Signed-off-by: Jouni Malinen <j@w1.fi>
-----
-- src/wps/httpread.c | 7 +++++++
-- 1 file changed, 7 insertions(+)
--
--diff --git a/src/wps/httpread.c b/src/wps/httpread.c
--index 2f08f37..d2855e3 100644
----- a/src/wps/httpread.c
--+++ b/src/wps/httpread.c
--@@ -533,6 +533,13 @@ static void httpread_read_handler(int sd, void 
-*eloop_ctx, void *sock_ctx)
-- if (!isxdigit(*cbp))
-- goto bad;
-- h->chunk_size = strtoul(cbp, NULL, 16);
--+ if (h->chunk_size < 0 ||
--+ h->chunk_size > h->max_bytes) {
--+ wpa_printf(MSG_DEBUG,
--+ "httpread: Invalid chunk size %d",
--+ h->chunk_size);
--+ goto bad;
--+ }
-- /* throw away chunk header
-- * so we have only real data
-- */
----
--1.9.1
--
-diff --git 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-EAP-pwd-server-Fix-payload-length-validation-for-Com.patch 
-b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-EAP-pwd-server-Fix-payload-length-validation-for-Com.patch
-deleted file mode 100644
-index c477c2f..0000000
---- 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-EAP-pwd-server-Fix-payload-length-validation-for-Com.patch
-+++ /dev/null
-@@ -1,70 +0,0 @@
--Upstream-Status: Backport
--
--Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
--
--From e28a58be26184c2a23f80b410e0997ef1bd5d578 Mon Sep 17 00:00:00 2001
--From: Jouni Malinen <j@w1.fi>
--Date: Fri, 1 May 2015 16:40:44 +0300
--Subject: [PATCH 2/5] EAP-pwd server: Fix payload length validation for 
-Commit
-- and Confirm
--
--The length of the received Commit and Confirm message payloads was not
--checked before reading them. This could result in a buffer read
--overflow when processing an invalid message.
--
--Fix this by verifying that the payload is of expected length before
--processing it. In addition, enforce correct state transition sequence to
--make sure there is no unexpected behavior if receiving a Commit/Confirm
--message before the previous exchanges have been completed.
--
--Thanks to Kostya Kortchinsky of Google security team for discovering and
--reporting this issue.
--
--Signed-off-by: Jouni Malinen <j@w1.fi>
-----
-- src/eap_server/eap_server_pwd.c | 19 +++++++++++++++++++
-- 1 file changed, 19 insertions(+)
--
--diff --git a/src/eap_server/eap_server_pwd.c 
-b/src/eap_server/eap_server_pwd.c
--index 66bd5d2..3189105 100644
----- a/src/eap_server/eap_server_pwd.c
--+++ b/src/eap_server/eap_server_pwd.c
--@@ -656,9 +656,21 @@ eap_pwd_process_commit_resp(struct eap_sm *sm, 
-struct eap_pwd_data *data,
-- BIGNUM *x = NULL, *y = NULL, *cofactor = NULL;
-- EC_POINT *K = NULL, *point = NULL;
-- int res = 0;
--+ size_t prime_len, order_len;
--
-- wpa_printf(MSG_DEBUG, "EAP-pwd: Received commit response");
--
--+ prime_len = BN_num_bytes(data->grp->prime);
--+ order_len = BN_num_bytes(data->grp->order);
--+
--+ if (payload_len != 2 * prime_len + order_len) {
--+ wpa_printf(MSG_INFO,
--+ "EAP-pwd: Unexpected Commit payload length %u (expected %u)",
--+ (unsigned int) payload_len,
--+ (unsigned int) (2 * prime_len + order_len));
--+ goto fin;
--+ }
--+
-- if (((data->peer_scalar = BN_new()) == NULL) ||
-- ((data->k = BN_new()) == NULL) ||
-- ((cofactor = BN_new()) == NULL) ||
--@@ -774,6 +786,13 @@ eap_pwd_process_confirm_resp(struct eap_sm *sm, 
-struct eap_pwd_data *data,
-- u8 conf[SHA256_MAC_LEN], *cruft = NULL, *ptr;
-- int offset;
--
--+ if (payload_len != SHA256_MAC_LEN) {
--+ wpa_printf(MSG_INFO,
--+ "EAP-pwd: Unexpected Confirm payload length %u (expected %u)",
--+ (unsigned int) payload_len, SHA256_MAC_LEN);
--+ goto fin;
--+ }
--+
-- /* build up the ciphersuite: group | random_function | prf */
-- grp = htons(data->group_num);
-- ptr = (u8 *) &cs;
----
--1.9.1
--
-diff --git 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-EAP-pwd-peer-Fix-Total-Length-parsing-for-fragment-r.patch 
-b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-EAP-pwd-peer-Fix-Total-Length-parsing-for-fragment-r.patch
-deleted file mode 100644
-index e46ce43..0000000
---- 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-EAP-pwd-peer-Fix-Total-Length-parsing-for-fragment-r.patch
-+++ /dev/null
-@@ -1,56 +0,0 @@
--Upstream-Status: Backport
--
--Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
--
--From 477c74395acd0123340457ba6f15ab345d42016e Mon Sep 17 00:00:00 2001
--From: Jouni Malinen <j@w1.fi>
--Date: Sat, 2 May 2015 19:23:04 +0300
--Subject: [PATCH 3/5] EAP-pwd peer: Fix Total-Length parsing for fragment
-- reassembly
--
--The remaining number of bytes in the message could be smaller than the
--Total-Length field size, so the length needs to be explicitly checked
--prior to reading the field and decrementing the len variable. This could
--have resulted in the remaining length becoming negative and interpreted
--as a huge positive integer.
--
--In addition, check that there is no already started fragment in progress
--before allocating a new buffer for reassembling fragments. This avoid a
--potential memory leak when processing invalid message.
--
--Signed-off-by: Jouni Malinen <j@w1.fi>
-----
-- src/eap_peer/eap_pwd.c | 12 ++++++++++++
-- 1 file changed, 12 insertions(+)
--
--diff --git a/src/eap_peer/eap_pwd.c b/src/eap_peer/eap_pwd.c
--index a629437..1d2079b 100644
----- a/src/eap_peer/eap_pwd.c
--+++ b/src/eap_peer/eap_pwd.c
--@@ -866,11 +866,23 @@ eap_pwd_process(struct eap_sm *sm, void *priv, 
-struct eap_method_ret *ret,
-- * if it's the first fragment there'll be a length field
-- */
-- if (EAP_PWD_GET_LENGTH_BIT(lm_exch)) {
--+ if (len < 2) {
--+ wpa_printf(MSG_DEBUG,
--+ "EAP-pwd: Frame too short to contain Total-Length field");
--+ ret->ignore = TRUE;
--+ return NULL;
--+ }
-- tot_len = WPA_GET_BE16(pos);
-- wpa_printf(MSG_DEBUG, "EAP-pwd: Incoming fragments whose "
-- "total length = %d", tot_len);
-- if (tot_len > 15000)
-- return NULL;
--+ if (data->inbuf) {
--+ wpa_printf(MSG_DEBUG,
--+ "EAP-pwd: Unexpected new fragment start when previous fragment is 
-still in use");
--+ ret->ignore = TRUE;
--+ return NULL;
--+ }
-- data->inbuf = wpabuf_alloc(tot_len);
-- if (data->inbuf == NULL) {
-- wpa_printf(MSG_INFO, "Out of memory to buffer "
----
--1.9.1
--
-diff --git 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0004-EAP-pwd-server-Fix-Total-Length-parsing-for-fragment.patch 
-b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0004-EAP-pwd-server-Fix-Total-Length-parsing-for-fragment.patch
-deleted file mode 100644
-index a4c02b4..0000000
---- 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0004-EAP-pwd-server-Fix-Total-Length-parsing-for-fragment.patch
-+++ /dev/null
-@@ -1,54 +0,0 @@
--Upstream-Status: Backport
--
--Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
--
--From 3035cc2894e08319b905bd6561e8bddc8c2db9fa Mon Sep 17 00:00:00 2001
--From: Jouni Malinen <j@w1.fi>
--Date: Sat, 2 May 2015 19:26:06 +0300
--Subject: [PATCH 4/5] EAP-pwd server: Fix Total-Length parsing for fragment
-- reassembly
--
--The remaining number of bytes in the message could be smaller than the
--Total-Length field size, so the length needs to be explicitly checked
--prior to reading the field and decrementing the len variable. This could
--have resulted in the remaining length becoming negative and interpreted
--as a huge positive integer.
--
--In addition, check that there is no already started fragment in progress
--before allocating a new buffer for reassembling fragments. This avoid a
--potential memory leak when processing invalid message.
--
--Signed-off-by: Jouni Malinen <j@w1.fi>
-----
-- src/eap_server/eap_server_pwd.c | 10 ++++++++++
-- 1 file changed, 10 insertions(+)
--
--diff --git a/src/eap_server/eap_server_pwd.c 
-b/src/eap_server/eap_server_pwd.c
--index 3189105..2bfc3c2 100644
----- a/src/eap_server/eap_server_pwd.c
--+++ b/src/eap_server/eap_server_pwd.c
--@@ -942,11 +942,21 @@ static void eap_pwd_process(struct eap_sm *sm, 
-void *priv,
-- * the first fragment has a total length
-- */
-- if (EAP_PWD_GET_LENGTH_BIT(lm_exch)) {
--+ if (len < 2) {
--+ wpa_printf(MSG_DEBUG,
--+ "EAP-pwd: Frame too short to contain Total-Length field");
--+ return;
--+ }
-- tot_len = WPA_GET_BE16(pos);
-- wpa_printf(MSG_DEBUG, "EAP-pwd: Incoming fragments, total "
-- "length = %d", tot_len);
-- if (tot_len > 15000)
-- return;
--+ if (data->inbuf) {
--+ wpa_printf(MSG_DEBUG,
--+ "EAP-pwd: Unexpected new fragment start when previous fragment is 
-still in use");
--+ return;
--+ }
-- data->inbuf = wpabuf_alloc(tot_len);
-- if (data->inbuf == NULL) {
-- wpa_printf(MSG_INFO, "EAP-pwd: Out of memory to "
----
--1.9.1
--
-diff --git 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0005-EAP-pwd-peer-Fix-asymmetric-fragmentation-behavior.patch 
-b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0005-EAP-pwd-peer-Fix-asymmetric-fragmentation-behavior.patch
-deleted file mode 100644
-index 4073600..0000000
---- 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0005-EAP-pwd-peer-Fix-asymmetric-fragmentation-behavior.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--Upstream-Status: Backport
--
--Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
--
--From 28a069a545b06b99eb55ad53f63f2c99e65a98f6 Mon Sep 17 00:00:00 2001
--From: Jouni Malinen <j@w1.fi>
--Date: Sat, 2 May 2015 19:26:28 +0300
--Subject: [PATCH 5/5] EAP-pwd peer: Fix asymmetric fragmentation behavior
--
--The L (Length) and M (More) flags needs to be cleared before deciding
--whether the locally generated response requires fragmentation. This
--fixes an issue where these flags from the server could have been invalid
--for the following message. In some cases, this could have resulted in
--triggering the wpabuf security check that would terminate the process
--due to invalid buffer allocation.
--
--Signed-off-by: Jouni Malinen <j@w1.fi>
-----
-- src/eap_peer/eap_pwd.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/eap_peer/eap_pwd.c b/src/eap_peer/eap_pwd.c
--index 1d2079b..e58b13a 100644
----- a/src/eap_peer/eap_pwd.c
--+++ b/src/eap_peer/eap_pwd.c
--@@ -968,6 +968,7 @@ eap_pwd_process(struct eap_sm *sm, void *priv, 
-struct eap_method_ret *ret,
-- /*
-- * we have output! Do we need to fragment it?
-- */
--+ lm_exch = EAP_PWD_GET_EXCHANGE(lm_exch);
-- len = wpabuf_len(data->outbuf);
-- if ((len + EAP_PWD_HDR_SIZE) > data->mtu) {
-- resp = eap_msg_alloc(EAP_VENDOR_IETF, EAP_TYPE_PWD, data->mtu,
----
--1.9.1
--
-diff --git 
-a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb 
-b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
-similarity index 77%
-rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
-rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
-index a124cf2..2126377 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
-@@ -1,11 +1,11 @@
-SUMMARY = "Client for Wi-Fi Protected Access (WPA)"
--HOMEPAGE = "http://hostap.epitest.fi/wpa_supplicant/"
--BUGTRACKER = "http://hostap.epitest.fi/bugz/"
-+HOMEPAGE = "http://w1.fi/wpa_supplicant/"
-+BUGTRACKER = "http://w1.fi/security/"
-SECTION = "network"
-LICENSE = "BSD"
-LIC_FILES_CHKSUM = "file://COPYING;md5=36b27801447e0662ee0138d17fe93880 \
-file://README;beginline=1;endline=56;md5=7f393579f8b109fe91f3b9765d26c7d3 \
-- 
-file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=3430fda79f2ba1dd545f0b3c4d6e4d24 
-"
-+ 
-file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=3430fda79f2ba1dd545f0b3c4d6e4d24"
-DEPENDS = "dbus libnl libgcrypt"
-RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
-
-@@ -18,23 +18,15 @@ inherit systemd
-SYSTEMD_SERVICE_${PN} = "wpa_supplicant.service 
-wpa_supplicant-nl80211@.service wpa_supplicant-wired@.service"
-SYSTEMD_AUTO_ENABLE = "disable"
-
--SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
-+SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz \
-file://defconfig \
-file://wpa-supplicant.sh \
-file://wpa_supplicant.conf \
-file://wpa_supplicant.conf-sane \
-file://99_wpa_supplicant \
-- file://0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch \
-- file://0001-P2P-Validate-SSID-element-length-before-copying-it-C.patch \
-- file://0001-WPS-Fix-HTTP-chunked-transfer-encoding-parser.patch \
-- file://0001-EAP-pwd-peer-Fix-payload-length-validation-for-Commi.patch \
-- file://0002-EAP-pwd-server-Fix-payload-length-validation-for-Com.patch \
-- file://0003-EAP-pwd-peer-Fix-Total-Length-parsing-for-fragment-r.patch \
-- file://0004-EAP-pwd-server-Fix-Total-Length-parsing-for-fragment.patch \
-- file://0005-EAP-pwd-peer-Fix-asymmetric-fragmentation-behavior.patch \
-"
--SRC_URI[md5sum] = "f0037dbe03897dcaf2ad2722e659095d"
--SRC_URI[sha256sum] = 
-"058dc832c096139a059e6df814080f50251a8d313c21b13364c54a1e70109122"
-+SRC_URI[md5sum] = "96ff75c3a514f1f324560a2376f13110"
-+SRC_URI[sha256sum] = 
-"cce55bae483b364eae55c35ba567c279be442ed8bab5b80a3c7fb0d057b9b316"
-
-S = "${WORKDIR}/wpa_supplicant-${PV}"
-
--- 
-1.8.4.2
-
-
-On 2015年11月12日 03:44, Burton, Ross wrote:
+> > > There is already enough meta-oe bloat moved from oe-core:
+> > >
+> > >
+> http://lists.openembedded.org/pipermail/openembedded-core/2015-November/112665.html
+> > >
+> > > WARN: qt-mobility-embedded: qt-mobility-embedded rdepends on glib-2.0,
+> but
+> > > it isn't a build dependency?
+> >
+> > If increasing bloat is a problem, why do recipes in meta-oe need to be
+> > maintained indefinitely? Old cruft can be dropped from meta-oe, just as
+> it
+> > is dropped from oe-core. Just ask the public if it's ok, set a timeframe,
+> > and do it.
+> >
+> > qt-mobility in particular has been dead for several years, and doesn't
+> > even have official upstream tarballs anymore. Why spend time fixing it?
 >
-> On 6 November 2015 at 07:27, Fan Xin <fan.xin@jp.fujitsu.com
-> <mailto:fan.xin@jp.fujitsu.com>> wrote:
+> That's why there is increasing number of PNBLACKLISTs with each release.
 >
->     1. upgrade to 2.5
->     2. remove eight patches since they have been modified in 2.5
->
->
-> Did you verify that the patches are not required anymore, or did you
-> just drop the patches that don't apply?
->
-> Also, this patch doesn't apply, can you try re-sending it?
->
-> Ross
 
+The recipes were removed from oe-core as they're dead upstream, and
+basically as a courtesy moved to meta-oe so anyone still using dead
+software can still build it.  If they're just bitrotting and literally
+nobody is using the recipes then they should be removed: meta-oe isn't a
+historical archive that you're expected to maintain for the next decade.
 
+Ross
+
+--089e011609fc740d670524a601f0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 November 2015 at 18:59, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt;=
+ &gt; There is already enough meta-oe bloat moved from oe-core:<br>
+&gt; &gt;<br>
+&gt; &gt; <a href=3D"http://lists.openembedded.org/pipermail/openembedded-c=
+ore/2015-November/112665.html" rel=3D"noreferrer" target=3D"_blank">http://=
+lists.openembedded.org/pipermail/openembedded-core/2015-November/112665.htm=
+l</a><br>
+&gt; &gt;<br>
+&gt; &gt; WARN: qt-mobility-embedded: qt-mobility-embedded rdepends on glib=
+-2.0, but<br>
+&gt; &gt; it isn&#39;t a build dependency?<br>
+&gt;<br>
+&gt; If increasing bloat is a problem, why do recipes in meta-oe need to be=
+<br>
+&gt; maintained indefinitely? Old cruft can be dropped from meta-oe, just a=
+s it<br>
+&gt; is dropped from oe-core. Just ask the public if it&#39;s ok, set a tim=
+eframe,<br>
+&gt; and do it.<br>
+&gt;<br>
+&gt; qt-mobility in particular has been dead for several years, and doesn&#=
+39;t<br>
+&gt; even have official upstream tarballs anymore. Why spend time fixing it=
+?<br>
+<br>
+</span>That&#39;s why there is increasing number of PNBLACKLISTs with each =
+release.<br>
+<div class=3D"HOEnZb"></div></blockquote></div><br>The recipes were removed=
+ from oe-core as they&#39;re dead upstream, and basically as a courtesy mov=
+ed to meta-oe so anyone still using dead software can still build it.=C2=A0=
+ If they&#39;re just bitrotting and literally nobody is using the recipes t=
+hen they should be removed: meta-oe isn&#39;t a historical archive that you=
+&#39;re expected to maintain for the next decade.</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--089e011609fc740d670524a601f0--
