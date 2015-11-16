@@ -1,48 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E1E76E268
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F69D6E268
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 21:06:28 +0000 (UTC)
-Received: by igl9 with SMTP id 9so66201091igl.0
+	Mon, 16 Nov 2015 21:52:21 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so139054072wmw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 13:06:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=XzEqf5iNfSWbZpSr/LPvmLZXL+i+eRysh6MSIgcJ52o=;
-	b=VnfDNbmhWq9gnP+uxCThsFboDIP0Dyeu9/nKJaDNbRZA72E+hfhp9WecNVFKql3LMb
-	lTLoEeHDOHS52jL/M6OXA4oFknaefgf6MzvW2F4NfhQ6lf/dLxGPCva6ZrB5tYxtoxbK
-	H40KLmKZIrWWwWaGz2GkPF6PAVh5AsHOjMEcBGNtVEpgZfEV4zGzUmAah+eTi/Pb6GJ6
-	ZWtcSFfFlRBwsENV+LM35I0rptOXVF1nW5VHkUcU12F0pfYBm98ZEvOiPX/i0FTu+pyf
-	4kHyxyDdOeloZXW7n7Y16frynSOFvTr9+cLbxelIKvVa5MnmLTbrQSPXcpqi9Sfi6Tb2
-	dvVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=XzEqf5iNfSWbZpSr/LPvmLZXL+i+eRysh6MSIgcJ52o=;
-	b=l7ICQcuZE0UfJXPSp29c3pF2aJSUrx/zy7+F1EDgswPHWZR5QmJtafmQDjXLKy3Nab
-	glsqGB9bTnm5+pwra8kny46euLIC1f5rpOfu34m/UIEBIuDj5q+5zUmT7citI1qfXaqU
-	WXlWSFwKGJCpFj34Z/rTLJk8tQeiOOpHNnVaImorMqF0LteEeDf79RPoyoox67X8TuSk
-	7Y/Fk/5RgOF7KRScPabdD48SXvM8cq8cR0DHoe+Lrm/j4Jk4kn/gUUXSxw7hOYL5CoUP
-	RNooGcG8IOtHpspjnlnr6Ry0cOw404J6MNORpeaLMk24ZMCny3E0jjGdVzV0ZqWYtbIc
-	1Sww==
-X-Gm-Message-State: ALoCoQmSRXReOQAAqMQzj79iSYlc/mI05+B9mTJMeYIVaKHyS/hhuBfoRNpA+09xZUsKYeHCdqwv
-X-Received: by 10.50.30.69 with SMTP id q5mr7015122igh.78.1447707988645; Mon,
-	16 Nov 2015 13:06:28 -0800 (PST)
+	Mon, 16 Nov 2015 13:52:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=0JNMdsIFZ/OGBdBTHqwrQx/E9tp3MsD84JEOMD2Bqrs=;
+	b=t2hlwCDXvrEBJHPVpLp7v0vwqT0Tf6BMUt7Tdcg8cPXaaoCmwoc4GOg2egJhTT/oF+
+	3mdmSzHmZlof3cErKlPcl/eLRrffPv0Ffy4ks59wd0EBWCUhACs5mpHC8lkkNZUCqwpp
+	5yJvuoZws6mCB5ykRtizRccfoDXmSR63LQ+O7ElwIUl7V4P+nDl94HyCVRbi9/q3QLpR
+	UBBwhKXQvCULuoDshRmkQUnlQpzhtfZFekqvEL0TBmzlyVSZiXgjJc5E6jgG/cuaLSOM
+	Nx1FGJ368rdZDzC9jDwhQaxCodw1OS6CHUhIOwp/EuHUWAajR39lQ/JrA83WvyhL+Xc3
+	D2kQ==
+X-Received: by 10.28.7.138 with SMTP id 132mr7576918wmh.100.1447710741683;
+	Mon, 16 Nov 2015 13:52:21 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	q1sm36531653wjy.31.2015.11.16.13.52.19
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 16 Nov 2015 13:52:20 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 16 Nov 2015 21:52:35 +0100
+To: Michael Halstead <michael@yoctoproject.org>
+Message-ID: <20151116205235.GB2240@jama>
+References: <56451D46.50707@gmail.com> <20151113115958.GD2567@jama>
+	<056F5AC5-DD52-4BF7-B88D-4312C40DFA2A@gmail.com>
+	<564658A0.60609@yoctoproject.org>
+	<DC4D8315-D63D-495C-B3AF-2932584B319C@gmail.com>
+	<564659EF.8070606@yoctoproject.org>
+	<447B01D9-C528-4B24-9B45-812CA1C6685D@gmail.com>
+	<56465E1B.8040900@yoctoproject.org>
 MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Mon, 16 Nov 2015 13:06:09 -0800 (PST)
-In-Reply-To: <662f06a28213cfec134998e6acfc12112ac02866.1447072488.git.jussi.kukkonen@intel.com>
-References: <cover.1447072488.git.jussi.kukkonen@intel.com>
-	<662f06a28213cfec134998e6acfc12112ac02866.1447072488.git.jussi.kukkonen@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Nov 2015 21:06:09 +0000
-Message-ID: <CAJTo0Lb5_hSeiC7GOwKL=4geSwEwbRFcOfiydRDsL61ysPaE7A@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 2/8] glib-2.0: Upgrade 2.44.1 -> 2.46.1
+In-Reply-To: <56465E1B.8040900@yoctoproject.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: oecommit ml
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,56 +52,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 21:06:29 -0000
-Content-Type: multipart/alternative; boundary=047d7bdc1c0c66f5fe0524aec85e
+X-List-Received-Date: Mon, 16 Nov 2015 21:52:24 -0000
+X-Groupsio-MsgNum: 73513
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="mxv5cy4qt+RJ9ypb"
+Content-Disposition: inline
 
---047d7bdc1c0c66f5fe0524aec85e
-Content-Type: text/plain; charset=UTF-8
-
-On 9 November 2015 at 12:43, Jussi Kukkonen <jussi.kukkonen@intel.com>
-wrote:
-
-> Fix cross-compilation build issue in gio tests.
->
-
-glib-2.0-native fails with:
-
-| make all-recursive
-| make[5]: glib-compile-resources: Command not found
-| make[5]: Entering directory
-`/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-rpm/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.46.1-r0/build/gio/tests'
-| make[5]: glib-compile-resources: Command not found
-| make[5]: glib-compile-resources: Command not found
-| make[5]: glib-compile-resources: Command not found
-
-If the host doesn't have glib-compile-resources on.  I guess the patch
-needs to say "if cross then use host glib-compile-resources, otherwise use
-the one we just built".
-
-Ross
-
---047d7bdc1c0c66f5fe0524aec85e
-Content-Type: text/html; charset=UTF-8
+--mxv5cy4qt+RJ9ypb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 November 2015 at 12:43, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,=
-204);border-left-style:solid;padding-left:1ex"><div id=3D":5q5" class=3D"" =
-style=3D"overflow:hidden">Fix cross-compilation build issue in gio tests.<b=
-r></div></blockquote></div><br>glib-2.0-native fails with:</div><div class=
-=3D"gmail_extra"><span style=3D"color:rgb(0,0,0);font-family:&#39;Courier N=
-ew&#39;,courier,monotype,monospace"><br></span></div>| make all-recursive<b=
-r>| make[5]: glib-compile-resources: Command not found<br>| make[5]: Enteri=
-ng directory `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-rpm/bu=
-ild/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.46.1-r0/build/gio/tests=
-&#39;<br>| make[5]: glib-compile-resources: Command not found<br>| make[5]:=
- glib-compile-resources: Command not found<br>| make[5]: glib-compile-resou=
-rces: Command not found<div><br></div><div>If the host doesn&#39;t have gli=
-b-compile-resources on.=C2=A0 I guess the patch needs to say &quot;if cross=
- then use host glib-compile-resources, otherwise use the one we just built&=
-quot;.</div><div><br></div><div>Ross</div></div>
+On Fri, Nov 13, 2015 at 02:03:07PM -0800, Michael Halstead wrote:
+>=20
+> On 11/13/2015 01:50 PM, Khem Raj wrote:
+> >> On Nov 13, 2015, at 1:45 PM, Michael Halstead <michael@yoctoproject.or=
+g> wrote:
+> >>
+> >> Bitbake is disabled with the note:
+> >>
+> >> # interferes with patchwork sice it sends emails after the patches are
+> >> closed
+> >> # we could re-enable it if the mails went to someother ml may be
+> >> bitbake-commits
+> >>
+> >> This happens because it was mailing bitbake-devel@lists.openembedded.o=
+rg
+> >>
+> >> We can mail openembedded-commits@lists.openembedded.org which would wo=
+rk
+> >> fine. Or I can create a bitbake-commits@lists.openembedded.org. Which =
+is
+> >> better?
+> > I think mailing to openembedded-commits@lists.openembedded.org might be=
+ ok. with [bitbake] in message subject for filtering help.
+>=20
+> I've altered the script to include [reponame] in the subject of all
+> e-mails and enabled for bitbake.
 
---047d7bdc1c0c66f5fe0524aec85e--
+Seems to be causing some new warnings when pushing to the repo:
+
+OE @ ~/meta-openembedded $ git push origin master
+Counting objects: 204, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (193/193), done.
+Writing objects: 100% (204/204), 38.00 KiB | 0 bytes/s, done.
+Total 204 (delta 147), reused 0 (delta 0)
+remote: Scalar found where operator expected at /home/git/git-notify line 1=
+40, near "$subject"
+remote:         (Missing semicolon on previous line?)
+remote: Global symbol "@openembedded" requires explicit package name at /ho=
+me/git/git-notify line 60.
+remote: syntax error at /home/git/git-notify line 140, near "$subject "
+remote: Execution of /home/git/git-notify aborted due to compilation errors.
+remote: E: failed to find patch for rev 7df2b574f1c4ad445b1656666878cb2ceff=
+ca2e0.
+remote: E: failed to find patch for rev ea5bc66444a1e9b5fb330d8a6d42dc95e4b=
+c9500.
+remote: E: failed to find patch for rev 1ec69e6b3891c01734e57a908a2a675128f=
+126eb.
+remote: E: failed to find patch for rev a1d3dce036f80867d30993742d55abb17c6=
+bc057.
+=2E..
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--mxv5cy4qt+RJ9ypb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlZKQhIACgkQN1Ujt2V2gBy6rgCePFUu79OD1Q5tnbsg1kH0gUpc
+pn0An0pTFnHFH4/KY36td93IwEdfKU1M
+=nfNu
+-----END PGP SIGNATURE-----
+
+--mxv5cy4qt+RJ9ypb--
