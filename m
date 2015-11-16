@@ -1,26 +1,41 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 658BA773BC
+Return-Path: <pbarker@betafive.co.uk>
+X-Greylist: delayed 599 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 16 Nov 2015 07:49:31 UTC
+Received: from 2.mo2.mail-out.ovh.net (2.mo2.mail-out.ovh.net [188.165.53.149])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DF62773C7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 07:32:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAG7WJRF008441
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Mon, 16 Nov 2015 07:49:31 +0000 (UTC)
+Received: from mail629.ha.ovh.net (gw6.ovh.net [213.251.189.206])
+	by mo2.mail-out.ovh.net (Postfix) with SMTP id B3910FF8876
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Nov 2015 23:32:19 -0800
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 15 Nov 2015 23:32:19 -0800
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Nov 2015 02:32:13 -0500
-Message-ID: <4aa0969920c366d89e08765c9231c0a938b8267b.1447659023.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1447659023.git.wenzong.fan@windriver.com>
-References: <cover.1447659023.git.wenzong.fan@windriver.com>
+	Mon, 16 Nov 2015 08:29:44 +0100 (CET)
+Received: from localhost (HELO queueout) (127.0.0.1)
+	by localhost with SMTP; 16 Nov 2015 09:29:43 +0200
+Received: from cpc2-shep11-2-0-cust17.8-3.cable.virginm.net (HELO
+	bang.betafive.co.uk) (paul@betafive.co.uk@86.26.192.18)
+	by ns0.ovh.net with AES256-GCM-SHA384 encrypted SMTP;
+	16 Nov 2015 09:29:43 +0200
+Received: by bang.betafive.co.uk (Postfix, from userid 1000)
+	id 7049040A4F; Mon, 16 Nov 2015 07:31:38 +0000 (GMT)
+Date: Mon, 16 Nov 2015 07:31:38 +0000
+From: Paul Barker <paul@paulbarker.me.uk>
+To: leonardo.sandoval.gonzalez@linux.intel.com
+Message-ID: <20151116073138.GA5453@bang.betafive.co.uk>
+References: <1446852308-19752-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/3] qemu: fix CVE-2015-7295
+In-Reply-To: <1446852308-19752-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Ovh-Tracer-Id: 9648680728171821915
+X-Ovh-Remote: 86.26.192.18 (cpc2-shep11-2-0-cust17.8-3.cable.virginm.net)
+X-Ovh-Local: 213.186.33.20 (ns0.ovh.net)
+X-OVH-SPAMSTATE: OK
+X-OVH-SPAMSCORE: 0
+X-OVH-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeekhedrheeiucetufdoteggodftvfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrfeekhedrheeiucetufdoteggodftvfcurfhrohhfihhlvgemucfqggfjnecuuegrihhlohhuthemuceftddtnecu
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] terminal: Open a new window instead of split on older tmux versions (<1.9)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,214 +48,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 07:32:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 16 Nov 2015 07:49:36 -0000
+X-Groupsio-MsgNum: 73465
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="17pEHd4RhPHOinZp"
+Content-Disposition: inline
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+--17pEHd4RhPHOinZp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-hw/virtio/virtio.c in the Virtual Network Device (virtio-net) support
-in QEMU, when big or mergeable receive buffers are not supported,
-allows remote attackers to cause a denial of service (guest network
-consumption) via a flood of jumbo frames on the (1) tuntap or (2)
-macvtap interface.
+On Fri, Nov 06, 2015 at 05:25:08PM -0600, leonardo.sandoval.gonzalez@linux.=
+intel.com wrote:
+> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>=20
+> If an old version is detected (<1.9), create a new window instead of spli=
+t:
+> the reason is that there is no easy way to get the active pane height if =
+no
+> nested formats are supported.
+>=20
+> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.=
+com>
 
-Backport upstream commits:
-http://git.qemu.org/?p=qemu.git;a=commit;h=ce317461573bac12b10d67699b4ddf1f97cf066c
-http://git.qemu.org/?p=qemu.git;a=commit;h=29b9f5efd78ae0f9cc02dd169b6e80d2c404bade
-http://git.qemu.org/?p=qemu.git;a=commit;h=0cf33fb6b49a19de32859e2cdc6021334f448fb3
+I gave the new release a spin over the weekend on Centos 7 which uses tmux =
+1.8.
+I couldn't run 'bitbake linux-yocto -c menuconfig' inside my tmux session d=
+ue to
+this issue. Applying this patch fixed it though so I'd definitely recommend=
+ this
+for jethro as well as master.
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- .../qemu/qemu/qemu-CVE-2015-7295.patch             | 166 +++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.4.0.bb           |   1 +
- 2 files changed, 167 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-CVE-2015-7295.patch
+Thanks,
 
-diff --git a/meta/recipes-devtools/qemu/qemu/qemu-CVE-2015-7295.patch b/meta/recipes-devtools/qemu/qemu/qemu-CVE-2015-7295.patch
-new file mode 100644
-index 0000000..0f4a1f5
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/qemu-CVE-2015-7295.patch
-@@ -0,0 +1,166 @@
-+Fix CVE-2015-7295
-+
-+Upstream-Status: Backport
-+
-+Backport upstream commits:
-+http://git.qemu.org/?p=qemu.git;a=commit;h=ce317461573bac12b10d67699b4ddf1f97cf066c
-+http://git.qemu.org/?p=qemu.git;a=commit;h=29b9f5efd78ae0f9cc02dd169b6e80d2c404bade
-+http://git.qemu.org/?p=qemu.git;a=commit;h=0cf33fb6b49a19de32859e2cdc6021334f448fb3
-+
-+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-+======================================================
-+From ce317461573bac12b10d67699b4ddf1f97cf066c Mon Sep 17 00:00:00 2001
-+From: Jason Wang <jasowang@redhat.com>
-+Date: Fri, 25 Sep 2015 13:21:28 +0800
-+Subject: [PATCH 1/3] virtio: introduce virtqueue_unmap_sg()
-+
-+Factor out sg unmapping logic. This will be reused by the patch that
-+can discard descriptor.
-+
-+Cc: Michael S. Tsirkin <mst@redhat.com>
-+Cc: Andrew James <andrew.james@hpe.com>
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
-+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-+---
-+ hw/virtio/virtio.c | 14 ++++++++++----
-+ 1 file changed, 10 insertions(+), 4 deletions(-)
-+
-+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-+index 7504f8b..6f2b96c 100644
-+--- a/hw/virtio/virtio.c
-++++ b/hw/virtio/virtio.c
-+@@ -244,14 +244,12 @@ int virtio_queue_empty(VirtQueue *vq)
-+     return vring_avail_idx(vq) == vq->last_avail_idx;
-+ }
-+ 
-+-void virtqueue_fill(VirtQueue *vq, const VirtQueueElement *elem,
-+-                    unsigned int len, unsigned int idx)
-++static void virtqueue_unmap_sg(VirtQueue *vq, const VirtQueueElement *elem,
-++                               unsigned int len)
-+ {
-+     unsigned int offset;
-+     int i;
-+ 
-+-    trace_virtqueue_fill(vq, elem, len, idx);
-+-
-+     offset = 0;
-+     for (i = 0; i < elem->in_num; i++) {
-+         size_t size = MIN(len - offset, elem->in_sg[i].iov_len);
-+@@ -267,6 +265,14 @@ void virtqueue_fill(VirtQueue *vq, const VirtQueueElement *elem,
-+         cpu_physical_memory_unmap(elem->out_sg[i].iov_base,
-+                                   elem->out_sg[i].iov_len,
-+                                   0, elem->out_sg[i].iov_len);
-++}
-++
-++void virtqueue_fill(VirtQueue *vq, const VirtQueueElement *elem,
-++                    unsigned int len, unsigned int idx)
-++{
-++    trace_virtqueue_fill(vq, elem, len, idx);
-++
-++    virtqueue_unmap_sg(vq, elem, len);
-+ 
-+     idx = (idx + vring_used_idx(vq)) % vq->vring.num;
-+ 
-+-- 
-+2.3.5
-+
-+
-+From 29b9f5efd78ae0f9cc02dd169b6e80d2c404bade Mon Sep 17 00:00:00 2001
-+From: Jason Wang <jasowang@redhat.com>
-+Date: Fri, 25 Sep 2015 13:21:29 +0800
-+Subject: [PATCH 2/3] virtio: introduce virtqueue_discard()
-+
-+This patch introduces virtqueue_discard() to discard a descriptor and
-+unmap the sgs. This will be used by the patch that will discard
-+descriptor when packet is truncated.
-+
-+Cc: Michael S. Tsirkin <mst@redhat.com>
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
-+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-+---
-+ hw/virtio/virtio.c         | 7 +++++++
-+ include/hw/virtio/virtio.h | 2 ++
-+ 2 files changed, 9 insertions(+)
-+
-+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-+index 6f2b96c..d0bc72e 100644
-+--- a/hw/virtio/virtio.c
-++++ b/hw/virtio/virtio.c
-+@@ -267,6 +267,13 @@ static void virtqueue_unmap_sg(VirtQueue *vq, const VirtQueueElement *elem,
-+                                   0, elem->out_sg[i].iov_len);
-+ }
-+ 
-++void virtqueue_discard(VirtQueue *vq, const VirtQueueElement *elem,
-++                       unsigned int len)
-++{
-++    vq->last_avail_idx--;
-++    virtqueue_unmap_sg(vq, elem, len);
-++}
-++
-+ void virtqueue_fill(VirtQueue *vq, const VirtQueueElement *elem,
-+                     unsigned int len, unsigned int idx)
-+ {
-+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-+index 6201ee8..9d09115 100644
-+--- a/include/hw/virtio/virtio.h
-++++ b/include/hw/virtio/virtio.h
-+@@ -146,6 +146,8 @@ void virtio_del_queue(VirtIODevice *vdev, int n);
-+ void virtqueue_push(VirtQueue *vq, const VirtQueueElement *elem,
-+                     unsigned int len);
-+ void virtqueue_flush(VirtQueue *vq, unsigned int count);
-++void virtqueue_discard(VirtQueue *vq, const VirtQueueElement *elem,
-++                       unsigned int len);
-+ void virtqueue_fill(VirtQueue *vq, const VirtQueueElement *elem,
-+                     unsigned int len, unsigned int idx);
-+ 
-+-- 
-+2.3.5
-+
-+
-+From 0cf33fb6b49a19de32859e2cdc6021334f448fb3 Mon Sep 17 00:00:00 2001
-+From: Jason Wang <jasowang@redhat.com>
-+Date: Fri, 25 Sep 2015 13:21:30 +0800
-+Subject: [PATCH 3/3] virtio-net: correctly drop truncated packets
-+
-+When packet is truncated during receiving, we drop the packets but
-+neither discard the descriptor nor add and signal used
-+descriptor. This will lead several issues:
-+
-+- sg mappings are leaked
-+- rx will be stalled if a lots of packets were truncated
-+
-+In order to be consistent with vhost, fix by discarding the descriptor
-+in this case.
-+
-+Cc: Michael S. Tsirkin <mst@redhat.com>
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
-+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-+---
-+ hw/net/virtio-net.c | 8 +-------
-+ 1 file changed, 1 insertion(+), 7 deletions(-)
-+
-+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-+index d388c55..a877614 100644
-+--- a/hw/net/virtio-net.c
-++++ b/hw/net/virtio-net.c
-+@@ -1094,13 +1094,7 @@ static ssize_t virtio_net_receive(NetClientState *nc, const uint8_t *buf, size_t
-+          * must have consumed the complete packet.
-+          * Otherwise, drop it. */
-+         if (!n->mergeable_rx_bufs && offset < size) {
-+-#if 0
-+-            error_report("virtio-net truncated non-mergeable packet: "
-+-                         "i %zd mergeable %d offset %zd, size %zd, "
-+-                         "guest hdr len %zd, host hdr len %zd",
-+-                         i, n->mergeable_rx_bufs,
-+-                         offset, size, n->guest_hdr_len, n->host_hdr_len);
-+-#endif
-++            virtqueue_discard(q->rx_vq, &elem, total);
-+             return size;
-+         }
-+ 
-+-- 
-+2.3.5
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0.bb b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
-index 4244ecf..b8fe99c 100644
---- a/meta/recipes-devtools/qemu/qemu_2.4.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
-@@ -12,6 +12,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://no-valgrind.patch \
-             file://qemu-CVE-2015-5225.patch \
-             file://qemu-CVE-2015-6855.patch \
-+            file://qemu-CVE-2015-7295.patch \
-            "
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
- SRC_URI[md5sum] = "186ee8194140a484a455f8e3c74589f4"
--- 
-1.9.1
+--=20
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
+--17pEHd4RhPHOinZp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+iQEcBAEBAgAGBQJWSYZaAAoJEBwoJlo7UPQDKIEH/0IKA5+vnBSTopxAwZ9lq+gV
+zOCyNj91CGAVjnU428KyDpL2Tw83dou46oizrELOrPca5jCAACiDMH4ttLgeabtX
+IJAoYlnuTJwfZH2FlaUdiVdUhflW3CSFljT9fMdRNMaoQx8K5FGTzQ5VCTehXioJ
+1eF+9tKIk3ATmpI+IQCM+P/43SQIfMn2CayPwI5+v6NZBSLqejgtqUwSl5k+wT9L
+rwE/7ab/Vd1jtXa4zHqSyQs+Bm9+B6Uu15net63UeCNk1jEcYBSF3PffDB4EVeZY
+rB9PXNAFzlxvms+aj7TAD624P/9HHsskG87R9eCuMhrfa3JIrXuW+VJ1p6eJMws=
+=q+5B
+-----END PGP SIGNATURE-----
+
+--17pEHd4RhPHOinZp--
