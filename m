@@ -1,24 +1,27 @@
-Return-Path: <Jian.Liu@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A887C773AC
+	by mail.openembedded.org (Postfix) with ESMTP id 2F7AA773BC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 05:34:12 +0000 (UTC)
+	Mon, 16 Nov 2015 05:57:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAG5YCAp006070
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAG5vtRU006514
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Nov 2015 21:34:12 -0800
-Received: from pek-jliu7-d1.corp.ad.wrs.com (128.224.162.138) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 15 Nov 2015 21:34:11 -0800
-From: Jian Liu <jian.liu@windriver.com>
+	Sun, 15 Nov 2015 21:57:55 -0800
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 15 Nov 2015 21:57:54 -0800
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Nov 2015 13:33:52 +0800
-Message-ID: <1447652032-31142-1-git-send-email-jian.liu@windriver.com>
-X-Mailer: git-send-email 1.9.1
+References: <cover.1447638105.git.kai.kang@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <56497065.2080108@windriver.com>
+Date: Mon, 16 Nov 2015 13:57:57 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Subject: [PATCH] archiver.bbclass: fix an exception of the mode configured
+In-Reply-To: <cover.1447638105.git.kai.kang@windriver.com>
+Subject: Re: [PATCH 0/1] Add do_configure as dependency only when it exists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +34,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 05:34:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 16 Nov 2015 05:57:59 -0000
+Content-Type: multipart/alternative;
+	boundary="------------080607060804030903050409"
 
-gcc-source does not have the task do_configure, so if configured mode is set,
-the task do_ar_configured depends on do_configure.
-This will cause an error.
+--------------080607060804030903050409
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Jian Liu <jian.liu@windriver.com>
----
- archiver.bbclass |   11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+On 2015年11月16日 09:44, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> The following changes since commit fc45deac89ef63ca1c44e763c38ced7dfd72cbe1:
+>
+>    build-appliance-image: Update to jethro head revision (2015-11-03 14:03:03 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib kangkai/archiver
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=kangkai/archiver
+>
+> Kai Kang (1):
+>    archiver.bbclass: fix an exception of the mode configured
+>
+>   meta/classes/archiver.bbclass | 9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
+>
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 41a552c..76571fb 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -73,8 +73,14 @@ python () {
-         # We can't use "addtask do_ar_configured after do_configure" since it
-         # will cause the deptask of do_populate_sysroot to run not matter what
-         # archives we need, so we add the depends here.
--        d.appendVarFlag('do_ar_configured', 'depends', ' %s:do_configure' % pn)
--        d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_configured' % pn)
-+        ##
-+        # For some specific packages like gcc-source, do_configure may be deleted.
-+        if d.getVarFlag('do_configure', 'noexec') == '1' or 'do_configure' not in d.getVar('__BBTASKS', False):
-+            pass
-+        else:
-+            bb.build.addtask('do_ar_configured', None, 'do_unpack_and_patch', d)
-+            d.appendVarFlag('do_ar_configured', 'depends', ' %s:do_configure' % pn)
-+            d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_configured' % pn)
-     elif ar_src:
-         bb.fatal("Invalid ARCHIVER_MODE[src]: %s" % ar_src)
- 
-@@ -348,7 +354,6 @@ do_deploy_archives[sstate-outputdirs] = "${DEPLOY_DIR_SRC}"
- 
- addtask do_ar_original after do_unpack
- addtask do_ar_patched after do_unpack_and_patch
--addtask do_ar_configured after do_unpack_and_patch
- addtask do_dumpdata
- addtask do_ar_recipe
- addtask do_deploy_archives before do_build
 
+This patch is originally from Jian. I saw he sent the patch just now, so 
+please ignore this one.
+
+-- 
+Regards,
+Neil | Kai Kang
+
+
+--------------080607060804030903050409
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2015年11月16日 09:44,
+      <a class="moz-txt-link-abbreviated" href="mailto:kai.kang@windriver.com">kai.kang@windriver.com</a> wrote:<br>
+    </div>
+    <blockquote cite="mid:cover.1447638105.git.kai.kang@windriver.com"
+      type="cite">
+      <pre wrap="">From: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+
+The following changes since commit fc45deac89ef63ca1c44e763c38ced7dfd72cbe1:
+
+  build-appliance-image: Update to jethro head revision (2015-11-03 14:03:03 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib kangkai/archiver
+  <a class="moz-txt-link-freetext" href="http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=kangkai/archiver">http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=kangkai/archiver</a>
+
+Kai Kang (1):
+  archiver.bbclass: fix an exception of the mode configured
+
+ meta/classes/archiver.bbclass | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+</pre>
+    </blockquote>
+    <br>
+    <br>
+    <font size="+1">This patch is originally from Jian. I saw he sent
+      the patch just now, so please ignore this one.</font><br>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+  </body>
+</html>
+
+--------------080607060804030903050409--
