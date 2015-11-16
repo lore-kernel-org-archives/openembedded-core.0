@@ -1,35 +1,35 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 58E9675CF1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 16:12:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAGGC3Cc020734
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 16 Nov 2015 08:12:03 -0800
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 16 Nov 2015 08:12:02 -0800
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
-	<56421DA6.5080700@windriver.com> <56433886.3060700@linux.intel.com>
-	<564343E9.9020702@windriver.com> <5643497F.1080106@linux.intel.com>
-	<5645EB64.4020200@windriver.com>
-	<60657.10.252.13.130.1447431170.squirrel@linux.intel.com>
-	<56461044.2020202@windriver.com> <5649A752.2060308@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-X-Enigmail-Draft-Status: N1110
-Organization: Wind River Systems
-Message-ID: <564A0051.2080005@windriver.com>
-Date: Mon, 16 Nov 2015 10:12:01 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
+	[209.85.160.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 711E26E268;
+	Mon, 16 Nov 2015 16:17:22 +0000 (UTC)
+Received: by ykfs79 with SMTP id s79so247913465ykf.1;
+	Mon, 16 Nov 2015 08:17:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=EiB19Ue6LZogHHcYt2E7d7hBbQDeW3tGe/ebnUcpxm4=;
+	b=G2FkBttRF8Ppp9rLYdXm6VDDCXa2/kX8wYZLozWhbMWD6nV152ktH/HU8OOagsd7So
+	poxNWGRTknwlUq7xom4eCrEi/4flqHimg5idDP4j69qj4SWHjIbUuglXwbauo73GC450
+	KR1XIxcO4htDep5jUR2dM4duqCRLoJngcYh9NB0cDfQm+QFM4JO2/ZFJRVpcm2vXSk2a
+	otOw5NvsAoS+sBkA4MQd5itaBNwD81JaFoeg9FVNdlhEAaL5hQVoKOL2wv6fRW9nqDjG
+	H9AXJonzHqCkt+Ewe/cgaV/kOLTuUlcLePViTJkHuCfa8cvaBk2lQznLJRQaLH0YIsvK
+	+3wg==
 MIME-Version: 1.0
-In-Reply-To: <5649A752.2060308@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
+X-Received: by 10.129.130.132 with SMTP id s126mr35754927ywf.131.1447690642176;
+	Mon, 16 Nov 2015 08:17:22 -0800 (PST)
+Received: by 10.31.202.196 with HTTP; Mon, 16 Nov 2015 08:17:22 -0800 (PST)
+In-Reply-To: <20151116151159.GA2240@jama>
+References: <20151112114311.GD2574@jama> <20151114095739.GD2564@jama>
+	<20151116151159.GA2240@jama>
+Date: Mon, 16 Nov 2015 11:17:22 -0500
+Message-ID: <CADkTA4OwVpyD_t6p+AO1=Ami3gMFU7QtfQd_0w-oNj+zSoL5qQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, test-dependencies 2015-11-12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,64 +42,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 16:12:05 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 16 Nov 2015 16:17:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 11/16/15 3:52 AM, Alexander Kanavin wrote:
-> On 11/13/2015 06:31 PM, Mark Hatle wrote:
-> 
->> The compiler today support many more instructions for a given architecture
->> family then QEMU models for that same architecture.
+On Mon, Nov 16, 2015 at 10:11 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Sat, Nov 14, 2015 at 10:57:39AM +0100, Martin Jansa wrote:
+>> On Thu, Nov 12, 2015 at 12:43:11PM +0100, Martin Jansa wrote:
+>> > Another incremental test, only 26 recipes were tested, but it found enough
+>> > issues in just released Jethro.
+>> >
+>> > Complete log:
+>> > http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20151111_112937.log/
+>> >
+>> > ERROR: 42 issues were found in these recipes: cifs-utils clutter-gst-3.0 devicekit-power fbida gammu gst-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-good imsettings libsdl2 pinpoint qt-mobility-embedded qt-mobility-x11 samba sox
+>> >
+>> > I'll send fix for pinpoint, gst* devicekit-power, fbida, gammu before re-triggering the testing for qemuarm.
 >>
->> IA32 -- some of the current and even some former generate i7 instructions fall
->> under this problem.  If you host system does not have the same instruction set,
->> QEMU doesn't know how to emulate everything.
+>> Complete log:
+>> http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20151113_162451.log/
 >>
->> MIPS64 (Such as the Octeon III) is a good example.
+>> I've added few more recipes to this test run, so the results look worse
+>> (because of many issues from efl-libunwind, I've already sent patch for
+>> this), but they are actually better.
 >>
->> PowerPC has many variants as well that QEMU does not support.
->>
->> It would be wonderful if there was a tie together of what gcc/as and qemu
->> supported -- at least from an application perspective, but that simply doesn't
->> happen in the real world.
-> 
-> How about approaching this from the other side then? Machines can be 
-> defined so that if gobject introspection distro feature is enabled, then 
-> the standard qemu-supported compiler settings are used (same as 
-> qemumips64 for instance). If not, then people can tweak the compiler to 
-> their heart's content.
+>> ERROR: 86 issues were found in these recipes: cifs-utils efl enjoy
+>> imsettings linux-yocto qt-mobility-embedded qt-mobility-x11 samba sox
+>> vlc
+>
+> With the fixes I've sent in last few days we're almost clean again (at
+> least for the recipes I was testing in this run).
+>
+> Only issue is samba->libpam and yocto-linux failing to build.
+>
+> Complete log qemuarm:
+> http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20151115_174203.log/
+> Complete log qemux86:
+> http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20151116_034635.log/
+>
+> qemuarm:
+> ERROR: 2 issues were found in these recipes: samba vlc
+> WARN: vlc: vlc rdepends on libvorbis, but it isn't a build dependency?
+> WARN: samba: samba rdepends on libpam, but it isn't a build dependency?
+>
+> I've fixes PATCHv2 for vlc, so qemux86 is even better:
+> ERROR: 4 issues were found in these recipes: cifs-utils linux-yocto linux-yocto-tiny-kexecboot samba
+> WARN: samba: samba rdepends on libpam, but it isn't a build dependency?
+>
+> cifs-utils is there only because of linux-yocto
+>
+> NOTE: Uploading the report /home/jenkins/oe/world/shr-core/tmp-glibc/log/error-report/error_report_20151116034725.txt to errors.yoctoproject.org:80
+> NOTE: Your entry can be found here: http://errors.yoctoproject.org:80/Errors/Build/9880/
+> NOTE: Build completion summary:
+> NOTE:   do_populate_sysroot: 99% sstate reuse (2268 setscene, 19 scratch)
+> NOTE:   do_package_qa: 99% sstate reuse (2066 setscene, 19 scratch)
+> NOTE:   do_package: 95% sstate reuse (402 setscene, 18 scratch)
+> NOTE:   do_packagedata: 99% sstate reuse (2066 setscene, 18 scratch)
+> NOTE:   do_package_write_ipk: 99% sstate reuse (2061 setscene, 19 scratch)
+> NOTE:   do_populate_lic: 99% sstate reuse (2327 setscene, 13 scratch)
+>
+> Summary: 1 task failed:
+>   /home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-kernel/linux/linux-yocto_4.1.bb, do_compile
 
-Problem is that gobject can't be limited by a 'machine'.  Since any machine
-needs to theoretically have access to gobject built components.  (ignoring that
-machines should never specify distro features...)
+Wow. It looks like the shared directory went away underneath the build of
+the kernel itself.
 
-I think a small group of folks that are interested in this work and who
-understand facets of it should get together and try to identify the problem and
-come up with an alternative solution.
+Great log on this one .. easy to see what was going on.
 
-I have a lot of experience with pulling out internal structure size, packing,
-order, etc from generated binaries via objdump, readelf and other mechanisms --
-but I have no experience using gobject itself.
+Has this particular error been seen before ? Or is this the first time it has
+popped up ?
 
-So if we could get together to identify how a gobject binary is generated -- how
-the introspection happens internally -- and the output of the introspection
-tool.  It's very likely that I or others can come up with an approach to do the
-introspection that doesn't require QEMU.  (It may require the gobject binary
-generation having additional information placed in it -- or an introspection to
-occur at the time of compilation and saved away in a cache...)  but the point
-is, we need to figure out a general solution to this that doesn't require QEMU
-for "most things".
+Bruce
 
-(BTW just to reiterate.  I COMPLETELY believe that we need to add gobject
-support to oe-core in the next year.  And we need to try to help the gobject
-community better support cross compilation as well, if they are receptive --
-without dramatically altering there existing work.)
+> Summary: There were 7 WARNING messages shown.
+> Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
+> ===== 2nd build to rebuild each recipe with every possible dep =====
+> Logs will be stored in test-dependencies/1447645595/2_max directory
+> Building recipe: cifs-utils (1/13)
+> ERROR: Task 187 (/home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-kernel/linux/linux-yocto_4.1.bb, do_compile) failed with exit code '1'
+> Building recipe: ctdb (2/13)
+> Building recipe: imsettings (3/13)
+> Building recipe: libldb (4/13)
+> Building recipe: libtdb (5/13)
+> Building recipe: libtevent (6/13)
+> Building recipe: linux-yocto (7/13)
+> Building recipe: qt-mobility-embedded (8/13)
+> Building recipe: qt-mobility-x11 (9/13)
+> Building recipe: samba (10/13)
+> Building recipe: sox (11/13)
+> Building recipe: talloc (12/13)
+> Building recipe: vlc (13/13)
+> Copying buildhistory/packages to test-dependencies/1447645595/2_max
+> Copying do_package logs to test-dependencies/1447645595/2_max/do_package/
+> ===== 3rd or 4th build to rebuild each recipe with minimal dependencies =====
+> Logs will be stored in test-dependencies/1447645595/3_min directory
+> !!!Removing tmpdir "/home/jenkins/oe/world/shr-core/tmp-glibc"!!!
+> Building recipe: cifs-utils (1/14)
+> Building recipe: ctdb (2/14)
+> Building recipe: imsettings (3/14)
+> Building recipe: libldb (4/14)
+> Building recipe: libtdb (5/14)
+> Building recipe: libtevent (6/14)
+> Building recipe: linux-yocto (7/14)
+> Building recipe: linux-yocto-tiny-kexecboot (8/14)
+> ERROR: Task 221 (/home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-kernel/linux/linux-yocto_4.1.bb, do_kernel_metadata) failed with exit code '1'
+> Building recipe: qt-mobility-embedded (9/14)
+> Building recipe: qt-mobility-x11 (10/14)
+> Building recipe: samba (11/14)
+> Building recipe: sox (12/14)
+> Building recipe: talloc (13/14)
+> Building recipe: vlc (14/14)
+>
+> I'll merge pending meta-oe patches soon (tonight) into master as well as jethro branches.
+> Lets hope that pending oe-core patches get merged before next (2.1) release!
+>
+> Regards,
+>
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
---Mark
 
-> 
-> Alex
-> 
 
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
