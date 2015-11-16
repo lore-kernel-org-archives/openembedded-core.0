@@ -1,40 +1,48 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B73D6E268
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E1E76E268
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 19:29:41 +0000 (UTC)
-Received: by pacdm15 with SMTP id dm15so184061848pac.3
+	Mon, 16 Nov 2015 21:06:28 +0000 (UTC)
+Received: by igl9 with SMTP id 9so66201091igl.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 11:29:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-type:content-transfer-encoding;
-	bh=AKeKBI0zpUuvJboHKAgsWrFfRTpvlexGssL8GuKdqLQ=;
-	b=x7Ie6HyCYXRGxpr979ehJ/wN9py+iJj+ABvbr83K2ahCQXqzn7ppsivrVj26lL2HfM
-	8vZNGNvVuQsRt83U3KT7uJ7HNBgrq4Egyr4ArDMeUChTIiot79YLEvdCPsuU2pcxH3QD
-	2T364mrXWMeMyB6AgDwiRu/ZFO7hcKlcbjx+BMq3KThkhhKMBpdd7DY3v5P2mRWaKrT6
-	piAbAo2VYr5UUNmdW4lXdR2rcUnlZuReEq0112CM8EbEgY4O6BpSPt0j6mqIAzP3qPqM
-	Za9ouvNHKC+BXmmQ87wosUsQ5fbxo9XoHHX+RrWaWT+bFaOlnL0O/16yHYfJhxGQP+PV
-	Plyg==
-X-Received: by 10.66.160.194 with SMTP id xm2mr57770002pab.68.1447702181881;
-	Mon, 16 Nov 2015 11:29:41 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1239:c869:7079:278f:61c?
-	([2601:202:4000:1239:c869:7079:278f:61c])
-	by smtp.googlemail.com with ESMTPSA id
-	qw1sm38083995pbb.22.2015.11.16.11.29.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 16 Nov 2015 11:29:40 -0800 (PST)
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: akuster808 <akuster808@gmail.com>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <564A2E9A.2090804@gmail.com>
-Date: Mon, 16 Nov 2015 11:29:30 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Mon, 16 Nov 2015 13:06:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=XzEqf5iNfSWbZpSr/LPvmLZXL+i+eRysh6MSIgcJ52o=;
+	b=VnfDNbmhWq9gnP+uxCThsFboDIP0Dyeu9/nKJaDNbRZA72E+hfhp9WecNVFKql3LMb
+	lTLoEeHDOHS52jL/M6OXA4oFknaefgf6MzvW2F4NfhQ6lf/dLxGPCva6ZrB5tYxtoxbK
+	H40KLmKZIrWWwWaGz2GkPF6PAVh5AsHOjMEcBGNtVEpgZfEV4zGzUmAah+eTi/Pb6GJ6
+	ZWtcSFfFlRBwsENV+LM35I0rptOXVF1nW5VHkUcU12F0pfYBm98ZEvOiPX/i0FTu+pyf
+	4kHyxyDdOeloZXW7n7Y16frynSOFvTr9+cLbxelIKvVa5MnmLTbrQSPXcpqi9Sfi6Tb2
+	dvVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=XzEqf5iNfSWbZpSr/LPvmLZXL+i+eRysh6MSIgcJ52o=;
+	b=l7ICQcuZE0UfJXPSp29c3pF2aJSUrx/zy7+F1EDgswPHWZR5QmJtafmQDjXLKy3Nab
+	glsqGB9bTnm5+pwra8kny46euLIC1f5rpOfu34m/UIEBIuDj5q+5zUmT7citI1qfXaqU
+	WXlWSFwKGJCpFj34Z/rTLJk8tQeiOOpHNnVaImorMqF0LteEeDf79RPoyoox67X8TuSk
+	7Y/Fk/5RgOF7KRScPabdD48SXvM8cq8cR0DHoe+Lrm/j4Jk4kn/gUUXSxw7hOYL5CoUP
+	RNooGcG8IOtHpspjnlnr6Ry0cOw404J6MNORpeaLMk24ZMCny3E0jjGdVzV0ZqWYtbIc
+	1Sww==
+X-Gm-Message-State: ALoCoQmSRXReOQAAqMQzj79iSYlc/mI05+B9mTJMeYIVaKHyS/hhuBfoRNpA+09xZUsKYeHCdqwv
+X-Received: by 10.50.30.69 with SMTP id q5mr7015122igh.78.1447707988645; Mon,
+	16 Nov 2015 13:06:28 -0800 (PST)
 MIME-Version: 1.0
-Subject: [OE][Security] Backports for Jethro
+Received: by 10.107.136.141 with HTTP; Mon, 16 Nov 2015 13:06:09 -0800 (PST)
+In-Reply-To: <662f06a28213cfec134998e6acfc12112ac02866.1447072488.git.jussi.kukkonen@intel.com>
+References: <cover.1447072488.git.jussi.kukkonen@intel.com>
+	<662f06a28213cfec134998e6acfc12112ac02866.1447072488.git.jussi.kukkonen@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Nov 2015 21:06:09 +0000
+Message-ID: <CAJTo0Lb5_hSeiC7GOwKL=4geSwEwbRFcOfiydRDsL61ysPaE7A@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 2/8] glib-2.0: Upgrade 2.44.1 -> 2.46.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,24 +55,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 19:29:43 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Nov 2015 21:06:29 -0000
+Content-Type: multipart/alternative; boundary=047d7bdc1c0c66f5fe0524aec85e
 
-Please backport the following from oe-core master to jethro.
+--047d7bdc1c0c66f5fe0524aec85e
+Content-Type: text/plain; charset=UTF-8
 
-b09f0f2665745b756cb93092501ffe9094918163
-libarchive: rename patch to reflect CVE
+On 9 November 2015 at 12:43, Jussi Kukkonen <jussi.kukkonen@intel.com>
+wrote:
 
-b80935a6d745cca79a98e2da2a4f73f0f2aaac4e
-readline: rename patch to contain CVE reference
+> Fix cross-compilation build issue in gio tests.
+>
 
-78e05984b1ac48b1f25547ccd9740611cd5890a9
-unzip: rename patch to reflect CVE fix
+glib-2.0-native fails with:
 
-bbd6d07c98149201a51086da9a069d207c4777d5
-libxslt: CVE-2015-7995
+| make all-recursive
+| make[5]: glib-compile-resources: Command not found
+| make[5]: Entering directory
+`/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-rpm/build/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.46.1-r0/build/gio/tests'
+| make[5]: glib-compile-resources: Command not found
+| make[5]: glib-compile-resources: Command not found
+| make[5]: glib-compile-resources: Command not found
 
-TIA
-Armin
+If the host doesn't have glib-compile-resources on.  I guess the patch
+needs to say "if cross then use host glib-compile-resources, otherwise use
+the one we just built".
 
+Ross
+
+--047d7bdc1c0c66f5fe0524aec85e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 November 2015 at 12:43, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,=
+204);border-left-style:solid;padding-left:1ex"><div id=3D":5q5" class=3D"" =
+style=3D"overflow:hidden">Fix cross-compilation build issue in gio tests.<b=
+r></div></blockquote></div><br>glib-2.0-native fails with:</div><div class=
+=3D"gmail_extra"><span style=3D"color:rgb(0,0,0);font-family:&#39;Courier N=
+ew&#39;,courier,monotype,monospace"><br></span></div>| make all-recursive<b=
+r>| make[5]: glib-compile-resources: Command not found<br>| make[5]: Enteri=
+ng directory `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-rpm/bu=
+ild/build/tmp/work/x86_64-linux/glib-2.0-native/1_2.46.1-r0/build/gio/tests=
+&#39;<br>| make[5]: glib-compile-resources: Command not found<br>| make[5]:=
+ glib-compile-resources: Command not found<br>| make[5]: glib-compile-resou=
+rces: Command not found<div><br></div><div>If the host doesn&#39;t have gli=
+b-compile-resources on.=C2=A0 I guess the patch needs to say &quot;if cross=
+ then use host glib-compile-resources, otherwise use the one we just built&=
+quot;.</div><div><br></div><div>Ross</div></div>
+
+--047d7bdc1c0c66f5fe0524aec85e--
