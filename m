@@ -1,36 +1,27 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 86C2C77396
+Return-Path: <Jian.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 481F1773BA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 05:16:49 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.20,242,1444665600"; 
-   d="scan'208";a="478125"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 16 Nov 2015 13:16:29 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id tAG5FwDh005750;
-	Mon, 16 Nov 2015 13:15:59 +0800
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0181.006; Mon, 16 Nov 2015 13:16:40 +0800
-From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v4 0/3] These patches aim to make the spdx file be
-	compliant with the SPDX 1.2 Specification.
-Thread-Index: AQHQo2WAF5RK7vRO10izvmzFSTmxy56e6bxA
-Date: Mon, 16 Nov 2015 05:16:39 +0000
-Message-ID: <1B56A49860EB2D45ADE3731B15C959FDA8E58819@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1433930954-31813-1-git-send-email-leimaohui@cn.fujitsu.com>
-In-Reply-To: <1433930954-31813-1-git-send-email-leimaohui@cn.fujitsu.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.93]
+	Mon, 16 Nov 2015 05:18:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAG5I9Hv016137
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Nov 2015 21:18:09 -0800 (PST)
+Received: from [128.224.162.138] (128.224.162.138) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 15 Nov 2015 21:18:08 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <1447409389-406-1-git-send-email-jian.liu@windriver.com>
+From: Jian Liu <jian.liu@windriver.com>
+Message-ID: <564966FD.8020202@windriver.com>
+Date: Mon, 16 Nov 2015 13:17:49 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
 MIME-Version: 1.0
-Cc: "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>
-Subject: Re: [PATCH v4 0/3] These patches aim to make the spdx file be compliant with the SPDX 1.2 Specification.
+In-Reply-To: <1447409389-406-1-git-send-email-jian.liu@windriver.com>
+Subject: Re: [PATCH] archiver.bbclass: fix an exception of the mode configured
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,40 +34,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Nov 2015 05:16:54 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="shift_jis"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 16 Nov 2015 05:18:15 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-SGkgYWxsDQoNCkluIHRoZSBPcGVuIENvbXBsaWFuY2UgU3VtbWl0IG9mIDIwMTUoaHR0cDovL2V2
-ZW50cy5saW51eGZvdW5kYXRpb24ub3JnL2V2ZW50cy9vcGVuLWNvbXBsaWFuY2Utc3VtbWl0KSwg
-SSBub3RpY2VkIHRoYXQgYSBsb3Qgb2YgcGVvcGxlIGFyZSBpbnRlcmVzdGVkIGluIFNQRFguDQoN
-Cg0KQWNjb3JkaW5nIHRvIG15IHVuZGVyc3RhbmRpbmcsIHRoZXJlIGFyZSBzb21lIHRvb2xzIGhh
-dmUgc3VwcG9ydGVkIFNQRFggMi4wLiBCdXQgWW9jdG8rc3BkeCBzdGlsbCBzdXBwb3J0cyBTUERY
-IDEuMS4NCg0KSW4gdGhlIG5leHQgdmVyc2lvbiBvZiBwb2t5LCBhcmUgdGhlcmUgc29tZSBwbGFu
-cyBhYm91dCBZb2N0bytzcGR4Pw0KDQoNCkJlc3QgUmVnYXJkcw0KTGVpDQoNCg0KPiAtLS0tLU9y
-aWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBMZWksIE1hb2h1aQ0KPiBTZW50OiBXZWRuZXNk
-YXksIEp1bmUgMTAsIDIwMTUgNjowOSBQTQ0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZw0KPiBDYzogTGVpLCBNYW9odWkNCj4gU3ViamVjdDogW1BBVENIIHY0
-IDAvM10gVGhlc2UgcGF0Y2hlcyBhaW0gdG8gbWFrZSB0aGUgc3BkeCBmaWxlIGJlIGNvbXBsaWFu
-dCB3aXRoIHRoZQ0KPiBTUERYIDEuMiBTcGVjaWZpY2F0aW9uLg0KPiANCj4gVGhvc2UgcGF0Y2hl
-cyBhaW0gdG8gbWFrZSB0aGUgc3BkeCBmaWxlIGJlIGNvbXBsaWFudCB3aXRoIHRoZSBTUERYIDEu
-MiBTcGVjaWZpY2F0aW9uLg0KPiBJZiB5b3Ugd2FudCB0byB1c2UgdGhpcyBmZWF0dXJlLHlvdSBu
-ZWVkIHRvIGRvOg0KPiAxLiBNYWtlIHN1cmUgeW91ciBmb3Nzb2xvZ3krc3BkeCBzZXJ2ZXIgd29y
-a3Mgd2VsbC5Zb3UgY2FuIGdldCBzcGR4IGZpbGUgd2l0aCB0aGUNCj4gZm9sbG93aW5nIGNvbW1h
-bmQuDQo+ICAgIGN1cmwgaHR0cDovLzEyNy4wLjAuMS9yZXBvLyAtLW5vcHJveHkgMTI3LjAuMC4x
-IC1rIC1GIG1vZD1zcGR4X2xpY2Vuc2Vfb25jZSAtRg0KPiBub0NvcHlyaWdodD1mYWxzZQ0KPiAg
-ICAtRiBqc29uT3V0cHV0PWZhbHNlIC1GIGZ1bGxTUERYRmxhZz10cnVlIC1GIGZpbGU9QHh4eC50
-YXIuZ3ogLW8geHh4LnNwZHgNCj4gDQo+IDIuIEFkZCB0aGUgZm9sbG93aW5nIElOSEVSSVQgc3Rh
-dGVtZW50IGFuZCBzZXQgdGhlIFNQRFhfTUFOSUZFU1RfRElSIGF0IHRoZSBlbmQNCj4gb2YgeW91
-ciBjb25mL2xvY2FsLmNvbmYgZmlsZSBmb3VuZCBpbiB0aGUgQnVpbGQgRGlyZWN0b3J5Lg0KPiAg
-ICBJTkhFUklUICs9ICJzcGR4Ig0KPiANCj4gDQo+IExlaSBNYW9odWkgKDMpOg0KPiAgIGxpY2Vu
-c2VzLmNvbmY6IE1vZGlmaWVkIHBhcmFtZXRlcnMgZm9yIG5ldyBzcGR4LmJiY2xhc3MNCj4gICBz
-cGR4LmJiY2xhc3M6IENyZWF0ZSB0aGUgc3BkeCBmaWxlIHdoaWNoIGlzIGNvbXBsaWFudCAgICAg
-IHdpdGggU1BEWA0KPiAgICAgMS4yIFNwZWNpZmljYXRpb24NCj4gICBzcGR4OiBjcmVhdGUgYSBk
-aXJlY3RvcnkgdG8gc2F2ZSBzb3VyY2UgY29kZQ0KPiANCj4gIG1ldGEvY2xhc3Nlcy9zcGR4LmJi
-Y2xhc3MgfCA0MzEgKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LQ0KPiAgbWV0YS9jb25mL2xpY2Vuc2VzLmNvbmYgICB8ICA4NiArKystLS0tLS0NCj4gIDIgZmls
-ZXMgY2hhbmdlZCwgMTg0IGluc2VydGlvbnMoKyksIDMzMyBkZWxldGlvbnMoLSkNCj4gDQo+IC0t
-DQo+IDEuOC40LjINCg0K
+Hi all,
+
+Sorry for a mistake. Please ignore this patch
+
+Jian
+
+On 2015年11月13日 18:09, Jian Liu wrote:
+> gcc-source does not have the task do_configure, so if configured mode is set,
+> the task do_ar_configured depends on do_configure.
+> This will cause an error.
+>
+> Signed-off-by: Jian Liu <jian.liu@windriver.com>
+> ---
+>   archiver.bbclass |   15 ++++++++++++---
+>   1 file changed, 12 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+> index 41a552c..3d1952a 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -73,8 +73,18 @@ python () {
+>           # We can't use "addtask do_ar_configured after do_configure" since it
+>           # will cause the deptask of do_populate_sysroot to run not matter what
+>           # archives we need, so we add the depends here.
+> -        d.appendVarFlag('do_ar_configured', 'depends', ' %s:do_configure' % pn)
+> -        d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_configured' % pn)
+> +        ##
+> +        # For some specific packages like gcc-source, do_configure may be deleted.
+> +        deltask = d.getVar('__BBDELTASKS', False)
+> +        noexec = d.getVarFlag('do_configure', 'noexec')
+> +        os.system("echo deltask=%s, noexec=%s, pn=%s >> /tmp/tasks.txt" %(deltask,noexec,pn))
+> +        #if 'do_configure' in (d.getVar('__BBDELTASKS', False) or []) or d.getVarFlag('do_configure', 'noexec') == '1':
+> +        if d.getVarFlag('do_configure', 'noexec') == '1' or 'do_configure' not in d.getVar('__BBTASKS', False):
+> +            pass
+> +        else:
+> +            bb.build.addtask('do_ar_configured', None, 'do_unpack_and_patch', d)
+> +            d.appendVarFlag('do_ar_configured', 'depends', ' %s:do_configure' % pn)
+> +            d.appendVarFlag('do_deploy_archives', 'depends', ' %s:do_ar_configured' % pn)
+>       elif ar_src:
+>           bb.fatal("Invalid ARCHIVER_MODE[src]: %s" % ar_src)
+>   
+> @@ -348,7 +358,6 @@ do_deploy_archives[sstate-outputdirs] = "${DEPLOY_DIR_SRC}"
+>   
+>   addtask do_ar_original after do_unpack
+>   addtask do_ar_patched after do_unpack_and_patch
+> -addtask do_ar_configured after do_unpack_and_patch
+>   addtask do_dumpdata
+>   addtask do_ar_recipe
+>   addtask do_deploy_archives before do_build
+
 
