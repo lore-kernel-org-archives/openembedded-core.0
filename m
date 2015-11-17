@@ -1,24 +1,38 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A8816010B
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 428C660291
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 17:09:42 +0000 (UTC)
-Received: from [2a00:14f0:e04c:1:e23f:49ff:fe47:b7fd] (helo=phil-desktop)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1ZyjlG-0006WJ-3i; Tue, 17 Nov 2015 18:09:42 +0100
-Message-ID: <1447780178.1472.29.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 17 Nov 2015 17:09:38 +0000
-In-Reply-To: <CAJTo0La98Rv=0ZwdHce4FTknVAmZnGEnNmpXopK9+8cKqbnj8Q@mail.gmail.com>
-References: <1447739760-14395-1-git-send-email-armccurdy@gmail.com>
-	<1447773377.1472.28.camel@pbcl.net>
-	<CAJTo0La98Rv=0ZwdHce4FTknVAmZnGEnNmpXopK9+8cKqbnj8Q@mail.gmail.com>
-X-Mailer: Evolution 3.16.5-1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] directfb.inc: force bfd linker for armv7a
+	Tue, 17 Nov 2015 17:26:56 +0000 (UTC)
+Received: by qgea14 with SMTP id a14so10304372qge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Nov 2015 09:26:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=from:to:cc:subject:date:message-id:organization;
+	bh=GgyAhYF25GJIoxD+kb24sgGkKmTSFB56f81eafgxeXY=;
+	b=SxW4TTBLr+8OggPwJXQtNB4PXLvZrJovwtBN7oQWFWApHFKbMNvhsHpIarh9YpzUpo
+	Of/lbkdPEk46nLkZa1vFYSUmoiQeg6C+2VpwQDoea3A7WY+3XnuNLNYIxCU58b3eJpZd
+	OfJCR0x366C2klw9LU9ZqImdRunjjPhvuAB4e4ZdpXN4chxf6zbUSjX2TyL/ES/iI697
+	8CgZkVlMLqpMpfoEV39B7CjKKYQRFpnsZOahnkI6pawk81ZmDV7fesKHJDesrig0lAXA
+	tLcrRN+jp6d805TeUABayMSL7sgULC0kBniswDGlGpuFZJ3ARyaqTuFfTqg136nX7IAH
+	ikgQ==
+X-Received: by 10.140.32.200 with SMTP id h66mr42618333qgh.16.1447781217282;
+	Tue, 17 Nov 2015 09:26:57 -0800 (PST)
+Received: from localhost ([177.100.174.62]) by smtp.gmail.com with ESMTPSA id
+	w81sm10397267qhw.47.2015.11.17.09.26.53
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 17 Nov 2015 09:26:56 -0800 (PST)
+Received: by localhost (sSMTP sendmail emulation);
+	Tue, 17 Nov 2015 15:26:50 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Nov 2015 15:26:47 -0200
+Message-Id: <1447781210-23924-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.6.2
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v3 1/4] lttng-modules: Upgrade to 2.7 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 17:09:47 -0000
-Content-Type: multipart/alternative; boundary="=-TI9qYjqriTtY4UBU9krn"
+X-List-Received-Date: Tue, 17 Nov 2015 17:26:57 -0000
 
---=-TI9qYjqriTtY4UBU9krn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-On Tue, 2015-11-17 at 16:44 +0000, Burton, Ross wrote:
-> 
-> On 17 November 2015 at 15:16, Phil Blundell <pb@pbcl.net> wrote:
-> > Does the resulting directfb-csource binary actually work with that
-> > change?  My recollection is that ld.bfd will just silently permit
-> > relocs that gold (correctly) refuses to allow.
-> > 
-> Personally I don't use DirectFB (and am constantly surprised it's
-> still a thing) so at this point I'm not going to merge either of
-> these patches until someone can confirm that their fix *works on
-> hardware* instead of just fixing the build.
-I think that's a reasonable position.  In any case, the underlying
-issue is a compiler bug and ought really to be fixed there rather than
-patching directfb or any other package that just happens to fall over
-it.
-p.
+Changes in v3: None
+Changes in v2: None
 
---=-TI9qYjqriTtY4UBU9krn
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+ meta/recipes-kernel/lttng/lttng-modules_git.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-<html><head></head><body><div>On Tue, 2015-11-17 at 16:44 +0000, Burton, Ross wrote:</div><blockquote type="cite"><div dir="ltr"><div><br><div class="gmail_quote">On 17 November 2015 at 15:16, Phil Blundell <span dir="ltr">&lt;<a href="mailto:pb@pbcl.net" target="_blank">pb@pbcl.net</a>&gt;</span> wrote:<br><blockquote type="cite"><div id=":4vj" class="a3s" style="overflow:hidden">Does the resulting directfb-csource binary actually work with that<br>
-change?&nbsp; My recollection is that ld.bfd will just silently permit<br>
-relocs that gold (correctly) refuses to allow.</div><br></blockquote></div><br>Personally I don't use DirectFB (and am constantly surprised it's still a thing) so at this point I'm not going to merge either of these patches until someone can confirm that their fix *works on hardware* instead of just fixing the build.</div></div>
-</blockquote><div><br></div><div>I think that's a reasonable position. &nbsp;In any case, the underlying issue is a compiler bug and ought really to be fixed there rather than patching directfb or any other package that just happens to fall over it.</div><div><br></div><div>p.</div><div><br></div></body></html>
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_git.bb b/meta/recipes-kernel/lttng/lttng-modules_git.bb
+index 54544fe..46cc1f0 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_git.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_git.bb
+@@ -2,18 +2,18 @@ SECTION = "devel"
+ SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
+ DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
+ LICENSE = "LGPLv2.1 & GPLv2 & MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=1412caf5a1aa90d6a48588a4794c0eac \
++LIC_FILES_CHKSUM = "file://LICENSE;md5=362844633a08753bd96ab322a6c7f9f6 \
+                     file://gpl-2.0.txt;md5=751419260aa954499f7abaabaa882bbe \
+                     file://lgpl-2.1.txt;md5=243b725d71bb5df4a1e5920b344b86ad"
+ 
+ inherit module
+ 
+-SRCREV = "7a88f8b50696dd71e80c08661159caf8e119bf51"
+-PV = "2.6.2+git${SRCPV}"
++SRCREV = "4247236df9113aca059d79c78d85779c1ff4edb0"
++PV = "2.7.0+git${SRCPV}"
+ 
+ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|arm).*-linux'
+ 
+-SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.6"
++SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.7"
+ 
+ export INSTALL_MOD_DIR="kernel/lttng-modules"
+ 
+-- 
+2.6.2
 
---=-TI9qYjqriTtY4UBU9krn--
+
