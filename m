@@ -1,32 +1,48 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 095516010B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E1C96010B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 15:26:39 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	tAHFQelD010461 for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 09:26:40 -0600
-Received: from adi-pc-linux.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015111709263997-71464 ;
-	Tue, 17 Nov 2015 09:26:39 -0600 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Nov 2015 17:26:38 +0200
-Message-Id: <3a685546bb14b90aa1f190f92e223001d594777c.1447773614.git.adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <c9daa8b45c30f25d7b50c6a7df028de706809c21.1447773614.git.adrian.ratiu@ni.com>
-References: <c9daa8b45c30f25d7b50c6a7df028de706809c21.1447773614.git.adrian.ratiu@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 11/17/2015 09:26:40 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 11/17/2015 09:26:40 AM,
-	Serialize complete at 11/17/2015 09:26:40 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-11-17_08:, , signatures=0
-Subject: [oe][PATCH 2/2] package_manager: support for signed IPK package feeds
+	Tue, 17 Nov 2015 16:45:14 +0000 (UTC)
+Received: by ioc74 with SMTP id 74so24384010ioc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Nov 2015 08:45:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=1PXOHXpazYSl8deDP2c2ukFOiputgQY5UmoQH+VavAQ=;
+	b=gJ7+pPAf28Zb9zUY+HUA0Y3uEEbcyURrALQ2m8o8nDgel1j9raw+0787dhR0dLyxJX
+	BSZInx9NWOjqzewXujsqaBXyA4W5TQyEqfw9o/6SqT/DOntNdgTMW2j3rM9wHTBKbeOg
+	On7LfJdjbQosIWQR8oChKah8TwKWwouEHsukIgI9XtYvRFqwoZVYTCcveQDvE7/lLnzq
+	EeQPdl5U2ud44P/DPvTqmuFHaStsyHWrKewKghSJkRrUk3g7KNC3x4SU+yBFduJ6zCRb
+	LhJrPU8So0/XqzS8OK+qH85SBVh+Z+JtkVlx0Bh3asZDGQb8up0n1snfEte91q5ygW9a
+	9O/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=1PXOHXpazYSl8deDP2c2ukFOiputgQY5UmoQH+VavAQ=;
+	b=GwlKqBa31XZbjlew11vFhO67gJVJusMVjLPgsBvU61Bpe5Hj1WMo6hBSrQg6MxRV/9
+	ghLiLvZJ+0osrkWshOqjYIlT8+ffXgJtSYB2LW69m4NyvB3QBd1v7WNcyDP48bSvXucd
+	GuToja6sxZ8+6/XExlwgnngEjOcwli2nvH4AoohtM51MjXSbh5MBbXmaQ2nMJW9KLaKa
+	hErNT6IIom7/MB7hzCIr/Qt3uIi1/CLWkkQ2tS8MyEWjyOgKhtNQXyvG7ZHSlFJyxk9h
+	f2q3f9xF8C72kZUJKYHo7mgYuPBLqqaHss15pOmFZuuUlq9bj6isrzVRopuzDauhafeM
+	JLBw==
+X-Gm-Message-State: ALoCoQm2bWbR+MpmpsMcdho3jitqXAj42Gbex3xeqQGKhrx1xTJFAQ0+5ekjDG4I2Arr0Xj4PHxx
+X-Received: by 10.107.135.30 with SMTP id j30mr35766787iod.148.1447778715201; 
+	Tue, 17 Nov 2015 08:45:15 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Tue, 17 Nov 2015 08:44:55 -0800 (PST)
+In-Reply-To: <1447773377.1472.28.camel@pbcl.net>
+References: <1447739760-14395-1-git-send-email-armccurdy@gmail.com>
+	<1447773377.1472.28.camel@pbcl.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 17 Nov 2015 16:44:55 +0000
+Message-ID: <CAJTo0La98Rv=0ZwdHce4FTknVAmZnGEnNmpXopK9+8cKqbnj8Q@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] directfb.inc: force bfd linker for armv7a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,71 +55,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 15:26:40 -0000
+X-List-Received-Date: Tue, 17 Nov 2015 16:45:15 -0000
+Content-Type: multipart/alternative; boundary=001a113ec64a088c910524bf40a0
 
-Create gpg signed package feeds if configured. Very similar to
-how rpm does it. Most of the config variables are shared with
-the rpm backend (like PACKAGE_FEED_GPG_NAME), with the exception
-of PACKAGE_FEED_GPG_PUBKEY which is not needed in this case.
+--001a113ec64a088c910524bf40a0
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
----
- meta/lib/oe/package_manager.py | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+On 17 November 2015 at 15:16, Phil Blundell <pb@pbcl.net> wrote:
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 964fddc..8528c9b 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -174,10 +174,25 @@ class OpkgIndexer(Indexer):
- 
-         opkg_index_cmd = bb.utils.which(os.getenv('PATH'), "opkg-make-index")
- 
-+        gpg_cmd = ''
-+
-+        # all these variables are needed to succesfully sign the index, otherwise skip signing
-+        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1' and \
-+           self.d.getVar('PACKAGE_FEED_GPG_NAME', True) and \
-+           self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True):
-+                pkgfeed_gpg_name = self.d.getVar('PACKAGE_FEED_GPG_NAME', True)
-+                pkgfeed_gpg_pass = self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True)
-+                gpg_bin = self.d.getVar('GPG_BIN', True) or bb.utils.which(os.getenv('PATH'), "gpg")
-+
-+                gpg_cmd = "%s --no-use-agent --batch --yes -ab -u %s --passphrase-file '%s'" % \
-+                          (gpg_bin, pkgfeed_gpg_name, pkgfeed_gpg_pass)
-+
-+
-         if not os.path.exists(os.path.join(self.deploy_dir, "Packages")):
-             open(os.path.join(self.deploy_dir, "Packages"), "w").close()
- 
-         index_cmds = []
-+        index_sign_files = []
-         for arch_var in arch_vars:
-             archs = self.d.getVar(arch_var, True)
-             if archs is None:
-@@ -196,6 +211,8 @@ class OpkgIndexer(Indexer):
-                 index_cmds.append('%s -r %s -p %s -m %s' %
-                                   (opkg_index_cmd, pkgs_file, pkgs_file, pkgs_dir))
- 
-+                index_sign_files.append(pkgs_file)
-+
-         if len(index_cmds) == 0:
-             bb.note("There are no packages in %s!" % self.deploy_dir)
-             return
-@@ -206,7 +223,11 @@ class OpkgIndexer(Indexer):
-         if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
-             raise NotImplementedError('Package feed signing not implementd for ipk')
- 
--
-+        if gpg_cmd:
-+            for f in index_sign_files:
-+                result = oe.utils.multiprocess_exec([gpg_cmd + ' ' + f], create_index)
-+                if result:
-+                    bb.fatal('%s' % ('\n'.join(result)))
- 
- class DpkgIndexer(Indexer):
-     def _create_configs(self):
--- 
-2.1.4
+> Does the resulting directfb-csource binary actually work with that
+> change?  My recollection is that ld.bfd will just silently permit
+> relocs that gold (correctly) refuses to allow.
+>
 
+Personally I don't use DirectFB (and am constantly surprised it's still a
+thing) so at this point I'm not going to merge either of these patches
+until someone can confirm that their fix *works on hardware* instead of
+just fixing the build.
 
+Ross
+
+--001a113ec64a088c910524bf40a0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 November 2015 at 15:16, Phil Blundell <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</span> wrote:=
+<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex"><div id=3D":4vj" class=3D"a3s" style=3D"=
+overflow:hidden">Does the resulting directfb-csource binary actually work w=
+ith that<br>
+change?=C2=A0 My recollection is that ld.bfd will just silently permit<br>
+relocs that gold (correctly) refuses to allow.</div></blockquote></div><br>=
+Personally I don&#39;t use DirectFB (and am constantly surprised it&#39;s s=
+till a thing) so at this point I&#39;m not going to merge either of these p=
+atches until someone can confirm that their fix *works on hardware* instead=
+ of just fixing the build.</div><div class=3D"gmail_extra"><br></div><div c=
+lass=3D"gmail_extra">Ross</div></div>
+
+--001a113ec64a088c910524bf40a0--
