@@ -1,39 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id F0D9760110
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id EF44E605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 11:58:15 +0000 (UTC)
-Received: by wmdw130 with SMTP id w130so151507568wmd.0
+	Tue, 17 Nov 2015 11:58:16 +0000 (UTC)
+Received: by wmec201 with SMTP id c201so22318120wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 03:58:16 -0800 (PST)
+	Tue, 17 Nov 2015 03:58:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=VXl8DckSEAEPX/I5DPqnqOp5mh2BFmCXtrNtbIUCHu8=;
-	b=sCU7lRsYKioYiytVGhuRNBRSncWjUWhsWYTy4MQZYa/mhML33y179wl3efHx0cUx5j
-	9OyMiNGsbUA0TVUTCgaUChEDo5tccg9B/KFZIJqwhb4D6nz8Mt6djnSPqA6mttk+aUMA
-	9b03EqVKt44+VfGreb3rwU/eTKGoYtFT9SSFZYx6PGTE8nElc8wFwMaeL6M2vEu4Zf51
-	cGkifKrq1SuSzWTpGJuYYCQNnlgG59mKAua688hDbyL8ttp4EEpDdJmwxVJdy10Ei7jg
-	yVHeVTk9pjEl+TIc/x/yuiDRQo/GCyrG8xDW1u6twJx86pw2IedDX+25+DXc0ldnGfYf
-	8N6Q==
-X-Received: by 10.194.11.67 with SMTP id o3mr43151346wjb.3.1447761496123;
-	Tue, 17 Nov 2015 03:58:16 -0800 (PST)
+	:references; bh=cmGAJQ8PIC2+ZS2q4paScnHRB5n5yDmrphSIPVmdkkY=;
+	b=xj3DorrxlMgUcqY6pvR+c8y8T8Z9g/R9iR6ESNeLBhd6Spwz5B17hJE+lwDJmJlBEg
+	RlPwBTNdGEcXj8inpRe6iM5KWFpAlk7Og14nokMm+fXQ43SZ7WvqNsiN9pxW2p+MUM2K
+	f0jzrMf+7utyV1yZ3x2GPITuNEZ6QQ3jNqHbXYtQGxKGbCS7SxowHiGdfeTcC7GV8Vk1
+	raOpqy32l6TDIlrem779ujtl6xmphzrbZWiDEMa5sISO4eup6HVLITkEb0FtJWSegAEd
+	UUDMK0uisyZYRELhLs/PVNoRG+A4ZewEk4nRODbgA7GzU1/SMpBfStUmIU/SUlV5+Qzp
+	jDoA==
+X-Received: by 10.194.86.161 with SMTP id q1mr50782138wjz.88.1447761497299;
+	Tue, 17 Nov 2015 03:58:17 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	q141sm23611030wmg.3.2015.11.17.03.58.15
+	q77sm22371608wmd.22.2015.11.17.03.58.16
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Nov 2015 03:58:15 -0800 (PST)
+	Tue, 17 Nov 2015 03:58:16 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Nov 2015 11:58:06 +0100
-Message-Id: <cde84a7f8d8c2bf49b72aae8e61b31fa8e5a5273.1447757562.git.Martin.Jansa@gmail.com>
+Date: Tue, 17 Nov 2015 11:58:07 +0100
+Message-Id: <9d1ab0ab809d39baf00dbabd33b7fcda469a6f42.1447757562.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <cover.1447757562.git.Martin.Jansa@gmail.com>
 References: <cover.1447757562.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1447757562.git.Martin.Jansa@gmail.com>
 References: <cover.1447757562.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv2 14/16] rootfs_*.bbclass: don't add BUILDNAME to do_rootfs vardepsexclude
+Subject: [PATCHv2 15/16] libsecret: add dependency on intltool-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,53 +46,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 11:58:16 -0000
+X-List-Received-Date: Tue, 17 Nov 2015 11:58:17 -0000
 
-* rootfs_*.bbclass doesn't use this variable anymore, so we can drop it
+From: Joe Slater <jslater@windriver.com>
 
+intltoolize is needed by configure.
+
+Signed-off-by: Joe Slater <jslater@windriver.com>
+Acked-By: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/rootfs_deb.bbclass | 1 -
- meta/classes/rootfs_ipk.bbclass | 1 -
- meta/classes/rootfs_rpm.bbclass | 1 -
- 3 files changed, 3 deletions(-)
+ meta/recipes-gnome/libsecret/libsecret_0.18.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index d51b458..f79fca6 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -8,7 +8,6 @@ ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
- do_rootfs[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot"
- do_populate_sdk[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot bzip2-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_deb"
--rootfs_deb_do_rootfs[vardepsexclude] += "BUILDNAME"
- do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb b/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb
+index 8fc0018..a1dcc78 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=23c2a5e0106b99d75238986559bb5fc6"
  
- do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index dd144e4..d417800 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -13,7 +13,6 @@ do_rootfs[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_popu
- do_populate_sdk[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_ipk"
- do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
--rootfs_ipk_do_rootfs[vardepsexclude] += "BUILDNAME"
+ inherit gnomebase gtk-doc
  
- do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
- do_populate_sdk[lockfiles] += "${WORKDIR}/ipk.lock"
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index d85d001..b4cd55b 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -22,7 +22,6 @@ do_rootfs[depends] += "${RPMROOTFSDEPENDS}"
- do_populate_sdk[depends] += "${RPMROOTFSDEPENDS}"
+-DEPENDS = "glib-2.0 libgcrypt gettext-native"
++DEPENDS = "glib-2.0 libgcrypt gettext-native intltool-native"
  
- do_rootfs[recrdeptask] += "do_package_write_rpm"
--rootfs_rpm_do_rootfs[vardepsexclude] += "BUILDNAME"
- do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+ EXTRA_OECONF += "--disable-manpages"
  
- # RPM doesn't work with multiple rootfs generation at once due to collisions in the use of files 
 -- 
 2.6.3
 
