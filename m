@@ -1,39 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id BA6816010B
+Return-Path: <adrian.freihofer@gmail.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 31A486011B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 11:58:18 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so22319050wme.1
+	Tue, 17 Nov 2015 12:24:20 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so23288729wmw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 03:58:18 -0800 (PST)
+	Tue, 17 Nov 2015 04:24:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=Matxez+QMNxrXrxgKRAQhMhDwmgwNRKMCpE8l4+cmHU=;
-	b=cyZWlEHmsYhFO8dLtZdlrjHyGjQUqUNMUwWiyWrgzJn24dyGywDt6BPJVyYhYAB0p2
-	X1MIua3CFv/wrtTnbHRBiPL4kXvvThLo7Cva+WFz1MBKvKhQqn9Pk9/uh5GIpGCoF0ub
-	Ibn92+pIcCtmHSY/ieWg1rxA9CkilXz30LOwOLvA/TLFo1kc1TtRG1k8QwBlrqDbH/V/
-	Y4O8SdqOL7xTGjFT1qVdBBYAKBp6qfpd1dJ1Yuxv15/U3X6giWcL7dL69mS0VW9YC2uO
-	oC2lsMYWjfB5bQ3L7NZc77P53Q3wD8PSUb3ONPRWw0Bhbwu69uhrxan0Y0cGtrsoYhZq
-	FN8g==
-X-Received: by 10.194.92.138 with SMTP id cm10mr43299972wjb.6.1447761498763;
-	Tue, 17 Nov 2015 03:58:18 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:content-type:mime-version:content-transfer-encoding;
+	bh=OitwUPlltCuHRL+rcxLIvogydxQgJvhcL6ekiVnHwzE=;
+	b=wmg7MWvjFGwHE8XOnFCInJeC1Fk2O1ILGDlftX62QbDqgY5/ZuAJeqGqQRr/S0oa/Y
+	kUg1BCTHBP7zK3E1LodYTAKuubM0ncrFSqaOsNwhf+S4Jmb8IzlheNPnBI4viA/JIebz
+	nHacgvn2hUXJqac0d2X/cbpLYefrZy55siZlvF0H2kGO9IBFJNQjVcslUj+WJuEozA5k
+	Ef1X9GqnKwdkPBGusOjEChFS10zFz+/Dmz4KrjLgSw7Msgzfqt6mv5DQmV2CI/gO5BAd
+	7c/FPizxoWgg3PcNjSgRy4rWOZtIRR60q6EBdOIkLMGsTlq37tFe9HPGRQR0p5vaUnYl
+	daLw==
+X-Received: by 10.28.126.215 with SMTP id z206mr2424023wmc.71.1447763061038;
+	Tue, 17 Nov 2015 04:24:21 -0800 (PST)
+Received: from minint-s4ms3ka.neratec.local (mail.neratec.com. [46.140.151.2])
 	by smtp.gmail.com with ESMTPSA id
-	v4sm30040497wjx.18.2015.11.17.03.58.17
-	for <openembedded-core@lists.openembedded.org>
+	h4sm39709414wjx.41.2015.11.17.04.24.19
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Nov 2015 03:58:17 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Nov 2015 11:58:08 +0100
-Message-Id: <82ab52c6235587509b01dcef43516e98a2ecc40d.1447757562.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.6.3
-In-Reply-To: <cover.1447757562.git.Martin.Jansa@gmail.com>
-References: <cover.1447757562.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1447757562.git.Martin.Jansa@gmail.com>
-References: <cover.1447757562.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv2 16/16] libsdl2: require GLES when building Wayland support
+	Tue, 17 Nov 2015 04:24:20 -0800 (PST)
+Message-ID: <1447763059.4741.32.camel@gmail.com>
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+To: Aws Ismail <aws.ismail@gmail.com>
+Date: Tue, 17 Nov 2015 13:24:19 +0100
+In-Reply-To: <CAMHMu0NAHXA305mAv4uRw-o9eVrpHCL7FOnOVPCV9iymES36dg@mail.gmail.com>
+References: <1447536908-21449-1-git-send-email-adrian.freihofer@gmail.com>
+	<CAMHMu0MA7Sw2UbnrBZrtOYMZ141zN38+D4BU3DUeQVcV2teueQ@mail.gmail.com>
+	<CAMHMu0NAHXA305mAv4uRw-o9eVrpHCL7FOnOVPCV9iymES36dg@mail.gmail.com>
+X-Mailer: Evolution 3.16.5 (3.16.5-3.fc22) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [meta-oe][PATCH 0/3] runqemu improve networking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,40 +47,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 11:58:19 -0000
+X-List-Received-Date: Tue, 17 Nov 2015 12:24:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Ross Burton <ross.burton@intel.com>
+Hi Aws
 
-The Wayland support requires GLES2 to be enabled as otherwise the EGL support
-code in SDL2 isn't enabled.
+The interfaces of my virtual device are configured as:
+eth0: static IP, 192.168.7.2 (This IP is hard coded in many scripts of poky.)
+      This interface is for debugging purpose, it is not available
+      on my physical devices running in a productive environment.
+      The interface is configured by the kernel command line
+      provided by the runqemu script. This interface should
+      (or must in case of NFS rootfs) be ignored by connman, networkmanager
+      or what ever manages the network settings of your device.
+eth1: Configured by connman or networkmanager running on the virtual device.
+      The part of the setup depends on the particular use case you need
+      to emulate. In my setup the tap interfaces of the host ar part
+      of a bridge. On the bridge a dnsmasq instance serves IP addresses.
+      This part of my setup is not published. It is verry specific. But based
+      on my patch set it should be easy to do something similar fitting your
+      use case. The simplest approach might be a static IP address e.g.
+      assigned by a bbappend file e.g. for connman.
 
-| In file included from .../SDL2-2.0.3/src/video/wayland/SDL_waylandvideo.c:34:0:
-| .../SDL2-2.0.3/src/video/wayland/SDL_waylandvideo.c: In function 'Wayland_CreateDevice':
-| .../SDL2-2.0.3/src/video/wayland/SDL_waylandopengles.h:38:38: error: 'SDL_EGL_GetSwapInterval' undeclared (first use in this function)
-|  #define Wayland_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
+runqemu is started with additional parameters to create eth1:
+runqemu hostonly qemuparams="-device virtio-net-pci,netdev=netif1,mac=${macaddr1} -netdev
+tap,id=netif1,ifname=${HOST_TAP_NAME},script=no,downscript=no"
 
-Solve this by adding gles2 to the Wayland PACKAGECONFIG option.
+Regards,
+Adrian
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
-index 97f64f3..f138f97 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
-@@ -39,7 +39,7 @@ PACKAGECONFIG ??= " \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
--    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland gles2', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
- "
- PACKAGECONFIG[alsa]       = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
--- 
-2.6.3
-
+On Mon, 2015-11-16 at 17:16 -0500, Aws Ismail wrote:
+> Hi Adrian,
+> 
+> What's the runqemu line you are running with ?
+> 
+> I am passing -net nic -net nic to the qemuparams line which works
+> fine, but the the two devices come up with no IP addresses.
+> 
+> My full qemu line is:
+> 
+> ROOTFS=<path to qemu.ext4> runqemu qemux86-64 nographic
+> qemuparams="-cpu host --enable-kvm -m 4096 -net nic -net nic"
+> 
+> Aws\
+> 
+> On Sun, Nov 15, 2015 at 1:01 AM, Aws Ismail <aws.ismail@gmail.com> wrote:
+> > Thanks Adrian for the patchset. I will test it and get back to you.
+> > 
+> > Aws\
+> > 
+> > On Sat, Nov 14, 2015 at 4:35 PM, Adrian Freihofer
+> > <adrian.freihofer@gmail.com> wrote:
+> > > This patch series adds two features to runqemu:
+> > > - Support the emulation of more than one NIC
+> > > - Add a hostonly networking mode. This networking mode enables
+> > >   the user to implement different virtual networking environments
+> > >   such as a bridged network as discussed in #7887.
+> > > 
+> > > Note: Without the first patch connman fails if the virtual device
+> > >       provides more than one NIC.
+> > > 
+> > > @Aws Ismail: I'm using this since more than one year. Would be great
+> > >              if you could test this and provide feedback.
+> > > 
+> > > Adrian Freihofer (3):
+> > >   connman: fix qemu config
+> > >   runqemu: add support for multiple NICs
+> > >   runqemu: support hostonly net mode
+> > > 
+> > >  .../connman/connman-conf/qemuall/wired-setup       |  6 ++--
+> > >  scripts/runqemu                                    |  7 +++-
+> > >  scripts/runqemu-gen-tapdevs                        | 11 ++++---
+> > >  scripts/runqemu-ifdown                             | 33 +++++++++++--------
+> > >  scripts/runqemu-ifup                               | 38 +++++++++++++---------
+> > >  scripts/runqemu-internal                           | 21 +++++++-----
+> > >  6 files changed, 72 insertions(+), 44 deletions(-)
+> > > 
+> > > --
+> > > 2.4.3
+> > > 
 
