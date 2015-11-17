@@ -1,48 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 332E96011A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D27826010B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 10:41:46 +0000 (UTC)
-Received: by iofh3 with SMTP id h3so14080305iof.3
+	Tue, 17 Nov 2015 11:57:56 +0000 (UTC)
+Received: by wmdw130 with SMTP id w130so151496114wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 02:41:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel_com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=oHO2iS/zjg9FjilM0kmi/hwx0Mb43TOwvWWElejXOzk=;
-	b=fSI9T6DkcWS9KqIAlVLKewqsjZsG6ib84sv9RNutuJiiPx9vgsMhpirYqYbdPVgi52
-	suSZtZbewnhyfSYDr/tAPF9yaseb1AmTkfITaD4MG7GzLYtrwS7ZeyHUTvQ37KJRSgjI
-	pfhc0kJSppCajrWfe4Q8kWb4Tepb/xArU92Wdd02XPlaEX1VjJ3/3F7hmmgFCL3zC+aW
-	absZN0wpPfYc8CQqHckRj9cJ0jjAQZm9PyBcj8GjOXwo8GnjL0ffk/8Cc9jUjHRhvoLR
-	V3auxbIDBXCP0byoi86vcASFFFfr0+pM/YcIf7/MWZQwWtA84QC8kOTd9UOAlm34jQ2X
-	AvSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=oHO2iS/zjg9FjilM0kmi/hwx0Mb43TOwvWWElejXOzk=;
-	b=aTL6hI4jc2Csrn2NSSZ3Zisk+jFChNFDEiWZgIxjKPlgta3XMXYeisPbf01vVSyivt
-	8XgPiKDPGj/xja/fc/zJtRttKT2sEEkebD9DII9Uv8ug4+JXOPLI/EKH/qTtjLyUr/CQ
-	+UNvxVOHtB/qQF+6WzQHl4Saig5Yzknupv6lLU4UQYnfYK6gXbwYhnAw0b/moEKrNjEs
-	uJ+3YCeT7NHRy846EJgIJpbODweSJmqNgH9amEXZJllL4BLuBQLPMnOirye17jmJoeuP
-	BQmvlV3XAdn//O1+04vhmkfhOBtlSxOrDQ0qOoSnZdrigAvJa3nPInNpaNZ8tc9fthjd
-	l77A==
-X-Gm-Message-State: ALoCoQm9RjlBVtMq2ml9pCEncXfrYaJ2ZZFd/a2DLsh58bXOWgCUvkNwtRpRmWPD/6E8B7m+hzqU
-X-Received: by 10.107.3.144 with SMTP id e16mr32389281ioi.99.1447756907439;
-	Tue, 17 Nov 2015 02:41:47 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Tue, 17 Nov 2015 02:41:28 -0800 (PST)
-In-Reply-To: <1447673972-31812-2-git-send-email-otavio@ossystems.com.br>
-References: <1447673972-31812-1-git-send-email-otavio@ossystems.com.br>
-	<1447673972-31812-2-git-send-email-otavio@ossystems.com.br>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 17 Nov 2015 10:41:28 +0000
-Message-ID: <CAJTo0LbACSOOgLwWGV83BpKcEcqmQn9bg5nz5sQxffQG7RXYHw@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/3] lttng-tools: Upgrade to 2.7 release
+	Tue, 17 Nov 2015 03:57:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=3vaINluVxHDDkcxT1asIrgbsx+Nv18V3c0AJIcRk/mI=;
+	b=BKq3lUbWgFEzDq0KWSqincQiBD3yG67Fi+YXujPwESp8pbr8bvuy177ylBa31AJ6BD
+	pyeTcIiY0o+myT6ER68bSHvww6dsLfc68LaYa5amyQCF9lkJD1Amc1wpcLqOv3fdbQKs
+	6/FZmcKQGLZwyKcJ1j3NTwnsy1unydcNsbckh+zHFu17qApwE544R1OH0ykoKxl4Oatj
+	QCiXbwo0MMPY1DDOu8VCAV3TTSGoekkeoLAzvdCc1vQF2Xcv9TRSM0WavpnUnYV45M55
+	Vy+jFLfYSiv6xfFP/o2BFtPvbfsSGZ3zIq+i4d0ICvODz9j4KWD2xiV72GwI0OZSQeee
+	Dkmw==
+X-Received: by 10.28.51.135 with SMTP id z129mr2211903wmz.19.1447761476773;
+	Tue, 17 Nov 2015 03:57:56 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	v4sm30038941wjx.18.2015.11.17.03.57.55
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 17 Nov 2015 03:57:55 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Nov 2015 11:57:52 +0100
+Message-Id: <cover.1447757562.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.6.3
+Subject: [PATCHv2 00/16] Various fixes from LGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,68 +42,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 10:41:48 -0000
-Content-Type: multipart/alternative; boundary=001a113ecf403080ce0524ba2c1f
+X-List-Received-Date: Tue, 17 Nov 2015 11:57:57 -0000
 
---001a113ecf403080ce0524ba2c1f
-Content-Type: text/plain; charset=UTF-8
+Trying to re-submit with company name in subject in hope it won't be
+ignored forever.
 
-On 16 November 2015 at 11:39, Otavio Salvador <otavio@ossystems.com.br>
-wrote:
+These changes (except tune changes) are needed to get clean build
+results in "bitbake world". And all except tune are needed in jethro
+as well. 
 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->
+All changes were sent weeks or months ago, but there was no (or almost
+no) feedback.
 
-Fails with ptest enabled:
+For gstreamer related changes for jethro you need to use the original
+version I've sent last week, this version is quite different, because
+gstreamber was upgraded to 1.6 in master in the meantime.
 
-DEBUG: Executing shell function do_install_ptest_base
-NOTE: make
-DESTDIR=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/core2-32-poky-linux/lttng-tools/2.7.0+gitAUTOINC+d71e55a5f1-r0/image/usr/lib/lttng-tools/ptest
-install-ptest
-cp -r ./tests
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/core2-32-poky-linux/lttng-tools/2.7.0+gitAUTOINC+d71e55a5f1-r0/image/usr/lib/lttng-tools/ptestfor
-m in $(find
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/core2-32-poky-linux/lttng-tools/2.7.0+gitAUTOINC+d71e55a5f1-r0/image/usr/lib/lttng-tools/ptest/tests
--name Makefile); do \
-          sed -i -e 's|^Makefile:|_Makefile:|' $m; \
-        done
-sed: can't read
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/core2-32-poky-linux/lttng-tools/2.7.0+gitAUTOINC+d71e55a5f1-r0/image/usr/lib/lttng-tools/ptest/tests/regression/run-report.py:
-No such file or directory
+The following changes since commit 6f98c39418c60b7c0b25b30983d2e5257158a6a4:
 
-http://errors.yoctoproject.org/Errors/Details/21841/
+  gcc: Drop 4.8 (2015-11-16 14:59:07 +0000)
 
-Ross
+are available in the git repository at:
 
---001a113ecf403080ce0524ba2c1f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+  git://git.openembedded.org/openembedded-core-contrib jansa/master-submitted
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/master-submitted
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 November 2015 at 11:39, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.=
-br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,20=
-4);border-left-style:solid;padding-left:1ex"><div id=3D":5lo" class=3D"" st=
-yle=3D"overflow:hidden">Signed-off-by: Otavio Salvador &lt;<a href=3D"mailt=
-o:otavio@ossystems.com.br">otavio@ossystems.com.br</a>&gt;<br></div></block=
-quote></div><br>Fails with ptest enabled:<br><br>DEBUG: Executing shell fun=
-ction do_install_ptest_base<br>NOTE: make DESTDIR=3D/home/pokybuild/yocto-a=
-utobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/core2-32-poky-=
-linux/lttng-tools/2.7.0+gitAUTOINC+d71e55a5f1-r0/image/usr/lib/lttng-tools/=
-ptest install-ptest<br>cp -r ./tests /home/pokybuild/yocto-autobuilder/yoct=
-o-worker/nightly-x86-lsb/build/build/tmp/work/core2-32-poky-linux/lttng-too=
-ls/2.7.0+gitAUTOINC+d71e55a5f1-r0/image/usr/lib/lttng-tools/ptestfor m in $=
-(find /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/=
-build/tmp/work/core2-32-poky-linux/lttng-tools/2.7.0+gitAUTOINC+d71e55a5f1-=
-r0/image/usr/lib/lttng-tools/ptest/tests -name Makefile); do \<br>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 sed -i -e &#39;s|^Makefile:|_Makefile:|&#39; $m=
-; \<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>sed: can&#39;t read /home/pokybu=
-ild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/cor=
-e2-32-poky-linux/lttng-tools/2.7.0+gitAUTOINC+d71e55a5f1-r0/image/usr/lib/l=
-ttng-tools/ptest/tests/regression/run-report.py: No such file or directory<=
-br><br><a href=3D"http://errors.yoctoproject.org/Errors/Details/21841/">htt=
-p://errors.yoctoproject.org/Errors/Details/21841/</a></div><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+Joe Slater (1):
+  libsecret: add dependency on intltool-native
 
---001a113ecf403080ce0524ba2c1f--
+Martin Jansa (14):
+  icu: force arm mode
+  guile, mailx, gcc, opensp, gstreamer1.0-libav, libunwind: disable
+    thumb where it fails for qemuarm
+  directfb: add fPIC to CFLAGS
+  libunwind: fix build for qemuarm
+  gstreamer1.0-plugins-base: add PACKAGECONFIG for libvisual
+  gstreamer1.0-plugins-bad: fix dependencies for uvch264 PACKAGECONFIG
+  gstreamer1.0-plugins-good: fix PACKAGECONFIG for gudev and add one for
+    v4l2 and libv4l2
+  gst-plugins-bad: improve FILES variables
+  cortexa{7,15,17}: add VFPv4 tunes
+  tune-*: use mcpu instead of mtune for ARM tunes
+  arch-armv7ve: add tune include for armv7ve and use it from cortexa7
+    and cortexa15
+  feature-arm-vfp.inc: respect vfpv4 when setting -mfloat-abi and
+    ARMPKGSFX_EABI
+  feature-arm-vfp.inc: add -mfpu=vfpv4 when vfpv4 is in TUNE_FEATURES
+  rootfs_*.bbclass: don't add BUILDNAME to do_rootfs vardepsexclude
+
+Ross Burton (1):
+  libsdl2: require GLES when building Wayland support
+
+ meta/classes/rootfs_deb.bbclass                    |   1 -
+ meta/classes/rootfs_ipk.bbclass                    |   1 -
+ meta/classes/rootfs_rpm.bbclass                    |   1 -
+ meta/conf/machine/include/arm/arch-armv7ve.inc     | 123 +++++++++++++++++++++
+ meta/conf/machine/include/arm/feature-arm-neon.inc |   5 +-
+ .../conf/machine/include/arm/feature-arm-thumb.inc |   1 +
+ meta/conf/machine/include/arm/feature-arm-vfp.inc  |  20 ++--
+ meta/conf/machine/include/tune-arm1136jf-s.inc     |   2 +-
+ meta/conf/machine/include/tune-arm920t.inc         |   2 +-
+ meta/conf/machine/include/tune-arm926ejs.inc       |   2 +-
+ meta/conf/machine/include/tune-arm9tdmi.inc        |   2 +-
+ meta/conf/machine/include/tune-cortexa15.inc       |  56 ++++++----
+ meta/conf/machine/include/tune-cortexa17.inc       |  20 +++-
+ meta/conf/machine/include/tune-cortexa5.inc        |   2 +-
+ meta/conf/machine/include/tune-cortexa7.inc        |  56 +++++-----
+ meta/conf/machine/include/tune-cortexa8.inc        |   2 +-
+ meta/conf/machine/include/tune-cortexa9.inc        |   2 +-
+ meta/conf/machine/include/tune-cortexm1.inc        |   2 +-
+ meta/conf/machine/include/tune-cortexm3.inc        |   2 +-
+ meta/conf/machine/include/tune-cortexr4.inc        |   2 +-
+ meta/conf/machine/include/tune-ep9312.inc          |   2 +-
+ meta/conf/machine/include/tune-iwmmxt.inc          |   2 +-
+ meta/conf/machine/include/tune-strongarm1100.inc   |   2 +-
+ meta/conf/machine/include/tune-xscale.inc          |   2 +-
+ meta/recipes-devtools/gcc/gcc_4.9.bb               |   5 +-
+ meta/recipes-devtools/guile/guile_2.0.11.bb        |   4 +
+ meta/recipes-devtools/opensp/opensp_1.5.2.bb       |   4 +
+ meta/recipes-extended/mailx/mailx_12.5-5.bb        |   5 +
+ meta/recipes-gnome/libsecret/libsecret_0.18.2.bb   |   2 +-
+ meta/recipes-graphics/directfb/directfb.inc        |   3 +-
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb     |   2 +-
+ .../gstreamer/gstreamer1.0-libav_1.6.1.bb          |   3 +
+ .../gstreamer/gstreamer1.0-plugins-bad.inc         |  10 +-
+ .../gstreamer/gstreamer1.0-plugins-base.inc        |   5 +-
+ .../gstreamer/gstreamer1.0-plugins-good.inc        |   9 +-
+ meta/recipes-support/icu/icu_55.1.bb               |   4 +
+ ...Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch |  61 ++++++++++
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |   5 +
+ 38 files changed, 338 insertions(+), 96 deletions(-)
+ create mode 100644 meta/conf/machine/include/arm/arch-armv7ve.inc
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
+
+-- 
+2.6.3
+
+
