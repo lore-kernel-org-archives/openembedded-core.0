@@ -1,36 +1,49 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 189406012C
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 15:02:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAHF2j0b003110
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Nov 2015 07:02:45 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 17 Nov 2015 07:02:45 -0800
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
-	<56421DA6.5080700@windriver.com> <56433886.3060700@linux.intel.com>
-	<564343E9.9020702@windriver.com> <5643497F.1080106@linux.intel.com>
-	<5645EB64.4020200@windriver.com>
-	<60657.10.252.13.130.1447431170.squirrel@linux.intel.com>
-	<56461044.2020202@windriver.com> <5649A752.2060308@linux.intel.com>
-	<564A0051.2080005@windriver.com> <564B346F.2000407@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-X-Enigmail-Draft-Status: N1110
-Organization: Wind River Systems
-Message-ID: <564B4193.7060104@windriver.com>
-Date: Tue, 17 Nov 2015 09:02:43 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id A42486010B;
+	Tue, 17 Nov 2015 15:05:55 +0000 (UTC)
+Received: by igvi2 with SMTP id i2so98475172igv.0;
+	Tue, 17 Nov 2015 07:05:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=XQlFyuTSO1JcmNanLPMnP+6PMLZHjGz0INEYZ6PbDLE=;
+	b=dYoLdl6O/cJloRp0Apc6yOH/fjEqD/IBEKLZjcJKdx+LaEHk2tMnvZmgBA+9rsl0nJ
+	tHTk8tuzd4k+8lzeru9b++2IknRzkoXiq9bLhrQX/tos6Jdb+Ux9vXOvWcfdwn5kaxkE
+	v0XRRmXYPcQQ1Rdt7c5ioQyzpNsdFBDosQQKp+cIMlUKpMTNTq+ILU4JkBk7hoZVEV6S
+	S81UVel978bkDuNAsHbvXHOr08K2Aod2RQr3YDEs86kd593o6n1qfz+KZuXOSs6uS/I4
+	5fW0Nx2SKEYPVAOQagsHf46aDegD7HVS7GzCRVk93wlmU3khiliyk9J+VwjN6M5+xtgc
+	IQ2Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kergoth_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=XQlFyuTSO1JcmNanLPMnP+6PMLZHjGz0INEYZ6PbDLE=;
+	b=hj5IhTt1LBAy6Rlgwna7JvVOFShieViVfjKLnjPdA3KsMLgA+LnqQ9U5wS9E8ChzFM
+	T4xQ51yRcElm6gWo9FSiF7ODqDjegPO6ngB8g8M0pdSuIeuK5QzLWicOhJNTpROeqXzM
+	pLT12AsUVKVWyaKCxWcJSIdWFH2gQdUTOYutHvwAgLuRVfA5KcY9vz/2dsM5qkcl8EpW
+	bZR2WUwYy3oRVAoS83RjetpRuQ4mX6s9bp58nsqY3Ob7U557q08zTGp+a6rxf5oydm0K
+	MD1vXANk1gr36aDP1E81sykplEvxGcPb8kJXWlkQhhSN3vxL9skylHgC8dR5Xg8lPNoF
+	filA==
+X-Received: by 10.50.78.138 with SMTP id b10mr2553637igx.10.1447772756632;
+	Tue, 17 Nov 2015 07:05:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <564B346F.2000407@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
+Sender: kergoth@gmail.com
+Received: by 10.79.93.7 with HTTP; Tue, 17 Nov 2015 07:05:05 -0800 (PST)
+In-Reply-To: <564B413F.8040500@balister.org>
+References: <mailman.0.1447754882.1996.openemebdded-architecture@lists.openembedded.org>
+	<564B413F.8040500@balister.org>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Tue, 17 Nov 2015 08:05:05 -0700
+X-Google-Sender-Auth: zVHz457i3ttB3God-eULyyj9etI
+Message-ID: <CABcZAN=+gXP731wev9X+TCDJsu=gJ6Ut6q5_Bjo6SoZj83RVdw@mail.gmail.com>
+To: Philip Balister <philip@balister.org>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Welcome to the "Openemebdded-architecture" mailing list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,88 +56,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 15:02:46 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 17 Nov 2015 15:05:57 -0000
+Content-Type: multipart/alternative; boundary=089e01229eb2dfed6b0524bddca2
 
-On 11/17/15 8:06 AM, Alexander Kanavin wrote:
-> On 11/16/2015 06:12 PM, Mark Hatle wrote:
-> 
->> I think a small group of folks that are interested in this work and who
->> understand facets of it should get together and try to identify the problem and
->> come up with an alternative solution.
->>
->> I have a lot of experience with pulling out internal structure size, packing,
->> order, etc from generated binaries via objdump, readelf and other mechanisms --
->> but I have no experience using gobject itself.
->>
->> So if we could get together to identify how a gobject binary is generated -- how
->> the introspection happens internally -- and the output of the introspection
->> tool.  It's very likely that I or others can come up with an approach to do the
->> introspection that doesn't require QEMU.  (It may require the gobject binary
->> generation having additional information placed in it -- or an introspection to
->> occur at the time of compilation and saved away in a cache...)  but the point
->> is, we need to figure out a general solution to this that doesn't require QEMU
->> for "most things".
-> 
-> I know GObject fairly well, since I've done a medium-size project with 
-> it (https://01.org/gsso/) and I think the above is totally unrealistic. 
-> Below is an explanation why.
-> 
-> The idea of GObject is to make object oriented programming semantics 
-> (classes, inheritance, methods, properties and signals) available to C 
-> programmers. This is achieved by implementing a dynamic type system 
-> called GType. It serves as a register of available types, to which new 
-> types can be added, and information about existing types can be queried.
-> 
-> This type register is constructed entirely at runtime. When a 
-> gobject-based library is loaded into memory, it adds the types that are 
-> defined in the library (for example, classes and interfaces) to the 
-> register using GType's API.
+--089e01229eb2dfed6b0524bddca2
+Content-Type: text/plain; charset=UTF-8
 
-This is the key, the types and internal data structures are not dynamically
-changing.  They are defined within the library.  (The object definitions may be
-generated and exposed at runtime, but once a library is built -- they do not
-change.)
+On Tue, Nov 17, 2015 at 8:01 AM, Philip Balister <philip@balister.org>
+wrote:
 
-> There are no tools that can extract the type information at source code 
-> level, or any preprocessor for the special type syntax (like there is 
-> for example a preprocessor called 'moc' in Qt). In the source code the 
-> types are defined entirely using C syntax: a really awkward combination 
-> of macros and function definitions that the macros refer to. The code 
-> goes straight to the C compiler which of course knows nothing about the 
-> types. So writing such a tool would basically amount to writing a 
-> special-purpose C interpreter: not feasible.
+> During OEDEM in Dublin we talked about creating a list for high level
+> architecture discussions about the OpenEmbedded Build System.
+>
+> Bring your big ideas to the list, discuss them, and bring the resources
+> to implement them.
+>
+> We did discuss list proliferation, filtering patches, etc and still
+> decided the best solution was a new list.
+>
+> Philip
+>
+>
+> -------- Forwarded Message --------
+> Subject: Welcome to the "Openemebdded-architecture" mailing list
+>
 
-I would need to see the code to understand this.  -IF- the macros and
-definitions are done in a standard way, it is very much possible to interpret
-the results of the macros via the intermediate objects.  But I need to see an
-example of the code.
+Typo. Openemebdded :)
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
-> When some library's types need to be introspected, a small binary is 
-> compiled and linked with the library by the introspection build system, 
-> and then executed. This binary iterates over available types, and asks 
-> GType to describe them. These descriptions are then written in the XML 
-> format to the .gir file. We cannot fetch this information directly from 
-> internal structures of GType, because these structures don't exist on 
-> disk; they're only created at runtime through executing type definition 
-> functions. So again, you'd need some kind of bytecode interpreter to 
-> extract this information from executable objects, which would look a lot 
-> like QEMU :)
+--089e01229eb2dfed6b0524bddca2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Another place where looking at the code may prove otherwise.  I need to see how
-this is done to be able to comment.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Nov 17, 2015 at 8:01 AM, Philip Balister <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:philip@balister.org" target=3D"_blank">philip@balister.org</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bo=
+rder-left-style:solid;padding-left:1ex"><div id=3D":a4" class=3D"" style=3D=
+"overflow:hidden">During OEDEM in Dublin we talked about creating a list fo=
+r high level<br>
+architecture discussions about the OpenEmbedded Build System.<br>
+<br>
+Bring your big ideas to the list, discuss them, and bring the resources<br>
+to implement them.<br>
+<br>
+We did discuss list proliferation, filtering patches, etc and still<br>
+decided the best solution was a new list.<br>
+<br>
+Philip<br>
+<br>
+<br>
+-------- Forwarded Message --------<br>
+Subject: Welcome to the &quot;Openemebdded-architecture&quot; mailing list<=
+/div></blockquote></div><br>Typo.=C2=A0<span style=3D"font-size:12.8px">Ope=
+nemebdded :)<br></span>-- <br><div class=3D"gmail_signature">Christopher La=
+rson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, Open=
+Zaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</=
+div>
+</div></div>
 
-> So the bottom line, to generate introspection info, you have to run the 
-> code of the library that you introspect, either with QEMU, or on target 
-> hardware, and I don't see a way to avoid this, short of complete rewrite 
-> of the entire glib ecosystem. If someone wants to have this feature, but 
-> doesn't have a working QEMU, they should get their act together and fix it.
-
-Can you put together a small piece of test code with instructions on how to
-compiler it, generate the '.gir' file and anything else?  I can take a look at
-this and see if there is a way to inspect the intermediate objects for the type
-information we need.
-
---Mark
-
+--089e01229eb2dfed6b0524bddca2--
