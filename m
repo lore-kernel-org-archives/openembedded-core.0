@@ -1,22 +1,30 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id CB0F16010B
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 260A46010B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 15:16:21 +0000 (UTC)
-Received: from [2a00:14f0:e04c:1:e23f:49ff:fe47:b7fd] (helo=phil-desktop)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1ZyhzY-0006TP-TV; Tue, 17 Nov 2015 16:16:21 +0100
-Message-ID: <1447773377.1472.28.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Andre McCurdy <armccurdy@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 17 Nov 2015 15:16:17 +0000
-In-Reply-To: <1447739760-14395-1-git-send-email-armccurdy@gmail.com>
-References: <1447739760-14395-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: Evolution 3.16.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] directfb.inc: force bfd linker for armv7a
+	Tue, 17 Nov 2015 15:26:38 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tAHFQdP8009148 for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Nov 2015 09:26:39 -0600
+Received: from adi-pc-linux.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015111709263910-71463 ;
+	Tue, 17 Nov 2015 09:26:39 -0600 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Nov 2015 17:26:37 +0200
+Message-Id: <c9daa8b45c30f25d7b50c6a7df028de706809c21.1447773614.git.adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.1.4
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 11/17/2015 09:26:39 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 11/17/2015 09:26:39 AM,
+	Serialize complete at 11/17/2015 09:26:39 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-11-17_08:, , signatures=0
+Subject: [oe][PATCH 1/2] package_ipk: support signing of ipk packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,21 +37,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 15:16:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Nov 2015 15:26:39 -0000
 
-On Mon, 2015-11-16 at 21:56 -0800, Andre McCurdy wrote:
-> 
-+# Workaround for linking issues seen with armv7a + gold
-> +LDFLAGS_append_armv7a = "${@base_contains('DISTRO_FEATURES', 'ld-is
-> -gold', ' -fuse-ld=bfd ', '', d)}"
-> 
+Minimum required opkg version: 3.0 (already in master/jethro).
 
-Does the resulting directfb-csource binary actually work with that
-change?  My recollection is that ld.bfd will just silently permit
-relocs that gold (correctly) refuses to allow.
+Add a new bbclass for creating signatures for ipk files.
+The signing process is very similar to the existing rpm signing,
+but different in some important ways:
+    - Signatures are stored outside the ipk files, opkg connects
+to a feed server and downloads them as separate files which are
+used to verify ipk's. These files go everywhere alongside the ipk.
+    - Signatures can be of two types: binary (.sig) and ascii-armored
+(.asc). By default OE and opkg use binary, can be configured by using
+IPK_SIGNATURE_TYPE (in OE) and "option signature_type gpg-asc" in
+opkg.
+    - The public key is stored on device and the keyring managed
+by the opkg-keyrings package. See its recipe for more details.
 
-p.
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/classes/package_ipk.bbclass |  6 ++++
+ meta/classes/sign_ipk.bbclass    | 73 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/classes/sign_ipk.bbclass
+
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 4dd7a7e..c491b67 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -246,6 +246,12 @@ python do_package_ipk () {
+             bb.utils.unlockfile(lf)
+             raise bb.build.FuncFailed("opkg-build execution failed")
+ 
++        if d.getVar('IPK_SIGN_PACKAGES', True) == '1':
++            ipkver = "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
++            ipk_to_sign = "%s/%s_%s_%s.ipk" % (pkgoutdir, pkgname, ipkver, d.getVar('PACKAGE_ARCH', True))
++            d.setVar('IPK_TO_SIGN', ipk_to_sign)
++            bb.build.exec_func("sign_ipk", d)
++
+         cleanupcontrol(root)
+         bb.utils.unlockfile(lf)
+ 
+diff --git a/meta/classes/sign_ipk.bbclass b/meta/classes/sign_ipk.bbclass
+new file mode 100644
+index 0000000..a4f1f3a
+--- /dev/null
++++ b/meta/classes/sign_ipk.bbclass
+@@ -0,0 +1,73 @@
++# Class for generating signed IPK packages.
++#
++# Configuration variables used by this class:
++# IPK_GPG_PASSPHRASE_FILE
++#           Path to a file containing the passphrase of the signing key.
++# IPK_GPG_NAME
++#           Name of the key to sign with.
++# IPK_SIGNATURE_TYPE
++#           Optional type of signature to accompany IPK files, can be:
++#                     1. Ascii armored (ASC)
++#                     2. Binary (BIN), default
++# GPG_BIN
++#           Optional variable for specifying the gpg binary/wrapper to use for
++#           signing.
++#
++
++inherit sanity
++
++IPK_SIGN_PACKAGES = '1'
++
++def ipksign_wrapper(d, ipk_file, passphrase, gpg_name=None, sigtype="BIN"):
++    import subprocess
++    from subprocess import Popen
++
++    keypipe = os.pipe()
++    os.write(keypipe[1], passphrase + '\n')
++
++    # use gpg from host PATH if user did not define a specific binary
++    cmd = [d.getVar('GPG_BIN', True) or bb.utils.which(os.getenv('PATH'), "gpg")]
++
++    if gpg_name:
++        cmd += ["-q", "--batch", "--yes", "-b", "-u", gpg_name]
++    else:
++        raise_sanity_error("You need to define IPK_GPG_NAME in bitbake config", d)
++
++    # transmit using pipes for security
++    cmd += ["--passphrase-fd",  str(keypipe[0])]
++
++    # ascii armored or binary signatures
++    if sigtype.lower() == "ASC".lower():
++        cmd += ["-a"]
++    elif sigtype.lower() != "BIN".lower():
++        raise_sanity_error("Invalid IPK_SIGNATURE_TYPE in bitbake config", d)
++
++    cmd += [ipk_file]
++
++    p = Popen(cmd, stdin=subprocess.PIPE)
++    p.wait()
++
++    os.close(keypipe[1])
++    os.close(keypipe[0])
++
++    return p.returncode
++
++
++python sign_ipk () {
++    ipk_gpg_pass_file = (d.getVar("IPK_GPG_PASSPHRASE_FILE", True) or "")
++    if ipk_gpg_pass_file:
++        with open(ipk_gpg_pass_file) as fobj:
++            ipk_gpg_passphrase = fobj.readlines()[0].rstrip('\n')
++    else:
++        raise_sanity_error("You need to define IPK_GPG_PASSPHRASE_FILE in the config", d)
++
++    ipk_gpg_name = (d.getVar("IPK_GPG_NAME", True) or "")
++
++    ipk_file = d.getVar('IPK_TO_SIGN')
++    bb.debug(1, 'IPK_TO_SIGN: %s' % ipk_file)
++
++    sigtype = (d.getVar("IPK_SIGNATURE_TYPE", True) or "")
++
++    if ipksign_wrapper(d, ipk_file, ipk_gpg_passphrase, ipk_gpg_name, sigtype) != 0:
++        raise bb.build.FuncFailed("IPK signing failed")
++}
+-- 
+2.1.4
 
 
