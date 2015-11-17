@@ -1,39 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id EF44E605BB
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id BA6816010B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 11:58:16 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so22318120wme.1
+	Tue, 17 Nov 2015 11:58:18 +0000 (UTC)
+Received: by wmec201 with SMTP id c201so22319050wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 03:58:17 -0800 (PST)
+	Tue, 17 Nov 2015 03:58:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=cmGAJQ8PIC2+ZS2q4paScnHRB5n5yDmrphSIPVmdkkY=;
-	b=xj3DorrxlMgUcqY6pvR+c8y8T8Z9g/R9iR6ESNeLBhd6Spwz5B17hJE+lwDJmJlBEg
-	RlPwBTNdGEcXj8inpRe6iM5KWFpAlk7Og14nokMm+fXQ43SZ7WvqNsiN9pxW2p+MUM2K
-	f0jzrMf+7utyV1yZ3x2GPITuNEZ6QQ3jNqHbXYtQGxKGbCS7SxowHiGdfeTcC7GV8Vk1
-	raOpqy32l6TDIlrem779ujtl6xmphzrbZWiDEMa5sISO4eup6HVLITkEb0FtJWSegAEd
-	UUDMK0uisyZYRELhLs/PVNoRG+A4ZewEk4nRODbgA7GzU1/SMpBfStUmIU/SUlV5+Qzp
-	jDoA==
-X-Received: by 10.194.86.161 with SMTP id q1mr50782138wjz.88.1447761497299;
-	Tue, 17 Nov 2015 03:58:17 -0800 (PST)
+	:references; bh=Matxez+QMNxrXrxgKRAQhMhDwmgwNRKMCpE8l4+cmHU=;
+	b=cyZWlEHmsYhFO8dLtZdlrjHyGjQUqUNMUwWiyWrgzJn24dyGywDt6BPJVyYhYAB0p2
+	X1MIua3CFv/wrtTnbHRBiPL4kXvvThLo7Cva+WFz1MBKvKhQqn9Pk9/uh5GIpGCoF0ub
+	Ibn92+pIcCtmHSY/ieWg1rxA9CkilXz30LOwOLvA/TLFo1kc1TtRG1k8QwBlrqDbH/V/
+	Y4O8SdqOL7xTGjFT1qVdBBYAKBp6qfpd1dJ1Yuxv15/U3X6giWcL7dL69mS0VW9YC2uO
+	oC2lsMYWjfB5bQ3L7NZc77P53Q3wD8PSUb3ONPRWw0Bhbwu69uhrxan0Y0cGtrsoYhZq
+	FN8g==
+X-Received: by 10.194.92.138 with SMTP id cm10mr43299972wjb.6.1447761498763;
+	Tue, 17 Nov 2015 03:58:18 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	q77sm22371608wmd.22.2015.11.17.03.58.16
+	v4sm30040497wjx.18.2015.11.17.03.58.17
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Nov 2015 03:58:16 -0800 (PST)
+	Tue, 17 Nov 2015 03:58:17 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Nov 2015 11:58:07 +0100
-Message-Id: <9d1ab0ab809d39baf00dbabd33b7fcda469a6f42.1447757562.git.Martin.Jansa@gmail.com>
+Date: Tue, 17 Nov 2015 11:58:08 +0100
+Message-Id: <82ab52c6235587509b01dcef43516e98a2ecc40d.1447757562.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <cover.1447757562.git.Martin.Jansa@gmail.com>
 References: <cover.1447757562.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1447757562.git.Martin.Jansa@gmail.com>
 References: <cover.1447757562.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv2 15/16] libsecret: add dependency on intltool-native
+Subject: [PATCHv2 16/16] libsdl2: require GLES when building Wayland support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,32 +46,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 11:58:17 -0000
+X-List-Received-Date: Tue, 17 Nov 2015 11:58:19 -0000
 
-From: Joe Slater <jslater@windriver.com>
+From: Ross Burton <ross.burton@intel.com>
 
-intltoolize is needed by configure.
+The Wayland support requires GLES2 to be enabled as otherwise the EGL support
+code in SDL2 isn't enabled.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
-Acked-By: Martin Jansa <Martin.Jansa@gmail.com>
+| In file included from .../SDL2-2.0.3/src/video/wayland/SDL_waylandvideo.c:34:0:
+| .../SDL2-2.0.3/src/video/wayland/SDL_waylandvideo.c: In function 'Wayland_CreateDevice':
+| .../SDL2-2.0.3/src/video/wayland/SDL_waylandopengles.h:38:38: error: 'SDL_EGL_GetSwapInterval' undeclared (first use in this function)
+|  #define Wayland_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
+
+Solve this by adding gles2 to the Wayland PACKAGECONFIG option.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-gnome/libsecret/libsecret_0.18.2.bb | 2 +-
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb b/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb
-index 8fc0018..a1dcc78 100644
---- a/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb
-+++ b/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=23c2a5e0106b99d75238986559bb5fc6"
- 
- inherit gnomebase gtk-doc
- 
--DEPENDS = "glib-2.0 libgcrypt gettext-native"
-+DEPENDS = "glib-2.0 libgcrypt gettext-native intltool-native"
- 
- EXTRA_OECONF += "--disable-manpages"
- 
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
+index 97f64f3..f138f97 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
+@@ -39,7 +39,7 @@ PACKAGECONFIG ??= " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
+-    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland gles2', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+ "
+ PACKAGECONFIG[alsa]       = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
 -- 
 2.6.3
 
