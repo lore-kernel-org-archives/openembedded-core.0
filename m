@@ -1,34 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 55E56605FE
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EC176011B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 18:27:22 +0000 (UTC)
-Received: by padhx2 with SMTP id hx2so16238753pad.1
+	Tue, 17 Nov 2015 19:16:48 +0000 (UTC)
+Received: by wmdw130 with SMTP id w130so169135037wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 10:27:23 -0800 (PST)
+	Tue, 17 Nov 2015 11:16:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Jt1HTRyrxopKu3yHt1r59ttuiS+ICqzKD7yppjqKWQo=;
-	b=FZRxZzhSIkXCMCaMzunCIqawr8esB+3OL1Rx8dyM3vobORYxXnzIjgvXo+89YPvK/M
-	ybzQjGIDFOOo+XmrRW/Qivg7BzVBvVvLxgJNQll1kIBvhUp/lknzRnNX0O5GglprfrRA
-	ZIooo4HaS1EFtQv1Z4e2vX+Vn+WtNAy7W+cjpIHiN5N+IwlKkDPiEJxJvaRUHNtcthR1
-	QQS4h2BfsTz0c30gCRM2lrOeeKb6c4n6tHCCxRwhe8/Yq0h81cK1MGq+3L5ZkbezV4sW
-	E5ETLdeDAwVYKgTaK4O/ljMg3XV2AAEKY5Dtp1nxhs9Od8CQMu1V9rDsPvceddoVChWu
-	aiYg==
-X-Received: by 10.66.124.165 with SMTP id mj5mr64188210pab.97.1447784843095;
-	Tue, 17 Nov 2015 10:27:23 -0800 (PST)
-Received: from localhost.localdomain (c-24-130-225-169.hsd1.ca.comcast.net.
-	[24.130.225.169]) by smtp.gmail.com with ESMTPSA id
-	wq1sm44207162pbc.49.2015.11.17.10.27.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 17 Nov 2015 10:27:22 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Nov 2015 10:27:19 -0800
-Message-Id: <1447784839-25629-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.6.3
-Subject: [PATCH] ruby-native: Depend on openssl-native
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=a55djqLPFMGkOq0CNtpveFV1ZL557eVbvAzGIk3Wl6Q=;
+	b=TT45SK3yL1bcf8MqI+F6mYK/fD0e02Lcdei//8pm48xA8AQefWQaJDUS2zc5EzcvAu
+	JQWlT2JD8hj9ihJytsvGCLURe4A5/z/bQgUQceEm8QVVUginyMrI8kn/EDSFXUSJp8AH
+	3Bqnm+KkQ3zwyEN/nEsvP8y1fcXOBbZpGY1LILZl6wN/NQGioC36oxSdM/03JVLs42xn
+	uWGDWhLDZVTPBE5XFpReVq+upb2hAOheuBFaNbgDHI0iO1BHYZPunGdIIoRnySPJn05/
+	C9Nab03Z89eFYIHnArLc3KOPewuhuysgEsOnrpmZA0qlAMDhUAVoRI7nGip9MvE7eSPI
+	0xvw==
+MIME-Version: 1.0
+X-Received: by 10.194.93.164 with SMTP id cv4mr34013260wjb.43.1447787809352;
+	Tue, 17 Nov 2015 11:16:49 -0800 (PST)
+Received: by 10.194.140.38 with HTTP; Tue, 17 Nov 2015 11:16:49 -0800 (PST)
+In-Reply-To: <1447780178.1472.29.camel@pbcl.net>
+References: <1447739760-14395-1-git-send-email-armccurdy@gmail.com>
+	<1447773377.1472.28.camel@pbcl.net>
+	<CAJTo0La98Rv=0ZwdHce4FTknVAmZnGEnNmpXopK9+8cKqbnj8Q@mail.gmail.com>
+	<1447780178.1472.29.camel@pbcl.net>
+Date: Tue, 17 Nov 2015 11:16:49 -0800
+Message-ID: <CAJ86T=V7WyuBuLvn7spNWJxW3TohpeAgf7yFFyahr0F29t1RhQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] directfb.inc: force bfd linker for armv7a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,36 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 18:27:23 -0000
+X-List-Received-Date: Tue, 17 Nov 2015 19:16:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This dependency is floating otherwise, It races against openssl-native
-and when openssl config does not match with openssl on build host the
-build fails occasionally
+On Tue, Nov 17, 2015 at 9:09 AM, Phil Blundell <pb@pbcl.net> wrote:
+> On Tue, 2015-11-17 at 16:44 +0000, Burton, Ross wrote:
+>
+> On 17 November 2015 at 15:16, Phil Blundell <pb@pbcl.net> wrote:
+>
+> Does the resulting directfb-csource binary actually work with that
+> change?  My recollection is that ld.bfd will just silently permit
+> relocs that gold (correctly) refuses to allow.
+>
+>
+> Personally I don't use DirectFB (and am constantly surprised it's still a
+> thing) so at this point I'm not going to merge either of these patches until
+> someone can confirm that their fix *works on hardware* instead of just
+> fixing the build.
+>
+>
+> I think that's a reasonable position.  In any case, the underlying issue is
+> a compiler bug and ought really to be fixed there rather than patching
+> directfb or any other package that just happens to fall over it.
+>
 
-x86_64-linux/usr/include/openssl/ripemd.h:70:4: error: #error RIPEMD is
-disabled.
- #  error RIPEMD is disabled.
-
-Change-Id: I5ff6d8f058ff99c64ad4dc7c0377724071003ae6
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/ruby/ruby.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
-index 17aa789..313e752 100644
---- a/meta/recipes-devtools/ruby/ruby.inc
-+++ b/meta/recipes-devtools/ruby/ruby.inc
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "\
- "
- 
- DEPENDS = "ruby-native zlib openssl tcl libyaml db gdbm readline"
--DEPENDS_class-native = "libyaml-native"
-+DEPENDS_class-native = "openssl-native libyaml-native"
- 
- SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
--- 
-2.6.3
-
+The directfb-csource binary linked with the bfd linker segfaults on
+startup, so it does indeed look like a compiler problem.
 
