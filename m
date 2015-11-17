@@ -1,63 +1,38 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 18EF46010B
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id D0C926010B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 13:05:15 +0000 (UTC)
-Received: by pabfh17 with SMTP id fh17so9267291pab.0
+	Tue, 17 Nov 2015 13:55:54 +0000 (UTC)
+Received: by igbxm8 with SMTP id xm8so13698842igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 05:05:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems_com_br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	Tue, 17 Nov 2015 05:55:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=FAxr70kmM7ZNaGRRx9/9RUSCjjchdDz/TMUeR5t0rUc=;
-	b=WhpFQxBVOtglnxbFYBgdQYejMJq+cXc4JVi9thMnNsf7/VTbWA71GIXcm3l9DxUEP0
-	CfZwxbju9NsRKomQdgQ+gCC0uHETI7tM8Ch6GzDr3dHqYmETjjNPSQt6FVS4OFyZGChj
-	iZFFYHdFbJK22OOQkrtYhGK7eBq6jf5J49TwnISuy2Tor9oACSVAVQGYghDskVaDYZeq
-	2AWF2inhorkfZ1ISyA4hC3BnyDrjVn/2E7mWB2G/LvCktj8DPRmQrTniMY+r0qd8j0+V
-	fL5ffS7+1Z6ZdyPsl1AoBmj9NpkbApFmLWSvttZDIwAfUFFttlVQ8xXR5MzJtkuvNFmv
-	T0rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=FAxr70kmM7ZNaGRRx9/9RUSCjjchdDz/TMUeR5t0rUc=;
-	b=S4qe0XuCmZz+RbyXaObGZhTQUCrcRH8mF6v4b8iL7InjhqRgLDKrZyd8m8m5IjVeOJ
-	a2fdHx6Nm/TIPlNTz5ajyZ6VIy0dx6mMdFS++qHPq/fbxNjsONEpR0RthtFgAfT4pljs
-	ORc5K33+PSYOKzaoH4XXKqoeoPpNalV6ZemgCHoUGqPBC5Ki4VKHtHN8Kw6Dv5YOXeIe
-	AxcRjy995fbKsSspDaZ9Sgmyrcz4cYMP9ASMRGX/UTT8QV8AvKbBfBarPpz4YF5NeQ8x
-	uCVzPmjy27ieeYbdeJUFnlpUfdoErljLa9zm3TJSf9fXdyizAiI5YqGEZLGLG18G1Z9A
-	gz6A==
-X-Gm-Message-State: ALoCoQlylstl7nT8goUreRZPq2ZJdBQ1vV2w6BneZ5k+vrZCI8i7GTaVu55mCuxtdMlCj5+hmHpk
-X-Received: by 10.67.22.99 with SMTP id hr3mr63064882pad.10.1447765516044;
-	Tue, 17 Nov 2015 05:05:16 -0800 (PST)
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com.
-	[209.85.220.51]) by smtp.gmail.com with ESMTPSA id
-	yi8sm43045896pab.22.2015.11.17.05.05.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Nov 2015 05:05:15 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by pacdm15 with SMTP id dm15so8790611pac.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 05:05:14 -0800 (PST)
+	bh=RCtW26A9l0JuHv4qEoK/AtmBLwlkfrI9RlfpuVixcSo=;
+	b=otMsPqp7EYeqLUz1RjIrpIR8Xzok7GSTSYRQyXU8O3CkWd7uc/07C1MpyBjcopQ4Y2
+	g1j7rWEW62S36MNvwyYBZTfj8xpWJkGfYKhGrxUiWc9lSbiUP92IJhZdkWknEGHlb2ms
+	iqJ9nE84cZJOXogGeJwMAglikTk/QD18/md7O+oXGYFisbJrCC7E1eT3r+sFbUg7dDG5
+	dZr5hC8GR8Y6aaWzOyotDCXK2OaKiuTpuGE2YQ9eLXcEz+Es3ZYhQ1pyBM/3oewsMnXR
+	gpkuMOr9tsmaZGc12K7jIqZOE6FZJSPMbu7C7jSVPxQTl3rOasO8YRF/jCAv6/P2o9QH
+	oFbA==
+X-Received: by 10.50.150.37 with SMTP id uf5mr2160675igb.10.1447768555184;
+	Tue, 17 Nov 2015 05:55:55 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.68.241.65 with SMTP id wg1mr62315548pbc.101.1447765514356;
-	Tue, 17 Nov 2015 05:05:14 -0800 (PST)
-Received: by 10.66.197.129 with HTTP; Tue, 17 Nov 2015 05:05:14 -0800 (PST)
-In-Reply-To: <CAJTo0LbACSOOgLwWGV83BpKcEcqmQn9bg5nz5sQxffQG7RXYHw@mail.gmail.com>
-References: <1447673972-31812-1-git-send-email-otavio@ossystems.com.br>
-	<1447673972-31812-2-git-send-email-otavio@ossystems.com.br>
-	<CAJTo0LbACSOOgLwWGV83BpKcEcqmQn9bg5nz5sQxffQG7RXYHw@mail.gmail.com>
-Date: Tue, 17 Nov 2015 11:05:14 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKrnV+TkTHK+hhP2GHBC43tV6w-K48xC6JhL4-NnXcdyyA@mail.gmail.com>
-Message-ID: <CAP9ODKrnV+TkTHK+hhP2GHBC43tV6w-K48xC6JhL4-NnXcdyyA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/3] lttng-tools: Upgrade to 2.7 release
+Received: by 10.79.93.7 with HTTP; Tue, 17 Nov 2015 05:55:35 -0800 (PST)
+In-Reply-To: <CALbNGRSRxhTWMDa3B9a4N1m5E7TxTJXajLWaYCGUjKOf6WdZ4Q@mail.gmail.com>
+References: <cover.1447371049.git.chris_larson@mentor.com>
+	<130d9a6c1f4ecea86748a44b73f51d8ddb2e63da.1447371049.git.chris_larson@mentor.com>
+	<05b7cc8c957a9756e7af964a09bc2a89e0aedd9f.1447371049.git.chris_larson@mentor.com>
+	<CALbNGRSRxhTWMDa3B9a4N1m5E7TxTJXajLWaYCGUjKOf6WdZ4Q@mail.gmail.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Tue, 17 Nov 2015 06:55:35 -0700
+Message-ID: <CABcZANm=PqxaTxFSSv+rj0qXSfeyBN3YPEo01qWy0=bs5FOZZw@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] systemd: add myhostname to nsswitch.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,42 +45,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 13:05:18 -0000
+X-List-Received-Date: Tue, 17 Nov 2015 13:55:55 -0000
+Content-Type: multipart/alternative; boundary=001a11c2c35072e7810524bce2ed
+
+--001a11c2c35072e7810524bce2ed
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello Ross,
+On Tue, Nov 17, 2015 at 12:25 AM, Andreas M=C3=BCller <
+schnitzeltony@googlemail.com> wrote:
 
-On Tue, Nov 17, 2015 at 8:41 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 16 November 2015 at 11:39, Otavio Salvador <otavio@ossystems.com.br>
+> On Fri, Nov 13, 2015 at 12:41 AM, Christopher Larson <kergoth@gmail.com>
 > wrote:
->>
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->
->
-> Fails with ptest enabled:
->
-> DEBUG: Executing shell function do_install_ptest_base
-> NOTE: make
-> DESTDIR=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/core2-32-poky-linux/lttng-tools/2.7.0+gitAUTOINC+d71e55a5f1-r0/image/usr/lib/lttng-tools/ptest
-> install-ptest
-> cp -r ./tests
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/core2-32-poky-linux/lttng-tools/2.7.0+gitAUTOINC+d71e55a5f1-r0/image/usr/lib/lttng-tools/ptestfor
-> m in $(find
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/core2-32-poky-linux/lttng-tools/2.7.0+gitAUTOINC+d71e55a5f1-r0/image/usr/lib/lttng-tools/ptest/tests
-> -name Makefile); do \
->           sed -i -e 's|^Makefile:|_Makefile:|' $m; \
->         done
-> sed: can't read
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-x86-lsb/build/build/tmp/work/core2-32-poky-linux/lttng-tools/2.7.0+gitAUTOINC+d71e55a5f1-r0/image/usr/lib/lttng-tools/ptest/tests/regression/run-report.py:
-> No such file or directory
->
-> http://errors.yoctoproject.org/Errors/Details/21841/
+> > From: Christopher Larson <chris_larson@mentor.com>
+> >
+> > We don't need nss-myhostname on systemd systems, because systemd alread=
+y
+> > provides myhostname, but we weren't configuring nsswitch to use it.
+> Being able
+> > to resolve the hostname is useful for a number of different
+> applications, so
+> > enable it using the same postinst/prerm bits which are in nss-myhostnam=
+e.
+> >
+> > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> > ---
+> >  meta/recipes-core/systemd/systemd_225.bb | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >
+> > diff --git a/meta/recipes-core/systemd/systemd_225.bb
+> b/meta/recipes-core/systemd/systemd_225.bb
+> > index 18c2448..20515f5 100644
+> > --- a/meta/recipes-core/systemd/systemd_225.bb
+> > +++ b/meta/recipes-core/systemd/systemd_225.bb
+> > @@ -397,6 +397,18 @@ ALTERNATIVE_TARGET[runlevel] =3D
+> "${base_bindir}/systemctl"
+> >  ALTERNATIVE_LINK_NAME[runlevel] =3D "${base_sbindir}/runlevel"
+> >  ALTERNATIVE_PRIORITY[runlevel] ?=3D "300"
+> >
+> > +pkg_postinst_${PN} () {
+> > +       sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+> > +               -e
+> 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 myhostname
+> \3\4\5/' \
+> > +               -i $D${sysconfdir}/nsswitch.conf
+> > +}
+> > +
+> > +pkg_prerm_${PN} () {
+> > +       sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+> > +               -e '/^hosts:/s/\s*myhostname//' \
+> > +               -i $D${sysconfdir}/nsswitch.conf
+> > +}
+> > +
+> >  pkg_postinst_udev-hwdb () {
+> >         if test -n "$D"; then
+> >                 ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')}
+> hwdb --update \
+> > --
+> > 2.2.1
+> >
+> > --
+> This seems to solve my xfce4-terminal delay - thanks. I have a
+> questions regarding this patch: As soon as basefiles are updated
+> resolving stops working - right? So why not handle at basefiles based
+> on systemd distro setting?
 
-Sorry for that; I am checking it. I will send a new patch revision soon.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+As far as I know, nsswitch.conf is flagged as a conffile (actually in
+master everything in /etc/ will be), so once it's modified externally (in
+this case, by the systemd recipe), the original package which installed the
+file won't blindliy overwrite those changes.
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a11c2c35072e7810524bce2ed
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Nov 17, 2015 at 12:25 AM, Andreas M=C3=BCller <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:schnitzeltony@googlemail.com" target=3D"_blank">schnitze=
+ltony@googlemail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+"><div class=3D"HOEnZb adM"><div class=3D"h5">On Fri, Nov 13, 2015 at 12:41=
+ AM, Christopher Larson &lt;<a href=3D"mailto:kergoth@gmail.com">kergoth@gm=
+ail.com</a>&gt; wrote:<br>
+&gt; From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
+">chris_larson@mentor.com</a>&gt;<br>
+&gt;<br>
+&gt; We don&#39;t need nss-myhostname on systemd systems, because systemd a=
+lready<br>
+&gt; provides myhostname, but we weren&#39;t configuring nsswitch to use it=
+. Being able<br>
+&gt; to resolve the hostname is useful for a number of different applicatio=
+ns, so<br>
+&gt; enable it using the same postinst/prerm bits which are in nss-myhostna=
+me.<br>
+&gt;<br>
+&gt; Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@m=
+entor.com">chris_larson@mentor.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd_225.bb" rel=
+=3D"noreferrer" target=3D"_blank">systemd_225.bb</a> | 12 ++++++++++++<br>
+&gt;=C2=A0 1 file changed, 12 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_225.b=
+b" rel=3D"noreferrer" target=3D"_blank">systemd_225.bb</a> b/meta/recipes-c=
+ore/systemd/<a href=3D"http://systemd_225.bb" rel=3D"noreferrer" target=3D"=
+_blank">systemd_225.bb</a><br>
+&gt; index 18c2448..20515f5 100644<br>
+&gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd_225.bb" rel=
+=3D"noreferrer" target=3D"_blank">systemd_225.bb</a><br>
+&gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_225.bb" rel=
+=3D"noreferrer" target=3D"_blank">systemd_225.bb</a><br>
+&gt; @@ -397,6 +397,18 @@ ALTERNATIVE_TARGET[runlevel] =3D &quot;${base_bin=
+dir}/systemctl&quot;<br>
+&gt;=C2=A0 ALTERNATIVE_LINK_NAME[runlevel] =3D &quot;${base_sbindir}/runlev=
+el&quot;<br>
+&gt;=C2=A0 ALTERNATIVE_PRIORITY[runlevel] ?=3D &quot;300&quot;<br>
+&gt;<br>
+&gt; +pkg_postinst_${PN} () {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &#39;/^hosts:/s/\s*\&lt;myhostname\=
+&gt;//&#39; \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e &#39;s/\(^h=
+osts:.*\)\(\&lt;files\&gt;\)\(.*\)\(\&lt;dns\&gt;\)\(.*\)/\1\2 myhostname \=
+3\4\5/&#39; \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-i $D${sysconf=
+dir}/nsswitch.conf<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +pkg_prerm_${PN} () {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &#39;/^hosts:/s/\s*\&lt;myhostname\=
+&gt;//&#39; \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e &#39;/^host=
+s:/s/\s*myhostname//&#39; \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-i $D${sysconf=
+dir}/nsswitch.conf<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 pkg_postinst_udev-hwdb () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if test -n &quot;$D&quot;; then<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@qemu_r=
+un_binary(d, &#39;$D&#39;, &#39;${base_bindir}/udevadm&#39;)} hwdb --update=
+ \<br>
+&gt; --<br>
+&gt; 2.2.1<br>
+&gt;<br>
+</div></div>&gt; --<br>
+This seems to solve my xfce4-terminal delay - thanks. I have a<br>
+questions regarding this patch: As soon as basefiles are updated<br>
+resolving stops working - right? So why not handle at basefiles based<br>
+on systemd distro setting?</blockquote></div><br>As far as I know, nsswitch=
+.conf is flagged as a conffile (actually in master everything in /etc/ will=
+ be), so once it&#39;s modified externally (in this case, by the systemd re=
+cipe), the original package which installed the file won&#39;t blindliy ove=
+rwrite those changes.<br>-- <br><div class=3D"gmail_signature"><div dir=3D"=
+ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder - BitBake, O=
+penEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, =
+Mentor Graphics</div></div>
+</div></div>
+
+--001a11c2c35072e7810524bce2ed--
