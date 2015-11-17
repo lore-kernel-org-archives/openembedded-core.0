@@ -1,39 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 136C6606D1
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id A1C726010B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 11:58:12 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so223565380wme.0
+	Tue, 17 Nov 2015 11:58:14 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so150403696wmw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 03:58:13 -0800 (PST)
+	Tue, 17 Nov 2015 03:58:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=jUsozryzzdE2m+0dp1CTEkMxknLy+ecH10+Kqss8btY=;
-	b=M3A4jbqILV3z/ngwtVVClEIeMSmUIUEpD/63hBH/SgLkGuSJqGHWzI3PhOThTgKTP+
-	YIr/NyUfDFG9/C5kVszsNnw3gzfH79ArO6dTsAiRhg31q+gIuQ5e11iN1N0zOJJu8Ry+
-	mDRwhKa1C5oOGieOCCR/PIimUHDB8aWpdBHWzit+8C5SIQbVYnwqa3kEb1reDwSETMzQ
-	O0trQhpU+E8IwqZk37UZLzQA8X3t3BgAFBm/aPa0Jt96QIwu/xjVxKoFc+LePU8+2Wao
-	xqSwfOhd7P+qMjcHruwfXk78EvWuBWZnFrk5MlAQN2xfgTpYN1H/0n1mRVTCdt/bGLPD
-	hjhg==
-X-Received: by 10.28.22.67 with SMTP id 64mr2148596wmw.61.1447761493066;
-	Tue, 17 Nov 2015 03:58:13 -0800 (PST)
+	:references; bh=AlBbGhAwDFlmgEEjr8bOVZWNYS1RY5c2yQnkw90hMtw=;
+	b=L7wKPBT98FI11mpKus53nFM1CU+QOsdfbCtg1LEo1Tkz06Lidi52Yqkv4Y+sk5u2IY
+	Z3B0Z0tm8YLTSXP7cUu7bljj+959405lacjhYsEYqOJ5PlxTKxzkqjeCMeNJ3hrGhKWJ
+	4boiJiaiL8casU/oIHLCBPHiSW0klKW36o95DlZAJ4LuVuJ5Fn2eVqYUxm5BpCUZEWuw
+	A96aYyBovCM8DhltQjrUge1+HJQsYWP76sftSopq3girPIN3Cwsi/sJHt+o72A0rKdM4
+	5A9fpyYJsomuFDBGAMYX5BYynUQ3JOCrGYm6fvGiedjnUEDe723eYI9OC+eTED+Kt0pX
+	vciw==
+X-Received: by 10.28.131.84 with SMTP id f81mr2150749wmd.57.1447761494648;
+	Tue, 17 Nov 2015 03:58:14 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	k133sm15851531wmg.18.2015.11.17.03.58.12
+	hu2sm39551979wjb.21.2015.11.17.03.58.13
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Nov 2015 03:58:12 -0800 (PST)
+	Tue, 17 Nov 2015 03:58:13 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Nov 2015 11:58:04 +0100
-Message-Id: <d077573772d921ef2b26426ad0c434e02dcb1124.1447757562.git.Martin.Jansa@gmail.com>
+Date: Tue, 17 Nov 2015 11:58:05 +0100
+Message-Id: <dbf6f2cf8127fd318d76839947b0fb66ef2220e4.1447757562.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <cover.1447757562.git.Martin.Jansa@gmail.com>
 References: <cover.1447757562.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1447757562.git.Martin.Jansa@gmail.com>
 References: <cover.1447757562.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv2 12/16] feature-arm-vfp.inc: respect vfpv4 when setting -mfloat-abi and ARMPKGSFX_EABI
+Subject: [PATCHv2 13/16] feature-arm-vfp.inc: add -mfpu=vfpv4 when vfpv4 is in TUNE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,50 +46,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 11:58:13 -0000
+X-List-Received-Date: Tue, 17 Nov 2015 11:58:15 -0000
 
-* without this change it wasn't possible to use call-convention hard
-  together with vfpv4
-* also use ' inside quoted values
+* allows to use vfpv4 without neon
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/conf/machine/include/arm/feature-arm-vfp.inc | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ meta/conf/machine/include/arm/feature-arm-neon.inc | 5 +++--
+ meta/conf/machine/include/arm/feature-arm-vfp.inc  | 1 +
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
+diff --git a/meta/conf/machine/include/arm/feature-arm-neon.inc b/meta/conf/machine/include/arm/feature-arm-neon.inc
+index e8b2b85..78b1dfb 100644
+--- a/meta/conf/machine/include/arm/feature-arm-neon.inc
++++ b/meta/conf/machine/include/arm/feature-arm-neon.inc
+@@ -1,3 +1,4 @@
+ TUNEVALID[neon] = "Enable Neon SIMD accelerator unit."
+-TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "neon", bb.utils.contains("TUNE_FEATURES", "vfpv4", " -mfpu=neon-vfpv4", " -mfpu=neon", d), "" , d)}"
+-ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "neon", "-neon", "", d)}"
++# vfpv4 case is handled in feature-arm-vfp.inc
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'neon', bb.utils.contains('TUNE_FEATURES', 'vfpv4', '', ' -mfpu=neon', d), '' , d)}"
++ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'neon', '-neon', '', d)}"
 diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc b/meta/conf/machine/include/arm/feature-arm-vfp.inc
-index 3dfbeac..75c05fb 100644
+index 75c05fb..802a99a 100644
 --- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
 +++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
-@@ -1,17 +1,20 @@
- TUNEVALID[vfp] = "Enable Vector Floating Point (vfp) unit."
--ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "vfp", "-vfp", "" ,d)}"
-+ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfp', '-vfp', '' ,d)}"
- 
- TUNEVALID[vfpv3d16] = "Enable Vector Floating Point Version 3 with 16 registers (vfpv3-d16) unit."
--TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "vfpv3d16", " -mfpu=vfpv3-d16", "", d)}"
--ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "vfpv3d16", "-vfpv3d16", "" ,d)}"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16', ' -mfpu=vfpv3-d16', '', d)}"
-+ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16', '-vfpv3d16', '' ,d)}"
- 
- TUNEVALID[vfpv3] = "Enable Vector Floating Point Version 3 with 32 registers (vfpv3) unit."
--TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "vfpv3", " -mfpu=vfpv3", "", d)}"
--ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "vfpv3", "-vfpv3", "" ,d)}"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', ' -mfpu=vfpv3', '', d)}"
-+ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', '-vfpv3', '' ,d)}"
+@@ -10,6 +10,7 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', ' -mfpu=vfpv3', '
+ ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', '-vfpv3', '' ,d)}"
  
  TUNEVALID[vfpv4] = "Enable Vector Floating Point Version 4 (vfpv4) unit."
--ARMPKGSFX_FPU .= "${@bb.utils.contains("TUNE_FEATURES", "vfpv4", "-vfpv4", "" ,d)}"
-+ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv4', '-vfpv4', '' ,d)}"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv4', bb.utils.contains('TUNE_FEATURES', 'neon', ' -mfpu=neon-vfpv4', ' -mfpu=vfpv4', d), '' , d)}"
+ ARMPKGSFX_FPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfpv4', '-vfpv4', '' ,d)}"
  
  TUNEVALID[callconvention-hard] = "Enable EABI hard float call convention, requires VFP."
--TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "vfp", bb.utils.contains("TUNE_FEATURES", "callconvention-hard", " -mfloat-abi=hard", " -mfloat-abi=softfp", d), "" ,d)}"
--ARMPKGSFX_EABI .= "${@bb.utils.contains("TUNE_FEATURES", [ "callconvention-hard", "vfp" ], "hf", "", d)}"
-+TUNE_CCARGS .= "${@bb.utils.contains_any('TUNE_FEATURES', [ 'vfp', 'vfpv3d16', 'vfpv3', 'vfpv4' ], bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', ' -mfloat-abi=hard', ' -mfloat-abi=softfp', d), '' ,d)}"
-+ARMPKGSFX_EABI .= "${@bb.utils.contains('TUNE_FEATURES', [ 'callconvention-hard', 'vfp' ], 'hf', '', d)}"
-+ARMPKGSFX_EABI .= "${@bb.utils.contains('TUNE_FEATURES', [ 'callconvention-hard', 'vfpv3d16' ], 'hf', '', d)}"
-+ARMPKGSFX_EABI .= "${@bb.utils.contains('TUNE_FEATURES', [ 'callconvention-hard', 'vfpv3' ], 'hf', '', d)}"
-+ARMPKGSFX_EABI .= "${@bb.utils.contains('TUNE_FEATURES', [ 'callconvention-hard', 'vfpv4' ], 'hf', '', d)}"
 -- 
 2.6.3
 
