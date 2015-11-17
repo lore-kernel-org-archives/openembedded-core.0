@@ -1,26 +1,35 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 041167702B
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id DA47E60043
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 05:38:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAH5cl6K006274
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Tue, 17 Nov 2015 05:56:07 +0000 (UTC)
+Received: by pabfh17 with SMTP id fh17so203515997pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 21:38:47 -0800
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 16 Nov 2015 21:38:46 -0800
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Nov 2015 00:38:42 -0500
-Message-ID: <28f7aa747d7397cdb6336ef110868b627362ac74.1447738630.git.wenzong.fan@windriver.com>
+	Mon, 16 Nov 2015 21:56:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=IKRlsIveLCm7z5Fz90VnQFszOyThK1emG0x/JqX90dg=;
+	b=RVL0LiamwaNH16MvuFVox3DERZGE+uszdIYxPFsM3R1NQWdw08X3BPJgF7G8HW2FwU
+	y8Vu523kB6X02WYPGgh680JpoV9nChUrYMXTkZRkTquFVXQtjTHLNK7fJ5tpMhVRABP0
+	YzzTrgnSg3yr2267ysy830lHDwNTEfcm/74nlfYQx9jZMl5ROHt30UGJJayg9/22pt1f
+	zldNPltn+Ea+h6RVOxIhhNflVIHoUk8jVkVgx9XfmMU2PUpXZwMr79aMWx4SFukkmBZH
+	vi47eyvLRGBGKYAioFSdG1B4oHMINjuWyn2iEaq9MA1lnG9TuVIm/j2Alizmu+7ZITKP
+	+Cdw==
+X-Received: by 10.66.249.37 with SMTP id yr5mr60114392pac.24.1447739767627;
+	Mon, 16 Nov 2015 21:56:07 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	ij3sm4683691pbb.62.2015.11.16.21.56.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 16 Nov 2015 21:56:06 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Nov 2015 21:56:00 -0800
+Message-Id: <1447739760-14395-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1447738630.git.wenzong.fan@windriver.com>
-References: <cover.1447738630.git.wenzong.fan@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] subversion: fix CVE-2015-3187
+Subject: [PATCH] directfb.inc: force bfd linker for armv7a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,390 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 05:38:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Nov 2015 05:56:10 -0000
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+Workaround for linker errors seen with armv7a + gold:
 
-The svn_repos_trace_node_locations function in Apache Subversion before
-1.7.21 and 1.8.x before 1.8.14, when path-based authorization is used,
-allows remote authenticated users to obtain sensitive path information
-by reading the history of a node that has been moved from a hidden path.
+ | ../arm-rdk-linux-gnueabi-libtool  --tag=CC   --mode=link arm-rdk-linux-gnueabi-gcc  -march=armv7-a -mfloat-abi=hard -mtune=cortex-a15 --sysroot=.../build/tmp/sysroots/eos -I.../build/tmp/sysroots/eos/usr/include/freetype2 -I.../build/tmp/sysroots/eos/usr/include/libpng16 -Wall -Wstrict-prototypes -Wmissing-prototypes -Wno-strict-aliasing -Werror-implicit-function-declaration -O3 -g2 -ffast-math -pipe -O2 -pipe -g -feliminate-unused-debug-types -D_GNU_SOURCE  -std=gnu99 -Werror-implicit-function-declaration  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o directfb-csource directfb-csource.o -lpng16 -ldl -lrt -lpthread
+ | arm-rdk-linux-gnueabi-libtool: link: arm-rdk-linux-gnueabi-gcc -march=armv7-a -mfloat-abi=hard -mtune=cortex-a15 --sysroot=.../build/tmp/sysroots/eos -I.../build/tmp/sysroots/eos/usr/include/freetype2 -I.../build/tmp/sysroots/eos/usr/include/libpng16 -Wall -Wstrict-prototypes -Wmissing-prototypes -Wno-strict-aliasing -Werror-implicit-function-declaration -O3 -g2 -ffast-math -pipe -O2 -pipe -g -feliminate-unused-debug-types -D_GNU_SOURCE -std=gnu99 -Werror-implicit-function-declaration -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o directfb-csource directfb-csource.o  .../build/tmp/sysroots/eos/usr/lib/libpng16.so -lz -lm -ldl -lrt -lpthread
+ | .../build/tmp/sysroots/x86_64-linux/usr/bin/arm-rdk-linux-gnueabi/../../libexec/arm-rdk-linux-gnueabi/gcc/arm-rdk-linux-gnueabi/5.2.0/ld: error: directfb-csource.o: requires unsupported dynamic reloc R_ARM_MOVW_ABS_NC; recompile with -fPIC
+ | collect2: error: ld returned 1 exit status
 
-Patch is from:
-http://subversion.apache.org/security/CVE-2015-3187-advisory.txt
-
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../subversion-CVE-2015-3187.patch                 | 346 +++++++++++++++++++++
- .../subversion/subversion_1.8.13.bb                |   1 +
- 2 files changed, 347 insertions(+)
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.8.13/subversion-CVE-2015-3187.patch
+ meta/recipes-graphics/directfb/directfb.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/subversion/subversion-1.8.13/subversion-CVE-2015-3187.patch b/meta/recipes-devtools/subversion/subversion-1.8.13/subversion-CVE-2015-3187.patch
-new file mode 100644
-index 0000000..494e11c
---- /dev/null
-+++ b/meta/recipes-devtools/subversion/subversion-1.8.13/subversion-CVE-2015-3187.patch
-@@ -0,0 +1,346 @@
-+Fix CVE-2015-3187
+diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-graphics/directfb/directfb.inc
+index 446aaea..cbd4014 100644
+--- a/meta/recipes-graphics/directfb/directfb.inc
++++ b/meta/recipes-graphics/directfb/directfb.inc
+@@ -22,6 +22,9 @@ S = "${WORKDIR}/DirectFB-${PV}"
+ 
+ LDFLAGS_append =" -lts -lm"
+ 
++# Workaround for linking issues seen with armv7a + gold
++LDFLAGS_append_armv7a = "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
 +
-+Patch is from:
-+http://subversion.apache.org/security/CVE-2015-3187-advisory.txt
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-+
-+Index: subversion/libsvn_repos/rev_hunt.c
-+===================================================================
-+--- a/subversion/libsvn_repos/rev_hunt.c	(revision 1685077)
-++++ b/subversion/libsvn_repos/rev_hunt.c	(working copy)
-+@@ -726,23 +726,6 @@ svn_repos_trace_node_locations(svn_fs_t *fs,
-+       if (! prev_path)
-+         break;
-+ 
-+-      if (authz_read_func)
-+-        {
-+-          svn_boolean_t readable;
-+-          svn_fs_root_t *tmp_root;
-+-
-+-          SVN_ERR(svn_fs_revision_root(&tmp_root, fs, revision, currpool));
-+-          SVN_ERR(authz_read_func(&readable, tmp_root, path,
-+-                                  authz_read_baton, currpool));
-+-          if (! readable)
-+-            {
-+-              svn_pool_destroy(lastpool);
-+-              svn_pool_destroy(currpool);
-+-
-+-              return SVN_NO_ERROR;
-+-            }
-+-        }
-+-
-+       /* Assign the current path to all younger revisions until we reach
-+          the copy target rev. */
-+       while ((revision_ptr < revision_ptr_end)
-+@@ -765,6 +748,20 @@ svn_repos_trace_node_locations(svn_fs_t *fs,
-+       path = prev_path;
-+       revision = prev_rev;
-+ 
-++      if (authz_read_func)
-++        {
-++          svn_boolean_t readable;
-++          SVN_ERR(svn_fs_revision_root(&root, fs, revision, currpool));
-++          SVN_ERR(authz_read_func(&readable, root, path,
-++                                  authz_read_baton, currpool));
-++          if (!readable)
-++            {
-++              svn_pool_destroy(lastpool);
-++              svn_pool_destroy(currpool);
-++              return SVN_NO_ERROR;
-++            }
-++        }
-++
-+       /* Clear last pool and switch. */
-+       svn_pool_clear(lastpool);
-+       tmppool = lastpool;
-+Index: subversion/tests/cmdline/authz_tests.py
-+===================================================================
-+--- a/subversion/tests/cmdline/authz_tests.py	(revision 1685077)
-++++ b/subversion/tests/cmdline/authz_tests.py	(working copy)
-+@@ -609,8 +609,10 @@ def authz_log_and_tracing_test(sbox):
-+ 
-+   ## cat
-+ 
-++  expected_err2 = ".*svn: E195012: Unable to find repository location.*"
-++
-+   # now see if we can look at the older version of rho
-+-  svntest.actions.run_and_verify_svn(None, None, expected_err,
-++  svntest.actions.run_and_verify_svn(None, None, expected_err2,
-+                                      'cat', '-r', '2', D_url+'/rho')
-+ 
-+   if sbox.repo_url.startswith('http'):
-+@@ -627,10 +629,11 @@ def authz_log_and_tracing_test(sbox):
-+   svntest.actions.run_and_verify_svn(None, None, expected_err,
-+                                      'diff', '-r', 'HEAD', G_url+'/rho')
-+ 
-+-  svntest.actions.run_and_verify_svn(None, None, expected_err,
-++  # diff treats the unreadable path as indicating an add so no error
-++  svntest.actions.run_and_verify_svn(None, None, [],
-+                                      'diff', '-r', '2', D_url+'/rho')
-+ 
-+-  svntest.actions.run_and_verify_svn(None, None, expected_err,
-++  svntest.actions.run_and_verify_svn(None, None, [],
-+                                      'diff', '-r', '2:4', D_url+'/rho')
-+ 
-+ # test whether read access is correctly granted and denied
-+Index: subversion/tests/libsvn_repos/repos-test.c
-+===================================================================
-+--- a/subversion/tests/libsvn_repos/repos-test.c	(revision 1685077)
-++++ b/subversion/tests/libsvn_repos/repos-test.c	(working copy)
-+@@ -3524,6 +3524,245 @@ test_load_r0_mergeinfo(const svn_test_opts_t *opts
-+   return SVN_NO_ERROR;
-+ }
-+ 
-++static svn_error_t *
-++mkdir_delete_copy(svn_repos_t *repos,
-++                  const char *src,
-++                  const char *dst,
-++                  apr_pool_t *pool)
-++{
-++  svn_fs_t *fs = svn_repos_fs(repos);
-++  svn_revnum_t youngest_rev;
-++  svn_fs_txn_t *txn;
-++  svn_fs_root_t *txn_root, *rev_root;
-++
-++  SVN_ERR(svn_fs_youngest_rev(&youngest_rev, fs, pool));
-++  
-++  SVN_ERR(svn_fs_begin_txn(&txn, fs, youngest_rev, pool));
-++  SVN_ERR(svn_fs_txn_root(&txn_root, txn, pool));
-++  SVN_ERR(svn_fs_make_dir(txn_root, "A/T", pool));
-++  SVN_ERR(svn_repos_fs_commit_txn(NULL, repos, &youngest_rev, txn, pool));
-++
-++  SVN_ERR(svn_fs_begin_txn(&txn, fs, youngest_rev, pool));
-++  SVN_ERR(svn_fs_txn_root(&txn_root, txn, pool));
-++  SVN_ERR(svn_fs_delete(txn_root, "A/T", pool));
-++  SVN_ERR(svn_repos_fs_commit_txn(NULL, repos, &youngest_rev, txn, pool));
-++
-++  SVN_ERR(svn_fs_begin_txn(&txn, fs, youngest_rev, pool));
-++  SVN_ERR(svn_fs_txn_root(&txn_root, txn, pool));
-++  SVN_ERR(svn_fs_revision_root(&rev_root, fs, youngest_rev - 1, pool));
-++  SVN_ERR(svn_fs_copy(rev_root, src, txn_root, dst, pool));
-++  SVN_ERR(svn_repos_fs_commit_txn(NULL, repos, &youngest_rev, txn, pool));
-++
-++  return SVN_NO_ERROR;
-++}
-++
-++struct authz_read_baton_t {
-++  apr_hash_t *paths;
-++  apr_pool_t *pool;
-++  const char *deny;
-++};
-++
-++static svn_error_t *
-++authz_read_func(svn_boolean_t *allowed,
-++                svn_fs_root_t *root,
-++                const char *path,
-++                void *baton,
-++                apr_pool_t *pool)
-++{
-++  struct authz_read_baton_t *b = baton;
-++
-++  if (b->deny && !strcmp(b->deny, path))
-++    *allowed = FALSE;
-++  else
-++    *allowed = TRUE;
-++
-++  svn_hash_sets(b->paths, apr_pstrdup(b->pool, path), (void*)1);
-++
-++  return SVN_NO_ERROR;
-++}
-++
-++static svn_error_t *
-++verify_locations(apr_hash_t *actual,
-++                 apr_hash_t *expected,
-++                 apr_hash_t *checked,
-++                 apr_pool_t *pool)
-++{
-++  apr_hash_index_t *hi;
-++
-++  for (hi = apr_hash_first(pool, expected); hi; hi = apr_hash_next(hi))
-++    {
-++      const svn_revnum_t *rev = svn__apr_hash_index_key(hi);
-++      const char *path = apr_hash_get(actual, rev, sizeof(svn_revnum_t));
-++
-++      if (!path)
-++        return svn_error_createf(SVN_ERR_TEST_FAILED, NULL,
-++                                 "expected %s for %d found (null)",
-++                                 (char*)svn__apr_hash_index_val(hi),
-++                                 (int)*rev);
-++      else if (strcmp(path, svn__apr_hash_index_val(hi)))
-++        return svn_error_createf(SVN_ERR_TEST_FAILED, NULL,
-++                                 "expected %s for %d found %s",
-++                                 (char*)svn__apr_hash_index_val(hi),
-++                                 (int)*rev, path);
-++
-++    }
-++
-++  for (hi = apr_hash_first(pool, actual); hi; hi = apr_hash_next(hi))
-++    {
-++      const svn_revnum_t *rev = svn__apr_hash_index_key(hi);
-++      const char *path = apr_hash_get(expected, rev, sizeof(svn_revnum_t));
-++
-++      if (!path)
-++        return svn_error_createf(SVN_ERR_TEST_FAILED, NULL,
-++                                 "found %s for %d expected (null)",
-++                                 (char*)svn__apr_hash_index_val(hi),
-++                                 (int)*rev);
-++      else if (strcmp(path, svn__apr_hash_index_val(hi)))
-++        return svn_error_createf(SVN_ERR_TEST_FAILED, NULL,
-++                                 "found %s for %d expected %s",
-++                                 (char*)svn__apr_hash_index_val(hi),
-++                                 (int)*rev, path);
-++
-++      if (!svn_hash_gets(checked, path))
-++        return svn_error_createf(SVN_ERR_TEST_FAILED, NULL,
-++                                 "did not check %s", path);
-++    }
-++
-++  return SVN_NO_ERROR;
-++}
-++
-++static void
-++set_expected(apr_hash_t *expected,
-++             svn_revnum_t rev,
-++             const char *path,
-++             apr_pool_t *pool)
-++{
-++  svn_revnum_t *rp = apr_palloc(pool, sizeof(svn_revnum_t));
-++  *rp = rev;
-++  apr_hash_set(expected, rp, sizeof(svn_revnum_t), path);
-++}
-++
-++static svn_error_t *
-++trace_node_locations_authz(const svn_test_opts_t *opts,
-++                           apr_pool_t *pool)
-++{
-++  svn_repos_t *repos;
-++  svn_fs_t *fs;
-++  svn_revnum_t youngest_rev = 0;
-++  svn_fs_txn_t *txn;
-++  svn_fs_root_t *txn_root;
-++  struct authz_read_baton_t arb;
-++  apr_array_header_t *revs = apr_array_make(pool, 10, sizeof(svn_revnum_t));
-++  apr_hash_t *locations;
-++  apr_hash_t *expected = apr_hash_make(pool);
-++  int i;
-++
-++  /* Create test repository. */
-++  SVN_ERR(svn_test__create_repos(&repos, "test-repo-trace-node-locations-authz",
-++                                 opts, pool));
-++  fs = svn_repos_fs(repos);
-++
-++  /* r1 create A */
-++  SVN_ERR(svn_fs_begin_txn(&txn, fs, youngest_rev, pool));
-++  SVN_ERR(svn_fs_txn_root(&txn_root, txn, pool));
-++  SVN_ERR(svn_fs_make_dir(txn_root, "A", pool));
-++  SVN_ERR(svn_fs_make_file(txn_root, "A/f", pool));
-++  SVN_ERR(svn_test__set_file_contents(txn_root, "A/f", "foobar", pool));
-++  SVN_ERR(svn_repos_fs_commit_txn(NULL, repos, &youngest_rev, txn, pool));
-++
-++  /* r4 copy A to B */
-++  SVN_ERR(mkdir_delete_copy(repos, "A", "B", pool));
-++
-++  /* r7 copy B to C */
-++  SVN_ERR(mkdir_delete_copy(repos, "B", "C", pool));
-++
-++  /* r10 copy C to D */
-++  SVN_ERR(mkdir_delete_copy(repos, "C", "D", pool));
-++
-++  SVN_ERR(svn_fs_youngest_rev(&youngest_rev, fs, pool));
-++  SVN_ERR_ASSERT(youngest_rev == 10);
-++
-++  arb.paths = apr_hash_make(pool);
-++  arb.pool = pool;
-++  arb.deny = NULL;
-++
-++  apr_array_clear(revs);
-++  for (i = 0; i <= youngest_rev; ++i)
-++    APR_ARRAY_PUSH(revs, svn_revnum_t) = i;
-++  set_expected(expected, 10, "/D/f", pool);
-++  set_expected(expected, 8, "/C/f", pool);
-++  set_expected(expected, 7, "/C/f", pool);
-++  set_expected(expected, 5, "/B/f", pool);
-++  set_expected(expected, 4, "/B/f", pool);
-++  set_expected(expected, 2, "/A/f", pool);
-++  set_expected(expected, 1, "/A/f", pool);
-++  apr_hash_clear(arb.paths);
-++  SVN_ERR(svn_repos_trace_node_locations(fs, &locations, "D/f", 10, revs,
-++                                         authz_read_func, &arb, pool));
-++  SVN_ERR(verify_locations(locations, expected, arb.paths, pool));
-++
-++  apr_array_clear(revs);
-++  for (i = 1; i <= youngest_rev; ++i)
-++    APR_ARRAY_PUSH(revs, svn_revnum_t) = i;
-++  apr_hash_clear(arb.paths);
-++  SVN_ERR(svn_repos_trace_node_locations(fs, &locations, "D/f", 10, revs,
-++                                         authz_read_func, &arb, pool));
-++  SVN_ERR(verify_locations(locations, expected, arb.paths, pool));
-++
-++  apr_array_clear(revs);
-++  for (i = 2; i <= youngest_rev; ++i)
-++    APR_ARRAY_PUSH(revs, svn_revnum_t) = i;
-++  set_expected(expected, 1, NULL, pool);
-++  apr_hash_clear(arb.paths);
-++  SVN_ERR(svn_repos_trace_node_locations(fs, &locations, "D/f", 10, revs,
-++                                         authz_read_func, &arb, pool));
-++  SVN_ERR(verify_locations(locations, expected, arb.paths, pool));
-++
-++  apr_array_clear(revs);
-++  for (i = 3; i <= youngest_rev; ++i)
-++    APR_ARRAY_PUSH(revs, svn_revnum_t) = i;
-++  set_expected(expected, 2, NULL, pool);
-++  apr_hash_clear(arb.paths);
-++  SVN_ERR(svn_repos_trace_node_locations(fs, &locations, "D/f", 10, revs,
-++                                         authz_read_func, &arb, pool));
-++  SVN_ERR(verify_locations(locations, expected, arb.paths, pool));
-++
-++  apr_array_clear(revs);
-++  for (i = 6; i <= youngest_rev; ++i)
-++    APR_ARRAY_PUSH(revs, svn_revnum_t) = i;
-++  set_expected(expected, 5, NULL, pool);
-++  set_expected(expected, 4, NULL, pool);
-++  apr_hash_clear(arb.paths);
-++  SVN_ERR(svn_repos_trace_node_locations(fs, &locations, "D/f", 10, revs,
-++                                         authz_read_func, &arb, pool));
-++  SVN_ERR(verify_locations(locations, expected, arb.paths, pool));
-++
-++  arb.deny = "/B/f";
-++  apr_array_clear(revs);
-++  for (i = 0; i <= youngest_rev; ++i)
-++    APR_ARRAY_PUSH(revs, svn_revnum_t) = i;
-++  apr_hash_clear(arb.paths);
-++  SVN_ERR(svn_repos_trace_node_locations(fs, &locations, "D/f", 10, revs,
-++                                         authz_read_func, &arb, pool));
-++  SVN_ERR(verify_locations(locations, expected, arb.paths, pool));
-++
-++  apr_array_clear(revs);
-++  for (i = 6; i <= youngest_rev; ++i)
-++    APR_ARRAY_PUSH(revs, svn_revnum_t) = i;
-++  apr_hash_clear(arb.paths);
-++  SVN_ERR(svn_repos_trace_node_locations(fs, &locations, "D/f", 10, revs,
-++                                         authz_read_func, &arb, pool));
-++  SVN_ERR(verify_locations(locations, expected, arb.paths, pool));
-++
-++  APR_ARRAY_PUSH(revs, svn_revnum_t) = 0;
-++  apr_hash_clear(arb.paths);
-++  SVN_ERR(svn_repos_trace_node_locations(fs, &locations, "D/f", 10, revs,
-++                                         authz_read_func, &arb, pool));
-++  SVN_ERR(verify_locations(locations, expected, arb.paths, pool));
-++
-++  return SVN_NO_ERROR;
-++}
-++
-+ /* The test table.  */
-+ 
-+ struct svn_test_descriptor_t test_funcs[] =
-+@@ -3573,5 +3812,7 @@ struct svn_test_descriptor_t test_funcs[] =
-+                        "test dumping with r0 mergeinfo"),
-+     SVN_TEST_OPTS_PASS(test_load_r0_mergeinfo,
-+                        "test loading with r0 mergeinfo"),
-++    SVN_TEST_OPTS_PASS(trace_node_locations_authz,
-++                       "authz for svn_repos_trace_node_locations"),
-+     SVN_TEST_NULL
-+   };
-diff --git a/meta/recipes-devtools/subversion/subversion_1.8.13.bb b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
-index 9505247..68934b7 100644
---- a/meta/recipes-devtools/subversion/subversion_1.8.13.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
-@@ -15,6 +15,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://disable_macos.patch \
-            file://serf.m4-Regex-modified-to-allow-D-in-paths.patch \
-            file://subversion-CVE-2015-3184.patch \
-+           file://subversion-CVE-2015-3187.patch \
- "
- SRC_URI[md5sum] = "4413417b529d7bdf82f74e50df02e88b"
- SRC_URI[sha256sum] = "1099cc68840753b48aedb3a27ebd1e2afbcc84ddb871412e5d500e843d607579"
+ BINCONFIG = "${bindir}/directfb-config"
+ 
+ inherit autotools binconfig-disabled pkgconfig
 -- 
 1.9.1
 
