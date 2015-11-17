@@ -1,36 +1,31 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id BE3AA60620
+Return-Path: <haris.okanovic@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AF0D60616
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 19:42:55 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so245212913wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 11:42:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=qmoOqDoY8QULpD6xnIpjPlvFjnxVoWEWYUjnr6j6NIs=;
-	b=GtP3uobnt5ntQRhcaFwYTf7Uo9H8voJvLFajvpRlQA9aGB5oFluHxzBVtKLQt+fhnG
-	yUxWc9TPaFsIy1ONqPeDymTH0vX2ncxYcHOS+wYebfOS+Yu6WSHUwEBmmuvU7SoNF/3c
-	VeBQJGPINGE04wdXBe9IDNcF9ZvrGQQe/QG1ffw+pyhQQPxdyzmQX24vsXbvxF/7JgDd
-	iUg1e4T3hPCrZFYYJk6+7zb3M/V4YeTXFzsfQcBSQAmeFzT8njwp39B0GCuk1p3wRPpt
-	rzguBE7tkwt3JgeOvY0pzQZv8vZ0LYX7ZUGLwPgHv8TcvmDg5ADX2LxtGcIqDk5wySXn
-	6hHA==
-MIME-Version: 1.0
-X-Received: by 10.194.200.134 with SMTP id js6mr43430203wjc.114.1447789375995; 
-	Tue, 17 Nov 2015 11:42:55 -0800 (PST)
-Received: by 10.194.140.38 with HTTP; Tue, 17 Nov 2015 11:42:55 -0800 (PST)
-In-Reply-To: <CAMKF1sppDtyLvRATLpQHqh8N3ztnyj=r+QPjtwF-jmR+f73QTw@mail.gmail.com>
-References: <1447739760-14395-1-git-send-email-armccurdy@gmail.com>
-	<1447773377.1472.28.camel@pbcl.net>
-	<CAMKF1sppDtyLvRATLpQHqh8N3ztnyj=r+QPjtwF-jmR+f73QTw@mail.gmail.com>
-Date: Tue, 17 Nov 2015 11:42:55 -0800
-Message-ID: <CAJ86T=Ws95=j4JQ0-_ZOSs0oTnSeiZFKky=0R+GkjcKwoLO=pg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] directfb.inc: force bfd linker for armv7a
+	Tue, 17 Nov 2015 20:21:17 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tAHKLIfG017069 for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Nov 2015 14:21:18 -0600
+Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015111714211814-80713 ;
+	Tue, 17 Nov 2015 14:21:18 -0600 
+From: Haris Okanovic <haris.okanovic@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Nov 2015 14:21:12 -0600
+Message-Id: <1447791672-3404-1-git-send-email-haris.okanovic@ni.com>
+X-Mailer: git-send-email 2.6.2
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 11/17/2015 02:21:18 PM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 11/17/2015 02:21:18 PM,
+	Serialize complete at 11/17/2015 02:21:18 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-11-17_12:, , signatures=0
+Cc: Haris Okanovic <haris.okanovic@ni.com>
+Subject: [PATCH] populate_sdk_base: Add sysroot symlink check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,32 +38,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 19:42:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 17 Nov 2015 20:21:19 -0000
 
-On Tue, Nov 17, 2015 at 11:33 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Nov 17, 2015 at 7:16 AM, Phil Blundell <pb@pbcl.net> wrote:
->> On Mon, 2015-11-16 at 21:56 -0800, Andre McCurdy wrote:
->>>
->> +# Workaround for linking issues seen with armv7a + gold
->>> +LDFLAGS_append_armv7a = "${@base_contains('DISTRO_FEATURES', 'ld-is
->>> -gold', ' -fuse-ld=bfd ', '', d)}"
->>>
->>
->> Does the resulting directfb-csource binary actually work with that
->> change?  My recollection is that ld.bfd will just silently permit
->> relocs that gold (correctly) refuses to allow.
->
-> thats right. real problem here is that there is a static library
-> generating with out pic options and being linked into
-> shared object. gold is flagging it since it will fail at runtime.
-> Please pass --enable-shared to configure that should help
-> if that does not then pass -fPIC in CFLAGS
+Add optional check to do_populate_sdk() that verifies SDK sysroots don't
+contain dangling or escaping symlinks before attempting to tar an archive.
+Such links may fail a `tar -h` operation (-h => follow symlinks) or
+archive the build system's files.
 
-Note that directfb-csource is an application, not a shared library.
+Set CHECK_SDK_SYSROOTS = "1" to enable this check.
 
-First directfb-csource.c is compiled to directfb-csource.o and then
-directfb-csource.o is linked with -lpng16 -ldl -lrt -lpthread to
-create the directfb-csource application. I don't see an obvious reason
-why -fPIC should be needed when directfb-csource.c is compiled?
+Use case: The -h option may be set via SDKTAROPTS in some configurations
+to create symlink-less SDK archives for Windows file systems.
+
+Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+---
+ meta/classes/populate_sdk_base.bbclass | 53 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 52 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 35e129b..23dc115 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -80,7 +80,7 @@ python write_host_sdk_manifest () {
+ 
+ POPULATE_SDK_POST_TARGET_COMMAND_append = " write_target_sdk_manifest ; "
+ POPULATE_SDK_POST_HOST_COMMAND_append = " write_host_sdk_manifest; "
+-SDK_POSTPROCESS_COMMAND = " create_sdk_files; tar_sdk; ${SDK_PACKAGING_FUNC}; "
++SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; tar_sdk; ${SDK_PACKAGING_FUNC}; "
+ 
+ # Some archs override this, we need the nativesdk version
+ # turns out this is hard to get from the datastore due to TRANSLATED_TARGET_ARCH
+@@ -120,6 +120,57 @@ fakeroot create_sdk_files() {
+ 	sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
+ }
+ 
++python check_sdk_sysroots() {
++    # Fails build if there are broken or dangling symlinks in SDK sysroots
++
++    if d.getVar('CHECK_SDK_SYSROOTS', True) != '1':
++        # disabled, bail out
++        return
++
++    def norm_path(path):
++        return os.path.abspath(path)
++
++    # Get scan root
++    SCAN_ROOT = norm_path("${SDK_OUTPUT}/${SDKPATH}/sysroots/")
++
++    bb.note('Checking SDK sysroots at ' + SCAN_ROOT)
++
++    def check_symlink(linkPath):
++        if not os.path.islink(linkPath):
++            return
++
++        linkDirPath = os.path.dirname(linkPath)
++
++        targetPath = os.readlink(linkPath)
++        if not os.path.isabs(targetPath):
++            targetPath = os.path.join(linkDirPath, targetPath)
++        targetPath = norm_path(targetPath)
++
++        if SCAN_ROOT != os.path.commonprefix( [SCAN_ROOT, targetPath] ):
++            bb.error("Escaping symlink {0!s} --> {1!s}".format(linkPath, targetPath))
++            return
++
++        if not os.path.exists(targetPath):
++            bb.error("Broken symlink {0!s} --> {1!s}".format(linkPath, targetPath))
++            return
++
++        if os.path.isdir(targetPath):
++            dir_walk(targetPath)
++
++    def walk_error_handler(e):
++        bb.error(str(e))
++
++    def dir_walk(rootDir):
++        for dirPath,subDirEntries,fileEntries in os.walk(rootDir, followlinks=False, onerror=walk_error_handler):
++            entries = subDirEntries + fileEntries
++            for e in entries:
++                ePath = os.path.join(dirPath, e)
++                check_symlink(ePath)
++
++    # start
++    dir_walk(SCAN_ROOT)
++}
++
+ SDKTAROPTS = "--owner=root --group=root"
+ 
+ fakeroot tar_sdk() {
+-- 
+2.6.2
+
 
