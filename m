@@ -1,24 +1,39 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 189E16E268
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 81A256E268
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 07:18:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAH7IYXb021022
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 17 Nov 2015 07:25:59 +0000 (UTC)
+Received: by igl9 with SMTP id 9so73794656igl.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Nov 2015 23:18:35 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 16 Nov 2015 23:18:34 -0800
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Nov 2015 02:18:32 -0500
-Message-ID: <1447744712-18615-1-git-send-email-wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 16 Nov 2015 23:25:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=X0ZqalkssD8Pe9pfkilrmJhR4rF2WusvG8ZIyAIMYww=;
+	b=Drz9g8RRBn6u7shysW0xczl+4wK6GzJRC8isNShU1CtiHDH6hiYt7aQ4le7INqeJT+
+	G2yz8vhwdZmarjax2FF3M5OhZK8arNohK6lih5JdG4AIJfWsnTJ9ztuIKa9A8ci1oiPO
+	od8E8P74jQ3V40rQZXLsnkVGiM/QXjIgL1o4DNzYFvevSDbW1OY2z1yfSy0PcDm7W8fa
+	A6ye9uxSQ89+tKUQDuLkypApuPLRXNqCys2wZuYbm9cXSIIZGW9Pgk7S4oRLLX1oEGJF
+	znyTF8A60wnVH9O7yF/msCKEt2qK5XdB9Ef8V5ZTwkcfON30oW3hOOZySJsFrU/t2s71
+	J2Pg==
 MIME-Version: 1.0
-Subject: [PATCH] rpcbind: Security Advisory - rpcbind - CVE-2015-7236
+X-Received: by 10.50.112.99 with SMTP id ip3mr513213igb.78.1447745159300; Mon,
+	16 Nov 2015 23:25:59 -0800 (PST)
+Received: by 10.36.25.81 with HTTP; Mon, 16 Nov 2015 23:25:59 -0800 (PST)
+In-Reply-To: <05b7cc8c957a9756e7af964a09bc2a89e0aedd9f.1447371049.git.chris_larson@mentor.com>
+References: <cover.1447371049.git.chris_larson@mentor.com>
+	<130d9a6c1f4ecea86748a44b73f51d8ddb2e63da.1447371049.git.chris_larson@mentor.com>
+	<05b7cc8c957a9756e7af964a09bc2a89e0aedd9f.1447371049.git.chris_larson@mentor.com>
+Date: Tue, 17 Nov 2015 08:25:59 +0100
+Message-ID: <CALbNGRSRxhTWMDa3B9a4N1m5E7TxTJXajLWaYCGUjKOf6WdZ4Q@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] systemd: add myhostname to nsswitch.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,132 +46,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 07:18:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Nov 2015 07:26:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Li Zhou <li.zhou@windriver.com>
+On Fri, Nov 13, 2015 at 12:41 AM, Christopher Larson <kergoth@gmail.com> wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+>
+> We don't need nss-myhostname on systemd systems, because systemd already
+> provides myhostname, but we weren't configuring nsswitch to use it. Being able
+> to resolve the hostname is useful for a number of different applications, so
+> enable it using the same postinst/prerm bits which are in nss-myhostname.
+>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+>  meta/recipes-core/systemd/systemd_225.bb | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
+> index 18c2448..20515f5 100644
+> --- a/meta/recipes-core/systemd/systemd_225.bb
+> +++ b/meta/recipes-core/systemd/systemd_225.bb
+> @@ -397,6 +397,18 @@ ALTERNATIVE_TARGET[runlevel] = "${base_bindir}/systemctl"
+>  ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
+>  ALTERNATIVE_PRIORITY[runlevel] ?= "300"
+>
+> +pkg_postinst_${PN} () {
+> +       sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+> +               -e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 myhostname \3\4\5/' \
+> +               -i $D${sysconfdir}/nsswitch.conf
+> +}
+> +
+> +pkg_prerm_${PN} () {
+> +       sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+> +               -e '/^hosts:/s/\s*myhostname//' \
+> +               -i $D${sysconfdir}/nsswitch.conf
+> +}
+> +
+>  pkg_postinst_udev-hwdb () {
+>         if test -n "$D"; then
+>                 ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
+> --
+> 2.2.1
+>
+> --
+This seems to solve my xfce4-terminal delay - thanks. I have a
+questions regarding this patch: As soon as basefiles are updated
+resolving stops working - right? So why not handle at basefiles based
+on systemd distro setting?
 
-rpcbind: Fix memory corruption in PMAP_CALLIT code
-
-Use-after-free vulnerability in xprt_set_caller in rpcb_svc_com.c in
-rpcbind 0.2.1 and earlier allows remote attackers to cause a denial of
-service (daemon crash) via crafted packets, involving a PMAP_CALLIT
-code.
-
-The patch comes from
-<http://www.openwall.com/lists/oss-security/2015/09/18/7>, and it hasn't
-been in rpcbind upstream yet.
-
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- ...Fix_memory_corruption_in_PMAP_CALLIT_code.patch | 83 ++++++++++++++++++++++
- meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb     |  1 +
- 2 files changed, 84 insertions(+)
- create mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbind_Fix_memory_corruption_in_PMAP_CALLIT_code.patch
-
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind_Fix_memory_corruption_in_PMAP_CALLIT_code.patch b/meta/recipes-extended/rpcbind/rpcbind/rpcbind_Fix_memory_corruption_in_PMAP_CALLIT_code.patch
-new file mode 100644
-index 0000000..f156290
---- /dev/null
-+++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind_Fix_memory_corruption_in_PMAP_CALLIT_code.patch
-@@ -0,0 +1,83 @@
-+commit 06f7ebb1dade2f0dbf872ea2bedf17cff4734bdd
-+Author: Olaf Kirch <okir@...e.de>
-+Date:   Thu Aug 6 16:27:20 2015 +0200
-+
-+    Fix memory corruption in PMAP_CALLIT code
-+    
-+     - A PMAP_CALLIT call comes in on IPv4 UDP
-+     - rpcbind duplicates the caller's address to a netbuf and stores it in
-+       FINFO[0].caller_addr. caller_addr->buf now points to a memory region A
-+       with a size of 16 bytes
-+     - rpcbind forwards the call to the local service, receives a reply
-+     - when processing the reply, it does this in xprt_set_caller:
-+         xprt->xp_rtaddr = *FINFO[0].caller_addr
-+       It sends out the reply, and then frees the netbuf caller_addr and
-+       caller_addr.buf.
-+       However, it does not clear xp_rtaddr, so xp_rtaddr.buf now refers
-+       to memory region A, which is free.
-+     - When the next call comes in on the UDP/IPv4 socket, svc_dg_recv will
-+       be called, which will set xp_rtaddr to the client's address.
-+       It will reuse the buffer inside xp_rtaddr, ie it will write a
-+       sockaddr_in to region A
-+    
-+    Some time down the road, an incoming TCP connection is accepted,
-+    allocating a fresh SVCXPRT. The memory region A is inside the
-+    new SVCXPRT
-+    
-+     - While processing the TCP call, another UDP call comes in, again
-+       overwriting region A with the client's address
-+     - TCP client closes connection. In svc_destroy, we now trip over
-+       the garbage left in region A
-+    
-+    We ran into the case where a commercial scanner was triggering
-+    occasional rpcbind segfaults. The core file that was captured showed
-+    a corrupted xprt->xp_netid pointer that was really a sockaddr_in.
-+    
-+    Signed-off-by: Olaf Kirch <okir@...e.de>
-+
-+    Upstream-Status: Backport
-+
-+    Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ src/rpcb_svc_com.c |   23 ++++++++++++++++++++++-
-+ 1 file changed, 22 insertions(+), 1 deletion(-)
-+
-+Index: rpcbind-0.1.6+git20080930/src/rpcb_svc_com.c
-+===================================================================
-+--- rpcbind-0.1.6+git20080930.orig/src/rpcb_svc_com.c
-++++ rpcbind-0.1.6+git20080930/src/rpcb_svc_com.c
-+@@ -1298,12 +1298,33 @@ check_rmtcalls(struct pollfd *pfds, int
-+ 	return (ncallbacks_found);
-+ }
-+ 
-++/*
-++ * This is really a helper function defined in libtirpc, but unfortunately, it hasn't
-++ * been exported yet.
-++ */
-++static struct netbuf *
-++__rpc_set_netbuf(struct netbuf *nb, const void *ptr, size_t len)
-++{
-++	if (nb->len != len) {
-++		if (nb->len)
-++			mem_free(nb->buf, nb->len);
-++		nb->buf = mem_alloc(len);
-++		if (nb->buf == NULL)
-++			return NULL;
-++
-++		nb->maxlen = nb->len = len;
-++	}
-++	memcpy(nb->buf, ptr, len);
-++	return nb;
-++}
-++
-+ static void
-+ xprt_set_caller(SVCXPRT *xprt, struct finfo *fi)
-+ {
-++	const struct netbuf *caller = fi->caller_addr;
-+ 	u_int32_t *xidp;
-+ 
-+-	*(svc_getrpccaller(xprt)) = *(fi->caller_addr);
-++	__rpc_set_netbuf(svc_getrpccaller(xprt), caller->buf, caller->len);
-+ 	xidp = __rpcb_get_dg_xidp(xprt);
-+ 	*xidp = fi->caller_xid;
-+ }
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb
-index 237018b..9b1c650 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
-            file://rpcbind.conf \
-            file://rpcbind.socket \
-            file://rpcbind.service \
-+           file://rpcbind_Fix_memory_corruption_in_PMAP_CALLIT_code.patch \
-           "
- MUSLPATCHES_libc-musl = "file://musl-sunrpc.patch"
- 
--- 
-1.9.1
-
+Andreas
 
