@@ -1,39 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id B4D6F60119
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E82EA60110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 11:57:59 +0000 (UTC)
-Received: by wmww144 with SMTP id w144so22274698wmw.0
+	Tue, 17 Nov 2015 11:58:00 +0000 (UTC)
+Received: by wmdw130 with SMTP id w130so151498376wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 03:57:59 -0800 (PST)
+	Tue, 17 Nov 2015 03:58:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=9Eid9vYVJSEUHLWMbkRcuKewBZCXMB0k6sbfezFYotA=;
-	b=hCqh3fJTpVGCLeqvOHCcLwxSgLFzimnNS5agHQZuaF2CkevCJw03zJfLfnJhD6l36X
-	yvK6v5nIXcWYnWEiltRXCDEMDwTesmkdSlm4Rjk87hCfSpVT3cksH5qNvGaJvJDW1Wo+
-	QMeufflKJtT47EFFJl+65wvR0lqpVRndSq59tSFxtHv+eEDH0ZbFZEfor1yy2bkZok5y
-	//7rAEv/UcLuy07HDHg7ItzxCxXinqRlDwwppsGPi0BtO4R5X1MT0JxuVi0pQfOjR9cQ
-	9wmiPqJZEIQJK6GY9UPQAVyicxbpLn/wRDAAdoglsjJ0fnJ8Axolc6cmhTzti6OwtyqT
-	bmxQ==
-X-Received: by 10.194.60.179 with SMTP id i19mr42729629wjr.135.1447761479806; 
-	Tue, 17 Nov 2015 03:57:59 -0800 (PST)
+	:references; bh=IkeGc2u6GBJnwwSMSFXpz7a+HtupEIWAhkIFdqDcAbM=;
+	b=g3MiLyBzvycoUnJAF1M0W16nTnANG06jhwM5QVH6gDEcaEEjRV/5OjgbUprY5prPTy
+	Oh1EBpZ2jv70WUYCC25Uhvp9IBQvR17AdCTRw4x2tiY8Mp+abQKoq6KhS8tw/+KB88Ni
+	XqVjUy4N1r4qZuUnLgB+tNqk2zQcvXUK+9ugmOwi7gGqhKHKeyUaWqVMGTVNJfOQn4i/
+	nziSrhpMMUPLrhAKxDtfoJE0CgNTD7nRhSQ7lmUdsAsWNatHEh84k7CS97xMNAdUYm9d
+	gTIsx1nsJffEuaLeCXfwaL1RZHakhF7bTLMPL4CPu5m79k7SrBwb+aFtovLZFgnidGK4
+	9G5A==
+X-Received: by 10.194.89.135 with SMTP id bo7mr49244190wjb.147.1447761480975; 
+	Tue, 17 Nov 2015 03:58:00 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	l81sm23654806wmb.2.2015.11.17.03.57.59
+	h189sm23598922wme.1.2015.11.17.03.58.00
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Nov 2015 03:57:59 -0800 (PST)
+	Tue, 17 Nov 2015 03:58:00 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Nov 2015 11:57:54 +0100
-Message-Id: <7445847e63323288f55477d5796234a6083abfb1.1447757562.git.Martin.Jansa@gmail.com>
+Date: Tue, 17 Nov 2015 11:57:55 +0100
+Message-Id: <6c1c6094974ca33d7000ca7048c3bc1f3546f5fd.1447757562.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <cover.1447757562.git.Martin.Jansa@gmail.com>
 References: <cover.1447757562.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1447757562.git.Martin.Jansa@gmail.com>
 References: <cover.1447757562.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv2 02/16] guile, mailx, gcc, opensp, gstreamer1.0-libav, libunwind: disable thumb where it fails for qemuarm
+Subject: [PATCHv2 03/16] directfb: add fPIC to CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,95 +46,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 11:58:00 -0000
+X-List-Received-Date: Tue, 17 Nov 2015 11:58:01 -0000
+
+* fPIC is missing when building directfb-csource.o
+  | arm-webos-linux-gnueabi-libtool: link: arm-webos-linux-gnueabi-gcc -march=armv7-a -mfloat-abi=softfp -mfpu=neon --sysroot=/home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/mako -I/home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/mako/usr/include/freetype2 -I/home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/mako/usr/include/libpng16 -Wall -Wstrict-prototypes -Wmissing-prototypes -Wno-strict-aliasing -Werror-implicit-function-declaration -O3 -g2 -ffast-math -pipe -O2 -pipe -g -feliminate-unused-debug-types -D_GNU_SOURCE -std=gnu99 -Werror-implicit-function-declaration -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o directfb-csource directfb-csource.o  /home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/mako/usr/lib/libts.so /home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/mako/usr/lib/libpng16.so -lz -lm -ldl -lrt -lpthread
+  | /home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/x86_64-linux/usr/libexec/arm-webos-linux-gnueabi/gcc/arm-webos-linux-gnueabi/5.2.0/ld: error: directfb-csource.o: requires unsupported dynamic reloc R_ARM_MOVW_ABS_NC; recompile with -fPIC
+  | collect2: error: ld returned 1 exit status
+  | make[2]: *** [directfb-csource] Error 1
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc_4.9.bb                          | 5 ++---
- meta/recipes-devtools/guile/guile_2.0.11.bb                   | 4 ++++
- meta/recipes-devtools/opensp/opensp_1.5.2.bb                  | 4 ++++
- meta/recipes-extended/mailx/mailx_12.5-5.bb                   | 5 +++++
- meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb | 3 +++
- meta/recipes-support/libunwind/libunwind_1.1.bb               | 4 ++++
- 6 files changed, 22 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/directfb/directfb.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc_4.9.bb b/meta/recipes-devtools/gcc/gcc_4.9.bb
-index b84baae..a9dc612 100644
---- a/meta/recipes-devtools/gcc/gcc_4.9.bb
-+++ b/meta/recipes-devtools/gcc/gcc_4.9.bb
-@@ -1,10 +1,9 @@
- require recipes-devtools/gcc/gcc-${PV}.inc
- require gcc-target.inc
+diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-graphics/directfb/directfb.inc
+index 446aaea..e00b59b 100644
+--- a/meta/recipes-graphics/directfb/directfb.inc
++++ b/meta/recipes-graphics/directfb/directfb.inc
+@@ -20,7 +20,8 @@ SRC_URI = "http://www.directfb.org/downloads/Core/DirectFB-1.7/DirectFB-${PV}.ta
  
--# Building with thumb enabled on armv4t fails with
--# | gcc-4.8.1-r0/gcc-4.8.1/gcc/cp/decl.c:7438:(.text.unlikely+0x2fa): relocation truncated to fit: R_ARM_THM_CALL against symbol `fancy_abort(char const*, int, char const*)' defined in .glue_7 section in linker stubs
--# | gcc-4.8.1-r0/gcc-4.8.1/gcc/cp/decl.c:7442:(.text.unlikely+0x318): additional relocation overflows omitted from the output
-+# http://errors.yoctoproject.org/Errors/Details/20497/
- ARM_INSTRUCTION_SET_armv4 = "arm"
-+ARM_INSTRUCTION_SET_armv5 = "arm"
+ S = "${WORKDIR}/DirectFB-${PV}"
  
- BBCLASSEXTEND = "nativesdk"
+-LDFLAGS_append =" -lts -lm"
++LDFLAGS_append = " -lts -lm"
++CFLAGS_append = " -fPIC"
  
-diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
-index f455740..98b465b 100644
---- a/meta/recipes-devtools/guile/guile_2.0.11.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
-@@ -119,3 +119,7 @@ guile_sstate_postinst() {
-                 find ${STAGING_DIR_TARGET}/${libdir}/guile/2.0/ccache -type f | xargs touch
- 	fi
- }
-+
-+# http://errors.yoctoproject.org/Errors/Details/20491/
-+ARM_INSTRUCTION_SET_armv4 = "arm"
-+ARM_INSTRUCTION_SET_armv5 = "arm"
-diff --git a/meta/recipes-devtools/opensp/opensp_1.5.2.bb b/meta/recipes-devtools/opensp/opensp_1.5.2.bb
-index a1f115c..60a7d2e 100644
---- a/meta/recipes-devtools/opensp/opensp_1.5.2.bb
-+++ b/meta/recipes-devtools/opensp/opensp_1.5.2.bb
-@@ -53,3 +53,7 @@ do_install_append_class-native() {
- FILES_${PN} += "${datadir}/OpenSP/"
+ BINCONFIG = "${bindir}/directfb-config"
  
- BBCLASSEXTEND = "native"
-+
-+# http://errors.yoctoproject.org/Errors/Details/20489/
-+ARM_INSTRUCTION_SET_armv4 = "arm"
-+ARM_INSTRUCTION_SET_armv5 = "arm"
-diff --git a/meta/recipes-extended/mailx/mailx_12.5-5.bb b/meta/recipes-extended/mailx/mailx_12.5-5.bb
-index ffa9049..c87c582 100644
---- a/meta/recipes-extended/mailx/mailx_12.5-5.bb
-+++ b/meta/recipes-extended/mailx/mailx_12.5-5.bb
-@@ -41,3 +41,8 @@ EXTRA_OEMAKE = "SENDMAIL=${sbindir}/sendmail IPv6=-DHAVE_IPv6_FUNCS PREFIX=/usr
- # fio.c:56:17: fatal error: ssl.h: No such file or directory
- # #include <ssl.h>
- PARALLEL_MAKE = ""
-+
-+# Causes gcc to get stuck and eat all available memory in qemuarm builds
-+# http://errors.yoctoproject.org/Errors/Details/20488/
-+ARM_INSTRUCTION_SET_armv4 = "arm"
-+ARM_INSTRUCTION_SET_armv5 = "arm"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb
-index 99b01c8..077c714 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.6.1.bb
-@@ -24,3 +24,6 @@ LIBAV_EXTRA_CONFIGURE_COMMON_ARG = "--target-os=linux \
- 
- S = "${WORKDIR}/gst-libav-${PV}"
- 
-+# http://errors.yoctoproject.org/Errors/Details/20493/
-+ARM_INSTRUCTION_SET_armv4 = "arm"
-+ARM_INSTRUCTION_SET_armv5 = "arm"
-diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
-index 8282c1b..29bdf94 100644
---- a/meta/recipes-support/libunwind/libunwind_1.1.bb
-+++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
-@@ -10,3 +10,7 @@ SRC_URI += "\
- 
- SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
- SRC_URI[sha256sum] = "9dfe0fcae2a866de9d3942c66995e4b460230446887dbdab302d41a8aee8d09a"
-+
-+# http://errors.yoctoproject.org/Errors/Details/20487/
-+ARM_INSTRUCTION_SET_armv4 = "arm"
-+ARM_INSTRUCTION_SET_armv5 = "arm"
 -- 
 2.6.3
 
