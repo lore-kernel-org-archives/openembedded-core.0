@@ -1,31 +1,49 @@
-Return-Path: <haris.okanovic@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AF0D60616
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 8313A60118
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 20:21:17 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	tAHKLIfG017069 for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 14:21:18 -0600
-Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015111714211814-80713 ;
-	Tue, 17 Nov 2015 14:21:18 -0600 
-From: Haris Okanovic <haris.okanovic@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Nov 2015 14:21:12 -0600
-Message-Id: <1447791672-3404-1-git-send-email-haris.okanovic@ni.com>
-X-Mailer: git-send-email 2.6.2
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 11/17/2015 02:21:18 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 11/17/2015 02:21:18 PM,
-	Serialize complete at 11/17/2015 02:21:18 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-11-17_12:, , signatures=0
-Cc: Haris Okanovic <haris.okanovic@ni.com>
-Subject: [PATCH] populate_sdk_base: Add sysroot symlink check
+	Tue, 17 Nov 2015 21:36:58 +0000 (UTC)
+Received: by igbxm8 with SMTP id xm8so24109619igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Nov 2015 13:36:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel_com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=kxVrtk7RcGydEP2o+yBPIrmHA9lk+h858gs5sAs8RKc=;
+	b=1r4LVsdAp6lZVWEE8Pj22AdhU1oF0u7Pg83FFeB68JKoqpOm5tpLEhDHMhpSnxTU9r
+	BS+SspA2oAJTEorRiPbIf/ook3hmgwtCvYg3/e1DL0DNtKgX5gSEJ6M2ZFYILdSPBKel
+	RjhPztuyJ7PkbxDZnSY7OeaVVFuMM5zzrAiSvt4aAF4XFoZOIxSW/K0W59l8gl+DNyZ8
+	Wzp0fH/fuvKjiHuzRvQeFTgtmM9JAlDpeNhOtUI/eBlcmHuexVLCAjpP4NGabjTrbAFP
+	OJM3Lt71T1r7bnS3cCShCgz3Zdizgt+Dy0GeZZ9P4uR0IRSWvtw5B0eQ7v968wbjo4VR
+	YX2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=kxVrtk7RcGydEP2o+yBPIrmHA9lk+h858gs5sAs8RKc=;
+	b=VX6JZ3sa2+TU9j2hnXZa4sCkcs44NT0DutIuDCiViccAovxEB1dxR/0C2fwetl82Sq
+	v21wC/lN+gL8cYZftk2rhwkV0HuGB+ZhP6doPSPt0arih60yidtOusWL711NrQK+NFNP
+	nJBLUilOwLILdF/LEb4lLs4zsMVc+P7nYjf9qpx+AkBcrMTakyv26x5rCPR58LernMS+
+	y5qgBq1a2WwLQ7qSfUK7ppR4kSX/JZckFZogHj5uJ2RXhAw+X9RXdELe6gdFngTKvnuT
+	ycpdZA0jOEVtI+0/GFgdx29SUmAjJ5MedREwc6r34N7Riyomo98ZgQ93BsFnTzwRxSAV
+	BH9A==
+X-Gm-Message-State: ALoCoQnyGzg5E4IDW83xIT1evNO12ROeOhP/0gMue/i8wykogoWy/LL9S0sHCDeHuDxuxkJkWCIe
+X-Received: by 10.50.30.69 with SMTP id q5mr4463577igh.78.1447796218948; Tue,
+	17 Nov 2015 13:36:58 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Tue, 17 Nov 2015 13:36:39 -0800 (PST)
+In-Reply-To: <0a2bdfd48b566acec7f05734758da7811980a0bb.1447455202.git.chris_larson@mentor.com>
+References: <cover.1447455202.git.chris_larson@mentor.com>
+	<0a2bdfd48b566acec7f05734758da7811980a0bb.1447455202.git.chris_larson@mentor.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 17 Nov 2015 21:36:39 +0000
+Message-ID: <CAJTo0LZYFwj9+5XOS6ewLTKwiWoBd7+YY+uXoCe0V4M7YwYRvg@mail.gmail.com>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 6/6] psplash: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,95 +56,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 20:21:19 -0000
+X-List-Received-Date: Tue, 17 Nov 2015 21:37:05 -0000
+Content-Type: multipart/alternative; boundary=047d7bdc1c0c568b090524c3536c
 
-Add optional check to do_populate_sdk() that verifies SDK sysroots don't
-contain dangling or escaping symlinks before attempting to tar an archive.
-Such links may fail a `tar -h` operation (-h => follow symlinks) or
-archive the build system's files.
+--047d7bdc1c0c568b090524c3536c
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Set CHECK_SDK_SYSROOTS = "1" to enable this check.
+On 13 November 2015 at 23:10, Christopher Larson <kergoth@gmail.com> wrote:
 
-Use case: The -h option may be set via SDKTAROPTS in some configurations
-to create symlink-less SDK archives for Windows file systems.
+>  meta/recipes-core/psplash/files/psplash-quit.service | 11 +++++++++++
+>  .../recipes-core/psplash/files/psplash-start.service | 11 +++++++++++
+>  meta/recipes-core/psplash/psplash_git.bb             | 20
+> +++++++++++++++-----
+>
 
-Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
----
- meta/classes/populate_sdk_base.bbclass | 53 +++++++++++++++++++++++++++++++++-
- 1 file changed, 52 insertions(+), 1 deletion(-)
+This causes the selftest to fail:
+| =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+| FAIL: test_systemd_failed (oeqa.runtime.systemd.SystemdBasicTests)
+| ----------------------------------------------------------------------
+| Traceback (most recent call last):
+|   File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-systemd/build/me=
+ta/lib/oeqa/utils/decorators.py",
+line 106, in wrapped_f
+|     return func(*args, **kwargs)
+|   File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-systemd/build/me=
+ta/lib/oeqa/utils/decorators.py",
+line 94, in wrapped_f
+|     return f(*args, **kwargs)
+|   File
+"/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-systemd/build/me=
+ta/lib/oeqa/runtime/systemd.py",
+line 65, in test_systemd_failed
+|     self.assertTrue(match, msg=3D"Some systemd units failed:\n%s" % outpu=
+t)
+| AssertionError: None is not true : Some systemd units failed:
+|   UNIT                  LOAD   ACTIVE SUB    DESCRIPTION
+| =E2=97=8F bluetooth.service     loaded failed failed Bluetooth service
+| =E2=97=8F psplash-quit.service  loaded failed failed Terminate Psplash Bo=
+ot Screen
+| =E2=97=8F psplash-start.service loaded failed failed Starts Psplash Boot =
+screen
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 35e129b..23dc115 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -80,7 +80,7 @@ python write_host_sdk_manifest () {
- 
- POPULATE_SDK_POST_TARGET_COMMAND_append = " write_target_sdk_manifest ; "
- POPULATE_SDK_POST_HOST_COMMAND_append = " write_host_sdk_manifest; "
--SDK_POSTPROCESS_COMMAND = " create_sdk_files; tar_sdk; ${SDK_PACKAGING_FUNC}; "
-+SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; tar_sdk; ${SDK_PACKAGING_FUNC}; "
- 
- # Some archs override this, we need the nativesdk version
- # turns out this is hard to get from the datastore due to TRANSLATED_TARGET_ARCH
-@@ -120,6 +120,57 @@ fakeroot create_sdk_files() {
- 	sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
- }
- 
-+python check_sdk_sysroots() {
-+    # Fails build if there are broken or dangling symlinks in SDK sysroots
-+
-+    if d.getVar('CHECK_SDK_SYSROOTS', True) != '1':
-+        # disabled, bail out
-+        return
-+
-+    def norm_path(path):
-+        return os.path.abspath(path)
-+
-+    # Get scan root
-+    SCAN_ROOT = norm_path("${SDK_OUTPUT}/${SDKPATH}/sysroots/")
-+
-+    bb.note('Checking SDK sysroots at ' + SCAN_ROOT)
-+
-+    def check_symlink(linkPath):
-+        if not os.path.islink(linkPath):
-+            return
-+
-+        linkDirPath = os.path.dirname(linkPath)
-+
-+        targetPath = os.readlink(linkPath)
-+        if not os.path.isabs(targetPath):
-+            targetPath = os.path.join(linkDirPath, targetPath)
-+        targetPath = norm_path(targetPath)
-+
-+        if SCAN_ROOT != os.path.commonprefix( [SCAN_ROOT, targetPath] ):
-+            bb.error("Escaping symlink {0!s} --> {1!s}".format(linkPath, targetPath))
-+            return
-+
-+        if not os.path.exists(targetPath):
-+            bb.error("Broken symlink {0!s} --> {1!s}".format(linkPath, targetPath))
-+            return
-+
-+        if os.path.isdir(targetPath):
-+            dir_walk(targetPath)
-+
-+    def walk_error_handler(e):
-+        bb.error(str(e))
-+
-+    def dir_walk(rootDir):
-+        for dirPath,subDirEntries,fileEntries in os.walk(rootDir, followlinks=False, onerror=walk_error_handler):
-+            entries = subDirEntries + fileEntries
-+            for e in entries:
-+                ePath = os.path.join(dirPath, e)
-+                check_symlink(ePath)
-+
-+    # start
-+    dir_walk(SCAN_ROOT)
-+}
-+
- SDKTAROPTS = "--owner=root --group=root"
- 
- fakeroot tar_sdk() {
--- 
-2.6.2
+Ross
 
+--047d7bdc1c0c568b090524c3536c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 November 2015 at 23:10, Christopher Larson <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
+-left-style:solid;padding-left:1ex"><div id=3D":5qn" class=3D"" style=3D"ov=
+erflow:hidden">=C2=A0meta/recipes-core/<span class=3D"">psplash</span>/file=
+s/<span class=3D"">psplash</span>-quit.service | 11 +++++++++++<br>
+=C2=A0.../recipes-core/<span class=3D"">psplash</span>/files/<span class=3D=
+"">psplash</span>-start.service | 11 +++++++++++<br>
+=C2=A0meta/recipes-core/<span class=3D"">psplash</span>/<a href=3D"http://p=
+splash_git.bb" rel=3D"noreferrer" target=3D"_blank"><span class=3D"">pspl</=
+span>ash_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 20 +++=
+++++++++++++-----</div></blockquote></div><br>This causes the selftest to f=
+ail:<br>| =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br=
+>| FAIL: test_systemd_failed (oeqa.runtime.systemd.SystemdBasicTests)<br>| =
+----------------------------------------------------------------------<br>|=
+ Traceback (most recent call last):<br>| =C2=A0 File &quot;/home/pokybuild/=
+yocto-autobuilder/yocto-worker/nightly-qa-systemd/build/meta/lib/oeqa/utils=
+/decorators.py&quot;, line 106, in wrapped_f<br>| =C2=A0 =C2=A0 return func=
+(*args, **kwargs)<br>| =C2=A0 File &quot;/home/pokybuild/yocto-autobuilder/=
+yocto-worker/nightly-qa-systemd/build/meta/lib/oeqa/utils/decorators.py&quo=
+t;, line 94, in wrapped_f<br>| =C2=A0 =C2=A0 return f(*args, **kwargs)<br>|=
+ =C2=A0 File &quot;/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-q=
+a-systemd/build/meta/lib/oeqa/runtime/systemd.py&quot;, line 65, in test_sy=
+stemd_failed<br>| =C2=A0 =C2=A0 self.assertTrue(match, msg=3D&quot;Some sys=
+temd units failed:\n%s&quot; % output)<br>| AssertionError: None is not tru=
+e : Some systemd units failed:<br>| =C2=A0 UNIT =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0LOAD =C2=A0 ACTIVE SUB =C2=A0 =C2=A0DESC=
+RIPTION<br>| =E2=97=8F bluetooth.service =C2=A0 =C2=A0 loaded failed failed=
+ Bluetooth service<br>| =E2=97=8F psplash-quit.service =C2=A0loaded failed =
+failed Terminate Psplash Boot Screen<br>| =E2=97=8F psplash-start.service l=
+oaded failed failed Starts Psplash Boot screen</div><div class=3D"gmail_ext=
+ra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--047d7bdc1c0c568b090524c3536c--
