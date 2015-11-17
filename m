@@ -1,28 +1,24 @@
-Return-Path: <Jian.Liu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B16C7702B
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AE9D77702B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 05:32:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAH5W0me006165
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 16 Nov 2015 21:32:00 -0800
-Received: from [128.224.162.138] (128.224.162.138) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 16 Nov 2015 21:31:59 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1447652032-31142-1-git-send-email-jian.liu@windriver.com>
-	<CAJTo0LZcvVSoNnndi1qU5Pv3K5UfmpkcfRhzdQwFot6BeHrbvA@mail.gmail.com>
-From: Jian Liu <jian.liu@windriver.com>
-Message-ID: <564ABBBA.5000408@windriver.com>
-Date: Tue, 17 Nov 2015 13:31:38 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
+	Tue, 17 Nov 2015 05:38:44 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAH5ciqd000148
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Nov 2015 21:38:44 -0800 (PST)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 16 Nov 2015 21:38:43 -0800
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Nov 2015 00:38:40 -0500
+Message-ID: <cover.1447738630.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZcvVSoNnndi1qU5Pv3K5UfmpkcfRhzdQwFot6BeHrbvA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] archiver.bbclass: fix an exception of the mode configured
+Subject: [PATCH 0/2] subversion: fix CVE-2015-3184, CVE-2015-3187
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,112 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Nov 2015 05:32:01 -0000
-Content-Type: multipart/alternative;
-	boundary="------------010301040503090403030904"
+X-List-Received-Date: Tue, 17 Nov 2015 05:38:44 -0000
+Content-Type: text/plain
 
---------------010301040503090403030904
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-Hi Ross,
+The following changes since commit d9aabf9639510fdb3e2ccc21ba5ae4aa9f6e4a57:
 
-I check the values of d.getVarFlag('do_configure', 'task') and 
-d.getVarFlag('do_unpack', 'task') for gcc-source.
-But it seems that both values are 1.
+  gcc: Drop 4.8 (2015-11-16 14:59:18 +0000)
 
-I use the following command to get the values,
-os.system("echo 'do_unpack=%s, do_configure=%s, noexec=%s, pn=%s' >> 
-/tmp/task.txt" %(d.getVarFlag('do_unpack', 
-'task'),d.getVarFlag('do_configure', 
-'task'),d.getVarFlag('do_configure', 'noexec'),pn))
+are available in the git repository at:
 
-Does I miss something?
+  git://git.pokylinux.org/poky-contrib wenzong/svn
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/svn
 
-I query several people about how to get the current tasks of a recipe. 
-But I get nothing more.
+Wenzong Fan (2):
+  subversion: fix CVE-2015-3184
+  subversion: fix CVE-2015-3187
 
-Thanks!
-Jian
+ .../subversion-CVE-2015-3184.patch                 | 2094 ++++++++++++++++++++
+ .../subversion-CVE-2015-3187.patch                 |  346 ++++
+ .../subversion/subversion_1.8.13.bb                |    2 +
+ 3 files changed, 2442 insertions(+)
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.8.13/subversion-CVE-2015-3184.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.8.13/subversion-CVE-2015-3187.patch
 
-On 2015年11月16日 23:08, Burton, Ross wrote:
->
-> On 16 November 2015 at 05:33, Jian Liu <jian.liu@windriver.com 
-> <mailto:jian.liu@windriver.com>> wrote:
->
->     + if d.getVarFlag('do_configure', 'noexec') == '1' or
->     'do_configure' not in d.getVar('__BBTASKS', False):
->
->
-> __BBTASKS is internal so shouldn't beused unless you have an awesome 
-> reason.  Richard tells me that d.getVarFlag('do_configure', 'task') is 
-> probably what you want.
->
-> Ross
+-- 
+1.9.1
 
 
---------------010301040503090403030904
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    Hi Ross,<br>
-    <br>
-    I check the values of d.getVarFlag('do_configure', 'task') and
-    d.getVarFlag('do_unpack', 'task') for gcc-source.<br>
-    But it seems that both values are 1.<br>
-    <br>
-    I use the following command to get the values,<br>
-    os.system("echo 'do_unpack=%s, do_configure=%s, noexec=%s, pn=%s'
-    &gt;&gt; /tmp/task.txt" %(d.getVarFlag('do_unpack',
-    'task'),d.getVarFlag('do_configure',
-    'task'),d.getVarFlag('do_configure', 'noexec'),pn))<br>
-    <br>
-    Does I miss something?<br>
-    <br>
-    I query several people about how to get the current tasks of a
-    recipe. But I get nothing more.<br>
-    <br>
-    Thanks!<br>
-    Jian<br>
-    <br>
-    <div class="moz-cite-prefix">On 2015年11月16日 23:08, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LZcvVSoNnndi1qU5Pv3K5UfmpkcfRhzdQwFot6BeHrbvA@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 16 November 2015 at 05:33, Jian
-            Liu <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:jian.liu@windriver.com" target="_blank">jian.liu@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
-              <div id=":3d3" class="" style="overflow:hidden">+       
-                if d.getVarFlag('do_configure', 'noexec') == '1' or
-                'do_configure' not in d.getVar('__BBTASKS', False):<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          __BBTASKS is internal so shouldn't beused unless you have an
-          awesome reason.  Richard tells me that
-          d.getVarFlag('do_configure', 'task') is probably what you
-          want.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------010301040503090403030904--
