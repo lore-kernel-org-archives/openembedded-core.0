@@ -1,24 +1,46 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id EC07E6080F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 29AB2606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 13:58:46 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 18 Nov 2015 14:58:43 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4200)	id 6A08428FA83;
-	Wed, 18 Nov 2015 14:58:43 +0100 (CET)
-From: Tudor Florea <tudor.florea@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Nov 2015 14:58:41 +0100
-Message-ID: <1447855121-21568-2-git-send-email-tudor.florea@enea.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1447855121-21568-1-git-send-email-tudor.florea@enea.com>
-References: <1447855121-21568-1-git-send-email-tudor.florea@enea.com>
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
-	designate permitted sender hosts)
-Subject: [dizzy] [PATCH 2/2] python: Backport CVE-2013-1752 remaining patches
+	Wed, 18 Nov 2015 14:07:10 +0000 (UTC)
+Received: by wmdw130 with SMTP id w130so200067734wmd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Nov 2015 06:07:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=lIRpODMeWNah9bca/QTXIKw5pWKjdBIETIh8S6Umeog=;
+	b=Qa9VJNcnFQwC0aNNZLhIOf2HcxnaaM8eTeJQ5wbOfFbFCLe5Q0X9Nnig1RjKcwdOlY
+	EsOGZZo481XKHFv1LAR0cPCKfdq6CrU8TyoF2pSfPuyh/fKQY8iEcZ2+qrc/EXhoIUm5
+	fiHoIhLNb3pQXRXif3V+ooL8aT0EKLH349aN3XgBm4VRbBLyWKL8WMdmkq7ROgeseYNg
+	H5CzTVaYH4iXPukTvPuK9eK9nDpoP5hvBh9pbP9zAamPdhVwLQrfa1a4ahu+wxZhtnFV
+	08euRINEKEF8me+8FuyAzQ8wDfHsj0bV5ei5I3+SBPaB4GHlxnn+lTp2XFj0oK1t1F57
+	zZow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=lIRpODMeWNah9bca/QTXIKw5pWKjdBIETIh8S6Umeog=;
+	b=ZL3FNM9M06MYCRJ2OFY9DbV+GSjPZafJdOOoaK+TRqG/MyaKuApLsFid6BNNIDcFbW
+	uyS9SgFk6caEkmQu/0IvD56Evx2hrc/0XbKii9+mi4lHj+rV98VnZ1irKtHqFWjNR8v7
+	66KQ9/hnib1RgSQI0ezKA2rhAJOrLPnDVNyfT/Tgptqrp1MCmy+oWntJJMnf3IDcjEqy
+	avZ8GXh2mCUMh1PVWyq8lAZALxX1uytupoDc+8gPHblcQLuktsyJE77+1dixS64X1/lj
+	dgtMUmY39IG9SYW8i+Y+o5FdzrLGaZyX8evpyXTL3Vfe3+cb4jz8MsKqvoj8IGJkzXMX
+	Cxaw==
+X-Gm-Message-State: ALoCoQky29j39nftVQD9wJ8Qu9qeiIDftYyJOMRM++b4Ji5YRbGw1DjTOLnIjAi7VZErknOyF6qd
+X-Received: by 10.194.94.100 with SMTP id db4mr2224696wjb.110.1447855631036;
+	Wed, 18 Nov 2015 06:07:11 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 186sm3497443wmv.9.2015.11.18.06.07.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 18 Nov 2015 06:07:10 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Nov 2015 13:58:41 +0000
+Message-Id: <cover.1447855001.git.ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 000/116] Consolidated Pull for master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,471 +53,1046 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Nov 2015 13:58:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 18 Nov 2015 14:07:14 -0000
 
-This back ported patch fixes CVE-2013-1752 for ftplib, imaplib, nntplib and=
- poplib
+Hi,
 
-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
----
- .../python-2.7.3-CVE-2013-1752-ftplib-fix.patch    | 149 +++++++++++++++++=
-++++
- .../python-2.7.3-CVE-2013-1752-imaplib-fix.patch   |  37 +++++
- .../python-2.7.3-CVE-2013-1752-nntplib-fix.patch   | 105 +++++++++++++++
- .../python-2.7.3-CVE-2013-1752-poplib-fix.patch    |  90 +++++++++++++
- meta/recipes-devtools/python/python_2.7.3.bb       |   4 +
- 5 files changed, 385 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-CVE-20=
-13-1752-ftplib-fix.patch
- create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-CVE-20=
-13-1752-imaplib-fix.patch
- create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-CVE-20=
-13-1752-nntplib-fix.patch
- create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-CVE-20=
-13-1752-poplib-fix.patch
+Next round of patches for oe-core.  Good news: nothing too invasive.  Bad
+news: nothing too invasive.  Still waiting for the good stuff that breaks the
+world!  I'll dust off my libexecdir patch...
 
-diff --git a/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752=
--ftplib-fix.patch b/meta/recipes-devtools/python/python/python-2.7.3-CVE-20=
-13-1752-ftplib-fix.patch
-new file mode 100644
-index 0000000..97c890e
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-ftplib=
--fix.patch
-@@ -0,0 +1,149 @@
-+
-+# HG changeset patch
-+# User Serhiy Storchaka <storchaka@gmail.com>
-+# Date 1382277427 -10800
-+# Node ID 44ac81e6d584758ee56a865a7c18d82505be0643
-+# Parent  625ece68d79a27d376889579c414ed4b2d8a2649
-+Issue #16038: CVE-2013-1752: ftplib: Limit amount of data read by
-+limiting the call to readline().  Original patch by Micha=C5=82
-+Jastrz=C4=99bski and Giampaolo Rodola.
-+
-+diff --git a/Lib/ftplib.py b/Lib/ftplib.py
-+--- a/Lib/ftplib.py
-++++ b/Lib/ftplib.py
-+@@ -55,6 +55,8 @@ MSG_OOB =3D 0x1                          =20
-+=20
-+ # The standard FTP server control port
-+ FTP_PORT =3D 21
-++# The sizehint parameter passed to readline() calls
-++MAXLINE =3D 8192
-+=20
-+=20
-+ # Exception raised when an error or invalid response is received
-+@@ -101,6 +103,7 @@ class FTP:
-+     debugging =3D 0
-+     host =3D ''
-+     port =3D FTP_PORT
-++    maxline =3D MAXLINE
-+     sock =3D None
-+     file =3D None
-+     welcome =3D None
-+@@ -180,7 +183,9 @@ class FTP:
-+     # Internal: return one line from the server, stripping CRLF.
-+     # Raise EOFError if the connection is closed
-+     def getline(self):
-+-        line =3D self.file.readline()
-++        line =3D self.file.readline(self.maxline + 1)
-++        if len(line) > self.maxline:
-++            raise Error("got more than %d bytes" % self.maxline)
-+         if self.debugging > 1:
-+             print '*get*', self.sanitize(line)
-+         if not line: raise EOFError
-+@@ -432,7 +437,9 @@ class FTP:
-+         conn =3D self.transfercmd(cmd)
-+         fp =3D conn.makefile('rb')
-+         while 1:
-+-            line =3D fp.readline()
-++            line =3D fp.readline(self.maxline + 1)
-++            if len(line) > self.maxline:
-++                raise Error("got more than %d bytes" % self.maxline)
-+             if self.debugging > 2: print '*retr*', repr(line)
-+             if not line:
-+                 break
-+@@ -485,7 +492,9 @@ class FTP:
-+         self.voidcmd('TYPE A')
-+         conn =3D self.transfercmd(cmd)
-+         while 1:
-+-            buf =3D fp.readline()
-++            buf =3D fp.readline(self.maxline + 1)
-++            if len(buf) > self.maxline:
-++                raise Error("got more than %d bytes" % self.maxline)
-+             if not buf: break
-+             if buf[-2:] !=3D CRLF:
-+                 if buf[-1] in CRLF: buf =3D buf[:-1]
-+@@ -710,7 +719,9 @@ else:
-+             fp =3D conn.makefile('rb')
-+             try:
-+                 while 1:
-+-                    line =3D fp.readline()
-++                    line =3D fp.readline(self.maxline + 1)
-++                    if len(line) > self.maxline:
-++                        raise Error("got more than %d bytes" % self.maxli=
-ne)
-+                     if self.debugging > 2: print '*retr*', repr(line)
-+                     if not line:
-+                         break
-+@@ -748,7 +759,9 @@ else:
-+             conn =3D self.transfercmd(cmd)
-+             try:
-+                 while 1:
-+-                    buf =3D fp.readline()
-++                    buf =3D fp.readline(self.maxline + 1)
-++                    if len(buf) > self.maxline:
-++                        raise Error("got more than %d bytes" % self.maxli=
-ne)
-+                     if not buf: break
-+                     if buf[-2:] !=3D CRLF:
-+                         if buf[-1] in CRLF: buf =3D buf[:-1]
-+@@ -905,7 +918,9 @@ class Netrc:
-+         fp =3D open(filename, "r")
-+         in_macro =3D 0
-+         while 1:
-+-            line =3D fp.readline()
-++            line =3D fp.readline(self.maxline + 1)
-++            if len(line) > self.maxline:
-++                raise Error("got more than %d bytes" % self.maxline)
-+             if not line: break
-+             if in_macro and line.strip():
-+                 macro_lines.append(line)
-+diff --git a/Lib/test/test_ftplib.py b/Lib/test/test_ftplib.py
-+--- a/Lib/test/test_ftplib.py
-++++ b/Lib/test/test_ftplib.py
-+@@ -65,6 +65,7 @@ class DummyFTPHandler(asynchat.async_cha
-+         self.last_received_data =3D ''
-+         self.next_response =3D ''
-+         self.rest =3D None
-++        self.next_retr_data =3D RETR_DATA
-+         self.push('220 welcome')
-+=20
-+     def collect_incoming_data(self, data):
-+@@ -189,7 +190,7 @@ class DummyFTPHandler(asynchat.async_cha
-+             offset =3D int(self.rest)
-+         else:
-+             offset =3D 0
-+-        self.dtp.push(RETR_DATA[offset:])
-++        self.dtp.push(self.next_retr_data[offset:])
-+         self.dtp.close_when_done()
-+         self.rest =3D None
-+=20
-+@@ -203,6 +204,11 @@ class DummyFTPHandler(asynchat.async_cha
-+         self.dtp.push(NLST_DATA)
-+         self.dtp.close_when_done()
-+=20
-++    def cmd_setlongretr(self, arg):
-++        # For testing. Next RETR will return long line.
-++        self.next_retr_data =3D 'x' * int(arg)
-++        self.push('125 setlongretr ok')
-++
-+=20
-+ class DummyFTPServer(asyncore.dispatcher, threading.Thread):
-+=20
-+@@ -558,6 +564,20 @@ class TestFTPClass(TestCase):
-+         # IPv4 is in use, just make sure send_epsv has not been used
-+         self.assertEqual(self.server.handler.last_received_cmd, 'pasv')
-+=20
-++    def test_line_too_long(self):
-++        self.assertRaises(ftplib.Error, self.client.sendcmd,
-++                          'x' * self.client.maxline * 2)
-++
-++    def test_retrlines_too_long(self):
-++        self.client.sendcmd('SETLONGRETR %d' % (self.client.maxline * 2))
-++        received =3D []
-++        self.assertRaises(ftplib.Error,
-++                          self.client.retrlines, 'retr', received.append)
-++
-++    def test_storlines_too_long(self):
-++        f =3D StringIO.StringIO('x' * self.client.maxline * 2)
-++        self.assertRaises(ftplib.Error, self.client.storlines, 'stor', f)
-++
-+=20
-+ class TestIPv6Environment(TestCase):
-+=20
-diff --git a/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752=
--imaplib-fix.patch b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2=
-013-1752-imaplib-fix.patch
-new file mode 100644
-index 0000000..f4bd84d
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-imapli=
-b-fix.patch
-@@ -0,0 +1,37 @@
-+Upstream-Status: Backport
-+
-+CVE-2013-1752: Change use of readline in imaplib module to limit line leng=
-th. Patch by Emil Lind.
-+
-+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
-+
-+diff -r ce583eb0bec2 Lib/imaplib.py
-+--- a/Lib/imaplib.py	Thu Feb 21 20:17:54 2013 +0200
-++++ b/Lib/imaplib.py	Tue Feb 26 22:36:52 2013 +0100
-+@@ -35,6 +35,15 @@
-+ IMAP4_SSL_PORT =3D 993
-+ AllowedVersions =3D ('IMAP4REV1', 'IMAP4')        # Most recent first
-+=20
-++# Maximal line length when calling readline(). This is to prevent
-++# reading arbitrary length lines. RFC 3501 and 2060 (IMAP 4rev1)
-++# don't specify a line length. RFC 2683 however suggests limiting client
-++# command lines to 1000 octets and server command lines to 8000 octets.
-++# We have selected 10000 for some extra margin and since that is supposed=
-ly
-++# also what UW and Panda IMAP does.
-++_MAXLINE =3D 10000
-++
-++
-+ #       Commands
-+=20
-+ Commands =3D {
-+@@ -237,7 +246,10 @@
-+=20
-+     def readline(self):
-+         """Read line from remote."""
-+-        return self.file.readline()
-++        line =3D self.file.readline(_MAXLINE + 1)
-++        if len(line) > _MAXLINE:
-++            raise self.error("got more than %d bytes" % _MAXLINE)=20
-++        return line
-+=20
-+=20
-+     def send(self, data):
-diff --git a/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752=
--nntplib-fix.patch b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2=
-013-1752-nntplib-fix.patch
-new file mode 100644
-index 0000000..443e137
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-nntpli=
-b-fix.patch
-@@ -0,0 +1,105 @@
-+Upstream-Status: Backport
-+
-+CVE-2013-1752: nntplib: Limit maximum line lengths to 2048 to prevent=20
-+readline() calls from consuming too much memory.=20
-+Patch by Jyrki Pulliainen.
-+
-+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
-+
-+diff -r 936621d33c38 Lib/nntplib.py
-+--- a/Lib/nntplib.py	Wed Feb 20 18:19:55 2013 -0500
-++++ b/Lib/nntplib.py	Mon Sep 30 23:42:09 2013 +0200
-+@@ -37,6 +37,13 @@
-+            "error_reply","error_temp","error_perm","error_proto",
-+            "error_data",]
-+=20
-++# maximal line length when calling readline(). This is to prevent
-++# reading arbitrary length lines. RFC 3977 limits NNTP line length to
-++# 512 characters, including CRLF. We have selected 2048 just to be on
-++# the safe side.
-++_MAXLINE =3D 2048
-++
-++
-+ # Exceptions raised when an error or invalid response is received
-+ class NNTPError(Exception):
-+     """Base class for all nntplib exceptions"""
-+@@ -200,7 +207,9 @@
-+     def getline(self):
-+         """Internal: return one line from the server, stripping CRLF.
-+         Raise EOFError if the connection is closed."""
-+-        line =3D self.file.readline()
-++        line =3D self.file.readline(_MAXLINE + 1)
-++        if len(line) > _MAXLINE:
-++            raise NNTPProtocolError('line too long')
-+         if self.debugging > 1:
-+             print '*get*', repr(line)
-+         if not line: raise EOFError
-+diff -r 936621d33c38 Lib/test/test_nntplib.py
-+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-++++ b/Lib/test/test_nntplib.py	Mon Sep 30 23:42:09 2013 +0200
-+@@ -0,0 +1,65 @@
-++import socket
-++import threading
-++import nntplib
-++import time
-++
-++from unittest import TestCase
-++from test import test_support
-++
-++HOST =3D test_support.HOST
-++
-++
-++def server(evt, serv, evil=3DFalse):
-++    serv.listen(5)
-++    try:
-++        conn, addr =3D serv.accept()
-++    except socket.timeout:
-++        pass
-++    else:
-++        if evil:
-++            conn.send("1 I'm too long response" * 3000 + "\n")
-++        else:
-++            conn.send("1 I'm OK response\n")
-++        conn.close()
-++    finally:
-++        serv.close()
-++        evt.set()
-++
-++
-++class BaseServerTest(TestCase):
-++    def setUp(self):
-++        self.evt =3D threading.Event()
-++        self.sock =3D socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-++        self.sock.settimeout(3)
-++        self.port =3D test_support.bind_port(self.sock)
-++        threading.Thread(
-++            target=3Dserver,
-++            args=3D(self.evt, self.sock, self.evil)).start()
-++        time.sleep(.1)
-++
-++    def tearDown(self):
-++        self.evt.wait()
-++
-++
-++class ServerTests(BaseServerTest):
-++    evil =3D False
-++
-++    def test_basic_connect(self):
-++        nntp =3D nntplib.NNTP('localhost', self.port)
-++        nntp.sock.close()
-++
-++
-++class EvilServerTests(BaseServerTest):
-++    evil =3D True
-++
-++    def test_too_long_line(self):
-++        self.assertRaises(nntplib.NNTPProtocolError,
-++                          nntplib.NNTP, 'localhost', self.port)
-++
-++
-++def test_main(verbose=3DNone):
-++    test_support.run_unittest(EvilServerTests)
-++    test_support.run_unittest(ServerTests)
-++
-++if __name__ =3D=3D '__main__':
-++    test_main()
-diff --git a/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752=
--poplib-fix.patch b/meta/recipes-devtools/python/python/python-2.7.3-CVE-20=
-13-1752-poplib-fix.patch
-new file mode 100644
-index 0000000..15a5a2c
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-poplib=
--fix.patch
-@@ -0,0 +1,90 @@
-+diff --git a/Lib/poplib.py b/Lib/poplib.py
-+--- a/Lib/poplib.py
-++++ b/Lib/poplib.py
-+@@ -27,16 +27,22 @@ POP3_PORT =3D 110
-+ # POP SSL PORT
-+ POP3_SSL_PORT =3D 995
-+=20
-+ # Line terminators (we always output CRLF, but accept any of CRLF, LFCR, =
-LF)
-+ CR =3D '\r'
-+ LF =3D '\n'
-+ CRLF =3D CR+LF
-+=20
-++# maximal line length when calling readline(). This is to prevent
-++# reading arbitrary length lines. RFC 1939 limits POP3 line length to
-++# 512 characters, including CRLF. We have selected 2048 just to be on
-++# the safe side.
-++_MAXLINE =3D 2048
-++
-+=20
-+ class POP3:
-+=20
-+     """This class supports both the minimal and optional command sets.
-+     Arguments can be strings or integers (where appropriate)
-+     (e.g.: retr(1) and retr('1') both work equally well.
-+=20
-+     Minimal Command Set:
-+@@ -98,17 +104,19 @@ class POP3:
-+         self._putline(line)
-+=20
-+=20
-+     # Internal: return one line from the server, stripping CRLF.
-+     # This is where all the CPU time of this module is consumed.
-+     # Raise error_proto('-ERR EOF') if the connection is closed.
-+=20
-+     def _getline(self):
-+-        line =3D self.file.readline()
-++        line =3D self.file.readline(_MAXLINE + 1)
-++        if len(line) > _MAXLINE:
-++            raise error_proto('line too long')
-+         if self._debugging > 1: print '*get*', repr(line)
-+         if not line: raise error_proto('-ERR EOF')
-+         octets =3D len(line)
-+         # server can send any combination of CR & LF
-+         # however, 'readline()' returns lines ending in LF
-+         # so only possibilities are ...LF, ...CRLF, CR...LF
-+         if line[-2:] =3D=3D CRLF:
-+             return line[:-2], octets
-+@@ -360,16 +368,18 @@ else:
-+             self.buffer +=3D localbuf
-+=20
-+         def _getline(self):
-+             line =3D ""
-+             renewline =3D re.compile(r'.*?\n')
-+             match =3D renewline.match(self.buffer)
-+             while not match:
-+                 self._fillBuffer()
-++                if len(self.buffer) > _MAXLINE:
-++                    raise error_proto('line too long')
-+                 match =3D renewline.match(self.buffer)
-+             line =3D match.group(0)
-+             self.buffer =3D renewline.sub('' ,self.buffer, 1)
-+             if self._debugging > 1: print '*get*', repr(line)
-+=20
-+             octets =3D len(line)
-+             if line[-2:] =3D=3D CRLF:
-+                 return line[:-2], octets
-+diff --git a/Lib/test/test_poplib.py b/Lib/test/test_poplib.py
-+--- a/Lib/test/test_poplib.py
-++++ b/Lib/test/test_poplib.py
-+@@ -193,16 +193,20 @@ class TestPOP3Class(TestCase):
-+     def test_retr(self):
-+         expected =3D ('+OK 116 bytes',
-+                     ['From: postmaster@python.org', 'Content-Type: text/p=
-lain',
-+                      'MIME-Version: 1.0', 'Subject: Dummy',
-+                      '', 'line1', 'line2', 'line3'],
-+                     113)
-+         self.assertEqual(self.client.retr('foo'), expected)
-+=20
-++    def test_too_long_lines(self):
-++        self.assertRaises(poplib.error_proto, self.client._shortcmd,
-++                          'echo +%s' % ((poplib._MAXLINE + 10) * 'a'))
-++
-+     def test_dele(self):
-+         self.assertOK(self.client.dele('foo'))
-+=20
-+     def test_noop(self):
-+         self.assertOK(self.client.noop())
-+=20
-+     def test_rpop(self):
-+         self.assertOK(self.client.rpop('foo'))
-diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-de=
-vtools/python/python_2.7.3.bb
-index d603587..9cfe0b4 100644
---- a/meta/recipes-devtools/python/python_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python_2.7.3.bb
-@@ -41,6 +41,10 @@ SRC_URI +=3D "\
-   file://python-2.7.3-CVE-2014-7185.patch \
-   file://python2.7.3-nossl3.patch \
-   file://python-2.7.3-CVE-2013-1752-httplib-fix.patch \
-+  file://python-2.7.3-CVE-2013-1752-ftplib-fix.patch \
-+  file://python-2.7.3-CVE-2013-1752-imaplib-fix.patch \
-+  file://python-2.7.3-CVE-2013-1752-nntplib-fix.patch \
-+  file://python-2.7.3-CVE-2013-1752-poplib-fix.patch \
- "
-=20
- S =3D "${WORKDIR}/Python-${PV}"
---=20
-1.9.1
+Ross
+
+The following changes since commit d9aabf9639510fdb3e2ccc21ba5ae4aa9f6e4a57:
+
+  gcc: Drop 4.8 (2015-11-16 14:59:18 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ross/mut
+
+for you to fetch changes up to 689cf923549ff44eef40a285bdd1daf83716c36b:
+
+  weston: Add PACKAGECONFIG option for colord CMS (2015-11-18 13:50:01 +0000)
+
+----------------------------------------------------------------
+Alejandro Hernandez (2):
+      archiver.bbclass: fix previous issue regarding work-shared for linux-yocto
+      gma500_gfx: Avoid inserting gma500_gfx module for certain devices
+
+Alejandro del Castillo (1):
+      opkg: add cache filename length fixes
+
+Andre McCurdy (1):
+      boost.inc: remove unused parameter from get_boost_parallel_make()
+
+Armin Kuster (1):
+      libxml2: fix CVE-2015-7942 and CVE-2015-8035
+
+Chen Qi (1):
+      mktemp: raise the priority to avoid conflicting with coreutils
+
+Christopher Larson (15):
+      image_types: improve wks path specification
+      qemu.bbclass: correct the fsl ppc QEMU_EXTRAOPTIONS
+      qemu.bbclass: fix vardeps of QEMU_OPTIONS
+      recipetool.append: don't choke on a trailing ; in a url
+      systemd: for valgrind, define VALGRIND=1
+      systemd: chown hwdb.bin to root:root for do_rootfs
+      systemd: drop unneeded $D check in prerm
+      sysprof: use packageconfig for the gui
+      bluez5: enable sysvinit support
+      blkspace: fix ldflags for iowatcher
+      tcf-agent: obey LDFLAGS
+      latencytop: obey LDFLAGS
+      connman: depend on readline
+      sysklogd: inhibit updatercd for non-sysvinit
+      openjade-native: statically link local libs
+
+Dan McGregor (2):
+      systemd: ignore .so filenames in systemd-doc
+      systemd: add machine-id to conffiles
+
+Daniel Istrate (2):
+      oeqa/selftest/signing: New test for Signing packages in the package feeds.
+      oeqa/selftest/signing: Added new test for signing sstate.
+
+Daniel McGregor (1):
+      systemd: make coredump a PACKAGECONFIG
+
+Enrico Scholz (1):
+      waf.bbclass: filter out non -j from PARALLEL_MAKE
+
+Hongxu Jia (3):
+      perl: fix spaces in brackets while using CC version
+      flex: fix test-bison-yylval and test-bison-yylloc failed
+      logrotate: do not move binary logrotate to /usr/bin
+
+Ioan-Adrian Ratiu (1):
+      base-files: stage /etc/skel
+
+Jens Rehsack (3):
+      kernel: fix race condition between compile_kernelmodules and shared_workdir
+      autotools: Allow recipe-individual configure scripts
+      libusb1: upgrade from 1.0.19 to 1.0.20
+
+Jian Liu (2):
+      archiver.bbclass: add bbappend when do_ar_recipe kernel and gcc packages
+      insane.bbclass: Avoid libdir QA check if PACKAGE_DEBUG_SPLIT_STYLE='debug-file-directory'
+
+Joe Slater (1):
+      libsecret: add dependency on intltool-native
+
+Juro Bystricky (1):
+      gcc-4.9: Fix various _FOR_BUILD and related variables
+
+Jussi Kukkonen (28):
+      qemu: Backport malloc-trace disabling
+      glib-2.0: Upgrade 2.44.1 -> 2.46.1
+      glib-2.0: Enable more tests while cross-compiling
+      glib-networking: Upgrade 2.44.0 -> 2.46.1
+      atk: Upgrade 2.16.0 -> 2.18.0
+      atk-spi2-core: Upgrade 2.16.0 -> 2.18.1
+      at-spi2-atk: Upgrade 2.16.0 -> 2.18.1
+      libsoup-2.4: Upgrade 2.50.0 -> 2.52.1
+      gdk-pixbuf: Upgrade 2.30.8 -> 2.32.1
+      pango: Upgrade 1.36.8 -> 1.38.1
+      librsvg: Upgrade 2.40.10 -> 2.40.11
+      adwaita-icon-theme: Upgrade 3.16.2.1 -> 3.18.0
+      gtk+3: Upgrade 3.16.6 -> 3.18.2
+      package_regex.inc: Add gtk-icon-utils-native
+      gtk-icon-utils-native: Upgrade 3.16.6 -> 3.18.2
+      libxi: Upgrade 1.7.4 -> 1.7.5
+      pixman: Upgrade 0.32.6 -> 0.32.8
+      libxcb: Upgrade 1.11 -> 1.11.1
+      libxcb: Remove unused git-version of the recipe
+      xserver-xorg: Upgrade 1.17.2 -> 1.18.0
+      xorg-driver-input: add xorg configuration to FILES
+      xf86-input-evdev: Upgrade 2.9.2 -> 2.10.0
+      xf86-input-synaptics: Upgrade 1.8.2 -> 1.8.3
+      xf86-video-omap: Upgrade 0.4.3 -> 0.4.4
+      xinput: Upgrade 1.6.1 -> 1.6.2
+      xkbcomp: Upgrade 1.3.0 -> 1.3.1
+      xkeyboard-config: Upgrade 2.15 -> 2.16
+      packagegroup-core-directfb: Don't depend on pango-modules
+
+Leonardo Sandoval (5):
+      yocto-bsp: Avoid duplication of user patches ({{=machine}}-user-patches.scc)
+      yocto-bsp: Typo on the file extension
+      yocto-bsp: Set KTYPE to user selected base branch
+      yocto-bsp: Set SRCREV meta/machine revisions to AUTOREV
+      terminal: Open a new window instead of split on older tmux versions (<1.9)
+
+Li Wang (1):
+      rpcbind: don't use '-w' for starting rpcbind
+
+Mariano Lopez (2):
+      rootfs.py: Stop using installed_pkgs.txt
+      package_manager.py: Delete installed_pkgs.txt file
+
+Martin Jansa (2):
+      rootfs_*.bbclass: don't add BUILDNAME to do_rootfs vardepsexclude
+      libunwind: fix build for qemuarm
+
+Maxin B. John (9):
+      distro/maintainers.inc: include stress package details
+      bbclass: fix spelling mistakes
+      rt-tests: upgrade to version 0.96
+      python-pycurl: update version to 7.19.5.2
+      libsndfile: fix CVE-2014-9756
+      ethtool: bump version to 4.2
+      harfbuzz: update to 1.0.6
+      wireless-tools: remove unused files
+      mc: upgrade to 4.8.15
+
+Mike Crowe (1):
+      allarch: Force TARGET_*FLAGS variable values
+
+Otavio Salvador (2):
+      u-boot: Update to 2015.10 release
+      weston: Add PACKAGECONFIG option for colord CMS
+
+Paul Eggleton (2):
+      classes/metadata_scm: fix git errors showing up on non-git repositories
+      classes/license: fix intermittent license collection warning
+
+Richard Purdie (3):
+      classes: Ensure pass setVar/setVarFlag strings, not integers
+      insane: Don't depend on BB_TASKDEPDATA
+      lib/oe/copy_buildsystem: Don't expand BB_TASKDEPDATA
+
+Robert Yang (3):
+      bitbake-prserv-tool: check file name
+      gdbm 1.8.3: install libgdbm_compat
+      gcc-multilib-config: make aarch64 support multilib
+
+Ross Burton (15):
+      ptest-gnome: extend EXTRA_OECONF in all builds, not just target
+      sstate: respect GPG_BIN and GPG_HOME
+      oeqa/selftest/sstatetests: prettier output for allarch test
+      lib/oe/distro_check: don't set empty proxy keys
+      libusb1: fix make install race
+      glibc: fix Upstream-Status tag
+      weston: delete unused patch
+      meta: add some missing Upstream-Status tags to patches
+      libsdl2: require GLES when building Wayland support
+      openssl: sanity check that the bignum module is present
+      openssl: use subdir= instead of moving files in do_configure_prepend()
+      gstreamer1.0: fix install race
+      systemd: fix Upstream-Status tag
+      glib-2.0: build dependency cleanup
+      pango: add RPROVIDES for removed packages
+
+Tyler Hall (1):
+      classes/cpan-base: fix libdir for nativesdk
+
+Tzu-Jung Lee (2):
+      linux-firmware: package Broadcom BCM4339 firmware
+      devtool: add sync command
+
+Wenzong Fan (2):
+      openssl: fix ptest issues
+      mdadm: fix CFLAGS and ptest issues
+
+ meta-selftest/files/signing/key.pub                |   30 +
+ meta-selftest/files/signing/key.secret             |   59 +
+ meta-selftest/files/signing/secret.txt             |    1 +
+ meta-yocto-bsp/conf/machine/genericx86.conf        |    2 +
+ .../gma500-gfx-check/gma500-gfx-check.conf         |    2 +
+ .../gma500-gfx-check/gma500-gfx-check.sh           |   11 +
+ .../gma500-gfx-check/gma500-gfx-check_1.0.bb       |   18 +
+ meta-yocto/conf/distro/include/maintainers.inc     |    1 +
+ meta/classes/allarch.bbclass                       |    6 +-
+ meta/classes/archiver.bbclass                      |   32 +-
+ meta/classes/autotools.bbclass                     |   43 +-
+ meta/classes/base.bbclass                          |    8 +-
+ meta/classes/buildhistory.bbclass                  |    2 +-
+ meta/classes/chrpath.bbclass                       |    4 +-
+ meta/classes/cpan-base.bbclass                     |   11 +-
+ meta/classes/crosssdk.bbclass                      |    2 +-
+ meta/classes/image_types.bbclass                   |   36 +-
+ meta/classes/insane.bbclass                        |    4 +
+ meta/classes/kernel.bbclass                        |    8 +
+ meta/classes/license.bbclass                       |    1 +
+ meta/classes/metadata_scm.bbclass                  |   20 +-
+ meta/classes/module-base.bbclass                   |    4 +-
+ meta/classes/package.bbclass                       |    4 +-
+ meta/classes/package_deb.bbclass                   |    2 +-
+ meta/classes/package_rpm.bbclass                   |    2 +-
+ meta/classes/ptest-gnome.bbclass                   |    2 +-
+ meta/classes/ptest.bbclass                         |    2 +-
+ meta/classes/qemu.bbclass                          |   13 +-
+ meta/classes/rootfs_deb.bbclass                    |    1 -
+ meta/classes/rootfs_ipk.bbclass                    |    1 -
+ meta/classes/rootfs_rpm.bbclass                    |    1 -
+ meta/classes/siteinfo.bbclass                      |    2 +-
+ meta/classes/spdx.bbclass                          |    2 +-
+ meta/classes/sstate.bbclass                        |   20 +-
+ meta/classes/terminal.bbclass                      |    8 +-
+ meta/classes/tinderclient.bbclass                  |    2 +-
+ meta/classes/update-alternatives.bbclass           |    2 +-
+ meta/classes/waf.bbclass                           |   24 +-
+ meta/conf/distro/include/package_regex.inc         |    1 +
+ meta/lib/oe/copy_buildsystem.py                    |    2 +-
+ meta/lib/oe/distro_check.py                        |   10 +-
+ meta/lib/oe/image.py                               |    4 +-
+ meta/lib/oe/package_manager.py                     |    1 +
+ meta/lib/oe/rootfs.py                              |   24 +-
+ meta/lib/oe/terminal.py                            |   20 +-
+ meta/lib/oeqa/selftest/signing.py                  |  124 ++
+ meta/lib/oeqa/selftest/sstatetests.py              |   12 +-
+ ...utils_2015.07.bb => u-boot-fw-utils_2015.10.bb} |    6 +-
+ ...kimage_2015.07.bb => u-boot-mkimage_2015.10.bb} |    6 +-
+ ...u-boot-.lds-remove-_GLOBAL_OFFSET_TABLE_.patch} |   11 +-
+ ...-non-Android-booting-with-ramdisk-and-or-.patch |   36 +
+ ...board_f-enable-setup_board_part1-for-MIPS.patch |   59 +
+ ...PS-bootm-rework-and-fix-broken-bootm-code.patch |  254 +++++
+ ...PS-bootm-use-CONFIG_IS_ENABLED-everywhere.patch |   93 ++
+ ...-Replace-extern-inline-with-static-inline.patch | 1184 ++++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot_2015.07.bb          |   14 -
+ meta/recipes-bsp/u-boot/u-boot_2015.10.bb          |   19 +
+ meta/recipes-connectivity/bluez5/bluez5.inc        |    8 +-
+ meta/recipes-connectivity/bluez5/bluez5/init       |   68 ++
+ meta/recipes-connectivity/connman/connman.inc      |    2 +-
+ meta/recipes-connectivity/openssl/openssl.inc      |   14 +-
+ .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   14 +-
+ .../wireless-tools/wireless-tools.if-pre-up        |  122 --
+ .../wireless-tools/zzz-wireless.if-pre-up          |   34 -
+ .../wireless-tools/wireless-tools_30.pre9.bb       |    6 -
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |    4 +
+ ...on-t-depend-on-a-data-file-that-s-not-bui.patch |   38 +
+ .../Enable-more-tests-while-cross-compiling.patch  |   81 ++
+ .../{glib-2.0_2.44.1.bb => glib-2.0_2.46.1.bb}     |    6 +-
+ meta/recipes-core/glib-2.0/glib.inc                |    6 +-
+ ...working_2.44.0.bb => glib-networking_2.46.1.bb} |    4 +-
+ .../glibc/glibc/use_64bit_atomics.patch            |    2 +-
+ meta/recipes-core/libxml/libxml2.inc               |    2 +
+ .../libxml/libxml2/CVE-2015-7942.patch             |   55 +
+ .../libxml/libxml2/CVE-2015-8035.patch             |   41 +
+ ...nv-when-secure-versions-are-not-available.patch |    2 +-
+ meta/recipes-core/systemd/systemd_225.bb           |   19 +-
+ ...fixes-Do-not-use-obsolete-bison-construct.patch |   80 ++
+ meta/recipes-devtools/flex/flex.inc                |    1 +
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |    1 +
+ .../gcc/gcc-4.9/0066-cxxflags-for-build.patch      |  123 ++
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc  |    7 +
+ .../openjade/openjade-native_1.3.2.bb              |   22 +-
+ ...ng_util-New-file-with-bin_to_hex-function.patch |  122 ++
+ .../opkg/0002-md5-Add-md5_to_string-function.patch |  110 ++
+ ...0003-sha256-Add-sha256_to_string-function.patch |  110 ++
+ ...4-opkg_download-Use-short-cache-file-name.patch |   85 ++
+ meta/recipes-devtools/opkg/opkg_0.3.0.bb           |    4 +
+ .../perl/perl/perl-errno-generation-gcc5.patch     |   20 +-
+ .../python/python-pycurl/no-static-link.patch      |   12 +-
+ ...ycurl_7.19.5.1.bb => python-pycurl_7.19.5.2.bb} |    8 +-
+ .../qemu/qemu/trace-remove-malloc-tracing.patch    |   97 ++
+ meta/recipes-devtools/qemu/qemu_2.4.0.1.bb         |    1 +
+ .../tcf-agent/tcf-agent/ldflags.patch              |   28 +
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |    1 +
+ .../ethtool/{ethtool_4.0.bb => ethtool_4.2.bb}     |    4 +-
+ meta/recipes-extended/logrotate/logrotate_3.9.1.bb |    2 +-
+ .../mc/{mc_4.8.14.bb => mc_4.8.15.bb}              |    5 +-
+ .../mdadm/files/mdadm-fix-ptest-build-errors.patch |   50 +
+ meta/recipes-extended/mdadm/mdadm_3.3.4.bb         |    3 +-
+ meta/recipes-extended/mktemp/mktemp_1.7.bb         |    2 +-
+ .../rpcbind/rpcbind/musl-sunrpc.patch              |    1 +
+ .../rpcbind/rpcbind/rpcbind.service                |    2 +-
+ meta/recipes-extended/sysklogd/sysklogd.inc        |    5 +
+ .../watchdog/watchdog/watchdog-conf.patch          |    3 +
+ .../watchdog/watchdog/watchdog-init.patch          |    3 +
+ ...ps-Be-more-careful-about-integer-overflow.patch |   89 --
+ .../{gdk-pixbuf_2.30.8.bb => gdk-pixbuf_2.32.1.bb} |    5 +-
+ .../Create-symlinks-when-installing-cursors.patch  |  178 ---
+ ...me_3.16.2.1.bb => adwaita-icon-theme_3.18.0.bb} |    5 +-
+ meta/recipes-gnome/gtk+/gtk+3.inc                  |    5 +-
+ .../gtk+/{gtk+3_3.16.6.bb => gtk+3_3.18.2.bb}      |    4 +-
+ ...e_3.16.6.bb => gtk-icon-utils-native_3.18.2.bb} |    4 +-
+ .../{librsvg_2.40.10.bb => librsvg_2.40.11.bb}     |    4 +-
+ meta/recipes-gnome/libsecret/libsecret_0.18.2.bb   |    2 +-
+ .../{harfbuzz_1.0.2.bb => harfbuzz_1.0.6.bb}       |    4 +-
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb     |    2 +-
+ ...mplement-with-AC_WITH-glut-so-that-withou.patch |    3 +
+ .../packagegroups/packagegroup-core-directfb.bb    |    1 -
+ meta/recipes-graphics/pango/pango.inc              |   53 +-
+ .../pango/pango/multilib-fix-clean.patch           |   75 --
+ meta/recipes-graphics/pango/pango_1.36.8.bb        |   10 -
+ meta/recipes-graphics/pango/pango_1.38.1.bb        |    9 +
+ .../weston/disable-wayland-scanner-pkg-check.patch |   17 -
+ meta/recipes-graphics/wayland/weston_1.8.0.bb      |    2 +
+ .../xorg-app/{xinput_1.6.1.bb => xinput_1.6.2.bb}  |    6 +-
+ .../{xkbcomp_1.3.0.bb => xkbcomp_1.3.1.bb}         |    4 +-
+ ...t-evdev_2.9.2.bb => xf86-input-evdev_2.10.0.bb} |    4 +-
+ ...tics_1.8.2.bb => xf86-input-synaptics_1.8.3.bb} |    6 +-
+ ...put_dpms-Replace-logical-with-bitwise-ope.patch |   31 -
+ ...ideo-omap_0.4.3.bb => xf86-video-omap_0.4.4.bb} |    6 +-
+ .../xorg-driver/xorg-driver-input.inc              |    4 +-
+ .../xorg-lib/{libxcb.inc => libxcb_1.11.1.bb}      |   13 +-
+ meta/recipes-graphics/xorg-lib/libxcb_1.11.bb      |   10 -
+ meta/recipes-graphics/xorg-lib/libxcb_git.bb       |   10 -
+ .../xorg-lib/{libxi_1.7.4.bb => libxi_1.7.5.bb}    |    4 +-
+ ...0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch |    2 +-
+ .../{pixman_0.32.6.bb => pixman_0.32.8.bb}         |    4 +-
+ ...ard-config_2.15.bb => xkeyboard-config_2.16.bb} |    4 +-
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    4 +-
+ ...e-__GLIBC__-guard-for-glibc-specific-code.patch |   31 -
+ ....ac-Use-libsystemd-in-REQUIRED_LIBS-check.patch |   50 +
+ ...erver-xorg_1.17.2.bb => xserver-xorg_1.18.0.bb} |    7 +-
+ .../recipes-kernel/blktrace/blktrace/ldflags.patch |   23 +-
+ .../latencytop-0.5/latencytop-makefile.patch       |    2 +-
+ .../linux-firmware/linux-firmware_git.bb           |    9 +-
+ .../sysprof/files/gui-argument.patch               |   35 +
+ meta/recipes-kernel/sysprof/sysprof_git.bb         |    9 +-
+ .../gstreamer/gstreamer1.0/fix-install-hook.patch  |   24 +
+ .../gstreamer/gstreamer1.0_1.6.1.bb                |    1 +
+ .../files/libsndfile-fix-CVE-2014-9756.patch       |   24 +
+ .../libsndfile/libsndfile1_1.0.25.bb               |    1 +
+ .../{hwlatdetect_0.94.bb => hwlatdetect_0.96.bb}   |    2 +-
+ meta/recipes-rt/rt-tests/rt-tests.inc              |    6 +-
+ .../{rt-tests_0.94.bb => rt-tests_0.96.bb}         |    0
+ ...at-spi2-atk_2.16.0.bb => at-spi2-atk_2.18.1.bb} |    4 +-
+ ...-spi2-core_2.16.0.bb => at-spi2-core_2.18.1.bb} |    4 +-
+ .../atk/{atk_2.16.0.bb => atk_2.18.0.bb}           |    4 +-
+ meta/recipes-support/boost/boost.inc               |    4 +-
+ meta/recipes-support/gdbm/gdbm_1.8.3.bb            |    1 +
+ ...libsoup-2.4_2.50.0.bb => libsoup-2.4_2.52.1.bb} |    6 +-
+ ...Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch |   62 +
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |    1 +
+ meta/recipes-support/libusb/libusb1/no-dll.patch   |   19 +
+ .../{libusb1_1.0.19.bb => libusb1_1.0.20.bb}       |    5 +-
+ scripts/bitbake-prserv-tool                        |    9 +
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ ...-yocto_4.1.bbapend => linux-yocto_4.1.bbappend} |    7 +-
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |    7 +-
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |    7 +-
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    5 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |    7 +-
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |    7 +-
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |    7 +-
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |    7 +-
+ scripts/lib/devtool/standard.py                    |  100 +-
+ scripts/lib/devtool/upgrade.py                     |    2 +-
+ scripts/lib/recipetool/append.py                   |    2 +
+ 246 files changed, 3962 insertions(+), 1165 deletions(-)
+ create mode 100644 meta-selftest/files/signing/key.pub
+ create mode 100644 meta-selftest/files/signing/key.secret
+ create mode 100644 meta-selftest/files/signing/secret.txt
+ create mode 100644 meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.conf
+ create mode 100644 meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.sh
+ create mode 100644 meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check_1.0.bb
+ create mode 100644 meta/lib/oeqa/selftest/signing.py
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2015.07.bb => u-boot-fw-utils_2015.10.bb} (91%)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2015.07.bb => u-boot-mkimage_2015.10.bb} (84%)
+ rename meta/recipes-bsp/u-boot/u-boot/{0001-u-boot-mpc85xx-u-boot-.lds-remove-_GLOBAL_OFFSET_TAB.patch => 0001-powerpc-cpu-u-boot-.lds-remove-_GLOBAL_OFFSET_TABLE_.patch} (96%)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot/0002-image.c-Fix-non-Android-booting-with-ramdisk-and-or-.patch
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot/0003-common-board_f-enable-setup_board_part1-for-MIPS.patch
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot/0004-MIPS-bootm-rework-and-fix-broken-bootm-code.patch
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot/0005-MIPS-bootm-use-CONFIG_IS_ENABLED-everywhere.patch
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot/0006-Replace-extern-inline-with-static-inline.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot_2015.07.bb
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot_2015.10.bb
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/init
+ delete mode 100755 meta/recipes-connectivity/wireless-tools/wireless-tools/wireless-tools.if-pre-up
+ delete mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/zzz-wireless.if-pre-up
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-Don-t-depend-on-a-data-file-that-s-not-bui.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.44.1.bb => glib-2.0_2.46.1.bb} (73%)
+ rename meta/recipes-core/glib-networking/{glib-networking_2.44.0.bb => glib-networking_2.46.1.bb} (88%)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
+ create mode 100644 meta/recipes-devtools/flex/files/0001-bison-test-fixes-Do-not-use-obsolete-bison-construct.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0066-cxxflags-for-build.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0001-string_util-New-file-with-bin_to_hex-function.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0002-md5-Add-md5_to_string-function.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0003-sha256-Add-sha256_to_string-function.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0004-opkg_download-Use-short-cache-file-name.patch
+ rename meta/recipes-devtools/python/{python-pycurl_7.19.5.1.bb => python-pycurl_7.19.5.2.bb} (72%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/trace-remove-malloc-tracing.patch
+ create mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+ rename meta/recipes-extended/ethtool/{ethtool_4.0.bb => ethtool_4.2.bb} (88%)
+ rename meta/recipes-extended/mc/{mc_4.8.14.bb => mc_4.8.15.bb} (93%)
+ create mode 100644 meta/recipes-extended/mdadm/files/mdadm-fix-ptest-build-errors.patch
+ delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-pixops-Be-more-careful-about-integer-overflow.patch
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.30.8.bb => gdk-pixbuf_2.32.1.bb} (94%)
+ delete mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/Create-symlinks-when-installing-cursors.patch
+ rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.16.2.1.bb => adwaita-icon-theme_3.18.0.bb} (85%)
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.16.6.bb => gtk+3_3.18.2.bb} (83%)
+ rename meta/recipes-gnome/gtk+/{gtk-icon-utils-native_3.16.6.bb => gtk-icon-utils-native_3.18.2.bb} (94%)
+ rename meta/recipes-gnome/librsvg/{librsvg_2.40.10.bb => librsvg_2.40.11.bb} (92%)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.0.2.bb => harfbuzz_1.0.6.bb} (88%)
+ delete mode 100644 meta/recipes-graphics/pango/pango/multilib-fix-clean.patch
+ delete mode 100644 meta/recipes-graphics/pango/pango_1.36.8.bb
+ create mode 100644 meta/recipes-graphics/pango/pango_1.38.1.bb
+ delete mode 100644 meta/recipes-graphics/wayland/weston/disable-wayland-scanner-pkg-check.patch
+ rename meta/recipes-graphics/xorg-app/{xinput_1.6.1.bb => xinput_1.6.2.bb} (66%)
+ rename meta/recipes-graphics/xorg-app/{xkbcomp_1.3.0.bb => xkbcomp_1.3.1.bb} (78%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-evdev_2.9.2.bb => xf86-input-evdev_2.10.0.bb} (83%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-synaptics_1.8.2.bb => xf86-input-synaptics_1.8.3.bb} (74%)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-omap/0001-drmmode_output_dpms-Replace-logical-with-bitwise-ope.patch
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-omap_0.4.3.bb => xf86-video-omap_0.4.4.bb} (84%)
+ rename meta/recipes-graphics/xorg-lib/{libxcb.inc => libxcb_1.11.1.bb} (80%)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxcb_1.11.bb
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxcb_git.bb
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.7.4.bb => libxi_1.7.5.bb} (81%)
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.32.6.bb => pixman_0.32.8.bb} (90%)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.15.bb => xkeyboard-config_2.16.bb} (88%)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-use-__GLIBC__-guard-for-glibc-specific-code.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/configure.ac-Use-libsystemd-in-REQUIRED_LIBS-check.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.17.2.bb => xserver-xorg_1.18.0.bb} (78%)
+ create mode 100644 meta/recipes-kernel/sysprof/files/gui-argument.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/fix-install-hook.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/files/libsndfile-fix-CVE-2014-9756.patch
+ rename meta/recipes-rt/rt-tests/{hwlatdetect_0.94.bb => hwlatdetect_0.96.bb} (90%)
+ rename meta/recipes-rt/rt-tests/{rt-tests_0.94.bb => rt-tests_0.96.bb} (100%)
+ rename meta/recipes-support/atk/{at-spi2-atk_2.16.0.bb => at-spi2-atk_2.18.1.bb} (82%)
+ rename meta/recipes-support/atk/{at-spi2-core_2.16.0.bb => at-spi2-core_2.18.1.bb} (84%)
+ rename meta/recipes-support/atk/{atk_2.16.0.bb => atk_2.18.0.bb} (78%)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.50.0.bb => libsoup-2.4_2.52.1.bb} (82%)
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
+ create mode 100644 meta/recipes-support/libusb/libusb1/no-dll.patch
+ rename meta/recipes-support/libusb/{libusb1_1.0.19.bb => libusb1_1.0.20.bb} (83%)
+ rename scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/{linux-yocto_4.1.bbapend => linux-yocto_4.1.bbappend} (80%)
+
+Alejandro Hernandez (2):
+  archiver.bbclass: fix previous issue regarding work-shared for
+    linux-yocto
+  gma500_gfx: Avoid inserting gma500_gfx module for certain devices
+
+Alejandro del Castillo (1):
+  opkg: add cache filename length fixes
+
+Andre McCurdy (1):
+  boost.inc: remove unused parameter from get_boost_parallel_make()
+
+Armin Kuster (1):
+  libxml2: fix CVE-2015-7942 and CVE-2015-8035
+
+Chen Qi (1):
+  mktemp: raise the priority to avoid conflicting with coreutils
+
+Christopher Larson (15):
+  image_types: improve wks path specification
+  qemu.bbclass: correct the fsl ppc QEMU_EXTRAOPTIONS
+  qemu.bbclass: fix vardeps of QEMU_OPTIONS
+  recipetool.append: don't choke on a trailing ; in a url
+  systemd: for valgrind, define VALGRIND=1
+  systemd: chown hwdb.bin to root:root for do_rootfs
+  systemd: drop unneeded $D check in prerm
+  sysprof: use packageconfig for the gui
+  bluez5: enable sysvinit support
+  blkspace: fix ldflags for iowatcher
+  tcf-agent: obey LDFLAGS
+  latencytop: obey LDFLAGS
+  connman: depend on readline
+  sysklogd: inhibit updatercd for non-sysvinit
+  openjade-native: statically link local libs
+
+Dan McGregor (2):
+  systemd: ignore .so filenames in systemd-doc
+  systemd: add machine-id to conffiles
+
+Daniel Istrate (2):
+  oeqa/selftest/signing: New test for Signing packages in the package
+    feeds.
+  oeqa/selftest/signing: Added new test for signing sstate.
+
+Daniel McGregor (1):
+  systemd: make coredump a PACKAGECONFIG
+
+Enrico Scholz (1):
+  waf.bbclass: filter out non -j from PARALLEL_MAKE
+
+Hongxu Jia (3):
+  perl: fix spaces in brackets while using CC version
+  flex: fix test-bison-yylval and test-bison-yylloc failed
+  logrotate: do not move binary logrotate to /usr/bin
+
+Ioan-Adrian Ratiu (1):
+  base-files: stage /etc/skel
+
+Jens Rehsack (3):
+  kernel: fix race condition between compile_kernelmodules and
+    shared_workdir
+  autotools: Allow recipe-individual configure scripts
+  libusb1: upgrade from 1.0.19 to 1.0.20
+
+Jian Liu (2):
+  archiver.bbclass: add bbappend when do_ar_recipe kernel and gcc
+    packages
+  insane.bbclass: Avoid libdir QA check if
+    PACKAGE_DEBUG_SPLIT_STYLE='debug-file-directory'
+
+Joe Slater (1):
+  libsecret: add dependency on intltool-native
+
+Juro Bystricky (1):
+  gcc-4.9: Fix various _FOR_BUILD and related variables
+
+Jussi Kukkonen (28):
+  qemu: Backport malloc-trace disabling
+  glib-2.0: Upgrade 2.44.1 -> 2.46.1
+  glib-2.0: Enable more tests while cross-compiling
+  glib-networking: Upgrade 2.44.0 -> 2.46.1
+  atk: Upgrade 2.16.0 -> 2.18.0
+  atk-spi2-core: Upgrade 2.16.0 -> 2.18.1
+  at-spi2-atk: Upgrade 2.16.0 -> 2.18.1
+  libsoup-2.4: Upgrade 2.50.0 -> 2.52.1
+  gdk-pixbuf: Upgrade 2.30.8 -> 2.32.1
+  pango: Upgrade 1.36.8 -> 1.38.1
+  librsvg: Upgrade 2.40.10 -> 2.40.11
+  adwaita-icon-theme: Upgrade 3.16.2.1 -> 3.18.0
+  gtk+3: Upgrade 3.16.6 -> 3.18.2
+  package_regex.inc: Add gtk-icon-utils-native
+  gtk-icon-utils-native: Upgrade 3.16.6 -> 3.18.2
+  libxi: Upgrade 1.7.4 -> 1.7.5
+  pixman: Upgrade 0.32.6 -> 0.32.8
+  libxcb: Upgrade 1.11 -> 1.11.1
+  libxcb: Remove unused git-version of the recipe
+  xserver-xorg: Upgrade 1.17.2 -> 1.18.0
+  xorg-driver-input: add xorg configuration to FILES
+  xf86-input-evdev: Upgrade 2.9.2 -> 2.10.0
+  xf86-input-synaptics: Upgrade 1.8.2 -> 1.8.3
+  xf86-video-omap: Upgrade 0.4.3 -> 0.4.4
+  xinput: Upgrade 1.6.1 -> 1.6.2
+  xkbcomp: Upgrade 1.3.0 -> 1.3.1
+  xkeyboard-config: Upgrade 2.15 -> 2.16
+  packagegroup-core-directfb: Don't depend on pango-modules
+
+Leonardo Sandoval (5):
+  yocto-bsp: Avoid duplication of user patches
+    ({{=machine}}-user-patches.scc)
+  yocto-bsp: Typo on the file extension
+  yocto-bsp: Set KTYPE to user selected base branch
+  yocto-bsp: Set SRCREV meta/machine revisions to AUTOREV
+  terminal: Open a new window instead of split on older tmux versions
+    (<1.9)
+
+Li Wang (1):
+  rpcbind: don't use '-w' for starting rpcbind
+
+Mariano Lopez (2):
+  rootfs.py: Stop using installed_pkgs.txt
+  package_manager.py: Delete installed_pkgs.txt file
+
+Martin Jansa (2):
+  rootfs_*.bbclass: don't add BUILDNAME to do_rootfs vardepsexclude
+  libunwind: fix build for qemuarm
+
+Maxin B. John (9):
+  distro/maintainers.inc: include stress package details
+  bbclass: fix spelling mistakes
+  rt-tests: upgrade to version 0.96
+  python-pycurl: update version to 7.19.5.2
+  libsndfile: fix CVE-2014-9756
+  ethtool: bump version to 4.2
+  harfbuzz: update to 1.0.6
+  wireless-tools: remove unused files
+  mc: upgrade to 4.8.15
+
+Mike Crowe (1):
+  allarch: Force TARGET_*FLAGS variable values
+
+Otavio Salvador (2):
+  u-boot: Update to 2015.10 release
+  weston: Add PACKAGECONFIG option for colord CMS
+
+Paul Eggleton (2):
+  classes/metadata_scm: fix git errors showing up on non-git
+    repositories
+  classes/license: fix intermittent license collection warning
+
+Richard Purdie (3):
+  classes: Ensure pass setVar/setVarFlag strings, not integers
+  insane: Don't depend on BB_TASKDEPDATA
+  lib/oe/copy_buildsystem: Don't expand BB_TASKDEPDATA
+
+Robert Yang (3):
+  bitbake-prserv-tool: check file name
+  gdbm 1.8.3: install libgdbm_compat
+  gcc-multilib-config: make aarch64 support multilib
+
+Ross Burton (15):
+  ptest-gnome: extend EXTRA_OECONF in all builds, not just target
+  sstate: respect GPG_BIN and GPG_HOME
+  oeqa/selftest/sstatetests: prettier output for allarch test
+  lib/oe/distro_check: don't set empty proxy keys
+  libusb1: fix make install race
+  glibc: fix Upstream-Status tag
+  weston: delete unused patch
+  meta: add some missing Upstream-Status tags to patches
+  libsdl2: require GLES when building Wayland support
+  openssl: sanity check that the bignum module is present
+  openssl: use subdir= instead of moving files in do_configure_prepend()
+  gstreamer1.0: fix install race
+  systemd: fix Upstream-Status tag
+  glib-2.0: build dependency cleanup
+  pango: add RPROVIDES for removed packages
+
+Tyler Hall (1):
+  classes/cpan-base: fix libdir for nativesdk
+
+Tzu-Jung Lee (2):
+  linux-firmware: package Broadcom BCM4339 firmware
+  devtool: add sync command
+
+Wenzong Fan (2):
+  openssl: fix ptest issues
+  mdadm: fix CFLAGS and ptest issues
+
+ meta-selftest/files/signing/key.pub                |   30 +
+ meta-selftest/files/signing/key.secret             |   59 +
+ meta-selftest/files/signing/secret.txt             |    1 +
+ meta-yocto-bsp/conf/machine/genericx86.conf        |    2 +
+ .../gma500-gfx-check/gma500-gfx-check.conf         |    2 +
+ .../gma500-gfx-check/gma500-gfx-check.sh           |   11 +
+ .../gma500-gfx-check/gma500-gfx-check_1.0.bb       |   18 +
+ meta-yocto/conf/distro/include/maintainers.inc     |    1 +
+ meta/classes/allarch.bbclass                       |    6 +-
+ meta/classes/archiver.bbclass                      |   32 +-
+ meta/classes/autotools.bbclass                     |   43 +-
+ meta/classes/base.bbclass                          |    8 +-
+ meta/classes/buildhistory.bbclass                  |    2 +-
+ meta/classes/chrpath.bbclass                       |    4 +-
+ meta/classes/cpan-base.bbclass                     |   11 +-
+ meta/classes/crosssdk.bbclass                      |    2 +-
+ meta/classes/image_types.bbclass                   |   36 +-
+ meta/classes/insane.bbclass                        |    4 +
+ meta/classes/kernel.bbclass                        |    8 +
+ meta/classes/license.bbclass                       |    1 +
+ meta/classes/metadata_scm.bbclass                  |   20 +-
+ meta/classes/module-base.bbclass                   |    4 +-
+ meta/classes/package.bbclass                       |    4 +-
+ meta/classes/package_deb.bbclass                   |    2 +-
+ meta/classes/package_rpm.bbclass                   |    2 +-
+ meta/classes/ptest-gnome.bbclass                   |    2 +-
+ meta/classes/ptest.bbclass                         |    2 +-
+ meta/classes/qemu.bbclass                          |   13 +-
+ meta/classes/rootfs_deb.bbclass                    |    1 -
+ meta/classes/rootfs_ipk.bbclass                    |    1 -
+ meta/classes/rootfs_rpm.bbclass                    |    1 -
+ meta/classes/siteinfo.bbclass                      |    2 +-
+ meta/classes/spdx.bbclass                          |    2 +-
+ meta/classes/sstate.bbclass                        |   20 +-
+ meta/classes/terminal.bbclass                      |    8 +-
+ meta/classes/tinderclient.bbclass                  |    2 +-
+ meta/classes/update-alternatives.bbclass           |    2 +-
+ meta/classes/waf.bbclass                           |   24 +-
+ meta/conf/distro/include/package_regex.inc         |    1 +
+ meta/lib/oe/copy_buildsystem.py                    |    2 +-
+ meta/lib/oe/distro_check.py                        |   10 +-
+ meta/lib/oe/image.py                               |    4 +-
+ meta/lib/oe/package_manager.py                     |    1 +
+ meta/lib/oe/rootfs.py                              |   24 +-
+ meta/lib/oe/terminal.py                            |   20 +-
+ meta/lib/oeqa/selftest/signing.py                  |  124 ++
+ meta/lib/oeqa/selftest/sstatetests.py              |   12 +-
+ ...utils_2015.07.bb => u-boot-fw-utils_2015.10.bb} |    6 +-
+ ...kimage_2015.07.bb => u-boot-mkimage_2015.10.bb} |    6 +-
+ ...u-boot-.lds-remove-_GLOBAL_OFFSET_TABLE_.patch} |   11 +-
+ ...-non-Android-booting-with-ramdisk-and-or-.patch |   36 +
+ ...board_f-enable-setup_board_part1-for-MIPS.patch |   59 +
+ ...PS-bootm-rework-and-fix-broken-bootm-code.patch |  254 +++++
+ ...PS-bootm-use-CONFIG_IS_ENABLED-everywhere.patch |   93 ++
+ ...-Replace-extern-inline-with-static-inline.patch | 1184 ++++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot_2015.07.bb          |   14 -
+ meta/recipes-bsp/u-boot/u-boot_2015.10.bb          |   19 +
+ meta/recipes-connectivity/bluez5/bluez5.inc        |    8 +-
+ meta/recipes-connectivity/bluez5/bluez5/init       |   68 ++
+ meta/recipes-connectivity/connman/connman.inc      |    2 +-
+ meta/recipes-connectivity/openssl/openssl.inc      |   14 +-
+ .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   14 +-
+ .../wireless-tools/wireless-tools.if-pre-up        |  122 --
+ .../wireless-tools/zzz-wireless.if-pre-up          |   34 -
+ .../wireless-tools/wireless-tools_30.pre9.bb       |    6 -
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |    4 +
+ ...on-t-depend-on-a-data-file-that-s-not-bui.patch |   38 +
+ .../Enable-more-tests-while-cross-compiling.patch  |   81 ++
+ .../{glib-2.0_2.44.1.bb => glib-2.0_2.46.1.bb}     |    6 +-
+ meta/recipes-core/glib-2.0/glib.inc                |    6 +-
+ ...working_2.44.0.bb => glib-networking_2.46.1.bb} |    4 +-
+ .../glibc/glibc/use_64bit_atomics.patch            |    2 +-
+ meta/recipes-core/libxml/libxml2.inc               |    2 +
+ .../libxml/libxml2/CVE-2015-7942.patch             |   55 +
+ .../libxml/libxml2/CVE-2015-8035.patch             |   41 +
+ ...nv-when-secure-versions-are-not-available.patch |    2 +-
+ meta/recipes-core/systemd/systemd_225.bb           |   19 +-
+ ...fixes-Do-not-use-obsolete-bison-construct.patch |   80 ++
+ meta/recipes-devtools/flex/flex.inc                |    1 +
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |    1 +
+ .../gcc/gcc-4.9/0066-cxxflags-for-build.patch      |  123 ++
+ meta/recipes-devtools/gcc/gcc-multilib-config.inc  |    7 +
+ .../openjade/openjade-native_1.3.2.bb              |   22 +-
+ ...ng_util-New-file-with-bin_to_hex-function.patch |  122 ++
+ .../opkg/0002-md5-Add-md5_to_string-function.patch |  110 ++
+ ...0003-sha256-Add-sha256_to_string-function.patch |  110 ++
+ ...4-opkg_download-Use-short-cache-file-name.patch |   85 ++
+ meta/recipes-devtools/opkg/opkg_0.3.0.bb           |    4 +
+ .../perl/perl/perl-errno-generation-gcc5.patch     |   20 +-
+ .../python/python-pycurl/no-static-link.patch      |   12 +-
+ ...ycurl_7.19.5.1.bb => python-pycurl_7.19.5.2.bb} |    8 +-
+ .../qemu/qemu/trace-remove-malloc-tracing.patch    |   97 ++
+ meta/recipes-devtools/qemu/qemu_2.4.0.1.bb         |    1 +
+ .../tcf-agent/tcf-agent/ldflags.patch              |   28 +
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |    1 +
+ .../ethtool/{ethtool_4.0.bb => ethtool_4.2.bb}     |    4 +-
+ meta/recipes-extended/logrotate/logrotate_3.9.1.bb |    2 +-
+ .../mc/{mc_4.8.14.bb => mc_4.8.15.bb}              |    5 +-
+ .../mdadm/files/mdadm-fix-ptest-build-errors.patch |   50 +
+ meta/recipes-extended/mdadm/mdadm_3.3.4.bb         |    3 +-
+ meta/recipes-extended/mktemp/mktemp_1.7.bb         |    2 +-
+ .../rpcbind/rpcbind/musl-sunrpc.patch              |    1 +
+ .../rpcbind/rpcbind/rpcbind.service                |    2 +-
+ meta/recipes-extended/sysklogd/sysklogd.inc        |    5 +
+ .../watchdog/watchdog/watchdog-conf.patch          |    3 +
+ .../watchdog/watchdog/watchdog-init.patch          |    3 +
+ ...ps-Be-more-careful-about-integer-overflow.patch |   89 --
+ .../{gdk-pixbuf_2.30.8.bb => gdk-pixbuf_2.32.1.bb} |    5 +-
+ .../Create-symlinks-when-installing-cursors.patch  |  178 ---
+ ...me_3.16.2.1.bb => adwaita-icon-theme_3.18.0.bb} |    5 +-
+ meta/recipes-gnome/gtk+/gtk+3.inc                  |    5 +-
+ .../gtk+/{gtk+3_3.16.6.bb => gtk+3_3.18.2.bb}      |    4 +-
+ ...e_3.16.6.bb => gtk-icon-utils-native_3.18.2.bb} |    4 +-
+ .../{librsvg_2.40.10.bb => librsvg_2.40.11.bb}     |    4 +-
+ meta/recipes-gnome/libsecret/libsecret_0.18.2.bb   |    2 +-
+ .../{harfbuzz_1.0.2.bb => harfbuzz_1.0.6.bb}       |    4 +-
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb     |    2 +-
+ ...mplement-with-AC_WITH-glut-so-that-withou.patch |    3 +
+ .../packagegroups/packagegroup-core-directfb.bb    |    1 -
+ meta/recipes-graphics/pango/pango.inc              |   53 +-
+ .../pango/pango/multilib-fix-clean.patch           |   75 --
+ meta/recipes-graphics/pango/pango_1.36.8.bb        |   10 -
+ meta/recipes-graphics/pango/pango_1.38.1.bb        |    9 +
+ .../weston/disable-wayland-scanner-pkg-check.patch |   17 -
+ meta/recipes-graphics/wayland/weston_1.8.0.bb      |    2 +
+ .../xorg-app/{xinput_1.6.1.bb => xinput_1.6.2.bb}  |    6 +-
+ .../{xkbcomp_1.3.0.bb => xkbcomp_1.3.1.bb}         |    4 +-
+ ...t-evdev_2.9.2.bb => xf86-input-evdev_2.10.0.bb} |    4 +-
+ ...tics_1.8.2.bb => xf86-input-synaptics_1.8.3.bb} |    6 +-
+ ...put_dpms-Replace-logical-with-bitwise-ope.patch |   31 -
+ ...ideo-omap_0.4.3.bb => xf86-video-omap_0.4.4.bb} |    6 +-
+ .../xorg-driver/xorg-driver-input.inc              |    4 +-
+ .../xorg-lib/{libxcb.inc => libxcb_1.11.1.bb}      |   13 +-
+ meta/recipes-graphics/xorg-lib/libxcb_1.11.bb      |   10 -
+ meta/recipes-graphics/xorg-lib/libxcb_git.bb       |   10 -
+ .../xorg-lib/{libxi_1.7.4.bb => libxi_1.7.5.bb}    |    4 +-
+ ...0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch |    2 +-
+ .../{pixman_0.32.6.bb => pixman_0.32.8.bb}         |    4 +-
+ ...ard-config_2.15.bb => xkeyboard-config_2.16.bb} |    4 +-
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    4 +-
+ ...e-__GLIBC__-guard-for-glibc-specific-code.patch |   31 -
+ ....ac-Use-libsystemd-in-REQUIRED_LIBS-check.patch |   50 +
+ ...erver-xorg_1.17.2.bb => xserver-xorg_1.18.0.bb} |    7 +-
+ .../recipes-kernel/blktrace/blktrace/ldflags.patch |   23 +-
+ .../latencytop-0.5/latencytop-makefile.patch       |    2 +-
+ .../linux-firmware/linux-firmware_git.bb           |    9 +-
+ .../sysprof/files/gui-argument.patch               |   35 +
+ meta/recipes-kernel/sysprof/sysprof_git.bb         |    9 +-
+ .../gstreamer/gstreamer1.0/fix-install-hook.patch  |   24 +
+ .../gstreamer/gstreamer1.0_1.6.1.bb                |    1 +
+ .../files/libsndfile-fix-CVE-2014-9756.patch       |   24 +
+ .../libsndfile/libsndfile1_1.0.25.bb               |    1 +
+ .../{hwlatdetect_0.94.bb => hwlatdetect_0.96.bb}   |    2 +-
+ meta/recipes-rt/rt-tests/rt-tests.inc              |    6 +-
+ .../{rt-tests_0.94.bb => rt-tests_0.96.bb}         |    0
+ ...at-spi2-atk_2.16.0.bb => at-spi2-atk_2.18.1.bb} |    4 +-
+ ...-spi2-core_2.16.0.bb => at-spi2-core_2.18.1.bb} |    4 +-
+ .../atk/{atk_2.16.0.bb => atk_2.18.0.bb}           |    4 +-
+ meta/recipes-support/boost/boost.inc               |    4 +-
+ meta/recipes-support/gdbm/gdbm_1.8.3.bb            |    1 +
+ ...libsoup-2.4_2.50.0.bb => libsoup-2.4_2.52.1.bb} |    6 +-
+ ...Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch |   62 +
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |    1 +
+ meta/recipes-support/libusb/libusb1/no-dll.patch   |   19 +
+ .../{libusb1_1.0.19.bb => libusb1_1.0.20.bb}       |    5 +-
+ scripts/bitbake-prserv-tool                        |    9 +
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ ...-yocto_4.1.bbapend => linux-yocto_4.1.bbappend} |    7 +-
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |    7 +-
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |    7 +-
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    5 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |    7 +-
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |    7 +-
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |    7 +-
+ .../linux/files/machine-preempt-rt.scc             |    3 +-
+ .../linux/files/machine-standard.scc               |    3 +-
+ .../recipes-kernel/linux/files/machine-tiny.scc    |    3 +-
+ .../recipes-kernel/linux/linux-yocto-dev.bbappend  |    1 -
+ .../linux/linux-yocto-rt_3.14.bbappend             |    6 +-
+ .../linux/linux-yocto-tiny_3.14.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_3.19.bbappend           |    6 +-
+ .../linux/linux-yocto-tiny_4.1.bbappend            |    6 +-
+ .../recipes-kernel/linux/linux-yocto_3.14.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_3.19.bbappend |    7 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |    7 +-
+ scripts/lib/devtool/standard.py                    |  100 +-
+ scripts/lib/devtool/upgrade.py                     |    2 +-
+ scripts/lib/recipetool/append.py                   |    2 +
+ 246 files changed, 3962 insertions(+), 1165 deletions(-)
+ create mode 100644 meta-selftest/files/signing/key.pub
+ create mode 100644 meta-selftest/files/signing/key.secret
+ create mode 100644 meta-selftest/files/signing/secret.txt
+ create mode 100644 meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.conf
+ create mode 100644 meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check/gma500-gfx-check.sh
+ create mode 100644 meta-yocto-bsp/recipes-bsp/gma500-gfx-check/gma500-gfx-check_1.0.bb
+ create mode 100644 meta/lib/oeqa/selftest/signing.py
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2015.07.bb => u-boot-fw-utils_2015.10.bb} (91%)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2015.07.bb => u-boot-mkimage_2015.10.bb} (84%)
+ rename meta/recipes-bsp/u-boot/u-boot/{0001-u-boot-mpc85xx-u-boot-.lds-remove-_GLOBAL_OFFSET_TAB.patch => 0001-powerpc-cpu-u-boot-.lds-remove-_GLOBAL_OFFSET_TABLE_.patch} (96%)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot/0002-image.c-Fix-non-Android-booting-with-ramdisk-and-or-.patch
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot/0003-common-board_f-enable-setup_board_part1-for-MIPS.patch
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot/0004-MIPS-bootm-rework-and-fix-broken-bootm-code.patch
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot/0005-MIPS-bootm-use-CONFIG_IS_ENABLED-everywhere.patch
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot/0006-Replace-extern-inline-with-static-inline.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot_2015.07.bb
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot_2015.10.bb
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/init
+ delete mode 100755 meta/recipes-connectivity/wireless-tools/wireless-tools/wireless-tools.if-pre-up
+ delete mode 100644 meta/recipes-connectivity/wireless-tools/wireless-tools/zzz-wireless.if-pre-up
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-Don-t-depend-on-a-data-file-that-s-not-bui.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/Enable-more-tests-while-cross-compiling.patch
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.44.1.bb => glib-2.0_2.46.1.bb} (73%)
+ rename meta/recipes-core/glib-networking/{glib-networking_2.44.0.bb => glib-networking_2.46.1.bb} (88%)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
+ create mode 100644 meta/recipes-devtools/flex/files/0001-bison-test-fixes-Do-not-use-obsolete-bison-construct.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0066-cxxflags-for-build.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0001-string_util-New-file-with-bin_to_hex-function.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0002-md5-Add-md5_to_string-function.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0003-sha256-Add-sha256_to_string-function.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0004-opkg_download-Use-short-cache-file-name.patch
+ rename meta/recipes-devtools/python/{python-pycurl_7.19.5.1.bb => python-pycurl_7.19.5.2.bb} (72%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/trace-remove-malloc-tracing.patch
+ create mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+ rename meta/recipes-extended/ethtool/{ethtool_4.0.bb => ethtool_4.2.bb} (88%)
+ rename meta/recipes-extended/mc/{mc_4.8.14.bb => mc_4.8.15.bb} (93%)
+ create mode 100644 meta/recipes-extended/mdadm/files/mdadm-fix-ptest-build-errors.patch
+ delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-pixops-Be-more-careful-about-integer-overflow.patch
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.30.8.bb => gdk-pixbuf_2.32.1.bb} (94%)
+ delete mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/Create-symlinks-when-installing-cursors.patch
+ rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.16.2.1.bb => adwaita-icon-theme_3.18.0.bb} (85%)
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.16.6.bb => gtk+3_3.18.2.bb} (83%)
+ rename meta/recipes-gnome/gtk+/{gtk-icon-utils-native_3.16.6.bb => gtk-icon-utils-native_3.18.2.bb} (94%)
+ rename meta/recipes-gnome/librsvg/{librsvg_2.40.10.bb => librsvg_2.40.11.bb} (92%)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.0.2.bb => harfbuzz_1.0.6.bb} (88%)
+ delete mode 100644 meta/recipes-graphics/pango/pango/multilib-fix-clean.patch
+ delete mode 100644 meta/recipes-graphics/pango/pango_1.36.8.bb
+ create mode 100644 meta/recipes-graphics/pango/pango_1.38.1.bb
+ delete mode 100644 meta/recipes-graphics/wayland/weston/disable-wayland-scanner-pkg-check.patch
+ rename meta/recipes-graphics/xorg-app/{xinput_1.6.1.bb => xinput_1.6.2.bb} (66%)
+ rename meta/recipes-graphics/xorg-app/{xkbcomp_1.3.0.bb => xkbcomp_1.3.1.bb} (78%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-evdev_2.9.2.bb => xf86-input-evdev_2.10.0.bb} (83%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-synaptics_1.8.2.bb => xf86-input-synaptics_1.8.3.bb} (74%)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-omap/0001-drmmode_output_dpms-Replace-logical-with-bitwise-ope.patch
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-omap_0.4.3.bb => xf86-video-omap_0.4.4.bb} (84%)
+ rename meta/recipes-graphics/xorg-lib/{libxcb.inc => libxcb_1.11.1.bb} (80%)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxcb_1.11.bb
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxcb_git.bb
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.7.4.bb => libxi_1.7.5.bb} (81%)
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.32.6.bb => pixman_0.32.8.bb} (90%)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.15.bb => xkeyboard-config_2.16.bb} (88%)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-use-__GLIBC__-guard-for-glibc-specific-code.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/configure.ac-Use-libsystemd-in-REQUIRED_LIBS-check.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.17.2.bb => xserver-xorg_1.18.0.bb} (78%)
+ create mode 100644 meta/recipes-kernel/sysprof/files/gui-argument.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/fix-install-hook.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/files/libsndfile-fix-CVE-2014-9756.patch
+ rename meta/recipes-rt/rt-tests/{hwlatdetect_0.94.bb => hwlatdetect_0.96.bb} (90%)
+ rename meta/recipes-rt/rt-tests/{rt-tests_0.94.bb => rt-tests_0.96.bb} (100%)
+ rename meta/recipes-support/atk/{at-spi2-atk_2.16.0.bb => at-spi2-atk_2.18.1.bb} (82%)
+ rename meta/recipes-support/atk/{at-spi2-core_2.16.0.bb => at-spi2-core_2.18.1.bb} (84%)
+ rename meta/recipes-support/atk/{atk_2.16.0.bb => atk_2.18.0.bb} (78%)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.50.0.bb => libsoup-2.4_2.52.1.bb} (82%)
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
+ create mode 100644 meta/recipes-support/libusb/libusb1/no-dll.patch
+ rename meta/recipes-support/libusb/{libusb1_1.0.19.bb => libusb1_1.0.20.bb} (83%)
+ rename scripts/lib/bsp/substrate/target/arch/arm/recipes-kernel/linux/{linux-yocto_4.1.bbapend => linux-yocto_4.1.bbappend} (80%)
+
+-- 
+2.1.4
 
 
