@@ -1,38 +1,39 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 8299C6057A
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-yk0-f175.google.com (mail-yk0-f175.google.com
+	[209.85.160.175])
+	by mail.openembedded.org (Postfix) with ESMTP id EB04062132
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 02:54:21 +0000 (UTC)
-Received: by wmww144 with SMTP id w144so52988264wmw.0
+	Wed, 18 Nov 2015 03:49:01 +0000 (UTC)
+Received: by ykba77 with SMTP id a77so43635953ykb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 18:54:22 -0800 (PST)
+	Tue, 17 Nov 2015 19:49:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=YlB8J6KivWm719xAdPzmsOkTgsfuRsgr1AbvSliSP1I=;
-	b=WofhVKK87N1AkiJq3Mbq5HQj5ig2tdejcUZV3viIAoQExbR5pshXM34HppHBEJLH44
-	091N8k10uMCF+K+45Udhw0NlPlJiall1ZkFjvyMfIyrhb6LRZAUDyWGcPDQSrBjJZLaR
-	Yx/jyRZjIDqWqEpefhDEpEggYfzvC+d6eJ0/wj/J1JIvXg7+PTvCuJM16I1v8FiB6QdE
-	yKdl8Q3mMHbgn9kUUCcp9/F1iT89TSQ0sAvqt5P5S2QA/cr1UU1/Abh6WHv/XY2AIca7
-	TM+eH8KMNAECkRBG/i91p1GzIkkwoWeW17lyRvyJOpPTCDWXlswRuPsNxJmtut1fWJpJ
-	/lTA==
+	bh=rZW1Uauztn+CMACIdTWHr1aZUjjvM6YHFO8NmsKUwL4=;
+	b=vjpTNvLtJUuhsaBneJ+j2bJrDZFoQ15x0wThJZI76IdHGeyQSgxu+20BRWYj4pIIkN
+	Ziqx89jM/6uCNculURoF/S5OREafQdn+kYW2jCbiGqKr9c6nUOCFd9hnJH1H+Dh7VHX8
+	khKP1/0Iw7+wm0mtPtymB7aFWRPruLb3yW1E0oTlJ8s0dfGag4rzc8b9axPwjf0IjUr+
+	UnReY9AFKUAB+A8Lr+CN3y9cFF2RR5VE1eVhSj98Tj7IbpAZPG8Cjn25Qul1U42DHuiX
+	wYmUWeQ+X/xMksRVadt+Q3OOTUBgaEIgEbgaLhFepJqWt/WQdb+j3I0raeXRUTZevD59
+	EQ7w==
 MIME-Version: 1.0
-X-Received: by 10.28.46.137 with SMTP id u131mr889871wmu.61.1447815262513;
-	Tue, 17 Nov 2015 18:54:22 -0800 (PST)
-Received: by 10.194.140.38 with HTTP; Tue, 17 Nov 2015 18:54:22 -0800 (PST)
-In-Reply-To: <CAJ86T=XhuWTfFr3-7VGH6yM96e+brxe3hMW79xuaNuE-vjD1mQ@mail.gmail.com>
-References: <1447739760-14395-1-git-send-email-armccurdy@gmail.com>
-	<1447773377.1472.28.camel@pbcl.net>
-	<CAJTo0La98Rv=0ZwdHce4FTknVAmZnGEnNmpXopK9+8cKqbnj8Q@mail.gmail.com>
-	<1447780178.1472.29.camel@pbcl.net>
-	<CAJ86T=V7WyuBuLvn7spNWJxW3TohpeAgf7yFFyahr0F29t1RhQ@mail.gmail.com>
-	<CAJ86T=XhuWTfFr3-7VGH6yM96e+brxe3hMW79xuaNuE-vjD1mQ@mail.gmail.com>
-Date: Tue, 17 Nov 2015 18:54:22 -0800
-Message-ID: <CAJ86T=WgmsLifH--XFWf2LQgXk7PqCBPnxwZgF9eAwBqrOfgKA@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] directfb.inc: force bfd linker for armv7a
+X-Received: by 10.129.57.214 with SMTP id g205mr13414201ywa.172.1447818541978; 
+	Tue, 17 Nov 2015 19:49:01 -0800 (PST)
+Received: by 10.31.237.197 with HTTP; Tue, 17 Nov 2015 19:49:01 -0800 (PST)
+Received: by 10.31.237.197 with HTTP; Tue, 17 Nov 2015 19:49:01 -0800 (PST)
+In-Reply-To: <05b7cc8c957a9756e7af964a09bc2a89e0aedd9f.1447371049.git.chris_larson@mentor.com>
+References: <cover.1447371049.git.chris_larson@mentor.com>
+	<130d9a6c1f4ecea86748a44b73f51d8ddb2e63da.1447371049.git.chris_larson@mentor.com>
+	<05b7cc8c957a9756e7af964a09bc2a89e0aedd9f.1447371049.git.chris_larson@mentor.com>
+Date: Tue, 17 Nov 2015 21:49:01 -0600
+Message-ID: <CACS+7ZR-KmxgSjSOptx_E3w4dFbMz_90munhQPcCfcEmvdV2DA@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] systemd: add myhostname to nsswitch.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,82 +46,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Nov 2015 02:54:25 -0000
+X-List-Received-Date: Wed, 18 Nov 2015 03:49:04 -0000
+Content-Type: multipart/alternative; boundary=001a114c78d4e4de030524c885ec
+
+--001a114c78d4e4de030524c885ec
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Nov 17, 2015 at 11:34 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Tue, Nov 17, 2015 at 11:16 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
->> On Tue, Nov 17, 2015 at 9:09 AM, Phil Blundell <pb@pbcl.net> wrote:
->>> On Tue, 2015-11-17 at 16:44 +0000, Burton, Ross wrote:
->>>
->>> On 17 November 2015 at 15:16, Phil Blundell <pb@pbcl.net> wrote:
->>>
->>> Does the resulting directfb-csource binary actually work with that
->>> change?  My recollection is that ld.bfd will just silently permit
->>> relocs that gold (correctly) refuses to allow.
->>>
->>> Personally I don't use DirectFB (and am constantly surprised it's still a
->>> thing) so at this point I'm not going to merge either of these patches until
->>> someone can confirm that their fix *works on hardware* instead of just
->>> fixing the build.
->>>
->>> I think that's a reasonable position.  In any case, the underlying issue is
->>> a compiler bug and ought really to be fixed there rather than patching
->>> directfb or any other package that just happens to fall over it.
->>
->> The directfb-csource binary linked with the bfd linker segfaults on
->> startup, so it does indeed look like a compiler problem.
+On 12 Nov 2015 5:41 p.m., "Christopher Larson" <kergoth@gmail.com> wrote:
 >
-> Hmmm... maybe I spoke too soon. lsmod is also segfaulting on startup
-> so there's something else going wrong with this build.
+> From: Christopher Larson <chris_larson@mentor.com>
 >
-> If I copy the same directfb-csource binary into a rootfs built with
-> security_flags.inc enabled then it runs OK...
+> We don't need nss-myhostname on systemd systems, because systemd already
+> provides myhostname, but we weren't configuring nsswitch to use it. Being
+able
+> to resolve the hostname is useful for a number of different applications,
+so
+> enable it using the same postinst/prerm bits which are in nss-myhostname.
 
-OK, so the segfaults were due to building Jethro with prelink enabled :-(
+I have this and a similar change for resolved in an append at work. Would
+others be interested in that too?
 
-With prelink disabled, directfb-csource linked with the bfd linker
-runs fine on real HW:
+>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+>  meta/recipes-core/systemd/systemd_225.bb | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_225.bb
+b/meta/recipes-core/systemd/systemd_225.bb
+> index 18c2448..20515f5 100644
+> --- a/meta/recipes-core/systemd/systemd_225.bb
+> +++ b/meta/recipes-core/systemd/systemd_225.bb
+> @@ -397,6 +397,18 @@ ALTERNATIVE_TARGET[runlevel] =
+"${base_bindir}/systemctl"
+>  ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
+>  ALTERNATIVE_PRIORITY[runlevel] ?= "300"
+>
+> +pkg_postinst_${PN} () {
+> +       sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+> +               -e
+'s/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 myhostname
+\3\4\5/' \
+> +               -i $D${sysconfdir}/nsswitch.conf
+> +}
+> +
+> +pkg_prerm_${PN} () {
+> +       sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+> +               -e '/^hosts:/s/\s*myhostname//' \
+> +               -i $D${sysconfdir}/nsswitch.conf
+> +}
+> +
+>  pkg_postinst_udev-hwdb () {
+>         if test -n "$D"; then
+>                 ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')}
+hwdb --update \
+> --
+> 2.2.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-root@eos:~# cat /proc/cpuinfo
-processor       : 0
-model name      : ARMv7 Processor rev 3 (v7l)
-Features        : swp half thumb fastmult vfp edsp neon vfpv3 tls
-vfpv4 idiva idivt vfpd32 lpae evtstrm
-CPU implementer : 0x42
-CPU architecture: 7
-CPU variant     : 0x0
-CPU part        : 0x00f
-CPU revision    : 3
+--001a114c78d4e4de030524c885ec
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-processor       : 1
-model name      : ARMv7 Processor rev 3 (v7l)
-Features        : swp half thumb fastmult vfp edsp neon vfpv3 tls
-vfpv4 idiva idivt vfpd32 lpae evtstrm
-CPU implementer : 0x42
-CPU architecture: 7
-CPU variant     : 0x0
-CPU part        : 0x00f
-CPU revision    : 3
+<p dir=3D"ltr"><br>
+On 12 Nov 2015 5:41 p.m., &quot;Christopher Larson&quot; &lt;<a href=3D"mai=
+lto:kergoth@gmail.com">kergoth@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
+">chris_larson@mentor.com</a>&gt;<br>
+&gt;<br>
+&gt; We don&#39;t need nss-myhostname on systemd systems, because systemd a=
+lready<br>
+&gt; provides myhostname, but we weren&#39;t configuring nsswitch to use it=
+. Being able<br>
+&gt; to resolve the hostname is useful for a number of different applicatio=
+ns, so<br>
+&gt; enable it using the same postinst/prerm bits which are in nss-myhostna=
+me.</p>
+<p dir=3D"ltr">I have this and a similar change for resolved in an append a=
+t work. Would others be interested in that too?<br></p>
+<p dir=3D"ltr">&gt;<br>
+&gt; Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@m=
+entor.com">chris_larson@mentor.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_225.bb">syst=
+emd_225.bb</a> | 12 ++++++++++++<br>
+&gt; =C2=A01 file changed, 12 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_225.b=
+b">systemd_225.bb</a> b/meta/recipes-core/systemd/<a href=3D"http://systemd=
+_225.bb">systemd_225.bb</a><br>
+&gt; index 18c2448..20515f5 100644<br>
+&gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd_225.bb">syst=
+emd_225.bb</a><br>
+&gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_225.bb">syst=
+emd_225.bb</a><br>
+&gt; @@ -397,6 +397,18 @@ ALTERNATIVE_TARGET[runlevel] =3D &quot;${base_bin=
+dir}/systemctl&quot;<br>
+&gt; =C2=A0ALTERNATIVE_LINK_NAME[runlevel] =3D &quot;${base_sbindir}/runlev=
+el&quot;<br>
+&gt; =C2=A0ALTERNATIVE_PRIORITY[runlevel] ?=3D &quot;300&quot;<br>
+&gt;<br>
+&gt; +pkg_postinst_${PN} () {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &#39;/^hosts:/s/\s*\&lt;myhostname\=
+&gt;//&#39; \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e &#39;s/\(^h=
+osts:.*\)\(\&lt;files\&gt;\)\(.*\)\(\&lt;dns\&gt;\)\(.*\)/\1\2 myhostname \=
+3\4\5/&#39; \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-i $D${sysconf=
+dir}/nsswitch.conf<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +pkg_prerm_${PN} () {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &#39;/^hosts:/s/\s*\&lt;myhostname\=
+&gt;//&#39; \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e &#39;/^host=
+s:/s/\s*myhostname//&#39; \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-i $D${sysconf=
+dir}/nsswitch.conf<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; =C2=A0pkg_postinst_udev-hwdb () {<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test -n &quot;$D&quot;; then<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@qemu_run_bi=
+nary(d, &#39;$D&#39;, &#39;${base_bindir}/udevadm&#39;)} hwdb --update \<br=
+>
+&gt; --<br>
+&gt; 2.2.1<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
+<br>
+</p>
 
-Hardware        : Broadcom STB (Flattened Device Tree)
-Revision        : 0000
-Serial          : 0000000000000000
-root@eos:~#
-root@eos:~# directfb-csource
-directfb-csource version 1.7.7
-
-Usage: directfb-csource [options] <imagefile>
-   --name=<identifer>      specifies variable name
-   --format=<identifer>    specifies surface format
-   --rgbformat=<identifer> specifies format for non-alpha images
-   --multi                 multiple images
-   --raw                   dump a single file directly to header
-   --dither-rgb16          dither images rendered to RGB16 surfaces
-   --help                  show this help message
-   --version               print version information
-
-See the directfb-csource(1) man-page for more information.
-
-root@eos:~#
-
+--001a114c78d4e4de030524c885ec--
