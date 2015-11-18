@@ -1,22 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D612760767
+	by mail.openembedded.org (Postfix) with ESMTP id 0EA076612C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 12:03:43 +0000 (UTC)
+	Wed, 18 Nov 2015 12:03:45 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Nov 2015 04:03:44 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 18 Nov 2015 04:03:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,312,1444719600"; d="scan'208";a="853800092"
+X-IronPort-AV: E=Sophos;i="5.20,312,1444719600"; d="scan'208";a="853800114"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2015 04:03:43 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2015 04:03:44 -0800
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Nov 2015 14:07:04 +0200
-Message-Id: <25d92033bc37e480de35f031f12e0515fc942068.1447847724.git.jussi.kukkonen@intel.com>
+Date: Wed, 18 Nov 2015 14:07:05 +0200
+Message-Id: <ba3dce9cd1cb3bd1558a6f13a77f7efe86747b88.1447847724.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <25d92033bc37e480de35f031f12e0515fc942068.1447847724.git.jussi.kukkonen@intel.com>
+References: <25d92033bc37e480de35f031f12e0515fc942068.1447847724.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1447847724.git.jussi.kukkonen@intel.com>
 References: <cover.1447847724.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/2] mesa: Make gl libraries RRECOMMEND mesa-megadriver
+Subject: [PATCH 2/2] runqemu-internal: Replace wacom-tablet with tablet for usbdevice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +33,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 18 Nov 2015 12:03:45 -0000
 
-This makes e.g. core-image-weston actually work out-of-the-box
-on hardware that uses megadriver drivers.
+From: Khem Raj <raj.khem@gmail.com>
 
-With typical mesa-gl use this would be unexpected: skip the
-recommendation there.
+When booting weston-core-image with latest wayland/weston/libinput
+mouse/touchpad would not work on qemux86, this fixes the issue
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb | 3 +++
- meta/recipes-graphics/mesa/mesa.inc          | 5 ++++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ scripts/runqemu-internal | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb b/meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb
-index fc2bca9..d55f56e 100644
---- a/meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb
-+++ b/meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb
-@@ -11,3 +11,6 @@ S = "${WORKDIR}/mesa-${PV}"
- PACKAGECONFIG ??= "dri ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index 3b0e54c..c2787c3 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -119,7 +119,7 @@ ORIG_STTY=$(stty -g)
+ if [ "$SLIRP_ENABLED" = "yes" ]; then
+     KERNEL_NETWORK_CMD="ip=dhcp"
+     QEMU_TAP_CMD=""
+-    QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
++    QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice tablet"
+     QEMU_NETWORK_CMD=""
+     DROOT="/dev/vda"
+     ROOTFS_OPTIONS="-drive file=$ROOTFS,if=virtio,format=raw"
+@@ -268,7 +268,7 @@ else
+         ROOTFS_OPTIONS="-drive file=$ROOTFS,if=virtio,format=raw"
  
- EXCLUDE_FROM_WORLD = "1"
-+
-+# GL libraries should not RRECOMMEND megadriver
-+SKIP_RRECOMMENDS_MEGADRIVER = "1"
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 13a8b9d..3400b1c 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -114,7 +114,10 @@ python __anonymous() {
-         d.appendVar("RREPLACES_" + fullp, pkgs)
-         d.appendVar("RPROVIDES_" + fullp, pkgs)
-         d.appendVar("RCONFLICTS_" + fullp, pkgs)
--        
-+
-+        if d.getVar("SKIP_RRECOMMENDS_MEGADRIVER", False) != "1":
-+            d.appendVar("RRECOMMENDS_" + fullp, "mesa-megadriver")
-+
-         # For -dev, the first element is both the Debian and original name
-         fullp += "-dev"
-         pkgs = p[1] + "-dev"
+         KERNCMDLINE="mem=$QEMU_MEMORY"
+-        QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
++        QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice tablet"
+ 
+         NFS_INSTANCE=`echo $TAP | sed 's/tap//'`
+         export NFS_INSTANCE
 -- 
 2.1.4
 
