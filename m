@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CFD66B6EA
+	by mail.openembedded.org (Postfix) with ESMTP id 5572462131
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 18 Nov 2015 09:51:57 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 18 Nov 2015 01:51:57 -0800
+	by orsmga102.jf.intel.com with ESMTP; 18 Nov 2015 01:51:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,312,1444719600"; d="scan'208";a="853512433"
+X-IronPort-AV: E=Sophos;i="5.20,312,1444719600"; d="scan'208";a="853512457"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 18 Nov 2015 01:51:55 -0800
+	by orsmga002.jf.intel.com with ESMTP; 18 Nov 2015 01:51:57 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Nov 2015 11:52:31 +0200
-Message-Id: <7ccefa998c8f3a2f7f31000db2dd2374504c70b2.1447840091.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 18 Nov 2015 11:52:33 +0200
+Message-Id: <0222ebfd170e60108871fbd52dd941f99df6e52d.1447840091.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1447840091.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447840091.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1447840091.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447840091.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 3/8] package_regex.inc: split GITTAGREGEX entries into recipe files
+Subject: [PATCH 5/8] package_regex.inc: split PyPi related entries to their own recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,238 +35,169 @@ X-List-Received-Date: Wed, 18 Nov 2015 09:51:57 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/conf/distro/include/package_regex.inc         | 26 ----------------------
- .../glibc/cross-localedef-native_2.22.bb           |  1 +
- meta/recipes-core/glibc/glibc_2.22.bb              |  1 +
- meta/recipes-core/uclibc/uclibc-git.inc            |  3 +++
- meta/recipes-devtools/binutils/binutils-2.25.1.inc |  2 ++
- .../bootchart2/bootchart2_0.14.7.bb                |  2 ++
- meta/recipes-devtools/file/file_5.24.bb            |  3 +++
- meta/recipes-devtools/remake/remake_4.1+dbg-1.1.bb |  1 +
- .../recipes-devtools/sgmlspl/sgmlspl-native_git.bb |  1 +
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |  1 +
- .../chkconfig-alternatives-native_1.3.59.bb        |  1 +
- meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |  3 +++
- meta/recipes-graphics/mx/mx-1.0_1.4.7.bb           |  3 +++
- .../xorg-driver/xf86-video-omapfb_git.bb           |  3 +++
- meta/recipes-kernel/linux/linux-yocto.inc          |  2 ++
- 15 files changed, 27 insertions(+), 26 deletions(-)
+ meta/conf/distro/include/package_regex.inc            | 19 -------------------
+ meta/recipes-devtools/python/python-async_0.6.2.bb    |  2 ++
+ meta/recipes-devtools/python/python-git_1.0.1.bb      |  3 +++
+ meta/recipes-devtools/python/python-gitdb_0.6.4.bb    |  2 ++
+ meta/recipes-devtools/python/python-mako_1.0.1.bb     |  3 +++
+ meta/recipes-devtools/python/python-nose_1.3.6.bb     |  3 +++
+ meta/recipes-devtools/python/python-pexpect_3.3.bb    |  2 ++
+ meta/recipes-devtools/python/python-smmap_0.9.0.bb    |  3 +++
+ meta/recipes-devtools/python/python3-pip_6.1.1.bb     |  2 ++
+ .../python/python3-setuptools_18.2.bb                 |  2 ++
+ 10 files changed, 22 insertions(+), 19 deletions(-)
 
 diff --git a/meta/conf/distro/include/package_regex.inc b/meta/conf/distro/include/package_regex.inc
-index 2216b41..2eaaca4 100644
+index d55f5c8..7888260 100644
 --- a/meta/conf/distro/include/package_regex.inc
 +++ b/meta/conf/distro/include/package_regex.inc
-@@ -182,32 +182,6 @@ REGEX_URI_pn-pcmanfm = "http://sourceforge.net/projects/pcmanfm/files/PCManFM%20
- REGEX_URI_pn-libcgroup = "http://sourceforge.net/projects/libcg/files/libcgroup/"
- REGEX_URI_pn-cdrtools = "http://sourceforge.net/projects/cdrtools/files/alpha/"
+@@ -120,25 +120,6 @@ REGEX_pn-nativesdk-qt4-tools = "(?P<pver>\d+(\.\d+)+)/"
+ REGEX_URI_pn-qt4-native = "http://download.qt.io/official_releases/qt/4.8/"
+ REGEX_pn-qt4-native = "(?P<pver>\d+(\.\d+)+)/"
  
--# GIT
--GITTAGREGEX_COMMON = "(?P<pver>\d+\.\d+(\.\d+)*)"
+-# PyPI sites
+-REGEX_URI_pn-python-nose = "https://pypi.python.org/pypi/nose/"
+-REGEX_pn-python-nose = "/nose/${COMMON_REGEX}"
+-# python-distribute 0.7.x is a simple compatibility layer that installs Setuptools 0.7+.
+-# so we stick to 0.6.x series
+-REGEX_URI_pn-python-distribute = "https://pypi.python.org/pypi/distribute/"
+-REGEX_pn-python-distribute = "/distribute/(?P<pver>\d+.6.\d+)"
+-REGEX_URI_pn-python-gitdb = "https://pypi.python.org/pypi/gitdb/"
+-REGEX_URI_pn-python-async = "https://pypi.python.org/pypi/async/"
+-REGEX_URI_pn-python-smmap = "https://pypi.python.org/pypi/smmap/"
+-REGEX_pn-python-smmap = "/smmap/${COMMON_REGEX}"
+-REGEX_URI_pn-python-git = "https://pypi.python.org/pypi/GitPython/"
+-REGEX_pn-python-git = "/GitPython/${COMMON_REGEX}"
+-REGEX_URI_pn-python-mako = "https://pypi.python.org/pypi/mako/"
+-REGEX_pn-python-mako = "/Mako/${COMMON_REGEX}"
+-REGEX_URI_pn-python-pexpect = "https://pypi.python.org/pypi/pexpect"
+-REGEX_URI_pn-python3-pip = "https://pypi.python.org/pypi/pip"
+-REGEX_URI_pn-python3-setuptools = "https://pypi.python.org/pypi/setuptools"
 -
--GITTAGREGEX_pn-linux-yocto = "${GITTAGREGEX_COMMON}"
--GITTAGREGEX_pn-linux-yocto-tiny = "${GITTAGREGEX_COMMON}"
--GITTAGREGEX_pn-linux-yocto-dev = "${GITTAGREGEX_COMMON}"
--GITTAGREGEX_pn-uclibc = "${GITTAGREGEX_COMMON}"
--GITTAGREGEX_pn-glibc = "${GITTAGREGEX_COMMON}"
--GITTAGREGEX_pn-cross-localedef = "${GITTAGREGEX_COMMON}"
--GITTAGREGEX_pn-binutils = "binutils-(?P<pver>\d+_(\d_?)*)"
--GITTAGREGEX_pn-bootchart2 = "${GITTAGREGEX_COMMON}"
--GITTAGREGEX_pn-remake = "(?P<pver>(\d+(\.\d+)+)\+dbg.+)"
--GITTAGREGEX_pn-tcf-agent = "(?P<pver>(\d+(\.\d+)+))"
--GITTAGREGEX_pn-chkconfig-alternatives = "chkconfig-(?P<pver>(\d+(\.\d+)+))"
--GITTAGREGEX_pn-sgmlspl = "(?P<pver>(\d+(\.\d+)+))"
--
--# Exclude x.99.x versions
--GITTAGREGEX_pn-mx-1.0 = "(?P<pver>^\d+(\.(?!99)\d+)+)"
--
--# Blacklist a bogus tag
--GITTAGREGEX_pn-file = "FILE(?P<pver>(?!6_23).+)"
--GITTAGREGEX_pn-xinetd = "xinetd-(?P<pver>(?!20030122).+)"
--
--# Blacklist debian-specific tags
--GITTAGREGEX_pn-xf86-video-omapfb = "(?P<pver>\d+(\.\d+)+)(?!-)"
--
- # Keep old gcc versions at their major versions
- REGEX_pn-gcc-source-4.9.3 = "gcc-(?P<pver>4\.9\.\d+).tar"
- REGEX_pn-gcc-source-4.8.4 = "gcc-(?P<pver>4\.8\.\d+).tar"
-diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.22.bb b/meta/recipes-core/glibc/cross-localedef-native_2.22.bb
-index 03be9c0..7cfd698 100644
---- a/meta/recipes-core/glibc/cross-localedef-native_2.22.bb
-+++ b/meta/recipes-core/glibc/cross-localedef-native_2.22.bb
-@@ -16,6 +16,7 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/glibc:"
+ # Sourceforge sites
+ REGEX_URI_pn-python-scons = "http://sourceforge.net/projects/scons/files/scons/"
+ REGEX_pn-python-scons = "/scons/${COMMON_REGEX}/"
+diff --git a/meta/recipes-devtools/python/python-async_0.6.2.bb b/meta/recipes-devtools/python/python-async_0.6.2.bb
+index 5a17a1a..0da6be6 100644
+--- a/meta/recipes-devtools/python/python-async_0.6.2.bb
++++ b/meta/recipes-devtools/python/python-async_0.6.2.bb
+@@ -8,6 +8,8 @@ SRC_URI = "http://pypi.python.org/packages/source/a/async/async-${PV}.tar.gz"
+ SRC_URI[md5sum] = "9b06b5997de2154f3bc0273f80bcef6b"
+ SRC_URI[sha256sum] = "ac6894d876e45878faae493b0cf61d0e28ec417334448ac0a6ea2229d8343051"
  
- SRCBRANCH ?= "release/${PV}/master"
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
-+GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
- 
- SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            git://github.com/kraj/localedef;branch=master;name=localedef;destsuffix=git/localedef \
-diff --git a/meta/recipes-core/glibc/glibc_2.22.bb b/meta/recipes-core/glibc/glibc_2.22.bb
-index 1b23597..947beef 100644
---- a/meta/recipes-core/glibc/glibc_2.22.bb
-+++ b/meta/recipes-core/glibc/glibc_2.22.bb
-@@ -12,6 +12,7 @@ SRCREV ?= "a34d1c6afc86521d6ad17662a3b5362d8481514c"
- SRCBRANCH ?= "release/${PV}/master"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
-+GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
- 
- SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0004-Backport-https-sourceware.org-ml-libc-ports-2007-12-.patch \
-diff --git a/meta/recipes-core/uclibc/uclibc-git.inc b/meta/recipes-core/uclibc/uclibc-git.inc
-index dcb616d..958a4ec 100644
---- a/meta/recipes-core/uclibc/uclibc-git.inc
-+++ b/meta/recipes-core/uclibc/uclibc-git.inc
-@@ -21,3 +21,6 @@ SRC_URI = "git://uclibc.org/uClibc.git;branch=master \
-         file://0001-wire-in-syncfs.patch \
- "
- S = "${WORKDIR}/git"
++REGEX_URI = "https://pypi.python.org/pypi/async/"
 +
-+GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+ S = "${WORKDIR}/async-${PV}"
+ 
+ inherit setuptools
+diff --git a/meta/recipes-devtools/python/python-git_1.0.1.bb b/meta/recipes-devtools/python/python-git_1.0.1.bb
+index a78d7c8..6a6f15b 100644
+--- a/meta/recipes-devtools/python/python-git_1.0.1.bb
++++ b/meta/recipes-devtools/python/python-git_1.0.1.bb
+@@ -14,6 +14,9 @@ SRC_URI = "http://pypi.python.org/packages/source/G/GitPython/GitPython-${PV}.ta
+ SRC_URI[md5sum] = "4659644b42c41e5e5170c0cd83ed6422"
+ SRC_URI[sha256sum] = "9c88c17bbcae2a445ff64024ef13526224f70e35e38c33416be5ceb56ca7f760"
+ 
++REGEX_URI = "https://pypi.python.org/pypi/GitPython/"
++REGEX = "/GitPython/(?P<pver>(\d+[\.\-_]*)+)"
 +
-diff --git a/meta/recipes-devtools/binutils/binutils-2.25.1.inc b/meta/recipes-devtools/binutils/binutils-2.25.1.inc
-index f3817fa..6b9a152 100644
---- a/meta/recipes-devtools/binutils/binutils-2.25.1.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.25.1.inc
-@@ -16,6 +16,8 @@ def binutils_branch_version(d):
+ S = "${WORKDIR}/GitPython-${PV}"
  
- BINUPV = "${@binutils_branch_version(d)}"
+ inherit setuptools
+diff --git a/meta/recipes-devtools/python/python-gitdb_0.6.4.bb b/meta/recipes-devtools/python/python-gitdb_0.6.4.bb
+index f0083bd..20b8b06 100644
+--- a/meta/recipes-devtools/python/python-gitdb_0.6.4.bb
++++ b/meta/recipes-devtools/python/python-gitdb_0.6.4.bb
+@@ -10,6 +10,8 @@ SRC_URI = "https://pypi.python.org/packages/source/g/gitdb/gitdb-${PV}.tar.gz"
+ SRC_URI[md5sum] = "44e4366b8bdfd306b075c3a52c96ae1a"
+ SRC_URI[sha256sum] = "a3ebbc27be035a2e874ed904df516e35f4a29a778a764385de09de9e0f139658"
  
-+GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
++REGEX_URI = "https://pypi.python.org/pypi/gitdb/"
 +
- SRCREV = "2bd25930221dea4bf33c13a89c111514491440e2"
- SRC_URI = "\
-      git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git \
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.7.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.7.bb
-index 4b0a980..7c82e4e 100644
---- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.7.bb
-+++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.7.bb
-@@ -88,6 +88,8 @@ HOMEPAGE = "https://github.com/mmeeks/bootchart"
- LICENSE = "GPL-3.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=44ac4678311254db62edf8fd39cb8124"
+ S = "${WORKDIR}/gitdb-${PV}"
  
-+GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
+ inherit distutils
+diff --git a/meta/recipes-devtools/python/python-mako_1.0.1.bb b/meta/recipes-devtools/python/python-mako_1.0.1.bb
+index 5d42b0c..2c2b45e 100644
+--- a/meta/recipes-devtools/python/python-mako_1.0.1.bb
++++ b/meta/recipes-devtools/python/python-mako_1.0.1.bb
+@@ -8,6 +8,9 @@ SRC_URI = "https://pypi.python.org/packages/source/M/Mako/Mako-${PV}.tar.gz"
+ SRC_URI[md5sum] = "9f0aafd177b039ef67b90ea350497a54"
+ SRC_URI[sha256sum] = "45f0869febea59dab7efd256fb451c377cbb7947bef386ff0bb44627c31a8d1c"
+ 
++REGEX_URI = "https://pypi.python.org/pypi/mako/"
++REGEX = "/Mako/(?P<pver>(\d+[\.\-_]*)+)"
 +
- SRC_URI = "git://github.com/mmeeks/bootchart.git \
-            file://bootchartd_stop.sh \
-           "
-diff --git a/meta/recipes-devtools/file/file_5.24.bb b/meta/recipes-devtools/file/file_5.24.bb
-index d04f121..e67ffdc 100644
---- a/meta/recipes-devtools/file/file_5.24.bb
-+++ b/meta/recipes-devtools/file/file_5.24.bb
-@@ -11,6 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=2;md5=6a7382872edb68d33e1a9398b6e03
- DEPENDS = "zlib file-replacement-native"
- DEPENDS_class-native = "zlib-native"
+ S = "${WORKDIR}/Mako-${PV}"
  
-+# Blacklist a bogus tag in upstream check
-+GITTAGREGEX = "FILE(?P<pver>(?!6_23).+)"
+ inherit setuptools
+diff --git a/meta/recipes-devtools/python/python-nose_1.3.6.bb b/meta/recipes-devtools/python/python-nose_1.3.6.bb
+index e47ddb0..54811fc 100644
+--- a/meta/recipes-devtools/python/python-nose_1.3.6.bb
++++ b/meta/recipes-devtools/python/python-nose_1.3.6.bb
+@@ -10,6 +10,9 @@ SRC_URI = "http://pypi.python.org/packages/source/n/nose/nose-${PV}.tar.gz"
+ SRC_URI[md5sum] = "0ca546d81ca8309080fc80cb389e7a16"
+ SRC_URI[sha256sum] = "f61e0909a743eed37b1207e38a8e7b4a2fe0a82185e36f2be252ef1b3f901758"
+ 
++REGEX_URI = "https://pypi.python.org/pypi/nose/"
++REGEX = "/nose/(?P<pver>(\d+[\.\-_]*)+)"
 +
- SRC_URI = "git://github.com/file/file.git \
-         file://debian-742262.patch \
-         file://0001-Add-P-prompt-into-Usage-info.patch \
-diff --git a/meta/recipes-devtools/remake/remake_4.1+dbg-1.1.bb b/meta/recipes-devtools/remake/remake_4.1+dbg-1.1.bb
-index c61913d..3ba31f4 100644
---- a/meta/recipes-devtools/remake/remake_4.1+dbg-1.1.bb
-+++ b/meta/recipes-devtools/remake/remake_4.1+dbg-1.1.bb
-@@ -4,6 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://glob/COPYING.LIB;md5=4a770b67e6be0f60da244beb2de0fce4"
- require remake.inc
+ S = "${WORKDIR}/nose-${PV}"
  
-+GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+)\+dbg.+)"
- SRC_URI += "file://version-remake.texi.patch \
-            "
- SRCREV = "cf54641d50a0165bb17622b3e9770f426ccbc561"
-diff --git a/meta/recipes-devtools/sgmlspl/sgmlspl-native_git.bb b/meta/recipes-devtools/sgmlspl/sgmlspl-native_git.bb
-index 5e3460f..9091f3d 100644
---- a/meta/recipes-devtools/sgmlspl/sgmlspl-native_git.bb
-+++ b/meta/recipes-devtools/sgmlspl/sgmlspl-native_git.bb
-@@ -4,6 +4,7 @@ SECTION = "libs"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
+ inherit setuptools
+diff --git a/meta/recipes-devtools/python/python-pexpect_3.3.bb b/meta/recipes-devtools/python/python-pexpect_3.3.bb
+index cd80aeb..6ff6b3e 100644
+--- a/meta/recipes-devtools/python/python-pexpect_3.3.bb
++++ b/meta/recipes-devtools/python/python-pexpect_3.3.bb
+@@ -8,6 +8,8 @@ SRC_URI = "https://pypi.python.org/packages/source/p/pexpect/pexpect-${PV}.tar.g
+ SRC_URI[md5sum] = "0de72541d3f1374b795472fed841dce8"
+ SRC_URI[sha256sum] = "dfea618d43e83cfff21504f18f98019ba520f330e4142e5185ef7c73527de5ba"
  
-+GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
- SRC_URI = "git://github.com/gitpan/SGMLSpm \
-           "
- 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index f8fd390..fd63cb0 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
- SRCREV = "b9a735e9c7cf82f80d412b7ab15d08b89d5a4ccc"
- PV = "1.3.0+git${SRCPV}"
- 
-+GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
- SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;branch=1.3_mars_bugfix \
-            file://fix_ranlib.patch \
-            file://tcf-agent.init \
-diff --git a/meta/recipes-extended/chkconfig/chkconfig-alternatives-native_1.3.59.bb b/meta/recipes-extended/chkconfig/chkconfig-alternatives-native_1.3.59.bb
-index 7fd34aa..72f446e 100644
---- a/meta/recipes-extended/chkconfig/chkconfig-alternatives-native_1.3.59.bb
-+++ b/meta/recipes-extended/chkconfig/chkconfig-alternatives-native_1.3.59.bb
-@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- # support for alternatives.
- SRC_URI = "git://github.com/kergoth/chkconfig;branch=sysroot"
- S = "${WORKDIR}/git"
-+GITTAGREGEX = "chkconfig-(?P<pver>(\d+(\.\d+)+))"
- 
- SRCREV = "cd437ecbd8986c894442f8fce1e0061e20f04dee"
- PV = "1.3.59+${SRCPV}"
-diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-index 9af45a5..334220e 100644
---- a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-+++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-@@ -9,6 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8ad8615198542444f84d28a6cf226dd8"
- DEPENDS = ""
- PR = "r2"
- 
-+# Blacklist a bogus tag in upstream check
-+GITTAGREGEX = "xinetd-(?P<pver>(?!20030122).+)"
++REGEX_URI = "https://pypi.python.org/pypi/pexpect"
 +
- SRC_URI = "git://github.com/xinetd-org/xinetd.git;protocol=https \
-       file://xinetd.init \
-       file://xinetd.conf \
-diff --git a/meta/recipes-graphics/mx/mx-1.0_1.4.7.bb b/meta/recipes-graphics/mx/mx-1.0_1.4.7.bb
-index ce35b61..0f19271 100644
---- a/meta/recipes-graphics/mx/mx-1.0_1.4.7.bb
-+++ b/meta/recipes-graphics/mx/mx-1.0_1.4.7.bb
-@@ -4,6 +4,9 @@ require mx.inc
- SRCREV = "9b1db6b8060bd00b121a692f942404a24ae2960f"
- PV = "1.4.7+git${SRCPV}"
+ S = "${WORKDIR}/pexpect-${PV}"
  
-+# Exclude x.99.x versions from upstream checks
-+GITTAGREGEX = "(?P<pver>^\d+(\.(?!99)\d+)+)"
+ inherit distutils
+diff --git a/meta/recipes-devtools/python/python-smmap_0.9.0.bb b/meta/recipes-devtools/python/python-smmap_0.9.0.bb
+index b658be8..72a2851 100644
+--- a/meta/recipes-devtools/python/python-smmap_0.9.0.bb
++++ b/meta/recipes-devtools/python/python-smmap_0.9.0.bb
+@@ -11,6 +11,9 @@ SRC_URI = "http://pypi.python.org/packages/source/s/smmap/smmap-${PV}.tar.gz"
+ SRC_URI[md5sum] = "d7932d5ace206bf4ae15198cf36fb6ab"
+ SRC_URI[sha256sum] = "0e2b62b497bd5f0afebc002eda4d90df9d209c30ef257e8673c90a6b5c119d62"
+ 
++REGEX_URI = "https://pypi.python.org/pypi/smmap/"
++REGEX = "/smmap/(?P<pver>(\d+[\.\-_]*)+)"
 +
- SRC_URI = "git://github.com/clutter-project/mx.git;branch=mx-1.4 \
- 	   file://fix-build-dir.patch \
- 	   file://fix-test-includes.patch \
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
-index 0eeb870..9a058ec 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb
-@@ -13,6 +13,9 @@ SRCREV = "33e36c12dde336edbdd34626dd8adfcaebc8fbb8"
- PR = "${INC_PR}.7"
- PV = "0.1.1+gitr${SRCPV}"
+ S = "${WORKDIR}/smmap-${PV}"
  
-+# Blacklist debian-specific tags in upstream version check
-+GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)(?!-)"
+ inherit setuptools
+diff --git a/meta/recipes-devtools/python/python3-pip_6.1.1.bb b/meta/recipes-devtools/python/python3-pip_6.1.1.bb
+index 7bfc30e..45b3145 100644
+--- a/meta/recipes-devtools/python/python3-pip_6.1.1.bb
++++ b/meta/recipes-devtools/python/python3-pip_6.1.1.bb
+@@ -13,6 +13,8 @@ SRC_URI = " \
+ SRC_URI[md5sum] = "6b19e0a934d982a5a4b798e957cb6d45"
+ SRC_URI[sha256sum] = "89f3b626d225e08e7f20d85044afa40f612eb3284484169813dc2d0631f2a556"
+ 
++REGEX_URI = "https://pypi.python.org/pypi/pip"
 +
- SRC_URI = "git://anonscm.debian.org/collab-maint/xf86-video-omapfb.git \
-   file://0001-Prevents-omapfb-from-from-crashing-when-pixelclock-o.patch \
-   file://0001-Revert-Set-a-large-CRTC-upper-limit-to-not-prune-lar.patch \
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index e0524de..79d6876 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -4,6 +4,8 @@ LICENSE = "GPLv2"
+ S = "${WORKDIR}/${SRCNAME}-${PV}"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+ inherit distutils3
+diff --git a/meta/recipes-devtools/python/python3-setuptools_18.2.bb b/meta/recipes-devtools/python/python3-setuptools_18.2.bb
+index dc0ac80..94144b5 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_18.2.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_18.2.bb
+@@ -14,6 +14,8 @@ SRC_URI = " \
+ SRC_URI[md5sum] = "52b4e48939ef311d7204f8fe940764f4"
+ SRC_URI[sha256sum] = "0994a58df27ea5dc523782a601357a2198b7493dcc99a30d51827a23585b5b1d"
  
-+GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
++REGEX_URI = "https://pypi.python.org/pypi/setuptools"
 +
- INC_PR = "r4"
+ S = "${WORKDIR}/${SRCNAME}-${PV}"
  
- DEPENDS += "xz-native bc-native"
+ inherit distutils3
 -- 
 2.1.4
 
