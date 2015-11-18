@@ -1,30 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F1EF601A5
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C7A5E6012A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 11:52:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tAIBqMQ3016837 for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 11:52:22 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id hZ_QsTwM7jj1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 11:52:22 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tAIBq6V4016830
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 11:52:17 GMT
-Message-ID: <1447847526.12500.78.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Nov 2015 11:52:06 +0000
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] sstate: Ensure siginfo and sig files are also touched
+	Wed, 18 Nov 2015 12:03:16 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 18 Nov 2015 04:03:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,312,1444719600"; d="scan'208";a="853594624"
+Received: from theory.fi.intel.com ([10.237.72.196])
+	by orsmga002.jf.intel.com with ESMTP; 18 Nov 2015 04:03:15 -0800
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Nov 2015 14:06:13 +0200
+Message-Id: <cover.1447847724.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/2] Improve weston image experience
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,37 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Nov 2015 11:52:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Nov 2015 12:03:18 -0000
 
-Maintaining an sstate mirror is complicated at the moment as only the main
-sstate tgz files have their timestamp updated when they're used.
+Currently core-image-weston doesn't work nicely out-of-the-box
+on hardware or on qemu. Sending a couple of small changes for that.
 
-This causes problems as the siginfo files can be removed from the server
-due to inactivity but the sstate fetch code tries to fetch them leading
-to confusing warnings and reduced debug capability.
+The runqemu-internal patch was sent by Khem a few months back but
+never made it to jethro. I believe it is correct: "-usbdevice tablet"
+is what the qemu documentation suggests as well.
 
-This change ensures we touch any sig/siginfo files present and should
-help ageing of the objects on sstate mirrors. It doesn't handle the intermediate
-task siginfo files but those are never fetched by the current sstate code
-so are an order of magnitude less problematic.
+Thanks,
+ Jussi
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+The following changes since commit d9aabf9639510fdb3e2ccc21ba5ae4aa9f6e4a57:
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index d09e27a..9ca4c6d 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -692,6 +692,8 @@ sstate_unpack_package () {
- 	tar -xmvzf ${SSTATE_PKG}
- 	# Use "! -w ||" to return true for read only files
- 	[ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
-+	[ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig
-+	[ ! -w ${SSTATE_PKG}.siginfo ] || [ ! -e ${SSTATE_PKG}.siginfo ] || touch --no-dereference ${SSTATE_PKG}.siginfo
- }
- 
- BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
+  gcc: Drop 4.8 (2015-11-16 14:59:18 +0000)
 
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/weston
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/weston
+
+Jussi Kukkonen (1):
+  mesa: Make gl libraries RRECOMMEND mesa-megadriver
+
+Khem Raj (1):
+  runqemu-internal: Replace wacom-tablet with tablet for usbdevice
+
+ meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb | 3 +++
+ meta/recipes-graphics/mesa/mesa.inc          | 5 ++++-
+ scripts/runqemu-internal                     | 4 ++--
+ 3 files changed, 9 insertions(+), 3 deletions(-)
+
+-- 
+2.1.4
 
 
