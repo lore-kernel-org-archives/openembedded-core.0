@@ -1,20 +1,22 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C7A5E6012A
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D612760767
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 12:03:16 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Nov 2015 04:03:16 -0800
+	Wed, 18 Nov 2015 12:03:43 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Nov 2015 04:03:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,312,1444719600"; d="scan'208";a="853594624"
+X-IronPort-AV: E=Sophos;i="5.20,312,1444719600"; d="scan'208";a="853800092"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by orsmga002.jf.intel.com with ESMTP; 18 Nov 2015 04:03:15 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2015 04:03:43 -0800
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Nov 2015 14:06:13 +0200
-Message-Id: <cover.1447847724.git.jussi.kukkonen@intel.com>
+Date: Wed, 18 Nov 2015 14:07:04 +0200
+Message-Id: <25d92033bc37e480de35f031f12e0515fc942068.1447847724.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/2] Improve weston image experience
+In-Reply-To: <cover.1447847724.git.jussi.kukkonen@intel.com>
+References: <cover.1447847724.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 1/2] mesa: Make gl libraries RRECOMMEND mesa-megadriver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,38 +29,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Nov 2015 12:03:18 -0000
+X-List-Received-Date: Wed, 18 Nov 2015 12:03:45 -0000
 
-Currently core-image-weston doesn't work nicely out-of-the-box
-on hardware or on qemu. Sending a couple of small changes for that.
+This makes e.g. core-image-weston actually work out-of-the-box
+on hardware that uses megadriver drivers.
 
-The runqemu-internal patch was sent by Khem a few months back but
-never made it to jethro. I believe it is correct: "-usbdevice tablet"
-is what the qemu documentation suggests as well.
+With typical mesa-gl use this would be unexpected: skip the
+recommendation there.
 
-Thanks,
- Jussi
-
-The following changes since commit d9aabf9639510fdb3e2ccc21ba5ae4aa9f6e4a57:
-
-  gcc: Drop 4.8 (2015-11-16 14:59:18 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/weston
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/weston
-
-Jussi Kukkonen (1):
-  mesa: Make gl libraries RRECOMMEND mesa-megadriver
-
-Khem Raj (1):
-  runqemu-internal: Replace wacom-tablet with tablet for usbdevice
-
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
  meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb | 3 +++
  meta/recipes-graphics/mesa/mesa.inc          | 5 ++++-
- scripts/runqemu-internal                     | 4 ++--
- 3 files changed, 9 insertions(+), 3 deletions(-)
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb b/meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb
+index fc2bca9..d55f56e 100644
+--- a/meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb
++++ b/meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb
+@@ -11,3 +11,6 @@ S = "${WORKDIR}/mesa-${PV}"
+ PACKAGECONFIG ??= "dri ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+ 
+ EXCLUDE_FROM_WORLD = "1"
++
++# GL libraries should not RRECOMMEND megadriver
++SKIP_RRECOMMENDS_MEGADRIVER = "1"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 13a8b9d..3400b1c 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -114,7 +114,10 @@ python __anonymous() {
+         d.appendVar("RREPLACES_" + fullp, pkgs)
+         d.appendVar("RPROVIDES_" + fullp, pkgs)
+         d.appendVar("RCONFLICTS_" + fullp, pkgs)
+-        
++
++        if d.getVar("SKIP_RRECOMMENDS_MEGADRIVER", False) != "1":
++            d.appendVar("RRECOMMENDS_" + fullp, "mesa-megadriver")
++
+         # For -dev, the first element is both the Debian and original name
+         fullp += "-dev"
+         pkgs = p[1] + "-dev"
 -- 
 2.1.4
 
