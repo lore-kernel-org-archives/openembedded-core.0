@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 698836E681
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A1C66E5CC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 09:51:59 +0000 (UTC)
+	Wed, 18 Nov 2015 09:52:00 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 18 Nov 2015 01:52:00 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 18 Nov 2015 01:51:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,312,1444719600"; d="scan'208";a="853512474"
+X-IronPort-AV: E=Sophos;i="5.20,312,1444719600"; d="scan'208";a="853512417"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 18 Nov 2015 01:51:59 -0800
+	by orsmga002.jf.intel.com with ESMTP; 18 Nov 2015 01:51:54 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Nov 2015 11:52:35 +0200
-Message-Id: <271989a182005091288fa8f1e86374628a42c9a5.1447840091.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 18 Nov 2015 11:52:30 +0200
+Message-Id: <6d3732fbc9c3ddd892ec8cdbd4b730d93214d006.1447840091.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1447840091.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447840091.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1447840091.git.alexander.kanavin@linux.intel.com>
 References: <cover.1447840091.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 7/8] package_regex.inc: split entries which blacklist specific versions to their recipes
+Subject: [PATCH 2/8] package_regex.inc: split entries with odd-even versioning into their own recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,264 +31,506 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Nov 2015 09:51:59 -0000
+X-List-Received-Date: Wed, 18 Nov 2015 09:52:00 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/conf/distro/include/package_regex.inc         | 35 ----------------------
- .../docbook-sgml-dtd-3.1-native_3.1.bb             |  3 ++
- .../docbook-sgml-dtd-4.1-native_4.1.bb             |  3 ++
- meta/recipes-devtools/gcc/gcc-4.9.inc              |  2 ++
- meta/recipes-devtools/python/python.inc            |  4 +++
- .../python/python3-native_3.4.3.bb                 |  3 ++
- meta/recipes-devtools/python/python3_3.4.3.bb      |  3 ++
- meta/recipes-extended/unzip/unzip_6.0.bb           |  4 +++
- meta/recipes-extended/zip/zip_3.0.bb               |  3 ++
- meta/recipes-multimedia/libtiff/tiff_4.0.4.bb      |  3 ++
- meta/recipes-qt/qt4/nativesdk-qt4-tools.inc        |  3 ++
- meta/recipes-qt/qt4/qt4-4.8.7.inc                  |  3 ++
- meta/recipes-qt/qt4/qt4-native.inc                 |  4 +++
- meta/recipes-support/db/db_6.0.30.bb               |  4 +++
- 14 files changed, 42 insertions(+), 35 deletions(-)
+ meta/classes/upstream-version-is-even.bbclass      |  5 +++
+ meta/conf/distro/include/package_regex.inc         | 50 ----------------------
+ meta/recipes-core/dbus/dbus-test_1.8.20.bb         |  2 +-
+ meta/recipes-core/dbus/dbus.inc                    |  2 +-
+ meta/recipes-core/glib-2.0/glib.inc                |  2 +-
+ .../glib-networking/glib-networking_2.44.0.bb      |  2 +-
+ meta/recipes-devtools/perl/perl.inc                |  2 +
+ meta/recipes-devtools/vala/vala.inc                |  2 +-
+ meta/recipes-gnome/epiphany/epiphany_3.16.3.bb     |  2 +-
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb |  2 +-
+ .../gnome-desktop/gnome-desktop3_3.16.2.bb         |  2 +-
+ .../gnome/adwaita-icon-theme_3.16.2.1.bb           |  2 +-
+ meta/recipes-gnome/gtk+/gtk+.inc                   |  4 ++
+ meta/recipes-gnome/gtk+/gtk+3.inc                  |  2 +-
+ .../gtk-engines/gtk-engines_2.20.2.bb              |  4 ++
+ meta/recipes-gnome/librsvg/librsvg_2.40.10.bb      |  2 +-
+ meta/recipes-graphics/clutter/clutter-1.0.inc      |  2 +-
+ meta/recipes-graphics/clutter/clutter-gst-3.0.inc  |  2 +-
+ meta/recipes-graphics/clutter/clutter-gtk-1.0.inc  |  2 +-
+ meta/recipes-graphics/cogl/cogl-1.0.inc            |  2 +-
+ meta/recipes-graphics/pango/pango.inc              |  2 +-
+ .../gstreamer/gstreamer1.0-libav.inc               |  2 +-
+ .../gstreamer/gstreamer1.0-plugins.inc             |  2 +-
+ .../gstreamer/gstreamer1.0-rtsp-server.inc         |  2 +-
+ meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |  2 +-
+ meta/recipes-sato/webkit/webkitgtk_2.8.5.bb        |  2 +-
+ meta/recipes-support/atk/at-spi2-atk_2.16.0.bb     |  2 +-
+ meta/recipes-support/atk/at-spi2-core_2.16.0.bb    |  2 +-
+ meta/recipes-support/atk/atk_2.16.0.bb             |  2 +-
+ meta/recipes-support/libsoup/libsoup-2.4_2.50.0.bb |  2 +-
+ meta/recipes-support/p11-kit/p11-kit_0.22.1.bb     |  2 +-
+ meta/recipes-support/vte/vte.inc                   |  2 +-
+ 32 files changed, 42 insertions(+), 77 deletions(-)
+ create mode 100644 meta/classes/upstream-version-is-even.bbclass
 
+diff --git a/meta/classes/upstream-version-is-even.bbclass b/meta/classes/upstream-version-is-even.bbclass
+new file mode 100644
+index 0000000..21d844e
+--- /dev/null
++++ b/meta/classes/upstream-version-is-even.bbclass
+@@ -0,0 +1,5 @@
++# This class ensures that the upstream version check only 
++# accepts even minor versions (i.e. 3.0.x, 3.2.x, 3.4.x, etc.)
++# This scheme is used by Gnome and a number of other projects
++# to signify stable releases vs development releases.
++REGEX = "(?P<pver>2\.([0-8]*[02468])+(\.\d+)+)"
 diff --git a/meta/conf/distro/include/package_regex.inc b/meta/conf/distro/include/package_regex.inc
-index 7db8d57..beed994 100644
+index 0035586..2216b41 100644
 --- a/meta/conf/distro/include/package_regex.inc
 +++ b/meta/conf/distro/include/package_regex.inc
-@@ -46,25 +46,9 @@ REGEX_pn-cmake = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- REGEX_pn-libsdl = "SDL-(?P<pver>\d+(\.\d+)+)\.tar"
- REGEX_pn-libxslt = "libxslt-(?P<pver>\d+(\.\d+)+)\.tar"
+@@ -208,56 +208,6 @@ GITTAGREGEX_pn-xinetd = "xinetd-(?P<pver>(?!20030122).+)"
+ # Blacklist debian-specific tags
+ GITTAGREGEX_pn-xf86-video-omapfb = "(?P<pver>\d+(\.\d+)+)(?!-)"
  
--# Exclude NC versions which lack AES encryption
--REGEX_pn-db = "db-(?P<pver>\d+\.\d+(\.\d+)?).tar"
+-# GNOME related.
+-#
+-# GNOME2_STABLE picks stable releases in the 2.x series (so not 2.90 onwards,
+-# which were GNOME 3 betas.
+-#
+-# GNOME_STABLE picks the latest stable release.
 -
- REGEX_URI_pn-autogen = "http://ftp.gnu.org/gnu/autogen/"
- REGEX_pn-autogen = "rel(?P<pver>\d+(\.\d+)+)/"
- 
--# python recipe is actually python 2.x
--# also, exclude pre-releases for both python 2.x and 3.x
--REGEX_pn-python = "[Pp]ython-(?P<pver>2(\.\d+)+).tar"
--REGEX_pn-python3 = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+-GNOME2_STABLE = "(?P<pver>2\.([0-8]*[02468])+(\.\d+)+)"
+-GNOME_STABLE = "(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)"
 -
--# exclude betas
--REGEX_pn-tiff = "tiff-(?P<pver>\d+(\.\d+)+).tar"
+-REGEX_pn-glib-2.0 = "${GNOME_STABLE}"
+-REGEX_pn-atk = "${GNOME_STABLE}"
+-REGEX_pn-at-spi2-core = "${GNOME_STABLE}"
+-REGEX_pn-at-spi2-atk = "${GNOME_STABLE}"
+-REGEX_pn-gdk-pixbuf = "${GNOME_STABLE}"
+-REGEX_pn-pango = "${GNOME_STABLE}"
+-REGEX_pn-gtk+ = "${GNOME2_STABLE}"
+-REGEX_pn-gtk+3 = "${GNOME_STABLE}"
+-REGEX_pn-gtk-engines = "${GNOME2_STABLE}"
+-REGEX_pn-glib-networking = "${GNOME_STABLE}"
+-REGEX_pn-librsvg = "${GNOME_STABLE}"
+-REGEX_pn-libsoup-2.4 = "${GNOME_STABLE}"
+-REGEX_pn-vala = "${GNOME_STABLE}"
+-REGEX_pn-clutter-1.0 = "${GNOME_STABLE}"
+-REGEX_pn-clutter-gtk-1.0 = "${GNOME_STABLE}"
+-REGEX_pn-clutter-gst-3.0 = "${GNOME_STABLE}"
+-REGEX_pn-cogl-1.0 = "${GNOME_STABLE}"
+-REGEX_pn-adwaita-icon-theme = "${GNOME_STABLE}"
+-REGEX_pn-vte = "${GNOME_STABLE}"
+-REGEX_pn-epiphany = "${GNOME_STABLE}"
+-REGEX_pn-webkitgtk = "${GNOME_STABLE}"
+-REGEX_pn-p11-kit = "${GNOME_STABLE}"
+-REGEX_pn-gnome-desktop3 = "${GNOME_STABLE}"
 -
--# exclude version 5.5.2 which triggers a false positive
--REGEX_pn-unzip = "unzip(?P<pver>(?!552).+)\.tgz"
--# similar for zip
--REGEX_pn-zip = "^zip(?P<pver>(?!232).+)\.tgz"
+-# not GNOME related but uses same even-minor-release-is-stable logic
+-REGEX_pn-dbus = "${GNOME_STABLE}"
+-REGEX_pn-dbus-test = "${GNOME_STABLE}"
 -
- # Isn't possible to download with the default URI web server returns
- # (403, 404, 550)
- REGEX_URI_pn-dosfstools = "https://github.com/dosfstools/dosfstools/releases"
-@@ -104,22 +88,3 @@ REGEX_URI_pn-libnfsidmap = "http://www.citi.umich.edu/projects/nfsv4/linux/libnf
- REGEX_URI_pn-mpfr = "http://www.mpfr.org/mpfr-current/"
- REGEX_URI_pn-nss = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
- REGEX_pn-nss = "NSS_(?P<pver>.+)_release_notes"
+-# same logic applies to gstreamer releases
+-REGEX_pn-gstreamer1.0 = "${GNOME_STABLE}"
+-REGEX_pn-gstreamer1.0-libav = "${GNOME_STABLE}"
+-REGEX_pn-gstreamer1.0-plugins-bad = "${GNOME_STABLE}"
+-REGEX_pn-gstreamer1.0-plugins-base = "${GNOME_STABLE}"
+-REGEX_pn-gstreamer1.0-plugins-good = "${GNOME_STABLE}"
+-REGEX_pn-gstreamer1.0-plugins-ugly = "${GNOME_STABLE}"
+-REGEX_pn-gstreamer1.0-rtsp-server = "${GNOME_STABLE}"
 -
--REGEX_URI_pn-docbook-sgml-dtd-3.1 = "http://www.docbook.org/sgml/"
--REGEX_pn-docbook-sgml-dtd-3.1 = "(?P<pver>3\..+)/"
--REGEX_URI_pn-docbook-sgml-dtd-4.1 = "http://www.docbook.org/sgml/"
--REGEX_pn-docbook-sgml-dtd-4.1 = "(?P<pver>4\.1(\.\d+)*)/"
+-# and perl
+-REGEX_pn-perl = "${GNOME_STABLE}"
 -
--# Qt recipes should be kept at 4.x
--REGEX_URI_pn-qt4-embedded = "http://download.qt.io/official_releases/qt/4.8/"
--REGEX_pn-qt4-embedded = "(?P<pver>\d+(\.\d+)+)/"
--REGEX_URI_pn-qt4-x11-free = "http://download.qt.io/official_releases/qt/4.8/"
--REGEX_pn-qt4-x11-free = "(?P<pver>\d+(\.\d+)+)/"
--REGEX_URI_pn-nativesdk-qt4-tools = "http://download.qt.io/official_releases/qt/4.8/"
--REGEX_pn-nativesdk-qt4-tools = "(?P<pver>\d+(\.\d+)+)/"
--REGEX_URI_pn-qt4-native = "http://download.qt.io/official_releases/qt/4.8/"
--REGEX_pn-qt4-native = "(?P<pver>\d+(\.\d+)+)/"
--
--# Keep old gcc versions at their major versions
--REGEX_pn-gcc-source-4.9.3 = "gcc-(?P<pver>4\.9\.\d+).tar"
--REGEX_pn-gcc-source-4.8.4 = "gcc-(?P<pver>4\.8\.\d+).tar"
-diff --git a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-3.1-native_3.1.bb b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-3.1-native_3.1.bb
-index a7df4f9..83d60a0 100644
---- a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-3.1-native_3.1.bb
-+++ b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-3.1-native_3.1.bb
-@@ -16,6 +16,9 @@ SRC_URI = "http://www.docbook.org/sgml/3.1/docbk31.zip \
- SRC_URI[md5sum] = "432749c0c806dbae81c8bcb70da3b5d3"
- SRC_URI[sha256sum] = "20261d2771b9a052abfa3d8fab1aa62be05791a010281c566f9073bf0e644538"
+ # Keep old gcc versions at their major versions
+ REGEX_pn-gcc-source-4.9.3 = "gcc-(?P<pver>4\.9\.\d+).tar"
+ REGEX_pn-gcc-source-4.8.4 = "gcc-(?P<pver>4\.8\.\d+).tar"
+diff --git a/meta/recipes-core/dbus/dbus-test_1.8.20.bb b/meta/recipes-core/dbus/dbus-test_1.8.20.bb
+index 704070b..f5400a0 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.8.20.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.8.20.bb
+@@ -24,7 +24,7 @@ SRC_URI[sha256sum] = "5c4fbf4c64621c96e871da91d2b729a5b00536e116d3c4612a469d924b
+ S="${WORKDIR}/dbus-${PV}"
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/dbus:"
  
-+REGEX_URI = "http://www.docbook.org/sgml/"
-+REGEX = "(?P<pver>3\..+)/"
+-inherit autotools pkgconfig gettext ptest
++inherit autotools pkgconfig gettext ptest upstream-version-is-even
+ 
+ EXTRA_OECONF_X = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
+ EXTRA_OECONF_X_class-native = "--without-x"
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 3971081..afb5a71 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -19,7 +19,7 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+ "
+ 
+-inherit useradd autotools pkgconfig gettext update-rc.d
++inherit useradd autotools pkgconfig gettext update-rc.d upstream-version-is-even
+ 
+ INITSCRIPT_NAME = "dbus-1"
+ INITSCRIPT_PARAMS = "start 02 5 3 2 . stop 20 0 1 6 ."
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 072f790..ef08627 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -27,7 +27,7 @@ PACKAGES =+ "${PN}-utils ${PN}-bash-completion ${PN}-codegen"
+ LEAD_SONAME = "libglib-2.0.*"
+ FILES_${PN}-utils = "${bindir}/* ${datadir}/glib-2.0/gettext"
+ 
+-inherit autotools gettext gtk-doc pkgconfig ptest-gnome
++inherit autotools gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even
+ 
+ S = "${WORKDIR}/glib-${PV}"
+ 
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.44.0.bb b/meta/recipes-core/glib-networking/glib-networking_2.44.0.bb
+index 4f91b76..269cb31 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.44.0.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.44.0.bb
+@@ -22,7 +22,7 @@ PACKAGECONFIG[pkcs11] = "--with-pkcs11,--without-pkcs11,p11-kit"
+ 
+ EXTRA_OECONF = "--without-gnome-proxy"
+ 
+-inherit gnomebase gettext
++inherit gnomebase gettext upstream-version-is-even
+ 
+ FILES_${PN} += "${libdir}/gio/modules/libgio*.so ${datadir}/dbus-1/services/"
+ FILES_${PN}-dbg += "${libdir}/gio/modules/.debug/"
+diff --git a/meta/recipes-devtools/perl/perl.inc b/meta/recipes-devtools/perl/perl.inc
+index 0d9716c..3313a94 100644
+--- a/meta/recipes-devtools/perl/perl.inc
++++ b/meta/recipes-devtools/perl/perl.inc
+@@ -6,3 +6,5 @@ LIC_FILES_CHKSUM = "file://Copying;md5=5b122a36d0f6dc55279a0ebc69f3c60b \
+ 		    file://Artistic;md5=2e6fd2475335af892494fe1f7327baf3"
+ 
+ SRC_URI = "http://www.cpan.org/src/5.0/${BP}.tar.xz"
 +
- do_compile() {
- 	# Refer to http://www.linuxfromscratch.org/blfs/view/stable/pst/sgml-dtd-3.html
- 	# for details.
-diff --git a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.1-native_4.1.bb b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.1-native_4.1.bb
-index 88c9396..77938e1 100644
---- a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.1-native_4.1.bb
-+++ b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.1-native_4.1.bb
-@@ -16,6 +16,9 @@ SRC_URI = "http://docbook.org/sgml/4.1/docbk41.zip \
- SRC_URI[md5sum] = "489f6ff2a2173eb1e14216c10533ede2"
- SRC_URI[sha256sum] = "deaafcf0a3677692e7ad4412c0e41c1db3e9da6cdcdb3dd32b2cc1f9c97d6311"
++inherit upstream-version-is-even
+diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+index 63056fd..c98244b 100644
+--- a/meta/recipes-devtools/vala/vala.inc
++++ b/meta/recipes-devtools/vala/vala.inc
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+ SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
  
-+REGEX_URI = "http://www.docbook.org/sgml/"
-+REGEX = "(?P<pver>4\.1(\.\d+)*)/"
+ SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/${BPN}/${SHRT_VER}/${BP}.tar.xz"
+-inherit autotools pkgconfig
++inherit autotools pkgconfig upstream-version-is-even
+ 
+ FILES_${PN} += "${datadir}/${BPN}-${SHRT_VER}/vapi ${libdir}/${BPN}-${SHRT_VER}/"
+ FILES_${PN}-doc += "${datadir}/devhelp"
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.16.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.16.3.bb
+index c3745c0..3ff35fc 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.16.3.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.16.3.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes ca-certificates avahi libnotify gcr libwnck3 \
+ 	   gsettings-desktop-schemas gnome-desktop3"
+ 
+-inherit gnomebase gsettings distro_features_check
++inherit gnomebase gsettings distro_features_check upstream-version-is-even
+ # libwnck3 is x11 only
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
+index 68f3850..4895d5d 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
+@@ -23,7 +23,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+ SRC_URI[md5sum] = "4fed0d54432f1b69fc6e66e608bd5542"
+ SRC_URI[sha256sum] = "4853830616113db4435837992c0aebd94cbb993c44dc55063cee7f72a7bef8be"
+ 
+-inherit autotools pkgconfig gettext pixbufcache ptest-gnome
++inherit autotools pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even
+ 
+ LIBV = "2.10.0"
+ 
+diff --git a/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb
+index 3765697..43546ce 100644
+--- a/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb
++++ b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ 
+ BPN = "gnome-desktop"
+ 
+-inherit gnome pkgconfig
++inherit gnome pkgconfig upstream-version-is-even
+ SRC_URI[archive.md5sum] = "ab5bf4cc94ad63639f42adcc1542b1f0"
+ SRC_URI[archive.sha256sum] = "3a8f196b46eb9dbd3ba2afb8fb5fef6a8825539d449a02181311242e22227bd0"
+ 
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb
+index 0d7fa0c..265aabc 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb
+@@ -6,7 +6,7 @@ SECTION = "x11/gnome"
+ LICENSE = "LGPL-3.0 | CC-BY-SA-3.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c84cac88e46fc07647ea07e6c24eeb7c"
+ 
+-inherit allarch autotools pkgconfig gettext gtk-icon-cache
++inherit allarch autotools pkgconfig gettext gtk-icon-cache upstream-version-is-even
+ 
+ DEPENDS += "intltool-native"
+ 
+diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
+index a197b9d..35aa10f 100644
+--- a/meta/recipes-gnome/gtk+/gtk+.inc
++++ b/meta/recipes-gnome/gtk+/gtk+.inc
+@@ -13,6 +13,10 @@ SECTION = "libs"
+ inherit distro_features_check
+ ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
+ 
++# This picks stable releases in the 2.x series (but not 2.90 onwards,
++# which were GNOME 3 betas).
++REGEX = "(?P<pver>2\.([0-8]*[02468])+(\.\d+)+)"
 +
- do_compile() {
- 	# Refer to http://www.linuxfromscratch.org/blfs/view/stable/pst/sgml-dtd.html
- 	# for details.
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 95b553c..0a35d49 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -85,6 +85,8 @@ SRC_URI = "\
- SRC_URI[md5sum] = "6f831b4d251872736e8e9cc09746f327"
- SRC_URI[sha256sum] = "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
+ X11DEPENDS = "virtual/libx11 libxext libxcursor libxrandr libxdamage libxrender libxcomposite"
+ DEPENDS = "glib-2.0 pango atk jpeg libpng gdk-pixbuf-native docbook-utils-native \
+  cairo gdk-pixbuf"
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+index e0c4ccb..7f3916b 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+@@ -10,7 +10,7 @@ DEPENDS = "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf \
  
-+REGEX = "gcc-(?P<pver>4\.9\.\d+).tar"
+ LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
+ 
+-inherit autotools pkgconfig gtk-doc update-alternatives gtk-immodules-cache gsettings distro_features_check
++inherit autotools pkgconfig gtk-doc update-alternatives gtk-immodules-cache gsettings distro_features_check upstream-version-is-even
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
+ # This should be in autotools.bbclass, but until something elses uses it putting
+diff --git a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
+index 7c3a87e..8c265da 100644
+--- a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
++++ b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
+@@ -37,6 +37,10 @@ GNOME_COMPRESS_TYPE="bz2"
+ inherit distro_features_check
+ ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
+ 
++# This picks stable releases in the 2.x series (but not 2.90 onwards,
++# which were GNOME 3 betas).
++REGEX = "(?P<pver>2\.([0-8]*[02468])+(\.\d+)+)"
 +
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
- B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
+ python populate_packages_prepend() {
+     engines_root = os.path.join(d.getVar('libdir', True), "gtk-2.0/2.10.0/engines")
+     themes_root = os.path.join(d.getVar('datadir', True), "themes")
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.10.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.10.bb
+index 06552c2..c04ef3e 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.40.10.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.40.10.bb
+@@ -10,7 +10,7 @@ SECTION = "x11/utils"
+ DEPENDS = "cairo gdk-pixbuf glib-2.0 libcroco libxml2 pango"
+ BBCLASSEXTEND = "native"
  
-diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index 4d428f3..eafedb6 100644
---- a/meta/recipes-devtools/python/python.inc
-+++ b/meta/recipes-devtools/python/python.inc
-@@ -12,6 +12,10 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz"
- SRC_URI[md5sum] = "38d530f7efc373d64a8fb1637e3baaa7"
- SRC_URI[sha256sum] = "90d27e14ea7e03570026850e2e50ba71ad20b7eb31035aada1cf3def8f8d4916"
+-inherit autotools pkgconfig gnomebase gtk-doc pixbufcache
++inherit autotools pkgconfig gnomebase gtk-doc pixbufcache upstream-version-is-even
  
-+# python recipe is actually python 2.x
-+# also, exclude pre-releases for both python 2.x and 3.x
-+REGEX = "[Pp]ython-(?P<pver>2(\.\d+)+).tar"
-+
- PYTHON_MAJMIN = "2.7"
+ SRC_URI += "file://gtk-option.patch"
  
- inherit autotools
-diff --git a/meta/recipes-devtools/python/python3-native_3.4.3.bb b/meta/recipes-devtools/python/python3-native_3.4.3.bb
-index 464ff05..5f2ff77 100644
---- a/meta/recipes-devtools/python/python3-native_3.4.3.bb
-+++ b/meta/recipes-devtools/python/python3-native_3.4.3.bb
-@@ -32,6 +32,9 @@ SRC_URI[sha256sum] = "b5b3963533768d5fc325a4d7a6bd6f666726002d696f1d399ec06b043e
+diff --git a/meta/recipes-graphics/clutter/clutter-1.0.inc b/meta/recipes-graphics/clutter/clutter-1.0.inc
+index 5d0f55c..7b115aa 100644
+--- a/meta/recipes-graphics/clutter/clutter-1.0.inc
++++ b/meta/recipes-graphics/clutter/clutter-1.0.inc
+@@ -2,7 +2,7 @@ SUMMARY = "Graphics library for creating hardware-accelerated user interfaces"
+ HOMEPAGE = "http://www.clutter-project.org/"
+ LICENSE = "LGPLv2.1+"
  
- LIC_FILES_CHKSUM = "file://LICENSE;md5=dd98d01d471fac8d8dbdd975229dba03"
+-inherit clutter ptest-gnome distro_features_check
++inherit clutter ptest-gnome distro_features_check upstream-version-is-even
+ # depends on cogl-1.0 which needs opengl
+ REQUIRED_DISTRO_FEATURES ?= "opengl"
  
-+# exclude pre-releases for both python 2.x and 3.x
-+REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-+
- S = "${WORKDIR}/Python-${PV}"
+diff --git a/meta/recipes-graphics/clutter/clutter-gst-3.0.inc b/meta/recipes-graphics/clutter/clutter-gst-3.0.inc
+index 67c7590..5aeeac6 100644
+--- a/meta/recipes-graphics/clutter/clutter-gst-3.0.inc
++++ b/meta/recipes-graphics/clutter/clutter-gst-3.0.inc
+@@ -2,7 +2,7 @@ SUMMARY = "GStreamer integration library for Clutter"
+ HOMEPAGE = "http://www.clutter-project.org/"
+ LICENSE = "LGPLv2+"
  
- EXTRANATIVEPATH += "bzip2-native"
-diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
-index a33f10f..cae2f13 100644
---- a/meta/recipes-devtools/python/python3_3.4.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.4.3.bb
-@@ -41,6 +41,9 @@ SRC_URI += "\
- SRC_URI[md5sum] = "7d092d1bba6e17f0d9bd21b49e441dd5"
- SRC_URI[sha256sum] = "b5b3963533768d5fc325a4d7a6bd6f666726002d696f1d399ec06b043ea996b8"
+-inherit clutter distro_features_check
++inherit clutter distro_features_check upstream-version-is-even
+ # depends on clutter-1.0 which depends on cogl-1.0
+ REQUIRED_DISTRO_FEATURES ?= "opengl"
  
-+# exclude pre-releases for both python 2.x and 3.x
-+REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-+
- LIC_FILES_CHKSUM = "file://LICENSE;md5=dd98d01d471fac8d8dbdd975229dba03"
+diff --git a/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc b/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
+index 688eed2..b07d3b9 100644
+--- a/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
++++ b/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
+@@ -2,7 +2,7 @@ SUMMARY = "Library for embedding a Clutter canvas in a GTK+ application"
+ HOMEPAGE = "http://www.clutter-project.org/"
+ LICENSE = "LGPLv2+"
  
- S = "${WORKDIR}/Python-${PV}"
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index b386323..cb9636d 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -20,6 +20,10 @@ SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
+-inherit clutter distro_features_check
++inherit clutter distro_features_check upstream-version-is-even
+ # depends on clutter-1.0 which depends on cogl-1.0
+ REQUIRED_DISTRO_FEATURES ?= "opengl"
+ # depends on gtk+3
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
+index 88d84ea..b56bfec 100644
+--- a/meta/recipes-graphics/cogl/cogl-1.0.inc
++++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
+@@ -2,7 +2,7 @@ SUMMARY = "Modern 3D graphics API with associated utility APIs"
+ HOMEPAGE = "http://wiki.clutter-project.org/wiki/Cogl"
+ LICENSE = "MIT"
  
- SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
- SRC_URI[sha256sum] = "036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37"
-+
-+# exclude version 5.5.2 which triggers a false positive
-+REGEX = "unzip(?P<pver>(?!552).+)\.tgz"
-+
- S = "${WORKDIR}/unzip60"
+-inherit clutter distro_features_check
++inherit clutter distro_features_check upstream-version-is-even
+ # cogl-1.0 needs opengl to build
+ REQUIRED_DISTRO_FEATURES ?= "opengl"
  
- # Makefile uses CF_NOOPT instead of CFLAGS.  We lifted the values from
-diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-index 1e96110..21f6eaa 100644
---- a/meta/recipes-extended/zip/zip_3.0.bb
-+++ b/meta/recipes-extended/zip/zip_3.0.bb
-@@ -8,6 +8,9 @@ S = "${WORKDIR}/zip30"
- SRC_URI[md5sum] = "7b74551e63f8ee6aab6fbc86676c0d37"
- SRC_URI[sha256sum] = "f0e8bb1f9b7eb0b01285495a2699df3a4b766784c1765a8f1aeedf63c0806369"
+diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+index df0fdf6..d40ee98 100644
+--- a/meta/recipes-graphics/pango/pango.inc
++++ b/meta/recipes-graphics/pango/pango.inc
+@@ -25,7 +25,7 @@ PACKAGES_DYNAMIC += "^pango-module-.*"
  
-+# exclude version 2.3.2 which triggers a false positive
-+REGEX = "^zip(?P<pver>(?!232).+)\.tgz"
-+
- # zip.inc sets CFLAGS, but what Makefile actually uses is
- # CFLAGS_NOOPT.  It will also force -O3 optimization, overriding
- # whatever we set.
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.4.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
-index cf3a5f0..94352e0 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
-@@ -10,6 +10,9 @@ SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
- SRC_URI[md5sum] = "9aee7107408a128c0c7b24286c0db900"
- SRC_URI[sha256sum] = "8cb1d90c96f61cdfc0bcf036acc251c9dbe6320334da941c7a83cfe1576ef890"
+ RRECOMMENDS_${PN} = "pango-module-basic-fc"
  
-+# exclude betas
-+REGEX = "tiff-(?P<pver>\d+(\.\d+)+).tar"
-+
- inherit autotools
+-inherit gnomebase gtk-doc qemu ptest
++inherit gnomebase gtk-doc qemu ptest upstream-version-is-even
  
- CACHED_CONFIGUREVARS = "ax_cv_check_gl_libgl=no"
-diff --git a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-index 077008b..3eb4c52 100644
---- a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-+++ b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-@@ -18,6 +18,9 @@ SRC_URI = "http://download.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever
-            file://g++.conf \
-            file://linux.conf"
+ # Create a pango-modules package
+ ALLOW_EMPTY_${BPN}-modules = "1"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
+index 5d86205..664c5d6 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav.inc
+@@ -5,7 +5,7 @@ LICENSE_FLAGS = "commercial"
+ HOMEPAGE = "http://www.gstreamer.net/"
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base zlib bzip2 xz"
  
-+REGEX_URI = "http://download.qt.io/official_releases/qt/4.8/"
-+REGEX = "(?P<pver>\d+(\.\d+)+)/"
-+
- S = "${WORKDIR}/qt-everywhere-opensource-src-${PV}"
+-inherit autotools pkgconfig
++inherit autotools pkgconfig upstream-version-is-even
  
- LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.7.inc b/meta/recipes-qt/qt4/qt4-4.8.7.inc
-index d165514..8b26456 100644
---- a/meta/recipes-qt/qt4/qt4-4.8.7.inc
-+++ b/meta/recipes-qt/qt4/qt4-4.8.7.inc
-@@ -34,6 +34,9 @@ SRC_URI = "http://download.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever
- SRC_URI[md5sum] = "d990ee66bf7ab0c785589776f35ba6ad"
- SRC_URI[sha256sum] = "e2882295097e47fe089f8ac741a95fef47e0a73a3f3cdf21b56990638f626ea0"
+ # CAUTION: Using the system libav is not recommended. Since the libav API is changing all the time,
+ # compilation errors (and other, more subtle bugs) can happen. It is usually better to rely on the
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+index f1783b7..58c0bbb 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+@@ -4,7 +4,7 @@ BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
+ SECTION = "multimedia"
+ DEPENDS = "gstreamer1.0"
  
-+REGEX_URI = "http://download.qt.io/official_releases/qt/4.8/"
-+REGEX = "(?P<pver>\d+(\.\d+)+)/"
-+
- S = "${WORKDIR}/qt-everywhere-opensource-src-${PV}"
+-inherit autotools pkgconfig
++inherit autotools pkgconfig upstream-version-is-even
  
- # disable webkit for mips64 n32 temporarily that fails to compile,
-diff --git a/meta/recipes-qt/qt4/qt4-native.inc b/meta/recipes-qt/qt4/qt4-native.inc
-index 2a41f8a..37fb6e3 100644
---- a/meta/recipes-qt/qt4/qt4-native.inc
-+++ b/meta/recipes-qt/qt4/qt4-native.inc
-@@ -19,6 +19,10 @@ SRC_URI = "http://download.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever
-            file://g++.conf \
-            file://linux.conf \
- 	"
-+
-+REGEX_URI = "http://download.qt.io/official_releases/qt/4.8/"
-+REGEX = "(?P<pver>\d+(\.\d+)+)/"
-+
- S = "${WORKDIR}/qt-everywhere-opensource-src-${PV}"
+ GSTREAMER_1_0_DEBUG ?= "--disable-debug"
+ GSTREAMER_1_0_GIT_BRANCH ?= "master"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+index 28a9420..65b4876 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server.inc
+@@ -10,5 +10,5 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz
  
- EXTRA_OECONF = "-prefix ${prefix} \
-diff --git a/meta/recipes-support/db/db_6.0.30.bb b/meta/recipes-support/db/db_6.0.30.bb
-index d49df62..cde590a 100644
---- a/meta/recipes-support/db/db_6.0.30.bb
-+++ b/meta/recipes-support/db/db_6.0.30.bb
-@@ -26,6 +26,10 @@ SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.. \
- SRC_URI[md5sum] = "ad28eb86ad3203b5422844db179c585b"
- SRC_URI[sha256sum] = "608e4b1cf390e9bf54c0ef00c5bd9ca76d36e2261b9f4d33d54516f3f6a20fd2"
+ S = "${WORKDIR}/${PNREAL}-${PV}"
  
-+# Exclude NC versions which lack AES encryption
-+REGEX = "db-(?P<pver>\d+\.\d+(\.\d+)?).tar"
-+REGEX_URI = "http://www.oracle.com/technetwork/products/berkeleydb/downloads/index-082944.html"
-+
- LIC_FILES_CHKSUM = "file://../LICENSE;md5=1ec8b0b17cc31513fe35ab10716f8490"
+-inherit autotools pkgconfig 
++inherit autotools pkgconfig upstream-version-is-even
  
- inherit autotools
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+index aa95d57..ee8c696 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+@@ -7,7 +7,7 @@ SECTION = "multimedia"
+ LICENSE = "LGPLv2+"
+ DEPENDS = "glib-2.0 libxml2 bison-native flex-native libcap"
+ 
+-inherit autotools pkgconfig gettext
++inherit autotools pkgconfig gettext upstream-version-is-even
+ 
+ PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
+ PACKAGECONFIG[check] = "--enable-check,--disable-check"
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
+index 68634a9..221ba17 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
+@@ -19,7 +19,7 @@ SRC_URI = "\
+ SRC_URI[md5sum] = "df79991848a5096d3a75289ebce547ae"
+ SRC_URI[sha256sum] = "3d1f0c534935f43fd74df90f2648fcee672d60f1f57a30fa557a77891ae04d20"
+ 
+-inherit cmake lib_package pkgconfig perlnative pythonnative distro_features_check
++inherit cmake lib_package pkgconfig perlnative pythonnative distro_features_check upstream-version-is-even
+ 
+ # depends on libxt
+ REQUIRED_DISTRO_FEATURES = "x11"
+diff --git a/meta/recipes-support/atk/at-spi2-atk_2.16.0.bb b/meta/recipes-support/atk/at-spi2-atk_2.16.0.bb
+index 7d95fdb..29b83d7 100644
+--- a/meta/recipes-support/atk/at-spi2-atk_2.16.0.bb
++++ b/meta/recipes-support/atk/at-spi2-atk_2.16.0.bb
+@@ -10,7 +10,7 @@ SRC_URI[sha256sum] = "78efc45ec36383bf785f8636e64a8d866defeb020e00a08f92978f1fc3
+ 
+ DEPENDS = "dbus glib-2.0 atk at-spi2-core"
+ 
+-inherit autotools pkgconfig distro_features_check
++inherit autotools pkgconfig distro_features_check upstream-version-is-even
+ 
+ # The at-spi2-core requires x11 in DISTRO_FEATURES
+ REQUIRED_DISTRO_FEATURES = "x11"
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.16.0.bb b/meta/recipes-support/atk/at-spi2-core_2.16.0.bb
+index 7c12b54..624d154 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.16.0.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.16.0.bb
+@@ -13,7 +13,7 @@ SRC_URI[sha256sum] = "1c0b77fb8ce81abbf1d80c0afee9858b3f9229f673b7881995fe0fc16b
+ 
+ DEPENDS = "dbus glib-2.0 virtual/libx11 libxi libxtst intltool-native gettext-native"
+ 
+-inherit autotools gtk-doc pkgconfig distro_features_check
++inherit autotools gtk-doc pkgconfig distro_features_check upstream-version-is-even
+ # depends on virtual/libx11
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+diff --git a/meta/recipes-support/atk/atk_2.16.0.bb b/meta/recipes-support/atk/atk_2.16.0.bb
+index 0f8f9b5..a60a200 100644
+--- a/meta/recipes-support/atk/atk_2.16.0.bb
++++ b/meta/recipes-support/atk/atk_2.16.0.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+ 
+ DEPENDS = "glib-2.0"
+ 
+-inherit gnomebase gtk-doc
++inherit gnomebase gtk-doc upstream-version-is-even
+ 
+ SRC_URI[archive.md5sum] = "c7c5002bd6e58b4723a165f1bf312116"
+ SRC_URI[archive.sha256sum] = "095f986060a6a0b22eb15eef84ae9f14a1cf8082488faa6886d94c37438ae562"
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.50.0.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.50.0.bb
+index 044db31..4eb07ac 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.50.0.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.50.0.bb
+@@ -22,7 +22,7 @@ SRC_URI[sha256sum] = "1e01365ac4af3817187ea847f9d3588c27eee01fc519a5a7cb212bb78b
+ 
+ S = "${WORKDIR}/libsoup-${PV}"
+ 
+-inherit autotools gettext pkgconfig
++inherit autotools gettext pkgconfig upstream-version-is-even
+ 
+ # glib-networking is needed for SSL, proxies, etc.
+ RRECOMMENDS_${PN} = "glib-networking"
+diff --git a/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb b/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
+index ee77951..8f15894 100644
+--- a/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
++++ b/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Provides a way to load and enumerate PKCS#11 modules"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=02933887f609807fbb57aa4237d14a50"
+ 
+-inherit autotools gettext pkgconfig
++inherit autotools gettext pkgconfig upstream-version-is-even
+ 
+ DEPENDS = "libtasn1 libffi"
+ 
+diff --git a/meta/recipes-support/vte/vte.inc b/meta/recipes-support/vte/vte.inc
+index 07b9e10..94f9587 100644
+--- a/meta/recipes-support/vte/vte.inc
++++ b/meta/recipes-support/vte/vte.inc
+@@ -4,7 +4,7 @@ LICENSE = "LGPLv2.0"
+ DEPENDS = " glib-2.0 gtk+ intltool-native ncurses gobject-introspection-stub"
+ RDEPENDS_libvte = "vte-termcap"
+ 
+-inherit gnome gtk-doc distro_features_check
++inherit gnome gtk-doc distro_features_check upstream-version-is-even
+ ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
+ 
+ EXTRA_OECONF = "--disable-python --disable-introspection"
 -- 
 2.1.4
 
