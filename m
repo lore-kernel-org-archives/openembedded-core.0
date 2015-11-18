@@ -1,21 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 145B760118
+	by mail.openembedded.org (Postfix) with ESMTP id AE02360118
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 16:37:22 +0000 (UTC)
+	Wed, 18 Nov 2015 16:37:27 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Nov 2015 08:37:23 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 18 Nov 2015 08:37:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,313,1444719600"; d="scan'208";a="841614392"
+X-IronPort-AV: E=Sophos;i="5.20,313,1444719600"; d="scan'208";a="841614444"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.23.219.46])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Nov 2015 08:37:25 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 18 Nov 2015 08:37:27 -0800
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Nov 2015 08:25:52 +0000
-Message-Id: <cover.1447834352.git.mariano.lopez@linux.intel.com>
+Date: Wed, 18 Nov 2015 08:25:53 +0000
+Message-Id: <953e58a9665db65659d008dd7c8060a372f807d4.1447834352.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH 0/2] wic: Allow to user defined files as config for bootloaders
+In-Reply-To: <cover.1447834352.git.mariano.lopez@linux.intel.com>
+References: <cover.1447834352.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1447834352.git.mariano.lopez@linux.intel.com>
+References: <cover.1447834352.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/2] wic: Prepare wicboot to allow custom bootloader config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +36,68 @@ X-List-Received-Date: Wed, 18 Nov 2015 16:37:27 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-These two patches add a new option for the bootloaders. This new option is
-to have a configuration file as the bootloader config and it can be used with
-"configfile" variable in the bootloader line. This is very useful when there
-is need to create a multiboot image or when there is need to use scripting in
-the bootloader.
+Currently wic does the bootloader configuration file on the fly.
+This change introduce a configfile variable for the bootloader;
+this is to have a user defined configuration file for the
+bootloaders (grub, syslinux, and gummiboot). This is particular
+useful when having a multiboot system or scripts embedded in the
+configuration file.
 
-This change doesn't include the changes in the documentation but once the
-patches are commited to master, I will work on the documentation of this new
-feature.
+[YOCTO #8003]
 
-The following changes since commit d9aabf9639510fdb3e2ccc21ba5ae4aa9f6e4a57:
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ scripts/lib/wic/kickstart/__init__.py                | 7 +++++++
+ scripts/lib/wic/kickstart/custom_commands/wicboot.py | 5 +++++
+ 2 files changed, 12 insertions(+)
 
-  gcc: Drop 4.8 (2015-11-16 14:59:18 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mariano/bug8003
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug8003
-
-Mariano Lopez (2):
-  wic: Prepare wicboot to allow custom bootloader config
-  wic: Allow to use a custom config for bootloaders
-
- scripts/lib/wic/kickstart/__init__.py              |  7 +++
- .../lib/wic/kickstart/custom_commands/wicboot.py   |  5 ++
- scripts/lib/wic/plugins/source/bootimg-efi.py      | 66 ++++++++++++++--------
- scripts/lib/wic/plugins/source/bootimg-pcbios.py   | 66 +++++++++++++---------
- 4 files changed, 95 insertions(+), 49 deletions(-)
-
+diff --git a/scripts/lib/wic/kickstart/__init__.py b/scripts/lib/wic/kickstart/__init__.py
+index c9b0e51..79b39fb 100644
+--- a/scripts/lib/wic/kickstart/__init__.py
++++ b/scripts/lib/wic/kickstart/__init__.py
+@@ -97,6 +97,13 @@ def get_timeout(kickstart, default=None):
+         return default
+     return int(kickstart.handler.bootloader.timeout)
+ 
++def get_bootloader_file(kickstart, default=None):
++    if not hasattr(kickstart.handler.bootloader, "configfile"):
++        return default
++    if kickstart.handler.bootloader.configfile is None:
++        return default
++    return kickstart.handler.bootloader.configfile
++
+ def get_kernel_args(kickstart, default="ro rd.live.image"):
+     if not hasattr(kickstart.handler.bootloader, "appendLine"):
+         return default
+diff --git a/scripts/lib/wic/kickstart/custom_commands/wicboot.py b/scripts/lib/wic/kickstart/custom_commands/wicboot.py
+index a3e1852..eb17dab 100644
+--- a/scripts/lib/wic/kickstart/custom_commands/wicboot.py
++++ b/scripts/lib/wic/kickstart/custom_commands/wicboot.py
+@@ -35,6 +35,7 @@ class Wic_Bootloader(F8_Bootloader):
+         self.menus = ""
+         self.ptable = "msdos"
+         self.source = ""
++        self.configfile = ""
+ 
+     def _getArgsAsStr(self):
+         retval = F8_Bootloader._getArgsAsStr(self)
+@@ -45,6 +46,8 @@ class Wic_Bootloader(F8_Bootloader):
+             retval += " --ptable=\"%s\"" %(self.ptable,)
+         if self.source:
+             retval += " --source=%s" % self.source
++        if self.configfile:
++            retval += " --configfile=%s" % self.configfile
+ 
+         return retval
+ 
+@@ -56,5 +59,7 @@ class Wic_Bootloader(F8_Bootloader):
+         # use specified source plugin to implement bootloader-specific methods
+         parser.add_option("--source", type="string", action="store",
+                       dest="source", default=None)
++        parser.add_option("--configfile", type="string", action="store",
++                      dest="configfile", default=None)
+         return parser
+ 
 -- 
 1.8.4.5
 
