@@ -1,27 +1,29 @@
 Return-Path: <maxin.john@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id B5287601B9
+	by mail.openembedded.org (Postfix) with ESMTP id 7F10A6212E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 09:33:47 +0000 (UTC)
+	Wed, 18 Nov 2015 09:33:51 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 18 Nov 2015 01:33:47 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 18 Nov 2015 01:33:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,312,1444719600"; d="scan'208";a="853703635"
+X-IronPort-AV: E=Sophos;i="5.20,312,1444719600"; d="scan'208";a="853703705"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2015 01:33:47 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2015 01:33:52 -0800
 Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
 	[10.237.72.71])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id B7FE66A4083
+	by linux.intel.com (Postfix) with ESMTP id 6D04F6A4083
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 01:32:41 -0800 (PST)
+	Wed, 18 Nov 2015 01:32:46 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Nov 2015 11:34:34 +0200
-Message-Id: <1447839279-12119-1-git-send-email-maxin.john@intel.com>
+Date: Wed, 18 Nov 2015 11:34:36 +0200
+Message-Id: <1447839279-12119-3-git-send-email-maxin.john@intel.com>
 X-Mailer: git-send-email 2.4.0
-Subject: [PATCH 1/6] iproute2: update to 4.3.0
+In-Reply-To: <1447839279-12119-1-git-send-email-maxin.john@intel.com>
+References: <1447839279-12119-1-git-send-email-maxin.john@intel.com>
+Subject: [PATCH 3/6] libpcap: update to 1.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +36,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Nov 2015 09:33:48 -0000
+X-List-Received-Date: Wed, 18 Nov 2015 09:33:51 -0000
 
-4.1.1 -> 4.3.0
+Update libpcap from version 1.6.2 to 1.7.4
+
+LICENSE checksum has changed because of the removal of additional
+spaces in the file.
 
 Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- .../iproute2/{iproute2_4.1.1.bb => iproute2_4.3.0.bb}                 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/iproute2/{iproute2_4.1.1.bb => iproute2_4.3.0.bb} (68%)
+ meta/recipes-connectivity/libpcap/libpcap.inc                         | 2 +-
+ .../libpcap/{libpcap_1.6.2.bb => libpcap_1.7.4.bb}                    | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-connectivity/libpcap/{libpcap_1.6.2.bb => libpcap_1.7.4.bb} (82%)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.1.1.bb b/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
-similarity index 68%
-rename from meta/recipes-connectivity/iproute2/iproute2_4.1.1.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
-index 10db0ba..0b3d896 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_4.1.1.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
-@@ -4,8 +4,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://configure-cross.patch \
-            file://0001-iproute2-de-bash-scripts.patch \
-           "
--SRC_URI[md5sum] = "39290cb3a55d38dd8d10e19a3094109f"
--SRC_URI[sha256sum] = "73077a989efb934450bd655cbd9aaddaa747cb696c64d0c9a3323768a6a8e66f"
-+SRC_URI[md5sum] = "1a2bbb80cfc7ab3f3e987e18b3207c2f"
-+SRC_URI[sha256sum] = "f03b1188dd6c039512424de82ff7a8f3b446680bd4e908ff42a7b9b137422995"
+diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
+index 0873c24..b7601b0 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap.inc
++++ b/meta/recipes-connectivity/libpcap/libpcap.inc
+@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.tcpdump.org/"
+ BUGTRACKER = "http://sourceforge.net/tracker/?group_id=53067&atid=469577"
+ SECTION = "libs/network"
+ LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867 \
++LIC_FILES_CHKSUM = "file://LICENSE;md5=5eb289217c160e2920d2e35bddc36453 \
+                     file://pcap.h;beginline=1;endline=32;md5=39af3510e011f34b8872f120b1dc31d2"
+ DEPENDS = "flex-native bison-native"
  
- # CFLAGS are computed in Makefile and reference CCOPTS
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.6.2.bb b/meta/recipes-connectivity/libpcap/libpcap_1.7.4.bb
+similarity index 82%
+rename from meta/recipes-connectivity/libpcap/libpcap_1.6.2.bb
+rename to meta/recipes-connectivity/libpcap/libpcap_1.7.4.bb
+index 611543e..8d12b25 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.6.2.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.7.4.bb
+@@ -3,8 +3,8 @@ require libpcap.inc
+ SRC_URI += "file://aclocal.patch \
+             file://libpcap-pkgconfig-support.patch \
+            "
+-SRC_URI[md5sum] = "5f14191c1a684a75532c739c2c4059fa"
+-SRC_URI[sha256sum] = "5db3e2998f1eeba2c76da55da5d474248fe19c44f49e15cac8a796a2c7e19690"
++SRC_URI[md5sum] = "b2e13142bbaba857ab1c6894aedaf547"
++SRC_URI[sha256sum] = "7ad3112187e88328b85e46dce7a9b949632af18ee74d97ffc3f2b41fe7f448b0"
+ 
  #
+ # make install doesn't cover the shared lib
 -- 
 2.4.0
 
