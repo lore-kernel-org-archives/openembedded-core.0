@@ -1,46 +1,43 @@
-Return-Path: <ross.burton@intel.com>
+Return-Path: <adrian.freihofer@gmail.com>
 Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id C375B601A5
+	by mail.openembedded.org (Postfix) with ESMTP id 32CE16212E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 10:30:04 +0000 (UTC)
-Received: by wmvv187 with SMTP id v187so270737172wmv.1
+	Wed, 18 Nov 2015 11:36:35 +0000 (UTC)
+Received: by wmdw130 with SMTP id w130so194518049wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 02:30:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=4l1vDflxf8U0xDAL9aXSjDwmechyUQRKkSqtKFjqUVk=;
-	b=nvjqPDAv6m70HCMjaPgPIUcFZGmAiODU18NahiHCRtc+Y0XZjsFtIrBOQmzoRRCJgV
-	KzfNkoQrwK543rs2igtngkDWGfIU5HhJ9bwasZGvb2QpRlRQ4aHwDJMMEQtw4ojMftns
-	OgAw3X4lB6WcX7Y3Lo2bLVrq+X32f1ZD4txMbjODDwFxfEH9+uo7nGaWRr+u9a7WfMqz
-	oYwunGi/bDCmP8PekTH0+RNK0m5Eh67UOIq7z+EHcjYtZO87BH3pUGIfuPBEOGm3WjzY
-	/kmYw3Em/bmgA8Cpj043MK+NaoqsdoJp81ear/nYxnAZFGgSqpgnOjIWWziiBxYtHotG
-	P5iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=4l1vDflxf8U0xDAL9aXSjDwmechyUQRKkSqtKFjqUVk=;
-	b=D5hO3IOP8t4teGusSyBkSegzVEXoPFQyuCeuN8IODas7AA8GSbzoXjt4ULesbGPghG
-	pDOji+t5jYtpxHjmEBSDtxfbKA3G0LIxOag5VIRWB80bCrsE0Xa/wJKPK0LyyMLcBvv9
-	LVsANaCSkvLDVvYIqQ2Z8CYxZD/uqnLccY6wQ3cUbkau7xqPv8AEPZ3Xi068tzTGYToW
-	GL+ZTL3L833gncI67fz5Xlhu0pJx2Jw4USPIzfpnam9MYQtpF8quL+UHfxJjHUpz06gT
-	BhbiXlOp7LhiKqb8LfsXnOfqIADQ8lrNIcvZUcegOnJD+KhXgoqyNasY4cEFwB031BDu
-	+HXg==
-X-Gm-Message-State: ALoCoQmuxwShI3Q5iRPTqv1KgSMt4w4fmV2nvuWmbKGTZXgATK3+k1aGddpX6ok6PZKQVNFKofax
-X-Received: by 10.28.16.72 with SMTP id 69mr3254845wmq.100.1447842604749;
-	Wed, 18 Nov 2015 02:30:04 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	v196sm2573339wmv.10.2015.11.18.02.30.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 18 Nov 2015 02:30:04 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Nov 2015 10:21:33 +0000
-Message-Id: <1447842093-16328-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] pango: use ptest-gnome
+	Wed, 18 Nov 2015 03:36:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:content-type:mime-version:content-transfer-encoding;
+	bh=dz2euM0sa4RmYZ7l+VFHCk0xoQTDMsrqXoiX/pvwGrU=;
+	b=Hy3jgsehB+LNtG8xWwxOy4zDETdGAcGaPdgj023Wf0TnvDPFvwcRXmx7iagkxDvtqd
+	Rvv08bXxG8/ohDfDRw7lKFR2s4wV32+GUhnz+0cvJjyAYmp6eEjB8b9/8lud+rMFCIuM
+	J6QEAYqeR1Vx8vBaKxlh/a7cqH7CUNBaejxtY5Nk1Mzde554zv+q8DgOoUPoEwPlhGdO
+	i4S8s2AdOSYwRmpFxoSg7BogdBznqqW/dJ1TUrzrmbfUYbqw+nS35yMzLVYtSvjdTdso
+	JcfGXwX6UrAv4WzhplECVhMXvJd5zkttwUVeEULOSvDj+VV+CtVL2xyW8oY9WhrYxpEh
+	t+Jw==
+X-Received: by 10.28.224.86 with SMTP id x83mr3661152wmg.36.1447846596326;
+	Wed, 18 Nov 2015 03:36:36 -0800 (PST)
+Received: from CHL500343VM.neratec.local (mail.neratec.com. [46.140.151.2])
+	by smtp.gmail.com with ESMTPSA id
+	w67sm2855146wmw.17.2015.11.18.03.36.35
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 18 Nov 2015 03:36:35 -0800 (PST)
+Message-ID: <1447846594.2472.54.camel@gmail.com>
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+To: Aws Ismail <aws.ismail@gmail.com>
+Date: Wed, 18 Nov 2015 12:36:34 +0100
+In-Reply-To: <CAMHMu0NXXcAkh8hy7hG+zJxhtvQ4=7L01dDnE84w15m2Zb4eVg@mail.gmail.com>
+References: <1447536908-21449-1-git-send-email-adrian.freihofer@gmail.com>
+	<CAMHMu0MA7Sw2UbnrBZrtOYMZ141zN38+D4BU3DUeQVcV2teueQ@mail.gmail.com>
+	<CAMHMu0NAHXA305mAv4uRw-o9eVrpHCL7FOnOVPCV9iymES36dg@mail.gmail.com>
+	<1447763059.4741.32.camel@gmail.com>
+	<CAMHMu0PVOvzso-rmN4nAk2bfQaRBiUTBeeBbfbxxj-1g_gp-gg@mail.gmail.com>
+	<CAMHMu0NXXcAkh8hy7hG+zJxhtvQ4=7L01dDnE84w15m2Zb4eVg@mail.gmail.com>
+X-Mailer: Evolution 3.16.5 (3.16.5-3.fc22) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [meta-oe][PATCH 0/3] runqemu improve networking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,50 +50,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Nov 2015 10:30:05 -0000
+X-List-Received-Date: Wed, 18 Nov 2015 11:36:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/pango/pango.inc | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
+Hi Aws
 
-diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
-index 04143bd..78cd560 100644
---- a/meta/recipes-graphics/pango/pango.inc
-+++ b/meta/recipes-graphics/pango/pango.inc
-@@ -12,16 +12,13 @@ LICENSE = "LGPLv2.0+"
- X11DEPENDS = "virtual/libx11 libxft"
- DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv cairo harfbuzz qemu-native"
- 
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'ptest', '', d)}"
--
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
- PACKAGECONFIG[x11] = "--with-xft,--without-xft,${X11DEPENDS}"
--PACKAGECONFIG[ptest] = "--enable-installed-tests,--disable-installed-tests,glib-2.0-native"
- 
- BBCLASSEXTEND = "native"
- DEPENDS_class-native = "glib-2.0-native cairo-native harfbuzz-native"
- 
--inherit gnomebase gtk-doc qemu ptest
-+inherit gnomebase gtk-doc qemu ptest-gnome
- 
- EXTRA_AUTORECONF = ""
- 
-@@ -46,11 +43,7 @@ FILES_${PN} = "${bindir}/* ${libdir}/libpango*${SOLIBS}"
- FILES_${PN}-dbg += "${libdir}/pango/${LIBV}/modules/.debug"
- FILES_${PN}-dev += "${libdir}/pango/${LIBV}/modules/*.la"
- 
--FILES_${PN}-ptest += "${libexecdir}/installed-tests/* \
--                      ${datadir}/installed-tests/pango"
--FILES_${PN}-dbg += "${libexecdir}/installed-tests/.debug"
--
--RDEPENDS_${PN}-ptest += "gnome-desktop-testing liberation-fonts"
-+RDEPENDS_${PN}-ptest += "liberation-fonts"
- 
- RPROVIDES_${PN} += "pango-modules pango-module-indic-lang \
-                     pango-module-basic-fc pango-module-arabic-lang"
--- 
-2.1.4
+Creating tap devices, routes or changing the iptables requires extended permissions. runqemu-gen-tapdevs does the part
+of the setup which requires to be done with extended permissions. runqemu does the part which is allowed to be done by a
+regular user. Normally the tap devices can be "recycled" for many runs of runqemu. This allows to call runqemu-gen
+-tapdevs once at boot as the only command running with sudo on the host.
 
+runqemu-gen-tapdevs changes the iptables of the host. It configures a NAT rule to get the virtual device connected to
+the Internet. For most use cases this is fine. But the NAT route prevents use cases where for example a bridged setup is
+required. Therefore my patchset adds an optional parameter netmode, which makes runqemu-gen-tapdevs skipping the NAT
+setup. If I remember correctly, runqemu-gen-tapdevs creates the NAT route for each tap interface. This is probabely not
+what you want if you are going to connect more than one tap interface to one qemu instance. If you call runqemu-gen
+-tapdevs with netmode set to hostonly, the virtual devices will not have a route to the internet. If a route from a
+virtual device to the Internet is still required you need to setup the NAT route on one of the tap interfaces (e.g.
+write a wrapper script around runqemu-gen-tapdevs). Instead of setting up the route on a tap interface it might be
+better to add the tap interface to a bridge and to setup the route on the bridge.
+
+Basic idea of a wrapper script (sudo):
+# Setup a bridge with route to the Internet and dhcp/DNS server or what ever needed
+ip link add ${bridge_name} type bridge
+ip link set ${bridge_name} up
+# Create the tap for the hostonly connection (IP 192.168.7.2)
+runqemu-gen-tapdevs ${MYUID} ${MYGID} 1 ${sysroot_dir} hostonly
+# Create second tap interface connected to the bridge
+ip tuntap add ${tap_name} mode tap
+ip link set ${tap_name} up
+ip link set ${tap_name} master ${bridge_name}
+
+
+# Finally qemu can be started (without sudo)
+runqemu hostonly qemuparams="-device virtio-net-pci,netdev=netif1,mac=${macaddr1} -netdev
+tap,id=netif1,ifname=${tap_name},script=no,downscript=no"
+
+
+Regards,
+Adrian
+
+On Tue, 2015-11-17 at 21:22 -0500, Aws Ismail wrote:
+> Adrian,
+> 
+> I just have to add one last note here. I had to use
+> runqemu-gen-tapdevs before runqemu to create the multiple tap devices
+> (3 in total, tap0 is the default one you've mentioned, and then tap1
+> and tap2). For example, I did this:
+> 
+> sudo runqemu-gen-tapdevs <my uid> <my guid> 3 <path to my build's
+> native sysroot>
+> 
+> My thinking was that runqemu would do that for me since I am asking
+> for two new extra netdev's but apparently not.
+> 
+> On Tue, Nov 17, 2015 at 2:40 PM, Aws Ismail <aws.ismail@gmail.com> wrote:
+> > Thanks Adrian for the explanation. I have tested it now and it works
+> > fine in my case. I think this should be merged upstream because it is
+> > an important feature to have specially if the user is planning to use
+> > the VM for extended use.
+> > 
+> > 
+> > Tested-by: Aws Ismail <aws.ismail@gmail.com>
+> > 
+> > 
+> > 
+> > On Tue, Nov 17, 2015 at 7:24 AM, Adrian Freihofer
+> > <adrian.freihofer@gmail.com> wrote:
+> > > Hi Aws
+> > > 
+> > > The interfaces of my virtual device are configured as:
+> > > eth0: static IP, 192.168.7.2 (This IP is hard coded in many scripts of poky.)
+> > >       This interface is for debugging purpose, it is not available
+> > >       on my physical devices running in a productive environment.
+> > >       The interface is configured by the kernel command line
+> > >       provided by the runqemu script. This interface should
+> > >       (or must in case of NFS rootfs) be ignored by connman, networkmanager
+> > >       or what ever manages the network settings of your device.
+> > > eth1: Configured by connman or networkmanager running on the virtual device.
+> > >       The part of the setup depends on the particular use case you need
+> > >       to emulate. In my setup the tap interfaces of the host ar part
+> > >       of a bridge. On the bridge a dnsmasq instance serves IP addresses.
+> > >       This part of my setup is not published. It is verry specific. But based
+> > >       on my patch set it should be easy to do something similar fitting your
+> > >       use case. The simplest approach might be a static IP address e.g.
+> > >       assigned by a bbappend file e.g. for connman.
+> > > 
+> > > runqemu is started with additional parameters to create eth1:
+> > > runqemu hostonly qemuparams="-device virtio-net-pci,netdev=netif1,mac=${macaddr1} -netdev
+> > > tap,id=netif1,ifname=${HOST_TAP_NAME},script=no,downscript=no"
+> > > 
+> > > Regards,
+> > > Adrian
+> > > 
+> > > On Mon, 2015-11-16 at 17:16 -0500, Aws Ismail wrote:
+> > > > Hi Adrian,
+> > > > 
+> > > > What's the runqemu line you are running with ?
+> > > > 
+> > > > I am passing -net nic -net nic to the qemuparams line which works
+> > > > fine, but the the two devices come up with no IP addresses.
+> > > > 
+> > > > My full qemu line is:
+> > > > 
+> > > > ROOTFS=<path to qemu.ext4> runqemu qemux86-64 nographic
+> > > > qemuparams="-cpu host --enable-kvm -m 4096 -net nic -net nic"
+> > > > 
+> > > > Aws\
+> > > > 
+> > > > On Sun, Nov 15, 2015 at 1:01 AM, Aws Ismail <aws.ismail@gmail.com> wrote:
+> > > > > Thanks Adrian for the patchset. I will test it and get back to you.
+> > > > > 
+> > > > > Aws\
+> > > > > 
+> > > > > On Sat, Nov 14, 2015 at 4:35 PM, Adrian Freihofer
+> > > > > <adrian.freihofer@gmail.com> wrote:
+> > > > > > This patch series adds two features to runqemu:
+> > > > > > - Support the emulation of more than one NIC
+> > > > > > - Add a hostonly networking mode. This networking mode enables
+> > > > > >   the user to implement different virtual networking environments
+> > > > > >   such as a bridged network as discussed in #7887.
+> > > > > > 
+> > > > > > Note: Without the first patch connman fails if the virtual device
+> > > > > >       provides more than one NIC.
+> > > > > > 
+> > > > > > @Aws Ismail: I'm using this since more than one year. Would be great
+> > > > > >              if you could test this and provide feedback.
+> > > > > > 
+> > > > > > Adrian Freihofer (3):
+> > > > > >   connman: fix qemu config
+> > > > > >   runqemu: add support for multiple NICs
+> > > > > >   runqemu: support hostonly net mode
+> > > > > > 
+> > > > > >  .../connman/connman-conf/qemuall/wired-setup       |  6 ++--
+> > > > > >  scripts/runqemu                                    |  7 +++-
+> > > > > >  scripts/runqemu-gen-tapdevs                        | 11 ++++---
+> > > > > >  scripts/runqemu-ifdown                             | 33 +++++++++++--------
+> > > > > >  scripts/runqemu-ifup                               | 38 +++++++++++++---------
+> > > > > >  scripts/runqemu-internal                           | 21 +++++++-----
+> > > > > >  6 files changed, 72 insertions(+), 44 deletions(-)
+> > > > > > 
+> > > > > > --
+> > > > > > 2.4.3
+> > > > > > 
 
