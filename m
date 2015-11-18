@@ -1,34 +1,23 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D8D47601A4
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id ABFD760118
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 16:13:33 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Nov 2015 08:13:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,313,1444719600"; d="scan'208";a="841591926"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Nov 2015 08:13:02 -0800
-To: Mark Hatle <mark.hatle@windriver.com>
-References: <cover.1447080392.git.alexander.kanavin@linux.intel.com>
-	<5641FFD4.1050506@windriver.com> <56420F08.1050209@linux.intel.com>
-	<56421DA6.5080700@windriver.com> <56433886.3060700@linux.intel.com>
-	<564343E9.9020702@windriver.com> <5643497F.1080106@linux.intel.com>
-	<5645EB64.4020200@windriver.com>
-	<60657.10.252.13.130.1447431170.squirrel@linux.intel.com>
-	<56461044.2020202@windriver.com> <5649A752.2060308@linux.intel.com>
-	<564A0051.2080005@windriver.com> <564B346F.2000407@linux.intel.com>
-	<564B4193.7060104@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <564CA303.9040700@linux.intel.com>
-Date: Wed, 18 Nov 2015 18:10:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <564B4193.7060104@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/29] Add gobject introspection support to oe-core
+	Wed, 18 Nov 2015 16:36:05 +0000 (UTC)
+Received: from [2a00:14f0:e04c:1:e23f:49ff:fe47:b7fd] (helo=phil-desktop)
+	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1Zz5iH-0007EQ-6h; Wed, 18 Nov 2015 17:36:05 +0100
+Message-ID: <1447864564.1472.52.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Martin Jansa <martin.jansa@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 18 Nov 2015 16:36:04 +0000
+In-Reply-To: <018bb1afb653b342e39f2d9c7a14645913c554ae.1447757562.git.Martin.Jansa@gmail.com>
+References: <cover.1447757562.git.Martin.Jansa@gmail.com>
+	<018bb1afb653b342e39f2d9c7a14645913c554ae.1447757562.git.Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.16.5-1 
+Mime-Version: 1.0
+Subject: Re: [PATCHv2 09/16] cortexa{7,15,17}: add VFPv4 tunes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,46 +30,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Nov 2015 16:13:34 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Wed, 18 Nov 2015 16:36:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 11/17/2015 05:02 PM, Mark Hatle wrote:
+On Tue, 2015-11-17 at 11:58 +0100, Martin Jansa wrote:
+> * it was added only to hf cortexa7 in:
+>   commit e97d152ca13556b41a236c1a4cfb11e77ff857d7
+>   Author: Kristof Robot <krirobo@gmail.com>
+>   Date:   Sun Jan 26 10:03:56 2014 +0100
+> 
+>       Add Cortex A7 support for NEONv2 & FPv4
+> 
+> * add it to softfp cortexa7 and both versions for cortexa15 and
+>   cortexa17 tunes
 
->> So the bottom line, to generate introspection info, you have to run the
->> code of the library that you introspect, either with QEMU, or on target
->> hardware, and I don't see a way to avoid this, short of complete rewrite
->> of the entire glib ecosystem. If someone wants to have this feature, but
->> doesn't have a working QEMU, they should get their act together and fix it.
->
-> Can you put together a small piece of test code with instructions on how to
-> compiler it, generate the '.gir' file and anything else?  I can take a look at
-> this and see if there is a way to inspect the intermediate objects for the type
-> information we need.
+I can't say I'm wildly thrilled about the combinatorial explosion of
+tunes that differ only in a few letters.  Can't we just enable NEON and
+VFPv4 under the existing cortex-a15 tune?  Those ISAs are both part of
+the Cortex-A15 cpu, right?
 
-Alright. Here you go:
+Also...
 
-https://github.com/kanavin/gi-library-boilerplate
+> * we should also update Cortex-A7 and Cortex-A15, to use 
+> -march=armv7ve,
+>   but the problem is that oe-core has gcc-4.[89] and gcc-5.2 and gcc
+> -4.8
+>   doesn't support it yet, maybe we should do this change after gcc
+> -4.8
+>   is removed, for details see:
+>   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=57907
 
-In there you have a library that provides:
+... this part of the commit message is superseded by the following
+patch, right?
 
-1) A simple class called MamanBar that is final (i.e. cannot be derived 
-from) and has one public method and some internal state.
+p.
 
-2) An interface called MamanIbaz which specified two methods and one 
-property.
-
-3) A derivable (can be subclassed) class called MamanBaz which 
-implements the above interface, and also adds a virtual method and a signal.
-
-When you run 'make', you'll get both the library and the introspection 
-data - .gir and .typelib files.
-
-All of the above is written using best current knowledge from the 
-GObject manual:
-
-https://developer.gnome.org/gobject/stable/index.html
-
-Regards,
-Alex
 
