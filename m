@@ -1,23 +1,21 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id ABFD760118
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 145B760118
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 16:36:05 +0000 (UTC)
-Received: from [2a00:14f0:e04c:1:e23f:49ff:fe47:b7fd] (helo=phil-desktop)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1Zz5iH-0007EQ-6h; Wed, 18 Nov 2015 17:36:05 +0100
-Message-ID: <1447864564.1472.52.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Martin Jansa <martin.jansa@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 18 Nov 2015 16:36:04 +0000
-In-Reply-To: <018bb1afb653b342e39f2d9c7a14645913c554ae.1447757562.git.Martin.Jansa@gmail.com>
-References: <cover.1447757562.git.Martin.Jansa@gmail.com>
-	<018bb1afb653b342e39f2d9c7a14645913c554ae.1447757562.git.Martin.Jansa@gmail.com>
-X-Mailer: Evolution 3.16.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCHv2 09/16] cortexa{7,15,17}: add VFPv4 tunes
+	Wed, 18 Nov 2015 16:37:22 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 18 Nov 2015 08:37:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,313,1444719600"; d="scan'208";a="841614392"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Nov 2015 08:37:25 -0800
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Nov 2015 08:25:52 +0000
+Message-Id: <cover.1447834352.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH 0/2] wic: Allow to user defined files as config for bootloaders
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,40 +28,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Nov 2015 16:36:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Nov 2015 16:37:27 -0000
 
-On Tue, 2015-11-17 at 11:58 +0100, Martin Jansa wrote:
-> * it was added only to hf cortexa7 in:
->   commit e97d152ca13556b41a236c1a4cfb11e77ff857d7
->   Author: Kristof Robot <krirobo@gmail.com>
->   Date:   Sun Jan 26 10:03:56 2014 +0100
-> 
->       Add Cortex A7 support for NEONv2 & FPv4
-> 
-> * add it to softfp cortexa7 and both versions for cortexa15 and
->   cortexa17 tunes
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-I can't say I'm wildly thrilled about the combinatorial explosion of
-tunes that differ only in a few letters.  Can't we just enable NEON and
-VFPv4 under the existing cortex-a15 tune?  Those ISAs are both part of
-the Cortex-A15 cpu, right?
+These two patches add a new option for the bootloaders. This new option is
+to have a configuration file as the bootloader config and it can be used with
+"configfile" variable in the bootloader line. This is very useful when there
+is need to create a multiboot image or when there is need to use scripting in
+the bootloader.
 
-Also...
+This change doesn't include the changes in the documentation but once the
+patches are commited to master, I will work on the documentation of this new
+feature.
 
-> * we should also update Cortex-A7 and Cortex-A15, to use 
-> -march=armv7ve,
->   but the problem is that oe-core has gcc-4.[89] and gcc-5.2 and gcc
-> -4.8
->   doesn't support it yet, maybe we should do this change after gcc
-> -4.8
->   is removed, for details see:
->   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=57907
+The following changes since commit d9aabf9639510fdb3e2ccc21ba5ae4aa9f6e4a57:
 
-... this part of the commit message is superseded by the following
-patch, right?
+  gcc: Drop 4.8 (2015-11-16 14:59:18 +0000)
 
-p.
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib mariano/bug8003
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug8003
+
+Mariano Lopez (2):
+  wic: Prepare wicboot to allow custom bootloader config
+  wic: Allow to use a custom config for bootloaders
+
+ scripts/lib/wic/kickstart/__init__.py              |  7 +++
+ .../lib/wic/kickstart/custom_commands/wicboot.py   |  5 ++
+ scripts/lib/wic/plugins/source/bootimg-efi.py      | 66 ++++++++++++++--------
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py   | 66 +++++++++++++---------
+ 4 files changed, 95 insertions(+), 49 deletions(-)
+
+-- 
+1.8.4.5
 
 
