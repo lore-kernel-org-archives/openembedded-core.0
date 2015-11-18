@@ -1,26 +1,36 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 98C2B60DF6
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BB5060DF6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 01:48:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAI1mWAw001998
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Wed, 18 Nov 2015 02:03:51 +0000 (UTC)
+Received: by igl9 with SMTP id 9so92551465igl.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Nov 2015 17:48:32 -0800
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 17 Nov 2015 17:48:32 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Nov 2015 17:48:31 -0800
-Message-ID: <e757274a723b3a0a255ab8dc19d7d6ee1f054cfc.1447811273.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1447811273.git.liezhi.yang@windriver.com>
-References: <cover.1447811273.git.liezhi.yang@windriver.com>
+	Tue, 17 Nov 2015 18:03:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=3ygXJKXkhjWd+62ZNHZdDU2u4bTLXDATdxYgXrlahtI=;
+	b=dc5eG/6pRp2djBgBYGpxg3NYTlqnCgEKZY1fps+dGELi8ltF06QjPbYSJQxyjLVeNU
+	kV38N5CzlkLfb/wZUvNLHosMN2s4QTGOZQesx4/GAI1VKO/FIEof04ilWVw88ogbFRmq
+	qejSyc86MvvbhrKRg+NO72wq4rFsx2xJ+/nlXmnpNKdtXpm7lafGJ/jI+GPCsrBaE8Hz
+	ft8ky5YhzAle5Hk2sjxlW6xqzEhOPCg+dTNvumMAWvOhgFSMXMKZvAT+xuhn1RvbIgZH
+	9EBDS8WhtyWsus42oUAzLEXWSEQz/kyWCc+9KfZ1yfUjYix5/Cd9vGj+CoUqrfniSaln
+	yz0w==
+X-Received: by 10.50.78.138 with SMTP id b10mr767719igx.10.1447812232457; Tue,
+	17 Nov 2015 18:03:52 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] db: fix race issue for libdb-6.0.la
+Received: by 10.79.93.7 with HTTP; Tue, 17 Nov 2015 18:03:32 -0800 (PST)
+In-Reply-To: <CAJTo0LZYFwj9+5XOS6ewLTKwiWoBd7+YY+uXoCe0V4M7YwYRvg@mail.gmail.com>
+References: <cover.1447455202.git.chris_larson@mentor.com>
+	<0a2bdfd48b566acec7f05734758da7811980a0bb.1447455202.git.chris_larson@mentor.com>
+	<CAJTo0LZYFwj9+5XOS6ewLTKwiWoBd7+YY+uXoCe0V4M7YwYRvg@mail.gmail.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Tue, 17 Nov 2015 19:03:32 -0700
+Message-ID: <CABcZAN=HG8AJCjWHWTwWGs4vswnEL=SRF81fZz5r+iE+iQZ76g@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 6/6] psplash: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,69 +43,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Nov 2015 01:48:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 Nov 2015 02:03:56 -0000
+Content-Type: multipart/alternative; boundary=089e01229eb2d13e830524c70d5e
 
-Fixed:
-libtool: link: `os_map.lo' is not a valid libtool object
-Makefile:867: recipe for target 'libdb-6.0.la' failed
----
- ...Makefile-let-libdb-6.0.la-depend-os_map.l.patch |   32 ++++++++++++++++++++
- meta/recipes-support/db/db_6.0.30.bb               |    1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-support/db/db/Makefile-let-libdb-6.0.la-depend-os_map.l.patch
+--089e01229eb2d13e830524c70d5e
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-support/db/db/Makefile-let-libdb-6.0.la-depend-os_map.l.patch b/meta/recipes-support/db/db/Makefile-let-libdb-6.0.la-depend-os_map.l.patch
-new file mode 100644
-index 0000000..d4c6bb8
---- /dev/null
-+++ b/meta/recipes-support/db/db/Makefile-let-libdb-6.0.la-depend-os_map.l.patch
-@@ -0,0 +1,32 @@
-+From 2902dda6e3f7b2cd5796a96af20deece610e2eb9 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Mon, 16 Nov 2015 22:20:49 -0800
-+Subject: [PATCH] build_unix/Makefile: let libdb-6.0.la depend os_map.lo
-+
-+Fixed parallel issue:
-+libtool: link: `os_map.lo' is not a valid libtool object
-+Makefile:867: recipe for target 'libdb-6.0.la' failed
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ dist/Makefile.in |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/dist/Makefile.in b/dist/Makefile.in
-+index 0a42375..d9e05b9 100644
-+--- a/dist/Makefile.in
-++++ b/dist/Makefile.in
-+@@ -863,7 +863,7 @@ $(libdb_version): $(C_OBJS)
-+ 	$(LN) -s $(libdb_version) $(libdb)
-+ 
-+ # Shared C library.
-+-$(libso_target): $(C_OBJS) bt_rec@o@
-++$(libso_target): $(C_OBJS) bt_rec@o@ os_map@o@
-+ 	$(SOLINK) $(SOFLAGS) $(LDFLAGS) -o $@ $(C_OBJS) \
-+ 		$(LIBCSO_LIBS)
-+ 	$(RM) $(libdb)
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-support/db/db_6.0.30.bb b/meta/recipes-support/db/db_6.0.30.bb
-index d49df62..ccdb6bd 100644
---- a/meta/recipes-support/db/db_6.0.30.bb
-+++ b/meta/recipes-support/db/db_6.0.30.bb
-@@ -21,6 +21,7 @@ SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
- SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.. \
-             file://fix-parallel-build.patch \
-             file://Makefile-let-libso_target-depend-on-bt_rec.patch \
-+            file://Makefile-let-libdb-6.0.la-depend-os_map.l.patch;patchdir=.. \
-            "
- 
- SRC_URI[md5sum] = "ad28eb86ad3203b5422844db179c585b"
--- 
-1.7.9.5
+On Tue, Nov 17, 2015 at 2:36 PM, Burton, Ross <ross.burton@intel.com> wrote=
+:
+
+> On 13 November 2015 at 23:10, Christopher Larson <kergoth@gmail.com>
+> wrote:
+>
+>>  meta/recipes-core/psplash/files/psplash-quit.service | 11 +++++++++++
+>>  .../recipes-core/psplash/files/psplash-start.service | 11 +++++++++++
+>>  meta/recipes-core/psplash/psplash_git.bb             | 20
+>> +++++++++++++++-----
+>>
+>
+> This causes the selftest to fail:
+> | =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> | FAIL: test_systemd_failed (oeqa.runtime.systemd.SystemdBasicTests)
+> | ----------------------------------------------------------------------
+> | Traceback (most recent call last):
+> |   File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-systemd/build/=
+meta/lib/oeqa/utils/decorators.py",
+> line 106, in wrapped_f
+> |     return func(*args, **kwargs)
+> |   File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-systemd/build/=
+meta/lib/oeqa/utils/decorators.py",
+> line 94, in wrapped_f
+> |     return f(*args, **kwargs)
+> |   File
+> "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-systemd/build/=
+meta/lib/oeqa/runtime/systemd.py",
+> line 65, in test_systemd_failed
+> |     self.assertTrue(match, msg=3D"Some systemd units failed:\n%s" % out=
+put)
+> | AssertionError: None is not true : Some systemd units failed:
+> |   UNIT                  LOAD   ACTIVE SUB    DESCRIPTION
+> | =E2=97=8F bluetooth.service     loaded failed failed Bluetooth service
+> | =E2=97=8F psplash-quit.service  loaded failed failed Terminate Psplash =
+Boot
+> Screen
+> | =E2=97=8F psplash-start.service loaded failed failed Starts Psplash Boo=
+t screen
 
 
+Interesting, is psplash configured in our test environment? Either way,
+worst case we can drop this commit for now and can revisit it. I'm heading
+out of town tomorrow until December 1st, so likely will be limited in what
+I can do to address any issues that crop up during that period. Thanks.
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--089e01229eb2d13e830524c70d5e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Nov 17, 2015 at 2:36 PM, Burton, Ross <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""><di=
+v class=3D"gmail_quote">On 13 November 2015 at 23:10, Christopher Larson <s=
+pan dir=3D"ltr">&lt;<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">=
+kergoth@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color=
+:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div style=3D"o=
+verflow:hidden">=C2=A0meta/recipes-core/<span>psplash</span>/files/<span>ps=
+plash</span>-quit.service | 11 +++++++++++<br>
+=C2=A0.../recipes-core/<span>psplash</span>/files/<span>psplash</span>-star=
+t.service | 11 +++++++++++<br>
+=C2=A0meta/recipes-core/<span>psplash</span>/<a href=3D"http://psplash_git.=
+bb" rel=3D"noreferrer" target=3D"_blank"><span>pspl</span>ash_git.bb</a>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 20 +++++++++++++++-----</div=
+></blockquote></div><br></span>This causes the selftest to fail:<br>| =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>| FAIL: test_s=
+ystemd_failed (oeqa.runtime.systemd.SystemdBasicTests)<br>| ---------------=
+-------------------------------------------------------<br>| Traceback (mos=
+t recent call last):<br>| =C2=A0 File &quot;/home/pokybuild/yocto-autobuild=
+er/yocto-worker/nightly-qa-systemd/build/meta/lib/oeqa/utils/decorators.py&=
+quot;, line 106, in wrapped_f<br>| =C2=A0 =C2=A0 return func(*args, **kwarg=
+s)<br>| =C2=A0 File &quot;/home/pokybuild/yocto-autobuilder/yocto-worker/ni=
+ghtly-qa-systemd/build/meta/lib/oeqa/utils/decorators.py&quot;, line 94, in=
+ wrapped_f<br>| =C2=A0 =C2=A0 return f(*args, **kwargs)<br>| =C2=A0 File &q=
+uot;/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-qa-systemd/build=
+/meta/lib/oeqa/runtime/systemd.py&quot;, line 65, in test_systemd_failed<br=
+>| =C2=A0 =C2=A0 self.assertTrue(match, msg=3D&quot;Some systemd units fail=
+ed:\n%s&quot; % output)<br>| AssertionError: None is not true : Some system=
+d units failed:<br>| =C2=A0 UNIT =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0LOAD =C2=A0 ACTIVE SUB =C2=A0 =C2=A0DESCRIPTION<br>| =
+=E2=97=8F bluetooth.service =C2=A0 =C2=A0 loaded failed failed Bluetooth se=
+rvice<br>| =E2=97=8F psplash-quit.service =C2=A0loaded failed failed Termin=
+ate Psplash Boot Screen<br>| =E2=97=8F psplash-start.service loaded failed =
+failed Starts Psplash Boot screen</blockquote></div><br>Interesting, is psp=
+lash configured in our test environment? Either way, worst case we can drop=
+ this commit for now and can revisit it. I&#39;m heading out of town tomorr=
+ow until December 1st, so likely will be limited in what I can do to addres=
+s any issues that crop up during that period. Thanks.<br>-- <br><div class=
+=3D"gmail_signature"><div dir=3D"ltr">Christopher Larson<br>kergoth at gmai=
+l dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Ts=
+lib<br>Senior Software Engineer, Mentor Graphics</div></div>
+</div></div>
+
+--089e01229eb2d13e830524c70d5e--
