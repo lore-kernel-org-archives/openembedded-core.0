@@ -1,26 +1,36 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 38D016612D
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D51586E630
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 09:58:27 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1ZyzVS-00070F-Mv; Wed, 18 Nov 2015 10:58:27 +0100
-Message-ID: <1447840697.4042.13.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 18 Nov 2015 09:58:17 +0000
-In-Reply-To: <1447780178.1472.29.camel@pbcl.net>
-References: <1447739760-14395-1-git-send-email-armccurdy@gmail.com>
-	<1447773377.1472.28.camel@pbcl.net>
-	<CAJTo0La98Rv=0ZwdHce4FTknVAmZnGEnNmpXopK9+8cKqbnj8Q@mail.gmail.com>
-	<1447780178.1472.29.camel@pbcl.net>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: mcrowe@brightsign.biz, tgover@brightsign.biz,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] directfb.inc: force bfd linker for armv7a
+	Wed, 18 Nov 2015 10:01:22 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tAIA1NY8008153 for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Nov 2015 04:01:23 -0600
+Received: from adi-pc-linux ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015111804012264-104656 ;
+	Wed, 18 Nov 2015 04:01:22 -0600 
+Date: Wed, 18 Nov 2015 12:01:18 +0200
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+Message-ID: <20151118120118.48fcec99@adi-pc-linux>
+In-Reply-To: <564B928A.1090005@ni.com>
+References: <c9daa8b45c30f25d7b50c6a7df028de706809c21.1447773614.git.adrian.ratiu@ni.com>
+	<3a685546bb14b90aa1f190f92e223001d594777c.1447773614.git.adrian.ratiu@ni.com>
+	<564B928A.1090005@ni.com>
+Organization: National Instruments
+MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 11/18/2015 04:01:22 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 11/18/2015 04:01:22 AM,
+	Serialize complete at 11/18/2015 04:01:22 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-11-18_06:, , signatures=0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe][PATCH 2/2] package_manager: support for signed IPK package feeds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,162 +43,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Nov 2015 09:58:29 -0000
-Content-Type: multipart/alternative; boundary="=-zGI/O5mjEmUk0dcSeVy5"
-
---=-zGI/O5mjEmUk0dcSeVy5
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 18 Nov 2015 10:01:25 -0000
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-On Tue, 2015-11-17 at 17:09 +0000, Phil Blundell wrote:
-> On Tue, 2015-11-17 at 16:44 +0000, Burton, Ross wrote:
-> > 
-> > 
-> > On 17 November 2015 at 15:16, Phil Blundell <pb@pbcl.net> wrote:
-> > 
-> > > Does the resulting directfb-csource binary actually work with that
-> > > change?  My recollection is that ld.bfd will just silently permit
-> > > relocs that gold (correctly) refuses to allow.
-> > > 
-> > > 
-> > 
-> > 
-> > Personally I don't use DirectFB (and am constantly surprised it's
-> > still a thing) so at this point I'm not going to merge either of
-> > these patches until someone can confirm that their fix *works on
-> > hardware* instead of just fixing the build.
+On Tue, 17 Nov 2015 14:48:10 -0600
+Alejandro del Castillo <alejandro.delcastillo@ni.com> wrote:
+
 > 
 > 
-> I think that's a reasonable position.  In any case, the underlying
-> issue is a compiler bug and ought really to be fixed there rather than
-> patching directfb or any other package that just happens to fall over
-> it.
+> On 11/17/2015 09:26 AM, Ioan-Adrian Ratiu wrote:
+> > Create gpg signed package feeds if configured. Very similar to
+> > how rpm does it. Most of the config variables are shared with
+> > the rpm backend (like PACKAGE_FEED_GPG_NAME), with the exception
+> > of PACKAGE_FEED_GPG_PUBKEY which is not needed in this case.
+> > 
+> > Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+> > ---
+> >  meta/lib/oe/package_manager.py | 23 ++++++++++++++++++++++-
+> >  1 file changed, 22 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/lib/oe/package_manager.py
+> > b/meta/lib/oe/package_manager.py index 964fddc..8528c9b 100644
+> > --- a/meta/lib/oe/package_manager.py
+> > +++ b/meta/lib/oe/package_manager.py
+> > @@ -174,10 +174,25 @@ class OpkgIndexer(Indexer):
+> >  
+> >          opkg_index_cmd = bb.utils.which(os.getenv('PATH'),
+> > "opkg-make-index") 
+> > +        gpg_cmd = ''
+> > +
+> > +        # all these variables are needed to succesfully sign the
+> > index, otherwise skip signing
+> > +        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1' and \
+> > +           self.d.getVar('PACKAGE_FEED_GPG_NAME', True) and \
+> > +           self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True):
+> > +                pkgfeed_gpg_name =
+> > self.d.getVar('PACKAGE_FEED_GPG_NAME', True)
+> > +                pkgfeed_gpg_pass =
+> > self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True)
+> > +                gpg_bin = self.d.getVar('GPG_BIN', True) or
+> > bb.utils.which(os.getenv('PATH'), "gpg") +
+> > +                gpg_cmd = "%s --no-use-agent --batch --yes -ab -u
+> > %s --passphrase-file '%s'" % \
+> > +                          (gpg_bin, pkgfeed_gpg_name,
+> > pkgfeed_gpg_pass) +
+> > +
+> 
+> I think you can combine this block with the "if gpg_cmd:" one below
+> (move this logic to the bottom and combine it with the content of the
+> if gpg_cmd block)
+> 
+>           if not os.path.exists(os.path.join(self.deploy_dir,
+> "Packages")):
+> >              open(os.path.join(self.deploy_dir, "Packages"),
+> > "w").close() 
+> >          index_cmds = []
+> > +        index_sign_files = []
+> >          for arch_var in arch_vars:
+> >              archs = self.d.getVar(arch_var, True)
+> >              if archs is None:
+> > @@ -196,6 +211,8 @@ class OpkgIndexer(Indexer):
+> >                  index_cmds.append('%s -r %s -p %s -m %s' %
+> >                                    (opkg_index_cmd, pkgs_file,
+> > pkgs_file, pkgs_dir)) 
+> > +                index_sign_files.append(pkgs_file)
+> > +
+> >          if len(index_cmds) == 0:
+> >              bb.note("There are no packages in %s!" %
+> > self.deploy_dir) return
+> > @@ -206,7 +223,11 @@ class OpkgIndexer(Indexer):
+> >          if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
+> >              raise NotImplementedError('Package feed signing not
+> > implementd for ipk')
+> 
+> Not need anymore
+> 
+> > -
+> > +        if gpg_cmd:
+> > +            for f in index_sign_files:
+> > +                result = oe.utils.multiprocess_exec([gpg_cmd + ' '
+> > + f], create_index)
+> > +                if result:
+> > +                    bb.fatal('%s' % ('\n'.join(result)))
+> >  
+> >  class DpkgIndexer(Indexer):
+> >      def _create_configs(self):
+> > 
+> 
 
-I had another look at this and my previous recollection was not quite
-right.  What's happening here is that we have:
+Writing this way was a choice to avoid code duplication and looping the
+arches a second time. If I were to put all logic under the same
+condition at the bottom as you suggest, I will have to duplicate all
+code that recreates the pkgs_file values needed for signing.
 
-        movw    r1, #:lower16:longjmp
-        mov     r2, #392
-        movt    r1, #:upper16:longjmp
-        bl      png_set_longjmp_fn
+Instead, IMO a better idea is to combine the first block (if
+self.d.getVar('PACKAGE_FEED_SIGN'...) with the last one (if gpg_cmd) as
+you suggest but keep the "index_sign_files.append(pkgs_file)" line to
+avoid looping all the arches a second time and duplicate all that code.
 
-which is not an unreasonable thing for the compiler to generate in the
-circumstances and results in the assembler producing:
+I'll resubmit a v2 to exemplify what I'm saying here.
 
-00000798  0000722b R_ARM_MOVW_ABS_NC 00000000   longjmp
-000007a0  0000722c R_ARM_MOVT_ABS    00000000   longjmp
+Question: Is there a better way to get the index file names without
+looping through the arches? If yes, then all this code can be put under
+a single if branch as you suggest and I agree this is the best case
+scenario.
 
-   114: 00000000     0 NOTYPE  GLOBAL DEFAULT  UND longjmp
-
-which is also fine.  However gold is getting a bit mixed up and seems to
-be forgetting to generate a plt entry for longjmp.  Instead it tries to
-produce:
-
-0000a124  0000132b R_ARM_MOVW_ABS_NC 00000000   longjmp
-0000a12c  0000132c R_ARM_MOVT_ABS    00000000   longjmp
-
-    19: 00000000     0 FUNC    GLOBAL DEFAULT  UND longjmp@GLIBC_2.4 (4)
-   104: 00000000     0 FUNC    GLOBAL DEFAULT  UND longjmp
-
-which is bogus.
-
-So, contrary to what I said before, I don't think gcc is doing anything
-wrong and it seems fairly clear that the bug is in gold.  That being the
-case, I think switching to ld.bfd is a reasonable workaround.  Adding
--fPIC also works around the problem in a different way (it replaces the
-MOVx_ABS relocs with a load from the constant pool and a corresponding
-GLOB_DAT reloc) but this will produce worse code.  So I would be
-inclined to merge Andre's patch.  If someone wanted to distil a testcase
-from this and file a bug against gold upstream then that would be even
-better.
-
-p.
-
-
---=-zGI/O5mjEmUk0dcSeVy5
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 TRANSITIONAL//EN">
-<HTML>
-<HEAD>
-  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=UTF-8">
-  <META NAME="GENERATOR" CONTENT="GtkHTML/4.8.5">
-</HEAD>
-<BODY>
-On Tue, 2015-11-17 at 17:09 +0000, Phil Blundell wrote:
-<BLOCKQUOTE TYPE=CITE>
-    On Tue, 2015-11-17 at 16:44 +0000, Burton, Ross wrote:
-</BLOCKQUOTE>
-<BLOCKQUOTE TYPE=CITE>
-    <BLOCKQUOTE TYPE=CITE>
-        <BR>
-    </BLOCKQUOTE>
-</BLOCKQUOTE>
-<BLOCKQUOTE TYPE=CITE>
-    <BLOCKQUOTE TYPE=CITE>
-        On 17 November 2015 at 15:16, Phil Blundell &lt;<A HREF="mailto:pb@pbcl.net">pb@pbcl.net</A>&gt; wrote:
-    </BLOCKQUOTE>
-</BLOCKQUOTE>
-<BLOCKQUOTE TYPE=CITE>
-    <BLOCKQUOTE TYPE=CITE>
-        <BLOCKQUOTE TYPE=CITE>
-            Does the resulting directfb-csource binary actually work with that<BR>
-            change?&nbsp; My recollection is that ld.bfd will just silently permit<BR>
-            relocs that gold (correctly) refuses to allow.
-        </BLOCKQUOTE>
-    </BLOCKQUOTE>
-</BLOCKQUOTE>
-<BLOCKQUOTE TYPE=CITE>
-    <BLOCKQUOTE TYPE=CITE>
-        <BLOCKQUOTE TYPE=CITE>
-            <BR>
-        </BLOCKQUOTE>
-    </BLOCKQUOTE>
-</BLOCKQUOTE>
-<BLOCKQUOTE TYPE=CITE>
-    <BLOCKQUOTE TYPE=CITE>
-        <BR>
-        Personally I don't use DirectFB (and am constantly surprised it's still a thing) so at this point I'm not going to merge either of these patches until someone can confirm that their fix *works on hardware* instead of just fixing the build.
-    </BLOCKQUOTE>
-</BLOCKQUOTE>
-<BLOCKQUOTE TYPE=CITE>
-    <BR>
-    <BR>
-</BLOCKQUOTE>
-<BLOCKQUOTE TYPE=CITE>
-    I think that's a reasonable position. &nbsp;In any case, the underlying issue is a compiler bug and ought really to be fixed there rather than patching directfb or any other package that just happens to fall over it.
-</BLOCKQUOTE>
-<BR>
-I had another look at this and my previous recollection was not quite right.&nbsp; What's happening here is that we have:<BR>
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; movw&nbsp;&nbsp;&nbsp; r1, #:lower16:longjmp<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mov&nbsp;&nbsp;&nbsp;&nbsp; r2, #392<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; movt&nbsp;&nbsp;&nbsp; r1, #:upper16:longjmp<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; png_set_longjmp_fn<BR>
-<BR>
-which is not an unreasonable thing for the compiler to generate in the circumstances and results in the assembler producing:<BR>
-<BR>
-00000798&nbsp; 0000722b R_ARM_MOVW_ABS_NC 00000000&nbsp;&nbsp; longjmp<BR>
-000007a0&nbsp; 0000722c R_ARM_MOVT_ABS&nbsp;&nbsp;&nbsp; 00000000&nbsp;&nbsp; longjmp<BR>
-<BR>
-&nbsp;&nbsp; 114: 00000000&nbsp;&nbsp;&nbsp;&nbsp; 0 NOTYPE&nbsp; GLOBAL DEFAULT&nbsp; UND longjmp<BR>
-<BR>
-which is also fine.&nbsp; However gold is getting a bit mixed up and seems to be forgetting to generate a plt entry for longjmp.&nbsp; Instead it tries to produce:<BR>
-<BR>
-0000a124&nbsp; 0000132b R_ARM_MOVW_ABS_NC 00000000&nbsp;&nbsp; longjmp<BR>
-0000a12c&nbsp; 0000132c R_ARM_MOVT_ABS&nbsp;&nbsp;&nbsp; 00000000&nbsp;&nbsp; longjmp<BR>
-<BR>
-&nbsp;&nbsp;&nbsp; 19: 00000000&nbsp;&nbsp;&nbsp;&nbsp; 0 FUNC&nbsp;&nbsp;&nbsp; GLOBAL DEFAULT&nbsp; UND longjmp@GLIBC_2.4 (4)<BR>
-&nbsp;&nbsp; 104: 00000000&nbsp;&nbsp;&nbsp;&nbsp; 0 FUNC&nbsp;&nbsp;&nbsp; GLOBAL DEFAULT&nbsp; UND longjmp<BR>
-<BR>
-which is bogus.<BR>
-<BR>
-So, contrary to what I said before, I don't think gcc is doing anything wrong and it seems fairly clear that the bug is in gold.&nbsp; That being the case, I think switching to ld.bfd is a reasonable workaround.&nbsp; Adding -fPIC also works around the problem in a different way (it replaces the MOVx_ABS relocs with a load from the constant pool and a corresponding GLOB_DAT reloc) but this will produce worse code.&nbsp; So I would be inclined to merge Andre's patch.&nbsp; If someone wanted to distil a testcase from this and file a bug against gold upstream then that would be even better.<BR>
-<BR>
-p.<BR>
-<BR>
-</BODY>
-</HTML>
-
---=-zGI/O5mjEmUk0dcSeVy5--
