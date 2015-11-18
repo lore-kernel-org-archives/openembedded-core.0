@@ -1,32 +1,46 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D2E8E6010B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 913626010B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 10:25:53 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	tAIAPsbW026477 for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 04:25:54 -0600
-Received: from adi-pc-linux.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015111804255382-105943 ;
-	Wed, 18 Nov 2015 04:25:53 -0600 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+	Wed, 18 Nov 2015 10:29:06 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so65335567wmw.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Nov 2015 02:29:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=GwWY8zcDwQCAKGbcAz2FYSoBoCmUIoT9ODabdKnztFk=;
+	b=lBCjGmdLWbgvbu1Kdqzkc4Lj6xb5w11Uo0Y/1l4zQd1ZFgQSFRsyZNax1P4wOWxVkf
+	aSnhws6zsHKC3F2O/U4BPNgf44t7YRgiNPvFQRxOBI2fJeQ5okz8zq7A8O/3VnngUif5
+	PDjWhOuqpnVpQDS5g6jGrXT1fvFJOV18BWEcztjTqqYwwIXfpOHjzEYfZ82LcG11Srky
+	v75+ZpdIddO91hc97bsrcJ24ezG+fGj7u5DUuD0z0zZDzvoztNCs1kUlccOS48xqEsYm
+	ukhLbjkDQl5jYqtdTkMA8THgtrv6RRCLT1knwar1AzHxJvUcQ/K4UiPvtWAL9TPBRD98
+	MWyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=GwWY8zcDwQCAKGbcAz2FYSoBoCmUIoT9ODabdKnztFk=;
+	b=f6oaPQBQlCI/guh0ZYK51nqlEExNDtXFvGAGKFtKlnWFIwVNlVmeoX7zEOZuDjEKQj
+	J2UutFOGWBplGQMuRfhGKVm0DZuo25TOl1v1fCcjLush1l+0Y/lbZzEBb58x2DV9Yhqn
+	a0yD8pIhBmXM1bv7hQ54x8ACDxIFlexfjLLvl3drRvh8hjIQAGlMWhZX0uyei/SSHLjz
+	VGB8Gvp550mEt+NY/27uNPFlr1j7s406RFQTypCCxyv8yaOwohXYSQBS3tJRc0IWjf76
+	ZcraB9CtZ8SlQ0FC4t8hmhxxhJ/eI5KLYc3/VyBTaAtbvG6JcsG4JDe5JcCFGub5Jszg
+	z8hg==
+X-Gm-Message-State: ALoCoQlROj55Th9oJLGlWmIRYvCadwI6GTGmz/BQchXrpIG0hq7xor7ZXuTKFXsFgJ8joDTKGZg0
+X-Received: by 10.28.32.22 with SMTP id g22mr2923152wmg.43.1447842546555;
+	Wed, 18 Nov 2015 02:29:06 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	bh5sm2096095wjb.42.2015.11.18.02.29.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 18 Nov 2015 02:29:05 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Nov 2015 12:25:51 +0200
-Message-Id: <5725c294cf5d9fdb98cb5531f30f8f46e66a20fb.1447842013.git.adrian.ratiu@ni.com>
+Date: Wed, 18 Nov 2015 10:20:38 +0000
+Message-Id: <1447842038-15346-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <e54ec1320521a08198512388736dbf21e832fe94.1447842013.git.adrian.ratiu@ni.com>
-References: <e54ec1320521a08198512388736dbf21e832fe94.1447842013.git.adrian.ratiu@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 11/18/2015 04:25:53 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 11/18/2015 04:25:54 AM,
-	Serialize complete at 11/18/2015 04:25:54 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-11-18_06:, , signatures=0
-Subject: [oe][PATCH v2 2/2] package_manager: support for signed IPK package feeds
+Subject: [PATCH] pango: add RPROVIDES for removed packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,62 +53,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Nov 2015 10:25:54 -0000
+X-List-Received-Date: Wed, 18 Nov 2015 10:29:07 -0000
 
-Create gpg signed package feeds if configured. Very similar to
-how rpm does it. Most of the config variables are shared with
-the rpm backend (like PACKAGE_FEED_GPG_NAME), with the exception
-of PACKAGE_FEED_GPG_PUBKEY which is not needed in this case.
+Now that Pango has merged the external modules and engines the packages don't
+exist.  For convenience have the Pango library RPROVIDE these names.
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oe/package_manager.py | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ meta/recipes-graphics/pango/pango.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 964fddc..a0fe0eb 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -178,6 +178,7 @@ class OpkgIndexer(Indexer):
-             open(os.path.join(self.deploy_dir, "Packages"), "w").close()
+diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+index c0109b2..04143bd 100644
+--- a/meta/recipes-graphics/pango/pango.inc
++++ b/meta/recipes-graphics/pango/pango.inc
+@@ -51,3 +51,6 @@ FILES_${PN}-ptest += "${libexecdir}/installed-tests/* \
+ FILES_${PN}-dbg += "${libexecdir}/installed-tests/.debug"
  
-         index_cmds = []
-+        index_sign_files = []
-         for arch_var in arch_vars:
-             archs = self.d.getVar(arch_var, True)
-             if archs is None:
-@@ -196,6 +197,8 @@ class OpkgIndexer(Indexer):
-                 index_cmds.append('%s -r %s -p %s -m %s' %
-                                   (opkg_index_cmd, pkgs_file, pkgs_file, pkgs_dir))
- 
-+                index_sign_files.append(pkgs_file)
+ RDEPENDS_${PN}-ptest += "gnome-desktop-testing liberation-fonts"
 +
-         if len(index_cmds) == 0:
-             bb.note("There are no packages in %s!" % self.deploy_dir)
-             return
-@@ -206,7 +209,21 @@ class OpkgIndexer(Indexer):
-         if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
-             raise NotImplementedError('Package feed signing not implementd for ipk')
- 
--
-+        # all these variables are needed to succesfully sign the index, otherwise skip signing
-+        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1' and \
-+           self.d.getVar('PACKAGE_FEED_GPG_NAME', True) and \
-+           self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True):
-+                pkgfeed_gpg_name = self.d.getVar('PACKAGE_FEED_GPG_NAME', True)
-+                pkgfeed_gpg_pass = self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True)
-+                gpg_bin = self.d.getVar('GPG_BIN', True) or bb.utils.which(os.getenv('PATH'), "gpg")
-+
-+                gpg_cmd = "%s --no-use-agent --batch --yes -ab -u %s --passphrase-file '%s'" % \
-+                          (gpg_bin, pkgfeed_gpg_name, pkgfeed_gpg_pass)
-+
-+                for f in index_sign_files:
-+                    result = oe.utils.multiprocess_exec([gpg_cmd + ' ' + f], create_index)
-+                    if result:
-+                        bb.fatal('%s' % ('\n'.join(result)))
- 
- class DpkgIndexer(Indexer):
-     def _create_configs(self):
++RPROVIDES_${PN} += "pango-modules pango-module-indic-lang \
++                    pango-module-basic-fc pango-module-arabic-lang"
 -- 
 2.1.4
 
