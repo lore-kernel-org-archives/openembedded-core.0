@@ -1,43 +1,30 @@
-Return-Path: <adrian.freihofer@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 32CE16212E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F1EF601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 11:36:35 +0000 (UTC)
-Received: by wmdw130 with SMTP id w130so194518049wmd.0
+	Wed, 18 Nov 2015 11:52:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tAIBqMQ3016837 for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Nov 2015 11:52:22 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hZ_QsTwM7jj1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 03:36:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:content-type:mime-version:content-transfer-encoding;
-	bh=dz2euM0sa4RmYZ7l+VFHCk0xoQTDMsrqXoiX/pvwGrU=;
-	b=Hy3jgsehB+LNtG8xWwxOy4zDETdGAcGaPdgj023Wf0TnvDPFvwcRXmx7iagkxDvtqd
-	Rvv08bXxG8/ohDfDRw7lKFR2s4wV32+GUhnz+0cvJjyAYmp6eEjB8b9/8lud+rMFCIuM
-	J6QEAYqeR1Vx8vBaKxlh/a7cqH7CUNBaejxtY5Nk1Mzde554zv+q8DgOoUPoEwPlhGdO
-	i4S8s2AdOSYwRmpFxoSg7BogdBznqqW/dJ1TUrzrmbfUYbqw+nS35yMzLVYtSvjdTdso
-	JcfGXwX6UrAv4WzhplECVhMXvJd5zkttwUVeEULOSvDj+VV+CtVL2xyW8oY9WhrYxpEh
-	t+Jw==
-X-Received: by 10.28.224.86 with SMTP id x83mr3661152wmg.36.1447846596326;
-	Wed, 18 Nov 2015 03:36:36 -0800 (PST)
-Received: from CHL500343VM.neratec.local (mail.neratec.com. [46.140.151.2])
-	by smtp.gmail.com with ESMTPSA id
-	w67sm2855146wmw.17.2015.11.18.03.36.35
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 18 Nov 2015 03:36:35 -0800 (PST)
-Message-ID: <1447846594.2472.54.camel@gmail.com>
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: Aws Ismail <aws.ismail@gmail.com>
-Date: Wed, 18 Nov 2015 12:36:34 +0100
-In-Reply-To: <CAMHMu0NXXcAkh8hy7hG+zJxhtvQ4=7L01dDnE84w15m2Zb4eVg@mail.gmail.com>
-References: <1447536908-21449-1-git-send-email-adrian.freihofer@gmail.com>
-	<CAMHMu0MA7Sw2UbnrBZrtOYMZ141zN38+D4BU3DUeQVcV2teueQ@mail.gmail.com>
-	<CAMHMu0NAHXA305mAv4uRw-o9eVrpHCL7FOnOVPCV9iymES36dg@mail.gmail.com>
-	<1447763059.4741.32.camel@gmail.com>
-	<CAMHMu0PVOvzso-rmN4nAk2bfQaRBiUTBeeBbfbxxj-1g_gp-gg@mail.gmail.com>
-	<CAMHMu0NXXcAkh8hy7hG+zJxhtvQ4=7L01dDnE84w15m2Zb4eVg@mail.gmail.com>
-X-Mailer: Evolution 3.16.5 (3.16.5-3.fc22) 
+	Wed, 18 Nov 2015 11:52:22 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tAIBq6V4016830
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Nov 2015 11:52:17 GMT
+Message-ID: <1447847526.12500.78.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 Nov 2015 11:52:06 +0000
+X-Mailer: Evolution 3.12.11-0ubuntu3 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH 0/3] runqemu improve networking
+Subject: [PATCH] sstate: Ensure siginfo and sig files are also touched
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,148 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Nov 2015 11:36:36 -0000
+X-List-Received-Date: Wed, 18 Nov 2015 11:52:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi Aws
+Maintaining an sstate mirror is complicated at the moment as only the main
+sstate tgz files have their timestamp updated when they're used.
 
-Creating tap devices, routes or changing the iptables requires extended permissions. runqemu-gen-tapdevs does the part
-of the setup which requires to be done with extended permissions. runqemu does the part which is allowed to be done by a
-regular user. Normally the tap devices can be "recycled" for many runs of runqemu. This allows to call runqemu-gen
--tapdevs once at boot as the only command running with sudo on the host.
+This causes problems as the siginfo files can be removed from the server
+due to inactivity but the sstate fetch code tries to fetch them leading
+to confusing warnings and reduced debug capability.
 
-runqemu-gen-tapdevs changes the iptables of the host. It configures a NAT rule to get the virtual device connected to
-the Internet. For most use cases this is fine. But the NAT route prevents use cases where for example a bridged setup is
-required. Therefore my patchset adds an optional parameter netmode, which makes runqemu-gen-tapdevs skipping the NAT
-setup. If I remember correctly, runqemu-gen-tapdevs creates the NAT route for each tap interface. This is probabely not
-what you want if you are going to connect more than one tap interface to one qemu instance. If you call runqemu-gen
--tapdevs with netmode set to hostonly, the virtual devices will not have a route to the internet. If a route from a
-virtual device to the Internet is still required you need to setup the NAT route on one of the tap interfaces (e.g.
-write a wrapper script around runqemu-gen-tapdevs). Instead of setting up the route on a tap interface it might be
-better to add the tap interface to a bridge and to setup the route on the bridge.
+This change ensures we touch any sig/siginfo files present and should
+help ageing of the objects on sstate mirrors. It doesn't handle the intermediate
+task siginfo files but those are never fetched by the current sstate code
+so are an order of magnitude less problematic.
 
-Basic idea of a wrapper script (sudo):
-# Setup a bridge with route to the Internet and dhcp/DNS server or what ever needed
-ip link add ${bridge_name} type bridge
-ip link set ${bridge_name} up
-# Create the tap for the hostonly connection (IP 192.168.7.2)
-runqemu-gen-tapdevs ${MYUID} ${MYGID} 1 ${sysroot_dir} hostonly
-# Create second tap interface connected to the bridge
-ip tuntap add ${tap_name} mode tap
-ip link set ${tap_name} up
-ip link set ${tap_name} master ${bridge_name}
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-
-# Finally qemu can be started (without sudo)
-runqemu hostonly qemuparams="-device virtio-net-pci,netdev=netif1,mac=${macaddr1} -netdev
-tap,id=netif1,ifname=${tap_name},script=no,downscript=no"
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index d09e27a..9ca4c6d 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -692,6 +692,8 @@ sstate_unpack_package () {
+ 	tar -xmvzf ${SSTATE_PKG}
+ 	# Use "! -w ||" to return true for read only files
+ 	[ ! -w ${SSTATE_PKG} ] || touch --no-dereference ${SSTATE_PKG}
++	[ ! -w ${SSTATE_PKG}.sig ] || [ ! -e ${SSTATE_PKG}.sig ] || touch --no-dereference ${SSTATE_PKG}.sig
++	[ ! -w ${SSTATE_PKG}.siginfo ] || [ ! -e ${SSTATE_PKG}.siginfo ] || touch --no-dereference ${SSTATE_PKG}.siginfo
+ }
+ 
+ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
 
 
-Regards,
-Adrian
-
-On Tue, 2015-11-17 at 21:22 -0500, Aws Ismail wrote:
-> Adrian,
-> 
-> I just have to add one last note here. I had to use
-> runqemu-gen-tapdevs before runqemu to create the multiple tap devices
-> (3 in total, tap0 is the default one you've mentioned, and then tap1
-> and tap2). For example, I did this:
-> 
-> sudo runqemu-gen-tapdevs <my uid> <my guid> 3 <path to my build's
-> native sysroot>
-> 
-> My thinking was that runqemu would do that for me since I am asking
-> for two new extra netdev's but apparently not.
-> 
-> On Tue, Nov 17, 2015 at 2:40 PM, Aws Ismail <aws.ismail@gmail.com> wrote:
-> > Thanks Adrian for the explanation. I have tested it now and it works
-> > fine in my case. I think this should be merged upstream because it is
-> > an important feature to have specially if the user is planning to use
-> > the VM for extended use.
-> > 
-> > 
-> > Tested-by: Aws Ismail <aws.ismail@gmail.com>
-> > 
-> > 
-> > 
-> > On Tue, Nov 17, 2015 at 7:24 AM, Adrian Freihofer
-> > <adrian.freihofer@gmail.com> wrote:
-> > > Hi Aws
-> > > 
-> > > The interfaces of my virtual device are configured as:
-> > > eth0: static IP, 192.168.7.2 (This IP is hard coded in many scripts of poky.)
-> > >       This interface is for debugging purpose, it is not available
-> > >       on my physical devices running in a productive environment.
-> > >       The interface is configured by the kernel command line
-> > >       provided by the runqemu script. This interface should
-> > >       (or must in case of NFS rootfs) be ignored by connman, networkmanager
-> > >       or what ever manages the network settings of your device.
-> > > eth1: Configured by connman or networkmanager running on the virtual device.
-> > >       The part of the setup depends on the particular use case you need
-> > >       to emulate. In my setup the tap interfaces of the host ar part
-> > >       of a bridge. On the bridge a dnsmasq instance serves IP addresses.
-> > >       This part of my setup is not published. It is verry specific. But based
-> > >       on my patch set it should be easy to do something similar fitting your
-> > >       use case. The simplest approach might be a static IP address e.g.
-> > >       assigned by a bbappend file e.g. for connman.
-> > > 
-> > > runqemu is started with additional parameters to create eth1:
-> > > runqemu hostonly qemuparams="-device virtio-net-pci,netdev=netif1,mac=${macaddr1} -netdev
-> > > tap,id=netif1,ifname=${HOST_TAP_NAME},script=no,downscript=no"
-> > > 
-> > > Regards,
-> > > Adrian
-> > > 
-> > > On Mon, 2015-11-16 at 17:16 -0500, Aws Ismail wrote:
-> > > > Hi Adrian,
-> > > > 
-> > > > What's the runqemu line you are running with ?
-> > > > 
-> > > > I am passing -net nic -net nic to the qemuparams line which works
-> > > > fine, but the the two devices come up with no IP addresses.
-> > > > 
-> > > > My full qemu line is:
-> > > > 
-> > > > ROOTFS=<path to qemu.ext4> runqemu qemux86-64 nographic
-> > > > qemuparams="-cpu host --enable-kvm -m 4096 -net nic -net nic"
-> > > > 
-> > > > Aws\
-> > > > 
-> > > > On Sun, Nov 15, 2015 at 1:01 AM, Aws Ismail <aws.ismail@gmail.com> wrote:
-> > > > > Thanks Adrian for the patchset. I will test it and get back to you.
-> > > > > 
-> > > > > Aws\
-> > > > > 
-> > > > > On Sat, Nov 14, 2015 at 4:35 PM, Adrian Freihofer
-> > > > > <adrian.freihofer@gmail.com> wrote:
-> > > > > > This patch series adds two features to runqemu:
-> > > > > > - Support the emulation of more than one NIC
-> > > > > > - Add a hostonly networking mode. This networking mode enables
-> > > > > >   the user to implement different virtual networking environments
-> > > > > >   such as a bridged network as discussed in #7887.
-> > > > > > 
-> > > > > > Note: Without the first patch connman fails if the virtual device
-> > > > > >       provides more than one NIC.
-> > > > > > 
-> > > > > > @Aws Ismail: I'm using this since more than one year. Would be great
-> > > > > >              if you could test this and provide feedback.
-> > > > > > 
-> > > > > > Adrian Freihofer (3):
-> > > > > >   connman: fix qemu config
-> > > > > >   runqemu: add support for multiple NICs
-> > > > > >   runqemu: support hostonly net mode
-> > > > > > 
-> > > > > >  .../connman/connman-conf/qemuall/wired-setup       |  6 ++--
-> > > > > >  scripts/runqemu                                    |  7 +++-
-> > > > > >  scripts/runqemu-gen-tapdevs                        | 11 ++++---
-> > > > > >  scripts/runqemu-ifdown                             | 33 +++++++++++--------
-> > > > > >  scripts/runqemu-ifup                               | 38 +++++++++++++---------
-> > > > > >  scripts/runqemu-internal                           | 21 +++++++-----
-> > > > > >  6 files changed, 72 insertions(+), 44 deletions(-)
-> > > > > > 
-> > > > > > --
-> > > > > > 2.4.3
-> > > > > > 
 
