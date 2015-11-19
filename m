@@ -1,26 +1,27 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Randy.MacLeod@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 134C46012C
+	by mail.openembedded.org (Postfix) with ESMTP id 5F6AA6010B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 03:46:05 +0000 (UTC)
+	Thu, 19 Nov 2015 04:53:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAJ3k51n005341
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Nov 2015 19:46:05 -0800
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAJ4rfja006684
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 18 Nov 2015 20:53:42 -0800
+Received: from [172.25.44.6] (172.25.44.6) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 18 Nov 2015 19:46:03 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Nov 2015 19:46:02 -0800
-Message-ID: <697e3410a7668ae4656a66a46e6c49bd21fda616.1447904699.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1447904699.git.liezhi.yang@windriver.com>
-References: <cover.1447904699.git.liezhi.yang@windriver.com>
+	Wed, 18 Nov 2015 20:53:41 -0800
+To: <openembedded-core@lists.openembedded.org>, <maxin.john@intel.com>
+References: <1447839279-12119-1-git-send-email-maxin.john@intel.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <564D55D4.1000808@windriver.com>
+Date: Wed, 18 Nov 2015 23:53:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] rpm: Generate per distribution and multilib macro files
+In-Reply-To: <1447839279-12119-1-git-send-email-maxin.john@intel.com>
+X-Originating-IP: [172.25.44.6]
+Subject: Re: [PATCH 1/6] iproute2: update to 4.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,128 +34,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Nov 2015 03:46:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 19 Nov 2015 04:53:45 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Mark Hatle <mark.hatle@windriver.com>
+On 2015-11-18 04:34 AM, Maxin B. John wrote:
+> 4.1.1 -> 4.3.0
+>
+> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> ---
+>   .../iproute2/{iproute2_4.1.1.bb => iproute2_4.3.0.bb}                 | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>   rename meta/recipes-connectivity/iproute2/{iproute2_4.1.1.bb => iproute2_4.3.0.bb} (68%)
+>
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.1.1.bb b/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
+> similarity index 68%
+> rename from meta/recipes-connectivity/iproute2/iproute2_4.1.1.bb
+> rename to meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
+> index 10db0ba..0b3d896 100644
+> --- a/meta/recipes-connectivity/iproute2/iproute2_4.1.1.bb
+> +++ b/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
+> @@ -4,8 +4,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+>              file://configure-cross.patch \
+>              file://0001-iproute2-de-bash-scripts.patch \
+>             "
+> -SRC_URI[md5sum] = "39290cb3a55d38dd8d10e19a3094109f"
+> -SRC_URI[sha256sum] = "73077a989efb934450bd655cbd9aaddaa747cb696c64d0c9a3323768a6a8e66f"
+> +SRC_URI[md5sum] = "1a2bbb80cfc7ab3f3e987e18b3207c2f"
+> +SRC_URI[sha256sum] = "f03b1188dd6c039512424de82ff7a8f3b446680bd4e908ff42a7b9b137422995"
+>
+>   # CFLAGS are computed in Makefile and reference CCOPTS
+>   #
+>
 
-The distribution and multilib macro files are required for rpmbuild, on the
-target, to work properly.  These override the default settings from the
-upstream macro files with the proper values for the OE configuration.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/rpm/rpm_5.4.14.bb |   81 +++++++++++++++++++++++++++++++
- 1 file changed, 81 insertions(+)
+There are other iproute utilities that are not yet packaged:
+    misc netem genl tipc
+and perhaps more from the make install rule:
+   for i in lib ip tc bridge misc netem genl tipc man; \
+Note that misc contains these executables:
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-index 3930410..96e46f3 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-@@ -115,6 +115,9 @@ inherit autotools gettext
- 
- acpaths = "-I ${S}/db/dist/aclocal -I ${S}/db/dist/aclocal_java"
- 
-+# The local distribution macro directory
-+distromacrodir = "${libdir}/rpm/poky"
-+
- # Specify the default rpm macros in terms of adjustable variables
- rpm_macros = "%{_usrlibrpm}/macros:%{_usrlibrpm}/${DISTRO}/macros:%{_usrlibrpm}/${DISTRO}/%{_target}/macros:%{_etcrpm}/macros.*:%{_etcrpm}/macros:%{_etcrpm}/%{_target}/macros:~/.oerpmmacros"
- rpm_macros_class-native = "%{_usrlibrpm}/macros:%{_usrlibrpm}/${DISTRO}/macros:%{_usrlibrpm}/${DISTRO}/%{_target}/macros:~/.oerpmmacros"
-@@ -339,6 +342,7 @@ FILES_${PN}-build = "${prefix}/src/rpm \
- 		${libdir}/rpm/vpkg-provides.sh \
- 		${libdir}/rpm/vpkg-provides2.sh \
- 		${libdir}/rpm/perfile_rpmdeps.sh \
-+		${distromacrodir} \
- 		"
- RDEPENDS_${PN} = "base-files run-postinsts"
- RDEPENDS_${PN}_class-native = ""
-@@ -479,6 +483,83 @@ do_install_append() {
- 
- }
- 
-+do_install_append_class-target() {
-+	# Create and install distribution specific macros
-+	mkdir -p ${D}/${distromacrodir}
-+	cat << EOF > ${D}/${distromacrodir}/macros
-+%_defaultdocdir		${docdir}
-+
-+%_prefix                ${prefix}
-+%_exec_prefix           ${exec_prefix}
-+%_datarootdir           ${datadir}
-+%_bindir                ${bindir}
-+%_sbindir               ${sbindir}
-+%_libexecdir            %{_libdir}/%{name}
-+%_datadir               ${datadir}
-+%_sysconfdir            ${sysconfdir}
-+%_sharedstatedir        ${sharedstatedir}
-+%_localstatedir         ${localstatedir}
-+%_lib                   lib
-+%_libdir                %{_exec_prefix}/%{_lib}
-+%_includedir            ${includedir}
-+%_oldincludedir         ${oldincludedir}
-+%_infodir               ${infodir}
-+%_mandir                ${mandir}
-+%_localedir             %{_libdir}/locale
-+EOF
-+
-+	# Create and install multilib specific macros
-+	${@multilib_rpmmacros(d)}
-+}
-+
-+def multilib_rpmmacros(d):
-+    localdata = d.createCopy()
-+    # We need to clear the TOOLCHAIN_OPTIONS (--sysroot)
-+    localdata.delVar('TOOLCHAIN_OPTIONS')
-+
-+    # Set 'localdata' values to be consistent with 'd' values.
-+    localdata.setVar('distromacrodir', d.getVar('distromacrodir', True))
-+    localdata.setVar('WORKDIR', d.getVar('WORKDIR', True))
-+
-+    ret = gen_arch_macro(localdata)
-+
-+    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
-+    for item in variants.split():
-+        # Load overrides from 'd' to avoid having to reset the value...
-+        localdata = d.createCopy()
-+        overrides = d.getVar("OVERRIDES", False) + ":virtclass-multilib-" + item
-+        localdata.setVar("OVERRIDES", overrides)
-+        localdata.setVar("MLPREFIX", item + "-")
-+        bb.data.update_data(localdata)
-+        ret += gen_arch_macro(localdata)
-+    return ret
-+
-+def gen_arch_macro(d):
-+    # Generate shell script to produce the file as part of do_install
-+    val  = "mkdir -p ${D}/${distromacrodir}/${TARGET_ARCH}-${TARGET_OS}\n"
-+    val += "cat << EOF > ${D}/${distromacrodir}/${TARGET_ARCH}-${TARGET_OS}/macros\n"
-+    val += "%_lib               ${baselib}\n"
-+    val += "%_libdir            ${libdir}\n"
-+    val += "%_localedir         ${localedir}\n"
-+    val += "\n"
-+    val += "# Toolchain configuration\n"
-+    val += "%TOOLCHAIN_OPTIONS  %{nil}\n"
-+    val += "%__ar               ${@d.getVar('AR', True).replace('$','%')}\n"
-+    val += "%__as               ${@d.getVar('AS', True).replace('$','%')}\n"
-+    val += "%__cc               ${@d.getVar('CC', True).replace('$','%')}\n"
-+    val += "%__cpp              ${@d.getVar('CPP', True).replace('$','%')}\n"
-+    val += "%__cxx              ${@d.getVar('CXX', True).replace('$','%')}\n"
-+    val += "%__ld               ${@d.getVar('LD', True).replace('$','%')}\n"
-+    val += "%__nm               ${@d.getVar('NM', True).replace('$','%')}\n"
-+    val += "%__objcopy          ${@d.getVar('OBJCOPY', True).replace('$','%')}\n"
-+    val += "%__objdump          ${@d.getVar('OBJDUMP', True).replace('$','%')}\n"
-+    val += "%__ranlib           ${@d.getVar('RANLIB', True).replace('$','%')}\n"
-+    val += "%__strip            ${@d.getVar('STRIP', True).replace('$','%')}\n"
-+    val += "EOF\n"
-+    val += "\n"
-+    return d.expand(val)
-+
-+
- add_native_wrapper() {
-         create_wrapper ${D}/${bindir}/rpm \
- 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+misc/lnstat
+misc/ifstat
+misc/arpd
+misc/rtacct
+misc/nstat
+misc/ss
+
+Do we want individual iproute2-FOO packages or a catchall
+iproute2-extras ?
+
+I think additional packages for each of: misc netem genl tipc
+should be fine but I haven't played with these tools recently
+so input is welcome.
+
+These were not packaged in jethro AFAIK so we should pull the
+patch back once there is consensus.
+
 -- 
-1.7.9.5
-
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
