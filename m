@@ -1,22 +1,21 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 31E5E60107
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 983BE6010B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 17:39:11 +0000 (UTC)
-Received: from [2a00:14f0:e04c:1:e23f:49ff:fe47:b7fd] (helo=phil-desktop)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1ZzTAt-0008GO-3Q; Thu, 19 Nov 2015 18:39:11 +0100
-Message-ID: <1447954750.1472.88.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 19 Nov 2015 17:39:10 +0000
-In-Reply-To: <a84d885d2235edef7159fffa522fe0f41a6d623e.1447952784.git.raj.khem@gmail.com>
-References: <a13855998ddc7628c374b810079d9c1e1ee7a213.1447952784.git.raj.khem@gmail.com>
-	<a84d885d2235edef7159fffa522fe0f41a6d623e.1447952784.git.raj.khem@gmail.com>
-X-Mailer: Evolution 3.16.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 03/13] gdb: Fix build with musl
+	Thu, 19 Nov 2015 18:00:55 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Nov 2015 10:00:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,318,1444719600"; d="scan'208";a="824292629"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
+	([10.23.219.47])
+	by orsmga001.jf.intel.com with ESMTP; 19 Nov 2015 10:00:53 -0800
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Nov 2015 17:56:16 +0000
+Message-Id: <cover.1447955485.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH v2 0/1] python3: Upgrade from 3.4.3 to 3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,38 +28,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Nov 2015 17:39:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Nov 2015 18:00:56 -0000
 
-On Thu, 2015-11-19 at 17:10 +0000, Khem Raj wrote:
-> This is a patch that has been submitted upstream as well
+Upgrades from python 3.4.3 to python 3.5, rebases some patches, 
+modifies the related classes accordingly and also fixes
+an issue with python3-pip, and importlib when cross-compiling
 
-Shouldn't it have an Upstream-Status header saying that?
+The following changes since commit fc45deac89ef63ca1c44e763c38ced7dfd72cbe1:
 
-p.
+  build-appliance-image: Update to jethro head revision (2015-11-03 14:03:03 +0000)
 
-> 
-index 0000000..1302330
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gdb/gdb/0001-Use-exported-definitions-of
-> -SIGRTMIN.patch
-> @@ -0,0 +1,52 @@
-> +From 2f97e89e9e4e5797d0d973e1d05c1f44c46b4912 Mon Sep 17 00:00:00
-> 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Fri, 5 Jun 2015 20:21:38 -0700
-> +Subject: [PATCH] Use exorted definitions of SIGRTMIN
-> +
-> +Define W_STOPCODE if not defined already
-> +
-> +__SIGRTMIN is internal to glibc and other libcs e.g. musl
-> +may not provide them
-> +
-> +Fixes
-> +https://sourceware.org/bugzilla/show_bug.cgi?id=13012
-> +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> 
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib hsalejandro/py35upgrade
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=hsalejandro/py35upgrade
+
+Alejandro Hernandez (1):
+  python3: Upgrade from 3.4.3 to 3.5
+
+ meta/classes/distutils3-base.bbclass               |   2 +-
+ meta/classes/distutils3-native-base.bbclass        |   2 +-
+ meta/classes/python3native.bbclass                 |   2 +-
+ ...on-3.4-manifest.inc => python-3.5-manifest.inc} | 126 +++++++++----------
+ ...on3-native_3.4.3.bb => python3-native_3.5.0.bb} |   7 +-
+ meta/recipes-devtools/python/python3-pip_6.1.1.bb  |   8 +-
+ .../python/python3/000-cross-compile.patch         |  36 +++---
+ .../python3/020-dont-compile-python-files.patch    |  19 ++-
+ .../python/python3/04-default-is-optimized.patch   |  38 +++---
+ .../recipes-devtools/python/python3/makerace.patch |  28 -----
+ .../python/python3/python-3.3-multilib.patch       | 140 +++++++++------------
+ .../python/python3/use_packed_importlib.patch      |  31 +++++
+ .../python/{python3_3.4.3.bb => python3_3.5.0.bb}  |   8 +-
+ ...te-manifest-3.4.py => generate-manifest-3.5.py} |   2 +-
+ 14 files changed, 222 insertions(+), 227 deletions(-)
+ rename meta/recipes-devtools/python/{python-3.4-manifest.inc => python-3.5-manifest.inc} (51%)
+ rename meta/recipes-devtools/python/{python3-native_3.4.3.bb => python3-native_3.5.0.bb} (92%)
+ delete mode 100644 meta/recipes-devtools/python/python3/makerace.patch
+ create mode 100644 meta/recipes-devtools/python/python3/use_packed_importlib.patch
+ rename meta/recipes-devtools/python/{python3_3.4.3.bb => python3_3.5.0.bb} (97%)
+ rename scripts/contrib/python/{generate-manifest-3.4.py => generate-manifest-3.5.py} (99%)
+
+-- 
+1.8.4.5
 
 
