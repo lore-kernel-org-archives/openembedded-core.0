@@ -1,48 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 8ECFD60107
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D514F60107
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 09:40:25 +0000 (UTC)
-Received: by ioir85 with SMTP id r85so83155146ioi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 01:40:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Pn7kFHQUr+hVuEixbJo2xURaBGXAw36b4mDmkTCUqw8=;
-	b=UQKANGsy7ILiTJ5pY8F4IPiwqGXrQF7o40xsGiXBeZ9DsLAGC7jmD50QoVVtcB7CmJ
-	r8zEOTg/SMNey3/djULvRzgPux8mte0oTzJFZ7fWgNP8IA3DMdD+KeySEuBpTFSzUqWc
-	ePmmvKM7ZSGABLcgJj+xJa8/JZgtGV8IJBtx8Y3h+qZ7vWIMkI5rPK1mVID6r/bGi5Zf
-	XGEq3EJsoWlf/l+STe3JkecErg7hm61P4OYYzb+NkrxD3pdcMVBuht0Rx7jXe0yblm6e
-	JpMCVoW8WUPhUCIbcAt6HQaDz1ML7PNbLfQHdcOFEzAK3U3p4eNf4RsljAEfNuwL0Fas
-	s6JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Pn7kFHQUr+hVuEixbJo2xURaBGXAw36b4mDmkTCUqw8=;
-	b=XvidnmkNBInd5O+B1bGaurnzUNJY1mXOwUB9vm8LhjSzoeQVd9bgdulfx4L/8hX2Fy
-	eXvNySCbkKaSuEk+3ZTIkJjBHcm3++0EL4E7E8MqEChioaUqB/T5cwSiWpQg8l52BRlX
-	TLhgvGz/G8rFsGYW6fZzsxoy+A/Li2ly7JKanP0XbjzzSPMep5HSHJb2QkhNbherrEeU
-	gcAxTVZvy1aYTaMjTMsdt1JwKNac5k+djkd7UgCAosU4BeEnQaKMkRzt7WkaIxY8XTx3
-	6pVtQaPbqeIj3tHW+se+8s+CvnIXfMpnLH07mHMwdHUZ64J2eFseAAd2BAQXjdEe3r1z
-	MJ4w==
-X-Gm-Message-State: ALoCoQnvuIt/9nEM9n+X2JDp4cw2GkcnlP+SWjFufHqQ6ncM3BfEFaOuK+7KWtm4491RZuLLE7t5
-X-Received: by 10.107.135.30 with SMTP id j30mr6783149iod.148.1447926026541;
-	Thu, 19 Nov 2015 01:40:26 -0800 (PST)
+	Thu, 19 Nov 2015 10:31:30 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Nov 2015 02:31:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,317,1444719600"; d="scan'208";a="823928064"
+Received: from mbabyjoh-mobl.fi.intel.com ([10.237.72.71])
+	by orsmga001.jf.intel.com with ESMTP; 19 Nov 2015 02:31:30 -0800
+Date: Thu, 19 Nov 2015 12:32:32 +0200
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <20151119103231.GA31951@mbabyjoh-mobl.fi.intel.com>
+References: <1447839279-12119-1-git-send-email-maxin.john@intel.com>
+	<564D55D4.1000808@windriver.com>
 MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Thu, 19 Nov 2015 01:40:07 -0800 (PST)
-In-Reply-To: <1447781210-23924-3-git-send-email-otavio@ossystems.com.br>
-References: <1447781210-23924-1-git-send-email-otavio@ossystems.com.br>
-	<1447781210-23924-3-git-send-email-otavio@ossystems.com.br>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 19 Nov 2015 09:40:07 +0000
-Message-ID: <CAJTo0Lay2uuHV_iT8L2mrNDon7jrL_rGEpa9p3e1LE=KKKTEKQ@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 3/4] lttng-tools: Upgrade to 2.7 release
+In-Reply-To: <564D55D4.1000808@windriver.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/6] iproute2: update to 4.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +32,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Nov 2015 09:40:27 -0000
-Content-Type: multipart/alternative; boundary=001a113ec64a7936b00524e18cbc
+X-List-Received-Date: Thu, 19 Nov 2015 10:31:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a113ec64a7936b00524e18cbc
-Content-Type: text/plain; charset=UTF-8
+Hi,
 
-On 17 November 2015 at 17:26, Otavio Salvador <otavio@ossystems.com.br>
-wrote:
-
->  rename meta/recipes-kernel/lttng/{lttng-tools_2.6.0.bb => lttng
-> -tools_git.bb} (85%)
+On Wed, Nov 18, 2015 at 11:53:40PM -0500, Randy MacLeod wrote:
+> On 2015-11-18 04:34 AM, Maxin B. John wrote:
+> >4.1.1 -> 4.3.0
+> >
+> >Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> >---
+> >  .../iproute2/{iproute2_4.1.1.bb => iproute2_4.3.0.bb}                 | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >  rename meta/recipes-connectivity/iproute2/{iproute2_4.1.1.bb => iproute2_4.3.0.bb} (68%)
+> >
+> >diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.1.1.bb b/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
+> >similarity index 68%
+> >rename from meta/recipes-connectivity/iproute2/iproute2_4.1.1.bb
+> >rename to meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
+> >index 10db0ba..0b3d896 100644
+> >--- a/meta/recipes-connectivity/iproute2/iproute2_4.1.1.bb
+> >+++ b/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
+> >@@ -4,8 +4,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+> >             file://configure-cross.patch \
+> >             file://0001-iproute2-de-bash-scripts.patch \
+> >            "
+> >-SRC_URI[md5sum] = "39290cb3a55d38dd8d10e19a3094109f"
+> >-SRC_URI[sha256sum] = "73077a989efb934450bd655cbd9aaddaa747cb696c64d0c9a3323768a6a8e66f"
+> >+SRC_URI[md5sum] = "1a2bbb80cfc7ab3f3e987e18b3207c2f"
+> >+SRC_URI[sha256sum] = "f03b1188dd6c039512424de82ff7a8f3b446680bd4e908ff42a7b9b137422995"
+> >
+> >  # CFLAGS are computed in Makefile and reference CCOPTS
+> >  #
+> >
+> 
+> 
+> There are other iproute utilities that are not yet packaged:
+>    misc netem genl tipc
+> and perhaps more from the make install rule:
+>   for i in lib ip tc bridge misc netem genl tipc man; \
+> Note that misc contains these executables:
+> 
+> misc/lnstat
+> misc/ifstat
+> misc/arpd
+> misc/rtacct
+> misc/nstat
+> misc/ss
 >
 
-This now fails on MIPS machines:
+Good catch. Yes, we haven't packaged the above mentioned binaries, cbq 
+and shared libraries (q_netem.so) here.
 
-runas.c: In function 'reset_sighandler':
-runas.c:535:28: error: 'SIGUNUSED' undeclared (first use in this function)
-  for (sig = SIGHUP; sig <= SIGUNUSED; sig++) {
+> Do we want individual iproute2-FOO packages or a catchall
+> iproute2-extras ?
+> I think additional packages for each of: misc netem genl tipc
+> should be fine but I haven't played with these tools recently
+> so input is welcome.
 
-(http://errors.yoctoproject.org/Errors/Details/22001/)
+IMHO, we shouldn't add more complexity in recipe or new recipess for this. 
+We should use the iproute2 recipe to install all these binaries.
 
-Ross
+> 
+> These were not packaged in jethro AFAIK so we should pull the
+> patch back once there is consensus.
 
---001a113ec64a7936b00524e18cbc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Yes. These binaries were not packaged in jethro as well. I am not sure about the 
+historical reason behind it. Since jethro can't accept "new binaries" at
+this stage, I guess, we should update the iproute2 recipe present in the master branch.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 November 2015 at 17:26, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.=
-br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,20=
-4);border-left-style:solid;padding-left:1ex"><div id=3D":2iq" class=3D"" st=
-yle=3D"overflow:hidden">=C2=A0rename meta/recipes-kernel/<span class=3D"">l=
-ttng</span>/{<a href=3D"http://lttng-tools_2.6.0.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">lttng-tools_2.6.0.bb</a> =3D&gt; <a href=3D"http://lttng-too=
-ls_git.bb" rel=3D"noreferrer" target=3D"_blank"><span class=3D"">lttng</spa=
-n>-tools_git.bb</a>} (85%)<br></div></blockquote></div><br>This now fails o=
-n MIPS machines:</div><div class=3D"gmail_extra"><br></div>runas.c: In func=
-tion &#39;reset_sighandler&#39;:<br>runas.c:535:28: error: &#39;SIGUNUSED&#=
-39; undeclared (first use in this function)<br>=C2=A0 for (sig =3D SIGHUP; =
-sig &lt;=3D SIGUNUSED; sig++) {<br><br>(<a href=3D"http://errors.yoctoproje=
-ct.org/Errors/Details/22001/">http://errors.yoctoproject.org/Errors/Details=
-/22001/</a>)<div><br></div><div>Ross</div></div>
+> -- 
+> # Randy MacLeod. SMTS, Linux, Wind River
+> Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, Canada,
+> K2K 2W5
 
---001a113ec64a7936b00524e18cbc--
+Best Regards,
+Maxin
+
+
