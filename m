@@ -1,25 +1,30 @@
-Return-Path: <mcrowe@brightsign.biz>
-Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
-	by mail.openembedded.org (Postfix) with ESMTP id ADCA46010D
+Return-Path: <mac@mcrowe.com>
+Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FD856010D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 11:48:37 +0000 (UTC)
-Received: from [86.30.112.98] (HELO elite.brightsign)
-	by relay.appriver.com (CommuniGate Pro SMTP 6.1.2)
-	with ESMTP id 642874853; Thu, 19 Nov 2015 06:48:37 -0500
-Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
-	by elite.brightsign with esmtp (Exim 4.84)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1ZzNha-000EDV-KD; Thu, 19 Nov 2015 11:48:34 +0000
-Received: from mac by chuckie with local (Exim 4.84)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1ZzNha-0006I6-Jh; Thu, 19 Nov 2015 11:48:34 +0000
+	Thu, 19 Nov 2015 11:50:45 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by avasout06 with smtp
+	id jPqk1r0070BmcFC01PqlfJ; Thu, 19 Nov 2015 11:50:45 +0000
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.1 cv=E4sw3vpl c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=0Bzu9jTXAAAA:8
+	a=-An2I_7KAAAA:8 a=kj9zAlcOel0A:10 a=qtqOOiqGOCEA:10
+	a=iAtDTkGOG-695cxW13kA:9 a=CjuIK1q_8ugA:10 a=d-PMUXjYMFIA:10
+Received: from mac by deneb with local (Exim 4.84)
+	(envelope-from <mac@mcrowe.com>)
+	id 1ZzNjg-0001e3-2T; Thu, 19 Nov 2015 11:50:44 +0000
+Date: Thu, 19 Nov 2015 11:50:44 +0000
 From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Nov 2015 11:48:26 +0000
-Message-Id: <1447933706-24145-1-git-send-email-mac@mcrowe.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH v2] image.py: avoid mkdir race when building multiple images
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20151119115044.GA5875@mcrowe.com>
+References: <1447932037-29676-1-git-send-email-mac@mcrowe.com>
+	<1447932227.12500.121.camel@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <1447932227.12500.121.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] image.py: avoid mkdir race when building multiple images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +37,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Nov 2015 11:48:37 -0000
+X-List-Received-Date: Thu, 19 Nov 2015 11:50:48 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-If multiple images are being built simultaneously against the same
-sysroot then the call to os.makedirs in Image._write_wic_env can fail
-with:
+On Thursday 19 November 2015 at 11:23:47 +0000, Richard Purdie wrote:
+> On Thu, 2015-11-19 at 11:20 +0000, Mike Crowe wrote:
+> > The sysroot directory will already exist so let's just try and make the
+> > imgdata directory and cope with the exception thrown if it already
+> > exists. This stops the race being fatal.
+ 
+> How about using bb.utils.mkdirhier() which already does this?
 
-File: '.../meta/lib/oe/image.py', lineno: 341, function: _write_wic_env
-     0337:        """
-     0338:        stdir = self.d.getVar('STAGING_DIR_TARGET', True)
-     0339:        outdir = os.path.join(stdir, 'imgdata')
-     0340:        if not os.path.exists(outdir):
- *** 0341:            os.makedirs(outdir)
-     0342:        basename = self.d.getVar('IMAGE_BASENAME', True)
-     0343:        with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
-     0344:            for var in self.d.getVar('WICVARS', True).split():
-     0345:                value = self.d.getVar(var, True)
-File: '/usr/lib/python2.7/os.py', lineno: 157, function: makedirs
-     0153:            if e.errno != errno.EEXIST:
-     0154:                raise
-     0155:        if tail == curdir:           # xxx/newdir/. exists if xxx/newdir exists
-     0156:            return
- *** 0157:    mkdir(name, mode)
-     0158:
-     0159:def removedirs(name):
-     0160:    """removedirs(path)
-     0161:
-Exception: OSError: [Errno 17] File exists: '.../tmp-glibc/sysroots/cheetah/imgdata'
+I wasn't aware of that function. It's much simpler. I've updated the patch.
 
-Using bb.utils.mkdirhier() protects against this.
+Thanks.
 
-There's also little point in checking to see if the directory already
-exists - we might as well just try and create it regardless.
-
-Once the directory has been created, there's no race on the actual file
-since the filename contains IMAGE_BASENAME.
-
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/lib/oe/image.py | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
-index b9eb3de..17b096d 100644
---- a/meta/lib/oe/image.py
-+++ b/meta/lib/oe/image.py
-@@ -337,8 +337,7 @@ class Image(ImageDepGraph):
-         """
-         stdir = self.d.getVar('STAGING_DIR_TARGET', True)
-         outdir = os.path.join(stdir, 'imgdata')
--        if not os.path.exists(outdir):
--            os.makedirs(outdir)
-+        bb.utils.mkdirhier(outdir)
-         basename = self.d.getVar('IMAGE_BASENAME', True)
-         with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
-             for var in self.d.getVar('WICVARS', True).split():
--- 
-2.1.4
-
+Mike.
 
