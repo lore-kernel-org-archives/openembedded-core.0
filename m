@@ -1,63 +1,60 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 573EF6010D
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 79AD86057A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 12:16:21 +0000 (UTC)
-Received: by pabfh17 with SMTP id fh17so82506200pab.0
+	Thu, 19 Nov 2015 14:34:14 +0000 (UTC)
+Received: by wmvv187 with SMTP id v187so28581250wmv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 04:16:22 -0800 (PST)
+	Thu, 19 Nov 2015 06:34:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-type;
-	bh=mPNlTpjazh1t5UKIrcXY6gyWxePOhgDPXklDBexjsvQ=;
-	b=g+gKCBIY2nM5M8uzOTbZYg9fmHVatenq5siluAY7ZXQH2u56cJBx9BEzj4uUydIuPu
-	DaNY/x4IEABSJJuoQRUs15Lyjz2XU0OK0d1agNItj8NNUmDorx6kOjE0ari2ilaN2iyJ
-	wdTFBf9uI/kmL6euW8YQllu+7a+OI9FeUIJzfOZklwd8OKi9hjESPjfU/nAqS3UbZP0E
-	F398UDSe6iyTX0prS9Q6aqqGSXltabcAQwBQl5+JVGwb643aNbpNyg6xgTZgRNLaV95L
-	qxJLO8xoR6uNPiu/Pn81EKGbavFqKvlI2Oql9nlPbaCJPBiJKofE7WiaQgdzVLJHQZsV
-	hoRg==
+	d=dresearch-fe-de.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=g3+v1o3Jx2iaq0DJsO2GjS5s/zxzcEFhaThZNDg812Y=;
+	b=xTAgSGEAQGjpwTHbP/QjrfVBWGBbTBk8ggo7f+ikD/wVQtO4KiMFYCImMiuuEaZJFU
+	GKrNm1WbJoQ+rVL5OtcfttP8JEweb4+A4KcC1QQWHrWJ8eJve1FWT834s+1hb+D2Gus6
+	82bf3JCwQIefFnlrg/63gEpYbnrELW9UmEATCa+FqCiHlRl+BMCwQgs8oxdhB8Pzgdny
+	Ij/hIL8rsb3pd7j82vQ13sxs5/lYFat61bQcg6lGkPD1WHDJQXLMp/Odn4rxUZwtdVBF
+	WghWmoF1VWDjsApFzh5FFD5m5sA4ZzZITdu+OTOtt/8zIINkqT2qYjzocZ8DRfWjZw2i
+	8v/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=mPNlTpjazh1t5UKIrcXY6gyWxePOhgDPXklDBexjsvQ=;
-	b=RhkqR7GNVod4KhLQjeuu9lx7qmoqos4CjzyB+UYib+1HY0CpJLGJmSzC2UT4Xq7CqB
-	BHwWKKR1tO68dk+pAidv5MW+U04jHZpPwlP9Sxbl/4T6iq1qV4QfIojYGJWymVAqonAx
-	s0M+icX6Ix5ZKkgsjCHLXqHxo/QwvF95YWEdZ2YG7G+tNzBBBNkuLIMjZQnpeGE76mGP
-	O5fVxyKCp9tUbXomy+3ixCo3lVsOoglyx8FeV4fNnCLitU2BVS0NsHcbpdx4BNUgeYwH
-	POoSbUYtgXT+FkD7nd73CSmb91oyeQ9w39qnHo/NLucSCL2i1mlXZDAwN2krc3qcFDqb
-	3vqg==
-X-Gm-Message-State: ALoCoQlRX4HgqHJDTRfr+tqvMqoCOSWTv3s9AMov4BDXcmg18xdWRTT4V1r/LnogfzkEshqBH7/w
-X-Received: by 10.68.166.99 with SMTP id zf3mr10113214pbb.58.1447935382554;
-	Thu, 19 Nov 2015 04:16:22 -0800 (PST)
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com.
-	[209.85.220.53]) by smtp.gmail.com with ESMTPSA id
-	zg4sm10395075pbc.23.2015.11.19.04.16.21
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 19 Nov 2015 04:16:21 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by pacej9 with SMTP id ej9so79767298pac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 04:16:20 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=g3+v1o3Jx2iaq0DJsO2GjS5s/zxzcEFhaThZNDg812Y=;
+	b=YPzstZDFr3tLFEt08ondVs9pokTZ3rCJXQ206oxijEVO4dgVNRmkdTm6K7UQxww9Li
+	faanx1nmbHDPxDzkm5pkydE7LCXGKkrUzKb1dLCqcfKmiQkN3mQulPa2b3+4USUClrYc
+	tn1fXgfEgq/76Myhh1Rbj1XaOQfcskULeYrXbbRhSlR/rptvvwLW+Ya6JezYj00Kw49y
+	1tluTMMInXBPtzuOJYTDRpTsp/F7L59/HA0l40Ow8CUuGyMnwmBLsdRmjT735ljEKHoc
+	UItByWV/iKXxfZ1aYgi7D0/eKL08sS1mO5q1raWa00RmFp6s1Slivbfl3g9IyCkYPk6a
+	D4+A==
+X-Gm-Message-State: ALoCoQllOz27xqng7CMJmial+E37+qR9IUhXt/KrH52gflYaa2Jv5Fujqr7dbC4kFaLAploLAA+n
+X-Received: by 10.28.212.18 with SMTP id l18mr17541737wmg.93.1447943655119;
+	Thu, 19 Nov 2015 06:34:15 -0800 (PST)
+Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
+	by smtp.googlemail.com with ESMTPSA id
+	u205sm8600492wmb.12.2015.11.19.06.34.13
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 19 Nov 2015 06:34:14 -0800 (PST)
+To: Kang Kai <kai.kang@windriver.com>, Martin Jansa <Martin.Jansa@gmail.com>, 
+	Chen Qi <Qi.Chen@windriver.com>, Ross Burton <ross.burton@intel.com>,
+	Radu Moisan <radu.moisan@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	=?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@googlemail.com>,
+	Khem Raj <raj.khem@gmail.com>, Koen Kooi <koen@dominion.thruhere.net>, 
+	Jonathan Liu <net147@gmail.com>
+References: <5649BDDE.6030107@dresearch-fe.de>
+	<564AE081.30004@dresearch-fe.de> <564CA3F8.9020404@dresearch-fe.de>
+From: Steffen Sledz <sledz@dresearch-fe.de>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <564DDDE4.20002@dresearch-fe.de>
+Date: Thu, 19 Nov 2015 15:34:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-X-Received: by 10.68.135.199 with SMTP id pu7mr10080256pbb.98.1447935380799;
-	Thu, 19 Nov 2015 04:16:20 -0800 (PST)
-Received: by 10.66.197.129 with HTTP; Thu, 19 Nov 2015 04:16:20 -0800 (PST)
-In-Reply-To: <CAJTo0Lay2uuHV_iT8L2mrNDon7jrL_rGEpa9p3e1LE=KKKTEKQ@mail.gmail.com>
-References: <1447781210-23924-1-git-send-email-otavio@ossystems.com.br>
-	<1447781210-23924-3-git-send-email-otavio@ossystems.com.br>
-	<CAJTo0Lay2uuHV_iT8L2mrNDon7jrL_rGEpa9p3e1LE=KKKTEKQ@mail.gmail.com>
-Date: Thu, 19 Nov 2015 10:16:20 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKrnfYjNyBgDUbpy5Pq_Jsp4jvEDCfGBzP6SJFz31jRmqg@mail.gmail.com>
-Message-ID: <CAP9ODKrnfYjNyBgDUbpy5Pq_Jsp4jvEDCfGBzP6SJFz31jRmqg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 3/4] lttng-tools: Upgrade to 2.7 release
+In-Reply-To: <564CA3F8.9020404@dresearch-fe.de>
+Subject: systemd service vs. update-alternatives (was rsyslog: buggy systemd/ua handling?)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,30 +67,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Nov 2015 12:16:24 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 19 Nov 2015 14:34:15 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 19, 2015 at 7:40 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 17 November 2015 at 17:26, Otavio Salvador <otavio@ossystems.com.br>
-> wrote:
->>
->>  rename meta/recipes-kernel/lttng/{lttng-tools_2.6.0.bb =>
->> lttng-tools_git.bb} (85%)
->
->
-> This now fails on MIPS machines:
->
-> runas.c: In function 'reset_sighandler':
-> runas.c:535:28: error: 'SIGUNUSED' undeclared (first use in this function)
->   for (sig = SIGHUP; sig <= SIGUNUSED; sig++) {
->
-> (http://errors.yoctoproject.org/Errors/Details/22001/)
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-I am testing a fix for it, I will sent v4 once it is confirmed.
+On 18.11.2015 17:14, Steffen Sledz wrote:
+> On 17.11.2015 09:08, Steffen Sledz wrote:
+>> On 16.11.2015 12:28, Steffen Sledz wrote:
+>>> I'm not sure but i believe there's a bug in the systemd/ua-handling in meta-oe/recipes-extended/rsyslog/rsyslog_7.6.1.bb.
+>>> 
+>>> In my opinion this code
+>>> 
+>>> if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d): pn = d.getVar('PN', True) d.appendVar('ALTERNATIVE_%s' % (pn), ' syslog-service') d.setVarFlag('ALTERNATIVE_LINK_NAME', 'syslog-service', '%s/systemd/system/syslog.service' % (d.getVar('sysconfdir', True))) d.setVarFlag('ALTERNATIVE_TARGET', 'syslog-service', '%s/system/rsyslog.service' % (d.getVar('systemd_unitdir', True)))
+>>> 
+>>> registers the systemd service file under the (ua-)name "syslog-service". So it should not be
+>>> 
+>>> SYSTEMD_SERVICE_${PN} = "${BPN}.service"
+>>> 
+>>> but
+>>> 
+>>> SYSTEMD_SERVICE_${PN} = "syslog.service"
+>>> 
+>>> Right?
+>> 
+>> Hi experts! Is my assumption correct? If yes i would prepare patches for master, fido and jethro.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+The problem seems to be much more complex then I thought before. :(
+
+The systemd integration for busybox-syslog was introduced by commit cf3618f9a57e46fb78d5be35d473e2dd5290e961.
+
+The do_install stage got among others this line:
+
+  ln -sf /dev/null ${D}${systemd_unitdir}/system/syslog.service
+
+I believe this was made to avoid a package error like this:
+
+  ERROR: Function failed: SYSTEMD_SERVICE_busybox-syslog value syslog.service does not exist
+
+But if another syslog alternative (rsyslog or syslog-ng) will do the same this leads to another error:
+
+  ERROR: The recipe busybox is trying to install files into a shared area when those files already exist. Those files and their manifest location are:
+   /home/sledz/work/hipos-dfe.fido/build-closed/tmp-glibc/sysroots/himx0294/lib/systemd/system/syslog.service
+
+So what is th right way to bring a systemd service file and update-alternatives together???
+
+- -- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBAgAGBQJWTd3kAAoJEIz5slJ1krPh0f4QAIoQcwiyYs1l1lCCFhg96xry
+5wFMCFDdtCCPerpLBPHh0nLcqB5z0JKV9wCfuZu2QBZbh49s/0Qg4F09yN7qT2Bb
+auP3yEVIZrekuVIpQYkXOTI5q+1DrC4QCGMFfm7XaJZiqdOBaP9t1xWMQxzA5W3M
+OyQCH3JDABkD9UJQbsYLs1Qq6jm1rzbD1ZO5Uv0JvZaW+ZyHvDUHN7M+nlCxWFKE
+HPTtri1trgg9iZYZgTG0y2WferO5Unug5TKrFMSLiKv8iwOGha2O45m9nsFWCzZL
+vQ+6z1mnL9syVy6kmOakmc2Q+RnSC6Zx2Y3GbPuUMGtn4Y3neole6YaMJ0Yl+Uk7
+nn49/f7qxAD6sYJu7YaD0oBbEj/ugKbtFzKcwWjAe365h21Cndt2NkhELr1xUk7/
+owwVD60mmPHGCQ6ugT6wSnmLAVO4P5td5HLuDKWIDV2Smtm3XAQ2MQ52vFzr53sh
+dyUq3e5J9zuDbYWmC5xRvv77H7R6eUCltkGNHg5JjkbqtUw4NQWteaHTUpM7KlI1
+23w0nDU1xACpJDs+TgMzNyo7c+0b0g0SKjw07Qo7aIdNJuHoeik+hJIewMU7KDdl
+BjHy1PIFqXdSPR3myMOMOXlDCYJLJSy19roOr067LSiwXSEwycj93AsqMNzaGSWS
+8o0HjDbiMarMi2aXCyCH
+=4bav
+-----END PGP SIGNATURE-----
 
