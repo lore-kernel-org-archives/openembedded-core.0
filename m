@@ -1,30 +1,63 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FD856010D
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 573EF6010D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 11:50:45 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by avasout06 with smtp
-	id jPqk1r0070BmcFC01PqlfJ; Thu, 19 Nov 2015 11:50:45 +0000
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.1 cv=E4sw3vpl c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=0Bzu9jTXAAAA:8
-	a=-An2I_7KAAAA:8 a=kj9zAlcOel0A:10 a=qtqOOiqGOCEA:10
-	a=iAtDTkGOG-695cxW13kA:9 a=CjuIK1q_8ugA:10 a=d-PMUXjYMFIA:10
-Received: from mac by deneb with local (Exim 4.84)
-	(envelope-from <mac@mcrowe.com>)
-	id 1ZzNjg-0001e3-2T; Thu, 19 Nov 2015 11:50:44 +0000
-Date: Thu, 19 Nov 2015 11:50:44 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20151119115044.GA5875@mcrowe.com>
-References: <1447932037-29676-1-git-send-email-mac@mcrowe.com>
-	<1447932227.12500.121.camel@linuxfoundation.org>
+	Thu, 19 Nov 2015 12:16:21 +0000 (UTC)
+Received: by pabfh17 with SMTP id fh17so82506200pab.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Nov 2015 04:16:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-type;
+	bh=mPNlTpjazh1t5UKIrcXY6gyWxePOhgDPXklDBexjsvQ=;
+	b=g+gKCBIY2nM5M8uzOTbZYg9fmHVatenq5siluAY7ZXQH2u56cJBx9BEzj4uUydIuPu
+	DaNY/x4IEABSJJuoQRUs15Lyjz2XU0OK0d1agNItj8NNUmDorx6kOjE0ari2ilaN2iyJ
+	wdTFBf9uI/kmL6euW8YQllu+7a+OI9FeUIJzfOZklwd8OKi9hjESPjfU/nAqS3UbZP0E
+	F398UDSe6iyTX0prS9Q6aqqGSXltabcAQwBQl5+JVGwb643aNbpNyg6xgTZgRNLaV95L
+	qxJLO8xoR6uNPiu/Pn81EKGbavFqKvlI2Oql9nlPbaCJPBiJKofE7WiaQgdzVLJHQZsV
+	hoRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=mPNlTpjazh1t5UKIrcXY6gyWxePOhgDPXklDBexjsvQ=;
+	b=RhkqR7GNVod4KhLQjeuu9lx7qmoqos4CjzyB+UYib+1HY0CpJLGJmSzC2UT4Xq7CqB
+	BHwWKKR1tO68dk+pAidv5MW+U04jHZpPwlP9Sxbl/4T6iq1qV4QfIojYGJWymVAqonAx
+	s0M+icX6Ix5ZKkgsjCHLXqHxo/QwvF95YWEdZ2YG7G+tNzBBBNkuLIMjZQnpeGE76mGP
+	O5fVxyKCp9tUbXomy+3ixCo3lVsOoglyx8FeV4fNnCLitU2BVS0NsHcbpdx4BNUgeYwH
+	POoSbUYtgXT+FkD7nd73CSmb91oyeQ9w39qnHo/NLucSCL2i1mlXZDAwN2krc3qcFDqb
+	3vqg==
+X-Gm-Message-State: ALoCoQlRX4HgqHJDTRfr+tqvMqoCOSWTv3s9AMov4BDXcmg18xdWRTT4V1r/LnogfzkEshqBH7/w
+X-Received: by 10.68.166.99 with SMTP id zf3mr10113214pbb.58.1447935382554;
+	Thu, 19 Nov 2015 04:16:22 -0800 (PST)
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com.
+	[209.85.220.53]) by smtp.gmail.com with ESMTPSA id
+	zg4sm10395075pbc.23.2015.11.19.04.16.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 19 Nov 2015 04:16:21 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by pacej9 with SMTP id ej9so79767298pac.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Nov 2015 04:16:20 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1447932227.12500.121.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] image.py: avoid mkdir race when building multiple images
+X-Received: by 10.68.135.199 with SMTP id pu7mr10080256pbb.98.1447935380799;
+	Thu, 19 Nov 2015 04:16:20 -0800 (PST)
+Received: by 10.66.197.129 with HTTP; Thu, 19 Nov 2015 04:16:20 -0800 (PST)
+In-Reply-To: <CAJTo0Lay2uuHV_iT8L2mrNDon7jrL_rGEpa9p3e1LE=KKKTEKQ@mail.gmail.com>
+References: <1447781210-23924-1-git-send-email-otavio@ossystems.com.br>
+	<1447781210-23924-3-git-send-email-otavio@ossystems.com.br>
+	<CAJTo0Lay2uuHV_iT8L2mrNDon7jrL_rGEpa9p3e1LE=KKKTEKQ@mail.gmail.com>
+Date: Thu, 19 Nov 2015 10:16:20 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKrnfYjNyBgDUbpy5Pq_Jsp4jvEDCfGBzP6SJFz31jRmqg@mail.gmail.com>
+Message-ID: <CAP9ODKrnfYjNyBgDUbpy5Pq_Jsp4jvEDCfGBzP6SJFz31jRmqg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 3/4] lttng-tools: Upgrade to 2.7 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,21 +70,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Nov 2015 11:50:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 19 Nov 2015 12:16:24 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thursday 19 November 2015 at 11:23:47 +0000, Richard Purdie wrote:
-> On Thu, 2015-11-19 at 11:20 +0000, Mike Crowe wrote:
-> > The sysroot directory will already exist so let's just try and make the
-> > imgdata directory and cope with the exception thrown if it already
-> > exists. This stops the race being fatal.
- 
-> How about using bb.utils.mkdirhier() which already does this?
+On Thu, Nov 19, 2015 at 7:40 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 17 November 2015 at 17:26, Otavio Salvador <otavio@ossystems.com.br>
+> wrote:
+>>
+>>  rename meta/recipes-kernel/lttng/{lttng-tools_2.6.0.bb =>
+>> lttng-tools_git.bb} (85%)
+>
+>
+> This now fails on MIPS machines:
+>
+> runas.c: In function 'reset_sighandler':
+> runas.c:535:28: error: 'SIGUNUSED' undeclared (first use in this function)
+>   for (sig = SIGHUP; sig <= SIGUNUSED; sig++) {
+>
+> (http://errors.yoctoproject.org/Errors/Details/22001/)
 
-I wasn't aware of that function. It's much simpler. I've updated the patch.
+I am testing a fix for it, I will sent v4 once it is confirmed.
 
-Thanks.
-
-Mike.
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
