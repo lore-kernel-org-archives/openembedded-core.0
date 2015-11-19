@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C1A06080F
+Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
+	[209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 580E26072C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 17:11:08 +0000 (UTC)
-Received: by qkas77 with SMTP id s77so27965612qka.0
+	Thu, 19 Nov 2015 17:11:10 +0000 (UTC)
+Received: by qkas77 with SMTP id s77so27966085qka.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 09:11:09 -0800 (PST)
+	Thu, 19 Nov 2015 09:11:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=75qXn8ODa+Fl6taPKi8fbnytDjNIJ3C2n2Et1aUsE+s=;
-	b=v5fd3OgHGQqbHGGm7jTyNBwIVQt+3dIGYvmhCeTB56wpNop1mqwjSaMOw+Hg3FJhhk
-	XKG1rmc8xNNOnepcQPb6BwIiSjDg6ULLHjKqQK7Gx0dohEp6zgyxepW8i/ZlaUuah0Jx
-	r6ztaBXc0BeBmCchoderhLPbbZwDjXyaPTIQUkFWEIYYOBNdsQm24EDyhLfAL23cLyO6
-	GrhHF7GfvL2ipN9e26GtHFoFmwwncC911fl0Zp8w1bTPeozoa61yHUny+KpbKx8fjc74
-	bhCRtd2Jtg7eCRKrx776xCEW2cwHaE5BqjJIDANpV4B9tU1gV7CSMaUAkm1RERVX4PjP
-	zAoA==
-X-Received: by 10.55.76.16 with SMTP id z16mr6030295qka.83.1447953068946;
-	Thu, 19 Nov 2015 09:11:08 -0800 (PST)
+	bh=4Emxrp0folBlCdzshK/b/YN0uDCuLXe3R6xTqbRd9HU=;
+	b=ePQgl8RSmSm5k3i9ZCfXf9mgC2AsHcyLIDI/nFMQEZC6iWGqYPTpp1QTWG1IhsezgV
+	N5Wd6yxyNlkhTaMkbtllxuIdZGCN6TewiFILIB7TSeRvelb/hTw5aCG35vzaCvUUCb+C
+	uMRZNfOZBfK4yvKutWncKlGsEOvZb8kge7FYD6fOmNwj8BzUi4Ng/n5gIV1HyYowj5E/
+	GXPmoyfpZk1SvbRuipvursGEyq64niji1Ieg9oznSymP/Qheo5nHZcXQxWakqtGPb5gd
+	upVxVlhNoHoJXWA8K5UMrYgMcolly33LueoxMwycpO1f8eBsf/+9RrpTG6BwZIxTK7ud
+	emuw==
+X-Received: by 10.55.42.27 with SMTP id q27mr8276317qkh.33.1447953071222;
+	Thu, 19 Nov 2015 09:11:11 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	v138sm2586127qka.6.2015.11.19.09.11.08
+	v138sm2586127qka.6.2015.11.19.09.11.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 19 Nov 2015 09:11:08 -0800 (PST)
+	Thu, 19 Nov 2015 09:11:10 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Nov 2015 17:10:54 +0000
-Message-Id: <a39061d1254039ecf9ec37129d1a44aa1ed4f358.1447952784.git.raj.khem@gmail.com>
+Date: Thu, 19 Nov 2015 17:10:58 +0000
+Message-Id: <735a92e628a555f74641b4acfc64c41a1314d1a8.1447952784.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <a13855998ddc7628c374b810079d9c1e1ee7a213.1447952784.git.raj.khem@gmail.com>
 References: <a13855998ddc7628c374b810079d9c1e1ee7a213.1447952784.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1447952784.git.raj.khem@gmail.com>
 References: <cover.1447952784.git.raj.khem@gmail.com>
-Subject: [PATCH 07/13] musl: Add recipe
+Subject: [PATCH 11/13] openssl: Add musl configuration support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,112 +48,88 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 19 Nov 2015 17:11:10 -0000
 
-musl is posix compliant C library for linux
+use termios instead of termio
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/musl/musl.inc    | 26 +++++++++++++++++
- meta/recipes-core/musl/musl_git.bb | 58 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 84 insertions(+)
- create mode 100644 meta/recipes-core/musl/musl.inc
- create mode 100644 meta/recipes-core/musl/musl_git.bb
+ .../openssl/openssl/configure-musl-target.patch    | 27 ++++++++++++++++++++++
+ .../openssl/openssl/linux-musl-libc-termios.patch  | 19 +++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2d.bb |  2 ++
+ 3 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/linux-musl-libc-termios.patch
 
-diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
+diff --git a/meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch b/meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch
 new file mode 100644
-index 0000000..c3fd5c8
+index 0000000..613dc7b
 --- /dev/null
-+++ b/meta/recipes-core/musl/musl.inc
-@@ -0,0 +1,26 @@
-+# Copyright (C) 2014 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
++++ b/meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch
+@@ -0,0 +1,27 @@
++Add musl triplet support
 +
-+SUMMARY = "An implementation of the standard library for Linux-based systems"
-+DESCRIPTION = "A new standard library to power a new generation of Linux-based devices. \
-+musl is lightweight, fast, simple, free, and strives to be correct in the sense of \
-+standards-conformance and safety."
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+HOMEPAGE = "http://www.musl-libc.org/"
-+LICENSE = "MIT"
-+SECTION = "libs"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=bccdfe36b123d1b0757d8025278d86ba"
-+
-+PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
-+TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+STAGINGCC = "gcc-cross-initial-${TARGET_ARCH}"
-+STAGINGCC_class-nativesdk = "gcc-crosssdk-initial-${TARGET_ARCH}"
-+
-+
-+FILES_SOLIBSDEV = ""
-+FILES_${PN} += "${libdir}/lib*${SOLIBSDEV}"
-+INSANE_SKIP_${PN} = "dev-so"
-+
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
++Index: openssl-1.0.2a/Configure
++===================================================================
++--- openssl-1.0.2a.orig/Configure
+++++ openssl-1.0.2a/Configure
++@@ -431,7 +431,7 @@ my %table=(
++ #
++ #       ./Configure linux-armv4 -march=armv6 -D__ARM_MAX_ARCH__=8
++ #
++-"linux-armv4",	"gcc: -O3 -Wall::-D_REENTRANT::-ldl:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+++"linux-armv4", "gcc: -O3 -Wall::-D_REENTRANT::-ldl:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++ "linux-aarch64","gcc: -O3 -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${aarch64_asm}:linux64:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++ # Configure script adds minimally required -march for assembly support,
++ # if no -march was specified at command line. mips32 and mips64 below
++@@ -504,6 +504,8 @@ my %table=(
++ "linux-gnueabi-armeb","$ENV{'CC'}:-DB_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++ "linux-uclibceabi-arm","$ENV{'CC'}:-DL_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++ "linux-uclibceabi-armeb","$ENV{'CC'}:-DB_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+++"linux-musleabi-arm","$ENV{'CC'}:-DL_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+++"linux-musleabi-armeb","$ENV{'CC'}:-DB_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++ 
++ "linux-avr32","$ENV{'CC'}:-O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).",
++ 
+diff --git a/meta/recipes-connectivity/openssl/openssl/linux-musl-libc-termios.patch b/meta/recipes-connectivity/openssl/openssl/linux-musl-libc-termios.patch
 new file mode 100644
-index 0000000..1feb436
+index 0000000..ee37c1a
 --- /dev/null
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -0,0 +1,58 @@
-+# Copyright (C) 2014 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
++++ b/meta/recipes-connectivity/openssl/openssl/linux-musl-libc-termios.patch
+@@ -0,0 +1,19 @@
++http://git.alpinelinux.org/cgit/aports/tree/main/openssl/0003-use-termios.patch
 +
-+require musl.inc
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+SRCREV = "6c5cad2aa56745302c1d42d2c8baf6424d29c0f3"
-+
-+PV = "1.1.11+git${SRCPV}"
-+
-+# mirror is at git://github.com/bminor/musl.git
-+
-+SRC_URI = "git://git.musl-libc.org/musl \
-+          "
-+
-+S = "${WORKDIR}/git"
-+
-+PROVIDES += "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc virtual/libiconv virtual/libintl"
-+
-+DEPENDS = "virtual/${TARGET_PREFIX}binutils \
-+           virtual/${TARGET_PREFIX}gcc-initial \
-+           libgcc-initial \
-+          "
-+
-+export CROSS_COMPILE="${TARGET_PREFIX}"
-+
-+EXTRA_OEMAKE = ""
-+
-+LDFLAGS += "-Wl,-soname,libc.so"
-+
-+CONFIGUREOPTS = " \
-+    --prefix=${prefix} \
-+    --exec-prefix=${exec_prefix} \
-+    --bindir=${bindir} \
-+    --libdir=${libdir} \
-+    --includedir=${includedir} \
-+    --syslibdir=${base_libdir} \
-+"
-+
-+do_configure() {
-+	${S}/configure ${CONFIGUREOPTS}
-+}
-+
-+do_compile() {
-+	oe_runmake
-+}
-+
-+do_install() {
-+	oe_runmake install DESTDIR='${D}'
-+
-+	install -d ${D}${bindir}
-+	ln -s ${libdir}/libc.so ${D}${bindir}/ldd
-+}
-+
-+RDEPENDS_${PN}-dev = "linux-libc-headers-dev"
-+RPROVIDES_${PN}-dev += "libc-dev virtual-libc-dev"
-+RPROVIDES_${PN} += "ldd libsegfault rtld(GNU_HASH)"
-+
-+LEAD_SONAME = "libc.so"
++Index: openssl-1.0.2a/crypto/ui/ui_openssl.c
++===================================================================
++--- openssl-1.0.2a.orig/crypto/ui/ui_openssl.c
+++++ openssl-1.0.2a/crypto/ui/ui_openssl.c
++@@ -218,6 +218,9 @@
++ 
++ #endif
++ 
+++#define TERMIOS
+++#undef TERMIO
+++
++ #ifdef TERMIOS
++ # include <termios.h>
++ # define TTY_STRUCT             struct termios
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+index fd56841..a7ef083 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+@@ -37,6 +37,8 @@ SRC_URI += "file://configure-targets.patch \
+             file://crypto_use_bigint_in_x86-64_perl.patch \
+             file://openssl-1.0.2a-x32-asm.patch \
+             file://ptest_makefile_deps.patch  \
++            file://configure-musl-target.patch \
++            file://linux-musl-libc-termios.patch \
+            "
+ 
+ SRC_URI[md5sum] = "38dd619b2e77cbac69b99f52a053d25a"
 -- 
 2.6.3
 
