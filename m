@@ -1,22 +1,26 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E0966010B
+	by mail.openembedded.org (Postfix) with ESMTP id 79FFF6010D
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 19 Nov 2015 22:36:50 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 19 Nov 2015 14:36:50 -0800
+	by orsmga101.jf.intel.com with ESMTP; 19 Nov 2015 14:36:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,319,1444719600"; d="scan'208";a="855244885"
+X-IronPort-AV: E=Sophos;i="5.20,319,1444719600"; d="scan'208";a="855244899"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.23.219.46])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Nov 2015 14:36:50 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 19 Nov 2015 14:36:51 -0800
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Nov 2015 14:25:13 +0000
-Message-Id: <cover.1447942163.git.mariano.lopez@linux.intel.com>
+Date: Thu, 19 Nov 2015 14:25:14 +0000
+Message-Id: <025384172ac445ea44ffcc9822fc19ef346e5f94.1447942163.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1447942163.git.mariano.lopez@linux.intel.com>
+References: <cover.1447942163.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1447942163.git.mariano.lopez@linux.intel.com>
+References: <cover.1447942163.git.mariano.lopez@linux.intel.com>
 Cc: paul.eggleton@linux.intel.com
-Subject: [PATCHv3 0/6] Create image manifest
+Subject: [PATCHv3 1/6] license.bbclass: Write recipeinfo file in license folder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +37,52 @@ X-List-Received-Date: Thu, 19 Nov 2015 22:36:50 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-When building the rootfs the rootfs is created but the recipes
-that deployed files in the image doesn't show up. Usually these
-recipes include the bootloaders and the kernel.
+Currently there is no way to get the recipe version when
+creating the rootfs. It is needed because the manifest
+file for the image has to contain this important piece
+of information.
 
-With these patches a new manifest will be created that includes
-the deployed recipes that were in the deployed. The format of the
-manifest is different because the recipes doesn't install packages,
-instead the recipes deploy files into the image
+This change writes a new file in the license folder for
+every recipe. This file is called "recipeinfo" and have
+the information used to write the manifest file for the
+recipes deployed next to the image.
 
 [YOCTO #6772]
 
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/classes/license.bbclass | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Changes in v3:
-- Create recipinfo file in every license folder to have the required
-  information for the manifest file without using PKGDATA
-
-The following changes since commit 1b25a70991589ed1f123015c16ee4806c46e3199:
-
-  yocto-project-qs, ref-manual, poky.ent: CentOS Package updates (2015-11-18 16:42:22 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mariano/bug6772v3
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug6772v3
-
-Mariano Lopez (6):
-  license.bbclass: Write recipeinfo file in license folder
-  license.bbclass: Split license create manifest
-  license.bbclass: Added get_boot_dependencies function
-  license.bbclass: Added function get_deployed_dependencies
-  license.bbclass: Add function get_deployed_files
-  license.bbclass: Create image license manifest
-
- meta/classes/license.bbclass | 207 +++++++++++++++++++++++++++++++++++++------
- 1 file changed, 182 insertions(+), 25 deletions(-)
-
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index c616a20..7cf39e0 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -142,6 +142,10 @@ python do_populate_lic() {
+     # The base directory we wrangle licenses to
+     destdir = os.path.join(d.getVar('LICSSTATEDIR', True), d.getVar('PN', True))
+     copy_license_files(lic_files_paths, destdir)
++    info = get_recipe_info(d)
++    with open(os.path.join(destdir, "recipeinfo"), "w") as f:
++        for key in sorted(info.keys()):
++            f.write("%s: %s\n" % (key, info[key]))
+ }
+ 
+ # it would be better to copy them in do_install_append, but find_license_filesa is python
+@@ -156,6 +160,13 @@ python perform_packagecopy_prepend () {
+         add_package_and_files(d)
+ }
+ 
++def get_recipe_info(d):
++    info = {}
++    info["PV"] = d.getVar("PV", True)
++    info["PR"] = d.getVar("PR", True)
++    info["LICENSE"] = d.getVar("LICENSE")
++    return info
++
+ def add_package_and_files(d):
+     packages = d.getVar('PACKAGES', True)
+     files = d.getVar('LICENSE_FILES_DIRECTORY', True)
 -- 
 1.8.4.5
 
