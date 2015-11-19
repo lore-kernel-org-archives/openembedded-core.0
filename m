@@ -1,18 +1,25 @@
-Return-Path: <bob.ham@collabora.com>
-X-Greylist: delayed 375 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 19 Nov 2015 11:30:20 UTC
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 5774760107
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
+	by mail.openembedded.org (Postfix) with ESMTP id ADCA46010D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 11:30:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: rah)
-	with ESMTPSA id AD7C2601BBF
-From: Bob Ham <bob.ham@collabora.com>
+	Thu, 19 Nov 2015 11:48:37 +0000 (UTC)
+Received: from [86.30.112.98] (HELO elite.brightsign)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.1.2)
+	with ESMTP id 642874853; Thu, 19 Nov 2015 06:48:37 -0500
+Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
+	by elite.brightsign with esmtp (Exim 4.84)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1ZzNha-000EDV-KD; Thu, 19 Nov 2015 11:48:34 +0000
+Received: from mac by chuckie with local (Exim 4.84)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1ZzNha-0006I6-Jh; Thu, 19 Nov 2015 11:48:34 +0000
+From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Nov 2015 11:24:00 +0000
-Message-Id: <1447932240-27544-1-git-send-email-bob.ham@collabora.com>
+Date: Thu, 19 Nov 2015 11:48:26 +0000
+Message-Id: <1447933706-24145-1-git-send-email-mac@mcrowe.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 1/1] systemd.class - Allow enabling of parameterised services
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH v2] image.py: avoid mkdir race when building multiple images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,55 +32,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Nov 2015 11:30:20 -0000
+X-List-Received-Date: Thu, 19 Nov 2015 11:48:37 -0000
 
-Currently the systemd.class will check whether a service exists when
-it is requested to enabled it.  However, its check does not take into
-account that a service like 'foo@eth0.service' can be enabled from a
-service named 'foo@.service'.  This patch alters the check function in
-systemd.class to look for 'foo@.service' if the normal check fails.
+If multiple images are being built simultaneously against the same
+sysroot then the call to os.makedirs in Image._write_wic_env can fail
+with:
 
-Signed-off-by: Bob Ham <bob.ham@collabora.com>
+File: '.../meta/lib/oe/image.py', lineno: 341, function: _write_wic_env
+     0337:        """
+     0338:        stdir = self.d.getVar('STAGING_DIR_TARGET', True)
+     0339:        outdir = os.path.join(stdir, 'imgdata')
+     0340:        if not os.path.exists(outdir):
+ *** 0341:            os.makedirs(outdir)
+     0342:        basename = self.d.getVar('IMAGE_BASENAME', True)
+     0343:        with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
+     0344:            for var in self.d.getVar('WICVARS', True).split():
+     0345:                value = self.d.getVar(var, True)
+File: '/usr/lib/python2.7/os.py', lineno: 157, function: makedirs
+     0153:            if e.errno != errno.EEXIST:
+     0154:                raise
+     0155:        if tail == curdir:           # xxx/newdir/. exists if xxx/newdir exists
+     0156:            return
+ *** 0157:    mkdir(name, mode)
+     0158:
+     0159:def removedirs(name):
+     0160:    """removedirs(path)
+     0161:
+Exception: OSError: [Errno 17] File exists: '.../tmp-glibc/sysroots/cheetah/imgdata'
+
+Using bb.utils.mkdirhier() protects against this.
+
+There's also little point in checking to see if the directory already
+exists - we might as well just try and create it regardless.
+
+Once the directory has been created, there's no race on the actual file
+since the filename contains IMAGE_BASENAME.
+
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
 ---
- meta/classes/systemd.bbclass | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ meta/lib/oe/image.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index 46e72c7..db7873f 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -59,6 +59,8 @@ systemd_populate_packages[vardepsexclude] += "OVERRIDES"
- 
- 
- python systemd_populate_packages() {
-+    import re
-+
-     if not bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
-         return
- 
-@@ -144,10 +146,22 @@ python systemd_populate_packages() {
-         for pkg_systemd in systemd_packages.split():
-             for service in get_package_var(d, 'SYSTEMD_SERVICE', pkg_systemd).split():
-                 path_found = ''
-+
-+                # Deal with adding, for example, 'ifplugd@eth0.service' from
-+                # 'ifplugd@.service'
-+                base = None
-+                if service.find('@') != -1:
-+                    base = re.sub('@[^.]+.', '@.', service)
-+
-                 for path in searchpaths:
-                     if os.path.exists(oe.path.join(d.getVar("D", True), path, service)):
-                         path_found = path
-                         break
-+                    elif base is not None:
-+                        if os.path.exists(oe.path.join(d.getVar("D", True), path, base)):
-+                            path_found = path
-+                            break
-+
-                 if path_found != '':
-                     systemd_add_files_and_parse(pkg_systemd, path_found, service, keys)
-                 else:
+diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
+index b9eb3de..17b096d 100644
+--- a/meta/lib/oe/image.py
++++ b/meta/lib/oe/image.py
+@@ -337,8 +337,7 @@ class Image(ImageDepGraph):
+         """
+         stdir = self.d.getVar('STAGING_DIR_TARGET', True)
+         outdir = os.path.join(stdir, 'imgdata')
+-        if not os.path.exists(outdir):
+-            os.makedirs(outdir)
++        bb.utils.mkdirhier(outdir)
+         basename = self.d.getVar('IMAGE_BASENAME', True)
+         with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
+             for var in self.d.getVar('WICVARS', True).split():
 -- 
 2.1.4
 
