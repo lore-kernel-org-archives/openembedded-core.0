@@ -1,29 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E877C60110
+Return-Path: <bob.ham@collabora.com>
+X-Greylist: delayed 375 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 19 Nov 2015 11:30:20 UTC
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 5774760107
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 11:24:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tAJBO2F9017652; Thu, 19 Nov 2015 11:24:02 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id uqqHzKorTOOo; Thu, 19 Nov 2015 11:24:02 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tAJBNl2U017618
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 19 Nov 2015 11:23:58 GMT
-Message-ID: <1447932227.12500.121.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Crowe <mac@mcrowe.com>
-Date: Thu, 19 Nov 2015 11:23:47 +0000
-In-Reply-To: <1447932037-29676-1-git-send-email-mac@mcrowe.com>
-References: <1447932037-29676-1-git-send-email-mac@mcrowe.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] image.py: avoid mkdir race when building multiple images
+	Thu, 19 Nov 2015 11:30:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: rah)
+	with ESMTPSA id AD7C2601BBF
+From: Bob Ham <bob.ham@collabora.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Nov 2015 11:24:00 +0000
+Message-Id: <1447932240-27544-1-git-send-email-bob.ham@collabora.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/1] systemd.class - Allow enabling of parameterised services
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,88 +25,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Nov 2015 11:24:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Nov 2015 11:30:20 -0000
 
-On Thu, 2015-11-19 at 11:20 +0000, Mike Crowe wrote:
-> If multiple images are being built simultaneously against the same
-> sysroot then the call to os.makedirs in Image._write_wic_env can fail
-> with:
-> 
-> File: '.../meta/lib/oe/image.py', lineno: 341, function: _write_wic_env
->      0337:        """
->      0338:        stdir = self.d.getVar('STAGING_DIR_TARGET', True)
->      0339:        outdir = os.path.join(stdir, 'imgdata')
->      0340:        if not os.path.exists(outdir):
->  *** 0341:            os.makedirs(outdir)
->      0342:        basename = self.d.getVar('IMAGE_BASENAME', True)
->      0343:        with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
->      0344:            for var in self.d.getVar('WICVARS', True).split():
->      0345:                value = self.d.getVar(var, True)
-> File: '/usr/lib/python2.7/os.py', lineno: 157, function: makedirs
->      0153:            if e.errno != errno.EEXIST:
->      0154:                raise
->      0155:        if tail == curdir:           # xxx/newdir/. exists if xxx/newdir exists
->      0156:            return
->  *** 0157:    mkdir(name, mode)
->      0158:
->      0159:def removedirs(name):
->      0160:    """removedirs(path)
->      0161:
-> Exception: OSError: [Errno 17] File exists: '.../tmp-glibc/sysroots/cheetah/imgdata'
-> 
-> os.makedirs protects against racing on parent directories but not on the
-> final part.
-> 
-> The sysroot directory will already exist so let's just try and make the
-> imgdata directory and cope with the exception thrown if it already
-> exists. This stops the race being fatal.
-> 
-> Once the directory has been created, there's no race on the actual file
-> since the filename contains IMAGE_BASENAME.
-> 
-> Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> ---
->  meta/lib/oe/image.py | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
-> index b9eb3de..8c797ec 100644
-> --- a/meta/lib/oe/image.py
-> +++ b/meta/lib/oe/image.py
-> @@ -1,5 +1,6 @@
->  from oe.utils import execute_pre_post_process
->  import os
-> +import errno
->  import subprocess
->  import multiprocessing
->  
-> @@ -337,8 +338,16 @@ class Image(ImageDepGraph):
->          """
->          stdir = self.d.getVar('STAGING_DIR_TARGET', True)
->          outdir = os.path.join(stdir, 'imgdata')
-> -        if not os.path.exists(outdir):
-> -            os.makedirs(outdir)
-> +        try:
-> +            # This may race against another image being created, so
-> +            # let's just try and create the directory and just ignore
-> +            # the error if it already exists. The parent directory
-> +            # will already exist so there's no benefit to using
-> +            # os.makedirs (which is also subject to the race.)
-> +            os.mkdir(outdir)
-> +        except OSError as e:
-> +            if e.errno != errno.EEXIST:
-> +                raise
->          basename = self.d.getVar('IMAGE_BASENAME', True)
->          with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
->              for var in self.d.getVar('WICVARS', True).split():
+Currently the systemd.class will check whether a service exists when
+it is requested to enabled it.  However, its check does not take into
+account that a service like 'foo@eth0.service' can be enabled from a
+service named 'foo@.service'.  This patch alters the check function in
+systemd.class to look for 'foo@.service' if the normal check fails.
 
-How about using bb.utils.mkdirhier() which already does this?
+Signed-off-by: Bob Ham <bob.ham@collabora.com>
+---
+ meta/classes/systemd.bbclass | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Cheers,
-
-Richard
-
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 46e72c7..db7873f 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -59,6 +59,8 @@ systemd_populate_packages[vardepsexclude] += "OVERRIDES"
+ 
+ 
+ python systemd_populate_packages() {
++    import re
++
+     if not bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
+         return
+ 
+@@ -144,10 +146,22 @@ python systemd_populate_packages() {
+         for pkg_systemd in systemd_packages.split():
+             for service in get_package_var(d, 'SYSTEMD_SERVICE', pkg_systemd).split():
+                 path_found = ''
++
++                # Deal with adding, for example, 'ifplugd@eth0.service' from
++                # 'ifplugd@.service'
++                base = None
++                if service.find('@') != -1:
++                    base = re.sub('@[^.]+.', '@.', service)
++
+                 for path in searchpaths:
+                     if os.path.exists(oe.path.join(d.getVar("D", True), path, service)):
+                         path_found = path
+                         break
++                    elif base is not None:
++                        if os.path.exists(oe.path.join(d.getVar("D", True), path, base)):
++                            path_found = path
++                            break
++
+                 if path_found != '':
+                     systemd_add_files_and_parse(pkg_systemd, path_found, service, keys)
+                 else:
+-- 
+2.1.4
 
 
