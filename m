@@ -1,36 +1,35 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id D37F56010B
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B06A60118
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 18:06:11 +0000 (UTC)
-Received: by padhx2 with SMTP id hx2so88060251pad.1
+	Thu, 19 Nov 2015 18:35:10 +0000 (UTC)
+Received: by padhx2 with SMTP id hx2so88760446pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 10:06:12 -0800 (PST)
+	Thu, 19 Nov 2015 10:35:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=Vs6A7lXCrSJRDF71E7dpKu8WVN+Sse71KIgdDw/Mc80=;
-	b=UzI+diMAGX/XmN8bcQ7JZWaLxL0WjNVoNLZhm1dNStbm6iBudEeglVNw8k6SR15w+S
-	++jvznd8edqMxt8iTaNGmc3qMzCngTM8hTgROBFKkVWhAO+Or1O14wOEaJnERVD7yKkQ
-	8JNB4J9suWHe3Tnfl1/zUpK7MEHQzHEi7XMfg4KyBKyYH9aY8dZynRlHZBwj9B/cJvy8
-	VVEBrfL+Mx8bMAG9n5H+PFnhxRdYeqAmbNlo2GfZDad1I1wHquDJFRx8hqStnKb5je8L
-	S7VkUMaU0VheCA+mhQuRf1F2bVxOG8ypIJZsOHiB8QPeIgyM0Bs/mQ1c7ADBGWS/4XVA
-	nXxg==
-X-Received: by 10.67.14.201 with SMTP id fi9mr12538524pad.41.1447956372414;
-	Thu, 19 Nov 2015 10:06:12 -0800 (PST)
+	bh=x/UxGB6njYDi2ovEN4DMz4kT+MhrEAcSlqqV1VME3s4=;
+	b=zcPI/w45Flbj11UiZwOPoKbRys8ejVltgkPPAI6ZXIuZ7/japHI8+aZFFjoZMIPEuR
+	VIVRrVIMfj7vGUW7zJs08770gYTNePat6Z2D//itfCr98X4o8SkVtHDSXtkJO1Tpqy8k
+	0j6flIeAEZjDhOXEfPSTgyLn9rCqlryY7VLoTvkmcOVYaN4CGB5s6Py0I+roPoyc6KvF
+	sYcJaxHKWd1CmCu8ffa7frRTPLA1TwCUvqFYvUZh9bvtBprXnSQoUInjFLbq6VzLxAeS
+	Nmqkx8iN7sSRV1MBc2dqlaUlyU1MSleeFbe2Q8ZZY10YRv/gFQwsNE8jaZV0/5owo4KK
+	cD7A==
+X-Received: by 10.68.201.73 with SMTP id jy9mr12964284pbc.102.1447958111706;
+	Thu, 19 Nov 2015 10:35:11 -0800 (PST)
 Received: from ?IPv6:2601:646:8802:5d5c:122:73e2:d7b:d0af?
 	([2601:646:8802:5d5c:122:73e2:d7b:d0af])
-	by smtp.gmail.com with ESMTPSA id
-	ag1sm12006170pbc.41.2015.11.19.10.06.10
+	by smtp.gmail.com with ESMTPSA id c1sm1212393pas.1.2015.11.19.10.35.10
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 Nov 2015 10:06:10 -0800 (PST)
+	Thu, 19 Nov 2015 10:35:11 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
 X-Pgp-Agent: GPGMail 2.6b2
 From: Khem Raj <raj.khem@gmail.com>
 In-Reply-To: <1447954750.1472.88.camel@pbcl.net>
-Date: Thu, 19 Nov 2015 10:06:06 -0800
-Message-Id: <F52E45F1-3AC3-4E59-B635-9215F5BAC9AB@gmail.com>
+Date: Thu, 19 Nov 2015 10:35:06 -0800
+Message-Id: <D8C535FB-C7AE-4D03-80D7-CA4A9B75CCBA@gmail.com>
 References: <a13855998ddc7628c374b810079d9c1e1ee7a213.1447952784.git.raj.khem@gmail.com>
 	<a84d885d2235edef7159fffa522fe0f41a6d623e.1447952784.git.raj.khem@gmail.com>
 	<1447954750.1472.88.camel@pbcl.net>
@@ -50,13 +49,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Nov 2015 18:06:15 -0000
-X-Groupsio-MsgNum: 73704
+X-List-Received-Date: Thu, 19 Nov 2015 18:35:16 -0000
+X-Groupsio-MsgNum: 73705
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_2C39E6B4-07FA-4C89-A6C3-232309463EFC";
+	boundary="Apple-Mail=_1F773A1B-8BA0-45C2-8631-9582B638FAEA";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_2C39E6B4-07FA-4C89-A6C3-232309463EFC
+--Apple-Mail=_1F773A1B-8BA0-45C2-8631-9582B638FAEA
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain;
 	charset=us-ascii
@@ -69,7 +68,7 @@ Content-Type: text/plain;
 > 
 > Shouldn't it have an Upstream-Status header saying that?
 
-Yes it should. I will add it and push it to pu branch
+Fix pushed to pull branch
 
 > 
 > p.
@@ -99,7 +98,7 @@ Yes it should. I will add it and push it to pu branch
 > 
 
 
---Apple-Mail=_2C39E6B4-07FA-4C89-A6C3-232309463EFC
+--Apple-Mail=_1F773A1B-8BA0-45C2-8631-9582B638FAEA
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -110,9 +109,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlZOD5EACgkQuwUzVZGdMxQoIQCeOLXQjS+Y4TQ0hYmdBJwZGT3r
-YjAAn1/9oLJFmDS6+oXCEINxKwsn4Rbb
-=Rp+r
+iEYEARECAAYFAlZOFl0ACgkQuwUzVZGdMxRvGwCfduxsZZVdbPGLnRxZRdvo3zAy
+z/cAnRC0z0fGRTgFFEireAHdhXiWWgCe
+=lL3W
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_2C39E6B4-07FA-4C89-A6C3-232309463EFC--
+--Apple-Mail=_1F773A1B-8BA0-45C2-8631-9582B638FAEA--
