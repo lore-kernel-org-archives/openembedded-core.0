@@ -1,26 +1,26 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A59D6072C
+	by mail.openembedded.org (Postfix) with ESMTP id 669BA60746
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 22:36:51 +0000 (UTC)
+	Thu, 19 Nov 2015 22:36:52 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 19 Nov 2015 14:36:52 -0800
+	by orsmga101.jf.intel.com with ESMTP; 19 Nov 2015 14:36:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,319,1444719600"; d="scan'208";a="855244919"
+X-IronPort-AV: E=Sophos;i="5.20,319,1444719600"; d="scan'208";a="855244931"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.23.219.46])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Nov 2015 14:36:52 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 19 Nov 2015 14:36:53 -0800
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Nov 2015 14:25:15 +0000
-Message-Id: <b8cf8fc661a36394dbae64de33e9e68b01ef4de4.1447942163.git.mariano.lopez@linux.intel.com>
+Date: Thu, 19 Nov 2015 14:25:16 +0000
+Message-Id: <dd8ab12d6d53a748e6fdb28a374018c70ed9a605.1447942163.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
 In-Reply-To: <cover.1447942163.git.mariano.lopez@linux.intel.com>
 References: <cover.1447942163.git.mariano.lopez@linux.intel.com>
 In-Reply-To: <cover.1447942163.git.mariano.lopez@linux.intel.com>
 References: <cover.1447942163.git.mariano.lopez@linux.intel.com>
 Cc: paul.eggleton@linux.intel.com
-Subject: [PATCHv3 2/6] license.bbclass: Split license create manifest
+Subject: [PATCHv3 3/6] license.bbclass: Added get_boot_dependencies function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,105 +33,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Nov 2015 22:36:51 -0000
+X-List-Received-Date: Thu, 19 Nov 2015 22:36:52 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-This changes moves the writing of the licenses to a
-separated function that could be called for other packages.
-
-With these change it will be easier to reuse the writing of
-the license for the packages deployed but not installed in
-the rootfs.
+This function gets the dependencies from the classes that
+create a boot image, this is required because sometimes
+the bootloader dependecy is in these classes. The current
+classes covered are bootimg and bootdirectdisk because
+these are the only clases that add dependencies.
 
 [YOCTO #6772]
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/classes/license.bbclass | 36 ++++++++++++++++++++++--------------
- 1 file changed, 22 insertions(+), 14 deletions(-)
+ meta/classes/license.bbclass | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
 diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 7cf39e0..62222f2 100644
+index 62222f2..afcc708 100644
 --- a/meta/classes/license.bbclass
 +++ b/meta/classes/license.bbclass
-@@ -26,14 +26,9 @@ python write_package_manifest() {
- }
- 
- python license_create_manifest() {
--    import re
-     import oe.packagedata
-     from oe.rootfs import image_list_installed_packages
- 
--    bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE", True) or "").split()
--    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
--    bad_licenses = expand_wildcard_licenses(d, bad_licenses)
--
-     build_images_from_feeds = d.getVar('BUILD_IMAGES_FROM_FEEDS', True)
-     if build_images_from_feeds == "1":
-         return 0
-@@ -49,8 +44,18 @@ python license_create_manifest() {
-             pkg_lic_name = "LICENSE_" + pkg_name
-             pkg_dic[pkg_name]["LICENSE"] = pkg_dic[pkg_name][pkg_lic_name]
- 
--    license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
-+    rootfs_license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
-                         d.getVar('IMAGE_NAME', True), 'license.manifest')
-+    write_license_files(d, rootfs_license_manifest, pkg_dic)
-+}
-+
-+def write_license_files(d, license_manifest, pkg_dic):
-+    import re
-+
-+    bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE", True) or "").split()
-+    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
-+    bad_licenses = expand_wildcard_licenses(d, bad_licenses)
-+
-     with open(license_manifest, "w") as license_file:
-         for pkg in sorted(pkg_dic):
-             if bad_licenses:
-@@ -98,15 +103,16 @@ python license_create_manifest() {
-     if copy_lic_manifest == "1":
-         rootfs_license_dir = os.path.join(d.getVar('IMAGE_ROOTFS', 'True'), 
-                                 'usr', 'share', 'common-licenses')
--        os.makedirs(rootfs_license_dir)
-+        bb.utils.mkdirhier(rootfs_license_dir)
-         rootfs_license_manifest = os.path.join(rootfs_license_dir,
--                                                'license.manifest')
--        os.link(license_manifest, rootfs_license_manifest)
-+                os.path.split(license_manifest)[1])
-+        if not os.path.exists(rootfs_license_manifest):
-+            os.link(license_manifest, rootfs_license_manifest)
- 
-         if copy_lic_dirs == "1":
-             for pkg in sorted(pkg_dic):
-                 pkg_rootfs_license_dir = os.path.join(rootfs_license_dir, pkg)
--                os.makedirs(pkg_rootfs_license_dir)
-+                bb.utils.mkdirhier(pkg_rootfs_license_dir)
-                 pkg_license_dir = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
-                                             pkg_dic[pkg]["PN"]) 
-                 licenses = os.listdir(pkg_license_dir)
-@@ -124,14 +130,16 @@ python license_create_manifest() {
-                         if not os.path.exists(rootfs_license):
-                             os.link(pkg_license, rootfs_license)
- 
--                        os.symlink(os.path.join('..', lic), pkg_rootfs_license)
-+                        if not os.path.exists(pkg_rootfs_license):
-+                            os.symlink(os.path.join('..', lic), pkg_rootfs_license)
-                     else:
--                        if oe.license.license_ok(canonical_license(d,
--                            lic), bad_licenses) == False:
-+                        if (oe.license.license_ok(canonical_license(d,
-+                                lic), bad_licenses) == False or
-+                                os.path.exists(pkg_rootfs_license)):
-                             continue
- 
+@@ -141,6 +141,42 @@ def write_license_files(d, license_manifest, pkg_dic):
                          os.link(pkg_license, pkg_rootfs_license)
--}
-+
  
+ 
++def get_boot_dependencies(d):
++    """
++    Return the dependencies from boot tasks
++    """
++
++    depends = ""
++    boot_depends_string = ""
++    taskdepdata = d.getVar("BB_TASKDEPDATA", True)
++    # Only bootimg and bootdirectdisk include the depends flag
++    boot_tasks = ["do_bootimg", "do_bootdirectdisk",]
++
++    for task in boot_tasks:
++        boot_depends_string = "%s %s" % (boot_depends_string,
++                d.getVarFlag(task, "depends", True) or "")
++    boot_depends = [dep.split(":")[0] for dep
++                in boot_depends_string.split()
++                if not dep.split(":")[0].endswith("-native")]
++    for dep in boot_depends:
++        info_file = os.path.join(d.getVar("LICENSE_DIRECTORY", True),
++                dep, "recipeinfo")
++        # If the recipe and dependency name is the same
++        if os.path.exists(info_file):
++            depends = "%s %s" % (depends, dep)
++        # We need to search for the provider of the dependency
++        else:
++            for taskdep in taskdepdata.itervalues():
++                # The fifth field contains what the task provides
++                if dep in taskdep[4]:
++                    info_file = os.path.join(
++                            d.getVar("LICENSE_DIRECTORY", True),
++                            taskdep[0], "recipeinfo")
++                    if os.path.exists(info_file):
++                        depends = "%s %s" % (depends, taskdep[0])
++                        break
++    return depends
++
  python do_populate_lic() {
      """
+     Populate LICENSE_DIRECTORY with licenses.
 -- 
 1.8.4.5
 
