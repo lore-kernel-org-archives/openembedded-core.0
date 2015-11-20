@@ -1,23 +1,61 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7358460112
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 98CA760112
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Nov 2015 11:40:49 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Nov 2015 03:40:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,322,1444719600"; d="scan'208";a="855716015"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Nov 2015 03:40:52 -0800
-Received: from localhost.localdomain (unknown [10.237.112.174])
-	by linux.intel.com (Postfix) with ESMTP id 08A146A4005;
-	Fri, 20 Nov 2015 03:39:43 -0800 (PST)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Nov 2015 13:42:02 +0200
-Message-Id: <1448019722-24279-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/runtime: Added wifi tests.
+	Fri, 20 Nov 2015 13:42:33 +0000 (UTC)
+Received: by wmvv187 with SMTP id v187so72504887wmv.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Nov 2015 05:42:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=dresearch-fe-de.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=EXf1uEsBPtImI0R0WiGo/pkMAVfhW0LYbxA62s+xYow=;
+	b=Jbq3wiqnqt9TY+pxF16bPO04TqtpNvUbGsV+ebAGIciUvFuuNwi9URrbruktrFJRTt
+	azW7QEIcdJ8kM+tgU2879Q3sr6pwqckx9WoVXJ44myvXKDUr6tbVQu66lUOx7LdvBI3Q
+	1tkeNExGbxoAXZhlQT112JFjhHZDy4wjeP1CWh1XaF3qwdFKwniReykrABKkaCYf/Iob
+	uNKe+ACXcSkkAxlbkAMS7lXsT2kzDUnl6kLNvba2vCb6QP3nYJ4i1DK2GApgpddTEvt3
+	0uUrUuT3wFzwApBPXS1bazbRHQLOjyDk/ZRkiIl7pj8cgTN8MOmDweEmhm2/EP2tv2dv
+	VPYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=EXf1uEsBPtImI0R0WiGo/pkMAVfhW0LYbxA62s+xYow=;
+	b=O06thRdAHWrSE36N53jVihn4jT4BgC8KHeIBcAYKF4JW8jUQgAEGOPIXQou3DdJQ+Y
+	Ioq58cql+DCW7R+sBh//coEsbUe3Jmfgd10Zdwf25f4H/V0sfdrb3UPUsbgLHulhpUcR
+	aJL6t88nsf764b4MfJ3J52sGOmqtMlnjBIqgB9MGH7bY5CpoFCM+uPM0P//cyMa+erfd
+	BZjUjo5hzFn6TBHRf4fD9Es4S6XKqf9IXz259wIoXrrTgwU5IJVdWCmE5qpuMeoPdsAV
+	muvcGaxXOu2oir+Z3FA1sjnrej5kzOeegFgQM+h4vRACUqk495bjJRr/Rbclay+9CRnu
+	GYHw==
+X-Gm-Message-State: ALoCoQlF9ZnNf+b/4NrY+8rEuvJLT4xNPC1pqlILPOHgCcyk1z0lse538Z3Y66/07H04c+fquCmw
+X-Received: by 10.194.116.167 with SMTP id jx7mr14684013wjb.105.1448026953610; 
+	Fri, 20 Nov 2015 05:42:33 -0800 (PST)
+Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
+	by smtp.googlemail.com with ESMTPSA id
+	kj3sm12783814wjb.19.2015.11.20.05.42.32
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 20 Nov 2015 05:42:32 -0800 (PST)
+To: ChenQi <Qi.Chen@windriver.com>, Kang Kai <kai.kang@windriver.com>,
+	Martin Jansa <Martin.Jansa@gmail.com>,
+	Ross Burton <ross.burton@intel.com>, Radu Moisan <radu.moisan@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	=?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@googlemail.com>,
+	Khem Raj <raj.khem@gmail.com>, Koen Kooi <koen@dominion.thruhere.net>, 
+	Jonathan Liu <net147@gmail.com>
+References: <5649BDDE.6030107@dresearch-fe.de>
+	<564AE081.30004@dresearch-fe.de> <564CA3F8.9020404@dresearch-fe.de>
+	<564DDDE4.20002@dresearch-fe.de> <564EE292.5070704@windriver.com>
+From: Steffen Sledz <sledz@dresearch-fe.de>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <564F2347.1010308@dresearch-fe.de>
+Date: Fri, 20 Nov 2015 14:42:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <564EE292.5070704@windriver.com>
+Subject: Re: systemd service vs. update-alternatives (was rsyslog: buggy systemd/ua handling?)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,418 +68,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Nov 2015 11:40:51 -0000
+X-List-Received-Date: Fri, 20 Nov 2015 13:42:34 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-A few wifi tests ported from IOT. They use expect scripts
-to connect and an external config file for the SSIDs and
-passwords.
+On 20.11.2015 10:06, ChenQi wrote:
+> I sent out a series of patches regarding syslog & systemd some time ago.
+> The title is "[OE-core] [PATCH V3 0/4] Fixes for systemd services in systemd".
+> Codes regarding update-alternatives and syslog for 'rsyslog' recipe is actually part of the whole fix.
+> You could try the patch series to see if they work for you.
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/lib/oeqa/runtime/files/config.ini             |  10 ++
- meta/lib/oeqa/runtime/files/wifi_connect.exp       |  47 +++++
- .../lib/oeqa/runtime/files/wifi_hidden_connect.exp |  47 +++++
- meta/lib/oeqa/runtime/wifi.py                      | 195 +++++++++++++++++++++
- meta/lib/oeqa/utils/helper.py                      |  62 +++++++
- 5 files changed, 361 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/files/config.ini
- create mode 100755 meta/lib/oeqa/runtime/files/wifi_connect.exp
- create mode 100755 meta/lib/oeqa/runtime/files/wifi_hidden_connect.exp
- create mode 100644 meta/lib/oeqa/runtime/wifi.py
- create mode 100644 meta/lib/oeqa/utils/helper.py
+I've applied your four patches to our fido based build environment (with a little modification because systemd was updated from 216 to 219).
 
-diff --git a/meta/lib/oeqa/runtime/files/config.ini b/meta/lib/oeqa/runtime/files/config.ini
-new file mode 100644
-index 0000000..eaa169a
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/files/config.ini
-@@ -0,0 +1,10 @@
-+[Connect]
-+ssid_80211g=
-+ssid_80211n=
-+ssid_80211b=
-+passwd_80211b=
-+passwd_80211g=
-+passwd_80211n=
-+ssid_broadcast=
-+passwd_broadcast=
-+
-diff --git a/meta/lib/oeqa/runtime/files/wifi_connect.exp b/meta/lib/oeqa/runtime/files/wifi_connect.exp
-new file mode 100755
-index 0000000..c0a0775
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/files/wifi_connect.exp
-@@ -0,0 +1,47 @@
-+#!/usr/bin/expect
-+set timeout 100
-+set login 0
-+set ip       [lindex $argv 0]
-+set cmd      [lindex $argv 1]
-+set service  [lindex $argv 2]
-+set password [lindex $argv 3]
-+
-+spawn ssh root@$ip -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR "$cmd"
-+ expect {
-+ "Agent registered"
-+   {
-+    send "config $service --remove\n";
-+    sleep 2; send "connect $service\n"; exp_continue
-+   }
-+ "Operation timeout"
-+   {
-+    sleep 1; send "connect $service\n"; exp_continue
-+   }
-+ "Operation aborted"
-+   {
-+    sleep 1; send "connect $service\n"; exp_continue
-+   }
-+ "Input/output error"
-+   {
-+    sleep 1; send "connect $service\n"; exp_continue
-+   }
-+ "Retry (yes/no)?"
-+   {
-+    sleep 1; send "yes\n"; exp_continue
-+   }
-+ "Passphrase?"
-+   {
-+    sleep 1; send "$password\n"; exp_continue
-+   }
-+ "Connected wifi*"
-+   {
-+    send "exit\n"; exit 2
-+   }
-+ "connmanctl*"
-+   {
-+    if {$login==0} {set login 1;send "agent on\n"; exp_continue} else {exp_continue}
-+   }
-+ eof
-+   {}
-+ }
-+
-diff --git a/meta/lib/oeqa/runtime/files/wifi_hidden_connect.exp b/meta/lib/oeqa/runtime/files/wifi_hidden_connect.exp
-new file mode 100755
-index 0000000..0e0f45f
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/files/wifi_hidden_connect.exp
-@@ -0,0 +1,47 @@
-+#!/usr/bin/expect
-+set timeout 100
-+set login 0
-+set ip       [lindex $argv 0]
-+set cmd      [lindex $argv 1]
-+set service  [lindex $argv 2]
-+set ssid     [lindex $argv 3]
-+set password [lindex $argv 4]
-+
-+spawn ssh root@$ip -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR "$cmd"
-+ expect {
-+ "Agent registered"
-+   {
-+    sleep 1; send "connect $service\n"; exp_continue
-+   }
-+ "Operation timeout"
-+   {
-+    sleep 1; send "connect $service\n"; exp_continue
-+   }
-+ "Input/output error"
-+   {
-+    sleep 1; send "connect $service\n"; exp_continue
-+   }
-+ "Hidden SSID name?"
-+   {
-+    sleep 1; send "$ssid\n"; exp_continue
-+   }
-+ "Retry (yes/no)?"
-+   {
-+    sleep 1; send "yes\n"; exp_continue
-+   }
-+ "Passphrase?"
-+   {
-+    sleep 1; send "$password\n"; exp_continue
-+   }
-+ "Connected wifi*"
-+   {
-+    send "exit\n"; exit 2
-+   }
-+ "connmanctl*"
-+   {
-+    if {$login==0} {set login 1;send "agent on\n"; exp_continue} else {exp_continue}
-+   }
-+ eof
-+   {}
-+ }
-+
-diff --git a/meta/lib/oeqa/runtime/wifi.py b/meta/lib/oeqa/runtime/wifi.py
-new file mode 100644
-index 0000000..c63a711
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/wifi.py
-@@ -0,0 +1,195 @@
-+import time
-+import os
-+import string
-+import ConfigParser
-+import unittest
-+from oeqa.oetest import oeRuntimeTest
-+from oeqa.utils.helper import shell_cmd_timeout
-+from oeqa.utils.helper import get_files_dir
-+from oeqa.utils.decorators import skipUnlessPassed
-+
-+def setUpModule():
-+    if not oeRuntimeTest.hasPackage("connman"):
-+        skipModule("Image does not have connection manager")
-+
-+ssid_config = ConfigParser.ConfigParser()
-+config_path = os.path.join(os.path.dirname(__file__), "files/config.ini")
-+ssid_config.readfp(open(config_path))
-+
-+class CommWiFiConect(oeRuntimeTest):
-+
-+    @classmethod
-+    def setUpClass(self):
-+        (status, output) = oeRuntimeTest.tc.target.run('connmanctl enable wifi')
-+        if ("error" in output.lower()):
-+            raise unittest.SkipTest("Failed to enable wifi: %s " % output)
-+        oeRuntimeTest.tc.target.run('connmanctl disable wifi')
-+
-+    hidden_service = ""
-+    def setUp(self):
-+        # un-block software rfkill lock
-+        self.target.run('rfkill unblock all')
-+        # Enable WiFi
-+        (status, output) = self.target.run('connmanctl enable wifi')
-+        self.assertEqual(status, 0, msg="Error messages: %s" % output)
-+        time.sleep(20)
-+        # Scan nearby to get service of none-encryption broadcasting ssid
-+        hidden_str = "hidden_managed_psk"
-+        # will do scan retry 3 times if needed
-+        retry = 0
-+        while (retry < 4):
-+            (status, output) = self.target.run('connmanctl scan wifi')
-+            self.assertEqual(status, 0, msg="Error messages: %s" % output)
-+            (status, services) = self.target.run("connmanctl services | grep %s" % hidden_str)
-+            retry = retry + 1
-+            if (status == 0):
-+                break
-+        self.assertEqual(status, 0, msg="Not found hidden AP service")
-+        self.hidden_service = services.strip()
-+
-+    def tearDown(self):
-+        ''' disable wifi after testing '''
-+        self.target.run('connmanctl disable wifi')
-+
-+    def check_wifi_ip(self):
-+        time.sleep(3)
-+        # Check ip address by ifconfig command
-+        wifi_interface = "nothing"
-+        (status, wifi_interface) = self.target.run("ifconfig | grep '^wlp\|^wlan' | awk '{print $1}'")
-+        (status, output) = self.target.run("ifconfig %s | grep 'inet addr:'" % wifi_interface)
-+        self.assertEqual(status, 0, msg="Error messages: %s" % output)
-+
-+    def test_check_wifi_capable(self):
-+        (status, output) = self.target.run('cp /proc/config.gz .; gunzip config.gz; cat config | grep CONFIG_IWLWIFI=')
-+        self.assertEqual(status, 0, msg="Wifi not enabled in this kernel. Error messages: %s" % output)
-+        (status, output) = self.target.run('connmanctl enable wifi')
-+        self.assertEqual(status, 0, msg="Error messages: %s" % output)
-+        (status, output) = self.target.run('ifconfig | grep wlan')
-+        self.assertEqual(status, 0, msg="No wlan interface found! Error messages: %s" % output)
-+        (status, output) = self.target.run('connmanctl disable wifi')
-+
-+    @skipUnlessPassed('test_check_wifi_capable')
-+    def test_wifi_connect_80211b(self):
-+        '''connmanctl to connect 802.11b wifi AP'''
-+        target_ip = self.target.ip
-+        ssid = ssid_config.get("Connect","ssid_80211b")
-+        pwd = ssid_config.get("Connect","passwd_80211b")
-+
-+        # Do connection
-+        exp = os.path.join(os.path.dirname(__file__), "files/wifi_hidden_connect.exp")
-+        cmd = "expect %s %s %s %s %s %s" % (exp, target_ip, "connmanctl", self.hidden_service, ssid, pwd)
-+        status, output = shell_cmd_timeout(cmd, timeout=60)
-+        self.assertEqual(status, 2, msg="Error messages: %s" % output)
-+        self.check_wifi_ip()
-+
-+    @skipUnlessPassed('test_check_wifi_capable')
-+    def test_wifi_connect_80211g(self):
-+        '''connmanctl to connect 802.11g wifi AP'''
-+        target_ip = self.target.ip
-+        ssid = ssid_config.get("Connect","ssid_80211g")
-+        pwd = ssid_config.get("Connect","passwd_80211g")
-+
-+        # Do connection
-+        exp = os.path.join(os.path.dirname(__file__), "files/wifi_hidden_connect.exp")
-+        cmd = "expect %s %s %s %s %s %s" % (exp, target_ip, "connmanctl", self.hidden_service, ssid, pwd)
-+        status, output = shell_cmd_timeout(cmd, timeout=60)
-+        self.assertEqual(status, 2, msg="Error messages: %s" % output)
-+        self.check_wifi_ip()
-+
-+    @skipUnlessPassed('test_check_wifi_capable')
-+    def test_wifi_connect_80211n(self):
-+        '''connmanctl to connect 802.11n wifi AP'''
-+        target_ip = self.target.ip
-+        ssid = ssid_config.get("Connect","ssid_80211n")
-+        pwd = ssid_config.get("Connect","passwd_80211n")
-+
-+        # Do connection
-+        exp = os.path.join(os.path.dirname(__file__), "files/wifi_hidden_connect.exp")
-+        cmd = "expect %s %s %s %s %s %s" % (exp, target_ip, "connmanctl", self.hidden_service, ssid, pwd)
-+        status, output = shell_cmd_timeout(cmd, timeout=60)
-+        self.assertEqual(status, 2, msg="Error messages: %s" % output)
-+        self.check_wifi_ip()
-+
-+    @skipUnlessPassed('test_check_wifi_capable')
-+    def test_wifi_connect_wpapsk(self):
-+        '''connmanctl to connect WPA-PSK wifi AP (set by ssid_80211b AP)'''
-+        target_ip = self.target.ip
-+        ssid = ssid_config.get("Connect","ssid_80211b")
-+        pwd = ssid_config.get("Connect","passwd_80211b")
-+
-+        # Do connection
-+        exp = os.path.join(os.path.dirname(__file__), "files/wifi_hidden_connect.exp")
-+        cmd = "expect %s %s %s %s %s %s" % (exp, target_ip, "connmanctl", self.hidden_service, ssid, pwd)
-+        status, output = shell_cmd_timeout(cmd, timeout=60)
-+        self.assertEqual(status, 2, msg="Error messages: %s" % output)
-+        self.check_wifi_ip()
-+
-+    @skipUnlessPassed('test_check_wifi_capable')
-+    def test_wifi_connect_wpa2psk(self):
-+        '''connmanctl to connect WPA2-PSK wifi AP (set by ssid_80211g AP)'''
-+        target_ip = self.target.ip
-+        ssid = ssid_config.get("Connect","ssid_80211g")
-+        pwd = ssid_config.get("Connect","passwd_80211g")
-+
-+        # Do connection
-+        exp = os.path.join(os.path.dirname(__file__), "files/wifi_hidden_connect.exp")
-+        cmd = "expect %s %s %s %s %s %s" % (exp, target_ip, "connmanctl", self.hidden_service, ssid, pwd)
-+        status, output = shell_cmd_timeout(cmd, timeout=60)
-+        self.assertEqual(status, 2, msg="Error messages: %s" % output)
-+        self.check_wifi_ip()
-+
-+    @skipUnlessPassed('test_check_wifi_capable')
-+    def test_wifi_connect_wpa2psk_broadcast(self):
-+        '''connmanctl to connect WPA2-PSK wifi AP (not hidden)'''
-+        target_ip = self.target.ip
-+        ssid = ssid_config.get("Connect","ssid_broadcast")
-+        pwd = ssid_config.get("Connect","passwd_broadcast")
-+
-+        # For broadcast AP, get its service firstly.
-+        retry = 0
-+        while (retry < 4):
-+            (status, output) = self.target.run('connmanctl scan wifi')
-+            self.assertEqual(status, 0, msg="Error messages: %s" % output)
-+            (status, output) = self.target.run("connmanctl services | grep %s" % ssid)
-+            retry = retry + 1
-+            if (status == 0):
-+                break
-+        self.assertEqual(status, 0, msg="Not found AP service")
-+        service = output.split(" ")[-1]
-+
-+        # Do connection
-+        exp = os.path.join(os.path.dirname(__file__), "files/wifi_connect.exp")
-+        cmd = "expect %s %s %s %s %s" % (exp, target_ip, "connmanctl", service, pwd)
-+        status, output = shell_cmd_timeout(cmd, timeout=200)
-+        self.assertEqual(status, 2, msg="Error messages: %s" % output)
-+        self.check_wifi_ip()
-+
-+    @skipUnlessPassed('test_check_wifi_capable')
-+    def test_wifi_connect_internet(self):
-+        '''connmanctl to connect to internet, by broadcast wifi AP'''
-+        target_ip = self.target.ip
-+        ssid = ssid_config.get("Connect","ssid_broadcast")
-+        pwd = ssid_config.get("Connect","passwd_broadcast")
-+
-+        # For broadcast AP, get its service firstly.
-+        retry = 0
-+        while (retry < 4):
-+            (status, output) = self.target.run('connmanctl scan wifi')
-+            self.assertEqual(status, 0, msg="Error messages: %s" % output)
-+            (status, output) = self.target.run("connmanctl services | grep %s" % ssid)
-+            retry = retry + 1
-+            if (status == 0):
-+                break
-+        self.assertEqual(status, 0, msg="Not found AP service")
-+        service = output.split(" ")[-1]
-+
-+        # Do connection
-+        exp = os.path.join(os.path.dirname(__file__), "files/wifi_connect.exp")
-+        cmd = "expect %s %s %s %s %s" % (exp, target_ip, "connmanctl", service, pwd)
-+        status, output = shell_cmd_timeout(cmd, timeout=200)
-+        self.assertEqual(status, 2, msg="Error messages: %s" % output)
-+        self.check_wifi_ip()
-+
-+        # Ping internet web links
-+        (status, output) = self.target.run("ping www.google.com -c 4")
-+        self.assertEqual(status, 0, msg="Error messages: %s" % output)
-diff --git a/meta/lib/oeqa/utils/helper.py b/meta/lib/oeqa/utils/helper.py
-new file mode 100644
-index 0000000..1b4eeb5
---- /dev/null
-+++ b/meta/lib/oeqa/utils/helper.py
-@@ -0,0 +1,62 @@
-+#[PROTEXCAT]
-+#\License: ALL RIGHTS RESERVED
-+#\Author: Wang, Jing <jing.j.wang@intel.com>
-+
-+import time
-+import subprocess
-+import os
-+from oeqa.oetest import oeRuntimeTest
-+import unittest
-+
-+def shell_cmd(cmd):
-+    """Execute shell command till it return"""
-+    cmd_proc = subprocess.Popen(cmd, shell=True)
-+    return cmd_proc.wait() if cmd_proc else -1
-+
-+def shell_cmd_timeout(cmd, timeout=0):
-+    """Execute shell command till timeout"""
-+    cmd_proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-+    if not cmd_proc:
-+        return -1, ''
-+    t_timeout, tick = timeout, 2
-+    ret, output = None, ''
-+    while True:
-+        time.sleep(tick)
-+        output = cmd_proc.communicate()[0]
-+        ret = cmd_proc.poll()
-+        if ret is not None:
-+            break
-+
-+        if t_timeout > 0:
-+            t_timeout -= tick
-+
-+        if t_timeout <= 0:
-+            # timeout, kill command
-+            cmd_proc.kill()
-+            ret = -99999
-+            break
-+    return ret, output
-+
-+def collect_pnp_log(casename, logname, log):
-+    """collect the result log for pnp part"""
-+    curpath = os.getcwd()
-+    if not os.path.exists(casename):
-+        os.makedirs(casename)
-+
-+    logpath = os.path.join(curpath, casename, logname)
-+    logtime = time.strftime("%Y-%m-%d %H:%M:%S")
-+    with open(logpath, "a") as text_file:
-+        text_file.write("%s %s:%s\n" %(logtime, casename, log))
-+
-+def get_files_dir():
-+    """Get directory of supporting files"""
-+    pkgarch = oeRuntimeTest.tc.d.getVar('MACHINE', True)
-+    deploydir = oeRuntimeTest.tc.d.getVar('DEPLOY_DIR', True)
-+    return os.path.join(deploydir, "files", "target", pkgarch)
-+
-+def get_native_dir():
-+    """Get directory of native files"""
-+    arch = oeRuntimeTest.tc.d.getVar('BUILD_ARCH', True)
-+    deploydir = oeRuntimeTest.tc.d.getVar('DEPLOY_DIR', True)
-+    return os.path.join(deploydir, "files", "native", arch)
-+
+Here are the results of my first tests:
+
+----------------------------------------------------------------------
+(1) busybox-syslog only
+
+Everything seems to be OK.
+
+----------------------------------------------------------------------
+(2) opkg install sysklogd_1.5.1-r0.0_armv5e.ipk
+
+Job for sysklogd.service failed. See "systemctl status sysklogd.service" and "journalctl -xe" for details.
+Collected errors:
+ * pkg_run_script: package "sysklogd" postinst script returned status 1.
+ * opkg_configure: sysklogd.postinst returned 1.
+
+# ps aux | grep syslog;ll /etc/systemd/system/*syslog*;ll /sbin/syslogd;systemctl status syslog.service;systemctl status busybox-syslog.service;systemctl status sysklogd.service
+root     24123  0.0  0.1   2256  1528 ?        Ss   13:21   0:00 /sbin/syslogd -n -C
+root     24291  0.0  0.1   2244  1272 pts/0    S+   13:22   0:00 grep syslog
+lrwxrwxrwx    1 root     root            36 Nov 20 13:21 /etc/systemd/system/syslog.service -> /lib/systemd/system/sysklogd.service
+lrwxrwxrwx    1 root     root            22 Nov 20 13:21 /sbin/syslogd -> /sbin/syslogd.sysklogd*
+● sysklogd.service - System Logging Service
+   Loaded: loaded (/lib/systemd/system/sysklogd.service; enabled; vendor preset: enabled)
+   Active: failed (Result: exit-code) since Fri 2015-11-20 13:21:57 UTC; 24s ago
+  Process: 24278 ExecStart=/sbin/syslogd $SYSLOGD (code=exited, status=1/FAILURE)
+● busybox-syslog.service - System Logging Service
+   Loaded: loaded (/lib/systemd/system/busybox-syslog.service; indirect; vendor preset: enabled)
+   Active: active (running) since Fri 2015-11-20 13:21:14 UTC; 1min 8s ago
+ Main PID: 24123 (syslogd)
+   CGroup: /system.slice/busybox-syslog.service
+           └─24123 /sbin/syslogd -n -C
+● sysklogd.service - System Logging Service
+   Loaded: loaded (/lib/systemd/system/sysklogd.service; enabled; vendor preset: enabled)
+   Active: failed (Result: exit-code) since Fri 2015-11-20 13:21:57 UTC; 24s ago
+  Process: 24278 ExecStart=/sbin/syslogd $SYSLOGD (code=exited, status=1/FAILURE)
+
+So the symlinks seem to be OK. But why is busybox-syslog.service as running and sysklogd.service as failed.
+
+----------------------------------------------------------------------
+(3) opkg remove sysklogd
+
+Warning: Stopping sysklogd.service, but it can still be activated by:
+  syslog.socket
+
+Evrything seems to be OK. All symlinks are set right. sysklogd.service is reported as not-found
+
+----------------------------------------------------------------------
+(4) opkg install sysklogd_1.5.1-r0.0_armv5e.ipk
+
+This time no postinst error. But two syslogd instances are running and busybox-syslog.service is reported as running again.
+
+# ps aux | grep syslog;ll /etc/systemd/system/*syslog*;ll /sbin/syslogd;systemctl status syslog.service;systemctl status busybox-syslog.service;systemctl status sysklogd.service
+root     24123  0.0  0.1   2256  1528 ?        Ss   13:21   0:00 /sbin/syslogd -n -C
+root     24647  0.0  0.1   1788  1420 ?        Ss   13:23   0:00 /sbin/syslogd
+root     24653  0.0  0.1   2244  1260 pts/0    S+   13:24   0:00 grep syslog
+lrwxrwxrwx    1 root     root            36 Nov 20 13:23 /etc/systemd/system/syslog.service -> /lib/systemd/system/sysklogd.service
+lrwxrwxrwx    1 root     root            22 Nov 20 13:23 /sbin/syslogd -> /sbin/syslogd.sysklogd*
+● sysklogd.service - System Logging Service
+   Loaded: loaded (/lib/systemd/system/sysklogd.service; enabled; vendor preset: enabled)
+   Active: active (running) since Fri 2015-11-20 13:23:55 UTC; 12s ago
+  Process: 24646 ExecStart=/sbin/syslogd $SYSLOGD (code=exited, status=0/SUCCESS)
+ Main PID: 24647 (syslogd)
+   CGroup: /system.slice/sysklogd.service
+           └─24647 /sbin/syslogd
+● busybox-syslog.service - System Logging Service
+   Loaded: loaded (/lib/systemd/system/busybox-syslog.service; indirect; vendor preset: enabled)
+   Active: active (running) since Fri 2015-11-20 13:21:14 UTC; 2min 52s ago
+ Main PID: 24123 (syslogd)
+   CGroup: /system.slice/busybox-syslog.service
+           └─24123 /sbin/syslogd -n -C
+● sysklogd.service - System Logging Service
+   Loaded: loaded (/lib/systemd/system/sysklogd.service; enabled; vendor preset: enabled)
+   Active: active (running) since Fri 2015-11-20 13:23:55 UTC; 12s ago
+  Process: 24646 ExecStart=/sbin/syslogd $SYSLOGD (code=exited, status=0/SUCCESS)
+ Main PID: 24647 (syslogd)
+   CGroup: /system.slice/sysklogd.service
+           └─24647 /sbin/syslogd
+
+----------------------------------------------------------------------
+
+So my first conclusion: It looks much better but not perfect yet.
+
+I'll do some more researches next week.
+
+Regards,
+Steffen
+
+PS: What's the better place for this discussion? This mailing list? Or <https://bugzilla.yoctoproject.org/show_bug.cgi?id=8688>?
+
 -- 
-2.1.4
-
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
