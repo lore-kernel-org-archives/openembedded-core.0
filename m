@@ -1,35 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C155860107
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A296E60670
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Nov 2015 16:46:09 +0000 (UTC)
-Received: by igcto18 with SMTP id to18so15904085igc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Nov 2015 08:46:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=HlfubwXx742M7PmJcj6Csu45Dpz0eRU8hz2BnvaYHPc=;
-	b=NVvkN17d2XAQiDThvu85F/NhRH0BIQDpLMvMvy3FgzyCInL66sn7xPy+Kr77ayUNzH
-	2FOTMb6kQnp4cIeWOeFdO5i9JYh4GAX5GDhT85jxYsODdyDFYGWkN0swyNNcNVYP7Xr6
-	fOzhBlyd1LvhJoekA6395ra7BVPtUEUOPJgLMe0J+pf8XOKHlp0Q3ukZqO9wqRMfxDN+
-	NOoBkMtOA1lzbQn+JD8CKMgnXtq7pGRUIDLPevwOL31ZKkIilMAtXli5uR3Azh3hDXLW
-	p5+6lxyD7r79jHvs/ti67Rk1vbyp4OfO7E4Ky3Qa37wxMuMeM05Me6knezMCS8CRdqJE
-	lDsw==
-X-Received: by 10.50.50.8 with SMTP id y8mr883503ign.77.1448037968719; Fri, 20
-	Nov 2015 08:46:08 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.12.205 with HTTP; Fri, 20 Nov 2015 08:45:39 -0800 (PST)
-In-Reply-To: <1446816452.15270.171.camel@linuxfoundation.org>
-References: <1446816452.15270.171.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 20 Nov 2015 08:45:39 -0800
-Message-ID: <CAMKF1sppQttogm80KVw8vy67nigszLys2Gei9eB4DJM+haznkQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Jethro maintainer
+	Fri, 20 Nov 2015 18:56:21 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 20 Nov 2015 10:56:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,323,1444719600"; d="scan'208";a="604303870"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by FMSMGA003.fm.intel.com with ESMTP; 20 Nov 2015 10:56:22 -0800
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Nov 2015 10:44:49 +0000
+Message-Id: <d4209ee736b1da2f63052fde3eb206e38170e660.1448015777.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1447942163.git.mariano.lopez@linux.intel.com>
+References: <cover.1447942163.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1448015777.git.mariano.lopez@linux.intel.com>
+References: <cover.1448015777.git.mariano.lopez@linux.intel.com>
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCHv4 1/6] license.bbclass: Write recipeinfo file in license folder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,86 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Nov 2015 16:46:09 -0000
-Content-Type: multipart/alternative; boundary=047d7b2ee095bf5bc10524fb9c13
+X-List-Received-Date: Fri, 20 Nov 2015 18:56:23 -0000
 
---047d7b2ee095bf5bc10524fb9c13
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-=E2=80=8BHi Richard
+Currently there is no way to get the recipe version when
+creating the rootfs. It is needed because the manifest
+file for the image has to contain this important piece
+of information.
 
-=E2=80=8BHave you found maintainer for Jethro ?
+This change writes a new file in the license folder for
+every recipe. This file is called "recipeinfo" and have
+the information used to write the manifest file for the
+recipes deployed next to the image.
 
-if not I am available and we will use jethro in RDK as well
+[YOCTO #6772]
 
-Thanks
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/classes/license.bbclass | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
--Khem
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index c616a20..76f40c9 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -142,6 +142,10 @@ python do_populate_lic() {
+     # The base directory we wrangle licenses to
+     destdir = os.path.join(d.getVar('LICSSTATEDIR', True), d.getVar('PN', True))
+     copy_license_files(lic_files_paths, destdir)
++    info = get_recipe_info(d)
++    with open(os.path.join(destdir, "recipeinfo"), "w") as f:
++        for key in sorted(info.keys()):
++            f.write("%s: %s\n" % (key, info[key]))
+ }
+ 
+ # it would be better to copy them in do_install_append, but find_license_filesa is python
+@@ -156,6 +160,13 @@ python perform_packagecopy_prepend () {
+         add_package_and_files(d)
+ }
+ 
++def get_recipe_info(d):
++    info = {}
++    info["PV"] = d.getVar("PV", True)
++    info["PR"] = d.getVar("PR", True)
++    info["LICENSE"] = d.getVar("LICENSE", True)
++    return info
++
+ def add_package_and_files(d):
+     packages = d.getVar('PACKAGES', True)
+     files = d.getVar('LICENSE_FILES_DIRECTORY', True)
+-- 
+1.8.4.5
 
-=E2=80=8B
-=E2=80=8B
 
-On Nov 6, 2015 5:28 AM, "Richard Purdie" <richard.purdie@linuxfoundation.or=
-g>
-wrote:
->
-> We've going to need a new stable maintainer for the new release. There
-> have already been a  couple of offers, but to be fair to everyone I
-> thought I'd explicitly ask if there was anyone else interested?
->
-> Cheers,
->
-> Richard
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---047d7b2ee095bf5bc10524fb9c13
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><p dir=3D"ltr"></p><div class=3D"gmail_default" style=3D"f=
-ont-family:georgia,serif;display:inline">=E2=80=8BHi Richard</div><p></p><p=
- dir=3D"ltr"><span style=3D"font-family:georgia,serif"></span></p><div clas=
-s=3D"gmail_default" style=3D"font-family:georgia,serif;display:inline">=E2=
-=80=8BHave you found maintainer for Jethro ?</div><p></p><p dir=3D"ltr"><sp=
-an style=3D"font-family:georgia,serif"></span></p><div class=3D"gmail_defau=
-lt" style=3D"font-family:georgia,serif;display:inline">if not I am availabl=
-e and we will use jethro in RDK as well</div><p></p><p dir=3D"ltr"><span st=
-yle=3D"font-family:georgia,serif">Thanks</span><br></p><p dir=3D"ltr"><span=
- style=3D"font-family:georgia,serif"></span></p><div class=3D"gmail_default=
-" style=3D"font-family:georgia,serif;display:inline">-Khem</div><p></p><p d=
-ir=3D"ltr"><span style=3D"font-family:georgia,serif"></span></p><div class=
-=3D"gmail_default" style=3D"font-family:georgia,serif;display:inline">=E2=
-=80=8B</div>=E2=80=8B<br><p></p><p dir=3D"ltr">
-On Nov 6, 2015 5:28 AM, &quot;Richard Purdie&quot; &lt;<a href=3D"mailto:ri=
-chard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfou=
-ndation.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; We&#39;ve going to need a new stable maintainer for the new release. T=
-here<br>
-&gt; have already been a=C2=A0 couple of offers, but to be fair to everyone=
- I<br>
-&gt; thought I&#39;d explicitly ask if there was anyone else interested?<br=
->
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/ope=
-nembedded-core</a><br>
-</p>
-</div>
-
---047d7b2ee095bf5bc10524fb9c13--
