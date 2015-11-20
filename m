@@ -1,26 +1,26 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 347F560797
+	by mail.openembedded.org (Postfix) with ESMTP id 0836A60797
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Nov 2015 18:56:23 +0000 (UTC)
+	Fri, 20 Nov 2015 18:56:24 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 20 Nov 2015 10:56:24 -0800
+	by orsmga103.jf.intel.com with ESMTP; 20 Nov 2015 10:56:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,323,1444719600"; d="scan'208";a="604303886"
+X-IronPort-AV: E=Sophos;i="5.20,323,1444719600"; d="scan'208";a="604303896"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.23.219.46])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 Nov 2015 10:56:24 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 20 Nov 2015 10:56:25 -0800
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Nov 2015 10:44:51 +0000
-Message-Id: <8de3d84699d4d182c93410973b1b2d9e3a150aed.1448015777.git.mariano.lopez@linux.intel.com>
+Date: Fri, 20 Nov 2015 10:44:52 +0000
+Message-Id: <e63f5ffb441fa8ee8e03e1ac983add35547f2e23.1448015777.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
 In-Reply-To: <cover.1447942163.git.mariano.lopez@linux.intel.com>
 References: <cover.1447942163.git.mariano.lopez@linux.intel.com>
 In-Reply-To: <cover.1448015777.git.mariano.lopez@linux.intel.com>
 References: <cover.1448015777.git.mariano.lopez@linux.intel.com>
 Cc: paul.eggleton@linux.intel.com
-Subject: [PATCHv4 3/6] license.bbclass: Added get_boot_dependencies function
+Subject: [PATCHv4 4/6] license.bbclass: Added function get_deployed_dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +33,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Nov 2015 18:56:23 -0000
+X-List-Received-Date: Fri, 20 Nov 2015 18:56:24 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-This function gets the dependencies from the classes that
-create a boot image, this is required because sometimes
-the bootloader dependecy is in these classes. The current
-classes covered are bootimg and bootdirectdisk because
-these are the only clases that add dependencies.
+This change introduce a new function to get the dependencies
+that were deployed. It uses BB_TASKDEPDATAto get all the
+dependencies of the current task, so it is possible to get
+different packages depending at what point this function is
+called.
 
 [YOCTO #6772]
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/classes/license.bbclass | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ meta/classes/license.bbclass | 48 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
 diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 83ae771..457ad85 100644
+index 457ad85..11a5004 100644
 --- a/meta/classes/license.bbclass
 +++ b/meta/classes/license.bbclass
-@@ -141,6 +141,42 @@ def write_license_files(d, license_manifest, pkg_dic):
+@@ -141,6 +141,54 @@ def write_license_files(d, license_manifest, pkg_dic):
                          os.link(pkg_license, pkg_rootfs_license)
  
  
-+def get_boot_dependencies(d):
++def get_deployed_dependencies(d):
 +    """
-+    Return the dependencies from boot tasks
++    Get all the deployed dependencies of an image
 +    """
 +
-+    depends = []
-+    boot_depends_string = ""
-+    taskdepdata = d.getVar("BB_TASKDEPDATA", True)
-+    # Only bootimg and bootdirectdisk include the depends flag
-+    boot_tasks = ["do_bootimg", "do_bootdirectdisk",]
++    deploy = {}
++    # Get all the dependencies for the current task (rootfs).
++    # Also get EXTRA_IMAGEDEPENDS because the bootloader is
++    # usually in this var and not listed in rootfs.
++    # At last, get the dependencies from boot classes because
++    # it might contain the bootloader.
++    taskdata = d.getVar("BB_TASKDEPDATA", True)
++    depends = list(set([dep[0] for dep
++                    in taskdata.itervalues()
++                    if not dep[0].endswith("-native")]))
++    extra_depends = d.getVar("EXTRA_IMAGEDEPENDS", True)
++    boot_depends = get_boot_dependencies(d)
++    depends.extend(extra_depends.split())
++    depends.extend(boot_depends)
++    depends = list(set(depends))
 +
-+    for task in boot_tasks:
-+        boot_depends_string = "%s %s" % (boot_depends_string,
-+                d.getVarFlag(task, "depends", True) or "")
-+    boot_depends = [dep.split(":")[0] for dep
-+                in boot_depends_string.split()
-+                if not dep.split(":")[0].endswith("-native")]
-+    for dep in boot_depends:
-+        info_file = os.path.join(d.getVar("LICENSE_DIRECTORY", True),
-+                dep, "recipeinfo")
-+        # If the recipe and dependency name is the same
-+        if os.path.exists(info_file):
-+            depends.append(dep)
-+        # We need to search for the provider of the dependency
-+        else:
-+            for taskdep in taskdepdata.itervalues():
-+                # The fifth field contains what the task provides
-+                if dep in taskdep[4]:
-+                    info_file = os.path.join(
-+                            d.getVar("LICENSE_DIRECTORY", True),
-+                            taskdep[0], "recipeinfo")
-+                    if os.path.exists(info_file):
-+                        depends.append(taskdep[0])
-+                        break
-+    return depends
++    # To verify what was deployed it checks the rootfs dependencies against
++    # the SSTATE_MANIFESTS for "deploy" task.
++    # The manifest file name contains the arch. Because we are not running
++    # in the recipe context it is necessary to check every arch used.
++    sstate_manifest_dir = d.getVar("SSTATE_MANIFESTS", True)
++    sstate_archs = d.getVar("SSTATE_ARCHS", True)
++    extra_archs = d.getVar("PACKAGE_EXTRA_ARCHS", True)
++    archs = list(set(("%s %s" % (sstate_archs, extra_archs)).split()))
++    for dep in depends:
++        # Some recipes have an arch on their own, so we try that first.
++        special_arch = d.getVar("PACKAGE_ARCH_pn-%s" % dep, True)
++        if special_arch:
++            sstate_manifest_file = os.path.join(sstate_manifest_dir,
++                    "manifest-%s-%s.deploy" % (special_arch, dep))
++            if os.path.exists(sstate_manifest_file):
++                deploy[dep] = sstate_manifest_file
++                continue
 +
- python do_populate_lic() {
++        for arch in archs:
++            sstate_manifest_file = os.path.join(sstate_manifest_dir,
++                    "manifest-%s-%s.deploy" % (arch, dep))
++            if os.path.exists(sstate_manifest_file):
++                deploy[dep] = sstate_manifest_file
++                break
++
++    return deploy
++
+ def get_boot_dependencies(d):
      """
-     Populate LICENSE_DIRECTORY with licenses.
+     Return the dependencies from boot tasks
 -- 
 1.8.4.5
 
