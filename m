@@ -1,24 +1,34 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C12460107
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 69F1860112
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Nov 2015 20:06:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAKK6uek009447
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 20 Nov 2015 21:29:01 +0000 (UTC)
+Received: by padhx2 with SMTP id hx2so127668766pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Nov 2015 12:06:56 -0800 (PST)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 20 Nov 2015 12:06:55 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Nov 2015 14:06:54 -0600
-Message-ID: <1448050014-106617-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 2.5.0
-MIME-Version: 1.0
-Subject: [PATCH] populate_sdk_ext.bbclass: Be more permissive on the name of the buildtools
+	Fri, 20 Nov 2015 13:29:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=kp1osui0IXayblCp9M4Pd3Zj3JFlpuF32tk04lXfZYY=;
+	b=sPruO/fCuJjVbUOIJJgoMIoPhLPg13hP+E+/mRlOx12l/599Dj7WrcODzJPJbTRVeE
+	rW7dayEALPR4WY6+v/qR7cR8REbO40bkrqYVq3Y1dbh7RyBLaYL31EazQs0PrJNVs4pl
+	PLxBWy3vD6Dkc5IkOq4GYFeGypMsGWLL0dpinVkXpdWlHEq8lqb6Ar7APWF/E98WpL1f
+	XguPMz00PSTTccl5H2jnTPJbMEmrzgxMpBK1E9yARlmpEiksEpg9d1dsgoDGpuk0lzUp
+	blDWYbf4sTMXBSgRZiBwimO7fXrjX4FJ+92lO8nk+XEO5l1/DAyjqWU2JIsraSHqnF/m
+	kkRg==
+X-Received: by 10.98.44.193 with SMTP id s184mr1913600pfs.8.1448054942574;
+	Fri, 20 Nov 2015 13:29:02 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id c1sm928087pas.1.2015.11.20.13.29.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 20 Nov 2015 13:29:01 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Nov 2015 13:28:56 -0800
+Message-Id: <1448054936-30631-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] sqlite3: update 3.9.0 -> 3.9.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Nov 2015 20:06:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 20 Nov 2015 21:29:07 -0000
 
-We want to support different names for the buildtools tarball.  The
-name may not always be of the default oe-core format.
-
-For instance, at Wind River we define the built-tools name to be:
-
-${SDK_ARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}
-
-because thes standard SDK_NAME has additional information that is not 
-relevant to the builtools tarball.
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ meta/recipes-support/sqlite/{sqlite3_3.9.0.bb => sqlite3_3.9.2.bb} | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/sqlite/{sqlite3_3.9.0.bb => sqlite3_3.9.2.bb} (81%)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 249ec36..e4e0233 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -187,10 +187,7 @@ python copy_buildsystem () {
- }
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.9.0.bb b/meta/recipes-support/sqlite/sqlite3_3.9.2.bb
+similarity index 81%
+rename from meta/recipes-support/sqlite/sqlite3_3.9.0.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.9.2.bb
+index 50531ba..83685e0 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.9.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.9.2.bb
+@@ -12,12 +12,11 @@ PE = "3"
+ SQLITE_PV = "${@sqlite_download_version(d)}"
+ SRC_URI = "http://www.sqlite.org/2015/sqlite-autoconf-${SQLITE_PV}.tar.gz"
  
- def extsdk_get_buildtools_filename(d):
--    # This is somewhat of a hack
--    localdata = bb.data.createCopy(d)
--    localdata.setVar('PN', 'buildtools-tarball')
--    return localdata.expand('${SDK_NAME}-buildtools-nativesdk-standalone-*.sh')
-+    return '*-buildtools-nativesdk-standalone-*.sh'
+-SRC_URI[md5sum] = "cd0f883b2ddfc29e8e1bbbbd8e85f555"
+-SRC_URI[sha256sum] = "a324143f4cc35cd7e9605a0a8dec9f9e4861d0be8305f3642e7d05008b77e60d"
++SRC_URI[md5sum] = "bc4eb5b3fc5cfcb6e059794306cac1ca"
++SRC_URI[sha256sum] = "064c0abe9c9177534d4c770bca7a5902f9924b629ac886b4c08956be6dfbc36b"
  
- install_tools() {
- 	install -d ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}
+ S = "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
+ 
+ # Provide column meta-data API
+ BUILD_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
+ TARGET_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
+-
 -- 
-2.5.0
+1.9.1
 
 
