@@ -1,26 +1,55 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BE73660722
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id D59CF60670
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Nov 2015 18:56:25 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 20 Nov 2015 10:56:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,323,1444719600"; d="scan'208";a="604303900"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 Nov 2015 10:56:27 -0800
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Nov 2015 10:44:54 +0000
-Message-Id: <d96ee768bdedfdcc48a042b159fdc5d19c72e8ef.1448015777.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1447942163.git.mariano.lopez@linux.intel.com>
-References: <cover.1447942163.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1448015777.git.mariano.lopez@linux.intel.com>
-References: <cover.1448015777.git.mariano.lopez@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCHv4 6/6] license.bbclass: Create image license manifest
+	Fri, 20 Nov 2015 18:58:59 +0000 (UTC)
+Received: by wmvv187 with SMTP id v187so85045183wmv.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Nov 2015 10:58:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=4xzLbEsPH8q3PLJUOfOR7TfrKDmoA4iYbqBHIQj0Ua8=;
+	b=iAAoMvIwxQriZs/JUT1rHYdqbXLJd5VhoNmx8/TorIaCkE3NDqngO0pNak8N56siYu
+	j9nGMZf5RTukXr1YnDRoQ2NM1YZ9anGduzg0BxIWDj8d0AKYGCzUWirBbLlJijIqF+mG
+	Jg4yNBFuxTYuPDPne1R64uwW8xBZTbPoiUrsMELXGp1DIqZCOwUEEh0/d63Fk09hclxl
+	oPGEXJSc2kQrRlkm8M56K3mu5xolGKkve9Ehsvpez05mibIA8CtRHel1Vxw9xEPHY9df
+	O4scwjrcdWJSF7FUtllD3UqRM1VRFoJ7w/NSjoarsqTDYMsGoSi2/lwML0L4QqA1zPeO
+	fzpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=4xzLbEsPH8q3PLJUOfOR7TfrKDmoA4iYbqBHIQj0Ua8=;
+	b=L8eMN8ULHzXFIVD1bDKQcEXPKBhpGj8OMw2vmgS5U+HeMWamDTc1zBRPRH8UoQTBAU
+	PO2WDwNl/idNNF9PjIdF707DUyY7OwZ+FbcV0XMYZyF+6M7PPug65me8EokePz9pzpkZ
+	qianQtJ3WYj1znmDArOfSBT9cmcpw+z470ItSNNTT6MPNKKCZg3HZ4jByWspaUn00gp5
+	cGhGAoq7FXklkya2MQdEyt0y1QB8uxs4gPukj0w9X/BXa+9TGSBB4TJayanBsOphbUas
+	svbjTuFMmv6CnEYzeogHc2VNX8pYzPCH2dMrp4f4gjdzVLvChumN5bht8yJN5DKrp/Cq
+	2NEQ==
+X-Gm-Message-State: ALoCoQk/Si6dwz6kVdxpk0eVb6KMi1bZzE9wV9kWcRfrz4A8ZffhWiuK26a+lOHtAf0/BZPkHzqa
+X-Received: by 10.194.238.231 with SMTP id vn7mr12605492wjc.109.1448045939749; 
+	Fri, 20 Nov 2015 10:58:59 -0800 (PST)
+Received: from blackadder.local (94.197.120.87.threembb.co.uk. [94.197.120.87])
+	by smtp.gmail.com with ESMTPSA id jh4sm768331wjb.33.2015.11.20.10.58.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 20 Nov 2015 10:58:58 -0800 (PST)
+Message-ID: <564F3ADB.7040000@intel.com>
+Date: Fri, 20 Nov 2015 15:23:07 +0000
+From: Ross Burton <ross.burton@intel.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: Christopher Larson <kergoth@gmail.com>
+References: <cover.1447455202.git.chris_larson@mentor.com>
+	<0a2bdfd48b566acec7f05734758da7811980a0bb.1447455202.git.chris_larson@mentor.com>
+	<CAJTo0LZYFwj9+5XOS6ewLTKwiWoBd7+YY+uXoCe0V4M7YwYRvg@mail.gmail.com>
+	<CABcZAN=HG8AJCjWHWTwWGs4vswnEL=SRF81fZz5r+iE+iQZ76g@mail.gmail.com>
+In-Reply-To: <CABcZAN=HG8AJCjWHWTwWGs4vswnEL=SRF81fZz5r+iE+iQZ76g@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 6/6] psplash: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,124 +62,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Nov 2015 18:56:25 -0000
+X-List-Received-Date: Fri, 20 Nov 2015 18:59:02 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+On 18/11/2015 02:03, Christopher Larson wrote:
+> Interesting, is psplash configured in our test environment? Either way,
+> worst case we can drop this commit for now and can revisit it. I'm
+> heading out of town tomorrow until December 1st, so likely will be
+> limited in what I can do to address any issues that crop up during that
+> period. Thanks.
 
-This change adds the license_deployed_manifest function
-that will create the manifest for the packages deployed
-next to the image but not installed in rootfs. Some
-examples of these recipes would be the bootloaders, or
-the kernel.
+It should be working - at least the sysvinit images work absolutely fine 
+and show the splash.  I'll add giving this a go locally to my list of 
+things to do.
 
-This new function was added to ROOTFS_POSTPROCESS_COMMAND
-so it will run after every rootfs task.
-
-This change also modify the write_license_files because
-the image manifest is different from the root manifest.
-
-[YOCTO #6772]
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/classes/license.bbclass | 62 ++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 51 insertions(+), 11 deletions(-)
-
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index b7e14c77d..f3cbb7d 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -25,6 +25,10 @@ python write_package_manifest() {
-         'w+').write(image_list_installed_packages(d))
- }
- 
-+python write_deploy_manifest() {
-+    license_deployed_manifest(d)
-+}
-+
- python license_create_manifest() {
-     import oe.packagedata
-     from oe.rootfs import image_list_installed_packages
-@@ -70,16 +74,24 @@ def write_license_files(d, license_manifest, pkg_dic):
-                 pkg_dic[pkg]["LICENSES"] = re.sub('  *', ' ', pkg_dic[pkg]["LICENSES"])
-                 pkg_dic[pkg]["LICENSES"] = pkg_dic[pkg]["LICENSES"].split()
- 
--            license_file.write("PACKAGE NAME: %s\n" % pkg)
--            license_file.write("PACKAGE VERSION: %s\n" % pkg_dic[pkg]["PV"])
--            license_file.write("RECIPE NAME: %s\n" % pkg_dic[pkg]["PN"])
--            license_file.write("LICENSE: %s\n\n" % pkg_dic[pkg]["LICENSE"])
--
--            # If the package doesn't contain any file, that is, its size is 0, the license
--            # isn't relevant as far as the final image is concerned. So doing license check
--            # doesn't make much sense, skip it.
--            if pkg_dic[pkg]["PKGSIZE_%s" % pkg] == "0":
--                continue
-+            if not "IMAGE_MANIFEST" in pkg_dic[pkg]:
-+                # Rootfs manifest
-+                license_file.write("PACKAGE NAME: %s\n" % pkg)
-+                license_file.write("PACKAGE VERSION: %s\n" % pkg_dic[pkg]["PV"])
-+                license_file.write("RECIPE NAME: %s\n" % pkg_dic[pkg]["PN"])
-+                license_file.write("LICENSE: %s\n\n" % pkg_dic[pkg]["LICENSE"])
-+
-+                # If the package doesn't contain any file, that is, its size is 0, the license
-+                # isn't relevant as far as the final image is concerned. So doing license check
-+                # doesn't make much sense, skip it.
-+                if pkg_dic[pkg]["PKGSIZE_%s" % pkg] == "0":
-+                    continue
-+            else:
-+                # Image manifest
-+                license_file.write("RECIPE NAME: %s\n" % pkg_dic[pkg]["PN"])
-+                license_file.write("VERSION: %s\n" % pkg_dic[pkg]["PV"])
-+                license_file.write("LICENSE: %s\n" % pkg_dic[pkg]["LICENSE"])
-+                license_file.write("FILES: %s\n\n" % pkg_dic[pkg]["FILES"])
- 
-             for lic in pkg_dic[pkg]["LICENSES"]:
-                 lic_file = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
-@@ -141,6 +153,34 @@ def write_license_files(d, license_manifest, pkg_dic):
-                         os.link(pkg_license, pkg_rootfs_license)
- 
- 
-+def license_deployed_manifest(d):
-+    """
-+    Write the license manifest for the deployed recipes.
-+    The deployed recipes usually includes the bootloader
-+    and extra files to boot the target.
-+    """
-+
-+    dep_dic = {}
-+    man_dic = {}
-+    lic_dir = d.getVar("LICENSE_DIRECTORY", True)
-+
-+    dep_dic = get_deployed_dependencies(d)
-+    for dep in dep_dic.keys():
-+        man_dic[dep] = {}
-+        # It is necessary to mark this will be used for image manifest
-+        man_dic[dep]["IMAGE_MANIFEST"] = True
-+        man_dic[dep]["PN"] = dep
-+        man_dic[dep]["FILES"] = \
-+            " ".join(get_deployed_files(dep_dic[dep]))
-+        with open(os.path.join(lic_dir, dep, "recipeinfo"), "r") as f:
-+            for line in f.readlines():
-+                key,val = line.split(": ", 1)
-+                man_dic[dep][key] = val[:-1]
-+
-+    image_license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
-+            d.getVar('IMAGE_NAME', True), 'image_license.manifest')
-+    write_license_files(d, image_license_manifest, man_dic)
-+
- def get_deployed_dependencies(d):
-     """
-     Get all the deployed dependencies of an image
-@@ -591,7 +631,7 @@ SSTATETASKS += "do_populate_lic"
- do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
- do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
- 
--ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest; license_create_manifest; "
-+ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest; write_deploy_manifest; license_create_manifest; "
- 
- do_populate_lic_setscene[dirs] = "${LICSSTATEDIR}/${PN}"
- do_populate_lic_setscene[cleandirs] = "${LICSSTATEDIR}"
--- 
-1.8.4.5
-
+Ross
 
