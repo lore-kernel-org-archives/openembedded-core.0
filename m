@@ -1,26 +1,28 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7907260DF6
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 42F4C6010D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Nov 2015 22:36:55 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 19 Nov 2015 14:36:56 -0800
+	Fri, 20 Nov 2015 02:32:42 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Nov 2015 18:32:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,319,1444719600"; d="scan'208";a="855244986"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Nov 2015 14:36:56 -0800
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Nov 2015 14:25:19 +0000
-Message-Id: <39ab7eca78de74d61bfbf70b03a61370c559bf0e.1447942163.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1447942163.git.mariano.lopez@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.20,320,1444719600"; d="scan'208";a="603707606"
+Received: from ywong15-mobl2.amr.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.131.114])
+	by FMSMGA003.fm.intel.com with ESMTP; 19 Nov 2015 18:32:41 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: mariano.lopez@linux.intel.com
+Date: Fri, 20 Nov 2015 15:32:39 +1300
+Message-ID: <1481526.SPystKB38S@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.12-101.fc21.x86_64; KDE/4.14.11; x86_64; ;
+	)
+In-Reply-To: <025384172ac445ea44ffcc9822fc19ef346e5f94.1447942163.git.mariano.lopez@linux.intel.com>
 References: <cover.1447942163.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1447942163.git.mariano.lopez@linux.intel.com>
-References: <cover.1447942163.git.mariano.lopez@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCHv3 6/6] license.bbclass: Create image license manifest
+	<025384172ac445ea44ffcc9822fc19ef346e5f94.1447942163.git.mariano.lopez@linux.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv3 1/6] license.bbclass: Write recipeinfo file in license folder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,132 +35,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Nov 2015 22:36:55 -0000
+X-List-Received-Date: Fri, 20 Nov 2015 02:32:48 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+Hi Mariano,
 
-This change adds the license_deployed_manifest function
-that will create the manifest for the packages deployed
-next to the image but not installed in rootfs. Some
-examples of these recipes would be the bootloaders, or
-the kernel.
+On Thursday 19 November 2015 14:25:14 mariano.lopez@linux.intel.com wrote:
+> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+> 
+> Currently there is no way to get the recipe version when
+> creating the rootfs. It is needed because the manifest
+> file for the image has to contain this important piece
+> of information.
+> 
+> This change writes a new file in the license folder for
+> every recipe. This file is called "recipeinfo" and have
+> the information used to write the manifest file for the
+> recipes deployed next to the image.
+> 
+> [YOCTO #6772]
+> 
+> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+> ---
+>  meta/classes/license.bbclass | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> index c616a20..7cf39e0 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -142,6 +142,10 @@ python do_populate_lic() {
+>      # The base directory we wrangle licenses to
+>      destdir = os.path.join(d.getVar('LICSSTATEDIR', True), d.getVar('PN',
+> True)) copy_license_files(lic_files_paths, destdir)
+> +    info = get_recipe_info(d)
+> +    with open(os.path.join(destdir, "recipeinfo"), "w") as f:
+> +        for key in sorted(info.keys()):
+> +            f.write("%s: %s\n" % (key, info[key]))
+>  }
+> 
+>  # it would be better to copy them in do_install_append, but
+> find_license_filesa is python @@ -156,6 +160,13 @@ python
+> perform_packagecopy_prepend () {
+>          add_package_and_files(d)
+>  }
+> 
+> +def get_recipe_info(d):
+> +    info = {}
+> +    info["PV"] = d.getVar("PV", True)
+> +    info["PR"] = d.getVar("PR", True)
+> +    info["LICENSE"] = d.getVar("LICENSE")
 
-This new function was added to ROOTFS_POSTPROCESS_COMMAND
-so it will run after every rootfs task.
+This should be d.getVar("LICENSE", True) so that the value gets expanded 
+(usually there aren't any variable references in LICENSE values but we can't 
+discount it).
 
-This change also modify the write_license_files because
-the image manifest is different from the root manifest.
+> +    return info
+> +
+>  def add_package_and_files(d):
+>      packages = d.getVar('PACKAGES', True)
+>      files = d.getVar('LICENSE_FILES_DIRECTORY', True)
 
-[YOCTO #6772]
+Cheers,
+Paul
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/classes/license.bbclass | 63 +++++++++++++++++++++++++++++++++++---------
- 1 file changed, 51 insertions(+), 12 deletions(-)
-
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index dbec4d7..8d2bc0d 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -25,6 +25,10 @@ python write_package_manifest() {
-         'w+').write(image_list_installed_packages(d))
- }
- 
-+python write_deploy_manifest() {
-+    license_deployed_manifest(d)
-+}
-+
- python license_create_manifest() {
-     import oe.packagedata
-     from oe.rootfs import image_list_installed_packages
-@@ -70,16 +74,24 @@ def write_license_files(d, license_manifest, pkg_dic):
-                 pkg_dic[pkg]["LICENSES"] = re.sub('  *', ' ', pkg_dic[pkg]["LICENSES"])
-                 pkg_dic[pkg]["LICENSES"] = pkg_dic[pkg]["LICENSES"].split()
- 
--            license_file.write("PACKAGE NAME: %s\n" % pkg)
--            license_file.write("PACKAGE VERSION: %s\n" % pkg_dic[pkg]["PV"])
--            license_file.write("RECIPE NAME: %s\n" % pkg_dic[pkg]["PN"])
--            license_file.write("LICENSE: %s\n\n" % pkg_dic[pkg]["LICENSE"])
--
--            # If the package doesn't contain any file, that is, its size is 0, the license
--            # isn't relevant as far as the final image is concerned. So doing license check
--            # doesn't make much sense, skip it.
--            if pkg_dic[pkg]["PKGSIZE_%s" % pkg] == "0":
--                continue
-+            if not "IMAGE_MANIFEST" in pkg_dic[pkg]:
-+                # Rootfs manifest
-+                license_file.write("PACKAGE NAME: %s\n" % pkg)
-+                license_file.write("PACKAGE VERSION: %s\n" % pkg_dic[pkg]["PV"])
-+                license_file.write("RECIPE NAME: %s\n" % pkg_dic[pkg]["PN"])
-+                license_file.write("LICENSE: %s\n\n" % pkg_dic[pkg]["LICENSE"])
-+
-+                # If the package doesn't contain any file, that is, its size is 0, the license
-+                # isn't relevant as far as the final image is concerned. So doing license check
-+                # doesn't make much sense, skip it.
-+                if pkg_dic[pkg]["PKGSIZE_%s" % pkg] == "0":
-+                    continue
-+            else:
-+                # Image manifest
-+                license_file.write("RECIPE NAME: %s\n" % pkg_dic[pkg]["PN"])
-+                license_file.write("VERSION: %s\n" % pkg_dic[pkg]["PV"])
-+                license_file.write("LICENSE: %s\n" % pkg_dic[pkg]["LICENSE"])
-+                license_file.write("FILES:%s\n\n" % pkg_dic[pkg]["FILES"])
- 
-             for lic in pkg_dic[pkg]["LICENSES"]:
-                 lic_file = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
-@@ -141,6 +153,33 @@ def write_license_files(d, license_manifest, pkg_dic):
-                         os.link(pkg_license, pkg_rootfs_license)
- 
- 
-+def license_deployed_manifest(d):
-+    """
-+    Write the license manifest for the deployed recipes.
-+    The deployed recipes usually includes the bootloader
-+    and extra files to boot the target.
-+    """
-+
-+    dep_dic = {}
-+    man_dic = {}
-+    lic_dir = d.getVar("LICENSE_DIRECTORY", True)
-+
-+    dep_dic = get_deployed_dependencies(d)
-+    for dep in dep_dic.keys():
-+        man_dic[dep] = {}
-+        # It is necessary to mark this will be used for image manifest
-+        man_dic[dep]["IMAGE_MANIFEST"] = True
-+        man_dic[dep]["PN"] = dep
-+        man_dic[dep]["FILES"] = get_deployed_files(dep_dic[dep])
-+        with open(os.path.join(lic_dir, dep, "recipeinfo"), "r") as f:
-+            for line in f.readlines():
-+                key,val = line.split(": ", 1)
-+                man_dic[dep][key] = val[:-1]
-+
-+    image_license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
-+            d.getVar('IMAGE_NAME', True), 'image_license.manifest')
-+    write_license_files(d, image_license_manifest, man_dic)
-+
- def get_deployed_dependencies(d):
-     """
-     Get all the deployed dependencies of an image
-@@ -227,7 +266,7 @@ def get_boot_dependencies(d):
- 
- def get_deployed_files(man_file):
-     """
--    This will get the files deployed from the sstate manifest
-+    Get the files deployed from the sstate manifest
-     """
- 
-     dep_files = ""
-@@ -591,7 +630,7 @@ SSTATETASKS += "do_populate_lic"
- do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
- do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
- 
--ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest; license_create_manifest; "
-+ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest; write_deploy_manifest; license_create_manifest; "
- 
- do_populate_lic_setscene[dirs] = "${LICSSTATEDIR}/${PN}"
- do_populate_lic_setscene[cleandirs] = "${LICSSTATEDIR}"
 -- 
-1.8.4.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
