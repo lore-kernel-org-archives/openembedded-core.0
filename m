@@ -1,39 +1,23 @@
-Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id BD26A60112
+Return-Path: <george.l.musat@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7358460112
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Nov 2015 11:02:52 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so66640024wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Nov 2015 03:02:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:subject:from:cc:date:in-reply-to:references:content-type
-	:mime-version:content-transfer-encoding;
-	bh=CFru0ydZM19iaxM6rgwvqk7bkPpZL97VdPfHNGsKmiU=;
-	b=eIg/E6uZsKZvd8wmxfJj/LgaYXjXngP6kL6bwOnYrf0bFq8q6c15c+TZXFX4JnSpYf
-	3Qm9ScDC5Xh5lBKYGJRSS6Z4w/eEl8N7S7g4xRo+yYmPzEGkZNliaozVCmWwWMiRciiE
-	6Z6ADq+IRIXqAyJLc6+hRj7f7WiGX9T265Z9NmQZ2VH/37GJsChEjrJFgb7Gs01VYq6d
-	AeBDY0dyds1ozB+O/7co805cGjMyiydrN8aFyRLBNMflUxoXYr4L3qIP78LB5wAbtpDH
-	ixKBXGd7tnaidzqbouUlQ9rnwPs/PUY/YJm7oDRPFiipMzGNbsGpoucLT5Wb+L6L/LZ9
-	EkpQ==
-X-Received: by 10.28.212.84 with SMTP id l81mr1761735wmg.50.1448017372422;
-	Fri, 20 Nov 2015 03:02:52 -0800 (PST)
-Received: from [192.168.0.7] (212-41-113-194.adsl.solnet.ch. [212.41.113.194])
-	by smtp.gmail.com with ESMTPSA id
-	jt9sm12165093wjc.24.2015.11.20.03.02.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=AES128-GCM-SHA256 bits=128/128);
-	Fri, 20 Nov 2015 03:02:52 -0800 (PST)
-Message-ID: <1448017370.2788.16.camel@Saturn.local.all>
-From: Max Krummenacher <max.oss.09@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Nov 2015 12:02:50 +0100
-In-Reply-To: <CALbNGRTiMGfhtvtt+q_SFsKMpMMP-Y7XKQHUc2upqTNXnYrEmA@mail.gmail.com>
-References: <CALbNGRTiMGfhtvtt+q_SFsKMpMMP-Y7XKQHUc2upqTNXnYrEmA@mail.gmail.com>
-X-Mailer: Evolution 3.10.4 
-Mime-Version: 1.0
-Subject: Re: Lots of [host-user-contaminated] warning
+	Fri, 20 Nov 2015 11:40:49 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 20 Nov 2015 03:40:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,322,1444719600"; d="scan'208";a="855716015"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 20 Nov 2015 03:40:52 -0800
+Received: from localhost.localdomain (unknown [10.237.112.174])
+	by linux.intel.com (Postfix) with ESMTP id 08A146A4005;
+	Fri, 20 Nov 2015 03:39:43 -0800 (PST)
+From: Lucian Musat <george.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Nov 2015 13:42:02 +0200
+Message-Id: <1448019722-24279-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oeqa/runtime: Added wifi tests.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,59 +30,418 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Nov 2015 11:02:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 20 Nov 2015 11:40:51 -0000
 
-Hi Andreas
+A few wifi tests ported from IOT. They use expect scripts
+to connect and an external config file for the SSIDs and
+passwords.
 
-Am Dienstag, den 17.11.2015, 09:46 +0100 schrieb Andreas Müller:
-> Hi,
-> 
-> this bugs me for a while and I wonder if I am again the only one
-> facing this: I get floods of warnings for sourcecode files as
-> 
-> WARNING: QA Issue: qtserialport:
-> /qtserialport-dbg/usr/src/debug/qtserialport/5.5.99+5.6.0-alpha1
-+gitAUTOINC+2575d33fab-r0/git/src/serialport/qserialport_p.h
-> is owned by uid 1000, which is the same as the user running bitbake.
-> This may be due to host contamination [host-user-contaminated]
-> WARNING: QA Issue: qtx11extras:
-> /qtx11extras-dbg/usr/src/debug/qtx11extras/5.5.99+5.6.0-alpha1
-+gitAUTOINC+d64ee96f0d-r0/git/src/x11extras/qx11info_x11.cpp
-> is owned by uid 1000, which is the same as the user running bitbake.
-> This may be due to host contamination [host-user-contaminated]
-> WARNING: QA Issue: qtxmlpatterns:
-> /qtxmlpatterns-dbg/usr/src/debug/qtxmlpatterns/5.5.99+5.6.0-alpha1
-+gitAUTOINC+94136d4280-r0/git/src/xmlpatterns/type/qbuiltintypes.cpp
-> is owned by uid 1000, which is the same as the user running bitbake.
-> This may be due to host contamination [host-user-contaminated]
-> 
-> I checked PACKAGE_DEBUG_SPLIT_STYLE is not set globally - few recipes
-> set PACKAGE_DEBUG_SPLIT_STYLE to debug-without-src.
-> 
-> Help appreciated
-> 
-> Andreas
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+---
+ meta/lib/oeqa/runtime/files/config.ini             |  10 ++
+ meta/lib/oeqa/runtime/files/wifi_connect.exp       |  47 +++++
+ .../lib/oeqa/runtime/files/wifi_hidden_connect.exp |  47 +++++
+ meta/lib/oeqa/runtime/wifi.py                      | 195 +++++++++++++++++++++
+ meta/lib/oeqa/utils/helper.py                      |  62 +++++++
+ 5 files changed, 361 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/files/config.ini
+ create mode 100755 meta/lib/oeqa/runtime/files/wifi_connect.exp
+ create mode 100755 meta/lib/oeqa/runtime/files/wifi_hidden_connect.exp
+ create mode 100644 meta/lib/oeqa/runtime/wifi.py
+ create mode 100644 meta/lib/oeqa/utils/helper.py
 
-I see this also in my builds. The warnings clutter the build output in a
-way that makes the warnings mostly useless. Who will spot the one
-important new warning in the hundreds of host-user-contaminated ones?
-A fresh build of core-image-minimal today gave me 54 of these warnings.
-All but one (glibc-locale) complaining on source files.
-
-I checked a few recipes and most of them were not even using a custom
-do_install but autotools generated 'make install' with something like
-'cp -p src/* dest/' or so.
-
-Even if I know how to do it I think we should not patch upstream sources
-to suppress a warning introduced by the downstream build system with
-loads of false positives and then have to maintain the patches as
-upstream is progressing.
-
-I haven't looked into how one does it but I'm inclined to switch of the
-warning globally, e.g. in local.conf.
-
-Max
+diff --git a/meta/lib/oeqa/runtime/files/config.ini b/meta/lib/oeqa/runtime/files/config.ini
+new file mode 100644
+index 0000000..eaa169a
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/files/config.ini
+@@ -0,0 +1,10 @@
++[Connect]
++ssid_80211g=
++ssid_80211n=
++ssid_80211b=
++passwd_80211b=
++passwd_80211g=
++passwd_80211n=
++ssid_broadcast=
++passwd_broadcast=
++
+diff --git a/meta/lib/oeqa/runtime/files/wifi_connect.exp b/meta/lib/oeqa/runtime/files/wifi_connect.exp
+new file mode 100755
+index 0000000..c0a0775
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/files/wifi_connect.exp
+@@ -0,0 +1,47 @@
++#!/usr/bin/expect
++set timeout 100
++set login 0
++set ip       [lindex $argv 0]
++set cmd      [lindex $argv 1]
++set service  [lindex $argv 2]
++set password [lindex $argv 3]
++
++spawn ssh root@$ip -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR "$cmd"
++ expect {
++ "Agent registered"
++   {
++    send "config $service --remove\n";
++    sleep 2; send "connect $service\n"; exp_continue
++   }
++ "Operation timeout"
++   {
++    sleep 1; send "connect $service\n"; exp_continue
++   }
++ "Operation aborted"
++   {
++    sleep 1; send "connect $service\n"; exp_continue
++   }
++ "Input/output error"
++   {
++    sleep 1; send "connect $service\n"; exp_continue
++   }
++ "Retry (yes/no)?"
++   {
++    sleep 1; send "yes\n"; exp_continue
++   }
++ "Passphrase?"
++   {
++    sleep 1; send "$password\n"; exp_continue
++   }
++ "Connected wifi*"
++   {
++    send "exit\n"; exit 2
++   }
++ "connmanctl*"
++   {
++    if {$login==0} {set login 1;send "agent on\n"; exp_continue} else {exp_continue}
++   }
++ eof
++   {}
++ }
++
+diff --git a/meta/lib/oeqa/runtime/files/wifi_hidden_connect.exp b/meta/lib/oeqa/runtime/files/wifi_hidden_connect.exp
+new file mode 100755
+index 0000000..0e0f45f
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/files/wifi_hidden_connect.exp
+@@ -0,0 +1,47 @@
++#!/usr/bin/expect
++set timeout 100
++set login 0
++set ip       [lindex $argv 0]
++set cmd      [lindex $argv 1]
++set service  [lindex $argv 2]
++set ssid     [lindex $argv 3]
++set password [lindex $argv 4]
++
++spawn ssh root@$ip -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR "$cmd"
++ expect {
++ "Agent registered"
++   {
++    sleep 1; send "connect $service\n"; exp_continue
++   }
++ "Operation timeout"
++   {
++    sleep 1; send "connect $service\n"; exp_continue
++   }
++ "Input/output error"
++   {
++    sleep 1; send "connect $service\n"; exp_continue
++   }
++ "Hidden SSID name?"
++   {
++    sleep 1; send "$ssid\n"; exp_continue
++   }
++ "Retry (yes/no)?"
++   {
++    sleep 1; send "yes\n"; exp_continue
++   }
++ "Passphrase?"
++   {
++    sleep 1; send "$password\n"; exp_continue
++   }
++ "Connected wifi*"
++   {
++    send "exit\n"; exit 2
++   }
++ "connmanctl*"
++   {
++    if {$login==0} {set login 1;send "agent on\n"; exp_continue} else {exp_continue}
++   }
++ eof
++   {}
++ }
++
+diff --git a/meta/lib/oeqa/runtime/wifi.py b/meta/lib/oeqa/runtime/wifi.py
+new file mode 100644
+index 0000000..c63a711
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/wifi.py
+@@ -0,0 +1,195 @@
++import time
++import os
++import string
++import ConfigParser
++import unittest
++from oeqa.oetest import oeRuntimeTest
++from oeqa.utils.helper import shell_cmd_timeout
++from oeqa.utils.helper import get_files_dir
++from oeqa.utils.decorators import skipUnlessPassed
++
++def setUpModule():
++    if not oeRuntimeTest.hasPackage("connman"):
++        skipModule("Image does not have connection manager")
++
++ssid_config = ConfigParser.ConfigParser()
++config_path = os.path.join(os.path.dirname(__file__), "files/config.ini")
++ssid_config.readfp(open(config_path))
++
++class CommWiFiConect(oeRuntimeTest):
++
++    @classmethod
++    def setUpClass(self):
++        (status, output) = oeRuntimeTest.tc.target.run('connmanctl enable wifi')
++        if ("error" in output.lower()):
++            raise unittest.SkipTest("Failed to enable wifi: %s " % output)
++        oeRuntimeTest.tc.target.run('connmanctl disable wifi')
++
++    hidden_service = ""
++    def setUp(self):
++        # un-block software rfkill lock
++        self.target.run('rfkill unblock all')
++        # Enable WiFi
++        (status, output) = self.target.run('connmanctl enable wifi')
++        self.assertEqual(status, 0, msg="Error messages: %s" % output)
++        time.sleep(20)
++        # Scan nearby to get service of none-encryption broadcasting ssid
++        hidden_str = "hidden_managed_psk"
++        # will do scan retry 3 times if needed
++        retry = 0
++        while (retry < 4):
++            (status, output) = self.target.run('connmanctl scan wifi')
++            self.assertEqual(status, 0, msg="Error messages: %s" % output)
++            (status, services) = self.target.run("connmanctl services | grep %s" % hidden_str)
++            retry = retry + 1
++            if (status == 0):
++                break
++        self.assertEqual(status, 0, msg="Not found hidden AP service")
++        self.hidden_service = services.strip()
++
++    def tearDown(self):
++        ''' disable wifi after testing '''
++        self.target.run('connmanctl disable wifi')
++
++    def check_wifi_ip(self):
++        time.sleep(3)
++        # Check ip address by ifconfig command
++        wifi_interface = "nothing"
++        (status, wifi_interface) = self.target.run("ifconfig | grep '^wlp\|^wlan' | awk '{print $1}'")
++        (status, output) = self.target.run("ifconfig %s | grep 'inet addr:'" % wifi_interface)
++        self.assertEqual(status, 0, msg="Error messages: %s" % output)
++
++    def test_check_wifi_capable(self):
++        (status, output) = self.target.run('cp /proc/config.gz .; gunzip config.gz; cat config | grep CONFIG_IWLWIFI=')
++        self.assertEqual(status, 0, msg="Wifi not enabled in this kernel. Error messages: %s" % output)
++        (status, output) = self.target.run('connmanctl enable wifi')
++        self.assertEqual(status, 0, msg="Error messages: %s" % output)
++        (status, output) = self.target.run('ifconfig | grep wlan')
++        self.assertEqual(status, 0, msg="No wlan interface found! Error messages: %s" % output)
++        (status, output) = self.target.run('connmanctl disable wifi')
++
++    @skipUnlessPassed('test_check_wifi_capable')
++    def test_wifi_connect_80211b(self):
++        '''connmanctl to connect 802.11b wifi AP'''
++        target_ip = self.target.ip
++        ssid = ssid_config.get("Connect","ssid_80211b")
++        pwd = ssid_config.get("Connect","passwd_80211b")
++
++        # Do connection
++        exp = os.path.join(os.path.dirname(__file__), "files/wifi_hidden_connect.exp")
++        cmd = "expect %s %s %s %s %s %s" % (exp, target_ip, "connmanctl", self.hidden_service, ssid, pwd)
++        status, output = shell_cmd_timeout(cmd, timeout=60)
++        self.assertEqual(status, 2, msg="Error messages: %s" % output)
++        self.check_wifi_ip()
++
++    @skipUnlessPassed('test_check_wifi_capable')
++    def test_wifi_connect_80211g(self):
++        '''connmanctl to connect 802.11g wifi AP'''
++        target_ip = self.target.ip
++        ssid = ssid_config.get("Connect","ssid_80211g")
++        pwd = ssid_config.get("Connect","passwd_80211g")
++
++        # Do connection
++        exp = os.path.join(os.path.dirname(__file__), "files/wifi_hidden_connect.exp")
++        cmd = "expect %s %s %s %s %s %s" % (exp, target_ip, "connmanctl", self.hidden_service, ssid, pwd)
++        status, output = shell_cmd_timeout(cmd, timeout=60)
++        self.assertEqual(status, 2, msg="Error messages: %s" % output)
++        self.check_wifi_ip()
++
++    @skipUnlessPassed('test_check_wifi_capable')
++    def test_wifi_connect_80211n(self):
++        '''connmanctl to connect 802.11n wifi AP'''
++        target_ip = self.target.ip
++        ssid = ssid_config.get("Connect","ssid_80211n")
++        pwd = ssid_config.get("Connect","passwd_80211n")
++
++        # Do connection
++        exp = os.path.join(os.path.dirname(__file__), "files/wifi_hidden_connect.exp")
++        cmd = "expect %s %s %s %s %s %s" % (exp, target_ip, "connmanctl", self.hidden_service, ssid, pwd)
++        status, output = shell_cmd_timeout(cmd, timeout=60)
++        self.assertEqual(status, 2, msg="Error messages: %s" % output)
++        self.check_wifi_ip()
++
++    @skipUnlessPassed('test_check_wifi_capable')
++    def test_wifi_connect_wpapsk(self):
++        '''connmanctl to connect WPA-PSK wifi AP (set by ssid_80211b AP)'''
++        target_ip = self.target.ip
++        ssid = ssid_config.get("Connect","ssid_80211b")
++        pwd = ssid_config.get("Connect","passwd_80211b")
++
++        # Do connection
++        exp = os.path.join(os.path.dirname(__file__), "files/wifi_hidden_connect.exp")
++        cmd = "expect %s %s %s %s %s %s" % (exp, target_ip, "connmanctl", self.hidden_service, ssid, pwd)
++        status, output = shell_cmd_timeout(cmd, timeout=60)
++        self.assertEqual(status, 2, msg="Error messages: %s" % output)
++        self.check_wifi_ip()
++
++    @skipUnlessPassed('test_check_wifi_capable')
++    def test_wifi_connect_wpa2psk(self):
++        '''connmanctl to connect WPA2-PSK wifi AP (set by ssid_80211g AP)'''
++        target_ip = self.target.ip
++        ssid = ssid_config.get("Connect","ssid_80211g")
++        pwd = ssid_config.get("Connect","passwd_80211g")
++
++        # Do connection
++        exp = os.path.join(os.path.dirname(__file__), "files/wifi_hidden_connect.exp")
++        cmd = "expect %s %s %s %s %s %s" % (exp, target_ip, "connmanctl", self.hidden_service, ssid, pwd)
++        status, output = shell_cmd_timeout(cmd, timeout=60)
++        self.assertEqual(status, 2, msg="Error messages: %s" % output)
++        self.check_wifi_ip()
++
++    @skipUnlessPassed('test_check_wifi_capable')
++    def test_wifi_connect_wpa2psk_broadcast(self):
++        '''connmanctl to connect WPA2-PSK wifi AP (not hidden)'''
++        target_ip = self.target.ip
++        ssid = ssid_config.get("Connect","ssid_broadcast")
++        pwd = ssid_config.get("Connect","passwd_broadcast")
++
++        # For broadcast AP, get its service firstly.
++        retry = 0
++        while (retry < 4):
++            (status, output) = self.target.run('connmanctl scan wifi')
++            self.assertEqual(status, 0, msg="Error messages: %s" % output)
++            (status, output) = self.target.run("connmanctl services | grep %s" % ssid)
++            retry = retry + 1
++            if (status == 0):
++                break
++        self.assertEqual(status, 0, msg="Not found AP service")
++        service = output.split(" ")[-1]
++
++        # Do connection
++        exp = os.path.join(os.path.dirname(__file__), "files/wifi_connect.exp")
++        cmd = "expect %s %s %s %s %s" % (exp, target_ip, "connmanctl", service, pwd)
++        status, output = shell_cmd_timeout(cmd, timeout=200)
++        self.assertEqual(status, 2, msg="Error messages: %s" % output)
++        self.check_wifi_ip()
++
++    @skipUnlessPassed('test_check_wifi_capable')
++    def test_wifi_connect_internet(self):
++        '''connmanctl to connect to internet, by broadcast wifi AP'''
++        target_ip = self.target.ip
++        ssid = ssid_config.get("Connect","ssid_broadcast")
++        pwd = ssid_config.get("Connect","passwd_broadcast")
++
++        # For broadcast AP, get its service firstly.
++        retry = 0
++        while (retry < 4):
++            (status, output) = self.target.run('connmanctl scan wifi')
++            self.assertEqual(status, 0, msg="Error messages: %s" % output)
++            (status, output) = self.target.run("connmanctl services | grep %s" % ssid)
++            retry = retry + 1
++            if (status == 0):
++                break
++        self.assertEqual(status, 0, msg="Not found AP service")
++        service = output.split(" ")[-1]
++
++        # Do connection
++        exp = os.path.join(os.path.dirname(__file__), "files/wifi_connect.exp")
++        cmd = "expect %s %s %s %s %s" % (exp, target_ip, "connmanctl", service, pwd)
++        status, output = shell_cmd_timeout(cmd, timeout=200)
++        self.assertEqual(status, 2, msg="Error messages: %s" % output)
++        self.check_wifi_ip()
++
++        # Ping internet web links
++        (status, output) = self.target.run("ping www.google.com -c 4")
++        self.assertEqual(status, 0, msg="Error messages: %s" % output)
+diff --git a/meta/lib/oeqa/utils/helper.py b/meta/lib/oeqa/utils/helper.py
+new file mode 100644
+index 0000000..1b4eeb5
+--- /dev/null
++++ b/meta/lib/oeqa/utils/helper.py
+@@ -0,0 +1,62 @@
++#[PROTEXCAT]
++#\License: ALL RIGHTS RESERVED
++#\Author: Wang, Jing <jing.j.wang@intel.com>
++
++import time
++import subprocess
++import os
++from oeqa.oetest import oeRuntimeTest
++import unittest
++
++def shell_cmd(cmd):
++    """Execute shell command till it return"""
++    cmd_proc = subprocess.Popen(cmd, shell=True)
++    return cmd_proc.wait() if cmd_proc else -1
++
++def shell_cmd_timeout(cmd, timeout=0):
++    """Execute shell command till timeout"""
++    cmd_proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
++    if not cmd_proc:
++        return -1, ''
++    t_timeout, tick = timeout, 2
++    ret, output = None, ''
++    while True:
++        time.sleep(tick)
++        output = cmd_proc.communicate()[0]
++        ret = cmd_proc.poll()
++        if ret is not None:
++            break
++
++        if t_timeout > 0:
++            t_timeout -= tick
++
++        if t_timeout <= 0:
++            # timeout, kill command
++            cmd_proc.kill()
++            ret = -99999
++            break
++    return ret, output
++
++def collect_pnp_log(casename, logname, log):
++    """collect the result log for pnp part"""
++    curpath = os.getcwd()
++    if not os.path.exists(casename):
++        os.makedirs(casename)
++
++    logpath = os.path.join(curpath, casename, logname)
++    logtime = time.strftime("%Y-%m-%d %H:%M:%S")
++    with open(logpath, "a") as text_file:
++        text_file.write("%s %s:%s\n" %(logtime, casename, log))
++
++def get_files_dir():
++    """Get directory of supporting files"""
++    pkgarch = oeRuntimeTest.tc.d.getVar('MACHINE', True)
++    deploydir = oeRuntimeTest.tc.d.getVar('DEPLOY_DIR', True)
++    return os.path.join(deploydir, "files", "target", pkgarch)
++
++def get_native_dir():
++    """Get directory of native files"""
++    arch = oeRuntimeTest.tc.d.getVar('BUILD_ARCH', True)
++    deploydir = oeRuntimeTest.tc.d.getVar('DEPLOY_DIR', True)
++    return os.path.join(deploydir, "files", "native", arch)
++
+-- 
+2.1.4
 
 
