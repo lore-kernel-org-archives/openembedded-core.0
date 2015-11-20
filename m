@@ -1,34 +1,35 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 69F1860112
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id A582460722
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Nov 2015 21:29:01 +0000 (UTC)
-Received: by padhx2 with SMTP id hx2so127668766pad.1
+	Fri, 20 Nov 2015 21:29:26 +0000 (UTC)
+Received: by pabfh17 with SMTP id fh17so131489362pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Nov 2015 13:29:02 -0800 (PST)
+	Fri, 20 Nov 2015 13:29:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=kp1osui0IXayblCp9M4Pd3Zj3JFlpuF32tk04lXfZYY=;
-	b=sPruO/fCuJjVbUOIJJgoMIoPhLPg13hP+E+/mRlOx12l/599Dj7WrcODzJPJbTRVeE
-	rW7dayEALPR4WY6+v/qR7cR8REbO40bkrqYVq3Y1dbh7RyBLaYL31EazQs0PrJNVs4pl
-	PLxBWy3vD6Dkc5IkOq4GYFeGypMsGWLL0dpinVkXpdWlHEq8lqb6Ar7APWF/E98WpL1f
-	XguPMz00PSTTccl5H2jnTPJbMEmrzgxMpBK1E9yARlmpEiksEpg9d1dsgoDGpuk0lzUp
-	blDWYbf4sTMXBSgRZiBwimO7fXrjX4FJ+92lO8nk+XEO5l1/DAyjqWU2JIsraSHqnF/m
-	kkRg==
-X-Received: by 10.98.44.193 with SMTP id s184mr1913600pfs.8.1448054942574;
-	Fri, 20 Nov 2015 13:29:02 -0800 (PST)
+	bh=UeRD6imkOxdUGST8eFFJQ/5F13Enr+jcvL5f5PI0qmA=;
+	b=Hj33Jty4VsjbVllYiIBxJxLMfii77i8AUyyjlkJoDqVW77pgLC6MfsN8Po5JPVWcVS
+	ar1DPTgndarlVHuBmsw6srm9DMyevKDw1CjwMQO18sDvY4ytvAzO6yxV0l70Wuwc89pd
+	eC0pI4xgk8cvPpvZjichjJDONHZ6oM5mgYJOvtDKHS6KHQoz76HACchQR3rgCMghVTJs
+	ZLdVKNPP83f43WtfLifgM2CElgmUoN78nnv92aYTjuTfvoISGka8OTE/omAllKkCWl6m
+	27Tpw2tJ6eDxJDapeik3Ir66YqZzi151tT3fchUL6l8oQagYuozqVOOtIVxEd9d/XilW
+	tHBw==
+X-Received: by 10.66.63.70 with SMTP id e6mr2617338pas.32.1448054967042;
+	Fri, 20 Nov 2015 13:29:27 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id c1sm928087pas.1.2015.11.20.13.29.01
+	by smtp.gmail.com with ESMTPSA id
+	rx10sm892699pab.21.2015.11.20.13.29.25
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 20 Nov 2015 13:29:01 -0800 (PST)
+	Fri, 20 Nov 2015 13:29:26 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Nov 2015 13:28:56 -0800
-Message-Id: <1448054936-30631-1-git-send-email-armccurdy@gmail.com>
+Date: Fri, 20 Nov 2015 13:29:14 -0800
+Message-Id: <1448054954-30680-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] sqlite3: update 3.9.0 -> 3.9.2
+Subject: [PATCH] harfbuzz: update 1.0.6 -> 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,36 +42,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Nov 2015 21:29:07 -0000
+X-List-Received-Date: Fri, 20 Nov 2015 21:29:26 -0000
+
+  http://cgit.freedesktop.org/harfbuzz/tree/NEWS
+
+Overview of changes leading to 1.1.0
+Wednesday, November 18, 2015
+====================================
+
+- Implement 'stch' stretch feature for Syriac Abbreviation Mark.
+  https://github.com/behdad/harfbuzz/issues/141
+- Disable use of decompose_compatibility() callback.
+- Implement "shaping" of various Unicode space characters, even
+  if the font does not support them.
+  https://github.com/behdad/harfbuzz/issues/153
+- If font does not support U+2011 NO-BREAK HYPHEN, fallback to
+  U+2010 HYPHEN.
+- Changes resulting from libFuzzer continuous fuzzing:
+  * Reject font tables that need more than 8 edits,
+  * Bound buffer growth during shaping to 32x,
+  * Fix assertions and other issues at OOM / buffer max-growth.
+- Misc fixes and optimizations.
+- API changes:
+  * All fonts created with hb_font_create() now inherit from
+    (ie. have parent) hb_font_get_empty().
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-support/sqlite/{sqlite3_3.9.0.bb => sqlite3_3.9.2.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.9.0.bb => sqlite3_3.9.2.bb} (81%)
+ .../harfbuzz/{harfbuzz_1.0.6.bb => harfbuzz_1.1.0.bb}                 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.0.6.bb => harfbuzz_1.1.0.bb} (88%)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.9.0.bb b/meta/recipes-support/sqlite/sqlite3_3.9.2.bb
-similarity index 81%
-rename from meta/recipes-support/sqlite/sqlite3_3.9.0.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.9.2.bb
-index 50531ba..83685e0 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.9.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.9.2.bb
-@@ -12,12 +12,11 @@ PE = "3"
- SQLITE_PV = "${@sqlite_download_version(d)}"
- SRC_URI = "http://www.sqlite.org/2015/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.0.6.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.1.0.bb
+similarity index 88%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.0.6.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.1.0.bb
+index 58541aa..e12dc0d 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.0.6.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.1.0.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
+ SECTION = "libs"
  
--SRC_URI[md5sum] = "cd0f883b2ddfc29e8e1bbbbd8e85f555"
--SRC_URI[sha256sum] = "a324143f4cc35cd7e9605a0a8dec9f9e4861d0be8305f3642e7d05008b77e60d"
-+SRC_URI[md5sum] = "bc4eb5b3fc5cfcb6e059794306cac1ca"
-+SRC_URI[sha256sum] = "064c0abe9c9177534d4c770bca7a5902f9924b629ac886b4c08956be6dfbc36b"
+ SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "2256fd144c936936db9c92e77510a011"
+-SRC_URI[sha256sum] = "f616a7fbdc78a627043f9029000bf08c0c71df59cde4143fc92a014f6a993b26"
++SRC_URI[md5sum] = "1223cefac2bc77298ff5c7422bb148d5"
++SRC_URI[sha256sum] = "0f584a5947e60ede565e7a4e122baa5e4b17a62eab872abf5f73d8552ceb716b"
  
- S = "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
+ inherit autotools pkgconfig lib_package
  
- # Provide column meta-data API
- BUILD_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
- TARGET_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
--
 -- 
 1.9.1
 
