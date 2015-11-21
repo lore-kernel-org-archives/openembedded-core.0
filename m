@@ -1,42 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C0F1607AB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 099396011A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Nov 2015 18:22:53 +0000 (UTC)
-Received: by pabfh17 with SMTP id fh17so153150563pab.0
+	Sat, 21 Nov 2015 18:44:45 +0000 (UTC)
+Received: by wmuu63 with SMTP id u63so11648470wmu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Nov 2015 10:22:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=sh85dp1xz3cvVGIc0pExUh+/6TH12HjEgqVTfT7isps=;
-	b=ceEzISvENIvD4rW7TnsFBgWm+qvRVZOjwR28cTdWxQ1pIB6XCeOQkzmAlWlCzY++pf
-	kGkMwYbBvCADE5mDOMqV0+pIkb6wCXMKOSIug+p5M/2oxujj06PRYCsGEicIXAWWKtef
-	Ji1fE7/3Zikw2n1RUyb8dKVAM4jdRW1HnMgkO168NszP9kUXmrxZ6fODCeFGc9RZtfol
-	89peBdYRLxoc37EGNvL67bt9+nHbG9zM6laF3WyNS9lREel0PmLYyShuvCoXKAFoIdoR
-	QJmhdRHXOZsmqsJkJ0Pxi0v4lHDDL7In1YgYawFOnycrbex1nSYAykfoflm8gB+dpKXp
-	LvEw==
-X-Received: by 10.66.150.37 with SMTP id uf5mr27329240pab.30.1448130174071;
-	Sat, 21 Nov 2015 10:22:54 -0800 (PST)
-Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	w13sm4381110pbs.70.2015.11.21.10.22.49
+	Sat, 21 Nov 2015 10:44:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=B06uDIJln0kJ87ViOKQD8nWIiyXzrnFOg4VKZwfGHKE=;
+	b=Q8r/QL9PhRNcpKaAQq3WcpmVUqvrcB/cMVgk4RnmSXI43KGXwEY4FgRl8rVW0LtyfN
+	lVh+i1yK7MIBeiU+vwqkkHXQg/1v/TPV49uXu6uLmH/W77p+UleDvXzgyMtx8e0kohAV
+	m5FxZ4RoB9jldu4kYJPhr3X5L6ZT5tbcckCLr2ENkQXgPLThgrh49i4+X5bV8TyEZQe4
+	gLIL9uC3mjng3kHH/tAVcImThx/saMGK/ZIV8t4BsNek+1WBXrwdxvpTnTwC3PG2/B4F
+	YQdSAmioal+HYKuDaStw4GH43YdwzIUDeGsm223S01riNUCQVbQMVnxS3chDji0LzdcA
+	ylvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=B06uDIJln0kJ87ViOKQD8nWIiyXzrnFOg4VKZwfGHKE=;
+	b=GtGTOPMuaxt+UEvKGuacB+qv5oeo1bof3h6XTUVCyB25Jy0RBX47xo01zbjzdqgcKC
+	jyBykSjfJxOut9+6AE/yHlMn8QUnKMXFt9AkdOeuheWB+RUUlAvwmnTJHDlRzCwXbM7l
+	ZXFRtAqvPSMIAND+RKFHPCNfHPLSOO8IEz+JeHhsy5m6uWkKKDx3/DAdH+Ts1nsa5oQ0
+	aqpGg5GM6xFOoa8wbgvaogzn9vpvhTAqEIzM7tBrZYqVbV7zQpBuzggA5RNJHJpTUibe
+	1AipW4oN94njYlypnTlHwIf7kXyq/1GHBGP5jfhclJcWBL18yq0o+k6kwSA/DQb6yjxM
+	z8yg==
+X-Gm-Message-State: ALoCoQmFvEdYk/bNNTwbXu1B1O+VsC9ILyC8V3aDJP9JrP8KfkFPt2EOnWcZvs5a6A/rXy1N88pu
+X-Received: by 10.194.52.68 with SMTP id r4mr20677222wjo.8.1448131485529;
+	Sat, 21 Nov 2015 10:44:45 -0800 (PST)
+Received: from Blackadder.home
+	(host86-164-154-14.range86-164.btcentralplus.com. [86.164.154.14])
+	by smtp.gmail.com with ESMTPSA id
+	143sm5323286wmv.18.2015.11.21.10.44.44
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 21 Nov 2015 10:22:50 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-X-Google-Original-From: Armin Kuster <akuster@mvista.com>
-Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id C2691FCC839; Sat, 21 Nov 2015 10:22:47 -0800 (PST)
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 21 Nov 2015 10:44:44 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 Nov 2015 10:22:44 -0800
-Message-Id: <d72b398ffb5ea9b64ada5fad3147f288897ffeb0.1448130024.git.akuster@mvista.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1448130024.git.akuster@mvista.com>
-References: <cover.1448130024.git.akuster@mvista.com>
-In-Reply-To: <cover.1448130024.git.akuster@mvista.com>
-References: <cover.1448130024.git.akuster@mvista.com>
-Subject: [PATCH 3/4] rsync: backport libattr checking patch
+Date: Sat, 21 Nov 2015 18:44:37 +0000
+Message-Id: <1448131478-38698-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.4.9 (Apple Git-60)
+Subject: [PATCH 1/2] base: decode SRC_URI before adding implicit fetch dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,80 +54,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Nov 2015 18:22:55 -0000
+X-List-Received-Date: Sat, 21 Nov 2015 18:44:46 -0000
 
-From: Sergiy Kibrik <sakib@meta.ua>
+To avoid false positives such as a SRC_URI for http://foo.xz/foo.zip gaining a
+dependnecy on xz-native decode the URI so that precise tests can be done.
 
-Add check_libattr.patch to version 3.1.0 recipe, which checks
-and includes libattr to linker, otherwise rsync may fail to build
-with linker error below (as -lattr option gets omitted):
-
-[..]
-lib/sysxattrs.o: undefined reference to symbol 'llistxattr@@ATTR_1.0'
-[..]/lib/libattr.so.1: error adding symbols: DSO missing from command line
-
-Signed-off-by: Sergiy Kibrik <sakib@meta.ua>
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../rsync/files/check_libattr.patch                | 33 ++++++++++++++++++++++
- meta/recipes-devtools/rsync/rsync_3.1.0.bb         |  3 +-
- 2 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/rsync/files/check_libattr.patch
+ meta/classes/base.bbclass | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-devtools/rsync/files/check_libattr.patch b/meta/recipes-devtools/rsync/files/check_libattr.patch
-new file mode 100644
-index 0000000..cb159fa
---- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/check_libattr.patch
-@@ -0,0 +1,33 @@
-+From 677c6e14cc7d5f41371d5616865a5f0cfc0a273f Mon Sep 17 00:00:00 2001
-+From: Wayne Davison <wayned@samba.org>
-+Date: Mon, 5 May 2014 09:25:13 -0700
-+Subject: [PATCH] Check for attr lib.
-+
-+---
-+ configure.ac | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index c7b28c5..8e3703c 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1007,7 +1007,7 @@ else
-+     *)
-+ 	AC_MSG_RESULT(running tests:)
-+ 	AC_CHECK_LIB(acl,acl_get_file)
-+-	    AC_CACHE_CHECK([for ACL support],samba_cv_HAVE_POSIX_ACLS,[
-++	AC_CACHE_CHECK([for ACL support],samba_cv_HAVE_POSIX_ACLS,[
-+ 	    AC_TRY_LINK([#include <sys/types.h>
-+ #include <sys/acl.h>],
-+ [ acl_t acl; int entry_id; acl_entry_t *entry_p; return acl_get_entry( acl, entry_id, entry_p);],
-+@@ -1057,6 +1057,7 @@ else
-+ 	AC_DEFINE(HAVE_LINUX_XATTRS, 1, [True if you have Linux xattrs])
-+ 	AC_DEFINE(SUPPORT_XATTRS, 1)
-+ 	AC_DEFINE(NO_SYMLINK_USER_XATTRS, 1, [True if symlinks do not support user xattrs])
-++	AC_CHECK_LIB(attr,getxattr)
-+ 	;;
-+     darwin*)
-+ 	AC_MSG_RESULT(Using OS X xattrs)
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/rsync/rsync_3.1.0.bb b/meta/recipes-devtools/rsync/rsync_3.1.0.bb
-index a4a5c10..d253fe9 100644
---- a/meta/recipes-devtools/rsync/rsync_3.1.0.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.1.0.bb
-@@ -1,7 +1,8 @@
- require rsync.inc
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index eb5edef..c7db81a 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -527,38 +527,37 @@ python () {
+                     bb.note("INCLUDING " + pn + " as buildable despite INCOMPATIBLE_LICENSE because it has been whitelisted for HOSTTOOLS")
  
+     srcuri = d.getVar('SRC_URI', True)
++    (scheme, _ , path) = bb.fetch.decodeurl(srcuri)[:3]
+     # Svn packages should DEPEND on subversion-native
+-    if "svn://" in srcuri:
++    if scheme == "svn":
+         d.appendVarFlag('do_fetch', 'depends', ' subversion-native:do_populate_sysroot')
  
--SRC_URI += "file://acinclude.m4"
-+SRC_URI += "file://acinclude.m4 \
-+	    file://check_libattr.patch"
+     # Git packages should DEPEND on git-native
+-    if "git://" in srcuri:
++    elif scheme == "git":
+         d.appendVarFlag('do_fetch', 'depends', ' git-native:do_populate_sysroot')
  
- SRC_URI[md5sum] = "3be148772a33224771a8d4d2a028b132"
- SRC_URI[sha256sum] = "81ca23f77fc9b957eb9845a6024f41af0ff0c619b7f38576887c63fa38e2394e"
+     # Mercurial packages should DEPEND on mercurial-native
+-    elif "hg://" in srcuri:
++    elif scheme == "hg":
+         d.appendVarFlag('do_fetch', 'depends', ' mercurial-native:do_populate_sysroot')
+ 
+     # OSC packages should DEPEND on osc-native
+-    elif "osc://" in srcuri:
++    elif scheme == "osc"
+         d.appendVarFlag('do_fetch', 'depends', ' osc-native:do_populate_sysroot')
+ 
+-    # *.lz4 should depends on lz4-native for unpacking
+-    # Not endswith because of "*.patch.lz4;patch=1". Need bb.fetch.decodeurl in future
+-    if '.lz4' in srcuri:
++    # *.lz4 should DEPEND on lz4-native for unpacking
++    if path.endswith('.lz4'):
+         d.appendVarFlag('do_unpack', 'depends', ' lz4-native:do_populate_sysroot')
+ 
+-    # *.xz should depends on xz-native for unpacking
+-    # Not endswith because of "*.patch.xz;patch=1". Need bb.fetch.decodeurl in future
+-    if '.xz' in srcuri:
++    # *.xz should DEPEND on xz-native for unpacking
++    elif path.endswith('.xz'):
+         d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_populate_sysroot')
+ 
+-    # unzip-native should already be staged before unpacking ZIP recipes
+-    if ".zip" in srcuri:
++    # .zip should DEPEND on unzip-native for unpacking
++    elif path.endswith('.zip'):
+         d.appendVarFlag('do_unpack', 'depends', ' unzip-native:do_populate_sysroot')
+ 
+     # file is needed by rpm2cpio.sh
+-    if ".src.rpm" in srcuri:
++    elif path.endswith('.src.rpm'):
+         d.appendVarFlag('do_unpack', 'depends', ' file-native:do_populate_sysroot')
+ 
+     set_packagetriplet(d)
 -- 
-1.9.1
+2.4.9 (Apple Git-60)
 
 
