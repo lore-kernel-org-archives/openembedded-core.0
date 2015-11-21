@@ -1,42 +1,38 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 41E836011A
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E0A46011A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Nov 2015 18:22:50 +0000 (UTC)
-Received: by pabfh17 with SMTP id fh17so153149667pab.0
+	Sat, 21 Nov 2015 18:22:51 +0000 (UTC)
+Received: by padhx2 with SMTP id hx2so148772848pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Nov 2015 10:22:51 -0800 (PST)
+	Sat, 21 Nov 2015 10:22:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=hIlXUvcYiUskTAXAK2VEWog4SdIYmmIqT03scxHOSVw=;
-	b=H0jXESc1Jj8ANb/ReKSSaAijWd7V4cK0w/6Jlx72Pvc0iKTUKxJ3KTVsAiBpoOeZCI
-	4lJeIEVJTw1cqqCNkbx/3/wZdbvnYMHk+d8NJnY6DOJ3ZlkTnCVlHK3WNHlEn7hf+0QG
-	W1QCWeJVfceMjGHr/7N2pBIn+NHD5NXVNNmI5L8n3jxK28/5o7rO2d4yT8OCtL9ybsPD
-	9EV7grsi+k0XAKNzCgYGaj4oyBfwNJUDktuX9awWdtrEwyqVjz/wPxE3coS8lvSAnGRs
-	7sVZKhGp83dv3IXtDjtSI6WaflpdZZMVLd8y9EK2Tgo/1Tzxbt3Xh6lZ5C9ZSC4PwpUn
-	ivLA==
-X-Received: by 10.66.217.234 with SMTP id pb10mr26984235pac.148.1448130171349; 
-	Sat, 21 Nov 2015 10:22:51 -0800 (PST)
+	h=from:to:subject:date:message-id;
+	bh=d0KmdLdpWHbZhneAHUN9TLksQCM0IQKaUBwHdsD1mXk=;
+	b=w3zWQF2K1rtKHYE/iOCeo0Cx9ChUoVJZYoU45v1wTixMaTPq5LP1TpRaTFZMWiYFXL
+	R6z1evbPksr1sjafladt+t9jGQXgOeJOJ1H0FnjeSnsFfOSQeAbNMAIw4t0IXLdv11CE
+	b+fqsvUMR6dbfkcI7yzXmctBvCl+rnP6FelT38fQblXvjGPC2aP/ZuefTL3Nc20I2oRJ
+	ngxloV6ZgGrcbFTbCJMKTL+p0xxdsodkyQV84fHUW0UJWNKoYn1pktYBacu5/xBXF1h6
+	rWTuV7d3V2qiPgKPweZMWji3niR6i2f2t8Wh7/gLMPsFzgiY///3BpLFZK30mOIvvdS2
+	EJZw==
+X-Received: by 10.98.64.87 with SMTP id n84mr6908344pfa.109.1448130172396;
+	Sat, 21 Nov 2015 10:22:52 -0800 (PST)
 Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id r72sm3981329pfi.0.2015.11.21.10.22.49
+	by smtp.gmail.com with ESMTPSA id r5sm3972016pfi.73.2015.11.21.10.22.49
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Sat, 21 Nov 2015 10:22:50 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 X-Google-Original-From: Armin Kuster <akuster@mvista.com>
 Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id 056DAFCC83C; Sat, 21 Nov 2015 10:22:47 -0800 (PST)
+	id 92813FCC838; Sat, 21 Nov 2015 10:22:47 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 Nov 2015 10:22:43 -0800
-Message-Id: <1c5962ec437edc15f03fc8450b5537c8883ef875.1448130024.git.akuster@mvista.com>
+Date: Sat, 21 Nov 2015 10:22:41 -0800
+Message-Id: <cover.1448130024.git.akuster@mvista.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1448130024.git.akuster@mvista.com>
-References: <cover.1448130024.git.akuster@mvista.com>
-In-Reply-To: <cover.1448130024.git.akuster@mvista.com>
-References: <cover.1448130024.git.akuster@mvista.com>
-Subject: [PATCH 2/4] grep2.19: CVE-2015-1345
+Subject: [PATCH 0/4] Dizzy-next
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,179 +45,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Nov 2015 18:22:51 -0000
+X-List-Received-Date: Sat, 21 Nov 2015 18:22:52 -0000
 
-From: Sona Sarmadi <sona.sarmadi@enea.com>
+Please consider these changes for Dizzy-next
 
-Fixes heap-based buffer overflow flaw in grep.
-Affected versions are: grep 2.19 through 2.21
+The following changes since commit 6d34267e0a13e10ab91b60590b27a2b5ba3b7da6:
 
-Removed THANKS.in changes from upstream patch since this
-file does not exist in version 2.19.
-Replaced tab with spaces in SRC_URI as well.
+  documentation: Changed some 'intro' tags to resolve multiple mega-manual warnings. (2015-11-18 16:44:05 +0000)
 
-Upstream fix:
-http://git.sv.gnu.org/cgit/grep.git/commit/?id=
-83a95bd8c8561875b948cadd417c653dbe7ef2e2
+are available in the git repository at:
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
+  git://git.yoctoproject.org/poky-contrib akuster/dizzy-next
+  http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/dizzy-next
+
+Armin Kuster (1):
+  openssh: CVE-2015-6563 CVE-2015-6564 CVE-2015-6565
+
+Sergiy Kibrik (1):
+  rsync: backport libattr checking patch
+
+Sona Sarmadi (2):
+  libtasn1: CVE-2015-3622
+  grep2.19: CVE-2015-1345
+
+ .../openssh/openssh/CVE-2015-6563.patch            |  36 ++++++
+ .../openssh/openssh/CVE-2015-6564.patch            |  34 ++++++
+ .../openssh/openssh/CVE-2015-6565.patch            |  35 ++++++
+ meta/recipes-connectivity/openssh/openssh_6.6p1.bb |   5 +-
+ .../rsync/files/check_libattr.patch                |  33 ++++++
+ meta/recipes-devtools/rsync/rsync_3.1.0.bb         |   3 +-
  .../grep/grep-2.19/grep2.19-CVE-2015-1345.patch    | 129 +++++++++++++++++++++
  meta/recipes-extended/grep/grep_2.19.bb            |   4 +-
- 2 files changed, 132 insertions(+), 1 deletion(-)
+ .../gnutls/libtasn1/libtasn1-CVE-2015-3622.patch   |  44 +++++++
+ meta/recipes-support/gnutls/libtasn1_4.0.bb        |   1 +
+ 10 files changed, 321 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-6563.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-6564.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-6565.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/check_libattr.patch
  create mode 100644 meta/recipes-extended/grep/grep-2.19/grep2.19-CVE-2015-1345.patch
+ create mode 100644 meta/recipes-support/gnutls/libtasn1/libtasn1-CVE-2015-3622.patch
 
-diff --git a/meta/recipes-extended/grep/grep-2.19/grep2.19-CVE-2015-1345.patch b/meta/recipes-extended/grep/grep-2.19/grep2.19-CVE-2015-1345.patch
-new file mode 100644
-index 0000000..32846f5
---- /dev/null
-+++ b/meta/recipes-extended/grep/grep-2.19/grep2.19-CVE-2015-1345.patch
-@@ -0,0 +1,129 @@
-+From 83a95bd8c8561875b948cadd417c653dbe7ef2e2 Mon Sep 17 00:00:00 2001
-+From: Yuliy Pisetsky <ypisetsky@fb.com>
-+Date: Thu, 01 Jan 2015 23:36:55 +0000
-+Subject: grep -F: fix a heap buffer (read) overrun
-+
-+grep's read buffer is often filled to its full size, except when
-+reading the final buffer of a file.  In that case, the number of
-+bytes read may be far less than the size of the buffer.  However, for
-+certain unusual pattern/text combinations, grep -F would mistakenly
-+examine bytes in that uninitialized region of memory when searching
-+for a match.  With carefully chosen inputs, one can cause grep -F to
-+read beyond the end of that buffer altogether.  This problem arose via
-+commit v2.18-90-g73893ff with the introduction of a more efficient
-+heuristic using what is now the memchr_kwset function. The use of
-+that function in bmexec_trans could leave TP much larger than EP,
-+and the subsequent call to bm_delta2_search would mistakenly access
-+beyond end of the main input read buffer.
-+
-+* src/kwset.c (bmexec_trans): When TP reaches or exceeds EP,
-+do not call bm_delta2_search.
-+* tests/kwset-abuse: New file.
-+* tests/Makefile.am (TESTS): Add it.
-+* NEWS (Bug fixes): Mention it.
-+
-+Prior to this patch, this command would trigger a UMR:
-+
-+  printf %0360db 0 | valgrind src/grep -F $(printf %019dXb 0)
-+
-+  Use of uninitialised value of size 8
-+     at 0x4142BE: bmexec_trans (kwset.c:657)
-+     by 0x4143CA: bmexec (kwset.c:678)
-+     by 0x414973: kwsexec (kwset.c:848)
-+     by 0x414DC4: Fexecute (kwsearch.c:128)
-+     by 0x404E2E: grepbuf (grep.c:1238)
-+     by 0x4054BF: grep (grep.c:1417)
-+     by 0x405CEB: grepdesc (grep.c:1645)
-+     by 0x405EC1: grep_command_line_arg (grep.c:1692)
-+     by 0x4077D4: main (grep.c:2570)
-+
-+See the accompanying test for how to trigger the heap buffer overrun.
-+
-+Thanks to Nima Aghdaii for testing and finding numerous
-+ways to break early iterations of this patch.
-+
-+Fixes CVE-2015-1345.
-+Upstream-Status: Backport
-+
-+---
-+diff --git a/NEWS b/NEWS
-+index 975440d..3835d8d 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -2,6 +2,11 @@ GNU grep NEWS                                    -*- outline -*-
-+ 
-+ * Noteworthy changes in release ?.? (????-??-??) [?]
-+ 
-++** Bug fixes
-++
-++  grep no longer reads from uninitialized memory or from beyond the end
-++  of the heap-allocated input buffer.
-++
-+ 
-+ * Noteworthy changes in release 2.21 (2014-11-23) [stable]
-+ 
-+diff --git a/src/kwset.c b/src/kwset.c
-+index 4003c8d..376f7c3 100644
-+--- a/src/kwset.c
-++++ b/src/kwset.c
-+@@ -643,6 +643,8 @@ bmexec_trans (kwset_t kwset, char const *text, size_t size)
-+                     if (! tp)
-+                       return -1;
-+                     tp++;
-++                    if (ep <= tp)
-++                      break;
-+                   }
-+               }
-+           }
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index 2cba2cd..0508cd2 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -75,6 +75,7 @@ TESTS =						\
-+   inconsistent-range				\
-+   invalid-multibyte-infloop			\
-+   khadafy					\
-++  kwset-abuse					\
-+   long-line-vs-2GiB-read			\
-+   match-lines					\
-+   max-count-overread				\
-+diff --git a/tests/kwset-abuse b/tests/kwset-abuse
-+new file mode 100755
-+index 0000000..6d8ec0c
-+--- a/dev/null
-++++ b/tests/kwset-abuse
-+@@ -0,0 +1,32 @@
-++#! /bin/sh
-++# Evoke a segfault in a hard-to-reach code path of kwset.c.
-++# This bug affected grep versions 2.19 through 2.21.
-++#
-++# Copyright (C) 2015 Free Software Foundation, Inc.
-++#
-++# This program is free software: you can redistribute it and/or modify
-++# it under the terms of the GNU General Public License as published by
-++# the Free Software Foundation, either version 3 of the License, or
-++# (at your option) any later version.
-++
-++# This program is distributed in the hope that it will be useful,
-++# but WITHOUT ANY WARRANTY; without even the implied warranty of
-++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++# GNU General Public License for more details.
-++
-++# You should have received a copy of the GNU General Public License
-++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-++
-++. "${srcdir=.}/init.sh"; path_prepend_ ../src
-++
-++fail=0
-++
-++# This test case chooses a haystack of size 260,000, since prodding
-++# with gdb showed a reallocation slightly larger than that in fillbuf.
-++# To reach the buggy code, the needle must have length < 1/11 that of
-++# the haystack, and 10,000 is a nice round number that fits the bill.
-++printf '%0260000dXy\n' 0 | grep -F $(printf %010000dy 0)
-++
-++test $? = 1 || fail=1
-++
-++Exit $fail
-+--
-+cgit v0.9.0.2
-diff --git a/meta/recipes-extended/grep/grep_2.19.bb b/meta/recipes-extended/grep/grep_2.19.bb
-index 9c162cc..d60ce5e 100644
---- a/meta/recipes-extended/grep/grep_2.19.bb
-+++ b/meta/recipes-extended/grep/grep_2.19.bb
-@@ -5,7 +5,9 @@ SECTION = "console/utils"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8006d9c814277c1bfc4ca22af94b59ee"
- 
--SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz"
-+SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz \
-+           file://grep2.19-CVE-2015-1345.patch \
-+           "
- 
- SRC_URI[md5sum] = "ac732142227d9fe9567d71301e127979"
- SRC_URI[sha256sum] = "6388295be48cfcaf7665d9cd3914e6625ea000e9414132bfefd45cf1d8eec34d"
 -- 
 1.9.1
 
