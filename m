@@ -1,30 +1,42 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 93E116011A
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C52E60123
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Nov 2015 14:23:44 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20151121142342821_0685;
-	Sat, 21 Nov 2015 06:23:42 -0800
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [99.240.204.5] (port=49636 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1a095a-0003Dr-Tj; Sat, 21 Nov 2015 09:24:30 -0500
-Date: Sat, 21 Nov 2015 09:23:33 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-In-Reply-To: <CADkTA4MBujzToM2AV7su24sUEvLXLwFyGK5ZcX3SP6SMv-7KTA@mail.gmail.com>
-Message-ID: <alpine.LFD.2.20.1511210920450.30774@localhost>
-References: <alpine.LFD.2.20.1511210640580.26105@localhost>
-	<CADkTA4MBujzToM2AV7su24sUEvLXLwFyGK5ZcX3SP6SMv-7KTA@mail.gmail.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
+	Sat, 21 Nov 2015 16:24:36 +0000 (UTC)
+Received: by pacdm15 with SMTP id dm15so147019725pac.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 Nov 2015 08:24:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=TjJ8oTameUZuuMo2yD8wmbAV4VqswPTPeV7IxpjGtwQ=;
+	b=mVE5TwFQ9Q8LruuojddhZqPobPOANuVUJwTCxJnUHjXtXjiULj8V8U7aAgvx/jYs/y
+	saLeCkqovWJhxla0e7h56e0+P89cvvaMxYQVACWScczLtGnbfMQldCWRKPZ4okRIf6Gn
+	xKWigcywRghjNwjU8VENnfJRuKnVsNu2UBnvNE5i/XmHyf+nPkByzs8LRncLeQCUjGM4
+	/A5eC1QydUlt7TuUFvrH7qK+tCI8Ns+pCRqHnQfKh+2VLJRzanYQH1w22JNoF4xuKTZm
+	rOwjZKBjnEwhbc6d8cEefMBV542AJPrnRoMe1tI98jxqSA5fKuGvVhcOS8a7Suzv6FVU
+	jBag==
+X-Received: by 10.98.74.26 with SMTP id x26mr6234212pfa.15.1448123076951;
+	Sat, 21 Nov 2015 08:24:36 -0800 (PST)
+Received: from ?IPv6:2601:202:4000:1239:b135:9b8c:cccd:ccf2?
+	([2601:202:4000:1239:b135:9b8c:cccd:ccf2])
+	by smtp.googlemail.com with ESMTPSA id
+	oz2sm4151808pbc.49.2015.11.21.08.24.35
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 21 Nov 2015 08:24:35 -0800 (PST)
+To: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <1447145891-13916-1-git-send-email-Martin.Jansa@gmail.com>
+	<20151110090527.GA2561@jama>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <56509AB9.3090309@gmail.com>
+Date: Sat, 21 Nov 2015 08:24:25 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: what means the EXTRA_KERNEL_SRC_URI variable, if anything?
+In-Reply-To: <20151110090527.GA2561@jama>
+Subject: Re: [PATCH][master][jethro][fido][dizzy] image.bbclass: don't add BUILDNAME to do_rootfs vardeps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,51 +49,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Nov 2015 14:23:45 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sat, 21 Nov 2015 16:24:37 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On Sat, 21 Nov 2015, Bruce Ashfield wrote:
 
-> On Sat, Nov 21, 2015 at 6:45 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> >
-> >   perusing a BSP package handed to me by someone else and in their
-> > recipes-kernel/linux/ directory, there's a custom kernel .bbappend
-> > file with the line:
-> >
-> >   EXTRA_KERNEL_SRC_URI += "file://kernelmods.scc"
-> >
-> > i am unfamiliar with that SRC_URI-related variable, and i don't see it
-> > anywhere under the numerous layers i have checked out. is this some
-> > legacy/deprecated variable? i don't know what to make of it.
->
-> I'm guessing that BSP was created/packaged by Wind River :) That
-> variable shows up in the linux-windriver kernel recipe, which is
-> based on linux-yocto.
->
-> It was simply a way to have a variable that could be used, without
-> requiring direct manipulation of the SRC_URI .. since if a direct
-> assignment had bee done to SRC_URI "good things" got clobbered, and
-> "bad things" happened.
->
-> I'd suggest ignoring it (except perhaps in the context of what you
-> are using), since it is specific to that kernel, and something that
-> will go away over time.
->
-> oh .. and if the BSP wasn't a Wind River one .. I have no idea ;)
 
-  that is, of course, precisely where it came from -- thanks for
-clearing that up.
+On 11/10/2015 01:05 AM, Martin Jansa wrote:
+> On Tue, Nov 10, 2015 at 09:58:11AM +0100, Martin Jansa wrote:
+>> * it was explicitly excluded in rootfs_*.bbclass which doesn't use this
+>>   variable anymore, so we can drop it there, but I don't understand why
+>>   it was added explicitly in image.bbclass, we don't want image to
+>>   rebuild just because timestamp is different.
+>> * causes following ERROR when bitbake -S is used:
+>>   NOTE: Reparsing files to collect dependency data
+>>   Writing locked sigs to locked-sigs.inc
+>>   ERROR: Bitbake's cached basehash does not match the one we just generated (some-image.bb.do_rootfs)!
+>>   ERROR: The mismatched hashes were 508d48864b14ce94ca69ea6062f9e5f8 and f81487a10e995426d493a4a50b088721
+>>   $ bitbake-diffsigs BUILD/sstate-diff/c*/foo/bar/some-image/*do_rootfs.sig*
+>>   basehash changed from f81487a10e995426d493a4a50b088721 to 263d1d44d6fda0101c89de3b2a489af9
+>>   Variable BUILDNAME value changed from '201511100025' to '201511100037'
+> 
+> I'm sorry, only the rootfs_*.bbclass part does apply to all 4 branches
+> and it's just cleanup, so it doesn't need to be backported.
+> 
+> For image.bbclass in dizzy we need to backport eb6305d03723527830976c3a4ce2342a0e09eefc (included in fido).
+> Armin: can you take care of ^?
 
-rday
+yep, no problem.
 
--- 
+- armin
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+> 
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> ---
+>>  meta/classes/image.bbclass      | 2 +-
+>>  meta/classes/rootfs_deb.bbclass | 1 -
+>>  meta/classes/rootfs_ipk.bbclass | 1 -
+>>  meta/classes/rootfs_rpm.bbclass | 1 -
+>>  4 files changed, 1 insertion(+), 4 deletions(-)
+>>
+>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+>> index 1c0fda7..c0f9775 100644
+>> --- a/meta/classes/image.bbclass
+>> +++ b/meta/classes/image.bbclass
+>> @@ -94,7 +94,7 @@ def rootfs_variables(d):
+>>                   'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','RM_OLD_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS','SDK_OS',
+>>                   'SDK_OUTPUT','SDKPATHNATIVE','SDKTARGETSYSROOT','SDK_DIR','SDK_VENDOR','SDKIMAGE_INSTALL_COMPLEMENTARY','SDK_PACKAGE_ARCHS','SDK_OUTPUT','SDKTARGETSYSROOT','MULTILIBRE_ALLOW_REP',
+>>                   'MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS','PACKAGE_ARCHS',
+>> -                 'PACKAGE_CLASSES','TARGET_VENDOR','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','BUILDNAME','USE_DEVFS',
+>> +                 'PACKAGE_CLASSES','TARGET_VENDOR','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
+>>                   'STAGING_KERNEL_DIR','COMPRESSIONTYPES']
+>>      variables.extend(command_variables(d))
+>>      variables.extend(variable_depends(d))
+>> diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
+>> index d51b458..f79fca6 100644
+>> --- a/meta/classes/rootfs_deb.bbclass
+>> +++ b/meta/classes/rootfs_deb.bbclass
+>> @@ -8,7 +8,6 @@ ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
+>>  do_rootfs[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot"
+>>  do_populate_sdk[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot bzip2-native:do_populate_sysroot"
+>>  do_rootfs[recrdeptask] += "do_package_write_deb"
+>> -rootfs_deb_do_rootfs[vardepsexclude] += "BUILDNAME"
+>>  do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+>>  
+>>  do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
+>> diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+>> index 6139cc7..bb6f777 100644
+>> --- a/meta/classes/rootfs_ipk.bbclass
+>> +++ b/meta/classes/rootfs_ipk.bbclass
+>> @@ -13,7 +13,6 @@ do_rootfs[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_popu
+>>  do_populate_sdk[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
+>>  do_rootfs[recrdeptask] += "do_package_write_ipk"
+>>  do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+>> -rootfs_ipk_do_rootfs[vardepsexclude] += "BUILDNAME"
+>>  
+>>  do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
+>>  do_populate_sdk[lockfiles] += "${WORKDIR}/ipk.lock"
+>> diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+>> index d85d001..b4cd55b 100644
+>> --- a/meta/classes/rootfs_rpm.bbclass
+>> +++ b/meta/classes/rootfs_rpm.bbclass
+>> @@ -22,7 +22,6 @@ do_rootfs[depends] += "${RPMROOTFSDEPENDS}"
+>>  do_populate_sdk[depends] += "${RPMROOTFSDEPENDS}"
+>>  
+>>  do_rootfs[recrdeptask] += "do_package_write_rpm"
+>> -rootfs_rpm_do_rootfs[vardepsexclude] += "BUILDNAME"
+>>  do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+>>  
+>>  # RPM doesn't work with multiple rootfs generation at once due to collisions in the use of files 
+>> -- 
+>> 2.6.2
+>>
+> 
+> 
+> 
 
