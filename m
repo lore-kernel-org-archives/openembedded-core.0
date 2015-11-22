@@ -1,30 +1,30 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp685.redcondor.net (smtp685.redcondor.net [208.80.206.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 1766B6010D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A92E46010D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Nov 2015 09:29:34 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp685.redcondor.net ({20c8e40f-6b6c-4c9e-abff-1640ea7bf404})
-	via TCP (outbound) with ESMTPS id 20151122092933144_0685;
-	Sun, 22 Nov 2015 01:29:33 -0800
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [99.240.204.5] (port=57068 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1a0QyS-0007Gp-UP; Sun, 22 Nov 2015 04:30:21 -0500
-Date: Sun, 22 Nov 2015 04:29:23 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Robert Yang <liezhi.yang@windriver.com>
-In-Reply-To: <56518812.2030705@windriver.com>
-Message-ID: <alpine.LFD.2.20.1511220426050.13978@localhost>
-References: <alpine.LFD.2.20.1511220407380.13727@localhost>
-	<56518812.2030705@windriver.com>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: what is the value of 'BBPATH ?= ""' in layer.conf?
+	Sun, 22 Nov 2015 09:33:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tAM9XSpm026157; Sun, 22 Nov 2015 09:33:28 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id T7pEYv2wivcK; Sun, 22 Nov 2015 09:33:28 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tAM9XDao026148
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 22 Nov 2015 09:33:24 GMT
+Message-ID: <1448184793.27882.32.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ming Liu <liu.ming50@gmail.com>
+Date: Sun, 22 Nov 2015 09:33:13 +0000
+In-Reply-To: <1448142950-5321-1-git-send-email-liu.ming50@gmail.com>
+References: <1448142950-5321-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] initscripts: do not save timestamp for readonly system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,50 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Nov 2015 09:29:37 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sun, 22 Nov 2015 09:33:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, 22 Nov 2015, Robert Yang wrote:
+On Sat, 2015-11-21 at 22:55 +0100, Ming Liu wrote:
+> From: Ming Liu <peter.x.liu@external.atlascopco.com>
+> 
+> To avoid reporting errors for /etc/timestamp is not writeable in a
+> readonly system.
+> 
+> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+> ---
+>  meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+> index b038fc5..0f7aa20 100644
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+> @@ -9,5 +9,7 @@
+>  # Description:       
+>  ### END INIT INFO
+>  
+> -# Update the timestamp
+> -date -u +%4Y%2m%2d%2H%2M%2S > /etc/timestamp
+> +# Update the timestamp for non-readonly system
+> +[ -f /etc/default/rcS ] && . /etc/default/rcS
+> +
+> +[ "$ROOTFS_READ_ONLY" = "no" ] && date -u +%4Y%2m%2d%2H%2M%2S > /etc/timestamp
 
->
->
-> On 11/22/2015 05:10 PM, Robert P. J. Day wrote:
-> >
-> >    perusing some wind river layers, and in the layer.conf file here:
-> >
-> > https://github.com/WindRiver-OpenSourceLabs/wr-kernel/blob/LB21_7.0_RCPL0002/conf/layer.conf
-> >
-> > i see the opening snippet:
-> >
-> >    BBPATH ?= ""
-> >    # We have a conf and classes directory, add to BBPATH
-> >    BBPATH := "${LAYERDIR}:${BBPATH}"
-> >
-> > what is the purpose of that initial assignment
-> >
-> >    BBPATH ?= ""
->
-> There would be a warning when BBPATH is null, but that had been fixed,
-> so we don't need it nowadays.
->
-> // Robert
+Couldn't we just test if /etc/timestamp is writable first:
 
-  i thought as much, i just wanted to be sure. i am a rabid minimalist
-in that, if a line has no value, it should be removed, mostly to avoid
-confusing people like me. :-) i noticed at least a couple WR-OSL
-layers that had that construct, you can decide if you care enough
-about it to clean it up. thanks for the clarifiation.
+[ -w /etc/timestamp ] && date -u +%4Y%2m%2d%2H%2M%2S > /etc/timestamp
 
-rday
+?
 
--- 
+Cheers,
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+Richard
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+
 
 
