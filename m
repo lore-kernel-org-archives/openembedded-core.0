@@ -1,25 +1,28 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 7204862131
+Return-Path: <biannm@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 82E3A6082D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 02:38:19 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Nov 2015 18:38:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,335,1444719600"; d="scan'208";a="857558658"
-Received: from echoo1-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.170.181])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2015 18:38:18 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Nov 2015 15:37:42 +1300
-Message-Id: <b7004cf84d2c68e2da8a6c6c2be4926a7c102fd5.1448246218.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1448246218.git.paul.eggleton@linux.intel.com>
-References: <cover.1448246218.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1448246218.git.paul.eggleton@linux.intel.com>
-References: <cover.1448246218.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 7/7] classes/populate_sdk_ext: fail if SDK_ARCH != BUILD_ARCH
+	Mon, 23 Nov 2015 02:38:29 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.20,242,1444665600"; 
+   d="scan'208";a="723777"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 23 Nov 2015 10:38:18 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id tAN2biAu016833
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Nov 2015 10:37:44 +0800
+Received: from localhost.localdomain (10.167.226.31) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Mon, 23 Nov 2015 10:38:28 +0800
+From: Bian Naimeng <biannm@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 23 Nov 2015 10:38:07 +0800
+Message-ID: <1448246287-28001-1-git-send-email-biannm@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.31]
+Subject: [PATCH v2] LOCKED_KEEP is undefined, so the following error will be caught.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,37 +35,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Nov 2015 02:38:19 -0000
+X-List-Received-Date: Mon, 23 Nov 2015 02:38:30 -0000
+Content-Type: text/plain
 
-The extensible SDK relies upon uninative, and with the way that
-uninative works, the build system architecture must be the same as the
-SDK architecture or the extensible SDK won't be usable. At some point in
-future hopefully we can remove this limitation, but until then it's
-disingenuous to allow this to build, so add a check to ensure
-SDK_ARCH == BUILD_ARCH and fail if it isn't.
+ /usr/lib/python2.7/site-packages/smart/transaction.py", line 1230, in run
+     locked[pkg] = (LOCKED_KEEP, None)
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+ NameError: global name 'LOCKED_KEEP' is not defined
+
+Upstream-Status: Submitted [Smart@lists.labix.org]
+
+Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../python-smartpm/smart-define-LOCKED-KEEP.patch  | 45 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python-smartpm_git.bb |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-define-LOCKED-KEEP.patch
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 736f17f..dc05261 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -261,6 +261,11 @@ SDK_POST_INSTALL_COMMAND_task-populate-sdk-ext = "${sdk_ext_postinst}"
- SDK_POSTPROCESS_COMMAND_prepend_task-populate-sdk-ext = "copy_buildsystem; install_tools; "
- 
- fakeroot python do_populate_sdk_ext() {
-+    # FIXME hopefully we can remove this restriction at some point, but uninative
-+    # currently forces this upon us
-+    if d.getVar('SDK_ARCH', True) != d.getVar('BUILD_ARCH', True):
-+        bb.fatal('The extensible SDK can currently only be built for the same architecture as the machine being built on - SDK_ARCH is set to %s (likely via setting SDKMACHINE) which is different from the architecture of the build machine (%s). Unable to continue.' % (d.getVar('SDK_ARCH', True), d.getVar('BUILD_ARCH', True)))
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-define-LOCKED-KEEP.patch b/meta/recipes-devtools/python/python-smartpm/smart-define-LOCKED-KEEP.patch
+new file mode 100644
+index 0000000..8b7769a
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-smartpm/smart-define-LOCKED-KEEP.patch
+@@ -0,0 +1,45 @@
++From daaec43ecf3f0d0f89cef586327aa1063a4c44c6 Mon Sep 17 00:00:00 2001
++From: Bian Naimeng <biannm@cn.fujitsu.com>
++Date: Tue, 27 Oct 2015 11:08:52 +0900
++Subject: [PATCH] Fix a undefined error
 +
-     bb.build.exec_func("do_populate_sdk", d)
- }
++LOCKED_KEEP is undefined, so the following error will be caught.
++
++  /usr/lib/python2.7/site-packages/smart/transaction.py", line 1230, in run
++    locked[pkg] = (LOCKED_KEEP, None)
++
++  NameError: global name 'LOCKED_KEEP' is not defined
++
++Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
++---
++ smart/const.py       | 1 +
++ smart/transaction.py | 2 +-
++ 2 files changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/smart/const.py b/smart/const.py
++index 3a01073..51ec6c1 100644
++--- a/smart/const.py
+++++ b/smart/const.py
++@@ -77,5 +77,6 @@ LOCKED_CONFLICT    = Enum('LOCKED_CONFLICT')
++ LOCKED_CONFLICT_BY = Enum('LOCKED_CONFLICT_BY')
++ LOCKED_NO_COEXIST  = Enum('LOCKED_NO_COEXIST')
++ LOCKED_SYSCONF     = Enum('LOCKED_SYSCONF')
+++LOCKED_KEEP        = Enum('LOCKED_KEEP')
++ 
++ # vim:ts=4:sw=4:et
++diff --git a/smart/transaction.py b/smart/transaction.py
++index f022aae..8600090 100644
++--- a/smart/transaction.py
+++++ b/smart/transaction.py
++@@ -19,7 +19,7 @@
++ # along with Smart Package Manager; if not, write to the Free Software
++ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ #
++-from smart.const import INSTALL, REMOVE, UPGRADE, FIX, REINSTALL, KEEP, LOCKED_EXCLUDE, LOCKED_INSTALL, LOCKED_CONFLICT, LOCKED_CONFLICT_BY, LOCKED_NO_COEXIST, LOCKED_SYSCONF, LOCKED_REMOVE
+++from smart.const import INSTALL, REMOVE, UPGRADE, FIX, REINSTALL, KEEP, LOCKED_EXCLUDE, LOCKED_INSTALL, LOCKED_CONFLICT, LOCKED_CONFLICT_BY, LOCKED_NO_COEXIST, LOCKED_SYSCONF, LOCKED_REMOVE, LOCKED_KEEP
++ from smart.cache import PreRequires, Package
++ from smart import *
++ 
++-- 
++1.8.4.2
++
+diff --git a/meta/recipes-devtools/python/python-smartpm_git.bb b/meta/recipes-devtools/python/python-smartpm_git.bb
+index d6c378b..9f8e9fe 100644
+--- a/meta/recipes-devtools/python/python-smartpm_git.bb
++++ b/meta/recipes-devtools/python/python-smartpm_git.bb
+@@ -24,6 +24,7 @@ SRC_URI = "\
+           file://smart-already-installed-message.patch \
+           file://smart-set-noprogress-for-pycurl.patch \
+           file://smart-cache.py-getPackages-matches-name-version.patch \
++          file://smart-define-LOCKED-KEEP.patch \
+          "
  
+ SRCREV = "407a7eca766431257dcd1da15175cc36a1bb22d0"
 -- 
-2.1.0
+1.9.1
 
 
