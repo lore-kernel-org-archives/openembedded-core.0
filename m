@@ -1,36 +1,27 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id BD1DE60290
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CC856605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Nov 2015 22:40:37 +0000 (UTC)
-Received: by lfdl133 with SMTP id l133so16223655lfd.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Nov 2015 14:40:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=+kIV+Z2AsHk1NNEDsYcjbFATrJwv7OvHZS4W35uvduY=;
-	b=yv82XKIP0XWBvKwQifYfpkE4mWKHcFMOz8/KVAPHk0Hyxfi4FGIJ0CJHR5Gc5Rsjfb
-	THNTuAxitDyGxfC00eyRazWRnE3ohswOLjaFOVfkOGxcGwiMVjHq0D9SLHyYLzFpdRUu
-	yj9scNfNXs3xSIk+3gdqFFLVU+FubnbwdPILsPpSbhBsT+6gONcriiNmrM97qWZft7Kg
-	zcbd1BCxHb5V9OAtAuxOUryIsqNNT4GzUh5WHh7Gz6NF+gIx8q9hF2d3Q/TW/F1molhc
-	sWi9AHr4dahzPfQ75Yfc8+ZwVM2w86CiodEt4KIwLwUM/gSgEoRnkjGkwyd6AfKzClyL
-	nj7A==
-X-Received: by 10.25.165.141 with SMTP id o135mr9544670lfe.139.1448232037689; 
-	Sun, 22 Nov 2015 14:40:37 -0800 (PST)
-Received: from localhost.localdomain (c80-217-62-231.bredband.comhem.se.
-	[80.217.62.231]) by smtp.gmail.com with ESMTPSA id
-	a75sm1467117lfe.34.2015.11.22.14.40.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 22 Nov 2015 14:40:36 -0800 (PST)
-From: Ming Liu <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 22 Nov 2015 23:40:11 +0100
-Message-Id: <1448232011-30195-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: bruce.ashfield@windriver.com, darren@dvhart.com,
-	Ming Liu <peter.x.liu@external.atlascopco.com>, yue.tao@windriver.com
-Subject: [PATCH] kernel-devsrc: add 'make scripts' postinstall
+	Mon, 23 Nov 2015 01:24:45 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAN1Oh3G027020
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 22 Nov 2015 17:24:43 -0800 (PST)
+Received: from [128.224.162.160] (128.224.162.160) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 22 Nov 2015 17:24:42 -0800
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
+	<openembedded-core@lists.openembedded.org>
+References: <alpine.LFD.2.20.1511220702250.16489@localhost>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <56526AD9.5080305@windriver.com>
+Date: Mon, 23 Nov 2015 09:24:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <alpine.LFD.2.20.1511220702250.16489@localhost>
+Subject: Re: still seems to be a pile of "_append +=" stuff in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,57 +34,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Nov 2015 22:40:38 -0000
+X-List-Received-Date: Mon, 23 Nov 2015 01:24:47 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+The _append and += are different, so we need either:
 
-Run 'make scripts' inside qemu in order to create script binaries that
-needed by external modules build on the target.
+var_append = " foo"
+or
+var_append += "foo"
 
-This 'make scripts' might fail in some cases, for instance, if toolchain or
-make command is not installed on the target, but the postinstall should
-always succeed, it will not break the package installation so the behaviour
-is consistent.
+for example:
 
-[YOCTO #6630]
+var += "foo"
+var = "A"
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/recipes-kernel/linux/kernel-devsrc.bb | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+Then var will be "A".
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 196c8c7..8b366c3 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
- inherit linux-kernel-base
- 
- # Whilst not a module, this ensures we don't get multilib extended (which would make no sense)
--inherit module-base
-+inherit module-base qemu
- 
- # We need the kernel to be staged (unpacked, patched and configured) before
- # we can grab the source and make the source package. We also need the bits from
-@@ -71,6 +71,17 @@ do_install() {
- # Ensure we don't race against "make scripts" during cpio
- do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
- 
-+pkg_postinst_${PN} () {
-+	if [ -n "$D" ]; then
-+		${@qemu_run_binary(d, '$D', '${bindir}/make')} \
-+			-C $D${KERNEL_SRC_PATH} O=$D${KERNEL_SRC_PATH} scripts
-+	else
-+		make -C ${KERNEL_SRC_PATH} O=${KERNEL_SRC_PATH} scripts \
-+			>/dev/null 2>&1 || true
-+	fi
-+}
-+
- PACKAGES = "kernel-devsrc"
- FILES_${PN} = "${KERNEL_SRC_PATH}"
-+DEPENDS = "qemu-native"
- RDEPENDS_${PN} = "bc"
--- 
-1.9.1
+But:
+var_append += "foo"
+var = "A"
 
+Then var will be "A foo"
+
+On 11/22/2015 08:04 PM, Robert P. J. Day wrote:
+>
+>    i mentioned this a while back, and it *seems* that there's even more
+> of this now -- the use of "_append" in conjunction with "+=", which is
+> clearly(?) redundant.
+>
+>    one simply needs to run:
+>
+> $ grep -r "_append.*+=" *
+>
+> to see how much of that there is. sure, it doesn't hurt, but it's
+> definitely not good programming practice.
+>
+> rday
+>
 
