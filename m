@@ -1,28 +1,37 @@
-Return-Path: <biannm@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 82E3A6082D
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 59C1D6011C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 02:38:29 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.20,242,1444665600"; 
-   d="scan'208";a="723777"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 23 Nov 2015 10:38:18 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id tAN2biAu016833
+	Mon, 23 Nov 2015 09:42:35 +0000 (UTC)
+Received: by lffu14 with SMTP id u14so103712071lff.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 10:37:44 +0800
-Received: from localhost.localdomain (10.167.226.31) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Mon, 23 Nov 2015 10:38:28 +0800
-From: Bian Naimeng <biannm@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 Nov 2015 10:38:07 +0800
-Message-ID: <1448246287-28001-1-git-send-email-biannm@cn.fujitsu.com>
+	Mon, 23 Nov 2015 01:42:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=jV2Mkav/x3/Kbe4x823Eq9JCP4ilURMsYsBz3s38orU=;
+	b=nvqJQmuN7+OC5DQTCH8E5uCsczC/9GY0KcAvfIxiePUmHh1m0KS5VYlKphxiIXIhSo
+	QRAk3XJy1IctuuG+ibSAxjMQ50inEHN1Fo+02eaJmZ6JY8QSIue8vqNURQCy/LglLcRq
+	+mj0fPzGK0LM8m9I01mg1Eicu/HIsB2JvsUsVRhDvr9yVuCeh44UUnFqmPDpsxTM194Z
+	/eW+C9yIuLMKvyxFHHgwkfmGSx8iPkfJZkGlAxlh8RYbQkSeKn07SB+ZxLlMs6B4KH7h
+	66kHZviFDmlHHKYUTiRBtBqbECaeQvdtzje5xDTAKLu9e+e7Rm4olDBuc7FamM6caenc
+	bOFQ==
+X-Received: by 10.25.159.130 with SMTP id i124mr10532896lfe.144.1448271755900; 
+	Mon, 23 Nov 2015 01:42:35 -0800 (PST)
+Received: from localhost.localdomain (m77-218-250-52.cust.tele2.se.
+	[77.218.250.52]) by smtp.gmail.com with ESMTPSA id
+	kf8sm1699053lbc.46.2015.11.23.01.42.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 23 Nov 2015 01:42:35 -0800 (PST)
+From: Ming Liu <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Nov 2015 10:42:28 +0100
+Message-Id: <1448271748-3210-1-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.31]
-Subject: [PATCH v2] LOCKED_KEEP is undefined, so the following error will be caught.
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: =?UTF-8?B?W1BBVENI44CAdjFdIGluaXRzY3JpcHRzOiBkbyBub3Qgc2F2ZSB0aW1lc3RhbXAgZm9yIHJlYWRvbmx5IHN5c3RlbQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,86 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Nov 2015 02:38:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 23 Nov 2015 09:42:37 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
- /usr/lib/python2.7/site-packages/smart/transaction.py", line 1230, in run
-     locked[pkg] = (LOCKED_KEEP, None)
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
- NameError: global name 'LOCKED_KEEP' is not defined
+To avoid reporting errors for /etc/timestamp is not writeable in a
+readonly system.
 
-Upstream-Status: Submitted [Smart@lists.labix.org]
-
-Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
+Reported-by: Niklas Soderlund <niklas.soderlund@external.atlascopco.com>
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- .../python-smartpm/smart-define-LOCKED-KEEP.patch  | 45 ++++++++++++++++++++++
- meta/recipes-devtools/python/python-smartpm_git.bb |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-define-LOCKED-KEEP.patch
+ meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-smartpm/smart-define-LOCKED-KEEP.patch b/meta/recipes-devtools/python/python-smartpm/smart-define-LOCKED-KEEP.patch
-new file mode 100644
-index 0000000..8b7769a
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-smartpm/smart-define-LOCKED-KEEP.patch
-@@ -0,0 +1,45 @@
-+From daaec43ecf3f0d0f89cef586327aa1063a4c44c6 Mon Sep 17 00:00:00 2001
-+From: Bian Naimeng <biannm@cn.fujitsu.com>
-+Date: Tue, 27 Oct 2015 11:08:52 +0900
-+Subject: [PATCH] Fix a undefined error
-+
-+LOCKED_KEEP is undefined, so the following error will be caught.
-+
-+  /usr/lib/python2.7/site-packages/smart/transaction.py", line 1230, in run
-+    locked[pkg] = (LOCKED_KEEP, None)
-+
-+  NameError: global name 'LOCKED_KEEP' is not defined
-+
-+Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
-+---
-+ smart/const.py       | 1 +
-+ smart/transaction.py | 2 +-
-+ 2 files changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/smart/const.py b/smart/const.py
-+index 3a01073..51ec6c1 100644
-+--- a/smart/const.py
-++++ b/smart/const.py
-+@@ -77,5 +77,6 @@ LOCKED_CONFLICT    = Enum('LOCKED_CONFLICT')
-+ LOCKED_CONFLICT_BY = Enum('LOCKED_CONFLICT_BY')
-+ LOCKED_NO_COEXIST  = Enum('LOCKED_NO_COEXIST')
-+ LOCKED_SYSCONF     = Enum('LOCKED_SYSCONF')
-++LOCKED_KEEP        = Enum('LOCKED_KEEP')
-+ 
-+ # vim:ts=4:sw=4:et
-+diff --git a/smart/transaction.py b/smart/transaction.py
-+index f022aae..8600090 100644
-+--- a/smart/transaction.py
-++++ b/smart/transaction.py
-+@@ -19,7 +19,7 @@
-+ # along with Smart Package Manager; if not, write to the Free Software
-+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-+ #
-+-from smart.const import INSTALL, REMOVE, UPGRADE, FIX, REINSTALL, KEEP, LOCKED_EXCLUDE, LOCKED_INSTALL, LOCKED_CONFLICT, LOCKED_CONFLICT_BY, LOCKED_NO_COEXIST, LOCKED_SYSCONF, LOCKED_REMOVE
-++from smart.const import INSTALL, REMOVE, UPGRADE, FIX, REINSTALL, KEEP, LOCKED_EXCLUDE, LOCKED_INSTALL, LOCKED_CONFLICT, LOCKED_CONFLICT_BY, LOCKED_NO_COEXIST, LOCKED_SYSCONF, LOCKED_REMOVE, LOCKED_KEEP
-+ from smart.cache import PreRequires, Package
-+ from smart import *
-+ 
-+-- 
-+1.8.4.2
-+
-diff --git a/meta/recipes-devtools/python/python-smartpm_git.bb b/meta/recipes-devtools/python/python-smartpm_git.bb
-index d6c378b..9f8e9fe 100644
---- a/meta/recipes-devtools/python/python-smartpm_git.bb
-+++ b/meta/recipes-devtools/python/python-smartpm_git.bb
-@@ -24,6 +24,7 @@ SRC_URI = "\
-           file://smart-already-installed-message.patch \
-           file://smart-set-noprogress-for-pycurl.patch \
-           file://smart-cache.py-getPackages-matches-name-version.patch \
-+          file://smart-define-LOCKED-KEEP.patch \
-          "
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+index b038fc5..6e5be79 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/save-rtc.sh
+@@ -9,5 +9,5 @@
+ # Description:       
+ ### END INIT INFO
  
- SRCREV = "407a7eca766431257dcd1da15175cc36a1bb22d0"
+-# Update the timestamp
+-date -u +%4Y%2m%2d%2H%2M%2S > /etc/timestamp
++# Update the timestamp for writeable system
++[ -w /etc/timestamp ] && date -u +%4Y%2m%2d%2H%2M%2S > /etc/timestamp
 -- 
 1.9.1
 
