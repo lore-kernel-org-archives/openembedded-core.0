@@ -1,28 +1,36 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id AC9F36012C
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-vk0-f52.google.com (mail-vk0-f52.google.com
+	[209.85.213.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 543856010D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 18:23:20 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 23 Nov 2015 10:23:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,338,1444719600"; d="scan'208";a="857786850"
-Received: from lsandov1-mob1-linux.zpn.intel.com (HELO [10.219.5.40])
-	([10.219.5.40])
-	by orsmga002.jf.intel.com with ESMTP; 23 Nov 2015 10:23:19 -0800
-To: Randy Witt <randy.e.witt@linux.intel.com>,
-	Daniel Istrate <daniel.alexandrux.istrate@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1448029369-29274-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-	<5653370A.6060100@linux.intel.com> <5653528F.6000705@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <56535A3F.8030806@linux.intel.com>
-Date: Mon, 23 Nov 2015 12:26:07 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Mon, 23 Nov 2015 20:05:22 +0000 (UTC)
+Received: by vkay187 with SMTP id y187so45680689vka.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Nov 2015 12:05:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=L0/CgFZz51o5gOrf4mvd4zZzAPbd7znde9yWkMXdYh0=;
+	b=oy3It2P5P2Wttg0B+J+lNnBE42iuyE6XdkT2HliaHEvAnYzdynkeD3IoPhNV7gKtiT
+	snmtfBcImQHO9Cmz9dLCvb5QZZpn4nBGolwi56vLXRd0VnnVu2CE1zL/wpZLqZ/JVk7u
+	1kCrv/dvvrNja3IgJXW3FR4N11TsiGsTMJW/IkXngXN6rc3ANIRb8Xwpe21F3i57B7hk
+	P8apeCxxT/6WTjtnNt6bI8Q0lN/e4bbn3cCbsy2dkAP4gkP8dJc+UErGXU0M6TbHRKn9
+	zC8oOrALecV8MOOYU85/csYIbgRRlBY/C1O5MUxnu7yoq2SQrF86ODTOK8U5iItCEf8I
+	VmMw==
 MIME-Version: 1.0
-In-Reply-To: <5653528F.6000705@linux.intel.com>
-Subject: Re: [PATCH] scripts: analyze_patch: Analyze patch and suggest tests.
+X-Received: by 10.31.192.199 with SMTP id q190mr20969281vkf.96.1448309123291; 
+	Mon, 23 Nov 2015 12:05:23 -0800 (PST)
+Received: by 10.31.202.196 with HTTP; Mon, 23 Nov 2015 12:05:23 -0800 (PST)
+In-Reply-To: <CADkTA4MKUxb_ahGtB=YDxnCsCdBJ0HkFvHuKOspQsa6z+Y9BDg@mail.gmail.com>
+References: <20151029165513.GB2564@jama> <20151113115651.GC2567@jama>
+	<CADkTA4MKUxb_ahGtB=YDxnCsCdBJ0HkFvHuKOspQsa6z+Y9BDg@mail.gmail.com>
+Date: Mon, 23 Nov 2015 15:05:23 -0500
+Message-ID: <CADkTA4P7rE-YGu61puhOA4n_kEuCwKc-pi4UaMLROPVe3DJ2dw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: New warnings in default linux-yocto-4.1 builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,1482 +43,644 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Nov 2015 18:23:20 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Nov 2015 20:05:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-
-On 11/23/2015 11:53 AM, Randy Witt wrote:
-> On 11/23/2015 07:55 AM, Leonardo Sandoval wrote:
->> Hi Daniel,
+On Mon, Nov 16, 2015 at 9:20 AM, Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+> On Fri, Nov 13, 2015 at 6:56 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> On Thu, Oct 29, 2015 at 05:55:13PM +0100, Martin Jansa wrote:
+>>> Probably caused by last linux-yocto changes.
+>>>
+>>> NOTE: recipe linux-yocto-4.1.8+gitAUTOINC+aed9021602_dbe692d91c-r0: task do_kernel_configcheck: Started
+>>> WARNING: [kernel config]: specified values did not make it into the kernel's final configuration:
+>>>
+>>> Value requested for CONFIG_I2O not in final ".config"
+>>> Requested value: "CONFIG_I2O=m"
+>>> Actual value set: "# CONFIG_I2O is not set"
+>>>
+>>> Value requested for CONFIG_I2O_BLOCK not in final ".config"
+>>> Requested value: "CONFIG_I2O_BLOCK=m"
+>>> Actual value set: ""
+>>>
+>>> Value requested for CONFIG_I2O_CONFIG not in final ".config"
+>>> Requested value: "CONFIG_I2O_CONFIG=m"
+>>> Actual value set: ""
+>>>
+>>> Value requested for CONFIG_I2O_CONFIG_OLD_IOCTL not in final ".config"
+>>> Requested value: "CONFIG_I2O_CONFIG_OLD_IOCTL=y"
+>>> Actual value set: ""
+>>>
+>>> Value requested for CONFIG_I2O_PROC not in final ".config"
+>>> Requested value: "CONFIG_I2O_PROC=m"
+>>> Actual value set: ""
+>>>
+>>> Value requested for CONFIG_I2O_SCSI not in final ".config"
+>>> Requested value: "CONFIG_I2O_SCSI=m"
+>>> Actual value set: ""
+>>>
+>>> Value requested for CONFIG_MTRR_SANITIZER not in final ".config"
+>>> Requested value: "# CONFIG_MTRR_SANITIZER is not set"
+>>> Actual value set: "CONFIG_MTRR_SANITIZER=y"
+>>>
+>>>
+>>> NOTE: recipe linux-yocto-4.1.8+gitAUTOINC+aed9021602_dbe692d91c-r0: task do_kernel_configcheck: Succeeded
 >>
->> Some comments inline. BTW, is the script's output intended to be used 
->> as input
->> of another one? Currently, the output is human-friendly (which is 
->> good) but at
->> the end the purpose is to use the output and run this set of 
->> scripts/tests
->> automatically, trying to detect possible issues. Also, I briefly 
->> tried the sfood
->> library, and took quite a lot of time compared to deps.txts. I wonder 
->> if we can
->> fasten somehow this sfood process.
+>> Now it failed completely in last world build, looks like race condition with linux-yocto-tiny-kexecboot
+>> which is dangerously close in cooker log.
 >>
-> What is a "long time"? I don't like deps.txt at all because it will 
-> most likely become stale rather quickly.
-I completely agree in the deps.txt. it wont be easy to maintain this file.
+>> +Andrea to check if linux-yocto-tiny-kexecboot does something bad to sysroot now
+>> +Bruce to reply about new warnings from do_kernel_configcheck
+>
+> I've been on vacation, so sorry for the slow reply.
+>
+> I'll have a look at these, as I'm in the process of updating the
+> kernels at the moment.
 
-Here are the timing numbers sfood versus deps.txt
+I've just run kernel_configcheck against my updated 4.1.13 kernel and I'm not
+seeing these warnings.
 
-with snakefood:
+To confirm: these are qemux86 and qemux86-64 configurations without anything
+extra added ?
 
-$ time for commit in `cat top100.commits`; do analyze_patch -r $commit; 
-done > result.sfood
-
-real    17m51.163s
-user    15m0.172s
-sys     2m48.580s
-
-
-with deps.txt:
-
-$ time for commit in `cat top100.commits`; do analyze_patch -r $commit; 
-done > result.deps
-
-real    0m5.629s
-user    0m4.272s
-sys     0m0.800s
-
-
-
+Bruce
 
 >
->>
->> On 11/20/2015 08:22 AM, Daniel Istrate wrote:
->>> [YOCTO #8647] - Script to analyse what areas a patch changes
->>> and what tests need running
->>>
->>> This script will analyze files modified by a commit and
->>> attempt to suggest what tests to run.
->>> It is somewhat dependent of the 'snakefood' tool to determine
->>> the import relationship between files. If this pkg is missing
->>> a backup file will be used instead: deps.txt
->>>
->>> Usage: analyze_patch --revision <rev>
->>> Example: analyze_patch --revision 351c69a
->>>
->>> Revision: 351c69a
->>>
->>> Modified files:
->>> meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
->>> meta/recipes-support/sqlite/sqlite3_3.8.10.2.bb
->>> meta/recipes-support/sqlite/sqlite3_3.9.0.bb
->>>
->>> Suggested tests:
->>> Rebuild: sqlite3
->>>
->>> Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
->>> ---
->>>   scripts/analyze_patch | 300 ++++++++++++++++++++++++
->>>   scripts/deps.txt      | 628 
->>> ++++++++++++++++++++++++++++++++++++++++++++++++++
->>>   2 files changed, 928 insertions(+)
->>>   create mode 100755 scripts/analyze_patch
->>>   create mode 100644 scripts/deps.txt
->>>
->>> diff --git a/scripts/analyze_patch b/scripts/analyze_patch
->>> new file mode 100755
->>> index 0000000..1b6609b
->>> --- /dev/null
->>> +++ b/scripts/analyze_patch
->>> @@ -0,0 +1,300 @@
->>> +#!/usr/bin/env python
->>> +
->> THE GPL license should be included on this part.
->>> +# Description: This will analyze the files modified by a commit and 
->>> attempt
->>> to suggest what tests to run.
->>> +#              It uses an adjacent file 'deps.txt' that was 
->>> generated by
->>> 'snakefood' tool:
->>> +#              sfood <poky_dir> | grep -v /usr/lib/python | grep -v
->>> /usr/share/pyshared/ |
->>> +#              grep -v None | grep ".py')," | grep ".py\'))" > 
->>> deps.txt
->>> +#              This file has to be edited further: remove the 
->>> <poky_dir> and
->>> replace  "', '" with '/'.
->>> +#              In the end you should have something like this: a 
->>> matrix with
->>> 2 columns, which represent
->>> +#              elements from the left import elements from the right.
->>> +#                 (('bitbake/lib/bb/build.py'), 
->>> ('bitbake/lib/bb/event.py'))
->>> +#                 (('bitbake/lib/bb/build.py'), 
->>> ('bitbake/lib/bb/msg.py'))
->>> +#
->>> +# How to use it: analyze_patch --revision <rev>
->>> +#                analyze_patch -r 2d1071e
->>> +# Notes: if revision is not provided, will default to HEAD
->>> +# Author: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
->>> +
->>> +import argparse
->>> +import os
->>> +import glob
->>> +import ast
->>> +import re
->>> +from subprocess import PIPE, Popen, STDOUT
->>> +
->>> +parser = argparse.ArgumentParser()
->>> +parser.add_argument('-r', '--revision', help='<revision> changes to 
->>> analyze.')
->> Another option would be to define which method to use (sfood or 
->> deps.tx) in case
->> we have more than one method
->>> +args = parser.parse_args()
->>> +
->>> +revision = args.revision or 'HEAD'
->> This default can be include on the same line were the argument was 
->> added.
->>> +
->>> +this_file_path = os.path.dirname(os.path.abspath(__file__))
->>> +poky_dir = os.path.abspath(os.path.join(this_file_path, os.pardir))
->>> +# Move into the the poky dir
->>> +os.chdir(poky_dir)
->>> +
->>> +# Where are the available tests located
->>> +bb_test_dir = 'bitbake/lib/bb/tests/'
->>> +selftest_dir = 'meta/lib/oeqa/selftest/'
->>> +runtime_dir = 'meta/lib/oeqa/runtime/'
->>> +
->>> +RETOK = 0
->>> +
->>> +
->>> +def run_cmd(cmd, ignore_err=False):
->>> +    """
->>> +    Run cmd in bash shell
->>> +    :param   cmd: command to be ran.
->>> +    :param   ignore_err: redirect stderr to /dev/null, otherwise 
->>> redirect
->>> stderr to stdout
->>> +    :return: tuple containing exit code & output of the cmd
->>> +    """
->>> +    DEVNULL = open(os.devnull, 'w')
->>> +
->>> +    if ignore_err:
->>> +        proc = Popen(args=cmd, stdout=PIPE, stderr=DEVNULL, 
->>> shell=True,
->>> executable='/bin/bash')
->>> +    else:
->>> +        proc = Popen(args=cmd, stdout=PIPE, stderr=STDOUT, shell=True,
->>> executable='/bin/bash')
->>> +    retval = proc.communicate()[0]
->>> +    retcode = proc.returncode
->>> +
->>> +    return retcode, retval
->>> +
->>> +
->>> +def get_modified_files(rev=revision):
->>> +    """
->>> +    Determine modified files by a commit
->>> +    :param   rev: the revision number to determine modified files for.
->>> +    :return: a list of modified files
->>> +    """
->>> +    cmd = 'git diff-tree --no-commit-id --name-only -r ' + rev
->>> +    retcode, retval = run_cmd(cmd)
->>> +
->>> +    if retcode != RETOK:
->>> +        return retcode, retval
->>> +
->>> +    retlist = retval.split('\n')
->>> +    retlist.remove('')
->>> +
->>> +    return retlist
->>> +
->>> +
->>> +def get_list_of_testuites(test_dir):
->>> +    """
->>> +    Looks for .py files in test_dir
->>> +    :param test_dir: directory containing (hopefully) test suites
->>> +    :return: list of test suites
->>> +    """
->>> +    test_suites = []
->>> +    test_list = glob.glob(test_dir + '*.py')
->>> +
->>> +    # trim the .py extension and the path to each testsuite
->>> +    for ts in test_list:
->>> +        test_suites.append(ts.replace(test_dir, '').replace('.py', 
->>> ''))
->>> +
->>> +    # remove __init__ from test_suites
->>> +    try:
->>> +        test_suites.remove('__init__')
->>> +    except:
->>> +        pass
->>> +
->>> +    return test_suites
->>> +
->>> +
->>> +def get_modules_dependencies(mfile):
->>> +    """
->>> +    Get modules dependencies from poky.
->>> +    It uses 'snakefood' pkg (please make sure it is installed)
->>> +    In case 'snakefood' is not installed a backup file will be used 
->>> instead.
->>> +    :return: a list of all modules deps
->>> +    """
->>> +
->>> +    cmd = 'sfood %s | grep -v /usr/lib/python | grep -v 
->>> /usr/share/pyshared/
->>> | ' \
->>> +          'grep -v None | grep ".py\')," | grep ".py\'))"' % poky_dir
->>> +
->> I have not looked into the sfood code/documentation, but it would be
->> nicer/faster if we use the sfood API instead of the command. This 
->> way, we wont
->> need to spawn a new command and create this long pipeline.
->>> +    retcode, retval = run_cmd(cmd)
->>> +
->>> +    if retcode != 0:
->>> +        # cmd failed, most likely 'snakefood' is not installed
->>> +        # will look for deps.txt
->>> +        # print "WARNING: 'snakefood' not installed. Will proceed with
->>> 'deps.txt'."
->>> +        deps = open('scripts/deps.txt', 'r').read()
->>> +    else:
->>> +        deps = retval.replace(poky_dir + '/', '').replace("', '", '/')
->>> +
->>> +    deps_m = []
->>> +    for i in deps.split('\n'):
->>> +        try:
->>> +            deps_m.append(ast.literal_eval(i))
->>> +        except:
->>> +            # There might be a '\n' at the end of the file --> will 
->>> ignore
->>> +            pass
->>> +
->>> +    def find_deps(mfile, visited):
->>> +
->>> +        if isinstance(mfile, list):
->>> +            for i in mfile:
->>> +                find_deps(i, visited)
->>> +        else:
->>> +            for i in deps_m:
->>> +                if i[1] == mfile and i[0] not in visited:
->>> +                    visited.append(i[0])
->>> +                    find_deps(i[0], visited)
->>> +
->>> +        return visited
->>> +
->>> +    return find_deps(mfile, [])
->>> +
->>> +
->>> +def is_documentation(mfile):
->>> +    """All files under documentation"""
->>> +    doc_patt = r'documentation/'
->>> +    if doc_patt in mfile:
->>> +        return True
->>> +    return False
->> a minor comment: 'return doc_patt in mfile' does the same as the three
->> statements before
->>> +
->>> +
->>> +def is_recipe(mfile):
->>> +    recipe_patt = r'\.(bbappend|bb)$'
->>> +    if re.search(recipe_patt, mfile):
->>> +        return True
->>> +    return False
->>> +
->>> +
->>> +def is_part_of_recipe(mfile):
->>> +    """Everything that is inside meta/recipes-* or meta-*/recipes-* 
->>> """
->>> +    part_recipe_patt = r'^meta(-\S+)?/recipes-'
->>> +    if re.search(part_recipe_patt, mfile):
->>> +        return True
->>> +    return False
->>> +
->>> +
->>> +def is_test(mfile):
->>> +    """Check that the file is a test file"""
->>> +    global selftest_dir
->>> +    global runtime_dir
->>> +    global bb_test_dir
->>> +
->> Can we omit the global statements?
->>
->>> +    if runtime_dir in mfile or selftest_dir in mfile or bb_test_dir 
->>> in mfile:
->>> +        return True
->>> +    return False
->>> +
->>
->>
->>> +
->>> +def get_test_name(mfile):
->>> +    ret_list = []
->>> +    test_name = os.path.basename(mfile).split('.')[0]
->>> +    if is_test(mfile) and test_name != '__init__':
->>> +        ret_list.append(test_name)
->>> +    return ret_list
->>> +
->>> +
->>> +def get_test_for(mfile):
->>> +    """ Attempt to guess a test for the given file """
->>> +    # Not very happy with this, it needs to be clever
->>> +    global all_tests
->>> +    ret_list = []
->>> +
->>> +    for i in all_tests:
->>> +        if i in mfile:
->>> +            ret_list.append(i)
->>> +
->>> +    return ret_list
->>> +
->>> +
->>> +def get_recipe_name(mfile):
->>> +    """ Trim the file extension and pn from filename"""
->>> +    # Most files follow this format recipename_pn.bb | 
->>> recipe-name_pn.bb |
->>> recipe-name.bb
->>> +    ret_list = []
->>> +    temp_list = []
->>> +    if is_recipe(mfile):
->>> + ret_list.append(os.path.basename(mfile).split('_')[0].replace('.bb',
->>> ''))
->>> +        return ret_list
->>> +    # If it's a file that has something to do with a recipe attempt 
->>> to guess
->>> the recipe
->>> +    # Look for .bb|.bbappend files in the current dir up to 2 lvl 
->>> above till
->>> bb files are found
->>> +    # There might be cases when it will find more bb files, some 
->>> perhaps not
->>> directly related to
->>> +    # the file, but at least we are covered.
->>> +    if is_part_of_recipe(mfile):
->>> +        levels_list = ['/*.bb*', '/../*.bb*', '/../../*.bb*']
->>> +        for lvl in levels_list:
->>> +            recipes = glob.glob(os.path.dirname(mfile) + lvl)
->>> +            if recipes:
->>> +                temp_list += recipes
->>> +                break
->>> +        # Trim the file extension and pn from filename
->>> +        for i in temp_list:
->>> + ret_list.append(os.path.basename(i).split('_')[0].replace('.bb',
->>> ''))
->>> +        return ret_list
->>> +
->>> +    return ret_list
->>> +
->>> +
->>> +def suggest_tests(mfile):
->>> +    """ Suggest tests """
->>> +    global documentation_updated
->>> +    global recipes_to_rebuild
->>> +    global tests_to_run
->>> +
->>> +    if is_documentation(mfile):
->>> +        documentation_updated = True
->>> +    elif is_recipe(mfile) or is_part_of_recipe(mfile):
->>> +        recipes_to_rebuild.update(get_recipe_name(mfile))
->>> +    elif is_test(mfile):
->>> +        tests_to_run.update(get_test_name(mfile))
->>> +    #else
->>> +    tests_to_run.update(get_test_for(mfile))
->>> +
->>> +
->>> +selftest_tests = get_list_of_testuites(selftest_dir)
->>> +runtime_tests = get_list_of_testuites(runtime_dir)
->>> +bb_tests = get_list_of_testuites(bb_test_dir)
->>> +all_tests = bb_tests + runtime_tests + selftest_tests
->>> +
->>> +mfiles = get_modified_files()
->>> +ind_mfiles = get_modules_dependencies(mfiles)
->>> +# mfiles might be included in ind_files if there are circular imports
->>> +all_mfiles = set(mfiles + ind_mfiles)
->>> +
->>> +recipes_to_rebuild = set()
->>> +tests_to_run = set()
->>> +documentation_updated = False
->>> +
->>> +
->>> +# Print results
->>> +print '\nRevision: %s' % revision
->>> +print '\nModified files:'
->>> +for i in mfiles:
->>> +    print i
->>> +if ind_mfiles:
->>> +    print '\nIndirect modified files:'
->>> +    for i in ind_mfiles:
->>> +        print i
->>> +print '\nSuggested tests:'
->>> +for i in all_mfiles:
->>> +    suggest_tests(i)
->>> +
->>> +if documentation_updated:
->>> +    print 'Documentation updated, nothing to do.'
->>> +
->>> +if recipes_to_rebuild:
->>> +    ret_recipe = ''
->>> +    for i in recipes_to_rebuild:
->>> +        ret_recipe += i + ' '
->>> +    print 'Rebuild: %s' % ret_recipe
->>> +
->>> +if tests_to_run:
->>> +    ret_bb, ret_selftest, ret_runtime = ('',)*3
->>> +    for i in tests_to_run:
->>> +        if i in bb_tests:
->>> +            ret_bb += i + ' '
->>> +        elif i in runtime_tests:
->>> +            ret_runtime += i + ' '
->>> +        elif i in selftest_tests:
->>> +            ret_selftest += i + ' '
->>> +    if ret_bb:
->>> +        print 'bitbake-selftest: %s ' % ret_bb
->>> +    if ret_selftest:
->>> +        print 'oe-selftest: %s ' % ret_selftest
->>> +    if ret_runtime:
->>> +        print 'runtime: %s ' % ret_runtime
->>> +
->>> +if not (recipes_to_rebuild or documentation_updated or tests_to_run):
->>> +    print None
->>> diff --git a/scripts/deps.txt b/scripts/deps.txt
->>> new file mode 100644
->>> index 0000000..421897d
->>> --- /dev/null
->>> +++ b/scripts/deps.txt
->>> @@ -0,0 +1,628 @@
->>> +(('bitbake/contrib/dump_cache.py'), ('bitbake/lib/bb/cache.py'))
->>> +(('bitbake/lib/bb/build.py'), ('bitbake/lib/bb/event.py'))
->>> +(('bitbake/lib/bb/build.py'), ('bitbake/lib/bb/msg.py'))
->>> +(('bitbake/lib/bb/build.py'), ('bitbake/lib/bb/process.py'))
->>> +(('bitbake/lib/bb/build.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/cache.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/cache_extra.py'), ('bitbake/lib/bb/cache.py'))
->>> +(('bitbake/lib/bb/checksum.py'), ('bitbake/lib/bb/cache.py'))
->>> +(('bitbake/lib/bb/checksum.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/codeparser.py'), ('bitbake/lib/bb/cache.py'))
->>> +(('bitbake/lib/bb/codeparser.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/codeparser.py'), ('bitbake/lib/bb/pysh/pyshlex.py'))
->>> +(('bitbake/lib/bb/codeparser.py'), 
->>> ('bitbake/lib/bb/pysh/pyshyacc.py'))
->>> +(('bitbake/lib/bb/codeparser.py'), 
->>> ('bitbake/lib/bb/pysh/sherrors.py'))
->>> +(('bitbake/lib/bb/codeparser.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/codeparser.py'), ('bitbake/lib/codegen.py'))
->>> +(('bitbake/lib/bb/command.py'), ('bitbake/lib/bb/cooker.py'))
->>> +(('bitbake/lib/bb/command.py'), ('bitbake/lib/bb/event.py'))
->>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/build.py'))
->>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/cache.py'))
->>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/command.py'))
->>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/event.py'))
->>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/exceptions.py'))
->>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/providers.py'))
->>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/runqueue.py'))
->>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/shell.py'))
->>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/taskdata.py'))
->>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/prserv/serv.py'))
->>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/pyinotify.py'))
->>> +(('bitbake/lib/bb/cookerdata.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/data.py'), ('bitbake/lib/bb/codeparser.py'))
->>> +(('bitbake/lib/bb/data.py'), ('bitbake/lib/bb/data_smart.py'))
->>> +(('bitbake/lib/bb/data_smart.py'), ('bitbake/lib/bb/COW.py'))
->>> +(('bitbake/lib/bb/data_smart.py'), ('bitbake/lib/bb/codeparser.py'))
->>> +(('bitbake/lib/bb/data_smart.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/event.py'), ('bitbake/lib/bb/compat.py'))
->>> +(('bitbake/lib/bb/event.py'), ('bitbake/lib/bb/exceptions.py'))
->>> +(('bitbake/lib/bb/event.py'), ('bitbake/lib/bb/msg.py'))
->>> +(('bitbake/lib/bb/event.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/exceptions.py'), 
->>> ('bitbake/lib/bb/namedtuple_with_abc.py'))
->>> +(('bitbake/lib/bb/fetch2/bzr.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/fetch2/clearcase.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/fetch2/git.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/fetch2/gitannex.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/fetch2/gitannex.py'), 
->>> ('bitbake/lib/bb/fetch2/git.py'))
->>> +(('bitbake/lib/bb/fetch2/gitsm.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/fetch2/gitsm.py'), ('bitbake/lib/bb/fetch2/git.py'))
->>> +(('bitbake/lib/bb/fetch2/hg.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/fetch2/local.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/fetch2/local.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/fetch2/osc.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/fetch2/perforce.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/fetch2/repo.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/fetch2/sftp.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/fetch2/ssh.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/fetch2/svn.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/fetch2/wget.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/main.py'), ('bitbake/lib/bb/cooker.py'))
->>> +(('bitbake/lib/bb/main.py'), ('bitbake/lib/bb/cookerdata.py'))
->>> +(('bitbake/lib/bb/main.py'), ('bitbake/lib/bb/event.py'))
->>> +(('bitbake/lib/bb/main.py'), ('bitbake/lib/bb/msg.py'))
->>> +(('bitbake/lib/bb/methodpool.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/msg.py'), ('bitbake/lib/bb/event.py'))
->>> +(('bitbake/lib/bb/parse/ast.py'), ('bitbake/lib/bb/methodpool.py'))
->>> +(('bitbake/lib/bb/parse/parse_py'),
->>> ('bitbake/lib/bb/parse/parse_py/BBHandler.py'))
->>> +(('bitbake/lib/bb/parse/parse_py'),
->>> ('bitbake/lib/bb/parse/parse_py/ConfHandler.py'))
->>> +(('bitbake/lib/bb/parse/parse_py/BBHandler.py'), 
->>> ('bitbake/lib/bb/build.py'))
->>> +(('bitbake/lib/bb/parse/parse_py/BBHandler.py'), 
->>> ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/parse/parse_py/BBHandler.py'),
->>> ('bitbake/lib/bb/parse/ast.py'))
->>> +(('bitbake/lib/bb/parse/parse_py/BBHandler.py'),
->>> ('bitbake/lib/bb/parse/parse_py/ConfHandler.py'))
->>> +(('bitbake/lib/bb/parse/parse_py/BBHandler.py'), 
->>> ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/parse/parse_py/ConfHandler.py'),
->>> ('bitbake/lib/bb/parse/ast.py'))
->>> +(('bitbake/lib/bb/parse/parse_py/ConfHandler.py'), 
->>> ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/persist_data.py'), ('bitbake/lib/bb/compat.py'))
->>> +(('bitbake/lib/bb/persist_data.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/providers.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/providers.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/pysh/builtin.py'), 
->>> ('bitbake/lib/bb/pysh/sherrors.py'))
->>> +(('bitbake/lib/bb/pysh/builtin.py'), 
->>> ('bitbake/lib/bb/pysh/subprocess_fix.py'))
->>> +(('bitbake/lib/bb/pysh/interp.py'), 
->>> ('bitbake/lib/bb/pysh/builtin.py'))
->>> +(('bitbake/lib/bb/pysh/interp.py'), 
->>> ('bitbake/lib/bb/pysh/pyshlex.py'))
->>> +(('bitbake/lib/bb/pysh/interp.py'), 
->>> ('bitbake/lib/bb/pysh/pyshyacc.py'))
->>> +(('bitbake/lib/bb/pysh/interp.py'), 
->>> ('bitbake/lib/bb/pysh/sherrors.py'))
->>> +(('bitbake/lib/bb/pysh/pysh.py'), ('bitbake/lib/bb/pysh/interp.py'))
->>> +(('bitbake/lib/bb/pysh/pysh.py'), ('bitbake/lib/bb/pysh/lsprof.py'))
->>> +(('bitbake/lib/bb/pysh/pyshlex.py'), 
->>> ('bitbake/lib/bb/pysh/sherrors.py'))
->>> +(('bitbake/lib/bb/pysh/pyshlex.py'), ('bitbake/lib/ply/lex.py'))
->>> +(('bitbake/lib/bb/pysh/pyshyacc.py'), 
->>> ('bitbake/lib/bb/pysh/pyshlex.py'))
->>> +(('bitbake/lib/bb/pysh/pyshyacc.py'), 
->>> ('bitbake/lib/bb/pysh/sherrors.py'))
->>> +(('bitbake/lib/bb/pysh/pyshyacc.py'), ('bitbake/lib/ply/yacc.py'))
->>> +(('bitbake/lib/bb/runqueue.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/runqueue.py'), ('bitbake/lib/bb/event.py'))
->>> +(('bitbake/lib/bb/runqueue.py'), ('bitbake/lib/bb/monitordisk.py'))
->>> +(('bitbake/lib/bb/runqueue.py'), ('bitbake/lib/bb/msg.py'))
->>> +(('bitbake/lib/bb/server/process.py'), ('bitbake/lib/bb/event.py'))
->>> +(('bitbake/lib/bb/server/xmlrpc.py'), ('bitbake/lib/bb/daemonize.py'))
->>> +(('bitbake/lib/bb/server/xmlrpc.py'), 
->>> ('bitbake/lib/bb/ui/uievent.py'))
->>> +(('bitbake/lib/bb/shell.py'), ('bitbake/lib/bb/build.py'))
->>> +(('bitbake/lib/bb/shell.py'), ('bitbake/lib/bb/cache.py'))
->>> +(('bitbake/lib/bb/shell.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/shell.py'), ('bitbake/lib/bb/providers.py'))
->>> +(('bitbake/lib/bb/shell.py'), ('bitbake/lib/bb/runqueue.py'))
->>> +(('bitbake/lib/bb/shell.py'), ('bitbake/lib/bb/taskdata.py'))
->>> +(('bitbake/lib/bb/siggen.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/tests/codeparser.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/tests/cow.py'), ('bitbake/lib/bb/COW.py'))
->>> +(('bitbake/lib/bb/tests/data.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/tests/parse.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/tests/parse.py'), ('bitbake/lib/bb/siggen.py'))
->>> +(('bitbake/lib/bb/tinfoil.py'), ('bitbake/lib/bb/cache.py'))
->>> +(('bitbake/lib/bb/tinfoil.py'), ('bitbake/lib/bb/cooker.py'))
->>> +(('bitbake/lib/bb/tinfoil.py'), ('bitbake/lib/bb/cookerdata.py'))
->>> +(('bitbake/lib/bb/tinfoil.py'), ('bitbake/lib/bb/providers.py'))
->>> +(('bitbake/lib/bb/tinfoil.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/bb/ui/buildinfohelper.py'), ('bitbake/lib/bb/msg.py'))
->>> +(('bitbake/lib/bb/ui/buildinfohelper.py'),
->>> ('bitbake/lib/toaster/orm/models.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builddetailspage.py'),
->>> ('bitbake/lib/bb/process.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builddetailspage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builddetailspage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builddetailspage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builddetailspage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builddetailspage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/runningbuild.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/builddetailspage.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/imageselectiondialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/layerselectiondialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/parsingwarningsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/propertydialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/imagedetailspage.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/packageselectionpage.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/persistenttooltip.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/recipeselectionpage.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
->>> ('bitbake/lib/bb/ui/crumbs/sanitycheckpage.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/builder.py'), 
->>> ('bitbake/lib/bb/ui/crumbs/utils.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/proxydetailsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/settingsuihelper.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'),
->>> ('bitbake/lib/bb/process.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/utils.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/imageselectiondialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/imageselectiondialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/layerselectiondialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/imageselectiondialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/layerselectiondialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/layerselectiondialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/layerselectiondialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/parsingwarningsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/parsingwarningsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/propertydialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/propertydialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/propertydialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/layerselectiondialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/propertydialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/settingsuihelper.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/proxydetailsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/saveimagedialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/saveimagedialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/saveimagedialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/settingsuihelper.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/proxydetailsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/settingsuihelper.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'),
->>> ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hobeventhandler.py'),
->>> ('bitbake/lib/bb/ui/crumbs/runningbuild.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hoblistmodel.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hobpages.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hobpages.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hobwidget.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/propertydialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hobwidget.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/hobwidget.py'),
->>> ('bitbake/lib/bb/ui/crumbs/persistenttooltip.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/retrieveimagedialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hoblistmodel.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/imagedetailspage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/imagedetailspage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hig/saveimagedialog.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/imagedetailspage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/imagedetailspage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/imagedetailspage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/packageselectionpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/packageselectionpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hoblistmodel.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/packageselectionpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/packageselectionpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/progressbar.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/recipeselectionpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/recipeselectionpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hoblistmodel.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/recipeselectionpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/recipeselectionpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/runningbuild.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/runningbuild.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/sanitycheckpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/sanitycheckpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
->>> +(('bitbake/lib/bb/ui/crumbs/sanitycheckpage.py'),
->>> ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
->>> +(('bitbake/lib/bb/ui/depexp.py'), ('bitbake/lib/bb/event.py'))
->>> +(('bitbake/lib/bb/ui/depexp.py'), 
->>> ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
->>> +(('bitbake/lib/bb/ui/goggle.py'), 
->>> ('bitbake/lib/bb/ui/crumbs/progress.py'))
->>> +(('bitbake/lib/bb/ui/goggle.py'), 
->>> ('bitbake/lib/bb/ui/crumbs/runningbuild.py'))
->>> +(('bitbake/lib/bb/ui/hob.py'), 
->>> ('bitbake/lib/bb/ui/crumbs/builder.py'))
->>> +(('bitbake/lib/bb/ui/hob.py'), 
->>> ('bitbake/lib/bb/ui/crumbs/hobeventhandler.py'))
->>> +(('bitbake/lib/bb/ui/hob.py'), 
->>> ('bitbake/lib/bb/ui/crumbs/hoblistmodel.py'))
->>> +(('bitbake/lib/bb/ui/hob.py'), ('bitbake/lib/bb/ui/uihelper.py'))
->>> +(('bitbake/lib/bb/ui/knotty.py'), ('bitbake/lib/bb/msg.py'))
->>> +(('bitbake/lib/bb/ui/knotty.py'), ('bitbake/lib/bb/ui/uihelper.py'))
->>> +(('bitbake/lib/bb/ui/knotty.py'), ('bitbake/lib/progressbar.py'))
->>> +(('bitbake/lib/bb/ui/ncurses.py'), ('bitbake/lib/bb/ui/uihelper.py'))
->>> +(('bitbake/lib/bb/ui/puccho.py'), 
->>> ('bitbake/lib/bb/ui/crumbs/buildmanager.py'))
->>> +(('bitbake/lib/bb/ui/puccho.py'), 
->>> ('bitbake/lib/bb/ui/crumbs/runningbuild.py'))
->>> +(('bitbake/lib/bb/ui/toasterui.py'), ('bitbake/lib/bb/msg.py'))
->>> +(('bitbake/lib/bb/ui/toasterui.py'), 
->>> ('bitbake/lib/bb/ui/buildinfohelper.py'))
->>> +(('bitbake/lib/bb/ui/toasterui.py'), 
->>> ('bitbake/lib/bb/ui/uihelper.py'))
->>> +(('bitbake/lib/bb/ui/uihelper.py'), ('bitbake/lib/bb/build.py'))
->>> +(('bitbake/lib/bb/ui/uihelper.py'), 
->>> ('bitbake/lib/bb/server/xmlrpc.py'))
->>> +(('bitbake/lib/bb/utils.py'), ('bitbake/lib/bb/data.py'))
->>> +(('bitbake/lib/bb/utils.py'), ('bitbake/lib/bb/msg.py'))
->>> +(('bitbake/lib/bs4/builder/_html5lib.py'), 
->>> ('bitbake/lib/bs4/element.py'))
->>> +(('bitbake/lib/bs4/builder/_htmlparser.py'), 
->>> ('bitbake/lib/bs4/dammit.py'))
->>> +(('bitbake/lib/bs4/builder/_htmlparser.py'), 
->>> ('bitbake/lib/bs4/element.py'))
->>> +(('bitbake/lib/bs4/builder/_lxml.py'), ('bitbake/lib/bs4/dammit.py'))
->>> +(('bitbake/lib/bs4/builder/_lxml.py'), ('bitbake/lib/bs4/element.py'))
->>> +(('bitbake/lib/bs4/element.py'), ('bitbake/lib/bs4/dammit.py'))
->>> +(('bitbake/lib/bs4/testing.py'), ('bitbake/lib/bs4/element.py'))
->>> +(('bitbake/lib/bs4/tests/test_html5lib.py'), 
->>> ('bitbake/lib/bs4/element.py'))
->>> +(('bitbake/lib/bs4/tests/test_html5lib.py'), 
->>> ('bitbake/lib/bs4/testing.py'))
->>> +(('bitbake/lib/bs4/tests/test_htmlparser.py'), 
->>> ('bitbake/lib/bs4/testing.py'))
->>> +(('bitbake/lib/bs4/tests/test_lxml.py'), 
->>> ('bitbake/lib/bs4/element.py'))
->>> +(('bitbake/lib/bs4/tests/test_lxml.py'), 
->>> ('bitbake/lib/bs4/testing.py'))
->>> +(('bitbake/lib/bs4/tests/test_lxml.py'),
->>> ('bitbake/lib/bs4/tests/test_htmlparser.py'))
->>> +(('bitbake/lib/bs4/tests/test_soup.py'), 
->>> ('bitbake/lib/bs4/dammit.py'))
->>> +(('bitbake/lib/bs4/tests/test_soup.py'), 
->>> ('bitbake/lib/bs4/element.py'))
->>> +(('bitbake/lib/bs4/tests/test_soup.py'), 
->>> ('bitbake/lib/bs4/testing.py'))
->>> +(('bitbake/lib/bs4/tests/test_tree.py'), 
->>> ('bitbake/lib/bs4/element.py'))
->>> +(('bitbake/lib/bs4/tests/test_tree.py'), 
->>> ('bitbake/lib/bs4/testing.py'))
->>> +(('bitbake/lib/ply/yacc.py'), ('bitbake/lib/ply/lex.py'))
->>> +(('bitbake/lib/prserv/serv.py'), ('bitbake/lib/bb/server/xmlrpc.py'))
->>> +(('bitbake/lib/prserv/serv.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('bitbake/lib/prserv/serv.py'), ('bitbake/lib/prserv/db.py'))
->>> +(('bitbake/lib/toaster/bldcontrol/admin.py'),
->>> ('bitbake/lib/toaster/bldcontrol/models.py'))
->>> +(('bitbake/lib/toaster/bldcontrol/bbcontroller.py'),
->>> ('bitbake/lib/bb/server/xmlrpc.py'))
->>> +(('bitbake/lib/toaster/bldcontrol/bbcontroller.py'),
->>> ('bitbake/lib/toaster/bldcontrol/localhostbecontroller.py'))
->>> +(('bitbake/lib/toaster/bldcontrol/bbcontroller.py'),
->>> ('bitbake/lib/toaster/bldcontrol/sshbecontroller.py'))
->>> +(('bitbake/lib/toaster/bldcontrol/localhostbecontroller.py'),
->>> ('bitbake/lib/toaster/bldcontrol/bbcontroller.py'))
->>> +(('bitbake/lib/toaster/bldcontrol/localhostbecontroller.py'),
->>> ('bitbake/lib/toaster/bldcontrol/management/commands/loadconf.py'))
->>> +(('bitbake/lib/toaster/bldcontrol/management/commands/checksettings.py'), 
->>>
->>> ('bitbake/lib/toaster/bldcontrol/management/commands/loadconf.py'))
->>> +(('bitbake/lib/toaster/bldcontrol/management/commands/loadconf.py'),
->>> ('bitbake/lib/toaster/bldcontrol/management/commands/checksettings.py')) 
->>>
->>> +(('bitbake/lib/toaster/bldcontrol/sshbecontroller.py'),
->>> ('bitbake/lib/toaster/bldcontrol/bbcontroller.py'))
->>> +(('bitbake/lib/toaster/contrib/tts/launcher.py'),
->>> ('bitbake/lib/toaster/contrib/tts/config.py'))
->>> +(('bitbake/lib/toaster/contrib/tts/launcher.py'),
->>> ('bitbake/lib/toaster/contrib/tts/shellutils.py'))
->>> +(('bitbake/lib/toaster/contrib/tts/recv.py'),
->>> ('bitbake/lib/toaster/contrib/tts/config.py'))
->>> +(('bitbake/lib/toaster/contrib/tts/recv.py'),
->>> ('bitbake/lib/toaster/contrib/tts/shellutils.py'))
->>> +(('bitbake/lib/toaster/contrib/tts/runner.py'),
->>> ('bitbake/lib/toaster/contrib/tts/config.py'))
->>> +(('bitbake/lib/toaster/contrib/tts/runner.py'),
->>> ('bitbake/lib/toaster/contrib/tts/shellutils.py'))
->>> +(('bitbake/lib/toaster/contrib/tts/shellutils.py'),
->>> ('bitbake/lib/toaster/contrib/tts/config.py'))
->>> +(('bitbake/lib/toaster/contrib/tts/tests.py'),
->>> ('bitbake/lib/toaster/contrib/tts/config.py'))
->>> +(('bitbake/lib/toaster/contrib/tts/tests.py'),
->>> ('bitbake/lib/toaster/contrib/tts/shellutils.py'))
->>> +(('bitbake/lib/toaster/contrib/tts/tests.py'),
->>> ('bitbake/lib/toaster/contrib/tts/urlcheck.py'))
->>> +(('bitbake/lib/toaster/contrib/tts/tests.py'),
->>> ('bitbake/lib/toaster/contrib/tts/urllist.py'))
->>> +(('bitbake/lib/toaster/contrib/tts/urlcheck.py'),
->>> ('bitbake/lib/toaster/contrib/tts/config.py'))
->>> +(('bitbake/lib/toaster/contrib/tts/urlcheck.py'),
->>> ('bitbake/lib/toaster/contrib/tts/urllist.py'))
->>> +(('meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py'),
->>> ('meta/lib/oeqa/controllers/masterimage.py'))
->>> +(('meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py'),
->>> ('meta/lib/oeqa/utils/sshcontrol.py'))
->>> +(('meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py'),
->>> ('meta/lib/oeqa/controllers/masterimage.py'))
->>> +(('meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py'),
->>> ('meta/lib/oeqa/utils/sshcontrol.py'))
->>> +(('meta-yocto-bsp/lib/oeqa/controllers/grubtarget.py'),
->>> ('meta/lib/oeqa/controllers/masterimage.py'))
->>> +(('meta-yocto-bsp/lib/oeqa/controllers/grubtarget.py'),
->>> ('meta/lib/oeqa/utils/sshcontrol.py'))
->>> +(('meta-yocto-bsp/lib/oeqa/selftest/gummiboot.py'),
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta-yocto-bsp/lib/oeqa/selftest/gummiboot.py'),
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta-yocto-bsp/lib/oeqa/selftest/gummiboot.py'),
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta-yocto-bsp/lib/oeqa/yoctobsp.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta-yocto-bsp/lib/oeqa/yoctobsp.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta-yocto-bsp/lib/oeqa/yoctobsp.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oe/buildhistory_analysis.py'), 
->>> ('bitbake/lib/bb/utils.py'))
->>> +(('meta/lib/oe/data.py'), ('meta/lib/oe/maketype.py'))
->>> +(('meta/lib/oe/image.py'), ('meta/lib/oe/utils.py'))
->>> +(('meta/lib/oe/maketype.py'), ('meta/lib/oe/types.py'))
->>> +(('meta/lib/oe/package_manager.py'), ('meta/lib/oe/utils.py'))
->>> +(('meta/lib/oe/packagegroup.py'), ('meta/lib/oe/packagedata.py'))
->>> +(('meta/lib/oe/patch.py'), ('meta/lib/oe/path.py'))
->>> +(('meta/lib/oe/prservice.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('meta/lib/oe/prservice.py'), ('bitbake/lib/prserv/serv.py'))
->>> +(('meta/lib/oe/qa.py'), ('bitbake/lib/bb/process.py'))
->>> +(('meta/lib/oe/recipeutils.py'), ('bitbake/lib/bb/cache.py'))
->>> +(('meta/lib/oe/recipeutils.py'), ('bitbake/lib/bb/cookerdata.py'))
->>> +(('meta/lib/oe/recipeutils.py'), ('bitbake/lib/bb/providers.py'))
->>> +(('meta/lib/oe/recipeutils.py'), ('bitbake/lib/bb/taskdata.py'))
->>> +(('meta/lib/oe/recipeutils.py'), ('meta/lib/oe/patch.py'))
->>> +(('meta/lib/oe/recipeutils.py'), ('meta/lib/oe/path.py'))
->>> +(('meta/lib/oe/recipeutils.py'), ('meta/lib/oe/utils.py'))
->>> +(('meta/lib/oe/rootfs.py'), ('meta/lib/oe/manifest.py'))
->>> +(('meta/lib/oe/rootfs.py'), ('meta/lib/oe/package_manager.py'))
->>> +(('meta/lib/oe/rootfs.py'), ('meta/lib/oe/path.py'))
->>> +(('meta/lib/oe/rootfs.py'), ('meta/lib/oe/utils.py'))
->>> +(('meta/lib/oe/sdk.py'), ('meta/lib/oe/manifest.py'))
->>> +(('meta/lib/oe/sdk.py'), ('meta/lib/oe/package_manager.py'))
->>> +(('meta/lib/oe/sdk.py'), ('meta/lib/oe/utils.py'))
->>> +(('meta/lib/oe/sstatesig.py'), ('bitbake/lib/bb/siggen.py'))
->>> +(('meta/lib/oe/terminal.py'), ('bitbake/lib/bb/process.py'))
->>> +(('meta/lib/oe/terminal.py'), ('meta/lib/oe/classutils.py'))
->>> +(('meta/lib/oe/tests/test_license.py'), ('meta/lib/oe/license.py'))
->>> +(('meta/lib/oe/tests/test_path.py'), ('meta/lib/oe/path.py'))
->>> +(('meta/lib/oe/tests/test_types.py'), ('meta/lib/oe/maketype.py'))
->>> +(('meta/lib/oe/tests/test_utils.py'), ('meta/lib/oe/utils.py'))
->>> +(('meta/lib/oeqa/controllers/masterimage.py'),
->>> ('meta/lib/oeqa/targetcontrol.py'))
->>> +(('meta/lib/oeqa/controllers/masterimage.py'),
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/controllers/masterimage.py'),
->>> ('meta/lib/oeqa/utils/sshcontrol.py'))
->>> +(('meta/lib/oeqa/controllers/testtargetloader.py'),
->>> ('meta/lib/oeqa/targetcontrol.py'))
->>> +(('meta/lib/oeqa/oetest.py'), ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runexported.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runexported.py'), ('meta/lib/oeqa/utils/dump.py'))
->>> +(('meta/lib/oeqa/runexported.py'), 
->>> ('meta/lib/oeqa/utils/sshcontrol.py'))
->>> +(('meta/lib/oeqa/runtime/_ptest.py'), 
->>> ('meta/lib/oe/package_manager.py'))
->>> +(('meta/lib/oeqa/runtime/_ptest.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/_ptest.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/_ptest.py'), 
->>> ('meta/lib/oeqa/utils/httpserver.py'))
->>> +(('meta/lib/oeqa/runtime/_ptest.py'), 
->>> ('meta/lib/oeqa/utils/logparser.py'))
->>> +(('meta/lib/oeqa/runtime/_qemutiny.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/_qemutiny.py'),
->>> ('meta/lib/oeqa/utils/qemutinyrunner.py'))
->>> +(('meta/lib/oeqa/runtime/buildcvs.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/buildcvs.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/buildcvs.py'), 
->>> ('meta/lib/oeqa/utils/targetbuild.py'))
->>> +(('meta/lib/oeqa/runtime/buildiptables.py'), 
->>> ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/buildiptables.py'),
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/buildiptables.py'),
->>> ('meta/lib/oeqa/utils/targetbuild.py'))
->>> +(('meta/lib/oeqa/runtime/buildsudoku.py'), 
->>> ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/buildsudoku.py'),
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/buildsudoku.py'),
->>> ('meta/lib/oeqa/utils/targetbuild.py'))
->>> +(('meta/lib/oeqa/runtime/connman.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/connman.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/date.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/date.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/df.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/df.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/dmesg.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/dmesg.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/gcc.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/gcc.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/kernelmodule.py'), 
->>> ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/kernelmodule.py'),
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/ldd.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/ldd.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/logrotate.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/logrotate.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/multilib.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/multilib.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/pam.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/pam.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/parselogs.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/parselogs.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/perl.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/perl.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/ping.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/ping.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/python.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/python.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/rpm.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/rpm.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/scanelf.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/scanelf.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/scp.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/scp.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/skeletoninit.py'), 
->>> ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/skeletoninit.py'),
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/smart.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/smart.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/smart.py'), 
->>> ('meta/lib/oeqa/utils/httpserver.py'))
->>> +(('meta/lib/oeqa/runtime/ssh.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/ssh.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/syslog.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/syslog.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/systemd.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/systemd.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/vnc.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/vnc.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/x32lib.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/x32lib.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/runtime/xorg.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/runtime/xorg.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/sdk/buildcvs.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/sdk/buildcvs.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/sdk/buildcvs.py'), 
->>> ('meta/lib/oeqa/utils/targetbuild.py'))
->>> +(('meta/lib/oeqa/sdk/buildiptables.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/sdk/buildiptables.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/sdk/buildiptables.py'), 
->>> ('meta/lib/oeqa/utils/targetbuild.py'))
->>> +(('meta/lib/oeqa/sdk/buildsudoku.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/sdk/buildsudoku.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/sdk/buildsudoku.py'), 
->>> ('meta/lib/oeqa/utils/targetbuild.py'))
->>> +(('meta/lib/oeqa/sdk/gcc.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/sdk/gcc.py'), ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/sdk/perl.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/sdk/perl.py'), ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/sdk/python.py'), ('meta/lib/oeqa/oetest.py'))
->>> +(('meta/lib/oeqa/sdk/python.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/_sstatetests_noauto.py'),
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/_sstatetests_noauto.py'),
->>> ('meta/lib/oeqa/selftest/sstate.py'))
->>> +(('meta/lib/oeqa/selftest/_sstatetests_noauto.py'),
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/_sstatetests_noauto.py'),
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/_toaster.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/_toaster.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/_toaster.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/_toaster.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/archiver.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/archiver.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/archiver.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/base.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/base.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/base.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/bblayers.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/bblayers.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/bblayers.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/bblayers.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/bbtests.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/bbtests.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/bbtests.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/bbtests.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/buildhistory.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/buildhistory.py'),
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/buildhistory.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/buildoptions.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/buildoptions.py'),
->>> ('meta/lib/oeqa/selftest/buildhistory.py'))
->>> +(('meta/lib/oeqa/selftest/buildoptions.py'),
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/buildoptions.py'),
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/buildoptions.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/devtool.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/devtool.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/devtool.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/devtool.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/imagefeatures.py'),
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/imagefeatures.py'),
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/imagefeatures.py'),
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/imagefeatures.py'),
->>> ('meta/lib/oeqa/utils/sshcontrol.py'))
->>> +(('meta/lib/oeqa/selftest/layerappend.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/layerappend.py'),
->>> ('meta/lib/oeqa/selftest/buildhistory.py'))
->>> +(('meta/lib/oeqa/selftest/layerappend.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/layerappend.py'),
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/layerappend.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/lic-checksum.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/lic-checksum.py'),
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/lic-checksum.py'),
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/manifest.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/manifest.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/manifest.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/oescripts.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/oescripts.py'),
->>> ('meta/lib/oeqa/selftest/buildhistory.py'))
->>> +(('meta/lib/oeqa/selftest/oescripts.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/oescripts.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/oescripts.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/pkgdata.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/pkgdata.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/pkgdata.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/pkgdata.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/prservice.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/prservice.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/prservice.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/prservice.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/recipetool.py'),
->>> ('meta/lib/oeqa/selftest/devtool.py'))
->>> +(('meta/lib/oeqa/selftest/recipetool.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/recipetool.py'),
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/sstate.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/sstate.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/sstate.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/sstatetests.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/sstatetests.py'),
->>> ('meta/lib/oeqa/selftest/sstate.py'))
->>> +(('meta/lib/oeqa/selftest/sstatetests.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/sstatetests.py'),
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/selftest/sstatetests.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/selftest/wic.py'), 
->>> ('meta/lib/oeqa/selftest/base.py'))
->>> +(('meta/lib/oeqa/selftest/wic.py'), 
->>> ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/selftest/wic.py'), 
->>> ('meta/lib/oeqa/utils/decorators.py'))
->>> +(('meta/lib/oeqa/targetcontrol.py'), ('meta/lib/oe/path.py'))
->>> +(('meta/lib/oeqa/targetcontrol.py'),
->>> ('meta/lib/oeqa/controllers/testtargetloader.py'))
->>> +(('meta/lib/oeqa/targetcontrol.py'), ('meta/lib/oeqa/utils/dump.py'))
->>> +(('meta/lib/oeqa/targetcontrol.py'), 
->>> ('meta/lib/oeqa/utils/qemurunner.py'))
->>> +(('meta/lib/oeqa/targetcontrol.py'), 
->>> ('meta/lib/oeqa/utils/qemutinyrunner.py'))
->>> +(('meta/lib/oeqa/targetcontrol.py'), 
->>> ('meta/lib/oeqa/utils/sshcontrol.py'))
->>> +(('meta/lib/oeqa/utils/commands.py'), ('bitbake/lib/bb/build.py'))
->>> +(('meta/lib/oeqa/utils/commands.py'), ('bitbake/lib/bb/tinfoil.py'))
->>> +(('meta/lib/oeqa/utils/commands.py'), ('meta/lib/oe/recipeutils.py'))
->>> +(('meta/lib/oeqa/utils/commands.py'), 
->>> ('meta/lib/oeqa/targetcontrol.py'))
->>> +(('meta/lib/oeqa/utils/commands.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/utils/dump.py'), ('meta/lib/oeqa/utils/commands.py'))
->>> +(('meta/lib/oeqa/utils/logparser.py'), 
->>> ('meta/lib/oeqa/utils/ftools.py'))
->>> +(('meta/lib/oeqa/utils/qemurunner.py'), 
->>> ('meta/lib/oeqa/utils/dump.py'))
->>> +(('meta/lib/oeqa/utils/qemutinyrunner.py'),
->>> ('meta/lib/oeqa/utils/qemurunner.py'))
->>> +(('meta/lib/oeqa/utils/targetbuild.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('scripts/contrib/devtool-stress.py'), ('bitbake/lib/bb/process.py'))
->>> +(('scripts/contrib/devtool-stress.py'), ('bitbake/lib/bb/tinfoil.py'))
->>> +(('scripts/contrib/devtool-stress.py'), ('scripts/lib/scriptpath.py'))
->>> +(('scripts/contrib/devtool-stress.py'), 
->>> ('scripts/lib/scriptutils.py'))
->>> +(('scripts/contrib/list-packageconfig-flags.py'), 
->>> ('bitbake/lib/bb/cache.py'))
->>> +(('scripts/contrib/list-packageconfig-flags.py'), 
->>> ('bitbake/lib/bb/cooker.py'))
->>> +(('scripts/contrib/list-packageconfig-flags.py'),
->>> ('bitbake/lib/bb/providers.py'))
->>> +(('scripts/contrib/list-packageconfig-flags.py'), 
->>> ('bitbake/lib/bb/tinfoil.py'))
->>> +(('scripts/contrib/list-packageconfig-flags.py'), 
->>> ('scripts/lib/scriptpath.py'))
->>> +(('scripts/contrib/verify-homepage.py'), 
->>> ('bitbake/lib/bb/tinfoil.py'))
->>> +(('scripts/lib/bsp/engine.py'), ('scripts/lib/bsp/tags.py'))
->>> +(('scripts/lib/bsp/kernel.py'), ('scripts/lib/bsp/engine.py'))
->>> +(('scripts/lib/bsp/kernel.py'), ('scripts/lib/bsp/tags.py'))
->>> +(('scripts/lib/devtool/build-image.py'), 
->>> ('bitbake/lib/bb/process.py'))
->>> +(('scripts/lib/devtool/deploy.py'), ('meta/lib/oe/recipeutils.py'))
->>> +(('scripts/lib/devtool/package.py'), ('bitbake/lib/bb/process.py'))
->>> +(('scripts/lib/devtool/standard.py'), ('bitbake/lib/bb/event.py'))
->>> +(('scripts/lib/devtool/standard.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('scripts/lib/devtool/standard.py'), ('meta/lib/oe/patch.py'))
->>> +(('scripts/lib/devtool/standard.py'), ('meta/lib/oe/recipeutils.py'))
->>> +(('scripts/lib/devtool/standard.py'), ('scripts/lib/scriptutils.py'))
->>> +(('scripts/lib/devtool/upgrade.py'), ('meta/lib/oe/recipeutils.py'))
->>> +(('scripts/lib/devtool/upgrade.py'), ('scripts/lib/scriptutils.py'))
->>> +(('scripts/lib/recipetool/append.py'), ('meta/lib/oe/recipeutils.py'))
->>> +(('scripts/lib/recipetool/append.py'), ('scripts/lib/scriptutils.py'))
->>> +(('scripts/lib/recipetool/create.py'), ('bitbake/lib/bb/process.py'))
->>> +(('scripts/lib/recipetool/create.py'), ('bitbake/lib/bb/utils.py'))
->>> +(('scripts/lib/recipetool/create.py'), ('scripts/lib/scriptutils.py'))
->>> +(('scripts/lib/recipetool/create_buildsys.py'), 
->>> ('meta/lib/oe/package.py'))
->>> +(('scripts/lib/recipetool/create_buildsys.py'),
->>> ('scripts/lib/recipetool/create.py'))
->>> +(('scripts/lib/recipetool/create_buildsys_python.py'),
->>> ('scripts/lib/recipetool/create.py'))
->>> +(('scripts/lib/recipetool/newappend.py'), 
->>> ('bitbake/lib/bb/providers.py'))
->>> +(('scripts/lib/recipetool/newappend.py'), 
->>> ('meta/lib/oe/recipeutils.py'))
->>> +(('scripts/lib/scriptutils.py'), ('bitbake/lib/bb/data.py'))
->>> +(('scripts/lib/scriptutils.py'), ('bitbake/lib/bb/msg.py'))
->>> +(('scripts/lib/scriptutils.py'), ('bitbake/lib/bb/process.py'))
->>> +(('scripts/lib/wic/conf.py'), ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/conf.py'), ('scripts/lib/wic/utils/misc.py'))
->>> +(('scripts/lib/wic/creator.py'), ('scripts/lib/wic/conf.py'))
->>> +(('scripts/lib/wic/creator.py'), ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/creator.py'), ('scripts/lib/wic/plugin.py'))
->>> +(('scripts/lib/wic/creator.py'), ('scripts/lib/wic/utils/errors.py'))
->>> +(('scripts/lib/wic/engine.py'), ('scripts/lib/wic/creator.py'))
->>> +(('scripts/lib/wic/engine.py'), ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/engine.py'), ('scripts/lib/wic/plugin.py'))
->>> +(('scripts/lib/wic/engine.py'), ('scripts/lib/wic/utils/misc.py'))
->>> +(('scripts/lib/wic/engine.py'), ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/help.py'), ('scripts/lib/wic/plugin.py'))
->>> +(('scripts/lib/wic/imager/baseimager.py'), 
->>> ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/imager/baseimager.py'), 
->>> ('scripts/lib/wic/utils/errors.py'))
->>> +(('scripts/lib/wic/imager/baseimager.py'), 
->>> ('scripts/lib/wic/utils/runner.py'))
->>> +(('scripts/lib/wic/imager/direct.py'), 
->>> ('scripts/lib/wic/imager/baseimager.py'))
->>> +(('scripts/lib/wic/imager/direct.py'), ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/imager/direct.py'), ('scripts/lib/wic/plugin.py'))
->>> +(('scripts/lib/wic/imager/direct.py'), 
->>> ('scripts/lib/wic/utils/errors.py'))
->>> +(('scripts/lib/wic/imager/direct.py'), 
->>> ('scripts/lib/wic/utils/fs_related.py'))
->>> +(('scripts/lib/wic/imager/direct.py'), 
->>> ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/imager/direct.py'),
->>> ('scripts/lib/wic/utils/partitionedfs.py'))
->>> +(('scripts/lib/wic/kickstart/custom_commands/partition.py'),
->>> ('scripts/lib/wic/plugin.py'))
->>> +(('scripts/lib/wic/kickstart/custom_commands/partition.py'),
->>> ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/plugin.py'), ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/plugin.py'), ('scripts/lib/wic/pluginbase.py'))
->>> +(('scripts/lib/wic/plugin.py'), ('scripts/lib/wic/utils/errors.py'))
->>> +(('scripts/lib/wic/plugin.py'), ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/pluginbase.py'), ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/utils/fs_related.py'), 
->>> ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/utils/oe/misc.py'), ('scripts/lib/scriptpath.py'))
->>> +(('scripts/lib/wic/utils/oe/misc.py'), ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/utils/oe/misc.py'), 
->>> ('scripts/lib/wic/utils/runner.py'))
->>> +(('scripts/lib/wic/utils/partitionedfs.py'), 
->>> ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/utils/partitionedfs.py'),
->>> ('scripts/lib/wic/utils/errors.py'))
->>> +(('scripts/lib/wic/utils/partitionedfs.py'),
->>> ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/utils/runner.py'), ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/utils/syslinux.py'), ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/3rdparty/pykickstart/options.py'),
->>> ('scripts/lib/wic/3rdparty/pykickstart/constants.py'))
->>> +(('scripts/lib/wic/3rdparty/pykickstart/options.py'),
->>> ('scripts/lib/wic/3rdparty/pykickstart/errors.py'))
->>> +(('scripts/lib/wic/3rdparty/pykickstart/options.py'),
->>> ('scripts/lib/wic/3rdparty/pykickstart/version.py'))
->>> +(('scripts/lib/wic/3rdparty/pykickstart/parser.py'),
->>> ('scripts/lib/wic/3rdparty/pykickstart/constants.py'))
->>> +(('scripts/lib/wic/3rdparty/pykickstart/parser.py'),
->>> ('scripts/lib/wic/3rdparty/pykickstart/errors.py'))
->>> +(('scripts/lib/wic/3rdparty/pykickstart/parser.py'),
->>> ('scripts/lib/wic/3rdparty/pykickstart/ko.py'))
->>> +(('scripts/lib/wic/3rdparty/pykickstart/parser.py'),
->>> ('scripts/lib/wic/3rdparty/pykickstart/sections.py'))
->>> +(('scripts/lib/wic/3rdparty/pykickstart/parser.py'),
->>> ('scripts/lib/wic/3rdparty/pykickstart/version.py'))
->>> +(('scripts/lib/wic/3rdparty/pykickstart/sections.py'),
->>> ('scripts/lib/wic/3rdparty/pykickstart/constants.py'))
->>> +(('scripts/lib/wic/3rdparty/pykickstart/sections.py'),
->>> ('scripts/lib/wic/3rdparty/pykickstart/options.py'))
->>> +(('scripts/lib/wic/3rdparty/pykickstart/sections.py'),
->>> ('scripts/lib/wic/3rdparty/pykickstart/version.py'))
->>> +(('scripts/lib/wic/plugins/imager/direct_plugin.py'),
->>> ('scripts/lib/wic/conf.py'))
->>> +(('scripts/lib/wic/plugins/imager/direct_plugin.py'),
->>> ('scripts/lib/wic/imager/direct.py'))
->>> +(('scripts/lib/wic/plugins/imager/direct_plugin.py'),
->>> ('scripts/lib/wic/pluginbase.py'))
->>> +(('scripts/lib/wic/plugins/imager/direct_plugin.py'),
->>> ('scripts/lib/wic/utils/errors.py'))
->>> +(('scripts/lib/wic/plugins/source/bootimg-efi.py'),
->>> ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/plugins/source/bootimg-efi.py'),
->>> ('scripts/lib/wic/pluginbase.py'))
->>> +(('scripts/lib/wic/plugins/source/bootimg-efi.py'),
->>> ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/plugins/source/bootimg-partition.py'),
->>> ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/plugins/source/bootimg-partition.py'),
->>> ('scripts/lib/wic/pluginbase.py'))
->>> +(('scripts/lib/wic/plugins/source/bootimg-partition.py'),
->>> ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/plugins/source/bootimg-pcbios.py'),
->>> ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/plugins/source/bootimg-pcbios.py'),
->>> ('scripts/lib/wic/pluginbase.py'))
->>> +(('scripts/lib/wic/plugins/source/bootimg-pcbios.py'),
->>> ('scripts/lib/wic/utils/errors.py'))
->>> +(('scripts/lib/wic/plugins/source/bootimg-pcbios.py'),
->>> ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/plugins/source/bootimg-pcbios.py'),
->>> ('scripts/lib/wic/utils/runner.py'))
->>> +(('scripts/lib/wic/plugins/source/fsimage.py'), 
->>> ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/plugins/source/fsimage.py'),
->>> ('scripts/lib/wic/pluginbase.py'))
->>> +(('scripts/lib/wic/plugins/source/fsimage.py'),
->>> ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/plugins/source/isoimage-isohybrid.py'),
->>> ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/plugins/source/isoimage-isohybrid.py'),
->>> ('scripts/lib/wic/pluginbase.py'))
->>> +(('scripts/lib/wic/plugins/source/isoimage-isohybrid.py'),
->>> ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/plugins/source/rawcopy.py'), 
->>> ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/plugins/source/rawcopy.py'),
->>> ('scripts/lib/wic/pluginbase.py'))
->>> +(('scripts/lib/wic/plugins/source/rawcopy.py'),
->>> ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/plugins/source/rootfs.py'), 
->>> ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/plugins/source/rootfs.py'),
->>> ('scripts/lib/wic/pluginbase.py'))
->>> +(('scripts/lib/wic/plugins/source/rootfs.py'),
->>> ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py'),
->>> ('scripts/lib/wic/msger.py'))
->>> +(('scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py'),
->>> ('scripts/lib/wic/pluginbase.py'))
->>> +(('scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py'),
->>> ('scripts/lib/wic/utils/errors.py'))
->>> +(('scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py'),
->>> ('scripts/lib/wic/utils/oe/misc.py'))
->>> +(('scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py'),
->>> ('scripts/lib/wic/utils/runner.py'))
->>> +(('scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py'),
->>> ('scripts/lib/wic/utils/syslinux.py'))
->>> +(('scripts/pybootchartgui/pybootchartgui/batch.py'),
->>> ('scripts/pybootchartgui/pybootchartgui/draw.py'))
->>> +(('scripts/pybootchartgui/pybootchartgui/gui.py'),
->>> ('scripts/pybootchartgui/pybootchartgui/draw.py'))
->>> +(('scripts/pybootchartgui/pybootchartgui/main.py'),
->>> ('scripts/pybootchartgui/pybootchartgui/batch.py'))
->>> +(('scripts/pybootchartgui/pybootchartgui/main.py'),
->>> ('scripts/pybootchartgui/pybootchartgui/gui.py'))
->>> +(('scripts/pybootchartgui/pybootchartgui/main.py'),
->>> ('scripts/pybootchartgui/pybootchartgui/parsing.py'))
->>> +(('scripts/pybootchartgui/pybootchartgui/parsing.py'),
->>> ('scripts/pybootchartgui/pybootchartgui/process_tree.py'))
->>> +(('scripts/pybootchartgui/pybootchartgui/parsing.py'),
->>> ('scripts/pybootchartgui/pybootchartgui/samples.py'))
->>> +(('scripts/pybootchartgui/pybootchartgui/tests/parser_test.py'),
->>> ('scripts/pybootchartgui/pybootchartgui/parsing.py'))
->>> +(('scripts/pybootchartgui/pybootchartgui/tests/process_tree_test.py'),
->>> ('scripts/pybootchartgui/pybootchartgui/parsing.py'))
->>> +(('scripts/pybootchartgui/pybootchartgui/tests/process_tree_test.py'),
->>> ('scripts/pybootchartgui/pybootchartgui/process_tree.py'))
->>> \ No newline at end of file
->>
+> Bruce
 >
+>>
+>> NOTE: Running task 5608 of 34039 (ID: 13986, /home/jenkins/oe/world/shr-core/meta-openembedded/meta-initramfs/recipes-kernel/linux/linux-yocto-tiny-kexecboot_3.19.bb, do_fetch)
+>> NOTE: recipe linux-yocto-tiny-kexecboot-3.19.5+gitAUTOINC+1016714868_e152349de5-r0: task do_fetch: Started
+>> NOTE: recipe linux-yocto-tiny-kexecboot-3.19.5+gitAUTOINC+1016714868_e152349de5-r0: task do_fetch: Succeeded
+>> NOTE: Running task 5609 of 34039 (ID: 13982, /home/jenkins/oe/world/shr-core/meta-openembedded/meta-initramfs/recipes-kernel/linux/linux-yocto-tiny-kexecboot_3.19.bb, do_unpack)
+>> NOTE: recipe linux-yocto-tiny-kexecboot-3.19.5+gitAUTOINC+1016714868_e152349de5-r0: task do_unpack: Started
+>> ERROR: oe_runmake failed
+>> ERROR: Function failed: do_compile (log file is located at /home/jenkins/oe/world/shr-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/4.1.8+gitAUTOINC+aed9021602_dbe692d91c-r0/temp/log.do_compile.2069)
+>> ERROR: Logfile of failure stored in: /home/jenkins/oe/world/shr-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/4.1.8+gitAUTOINC+aed9021602_dbe692d91c-r0/temp/log.do_compile.2069
+>> Log data follows:
+>> | DEBUG: Executing shell function do_compile
+>> | NOTE: make -j 8 bzImage CC=i586-oe-linux-gcc  -fuse-ld=bfd LD=i586-oe-linux-ld.bfd
+>> |   GEN     ./Makefile
+>> | scripts/kconfig/conf  --silentoldconfig Kconfig
+>> |   SYSTBL  arch/x86/syscalls/../include/generated/asm/syscalls_32.h
+>> |   SYSHDR  arch/x86/syscalls/../include/generated/uapi/asm/unistd_32.h
+>> |   SYSHDR  arch/x86/syscalls/../include/generated/uapi/asm/unistd_64.h
+>> |   SYSHDR  arch/x86/syscalls/../include/generated/uapi/asm/unistd_x32.h
+>> |   CHK     include/config/kernel.release
+>> |   HOSTCC  scripts/basic/bin2c
+>> |   GEN     ./Makefile
+>> |   UPD     include/config/kernel.release
+>> |   WRAP    arch/x86/include/generated/asm/clkdev.h
+>> |   WRAP    arch/x86/include/generated/asm/cputime.h
+>> |   WRAP    arch/x86/include/generated/asm/dma-contiguous.h
+>> |   WRAP    arch/x86/include/generated/asm/early_ioremap.h
+>> |   WRAP    arch/x86/include/generated/asm/scatterlist.h
+>> |   WRAP    arch/x86/include/generated/asm/mcs_spinlock.h
+>> |   CHK     include/generated/uapi/linux/version.h
+>> |   UPD     include/generated/uapi/linux/version.h
+>> |   CHK     include/generated/utsrelease.h
+>> |   UPD     include/generated/utsrelease.h
+>> |   Using /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source as source for kernel
+>> |   HOSTCC  arch/x86/tools/relocs_32.o
+>> |   HOSTCC  arch/x86/tools/relocs_64.o
+>> |   HOSTCC  arch/x86/tools/relocs_common.o
+>> |   HOSTCC  scripts/kallsyms
+>> |   HOSTCC  scripts/conmakehash
+>> |   HOSTCC  scripts/recordmcount
+>> |   CC      scripts/mod/empty.o
+>> |   HOSTCC  scripts/mod/mk_elfconfig
+>> |   HOSTCC  scripts/sortextable
+>> |   CC      scripts/mod/devicetable-offsets.s
+>> |   MKELF   scripts/mod/elfconfig.h
+>> |   GEN     scripts/mod/devicetable-offsets.h
+>> |   HOSTLD  arch/x86/tools/relocs
+>> |   HOSTCC  scripts/mod/modpost.o
+>> |   HOSTCC  scripts/mod/sumversion.o
+>> |   HOSTCC  scripts/mod/file2alias.o
+>> |   HOSTLD  scripts/mod/modpost
+>> |   CC      kernel/bounds.s
+>> |   CHK     include/generated/bounds.h
+>> |   UPD     include/generated/bounds.h
+>> |   CC      arch/x86/kernel/asm-offsets.s
+>> |   CHK     include/generated/asm-offsets.h
+>> |   UPD     include/generated/asm-offsets.h
+>> |   CALL    /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/scripts/checksyscalls.sh
+>> |   HOSTCC  usr/gen_init_cpio
+>> |   CC      init/main.o
+>> |   CHK     include/generated/compile.h
+>> |   CC      init/do_mounts.o
+>> |   CC      init/do_mounts_rd.o
+>> |   CC      init/do_mounts_initrd.o
+>> |   LD      arch/x86/crypto/built-in.o
+>> |   UPD     include/generated/compile.h
+>> |   GEN     usr/initramfs_data.cpio.gz
+>> |   CC      arch/x86/mm/init.o
+>> |   AS      usr/initramfs_data.o
+>> |   LD      usr/built-in.o
+>> |   CC      arch/x86/mm/init_32.o
+>> |   CC      kernel/fork.o
+>> |   CC      kernel/exec_domain.o
+>> |   CC      arch/x86/kernel/process_32.o
+>> |   CC      kernel/panic.o
+>> |   CC      kernel/cpu.o
+>> |   CC      init/do_mounts_md.o
+>> |   CC      kernel/exit.o
+>> |   CC      arch/x86/mm/fault.o
+>> |   CC      kernel/softirq.o
+>> |   CC      arch/x86/kernel/signal.o
+>> |   CC      mm/filemap.o
+>> |   CC      mm/mempool.o
+>> |   CC      init/initramfs.o
+>> |   CC      arch/x86/mm/ioremap.o
+>> |   AS      arch/x86/kernel/entry_32.o
+>> |   CC      arch/x86/kernel/traps.o
+>> |   CC      arch/x86/mm/extable.o
+>> |   CC      mm/oom_kill.o
+>> |   CC      kernel/resource.o
+>> |   CC      init/calibrate.o
+>> |   CC      kernel/sysctl.o
+>> |   CC      arch/x86/mm/pageattr.o
+>> |   CC      init/init_task.o
+>> |   CC      arch/x86/kernel/irq.o
+>> |   CC      fs/open.o
+>> |   CC      fs/read_write.o
+>> |   CC      fs/file_table.o
+>> |   CC      mm/maccess.o
+>> |   CC      init/version.o
+>> |   CC      arch/x86/mm/mmap.o
+>> |   CC      mm/page_alloc.o
+>> |   CC      arch/x86/kernel/irq_32.o
+>> |   LD      init/mounts.o
+>> |   LD      init/built-in.o
+>> |   CC      kernel/sysctl_binary.o
+>> |   CC      mm/page-writeback.o
+>> |   LD      arch/x86/net/built-in.o
+>> |   CC      mm/readahead.o
+>> |   CC      arch/x86/mm/pat.o
+>> |   CC      arch/x86/mm/pgtable.o
+>> |   CC      arch/x86/kernel/dumpstack_32.o
+>> |   CC      fs/super.o
+>> |   CC      kernel/capability.o
+>> |   CC      arch/x86/mm/physaddr.o
+>> |   CC      fs/char_dev.o
+>> |   CC      mm/swap.o
+>> |   CC      arch/x86/kernel/time.o
+>> |   CC      kernel/ptrace.o
+>> |   CC      arch/x86/mm/gup.o
+>> |   CC      arch/x86/kernel/ioport.o
+>> |   CC      arch/x86/realmode/init.o
+>> |   CC      fs/stat.o
+>> |   AS      arch/x86/realmode/rm/header.o
+>> |   LD      arch/x86/platform/ce4100/built-in.o
+>> |   CC      arch/x86/mm/setup_nx.o
+>> |   CC      arch/x86/platform/efi/quirks.o
+>> |   CC      arch/x86/kernel/ldt.o
+>> |   AS      arch/x86/realmode/rm/trampoline_32.o
+>> |   LD      arch/x86/platform/geode/built-in.o
+>> |   CC      mm/truncate.o
+>> |   LD      arch/x86/platform/goldfish/built-in.o
+>> |   AS      arch/x86/realmode/rm/stack.o
+>> |   LD      arch/x86/platform/intel-mid/built-in.o
+>> |   LD      arch/x86/platform/intel-quark/built-in.o
+>> |   LD      arch/x86/platform/iris/built-in.o
+>> |   CC      kernel/user.o
+>> |   AS      arch/x86/realmode/rm/reboot.o
+>> |   AS      arch/x86/realmode/rm/wakeup_asm.o
+>> |   LD      arch/x86/platform/olpc/built-in.o
+>> |   CC      arch/x86/mm/pat_rbtree.o
+>> |   LD      arch/x86/platform/scx200/built-in.o
+>> |   LD      arch/x86/platform/sfi/built-in.o
+>> |   CC      arch/x86/realmode/rm/wakemain.o
+>> |   LD      arch/x86/platform/ts5500/built-in.o
+>> |   CC      arch/x86/mm/tlb.o
+>> |   CC      arch/x86/realmode/rm/video-mode.o
+>> |   CC      fs/exec.o
+>> |   CC      arch/x86/kernel/dumpstack.o
+>> |   CC      arch/x86/platform/efi/efi.o
+>> |   CC      kernel/signal.o
+>> |   AS      arch/x86/realmode/rm/copy.o
+>> |   CC      arch/x86/platform/efi/efi_32.o
+>> |   AS      arch/x86/realmode/rm/bioscall.o
+>> |   CC      mm/vmscan.o
+>> |   CC      arch/x86/realmode/rm/regs.o
+>> |   CC      arch/x86/realmode/rm/video-vga.o
+>> |   CC      arch/x86/kernel/nmi.o
+>> |   CC      arch/x86/mm/pgtable_32.o
+>> |   CC      arch/x86/realmode/rm/video-vesa.o
+>> |   CC      arch/x86/realmode/rm/video-bios.o
+>> |   AS      arch/x86/platform/efi/efi_stub_32.o
+>> |   CC      kernel/sys.o
+>> |   LD      arch/x86/platform/efi/built-in.o
+>> |   CC      fs/pipe.o
+>> |   PASYMS  arch/x86/realmode/rm/pasyms.h
+>> |   LDS     arch/x86/realmode/rm/realmode.lds
+>> |   LD      arch/x86/platform/uv/built-in.o
+>> |   LD      arch/x86/platform/built-in.o
+>> |   LD      arch/x86/realmode/rm/realmode.elf
+>> |   RELOCS  arch/x86/realmode/rm/realmode.relocs
+>> |   OBJCOPY arch/x86/realmode/rm/realmode.bin
+>> |   AS      arch/x86/realmode/rmpiggy.o
+>> |   CC      arch/x86/mm/iomap_32.o
+>> |   LD      arch/x86/realmode/built-in.o
+>> |   CC      arch/x86/kernel/setup.o
+>> |   CC      arch/x86/kernel/x86_init.o
+>> |   CC      arch/x86/vdso/vma.o
+>> |   CC      arch/x86/mm/highmem_32.o
+>> |   CC      mm/shmem.o
+>> |   CC      arch/x86/vdso/vdso32-setup.o
+>> |   CC      fs/namei.o
+>> |   CC      arch/x86/kernel/i8259.o
+>> |   CC      ipc/util.o
+>> |   CC      kernel/kmod.o
+>> |   LD      arch/x86/mm/built-in.o
+>> |   LDS     arch/x86/vdso/vdso32/vdso32.lds
+>> |   CC      arch/x86/kernel/irqinit.o
+>> |   CC      arch/x86/vdso/vdso32/vclock_gettime.o
+>> |   CC      ipc/msgutil.o
+>> |   AS      arch/x86/vdso/vdso32/note.o
+>> |   CC      security/integrity/iint.o
+>> |   AS      arch/x86/vdso/vdso32/int80.o
+>> |   CC      mm/util.o
+>> |   CC      ipc/msg.o
+>> |   HOSTCC  arch/x86/vdso/vdso2c
+>> |   CC      kernel/workqueue.o
+>> |   CC      arch/x86/kernel/jump_label.o
+>> |   LD      security/integrity/integrity.o
+>> |   LD      security/integrity/built-in.o
+>> |   CC      security/keys/gc.o
+>> |   CC      security/keys/key.o
+>> |   CC      mm/mmzone.o
+>> |   CC      arch/x86/kernel/irq_work.o
+>> |   CC      ipc/sem.o
+>> |   AS      arch/x86/vdso/vdso32/sysenter.o
+>> |   CC      mm/vmstat.o
+>> |   CC      fs/fcntl.o
+>> |   CC      arch/x86/kernel/probe_roms.o
+>> |   CC      ipc/shm.o
+>> |   CC      security/keys/keyring.o
+>> |   CC      arch/x86/kernel/i386_ksyms_32.o
+>> |   VDSO    arch/x86/vdso/vdso32-int80.so.dbg
+>> |   CC      security/keys/keyctl.o
+>> |   CC      ipc/syscall.o
+>> |   CC      arch/x86/kernel/syscall_32.o
+>> |   CC      fs/ioctl.o
+>> |   CC      arch/x86/kernel/vsyscall_gtod.o
+>> |   CC      arch/x86/kernel/ksysfs.o
+>> |   CC      mm/backing-dev.o
+>> |   CC      kernel/pid.o
+>> |   CC      fs/readdir.o
+>> |   CC      ipc/ipc_sysctl.o
+>> |   CC      arch/x86/kernel/bootflag.o
+>> |   CC      fs/select.o
+>> |   CC      security/keys/permission.o
+>> |   VDSO    arch/x86/vdso/vdso32-sysenter.so.dbg
+>> |   OBJCOPY arch/x86/vdso/vdso32-int80.so
+>> |   CC      mm/mm_init.o
+>> |   OBJCOPY arch/x86/vdso/vdso32-sysenter.so
+>> |   CC      ipc/mqueue.o
+>> |   VDSO2C  arch/x86/vdso/vdso-image-32-int80.c
+>> |   VDSO2C  arch/x86/vdso/vdso-image-32-sysenter.c
+>> |   CC      arch/x86/vdso/vdso-image-32-int80.o
+>> |   CC      arch/x86/vdso/vdso-image-32-sysenter.o
+>> |   CC      kernel/task_work.o
+>> |   CC      security/keys/process_keys.o
+>> |   CC      arch/x86/kernel/e820.o
+>> |   LD      arch/x86/vdso/built-in.o
+>> |   CC      security/commoncap.o
+>> |   CC      mm/mmu_context.o
+>> |   CC      kernel/extable.o
+>> |   CC      security/keys/request_key.o
+>> |   CC      fs/dcache.o
+>> |   CC      crypto/api.o
+>> |   CC      mm/percpu.o
+>> |   CC      arch/x86/kernel/pci-dma.o
+>> |   CC      ipc/namespace.o
+>> |   CC      kernel/params.o
+>> |   CC      kernel/kthread.o
+>> |   CC      security/keys/request_key_auth.o
+>> |   CC      arch/x86/kernel/quirks.o
+>> |   CC      ipc/mq_sysctl.o
+>> |   CC      crypto/cipher.o
+>> |   CC      kernel/sys_ni.o
+>> |   CC      security/keys/user_defined.o
+>> |   CC      security/keys/proc.o
+>> |   CC      kernel/nsproxy.o
+>> |   CC      mm/slab_common.o
+>> |   LD      ipc/built-in.o
+>> |   CC      security/keys/sysctl.o
+>> |   CC      arch/x86/kernel/topology.o
+>> |   CC      arch/x86/kernel/kdebugfs.o
+>> |   CC      crypto/compress.o
+>> |   CC      arch/x86/kernel/alternative.o
+>> |   CC      fs/inode.o
+>> |   LD      security/keys/built-in.o
+>> |   CC      security/min_addr.o
+>> |   CC      security/security.o
+>> |   CC      kernel/notifier.o
+>> |   CC      kernel/ksysfs.o
+>> |   CC      crypto/memneq.o
+>> |   CC      security/capability.o
+>> |   CC      mm/compaction.o
+>> |   CC      kernel/cred.o
+>> |   CC      arch/x86/kernel/i8253.o
+>> |   CC      kernel/reboot.o
+>> |   CC      crypto/crypto_wq.o
+>> |   CC      security/device_cgroup.o
+>> |   CC      mm/vmacache.o
+>> |   CC      arch/x86/kernel/pci-nommu.o
+>> |   CC      fs/attr.o
+>> |   CC      crypto/algapi.o
+>> |   CC      kernel/async.o
+>> |   CC      mm/interval_tree.o
+>> |   CC      arch/x86/kernel/hw_breakpoint.o
+>> |   CC      kernel/range.o
+>> |   LD      security/built-in.o
+>> |   CC      fs/bad_inode.o
+>> |   CC      kernel/smpboot.o
+>> |   CC      block/bio.o
+>> |   CC      fs/file.o
+>> |   CC      block/elevator.o
+>> |   CC      mm/list_lru.o
+>> |   CC      arch/x86/kernel/tsc.o
+>> |   CC      kernel/groups.o
+>> |   CC      crypto/scatterwalk.o
+>> |   CC      fs/filesystems.o
+>> |   CC      mm/workingset.o
+>> |   CC      arch/x86/kernel/tsc_msr.o
+>> |   CC      arch/x86/kernel/io_delay.o
+>> |   CC      block/blk-core.o
+>> |   CC      crypto/proc.o
+>> |   CC      kernel/bpf/core.o
+>> |   CC      drivers/acpi/tables.o
+>> |   CC      kernel/debug/debug_core.o
+>> |   CC      arch/x86/kernel/rtc.o
+>> |   CC      fs/namespace.o
+>> |   CC      mm/prfile.o
+>> |   CC      crypto/aead.o
+>> |   CC      drivers/acpi/blacklist.o
+>> |   CC      arch/x86/kernel/pci-iommu_table.o
+>> |   CC      mm/debug.o
+>> |   LD      kernel/bpf/built-in.o
+>> |   CC      kernel/debug/gdbstub.o
+>> |   CC      drivers/acpi/osl.o
+>> |   CC      arch/x86/kernel/resource.o
+>> |   CC      arch/x86/kernel/process.o
+>> |   CC      sound/sound_core.o
+>> |   CC      mm/gup.o
+>> |   CC      crypto/ablkcipher.o
+>> |   CC      kernel/debug/kdb/kdb_io.o
+>> |   LD      sound/arm/built-in.o
+>> |   LD      sound/atmel/built-in.o
+>> |   CC      drivers/acpi/utils.o
+>> |   CC      mm/highmem.o
+>> |   CC      fs/seq_file.o
+>> |   CC      block/blk-tag.o
+>> |   CC      sound/core/sound.o
+>> |   CC      arch/x86/kernel/i387.o
+>> |   CC      kernel/debug/kdb/kdb_main.o
+>> |   CC      crypto/blkcipher.o
+>> |   CC      sound/core/init.o
+>> |   CC      drivers/acpi/reboot.o
+>> |   CC      mm/memory.o
+>> |   CC      fs/xattr.o
+>> |   CC      block/blk-sysfs.o
+>> |   CC      arch/x86/kernel/xsave.o
+>> |   CC      drivers/acpi/nvs.o
+>> |   CC      sound/core/memory.o
+>> |   CC      crypto/chainiv.o
+>> |   CC      block/blk-flush.o
+>> |   CC      arch/x86/kernel/ptrace.o
+>> |   CC      kernel/debug/kdb/kdb_support.o
+>> |   CC      fs/libfs.o
+>> |   CC      sound/core/info.o
+>> |   CC      drivers/acpi/wakeup.o
+>> |   CC      crypto/eseqiv.o
+>> |   CC      mm/mincore.o
+>> |   CC      block/blk-settings.o
+>> |   CC      drivers/acpi/sleep.o
+>> |   CC      kernel/debug/kdb/kdb_bt.o
+>> |   CC      sound/core/control.o
+>> |   CC      arch/x86/kernel/tls.o
+>> |   CC      crypto/ahash.o
+>> |   GENKDB  kernel/debug/kdb/gen-kdb_cmds.c
+>> |   CC      fs/fs-writeback.o
+>> |   CC      kernel/debug/kdb/kdb_bp.o
+>> |   CC      mm/mlock.o
+>> |   CC      block/blk-ioc.o
+>> |   CC      drivers/acpi/device_pm.o
+>> |   CC      arch/x86/kernel/step.o
+>> |   CC      crypto/shash.o
+>> |   CC      kernel/debug/kdb/kdb_debugger.o
+>> |   CC      block/blk-map.o
+>> |   CC      mm/mmap.o
+>> |   CC      sound/core/misc.o
+>> |   CC      arch/x86/kernel/i8237.o
+>> |   CC      kernel/debug/kdb/kdb_keyboard.o
+>> |   CC      drivers/acpi/proc.o
+>> |   CC      arch/x86/kernel/stacktrace.o
+>> |   CC      crypto/pcompress.o
+>> |   CC      sound/core/device.o
+>> |   CC      kernel/debug/kdb/gen-kdb_cmds.o
+>> |   CC      block/blk-exec.o
+>> |   LD      kernel/debug/kdb/built-in.o
+>> |   LD      kernel/debug/built-in.o
+>> |   CC      drivers/acpi/bus.o
+>> |   CC      fs/pnode.o
+>> |   CC      sound/core/isadma.o
+>> |   CC      kernel/events/core.o
+>> |   CC      arch/x86/kernel/acpi/boot.o
+>> |   CC      crypto/algboss.o
+>> |   CC      block/blk-merge.o
+>> |   CC      fs/spli
+>> |   LD      arch/x86/kernel/acpi/built-in.o
+>> |   CC      fs/stack.o
+>> |   CC      drivers/acpi/resource.o
+>> |   CC      arch/x86/kernel/apic/apic.o
+>> |   CC      crypto/md5.o
+>> |   CC      kernel/events/ring_buffer.o
+>> |   CC      fs/fs_struct.o
+>> |   CC      block/blk-lib.o
+>> |   CC      drivers/acpi/acpi_processor.o
+>> |   CC      crypto/sha1_generic.o
+>> |   CC      sound/core/pcm.o
+>> |   CC      mm/vmalloc.o
+>> |   CC      fs/statfs.o
+>> |   CC      block/blk-mq.o
+>> |   CC      kernel/events/callchain.o
+>> |   CC      crypto/sha256_generic.o
+>> |   CC      drivers/acpi/processor_core.o
+>> |   CC      arch/x86/kernel/apic/apic_noop.o
+>> |   CC      sound/core/pcm_native.o
+>> |   CC      fs/fs_pin.o
+>> |   CC      arch/x86/kernel/apic/ipi.o
+>> |   CC      kernel/events/hw_breakpoint.o
+>> |   CC      drivers/acpi/processor_pdc.o
+>> |   CC      fs/nsfs.o
+>> |   CC      mm/pagewalk.o
+>> |   CC      crypto/ecb.o
+>> |   CC      kernel/events/uprobes.o
+>> |   CC      drivers/acpi/ec.o
+>> |   CC      fs/buffer.o
+>> |   CC      arch/x86/kernel/apic/vector.o
+>> |   CC      block/blk-mq-tag.o
+>> |   CC      crypto/cbc.o
+>> |   CC      mm/pgtable-generic.o
+>> |   CC      arch/x86/kernel/apic/hw_nmi.o
+>> |   CC      sound/core/pcm_lib.o
+>> |   CC      crypto/cts.o
+>> |   CC      mm/process_vm_access.o
+>> |   CC      drivers/acpi/pci_root.o
+>> |   CC      block/blk-mq-sysfs.o
+>> |   CC      arch/x86/kernel/apic/io_apic.o
+>> |   LD      kernel/events/built-in.o
+>> |   CC      drivers/acpi/pci_link.o
+>> |   CC      crypto/des_generic.o
+>> |   CC      kernel/irq/irqdesc.o
+>> |   CC      mm/init-mm.o
+>> |   CC      fs/block_dev.o
+>> |   CC      block/blk-mq-cpu.o
+>> |   CC      mm/nobootmem.o
+>> |   CC      drivers/acpi/pci_irq.o
+>> |   CC      kernel/irq/handle.o
+>> |   CC      crypto/aes_generic.o
+>> |   CC      block/blk-mq-cpumap.o
+>> |   CC      sound/core/pcm_timer.o
+>> |   CC      mm/fadvise.o
+>> |   CC      kernel/irq/manage.o
+>> |   CC      arch/x86/kernel/apic/msi.o
+>> |   CC      drivers/acpi/acpi_lpss.o
+>> |   CC      fs/direct-io.o
+>> |   CC      block/ioctl.o
+>> |   CC      sound/core/pcm_misc.o
+>> |   CC      crypto/crc32c_generic.o
+>> |   CC      mm/madvise.o
+>> |   CC      drivers/acpi/acpi_apd.o
+>> |   CC      arch/x86/kernel/apic/htirq.o
+>> |   CC      sound/core/pcm_memory.o
+>> |   CC      drivers/acpi/acpi_platform.o
+>> |   CC      block/genhd.o
+>> |   CC      kernel/irq/spurious.o
+>> |   CC      crypto/authenc.o
+>> |   CC      arch/x86/kernel/apic/probe_32.o
+>> |   CC      mm/memblock.o
+>> |   CC      kernel/irq/resend.o
+>> |   CC      sound/core/memalloc.o
+>> |   CC      drivers/acpi/acpi_pnp.o
+>> |   CC      fs/mpage.o
+>> |   LD      arch/x86/kernel/apic/built-in.o
+>> | In file included from /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/sysfs.h:21:0,
+>> |                  from /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/kobject.h:21,
+>> |                  from /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/device.h:17,
+>> |                  from /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/acpi.h:31,
+>> |                  from /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/drivers/acpi/acpi_pnp.c:13:
+>> | /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/stat.h:6:29: fatal error: uapi/linux/stat.h: No such file or directory
+>> | compilation terminated.
+>> | fixdep: error opening config file: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/kernel/irq/settings.h: No such file or directory
+>> | /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/scripts/Makefile.build:53: scripts/Makefile.lib: No such file or directory
+>> | make[4]: *** [kernel/irq/resend.o] Error 2
+>> | make[3]: *** [kernel/irq] Error 2
+>> | make[2]: *** [kernel] Error 2
+>> | make[2]: *** Waiting for unfinished jobs....
+>> | In file included from /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/mmzone.h:9:0,
+>> |                  from /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/gfp.h:5,
+>> |                  from /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/mm.h:9,
+>> |                  from /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/fs/mpage.c:17:
+>> | /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/wait.h:10:29: fatal error: uapi/linux/wait.h: No such file or directory
+>> | compilation terminated.
+>> | make[5]: *** No rule to make target `scripts/Makefile.lib'.  Stop.
+>> | make[4]: *** [arch/x86/kernel/cpu] Error 2
+>> | make[3]: *** [fs/mpage.o] Error 1
+>> | make[2]: *** [fs] Error 2
+>> | make[4]: *** [drivers/acpi/acpi_pnp.o] Error 1
+>> | make[4]: *** Waiting for unfinished jobs....
+>> |   CC      drivers/acpi/int340x_thermal.o
+>> | make[3]: *** [arch/x86/kernel] Error 2
+>> | make[2]: *** [arch/x86] Error 2
+>> |   CC      crypto/authencesn.o
+>> | make[4]: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/scripts/Makefile.build: No such file or directory
+>> | make[4]: *** No rule to make target `/home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/scripts/Makefile.build'.  Stop.
+>> | make[3]: *** [sound/drivers] Error 2
+>> | make[3]: *** Waiting for unfinished jobs....
+>> | make[3]: *** No rule to make target `mm/swap_state.o', needed by `mm/built-in.o'.  Stop.
+>> | make[3]: *** Waiting for unfinished jobs....
+>> |   CC      mm/page_io.o
+>> |   CC      crypto/rng.o
+>> | cc1: fatal error: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/kconfig.h: No such file or directory
+>> | compilation terminated.
+>> | i586-oe-linux-gcc: error: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/mm/page_io.c: No such file or directory
+>> | i586-oe-linux-gcc: fatal error: no input files
+>> | compilation terminated.
+>> | make[3]: *** [mm/page_io.o] Error 1
+>> |   CC      sound/core/sgbuf.o
+>> | cc1: fatal error: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/kconfig.h: No such file or directory
+>> | compilation terminated.
+>> | make[4]: *** [drivers/acpi/int340x_thermal.o] Error 1
+>> | i586-oe-linux-gcc: error: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/sound/core/sgbuf.c: No such file or directory
+>> | make[3]: *** [drivers/acpi] Error 2
+>> | i586-oe-linux-gcc: fatal error: no input files
+>> | compilation terminated.
+>> | make[2]: *** [drivers] Error 2
+>> | cc1: fatal error: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/kconfig.h: No such file or directory
+>> | compilation terminated.
+>> | make[5]: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/scripts/Makefile.build: No such file or directory
+>> | make[5]: *** No rule to make target `/home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/scripts/Makefile.build'.  Stop.
+>> | make[4]: *** [sound/core/sgbuf.o] Error 1
+>> | make[4]: *** Waiting for unfinished jobs....
+>> | make[4]: *** [sound/core/oss] Error 2
+>> |   CC      crypto/krng.o
+>> |   CC      block/scsi_ioctl.o
+>> | make[3]: *** [crypto/authencesn.o] Error 1
+>> | make[3]: *** Waiting for unfinished jobs....
+>> | make[3]: *** [crypto/rng.o] Error 1
+>> |   CC      block/ioprio.o
+>> | cc1: fatal error: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/kconfig.h: No such file or directory
+>> | compilation terminated.
+>> |   CC      block/partition-generic.o
+>> | fixdep: error opening config file: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/sound/core/memalloc.c: No such file or directory
+>> | make[4]: *** [sound/core/memalloc.o] Error 2
+>> | make[3]: *** [sound/core] Error 2
+>> | make[2]: *** [sound] Error 2
+>> | cc1: fatal error: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/kconfig.h: No such file or directory
+>> | compilation terminated.
+>> | make[3]: *** [crypto/krng.o] Error 1
+>> | make[4]: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/scripts/Makefile.build: No such file or directory
+>> | make[4]: *** No rule to make target `/home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemuion terminated.
+>> | make[3]: *** [block/scsi_ioctl.o] Error 1
+>> | cc1: fatal error: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/kconfig.h: No such file or directory
+>> | compilation terminated.
+>> | make[3]: *** [block/partition-generic.o] Error 1
+>> | fixdep: error opening config file: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/crypto/aead.h: No such file or directory
+>> | make[3]: *** [crypto/authenc.o] Error 2
+>> | cc1: fatal error: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/kconfig.h: No such file or directory
+>> | compilation terminated.
+>> | make[2]: *** [crypto] Error 2
+>> | make[3]: *** [block/ioprio.o] Error 1
+>> | make[3]: *** [block/bounce.o] Error 1
+>> | fixdep: error opening config file: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/mm/memblock.c: No such file or directory
+>> | make[3]: *** [mm/memblock.o] Error 2
+>> | make[2]: *** [mm] Error 2
+>> | fixdep: error opening config file: /home/jenkins/oe/world/shr-core/tmp-glibc/work-shared/qemux86/kernel-source/include/linux/module.h: No such file or directory
+>> | make[3]: *** [block/genhd.o] Error 2
+>> | make[2]: *** [block] Error 2
+>> | make[1]: *** [sub-make] Error 2
+>> | make: *** [__sub-make] Error 2
+>> | ERROR: oe_runmake failed
+>> | ERROR: Function failed: do_compile (log file is located at /home/jenkins/oe/world/shr-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/4.1.8+gitAUTOINC+aed9021602_dbe692d91c-r0/temp/log.do_compile.2069)
+>> NOTE: recipe linux-yocto-4.1.8+gitAUTOINC+aed9021602_dbe692d91c-r0: task do_compile: Failed
+>> ERROR: Task 31903 (/home/jenkins/oe/world/shr-core/openembedded-core/meta/recipes-kernel/linux/linux-yocto_4.1.bb, do_compile) failed with exit code '1'
+>>
+>> --
+>> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
 
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
