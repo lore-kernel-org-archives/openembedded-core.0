@@ -1,26 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C720C60617
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C52F60617
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 13:42:32 +0000 (UTC)
+	Mon, 23 Nov 2015 13:47:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tANDgXI1019128
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 05:42:33 -0800 (PST)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tANDlS8Q003342
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 23 Nov 2015 05:47:29 -0800 (PST)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 23 Nov 2015 05:41:32 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 Nov 2015 05:41:31 -0800
-Message-ID: <991915823dfa6b4cabe990272b246cf4bad05038.1448285591.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1448285591.git.liezhi.yang@windriver.com>
-References: <cover.1448285591.git.liezhi.yang@windriver.com>
+	Mon, 23 Nov 2015 05:46:26 -0800
+To: Ming Liu <liu.ming50@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <1448232011-30195-1-git-send-email-liu.ming50@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <565318B0.20508@windriver.com>
+Date: Mon, 23 Nov 2015 08:46:24 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] package_manager.py: fix RPM_PREFER_ELF_ARCH for mips
+In-Reply-To: <1448232011-30195-1-git-send-email-liu.ming50@gmail.com>
+Cc: darren@dvhart.com, Ming Liu <peter.x.liu@external.atlascopco.com>,
+	yue.tao@windriver.com
+Subject: Re: [PATCH] kernel-devsrc: add 'make scripts' postinstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +35,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Nov 2015 13:42:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 23 Nov 2015 13:47:46 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-We can install 64 bit pkg to 32 bit pkg, so the previous checking is
-incorrect, it should not only check mips64 or mips64el, the "mips"
-should work, and 64bit ELF can also use mips as TUNE_ARCH, and there
-are other mips varieties, so only check whether TUNE_ARCH starts with
-mips or not.
+On 15-11-22 05:40 PM, Ming Liu wrote:
+> From: Ming Liu <peter.x.liu@external.atlascopco.com>
+>
+> Run 'make scripts' inside qemu in order to create script binaries that
+> needed by external modules build on the target.
+>
+> This 'make scripts' might fail in some cases, for instance, if toolchain or
+> make command is not installed on the target, but the postinstall should
+> always succeed, it will not break the package installation so the behaviour
+> is consistent.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/lib/oe/package_manager.py |    9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+What about just making the package depend on the toolchain ? That was
+the approach that I was going to take .. but haven't gotten there yet.
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 964fddc..5e7bb66 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -954,12 +954,11 @@ class RpmPM(PackageManager):
-                 bb.fatal("Invalid RPM_PREFER_ELF_ARCH: %s, it should be one of:\n"
-                         "\t1: ELF32 wins\n"
-                         "\t2: ELF64 wins\n"
--                        "\t4: ELF64 N32 wins (mips64 or mips64el only)" %
-+                        "\t4: ELF64 N32 wins (mips only)" %
-                         prefer_color)
--            if prefer_color == "4" and self.d.getVar("TUNE_ARCH", True) not in \
--                                    ['mips64', 'mips64el']:
--                bb.fatal("RPM_PREFER_ELF_ARCH = \"4\" is for mips64 or mips64el "
--                         "only.")
-+            if prefer_color == "4" and not \
-+                    self.d.getVar("TUNE_ARCH", True).startswith('mips'):
-+                bb.fatal("RPM_PREFER_ELF_ARCH = \"4\" is for mips only.")
-             self._invoke_smart('config --set rpm-extra-macros._prefer_color=%s'
-                         % prefer_color)
- 
--- 
-1.7.9.5
+The compilation step worried me at first, but since devsrc is already
+quite heavy, adding the extra dependency and compile phase shouldn't be
+a big issue.
+
+For Yocto 2.1, I'm changing the packaging of the kernel source, headers
+and development chunks. But this change shouldn't be an issue with that.
+I'll let you know when I get a bit further along with that work.
+
+>
+> [YOCTO #6630]
+
+Once minor 'nit .. if you are submitting a change for a bug that
+is assigned to me .. why haven't I heard anything about it until
+now ?
+
+Bruce
+
+>
+> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+> ---
+>   meta/recipes-kernel/linux/kernel-devsrc.bb | 13 ++++++++++++-
+>   1 file changed, 12 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> index 196c8c7..8b366c3 100644
+> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
+>   inherit linux-kernel-base
+>
+>   # Whilst not a module, this ensures we don't get multilib extended (which would make no sense)
+> -inherit module-base
+> +inherit module-base qemu
+>
+>   # We need the kernel to be staged (unpacked, patched and configured) before
+>   # we can grab the source and make the source package. We also need the bits from
+> @@ -71,6 +71,17 @@ do_install() {
+>   # Ensure we don't race against "make scripts" during cpio
+>   do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
+>
+> +pkg_postinst_${PN} () {
+> +	if [ -n "$D" ]; then
+> +		${@qemu_run_binary(d, '$D', '${bindir}/make')} \
+> +			-C $D${KERNEL_SRC_PATH} O=$D${KERNEL_SRC_PATH} scripts
+> +	else
+> +		make -C ${KERNEL_SRC_PATH} O=${KERNEL_SRC_PATH} scripts \
+> +			>/dev/null 2>&1 || true
+> +	fi
+> +}
+> +
+>   PACKAGES = "kernel-devsrc"
+>   FILES_${PN} = "${KERNEL_SRC_PATH}"
+> +DEPENDS = "qemu-native"
+>   RDEPENDS_${PN} = "bc"
+>
 
 
