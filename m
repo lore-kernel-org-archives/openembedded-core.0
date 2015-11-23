@@ -1,35 +1,25 @@
-Return-Path: <biannm@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 524DB6FF69
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id AB2906082D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 02:11:19 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.20,242,1444665600"; d="scan'208,217";a="722719"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 23 Nov 2015 10:11:07 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id tAN2AXcq015242;
-	Mon, 23 Nov 2015 10:10:33 +0800
-Received: from G08CNEXMBPEKD02.g08.fujitsu.local ([10.167.33.84]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0181.006; Mon, 23 Nov 2015 10:11:17 +0800
-From: "Bian, Naimeng" <biannm@cn.fujitsu.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] python-smartpm: define LOCKED_KEEP to avoid
-	running error
-Thread-Index: AQHREKPu5KvcdAA8X0apOSXi0QrJaZ6pBo5g
-Date: Mon, 23 Nov 2015 02:11:17 +0000
-Message-ID: <30DC4EDFD798C94083F3E083754532CC011C24DB0F@G08CNEXMBPEKD02.g08.fujitsu.local>
-References: <1445914371-56565-1-git-send-email-biannm@cn.fujitsu.com>
-	<CAJTo0LZ9zjDUCZ-jUqSPmEMZhnXAeu9wC184BUUcs5DVqtStqg@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ9zjDUCZ-jUqSPmEMZhnXAeu9wC184BUUcs5DVqtStqg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.31]
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-smartpm: define LOCKED_KEEP to avoid running error
+	Mon, 23 Nov 2015 02:38:04 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Nov 2015 18:38:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,335,1444719600"; d="scan'208";a="857558553"
+Received: from echoo1-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.170.181])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2015 18:38:04 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Nov 2015 15:37:36 +1300
+Message-Id: <7c35b9f62d039dc69aaf90c8427abc14504deda2.1448246218.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1448246218.git.paul.eggleton@linux.intel.com>
+References: <cover.1448246218.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1448246218.git.paul.eggleton@linux.intel.com>
+References: <cover.1448246218.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/7] scripts/gen-lockedsig-cache: improve output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,132 +32,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Nov 2015 02:11:22 -0000
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_30DC4EDFD798C94083F3E083754532CC011C24DB0FG08CNEXMBPEKD_"
+X-List-Received-Date: Mon, 23 Nov 2015 02:38:07 -0000
 
---_000_30DC4EDFD798C94083F3E083754532CC011C24DB0FG08CNEXMBPEKD_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+* Print some status when running
+* When incorrect number of arguments specified, print usage text
 
-U29ycnkgZm9yIG15IGxhdGUuIEkgd2lsbCBhZGQgdGhlIFVwc3RyZWFtLVN0YXR1cyBhbmQgcmUt
-c2VuZCBpdC4NCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwu
-Y29tXQ0KU2VudDogVHVlc2RheSwgT2N0b2JlciAyNywgMjAxNSA2OjQwIFBNDQpUbzogQmlhbiwg
-TmFpbWVuZw0KQ2M6IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBweXRo
-b24tc21hcnRwbTogZGVmaW5lIExPQ0tFRF9LRUVQIHRvIGF2b2lkIHJ1bm5pbmcgZXJyb3INCg0K
-DQpPbiAyNyBPY3RvYmVyIDIwMTUgYXQgMDI6NTIsIEJpYW4gTmFpbWVuZyA8Ymlhbm5tQGNuLmZ1
-aml0c3UuY29tPG1haWx0bzpiaWFubm1AY24uZnVqaXRzdS5jb20+PiB3cm90ZToNCitGcm9tIGRh
-YWVjNDNlY2YzZjBkMGY4OWNlZjU4NjMyN2FhMTA2M2E0YzQ0YzYgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxDQorRnJvbTogQmlhbiBOYWltZW5nIDxiaWFubm1AY24uZnVqaXRzdS5jb208bWFpbHRv
-OmJpYW5ubUBjbi5mdWppdHN1LmNvbT4+DQorRGF0ZTogVHVlLCAyNyBPY3QgMjAxNSAxMTowODo1
-MiArMDkwMA0KK1N1YmplY3Q6IFtQQVRDSF0gRml4IGEgdW5kZWZpbmVkIGVycm9yDQorDQorTE9D
-S0VEX0tFRVAgaXMgdW5kZWZpbmVkLCBzbyB0aGUgZm9sbG93aW5nIGVycm9yIHdpbGwgYmUgY2F1
-Z2h0Lg0KKw0KKyAgL3Vzci9saWIvcHl0aG9uMi43L3NpdGUtcGFja2FnZXMvc21hcnQvdHJhbnNh
-Y3Rpb24ucHkiLCBsaW5lIDEyMzAsIGluIHJ1bg0KKyAgICBsb2NrZWRbcGtnXSA9IChMT0NLRURf
-S0VFUCwgTm9uZSkNCisNCisgIE5hbWVFcnJvcjogZ2xvYmFsIG5hbWUgJ0xPQ0tFRF9LRUVQJyBp
-cyBub3QgZGVmaW5lZA0KKw0KK1NpZ25lZC1vZmYtYnk6IEJpYW4gTmFpbWVuZyA8Ymlhbm5tQGNu
-LmZ1aml0c3UuY29tPG1haWx0bzpiaWFubm1AY24uZnVqaXRzdS5jb20+Pg0KDQpUaGlzIHBhdGNo
-IGlzIG1pc3NpbmcgYW4gVXBzdHJlYW0tU3RhdHVzLg0KDQpSb3NzDQo=
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/gen-lockedsig-cache | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
---_000_30DC4EDFD798C94083F3E083754532CC011C24DB0FG08CNEXMBPEKD_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+diff --git a/scripts/gen-lockedsig-cache b/scripts/gen-lockedsig-cache
+index 806c1e4..9c16506 100755
+--- a/scripts/gen-lockedsig-cache
++++ b/scripts/gen-lockedsig-cache
+@@ -1,7 +1,4 @@
+ #!/usr/bin/env python
+-#
+-# gen-lockedsig-cache <locked-sigs.inc> <input-cachedir> <output-cachedir>
+-#
+ 
+ import os
+ import sys
+@@ -18,14 +15,17 @@ def mkdir(d):
+ 
+ if len(sys.argv) < 3:
+     print("Incorrect number of arguments specified")
++    print("syntax: gen-lockedsig-cache <locked-sigs.inc> <input-cachedir> <output-cachedir>")
+     sys.exit(1)
+ 
++print('Reading %s' % sys.argv[1])
+ sigs = []
+ with open(sys.argv[1]) as f:
+     for l in f.readlines():
+         if ":" in l:
+             sigs.append(l.split(":")[2].split()[0])
+ 
++print('Gathering file list')
+ files = set()
+ for s in sigs:
+     p = sys.argv[2] + "/" + s[:2] + "/*" + s + "*"
+@@ -33,10 +33,13 @@ for s in sigs:
+     p = sys.argv[2] + "/*/" + s[:2] + "/*" + s + "*"
+     files |= set(glob.glob(p))
+ 
++print('Processing files')
+ for f in files:
++    sys.stdout.write('Processing %s... ' % f)
+     _, ext = os.path.splitext(f)
+     if not ext in ['.tgz', '.siginfo', '.sig']:
+         # Most likely a temp file, skip it
++        print('skipping')
+         continue
+     dst = f.replace(sys.argv[2], sys.argv[3])
+     destdir = os.path.dirname(dst)
+@@ -45,6 +48,10 @@ for f in files:
+     if os.path.exists(dst):
+         os.remove(dst)
+     if (os.stat(f).st_dev == os.stat(destdir).st_dev):
++        print('linking')
+         os.link(f, dst)
+     else:
++        print('copying')
+         shutil.copyfile(f, dst)
++
++print('Done!')
+-- 
+2.1.0
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseToiTVMgR290aGljIjsNCglwYW5vc2UtMToyIDExIDYgOSA3IDIgNSA4IDIgNDt9
-DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJDYW1icmlhIE1hdGgiOw0KCXBhbm9zZS0xOjIg
-NCA1IDMgNSA0IDYgMyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiTVMgUEdvdGhp
-YyI7DQoJcGFub3NlLTE6MiAxMSA2IDAgNyAyIDUgOCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250
-LWZhbWlseToiXEBNUyBHb3RoaWMiOw0KCXBhbm9zZS0xOjIgMTEgNiA5IDcgMiA1IDggMiA0O30N
-CkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6IlxA5a6L5L2TIjsNCglwYW5vc2UtMToyIDEgNiAw
-IDMgMSAxIDEgMSAxO30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6VGFob21hOw0KCXBhbm9z
-ZS0xOjIgMTEgNiA0IDMgNSA0IDQgMiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6IlxA
-TVMgUEdvdGhpYyI7DQoJcGFub3NlLTE6MiAxMSA2IDAgNyAyIDUgOCAyIDQ7fQ0KLyogU3R5bGUg
-RGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwN
-Cgl7bWFyZ2luOjBtbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBw
-dDsNCglmb250LWZhbWlseToiTVMgUEdvdGhpYyIsInNhbnMtc2VyaWYiO30NCmE6bGluaywgc3Bh
-bi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJ
-dGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5r
-Rm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0
-LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10
-eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJBcmlhbCIsInNhbnMtc2VyaWYiOw0K
-CWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0
-LW9ubHk7DQoJZm9udC1mYW1pbHk6IkFyaWFsIiwic2Fucy1zZXJpZiI7fQ0KQHBhZ2UgV29yZFNl
-Y3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3Mi4wcHQgOTAuMHB0IDcy
-LjBwdCA5MC4wcHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQot
-LT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4
-dD0iZWRpdCIgc3BpZG1heD0iMTAyNiI+DQo8djp0ZXh0Ym94IGluc2V0PSI1Ljg1cHQsLjdwdCw1
-Ljg1cHQsLjdwdCIgLz4NCjwvbzpzaGFwZWRlZmF1bHRzPjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
-aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
-YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
-aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJKQSIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBs
-ZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OuWui+S9
-kztjb2xvcjojMUY0OTdEO21zby1mYXJlYXN0LWxhbmd1YWdlOlpILUNOIj5Tb3JyeSBmb3IgbXkg
-bGF0ZS4gSSB3aWxsIGFkZCB0aGUNCjwvc3Bhbj48c3BhbiBsYW5nPSJFTi1VUyI+VXBzdHJlYW0t
-U3RhdHVzPC9zcGFuPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0ibXNvLWZhcmVhc3QtbGFuZ3Vh
-Z2U6WkgtQ04iPiBhbmQgcmUtc2VuZCBpdC48L3NwYW4+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxl
-PSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LCZxdW90O3Nh
-bnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpaSC1DTiI+
-PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
-RU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1
-b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286
-cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQg
-Ymx1ZSAxLjVwdDtwYWRkaW5nOjBtbSAwbW0gMG1tIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxl
-PSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNCNUM0REYgMS4wcHQ7cGFkZGluZzozLjBw
-dCAwbW0gMG1tIDBtbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBsYW5nPSJFTi1V
-UyIgc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7
-LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6WkgtQ04iPkZyb206
-PC9zcGFuPjwvYj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9u
-dC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7bXNvLWZh
-cmVhc3QtbGFuZ3VhZ2U6WkgtQ04iPiBCdXJ0b24sDQogUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9u
-QGludGVsLmNvbV0gPGJyPg0KPGI+U2VudDo8L2I+IFR1ZXNkYXksIE9jdG9iZXIgMjcsIDIwMTUg
-Njo0MCBQTTxicj4NCjxiPlRvOjwvYj4gQmlhbiwgTmFpbWVuZzwvc3Bhbj48c3BhbiBsYW5nPSJF
-Ti1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1
-b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6WkgtQ04iPjxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIGxhbmc9
-IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEm
-cXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Ozttc28tZmFyZWFzdC1sYW5ndWFnZTpaSC1DTiI+
-Q2M6PC9zcGFuPjwvYj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7
-Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7bXNv
-LWZhcmVhc3QtbGFuZ3VhZ2U6WkgtQ04iPiBPRS1jb3JlPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJl
-OiBbT0UtY29yZV0gW1BBVENIXSBweXRob24tc21hcnRwbTogZGVmaW5lIExPQ0tFRF9LRUVQIHRv
-IGF2b2lkIHJ1bm5pbmcgZXJyb3I8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-bGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+T24gMjcgT2N0b2JlciAyMDE1IGF0IDAy
-OjUyLCBCaWFuIE5haW1lbmcgJmx0OzxhIGhyZWY9Im1haWx0bzpiaWFubm1AY24uZnVqaXRzdS5j
-b20iIHRhcmdldD0iX2JsYW5rIj5iaWFubm1AY24uZnVqaXRzdS5jb208L2E+Jmd0OyB3cm90ZTo8
-bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IGlkPSI6Mm55Ij4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIGxhbmc9IkVOLVVTIj4mIzQzO0Zyb20gZGFhZWM0M2VjZjNmMGQwZjg5Y2VmNTg2
-MzI3YWExMDYzYTRjNDRjNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDE8YnI+DQomIzQzO0Zyb206
-IEJpYW4gTmFpbWVuZyAmbHQ7PGEgaHJlZj0ibWFpbHRvOmJpYW5ubUBjbi5mdWppdHN1LmNvbSI+
-Ymlhbm5tQGNuLmZ1aml0c3UuY29tPC9hPiZndDs8YnI+DQomIzQzO0RhdGU6IFR1ZSwgMjcgT2N0
-IDIwMTUgMTE6MDg6NTIgJiM0MzswOTAwPGJyPg0KJiM0MztTdWJqZWN0OiBbUEFUQ0hdIEZpeCBh
-IHVuZGVmaW5lZCBlcnJvcjxicj4NCiYjNDM7PGJyPg0KJiM0MztMT0NLRURfS0VFUCBpcyB1bmRl
-ZmluZWQsIHNvIHRoZSBmb2xsb3dpbmcgZXJyb3Igd2lsbCBiZSBjYXVnaHQuPGJyPg0KJiM0Mzs8
-YnI+DQomIzQzOyZuYnNwOyAvdXNyL2xpYi9weXRob24yLjcvc2l0ZS1wYWNrYWdlcy9zbWFydC90
-cmFuc2FjdGlvbi5weSZxdW90OywgbGluZSAxMjMwLCBpbiBydW48YnI+DQomIzQzOyZuYnNwOyAm
-bmJzcDsgbG9ja2VkW3BrZ10gPSAoTE9DS0VEX0tFRVAsIE5vbmUpPGJyPg0KJiM0Mzs8YnI+DQom
-IzQzOyZuYnNwOyBOYW1lRXJyb3I6IGdsb2JhbCBuYW1lICdMT0NLRURfS0VFUCcgaXMgbm90IGRl
-ZmluZWQ8YnI+DQomIzQzOzxicj4NCiYjNDM7U2lnbmVkLW9mZi1ieTogQmlhbiBOYWltZW5nICZs
-dDs8YSBocmVmPSJtYWlsdG86Ymlhbm5tQGNuLmZ1aml0c3UuY29tIj5iaWFubm1AY24uZnVqaXRz
-dS5jb208L2E+Jmd0OzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PGJyPg0KVGhpcyBwYXRjaCBpcyBt
-aXNzaW5nIGFuIFVwc3RyZWFtLVN0YXR1cy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJz
-cDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gbGFuZz0iRU4tVVMiPlJvc3M8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwv
-ZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
---_000_30DC4EDFD798C94083F3E083754532CC011C24DB0FG08CNEXMBPEKD_--
