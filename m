@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E9726082D
+	by mail.openembedded.org (Postfix) with ESMTP id 0EE4A6082D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 02:38:14 +0000 (UTC)
+	Mon, 23 Nov 2015 02:38:17 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Nov 2015 18:38:15 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 22 Nov 2015 18:38:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,335,1444719600"; d="scan'208";a="857558621"
+X-IronPort-AV: E=Sophos;i="5.20,335,1444719600"; d="scan'208";a="857558637"
 Received: from echoo1-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.170.181])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2015 18:38:13 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2015 18:38:16 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Nov 2015 15:37:40 +1300
-Message-Id: <de3417b71694fb7e06f8729a66b1ed0d565571a2.1448246218.git.paul.eggleton@linux.intel.com>
+Date: Mon, 23 Nov 2015 15:37:41 +1300
+Message-Id: <7abd3748331efed3ab17b109fb6e0139ce279dff.1448246218.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1448246218.git.paul.eggleton@linux.intel.com>
 References: <cover.1448246218.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1448246218.git.paul.eggleton@linux.intel.com>
 References: <cover.1448246218.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 5/7] classes/populate_sdk_ext: make it clear when SDK installation has failed
+Subject: [PATCH 6/7] classes/populate_sdk_ext: tweak reporting of workspace exclusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Nov 2015 02:38:14 -0000
+X-List-Received-Date: Mon, 23 Nov 2015 02:38:17 -0000
 
-When SDK preparation fails:
-
-* Insert an ERROR: in front of the error message
-* Add an error message to the environment setup script
-
-Hopefully this should make it more obvious when this happens.
-
-Fixes [YOCTO #8658].
+If you have a local workspace layer enabled when building the
+extensible SDK, we explicitly exclude that from the SDK (mostly because
+the SDK has its own for the user to use). Adjust the message we print
+notifying the user of this so it's clear that we're excluding it from
+the SDK, and scale it back from a warning to a note printed with
+bb.plain().
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
  meta/classes/populate_sdk_ext.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/copy_buildsystem.py       | 5 +++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index d368d4f..e806d32 100644
+index e806d32..736f17f 100644
 --- a/meta/classes/populate_sdk_ext.bbclass
 +++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -250,7 +250,7 @@ sdk_ext_postinst() {
- 		# current working directory when first ran, nor will it set $1 when
- 		# sourcing a script. That is why this has to look so ugly.
- 		LOGFILE="$target_sdk_dir/preparing_build_system.log"
--		sh -c ". buildtools/environment-setup* > $LOGFILE && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> $LOGFILE && $target_sdk_dir/ext-sdk-prepare.sh $target_sdk_dir '${SDK_TARGETS}' >> $LOGFILE 2>&1" || { echo "SDK preparation failed: see $LOGFILE" ; exit 1 ; }
-+		sh -c ". buildtools/environment-setup* > $LOGFILE && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> $LOGFILE && $target_sdk_dir/ext-sdk-prepare.sh $target_sdk_dir '${SDK_TARGETS}' >> $LOGFILE 2>&1" || { echo "ERROR: SDK preparation failed: see $LOGFILE"; echo "printf 'ERROR: this SDK wasn't fully installed and needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
- 	fi
- 	rm -f $target_sdk_dir/ext-sdk-prepare.sh
- 	echo done
+@@ -51,7 +51,7 @@ python copy_buildsystem () {
+     core_meta_subdir = ''
+ 
+     # Copy in all metadata layers + bitbake (as repositories)
+-    buildsystem = oe.copy_buildsystem.BuildSystem(d)
++    buildsystem = oe.copy_buildsystem.BuildSystem('extensible SDK', d)
+     baseoutpath = d.getVar('SDK_OUTPUT', True) + '/' + d.getVar('SDKPATH', True)
+     layers_copied = buildsystem.copy_bitbake_and_layers(baseoutpath + '/layers')
+ 
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+index 979578c..c0e7541 100644
+--- a/meta/lib/oe/copy_buildsystem.py
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -14,8 +14,9 @@ def _smart_copy(src, dest):
+         shutil.copymode(src, dest)
+ 
+ class BuildSystem(object):
+-    def __init__(self, d):
++    def __init__(self, context, d):
+         self.d = d
++        self.context = context
+         self.layerdirs = d.getVar('BBLAYERS', True).split()
+ 
+     def copy_bitbake_and_layers(self, destdir):
+@@ -38,7 +39,7 @@ class BuildSystem(object):
+             if os.path.exists(layerconf):
+                 with open(layerconf, 'r') as f:
+                     if f.readline().startswith("# ### workspace layer auto-generated by devtool ###"):
+-                        bb.warn("Skipping local workspace layer %s" % layer)
++                        bb.plain("NOTE: Excluding local workspace layer %s from %s" % (layer, self.context))
+                         continue
+ 
+             # If the layer was already under corebase, leave it there
 -- 
 2.1.0
 
