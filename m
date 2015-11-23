@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F8A962131
+	by mail.openembedded.org (Postfix) with ESMTP id 0DE12607AB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 02:11:13 +0000 (UTC)
+	Mon, 23 Nov 2015 02:11:14 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 22 Nov 2015 18:11:04 -0800
+	by fmsmga103.fm.intel.com with ESMTP; 22 Nov 2015 18:11:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,334,1444719600"; d="scan'208";a="692213468"
+X-IronPort-AV: E=Sophos;i="5.20,334,1444719600"; d="scan'208";a="692213447"
 Received: from echoo1-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.170.181])
-	by orsmga003.jf.intel.com with ESMTP; 22 Nov 2015 18:11:02 -0800
+	by orsmga003.jf.intel.com with ESMTP; 22 Nov 2015 18:11:00 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Nov 2015 15:09:33 +1300
-Message-Id: <d4cfb41397e2dba8da65bca025b05031bb9e9a32.1448244474.git.paul.eggleton@linux.intel.com>
+Date: Mon, 23 Nov 2015 15:09:32 +1300
+Message-Id: <0f5304bfed9effb31625b43ce676b6f1f606336a.1448244474.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1448244474.git.paul.eggleton@linux.intel.com>
 References: <cover.1448244474.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1448244474.git.paul.eggleton@linux.intel.com>
 References: <cover.1448244474.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 14/18] devtool: build: enable showing default task in help
+Subject: [PATCH 13/18] devtool: build: use bbappend to set PARALLEL_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,59 +32,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Nov 2015 02:11:13 -0000
+X-List-Received-Date: Mon, 23 Nov 2015 02:11:14 -0000
 
-Enable access to the configuration object in register_commands() so that
-we can read configuration values there; this allows us to show the
-task that will be run in the command line help for the build subcommand.
+Use a bbappend file to set PARALLEL_MAKE instead of a postfile; this
+is a bit neater and only affects the specified recipe.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/devtool              | 1 +
- scripts/lib/devtool/build.py | 6 ++++--
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ scripts/lib/devtool/build.py | 45 +++++++++++++++++++++++++-------------------
+ 1 file changed, 26 insertions(+), 19 deletions(-)
 
-diff --git a/scripts/devtool b/scripts/devtool
-index 2a5a3d4..1fcb42c 100755
---- a/scripts/devtool
-+++ b/scripts/devtool
-@@ -220,6 +220,7 @@ def main():
-     config = ConfigHandler(os.path.join(basepath, 'conf', 'devtool.conf'))
-     if not config.read():
-         return -1
-+    context.config = config
- 
-     bitbake_subdir = config.get('General', 'bitbake_subdir', '')
-     if bitbake_subdir:
 diff --git a/scripts/lib/devtool/build.py b/scripts/lib/devtool/build.py
-index 14f55e0..0b8e88b 100644
+index 62d8599..14f55e0 100644
 --- a/scripts/lib/devtool/build.py
 +++ b/scripts/lib/devtool/build.py
-@@ -46,12 +46,14 @@ def _set_file_values(fn, values):
-             f.writelines(newlines)
-     return updated
+@@ -25,16 +25,27 @@ from devtool import exec_build_env_command, check_workspace_recipe, DevtoolError
  
-+def _get_build_task(config):
-+    return config.get('Build', 'build_task', 'populate_sysroot')
+ logger = logging.getLogger('devtool')
+ 
+-def _create_conf_file(values, conf_file=None):
+-    if not conf_file:
+-        fd, conf_file = tempfile.mkstemp(suffix='.conf')
+-    elif not os.path.exists(os.path.dirname(conf_file)):
+-        logger.debug("Creating folder %s" % os.path.dirname(conf_file))
+-        bb.utils.mkdirhier(os.path.dirname(conf_file))
+-    with open(conf_file, 'w') as f:
+-        for key, value in values.iteritems():
+-            f.write('%s = "%s"\n' % (key, value))
+-    return conf_file
++
++def _set_file_values(fn, values):
++    remaining = values.keys()
++
++    def varfunc(varname, origvalue, op, newlines):
++        newvalue = values.get(varname, origvalue)
++        remaining.remove(varname)
++        return (newvalue, '=', 0, True)
++
++    with open(fn, 'r') as f:
++        (updated, newlines) = bb.utils.edit_metadata(f, values, varfunc)
++
++    for item in remaining:
++        updated = True
++        newlines.append('%s = "%s"' % (item, values[item]))
++
++    if updated:
++        with open(fn, 'w') as f:
++            f.writelines(newlines)
++    return updated
++
  
  def build(args, config, basepath, workspace):
      """Entry point for the devtool 'build' subcommand"""
-     check_workspace_recipe(workspace, args.recipename)
+@@ -42,22 +53,18 @@ def build(args, config, basepath, workspace):
  
--    build_task = config.get('Build', 'build_task', 'populate_sysroot')
-+    build_task = _get_build_task(config)
+     build_task = config.get('Build', 'build_task', 'populate_sysroot')
  
-     bbappend = workspace[args.recipename]['bbappend']
+-    postfile_param = ""
+-    postfile = ""
++    bbappend = workspace[args.recipename]['bbappend']
      if args.disable_parallel_make:
-@@ -71,7 +73,7 @@ def build(args, config, basepath, workspace):
- def register_commands(subparsers, context):
-     """Register devtool subcommands from this plugin"""
-     parser_build = subparsers.add_parser('build', help='Build a recipe',
--                                         description='Builds the specified recipe using bitbake',
-+                                         description='Builds the specified recipe using bitbake (up to and including do_%s)' % _get_build_task(context.config),
-                                          formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-     parser_build.add_argument('recipename', help='Recipe to build')
-     parser_build.add_argument('-s', '--disable-parallel-make', action="store_true", help='Disable make parallelism')
+         logger.info("Disabling 'make' parallelism")
+-        postfile = os.path.join(basepath, 'conf', 'disable_parallelism.conf')
+-        _create_conf_file({'PARALLEL_MAKE':''}, postfile)
+-        postfile_param = "-R %s" % postfile
++        _set_file_values(bbappend, {'PARALLEL_MAKE': ''})
+     try:
+-        exec_build_env_command(config.init_path, basepath, 'bitbake -c %s %s %s' % (build_task, postfile_param, args.recipename), watch=True)
++        exec_build_env_command(config.init_path, basepath, 'bitbake -c %s %s' % (build_task, args.recipename), watch=True)
+     except bb.process.ExecutionError as e:
+         # We've already seen the output since watch=True, so just ensure we return something to the user
+         return e.exitcode
+     finally:
+-        if postfile:
+-            logger.debug('Removing postfile')
+-            os.remove(postfile)
++        if args.disable_parallel_make:
++            _set_file_values(bbappend, {'PARALLEL_MAKE': None})
+ 
+     return 0
+ 
 -- 
 2.1.0
 
