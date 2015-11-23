@@ -1,28 +1,22 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id ADCFC6012C
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id E0EA16012C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 22:13:16 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 23 Nov 2015 14:12:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,338,1444719600"; d="scan'208";a="827478562"
-Received: from mlopezva-mobl2.zpn.intel.com (HELO [10.219.16.157])
-	([10.219.16.157])
-	by orsmga001.jf.intel.com with ESMTP; 23 Nov 2015 14:12:57 -0800
-Message-ID: <56538F7B.20608@linux.intel.com>
-Date: Mon, 23 Nov 2015 16:13:15 -0600
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Mon, 23 Nov 2015 23:41:47 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 24 Nov 2015 00:41:43 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id BC8C028FA82;
+	Tue, 24 Nov 2015 00:41:43 +0100 (CET)
+From: Tudor Florea <tudor.florea@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Nov 2015 00:41:36 +0100
+Message-ID: <1448322097-33026-1-git-send-email-tudor.florea@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: ed.bartosh@linux.intel.com
-References: <cover.1447834352.git.mariano.lopez@linux.intel.com>
-	<2d04d7f11597f6e8331b293e033aef0d36ce5f02.1447834352.git.mariano.lopez@linux.intel.com>
-	<20151123173747.GA17608@linux.intel.com>
-In-Reply-To: <20151123173747.GA17608@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] wic: Allow to use a custom config for bootloaders
+Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH 0/1] util-linux: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,217 +29,183 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Nov 2015 22:13:17 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Nov 2015 23:41:52 -0000
+Content-Type: text/plain
+
+Some of util-linux tool tests have not been added because of gcc dependency.
+
+Sample ptest output:
+root@qemuppc:/usr/lib/util-linux/ptest# ./run-ptest 
+
+-------------------- util-linux regression tests --------------------
+
+                    For development purpose only.                    
+                 Don't execute on production system!                 
+
+PASS:        bitops: swap bytes                    
+SKIP:     build-sys: config                         (optional)
+PASS:           cal: 1 month                       
+PASS:           cal: 1 month with week numbers     
+PASS:           cal: 3 months                      
+PASS:           cal: 3 months with week numbers    
+PASS:           cal: Year 2147483646               
+PASS:           cal: Year 2147483646 with week numbers
+PASS:           cal: color                         
+PASS:           cal: color with week numbers       
+PASS:           cal: September 1752                
+PASS:           cal: September 1752 with week numbers
+PASS:           cal: week number given as argument 
+PASS:           cal: week number corner cases      
+PASS:           cal: year                          
+PASS:           cal: year with week numbers        
+PASS:           col: multibyte input               
+PASS:         colrm: basic check                   
+PASS:        column: fill row                      
+PASS:        column: invalid multibyte             
+PASS:        column: multiple files                
+PASS:        column: separator & table             
+PASS:         dmesg: levels                        
+PASS:         dmesg: decode                        
+PASS:         dmesg: delta                         
+PASS:         dmesg: facilities                    
+SKIP:          fsck: is mounted                     (missing in PATH: mkfs.ext3)
+      hexdump: format-strings                 ...
+PASS:       hexdump: empty-format                  
+PASS:       hexdump: 1b_octal                      
+PASS:       hexdump: 1b_char                       
+PASS:       hexdump: canon                         
+PASS:       hexdump: 2b_dec                        
+PASS:       hexdump: 2b_octal                      
+PASS:       hexdump: 2b_hex                        
+           ... OK (all 7 sub-tests PASSED)
+      hexdump: highlighting                   ...
+PASS:       hexdump: 1b_octal-1                    
+PASS:       hexdump: 1b_octal-2                    
+PASS:       hexdump: 1b_octal-3                    
+PASS:       hexdump: 1b_octal-4                    
+PASS:       hexdump: 1b_octal-5                    
+PASS:       hexdump: 1b_octal-6                    
+PASS:       hexdump: 1b_octal-7                    
+PASS:       hexdump: 1b_octal-8                    
+PASS:       hexdump: 1b_octal-9                    
+PASS:       hexdump: 1b_char-1                     
+PASS:       hexdump: 1b_char-2                     
+PASS:       hexdump: 1b_char-3                     
+PASS:       hexdump: canon-1                       
+PASS:       hexdump: canon-2                       
+PASS:       hexdump: 2b_dec-1                      
+PASS:       hexdump: 2b_dec-2                      
+PASS:       hexdump: 2b_dec-3                      
+PASS:       hexdump: 2b_dec-4                      
+PASS:       hexdump: 2b_dec-5                      
+PASS:       hexdump: 2b_dec-6                      
+PASS:       hexdump: 2b_dec-7                      
+PASS:       hexdump: 2b_dec-8                      
+PASS:       hexdump: 4b_dec-1                      
+PASS:       hexdump: 4b_dec-2                      
+PASS:       hexdump: 4b_dec-3                      
+PASS:       hexdump: 4b_dec-4                      
+PASS:       hexdump: 4b_dec-5                      
+PASS:       hexdump: 4b_dec-6                      
+PASS:       hexdump: 4b_dec-7                      
+           ... OK (all 29 sub-tests PASSED)
+SKIP:       hwclock: system to hw                   (missing in PATH: bc)
+PASS:          ipcs: headers                       
+SKIP:          ipcs: limits overflow                (missing in PATH: bc)
+SKIP:          ipcs: basic limits                   (missing in PATH: bc)
+PASS:          ipcs: mk-rm-msg                     
+PASS:          ipcs: mk-rm-sem                     
+PASS:          ipcs: mk-rm-shm                     
+      isosize: print-size                     ...
+PASS:       isosize: default_output                
+PASS:       isosize: sector_output                 
+PASS:       isosize: divisor_output                
+           ... OK (all 3 sub-tests PASSED)
+PASS:         login: islocal                       
+PASS:         login: defs                          
+PASS:          look: separator                     
+PASS:           md5:                               
+PASS:          misc: fallocate                     
+PASS:          misc: getopt                        
+         misc: getopt2                        ...
+PASS:          misc: alternative_option_clash      
+PASS:          misc: alternative_option_long       
+PASS:          misc: alternative_option_short      
+PASS:          misc: invalid_getopt_option         
+PASS:          misc: invocation_model_one          
+PASS:          misc: invocation_model_three_as_one 
+PASS:          misc: invocation_model_two_as_one   
+PASS:          misc: invocation_without_parameters 
+PASS:          misc: long_option_ambiguous_1       
+PASS:          misc: longopts                      
+PASS:          misc: name_option_long              
+PASS:          misc: name_option_short             
+PASS:          misc: quiet_option_long             
+PASS:          misc: quiet_option_short            
+PASS:          misc: quiet_output_option_long      
+PASS:          misc: quiet_output_option_short     
+PASS:          misc: same_long_short_options       
+PASS:          misc: test_for_enhanced_getopt      
+PASS:          misc: unknown_options               
+PASS:          misc: unquoted_option_bash          
+PASS:          misc: unquoted_option_tcsh          
+PASS:          misc: weird_quoting_bash            
+PASS:          misc: weird_quoting_tcsh            
+           ... OK (all 23 sub-tests PASSED)
+         misc: getopt3                        ...
+PASS:          misc: compatible                    
+PASS:          misc: sh                            
+PASS:          misc: csh                           
+PASS:          misc: no-arguments                  
+PASS:          misc: posix_correctly               
+PASS:          misc: non-option                    
+           ... OK (all 6 sub-tests PASSED)
+PASS:          misc: ionice                        
+SKIP:          misc: line                           (line not found)
+PASS:          misc: mcookie                       
+PASS:          misc: rev                           
+PASS:          misc: setarch                       
+PASS:          misc: setsid                        
+PASS:          misc: strtosize                     
+FAIL:          misc: swaplabel                      (misc/swaplabel)
+FAIL:          misc: ul                             (misc/ul)
+PASS:          misc: whereis                       
+PASS:          more: regexp                        
+PASS:          more: squeeze                       
+PASS:         namei: basic functionality           
+FAIL:         paths: built-in                       (paths/built-in)
+PASS:    schedutils: cpuset                        
+SKIP:        script: race conditions                (optional)
+SKIP:        swapon: by devname                     (no loop-device support)
+SKIP:        swapon: fix page size                  (no loop-device support)
+SKIP:        swapon: fix signature                  (no loop-device support)
+SKIP:        swapon: by label                       (no loop-device support)
+SKIP:        swapon: by uuid                        (no loop-device support)
+PASS:         tailf: simple                        
+
+---------------------------------------------------------------------
+  3 tests of 67 FAILED
+---------------------------------------------------------------------
 
 
+Tudor Florea (1):
+  util-linux: Add ptest
 
-On 11/23/2015 11:37 AM, Ed Bartosh wrote:
-> Hi Mariano,
->
-> Thank you for the patchset!
->
-> Would it be better to put content of configuration file into .wks
-> instead of just referring to it?
-
-If the configuration is simple I agree with you; however if the 
-configuration have scripts I think it's better to have separated file. 
-The file can growth and would be a real mess inside a wks file.
-
->
-> It would be also nice to have this code covered by oe-selftest.
-
-Yes, I plan do  create a test and update the documentation once it is 
-integrated in master.
-
->
-> Regards,
-> Ed
->
-> On Wed, Nov 18, 2015 at 08:25:54AM +0000, mariano.lopez@linux.intel.com wrote:
->> From: Mariano Lopez <mariano.lopez@linux.intel.com>
->>
->> This change will allow to use a user defined file as the
->> configuration for the bootloaders (grub, gummiboot, syslinux).
->>
->> The config file is defined in the wks file with the "configfile"
->> option in the bootloader line.
->>
->> [YOCTO #8003]
->>
->> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
->> ---
->>   scripts/lib/wic/plugins/source/bootimg-efi.py    | 66 ++++++++++++++++--------
->>   scripts/lib/wic/plugins/source/bootimg-pcbios.py | 66 ++++++++++++++----------
->>   2 files changed, 83 insertions(+), 49 deletions(-)
->>
->> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
->> index fa63c6a..8fc879e 100644
->> --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
->> +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
->> @@ -45,22 +45,33 @@ class BootimgEFIPlugin(SourcePlugin):
->>           """
->>           Create loader-specific (grub-efi) config
->>           """
->> -        options = creator.ks.handler.bootloader.appendLine
->> -
->> -        grubefi_conf = ""
->> -        grubefi_conf += "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\n"
->> -        grubefi_conf += "default=boot\n"
->> -        timeout = kickstart.get_timeout(creator.ks)
->> -        if not timeout:
->> -            timeout = 0
->> -        grubefi_conf += "timeout=%s\n" % timeout
->> -        grubefi_conf += "menuentry 'boot'{\n"
->> -
->> -        kernel = "/bzImage"
->> -
->> -        grubefi_conf += "linux %s root=%s rootwait %s\n" \
->> -            % (kernel, creator.rootdev, options)
->> -        grubefi_conf += "}\n"
->> +        configfile = kickstart.get_bootloader_file(creator.ks)
->> +
->> +        if configfile and os.path.exists(configfile):
->> +            # Use a custom configuration file for grub
->> +            msger.info("Using custom configuration file "
->> +                    "%s for grub.cfg" % configfile)
->> +            user_conf = open(configfile, "r")
->> +            grubefi_conf = user_conf.read()
->> +            user_conf.close()
->> +        else:
->> +            # Create grub configuration using parameters from wks file
->> +            options = creator.ks.handler.bootloader.appendLine
->> +
->> +            grubefi_conf = ""
->> +            grubefi_conf += "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\n"
->> +            grubefi_conf += "default=boot\n"
->> +            timeout = kickstart.get_timeout(creator.ks)
->> +            if not timeout:
->> +                timeout = 0
->> +            grubefi_conf += "timeout=%s\n" % timeout
->> +            grubefi_conf += "menuentry 'boot'{\n"
->> +
->> +            kernel = "/bzImage"
->> +
->> +            grubefi_conf += "linux %s root=%s rootwait %s\n" \
->> +                % (kernel, creator.rootdev, options)
->> +            grubefi_conf += "}\n"
->>   
->>           msger.debug("Writing grubefi config %s/hdd/boot/EFI/BOOT/grub.cfg" \
->>                           % cr_workdir)
->> @@ -95,12 +106,23 @@ class BootimgEFIPlugin(SourcePlugin):
->>           cfg.write(loader_conf)
->>           cfg.close()
->>   
->> -        kernel = "/bzImage"
->> -
->> -        boot_conf = ""
->> -        boot_conf += "title boot\n"
->> -        boot_conf += "linux %s\n" % kernel
->> -        boot_conf += "options LABEL=Boot root=%s %s\n" % (creator.rootdev, options)
->> +        configfile = kickstart.get_bootloader_file(creator.ks)
->> +
->> +        if configfile and os.path.exists(configfile):
->> +            # Use a custom configuration file for gummiboot
->> +            msger.info("Using custom configuration file "
->> +                    "%s for gummiboot's boot.conf" % configfile)
->> +            user_conf = open(configfile, "r")
->> +            boot_conf = user_conf.read()
->> +            user_conf.close()
->> +        else:
->> +            # Create gummiboot configuration using parameters from wks file
->> +            kernel = "/bzImage"
->> +
->> +            boot_conf = ""
->> +            boot_conf += "title boot\n"
->> +            boot_conf += "linux %s\n" % kernel
->> +            boot_conf += "options LABEL=Boot root=%s %s\n" % (creator.rootdev, options)
->>   
->>           msger.debug("Writing gummiboot config %s/hdd/boot/loader/entries/boot.conf" \
->>                           % cr_workdir)
->> diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
->> index 96ed54d..9e21572 100644
->> --- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
->> +++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
->> @@ -83,34 +83,46 @@ class BootimgPcbiosPlugin(SourcePlugin):
->>           install_cmd = "install -d %s" % hdddir
->>           exec_cmd(install_cmd)
->>   
->> -        splash = os.path.join(cr_workdir, "/hdd/boot/splash.jpg")
->> -        if os.path.exists(splash):
->> -            splashline = "menu background splash.jpg"
->> +        configfile = kickstart.get_bootloader_file(creator.ks)
->> +
->> +        if configfile and os.path.exists(configfile):
->> +            # Use a custom configuration file for syslinux
->> +            msger.info("Using custom configuration file "
->> +                    "%s for syslinux.cfg" % configfile)
->> +            user_conf = open(configfile, "r")
->> +            syslinux_conf = user_conf.read()
->> +            user_conf.close()
->> +
->>           else:
->> -            splashline = ""
->> -
->> -        options = creator.ks.handler.bootloader.appendLine
->> -
->> -        syslinux_conf = ""
->> -        syslinux_conf += "PROMPT 0\n"
->> -        timeout = kickstart.get_timeout(creator.ks)
->> -        if not timeout:
->> -            timeout = 0
->> -        syslinux_conf += "TIMEOUT " + str(timeout) + "\n"
->> -        syslinux_conf += "\n"
->> -        syslinux_conf += "ALLOWOPTIONS 1\n"
->> -        syslinux_conf += "SERIAL 0 115200\n"
->> -        syslinux_conf += "\n"
->> -        if splashline:
->> -            syslinux_conf += "%s\n" % splashline
->> -        syslinux_conf += "DEFAULT boot\n"
->> -        syslinux_conf += "LABEL boot\n"
->> -
->> -        kernel = "/vmlinuz"
->> -        syslinux_conf += "KERNEL " + kernel + "\n"
->> -
->> -        syslinux_conf += "APPEND label=boot root=%s %s\n" % \
->> -                             (creator.rootdev, options)
->> +            # Create syslinux configuration using parameters from wks file
->> +            splash = os.path.join(cr_workdir, "/hdd/boot/splash.jpg")
->> +            if os.path.exists(splash):
->> +                splashline = "menu background splash.jpg"
->> +            else:
->> +                splashline = ""
->> +
->> +            options = creator.ks.handler.bootloader.appendLine
->> +
->> +            syslinux_conf = ""
->> +            syslinux_conf += "PROMPT 0\n"
->> +            timeout = kickstart.get_timeout(creator.ks)
->> +            if not timeout:
->> +                timeout = 0
->> +            syslinux_conf += "TIMEOUT " + str(timeout) + "\n"
->> +            syslinux_conf += "\n"
->> +            syslinux_conf += "ALLOWOPTIONS 1\n"
->> +            syslinux_conf += "SERIAL 0 115200\n"
->> +            syslinux_conf += "\n"
->> +            if splashline:
->> +                syslinux_conf += "%s\n" % splashline
->> +            syslinux_conf += "DEFAULT boot\n"
->> +            syslinux_conf += "LABEL boot\n"
->> +
->> +            kernel = "/vmlinuz"
->> +            syslinux_conf += "KERNEL " + kernel + "\n"
->> +
->> +            syslinux_conf += "APPEND label=boot root=%s %s\n" % \
->> +                                 (creator.rootdev, options)
->>   
->>           msger.debug("Writing syslinux config %s/hdd/boot/syslinux.cfg" \
->>                       % cr_workdir)
->> -- 
->> 1.8.4.5
->>
+ meta/recipes-core/util-linux/util-linux.inc        |  31 ++++-
+ .../util-linux/avoid_parallel_tests.patch          | 145 +++++++++++++++++++++
+ .../util-linux/avoid_unsupported_sleep_param.patch |  20 +++
+ .../util-linux/display_testname_for_subtest.patch  |  18 +++
+ .../recipes-core/util-linux/util-linux/ptest.patch |  17 +++
+ meta/recipes-core/util-linux/util-linux/run-ptest  |  10 ++
+ meta/recipes-core/util-linux/util-linux_2.26.2.bb  |   5 +
+ 7 files changed, 245 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/avoid_unsupported_sleep_param.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/ptest.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/run-ptest
 
 -- 
-Mariano Lopez
+1.9.1
+
 
