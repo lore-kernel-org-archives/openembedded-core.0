@@ -1,43 +1,48 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A99D6010D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id A0984601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 20:56:18 +0000 (UTC)
-Received: by lfs39 with SMTP id 39so119392886lfs.3
+	Mon, 23 Nov 2015 21:18:42 +0000 (UTC)
+Received: by igcmv3 with SMTP id mv3so37993412igc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 12:56:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=zoYoEde7yW6DejD/PeHYCT5qxd1uZOw/VXTB5n0atfY=;
-	b=fzy0AGYgs97T4VDPeNt/+aWJE3xZWh1oxX/29LR6e7QnxK3PW7ja/kBej2gIpEVIr4
-	MO6RpSZTYy0ic5KHIfxlcszzzmVOVIrHVZZKqy5A+FCcln1CPO/uM+Gu9nqwBgswPRgm
-	Di+cZTmuHJWJdBxTQNbs5QZuQiyeCRATtbQqnz1gNGIljjoi2CFpu7H3arW6yu/9Xeu7
-	tqX6ca5W/q5QEmfQIUzX8Wjv5fjdfPew5EGEVtyh6t+aFA72rpk7Fezro2iwx1prsRXj
-	0ErWVt327MOnkKATVaATt917lc3EVCPjE6sieSnFMRACLzK021fVjFi/MRktjF3TJdVF
-	wAAA==
-X-Received: by 10.25.83.193 with SMTP id h184mr11634801lfb.155.1448312177141; 
-	Mon, 23 Nov 2015 12:56:17 -0800 (PST)
-Received: from [192.168.0.12] (c80-217-62-231.bredband.comhem.se.
-	[80.217.62.231]) by smtp.gmail.com with ESMTPSA id
-	j189sm2130476lfg.46.2015.11.23.12.56.15
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 23 Nov 2015 12:56:16 -0800 (PST)
-Message-ID: <56537D6F.5070505@gmail.com>
-Date: Mon, 23 Nov 2015 21:56:15 +0100
-From: Ming Liu <liu.ming50@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Mon, 23 Nov 2015 13:18:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=mQHHvEwgVlh1SVF1el0Gx67KEJkoWjHIo69uZ4AU6JM=;
+	b=WvD7QkH2yAIoZ8goEV4hQe/gxpfms/R6o+BTKth2PmFKpfgwRz91XNnP9QudCfFWuX
+	EUFt6nfJDycqCHjhKHZwDQ2eylX5iANzQZls4CFT2JwX4wBXRqukQ/2/4qX0bf/qPMyt
+	RsTyzy4XVpn/r6DR1O3jk09zDvQA8+MpdI9S0LP/tEmMse6YL2+Vy602D0+uNolSoG6m
+	ENU7uUZOi2dXY5y29e3xBhQbqqL+4vsjvheV1Ju2YIzdn8h5/gXqN87g4y4xVBf163jQ
+	0OpjL/fboldvdScX+WwujVF6gPaBJfY466x1hvFMNph1mWqCmikG+ycVU7i8Ii117zOC
+	lQ6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=mQHHvEwgVlh1SVF1el0Gx67KEJkoWjHIo69uZ4AU6JM=;
+	b=Hac/MPWvwtvO2z115CdN0H5cwQVb02E83quY0FKj8GJqxFpVLFqMT4yDxcslDl2deh
+	yxxNiJDMm+12mpQV63HYejGwONxKxNst3ctsdwP4K6ulCLKRAdmnUR1yo0R7pYYtJFID
+	4ShXlimM4nZFckCJXSJqzLTke/Ab9Iu76D5car1MB/+LYiegzWFm7SE1nvsDYA+eP8I2
+	GcqHGf0fdNoZpYda0aNv9H7l72v9m/l9UE/09aq+8TPKndL7GgRgZlexlc3aJAHtQlpo
+	VS9Uj5il4xu352gijm1QoyN/40yj685J8R4hVhgmT0pOZaU8SgQfq47Pq515Z7VKRibL
+	f5wA==
+X-Gm-Message-State: ALoCoQnIVg+gDh/+8C5nZu2CyaNzBzmd2lHasoX7KXM4Ef/VmpIOUqIpYz4lEX79pJYdVE19nVDp
+X-Received: by 10.50.2.99 with SMTP id 3mr6615378igt.78.1448313522880; Mon, 23
+	Nov 2015 13:18:42 -0800 (PST)
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1448232011-30195-1-git-send-email-liu.ming50@gmail.com>
-	<565318B0.20508@windriver.com>
-In-Reply-To: <565318B0.20508@windriver.com>
-Cc: darren@dvhart.com, Ming Liu <peter.x.liu@external.atlascopco.com>,
-	yue.tao@windriver.com
-Subject: Re: [PATCH] kernel-devsrc: add 'make scripts' postinstall
+Received: by 10.107.136.141 with HTTP; Mon, 23 Nov 2015 13:18:23 -0800 (PST)
+In-Reply-To: <1448271748-3210-1-git-send-email-liu.ming50@gmail.com>
+References: <1448271748-3210-1-git-send-email-liu.ming50@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 23 Nov 2015 21:18:23 +0000
+Message-ID: <CAJTo0LZOKv0S2-JAb_6goEt6OUetxyB3C24FZpVQyv+RKExTEQ@mail.gmail.com>
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v1] initscripts: do not save timestamp for readonly system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,102 +55,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Nov 2015 20:56:20 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Nov 2015 21:18:44 -0000
+Content-Type: multipart/alternative; boundary=089e0122e6e80e52e605253bc5fd
 
+--089e0122e6e80e52e605253bc5fd
+Content-Type: text/plain; charset=UTF-8
 
+On 23 November 2015 at 09:42, Ming Liu <liu.ming50@gmail.com> wrote:
 
-On 11/23/2015 02:46 PM, Bruce Ashfield wrote:
-> On 15-11-22 05:40 PM, Ming Liu wrote:
->> From: Ming Liu <peter.x.liu@external.atlascopco.com>
->>
->> Run 'make scripts' inside qemu in order to create script binaries that
->> needed by external modules build on the target.
->>
->> This 'make scripts' might fail in some cases, for instance, if 
->> toolchain or
->> make command is not installed on the target, but the postinstall should
->> always succeed, it will not break the package installation so the 
->> behaviour
->> is consistent.
->
-> What about just making the package depend on the toolchain ? That was
-> the approach that I was going to take .. but haven't gotten there yet.
-Yes, that makes more sense from the dependency point of view, I also 
-thought about that, but I did not want to introduce extra dependencies 
-at that time. But maybe it's a better solution, I will send the V1 soon.
-
->
-> The compilation step worried me at first, but since devsrc is already
-> quite heavy, adding the extra dependency and compile phase shouldn't be
-> a big issue.
-I am on board.
-
->
-> For Yocto 2.1, I'm changing the packaging of the kernel source, headers
-> and development chunks. But this change shouldn't be an issue with that.
-> I'll let you know when I get a bit further along with that work.
-Thanks, good to know that.
-
->
->>
->> [YOCTO #6630]
->
-> Once minor 'nit .. if you are submitting a change for a bug that
-> is assigned to me .. why haven't I heard anything about it until
-> now ?
-Really sorry about that, I just started to look at it on last Sunday, 
-then this solution came out of my mind, but I should talk to you before 
-submitting it.
-
-//Ming Liu
->
-> Bruce
->
->>
->> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
->> ---
->>   meta/recipes-kernel/linux/kernel-devsrc.bb | 13 ++++++++++++-
->>   1 file changed, 12 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb 
->> b/meta/recipes-kernel/linux/kernel-devsrc.bb
->> index 196c8c7..8b366c3 100644
->> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
->> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
->> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = 
->> "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
->>   inherit linux-kernel-base
->>
->>   # Whilst not a module, this ensures we don't get multilib extended 
->> (which would make no sense)
->> -inherit module-base
->> +inherit module-base qemu
->>
->>   # We need the kernel to be staged (unpacked, patched and 
->> configured) before
->>   # we can grab the source and make the source package. We also need 
->> the bits from
->> @@ -71,6 +71,17 @@ do_install() {
->>   # Ensure we don't race against "make scripts" during cpio
->>   do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
->>
->> +pkg_postinst_${PN} () {
->> +    if [ -n "$D" ]; then
->> +        ${@qemu_run_binary(d, '$D', '${bindir}/make')} \
->> +            -C $D${KERNEL_SRC_PATH} O=$D${KERNEL_SRC_PATH} scripts
->> +    else
->> +        make -C ${KERNEL_SRC_PATH} O=${KERNEL_SRC_PATH} scripts \
->> +            >/dev/null 2>&1 || true
->> +    fi
->> +}
->> +
->>   PACKAGES = "kernel-devsrc"
->>   FILES_${PN} = "${KERNEL_SRC_PATH}"
->> +DEPENDS = "qemu-native"
->>   RDEPENDS_${PN} = "bc"
->>
+> +[ -w /etc/timestamp ] && date -u +%4Y%2m%2d%2H%2M%2S > /etc/timestamp
 >
 
+This would fail if /etc/timestamp doesn't already exist.  I'm tempted to
+say you should just 2>/dev/null so it tries and the error is hidden in case
+/etc/timestamp is deleted on a writable file system.
 
+Ross
+
+--089e0122e6e80e52e605253bc5fd
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 November 2015 at 09:42, Ming Liu <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:liu.ming50@gmail.com" target=3D"_blank">liu.ming50@gmail.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2gp" class=3D"a3s=
+" style=3D"overflow:hidden">+[ -w /etc/timestamp ] &amp;&amp; date -u +%4Y%=
+2m%2d%2H%2M%2S &gt; /etc/timestamp</div></blockquote><div><br></div><div>Th=
+is would fail if /etc/timestamp doesn&#39;t already exist.=C2=A0 I&#39;m te=
+mpted to say you should just 2&gt;/dev/null so it tries and the error is hi=
+dden in case /etc/timestamp is deleted on a writable file system.</div><div=
+><br></div><div>Ross=C2=A0<br></div></div></div></div>
+
+--089e0122e6e80e52e605253bc5fd--
