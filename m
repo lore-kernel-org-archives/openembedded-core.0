@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 91FB16012C
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id D23AA60745
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 12:19:08 +0000 (UTC)
-Received: by wmww144 with SMTP id w144so93705441wmw.1
+	Mon, 23 Nov 2015 12:19:09 +0000 (UTC)
+Received: by wmuu63 with SMTP id u63so51492004wmu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 04:19:09 -0800 (PST)
+	Mon, 23 Nov 2015 04:19:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=nFimM0GOGPPvZ0zaGwo3yJ2FJF5eZC8fSdKbqwMNCVA=;
-	b=J4CcSMPp1+EBVEpHxeoUlfgrfGwoZ7oIIyk5eQHVb5wfRD1ZwyIIbANf12pY1KYJ5w
-	cok8GWHL8MpzEtRP/xHDPoq5LAkzYTenn1chWBRujaFhmmAiTz+GgqqZNaqY7gkYdEYL
-	NLTRmCACZkTJJfnBLY17DMx0xfzf5dQB1WbXPYCfTw4a8RvQX1kjJJHLOMjTq5BVHnSi
-	fhYPSi/NSvmdmN316WM6xcXeW11kQcA6Qu4H1q1Ina2bnR+SEL7VfoRVfYzSlIy5jinS
-	xuIlAcho47hPl1YFuq68Oo241QAuhgfkOjKiWlFTS7dV2uDi5zc1bhKUZ0PJYyhAlWjG
-	KL7g==
+	bh=QKewvXEjUMA6AsH8tnaEoOHKV/LhBxEp991kp0JyS8g=;
+	b=Vav201jJqstwy9vboKQCHCNjDQr+7o+kHD3uTWsrbk5dWwsnInGumxGlrq0IP5UrGR
+	3Wja3/cTVyHRIM9yLNcinTCVK+0Pj1Crk5YWZATKVupEBjJDm+Kb08vdh4ih4c1ur9er
+	fskUnBp3qGg7UQkVkOKion0YNpqzKEMuBu8C1N66lTBG9FPFNZ7cCU+YMqD9ydCznMpI
+	bY+KWTZ+GzcFiA5nQVdmb0RhQdQDdA3EuAT5nXmBDbmmyYEoQq1EuVUrT0lxvlVeRJyw
+	nI8DovulaD19hmZlb/ywjBtbpFS467+P1aTbRSmuOzdBrAju2GLo3fmJ1A7XdTB5+Hzt
+	b6nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=nFimM0GOGPPvZ0zaGwo3yJ2FJF5eZC8fSdKbqwMNCVA=;
-	b=C0mHDoLgvB4DgHP4Si5UMcToUQPJgizuoLO3NP1PjV25kHrHUJbpb8TIHw6U4elSPc
-	ZzowRkNkKzWrsw7B33tDv87yhajLdUq4lzNZgZFyc2jWrIeiC6DxQAxYfJPZ4vKUVBxB
-	RpMIo6DNPpll7OxyYWpACZs8AoaiSoze34vKbrn69Jl75ghm+zhIFbf0TN3hXZGXjveS
-	eA3zS2uPjJUhi5r4vXnZ32dSVTlnOWQGFzxywb8vvk/OBjNhSVB0WF2v/0QpGpYO7hCK
-	oSrzA0p5KL7ZJVUo2yJDO34ratZgsiRH/byxtAgFEC33t9/YzJYqQuUB4tMs5xjZUprv
-	v90g==
-X-Gm-Message-State: ALoCoQlOIYga39sxHMaFGHMhH2A9aQcLyIBOmfP+r9/yfVDWdKkCqzXk/5B9VLzvVVg9byluwr26
-X-Received: by 10.28.175.144 with SMTP id y138mr15849407wme.47.1448281149117; 
-	Mon, 23 Nov 2015 04:19:09 -0800 (PST)
+	bh=QKewvXEjUMA6AsH8tnaEoOHKV/LhBxEp991kp0JyS8g=;
+	b=HCTDH5mTtUYxBbRlGap9Td0hw8Amw8zxXkopDkhF3DXP/3lfMZIFsmXVB+29+RSdp3
+	+cufESt3TqvCvSh69P/KpvNFmie/bs2V5BwoZT/XUmHxnCTniei+RaxeeuISiLHjmL9O
+	ozOVdfEsTRVD3OAZqb14z2w89c+YnMxc4rw7vCpvSwrNz/zUXTOB3JOMXOfznDC4LB0f
+	ZGhSZpu/gA9YqdgBGT00xXuUSTJBxcz8RCIYU6i55BjowFVZg3nKuWpESipA3PXZwPlp
+	R9a4N8t32hbCBx8ci49++RJeHKW0m/Sf6Aaq0zR70ZpylNjJq1xc7yrWnD/2+mc9CAUQ
+	v4mg==
+X-Gm-Message-State: ALoCoQkgKxm1gAcsIqcIkACZ8IDVu9S7m6AR1QeGP6Ddis+uZm8wq06SQ+fwZMlLwvZtME49tM64
+X-Received: by 10.28.129.131 with SMTP id c125mr15208498wmd.21.1448281150017; 
+	Mon, 23 Nov 2015 04:19:10 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	k125sm6258257wmf.2.2015.11.23.04.19.08
+	k125sm6258257wmf.2.2015.11.23.04.19.09
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 23 Nov 2015 04:19:08 -0800 (PST)
+	Mon, 23 Nov 2015 04:19:09 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Nov 2015 12:10:25 +0000
-Message-Id: <1448280627-22439-2-git-send-email-ross.burton@intel.com>
+Date: Mon, 23 Nov 2015 12:10:26 +0000
+Message-Id: <1448280627-22439-3-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1448280627-22439-1-git-send-email-ross.burton@intel.com>
 References: <1448280627-22439-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/4] base: add automatic dependency on lzip-native for .lz SRC_URI
+Subject: [PATCH 3/4] oeqa/qemurunner: pass nographic to runqemu if DISPLAY isn't set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +56,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Nov 2015 12:19:10 -0000
+X-List-Received-Date: Mon, 23 Nov 2015 12:19:11 -0000
 
-Now that the SRC_URI is parsed this can be done without false-positives.
+Not everyone wants to run the tests with a qemu that has a graphical output, so
+allow display to be None and pass nographic to runqemu in that case.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/base.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/lib/oeqa/utils/qemurunner.py | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 64820a7..e6d1599 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -550,6 +550,10 @@ python () {
-         if path.endswith('.lz4'):
-             d.appendVarFlag('do_unpack', 'depends', ' lz4-native:do_populate_sysroot')
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index e1c8ea1..def8ace 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -94,9 +94,9 @@ class QemuRunner:
+     def start(self, qemuparams = None):
+         if self.display:
+             os.environ["DISPLAY"] = self.display
+-        else:
+-            logger.error("To start qemu I need a X desktop, please set DISPLAY correctly (e.g. DISPLAY=:1)")
+-            return False
++            # Set this flag so that Qemu doesn't do any grabs as SDL grabs
++            # interact badly with screensavers.
++            os.environ["QEMU_DONT_GRAB"] = "1"
+         if not os.path.exists(self.rootfs):
+             logger.error("Invalid rootfs %s" % self.rootfs)
+             return False
+@@ -118,10 +118,10 @@ class QemuRunner:
+             logger.error("Failed to create listening socket: %s" % msg[1])
+             return False
  
-+        # *.lz should DEPEND on lzip-native for unpacking
-+        elif path.endswith('.lz'):
-+            d.appendVarFlag('do_unpack', 'depends', ' lzip-native:do_populate_sysroot')
+-        # Set this flag so that Qemu doesn't do any grabs as SDL grabs interact
+-        # badly with screensavers.
+-        os.environ["QEMU_DONT_GRAB"] = "1"
 +
-         # *.xz should DEPEND on xz-native for unpacking
-         elif path.endswith('.xz'):
-             d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_populate_sysroot')
+         self.qemuparams = 'bootparams="console=tty1 console=ttyS0,115200n8 printk.time=1" qemuparams="-serial tcp:127.0.0.1:{}"'.format(threadport)
++        if not self.display:
++            self.qemuparams = 'nographic ' + self.qemuparams
+         if qemuparams:
+             self.qemuparams = self.qemuparams[:-1] + " " + qemuparams + " " + '\"'
+ 
 -- 
 2.1.4
 
