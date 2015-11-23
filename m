@@ -1,31 +1,27 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A2873602D9
+Return-Path: <maxin.john@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B51016012C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 16:00:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tANG0flo023919
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 23 Nov 2015 16:10:45 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Nov 2015 08:10:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,337,1444719600"; d="scan'208";a="857693128"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 23 Nov 2015 08:10:45 -0800
+Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 50B276A4083
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 08:00:41 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.232) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 23 Nov 2015 08:00:40 -0800
-To: Robert Yang <liezhi.yang@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1448285591.git.liezhi.yang@windriver.com>
-	<991915823dfa6b4cabe990272b246cf4bad05038.1448285591.git.liezhi.yang@windriver.com>
-	<56532095.5090301@windriver.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <56533827.7020100@windriver.com>
-Date: Mon, 23 Nov 2015 10:00:39 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <56532095.5090301@windriver.com>
-Subject: Re: [PATCH 1/1] package_manager.py: fix RPM_PREFER_ELF_ARCH for mips
+	Mon, 23 Nov 2015 08:09:38 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Nov 2015 18:11:47 +0200
+Message-Id: <1448295108-8321-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/2] ofono: upgrade to version 1.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,63 +34,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Nov 2015 16:00:44 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Nov 2015 16:10:46 -0000
 
-On 11/23/15 8:20 AM, Mark Hatle wrote:
-> On 11/23/15 7:41 AM, Robert Yang wrote:
->> We can install 64 bit pkg to 32 bit pkg, so the previous checking is
->> incorrect, it should not only check mips64 or mips64el, the "mips"
->> should work, and 64bit ELF can also use mips as TUNE_ARCH, and there
->> are other mips varieties, so only check whether TUNE_ARCH starts with
->> mips or not.
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>  meta/lib/oe/package_manager.py |    9 ++++-----
->>  1 file changed, 4 insertions(+), 5 deletions(-)
->>
->> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
->> index 964fddc..5e7bb66 100644
->> --- a/meta/lib/oe/package_manager.py
->> +++ b/meta/lib/oe/package_manager.py
->> @@ -954,12 +954,11 @@ class RpmPM(PackageManager):
->>                  bb.fatal("Invalid RPM_PREFER_ELF_ARCH: %s, it should be one of:\n"
->>                          "\t1: ELF32 wins\n"
->>                          "\t2: ELF64 wins\n"
->> -                        "\t4: ELF64 N32 wins (mips64 or mips64el only)" %
->> +                        "\t4: ELF64 N32 wins (mips only)" %
-> 
-> N32 is only available on a MIPS64 platform.  It requires MIPS64 instructions,
-> which is why it is documented as such above.
-> 
->>                          prefer_color)
->> -            if prefer_color == "4" and self.d.getVar("TUNE_ARCH", True) not in \
->> -                                    ['mips64', 'mips64el']:
->> -                bb.fatal("RPM_PREFER_ELF_ARCH = \"4\" is for mips64 or mips64el "
->> -                         "only.")
->> +            if prefer_color == "4" and not \
->> +                    self.d.getVar("TUNE_ARCH", True).startswith('mips'):
->> +                bb.fatal("RPM_PREFER_ELF_ARCH = \"4\" is for mips only.")
-> 
-> The bug is that it's looking for TUNE_ARCH, it should be MACHINE_ARCH in this
-> case.  Since the overall MACHINE Is what defined if it can be used or not.
+Removed the patch 0001-backtrace-Disable-for-non-glibc-C-libraries.patch,
+as it is included in the new sources.
 
-I just realized, it's not MACHINE_ARCH either.  It's the canonical arch that is
-derived from the MACHINE_ARCH -- which may not be available at this point.
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ ...cktrace-Disable-for-non-glibc-C-libraries.patch | 40 ----------------------
+ meta/recipes-connectivity/ofono/ofono_1.16.bb      | 12 -------
+ meta/recipes-connectivity/ofono/ofono_1.17.bb      | 11 ++++++
+ 3 files changed, 11 insertions(+), 52 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/ofono/ofono/0001-backtrace-Disable-for-non-glibc-C-libraries.patch
+ delete mode 100644 meta/recipes-connectivity/ofono/ofono_1.16.bb
+ create mode 100644 meta/recipes-connectivity/ofono/ofono_1.17.bb
 
-So doing the sanity based on the TUNE_ARCH starting with mips might be the best
-compromise.  But the comment should remain that it's only applicable on MIPS64.
-
---Mark
-
-> --Mark
-> 
->>              self._invoke_smart('config --set rpm-extra-macros._prefer_color=%s'
->>                          % prefer_color)
->>  
->>
-> 
+diff --git a/meta/recipes-connectivity/ofono/ofono/0001-backtrace-Disable-for-non-glibc-C-libraries.patch b/meta/recipes-connectivity/ofono/ofono/0001-backtrace-Disable-for-non-glibc-C-libraries.patch
+deleted file mode 100644
+index 306b6da..0000000
+--- a/meta/recipes-connectivity/ofono/ofono/0001-backtrace-Disable-for-non-glibc-C-libraries.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 2d729af0897d7d72b83d111876febf9e0eec1a68 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 3 Apr 2015 20:50:56 -0700
+-Subject: [PATCH] backtrace: Disable for non-glibc C libraries
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+-
+----
+- src/log.c | 5 ++++-
+- 1 file changed, 4 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/log.c b/src/log.c
+-index febc874..9db4ae7 100644
+---- a/src/log.c
+-+++ b/src/log.c
+-@@ -30,7 +30,9 @@
+- #include <stdlib.h>
+- #include <string.h>
+- #include <syslog.h>
+-+#ifdef __GLIBC__
+- #include <execinfo.h>
+-+#endif
+- #include <dlfcn.h>
+- 
+- #include "ofono.h"
+-@@ -219,8 +221,9 @@ static void signal_handler(int signo)
+- {
+- 	ofono_error("Aborting (signal %d) [%s]", signo, program_exec);
+- 
+-+#ifdef __GLIBC__
+- 	print_backtrace(2);
+--
+-+#endif
+- 	exit(EXIT_FAILURE);
+- }
+- 
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.16.bb b/meta/recipes-connectivity/ofono/ofono_1.16.bb
+deleted file mode 100644
+index fbf13e5..0000000
+--- a/meta/recipes-connectivity/ofono/ofono_1.16.bb
++++ /dev/null
+@@ -1,12 +0,0 @@
+-require ofono.inc
+-
+-SRC_URI  = "\
+-  ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+-  file://ofono \
+-  file://Revert-test-Convert-to-Python-3.patch \
+-  file://0001-backtrace-Disable-for-non-glibc-C-libraries.patch \
+-"
+-SRC_URI[md5sum] = "c31b5b55a1d68354bff771d3edf02829"
+-SRC_URI[sha256sum] = "403b98dadece8bc804c0bd16b96d3db5a3bb0f84af64b3d67924da2d1a754b07"
+-
+-CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.17.bb b/meta/recipes-connectivity/ofono/ofono_1.17.bb
+new file mode 100644
+index 0000000..947f9d7
+--- /dev/null
++++ b/meta/recipes-connectivity/ofono/ofono_1.17.bb
+@@ -0,0 +1,11 @@
++require ofono.inc
++
++SRC_URI  = "\
++  ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
++  file://ofono \
++  file://Revert-test-Convert-to-Python-3.patch \
++"
++SRC_URI[md5sum] = "d280b1d267ba5bf391d2a898fea7c748"
++SRC_URI[sha256sum] = "cbf20f07fd15253c682b23c1786d517f505c3688f7c4ea93da777e1523b89635"
++
++CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+-- 
+2.4.0
 
 
