@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EE4A6082D
+	by mail.openembedded.org (Postfix) with ESMTP id 7204862131
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 02:38:17 +0000 (UTC)
+	Mon, 23 Nov 2015 02:38:19 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Nov 2015 18:38:18 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 22 Nov 2015 18:38:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,335,1444719600"; d="scan'208";a="857558637"
+X-IronPort-AV: E=Sophos;i="5.20,335,1444719600"; d="scan'208";a="857558658"
 Received: from echoo1-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.170.181])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2015 18:38:16 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2015 18:38:18 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Nov 2015 15:37:41 +1300
-Message-Id: <7abd3748331efed3ab17b109fb6e0139ce279dff.1448246218.git.paul.eggleton@linux.intel.com>
+Date: Mon, 23 Nov 2015 15:37:42 +1300
+Message-Id: <b7004cf84d2c68e2da8a6c6c2be4926a7c102fd5.1448246218.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1448246218.git.paul.eggleton@linux.intel.com>
 References: <cover.1448246218.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1448246218.git.paul.eggleton@linux.intel.com>
 References: <cover.1448246218.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 6/7] classes/populate_sdk_ext: tweak reporting of workspace exclusion
+Subject: [PATCH 7/7] classes/populate_sdk_ext: fail if SDK_ARCH != BUILD_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,58 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Nov 2015 02:38:17 -0000
+X-List-Received-Date: Mon, 23 Nov 2015 02:38:19 -0000
 
-If you have a local workspace layer enabled when building the
-extensible SDK, we explicitly exclude that from the SDK (mostly because
-the SDK has its own for the user to use). Adjust the message we print
-notifying the user of this so it's clear that we're excluding it from
-the SDK, and scale it back from a warning to a note printed with
-bb.plain().
+The extensible SDK relies upon uninative, and with the way that
+uninative works, the build system architecture must be the same as the
+SDK architecture or the extensible SDK won't be usable. At some point in
+future hopefully we can remove this limitation, but until then it's
+disingenuous to allow this to build, so add a check to ensure
+SDK_ARCH == BUILD_ARCH and fail if it isn't.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 2 +-
- meta/lib/oe/copy_buildsystem.py       | 5 +++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ meta/classes/populate_sdk_ext.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index e806d32..736f17f 100644
+index 736f17f..dc05261 100644
 --- a/meta/classes/populate_sdk_ext.bbclass
 +++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -51,7 +51,7 @@ python copy_buildsystem () {
-     core_meta_subdir = ''
+@@ -261,6 +261,11 @@ SDK_POST_INSTALL_COMMAND_task-populate-sdk-ext = "${sdk_ext_postinst}"
+ SDK_POSTPROCESS_COMMAND_prepend_task-populate-sdk-ext = "copy_buildsystem; install_tools; "
  
-     # Copy in all metadata layers + bitbake (as repositories)
--    buildsystem = oe.copy_buildsystem.BuildSystem(d)
-+    buildsystem = oe.copy_buildsystem.BuildSystem('extensible SDK', d)
-     baseoutpath = d.getVar('SDK_OUTPUT', True) + '/' + d.getVar('SDKPATH', True)
-     layers_copied = buildsystem.copy_bitbake_and_layers(baseoutpath + '/layers')
+ fakeroot python do_populate_sdk_ext() {
++    # FIXME hopefully we can remove this restriction at some point, but uninative
++    # currently forces this upon us
++    if d.getVar('SDK_ARCH', True) != d.getVar('BUILD_ARCH', True):
++        bb.fatal('The extensible SDK can currently only be built for the same architecture as the machine being built on - SDK_ARCH is set to %s (likely via setting SDKMACHINE) which is different from the architecture of the build machine (%s). Unable to continue.' % (d.getVar('SDK_ARCH', True), d.getVar('BUILD_ARCH', True)))
++
+     bb.build.exec_func("do_populate_sdk", d)
+ }
  
-diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
-index 979578c..c0e7541 100644
---- a/meta/lib/oe/copy_buildsystem.py
-+++ b/meta/lib/oe/copy_buildsystem.py
-@@ -14,8 +14,9 @@ def _smart_copy(src, dest):
-         shutil.copymode(src, dest)
- 
- class BuildSystem(object):
--    def __init__(self, d):
-+    def __init__(self, context, d):
-         self.d = d
-+        self.context = context
-         self.layerdirs = d.getVar('BBLAYERS', True).split()
- 
-     def copy_bitbake_and_layers(self, destdir):
-@@ -38,7 +39,7 @@ class BuildSystem(object):
-             if os.path.exists(layerconf):
-                 with open(layerconf, 'r') as f:
-                     if f.readline().startswith("# ### workspace layer auto-generated by devtool ###"):
--                        bb.warn("Skipping local workspace layer %s" % layer)
-+                        bb.plain("NOTE: Excluding local workspace layer %s from %s" % (layer, self.context))
-                         continue
- 
-             # If the layer was already under corebase, leave it there
 -- 
 2.1.0
 
