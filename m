@@ -1,46 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 41CBE601A5
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B4BFC6010D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 17:29:50 +0000 (UTC)
-Received: by wmvv187 with SMTP id v187so172115159wmv.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Nov 2015 09:29:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=e611q7T+916MGawgdYmRHqgNaeqjnWxCSao/jnViC4w=;
-	b=KC5i+1OWcQ/DdtvHxq6EEZa77NHWSlAc7/NXUSw+uyctK7+5slav+u3lmUvK+4O7k/
-	dpdPLORtHgGr8SfmdLvdBCfZV0WSMM2GkY6e6imIeCsaJTSNi05huEamO6pdIm4HJjgl
-	rMD9WK9A0peXgprc05y5hVteBg9oCuQ/+vv7GCOPGiVeq8hHjfuf2ZcygEFmMyxfS0rH
-	YbzpqbyFVgAKjKYZ3WNYhFOqXOFg8+oRkjtx+/p+0TRY+v0z4aGke5/I/8jPw/1KD7Uk
-	zWqlGJG4ofJfnsKhKreaHqdRdm0EVT0cTVY2LIUNDTUJNptwFecaaZAu1E8IKHhcI4vu
-	7E3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=e611q7T+916MGawgdYmRHqgNaeqjnWxCSao/jnViC4w=;
-	b=bYasKxg/wd1m/+day7cGZs6qZG/YzxIIywNu/S1CJ/WOF3X13yFBP1UG8oyL5tD7Hm
-	8+IQknk0he55Gv8jO91aMJ9AAKV9Ru7TtQLwVNQGRvDU0Qn+9S/UEhu97o20kpKzvoNj
-	2zcSXsgZWCXm4MkGIq66r8dgV+SI/w4nesVHKaMVIe1wWzSeNp0w9h/GA0vNCafs28o7
-	mZIAVS+nFFxZyH5IXM71Zq/hHccMsadj2C8Om3HwG9l7fxgb0T8fc4PkeuuC2DLLx3mK
-	3KFx+GSo+hKXa0PtDkaPwkAeYCbeGwAex+edm9vYSleCmtl1g35Y+A+Q1yUv2sJsmKFI
-	EIjQ==
-X-Gm-Message-State: ALoCoQkkqOv2c9zN02A8gNYwGAcFrTua59w+Q5QZsTN/EwZTuL9KsxIYNFVYwyof0MMlUH19cJY/
-X-Received: by 10.28.13.138 with SMTP id 132mr21339048wmn.62.1448299790722;
-	Mon, 23 Nov 2015 09:29:50 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	q1sm14259835wjy.31.2015.11.23.09.29.49
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 23 Nov 2015 09:29:50 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Nov 2015 17:21:10 +0000
-Message-Id: <1448299270-2191-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] pkgconfig: merge .bb and .inc
+	Mon, 23 Nov 2015 17:53:21 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 23 Nov 2015 09:53:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,338,1444719600"; d="scan'208";a="827313383"
+Received: from bitbang.jf.intel.com (HELO [10.7.199.163]) ([10.7.199.163])
+	by orsmga001.jf.intel.com with ESMTP; 23 Nov 2015 09:53:20 -0800
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>,
+	Daniel Istrate <daniel.alexandrux.istrate@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1448029369-29274-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+	<5653370A.6060100@linux.intel.com>
+From: Randy Witt <randy.e.witt@linux.intel.com>
+Message-ID: <5653528F.6000705@linux.intel.com>
+Date: Mon, 23 Nov 2015 09:53:19 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <5653370A.6060100@linux.intel.com>
+Subject: Re: [PATCH] scripts: analyze_patch: Analyze patch and suggest tests.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,136 +34,1247 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Nov 2015 17:29:53 -0000
+X-List-Received-Date: Mon, 23 Nov 2015 17:53:21 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The .inc file included version information and wasn't used anywhere as the same
-.bb handles all variations, so merge them to reduce complexity.
+On 11/23/2015 07:55 AM, Leonardo Sandoval wrote:
+> Hi Daniel,
+>
+> Some comments inline. BTW, is the script's output intended to be used as input
+> of another one? Currently, the output is human-friendly (which is good) but at
+> the end the purpose is to use the output and run this set of scripts/tests
+> automatically, trying to detect possible issues. Also, I briefly tried the sfood
+> library, and took quite a lot of time compared to deps.txts. I wonder if we can
+> fasten somehow this sfood process.
+>
+What is a "long time"? I don't like deps.txt at all because it will most likely 
+become stale rather quickly.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/pkgconfig/pkgconfig.inc    | 49 ---------------------
- meta/recipes-devtools/pkgconfig/pkgconfig_git.bb | 55 ++++++++++++++++++++++--
- 2 files changed, 51 insertions(+), 53 deletions(-)
- delete mode 100644 meta/recipes-devtools/pkgconfig/pkgconfig.inc
-
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig.inc b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-deleted file mode 100644
-index c2a1523..0000000
---- a/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-+++ /dev/null
-@@ -1,49 +0,0 @@
--SUMMARY = "Helper tool used when compiling"
--DESCRIPTION = "pkg-config is a helper tool used when compiling applications and libraries. It helps determined \
--the correct compiler/link options.  It is also language-agnostic."
--HOMEPAGE = "http://pkg-config.freedesktop.org/wiki/"
--BUGTRACKER = "http://bugs.freedesktop.org/buglist.cgi?product=pkg-config"
--SECTION = "console/utils"
--
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
--
--DEPENDS = "glib-2.0"
--DEPENDS_class-native = ""
--DEPENDS_class-nativesdk = ""
--
--SRCREV = "5914edfe9604abfedd220103cbac382fc4d268bb"
--PV = "0.29+git${SRCPV}"
--SRC_URI = "git://anongit.freedesktop.org/pkg-config"
--
--S = "${WORKDIR}/git"
--
--inherit autotools
--
--EXTRA_OECONF = "--without-internal-glib"
--EXTRA_OECONF_class-native = "--with-internal-glib"
--EXTRA_OECONF_class-nativesdk = "--with-internal-glib"
--
--acpaths = "-I ."
--
--BBCLASSEXTEND = "native nativesdk"
--
--# Set an empty dev package to ensure the base PN package gets
--# the pkg.m4 macros, pkgconfig does not deliver any other -dev
--# files.
--FILES_${PN}-dev = ""
--FILES_${PN} += "${datadir}/aclocal/pkg.m4"
--
--# When using the RPM generated automatic package dependencies, some packages
--# will end up requiring 'pkgconfig(pkg-config)'.  Allow this behavior by
--# specifying an appropriate provide.
--RPROVIDES_${PN} += "pkgconfig(pkg-config)"
--
--# Install a pkg-config-native wrapper that will use the native sysroot instead
--# of the MACHINE sysroot, for using pkg-config when building native tools.
--do_install_append_class-native () {
--    sed -e "s|@PATH_NATIVE@|${PKG_CONFIG_PATH}|" \
--        -e "s|@LIBDIR_NATIVE@|${PKG_CONFIG_LIBDIR}|" \
--        < ${WORKDIR}/pkg-config-native.in > ${B}/pkg-config-native
--    install -m755 ${B}/pkg-config-native ${D}${bindir}/pkg-config-native
--}
-diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-index eaa511a..d34f608 100644
---- a/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-+++ b/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb
-@@ -1,6 +1,53 @@
--require pkgconfig.inc
-+SUMMARY = "Helper tool used when compiling"
-+DESCRIPTION = "pkg-config is a helper tool used when compiling applications and libraries. It helps determined \
-+the correct compiler/link options.  It is also language-agnostic."
-+HOMEPAGE = "http://pkg-config.freedesktop.org/wiki/"
-+BUGTRACKER = "http://bugs.freedesktop.org/buglist.cgi?product=pkg-config"
-+SECTION = "console/utils"
- 
--SRC_URI += " \
--            file://pkg-config-native.in \
--            file://fix-glib-configure-libtool-usage.patch \
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-+
-+DEPENDS = "glib-2.0"
-+DEPENDS_class-native = ""
-+DEPENDS_class-nativesdk = ""
-+
-+SRCREV = "5914edfe9604abfedd220103cbac382fc4d268bb"
-+PV = "0.29+git${SRCPV}"
-+
-+SRC_URI = "git://anongit.freedesktop.org/pkg-config \
-+           file://pkg-config-native.in \
-+           file://fix-glib-configure-libtool-usage.patch \
-            "
-+
-+S = "${WORKDIR}/git"
-+
-+inherit autotools
-+
-+EXTRA_OECONF = "--without-internal-glib"
-+EXTRA_OECONF_class-native = "--with-internal-glib"
-+EXTRA_OECONF_class-nativesdk = "--with-internal-glib"
-+
-+acpaths = "-I ."
-+
-+BBCLASSEXTEND = "native nativesdk"
-+
-+# Set an empty dev package to ensure the base PN package gets
-+# the pkg.m4 macros, pkgconfig does not deliver any other -dev
-+# files.
-+FILES_${PN}-dev = ""
-+FILES_${PN} += "${datadir}/aclocal/pkg.m4"
-+
-+# When using the RPM generated automatic package dependencies, some packages
-+# will end up requiring 'pkgconfig(pkg-config)'.  Allow this behavior by
-+# specifying an appropriate provide.
-+RPROVIDES_${PN} += "pkgconfig(pkg-config)"
-+
-+# Install a pkg-config-native wrapper that will use the native sysroot instead
-+# of the MACHINE sysroot, for using pkg-config when building native tools.
-+do_install_append_class-native () {
-+    sed -e "s|@PATH_NATIVE@|${PKG_CONFIG_PATH}|" \
-+        -e "s|@LIBDIR_NATIVE@|${PKG_CONFIG_LIBDIR}|" \
-+        < ${WORKDIR}/pkg-config-native.in > ${B}/pkg-config-native
-+    install -m755 ${B}/pkg-config-native ${D}${bindir}/pkg-config-native
-+}
--- 
-2.1.4
+>
+> On 11/20/2015 08:22 AM, Daniel Istrate wrote:
+>> [YOCTO #8647] - Script to analyse what areas a patch changes
+>> and what tests need running
+>>
+>> This script will analyze files modified by a commit and
+>> attempt to suggest what tests to run.
+>> It is somewhat dependent of the 'snakefood' tool to determine
+>> the import relationship between files. If this pkg is missing
+>> a backup file will be used instead: deps.txt
+>>
+>> Usage: analyze_patch --revision <rev>
+>> Example: analyze_patch --revision 351c69a
+>>
+>> Revision: 351c69a
+>>
+>> Modified files:
+>> meta/recipes-support/sqlite/files/0001-using-the-dynamic-library.patch
+>> meta/recipes-support/sqlite/sqlite3_3.8.10.2.bb
+>> meta/recipes-support/sqlite/sqlite3_3.9.0.bb
+>>
+>> Suggested tests:
+>> Rebuild: sqlite3
+>>
+>> Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+>> ---
+>>   scripts/analyze_patch | 300 ++++++++++++++++++++++++
+>>   scripts/deps.txt      | 628 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 928 insertions(+)
+>>   create mode 100755 scripts/analyze_patch
+>>   create mode 100644 scripts/deps.txt
+>>
+>> diff --git a/scripts/analyze_patch b/scripts/analyze_patch
+>> new file mode 100755
+>> index 0000000..1b6609b
+>> --- /dev/null
+>> +++ b/scripts/analyze_patch
+>> @@ -0,0 +1,300 @@
+>> +#!/usr/bin/env python
+>> +
+> THE GPL license should be included on this part.
+>> +# Description: This will analyze the files modified by a commit and attempt
+>> to suggest what tests to run.
+>> +#              It uses an adjacent file 'deps.txt' that was generated by
+>> 'snakefood' tool:
+>> +#              sfood <poky_dir> | grep -v /usr/lib/python | grep -v
+>> /usr/share/pyshared/ |
+>> +#              grep -v None | grep ".py')," | grep ".py\'))" > deps.txt
+>> +#              This file has to be edited further: remove the <poky_dir> and
+>> replace  "', '" with '/'.
+>> +#              In the end you should have something like this: a matrix with
+>> 2 columns, which represent
+>> +#              elements from the left import elements from the right.
+>> +#                 (('bitbake/lib/bb/build.py'), ('bitbake/lib/bb/event.py'))
+>> +#                 (('bitbake/lib/bb/build.py'), ('bitbake/lib/bb/msg.py'))
+>> +#
+>> +# How to use it: analyze_patch --revision <rev>
+>> +#                analyze_patch -r 2d1071e
+>> +# Notes: if revision is not provided, will default to HEAD
+>> +# Author: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+>> +
+>> +import argparse
+>> +import os
+>> +import glob
+>> +import ast
+>> +import re
+>> +from subprocess import PIPE, Popen, STDOUT
+>> +
+>> +parser = argparse.ArgumentParser()
+>> +parser.add_argument('-r', '--revision', help='<revision> changes to analyze.')
+> Another option would be to define which method to use (sfood or deps.tx) in case
+> we have more than one method
+>> +args = parser.parse_args()
+>> +
+>> +revision = args.revision or 'HEAD'
+> This default can be include on the same line were the argument was added.
+>> +
+>> +this_file_path = os.path.dirname(os.path.abspath(__file__))
+>> +poky_dir = os.path.abspath(os.path.join(this_file_path, os.pardir))
+>> +# Move into the the poky dir
+>> +os.chdir(poky_dir)
+>> +
+>> +# Where are the available tests located
+>> +bb_test_dir = 'bitbake/lib/bb/tests/'
+>> +selftest_dir = 'meta/lib/oeqa/selftest/'
+>> +runtime_dir = 'meta/lib/oeqa/runtime/'
+>> +
+>> +RETOK = 0
+>> +
+>> +
+>> +def run_cmd(cmd, ignore_err=False):
+>> +    """
+>> +    Run cmd in bash shell
+>> +    :param   cmd: command to be ran.
+>> +    :param   ignore_err: redirect stderr to /dev/null, otherwise redirect
+>> stderr to stdout
+>> +    :return: tuple containing exit code & output of the cmd
+>> +    """
+>> +    DEVNULL = open(os.devnull, 'w')
+>> +
+>> +    if ignore_err:
+>> +        proc = Popen(args=cmd, stdout=PIPE, stderr=DEVNULL, shell=True,
+>> executable='/bin/bash')
+>> +    else:
+>> +        proc = Popen(args=cmd, stdout=PIPE, stderr=STDOUT, shell=True,
+>> executable='/bin/bash')
+>> +    retval = proc.communicate()[0]
+>> +    retcode = proc.returncode
+>> +
+>> +    return retcode, retval
+>> +
+>> +
+>> +def get_modified_files(rev=revision):
+>> +    """
+>> +    Determine modified files by a commit
+>> +    :param   rev: the revision number to determine modified files for.
+>> +    :return: a list of modified files
+>> +    """
+>> +    cmd = 'git diff-tree --no-commit-id --name-only -r ' + rev
+>> +    retcode, retval = run_cmd(cmd)
+>> +
+>> +    if retcode != RETOK:
+>> +        return retcode, retval
+>> +
+>> +    retlist = retval.split('\n')
+>> +    retlist.remove('')
+>> +
+>> +    return retlist
+>> +
+>> +
+>> +def get_list_of_testuites(test_dir):
+>> +    """
+>> +    Looks for .py files in test_dir
+>> +    :param test_dir: directory containing (hopefully) test suites
+>> +    :return: list of test suites
+>> +    """
+>> +    test_suites = []
+>> +    test_list = glob.glob(test_dir + '*.py')
+>> +
+>> +    # trim the .py extension and the path to each testsuite
+>> +    for ts in test_list:
+>> +        test_suites.append(ts.replace(test_dir, '').replace('.py', ''))
+>> +
+>> +    # remove __init__ from test_suites
+>> +    try:
+>> +        test_suites.remove('__init__')
+>> +    except:
+>> +        pass
+>> +
+>> +    return test_suites
+>> +
+>> +
+>> +def get_modules_dependencies(mfile):
+>> +    """
+>> +    Get modules dependencies from poky.
+>> +    It uses 'snakefood' pkg (please make sure it is installed)
+>> +    In case 'snakefood' is not installed a backup file will be used instead.
+>> +    :return: a list of all modules deps
+>> +    """
+>> +
+>> +    cmd = 'sfood %s | grep -v /usr/lib/python | grep -v /usr/share/pyshared/
+>> | ' \
+>> +          'grep -v None | grep ".py\')," | grep ".py\'))"' % poky_dir
+>> +
+> I have not looked into the sfood code/documentation, but it would be
+> nicer/faster if we use the sfood API instead of the command. This way, we wont
+> need to spawn a new command and create this long pipeline.
+>> +    retcode, retval = run_cmd(cmd)
+>> +
+>> +    if retcode != 0:
+>> +        # cmd failed, most likely 'snakefood' is not installed
+>> +        # will look for deps.txt
+>> +        # print "WARNING: 'snakefood' not installed. Will proceed with
+>> 'deps.txt'."
+>> +        deps = open('scripts/deps.txt', 'r').read()
+>> +    else:
+>> +        deps = retval.replace(poky_dir + '/', '').replace("', '", '/')
+>> +
+>> +    deps_m = []
+>> +    for i in deps.split('\n'):
+>> +        try:
+>> +            deps_m.append(ast.literal_eval(i))
+>> +        except:
+>> +            # There might be a '\n' at the end of the file --> will ignore
+>> +            pass
+>> +
+>> +    def find_deps(mfile, visited):
+>> +
+>> +        if isinstance(mfile, list):
+>> +            for i in mfile:
+>> +                find_deps(i, visited)
+>> +        else:
+>> +            for i in deps_m:
+>> +                if i[1] == mfile and i[0] not in visited:
+>> +                    visited.append(i[0])
+>> +                    find_deps(i[0], visited)
+>> +
+>> +        return visited
+>> +
+>> +    return find_deps(mfile, [])
+>> +
+>> +
+>> +def is_documentation(mfile):
+>> +    """All files under documentation"""
+>> +    doc_patt = r'documentation/'
+>> +    if doc_patt in mfile:
+>> +        return True
+>> +    return False
+> a minor comment: 'return doc_patt in mfile' does the same as the three
+> statements before
+>> +
+>> +
+>> +def is_recipe(mfile):
+>> +    recipe_patt = r'\.(bbappend|bb)$'
+>> +    if re.search(recipe_patt, mfile):
+>> +        return True
+>> +    return False
+>> +
+>> +
+>> +def is_part_of_recipe(mfile):
+>> +    """Everything that is inside meta/recipes-* or meta-*/recipes-* """
+>> +    part_recipe_patt = r'^meta(-\S+)?/recipes-'
+>> +    if re.search(part_recipe_patt, mfile):
+>> +        return True
+>> +    return False
+>> +
+>> +
+>> +def is_test(mfile):
+>> +    """Check that the file is a test file"""
+>> +    global selftest_dir
+>> +    global runtime_dir
+>> +    global bb_test_dir
+>> +
+> Can we omit the global statements?
+>
+>> +    if runtime_dir in mfile or selftest_dir in mfile or bb_test_dir in mfile:
+>> +        return True
+>> +    return False
+>> +
+>
+>
+>> +
+>> +def get_test_name(mfile):
+>> +    ret_list = []
+>> +    test_name = os.path.basename(mfile).split('.')[0]
+>> +    if is_test(mfile) and test_name != '__init__':
+>> +        ret_list.append(test_name)
+>> +    return ret_list
+>> +
+>> +
+>> +def get_test_for(mfile):
+>> +    """ Attempt to guess a test for the given file """
+>> +    # Not very happy with this, it needs to be clever
+>> +    global all_tests
+>> +    ret_list = []
+>> +
+>> +    for i in all_tests:
+>> +        if i in mfile:
+>> +            ret_list.append(i)
+>> +
+>> +    return ret_list
+>> +
+>> +
+>> +def get_recipe_name(mfile):
+>> +    """ Trim the file extension and pn from filename"""
+>> +    # Most files follow this format recipename_pn.bb | recipe-name_pn.bb |
+>> recipe-name.bb
+>> +    ret_list = []
+>> +    temp_list = []
+>> +    if is_recipe(mfile):
+>> +        ret_list.append(os.path.basename(mfile).split('_')[0].replace('.bb',
+>> ''))
+>> +        return ret_list
+>> +    # If it's a file that has something to do with a recipe attempt to guess
+>> the recipe
+>> +    # Look for .bb|.bbappend files in the current dir up to 2 lvl above till
+>> bb files are found
+>> +    # There might be cases when it will find more bb files, some perhaps not
+>> directly related to
+>> +    # the file, but at least we are covered.
+>> +    if is_part_of_recipe(mfile):
+>> +        levels_list = ['/*.bb*', '/../*.bb*', '/../../*.bb*']
+>> +        for lvl in levels_list:
+>> +            recipes = glob.glob(os.path.dirname(mfile) + lvl)
+>> +            if recipes:
+>> +                temp_list += recipes
+>> +                break
+>> +        # Trim the file extension and pn from filename
+>> +        for i in temp_list:
+>> +            ret_list.append(os.path.basename(i).split('_')[0].replace('.bb',
+>> ''))
+>> +        return ret_list
+>> +
+>> +    return ret_list
+>> +
+>> +
+>> +def suggest_tests(mfile):
+>> +    """ Suggest tests """
+>> +    global documentation_updated
+>> +    global recipes_to_rebuild
+>> +    global tests_to_run
+>> +
+>> +    if is_documentation(mfile):
+>> +        documentation_updated = True
+>> +    elif is_recipe(mfile) or is_part_of_recipe(mfile):
+>> +        recipes_to_rebuild.update(get_recipe_name(mfile))
+>> +    elif is_test(mfile):
+>> +        tests_to_run.update(get_test_name(mfile))
+>> +    #else
+>> +    tests_to_run.update(get_test_for(mfile))
+>> +
+>> +
+>> +selftest_tests = get_list_of_testuites(selftest_dir)
+>> +runtime_tests = get_list_of_testuites(runtime_dir)
+>> +bb_tests = get_list_of_testuites(bb_test_dir)
+>> +all_tests = bb_tests + runtime_tests + selftest_tests
+>> +
+>> +mfiles = get_modified_files()
+>> +ind_mfiles = get_modules_dependencies(mfiles)
+>> +# mfiles might be included in ind_files if there are circular imports
+>> +all_mfiles = set(mfiles + ind_mfiles)
+>> +
+>> +recipes_to_rebuild = set()
+>> +tests_to_run = set()
+>> +documentation_updated = False
+>> +
+>> +
+>> +# Print results
+>> +print '\nRevision: %s' % revision
+>> +print '\nModified files:'
+>> +for i in mfiles:
+>> +    print i
+>> +if ind_mfiles:
+>> +    print '\nIndirect modified files:'
+>> +    for i in ind_mfiles:
+>> +        print i
+>> +print '\nSuggested tests:'
+>> +for i in all_mfiles:
+>> +    suggest_tests(i)
+>> +
+>> +if documentation_updated:
+>> +    print 'Documentation updated, nothing to do.'
+>> +
+>> +if recipes_to_rebuild:
+>> +    ret_recipe = ''
+>> +    for i in recipes_to_rebuild:
+>> +        ret_recipe += i + ' '
+>> +    print 'Rebuild: %s' % ret_recipe
+>> +
+>> +if tests_to_run:
+>> +    ret_bb, ret_selftest, ret_runtime = ('',)*3
+>> +    for i in tests_to_run:
+>> +        if i in bb_tests:
+>> +            ret_bb += i + ' '
+>> +        elif i in runtime_tests:
+>> +            ret_runtime += i + ' '
+>> +        elif i in selftest_tests:
+>> +            ret_selftest += i + ' '
+>> +    if ret_bb:
+>> +        print 'bitbake-selftest: %s ' % ret_bb
+>> +    if ret_selftest:
+>> +        print 'oe-selftest: %s ' % ret_selftest
+>> +    if ret_runtime:
+>> +        print 'runtime: %s ' % ret_runtime
+>> +
+>> +if not (recipes_to_rebuild or documentation_updated or tests_to_run):
+>> +    print None
+>> diff --git a/scripts/deps.txt b/scripts/deps.txt
+>> new file mode 100644
+>> index 0000000..421897d
+>> --- /dev/null
+>> +++ b/scripts/deps.txt
+>> @@ -0,0 +1,628 @@
+>> +(('bitbake/contrib/dump_cache.py'), ('bitbake/lib/bb/cache.py'))
+>> +(('bitbake/lib/bb/build.py'), ('bitbake/lib/bb/event.py'))
+>> +(('bitbake/lib/bb/build.py'), ('bitbake/lib/bb/msg.py'))
+>> +(('bitbake/lib/bb/build.py'), ('bitbake/lib/bb/process.py'))
+>> +(('bitbake/lib/bb/build.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/cache.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/cache_extra.py'), ('bitbake/lib/bb/cache.py'))
+>> +(('bitbake/lib/bb/checksum.py'), ('bitbake/lib/bb/cache.py'))
+>> +(('bitbake/lib/bb/checksum.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/codeparser.py'), ('bitbake/lib/bb/cache.py'))
+>> +(('bitbake/lib/bb/codeparser.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/codeparser.py'), ('bitbake/lib/bb/pysh/pyshlex.py'))
+>> +(('bitbake/lib/bb/codeparser.py'), ('bitbake/lib/bb/pysh/pyshyacc.py'))
+>> +(('bitbake/lib/bb/codeparser.py'), ('bitbake/lib/bb/pysh/sherrors.py'))
+>> +(('bitbake/lib/bb/codeparser.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/codeparser.py'), ('bitbake/lib/codegen.py'))
+>> +(('bitbake/lib/bb/command.py'), ('bitbake/lib/bb/cooker.py'))
+>> +(('bitbake/lib/bb/command.py'), ('bitbake/lib/bb/event.py'))
+>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/build.py'))
+>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/cache.py'))
+>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/command.py'))
+>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/event.py'))
+>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/exceptions.py'))
+>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/providers.py'))
+>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/runqueue.py'))
+>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/shell.py'))
+>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/taskdata.py'))
+>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/prserv/serv.py'))
+>> +(('bitbake/lib/bb/cooker.py'), ('bitbake/lib/pyinotify.py'))
+>> +(('bitbake/lib/bb/cookerdata.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/data.py'), ('bitbake/lib/bb/codeparser.py'))
+>> +(('bitbake/lib/bb/data.py'), ('bitbake/lib/bb/data_smart.py'))
+>> +(('bitbake/lib/bb/data_smart.py'), ('bitbake/lib/bb/COW.py'))
+>> +(('bitbake/lib/bb/data_smart.py'), ('bitbake/lib/bb/codeparser.py'))
+>> +(('bitbake/lib/bb/data_smart.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/event.py'), ('bitbake/lib/bb/compat.py'))
+>> +(('bitbake/lib/bb/event.py'), ('bitbake/lib/bb/exceptions.py'))
+>> +(('bitbake/lib/bb/event.py'), ('bitbake/lib/bb/msg.py'))
+>> +(('bitbake/lib/bb/event.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/exceptions.py'), ('bitbake/lib/bb/namedtuple_with_abc.py'))
+>> +(('bitbake/lib/bb/fetch2/bzr.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/fetch2/clearcase.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/fetch2/git.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/fetch2/gitannex.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/fetch2/gitannex.py'), ('bitbake/lib/bb/fetch2/git.py'))
+>> +(('bitbake/lib/bb/fetch2/gitsm.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/fetch2/gitsm.py'), ('bitbake/lib/bb/fetch2/git.py'))
+>> +(('bitbake/lib/bb/fetch2/hg.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/fetch2/local.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/fetch2/local.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/fetch2/osc.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/fetch2/perforce.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/fetch2/repo.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/fetch2/sftp.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/fetch2/ssh.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/fetch2/svn.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/fetch2/wget.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/main.py'), ('bitbake/lib/bb/cooker.py'))
+>> +(('bitbake/lib/bb/main.py'), ('bitbake/lib/bb/cookerdata.py'))
+>> +(('bitbake/lib/bb/main.py'), ('bitbake/lib/bb/event.py'))
+>> +(('bitbake/lib/bb/main.py'), ('bitbake/lib/bb/msg.py'))
+>> +(('bitbake/lib/bb/methodpool.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/msg.py'), ('bitbake/lib/bb/event.py'))
+>> +(('bitbake/lib/bb/parse/ast.py'), ('bitbake/lib/bb/methodpool.py'))
+>> +(('bitbake/lib/bb/parse/parse_py'),
+>> ('bitbake/lib/bb/parse/parse_py/BBHandler.py'))
+>> +(('bitbake/lib/bb/parse/parse_py'),
+>> ('bitbake/lib/bb/parse/parse_py/ConfHandler.py'))
+>> +(('bitbake/lib/bb/parse/parse_py/BBHandler.py'), ('bitbake/lib/bb/build.py'))
+>> +(('bitbake/lib/bb/parse/parse_py/BBHandler.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/parse/parse_py/BBHandler.py'),
+>> ('bitbake/lib/bb/parse/ast.py'))
+>> +(('bitbake/lib/bb/parse/parse_py/BBHandler.py'),
+>> ('bitbake/lib/bb/parse/parse_py/ConfHandler.py'))
+>> +(('bitbake/lib/bb/parse/parse_py/BBHandler.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/parse/parse_py/ConfHandler.py'),
+>> ('bitbake/lib/bb/parse/ast.py'))
+>> +(('bitbake/lib/bb/parse/parse_py/ConfHandler.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/persist_data.py'), ('bitbake/lib/bb/compat.py'))
+>> +(('bitbake/lib/bb/persist_data.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/providers.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/providers.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/pysh/builtin.py'), ('bitbake/lib/bb/pysh/sherrors.py'))
+>> +(('bitbake/lib/bb/pysh/builtin.py'), ('bitbake/lib/bb/pysh/subprocess_fix.py'))
+>> +(('bitbake/lib/bb/pysh/interp.py'), ('bitbake/lib/bb/pysh/builtin.py'))
+>> +(('bitbake/lib/bb/pysh/interp.py'), ('bitbake/lib/bb/pysh/pyshlex.py'))
+>> +(('bitbake/lib/bb/pysh/interp.py'), ('bitbake/lib/bb/pysh/pyshyacc.py'))
+>> +(('bitbake/lib/bb/pysh/interp.py'), ('bitbake/lib/bb/pysh/sherrors.py'))
+>> +(('bitbake/lib/bb/pysh/pysh.py'), ('bitbake/lib/bb/pysh/interp.py'))
+>> +(('bitbake/lib/bb/pysh/pysh.py'), ('bitbake/lib/bb/pysh/lsprof.py'))
+>> +(('bitbake/lib/bb/pysh/pyshlex.py'), ('bitbake/lib/bb/pysh/sherrors.py'))
+>> +(('bitbake/lib/bb/pysh/pyshlex.py'), ('bitbake/lib/ply/lex.py'))
+>> +(('bitbake/lib/bb/pysh/pyshyacc.py'), ('bitbake/lib/bb/pysh/pyshlex.py'))
+>> +(('bitbake/lib/bb/pysh/pyshyacc.py'), ('bitbake/lib/bb/pysh/sherrors.py'))
+>> +(('bitbake/lib/bb/pysh/pyshyacc.py'), ('bitbake/lib/ply/yacc.py'))
+>> +(('bitbake/lib/bb/runqueue.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/runqueue.py'), ('bitbake/lib/bb/event.py'))
+>> +(('bitbake/lib/bb/runqueue.py'), ('bitbake/lib/bb/monitordisk.py'))
+>> +(('bitbake/lib/bb/runqueue.py'), ('bitbake/lib/bb/msg.py'))
+>> +(('bitbake/lib/bb/server/process.py'), ('bitbake/lib/bb/event.py'))
+>> +(('bitbake/lib/bb/server/xmlrpc.py'), ('bitbake/lib/bb/daemonize.py'))
+>> +(('bitbake/lib/bb/server/xmlrpc.py'), ('bitbake/lib/bb/ui/uievent.py'))
+>> +(('bitbake/lib/bb/shell.py'), ('bitbake/lib/bb/build.py'))
+>> +(('bitbake/lib/bb/shell.py'), ('bitbake/lib/bb/cache.py'))
+>> +(('bitbake/lib/bb/shell.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/shell.py'), ('bitbake/lib/bb/providers.py'))
+>> +(('bitbake/lib/bb/shell.py'), ('bitbake/lib/bb/runqueue.py'))
+>> +(('bitbake/lib/bb/shell.py'), ('bitbake/lib/bb/taskdata.py'))
+>> +(('bitbake/lib/bb/siggen.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/tests/codeparser.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/tests/cow.py'), ('bitbake/lib/bb/COW.py'))
+>> +(('bitbake/lib/bb/tests/data.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/tests/parse.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/tests/parse.py'), ('bitbake/lib/bb/siggen.py'))
+>> +(('bitbake/lib/bb/tinfoil.py'), ('bitbake/lib/bb/cache.py'))
+>> +(('bitbake/lib/bb/tinfoil.py'), ('bitbake/lib/bb/cooker.py'))
+>> +(('bitbake/lib/bb/tinfoil.py'), ('bitbake/lib/bb/cookerdata.py'))
+>> +(('bitbake/lib/bb/tinfoil.py'), ('bitbake/lib/bb/providers.py'))
+>> +(('bitbake/lib/bb/tinfoil.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/bb/ui/buildinfohelper.py'), ('bitbake/lib/bb/msg.py'))
+>> +(('bitbake/lib/bb/ui/buildinfohelper.py'),
+>> ('bitbake/lib/toaster/orm/models.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builddetailspage.py'),
+>> ('bitbake/lib/bb/process.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builddetailspage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builddetailspage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builddetailspage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builddetailspage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builddetailspage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/runningbuild.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/builddetailspage.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/imageselectiondialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/layerselectiondialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/parsingwarningsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/propertydialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/imagedetailspage.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/packageselectionpage.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/persistenttooltip.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/recipeselectionpage.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'),
+>> ('bitbake/lib/bb/ui/crumbs/sanitycheckpage.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/builder.py'), ('bitbake/lib/bb/ui/crumbs/utils.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/proxydetailsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/settingsuihelper.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/advancedsettingsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'),
+>> ('bitbake/lib/bb/process.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/deployimagedialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/utils.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/imageselectiondialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/imageselectiondialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/layerselectiondialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/imageselectiondialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/layerselectiondialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/layerselectiondialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/layerselectiondialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/parsingwarningsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/parsingwarningsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/propertydialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/propertydialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/propertydialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/layerselectiondialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/propertydialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/settingsuihelper.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/proxydetailsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/saveimagedialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/saveimagedialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/saveimagedialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/settingsuihelper.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsmessagedialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/proxydetailsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/settingsuihelper.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hig/simplesettingsdialog.py'),
+>> ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hobeventhandler.py'),
+>> ('bitbake/lib/bb/ui/crumbs/runningbuild.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hoblistmodel.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hobpages.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hobpages.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hobwidget.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/propertydialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hobwidget.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/hobwidget.py'),
+>> ('bitbake/lib/bb/ui/crumbs/persistenttooltip.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/retrieveimagedialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hoblistmodel.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/imageconfigurationpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/imagedetailspage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/crumbsdialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/imagedetailspage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hig/saveimagedialog.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/imagedetailspage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/imagedetailspage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/imagedetailspage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/packageselectionpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/packageselectionpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hoblistmodel.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/packageselectionpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/packageselectionpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/progressbar.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/recipeselectionpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/recipeselectionpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hoblistmodel.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/recipeselectionpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/recipeselectionpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/runningbuild.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobcolor.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/runningbuild.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/sanitycheckpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobpages.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/sanitycheckpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/hobwidget.py'))
+>> +(('bitbake/lib/bb/ui/crumbs/sanitycheckpage.py'),
+>> ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
+>> +(('bitbake/lib/bb/ui/depexp.py'), ('bitbake/lib/bb/event.py'))
+>> +(('bitbake/lib/bb/ui/depexp.py'), ('bitbake/lib/bb/ui/crumbs/progressbar.py'))
+>> +(('bitbake/lib/bb/ui/goggle.py'), ('bitbake/lib/bb/ui/crumbs/progress.py'))
+>> +(('bitbake/lib/bb/ui/goggle.py'), ('bitbake/lib/bb/ui/crumbs/runningbuild.py'))
+>> +(('bitbake/lib/bb/ui/hob.py'), ('bitbake/lib/bb/ui/crumbs/builder.py'))
+>> +(('bitbake/lib/bb/ui/hob.py'), ('bitbake/lib/bb/ui/crumbs/hobeventhandler.py'))
+>> +(('bitbake/lib/bb/ui/hob.py'), ('bitbake/lib/bb/ui/crumbs/hoblistmodel.py'))
+>> +(('bitbake/lib/bb/ui/hob.py'), ('bitbake/lib/bb/ui/uihelper.py'))
+>> +(('bitbake/lib/bb/ui/knotty.py'), ('bitbake/lib/bb/msg.py'))
+>> +(('bitbake/lib/bb/ui/knotty.py'), ('bitbake/lib/bb/ui/uihelper.py'))
+>> +(('bitbake/lib/bb/ui/knotty.py'), ('bitbake/lib/progressbar.py'))
+>> +(('bitbake/lib/bb/ui/ncurses.py'), ('bitbake/lib/bb/ui/uihelper.py'))
+>> +(('bitbake/lib/bb/ui/puccho.py'), ('bitbake/lib/bb/ui/crumbs/buildmanager.py'))
+>> +(('bitbake/lib/bb/ui/puccho.py'), ('bitbake/lib/bb/ui/crumbs/runningbuild.py'))
+>> +(('bitbake/lib/bb/ui/toasterui.py'), ('bitbake/lib/bb/msg.py'))
+>> +(('bitbake/lib/bb/ui/toasterui.py'), ('bitbake/lib/bb/ui/buildinfohelper.py'))
+>> +(('bitbake/lib/bb/ui/toasterui.py'), ('bitbake/lib/bb/ui/uihelper.py'))
+>> +(('bitbake/lib/bb/ui/uihelper.py'), ('bitbake/lib/bb/build.py'))
+>> +(('bitbake/lib/bb/ui/uihelper.py'), ('bitbake/lib/bb/server/xmlrpc.py'))
+>> +(('bitbake/lib/bb/utils.py'), ('bitbake/lib/bb/data.py'))
+>> +(('bitbake/lib/bb/utils.py'), ('bitbake/lib/bb/msg.py'))
+>> +(('bitbake/lib/bs4/builder/_html5lib.py'), ('bitbake/lib/bs4/element.py'))
+>> +(('bitbake/lib/bs4/builder/_htmlparser.py'), ('bitbake/lib/bs4/dammit.py'))
+>> +(('bitbake/lib/bs4/builder/_htmlparser.py'), ('bitbake/lib/bs4/element.py'))
+>> +(('bitbake/lib/bs4/builder/_lxml.py'), ('bitbake/lib/bs4/dammit.py'))
+>> +(('bitbake/lib/bs4/builder/_lxml.py'), ('bitbake/lib/bs4/element.py'))
+>> +(('bitbake/lib/bs4/element.py'), ('bitbake/lib/bs4/dammit.py'))
+>> +(('bitbake/lib/bs4/testing.py'), ('bitbake/lib/bs4/element.py'))
+>> +(('bitbake/lib/bs4/tests/test_html5lib.py'), ('bitbake/lib/bs4/element.py'))
+>> +(('bitbake/lib/bs4/tests/test_html5lib.py'), ('bitbake/lib/bs4/testing.py'))
+>> +(('bitbake/lib/bs4/tests/test_htmlparser.py'), ('bitbake/lib/bs4/testing.py'))
+>> +(('bitbake/lib/bs4/tests/test_lxml.py'), ('bitbake/lib/bs4/element.py'))
+>> +(('bitbake/lib/bs4/tests/test_lxml.py'), ('bitbake/lib/bs4/testing.py'))
+>> +(('bitbake/lib/bs4/tests/test_lxml.py'),
+>> ('bitbake/lib/bs4/tests/test_htmlparser.py'))
+>> +(('bitbake/lib/bs4/tests/test_soup.py'), ('bitbake/lib/bs4/dammit.py'))
+>> +(('bitbake/lib/bs4/tests/test_soup.py'), ('bitbake/lib/bs4/element.py'))
+>> +(('bitbake/lib/bs4/tests/test_soup.py'), ('bitbake/lib/bs4/testing.py'))
+>> +(('bitbake/lib/bs4/tests/test_tree.py'), ('bitbake/lib/bs4/element.py'))
+>> +(('bitbake/lib/bs4/tests/test_tree.py'), ('bitbake/lib/bs4/testing.py'))
+>> +(('bitbake/lib/ply/yacc.py'), ('bitbake/lib/ply/lex.py'))
+>> +(('bitbake/lib/prserv/serv.py'), ('bitbake/lib/bb/server/xmlrpc.py'))
+>> +(('bitbake/lib/prserv/serv.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('bitbake/lib/prserv/serv.py'), ('bitbake/lib/prserv/db.py'))
+>> +(('bitbake/lib/toaster/bldcontrol/admin.py'),
+>> ('bitbake/lib/toaster/bldcontrol/models.py'))
+>> +(('bitbake/lib/toaster/bldcontrol/bbcontroller.py'),
+>> ('bitbake/lib/bb/server/xmlrpc.py'))
+>> +(('bitbake/lib/toaster/bldcontrol/bbcontroller.py'),
+>> ('bitbake/lib/toaster/bldcontrol/localhostbecontroller.py'))
+>> +(('bitbake/lib/toaster/bldcontrol/bbcontroller.py'),
+>> ('bitbake/lib/toaster/bldcontrol/sshbecontroller.py'))
+>> +(('bitbake/lib/toaster/bldcontrol/localhostbecontroller.py'),
+>> ('bitbake/lib/toaster/bldcontrol/bbcontroller.py'))
+>> +(('bitbake/lib/toaster/bldcontrol/localhostbecontroller.py'),
+>> ('bitbake/lib/toaster/bldcontrol/management/commands/loadconf.py'))
+>> +(('bitbake/lib/toaster/bldcontrol/management/commands/checksettings.py'),
+>> ('bitbake/lib/toaster/bldcontrol/management/commands/loadconf.py'))
+>> +(('bitbake/lib/toaster/bldcontrol/management/commands/loadconf.py'),
+>> ('bitbake/lib/toaster/bldcontrol/management/commands/checksettings.py'))
+>> +(('bitbake/lib/toaster/bldcontrol/sshbecontroller.py'),
+>> ('bitbake/lib/toaster/bldcontrol/bbcontroller.py'))
+>> +(('bitbake/lib/toaster/contrib/tts/launcher.py'),
+>> ('bitbake/lib/toaster/contrib/tts/config.py'))
+>> +(('bitbake/lib/toaster/contrib/tts/launcher.py'),
+>> ('bitbake/lib/toaster/contrib/tts/shellutils.py'))
+>> +(('bitbake/lib/toaster/contrib/tts/recv.py'),
+>> ('bitbake/lib/toaster/contrib/tts/config.py'))
+>> +(('bitbake/lib/toaster/contrib/tts/recv.py'),
+>> ('bitbake/lib/toaster/contrib/tts/shellutils.py'))
+>> +(('bitbake/lib/toaster/contrib/tts/runner.py'),
+>> ('bitbake/lib/toaster/contrib/tts/config.py'))
+>> +(('bitbake/lib/toaster/contrib/tts/runner.py'),
+>> ('bitbake/lib/toaster/contrib/tts/shellutils.py'))
+>> +(('bitbake/lib/toaster/contrib/tts/shellutils.py'),
+>> ('bitbake/lib/toaster/contrib/tts/config.py'))
+>> +(('bitbake/lib/toaster/contrib/tts/tests.py'),
+>> ('bitbake/lib/toaster/contrib/tts/config.py'))
+>> +(('bitbake/lib/toaster/contrib/tts/tests.py'),
+>> ('bitbake/lib/toaster/contrib/tts/shellutils.py'))
+>> +(('bitbake/lib/toaster/contrib/tts/tests.py'),
+>> ('bitbake/lib/toaster/contrib/tts/urlcheck.py'))
+>> +(('bitbake/lib/toaster/contrib/tts/tests.py'),
+>> ('bitbake/lib/toaster/contrib/tts/urllist.py'))
+>> +(('bitbake/lib/toaster/contrib/tts/urlcheck.py'),
+>> ('bitbake/lib/toaster/contrib/tts/config.py'))
+>> +(('bitbake/lib/toaster/contrib/tts/urlcheck.py'),
+>> ('bitbake/lib/toaster/contrib/tts/urllist.py'))
+>> +(('meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py'),
+>> ('meta/lib/oeqa/controllers/masterimage.py'))
+>> +(('meta-yocto-bsp/lib/oeqa/controllers/beaglebonetarget.py'),
+>> ('meta/lib/oeqa/utils/sshcontrol.py'))
+>> +(('meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py'),
+>> ('meta/lib/oeqa/controllers/masterimage.py'))
+>> +(('meta-yocto-bsp/lib/oeqa/controllers/edgeroutertarget.py'),
+>> ('meta/lib/oeqa/utils/sshcontrol.py'))
+>> +(('meta-yocto-bsp/lib/oeqa/controllers/grubtarget.py'),
+>> ('meta/lib/oeqa/controllers/masterimage.py'))
+>> +(('meta-yocto-bsp/lib/oeqa/controllers/grubtarget.py'),
+>> ('meta/lib/oeqa/utils/sshcontrol.py'))
+>> +(('meta-yocto-bsp/lib/oeqa/selftest/gummiboot.py'),
+>> ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta-yocto-bsp/lib/oeqa/selftest/gummiboot.py'),
+>> ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta-yocto-bsp/lib/oeqa/selftest/gummiboot.py'),
+>> ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta-yocto-bsp/lib/oeqa/yoctobsp.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta-yocto-bsp/lib/oeqa/yoctobsp.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta-yocto-bsp/lib/oeqa/yoctobsp.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oe/buildhistory_analysis.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('meta/lib/oe/data.py'), ('meta/lib/oe/maketype.py'))
+>> +(('meta/lib/oe/image.py'), ('meta/lib/oe/utils.py'))
+>> +(('meta/lib/oe/maketype.py'), ('meta/lib/oe/types.py'))
+>> +(('meta/lib/oe/package_manager.py'), ('meta/lib/oe/utils.py'))
+>> +(('meta/lib/oe/packagegroup.py'), ('meta/lib/oe/packagedata.py'))
+>> +(('meta/lib/oe/patch.py'), ('meta/lib/oe/path.py'))
+>> +(('meta/lib/oe/prservice.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('meta/lib/oe/prservice.py'), ('bitbake/lib/prserv/serv.py'))
+>> +(('meta/lib/oe/qa.py'), ('bitbake/lib/bb/process.py'))
+>> +(('meta/lib/oe/recipeutils.py'), ('bitbake/lib/bb/cache.py'))
+>> +(('meta/lib/oe/recipeutils.py'), ('bitbake/lib/bb/cookerdata.py'))
+>> +(('meta/lib/oe/recipeutils.py'), ('bitbake/lib/bb/providers.py'))
+>> +(('meta/lib/oe/recipeutils.py'), ('bitbake/lib/bb/taskdata.py'))
+>> +(('meta/lib/oe/recipeutils.py'), ('meta/lib/oe/patch.py'))
+>> +(('meta/lib/oe/recipeutils.py'), ('meta/lib/oe/path.py'))
+>> +(('meta/lib/oe/recipeutils.py'), ('meta/lib/oe/utils.py'))
+>> +(('meta/lib/oe/rootfs.py'), ('meta/lib/oe/manifest.py'))
+>> +(('meta/lib/oe/rootfs.py'), ('meta/lib/oe/package_manager.py'))
+>> +(('meta/lib/oe/rootfs.py'), ('meta/lib/oe/path.py'))
+>> +(('meta/lib/oe/rootfs.py'), ('meta/lib/oe/utils.py'))
+>> +(('meta/lib/oe/sdk.py'), ('meta/lib/oe/manifest.py'))
+>> +(('meta/lib/oe/sdk.py'), ('meta/lib/oe/package_manager.py'))
+>> +(('meta/lib/oe/sdk.py'), ('meta/lib/oe/utils.py'))
+>> +(('meta/lib/oe/sstatesig.py'), ('bitbake/lib/bb/siggen.py'))
+>> +(('meta/lib/oe/terminal.py'), ('bitbake/lib/bb/process.py'))
+>> +(('meta/lib/oe/terminal.py'), ('meta/lib/oe/classutils.py'))
+>> +(('meta/lib/oe/tests/test_license.py'), ('meta/lib/oe/license.py'))
+>> +(('meta/lib/oe/tests/test_path.py'), ('meta/lib/oe/path.py'))
+>> +(('meta/lib/oe/tests/test_types.py'), ('meta/lib/oe/maketype.py'))
+>> +(('meta/lib/oe/tests/test_utils.py'), ('meta/lib/oe/utils.py'))
+>> +(('meta/lib/oeqa/controllers/masterimage.py'),
+>> ('meta/lib/oeqa/targetcontrol.py'))
+>> +(('meta/lib/oeqa/controllers/masterimage.py'),
+>> ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/controllers/masterimage.py'),
+>> ('meta/lib/oeqa/utils/sshcontrol.py'))
+>> +(('meta/lib/oeqa/controllers/testtargetloader.py'),
+>> ('meta/lib/oeqa/targetcontrol.py'))
+>> +(('meta/lib/oeqa/oetest.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runexported.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runexported.py'), ('meta/lib/oeqa/utils/dump.py'))
+>> +(('meta/lib/oeqa/runexported.py'), ('meta/lib/oeqa/utils/sshcontrol.py'))
+>> +(('meta/lib/oeqa/runtime/_ptest.py'), ('meta/lib/oe/package_manager.py'))
+>> +(('meta/lib/oeqa/runtime/_ptest.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/_ptest.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/_ptest.py'), ('meta/lib/oeqa/utils/httpserver.py'))
+>> +(('meta/lib/oeqa/runtime/_ptest.py'), ('meta/lib/oeqa/utils/logparser.py'))
+>> +(('meta/lib/oeqa/runtime/_qemutiny.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/_qemutiny.py'),
+>> ('meta/lib/oeqa/utils/qemutinyrunner.py'))
+>> +(('meta/lib/oeqa/runtime/buildcvs.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/buildcvs.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/buildcvs.py'), ('meta/lib/oeqa/utils/targetbuild.py'))
+>> +(('meta/lib/oeqa/runtime/buildiptables.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/buildiptables.py'),
+>> ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/buildiptables.py'),
+>> ('meta/lib/oeqa/utils/targetbuild.py'))
+>> +(('meta/lib/oeqa/runtime/buildsudoku.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/buildsudoku.py'),
+>> ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/buildsudoku.py'),
+>> ('meta/lib/oeqa/utils/targetbuild.py'))
+>> +(('meta/lib/oeqa/runtime/connman.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/connman.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/date.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/date.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/df.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/df.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/dmesg.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/dmesg.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/gcc.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/gcc.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/kernelmodule.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/kernelmodule.py'),
+>> ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/ldd.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/ldd.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/logrotate.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/logrotate.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/multilib.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/multilib.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/pam.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/pam.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/parselogs.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/parselogs.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/perl.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/perl.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/ping.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/ping.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/python.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/python.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/rpm.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/rpm.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/scanelf.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/scanelf.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/scp.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/scp.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/skeletoninit.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/skeletoninit.py'),
+>> ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/smart.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/smart.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/smart.py'), ('meta/lib/oeqa/utils/httpserver.py'))
+>> +(('meta/lib/oeqa/runtime/ssh.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/ssh.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/syslog.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/syslog.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/systemd.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/systemd.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/vnc.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/vnc.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/x32lib.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/x32lib.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/runtime/xorg.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/runtime/xorg.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/sdk/buildcvs.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/sdk/buildcvs.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/sdk/buildcvs.py'), ('meta/lib/oeqa/utils/targetbuild.py'))
+>> +(('meta/lib/oeqa/sdk/buildiptables.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/sdk/buildiptables.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/sdk/buildiptables.py'), ('meta/lib/oeqa/utils/targetbuild.py'))
+>> +(('meta/lib/oeqa/sdk/buildsudoku.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/sdk/buildsudoku.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/sdk/buildsudoku.py'), ('meta/lib/oeqa/utils/targetbuild.py'))
+>> +(('meta/lib/oeqa/sdk/gcc.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/sdk/gcc.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/sdk/perl.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/sdk/perl.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/sdk/python.py'), ('meta/lib/oeqa/oetest.py'))
+>> +(('meta/lib/oeqa/sdk/python.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/_sstatetests_noauto.py'),
+>> ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/_sstatetests_noauto.py'),
+>> ('meta/lib/oeqa/selftest/sstate.py'))
+>> +(('meta/lib/oeqa/selftest/_sstatetests_noauto.py'),
+>> ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/_sstatetests_noauto.py'),
+>> ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/_toaster.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/_toaster.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/_toaster.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/_toaster.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/archiver.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/archiver.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/archiver.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/base.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/base.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/base.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/bblayers.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/bblayers.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/bblayers.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/bblayers.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/bbtests.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/bbtests.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/bbtests.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/bbtests.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/buildhistory.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/buildhistory.py'),
+>> ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/buildhistory.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/buildoptions.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/buildoptions.py'),
+>> ('meta/lib/oeqa/selftest/buildhistory.py'))
+>> +(('meta/lib/oeqa/selftest/buildoptions.py'),
+>> ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/buildoptions.py'),
+>> ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/buildoptions.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/devtool.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/devtool.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/devtool.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/devtool.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/imagefeatures.py'),
+>> ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/imagefeatures.py'),
+>> ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/imagefeatures.py'),
+>> ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/imagefeatures.py'),
+>> ('meta/lib/oeqa/utils/sshcontrol.py'))
+>> +(('meta/lib/oeqa/selftest/layerappend.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/layerappend.py'),
+>> ('meta/lib/oeqa/selftest/buildhistory.py'))
+>> +(('meta/lib/oeqa/selftest/layerappend.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/layerappend.py'),
+>> ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/layerappend.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/lic-checksum.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/lic-checksum.py'),
+>> ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/lic-checksum.py'),
+>> ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/manifest.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/manifest.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/manifest.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/oescripts.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/oescripts.py'),
+>> ('meta/lib/oeqa/selftest/buildhistory.py'))
+>> +(('meta/lib/oeqa/selftest/oescripts.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/oescripts.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/oescripts.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/pkgdata.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/pkgdata.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/pkgdata.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/pkgdata.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/prservice.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/prservice.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/prservice.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/prservice.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/recipetool.py'),
+>> ('meta/lib/oeqa/selftest/devtool.py'))
+>> +(('meta/lib/oeqa/selftest/recipetool.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/recipetool.py'),
+>> ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/sstate.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/sstate.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/sstate.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/sstatetests.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/sstatetests.py'),
+>> ('meta/lib/oeqa/selftest/sstate.py'))
+>> +(('meta/lib/oeqa/selftest/sstatetests.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/sstatetests.py'),
+>> ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/selftest/sstatetests.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/selftest/wic.py'), ('meta/lib/oeqa/selftest/base.py'))
+>> +(('meta/lib/oeqa/selftest/wic.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/selftest/wic.py'), ('meta/lib/oeqa/utils/decorators.py'))
+>> +(('meta/lib/oeqa/targetcontrol.py'), ('meta/lib/oe/path.py'))
+>> +(('meta/lib/oeqa/targetcontrol.py'),
+>> ('meta/lib/oeqa/controllers/testtargetloader.py'))
+>> +(('meta/lib/oeqa/targetcontrol.py'), ('meta/lib/oeqa/utils/dump.py'))
+>> +(('meta/lib/oeqa/targetcontrol.py'), ('meta/lib/oeqa/utils/qemurunner.py'))
+>> +(('meta/lib/oeqa/targetcontrol.py'), ('meta/lib/oeqa/utils/qemutinyrunner.py'))
+>> +(('meta/lib/oeqa/targetcontrol.py'), ('meta/lib/oeqa/utils/sshcontrol.py'))
+>> +(('meta/lib/oeqa/utils/commands.py'), ('bitbake/lib/bb/build.py'))
+>> +(('meta/lib/oeqa/utils/commands.py'), ('bitbake/lib/bb/tinfoil.py'))
+>> +(('meta/lib/oeqa/utils/commands.py'), ('meta/lib/oe/recipeutils.py'))
+>> +(('meta/lib/oeqa/utils/commands.py'), ('meta/lib/oeqa/targetcontrol.py'))
+>> +(('meta/lib/oeqa/utils/commands.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/utils/dump.py'), ('meta/lib/oeqa/utils/commands.py'))
+>> +(('meta/lib/oeqa/utils/logparser.py'), ('meta/lib/oeqa/utils/ftools.py'))
+>> +(('meta/lib/oeqa/utils/qemurunner.py'), ('meta/lib/oeqa/utils/dump.py'))
+>> +(('meta/lib/oeqa/utils/qemutinyrunner.py'),
+>> ('meta/lib/oeqa/utils/qemurunner.py'))
+>> +(('meta/lib/oeqa/utils/targetbuild.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('scripts/contrib/devtool-stress.py'), ('bitbake/lib/bb/process.py'))
+>> +(('scripts/contrib/devtool-stress.py'), ('bitbake/lib/bb/tinfoil.py'))
+>> +(('scripts/contrib/devtool-stress.py'), ('scripts/lib/scriptpath.py'))
+>> +(('scripts/contrib/devtool-stress.py'), ('scripts/lib/scriptutils.py'))
+>> +(('scripts/contrib/list-packageconfig-flags.py'), ('bitbake/lib/bb/cache.py'))
+>> +(('scripts/contrib/list-packageconfig-flags.py'), ('bitbake/lib/bb/cooker.py'))
+>> +(('scripts/contrib/list-packageconfig-flags.py'),
+>> ('bitbake/lib/bb/providers.py'))
+>> +(('scripts/contrib/list-packageconfig-flags.py'), ('bitbake/lib/bb/tinfoil.py'))
+>> +(('scripts/contrib/list-packageconfig-flags.py'), ('scripts/lib/scriptpath.py'))
+>> +(('scripts/contrib/verify-homepage.py'), ('bitbake/lib/bb/tinfoil.py'))
+>> +(('scripts/lib/bsp/engine.py'), ('scripts/lib/bsp/tags.py'))
+>> +(('scripts/lib/bsp/kernel.py'), ('scripts/lib/bsp/engine.py'))
+>> +(('scripts/lib/bsp/kernel.py'), ('scripts/lib/bsp/tags.py'))
+>> +(('scripts/lib/devtool/build-image.py'), ('bitbake/lib/bb/process.py'))
+>> +(('scripts/lib/devtool/deploy.py'), ('meta/lib/oe/recipeutils.py'))
+>> +(('scripts/lib/devtool/package.py'), ('bitbake/lib/bb/process.py'))
+>> +(('scripts/lib/devtool/standard.py'), ('bitbake/lib/bb/event.py'))
+>> +(('scripts/lib/devtool/standard.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('scripts/lib/devtool/standard.py'), ('meta/lib/oe/patch.py'))
+>> +(('scripts/lib/devtool/standard.py'), ('meta/lib/oe/recipeutils.py'))
+>> +(('scripts/lib/devtool/standard.py'), ('scripts/lib/scriptutils.py'))
+>> +(('scripts/lib/devtool/upgrade.py'), ('meta/lib/oe/recipeutils.py'))
+>> +(('scripts/lib/devtool/upgrade.py'), ('scripts/lib/scriptutils.py'))
+>> +(('scripts/lib/recipetool/append.py'), ('meta/lib/oe/recipeutils.py'))
+>> +(('scripts/lib/recipetool/append.py'), ('scripts/lib/scriptutils.py'))
+>> +(('scripts/lib/recipetool/create.py'), ('bitbake/lib/bb/process.py'))
+>> +(('scripts/lib/recipetool/create.py'), ('bitbake/lib/bb/utils.py'))
+>> +(('scripts/lib/recipetool/create.py'), ('scripts/lib/scriptutils.py'))
+>> +(('scripts/lib/recipetool/create_buildsys.py'), ('meta/lib/oe/package.py'))
+>> +(('scripts/lib/recipetool/create_buildsys.py'),
+>> ('scripts/lib/recipetool/create.py'))
+>> +(('scripts/lib/recipetool/create_buildsys_python.py'),
+>> ('scripts/lib/recipetool/create.py'))
+>> +(('scripts/lib/recipetool/newappend.py'), ('bitbake/lib/bb/providers.py'))
+>> +(('scripts/lib/recipetool/newappend.py'), ('meta/lib/oe/recipeutils.py'))
+>> +(('scripts/lib/scriptutils.py'), ('bitbake/lib/bb/data.py'))
+>> +(('scripts/lib/scriptutils.py'), ('bitbake/lib/bb/msg.py'))
+>> +(('scripts/lib/scriptutils.py'), ('bitbake/lib/bb/process.py'))
+>> +(('scripts/lib/wic/conf.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/conf.py'), ('scripts/lib/wic/utils/misc.py'))
+>> +(('scripts/lib/wic/creator.py'), ('scripts/lib/wic/conf.py'))
+>> +(('scripts/lib/wic/creator.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/creator.py'), ('scripts/lib/wic/plugin.py'))
+>> +(('scripts/lib/wic/creator.py'), ('scripts/lib/wic/utils/errors.py'))
+>> +(('scripts/lib/wic/engine.py'), ('scripts/lib/wic/creator.py'))
+>> +(('scripts/lib/wic/engine.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/engine.py'), ('scripts/lib/wic/plugin.py'))
+>> +(('scripts/lib/wic/engine.py'), ('scripts/lib/wic/utils/misc.py'))
+>> +(('scripts/lib/wic/engine.py'), ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/help.py'), ('scripts/lib/wic/plugin.py'))
+>> +(('scripts/lib/wic/imager/baseimager.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/imager/baseimager.py'), ('scripts/lib/wic/utils/errors.py'))
+>> +(('scripts/lib/wic/imager/baseimager.py'), ('scripts/lib/wic/utils/runner.py'))
+>> +(('scripts/lib/wic/imager/direct.py'), ('scripts/lib/wic/imager/baseimager.py'))
+>> +(('scripts/lib/wic/imager/direct.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/imager/direct.py'), ('scripts/lib/wic/plugin.py'))
+>> +(('scripts/lib/wic/imager/direct.py'), ('scripts/lib/wic/utils/errors.py'))
+>> +(('scripts/lib/wic/imager/direct.py'), ('scripts/lib/wic/utils/fs_related.py'))
+>> +(('scripts/lib/wic/imager/direct.py'), ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/imager/direct.py'),
+>> ('scripts/lib/wic/utils/partitionedfs.py'))
+>> +(('scripts/lib/wic/kickstart/custom_commands/partition.py'),
+>> ('scripts/lib/wic/plugin.py'))
+>> +(('scripts/lib/wic/kickstart/custom_commands/partition.py'),
+>> ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/plugin.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/plugin.py'), ('scripts/lib/wic/pluginbase.py'))
+>> +(('scripts/lib/wic/plugin.py'), ('scripts/lib/wic/utils/errors.py'))
+>> +(('scripts/lib/wic/plugin.py'), ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/pluginbase.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/utils/fs_related.py'), ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/utils/oe/misc.py'), ('scripts/lib/scriptpath.py'))
+>> +(('scripts/lib/wic/utils/oe/misc.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/utils/oe/misc.py'), ('scripts/lib/wic/utils/runner.py'))
+>> +(('scripts/lib/wic/utils/partitionedfs.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/utils/partitionedfs.py'),
+>> ('scripts/lib/wic/utils/errors.py'))
+>> +(('scripts/lib/wic/utils/partitionedfs.py'),
+>> ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/utils/runner.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/utils/syslinux.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/3rdparty/pykickstart/options.py'),
+>> ('scripts/lib/wic/3rdparty/pykickstart/constants.py'))
+>> +(('scripts/lib/wic/3rdparty/pykickstart/options.py'),
+>> ('scripts/lib/wic/3rdparty/pykickstart/errors.py'))
+>> +(('scripts/lib/wic/3rdparty/pykickstart/options.py'),
+>> ('scripts/lib/wic/3rdparty/pykickstart/version.py'))
+>> +(('scripts/lib/wic/3rdparty/pykickstart/parser.py'),
+>> ('scripts/lib/wic/3rdparty/pykickstart/constants.py'))
+>> +(('scripts/lib/wic/3rdparty/pykickstart/parser.py'),
+>> ('scripts/lib/wic/3rdparty/pykickstart/errors.py'))
+>> +(('scripts/lib/wic/3rdparty/pykickstart/parser.py'),
+>> ('scripts/lib/wic/3rdparty/pykickstart/ko.py'))
+>> +(('scripts/lib/wic/3rdparty/pykickstart/parser.py'),
+>> ('scripts/lib/wic/3rdparty/pykickstart/sections.py'))
+>> +(('scripts/lib/wic/3rdparty/pykickstart/parser.py'),
+>> ('scripts/lib/wic/3rdparty/pykickstart/version.py'))
+>> +(('scripts/lib/wic/3rdparty/pykickstart/sections.py'),
+>> ('scripts/lib/wic/3rdparty/pykickstart/constants.py'))
+>> +(('scripts/lib/wic/3rdparty/pykickstart/sections.py'),
+>> ('scripts/lib/wic/3rdparty/pykickstart/options.py'))
+>> +(('scripts/lib/wic/3rdparty/pykickstart/sections.py'),
+>> ('scripts/lib/wic/3rdparty/pykickstart/version.py'))
+>> +(('scripts/lib/wic/plugins/imager/direct_plugin.py'),
+>> ('scripts/lib/wic/conf.py'))
+>> +(('scripts/lib/wic/plugins/imager/direct_plugin.py'),
+>> ('scripts/lib/wic/imager/direct.py'))
+>> +(('scripts/lib/wic/plugins/imager/direct_plugin.py'),
+>> ('scripts/lib/wic/pluginbase.py'))
+>> +(('scripts/lib/wic/plugins/imager/direct_plugin.py'),
+>> ('scripts/lib/wic/utils/errors.py'))
+>> +(('scripts/lib/wic/plugins/source/bootimg-efi.py'),
+>> ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/plugins/source/bootimg-efi.py'),
+>> ('scripts/lib/wic/pluginbase.py'))
+>> +(('scripts/lib/wic/plugins/source/bootimg-efi.py'),
+>> ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/plugins/source/bootimg-partition.py'),
+>> ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/plugins/source/bootimg-partition.py'),
+>> ('scripts/lib/wic/pluginbase.py'))
+>> +(('scripts/lib/wic/plugins/source/bootimg-partition.py'),
+>> ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/plugins/source/bootimg-pcbios.py'),
+>> ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/plugins/source/bootimg-pcbios.py'),
+>> ('scripts/lib/wic/pluginbase.py'))
+>> +(('scripts/lib/wic/plugins/source/bootimg-pcbios.py'),
+>> ('scripts/lib/wic/utils/errors.py'))
+>> +(('scripts/lib/wic/plugins/source/bootimg-pcbios.py'),
+>> ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/plugins/source/bootimg-pcbios.py'),
+>> ('scripts/lib/wic/utils/runner.py'))
+>> +(('scripts/lib/wic/plugins/source/fsimage.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/plugins/source/fsimage.py'),
+>> ('scripts/lib/wic/pluginbase.py'))
+>> +(('scripts/lib/wic/plugins/source/fsimage.py'),
+>> ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/plugins/source/isoimage-isohybrid.py'),
+>> ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/plugins/source/isoimage-isohybrid.py'),
+>> ('scripts/lib/wic/pluginbase.py'))
+>> +(('scripts/lib/wic/plugins/source/isoimage-isohybrid.py'),
+>> ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/plugins/source/rawcopy.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/plugins/source/rawcopy.py'),
+>> ('scripts/lib/wic/pluginbase.py'))
+>> +(('scripts/lib/wic/plugins/source/rawcopy.py'),
+>> ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/plugins/source/rootfs.py'), ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/plugins/source/rootfs.py'),
+>> ('scripts/lib/wic/pluginbase.py'))
+>> +(('scripts/lib/wic/plugins/source/rootfs.py'),
+>> ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py'),
+>> ('scripts/lib/wic/msger.py'))
+>> +(('scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py'),
+>> ('scripts/lib/wic/pluginbase.py'))
+>> +(('scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py'),
+>> ('scripts/lib/wic/utils/errors.py'))
+>> +(('scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py'),
+>> ('scripts/lib/wic/utils/oe/misc.py'))
+>> +(('scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py'),
+>> ('scripts/lib/wic/utils/runner.py'))
+>> +(('scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py'),
+>> ('scripts/lib/wic/utils/syslinux.py'))
+>> +(('scripts/pybootchartgui/pybootchartgui/batch.py'),
+>> ('scripts/pybootchartgui/pybootchartgui/draw.py'))
+>> +(('scripts/pybootchartgui/pybootchartgui/gui.py'),
+>> ('scripts/pybootchartgui/pybootchartgui/draw.py'))
+>> +(('scripts/pybootchartgui/pybootchartgui/main.py'),
+>> ('scripts/pybootchartgui/pybootchartgui/batch.py'))
+>> +(('scripts/pybootchartgui/pybootchartgui/main.py'),
+>> ('scripts/pybootchartgui/pybootchartgui/gui.py'))
+>> +(('scripts/pybootchartgui/pybootchartgui/main.py'),
+>> ('scripts/pybootchartgui/pybootchartgui/parsing.py'))
+>> +(('scripts/pybootchartgui/pybootchartgui/parsing.py'),
+>> ('scripts/pybootchartgui/pybootchartgui/process_tree.py'))
+>> +(('scripts/pybootchartgui/pybootchartgui/parsing.py'),
+>> ('scripts/pybootchartgui/pybootchartgui/samples.py'))
+>> +(('scripts/pybootchartgui/pybootchartgui/tests/parser_test.py'),
+>> ('scripts/pybootchartgui/pybootchartgui/parsing.py'))
+>> +(('scripts/pybootchartgui/pybootchartgui/tests/process_tree_test.py'),
+>> ('scripts/pybootchartgui/pybootchartgui/parsing.py'))
+>> +(('scripts/pybootchartgui/pybootchartgui/tests/process_tree_test.py'),
+>> ('scripts/pybootchartgui/pybootchartgui/process_tree.py'))
+>> \ No newline at end of file
+>
 
 
