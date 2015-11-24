@@ -1,27 +1,29 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 81D496011C;
-	Tue, 24 Nov 2015 17:19:48 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 24 Nov 2015 09:19:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,339,1444719600"; d="scan'208";a="828127184"
-Received: from jwbarz-mobl2.amr.corp.intel.com (HELO [10.254.191.22])
-	([10.254.191.22])
-	by orsmga001.jf.intel.com with ESMTP; 24 Nov 2015 09:19:46 -0800
-To: Randy Witt <rewitt@declaratino.com>
-References: <56538808.5050606@linux.intel.com>
-	<CAP5N7XH-wVfyyCeBK7gdYXtoDLQuXPKkXV=CRNowmbPUGvxb8Q@mail.gmail.com>
-From: "Lopez, Mariano" <mariano.lopez@linux.intel.com>
-Message-ID: <56549C31.8010604@linux.intel.com>
-Date: Tue, 24 Nov 2015 11:19:45 -0600
-User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAP5N7XH-wVfyyCeBK7gdYXtoDLQuXPKkXV=CRNowmbPUGvxb8Q@mail.gmail.com>
-Cc: yocto@yoctoproject.org, openembedded-devel@lists.openembedded.org,
+Return-Path: <roman@khimov.ru>
+Received: from roman.khimov.ru (roman.khimov.ru [82.146.54.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BA1C6011C;
+	Tue, 24 Nov 2015 18:05:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=khimov.ru;
+	s=mail; 
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:Reply-To:To:From;
+	bh=TLIjNZpUu1ydiBxgnYDFNycA1pd1oXV4vF0xlTuJAd4=; 
+	b=kXzAs2WtsDeHhtK8zS0twDNWtz0OSEkkQ+HmMxG9PpvxSwPSX/VSdac873wuamgTsctVBmeOj53UJ/Zt1yWAXKlNTn8GLF5L2aiHfO2Cs+uE8Z/8wH1UqtBubZmXcX30vAZgmZfCg65s8x0A/+mmndO2OMs0kn4uAzhbHjz2biZGNUPF1NBtKyZEEcv05tXWQEWK4GoH8JuGG5kzRMJhmdcb6ktWivmIQgE/3TLIKSL/fRcz/8M5pOJ3V7x0jpQ/qEiu/HKdZ2pNJ09GKX6Bx8Ht/gczolSj/SO8w70Q8BbvL8sBZ+krczTzTtFd77To3SybtgLkAuOvvoNPXu5dPA==;
+Received: from [93.100.16.104] (helo=masala.hex)
+	by roman.khimov.ru with esmtpsa (TLS1.0:ECDHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.84) (envelope-from <roman@khimov.ru>)
+	id 1a1HyT-0002L3-Es; Tue, 24 Nov 2015 21:05:54 +0300
+From: Roman Khimov <roman@khimov.ru>
+To: Mark Hatle <mark.hatle@windriver.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Reference updater filesystem
+Reply-To: roman@khimov.ru
+Date: Tue, 24 Nov 2015 21:05:52 +0300
+Message-ID: <90526450.BhUWnDVvgQ@masala.hex>
+User-Agent: KMail/4.14.10 (Linux/4.1.12-1-default; KDE/4.14.10; x86_64; ; )
+In-Reply-To: <56546A7A.6010207@windriver.com>
+References: <56538808.5050606@linux.intel.com> <14934048.INuFbpGn5J@bancha.hex>
+	<56546A7A.6010207@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-devel@lists.openembedded.org
+Subject: Re: [oe] RFC: Reference updater filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,94 +36,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 17:19:48 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Nov 2015 18:05:57 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On 11/24/2015 1:32 AM, Randy Witt wrote:
->
->
-> On Mon, Nov 23, 2015 at 1:41 PM, Mariano Lopez 
-> <mariano.lopez@linux.intel.com <mailto:mariano.lopez@linux.intel.com>> 
-> wrote:
->
->     There has been interest in an image based software updater in
->     Yocto Project. The proposed solution for a image based updater is
->     to use Stefano Babic's software updater
->     (http://sbabic.github.io/swupdate). This software do a binary
->     copy, so it is needed to have at least two partitions, these
->     partitions would be the rootfs and the maintenance partition. The
->     rootfs it's the main partition used to boot during the normal
->     device operation, on the other hand, the maintenance will be used
->     to update the main partition.
->
->     To update the system, the user has to connect to device and boot
->     in the maintenance partition; once in the maintenance partition
->     the software updater will copy the new image in the rootfs
->     partition. A final reboot into the rootfs it is necessary to
->     complete the upgrade.
->
->     As mentioned before the the software will copy an image to the
->     partition, so everything in that partition will be wiped out,
->     including custom configurations. To avoid the loss of
->     configuration I explore three different solutions:
->     1. Use a separate partition for the configuration.
->       a. The pro of this method is the partition is not touched during
->     the update.
->       b. The con of this method is the configuration is not directly
->     in rootfs (example: /etc).
->
-> Configuration files can be anywhere a package decides to install them. 
-> So having a single partition would be difficult. If you could, you 
-> would most likely be forced to have an initramfs to make sure /etc was 
-> mounted before init runs.
+=D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 24 =D0=BD=D0=BE=
+=D1=8F=D0=B1=D1=80=D1=8F 2015 07:47:38 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=
+=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Mark Hatle =D0=BD=D0=B0=D0=BF=D0=
+=B8=D1=81=D0=B0=D0=BB:
+> On 11/24/15 4:39 AM, Roman Khimov wrote:
+> > =D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 23 =D0=BD=D0=
+=BE=D1=8F=D0=B1=D1=80=D1=8F 2015 15:41:28 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=
+=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Mariano Lopez =D0=BD=D0=B0=D0=
+=BF=D0=B8=D1=81=D0=B0=D0=BB:
+> >> 1. Use a separate partition for the configuration.
+> >>=20
+> >>    a. The pro of this method is the partition is not touched durin=
+g the
+> >>=20
+> >> update.
+> >>=20
+> >>    b. The con of this method is the configuration is not directly =
+in
+> >>=20
+> >> rootfs (example: /etc).
+> >=20
+> > That's the right solution, although to do it really right (at least=
+ IMO)
+> > you need to implement the /usr merge [1] (and that's orthogonal to =
+using
+> > or not using systemd), which can also help you make your /usr read-=
+only
+> > (because that's just code and static data) with read-write / for us=
+er
+> > data of various sorts.
+>=20
+> Why does merging /usr have anything to do with this?  I've read the c=
+ase for
+> merging /usr and / and still don't understand why it "helps".  The ke=
+y is
+> that if you have separate partitions for /usr and /, then you need to=
 
-/etc was an example, the image should have the required files to make 
-the target boot and the get the application configuration from this 
-other partition. This is like openwrt does, it has a read-only rootfs 
-and small read-write partition where the user can write its 
-configuration and restore it at boot time.
+> update both of them in sequence.  Merging these two just seems like a=
+ lazy
+> solution to people not wanting to deal with early boot being
+> self-contained.
 
->     2. Do the backup during the update.
->       a. The pro is the configuration is directly in rootfs.
->       b. The con is If the update fail most likely the configuration
->     would be lost.
->
-> Why would the configuration be lost if the update fails? Couldn't it 
-> just be stored on the thumbdrive?
+It helps in that you can achieve a clear separation of your software an=
+d users=20
+data (whatever that is, even if that's just some configuration files) a=
+nd only=20
+update your part (which is /usr).
 
-If there is a power loss while the configuration is copied, the 
-partition could go corrupt and would be difficult to recover. And as you 
-mentioned  before the configuration files could be anywhere, so the 
-script must be customized to get all those files and once the update is 
-complete another script must restore those files, these could be 
-cumbersome instead of the application have the config in another partition.
+> So going back to image upgrade.  The key here is that you need a way =
+to
+> update arbitrary images with arbitrary contents and a mechanisms that=
+ is
+> smart enough to generate the update (vs a full image flash) to conser=
+ve
+> bandwidth.
 
->     3. Have an OverlayFS for the rootfs or the partition that have the
->     configuration.
->       a. The pro is the configuration is  "directly" in rootfs.
->       b. The con is there is need to provide a custom init to
->     guarantee the Overlay is mounted before the boot process.
->
->     With the above information I'm proposing to use a separate
->     partition for the configuration; this is because is more reliable
->     and doesn't require big changes in the current architecture.
->
->     So, the idea is to have 4 partitions in the media:
->     1. boot. This is the usual boot partition
->     2. data. This will hold the configuration files. Not modified by
->     updates.
->     3. maintenance. This partition will be used to update rootfs.
->     4. rootfs. Partition used for normal operation.
->
->     Mariano
->     -- 
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+In my experience, size is almost not an issue these days, at least if w=
+e're=20
+talking about something less than 100 MB, but updating the whole image =
+is more=20
+reliable and easier to manage.
 
+--=20
+ http://roman.khimov.ru
+mailto: roman@khimov.ru
+gpg --keyserver hkp://subkeys.pgp.net --recv-keys 0xE5E055C3
 
