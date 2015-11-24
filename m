@@ -1,28 +1,27 @@
 Return-Path: <roman@khimov.ru>
 Received: from roman.khimov.ru (roman.khimov.ru [82.146.54.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BA1C6011C;
-	Tue, 24 Nov 2015 18:05:55 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id B8BA16011C;
+	Tue, 24 Nov 2015 18:10:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=khimov.ru;
 	s=mail; 
 	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:Reply-To:To:From;
-	bh=TLIjNZpUu1ydiBxgnYDFNycA1pd1oXV4vF0xlTuJAd4=; 
-	b=kXzAs2WtsDeHhtK8zS0twDNWtz0OSEkkQ+HmMxG9PpvxSwPSX/VSdac873wuamgTsctVBmeOj53UJ/Zt1yWAXKlNTn8GLF5L2aiHfO2Cs+uE8Z/8wH1UqtBubZmXcX30vAZgmZfCg65s8x0A/+mmndO2OMs0kn4uAzhbHjz2biZGNUPF1NBtKyZEEcv05tXWQEWK4GoH8JuGG5kzRMJhmdcb6ktWivmIQgE/3TLIKSL/fRcz/8M5pOJ3V7x0jpQ/qEiu/HKdZ2pNJ09GKX6Bx8Ht/gczolSj/SO8w70Q8BbvL8sBZ+krczTzTtFd77To3SybtgLkAuOvvoNPXu5dPA==;
+	bh=FB1bhmoIgZHnHM3ycmmjKXxEUPTNO7XmjBnU9J3bOmk=; 
+	b=R6GIj6c0fP83hd6JCbbtCmuI8vChHEKIKeAGSyerVFck6KCBpOdBP32vkdNaRkfz9mKxdqnwoDHoUJjGNTlWPTEeZPGQVJJ2IVOZPFXRntzz72T4X1miHtnO0hgUuDnNbPEJNPBGSbBiX2CXrvv2C9KKa8zoMuSm8kBIn3Bho0ph9elYuFoxfezGZN/Tw8r6J0SEE/U/FC81Ab0DhowkSRwUdJvbL7A2URXbJw0WwutRkHYEM3x+ZFFWKy9m8U23cKfQexe8wcdLL6PbkYqlaW5MjiM512LucRvfjm1GxTz2QP25kGoGi9rZKF0s4yKIh3JyX/J7zJ9M2u3CwBPtPw==;
 Received: from [93.100.16.104] (helo=masala.hex)
 	by roman.khimov.ru with esmtpsa (TLS1.0:ECDHE_RSA_AES_256_CBC_SHA1:256)
 	(Exim 4.84) (envelope-from <roman@khimov.ru>)
-	id 1a1HyT-0002L3-Es; Tue, 24 Nov 2015 21:05:54 +0300
+	id 1a1I2Y-0002MK-PW; Tue, 24 Nov 2015 21:10:07 +0300
 From: Roman Khimov <roman@khimov.ru>
-To: Mark Hatle <mark.hatle@windriver.com>,
+To: openembedded-devel@lists.openembedded.org,
 	OE-core <openembedded-core@lists.openembedded.org>
 Reply-To: roman@khimov.ru
-Date: Tue, 24 Nov 2015 21:05:52 +0300
-Message-ID: <90526450.BhUWnDVvgQ@masala.hex>
+Date: Tue, 24 Nov 2015 21:10:06 +0300
+Message-ID: <2424232.iiZWdud31T@masala.hex>
 User-Agent: KMail/4.14.10 (Linux/4.1.12-1-default; KDE/4.14.10; x86_64; ; )
-In-Reply-To: <56546A7A.6010207@windriver.com>
-References: <56538808.5050606@linux.intel.com> <14934048.INuFbpGn5J@bancha.hex>
-	<56546A7A.6010207@windriver.com>
+In-Reply-To: <56549099.6070301@linux.intel.com>
+References: <56538808.5050606@linux.intel.com> <60350861.Ng52JMGuMb@bancha.hex>
+	<56549099.6070301@linux.intel.com>
 MIME-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org
 Subject: Re: [oe] RFC: Reference updater filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,31 +35,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 18:05:57 -0000
+X-List-Received-Date: Tue, 24 Nov 2015 18:10:11 -0000
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
 =D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 24 =D0=BD=D0=BE=
-=D1=8F=D0=B1=D1=80=D1=8F 2015 07:47:38 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=
-=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Mark Hatle =D0=BD=D0=B0=D0=BF=D0=
-=B8=D1=81=D0=B0=D0=BB:
-> On 11/24/15 4:39 AM, Roman Khimov wrote:
-> > =D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 23 =D0=BD=D0=
-=BE=D1=8F=D0=B1=D1=80=D1=8F 2015 15:41:28 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=
-=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Mariano Lopez =D0=BD=D0=B0=D0=
-=BF=D0=B8=D1=81=D0=B0=D0=BB:
-> >> 1. Use a separate partition for the configuration.
-> >>=20
-> >>    a. The pro of this method is the partition is not touched durin=
-g the
-> >>=20
-> >> update.
-> >>=20
-> >>    b. The con of this method is the configuration is not directly =
-in
-> >>=20
-> >> rootfs (example: /etc).
-> >=20
+=D1=8F=D0=B1=D1=80=D1=8F 2015 10:30:17 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=
+=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Lopez, Mariano =D0=BD=D0=B0=D0=BF=
+=D0=B8=D1=81=D0=B0=D0=BB:
 > > That's the right solution, although to do it really right (at least=
  IMO)
 > > you need to implement the /usr merge [1] (and that's orthogonal to =
@@ -71,36 +53,14 @@ only
 er
 > > data of various sorts.
 >=20
-> Why does merging /usr have anything to do with this?  I've read the c=
-ase for
-> merging /usr and / and still don't understand why it "helps".  The ke=
-y is
-> that if you have separate partitions for /usr and /, then you need to=
+> To be honest I'm not familiar with /usr merge, I need to check on tha=
+t
+> to see if it is a good option with the current OE-core infrastructure=
+.
 
-> update both of them in sequence.  Merging these two just seems like a=
- lazy
-> solution to people not wanting to deal with early boot being
-> self-contained.
-
-It helps in that you can achieve a clear separation of your software an=
-d users=20
-data (whatever that is, even if that's just some configuration files) a=
-nd only=20
-update your part (which is /usr).
-
-> So going back to image upgrade.  The key here is that you need a way =
-to
-> update arbitrary images with arbitrary contents and a mechanisms that=
- is
-> smart enough to generate the update (vs a full image flash) to conser=
-ve
-> bandwidth.
-
-In my experience, size is almost not an issue these days, at least if w=
-e're=20
-talking about something less than 100 MB, but updating the whole image =
-is more=20
-reliable and easier to manage.
+It needs some patches for current OE, I hope I'll find some time to reb=
+ase the=20
+set I have for this (based on fido) and send it for discussion.
 
 --=20
  http://roman.khimov.ru
