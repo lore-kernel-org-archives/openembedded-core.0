@@ -1,21 +1,23 @@
 Return-Path: <petter@technux.se>
-Received: from bin-vsp-out-05.atm.binero.net (bin-mail-out-06.binero.net
-	[195.74.38.229])
-	by mail.openembedded.org (Postfix) with ESMTP id D08C0606A9
+Received: from bin-vsp-out-05.atm.binero.net (bin-mail-out-05.binero.net
+	[195.74.38.228])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CCA360761
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 12:45:24 +0000 (UTC)
-X-Halon-ID: 446786b7-92a9-11e5-8d6c-005056916f53
+	Tue, 24 Nov 2015 12:45:29 +0000 (UTC)
+X-Halon-ID: 47736fe9-92a9-11e5-8d6c-005056916f53
 Authorized-sender: petter@technux.se
 Received: from elxbvzzwp1-cy.lan (unknown [81.229.90.163])
 	by bin-vsp-out-05.atm.binero.net (Halon Mail Gateway) with ESMTPSA;
-	Tue, 24 Nov 2015 13:45:39 +0100 (CET)
+	Tue, 24 Nov 2015 13:45:44 +0100 (CET)
 From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Nov 2015 13:45:20 +0100
-Message-Id: <cover.1448368856.git.petter@technux.se>
+Date: Tue, 24 Nov 2015 13:45:25 +0100
+Message-Id: <4ee834c95f1492df2d549d5070a70b7d8c0ba0cd.1448368856.git.petter@technux.se>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1448368856.git.petter@technux.se>
+References: <cover.1448368856.git.petter@technux.se>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] create-pull-request: handle empty ODIR
+Subject: [PATCH 1/1] create-pull-request: handle empty ODIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,25 +30,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 12:45:29 -0000
+X-List-Received-Date: Tue, 24 Nov 2015 12:45:31 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The following changes since commit 1b25a70991589ed1f123015c16ee4806c46e3199:
+In some situations you might end-up with an empty ODIR (pull-xx/). The
+most common reason is that you have applied your patches on 'master'
+branch (or you are by mistake standing on the 'master' branch),
+this will result in the default behavior that 'git format-patch'
+will try to diff master..master.
 
-  yocto-project-qs, ref-manual, poky.ent: CentOS Package updates (2015-11-18 16:42:22 +0000)
+Solve this by aborting the script with a proper error code and message
+if ODIR is empty after the 'git format-patch' call (that is expected
+to generate the cover-letter and patches).
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib petmab/fix_empty_odir
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/fix_empty_odir
-
-Petter Mabäcker (1):
-  create-pull-request: handle empty ODIR
-
+Signed-off-by: Petter Mabäcker <petter@technux.se>
+---
  scripts/create-pull-request | 8 ++++++++
  1 file changed, 8 insertions(+)
 
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index 19ba588..a3744cc 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -185,6 +185,14 @@ fi
+ # Generate the patches and cover letter
+ git format-patch $extraopts -M40 --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
+ 
++if [ -z "$(ls -A $ODIR 2> /dev/null)" ]; then
++    echo "ERROR: $ODIR is empty, no cover letter and patches was generated!"
++    echo "       This is most likely due to that \$RRELATIVE_TO..\$COMMIT_ID"
++    echo "       ($RELATIVE_TO..$COMMIT_ID) don't contain any differences."
++    rmdir $ODIR
++    exit 1
++fi
++
+ [ -n "$RELDIR" ] && cd $pdir
+ 
+ # Customize the cover letter
 -- 
 1.9.1
 
