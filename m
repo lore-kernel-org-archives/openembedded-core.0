@@ -1,23 +1,28 @@
 Return-Path: <petter@technux.se>
-Received: from bin-vsp-out-02.atm.binero.net (vsp-unauthed02.binero.net
-	[195.74.38.227])
-	by mail.openembedded.org (Postfix) with ESMTP id D2E3360617
+Received: from bin-vsp-out-05.atm.binero.net (bin-mail-out-06.binero.net
+	[195.74.38.229])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C2CF6018D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 09:56:41 +0000 (UTC)
-X-Halon-ID: cbe1cf7a-9290-11e5-bdaa-005056917f90
+	Tue, 24 Nov 2015 10:00:31 +0000 (UTC)
+X-Halon-ID: 3a98530b-9292-11e5-8d6c-005056916f53
 Authorized-sender: petter@technux.se
-Received: from elxbvzzwp1-cy.lan (unknown [81.229.90.163])
-	by bin-vsp-out-02.atm.binero.net (Halon Mail Gateway) with ESMTPSA;
-	Tue, 24 Nov 2015 10:50:29 +0100 (CET)
-From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Nov 2015 10:50:16 +0100
-Message-Id: <014aa84864010a55eeb75c81327332fc4e5501ce.1448358455.git.petter@technux.se>
-X-Mailer: git-send-email 1.9.1
+Received: from webmail.binero.se (unknown [195.74.38.9])
+	by bin-vsp-out-05.atm.binero.net (Halon Mail Gateway) with ESMTPA
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Nov 2015 11:00:45 +0100 (CET)
+MIME-Version: 1.0
+Date: Tue, 24 Nov 2015 11:00:27 +0100
+From: =?UTF-8?Q?Petter_Mab=C3=A4cker?= <petter@technux.se>
+To: Openembedded core <openembedded-core@lists.openembedded.org>
+Organization: Technux
+Reply-To: <petter@technux.se>
+Mail-Reply-To: <petter@technux.se>
 In-Reply-To: <cover.1448358455.git.petter@technux.se>
 References: <cover.1448358455.git.petter@technux.se>
-MIME-Version: 1.0
-Subject: [PATCH 1/2] readline: prepare for readline6.3 upstream patches
+Message-ID: <e67a765e5459944639f385cf17fb824d@technux.se>
+X-Sender: petter@technux.se
+User-Agent: Binero Webmail/0.8.4
+Subject: Re: [PATCH 0/2]: readline fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,65 +35,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 09:56:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 24 Nov 2015 10:00:35 -0000
+Content-Type: multipart/alternative;
+	boundary="=_88aa66c0816adbf77b553d3594f45fb6"
+
+--=_88aa66c0816adbf77b553d3594f45fb6
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
 
-Upstream patches are always preferred to be applied first (before
-integration patches). In order to apply readline-6.3 specific upstream
-patches in a preferred order we need to apply the integration-patches
-at the end in the 6.3 specific recipe (this is already the case
-for readline-5.2).
-
-Also take the oppertunity to move 'norpath.patch' to readline-6.3 dir
-since this patch is not shared between the 5.2 and 6.3 recipe.
-
-[YOCTO #8451]
-
-Signed-off-by: Petter Mabäcker <petter@technux.se>
----
- meta/recipes-core/readline/{files => readline-6.3}/norpath.patch | 0
- meta/recipes-core/readline/readline.inc                          | 5 +----
- meta/recipes-core/readline/readline_6.3.bb                       | 5 ++++-
- 3 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-core/readline/{files => readline-6.3}/norpath.patch (100%)
-
-diff --git a/meta/recipes-core/readline/files/norpath.patch b/meta/recipes-core/readline/readline-6.3/norpath.patch
-similarity index 100%
-rename from meta/recipes-core/readline/files/norpath.patch
-rename to meta/recipes-core/readline/readline-6.3/norpath.patch
-diff --git a/meta/recipes-core/readline/readline.inc b/meta/recipes-core/readline/readline.inc
-index 3f662c3..30892e1 100644
---- a/meta/recipes-core/readline/readline.inc
-+++ b/meta/recipes-core/readline/readline.inc
-@@ -11,10 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
- DEPENDS += "ncurses"
- 
--SRC_URI = "${GNU_MIRROR}/readline/${BPN}-${PV}.tar.gz;name=archive \
--           file://configure-fix.patch \
--           file://config-dirent-symbols.patch \
--           file://norpath.patch"
-+SRC_URI = "${GNU_MIRROR}/readline/${BPN}-${PV}.tar.gz;name=archive"
- 
- inherit autotools texinfo
- 
-diff --git a/meta/recipes-core/readline/readline_6.3.bb b/meta/recipes-core/readline/readline_6.3.bb
-index fc362ae..dbb9f0a 100644
---- a/meta/recipes-core/readline/readline_6.3.bb
-+++ b/meta/recipes-core/readline/readline_6.3.bb
-@@ -1,6 +1,9 @@
- require readline.inc
- 
--SRC_URI += "file://readline-cve-2014-2524.patch;striplevel=0 \
-+SRC_URI += "file://configure-fix.patch \
-+            file://config-dirent-symbols.patch \
-+            file://norpath.patch \
-+            file://readline-cve-2014-2524.patch;striplevel=0 \
-             file://readline-dispatch-multikey.patch"
- 
- SRC_URI[archive.md5sum] = "33c8fb279e981274f485fd91da77e94a"
--- 
-1.9.1
+
+Hi all, 
+
+I can see that I missed the [OE-core] tag in this
+patch-serie... Please ignore this patchset and I will send up a proper
+one shortly. 
+
+BR Petter 
+
+Petter Mabäcker
+
+Technux
+<petter@technux.se>
+www.technux.se
+
+2015-11-24 10:50 skrev Petter
+Mabäcker: 
+
+> The following changes since commit
+1b25a70991589ed1f123015c16ee4806c46e3199:
+> 
+> yocto-project-qs,
+ref-manual, poky.ent: CentOS Package updates (2015-11-18 16:42:22
++0000)
+> 
+> are available in the git repository at:
+> 
+>
+git://git.yoctoproject.org/poky-contrib petmab/bug8451
+>
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/bug8451
+[1]
+> 
+> Petter Mabäcker (2):
+> readline: prepare for readline6.3
+upstream patches
+> readline: apply missing upstream patches
+> 
+>
+.../readline/{files => readline-6.3}/norpath.patch | 0
+>
+.../readline-6.3/readline-cve-2014-2524.patch | 43
+----------------------
+>
+.../readline-6.3/readline-dispatch-multikey.patch | 32
+----------------
+> meta/recipes-core/readline/readline.inc | 5 +--
+>
+meta/recipes-core/readline/readline_6.3.bb | 30 ++++++++++++++-
+> 5
+files changed, 29 insertions(+), 81 deletions(-)
+> rename
+meta/recipes-core/readline/{files => readline-6.3}/norpath.patch
+(100%)
+> delete mode 100644
+meta/recipes-core/readline/readline-6.3/readline-cve-2014-2524.patch
+>
+delete mode 100644
+meta/recipes-core/readline/readline-6.3/readline-dispatch-multikey.patch
 
 
+
+Links:
+------
+[1]
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/bug8451
+
+--=_88aa66c0816adbf77b553d3594f45fb6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html><body style=3D'font-family: Helvetica,Arial,sans-serif'>
+<p>Hi all,</p>
+<p>I can see that I missed the [OE-core] tag in this patch-serie... Please =
+ignore this patchset and I will send up a proper one shortly.</p>
+<p>BR Petter</p>
+<p>&nbsp;</p>
+<div>
+<pre>Petter Mab&auml;cker
+
+Technux &lt;petter@technux.se&gt;
+www.technux.se</pre>
+</div>
+<p>2015-11-24 10:50 skrev Petter Mab&auml;cker:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px; width:100%"><!-- html ignored --><!-- head ignore=
+d --><!-- meta ignored -->
+<pre>The following changes since commit 1b25a70991589ed1f123015c16ee4806c46=
+e3199:
+
+  yocto-project-qs, ref-manual, poky.ent: CentOS Package updates (2015-11-1=
+8 16:42:22 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib petmab/bug8451
+  <a href=3D"http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dpet=
+mab/bug8451">http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dpet=
+mab/bug8451</a>
+
+Petter Mab&auml;cker (2):
+  readline: prepare for readline6.3 upstream patches
+  readline: apply missing upstream patches
+
+ .../readline/{files =3D&gt; readline-6.3}/norpath.patch |  0
+ .../readline-6.3/readline-cve-2014-2524.patch      | 43 ------------------=
+----
+ .../readline-6.3/readline-dispatch-multikey.patch  | 32 ----------------
+ meta/recipes-core/readline/readline.inc            |  5 +--
+ meta/recipes-core/readline/readline_6.3.bb         | 30 ++++++++++++++-
+ 5 files changed, 29 insertions(+), 81 deletions(-)
+ rename meta/recipes-core/readline/{files =3D&gt; readline-6.3}/norpath.pat=
+ch (100%)
+ delete mode 100644 meta/recipes-core/readline/readline-6.3/readline-cve-20=
+14-2524.patch
+ delete mode 100644 meta/recipes-core/readline/readline-6.3/readline-dispat=
+ch-multikey.patch
+</pre>
+</blockquote>
+</body></html>
+
+--=_88aa66c0816adbf77b553d3594f45fb6--
