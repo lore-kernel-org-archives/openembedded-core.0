@@ -1,23 +1,21 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 45C856018D
+Return-Path: <petter@technux.se>
+Received: from bin-vsp-out-05.atm.binero.net (bin-mail-out-06.binero.net
+	[195.74.38.229])
+	by mail.openembedded.org (Postfix) with ESMTP id D08C0606A9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 11:08:18 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 24 Nov 2015 03:08:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,338,1444719600"; d="scan'208";a="858293708"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 24 Nov 2015 03:08:20 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 2C76C6A4005;
-	Tue, 24 Nov 2015 03:07:10 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+	Tue, 24 Nov 2015 12:45:24 +0000 (UTC)
+X-Halon-ID: 446786b7-92a9-11e5-8d6c-005056916f53
+Authorized-sender: petter@technux.se
+Received: from elxbvzzwp1-cy.lan (unknown [81.229.90.163])
+	by bin-vsp-out-05.atm.binero.net (Halon Mail Gateway) with ESMTPSA;
+	Tue, 24 Nov 2015 13:45:39 +0100 (CET)
+From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Nov 2015 12:36:59 +0200
-Message-Id: <1448361419-1578-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] qemu-native: link with system libdbus
+Date: Tue, 24 Nov 2015 13:45:20 +0100
+Message-Id: <cover.1448368856.git.petter@technux.se>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] create-pull-request: handle empty ODIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,43 +28,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 11:08:20 -0000
+X-List-Received-Date: Tue, 24 Nov 2015 12:45:29 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Build of qemu-native on recent versions of Ubuntu and Debian fails
-on configure step. The reason for this is that system dbus version
-is higher than oe dbus version and system pulseaudio libraries require
-newer dbus.
+The following changes since commit 1b25a70991589ed1f123015c16ee4806c46e3199:
 
-It causes configure to break with a lot of errors similar to this:
-  libpulsecommon-6.0.so: undefined reference to dbus_watch_get_enabled@LIBDBUS_1_3
+  yocto-project-qs, ref-manual, poky.ent: CentOS Package updates (2015-11-18 16:42:22 +0000)
 
-Fixed by building qemu-native with the system libdbus.
+are available in the git repository at:
 
-This can help with similar issues on other distros when they start
-using newer dbus.
+  git://git.yoctoproject.org/poky-contrib petmab/fix_empty_odir
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/fix_empty_odir
 
-[YOCTO #8553]
+Petter Mabäcker (1):
+  create-pull-request: handle empty ODIR
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ scripts/create-pull-request | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index abbace8..7289fa2 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -40,6 +40,9 @@ do_configure_prepend_class-native() {
- 	BHOST_PKGCONFIG_PATH=$(PATH=/usr/bin:/bin pkg-config --variable pc_path pkg-config || echo "")
- 	if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
- 		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
-+		# link with the system libdbus
-+		libs=$(PKG_CONFIG_ALLOW_SYSTEM_LIBS=1 PKG_CONFIG_PATH=$BHOST_PKGCONFIG_PATH PATH=/usr/bin:/bin pkg-config --libs dbus-1 || echo "")
-+		[ -n "$libs" ] && export LDFLAGS="$libs $LDFLAGS"
- 	fi
- }
- 
 -- 
-2.1.4
+1.9.1
 
 
