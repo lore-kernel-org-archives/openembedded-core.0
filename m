@@ -1,26 +1,23 @@
-Return-Path: <roman@khimov.ru>
-Received: from roman.khimov.ru (roman.khimov.ru [82.146.54.17])
-	by mail.openembedded.org (Postfix) with ESMTP id B60136018D;
-	Tue, 24 Nov 2015 10:39:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=khimov.ru;
-	s=mail; 
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From;
-	bh=0MkJEg+czYiD4HeN0lTo7i+7rDhboKaZjQborIsyE4Q=; 
-	b=Ef0qZFyKgGbIUkcWiInmbVHyhdLhelY2zvMzi/nV3knMrUmJh+5IbuYnAXpbZF0Z/ojNbCZXQIQm7Vfy4lAJ0HrqwOGBVLoFdoJcM3shP8ScqJnM6TePWjbd3Y3IdwhSgHRjwLqe/hxMV4hazPb8xPNi+hKRweZM7/gHIrnx6C6iKeJ+/TtgCh2S2yJot31PZqL+TZAWhkJ7fxOHQY8X2LSeow+FCoV94ld5BuHgTQ/QV/M+BuouyOi+VN2+ZfXydvcy5S/aROI5a54WMZYAjwH8ADn3ZWMA1M55LCPpUS5ywPkr3qYc2EFe5JAA3p3rwqvef2v/q0NAEC0A4bp38Q==;
-Received: from mail.pkcc-tb.ru ([185.33.199.10] helo=bancha.hex)
-	by roman.khimov.ru with esmtpsa (TLS1.0:ECDHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.84) (envelope-from <roman@khimov.ru>)
-	id 1a1B0X-0001LX-B5; Tue, 24 Nov 2015 13:39:35 +0300
-From: Roman Khimov <roman@khimov.ru>
-To: openembedded-devel@lists.openembedded.org
-Date: Tue, 24 Nov 2015 13:39:32 +0300
-Message-ID: <14934048.INuFbpGn5J@bancha.hex>
-User-Agent: KMail/4.14.9 (Linux/3.16.7-24-desktop; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <56538808.5050606@linux.intel.com>
-References: <56538808.5050606@linux.intel.com>
-MIME-Version: 1.0
-Cc: yocto@yoctoproject.org, OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] RFC: Reference updater filesystem
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 45C856018D
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Nov 2015 11:08:18 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 24 Nov 2015 03:08:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,338,1444719600"; d="scan'208";a="858293708"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 24 Nov 2015 03:08:20 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id 2C76C6A4005;
+	Tue, 24 Nov 2015 03:07:10 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Nov 2015 12:36:59 +0200
+Message-Id: <1448361419-1578-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] qemu-native: link with system libdbus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,88 +30,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 10:39:40 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 24 Nov 2015 11:08:20 -0000
 
-=D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 23 =D0=BD=D0=BE=
-=D1=8F=D0=B1=D1=80=D1=8F 2015 15:41:28 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=
-=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Mariano Lopez =D0=BD=D0=B0=D0=BF=
-=D0=B8=D1=81=D0=B0=D0=BB:
-> 1. Use a separate partition for the configuration.
->    a. The pro of this method is the partition is not touched during t=
-he
-> update.
->    b. The con of this method is the configuration is not directly in
-> rootfs (example: /etc).
+Build of qemu-native on recent versions of Ubuntu and Debian fails
+on configure step. The reason for this is that system dbus version
+is higher than oe dbus version and system pulseaudio libraries require
+newer dbus.
 
-That's the right solution, although to do it really right (at least IMO=
-) you=20
-need to implement the /usr merge [1] (and that's orthogonal to using or=
- not=20
-using systemd), which can also help you make your /usr read-only (becau=
-se=20
-that's just code and static data) with read-write / for user data of va=
-rious=20
-sorts.
+It causes configure to break with a lot of errors similar to this:
+  libpulsecommon-6.0.so: undefined reference to dbus_watch_get_enabled@LIBDBUS_1_3
 
-> 3. Have an OverlayFS for the rootfs or the partition that have the
-> configuration.
->    a. The pro is the configuration is  "directly" in rootfs.
->    b. The con is there is need to provide a custom init to guarantee =
-the
-> Overlay is mounted before the boot process.
+Fixed by building qemu-native with the system libdbus.
 
-And this is the approach I would recommend not doing. I've used UnionFS=
- for=20
-thing like that (overlaying whole root file system) some 6 years ago, i=
-t=20
-sounded nice and it kinda worked, but it wasn't difficult to make it fa=
-il=20
-(just a little playing with power), we've even seen failures on product=
-ion=20
-devices, like when you have whiteout file for directory already written=
-, but=20
-don't have new files in it yet and that can completely ruin the system.=
+This can help with similar issues on other distros when they start
+using newer dbus.
 
+[YOCTO #8553]
 
-Also, it usually works better when you don't have any changes in the lo=
-wer=20
-layer, but we're talking about updating it here, you can easily end up =
-in a=20
-situation where you have updated something in the rootfs but that was=20=
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-overriden by upper layer and thus your user doesn't see any change.
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index abbace8..7289fa2 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -40,6 +40,9 @@ do_configure_prepend_class-native() {
+ 	BHOST_PKGCONFIG_PATH=$(PATH=/usr/bin:/bin pkg-config --variable pc_path pkg-config || echo "")
+ 	if [ ! -z "$BHOST_PKGCONFIG_PATH" ]; then
+ 		export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BHOST_PKGCONFIG_PATH
++		# link with the system libdbus
++		libs=$(PKG_CONFIG_ALLOW_SYSTEM_LIBS=1 PKG_CONFIG_PATH=$BHOST_PKGCONFIG_PATH PATH=/usr/bin:/bin pkg-config --libs dbus-1 || echo "")
++		[ -n "$libs" ] && export LDFLAGS="$libs $LDFLAGS"
+ 	fi
+ }
+ 
+-- 
+2.1.4
 
-> With the above information I'm proposing to use a separate partition =
-for
-> the configuration; this is because is more reliable and doesn't requi=
-re
-> big changes in the current architecture.
->=20
-> So, the idea is to have 4 partitions in the media:
-> 1. boot. This is the usual boot partition
-> 2. data. This will hold the configuration files. Not modified by upda=
-tes.
-> 3. maintenance. This partition will be used to update rootfs.
-> 4. rootfs. Partition used for normal operation.
-
-You probably don't need to separate 1 and 3, all the code for system up=
-date=20
-should easily fit into initramfs and just making /boot a bit larger wou=
-ld=20
-allow you to store some backup rootfs.
-
-Also, you can swap 4 and 2 which will be useful if you're installing on=
-=20
-different sized storage devices, usually you know good enough the size =
-of your=20
-rootfs, but you probably want to leave more space for user data if ther=
-e is an=20
-opportunity to do so, that's just easier to do with data partition at t=
-he end.
-
-
-[1] http://www.freedesktop.org/wiki/Software/systemd/TheCaseForTheUsrMe=
-rge/
 
