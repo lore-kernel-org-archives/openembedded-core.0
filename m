@@ -1,26 +1,29 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id EC8306011C;
-	Tue, 24 Nov 2015 18:40:10 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 24 Nov 2015 10:39:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,339,1444719600"; d="scan'208";a="858909550"
-Received: from jwbarz-mobl2.amr.corp.intel.com (HELO [10.254.191.22])
-	([10.254.191.22])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Nov 2015 10:39:59 -0800
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org, yocto@yoctoproject.org
-References: <56538808.5050606@linux.intel.com>
-	<20151124060620.GA10937@ad.chargestorm.se>
-From: "Lopez, Mariano" <mariano.lopez@linux.intel.com>
-Message-ID: <5654AEFD.4090802@linux.intel.com>
-Date: Tue, 24 Nov 2015 12:39:57 -0600
-User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+Return-Path: <roman@khimov.ru>
+Received: from roman.khimov.ru (roman.khimov.ru [82.146.54.17])
+	by mail.openembedded.org (Postfix) with ESMTP id BBCE86011C;
+	Tue, 24 Nov 2015 18:47:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=khimov.ru;
+	s=mail; 
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:Reply-To:To:From;
+	bh=WzrbswO7mWOAv1y+PXjfGWfED0iBUs7Y56M20Mgg2xw=; 
+	b=nyErRZq12g9SOe9Tx42ijchHIPBfctfYJtueTxBmQsdRC6XGaSP4mx7so3y4GS7qRLCKZIDTFcEJtt2qax7Nh6nlYaKUbhlbweBS9WOQwEgw1ZWY86tKrkeaU3pmFpYHHbT7P73MjoLRjcPjYEi1n7fIFrWbqXv2B5HBx6/d3sxdO1/s1MXe1bUdmgl6iVvVuyin0IMLolWmUYZQbjXiYcN30W1p2PlDQX42fjfFbtyArMqrgh7gC+7LW19udMLHEg9QaZKnT4sYK/OmPq1t5UapPAZdvpL9zhGnGaZ6oMzEWm7mVr5iY6XQF8/sQJr9938VObmNUYS1owry7E/6TQ==;
+Received: from [93.100.16.104] (helo=masala.hex)
+	by roman.khimov.ru with esmtpsa (TLS1.0:ECDHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.84) (envelope-from <roman@khimov.ru>)
+	id 1a1Id6-0002RY-U1; Tue, 24 Nov 2015 21:47:54 +0300
+From: Roman Khimov <roman@khimov.ru>
+To: Mark Hatle <mark.hatle@windriver.com>
+Reply-To: roman@khimov.ru
+Date: Tue, 24 Nov 2015 21:47:52 +0300
+Message-ID: <11874234.lUveKP5eiY@masala.hex>
+User-Agent: KMail/4.14.10 (Linux/4.1.12-1-default; KDE/4.14.10; x86_64; ; )
+In-Reply-To: <5654AC12.9060808@windriver.com>
+References: <56538808.5050606@linux.intel.com> <90526450.BhUWnDVvgQ@masala.hex>
+	<5654AC12.9060808@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20151124060620.GA10937@ad.chargestorm.se>
-Subject: Re: [yocto] RFC: Reference updater filesystem
+Cc: openembedded-devel@lists.openembedded.org,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] RFC: Reference updater filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,86 +36,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 18:40:12 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Nov 2015 18:47:57 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
+=D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 24 =D0=BD=D0=BE=
+=D1=8F=D0=B1=D1=80=D1=8F 2015 12:27:30 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=
+=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Mark Hatle =D0=BD=D0=B0=D0=BF=D0=
+=B8=D1=81=D0=B0=D0=BB:
+> On 11/24/15 12:05 PM, Roman Khimov wrote:
+> > =D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 24 =D0=BD=D0=
+=BE=D1=8F=D0=B1=D1=80=D1=8F 2015 07:47:38 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=
+=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Mark Hatle =D0=BD=D0=B0=D0=BF=
+=D0=B8=D1=81=D0=B0=D0=BB:
+> >> On 11/24/15 4:39 AM, Roman Khimov wrote:
+> >>> =D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 23 =D0=BD=
+=D0=BE=D1=8F=D0=B1=D1=80=D1=8F 2015 15:41:28 =D0=BF=D0=BE=D0=BB=D1=8C=D0=
+=B7=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Mariano Lopez =D0=BD=D0=B0=
+=D0=BF=D0=B8=D1=81=D0=B0=D0=BB:
+> >>>> 1. Use a separate partition for the configuration.
+> >>>>=20
+> >>>>    a. The pro of this method is the partition is not touched dur=
+ing the
+> >>>>=20
+> >>>> update.
+> >>>>=20
+> >>>>    b. The con of this method is the configuration is not directl=
+y in
+> >>>>=20
+> >>>> rootfs (example: /etc).
+> >>>=20
+> >>> That's the right solution, although to do it really right (at lea=
+st IMO)
+> >>> you need to implement the /usr merge [1] (and that's orthogonal t=
+o using
+> >>> or not using systemd), which can also help you make your /usr rea=
+d-only
+> >>> (because that's just code and static data) with read-write / for =
+user
+> >>> data of various sorts.
+> >>=20
+> >> Why does merging /usr have anything to do with this?  I've read th=
+e case
+> >> for merging /usr and / and still don't understand why it "helps". =
+ The
+> >> key is that if you have separate partitions for /usr and /, then y=
+ou
+> >> need to update both of them in sequence.  Merging these two just s=
+eems
+> >> like a lazy solution to people not wanting to deal with early boot=
+ being
+> >> self-contained.
+> >=20
+> > It helps in that you can achieve a clear separation of your softwar=
+e and
+> > users data (whatever that is, even if that's just some configuratio=
+n
+> > files) and only update your part (which is /usr).
+>=20
+> This can easily be archived using different partitions like /opt as w=
+ell.
 
+Usually it leads to more complicated partitioning and more complicated =
+startup=20
+(as well as update) procedure. Of course it can vary from system to sys=
+tem,=20
+but in my experience /usr merge was exactly the thing needed to clearly=
+=20
+separate and simplify things. One way or another you want to have your =
+code=20
+and users data to be separated, /usr merge makes it quite simple.
 
-On 11/24/2015 12:06 AM, Anders Darander wrote:
-> * Mariano Lopez <mariano.lopez@linux.intel.com> [151123 22:41]:
->
->> There has been interest in an image based software updater in Yocto Project.
-> Ok. Sure, it might be nice with something that can be shared, instead
-> off everyone's building our own solutions.
+> Bandwidth is a big deal in areas that are not serviced by anything bu=
+t very
+> GPRS or worse.  So 100 MB is even too big in some cases.  Cost is a f=
+actor
+> as is overall bandwidth.
+>=20
+> Again, it depends on the product and what you are building if this ma=
+tters.
+>=20
+> The point is we don't want to make some assumptions that preclude
+> alternative implementations.
 
-The idea is to integrate one, not build one from the scratch.
+Sure.
 
->
->> The proposed solution for a image based updater is to use Stefano Babic's
->> software updater (http://sbabic.github.io/swupdate). This software do a
->> binary copy, so it is needed to have at least two partitions, these
->> partitions would be the rootfs and the maintenance partition. The rootfs
->> it's the main partition used to boot during the normal device operation, on
->> the other hand, the maintenance will be used to update the main partition.
-> I haven't checked the swupdate tool, though I'd suspect that it also
-> supports the alternating rootfs use case? (I.e. run system1 update
-> system2; reboot to system2. Next update is system1). This is a rather
-> common setup, not least when you need a remote upgrade facility.
->
-> Would your proposed inclusion to the Yocto Project support that case
-> too?
-
-Yeah, it would be possible to have two "rootfs" and do the update and 
-the just reboot one time.
-
->
->> To update the system, the user has to connect to device and boot in the
->> maintenance partition; once in the maintenance partition the software
->> updater will copy the new image in the rootfs partition. A final reboot into
->> the rootfs it is necessary to complete the upgrade.
-> Like said above, not all system can be reached manually (at least not in
-> cost efficient way). Sure, the mainenance partition scheme can be made
-> to work anyway...
-
-I plan to release this in phases, in the first one it will be manually 
-do the update. The idea is implement tools to automate the process of 
-the update (where it can be automated).
-
->
->> As mentioned before the the software will copy an image to the partition, so
->> everything in that partition will be wiped out, including custom
->> configurations. To avoid the loss of configuration I explore three different
->> solutions:
->> 1. Use a separate partition for the configuration.
->>    a. The pro of this method is the partition is not touched during the
->> update.
->>    b. The con of this method is the configuration is not directly in rootfs
->> (example: /etc).
-> I'd vote for that as well. Though, I only keep the re-writable
-> configurations here. The one that are constant between all systems are
-> shipped in /etc in the read-only-rootfs.
->
->> With the above information I'm proposing to use a separate partition for the
->> configuration; this is because is more reliable and doesn't require big
->> changes in the current architecture.
->> So, the idea is to have 4 partitions in the media:
->> 1. boot. This is the usual boot partition
->> 2. data. This will hold the configuration files. Not modified by updates.
->> 3. maintenance. This partition will be used to update rootfs.
->> 4. rootfs. Partition used for normal operation.
-> How flexible to you intend to make this system? Allow everything that
-> swupdate supports? Or a specific subset?
-
-If you are referring to the filesystem creation I would say very 
-flexible. It will be implemented using wic instead of a class, so just 
-needs to change a file to suit your needs. If you refer to the swupdate 
-features, I plan to have a generic use case; as an example I won't use 
-the MTD capabilities of the software.
-
->
-> Cheers,
-> Anders
->
-
+--=20
+ http://roman.khimov.ru
+mailto: roman@khimov.ru
+gpg --keyserver hkp://subkeys.pgp.net --recv-keys 0xE5E055C3
 
