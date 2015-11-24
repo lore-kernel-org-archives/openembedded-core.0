@@ -1,29 +1,55 @@
-Return-Path: <rewitt@declaratino.com>
-X-Greylist: delayed 429 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 24 Nov 2015 07:40:34 UTC
-Received: from p3plsmtpa07-02.prod.phx3.secureserver.net
-	(p3plsmtpa07-02.prod.phx3.secureserver.net [173.201.192.231])
-	by mail.openembedded.org (Postfix) with ESMTP id 1610B6018D;
-	Tue, 24 Nov 2015 07:40:34 +0000 (UTC)
-Received: from mail-lf0-f43.google.com ([209.85.215.43])
-	by p3plsmtpa07-02.prod.phx3.secureserver.net with 
-	id lKZQ1r0090wlEax01KZRsR; Tue, 24 Nov 2015 00:33:25 -0700
-Received: by lfs39 with SMTP id 39so9564732lfs.3;
-	Mon, 23 Nov 2015 23:33:24 -0800 (PST)
-X-Received: by 10.25.19.168 with SMTP id 40mr12977434lft.68.1448350404053;
-	Mon, 23 Nov 2015 23:33:24 -0800 (PST)
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A58360617
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Nov 2015 09:36:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 5BD6218119;
+	Tue, 24 Nov 2015 10:36:53 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id TPg43ek+sbT4; Tue, 24 Nov 2015 10:36:51 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id AE84C1810E;
+	Tue, 24 Nov 2015 10:36:51 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 99B6ECB;
+	Tue, 24 Nov 2015 10:36:51 +0100 (CET)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 8BB7BC4;
+	Tue, 24 Nov 2015 10:36:51 +0100 (CET)
+Received: from xmail4.se.axis.com (xmail4.se.axis.com [10.0.5.46])
+	by thoth.se.axis.com (Postfix) with ESMTP id 8888034297;
+	Tue, 24 Nov 2015 10:36:51 +0100 (CET)
+Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail4.se.axis.com
+	([fe80::2dfa:6a3a:302a:d4e8%14]) with mapi;
+	Tue, 24 Nov 2015 10:36:51 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Tue, 24 Nov 2015 10:36:50 +0100
+Thread-Topic: [OE-core] [PATCH 5/5] useradd-staticids.bbclass: Read
+	passwd/group files before parsing
+Thread-Index: AdEb0ecuiHW0ftUnQraAq9/w8bcHZAAj8jfwAo55CyA=
+Message-ID: <A612847CFE53224C91B23E3A5B48BAC7C6F06C4D6C@xmail3.se.axis.com>
+References: <cover.1446595453.git.pkj@axis.com>
+	<d2e824d17dae9f9583a11ee2165096e7cff533b0.1446595453.git.pkj@axis.com>
+	<5639522B.5050604@windriver.com>
+	<A612847CFE53224C91B23E3A5B48BAC7C6F013F187@xmail3.se.axis.com>
+	<563D0A1E.9060601@windriver.com>
+	<A612847CFE53224C91B23E3A5B48BAC7C6F0358BFF@xmail3.se.axis.com>
+	<56421624.60201@windriver.com>
+	<A612847CFE53224C91B23E3A5B48BAC7C6F04E6985@xmail3.se.axis.com>
+In-Reply-To: <A612847CFE53224C91B23E3A5B48BAC7C6F04E6985@xmail3.se.axis.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
 MIME-Version: 1.0
-Received: by 10.25.20.145 with HTTP; Mon, 23 Nov 2015 23:32:54 -0800 (PST)
-In-Reply-To: <56538808.5050606@linux.intel.com>
-References: <56538808.5050606@linux.intel.com>
-From: Randy Witt <rewitt@declaratino.com>
-Date: Mon, 23 Nov 2015 23:32:54 -0800
-X-Gmail-Original-Message-ID: <CAP5N7XH-wVfyyCeBK7gdYXtoDLQuXPKkXV=CRNowmbPUGvxb8Q@mail.gmail.com>
-Message-ID: <CAP5N7XH-wVfyyCeBK7gdYXtoDLQuXPKkXV=CRNowmbPUGvxb8Q@mail.gmail.com>
-To: Mariano Lopez <mariano.lopez@linux.intel.com>
-Cc: yocto@yoctoproject.org, openembedded-devel@lists.openembedded.org,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Reference updater filesystem
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/5] useradd-staticids.bbclass: Read passwd/group files before parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,153 +62,261 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 07:40:34 -0000
-Content-Type: multipart/alternative; boundary=001a11401d705815be0525445b2b
+X-List-Received-Date: Tue, 24 Nov 2015 09:36:59 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
---001a11401d705815be0525445b2b
-Content-Type: text/plain; charset=UTF-8
+*ping*
 
-On Mon, Nov 23, 2015 at 1:41 PM, Mariano Lopez <
-mariano.lopez@linux.intel.com> wrote:
+//Peter
 
-> There has been interest in an image based software updater in Yocto
-> Project. The proposed solution for a image based updater is to use Stefano
-> Babic's software updater (http://sbabic.github.io/swupdate). This
-> software do a binary copy, so it is needed to have at least two partitions,
-> these partitions would be the rootfs and the maintenance partition. The
-> rootfs it's the main partition used to boot during the normal device
-> operation, on the other hand, the maintenance will be used to update the
-> main partition.
->
-> To update the system, the user has to connect to device and boot in the
-> maintenance partition; once in the maintenance partition the software
-> updater will copy the new image in the rootfs partition. A final reboot
-> into the rootfs it is necessary to complete the upgrade.
->
-> As mentioned before the the software will copy an image to the partition,
-> so everything in that partition will be wiped out, including custom
-> configurations. To avoid the loss of configuration I explore three
-> different solutions:
-> 1. Use a separate partition for the configuration.
->   a. The pro of this method is the partition is not touched during the
-> update.
->   b. The con of this method is the configuration is not directly in rootfs
-> (example: /etc).
->
-> Configuration files can be anywhere a package decides to install them. So
-having a single partition would be difficult. If you could, you would most
-likely be forced to have an initramfs to make sure /etc was mounted before
-init runs.
-
-
-> 2. Do the backup during the update.
->   a. The pro is the configuration is directly in rootfs.
->   b. The con is If the update fail most likely the configuration would be
-> lost.
->
-> Why would the configuration be lost if the update fails? Couldn't it just
-be stored on the thumbdrive?
-
-
-> 3. Have an OverlayFS for the rootfs or the partition that have the
-> configuration.
->   a. The pro is the configuration is  "directly" in rootfs.
->   b. The con is there is need to provide a custom init to guarantee the
-> Overlay is mounted before the boot process.
->
-> With the above information I'm proposing to use a separate partition for
-> the configuration; this is because is more reliable and doesn't require big
-> changes in the current architecture.
->
-> So, the idea is to have 4 partitions in the media:
-> 1. boot. This is the usual boot partition
-> 2. data. This will hold the configuration files. Not modified by updates.
-> 3. maintenance. This partition will be used to update rootfs.
-> 4. rootfs. Partition used for normal operation.
->
-> Mariano
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Peter Kjellerstedt
+> Sent: den 13 november 2015 13:52
+> To: Mark Hatle
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 5/5] useradd-staticids.bbclass: Read
+> passwd/group files before parsing
+>=20
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of
+> > Mark Hatle
+> > Sent: den 10 november 2015 17:07
+> > To: Peter Kjellerstedt
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH 5/5] useradd-staticids.bbclass: Read
+> > passwd/group files before parsing
+> >
+> > On 11/10/15 9:54 AM, Peter Kjellerstedt wrote:
+> > >> -----Original Message-----
+> > >> From: Mark Hatle [mailto:mark.hatle@windriver.com]
+> > >> Sent: den 6 november 2015 21:14
+> > >> To: Peter Kjellerstedt
+> > >> Cc: openembedded-core@lists.openembedded.org
+> > >> Subject: Re: [PATCH 5/5] useradd-staticids.bbclass: Read
+> > >> passwd/group files before parsing
+> > >>
+> > >> On 11/6/15 2:09 PM, Peter Kjellerstedt wrote:
+> > >>>> -----Original Message-----
+> > >>>> From: Mark Hatle [mailto:mark.hatle@windriver.com]
+> > >>>> Sent: den 4 november 2015 01:33
+> > >>>> To: Peter Kjellerstedt; openembedded-core@lists.openembedded.org
+> > >>>> Subject: Re: [PATCH 5/5] useradd-staticids.bbclass: Read
+> > >>>> passwd/group files before parsing
+> > >>>>
+> > >>>> On 11/3/15 6:06 PM, Peter Kjellerstedt wrote:
+> > >>>>> Read and merge the passwd/group files before parsing the user
+> and
+> > >>>>> group definitions. This means they will only be read once per
+> > >>>>> recipe. This solves a problem where if a user was definied in
+> > >>>>> multiple files, it could generate group definitions for groups
+> > >>>>> that should not be created. E.g., if the first passwd file read
+> > >>>>> defines a user as:
+> > >>>>>
+> > >>>>> foobar::1234::::
+> > >>>>>
+> > >>>>> and the second passwd file defines it as:
+> > >>>>>
+> > >>>>> foobar:::nogroup:The foobar user:/:/bin/sh
+> > >>>>>
+> > >>>>> then a foobar group would be created even if the user will use
+> > >>>>> the nogroup as its primary group.
+> > >>>>
+> > >>>> One minor thing
+> > >>>>
+> > >>>>> @@ -251,7 +269,7 @@ def update_useradd_static_config(d):
+> > >>>>>
+> > >>>>>              newparams.append(newparam)
+> > >>>>>
+> > >>>>> -        return " ;".join(newparams).strip()
+> > >>>>> +        return ";".join(newparams).strip()
+> > >>>>>
+> > >>>>>      # Load and process the users and groups, rewriting the
+> adduser/addgroup params
+> > >>>>>      useradd_packages =3D d.getVar('USERADD_PACKAGES', True)
+> > >>>>>
+> > >>>>
+> > >>>> The space was required because you could generate a user/group
+> > >>>> add line that ended with a string.  Without the space, you could
+> > >>>> end up merging two sets of arguments causing a failure
+> condition.
+> > >>>>
+> > >>>> So I think that it should be retained unless there is a specific
+> > >>>> reason you believe it should be removed.
+> > >>>
+> > >>> I cannot see how that space can make any difference. Each set of
+> > >>> useradd/grouppadd options added to newparams has the user/group
+> > >>> name at the end of the string. And if that somehow interferes
+> with
+> > >>> the semicolon, then the code in useradd.bbclass which simply does
+> > >>> "cut -d ';'" to split the useradd/groupadd line would break
+> > >>> already.
+> > >>
+> > >> The contents when originally parsed my be run as arguments to a
+> > >> shell script or as parameters to these functions.
+> > >>
+> > >> In the shell script world not have a space can confuse the
+> argument
+> > >> parsing into thinking the ; is part of the argument.
+> > >
+> > > No shell I have heard of (bash, zsh and dash comes to mind) would
+> be
+> > > affected by the lack of a space before the semicolon. Moreover,
+> this
+> > > is never actually parsed by a shell (except as part of a variable
+> > > value). The semicolon is used by useradd.bbclass to split the
+> > > variables, after which it lets the shell evaluate the part before
+> > > the semicolon (which will ignore any trailing whitespace).
+> >
+> > I've seen broken shells in the past where you would do something
+> like:
+> >
+> > /bin/echo foo;/bin/echo bar
+> >
+> > and get:  "/bin echo foo;/bin/echo bar" since it treated the middle
+> > item as a single command.  I'm not saying it wasn't a bug in the
+> shell
+> > or system -- just that I've been burned by it in the past and because
+> > of this, I try not to rely on it.. (when adding a space solves the
+> issue.)
+>=20
+> Ok, sounds weird, but I will take your word for it.
+>=20
+> > >> You don't have that in the python world with the split behavior.
+> > >>
+> > >>> Actually, now that I think about it, I do wonder why
+> > >>> useradd-staticids.bbclass use this advanced variant to split the
+> > >>> useradd/groupadd lines:
+> > >>>
+> > >>>         for param in re.split('''[ \t]*;[
+> \t]*(?=3D(?:[^'"]|'[^']*'|"[^"]*")*$)''', params):
+> > >>
+> > >> It is perfectly legal to allow a ';' in the middle of a parameter
+> > >> (that allows it), a parameter that is quoted.
+> > >
+> > > Sure, and the code above handles some cases, but definitely not
+> all.
+> > > E.g., this would not be parsed as intended by useradd-
+> > > staticids.bbclass:
+> > >
+> > > USERADD_PARAMS_${PN} +=3D "-c Comment\ with\ an\ \'\ in\ it
+> oddcomment; \
+> > >                          -c Other\ odd \'\ comment otheruser"
+> > >
+> > > but it would be handled correctly by useradd.bbclass...
+> >
+> > In this case, we need to emulate a reasonable set of argument
+> > processing.  If there is something built into bitbake/oe then we can
+> > use it.  The re.split though was a good approximation of the common
+> > configurations I was seeing at the time.  (Specifically quotes
+> > parameters for spaces and ;)
+>=20
+> Normally I would suggest shlex.split(). It is already used by both
+> BitBake and OE-Core. Unfortunately, it cannot be used in this case
+> as it cannot distinguish between an escaped/quoted semicolon and
+> one that is not escaped/quoted. This is because it is designed to
+> split one command line, not multiple lines.
+>=20
+> So the split of multiple commands would probably still have to be
+> done using a regular expression, extended to support escaping.
+>=20
+> shlex.split() can be used for the second split though (where the
+> command is fed to the parser).
+>=20
+> We would also need the opposite to construct a command line with
+> all options properly quoted. Unfortunately, shlex.quote() was not
+> added until Python 3.3. However, there is an unofficial pipes.quote()
+> that is already used by OE-Core, so I assume it is ok to use.
+>=20
+> > >> Something like:
+> > >>
+> > >> adduser -c "This user;that user;all users" -d /home/allusers
+> alluser
+> > >>
+> > >> it's odd, but I've certainly seen people put ';' in the comment
+> > >> before.. and it is legal in other palces, like the home dir and
+> > >> such -- just not advised.
+> > >
+> > > It may be legal, but it has never been supported by the
+> > > adduser.bbclass. And thus it has never worked in practice to take
+> an
+> > > existing passwd file that contains a semicolon in the comment field
+> > > and expect it to work as input to adduser-staticids.bbclass.
+> >
+> > Then that is a bug we should fix.  At one time this was working
+> > (perhaps not in OE, but locally?)   Since I did have a customer who
+> > had both spaces and ';' in their comment field.  (This is how I
+> > originally found the problem and needed to figure out a regex that
+> > worked in more cases.)
+> >
+> > > Moreover, neither adduser.bbclass nor adduser-staticids.bbclass
+> will
+> > > handle a semicolon correctly in any other field. And let's not get
+> > > started on other special characters like ", \, $ and > which could
+> > > wreak havoc on both classes in a correctly crafted passwd file.
+> >
+> > I realize there are may corner cases here.  We need to try to support
+> > the reasonable ones and prevent the others.  If that list should be
+> > avoided in certain cases -- then we should enhance the system catch
+> > things "not to do". But using ';' in the comment is fairly common in
+> > some environments.
+> >
+> > >>> when this would do the job just as well:
+> > >>>
+> > >>>         for param in params.split(';'):
+> > >>>
+> > >>> given that that is what useradd.bbclass does. It looks as if
+> tries
+> > >>> to support something like --comment "something with a ; in it",
+> but
+> > >>> using that would break in useradd.bbclass anyway...
+> > >>
+> > >> Then the useradd class is broken in this case.  The --comment
+> > >> processing needs to work, it's just rarely used in the normal
+> > >> case, but very much used in the "lets take a previously generated
+> > >> passwd file and reuse it" case of the adduser-static.
+> > >>
+> > >>> //Peter
+> > >
+> > > So, from reading the code in both adduser.bbclass and
+> > > adduser-staticids.bbclass, having spaces or no spaces before the
+> > > semicolon in the USERADD_PARAM_${PN} variable cannot make any
+> > > difference to how the users are created in the end. Thus it should
+> > > be safe to remove them.
+> >
+> > The (initial) generated adduser/addgroup/etc command is dumped into
+> the
+> > pre/post install script section of the packages.  So when the package
+> > manager runs it needs to execute the shell script.  This is where
+> I've
+> > seen the problem of the ';' in the past...
+> >
+> > Adduser and adduser-static should be synced to use the same
+> delimitation
+> > mechanism.  And for things like a ; in the comment, both should
+> equally
+> > support it.  We've got a mismatch and that is definitely a bug.
+>=20
+> I agree that the correct thing to do is to make them support the same
+> mechanism. However, this would require quite some more work, especially
+> with the useradd.bbclass, and as it does not affect the changes in my
+> patches, do you think the patches can be accepted as they are, and we
+> can work on improving the parsing afterwards?
+>=20
+> > --Mark
+> >
+> > > //Peter
+>=20
+> //Peter
+>=20
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---001a11401d705815be0525445b2b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, Nov 23, 2015 at 1:41 PM, Mariano Lopez <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:mariano.lopez@linux.intel.com" target=3D"_blank">mariano.lo=
-pez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->There has been interest in an image based software updater in Yocto Projec=
-t. The proposed solution for a image based updater is to use Stefano Babic&=
-#39;s software updater (<a href=3D"http://sbabic.github.io/swupdate" rel=3D=
-"noreferrer" target=3D"_blank">http://sbabic.github.io/swupdate</a>). This =
-software do a binary copy, so it is needed to have at least two partitions,=
- these partitions would be the rootfs and the maintenance partition. The ro=
-otfs it&#39;s the main partition used to boot during the normal device oper=
-ation, on the other hand, the maintenance will be used to update the main p=
-artition.<br>
-<br>
-To update the system, the user has to connect to device and boot in the mai=
-ntenance partition; once in the maintenance partition the software updater =
-will copy the new image in the rootfs partition. A final reboot into the ro=
-otfs it is necessary to complete the upgrade.<br>
-<br>
-As mentioned before the the software will copy an image to the partition, s=
-o everything in that partition will be wiped out, including custom configur=
-ations. To avoid the loss of configuration I explore three different soluti=
-ons:<br>
-1. Use a separate partition for the configuration.<br>
-=C2=A0 a. The pro of this method is the partition is not touched during the=
- update.<br>
-=C2=A0 b. The con of this method is the configuration is not directly in ro=
-otfs (example: /etc).<br>
-<br></blockquote><div>Configuration files can be anywhere a package decides=
- to install them. So having a single partition would be difficult. If you c=
-ould, you would most likely be forced to have an initramfs to make sure /et=
-c was mounted before init runs.</div><div>=C2=A0</div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">
-2. Do the backup during the update.<br>
-=C2=A0 a. The pro is the configuration is directly in rootfs.<br>
-=C2=A0 b. The con is If the update fail most likely the configuration would=
- be lost.<br>
-<br></blockquote><div>Why would the configuration be lost if the update fai=
-ls? Couldn&#39;t it just be stored on the thumbdrive?</div><div>=C2=A0</div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex">
-3. Have an OverlayFS for the rootfs or the partition that have the configur=
-ation.<br>
-=C2=A0 a. The pro is the configuration is=C2=A0 &quot;directly&quot; in roo=
-tfs.<br>
-=C2=A0 b. The con is there is need to provide a custom init to guarantee th=
-e Overlay is mounted before the boot process.<br>
-<br>
-With the above information I&#39;m proposing to use a separate partition fo=
-r the configuration; this is because is more reliable and doesn&#39;t requi=
-re big changes in the current architecture.<br>
-<br>
-So, the idea is to have 4 partitions in the media:<br>
-1. boot. This is the usual boot partition<br>
-2. data. This will hold the configuration files. Not modified by updates.<b=
-r>
-3. maintenance. This partition will be used to update rootfs.<br>
-4. rootfs. Partition used for normal operation.<span class=3D"HOEnZb"><font=
- color=3D"#888888"><br>
-<br>
-Mariano<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</font></span></blockquote></div><br></div></div>
-
---001a11401d705815be0525445b2b--
