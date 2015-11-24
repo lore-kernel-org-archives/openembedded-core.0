@@ -1,48 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id C8624607AA
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F52D6011C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 15:17:54 +0000 (UTC)
-Received: by ioc74 with SMTP id 74so23113976ioc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 07:17:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=LWeIIelPT25e3V8pXlFpUSJyyKSibdiHxHJ+Z07Dl/U=;
-	b=U4PYfRsTgNtYeMqqVfgGP0s9yOf+FvJLa6h+GAuWXaTqcZdY1/RL6W6Xod0SNDLYh5
-	mGrvtPL4ybf1mqJJWbLdIV/5QbiGQtAtAiADsQSyA+5bFuMioP+ZgO1H8pfAQ9tb6Bee
-	FbS/5hkSzmY8Knp8VuFzodKr4Al8bVjfRWwREs2E4Zfaj1SHm5XQhI9yv993JyLcrIop
-	+1KdfRl9cymmNqPpuq+QeOc04cJnL7tlcTlcAZKpWntS+y5aJMKEY2OxN5sIzstF6YsD
-	tLPvUaMp7lrWcKkWqX+QowejZA462DaJ20J3V+0N4NPEO2GL04d1J4JBxeiGaXtybAx5
-	YqzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=LWeIIelPT25e3V8pXlFpUSJyyKSibdiHxHJ+Z07Dl/U=;
-	b=MizZdN6gifMEToVJgGLnz5zeKmlxgfvJHIllKNrvWS4MZB4JABQGW4hS+8yXPKFqGH
-	FV9LNe0UFZ+Pfu4LL/BpPvPAljWAoKQh/sMMK0GCRjg6S/DtNyWx0ppd2IniiQkK0tA8
-	UTp/xW/Fk21JasVUPUhDK5Tt+zTEfcP0NMe0yDVaRWoUE9S1CXCMpDI0PRAmJqbv6yRL
-	HE0MBwC4JReoCNz3Rdsop0/uc1Dx6FHnjdeTF0cBPAXmSQFESI2rmLCsDVuY4yT/HWj4
-	8+kmEo8ZONzqirDjJm82beoUafxMV1/sgkBaT3d4pv7o+ApDmqbJlCabgr7VXj1GO+8e
-	OJ+A==
-X-Gm-Message-State: ALoCoQnVuYhsGcbHh/wMJjkm71AzbTdAXJkoyJb4QDyYUYmqBxapzziB3oQ5pGf47svWIQsuEGcS
-X-Received: by 10.107.130.155 with SMTP id m27mr34482848ioi.133.1448378274970; 
-	Tue, 24 Nov 2015 07:17:54 -0800 (PST)
+	Tue, 24 Nov 2015 16:14:39 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Nov 2015 08:14:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,338,1444719600"; d="scan'208";a="693475566"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga003.jf.intel.com with ESMTP; 24 Nov 2015 08:14:39 -0800
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id AD31C6A4005;
+	Tue, 24 Nov 2015 08:13:31 -0800 (PST)
+Date: Tue, 24 Nov 2015 17:43:23 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Mariano Lopez <mariano.lopez@linux.intel.com>
+Message-ID: <20151124154323.GA3530@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <cover.1447834352.git.mariano.lopez@linux.intel.com>
+	<2d04d7f11597f6e8331b293e033aef0d36ce5f02.1447834352.git.mariano.lopez@linux.intel.com>
+	<20151123173747.GA17608@linux.intel.com>
+	<56538F7B.20608@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Tue, 24 Nov 2015 07:17:35 -0800 (PST)
-In-Reply-To: <5b0777dd5f120c6235dad62bab0dd8972a7c54be.1448029554.git.andrew.shadura@collabora.co.uk>
-References: <e36072a82de706f1485c054adf8cb2d38a01e899.1448029554.git.andrew.shadura@collabora.co.uk>
-	<5b0777dd5f120c6235dad62bab0dd8972a7c54be.1448029554.git.andrew.shadura@collabora.co.uk>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 24 Nov 2015 15:17:35 +0000
-Message-ID: <CAJTo0LYsUF0X1ToOZuk7WhbXZuA4jvkaiK+p_LpmOSc04dxH_Q@mail.gmail.com>
-To: Andrew Shadura <andrew.shadura@collabora.co.uk>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 2/3] dbus: update the recipes to 1.10.2
+In-Reply-To: <56538F7B.20608@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] wic: Allow to use a custom config for bootloaders
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,56 +41,230 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 15:17:55 -0000
-Content-Type: multipart/alternative; boundary=001a113ecd94948ba605254ad8f6
+X-List-Received-Date: Tue, 24 Nov 2015 16:14:40 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a113ecd94948ba605254ad8f6
-Content-Type: text/plain; charset=UTF-8
-
-On 20 November 2015 at 14:27, Andrew Shadura <andrew.shadura@collabora.co.uk
-> wrote:
-
-> --- a/meta/recipes-core/dbus/dbus-test_1.8.20.bb
-> +++ b/meta/recipes-core/dbus/dbus-test_1.10.2.bb
-> +SRC_URI[md5sum] = "9190f5c0e41e8d220352c058faf5463522378e35"
-> +SRC_URI[sha256sum] =
-> "aef3f49595df09b0824433ee993cda748ede93693a719a831562ae1616b6bb9e"
+On Mon, Nov 23, 2015 at 04:13:15PM -0600, Mariano Lopez wrote:
+> 
+> 
+> On 11/23/2015 11:37 AM, Ed Bartosh wrote:
+> >Hi Mariano,
+> >
+> >Thank you for the patchset!
+> >
+> >Would it be better to put content of configuration file into .wks
+> >instead of just referring to it?
+> 
+> If the configuration is simple I agree with you; however if the
+> configuration have scripts I think it's better to have separated
+> file. The file can growth and would be a real mess inside a wks
+> file.
 >
-> --- a/meta/recipes-core/dbus/dbus_1.8.20.bb
-> +++ b/meta/recipes-core/dbus/dbus_1.10.2.bb
-> +SRC_URI[md5sum] = "2428919cc77b8d0028d65ee4d5dbef31"
-> +SRC_URI[sha256sum] =
-> "aef3f49595df09b0824433ee993cda748ede93693a719a831562ae1616b6bb9e"
+What bothers me here is that reference to the external entity (config file in this case) which
+may or may not exist. This makes wic more fragile than it is now.
+
+Can we put bootloader configs to some predefined place, e.g. to the same
+directory where .wks is?
+
+> >
+> >It would be also nice to have this code covered by oe-selftest.
+>
+> Yes, I plan do  create a test and update the documentation once it
+> is integrated in master.
 >
 
-One of those checksums was wrong, but I fixed it during testing.
+I'd prefer to have tests in the same patchset with the code. It would
+help to understand better how to handle external configs. Can you do
+that?
 
-Ross
+Regards,
+Ed
 
---001a113ecd94948ba605254ad8f6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> >
+> >On Wed, Nov 18, 2015 at 08:25:54AM +0000, mariano.lopez@linux.intel.com wrote:
+> >>From: Mariano Lopez <mariano.lopez@linux.intel.com>
+> >>
+> >>This change will allow to use a user defined file as the
+> >>configuration for the bootloaders (grub, gummiboot, syslinux).
+> >>
+> >>The config file is defined in the wks file with the "configfile"
+> >>option in the bootloader line.
+> >>
+> >>[YOCTO #8003]
+> >>
+> >>Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+> >>---
+> >>  scripts/lib/wic/plugins/source/bootimg-efi.py    | 66 ++++++++++++++++--------
+> >>  scripts/lib/wic/plugins/source/bootimg-pcbios.py | 66 ++++++++++++++----------
+> >>  2 files changed, 83 insertions(+), 49 deletions(-)
+> >>
+> >>diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+> >>index fa63c6a..8fc879e 100644
+> >>--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
+> >>+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+> >>@@ -45,22 +45,33 @@ class BootimgEFIPlugin(SourcePlugin):
+> >>          """
+> >>          Create loader-specific (grub-efi) config
+> >>          """
+> >>-        options = creator.ks.handler.bootloader.appendLine
+> >>-
+> >>-        grubefi_conf = ""
+> >>-        grubefi_conf += "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\n"
+> >>-        grubefi_conf += "default=boot\n"
+> >>-        timeout = kickstart.get_timeout(creator.ks)
+> >>-        if not timeout:
+> >>-            timeout = 0
+> >>-        grubefi_conf += "timeout=%s\n" % timeout
+> >>-        grubefi_conf += "menuentry 'boot'{\n"
+> >>-
+> >>-        kernel = "/bzImage"
+> >>-
+> >>-        grubefi_conf += "linux %s root=%s rootwait %s\n" \
+> >>-            % (kernel, creator.rootdev, options)
+> >>-        grubefi_conf += "}\n"
+> >>+        configfile = kickstart.get_bootloader_file(creator.ks)
+> >>+
+> >>+        if configfile and os.path.exists(configfile):
+> >>+            # Use a custom configuration file for grub
+> >>+            msger.info("Using custom configuration file "
+> >>+                    "%s for grub.cfg" % configfile)
+> >>+            user_conf = open(configfile, "r")
+> >>+            grubefi_conf = user_conf.read()
+> >>+            user_conf.close()
+> >>+        else:
+> >>+            # Create grub configuration using parameters from wks file
+> >>+            options = creator.ks.handler.bootloader.appendLine
+> >>+
+> >>+            grubefi_conf = ""
+> >>+            grubefi_conf += "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\n"
+> >>+            grubefi_conf += "default=boot\n"
+> >>+            timeout = kickstart.get_timeout(creator.ks)
+> >>+            if not timeout:
+> >>+                timeout = 0
+> >>+            grubefi_conf += "timeout=%s\n" % timeout
+> >>+            grubefi_conf += "menuentry 'boot'{\n"
+> >>+
+> >>+            kernel = "/bzImage"
+> >>+
+> >>+            grubefi_conf += "linux %s root=%s rootwait %s\n" \
+> >>+                % (kernel, creator.rootdev, options)
+> >>+            grubefi_conf += "}\n"
+> >>          msger.debug("Writing grubefi config %s/hdd/boot/EFI/BOOT/grub.cfg" \
+> >>                          % cr_workdir)
+> >>@@ -95,12 +106,23 @@ class BootimgEFIPlugin(SourcePlugin):
+> >>          cfg.write(loader_conf)
+> >>          cfg.close()
+> >>-        kernel = "/bzImage"
+> >>-
+> >>-        boot_conf = ""
+> >>-        boot_conf += "title boot\n"
+> >>-        boot_conf += "linux %s\n" % kernel
+> >>-        boot_conf += "options LABEL=Boot root=%s %s\n" % (creator.rootdev, options)
+> >>+        configfile = kickstart.get_bootloader_file(creator.ks)
+> >>+
+> >>+        if configfile and os.path.exists(configfile):
+> >>+            # Use a custom configuration file for gummiboot
+> >>+            msger.info("Using custom configuration file "
+> >>+                    "%s for gummiboot's boot.conf" % configfile)
+> >>+            user_conf = open(configfile, "r")
+> >>+            boot_conf = user_conf.read()
+> >>+            user_conf.close()
+> >>+        else:
+> >>+            # Create gummiboot configuration using parameters from wks file
+> >>+            kernel = "/bzImage"
+> >>+
+> >>+            boot_conf = ""
+> >>+            boot_conf += "title boot\n"
+> >>+            boot_conf += "linux %s\n" % kernel
+> >>+            boot_conf += "options LABEL=Boot root=%s %s\n" % (creator.rootdev, options)
+> >>          msger.debug("Writing gummiboot config %s/hdd/boot/loader/entries/boot.conf" \
+> >>                          % cr_workdir)
+> >>diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+> >>index 96ed54d..9e21572 100644
+> >>--- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+> >>+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+> >>@@ -83,34 +83,46 @@ class BootimgPcbiosPlugin(SourcePlugin):
+> >>          install_cmd = "install -d %s" % hdddir
+> >>          exec_cmd(install_cmd)
+> >>-        splash = os.path.join(cr_workdir, "/hdd/boot/splash.jpg")
+> >>-        if os.path.exists(splash):
+> >>-            splashline = "menu background splash.jpg"
+> >>+        configfile = kickstart.get_bootloader_file(creator.ks)
+> >>+
+> >>+        if configfile and os.path.exists(configfile):
+> >>+            # Use a custom configuration file for syslinux
+> >>+            msger.info("Using custom configuration file "
+> >>+                    "%s for syslinux.cfg" % configfile)
+> >>+            user_conf = open(configfile, "r")
+> >>+            syslinux_conf = user_conf.read()
+> >>+            user_conf.close()
+> >>+
+> >>          else:
+> >>-            splashline = ""
+> >>-
+> >>-        options = creator.ks.handler.bootloader.appendLine
+> >>-
+> >>-        syslinux_conf = ""
+> >>-        syslinux_conf += "PROMPT 0\n"
+> >>-        timeout = kickstart.get_timeout(creator.ks)
+> >>-        if not timeout:
+> >>-            timeout = 0
+> >>-        syslinux_conf += "TIMEOUT " + str(timeout) + "\n"
+> >>-        syslinux_conf += "\n"
+> >>-        syslinux_conf += "ALLOWOPTIONS 1\n"
+> >>-        syslinux_conf += "SERIAL 0 115200\n"
+> >>-        syslinux_conf += "\n"
+> >>-        if splashline:
+> >>-            syslinux_conf += "%s\n" % splashline
+> >>-        syslinux_conf += "DEFAULT boot\n"
+> >>-        syslinux_conf += "LABEL boot\n"
+> >>-
+> >>-        kernel = "/vmlinuz"
+> >>-        syslinux_conf += "KERNEL " + kernel + "\n"
+> >>-
+> >>-        syslinux_conf += "APPEND label=boot root=%s %s\n" % \
+> >>-                             (creator.rootdev, options)
+> >>+            # Create syslinux configuration using parameters from wks file
+> >>+            splash = os.path.join(cr_workdir, "/hdd/boot/splash.jpg")
+> >>+            if os.path.exists(splash):
+> >>+                splashline = "menu background splash.jpg"
+> >>+            else:
+> >>+                splashline = ""
+> >>+
+> >>+            options = creator.ks.handler.bootloader.appendLine
+> >>+
+> >>+            syslinux_conf = ""
+> >>+            syslinux_conf += "PROMPT 0\n"
+> >>+            timeout = kickstart.get_timeout(creator.ks)
+> >>+            if not timeout:
+> >>+                timeout = 0
+> >>+            syslinux_conf += "TIMEOUT " + str(timeout) + "\n"
+> >>+            syslinux_conf += "\n"
+> >>+            syslinux_conf += "ALLOWOPTIONS 1\n"
+> >>+            syslinux_conf += "SERIAL 0 115200\n"
+> >>+            syslinux_conf += "\n"
+> >>+            if splashline:
+> >>+                syslinux_conf += "%s\n" % splashline
+> >>+            syslinux_conf += "DEFAULT boot\n"
+> >>+            syslinux_conf += "LABEL boot\n"
+> >>+
+> >>+            kernel = "/vmlinuz"
+> >>+            syslinux_conf += "KERNEL " + kernel + "\n"
+> >>+
+> >>+            syslinux_conf += "APPEND label=boot root=%s %s\n" % \
+> >>+                                 (creator.rootdev, options)
+> >>          msger.debug("Writing syslinux config %s/hdd/boot/syslinux.cfg" \
+> >>                      % cr_workdir)
+> >>-- 
+> >>1.8.4.5
+> >>
+> 
+> -- 
+> Mariano Lopez
 
-<div dir=3D"ltr">On 20 November 2015 at 14:27, Andrew Shadura <span dir=3D"=
-ltr">&lt;<a href=3D"mailto:andrew.shadura@collabora.co.uk" target=3D"_blank=
-">andrew.shadura@collabora.co.uk</a>&gt;</span> wrote:<br><div class=3D"gma=
-il_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">--- a/m=
-eta/recipes-core/dbus/<a href=3D"http://dbus-test_1.8.20.bb" rel=3D"norefer=
-rer" target=3D"_blank">dbus-test_1.8.20.bb</a><br>
-+++ b/meta/recipes-core/dbus/<a href=3D"http://dbus-test_1.10.2.bb" rel=3D"=
-noreferrer" target=3D"_blank">dbus-test_1.10.2.bb</a><br>+SRC_URI[md5sum] =
-=3D &quot;9190f5c0e41e8d220352c058faf5463522378e35&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;aef3f49595df09b0824433ee993cda748ede93693a719=
-a831562ae1616b6bb9e&quot;<br>
-<br>--- a/meta/recipes-core/dbus/<a href=3D"http://dbus_1.8.20.bb" rel=3D"n=
-oreferrer" target=3D"_blank">dbus_1.8.20.bb</a><br>
-+++ b/meta/recipes-core/dbus/<a href=3D"http://dbus_1.10.2.bb" rel=3D"noref=
-errer" target=3D"_blank">dbus_1.10.2.bb</a><br>+SRC_URI[md5sum] =3D &quot;2=
-428919cc77b8d0028d65ee4d5dbef31&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;aef3f49595df09b0824433ee993cda748ede93693a719=
-a831562ae1616b6bb9e&quot;<br></blockquote><div><br></div><div>One of those =
-checksums was wrong, but I fixed it during testing.</div><div><br></div><di=
-v>Ross=C2=A0</div></div></div></div>
+-- 
+--
+Regards,
+Ed
 
---001a113ecd94948ba605254ad8f6--
