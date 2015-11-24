@@ -1,29 +1,26 @@
-Return-Path: <petter@technux.se>
-Received: from bin-vsp-out-05.atm.binero.net (vsp-unauthed02.binero.net
-	[195.74.38.227])
-	by mail.openembedded.org (Postfix) with ESMTP id EA4B160617
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 10:09:00 +0000 (UTC)
-X-Halon-ID: 6bbcd686-9293-11e5-8d6c-005056916f53
-Authorized-sender: petter@technux.se
-Received: from webmail.binero.se (unknown [195.74.38.9])
-	by bin-vsp-out-05.atm.binero.net (Halon Mail Gateway) with ESMTPA
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 11:09:17 +0100 (CET)
+Return-Path: <roman@khimov.ru>
+Received: from roman.khimov.ru (roman.khimov.ru [82.146.54.17])
+	by mail.openembedded.org (Postfix) with ESMTP id B60136018D;
+	Tue, 24 Nov 2015 10:39:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=khimov.ru;
+	s=mail; 
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From;
+	bh=0MkJEg+czYiD4HeN0lTo7i+7rDhboKaZjQborIsyE4Q=; 
+	b=Ef0qZFyKgGbIUkcWiInmbVHyhdLhelY2zvMzi/nV3knMrUmJh+5IbuYnAXpbZF0Z/ojNbCZXQIQm7Vfy4lAJ0HrqwOGBVLoFdoJcM3shP8ScqJnM6TePWjbd3Y3IdwhSgHRjwLqe/hxMV4hazPb8xPNi+hKRweZM7/gHIrnx6C6iKeJ+/TtgCh2S2yJot31PZqL+TZAWhkJ7fxOHQY8X2LSeow+FCoV94ld5BuHgTQ/QV/M+BuouyOi+VN2+ZfXydvcy5S/aROI5a54WMZYAjwH8ADn3ZWMA1M55LCPpUS5ywPkr3qYc2EFe5JAA3p3rwqvef2v/q0NAEC0A4bp38Q==;
+Received: from mail.pkcc-tb.ru ([185.33.199.10] helo=bancha.hex)
+	by roman.khimov.ru with esmtpsa (TLS1.0:ECDHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.84) (envelope-from <roman@khimov.ru>)
+	id 1a1B0X-0001LX-B5; Tue, 24 Nov 2015 13:39:35 +0300
+From: Roman Khimov <roman@khimov.ru>
+To: openembedded-devel@lists.openembedded.org
+Date: Tue, 24 Nov 2015 13:39:32 +0300
+Message-ID: <14934048.INuFbpGn5J@bancha.hex>
+User-Agent: KMail/4.14.9 (Linux/3.16.7-24-desktop; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <56538808.5050606@linux.intel.com>
+References: <56538808.5050606@linux.intel.com>
 MIME-Version: 1.0
-Date: Tue, 24 Nov 2015 11:08:59 +0100
-From: =?UTF-8?Q?Petter_Mab=C3=A4cker?= <petter@technux.se>
-To: <openembedded-core@lists.openembedded.org>
-Organization: Technux
-Reply-To: <petter@technux.se>
-Mail-Reply-To: <petter@technux.se>
-In-Reply-To: <e67a765e5459944639f385cf17fb824d@technux.se>
-References: <cover.1448358455.git.petter@technux.se>
-	<e67a765e5459944639f385cf17fb824d@technux.se>
-Message-ID: <c5e237612049e8ef408f97f5fdebceff@technux.se>
-X-Sender: petter@technux.se
-User-Agent: Binero Webmail/0.8.4
-Subject: Re: [PATCH 0/2]: readline fixes
+Cc: yocto@yoctoproject.org, OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] RFC: Reference updater filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,169 +33,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 10:09:03 -0000
-Content-Type: multipart/alternative;
-	boundary="=_dfa7bd6d628f0b5c1539c67d8a23c631"
-
---=_dfa7bd6d628f0b5c1539c67d8a23c631
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset=UTF-8
-
- 
-
-Hi again.... 
-
-It seems it was the cc mail send-pull-request sent me
-that fooled me (the tag was missing there)... But everyrhing seems to be
-in order so plz go ahead and review this serie after all =) 
-
-Sorry for
-the confusion.. 
-
-Petter Mabäcker
-
-Technux
-<petter@technux.se>
-www.technux.se
-
-2015-11-24 11:00 skrev Petter
-Mabäcker: 
-
-> Hi all, 
-> 
-> I can see that I missed the [OE-core] tag in
-this patch-serie... Please ignore this patchset and I will send up a
-proper one shortly. 
-> 
-> BR Petter 
-> 
-> Petter Mabäcker
-> 
-> Technux
-<petter@technux.se>
-> www.technux.se
-> 
-> 2015-11-24 10:50 skrev Petter
-Mabäcker: 
-> 
->> The following changes since commit
-1b25a70991589ed1f123015c16ee4806c46e3199:
->> 
->> yocto-project-qs,
-ref-manual, poky.ent: CentOS Package updates (2015-11-18 16:42:22
-+0000)
->> 
->> are available in the git repository at:
->> 
->>
-git://git.yoctoproject.org/poky-contrib petmab/bug8451
->>
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/bug8451
-[1]
->> 
->> Petter Mabäcker (2):
->> readline: prepare for readline6.3
-upstream patches
->> readline: apply missing upstream patches
->> 
->>
-.../readline/{files => readline-6.3}/norpath.patch | 0
->>
-.../readline-6.3/readline-cve-2014-2524.patch | 43
-----------------------
->>
-.../readline-6.3/readline-dispatch-multikey.patch | 32
-----------------
->> meta/recipes-core/readline/readline.inc | 5 +--
->>
-meta/recipes-core/readline/readline_6.3.bb | 30 ++++++++++++++-
->> 5
-files changed, 29 insertions(+), 81 deletions(-)
->> rename
-meta/recipes-core/readline/{files => readline-6.3}/norpath.patch
-(100%)
->> delete mode 100644
-meta/recipes-core/readline/readline-6.3/readline-cve-2014-2524.patch
->>
-delete mode 100644
-meta/recipes-core/readline/readline-6.3/readline-dispatch-multikey.patch
-
-
-
-Links:
-------
-[1]
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/bug8451
-
---=_dfa7bd6d628f0b5c1539c67d8a23c631
+X-List-Received-Date: Tue, 24 Nov 2015 10:39:40 -0000
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
-<html><body style=3D'font-family: Helvetica,Arial,sans-serif'>
-<p>Hi again....</p>
-<p>It seems it was the cc mail send-pull-request sent me that fooled me (th=
-e tag was missing there)... But everyrhing seems to be in order so plz go a=
-head and review this serie after all =3D)</p>
-<p>Sorry for the confusion..</p>
-<p>&nbsp;</p>
-<div>
-<pre>Petter Mab&auml;cker
+=D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 23 =D0=BD=D0=BE=
+=D1=8F=D0=B1=D1=80=D1=8F 2015 15:41:28 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=D0=
+=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Mariano Lopez =D0=BD=D0=B0=D0=BF=
+=D0=B8=D1=81=D0=B0=D0=BB:
+> 1. Use a separate partition for the configuration.
+>    a. The pro of this method is the partition is not touched during t=
+he
+> update.
+>    b. The con of this method is the configuration is not directly in
+> rootfs (example: /etc).
 
-Technux &lt;petter@technux.se&gt;
-www.technux.se</pre>
-</div>
-<p>2015-11-24 11:00 skrev Petter Mab&auml;cker:</p>
-<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
-x solid; margin-left:5px; width:100%"><!-- html ignored --><!-- head ignore=
-d --><!-- meta ignored -->
-<p>Hi all,</p>
-<p>I can see that I missed the [OE-core] tag in this patch-serie... Please =
-ignore this patchset and I will send up a proper one shortly.</p>
-<p>BR Petter</p>
-<p>&nbsp;</p>
-<div>
-<pre>Petter Mab&auml;cker
+That's the right solution, although to do it really right (at least IMO=
+) you=20
+need to implement the /usr merge [1] (and that's orthogonal to using or=
+ not=20
+using systemd), which can also help you make your /usr read-only (becau=
+se=20
+that's just code and static data) with read-write / for user data of va=
+rious=20
+sorts.
 
-Technux &lt;petter@technux.se&gt;
-www.technux.se</pre>
-</div>
-<p>2015-11-24 10:50 skrev Petter Mab&auml;cker:</p>
-<blockquote style=3D"padding-left: 5px; border-left: #1010ff  2px  solid; m=
-argin-left: 5px; width: 100%;">
-<pre>The following changes since commit 1b25a70991589ed1f123015c16ee4806c46=
-e3199:
+> 3. Have an OverlayFS for the rootfs or the partition that have the
+> configuration.
+>    a. The pro is the configuration is  "directly" in rootfs.
+>    b. The con is there is need to provide a custom init to guarantee =
+the
+> Overlay is mounted before the boot process.
 
-  yocto-project-qs, ref-manual, poky.ent: CentOS Package updates (2015-11-1=
-8 16:42:22 +0000)
+And this is the approach I would recommend not doing. I've used UnionFS=
+ for=20
+thing like that (overlaying whole root file system) some 6 years ago, i=
+t=20
+sounded nice and it kinda worked, but it wasn't difficult to make it fa=
+il=20
+(just a little playing with power), we've even seen failures on product=
+ion=20
+devices, like when you have whiteout file for directory already written=
+, but=20
+don't have new files in it yet and that can completely ruin the system.=
 
-are available in the git repository at:
 
-  git://git.yoctoproject.org/poky-contrib petmab/bug8451
-  <a href=3D"http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dpet=
-mab/bug8451">http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dpet=
-mab/bug8451</a>
+Also, it usually works better when you don't have any changes in the lo=
+wer=20
+layer, but we're talking about updating it here, you can easily end up =
+in a=20
+situation where you have updated something in the rootfs but that was=20=
 
-Petter Mab&auml;cker (2):
-  readline: prepare for readline6.3 upstream patches
-  readline: apply missing upstream patches
+overriden by upper layer and thus your user doesn't see any change.
 
- .../readline/{files =3D&gt; readline-6.3}/norpath.patch |  0
- .../readline-6.3/readline-cve-2014-2524.patch      | 43 ------------------=
-----
- .../readline-6.3/readline-dispatch-multikey.patch  | 32 ----------------
- meta/recipes-core/readline/readline.inc            |  5 +--
- meta/recipes-core/readline/readline_6.3.bb         | 30 ++++++++++++++-
- 5 files changed, 29 insertions(+), 81 deletions(-)
- rename meta/recipes-core/readline/{files =3D&gt; readline-6.3}/norpath.pat=
-ch (100%)
- delete mode 100644 meta/recipes-core/readline/readline-6.3/readline-cve-20=
-14-2524.patch
- delete mode 100644 meta/recipes-core/readline/readline-6.3/readline-dispat=
-ch-multikey.patch
-</pre>
-</blockquote>
-</blockquote>
-</body></html>
+> With the above information I'm proposing to use a separate partition =
+for
+> the configuration; this is because is more reliable and doesn't requi=
+re
+> big changes in the current architecture.
+>=20
+> So, the idea is to have 4 partitions in the media:
+> 1. boot. This is the usual boot partition
+> 2. data. This will hold the configuration files. Not modified by upda=
+tes.
+> 3. maintenance. This partition will be used to update rootfs.
+> 4. rootfs. Partition used for normal operation.
 
---=_dfa7bd6d628f0b5c1539c67d8a23c631--
+You probably don't need to separate 1 and 3, all the code for system up=
+date=20
+should easily fit into initramfs and just making /boot a bit larger wou=
+ld=20
+allow you to store some backup rootfs.
+
+Also, you can swap 4 and 2 which will be useful if you're installing on=
+=20
+different sized storage devices, usually you know good enough the size =
+of your=20
+rootfs, but you probably want to leave more space for user data if ther=
+e is an=20
+opportunity to do so, that's just easier to do with data partition at t=
+he end.
+
+
+[1] http://www.freedesktop.org/wiki/Software/systemd/TheCaseForTheUsrMe=
+rge/
+
