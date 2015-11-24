@@ -1,28 +1,25 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B02606011C
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 16:29:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAOGT905000945
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 24 Nov 2015 08:29:09 -0800 (PST)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 24 Nov 2015 08:29:09 -0800
-To: Ming Liu <liu.ming50@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <1448315884-3893-1-git-send-email-liu.ming50@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <56549052.1020606@windriver.com>
-Date: Tue, 24 Nov 2015 11:29:06 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F7F46012C;
+	Tue, 24 Nov 2015 16:30:32 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Nov 2015 08:30:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,338,1444719600"; d="scan'208";a="828092191"
+Received: from jwbarz-mobl2.amr.corp.intel.com (HELO [10.254.191.22])
+	([10.254.191.22])
+	by orsmga001.jf.intel.com with ESMTP; 24 Nov 2015 08:30:18 -0800
+To: Roman Khimov <khimov@pkcc-tb.ru>, openembedded-devel@lists.openembedded.org
+References: <56538808.5050606@linux.intel.com> <60350861.Ng52JMGuMb@bancha.hex>
+From: "Lopez, Mariano" <mariano.lopez@linux.intel.com>
+Message-ID: <56549099.6070301@linux.intel.com>
+Date: Tue, 24 Nov 2015 10:30:17 -0600
+User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64; rv:38.0) Gecko/20100101
 	Thunderbird/38.3.0
 MIME-Version: 1.0
-In-Reply-To: <1448315884-3893-1-git-send-email-liu.ming50@gmail.com>
-Cc: darren@dvhart.com, Ming Liu <peter.x.liu@external.atlascopco.com>,
-	yue.tao@windriver.com
-Subject: Re: [PATCH V1] kernel-devsrc: add 'make scripts' postinstall
+In-Reply-To: <60350861.Ng52JMGuMb@bancha.hex>
+Cc: yocto@yoctoproject.org, OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] RFC: Reference updater filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,72 +32,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 16:29:32 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Nov 2015 16:30:36 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 15-11-23 04:58 PM, Ming Liu wrote:
-> From: Ming Liu <peter.x.liu@external.atlascopco.com>
->
-> Run 'make scripts' inside qemu in order to create script binaries that
-> needed by external modules build on the target.
->
-> Add RDEPENDS on gcc, make, which are needed by the compilation.
 
-This version looks fine to me .. and by "fine", I mean that it probably
-is still less than ideal, but with our current packaging and separation
-it makes sense to make it work, with all dependencies being explicit.
 
-As we (re)slim down the devsrc/headers split, we can revisit this as
-necessary.
+On 11/24/2015 4:30 AM, Roman Khimov wrote:
+> В письме от 23 ноября 2015 15:41:28 пользователь Mariano Lopez написал:
+>> 1. Use a separate partition for the configuration.
+>>     a. The pro of this method is the partition is not touched during the
+>> update.
+>>     b. The con of this method is the configuration is not directly in
+>> rootfs (example: /etc).
+> That's the right solution, although to do it really right (at least IMO) you
+> need to implement the /usr merge [1] (and that's orthogonal to using or not
+> using systemd), which can also help you make your /usr read-only (because
+> that's just code and static data) with read-write / for user data of various
+> sorts.
 
-One question below though ..
-
->
-> [YOCTO #6630]
->
-> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
-> ---
->   meta/recipes-kernel/linux/kernel-devsrc.bb | 14 ++++++++++++--
->   1 file changed, 12 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> index 196c8c7..87826ad 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
->   inherit linux-kernel-base
->
->   # Whilst not a module, this ensures we don't get multilib extended (which would make no sense)
-> -inherit module-base
-> +inherit module-base qemu
-
-Shouldn't this be qemu-native ? Since it is running on the host ? Or
-maybe I'm completely misunderstanding something :)
-
-Bruce
+To be honest I'm not familiar with /usr merge, I need to check on that 
+to see if it is a good option with the current OE-core infrastructure.
 
 >
->   # We need the kernel to be staged (unpacked, patched and configured) before
->   # we can grab the source and make the source package. We also need the bits from
-> @@ -71,6 +71,16 @@ do_install() {
->   # Ensure we don't race against "make scripts" during cpio
->   do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
+>> 3. Have an OverlayFS for the rootfs or the partition that have the
+>> configuration.
+>>     a. The pro is the configuration is  "directly" in rootfs.
+>>     b. The con is there is need to provide a custom init to guarantee the
+>> Overlay is mounted before the boot process.
+> And this is the approach I would recommend not doing. I've used UnionFS for
+> thing like that (overlaying whole root file system) some 6 years ago, it
+> sounded nice and it kinda worked, but it wasn't difficult to make it fail
+> (just a little playing with power), we've even seen failures on production
+> devices, like when you have whiteout file for directory already written, but
+> don't have new files in it yet and that can completely ruin the system.
 >
-> +pkg_postinst_${PN} () {
-> +	if [ -n "$D" ]; then
-> +		${@qemu_run_binary(d, '$D', '${bindir}/make')} \
-> +			-C $D${KERNEL_SRC_PATH} O=$D${KERNEL_SRC_PATH} scripts
-> +	else
-> +		make -C ${KERNEL_SRC_PATH} O=${KERNEL_SRC_PATH} scripts
-> +	fi
-> +}
-> +
->   PACKAGES = "kernel-devsrc"
->   FILES_${PN} = "${KERNEL_SRC_PATH}"
-> -RDEPENDS_${PN} = "bc"
-> +DEPENDS = "qemu-native"
-> +RDEPENDS_${PN} = "bc gcc make"
+> Also, it usually works better when you don't have any changes in the lower
+> layer, but we're talking about updating it here, you can easily end up in a
+> situation where you have updated something in the rootfs but that was
+> overriden by upper layer and thus your user doesn't see any change.
+
+Thanks for sharing your experience, this is another big con for the 
+Overlay option.
+
 >
+>> With the above information I'm proposing to use a separate partition for
+>> the configuration; this is because is more reliable and doesn't require
+>> big changes in the current architecture.
+>>
+>> So, the idea is to have 4 partitions in the media:
+>> 1. boot. This is the usual boot partition
+>> 2. data. This will hold the configuration files. Not modified by updates.
+>> 3. maintenance. This partition will be used to update rootfs.
+>> 4. rootfs. Partition used for normal operation.
+> You probably don't need to separate 1 and 3, all the code for system update
+> should easily fit into initramfs and just making /boot a bit larger would
+> allow you to store some backup rootfs.
+
+I left the /boot partition separate just in case there is need to 
+replace the kernel or the bootloader. This way it would be easier to 
+change using the same method as the upgrading the rootfs.
+
+>
+> Also, you can swap 4 and 2 which will be useful if you're installing on
+> different sized storage devices, usually you know good enough the size of your
+> rootfs, but you probably want to leave more space for user data if there is an
+> opportunity to do so, that's just easier to do with data partition at the end.
+
+I was thinking in the same thinking just backwards, usually 
+configuration files are just small text files that don't require too 
+much space. If you require a new feature in the target that will make 
+rootfs to grow depending on the feature. I plan to use wic to accomplish 
+the filesystem structure. A good thing about wic is that it will be very 
+easy to do the swap, just need to modify two options in the .wks file.
+
+>
+>
+> [1] http://www.freedesktop.org/wiki/Software/systemd/TheCaseForTheUsrMerge/
 
 
