@@ -1,36 +1,43 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A6FC607AA
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lf0-f51.google.com (mail-lf0-f51.google.com
+	[209.85.215.51])
+	by mail.openembedded.org (Postfix) with ESMTP id EEB876057A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 20:05:17 +0000 (UTC)
-Received: by ioc74 with SMTP id 74so32038751ioc.2
+	Tue, 24 Nov 2015 21:32:47 +0000 (UTC)
+Received: by lffu14 with SMTP id u14so37977382lff.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 12:05:18 -0800 (PST)
+	Tue, 24 Nov 2015 13:32:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=sz1PUg6TNPZAfOnODgjszbshGmQBc1OYBVSrTPP1gtE=;
-	b=ExYgGP9ztdxoC2BSTGiNpDOjDP04Ot3d3avJdebHG9//wiVelPwOHpNVIb8z8tpV94
-	B4w1L6rN05mx/fifP/DZKmsQ6maphn/BKyEMJ9PgfwC5dW7ZUKWpk49zSYGTPURrfTbV
-	iSubYACMgsRkp0AaCUnzxh4G4CsgBa86ZF4F4gtZjp03xeVJIa9aIG6YDF3g2q08uOx2
-	NStydWZJKhVTAD9QZVWjUo1cGKgTRJe0Q8fVw/fSnxJuAHQQmlw5YitB34a8RcHQH82q
-	wgZpHeHOvrEtesZn2TVlk9tqIJgcDTXh/uNjgLZEiO4krxkNw4f27Fuiu82kJMfa35me
-	69iQ==
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=SSgXXcQZTwDDo4efsRPQS+7If95PGSJZNakjUUpWGgo=;
+	b=pfoG2nxrpMNmSc4bA8VNxeGwWY5h80iF/rhFdNr5sk2Ruz5hdPWNFK8WNSZR9GM1XT
+	94p1JFuG4FIvooujZJjSaRtAOsz7eFighoWTxdRLcq3nXQ5uCkqXqXVCxPyKPA9u7v7J
+	3e3yBtcKNOuQiTbTEXrURJ6hZmvPmJE3U5qZt9SHJIUT6QiqJ5xe5dKpeQOFqCL8wi6a
+	01mQ1jVMeSummxe2cnAKELLvrRKyEszNrdV5u3tyHvnyUp+eXvA5DrE5DUWvaKesC5Kc
+	1/aVpxOZNN3PW4LNbt5k6nXrAhixhNSCMyoC+a70fOu4iUx0+k12ltSA49KW7ULoYjRp
+	vygg==
+X-Received: by 10.25.160.137 with SMTP id j131mr9871440lfe.123.1448400767531; 
+	Tue, 24 Nov 2015 13:32:47 -0800 (PST)
+Received: from [192.168.0.12] (c80-217-62-231.bredband.comhem.se.
+	[80.217.62.231]) by smtp.gmail.com with ESMTPSA id
+	k14sm2843557lfb.49.2015.11.24.13.32.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 24 Nov 2015 13:32:47 -0800 (PST)
+Message-ID: <5654D77E.3080306@gmail.com>
+Date: Tue, 24 Nov 2015 22:32:46 +0100
+From: Ming Liu <liu.ming50@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Received: by 10.107.162.137 with SMTP id l131mr29902717ioe.49.1448395518541; 
-	Tue, 24 Nov 2015 12:05:18 -0800 (PST)
-Received: by 10.107.12.205 with HTTP; Tue, 24 Nov 2015 12:05:18 -0800 (PST)
-Received: by 10.107.12.205 with HTTP; Tue, 24 Nov 2015 12:05:18 -0800 (PST)
-In-Reply-To: <CAJ86T=VBh-TsnaSyNVSxmbEJz7TbFcDmNBVP4_4PhXB=YMrm5w@mail.gmail.com>
-References: <CAJ86T=VBh-TsnaSyNVSxmbEJz7TbFcDmNBVP4_4PhXB=YMrm5w@mail.gmail.com>
-Date: Tue, 24 Nov 2015 12:05:18 -0800
-Message-ID: <CAMKF1spXxarTUskBgB6ABdL-yn4wSm1cOZSBKdCpyxQzDg_a8g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: vmdk images with musl libc
+To: Bruce Ashfield <bruce.ashfield@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1448315884-3893-1-git-send-email-liu.ming50@gmail.com>
+	<56549052.1020606@windriver.com>
+In-Reply-To: <56549052.1020606@windriver.com>
+Cc: darren@dvhart.com, Ming Liu <peter.x.liu@external.atlascopco.com>,
+	yue.tao@windriver.com
+Subject: Re: [PATCH V1] kernel-devsrc: add 'make scripts' postinstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,58 +50,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 20:05:18 -0000
-Content-Type: multipart/alternative; boundary=001a1141bbc660a45705254edcf5
+X-List-Received-Date: Tue, 24 Nov 2015 21:32:49 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a1141bbc660a45705254edcf5
-Content-Type: text/plain; charset=UTF-8
 
-On Tue, Nov 24, 2015 at 10:58 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> It's currently not possible to build a vmdk image when TCLIBC = "musl"
-> due to the following dependencies:
+
+On 11/24/2015 05:29 PM, Bruce Ashfield wrote:
+> On 15-11-23 04:58 PM, Ming Liu wrote:
+>> From: Ming Liu <peter.x.liu@external.atlascopco.com>
+>>
+>> Run 'make scripts' inside qemu in order to create script binaries that
+>> needed by external modules build on the target.
+>>
+>> Add RDEPENDS on gcc, make, which are needed by the compilation.
 >
-> do_bootdirectdisk -> syslinux -> mtools -> glibc-gconv-ibm850
+> This version looks fine to me .. and by "fine", I mean that it probably
+> is still less than ideal, but with our current packaging and separation
+> it makes sense to make it work, with all dependencies being explicit.
 >
-> Creating an mtools .bbappend containing:
+> As we (re)slim down the devsrc/headers split, we can revisit this as
+> necessary.
 >
-> RDEPENDS_${PN}_libc-musl = ""
-> RRECOMMENDS_${PN}_libc-musl = ""
+> One question below though ..
 >
-> seems to be a workaround.
+>>
+>> [YOCTO #6630]
+>>
+>> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+>> ---
+>>   meta/recipes-kernel/linux/kernel-devsrc.bb | 14 ++++++++++++--
+>>   1 file changed, 12 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb 
+>> b/meta/recipes-kernel/linux/kernel-devsrc.bb
+>> index 196c8c7..87826ad 100644
+>> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+>> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+>> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = 
+>> "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
+>>   inherit linux-kernel-base
+>>
+>>   # Whilst not a module, this ensures we don't get multilib extended 
+>> (which would make no sense)
+>> -inherit module-base
+>> +inherit module-base qemu
 >
-> Does anyone see a better solution?
+> Shouldn't this be qemu-native ? Since it is running on the host ? Or
+> maybe I'm completely misunderstanding something :)
+Indeed it is calling qemu-native when inheriting this class, to make a 
+certain postinstall scriptlet run at do_rootfs time through a 
+architecture dependent qemu.
+I am not sure if I had answered your question, maybe you mean the name 
+is not proper? qemu-native.bbclass would make more sense?
 
-That should be fine for musl.
+//Ming Liu
+>
+> Bruce
+>
+>>
+>>   # We need the kernel to be staged (unpacked, patched and 
+>> configured) before
+>>   # we can grab the source and make the source package. We also need 
+>> the bits from
+>> @@ -71,6 +71,16 @@ do_install() {
+>>   # Ensure we don't race against "make scripts" during cpio
+>>   do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
+>>
+>> +pkg_postinst_${PN} () {
+>> +    if [ -n "$D" ]; then
+>> +        ${@qemu_run_binary(d, '$D', '${bindir}/make')} \
+>> +            -C $D${KERNEL_SRC_PATH} O=$D${KERNEL_SRC_PATH} scripts
+>> +    else
+>> +        make -C ${KERNEL_SRC_PATH} O=${KERNEL_SRC_PATH} scripts
+>> +    fi
+>> +}
+>> +
+>>   PACKAGES = "kernel-devsrc"
+>>   FILES_${PN} = "${KERNEL_SRC_PATH}"
+>> -RDEPENDS_${PN} = "bc"
+>> +DEPENDS = "qemu-native"
+>> +RDEPENDS_${PN} = "bc gcc make"
+>>
+>
 
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a1141bbc660a45705254edcf5
-Content-Type: text/html; charset=UTF-8
-
-<p dir="ltr"></p>
-<p dir="ltr">On Tue, Nov 24, 2015 at 10:58 AM, Andre McCurdy &lt;<a href="mailto:armccurdy@gmail.com">armccurdy@gmail.com</a>&gt; wrote:<br>
-&gt; It&#39;s currently not possible to build a vmdk image when TCLIBC = &quot;musl&quot;<br>
-&gt; due to the following dependencies:<br>
-&gt;<br>
-&gt; do_bootdirectdisk -&gt; syslinux -&gt; mtools -&gt; glibc-gconv-ibm850<br>
-&gt;<br>
-&gt; Creating an mtools .bbappend containing:<br>
-&gt;<br>
-&gt; RDEPENDS_${PN}_libc-musl = &quot;&quot;<br>
-&gt; RRECOMMENDS_${PN}_libc-musl = &quot;&quot;<br>
-&gt;<br>
-&gt; seems to be a workaround.<br>
-&gt;<br>
-&gt; Does anyone see a better solution?</p>
-<p dir="ltr">That should be fine for musl.</p>
-<p dir="ltr">&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a></p>
-
---001a1141bbc660a45705254edcf5--
