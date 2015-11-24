@@ -1,28 +1,23 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A4C986011C;
-	Tue, 24 Nov 2015 13:47:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAODle6Q021808
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 24 Nov 2015 05:47:40 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.232) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 24 Nov 2015 05:47:39 -0800
-To: Roman Khimov <roman@khimov.ru>, <openembedded-devel@lists.openembedded.org>
-References: <56538808.5050606@linux.intel.com> <14934048.INuFbpGn5J@bancha.hex>
-From: Mark Hatle <mark.hatle@windriver.com>
-X-Enigmail-Draft-Status: N1110
-Organization: Wind River Systems
-Message-ID: <56546A7A.6010207@windriver.com>
-Date: Tue, 24 Nov 2015 07:47:38 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <14934048.INuFbpGn5J@bancha.hex>
-Cc: yocto@yoctoproject.org, OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] RFC: Reference updater filesystem
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id BAA176011C
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Nov 2015 13:54:21 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Nov 2015 05:54:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,338,1444719600"; d="scan'208";a="858391814"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 24 Nov 2015 05:54:03 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id 5C1756A4005;
+	Tue, 24 Nov 2015 05:52:56 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Nov 2015 15:22:49 +0200
+Message-Id: <1448371369-2848-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: exec_native_cmd: implement support for pseudo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,113 +30,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 13:47:47 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 24 Nov 2015 13:54:21 -0000
 
-On 11/24/15 4:39 AM, Roman Khimov wrote:
-> В письме от 23 ноября 2015 15:41:28 пользователь Mariano Lopez написал:
->> 1. Use a separate partition for the configuration.
->>    a. The pro of this method is the partition is not touched during the
->> update.
->>    b. The con of this method is the configuration is not directly in
->> rootfs (example: /etc).
-> 
-> That's the right solution, although to do it really right (at least IMO) you 
-> need to implement the /usr merge [1] (and that's orthogonal to using or not 
-> using systemd), which can also help you make your /usr read-only (because 
-> that's just code and static data) with read-write / for user data of various 
-> sorts.
+Wic runs some tools through pseudo, which makes exec_native_cmd
+to fail and throw cryptic error message when tool is not baked:
+For example:
+  Error: exec_cmd: 'export
+  PSEUDO_PREFIX=/media/ssd/poky-build/tmp/sysroots/x86_64-linux/usr;export
+  PSEUDO_LOCALSTATEDIR=/media/ssd/poky-build/tmp/work/qemux86-poky-linux/
+...
+  PSEUDO_PASSWD=/media/ssd/poky-build/tmp/work/qemux86-poky-linux/ ...
+  PSEUDO_NOSYMLINKEXP=1;/media/ssd/poky-build/tmp/sysroots/ ...
+  mkfs.ext4 -F -i 8192 /var/tmp/wic/build/rootfs_platform.7.ext4 -L
+  platform -d
+  /media/ssd/poky-build/tmp/work/qemux86-poky-linux/core-image-minimal/...
+  returned '1' instead of 0
 
-Why does merging /usr have anything to do with this?  I've read the case for
-merging /usr and / and still don't understand why it "helps".  The key is that
-if you have separate partitions for /usr and /, then you need to update both of
-them in sequence.  Merging these two just seems like a lazy solution to people
-not wanting to deal with early boot being self-contained.
+Made exec_native_cmd aware of pseudo and properly report
+errors when command is not found.
 
-Also having a separate / from /usr can help with '/' be your maintenance
-partition in some cases.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/kickstart/custom_commands/partition.py |  6 +++---
+ scripts/lib/wic/utils/oe/misc.py                       | 18 +++++++++++-------
+ 2 files changed, 14 insertions(+), 10 deletions(-)
 
->> 3. Have an OverlayFS for the rootfs or the partition that have the
->> configuration.
->>    a. The pro is the configuration is  "directly" in rootfs.
->>    b. The con is there is need to provide a custom init to guarantee the
->> Overlay is mounted before the boot process.
-> 
-> And this is the approach I would recommend not doing. I've used UnionFS for 
-> thing like that (overlaying whole root file system) some 6 years ago, it 
-> sounded nice and it kinda worked, but it wasn't difficult to make it fail 
-> (just a little playing with power), we've even seen failures on production 
-> devices, like when you have whiteout file for directory already written, but 
-> don't have new files in it yet and that can completely ruin the system.
-> 
-> Also, it usually works better when you don't have any changes in the lower 
-> layer, but we're talking about updating it here, you can easily end up in a 
-> situation where you have updated something in the rootfs but that was 
-> overriden by upper layer and thus your user doesn't see any change.
-
-When using overlayfs, I'd strongly recommend not doing it over the entire
-rootfs.  This is generally a bad idea for the reasons stated above.
-
-However, overlaying a part of the rootfs often makes sense.  /etc is a good
-example.  This way applications that want their configurations in /etc can still
-have it that way -- and there is always a (hopefully) reasonable default
-configuration, should the configuration 'partition' get corrupted.  So worst
-case the user can start over on configurations only.
-
-For applications and user data, these can and should be stored outside of the
-main rootfs.  The FHS/LSB recomment '/opt', but while it doesn't matter if it's
--actually- /opt, the concept itself is good.
-
-
-So going back to image upgrade.  The key here is that you need a way to update
-arbitrary images with arbitrary contents and a mechanisms that is smart enough
-to generate the update (vs a full image flash) to conserve bandwidth.
-
-I still contend it's up to the device to be able to configure the system on how
-to get the update and where to apply the update.  The tooling (host and target)
-should simply assist with this.
-
-Delta updates need version information in order to know they're doing the right
-sequence of updating.
-
-Full updates don't, but should be sent in a format that limits "empty space",
-effectively send them as sparse files.
-
-On many devices you will need to flash as part of the download due to space
-limitations.
-
-And you need the ability to flash multiple partitions.
-
-maintenance
-/
-/usr
-data
-
-etc..  whatever it takes to either upgrade or restore the device.
-
---Mark
-
->> With the above information I'm proposing to use a separate partition for
->> the configuration; this is because is more reliable and doesn't require
->> big changes in the current architecture.
->>
->> So, the idea is to have 4 partitions in the media:
->> 1. boot. This is the usual boot partition
->> 2. data. This will hold the configuration files. Not modified by updates.
->> 3. maintenance. This partition will be used to update rootfs.
->> 4. rootfs. Partition used for normal operation.
-> 
-> You probably don't need to separate 1 and 3, all the code for system update 
-> should easily fit into initramfs and just making /boot a bit larger would 
-> allow you to store some backup rootfs.
-> 
-> Also, you can swap 4 and 2 which will be useful if you're installing on 
-> different sized storage devices, usually you know good enough the size of your 
-> rootfs, but you probably want to leave more space for user data if there is an 
-> opportunity to do so, that's just easier to do with data partition at the end.
-> 
-> [1] http://www.freedesktop.org/wiki/Software/systemd/TheCaseForTheUsrMerge/
-> 
+diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
+index eee25a4..babc006 100644
+--- a/scripts/lib/wic/kickstart/custom_commands/partition.py
++++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
+@@ -297,7 +297,7 @@ class Wic_PartData(FC4_PartData):
+ 
+         mkfs_cmd = "mkfs.%s -F %s %s %s -d %s" % \
+             (self.fstype, extra_imagecmd, rootfs, label_str, rootfs_dir)
+-        exec_native_cmd(pseudo + mkfs_cmd, native_sysroot)
++        exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+ 
+     def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
+                              native_sysroot, pseudo):
+@@ -330,7 +330,7 @@ class Wic_PartData(FC4_PartData):
+ 
+         mkfs_cmd = "mkfs.%s -b %d -r %s %s %s" % \
+             (self.fstype, rootfs_size * 1024, rootfs_dir, label_str, rootfs)
+-        exec_native_cmd(pseudo + mkfs_cmd, native_sysroot)
++        exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
+ 
+     def prepare_rootfs_vfat(self, rootfs, oe_builddir, rootfs_dir,
+                             native_sysroot, pseudo):
+@@ -378,7 +378,7 @@ class Wic_PartData(FC4_PartData):
+         """
+         squashfs_cmd = "mksquashfs %s %s -noappend" % \
+                        (rootfs_dir, rootfs)
+-        exec_native_cmd(pseudo + squashfs_cmd, native_sysroot)
++        exec_native_cmd(squashfs_cmd, native_sysroot, pseudo=pseudo)
+ 
+     def prepare_empty_partition_ext(self, rootfs, oe_builddir,
+                                     native_sysroot):
+diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
+index c6d2e5f..81239ac 100644
+--- a/scripts/lib/wic/utils/oe/misc.py
++++ b/scripts/lib/wic/utils/oe/misc.py
+@@ -89,7 +89,7 @@ def cmd_in_path(cmd, path):
+ 
+     return bb.utils.which(path, cmd) != "" or False
+ 
+-def exec_native_cmd(cmd_and_args, native_sysroot, catch=3):
++def exec_native_cmd(cmd_and_args, native_sysroot, catch=3, pseudo=""):
+     """
+     Execute native command, catching stderr, stdout
+ 
+@@ -97,6 +97,12 @@ def exec_native_cmd(cmd_and_args, native_sysroot, catch=3):
+ 
+     Always need to execute native commands as_shell
+     """
++    # The reason -1 is used is because there may be "export" commands.
++    args = cmd_and_args.split(';')[-1].split()
++    msger.debug(args)
++
++    if pseudo:
++        cmd_and_args = pseudo + cmd_and_args
+     native_paths = \
+         "%s/sbin:%s/usr/sbin:%s/usr/bin" % \
+         (native_sysroot, native_sysroot, native_sysroot)
+@@ -104,18 +110,16 @@ def exec_native_cmd(cmd_and_args, native_sysroot, catch=3):
+                            (native_paths, cmd_and_args)
+     msger.debug("exec_native_cmd: %s" % cmd_and_args)
+ 
+-    # The reason -1 is used is because there may be "export" commands.
+-    args = cmd_and_args.split(';')[-1].split()
+-    msger.debug(args)
+-
+     # If the command isn't in the native sysroot say we failed.
+     if cmd_in_path(args[0], native_paths):
+         ret, out = _exec_cmd(native_cmd_and_args, True, catch)
+     else:
+         ret = 127
+ 
+-    if ret == 127: # shell command-not-found
+-        prog = args[0]
++    prog = args[0]
++    # shell command-not-found
++    if ret == 127 \
++       or (pseudo and ret == 1 and out == "Can't find '%s' in $PATH." % prog):
+         msg = "A native program %s required to build the image "\
+               "was not found (see details above).\n\n" % prog
+         recipe = NATIVE_RECIPES.get(prog)
+-- 
+2.1.4
 
 
