@@ -1,23 +1,26 @@
-Return-Path: <petter@technux.se>
-Received: from bin-vsp-out-05.atm.binero.net (bin-mail-out-05.binero.net
-	[195.74.38.228])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CCA360761
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 143E5606A9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 12:45:29 +0000 (UTC)
-X-Halon-ID: 47736fe9-92a9-11e5-8d6c-005056916f53
-Authorized-sender: petter@technux.se
-Received: from elxbvzzwp1-cy.lan (unknown [81.229.90.163])
-	by bin-vsp-out-05.atm.binero.net (Halon Mail Gateway) with ESMTPSA;
-	Tue, 24 Nov 2015 13:45:44 +0100 (CET)
-From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Nov 2015 13:45:25 +0100
-Message-Id: <4ee834c95f1492df2d549d5070a70b7d8c0ba0cd.1448368856.git.petter@technux.se>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1448368856.git.petter@technux.se>
-References: <cover.1448368856.git.petter@technux.se>
+	Tue, 24 Nov 2015 13:20:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAODKdtn017609
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Nov 2015 05:20:40 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 24 Nov 2015 05:20:39 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Nov 2015 05:20:38 -0800
+Message-ID: <266f248aad0b753bdf8ce55744e0576021ee0db2.1448371173.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1448371173.git.liezhi.yang@windriver.com>
+References: <cover.1448371173.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] create-pull-request: handle empty ODIR
+Subject: [PATCH 1/1] boot-directdisk.bbclass: remove HDDIMG before create
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,45 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 12:45:31 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 24 Nov 2015 13:20:47 -0000
+Content-Type: text/plain
 
-In some situations you might end-up with an empty ODIR (pull-xx/). The
-most common reason is that you have applied your patches on 'master'
-branch (or you are by mistake standing on the 'master' branch),
-this will result in the default behavior that 'git format-patch'
-will try to diff master..master.
+Fixed when rebuild:
+mkdosfs: file /path/to/hdd.image already exists
 
-Solve this by aborting the script with a proper error code and message
-if ODIR is empty after the 'git format-patch' call (that is expected
-to generate the cover-letter and patches).
-
-Signed-off-by: Petter Mabäcker <petter@technux.se>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- scripts/create-pull-request | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/classes/boot-directdisk.bbclass |    2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index 19ba588..a3744cc 100755
---- a/scripts/create-pull-request
-+++ b/scripts/create-pull-request
-@@ -185,6 +185,14 @@ fi
- # Generate the patches and cover letter
- git format-patch $extraopts -M40 --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
+diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+index 600e21a..b324d89 100644
+--- a/meta/classes/boot-directdisk.bbclass
++++ b/meta/classes/boot-directdisk.bbclass
+@@ -121,6 +121,8 @@ build_boot_dd() {
+ 	# done in blocks, thus the mod by 16 instead of 32.
+ 	BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
  
-+if [ -z "$(ls -A $ODIR 2> /dev/null)" ]; then
-+    echo "ERROR: $ODIR is empty, no cover letter and patches was generated!"
-+    echo "       This is most likely due to that \$RRELATIVE_TO..\$COMMIT_ID"
-+    echo "       ($RELATIVE_TO..$COMMIT_ID) don't contain any differences."
-+    rmdir $ODIR
-+    exit 1
-+fi
-+
- [ -n "$RELDIR" ] && cd $pdir
++	# Remove it since mkdosfs would fail when it exists
++	rm -f $HDDIMG
+ 	mkdosfs -n ${BOOTDD_VOLUME_ID} -S 512 -C $HDDIMG $BLOCKS 
+ 	mcopy -i $HDDIMG -s $HDDDIR/* ::/
  
- # Customize the cover letter
 -- 
-1.9.1
+1.7.9.5
 
 
