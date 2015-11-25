@@ -1,49 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 1552760620
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1765A6057B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 19:41:37 +0000 (UTC)
-Received: by wmww144 with SMTP id w144so83067954wmw.0
+	Wed, 25 Nov 2015 20:44:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAPKiVrj016360
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 11:41:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=9d6RETsZ/sE3B4yMS0CdRpBET3pICEQQy1hKuCXSfbM=;
-	b=JOipYK+T2SHEdFuC1e/4sUFbrqna4/OGWAP+qAjOzqr/RtdvDveuqElgPtzMm/FOwZ
-	P9QAng2VSh4TGACocmWq7z2+sA7IUD2G1KGq5rSI8lTaLIADVmRmquE0WwWAfJ+v2Fc7
-	TzYpMDZFXUqCFJKvglbPT2ATGG+gxCmI7KG8fJnneI1piwbcDz7pVsjHM9FpDFDSFOJb
-	8XYg1M0bYva5ZFynRDKMHmfFtRoj+GViG48QzwLz1sBvQTuMCtnnqoL9yXEM09l2Ct7N
-	x+xbEAAJf0AmHiZG+me6FJmB1kZoHgVnD+/rkZLKDfa6j7gRyRY4aD82gtU7OprCKOHE
-	mV6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=9d6RETsZ/sE3B4yMS0CdRpBET3pICEQQy1hKuCXSfbM=;
-	b=cwRRgqT6IewDoI3Xkf/n6i2sisVtMXqGi5L7cWN9ZCaUyQv9VzfKEAQC6QxGKNNl/t
-	hlCHiVE2GEsJUYiRoJkWCs23tkykpPT5GXdIBls5KhlTGj8ocNcNJhRxpWPqWvSIQ+TK
-	ELiTYwZ8fTcpXT1PguC65GmNh2/dXjhs8Mzr6LIfqGcF8dZ+vltPezjgVAeb0j7UwEPk
-	yUk4vnoMN/N/sp7R3HcjK9YVhyc8g3CTUbf9kKbW3YB97UAgy6yLb6GeJWtLDy0wOGUS
-	cAbwlA0U0IHCc5lUDHqpXnJ5CPHnEbRRDcif3vKcUlhoN+2ruB0UTBIoITfKTnWG8j3A
-	FxzA==
-X-Gm-Message-State: ALoCoQlf8wJM893/RVsQTphrQynUOonHtwWxK3y28xRdInp672EvSoVZ2GGdQQfaVhJR3bjTMqoh
-X-Received: by 10.28.156.75 with SMTP id f72mr6730062wme.91.1448480498118;
-	Wed, 25 Nov 2015 11:41:38 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	jj3sm17775854wjb.13.2015.11.25.11.41.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 25 Nov 2015 11:41:37 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Nov 2015 19:32:50 +0000
-Message-Id: <1448479970-9542-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1448479970-9542-1-git-send-email-ross.burton@intel.com>
-References: <1448479970-9542-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] oeqa/sshcontrol: don't source profile
+	Wed, 25 Nov 2015 12:44:31 -0800 (PST)
+Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 25 Nov 2015 12:44:30 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Nov 2015 14:44:26 -0600
+Message-ID: <1448484269-132667-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.9.3
+MIME-Version: 1.0
+Subject: [PATCH 0/3] [jethro/master] Misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 19:41:38 -0000
+X-List-Received-Date: Wed, 25 Nov 2015 20:44:33 -0000
+Content-Type: text/plain
 
-Instead of sourcing /etc/profile to get $PATH including /usr/sbin, just assign
-to PATH in the ssh invocation.
+The following fixes have been tested on Jethro, I believe they are 
+also applicable on master.
 
-The remote /etc/profile may not actually be manipulating PATH as we expect, and
-there may be other commands which can interfere with the tests (such as resize
-emitting a series of control characters on connection).
+Note that the python change fixes an illegal instruction problem -- but in
+some of my testing has exposed a second issue where 'unsafe' include/lib 
+dir warnings are present.  I'm still working with others for a solution
+to that.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/utils/sshcontrol.py | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Mark Hatle (3):
+  allarch.bbclass: allarch packages are having their hashes altered by
+    baselib
+  python: Fix cross compiling x86->x86
+  package_manager.py: Avoid installing an empty package list
 
-diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
-index 00f5051..1658744 100644
---- a/meta/lib/oeqa/utils/sshcontrol.py
-+++ b/meta/lib/oeqa/utils/sshcontrol.py
-@@ -136,8 +136,7 @@ class SSHControl(object):
-         timeout=0 - no timeout, let command run until it returns
-         """
- 
--        # We need to source /etc/profile for a proper PATH on the target
--        command = self.ssh + [self.ip, ' . /etc/profile; ' + command]
-+        command = self.ssh + [self.ip, 'export PATH=/usr/sbin:/sbin:/usr/bin:/bin; ' + command]
- 
-         if timeout is None:
-             return self._internal_run(command, self.defaulttimeout, self.ignore_status)
+ meta/classes/allarch.bbclass                       |  5 +++++
+ meta/lib/oe/package_manager.py                     |  3 +++
+ .../use-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch | 23 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.9.bb       |  4 ++--
+ 4 files changed, 33 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python/use-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch
+
 -- 
-2.1.4
+1.9.3
 
 
