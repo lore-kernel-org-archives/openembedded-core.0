@@ -1,50 +1,40 @@
-Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 1633C60132
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C3D760132
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 14:58:10 +0000 (UTC)
-Received: by lfs39 with SMTP id 39so61347260lfs.3
+	Wed, 25 Nov 2015 15:01:33 +0000 (UTC)
+Received: by wmuu63 with SMTP id u63so141521229wmu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 06:58:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=E4rJ2y275Lz7v99IdSIm651RajrcBINiMOUK4zaa39Y=;
-	b=KtPqOoH7D80puO9h6WzVgzxY7cvvZgg0vFEu3tZH3XsJbkVqZVbA4z0tXZLKaOgHrY
-	3yCGiIGTNAdM9b/uuOv7BFotTdNTY4KLkRXZAuizCvF6FOI/VsZ+zErWUJZ5SLAtK5DF
-	/L2hcuLRewTdXAnlx/aL4tICXCoruqPKkWsAafkmFgG0T9VzrPztZL+Nj6BeoN+gr7A2
-	RD2sa+Q4zQ8POcH8fAv/xqKRL5VkhwIZ3lsub9XNBvONDIOgPmL7dRUojZar/ZKgUPHN
-	POp6XvKsAsgyny+rb1/guqsZyPkyeVCUrqgvgBzeODCyp/QeMK6MwCxJVLK/7Awqa4c9
-	y8zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=E4rJ2y275Lz7v99IdSIm651RajrcBINiMOUK4zaa39Y=;
-	b=DMwTd9qDj9AMsxmNckADcCvqQ8996SG8WHaLPenUMoF9f/YBlM2hGvyWRDZ8w6ThuR
-	P8muC6iEfjqzbMsmB1c4kAYMzAWs/oZ8H4nybBbSFWXM9/AiQ/hkb8ZrQ2y+f+HDzyc5
-	BRquTTCT62Cw2SUsX8By1zFr7nFimWYvZs6aoAcSS4DJRbzBW9o/bPLeCOd42/PUwoCK
-	avjKl/Diqt4wyxPbWI9sVBvc8eP7FhDNicsa6lmKJCbCcpMWSi4dAuwSiasrmMB3AzBd
-	lMqz1bSCmzt0xK7I9Zgyt07llTGRYksXqjtLquaU9MSdcq1IIju09XzCUFsrvxZ8C+XR
-	tYtA==
-X-Gm-Message-State: ALoCoQm1869Cq8SUBYo2g6ce4axH89tP4sgnaHvrXfC26IJ16oUdtW0aFxvVCD55JquaQtKPreIY
+	Wed, 25 Nov 2015 07:01:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=lrsXDUgVRWLJOOKGyDzr09CrXOHHC7fxneK3fqbOB34=;
+	b=Jy6xMeNu8PSmd1E/UkZ3u6tby4c/8QI667k62WGLrs0uXYdn4TFcy2lODs+eE6vsCW
+	xf/vl1CsCdf687i+JkJ6IVtTxvX9SSiuia1N8Cg/xYoDqyXmxJNszAqUv/9hh+Z5cS6Y
+	baXnukC8UqBEW/capmfkQN/u5XzuYmE+VXecemKM745lim8kfnMVtLYYOcJ6vr6kBf3b
+	DyD5mE7JtxPWholaXh38B4TDj46ctKh9SsGRppsVA0E8dvclWJawTov54CDw0vSwTUup
+	Kngnl4+Z1DcOxqKApBttl1XOhUuy4qsicrBaJSbnJdDNACuPVVJYimYc6LzzWE1dSRu+
+	lG4w==
+X-Received: by 10.194.192.198 with SMTP id hi6mr43853378wjc.141.1448463694009; 
+	Wed, 25 Nov 2015 07:01:34 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	vr10sm23559799wjc.38.2015.11.25.07.01.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 25 Nov 2015 07:01:32 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 25 Nov 2015 16:02:07 +0100
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Message-ID: <20151125150207.GP17303@jama>
+References: <cover.1448455166.git.jussi.kukkonen@intel.com>
+	<21d1633f21cba7e686512da7bc843de7e3ccf3d7.1448455166.git.jussi.kukkonen@intel.com>
 MIME-Version: 1.0
-X-Received: by 10.25.29.202 with SMTP id d193mr12877881lfd.55.1448463490162;
-	Wed, 25 Nov 2015 06:58:10 -0800 (PST)
-Received: by 10.114.122.72 with HTTP; Wed, 25 Nov 2015 06:58:09 -0800 (PST)
-In-Reply-To: <20151125124151.GO17303@jama>
-References: <1448434479-29558-1-git-send-email-jkrishnanjanappa@mvista.com>
-	<56557491.4010809@windriver.com> <20151125103453.GM17303@jama>
-	<CAD3vsf5rOZXj6oxQ4eaEdCW9bMcFJ-He4VyZy4dJ6KScW1S7dQ@mail.gmail.com>
-	<20151125124151.GO17303@jama>
-Date: Wed, 25 Nov 2015 20:28:09 +0530
-Message-ID: <CAD3vsf7T2rOeO5n+XdwzFrT_pEecHPQMOPGxH6CJEMD5FvLn2A@mail.gmail.com>
-From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [jethro][PATCH] license.bbclass: fix host contamination warnings for license files
+In-Reply-To: <21d1633f21cba7e686512da7bc843de7e3ccf3d7.1448455166.git.jussi.kukkonen@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/5] gstreamer1.0-plugins-good: Fix gudev dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,88 +47,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 14:58:12 -0000
-Content-Type: multipart/alternative; boundary=001a114013a8cd4d0c05255eaf36
+X-List-Received-Date: Wed, 25 Nov 2015 15:01:34 -0000
+X-Groupsio-MsgNum: 73952
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="qjXtncIm5b3tWrFJ"
+Content-Disposition: inline
 
---001a114013a8cd4d0c05255eaf36
-Content-Type: text/plain; charset=UTF-8
-
->
->
-> is os.getuid() and os.getgid() the correct value you want to use? I
-> would expect root:root.
->
->
-Yes, since copy_license_files() function is executed within the pseudo
-environement (fakeroot), both os.getuid() and os.getgid() return 0, which
-resembles to uid and gid of root user. Also, os.chown accepts integer
-values for 2nd and 3rd arguments.
-
-Regards,
-Jagadeesh
-
-> > > >               else:
-> > > > >                   shutil.copyfile(src, dst)
-> > > > >           except Exception as e:
-> > > > >
-> > > > --
-> > > > _______________________________________________
-> > > > Openembedded-core mailing list
-> > > > Openembedded-core@lists.openembedded.org
-> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > >
-> > > --
-> > > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-> > >
->
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->
-
---001a114013a8cd4d0c05255eaf36
-Content-Type: text/html; charset=UTF-8
+--qjXtncIm5b3tWrFJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
--width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;paddi=
-ng-left:1ex"><div class=3D""><div class=3D"h5"><br>
-</div></div>is os.getuid() and os.getgid() the correct value you want to us=
-e? I<br>
-would expect root:root.<br>
-<div class=3D""><div class=3D"h5"><br></div></div></blockquote><div>=C2=A0<=
-/div><div>Yes, since=C2=A0<span style=3D"font-size:12.8000001907349px">copy=
-_license_files() function is executed within the pseudo environement (faker=
-oot), both=C2=A0</span>os.getuid() and os.getgid() return 0, which resemble=
-s to uid and gid of root user. Also, os.chown accepts integer values for 2n=
-d and 3rd arguments.</div><div><br></div><div>Regards,</div><div>Jagadeesh<=
-/div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);borde=
-r-left-style:solid;padding-left:1ex"><div class=3D""><div class=3D"h5">
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0e=
-lse:<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0shutil.copyfile(src, dst)<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except Exceptio=
-n as e:<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; --<br>
-&gt; &gt; &gt; _______________________________________________<br>
-&gt; &gt; &gt; Openembedded-core mailing list<br>
-&gt; &gt; &gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">=
-Openembedded-core@lists.openembedded.org</a><br>
-&gt; &gt; &gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/op=
-enembedded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembe=
-dded.org/mailman/listinfo/openembedded-core</a><br>
-&gt; &gt;<br>
-&gt; &gt; --<br>
-&gt; &gt; Martin &#39;JaMa&#39; Jansa=C2=A0 =C2=A0 =C2=A0jabber: <a href=3D=
-"mailto:Martin.Jansa@gmail.com">Martin.Jansa@gmail.com</a><br>
-&gt; &gt;<br>
-<br>
---<br>
-Martin &#39;JaMa&#39; Jansa=C2=A0 =C2=A0 =C2=A0jabber: <a href=3D"mailto:Ma=
-rtin.Jansa@gmail.com">Martin.Jansa@gmail.com</a><br>
-</div></div></blockquote></div><br></div></div>
+On Wed, Nov 25, 2015 at 03:05:37PM +0200, Jussi Kukkonen wrote:
+> libgudev is now it's own library (also provided by udev).
 
---001a114013a8cd4d0c05255eaf36--
+Duplicates http://patchwork.openembedded.org/patch/107479/
+
+>=20
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+>  meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.=
+inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+> index 1119e10..c2ada4d 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+> @@ -20,7 +20,7 @@ PACKAGECONFIG[pulseaudio] =3D "--enable-pulse,--disable=
+-pulse,pulseaudio"
+>  PACKAGECONFIG[cairo]      =3D "--enable-cairo,--disable-cairo,cairo"
+>  PACKAGECONFIG[flac]       =3D "--enable-flac,--disable-flac,flac"
+>  PACKAGECONFIG[gdk-pixbuf] =3D "--enable-gdk_pixbuf,--disable-gdk_pixbuf,=
+gdk-pixbuf"
+> -PACKAGECONFIG[gudev]      =3D "--with-gudev,--without-gudev,udev"
+> +PACKAGECONFIG[gudev]      =3D "--with-gudev,--without-gudev,libgudev"
+>  PACKAGECONFIG[jack]       =3D "--enable-jack,--disable-jack,jack"
+>  PACKAGECONFIG[jpeg]       =3D "--enable-jpeg,--disable-jpeg,jpeg"
+>  PACKAGECONFIG[libpng]     =3D "--enable-libpng,--disable-libpng,libpng"
+> --=20
+> 2.1.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--qjXtncIm5b3tWrFJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlZVzW4ACgkQN1Ujt2V2gBy3PQCeJZyPAtRh0fkT7BeziNk5qTce
+2FQAoI+XORDKWy2xGlXJmP1SI8n7lAd8
+=oKUJ
+-----END PGP SIGNATURE-----
+
+--qjXtncIm5b3tWrFJ--
