@@ -1,28 +1,35 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 99A0760620
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id B3C2A60116
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 21:37:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAPLbioR031777
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 25 Nov 2015 13:37:44 -0800
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 25 Nov 2015 13:37:44 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1448458595.git.bruce.ashfield@windriver.com>
-	<CAJTo0LYycPrr6S2VED=kTZNzP_quAiNMx=8HkwhF84d3ok1vmg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <56562A25.6080504@windriver.com>
-Date: Wed, 25 Nov 2015 16:37:41 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Wed, 25 Nov 2015 21:40:08 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so86400369wmw.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Nov 2015 13:40:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=W82vIiaNO1JRFjTmB1tkJxY27Y/Fky0Z5sHOVVsC/8M=;
+	b=P2sqp7qmN+SWynRFCwNRPzp0L18i5oBB8ytBy/xqaEVRtLS9tkOmxLz3jqX27vL3e4
+	ywDTdHKfBofRuVOv+h9lM96Urn5Jzw/z21/PhqiLaJkJHSwZjTFTvK5HIDyUOJSqKkdF
+	A7GjBsv0RoXjrbgbtj/rMvQrGpLyufaJtaFQZhlvBlNUF6MQZvCbneasZs1FpfxP+LFv
+	2Vea4kdoBSPSoj7dfdFl8jD56F+gtYKyW2bgJP4pBM4IQVKo+6B/YzEabffFLmI2wnIO
+	7MoZutIDBhLCdX+8cMjJCh4alvBUpRPX7aBnzHnBqV5b/zLabiLAa8Mz0KcJUmSLeeHg
+	+hxg==
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYycPrr6S2VED=kTZNzP_quAiNMx=8HkwhF84d3ok1vmg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] linux-yocto/4.1: -stable/-rt and old kernel removal warning
+X-Received: by 10.194.93.164 with SMTP id cv4mr44626243wjb.43.1448487608843;
+	Wed, 25 Nov 2015 13:40:08 -0800 (PST)
+Received: by 10.194.140.38 with HTTP; Wed, 25 Nov 2015 13:40:08 -0800 (PST)
+In-Reply-To: <CAMKF1spXxarTUskBgB6ABdL-yn4wSm1cOZSBKdCpyxQzDg_a8g@mail.gmail.com>
+References: <CAJ86T=VBh-TsnaSyNVSxmbEJz7TbFcDmNBVP4_4PhXB=YMrm5w@mail.gmail.com>
+	<CAMKF1spXxarTUskBgB6ABdL-yn4wSm1cOZSBKdCpyxQzDg_a8g@mail.gmail.com>
+Date: Wed, 25 Nov 2015 13:40:08 -0800
+Message-ID: <CAJ86T=X_r_OU1RfN8nYJAJSYXwqEgvK17Hn87_+AfoGQAn2ocw@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: vmdk images with musl libc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,32 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 21:37:47 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Nov 2015 21:40:12 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 15-11-25 03:45 PM, Burton, Ross wrote:
->
-> On 25 November 2015 at 13:41, Bruce Ashfield
-> <bruce.ashfield@windriver.com <mailto:bruce.ashfield@windriver.com>> wrote:
->
->     I'm not sure if anyone actually reads these pull requests, but if they
->     do, the kernel versions scheduled to be dropped from master are:
->
->        - 3.14
->        - 3.19
->
->
-> I read them!  As the kernel maintainer, you can send the removals. ;)
+Hi Khem,
 
-will do!
-
-You passed the test, and that was my heads up that I'm going to start
-clearing out the kruft!
-
-Bruce
-
+On Tue, Nov 24, 2015 at 12:05 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, Nov 24, 2015 at 10:58 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> It's currently not possible to build a vmdk image when TCLIBC = "musl"
+>> due to the following dependencies:
+>>
+>> do_bootdirectdisk -> syslinux -> mtools -> glibc-gconv-ibm850
+>>
+>> Creating an mtools .bbappend containing:
+>>
+>> RDEPENDS_${PN}_libc-musl = ""
+>> RRECOMMENDS_${PN}_libc-musl = ""
+>>
+>> seems to be a workaround.
+>>
+>> Does anyone see a better solution?
 >
-> Ross
+> That should be fine for musl.
 
+So would it be correct to add exactly those lines to the oe-core mtools recipe?
+
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
