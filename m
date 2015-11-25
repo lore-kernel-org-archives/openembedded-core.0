@@ -1,40 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C3D760132
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id E33876057B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 15:01:33 +0000 (UTC)
-Received: by wmuu63 with SMTP id u63so141521229wmu.0
+	Wed, 25 Nov 2015 15:01:53 +0000 (UTC)
+Received: by wmec201 with SMTP id c201so260423594wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 07:01:34 -0800 (PST)
+	Wed, 25 Nov 2015 07:01:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=lrsXDUgVRWLJOOKGyDzr09CrXOHHC7fxneK3fqbOB34=;
-	b=Jy6xMeNu8PSmd1E/UkZ3u6tby4c/8QI667k62WGLrs0uXYdn4TFcy2lODs+eE6vsCW
-	xf/vl1CsCdf687i+JkJ6IVtTxvX9SSiuia1N8Cg/xYoDqyXmxJNszAqUv/9hh+Z5cS6Y
-	baXnukC8UqBEW/capmfkQN/u5XzuYmE+VXecemKM745lim8kfnMVtLYYOcJ6vr6kBf3b
-	DyD5mE7JtxPWholaXh38B4TDj46ctKh9SsGRppsVA0E8dvclWJawTov54CDw0vSwTUup
-	Kngnl4+Z1DcOxqKApBttl1XOhUuy4qsicrBaJSbnJdDNACuPVVJYimYc6LzzWE1dSRu+
-	lG4w==
-X-Received: by 10.194.192.198 with SMTP id hi6mr43853378wjc.141.1448463694009; 
-	Wed, 25 Nov 2015 07:01:34 -0800 (PST)
+	bh=2EMbVT2tEXdUGBh2SBe5XRb14c7Ee8FDwxJvv3M3vFg=;
+	b=kEbzOOUks8cMhpq2XvZ5Prnfd/zJNXQ+MF0jrloi6IO8+PHCox+4bgXQsE+qmPRje5
+	lkNxkdCGAjJcElsUfILaNwHYMKo4Sg+QHdXBYx2+EHSPm7/INQmBBYDaU2cEu2bdIAHX
+	ssFoHcsxwXUc/IokHlyciEeIb+oNGRNhDDrWoXPRPzlnX7lu5imymVs36LZ7Cmi1CFkN
+	pJvhjUowS2jBGJnRLWFfgSM6/GbeAkJx1FCWf0aw6b5la+D23KJ+b4FtXQvvMzflpUVB
+	k91W07Zd7URH1yaovqZTZr10ZTXYmez/+SvNyUDqdZ2Ut1VCR6uvZblQLGufex2naz4E
+	QjEA==
+X-Received: by 10.28.12.3 with SMTP id 3mr5279446wmm.84.1448463713958;
+	Wed, 25 Nov 2015 07:01:53 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	vr10sm23559799wjc.38.2015.11.25.07.01.32
+	jh4sm23432006wjb.33.2015.11.25.07.01.52
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 25 Nov 2015 07:01:32 -0800 (PST)
+	Wed, 25 Nov 2015 07:01:52 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 25 Nov 2015 16:02:07 +0100
+Date: Wed, 25 Nov 2015 16:02:27 +0100
 To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Message-ID: <20151125150207.GP17303@jama>
+Message-ID: <20151125150227.GQ17303@jama>
 References: <cover.1448455166.git.jussi.kukkonen@intel.com>
-	<21d1633f21cba7e686512da7bc843de7e3ccf3d7.1448455166.git.jussi.kukkonen@intel.com>
+	<dbc02d3db559f59b296f073f098bf24472092a67.1448455166.git.jussi.kukkonen@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <21d1633f21cba7e686512da7bc843de7e3ccf3d7.1448455166.git.jussi.kukkonen@intel.com>
+In-Reply-To: <dbc02d3db559f59b296f073f098bf24472092a67.1448455166.git.jussi.kukkonen@intel.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/5] gstreamer1.0-plugins-good: Fix gudev dependency
+Subject: Re: [PATCH 3/5] gstreamer1.0-plugins-bad: Fix gudev dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,44 +47,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 15:01:34 -0000
-X-Groupsio-MsgNum: 73952
+X-List-Received-Date: Wed, 25 Nov 2015 15:01:54 -0000
+X-Groupsio-MsgNum: 73953
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="qjXtncIm5b3tWrFJ"
+	protocol="application/pgp-signature"; boundary="iiZKCn1f/U0ES2iY"
 Content-Disposition: inline
 
---qjXtncIm5b3tWrFJ
+--iiZKCn1f/U0ES2iY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 25, 2015 at 03:05:37PM +0200, Jussi Kukkonen wrote:
+On Wed, Nov 25, 2015 at 03:05:38PM +0200, Jussi Kukkonen wrote:
 > libgudev is now it's own library (also provided by udev).
 
-Duplicates http://patchwork.openembedded.org/patch/107479/
-
+Duplicates: http://patchwork.openembedded.org/patch/107475/
 >=20
 > Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 > ---
->  meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc | 2 +-
+>  meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.=
-inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-> index 1119e10..c2ada4d 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-> @@ -20,7 +20,7 @@ PACKAGECONFIG[pulseaudio] =3D "--enable-pulse,--disable=
--pulse,pulseaudio"
->  PACKAGECONFIG[cairo]      =3D "--enable-cairo,--disable-cairo,cairo"
->  PACKAGECONFIG[flac]       =3D "--enable-flac,--disable-flac,flac"
->  PACKAGECONFIG[gdk-pixbuf] =3D "--enable-gdk_pixbuf,--disable-gdk_pixbuf,=
-gdk-pixbuf"
-> -PACKAGECONFIG[gudev]      =3D "--with-gudev,--without-gudev,udev"
-> +PACKAGECONFIG[gudev]      =3D "--with-gudev,--without-gudev,libgudev"
->  PACKAGECONFIG[jack]       =3D "--enable-jack,--disable-jack,jack"
->  PACKAGECONFIG[jpeg]       =3D "--enable-jpeg,--disable-jpeg,jpeg"
->  PACKAGECONFIG[libpng]     =3D "--enable-libpng,--disable-libpng,libpng"
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.i=
+nc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+> index f94b12f..fe9ab97 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+> @@ -40,7 +40,7 @@ PACKAGECONFIG[opus]            =3D "--enable-opus,--dis=
+able-opus,libopus"
+>  PACKAGECONFIG[flite]           =3D "--enable-flite,--disable-flite,flite=
+-alsa"
+>  PACKAGECONFIG[opencv]          =3D "--enable-opencv,--disable-opencv,ope=
+ncv"
+>  PACKAGECONFIG[wayland]         =3D "--enable-wayland --enable-egl,--disa=
+ble-wayland --disable-egl,wayland virtual/egl"
+> -PACKAGECONFIG[uvch264]         =3D "--enable-uvch264,--disable-uvch264,l=
+ibusb1 udev"
+> +PACKAGECONFIG[uvch264]         =3D "--enable-uvch264,--disable-uvch264,l=
+ibusb1 libgudev"
+>  PACKAGECONFIG[directfb]        =3D "--enable-directfb,--disable-directfb=
+,directfb"
+>  PACKAGECONFIG[neon]            =3D "--enable-neon,--disable-neon,neon"
+>  PACKAGECONFIG[openal]          =3D "--enable-openal,--disable-openal,ope=
+nal-soft"
 > --=20
 > 2.1.4
 >=20
@@ -97,16 +102,16 @@ gdk-pixbuf"
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---qjXtncIm5b3tWrFJ
+--iiZKCn1f/U0ES2iY
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlZVzW4ACgkQN1Ujt2V2gBy3PQCeJZyPAtRh0fkT7BeziNk5qTce
-2FQAoI+XORDKWy2xGlXJmP1SI8n7lAd8
-=oKUJ
+iEYEARECAAYFAlZVzYIACgkQN1Ujt2V2gBx/vwCffAfljVyt3Uzq167IOnpXoqPg
+S4cAn0CZDdQMDOaELuHmXWNSqVMvspFA
+=FlX/
 -----END PGP SIGNATURE-----
 
---qjXtncIm5b3tWrFJ--
+--iiZKCn1f/U0ES2iY--
