@@ -1,25 +1,26 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 043236B6EE
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AB87F6057B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 13:02:27 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 25 Nov 2015 05:02:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,342,1444719600"; d="scan'208";a="606912509"
-Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 25 Nov 2015 05:02:15 -0800
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org,
-	schnitzeltony@googlemail.com
-Date: Wed, 25 Nov 2015 15:05:40 +0200
-Message-Id: <fa3f4332c44456fb20c062e42e5d59ce9c291b5b.1448455166.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <b23c413682080d988bd163c6df0f439cd41ae7ad.1448455166.git.jussi.kukkonen@intel.com>
-References: <b23c413682080d988bd163c6df0f439cd41ae7ad.1448455166.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1448455166.git.jussi.kukkonen@intel.com>
-References: <cover.1448455166.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 5/5] gcr: Require x11 DISTRO_FEATURE
+	Wed, 25 Nov 2015 13:42:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAPDfwhC025889
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 25 Nov 2015 05:41:59 -0800 (PST)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 25 Nov 2015 05:41:58 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 25 Nov 2015 08:41:53 -0500
+Message-ID: <486710938b08dd8e5c04bfd6fd6bcea5d07fd5b8.1448458595.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1448458595.git.bruce.ashfield@windriver.com>
+References: <cover.1448458595.git.bruce.ashfield@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] linux-yocto/4.1: update to v4.1.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +33,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 13:02:28 -0000
+X-List-Received-Date: Wed, 25 Nov 2015 13:42:07 -0000
+Content-Type: text/plain
 
-This enables a world build without x11. GTK3DISTROFEATURES is not
-enough because gtk+-x11.pc is still required.
+Updating the 4.1 kernel to the latest stable (and resolving minor
+conflicts with -rt).
 
-Fixes [YOCTO #8611].
-
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-gnome/gcr/gcr_3.16.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 20 ++++++++++----------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-gnome/gcr/gcr_3.16.0.bb b/meta/recipes-gnome/gcr/gcr_3.16.0.bb
-index 057c815..e50b3a8 100644
---- a/meta/recipes-gnome/gcr/gcr_3.16.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.16.0.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
- DEPENDS = "gtk+3 p11-kit glib-2.0 libgcrypt vala"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+index 4209a9640a67..412691501bc5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+@@ -2,13 +2,13 @@ KBRANCH ?= "standard/preempt-rt/base"
  
- inherit autotools gnomebase gtk-icon-cache gtk-doc distro_features_check
--# depends on gtk+3
--ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-+# depends on gtk+3, but also x11 through gtk+-x11
-+REQUIRED_DISTRO_FEATURES = "x11"
+ require recipes-kernel/linux/linux-yocto.inc
  
- SRC_URI[archive.md5sum] = "d5835680be0b6a838e02a528d5378d9c"
- SRC_URI[archive.sha256sum] = "ecfe8df41cc88158364bb15addc670b11e539fe844742983629ba2323888d075"
+-SRCREV_machine ?= "f7e4bbfef684e29b1257eaf2d7f534b38e2e1b1e"
+-SRCREV_meta ?= "aed902160251d69cc28d1e69a4f692e8ea8fa13b"
++SRCREV_machine ?= "a4b5d54fc4fc0e2b3035642559279a27c57a3391"
++SRCREV_meta ?= "1fb60461e4522bba62b4b34e9520128c959d2437"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "4.1.8"
++LINUX_VERSION ?= "4.1.13"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+index 9862006bb8b8..69bfbad0da31 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+@@ -4,13 +4,13 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "4.1.8"
++LINUX_VERSION ?= "4.1.13"
+ 
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "dbe692d91c8e55d1430f2c45fd578c8e4e71e482"
+-SRCREV_meta ?= "aed902160251d69cc28d1e69a4f692e8ea8fa13b"
++SRCREV_machine ?= "49e2f2d48ac2bb3f0fc379ee87651a2eaeab2cc7"
++SRCREV_meta ?= "1fb60461e4522bba62b4b34e9520128c959d2437"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+index a04c93097e7a..4f4e6ad14847 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+@@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "standard/base"
+ KBRANCH_qemux86-64 ?= "standard/base"
+ KBRANCH_qemumips64 ?= "standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "bc11ecf659e30c8687604e086450ae1ff90c0169"
+-SRCREV_machine_qemuarm64 ?= "dbe692d91c8e55d1430f2c45fd578c8e4e71e482"
+-SRCREV_machine_qemumips ?= "181e2c553ffaae19d08a6730e98d288c7e337d39"
+-SRCREV_machine_qemuppc ?= "dbe692d91c8e55d1430f2c45fd578c8e4e71e482"
+-SRCREV_machine_qemux86 ?= "dbe692d91c8e55d1430f2c45fd578c8e4e71e482"
+-SRCREV_machine_qemux86-64 ?= "dbe692d91c8e55d1430f2c45fd578c8e4e71e482"
+-SRCREV_machine_qemumips64 ?= "2684711a16ed21f114d834742f860cee532f7438"
+-SRCREV_machine ?= "dbe692d91c8e55d1430f2c45fd578c8e4e71e482"
+-SRCREV_meta ?= "aed902160251d69cc28d1e69a4f692e8ea8fa13b"
++SRCREV_machine_qemuarm ?= "52340eea58baf03f41f0b0a9410d8e6038e3124a"
++SRCREV_machine_qemuarm64 ?= "49e2f2d48ac2bb3f0fc379ee87651a2eaeab2cc7"
++SRCREV_machine_qemumips ?= "f821004dd2dae30004c54b2d2ec2563aee11be8a"
++SRCREV_machine_qemuppc ?= "49e2f2d48ac2bb3f0fc379ee87651a2eaeab2cc7"
++SRCREV_machine_qemux86 ?= "49e2f2d48ac2bb3f0fc379ee87651a2eaeab2cc7"
++SRCREV_machine_qemux86-64 ?= "49e2f2d48ac2bb3f0fc379ee87651a2eaeab2cc7"
++SRCREV_machine_qemumips64 ?= "0cf340000b9c2b91d1086d4c34f88eecfc257562"
++SRCREV_machine ?= "49e2f2d48ac2bb3f0fc379ee87651a2eaeab2cc7"
++SRCREV_meta ?= "1fb60461e4522bba62b4b34e9520128c959d2437"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "4.1.8"
++LINUX_VERSION ?= "4.1.13"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 -- 
-2.1.4
+2.1.0
 
 
