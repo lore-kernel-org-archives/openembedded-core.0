@@ -1,22 +1,23 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F42B6057B
+	by mail.openembedded.org (Postfix) with ESMTP id 177C76067C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 13:01:34 +0000 (UTC)
+	Wed, 25 Nov 2015 13:02:11 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 25 Nov 2015 05:01:35 -0800
+	by orsmga102.jf.intel.com with ESMTP; 25 Nov 2015 05:02:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,342,1444719600"; d="scan'208";a="606912123"
+X-IronPort-AV: E=Sophos;i="5.20,342,1444719600"; d="scan'208";a="606912431"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 25 Nov 2015 05:01:33 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 25 Nov 2015 05:02:07 -0800
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org,
 	schnitzeltony@googlemail.com
-Date: Wed, 25 Nov 2015 15:05:03 +0200
-Message-Id: <cover.1448455166.git.jussi.kukkonen@intel.com>
+Date: Wed, 25 Nov 2015 15:05:36 +0200
+Message-Id: <b23c413682080d988bd163c6df0f439cd41ae7ad.1448455166.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-MIME-Version: 1.0
-Subject: [PATCH 0/5] Add gudev to OE-Core + bug fixes
+In-Reply-To: <cover.1448455166.git.jussi.kukkonen@intel.com>
+References: <cover.1448455166.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 1/5] connman-gnome: rrecommend connman, don't rdepend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,43 +30,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 13:01:36 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 25 Nov 2015 13:02:11 -0000
 
-gudev was split from systemd into its own project. There's a recipe in
-meta-oe already and most of the changes required to support both
-providers of gudev (gudev and udev) have been made. This patchset only
-moves gudev to oe-core and fixes some small dependency issues.
+connman-gnome doesn't have a binary dependency on connman, and using
+RRECOMMEND is better for multilib builds (connman-gnome works fine
+with connman from a different architecture).
 
-There's also a couple of other unrelated fixes.
+Fixes [YOCTO #8586]
 
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ meta/recipes-connectivity/connman/connman-gnome_0.7.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-The following changes since commit 03f15e51998a3ef65a5b68cb7cbf724f4388c289:
-
-  sstate: Ensure siginfo and sig files are also touched (2015-11-25 08:09:00 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/gudev-and-bug-fixes
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/gudev-and-bug-fixes
-
-Jussi Kukkonen (5):
-  connman-gnome: rrecommend connman, don't rdepend
-  gstreamer1.0-plugins-good: Fix gudev dependency
-  gstreamer1.0-plugins-bad: Fix gudev dependency
-  gudev: Add from meta-oe
-  gcr: Require x11 DISTRO_FEATURE
-
- meta/recipes-connectivity/connman/connman-gnome_0.7.bb    |  2 +-
- meta/recipes-gnome/gcr/gcr_3.16.0.bb                      |  4 ++--
- meta/recipes-gnome/libgudev/libgudev_230.bb               | 15 +++++++++++++++
- .../gstreamer/gstreamer1.0-plugins-bad.inc                |  2 +-
- .../gstreamer/gstreamer1.0-plugins-good.inc               |  2 +-
- 5 files changed, 20 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-gnome/libgudev/libgudev_230.bb
-
+diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+index 7b875f0..1849dbd 100644
+--- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
++++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+@@ -22,7 +22,7 @@ S = "${WORKDIR}/git"
+ inherit autotools-brokensep gtk-icon-cache pkgconfig distro_features_check
+ ANY_OF_DISTRO_FEATURES = "${GTK2DISTROFEATURES}"
+ 
+-RDEPENDS_${PN} = "connman"
++RRECOMMENDS_${PN} = "connman"
+ 
+ do_install_append() {
+     install -m 0644 ${WORKDIR}/images/* ${D}/usr/share/icons/hicolor/22x22/apps/
 -- 
 2.1.4
 
