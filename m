@@ -1,21 +1,48 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7088260620
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id B0609612E5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 21:33:35 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 25 Nov 2015 13:33:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,344,1444719600"; d="scan'208";a="859439374"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.145])
-	by orsmga002.jf.intel.com with ESMTP; 25 Nov 2015 13:33:35 -0800
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Nov 2015 13:25:31 -0800
-Message-Id: <1448486731-20166-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 1.9.1
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH v2] psplash: update to latest git version
+	Wed, 25 Nov 2015 21:34:03 +0000 (UTC)
+Received: by iofh3 with SMTP id h3so66663868iof.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Nov 2015 13:34:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=4b1dS01LmtoXFUbE7w81GtwN2slrKLbR3BsISv3KUi0=;
+	b=frXY11wfDcN+v3d+yoGAh+J7iEXGnuGqcURgmYr2epEKglvfpmrD1dKKh+FBzw7fcx
+	hhFtjjiq2YnL1V57vdTsR5bidvnYyFtoteYnIq+0k9tyQ6uZCmJJHrCzv0vRE1VVRTEp
+	/6EYYW4940wbT8TenzlMfzbTGcyKC+AWAkkAKT7h7LuQvUTEv/fBLv/lriGh0t0Ma6/b
+	7tx0aJVHD83ko5T4eo9WIx0Q3NaA+MwhqNVLxrb0lb1BNSqvmlAPvNnNXi4j2j/BkG4d
+	uwaehaJyDu+NC6/vtb5PocVtAB6T9lGF2G3tgAfvnxj+3804HeHbAHbE3C/45zu3pVU+
+	zdiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=4b1dS01LmtoXFUbE7w81GtwN2slrKLbR3BsISv3KUi0=;
+	b=a3ih8yONdZdRc3evG6aXZgE+AqtraL5OTB5apvXsRJx5Tp8OXoMttBwEqAN3kfQN3i
+	RCErBfiOyaIcd4blhl/j0nrzXLGpsjR4MZePLnAHCwrPWnevV3HSMnmoCBeW+UfDF5/X
+	jDY059OtezHehB22I7eZAL2DBkxW9fkfOsFhAadZ7X7gYv/kktjAh2wl3xbv49GdEldn
+	h6z+7kA/YlS6fG4GRvdQYd4nER8EE23s4GXi+49r7xzAbzP8dTbHuoEY4dlfrFf09U+N
+	y1oB7OqyD0og+gPWhMn8u1inIVDrYhh6Fhk7cz2bkU6FsG4Ob5O1737YSXAdQih81bSA
+	zubg==
+X-Gm-Message-State: ALoCoQmBsViw5KhKt7LmNInMViLZ1PKwMI5z5f6FS1GPMdh4E1Y//arDVkn3xfk5ICgZ8PrnELKa
+X-Received: by 10.107.135.30 with SMTP id j30mr34443950iod.148.1448487244808; 
+	Wed, 25 Nov 2015 13:34:04 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Wed, 25 Nov 2015 13:33:45 -0800 (PST)
+In-Reply-To: <1448322097-33026-2-git-send-email-tudor.florea@enea.com>
+References: <1448322097-33026-1-git-send-email-tudor.florea@enea.com>
+	<1448322097-33026-2-git-send-email-tudor.florea@enea.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 25 Nov 2015 21:33:45 +0000
+Message-ID: <CAJTo0LbNcwn0wxdoFvtitdyOVXEZ=HVsStN0JLdt9LFNOgkJJg@mail.gmail.com>
+To: Tudor Florea <tudor.florea@enea.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] util-linux: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,100 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 21:33:37 -0000
+X-List-Received-Date: Wed, 25 Nov 2015 21:34:06 -0000
+Content-Type: multipart/alternative; boundary=001a113ec64ab04eee05256437c7
 
-Latest git version contains various changes, including
-fix for big endian RGB888 rendering. It also makes the patch:
-"0001-psplash-fb-Convert-psplash_fb_plot_pixel-to-a-static.patch"
-unnecessary, as this patch has been upstreamed.
+--001a113ec64ab04eee05256437c7
+Content-Type: text/plain; charset=UTF-8
 
-[YOCTO#7236]
+On 23 November 2015 at 23:41, Tudor Florea <tudor.florea@enea.com> wrote:
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- ...Convert-psplash_fb_plot_pixel-to-a-static.patch | 53 ----------------------
- meta/recipes-core/psplash/psplash_git.bb           |  3 +-
- 2 files changed, 1 insertion(+), 55 deletions(-)
- delete mode 100644 meta/recipes-core/psplash/files/0001-psplash-fb-Convert-psplash_fb_plot_pixel-to-a-static.patch
+> +--- a/tests/run.sh     2015-11-18 15:09:05.517018566 +0100
+> ++++ b/tests/run.sh     2015-11-18 20:02:15.492749213 +0100
+>
 
-diff --git a/meta/recipes-core/psplash/files/0001-psplash-fb-Convert-psplash_fb_plot_pixel-to-a-static.patch b/meta/recipes-core/psplash/files/0001-psplash-fb-Convert-psplash_fb_plot_pixel-to-a-static.patch
-deleted file mode 100644
-index 93b3c6b..0000000
---- a/meta/recipes-core/psplash/files/0001-psplash-fb-Convert-psplash_fb_plot_pixel-to-a-static.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--From 8f5de12cc75bfaa8400adf32f30c015d8f813540 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 22 Aug 2015 07:12:20 -0700
--Subject: [PATCH] psplash-fb: Convert psplash_fb_plot_pixel() to a static
-- inline
--
--This function is not used outside psplash-fb.c and by making it
--static inline we keep the performance and also make it portable across
--multiple compilers and gcc versions
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- psplash-fb.c | 2 +-
-- psplash-fb.h | 8 --------
-- 2 files changed, 1 insertion(+), 9 deletions(-)
--
--diff --git a/psplash-fb.c b/psplash-fb.c
--index bd9cd9d..6d235db 100644
----- a/psplash-fb.c
--+++ b/psplash-fb.c
--@@ -260,7 +260,7 @@ psplash_fb_new (int angle)
-- 
-- #define OFFSET(fb,x,y) (((y) * (fb)->stride) + ((x) * ((fb)->bpp >> 3)))
-- 
---inline void
--+static inline void
-- psplash_fb_plot_pixel (PSplashFB    *fb,
-- 		       int          x,
-- 		       int          y,
--diff --git a/psplash-fb.h b/psplash-fb.h
--index 42592ed..c6c3144 100644
----- a/psplash-fb.h
--+++ b/psplash-fb.h
--@@ -57,14 +57,6 @@ psplash_fb_destroy (PSplashFB *fb);
-- PSplashFB*
-- psplash_fb_new (int angle);
-- 
---inline void
---psplash_fb_plot_pixel (PSplashFB    *fb, 
---		       int          x, 
---		       int          y, 
---		       uint8        red,
---		       uint8        green,
---		       uint8        blue);
---
-- void
-- psplash_fb_draw_rect (PSplashFB    *fb, 
-- 		      int          x, 
---- 
--2.1.4
--
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index b3b6479..0537426 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -5,12 +5,11 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://psplash.h;beginline=1;endline=16;md5=840fb2356b10a85bed78dd09dc7745c6"
- 
--SRCREV = "14c8f7b705de944beb4de3f296506d80871e410f"
-+SRCREV = "88343ad23c90fa1dd8d79ac0d784a691aa0c6d2b"
- PV = "0.1+git${SRCPV}"
- PR = "r15"
- 
- SRC_URI = "git://git.yoctoproject.org/${BPN} \
--           file://0001-psplash-fb-Convert-psplash_fb_plot_pixel-to-a-static.patch \
-            file://psplash-init \
-            ${SPLASH_IMAGES}"
- 
--- 
-1.9.1
+Would it be possible to keep run.sh as it is but pass --parallel 1 from
+run-ptest so it doesn't run the jobs in parallel?  Or, do we care if it
+runs the tests in parallel?  I'm looking at that patch and thinking it's
+going to be a nightmare to maintain when upstream modifies their script.
 
+Ross
 
+--001a113ec64ab04eee05256437c7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 November 2015 at 23:41, Tudor Florea <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:tudor.florea@enea.com" target=3D"_blank">tudor.florea@enea.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":a17" class=
+=3D"a3s" style=3D"overflow:hidden">+--- a/tests/run.sh=C2=A0 =C2=A0 =C2=A02=
+015-11-18 15:09:05.517018566 +0100<br>
+++++ b/tests/run.sh=C2=A0 =C2=A0 =C2=A02015-11-18 20:02:15.492749213 +0100<=
+br></div></blockquote></div><br>Would it be possible to keep run.sh as it i=
+s but pass --parallel 1 from run-ptest so it doesn&#39;t run the jobs in pa=
+rallel?=C2=A0 Or, do we care if it runs the tests in parallel?=C2=A0 I&#39;=
+m looking at that patch and thinking it&#39;s going to be a nightmare to ma=
+intain when upstream modifies their script.</div><div class=3D"gmail_extra"=
+><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113ec64ab04eee05256437c7--
