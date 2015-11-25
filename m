@@ -1,24 +1,42 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 162B360621
+Return-Path: <akuster808@gmail.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 32680605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 02:05:50 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAP25oDW026050
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 25 Nov 2015 03:58:29 +0000 (UTC)
+Received: by igcto18 with SMTP id to18so29205419igc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 18:05:50 -0800 (PST)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 24 Nov 2015 18:04:49 -0800
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Nov 2015 09:53:54 +0800
-Message-ID: <1448416434-15672-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 24 Nov 2015 19:58:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-type:content-transfer-encoding;
+	bh=aAGeF7qLmwTLgXzU5J3c2iGlZNmpbsOToTnBBYt2c9E=;
+	b=Wl4RGRqc1++CNc2RTHpur7Hs45VSQZbOqcYAEDLxRTQYDzJLmNT/NfCZPgQwN7NWMG
+	DBxRTWOdm/QrnuhB7XgXdfU1FHC9Kdcvu+EVAbZ4Qk5WxIAoL5fFsj7woK7uf7qvV2VN
+	7G9OgcPDdRe3bUZUM1xcEesmwFYLuPipaQL1yX7n8VcPTCGwgcR3i75Ac/9+9xSnuh9D
+	7SsqzQs/MsLgn1/9IH1+qtOQ/jxWDj3f9lseo39r7YdJb1FXBQx/fJDtqS6tZyOtLT6B
+	JmOp9t+TKqemx8N6uVwnKG+sBlB1vxU60x/ynwnEfjShdUbiIumVh+FJQLKFV53jn/sS
+	0HQQ==
+X-Received: by 10.50.80.14 with SMTP id n14mr1908041igx.56.1448423910617;
+	Tue, 24 Nov 2015 19:58:30 -0800 (PST)
+Received: from [192.168.1.84] (71-219-195-228.clsp.qwest.net. [71.219.195.228])
+	by smtp.googlemail.com with ESMTPSA id
+	qb7sm751766igb.8.2015.11.24.19.58.28
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 24 Nov 2015 19:58:29 -0800 (PST)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1447744712-18615-1-git-send-email-wenzong.fan@windriver.com>
+	<564BD815.2090204@gmail.com>
+	<CAJTo0LZ6jvDWp006DM7EjJi1KW-mm3MTb0VygdC8NdE03NogVw@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <565531E4.2080201@gmail.com>
+Date: Tue, 24 Nov 2015 19:58:28 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Subject: [PATCH] openssh: redesign ssh-agent.sh regression test case
+In-Reply-To: <CAJTo0LZ6jvDWp006DM7EjJi1KW-mm3MTb0VygdC8NdE03NogVw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rpcbind: Security Advisory - rpcbind - CVE-2015-7236
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,68 +49,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 02:05:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 25 Nov 2015 03:58:33 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-From: Roy Li <rongqing.li@windriver.com>
 
-ssh-agent regression test case should be run by non-root user,
-but non-root user will has issue to run other testcase, so
-rewrite it on run-ptest
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- .../recipes-connectivity/openssh/openssh/run-ptest | 37 ++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+On 11/18/2015 02:50 PM, Burton, Ross wrote:
+> On 18 November 2015 at 01:44, akuster808 <akuster808@gmail.com> wrote:
+> 
+>> Can we get the CVE mentioned in the patch or rename the the patch to
+>> include the CVE #.
+>>
+> 
+> I'd already merged this into mut, so have renamed the patch.
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/run-ptest b/meta/recipes-connectivity/openssh/openssh/run-ptest
-index 564c0c8..769162e 100755
---- a/meta/recipes-connectivity/openssh/openssh/run-ptest
-+++ b/meta/recipes-connectivity/openssh/openssh/run-ptest
-@@ -3,5 +3,42 @@
- export TEST_SHELL=sh
- 
- cd regress
-+sed -i "/\t\tagent-ptrace /d" Makefile
- make -k .OBJDIR=`pwd` .CURDIR=`pwd` SUDO="sudo" tests \
-         | sed -e 's/^skipped/SKIP: /g' -e 's/^ok /PASS: /g' -e 's/^failed/FAIL: /g'
-+
-+
-+SSHAGENT=`which ssh-agent`
-+GDB=`which gdb`
-+
-+if [ -z "${SSHAGENT}" -o -z "${GDB}" ]; then
-+       echo "SKIP: agent-ptrace"
-+fi
-+
-+useradd openssh-test
-+
-+eval `su -c "${SSHAGENT} -s" openssh-test` > /dev/null
-+r=$?
-+if [ $r -ne 0 ]; then
-+	echo "FAIL: could not start ssh-agent: exit code $r"
-+else
-+	su -c "gdb -p ${SSH_AGENT_PID}" openssh-test > /tmp/gdb.out 2>&1 << EOF
-+		quit
-+EOF
-+	r=$?
-+	if [ $r -ne 0 ]; then
-+		echo "gdb failed: exit code $r"
-+	fi
-+	egrep 'ptrace: Operation not permitted.|procfs:.*Permission denied.|ttrace.*Permission denied.|procfs:.*: Invalid argument.|Unable to access task ' >/dev/null /tmp/gdb.out
-+	r=$?
-+	rm -f /tmp/gdb.out
-+	if [ $r -ne 0 ]; then
-+		echo "FAIL: ptrace agant"
-+	else
-+		echo "PASS: ptrace agant"
-+	fi
-+
-+	${SSHAGENT} -k > /dev/null
-+fi
-+userdel openssh-test
-+
--- 
-1.9.1
+thanks.
 
+- armin
+> 
+> Ross
+> 
 
