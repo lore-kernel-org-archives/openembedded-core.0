@@ -1,27 +1,27 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 01FB86011D
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 259186011D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 08:42:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAP8gxXe007549
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 25 Nov 2015 00:43:00 -0800 (PST)
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 25 Nov 2015 00:42:59 -0800
-To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1448434479-29558-1-git-send-email-jkrishnanjanappa@mvista.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <56557491.4010809@windriver.com>
-Date: Wed, 25 Nov 2015 16:42:57 +0800
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Wed, 25 Nov 2015 08:51:16 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.20,242,1444665600"; 
+   d="scan'208";a="829807"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.6])
+	by heian.cn.fujitsu.com with ESMTP; 25 Nov 2015 16:51:02 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id BC7944043B13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Nov 2015 16:48:21 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.98) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Wed, 25 Nov 2015 16:49:05 +0800
+From: Li xin <lixin.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Nov 2015 11:48:58 +0300
+Message-ID: <1448441338-1930-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-In-Reply-To: <1448434479-29558-1-git-send-email-jkrishnanjanappa@mvista.com>
-Subject: Re: [jethro][PATCH] license.bbclass: fix host contamination warnings for license files
+X-Originating-IP: [10.167.226.98]
+Subject: [PATCH] glibc: Backported a patch to fix glibc's bug(18589)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,61 +34,372 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 08:43:00 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Nov 2015 08:51:20 -0000
+Content-Type: text/plain
 
+From: Li Xin <lixin.fnst@cn.fujitsu.com>
 
-Hi Jagadeesh,
+Also Fix LSB NG cases:
+ * /tset/ANSI.os/locale/setlocale/T.setlocale 1 2 4 5 15
+ * /tset/ANSI.os/string/strcoll_X/T.strcoll_X 1
+ * /tset/LI18NUX2K.L1/base/wcscoll/T.wcscoll 1
+ * /tset/LI18NUX2K.L1/utils/localedef/T.localedef 7
+ * /tset/LI18NUX2K.L1/utils/sort/T.sort 1 3 17 19 33 35
+ * /tset/LI18NUX2K.L1/utils/comm/T.comm 1 2
+ * /tset/LI18NUX2K.L1/utils/ls-fh/T.ls-fh 2
 
-Thanks, usually, patch should go into master branch before go into stable
-branch such as jethro. IMHO, jethro branch may not take this fix even if
-master merges it. The problem is that oe-core doesn't create package for
-${PN}-lic atm, this patch is treated as part of the enhancement which is
-used for working with creating ${PN}-lic.
+This patch is backported from
+https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=6c84109cfa26f35c3dfed3acb97d347361bd5849
 
-// Robert
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+---
+ ...ove-incorrect-STRDIFF-based-optimization-.patch | 323 +++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.22.bb              |   1 +
+ 2 files changed, 324 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/strcoll-Remove-incorrect-STRDIFF-based-optimization-.patch
 
-On 11/25/2015 02:54 PM, Jagadeesh Krishnanjanappa wrote:
-> We get below host contamination warnings of license files for
-> each recipe, when we try to create a separate ${PN}-lic package (which
-> contains license files), by setting LICENSE_CREATE_PACKAGE equal to "1"
-> in local.conf.
->
-> -- snip --
-> WARNING: QA Issue: libcgroup: /libcgroup-lic/usr/share/licenses/libcgroup/generic_LGPLv2.1 is owned by uid 5001, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
-> WARNING: QA Issue: attr: /attr-lic/usr/share/licenses/attr/libattr.c is owned by uid 5001, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
-> WARNING: QA Issue: bash: /bash-lic/usr/share/licenses/bash/COPYING is owned by uid 5001, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
-> -- CUT --
->
-> Since the license files from source and OE-core, are populated in a normal
-> shell environment rather in pseudo environment (fakeroot); the ownership of
-> these files will be same as host user running bitbake. During the do_package
-> task (which runs in pseudo environment (fakeroot)), os.link preserves the
-> ownership of these license files as host user instead of root user.
-> This causes license files to have UID same as host user id and resulting in
-> above warnings during do_package_qa task.
->
-> Changing ownership of license files to root user under fakeroot environment
-> will solve above warnings, and on exiting fakeroot environment the license
-> files will continue to be owned by host user.
->
-> Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-> ---
->   meta/classes/license.bbclass | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> index c616a20..d400ac0 100644
-> --- a/meta/classes/license.bbclass
-> +++ b/meta/classes/license.bbclass
-> @@ -185,6 +185,7 @@ def copy_license_files(lic_files_paths, destdir):
->                   os.remove(dst)
->               if os.access(src, os.W_OK) and (os.stat(src).st_dev == os.stat(destdir).st_dev):
->                   os.link(src, dst)
-> +                os.chown(dst,os.getuid(),os.getgid())
->               else:
->                   shutil.copyfile(src, dst)
->           except Exception as e:
->
+diff --git a/meta/recipes-core/glibc/glibc/strcoll-Remove-incorrect-STRDIFF-based-optimization-.patch b/meta/recipes-core/glibc/glibc/strcoll-Remove-incorrect-STRDIFF-based-optimization-.patch
+new file mode 100644
+index 0000000..8ce255f
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/strcoll-Remove-incorrect-STRDIFF-based-optimization-.patch
+@@ -0,0 +1,323 @@
++Upstream-Status: Backport
++
++Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
++
++From https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=6c84109cfa26f35c3dfed3acb97d347361bd5849
++Author: Carlos O'Donell <carlos@systemhalted.org>
++Date:   Thu Oct 8 16:34:53 2015 -0400
++
++    strcoll: Remove incorrect STRDIFF-based optimization (Bug 18589).
++
++    The optimization introduced in commit
++    f13c2a8dff2329c6692a80176262ceaaf8a6f74e, causes regressions in
++    sorting for languages that have digraphs that change sort order, like
++    cs_CZ which sorts ch between h and i.
++
++    My analysis shows the fast-forwarding optimization in STRCOLL advances
++    through a digraph while possibly stopping in the middle which results
++    in a subsequent skipping of the digraph and incorrect sorting. The
++    optimization is incorrect as implemented and because of that I'm
++    removing it for 2.23, and I will also commit this fix for 2.22 where
++    it was originally introduced.
++
++    This patch reverts the optimization, introduces a new bug-strcoll2.c
++    regression test that tests both cs_CZ.UTF-8 and da_DK.ISO-8859-1 and
++    ensures they sort one digraph each correctly. The optimization can't be
++    applied without regressing this test.
++
++    Checked on x86_64, bug-strcoll2.c fails without this patch and passes
++    after. This will also get a fix on 2.22 which has the same bug.
++
++    (cherry picked from commit 87701a58e291bd7ac3b407d10a829dac52c9c16e)
++---
++ locale/C-collate.c           |  4 +-
++ locale/categories.def        |  1 -
++ locale/langinfo.h            |  1 -
++ locale/localeinfo.h          |  7 ----
++ locale/programs/ld-collate.c |  9 -----
++ string/bug-strcoll2.c        | 95 ++++++++++++++++++++++++++++++++++++++++++++
++ string/strcoll_l.c           | 39 +-----------------
++ wcsmbs/wcscoll_l.c           |  1 -
++ 8 files changed, 98 insertions(+), 59 deletions(-)
++ create mode 100644 string/bug-strcoll2.c
++
++diff --git a/locale/C-collate.c b/locale/C-collate.c
++index d7f3c55..06dfdfa 100644
++--- a/locale/C-collate.c
+++++ b/locale/C-collate.c
++@@ -144,8 +144,6 @@ const struct __locale_data _nl_C_LC_COLLATE attribute_hidden =
++     /* _NL_COLLATE_COLLSEQWC */
++     { .string = (const char *) collseqwc },
++     /* _NL_COLLATE_CODESET */
++-    { .string = _nl_C_codeset },
++-    /* _NL_COLLATE_ENCODING_TYPE */
++-    { .word = __cet_8bit }
+++    { .string = _nl_C_codeset }
++   }
++ };
++diff --git a/locale/categories.def b/locale/categories.def
++index 045489d..a8dda53 100644
++--- a/locale/categories.def
+++++ b/locale/categories.def
++@@ -58,7 +58,6 @@ DEFINE_CATEGORY
++   DEFINE_ELEMENT (_NL_COLLATE_COLLSEQMB,        "collate-collseqmb",        std, wstring)
++   DEFINE_ELEMENT (_NL_COLLATE_COLLSEQWC,        "collate-collseqwc",        std, wstring)
++   DEFINE_ELEMENT (_NL_COLLATE_CODESET,		"collate-codeset",	    std, string)
++-  DEFINE_ELEMENT (_NL_COLLATE_ENCODING_TYPE,   "collate-encoding-type",    std, word)
++   ), NO_POSTLOAD)
++ 
++ 
++diff --git a/locale/langinfo.h b/locale/langinfo.h
++index ffc5c7f..a565d9d 100644
++--- a/locale/langinfo.h
+++++ b/locale/langinfo.h
++@@ -255,7 +255,6 @@ enum
++   _NL_COLLATE_COLLSEQMB,
++   _NL_COLLATE_COLLSEQWC,
++   _NL_COLLATE_CODESET,
++-  _NL_COLLATE_ENCODING_TYPE,
++   _NL_NUM_LC_COLLATE,
++ 
++   /* LC_CTYPE category: character classification.
++diff --git a/locale/localeinfo.h b/locale/localeinfo.h
++index a7516c0..c076d8e 100644
++--- a/locale/localeinfo.h
+++++ b/locale/localeinfo.h
++@@ -110,13 +110,6 @@ enum coll_sort_rule
++   sort_mask
++ };
++ 
++-/* Collation encoding type.  */
++-enum collation_encoding_type
++-{
++-  __cet_other,
++-  __cet_8bit,
++-  __cet_utf8
++-};
++ 
++ /* We can map the types of the entries into a few categories.  */
++ enum value_type
++diff --git a/locale/programs/ld-collate.c b/locale/programs/ld-collate.c
++index 16e9039..3c88c6d 100644
++--- a/locale/programs/ld-collate.c
+++++ b/locale/programs/ld-collate.c
++@@ -32,7 +32,6 @@
++ #include "linereader.h"
++ #include "locfile.h"
++ #include "elem-hash.h"
++-#include "../localeinfo.h"
++ 
++ /* Uncomment the following line in the production version.  */
++ /* #define NDEBUG 1 */
++@@ -2130,8 +2129,6 @@ collate_output (struct localedef_t *locale, const struct charmap_t *charmap,
++ 	  /* The words have to be handled specially.  */
++ 	  if (idx == _NL_ITEM_INDEX (_NL_COLLATE_SYMB_HASH_SIZEMB))
++ 	    add_locale_uint32 (&file, 0);
++-	  else if (idx == _NL_ITEM_INDEX (_NL_COLLATE_ENCODING_TYPE))
++-	    add_locale_uint32 (&file, __cet_other);
++ 	  else
++ 	    add_locale_empty (&file);
++ 	}
++@@ -2495,12 +2492,6 @@ collate_output (struct localedef_t *locale, const struct charmap_t *charmap,
++   add_locale_raw_data (&file, collate->mbseqorder, 256);
++   add_locale_collseq_table (&file, &collate->wcseqorder);
++   add_locale_string (&file, charmap->code_set_name);
++-  if (strcmp (charmap->code_set_name, "UTF-8") == 0)
++-    add_locale_uint32 (&file, __cet_utf8);
++-  else if (charmap->mb_cur_max == 1)
++-    add_locale_uint32 (&file, __cet_8bit);
++-  else
++-    add_locale_uint32 (&file, __cet_other);
++   write_locale_data (output_path, LC_COLLATE, "LC_COLLATE", &file);
++ 
++   obstack_free (&weightpool, NULL);
++diff --git a/string/bug-strcoll2.c b/string/bug-strcoll2.c
++new file mode 100644
++index 0000000..950b090
++--- /dev/null
+++++ b/string/bug-strcoll2.c
++@@ -0,0 +1,95 @@
+++/* Bug 18589: sort-test.sh fails at random.
+++ * Copyright (C) 1998-2015 Free Software Foundation, Inc.
+++ * This file is part of the GNU C Library.
+++ * Contributed by Ulrich Drepper <drepper@cygnus.com>, 1998.
+++ *
+++ * The GNU C Library is free software; you can redistribute it and/or
+++ * modify it under the terms of the GNU Lesser General Public
+++ * License as published by the Free Software Foundation; either
+++ * version 2.1 of the License, or (at your option) any later version.
+++ *
+++ * The GNU C Library is distributed in the hope that it will be useful,
+++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++ * Lesser General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU Lesser General Public
+++ * License along with the GNU C Library; if not, see
+++ * <http://www.gnu.org/licenses/>.  */
+++
+++#include <stdio.h>
+++#include <string.h>
+++#include <locale.h>
+++
+++/* An incorrect strcoll optimization resulted in incorrect
+++ *    results from strcoll for cs_CZ and da_DK.  */
+++
+++int
+++test_cs_CZ (void)
+++{
+++  const char t1[] = "config";
+++  const char t2[] = "choose";
+++  if (setlocale (LC_ALL, "cs_CZ.UTF-8") == NULL)
+++    {
+++      perror ("setlocale");
+++      return 1;
+++    }
+++  /* In Czech the digraph ch sorts after c, therefore we expect
+++ *      config to sort before choose.  */
+++  int a = strcoll (t1, t2);
+++  int b = strcoll (t2, t1);
+++  printf ("strcoll (\"%s\", \"%s\") = %d\n", t1, t2, a);
+++  printf ("strcoll (\"%s\", \"%s\") = %d\n", t2, t1, b);
+++  if (a < 0 && b > 0)
+++    {
+++      puts ("PASS: config < choose");
+++      return 0;
+++    }
+++  else
+++    {
+++      puts ("FAIL: Wrong sorting in cz_CZ.UTF-8.");
+++      return 1;
+++    }
+++}
+++
+++int
+++test_da_DK (void)
+++{
+++  const char t1[] = "AS";
+++  const char t2[] = "AA";
+++  if (setlocale (LC_ALL, "da_DK.ISO-8859-1") == NULL)
+++    {
+++      perror ("setlocale");
+++      return 1;
+++    }
+++  /* AA should be treated as the last letter of the Danish alphabet,
+++ *      hence sorting after AS.  */
+++  int a = strcoll (t1, t2);
+++  int b = strcoll (t2, t1);
+++  printf ("strcoll (\"%s\", \"%s\") = %d\n", t1, t2, a);
+++  printf ("strcoll (\"%s\", \"%s\") = %d\n", t2, t1, b);
+++  if (a < 0 && b > 0)
+++    {
+++      puts ("PASS: AS < AA");
+++      return 0;
+++    }
+++  else
+++    {
+++      puts ("FAIL: Wrong sorting in da_DK.ISO-8859-1");
+++      return 1;
+++    }
+++}
+++
+++static int
+++do_test (void)
+++{
+++  int err = 0;
+++  err |= test_cs_CZ ();
+++  err |= test_da_DK ();
+++  return err;
+++}
+++
+++#define TEST_FUNCTION do_test ()
+++#include "../test-skeleton.c"
+++
+++
++diff --git a/string/strcoll_l.c b/string/strcoll_l.c
++index b36b18c..a18b65e 100644
++--- a/string/strcoll_l.c
+++++ b/string/strcoll_l.c
++@@ -30,7 +30,6 @@
++ # define STRING_TYPE char
++ # define USTRING_TYPE unsigned char
++ # define STRCOLL __strcoll_l
++-# define STRDIFF __strdiff
++ # define STRCMP strcmp
++ # define WEIGHT_H "../locale/weight.h"
++ # define SUFFIX	MB
++@@ -43,19 +42,6 @@
++ #include "../locale/localeinfo.h"
++ #include WEIGHT_H
++ 
++-#define MASK_UTF8_7BIT  (1 << 7)
++-#define MASK_UTF8_START (3 << 6)
++-
++-size_t
++-STRDIFF (const STRING_TYPE *s, const STRING_TYPE *t)
++-{
++-  size_t n;
++-
++-  for (n = 0; *s != '\0' && *s++ == *t++; ++n)
++-    continue;
++-
++-  return n;
++-}
++ 
++ /* Track status while looking for sequences in a string.  */
++ typedef struct
++@@ -274,29 +260,9 @@ STRCOLL (const STRING_TYPE *s1, const STRING_TYPE *s2, __locale_t l)
++   const USTRING_TYPE *extra;
++   const int32_t *indirect;
++ 
++-  /* In case there is no locale specific sort order (C / POSIX).  */
++   if (nrules == 0)
++     return STRCMP (s1, s2);
++ 
++-  /* Fast forward to the position of the first difference.  Needs to be
++-     encoding aware as the byte-by-byte comparison can stop in the middle
++-     of a char sequence for multibyte encodings like UTF-8.  */
++-  uint_fast32_t encoding =
++-    current->values[_NL_ITEM_INDEX (_NL_COLLATE_ENCODING_TYPE)].word;
++-  if (encoding != __cet_other)
++-    {
++-      size_t diff = STRDIFF (s1, s2);
++-      if (diff > 0)
++-	{
++-	  if (encoding == __cet_utf8 && (*(s1 + diff) & MASK_UTF8_7BIT) != 0)
++-	    do
++-	      diff--;
++-	    while (diff > 0 && (*(s1 + diff) & MASK_UTF8_START) != MASK_UTF8_START);
++-	  s1 += diff;
++-	  s2 += diff;
++-	}
++-    }
++-
++   /* Catch empty strings.  */
++   if (__glibc_unlikely (*s1 == '\0') || __glibc_unlikely (*s2 == '\0'))
++     return (*s1 != '\0') - (*s2 != '\0');
++@@ -363,9 +329,8 @@ STRCOLL (const STRING_TYPE *s1, const STRING_TYPE *s2, __locale_t l)
++ 		     byte-level comparison to ensure that we don't waste time
++ 		     going through multiple passes for totally equal strings
++ 		     before proceeding to subsequent passes.  */
++-		  if (pass == 0 && encoding == __cet_other &&
++-		      STRCMP (s1, s2) == 0)
++-		    return result;
+++		  if (pass == 0 && STRCMP (s1, s2) == 0)
+++                    return result;
++ 		  else
++ 		    break;
++ 	        }
++diff --git a/wcsmbs/wcscoll_l.c b/wcsmbs/wcscoll_l.c
++index 6d9384a..87f240d 100644
++--- a/wcsmbs/wcscoll_l.c
+++++ b/wcsmbs/wcscoll_l.c
++@@ -23,7 +23,6 @@
++ #define STRING_TYPE wchar_t
++ #define USTRING_TYPE wint_t
++ #define STRCOLL __wcscoll_l
++-#define STRDIFF __wcsdiff
++ #define STRCMP __wcscmp
++ #define WEIGHT_H "../locale/weightwc.h"
++ #define SUFFIX	WC
++-- 
++1.8.4.2
++
+diff --git a/meta/recipes-core/glibc/glibc_2.22.bb b/meta/recipes-core/glibc/glibc_2.22.bb
+index 1b23597..da75586 100644
+--- a/meta/recipes-core/glibc/glibc_2.22.bb
++++ b/meta/recipes-core/glibc/glibc_2.22.bb
+@@ -40,6 +40,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0027-eglibc-use-option-groups-Conditionally-exclude-c-tes.patch \
+            file://nscd-no-bash.patch \
+            file://0028-Clear-ELF_RTYPE_CLASS_EXTERN_PROTECTED_DATA-for-prel.patch \
++           file://strcoll-Remove-incorrect-STRDIFF-based-optimization-.patch \
+ "
+ 
+ SRC_URI += "\
+-- 
+1.8.4.2
+
 
