@@ -1,39 +1,47 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FE806012A
+Return-Path: <jkrishnanjanappa@mvista.com>
+Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id C9C5C60116
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 10:34:20 +0000 (UTC)
-Received: by wmvv187 with SMTP id v187so250111075wmv.1
+	Wed, 25 Nov 2015 10:55:56 +0000 (UTC)
+Received: by lfs39 with SMTP id 39so53800339lfs.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 02:34:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=BNQpX7Ky//OVFe9NalFf50qjtVl3NDcIHpUl6jiyK4E=;
-	b=yA57GfSlvNVREJy5aMQEVx60plMPkYBs3qnPv8UFcW7SUXQ0lX3SXlakzK/5YuO4L1
-	UKhl+iGFLCkrSlRhIxMqMRM8IybGRoNtX6geKyeNyY056Q+KWBk9cueOPY0WrawmEnmO
-	s5gxAqVuFIOBz5Ah6wtGi4brycoH5Gyuk9ZE+PSWIH8MkX09cplfsGqChKIvoQBYRwWT
-	Ypt2RbziIzU6dUmv5WH4AzyujoTrZ7jDUdWAQs25PUCZZJrLscmdT1czQQmA4/DXa+1x
-	gh4UiZjPlAPgLdBKzhznUwVywdQX97/5INcR2FGhXSevFOP9vnlCh8UeVXqcorsVlSMX
-	JSFQ==
-X-Received: by 10.194.77.174 with SMTP id t14mr47345949wjw.23.1448447660399;
-	Wed, 25 Nov 2015 02:34:20 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	z17sm22570494wjq.1.2015.11.25.02.34.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 25 Nov 2015 02:34:19 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 25 Nov 2015 11:34:53 +0100
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20151125103453.GM17303@jama>
-References: <1448434479-29558-1-git-send-email-jkrishnanjanappa@mvista.com>
-	<56557491.4010809@windriver.com>
+	Wed, 25 Nov 2015 02:55:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=DVIHUBU7CI38QCJX8Ks+ZFCl76L+xvcTSWTxnKnz9MY=;
+	b=hKvt13nl082YLz0bgM1XdT0tZ1Ol2Rd+kFGpWqU6L7JgFZ3wzqY2FKSvF58pujSt3g
+	b7afROxUWtS7VMhAbtDGOb8oDiecFxNr1U0gr4SgXuBC617rngc01OoVGzB+4RUFDK39
+	hMR8jf+OMC3FGNAxKoXSjExxr5R3M6OfNrf0vP9/736bsr+NL2iGuw87sazISB6v+xwQ
+	YbA+MMD7lpab+g9Pt5WPflYnLguXjuYT+VZ26SXWImjxuQ99OU5rj/L2YlbCjhmgtF8K
+	ROzXZSpqpyyXUOYEBn9mFpDJfmfl+oh8PXAXIsY/B0UsoqGzfTPQuSaKaSoSwnBEq4Rq
+	btnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=DVIHUBU7CI38QCJX8Ks+ZFCl76L+xvcTSWTxnKnz9MY=;
+	b=R8gQVAynNxJ67tkDsVGRethnAHi3c0GpHb1W5p0jmqO5w27CQdURFrJGCf//WZv3Z/
+	m7Tr/bkcoKG5UpCG8ARsvoUv+AHAVJpkVm600kVZC+7mTyKLtyF6CO4knYdvGIIKsgft
+	Ug7QDfqnOwRrXslRElIfWDEGpGfGAeiZAzXAkneOQgPtNkVLBf770/oJwkF3l1axIFnt
+	cRxFw4vZKDQo+B0mooCRwX9l1KzHPbYTyl5kbPHS5JtbHM9EKX7Pit6eWWQZxbFMmDS1
+	QMVi3bHYsRxagcRP6kRQ5PUJlR2JJf6eMch8oXyb10rUR0EfhQl4R5kYde9+ihCHSBoY
+	Heig==
+X-Gm-Message-State: ALoCoQmGMVTYZ8u82FSbTzwHCZyQj1HBUQUFB24rOhwPLkk+Cho7lXsoGJAXoLGvhzP1EQG5ncHj
 MIME-Version: 1.0
-In-Reply-To: <56557491.4010809@windriver.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
+X-Received: by 10.25.149.9 with SMTP id x9mr15445925lfd.53.1448448956371; Wed,
+	25 Nov 2015 02:55:56 -0800 (PST)
+Received: by 10.114.122.72 with HTTP; Wed, 25 Nov 2015 02:55:56 -0800 (PST)
+In-Reply-To: <20151125103453.GM17303@jama>
+References: <1448434479-29558-1-git-send-email-jkrishnanjanappa@mvista.com>
+	<56557491.4010809@windriver.com> <20151125103453.GM17303@jama>
+Date: Wed, 25 Nov 2015 16:25:56 +0530
+Message-ID: <CAD3vsf5rOZXj6oxQ4eaEdCW9bMcFJ-He4VyZy4dJ6KScW1S7dQ@mail.gmail.com>
+From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [jethro][PATCH] license.bbclass: fix host contamination warnings for license files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,116 +55,247 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 10:34:22 -0000
-X-Groupsio-MsgNum: 73934
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="o41d8xLWOaLD8vYh"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 25 Nov 2015 10:55:57 -0000
+Content-Type: multipart/alternative; boundary=001a114014aa8530be05255b4d8e
 
---o41d8xLWOaLD8vYh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a114014aa8530be05255b4d8e
+Content-Type: text/plain; charset=UTF-8
+
+Hi Robert,
+
+I understand. Though LICENSE_CREATE_PACKAGE is disabled by default in
+OE-core, if some users want to create ${PN}-lic package for each recipe
+via LICENSE_CREATE_PACKAGE = "1", then they are going to have host
+contamination  warnings for each recipe.
+
+The above commit indicated by Martin does create ${PN}-lic package when
+LICENSE_CREATE_PACKAGE = "1".
+
+Regards,
+Jagadeesh
+
+On Wed, Nov 25, 2015 at 4:04 PM, Martin Jansa <martin.jansa@gmail.com>
+wrote:
+
+> On Wed, Nov 25, 2015 at 04:42:57PM +0800, Robert Yang wrote:
+> >
+> > Hi Jagadeesh,
+> >
+> > Thanks, usually, patch should go into master branch before go into stable
+> > branch such as jethro. IMHO, jethro branch may not take this fix even if
+> > master merges it. The problem is that oe-core doesn't create package for
+> > ${PN}-lic atm, this patch is treated as part of the enhancement which is
+> > used for working with creating ${PN}-lic.
+>
+> Why do you think it isn't able to create ${PN}-lic when configured to do
+> so?
+>
+> commit dc78ef91a2bf01efb8028c9afbe69e506e016265
+> Author: Martin Jansa <martin.jansa@gmail.com>
+> Date:   Thu Jan 17 12:49:44 2013 +0100
+>
+>     license.bbclass: package license texts to PN-lic when
+> LICENSE_CREATE_PACKAGE is enabled
+>
+> is already in dylan release.
+>
+> > // Robert
+> >
+> > On 11/25/2015 02:54 PM, Jagadeesh Krishnanjanappa wrote:
+> > > We get below host contamination warnings of license files for
+> > > each recipe, when we try to create a separate ${PN}-lic package (which
+> > > contains license files), by setting LICENSE_CREATE_PACKAGE equal to "1"
+> > > in local.conf.
+> > >
+> > > -- snip --
+> > > WARNING: QA Issue: libcgroup:
+> /libcgroup-lic/usr/share/licenses/libcgroup/generic_LGPLv2.1 is owned by
+> uid 5001, which is the same as the user running bitbake. This may be due to
+> host contamination [host-user-contaminated]
+> > > WARNING: QA Issue: attr: /attr-lic/usr/share/licenses/attr/libattr.c
+> is owned by uid 5001, which is the same as the user running bitbake. This
+> may be due to host contamination [host-user-contaminated]
+> > > WARNING: QA Issue: bash: /bash-lic/usr/share/licenses/bash/COPYING is
+> owned by uid 5001, which is the same as the user running bitbake. This may
+> be due to host contamination [host-user-contaminated]
+> > > -- CUT --
+> > >
+> > > Since the license files from source and OE-core, are populated in a
+> normal
+> > > shell environment rather in pseudo environment (fakeroot); the
+> ownership of
+> > > these files will be same as host user running bitbake. During the
+> do_package
+> > > task (which runs in pseudo environment (fakeroot)), os.link preserves
+> the
+> > > ownership of these license files as host user instead of root user.
+> > > This causes license files to have UID same as host user id and
+> resulting in
+> > > above warnings during do_package_qa task.
+> > >
+> > > Changing ownership of license files to root user under fakeroot
+> environment
+> > > will solve above warnings, and on exiting fakeroot environment the
+> license
+> > > files will continue to be owned by host user.
+> > >
+> > > Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+> > > ---
+> > >   meta/classes/license.bbclass | 1 +
+> > >   1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/meta/classes/license.bbclass
+> b/meta/classes/license.bbclass
+> > > index c616a20..d400ac0 100644
+> > > --- a/meta/classes/license.bbclass
+> > > +++ b/meta/classes/license.bbclass
+> > > @@ -185,6 +185,7 @@ def copy_license_files(lic_files_paths, destdir):
+> > >                   os.remove(dst)
+> > >               if os.access(src, os.W_OK) and (os.stat(src).st_dev ==
+> os.stat(destdir).st_dev):
+> > >                   os.link(src, dst)
+> > > +                os.chown(dst,os.getuid(),os.getgid())
+> > >               else:
+> > >                   shutil.copyfile(src, dst)
+> > >           except Exception as e:
+> > >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+
+--001a114014aa8530be05255b4d8e
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 25, 2015 at 04:42:57PM +0800, Robert Yang wrote:
->=20
-> Hi Jagadeesh,
->=20
-> Thanks, usually, patch should go into master branch before go into stable
-> branch such as jethro. IMHO, jethro branch may not take this fix even if
-> master merges it. The problem is that oe-core doesn't create package for
-> ${PN}-lic atm, this patch is treated as part of the enhancement which is
-> used for working with creating ${PN}-lic.
+<div dir=3D"ltr"><div>Hi Robert,</div><div><br></div><div>I understand. Tho=
+ugh LICENSE_CREATE_PACKAGE is disabled by default in OE-core, if some users=
+ want to create ${PN}-lic package for each recipe</div><div>via LICENSE_CRE=
+ATE_PACKAGE =3D &quot;1&quot;, then they are going to have host contaminati=
+on =C2=A0warnings for each recipe.</div><div><br></div><div>The above commi=
+t indicated by Martin does create ${PN}-lic package when</div><div>LICENSE_=
+CREATE_PACKAGE =3D &quot;1&quot;.</div><div><br></div><div>Regards,</div><d=
+iv>Jagadeesh</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_=
+quote">On Wed, Nov 25, 2015 at 4:04 PM, Martin Jansa <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gm=
+ail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=
+=3D"">On Wed, Nov 25, 2015 at 04:42:57PM +0800, Robert Yang wrote:<br>
+&gt;<br>
+&gt; Hi Jagadeesh,<br>
+&gt;<br>
+&gt; Thanks, usually, patch should go into master branch before go into sta=
+ble<br>
+&gt; branch such as jethro. IMHO, jethro branch may not take this fix even =
+if<br>
+&gt; master merges it. The problem is that oe-core doesn&#39;t create packa=
+ge for<br>
+&gt; ${PN}-lic atm, this patch is treated as part of the enhancement which =
+is<br>
+&gt; used for working with creating ${PN}-lic.<br>
+<br>
+</span>Why do you think it isn&#39;t able to create ${PN}-lic when configur=
+ed to do<br>
+so?<br>
+<br>
+commit dc78ef91a2bf01efb8028c9afbe69e506e016265<br>
+Author: Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.j=
+ansa@gmail.com</a>&gt;<br>
+Date:=C2=A0 =C2=A0Thu Jan 17 12:49:44 2013 +0100<br>
+<br>
+=C2=A0 =C2=A0 license.bbclass: package license texts to PN-lic when<br>
+LICENSE_CREATE_PACKAGE is enabled<br>
+<br>
+is already in dylan release.<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt; // Robert<br>
+&gt;<br>
+&gt; On 11/25/2015 02:54 PM, Jagadeesh Krishnanjanappa wrote:<br>
+&gt; &gt; We get below host contamination warnings of license files for<br>
+&gt; &gt; each recipe, when we try to create a separate ${PN}-lic package (=
+which<br>
+&gt; &gt; contains license files), by setting LICENSE_CREATE_PACKAGE equal =
+to &quot;1&quot;<br>
+&gt; &gt; in local.conf.<br>
+&gt; &gt;<br>
+&gt; &gt; -- snip --<br>
+&gt; &gt; WARNING: QA Issue: libcgroup: /libcgroup-lic/usr/share/licenses/l=
+ibcgroup/generic_LGPLv2.1 is owned by uid 5001, which is the same as the us=
+er running bitbake. This may be due to host contamination [host-user-contam=
+inated]<br>
+&gt; &gt; WARNING: QA Issue: attr: /attr-lic/usr/share/licenses/attr/libatt=
+r.c is owned by uid 5001, which is the same as the user running bitbake. Th=
+is may be due to host contamination [host-user-contaminated]<br>
+&gt; &gt; WARNING: QA Issue: bash: /bash-lic/usr/share/licenses/bash/COPYIN=
+G is owned by uid 5001, which is the same as the user running bitbake. This=
+ may be due to host contamination [host-user-contaminated]<br>
+&gt; &gt; -- CUT --<br>
+&gt; &gt;<br>
+&gt; &gt; Since the license files from source and OE-core, are populated in=
+ a normal<br>
+&gt; &gt; shell environment rather in pseudo environment (fakeroot); the ow=
+nership of<br>
+&gt; &gt; these files will be same as host user running bitbake. During the=
+ do_package<br>
+&gt; &gt; task (which runs in pseudo environment (fakeroot)), os.link prese=
+rves the<br>
+&gt; &gt; ownership of these license files as host user instead of root use=
+r.<br>
+&gt; &gt; This causes license files to have UID same as host user id and re=
+sulting in<br>
+&gt; &gt; above warnings during do_package_qa task.<br>
+&gt; &gt;<br>
+&gt; &gt; Changing ownership of license files to root user under fakeroot e=
+nvironment<br>
+&gt; &gt; will solve above warnings, and on exiting fakeroot environment th=
+e license<br>
+&gt; &gt; files will continue to be owned by host user.<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Jagadeesh Krishnanjanappa &lt;<a href=3D"mailto:jk=
+rishnanjanappa@mvista.com">jkrishnanjanappa@mvista.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 =C2=A0meta/classes/license.bbclass | 1 +<br>
+&gt; &gt;=C2=A0 =C2=A01 file changed, 1 insertion(+)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/classes/license.bbclass b/meta/classes/license.=
+bbclass<br>
+&gt; &gt; index c616a20..d400ac0 100644<br>
+&gt; &gt; --- a/meta/classes/license.bbclass<br>
+&gt; &gt; +++ b/meta/classes/license.bbclass<br>
+&gt; &gt; @@ -185,6 +185,7 @@ def copy_license_files(lic_files_paths, destd=
+ir):<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0os.remove(dst)<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.acces=
+s(src, os.W_OK) and (os.stat(src).st_dev =3D=3D os.stat(destdir).st_dev):<b=
+r>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0os.link(src, dst)<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.chown=
+(dst,os.getuid(),os.getgid())<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0shutil.copyfile(src, dst)<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except Exception as e:<br=
+>
+&gt; &gt;<br>
+</div></div><span class=3D"HOEnZb"><font color=3D"#888888">&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
+ailman/listinfo/openembedded-core</a><br>
+<br>
+--<br>
+Martin &#39;JaMa&#39; Jansa=C2=A0 =C2=A0 =C2=A0jabber: <a href=3D"mailto:Ma=
+rtin.Jansa@gmail.com">Martin.Jansa@gmail.com</a><br>
+</font></span></blockquote></div><br></div>
 
-Why do you think it isn't able to create ${PN}-lic when configured to do
-so?
-
-commit dc78ef91a2bf01efb8028c9afbe69e506e016265
-Author: Martin Jansa <martin.jansa@gmail.com>
-Date:   Thu Jan 17 12:49:44 2013 +0100
-
-    license.bbclass: package license texts to PN-lic when
-LICENSE_CREATE_PACKAGE is enabled
-
-is already in dylan release.
-
-> // Robert
->=20
-> On 11/25/2015 02:54 PM, Jagadeesh Krishnanjanappa wrote:
-> > We get below host contamination warnings of license files for
-> > each recipe, when we try to create a separate ${PN}-lic package (which
-> > contains license files), by setting LICENSE_CREATE_PACKAGE equal to "1"
-> > in local.conf.
-> >
-> > -- snip --
-> > WARNING: QA Issue: libcgroup: /libcgroup-lic/usr/share/licenses/libcgro=
-up/generic_LGPLv2.1 is owned by uid 5001, which is the same as the user run=
-ning bitbake. This may be due to host contamination [host-user-contaminated]
-> > WARNING: QA Issue: attr: /attr-lic/usr/share/licenses/attr/libattr.c is=
- owned by uid 5001, which is the same as the user running bitbake. This may=
- be due to host contamination [host-user-contaminated]
-> > WARNING: QA Issue: bash: /bash-lic/usr/share/licenses/bash/COPYING is o=
-wned by uid 5001, which is the same as the user running bitbake. This may b=
-e due to host contamination [host-user-contaminated]
-> > -- CUT --
-> >
-> > Since the license files from source and OE-core, are populated in a nor=
-mal
-> > shell environment rather in pseudo environment (fakeroot); the ownershi=
-p of
-> > these files will be same as host user running bitbake. During the do_pa=
-ckage
-> > task (which runs in pseudo environment (fakeroot)), os.link preserves t=
-he
-> > ownership of these license files as host user instead of root user.
-> > This causes license files to have UID same as host user id and resultin=
-g in
-> > above warnings during do_package_qa task.
-> >
-> > Changing ownership of license files to root user under fakeroot environ=
-ment
-> > will solve above warnings, and on exiting fakeroot environment the lice=
-nse
-> > files will continue to be owned by host user.
-> >
-> > Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-> > ---
-> >   meta/classes/license.bbclass | 1 +
-> >   1 file changed, 1 insertion(+)
-> >
-> > diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> > index c616a20..d400ac0 100644
-> > --- a/meta/classes/license.bbclass
-> > +++ b/meta/classes/license.bbclass
-> > @@ -185,6 +185,7 @@ def copy_license_files(lic_files_paths, destdir):
-> >                   os.remove(dst)
-> >               if os.access(src, os.W_OK) and (os.stat(src).st_dev =3D=
-=3D os.stat(destdir).st_dev):
-> >                   os.link(src, dst)
-> > +                os.chown(dst,os.getuid(),os.getgid())
-> >               else:
-> >                   shutil.copyfile(src, dst)
-> >           except Exception as e:
-> >
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---o41d8xLWOaLD8vYh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlZVjs0ACgkQN1Ujt2V2gByAngCglciNvsweJnYAuN8S3S4suoGQ
-pH4An3cbJmMMCqFHWFXAwTYLlHoxelvt
-=csQK
------END PGP SIGNATURE-----
-
---o41d8xLWOaLD8vYh--
+--001a114014aa8530be05255b4d8e--
