@@ -1,28 +1,24 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id E8F3A60621
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 162B360621
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 00:47:36 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0224.002; Wed, 25 Nov 2015 01:47:33 +0100
-From: Tudor Florea <Tudor.Florea@enea.com>
-To: Tudor Florea <Tudor.Florea@enea.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [dizzy] [PATCH 1/2] python: Backport CVE-2013-1752 fix for
-	httplib
-Thread-Index: AQHRIgk722NF2gGW5Uyynj81fYrCBZ6r8XzA
-Date: Wed, 25 Nov 2015 00:47:32 +0000
-Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A428CBB7A8@SESTOEX04.enea.se>
-References: <1447855121-21568-1-git-send-email-tudor.florea@enea.com>
-In-Reply-To: <1447855121-21568-1-git-send-email-tudor.florea@enea.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.15.34]
+	Wed, 25 Nov 2015 02:05:50 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAP25oDW026050
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Nov 2015 18:05:50 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 24 Nov 2015 18:04:49 -0800
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Nov 2015 09:53:54 +0800
+Message-ID: <1448416434-15672-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Re: [dizzy] [PATCH 1/2] python: Backport CVE-2013-1752 fix for httplib
+Subject: [PATCH] openssh: redesign ssh-agent.sh regression test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,101 +31,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 00:47:37 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 25 Nov 2015 02:05:51 -0000
+Content-Type: text/plain
 
-Ping.
+From: Roy Li <rongqing.li@windriver.com>
 
------Original Message-----
-From: Tudor Florea [mailto:tudor.florea@enea.com]=20
-Sent: Wednesday, November 18, 2015 3:59 PM
-To: openembedded-core@lists.openembedded.org
-Cc: Tudor Florea <Tudor.Florea@enea.com>
-Subject: [dizzy] [PATCH 1/2] python: Backport CVE-2013-1752 fix for httplib
+ssh-agent regression test case should be run by non-root user,
+but non-root user will has issue to run other testcase, so
+rewrite it on run-ptest
 
-This back ported patch fixes CVE-2013-1752 for httplib
-
-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- .../python-2.7.3-CVE-2013-1752-httplib-fix.patch   | 45 ++++++++++++++++++=
-++++
- meta/recipes-devtools/python/python_2.7.3.bb       |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-CVE-20=
-13-1752-httplib-fix.patch
+ .../recipes-connectivity/openssh/openssh/run-ptest | 37 ++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752=
--httplib-fix.patch b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2=
-013-1752-httplib-fix.patch
-new file mode 100644
-index 0000000..e68f53f
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-htt
-+++ plib-fix.patch
-@@ -0,0 +1,45 @@
-+Upstream-Status: Backport
+diff --git a/meta/recipes-connectivity/openssh/openssh/run-ptest b/meta/recipes-connectivity/openssh/openssh/run-ptest
+index 564c0c8..769162e 100755
+--- a/meta/recipes-connectivity/openssh/openssh/run-ptest
++++ b/meta/recipes-connectivity/openssh/openssh/run-ptest
+@@ -3,5 +3,42 @@
+ export TEST_SHELL=sh
+ 
+ cd regress
++sed -i "/\t\tagent-ptrace /d" Makefile
+ make -k .OBJDIR=`pwd` .CURDIR=`pwd` SUDO="sudo" tests \
+         | sed -e 's/^skipped/SKIP: /g' -e 's/^ok /PASS: /g' -e 's/^failed/FAIL: /g'
 +
-+CVE-2013-1752: httplib: HTTPMessage.readheaders() raises an=20
-+HTTPException when more than 100 headers are read.
-+Patch by Jyrki Pulliainen and Daniel Eriksson.
 +
-+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
-+---
-+diff -r 133ee2b48e52 Lib/httplib.py
-+--- a/Lib/httplib.py	Fri Aug 01 23:51:51 2014 -0700
-++++ b/Lib/httplib.py	Sat Aug 02 13:59:25 2014 +0000
-+@@ -214,6 +214,7 @@
-+=20
-+ # maximal line length when calling readline().
-+ _MAXLINE =3D 65536
-++_MAXHEADERS =3D 100
-+=20
-+ class HTTPMessage(mimetools.Message):
-+=20
-+@@ -271,6 +272,8 @@
-+         elif self.seekable:
-+             tell =3D self.fp.tell
-+         while True:
-++            if len(hlist) > _MAXHEADERS:
-++                raise HTTPException("got more than %d headers" %=20
-++ _MAXHEADERS)
-+             if tell:
-+                 try:
-+                     startofline =3D tell() diff -r 133ee2b48e52=20
-+Lib/test/test_httplib.py
-+--- a/Lib/test/test_httplib.py	Fri Aug 01 23:51:51 2014 -0700
-++++ b/Lib/test/test_httplib.py	Sat Aug 02 13:59:25 2014 +0000
-+@@ -262,6 +262,13 @@
-+         if resp.read() !=3D "":
-+             self.fail("Did not expect response from HEAD request")
-+=20
-++    def test_too_many_headers(self):
-++        headers =3D '\r\n'.join('Header%d: foo' % i for i in xrange(200))=
- + '\r\n'
-++        text =3D ('HTTP/1.1 200 OK\r\n' + headers)
-++        s =3D FakeSocket(text)
-++        r =3D httplib.HTTPResponse(s)
-++        self.assertRaises(httplib.HTTPException, r.begin)
-++
-+     def test_send_file(self):
-+         expected =3D 'GET /foo HTTP/1.1\r\nHost: example.com\r\n' \
-+                    'Accept-Encoding: identity\r\nContent-Length:'
-diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-de=
-vtools/python/python_2.7.3.bb
-index cbe8d7f..d603587 100644
---- a/meta/recipes-devtools/python/python_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python_2.7.3.bb
-@@ -40,6 +40,7 @@ SRC_URI +=3D "\
-   file://posix_close.patch \
-   file://python-2.7.3-CVE-2014-7185.patch \
-   file://python2.7.3-nossl3.patch \
-+  file://python-2.7.3-CVE-2013-1752-httplib-fix.patch \
- "
-=20
- S =3D "${WORKDIR}/Python-${PV}"
---
++SSHAGENT=`which ssh-agent`
++GDB=`which gdb`
++
++if [ -z "${SSHAGENT}" -o -z "${GDB}" ]; then
++       echo "SKIP: agent-ptrace"
++fi
++
++useradd openssh-test
++
++eval `su -c "${SSHAGENT} -s" openssh-test` > /dev/null
++r=$?
++if [ $r -ne 0 ]; then
++	echo "FAIL: could not start ssh-agent: exit code $r"
++else
++	su -c "gdb -p ${SSH_AGENT_PID}" openssh-test > /tmp/gdb.out 2>&1 << EOF
++		quit
++EOF
++	r=$?
++	if [ $r -ne 0 ]; then
++		echo "gdb failed: exit code $r"
++	fi
++	egrep 'ptrace: Operation not permitted.|procfs:.*Permission denied.|ttrace.*Permission denied.|procfs:.*: Invalid argument.|Unable to access task ' >/dev/null /tmp/gdb.out
++	r=$?
++	rm -f /tmp/gdb.out
++	if [ $r -ne 0 ]; then
++		echo "FAIL: ptrace agant"
++	else
++		echo "PASS: ptrace agant"
++	fi
++
++	${SSHAGENT} -k > /dev/null
++fi
++userdel openssh-test
++
+-- 
 1.9.1
 
 
