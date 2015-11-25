@@ -1,27 +1,28 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B84E76057A
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id E8F3A60621
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 22:35:13 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 24 Nov 2015 14:35:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,340,1444719600"; d="scan'208";a="828325384"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
-	([10.255.175.61])
-	by orsmga001.jf.intel.com with ESMTP; 24 Nov 2015 14:35:11 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: George Nita <george.nita@enea.com>
-Date: Wed, 25 Nov 2015 11:35:09 +1300
-Message-ID: <6556342.K0qaf5B5dg@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.13-100.fc21.x86_64; KDE/4.14.11; x86_64; ;
-	)
-In-Reply-To: <1447929347-20043-1-git-send-email-george.nita@enea.com>
-References: <1447929347-20043-1-git-send-email-george.nita@enea.com>
+	Wed, 25 Nov 2015 00:47:36 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0224.002; Wed, 25 Nov 2015 01:47:33 +0100
+From: Tudor Florea <Tudor.Florea@enea.com>
+To: Tudor Florea <Tudor.Florea@enea.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [dizzy] [PATCH 1/2] python: Backport CVE-2013-1752 fix for
+	httplib
+Thread-Index: AQHRIgk722NF2gGW5Uyynj81fYrCBZ6r8XzA
+Date: Wed, 25 Nov 2015 00:47:32 +0000
+Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A428CBB7A8@SESTOEX04.enea.se>
+References: <1447855121-21568-1-git-send-email-tudor.florea@enea.com>
+In-Reply-To: <1447855121-21568-1-git-send-email-tudor.florea@enea.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.15.34]
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [dizzy][PATCH] toolchain-shar-template.sh: Ensure it's ran in clean environment
+Subject: Re: [dizzy] [PATCH 1/2] python: Backport CVE-2013-1752 fix for httplib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,62 +35,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Nov 2015 22:35:14 -0000
-Content-Transfer-Encoding: 7Bit
+X-List-Received-Date: Wed, 25 Nov 2015 00:47:37 -0000
+Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Hi George,
+Ping.
 
-On Thursday 19 November 2015 11:35:47 George Nita wrote:
-> Fixes [YOCTO #8698] --
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=8698
-> 
-> If prior to running the toolchain installation script a toolchain
-> environment script is sourced then the toolchain installation will
-> fail. This because the environment is now set for the sourced toolchain
-> and doesn't suit the installation. In particular PATH points to the
-> toolchain executables.
-> 
-> The fix makes the script recursively call itself a second time with a
-> clean environment.
-> 
-> Tested by sourcing a previous successfully installed environment, erasing
-> the previous installation directory and then reinstalling in the same
-> directory.
-> 
-> Signed-off-by: George Nita <george.nita@enea.com>
-> ---
->  meta/files/toolchain-shar-template.sh | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/files/toolchain-shar-template.sh
-> b/meta/files/toolchain-shar-template.sh index 4a7fbd5..b8c5685 100644
-> --- a/meta/files/toolchain-shar-template.sh
-> +++ b/meta/files/toolchain-shar-template.sh
-> @@ -1,5 +1,7 @@
->  #!/bin/bash
-> 
-> +[ -z "$ENVCLEANED" ] && exec /usr/bin/env -i  ENVCLEANED=1 "$0" "$@"
-> +
->  INST_ARCH=$(uname -m | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
->  SDK_ARCH=$(echo @SDK_ARCH@ | sed -e "s/i[3-6]86/ix86/" -e
-> "s/x86[-_]64/x86_64/")
+-----Original Message-----
+From: Tudor Florea [mailto:tudor.florea@enea.com]=20
+Sent: Wednesday, November 18, 2015 3:59 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Tudor Florea <Tudor.Florea@enea.com>
+Subject: [dizzy] [PATCH 1/2] python: Backport CVE-2013-1752 fix for httplib
 
-Interesting, I wasn't aware you could do this with env, thanks.
+This back ported patch fixes CVE-2013-1752 for httplib
 
-You've sent this patch on top of dizzy, however when we make fixes like this 
-the fix needs to go into master first and then backported to all release 
-branches between that and the one you're targeting, assuming they are 
-applicable; otherwise we can be in the situation where the fix is effectively 
-lost when upgrading. In this instance I'll take care of this for you and send 
-out a new fix (along with some others for the SDK), but if you could remember 
-that when sending future patches that would be great.
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+---
+ .../python-2.7.3-CVE-2013-1752-httplib-fix.patch   | 45 ++++++++++++++++++=
+++++
+ meta/recipes-devtools/python/python_2.7.3.bb       |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-CVE-20=
+13-1752-httplib-fix.patch
 
-Cheers,
-Paul
+diff --git a/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752=
+-httplib-fix.patch b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2=
+013-1752-httplib-fix.patch
+new file mode 100644
+index 0000000..e68f53f
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-htt
++++ plib-fix.patch
+@@ -0,0 +1,45 @@
++Upstream-Status: Backport
++
++CVE-2013-1752: httplib: HTTPMessage.readheaders() raises an=20
++HTTPException when more than 100 headers are read.
++Patch by Jyrki Pulliainen and Daniel Eriksson.
++
++Signed-off-by: Tudor Florea <tudor.florea@enea.com>
++---
++diff -r 133ee2b48e52 Lib/httplib.py
++--- a/Lib/httplib.py	Fri Aug 01 23:51:51 2014 -0700
+++++ b/Lib/httplib.py	Sat Aug 02 13:59:25 2014 +0000
++@@ -214,6 +214,7 @@
++=20
++ # maximal line length when calling readline().
++ _MAXLINE =3D 65536
+++_MAXHEADERS =3D 100
++=20
++ class HTTPMessage(mimetools.Message):
++=20
++@@ -271,6 +272,8 @@
++         elif self.seekable:
++             tell =3D self.fp.tell
++         while True:
+++            if len(hlist) > _MAXHEADERS:
+++                raise HTTPException("got more than %d headers" %=20
+++ _MAXHEADERS)
++             if tell:
++                 try:
++                     startofline =3D tell() diff -r 133ee2b48e52=20
++Lib/test/test_httplib.py
++--- a/Lib/test/test_httplib.py	Fri Aug 01 23:51:51 2014 -0700
+++++ b/Lib/test/test_httplib.py	Sat Aug 02 13:59:25 2014 +0000
++@@ -262,6 +262,13 @@
++         if resp.read() !=3D "":
++             self.fail("Did not expect response from HEAD request")
++=20
+++    def test_too_many_headers(self):
+++        headers =3D '\r\n'.join('Header%d: foo' % i for i in xrange(200))=
+ + '\r\n'
+++        text =3D ('HTTP/1.1 200 OK\r\n' + headers)
+++        s =3D FakeSocket(text)
+++        r =3D httplib.HTTPResponse(s)
+++        self.assertRaises(httplib.HTTPException, r.begin)
+++
++     def test_send_file(self):
++         expected =3D 'GET /foo HTTP/1.1\r\nHost: example.com\r\n' \
++                    'Accept-Encoding: identity\r\nContent-Length:'
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-de=
+vtools/python/python_2.7.3.bb
+index cbe8d7f..d603587 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -40,6 +40,7 @@ SRC_URI +=3D "\
+   file://posix_close.patch \
+   file://python-2.7.3-CVE-2014-7185.patch \
+   file://python2.7.3-nossl3.patch \
++  file://python-2.7.3-CVE-2013-1752-httplib-fix.patch \
+ "
+=20
+ S =3D "${WORKDIR}/Python-${PV}"
+--
+1.9.1
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
