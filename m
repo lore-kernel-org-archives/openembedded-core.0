@@ -1,29 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5181D60291
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 91E396057B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 22:18:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAPMI1RC032561
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 25 Nov 2015 14:18:01 -0800
-Received: from Marks-MacBook-Pro.local (172.25.36.232) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 25 Nov 2015 14:18:00 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1448484269-132667-1-git-send-email-mark.hatle@windriver.com>
-	<CAJTo0LabcacC1K9SWicuFnNQ445Up7ah_g9tngggPdYOFcnRSg@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <56563397.4010605@windriver.com>
-Date: Wed, 25 Nov 2015 16:17:59 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
+	Wed, 25 Nov 2015 22:31:36 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so246890wmw.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Nov 2015 14:31:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=u/eld7/uPwxdWvFAoakABJHs3YkxAkBZJKX/UVfE0wE=;
+	b=QRjPDViCxPZuy6gx+R7zolmVisLalMmbXW8UljcjQR5pewzbcU6RiQOgvlzS4IhkKE
+	J95U7eP/09s/lem6DfGFt3lvocah6xvwIkZd9bfs9ugYxuQiqV6TU4MQCO/eOwgB8noS
+	N/xnk1DvarzADSfmG2lNi7Z20MgVgBKGpPNCdeQyeUJcYQcBC6dQIidfTKUmSln3gAW4
+	m+YfmtHbz88Ozq+erRaIF7+CTeaclVZyghaegLJLSbV4bA6yp2pAzOHsukzF9KapiT0l
+	1ugHBaqOHRdW4Zxoi/sgfSsl+AxSZYxLGSokotwd6888hG+J2W+bSUCEN3MTFUl0xunA
+	UARA==
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LabcacC1K9SWicuFnNQ445Up7ah_g9tngggPdYOFcnRSg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] [jethro/master] Misc fixes
+X-Received: by 10.194.200.134 with SMTP id js6mr52610254wjc.114.1448490696922; 
+	Wed, 25 Nov 2015 14:31:36 -0800 (PST)
+Received: by 10.194.140.38 with HTTP; Wed, 25 Nov 2015 14:31:36 -0800 (PST)
+In-Reply-To: <CAJTo0LbLQ51w5+MDkXKyFvDzzz=8UFjDi-s=JyHy2WoFFx2y2Q@mail.gmail.com>
+References: <CAJ86T=VBh-TsnaSyNVSxmbEJz7TbFcDmNBVP4_4PhXB=YMrm5w@mail.gmail.com>
+	<CAMKF1spXxarTUskBgB6ABdL-yn4wSm1cOZSBKdCpyxQzDg_a8g@mail.gmail.com>
+	<CAJ86T=X_r_OU1RfN8nYJAJSYXwqEgvK17Hn87_+AfoGQAn2ocw@mail.gmail.com>
+	<CAJTo0LbLQ51w5+MDkXKyFvDzzz=8UFjDi-s=JyHy2WoFFx2y2Q@mail.gmail.com>
+Date: Wed, 25 Nov 2015 14:31:36 -0800
+Message-ID: <CAJ86T=UWW0ZZYHSUR46TsFcFqVYr89TRRhJso1_x10DnaLr-8Q@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: vmdk images with musl libc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 22:18:02 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Nov 2015 22:31:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 11/25/15 3:26 PM, Burton, Ross wrote:
-> 
-> On 25 November 2015 at 20:44, Mark Hatle <mark.hatle@windriver.com
-> <mailto:mark.hatle@windriver.com>> wrote:
-> 
->     The following fixes have been tested on Jethro, I believe they are
->     also applicable on master.
-> 
-> 
-> As we generally want to ensure fixes go to master before jethro, can you rebase
-> these to master (at least 1 and 2 don't apply anymore).
+On Wed, Nov 25, 2015 at 1:56 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 25 November 2015 at 21:40, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>> So would it be correct to add exactly those lines to the oe-core mtools
+>> recipe?
+>
+> Yes.  Pretty much every dependency on glibc-gconv* should be guarded with a
+> libc override of some sort.  There's an open bug to give locale packages
+> virtual names so this isn't a problem anymore, I should do something about
+> it!
 
-Luckily master hasn't deviated much.  But honestly, I don't have time to rebase
-right now.  Next week would likely be the earliest.
+OK, just to be absolutely sure I understand, mtools RDEPENDS is currently:
 
-> Also is the python2 fix applicable to python3 too?
+  RDEPENDS_${PN} = "glibc-gconv-ibm850"
 
-The python2 fix was derived from the fix python3 already had.
+Potential solution 1:
 
-HOWEVER, we've found conditions where it breaks python2.  So it should not be
-applied.
+  RDEPENDS_${PN} = "glibc-gconv-ibm850"
+  RDEPENDS_${PN}_libc-musl = ""
 
-There is still a host contamination issue that needs to be resolved, but I don't
-have any idea of a fix.
+Potential solution 2:
 
-> Ross
+  RDEPENDS_${PN}_libc-glibc = "glibc-gconv-ibm850"
 
+Which one is correct?
+
+Solution 2 is more invasive, since the _libc-glibc over-ride would
+mean RDEPENDS gets ignored completely for mtools-native, right?
 
