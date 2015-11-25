@@ -1,46 +1,49 @@
-Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 593306011F
+Return-Path: <stefan.gangefors@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F0AE6011F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 06:54:49 +0000 (UTC)
-Received: by padhx2 with SMTP id hx2so48139073pad.1
+	Wed, 25 Nov 2015 08:11:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 9C82318142
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Nov 2015 22:54:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=iIK/qcNhQi+1wpNidoplyEjbsJqecyERTSNBLXgkyf0=;
-	b=p79y+JJaWNFW6/V1PsG+HrcmQjzGTr1LtYu8aTGofVbc/QlGNqSGylhXc3OwxDDj78
-	0aIbUi3SYh6aEcgy9OsN2C8KaPAL1AzsOR1ysNTqxCUlj4IQyL3BO0yvrssOCAA+SKH0
-	TcZs92gfR53VzDHUxaFaOmc3KZLXZPUgdXCIE0HpOgJucXY2jWQymUdpdZtIQN1QCdew
-	Cb/PU0iKbfRGil7VNy6tL5M/CuSoizcK8wsr2Kc7W6pe+Wj/P+QDMsz2s0GggCi2X4mV
-	SApz3zpP8eLfGSVU9oDhBCkueG5SUsj49FRJo5tkbGcb0J6FV4Jp4NE7E6YdiW/2OEjy
-	7DqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=iIK/qcNhQi+1wpNidoplyEjbsJqecyERTSNBLXgkyf0=;
-	b=lUQIvQAkgPFpl8yR7fCMr1Z+0+GoEfZ7G1pir0f63Hhq7bC2fGNcCIcaAldeSCrMXm
-	6d7kAkbHxhmxzsB9CP6jJyQPQCG+JS/IP8oFafxPOsRk1aCRxVuAdxzqyetsG14/d/Dv
-	b6lYAohRPTa0zKO4hE22zvUpBqCNVBi0rZAmahWXn2RapszKXOWGF/MtmDOMlx3WQC+V
-	tPhsr5f6TNJRAxpVkbM7B7JXI74P090Y+GY44AGN9xeNd2lKFjbfJv5h7DrVFg8n9EOM
-	HBHVefy+ruxtzV/HZ2FygtNuOmHH22yZz+NyWdaT7iEdW3JCdNB5vpeVF4rHgPqRlHQq
-	fVBA==
-X-Gm-Message-State: ALoCoQmsrpVpgmvWyGG5v8GzXUQRuJPSSMEeaOz7mnCXOboW2Ew4KDHvF/BHj9BvPb1DqvH12uTM
-X-Received: by 10.98.73.13 with SMTP id w13mr28657326pfa.72.1448434490298;
-	Tue, 24 Nov 2015 22:54:50 -0800 (PST)
-Received: from ubuntu64.mvista.com ([111.93.218.67])
-	by smtp.gmail.com with ESMTPSA id
-	s15sm14124873pfs.31.2015.11.24.22.54.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 24 Nov 2015 22:54:49 -0800 (PST)
-From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Nov 2015 12:24:39 +0530
-Message-Id: <1448434479-29558-1-git-send-email-jkrishnanjanappa@mvista.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [jethro][PATCH] license.bbclass: fix host contamination warnings for license files
+	Wed, 25 Nov 2015 09:11:19 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 6ykgRNzYA4uz
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Nov 2015 09:11:19 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 76A76180D1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Nov 2015 09:11:19 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 609851409
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Nov 2015 09:11:19 +0100 (CET)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 555F4F43
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Nov 2015 09:11:19 +0100 (CET)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by seth.se.axis.com (Postfix) with ESMTP id 51D353E44D
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Nov 2015 09:11:19 +0100 (CET)
+Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail2.se.axis.com
+	([10.0.5.74]) with mapi; Wed, 25 Nov 2015 09:11:19 +0100
+From: Stefan Gangefors <stefan.gangefors@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Nov 2015 09:11:17 +0100
+Thread-Topic: do_rootfs task not executed after modifying externalsrc
+Thread-Index: AdEmzmEwiBAAaX6oSRiMJ5ow6rRG0wAiX+VwAAA8i1A=
+Message-ID: <A612847CFE53224C91B23E3A5B48BAC7C6F06C5059@xmail3.se.axis.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
+MIME-Version: 1.0
+Subject: do_rootfs task not executed after modifying externalsrc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,49 +56,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 06:54:51 -0000
+X-List-Received-Date: Wed, 25 Nov 2015 08:11:19 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-We get below host contamination warnings of license files for
-each recipe, when we try to create a separate ${PN}-lic package (which
-contains license files), by setting LICENSE_CREATE_PACKAGE equal to "1"
-in local.conf.
+Hello.
 
--- snip --
-WARNING: QA Issue: libcgroup: /libcgroup-lic/usr/share/licenses/libcgroup/generic_LGPLv2.1 is owned by uid 5001, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
-WARNING: QA Issue: attr: /attr-lic/usr/share/licenses/attr/libattr.c is owned by uid 5001, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
-WARNING: QA Issue: bash: /bash-lic/usr/share/licenses/bash/COPYING is owned by uid 5001, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
--- CUT --
+I'm trying to figure out how I can trigger a rootfs rebuild after modifying=
+ source code in a git I'm using as an externalsrc.
 
-Since the license files from source and OE-core, are populated in a normal
-shell environment rather in pseudo environment (fakeroot); the ownership of
-these files will be same as host user running bitbake. During the do_package
-task (which runs in pseudo environment (fakeroot)), os.link preserves the
-ownership of these license files as host user instead of root user.
-This causes license files to have UID same as host user id and resulting in
-above warnings during do_package_qa task.
+I'm using Dizzy with a backport of externalsrc.bbclass from Jethro.
+I have no PR service running.
 
-Changing ownership of license files to root user under fakeroot environment
-will solve above warnings, and on exiting fakeroot environment the license
-files will continue to be owned by host user.
+My local.conf has these lines related to using externalsrc:
+=A0=A0=A0 INHERIT +=3D "externalsrc "
+=A0=A0=A0 EXTERNALSRC_pn-mypackage =3D "/my-path/my-package"
+=A0=A0=A0 EXTERNALSRC_BUILD_pn-mypackage =3D "/my-path/my-package"
 
-Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
----
- meta/classes/license.bbclass | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index c616a20..d400ac0 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -185,6 +185,7 @@ def copy_license_files(lic_files_paths, destdir):
-                 os.remove(dst)
-             if os.access(src, os.W_OK) and (os.stat(src).st_dev == os.stat(destdir).st_dev):
-                 os.link(src, dst)
-+                os.chown(dst,os.getuid(),os.getgid())
-             else:
-                 shutil.copyfile(src, dst)
-         except Exception as e:
--- 
-1.9.1
+After modifying my code in my externalsrc I want to compile and rebuild the=
+ image with the changes included. The first build works as it should since =
+nothing is built before that. But the following bitbake <image> commands wi=
+ll only update my package but it will not be included in the rootfs.
+
+I notice that all tasks for my package up to and including do_package_write=
+_rpm is executed and I see a newly written rpm file for my package, but the=
+ do_rootfs task is never triggered.
+
+So I wonder if this is an issue with bitbake or if I have missed something?=
+ I would bet on the latter.=20
+
+Any solutions?
+
+Best regards
+/Stefan Gangefors
 
 
