@@ -1,53 +1,53 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F7AB60797
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 18254605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 08:30:58 +0000 (UTC)
-Received: by iofh3 with SMTP id h3so46879904iof.3
+	Wed, 25 Nov 2015 08:31:00 +0000 (UTC)
+Received: by iofh3 with SMTP id h3so46880799iof.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 00:30:59 -0800 (PST)
+	Wed, 25 Nov 2015 00:31:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=7Fdqg/cH+tIeFHKeyW1QzvRvd4V4mmOdH0hzuBoFyeo=;
-	b=sb9iij6I6DQwDeaRGdZLuoISSpc464sA09BWU57q29ATJZU1iXTcKiivyOdZnzQzY1
-	0GlqaISAKXtSi3Q1D+Y2cWdoJAbDWoZIgXF6DYkQWU5DtJ1imNled+xHLfJldsoEHSLA
-	9sKav7K8b6SLrQ0/HdWRov6QwrO1L2vnKPp8O7FxC9nw+5nMuKYd187Gd1tPxfqMZVNb
-	SpI8mpqRcjz8vQ/iiMZi9h2W7aUpbnHjLCzdjQvZLh0vuz4Z9KpCc5gH/3h0YLkq+JAt
-	rAdFOrvReiGHrNtqGSEFz+SsdTbWEjNboOFyeB4crp/eoBKku9FwVjMSVr3KsnRqgQuc
-	kmdA==
+	bh=YUmvcbdpwepMFLH0+hQp4zoCD4+TCCL2tJ7xFLIIFWY=;
+	b=duWNoQxE5TlsRm3dSmsqvGy+3yhQFIzdXsA3j4z4RJLyv9IfcmSrrdfKgFRHUMtS2w
+	tt/PUM3f4LpbdJrWThD1BDah8+HiVc/04mhH+Qk2B81pp941kg9uopGZs1Jx5y6x4mxx
+	WlTujLL5bd5bCT3n5RyctkvNDpvNT0iTRQz5vjufWIEVwZfTIWk6S4tdGS450OaxfDYf
+	6LyWq+GgRsCTQhJDZsIOQHdrM4vljvyi+q1ahxMXddEBKMJNP98N+GpkxBVyP4NChn8r
+	eON8hdKG2HMYKYblYgoZcpBL3RPwV8luMeKYyR1NyfzaWFdxBdtQPa+X4Y5Q4zUWSAkx
+	UdgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=7Fdqg/cH+tIeFHKeyW1QzvRvd4V4mmOdH0hzuBoFyeo=;
-	b=bsH8IZ7qVrgRN/qc2OtN/5e1Cuh1WKiSchAOJbzNFQ8XrhhCSmByEJ9+4TsUbLzQGn
-	8AmMrg93ems68F0pAUQyFcy9kDvjQaIfaHAYq40ZeBtoKK+k2DCsx2+HoPmjYwSUu/d9
-	XpgRdBCjw5Xx/n4MZccY1rxfTQJOvCdATVYS4sd6cxfVBHZUjTprE2b0jozu6GiZNS8P
-	g95vAB1O9dPIvI5NY4aAhy/gsseE8ZCuW7VDSvKf4V0TiKHnpgr3gJ02ZAxam7cOYzxd
-	dB5l5+ED3bNqWu1opGN74RZjsI7sGv2fODvp88qDd1Nrpi/sg+yv8GWFXGt6hUGGMtO6
-	SSCg==
-X-Gm-Message-State: ALoCoQncxPAVZDVniSHKjJeyv1C2R9tvTRvVZ7rNSV+PPz6q2+V4GAxBb7SuAH2FoTIIl7m2PGDv
-X-Received: by 10.107.136.217 with SMTP id s86mr33217607ioi.142.1448440258932; 
-	Wed, 25 Nov 2015 00:30:58 -0800 (PST)
+	bh=YUmvcbdpwepMFLH0+hQp4zoCD4+TCCL2tJ7xFLIIFWY=;
+	b=K1KLrFGcLrQ/xAmUKE2djAkMCOb3aHhj02mV65LEle9i4sSg7Z74wECiND/o8CQn1f
+	TeAv52qBRhzAvXB1ogSM7w9CJBplAzQrz9mfq40fZ1GUU4Tl4GWdJYnKkfCAVeCMhQ8m
+	brkyuImGylilZCbxncoRau8MdXSdMMN4Zv3WIefq5orz6mT1xy/Ty23DeFi3QxQlIyH1
+	r/7zo8B78ISCE+h+3vjEQZ4IcDL10qziGbMJXQjcgMF9ZaWIqzRj9XgAG7rNDX851S3p
+	D6yjtDmUWW9vY0rPt2X1Tv7DPxZ7EZe8e9tAsPWgrcgQHKTHMh7wStYqqvbbd4ve2cWk
+	orgw==
+X-Gm-Message-State: ALoCoQmk0VW6lPaaH9DkWHc5uf6hGWyFki7brmLL90UtNBysa2korniF7TLzGFLfnOUY5YDjA/sa
+X-Received: by 10.107.38.83 with SMTP id m80mr39904856iom.98.1448440261515;
+	Wed, 25 Nov 2015 00:31:01 -0800 (PST)
 Received: from pohly-desktop.fritz.box (p57A56CC0.dip0.t-ipconnect.de.
 	[87.165.108.192]) by smtp.gmail.com with ESMTPSA id
-	i69sm8398302iod.27.2015.11.25.00.30.57
+	i69sm8398302iod.27.2015.11.25.00.31.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 25 Nov 2015 00:30:58 -0800 (PST)
+	Wed, 25 Nov 2015 00:31:01 -0800 (PST)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Nov 2015 10:30:30 +0100
-Message-Id: <8da679502ac205e3ba845f69b6b37647b520f66a.1448442869.git.patrick.ohly@intel.com>
+Date: Wed, 25 Nov 2015 10:30:31 +0100
+Message-Id: <b6ff08c7eb1b7ec9117d3cb79ba7ca68da8309c9.1448442869.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1448442869.git.patrick.ohly@intel.com>
 References: <cover.1448442869.git.patrick.ohly@intel.com>
 In-Reply-To: <cover.1448442869.git.patrick.ohly@intel.com>
 References: <cover.1448442869.git.patrick.ohly@intel.com>
 Cc: paul.eggleton@linux.intel.com, alexander.kanevskiy@intel.com
-Subject: [PATCH 2/4] buildhistory.bbclass: support extending the content of the build history
+Subject: [PATCH 3/4] buildhistory-extra.bbclass: simplify usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,67 +60,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Nov 2015 08:30:58 -0000
+X-List-Received-Date: Wed, 25 Nov 2015 08:31:01 -0000
 
-The idea behind the implementation of Yocto #8138 was that an
-additional class can write additional files in the recipe directories,
-for example by hooking into the functions of buildhistory.bbclass or
-by implementing its own SSTATEPOSTINSTFUNCS function.
+From: Ismo Puustinen <ismo.puustinen@intel.com>
 
-However, when these additional files get created before
-buildhistory_emit_pkghistory(), they get removed again by that
-function because it contains code which removes everything it does
-not know about. The reason for that is that these unknown items
-are probably obsolete.
+Instead of expecting the user to put InHERIT += "buildhistory
+buildhistory-extra" into the local.conf, now only listing
+buildhistory-extra is needed because the base class will always
+be inherited.
 
-This logic is the reason why the additional "kconfig" file from
-buildhistory-extra.bbclass never showed up in the final build history.
-
-To fix this, the hard-coded list of known files in
-buildhistory_emit_pkghistory() must be turned into a variable which
-derived classes can extend.
+[Change from Ismo, commit message from Patrick]
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/classes/buildhistory.bbclass | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ meta/classes/buildhistory-extra.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 729dcd4..6023e5d 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -23,6 +23,16 @@ sstate_install[vardepsexclude] += "buildhistory_emit_pkghistory"
- # then the value added to SSTATEPOSTINSTFUNCS:
- SSTATEPOSTINSTFUNCS[vardepvalueexclude] .= "| buildhistory_emit_pkghistory"
+diff --git a/meta/classes/buildhistory-extra.bbclass b/meta/classes/buildhistory-extra.bbclass
+index e9fea5d..2dd5c5f 100644
+--- a/meta/classes/buildhistory-extra.bbclass
++++ b/meta/classes/buildhistory-extra.bbclass
+@@ -4,6 +4,8 @@
+ # Copyright (C) 2015 Intel Corporation
+ # Licensed under the MIT license
  
-+# All items excepts those listed here will be removed from a recipe's
-+# build history directory by buildhistory_emit_pkghistory(). This is
-+# necessary because some of these items (package directories, files that
-+# we no longer emit) might be obsolete.
-+#
-+# When extending build history, derive your class from buildhistory.bbclass
-+# and extend this list here with the additional files created by the derived
-+# class.
-+BUILDHISTORY_PRESERVE = "latest latest_srcrev"
++inherit buildhistory
 +
- #
- # Write out metadata about this package for comparison when writing future packages
- #
-@@ -165,12 +175,13 @@ python buildhistory_emit_pkghistory() {
-             raise
+ BUILDHISTORY_EXTRA_PKGVARS ?= "PACKAGECONFIG EXTRA_OEMAKE EXTRA_OECONF EXTRA_OECMAKE EXTRA_OESCONS EXTRA_QMAKEVARS_PRE EXTRA_QMAKEVARS_POST OE_FEATURES SUMMARY DESCRIPTION HOMEPAGE LICENSE"
  
-     packagelist = packages.split()
-+    preserve = d.getVar('BUILDHISTORY_PRESERVE', True).split()
-     if not os.path.exists(pkghistdir):
-         bb.utils.mkdirhier(pkghistdir)
-     else:
-         # Remove files for packages that no longer exist
-         for item in os.listdir(pkghistdir):
--            if item != "latest" and item != "latest_srcrev":
-+            if item not in preserve:
-                 if item not in packagelist:
-                     itempath = os.path.join(pkghistdir, item)
-                     if os.path.isdir(itempath):
+ python buildhistory_emit_pkghistory_append() {
 -- 
 2.1.4
 
