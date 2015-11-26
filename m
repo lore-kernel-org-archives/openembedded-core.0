@@ -1,25 +1,49 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C4396018C
+Return-Path: <jkrishnanjanappa@mvista.com>
+Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id CC2476011F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 17:46:41 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 26 Nov 2015 09:46:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,347,1444719600"; d="scan'208";a="860384206"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Nov 2015 09:46:42 -0800
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Nov 2015 09:34:59 +0000
-Message-Id: <87e97a4c7460181a416e21348043a4e0be94ff80.1448530242.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1448530242.git.mariano.lopez@linux.intel.com>
-References: <cover.1448530242.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1448530242.git.mariano.lopez@linux.intel.com>
-References: <cover.1448530242.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/1] rootfs.py: Change logic to unistall packages
+	Thu, 26 Nov 2015 18:15:03 +0000 (UTC)
+Received: by lfaz4 with SMTP id z4so105800282lfa.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Nov 2015 10:15:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=ktookADnEwo2txSLTUn+z58AphY66uZ35Z0O58mtYYE=;
+	b=Yu02MatsaRgnLjRqG+BuhK+Q/59FRK5kQY2leVSKY/qTbKO3KRql40jfbRIb7GmpOk
+	d965HunEqiRe1c/XM7gwoQyUPM0NrKyRuRIEj6layu13dZb552mcynibvdGcUbMgL5MM
+	fecyAAJA38nQmGaNFXB474xm958ZTvPuVfASp+MH2Q8DJAu5SUZ6bNJHjUiiM4SQCm3X
+	gAPYbVDZcma13wrY4M9VEzZD4XTs+NH2MtDlgrg3sjm8RprtGf0JY8OH+BG+gqIlVW8a
+	sUcOvH7+uhWUoOrNmp2l/Xw8NsdLxWCygWmwMQJr2JrQDVCXD/3sGHCziUaxF+PShNjJ
+	lv7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=ktookADnEwo2txSLTUn+z58AphY66uZ35Z0O58mtYYE=;
+	b=h0mh7v7E+eYgpWhfZEDTDt2FYUflIUI2PuiAQ2WTVVlkgAoYh7o4zgYtTKs5BvQ2iF
+	o2UAyHkoGFmeS7zJVuLExV20+iDN8jKE8ADYDOijF+uXyXFB/DpIDNypIV8CTy0U5/vw
+	SdUwBnWoUiy2uK+6gwCm3Lr98US9RUSYS7PRVKvT6zqLXTD1TKUgHLkaYIhkjHHHH8Zt
+	6bksRt3J+WJKif5jn4zXLJxe1oCQDtcjcAvXklmnNehUsjh3RlaBNU7PP+hIuw3dwfdx
+	4HkHGBzVFKfNgbIQRGsmeYiFv/TfCQy701hm4uFQOOK37/H2epECXur4rtdbY6yar9pm
+	wIyA==
+X-Gm-Message-State: ALoCoQnH1gplzcOy7YKFafTCV8NYoDf31U6yCq+lLiDhfpA2NKNpZ464gPvWH6KXkjFAaLAfyXav
+MIME-Version: 1.0
+X-Received: by 10.112.198.69 with SMTP id ja5mr1809403lbc.121.1448561703763;
+	Thu, 26 Nov 2015 10:15:03 -0800 (PST)
+Received: by 10.114.122.72 with HTTP; Thu, 26 Nov 2015 10:15:03 -0800 (PST)
+In-Reply-To: <CAD3vsf4AyaCVhvu27U8N666EjYwFg7XPWQ7NGjAg_xwbH6dRQQ@mail.gmail.com>
+References: <1448536554-18349-1-git-send-email-jkrishnanjanappa@mvista.com>
+	<CAJTo0LZu9O-V3Nq2JLT-uCmW13hja2pMSof_w=bSrJfQL9qipA@mail.gmail.com>
+	<CAD3vsf4AyaCVhvu27U8N666EjYwFg7XPWQ7NGjAg_xwbH6dRQQ@mail.gmail.com>
+Date: Thu, 26 Nov 2015 23:45:03 +0530
+Message-ID: <CAD3vsf6RJs5ZgsgqvRU1qWvf1Zk3F8hgY5PYq2dMimQzEr_eqw@mail.gmail.com>
+From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [jethro][PATCH v2] license.bbclass: fix host contamination warnings for license files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,88 +56,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 17:46:42 -0000
+X-List-Received-Date: Thu, 26 Nov 2015 18:15:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+>> WARNING: Could not copy license file
+>> /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/gmp-6.0.0/COPYING.LESSERv3
+>> to
+>> /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/license-destdir/gmp/COPYING.LESSERv3:
+>> [Errno 1] Operation not permitted:
+>> '/data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/license-destdir/gmp/COPYING.LESSERv3'
 
-In the current state some of the base utils (update-rc.d,
-base-passwd, shadow, and update-alternatives) are unistalled
-when there is no package manager in the image. Checking for
-previous commits, the unistall of these utils were to be
-done in a read-only filesystem.
+The above warning comes up during do_populate_lic task, and this task
+is not being executed in pseudo environment. So changing ownership of
+license files to root user (explicitly via "0") fails, as normal user
+doesn't have permissions to do so.
 
-It is a valid option to have these utils without a package
-manager, and also make sense to remove them when building a
-read-only filesystem.
+In this case, use of os.getuid() and os.getgid() behaves correctly, by
+giving normal user id and solving this warning. So this is one
+advantage of using os.getuid() and os.getgid() over explicit "0".
 
-This changes the check logic from having a package mananger
-to if is a read-only filesystem to remove the utils.
+Regards,
+Jagadeesh
 
-Another change implemented with this patch is that delayed
-post installs now doesn't depend if there is a package manager.
-Also it is a valid option to have post install scripts without
-package manger.
-
-[YOCTO #8235]
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/lib/oe/rootfs.py | 41 +++++++++++++++++++++--------------------
- 1 file changed, 21 insertions(+), 20 deletions(-)
-
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index c004a5b..a2af332 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -239,26 +239,27 @@ class Rootfs(object):
-             pkg_to_remove = ""
-         else:
-             pkg_to_remove = "update-rc.d"
--        if not runtime_pkgmanage:
--            # Remove components that we don't need if we're not going to install
--            # additional packages at runtime
--            if delayed_postinsts is None:
--                pkgs_installed = image_list_installed_packages(self.d)
--                pkgs_to_remove = list()
--                for pkg in pkgs_installed.split():
--                    if pkg in ["update-rc.d",
--                            "base-passwd",
--                            "shadow",
--                            "update-alternatives", pkg_to_remove,
--                            self.d.getVar("ROOTFS_BOOTSTRAP_INSTALL", True)
--                            ]:
--                        pkgs_to_remove.append(pkg)
--
--                if len(pkgs_to_remove) > 0:
--                    self.pm.remove(pkgs_to_remove, False)
--
--            else:
--                self._save_postinsts()
-+        if image_rorfs:
-+            # Remove components that we don't need if it's a read-only rootfs
-+            pkgs_installed = image_list_installed_packages(self.d)
-+            pkgs_to_remove = list()
-+            for pkg in pkgs_installed.split():
-+                if pkg in ["update-rc.d",
-+                        "base-passwd",
-+                        "shadow",
-+                        "update-alternatives", pkg_to_remove,
-+                        self.d.getVar("ROOTFS_BOOTSTRAP_INSTALL", True)
-+                        ]:
-+                    pkgs_to_remove.append(pkg)
-+
-+            if len(pkgs_to_remove) > 0:
-+                self.pm.remove(pkgs_to_remove, False)
-+
-+        if delayed_postinsts:
-+            self._save_postinsts()
-+            if image_rorfs:
-+                bb.warn("There are post install scripts "
-+                        "in a read-only rootfs")
- 
-         post_uninstall_cmds = self.d.getVar("ROOTFS_POSTUNINSTALL_COMMAND", True)
-         execute_pre_post_process(self.d, post_uninstall_cmds)
--- 
-1.8.4.5
-
+On 11/26/15, Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com> wrote:
+>>> We get below host contamination warnings of license files for
+>>> each recipe, when we try to create a separate ${PN}-lic package (which
+>>> contains license files), by setting LICENSE_CREATE_PACKAGE equal to "1"
+>>> in local.conf.
+>>>
+>>
+>> WARNING: Could not copy license file
+>> /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/gmp-6.0.0/COPYING.LESSERv3
+>> to
+>> /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/license-destdir/gmp/COPYING.LESSERv3:
+>> [Errno 1] Operation not permitted:
+>> '/data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/license-destdir/gmp/COPYING.LESSERv3'
+>>
+>
+> My earlier testing was done till do_package_qa  task, so could not
+> capture this warning. Will check and get back.
+>
+> Thanks,
+> Jagadeesh
+>
+>> Ross
+>>
+>
 
