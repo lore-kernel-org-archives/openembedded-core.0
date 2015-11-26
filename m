@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 85D69601D4
+	by mail.openembedded.org (Postfix) with ESMTP id BD8F06011F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 14:29:08 +0000 (UTC)
+	Thu, 26 Nov 2015 14:29:09 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 26 Nov 2015 06:29:11 -0800
+	by orsmga101.jf.intel.com with ESMTP; 26 Nov 2015 06:29:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,347,1444719600"; d="scan'208";a="829574690"
+X-IronPort-AV: E=Sophos;i="5.20,347,1444719600"; d="scan'208";a="829574702"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 26 Nov 2015 06:29:09 -0800
+	by orsmga001.jf.intel.com with ESMTP; 26 Nov 2015 06:29:10 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Nov 2015 16:26:15 +0200
-Message-Id: <76d1dc566a44449c94fbac01e1742f31dc82a727.1448547850.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 26 Nov 2015 16:26:16 +0200
+Message-Id: <afdad36ba78a7b48d0e1c6045aec4d793c9e0e50.1448547850.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
 In-Reply-To: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
 References: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
 References: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 12/29] gdk-pixbuf: enable gobject introspection
+Subject: [PATCH 13/29] gconf: enable gobject-introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 14:29:08 -0000
+X-List-Received-Date: Thu, 26 Nov 2015 14:29:09 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb
-index 6e3cb02..b54fae7 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb
-@@ -22,7 +22,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
- SRC_URI[md5sum] = "b1590189a2e89fab9f871959c168508c"
- SRC_URI[sha256sum] = "4432b74f25538c7d6bcb3ca51adabdd666168955f25812a2568dc9637697f3bc"
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+index 17fdafa..8bb5094 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+@@ -3,8 +3,8 @@ SECTION = "x11/gnome"
+ LICENSE = "LGPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
  
--inherit autotools pkgconfig gettext pixbufcache ptest-gnome
-+inherit autotools pkgconfig gettext pixbufcache ptest-gnome gobject-introspection
+-DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native gobject-introspection-stub"
+-DEPENDS_class-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native gobject-introspection-stub-native"
++DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native"
++DEPENDS_class-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native gobject-introspection-native"
  
- LIBV = "2.10.0"
  
-@@ -41,15 +41,12 @@ PACKAGECONFIG[jpeg2000] = "--with-libjasper,--without-libjasper,jasper"
- PACKAGECONFIG[gio-sniff] = "--enable-gio-sniffing,--disable-gio-sniffing,,shared-mime-info"
- PACKAGECONFIG[x11] = "--with-x11,--without-x11,virtual/libx11"
+ inherit gnomebase gtk-doc gettext
+@@ -20,7 +20,7 @@ SRC_URI[archive.sha256sum] = "1912b91803ab09a5eed34d364bf09fe3a2a9c96751fde03a4e
+ S = "${WORKDIR}/GConf-${PV}"
  
--EXTRA_OECONF = "--disable-introspection"
--
- PACKAGES =+ "${PN}-xlib"
+ EXTRA_OECONF = "--enable-shared --disable-static --enable-debug=yes \
+-                --disable-introspection --disable-orbit --with-openldap=no --disable-gtk"
++                --disable-orbit --with-openldap=no --disable-gtk"
  
- FILES_${PN}-xlib = "${libdir}/*pixbuf_xlib*${SOLIBS}"
- ALLOW_EMPTY_${PN}-xlib = "1"
- 
--FILES_${PN} = "${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
--	${libdir}/lib*.so.*"
-+FILES_${PN} += "${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders"
- 
- FILES_${PN}-dev += " \
- 	${bindir}/gdk-pixbuf-csource \
+ # Disable PolicyKit by default
+ PACKAGECONFIG ??= ""
 -- 
 2.6.2
 
