@@ -1,27 +1,47 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 517B16067C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id CD41C6011F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 06:33:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAQ6Xmqq009349
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 25 Nov 2015 22:33:48 -0800
-Received: from [128.224.162.175] (128.224.162.175) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Wed, 25 Nov 2015 22:33:47 -0800
-To: Ross Burton <ross.burton@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1447249213-28910-1-git-send-email-ross.burton@intel.com>
-From: Yi Zhao <yi.zhao@windriver.com>
-Message-ID: <5656A7C8.7080001@windriver.com>
-Date: Thu, 26 Nov 2015 14:33:44 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Thu, 26 Nov 2015 09:02:51 +0000 (UTC)
+Received: by iouu10 with SMTP id u10so82003397iou.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Nov 2015 01:02:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=9sUupXIrA7ce9aV5DhMKmAvnEqmZKPSpuzUP5KkA7yA=;
+	b=mknK225Srtx+K5xpG+4dUBalGpqVslIJHZzTtvV6zjG29caslKoh+ECc31Z7G8ZoI6
+	A/ZP+5aaiLuKf1ea1XdR9o2xjx9FtqlN9Tzi7JQfFEnpQq6aUEd85okMuFwZal1dVzh+
+	tFnJn3yyjePfKjKn5Imoe3NJn72zU4tSJwrG4NleFJH4l5cH8WSPYzuzoIfMMCS5uiL0
+	KpfXL8HwYv0syeMbqN1nwQipMGVJDrLKz9g6FwKF8JINJ0Fq8UmPLy+NRCaAecDIVHzt
+	GJMHuhs68VAGCIhNOBhOEfRT4UE0kL3ArH+7LdeHtOZvvxO1sei7lVls3uo8CVazbqnU
+	Nt6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9sUupXIrA7ce9aV5DhMKmAvnEqmZKPSpuzUP5KkA7yA=;
+	b=W58YaPF5Bj8GAyUSurNVvq9vJcRC5Ng9smfuAk3ghuJv6KHOTJhxJHLxS4lfgA7lTs
+	b4m9lGWxIS0RC6urPirWaulbmQcIOuZyibC0/fSn3/Df27iLGYeBT9auOJy3eiViD3TB
+	Ri82oH96t/xsdrOXYzkc8GE44lLajS3yLFJr1Zbfjnose7mmxEw/EV+exhOwU2fyJ8fs
+	ij1jTLYFVFGEpkXSF0kNaQfaSeU++cPVGOAzIv8Vsv876jY78MuLXkIXjxBWYdTBoLXj
+	DGNAis6m1HrQz7XvHB0bZox9a8UuaTQJ8Qkoylpe5j+JH6ylneXehiWALU/KViLnOFnE
+	TrXw==
+X-Gm-Message-State: ALoCoQl3RYmqi+Gi5z2KkVYEzNGWc31FgbqUT0NZztljuDhpdO4/Es6mlln3Cos0mcAnn8erm4Ab
+X-Received: by 10.107.3.144 with SMTP id e16mr37014672ioi.99.1448528570259;
+	Thu, 26 Nov 2015 01:02:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1447249213-28910-1-git-send-email-ross.burton@intel.com>
-X-Originating-IP: [128.224.162.175]
+Received: by 10.107.136.141 with HTTP; Thu, 26 Nov 2015 01:02:30 -0800 (PST)
+In-Reply-To: <5656A7C8.7080001@windriver.com>
+References: <1447249213-28910-1-git-send-email-ross.burton@intel.com>
+	<5656A7C8.7080001@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Nov 2015 09:02:30 +0000
+Message-ID: <CAJTo0LZvvw=LcoHg30qWO4xNnymoNfNTBZPDrSF9qtwxkjD39Q@mail.gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libsdl2: require GLES when building Wayland support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,58 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 06:33:51 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 26 Nov 2015 09:02:55 -0000
+Content-Type: multipart/alternative; boundary=001a113ecf40e0de2805256dd64a
 
-Hi Ross,
+--001a113ecf40e0de2805256dd64a
+Content-Type: text/plain; charset=UTF-8
 
-I tested this patch and found it also need to add libxkbcommon as a 
-dependency in PACKAGECONFIG[wayland]. Otherwise the wayland support 
-would skip if libxkbcommon is not built before even if we already enable 
-video-wayland.
+On 26 November 2015 at 06:33, Yi Zhao <yi.zhao@windriver.com> wrote:
 
-Reproduce steps:
-bitbake libxkbcommon -c clean
-bitbake libsdl2 -c cleansstate && bitbake libsdl2
-
-config.log:
-[snip]
-configure:19347: checking for Wayland support
-configure:19357: result: no
-[snip]
-
-Thanks,
-Yi
-
-在 2015年11月11日 21:40, Ross Burton 写道:
-> The Wayland support requires GLES2 to be enabled as otherwise the EGL support
-> code in SDL2 isn't enabled.
+> I tested this patch and found it also need to add libxkbcommon as a
+> dependency in PACKAGECONFIG[wayland]. Otherwise the wayland support would
+> skip if libxkbcommon is not built before even if we already enable
+> video-wayland.
 >
-> | In file included from .../SDL2-2.0.3/src/video/wayland/SDL_waylandvideo.c:34:0:
-> | .../SDL2-2.0.3/src/video/wayland/SDL_waylandvideo.c: In function 'Wayland_CreateDevice':
-> | .../SDL2-2.0.3/src/video/wayland/SDL_waylandopengles.h:38:38: error: 'SDL_EGL_GetSwapInterval' undeclared (first use in this function)
-> |  #define Wayland_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
->
-> Solve this by adding gles2 to the Wayland PACKAGECONFIG option.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
-> index 97f64f3..f138f97 100644
-> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
-> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
-> @@ -39,7 +39,7 @@ PACKAGECONFIG ??= " \
->       ${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
->       ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
->       ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
-> -    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
-> +    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland gles2', '', d)} \
->       ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
->   "
->   PACKAGECONFIG[alsa]       = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
 
+Thanks for noticing that, can you sed a patch for that?
 
+Cheers
+Ross
+
+--001a113ecf40e0de2805256dd64a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 November 2015 at 06:33, Yi Zhao <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windriver.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":avf" class=3D"a3=
+s" style=3D"overflow:hidden">I tested this patch and found it also need to =
+add libxkbcommon as a dependency in PACKAGECONFIG[wayland]. Otherwise the w=
+ayland support would skip if libxkbcommon is not built before even if we al=
+ready enable video-wayland.<br></div></blockquote></div><br>Thanks for noti=
+cing that, can you sed a patch for that?</div><div class=3D"gmail_extra"><b=
+r></div><div class=3D"gmail_extra">Cheers</div><div class=3D"gmail_extra">R=
+oss</div></div>
+
+--001a113ecf40e0de2805256dd64a--
