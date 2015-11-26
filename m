@@ -1,25 +1,23 @@
 Return-Path: <marex@denx.de>
-X-Greylist: delayed 405 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 26 Nov 2015 20:50:02 UTC
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id AC1D66011F
+	by mail.openembedded.org (Postfix) with ESMTP id 878C66011F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 20:50:02 +0000 (UTC)
+	Thu, 26 Nov 2015 20:50:04 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3p69zV1SXHz3hj14;
-	Thu, 26 Nov 2015 21:43:50 +0100 (CET)
-X-Auth-Info: 0anaiJqrcgsrUwh/YsmsAsZMGrUDCk3JpP4nQ0p6QUc=
+	by mail-out.m-online.net (Postfix) with ESMTP id 3p69yq5vDXz3hjB6;
+	Thu, 26 Nov 2015 21:43:15 +0100 (CET)
+X-Auth-Info: a2CYZIfPLlPU9ZP3+3HD1qHaXfdxOIpSZDK1K/wLgrY=
 Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3p69zT64QqzvdWt;
-	Thu, 26 Nov 2015 21:43:49 +0100 (CET)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3p69yq2G5kzvdWt;
+	Thu, 26 Nov 2015 21:43:15 +0100 (CET)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Nov 2015 21:43:47 +0100
-Message-Id: <1448570627-13405-1-git-send-email-marex@denx.de>
+Date: Thu, 26 Nov 2015 21:43:05 +0100
+Message-Id: <1448570585-13334-1-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.1.4
-Cc: Marek Vasut <marex@denx.de>, Ley Foon Tan <lftan@altera.com>,
-	Walter Goossens <waltergoossens@home.nl>
-Subject: [PATCH] ghostscript: Add NIOS2 support
+Cc: Marek Vasut <marex@denx.de>, Thomas Chou <thomas@wytron.com.tw>,
+	Ley Foon Tan <lftan@altera.com>, Walter Goossens <waltergoossens@home.nl>
+Subject: [PATCH] cmake: Add nios2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,66 +30,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 20:50:04 -0000
+X-List-Received-Date: Thu, 26 Nov 2015 20:50:05 -0000
 
-Add objarch.h for NIOS2 architecture.
+Add the necessary bits for nios2 support into cmake.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Ley Foon Tan <lftan@altera.com>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Ross Burton <ross.burton@intel.com>
+Cc: Thomas Chou <thomas@wytron.com.tw>
 Cc: Walter Goossens <waltergoossens@home.nl>
 ---
- .../ghostscript/ghostscript/nios2/objarch.h        | 40 ++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/nios2/objarch.h
+ meta/recipes-devtools/cmake/cmake.inc              |  1 +
+ .../cmake/cmake/0001-Add-NIOS2-CPU-support.patch   | 50 ++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-devtools/cmake/cmake/0001-Add-NIOS2-CPU-support.patch
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/nios2/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/nios2/objarch.h
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 57e93ac..f43327e 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -14,6 +14,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV',1).split('.')[0:2])}"
+ SRC_URI = "http://www.cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://support-oe-qt4-tools-names.patch \
+            file://qt4-fail-silent.patch \
++           file://0001-Add-NIOS2-CPU-support.patch \
+            "
+ 
+ SRC_URI[md5sum] = "52638576f4e1e621fed6c3410d3a1b12"
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-Add-NIOS2-CPU-support.patch b/meta/recipes-devtools/cmake/cmake/0001-Add-NIOS2-CPU-support.patch
 new file mode 100644
-index 0000000..3ec8101
+index 0000000..6e0ab9f
 --- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/nios2/objarch.h
-@@ -0,0 +1,40 @@
-+/* Parameters derived from machine and compiler architecture. */
-+/* This file is generated mechanically by genarch.c. */
++++ b/meta/recipes-devtools/cmake/cmake/0001-Add-NIOS2-CPU-support.patch
+@@ -0,0 +1,50 @@
++From 3f8c3d3011ea192da2c761560b615f55763715ef Mon Sep 17 00:00:00 2001
++From: Marek Vasut <marex@denx.de>
++Date: Thu, 26 Nov 2015 21:31:04 +0100
++Subject: [PATCH] Add NIOS2 CPU support
 +
-+	 /* ---------------- Scalar alignments ---------------- */
++Add necessary bits to support the NIOS2 little-endian CPU.
 +
-+#define ARCH_ALIGN_SHORT_MOD 2
-+#define ARCH_ALIGN_INT_MOD 4
-+#define ARCH_ALIGN_LONG_MOD 4
-+#define ARCH_ALIGN_PTR_MOD 4
-+#define ARCH_ALIGN_FLOAT_MOD 4
-+#define ARCH_ALIGN_DOUBLE_MOD 4
++Signed-off-by: Marek Vasut <marex@denx.de>
++Cc: Ley Foon Tan <lftan@altera.com>
++Cc: Thomas Chou <thomas@wytron.com.tw>
++Cc: Walter Goossens <waltergoossens@home.nl>
++Upstream-Status: Submitted
++---
++ Source/kwsys/CPU.h.in    | 4 ++++
++ Utilities/KWIML/ABI.h.in | 4 ++++
++ 2 files changed, 8 insertions(+)
 +
-+	 /* ---------------- Scalar sizes ---------------- */
++diff --git a/Source/kwsys/CPU.h.in b/Source/kwsys/CPU.h.in
++index 884d71a..66ffbb1 100644
++--- a/Source/kwsys/CPU.h.in
+++++ b/Source/kwsys/CPU.h.in
++@@ -88,6 +88,10 @@
++ #elif defined(__mips) || defined(__mips__) || defined(__MIPS__)
++ # define @KWSYS_NAMESPACE@_CPU_ENDIAN_ID @KWSYS_NAMESPACE@_CPU_ENDIAN_ID_BIG
++ 
+++/* NIOS2 */
+++#elif defined(__NIOS2__) || defined(__NIOS2) || defined(__nios2__)
+++# define @KWSYS_NAMESPACE@_CPU_ENDIAN_ID @KWSYS_NAMESPACE@_CPU_ENDIAN_ID_LITTLE
+++
++ /* OpenRISC 1000 */
++ #elif defined(__or1k__)
++ # define @KWSYS_NAMESPACE@_CPU_ENDIAN_ID @KWSYS_NAMESPACE@_CPU_ENDIAN_ID_BIG
++diff --git a/Utilities/KWIML/ABI.h.in b/Utilities/KWIML/ABI.h.in
++index 6300ada..87b6e96 100644
++--- a/Utilities/KWIML/ABI.h.in
+++++ b/Utilities/KWIML/ABI.h.in
++@@ -398,6 +398,10 @@ suppression macro @KWIML@_ABI_NO_VERIFY was defined.
++ #elif defined(__mips) || defined(__mips__) || defined(__MIPS__)
++ # define @KWIML@_ABI_ENDIAN_ID @KWIML@_ABI_ENDIAN_ID_BIG
++ 
+++/* NIOS2 */
+++#elif defined(__NIOS2__) || defined(__NIOS2) || defined(__nios2__)
+++# define @KWIML@_ABI_ENDIAN_ID @KWIML@_ABI_ENDIAN_ID_LITTLE
+++
++ /* OpenRISC 1000 */
++ #elif defined(__or1k__)
++ # define @KWIML@_ABI_ENDIAN_ID @KWIML@_ABI_ENDIAN_ID_BIG
++-- 
++2.6.2
 +
-+#define ARCH_LOG2_SIZEOF_CHAR 0
-+#define ARCH_LOG2_SIZEOF_SHORT 1
-+#define ARCH_LOG2_SIZEOF_INT 2
-+#define ARCH_LOG2_SIZEOF_LONG 2
-+#define ARCH_LOG2_SIZEOF_LONG_LONG 3
-+#define ARCH_SIZEOF_GX_COLOR_INDEX 8
-+#define ARCH_SIZEOF_PTR 4
-+#define ARCH_SIZEOF_FLOAT 4
-+#define ARCH_SIZEOF_DOUBLE 8
-+#define ARCH_FLOAT_MANTISSA_BITS 24
-+#define ARCH_DOUBLE_MANTISSA_BITS 53
-+
-+	 /* ---------------- Unsigned max values ---------------- */
-+
-+#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
-+#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
-+#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
-+#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
-+
-+	 /* ---------------- Miscellaneous ---------------- */
-+
-+#define ARCH_IS_BIG_ENDIAN 0
-+#define ARCH_PTRS_ARE_SIGNED 0
-+#define ARCH_FLOATS_ARE_IEEE 1
-+#define ARCH_ARITH_RSHIFT 2
-+#define ARCH_DIV_NEG_POS_TRUNCATES 1
 -- 
 2.1.4
 
