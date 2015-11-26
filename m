@@ -1,25 +1,48 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AB620601A4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 885CF6012A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 09:29:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAQ9TTKY004764
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 26 Nov 2015 10:32:12 +0000 (UTC)
+Received: by igvg19 with SMTP id g19so12104034igv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 01:29:29 -0800 (PST)
-Received: from localhost (128.224.162.175) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Thu, 26 Nov 2015 01:29:28 -0800
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Nov 2015 17:29:26 +0800
-Message-ID: <1448530166-6385-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Thu, 26 Nov 2015 02:32:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=D6f6NFm4wE6V/Npm5j8zwEPx5TAQS7TzA0GlWLqHxuc=;
+	b=tg2SyMgnBqigiIRBtUNAcZTTF1qTtBIwXHicq0SEzhO0CjuSNfddKL1ZreJBomVd07
+	a443wOA2rskWNMcLoaNwzg57X8kQoeGj4FxAMYxZ37tn2oeceYyUjz+hSMKv3PHuz7uY
+	p/iAjmRbwx2Y/zSx+xhF8WkCKy2hJklphAW3AVzLtYb2rzLgOK2JktFQoBGGC85fQN2Q
+	xxBQ1S2971MiS0XVq4VaDy5LB4EM1ChK2wbFyvqMNgwNPtmqz2SGvcjhjYeZjXO/NYFB
+	IYf3YIA/aj7qSe1gMFzGMjEMs5j9NBnTBeZuXZUlk+eAwrsb5ustWM33jYNXIbcKAFyk
+	F/vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=D6f6NFm4wE6V/Npm5j8zwEPx5TAQS7TzA0GlWLqHxuc=;
+	b=F5Bzh8W0TxlhhbexGLxlIBu+TVd1zZ4pslmvqDNNIdGHpeDoMojLSPUXypnNkt38OH
+	VrQEbpel9IvLXjXtLQj+CAT22tE1Fq8+/Duf/R7lVYOiVl0887L/mW1OWdvB9WQdG+Jd
+	kdNm8GCFsfAPyyFgDKv1QAp/kfrvSzn9c0JmYmnWvR/o0wqosJpm06qoXB57YUeVOVSY
+	IODPQ+U3CIGKz76MqOgO2fwItgqJXK6aAi28Nl9aKYeIwDLLYuTxlNnIildC9l/YZHrn
+	MD+NQga12kFUdqcjmWQN8gALo7fJl/CO3ftjFCBDvrwCXJCasc9HAWN/CAVcKguSKZHX
+	YRxQ==
+X-Gm-Message-State: ALoCoQkjt03QLFs2vsm3uaEdAOaHe0trwZCSdWp7cd2TwbokIuHv6GXzh9khW6ZL7rU0Z9KQsOZ+
+X-Received: by 10.50.143.38 with SMTP id sb6mr431873igb.78.1448533932971; Thu,
+	26 Nov 2015 02:32:12 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.175]
-Subject: [PATCH] libsdl2: add missing dependency on libxkbcommon for PACKAGECONFIG[wayland]
+Received: by 10.107.136.141 with HTTP; Thu, 26 Nov 2015 02:31:53 -0800 (PST)
+In-Reply-To: <8cb295e56ceee220419763aef08f75ea106f6e08.1448491263.git.peter.seebach@windriver.com>
+References: <cover.1448491263.git.peter.seebach@windriver.com>
+	<8cb295e56ceee220419763aef08f75ea106f6e08.1448491263.git.peter.seebach@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Nov 2015 10:31:53 +0000
+Message-ID: <CAJTo0LajVwG1t3H5_EfZYxvu7US-uB5OW3LTYQrK1p0kAoXUzw@mail.gmail.com>
+To: Peter Seebach <peter.seebach@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] glibc/0029-fix-getmnt-empty-lines.patch: fix getmntent()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 09:29:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 26 Nov 2015 10:32:14 -0000
+Content-Type: multipart/alternative; boundary=001a1135ffb885354205256f1639
 
-libsdl2 depends on libxkbcommon when enable wayland support.
+--001a1135ffb885354205256f1639
+Content-Type: text/plain; charset=UTF-8
 
-Can verify it with the following steps:
-bitbake libxkbcommon -c clean
-bitbake libsdl2 -c cleansstate && bitbake libsdl2
+On 25 November 2015 at 22:42, Peter Seebach <peter.seebach@windriver.com>
+wrote:
 
-config.log:
-[snip]
-configure:19347: checking for Wayland support
-configure:19357: result: no
-[snip]
+> +Upstream-status: upstreamed to 2.23
+>
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I've fixed this whilst merging to my staging branch but we're building
+tooling around Upstream-Status so using the defined values would be
+appreciated.  So in this case, "Upstream-Status: Backport (upstreamed to
+2.23)" would be correct.
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
-index f138f97..61d9c1e 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
-@@ -48,7 +48,7 @@ PACKAGECONFIG[gles2]      = "--enable-video-opengles,--disable-video-opengles,vi
- PACKAGECONFIG[opengl]     = "--enable-video-opengl,--disable-video-opengl,virtual/libgl"
- PACKAGECONFIG[pulseaudio] = "--enable-pulseaudio,--disable-pulseaudio,pulseaudio"
- PACKAGECONFIG[tslib]      = "--enable-input-tslib,--disable-input-tslib,tslib"
--PACKAGECONFIG[wayland]    = "--enable-video-wayland,--disable-video-wayland,wayland"
-+PACKAGECONFIG[wayland]    = "--enable-video-wayland,--disable-video-wayland,wayland libxkbcommon"
- PACKAGECONFIG[x11]        = "--enable-video-x11,--disable-video-x11,virtual/libx11 libxext libxrandr libxrender"
- 
- EXTRA_AUTORECONF += "--include=acinclude --exclude=autoheader"
--- 
-1.7.9.5
+Ross
 
+--001a1135ffb885354205256f1639
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 November 2015 at 22:42, Peter Seebach <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:peter.seebach@windriver.com" target=3D"_blank">peter.seebach@win=
+driver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":d5p" class=3D"a3s" style=3D"overflow:hidden">+Upstream-status: upstrea=
+med to 2.23<br></div></blockquote></div><br>I&#39;ve fixed this whilst merg=
+ing to my staging branch but we&#39;re building tooling around Upstream-Sta=
+tus so using the defined values would be appreciated.=C2=A0 So in this case=
+, &quot;Upstream-Status: Backport (upstreamed to 2.23)&quot; would be corre=
+ct.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ro=
+ss</div></div>
+
+--001a1135ffb885354205256f1639--
