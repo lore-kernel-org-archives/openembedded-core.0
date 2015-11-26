@@ -1,24 +1,24 @@
-Return-Path: <mei.yeen.ng@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id AA208612E5
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D3B666057B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 02:26:48 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 25 Nov 2015 18:26:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,345,1444719600"; 
-   d="scan'208";a="2430488"
-Received: from mng4-ilbpg4.png.intel.com ([10.88.227.35])
-	by fmsmga004.fm.intel.com with ESMTP; 25 Nov 2015 18:26:48 -0800
-From: Mei Yeen Ng <mei.yeen.ng@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Nov 2015 10:25:29 +0800
-Message-Id: <1448504729-25657-3-git-send-email-mei.yeen.ng@intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1448504729-25657-1-git-send-email-mei.yeen.ng@intel.com>
-References: <1448504729-25657-1-git-send-email-mei.yeen.ng@intel.com>
-Cc: Mei Yeen Ng <mei.yeen.ng@intel.com>
-Subject: [PATCH 2/2] meta: fix install-efi script for emmc installation
+	Thu, 26 Nov 2015 02:32:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAQ2WndL004596
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Nov 2015 18:32:50 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 25 Nov 2015 18:32:49 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Nov 2015 18:32:48 -0800
+Message-ID: <cover.1448505121.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 0/1] lsb: fix installed-vs-shipped for mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,67 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 02:26:48 -0000
+X-List-Received-Date: Thu, 26 Nov 2015 02:32:51 -0000
+Content-Type: text/plain
 
-From: "Ng, Mei Yeen" <mei.yeen.ng@intel.com>
+The following changes since commit 80b3974081c4a8c604e23982a6db8fb32c616058:
 
-Running the install option from bootloader to install image to eMMC will fail
-with error:
-Formatting /dev/mmcblk01 to vfat...
-mkfs.fat 3.0.28 (2015-05-16)
-/dev/mmcblk01: No such file or directory
+  sstate: Ensure siginfo and sig files are also touched (2015-11-25 08:08:51 +0000)
 
-This issue impacts both grub and gummiboot install options to eMMC device.
-The installation failure is due to the following:
-[1] Unable to partition eMMC as the partition prefix 'p' is not appended
-The condition checking failed with the additional /dev/ appended to
-the target device name.
-[2] The partition uuid for boot, root and swap partition is not captured
-for eMMC
+are available in the git repository at:
 
-This fix updated the condition checking and changed the variables to
-reference the boot, root and swap partitions for UUID.
+  git://git.openembedded.org/openembedded-core-contrib rbt/lsb
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/lsb
 
-[YOCTO #8710]
-Signed-off-by: Ng, Mei Yeen <mei.yeen.ng@intel.com>
----
- meta/recipes-core/initrdscripts/files/init-install-efi.sh | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Robert Yang (1):
+  lsb: fix installed-vs-shipped for mips
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index 3c79a0d..0443a9d 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -134,7 +134,7 @@ swap_start=$((rootfs_end))
- # 2) they are detected asynchronously (need rootwait)
- rootwait=""
- part_prefix=""
--if [ ! "${device#mmcblk}" = "${device}" ]; then
-+if [ ! "${device#/dev/mmcblk}" = "${device}" ]; then
-     part_prefix="p"
-     rootwait="rootwait"
- fi
-@@ -184,8 +184,8 @@ mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /src_root
- echo "Copying rootfs files..."
- cp -a /src_root/* /tgt_root
- if [ -d /tgt_root/etc/ ] ; then
--    boot_uuid=$(blkid -o value -s UUID ${device}1)
--    swap_part_uuid=$(blkid -o value -s PARTUUID ${device}3)
-+    boot_uuid=$(blkid -o value -s UUID ${bootfs})
-+    swap_part_uuid=$(blkid -o value -s PARTUUID ${swap})
-     echo "/dev/disk/by-partuuid/$swap_part_uuid                swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
-     echo "UUID=$boot_uuid              /boot            vfat       defaults              1  2" >> /tgt_root/etc/fstab
-     # We dont want udev to mount our root device while we're booting...
-@@ -206,7 +206,7 @@ mkdir -p $EFIDIR
- cp /run/media/$1/EFI/BOOT/*.efi $EFIDIR
- 
- if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
--    root_part_uuid=$(blkid -o value -s PARTUUID ${device}2)
-+    root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
-     GRUBCFG="$EFIDIR/grub.cfg"
-     cp /run/media/$1/EFI/BOOT/grub.cfg $GRUBCFG
-     # Update grub config for the installed image
+ meta/recipes-extended/lsb/lsb_4.1.bb |    1 +
+ 1 file changed, 1 insertion(+)
+
 -- 
-1.9.1
+1.7.9.5
 
 
