@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id BD8F06011F
+	by mail.openembedded.org (Postfix) with ESMTP id B2526601D4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 14:29:09 +0000 (UTC)
+	Thu, 26 Nov 2015 14:29:10 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 26 Nov 2015 06:29:12 -0800
+	by orsmga101.jf.intel.com with ESMTP; 26 Nov 2015 06:29:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,347,1444719600"; d="scan'208";a="829574702"
+X-IronPort-AV: E=Sophos;i="5.20,347,1444719600"; d="scan'208";a="829574723"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 26 Nov 2015 06:29:10 -0800
+	by orsmga001.jf.intel.com with ESMTP; 26 Nov 2015 06:29:11 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Nov 2015 16:26:16 +0200
-Message-Id: <afdad36ba78a7b48d0e1c6045aec4d793c9e0e50.1448547850.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 26 Nov 2015 16:26:17 +0200
+Message-Id: <3c0500b00ff508cb02ec3e86936ac8bf27358086.1448547850.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
 In-Reply-To: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
 References: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
 References: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 13/29] gconf: enable gobject-introspection
+Subject: [PATCH 14/29] gtk+: enable gobject introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 14:29:09 -0000
+X-List-Received-Date: Thu, 26 Nov 2015 14:29:10 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-gnome/gnome/gconf_3.2.6.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-gnome/gtk+/gtk+.inc | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-index 17fdafa..8bb5094 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-@@ -3,8 +3,8 @@ SECTION = "x11/gnome"
- LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
+index a197b9d..3ccdbe8 100644
+--- a/meta/recipes-gnome/gtk+/gtk+.inc
++++ b/meta/recipes-gnome/gtk+/gtk+.inc
+@@ -25,13 +25,12 @@ PACKAGECONFIG[x11] = "--with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS
+ # without --with-gdktarget=directfb it will check for cairo-xlib which isn't available without X11 DISTRO_FEATURE
+ PACKAGECONFIG[directfb] = "--with-gdktarget=directfb,,directfb"
  
--DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native gobject-introspection-stub"
--DEPENDS_class-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native gobject-introspection-stub-native"
-+DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native"
-+DEPENDS_class-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native gobject-introspection-native"
+-inherit autotools gtk-doc pkgconfig update-alternatives gtk-immodules-cache
++inherit autotools gtk-doc pkgconfig update-alternatives gtk-immodules-cache gobject-introspection
  
+ PACKAGES += "libgail gtk-demo"
  
- inherit gnomebase gtk-doc gettext
-@@ -20,7 +20,7 @@ SRC_URI[archive.sha256sum] = "1912b91803ab09a5eed34d364bf09fe3a2a9c96751fde03a4e
- S = "${WORKDIR}/GConf-${PV}"
+-FILES_${PN} = "${bindir}/gtk-update-icon-cache-2.0 \
++FILES_${PN} += "${bindir}/gtk-update-icon-cache-2.0 \
+ 	${bindir}/gtk-query-immodules-2.0 \
+-	${libdir}/lib*${SOLIBS} \
+ 	${datadir}/themes ${sysconfdir} \
+ 	${libdir}/gtk-2.0/${LIBV}/engines/libpixmap.so"
  
- EXTRA_OECONF = "--enable-shared --disable-static --enable-debug=yes \
--                --disable-introspection --disable-orbit --with-openldap=no --disable-gtk"
-+                --disable-orbit --with-openldap=no --disable-gtk"
+@@ -71,6 +70,10 @@ RRECOMMENDS_${PN}_libc-glibc = "${GTKGLIBC_RRECOMMENDS}"
+ ALTERNATIVE_${PN} = "gtk-update-icon-cache"
+ ALTERNATIVE_TARGET[gtk-update-icon-cache] = "${bindir}/gtk-update-icon-cache-2.0"
  
- # Disable PolicyKit by default
- PACKAGECONFIG ??= ""
++do_compile_prepend() {
++        export GIR_EXTRA_LIBS_PATH="${B}/gdk/.libs"
++}
++
+ do_install () {
+ 	autotools_do_install
+ 
 -- 
 2.6.2
 
