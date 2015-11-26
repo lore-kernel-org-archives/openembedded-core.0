@@ -1,30 +1,29 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 518106B6F7
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 980D6601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 14:47:54 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 26 Nov 2015 06:47:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,347,1444719600"; d="scan'208";a="847627743"
-Received: from mlopezva-mobl2.zpn.intel.com (HELO [10.219.24.106])
-	([10.219.24.106])
-	by fmsmga001.fm.intel.com with ESMTP; 26 Nov 2015 06:47:55 -0800
-Message-ID: <56571BAF.5040507@linux.intel.com>
-Date: Thu, 26 Nov 2015 08:48:15 -0600
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Thu, 26 Nov 2015 14:58:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAQEw91o010329
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Nov 2015 06:58:10 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.232) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 26 Nov 2015 06:58:09 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1448534065.git.liezhi.yang@windriver.com>
+	<ffc91bbcddb6b8806c4e4aacaaaf8ea122adc1c1.1448534065.git.liezhi.yang@windriver.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <56571E00.2040503@windriver.com>
+Date: Thu, 26 Nov 2015 08:58:08 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.3.0
 MIME-Version: 1.0
-To: ed.bartosh@linux.intel.com
-References: <cover.1447834352.git.mariano.lopez@linux.intel.com>
-	<2d04d7f11597f6e8331b293e033aef0d36ce5f02.1447834352.git.mariano.lopez@linux.intel.com>
-	<20151123173747.GA17608@linux.intel.com>
-	<56538F7B.20608@linux.intel.com>
-	<20151124154323.GA3530@linux.intel.com>
-In-Reply-To: <20151124154323.GA3530@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] wic: Allow to use a custom config for bootloaders
+In-Reply-To: <ffc91bbcddb6b8806c4e4aacaaaf8ea122adc1c1.1448534065.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 1/1] rpm: fix for N32 MIPS64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,231 +36,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 14:47:55 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Thu, 26 Nov 2015 14:58:12 -0000
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
 
+On 11/26/15 4:35 AM, Robert Yang wrote:
+> It is 'N32 MIPS64', not 'N32 MIPS32' as command file shows:
+> $ file image/usr/bin/getent
+> getent: ELF 32-bit MSB executable, MIPS, N32 MIPS64 [snip]
+> 
+> And "rpm -qp --filecolor" was wrong (it was 1, but should be 4), which
+> caused multilib installation error.
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  .../rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch   |   34 ++++++++++++++++++++
+>  meta/recipes-devtools/rpm/rpm_5.4+cvs.bb           |    1 +
+>  meta/recipes-devtools/rpm/rpm_5.4.14.bb            |    1 +
+>  3 files changed, 36 insertions(+)
+>  create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
+> 
+> diff --git a/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch b/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
+> new file mode 100644
+> index 0000000..a516574
+> --- /dev/null
+> +++ b/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
+> @@ -0,0 +1,34 @@
+> +From 16dc683aa50be9789d1674734b06a8a955ff22ad Mon Sep 17 00:00:00 2001
+> +From: Robert Yang <liezhi.yang@windriver.com>
+> +Date: Thu, 26 Nov 2015 01:36:40 -0800
+> +Subject: [PATCH] lib/rpmfc.c: fix for N32 MIPS64
+> +
+> +It is 'N32 MIPS64', not 'N32 MIPS32' as command file shows:
+> +$ file image/usr/bin/getent
+> +getent: ELF 32-bit MSB executable, MIPS, N32 MIPS64 [snip]
+> +
+> +And "rpm -qp --filecolor" was wrong (it was 1, but should be 4).
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> +---
+> + lib/rpmfc.c |    2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/lib/rpmfc.c b/lib/rpmfc.c
+> +index fde00c7..49779f8 100644
+> +--- a/lib/rpmfc.c
+> ++++ b/lib/rpmfc.c
+> +@@ -575,7 +575,7 @@ static struct rpmfcTokens_s rpmfcTokens[] = {
+> +   { " not stripped",		RPMFC_NOTSTRIPPED },
+> +   { " archive",			RPMFC_ARCHIVE },
+> + 
+> +-  { "MIPS, N32 MIPS32",		RPMFC_ELFMIPSN32|RPMFC_INCLUDE },
+> ++  { "MIPS, N32 MIPS64",		RPMFC_ELFMIPSN32|RPMFC_INCLUDE },
 
+I mentioned this to Robert off the list as well.  But I believe we need to look
+for both N32 MIPS32 and N32 MIPS64 here.
 
-On 11/24/2015 09:43 AM, Ed Bartosh wrote:
-> On Mon, Nov 23, 2015 at 04:13:15PM -0600, Mariano Lopez wrote:
->>
->> On 11/23/2015 11:37 AM, Ed Bartosh wrote:
->>> Hi Mariano,
->>>
->>> Thank you for the patchset!
->>>
->>> Would it be better to put content of configuration file into .wks
->>> instead of just referring to it?
->> If the configuration is simple I agree with you; however if the
->> configuration have scripts I think it's better to have separated
->> file. The file can growth and would be a real mess inside a wks
->> file.
->>
-> What bothers me here is that reference to the external entity (config file in this case) which
-> may or may not exist. This makes wic more fragile than it is now.
->
-> Can we put bootloader configs to some predefined place, e.g. to the same
-> directory where .wks is?
+Older versions of file 'magic' (which is what rpmfc.c is looking at) reported
+'N32 MIPS32', while it appears newer versions report 'N32 MIPS64'.  So checking
+both is my recommendation.  But this does fix an issue where you can't install
+both N32 and O32 multilibs without ELF collisions.
 
-I see your point now. I'll change the code to have the configuration in 
-the wks file.
+--Mark
 
->
->>> It would be also nice to have this code covered by oe-selftest.
->> Yes, I plan do  create a test and update the documentation once it
->> is integrated in master.
->>
-> I'd prefer to have tests in the same patchset with the code. It would
-> help to understand better how to handle external configs. Can you do
-> that?
+> +   { "ELF 32-bit",		RPMFC_ELF32|RPMFC_INCLUDE },
+> +   { "ELF 64-bit",		RPMFC_ELF64|RPMFC_INCLUDE },
+> + 
+> +-- 
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+> index 951b251..0d14728 100644
+> --- a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+> @@ -111,6 +111,7 @@ SRC_URI = "cvs://anonymous@rpm5.org/cvs;tag=rpm-5_4;module=rpm \
+>  	   file://rpm-rpmpgp-fix.patch \
+>  	   file://rpm-disable-Wno-override-init.patch \
+>  	   file://rpm-realpath.patch \
+> +	   file://rpm-rpmfc.c-fix-for-N32-MIPS64.patch \
+>  	  "
+>  
+>  # Uncomment the following line to enable platform score debugging
+> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> index 3930410..8e1d3cb 100644
+> --- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> @@ -101,6 +101,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
+>  	   file://rpm-opendb-before-verifyscript-to-avoid-null-point.patch \
+>  	   file://configure.ac-check-for-both-gpg2-and-gpg.patch \
+>  	   file://0001-define-EM_AARCH64.patch \
+> +	   file://rpm-rpmfc.c-fix-for-N32-MIPS64.patch \
+>  	  "
+>  
+>  # Uncomment the following line to enable platform score debugging
+> 
 
-I'll work on that and send the series again.
-
->
-> Regards,
-> Ed
->
->>> On Wed, Nov 18, 2015 at 08:25:54AM +0000, mariano.lopez@linux.intel.com wrote:
->>>> From: Mariano Lopez <mariano.lopez@linux.intel.com>
->>>>
->>>> This change will allow to use a user defined file as the
->>>> configuration for the bootloaders (grub, gummiboot, syslinux).
->>>>
->>>> The config file is defined in the wks file with the "configfile"
->>>> option in the bootloader line.
->>>>
->>>> [YOCTO #8003]
->>>>
->>>> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
->>>> ---
->>>>   scripts/lib/wic/plugins/source/bootimg-efi.py    | 66 ++++++++++++++++--------
->>>>   scripts/lib/wic/plugins/source/bootimg-pcbios.py | 66 ++++++++++++++----------
->>>>   2 files changed, 83 insertions(+), 49 deletions(-)
->>>>
->>>> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
->>>> index fa63c6a..8fc879e 100644
->>>> --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
->>>> +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
->>>> @@ -45,22 +45,33 @@ class BootimgEFIPlugin(SourcePlugin):
->>>>           """
->>>>           Create loader-specific (grub-efi) config
->>>>           """
->>>> -        options = creator.ks.handler.bootloader.appendLine
->>>> -
->>>> -        grubefi_conf = ""
->>>> -        grubefi_conf += "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\n"
->>>> -        grubefi_conf += "default=boot\n"
->>>> -        timeout = kickstart.get_timeout(creator.ks)
->>>> -        if not timeout:
->>>> -            timeout = 0
->>>> -        grubefi_conf += "timeout=%s\n" % timeout
->>>> -        grubefi_conf += "menuentry 'boot'{\n"
->>>> -
->>>> -        kernel = "/bzImage"
->>>> -
->>>> -        grubefi_conf += "linux %s root=%s rootwait %s\n" \
->>>> -            % (kernel, creator.rootdev, options)
->>>> -        grubefi_conf += "}\n"
->>>> +        configfile = kickstart.get_bootloader_file(creator.ks)
->>>> +
->>>> +        if configfile and os.path.exists(configfile):
->>>> +            # Use a custom configuration file for grub
->>>> +            msger.info("Using custom configuration file "
->>>> +                    "%s for grub.cfg" % configfile)
->>>> +            user_conf = open(configfile, "r")
->>>> +            grubefi_conf = user_conf.read()
->>>> +            user_conf.close()
->>>> +        else:
->>>> +            # Create grub configuration using parameters from wks file
->>>> +            options = creator.ks.handler.bootloader.appendLine
->>>> +
->>>> +            grubefi_conf = ""
->>>> +            grubefi_conf += "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\n"
->>>> +            grubefi_conf += "default=boot\n"
->>>> +            timeout = kickstart.get_timeout(creator.ks)
->>>> +            if not timeout:
->>>> +                timeout = 0
->>>> +            grubefi_conf += "timeout=%s\n" % timeout
->>>> +            grubefi_conf += "menuentry 'boot'{\n"
->>>> +
->>>> +            kernel = "/bzImage"
->>>> +
->>>> +            grubefi_conf += "linux %s root=%s rootwait %s\n" \
->>>> +                % (kernel, creator.rootdev, options)
->>>> +            grubefi_conf += "}\n"
->>>>           msger.debug("Writing grubefi config %s/hdd/boot/EFI/BOOT/grub.cfg" \
->>>>                           % cr_workdir)
->>>> @@ -95,12 +106,23 @@ class BootimgEFIPlugin(SourcePlugin):
->>>>           cfg.write(loader_conf)
->>>>           cfg.close()
->>>> -        kernel = "/bzImage"
->>>> -
->>>> -        boot_conf = ""
->>>> -        boot_conf += "title boot\n"
->>>> -        boot_conf += "linux %s\n" % kernel
->>>> -        boot_conf += "options LABEL=Boot root=%s %s\n" % (creator.rootdev, options)
->>>> +        configfile = kickstart.get_bootloader_file(creator.ks)
->>>> +
->>>> +        if configfile and os.path.exists(configfile):
->>>> +            # Use a custom configuration file for gummiboot
->>>> +            msger.info("Using custom configuration file "
->>>> +                    "%s for gummiboot's boot.conf" % configfile)
->>>> +            user_conf = open(configfile, "r")
->>>> +            boot_conf = user_conf.read()
->>>> +            user_conf.close()
->>>> +        else:
->>>> +            # Create gummiboot configuration using parameters from wks file
->>>> +            kernel = "/bzImage"
->>>> +
->>>> +            boot_conf = ""
->>>> +            boot_conf += "title boot\n"
->>>> +            boot_conf += "linux %s\n" % kernel
->>>> +            boot_conf += "options LABEL=Boot root=%s %s\n" % (creator.rootdev, options)
->>>>           msger.debug("Writing gummiboot config %s/hdd/boot/loader/entries/boot.conf" \
->>>>                           % cr_workdir)
->>>> diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
->>>> index 96ed54d..9e21572 100644
->>>> --- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
->>>> +++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
->>>> @@ -83,34 +83,46 @@ class BootimgPcbiosPlugin(SourcePlugin):
->>>>           install_cmd = "install -d %s" % hdddir
->>>>           exec_cmd(install_cmd)
->>>> -        splash = os.path.join(cr_workdir, "/hdd/boot/splash.jpg")
->>>> -        if os.path.exists(splash):
->>>> -            splashline = "menu background splash.jpg"
->>>> +        configfile = kickstart.get_bootloader_file(creator.ks)
->>>> +
->>>> +        if configfile and os.path.exists(configfile):
->>>> +            # Use a custom configuration file for syslinux
->>>> +            msger.info("Using custom configuration file "
->>>> +                    "%s for syslinux.cfg" % configfile)
->>>> +            user_conf = open(configfile, "r")
->>>> +            syslinux_conf = user_conf.read()
->>>> +            user_conf.close()
->>>> +
->>>>           else:
->>>> -            splashline = ""
->>>> -
->>>> -        options = creator.ks.handler.bootloader.appendLine
->>>> -
->>>> -        syslinux_conf = ""
->>>> -        syslinux_conf += "PROMPT 0\n"
->>>> -        timeout = kickstart.get_timeout(creator.ks)
->>>> -        if not timeout:
->>>> -            timeout = 0
->>>> -        syslinux_conf += "TIMEOUT " + str(timeout) + "\n"
->>>> -        syslinux_conf += "\n"
->>>> -        syslinux_conf += "ALLOWOPTIONS 1\n"
->>>> -        syslinux_conf += "SERIAL 0 115200\n"
->>>> -        syslinux_conf += "\n"
->>>> -        if splashline:
->>>> -            syslinux_conf += "%s\n" % splashline
->>>> -        syslinux_conf += "DEFAULT boot\n"
->>>> -        syslinux_conf += "LABEL boot\n"
->>>> -
->>>> -        kernel = "/vmlinuz"
->>>> -        syslinux_conf += "KERNEL " + kernel + "\n"
->>>> -
->>>> -        syslinux_conf += "APPEND label=boot root=%s %s\n" % \
->>>> -                             (creator.rootdev, options)
->>>> +            # Create syslinux configuration using parameters from wks file
->>>> +            splash = os.path.join(cr_workdir, "/hdd/boot/splash.jpg")
->>>> +            if os.path.exists(splash):
->>>> +                splashline = "menu background splash.jpg"
->>>> +            else:
->>>> +                splashline = ""
->>>> +
->>>> +            options = creator.ks.handler.bootloader.appendLine
->>>> +
->>>> +            syslinux_conf = ""
->>>> +            syslinux_conf += "PROMPT 0\n"
->>>> +            timeout = kickstart.get_timeout(creator.ks)
->>>> +            if not timeout:
->>>> +                timeout = 0
->>>> +            syslinux_conf += "TIMEOUT " + str(timeout) + "\n"
->>>> +            syslinux_conf += "\n"
->>>> +            syslinux_conf += "ALLOWOPTIONS 1\n"
->>>> +            syslinux_conf += "SERIAL 0 115200\n"
->>>> +            syslinux_conf += "\n"
->>>> +            if splashline:
->>>> +                syslinux_conf += "%s\n" % splashline
->>>> +            syslinux_conf += "DEFAULT boot\n"
->>>> +            syslinux_conf += "LABEL boot\n"
->>>> +
->>>> +            kernel = "/vmlinuz"
->>>> +            syslinux_conf += "KERNEL " + kernel + "\n"
->>>> +
->>>> +            syslinux_conf += "APPEND label=boot root=%s %s\n" % \
->>>> +                                 (creator.rootdev, options)
->>>>           msger.debug("Writing syslinux config %s/hdd/boot/syslinux.cfg" \
->>>>                       % cr_workdir)
->>>> -- 
->>>> 1.8.4.5
->>>>
->> -- 
->> Mariano Lopez
-
--- 
-Mariano Lopez
 
