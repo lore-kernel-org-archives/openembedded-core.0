@@ -1,35 +1,37 @@
 Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lf0-f51.google.com (mail-lf0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C8B56011F
+Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
+	[209.85.215.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AF296018C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 16:40:57 +0000 (UTC)
-Received: by lfdl133 with SMTP id l133so103019655lfd.2
+	Thu, 26 Nov 2015 16:40:58 +0000 (UTC)
+Received: by lffu14 with SMTP id u14so103761895lff.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 08:40:57 -0800 (PST)
+	Thu, 26 Nov 2015 08:40:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=lbYS62zuihKc2VjblCqMeX1wdVwlddAxySsQ2AQeB7E=;
-	b=x1/qcJu5gALBQk9xyjv4NDif5hJ2H8zW9D9f2celGh0dfiXKDZauc6WeOKEhrg5mdl
-	+MGDkvP2JOv3jeXbPTF9TRIiLNDhU/BnrjJoWHvMqaXBCn3d7rMZl3Iqv7YLBx4RYQq5
-	LmKsVURF9IlZrT3iEjLhIXQdFBOKoEAE/CceczPMOqUlifFx24/VWqOD7r3h5LVEEMo0
-	AHDbdwksNvXxnlOKvYhApjfjLDOJEuwlVD4toyJjBI66sUaRQwRv/dCWz3bQ6J9spaDj
-	y+gQOOYP5OZVSlJPoJGtiHFFrc04Y+Apa8WcIN0nAhjYvlui1bFm0ZFBkWwDa0ECskcT
-	7y0g==
-X-Received: by 10.25.162.144 with SMTP id l138mr18146983lfe.30.1448556057407; 
-	Thu, 26 Nov 2015 08:40:57 -0800 (PST)
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=+zgjuYgxSO6wmOAQrnFJY9Ay2OXH87FpvREEBJZkiYo=;
+	b=ujQ9E42sEQYjvxxl433dQGq0yLOMrzGMuhkoRMSgmgGEt7FLTd0gK9Yi0fe3F4o7CR
+	RnW0yk7nAF3bV7Eo8uDCQ6WpKnyS80PYst0XpGkSSH491HG4gH/wF6DIbNODDQ8unEAJ
+	oMuKFoTuAuR9yN++B6Hqh7QNoYLlLeBi+EPanW0r1UH/gfOHakkZP+m1oNdTR3IfBPom
+	4koY8KlwugJY863Py6tKkfzte3RrjuZ+aL8OLW0DEq6fTnZ0RgZumYJ/vnTSijlVdZpp
+	sePqW6RMOxh0GRM5Ee8KNYTCGSPQMmikb/3+xD+6WRueDsAdr5Ge04nrRDizSaG+oeUd
+	Yqww==
+X-Received: by 10.25.145.81 with SMTP id t78mr10527854lfd.86.1448556058393;
+	Thu, 26 Nov 2015 08:40:58 -0800 (PST)
 Received: from umbar.auriga.ru ([81.95.26.90])
 	by smtp.gmail.com with ESMTPSA id
-	k14sm4235798lfb.49.2015.11.26.08.40.55
+	k14sm4235798lfb.49.2015.11.26.08.40.57
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 Nov 2015 08:40:56 -0800 (PST)
+	Thu, 26 Nov 2015 08:40:57 -0800 (PST)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Nov 2015 19:40:52 +0300
-Message-Id: <1448556053-15960-1-git-send-email-dbaryshkov@gmail.com>
+Date: Thu, 26 Nov 2015 19:40:53 +0300
+Message-Id: <1448556053-15960-2-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 2.6.2
-Subject: [PATCH 1/2] gcc-5.2: import patch fixing compilation in thumb mode
+In-Reply-To: <1448556053-15960-1-git-send-email-dbaryshkov@gmail.com>
+References: <1448556053-15960-1-git-send-email-dbaryshkov@gmail.com>
+Subject: [PATCH 2/2] gcc-4.9: import patch fixing compilation in thumb mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,28 +51,28 @@ Import patch fixing a bug that caused ICE when compiling some packages
 
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-5.2.inc              |  1 +
- .../gcc/gcc-5.2/0043-fix-arm-thumb.patch           | 39 ++++++++++++++++++++++
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |  1 +
+ .../gcc/gcc-4.9/0067-fix-arm-thumb.patch           | 39 ++++++++++++++++++++++
  2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0043-fix-arm-thumb.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0067-fix-arm-thumb.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-5.2.inc b/meta/recipes-devtools/gcc/gcc-5.2.inc
-index a6b385a..e5e92e9 100644
---- a/meta/recipes-devtools/gcc/gcc-5.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-5.2.inc
-@@ -74,6 +74,7 @@ SRC_URI = "\
-            file://0040-nativesdk-gcc-support.patch \
-            file://0041-handle-target-sysroot-multilib.patch \
-            file://0042-cxxflags-for-build.patch \
-+           file://0043-fix-arm-thumb.patch \
-           "
- 
- BACKPORTS = ""
-diff --git a/meta/recipes-devtools/gcc/gcc-5.2/0043-fix-arm-thumb.patch b/meta/recipes-devtools/gcc/gcc-5.2/0043-fix-arm-thumb.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+index 6ac3685..d62e801 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+@@ -82,6 +82,7 @@ SRC_URI = "\
+     file://0064-handle-target-sysroot-multilib.patch \
+     file://0065-gcc-483-universal-initializer-no-warning.patch \
+     file://0066-cxxflags-for-build.patch \
++    file://0067-fix-arm-thumb.patch \
+ "
+ SRC_URI[md5sum] = "6f831b4d251872736e8e9cc09746f327"
+ SRC_URI[sha256sum] = "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0067-fix-arm-thumb.patch b/meta/recipes-devtools/gcc/gcc-4.9/0067-fix-arm-thumb.patch
 new file mode 100644
 index 0000000..2f262e3
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-5.2/0043-fix-arm-thumb.patch
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0067-fix-arm-thumb.patch
 @@ -0,0 +1,39 @@
 +Upstream-Status: Accepted
 +
