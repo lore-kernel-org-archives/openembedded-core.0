@@ -1,29 +1,48 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 980D6601D3
+Return-Path: <jkrishnanjanappa@mvista.com>
+Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 95A8D6012A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 14:58:09 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAQEw91o010329
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 26 Nov 2015 15:38:08 +0000 (UTC)
+Received: by lfdl133 with SMTP id l133so101282797lfd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 06:58:10 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.232) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 26 Nov 2015 06:58:09 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1448534065.git.liezhi.yang@windriver.com>
-	<ffc91bbcddb6b8806c4e4aacaaaf8ea122adc1c1.1448534065.git.liezhi.yang@windriver.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <56571E00.2040503@windriver.com>
-Date: Thu, 26 Nov 2015 08:58:08 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.3.0
+	Thu, 26 Nov 2015 07:38:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=oMwzRc0Bc/SZ55YRZonBniU5HkwL/AaR5a1EGwjOZ1c=;
+	b=EEiVRfB1h6ijsMQ6sg9K3goNr+2y/QiIX7fXMW9gjbq1bkuL5xOX4iYeBFxPJrwb4N
+	D7ijfdUVXEEAXQIbBjd7Ix4hxU3ZjSno6AM3bNVQ0eGAfeGJWM1Q/gUfSCYG6004qhAW
+	AOuvufi7AMCIZ9F9dOLExzqhRAoD+W9V+ZJuX07pZFnmebniqnuXv3FW3gV/9Sg6vMiR
+	nuisKXwBvFUJ2Dwi5dQed603k3X10gOPtd64O93oB45E00aMdx+Cw+mq9Em9UmRqlGfr
+	4w43r6VxgES97eInB5l8jYmIGGdWm5W70R53yQ1WKSfxEigtdvKUqAzoOiRhYvTUyE+h
+	j1MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=oMwzRc0Bc/SZ55YRZonBniU5HkwL/AaR5a1EGwjOZ1c=;
+	b=d03A8SG8KT3S/gukFBSIOpa5RJtHjeye7SCiNWh/w1wZFo9sdnqpYGeFbOKlZcrYOT
+	snoMUP+s0RQr7TQ8AgcNfQlU9J3auQHHPEVPvCDLI0O/0iFWUio7mZkjzYFyWr7SAiwk
+	ARWj+herEFOioVU0y7EFbr29oD3A5MiiJYBK/qCyI2MNJZPf3snlrDhtJ3j8RGjOUIdu
+	3OgPqdKeVuDJz90v/7Jsvo/Y9D1qRY2bJWTcxN7GzoC56vk5Q/GjTxphH1Kgxd/8LCAi
+	rWiwA8q7DQSZRtn0I4N5ZJ690GjVAP49KplQ7IRvpp7b0F0fJDz6DHLdnaQv86c6pcLr
+	TJZw==
+X-Gm-Message-State: ALoCoQmaDtY9rRvsg+6eQNIGsiQjGIHMZLZ+t33BdolJdnMts4Tb7zrFlnlJ7WuW8iWZjsxlz8R7
 MIME-Version: 1.0
-In-Reply-To: <ffc91bbcddb6b8806c4e4aacaaaf8ea122adc1c1.1448534065.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 1/1] rpm: fix for N32 MIPS64
+X-Received: by 10.112.148.198 with SMTP id tu6mr15148683lbb.39.1448552288281; 
+	Thu, 26 Nov 2015 07:38:08 -0800 (PST)
+Received: by 10.114.122.72 with HTTP; Thu, 26 Nov 2015 07:38:08 -0800 (PST)
+In-Reply-To: <CAJTo0LZu9O-V3Nq2JLT-uCmW13hja2pMSof_w=bSrJfQL9qipA@mail.gmail.com>
+References: <1448536554-18349-1-git-send-email-jkrishnanjanappa@mvista.com>
+	<CAJTo0LZu9O-V3Nq2JLT-uCmW13hja2pMSof_w=bSrJfQL9qipA@mail.gmail.com>
+Date: Thu, 26 Nov 2015 21:08:08 +0530
+Message-ID: <CAD3vsf4AyaCVhvu27U8N666EjYwFg7XPWQ7NGjAg_xwbH6dRQQ@mail.gmail.com>
+From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [jethro][PATCH v2] license.bbclass: fix host contamination warnings for license files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,101 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 14:58:12 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Nov 2015 15:38:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 11/26/15 4:35 AM, Robert Yang wrote:
-> It is 'N32 MIPS64', not 'N32 MIPS32' as command file shows:
-> $ file image/usr/bin/getent
-> getent: ELF 32-bit MSB executable, MIPS, N32 MIPS64 [snip]
-> 
-> And "rpm -qp --filecolor" was wrong (it was 1, but should be 4), which
-> caused multilib installation error.
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  .../rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch   |   34 ++++++++++++++++++++
->  meta/recipes-devtools/rpm/rpm_5.4+cvs.bb           |    1 +
->  meta/recipes-devtools/rpm/rpm_5.4.14.bb            |    1 +
->  3 files changed, 36 insertions(+)
->  create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
-> 
-> diff --git a/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch b/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
-> new file mode 100644
-> index 0000000..a516574
-> --- /dev/null
-> +++ b/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
-> @@ -0,0 +1,34 @@
-> +From 16dc683aa50be9789d1674734b06a8a955ff22ad Mon Sep 17 00:00:00 2001
-> +From: Robert Yang <liezhi.yang@windriver.com>
-> +Date: Thu, 26 Nov 2015 01:36:40 -0800
-> +Subject: [PATCH] lib/rpmfc.c: fix for N32 MIPS64
-> +
-> +It is 'N32 MIPS64', not 'N32 MIPS32' as command file shows:
-> +$ file image/usr/bin/getent
-> +getent: ELF 32-bit MSB executable, MIPS, N32 MIPS64 [snip]
-> +
-> +And "rpm -qp --filecolor" was wrong (it was 1, but should be 4).
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> +---
-> + lib/rpmfc.c |    2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/lib/rpmfc.c b/lib/rpmfc.c
-> +index fde00c7..49779f8 100644
-> +--- a/lib/rpmfc.c
-> ++++ b/lib/rpmfc.c
-> +@@ -575,7 +575,7 @@ static struct rpmfcTokens_s rpmfcTokens[] = {
-> +   { " not stripped",		RPMFC_NOTSTRIPPED },
-> +   { " archive",			RPMFC_ARCHIVE },
-> + 
-> +-  { "MIPS, N32 MIPS32",		RPMFC_ELFMIPSN32|RPMFC_INCLUDE },
-> ++  { "MIPS, N32 MIPS64",		RPMFC_ELFMIPSN32|RPMFC_INCLUDE },
+>> We get below host contamination warnings of license files for
+>> each recipe, when we try to create a separate ${PN}-lic package (which
+>> contains license files), by setting LICENSE_CREATE_PACKAGE equal to "1"
+>> in local.conf.
+>>
+>
+> WARNING: Could not copy license file
+> /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/gmp-6.0.0/COPYING.LESSERv3
+> to
+> /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/license-destdir/gmp/COPYING.LESSERv3:
+> [Errno 1] Operation not permitted:
+> '/data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/license-destdir/gmp/COPYING.LESSERv3'
+>
 
-I mentioned this to Robert off the list as well.  But I believe we need to look
-for both N32 MIPS32 and N32 MIPS64 here.
+My earlier testing was done till do_package_qa  task, so could not
+capture this warning. Will check and get back.
 
-Older versions of file 'magic' (which is what rpmfc.c is looking at) reported
-'N32 MIPS32', while it appears newer versions report 'N32 MIPS64'.  So checking
-both is my recommendation.  But this does fix an issue where you can't install
-both N32 and O32 multilibs without ELF collisions.
+Thanks,
+Jagadeesh
 
---Mark
-
-> +   { "ELF 32-bit",		RPMFC_ELF32|RPMFC_INCLUDE },
-> +   { "ELF 64-bit",		RPMFC_ELF64|RPMFC_INCLUDE },
-> + 
-> +-- 
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-> index 951b251..0d14728 100644
-> --- a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
-> @@ -111,6 +111,7 @@ SRC_URI = "cvs://anonymous@rpm5.org/cvs;tag=rpm-5_4;module=rpm \
->  	   file://rpm-rpmpgp-fix.patch \
->  	   file://rpm-disable-Wno-override-init.patch \
->  	   file://rpm-realpath.patch \
-> +	   file://rpm-rpmfc.c-fix-for-N32-MIPS64.patch \
->  	  "
->  
->  # Uncomment the following line to enable platform score debugging
-> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> index 3930410..8e1d3cb 100644
-> --- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> @@ -101,6 +101,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
->  	   file://rpm-opendb-before-verifyscript-to-avoid-null-point.patch \
->  	   file://configure.ac-check-for-both-gpg2-and-gpg.patch \
->  	   file://0001-define-EM_AARCH64.patch \
-> +	   file://rpm-rpmfc.c-fix-for-N32-MIPS64.patch \
->  	  "
->  
->  # Uncomment the following line to enable platform score debugging
-> 
-
+> Ross
+>
 
