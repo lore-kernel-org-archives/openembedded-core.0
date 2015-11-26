@@ -1,24 +1,24 @@
 Return-Path: <mei.yeen.ng@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 461A86057B
+	by mail.openembedded.org (Postfix) with ESMTP id AA208612E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 02:26:47 +0000 (UTC)
+	Thu, 26 Nov 2015 02:26:48 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 25 Nov 2015 18:26:48 -0800
+	by orsmga102.jf.intel.com with ESMTP; 25 Nov 2015 18:26:49 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.20,345,1444719600"; 
-   d="scan'208";a="2430481"
+   d="scan'208";a="2430488"
 Received: from mng4-ilbpg4.png.intel.com ([10.88.227.35])
-	by fmsmga004.fm.intel.com with ESMTP; 25 Nov 2015 18:26:47 -0800
+	by fmsmga004.fm.intel.com with ESMTP; 25 Nov 2015 18:26:48 -0800
 From: Mei Yeen Ng <mei.yeen.ng@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Nov 2015 10:25:28 +0800
-Message-Id: <1448504729-25657-2-git-send-email-mei.yeen.ng@intel.com>
+Date: Thu, 26 Nov 2015 10:25:29 +0800
+Message-Id: <1448504729-25657-3-git-send-email-mei.yeen.ng@intel.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1448504729-25657-1-git-send-email-mei.yeen.ng@intel.com>
 References: <1448504729-25657-1-git-send-email-mei.yeen.ng@intel.com>
 Cc: Mei Yeen Ng <mei.yeen.ng@intel.com>
-Subject: [PATCH 1/2] meta: fix install-efi script for gummiboot loader
+Subject: [PATCH 2/2] meta: fix install-efi script for emmc installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +31,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 02:26:47 -0000
+X-List-Received-Date: Thu, 26 Nov 2015 02:26:48 -0000
 
 From: "Ng, Mei Yeen" <mei.yeen.ng@intel.com>
 
-After running gummiboot loader install option, the installed target
-storage device boot parameter for root=PARTUUID is empty causing boot failure.
-This issue is only observed with gummiboot and not with GRUB loader.
+Running the install option from bootloader to install image to eMMC will fail
+with error:
+Formatting /dev/mmcblk01 to vfat...
+mkfs.fat 3.0.28 (2015-05-16)
+/dev/mmcblk01: No such file or directory
 
-This fix assigs the rootuuid of the rootfs partition for gummiboot loader.
+This issue impacts both grub and gummiboot install options to eMMC device.
+The installation failure is due to the following:
+[1] Unable to partition eMMC as the partition prefix 'p' is not appended
+The condition checking failed with the additional /dev/ appended to
+the target device name.
+[2] The partition uuid for boot, root and swap partition is not captured
+for eMMC
 
-[YOCTO #8709]
+This fix updated the condition checking and changed the variables to
+reference the boot, root and swap partitions for UUID.
+
+[YOCTO #8710]
 Signed-off-by: Ng, Mei Yeen <mei.yeen.ng@intel.com>
 ---
- meta/recipes-core/initrdscripts/files/init-install-efi.sh | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index fc4908e..3c79a0d 100644
+index 3c79a0d..0443a9d 100644
 --- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
 +++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -223,6 +223,7 @@ if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
+@@ -134,7 +134,7 @@ swap_start=$((rootfs_end))
+ # 2) they are detected asynchronously (need rootwait)
+ rootwait=""
+ part_prefix=""
+-if [ ! "${device#mmcblk}" = "${device}" ]; then
++if [ ! "${device#/dev/mmcblk}" = "${device}" ]; then
+     part_prefix="p"
+     rootwait="rootwait"
  fi
+@@ -184,8 +184,8 @@ mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /src_root
+ echo "Copying rootfs files..."
+ cp -a /src_root/* /tgt_root
+ if [ -d /tgt_root/etc/ ] ; then
+-    boot_uuid=$(blkid -o value -s UUID ${device}1)
+-    swap_part_uuid=$(blkid -o value -s PARTUUID ${device}3)
++    boot_uuid=$(blkid -o value -s UUID ${bootfs})
++    swap_part_uuid=$(blkid -o value -s PARTUUID ${swap})
+     echo "/dev/disk/by-partuuid/$swap_part_uuid                swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
+     echo "UUID=$boot_uuid              /boot            vfat       defaults              1  2" >> /tgt_root/etc/fstab
+     # We dont want udev to mount our root device while we're booting...
+@@ -206,7 +206,7 @@ mkdir -p $EFIDIR
+ cp /run/media/$1/EFI/BOOT/*.efi $EFIDIR
  
- if [ -d /run/media/$1/loader ]; then
-+    rootuuid=$(blkid -o value -s PARTUUID ${rootfs})
-     GUMMIBOOT_CFGS="/boot/loader/entries/*.conf"
-     # copy config files for gummiboot
-     cp -dr /run/media/$1/loader /boot
+ if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
+-    root_part_uuid=$(blkid -o value -s PARTUUID ${device}2)
++    root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
+     GRUBCFG="$EFIDIR/grub.cfg"
+     cp /run/media/$1/EFI/BOOT/grub.cfg $GRUBCFG
+     # Update grub config for the installed image
 -- 
 1.9.1
 
