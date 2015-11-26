@@ -1,64 +1,33 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 269116012A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id AEF446012A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 12:29:43 +0000 (UTC)
-Received: by pacej9 with SMTP id ej9so85856567pac.2
+	Thu, 26 Nov 2015 12:57:42 +0000 (UTC)
+Received: by wmec201 with SMTP id c201so21530327wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 04:29:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-type;
-	bh=M+Kni7s3vDVDH4G8dbl2EuwWlJN48zEJ+xSY2YdnN9M=;
-	b=Ffh/sd3ofHzuV/hF6f6Tg+7F3c4Clty7U9PB7LaD5yd/97MNapgtYsMswFwoCZCZXT
-	qnki9CAnZYFxUxC02VoKCNw/OZyiN3NFlfIXlU/e3FnmUThfY8VqfGgIfD/APeikx0qZ
-	Vn8+89n4epLfdDDdx6swLol5oyRtfF2+V3+Bj38enHDqG9yQIqfGaQwmAtbW54KjgP3J
-	+sr7DhaRDkDryA1uGCZb01MfQ2VMiizgZyHTg63UQlZ0w5Xc2WZaVl5/OgqnWJt3Yyef
-	4pDjCUeF4paKt0TmsCjNZVYcARdjG71A+9lYDNw+e0Rtd5lSrQNQjAu+gACohTw7Nj1k
-	4X+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=M+Kni7s3vDVDH4G8dbl2EuwWlJN48zEJ+xSY2YdnN9M=;
-	b=a0lMfmFH1kZhajMEyYToTULftFe/hSYDfTAYKydirSBpQ00eRv6lc7Bom/QfntNh+X
-	cCfx1QbijiBw/kwRsPQf9NPjYfGino8JKVajnxcpvaFq8JCg2VIyzeTpywYzMV+jIoi5
-	DXOKXjrd6QWAsGm5f2X70+6I9DEQZc3RjhmmrJn9yFSERh2xzpOzoXiYvebuXDYvuX2+
-	I7HKNV0RWFqPqhhWIhLRMeBBo/8d7K+J05K5iQDcFeMZzWp4eAbo2UOHzvxEQmVb+vN3
-	TKAEAi9xi8nbM/X4WyA3m764OPIGygFJ31CCTusb7v5uhkTkPLMMU0Zz6UkHJQw4Ky0u
-	V4AQ==
-X-Gm-Message-State: ALoCoQkq0ylJmCbAuk8vn75ic6rF8iGAb7ZYMGp64Q3NYJGQtNcbA5h0Az+9doO/OI1BEq4A//9T
-X-Received: by 10.66.155.197 with SMTP id vy5mr59466696pab.109.1448540984452; 
-	Thu, 26 Nov 2015 04:29:44 -0800 (PST)
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com.
-	[209.85.220.53])
-	by smtp.gmail.com with ESMTPSA id 9sm27353537pfn.51.2015.11.26.04.29.42
-	for <openembedded-core@lists.openembedded.org>
+	Thu, 26 Nov 2015 04:57:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=NqAebPSdNBt6FpW8AQC2RZ5LIqhcrjeHYRVuCCGjmjo=;
+	b=gttuoD+ghkMfNW2qdW5zCcGWUlD5NlDG5CdpPusle+NNFLAZf030B1+yXURo9otCxB
+	O/3kf9U3tnB+zfHoELXDMO4y3wdPfiR+VnnxxkW33/zstL4AvXIZSnC9fvX1f6Ly+GP2
+	ZCHRnlWhbTgEsDQOpmY8bewjXTV1ru+Xg3IRS1sKt66aQ+6tIU3XQAduJVPcxKyZsZsX
+	SfnVlIel7+z8GEy3XVNUjq9zGdt0w0YzWDYdGlk32toTCP7sSg5DaadULtkjml+tlWKP
+	Ikm6IS5FpaxU7LP/f/Cm2fMNx6woGjO0BDBB5ncEoBwz7nJ8SuTg8XqNQnJncEUvk3Vx
+	V01g==
+X-Received: by 10.194.114.105 with SMTP id jf9mr48052598wjb.102.1448542662854; 
+	Thu, 26 Nov 2015 04:57:42 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id m11sm2633710wma.5.2015.11.26.04.57.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 26 Nov 2015 04:29:43 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by padhx2 with SMTP id hx2so86003896pad.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 04:29:42 -0800 (PST)
-MIME-Version: 1.0
-X-Received: by 10.66.243.3 with SMTP id wu3mr59502809pac.135.1448540982494;
-	Thu, 26 Nov 2015 04:29:42 -0800 (PST)
-Received: by 10.66.197.129 with HTTP; Thu, 26 Nov 2015 04:29:42 -0800 (PST)
-In-Reply-To: <1448489575-1598-5-git-send-email-tom.hochstein@freescale.com>
-References: <1448489575-1598-1-git-send-email-tom.hochstein@freescale.com>
-	<1448489575-1598-5-git-send-email-tom.hochstein@freescale.com>
-Date: Thu, 26 Nov 2015 10:29:42 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKpGwaSifd4Tjs3o-yU_etpmaUm+Nzgeix_Z42OaBbCE0g@mail.gmail.com>
-Message-ID: <CAP9ODKpGwaSifd4Tjs3o-yU_etpmaUm+Nzgeix_Z42OaBbCE0g@mail.gmail.com>
-To: Tom Hochstein <tom.hochstein@freescale.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	"Burton, Ross" <ross.burton@intel.com>
-Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>
-Subject: Re: [meta-freescale] [meta-fsl-demos][PATCH v3 5/6] packagegroup-core-x11-base: Remove matchbox packages for xwayland
+	Thu, 26 Nov 2015 04:57:41 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Nov 2015 13:58:13 +0100
+Message-Id: <1448542693-11336-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.6.3
+Subject: [PATCH][dizzy][fido] linux-dtb.inc: drop unused DTB_NAME variable from do_install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,25 +40,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 12:29:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 26 Nov 2015 12:57:44 -0000
 
-On Wed, Nov 25, 2015 at 8:12 PM, Tom Hochstein
-<tom.hochstein@freescale.com> wrote:
-> From: Neena Busireddy <neena.busireddy@freescale.com>
->
-> Do not install x11 packages when both x11 and wayland DISTRO_FEATURES are availiable.
-> Wayland backend is preferred as we will be using X11 on top of Wayland (XWayland).
->
-> Signed-off-by: Neena Busireddy <neena.busireddy@freescale.com>
-> Signed-off-by: Tom Hochstein <tom.hochstein@freescale.com>
+* this is causing do_install to depend on KERNEL_IMAGE_BASE_NAME which
+  in some cases contains something like BUILD_NUMBER from CI, that
+  caused do_install to be reexecuted every single time, which is very
+  sad to be caused by unused variable.
+* jethro and newer don't need this change, because it's also fixed in
+  commit 86b3f29f93e3f87903668ea317c6bd97be4cdf62
+  Author: Marek Vasut <marex@denx.de>
+  Date:   Thu May 14 14:31:11 2015 +0200
+  Subject: kernel: Build DTBs early
 
-This should be discussed at OE-Core mailing list as it will support
-XWayland and we ought to have an unified design on how to implement
-it.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-kernel/linux/linux-dtb.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 6b8f1a5..4779be2 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -13,7 +13,6 @@ do_install_append() {
+ 				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
+ 			fi
+ 			DTB_BASE_NAME=`basename ${DTB} .dtb`
+-			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+ 			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+ 			DTB_PATH="${B}/arch/${ARCH}/boot/dts/${DTB}"
+ 			oe_runmake ${DTB}
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.6.3
+
 
