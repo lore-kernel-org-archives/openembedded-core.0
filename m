@@ -1,49 +1,35 @@
-Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id CC2476011F
+Return-Path: <alejandro.joya.cruz@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A02746011F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 18:15:03 +0000 (UTC)
-Received: by lfaz4 with SMTP id z4so105800282lfa.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 10:15:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=ktookADnEwo2txSLTUn+z58AphY66uZ35Z0O58mtYYE=;
-	b=Yu02MatsaRgnLjRqG+BuhK+Q/59FRK5kQY2leVSKY/qTbKO3KRql40jfbRIb7GmpOk
-	d965HunEqiRe1c/XM7gwoQyUPM0NrKyRuRIEj6layu13dZb552mcynibvdGcUbMgL5MM
-	fecyAAJA38nQmGaNFXB474xm958ZTvPuVfASp+MH2Q8DJAu5SUZ6bNJHjUiiM4SQCm3X
-	gAPYbVDZcma13wrY4M9VEzZD4XTs+NH2MtDlgrg3sjm8RprtGf0JY8OH+BG+gqIlVW8a
-	sUcOvH7+uhWUoOrNmp2l/Xw8NsdLxWCygWmwMQJr2JrQDVCXD/3sGHCziUaxF+PShNjJ
-	lv7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=ktookADnEwo2txSLTUn+z58AphY66uZ35Z0O58mtYYE=;
-	b=h0mh7v7E+eYgpWhfZEDTDt2FYUflIUI2PuiAQ2WTVVlkgAoYh7o4zgYtTKs5BvQ2iF
-	o2UAyHkoGFmeS7zJVuLExV20+iDN8jKE8ADYDOijF+uXyXFB/DpIDNypIV8CTy0U5/vw
-	SdUwBnWoUiy2uK+6gwCm3Lr98US9RUSYS7PRVKvT6zqLXTD1TKUgHLkaYIhkjHHHH8Zt
-	6bksRt3J+WJKif5jn4zXLJxe1oCQDtcjcAvXklmnNehUsjh3RlaBNU7PP+hIuw3dwfdx
-	4HkHGBzVFKfNgbIQRGsmeYiFv/TfCQy701hm4uFQOOK37/H2epECXur4rtdbY6yar9pm
-	wIyA==
-X-Gm-Message-State: ALoCoQnH1gplzcOy7YKFafTCV8NYoDf31U6yCq+lLiDhfpA2NKNpZ464gPvWH6KXkjFAaLAfyXav
+	Thu, 26 Nov 2015 18:34:24 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 26 Nov 2015 10:34:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,347,1444719600"; d="scan'208";a="607645422"
+Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
+	by FMSMGA003.fm.intel.com with ESMTP; 26 Nov 2015 10:34:26 -0800
+Received: from fmsmsx117.amr.corp.intel.com (10.18.116.17) by
+	FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Thu, 26 Nov 2015 10:34:24 -0800
+Received: from fmsmsx106.amr.corp.intel.com ([169.254.5.39]) by
+	fmsmsx117.amr.corp.intel.com ([169.254.3.91]) with mapi id
+	14.03.0248.002; Thu, 26 Nov 2015 10:34:24 -0800
+From: "Joya Cruz, Alejandro" <alejandro.joya.cruz@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 0/4] Replace busybox for variable.
+Thread-Index: AQHRKHkSL3HBOfsh40e3MMwS/ycG2A==
+Date: Thu, 26 Nov 2015 18:34:24 +0000
+Message-ID: <1448562857.29924.16.camel@intel.com>
+References: <cover.1447797811.git.alejandro.joya.cruz@intel.com>
+In-Reply-To: <cover.1447797811.git.alejandro.joya.cruz@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.219.128.81]
 MIME-Version: 1.0
-X-Received: by 10.112.198.69 with SMTP id ja5mr1809403lbc.121.1448561703763;
-	Thu, 26 Nov 2015 10:15:03 -0800 (PST)
-Received: by 10.114.122.72 with HTTP; Thu, 26 Nov 2015 10:15:03 -0800 (PST)
-In-Reply-To: <CAD3vsf4AyaCVhvu27U8N666EjYwFg7XPWQ7NGjAg_xwbH6dRQQ@mail.gmail.com>
-References: <1448536554-18349-1-git-send-email-jkrishnanjanappa@mvista.com>
-	<CAJTo0LZu9O-V3Nq2JLT-uCmW13hja2pMSof_w=bSrJfQL9qipA@mail.gmail.com>
-	<CAD3vsf4AyaCVhvu27U8N666EjYwFg7XPWQ7NGjAg_xwbH6dRQQ@mail.gmail.com>
-Date: Thu, 26 Nov 2015 23:45:03 +0530
-Message-ID: <CAD3vsf6RJs5ZgsgqvRU1qWvf1Zk3F8hgY5PYq2dMimQzEr_eqw@mail.gmail.com>
-From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [jethro][PATCH v2] license.bbclass: fix host contamination warnings for license files
+Subject: Re: [PATCH 0/4] Replace busybox for variable.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,50 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 18:15:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 26 Nov 2015 18:34:27 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E6B7522B08C1AA4D810B3008A92A0689@intel.com>
+Content-Transfer-Encoding: base64
 
->> WARNING: Could not copy license file
->> /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/gmp-6.0.0/COPYING.LESSERv3
->> to
->> /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/license-destdir/gmp/COPYING.LESSERv3:
->> [Errno 1] Operation not permitted:
->> '/data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/license-destdir/gmp/COPYING.LESSERv3'
-
-The above warning comes up during do_populate_lic task, and this task
-is not being executed in pseudo environment. So changing ownership of
-license files to root user (explicitly via "0") fails, as normal user
-doesn't have permissions to do so.
-
-In this case, use of os.getuid() and os.getgid() behaves correctly, by
-giving normal user id and solving this warning. So this is one
-advantage of using os.getuid() and os.getgid() over explicit "0".
-
-Regards,
-Jagadeesh
-
-On 11/26/15, Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com> wrote:
->>> We get below host contamination warnings of license files for
->>> each recipe, when we try to create a separate ${PN}-lic package (which
->>> contains license files), by setting LICENSE_CREATE_PACKAGE equal to "1"
->>> in local.conf.
->>>
->>
->> WARNING: Could not copy license file
->> /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/gmp-6.0.0/COPYING.LESSERv3
->> to
->> /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/license-destdir/gmp/COPYING.LESSERv3:
->> [Errno 1] Operation not permitted:
->> '/data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/license-destdir/gmp/COPYING.LESSERv3'
->>
->
-> My earlier testing was done till do_package_qa  task, so could not
-> capture this warning. Will check and get back.
->
-> Thanks,
-> Jagadeesh
->
->> Ross
->>
->
+QW55IGZlZWRiYWNrIGFib3V0IHRoaXM/DQoNCk9uIG1hciwgMjAxNS0xMS0xNyBhdCAxNjoxMyAt
+MDYwMCwgQWxlamFuZHJvIEpveWEgd3JvdGU6DQo+IFRoZXNlIHJlY2lwZXMgaGF2ZSBhIGhhcmRj
+b2RlZCBkZXBlbmRlbmN5IHRvIGJ1c3lib3gsDQo+IGluIG9yZGVyIHRvIGJlIGFibGUgdG8gaGF2
+ZSBhIGZsZXhpYmxlIHNlbGVjdGlvbiwNCj4gaW5zdGVhZCBvZiB0aGUgaGFyZGNvZGVkIGRlcGVu
+ZGVuY3ksIG5vdyBpdCBpcyBwb2ludCB0byAgdmlydHVhbCByZWZlcmVuY2UNCj4gYmFzZS11dGls
+cy4NCj4gDQo+IFRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgNmY5OGMzOTQxOGM2
+MGI3YzBiMjViMzA5ODNkMmU1MjU3MTU4YTZhNDoNCj4gDQo+ICAgZ2NjOiBEcm9wIDQuOCAoMjAx
+NS0xMS0xNiAxNDo1OTowNyArMDAwMCkNCj4gDQo+IGFyZSBhdmFpbGFibGUgaW4gdGhlIGdpdCBy
+ZXBvc2l0b3J5IGF0Og0KPiANCj4gICBnaXQ6Ly9naXRodWIuY29tL0Fqb3lhY3Ivb3BlbmVtYmVk
+ZGVkLWNvcmUgYmFzZS11dGlscw0KPiAgIGh0dHBzOi8vZ2l0aHViLmNvbS9Bam95YWNyL29wZW5l
+bWJlZGRlZC1jb3JlL3RyZWUvYmFzZS11dGlscw0KPiANCj4gQWxlamFuZHJvIEpveWEgKDQpOg0K
+PiAgIGJhc2UtdXRpbHM6ZmxleGlibGUgZGVwZW5kZW5jeSBmb3IgY29tbWFuZCB1dGlsaXRpZXMN
+Cj4gICBjb3JlLWltYWdlLW1pbmltYWwtaW5pdHJhbWZzOiByZXBsYWNlIGJhc2UtdXRpbHMNCj4g
+ICBpbml0cmFtZnMtZnJhbWV3b3JrXzEuMDpyZXBsYWNlIGJ1c3lib3ggZm9yIHZhcmlhYmxlLg0K
+PiAgIHBhY2thZ2Vncm91cC1jb3JlLWJvb3Q6cmVwbGFjZSBidXN5Ym94IHRvIHZhcmlhYmxlDQo+
+IA0KPiAgbWV0YS9jb25mL2Rpc3Ryby9pbmNsdWRlL2RlZmF1bHQtcHJvdmlkZXJzLmluYyAgICAg
+ICAgICAgICB8IDMgKysrDQo+ICBtZXRhL3JlY2lwZXMtY29yZS9pbWFnZXMvY29yZS1pbWFnZS1t
+aW5pbWFsLWluaXRyYW1mcy5iYiAgIHwgMiArLQ0KPiAgbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHJk
+c2NyaXB0cy9pbml0cmFtZnMtZnJhbWV3b3JrXzEuMC5iYiB8IDIgKy0NCj4gIG1ldGEvcmVjaXBl
+cy1jb3JlL3BhY2thZ2Vncm91cHMvcGFja2FnZWdyb3VwLWNvcmUtYm9vdC5iYiAgfCA0ICsrLS0N
+Cj4gIDQgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPiAN
+Cj4gLS0gDQo+IDIuMS4wDQo+IA0KDQo=
 
