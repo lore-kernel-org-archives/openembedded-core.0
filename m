@@ -1,46 +1,54 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 294116012A
+Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 422466012A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 11:16:00 +0000 (UTC)
-Received: by padhx2 with SMTP id hx2so84425440pad.1
+	Thu, 26 Nov 2015 11:19:32 +0000 (UTC)
+Received: by lffu14 with SMTP id u14so94185162lff.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 03:16:00 -0800 (PST)
+	Thu, 26 Nov 2015 03:19:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=XmTnd3DHIYTPZnM4/uI2MPeqWX6Tk23wBDwtnHjgCD4=;
-	b=sMZV1KA178pfKOGkmzwBmDMV1ZpnXhM9wqyUDUmoZf+yvdxnN8o5XoRHbNAMajpRps
-	V1vSImVAVcGqrWLcBtasR+QoqC5aXEWXWtrzu13iF7cGq8pXaOTyhIOpmJO6e0v8BV2A
-	fJNVLSpekg0dMN7up7LYN2djdXBp8/xvJjZmlfrrAlI1KOCxuasvMwDnaaaOnLaI7Ghy
-	KPzHT9BJgIiEGS/UpkMqHoq7iXW0MwqLorVu2q+9UuNwPbrYwKUrdRuBOAKhQ82LAkFh
-	w9a4c/aeg1baQ7UHDpoqpooUnGDsHRNH06jHVjsC7ZvfPPjMwwluGTsO+QVSyJrpvQEN
-	CpRQ==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=yhUjay1obKJ3dKTCFsx5LQl9jx3TKyDG+FpcCSUT1uU=;
+	b=n37ZvFKUGYdBi0AvzKC7OGzjCh9J9HE3TeJfLCCCcDr12GZxmQrD0JhU52maMCjiHH
+	jmDRoCs+GN1hiLujADnfaPGQotz3Ca5PYBSh1zdVKnRL06j7YyezPb1TMPXOkki1BNGB
+	DsPUk1UA3idmHj1q0YwYm4Gf7xtuioxwc2EguL8Rmt0xVFYwDHbOTo5MOGo0Ow3Ani8l
+	mWD6ZtmA/3yVBvFZGZj0EZuDyYdHgPZPPKQlp0I8h4YruX43ImV17cGCp9+UI9lTETtC
+	jIBYgSKTRomB/hirQUi9Z0gC0h0VhdBfaN1bm4WZgPY+BW/07gKELhoORysx9QCi53S7
+	v/iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=XmTnd3DHIYTPZnM4/uI2MPeqWX6Tk23wBDwtnHjgCD4=;
-	b=cZ6/Sbvkpc9xwDgKRHBT7jdPVRN0m09klcwJirqp7RRy2O8xbO+5Hy/3HiAjQ3XX61
-	4fS/5GW1oeVxgtrZaIwtjWTkwEdmTsW9pPjFAks21al5Icn3e1YXdBEFF6TI2VPs0cy3
-	eKzdMAo6DDd9YAdpzwrjr5vIi9dRh+qCeEnzr5Fqn3K9WmYP0vdvhsx7DT1VJLVIkAEz
-	XsYBMsAMa+RA6aqAVdN/BO4Xi4Dl4XvuQxZ5lA9EdLZKfXKqG3LwhsYQ3wYyAH9QdGj8
-	SdG4HbQSu6JrbDq8dbyO96zBzxAp9Nctlk1R80wEem7jL5lKSBo3Q4IoJUuXiXwqWT0e
-	9F3w==
-X-Gm-Message-State: ALoCoQmEEzpWUZR/n3nuGkkCfh8Ff68/wEBcYaRIxS0WAOTCypf4u49Z7iLenemcKBH/8hsy3Lu0
-X-Received: by 10.98.0.138 with SMTP id 132mr38965130pfa.131.1448536560810;
-	Thu, 26 Nov 2015 03:16:00 -0800 (PST)
-Received: from ubuntu64.mvista.com ([111.93.218.67])
-	by smtp.gmail.com with ESMTPSA id
-	71sm26886886pfj.28.2015.11.26.03.15.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 26 Nov 2015 03:15:59 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=yhUjay1obKJ3dKTCFsx5LQl9jx3TKyDG+FpcCSUT1uU=;
+	b=Kt3Wj5jrjO3AMmChvKo5rAEdt52MTqy10vMWBok9XWmiyT2+n5mkBh1w+H80nCGvHR
+	tbZsjNkuvJHHH1KpYr6PMnOL9xMgJhvsNg+L1pJctT/spPCNyfR3gYJxuWJYctYq5ckV
+	S7WmqQkxiT4z19JjhLd7GiTOCLiyguyX+4hRLD/lW94OxS7aBFVB5vA+b0sQ0p1yFFiL
+	FVyD95cT9xix89uz+3dBwc9yRjfrnfRqSunen22u675mGWw6Q0SJFhG8kw8eU5+fCUeQ
+	8cSgCaxTBH73UZ2te8PVvelvpAMrpRtyDalN9YGkL5lh74kvckZ2nwVeiDmLrywb/uGd
+	aizQ==
+X-Gm-Message-State: ALoCoQnKP4SvwMrv6Ypg/TUbeahky3dC4AUA7rv+RMnhrGDmPjAa+F+DG9hkVWRLJ3W2rDdxclov
+MIME-Version: 1.0
+X-Received: by 10.112.54.193 with SMTP id l1mr7138770lbp.58.1448536772149;
+	Thu, 26 Nov 2015 03:19:32 -0800 (PST)
+Received: by 10.114.122.72 with HTTP; Thu, 26 Nov 2015 03:19:32 -0800 (PST)
+In-Reply-To: <CAJTo0LatUtWdcbcJ0Bi0U5XBFGBgTsY-GYDDJaP36NST1Oshyw@mail.gmail.com>
+References: <1448434479-29558-1-git-send-email-jkrishnanjanappa@mvista.com>
+	<56557491.4010809@windriver.com> <20151125103453.GM17303@jama>
+	<CAD3vsf5rOZXj6oxQ4eaEdCW9bMcFJ-He4VyZy4dJ6KScW1S7dQ@mail.gmail.com>
+	<20151125124151.GO17303@jama>
+	<CAD3vsf7T2rOeO5n+XdwzFrT_pEecHPQMOPGxH6CJEMD5FvLn2A@mail.gmail.com>
+	<CAJTo0LY5XsdV0ZuR-sK=rFM3GXJf4bRC59tnPno_a8LQJ-srrg@mail.gmail.com>
+	<CAD3vsf6bb9kFYaaLoDFpxv9ucGLhU3DwXxTSeei2AwHVtm=r_A@mail.gmail.com>
+	<CAJTo0LatUtWdcbcJ0Bi0U5XBFGBgTsY-GYDDJaP36NST1Oshyw@mail.gmail.com>
+Date: Thu, 26 Nov 2015 16:49:32 +0530
+Message-ID: <CAD3vsf5uoym6oimFd9P8hbaDmENm_WFsGPYH8+=zXX-KWYDUXw@mail.gmail.com>
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Nov 2015 16:45:54 +0530
-Message-Id: <1448536554-18349-1-git-send-email-jkrishnanjanappa@mvista.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [jethro][PATCH v2] license.bbclass: fix host contamination warnings for license files
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [jethro][PATCH] license.bbclass: fix host contamination warnings for license files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,49 +61,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 11:16:03 -0000
+X-List-Received-Date: Thu, 26 Nov 2015 11:19:32 -0000
+Content-Type: multipart/alternative; boundary=001a11c3a914bfa47405256fbfdb
 
-We get below host contamination warnings of license files for
-each recipe, when we try to create a separate ${PN}-lic package (which
-contains license files), by setting LICENSE_CREATE_PACKAGE equal to "1"
-in local.conf.
+--001a11c3a914bfa47405256fbfdb
+Content-Type: text/plain; charset=UTF-8
 
--- snip --
-WARNING: QA Issue: libcgroup: /libcgroup-lic/usr/share/licenses/libcgroup/generic_LGPLv2.1 is owned by uid 5001, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
-WARNING: QA Issue: attr: /attr-lic/usr/share/licenses/attr/libattr.c is owned by uid 5001, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
-WARNING: QA Issue: bash: /bash-lic/usr/share/licenses/bash/COPYING is owned by uid 5001, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
--- CUT --
+>
+>
+> The intention of using os.getuid() is to avoid writing hardcoded value
+>>  "0", since os.getuid() return "0" under fakeroot env; if root user is
+>> having UID as 0.That's the advantage I can think of.
+>>
+>
+> root is *always* UID 0, and packaging always runs as root.
+>
+Can you send a tested v2 with explicit 0 instead of assuming that you're
+> running under pseudo?
+>
 
-Since the license files from source and OE-core, are populated in a normal
-shell environment rather in pseudo environment (fakeroot); the ownership of
-these files will be same as host user running bitbake. During the do_package
-task (which runs in pseudo environment (fakeroot)), os.link preserves the
-ownership of these license files as host user instead of root user.
-This causes license files to have UID same as host user id and resulting in
-above warnings during do_package_qa task.
+Patch v2 has been sent.
 
-Changing ownership of license files to root user (which has UID and GID as 0)
-under fakeroot environment will solve above warnings, and on exiting fakeroot
-environment the license files will continue to be owned by host user.
+Regards,
+Jagadeesh
 
-Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
----
- meta/classes/license.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+> Ross
+>
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index c616a20..6aa654c 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -185,6 +185,7 @@ def copy_license_files(lic_files_paths, destdir):
-                 os.remove(dst)
-             if os.access(src, os.W_OK) and (os.stat(src).st_dev == os.stat(destdir).st_dev):
-                 os.link(src, dst)
-+                os.chown(dst,0,0)
-             else:
-                 shutil.copyfile(src, dst)
-         except Exception as e:
--- 
-1.9.1
+--001a11c3a914bfa47405256fbfdb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
+cc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><spa=
+n class=3D""><div class=3D"gmail_quote"><br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<div>The intention of using os.getuid() is to avoid writing hardcoded value=
+ =C2=A0&quot;0&quot;, since os.getuid() return &quot;0&quot; under fakeroot=
+ env; if root user is having UID as 0.That&#39;s the advantage I can think =
+of.</div><div></div></blockquote></div><br></span>root is *always* UID 0, a=
+nd packaging always runs as root. =C2=A0</div></div></blockquote><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"> Can you s=
+end a tested v2 with explicit 0 instead of assuming that you&#39;re running=
+ under pseudo?</div></div></blockquote><div>=C2=A0</div><div>Patch v2 has b=
+een sent.</div><div><br></div><div>Regards,</div><div>Jagadeesh</div><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex"><div dir=3D"ltr"><span class=3D"HOEnZb"><font colo=
+r=3D"#888888"><div class=3D"gmail_extra"></div><div class=3D"gmail_extra">R=
+oss</div></font></span></div>
+</blockquote></div><br></div></div>
 
+--001a11c3a914bfa47405256fbfdb--
