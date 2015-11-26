@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FB146FEF5
+	by mail.openembedded.org (Postfix) with ESMTP id E3D7B6FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 14:29:21 +0000 (UTC)
+	Thu, 26 Nov 2015 14:29:22 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Nov 2015 06:29:22 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 26 Nov 2015 06:29:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,347,1444719600"; d="scan'208";a="829574821"
+X-IronPort-AV: E=Sophos;i="5.20,347,1444719600"; d="scan'208";a="829574844"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 26 Nov 2015 06:29:21 -0800
+	by orsmga001.jf.intel.com with ESMTP; 26 Nov 2015 06:29:23 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Nov 2015 16:26:26 +0200
-Message-Id: <0fa8dd0091899375ab52927005703a07fa685bc3.1448547850.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 26 Nov 2015 16:26:28 +0200
+Message-Id: <d06f5184977a767ce104e1ac71dba40a4ea5acc5.1448547850.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
 In-Reply-To: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
 References: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
 References: <cover.1448547850.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 23/29] webkitgtk: enable gobject introspection
+Subject: [PATCH 25/29] default-distrovars.inc: add 'gobject-introspection-data' to DISTRO_FEATURES_DEFAULT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,124 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 14:29:22 -0000
+X-List-Received-Date: Thu, 26 Nov 2015 14:29:23 -0000
+
+This means that introspection data will be generated using qemu by default.
+
+If this causes trouble (qemu does not always emulate target architectures
+perfectly), then add
+DISTRO_FEATURES_remove = " gobject-introspection-data"
+to distro/machine configuration.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...Introspection.cmake-prefix-variables-obta.patch | 27 +++++++++++++++
- ...ng-introspection-files-add-CMAKE_C_FLAGS-.patch | 40 ++++++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.8.5.bb        |  6 ++--
- 3 files changed, 71 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
- create mode 100644 meta/recipes-sato/webkit/files/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
+ meta/conf/distro/include/default-distrovars.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch b/meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
-new file mode 100644
-index 0000000..fae3b0b
---- /dev/null
-+++ b/meta/recipes-sato/webkit/files/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
-@@ -0,0 +1,27 @@
-+From 317a5ac120c44987219bc03486cd2f2d1842c9b9 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 27 Oct 2015 16:02:19 +0200
-+Subject: [PATCH] FindGObjectIntrospection.cmake: prefix variables obtained
-+ from pkg-config with PKG_CONFIG_SYSROOT_DIR
-+
-+Upstream-Status: Pending [review on oe-core list]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ Source/cmake/FindGObjectIntrospection.cmake | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/Source/cmake/FindGObjectIntrospection.cmake b/Source/cmake/FindGObjectIntrospection.cmake
-+index e1f49b4..03a4446 100644
-+--- a/Source/cmake/FindGObjectIntrospection.cmake
-++++ b/Source/cmake/FindGObjectIntrospection.cmake
-+@@ -26,6 +26,7 @@ macro(_GIR_GET_PKGCONFIG_VAR _outvar _varname _extra_args)
-+     else ()
-+         string(REGEX REPLACE "[\r\n]" " " _result "${_result}")
-+         string(REGEX REPLACE " +$" ""  _result "${_result}")
-++        string(CONCAT _result $ENV{PKG_CONFIG_SYSROOT_DIR} "${_result}")
-+         separate_arguments(_result)
-+         set(${_outvar} ${_result} CACHE INTERNAL "")
-+     endif ()
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-sato/webkit/files/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch b/meta/recipes-sato/webkit/files/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
-new file mode 100644
-index 0000000..c4584c6
---- /dev/null
-+++ b/meta/recipes-sato/webkit/files/0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch
-@@ -0,0 +1,40 @@
-+From f42434706e2686b28ac7c2d0362665c51d26faad Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 28 Oct 2015 14:18:57 +0200
-+Subject: [PATCH] When building introspection files, add CMAKE_C_FLAGS to the
-+ compiler flags.
-+
-+g-ir-compiler is using a C compiler internally, so it needs to set
-+the proper flags for it.
-+
-+Upstream-Status: Pending [review on oe-core list] 
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ Source/WebKit2/PlatformGTK.cmake | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/Source/WebKit2/PlatformGTK.cmake b/Source/WebKit2/PlatformGTK.cmake
-+index 058c241..37d7412 100644
-+--- a/Source/WebKit2/PlatformGTK.cmake
-++++ b/Source/WebKit2/PlatformGTK.cmake
-+@@ -823,7 +823,7 @@ add_custom_command(
-+     OUTPUT ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
-+     DEPENDS WebKit2
-+     DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
-+-    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations LDFLAGS=
-++    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
-+         LD_LIBRARY_PATH="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
-+         ${INTROSPECTION_SCANNER}
-+         --quiet
-+@@ -863,7 +863,7 @@ add_custom_command(
-+     OUTPUT ${CMAKE_BINARY_DIR}/WebKit2WebExtension-${WEBKITGTK_API_VERSION}.gir
-+     DEPENDS ${CMAKE_BINARY_DIR}/JavaScriptCore-${WEBKITGTK_API_VERSION}.gir
-+     DEPENDS ${CMAKE_BINARY_DIR}/WebKit2-${WEBKITGTK_API_VERSION}.gir
-+-    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations LDFLAGS=
-++    COMMAND CC=${CMAKE_C_COMPILER} CFLAGS=-Wno-deprecated-declarations\ ${CMAKE_C_FLAGS} LDFLAGS=
-+         LD_LIBRARY_PATH="${INTROSPECTION_ADDITIONAL_LIBRARY_PATH}"
-+         ${INTROSPECTION_SCANNER}
-+         --quiet
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
-index 68634a9..2f8c277 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
-@@ -15,11 +15,13 @@ SRC_URI = "\
-   file://0001-This-patch-fixes-a-command-line-that-is-too-long-ove.patch \
-   file://0002-GTK-Build-failure-with-ACCELERATED_2D_CANVAS-when-ca.patch \
-   file://gcc5.patch \
-+  file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch \
-+  file://0001-When-building-introspection-files-add-CMAKE_C_FLAGS-.patch \
-   "
- SRC_URI[md5sum] = "df79991848a5096d3a75289ebce547ae"
- SRC_URI[sha256sum] = "3d1f0c534935f43fd74df90f2648fcee672d60f1f57a30fa557a77891ae04d20"
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 8866f0d..a8e5145 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -8,7 +8,8 @@ IMAGE_LINGUAS ?= "en-us en-gb"
+ ENABLE_BINARY_LOCALE_GENERATION ?= "1"
+ LOCALE_UTF8_ONLY ?= "0"
  
--inherit cmake lib_package pkgconfig perlnative pythonnative distro_features_check
-+inherit cmake lib_package pkgconfig perlnative pythonnative distro_features_check gobject-introspection
- 
- # depends on libxt
- REQUIRED_DISTRO_FEATURES = "x11"
-@@ -46,7 +48,7 @@ PACKAGECONFIG[libsecret] = "-DENABLE_CREDENTIAL_STORAGE=ON,-DENABLE_CREDENTIAL_S
- EXTRA_OECMAKE = " \
- 		-DPORT=GTK \
- 		-DCMAKE_BUILD_TYPE=Release \
--		-DENABLE_INTROSPECTION=OFF \
-+		${@bb.utils.contains('DISTRO_FEATURES', 'gobject-introspection-data', '-DENABLE_INTROSPECTION=ON', '-DENABLE_INTROSPECTION=OFF', d)} \
- 		-DENABLE_GTKDOC=OFF \
- 		-DENABLE_MINIBROWSER=ON \
- 		"
+-DISTRO_FEATURES_DEFAULT ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
++DISTRO_FEATURES_DEFAULT ?= "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 \
++                            gobject-introspection-data"
+ DISTRO_FEATURES_LIBC_DEFAULT ?= "ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt \
+ 					libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse \
+ 					libc-getlogin libc-idn libc-inet-anl libc-libm libc-locales libc-locale-code \
 -- 
 2.6.2
 
