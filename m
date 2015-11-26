@@ -1,38 +1,22 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AAEB60723
+Return-Path: <mei.yeen.ng@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 858076057B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 01:31:54 +0000 (UTC)
-Received: by wmww144 with SMTP id w144so3740532wmw.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Nov 2015 17:31:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=vmIB8c7o7SFDeI4b63VHnYqmSoosxXzy84iEtfIlmeY=;
-	b=R9aTjpdeNPddglXN1TbhDwDFPt0N2JjBcbPEU6lMvvrG98QNj/43f3E6/GYgNSPFeF
-	0ikAn3d2gxZqaYfvnGsxcBH4IDJ3QCxkfdzpotuvPlnnNi5y0Zptx1nJX3mRWxIhEDXm
-	68mynZAaOl0bXbJfom0OX01YGbrK9/rXF0vGty6NDaKv5BuMJ/GcdwUbuN+jyCDqTalm
-	04k0U4JXK9k8o1mWob/tuEOqsPmKg0JoDuZlQP5Tr+LVxbEfnGwI+5nj/iSNuz2TyuIW
-	g8Cdo/6U2I19bWQH6iSYLgVxzh6KPIEPdMp5KbtZsJTiZb2x2aWDi79592aAThQz+kqx
-	xLew==
-MIME-Version: 1.0
-X-Received: by 10.28.177.10 with SMTP id a10mr651188wmf.4.1448501514923; Wed,
-	25 Nov 2015 17:31:54 -0800 (PST)
-Received: by 10.194.140.38 with HTTP; Wed, 25 Nov 2015 17:31:54 -0800 (PST)
-In-Reply-To: <AB05D454-7DF8-45A1-9222-AC42E74CAD2A@gmail.com>
-References: <CAJ86T=VBh-TsnaSyNVSxmbEJz7TbFcDmNBVP4_4PhXB=YMrm5w@mail.gmail.com>
-	<CAMKF1spXxarTUskBgB6ABdL-yn4wSm1cOZSBKdCpyxQzDg_a8g@mail.gmail.com>
-	<CAJ86T=X_r_OU1RfN8nYJAJSYXwqEgvK17Hn87_+AfoGQAn2ocw@mail.gmail.com>
-	<CAJTo0LbLQ51w5+MDkXKyFvDzzz=8UFjDi-s=JyHy2WoFFx2y2Q@mail.gmail.com>
-	<AB05D454-7DF8-45A1-9222-AC42E74CAD2A@gmail.com>
-Date: Wed, 25 Nov 2015 17:31:54 -0800
-Message-ID: <CAJ86T=Ui+0AJ_OJ_w_hJgKk-ofM7KjnEpZ6LUbZ2o3J1c7_VGw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: vmdk images with musl libc
+	Thu, 26 Nov 2015 02:26:46 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 25 Nov 2015 18:26:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,345,1444719600"; 
+   d="scan'208";a="2430471"
+Received: from mng4-ilbpg4.png.intel.com ([10.88.227.35])
+	by fmsmga004.fm.intel.com with ESMTP; 25 Nov 2015 18:26:45 -0800
+From: Mei Yeen Ng <mei.yeen.ng@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Nov 2015 10:25:27 +0800
+Message-Id: <1448504729-25657-1-git-send-email-mei.yeen.ng@intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Mei Yeen Ng <mei.yeen.ng@intel.com>
+Subject: [PATCH 0/2] meta: fix installation issue with install-efi.sh script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,39 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 01:31:55 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 Nov 2015 02:26:46 -0000
 
-On Wed, Nov 25, 2015 at 4:05 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Nov 25, 2015, at 1:56 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 25 November 2015 at 21:40, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> So would it be correct to add exactly those lines to the oe-core mtools
->> recipe?
->
-> Yes.  Pretty much every dependency on glibc-gconv* should be guarded with=
- a
-> libc override of some sort.  There's an open bug to give locale packages
-> virtual names so this isn't a problem anymore, I should do something abou=
-t
-> it!
->
-> I have already posted this as a patch along with my musl patchset for
-> OE-Core ( which I need to send v2 addressing Phil=E2=80=99s feedback on t=
-he series )
-> here is particular patch
-> https://github.com/kraj/openembedded-core/commit/11c054232722c6a96fd54f40=
-f664da4a754fd342
+From: "Ng, Mei Yeen" <mei.yeen.ng@intel.com>
 
-Yes, sorry I missed that!
+Hi maintainers and communities,
 
-It looks like you only updated one of the mtools recipes though. Could
-you update both in v2?
+These two patches fix the below two bugs:
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=8709
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=8710
 
-> Ross
->
->
+When running the install option in Gummiboot and GRUB boot loader results in
+boot failure on target device:
+ 1/ After installing image to SATA using Gummiboot, image fail to boot from SATA
+    due to missing root=PARTUUID= in the boot parameter. Addressed this by
+    assigning the root uuid for non-grub boot loader in install-efi script.
+
+ 2/ Installing image to eMMC via GRUB and Gummiboot boot loader install option
+    due to partition prefix and uuid for boot, root, and swap partition are
+    are not captured for eMMC. Addressed this by referencing the another variable
+    which captures the prefix assignment.
+
+These patches are applied, build and tested on 2 different Intel platforms
+The tests results passed for the following scenarios:
+  GRUB loader + install to SATA = Passed
+  GRUB loader + install to eMMC = Passed
+  Gummiboot loader + install to SATA = Passed
+  Gummiboot loader + install to eMMC = Passed
+
+Ng, Mei Yeen (2):
+  meta: fix install-efi script for gummiboot loader
+  meta: fix install-efi script for emmc installation
+
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+--
+1.9.1
+
 
