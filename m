@@ -1,46 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id CD41C6011F
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BED8B6012A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 09:02:51 +0000 (UTC)
-Received: by iouu10 with SMTP id u10so82003397iou.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Nov 2015 01:02:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=9sUupXIrA7ce9aV5DhMKmAvnEqmZKPSpuzUP5KkA7yA=;
-	b=mknK225Srtx+K5xpG+4dUBalGpqVslIJHZzTtvV6zjG29caslKoh+ECc31Z7G8ZoI6
-	A/ZP+5aaiLuKf1ea1XdR9o2xjx9FtqlN9Tzi7JQfFEnpQq6aUEd85okMuFwZal1dVzh+
-	tFnJn3yyjePfKjKn5Imoe3NJn72zU4tSJwrG4NleFJH4l5cH8WSPYzuzoIfMMCS5uiL0
-	KpfXL8HwYv0syeMbqN1nwQipMGVJDrLKz9g6FwKF8JINJ0Fq8UmPLy+NRCaAecDIVHzt
-	GJMHuhs68VAGCIhNOBhOEfRT4UE0kL3ArH+7LdeHtOZvvxO1sei7lVls3uo8CVazbqnU
-	Nt6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=9sUupXIrA7ce9aV5DhMKmAvnEqmZKPSpuzUP5KkA7yA=;
-	b=W58YaPF5Bj8GAyUSurNVvq9vJcRC5Ng9smfuAk3ghuJv6KHOTJhxJHLxS4lfgA7lTs
-	b4m9lGWxIS0RC6urPirWaulbmQcIOuZyibC0/fSn3/Df27iLGYeBT9auOJy3eiViD3TB
-	Ri82oH96t/xsdrOXYzkc8GE44lLajS3yLFJr1Zbfjnose7mmxEw/EV+exhOwU2fyJ8fs
-	ij1jTLYFVFGEpkXSF0kNaQfaSeU++cPVGOAzIv8Vsv876jY78MuLXkIXjxBWYdTBoLXj
-	DGNAis6m1HrQz7XvHB0bZox9a8UuaTQJ8Qkoylpe5j+JH6ylneXehiWALU/KViLnOFnE
-	TrXw==
-X-Gm-Message-State: ALoCoQl3RYmqi+Gi5z2KkVYEzNGWc31FgbqUT0NZztljuDhpdO4/Es6mlln3Cos0mcAnn8erm4Ab
-X-Received: by 10.107.3.144 with SMTP id e16mr37014672ioi.99.1448528570259;
-	Thu, 26 Nov 2015 01:02:50 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Thu, 26 Nov 2015 01:02:30 -0800 (PST)
-In-Reply-To: <5656A7C8.7080001@windriver.com>
+	Thu, 26 Nov 2015 09:05:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAQ95K13001240
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 26 Nov 2015 01:05:20 -0800 (PST)
+Received: from [128.224.162.175] (128.224.162.175) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Thu, 26 Nov 2015 01:05:19 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <1447249213-28910-1-git-send-email-ross.burton@intel.com>
 	<5656A7C8.7080001@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 26 Nov 2015 09:02:30 +0000
-Message-ID: <CAJTo0LZvvw=LcoHg30qWO4xNnymoNfNTBZPDrSF9qtwxkjD39Q@mail.gmail.com>
-To: Yi Zhao <yi.zhao@windriver.com>
+	<CAJTo0LZvvw=LcoHg30qWO4xNnymoNfNTBZPDrSF9qtwxkjD39Q@mail.gmail.com>
+From: Yi Zhao <yi.zhao@windriver.com>
+Message-ID: <5656CB4B.6060103@windriver.com>
+Date: Thu, 26 Nov 2015 17:05:15 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZvvw=LcoHg30qWO4xNnymoNfNTBZPDrSF9qtwxkjD39Q@mail.gmail.com>
+X-Originating-IP: [128.224.162.175]
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libsdl2: require GLES when building Wayland support
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,40 +37,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Nov 2015 09:02:55 -0000
-Content-Type: multipart/alternative; boundary=001a113ecf40e0de2805256dd64a
+X-List-Received-Date: Thu, 26 Nov 2015 09:05:21 -0000
+Content-Type: multipart/alternative;
+	boundary="------------070107000308040302090706"
 
---001a113ecf40e0de2805256dd64a
-Content-Type: text/plain; charset=UTF-8
+--------------070107000308040302090706
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 26 November 2015 at 06:33, Yi Zhao <yi.zhao@windriver.com> wrote:
 
-> I tested this patch and found it also need to add libxkbcommon as a
-> dependency in PACKAGECONFIG[wayland]. Otherwise the wayland support would
-> skip if libxkbcommon is not built before even if we already enable
-> video-wayland.
+
+在 2015年11月26日 17:02, Burton, Ross 写道:
+>
+> On 26 November 2015 at 06:33, Yi Zhao <yi.zhao@windriver.com 
+> <mailto:yi.zhao@windriver.com>> wrote:
+>
+>     I tested this patch and found it also need to add libxkbcommon as
+>     a dependency in PACKAGECONFIG[wayland]. Otherwise the wayland
+>     support would skip if libxkbcommon is not built before even if we
+>     already enable video-wayland.
+>
+>
+> Thanks for noticing that, can you sed a patch for that?
 >
 
-Thanks for noticing that, can you sed a patch for that?
+OK. I will send later.
 
 Cheers
-Ross
+Yi
 
---001a113ecf40e0de2805256dd64a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> Cheers
+> Ross
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 November 2015 at 06:33, Yi Zhao <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windriver.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":avf" class=3D"a3=
-s" style=3D"overflow:hidden">I tested this patch and found it also need to =
-add libxkbcommon as a dependency in PACKAGECONFIG[wayland]. Otherwise the w=
-ayland support would skip if libxkbcommon is not built before even if we al=
-ready enable video-wayland.<br></div></blockquote></div><br>Thanks for noti=
-cing that, can you sed a patch for that?</div><div class=3D"gmail_extra"><b=
-r></div><div class=3D"gmail_extra">Cheers</div><div class=3D"gmail_extra">R=
-oss</div></div>
 
---001a113ecf40e0de2805256dd64a--
+--------------070107000308040302090706
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <br>
+    <div class="moz-cite-prefix">在 2015年11月26日 17:02, Burton, Ross 写道:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LZvvw=LcoHg30qWO4xNnymoNfNTBZPDrSF9qtwxkjD39Q@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 26 November 2015 at 06:33, Yi Zhao
+            <span dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:yi.zhao@windriver.com" target="_blank">yi.zhao@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":avf" class="a3s" style="overflow:hidden">I
+                tested this patch and found it also need to add
+                libxkbcommon as a dependency in PACKAGECONFIG[wayland].
+                Otherwise the wayland support would skip if libxkbcommon
+                is not built before even if we already enable
+                video-wayland.<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          Thanks for noticing that, can you sed a patch for that?</div>
+        <div class="gmail_extra"><br>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    OK. I will send later.<br>
+    <br>
+    Cheers<br>
+    Yi<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LZvvw=LcoHg30qWO4xNnymoNfNTBZPDrSF9qtwxkjD39Q@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra">Cheers</div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------070107000308040302090706--
