@@ -1,52 +1,61 @@
-Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-lf0-f43.google.com (mail-lf0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E1C76012A
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id EBA8E60722
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 11:20:53 +0000 (UTC)
-Received: by lffu14 with SMTP id u14so126276311lff.1
+	Fri, 27 Nov 2015 11:20:56 +0000 (UTC)
+Received: by pacej9 with SMTP id ej9so112839203pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 03:20:53 -0800 (PST)
+	Fri, 27 Nov 2015 03:20:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
 	:cc:content-type;
-	bh=CuOp1N8nyLFmqHGwLHIKdx/AshUf8nZcMM9t4B933sQ=;
-	b=dufmYdrb0tL4bfk9qoKjPZABvQ7JgVt1jBJXXvXi8UgWtfkxfoUHvcJZaK+omtv0x/
-	o2/lOb1TQnUsMa2tVT3ZuFAfhGNnl6ec7jNCDb9RYqLw3ZEBgc43oofoIvh7ZvXat9wH
-	IbQkxjiQbEGHQ1+X4IBQNdqVmKyQHPiJVbFsM/MTculhvxfh8i+8P9mXN18E0WH117Dg
-	CKuLgGNVDnVDqaId8++KW864ce0fadK2qVfK+4vUbI6vJYijLyf3psqxBLZATjpbpAEt
-	6LYCP7tjxSZfC63tgMLTuVEDWPS57+RbpQ74Jcx/E23i0B8hUqVqNdgA+XBU3evqYPJR
-	nY/A==
+	bh=+aX+Ew+Ip0FZRkKZuOqFvMoUaMEIBh/KGQCvYitNjtc=;
+	b=K9u6a3Pf5aIhegsjQgbQYwSdHbwr+TqqN6JMzQaanxdG7Ut5hsRVG5yLZ9xc5zKD7M
+	6EA4nP3lKvCv7cA3xrL7ihYK5MYJqh/uldo7043VI8cjrgKZDpZEKPm8eaIygdzhXiPV
+	LAl73F6xMTBaS9tMwcatgKjp4mMIxbJfjMXTp66/n/iCQtkKK1rlvu2qr+2MR/p+Ynoz
+	O7qLVov5SvJaNoYkHOXmv3CVDwE1oHgK/81IlqeYEqWzGCx9DBUGvTIXXxunJPYDWUaY
+	2Kb9rXCODKKINDXRBhnsgaoOpQahnubFiaxfj0QjT1I24umNzejKUawnhfQITqZeDf95
+	r2/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=CuOp1N8nyLFmqHGwLHIKdx/AshUf8nZcMM9t4B933sQ=;
-	b=csXSTBK5Sv24Lvqr7PdOwwRSFFWjM7aQLw4hxBAwEqDOs4U+pU9YGDcHB5Gg/w5aS3
-	I2lfCxPf1XJ7JBuxMZ+tkK6PQc3wd9wxefdvDB3JaV1N9kcGyYGGAqeLwel2Pha2C7xB
-	6GfBA7FgvjPOWPVjRWJfBjpAHPOUhuovTFhtVJ1lHax6calcXW5CtJh6fSXQGXa0Yyot
-	fUS5wiuKtIlV85Y5jINA0cu8x4FS50Tlimgq7D0EZBnLZFqV51d/XPzFC4FifmVzv1gI
-	4uZQdmaTowYwsOfP6dZA/PjFbHUe6Bn9NVP+gx20FbXHAhOAHux+VKx8ZpCdQWn6CXs6
-	MYWw==
-X-Gm-Message-State: ALoCoQm2ucnErgeU7GVQu8ygqgtQNlCKxUUqNK912f7SXdSXuyCINw3ghqtMkMQsuHeIBUwVrjPq
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=+aX+Ew+Ip0FZRkKZuOqFvMoUaMEIBh/KGQCvYitNjtc=;
+	b=PKzWTX0fBxDkrz38bGsC2XNfs/YwXNqRxyQJuNYUmmDQCONF+o5hC8xREyCFu9/QqW
+	tvTHKH/WRyuiCdiyWW5as3lCVltQ2gLHYXYAyIQRsaWjEFOd8ov8Ka5z00iqaTtk/B5O
+	RzGDCwGBy2YD6QuEPVJ2SqQDe3MCedpgnP6iZ2Q1j+9Ns+vKDcHRCetltaP4CMUXXE79
+	TfvPI7+E3KOtbIxcA4kaGE/jfR68fSTB5HXr6Wg66DI5MehgWAMXqBF4Bzxq0hrqm84F
+	XVRYSt10Q6BxL/966jxG5Ts+z1E6bN0SM9UgIbCccLVt+m5XpZzdcyRmyl2WdoBUon+j
+	0OJg==
+X-Gm-Message-State: ALoCoQlRimAXDYq6yBhbzz4M69/uSnegVC+CKp+PfXLujvGN8hY0rChU7xXzKUf7QpDIAPFok3KF
+X-Received: by 10.66.153.139 with SMTP id vg11mr67285976pab.118.1448623257280; 
+	Fri, 27 Nov 2015 03:20:57 -0800 (PST)
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com.
+	[209.85.220.51]) by smtp.gmail.com with ESMTPSA id
+	r26sm33456443pfa.45.2015.11.27.03.20.55
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 27 Nov 2015 03:20:56 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by padhx2 with SMTP id hx2so112925287pad.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Nov 2015 03:20:55 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.25.19.100 with SMTP id j97mr19635199lfi.114.1448623253561;
-	Fri, 27 Nov 2015 03:20:53 -0800 (PST)
-Received: by 10.114.122.72 with HTTP; Fri, 27 Nov 2015 03:20:53 -0800 (PST)
-In-Reply-To: <CAD3vsf6QVv9EEHOYZHrvnpixf4X5zaLV3OvrLn-64Ja75vtk3w@mail.gmail.com>
-References: <1448536554-18349-1-git-send-email-jkrishnanjanappa@mvista.com>
-	<CAJTo0LZu9O-V3Nq2JLT-uCmW13hja2pMSof_w=bSrJfQL9qipA@mail.gmail.com>
-	<CAD3vsf4AyaCVhvu27U8N666EjYwFg7XPWQ7NGjAg_xwbH6dRQQ@mail.gmail.com>
-	<CAD3vsf6RJs5ZgsgqvRU1qWvf1Zk3F8hgY5PYq2dMimQzEr_eqw@mail.gmail.com>
-	<CAP9ODKocGGNJ2bUscbF5906SnrusHS8abWuVVQHBLUP6nMgyxw@mail.gmail.com>
-	<CAD3vsf6QVv9EEHOYZHrvnpixf4X5zaLV3OvrLn-64Ja75vtk3w@mail.gmail.com>
-Date: Fri, 27 Nov 2015 16:50:53 +0530
-Message-ID: <CAD3vsf4gmexEBu1JxPY8oiA0Gj3+6aUOzud0uOtHRQh_aYfKFw@mail.gmail.com>
-From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [jethro][PATCH v2] license.bbclass: fix host contamination warnings for license files
+X-Received: by 10.98.68.201 with SMTP id m70mr47385913pfi.101.1448623255463;
+	Fri, 27 Nov 2015 03:20:55 -0800 (PST)
+Received: by 10.66.197.129 with HTTP; Fri, 27 Nov 2015 03:20:55 -0800 (PST)
+In-Reply-To: <1448605638-4581-1-git-send-email-rongqing.li@windriver.com>
+References: <1448605638-4581-1-git-send-email-rongqing.li@windriver.com>
+Date: Fri, 27 Nov 2015 09:20:55 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKrzv+Rocscvh6wLf81d=zXcaGpY4eubhFknNGcTc3CgMQ@mail.gmail.com>
+Message-ID: <CAP9ODKrzv+Rocscvh6wLf81d=zXcaGpY4eubhFknNGcTc3CgMQ@mail.gmail.com>
+To: Rongqing Li <rongqing.li@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] watchdog: enable systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,145 +68,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 11:20:54 -0000
-Content-Type: multipart/alternative; boundary=001a11406508713e03052583e26f
-
---001a11406508713e03052583e26f
+X-List-Received-Date: Fri, 27 Nov 2015 11:20:57 -0000
 Content-Type: text/plain; charset=UTF-8
 
+On Fri, Nov 27, 2015 at 4:27 AM,  <rongqing.li@windriver.com> wrote:
+> From: Roy Li <rongqing.li@windriver.com>
 >
+> 1. inherit systemd, and add two unit files
+> 2. auto load soft dog kernel module
 >
->> >>> WARNING: Could not copy license file
->> >>>
->> /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/gmp-6.0.0/COPYING.LESSERv3
->> >>> to
->> >>>
->> /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/license-destdir/gmp/COPYING.LESSERv3:
->> >>> [Errno 1] Operation not permitted:
->> >>>
->> '/data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/license-destdir/gmp/COPYING.LESSERv3'
->> >
->> > The above warning comes up during do_populate_lic task, and this task
->> > is not being executed in pseudo environment. So changing ownership of
->> > license files to root user (explicitly via "0") fails, as normal user
->> > doesn't have permissions to do so.
->> >
->> > In this case, use of os.getuid() and os.getgid() behaves correctly, by
->> > giving normal user id and solving this warning. So this is one
->> > advantage of using os.getuid() and os.getgid() over explicit "0".
->>
->> The real fix would be put this to run under pseudo, it seems.
->>
->>
-> Running populate_lic under pseudo will solve this warning. I will send v3,
-> if other members are fine with this solution.
->
-> Update:
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
 
-Running do_populate_lic task under pseudo is going solve "[Errno 1]
-Operation not permitted:" warnings for target packages, but native packages
-are going to have this warnings, as native packages
-tasks are not executed under pseudo.
+The ping service conflicts with the main one. Could you highlight why?
 
-Example:
--- snip --
-WARNING: Could not copy license file
-/opt/work_jagadeesh/poky-jethro-14.0.0/build/tmp/work/x86_64-linux/zlib-native/1.2.8-r0/zlib-1.2.8/zlib.h
-to
-/opt/work_jagadeesh/poky-jethro-14.0.0/build/tmp/work/x86_64-linux/zlib-native/1.2.8-r0/license-destdir/zlib-native/zlib.h:
-[Errno 1] Operation not permitted:
-'/opt/work_jagadeesh/poky-jethro-14.0.0/build/tmp/work/x86_64-linux/zlib-native/1.2.8-r0/license-destdir/zlib-native/zlib.h'
-WARNING: Could not copy license file
-/opt/work_jagadeesh/poky-jethro-14.0.0/meta/files/common-licenses/Zlib to
-/opt/work_jagadeesh/poky-jethro-14.0.0/build/tmp/work/x86_64-linux/zlib-native/1.2.8-r0/license-destdir/zlib-native/generic_Zlib:
-[Errno 1] Operation not permitted:
-'/opt/work_jagadeesh/poky-jethro-14.0.0/build/tmp/work/x86_64-linux/zlib-native/1.2.8-r0/license-destdir/zlib-native/generic_Zlib'
--- CUT --
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-Regards,
-Jagadeesh
-
-
->> Otavio Salvador                             O.S. Systems
->> http://www.ossystems.com.br        http://code.ossystems.com.br
->> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->>
->
->
-
---001a11406508713e03052583e26f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
--width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;paddi=
-ng-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmai=
-l_quote"><span class=3D""><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204)=
-;border-left-style:solid;padding-left:1ex"><span><br>
-&gt;&gt;&gt; WARNING: Could not copy license file<br>
-&gt;&gt;&gt; /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/g=
-mp-6.0.0/COPYING.LESSERv3<br>
-&gt;&gt;&gt; to<br>
-&gt;&gt;&gt; /data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0-r0/l=
-icense-destdir/gmp/COPYING.LESSERv3:<br>
-&gt;&gt;&gt; [Errno 1] Operation not permitted:<br>
-&gt;&gt;&gt; &#39;/data/poky-master/tmp/work/corei7-64-poky-linux/gmp/6.0.0=
--r0/license-destdir/gmp/COPYING.LESSERv3&#39;<br>
-&gt;<br>
-&gt; The above warning comes up during do_populate_lic task, and this task<=
-br>
-&gt; is not being executed in pseudo environment. So changing ownership of<=
-br>
-&gt; license files to root user (explicitly via &quot;0&quot;) fails, as no=
-rmal user<br>
-&gt; doesn&#39;t have permissions to do so.<br>
-&gt;<br>
-&gt; In this case, use of os.getuid() and os.getgid() behaves correctly, by=
-<br>
-&gt; giving normal user id and solving this warning. So this is one<br>
-&gt; advantage of using os.getuid() and os.getgid() over explicit &quot;0&q=
-uot;.<br>
-<br>
-</span>The real fix would be put this to run under pseudo, it seems.<br>
-<span><font color=3D"#888888"><br></font></span></blockquote><div><br></div=
-></span><div>Running populate_lic under pseudo will solve this warning. I w=
-ill send v3, if other members are fine with this solution.</div><div><br></=
-div></div></div></div></blockquote><div>Update:</div><div><br></div><div>Ru=
-nning do_populate_lic task under pseudo is going solve &quot;[Errno 1] Oper=
-ation not permitted:&quot; warnings for target packages, but native package=
-s are going to have this warnings, as native packages=C2=A0</div><div>tasks=
- are not executed under pseudo.</div><div><br></div><div>Example:</div><div=
->-- snip --</div><div>WARNING: Could not copy license file /opt/work_jagade=
-esh/poky-jethro-14.0.0/build/tmp/work/x86_64-linux/zlib-native/1.2.8-r0/zli=
-b-1.2.8/zlib.h to /opt/work_jagadeesh/poky-jethro-14.0.0/build/tmp/work/x86=
-_64-linux/zlib-native/1.2.8-r0/license-destdir/zlib-native/zlib.h: [Errno 1=
-] Operation not permitted: &#39;/opt/work_jagadeesh/poky-jethro-14.0.0/buil=
-d/tmp/work/x86_64-linux/zlib-native/1.2.8-r0/license-destdir/zlib-native/zl=
-ib.h&#39;</div><div>WARNING: Could not copy license file /opt/work_jagadees=
-h/poky-jethro-14.0.0/meta/files/common-licenses/Zlib to /opt/work_jagadeesh=
-/poky-jethro-14.0.0/build/tmp/work/x86_64-linux/zlib-native/1.2.8-r0/licens=
-e-destdir/zlib-native/generic_Zlib: [Errno 1] Operation not permitted: &#39=
-;/opt/work_jagadeesh/poky-jethro-14.0.0/build/tmp/work/x86_64-linux/zlib-na=
-tive/1.2.8-r0/license-destdir/zlib-native/generic_Zlib&#39;</div><div>-- CU=
-T --</div><div><br></div><div>Regards,</div><div>Jagadeesh</div><div><br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:sol=
-id;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><div class=
-=3D"gmail_quote"><div></div><span class=3D""><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-col=
-or:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><span><font c=
-olor=3D"#888888"><br>
-Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
-">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
-p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
-.ossystems.com.br</a><br>
-Mobile: +55 (53) 9981-7854=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile:=
- +1 (347) 903-9750<br>
-</font></span></blockquote></span></div><br></div></div>
-</blockquote></div><br></div></div>
-
---001a11406508713e03052583e26f--
