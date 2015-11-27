@@ -1,29 +1,61 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E5CEF601B8
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 30A156012A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 11:03:24 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Nov 2015 03:03:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,351,1444719600"; d="scan'208";a="860822920"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Nov 2015 03:03:20 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 59D476A4083
+	Fri, 27 Nov 2015 11:13:23 +0000 (UTC)
+Received: by pacej9 with SMTP id ej9so112668293pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 03:02:10 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Nov 2015 13:04:19 +0200
-Message-Id: <1448622259-5907-3-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
+	Fri, 27 Nov 2015 03:13:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-type;
+	bh=bjVHs7MzJ7aqZ2PvbpkDCzK1OWpKL7Bz08qr7bjj/z0=;
+	b=SMyqIdEotZvhJKRSBqbS9s0XRaYjrPidumLP5yyYxMjzadjOIlMyI76BdhirTgHAFX
+	U9ORY3ivEgqqH15sxOZId+srOQxuVEoRmusYPLu8L0Is2iLnVp9pUhElXgXMFDitdVVF
+	8crz6EpMtP6SwNsu9UN4Pt7/DUAKDqnSLWuo3oVgsndzNglOtALTRcqZbinInN1/SSN3
+	sBki5I5CZB5K2kUgl8F9A5L2zkeZfyb3nBNqH477iqydVvd4fSiSEYm4BYC71KzwzFhZ
+	LRN4oa1eUpVIV3FS5Y89mBX4z1yNCpvkgXPcsOKSl5cxH2HHWRmP/G4SoDfbtGipY1pl
+	ofAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=bjVHs7MzJ7aqZ2PvbpkDCzK1OWpKL7Bz08qr7bjj/z0=;
+	b=C1JQ+gcBN1cPK0rtNWvY1ZW/t7MPSX34tq8mI6jspj1CIMSDvKlDhNGcNo+ZaJIdDf
+	LknN/T/ftfH8wHLjMnzZLlyxNXydYaNGvgEU6qOj5DfmKGmLcu3ZFykZmR3A/kaV/4i6
+	CnxMW6SnTAcrjoLgWhmZfqLyfn+xWjX3oyghUX5KP6/zVhOjqVPZN1RQ1jX3uC3pnYLR
+	hl+961mQaqENRqLDGhJwPF3OgN3sOevx2o32mQfsNK1AFGix3bXqtNXPctUWuxs7R1e5
+	diIMwMkO/f3aONIO9ZdLeQ4kmtbUOJ0XRM1evtjrryhZu25z27E8tQfV8mB5sNZ1UNIN
+	ZuMA==
+X-Gm-Message-State: ALoCoQl1MTWxZEeaySmSCUC0lSVS+EORhDFuKurlGYVhAeBoYGfkv+dytDouNFZq/hiwJLyeyi2I
+X-Received: by 10.66.235.231 with SMTP id up7mr67256114pac.87.1448622804062;
+	Fri, 27 Nov 2015 03:13:24 -0800 (PST)
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com.
+	[209.85.220.50]) by smtp.gmail.com with ESMTPSA id
+	tm4sm32279078pab.3.2015.11.27.03.13.22
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 27 Nov 2015 03:13:22 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by pacej9 with SMTP id ej9so112667529pac.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Nov 2015 03:13:22 -0800 (PST)
+MIME-Version: 1.0
+X-Received: by 10.98.68.201 with SMTP id m70mr47331965pfi.101.1448622802153;
+	Fri, 27 Nov 2015 03:13:22 -0800 (PST)
+Received: by 10.66.197.129 with HTTP; Fri, 27 Nov 2015 03:13:22 -0800 (PST)
 In-Reply-To: <1448622259-5907-1-git-send-email-maxin.john@intel.com>
 References: <1448622259-5907-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 2/2] libjpeg-turbo: import the recipe from meta-oe
+Date: Fri, 27 Nov 2015 09:13:22 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKq4R9UT2oL_vMALhCA_ocqCSxJoegCa_WEgy0Xj9xFT5A@mail.gmail.com>
+Message-ID: <CAP9ODKq4R9UT2oL_vMALhCA_ocqCSxJoegCa_WEgy0Xj9xFT5A@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] Use libjpeg-turbo in place of libjpeg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,66 +68,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 11:03:25 -0000
+X-List-Received-Date: Fri, 27 Nov 2015 11:13:24 -0000
+Content-Type: text/plain; charset=UTF-8
 
-libjpeg-turbo has same API/ABI as libjpeg. It is relatively
-faster in JPEG compression/decompression than libjpeg.
+On Fri, Nov 27, 2015 at 9:04 AM, Maxin B. John <maxin.john@intel.com> wrote:
+> This patch set provides libjpeg-turbo as a drop-in replacement for libjpeg.
+>
+> libjpeg-turbo is a fork of the original libjpeg project.Most of the major Linux
+> distros (Fedora, Debian, OpenSUSE) moved from libjpeg to libjpeg-turbo recently.
+> lbjpeg-turbo provides better JPEG compression/decompression(at least 25% faster)
+> while maintaining same API/ABI as libjpeg.
+>
+> Once we reach an agreement on this, based on the decision, we can move the
+> libjpeg package to meta-oe for applications which may depend on API version 9.
 
-[YOCTO #8628]
+I support this change, due:
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb | 40 ++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
- create mode 100644 meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb
+ - agreement with major Linux distros
+ - performance improvement
 
-diff --git a/meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb b/meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb
-new file mode 100644
-index 0000000..e79f800
---- /dev/null
-+++ b/meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb
-@@ -0,0 +1,40 @@
-+DESCRIPTION = "libjpeg-turbo is a derivative of libjpeg that uses SIMD instructions (MMX, SSE2, NEON) to accelerate baseline JPEG compression and decompression"
-+HOMEPAGE = "http://libjpeg-turbo.org/"
-+
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://cdjpeg.h;endline=12;md5=cad955d15145c3fdceec6855e078e953 \
-+                    file://jpeglib.h;endline=14;md5=dfc803dc51ae21178d1376ec73c4454d \
-+                    file://djpeg.c;endline=9;md5=e93a8f2061e8a0ac71c7a485c10489e2 \
-+"
-+
-+DEPENDS = "nasm-native"
-+
-+BASEPV = "${@d.getVar('PV',True).split('+')[1]}"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${BASEPV}.tar.gz"
-+SRC_URI[md5sum] = "b1f6b84859a16b8ebdcda951fa07c3f2"
-+SRC_URI[sha256sum] = "4bf5bad4ce85625bffbbd9912211e06790e00fb982b77724af7211034efafb08"
-+
-+S = "${WORKDIR}/${BPN}-${BASEPV}"
-+
-+# Drop-in replacement for jpeg
-+PROVIDES = "jpeg"
-+RPROVIDES_${PN} += "jpeg"
-+RREPLACES_${PN} += "jpeg"
-+RCONFLICTS_${PN} += "jpeg"
-+
-+inherit autotools pkgconfig
-+
-+EXTRA_OECONF = "--with-jpeg8 "
-+
-+PACKAGES =+ "jpeg-tools libturbojpeg"
-+
-+DESCRIPTION_jpeg-tools = "The jpeg-tools package includes client programs to access libjpeg functionality.  These tools allow for the compression, decompression, transformation and display of JPEG files and benchmarking of the libjpeg library."
-+FILES_jpeg-tools = "${bindir}/*"
-+
-+FILES_libturbojpeg = "${libdir}/libturbojpeg.so"
-+INSANE_SKIP_libturbojpeg = "dev-so"
-+
-+BBCLASSEXTEND = "native"
-+
-+LEAD_SONAME = "libjpeg.so.8"
+I also think moving libjpeg (API version 9) for meta-oe is fine as
+well. I am not aware of any application which requires it, though.
+
 -- 
-2.4.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
