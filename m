@@ -1,20 +1,47 @@
-Return-Path: <wu.zheng@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 327216012A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id A5D416012A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 09:56:53 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Nov 2015 01:56:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,351,1444719600"; d="scan'208";a="860780125"
-Received: from wzhen12-work.bj.intel.com ([10.238.135.58])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Nov 2015 01:56:53 -0800
-From: Wu Zheng <wu.zheng@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Nov 2015 18:03:36 +0800
-Message-Id: <1448618616-30204-1-git-send-email-wu.zheng@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] bluez5:upgrade bluez5 to 5.36
+	Fri, 27 Nov 2015 10:03:36 +0000 (UTC)
+Received: by iouu10 with SMTP id u10so111597140iou.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Nov 2015 02:03:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=RV992ZE4OvZO1GJE3PxCYa7SDHS/wDL1lgPGEKmWnF8=;
+	b=1xZyNLDG6feh0o/4HbhzaKcUmxfDV7/T6EpmO1Lstx7rRTHVS2W8XFdRc1e9Y2YUEU
+	/zD0DRr3Wi39NHvLdg9HET7sufHe7fjPHQmQ5SeRJAGQllfwfWjNiadiZ1x3jX9oObWZ
+	RNuVtS5YgSARP549omLSgz5pdj8Qtc5QDsQqZA2OoCsmwAHd9vsU0x0qO/vumOkKUaV2
+	u+zwHaa56BVbBEe9/MBcuZULcszRm0OWxJ9jn98zF4Apvt049IJE3gZq8aiReGp+XE14
+	FQEWymVjOw+KCdrD1iwIURE4InbP81ntMr8XplOCz2ot9kzD0VbHdxEimbeuKIjZgjtG
+	G0Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=RV992ZE4OvZO1GJE3PxCYa7SDHS/wDL1lgPGEKmWnF8=;
+	b=W+jnBpJApkA/J4O1Zu+76wy5RnNjN6VwBub12OQ4PPPcyANoQMTcm3QfrVjXPiTpiV
+	OZ8BMXxkmcPGXCV+kLb6stQ8MggR8q6sb5Gh7VPD8aitIXqJOnR22hYg3OfPEdyd4XV5
+	0VmAINta7/C8HiIrRCCTKI0xvHD9KAaFlOLzg5SojzyLBwQ8qAjVoyWyxCv0CmV0KQru
+	ZgXohJShXK4tW4xO9Xv11YZxAFtGW6KXBOCvjVPBG6v94TKZIhyIYRl9NzSUNcUT6qcW
+	ld8Ix1idCkmxfu/UJnx9ViKedRoJBoLNsTjUfISiBM2wzvIyYx06iXRoks0bMHcH1fIw
+	P37w==
+X-Gm-Message-State: ALoCoQkkUdgX+UEWYZsVSIWlWm9kSUo4bb9Qn5/Jjctg3EqxmjIiqJez/GWGnR94c6jh3GMOZhHe
+X-Received: by 10.107.3.144 with SMTP id e16mr41843164ioi.99.1448618616805;
+	Fri, 27 Nov 2015 02:03:36 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Fri, 27 Nov 2015 02:03:17 -0800 (PST)
+In-Reply-To: <1448618616-30204-1-git-send-email-wu.zheng@intel.com>
+References: <1448618616-30204-1-git-send-email-wu.zheng@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 27 Nov 2015 10:03:17 +0000
+Message-ID: <CAJTo0LYJCYcDtG1AR3WL-kd8T0=E2nWnhMyucGoZxt-r3JX_0w@mail.gmail.com>
+To: Wu Zheng <wu.zheng@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bluez5:upgrade bluez5 to 5.36
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,139 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 09:56:59 -0000
+X-List-Received-Date: Fri, 27 Nov 2015 10:03:42 -0000
+Content-Type: multipart/alternative; boundary=001a113ecf4011ec04052582ce26
 
-Bluez5-5.36 fixes the most part of bug.
-The target areas of bug are such as PBAP, AVRCP, HoG and GATT.
-It fixes a fairly important bug for the GATT D-Bus interfaces too.
-At the same time, Bluez will cache more information of remote GATT
-databases and thereby avoid unnecessary rediscovery of remote services.
+--001a113ecf4011ec04052582ce26
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Wu Zheng <wu.zheng@intel.com>
----
- meta/recipes-connectivity/bluez5/bluez5_5.33.bb | 52 -------------------------
- meta/recipes-connectivity/bluez5/bluez5_5.36.bb | 52 +++++++++++++++++++++++++
- 2 files changed, 52 insertions(+), 52 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.33.bb
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.36.bb
+On 27 November 2015 at 10:03, Wu Zheng <wu.zheng@intel.com> wrote:
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.33.bb b/meta/recipes-connectivity/bluez5/bluez5_5.33.bb
-deleted file mode 100644
-index 23c7397..0000000
---- a/meta/recipes-connectivity/bluez5/bluez5_5.33.bb
-+++ /dev/null
-@@ -1,52 +0,0 @@
--require bluez5.inc
--SRC_URI[md5sum] = "78782dc33d9a8b6344c4cc1af70c8a98"
--SRC_URI[sha256sum] = "1801807a13506678cbfeb15c6a4b89ecb5739efe1067eb464da6641d731436d3"
--
--# noinst programs in Makefile.tools that are conditional on READLINE
--# support
--NOINST_TOOLS_READLINE ?= " \
--    attrib/gatttool \
--    tools/obex-client-tool \
--    tools/obex-server-tool \
--    tools/bluetooth-player \
--    tools/obexctl \
--"
--
--# noinst programs in Makefile.tools that are conditional on EXPERIMENTAL
--# support
--NOINST_TOOLS_EXPERIMENTAL ?= " \
--    emulator/btvirt \
--    emulator/b1ee \
--    emulator/hfp \
--    tools/3dsp \
--    tools/mgmt-tester \
--    tools/gap-tester \
--    tools/l2cap-tester \
--    tools/sco-tester \
--    tools/smp-tester \
--    tools/hci-tester \
--    tools/rfcomm-tester \
--    tools/bdaddr \
--    tools/avinfo \
--    tools/avtest \
--    tools/scotest \
--    tools/amptest \
--    tools/hwdb \
--    tools/hcieventmask \
--    tools/hcisecfilter \
--    tools/btmgmt \
--    tools/btinfo \
--    tools/btattach \
--    tools/btsnoop \
--    tools/btproxy \
--    tools/btiotest \
--    tools/mcaptest \
--    tools/cltest \
--    tools/oobtest \
--    tools/seq2bseq \
--    tools/ibeacon \
--    tools/btgatt-client \
--    tools/btgatt-server \
--    tools/gatt-service \
--    profiles/iap/iapd \
--"
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.36.bb b/meta/recipes-connectivity/bluez5/bluez5_5.36.bb
-new file mode 100644
-index 0000000..b94ed31
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.36.bb
-@@ -0,0 +1,52 @@
-+require bluez5.inc
-+SRC_URI[md5sum] = "9a0ee479cacc44fac68f6a65b1cd3eba"
-+SRC_URI[sha256sum] = "a343ea1aeb53d3bd139087f3b1c1e1fb70db452d9762cc7a3d23e75962e578f2"
-+
-+# noinst programs in Makefile.tools that are conditional on READLINE
-+# support
-+NOINST_TOOLS_READLINE ?= " \
-+    attrib/gatttool \
-+    tools/obex-client-tool \
-+    tools/obex-server-tool \
-+    tools/bluetooth-player \
-+    tools/obexctl \
-+"
-+
-+# noinst programs in Makefile.tools that are conditional on EXPERIMENTAL
-+# support
-+NOINST_TOOLS_EXPERIMENTAL ?= " \
-+    emulator/btvirt \
-+    emulator/b1ee \
-+    emulator/hfp \
-+    tools/3dsp \
-+    tools/mgmt-tester \
-+    tools/gap-tester \
-+    tools/l2cap-tester \
-+    tools/sco-tester \
-+    tools/smp-tester \
-+    tools/hci-tester \
-+    tools/rfcomm-tester \
-+    tools/bdaddr \
-+    tools/avinfo \
-+    tools/avtest \
-+    tools/scotest \
-+    tools/amptest \
-+    tools/hwdb \
-+    tools/hcieventmask \
-+    tools/hcisecfilter \
-+    tools/btmgmt \
-+    tools/btinfo \
-+    tools/btattach \
-+    tools/btsnoop \
-+    tools/btproxy \
-+    tools/btiotest \
-+    tools/mcaptest \
-+    tools/cltest \
-+    tools/oobtest \
-+    tools/seq2bseq \
-+    tools/ibeacon \
-+    tools/btgatt-client \
-+    tools/btgatt-server \
-+    tools/gatt-service \
-+    profiles/iap/iapd \
-+"
--- 
-2.1.4
+> Bluez5-5.36 fixes the most part of bug.
+> The target areas of bug are such as PBAP, AVRCP, HoG and GATT.
+> It fixes a fairly important bug for the GATT D-Bus interfaces too.
+> At the same time, Bluez will cache more information of remote GATT
+> databases and thereby avoid unnecessary rediscovery of remote services.
+>
 
+Cristian submitted this upgrade a while back, and it segfaults on startup
+quite often:
 
+https://autobuilder.yoctoproject.org/main/builders/nightly-qa-logrotate/builds/538/steps/Running%20Sanity%20Tests/logs/stdio
+
+When it doesn't do that, we can merge it.
+
+Ross
+
+--001a113ecf4011ec04052582ce26
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 November 2015 at 10:03, Wu Zheng <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:wu.zheng@intel.com" target=3D"_blank">wu.zheng@intel.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-st=
+yle:solid;padding-left:1ex"><div id=3D":1vg" class=3D"" style=3D"overflow:h=
+idden">Bluez5-5.36 fixes the most part of bug.<br>
+The target areas of bug are such as PBAP, AVRCP, HoG and GATT.<br>
+It fixes a fairly important bug for the GATT D-Bus interfaces too.<br>
+At the same time, Bluez will cache more information of remote GATT<br>
+databases and thereby avoid unnecessary rediscovery of remote services.</di=
+v></blockquote></div><br>Cristian submitted this upgrade a while back, and =
+it segfaults on startup quite often:</div><div class=3D"gmail_extra"><br></=
+div><div class=3D"gmail_extra"><a href=3D"https://autobuilder.yoctoproject.=
+org/main/builders/nightly-qa-logrotate/builds/538/steps/Running%20Sanity%20=
+Tests/logs/stdio">https://autobuilder.yoctoproject.org/main/builders/nightl=
+y-qa-logrotate/builds/538/steps/Running%20Sanity%20Tests/logs/stdio</a><br>=
+</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">When =
+it doesn&#39;t do that, we can merge it.</div><div class=3D"gmail_extra"><b=
+r></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113ecf4011ec04052582ce26--
