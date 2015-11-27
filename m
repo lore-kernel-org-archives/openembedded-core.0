@@ -1,28 +1,24 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DDB58601A4
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 58220601A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 06:20:46 +0000 (UTC)
+	Fri, 27 Nov 2015 06:38:22 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAR6KjKI013082
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 26 Nov 2015 22:20:45 -0800 (PST)
-Received: from [128.224.162.157] (128.224.162.157) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 26 Nov 2015 22:20:44 -0800
-Message-ID: <5657F63B.6020501@windriver.com>
-Date: Fri, 27 Nov 2015 14:20:43 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAR6cN2v018766
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Nov 2015 22:38:23 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 26 Nov 2015 22:38:22 -0800
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 27 Nov 2015 14:27:18 +0800
+Message-ID: <1448605638-4581-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: akuster808 <akuster808@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1447738630.git.wenzong.fan@windriver.com>
-	<564BD3C0.8000900@gmail.com>
-In-Reply-To: <564BD3C0.8000900@gmail.com>
-Subject: Re: [PATCH 0/2] subversion: fix CVE-2015-3184, CVE-2015-3187
+Subject: [PATCH] watchdog: enable systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,70 +31,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 06:20:47 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Nov 2015 06:38:23 -0000
+Content-Type: text/plain
 
-On 11/18/2015 09:26 AM, akuster808 wrote:
->
-> On 11/16/2015 09:38 PM, wenzong.fan@windriver.com wrote:
->> From: Wenzong Fan <wenzong.fan@windriver.com>
->>
->> The following changes since commit d9aabf9639510fdb3e2ccc21ba5ae4aa9f6e4a57:
->>
->>    gcc: Drop 4.8 (2015-11-16 14:59:18 +0000)
->>
->> are available in the git repository at:
->>
->>    git://git.pokylinux.org/poky-contrib wenzong/svn
->>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/svn
->>
->> Wenzong Fan (2):
->
-> Thanks.
->
->>    subversion: fix CVE-2015-3184
->>    subversion: fix CVE-2015-3187
->
-> These two fixes only affect Apache.
->
-> Apache version < 2.4.16 will need the following fix too.
->
-> CVE-2015-3185 httpd: ap_some_auth_required() does not properly indicate
-> authenticated request in 2.4
+From: Roy Li <rongqing.li@windriver.com>
 
-apache2 has been updated to 2.4.16, it should be fixed now.
+1. inherit systemd, and add two unit files
+2. auto load soft dog kernel module
 
-commit fe0833e87e853024c9162fae17cbaf2fbfc6a53f
-Author: Roy Li <rongqing.li@windriver.com>
-Date:   Fri Aug 7 14:07:49 2015 +0800
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../watchdog/watchdog/watchdog-ping.service            | 12 ++++++++++++
+ .../watchdog/watchdog/watchdog.service                 | 12 ++++++++++++
+ meta/recipes-extended/watchdog/watchdog_5.14.bb        | 18 ++++++++++++++++--
+ 3 files changed, 40 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
+ create mode 100644 meta/recipes-extended/watchdog/watchdog/watchdog.service
 
-     apache: upgrade to 2.4.16
+diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service b/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
+new file mode 100644
+index 0000000..da403c9
+--- /dev/null
++++ b/meta/recipes-extended/watchdog/watchdog/watchdog-ping.service
+@@ -0,0 +1,12 @@
++[Unit]
++Description=watchdog daemon for use with ping test / network dependency
++After=network.target
++Conflicts=watchdog.service
++
++[Service]
++Type=forking
++ExecStart=/usr/sbin/watchdog
++ControlGroup=cpu:/
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/watchdog/watchdog/watchdog.service b/meta/recipes-extended/watchdog/watchdog/watchdog.service
+new file mode 100644
+index 0000000..3c36a08
+--- /dev/null
++++ b/meta/recipes-extended/watchdog/watchdog/watchdog.service
+@@ -0,0 +1,12 @@
++[Unit]
++Description=watchdog daemon
++# man systemd.special
++# auto added After=basic.target
++
++[Service]
++Type=forking
++ExecStart=/usr/sbin/watchdog
++ControlGroup=cpu:/
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/watchdog/watchdog_5.14.bb b/meta/recipes-extended/watchdog/watchdog_5.14.bb
+index 9ec0a8e..743a36a 100644
+--- a/meta/recipes-extended/watchdog/watchdog_5.14.bb
++++ b/meta/recipes-extended/watchdog/watchdog_5.14.bb
+@@ -12,19 +12,33 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
+            file://fixsepbuild.patch \
+ 	   file://fix-ping-failure.patch \
+ 	   file://watchdog-init.patch \
+-	   file://watchdog-conf.patch"
++	   file://watchdog-conf.patch \
++	   file://watchdog-ping.service \
++	   file://watchdog.service \
++"
+ 
+ SRC_URI[md5sum] = "5b2dba0c593942f4acc100bca0d560c4"
+ SRC_URI[sha256sum] = "620b2f49e9879f2e85c73d4c1f422f9101e6b38e824fea2414befd8bb6866ad1"
+ 
+ inherit autotools
+-inherit update-rc.d
++inherit update-rc.d systemd
+ 
+ INITSCRIPT_NAME = "watchdog.sh"
+ INITSCRIPT_PARAMS = "start 15 1 2 3 4 5 . stop 85 0 6 ."
+ 
+ RRECOMMENDS_${PN} = "kernel-module-softdog"
+ 
++SYSTEMD_SERVICE_${PN} = "watchdog.service"
++
+ do_install_append() {
+ 	install -D ${S}/redhat/watchdog.init ${D}/${sysconfdir}/init.d/watchdog.sh
++	install -d ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/watchdog*.service ${D}${systemd_unitdir}/system
++
++	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++		install -d ${D}${sysconfdir}/modules-load.d
++		echo "softdog" > ${D}${sysconfdir}/modules-load.d/softdog.conf
++	fi
+ }
++
++FILES_${PN} += "${systemd_unitdir}/system/*"
+-- 
+1.9.1
 
-     2.4.16 includes fixes for CVE-2015-3185, CVE-2015-0253 and 
-CVE-2015-3183
-     remove a backport patch 0001-SECURITY-CVE-2015-0228-cve.mitre.org.patch
-
-     Signed-off-by: Roy Li <rongqing.li@windriver.com>
-     Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-
-Thanks
-Wenzong
-
->
->
-> This affects fido.
->
-> - armin
->
->
->>
->>   .../subversion-CVE-2015-3184.patch                 | 2094 ++++++++++++++++++++
->>   .../subversion-CVE-2015-3187.patch                 |  346 ++++
->>   .../subversion/subversion_1.8.13.bb                |    2 +
->>   3 files changed, 2442 insertions(+)
->>   create mode 100644 meta/recipes-devtools/subversion/subversion-1.8.13/subversion-CVE-2015-3184.patch
->>   create mode 100644 meta/recipes-devtools/subversion/subversion-1.8.13/subversion-CVE-2015-3187.patch
->>
->
 
