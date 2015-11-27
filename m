@@ -1,45 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id A5D416012A
+Return-Path: <wu.zheng@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 69C626012C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 10:03:36 +0000 (UTC)
-Received: by iouu10 with SMTP id u10so111597140iou.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 02:03:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=RV992ZE4OvZO1GJE3PxCYa7SDHS/wDL1lgPGEKmWnF8=;
-	b=1xZyNLDG6feh0o/4HbhzaKcUmxfDV7/T6EpmO1Lstx7rRTHVS2W8XFdRc1e9Y2YUEU
-	/zD0DRr3Wi39NHvLdg9HET7sufHe7fjPHQmQ5SeRJAGQllfwfWjNiadiZ1x3jX9oObWZ
-	RNuVtS5YgSARP549omLSgz5pdj8Qtc5QDsQqZA2OoCsmwAHd9vsU0x0qO/vumOkKUaV2
-	u+zwHaa56BVbBEe9/MBcuZULcszRm0OWxJ9jn98zF4Apvt049IJE3gZq8aiReGp+XE14
-	FQEWymVjOw+KCdrD1iwIURE4InbP81ntMr8XplOCz2ot9kzD0VbHdxEimbeuKIjZgjtG
-	G0Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=RV992ZE4OvZO1GJE3PxCYa7SDHS/wDL1lgPGEKmWnF8=;
-	b=W+jnBpJApkA/J4O1Zu+76wy5RnNjN6VwBub12OQ4PPPcyANoQMTcm3QfrVjXPiTpiV
-	OZ8BMXxkmcPGXCV+kLb6stQ8MggR8q6sb5Gh7VPD8aitIXqJOnR22hYg3OfPEdyd4XV5
-	0VmAINta7/C8HiIrRCCTKI0xvHD9KAaFlOLzg5SojzyLBwQ8qAjVoyWyxCv0CmV0KQru
-	ZgXohJShXK4tW4xO9Xv11YZxAFtGW6KXBOCvjVPBG6v94TKZIhyIYRl9NzSUNcUT6qcW
-	ld8Ix1idCkmxfu/UJnx9ViKedRoJBoLNsTjUfISiBM2wzvIyYx06iXRoks0bMHcH1fIw
-	P37w==
-X-Gm-Message-State: ALoCoQkkUdgX+UEWYZsVSIWlWm9kSUo4bb9Qn5/Jjctg3EqxmjIiqJez/GWGnR94c6jh3GMOZhHe
-X-Received: by 10.107.3.144 with SMTP id e16mr41843164ioi.99.1448618616805;
-	Fri, 27 Nov 2015 02:03:36 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Fri, 27 Nov 2015 02:03:17 -0800 (PST)
-In-Reply-To: <1448618616-30204-1-git-send-email-wu.zheng@intel.com>
+	Fri, 27 Nov 2015 10:07:08 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Nov 2015 02:07:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,351,1444719600"; d="scan'208,217";a="3010090"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+	by fmsmga004.fm.intel.com with ESMTP; 27 Nov 2015 02:07:10 -0800
+Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
+	FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Fri, 27 Nov 2015 02:07:09 -0800
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.223]) by
+	SHSMSX151.ccr.corp.intel.com ([169.254.3.88]) with mapi id
+	14.03.0248.002; Fri, 27 Nov 2015 18:07:08 +0800
+From: "Zheng, Wu" <wu.zheng@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] bluez5:upgrade bluez5 to 5.36
+Thread-Index: AQHRKPn1rOayt8jMaUmfeSWmhuLyTZ6vHZyAgACHBdA=
+Date: Fri, 27 Nov 2015 10:07:07 +0000
+Message-ID: <2CF57A644018A745B8FE029C7223E16E12EBCD86@SHSMSX104.ccr.corp.intel.com>
 References: <1448618616-30204-1-git-send-email-wu.zheng@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 27 Nov 2015 10:03:17 +0000
-Message-ID: <CAJTo0LYJCYcDtG1AR3WL-kd8T0=E2nWnhMyucGoZxt-r3JX_0w@mail.gmail.com>
-To: Wu Zheng <wu.zheng@intel.com>
+	<CAJTo0LYJCYcDtG1AR3WL-kd8T0=E2nWnhMyucGoZxt-r3JX_0w@mail.gmail.com>
+In-Reply-To: <CAJTo0LYJCYcDtG1AR3WL-kd8T0=E2nWnhMyucGoZxt-r3JX_0w@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] bluez5:upgrade bluez5 to 5.36
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,53 +43,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 10:03:42 -0000
-Content-Type: multipart/alternative; boundary=001a113ecf4011ec04052582ce26
+X-List-Received-Date: Fri, 27 Nov 2015 10:07:09 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_2CF57A644018A745B8FE029C7223E16E12EBCD86SHSMSX104ccrcor_"
 
---001a113ecf4011ec04052582ce26
-Content-Type: text/plain; charset=UTF-8
+--_000_2CF57A644018A745B8FE029C7223E16E12EBCD86SHSMSX104ccrcor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 27 November 2015 at 10:03, Wu Zheng <wu.zheng@intel.com> wrote:
+SGkgQnVydG9uLCBSb3NzDQoNClRoYW5rcy4NCg0KQmVzdCBSZWdhcmRzDQpaaGVuZyBXdQ0KDQpG
+cm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBG
+cmlkYXksIE5vdmVtYmVyIDI3LCAyMDE1IDY6MDMgUE0NClRvOiBaaGVuZywgV3UNCkNjOiBPRS1j
+b3JlDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYmx1ZXo1OnVwZ3JhZGUgYmx1ZXo1
+IHRvIDUuMzYNCg0KDQpPbiAyNyBOb3ZlbWJlciAyMDE1IGF0IDEwOjAzLCBXdSBaaGVuZyA8d3Uu
+emhlbmdAaW50ZWwuY29tPG1haWx0bzp3dS56aGVuZ0BpbnRlbC5jb20+PiB3cm90ZToNCkJsdWV6
+NS01LjM2IGZpeGVzIHRoZSBtb3N0IHBhcnQgb2YgYnVnLg0KVGhlIHRhcmdldCBhcmVhcyBvZiBi
+dWcgYXJlIHN1Y2ggYXMgUEJBUCwgQVZSQ1AsIEhvRyBhbmQgR0FUVC4NCkl0IGZpeGVzIGEgZmFp
+cmx5IGltcG9ydGFudCBidWcgZm9yIHRoZSBHQVRUIEQtQnVzIGludGVyZmFjZXMgdG9vLg0KQXQg
+dGhlIHNhbWUgdGltZSwgQmx1ZXogd2lsbCBjYWNoZSBtb3JlIGluZm9ybWF0aW9uIG9mIHJlbW90
+ZSBHQVRUDQpkYXRhYmFzZXMgYW5kIHRoZXJlYnkgYXZvaWQgdW5uZWNlc3NhcnkgcmVkaXNjb3Zl
+cnkgb2YgcmVtb3RlIHNlcnZpY2VzLg0KDQpDcmlzdGlhbiBzdWJtaXR0ZWQgdGhpcyB1cGdyYWRl
+IGEgd2hpbGUgYmFjaywgYW5kIGl0IHNlZ2ZhdWx0cyBvbiBzdGFydHVwIHF1aXRlIG9mdGVuOg0K
+DQpodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvbWFpbi9idWlsZGVycy9uaWdo
+dGx5LXFhLWxvZ3JvdGF0ZS9idWlsZHMvNTM4L3N0ZXBzL1J1bm5pbmclMjBTYW5pdHklMjBUZXN0
+cy9sb2dzL3N0ZGlvDQoNCldoZW4gaXQgZG9lc24ndCBkbyB0aGF0LCB3ZSBjYW4gbWVyZ2UgaXQu
+DQoNClJvc3MNCg==
 
-> Bluez5-5.36 fixes the most part of bug.
-> The target areas of bug are such as PBAP, AVRCP, HoG and GATT.
-> It fixes a fairly important bug for the GATT D-Bus interfaces too.
-> At the same time, Bluez will cache more information of remote GATT
-> databases and thereby avoid unnecessary rediscovery of remote services.
->
+--_000_2CF57A644018A745B8FE029C7223E16E12EBCD86SHSMSX104ccrcor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Cristian submitted this upgrade a while back, and it segfaults on startup
-quite often:
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
+O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
+MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWui+S9kyI7DQoJ
+cGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0K
+cC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0K
+CW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
+OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0
+eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNp
+dGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsN
+Cgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWls
+U3R5bGUxNw0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToi
+Q2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJ
+e21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
+LXNlcmlmO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCglt
+YXJnaW46NzIuMHB0IDkwLjBwdCA3Mi4wcHQgOTAuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7
+cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4N
+CjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48
+IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0
+PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5
+b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iWkgtQ04iIGxpbms9
+ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVw
+dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3
+RCI+SGkgQnVydG9uLCBSb3NzPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFt
+aWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZu
+YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJF
+Ti1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoYW5rcy48bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQt
+c2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2Nv
+bG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+QmVzdCBS
+ZWdhcmRzPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
+bGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
+bGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5aaGVuZyBXdTxvOnA+PC9vOnA+
+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29tcG9z
+ZSI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5
+OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNw
+OzwvbzpwPjwvc3Bhbj48L2E+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFu
+Zz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
+cmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVTIiBz
+dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNh
+bnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8
+YnI+DQo8Yj5TZW50OjwvYj4gRnJpZGF5LCBOb3ZlbWJlciAyNywgMjAxNSA2OjAzIFBNPGJyPg0K
+PGI+VG86PC9iPiBaaGVuZywgV3U8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJq
+ZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGJsdWV6NTp1cGdyYWRlIGJsdWV6NSB0byA1
+LjM2PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFu
+Zz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9z
+cGFuPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+
+T24gMjcgTm92ZW1iZXIgMjAxNSBhdCAxMDowMywgV3UgWmhlbmcgJmx0OzxhIGhyZWY9Im1haWx0
+bzp3dS56aGVuZ0BpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj53dS56aGVuZ0BpbnRlbC5jb208
+L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0i
+Ym9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAw
+Y20gMGNtIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPGRpdiBp
+ZD0iOjF2ZyI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+Qmx1ZXo1
+LTUuMzYgZml4ZXMgdGhlIG1vc3QgcGFydCBvZiBidWcuPGJyPg0KVGhlIHRhcmdldCBhcmVhcyBv
+ZiBidWcgYXJlIHN1Y2ggYXMgUEJBUCwgQVZSQ1AsIEhvRyBhbmQgR0FUVC48YnI+DQpJdCBmaXhl
+cyBhIGZhaXJseSBpbXBvcnRhbnQgYnVnIGZvciB0aGUgR0FUVCBELUJ1cyBpbnRlcmZhY2VzIHRv
+by48YnI+DQpBdCB0aGUgc2FtZSB0aW1lLCBCbHVleiB3aWxsIGNhY2hlIG1vcmUgaW5mb3JtYXRp
+b24gb2YgcmVtb3RlIEdBVFQ8YnI+DQpkYXRhYmFzZXMgYW5kIHRoZXJlYnkgYXZvaWQgdW5uZWNl
+c3NhcnkgcmVkaXNjb3Zlcnkgb2YgcmVtb3RlIHNlcnZpY2VzLjxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBsYW5nPSJFTi1VUyI+PGJyPg0KQ3Jpc3RpYW4gc3VibWl0dGVkIHRoaXMgdXBncmFkZSBh
+IHdoaWxlIGJhY2ssIGFuZCBpdCBzZWdmYXVsdHMgb24gc3RhcnR1cCBxdWl0ZSBvZnRlbjo8bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8
+ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxhIGhyZWY9Imh0
+dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy9tYWluL2J1aWxkZXJzL25pZ2h0bHkt
+cWEtbG9ncm90YXRlL2J1aWxkcy81Mzgvc3RlcHMvUnVubmluZyUyMFNhbml0eSUyMFRlc3RzL2xv
+Z3Mvc3RkaW8iPmh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy9tYWluL2J1aWxk
+ZXJzL25pZ2h0bHktcWEtbG9ncm90YXRlL2J1aWxkcy81Mzgvc3RlcHMvUnVubmluZyUyMFNhbml0
+eSUyMFRlc3RzL2xvZ3Mvc3RkaW88L2E+PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8
+ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7
+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIGxhbmc9IkVOLVVTIj5XaGVuIGl0IGRvZXNuJ3QgZG8gdGhhdCwgd2UgY2FuIG1lcmdlIGl0
+LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rp
+dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+Um9zczxv
+OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwv
+aHRtbD4NCg==
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-qa-logrotate/builds/538/steps/Running%20Sanity%20Tests/logs/stdio
-
-When it doesn't do that, we can merge it.
-
-Ross
-
---001a113ecf4011ec04052582ce26
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 November 2015 at 10:03, Wu Zheng <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:wu.zheng@intel.com" target=3D"_blank">wu.zheng@intel.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-st=
-yle:solid;padding-left:1ex"><div id=3D":1vg" class=3D"" style=3D"overflow:h=
-idden">Bluez5-5.36 fixes the most part of bug.<br>
-The target areas of bug are such as PBAP, AVRCP, HoG and GATT.<br>
-It fixes a fairly important bug for the GATT D-Bus interfaces too.<br>
-At the same time, Bluez will cache more information of remote GATT<br>
-databases and thereby avoid unnecessary rediscovery of remote services.</di=
-v></blockquote></div><br>Cristian submitted this upgrade a while back, and =
-it segfaults on startup quite often:</div><div class=3D"gmail_extra"><br></=
-div><div class=3D"gmail_extra"><a href=3D"https://autobuilder.yoctoproject.=
-org/main/builders/nightly-qa-logrotate/builds/538/steps/Running%20Sanity%20=
-Tests/logs/stdio">https://autobuilder.yoctoproject.org/main/builders/nightl=
-y-qa-logrotate/builds/538/steps/Running%20Sanity%20Tests/logs/stdio</a><br>=
-</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">When =
-it doesn&#39;t do that, we can merge it.</div><div class=3D"gmail_extra"><b=
-r></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113ecf4011ec04052582ce26--
+--_000_2CF57A644018A745B8FE029C7223E16E12EBCD86SHSMSX104ccrcor_--
