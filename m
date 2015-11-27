@@ -1,46 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C240F6012A
+Return-Path: <akuster808@gmail.com>
+Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
+	[209.85.218.52])
+	by mail.openembedded.org (Postfix) with ESMTP id C0BA060132
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 15:39:55 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so62742761wme.1
+	Fri, 27 Nov 2015 17:15:44 +0000 (UTC)
+Received: by oixx65 with SMTP id x65so64665957oix.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 07:39:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=PGmu3xyZA0jVcU5pvkof4vpTqwz9wjkQVYVHP5Haofw=;
-	b=xsN7GWl/fOtA0dRZO7dXfZkesbdWKUJD4VZ0ktzj2aUSuDzzoMDzigKSKg0Pb3VYoC
-	HYGITqjolP2HDpn6AntkfWOulEvTRyFkfzS/LeeHbgIH+JAuSXGytFMurNwau0QamT5K
-	R4fSBavXkywF7JCbTdO3xcrqHMk3bpPhSEezp5YFF2ZHicFhvFK0G01+XVeYY3nRMuQi
-	YVzoZFBNj15CNyJp+VY2nr+OrFCs+P9+CGYnzrCJ1z2SSjrXS0TA5qW8wkImqklyVmAh
-	oOnWXSp0S31D6TMhtHO8+HZDMclQ9pHUJO56RWt2lf5K4ZHsWaQVz86Xd4bGeSTI0uw/
-	rwtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=PGmu3xyZA0jVcU5pvkof4vpTqwz9wjkQVYVHP5Haofw=;
-	b=ejbRfKi/KIYYJBCx1d/H+3Yjr5qGo0CFIhoCysd5DW5M3t3NzHbP7LGIIYhqLSpzdr
-	imXkEnA6sxJ8jZm/UEJFWR5t01EhLf16yiOa+3GqprWTPYWueEjXXaDYG0vdH1rred83
-	aO+KFuCcAheSPkyBPKrudRh/34WavLNfdjZMjt7StkAwmPgdmxrEKM2OCeYoh29njC0R
-	AOGUkLbZXi9cRgAgF+9RyB+3rid6quSqC80JC2KtQrrNQmzpWibLGNCuUQqfXFT2WaIV
-	kSsMuirTrreMHQIVcZkT6MJdwHMFNMKy/uEmxLsBqccGmIbG0Fj/01pqkG2p2C1g3j7i
-	2U5w==
-X-Gm-Message-State: ALoCoQkww2du3RmloIFqv58xT4t9ZI8gBUUBFoqreTRXkHrLcpI90kCZf0aCvQ6okzmFOjfUAmN0
-X-Received: by 10.194.93.164 with SMTP id cv4mr55739272wjb.43.1448638795504;
-	Fri, 27 Nov 2015 07:39:55 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 186sm8026231wmv.9.2015.11.27.07.39.54
+	Fri, 27 Nov 2015 09:15:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=qtZ3iIKlRtOaR+eIjUS6CT+gTRlbYbNKcyc3Kt/YD3c=;
+	b=P/Mz/JEnI3to/wFHW/+7qju613aT5GUucwpSyQ1VyucsjDj6VpwZy7xYBfPW8rMeXi
+	Y7e55WkPrWxYgIwwXjjQT5WC3PbW3NfGpl+oT/1SuyYsxkDGuVlLH7NEHpu8PeDv3GeX
+	BU9azMkPNbJjRgh6JMNo2+wMWtNpo5SLqIPLkYAUmhXTcRzwnxUqTLGJJK+nq2toYyf3
+	8h6rY5/YYtuJEOYcazYrBY5JN1N5Bx8lCg4AtI+r2clApm1uTY0DN4qx3pwg1UpcGUpK
+	jMt5OX922y2R78Ve+2xvBgQUq3G8zuLU/fjRKEI33neSDoZ+AT1cy/qbVqdKxAFgvTPg
+	6mfA==
+X-Received: by 10.202.203.213 with SMTP id b204mr32378601oig.108.1448644544713;
+	Fri, 27 Nov 2015 09:15:44 -0800 (PST)
+Received: from [192.168.1.84] (75-163-220-91.clsp.qwest.net. [75.163.220.91])
+	by smtp.googlemail.com with ESMTPSA id
+	oj2sm15662823oeb.8.2015.11.27.09.15.42
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 27 Nov 2015 07:39:55 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 27 Nov 2015 09:15:43 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Nov 2015 15:31:07 +0000
-Message-Id: <1448638267-2739-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] qemu: add PACKAGECONFIG stanza for bzip2
+References: <1633798.xAxFJSpIzb@peggleto-mobl.ger.corp.intel.com>
+From: akuster808 <akuster808@gmail.com>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <56588FBB.3060907@gmail.com>
+Date: Fri, 27 Nov 2015 09:15:39 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <1633798.xAxFJSpIzb@peggleto-mobl.ger.corp.intel.com>
+Subject: Re: Patchwork & patch handling improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,26 +48,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 15:39:57 -0000
+X-List-Received-Date: Fri, 27 Nov 2015 17:15:46 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index abbace8..c856abe 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -123,6 +123,7 @@ PACKAGECONFIG[glx] = "--enable-opengl,--disable-opengl,mesa"
- PACKAGECONFIG[lzo] = "--enable-lzo,--disable-lzo,lzo"
- PACKAGECONFIG[numa] = "--enable-numa,--disable-numa,numactl"
- PACKAGECONFIG[gnutls] = "--enable-gnutls,--disable-gnutls,gnutls"
-+PACKAGECONFIG[bzip2] = "--enable-bzip2,--disable-bzip2,bzip2"
- 
- EXTRA_OECONF += "${@bb.utils.contains('PACKAGECONFIG', 'alsa', '--audio-drv-list=oss,alsa', '', d)}"
- 
--- 
-2.1.4
+Paul,
 
+On 11/26/2015 01:00 PM, Paul Eggleton wrote:
+> Hi all,
+> 
+
+Thanks for taking the time to look into this.
+
+> Over the past several years one of the regular complaints people have made 
+> about our project has been that patches sometimes take a long time to make it 
+> into master, and it's not always clear what the state of a patch is during 
+> that time. On the other side of things, maintainers are finding it increasingly 
+> hard to keep up with testing and integrating incoming patches.
+
+This is not all the result of the patchwork. As a maintainer I rarely
+use the patchwork in work flow as I have no access to the state change
+bits. So its harder to integrate patchwork into my workflow.
+
+Since the rules are to wait for changes to hit Master before moving them
+down the line adds time to merging patches to the stable branches. The
+Patchwork does not have an impact on that delay.
+
+What adds to the challenge of integrating patches is that a layer
+maintainer may shoot a patch directly into the stable branch so if I had
+that patch queued, I now have to back it out.
+
+Also, I do this work all on my free time so I do my work in batches with
+leads to some delay. I could probably do a better job at communication
+where things are in the process.
+
+ Additionally,
+> trivial mistakes sometimes creep in that would be fairly easy to catch with an 
+> automated process. We've been talking about this for a while and now I'd like 
+> to propose a plan to finally address this:
+> 
+> 1) Upgrade the OE Patchwork instance [0] to a newer release; this should fix 
+> some of the problems we are having [1] plus give us additional features. I 
+> propose using the fork that freedesktop.org are using [2] [3] which is moving 
+> a bit faster than upstream Patchwork; whilst the changes there may eventually 
+> make it upstream (and work is ongoing there) we have a much greater ability to 
+> influence the fork given that it's being worked on by one of my colleagues who 
+> is pushing it in the direction we need it to go e.g. proper support for series 
+> as opposed to treating every patch individually, improved UI, etc.
+
+Yes please.
+
+> 
+> 2) Trigger automatic testing of submitted patches from Patchwork. We'd have a 
+> script look at the contents of a patch and first check that the expected style 
+> has been adhered to; second it would do some quick tests to verify that the 
+> patch hasn't caused any immediately obvious regressions. I've filed some bugs 
+> to cover this in more detail [4].
+
+sounds good.
+> 
+> 3) Provide a means to easily schedule an overnight build on the autobuilder 
+> for the set of patches that have passed the initial testing, as well as 
+> present the results in a form that's easier to review for maintainers. For OE-
+> Core this would be tied into the Yocto Project autobuilder, but I expect the 
+> tools could be made flexible.
+> 
+> At all stages through this process the patch status in patchwork will be kept 
+> up-to-date so it's clear to everyone what's happening. I'm also thinking we 
+> could do email notifications to the submitter (opt-in) though that would be a 
+> later add-on.
+> 
+> Whilst the initial plan covers only OE-Core, once we get them working the 
+> tools and scripts used should be just as applicable to other layers. I'm also 
+> trying to ensure that the patch validation is generic enough so it can live in 
+> OE-Core, and thus we can easily update and refine it over time in line with the 
+> code itself as well as encourage submitters to use the script on their own 
+> changes before sending.
+
+Yes, I would like to use this with meta-oe
+> 
+> Please let me know your thoughts on the above, most importantly on the 
+> patchwork upgrade, since most of this hinges on that; I don't believe we can 
+> practically base it on the version of Patchwork we are using now. 
+> 
+
+Yes we should enhance any tools that improve our workflow and quality of
+work.
+
+Kind regards and thanks again Paul.
+armin
+> [Note that this email is cross-posted - it may be best to reply on OE-Core 
+> only to save people's inboxes.]
+> 
+> Thanks,
+> Paul
+> 
+> [0] http://patchwork.openembedded.org/
+> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=7657#c21
+> [2] http://patchwork.freedesktop.org/ 
+> [3] https://github.com/dlespiau/patchwork
+> [4] https://bugzilla.yoctoproject.org/show_bug.cgi?id=8648
+> 
 
