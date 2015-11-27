@@ -1,41 +1,34 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
-	[209.85.218.52])
-	by mail.openembedded.org (Postfix) with ESMTP id C0BA060132
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 798526012A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 17:15:44 +0000 (UTC)
-Received: by oixx65 with SMTP id x65so64665957oix.0
+	Fri, 27 Nov 2015 19:51:15 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so69313352wmw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 09:15:44 -0800 (PST)
+	Fri, 27 Nov 2015 11:51:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=qtZ3iIKlRtOaR+eIjUS6CT+gTRlbYbNKcyc3Kt/YD3c=;
-	b=P/Mz/JEnI3to/wFHW/+7qju613aT5GUucwpSyQ1VyucsjDj6VpwZy7xYBfPW8rMeXi
-	Y7e55WkPrWxYgIwwXjjQT5WC3PbW3NfGpl+oT/1SuyYsxkDGuVlLH7NEHpu8PeDv3GeX
-	BU9azMkPNbJjRgh6JMNo2+wMWtNpo5SLqIPLkYAUmhXTcRzwnxUqTLGJJK+nq2toYyf3
-	8h6rY5/YYtuJEOYcazYrBY5JN1N5Bx8lCg4AtI+r2clApm1uTY0DN4qx3pwg1UpcGUpK
-	jMt5OX922y2R78Ve+2xvBgQUq3G8zuLU/fjRKEI33neSDoZ+AT1cy/qbVqdKxAFgvTPg
-	6mfA==
-X-Received: by 10.202.203.213 with SMTP id b204mr32378601oig.108.1448644544713;
-	Fri, 27 Nov 2015 09:15:44 -0800 (PST)
-Received: from [192.168.1.84] (75-163-220-91.clsp.qwest.net. [75.163.220.91])
-	by smtp.googlemail.com with ESMTPSA id
-	oj2sm15662823oeb.8.2015.11.27.09.15.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 27 Nov 2015 09:15:43 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <1633798.xAxFJSpIzb@peggleto-mobl.ger.corp.intel.com>
-From: akuster808 <akuster808@gmail.com>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <56588FBB.3060907@gmail.com>
-Date: Fri, 27 Nov 2015 09:15:39 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=w5UnbnSxYCHn9AYcmWURnajpQFKY+XzLNH2dx89Ukaw=;
+	b=D384tnT+0ifNa+mBqLiFmF45UJujQamv8raAXRQMxMdR8vQukRk1KPhgI/JEXpMUgR
+	ppBaVSomB4dOsx2snqzkCOxq5yFbfa2fRsslzPSjb0JabzDTMNy4fnxjnptaemwSeHgn
+	3v/Lu/0JeL+mcb4eqOgr3Mv8GsNYMdEuRpvDw6OCgA7/z/do/Kr4HvYNZpnM+GSkL4JV
+	y0xoVyLl7SyYqnMGODdb3fmmDiqAJ7QzZ14kveDskVCln/UuR8fzxZOVl5+KxbfP4ywv
+	U0oznTrnSiQF7B3gvPVzICPIBMjsqb3YgeVYrfc5VwuPkK7GbTfeFMqN9RnZ1qslFCTG
+	n01g==
 MIME-Version: 1.0
-In-Reply-To: <1633798.xAxFJSpIzb@peggleto-mobl.ger.corp.intel.com>
-Subject: Re: Patchwork & patch handling improvements
+X-Received: by 10.194.203.99 with SMTP id kp3mr16097882wjc.3.1448653875567;
+	Fri, 27 Nov 2015 11:51:15 -0800 (PST)
+Received: by 10.194.140.38 with HTTP; Fri, 27 Nov 2015 11:51:15 -0800 (PST)
+In-Reply-To: <1448622259-5907-3-git-send-email-maxin.john@intel.com>
+References: <1448622259-5907-1-git-send-email-maxin.john@intel.com>
+	<1448622259-5907-3-git-send-email-maxin.john@intel.com>
+Date: Fri, 27 Nov 2015 11:51:15 -0800
+Message-ID: <CAJ86T=Wmiaa7Trg78BVn5tu+3y63M_4CT=-0tQ=_aGh8gZUm9g@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] libjpeg-turbo: import the recipe from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,106 +41,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 17:15:46 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Nov 2015 19:51:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Fri, Nov 27, 2015 at 3:04 AM, Maxin B. John <maxin.john@intel.com> wrote:
+> libjpeg-turbo has same API/ABI as libjpeg. It is relatively
+> faster in JPEG compression/decompression than libjpeg.
 
-Paul,
+Please take the libjpeg-turbo 1.4.2 recipe from meta-oe master-next
+instead of the 1.4.1 recipe from meta-oe master.
 
-On 11/26/2015 01:00 PM, Paul Eggleton wrote:
-> Hi all,
-> 
-
-Thanks for taking the time to look into this.
-
-> Over the past several years one of the regular complaints people have made 
-> about our project has been that patches sometimes take a long time to make it 
-> into master, and it's not always clear what the state of a patch is during 
-> that time. On the other side of things, maintainers are finding it increasingly 
-> hard to keep up with testing and integrating incoming patches.
-
-This is not all the result of the patchwork. As a maintainer I rarely
-use the patchwork in work flow as I have no access to the state change
-bits. So its harder to integrate patchwork into my workflow.
-
-Since the rules are to wait for changes to hit Master before moving them
-down the line adds time to merging patches to the stable branches. The
-Patchwork does not have an impact on that delay.
-
-What adds to the challenge of integrating patches is that a layer
-maintainer may shoot a patch directly into the stable branch so if I had
-that patch queued, I now have to back it out.
-
-Also, I do this work all on my free time so I do my work in batches with
-leads to some delay. I could probably do a better job at communication
-where things are in the process.
-
- Additionally,
-> trivial mistakes sometimes creep in that would be fairly easy to catch with an 
-> automated process. We've been talking about this for a while and now I'd like 
-> to propose a plan to finally address this:
-> 
-> 1) Upgrade the OE Patchwork instance [0] to a newer release; this should fix 
-> some of the problems we are having [1] plus give us additional features. I 
-> propose using the fork that freedesktop.org are using [2] [3] which is moving 
-> a bit faster than upstream Patchwork; whilst the changes there may eventually 
-> make it upstream (and work is ongoing there) we have a much greater ability to 
-> influence the fork given that it's being worked on by one of my colleagues who 
-> is pushing it in the direction we need it to go e.g. proper support for series 
-> as opposed to treating every patch individually, improved UI, etc.
-
-Yes please.
-
-> 
-> 2) Trigger automatic testing of submitted patches from Patchwork. We'd have a 
-> script look at the contents of a patch and first check that the expected style 
-> has been adhered to; second it would do some quick tests to verify that the 
-> patch hasn't caused any immediately obvious regressions. I've filed some bugs 
-> to cover this in more detail [4].
-
-sounds good.
-> 
-> 3) Provide a means to easily schedule an overnight build on the autobuilder 
-> for the set of patches that have passed the initial testing, as well as 
-> present the results in a form that's easier to review for maintainers. For OE-
-> Core this would be tied into the Yocto Project autobuilder, but I expect the 
-> tools could be made flexible.
-> 
-> At all stages through this process the patch status in patchwork will be kept 
-> up-to-date so it's clear to everyone what's happening. I'm also thinking we 
-> could do email notifications to the submitter (opt-in) though that would be a 
-> later add-on.
-> 
-> Whilst the initial plan covers only OE-Core, once we get them working the 
-> tools and scripts used should be just as applicable to other layers. I'm also 
-> trying to ensure that the patch validation is generic enough so it can live in 
-> OE-Core, and thus we can easily update and refine it over time in line with the 
-> code itself as well as encourage submitters to use the script on their own 
-> changes before sending.
-
-Yes, I would like to use this with meta-oe
-> 
-> Please let me know your thoughts on the above, most importantly on the 
-> patchwork upgrade, since most of this hinges on that; I don't believe we can 
-> practically base it on the version of Patchwork we are using now. 
-> 
-
-Yes we should enhance any tools that improve our workflow and quality of
-work.
-
-Kind regards and thanks again Paul.
-armin
-> [Note that this email is cross-posted - it may be best to reply on OE-Core 
-> only to save people's inboxes.]
-> 
-> Thanks,
-> Paul
-> 
-> [0] http://patchwork.openembedded.org/
-> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=7657#c21
-> [2] http://patchwork.freedesktop.org/ 
-> [3] https://github.com/dlespiau/patchwork
-> [4] https://bugzilla.yoctoproject.org/show_bug.cgi?id=8648
-> 
+> [YOCTO #8628]
+>
+> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> ---
+>  meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb | 40 ++++++++++++++++++++++++
+>  1 file changed, 40 insertions(+)
+>  create mode 100644 meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb
+>
+> diff --git a/meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb b/meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb
+> new file mode 100644
+> index 0000000..e79f800
+> --- /dev/null
+> +++ b/meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb
+> @@ -0,0 +1,40 @@
+> +DESCRIPTION = "libjpeg-turbo is a derivative of libjpeg that uses SIMD instructions (MMX, SSE2, NEON) to accelerate baseline JPEG compression and decompression"
+> +HOMEPAGE = "http://libjpeg-turbo.org/"
+> +
+> +LICENSE = "BSD-3-Clause"
+> +LIC_FILES_CHKSUM = "file://cdjpeg.h;endline=12;md5=cad955d15145c3fdceec6855e078e953 \
+> +                    file://jpeglib.h;endline=14;md5=dfc803dc51ae21178d1376ec73c4454d \
+> +                    file://djpeg.c;endline=9;md5=e93a8f2061e8a0ac71c7a485c10489e2 \
+> +"
+> +
+> +DEPENDS = "nasm-native"
+> +
+> +BASEPV = "${@d.getVar('PV',True).split('+')[1]}"
+> +
+> +SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${BASEPV}.tar.gz"
+> +SRC_URI[md5sum] = "b1f6b84859a16b8ebdcda951fa07c3f2"
+> +SRC_URI[sha256sum] = "4bf5bad4ce85625bffbbd9912211e06790e00fb982b77724af7211034efafb08"
+> +
+> +S = "${WORKDIR}/${BPN}-${BASEPV}"
+> +
+> +# Drop-in replacement for jpeg
+> +PROVIDES = "jpeg"
+> +RPROVIDES_${PN} += "jpeg"
+> +RREPLACES_${PN} += "jpeg"
+> +RCONFLICTS_${PN} += "jpeg"
+> +
+> +inherit autotools pkgconfig
+> +
+> +EXTRA_OECONF = "--with-jpeg8 "
+> +
+> +PACKAGES =+ "jpeg-tools libturbojpeg"
+> +
+> +DESCRIPTION_jpeg-tools = "The jpeg-tools package includes client programs to access libjpeg functionality.  These tools allow for the compression, decompression, transformation and display of JPEG files and benchmarking of the libjpeg library."
+> +FILES_jpeg-tools = "${bindir}/*"
+> +
+> +FILES_libturbojpeg = "${libdir}/libturbojpeg.so"
+> +INSANE_SKIP_libturbojpeg = "dev-so"
+> +
+> +BBCLASSEXTEND = "native"
+> +
+> +LEAD_SONAME = "libjpeg.so.8"
+> --
+> 2.4.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
