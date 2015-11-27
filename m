@@ -1,39 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 382B860132
+Return-Path: <Yuanjie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 07C2060132
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 08:37:48 +0000 (UTC)
-Received: by wmww144 with SMTP id w144so46402725wmw.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 00:37:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=BPew5LWZm17W45R6MfwcHjkYD7+XTN2Gtce50xO4sfI=;
-	b=ZBG5NIQ9j9IT77rh8WIageHkY9fV2vBDz7n78tS+VxXsSpanxHZF2twQVuyp+hunSs
-	LYvNNDlqKCEOq00jSEKrwO5StGYLgcdoUgp4iE3Zis5nCVPxRnTA9hNMAGGjAjJQrV+j
-	TS9DYFU6l6fcjnQiWmn6G/qqRrcy/SyVgcNz/297MDMNl4Cy4msn3WBcXi4ukrhWb1kh
-	deCPdgK5ruE8XV+S7q0CVr6Q4ctafD8C4nur/77eR7W62fbAVYEi30rPbV64JCq541wU
-	WZwx64Od6dujay1Npdv5GUKGwrUEJ5ejkdHSDO1vI+zT+YIotHxYcTWJ3QU+WKYlFBL4
-	1hbA==
-X-Received: by 10.194.175.230 with SMTP id cd6mr53617360wjc.100.1448613469154; 
-	Fri, 27 Nov 2015 00:37:49 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	z17sm31879854wjq.1.2015.11.27.00.37.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 27 Nov 2015 00:37:48 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 27 Nov 2015 09:38:25 +0100
-To: Yuanjie Huang <Yuanjie.Huang@windriver.com>
-Message-ID: <20151127083825.GZ17303@jama>
-References: <1448592348-16830-1-git-send-email-Yuanjie.Huang@windriver.com>
+	Fri, 27 Nov 2015 08:45:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAR8j671013756
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 27 Nov 2015 00:45:06 -0800 (PST)
+Received: from Flora.wrs.com (128.224.163.135) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 27 Nov 2015 00:45:05 -0800
+From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 27 Nov 2015 16:50:32 +0800
+Message-ID: <1448614232-18411-1-git-send-email-Yuanjie.Huang@windriver.com>
+X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
-In-Reply-To: <1448592348-16830-1-git-send-email-Yuanjie.Huang@windriver.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gcc-cross-initial: make dependency on gnu-config-native and autoconf-native explicit
+Subject: [PATCH V2] gcc-cross-initial: make dependency on gnu-config-native and autoconf-native explicit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,90 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 08:37:51 -0000
-X-Groupsio-MsgNum: 74069
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="NxDiCysn+RCvdoZt"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 27 Nov 2015 08:45:08 -0000
+Content-Type: text/plain
 
---NxDiCysn+RCvdoZt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
 
-On Fri, Nov 27, 2015 at 10:45:48AM +0800, Yuanjie Huang wrote:
-> From: Yuanjie Huang <yuanjie.huang@windriver.com>
->=20
-> When a project is configure to use sstate cache and has the host tool sys=
-root
-> cleaned, gcc-cross-initial may fail to be configured due to lack of
-> gnu-configize tool.
->=20
-> gcc-cross-initial recipe has autotools dependency inhibited, and the same=
- flag
-> variable also excludes the gnu-config-native.  Though there is an indirect
-> dependency through libmpc-native, it's not safe with sstate cache being u=
-sed.
->=20
-> Moreover, gnu-config-native requires a perl package from autoconf-native =
-to
-> run, otherwise it will fail with "Can't locate Autom4te/ChannelDefs.pm in=
- @INC"
-> message.
->=20
-> This patch makes both dependencies explicit for gcc-cross-initial's
-> configuration.
->=20
-> Upstream-status: Inappropriate[configuration]
+When a project is configure to use sstate cache and has the host tool sysroot
+cleaned, gcc-cross-initial may fail to be configured due to lack of
+gnu-configize tool.
 
-Upstream-status is for .patch files added to metadata, not for metadata
-changes.
+gcc-cross-initial recipe has autotools dependency inhibited, and the same flag
+variable also excludes the gnu-config-native.  Though there is an indirect
+dependency through libmpc-native, it's not safe with sstate cache being used.
 
-> Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-cross-initial.inc | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recip=
-es-devtools/gcc/gcc-cross-initial.inc
-> index 7197447..1cb341b 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-> @@ -5,6 +5,9 @@ PACKAGES =3D ""
->  INHIBIT_AUTOTOOLS_DEPS =3D "1"
->  INHIBIT_DEFAULT_DEPS =3D "1"
-> =20
-> +# We still need gnu-config-native
-> +DEPENDS_prepend =3D "gnu-config-native autoconf-native"
+Moreover, gnu-config-native requires a perl package from autoconf-native to
+run, otherwise it will fail with "Can't locate Autom4te/ChannelDefs.pm in @INC"
+message.
 
-You need trailing space for _prepend.
+This patch makes both dependencies explicit for gcc-cross-initial's
+configuration.
 
-> +
->  PN =3D "gcc-cross-initial-${TARGET_ARCH}"
-> =20
->  CROSS_TARGET_SYS_DIR_append =3D ".${PN}"
-> --=20
-> 2.6.2
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+---
+ meta/recipes-devtools/gcc/gcc-cross-initial.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+index 7197447..1cb341b 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+@@ -5,6 +5,9 @@ PACKAGES = ""
+ INHIBIT_AUTOTOOLS_DEPS = "1"
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
++# We still need gnu-config-native
++DEPENDS_prepend = " gnu-config-native autoconf-native"
++
+ PN = "gcc-cross-initial-${TARGET_ARCH}"
+ 
+ CROSS_TARGET_SYS_DIR_append = ".${PN}"
+-- 
+2.6.2
 
---NxDiCysn+RCvdoZt
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlZYFoAACgkQN1Ujt2V2gBxlkgCgibIUiiX1gbEY0JAPdKlt0lKo
-5VsAniJCX/GGZuKHQQtQXxHtwqJNHiTg
-=7CQe
------END PGP SIGNATURE-----
-
---NxDiCysn+RCvdoZt--
