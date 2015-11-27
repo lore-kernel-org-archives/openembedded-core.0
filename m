@@ -1,37 +1,29 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 86E9E6012A
+Return-Path: <dariusz.pelowski@gmail.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 941136012A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 13:18:34 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Nov 2015 05:18:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,351,1444719600"; d="scan'208";a="848262565"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Nov 2015 05:18:34 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 9AF576A4083;
-	Fri, 27 Nov 2015 05:17:26 -0800 (PST)
-Date: Fri, 27 Nov 2015 14:47:18 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Mariano Lopez <mariano.lopez@linux.intel.com>
-Message-ID: <20151127124718.GA25988@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <cover.1447834352.git.mariano.lopez@linux.intel.com>
-	<2d04d7f11597f6e8331b293e033aef0d36ce5f02.1447834352.git.mariano.lopez@linux.intel.com>
-	<20151123173747.GA17608@linux.intel.com>
-	<56538F7B.20608@linux.intel.com>
-	<20151124154323.GA3530@linux.intel.com>
-	<56571BAF.5040507@linux.intel.com>
-	<56575C46.7030106@linux.intel.com>
+	Fri, 27 Nov 2015 13:49:29 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so56311617wmw.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Nov 2015 05:49:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=5kIoBldcHuyLOmzm9+ZIDBsv7UdJsSsKLSN43Fg5IfE=;
+	b=Czl56ZPYSVge4MCEh1dBZHNS6fxOXLtGUApR48eAwXaq967jHpkCI5/Ztl6IggfnLn
+	G0fqfDgYA/T7XtSlFepXpqgMKOrt6skTVOKHMXfkgPl3uJirUccYcnKZnNfRprIuFTX7
+	JbKt0vCMpi0LEmMR7FCmXD5vUp2djgTzjSycufS+ZCV+PjNvO439mLKh1W6HOf9e+DS2
+	DwGEP1Jzh0JtCL7uZGjjHG90hTNW6SGKY+mGD8avd8cfYTSJftaNbYH0ccCdxzXEMS7a
+	yGjM0YVxIJcH/hivn0UW6z4wn/h5VQWgLgerfsws9Vhq04m5EJsWMccFiAkScbvfquQU
+	w1GQ==
 MIME-Version: 1.0
-In-Reply-To: <56575C46.7030106@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] wic: Allow to use a custom config for bootloaders
+X-Received: by 10.194.243.170 with SMTP id wz10mr64344522wjc.80.1448632169630; 
+	Fri, 27 Nov 2015 05:49:29 -0800 (PST)
+Received: by 10.27.217.198 with HTTP; Fri, 27 Nov 2015 05:49:29 -0800 (PST)
+Date: Fri, 27 Nov 2015 14:49:29 +0100
+Message-ID: <CAJ73Ay7jNcfxyQdwjL0NR1G_6L5ME-Zty02kx9wfEGrnBz2ZpQ@mail.gmail.com>
+From: Dariusz Pelowski <dariusz.pelowski@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Failing devshell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,61 +36,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 13:18:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 27 Nov 2015 13:49:30 -0000
+X-Groupsio-MsgNum: 74103
+Content-Type: multipart/mixed; boundary=089e0149411ae22088052585f573
 
-On Thu, Nov 26, 2015 at 01:23:50PM -0600, Mariano Lopez wrote:
-> 
-> 
-> On 11/26/2015 08:48 AM, Mariano Lopez wrote:
-> >
-> >
-> >On 11/24/2015 09:43 AM, Ed Bartosh wrote:
-> >>On Mon, Nov 23, 2015 at 04:13:15PM -0600, Mariano Lopez wrote:
-> >>>
-> >>>On 11/23/2015 11:37 AM, Ed Bartosh wrote:
-> >>>>Hi Mariano,
-> >>>>
-> >>>>Thank you for the patchset!
-> >>>>
-> >>>>Would it be better to put content of configuration file into .wks
-> >>>>instead of just referring to it?
-> >>>If the configuration is simple I agree with you; however if the
-> >>>configuration have scripts I think it's better to have separated
-> >>>file. The file can growth and would be a real mess inside a wks
-> >>>file.
-> >>>
-> >>What bothers me here is that reference to the external entity
-> >>(config file in this case) which
-> >>may or may not exist. This makes wic more fragile than it is now.
-> >>
-> >>Can we put bootloader configs to some predefined place, e.g. to the same
-> >>directory where .wks is?
-> >
-> >I see your point now. I'll change the code to have the
-> >configuration in the wks file.
-> 
-> I was checking in the kickstart code and the parser is a state
-> machine that reads line by line, so a multi line bootloader config
-> file is not currently and option. I was about to modify the code
-> when I saw the comment for this class:
-> 
-> "Methods that don't need to do anything may just pass.  However,
-> _stateMachine should never be overridden."
-> 
-> So, in order to have the config file inside the wks file we would
-> need to hack in kickstart code; I would like to avoid that. What do
-> you think?
-> 
+--089e0149411ae22088052585f573
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I agree with you. Let's not touch kickstart code.
+2015-11-26 18:25 GMT+01:00 Dariusz Pelowski <dariusz.pelowski@gmail.com>:
+> I'm getting an error during execution of devshell:
+> bitbake -c devshell  quilt-native
+> WARNING: Host distribution "Arch-Linux" has not been validated with this
+> version of the build system; you may possibly experience unexpected
+> failures. It is recommended that you use a tested distribution.
+> ...
+> ERROR: Unable to spawn terminal auto: Execution of
+> '/home/darekp/locale_test/tmp/work/x86_64-linux/quilt-native/0.64-r0/temp=
+/run.do_terminal.18591'
+> failed with exit code 1:
+> Opcja =E2=80=9E-t=E2=80=9D nie jest ju=C5=BC obs=C5=82ugiwana w tej wersj=
+i programu gnome-terminal.
+> Przetworzenie parametr=C3=B3w si=C4=99 nie powiod=C5=82o: Opcja =E2=80=9E=
+--disable-factory=E2=80=9D nie
+> jest ju=C5=BC obs=C5=82ugiwana w tej wersji programu gnome-terminal.
+> ERROR: Function failed: do_devshell
+> ERROR: Logfile of failure stored in:
+> /home/darekp/locale_test/tmp/work/x86_64-linux/quilt-native/0.64-r0/temp/=
+log.do_devshell.18591
+> ERROR: Task 3
+> (/home/darekp/poky/meta/recipes-devtools/quilt/quilt-native_0.64.bb,
+> do_devshell) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 4 tasks of which 3 didn't need to be rerun
+> and 1 failed.
+>
+>
+> The cause of the problem is the implementation of
+> poky/meta/lib/oe/terminal.py. It expects that gnome-terminal --version wi=
+ll
+> return string starting from: "GNOME Terminal". But the returned string
+> differs when locale is changes. This looks like this:
+>
+> [darekp@darekp ~]$ LANG=3DC gnome-terminal --version
+> GNOME Terminal 3.18.2
+>
+> [darekp@darekp ~]$ LANG=3Dpl_PL.utf8 gnome-terminal --version
+> Terminal GNOME 3.18.2
+>
+> The same problem affects other locales in gnome-terminal. I'm proposing t=
+o
+> fix this issue by setting LANG=3DC during execution of gnome-terminal
+> --version.
+>
 
-Let's put bootloader config at the same location where .wks is then.
-It's also not the best solution though as it can be inconvenient for the
-user, but it's better than pointing to the file which might not exist.
+Hi,
 
---
-Regards,
-Ed
+Described problem was discussed on yocto@yoctoproject.org mailing
+list. Attached patch is fixing this issue, could you apply it? (I've
+tested this change on all terminals calling changed function: GNOME
+Terminal 3.18.2, Konsole: 15.08.0, tmux 2.1 and it worked correctly)
 
+Thanks,
+Dariusz
+
+--089e0149411ae22088052585f573
+Content-Type: text/x-patch; charset=US-ASCII; 
+	name="0001-lib-oe-terminal-use-C-locale-when-determining-versio.patch"
+Content-Disposition: attachment; 
+	filename="0001-lib-oe-terminal-use-C-locale-when-determining-versio.patch"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_ihhpwbs31
+
+RnJvbSA4YjFmZmM3NmVhNWE0YjA4NjJmNGJhN2MwNzNkODBhYTJiNWJkNjAwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBEYXJpdXN6IFBlbG93c2tpIDxkYXJpdXN6LnBlbG93c2tpQGdt
+YWlsLmNvbT4KRGF0ZTogVGh1LCAyNiBOb3YgMjAxNSAxNzo1OTo1MyArMDEwMApTdWJqZWN0OiBb
+UEFUQ0hdIGxpYi9vZS90ZXJtaW5hbDogdXNlIEMgbG9jYWxlIHdoZW4gZGV0ZXJtaW5pbmcgdmVy
+c2lvbgoKLS0tCiBtZXRhL2xpYi9vZS90ZXJtaW5hbC5weSB8IDQgKysrLQogMSBmaWxlIGNoYW5n
+ZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvbGli
+L29lL3Rlcm1pbmFsLnB5IGIvbWV0YS9saWIvb2UvdGVybWluYWwucHkKaW5kZXggYTRhOGM5Ny4u
+MWVmYzA2ZCAxMDA2NDQKLS0tIGEvbWV0YS9saWIvb2UvdGVybWluYWwucHkKKysrIGIvbWV0YS9s
+aWIvb2UvdGVybWluYWwucHkKQEAgLTI0NCw3ICsyNDQsOSBAQCBkZWYgY2hlY2tfdGVybWluYWxf
+dmVyc2lvbih0ZXJtaW5hbE5hbWUpOgogICAgICAgICBjbWR2ZXJzaW9uID0gJyVzIC0tdmVyc2lv
+bicgJSB0ZXJtaW5hbE5hbWUKICAgICAgICAgaWYgdGVybWluYWxOYW1lLnN0YXJ0c3dpdGgoJ3Rt
+dXgnKToKICAgICAgICAgICAgIGNtZHZlcnNpb24gPSAnJXMgLVYnICUgdGVybWluYWxOYW1lCi0g
+ICAgICAgIHAgPSBzdWIuUG9wZW4oWydzaCcsICctYycsIGNtZHZlcnNpb25dLCBzdGRvdXQ9c3Vi
+LlBJUEUsc3RkZXJyPXN1Yi5QSVBFKQorICAgICAgICBuZXdlbnYgPSBvcy5lbnZpcm9uLmNvcHko
+KQorICAgICAgICBuZXdlbnZbIkxBTkciXSA9ICJDIgorICAgICAgICBwID0gc3ViLlBvcGVuKFsn
+c2gnLCAnLWMnLCBjbWR2ZXJzaW9uXSwgc3Rkb3V0PXN1Yi5QSVBFLCBzdGRlcnI9c3ViLlBJUEUs
+IGVudj1uZXdlbnYpCiAgICAgICAgIG91dCwgZXJyID0gcC5jb21tdW5pY2F0ZSgpCiAgICAgICAg
+IHZlcl9pbmZvID0gb3V0LnJzdHJpcCgpLnNwbGl0KCdcbicpCiAgICAgZXhjZXB0IE9TRXJyb3Ig
+YXMgZXhjOgotLSAKMi42LjIKCg==
+
+--089e0149411ae22088052585f573--
