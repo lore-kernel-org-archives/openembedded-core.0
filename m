@@ -1,22 +1,24 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 5CA816011F
+Return-Path: <Yuanjie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 65AB06011F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 02:15:41 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 27 Nov 2015 03:15:38 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4200)	id 0AB2A28FA82;
-	Fri, 27 Nov 2015 03:15:38 +0100 (CET)
-From: Tudor Florea <tudor.florea@enea.com>
+	Fri, 27 Nov 2015 02:40:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAR2eM85012354
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Nov 2015 18:40:22 -0800 (PST)
+Received: from Flora.wrs.com (128.224.163.135) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 26 Nov 2015 18:40:22 -0800
+From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Nov 2015 03:15:36 +0100
-Message-ID: <1448590536-58100-1-git-send-email-tudor.florea@enea.com>
-X-Mailer: git-send-email 1.9.1
+Date: Fri, 27 Nov 2015 10:45:48 +0800
+Message-ID: <1448592348-16830-1-git-send-email-Yuanjie.Huang@windriver.com>
+X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
-	designate permitted sender hosts)
-Subject: [dizzy] [PATCH 1/1] glibc: use patch for CVE-2015-1781
+Subject: [PATCH] gcc-cross-initial: make dependency on gnu-config-native and autoconf-native explicit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,38 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 02:15:43 -0000
+X-List-Received-Date: Fri, 27 Nov 2015 02:40:24 -0000
 Content-Type: text/plain
 
-Patch added to the repo wasn't actually considered due to a
-erronously way of specifying the sources.
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
 
-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+When a project is configure to use sstate cache and has the host tool sysroot
+cleaned, gcc-cross-initial may fail to be configured due to lack of
+gnu-configize tool.
+
+gcc-cross-initial recipe has autotools dependency inhibited, and the same flag
+variable also excludes the gnu-config-native.  Though there is an indirect
+dependency through libmpc-native, it's not safe with sstate cache being used.
+
+Moreover, gnu-config-native requires a perl package from autoconf-native to
+run, otherwise it will fail with "Can't locate Autom4te/ChannelDefs.pm in @INC"
+message.
+
+This patch makes both dependencies explicit for gcc-cross-initial's
+configuration.
+
+Upstream-status: Inappropriate[configuration]
+
+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
 ---
- meta/recipes-core/glibc/glibc_2.20.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/recipes-devtools/gcc/gcc-cross-initial.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
-index a0736cd..2ab4083 100644
---- a/meta/recipes-core/glibc/glibc_2.20.bb
-+++ b/meta/recipes-core/glibc/glibc_2.20.bb
-@@ -40,14 +40,12 @@ EGLIBCPATCHES = "\
- #           file://eglibc-install-pic-archives.patch \
- #	    file://initgroups_keys.patch \
- #
--CVEPATCHES = "\
--        file://CVE-2015-1781-resolv-nss_dns-dns-host.c-buffer-overf.patch \
--"
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+index 7197447..1cb341b 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+@@ -5,6 +5,9 @@ PACKAGES = ""
+ INHIBIT_AUTOTOOLS_DEPS = "1"
+ INHIBIT_DEFAULT_DEPS = "1"
  
- CVEPATCHES = "\
-         file://CVE-2014-7817-wordexp-fails-to-honour-WRDE_NOCMD.patch \
-         file://CVE-2012-3406-Stack-overflow-in-vfprintf-BZ-16617.patch \
-         file://CVE-2014-9402_endless-loop-in-getaddr_r.patch \
-+        file://CVE-2015-1781-resolv-nss_dns-dns-host.c-buffer-overf.patch \
-     "
- LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
-       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++# We still need gnu-config-native
++DEPENDS_prepend = "gnu-config-native autoconf-native"
++
+ PN = "gcc-cross-initial-${TARGET_ARCH}"
+ 
+ CROSS_TARGET_SYS_DIR_append = ".${PN}"
 -- 
-1.9.1
+2.6.2
 
 
