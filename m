@@ -1,25 +1,46 @@
-Return-Path: <mcrowe@brightsign.biz>
-Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 996C66012A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id C240F6012A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 15:27:40 +0000 (UTC)
-Received: from [86.30.112.98] (HELO elite.brightsign)
-	by relay.appriver.com (CommuniGate Pro SMTP 6.1.2)
-	with ESMTP id 647168443; Fri, 27 Nov 2015 10:27:40 -0500
-Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
-	by elite.brightsign with esmtp (Exim 4.84)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1a2Kvx-000Eit-UG; Fri, 27 Nov 2015 15:27:37 +0000
-Received: from mac by chuckie with local (Exim 4.84)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1a2Kvx-00088S-Rb; Fri, 27 Nov 2015 15:27:37 +0000
-From: Mike Crowe <mac@mcrowe.com>
+	Fri, 27 Nov 2015 15:39:55 +0000 (UTC)
+Received: by wmec201 with SMTP id c201so62742761wme.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Nov 2015 07:39:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=PGmu3xyZA0jVcU5pvkof4vpTqwz9wjkQVYVHP5Haofw=;
+	b=xsN7GWl/fOtA0dRZO7dXfZkesbdWKUJD4VZ0ktzj2aUSuDzzoMDzigKSKg0Pb3VYoC
+	HYGITqjolP2HDpn6AntkfWOulEvTRyFkfzS/LeeHbgIH+JAuSXGytFMurNwau0QamT5K
+	R4fSBavXkywF7JCbTdO3xcrqHMk3bpPhSEezp5YFF2ZHicFhvFK0G01+XVeYY3nRMuQi
+	YVzoZFBNj15CNyJp+VY2nr+OrFCs+P9+CGYnzrCJ1z2SSjrXS0TA5qW8wkImqklyVmAh
+	oOnWXSp0S31D6TMhtHO8+HZDMclQ9pHUJO56RWt2lf5K4ZHsWaQVz86Xd4bGeSTI0uw/
+	rwtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=PGmu3xyZA0jVcU5pvkof4vpTqwz9wjkQVYVHP5Haofw=;
+	b=ejbRfKi/KIYYJBCx1d/H+3Yjr5qGo0CFIhoCysd5DW5M3t3NzHbP7LGIIYhqLSpzdr
+	imXkEnA6sxJ8jZm/UEJFWR5t01EhLf16yiOa+3GqprWTPYWueEjXXaDYG0vdH1rred83
+	aO+KFuCcAheSPkyBPKrudRh/34WavLNfdjZMjt7StkAwmPgdmxrEKM2OCeYoh29njC0R
+	AOGUkLbZXi9cRgAgF+9RyB+3rid6quSqC80JC2KtQrrNQmzpWibLGNCuUQqfXFT2WaIV
+	kSsMuirTrreMHQIVcZkT6MJdwHMFNMKy/uEmxLsBqccGmIbG0Fj/01pqkG2p2C1g3j7i
+	2U5w==
+X-Gm-Message-State: ALoCoQkww2du3RmloIFqv58xT4t9ZI8gBUUBFoqreTRXkHrLcpI90kCZf0aCvQ6okzmFOjfUAmN0
+X-Received: by 10.194.93.164 with SMTP id cv4mr55739272wjb.43.1448638795504;
+	Fri, 27 Nov 2015 07:39:55 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 186sm8026231wmv.9.2015.11.27.07.39.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 27 Nov 2015 07:39:55 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Nov 2015 15:27:35 +0000
-Message-Id: <1448638055-30909-1-git-send-email-mac@mcrowe.com>
+Date: Fri, 27 Nov 2015 15:31:07 +0000
+Message-Id: <1448638267-2739-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] orc: Upgrade 0.4.23 -> 0.4.24
+Subject: [PATCH] qemu: add PACKAGECONFIG stanza for bzip2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,31 +53,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 15:27:44 -0000
+X-List-Received-Date: Fri, 27 Nov 2015 15:39:57 -0000
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/orc/{orc_0.4.23.bb => orc_0.4.24.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/orc/{orc_0.4.23.bb => orc_0.4.24.bb} (83%)
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/orc/orc_0.4.23.bb b/meta/recipes-devtools/orc/orc_0.4.24.bb
-similarity index 83%
-rename from meta/recipes-devtools/orc/orc_0.4.23.bb
-rename to meta/recipes-devtools/orc/orc_0.4.24.bb
-index d4257c3..4fa311f 100644
---- a/meta/recipes-devtools/orc/orc_0.4.23.bb
-+++ b/meta/recipes-devtools/orc/orc_0.4.24.bb
-@@ -4,8 +4,8 @@ LICENSE = "BSD-2-Clause & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index abbace8..c856abe 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -123,6 +123,7 @@ PACKAGECONFIG[glx] = "--enable-opengl,--disable-opengl,mesa"
+ PACKAGECONFIG[lzo] = "--enable-lzo,--disable-lzo,lzo"
+ PACKAGECONFIG[numa] = "--enable-numa,--disable-numa,numactl"
+ PACKAGECONFIG[gnutls] = "--enable-gnutls,--disable-gnutls,gnutls"
++PACKAGECONFIG[bzip2] = "--enable-bzip2,--disable-bzip2,bzip2"
  
- SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz;name=orc"
--SRC_URI[orc.md5sum] = "72e0612ace54d77aa2f7a006348ee81a"
--SRC_URI[orc.sha256sum] = "767eaebce2941737b43368225ec54598b3055ca78b4dc50c4092f5fcdc0bdfe7"
-+SRC_URI[orc.md5sum] = "9e793ec34c0e20339659dd4bbbf62135"
-+SRC_URI[orc.sha256sum] = "338cd493b5247300149821c6312bdf7422a3593ae98691fc75d7e4fe727bd39b"
- 
- inherit autotools pkgconfig
+ EXTRA_OECONF += "${@bb.utils.contains('PACKAGECONFIG', 'alsa', '--audio-drv-list=oss,alsa', '', d)}"
  
 -- 
 2.1.4
