@@ -1,29 +1,57 @@
-Return-Path: <dariusz.pelowski@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 941136012A
+Return-Path: <mike.looijmans@topicproducts.com>
+Received: from mx12-05.smtp.antispamcloud.com (mx12-05.smtp.antispamcloud.com
+	[46.165.232.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EFAF6012A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 13:49:29 +0000 (UTC)
-Received: by wmww144 with SMTP id w144so56311617wmw.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 05:49:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=5kIoBldcHuyLOmzm9+ZIDBsv7UdJsSsKLSN43Fg5IfE=;
-	b=Czl56ZPYSVge4MCEh1dBZHNS6fxOXLtGUApR48eAwXaq967jHpkCI5/Ztl6IggfnLn
-	G0fqfDgYA/T7XtSlFepXpqgMKOrt6skTVOKHMXfkgPl3uJirUccYcnKZnNfRprIuFTX7
-	JbKt0vCMpi0LEmMR7FCmXD5vUp2djgTzjSycufS+ZCV+PjNvO439mLKh1W6HOf9e+DS2
-	DwGEP1Jzh0JtCL7uZGjjHG90hTNW6SGKY+mGD8avd8cfYTSJftaNbYH0ccCdxzXEMS7a
-	yGjM0YVxIJcH/hivn0UW6z4wn/h5VQWgLgerfsws9Vhq04m5EJsWMccFiAkScbvfquQU
-	w1GQ==
+	Fri, 27 Nov 2015 13:54:49 +0000 (UTC)
+Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
+	helo=TOP-EX01.TOPIC.LOCAL)
+	by mx12.antispamcloud.com with esmtps (TLSv1:AES256-SHA:256)
+	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1a2JTz-00082g-TY for openembedded-core@lists.openembedded.org;
+	Fri, 27 Nov 2015 14:54:49 +0100
+Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Fri, 27 Nov 2015 14:53:14 +0100
+To: <openembedded-core@lists.openembedded.org>
+References: <1448622259-5907-1-git-send-email-maxin.john@intel.com>
+	<CAP9ODKq4R9UT2oL_vMALhCA_ocqCSxJoegCa_WEgy0Xj9xFT5A@mail.gmail.com>
+	<20151127111932.GC17303@jama>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <5658609E.4000407@topic.nl>
+Date: Fri, 27 Nov 2015 14:54:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-X-Received: by 10.194.243.170 with SMTP id wz10mr64344522wjc.80.1448632169630; 
-	Fri, 27 Nov 2015 05:49:29 -0800 (PST)
-Received: by 10.27.217.198 with HTTP; Fri, 27 Nov 2015 05:49:29 -0800 (PST)
-Date: Fri, 27 Nov 2015 14:49:29 +0100
-Message-ID: <CAJ73Ay7jNcfxyQdwjL0NR1G_6L5ME-Zty02kx9wfEGrnBz2ZpQ@mail.gmail.com>
-From: Dariusz Pelowski <dariusz.pelowski@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Failing devshell
+In-Reply-To: <20151127111932.GC17303@jama>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
+	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
+	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJrvdTWjiQ3X4ioEA7y2wj/0AiQsB33jwmBCDKd
+	AL3GQ7I8CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
+	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
+	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
+	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
+	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OTh+h+CzXS8eUe
+	C5gEulNqQ4FWPxtvTWQlG7LubmSVPcFB6J1fhOzjF0b4LXcjJZ5lokhecaVqDL9uaaBYOuxasEpt
+	pbQqVsjuh0JlrWxsIcuBhkb6GDdB6OAsNDDRIxpg15xifUD173ICRv+qGaUPXf0=
+X-Report-Abuse-To: spam@mx99.antispamcloud.com
+X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJUb3OPwsHaH0Fvg5oXltHd/JUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
+	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
+	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
+	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
+X-Originating-IP: 88.159.208.100
+X-Spampanel-Domain: topic.nl
+X-Spampanel-Username: 88.159.208.100
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=88.159.208.100@topic.nl
+X-Spampanel-Outgoing-Class: ham
+X-Spampanel-Outgoing-Evidence: Combined (0.00)
+X-Recommended-Action: accept
+Subject: Re: [RFC] Use libjpeg-turbo in place of libjpeg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,95 +64,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 13:49:30 -0000
-X-Groupsio-MsgNum: 74103
-Content-Type: multipart/mixed; boundary=089e0149411ae22088052585f573
-
---089e0149411ae22088052585f573
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 27 Nov 2015 13:54:51 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-2015-11-26 18:25 GMT+01:00 Dariusz Pelowski <dariusz.pelowski@gmail.com>:
-> I'm getting an error during execution of devshell:
-> bitbake -c devshell  quilt-native
-> WARNING: Host distribution "Arch-Linux" has not been validated with this
-> version of the build system; you may possibly experience unexpected
-> failures. It is recommended that you use a tested distribution.
-> ...
-> ERROR: Unable to spawn terminal auto: Execution of
-> '/home/darekp/locale_test/tmp/work/x86_64-linux/quilt-native/0.64-r0/temp=
-/run.do_terminal.18591'
-> failed with exit code 1:
-> Opcja =E2=80=9E-t=E2=80=9D nie jest ju=C5=BC obs=C5=82ugiwana w tej wersj=
-i programu gnome-terminal.
-> Przetworzenie parametr=C3=B3w si=C4=99 nie powiod=C5=82o: Opcja =E2=80=9E=
---disable-factory=E2=80=9D nie
-> jest ju=C5=BC obs=C5=82ugiwana w tej wersji programu gnome-terminal.
-> ERROR: Function failed: do_devshell
-> ERROR: Logfile of failure stored in:
-> /home/darekp/locale_test/tmp/work/x86_64-linux/quilt-native/0.64-r0/temp/=
-log.do_devshell.18591
-> ERROR: Task 3
-> (/home/darekp/poky/meta/recipes-devtools/quilt/quilt-native_0.64.bb,
-> do_devshell) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 4 tasks of which 3 didn't need to be rerun
-> and 1 failed.
+=EF=BB=BFOn 27-11-15 12:19, Martin Jansa wrote:
+> On Fri, Nov 27, 2015 at 09:13:22AM -0200, Otavio Salvador wrote:
+>> On Fri, Nov 27, 2015 at 9:04 AM, Maxin B. John <maxin.john@intel.com> wr=
+ote:
+>>> This patch set provides libjpeg-turbo as a drop-in replacement for libj=
+peg.
+>>>
+>>> libjpeg-turbo is a fork of the original libjpeg project.Most of the maj=
+or Linux
+>>> distros (Fedora, Debian, OpenSUSE) moved from libjpeg to libjpeg-turbo =
+recently.
+>>> lbjpeg-turbo provides better JPEG compression/decompression(at least 25=
+% faster)
+>>> while maintaining same API/ABI as libjpeg.
+>>>
+>>> Once we reach an agreement on this, based on the decision, we can move =
+the
+>>> libjpeg package to meta-oe for applications which may depend on API ver=
+sion 9.
+>>
+>> I support this change, due:
+>>
+>>   - agreement with major Linux distros
+>>   - performance improvement
+>>
+>> I also think moving libjpeg (API version 9) for meta-oe is fine as
+>> well. I am not aware of any application which requires it, though.
 >
+> I'm not aware of any as well, so I would prefer to drop libjpeg
+> completely.
 >
-> The cause of the problem is the implementation of
-> poky/meta/lib/oe/terminal.py. It expects that gnome-terminal --version wi=
-ll
-> return string starting from: "GNOME Terminal". But the returned string
-> differs when locale is changes. This looks like this:
->
-> [darekp@darekp ~]$ LANG=3DC gnome-terminal --version
-> GNOME Terminal 3.18.2
->
-> [darekp@darekp ~]$ LANG=3Dpl_PL.utf8 gnome-terminal --version
-> Terminal GNOME 3.18.2
->
-> The same problem affects other locales in gnome-terminal. I'm proposing t=
-o
-> fix this issue by setting LANG=3DC during execution of gnome-terminal
-> --version.
->
+> + less junk in meta-oe
+> + people were confused about multiple jpeg providers before, now they
+> would be again, but without good reason (as nobody knows about apps
+> depending on libjpeg9).
 
-Hi,
+Indeed, most (read: "I") have set the PREFERRED_SUPPLIER to "jpeg" just to =
+get=20
+rid of the warning message, and not really bothering to check what either m=
+eant.
 
-Described problem was discussed on yocto@yoctoproject.org mailing
-list. Attached patch is fixing this issue, could you apply it? (I've
-tested this change on all terminals calling changed function: GNOME
-Terminal 3.18.2, Konsole: 15.08.0, tmux 2.1 and it worked correctly)
+I'm in favor of dropping libjpeg completely, it's just confusing.
 
-Thanks,
-Dariusz
+Moving it will lead to package dependency problems when upgrading from one =
+to=20
+the other.
 
---089e0149411ae22088052585f573
-Content-Type: text/x-patch; charset=US-ASCII; 
-	name="0001-lib-oe-terminal-use-C-locale-when-determining-versio.patch"
-Content-Disposition: attachment; 
-	filename="0001-lib-oe-terminal-use-C-locale-when-determining-versio.patch"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_ihhpwbs31
 
-RnJvbSA4YjFmZmM3NmVhNWE0YjA4NjJmNGJhN2MwNzNkODBhYTJiNWJkNjAwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBEYXJpdXN6IFBlbG93c2tpIDxkYXJpdXN6LnBlbG93c2tpQGdt
-YWlsLmNvbT4KRGF0ZTogVGh1LCAyNiBOb3YgMjAxNSAxNzo1OTo1MyArMDEwMApTdWJqZWN0OiBb
-UEFUQ0hdIGxpYi9vZS90ZXJtaW5hbDogdXNlIEMgbG9jYWxlIHdoZW4gZGV0ZXJtaW5pbmcgdmVy
-c2lvbgoKLS0tCiBtZXRhL2xpYi9vZS90ZXJtaW5hbC5weSB8IDQgKysrLQogMSBmaWxlIGNoYW5n
-ZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvbGli
-L29lL3Rlcm1pbmFsLnB5IGIvbWV0YS9saWIvb2UvdGVybWluYWwucHkKaW5kZXggYTRhOGM5Ny4u
-MWVmYzA2ZCAxMDA2NDQKLS0tIGEvbWV0YS9saWIvb2UvdGVybWluYWwucHkKKysrIGIvbWV0YS9s
-aWIvb2UvdGVybWluYWwucHkKQEAgLTI0NCw3ICsyNDQsOSBAQCBkZWYgY2hlY2tfdGVybWluYWxf
-dmVyc2lvbih0ZXJtaW5hbE5hbWUpOgogICAgICAgICBjbWR2ZXJzaW9uID0gJyVzIC0tdmVyc2lv
-bicgJSB0ZXJtaW5hbE5hbWUKICAgICAgICAgaWYgdGVybWluYWxOYW1lLnN0YXJ0c3dpdGgoJ3Rt
-dXgnKToKICAgICAgICAgICAgIGNtZHZlcnNpb24gPSAnJXMgLVYnICUgdGVybWluYWxOYW1lCi0g
-ICAgICAgIHAgPSBzdWIuUG9wZW4oWydzaCcsICctYycsIGNtZHZlcnNpb25dLCBzdGRvdXQ9c3Vi
-LlBJUEUsc3RkZXJyPXN1Yi5QSVBFKQorICAgICAgICBuZXdlbnYgPSBvcy5lbnZpcm9uLmNvcHko
-KQorICAgICAgICBuZXdlbnZbIkxBTkciXSA9ICJDIgorICAgICAgICBwID0gc3ViLlBvcGVuKFsn
-c2gnLCAnLWMnLCBjbWR2ZXJzaW9uXSwgc3Rkb3V0PXN1Yi5QSVBFLCBzdGRlcnI9c3ViLlBJUEUs
-IGVudj1uZXdlbnYpCiAgICAgICAgIG91dCwgZXJyID0gcC5jb21tdW5pY2F0ZSgpCiAgICAgICAg
-IHZlcl9pbmZvID0gb3V0LnJzdHJpcCgpLnNwbGl0KCdcbicpCiAgICAgZXhjZXB0IE9TRXJyb3Ig
-YXMgZXhjOgotLSAKMi42LjIKCg==
 
---089e0149411ae22088052585f573--
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Embedded Products
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+Telefax: +31 (0) 499 33 69 70
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
+
+
