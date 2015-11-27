@@ -1,36 +1,26 @@
-Return-Path: <wu.zheng@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 69C626012C
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 802C16012C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 10:07:08 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP; 27 Nov 2015 02:07:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,351,1444719600"; d="scan'208,217";a="3010090"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
-	by fmsmga004.fm.intel.com with ESMTP; 27 Nov 2015 02:07:10 -0800
-Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
-	FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Fri, 27 Nov 2015 02:07:09 -0800
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.223]) by
-	SHSMSX151.ccr.corp.intel.com ([169.254.3.88]) with mapi id
-	14.03.0248.002; Fri, 27 Nov 2015 18:07:08 +0800
-From: "Zheng, Wu" <wu.zheng@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] bluez5:upgrade bluez5 to 5.36
-Thread-Index: AQHRKPn1rOayt8jMaUmfeSWmhuLyTZ6vHZyAgACHBdA=
-Date: Fri, 27 Nov 2015 10:07:07 +0000
-Message-ID: <2CF57A644018A745B8FE029C7223E16E12EBCD86@SHSMSX104.ccr.corp.intel.com>
-References: <1448618616-30204-1-git-send-email-wu.zheng@intel.com>
-	<CAJTo0LYJCYcDtG1AR3WL-kd8T0=E2nWnhMyucGoZxt-r3JX_0w@mail.gmail.com>
-In-Reply-To: <CAJTo0LYJCYcDtG1AR3WL-kd8T0=E2nWnhMyucGoZxt-r3JX_0w@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
+	Fri, 27 Nov 2015 10:22:53 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tARAMrDx014232
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Nov 2015 02:22:53 -0800 (PST)
+Received: from pek-kkang-d2.wrs.com (128.224.162.180) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Fri, 27 Nov 2015 02:22:53 -0800
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 27 Nov 2015 18:22:51 +0800
+Message-ID: <8bdde49168d630f5c65c86db8fadacf1968bd39f.1448619641.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1448619641.git.jackie.huang@windriver.com>
+References: <cover.1448619641.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bluez5:upgrade bluez5 to 5.36
+Subject: [PATCH 1/2] python: Fix cross compiling issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,128 +33,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 10:07:09 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_2CF57A644018A745B8FE029C7223E16E12EBCD86SHSMSX104ccrcor_"
+X-List-Received-Date: Fri, 27 Nov 2015 10:22:53 -0000
+Content-Type: text/plain
 
---_000_2CF57A644018A745B8FE029C7223E16E12EBCD86SHSMSX104ccrcor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: Jackie Huang <jackie.huang@windriver.com>
 
-SGkgQnVydG9uLCBSb3NzDQoNClRoYW5rcy4NCg0KQmVzdCBSZWdhcmRzDQpaaGVuZyBXdQ0KDQpG
-cm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBG
-cmlkYXksIE5vdmVtYmVyIDI3LCAyMDE1IDY6MDMgUE0NClRvOiBaaGVuZywgV3UNCkNjOiBPRS1j
-b3JlDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYmx1ZXo1OnVwZ3JhZGUgYmx1ZXo1
-IHRvIDUuMzYNCg0KDQpPbiAyNyBOb3ZlbWJlciAyMDE1IGF0IDEwOjAzLCBXdSBaaGVuZyA8d3Uu
-emhlbmdAaW50ZWwuY29tPG1haWx0bzp3dS56aGVuZ0BpbnRlbC5jb20+PiB3cm90ZToNCkJsdWV6
-NS01LjM2IGZpeGVzIHRoZSBtb3N0IHBhcnQgb2YgYnVnLg0KVGhlIHRhcmdldCBhcmVhcyBvZiBi
-dWcgYXJlIHN1Y2ggYXMgUEJBUCwgQVZSQ1AsIEhvRyBhbmQgR0FUVC4NCkl0IGZpeGVzIGEgZmFp
-cmx5IGltcG9ydGFudCBidWcgZm9yIHRoZSBHQVRUIEQtQnVzIGludGVyZmFjZXMgdG9vLg0KQXQg
-dGhlIHNhbWUgdGltZSwgQmx1ZXogd2lsbCBjYWNoZSBtb3JlIGluZm9ybWF0aW9uIG9mIHJlbW90
-ZSBHQVRUDQpkYXRhYmFzZXMgYW5kIHRoZXJlYnkgYXZvaWQgdW5uZWNlc3NhcnkgcmVkaXNjb3Zl
-cnkgb2YgcmVtb3RlIHNlcnZpY2VzLg0KDQpDcmlzdGlhbiBzdWJtaXR0ZWQgdGhpcyB1cGdyYWRl
-IGEgd2hpbGUgYmFjaywgYW5kIGl0IHNlZ2ZhdWx0cyBvbiBzdGFydHVwIHF1aXRlIG9mdGVuOg0K
-DQpodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvbWFpbi9idWlsZGVycy9uaWdo
-dGx5LXFhLWxvZ3JvdGF0ZS9idWlsZHMvNTM4L3N0ZXBzL1J1bm5pbmclMjBTYW5pdHklMjBUZXN0
-cy9sb2dzL3N0ZGlvDQoNCldoZW4gaXQgZG9lc24ndCBkbyB0aGF0LCB3ZSBjYW4gbWVyZ2UgaXQu
-DQoNClJvc3MNCg==
+If the target and host have the same type, the system
+may try to execute the instructions from the target
+version.  This can lead to illegal instructions
+as well as the wrong copy of the code running.
 
---_000_2CF57A644018A745B8FE029C7223E16E12EBCD86SHSMSX104ccrcor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Add CROSSPYTHONPATH for PYTHON_FOR_BUILD and export
+the correct path to fix it.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
-O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
-MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWui+S9kyI7DQoJ
-cGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0K
-cC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0K
-CW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
-OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0
-eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNp
-dGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsN
-Cgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWls
-U3R5bGUxNw0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToi
-Q2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJ
-e21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
-LXNlcmlmO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCglt
-YXJnaW46NzIuMHB0IDkwLjBwdCA3Mi4wcHQgOTAuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7
-cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4N
-CjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48
-IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0
-PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5
-b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iWkgtQ04iIGxpbms9
-ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3
-RCI+SGkgQnVydG9uLCBSb3NzPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFt
-aWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZu
-YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJF
-Ti1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoYW5rcy48bzpwPjwvbzpwPjwvc3Bhbj48
-L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQt
-c2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2Nv
-bG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+QmVzdCBS
-ZWdhcmRzPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-bGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5aaGVuZyBXdTxvOnA+PC9vOnA+
-PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29tcG9z
-ZSI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5
-OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNw
-OzwvbzpwPjwvc3Bhbj48L2E+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFu
-Zz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
-cmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVTIiBz
-dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNh
-bnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8
-YnI+DQo8Yj5TZW50OjwvYj4gRnJpZGF5LCBOb3ZlbWJlciAyNywgMjAxNSA2OjAzIFBNPGJyPg0K
-PGI+VG86PC9iPiBaaGVuZywgV3U8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJq
-ZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGJsdWV6NTp1cGdyYWRlIGJsdWV6NSB0byA1
-LjM2PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFu
-Zz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9z
-cGFuPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+
-T24gMjcgTm92ZW1iZXIgMjAxNSBhdCAxMDowMywgV3UgWmhlbmcgJmx0OzxhIGhyZWY9Im1haWx0
-bzp3dS56aGVuZ0BpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj53dS56aGVuZ0BpbnRlbC5jb208
-L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0i
-Ym9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAw
-Y20gMGNtIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPGRpdiBp
-ZD0iOjF2ZyI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+Qmx1ZXo1
-LTUuMzYgZml4ZXMgdGhlIG1vc3QgcGFydCBvZiBidWcuPGJyPg0KVGhlIHRhcmdldCBhcmVhcyBv
-ZiBidWcgYXJlIHN1Y2ggYXMgUEJBUCwgQVZSQ1AsIEhvRyBhbmQgR0FUVC48YnI+DQpJdCBmaXhl
-cyBhIGZhaXJseSBpbXBvcnRhbnQgYnVnIGZvciB0aGUgR0FUVCBELUJ1cyBpbnRlcmZhY2VzIHRv
-by48YnI+DQpBdCB0aGUgc2FtZSB0aW1lLCBCbHVleiB3aWxsIGNhY2hlIG1vcmUgaW5mb3JtYXRp
-b24gb2YgcmVtb3RlIEdBVFQ8YnI+DQpkYXRhYmFzZXMgYW5kIHRoZXJlYnkgYXZvaWQgdW5uZWNl
-c3NhcnkgcmVkaXNjb3Zlcnkgb2YgcmVtb3RlIHNlcnZpY2VzLjxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBsYW5nPSJFTi1VUyI+PGJyPg0KQ3Jpc3RpYW4gc3VibWl0dGVkIHRoaXMgdXBncmFkZSBh
-IHdoaWxlIGJhY2ssIGFuZCBpdCBzZWdmYXVsdHMgb24gc3RhcnR1cCBxdWl0ZSBvZnRlbjo8bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxhIGhyZWY9Imh0
-dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy9tYWluL2J1aWxkZXJzL25pZ2h0bHkt
-cWEtbG9ncm90YXRlL2J1aWxkcy81Mzgvc3RlcHMvUnVubmluZyUyMFNhbml0eSUyMFRlc3RzL2xv
-Z3Mvc3RkaW8iPmh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy9tYWluL2J1aWxk
-ZXJzL25pZ2h0bHktcWEtbG9ncm90YXRlL2J1aWxkcy81Mzgvc3RlcHMvUnVubmluZyUyMFNhbml0
-eSUyMFRlc3RzL2xvZ3Mvc3RkaW88L2E+PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7
-PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
-cGFuIGxhbmc9IkVOLVVTIj5XaGVuIGl0IGRvZXNuJ3QgZG8gdGhhdCwgd2UgY2FuIG1lcmdlIGl0
-LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rp
-dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+Um9zczxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwv
-aHRtbD4NCg==
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ .../add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch | 31 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.9.bb       |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch
 
---_000_2CF57A644018A745B8FE029C7223E16E12EBCD86SHSMSX104ccrcor_--
+diff --git a/meta/recipes-devtools/python/python/add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch b/meta/recipes-devtools/python/python/add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch
+new file mode 100644
+index 0000000..5ba5480
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch
+@@ -0,0 +1,31 @@
++configure.ac: add CROSSPYTHONPATH into PYTHONPATH for PYTHON_FOR_BUILD
++
++When building x86->x86 the system will try to execute .so and related items
++from the default PYTHONPATH.  This will fail if the target CPU contains
++instructions that the host CPU does not have, add CROSSPYTHONPATH
++into PYTHONPATH so we can prepend the list to find correct libs.
++
++Upstream-Status: Inappropriate [OE-Core integration specific]
++
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
++---
++ configure.ac | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/configure.ac b/configure.ac
++index 87a4f02..f20cc7b 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -33,7 +33,7 @@ if test "$cross_compiling" = yes; then
++ 	    AC_MSG_ERROR([python$PACKAGE_VERSION interpreter not found])
++ 	fi
++         AC_MSG_RESULT($interp)
++-	PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib:$(srcdir)/Lib/plat-$(MACHDEP) '$interp
+++	PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(CROSSPYTHONPATH):$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib:$(srcdir)/Lib/plat-$(MACHDEP) '$interp
++     fi
++ elif test "$cross_compiling" = maybe; then
++     AC_MSG_ERROR([Cross compiling required --host=HOST-TUPLE and --build=ARCH])
++-- 
++2.5.0
++
+diff --git a/meta/recipes-devtools/python/python_2.7.9.bb b/meta/recipes-devtools/python/python_2.7.9.bb
+index bc20417..f585a53 100644
+--- a/meta/recipes-devtools/python/python_2.7.9.bb
++++ b/meta/recipes-devtools/python/python_2.7.9.bb
+@@ -26,6 +26,7 @@ SRC_URI += "\
+   file://parallel-makeinst-create-bindir.patch \
+   file://use_sysroot_ncurses_instead_of_host.patch \
+   file://avoid_parallel_make_races_on_pgen.patch \
++  file://add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch \
+ "
+ 
+ S = "${WORKDIR}/Python-${PV}"
+-- 
+1.9.1
+
+
