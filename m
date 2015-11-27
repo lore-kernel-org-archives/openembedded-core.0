@@ -1,23 +1,20 @@
-Return-Path: <Yuanjie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BF4686012A
+Return-Path: <wu.zheng@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 327216012A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 09:25:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tAR9Psrl008033
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 27 Nov 2015 01:25:54 -0800 (PST)
-Received: from Flora.wrs.com (128.224.163.135) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 27 Nov 2015 01:25:53 -0800
-From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Nov 2015 17:31:20 +0800
-Message-ID: <1448616680-18707-1-git-send-email-Yuanjie.Huang@windriver.com>
-X-Mailer: git-send-email 2.6.2
-MIME-Version: 1.0
-Subject: [PATCH V3] gcc-cross-initial: make dependency on gnu-config-native and autoconf-native explicit
+	Fri, 27 Nov 2015 09:56:53 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Nov 2015 01:56:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,351,1444719600"; d="scan'208";a="860780125"
+Received: from wzhen12-work.bj.intel.com ([10.238.135.58])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Nov 2015 01:56:53 -0800
+From: Wu Zheng <wu.zheng@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Nov 2015 18:03:36 +0800
+Message-Id: <1448618616-30204-1-git-send-email-wu.zheng@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] bluez5:upgrade bluez5 to 5.36
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,46 +27,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 09:25:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 27 Nov 2015 09:56:59 -0000
 
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+Bluez5-5.36 fixes the most part of bug.
+The target areas of bug are such as PBAP, AVRCP, HoG and GATT.
+It fixes a fairly important bug for the GATT D-Bus interfaces too.
+At the same time, Bluez will cache more information of remote GATT
+databases and thereby avoid unnecessary rediscovery of remote services.
 
-When a project is configure to use sstate cache and has the host tool sysroot
-cleaned, gcc-cross-initial may fail to be configured due to lack of
-gnu-configize tool.
-
-gcc-cross-initial recipe has autotools dependency inhibited, and the same flag
-variable also excludes the gnu-config-native.  Though there is an indirect
-dependency through libmpc-native, it's not safe with sstate cache being used.
-
-Moreover, gnu-config-native requires a perl package from autoconf-native to
-run, otherwise it will fail with "Can't locate Autom4te/ChannelDefs.pm in @INC"
-message.
-
-This patch makes both dependencies explicit for gcc-cross-initial's
-configuration.
-
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+Signed-off-by: Wu Zheng <wu.zheng@intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-cross-initial.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-connectivity/bluez5/bluez5_5.33.bb | 52 -------------------------
+ meta/recipes-connectivity/bluez5/bluez5_5.36.bb | 52 +++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+), 52 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.33.bb
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.36.bb
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-index 7197447..1cb341b 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
-@@ -5,6 +5,9 @@ PACKAGES = ""
- INHIBIT_AUTOTOOLS_DEPS = "1"
- INHIBIT_DEFAULT_DEPS = "1"
- 
-+# We still need gnu-config-native
-+DEPENDS_prepend = "gnu-config-native autoconf-native "
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.33.bb b/meta/recipes-connectivity/bluez5/bluez5_5.33.bb
+deleted file mode 100644
+index 23c7397..0000000
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.33.bb
++++ /dev/null
+@@ -1,52 +0,0 @@
+-require bluez5.inc
+-SRC_URI[md5sum] = "78782dc33d9a8b6344c4cc1af70c8a98"
+-SRC_URI[sha256sum] = "1801807a13506678cbfeb15c6a4b89ecb5739efe1067eb464da6641d731436d3"
+-
+-# noinst programs in Makefile.tools that are conditional on READLINE
+-# support
+-NOINST_TOOLS_READLINE ?= " \
+-    attrib/gatttool \
+-    tools/obex-client-tool \
+-    tools/obex-server-tool \
+-    tools/bluetooth-player \
+-    tools/obexctl \
+-"
+-
+-# noinst programs in Makefile.tools that are conditional on EXPERIMENTAL
+-# support
+-NOINST_TOOLS_EXPERIMENTAL ?= " \
+-    emulator/btvirt \
+-    emulator/b1ee \
+-    emulator/hfp \
+-    tools/3dsp \
+-    tools/mgmt-tester \
+-    tools/gap-tester \
+-    tools/l2cap-tester \
+-    tools/sco-tester \
+-    tools/smp-tester \
+-    tools/hci-tester \
+-    tools/rfcomm-tester \
+-    tools/bdaddr \
+-    tools/avinfo \
+-    tools/avtest \
+-    tools/scotest \
+-    tools/amptest \
+-    tools/hwdb \
+-    tools/hcieventmask \
+-    tools/hcisecfilter \
+-    tools/btmgmt \
+-    tools/btinfo \
+-    tools/btattach \
+-    tools/btsnoop \
+-    tools/btproxy \
+-    tools/btiotest \
+-    tools/mcaptest \
+-    tools/cltest \
+-    tools/oobtest \
+-    tools/seq2bseq \
+-    tools/ibeacon \
+-    tools/btgatt-client \
+-    tools/btgatt-server \
+-    tools/gatt-service \
+-    profiles/iap/iapd \
+-"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.36.bb b/meta/recipes-connectivity/bluez5/bluez5_5.36.bb
+new file mode 100644
+index 0000000..b94ed31
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.36.bb
+@@ -0,0 +1,52 @@
++require bluez5.inc
++SRC_URI[md5sum] = "9a0ee479cacc44fac68f6a65b1cd3eba"
++SRC_URI[sha256sum] = "a343ea1aeb53d3bd139087f3b1c1e1fb70db452d9762cc7a3d23e75962e578f2"
 +
- PN = "gcc-cross-initial-${TARGET_ARCH}"
- 
- CROSS_TARGET_SYS_DIR_append = ".${PN}"
++# noinst programs in Makefile.tools that are conditional on READLINE
++# support
++NOINST_TOOLS_READLINE ?= " \
++    attrib/gatttool \
++    tools/obex-client-tool \
++    tools/obex-server-tool \
++    tools/bluetooth-player \
++    tools/obexctl \
++"
++
++# noinst programs in Makefile.tools that are conditional on EXPERIMENTAL
++# support
++NOINST_TOOLS_EXPERIMENTAL ?= " \
++    emulator/btvirt \
++    emulator/b1ee \
++    emulator/hfp \
++    tools/3dsp \
++    tools/mgmt-tester \
++    tools/gap-tester \
++    tools/l2cap-tester \
++    tools/sco-tester \
++    tools/smp-tester \
++    tools/hci-tester \
++    tools/rfcomm-tester \
++    tools/bdaddr \
++    tools/avinfo \
++    tools/avtest \
++    tools/scotest \
++    tools/amptest \
++    tools/hwdb \
++    tools/hcieventmask \
++    tools/hcisecfilter \
++    tools/btmgmt \
++    tools/btinfo \
++    tools/btattach \
++    tools/btsnoop \
++    tools/btproxy \
++    tools/btiotest \
++    tools/mcaptest \
++    tools/cltest \
++    tools/oobtest \
++    tools/seq2bseq \
++    tools/ibeacon \
++    tools/btgatt-client \
++    tools/btgatt-server \
++    tools/gatt-service \
++    profiles/iap/iapd \
++"
 -- 
-2.6.2
+2.1.4
 
 
