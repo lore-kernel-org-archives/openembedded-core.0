@@ -1,28 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 01F9F601D4
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E4446011F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Nov 2015 00:38:14 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Nov 2015 16:38:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,349,1444719600"; d="scan'208";a="860173040"
-Received: from rsiu-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.135.187])
-	by orsmga002.jf.intel.com with ESMTP; 26 Nov 2015 16:38:08 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Date: Fri, 27 Nov 2015 13:38:07 +1300
-Message-ID: <3535657.nz9bUxjTqG@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.13-100.fc21.x86_64; KDE/4.14.11; x86_64; ;
-	)
-In-Reply-To: <10f00a2b408869e7b8a7e850920d63dce65b4ca5.1448442869.git.patrick.ohly@intel.com>
-References: <cover.1448442869.git.patrick.ohly@intel.com>
-	<10f00a2b408869e7b8a7e850920d63dce65b4ca5.1448442869.git.patrick.ohly@intel.com>
+	Fri, 27 Nov 2015 01:31:08 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAR1V8gP031932
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Nov 2015 17:31:08 -0800
+Received: from [128.224.162.160] (128.224.162.160) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 26 Nov 2015 17:31:08 -0800
+To: Mark Hatle <mark.hatle@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1448534065.git.liezhi.yang@windriver.com>
+	<ffc91bbcddb6b8806c4e4aacaaaf8ea122adc1c1.1448534065.git.liezhi.yang@windriver.com>
+	<56571E00.2040503@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <5657B25A.30901@windriver.com>
+Date: Fri, 27 Nov 2015 09:31:06 +0800
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Cc: alexander.kanevskiy@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] buildhistory-extra.bbclass: more complete and reliable data gathering
+In-Reply-To: <56571E00.2040503@windriver.com>
+Subject: Re: [PATCH 1/1] rpm: fix for N32 MIPS64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,156 +37,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Nov 2015 00:38:17 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 27 Nov 2015 01:31:13 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 25 November 2015 10:30:32 Patrick Ohly wrote:
-> buildhistory_emit_pkghistory() only runs for recipes with packages and
-> when gathering information about packages is enabled. Information
-> about source files is needed in all cases because one cannot assume
-> that native compilation is based on exactly the same sources as
-> compilation for the target and/or there might not be the corresponding
-> information about the target compilation. This was not mentioned in
-> the feature description of
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=8138 and thus not
-> covered by the original implementation.
-> 
-> Therefore we need to ensure that the extra code runs independently
-> from buildhistory_emit_pkghistory(). This is done in a similar way,
-> except that the code runs earlier when populating the sysroot, which
-> is done for native and target recipes.
-> 
-> Because the code now runs before buildhistory_emit_pkghistory(), we
-> may have to create the recipe directory. This was already true for
-> buildhistory_extra_emit_kernelconfig() which failed when starting with
-> a build history that had no directory for the kernel. Even if it was
-> written, that "kconfig" file then later got removed again by the
-> directory cleaning code in buildhistory_emit_pkghistory(). Now the new
-> BUILDHISTORY_PRESERVE mechanism is used to prevent that.
-> 
-> Handling the "latest" file is tricky: it mixes values that only exist
-> for recipes with packages (PACKAGES, obviously) and values that always
-> exist (like PV and PR), but the base class only writes it for recipes
-> with packages. Instead of doing intrusive changes to the base class to
-> fix that, the file now simply gets written by the extra code first and
-> later gets overwritten with a more complete version by the base
-> class. Another alternative would be to store PV and PR twice, but some
-> redundant work during build time seems better than redundancy in the
-> result.
-> 
-> Allowing a derived class to extend the file would cause even more
-> complications (like having to write to the file three times, or
-> introducing some kind of hook mechanism). While doable, it seems easier
-> to just store extra variables in a separate "variables" file.
-> 
-> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-> ---
->  meta/classes/buildhistory-extra.bbclass | 49
-> +++++++++++++++++++++++++++++---- 1 file changed, 44 insertions(+), 5
-> deletions(-)
-> 
-> diff --git a/meta/classes/buildhistory-extra.bbclass
-> b/meta/classes/buildhistory-extra.bbclass index 2dd5c5f..05ba4cf 100644
-> --- a/meta/classes/buildhistory-extra.bbclass
-> +++ b/meta/classes/buildhistory-extra.bbclass
-> @@ -6,15 +6,51 @@
-> 
->  inherit buildhistory
-> 
-> +# Variables to record in the "variables" file of each recipe.
-> +#
-> +# WARNING: changing this does not cause a rewrite of that file unless
-> +# something causes do_populate_sysroot[_setscene] to be run again,
-> +# like removing the tempdir and rebuilding (with or without sstate).
->  BUILDHISTORY_EXTRA_PKGVARS ?= "PACKAGECONFIG EXTRA_OEMAKE EXTRA_OECONF
-> EXTRA_OECMAKE EXTRA_OESCONS EXTRA_QMAKEVARS_PRE EXTRA_QMAKEVARS_POST
-> OE_FEATURES SUMMARY DESCRIPTION HOMEPAGE LICENSE"
-> 
-> -python buildhistory_emit_pkghistory_append() {
-> +BUILDHISTORY_PRESERVE += "sources metadata variables kconfig"
-> +
-> +SSTATEPOSTINSTFUNCS_append = " buildhistory_extra_emit_pkghistory"
-> +# We want to avoid influence the signatures of sstate tasks - first the
-> function itself: +sstate_install[vardepsexclude] +=
-> "buildhistory_extra_emit_pkghistory" +# then the value added to
-> SSTATEPOSTINSTFUNCS:
-> +SSTATEPOSTINSTFUNCS[vardepvalueexclude] .= "|
-> buildhistory_extra_emit_pkghistory" +
-> +python buildhistory_extra_emit_pkghistory() {
-> +    bb.note('buildhistory_extra_emit_pkghistory %s' %
-> d.getVar('BB_CURRENTTASK', True)) +    if not d.getVar('BB_CURRENTTASK',
-> True) in ['populate_sysroot', 'populate_sysroot_setscene']: +        return
-> 0
-> +
->      import codecs
-> 
->      relpath = os.path.dirname(d.getVar('TOPDIR', True))
-> +    pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE', True)
-> +    if not os.path.exists(pkghistdir):
-> +        bb.utils.mkdirhier(pkghistdir)
-> +
-> +    # Record PV in the "latest" file. This duplicates work in
-> +    # buildhistory_emit_pkghistory(), but we do not know whether
-> +    # that will run (it gets skipped for recipes which never
-> +    # reach the packaging state or when "package" is not in
-> +    # BUILDHISTORY_FEATURES), so we write the file here
-> +    # and let buildhistory_emit_pkghistory() overwrite it again
-> +    # with more information later.
-> +    infofile = os.path.join(pkghistdir, "latest")
-> +    pe = d.getVar('PE', True) or "0"
-> +    pv = d.getVar('PV', True)
-> +    pr = d.getVar('PR', True)
-> +    with codecs.open(infofile, "w", encoding='utf8') as f:
-> +        if pe != "0":
-> +            f.write(u"PE = %s\n" % pe)
-> +        f.write(u"PV = %s\n" % pv)
-> +        f.write(u"PR = %s\n" % pr)
-> 
->      # List sources
-> -    pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE', True)
->      srcsfile = os.path.join(pkghistdir, "sources")
->      with codecs.open(srcsfile, "w", encoding='utf8') as f:
->          urls = (d.getVar('SRC_URI', True) or '').split()
-> @@ -39,15 +75,16 @@ python buildhistory_emit_pkghistory_append() {
->                      path = os.path.relpath(path, relpath)
->                  f.write('%s %s\n' % (path, sha256sum))
-> 
-> -    # List some extra var values
-> -    latestfile = os.path.join(pkghistdir, "latest")
->      vars = (d.getVar('BUILDHISTORY_EXTRA_PKGVARS', True) or '').split()
-> +    varsfile = os.path.join(pkghistdir, "variables")
->      if vars:
-> -        with codecs.open(latestfile, "a", encoding='utf8') as f:
-> +        with codecs.open(varsfile, "w", encoding='utf8') as f:
->              for var in vars:
->                  value = oe.utils.squashspaces(d.getVar(var, True) or '')
->                  if value:
->                      f.write('%s = %s\n' % (var, value))
-> +    elif os.path.exists(varsfile):
-> +        os.unlink(varsfile)
->  }
-> 
->  python() {
-> @@ -64,6 +101,8 @@ python buildhistory_extra_emit_kernelconfig() {
->      # during the actual kernel build.
->      import shutil
->      pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE', True)
-> +    if not os.path.exists(pkghistdir):
-> +        bb.utils.mkdirhier(pkghistdir)
->      shutil.copyfile(d.expand('${B}/.config'), os.path.join(pkghistdir,
-> 'kconfig')) }
 
-Changes look OK (aside from general comments in my other reply about 
-applicability to OE-Core), one minor note though - no need to check if the 
-directory exists before calling mkdirhier() since that function will do that 
-itself and will not error if it exists.
+Thanks, updated in the repo:
 
-Cheers,
-Paul
+   git://git.openembedded.org/openembedded-core-contrib rbt/n32
 
--- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+commit b817f6b15376e9fc95c6ab50c6dae825a6c81ce6
+Author: Robert Yang <liezhi.yang@windriver.com>
+Date:   Thu Nov 26 02:05:17 2015 -0800
+
+     rpm: fix for N32 MIPS64
+
+     Issue: LIN8-1726
+
+     Older versions of 'file' reported it as N32 MIPS32, newer versions are
+     reporting it as N32 MIPS64. So we should check for both.
+
+     $ file image/usr/bin/getent
+     getent: ELF 32-bit MSB executable, MIPS, N32 MIPS64 [snip]
+
+     (LOCAL REV: NOT UPSTREAM) -- Sent to oe-core on 20151126
+
+     Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch 
+b/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
+new file mode 100644
+index 0000000..99cdf85
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
+@@ -0,0 +1,33 @@
++From e864ec768ad0736bddcd951b2db8fe12c7b30e4e Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Thu, 26 Nov 2015 01:36:40 -0800
++Subject: [PATCH] lib/rpmfc.c: fix for N32 MIPS64
++
++Older versions of 'file' reported it as N32 MIPS32, newer versions are
++reporting it as N32 MIPS64. So we should check for both.
++
++$ file image/usr/bin/getent
++getent: ELF 32-bit MSB executable, MIPS, N32 MIPS64 [snip]
++
++Upstream-Status: Pending
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ lib/rpmfc.c |    1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/lib/rpmfc.c b/lib/rpmfc.c
++index fde00c7..c9c82bf 100644
++--- a/lib/rpmfc.c
+++++ b/lib/rpmfc.c
++@@ -575,6 +575,7 @@ static struct rpmfcTokens_s rpmfcTokens[] = {
++   { " not stripped",          RPMFC_NOTSTRIPPED },
++   { " archive",                       RPMFC_ARCHIVE },
++
+++  { "MIPS, N32 MIPS64",               RPMFC_ELFMIPSN32|RPMFC_INCLUDE },
++   { "MIPS, N32 MIPS32",               RPMFC_ELFMIPSN32|RPMFC_INCLUDE },
++   { "ELF 32-bit",             RPMFC_ELF32|RPMFC_INCLUDE },
++   { "ELF 64-bit",             RPMFC_ELF64|RPMFC_INCLUDE },
++--
++1.7.9.5
++
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb 
+b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+index 951b251..0d14728 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+@@ -111,6 +111,7 @@ SRC_URI = "cvs://anonymous@rpm5.org/cvs;tag=rpm-5_4;module=rpm \
+            file://rpm-rpmpgp-fix.patch \
+            file://rpm-disable-Wno-override-init.patch \
+            file://rpm-realpath.patch \
++          file://rpm-rpmfc.c-fix-for-N32-MIPS64.patch \
+           "
+
+  # Uncomment the following line to enable platform score debugging
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb 
+b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+index 3930410..8e1d3cb 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+@@ -101,6 +101,7 @@ SRC_URI = 
+"http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
+            file://rpm-opendb-before-verifyscript-to-avoid-null-point.patch \
+            file://configure.ac-check-for-both-gpg2-and-gpg.patch \
+            file://0001-define-EM_AARCH64.patch \
++          file://rpm-rpmfc.c-fix-for-N32-MIPS64.patch \
+           "
+
+  # Uncomment the following line to enable platform score debugging
+
+
+// Robert
+
+On 11/26/2015 10:58 PM, Mark Hatle wrote:
+> On 11/26/15 4:35 AM, Robert Yang wrote:
+>> It is 'N32 MIPS64', not 'N32 MIPS32' as command file shows:
+>> $ file image/usr/bin/getent
+>> getent: ELF 32-bit MSB executable, MIPS, N32 MIPS64 [snip]
+>>
+>> And "rpm -qp --filecolor" was wrong (it was 1, but should be 4), which
+>> caused multilib installation error.
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   .../rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch   |   34 ++++++++++++++++++++
+>>   meta/recipes-devtools/rpm/rpm_5.4+cvs.bb           |    1 +
+>>   meta/recipes-devtools/rpm/rpm_5.4.14.bb            |    1 +
+>>   3 files changed, 36 insertions(+)
+>>   create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
+>>
+>> diff --git a/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch b/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
+>> new file mode 100644
+>> index 0000000..a516574
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/rpm/rpm/rpm-rpmfc.c-fix-for-N32-MIPS64.patch
+>> @@ -0,0 +1,34 @@
+>> +From 16dc683aa50be9789d1674734b06a8a955ff22ad Mon Sep 17 00:00:00 2001
+>> +From: Robert Yang <liezhi.yang@windriver.com>
+>> +Date: Thu, 26 Nov 2015 01:36:40 -0800
+>> +Subject: [PATCH] lib/rpmfc.c: fix for N32 MIPS64
+>> +
+>> +It is 'N32 MIPS64', not 'N32 MIPS32' as command file shows:
+>> +$ file image/usr/bin/getent
+>> +getent: ELF 32-bit MSB executable, MIPS, N32 MIPS64 [snip]
+>> +
+>> +And "rpm -qp --filecolor" was wrong (it was 1, but should be 4).
+>> +
+>> +Upstream-Status: Pending
+>> +
+>> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> +---
+>> + lib/rpmfc.c |    2 +-
+>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>> +
+>> +diff --git a/lib/rpmfc.c b/lib/rpmfc.c
+>> +index fde00c7..49779f8 100644
+>> +--- a/lib/rpmfc.c
+>> ++++ b/lib/rpmfc.c
+>> +@@ -575,7 +575,7 @@ static struct rpmfcTokens_s rpmfcTokens[] = {
+>> +   { " not stripped",		RPMFC_NOTSTRIPPED },
+>> +   { " archive",			RPMFC_ARCHIVE },
+>> +
+>> +-  { "MIPS, N32 MIPS32",		RPMFC_ELFMIPSN32|RPMFC_INCLUDE },
+>> ++  { "MIPS, N32 MIPS64",		RPMFC_ELFMIPSN32|RPMFC_INCLUDE },
+>
+> I mentioned this to Robert off the list as well.  But I believe we need to look
+> for both N32 MIPS32 and N32 MIPS64 here.
+>
+> Older versions of file 'magic' (which is what rpmfc.c is looking at) reported
+> 'N32 MIPS32', while it appears newer versions report 'N32 MIPS64'.  So checking
+> both is my recommendation.  But this does fix an issue where you can't install
+> both N32 and O32 multilibs without ELF collisions.
+>
+> --Mark
+>
+>> +   { "ELF 32-bit",		RPMFC_ELF32|RPMFC_INCLUDE },
+>> +   { "ELF 64-bit",		RPMFC_ELF64|RPMFC_INCLUDE },
+>> +
+>> +--
+>> +1.7.9.5
+>> +
+>> diff --git a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+>> index 951b251..0d14728 100644
+>> --- a/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+>> +++ b/meta/recipes-devtools/rpm/rpm_5.4+cvs.bb
+>> @@ -111,6 +111,7 @@ SRC_URI = "cvs://anonymous@rpm5.org/cvs;tag=rpm-5_4;module=rpm \
+>>   	   file://rpm-rpmpgp-fix.patch \
+>>   	   file://rpm-disable-Wno-override-init.patch \
+>>   	   file://rpm-realpath.patch \
+>> +	   file://rpm-rpmfc.c-fix-for-N32-MIPS64.patch \
+>>   	  "
+>>
+>>   # Uncomment the following line to enable platform score debugging
+>> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+>> index 3930410..8e1d3cb 100644
+>> --- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+>> +++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+>> @@ -101,6 +101,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
+>>   	   file://rpm-opendb-before-verifyscript-to-avoid-null-point.patch \
+>>   	   file://configure.ac-check-for-both-gpg2-and-gpg.patch \
+>>   	   file://0001-define-EM_AARCH64.patch \
+>> +	   file://rpm-rpmfc.c-fix-for-N32-MIPS64.patch \
+>>   	  "
+>>
+>>   # Uncomment the following line to enable platform score debugging
+>>
+>
 
