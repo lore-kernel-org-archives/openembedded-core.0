@@ -1,48 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id A048560616
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 395776FF22
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Nov 2015 13:56:58 +0000 (UTC)
-Received: by igcto18 with SMTP id to18so70997871igc.0
+	Mon, 30 Nov 2015 13:57:14 +0000 (UTC)
+Received: by wmec201 with SMTP id c201so156851954wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Nov 2015 05:56:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=xeqh7S2BVXKrjvWlY8mlLbOxar0X25g5+1zAUUZJFzQ=;
-	b=pzyDp9jTtijtWSpp4j9msbZkeABqy2qSmF9DbWTFLpklX9xBxIzALSgEIR813+PAgp
-	rYqxQqgwbf409wyRa7sCl+fYogt8RInE1sOLJsNjLLGx6Q1m8ZAmv0+F2DwJeLoMOLZK
-	Fk/bWU+3enJGgLP6W4wIOh6DV67fY4JxrkuUKkwpKzlcCmtPb062VOk6RGhfiYGgmpnA
-	AjR4EZu/PybfLlccXKFdZK4wHUYMUjTdEqO2tkgPhihPgGnQsKIfYzKVr/CIelYejsKa
-	0RYQNQLMD6APYKMTvlpaa7U9lBnhHwLPG5GVdKchQnMWhGst0OdXo0iJfXAi+t51BlEj
-	Vcog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=xeqh7S2BVXKrjvWlY8mlLbOxar0X25g5+1zAUUZJFzQ=;
-	b=X9Wn4iq3Ps2pDsxDbYeopi/IqxiN14T4xoxAUqRa7ObF5ys8RBvg6lCRtgsk7wOiaQ
-	RMi+ndctPlqHKyhgWy9tvhO5iB+yaj9bDiNnPt4tOwCXwWnxNRtqtstqZC4Bjo2OZJQn
-	CQNGPO/2tuZWcagkbpnXS3zTOuIylAfr5OjPIlY3DEamR/Tu70pe/BLbGnluPU49+y9X
-	yjx8GE4VrP5RrjsRYz28kFHqufAshBWSc+MY+Wy5wSbzpgP0QCwYfjFrpGEZgRzQ1Yav
-	QewCkFPhPoFDy4trhjpvKcFo2hVJELOQfBJjptnsTGjSNIVsVXznZXIM/76wt37798u8
-	CBuQ==
-X-Gm-Message-State: ALoCoQlsmGKH517TjDeX9Nyi2kx9unqW/3k7YMKGPhVDblWKMoAvlkOFhuuWhR5Rl+liAaxRC+b+
-X-Received: by 10.50.79.129 with SMTP id j1mr19807648igx.52.1448891819173;
-	Mon, 30 Nov 2015 05:56:59 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Mon, 30 Nov 2015 05:56:39 -0800 (PST)
-In-Reply-To: <20151130124035.GA2250@jama>
-References: <1448885938-25946-1-git-send-email-ross.burton@intel.com>
-	<20151130124035.GA2250@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 30 Nov 2015 13:56:39 +0000
-Message-ID: <CAJTo0LYK1S8e4r2ikXHuOkv6NSEn1ym9W1wU_6H6qw8KUA4HHg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libsdl: expand PACKAGECONFIG and enable native builds
+	Mon, 30 Nov 2015 05:57:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=tSQ592q5wc2jSQd8Vyw79XJlCBlOrH9APQYxwYixvhs=;
+	b=BCr6I3j4ZfMCnPwEqYImRfJAMXNwKGLa6eOieoaxuhJdeaLAhKtJxNk+MnzDKoF+Yy
+	ZXrVjI8u8GzMpeOlFe3xtcn+LChPb1oHbtLOOXRMCmPkP8Lfgf10wuGkB0isW/V+yqSC
+	m+FvwoaqkIHu6uwbu6aM5CNxRdnxrAv/s+gw8ILFhbhbW5JU1gtW0f6echC3Vw2lQHGN
+	nn/8H6X5rYuHp3NZ2FiRS5csR0NG/mr5hBetQe/REL7ME80CWw/NgwiBMGJDAFX9z1T9
+	Odsu+qhY6GVAZvaXke7R5uCcFUUtImxZXi7taUzVW4fsmxPdN91o9U6izyB2FCEnKqak
+	iXKw==
+X-Received: by 10.28.68.133 with SMTP id r127mr28788402wma.71.1448891835193;
+	Mon, 30 Nov 2015 05:57:15 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	t64sm21594803wmf.23.2015.11.30.05.57.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 30 Nov 2015 05:57:14 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 Nov 2015 14:58:04 +0100
+Message-Id: <1448891884-30920-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.6.3
+Subject: [PATCH][fido] layer.conf: Add several allarch dependency exclusions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,42 +41,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Nov 2015 13:57:02 -0000
-Content-Type: multipart/alternative; boundary=089e011609fc3344ca0525c26a2b
+X-List-Received-Date: Mon, 30 Nov 2015 13:57:15 -0000
 
---089e011609fc3344ca0525c26a2b
-Content-Type: text/plain; charset=UTF-8
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-On 30 November 2015 at 12:40, Martin Jansa <martin.jansa@gmail.com> wrote:
+These are dependencies that our allarch packages have in OE-Core that cause
+those allarch packages to rebuild every time MACHINE changes.
 
-> When it was needed for xbmc it was rejected (and I was carrying this in
-> my branches since then):
->
+With these changes, OE-Core allarch packages all have a common sstate
+signatures and no longer rebuild.
 
-I'm looking at producing a leaner libsdl-native that doesn't respect your
-DISTRO_FEATURES (so doesn't pull in libGL, for example).  What does xmbc
-need libsdl-native for?  In particular, anything that's optional such as
-alsa/pulseaudio/GL?
+(From OE-Core rev: 63bff90fa4fb4a95e8c79f9f8e5dd90ae1dfc69d)
 
-Thanks,
-Ross
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/layer.conf | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
---089e011609fc3344ca0525c26a2b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 573579a..4880371 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -45,5 +45,15 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+   gcc-cross-${TARGET_ARCH}->musl \
+   gcc-cross-${TARGET_ARCH}->uclibc \
+   gcc-cross-${TARGET_ARCH}->linux-libc-headers \
++  ppp-dialin->ppp \
++  resolvconf->bash \
++  docbook-xsl-stylesheets->perl \
++  initramfs-framework->busybox \
++  initramfs-framework->systemd \
++  liberation-fonts->fontconfig \
++  gnome-icon-theme->librsvg \
++  font-alias->font-util \
++  weston-init->weston \
++  weston-init->kbd \
+ "
+ 
+-- 
+2.6.3
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 November 2015 at 12:40, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1bo" clas=
-s=3D"a3s" style=3D"overflow:hidden">When it was needed for xbmc it was reje=
-cted (and I was carrying this in<br>
-my branches since then):<br></div></blockquote></div><br>I&#39;m looking at=
- producing a leaner libsdl-native that doesn&#39;t respect your DISTRO_FEAT=
-URES (so doesn&#39;t pull in libGL, for example).=C2=A0 What does xmbc need=
- libsdl-native for?=C2=A0 In particular, anything that&#39;s optional such =
-as alsa/pulseaudio/GL?</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Thanks,</div><div class=3D"gmail_extra">Ross</div></div>
 
---089e011609fc3344ca0525c26a2b--
