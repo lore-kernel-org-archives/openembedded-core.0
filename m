@@ -1,26 +1,21 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AEEA60616
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 758E3605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Nov 2015 16:59:08 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 30 Nov 2015 08:59:08 -0800
+	Mon, 30 Nov 2015 17:43:51 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga101.jf.intel.com with ESMTP; 30 Nov 2015 09:43:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,365,1444719600"; d="scan'208";a="831046973"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 30 Nov 2015 08:59:08 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 0DEAC6A4005;
-	Mon, 30 Nov 2015 08:57:59 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+X-IronPort-AV: E=Sophos;i="5.20,365,1444719600"; 
+   d="scan'208";a="4878481"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 30 Nov 2015 09:43:52 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Nov 2015 14:11:12 +0200
-Message-Id: <1448885472-24350-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] iproute2: enable previously unselected utilities
+Date: Mon, 30 Nov 2015 19:41:44 +0200
+Message-Id: <1448905304-21681-1-git-send-email-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCH] weston-init: add a native systemd unit file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +28,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Nov 2015 16:59:09 -0000
+X-List-Received-Date: Mon, 30 Nov 2015 17:43:54 -0000
 
-Include below listed utilities that are not yet enabled/packaged
-in the iproute2 recipe:
+Previously weston was started by systemd via a classic init script
 
-lnstat
-ifstat
-genl
-rtacct
-nstat
-ss
+[YOCTO #5582]
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-connectivity/iproute2/iproute2.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/wayland/weston-init.bb             | 13 ++++++++++---
+ meta/recipes-graphics/wayland/weston-init/weston.service | 15 +++++++++++++++
+ 2 files changed, 25 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/weston.service
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
-index 29f9062..abaff3f 100644
---- a/meta/recipes-connectivity/iproute2/iproute2.inc
-+++ b/meta/recipes-connectivity/iproute2/iproute2.inc
-@@ -13,7 +13,7 @@ DEPENDS = "flex-native bison-native iptables elfutils"
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index fc2e4f8..35fd055 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -1,17 +1,22 @@
+-SUMMARY = "Startup script for the Weston Wayland compositor"
++SUMMARY = "Startup script and systemd unit file for the Weston Wayland compositor"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690"
  
- inherit update-alternatives
+-SRC_URI = "file://init"
++SRC_URI = "file://init \
++           file://weston.service"
  
--EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
-+EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip misc genl' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
+ S = "${WORKDIR}"
  
- do_configure_append () {
-     sh configure ${STAGING_INCDIR}
+ do_install() {
+ 	install -d ${D}/${sysconfdir}/init.d
+ 	install -m755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
++
++        install -d ${D}${systemd_unitdir}/system
++        install -m0644 ${WORKDIR}/weston.service ${D}${systemd_unitdir}/system
+ }
+ 
+-inherit allarch update-rc.d distro_features_check
++inherit allarch update-rc.d distro_features_check systemd
++
+ # rdepends on weston which depends on virtual/egl
+ REQUIRED_DISTRO_FEATURES = "opengl"
+ 
+@@ -19,3 +24,5 @@ RDEPENDS_${PN} = "weston kbd"
+ 
+ INITSCRIPT_NAME = "weston"
+ INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
++
++SYSTEMD_SERVICE_${PN} = "weston.service"
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
+new file mode 100644
+index 0000000..4f1f7ff
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston-init/weston.service
+@@ -0,0 +1,15 @@
++[Unit]
++Description=Weston Wayland compositor startup
++RequiresMountsFor=/run
++
++[Service]
++User=root
++EnvironmentFile=-/etc/default/weston
++Environment="XDG_RUNTIME_DIR=/run/user/root"
++ExecStartPre=/bin/mkdir -p /run/user/root
++ExecStartPre=/bin/chmod 0700 /run/user/root
++ExecStart=/usr/bin/openvt -v -e /usr/bin/weston -- $OPTARGS
++
++[Install]
++WantedBy=multi-user.target
++
 -- 
-2.4.0
+2.6.2
 
 
