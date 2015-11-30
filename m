@@ -1,26 +1,27 @@
 Return-Path: <maxin.john@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F1CA60797
+	by mail.openembedded.org (Postfix) with ESMTP id B6B9760DF6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Nov 2015 14:16:05 +0000 (UTC)
+	Mon, 30 Nov 2015 14:16:16 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Nov 2015 06:15:41 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 30 Nov 2015 06:15:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,364,1444719600"; d="scan'208";a="609955143"
-Received: from mbabyjoh-mobl.fi.intel.com ([10.237.72.71])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Nov 2015 06:15:39 -0800
-Date: Mon, 30 Nov 2015 11:27:56 +0200
+X-IronPort-AV: E=Sophos;i="5.20,364,1444719600"; d="scan'208";a="609955337"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 30 Nov 2015 06:15:58 -0800
+Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 4434D6A4005
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Nov 2015 06:14:50 -0800 (PST)
 From: "Maxin B. John" <maxin.john@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20151130092756.GA24511@mbabyjoh-mobl.fi.intel.com>
-References: <1448874081-23745-1-git-send-email-maxin.john@intel.com>
-	<1448874081-23745-2-git-send-email-maxin.john@intel.com>
-	<20151130140922.GB2250@jama>
-MIME-Version: 1.0
-In-Reply-To: <20151130140922.GB2250@jama>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] libjpeg-turbo: import the recipe from meta-oe
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 Nov 2015 11:28:04 +0200
+Message-Id: <1448875684-24516-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] libjpeg: Replace libjpeg with libjpeg-turbo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +34,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Nov 2015 14:16:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 30 Nov 2015 14:16:17 -0000
 
-Hi Martin,
+Moving libjpeg-turbo from meta-oe as a replacement for libjpeg
+package. libjpeg-turbo has same API/ABI as libjpeg. It is relatively
+faster in JPEG compression/decompression than libjpeg.
 
-On Mon, Nov 30, 2015 at 03:09:22PM +0100, Martin Jansa wrote:
-> On Mon, Nov 30, 2015 at 11:01:21AM +0200, Maxin B. John wrote:
-> > Moving the package from meta-oe as a replacement for libjpeg
-> > package. libjpeg-turbo has same API/ABI as libjpeg. It is relatively
-> > faster in JPEG compression/decompression than libjpeg.
-> 
-> Please squash them or apply in opposite order, otherwise you break
-> bisect-ability without good reason.
+[YOCTO #8628]
 
-Thanks for the comment. I will squash them and send the updated patch soon.
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-core/jpeg/jpeg_9a.bb                | 29 -----------------
+ meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb | 40 ++++++++++++++++++++++++
+ 2 files changed, 40 insertions(+), 29 deletions(-)
+ delete mode 100644 meta/recipes-core/jpeg/jpeg_9a.bb
+ create mode 100644 meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb
 
-> > [YOCTO #8628]
-> > 
-> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-<snip> 
-> -- 
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
-Best Regards,
-Maxin
+diff --git a/meta/recipes-core/jpeg/jpeg_9a.bb b/meta/recipes-core/jpeg/jpeg_9a.bb
+deleted file mode 100644
+index ea2e65d..0000000
+--- a/meta/recipes-core/jpeg/jpeg_9a.bb
++++ /dev/null
+@@ -1,29 +0,0 @@
+-SUMMARY = "libjpeg is a library for handling the JPEG (JFIF) image format"
+-DESCRIPTION = "libjpeg contains a library for handling the JPEG (JFIF) image format, as well as related programs for accessing the libjpeg functions."
+-HOMEPAGE = "http://www.ijg.org/"
+-
+-LICENSE ="BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://README;md5=ea93a8a2fed10106b63bc21679edacb9"
+-
+-SECTION = "libs"
+-
+-SRC_URI = "http://www.ijg.org/files/jpegsrc.v${PV}.tar.gz \
+-	  "
+-
+-SRC_URI[md5sum] = "3353992aecaee1805ef4109aadd433e7"
+-SRC_URI[sha256sum] = "3a753ea48d917945dd54a2d97de388aa06ca2eb1066cbfdc6652036349fe05a7"
+-
+-inherit autotools
+-
+-PACKAGES =+ 		"jpeg-tools "
+-DESCRIPTION_jpeg-tools = "The jpeg-tools package includes the client programs for access libjpeg functionality.  These tools allow for the compression, decompression, transformation and display of JPEG files."
+-FILES_jpeg-tools = 	"${bindir}/*"
+-
+-BBCLASSEXTEND = "native"
+-
+-pkg_postinst_${PN}_linuxstdbase () {
+-    if [ ! -e $D${libdir}/libjpeg.so.62 ]; then
+-        JPEG=`find $D${libdir} -type f -name libjpeg.so.\*.\*.\*`
+-        ln -sf `basename $JPEG` $D${libdir}/libjpeg.so.62
+-    fi
+-}
+diff --git a/meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb b/meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb
+new file mode 100644
+index 0000000..e79f800
+--- /dev/null
++++ b/meta/recipes-core/jpeg/libjpeg-turbo_8d+1.4.1.bb
+@@ -0,0 +1,40 @@
++DESCRIPTION = "libjpeg-turbo is a derivative of libjpeg that uses SIMD instructions (MMX, SSE2, NEON) to accelerate baseline JPEG compression and decompression"
++HOMEPAGE = "http://libjpeg-turbo.org/"
++
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://cdjpeg.h;endline=12;md5=cad955d15145c3fdceec6855e078e953 \
++                    file://jpeglib.h;endline=14;md5=dfc803dc51ae21178d1376ec73c4454d \
++                    file://djpeg.c;endline=9;md5=e93a8f2061e8a0ac71c7a485c10489e2 \
++"
++
++DEPENDS = "nasm-native"
++
++BASEPV = "${@d.getVar('PV',True).split('+')[1]}"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${BASEPV}.tar.gz"
++SRC_URI[md5sum] = "b1f6b84859a16b8ebdcda951fa07c3f2"
++SRC_URI[sha256sum] = "4bf5bad4ce85625bffbbd9912211e06790e00fb982b77724af7211034efafb08"
++
++S = "${WORKDIR}/${BPN}-${BASEPV}"
++
++# Drop-in replacement for jpeg
++PROVIDES = "jpeg"
++RPROVIDES_${PN} += "jpeg"
++RREPLACES_${PN} += "jpeg"
++RCONFLICTS_${PN} += "jpeg"
++
++inherit autotools pkgconfig
++
++EXTRA_OECONF = "--with-jpeg8 "
++
++PACKAGES =+ "jpeg-tools libturbojpeg"
++
++DESCRIPTION_jpeg-tools = "The jpeg-tools package includes client programs to access libjpeg functionality.  These tools allow for the compression, decompression, transformation and display of JPEG files and benchmarking of the libjpeg library."
++FILES_jpeg-tools = "${bindir}/*"
++
++FILES_libturbojpeg = "${libdir}/libturbojpeg.so"
++INSANE_SKIP_libturbojpeg = "dev-so"
++
++BBCLASSEXTEND = "native"
++
++LEAD_SONAME = "libjpeg.so.8"
+-- 
+2.4.0
 
 
