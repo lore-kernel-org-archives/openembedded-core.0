@@ -1,35 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id D9EBF605B3
+Return-Path: <Fang.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 90D14605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Nov 2015 07:24:47 +0000 (UTC)
-Received: by padhx2 with SMTP id hx2so176101774pad.1
+	Mon, 30 Nov 2015 08:50:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAU8ov8f025325
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Nov 2015 23:24:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=8bjxSF/2jeiyle0UzTeu0OeV0finPK9KH2VV2JpcdD0=;
-	b=pZCWZ4+fDD5PaLc7D28ubqXNAQthiTKw3okbjOVv5YvirUBz0fc9knhIeWEWJ3Xp68
-	YZNhnHGp89LywE7WY3ml6POlfMmyvecLmeSkRLBhdACK9G6wmnlARdM+mIPTmZvEroUR
-	NlpoAdOXN9SwLP+Bf3ALc4uwRxVbZowSfVQnCLdg/KJSrA4HAfzOHssN75m4bS7yKr7+
-	8ptmkptqIJ9Gc84knnAQswBdSTNu4Zll2U6zSJyPTs5vMl9YzpTdQwP0uxm7wmDMlkJB
-	SVFW8BdqDQjLktC1RMixY+NV0R7pN2ET5EID5TlAD5LKoaSzSejykAsXj94BxJj7ZI9T
-	zVlQ==
-X-Received: by 10.66.216.7 with SMTP id om7mr87748173pac.90.1448868288749;
-	Sun, 29 Nov 2015 23:24:48 -0800 (PST)
-Received: from e6520.gateway.sonic.net
-	(173-228-90-82.dsl.dynamic.fusionbroadband.com. [173.228.90.82])
-	by smtp.gmail.com with ESMTPSA id
-	kh9sm49610888pad.11.2015.11.29.23.24.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 29 Nov 2015 23:24:47 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Nov 2015 23:24:41 -0800
-Message-Id: <1448868281-6392-1-git-send-email-armccurdy@gmail.com>
+	Mon, 30 Nov 2015 00:50:57 -0800
+Received: from pek-lpd-ccm1.wrs.com (128.224.179.178) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 30 Nov 2015 00:50:57 -0800
+From: Fang Jia <fang.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 30 Nov 2015 16:50:34 +0800
+Message-ID: <1448873434-34150-1-git-send-email-fang.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] harfbuzz: update 1.1.0 -> 1.1.2
+MIME-Version: 1.0
+Subject: [PATCH] toolchain-scripts.bbclass: unset command_not_found_handle
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,54 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Nov 2015 07:24:52 -0000
+X-List-Received-Date: Mon, 30 Nov 2015 08:50:58 -0000
+Content-Type: text/plain
 
-  http://cgit.freedesktop.org/harfbuzz/tree/NEWS
+On Ubuntu-system, When sourcing the env.sh from an exported sdk, and
+running a bogus linux command (for example "asd"), a core dump of
+python is usually generated.
 
-Overview of changes leading to 1.1.2
-Wednesday, November 26, 2015
-====================================
+Unset the command_not_found_handle to fix it.
 
-- Fix badly-broken fallback shaper that affected terminology.
-  https://github.com/behdad/harfbuzz/issues/187
-- Fix y_scaling in Graphite shaper.
-- API changes:
-  * An unset glyph_h_origin() function in font-funcs now (sensibly)
-    implies horizontal origin at 0,0.  Ie, the nil callback returns
-    true instead of false.  As such, implementations that have a
-    glyph_h_origin() that simply returns true, can remove that function
-    with HarfBuzz >= 1.1.2.  This results in a tiny speedup.
-
-Overview of changes leading to 1.1.1
-Wednesday, November 24, 2015
-====================================
-
-- Build fixes, specially for hb-coretext.
-
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Signed-off-by: Fang Jia <fang.jia@windriver.com>
 ---
- .../harfbuzz/{harfbuzz_1.1.0.bb => harfbuzz_1.1.2.bb}                 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.1.0.bb => harfbuzz_1.1.2.bb} (88%)
+ meta/classes/toolchain-scripts.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.1.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.1.2.bb
-similarity index 88%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.1.0.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.1.2.bb
-index e12dc0d..f34a647 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.1.0.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.1.2.bb
-@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
- SECTION = "libs"
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index d0b2b91..ab4feb0 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -32,6 +32,7 @@ toolchain_create_sdk_env_script () {
+ 	echo 'export OECORE_TARGET_SYSROOT="$SDKTARGETSYSROOT"' >> $script
+ 	echo "export OECORE_ACLOCAL_OPTS=\"-I $sdkpathnative/usr/share/aclocal\"" >> $script
+ 	echo "export PYTHONHOME=$sdkpathnative$prefix" >> $script
++	echo 'unset command_not_found_handle' >> $script
  
- SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
--SRC_URI[md5sum] = "1223cefac2bc77298ff5c7422bb148d5"
--SRC_URI[sha256sum] = "0f584a5947e60ede565e7a4e122baa5e4b17a62eab872abf5f73d8552ceb716b"
-+SRC_URI[md5sum] = "e6210d3cfd4064d95621fc16913268ed"
-+SRC_URI[sha256sum] = "4a2c5790bd3db7c3ca8c02e4858f2fd592df7932c1d2fa9f6b99acbce0f8461f"
- 
- inherit autotools pkgconfig lib_package
- 
+ 	toolchain_shared_env_script
+ }
 -- 
 1.9.1
 
