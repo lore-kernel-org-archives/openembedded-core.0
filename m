@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BC3076E5CC
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CC4836FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 09:44:50 +0000 (UTC)
+	Tue,  1 Dec 2015 09:44:51 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tB19ipYG023216
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tB19iqEj025891
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Dec 2015 01:44:51 -0800 (PST)
+	Tue, 1 Dec 2015 01:44:52 -0800
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 1 Dec 2015 01:44:51 -0800
+	Tue, 1 Dec 2015 01:44:52 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 1 Dec 2015 01:44:45 -0800
-Message-ID: <a15ba7295572b30fac54af948e1370fbfc6047f9.1448962573.git.liezhi.yang@windriver.com>
+Date: Tue, 1 Dec 2015 01:44:47 -0800
+Message-ID: <03e530c234d5e555bc5da643d39d571766f3feda.1448962573.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1448962573.git.liezhi.yang@windriver.com>
 References: <cover.1448962573.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 6/8] libxslt: CVE-2015-7995
+Subject: [PATCH 8/8] libsndfile: fix CVE-2014-9756
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Dec 2015 09:44:51 -0000
+X-List-Received-Date: Tue, 01 Dec 2015 09:44:52 -0000
 Content-Type: text/plain
 
-From: Armin Kuster <akuster@mvista.com>
+From: "Maxin B. John" <maxin.john@intel.com>
 
-This is a is being give a High rating so please consider it for
-all 1.1.28 versions.
+Fix divide by zero bug (CVE-2014-9756)
 
-A type confusion error within the libxslt "xsltStylePreCompute()"
-function in preproc.c can lead to a DoS. Confirmed in version 1.1.28,
-other versions may also be affected.
+(From OE-Core master rev: f47cf07ab9d00ed7eddc8e867138481f7bd2bb7d)
 
-(From OE-Core master rev: 0f89bbab6588a1171259801fa879516740030acb)
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../libxslt/libxslt/CVE-2015-7995.patch            |   33 ++++++++++++++++++++
- meta/recipes-support/libxslt/libxslt_1.1.28.bb     |    3 +-
- 2 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch
+ .../files/libsndfile-fix-CVE-2014-9756.patch       |   24 ++++++++++++++++++++
+ .../libsndfile/libsndfile1_1.0.25.bb               |    1 +
+ 2 files changed, 25 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/files/libsndfile-fix-CVE-2014-9756.patch
 
-diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch b/meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch
+diff --git a/meta/recipes-multimedia/libsndfile/files/libsndfile-fix-CVE-2014-9756.patch b/meta/recipes-multimedia/libsndfile/files/libsndfile-fix-CVE-2014-9756.patch
 new file mode 100644
-index 0000000..e4d09c2
+index 0000000..b54b3ba
 --- /dev/null
-+++ b/meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch
-@@ -0,0 +1,33 @@
-+From 7ca19df892ca22d9314e95d59ce2abdeff46b617 Mon Sep 17 00:00:00 2001
-+From: Daniel Veillard <veillard@redhat.com>
-+Date: Thu, 29 Oct 2015 19:33:23 +0800
-+Subject: Fix for type confusion in preprocessing attributes
++++ b/meta/recipes-multimedia/libsndfile/files/libsndfile-fix-CVE-2014-9756.patch
+@@ -0,0 +1,24 @@
++src/file_io.c : Prevent potential divide-by-zero.
 +
-+CVE-2015-7995 http://www.openwall.com/lists/oss-security/2015/10/27/10
-+We need to check that the parent node is an element before dereferencing
-+its namespace
++Closes: https://github.com/erikd/libsndfile/issues/92
 +
 +Upstream-Status: Backport
 +
-+https://git.gnome.org/browse/libxslt/commit/?id=7ca19df892ca22d9314e95d59ce2abdeff46b617
++Fixes CVE-2014-9756
 +
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
++Signed-off-by: Erik de Castro Lopo <erikd@mega-nerd.com>
++Signed-off-by: Maxin B. John <maxin.john@intel.com>
 +---
-+ libxslt/preproc.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+Index: libxslt-1.1.28/libxslt/preproc.c
-+===================================================================
-+--- libxslt-1.1.28.orig/libxslt/preproc.c
-++++ libxslt-1.1.28/libxslt/preproc.c
-+@@ -2245,7 +2245,8 @@ xsltStylePreCompute(xsltStylesheetPtr st
-+ 	} else if (IS_XSLT_NAME(inst, "attribute")) {
-+ 	    xmlNodePtr parent = inst->parent;
++diff -Naur libsndfile-1.0.25-orig/src/file_io.c libsndfile-1.0.25/src/file_io.c
++--- libsndfile-1.0.25-orig/src/file_io.c	2011-01-19 12:12:28.000000000 +0200
+++++ libsndfile-1.0.25/src/file_io.c	2015-11-04 15:02:04.337395618 +0200
++@@ -358,6 +358,9 @@
++ {	sf_count_t total = 0 ;
++ 	ssize_t	count ;
 + 
-+-	    if ((parent == NULL) || (parent->ns == NULL) ||
-++	    if ((parent == NULL) ||
-++	        (parent->type != XML_ELEMENT_NODE) || (parent->ns == NULL) ||
-+ 		((parent->ns != inst->ns) &&
-+ 		 (!xmlStrEqual(parent->ns->href, inst->ns->href))) ||
-+ 		(!xmlStrEqual(parent->name, BAD_CAST "attribute-set"))) {
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.28.bb b/meta/recipes-support/libxslt/libxslt_1.1.28.bb
-index 166bcd8..87fabec 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.28.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.28.bb
-@@ -10,7 +10,8 @@ DEPENDS = "libxml2"
+++    if (bytes == 0 || items == 0)
+++        return 0 ;
+++
++ 	if (psf->virtual_io)
++ 		return psf->vio.write (ptr, bytes*items, psf->vio_user_data) / bytes ;
++ 
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb
+index 3e02f4e..be875c2 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb
+@@ -9,6 +9,7 @@ PR = "r2"
+ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
+            file://0001-src-sd2.c-Fix-segfault-in-SD2-RSRC-parser.patch \
+            file://0001-src-sd2.c-Fix-two-potential-buffer-read-overflows.patch \
++           file://libsndfile-fix-CVE-2014-9756.patch \
+ "
  
- SRC_URI = "ftp://xmlsoft.org/libxslt//libxslt-${PV}.tar.gz \
-            file://pkgconfig_fix.patch \
--           file://pkgconfig.patch"
-+           file://pkgconfig.patch \
-+           file://CVE-2015-7995.patch"
- 
- SRC_URI[md5sum] = "9667bf6f9310b957254fdcf6596600b7"
- SRC_URI[sha256sum] = "5fc7151a57b89c03d7b825df5a0fae0a8d5f05674c0e7cf2937ecec4d54a028c"
+ SRC_URI[md5sum] = "e2b7bb637e01022c7d20f95f9c3990a2"
 -- 
 1.7.9.5
 
