@@ -1,46 +1,60 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AD9D6011F
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lf0-f53.google.com (mail-lf0-f53.google.com
+	[209.85.215.53])
+	by mail.openembedded.org (Postfix) with ESMTP id DFCEF601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 09:09:58 +0000 (UTC)
-Received: by wmuu63 with SMTP id u63so163714606wmu.0
+	Tue,  1 Dec 2015 09:27:07 +0000 (UTC)
+Received: by lffu14 with SMTP id u14so187253lff.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Dec 2015 01:09:59 -0800 (PST)
+	Tue, 01 Dec 2015 01:27:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=iuow8CP0+8JqDwmGlFCEQ2ZNIZAytJxqjTVRQPHoJMY=;
-	b=w2V4XdyBTBdi/DDqrMms/tSITU+sLA9+CrxbaBqh3VOMKSK38uJ/hCXVrdz9omn8QG
-	B/YwrEkLmHIPJ0aJetqVltwatFvhw0ZHOQtrHIjkWybehcOYhSSl7RJkzmmOwnMm7LF9
-	viknWKzuIommcK4Y5aKRZ01nEJ7him3YPdI7nhZ+DhIWaX+F9wM/f4dUQfu0ae2h03q0
-	T7LHKiyi2jCNJmkjTNSbeKcLqF2bpzUMc5IvVkqwHjHS90uHygA3UZkxKDJst6wyYlCg
-	dE8Z6oj5Rc1VKC6grIrvx2qrTkz+5vexpWi49RD04yXqOStvNoUirgDi00D6XP3V31Zm
-	1Xqw==
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:subject:message-id:mail-followup-to:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:organization:user-agent;
+	bh=zVjaot8zZGcxbbLdbdUK5hcyW0A8aauW74sAyu5Z8WM=;
+	b=fxdCwVTwjPNmjhRkpAaVHe8jjAgsEtPUghqx40Vu906Y9M0ULAYb1haX6M48+tVBzj
+	bUGfW1YLCgkav75qssl3qbKM6Jm9sYxbAPMNLgJFNR7uFHvf3eQMT8YuryQvpjR8a/pR
+	R8BbFlOxjI9zZ/cZ1Ge+m/eRFhb8aoP5lhpUF0igYRyfavN81q4ctcZJSX345+Kp1kAl
+	4eCikuCvtNJ0D69DY2ma8wjSN2Abg17tMl7nQoqbzZBN5I5nUw5jftJ3kM6GQ+a8P+Bw
+	EbFvJPwTaD9886/oECj7p5SxSyY13Vkyr6s3Uwj9xLbGSh4vBZiNe0xvMGQKXEUCOn8n
+	tBcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=iuow8CP0+8JqDwmGlFCEQ2ZNIZAytJxqjTVRQPHoJMY=;
-	b=FVyqIwqIqqewMCN02W4te7Gyx9cHVmwJyyNc084phTmMQuvUj9P0ezReNUk/HZPTmv
-	Yv9BxLMZgkL2xNO+6eyHkohEsSqsY0iuOpL7cC9gB54ryRoubFngwtmCXEuJ56WH2UJq
-	DcO8BHnpJLo4m1CxQoLY1qdNOK4xCi5z3L5KM2XSENxEap9Yl9+Wlj0fxZkJwsmFqCUv
-	I1xnmXSiWWWrr8WE/jIdDifkD5tNaoKlfKsmtNnhM0U1BYBcVTKYqe8WG+0AKBmwENK4
-	iuH4HQeZlVYkNUbt9BArolh5mAIGnXDa3Qd56uYvEKrKJT6lhfNexqPHL1pDFRRZqm0j
-	yqjw==
-X-Gm-Message-State: ALoCoQmPaMzFRh8j/Y/irRU/9XFCCMjDtIir0Opm2eb2PSysUQs3h5S/yJu82UjvYWCJqFndhST3
-X-Received: by 10.194.21.170 with SMTP id w10mr91354227wje.29.1448960999288;
-	Tue, 01 Dec 2015 01:09:59 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	d2sm50586626wjy.16.2015.12.01.01.09.58
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-type:content-disposition
+	:in-reply-to:organization:user-agent;
+	bh=zVjaot8zZGcxbbLdbdUK5hcyW0A8aauW74sAyu5Z8WM=;
+	b=UTXQsFsx5HELPlc0FQY6u/8FLmLbU4jg7wpJCtL59cr62NGWZCSDoJFwSQmaRc5Qjl
+	fMsRlB3bPdOLWgGIexTf07fBPI6HMyqGZF1UijdFHLSUIFjrfbfGc2ijAXcWlWTBAUq0
+	Sssn5GgXkXkr1fOH4s4tDUFSYgymgeBT0KG08ofIbBhDIvyoWRFplcxsn3QnZk/SeYEf
+	hSJ5d/XNryOS+EzbXV3zxZlmvMLjX+xJJHzd/SAbX67cdvqVisaYav1k7X2Wr9IT0vU4
+	hjidd9ALJ4o/xbqtFbO919x77qzAjWVLhSwLuFY2KEyqowcGDoxkhYSrbDC4S3b5t52b
+	Ep4w==
+X-Gm-Message-State: ALoCoQmx/PKmJfkvP3+savykRg4l8ioeIEYi3SOSfshuLaQrWn/k6dVQl59IJ1LlWrWzos2I7z3n
+X-Received: by 10.25.88.208 with SMTP id m199mr26907873lfb.157.1448962028101; 
+	Tue, 01 Dec 2015 01:27:08 -0800 (PST)
+Received: from ad.chargestorm.se (h83-209-191-235.dynamic.se.alltele.net.
+	[83.209.191.235]) by smtp.gmail.com with ESMTPSA id
+	ki2sm7783171lbc.15.2015.12.01.01.27.07
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 01 Dec 2015 01:09:58 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 01 Dec 2015 01:27:07 -0800 (PST)
+Date: Tue, 1 Dec 2015 10:27:06 +0100
+From: Anders Darander <anders@chargestorm.se>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Dec 2015 09:09:54 +0000
-Message-Id: <1448960994-8750-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] base: check for existing prefix when expanding names in PACKAGECONFIG
+Message-ID: <20151201092706.GA15462@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1448885472-24350-1-git-send-email-maxin.john@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1448885472-24350-1-git-send-email-maxin.john@intel.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: Re: [PATCH] iproute2: enable previously unselected utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,40 +67,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Dec 2015 09:09:59 -0000
+X-List-Received-Date: Tue, 01 Dec 2015 09:27:09 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When the DEPENDS are added as part of the PACKAGECONFIG logic the list of
-packages are expanded so that any required nativesdk-/-native/multilib prefixes
-and suffixes are added.
+Hi,
 
-However the special handling of virtual/foo names doesn't check that the prefix
-already exists, which breaks under nativesdk as in that situation there's an
-explicit nativesdk- prefix *and* MLPREFIX is set to nativesdk-.  This results in
-the same prefix being applied twice, and virtual packages such as virtual/libx11
-ending up as virtual/nativesdk-nativesdk-libx11.
+Just a couple of questions.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/base.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+* Maxin B. John <maxin.john@intel.com> [151130 17:59]:
+> Include below listed utilities that are not yet enabled/packaged
+> in the iproute2 recipe:
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index e6d1599..4ea400e 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -363,7 +363,10 @@ python () {
-                     newappends.append(a)
-                 elif a.startswith("virtual/"):
-                     subs = a.split("/", 1)[1]
--                    newappends.append("virtual/" + prefix + subs + extension)
-+                    if subs.startswith(prefix):
-+                        newappends.append(a + extension)
-+                    else:
-+                        newappends.append("virtual/" + prefix + subs + extension)
-                 else:
-                     if a.startswith(prefix):
-                         newappends.append(a + extension)
+> lnstat
+> ifstat
+> genl
+> rtacct
+> nstat
+> ss
+
+When you enable those, how much does the size ofthe iproute2 package
+increase?
+
+Perhaps those extra tools should be placed in e.g. ${PN}-tools, or
+some package like that?
+
+Cheers,
+Anders
+
+> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> ---
+>  meta/recipes-connectivity/iproute2/iproute2.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
+> index 29f9062..abaff3f 100644
+> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
+> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+> @@ -13,7 +13,7 @@ DEPENDS = "flex-native bison-native iptables elfutils"
+
+>  inherit update-alternatives
+
+> -EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
+> +EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip misc genl' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
+
+>  do_configure_append () {
+>      sh configure ${STAGING_INCDIR}
 -- 
-2.1.4
-
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
