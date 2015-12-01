@@ -1,46 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 019BD606D1
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7434A605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Nov 2015 22:54:52 +0000 (UTC)
-Received: by wmuu63 with SMTP id u63so150264640wmu.0
+	Tue,  1 Dec 2015 02:13:51 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tB12DpVW010291
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Nov 2015 14:54:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=CEPL587GDDSyikgK+IN27LLTN8zKwIUPfTMf8ndCinY=;
-	b=v/TW2/FCO0QT0IzJ/0+VXXH4jm0AiJWaO1y5UvU2RWus6DS4vel9jtJn9vYSsgkFwo
-	32CNO10YOSy7J1kK1Y0Ms/P8O7AmoT35PYBtb2kx9IS+5+eha/PJw1P/2LRyA8EMylnW
-	LoH2YLDiAAZPVbJjbwyuS6wg/uXYVrmnF1Xe2r0Dk+840HmWX1NuamAKdSrnYkQFE4oT
-	JIAD6sNQj5N6FyKjT55lZ5hl85rUQzyvYP2g9N+DHUZaGqcGiF3uWoDCyOyDEzWykYEf
-	7GRQgtdcTnvDo+eZrLhl+0fsVkLUWDAfnI4S8RfjyhocR/nWwyRVxl8IDJlk2Sa/G9+8
-	Cl5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=CEPL587GDDSyikgK+IN27LLTN8zKwIUPfTMf8ndCinY=;
-	b=gIL4OorkJy8t6VFOTmZ5g4kytSjadopJtnehQ5NitBQBDqmwz7BZeZta8gxz97voy2
-	71RX/SLOLvIKBF3ABKTnEF2FHrLVQJFC8ZPr/LndtnSyHm6oN7UCjxIM5ftYUUBQBoiQ
-	caZxavABX1qZDn9N9uX/ZFWi7zzOcyS0g5K+ZKc0Smq6KcXo6Ik3lpy+BuN6FJtTJJBq
-	dPRkpVKUCsU8LPqL81oRpOrxndNXgU4sFOE6CDMoPXazZV1aNmk9u+xqTSqblpEwi0vo
-	sdCiqliaCs5Dq/eX0k382RfZ8mGF9vJSR2bs1X0/VdVycoFwXiBalVhYh0h/8dDlRB3v
-	Z33w==
-X-Gm-Message-State: ALoCoQkN6iM7+g7ZHVb4CUilOrVaynQRX24sZ7DZZBTPK7SPY+E7RpMqs60LYQ1dzYRuTWNBZQu7
-X-Received: by 10.28.186.67 with SMTP id k64mr32389732wmf.56.1448924092502;
-	Mon, 30 Nov 2015 14:54:52 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	c194sm23316661wmd.13.2015.11.30.14.54.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 30 Nov 2015 14:54:51 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Nov 2015 22:54:45 +0000
-Message-Id: <1448924085-26449-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH][RFC] base: don't prefix/suffix packages when expanding PACKAGECONFIG
+	Mon, 30 Nov 2015 18:13:51 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.246) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 30 Nov 2015 18:13:50 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 1 Dec 2015 10:13:54 +0800
+Message-ID: <cover.1448935983.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] cpio: fix test case of symlink-bad-length
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,59 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Nov 2015 22:54:56 -0000
+X-List-Received-Date: Tue, 01 Dec 2015 02:13:53 -0000
+Content-Type: text/plain
 
-When handling PACKAGECONFIG don't add nativesdk- prefixes or -native suffixes to
-packages, as the classexpand logic will run next and so the same operation
-again.
+The following changes since commit 80b3974081c4a8c604e23982a6db8fb32c616058:
 
-Apart from removing redundant code, this also fixes a bug where the nativesdk-
-prefix was being added twice in some situations, resulting in dependencies on
-virtual/nativesdk-nativesdk-libx11.
+  sstate: Ensure siginfo and sig files are also touched (2015-11-25 08:08:51 +0000)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/base.bbclass | 23 -----------------------
- 1 file changed, 23 deletions(-)
+are available in the git repository at:
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index e6d1599..4af5ee1 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -355,32 +355,9 @@ python () {
- 
-         mlprefix = d.getVar("MLPREFIX", True)
- 
--        def expandFilter(appends, extension, prefix):
--            appends = bb.utils.explode_deps(d.expand(" ".join(appends)))
--            newappends = []
--            for a in appends:
--                if a.endswith("-native") or ("-cross-" in a):
--                    newappends.append(a)
--                elif a.startswith("virtual/"):
--                    subs = a.split("/", 1)[1]
--                    newappends.append("virtual/" + prefix + subs + extension)
--                else:
--                    if a.startswith(prefix):
--                        newappends.append(a + extension)
--                    else:
--                        newappends.append(prefix + a + extension)
--            return newappends
--
-         def appendVar(varname, appends):
-             if not appends:
-                 return
--            if varname.find("DEPENDS") != -1:
--                if pn.startswith("nativesdk-"):
--                    appends = expandFilter(appends, "", "nativesdk-")
--                if pn.endswith("-native"):
--                    appends = expandFilter(appends, "-native", "")
--                if mlprefix:
--                    appends = expandFilter(appends, "", mlprefix)
-             varname = d.expand(varname)
-             d.appendVar(varname, " " + " ".join(appends))
- 
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/cpio-testcase
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/cpio-testcase
+
+Chen Qi (1):
+  cpio: fix test case of symlink-bad-length
+
+ .../0001-fix-testcase-of-symlink-bad-length.patch  | 57 ++++++++++++++++++++++
+ meta/recipes-extended/cpio/cpio_2.11.bb            |  1 +
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-extended/cpio/cpio-2.11/0001-fix-testcase-of-symlink-bad-length.patch
+
 -- 
-2.1.4
+1.9.1
 
 
