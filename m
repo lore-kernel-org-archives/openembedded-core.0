@@ -1,47 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C69B6011D
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AD9D6011F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 08:56:22 +0000 (UTC)
-Received: by ioir85 with SMTP id r85so2262050ioi.1
+	Tue,  1 Dec 2015 09:09:58 +0000 (UTC)
+Received: by wmuu63 with SMTP id u63so163714606wmu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Dec 2015 00:56:23 -0800 (PST)
+	Tue, 01 Dec 2015 01:09:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=HpcfJbGjmKAX5TuhoGckG2IRT2uqgbe0wpDv+TpA4Dg=;
-	b=SYZUlnw0udjR/YjOxnegoGoKt9/xTooyK8VLzmrJGwDCOHcnzGpvzMQ1PWSjfqtCKR
-	G0XuwOYe0Wz55e10+56sYcosXcybFoaXg/TBQWO7tiH78D4v6nt5vyw3PgCdaLkswaOs
-	4761DqavAw4eSxYgej5o9vADP6rC1TFc0UFAc7Ycz7WD6GTFJ5U075EYzhOPrHv9PYxw
-	sEwTzA0mJZNWUi4pCP0Glq33cSKpPyFWlmNyknw9Fqbco0y/oeChDV38I01plOM6vADs
-	z5O6xgERgmg2xg3aF/MuyHYyUJdI2kCOa/RICC2Ou9n5En3kwNsrlmaFWXk5w4ngVEiJ
-	raDg==
+	h=from:to:subject:date:message-id;
+	bh=iuow8CP0+8JqDwmGlFCEQ2ZNIZAytJxqjTVRQPHoJMY=;
+	b=w2V4XdyBTBdi/DDqrMms/tSITU+sLA9+CrxbaBqh3VOMKSK38uJ/hCXVrdz9omn8QG
+	B/YwrEkLmHIPJ0aJetqVltwatFvhw0ZHOQtrHIjkWybehcOYhSSl7RJkzmmOwnMm7LF9
+	viknWKzuIommcK4Y5aKRZ01nEJ7him3YPdI7nhZ+DhIWaX+F9wM/f4dUQfu0ae2h03q0
+	T7LHKiyi2jCNJmkjTNSbeKcLqF2bpzUMc5IvVkqwHjHS90uHygA3UZkxKDJst6wyYlCg
+	dE8Z6oj5Rc1VKC6grIrvx2qrTkz+5vexpWi49RD04yXqOStvNoUirgDi00D6XP3V31Zm
+	1Xqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=HpcfJbGjmKAX5TuhoGckG2IRT2uqgbe0wpDv+TpA4Dg=;
-	b=c8uGFgd8Ygz8s5tf5ffsyCG/u+05OHN+wooLIlITZiCIlmqnVfBovkn9BdMtl4BvJn
-	FjD90onnGvSkmJan5UYbrRvvmqFu3E7R0M89Dlhw4oVxErVvvL3+qaTHSp+ojlozEU1W
-	kd3It+VnM4MQBa2WMT82PjnqYbJZzZNT+Cd9sc+VcJzAxyDjktfISaNpMjddMIImwhjG
-	LULZ/yhG6VcCakdXQjY+5f/gG6fXlZuBdE5pHY8osCP3FZ9Mjl/wB/YicxSOQcT1rdVv
-	TISfTtBkwWChobP+rB0DqNVG0qiSBBPcld0HGy4PzS2EuTZAy78PaIKEO4D9WI7eBNJX
-	3lbg==
-X-Gm-Message-State: ALoCoQnJTnm3mQehapyzPPjhE+omQIGjV+MgK0fy/VnZCRfDzSP5F72720vzBohK9KoO6KmjTrko
-X-Received: by 10.107.130.155 with SMTP id m27mr69838416ioi.133.1448960183085; 
-	Tue, 01 Dec 2015 00:56:23 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Tue, 1 Dec 2015 00:56:03 -0800 (PST)
-In-Reply-To: <1448948830-9690-1-git-send-email-jackie.huang@windriver.com>
-References: <1448948830-9690-1-git-send-email-jackie.huang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 1 Dec 2015 08:56:03 +0000
-Message-ID: <CAJTo0LYtfrPYpfYMDfmO=-CbFcO4=8_K0dWLChEq+AwgAcxYBQ@mail.gmail.com>
-To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] matchbox-desktop: sync with gio for the inotify-sub
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=iuow8CP0+8JqDwmGlFCEQ2ZNIZAytJxqjTVRQPHoJMY=;
+	b=FVyqIwqIqqewMCN02W4te7Gyx9cHVmwJyyNc084phTmMQuvUj9P0ezReNUk/HZPTmv
+	Yv9BxLMZgkL2xNO+6eyHkohEsSqsY0iuOpL7cC9gB54ryRoubFngwtmCXEuJ56WH2UJq
+	DcO8BHnpJLo4m1CxQoLY1qdNOK4xCi5z3L5KM2XSENxEap9Yl9+Wlj0fxZkJwsmFqCUv
+	I1xnmXSiWWWrr8WE/jIdDifkD5tNaoKlfKsmtNnhM0U1BYBcVTKYqe8WG+0AKBmwENK4
+	iuH4HQeZlVYkNUbt9BArolh5mAIGnXDa3Qd56uYvEKrKJT6lhfNexqPHL1pDFRRZqm0j
+	yqjw==
+X-Gm-Message-State: ALoCoQmPaMzFRh8j/Y/irRU/9XFCCMjDtIir0Opm2eb2PSysUQs3h5S/yJu82UjvYWCJqFndhST3
+X-Received: by 10.194.21.170 with SMTP id w10mr91354227wje.29.1448960999288;
+	Tue, 01 Dec 2015 01:09:59 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	d2sm50586626wjy.16.2015.12.01.01.09.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 01 Dec 2015 01:09:58 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Dec 2015 09:09:54 +0000
+Message-Id: <1448960994-8750-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] base: check for existing prefix when expanding names in PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,50 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Dec 2015 08:56:24 -0000
-Content-Type: multipart/alternative; boundary=001a113ecd9401c0900525d2555a
+X-List-Received-Date: Tue, 01 Dec 2015 09:09:59 -0000
 
---001a113ecd9401c0900525d2555a
-Content-Type: text/plain; charset=UTF-8
+When the DEPENDS are added as part of the PACKAGECONFIG logic the list of
+packages are expanded so that any required nativesdk-/-native/multilib prefixes
+and suffixes are added.
 
-On 1 December 2015 at 05:47, <jackie.huang@windriver.com> wrote:
+However the special handling of virtual/foo names doesn't check that the prefix
+already exists, which breaks under nativesdk as in that situation there's an
+explicit nativesdk- prefix *and* MLPREFIX is set to nativesdk-.  This results in
+the same prefix being applied twice, and virtual packages such as virtual/libx11
+ending up as virtual/nativesdk-nativesdk-libx11.
 
-> matchbox-desktop builds with included libinotify which
-> is very old (last sync was in 2008), if we compile glib-2.0
-> with -fvisibility=default (the default is hidden for libglib
-> and libgio), it will crash because of inconsistency of
-> inotify-sub, so port the related parts to fix the issue.
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/base.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-matchbox-desktop is maintained by the Yocto Project, so this patch should
-be applied there and then the recipe updated to the latest git revision.
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index e6d1599..4ea400e 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -363,7 +363,10 @@ python () {
+                     newappends.append(a)
+                 elif a.startswith("virtual/"):
+                     subs = a.split("/", 1)[1]
+-                    newappends.append("virtual/" + prefix + subs + extension)
++                    if subs.startswith(prefix):
++                        newappends.append(a + extension)
++                    else:
++                        newappends.append("virtual/" + prefix + subs + extension)
+                 else:
+                     if a.startswith(prefix):
+                         newappends.append(a + extension)
+-- 
+2.1.4
 
-There's a big rewrite of matchbox-desktop going on, so dropping that code
-entirely is probably the best idea: just use GIO instead.
 
-Ross
-
---001a113ecd9401c0900525d2555a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 December 2015 at 05:47,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jacki=
-e.huang@windriver.com" target=3D"_blank">jackie.huang@windriver.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":w6" class=3D"a=
-3s" style=3D"overflow:hidden">matchbox-desktop builds with included libinot=
-ify which<br>
-is very old (last sync was in 2008), if we compile glib-2.0<br>
-with -fvisibility=3Ddefault (the default is hidden for libglib<br>
-and libgio), it will crash because of inconsistency of<br>
-inotify-sub, so port the related parts to fix the issue.<br></div></blockqu=
-ote></div><br>matchbox-desktop is maintained by the Yocto Project, so this =
-patch should be applied there and then the recipe updated to the latest git=
- revision.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
-tra">There&#39;s a big rewrite of matchbox-desktop going on, so dropping th=
-at code entirely is probably the best idea: just use GIO instead.</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
->
-
---001a113ecd9401c0900525d2555a--
