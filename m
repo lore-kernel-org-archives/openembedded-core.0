@@ -1,27 +1,45 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DABFD6011F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 68CA86011F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 12:28:50 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 01 Dec 2015 04:28:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,368,1444719600"; d="scan'208";a="697839139"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 01 Dec 2015 04:28:33 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 0F4D56A4087
+	Tue,  1 Dec 2015 13:55:05 +0000 (UTC)
+Received: by igvg19 with SMTP id g19so94418538igv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 04:27:24 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Dec 2015 09:40:47 +0200
-Message-Id: <1448955647-31680-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH v2] iproute2: enable previously unselected utilities
+	Tue, 01 Dec 2015 05:55:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=281o4Lxr6GD4b5I339FQ9eucQjgjqW+GuSgBrT4GR5U=;
+	b=k/vRt+OTFCgcmFBPG9HxFKBFP4PGIJ430ieTcCQ+0IF9EMUbiDU8v1kOnuSUB0QHJk
+	kLcpbHs+z7TT0zVh0CBsZx/8ztFgk9S/LuV0TgvIIxSHkpLh835eU86SCgudmDtCaRAG
+	iMXX08WDK97SgQ1cl0GoNE4D3/2oAgvV7HW18+Esd/R2+Cx2CekwzsoRiv2YoVdVa7KI
+	mAxaAu5N49/V6oao+PqC1/LDka231X1T+38m5v/fUGl/iXXYgDgbl3Sc+FPMzcg1MzRP
+	c41NfAqp62Nlf3OtfaRtJl4pYSLrSWkc/Pm5WYTt0F5ZKJXzeyTK5LVtRzFfA8+ZuSza
+	0Luw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type;
+	bh=281o4Lxr6GD4b5I339FQ9eucQjgjqW+GuSgBrT4GR5U=;
+	b=aaAxhapCJNSr0wDl1FSNr/wXECYkrUQPUAlJaYddNeoHlfzstOHTKHHTY2tZnOoU/s
+	C3CazZyrRZRLjRa/qPAwVkfrIC8+cB4te2wOT7IXACW2kuA1ILhpO7IAg8lLl8PfYnEU
+	lVZCvbBb+YWM9smaBc9Z2pb8QQCFgYRiXtZ9o+aNvjvR4JKQlwzlTYJMnMofld2J+ohb
+	eXEQ0R0aVqE3knKucLyxDw1wLUSUK+RiOsXxpBLhatOWRNSgKPG12YBvUz/2Qe0T6svd
+	5/EzUSrg1JMeA/Q9jrEWpQ/vX3nPRTQb+fJrwURZnHy2g0r0CWS0t5Fckq5VsBmRQQ5E
+	N+7w==
+X-Gm-Message-State: ALoCoQnjw+ryAWjT1+BwimXyvNmeNhNpvVQCQ87uUQ/elTLXeTpJ5izF1J0W/G79GHn8YUa+1bM6
+X-Received: by 10.50.225.1 with SMTP id rg1mr7373736igc.78.1448978106153; Tue,
+	01 Dec 2015 05:55:06 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Tue, 1 Dec 2015 05:54:46 -0800 (PST)
+In-Reply-To: <1448924085-26449-1-git-send-email-ross.burton@intel.com>
+References: <1448924085-26449-1-git-send-email-ross.burton@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 1 Dec 2015 13:54:46 +0000
+Message-ID: <CAJTo0LZR1Xc2RoOOwYgJDcy-y3Aay6kGt5YN2wrSybDj95Bmcw@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][RFC] base: don't prefix/suffix packages when expanding PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,54 +52,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Dec 2015 12:28:51 -0000
+X-List-Received-Date: Tue, 01 Dec 2015 13:55:07 -0000
+Content-Type: multipart/alternative; boundary=001a1132f15e4e17490525d681dd
 
-Include below listed utilities that are not yet enabled/packaged
-in the iproute2 recipe:
+--001a1132f15e4e17490525d681dd
+Content-Type: text/plain; charset=UTF-8
 
-lnstat
-ifstat
-genl
-rtacct
-nstat
-ss
+On 30 November 2015 at 22:54, Ross Burton <ross.burton@intel.com> wrote:
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-connectivity/iproute2/iproute2.inc | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+> When handling PACKAGECONFIG don't add nativesdk- prefixes or -native
+> suffixes to
+> packages, as the classexpand logic will run next and so the same operation
+> again.
+>
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
-index 29f9062..ca7ea92 100644
---- a/meta/recipes-connectivity/iproute2/iproute2.inc
-+++ b/meta/recipes-connectivity/iproute2/iproute2.inc
-@@ -13,7 +13,7 @@ DEPENDS = "flex-native bison-native iptables elfutils"
- 
- inherit update-alternatives
- 
--EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
-+EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip misc genl' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
- 
- do_configure_append () {
-     sh configure ${STAGING_INCDIR}
-@@ -32,9 +32,15 @@ do_install () {
- # The .so files in iproute2-tc are modules, not traditional libraries
- INSANE_SKIP_${PN}-tc = "dev-so"
- 
--PACKAGES =+ "${PN}-tc"
-+PACKAGES =+ "${PN}-tc ${PN}-lnstat ${PN}-ifstat ${PN}-genl ${PN}-rtacct ${PN}-nstat ${PN}-ss"
- FILES_${PN}-tc = "${base_sbindir}/tc* \
-                   ${libdir}/tc/*.so"
-+FILES_${PN}-lnstat = "${base_sbindir}/lnstat ${base_sbindir}/ctstat ${base_sbindir}/rtstat"
-+FILES_${PN}-ifstat = "${base_sbindir}/ifstat"
-+FILES_${PN}-genl = "${base_sbindir}/genl"
-+FILES_${PN}-rtacct = "${base_sbindir}/rtacct"
-+FILES_${PN}-nstat = "${base_sbindir}/nstat"
-+FILES_${PN}-ss = "${base_sbindir}/ss"
- 
- FILES_${PN}-dbg += "${libdir}/tc/.debug"
- 
--- 
-2.4.0
+Retracting this, whilst this works for nativesdk the native path is ordered
+differently and the remapping happens before packageconfig so libsdl-native
+will depend on libx11 (not libx11-native).
 
+Ross
 
+--001a1132f15e4e17490525d681dd
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 November 2015 at 22:54, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":43s" class=
+=3D"a3s" style=3D"overflow:hidden">When handling PACKAGECONFIG don&#39;t ad=
+d nativesdk- prefixes or -native suffixes to<br>
+packages, as the classexpand logic will run next and so the same operation<=
+br>
+again.</div></blockquote></div><br>Retracting this, whilst this works for n=
+ativesdk the native path is ordered differently and the remapping happens b=
+efore packageconfig so libsdl-native will depend on libx11 (not libx11-nati=
+ve).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
+oss</div></div>
+
+--001a1132f15e4e17490525d681dd--
