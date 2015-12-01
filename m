@@ -1,47 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 2509B6011F
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 915116011F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 15:36:25 +0000 (UTC)
-Received: by iofh3 with SMTP id h3so13048598iof.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Dec 2015 07:36:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=+KK2ZyWgkg7MaOpSa9EhYQBfF5S78uD6uBRjHWhdPXs=;
-	b=f05ASAPbf+wdEss2pKZa9TTwnKG4+MBX9w01Do19LZmF778rIIjD0urnWKcxd1V2PG
-	HCuOEyT61ee3DOiCbNcE6CNUqFOKBwKFi2SKRvHEbE14GTqBfa4TW54N9LkXm6kWBuke
-	jOZVgMs5ovBsFRGmBdqP3yh/KxwAZ3+6zzVS4DThklkVK8CD/OdG0hGzs6vwxWBNQnyB
-	h1FDWogDNtPbIQ8QXs7z2/0hcpwZrhCmL3KKIRPzAAIw7MTgZc4kWRaLFqdY4jjmBq3K
-	516BJMYlOLnkp/uwBQlWP2CFeA20VOkoJpy+R0KLuq/vlAVGRkgY925mwV74uikx4OcM
-	G+TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=+KK2ZyWgkg7MaOpSa9EhYQBfF5S78uD6uBRjHWhdPXs=;
-	b=cnM9oRebj0pjBbpHKpCV5Idr2QYYyblNAUUSQayWCB91zzt9Q7zzpeXKCHyjem86tH
-	8SUlA0tA5wgAAuYgOTVHSv+Eg6NmH0EthHMPVtrmaSZmAoE7UZWNspEPa7O6nrfM6jKZ
-	CZ7zreNO446x3bzordqftkGcNmcMlA1fWhi7QbV4O8m80R05C6KhvCxgoawX67BKx0sx
-	etABROn8SSf6fz3TFR1SfTHDUmLZzZwfj3jf26C09ChudsdlyfV9hYm4s63mLnV+2KTf
-	UCaOLyFXz3oa+8C0VwJXkWrnMAVEP7Fju5HIbQCU1O91Wue5kxfOtihaa2Mawgv7CUkI
-	gupg==
-X-Gm-Message-State: ALoCoQkAtIVxExaXTx5Laa0Sjacf7AXvfRWD133vXTeejQFxJdTzR6gLNZC7fJhozX3O5Zu+ytil
-X-Received: by 10.107.135.30 with SMTP id j30mr58271512iod.148.1448984185973; 
-	Tue, 01 Dec 2015 07:36:25 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Tue, 1 Dec 2015 07:36:06 -0800 (PST)
-In-Reply-To: <1448875684-24516-1-git-send-email-maxin.john@intel.com>
-References: <1448875684-24516-1-git-send-email-maxin.john@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 1 Dec 2015 15:36:06 +0000
-Message-ID: <CAJTo0LZO=xhvP5RS0hLn67aq2TVBBaQRG61K6+rzbxrV2LDyaQ@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libjpeg: Replace libjpeg with libjpeg-turbo
+	Tue,  1 Dec 2015 15:38:04 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 01 Dec 2015 07:38:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,369,1444719600"; 
+   d="scan'208";a="5547741"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 01 Dec 2015 07:38:04 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Dec 2015 17:35:56 +0200
+Message-Id: <1448984156-13476-1-git-send-email-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCH] weston-init: add a native systemd unit file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,39 +28,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Dec 2015 15:36:27 -0000
-Content-Type: multipart/alternative; boundary=001a113ec64ab0ff8c0525d7ebee
+X-List-Received-Date: Tue, 01 Dec 2015 15:38:05 -0000
 
---001a113ec64ab0ff8c0525d7ebee
-Content-Type: text/plain; charset=UTF-8
+Previously weston was started by systemd via a classic init script
 
-On 30 November 2015 at 09:28, Maxin B. John <maxin.john@intel.com> wrote:
-> +PACKAGES =+ "jpeg-tools libturbojpeg"
-> +FILES_libturbojpeg = "${libdir}/libturbojpeg.so"
-> +INSANE_SKIP_libturbojpeg = "dev-so"
+[YOCTO #5582]
 
-I don't understand why there's a libturbojpeg package solely for a
-development symlink that should be in $PN-dev.
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/recipes-graphics/wayland/weston-init.bb             | 13 ++++++++++---
+ meta/recipes-graphics/wayland/weston-init/weston.service | 15 +++++++++++++++
+ 2 files changed, 25 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/weston.service
 
-Also, Martin pointed out that meta-oe's master-next has a 1.4.2 recipe, can
-you use that?
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index fc2e4f8..653541e 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -1,17 +1,22 @@
+-SUMMARY = "Startup script for the Weston Wayland compositor"
++SUMMARY = "Startup script and systemd unit file for the Weston Wayland compositor"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690"
+ 
+-SRC_URI = "file://init"
++SRC_URI = "file://init \
++           file://weston.service"
+ 
+ S = "${WORKDIR}"
+ 
+ do_install() {
+ 	install -d ${D}/${sysconfdir}/init.d
+ 	install -m755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
++
++	install -d ${D}${systemd_system_unitdir}
++	install -m0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}
+ }
+ 
+-inherit allarch update-rc.d distro_features_check
++inherit allarch update-rc.d distro_features_check systemd
++
+ # rdepends on weston which depends on virtual/egl
+ REQUIRED_DISTRO_FEATURES = "opengl"
+ 
+@@ -19,3 +24,5 @@ RDEPENDS_${PN} = "weston kbd"
+ 
+ INITSCRIPT_NAME = "weston"
+ INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
++
++SYSTEMD_SERVICE_${PN} = "weston.service"
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
+new file mode 100644
+index 0000000..4f1f7ff
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston-init/weston.service
+@@ -0,0 +1,15 @@
++[Unit]
++Description=Weston Wayland compositor startup
++RequiresMountsFor=/run
++
++[Service]
++User=root
++EnvironmentFile=-/etc/default/weston
++Environment="XDG_RUNTIME_DIR=/run/user/root"
++ExecStartPre=/bin/mkdir -p /run/user/root
++ExecStartPre=/bin/chmod 0700 /run/user/root
++ExecStart=/usr/bin/openvt -v -e /usr/bin/weston -- $OPTARGS
++
++[Install]
++WantedBy=multi-user.target
++
+-- 
+2.6.2
 
-Ross
 
---001a113ec64ab0ff8c0525d7ebee
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 30 November 2015 at 09:28, Maxin B. John &lt;<a href=3D=
-"mailto:maxin.john@intel.com">maxin.john@intel.com</a>&gt; wrote:<br>&gt; +=
-PACKAGES =3D+ &quot;jpeg-tools libturbojpeg&quot;<br>&gt; +FILES_libturbojp=
-eg =3D &quot;${libdir}/libturbojpeg.so&quot;<br>&gt; +INSANE_SKIP_libturboj=
-peg =3D &quot;dev-so&quot;<div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">I don&#39;t understand why there&#39;s a libturbojpeg pack=
-age solely for a development symlink that should be in $PN-dev.</div><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Also, Martin poin=
-ted out that meta-oe&#39;s master-next has a 1.4.2 recipe, can you use that=
-?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross=
-</div></div>
-
---001a113ec64ab0ff8c0525d7ebee--
