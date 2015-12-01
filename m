@@ -1,22 +1,47 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EB22606D1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 2509B6011F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 15:31:08 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3p96pN16gbz3hmlG;
-	Tue,  1 Dec 2015 16:31:08 +0100 (CET)
-X-Auth-Info: DBcetgFZEWkHg8+ZOER+UEpQZiB+OBOK3ppJGlPxEzs=
-Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3p96pM5SJVzvdWt;
-	Tue,  1 Dec 2015 16:31:07 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Dec 2015 16:30:59 +0100
-Message-Id: <1448983859-6096-1-git-send-email-marex@denx.de>
-X-Mailer: git-send-email 2.1.4
-Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH] libbsd: Upgrade to 0.8.0
+	Tue,  1 Dec 2015 15:36:25 +0000 (UTC)
+Received: by iofh3 with SMTP id h3so13048598iof.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Dec 2015 07:36:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=+KK2ZyWgkg7MaOpSa9EhYQBfF5S78uD6uBRjHWhdPXs=;
+	b=f05ASAPbf+wdEss2pKZa9TTwnKG4+MBX9w01Do19LZmF778rIIjD0urnWKcxd1V2PG
+	HCuOEyT61ee3DOiCbNcE6CNUqFOKBwKFi2SKRvHEbE14GTqBfa4TW54N9LkXm6kWBuke
+	jOZVgMs5ovBsFRGmBdqP3yh/KxwAZ3+6zzVS4DThklkVK8CD/OdG0hGzs6vwxWBNQnyB
+	h1FDWogDNtPbIQ8QXs7z2/0hcpwZrhCmL3KKIRPzAAIw7MTgZc4kWRaLFqdY4jjmBq3K
+	516BJMYlOLnkp/uwBQlWP2CFeA20VOkoJpy+R0KLuq/vlAVGRkgY925mwV74uikx4OcM
+	G+TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=+KK2ZyWgkg7MaOpSa9EhYQBfF5S78uD6uBRjHWhdPXs=;
+	b=cnM9oRebj0pjBbpHKpCV5Idr2QYYyblNAUUSQayWCB91zzt9Q7zzpeXKCHyjem86tH
+	8SUlA0tA5wgAAuYgOTVHSv+Eg6NmH0EthHMPVtrmaSZmAoE7UZWNspEPa7O6nrfM6jKZ
+	CZ7zreNO446x3bzordqftkGcNmcMlA1fWhi7QbV4O8m80R05C6KhvCxgoawX67BKx0sx
+	etABROn8SSf6fz3TFR1SfTHDUmLZzZwfj3jf26C09ChudsdlyfV9hYm4s63mLnV+2KTf
+	UCaOLyFXz3oa+8C0VwJXkWrnMAVEP7Fju5HIbQCU1O91Wue5kxfOtihaa2Mawgv7CUkI
+	gupg==
+X-Gm-Message-State: ALoCoQkAtIVxExaXTx5Laa0Sjacf7AXvfRWD133vXTeejQFxJdTzR6gLNZC7fJhozX3O5Zu+ytil
+X-Received: by 10.107.135.30 with SMTP id j30mr58271512iod.148.1448984185973; 
+	Tue, 01 Dec 2015 07:36:25 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Tue, 1 Dec 2015 07:36:06 -0800 (PST)
+In-Reply-To: <1448875684-24516-1-git-send-email-maxin.john@intel.com>
+References: <1448875684-24516-1-git-send-email-maxin.john@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 1 Dec 2015 15:36:06 +0000
+Message-ID: <CAJTo0LZO=xhvP5RS0hLn67aq2TVBBaQRG61K6+rzbxrV2LDyaQ@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libjpeg: Replace libjpeg with libjpeg-turbo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,80 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Dec 2015 15:31:08 -0000
+X-List-Received-Date: Tue, 01 Dec 2015 15:36:27 -0000
+Content-Type: multipart/alternative; boundary=001a113ec64ab0ff8c0525d7ebee
 
-Upgrade the library version to recently released 0.8.0 .
+--001a113ec64ab0ff8c0525d7ebee
+Content-Type: text/plain; charset=UTF-8
 
-The COPYING file changed again, but the changes are just new names
-added to the Copyright (C) YYYY John Doe <...> section, no changes
-to the license itself.
+On 30 November 2015 at 09:28, Maxin B. John <maxin.john@intel.com> wrote:
+> +PACKAGES =+ "jpeg-tools libturbojpeg"
+> +FILES_libturbojpeg = "${libdir}/libturbojpeg.so"
+> +INSANE_SKIP_libturbojpeg = "dev-so"
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Khem Raj <raj.khem@gmail.com>
-Cc: Saul Wold <sgw@linux.intel.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-support/libbsd/libbsd_0.7.0.bb | 21 ---------------------
- meta/recipes-support/libbsd/libbsd_0.8.0.bb | 21 +++++++++++++++++++++
- 2 files changed, 21 insertions(+), 21 deletions(-)
- delete mode 100644 meta/recipes-support/libbsd/libbsd_0.7.0.bb
- create mode 100644 meta/recipes-support/libbsd/libbsd_0.8.0.bb
+I don't understand why there's a libturbojpeg package solely for a
+development symlink that should be in $PN-dev.
 
-diff --git a/meta/recipes-support/libbsd/libbsd_0.7.0.bb b/meta/recipes-support/libbsd/libbsd_0.7.0.bb
-deleted file mode 100644
-index 902666d..0000000
---- a/meta/recipes-support/libbsd/libbsd_0.7.0.bb
-+++ /dev/null
-@@ -1,21 +0,0 @@
--# Copyright (C) 2013 Khem Raj <raj.khem@gmail.com>
--# Released under the MIT license (see COPYING.MIT for the terms)
--
--SUMMARY = "Library of utility functions from BSD systems"
--DESCRIPTION = "This library provides useful functions commonly found on BSD systems, \
--               and lacking on others like GNU systems, thus making it easier to port \
--               projects with strong BSD origins, without needing to embed the same \
--               code over and over again on each project."
--
--HOMEPAGE = "http://libbsd.freedesktop.org/wiki/"
--LICENSE = "BSD-4-Clause & MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=f1530ea92aeaa1c5e2547cfd43905d8c"
--SECTION = "libs"
--DEPENDS = ""
--
--SRC_URI = "http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
--
--SRC_URI[md5sum] = "fcceb4e66fd448ca4ed42ba22a8babb0"
--SRC_URI[sha256sum] = "0f3b0e17e5c34c038126e0a04351b11e23c6101a7d0ce3beeab29bb6415c10bb"
--
--inherit autotools pkgconfig
-diff --git a/meta/recipes-support/libbsd/libbsd_0.8.0.bb b/meta/recipes-support/libbsd/libbsd_0.8.0.bb
-new file mode 100644
-index 0000000..b9f4464
---- /dev/null
-+++ b/meta/recipes-support/libbsd/libbsd_0.8.0.bb
-@@ -0,0 +1,21 @@
-+# Copyright (C) 2013 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+SUMMARY = "Library of utility functions from BSD systems"
-+DESCRIPTION = "This library provides useful functions commonly found on BSD systems, \
-+               and lacking on others like GNU systems, thus making it easier to port \
-+               projects with strong BSD origins, without needing to embed the same \
-+               code over and over again on each project."
-+
-+HOMEPAGE = "http://libbsd.freedesktop.org/wiki/"
-+LICENSE = "BSD-4-Clause & MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b99a70657f41053dc4b49d0ae73f7a78"
-+SECTION = "libs"
-+DEPENDS = ""
-+
-+SRC_URI = "http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
-+
-+SRC_URI[md5sum] = "262bdd1aa3bee6066a8c9cb49bb6c584"
-+SRC_URI[sha256sum] = "fbb732084bd960e4c78b688aac875be98e290cc6fe462b2ff8ee946a6473e38c"
-+
-+inherit autotools pkgconfig
--- 
-2.1.4
+Also, Martin pointed out that meta-oe's master-next has a 1.4.2 recipe, can
+you use that?
 
+Ross
 
+--001a113ec64ab0ff8c0525d7ebee
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 30 November 2015 at 09:28, Maxin B. John &lt;<a href=3D=
+"mailto:maxin.john@intel.com">maxin.john@intel.com</a>&gt; wrote:<br>&gt; +=
+PACKAGES =3D+ &quot;jpeg-tools libturbojpeg&quot;<br>&gt; +FILES_libturbojp=
+eg =3D &quot;${libdir}/libturbojpeg.so&quot;<br>&gt; +INSANE_SKIP_libturboj=
+peg =3D &quot;dev-so&quot;<div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">I don&#39;t understand why there&#39;s a libturbojpeg pack=
+age solely for a development symlink that should be in $PN-dev.</div><div c=
+lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Also, Martin poin=
+ted out that meta-oe&#39;s master-next has a 1.4.2 recipe, can you use that=
+?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross=
+</div></div>
+
+--001a113ec64ab0ff8c0525d7ebee--
