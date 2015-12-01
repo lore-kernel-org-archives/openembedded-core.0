@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 457E46E5CC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BC3076E5CC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 09:44:51 +0000 (UTC)
+	Tue,  1 Dec 2015 09:44:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tB19iq9b012267
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tB19ipYG023216
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Dec 2015 01:44:52 -0800 (PST)
+	Tue, 1 Dec 2015 01:44:51 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Tue, 1 Dec 2015 01:44:51 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 1 Dec 2015 01:44:46 -0800
-Message-ID: <cfd522ee6ab39b8bfcb5a160d4bd5cef7f422f79.1448962573.git.liezhi.yang@windriver.com>
+Date: Tue, 1 Dec 2015 01:44:45 -0800
+Message-ID: <a15ba7295572b30fac54af948e1370fbfc6047f9.1448962573.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1448962573.git.liezhi.yang@windriver.com>
 References: <cover.1448962573.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 7/8] libxml2: fix CVE-2015-7942 and CVE-2015-8035
+Subject: [PATCH 6/8] libxslt: CVE-2015-7995
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,146 +38,78 @@ Content-Type: text/plain
 
 From: Armin Kuster <akuster@mvista.com>
 
-CVE-2015-7942 libxml2: heap-based buffer overflow in xmlParseConditionalSections()
-CVE-2015-8035 libxml2: DoS when parsing specially crafted XML document if XZ support is enabled
+This is a is being give a High rating so please consider it for
+all 1.1.28 versions.
 
-[YOCTO #8641]
+A type confusion error within the libxslt "xsltStylePreCompute()"
+function in preproc.c can lead to a DoS. Confirmed in version 1.1.28,
+other versions may also be affected.
 
-(From OE-Core master rev: 27de51f4ad21d9b896e7d48041e7cdf20c564a38)
+(From OE-Core master rev: 0f89bbab6588a1171259801fa879516740030acb)
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/libxml/libxml2.inc               |    2 +
- .../libxml/libxml2/CVE-2015-7942.patch             |   55 ++++++++++++++++++++
- .../libxml/libxml2/CVE-2015-8035.patch             |   41 +++++++++++++++
- 3 files changed, 98 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
+ .../libxslt/libxslt/CVE-2015-7995.patch            |   33 ++++++++++++++++++++
+ meta/recipes-support/libxslt/libxslt_1.1.28.bb     |    3 +-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 1c3c37d..6ada401 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -21,6 +21,8 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml-m4-use-pkgconfig.patch \
-            file://configure.ac-fix-cross-compiling-warning.patch \
-            file://0001-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch \
-+           file://CVE-2015-7942.patch \
-+           file://CVE-2015-8035.patch \
-           "
- 
- BINCONFIG = "${bindir}/xml2-config"
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
+diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch b/meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch
 new file mode 100644
-index 0000000..a5930ed
+index 0000000..e4d09c2
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
-@@ -0,0 +1,55 @@
-+libxml2: CVE-2015-7942
-+
-+From 9b8512337d14c8ddf662fcb98b0135f225a1c489 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/libxslt/libxslt/CVE-2015-7995.patch
+@@ -0,0 +1,33 @@
++From 7ca19df892ca22d9314e95d59ce2abdeff46b617 Mon Sep 17 00:00:00 2001
 +From: Daniel Veillard <veillard@redhat.com>
-+Date: Mon, 23 Feb 2015 11:29:20 +0800
-+Subject: Cleanup conditional section error handling
++Date: Thu, 29 Oct 2015 19:33:23 +0800
++Subject: Fix for type confusion in preprocessing attributes
 +
-+For https://bugzilla.gnome.org/show_bug.cgi?id=744980
-+
-+The error handling of Conditional Section also need to be
-+straightened as the structure of the document can't be
-+guessed on a failure there and it's better to stop parsing
-+as further errors are likely to be irrelevant.
++CVE-2015-7995 http://www.openwall.com/lists/oss-security/2015/10/27/10
++We need to check that the parent node is an element before dereferencing
++its namespace
 +
 +Upstream-Status: Backport
-+https://git.gnome.org/browse/libxml2/patch/?id=9b8512337d14c8ddf662fcb98b0135f225a1c489
 +
-+[YOCTO #8641]
++https://git.gnome.org/browse/libxslt/commit/?id=7ca19df892ca22d9314e95d59ce2abdeff46b617
++
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ parser.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
++ libxslt/preproc.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+Index: libxml2-2.9.2/parser.c
++Index: libxslt-1.1.28/libxslt/preproc.c
 +===================================================================
-+--- libxml2-2.9.2.orig/parser.c
-++++ libxml2-2.9.2/parser.c
-+@@ -6783,6 +6783,8 @@ xmlParseConditionalSections(xmlParserCtx
-+ 	SKIP_BLANKS;
-+ 	if (RAW != '[') {
-+ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
-++	    xmlStopParser(ctxt);
-++	    return;
-+ 	} else {
-+ 	    if (ctxt->input->id != id) {
-+ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
-+@@ -6843,6 +6845,8 @@ xmlParseConditionalSections(xmlParserCtx
-+ 	SKIP_BLANKS;
-+ 	if (RAW != '[') {
-+ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
-++	    xmlStopParser(ctxt);
-++	    return;
-+ 	} else {
-+ 	    if (ctxt->input->id != id) {
-+ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
-+@@ -6898,6 +6902,8 @@ xmlParseConditionalSections(xmlParserCtx
++--- libxslt-1.1.28.orig/libxslt/preproc.c
+++++ libxslt-1.1.28/libxslt/preproc.c
++@@ -2245,7 +2245,8 @@ xsltStylePreCompute(xsltStylesheetPtr st
++ 	} else if (IS_XSLT_NAME(inst, "attribute")) {
++ 	    xmlNodePtr parent = inst->parent;
 + 
-+     } else {
-+ 	xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID_KEYWORD, NULL);
-++	xmlStopParser(ctxt);
-++	return;
-+     }
-+ 
-+     if (RAW == 0)
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
-new file mode 100644
-index 0000000..d175f74
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
-@@ -0,0 +1,41 @@
-+libxml2: CVE-2015-8035
-+
-+From f0709e3ca8f8947f2d91ed34e92e38a4c23eae63 Mon Sep 17 00:00:00 2001
-+From: Daniel Veillard <veillard@redhat.com>
-+Date: Tue, 3 Nov 2015 15:31:25 +0800
-+Subject: CVE-2015-8035 Fix XZ compression support loop
-+
-+For https://bugzilla.gnome.org/show_bug.cgi?id=757466
-+DoS when parsing specially crafted XML document if XZ support
-+is compiled in (which wasn't the case for 2.9.2 and master since
-+Nov 2013, fixed in next commit !)
-+
-+Upstream-Status: Backport
-+https://git.gnome.org/browse/libxml2/patch/?id=f0709e3ca8f8947f2d91ed34e92e38a4c23eae63
-+
-+[YOCTO #8641]
-+
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ xzlib.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/xzlib.c b/xzlib.c
-+index 0dcb9f4..1fab546 100644
-+--- a/xzlib.c
-++++ b/xzlib.c
-+@@ -581,6 +581,10 @@ xz_decomp(xz_statep state)
-+             xz_error(state, LZMA_DATA_ERROR, "compressed data error");
-+             return -1;
-+         }
-++        if (ret == LZMA_PROG_ERROR) {
-++            xz_error(state, LZMA_PROG_ERROR, "compression error");
-++            return -1;
-++        }
-+     } while (strm->avail_out && ret != LZMA_STREAM_END);
-+ 
-+     /* update available output and crc check value */
-+-- 
-+cgit v0.11.2
-+
++-	    if ((parent == NULL) || (parent->ns == NULL) ||
+++	    if ((parent == NULL) ||
+++	        (parent->type != XML_ELEMENT_NODE) || (parent->ns == NULL) ||
++ 		((parent->ns != inst->ns) &&
++ 		 (!xmlStrEqual(parent->ns->href, inst->ns->href))) ||
++ 		(!xmlStrEqual(parent->name, BAD_CAST "attribute-set"))) {
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.28.bb b/meta/recipes-support/libxslt/libxslt_1.1.28.bb
+index 166bcd8..87fabec 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.28.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.28.bb
+@@ -10,7 +10,8 @@ DEPENDS = "libxml2"
+ 
+ SRC_URI = "ftp://xmlsoft.org/libxslt//libxslt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch \
+-           file://pkgconfig.patch"
++           file://pkgconfig.patch \
++           file://CVE-2015-7995.patch"
+ 
+ SRC_URI[md5sum] = "9667bf6f9310b957254fdcf6596600b7"
+ SRC_URI[sha256sum] = "5fc7151a57b89c03d7b825df5a0fae0a8d5f05674c0e7cf2937ecec4d54a028c"
 -- 
 1.7.9.5
 
