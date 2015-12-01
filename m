@@ -1,35 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id C771D6FF76
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C69B6011D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 08:19:06 +0000 (UTC)
-Received: by iouu10 with SMTP id u10so1540499iou.0
+	Tue,  1 Dec 2015 08:56:22 +0000 (UTC)
+Received: by ioir85 with SMTP id r85so2262050ioi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Dec 2015 00:19:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Tue, 01 Dec 2015 00:56:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=rMRAmGj4hJT6+lG8L2UTYPXqMNkPIDOoIFZauBPSXnk=;
-	b=Jtd9aNdAFuzbyN2mnIM3qB+nA2dCBwIKM90A33ZLPXYBOJeSEzDOL3zJ4DJxbBSYE/
-	WQFlo/n/yXAeGF4OovtRhmE7fBYivkuM/FPcpeSZ3ret7zG0lKpeFXp7o64FiJ+6NV7d
-	FSBKj3PcbJOfJuBGPuxV53s7bHxZCSmNjyPStGX/e9rtr/GZ9sWh1dMiB0JTPOMeT3AG
-	bWkNOc/j6vRqCefZ/aly1cCNtm8T3pAHq++h6Yq0fZXIuq1XhInv7uu5f3WsC6FSE1Qq
-	1uvlS9uIwGifFcU9PBpOTFbW8F19KalXsCy2c/hmajR9FIcTf+hyGHe7UYdnZawJjNNc
-	HTyQ==
-X-Received: by 10.107.9.152 with SMTP id 24mr59463819ioj.112.1448957947292;
-	Tue, 01 Dec 2015 00:19:07 -0800 (PST)
+	bh=HpcfJbGjmKAX5TuhoGckG2IRT2uqgbe0wpDv+TpA4Dg=;
+	b=SYZUlnw0udjR/YjOxnegoGoKt9/xTooyK8VLzmrJGwDCOHcnzGpvzMQ1PWSjfqtCKR
+	G0XuwOYe0Wz55e10+56sYcosXcybFoaXg/TBQWO7tiH78D4v6nt5vyw3PgCdaLkswaOs
+	4761DqavAw4eSxYgej5o9vADP6rC1TFc0UFAc7Ycz7WD6GTFJ5U075EYzhOPrHv9PYxw
+	sEwTzA0mJZNWUi4pCP0Glq33cSKpPyFWlmNyknw9Fqbco0y/oeChDV38I01plOM6vADs
+	z5O6xgERgmg2xg3aF/MuyHYyUJdI2kCOa/RICC2Ou9n5En3kwNsrlmaFWXk5w4ngVEiJ
+	raDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=HpcfJbGjmKAX5TuhoGckG2IRT2uqgbe0wpDv+TpA4Dg=;
+	b=c8uGFgd8Ygz8s5tf5ffsyCG/u+05OHN+wooLIlITZiCIlmqnVfBovkn9BdMtl4BvJn
+	FjD90onnGvSkmJan5UYbrRvvmqFu3E7R0M89Dlhw4oVxErVvvL3+qaTHSp+ojlozEU1W
+	kd3It+VnM4MQBa2WMT82PjnqYbJZzZNT+Cd9sc+VcJzAxyDjktfISaNpMjddMIImwhjG
+	LULZ/yhG6VcCakdXQjY+5f/gG6fXlZuBdE5pHY8osCP3FZ9Mjl/wB/YicxSOQcT1rdVv
+	TISfTtBkwWChobP+rB0DqNVG0qiSBBPcld0HGy4PzS2EuTZAy78PaIKEO4D9WI7eBNJX
+	3lbg==
+X-Gm-Message-State: ALoCoQnJTnm3mQehapyzPPjhE+omQIGjV+MgK0fy/VnZCRfDzSP5F72720vzBohK9KoO6KmjTrko
+X-Received: by 10.107.130.155 with SMTP id m27mr69838416ioi.133.1448960183085; 
+	Tue, 01 Dec 2015 00:56:23 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.12.205 with HTTP; Tue, 1 Dec 2015 00:18:37 -0800 (PST)
-In-Reply-To: <1448556053-15960-1-git-send-email-dbaryshkov@gmail.com>
-References: <1448556053-15960-1-git-send-email-dbaryshkov@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 1 Dec 2015 00:18:37 -0800
-Message-ID: <CAMKF1spwObPx-WH8v3XKKxDGVHjPOVn4FF5Dr7FZWZBWgPOrUQ@mail.gmail.com>
-To: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] gcc-5.2: import patch fixing compilation in thumb mode
+Received: by 10.107.136.141 with HTTP; Tue, 1 Dec 2015 00:56:03 -0800 (PST)
+In-Reply-To: <1448948830-9690-1-git-send-email-jackie.huang@windriver.com>
+References: <1448948830-9690-1-git-send-email-jackie.huang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 1 Dec 2015 08:56:03 +0000
+Message-ID: <CAJTo0LYtfrPYpfYMDfmO=-CbFcO4=8_K0dWLChEq+AwgAcxYBQ@mail.gmail.com>
+To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] matchbox-desktop: sync with gio for the inotify-sub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,87 +54,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Dec 2015 08:19:07 -0000
+X-List-Received-Date: Tue, 01 Dec 2015 08:56:24 -0000
+Content-Type: multipart/alternative; boundary=001a113ecd9401c0900525d2555a
+
+--001a113ecd9401c0900525d2555a
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Nov 26, 2015 at 8:40 AM, Dmitry Eremin-Solenikov
-<dbaryshkov@gmail.com> wrote:
-> Import patch fixing a bug that caused ICE when compiling some packages
-> (e.g. ICU) in Thumb-1 model.
+On 1 December 2015 at 05:47, <jackie.huang@windriver.com> wrote:
 
-This is ok
+> matchbox-desktop builds with included libinotify which
+> is very old (last sync was in 2008), if we compile glib-2.0
+> with -fvisibility=default (the default is hidden for libglib
+> and libgio), it will crash because of inconsistency of
+> inotify-sub, so port the related parts to fix the issue.
+>
 
->
-> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-5.2.inc              |  1 +
->  .../gcc/gcc-5.2/0043-fix-arm-thumb.patch           | 39 ++++++++++++++++++++++
->  2 files changed, 40 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0043-fix-arm-thumb.patch
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-5.2.inc b/meta/recipes-devtools/gcc/gcc-5.2.inc
-> index a6b385a..e5e92e9 100644
-> --- a/meta/recipes-devtools/gcc/gcc-5.2.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-5.2.inc
-> @@ -74,6 +74,7 @@ SRC_URI = "\
->             file://0040-nativesdk-gcc-support.patch \
->             file://0041-handle-target-sysroot-multilib.patch \
->             file://0042-cxxflags-for-build.patch \
-> +           file://0043-fix-arm-thumb.patch \
->            "
->
->  BACKPORTS = ""
-> diff --git a/meta/recipes-devtools/gcc/gcc-5.2/0043-fix-arm-thumb.patch b/meta/recipes-devtools/gcc/gcc-5.2/0043-fix-arm-thumb.patch
-> new file mode 100644
-> index 0000000..2f262e3
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-5.2/0043-fix-arm-thumb.patch
-> @@ -0,0 +1,39 @@
-> +Upstream-Status: Accepted
-> +
-> +Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-> +---
-> +
-> +2015-11-25  Vladimir Makarov  <vmakarov@redhat.com>
-> +
-> +       PR rtl-optimization/67954
-> +       * lra-constraints.c (curr_insn_transform): Add check on scratch
-> +       pseudo when change class to NO_REGS.  Add an assert.
-> +
-> +
-> +
-> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@230894 138bc75d-0d04-0410-961f-82ee72b054a4
-> +---
-> +
-> +diff --git a/gcc/lra-constraints.c b/gcc/lra-constraints.c
-> +index 4670e81..c62bf6a 100644
-> +--- a/gcc/lra-constraints.c
-> ++++ b/gcc/lra-constraints.c
-> +@@ -3725,7 +3725,8 @@ curr_insn_transform (bool check_only_p)
-> +                assigment pass and the scratch pseudo will be
-> +                spilled.  Spilled scratch pseudos are transformed
-> +                back to scratches at the LRA end.  */
-> +-            && lra_former_scratch_operand_p (curr_insn, i))
-> ++            && lra_former_scratch_operand_p (curr_insn, i)
-> ++            && lra_former_scratch_p (REGNO (op)))
-> +           {
-> +             int regno = REGNO (op);
-> +             lra_change_class (regno, NO_REGS, "      Change to", true);
-> +@@ -3734,6 +3735,8 @@ curr_insn_transform (bool check_only_p)
-> +                  spilled pseudo as there is only one such insn, the
-> +                  current one.  */
-> +               reg_renumber[regno] = -1;
-> ++            lra_assert (bitmap_single_bit_set_p
-> ++                        (&lra_reg_info[REGNO (op)].insn_bitmap));
-> +           }
-> +         /* We can do an optional reload.  If the pseudo got a hard
-> +            reg, we might improve the code through inheritance.  If
-> --
-> 2.6.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+matchbox-desktop is maintained by the Yocto Project, so this patch should
+be applied there and then the recipe updated to the latest git revision.
 
+There's a big rewrite of matchbox-desktop going on, so dropping that code
+entirely is probably the best idea: just use GIO instead.
+
+Ross
+
+--001a113ecd9401c0900525d2555a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 1 December 2015 at 05:47,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jacki=
+e.huang@windriver.com" target=3D"_blank">jackie.huang@windriver.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":w6" class=3D"a=
+3s" style=3D"overflow:hidden">matchbox-desktop builds with included libinot=
+ify which<br>
+is very old (last sync was in 2008), if we compile glib-2.0<br>
+with -fvisibility=3Ddefault (the default is hidden for libglib<br>
+and libgio), it will crash because of inconsistency of<br>
+inotify-sub, so port the related parts to fix the issue.<br></div></blockqu=
+ote></div><br>matchbox-desktop is maintained by the Yocto Project, so this =
+patch should be applied there and then the recipe updated to the latest git=
+ revision.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
+tra">There&#39;s a big rewrite of matchbox-desktop going on, so dropping th=
+at code entirely is probably the best idea: just use GIO instead.</div><div=
+ class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
+>
+
+--001a113ecd9401c0900525d2555a--
