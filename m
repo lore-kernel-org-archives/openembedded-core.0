@@ -1,22 +1,26 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BAE36E5CC
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D7B4605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 16:55:56 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3p98hD5PLyz3hhpN;
-	Tue,  1 Dec 2015 17:55:56 +0100 (CET)
-X-Auth-Info: V/FAxdm7/dZwnUxw8L50AgDoAebEwq/dlOJMAjD3ugo=
-Received: from chi.lan (unknown [195.140.253.167])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3p98hD2Zb7zvdWt;
-	Tue,  1 Dec 2015 17:55:56 +0100 (CET)
-From: Marek Vasut <marex@denx.de>
+	Tue,  1 Dec 2015 17:50:56 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 01 Dec 2015 09:50:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,369,1444719600"; 
+   d="scan'208";a="5628180"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by fmsmga004.fm.intel.com with ESMTP; 01 Dec 2015 09:50:57 -0800
+From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Dec 2015 17:55:50 +0100
-Message-Id: <1448988950-7550-1-git-send-email-marex@denx.de>
-X-Mailer: git-send-email 2.1.4
-Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH V3] libbsd: Upgrade to 0.8.0
+Date: Tue,  1 Dec 2015 09:38:59 +0000
+Message-Id: <dd7c072a108e9f38175604ba0d938f0381cdeecd.1448961756.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1448961756.git.mariano.lopez@linux.intel.com>
+References: <cover.1448961756.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1448961756.git.mariano.lopez@linux.intel.com>
+References: <cover.1448961756.git.mariano.lopez@linux.intel.com>
+Subject: [PATCHv2 1/6] wic: Prepare wicboot to allow custom bootloader config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,170 +33,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Dec 2015 16:55:57 -0000
+X-List-Received-Date: Tue, 01 Dec 2015 17:50:56 -0000
 
-Upgrade the library version to recently released 0.8.0 .
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-The COPYING file changed again, but the changes are just new names
-added to the Copyright (C) YYYY John Doe <...> section, no changes
-to the license itself.
+Currently wic does the bootloader configuration file on the fly.
+This change introduce a configfile variable for the bootloader;
+this is to have a user defined configuration file for the
+bootloaders (grub, syslinux, and gummiboot). This is particular
+useful when having a multiboot system or scripts embedded in the
+configuration file.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Khem Raj <raj.khem@gmail.com>
-Cc: Saul Wold <sgw@linux.intel.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+[YOCTO #8728]
+
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- .../libbsd/0001-Use-local-SHA512-header.patch      | 75 ++++++++++++++++++++++
- meta/recipes-support/libbsd/libbsd_0.7.0.bb        | 21 ------
- meta/recipes-support/libbsd/libbsd_0.8.0.bb        | 24 +++++++
- 3 files changed, 99 insertions(+), 21 deletions(-)
- create mode 100644 meta/recipes-support/libbsd/libbsd/0001-Use-local-SHA512-header.patch
- delete mode 100644 meta/recipes-support/libbsd/libbsd_0.7.0.bb
- create mode 100644 meta/recipes-support/libbsd/libbsd_0.8.0.bb
+ scripts/lib/wic/kickstart/__init__.py                | 7 +++++++
+ scripts/lib/wic/kickstart/custom_commands/wicboot.py | 5 +++++
+ 2 files changed, 12 insertions(+)
 
-V2: Backport patch from libbsd mainline which removes dependency
-    on the OpenSSL.
-V3: Add my SoB line on the backported patch.
-
-diff --git a/meta/recipes-support/libbsd/libbsd/0001-Use-local-SHA512-header.patch b/meta/recipes-support/libbsd/libbsd/0001-Use-local-SHA512-header.patch
-new file mode 100644
-index 0000000..af47b2b
---- /dev/null
-+++ b/meta/recipes-support/libbsd/libbsd/0001-Use-local-SHA512-header.patch
-@@ -0,0 +1,75 @@
-+From 8493c7f27da2dcd2de71e9c7782c3d020d89c2a2 Mon Sep 17 00:00:00 2001
-+From: Guillem Jover <guillem@hadrons.org>
-+Date: Tue, 1 Dec 2015 03:39:10 +0100
-+Subject: [PATCH] Use local SHA512 header
+diff --git a/scripts/lib/wic/kickstart/__init__.py b/scripts/lib/wic/kickstart/__init__.py
+index c9b0e51..79b39fb 100644
+--- a/scripts/lib/wic/kickstart/__init__.py
++++ b/scripts/lib/wic/kickstart/__init__.py
+@@ -97,6 +97,13 @@ def get_timeout(kickstart, default=None):
+         return default
+     return int(kickstart.handler.bootloader.timeout)
+ 
++def get_bootloader_file(kickstart, default=None):
++    if not hasattr(kickstart.handler.bootloader, "configfile"):
++        return default
++    if kickstart.handler.bootloader.configfile is None:
++        return default
++    return kickstart.handler.bootloader.configfile
 +
-+Actually use the local private SHA512 header instead of relying on the
-+OpenSSL one for no good reason. Add definition for expected macro
-+SHA512_DIGEST_LENGTH.
-+
-+Signed-off-by: Marek Vasut <marex@denx.de>
-+Upstream-Status: Backport
-+---
-+ src/getentropy_aix.c   | 2 +-
-+ src/getentropy_hpux.c  | 3 ++-
-+ src/getentropy_linux.c | 3 ++-
-+ src/hash/sha512.h      | 2 ++
-+ 4 files changed, 7 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/getentropy_aix.c b/src/getentropy_aix.c
-+index cbd4037..d4ccab7 100644
-+--- a/src/getentropy_aix.c
-++++ b/src/getentropy_aix.c
-+@@ -39,7 +39,7 @@
-+ #include <string.h>
-+ #include <termios.h>
-+ 
-+-#include <openssl/sha.h>
-++#include "hash/sha512.h"
-+ 
-+ #include <libperfstat.h>
-+ 
-+diff --git a/src/getentropy_hpux.c b/src/getentropy_hpux.c
-+index 45ac84b..294d83a 100644
-+--- a/src/getentropy_hpux.c
-++++ b/src/getentropy_hpux.c
-+@@ -41,7 +41,8 @@
-+ #include <errno.h>
-+ #include <unistd.h>
-+ #include <time.h>
-+-#include <openssl/sha.h>
-++
-++#include "hash/sha512.h"
-+ 
-+ #include <sys/vfs.h>
-+ 
-+diff --git a/src/getentropy_linux.c b/src/getentropy_linux.c
-+index 0a5d6b8..d7a8ae5 100644
-+--- a/src/getentropy_linux.c
-++++ b/src/getentropy_linux.c
-+@@ -47,7 +47,8 @@
-+ #include <errno.h>
-+ #include <unistd.h>
-+ #include <time.h>
-+-#include <openssl/sha.h>
-++
-++#include "hash/sha512.h"
-+ 
-+ #include <linux/types.h>
-+ #include <linux/random.h>
-+diff --git a/src/hash/sha512.h b/src/hash/sha512.h
-+index 43c5aaf..4f368a1 100644
-+--- a/src/hash/sha512.h
-++++ b/src/hash/sha512.h
-+@@ -31,6 +31,8 @@
-+ 
-+ #include <sys/types.h>
-+ 
-++#define SHA512_DIGEST_LENGTH		64
-++
-+ typedef struct SHA512Context {
-+ 	uint64_t state[8];
-+ 	uint64_t count[2];
-+-- 
-+2.6.2
-+
-diff --git a/meta/recipes-support/libbsd/libbsd_0.7.0.bb b/meta/recipes-support/libbsd/libbsd_0.7.0.bb
-deleted file mode 100644
-index 902666d..0000000
---- a/meta/recipes-support/libbsd/libbsd_0.7.0.bb
-+++ /dev/null
-@@ -1,21 +0,0 @@
--# Copyright (C) 2013 Khem Raj <raj.khem@gmail.com>
--# Released under the MIT license (see COPYING.MIT for the terms)
--
--SUMMARY = "Library of utility functions from BSD systems"
--DESCRIPTION = "This library provides useful functions commonly found on BSD systems, \
--               and lacking on others like GNU systems, thus making it easier to port \
--               projects with strong BSD origins, without needing to embed the same \
--               code over and over again on each project."
--
--HOMEPAGE = "http://libbsd.freedesktop.org/wiki/"
--LICENSE = "BSD-4-Clause & MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=f1530ea92aeaa1c5e2547cfd43905d8c"
--SECTION = "libs"
--DEPENDS = ""
--
--SRC_URI = "http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
--
--SRC_URI[md5sum] = "fcceb4e66fd448ca4ed42ba22a8babb0"
--SRC_URI[sha256sum] = "0f3b0e17e5c34c038126e0a04351b11e23c6101a7d0ce3beeab29bb6415c10bb"
--
--inherit autotools pkgconfig
-diff --git a/meta/recipes-support/libbsd/libbsd_0.8.0.bb b/meta/recipes-support/libbsd/libbsd_0.8.0.bb
-new file mode 100644
-index 0000000..3456968
---- /dev/null
-+++ b/meta/recipes-support/libbsd/libbsd_0.8.0.bb
-@@ -0,0 +1,24 @@
-+# Copyright (C) 2013 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+SUMMARY = "Library of utility functions from BSD systems"
-+DESCRIPTION = "This library provides useful functions commonly found on BSD systems, \
-+               and lacking on others like GNU systems, thus making it easier to port \
-+               projects with strong BSD origins, without needing to embed the same \
-+               code over and over again on each project."
-+
-+HOMEPAGE = "http://libbsd.freedesktop.org/wiki/"
-+LICENSE = "BSD-4-Clause & MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b99a70657f41053dc4b49d0ae73f7a78"
-+SECTION = "libs"
-+DEPENDS = ""
-+
-+SRC_URI = " \
-+	http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-+	file://0001-Use-local-SHA512-header.patch \
-+	"
-+
-+SRC_URI[md5sum] = "262bdd1aa3bee6066a8c9cb49bb6c584"
-+SRC_URI[sha256sum] = "fbb732084bd960e4c78b688aac875be98e290cc6fe462b2ff8ee946a6473e38c"
-+
-+inherit autotools pkgconfig
+ def get_kernel_args(kickstart, default="ro rd.live.image"):
+     if not hasattr(kickstart.handler.bootloader, "appendLine"):
+         return default
+diff --git a/scripts/lib/wic/kickstart/custom_commands/wicboot.py b/scripts/lib/wic/kickstart/custom_commands/wicboot.py
+index a3e1852..eb17dab 100644
+--- a/scripts/lib/wic/kickstart/custom_commands/wicboot.py
++++ b/scripts/lib/wic/kickstart/custom_commands/wicboot.py
+@@ -35,6 +35,7 @@ class Wic_Bootloader(F8_Bootloader):
+         self.menus = ""
+         self.ptable = "msdos"
+         self.source = ""
++        self.configfile = ""
+ 
+     def _getArgsAsStr(self):
+         retval = F8_Bootloader._getArgsAsStr(self)
+@@ -45,6 +46,8 @@ class Wic_Bootloader(F8_Bootloader):
+             retval += " --ptable=\"%s\"" %(self.ptable,)
+         if self.source:
+             retval += " --source=%s" % self.source
++        if self.configfile:
++            retval += " --configfile=%s" % self.configfile
+ 
+         return retval
+ 
+@@ -56,5 +59,7 @@ class Wic_Bootloader(F8_Bootloader):
+         # use specified source plugin to implement bootloader-specific methods
+         parser.add_option("--source", type="string", action="store",
+                       dest="source", default=None)
++        parser.add_option("--configfile", type="string", action="store",
++                      dest="configfile", default=None)
+         return parser
+ 
 -- 
-2.1.4
+1.8.4.5
 
 
