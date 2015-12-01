@@ -1,27 +1,31 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 04351605BB
+Return-Path: <haris.okanovic@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id AFE84606D1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 14:49:17 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 01 Dec 2015 06:48:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,369,1444719600"; d="scan'208";a="831866824"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 01 Dec 2015 06:48:57 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 709326A4087
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 06:47:47 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Tue,  1 Dec 2015 15:22:45 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tB1FMix2016504 for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Dec 2015 09:22:44 -0600
+Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015120109224462-616329 ;
+	Tue, 1 Dec 2015 09:22:44 -0600 
+From: Haris Okanovic <haris.okanovic@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Dec 2015 12:00:03 +0200
-Message-Id: <1448964003-7692-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] xvideo-tests: move to the latest release
+Date: Tue, 1 Dec 2015 09:22:33 -0600
+Message-Id: <1448983353-8914-1-git-send-email-haris.okanovic@ni.com>
+X-Mailer: git-send-email 2.6.2
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 12/01/2015 09:22:44 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 12/01/2015 09:22:44 AM,
+	Serialize complete at 12/01/2015 09:22:44 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-12-01_08:, , signatures=0
+Cc: Haris Okanovic <haris.okanovic@ni.com>
+Subject: [PATCH] sdk.py / OpkgSdk: remove_packaging_data() after install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,29 +38,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Dec 2015 14:49:20 -0000
+X-List-Received-Date: Tue, 01 Dec 2015 15:22:46 -0000
 
-Updating SRCREV to pick up the latest changes.
+Run remove_packaging_data() on both host and target sysroots to wipe
+opkg state after install, similar to what RpmSdk does.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Use case:
+
+Opkg may download local package indexes (I.e. file:// URLs) by
+sym-linking them into /var/lib/opkg/lists/ instead of copying [1].
+This leaves behind broken symlinks under the lists directory when
+using opkg to build SDK sysroots.
+
+The -h option may be set via SDKTAROPTS in some configurations to create
+symlink-less SDK archives for Windows file systems. Sysroots containing
+broken symlinks will fail to archive under this configuration.
+
+Testing:
+
+Verified /var/lib/opkg/ is empty after running populate_sdk() in a Fido
+based distribution.
+
+[1] http://git.yoctoproject.org/cgit/cgit.cgi/opkg/commit/?h=opkg-0.3.x&id=f9022a8520fcde8f1b71424d26a652c218fce685
+
+Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+Reviewed-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+Natinst-ReviewBoard-ID: 119065
 ---
- meta/recipes-graphics/xvideo-tests/xvideo-tests_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/sdk.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-graphics/xvideo-tests/xvideo-tests_git.bb b/meta/recipes-graphics/xvideo-tests/xvideo-tests_git.bb
-index 9b3c9e0..51839dd 100644
---- a/meta/recipes-graphics/xvideo-tests/xvideo-tests_git.bb
-+++ b/meta/recipes-graphics/xvideo-tests/xvideo-tests_git.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://src/test-xvideo.c;beginline=1;endline=20;md5=6ae3b4c3c2ff9e51dbbc35bb237afa00"
- DEPENDS = "libxv"
+diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+index a676741..860e5de 100644
+--- a/meta/lib/oe/sdk.py
++++ b/meta/lib/oe/sdk.py
+@@ -197,11 +197,15 @@ class OpkgSdk(Sdk):
  
--SRCREV = "f8f320d0254c09ce483fc1d8ee99ecf5bc940965"
-+SRCREV = "7d38b881e99eb74169d292b40f7164e461a65092"
- PV = "0.1+git${SRCPV}"
+         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND", True))
  
- SRC_URI = "git://git.yoctoproject.org/test-xvideo"
++        self.target_pm.remove_packaging_data()
++
+         bb.note("Installing NATIVESDK packages")
+         self._populate_sysroot(self.host_pm, self.host_manifest)
+ 
+         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_HOST_COMMAND", True))
+ 
++        self.host_pm.remove_packaging_data()
++
+         target_sysconfdir = os.path.join(self.sdk_target_sysroot, self.sysconfdir)
+         host_sysconfdir = os.path.join(self.sdk_host_sysroot, self.sysconfdir)
+ 
 -- 
-2.4.0
+2.6.2
 
 
