@@ -1,29 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BE9560761
+Return-Path: <alejandro.joya.cruz@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D29BD60589
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 19:36:56 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 01 Dec 2015 11:36:56 -0800
+	Tue,  1 Dec 2015 20:27:31 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 01 Dec 2015 12:27:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,370,1444719600"; d="scan'208";a="610822920"
-Received: from hlim3-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.139.190])
-	by FMSMGA003.fm.intel.com with ESMTP; 01 Dec 2015 11:36:54 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Patrick Ohly <patrick.ohly@intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 02 Dec 2015 08:36:52 +1300
-Message-ID: <1508005.USn0Oqapz6@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.10 (Linux/4.2.6-301.fc23.x86_64; KDE/4.14.14; x86_64; ;
-	)
-In-Reply-To: <3117759.OV2fKNkn7Z@peggleto-mobl.ger.corp.intel.com>
-References: <cover.1448442869.git.patrick.ohly@intel.com>
-	<3117759.OV2fKNkn7Z@peggleto-mobl.ger.corp.intel.com>
+X-IronPort-AV: E=Sophos;i="5.20,370,1444719600"; d="scan'208";a="864458166"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Dec 2015 12:27:31 -0800
+Received: from fmsmsx124.amr.corp.intel.com (10.18.125.39) by
+	fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Tue, 1 Dec 2015 12:27:31 -0800
+Received: from fmsmsx106.amr.corp.intel.com ([169.254.5.39]) by
+	fmsmsx124.amr.corp.intel.com ([169.254.1.61]) with mapi id
+	14.03.0248.002; Tue, 1 Dec 2015 12:27:31 -0800
+From: "Joya Cruz, Alejandro" <alejandro.joya.cruz@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 0/4] Replace busybox for variable.
+Thread-Index: AQHRKHkSqfVMJbHY1Ui8eaderhCRw563IpUA
+Date: Tue, 1 Dec 2015 20:27:30 +0000
+Message-ID: <1449001654.4987.7.camel@intel.com>
+References: <cover.1447797811.git.alejandro.joya.cruz@intel.com>
+	<1448562857.29924.16.camel@intel.com>
+In-Reply-To: <1448562857.29924.16.camel@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.219.128.81]
 MIME-Version: 1.0
-Cc: alexander.kanevskiy@intel.com
-Subject: Re: [PATCH 0/4] extend buildhistory
+Subject: Re: [PATCH 0/4] Replace busybox for variable.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Dec 2015 19:36:56 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 01 Dec 2015 20:27:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F72885CD67DE4642BD7A2E8BA00E1EE3@intel.com>
+Content-Transfer-Encoding: base64
 
-On Fri, 27 Nov 2015 13:34:27 Paul Eggleton wrote:
-> One aspect that will probably change in the future is how it picks up the
-> kernel configuration - for
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5574 (which I hope to get
-> to for 2.1, but no promises) we will need to write the kernel configuration
-> to the sysroot so that we have somewhere we can look for it; if that's the
-> case there'll be no need to copy it specially in
-> buildhistory-extra.bbclass.
-
-Hmm, I really should have checked kernel.bbclass before saying anything - it 
-is already copying the kernel config to ${STAGING_KERNEL_BUILDDIR}/.config, so 
-provided you look there at the right time (i.e. after do_shared_workdir of the 
-kernel has executed) it should be possible to optimise how that's dealt with 
-right now.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+cGluZw0KT24ganVlLCAyMDE1LTExLTI2IGF0IDE4OjM0ICswMDAwLCBKb3lhIENydXosIEFsZWph
+bmRybyB3cm90ZToNCj4gQW55IGZlZWRiYWNrIGFib3V0IHRoaXM/DQo+IA0KPiBPbiBtYXIsIDIw
+MTUtMTEtMTcgYXQgMTY6MTMgLTA2MDAsIEFsZWphbmRybyBKb3lhIHdyb3RlOg0KPiA+IFRoZXNl
+IHJlY2lwZXMgaGF2ZSBhIGhhcmRjb2RlZCBkZXBlbmRlbmN5IHRvIGJ1c3lib3gsDQo+ID4gaW4g
+b3JkZXIgdG8gYmUgYWJsZSB0byBoYXZlIGEgZmxleGlibGUgc2VsZWN0aW9uLA0KPiA+IGluc3Rl
+YWQgb2YgdGhlIGhhcmRjb2RlZCBkZXBlbmRlbmN5LCBub3cgaXQgaXMgcG9pbnQgdG8gIHZpcnR1
+YWwgcmVmZXJlbmNlDQo+ID4gYmFzZS11dGlscy4NCj4gPiANCj4gPiBUaGUgZm9sbG93aW5nIGNo
+YW5nZXMgc2luY2UgY29tbWl0IDZmOThjMzk0MThjNjBiN2MwYjI1YjMwOTgzZDJlNTI1NzE1OGE2
+YTQ6DQo+ID4gDQo+ID4gICBnY2M6IERyb3AgNC44ICgyMDE1LTExLTE2IDE0OjU5OjA3ICswMDAw
+KQ0KPiA+IA0KPiA+IGFyZSBhdmFpbGFibGUgaW4gdGhlIGdpdCByZXBvc2l0b3J5IGF0Og0KPiA+
+IA0KPiA+ICAgZ2l0Oi8vZ2l0aHViLmNvbS9Bam95YWNyL29wZW5lbWJlZGRlZC1jb3JlIGJhc2Ut
+dXRpbHMNCj4gPiAgIGh0dHBzOi8vZ2l0aHViLmNvbS9Bam95YWNyL29wZW5lbWJlZGRlZC1jb3Jl
+L3RyZWUvYmFzZS11dGlscw0KPiA+IA0KPiA+IEFsZWphbmRybyBKb3lhICg0KToNCj4gPiAgIGJh
+c2UtdXRpbHM6ZmxleGlibGUgZGVwZW5kZW5jeSBmb3IgY29tbWFuZCB1dGlsaXRpZXMNCj4gPiAg
+IGNvcmUtaW1hZ2UtbWluaW1hbC1pbml0cmFtZnM6IHJlcGxhY2UgYmFzZS11dGlscw0KPiA+ICAg
+aW5pdHJhbWZzLWZyYW1ld29ya18xLjA6cmVwbGFjZSBidXN5Ym94IGZvciB2YXJpYWJsZS4NCj4g
+PiAgIHBhY2thZ2Vncm91cC1jb3JlLWJvb3Q6cmVwbGFjZSBidXN5Ym94IHRvIHZhcmlhYmxlDQo+
+ID4gDQo+ID4gIG1ldGEvY29uZi9kaXN0cm8vaW5jbHVkZS9kZWZhdWx0LXByb3ZpZGVycy5pbmMg
+ICAgICAgICAgICAgfCAzICsrKw0KPiA+ICBtZXRhL3JlY2lwZXMtY29yZS9pbWFnZXMvY29yZS1p
+bWFnZS1taW5pbWFsLWluaXRyYW1mcy5iYiAgIHwgMiArLQ0KPiA+ICBtZXRhL3JlY2lwZXMtY29y
+ZS9pbml0cmRzY3JpcHRzL2luaXRyYW1mcy1mcmFtZXdvcmtfMS4wLmJiIHwgMiArLQ0KPiA+ICBt
+ZXRhL3JlY2lwZXMtY29yZS9wYWNrYWdlZ3JvdXBzL3BhY2thZ2Vncm91cC1jb3JlLWJvb3QuYmIg
+IHwgNCArKy0tDQo+ID4gIDQgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA0IGRlbGV0
+aW9ucygtKQ0KPiA+IA0KPiA+IC0tIA0KPiA+IDIuMS4wDQo+ID4gDQo+IA0KDQo=
 
