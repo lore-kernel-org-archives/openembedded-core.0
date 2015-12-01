@@ -1,50 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DDFC605BB
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D72FD605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 04:08:31 +0000 (UTC)
-Received: by igvg19 with SMTP id g19so86113538igv.1
+	Tue,  1 Dec 2015 05:47:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tB15l8aQ011057
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Nov 2015 20:08:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=kOOEmKPQdki4I6OuhkT/UZ1/LoS7hWfPzmQp1XBn/5Y=;
-	b=I+weRU+lyQqrMtSpcZvPI2UPrhKqRC5GrvAIWtQUIPGWFMilahaTTKL6Y3e4aMdUt+
-	ZdW7wr2kDxw5SUdjMk3PYpmO/AmxN7QLS5OxfG8ULMdzUevgmoaaEor2PR+VbgpULupV
-	nZc/63iJmhXMFInAH+qwxhz799ZVCjz8mJFHYR2xGnFzukIAtSGWREacUsNykKXzQTyt
-	ZWUFmLsI0ohEonMOj3e0CaWO4wRwsGn/XnNMHz/bWGvA8PxUpr5e8t9geLem4o+oHCkD
-	R8tfxgF2+jz3qkNQtEZHDCzWBB4zHYmdlxN3p2Lao8CgCYQ685ZHea9V7LNl7yR0etKI
-	WFXw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=kOOEmKPQdki4I6OuhkT/UZ1/LoS7hWfPzmQp1XBn/5Y=;
-	b=y2K/lG2Wk4Kz/qMXdKV2YiKURV53YB1zoOD9LzrA6VTNdg9w1IAysp18f71XNvZR8u
-	Yf4pKLTuY8H3x0T922wZDoyPJ6m4P7utV0gdljPhClyxBvNUJzkCG7X6d+oXIeNzymE+
-	SO+4+/TsGDvDimJ2QoUIGWlXLq4R8CBZSMKXA8BVVsmjdMgxR6L3J1Hce6kSHACKgpFE
-	/4KaMN9mhr8uh2SZ5E7eQhiXjsT4sSaq4D3azvl0JUsh5bHdOOHHESn382L+r/PuY5JO
-	Bl5gXsBXkS+Z9z1tSU5r8oVZh+bzvO4Ry+yc0VY4wIyZ+V6uKNfkSJC4Nb3cjIaPhNnD
-	rhAw==
-X-Received: by 10.50.13.72 with SMTP id f8mr25255367igc.38.1448942912543; Mon,
-	30 Nov 2015 20:08:32 -0800 (PST)
+	Mon, 30 Nov 2015 21:47:08 -0800 (PST)
+Received: from pek-kkang-d2.wrs.com (128.224.162.180) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 30 Nov 2015 21:47:08 -0800
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 1 Dec 2015 13:47:10 +0800
+Message-ID: <1448948830-9690-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.69.129 with HTTP; Mon, 30 Nov 2015 20:08:13 -0800 (PST)
-In-Reply-To: <565D1C3B.8030201@windriver.com>
-References: <1448873434-34150-1-git-send-email-fang.jia@windriver.com>
-	<CABcZAN=zqR_W8S=eUNAZ4R95QsCsv7eB+ym4hanSHfeBXZHgJg@mail.gmail.com>
-	<565D1C3B.8030201@windriver.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 30 Nov 2015 23:08:13 -0500
-X-Google-Sender-Auth: IQny5FEXnjHsd2MqsfuUKqPd4LU
-Message-ID: <CABcZANm8t+AnU9K_4QriQfxgQkS2eN7HofUxTfZWq03KJz+nJg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] toolchain-scripts.bbclass: unset command_not_found_handle
+Subject: [PATCH] matchbox-desktop: sync with gio for the inotify-sub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,88 +31,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Dec 2015 04:08:32 -0000
-Content-Type: multipart/alternative; boundary=089e013c65de9a22f80525ce4f53
+X-List-Received-Date: Tue, 01 Dec 2015 05:47:12 -0000
+Content-Type: text/plain
 
---089e013c65de9a22f80525ce4f53
-Content-Type: text/plain; charset=UTF-8
+From: Jackie Huang <jackie.huang@windriver.com>
 
-On Mon, Nov 30, 2015 at 11:04 PM, Robert Yang <liezhi.yang@windriver.com>
-wrote:
+matchbox-desktop builds with included libinotify which
+is very old (last sync was in 2008), if we compile glib-2.0
+with -fvisibility=default (the default is hidden for libglib
+and libgio), it will crash because of inconsistency of
+inotify-sub, so port the related parts to fix the issue.
 
-> On 12/01/2015 11:48 AM, Christopher Larson wrote:
->
->> On Mon, Nov 30, 2015 at 3:50 AM, Fang Jia <fang.jia@windriver.com
->> <mailto:fang.jia@windriver.com>> wrote:
->>
->>     On Ubuntu-system, When sourcing the env.sh from an exported sdk, and
->>     running a bogus linux command (for example "asd"), a core dump of
->>     python is usually generated.
->>
->>     Unset the command_not_found_handle to fix it.
->>
->>     Signed-off-by: Fang Jia <fang.jia@windriver.com <mailto:
->> fang.jia@windriver.com>>
->>
->>
->> Will this syntax be valid for non-bash environments? What about dash and
->> zsh?
->>
->
-> unset is part of posix shell, I think it's fine to use it here.
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ .../files/gio-sync-for-the-inotify-sub.patch       | 112 +++++++++++++++++++++
+ .../matchbox-desktop/matchbox-desktop_git.bb       |   4 +-
+ 2 files changed, 115 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-sato/matchbox-desktop/files/gio-sync-for-the-inotify-sub.patch
 
-
-Ah, good point, for some reason I read it as unsetopt, but yes, clearly
-unset is portable, ignore me. :)
+diff --git a/meta/recipes-sato/matchbox-desktop/files/gio-sync-for-the-inotify-sub.patch b/meta/recipes-sato/matchbox-desktop/files/gio-sync-for-the-inotify-sub.patch
+new file mode 100644
+index 0000000..a9367e9
+--- /dev/null
++++ b/meta/recipes-sato/matchbox-desktop/files/gio-sync-for-the-inotify-sub.patch
+@@ -0,0 +1,112 @@
++From 84b7272c446cea5c6ae185548de0c6cad3a42355 Mon Sep 17 00:00:00 2001
++From: Jackie Huang <jackie.huang@windriver.com>
++Date: Sat, 28 Nov 2015 07:53:38 +0000
++Subject: [PATCH] gio: sync for the inotify-sub
++
++This only sync for the inotify-sub with glib-2.44
++to keep _ih_sub_new consistent.
++
++Upstream-Status: Pending
++
++Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
++---
++ libtaku/inotify/inotify-sub.c | 15 +++++++++------
++ libtaku/inotify/inotify-sub.h | 13 +++++++++----
++ libtaku/taku-menu-desktop.c   |  2 +-
++ 3 files changed, 19 insertions(+), 11 deletions(-)
++
++diff --git a/libtaku/inotify/inotify-sub.c b/libtaku/inotify/inotify-sub.c
++index 404dc20..85b3411 100644
++--- a/libtaku/inotify/inotify-sub.c
+++++ b/libtaku/inotify/inotify-sub.c
++@@ -16,8 +16,7 @@
++ 
++    You should have received a copy of the GNU Library General Public
++    License along with the Gnome Library; see the file COPYING.LIB.  If not,
++-   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
++-   Boston, MA 02111-1307, USA.
+++   see <http://www.gnu.org/licenses/>.
++ 
++    Authors: 
++ 		 John McCutchan <john@johnmccutchan.com>
++@@ -38,15 +37,17 @@ dup_dirname (const gchar *dirname)
++   gchar *d_dirname = g_strdup (dirname);
++   size_t len = strlen (d_dirname);
++   
++-  if (d_dirname[len] == '/')
++-    d_dirname[len] = '\0';
+++  if (len && d_dirname[len - 1] == '/')
+++    d_dirname[len - 1] = '\0';
++   
++   return d_dirname;
++ }
++ 
++ inotify_sub*
++ _ih_sub_new (const gchar *dirname, 
++-             const gchar *filename, 
+++             const gchar *filename,
+++             gboolean     pair_moves,
+++             gboolean     watch_hardlinks,
++              gpointer     user_data)
++ {
++   inotify_sub *sub = NULL;
++@@ -54,8 +55,10 @@ _ih_sub_new (const gchar *dirname,
++   sub = g_new0 (inotify_sub, 1);
++   sub->dirname = dup_dirname (dirname);
++   sub->filename = g_strdup (filename);
+++  sub->pair_moves = pair_moves;
+++  sub->hardlinks = watch_hardlinks;
++   sub->user_data = user_data;
++-  
+++
++   IS_W ("new subscription for %s being setup\n", sub->dirname);
++   
++   return sub;
++diff --git a/libtaku/inotify/inotify-sub.h b/libtaku/inotify/inotify-sub.h
++index 36561e7..ff37567 100644
++--- a/libtaku/inotify/inotify-sub.h
+++++ b/libtaku/inotify/inotify-sub.h
++@@ -14,8 +14,7 @@
++ 
++    You should have received a copy of the GNU Library General Public
++    License along with the Gnome Library; see the file COPYING.LIB.  If not,
++-   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
++-   Boston, MA 02111-1307, USA.
+++   see <http://www.gnu.org/licenses/>.
++ 
++    Author: John McCutchan <john@johnmccutchan.com>
++ */
++@@ -30,9 +29,15 @@ typedef struct
++ 	gchar*   filename;
++ 	gboolean cancelled;
++ 	gpointer user_data;
+++	gboolean pair_moves;
+++	gboolean hardlinks;
++ } inotify_sub;
++ 
++-inotify_sub* _ih_sub_new (const gchar* dirname, const gchar* filename, gpointer user_data);
++-void         _ih_sub_free (inotify_sub* sub);
+++inotify_sub *_ih_sub_new (const gchar  *dirname,
+++			  const gchar  *filename,
+++			  gboolean      pair_moves,
+++			  gboolean      watch_hardlinks,
+++			  gpointer      user_data);
+++void         _ih_sub_free (inotify_sub *sub);
++ 
++ #endif /* __INOTIFY_SUB_H */
++diff --git a/libtaku/taku-menu-desktop.c b/libtaku/taku-menu-desktop.c
++index 34b10d9..ef88421 100644
++--- a/libtaku/taku-menu-desktop.c
+++++ b/libtaku/taku-menu-desktop.c
++@@ -415,7 +415,7 @@ monitor (const char *directory)
++   if (!with_inotify)
++     return;
++ 
++-  sub = _ih_sub_new (directory, NULL, NULL);
+++  sub = _ih_sub_new (directory, NULL, FALSE, FALSE, NULL);
++   _ip_start_watching (sub);
++ }
++ 
++-- 
++2.5.0
++
+diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_git.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_git.bb
+index 318d2e0..4fcc69e 100644
+--- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_git.bb
++++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_git.bb
+@@ -13,7 +13,9 @@ SECTION = "x11/wm"
+ SRCREV = "71e3e6e04271e9d5a14f1c231ef100c7f320134d"
+ PV = "2.0+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/${BPN}-2"
++SRC_URI = "git://git.yoctoproject.org/${BPN}-2 \
++           file://gio-sync-for-the-inotify-sub.patch \
++"
+ 
+ EXTRA_OECONF = "--enable-startup-notification --with-dbus"
+ 
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+1.9.1
 
---089e013c65de9a22f80525ce4f53
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Nov 30, 2015 at 11:04 PM, Robert Yang <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriv=
-er.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=
-=3D"">On 12/01/2015 11:48 AM, Christopher Larson wrote:<br>
-</span><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><span class=3D"">
-On Mon, Nov 30, 2015 at 3:50 AM, Fang Jia &lt;<a href=3D"mailto:fang.jia@wi=
-ndriver.com" target=3D"_blank">fang.jia@windriver.com</a><br></span><span c=
-lass=3D"">
-&lt;mailto:<a href=3D"mailto:fang.jia@windriver.com" target=3D"_blank">fang=
-.jia@windriver.com</a>&gt;&gt; wrote:<br>
-<br>
-=C2=A0 =C2=A0 On Ubuntu-system, When sourcing the env.sh from an exported s=
-dk, and<br>
-=C2=A0 =C2=A0 running a bogus linux command (for example &quot;asd&quot;), =
-a core dump of<br>
-=C2=A0 =C2=A0 python is usually generated.<br>
-<br>
-=C2=A0 =C2=A0 Unset the command_not_found_handle to fix it.<br>
-<br></span>
-=C2=A0 =C2=A0 Signed-off-by: Fang Jia &lt;<a href=3D"mailto:fang.jia@windri=
-ver.com" target=3D"_blank">fang.jia@windriver.com</a> &lt;mailto:<a href=3D=
-"mailto:fang.jia@windriver.com" target=3D"_blank">fang.jia@windriver.com</a=
->&gt;&gt;<span class=3D""><br>
-<br>
-<br>
-Will this syntax be valid for non-bash environments? What about dash and zs=
-h?<br>
-</span></blockquote>
-<br>
-unset is part of posix shell, I think it&#39;s fine to use it here.</blockq=
-uote></div><br>Ah, good point, for some reason I read it as unsetopt, but y=
-es, clearly unset is portable, ignore me. :)<br>-- <br><div class=3D"gmail_=
-signature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - Bi=
-tBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software En=
-gineer, Mentor Graphics</div>
-</div></div>
-
---089e013c65de9a22f80525ce4f53--
