@@ -1,35 +1,32 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
-	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id A61E460616
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 829556011F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Dec 2015 22:08:21 +0000 (UTC)
-Received: by obbww6 with SMTP id ww6so17662700obb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Dec 2015 14:08:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=yuWg4Byl6R+AN1tvDGE7KCXGr/09JRvd1eP63ijU/J4=;
-	b=UoUlRYjU5kt7zipz54tzxqXIg166rwhaAgnwa4hCgtdXpPlzf4r2AQ1ZnVtI6pJUzY
-	5a4dF6+Z1c8iKAJTSoifYZxMxB7AhwD4Hth7k45kBtGhBuf7W5rMr4qjDIYYKbNyQNm3
-	clcmqSfXgBHJ+GYrAn8/TgS9xhzMXvHVDxFZo4LVyXvk5E0aexWWPCJgvZZGrHjWc3n6
-	eE7ApghdDfIm1EIUNFN7f+nKRicrNYzdPOrK76OjxN/l+DJUengFI3gpRfhU0xycvbSy
-	etsfoDEf+VL0NznlpvU+l+jOgHCSGnSOjbTzu0Vzh8mzFacgoY4YHsQyz1apFG0A5W2R
-	hKbA==
-X-Received: by 10.60.159.230 with SMTP id xf6mr48277156oeb.43.1449007702039;
-	Tue, 01 Dec 2015 14:08:22 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	x131sm24520153oix.27.2015.12.01.14.08.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 01 Dec 2015 14:08:20 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Dec 2015 14:08:14 -0800
-Message-Id: <1449007694-27035-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] linux-libc-headers: update default KORG_ARCHIVE_COMPRESSION bz2 -> xz
+	Tue,  1 Dec 2015 22:22:32 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 01 Dec 2015 14:22:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,370,1444719600"; d="scan'208";a="851766778"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Dec 2015 14:22:32 -0800
+Received: by linux.intel.com (Postfix, from userid 48)
+	id BE7BE6A408D; Tue,  1 Dec 2015 14:21:24 -0800 (PST)
+Received: from 10.252.17.232
+	(SquirrelMail authenticated user alexander.kanavin)
+	by linux.intel.com with HTTP; Wed, 2 Dec 2015 00:21:24 +0200 (EET)
+Message-ID: <60070.10.252.17.232.1449008484.squirrel@linux.intel.com>
+In-Reply-To: <1449001866-29286-1-git-send-email-tom.hochstein@freescale.com>
+References: <1449001866-29286-1-git-send-email-tom.hochstein@freescale.com>
+Date: Wed, 2 Dec 2015 00:21:24 +0200 (EET)
+From: alexander.kanavin@linux.intel.com
+To: "Tom Hochstein" <tom.hochstein@freescale.com>
+User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
+MIME-Version: 1.0
+X-Priority: 3 (Normal)
+Importance: Normal
+Cc: Prabhu Sundararaj <prabhu.sundararaj@freescale.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] weston-init: Use weston-launch for XWayland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,40 +39,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Dec 2015 22:08:24 -0000
+X-List-Received-Date: Tue, 01 Dec 2015 22:22:33 -0000
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc    | 2 +-
- meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.1.bb | 3 ---
- 2 files changed, 1 insertion(+), 4 deletions(-)
+> +        # If weston-launch exists, we're configured for XWayland.
+> +        if [ -f /usr/bin/weston-launch ]; then
+> +            echo "Starting Weston in XWayland"
 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-index ba1bea5..2ba6ed5 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-@@ -43,7 +43,7 @@ python __anonymous () {
- 
- inherit kernel-arch
- 
--KORG_ARCHIVE_COMPRESSION ?= "bz2"
-+KORG_ARCHIVE_COMPRESSION ?= "xz"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/v${HEADER_FETCH_VER}/linux-${PV}.tar.${KORG_ARCHIVE_COMPRESSION}"
- 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.1.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.1.bb
-index d816e5e..01037c1 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.1.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.1.bb
-@@ -1,7 +1,4 @@
--KORG_ARCHIVE_COMPRESSION = "xz"
--
- require linux-libc-headers.inc
- 
- SRC_URI[md5sum] = "fe9dc0f6729f36400ea81aa41d614c37"
- SRC_URI[sha256sum] = "caf51f085aac1e1cea4d00dbbf3093ead07b551fc07b31b2a989c05f8ea72d9f"
--
--- 
-1.9.1
+Nope. XWayland support and weston-launch support are configured
+separately. One may be present and the other one absent, both ways.
 
+Alex
 
