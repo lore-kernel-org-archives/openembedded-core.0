@@ -1,27 +1,27 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E6C9601B8
+Return-Path: <mcrowe@brightsign.biz>
+Received: from relay.appriver.com (relay.appriver.com [207.97.230.34])
+	by mail.openembedded.org (Postfix) with ESMTP id A745F601B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 15:51:39 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Dec 2015 07:51:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,373,1444719600"; d="scan'208";a="698830944"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 02 Dec 2015 07:51:39 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 71C1A6A4005
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 07:50:30 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Wed,  2 Dec 2015 15:54:33 +0000 (UTC)
+Received: from [86.30.112.98] (HELO elite.brightsign)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.1.2)
+	with ESMTP id 649957680; Wed, 02 Dec 2015 10:54:32 -0500
+Received: from chuckie.brightsign ([172.30.1.25] helo=chuckie)
+	by elite.brightsign with esmtp (Exim 4.84)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1a49jb-0004QI-6T; Wed, 02 Dec 2015 15:54:23 +0000
+Received: from mac by chuckie with local (Exim 4.84)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1a49jb-0000UW-5p; Wed, 02 Dec 2015 15:54:23 +0000
+From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Dec 2015 13:03:52 +0200
-Message-Id: <1449054232-18730-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] libical: upgrade to 1.0.1
+Date: Wed,  2 Dec 2015 15:54:08 +0000
+Message-Id: <1449071648-1641-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1449053111-19775-2-git-send-email-mac@mcrowe.com>
+References: <1449053111-19775-2-git-send-email-mac@mcrowe.com>
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] libav: Correctly handle prefix=""
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +34,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Dec 2015 15:51:42 -0000
+X-List-Received-Date: Wed, 02 Dec 2015 15:54:36 -0000
 
-1.0.0 -> 1.0.1
+libav's build system seems to think that prefix="" means that it should
+use its default of /usr/local. Setting a prefix of "/" appears to be
+sufficient to make it do the right thing.
 
-libical switched to CMake build system
-
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
 ---
- .../libical/{libical_1.0.0.bb => libical_1.0.1.bb}                | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libical/{libical_1.0.0.bb => libical_1.0.1.bb} (67%)
+ meta/recipes-multimedia/libav/libav.inc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libical/libical_1.0.0.bb b/meta/recipes-support/libical/libical_1.0.1.bb
-similarity index 67%
-rename from meta/recipes-support/libical/libical_1.0.0.bb
-rename to meta/recipes-support/libical/libical_1.0.1.bb
-index be6b635..5050c49 100644
---- a/meta/recipes-support/libical/libical_1.0.0.bb
-+++ b/meta/recipes-support/libical/libical_1.0.1.bb
-@@ -7,7 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d4fc58309d8ed46587ac63bb449d82f8 \
- SECTION = "libs"
+diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
+index e55038c..a7da107 100644
+--- a/meta/recipes-multimedia/libav/libav.inc
++++ b/meta/recipes-multimedia/libav/libav.inc
+@@ -57,13 +57,17 @@ PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
+ # Check codecs that require --enable-nonfree
+ USE_NONFREE = "${@bb.utils.contains_any('PACKAGECONFIG', [ 'faac', 'openssl' ], 'yes', '', d)}"
  
- SRC_URI = "https://github.com/${BPN}/${BPN}/archive/v${PV}.tar.gz"
--SRC_URI[md5sum] = "f4b8e33ae5efb2f025eb43ce69682a36"
--SRC_URI[sha256sum] = "0072e83834092315772e6719b85fc8b11530b1ff53f4d108315fb38cddbce8c2"
-+SRC_URI[md5sum] = "af91db06b22559f863869c5a382ad08a"
-+SRC_URI[sha256sum] = "7d5f613454ec6c7d1bcfb441c919215be53292aa15cd1cb14249d1413d6c610c"
- 
--inherit autotools
-+FILES_${PN}-dev += "${libdir}/cmake/*"
++# libav will install in /usr/local if prefix is empty. Luckily,
++# passing just "/" instead does the right thing.
++nonempty_prefix = "${@bb.data.getVar('prefix', d, True) or '/'}"
 +
-+inherit cmake perlnative
+ EXTRA_OECONF = " \
+     --enable-shared \
+     --enable-pthreads \
+     ${@bb.utils.contains('USE_NONFREE', 'yes', '--enable-nonfree', '', d)} \
+     \
+     --cross-prefix=${TARGET_PREFIX} \
+-    --prefix=${prefix} \
++    --prefix=${nonempty_prefix} \
+     \
+     --ld="${CCLD}" \
+     --arch=${TARGET_ARCH} \
 -- 
-2.4.0
+2.1.4
 
 
