@@ -1,49 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B46E9607AB
+Return-Path: <fabrice.coulon@axis.com>
+X-Greylist: delayed 352 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 02 Dec 2015 09:57:51 UTC
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 66F41601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 09:51:27 +0000 (UTC)
-Received: by igcmv3 with SMTP id mv3so114024989igc.0
+	Wed,  2 Dec 2015 09:57:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 522A22E11B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Dec 2015 01:51:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=s7Fl12TRQXJwF/lBcZuh4k8TokggTxfU+gYHA0/dM84=;
-	b=nWFzeC9Z0ExJJxqSqNr0sIqp5cfOdkmmY0S2OYhuLM+NcUDmZ0wKC1nHWDB5SzMGDF
-	ucIzOJqnZtgVxUuxIQaEMJDvrRdiVQkrOIOHZ7P5DHTjVsGibOpQlnKlqQINKLupdl5M
-	4qyoPEqkEwOvlWzaXLE0zeC/iVpzAHeSaD/ha3WIHADaAaqkgBM0vuiccxdDN6JRMvAX
-	4zkFYHJb7GwN1eZTjE9tbU0lSh9ihFXfSr3Dr4US3LLswiSE0W8/rJavGvnTCCPGcr5P
-	2b44TKk1fgm34jS9N25fEnayvfU+D2+gsOg1tnQuPWjk4/ZvI9/CqxdOpLlpoyry017u
-	3XTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=s7Fl12TRQXJwF/lBcZuh4k8TokggTxfU+gYHA0/dM84=;
-	b=ODLwAERHWEgg9I/02EkOgLDJJ9LLM4A2xu9I8aBsMxvqOJewBBCciBatiRA5t8fooV
-	j15GcbCIxSEvANGK+2Btpe4Q6B5iO+5qYCk/rtxJqOVVm1An3k9bzT4A5nocYC6nup5s
-	/hxrVdRh6DGp+7jGbhAlIIG/wwo1ro803ttF37FbMBSL/vVm2PG4sQ5qwmQYPzu30ZSN
-	YgDwstbnO7/kMnsx/gG7mJsAcL9xrcV1CxW/GUoyMgkim2NfyyP0Rrdqp9GJ2d1LDH9S
-	NafatVme9BrvJ6E2ZRd7Q8O16dRLr0K1769r3q7j0ZgioVHd9y7O8KbBLWAv6hwr2szg
-	+4uA==
-X-Gm-Message-State: ALoCoQk8Gfpz9Zw94/sUPZEaqoU+HuZHFcLJV74/OurHig6rQlQWt6vb3E064sgBKfO4nm3Tgo6/
-X-Received: by 10.50.60.2 with SMTP id d2mr7631629igr.52.1449049888122; Wed,
-	02 Dec 2015 01:51:28 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Wed, 2 Dec 2015 01:51:08 -0800 (PST)
-In-Reply-To: <2CF57A644018A745B8FE029C7223E16E12EC04D0@SHSMSX104.ccr.corp.intel.com>
-References: <1448618616-30204-1-git-send-email-wu.zheng@intel.com>
-	<CAJTo0LYJCYcDtG1AR3WL-kd8T0=E2nWnhMyucGoZxt-r3JX_0w@mail.gmail.com>
-	<2CF57A644018A745B8FE029C7223E16E12EC04D0@SHSMSX104.ccr.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 2 Dec 2015 09:51:08 +0000
-Message-ID: <CAJTo0LbW_n3EBFtSo=CXqUcpg3Mg6FtU_kxBe3hocoREo0f9yw@mail.gmail.com>
-To: "Zheng, Wu" <wu.zheng@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: FW: [PATCH] bluez5:upgrade bluez5 to 5.36
+	Wed,  2 Dec 2015 10:51:57 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id Zok5aqyiSofD
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  2 Dec 2015 10:51:56 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id A6F8B2E10A
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  2 Dec 2015 10:51:56 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 8BC441507
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  2 Dec 2015 10:51:56 +0100 (CET)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 7B11811D
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  2 Dec 2015 10:51:56 +0100 (CET)
+Received: from lnxfabrice2.se.axis.com (lnxfabrice2.se.axis.com [10.92.161.3])
+	by seth.se.axis.com (Postfix) with ESMTP id 7677C3E318;
+	Wed,  2 Dec 2015 10:51:56 +0100 (CET)
+Received: by lnxfabrice2.se.axis.com (Postfix, from userid 9523)
+	id BAA2F801E7E; Wed,  2 Dec 2015 10:51:36 +0100 (CET)
+From: Fabrice Coulon <fabrice.coulon@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Dec 2015 10:51:23 +0100
+Message-Id: <1449049883-22195-1-git-send-email-fabrice.coulon@axis.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Fabrice Coulon <fabrice@axis.com>
+Subject: [PATCH] gstreamer1.0: Convert tests and valgrind config opts to PACKAGECONFIGs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +51,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Dec 2015 09:51:30 -0000
-Content-Type: multipart/alternative; boundary=047d7b15b117d802270525e7378b
+X-List-Received-Date: Wed, 02 Dec 2015 09:57:52 -0000
 
---047d7b15b117d802270525e7378b
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+I need to be able to run unit tests and build with valgrind support.
 
-On 2 December 2015 at 09:50, Zheng, Wu <wu.zheng@intel.com> wrote:
+Signed-off-by: Fabrice Coulon <fabrice.coulon@axis.com>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> I mean that can you help provide more log info for it?
->
-> We can get the log of bluez by =E2=80=9Cbluetoothd -dn=E2=80=9D. Thanks.
->
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+index aa95d57..5a67bfd 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+@@ -11,11 +11,12 @@ inherit autotools pkgconfig gettext
+ 
+ PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
+ PACKAGECONFIG[check] = "--enable-check,--disable-check"
++PACKAGECONFIG[tests] = "--enable-tests,--disable-tests"
++PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind"
+ 
+ EXTRA_OECONF = "--disable-docbook --disable-gtk-doc \
+                 --disable-dependency-tracking \
+-                --disable-examples --disable-tests \
+-                --disable-valgrind \
++                --disable-examples \
+                 "
+ 
+ RRECOMMENDS_${PN}_qemux86    += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
+@@ -26,4 +27,3 @@ CACHED_CONFIGUREVARS += "ac_cv_header_valgrind_valgrind_h=no"
+ FILES_${PN} += " ${libdir}/gstreamer-1.0/*.so ${datadir}/bash-completion/completions/ ${datadir}/bash-completion/helpers/gst*"
+ FILES_${PN}-dev += " ${libdir}/gstreamer-1.0/*.la ${libdir}/gstreamer-1.0/*.a ${libdir}/gstreamer-1.0/include"
+ FILES_${PN}-dbg += " ${libdir}/gstreamer-1.0/.debug/ ${libexecdir}/gstreamer-1.0/.debug/ ${datadir}/bash-completion/helpers/.debug/"
+-
+-- 
+1.9.1
 
-Not right not, I don't have any qemu images to hand and the builds on the
-AB would have been removed by now.
 
-Ross
-
---047d7b15b117d802270525e7378b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 December 2015 at 09:50, Zheng, Wu <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:wu.zheng@intel.com" target=3D"_blank">wu.zheng@intel.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":5m2" class=3D"a3s" st=
-yle=3D"overflow:hidden">I mean that can you help provide more log info for =
-it?<br>
-<br>
-We can get the log of bluez by =E2=80=9Cbluetoothd -dn=E2=80=9D. Thanks.</d=
-iv></blockquote></div><br>Not right not, I don&#39;t have any qemu images t=
-o hand and the builds on the AB would have been removed by now.</div><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---047d7b15b117d802270525e7378b--
