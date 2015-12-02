@@ -1,52 +1,48 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id BC6F06012C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AAEC605FF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 16:27:22 +0000 (UTC)
-Received: by igbxm8 with SMTP id xm8so36145022igb.1
+	Wed,  2 Dec 2015 16:47:46 +0000 (UTC)
+Received: by igbxm8 with SMTP id xm8so36632882igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Dec 2015 08:27:23 -0800 (PST)
+	Wed, 02 Dec 2015 08:47:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:content-type:mime-version:content-transfer-encoding;
-	bh=zx4Aw1ZKLxl0afw92e9g9QZ06PdM54L6xWrJXgo5HI0=;
-	b=hSpSNk9rta2wlZyY1LVn+C13k8kgyTQo+hYctQteTt7sXG5dsRBNCKYaDPM2M4I/vx
-	cK3z41f4Sv5QS8U5SnjHbNoKv6hf/KRsfEZkDQOAHMczN8nN9N1+NVvHhi8Rc493tUfD
-	g/Fp4LSrKApJT9daKCjfLtAXHnR0rI3TgjeQ93gMeMxNK3bj50KnVhxN6XgohG3XHOnq
-	u7i9JOIprChdMedqqYm6rewqLcjJi8q/m4GreG4b3YEiAQhXOuF8I9tMTxzSHdwgudST
-	XamJPBpqC6lmelvuG6/KW/NDd0o44/rg6H/SDpPvmgzT+Qjn3Kgu19E2rH7BF+TAeIzy
-	ATCA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=RlB9OIMOJkY87G9iDo6xEPjA1xUPpg/6KKDCyQL7LEU=;
+	b=K1dO+0OEJliLW8WUA8VxIsJ9BS46oAduh/1lrKl/JxPYVBSsMblNZ7YteOUGL45lFi
+	QGXP6h0vLAPtAgX3/rkQxUaGNdbSm9r+XbdFZXOh4ovUdXN/5qpuIkqaokg5x92DTdi8
+	w6PXntLPCEHLNtrEFeGYEJwM5b7a83IUG3aMcmY8KHAzBEycZVG2A9xMm9UbNXa3dfoC
+	CyN+lKSYG3PJMPy2icRMqtN1GIyeRUCs1vO3/jsZa7nDVpvJ+6kK20Bk+DXi4AyN/oPy
+	IPJclCKeyfTMCbLH53PnXg1G8m49BTdewZeUoQt08OxjdwKAV5sLJcOM4ntFq91evbx5
+	4IIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:content-type:mime-version
-	:content-transfer-encoding;
-	bh=zx4Aw1ZKLxl0afw92e9g9QZ06PdM54L6xWrJXgo5HI0=;
-	b=FEa6JixAcYDRpx+Fxk2CF4b5C3mydDYFLYeBpHSSwe6M08pI5bni/p9ZNz83eM4Vm9
-	ZgHwl3QSaN2v7V1m+ozN1i6GxettS7WLKH1Jr2AnGt7HKsyKyxmoSeH7Z/FaJ4eLwEgT
-	HttL4gB01Oo53fx+Di9kOgYOncTAR1boMuJ9YuBR4FujHWVttxzNPA9vDNE+gr074rwx
-	OmIHmjJU54mZ0hkFCEdzHWzj0teBEkl+gO3xdboiFNpAm3w10ZQuwqdcw26uG61mZUv7
-	tJ5AS8KxsO9rOZDarJ6AD20cNpkVHINB5dpXViF6DgX7YfH1j/Ulm3DFjYdt7t46mH/V
-	swKg==
-X-Gm-Message-State: ALoCoQmpF3ZLCdb/zgzoB32j/zeCeHBZBRedk4/KWllJiscSg3zW2RwHID6c+l3xLlTHfLnDFSea
-X-Received: by 10.50.82.97 with SMTP id h1mr31142966igy.67.1449073643182;
-	Wed, 02 Dec 2015 08:27:23 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8DC4A.dip0.t-ipconnect.de. [93.232.220.74])
-	by smtp.gmail.com with ESMTPSA id 75sm1402166ios.35.2015.12.02.08.27.21
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Dec 2015 08:27:22 -0800 (PST)
-Message-ID: <1449073639.10734.65.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Andrew Shadura <andrew.shadura@collabora.co.uk>
-Date: Wed, 02 Dec 2015 17:27:19 +0100
-In-Reply-To: <e36072a82de706f1485c054adf8cb2d38a01e899.1448029554.git.andrew.shadura@collabora.co.uk>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=RlB9OIMOJkY87G9iDo6xEPjA1xUPpg/6KKDCyQL7LEU=;
+	b=CN/dSgS6NxATwV7odELnAYIAbaE+K2w0Wo23s4vjhay40ZfkSvhmoFI/+znsxh5KBt
+	kQd4SV2ZdY2cDGJ6cMZH4Cm74QnfNJyKQj3rdv1OtxOUHBOgWuG/6hhZd/wpps+2MPsK
+	sb45CbAxVS4NFK/811DrmjOLAqhLAVWiBizhClS4u48smjwYvlg2QyjTz+eC33OwRyVs
+	rSlwZdAj4XN2xNZ+shkp3Rd9bx+U7lpwPe+3CTLtQCeZrcBDpZ6ptgj5ZYdSYVbvDgc5
+	dbCFWNegW+S4j3js2BW3eCk+jvhH/uI/usp0dqfkQuX7aUSjwg1EG/FvmF/SfknKeHVv
+	P9Rg==
+X-Gm-Message-State: ALoCoQmxHjP1MR6HkizNbzz57mslT7mzmGL58W5XkhRdShVto4KShFp0d2YOQ9wjJix7IEcYM02g
+X-Received: by 10.50.138.2 with SMTP id qm2mr2334778igb.64.1449074867550; Wed,
+	02 Dec 2015 08:47:47 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Wed, 2 Dec 2015 08:47:28 -0800 (PST)
+In-Reply-To: <1449073639.10734.65.camel@intel.com>
 References: <e36072a82de706f1485c054adf8cb2d38a01e899.1448029554.git.andrew.shadura@collabora.co.uk>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OE Core <openembedded-core@lists.openembedded.org>
+	<1449073639.10734.65.camel@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 2 Dec 2015 16:47:28 +0000
+Message-ID: <CAJTo0LZZZ8O_xnpg2fmqbD77JVWq89aYSUUujAWm7JbN=Q51hw@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: Andrew Shadura <andrew.shadura@collabora.co.uk>,
+	OE Core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v3 1/3] dbus: merge .bb and .inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,41 +56,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Dec 2015 16:27:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 02 Dec 2015 16:47:47 -0000
+Content-Type: multipart/alternative; boundary=001a1135ffb0bbd7ad0525ed08fc
 
-On Fri, 2015-11-20 at 15:27 +0100, Andrew Shadura wrote:
-> The split is no longer necessary, and only makes it more complicated to
-> do changes in external layers.
+--001a1135ffb0bbd7ad0525ed08fc
+Content-Type: text/plain; charset=UTF-8
 
-I'm not sure about the "more complicated to do changes in external
-layers". Why is that?
+On 2 December 2015 at 16:27, Patrick Ohly <patrick.ohly@intel.com> wrote:
 
-Quite the opposite, I found it useful that the version independent build
-rules (*) were in a .inc file and relied on including that .inc file in
-a "dbus-cynara" recipe which builds a specific fork of the source code
-[2].
+> I'm not sure about the "more complicated to do changes in external
+> layers". Why is that?
+>
+> Quite the opposite, I found it useful that the version independent build
+> rules (*) were in a .inc file and relied on including that .inc file in
+> a "dbus-cynara" recipe which builds a specific fork of the source code
+> [2].
+>
+> But I understand that this is an unusual usage of OE-core. As I didn't
+> notice the change in time (it's in master now), I'll just copy the
+> previous content of dbus.inc.
+>
 
-But I understand that this is an unusual usage of OE-core. As I didn't
-notice the change in time (it's in master now), I'll just copy the
-previous content of dbus.inc.
+When a bb and an inc are split the inc has to be considered some sort of
+ABI.  For example, you couldn't remove a configure option that was removed
+in a new release from the .inc because older recipes that use the inc will
+still want it.  Then of course on new recipes that triggers a QA warning.
+New options need to be added to the relevant .bb and not the inc, but then
+break if other users don't notice that they need to add options
+explicitly.  Basically the idea of bb/inc seems good, and in some
+situations is useful (multiple recipes maintained *in the same place*
+sharing common code) but as a method of re-using packaging it's got many
+pitfalls, especially as your recipe could include the .bb from oe-core
+directly or be a bbappend.
 
-(*) However, a recent change in dizzy and fido already broke that
-separation when adding a patch for 1.8.2 to the .inc file instead of
-dbus-1.8.2.bb.
+Ross
 
-[1] http://cgit.openembedded.org/openembedded-core/commit/?id=a8aa06b2405dec31a306fdf47bd1fdf740fde7bd
-[2] https://github.com/01org/meta-intel-iot-security/blob/7026d6e8e1084def0ebf203799360b54b5ac2763/meta-security-framework/recipes-core/dbus/dbus-cynara_1.8.18.bb
+--001a1135ffb0bbd7ad0525ed08fc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Best Regards, Patrick Ohly
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 December 2015 at 16:27, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1l3" class=
+=3D"a3s" style=3D"overflow:hidden">I&#39;m not sure about the &quot;more co=
+mplicated to do changes in external<br>
+layers&quot;. Why is that?<br>
+<br>
+Quite the opposite, I found it useful that the version independent build<br=
+>
+rules (*) were in a .inc file and relied on including that .inc file in<br>
+a &quot;dbus-cynara&quot; recipe which builds a specific fork of the source=
+ code<br>
+[2].<br>
+<br>
+But I understand that this is an unusual usage of OE-core. As I didn&#39;t<=
+br>
+notice the change in time (it&#39;s in master now), I&#39;ll just copy the<=
+br>
+previous content of dbus.inc.</div></blockquote></div><br>When a bb and an =
+inc are split the inc has to be considered some sort of ABI.=C2=A0 For exam=
+ple, you couldn&#39;t remove a configure option that was removed in a new r=
+elease from the .inc because older recipes that use the inc will still want=
+ it.=C2=A0 Then of course on new recipes that triggers a QA warning.=C2=A0 =
+New options need to be added to the relevant .bb and not the inc, but then =
+break if other users don&#39;t notice that they need to add options explici=
+tly.=C2=A0 Basically the idea of bb/inc seems good, and in some situations =
+is useful (multiple recipes maintained *in the same place* sharing common c=
+ode) but as a method of re-using packaging it&#39;s got many pitfalls, espe=
+cially as your recipe could include the .bb from oe-core directly or be a b=
+bappend.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
+a">Ross</div></div>
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
-
+--001a1135ffb0bbd7ad0525ed08fc--
