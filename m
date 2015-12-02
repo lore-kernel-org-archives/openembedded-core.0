@@ -1,58 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id C03D36FFD2
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C3BF601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 18:43:49 +0000 (UTC)
-Received: by ioir85 with SMTP id r85so55552081ioi.1
+	Wed,  2 Dec 2015 19:05:02 +0000 (UTC)
+Received: by wmuu63 with SMTP id u63so228080525wmu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Dec 2015 10:43:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	Wed, 02 Dec 2015 11:05:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=y+JaPqf6CXPevANKzZO+2SSo13tPODwdxl681ZnMhgg=;
-	b=DAfi7KRwF8MGNRiPVUrKDkscNKHPFig/CE2ChhWq/U7cArHNcIIT7GCo2OGycz/V6l
-	o1z/12DHSH8mzpzWBriUXXHzq4crXph4QESaQjdYxuH5fMvr//DrZ3l3sal3NxzjQVt7
-	o865uAoadrMW18wAUh0mSzyJlCYwPqF42GEOraHybo60ehpOrN1jmhTb+XMxe7niqBbo
-	tyXkt4EJ+ZagF6CVgFBm82T5bLBItbNZ9vmGtuFVvUanLfmNjKbAMcn/+ZnUGjcy2Yjn
-	l0yzPB3qjGE4tIci8fkdq5WkcTsgM21DgVMrBuVoGtZuHjisvA9g0utFHakymud0KZjq
-	OOrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=y+JaPqf6CXPevANKzZO+2SSo13tPODwdxl681ZnMhgg=;
-	b=asymUhmwmsmHw3J9AL30mktjJumFzeWKfNDf0+nXCEqQAaBF5JxLCMxfmCTYk60YA+
-	lr/1o3pcmbDdGHEUvJHXeo3ozM6rNAE/nXdNqnopOn0ASS6K8FLl5IhEeYUxB8/9kG1J
-	7e/eXR9ulf9FGy0zWPOEu63MezeopdTvvsCq0YRSW6dfIao+dGJeslbgauB/VYtYLUBd
-	FcYN41uKCDsJrnq9kQhQUgviFQc96JLD17cHZq8aEnnWPOK+Be2HL0hyyE4XcvSKLGsP
-	p99d4xpndh7FNN18c2SACf6gS4yGSeAMKNW/KWkgeCPEYdaCnrtA+i7gYVOl7Nwlr6bP
-	WPBA==
-X-Gm-Message-State: ALoCoQkm5dsEOKHOk49KaMVmQtL/05kzkdesVW6TNMqbse0saQW9uZbp8K9BHAdZ2D8zE7wtAxP9
-X-Received: by 10.107.135.30 with SMTP id j30mr4553887iod.148.1449081829817;
-	Wed, 02 Dec 2015 10:43:49 -0800 (PST)
+	bh=KCWA6NYl0F1PDGHaAQ3KRzfbbT5GOMsIkkycLMzAVTw=;
+	b=APxf8tnWoEou7wKn6cP+Q0atF6zhp99Jm3jnFBOMNwfGpNUWSV2uueLF0GseOiQGEw
+	RYPnAnSEfg8pB2Tm3AOZrprP5d7ukgtFGK1qhjfwFp0YLn3zmWnciCt/j2CN+K9gOqvI
+	oSdhjCnDJVjnpxC3JfE1G96ubXlAgwVh1eFOZScxtOhHk5fMtA231hTMmlQaMJMxPvBk
+	i7+sjOGvkYn3+QoQuMRQmLQw5NEPhIgTYCWDD5B37lIgtXuKabEdDVA2J1coES0+TIXt
+	n6zs+uhGzHtX50Y66LQC74V1upaaLeTPh9g5jQmexuiidIBgh3IjVQffRZSfrS4Xqb9X
+	6Dlg==
 MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Wed, 2 Dec 2015 10:43:30 -0800 (PST)
-In-Reply-To: <20151202180440.GC2248@jama>
-References: <1633798.xAxFJSpIzb@peggleto-mobl.ger.corp.intel.com>
-	<41399562.aYmIK0zX5I@peggleto-mobl.ger.corp.intel.com>
-	<20151201104720.GB2251@jama>
-	<9135219.GRnf9JIkFP@peggleto-mobl.ger.corp.intel.com>
-	<20151202081713.GA2248@jama>
-	<D2847D54.6BF8A%belen.barros.pena@intel.com>
-	<D2847EE2.6BF9C%belen.barros.pena@intel.com>
-	<20151202180440.GC2248@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 2 Dec 2015 18:43:30 +0000
-Message-ID: <CAJTo0LZpgv3KuJXAO6Pa9o_PrRb=aMT3d8Pe6qD2-yvsspEsTw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Lespiau,
-	Damien" <damien.lespiau@intel.com>,
-	"openembedded-architecture@lists.openembedded.org"
-	<openembedded-architecture@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Patchwork & patch handling improvements
+X-Received: by 10.28.180.132 with SMTP id d126mr7520528wmf.72.1449083101660;
+	Wed, 02 Dec 2015 11:05:01 -0800 (PST)
+Received: by 10.194.140.38 with HTTP; Wed, 2 Dec 2015 11:05:01 -0800 (PST)
+In-Reply-To: <1449062556-13116-1-git-send-email-fabrice.coulon@axis.com>
+References: <1449062556-13116-1-git-send-email-fabrice.coulon@axis.com>
+Date: Wed, 2 Dec 2015 11:05:01 -0800
+Message-ID: <CAJ86T=VF1HsQdgbyVsvutJO0HJ+LNp6d+rKMEsReB0XmDs3=mw@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Fabrice Coulon <fabrice.coulon@axis.com>
+Cc: Fabrice Coulon <fabrice@axis.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pseudo: Make it possible to override the append in a bbappend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,45 +41,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Dec 2015 18:43:50 -0000
-Content-Type: multipart/alternative; boundary=001a113ec64ab81d1e0525eea7a0
-
---001a113ec64ab81d1e0525eea7a0
+X-List-Received-Date: Wed, 02 Dec 2015 19:05:03 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 2 December 2015 at 18:04, Martin Jansa <martin.jansa@gmail.com> wrote:
+On Wed, Dec 2, 2015 at 5:22 AM, Fabrice Coulon <fabrice.coulon@axis.com> wrote:
+> I need this in order to avoid a conflict when used with
+> base-passwd-native.
 
-> I'm depending on bundles heavily, to "mark" the patches for layers with
-> dedicated maintainer and also for extra "status" like merged in
-> "master-next" branch for jenkins build, because standard status values
-> aren't fine-grained enough.
+Doesn't something like this work from your .bbappend?
+
+  do_install_append_class-native () {
+      # Remove to avoid conflict with base-passwd-native
+      rm -f ${D}${sysconfdir}/passwd ${D}${sysconfdir}/group
+  }
+
+
+> Signed-off-by: Fabrice Coulon <fabrice.coulon@axis.com>
+> ---
+>  meta/recipes-devtools/pseudo/pseudo_1.7.4.bb | 6 +++++-
+
+You left out the pseudo_1.6.7.bb recipe. Better to keep the two recipes in sync.
+
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
+> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.7.4.bb b/meta/recipes-devtools/pseudo/pseudo_1.7.4.bb
+> index d68e0af..87e624e 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo_1.7.4.bb
+> +++ b/meta/recipes-devtools/pseudo/pseudo_1.7.4.bb
+> @@ -11,9 +11,13 @@ SRC_URI[sha256sum] = "f33ff84da328f943155f22cfd49030ef4ad85ad35fc2d9419a203521b6
+>
+>  PSEUDO_EXTRA_OPTS ?= "--enable-force-async --without-passwd-fallback"
+>
+> -do_install_append_class-native () {
+> +append_class_native() {
 
-Sounds like instead of bundles the new patchworks needs the ability for a
-single list to represent multiple projects (so there'd be a meta-oe,
-meta-python, etc), and more status values.
+It might avoid confusion if the function name wasn't made up of a
+bitbake keyword and (something very close to) the class-native
+over-ride. Maybe "install_passwd_fallbacks", to described what the
+function actually does?
 
-Ross
+>         install -d ${D}${sysconfdir}
+>         # The fallback files should never be modified
+>         install -m 444 ${WORKDIR}/fallback-passwd ${D}${sysconfdir}/passwd
+>         install -m 444 ${WORKDIR}/fallback-group ${D}${sysconfdir}/group
+>  }
+> +
+> +do_install_append_class-native () {
+> +       append_class_native
+> +}
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a113ec64ab81d1e0525eea7a0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 December 2015 at 18:04, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":6y4" class=
-=3D"a3s" style=3D"overflow:hidden">I&#39;m depending on bundles heavily, to=
- &quot;mark&quot; the patches for layers with<br>
-dedicated maintainer and also for extra &quot;status&quot; like merged in<b=
-r>
-&quot;master-next&quot; branch for jenkins build, because standard status v=
-alues<br>
-aren&#39;t fine-grained enough.</div></blockquote></div><br>Sounds like ins=
-tead of bundles the new patchworks needs the ability for a single list to r=
-epresent multiple projects (so there&#39;d be a meta-oe, meta-python, etc),=
- and more status values.</div><div class=3D"gmail_extra"><br></div><div cla=
-ss=3D"gmail_extra">Ross</div></div>
-
---001a113ec64ab81d1e0525eea7a0--
