@@ -1,20 +1,16 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 93D3E60667
+	by mail.openembedded.org (Postfix) with ESMTP id 95C596B6F5
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  2 Dec 2015 11:04:15 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 0C4CA261461
+	(Authenticated sender: joshuagl) with ESMTPSA id A935F2602EC
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Dec 2015 11:03:54 +0000
-Message-Id: <16cde8ef7ac89fc706c6a6b928adf07d95941ae0.1449054142.git.joshua.lock@collabora.co.uk>
+Date: Wed,  2 Dec 2015 11:03:51 +0000
+Message-Id: <cover.1449006701.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.4.3
-In-Reply-To: <cover.1449006701.git.joshua.lock@collabora.co.uk>
-References: <cover.1449006701.git.joshua.lock@collabora.co.uk>
-In-Reply-To: <cover.1449054142.git.joshua.lock@collabora.co.uk>
-References: <cover.1449054142.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH 3/3] connman: tidy up connman-conf usage
+Subject: [PATCH 0/3] Clean up connman-conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,55 +25,46 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 02 Dec 2015 11:04:18 -0000
 
-connman-conf is now a systemd oneshot so need not be sed'ed in to
-the ConnMan service file.
+s reported in YP#8399[1] we currently hack the connman service to try and
+execute a script which is only installed on qemu targets. This pair of
+patches changes the connman-conf recipe to install a oneshot systemd unit
+that is called before ConnMan, removes the ExecStartPre and adds an override
+to the RRECOMMENDS so that the connman-conf is only installed by default for
+qemu machines and images for other machines are left with an error in the
+journal about failing to start a service.
 
-Furthermore add connman-conf as RRECCOMENDS only for qemu machines.
+Since the initial RFC submission I've:
+  * rebased on master
+  * changed connman-conf to be an allarch recipe
+  * updated to use the new systemd_system_unitdir variable
 
-This cleans up connman-conf so that it is not automatically installed
-and unconditionally calling a script that doesn't exist for most
-machines.
+Regards,
 
-Note: this doesn't affect sysvinit where we provide the ConnMan
-init script which checks for the presence of the wired-networking
-script and if it exists executes it as part of the connman init.
+Joshua
 
-[YOCTO #8399]
+1. https://bugzilla.yoctoproject.org/show_bug.cgi?id=8399
 
-Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
----
- meta/recipes-connectivity/connman/connman.inc     | 5 -----
- meta/recipes-connectivity/connman/connman_1.30.bb | 3 +--
- 2 files changed, 1 insertion(+), 7 deletions(-)
+The following changes since commit 03f15e51998a3ef65a5b68cb7cbf724f4388c289:
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 6324d7a..40880ad 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -68,11 +68,6 @@ python __anonymous () {
- 
- SYSTEMD_SERVICE_${PN} = "connman.service"
- SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
--SYSTEMD_WIRED_SETUP = "ExecStartPre=-${datadir}/connman/wired-setup"
--
--do_compile_append() {
--	sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#" ${B}/src/connman.service
--}
- 
- do_install_append() {
- 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
-diff --git a/meta/recipes-connectivity/connman/connman_1.30.bb b/meta/recipes-connectivity/connman/connman_1.30.bb
-index 7d65ac9..7f7f5c3 100644
---- a/meta/recipes-connectivity/connman/connman_1.30.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.30.bb
-@@ -10,5 +10,4 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
- SRC_URI[md5sum] = "4a3efdbd6796922db9c6f66da57887fa"
- SRC_URI[sha256sum] = "5c5e464bacc9c27ed4e7269fb9b5059f07947f5be26433b59212133663ffa991"
- 
--RRECOMMENDS_${PN} = "connman-conf"
--
-+RRECOMMENDS_${PN}_qemuall = "connman-conf"
--- 
+  sstate: Ensure siginfo and sig files are also touched (2015-11-25 08:09:00 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib joshuagl/connman
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=joshuagl/connman
+
+Joshua Lock (3):
+  connman-conf: convert to systemd oneshot
+  connman-conf: mark as allarch and not requiring default deps
+  connman: tidy up connman-conf usage
+
+ meta/recipes-connectivity/connman/connman-conf.bb           | 13 +++++++++++--
+ .../connman/connman-conf/qemuall/wired-connection.service   | 10 ++++++++++
+ meta/recipes-connectivity/connman/connman.inc               |  5 -----
+ meta/recipes-connectivity/connman/connman_1.30.bb           |  3 +--
+ 4 files changed, 22 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/wired-connection.service
+
+--
 2.4.3
-
 
