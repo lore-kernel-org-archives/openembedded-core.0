@@ -1,23 +1,32 @@
-Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 91AEA60616
+Return-Path: <chris.trobridge@ultra-aep.com>
+X-Greylist: delayed 370 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 02 Dec 2015 15:33:08 UTC
+Received: from eu-smtp-delivery-154.mimecast.com
+	(eu-smtp-delivery-154.mimecast.com [207.82.80.154])
+	by mail.openembedded.org (Postfix) with ESMTP id 79C7E605FE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 14:38:26 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 02 Dec 2015 06:38:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,373,1444719600"; d="scan'208";a="611309654"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 Dec 2015 06:38:27 -0800
-Received: from fedora-ws.localdomain (unknown [10.237.112.240])
-	by linux.intel.com (Postfix) with ESMTP id CF8506A4005;
-	Wed,  2 Dec 2015 06:37:17 -0800 (PST)
-From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Dec 2015 16:40:53 +0200
-Message-Id: <1449067253-25056-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] scripts: oe-selftest Added new features.
+	Wed,  2 Dec 2015 15:33:08 +0000 (UTC)
+Received: from AEP-CAS-UK-01.ULTRA-AEP.COM (86.188.236.241 [86.188.236.241])
+	(Using TLS) by eu-smtp-1.mimecast.com with ESMTP id
+	uk-mta-22-aH2YVtD8Raagop3A-__9yg-1; Wed, 02 Dec 2015 15:26:58 +0000
+Received: from AEP-EXCH-UK-01.ULTRA-AEP.COM ([::1]) by
+	AEP-CAS-UK-01.ULTRA-AEP.COM ([fe80::54ca:8df3:2d2c:8ab4%19]) with mapi
+	id 14.02.0309.002; Wed, 2 Dec 2015 15:26:57 +0000
+From: Chris Trobridge <Chris.Trobridge@ULTRA-AEP.COM>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: python3 dbus
+Thread-Index: AdEtElIorLQ1wjPKTiKiNCgVS+7nZA==
+Date: Wed, 2 Dec 2015 15:26:56 +0000
+Message-ID: <C9B171200FE9514799693A59F76A8F1501A0949293@AEP-EXCH-UK-01.ULTRA-AEP.COM>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.43.10.45]
+x-loop: 1
+MIME-Version: 1.0
+X-MC-Unique: aH2YVtD8Raagop3A-__9yg-1
+Subject: python3 dbus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,294 +39,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Dec 2015 14:38:28 -0000
+X-List-Received-Date: Wed, 02 Dec 2015 15:33:12 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_C9B171200FE9514799693A59F76A8F1501A0949293AEPEXCHUK01UL_"
 
-[YOCTO #8750] Allow oe-selftest to run custom test suites based on different criteria
+--_000_C9B171200FE9514799693A59F76A8F1501A0949293AEPEXCHUK01UL_
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-1. Can run custom lists of tests based on different criteria:
-   --run-tests-by <name|class|module|id|tag> <list of tests|classes|modules|ids|tags>
-   eg: --run-tests-by module imagefeatures signing recipetool
-       --run-tests-by id 1377 1273 935
-       --run-tests-by tag wic sstate bitbake
-2. Can list tests based on different criteria:
-   --list-tests-by <name|class|module|id|tag> <list of tests|classes|modules|ids|tags>
-   eg: --list-tests-by module imagefeatures signing recipetool
-       --list-tests-by id 1377 1273 935
-       --list-tests-by tag wic sstate bitbake
-3. Can list all tags that have been set to test cases:
-   --list-tags
-   The list of tags should be kept as minimal as possible.
-   This helps preview the tags used so far.
+Hi,
 
-   To take advantage of the 'tag' feature:
-   - add @tag(feature=<>) to testcases
-   eg: @tag(feature='signing') for a single tag
-       @tag(feature=(('signing', 'sstate')) or
-       @tag(feature=['signing', 'sstate']) for multiple tags
+I have a dbus-based service written in python3 that I want run on a Yocto s=
+ystem.
 
-Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
----
- scripts/oe-selftest | 218 +++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 216 insertions(+), 2 deletions(-)
+I can run python3 and have patched a few python module recipes to python3 b=
+ut the big outstanding issue is dbus, and gi.repository.GObject in particul=
+ar.
 
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index 9679962..bc50b2a 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -72,6 +72,12 @@ def get_args_parser():
-     group.add_argument('--list-modules', required=False, action="store_true", dest="list_modules", default=False, help='List all available test modules.')
-     group.add_argument('--list-classes', required=False, action="store_true", dest="list_allclasses", default=False, help='List all available test classes.')
-     parser.add_argument('--coverage', action="store_true", help="Run code coverage when testing")
-+    group.add_argument('--run-tests-by', required=False, dest='run_tests_by', default=False, nargs='*',
-+                       help='run-tests-by <name|class|module|id|tag> <list of tests|classes|modules|ids|tags>')
-+    group.add_argument('--list-tests-by', required=False, dest='list_tests_by', default=False, nargs='*',
-+                       help='list-tests-by <name|class|module|id|tag> <list of tests|classes|modules|ids|tags>')
-+    group.add_argument('--list-tags', required=False, dest='list_tags', default=False, action="store_true",
-+                       help='List all tags that have been set to test cases.')
-     return parser
- 
- 
-@@ -156,6 +162,187 @@ def get_tests(exclusive_modules=[], include_hidden=False):
- 
-     return testslist
- 
-+
-+class Tc:
-+    def __init__(self, tcname, tcclass, tcmodule, tcid=None, tctag=None):
-+        self.tcname = tcname
-+        self.tcclass = tcclass
-+        self.tcmodule = tcmodule
-+        self.tcid = tcid
-+        # A test case can have multiple tags (as list or as tuples) otherwise str suffice
-+        self.tctag = tctag
-+        self.fullpath = '.'.join(['oeqa', 'selftest', tcmodule, tcclass, tcname])
-+
-+
-+def get_tests_from_module(tmod):
-+    tlist = []
-+    prefix = 'oeqa.selftest.'
-+
-+    try:
-+        import importlib
-+        modlib = importlib.import_module(tmod)
-+        for mod in vars(modlib).values():
-+            if isinstance(mod, type(oeSelfTest)) and issubclass(mod, oeSelfTest) and mod is not oeSelfTest:
-+                for test in dir(mod):
-+                    if test.startswith('test_') and hasattr(vars(mod)[test], '__call__'):
-+                        # Get test case id and feature tag
-+                        # NOTE: if testcase decorator or feature tag not set will throw error
-+                        try:
-+                            tid = vars(mod)[test].test_case
-+                        except:
-+                            print 'DEBUG: tc id missing for ' + str(test)
-+                            tid = None
-+                        try:
-+                            ttag = vars(mod)[test].tag__feature
-+                        except:
-+                            # print 'DEBUG: feature tag missing for ' + str(test)
-+                            ttag = None
-+
-+                        # NOTE: for some reason lstrip() doesn't work for mod.__module__
-+                        tlist.append(Tc(test, mod.__name__, mod.__module__.replace(prefix, ''), tid, ttag))
-+    except:
-+        pass
-+
-+    return tlist
-+
-+
-+def get_all_tests():
-+    tmodules = set()
-+    testlist = []
-+    prefix = 'oeqa.selftest.'
-+
-+    # Get all the test modules (except the hidden ones)
-+    for tpath in oeqa.selftest.__path__:
-+        files = sorted([f for f in os.listdir(tpath) if f.endswith('.py') and not
-+                        f.startswith(('_', '__')) and f != 'base.py'])
-+        for f in files:
-+            tmodules.add(prefix + f.rstrip('.py'))
-+
-+    # Get all the tests from modules
-+    tmodules = sorted(list(tmodules))
-+
-+    for tmod in tmodules:
-+        testlist += get_tests_from_module(tmod)
-+
-+    return testlist
-+
-+
-+def create_testsuite_by(criteria, keyword):
-+    # Create a testsuite based on 'keyword'
-+    # criteria: name, class, module, id, tag
-+    # keyword: a list of tests, classes, modules, ids, tags
-+    # NOTE: globing would be nice?
-+
-+    ts = set()
-+    all_tests = get_all_tests()
-+
-+    if criteria == 'name':
-+        for tc in all_tests:
-+            if tc.tcname in keyword:
-+                ts.add(tc.fullpath)
-+
-+    elif criteria == 'class':
-+        for tc in all_tests:
-+            if tc.tcclass in keyword:
-+                ts.add(tc.fullpath)
-+
-+    elif criteria == 'module':
-+        for tc in all_tests:
-+            if tc.tcmodule in keyword:
-+                ts.add(tc.fullpath)
-+    elif criteria == 'id':
-+        for tc in all_tests:
-+            if str(tc.tcid) in keyword:
-+                ts.add(tc.fullpath)
-+    elif criteria == 'tag':
-+        for tc in all_tests:
-+            # tc can have multiple tags (as list or tuple) otherwise as str
-+            if isinstance(tc.tctag, (list, tuple)):
-+                for tag in tc.tctag:
-+                    if str(tag) in keyword:
-+                        ts.add(tc.fullpath)
-+            elif tc.tctag in keyword:
-+                ts.add(tc.fullpath)
-+
-+    return sorted(list(ts))
-+
-+
-+def get_testsuite_by(criteria, keyword):
-+    # Get a testsuite based on 'keyword'
-+    # criteria: name, class, module, id, tag
-+    # keyword: a list of tests, classes, modules, ids, tags
-+    # NOTE: globing would be nice?
-+    ts = set()
-+    all_tests = get_all_tests()
-+
-+    if criteria == 'name':
-+        for tc in all_tests:
-+            if tc.tcname in keyword:
-+                ts.add((tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule))
-+
-+    elif criteria == 'class':
-+        for tc in all_tests:
-+            if tc.tcclass in keyword:
-+                ts.add((tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule))
-+
-+    elif criteria == 'module':
-+        for tc in all_tests:
-+            if tc.tcmodule in keyword:
-+                ts.add((tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule))
-+    elif criteria == 'id':
-+        for tc in all_tests:
-+            if str(tc.tcid) in keyword:
-+                ts.add((tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule))
-+    elif criteria == 'tag':
-+        for tc in all_tests:
-+            # tc can have multiple tags (as list or tuple) otherwise as str
-+            if isinstance(tc.tctag, (list, tuple)):
-+                for tag in tc.tctag:
-+                    if str(tag) in keyword:
-+                        ts.add((tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule))
-+            elif str(tc.tctag) in keyword:
-+                ts.add((tc.tcid, tc.tctag, tc.tcname, tc.tcclass, tc.tcmodule))
-+
-+    return sorted(list(ts))
-+
-+
-+def list_testsuite_by(criteria, keyword):
-+    # Get a testsuite based on 'keyword'
-+    # criteria: name, class, module, id, tag
-+    # keyword: a list of tests, classes, modules, ids, tags
-+    # NOTE: globing would be nice?
-+
-+    ts = get_testsuite_by(criteria, keyword)
-+
-+    print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % ('id', 'tag', 'name', 'class', 'module')
-+    print '_' * 150
-+    for t in ts:
-+        if isinstance(t[1], (tuple, list)):
-+            print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % (t[0], ', '.join(t[1]), t[2], t[3], t[4])
-+        else:
-+            print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % t
-+    print '_' * 150
-+    print 'Filtering by:\t %s' % criteria
-+    print 'Looking for:\t %s' % ', '.join(str(x) for x in keyword)
-+    print 'Total found:\t %s' % len(ts)
-+
-+
-+def list_tags():
-+    # Get all tags set to test cases
-+    # This is useful when setting tags to test cases
-+    # The list of tags should be kept as minimal as possible
-+    tags = set()
-+    all_tests = get_all_tests()
-+
-+    for tc in all_tests:
-+        if isinstance(tc.tctag, (tuple, list)):
-+            tags.update(set(tc.tctag))
-+        else:
-+            tags.add(tc.tctag)
-+
-+    print 'Tags:\t%s' % ', '.join(str(x) for x in tags)
-+
-+
- def main():
-     parser = get_args_parser()
-     args = parser.parse_args()
-@@ -167,6 +354,29 @@ def main():
-     sys.path.extend(layer_libdirs)
-     reload(oeqa.selftest)
- 
-+    if args.run_tests_by and len(args.run_tests_by) >= 2:
-+        valid_options = ['name', 'class', 'module', 'id', 'tag']
-+        if args.run_tests_by[0] not in valid_options:
-+            print '--run-tests-by %s not a valid option. Choose one of <name|class|module|id|tag>.' % args.run_tests_by[0]
-+            return 1
-+        else:
-+            criteria = args.run_tests_by[0]
-+            keyword = args.run_tests_by[1:]
-+            ts = create_testsuite_by(criteria, keyword)
-+
-+    if args.list_tests_by and len(args.list_tests_by) >= 2:
-+        valid_options = ['name', 'class', 'module', 'id', 'tag']
-+        if args.list_tests_by[0] not in valid_options:
-+            print '--list-tests-by %s not a valid option. Choose one of <name|class|module|id|tag>.' % args.list_tests_by[0]
-+            return 1
-+        else:
-+            criteria = args.list_tests_by[0]
-+            keyword = args.list_tests_by[1:]
-+            list_testsuite_by(criteria, keyword)
-+
-+    if args.list_tags:
-+        list_tags()
-+
-     if args.list_allclasses:
-         args.list_modules = True
- 
-@@ -195,7 +405,7 @@ def main():
-                     print e
-                     pass
- 
--    if args.run_tests or args.run_all_tests:
-+    if args.run_tests or args.run_all_tests or args.run_tests_by:
-         if not preflight_check():
-             return 1
- 
-@@ -235,7 +445,11 @@ def main():
- 
-                 coverage_process_start = os.environ["COVERAGE_PROCESS_START"] = coveragerc
- 
--        testslist = get_tests(exclusive_modules=(args.run_tests or []), include_hidden=False)
-+        if args.run_tests_by:
-+            testslist = ts
-+        else:
-+            testslist = get_tests(exclusive_modules=(args.run_tests or []), include_hidden=False)
-+
-         suite = unittest.TestSuite()
-         loader = unittest.TestLoader()
-         loader.sortTestMethodsUsing = None
--- 
-2.1.0
+I can see various discussions about keeping this up to date on python2 (met=
+a-gir).
+
+I would like some advice on whether I would be better off back-porting the =
+python3 service to 2.7 (which would be disappointing but not a major undert=
+aking) or whether it would be reasonable to modify the existing python 2.7 =
+dbus/gobject  recipes to python3.
+
+I am tending to back-porting to 2.7 but I am not 100% confident that dbus/g=
+object works with either version of python in Yocto?
+
+All opinions welcome!
+
+Regards,
+Chris
+
+Ultra Electronics AEP is a trading name of Ultra Electronics Ltd. This emai=
+l and any attachments to it are confidential to the intended recipient and =
+may also be privileged. If you have received it in error please notify the =
+sender and delete it from your system. If you are not the intended recipien=
+t you must not copy it or use it for any purpose nor disclose or distribute=
+ its contents to any other person. All communications may be subject to int=
+erception or monitoring for operational and/or security purposes. Please re=
+ly on your own virus checking as the sender cannot accept any liability for=
+ any damage arising from any bug or virus infection. Ultra Electronics Ltd =
+is a company registered in England and Wales, registration number 02830644.=
+ The Registered office address is 417 Bridport Road, Greenford, Middlesex, =
+UB6 8UA.
+---------------------------------------------------------------------------=
+-----------
+This email message has been delivered safely and archived online by Mimecas=
+t.
+For more information please visit http://www.mimecast.com=20
+---------------------------------------------------------------------------=
+------------
+
+--_000_C9B171200FE9514799693A59F76A8F1501A0949293AEPEXCHUK01UL_
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style>
+<!--
+@font-face
+=09{font-family:Calibri}
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+=09{margin:0cm;
+=09margin-bottom:.0001pt;
+=09font-size:11.0pt;
+=09font-family:"Calibri","sans-serif"}
+a:link, span.MsoHyperlink
+=09{color:blue;
+=09text-decoration:underline}
+a:visited, span.MsoHyperlinkFollowed
+=09{color:purple;
+=09text-decoration:underline}
+span.EmailStyle17
+=09{font-family:"Calibri","sans-serif";
+=09color:windowtext}
+.MsoChpDefault
+=09{font-family:"Calibri","sans-serif"}
+@page WordSection1
+=09{margin:72.0pt 72.0pt 72.0pt 72.0pt}
+div.WordSection1
+=09{}
+-->
+</style>
+</head>
+<body lang=3D"EN-GB" link=3D"blue" vlink=3D"purple">     =20
+   =20
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hi,</p>
+<p class=3D"MsoNormal">&nbsp;</p>
+<p class=3D"MsoNormal">I have a dbus-based service written in python3 that =
+I want run on a Yocto system.</p>
+<p class=3D"MsoNormal">&nbsp;</p>
+<p class=3D"MsoNormal">I can run python3 and have patched a few python modu=
+le recipes to python3 but the big outstanding issue is dbus, and gi.reposit=
+ory.GObject in particular.</p>
+<p class=3D"MsoNormal">&nbsp;</p>
+<p class=3D"MsoNormal">I can see various discussions about keeping this up =
+to date on python2 (meta-gir).</p>
+<p class=3D"MsoNormal">&nbsp;</p>
+<p class=3D"MsoNormal">I would like some advice on whether I would be bette=
+r off back-porting the python3 service to 2.7 (which would be disappointing=
+ but not a major undertaking) or whether it would be reasonable to modify t=
+he existing python 2.7 dbus/gobject
+ &nbsp;recipes to python3.</p>
+<p class=3D"MsoNormal">&nbsp;</p>
+<p class=3D"MsoNormal">I am tending to back-porting to 2.7 but I am not 100=
+% confident that dbus/gobject works with either version of python in Yocto?=
+</p>
+<p class=3D"MsoNormal">&nbsp;</p>
+<p class=3D"MsoNormal">All opinions welcome!</p>
+<p class=3D"MsoNormal">&nbsp;</p>
+<p class=3D"MsoNormal">Regards,</p>
+<p class=3D"MsoNormal">Chris</p>
+<p class=3D"MsoNormal">&nbsp;</p>
+</div>
+Ultra Electronics AEP is a trading name of Ultra Electronics Ltd. This emai=
+l and any attachments to it are confidential to the intended recipient and =
+may also be privileged. If you have received it in error please notify the =
+sender and delete it from your system.
+ If you are not the intended recipient you must not copy it or use it for a=
+ny purpose nor disclose or distribute its contents to any other person. All=
+ communications may be subject to interception or monitoring for operationa=
+l and/or security purposes. Please
+ rely on your own virus checking as the sender cannot accept any liability =
+for any damage arising from any bug or virus infection. Ultra Electronics L=
+td is a company registered in England and Wales, registration number 028306=
+44. The Registered office address
+ is 417 Bridport Road, Greenford, Middlesex, UB6 8UA.
+
+    <br />
+    <br />
+   <span style=3D"font-family:Arial; Font-size:10.0pt">
+<hr width=3D"100%" />
+This email message has been delivered safely and archived online by Mimecas=
+t.<br />
+For more information please visit <a href=3D"http://www.mimecast.com">http:=
+//www.mimecast.com</a>
+<hr width=3D"100%" />
+  </span>
+=20
 
 
+</body>
+</html>
+
+--_000_C9B171200FE9514799693A59F76A8F1501A0949293AEPEXCHUK01UL_--
