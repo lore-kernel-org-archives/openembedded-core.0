@@ -1,42 +1,20 @@
-Return-Path: <belen.barros.pena@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 855DA6014E;
-	Wed,  2 Dec 2015 10:59:20 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 02 Dec 2015 02:59:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,372,1444719600"; d="scan'208";a="864918919"
-Received: from irsmsx153.ger.corp.intel.com ([163.33.192.75])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Dec 2015 02:59:20 -0800
-Received: from irsmsx110.ger.corp.intel.com ([169.254.15.163]) by
-	IRSMSX153.ger.corp.intel.com ([169.254.9.208]) with mapi id
-	14.03.0248.002; Wed, 2 Dec 2015 10:59:18 +0000
-From: "Barros Pena, Belen" <belen.barros.pena@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>, Paul Eggleton
-	<paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] Patchwork & patch handling improvements
-Thread-Index: AQHRLNnW1sSqAErXnUuHUaQDB1Le9A==
-Date: Wed, 2 Dec 2015 10:59:17 +0000
-Message-ID: <D2847EE2.6BF9C%belen.barros.pena@intel.com>
-References: <1633798.xAxFJSpIzb@peggleto-mobl.ger.corp.intel.com>
-	<41399562.aYmIK0zX5I@peggleto-mobl.ger.corp.intel.com>
-	<20151201104720.GB2251@jama>
-	<9135219.GRnf9JIkFP@peggleto-mobl.ger.corp.intel.com>
-	<20151202081713.GA2248@jama>
-	<D2847D54.6BF8A%belen.barros.pena@intel.com>
-In-Reply-To: <D2847D54.6BF8A%belen.barros.pena@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/14.5.8.151023
-x-originating-ip: [10.237.224.34]
-MIME-Version: 1.0
-Cc: "Lespiau, Damien" <damien.lespiau@intel.com>,
-	"openembedded-architecture@lists.openembedded.org"
-	<openembedded-architecture@lists.openembedded.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Patchwork & patch handling improvements
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 93D3E60667
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  2 Dec 2015 11:04:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 0C4CA261461
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Dec 2015 11:03:54 +0000
+Message-Id: <16cde8ef7ac89fc706c6a6b928adf07d95941ae0.1449054142.git.joshua.lock@collabora.co.uk>
+X-Mailer: git-send-email 2.4.3
+In-Reply-To: <cover.1449006701.git.joshua.lock@collabora.co.uk>
+References: <cover.1449006701.git.joshua.lock@collabora.co.uk>
+In-Reply-To: <cover.1449054142.git.joshua.lock@collabora.co.uk>
+References: <cover.1449054142.git.joshua.lock@collabora.co.uk>
+Subject: [PATCH 3/3] connman: tidy up connman-conf usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,188 +27,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Dec 2015 10:59:21 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <5BF3D49C09EFE747B7B9FF5D9C9B0573@intel.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 02 Dec 2015 11:04:18 -0000
 
+connman-conf is now a systemd oneshot so need not be sed'ed in to
+the ConnMan service file.
 
+Furthermore add connman-conf as RRECCOMENDS only for qemu machines.
 
-On 02/12/2015 10:54, "openembedded-core-bounces@lists.openembedded.org on
-behalf of Barros Pena, Belen"
-<openembedded-core-bounces@lists.openembedded.org on behalf of
-belen.barros.pena@intel.com> wrote:
+This cleans up connman-conf so that it is not automatically installed
+and unconditionally calling a script that doesn't exist for most
+machines.
 
->
->
->On 02/12/2015 08:17, "openembedded-core-bounces@lists.openembedded.org on
->behalf of Martin Jansa" <openembedded-core-bounces@lists.openembedded.org
->on behalf of martin.jansa@gmail.com> wrote:
->
->>On Wed, Dec 02, 2015 at 04:01:40PM +1300, Paul Eggleton wrote:
->>> On Tue, 01 Dec 2015 11:47:20 Martin Jansa wrote:
->>> > On Tue, Dec 01, 2015 at 07:49:50AM +1300, Paul Eggleton wrote:
->>> > > Hi Trevor,
->>> > >=20
->>> > > On Mon, 30 Nov 2015 10:19:35 Trevor Woerner wrote:
->>> > > > On 11/26/15 16:00, Paul Eggleton wrote:
->>> > > > > I'm also
->>> > > > > trying to ensure that the patch validation is generic enough so
->>>it can
->>> > > > > live in OE-Core, and thus we can easily update and refine it
->>>over time
->>> > > > > in
->>> > > > > line with the code itself as well as encourage submitters to
->>>use the
->>> > > > > script on their own changes before sending.
->>> > > >=20
->>> > > > This all sounds like an improvement and is therefore a step in
->>>the right
->>> > > > direction :-)
->>> > > >=20
->>> > > > A while back I had the idea of "porting" the kernel's
->>>"checkpatch.pl" to
->>> > > > The Yocto Project (it was around the same time that I was trying
->>>to
->>> > > > float the whole "Maintainers File" idea too, since I was also
->>>trying to
->>> > > > re-purpose "get-maintainer.pl" as well). About one minute into
->>>that
->>> > > > effort I realized the existing *.bb files were all over the place
->>>in
->>> > > > terms of the order of statements and the order of the blocks of
->>> > > > statements. At that time I found one recipe style guide from OE,
->>>and
->>> > > > another one from The Yocto Project, each of which described a
->>>slightly
->>> > > > different preference. So I asked on the mailing list and quickly
->>> > > > discovered that both groups prefer a different style.
->>> > > >=20
->>> > > > I'm not saying this job isn't worth doing, but I am pointing out
->>>there's
->>> > > > the potential for feathers to be ruffled on both sides if someone
->>>tries
->>> > > > to produce a definitive style guide for recipe files and then
->>>enforces
->>> > > > it in an automated way. Since it is the OpenEmbedded Project's
->>>job to
->>> > > > provide the recipes for The Yocto Project, I'm guessing this
->>>question
->>> > > > needs to be decided by them? If that sounds reasonable, then
->>>maybe The
->>> > > > Yocto Project needs to acquiesce to OE's decision?
->>> > >=20
->>> > > I don't think there's that much of a division. I don't recall if it
->>>was
->>> > > you
->>> > > that raised it at the time but the issue of having two style guides
->>>did
->>> > > get
->>> > > rectified - I changed the one on the Yocto Project wiki to simply
->>>be a
->>> > > link to the OE style guide in June last year. It certainly didn't
->>>come
->>> > > about through a conscious decision to have a different style.
->>> > >=20
->>> > > However there is a minor disagreement over indentation for shell
->>>functions
->>> > > between OE-Core and other layers - this persists because of the
->>> > > backporting
->>> > > pain a blanket replacement would potentially lead to. As I recall
->>>this did
->>> > > get discussed at the OE TSC level. I think that's one thing we
->>>could just
->>> > > not evaluate (or make an option) until such time as we resolve the
->>> > > difference - and I do mean to see it resolved at some point in the
->>> > > future.
->>> >=20
->>> > Using consistent indentation (4 spaces) at least for new metadata
->>>would
->>> > be step in right direction.
->>> >=20
->>> > With the amount of changes which are backported to older releases I
->>> > still don't see this "backporting pain" argument. Doing it just
->>>before
->>> > the release is of course useful, because e.g. now more changes will
->>>be
->>> > backported to Jethro than to Fido or Dizzy. So having consistent
->>> > indentation in Jethro and master would prevent 95% of "backporting
->>> > pain". Maybe some Yocto 10.0 will finally get the meaning of
->>> > "consistent" indentation.
->>>=20
->>> I agree it's not ideal. I said above, I do want to see it resolved.
->>>=20
->>> Leaving indentation aside for a moment do you have any comments on my
->>> proposal?
->>
->>I'm not familiar with FDO fork, so I don't know how it looks and
->>behaves,
->
->This is how it looks like currently
->
->http://patchwork.freedesktop.org/project/intel-gfx/patches/
->
->> but any improvement on patchwork side is definitely welcome and
->>I appreciate it.
->>
->>Does it support e.g. moving the patches to given bundle based on some
->>substring in subject? To sort e.g. meta-networking, meta-java,
->>meta-browser, .. patches automatically?
->
->Mmm, you might not like this, but we are thinking of getting rid of
->bundles. Basically, we assumed bundles were a manual way of creating patch
->series. The new Patchwork can identify series, so we thought: great!
->Bundles no longer needed.
->
->There are other features been considered that might be an alternative to
->bundles, like tagging
+Note: this doesn't affect sysvinit where we provide the ConnMan
+init script which checks for the presence of the wired-networking
+script and if it exists executes it as part of the connman init.
 
-sorry: pressed 'send' too soon :/ As I was saying, tagging
+[YOCTO #8399]
 
-https://github.com/dlespiau/patchwork/issues/36
+Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+---
+ meta/recipes-connectivity/connman/connman.inc     | 5 -----
+ meta/recipes-connectivity/connman/connman_1.30.bb | 3 +--
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
-Or supporting several projects within the same mailing list (in your case,
-one per layer)
-
-https://github.com/dlespiau/patchwork/issues/77
-
->
->
->>
->>I don't expect FDO fork to provide other features I'm used to from
->>gerrit like cherry-picking to selected branch from the UI or doing the
->>review there. But still if we're stuck with patchwork forever (because
->>some people hate gerrit), then any improvement is really appreciated,
->>thanks for looking into it.
->>
->>My only concern is about migrating current database, do you know if the
->>migration will keep the database
-
-I don't know, but I can find out.
-
->>including bundles
-
-If we remove the bundles, then I guess the migration might not keep the
-bundles.=20
-
-Bel=E9n
-
->>as they are or do you
->>plan to set FDO version in parallel at least for some transition period?
->>Currently I have many patches in flight, because jenkins is running full
->>test-dependencies job for last 11 and based on progress it will take
->>14-21 more days to finish.
->>
->>Regards,
->>
->>--=20
->>Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->
->--=20
->_______________________________________________
->Openembedded-core mailing list
->Openembedded-core@lists.openembedded.org
->http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 6324d7a..40880ad 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -68,11 +68,6 @@ python __anonymous () {
+ 
+ SYSTEMD_SERVICE_${PN} = "connman.service"
+ SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
+-SYSTEMD_WIRED_SETUP = "ExecStartPre=-${datadir}/connman/wired-setup"
+-
+-do_compile_append() {
+-	sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#" ${B}/src/connman.service
+-}
+ 
+ do_install_append() {
+ 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+diff --git a/meta/recipes-connectivity/connman/connman_1.30.bb b/meta/recipes-connectivity/connman/connman_1.30.bb
+index 7d65ac9..7f7f5c3 100644
+--- a/meta/recipes-connectivity/connman/connman_1.30.bb
++++ b/meta/recipes-connectivity/connman/connman_1.30.bb
+@@ -10,5 +10,4 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+ SRC_URI[md5sum] = "4a3efdbd6796922db9c6f66da57887fa"
+ SRC_URI[sha256sum] = "5c5e464bacc9c27ed4e7269fb9b5059f07947f5be26433b59212133663ffa991"
+ 
+-RRECOMMENDS_${PN} = "connman-conf"
+-
++RRECOMMENDS_${PN}_qemuall = "connman-conf"
+-- 
+2.4.3
 
 
