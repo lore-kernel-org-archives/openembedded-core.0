@@ -1,49 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D13E601D3
+Return-Path: <wu.zheng@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B489601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 09:49:39 +0000 (UTC)
-Received: by igvg19 with SMTP id g19so114251850igv.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Dec 2015 01:49:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=RkF8UDbzSeqT7QdNm6yhnmPA1sMJxKPNNf8vBKJM3N8=;
-	b=qo+4+K0blgsGNqHOp+kMTUui1GRNHlzis+79RiSoKDNBO3/N4uo02FZJDkTSA0vbWa
-	jwro2vqjFWHcsl5qaw1UMrej41eIfRMm59SeSyvTAeOPKOfHRB8Ia8/b4a3TAk/21KjK
-	2NDsowqnTAv+ajFX17v/suBJe4sg1l1tt9YUR1fVz+puE6wRp1XecNp0ny8Lh5o3XUXM
-	nhouIZmeQgrDmOPdL1kmVnYySBbcqW9MGI0E/Wgl20iyk0lca+t/7EdzUd/V1fETh9FQ
-	1aUIVw1JK/vTpbkSWWarlRJzuGNj9wlfie8iF01fwApEYQndwf2tQz991oj3Lz2pGKrD
-	2+Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=RkF8UDbzSeqT7QdNm6yhnmPA1sMJxKPNNf8vBKJM3N8=;
-	b=Z8E4Hwk7VhD6Q8rSTbiUP0K2bAacuAz0Z9oSJ29vlbV8GSU4Zx7HWo0ksXIDAN6gXZ
-	yT7++L2p/8eLwDPf5QNz0dQ+JdkKzlC8dOqJZYZWlOehmU8ZtmmWnkdebsikM8MW0MMv
-	N7kfmNtPN8PgbuSIEoAb1I0oty5NWRle8xxS2LL/QR4Yc0N/hg++H0VGUUfdmxcNtaRc
-	y3/t2Jv3F4eCTgMGEgHk4W/x+/4IAM/oUOa9MVvF5G2p/soatZXVZizPPJq5DZjPRmVq
-	9MjSq4KE0+rnWAJBzNuS3tDNsDQQdjBMeivo9lgM3pq5tgZOYH8aG4QgOVq78vtabo2o
-	5+1A==
-X-Gm-Message-State: ALoCoQnEHRxhffvyQ2ptIYGw1JQ+kPVb1jnXlkiiSDJGQX7CLso54cy/PAyXwjSMbkf2aS33kxHK
-X-Received: by 10.50.225.1 with SMTP id rg1mr12254373igc.78.1449049780450;
-	Wed, 02 Dec 2015 01:49:40 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Wed, 2 Dec 2015 01:49:21 -0800 (PST)
-In-Reply-To: <2CF57A644018A745B8FE029C7223E16E12EC04A8@SHSMSX104.ccr.corp.intel.com>
+	Wed,  2 Dec 2015 09:50:06 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP; 02 Dec 2015 01:50:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,372,1444719600"; d="scan'208,217";a="6060504"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+	by fmsmga004.fm.intel.com with ESMTP; 02 Dec 2015 01:50:07 -0800
+Received: from fmsmsx118.amr.corp.intel.com (10.18.116.18) by
+	fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Wed, 2 Dec 2015 01:50:07 -0800
+Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
+	fmsmsx118.amr.corp.intel.com (10.18.116.18) with Microsoft SMTP Server
+	(TLS) id 14.3.248.2; Wed, 2 Dec 2015 01:50:07 -0800
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.223]) by
+	SHSMSX151.ccr.corp.intel.com ([169.254.3.92]) with mapi id
+	14.03.0248.002; Wed, 2 Dec 2015 17:50:04 +0800
+From: "Zheng, Wu" <wu.zheng@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] bluez5:upgrade bluez5 to 5.36
+Thread-Index: AQHRKPn1rOayt8jMaUmfeSWmhuLyTZ6vHZyAgAhcSxCAAAFZYA==
+Date: Wed, 2 Dec 2015 09:50:03 +0000
+Message-ID: <2CF57A644018A745B8FE029C7223E16E12EC04D0@SHSMSX104.ccr.corp.intel.com>
 References: <1448618616-30204-1-git-send-email-wu.zheng@intel.com>
-	<CAJTo0LYJCYcDtG1AR3WL-kd8T0=E2nWnhMyucGoZxt-r3JX_0w@mail.gmail.com>
-	<2CF57A644018A745B8FE029C7223E16E12EC04A8@SHSMSX104.ccr.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 2 Dec 2015 09:49:21 +0000
-Message-ID: <CAJTo0LZNZS0ox4usqLW7Q-34rnduFHOcX1cNJktukBcbsQHguA@mail.gmail.com>
-To: "Zheng, Wu" <wu.zheng@intel.com>
+	<CAJTo0LYJCYcDtG1AR3WL-kd8T0=E2nWnhMyucGoZxt-r3JX_0w@mail.gmail.com> 
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bluez5:upgrade bluez5 to 5.36
+Subject: FW: [PATCH] bluez5:upgrade bluez5 to 5.36
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,43 +45,192 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Dec 2015 09:49:40 -0000
-Content-Type: multipart/alternative; boundary=001a1132f15e6d176a0525e7311a
+X-List-Received-Date: Wed, 02 Dec 2015 09:50:07 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_2CF57A644018A745B8FE029C7223E16E12EC04D0SHSMSX104ccrcor_"
 
---001a1132f15e6d176a0525e7311a
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--_000_2CF57A644018A745B8FE029C7223E16E12EC04D0SHSMSX104ccrcor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 2 December 2015 at 09:47, Zheng, Wu <wu.zheng@intel.com> wrote:
+SGkgQnVydG9uLCBSb3NzLA0KDQpJIG1lYW4gdGhhdCBjYW4geW91IGhlbHAgcHJvdmlkZSBtb3Jl
+IGxvZyBpbmZvIGZvciBpdD8NCg0KV2UgY2FuIGdldCB0aGUgbG9nIG9mIGJsdWV6IGJ5IOKAnGJs
+dWV0b290aGQgLWRu4oCdLiBUaGFua3MuDQoNCkJlc3QgUmVnYXJkcw0KWmhlbmcgV3UNCg0KRnJv
+bTogWmhlbmcsIFd1DQpTZW50OiBXZWRuZXNkYXksIERlY2VtYmVyIDIsIDIwMTUgNTo0NyBQTQ0K
+VG86ICdCdXJ0b24sIFJvc3MnDQpDYzogT0UtY29yZQ0KU3ViamVjdDogUkU6IFtPRS1jb3JlXSBb
+UEFUQ0hdIGJsdWV6NTp1cGdyYWRlIGJsdWV6NSB0byA1LjM2DQoNCkhpIEJ1cnRvbiwgUm9zcywN
+Cg0KSXQgc3RpbGwgc2VnZmF1bHRzIG9uIHN0YXJ0dXAgcXVpdGUgb2Z0ZW4gYWZ0ZXIgdGhlIHBh
+dGNoPw0KDQpGcm9tIHRoZSBsb2csIEkgY2Fu4oCZdCBmaW5kIHRoYXQgdGhlIGlzc3VlIGlzIHJl
+bGF0ZWQgd2l0aCBCbHVlei01LjM2Lg0KDQpIb3cgY2FuIEkgZG8gZm9yIGl0PyBUaGFua3MuDQoN
+CkJlc3QgUmVnYXJkcw0KWmhlbmcgV3UNCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9z
+cy5idXJ0b25AaW50ZWwuY29tXQ0KU2VudDogRnJpZGF5LCBOb3ZlbWJlciAyNywgMjAxNSA2OjAz
+IFBNDQpUbzogWmhlbmcsIFd1DQpDYzogT0UtY29yZQ0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
+UEFUQ0hdIGJsdWV6NTp1cGdyYWRlIGJsdWV6NSB0byA1LjM2DQoNCg0KT24gMjcgTm92ZW1iZXIg
+MjAxNSBhdCAxMDowMywgV3UgWmhlbmcgPHd1LnpoZW5nQGludGVsLmNvbTxtYWlsdG86d3Uuemhl
+bmdAaW50ZWwuY29tPj4gd3JvdGU6DQpCbHVlejUtNS4zNiBmaXhlcyB0aGUgbW9zdCBwYXJ0IG9m
+IGJ1Zy4NClRoZSB0YXJnZXQgYXJlYXMgb2YgYnVnIGFyZSBzdWNoIGFzIFBCQVAsIEFWUkNQLCBI
+b0cgYW5kIEdBVFQuDQpJdCBmaXhlcyBhIGZhaXJseSBpbXBvcnRhbnQgYnVnIGZvciB0aGUgR0FU
+VCBELUJ1cyBpbnRlcmZhY2VzIHRvby4NCkF0IHRoZSBzYW1lIHRpbWUsIEJsdWV6IHdpbGwgY2Fj
+aGUgbW9yZSBpbmZvcm1hdGlvbiBvZiByZW1vdGUgR0FUVA0KZGF0YWJhc2VzIGFuZCB0aGVyZWJ5
+IGF2b2lkIHVubmVjZXNzYXJ5IHJlZGlzY292ZXJ5IG9mIHJlbW90ZSBzZXJ2aWNlcy4NCg0KQ3Jp
+c3RpYW4gc3VibWl0dGVkIHRoaXMgdXBncmFkZSBhIHdoaWxlIGJhY2ssIGFuZCBpdCBzZWdmYXVs
+dHMgb24gc3RhcnR1cCBxdWl0ZSBvZnRlbjoNCg0KaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3By
+b2plY3Qub3JnL21haW4vYnVpbGRlcnMvbmlnaHRseS1xYS1sb2dyb3RhdGUvYnVpbGRzLzUzOC9z
+dGVwcy9SdW5uaW5nJTIwU2FuaXR5JTIwVGVzdHMvbG9ncy9zdGRpbw0KDQpXaGVuIGl0IGRvZXNu
+J3QgZG8gdGhhdCwgd2UgY2FuIG1lcmdlIGl0Lg0KDQpSb3NzDQo=
 
-> From the log, I can=E2=80=99t find that the issue is related with Bluez-5=
-.36.
->
->
-With the 5.36 upgrade, bluez segfaults on startup on every qemu image that
-we test on the autobuilder.  It's probably related to the machines not
-having any bluetooth hardware.  It should be easy to fix, just build a qemu
-image and run bluez in gdb.
+--_000_2CF57A644018A745B8FE029C7223E16E12EC04D0SHSMSX104ccrcor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Ross
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
+O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
+MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWui+S9kyI7DQoJ
+cGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0K
+cC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0K
+CW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
+OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0
+eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNp
+dGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsN
+Cgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWls
+U3R5bGUxNw0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbDsNCglmb250LWZhbWlseToiQ2FsaWJy
+aSIsc2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21z
+by1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
+LXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5
+cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1zaXplOjEwLjBwdDt9DQpAcGFnZSBXb3JkU2VjdGlvbjEN
+Cgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7DQoJbWFyZ2luOjcyLjBwdCA5MC4wcHQgNzIuMHB0IDkw
+LjBwdDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5
+bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0
+IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDld
+Pjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRp
+dCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVh
+ZD4NCjxib2R5IGxhbmc9IlpILUNOIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYg
+Y2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJF
+Ti1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkhpDQo8L3NwYW4+PHNwYW4gbGFuZz0iRU4t
+VVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
+dDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5CdXJ0b24sIFJvc3MsPG86cD48L286cD48L3Nw
+YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJm
+b250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
+Zjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkkg
+bWVhbiB0aGF0IGNhbiB5b3UgaGVscCBwcm92aWRlIG1vcmUgbG9nIGluZm8gZm9yIGl0PzxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVT
+IiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
+LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6
+MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjoj
+MUY0OTdEIj5XZSBjYW4gZ2V0IHRoZSBsb2cgb2YgYmx1ZXogYnkg4oCcYmx1ZXRvb3RoZCAtZG7i
+gJ0uIFRoYW5rcy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1
+b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBz
+dHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNh
+bnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+QmVzdCBSZWdhcmRzPG86cD48L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNp
+emU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xv
+cjojMUY0OTdEIj5aaGVuZyBXdTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29tcG9zZSI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxl
+PSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
+ZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L2E+PC9wPg0KPGRp
+diBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5n
+OjBjbSAwY20gMGNtIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3Jk
+ZXItdG9wOnNvbGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSI+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6
+ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5Gcm9t
+Ojwvc3Bhbj48L2I+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
+bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IFpoZW5nLCBXdQ0KPGJy
+Pg0KPGI+U2VudDo8L2I+IFdlZG5lc2RheSwgRGVjZW1iZXIgMiwgMjAxNSA1OjQ3IFBNPGJyPg0K
+PGI+VG86PC9iPiAnQnVydG9uLCBSb3NzJzxicj4NCjxiPkNjOjwvYj4gT0UtY29yZTxicj4NCjxi
+PlN1YmplY3Q6PC9iPiBSRTogW09FLWNvcmVdIFtQQVRDSF0gYmx1ZXo1OnVwZ3JhZGUgYmx1ZXo1
+IHRvIDUuMzY8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1z
+aXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29s
+b3I6IzFGNDk3RCI+SGkgQnVydG9uLCBSb3NzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVw
+dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3
+RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90
+O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5JdCBzdGlsbCBzZWdmYXVs
+dHMgb24gc3RhcnR1cCBxdWl0ZSBvZnRlbiBhZnRlciB0aGUgcGF0Y2g/PG86cD48L286cD48L3Nw
+YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJm
+b250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
+Zjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkZy
+b20gdGhlIGxvZywgSSBjYW7igJl0IGZpbmQgdGhhdCB0aGUgaXNzdWUgaXMgcmVsYXRlZCB3aXRo
+IEJsdWV6LTUuMzYuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZx
+dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIg
+c3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oyxz
+YW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkhvdyBjYW4gSSBkbyBmb3IgaXQ/IFRoYW5rcy48bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1V
+UyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
+OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXpl
+OjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6
+IzFGNDk3RCI+QmVzdCBSZWdhcmRzPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5aaGVu
+ZyBXdTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxh
+bmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
+YnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3Nw
+YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxl
+PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
+ZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXpl
+OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBCdXJ0
+b24sIFJvc3MgWzxhIGhyZWY9Im1haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb20iPm1haWx0bzpy
+b3NzLmJ1cnRvbkBpbnRlbC5jb208L2E+XQ0KPGJyPg0KPGI+U2VudDo8L2I+IEZyaWRheSwgTm92
+ZW1iZXIgMjcsIDIwMTUgNjowMyBQTTxicj4NCjxiPlRvOjwvYj4gWmhlbmcsIFd1PGJyPg0KPGI+
+Q2M6PC9iPiBPRS1jb3JlPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENI
+XSBibHVlejU6dXBncmFkZSBibHVlejUgdG8gNS4zNjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwv
+c3Bhbj48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9
+IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPk9uIDI3IE5vdmVtYmVyIDIwMTUgYXQgMTA6MDMs
+IFd1IFpoZW5nICZsdDs8YSBocmVmPSJtYWlsdG86d3UuemhlbmdAaW50ZWwuY29tIiB0YXJnZXQ9
+Il9ibGFuayI+d3UuemhlbmdAaW50ZWwuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3Nw
+YW4+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlk
+ICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0Ljhw
+dDttYXJnaW4tdG9wOjUuMHB0O21hcmdpbi1yaWdodDowY207bWFyZ2luLWJvdHRvbTo1LjBwdCI+
+DQo8ZGl2IGlkPSI6MXZnIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVT
+Ij5CbHVlejUtNS4zNiBmaXhlcyB0aGUgbW9zdCBwYXJ0IG9mIGJ1Zy48YnI+DQpUaGUgdGFyZ2V0
+IGFyZWFzIG9mIGJ1ZyBhcmUgc3VjaCBhcyBQQkFQLCBBVlJDUCwgSG9HIGFuZCBHQVRULjxicj4N
+Ckl0IGZpeGVzIGEgZmFpcmx5IGltcG9ydGFudCBidWcgZm9yIHRoZSBHQVRUIEQtQnVzIGludGVy
+ZmFjZXMgdG9vLjxicj4NCkF0IHRoZSBzYW1lIHRpbWUsIEJsdWV6IHdpbGwgY2FjaGUgbW9yZSBp
+bmZvcm1hdGlvbiBvZiByZW1vdGUgR0FUVDxicj4NCmRhdGFiYXNlcyBhbmQgdGhlcmVieSBhdm9p
+ZCB1bm5lY2Vzc2FyeSByZWRpc2NvdmVyeSBvZiByZW1vdGUgc2VydmljZXMuPG86cD48L286cD48
+L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48YnI+DQpDcmlzdGlhbiBzdWJtaXR0ZWQgdGhpcyB1
+cGdyYWRlIGEgd2hpbGUgYmFjaywgYW5kIGl0IHNlZ2ZhdWx0cyBvbiBzdGFydHVwIHF1aXRlIG9m
+dGVuOjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
+L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PGEg
+aHJlZj0iaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL21haW4vYnVpbGRlcnMv
+bmlnaHRseS1xYS1sb2dyb3RhdGUvYnVpbGRzLzUzOC9zdGVwcy9SdW5uaW5nJTIwU2FuaXR5JTIw
+VGVzdHMvbG9ncy9zdGRpbyI+aHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL21h
+aW4vYnVpbGRlcnMvbmlnaHRseS1xYS1sb2dyb3RhdGUvYnVpbGRzLzUzOC9zdGVwcy9SdW5uaW5n
+JTIwU2FuaXR5JTIwVGVzdHMvbG9ncy9zdGRpbzwvYT48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
+L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86
+cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPldoZW4gaXQgZG9lc24ndCBkbyB0aGF0LCB3ZSBjYW4g
+bWVyZ2UgaXQuPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
+cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVT
+Ij5Sb3NzPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9k
+aXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
---001a1132f15e6d176a0525e7311a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 December 2015 at 09:47, Zheng, Wu <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:wu.zheng@intel.com" target=3D"_blank">wu.zheng@intel.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><p class=3D"MsoNormal"><span lang=
-=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Calibri&quot;,sans-s=
-erif;color:#1f497d">From the log, I can=E2=80=99t find that the issue is re=
-lated with Bluez-5.36.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"></p></blockquote></div><br>With the 5.36 upgrade, bl=
-uez segfaults on startup on every qemu image that we test on the autobuilde=
-r.=C2=A0 It&#39;s probably related to the machines not having any bluetooth=
- hardware.=C2=A0 It should be easy to fix, just build a qemu image and run =
-bluez in gdb.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
-_extra">Ross</div></div>
-
---001a1132f15e6d176a0525e7311a--
+--_000_2CF57A644018A745B8FE029C7223E16E12EC04D0SHSMSX104ccrcor_--
