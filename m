@@ -1,44 +1,50 @@
-Return-Path: <fabrice.coulon@axis.com>
-X-Greylist: delayed 352 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 02 Dec 2015 09:57:51 UTC
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 66F41601D3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 24F50601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 09:57:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 522A22E11B
+	Wed,  2 Dec 2015 09:57:53 +0000 (UTC)
+Received: by igvg19 with SMTP id g19so114368524igv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 10:51:57 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id Zok5aqyiSofD
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 10:51:56 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id A6F8B2E10A
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 10:51:56 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 8BC441507
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 10:51:56 +0100 (CET)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 7B11811D
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 10:51:56 +0100 (CET)
-Received: from lnxfabrice2.se.axis.com (lnxfabrice2.se.axis.com [10.92.161.3])
-	by seth.se.axis.com (Postfix) with ESMTP id 7677C3E318;
-	Wed,  2 Dec 2015 10:51:56 +0100 (CET)
-Received: by lnxfabrice2.se.axis.com (Postfix, from userid 9523)
-	id BAA2F801E7E; Wed,  2 Dec 2015 10:51:36 +0100 (CET)
-From: Fabrice Coulon <fabrice.coulon@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Dec 2015 10:51:23 +0100
-Message-Id: <1449049883-22195-1-git-send-email-fabrice.coulon@axis.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Fabrice Coulon <fabrice@axis.com>
-Subject: [PATCH] gstreamer1.0: Convert tests and valgrind config opts to PACKAGECONFIGs
+	Wed, 02 Dec 2015 01:57:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=i3KaHptbSbpUeCF+LIsne/lLJfYO6XcncKsjLDvwYGw=;
+	b=BvAb9ipX+lvo0culqHY/2fCNIPZz3FRQrcOghwQbA3tDv1O8OQhMxPXFwBxCK8rPrk
+	n6WcbCIWqj8Mjqo6jS7qLokb9llGsXbcD9LN9lgmu225V0YnUY1VTfrLJ6GqCD9g+fee
+	8yJy1PbNS2PIDvwpJkNYHidFAWBZFkwml2yiTm1WMLzC/rgFjwtksT6/yJy2TT7E810E
+	+y8Te3Eg9VUJvUjxKfDKlGSPqt85UPPyAl0vYBmAEIJZx9utsIt4I3q3cP9veiTI6L5b
+	joL4R0wukpMc4utuo10eOmsUpCqBAeDHDMezUhxoTcrmytdlJVUITEmVir6vpvGtpZmu
+	2cQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=i3KaHptbSbpUeCF+LIsne/lLJfYO6XcncKsjLDvwYGw=;
+	b=gDOCAIFn9T7xQq2cmLg2Niwbm/gONa8Rzc1jwogMuApDL3cchwqdtap2nyF5qSUfT/
+	NECyrA4SC0HqXjup/wgLpJdlKqXie8ylfwsBwqzJoYdzVmpRqqYlL5hq9l1TBk+oZnHB
+	ZKA+Ugigaqjy78hQGaNIIAmOU8ZfJEgD68G3fS394OFRM0CepuHs1bsU0AEg5bD5EZ/t
+	Sp37XhSDz89G5d5QvDjPcHufgH9E3d6AtHv9E0hW8bbbnwGgMaHnt2jV50VfwQz80TYa
+	5iLZTsSYZQpuDrC6gnLfO89+JpoNqRf9mJF1QwRMh1t0DCLiOzx1jAtEo8/J53Xno5bJ
+	aZdg==
+X-Gm-Message-State: ALoCoQlTvD/7XjVU6tDo70fcaK/JD7mRdBpv6ioHEdbkVYeHbenqzA1sN7VjUvXRLHhzEi6/Upsm
+X-Received: by 10.50.28.102 with SMTP id a6mr1237164igh.52.1449050274515; Wed,
+	02 Dec 2015 01:57:54 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Wed, 2 Dec 2015 01:57:35 -0800 (PST)
+In-Reply-To: <565EBF04.6050509@windriver.com>
+References: <cover.1449032673.git.hongxu.jia@windriver.com>
+	<8e3c76d86f19c59b63908de6d7d9c2cc24858858.1449032673.git.hongxu.jia@windriver.com>
+	<CAJTo0LaqebZA8akpdnAtFU2rJHsFX=1AxxtHWbq3JuEe5vBVyg@mail.gmail.com>
+	<565EBF04.6050509@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 2 Dec 2015 09:57:35 +0000
+Message-ID: <CAJTo0Lag5J+cytX8C+Z7b8dmX65MZWJBV6JXQt=Ocwy==szenA@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] python: gcc optimization level 2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,40 +57,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Dec 2015 09:57:52 -0000
+X-List-Received-Date: Wed, 02 Dec 2015 09:57:54 -0000
+Content-Type: multipart/alternative; boundary=089e01538710dfe2940525e74e92
 
-I need to be able to run unit tests and build with valgrind support.
+--089e01538710dfe2940525e74e92
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Fabrice Coulon <fabrice.coulon@axis.com>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On 2 December 2015 at 09:51, Hongxu Jia <hongxu.jia@windriver.com> wrote:
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-index aa95d57..5a67bfd 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-@@ -11,11 +11,12 @@ inherit autotools pkgconfig gettext
- 
- PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
- PACKAGECONFIG[check] = "--enable-check,--disable-check"
-+PACKAGECONFIG[tests] = "--enable-tests,--disable-tests"
-+PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind"
- 
- EXTRA_OECONF = "--disable-docbook --disable-gtk-doc \
-                 --disable-dependency-tracking \
--                --disable-examples --disable-tests \
--                --disable-valgrind \
-+                --disable-examples \
-                 "
- 
- RRECOMMENDS_${PN}_qemux86    += "kernel-module-snd-ens1370 kernel-module-snd-rawmidi"
-@@ -26,4 +27,3 @@ CACHED_CONFIGUREVARS += "ac_cv_header_valgrind_valgrind_h=no"
- FILES_${PN} += " ${libdir}/gstreamer-1.0/*.so ${datadir}/bash-completion/completions/ ${datadir}/bash-completion/helpers/gst*"
- FILES_${PN}-dev += " ${libdir}/gstreamer-1.0/*.la ${libdir}/gstreamer-1.0/*.a ${libdir}/gstreamer-1.0/include"
- FILES_${PN}-dbg += " ${libdir}/gstreamer-1.0/.debug/ ${libexecdir}/gstreamer-1.0/.debug/ ${datadir}/bash-completion/helpers/.debug/"
--
--- 
-1.9.1
+> The root cause is the qemu didn't support gcc optimization level 3 very
+> well.
+>
 
+Oh, so the problem only appears in qemu if you enable tuning that is known
+to be broken in qemu?  I don't think we should apply the Python workaround
+to oe-core as everyone will suffer for a configuration that is known to be
+broken (and isn't enabled in oe-core).
 
+Ross
+
+--089e01538710dfe2940525e74e92
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 2 December 2015 at 09:51, Hongxu Jia <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:hongxu.jia@windriver.com" target=3D"_blank">hongxu.jia@windriver.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div bgcolor=3D"#FFF=
+FFF" text=3D"#000000">The root cause is the
+   =20
+    qemu didn&#39;t support gcc optimization level 3 very well.<br></div></=
+blockquote></div><br>Oh, so the problem only appears in qemu if you enable =
+tuning that is known to be broken in qemu?=C2=A0 I don&#39;t think we shoul=
+d apply the Python workaround to oe-core as everyone will suffer for a conf=
+iguration that is known to be broken (and isn&#39;t enabled in oe-core).</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
+v></div>
+
+--089e01538710dfe2940525e74e92--
