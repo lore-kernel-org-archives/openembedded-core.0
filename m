@@ -1,29 +1,42 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AA6036FF7F
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 21:49:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tB2LncXS029764
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 2 Dec 2015 13:49:38 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.232) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 2 Dec 2015 13:49:37 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <1449091845-168695-1-git-send-email-mark.hatle@windriver.com>
-	<1449091845-168695-3-git-send-email-mark.hatle@windriver.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <565F6770.7070401@windriver.com>
-Date: Wed, 2 Dec 2015 15:49:36 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.4.0
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-lf0-f53.google.com (mail-lf0-f53.google.com
+	[209.85.215.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 618D16FFC8;
+	Wed,  2 Dec 2015 21:58:57 +0000 (UTC)
+Received: by lfs39 with SMTP id 39so65385556lfs.3;
+	Wed, 02 Dec 2015 13:58:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=uy2K9x3nspScejCbNzl71PpGZSjjPKMep4eJnm665bY=;
+	b=hkDqMLGl26/PM5YqxPSYJ3lguqE+VmKSHg7+z/bAeVLMK0KqlrMg0VrYK6GCQJOwSW
+	0opw1Xgq3SJTpkZ3SDUhkPiiJEEgWvZxH1PugzBwrwH10ZEBqvsH6S4fYXLvAczAcA++
+	3EVIfYcNTzF5eKu6Qn/qif6oHjJy1wbybJGso0SNbZVjWJPyrfLeYkHC7v5V8EUBGazx
+	cgEaBlCWat9zKgtGMEKuUaf9flcBOHaUpbnROmKepKlse7hJT7fYhoN979UjxUzHe1I6
+	mNPwx+a252GMH93nkCx8HRMGt97ux1ucGWj+rQrX6tGOg2tOh9sfu/cZa8sRJudwKr9e
+	mXZA==
 MIME-Version: 1.0
-In-Reply-To: <1449091845-168695-3-git-send-email-mark.hatle@windriver.com>
-Subject: Re: [v2 PATCH 2/2] rpm: fix file conflicts for MIPS64 N32
+X-Received: by 10.112.13.98 with SMTP id g2mr3820962lbc.18.1449093537857; Wed,
+	02 Dec 2015 13:58:57 -0800 (PST)
+Received: by 10.25.199.73 with HTTP; Wed, 2 Dec 2015 13:58:57 -0800 (PST)
+In-Reply-To: <CAJTo0LZpgv3KuJXAO6Pa9o_PrRb=aMT3d8Pe6qD2-yvsspEsTw@mail.gmail.com>
+References: <1633798.xAxFJSpIzb@peggleto-mobl.ger.corp.intel.com>
+	<41399562.aYmIK0zX5I@peggleto-mobl.ger.corp.intel.com>
+	<20151201104720.GB2251@jama>
+	<9135219.GRnf9JIkFP@peggleto-mobl.ger.corp.intel.com>
+	<20151202081713.GA2248@jama>
+	<D2847D54.6BF8A%belen.barros.pena@intel.com>
+	<D2847EE2.6BF9C%belen.barros.pena@intel.com>
+	<20151202180440.GC2248@jama>
+	<CAJTo0LZpgv3KuJXAO6Pa9o_PrRb=aMT3d8Pe6qD2-yvsspEsTw@mail.gmail.com>
+Date: Wed, 2 Dec 2015 13:58:57 -0800
+Message-ID: <CANx9H-BhX6kY19y=6yX+9OSh9xOMp2g_-S=NC=sQd4m6A+0=Qg@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Cc: "openembedded-architecture@lists.openembedded.org"
+	<openembedded-architecture@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] Patchwork & patch handling improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,119 +49,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Dec 2015 21:49:39 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 02 Dec 2015 21:58:59 -0000
+Content-Type: multipart/alternative; boundary=001a11c3b8a69208cd0525f16197
 
-On 12/2/15 3:30 PM, Mark Hatle wrote:
-> From: Robert Yang <liezhi.yang@windriver.com>
-> 
-> The following error can occur:
->   smart install libc6-2.22-r0.1@lib32_mips32r2octeon3 libc6-dbg-2.22-r0.1@lib32_mips32r2octeon3
-> error: file /sbin/ldconfig conflicts between attempted installs of libc6-2.22-r0.1.lib32_mips32r2octeon3 and libc6-2.22-r0.1.octeon3_n32
-> error: file /sbin/.debug/ldconfig conflicts between attempted installs of libc6-dbg-2.22-r0.1.lib32_mips32r2octeon3 and libc6-dbg-2.22-r0.1.octeon3_n32
-> 
-> This was because:
-> transactions_color = 001 (ELF32) & 010 (ELF64) & 100 (ELF32 N32 MIPS64)
-> FColor = Current file color (001) & transaction_color (111)
-> oFcolor = Previous file color (100) & transaction_color (111)
-> 
-> There are two places where the conflict comparisons occur.  In both places
-> the 'else' clause was too restrictive (opposite of the 'positive' clause).
-> This caused the system to only permit a binary comparison - "new preferred" or
-> "old preferred".  It did not permissing "neither preferred".  By removing the
+--001a11c3b8a69208cd0525f16197
+Content-Type: text/plain; charset=UTF-8
 
-Above should be written "It did not -permit- "neither preferred"."
+On Wed, Dec 2, 2015 at 10:43 AM, Burton, Ross <ross.burton@intel.com> wrote:
 
-Updated version available at:
+>
+> On 2 December 2015 at 18:04, Martin Jansa <martin.jansa@gmail.com> wrote:
+>
+>> I'm depending on bundles heavily, to "mark" the patches for layers with
+>> dedicated maintainer and also for extra "status" like merged in
+>> "master-next" branch for jenkins build, because standard status values
+>> aren't fine-grained enough.
+>>
+>
+> Sounds like instead of bundles the new patchworks needs the ability for a
+> single list to represent multiple projects (so there'd be a meta-oe,
+> meta-python, etc), and more status values.
+>
+> I agree with Ross that if we can get the functionality we truly need into
+Patchwork--and JaMa can live with the result or help guide the
+functionality--that we have a better path into the future.
 
-git://git.yoctoproject.org/poky-contrib mgh/rpm-n32
+Also, for what it's worth I vote for spaces only. We can provide editor
+templates/settings to make it easy on the end users. There are languages
+that require tabs, there are languages that require spaces. Deal with the
+required tabs when the necessary evil arises.
 
+--Tim
 
-> else comparison the system will now perform a 'last-in-wins' resolution when
-> "neither is preferred".
-> 
-> Note, if _transaction_color is 3, MIPS64 N32 will be skipped (pretend as
-> installed).
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
->  ...ction.c-fix-file-conflicts-for-mips64-N32.patch | 52 ++++++++++++++++++++++
->  meta/recipes-devtools/rpm/rpm_5.4.14.bb            |  1 +
->  2 files changed, 53 insertions(+)
->  create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lib-transaction.c-fix-file-conflicts-for-mips64-N32.patch
-> 
-> diff --git a/meta/recipes-devtools/rpm/rpm/rpm-lib-transaction.c-fix-file-conflicts-for-mips64-N32.patch b/meta/recipes-devtools/rpm/rpm/rpm-lib-transaction.c-fix-file-conflicts-for-mips64-N32.patch
-> new file mode 100644
-> index 0000000..ed5d8a7
-> --- /dev/null
-> +++ b/meta/recipes-devtools/rpm/rpm/rpm-lib-transaction.c-fix-file-conflicts-for-mips64-N32.patch
-> @@ -0,0 +1,52 @@
-> +From 67ec7531e6297200eaa97ef917d49b0a75876cb4 Mon Sep 17 00:00:00 2001
-> +From: Robert Yang <liezhi.yang@windriver.com>
-> +Date: Wed, 2 Dec 2015 00:56:07 -0800
-> +Subject: [PATCH] lib/transaction.c: fix file conflicts for MIPS64 N32
-> +
-> +The following error can occur:
-> +  smart install libc6-2.22-r0.1@lib32_mips32r2octeon3 libc6-dbg-2.22-r0.1@lib32_mips32r2octeon3
-> +error: file /sbin/ldconfig conflicts between attempted installs of libc6-2.22-r0.1.lib32_mips32r2octeon3 and libc6-2.22-r0.1.octeon3_n32
-> +error: file /sbin/.debug/ldconfig conflicts between attempted installs of libc6-dbg-2.22-r0.1.lib32_mips32r2octeon3 and libc6-dbg-2.22-r0.1.octeon3_n32
-> +
-> +This was because:
-> +transactions_color = 001 (ELF32) & 010 (ELF64) & 100 (ELF32 N32 MIPS64)
-> +FColor = Current file color (001) & transaction_color (111)
-> +oFcolor = Previous file color (100) & transaction_color (111)
-> +
-> +There are two places where the conflict comparisons occur.  In both places
-> +the 'else' clause was too restrictive (opposite of the 'positive' clause).
-> +This caused the system to only permit a binary comparison - "new preferred" or
-> +"old preferred".  It did not permissing "neither preferred".  By removing the
-> +else comparison the system will now perform a 'last-in-wins' resolution when
-> +"neither is preferred".
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> +Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> +---
-> + lib/transaction.c |    3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +Index: rpm-5.4.14/lib/transaction.c
-> +===================================================================
-> +--- rpm-5.4.14.orig/lib/transaction.c
-> ++++ rpm-5.4.14/lib/transaction.c
-> +@@ -154,7 +154,7 @@ static int handleInstInstalledFile(const
-> + 		fi->actions[fx] = FA_SKIPCOLOR;
-> + #endif
-> + 		rConflicts = 0;
-> +-	    } else if (FColor & prefcolor) {
-> ++	    } else {
-> + #ifdef	REFERENCE
-> + 		rpmfsSetAction(fs, fx, FA_CREATE);
-> + #else
-> +@@ -420,7 +420,7 @@ assert(otherFi != NULL);
-> + 			fi->actions[i] = FA_SKIPCOLOR;
-> + 			rConflicts = 0;
-> + 		    } else
-> +-		    if (FColor == 0 && oFColor == 0) {
-> ++		    {
-> + 			/* ... otherwise, do both, last in wins. */
-> + 			otherFi->actions[otherFileNum] = FA_CREATE;
-> + 			fi->actions[i] = FA_CREATE;
-> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> index e22d208..09baac0 100644
-> --- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> @@ -102,6 +102,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
->  	   file://configure.ac-check-for-both-gpg2-and-gpg.patch \
->  	   file://0001-define-EM_AARCH64.patch \
->  	   file://rpm-rpmfc.c-fix-for-N32-MIPS64.patch \
-> +	   file://rpm-lib-transaction.c-fix-file-conflicts-for-mips64-N32.patch \
->  	  "
->  
->  # Uncomment the following line to enable platform score debugging
-> 
+>
+>
 
+--001a11c3b8a69208cd0525f16197
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Wed, Dec 2, 2015 at 10:43 AM, Burton, Ross <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"=
+><div class=3D"gmail_extra"><span class=3D""><br><div class=3D"gmail_quote"=
+>On 2 December 2015 at 18:04, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"overflo=
+w:hidden">I&#39;m depending on bundles heavily, to &quot;mark&quot; the pat=
+ches for layers with<br>
+dedicated maintainer and also for extra &quot;status&quot; like merged in<b=
+r>
+&quot;master-next&quot; branch for jenkins build, because standard status v=
+alues<br>
+aren&#39;t fine-grained enough.</div></blockquote></div><br></span>Sounds l=
+ike instead of bundles the new patchworks needs the ability for a single li=
+st to represent multiple projects (so there&#39;d be a meta-oe, meta-python=
+, etc), and more status values.</div><span class=3D"HOEnZb"><font color=3D"=
+#888888"><div class=3D"gmail_extra"><br></div></font></span></div></blockqu=
+ote><div>I agree with Ross that if we can get the functionality we truly ne=
+ed into Patchwork--and JaMa can live with the result or help guide the func=
+tionality--that we have a better path into the future.</div><div><br></div>=
+<div>Also, for what it&#39;s worth I vote for spaces only. We can provide e=
+ditor templates/settings to make it easy on the end users. There are langua=
+ges that require tabs, there are languages that require spaces. Deal with t=
+he required tabs when the necessary evil arises.</div><div><br></div><div>-=
+-Tim=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex">
+<br></blockquote></div><br></div></div>
+
+--001a11c3b8a69208cd0525f16197--
