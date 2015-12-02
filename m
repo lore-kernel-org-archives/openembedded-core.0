@@ -1,46 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FF3E60132
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 05EB3605FF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Dec 2015 16:55:14 +0000 (UTC)
-Received: by wmuu63 with SMTP id u63so223318861wmu.0
+	Wed,  2 Dec 2015 16:55:15 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so223332763wmw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Dec 2015 08:55:15 -0800 (PST)
+	Wed, 02 Dec 2015 08:55:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=QqzLxStrXnCEWcaMRAKk0Z9OFb7V69G9Ln/buqZ08wE=;
-	b=1rb7mxWocLN5FmmGQp+70TF3FG+ifUtkYFFTkoAOnPQArnDsO/4/Vtx0N/P5RMZlv9
-	IPwiVr4YTQU4Uc8HESBsLACwJcYYAld+oVqAmq9hnKtiQ1IZDhNjTV6aVyz59upbhFrx
-	pIqKIaDJq512QkC1ah1xefj6KK3AzZbVsplvKv62XvYzHNFa/0rCRn4PfUmND3dCtbc7
-	X7x9Kjmou04CtHaRCb/ktIR5Uz3/cL3aBAak2iuQaS1Kt/5kBaD/MhfCMNCMfROnmeoW
-	4Sn7gQWP5lx657nwZyYxXQB1mq8S+QcdoQrtFvRcwvxcOqy2VwJkxrzm0Ukmq1Lju1ny
-	hToQ==
+	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
+	:references; bh=iuow8CP0+8JqDwmGlFCEQ2ZNIZAytJxqjTVRQPHoJMY=;
+	b=p63TXyDx0aumMFoP5hvJfE7V0JJyqkWKS3J2S4QkkwgeDgq2Ev0mqEpww+5Yho2ntP
+	UW1PFfqnNTu6E9x0TkuXa1tIz5OmW4UtQ3emCptskohkofxA1H2uI/9vlrUws9aKp0MC
+	9qsYpyyFY3O7UrotTGXO+IQKX+CuOJM5CuudYIhedZ6kAJXrYHeILMRUy6JMggYtmW8Q
+	uiaZ/LqJc+K2DeHoJMfHc7VgoPehd48TWq3KRL7g75ngJRqPQEOaXyASQ9GHxGpj3OIf
+	hKrZZLkLzzSAa2vJ43jA5ygKFQKUrZw0LlMnJdfyWx4YDhp85uE10tBntgKrQrMfLMM1
+	dJhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=QqzLxStrXnCEWcaMRAKk0Z9OFb7V69G9Ln/buqZ08wE=;
-	b=NYzccFRQg1Uo9toiEkPXzTzN+HqIhJsWZ0FnS8k53WSuBVFsXZO71byUGkS/25vFpB
-	gh2vLAfud7NjTMkp2yApKgY3OtlpoyexGWXwDirgiOZyt7DQrhQ+rGpVMY5qRe6me7h/
-	rdx+KHv/eEEExgUSUgeJUxupMw/AszjxNjaY5MFnMY1gsE1JMFR00bRjSBqK3dtTIsNU
-	gfRfnv8k4h+i+ZkStmLOJkSetwV0CscNBfWqdECSGIHO+GdGlv4NzSuieuVTWXQrnZ+x
-	3edJRCfiNHm84070KcE+Puokdz8MqKEMzRI3e3cFkgJnJSI0CYM3K9iajq9Rx27CMwdl
-	fASQ==
-X-Gm-Message-State: ALoCoQkIz4Rp3rtT03vYzB5dWZi9g+R66vsDwPcBNxuOBdU6KWh8OlF61ESB3Y+drZBpVR4WmPDy
-X-Received: by 10.28.171.134 with SMTP id u128mr47316441wme.22.1449075315174; 
-	Wed, 02 Dec 2015 08:55:15 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:in-reply-to:references;
+	bh=iuow8CP0+8JqDwmGlFCEQ2ZNIZAytJxqjTVRQPHoJMY=;
+	b=HN6IIlbtCXSuPzq9J5sbOoPjAQQpkRKAiChBp8CBX1VPYi3RpGHA6D6yGtB/7QFpQe
+	SLkOKonyf7o6oDofH5nBodrKSJ72Ia1wPiYWF+kgxNRQb7kahadDAYTCYekUNeWngcY8
+	vtiu/jRGHLm0zqsWFCzwrUx+F4Q7FlH4qQWNZvhxtgnJNQso3gUF8o25y8wDy3VjIgsG
+	SvLxVtl2AUaLLydkHh6drQXIY0DVyATQNWmsyG5O14lT3qcw4n/Qe5aZKoz/k6m/YFCz
+	vDXsLfhbB1krjX9Q3KT/Wl3x11qC+2PCrmREjff6WvqJBRnRvDHBVuEHydshIiQ5gRnr
+	2NRA==
+X-Gm-Message-State: ALoCoQmSNEVwr62Xwv0RNT8E/VqxW8kVAxKrekHO5fQi195KsU3hxplK8AgMHk4LF/M1+aTyEi+O
+X-Received: by 10.194.187.179 with SMTP id ft19mr6155284wjc.176.1449075316116; 
+	Wed, 02 Dec 2015 08:55:16 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	n127sm31540389wmf.12.2015.12.02.08.55.14
+	n127sm31540389wmf.12.2015.12.02.08.55.15
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 02 Dec 2015 08:55:14 -0800 (PST)
+	Wed, 02 Dec 2015 08:55:15 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Dec 2015 16:55:08 +0000
-Message-Id: <cover.1449075091.git.ross.burton@intel.com>
+Date: Wed,  2 Dec 2015 16:55:09 +0000
+Message-Id: <c2a486451e9218b62178bef81cbe011b87b2ee6c.1449075091.git.ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/2] Enable libsdl-native
+In-Reply-To: <cover.1449075091.git.ross.burton@intel.com>
+References: <cover.1449075091.git.ross.burton@intel.com>
+In-Reply-To: <cover.1449075091.git.ross.burton@intel.com>
+References: <cover.1449075091.git.ross.burton@intel.com>
+Subject: [PATCH 1/2] base: check for existing prefix when expanding names in PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +60,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 02 Dec 2015 16:55:17 -0000
 
-Hi,
+When the DEPENDS are added as part of the PACKAGECONFIG logic the list of
+packages are expanded so that any required nativesdk-/-native/multilib prefixes
+and suffixes are added.
 
-This is part 1 of the intrusive changes to master to change qemu-native from
-linking to the host libsdl to build a libsdl-native.  This part isn't actually
-intrusive and just enables libsdl-native, with a fix to the PACKAGECONFIG
-handling to make it work.
+However the special handling of virtual/foo names doesn't check that the prefix
+already exists, which breaks under nativesdk as in that situation there's an
+explicit nativesdk- prefix *and* MLPREFIX is set to nativesdk-.  This results in
+the same prefix being applied twice, and virtual packages such as virtual/libx11
+ending up as virtual/nativesdk-nativesdk-libx11.
 
-Ross
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/base.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-The following changes since commit 698c74c373110ed081a7586e21d4a27b8b44c89b:
-
-  libsdl: remove redundant configure_tweak patch (2015-12-01 21:32:15 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/sdl
-
-for you to fetch changes up to 58ec5aaf4b7988eb0feda9961ab4b6f7bd8361c9:
-
-  libsdl: expand PACKAGECONFIG and enable native builds (2015-12-02 14:58:59 +0000)
-
-----------------------------------------------------------------
-Ross Burton (2):
-      base: check for existing prefix when expanding names in PACKAGECONFIG
-      libsdl: expand PACKAGECONFIG and enable native builds
-
- meta/classes/base.bbclass                     |  5 +++-
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 35 ++++++++++++++-------------
- 2 files changed, 22 insertions(+), 18 deletions(-)
-
-Ross Burton (2):
-  base: check for existing prefix when expanding names in PACKAGECONFIG
-  libsdl: expand PACKAGECONFIG and enable native builds
-
- meta/classes/base.bbclass                     |  5 +++-
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 35 ++++++++++++++-------------
- 2 files changed, 22 insertions(+), 18 deletions(-)
-
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index e6d1599..4ea400e 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -363,7 +363,10 @@ python () {
+                     newappends.append(a)
+                 elif a.startswith("virtual/"):
+                     subs = a.split("/", 1)[1]
+-                    newappends.append("virtual/" + prefix + subs + extension)
++                    if subs.startswith(prefix):
++                        newappends.append(a + extension)
++                    else:
++                        newappends.append("virtual/" + prefix + subs + extension)
+                 else:
+                     if a.startswith(prefix):
+                         newappends.append(a + extension)
 -- 
 2.1.4
 
