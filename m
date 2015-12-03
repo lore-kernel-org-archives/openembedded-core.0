@@ -1,50 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 892DD6FF25;
-	Thu,  3 Dec 2015 14:04:33 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so28511826wme.0;
-	Thu, 03 Dec 2015 06:04:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=joXF27UmVKSogYPV7ZRjzg4TDvOLYnTS358OyoKQ3IA=;
-	b=qIDjTIsqQvzzHxn9KJ+1zVXII5+tmd86vgWpPlog6QxcVKP/onQgK2/RvFYp2YCkMe
-	NrcZQBXOcV89ng376UiOCOIHlyKaILqr3EIWZ7UmHn9aWnzTNHrzd8jXjbdkAjrRX3VV
-	50xZoi1u/h5z4dDOi3jjXtmiIY7hcwxKcu0rsg3XhIhZfYGxAG07ddehFVtKQQhbvW68
-	N+5//xKPhLbnAlkA1+t0sf6nMDmrcgj5NV4kCB4gdImpyHizMa7m2nPhx8+aZurZOu9v
-	5cQ91jAd4Qm95lLQA2ZYNMHYKnTvQEqG6b7zWCVFPKWh831OfHOEOzI5WQIpCrAyhAvO
-	NMKw==
-X-Received: by 10.28.136.149 with SMTP id k143mr12196713wmd.57.1449151473528; 
-	Thu, 03 Dec 2015 06:04:33 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	gl10sm7680872wjb.30.2015.12.03.06.04.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 03 Dec 2015 06:04:32 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 3 Dec 2015 15:05:48 +0100
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20151203140548.GA2244@jama>
-References: <41399562.aYmIK0zX5I@peggleto-mobl.ger.corp.intel.com>
-	<20151201104720.GB2251@jama>
-	<9135219.GRnf9JIkFP@peggleto-mobl.ger.corp.intel.com>
-	<20151202081713.GA2248@jama>
-	<D2847D54.6BF8A%belen.barros.pena@intel.com>
-	<D2847EE2.6BF9C%belen.barros.pena@intel.com>
-	<20151202180440.GC2248@jama>
-	<CAJTo0LZpgv3KuJXAO6Pa9o_PrRb=aMT3d8Pe6qD2-yvsspEsTw@mail.gmail.com>
-	<D285DA30.6C15E%belen.barros.pena@intel.com>
-	<CAJTo0LYGSR=TZeH--jFsc+DnE09K0zF4Xw2KhRfA_aazaDV0Dw@mail.gmail.com>
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id AB4956072C
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  3 Dec 2015 14:13:50 +0000 (UTC)
+Received: by iofh3 with SMTP id h3so82052823iof.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Dec 2015 06:13:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=P7/TgVJNiesWYiXqFvshpiqNici6QoFKiR2F1Q6OwZk=;
+	b=RI5+RAYENDvjLQFJmdu5xPLO6H1hAkhcUyA6gzW2e5A7J6mU0wqFeyhl6FX5y596lN
+	hcKjOAAdBMDWX5Hw5feIuhEXOCqU8Sihym+iqCCBpP/5nhJP3T2LO93NviVJsNP7YrXV
+	iuVW5XbMWPZHB5pNz7ngixSayink2AWJIZh724M07q2wwP8Owf9McrbM9WZgCXPgUTLy
+	bwf4V7FlNndaX7tDEPdua1xb6O13pMEEsob+5lsztXDuZg+gJ/mSD1yRPnM9AGgmyLQi
+	tdXshskU6VgSv5saQyf9qxWQpHX68RTnZ9KjS2D0xKNM5YOAjs6o1vZAi0AIbhR041tX
+	2oDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=P7/TgVJNiesWYiXqFvshpiqNici6QoFKiR2F1Q6OwZk=;
+	b=mMDIHXXesUKwx43M9YYJc73gZv8Kkca2mdecVkSNyFYVgpcaw0NaT+U+0eLsRlAvAu
+	naH7zFs6PKOEveVRvkFzyyZFSZHPJci5zxf8I64+y+MqcseBifq5H30v3W8nwd9lAW2Q
+	TlJk1J0AZj8nOq100S1yzbMxItVp0aIsAhetImNqY5OaVh8MnbHCkaSMrYy+wGtZhzyN
+	IgDm1AN4+SyC9Nncd6EuZRSa8ApjvdJ9TV++KI8Nq0gUAPyc9P9gBs5hP28tJcG8DBMz
+	S+egbdypL4po/AoVNm6N7QvGp2MskSanEirBGiu2iVZHpOphrSE67vefCIxwNGPe6Fq2
+	nl9A==
+X-Gm-Message-State: ALoCoQm5S7Pm/tELzVcE4G2Ei9+/5L9EvumIb+UFgXX3rQbr+BwcdDPu2X72La3tV8tg2pg89QTd
+X-Received: by 10.107.130.155 with SMTP id m27mr10152860ioi.133.1449152031189; 
+	Thu, 03 Dec 2015 06:13:51 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYGSR=TZeH--jFsc+DnE09K0zF4Xw2KhRfA_aazaDV0Dw@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Lespiau,
-	Damien" <damien.lespiau@intel.com>,
-	"openembedded-architecture@lists.openembedded.org"
-	<openembedded-architecture@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Patchwork & patch handling improvements
+Received: by 10.107.136.141 with HTTP; Thu, 3 Dec 2015 06:13:31 -0800 (PST)
+In-Reply-To: <acbe0c86991efd2efd47b5863d5207c92bb90b70.1449123744.git.kai.kang@windriver.com>
+References: <cover.1449123744.git.kai.kang@windriver.com>
+	<acbe0c86991efd2efd47b5863d5207c92bb90b70.1449123744.git.kai.kang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 3 Dec 2015 14:13:31 +0000
+Message-ID: <CAJTo0Lb0qXpx0RL23XCfrh3JV_pDnDrENWyoyoehQTX6uNhqoA@mail.gmail.com>
+To: Kang Kai <kai.kang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] packagegroup-core-tools-testapps: disable kexec for mips64 and mis64n32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,59 +55,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Dec 2015 14:04:33 -0000
-X-Groupsio-MsgNum: 74315
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="jRHKVT23PllUwdXP"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 03 Dec 2015 14:13:53 -0000
+Content-Type: multipart/alternative; boundary=001a113ecd940b8d2d0525ff00f2
 
---jRHKVT23PllUwdXP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a113ecd940b8d2d0525ff00f2
+Content-Type: text/plain; charset=UTF-8
+
+On 3 December 2015 at 06:32, <kai.kang@windriver.com> wrote:
+
+> @@ -15,6 +15,8 @@ inherit packagegroup
+>  KEXECTOOLS ?= "kexec"
+>  KEXECTOOLS_mips ?= ""
+>  KEXECTOOLS_mipsel ?= ""
+> +KEXECTOOLS_mips64 ?= ""
+> +KEXECTOOLS_mips64n32 ?= ""
+>  KEXECTOOLS_powerpc ?= ""
+>  KEXECTOOLS_e5500-64b ?= ""
+>  KEXECTOOLS_aarch64 ?= ""
+>
+
+I've rebased this on top of Maxin's patch that removed many of these
+exclusions (mips, mipsel, powerpc, aarch64), but could you confirm that is
+the right thing to do?
+
+Ross
+
+--001a113ecd940b8d2d0525ff00f2
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 03, 2015 at 12:51:22PM +0000, Burton, Ross wrote:
-> On 3 December 2015 at 11:43, Barros Pena, Belen <belen.barros.pena@intel.=
-com
-> > wrote:
->=20
-> > >and more status values.
-> >
-> > You can add status values (to the db directly or via the Django admin
-> > interface), but they will apply to all projects in the Patchwork instan=
-ce.
-> > Ideally you should be able to set a list of status values per project I
-> > guess.
-> >
->=20
-> Well it depends on what the extra values are.  Martin, what values do you
-> use?  A "merged in staging" value would be useful for everyone.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 December 2015 at 06:32,  <span dir=3D"ltr">&lt;<a href=3D"mailto:kai.k=
+ang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;</span> =
+wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><div id=3D":6pz" class=3D"a3s" sty=
+le=3D"overflow:hidden">@@ -15,6 +15,8 @@ inherit packagegroup<br>
+=C2=A0KEXECTOOLS ?=3D &quot;<span class=3D"il">kexec</span>&quot;<br>
+=C2=A0KEXECTOOLS_mips ?=3D &quot;&quot;<br>
+=C2=A0KEXECTOOLS_mipsel ?=3D &quot;&quot;<br>
++KEXECTOOLS_mips64 ?=3D &quot;&quot;<br>
++KEXECTOOLS_mips64n32 ?=3D &quot;&quot;<br>
+=C2=A0KEXECTOOLS_powerpc ?=3D &quot;&quot;<br>
+=C2=A0KEXECTOOLS_e5500-64b ?=3D &quot;&quot;<br>
+=C2=A0KEXECTOOLS_aarch64 ?=3D &quot;&quot;</div></blockquote></div><br>I&#3=
+9;ve rebased this on top of Maxin&#39;s patch that removed many of these ex=
+clusions (mips, mipsel, powerpc, aarch64), but could you confirm that is th=
+e right thing to do?</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
 
-The list of bundles is in:
-http://www.openembedded.org/wiki/Patchwork#Multiple_layers_sharing_the_same=
-_oe_project_on_patchwork
-
-Once the patches are added to correct bundles I mark them as archived to
-know which ones were sorted (the main page gets empty).
-
-Advantage of bundles (something similar can probably work with tags) is
-that the same patch can be in multiple bundles, e.g. I can include some
-change in master-next branch and bundle while also adding it to
-meta-networking bundle for Joe to merge it when ready.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---jRHKVT23PllUwdXP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlZgTDsACgkQN1Ujt2V2gByr1ACgrEL6a9RadKu3n+F3QrKeqQdg
-iNcAoJjP3/Uh7rUnHVShMsL9Ppa+qDlV
-=tV2Q
------END PGP SIGNATURE-----
-
---jRHKVT23PllUwdXP--
+--001a113ecd940b8d2d0525ff00f2--
