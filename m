@@ -1,26 +1,26 @@
-Return-Path: <vz@mleia.com>
-Received: from mail.mleia.com (mleia.com [178.79.152.223])
-	by mail.openembedded.org (Postfix) with ESMTP id E22FD6FF76
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B71D6FFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Dec 2015 05:57:45 +0000 (UTC)
-Received: from mail.mleia.com (localhost [127.0.0.1])
-	by mail.mleia.com (Postfix) with ESMTP id 02CF3400527;
-	Thu,  3 Dec 2015 05:59:36 +0000 (GMT)
-Message-ID: <565FD9D2.3050707@mleia.com>
-Date: Thu, 03 Dec 2015 07:57:38 +0200
-From: Vladimir Zapolskiy <vz@mleia.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Icedove/31.6.0
+	Thu,  3 Dec 2015 06:44:02 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tB36i3YT017421
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 2 Dec 2015 22:44:03 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 2 Dec 2015 22:44:03 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 3 Dec 2015 14:32:26 +0800
+Message-ID: <acbe0c86991efd2efd47b5863d5207c92bb90b70.1449123744.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.6.1
+In-Reply-To: <cover.1449123744.git.kai.kang@windriver.com>
+References: <cover.1449123744.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1449031718-3786-1-git-send-email-vz@mleia.com>
-	<CAJTo0Lbzvbwc34aXEMgfUJGnANMzaB+4ecM1=sa=8KONeTJukw@mail.gmail.com>
-In-Reply-To: <CAJTo0Lbzvbwc34aXEMgfUJGnANMzaB+4ecM1=sa=8KONeTJukw@mail.gmail.com>
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
-X-CRM114-CacheID: sfid-20151203_055936_032637_BCD96FE8 
-X-CRM114-Status: GOOD (  14.70  )
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package_ipk: allow to specify OPKG_ARGS in local.conf
+Subject: [PATCH 1/1] packagegroup-core-tools-testapps: disable kexec for mips64 and mis64n32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Dec 2015 05:57:46 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 03 Dec 2015 06:44:03 -0000
+Content-Type: text/plain
 
-Hi Ross,
+From: Kai Kang <kai.kang@windriver.com>
 
-On 02.12.2015 11:48, Burton, Ross wrote:
-> 
-> On 2 December 2015 at 04:48, Vladimir Zapolskiy <vz@mleia.com
-> <mailto:vz@mleia.com>> wrote:
-> 
->       sh: /tmp/opkg-5jPLag/run-postinsts-UsUtaI/preinst: /bin/sh: bad
->     interpreter: Permission denied
-> 
-> 
-> Whilst the patch is fine, this is worrying as noexec /tmp shouldn't
-> break opkg.  Maybe opkg should be changed to use something in /var for
-> the scripts?
-> 
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-here IMHO two cases should be reviewed, build host side execution and
-opkg on a target.
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+index 95b3988..750ba84 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+@@ -15,6 +15,8 @@ inherit packagegroup
+ KEXECTOOLS ?= "kexec"
+ KEXECTOOLS_mips ?= ""
+ KEXECTOOLS_mipsel ?= ""
++KEXECTOOLS_mips64 ?= ""
++KEXECTOOLS_mips64n32 ?= ""
+ KEXECTOOLS_powerpc ?= ""
+ KEXECTOOLS_e5500-64b ?= ""
+ KEXECTOOLS_aarch64 ?= ""
+-- 
+2.6.1
 
-On a target /var/lib/opkg/$some_dir should be fine as a default
-temporary directory, and it might be nice to have a config option in
-/etc/opkg/opkg.conf
-
-On a build host side /var/* may have permission restrictions also, so
-* there should be a possibility to accept a user defined tmp dir,
-* if /tmp is not good enough as a default opkg directory, probably some
-subfolder of ${TOPDIR} should fit, either a fixed one or dynamic
-somewhere in a working folder of bb recipe, which calls opkg.
-
-Just my two cents.
-
-With best wishes,
-Vladimir
 
