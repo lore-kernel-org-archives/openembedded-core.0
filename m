@@ -1,47 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 7759270018
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D2C36FF25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Dec 2015 14:19:11 +0000 (UTC)
-Received: by igcto18 with SMTP id to18so12736986igc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Dec 2015 06:19:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=LgvrDutGhWEpTplMGFPjdHBj+GARIaBRHZUSMzhUyug=;
-	b=2Iu2G9hSnV0Ch4nbeCwQb+Bfw+KVWNHkIA6CPKW4u3fsUt46CIyQlG9OYOxJFT5tls
-	TY3VyZbUMzZH02sN/gRz5FaGkLaMCA/L29JIkdeWebwFrqs2Cs9868Pt3RUfG8EFkDGp
-	XUrfd0YuZjARwMAHLz5JdE0qPlu00gScQXpqBQjPliLIg7jXfWY5hlwaHGy74sYBU2Rm
-	6eK60jCEP+jBq5LZbRoMlA9Me9rJbu6wHE+W/dxv5AANi+qwGlkIuAFnZDcgoJ18Y7+P
-	y1iwV4MlSMDPHCOVP9FUpmpvc65fJZu+lWNeKgygi6Wf+XF//oOR0xazHAHq534WAKSg
-	p9VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=LgvrDutGhWEpTplMGFPjdHBj+GARIaBRHZUSMzhUyug=;
-	b=Ji7uqyvFK6CVbJ7W7iFYeHYrVNNSLg6Dh5vIPbZDbALpNH7n4Zn2/hFClLkD5MKqyi
-	hNgXppbPtwD9RVvpQ9eZfuggLwb1VtnkQCkeG2dZ9zlgIs9dPtpYxmOs42TVWohRAujH
-	V/xpZzwFckl6ruPOXlxgo8rTSrVH2k3yE3gE6Rr611SPiCwMbs/OR3sL0mefCdAw+Sfy
-	nl04Tr29XfokwqN/McVG+0hTXXq9wFgo94THsUCEYPdSrDu17iNREACfj5PrUZ1Vj5yr
-	MHemPdfOr45jmH5Cn2G3CmjAiORUPyFAykyyMEagByvlEND/0VMh4niTkxoG3/0bxsCK
-	vQ6Q==
-X-Gm-Message-State: ALoCoQm5/dNQ+kjK9nsa/kO+7WPl2DtMzzBZYVWQTtxBRg7qx0CeG+5kKjOvynFjqiUOy7spK0HK
-X-Received: by 10.50.30.69 with SMTP id q5mr9993896igh.78.1449152352539; Thu,
-	03 Dec 2015 06:19:12 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Thu, 3 Dec 2015 06:18:53 -0800 (PST)
-In-Reply-To: <1449137834-20165-1-git-send-email-adrian.ratiu@ni.com>
-References: <1449137834-20165-1-git-send-email-adrian.ratiu@ni.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 3 Dec 2015 14:18:53 +0000
-Message-ID: <CAJTo0LYjcHpM20DUiu2CzR8hw-wH0zCya+nUzGjBC1FkMRmzPw@mail.gmail.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RESEND PATCH] x11vnc: move recipe to meta-oe
+	Thu,  3 Dec 2015 14:35:59 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 03 Dec 2015 06:36:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,378,1444719600"; d="scan'208";a="853148682"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Dec 2015 06:35:58 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 Dec 2015 16:33:21 +0200
+Message-Id: <cover.1449152021.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+Subject: [PATCH 0/9] Move Qt4 recipes to a separate meta-qt4 layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,44 +27,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Dec 2015 14:19:12 -0000
-Content-Type: multipart/alternative; boundary=047d7bdc1c0c330f010525ff13b6
+X-List-Received-Date: Thu, 03 Dec 2015 14:35:59 -0000
 
---047d7bdc1c0c330f010525ff13b6
-Content-Type: text/plain; charset=UTF-8
+Qt4 is reaching end of life at the end of 2015, and will not be supported
+upstream. Qt4 recipes are moved out of oe-core to a separate meta-qt4 layer
+available here:
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-qt4/about/
 
-On 3 December 2015 at 10:17, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+This patchset removes Qt4 from oe-core. I cannot send it to the list for review
+because it contains very long lines that SMTP cannot handle.
 
-> x11vnc can be configured with --use-system-libvncserver to use an
-> external libvncserver which will be added to meta-oe. Since oe-core
-> should not depend on meta-oe, we move x11vnc there.
->
-> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
->
+The following changes since commit 698c74c373110ed081a7586e21d4a27b8b44c89b:
 
-Obviously we shouldn't remove it from oe-core until it's been merged into
-meta-oe, so please ping when that's happened.
+  libsdl: remove redundant configure_tweak patch (2015-12-01 21:32:15 +0000)
 
-Ross
+are available in the git repository at:
 
---047d7bdc1c0c330f010525ff13b6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+  git://git.yoctoproject.org/poky-contrib akanavin/remove-qt4
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/remove-qt4
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 December 2015 at 10:17, Ioan-Adrian Ratiu <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adrian.ratiu@ni.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":8qy" class=
-=3D"a3s" style=3D"overflow:hidden">x11vnc can be configured with --use-syst=
-em-libvncserver to use an<br>
-external libvncserver which will be added to meta-oe. Since oe-core<br>
-should not depend on meta-oe, we move x11vnc there.<br>
-<br>
-Signed-off-by: Ioan-Adrian Ratiu &lt;<a href=3D"mailto:adrian.ratiu@ni.com"=
->adrian.ratiu@ni.com</a>&gt;</div></blockquote></div><br>Obviously we shoul=
-dn&#39;t remove it from oe-core until it&#39;s been merged into meta-oe, so=
- please ping when that&#39;s happened.</div><div class=3D"gmail_extra"><br>=
-</div><div class=3D"gmail_extra">Ross</div></div>
+Alexander Kanavin (9):
+  qt4: remove recipes and classes
+  core-image.bbclass: drop qt4 references
+  core-image-sato-sdk: drop qt4 references
+  recipes.txt: drop qt4 references
+  documentation.conf: drop qt4 references
+  default-distrovars.inc: drop qt4 references
+  distro_alias.inc: drop qt4 references
+  package_regex.inc: drop qt4 references
+  packagegroup-core-lsb: treat qt4 packages same as qt3 packages
 
---047d7bdc1c0c330f010525ff13b6--
+ meta/classes/core-image.bbclass                    |   2 -
+ meta/classes/qmake2.bbclass                        |  27 --
+ meta/classes/qmake_base.bbclass                    | 119 -----
+ meta/classes/qt4e.bbclass                          |  21 -
+ meta/classes/qt4x11.bbclass                        |  14 -
+ meta/conf/distro/include/default-distrovars.inc    |   2 -
+ meta/conf/distro/include/distro_alias.inc          |  20 -
+ meta/conf/distro/include/package_regex.inc         |  11 -
+ meta/conf/documentation.conf                       |   1 -
+ .../packagegroups/packagegroup-core-lsb.bb         |  12 +-
+ meta/recipes-qt/images/qt4e-demo-image.bb          |  14 -
+ meta/recipes-qt/meta/meta-toolchain-qt.bb          |   5 -
+ meta/recipes-qt/meta/meta-toolchain-qt.inc         |  35 --
+ meta/recipes-qt/meta/meta-toolchain-qte.bb         |   6 -
+ .../nativesdk-packagegroup-qt-toolchain-host.bb    |   3 -
+ .../nativesdk-packagegroup-qt-toolchain-host.inc   |   6 -
+ .../nativesdk-packagegroup-qte-toolchain-host.bb   |   3 -
+ .../packagegroups/packagegroup-core-qt.bb          |  22 -
+ .../packagegroups/packagegroup-core-qt4e.bb        |  52 ---
+ .../packagegroup-qt-toolchain-target.bb            |  15 -
+ .../packagegroup-qt-toolchain-target.inc           |  39 --
+ .../packagegroup-qte-toolchain-target.bb           |   7 -
+ .../ExportWizard-depends-on-ui_wizard.patch        |  18 -
+ meta/recipes-qt/qt-apps/fotowall_0.9.bb            |  29 --
+ meta/recipes-qt/qt-apps/qmmp/no-host-paths.patch   |  26 --
+ meta/recipes-qt/qt-apps/qmmp_0.8.6.bb              |  76 ----
+ meta/recipes-qt/qt-apps/quicky_0.4.bb              |  19 -
+ meta/recipes-qt/qt-demo/qt-demo-init/qtdemo-init   |  55 ---
+ meta/recipes-qt/qt-demo/qt-demo-init_0.1.bb        |  19 -
+ .../qt4-graphics-system/qt4-graphics-system_1.0.bb |  25 --
+ meta/recipes-qt/qt4/nativesdk-qt4-tools.inc        | 125 ------
+ meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.7.bb   |   6 -
+ meta/recipes-qt/qt4/qt4-4.8.7.inc                  |  68 ---
+ ...o-allow-to-set-qt.conf-from-the-outside-u.patch |  43 --
+ ...tty_qws-fix-build-with-old-kernel-headers.patch |  50 ---
+ ...003-webkit2-set-OUTPUT_DIR-value-if-empty.patch |  34 --
+ ...make-is-already-built-in-qt4-tools-native.patch |  29 --
+ ...e-set-LFLAGS-to-pick-up-zlib-from-staging.patch |  28 --
+ ...se-OE_QMAKE_-values-to-specify-Qt-utility.patch |  38 --
+ ...-const-usage-that-causes-compile-failure-.patch |  34 --
+ ...llow-building-a-separate-qmake-for-the-ta.patch |  29 --
+ ...e-fix-source-file-references-in-qmake.pri.patch |  52 ---
+ ...ack-to-not-use-the-pg_config-of-the-host-.patch |  46 --
+ .../qt4-4.8.7/0011-freetype-host-includes.patch    |  29 --
+ .../qt4/qt4-4.8.7/0012-Add-2bpp-support.patch      | 318 -------------
+ .../0013-configure-add-crossarch-option.patch      |  51 ---
+ ...tions-fix-phony-translation-linking-error.patch |  41 --
+ ...-configure-add-nostrip-for-debug-packages.patch |  32 --
+ .../qt4-4.8.7/0016-configure-eval-QMAKE_CXX.patch  |  37 --
+ ...nsure-we-identify-the-compiler-as-g-in-co.patch |  46 --
+ ...ure-make-pulseaudio-a-configurable-option.patch |  46 --
+ ...xes-for-gcc-4.7.0-particularly-on-qemux86.patch |  63 ---
+ ...ake-qt4-native-work-with-long-building-pa.patch |  95 ----
+ ...ls.pro-disable-qmeegographicssystemhelper.patch |  28 --
+ .../0030-aarch64_arm64_qatomic_support.patch       | 491 ---------------------
+ .../qt4/qt4-4.8.7/0031-aarch64_arm64_mkspecs.patch | 124 ------
+ .../qt4/qt4-4.8.7/0032-aarch64_add_header.patch    |  18 -
+ ...figure-support-c-0x-standard-for-directfd.patch |  40 --
+ .../0034-Fix-kmap2qmap-build-with-clang.patch      |  34 --
+ .../Fix-QWSLock-invalid-argument-logs.patch        |  98 ----
+ .../qt4/qt4-4.8.7/add_check_for_aarch64_32.patch   |  55 ---
+ meta/recipes-qt/qt4/qt4-4.8.7/g++.conf             |  40 --
+ meta/recipes-qt/qt4/qt4-4.8.7/linux.conf           |  66 ---
+ meta/recipes-qt/qt4/qt4-4.8.7/qte.sh               |   7 -
+ meta/recipes-qt/qt4/qt4-embedded.inc               |  74 ----
+ meta/recipes-qt/qt4/qt4-embedded_4.8.7.bb          |   9 -
+ meta/recipes-qt/qt4/qt4-native.inc                 | 112 -----
+ meta/recipes-qt/qt4/qt4-native_4.8.7.bb            |   6 -
+ meta/recipes-qt/qt4/qt4-x11-free.inc               |  38 --
+ meta/recipes-qt/qt4/qt4-x11-free_4.8.7.bb          |   9 -
+ meta/recipes-qt/qt4/qt4.inc                        | 391 ----------------
+ meta/recipes-qt/qt4/qt4_arch.inc                   |  22 -
+ meta/recipes-sato/images/core-image-sato-sdk.bb    |   6 +-
+ meta/recipes.txt                                   |   1 -
+ 74 files changed, 12 insertions(+), 3700 deletions(-)
+ delete mode 100644 meta/classes/qmake2.bbclass
+ delete mode 100644 meta/classes/qmake_base.bbclass
+ delete mode 100644 meta/classes/qt4e.bbclass
+ delete mode 100644 meta/classes/qt4x11.bbclass
+ delete mode 100644 meta/recipes-qt/images/qt4e-demo-image.bb
+ delete mode 100644 meta/recipes-qt/meta/meta-toolchain-qt.bb
+ delete mode 100644 meta/recipes-qt/meta/meta-toolchain-qt.inc
+ delete mode 100644 meta/recipes-qt/meta/meta-toolchain-qte.bb
+ delete mode 100644 meta/recipes-qt/packagegroups/nativesdk-packagegroup-qt-toolchain-host.bb
+ delete mode 100644 meta/recipes-qt/packagegroups/nativesdk-packagegroup-qt-toolchain-host.inc
+ delete mode 100644 meta/recipes-qt/packagegroups/nativesdk-packagegroup-qte-toolchain-host.bb
+ delete mode 100644 meta/recipes-qt/packagegroups/packagegroup-core-qt.bb
+ delete mode 100644 meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb
+ delete mode 100644 meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb
+ delete mode 100644 meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
+ delete mode 100644 meta/recipes-qt/packagegroups/packagegroup-qte-toolchain-target.bb
+ delete mode 100644 meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch
+ delete mode 100644 meta/recipes-qt/qt-apps/fotowall_0.9.bb
+ delete mode 100644 meta/recipes-qt/qt-apps/qmmp/no-host-paths.patch
+ delete mode 100644 meta/recipes-qt/qt-apps/qmmp_0.8.6.bb
+ delete mode 100644 meta/recipes-qt/qt-apps/quicky_0.4.bb
+ delete mode 100644 meta/recipes-qt/qt-demo/qt-demo-init/qtdemo-init
+ delete mode 100644 meta/recipes-qt/qt-demo/qt-demo-init_0.1.bb
+ delete mode 100644 meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb
+ delete mode 100644 meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
+ delete mode 100644 meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.7.bb
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7.inc
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0001-qlibraryinfo-allow-to-set-qt.conf-from-the-outside-u.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0002-qkbdtty_qws-fix-build-with-old-kernel-headers.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0003-webkit2-set-OUTPUT_DIR-value-if-empty.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0004-configure-qmake-is-already-built-in-qt4-tools-native.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0005-configure-set-LFLAGS-to-pick-up-zlib-from-staging.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0006-configure-Use-OE_QMAKE_-values-to-specify-Qt-utility.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0007-dbus-Remove-const-usage-that-causes-compile-failure-.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0008-qmake.pro-Allow-building-a-separate-qmake-for-the-ta.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0009-qmake-fix-source-file-references-in-qmake.pri.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0010-configure-Hack-to-not-use-the-pg_config-of-the-host-.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0011-freetype-host-includes.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0012-Add-2bpp-support.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0013-configure-add-crossarch-option.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0014-translations-fix-phony-translation-linking-error.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0015-configure-add-nostrip-for-debug-packages.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0016-configure-eval-QMAKE_CXX.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0017-configure-ensure-we-identify-the-compiler-as-g-in-co.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0018-configure-make-pulseaudio-a-configurable-option.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0019-Fixes-for-gcc-4.7.0-particularly-on-qemux86.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0021-configure-make-qt4-native-work-with-long-building-pa.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0027-tools.pro-disable-qmeegographicssystemhelper.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0030-aarch64_arm64_qatomic_support.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0031-aarch64_arm64_mkspecs.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0032-aarch64_add_header.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0033-configure-support-c-0x-standard-for-directfd.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0034-Fix-kmap2qmap-build-with-clang.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/Fix-QWSLock-invalid-argument-logs.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/add_check_for_aarch64_32.patch
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/g++.conf
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/linux.conf
+ delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/qte.sh
+ delete mode 100644 meta/recipes-qt/qt4/qt4-embedded.inc
+ delete mode 100644 meta/recipes-qt/qt4/qt4-embedded_4.8.7.bb
+ delete mode 100644 meta/recipes-qt/qt4/qt4-native.inc
+ delete mode 100644 meta/recipes-qt/qt4/qt4-native_4.8.7.bb
+ delete mode 100644 meta/recipes-qt/qt4/qt4-x11-free.inc
+ delete mode 100644 meta/recipes-qt/qt4/qt4-x11-free_4.8.7.bb
+ delete mode 100644 meta/recipes-qt/qt4/qt4.inc
+ delete mode 100644 meta/recipes-qt/qt4/qt4_arch.inc
+
+-- 
+2.6.2
+
+
