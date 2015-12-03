@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id D77BC6FF7B
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id E047F70016
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Dec 2015 19:57:52 +0000 (UTC)
-Received: by wmvv187 with SMTP id v187so44221100wmv.1
+	Thu,  3 Dec 2015 19:57:51 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so37201698wmw.0
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 03 Dec 2015 11:57:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=UH903WJClfITAFj/VTB/v6g9ACaBqeVpX+8cBzhKzuU=;
-	b=zYBGNLxqpj4YPC91tHH3i/ODxsFnfdKQg/3MnD3T70ep2nUXXEOJhwfVk467e987NH
-	2M2RSUK3g9SrLOHoZOxsr8vwmlTG4GYsjHZgcBXOWSxR3kF+/4OUL7bbjRVxFUA11tAd
-	w08HAeQIcp6WcQ9vouGUOB8rOZ0oVH1mV2/5DbXzzFbXDaBKi/+5EyZvO2W6/Ko+GImh
-	mBZ0h1fu9tZa2sZUkxrSavqqlR/kQGqhmNGYNVTc/K481h/8tdQYuw6qmIKWpZyRkyfF
-	eZh7BGTSWx+xJJPfM3HW/KmJEeykR6eWOn72oeIv5qzjCFyRefLLinokiBRcfiXcRpth
-	WLhA==
+	bh=KryXXInBEoxV2+j7GK0z+5IwelBT4EL6R6ASy0A3G5I=;
+	b=jTLKh8XGwiirlI+sZv8ghVNoB/22krz/gwhU4JrOF4SVGifWp2465c5IXtO7eAl1s2
+	da8K6l+YCpUWorHzmqrrr7BgGlUa/rDQOV1MdyCuqrVNfpvu2rtMmB+vcaN9kPMjOlp0
+	RmjGwjfWhzAzM/aSZ6HX8VS5Era4udnnwc4jr/LNnRm8DQl52dfuHznb86Xoz4gJgn0s
+	qRbRhPwSzW6aTb/TMBBW/KFOgAKMZZCoNbxDUqj1JVjBXL/CPgNzwr/d6SwNNfeQn/w5
+	NkRQv1lUiUYaGmxEmkaSJWfaDoQaLMmeYTl6vVnsNTgrABqwyMTpvKouLcHxv1iI6342
+	d2kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=UH903WJClfITAFj/VTB/v6g9ACaBqeVpX+8cBzhKzuU=;
-	b=cs/DFOozHUqPdgSe7oVWUAneypYXvcbbPhej7n7cWLr1sOBJpmDPzM27C6vEbaAneJ
-	cXBJZdYyk7KlT9Mk3gBsR+0ztI+30R+HZQD7w1pkwFXVDvI5Lkhs21GRfU3002qohl5y
-	yr1BtvcTcPE+PohK8psZM8/QpfP1TMQWb7LEGedwc5oBmtnnokJyTByAkE5p+VTqru6S
-	fHZVV2qaPuJlYWD01nzS1f2MhVVCryVpSPt09uqgBpHyLHLNdaQ3QjDJyECUEdOhZOcr
-	gDl771Aok1bG0f7uFXbotENBcZ+BW9NhYNOXGTHzw2ehnJm1tDGrH1JNBdyXktpdTLVk
-	TSsg==
-X-Gm-Message-State: ALoCoQnunQu2xhNTPQOFXtiCfI4X01an+PWfcrxZoUyc7EtS48DjrUUa3MwCLHZijTs7X9LWsQcc
-X-Received: by 10.28.175.135 with SMTP id y129mr557400wme.24.1449172672802;
-	Thu, 03 Dec 2015 11:57:52 -0800 (PST)
+	bh=KryXXInBEoxV2+j7GK0z+5IwelBT4EL6R6ASy0A3G5I=;
+	b=XcNqlcoU3B8MI7a+S/N1p+gupGcRwZDj6pOaZQLT+82EQB315ltjHFHN2cDpvRRKLn
+	327R0tKOHjrNYWZygtWGhIIihhCGB4f3i9vw7q9YcPc3CvUD+4qlJKBYHF1Q8I8AtQad
+	xBf95Sbo+DMXnj6WoKEmTKlufsu2HpDHF6QxFLSDjUkBdCezOc11PtL4Bp/6zOcjK6rY
+	lxgaD6On2/pePj3cJBSYFrDHcRIRMFgyRXrtlRlEGk/9h4ZqyhBK/dA+iihBL32fHu6J
+	ZNp/kp4krWgVZHrFSWIzB7vVhMVf1Tqgd7v5OwX5lddcCeMkcifLO4OLj0RrrYTkWa0g
+	k2sA==
+X-Gm-Message-State: ALoCoQkopEEMQUqmoARh2ScHts1/juQLmn9LBz6QJyN0PqcxH+oOF2ybBvkqJPO6WbaYDQN+9vGA
+X-Received: by 10.28.180.132 with SMTP id d126mr493145wmf.72.1449172671963;
+	Thu, 03 Dec 2015 11:57:51 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id i18sm431221wmf.6.2015.12.03.11.57.52
+	by smtp.gmail.com with ESMTPSA id i18sm431221wmf.6.2015.12.03.11.57.50
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Dec 2015 11:57:52 -0800 (PST)
+	Thu, 03 Dec 2015 11:57:51 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Dec 2015 19:57:45 +0000
-Message-Id: <1449172665-1343-3-git-send-email-ross.burton@intel.com>
+Date: Thu,  3 Dec 2015 19:57:44 +0000
+Message-Id: <1449172665-1343-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1449172665-1343-1-git-send-email-ross.burton@intel.com>
 References: <1449172665-1343-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 3/3] neard: fix libdir/libexecdir confusion
+Subject: [PATCH 2/3] glibc: fix libdir/libexecdir path confusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,26 +58,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 03 Dec 2015 19:57:54 -0000
 
-These binaries are installed to $libexecdir/nfc not $libdir/$BPN.
+$libdir/glibc is deleted if it doesn't exist but this is incorrectly assuming
+what variables are used to create this directory.  In fact libexecdir is being
+used in the Makefile so use that in the recipe too.
+
+This fixes builds where libexecdir is changed.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/neard/neard_0.15.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/glibc/glibc-package.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/neard/neard_0.15.bb b/meta/recipes-connectivity/neard/neard_0.15.bb
-index 8adf70c..f962310 100644
---- a/meta/recipes-connectivity/neard/neard_0.15.bb
-+++ b/meta/recipes-connectivity/neard/neard_0.15.bb
-@@ -43,7 +43,7 @@ do_install_append() {
- PACKAGES =+ "${PN}-tests"
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 5f60368..36c5350 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -82,9 +82,10 @@ do_install_append () {
+ 	rm -rf ${D}${localstatedir}
  
- FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
--FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
-+FILES_${PN}-dbg += "${libexecdir}/nfc/.debug ${libdir}/${BPN}/*/.debug"
+ 	# remove empty glibc dir
+-	if [ -d ${D}${libdir}/glibc -a ! -e ${D}${libdir}/glibc/pt_chown ]; then
+-		rmdir ${D}${libdir}/glibc
++	if [ -d ${D}${libexecdir} ]; then
++		rmdir --ignore-fail-on-non-empty ${D}${libexecdir}
+ 	fi
++
+ 	oe_multilib_header bits/syscall.h
  
- RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
- 
+ 	if [ -f ${D}${bindir}/mtrace ]; then
 -- 
 2.1.4
 
