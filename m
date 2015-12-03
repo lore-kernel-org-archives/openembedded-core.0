@@ -1,49 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id E047F70016
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B84E6FFCD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Dec 2015 19:57:51 +0000 (UTC)
-Received: by wmww144 with SMTP id w144so37201698wmw.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Dec 2015 11:57:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=KryXXInBEoxV2+j7GK0z+5IwelBT4EL6R6ASy0A3G5I=;
-	b=jTLKh8XGwiirlI+sZv8ghVNoB/22krz/gwhU4JrOF4SVGifWp2465c5IXtO7eAl1s2
-	da8K6l+YCpUWorHzmqrrr7BgGlUa/rDQOV1MdyCuqrVNfpvu2rtMmB+vcaN9kPMjOlp0
-	RmjGwjfWhzAzM/aSZ6HX8VS5Era4udnnwc4jr/LNnRm8DQl52dfuHznb86Xoz4gJgn0s
-	qRbRhPwSzW6aTb/TMBBW/KFOgAKMZZCoNbxDUqj1JVjBXL/CPgNzwr/d6SwNNfeQn/w5
-	NkRQv1lUiUYaGmxEmkaSJWfaDoQaLMmeYTl6vVnsNTgrABqwyMTpvKouLcHxv1iI6342
-	d2kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=KryXXInBEoxV2+j7GK0z+5IwelBT4EL6R6ASy0A3G5I=;
-	b=XcNqlcoU3B8MI7a+S/N1p+gupGcRwZDj6pOaZQLT+82EQB315ltjHFHN2cDpvRRKLn
-	327R0tKOHjrNYWZygtWGhIIihhCGB4f3i9vw7q9YcPc3CvUD+4qlJKBYHF1Q8I8AtQad
-	xBf95Sbo+DMXnj6WoKEmTKlufsu2HpDHF6QxFLSDjUkBdCezOc11PtL4Bp/6zOcjK6rY
-	lxgaD6On2/pePj3cJBSYFrDHcRIRMFgyRXrtlRlEGk/9h4ZqyhBK/dA+iihBL32fHu6J
-	ZNp/kp4krWgVZHrFSWIzB7vVhMVf1Tqgd7v5OwX5lddcCeMkcifLO4OLj0RrrYTkWa0g
-	k2sA==
-X-Gm-Message-State: ALoCoQkopEEMQUqmoARh2ScHts1/juQLmn9LBz6QJyN0PqcxH+oOF2ybBvkqJPO6WbaYDQN+9vGA
-X-Received: by 10.28.180.132 with SMTP id d126mr493145wmf.72.1449172671963;
-	Thu, 03 Dec 2015 11:57:51 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id i18sm431221wmf.6.2015.12.03.11.57.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Dec 2015 11:57:51 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Thu,  3 Dec 2015 22:02:44 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 03 Dec 2015 14:02:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,378,1444719600"; d="scan'208";a="699800798"
+Received: from besquive-mobl2.amr.corp.intel.com (HELO
+	besquive-mobl2.zpn.intel.com) ([10.219.128.114])
+	by orsmga003.jf.intel.com with ESMTP; 03 Dec 2015 14:02:44 -0800
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Dec 2015 19:57:44 +0000
-Message-Id: <1449172665-1343-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1449172665-1343-1-git-send-email-ross.burton@intel.com>
-References: <1449172665-1343-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/3] glibc: fix libdir/libexecdir path confusion
+Date: Thu,  3 Dec 2015 16:02:26 -0600
+Message-Id: <1449180147-17523-1-git-send-email-benjamin.esquivel@linux.intel.com>
+X-Mailer: git-send-email 2.4.3
+Subject: [PATCH 1/2] oeqa/systemd: journalctl helper function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +28,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Dec 2015 19:57:54 -0000
+X-List-Received-Date: Thu, 03 Dec 2015 22:02:52 -0000
 
-$libdir/glibc is deleted if it doesn't exist but this is incorrectly assuming
-what variables are used to create this directory.  In fact libexecdir is being
-used in the Makefile so use that in the recipe too.
+a function to request for the journalctl output to the current target
+system with l_match_units support
 
-This fixes builds where libexecdir is changed.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
 ---
- meta/recipes-core/glibc/glibc-package.inc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/runtime/systemd.py | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 5f60368..36c5350 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -82,9 +82,10 @@ do_install_append () {
- 	rm -rf ${D}${localstatedir}
+diff --git a/meta/lib/oeqa/runtime/systemd.py b/meta/lib/oeqa/runtime/systemd.py
+index c74394c..d0b9b2f 100644
+--- a/meta/lib/oeqa/runtime/systemd.py
++++ b/meta/lib/oeqa/runtime/systemd.py
+@@ -21,6 +21,34 @@ class SystemdTest(oeRuntimeTest):
+         self.assertEqual(status, expected, message)
+         return output
  
- 	# remove empty glibc dir
--	if [ -d ${D}${libdir}/glibc -a ! -e ${D}${libdir}/glibc/pt_chown ]; then
--		rmdir ${D}${libdir}/glibc
-+	if [ -d ${D}${libexecdir} ]; then
-+		rmdir --ignore-fail-on-non-empty ${D}${libexecdir}
- 	fi
++    #TODO: use pyjournalctl instead
++    def journalctl(self, args='',l_match_units=[]):
++        """
++        Request for the journalctl output to the current target system
 +
- 	oe_multilib_header bits/syscall.h
++        Arguments:
++        -args, an optional argument pass through argument
++        -l_match_units, an optional list of units to filter the output
++        Returns:
++        -string output of the journalctl command
++        Raises:
++        -AssertionError, on remote commands that fail
++        -ValueError, on a journalctl call with filtering by l_match_units that
++        returned no entries
++        """
++        query_units=""
++        if len(l_match_units):
++            query_units = ['_SYSTEMD_UNIT='+unit for unit in l_match_units]
++            query_units = " ".join(query_units)
++        command = 'journalctl %s %s' %(args, query_units)
++        status, output = self.target.run(command)
++        if status:
++            raise AssertionError("Command '%s' returned non-zero exit \
++                    code %d:\n%s" % (command, status, output))
++        if len(output) == 1 and "-- No entries --" in output:
++            raise ValueError("List of units to match: %s, returned no entries"
++                    % l_match_units)
++        return output
  
- 	if [ -f ${D}${bindir}/mtrace ]; then
+ class SystemdBasicTests(SystemdTest):
+ 
 -- 
-2.1.4
+2.4.3
 
 
