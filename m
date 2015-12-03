@@ -1,49 +1,60 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id A7E62607AA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id AA91C6FFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Dec 2015 11:58:51 +0000 (UTC)
-Received: by oies6 with SMTP id s6so47858927oie.1
+	Thu,  3 Dec 2015 12:51:40 +0000 (UTC)
+Received: by igbxm8 with SMTP id xm8so11212947igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Dec 2015 03:58:52 -0800 (PST)
+	Thu, 03 Dec 2015 04:51:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=UButIMLfFDkCO5gCtMPVVSPONCfH7VrcVl9Q6H6nJ7I=;
-	b=iUcoG+dDP6zF1nEzENZaYFBvc25o95VdhtaPUOk6t5M96RuFEbcwT8jjFFYURlPFAl
-	4xcY4Kt+EaPPt0BMjyh/1Cl99C8dWbyi6GuEwNIl7ozCJYBb3sCJ/lbvffqkM2PugEXM
-	w6L22e3KUxBL5Ky88UgPIgZTmssAgGHSLSQnkmD8LFm3e/kxRiZfDt3eTTLGQgBgiHo7
-	NUJQoRetKl8HWi85nQfBYIOzKZ8AoZ9x5D3oqDflfETfrmK4kQqQY95nMXFDKKC3ratz
-	+/J5J+N3o+yqDos7QwFkUPW6qxv4PTNHaVVeyTrkMzPwepT8VZr8BdXCcOCAgneVBcCR
-	fKVA==
+	bh=A+tqystfyy3eFWoS+ZH2roxXr/N0Slmi9wQCh6lRClo=;
+	b=YLlcqyiiKA73xdmGH7OcKkbbf1+yZtAY/hXkdRrb5/Dn58X4II0BHwWet2WSG3Sakh
+	7ZcwZ0OTUsBVO/s+D0k8zgsWFXDCM6pHH8hPfNPVo4PdrJ5Ao0eOCVOehIcWGYrNh2Nk
+	TQ6WrMO4STtpZZ3T2zlRr/iIn/jgTl4gVCeABs9gOorbWs7bYYXI24qIRaSk+sgrzbEd
+	jGeC7mcKZiPotDHaB2OfYXbLF+fJjmoqzjoab9U+EO4H5VNifFgvsdzIpaFSc7YyZFFg
+	+B2ooOvqrcsVMXRrfmBiMC8bGUYlBfUJ8QkzXiivNqn7o9z87q7jQp4wDsy1hYmDxXlx
+	4Tjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=UButIMLfFDkCO5gCtMPVVSPONCfH7VrcVl9Q6H6nJ7I=;
-	b=iQqZqoUK61nIYxqfWg7zXMOFQj1RaSPS81VsR3KRsGEEB9Ag7ZyI5yxNx7s4XTFOdE
-	wEY3vmKPAX/hezzX0rLsvn1he/JYHO61GBliZxd2kCkp2xM1pUM0ErLOLW3pNL5DhBta
-	2+PjHnMWMUn+sE2vFTXAfpa5rbK84w3BoFf5Uexro7Dpkmab140XbPm/9tUnB94uQt/S
-	OknC44LcFIHtLCadwrAqNLyp8vHdR1LMZkeSpKYj6LXAnLGMDbgyb9ZCIwFM8Vh/ZSpu
-	hMHFgc0w45IF0pbKN2s4qIlLgUqv1nYoUDPErL+bSiQCf7Nvmn9B5Bf7C/X568nk3Chb
-	wMzg==
-X-Gm-Message-State: ALoCoQlaQcG6tRXJ0qsnjhYV0DvCCgXOu9NrsztkuCyeA+MbV2IgyfoBY7hWGRukzjvHG/tcZrJV
-X-Received: by 10.202.186.198 with SMTP id k189mr6921218oif.105.1449143932444; 
-	Thu, 03 Dec 2015 03:58:52 -0800 (PST)
+	bh=A+tqystfyy3eFWoS+ZH2roxXr/N0Slmi9wQCh6lRClo=;
+	b=RoPnZ4aLAAZ0HIRhrkeALYEUcCOFlcCTy8EMkQ1WM7JqG0kOVdAEFAiJ8Jag3B5DFf
+	7GG4q4xjbN6IbeUtsKfZwZy8SVoHo7Of+E/USyzyc3ucjSjSYrLeRw4WBT3YQTnEdZfh
+	Ip/bPk8JWyiti8mVBOkGX+g/aGIvLQTlgngx3Euzgy6ckhZzwg7nAbOyoRalf0b944WA
+	q3qGKonrKrA/kUMRZ7e3r6ReO24Wp/07o3Ru3NtaiHu8khStWEPJsNSByWmygL0SnuPE
+	mcBlk/8gNrKJeaU7mB1v0AHS2jSrSU0coLD4H46rcchji6FgtYZHGn0T9wdU8NsZejn5
+	GU3g==
+X-Gm-Message-State: ALoCoQlgPndNJ0Elil3hilG4PtVv8wev2yfYFweTw6nUpm3GUjmtiYQ3iajxIDZ4KAwZGCjXam3Y
+X-Received: by 10.50.155.33 with SMTP id vt1mr8493827igb.64.1449147101531;
+	Thu, 03 Dec 2015 04:51:41 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.202.51.67 with HTTP; Thu, 3 Dec 2015 03:58:23 -0800 (PST)
-In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA010C7598D7@ALA-MBA.corp.ad.wrs.com>
-References: <1448948830-9690-1-git-send-email-jackie.huang@windriver.com>
-	<CAJTo0LYtfrPYpfYMDfmO=-CbFcO4=8_K0dWLChEq+AwgAcxYBQ@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AA010C7598D7@ALA-MBA.corp.ad.wrs.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Thu, 3 Dec 2015 13:58:23 +0200
-Message-ID: <CAHiDW_GuGGZTeTSuN+0frWGZS9aPUwGTeAcjo5NZhACbsW+3vA@mail.gmail.com>
-To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] matchbox-desktop: sync with gio for the inotify-sub
+Received: by 10.107.136.141 with HTTP; Thu, 3 Dec 2015 04:51:22 -0800 (PST)
+In-Reply-To: <D285DA30.6C15E%belen.barros.pena@intel.com>
+References: <1633798.xAxFJSpIzb@peggleto-mobl.ger.corp.intel.com>
+	<41399562.aYmIK0zX5I@peggleto-mobl.ger.corp.intel.com>
+	<20151201104720.GB2251@jama>
+	<9135219.GRnf9JIkFP@peggleto-mobl.ger.corp.intel.com>
+	<20151202081713.GA2248@jama>
+	<D2847D54.6BF8A%belen.barros.pena@intel.com>
+	<D2847EE2.6BF9C%belen.barros.pena@intel.com>
+	<20151202180440.GC2248@jama>
+	<CAJTo0LZpgv3KuJXAO6Pa9o_PrRb=aMT3d8Pe6qD2-yvsspEsTw@mail.gmail.com>
+	<D285DA30.6C15E%belen.barros.pena@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 3 Dec 2015 12:51:22 +0000
+Message-ID: <CAJTo0LYGSR=TZeH--jFsc+DnE09K0zF4Xw2KhRfA_aazaDV0Dw@mail.gmail.com>
+To: "Barros Pena, Belen" <belen.barros.pena@intel.com>
+Cc: "Lespiau, Damien" <damien.lespiau@intel.com>,
+	"openembedded-architecture@lists.openembedded.org"
+	<openembedded-architecture@lists.openembedded.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] Patchwork & patch handling improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,60 +67,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Dec 2015 11:58:53 -0000
-Content-Type: multipart/alternative; boundary=001a113cd2b0528cf30525fd1d55
+X-List-Received-Date: Thu, 03 Dec 2015 12:51:41 -0000
+Content-Type: multipart/alternative; boundary=001a11343daa36eb170525fdda10
 
---001a113cd2b0528cf30525fd1d55
+--001a11343daa36eb170525fdda10
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 3 December 2015 at 11:11, Huang, Jie (Jackie) <Jackie.Huang@windriver.co=
-m>
-wrote:
+On 3 December 2015 at 11:43, Barros Pena, Belen <belen.barros.pena@intel.com
+> wrote:
+
+> >and more status values.
 >
-> I agree to drop those codes, and it should already be part of the rewrite=
-,
+> You can add status values (to the db directly or via the Django admin
+> interface), but they will apply to all projects in the Patchwork instance.
+> Ideally you should be able to set a list of status values per project I
+> guess.
 >
-> where I can find info about the rewrite, I don=E2=80=99t see any actives =
-in:
->
-> git.yoctoproject.org/cgit/cgit.cgi/matchbox-desktop-2
->
-> The latest commit is 3 years ago.
 
+Well it depends on what the extra values are.  Martin, what values do you
+use?  A "merged in staging" value would be useful for everyone.
 
-They're not very recent either but most of the matchbox-* repos have a
-branch 'gtk3' that contains the most up to date work. I've just started
-looking at the code with the intention of finishing this gtk3 transition:
-an up-to-date poky branch with these changes is 'jku/shuku' in git://
-git.yoctoproject.org/poky-contrib. Be warned that it's currently quite
-broken: I hope I have something that runs in a week or two.
+Ross
 
-I agree with ross about preferably getting rid of things like custom
-inotify code.
-
- - Jussi
-
---001a113cd2b0528cf30525fd1d55
+--001a11343daa36eb170525fdda10
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 3 December 2015 at 11:11, Huang, Jie (Jackie) &lt;<a hr=
-ef=3D"mailto:Jackie.Huang@windriver.com">Jackie.Huang@windriver.com</a>&gt;=
- wrote:<br>&gt;<br>&gt; I agree to drop those codes, and it should already =
-be part of the rewrite,<br>&gt;<br>&gt; where I can find info about the rew=
-rite, I don=E2=80=99t see any actives in:<br>&gt;<br>&gt; <a href=3D"http:/=
-/git.yoctoproject.org/cgit/cgit.cgi/matchbox-desktop-2">git.yoctoproject.or=
-g/cgit/cgit.cgi/matchbox-desktop-2</a><br>&gt;<br>&gt; The latest commit is=
- 3 years ago.<br><br><br>They&#39;re not very recent either but most of the=
- matchbox-* repos have a branch &#39;gtk3&#39; that contains the most up to=
- date work. I&#39;ve just started looking at the code with the intention of=
- finishing this gtk3 transition: an up-to-date poky branch with these chang=
-es is &#39;jku/shuku&#39; in git://<a href=3D"http://git.yoctoproject.org/p=
-oky-contrib">git.yoctoproject.org/poky-contrib</a>. Be warned that it&#39;s=
- currently quite broken: I hope I have something that runs in a week or two=
-.<div><br></div><div>I agree with ross about preferably getting rid of thin=
-gs like custom inotify code.<br><br></div><div>=C2=A0- Jussi=C2=A0<br></div=
-></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra">On 3 December 2015 at 11:43, Ba=
+rros Pena, Belen <span dir=3D"ltr">&lt;<a href=3D"mailto:belen.barros.pena@=
+intel.com" target=3D"_blank">belen.barros.pena@intel.com</a>&gt;</span> wro=
+te:<br><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":8c0" class=3D"a3s" style=3D"overflow:hidden">&gt;and more status value=
+s.<br>
+<br>
+You can add status values (to the db directly or via the Django admin<br>
+interface), but they will apply to all projects in the Patchwork instance.<=
+br>
+Ideally you should be able to set a list of status values per project I<br>
+guess.</div></blockquote></div><br>Well it depends on what the extra values=
+ are.=C2=A0 Martin, what values do you use?=C2=A0 A &quot;merged in staging=
+&quot; value would be useful for everyone.</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a113cd2b0528cf30525fd1d55--
+--001a11343daa36eb170525fdda10--
