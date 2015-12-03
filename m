@@ -1,34 +1,23 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 484F66FF72
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 82CED6FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Dec 2015 09:11:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tB39Bjso002960
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Dec 2015 01:11:45 -0800 (PST)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.225]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0248.002;
-	Thu, 3 Dec 2015 01:11:16 -0800
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] matchbox-desktop: sync with gio for the
-	inotify-sub
-Thread-Index: AQHRLBYsk+StN7FzSkeXbi2rCSmlG564+r5Q
-Date: Thu, 3 Dec 2015 09:11:13 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA010C7598D7@ALA-MBA.corp.ad.wrs.com>
-References: <1448948830-9690-1-git-send-email-jackie.huang@windriver.com>
-	<CAJTo0LYtfrPYpfYMDfmO=-CbFcO4=8_K0dWLChEq+AwgAcxYBQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYtfrPYpfYMDfmO=-CbFcO4=8_K0dWLChEq+AwgAcxYBQ@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.136]
+	Thu,  3 Dec 2015 09:18:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 12C682612C0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1449054142.git.joshua.lock@collabora.co.uk>
+	<b6d0cb53694261e395f44e8948cc94599ff80559.1449054142.git.joshua.lock@collabora.co.uk>
+	<20151202211946.GE2248@jama>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+Message-ID: <566008FF.8020507@collabora.co.uk>
+Date: Thu, 3 Dec 2015 09:18:55 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] matchbox-desktop: sync with gio for the inotify-sub
+In-Reply-To: <20151202211946.GE2248@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] connman-conf: mark as allarch and not requiring default deps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,142 +30,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Dec 2015 09:11:45 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA010C7598D7ALAMBAcorpadw_"
+X-List-Received-Date: Thu, 03 Dec 2015 09:19:00 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
---_000_1B858668EC6A94408DCA5225FDFA85AA010C7598D7ALAMBAcorpadw_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On 02/12/15 21:19, Martin Jansa wrote:
+> On Wed, Dec 02, 2015 at 11:03:53AM +0000, Joshua Lock wrote:
+>> This recipe just installs some data files and thus is architecture
+>> independent and doesn't require a compiler and libc in its DEPENDS.
+>
+> allarch.bbclass already sets INHIBIT_DEFAULT_DEPS
 
-U28gSSBzaG91bGQgc2VuZCB0aGUgcGF0Y2ggdG8geW9jdG9AeW9jdG9wcm9qZWN0Lm9yZzxtYWls
-dG86eW9jdG9AeW9jdG9wcm9qZWN0Lm9yZz4sIHJpZ2h0Pw0KDQpJIGFncmVlIHRvIGRyb3AgdGhv
-c2UgY29kZXMsIGFuZCBpdCBzaG91bGQgYWxyZWFkeSBiZSBwYXJ0IG9mIHRoZSByZXdyaXRlLA0K
-d2hlcmUgSSBjYW4gZmluZCBpbmZvIGFib3V0IHRoZSByZXdyaXRlLCBJIGRvbuKAmXQgc2VlIGFu
-eSBhY3RpdmVzIGluOg0KZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9tYXRjaGJv
-eC1kZXNrdG9wLTINCg0KVGhlIGxhdGVzdCBjb21taXQgaXMgMyB5ZWFycyBhZ28uDQoNClRoYW5r
-cywNCkphY2tpZQ0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRl
-bC5jb21dDQpTZW50OiBUdWVzZGF5LCBEZWNlbWJlciAwMSwgMjAxNSA0OjU2IFBNDQpUbzogSHVh
-bmcsIEppZSAoSmFja2llKQ0KQ2M6IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BB
-VENIXSBtYXRjaGJveC1kZXNrdG9wOiBzeW5jIHdpdGggZ2lvIGZvciB0aGUgaW5vdGlmeS1zdWIN
-Cg0KDQpPbiAxIERlY2VtYmVyIDIwMTUgYXQgMDU6NDcsIDxqYWNraWUuaHVhbmdAd2luZHJpdmVy
-LmNvbTxtYWlsdG86amFja2llLmh1YW5nQHdpbmRyaXZlci5jb20+PiB3cm90ZToNCm1hdGNoYm94
-LWRlc2t0b3AgYnVpbGRzIHdpdGggaW5jbHVkZWQgbGliaW5vdGlmeSB3aGljaA0KaXMgdmVyeSBv
-bGQgKGxhc3Qgc3luYyB3YXMgaW4gMjAwOCksIGlmIHdlIGNvbXBpbGUgZ2xpYi0yLjANCndpdGgg
-LWZ2aXNpYmlsaXR5PWRlZmF1bHQgKHRoZSBkZWZhdWx0IGlzIGhpZGRlbiBmb3IgbGliZ2xpYg0K
-YW5kIGxpYmdpbyksIGl0IHdpbGwgY3Jhc2ggYmVjYXVzZSBvZiBpbmNvbnNpc3RlbmN5IG9mDQpp
-bm90aWZ5LXN1Yiwgc28gcG9ydCB0aGUgcmVsYXRlZCBwYXJ0cyB0byBmaXggdGhlIGlzc3VlLg0K
-DQptYXRjaGJveC1kZXNrdG9wIGlzIG1haW50YWluZWQgYnkgdGhlIFlvY3RvIFByb2plY3QsIHNv
-IHRoaXMgcGF0Y2ggc2hvdWxkIGJlIGFwcGxpZWQgdGhlcmUgYW5kIHRoZW4gdGhlIHJlY2lwZSB1
-cGRhdGVkIHRvIHRoZSBsYXRlc3QgZ2l0IHJldmlzaW9uLg0KDQpUaGVyZSdzIGEgYmlnIHJld3Jp
-dGUgb2YgbWF0Y2hib3gtZGVza3RvcCBnb2luZyBvbiwgc28gZHJvcHBpbmcgdGhhdCBjb2RlIGVu
-dGlyZWx5IGlzIHByb2JhYmx5IHRoZSBiZXN0IGlkZWE6IGp1c3QgdXNlIEdJTyBpbnN0ZWFkLg0K
-DQpSb3NzDQo=
+Indeed it does, thanks — I'll send a v2.
 
---_000_1B858668EC6A94408DCA5225FDFA85AA010C7598D7ALAMBAcorpadw_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Regards,
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
-NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
-b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
-DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
-LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
-bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
-DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
-YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
-b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
-IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+U28gSSBzaG91bGQgc2VuZCB0aGUgcGF0Y2ggdG8NCjxh
-IGhyZWY9Im1haWx0bzp5b2N0b0B5b2N0b3Byb2plY3Qub3JnIj55b2N0b0B5b2N0b3Byb2plY3Qu
-b3JnPC9hPiwgcmlnaHQ/PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7
-PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1z
-ZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5JIGFncmVlIHRvIGRyb3AgdGhvc2UgY29kZXMsIGFu
-ZCBpdCBzaG91bGQgYWxyZWFkeSBiZSBwYXJ0IG9mIHRoZSByZXdyaXRlLDxvOnA+PC9vOnA+PC9z
-cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEu
-MHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90
-Oztjb2xvcjojMUY0OTdEIj53aGVyZSBJIGNhbiBmaW5kIGluZm8gYWJvdXQgdGhlIHJld3JpdGUs
-IEkgZG9u4oCZdCBzZWUgYW55IGFjdGl2ZXMgaW46PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
-N0QiPmdpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQvY2dpdC5jZ2kvbWF0Y2hib3gtZGVza3RvcC0y
-PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtz
-YW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xv
-cjojMUY0OTdEIj5UaGUgbGF0ZXN0IGNvbW1pdCBpcyAzIHllYXJzIGFnby48bzpwPjwvbzpwPjwv
-c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEx
-LjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVv
-dDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPlRo
-YW5rcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZx
-dW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+SmFja2llPG86cD48L286cD48L3Nw
-YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
-cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7
-O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9
-ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowaW4gMGlu
-IDBpbiA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpz
-b2xpZCAjQjVDNERGIDEuMHB0O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6
-JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9zcGFuPjwv
-Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEm
-cXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3Mu
-YnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBUdWVzZGF5LCBEZWNlbWJlciAw
-MSwgMjAxNSA0OjU2IFBNPGJyPg0KPGI+VG86PC9iPiBIdWFuZywgSmllIChKYWNraWUpPGJyPg0K
-PGI+Q2M6PC9iPiBPRS1jb3JlPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BB
-VENIXSBtYXRjaGJveC1kZXNrdG9wOiBzeW5jIHdpdGggZ2lvIGZvciB0aGUgaW5vdGlmeS1zdWI8
-bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9u
-IDEgRGVjZW1iZXIgMjAxNSBhdCAwNTo0NywgJmx0OzxhIGhyZWY9Im1haWx0bzpqYWNraWUuaHVh
-bmdAd2luZHJpdmVyLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmphY2tpZS5odWFuZ0B3aW5kcml2ZXIu
-Y29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8ZGl2IGlkPSI6dzYiPg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+bWF0Y2hib3gtZGVza3RvcCBidWlsZHMgd2l0aCBpbmNsdWRlZCBsaWJp
-bm90aWZ5IHdoaWNoPGJyPg0KaXMgdmVyeSBvbGQgKGxhc3Qgc3luYyB3YXMgaW4gMjAwOCksIGlm
-IHdlIGNvbXBpbGUgZ2xpYi0yLjA8YnI+DQp3aXRoIC1mdmlzaWJpbGl0eT1kZWZhdWx0ICh0aGUg
-ZGVmYXVsdCBpcyBoaWRkZW4gZm9yIGxpYmdsaWI8YnI+DQphbmQgbGliZ2lvKSwgaXQgd2lsbCBj
-cmFzaCBiZWNhdXNlIG9mIGluY29uc2lzdGVuY3kgb2Y8YnI+DQppbm90aWZ5LXN1Yiwgc28gcG9y
-dCB0aGUgcmVsYXRlZCBwYXJ0cyB0byBmaXggdGhlIGlzc3VlLjxvOnA+PC9vOnA+PC9wPg0KPC9k
-aXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCm1hdGNoYm94LWRlc2t0b3Ag
-aXMgbWFpbnRhaW5lZCBieSB0aGUgWW9jdG8gUHJvamVjdCwgc28gdGhpcyBwYXRjaCBzaG91bGQg
-YmUgYXBwbGllZCB0aGVyZSBhbmQgdGhlbiB0aGUgcmVjaXBlIHVwZGF0ZWQgdG8gdGhlIGxhdGVz
-dCBnaXQgcmV2aXNpb24uPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPlRoZXJlJ3MgYSBiaWcgcmV3cml0ZSBvZiBtYXRjaGJveC1kZXNrdG9wIGdv
-aW5nIG9uLCBzbyBkcm9wcGluZyB0aGF0IGNvZGUgZW50aXJlbHkgaXMgcHJvYmFibHkgdGhlIGJl
-c3QgaWRlYToganVzdCB1c2UgR0lPIGluc3RlYWQuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+Joshua
 
---_000_1B858668EC6A94408DCA5225FDFA85AA010C7598D7ALAMBAcorpadw_--
+>
+>> Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+>> ---
+>>   meta/recipes-connectivity/connman/connman-conf.bb | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/recipes-connectivity/connman/connman-conf.bb
+>> index bef9237..1e119ad 100644
+>> --- a/meta/recipes-connectivity/connman/connman-conf.bb
+>> +++ b/meta/recipes-connectivity/connman/connman-conf.bb
+>> @@ -4,7 +4,9 @@ network interface for a qemu machine."
+>>   LICENSE = "GPLv2"
+>>   LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+>>
+>> -inherit systemd
+>> +inherit systemd allarch
+>> +
+>> +INHIBIT_DEFAULT_DEPS = "1"
+>>
+>>   SRC_URI_append_qemuall = " file://wired.config \
+>>                              file://wired-setup \
+>> --
+>> 2.4.3
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
