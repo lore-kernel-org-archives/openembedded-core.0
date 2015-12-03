@@ -1,25 +1,26 @@
-Return-Path: <wills.wang@live.com>
-X-Greylist: delayed 304 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 03 Dec 2015 05:57:28 UTC
-Received: from BLU004-OMC3S6.hotmail.com (blu004-omc3s6.hotmail.com
-	[65.55.116.81])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C71B6B6F5
+Return-Path: <vz@mleia.com>
+Received: from mail.mleia.com (mleia.com [178.79.152.223])
+	by mail.openembedded.org (Postfix) with ESMTP id E22FD6FF76
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Dec 2015 05:57:28 +0000 (UTC)
-Received: from BLU436-SMTP183 ([65.55.116.73]) by BLU004-OMC3S6.hotmail.com
-	over TLS secured channel with Microsoft SMTPSVC(7.5.7601.23008);
-	Wed, 2 Dec 2015 21:52:25 -0800
-X-TMN: [0Gzcj81/gkVXv2papVZFLDiKonRZY0MV]
-X-Originating-Email: [wills.wang@live.com]
-Message-ID: <BLU436-SMTP18353F56745D211A3DB2769FF0D0@phx.gbl>
-From: Wills Wang <wills.wang@live.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 3 Dec 2015 13:52:12 +0800
-X-Mailer: git-send-email 1.9.1
-X-OriginalArrivalTime: 03 Dec 2015 05:52:24.0073 (UTC)
-	FILETIME=[C85EFF90:01D12D8E]
+	Thu,  3 Dec 2015 05:57:45 +0000 (UTC)
+Received: from mail.mleia.com (localhost [127.0.0.1])
+	by mail.mleia.com (Postfix) with ESMTP id 02CF3400527;
+	Thu,  3 Dec 2015 05:59:36 +0000 (GMT)
+Message-ID: <565FD9D2.3050707@mleia.com>
+Date: Thu, 03 Dec 2015 07:57:38 +0200
+From: Vladimir Zapolskiy <vz@mleia.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Icedove/31.6.0
 MIME-Version: 1.0
-Subject: [PATCH] initramfs-framework: create directory /var/run
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1449031718-3786-1-git-send-email-vz@mleia.com>
+	<CAJTo0Lbzvbwc34aXEMgfUJGnANMzaB+4ecM1=sa=8KONeTJukw@mail.gmail.com>
+In-Reply-To: <CAJTo0Lbzvbwc34aXEMgfUJGnANMzaB+4ecM1=sa=8KONeTJukw@mail.gmail.com>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
+X-CRM114-CacheID: sfid-20151203_055936_032637_BCD96FE8 
+X-CRM114-Status: GOOD (  14.70  )
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] package_ipk: allow to specify OPKG_ARGS in local.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Dec 2015 05:57:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 03 Dec 2015 05:57:46 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-The following error occurs when udevd startup:
-udevd[146]: bind failed: No such file or directory
-error binding udev control socket
-udevd[146]: error binding udev control socket
+Hi Ross,
 
-Signed-off-by: Wills Wang <wills.wang@live.com>
----
- meta/recipes-core/initrdscripts/initramfs-framework/udev | 1 +
- 1 file changed, 1 insertion(+)
+On 02.12.2015 11:48, Burton, Ross wrote:
+> 
+> On 2 December 2015 at 04:48, Vladimir Zapolskiy <vz@mleia.com
+> <mailto:vz@mleia.com>> wrote:
+> 
+>       sh: /tmp/opkg-5jPLag/run-postinsts-UsUtaI/preinst: /bin/sh: bad
+>     interpreter: Permission denied
+> 
+> 
+> Whilst the patch is fine, this is worrying as noexec /tmp shouldn't
+> break opkg.  Maybe opkg should be changed to use something in /var for
+> the scripts?
+> 
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-index bb462dc..79c8867 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-@@ -38,6 +38,7 @@ udev_run() {
- 	add_module_pre_hook "udev_shutdown_hook_handler"
- 
- 	mkdir -p /run
-+	mkdir -p /var/run
- 
- 	$_UDEV_DAEMON --daemon
- 	udevadm trigger --action=add
--- 
-1.9.1
+here IMHO two cases should be reviewed, build host side execution and
+opkg on a target.
 
+On a target /var/lib/opkg/$some_dir should be fine as a default
+temporary directory, and it might be nice to have a config option in
+/etc/opkg/opkg.conf
+
+On a build host side /var/* may have permission restrictions also, so
+* there should be a possibility to accept a user defined tmp dir,
+* if /tmp is not good enough as a default opkg directory, probably some
+subfolder of ${TOPDIR} should fit, either a fixed one or dynamic
+somewhere in a working folder of bb recipe, which calls opkg.
+
+Just my two cents.
+
+With best wishes,
+Vladimir
 
