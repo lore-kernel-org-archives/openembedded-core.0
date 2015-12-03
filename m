@@ -1,53 +1,48 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
-	[209.85.213.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C5A26AC3C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id A2AE260116
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Dec 2015 07:46:43 +0000 (UTC)
-Received: by igvg19 with SMTP id g19so7501997igv.1
+	Thu,  3 Dec 2015 08:39:52 +0000 (UTC)
+Received: by igl9 with SMTP id 9so6422101igl.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Dec 2015 23:46:44 -0800 (PST)
+	Thu, 03 Dec 2015 00:39:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:content-type:mime-version:content-transfer-encoding;
-	bh=WwaCADKa1JxTOPwvgnhNi6lNWWyYk0RpRv8XuMLY9eY=;
-	b=ze3HhtAyFtu7ohZwGY4b04oIdCM8+328GOhfFz9XGfUyG13CCDWK4AHVArK0wwszSN
-	PctzUXQXOJKfB2GFdLHjAzUKVR+4WnpMWbI9PISK7dluh9sTEbGtTh1taP0i9bc+1UUP
-	07t11S2fGE1hpqzbVZf2ozcVMkcVG5R698BW3m2OC/a8tYRslkqTVawZL3wMg/Nuxdw+
-	GY4tD/A4JtVH7uo9p+o8+9q2CQ79bRyliKTOQePKaJaJ8LEylcoHrwt9wZAYpWyIydAS
-	LxBSEMtoa/QCc2MGqqMbwmi8FqPhqd6+WjZmDjDMUNgIYT3N8J+ucvxyQ1mkEgwREd3P
-	SG7w==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=IDEWSE4yaczLG3y+eoLPwYQLpaKmEi5tjBeNdBk2Oqk=;
+	b=aW6eLhh6NFgCMnewmpymaBn0PzRWh1/uM6MKQEpAqxTvn8Djy9rLfMbRZpN6KNTPPC
+	bIeQ7jPAN3u3me4Tuv58BTjKdmX+Lo8/uzoKNjM1Z5GJPdFfkEgx9jcYicFi/BMvyxxr
+	esLaVuLXsua6mDUFc3Irvq/7mN5NtW0ez84sC9eR4vgFzAL4nVxbTEDvC5CswIBnAIrE
+	wf3SL49W6/N0hoy4go4bHukzoKNrNjB5nUqBqwKffWvkvyDuqhDFFLcj7nzVI94hYEgR
+	GEzjDvrAbl2Nr3EEWMElPoFo2rSSTUE6VqZfIlDAgCHv4n4IeBg346R6hIzn2lD9wk4f
+	pZoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:content-type:mime-version
-	:content-transfer-encoding;
-	bh=WwaCADKa1JxTOPwvgnhNi6lNWWyYk0RpRv8XuMLY9eY=;
-	b=VaUMA11lS6AKEkNIZuEBTkQR4I9ShOFDOjmHp9h+wDt0zTdOLlk6YBcwzt2haNuyEr
-	OxIZkKV6sKFzAOTzStdfo5xR6W5Nk4pwWeETeupFgw35uwKUqzeXEKjCx0iNhEXTdXXy
-	op5K57lvPnG691mNrq0sqvJR3JlwrE4nnXzHpiz6jtiX27cdpTsWVOYEWr5G3p+CjVxz
-	uxxScm0DNVSHcd9r2o+tLXwtfMdJiHBePilS5nNqep+7KLx8tQHoThUrePw2NuI7locg
-	j6xwVHd/ZcVx5vCrMjtqUlSEx8lKmtYWeTYy3hPRrIHMmX1mnhYTIJzuA6r4RqXtI9kv
-	PDFw==
-X-Gm-Message-State: ALoCoQkmIJ9anZlMEjMSedyWodymbgxF6hZMvmbpiUc4ZUTMkTIDOutWhnKeJVYxGAFzolrHCACG
-X-Received: by 10.50.183.9 with SMTP id ei9mr36080192igc.81.1449128804234;
-	Wed, 02 Dec 2015 23:46:44 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8C352.dip0.t-ipconnect.de. [93.232.195.82])
-	by smtp.gmail.com with ESMTPSA id qb7sm2596445igb.8.2015.12.02.23.46.42
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Dec 2015 23:46:43 -0800 (PST)
-Message-ID: <1449128801.10734.73.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 03 Dec 2015 08:46:41 +0100
-In-Reply-To: <CAJTo0LZZZ8O_xnpg2fmqbD77JVWq89aYSUUujAWm7JbN=Q51hw@mail.gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=IDEWSE4yaczLG3y+eoLPwYQLpaKmEi5tjBeNdBk2Oqk=;
+	b=FHtdGQAFI/7PhuT6fkXHWgyTBN5v0nYNE8bemT7rXPXL3FEQ7TO1tzvb1LMlSk1HbU
+	v+zZ5iFU93bcqJ1vQQHm+h6LhAqGe1tGK/zRIGdoxrNBN1X4HLoFZZRaNMWZvP/o5Tox
+	iTQK+1fcB+QhSHotuPjhqaHfH4zozACNwE111Xsee2RNMxcvxp1uQEc9WhXY/ZmdeHdc
+	wIh5DjPoCW2X7AgNfwIAzizqic/GHB/E4g8FqnR2n0H+cePdzePInNo7hCevx8HCxb3D
+	TOWeVuGqf/UaYOw/UwmYNT2df+TF43iz3f1H8ULObVuNA0m+8gCexRmEMyvm23FElyfe
+	LAJA==
+X-Gm-Message-State: ALoCoQkvoEzMdt7OcxRbe5LCd1q1JmvNUUn9DhaAC/Xz4oFrmmd2/pg4QBjhIyOhoqbcsIy1DleQ
+X-Received: by 10.50.152.98 with SMTP id ux2mr1141338igb.64.1449131993531;
+	Thu, 03 Dec 2015 00:39:53 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Thu, 3 Dec 2015 00:39:34 -0800 (PST)
+In-Reply-To: <1449128801.10734.73.camel@intel.com>
 References: <e36072a82de706f1485c054adf8cb2d38a01e899.1448029554.git.andrew.shadura@collabora.co.uk>
 	<1449073639.10734.65.camel@intel.com>
 	<CAJTo0LZZZ8O_xnpg2fmqbD77JVWq89aYSUUujAWm7JbN=Q51hw@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
+	<1449128801.10734.73.camel@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 3 Dec 2015 08:39:34 +0000
+Message-ID: <CAJTo0Laxb5Cs=86vkxeOddf-wViitJt2MfCDoLTqjaZz724w8w@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
 Cc: Andrew Shadura <andrew.shadura@collabora.co.uk>,
 	OE Core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v3 1/3] dbus: merge .bb and .inc
@@ -63,74 +58,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Dec 2015 07:46:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 03 Dec 2015 08:39:57 -0000
+Content-Type: multipart/alternative; boundary=089e0149baaab526210525fa554e
 
-On Wed, 2015-12-02 at 16:47 +0000, Burton, Ross wrote:
-> 
-> On 2 December 2015 at 16:27, Patrick Ohly <patrick.ohly@intel.com>
-> wrote:
->         I'm not sure about the "more complicated to do changes in
->         external
->         layers". Why is that?
->         
->         Quite the opposite, I found it useful that the version
->         independent build
->         rules (*) were in a .inc file and relied on including
->         that .inc file in
->         a "dbus-cynara" recipe which builds a specific fork of the
->         source code
->         [2].
->         
->         But I understand that this is an unusual usage of OE-core. As
->         I didn't
->         notice the change in time (it's in master now), I'll just copy
->         the
->         previous content of dbus.inc.
-> 
-> When a bb and an inc are split the inc has to be considered some sort
-> of ABI.  For example, you couldn't remove a configure option that was
-> removed in a new release from the .inc because older recipes that use
-> the inc will still want it.  Then of course on new recipes that
-> triggers a QA warning.  New options need to be added to the
-> relevant .bb and not the inc, but then break if other users don't
-> notice that they need to add options explicitly.  Basically the idea
-> of bb/inc seems good, and in some situations is useful (multiple
-> recipes maintained *in the same place* sharing common code) but as a
-> method of re-using packaging it's got many pitfalls,
+--089e0149baaab526210525fa554e
+Content-Type: text/plain; charset=UTF-8
 
-Thanks for the explanation, I understand now better why relying on
-a .inc file is not recommended ;-) However, it remains unclear to me why
-its presence makes changes in external layers more complicated. Based on
-what you said, these external layers should completely ignore that there
-is a .inc file and just work with the .bb file. I'm just curious whether
-I'm still missing something.
+On 3 December 2015 at 07:46, Patrick Ohly <patrick.ohly@intel.com> wrote:
 
-> especially as your recipe could include the .bb from oe-core directly
-> or be a bbappend.
+> In the layer I am trying to be compatible with OE-core master, dizzy,
+> fido and jethro. That means I cannot "require
+> recipes-core/dbus/dbus_1.8.18.bb" because that file only exists on
+> master.
+>
 
-In the layer I am trying to be compatible with OE-core master, dizzy,
-fido and jethro. That means I cannot "require
-recipes-core/dbus/dbus_1.8.18.bb" because that file only exists on
-master.
+In which case you're expecting the dbus.inc file to remain version-agnostic
+across three releases.
 
-It is possible to use a dbus_%.bbappend and then make changes based on
-the current $PV (this is how some other differences between the OE-core
-branches are handled), but that is not so easy for dbus-cynara because
-it is not just modifying dbus. It's a new recipe.
+Could dbus-cynara be replaced with a bbappend that adds a number of patches
+and a PACKAGECONFIG[cynara], which defaults to disabled for zero impact,
+but can be enabled at the distro level?
 
-I guess a virtual package created from the dbus recipe could work, but
-that sounds way too complex compared to just copying the dbus.inc file.
+Ross
 
--- 
-Best Regards, Patrick Ohly
+--089e0149baaab526210525fa554e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 December 2015 at 07:46, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":7d0" class=
+=3D"a3s" style=3D"overflow:hidden">In the layer I am trying to be compatibl=
+e with OE-core master, dizzy,<br>
+fido and jethro. That means I cannot &quot;require<br>
+recipes-core/dbus/<a href=3D"http://dbus_1.8.18.bb" rel=3D"noreferrer" targ=
+et=3D"_blank">dbus_1.8.18.bb</a>&quot; because that file only exists on<br>
+master.</div></blockquote></div><br>In which case you&#39;re expecting the =
+dbus.inc file to remain version-agnostic across three releases.</div><div c=
+lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Could dbus-cynara=
+ be replaced with a bbappend that adds a number of patches and a PACKAGECON=
+FIG[cynara], which defaults to disabled for zero impact, but can be enabled=
+ at the distro level?</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
 
-
-
-
+--089e0149baaab526210525fa554e--
