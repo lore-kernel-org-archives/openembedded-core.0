@@ -1,51 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id A2AE260116
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 484F66FF72
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Dec 2015 08:39:52 +0000 (UTC)
-Received: by igl9 with SMTP id 9so6422101igl.0
+	Thu,  3 Dec 2015 09:11:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tB39Bjso002960
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Dec 2015 00:39:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=IDEWSE4yaczLG3y+eoLPwYQLpaKmEi5tjBeNdBk2Oqk=;
-	b=aW6eLhh6NFgCMnewmpymaBn0PzRWh1/uM6MKQEpAqxTvn8Djy9rLfMbRZpN6KNTPPC
-	bIeQ7jPAN3u3me4Tuv58BTjKdmX+Lo8/uzoKNjM1Z5GJPdFfkEgx9jcYicFi/BMvyxxr
-	esLaVuLXsua6mDUFc3Irvq/7mN5NtW0ez84sC9eR4vgFzAL4nVxbTEDvC5CswIBnAIrE
-	wf3SL49W6/N0hoy4go4bHukzoKNrNjB5nUqBqwKffWvkvyDuqhDFFLcj7nzVI94hYEgR
-	GEzjDvrAbl2Nr3EEWMElPoFo2rSSTUE6VqZfIlDAgCHv4n4IeBg346R6hIzn2lD9wk4f
-	pZoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=IDEWSE4yaczLG3y+eoLPwYQLpaKmEi5tjBeNdBk2Oqk=;
-	b=FHtdGQAFI/7PhuT6fkXHWgyTBN5v0nYNE8bemT7rXPXL3FEQ7TO1tzvb1LMlSk1HbU
-	v+zZ5iFU93bcqJ1vQQHm+h6LhAqGe1tGK/zRIGdoxrNBN1X4HLoFZZRaNMWZvP/o5Tox
-	iTQK+1fcB+QhSHotuPjhqaHfH4zozACNwE111Xsee2RNMxcvxp1uQEc9WhXY/ZmdeHdc
-	wIh5DjPoCW2X7AgNfwIAzizqic/GHB/E4g8FqnR2n0H+cePdzePInNo7hCevx8HCxb3D
-	TOWeVuGqf/UaYOw/UwmYNT2df+TF43iz3f1H8ULObVuNA0m+8gCexRmEMyvm23FElyfe
-	LAJA==
-X-Gm-Message-State: ALoCoQkvoEzMdt7OcxRbe5LCd1q1JmvNUUn9DhaAC/Xz4oFrmmd2/pg4QBjhIyOhoqbcsIy1DleQ
-X-Received: by 10.50.152.98 with SMTP id ux2mr1141338igb.64.1449131993531;
-	Thu, 03 Dec 2015 00:39:53 -0800 (PST)
+	Thu, 3 Dec 2015 01:11:45 -0800 (PST)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.225]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0248.002;
+	Thu, 3 Dec 2015 01:11:16 -0800
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] matchbox-desktop: sync with gio for the
+	inotify-sub
+Thread-Index: AQHRLBYsk+StN7FzSkeXbi2rCSmlG564+r5Q
+Date: Thu, 3 Dec 2015 09:11:13 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA010C7598D7@ALA-MBA.corp.ad.wrs.com>
+References: <1448948830-9690-1-git-send-email-jackie.huang@windriver.com>
+	<CAJTo0LYtfrPYpfYMDfmO=-CbFcO4=8_K0dWLChEq+AwgAcxYBQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYtfrPYpfYMDfmO=-CbFcO4=8_K0dWLChEq+AwgAcxYBQ@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.136]
 MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Thu, 3 Dec 2015 00:39:34 -0800 (PST)
-In-Reply-To: <1449128801.10734.73.camel@intel.com>
-References: <e36072a82de706f1485c054adf8cb2d38a01e899.1448029554.git.andrew.shadura@collabora.co.uk>
-	<1449073639.10734.65.camel@intel.com>
-	<CAJTo0LZZZ8O_xnpg2fmqbD77JVWq89aYSUUujAWm7JbN=Q51hw@mail.gmail.com>
-	<1449128801.10734.73.camel@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 3 Dec 2015 08:39:34 +0000
-Message-ID: <CAJTo0Laxb5Cs=86vkxeOddf-wViitJt2MfCDoLTqjaZz724w8w@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: Andrew Shadura <andrew.shadura@collabora.co.uk>,
-	OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 1/3] dbus: merge .bb and .inc
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] matchbox-desktop: sync with gio for the inotify-sub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,49 +41,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Dec 2015 08:39:57 -0000
-Content-Type: multipart/alternative; boundary=089e0149baaab526210525fa554e
+X-List-Received-Date: Thu, 03 Dec 2015 09:11:45 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA010C7598D7ALAMBAcorpadw_"
 
---089e0149baaab526210525fa554e
-Content-Type: text/plain; charset=UTF-8
+--_000_1B858668EC6A94408DCA5225FDFA85AA010C7598D7ALAMBAcorpadw_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 3 December 2015 at 07:46, Patrick Ohly <patrick.ohly@intel.com> wrote:
+U28gSSBzaG91bGQgc2VuZCB0aGUgcGF0Y2ggdG8geW9jdG9AeW9jdG9wcm9qZWN0Lm9yZzxtYWls
+dG86eW9jdG9AeW9jdG9wcm9qZWN0Lm9yZz4sIHJpZ2h0Pw0KDQpJIGFncmVlIHRvIGRyb3AgdGhv
+c2UgY29kZXMsIGFuZCBpdCBzaG91bGQgYWxyZWFkeSBiZSBwYXJ0IG9mIHRoZSByZXdyaXRlLA0K
+d2hlcmUgSSBjYW4gZmluZCBpbmZvIGFib3V0IHRoZSByZXdyaXRlLCBJIGRvbuKAmXQgc2VlIGFu
+eSBhY3RpdmVzIGluOg0KZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9tYXRjaGJv
+eC1kZXNrdG9wLTINCg0KVGhlIGxhdGVzdCBjb21taXQgaXMgMyB5ZWFycyBhZ28uDQoNClRoYW5r
+cywNCkphY2tpZQ0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRl
+bC5jb21dDQpTZW50OiBUdWVzZGF5LCBEZWNlbWJlciAwMSwgMjAxNSA0OjU2IFBNDQpUbzogSHVh
+bmcsIEppZSAoSmFja2llKQ0KQ2M6IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BB
+VENIXSBtYXRjaGJveC1kZXNrdG9wOiBzeW5jIHdpdGggZ2lvIGZvciB0aGUgaW5vdGlmeS1zdWIN
+Cg0KDQpPbiAxIERlY2VtYmVyIDIwMTUgYXQgMDU6NDcsIDxqYWNraWUuaHVhbmdAd2luZHJpdmVy
+LmNvbTxtYWlsdG86amFja2llLmh1YW5nQHdpbmRyaXZlci5jb20+PiB3cm90ZToNCm1hdGNoYm94
+LWRlc2t0b3AgYnVpbGRzIHdpdGggaW5jbHVkZWQgbGliaW5vdGlmeSB3aGljaA0KaXMgdmVyeSBv
+bGQgKGxhc3Qgc3luYyB3YXMgaW4gMjAwOCksIGlmIHdlIGNvbXBpbGUgZ2xpYi0yLjANCndpdGgg
+LWZ2aXNpYmlsaXR5PWRlZmF1bHQgKHRoZSBkZWZhdWx0IGlzIGhpZGRlbiBmb3IgbGliZ2xpYg0K
+YW5kIGxpYmdpbyksIGl0IHdpbGwgY3Jhc2ggYmVjYXVzZSBvZiBpbmNvbnNpc3RlbmN5IG9mDQpp
+bm90aWZ5LXN1Yiwgc28gcG9ydCB0aGUgcmVsYXRlZCBwYXJ0cyB0byBmaXggdGhlIGlzc3VlLg0K
+DQptYXRjaGJveC1kZXNrdG9wIGlzIG1haW50YWluZWQgYnkgdGhlIFlvY3RvIFByb2plY3QsIHNv
+IHRoaXMgcGF0Y2ggc2hvdWxkIGJlIGFwcGxpZWQgdGhlcmUgYW5kIHRoZW4gdGhlIHJlY2lwZSB1
+cGRhdGVkIHRvIHRoZSBsYXRlc3QgZ2l0IHJldmlzaW9uLg0KDQpUaGVyZSdzIGEgYmlnIHJld3Jp
+dGUgb2YgbWF0Y2hib3gtZGVza3RvcCBnb2luZyBvbiwgc28gZHJvcHBpbmcgdGhhdCBjb2RlIGVu
+dGlyZWx5IGlzIHByb2JhYmx5IHRoZSBiZXN0IGlkZWE6IGp1c3QgdXNlIEdJTyBpbnN0ZWFkLg0K
+DQpSb3NzDQo=
 
-> In the layer I am trying to be compatible with OE-core master, dizzy,
-> fido and jethro. That means I cannot "require
-> recipes-core/dbus/dbus_1.8.18.bb" because that file only exists on
-> master.
->
+--_000_1B858668EC6A94408DCA5225FDFA85AA010C7598D7ALAMBAcorpadw_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-In which case you're expecting the dbus.inc file to remain version-agnostic
-across three releases.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
+dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
+MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
+MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
+Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
+Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
+bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
+bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
+bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
+aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
+bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
+dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
+LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
+NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
+b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
+CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
+DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
+LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
+bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
+YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
+b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
+IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
+aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+U28gSSBzaG91bGQgc2VuZCB0aGUgcGF0Y2ggdG8NCjxh
+IGhyZWY9Im1haWx0bzp5b2N0b0B5b2N0b3Byb2plY3Qub3JnIj55b2N0b0B5b2N0b3Byb2plY3Qu
+b3JnPC9hPiwgcmlnaHQ/PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
+aSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
+LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1z
+ZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5JIGFncmVlIHRvIGRyb3AgdGhvc2UgY29kZXMsIGFu
+ZCBpdCBzaG91bGQgYWxyZWFkeSBiZSBwYXJ0IG9mIHRoZSByZXdyaXRlLDxvOnA+PC9vOnA+PC9z
+cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEu
+MHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90
+Oztjb2xvcjojMUY0OTdEIj53aGVyZSBJIGNhbiBmaW5kIGluZm8gYWJvdXQgdGhlIHJld3JpdGUs
+IEkgZG9u4oCZdCBzZWUgYW55IGFjdGl2ZXMgaW46PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
+N0QiPmdpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQvY2dpdC5jZ2kvbWF0Y2hib3gtZGVza3RvcC0y
+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
+ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtz
+YW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
+bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xv
+cjojMUY0OTdEIj5UaGUgbGF0ZXN0IGNvbW1pdCBpcyAzIHllYXJzIGFnby48bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEx
+LjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVv
+dDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
+b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPlRo
+YW5rcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBz
+dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZx
+dW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+SmFja2llPG86cD48L286cD48L3Nw
+YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
+cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7
+O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9
+ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowaW4gMGlu
+IDBpbiA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpz
+b2xpZCAjQjVDNERGIDEuMHB0O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9zcGFuPjwv
+Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEm
+cXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3Mu
+YnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBUdWVzZGF5LCBEZWNlbWJlciAw
+MSwgMjAxNSA0OjU2IFBNPGJyPg0KPGI+VG86PC9iPiBIdWFuZywgSmllIChKYWNraWUpPGJyPg0K
+PGI+Q2M6PC9iPiBPRS1jb3JlPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BB
+VENIXSBtYXRjaGJveC1kZXNrdG9wOiBzeW5jIHdpdGggZ2lvIGZvciB0aGUgaW5vdGlmeS1zdWI8
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9u
+IDEgRGVjZW1iZXIgMjAxNSBhdCAwNTo0NywgJmx0OzxhIGhyZWY9Im1haWx0bzpqYWNraWUuaHVh
+bmdAd2luZHJpdmVyLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmphY2tpZS5odWFuZ0B3aW5kcml2ZXIu
+Y29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8ZGl2IGlkPSI6dzYiPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+bWF0Y2hib3gtZGVza3RvcCBidWlsZHMgd2l0aCBpbmNsdWRlZCBsaWJp
+bm90aWZ5IHdoaWNoPGJyPg0KaXMgdmVyeSBvbGQgKGxhc3Qgc3luYyB3YXMgaW4gMjAwOCksIGlm
+IHdlIGNvbXBpbGUgZ2xpYi0yLjA8YnI+DQp3aXRoIC1mdmlzaWJpbGl0eT1kZWZhdWx0ICh0aGUg
+ZGVmYXVsdCBpcyBoaWRkZW4gZm9yIGxpYmdsaWI8YnI+DQphbmQgbGliZ2lvKSwgaXQgd2lsbCBj
+cmFzaCBiZWNhdXNlIG9mIGluY29uc2lzdGVuY3kgb2Y8YnI+DQppbm90aWZ5LXN1Yiwgc28gcG9y
+dCB0aGUgcmVsYXRlZCBwYXJ0cyB0byBmaXggdGhlIGlzc3VlLjxvOnA+PC9vOnA+PC9wPg0KPC9k
+aXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCm1hdGNoYm94LWRlc2t0b3Ag
+aXMgbWFpbnRhaW5lZCBieSB0aGUgWW9jdG8gUHJvamVjdCwgc28gdGhpcyBwYXRjaCBzaG91bGQg
+YmUgYXBwbGllZCB0aGVyZSBhbmQgdGhlbiB0aGUgcmVjaXBlIHVwZGF0ZWQgdG8gdGhlIGxhdGVz
+dCBnaXQgcmV2aXNpb24uPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPlRoZXJlJ3MgYSBiaWcgcmV3cml0ZSBvZiBtYXRjaGJveC1kZXNrdG9wIGdv
+aW5nIG9uLCBzbyBkcm9wcGluZyB0aGF0IGNvZGUgZW50aXJlbHkgaXMgcHJvYmFibHkgdGhlIGJl
+c3QgaWRlYToganVzdCB1c2UgR0lPIGluc3RlYWQuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxk
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0K
+PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
+PC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-Could dbus-cynara be replaced with a bbappend that adds a number of patches
-and a PACKAGECONFIG[cynara], which defaults to disabled for zero impact,
-but can be enabled at the distro level?
-
-Ross
-
---089e0149baaab526210525fa554e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 December 2015 at 07:46, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":7d0" class=
-=3D"a3s" style=3D"overflow:hidden">In the layer I am trying to be compatibl=
-e with OE-core master, dizzy,<br>
-fido and jethro. That means I cannot &quot;require<br>
-recipes-core/dbus/<a href=3D"http://dbus_1.8.18.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">dbus_1.8.18.bb</a>&quot; because that file only exists on<br>
-master.</div></blockquote></div><br>In which case you&#39;re expecting the =
-dbus.inc file to remain version-agnostic across three releases.</div><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Could dbus-cynara=
- be replaced with a bbappend that adds a number of patches and a PACKAGECON=
-FIG[cynara], which defaults to disabled for zero impact, but can be enabled=
- at the distro level?</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
-
---089e0149baaab526210525fa554e--
+--_000_1B858668EC6A94408DCA5225FDFA85AA010C7598D7ALAMBAcorpadw_--
