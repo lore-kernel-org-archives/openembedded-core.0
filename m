@@ -1,20 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B77BA6E5CC
+	by mail.openembedded.org (Postfix) with ESMTP id D3CED6FFF7
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  3 Dec 2015 13:54:42 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Dec 2015 05:54:27 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 03 Dec 2015 05:54:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,378,1444719600"; d="scan'208";a="853118341"
+X-IronPort-AV: E=Sophos;i="5.20,378,1444719600"; d="scan'208";a="853118354"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Dec 2015 05:54:26 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 03 Dec 2015 05:54:27 -0800
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Dec 2015 15:54:23 +0200
-Message-Id: <1449150865-7496-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Thu,  3 Dec 2015 15:54:24 +0200
+Message-Id: <1449150865-7496-2-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/2] devtool: kernel config fixes
+In-Reply-To: <1449150865-7496-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1449150865-7496-1-git-send-email-markus.lehtonen@linux.intel.com>
+Subject: [PATCH 1/2] devtool: extract: copy kernel config to srctree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,33 +29,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Dec 2015 13:54:42 -0000
+X-List-Received-Date: Thu, 03 Dec 2015 13:54:43 -0000
 
-Two patches changing the kernel config handling (of kernel packages). Now the
-srctree is expected to have .config which will be used as the initial kernel
-config when building.
+This makes the correct kernel config to be used when building kernel
+from srctree (extrernalsrc). If no kernel config is present in the
+builddir 'do_configure' task copies .config from the srctree.
 
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ scripts/lib/devtool/standard.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-The following changes since commit 687e5ef86361a16d6c411386939d4ba96a5909ea:
-
-  libsdl: remove redundant configure_tweak patch (2015-12-01 21:31:04 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib marquiz/devtool/kernel
-
-for you to fetch changes up to 0ccea2b62e4d28f3989a72f773e0cbf023739721:
-
-  devtool: extract: update SRCTREECOVEREDTASKS for kernel (2015-12-03 15:35:42 +0200)
-
-
-Markus Lehtonen (2):
-  devtool: extract: copy kernel config to srctree
-  devtool: extract: update SRCTREECOVEREDTASKS for kernel
-
- scripts/lib/devtool/standard.py | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 68d6eb9..a4f3da4 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -457,6 +457,14 @@ def _extract_source(srctree, keep_temp, devbranch, sync, d):
+             if haspatches:
+                 bb.process.run('git checkout patches', cwd=srcsubdir)
+ 
++        if bb.data.inherits_class('kernel-yocto', d):
++            # Store generate and store kernel config
++            logger.info('Generating kernel config')
++            task_executor.exec_func('do_configure', False)
++            kconfig = os.path.join(d.getVar('B', True), '.config')
++            shutil.copy2(kconfig, srcsubdir)
++
++
+         tempdir_localdir = os.path.join(tempdir, 'oe-local-files')
+         srctree_localdir = os.path.join(srctree, 'oe-local-files')
+ 
 -- 
 2.1.4
 
