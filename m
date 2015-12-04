@@ -1,27 +1,49 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 112F160291
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 93375607AA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Dec 2015 10:20:38 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP; 04 Dec 2015 02:20:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,380,1444719600"; 
-   d="scan'208";a="7423784"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga004.fm.intel.com with ESMTP; 04 Dec 2015 02:20:38 -0800
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+	Fri,  4 Dec 2015 10:31:55 +0000 (UTC)
+Received: by igcmv3 with SMTP id mv3so32891612igc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Dec 2015 02:31:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=U/6RFXWZVB0ERCOmLkzn/6R+Ilpabw2dJMRO5oghOBE=;
+	b=TFpUC32yowuNY0tYo6CM5M/Iwfwd2EpAFe0TzDayayylNlaT+5sfJhfUF3wsy3ecii
+	HAT8aTZhQkBrIRAnYiDHez9EbLwbxxSJP7PmArxh0IpwRuZEqESCIE66jvFdUOQIgGKP
+	80QyIYJC3Uti6nCaYgguYSge6m1RmjzJi9wlFI4RITUk3AsIfHy7ffYeePnTkQDh/4qe
+	rLiJ9YpbsjT8tDvbLY/jNbvQAKXm4Q7ju0Ij0ilosAYOpWQ7JYufcp3riD2AnFY1QSII
+	+8a37R1ysFnnvKZg/sDeT553AAAuFFeGMTBsQnlnrgFQQOXLbS3ZyTPq+R3fYEOtRLlv
+	l1Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=U/6RFXWZVB0ERCOmLkzn/6R+Ilpabw2dJMRO5oghOBE=;
+	b=IHCku9sVxxvJz83x6Lom/Rty0KwK9q95e+5sdxMU089LBvDTDSDjUd6zjFylkwBzwS
+	g0TcpTF7LWOuBHZaQu4fxdRFWCAKjr4NsEbVWST8kRzkzqxm+ei8WZfZF4UXAFDjgnv3
+	DTrIVi3OHAqV6CXmSWGGBjO+3TxKOEZbT75ylrzZcFka1f4hGIEfR0bdEq2hOgUanGIK
+	xhZwAI4gifi2dmY4KV6mWYhVf2bG28VS7GuF1Aw4mpD6iyb74FQxo+LHUuNY8+jLuEYW
+	58LAap2N4/k9R4Kw5D19CW/sDFqUiNAron8+boDM24p2xQOy+2VzXsRqmQa4gwjGd1BL
+	bM1A==
+X-Gm-Message-State: ALoCoQm4ReQL7+J48tO/lY8Ac47I7+fHVFZ5HgOxwGWd3UhpzRdQWSMYu0cOWYmomTMSphxtUNPe
+X-Received: by 10.50.155.33 with SMTP id vt1mr3187218igb.64.1449225116832;
+	Fri, 04 Dec 2015 02:31:56 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Fri, 4 Dec 2015 02:31:37 -0800 (PST)
+In-Reply-To: <5661685E.9080001@linux.intel.com>
 References: <cover.1449152021.git.alexander.kanavin@linux.intel.com>
 	<CAP9ODKomNG8pbmjH=-k2qVOBrmnopeTjht6devfRJD=mH=NpZQ@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <5661685E.9080001@linux.intel.com>
-Date: Fri, 4 Dec 2015 12:18:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Icedove/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKomNG8pbmjH=-k2qVOBrmnopeTjht6devfRJD=mH=NpZQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+	<5661685E.9080001@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 4 Dec 2015 10:31:37 +0000
+Message-ID: <CAJTo0Lbkx3ar8btEZn3idG7nzy979LJTtotpK4qhu_2s1EGcXg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/9] Move Qt4 recipes to a separate meta-qt4 layer
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -36,29 +58,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Dec 2015 10:20:40 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Dec 2015 10:31:59 -0000
+Content-Type: multipart/alternative; boundary=001a11343daa49ef650526100422
 
-On 12/03/2015 09:21 PM, Otavio Salvador wrote:
+--001a11343daa49ef650526100422
+Content-Type: text/plain; charset=UTF-8
 
->> Qt4 is reaching end of life at the end of 2015, and will not be supported
->> upstream. Qt4 recipes are moved out of oe-core to a separate meta-qt4 layer
->> available here:
->> http://git.yoctoproject.org/cgit/cgit.cgi/meta-qt4/about/
->>
->> This patchset removes Qt4 from oe-core. I cannot send it to the list for review
->> because it contains very long lines that SMTP cannot handle.
+On 4 December 2015 at 10:18, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
+
+> That's fine with me. Ross, can you squish these commits together in your
+> testing branch?
 >
-> Personally I would prefer this to be done in a single patch. If
-> someone wants to revert it locally it is easier and it also makes
-> easier for people to understand why it has been done and keep
-> everything at buildable state across commits.
 
-That's fine with me. Ross, can you squish these commits together in your 
-testing branch?
+Certainly can.  We'll probably need a layer version bump so the autobuilder
+can do the right thing but I'll talk to Beth about this first.
 
+Ross
 
-Alex
+--001a11343daa49ef650526100422
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 December 2015 at 10:18, Alexander Kanavin <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.=
+kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex"><div id=3D":5ip" class=3D"a3s" style=3D"overflow:hidden">That&#39;s fi=
+ne with me. Ross, can you squish these commits together in your testing bra=
+nch?<br></div></blockquote></div><br>Certainly can.=C2=A0 We&#39;ll probabl=
+y need a layer version bump so the autobuilder can do the right thing but I=
+&#39;ll talk to Beth about this first.</div><div class=3D"gmail_extra"><br>=
+</div><div class=3D"gmail_extra">Ross</div></div>
 
+--001a11343daa49ef650526100422--
