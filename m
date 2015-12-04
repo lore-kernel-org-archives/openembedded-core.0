@@ -1,33 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F1B660132
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F2908605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Dec 2015 20:45:49 +0000 (UTC)
-Received: by wmvv187 with SMTP id v187so91546031wmv.1
+	Fri,  4 Dec 2015 23:13:16 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tB4NDGxk016099
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Dec 2015 12:45:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=nqMe92zrktA3gGSZWdQKOn2E2AXrqWDiVXihVgy9rsM=;
-	b=owzafydpJPFfnNoo8PkWRkmoD8l6FzjoHTZw/3EqZvnsNmmg3kmMLqlKY7IRMNwjCL
-	HZ3uz459D6PDMqMWxvsc2Ake1whhbT1SWBzH5VgrDJ0eel8BFj3jt6A/Q4cYhp5h0Ap1
-	cu6BZhTmJQw4WRNHl1obq18cv39Pchz8uRO4fXMkNOULK+tJgECLTYSnRvcdGwZEzst/
-	HMBMhSZ7GCrUMvqJ9BLgC6TWUsHh5udNTNz5Qmn88e1fkN0aASV8ju+shfLgzAN960kn
-	nkmBP39Q14sWtNOpCdAg5tvNk/pF4UhRxUmS7CJPFEqeUaAX1Wy5TYm2r4JZBHThggHp
-	T9Cw==
-X-Received: by 10.28.49.65 with SMTP id x62mr7475338wmx.49.1449261949738;
-	Fri, 04 Dec 2015 12:45:49 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id z66sm5052831wmz.7.2015.12.04.12.45.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 04 Dec 2015 12:45:48 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Dec 2015 21:47:07 +0100
-Message-Id: <1449262027-26919-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.6.3
-Subject: [PATCH] texinfo: don't create dependency on INHERIT variable
+	Fri, 4 Dec 2015 15:13:17 -0800
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.248.2; Fri, 4 Dec 2015 15:13:15 -0800
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <randy.macleod@windriver.com>
+Date: Fri, 4 Dec 2015 15:13:15 -0800
+Message-ID: <1449270795-16057-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+Subject: [PATCH 1/1] ghostscript: add dependency for pnglibconf.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,40 +31,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Dec 2015 20:45:51 -0000
+X-List-Received-Date: Fri, 04 Dec 2015 23:13:18 -0000
+Content-Type: text/plain
 
-* we don't want the do_package signature depending on INHERIT variable
-* e.g. just adding the own-mirrors causes texinfo to rebuild:
-  # bitbake-diffsigs BUILD/sstate-diff/*/*/texinfo/*do_package.sig*
-  basehash changed from 015df2fd8e396cc1e15622dbac843301 to 9f1d06c4f238c70a99ccb6d8da348b6a
-  Variable INHERIT value changed from
-  ' rm_work blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
-  to
-  ' rm_work own-mirrors blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
+When using parallel make jobs, we need to be sure that
+pnglibconf.h is created before we try to reference it,
+so add a rule to png.mak.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Joe Slater <jslater@windriver.com>
 ---
- meta/recipes-extended/texinfo/texinfo_6.0.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ .../ghostscript/ghostscript/png_mak.patch          |   21 ++++++++++++++++++++
+ .../ghostscript/ghostscript_9.16.bb                |    1 +
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/png_mak.patch
 
-diff --git a/meta/recipes-extended/texinfo/texinfo_6.0.bb b/meta/recipes-extended/texinfo/texinfo_6.0.bb
-index 8fb715a..b0a6975 100644
---- a/meta/recipes-extended/texinfo/texinfo_6.0.bb
-+++ b/meta/recipes-extended/texinfo/texinfo_6.0.bb
-@@ -9,8 +9,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- PROVIDES_append_class-native = " texinfo-replacement-native"
- 
-+DOC_COMPRESS_ENABLED = "${@ '1' if 'compress_doc' in (d.getVar('INHERIT', True) or '').split() else '0' }"
-+DOC_COMPRESS_ENABLED[vardepvalue] = "${DOC_COMPRESS_ENABLED}"
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/png_mak.patch b/meta/recipes-extended/ghostscript/ghostscript/png_mak.patch
+new file mode 100644
+index 0000000..da900ea
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/png_mak.patch
+@@ -0,0 +1,21 @@
++ghostscript: add dependency for pnglibconf.h
++    
++When using parallel make jobs, we need to be sure that
++pnglibconf.h is created before we try to reference it,
++so add a rule to png.mak.
 +
- def compress_pkg(d):
--    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
-+    if d.getVar("DOC_COMPRESS_ENABLED", True) == "1":
-          compress = d.getVar("DOC_COMPRESS", True)
-          if compress == "gz":
-              return "gzip"
++Upstream-Status: Pending
++    
++Signed-off-by: Joe Slater <jslater@windriver.com>
++
++--- a/base/png.mak
+++++ b/base/png.mak
++@@ -81,6 +81,8 @@ png.config-clean :
++ $(pnglibconf_h) : $(PNGSRC)scripts$(D)pnglibconf.h.prebuilt
++ 	$(CP_)  $(PNGSRC)scripts$(D)pnglibconf.h.prebuilt $(pnglibconf_h)
++ 
+++$(MAKEDIRS) : $(pnglibconf_h)
+++
++ PDEP=$(AK) $(pnglibconf_h) $(MAKEDIRS)
++ 
++ png_1=$(PNGOBJ)png.$(OBJ) $(PNGOBJ)pngmem.$(OBJ) $(PNGOBJ)pngerror.$(OBJ) $(PNGOBJ)pngset.$(OBJ)
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.16.bb b/meta/recipes-extended/ghostscript/ghostscript_9.16.bb
+index ec4acc6..d584c49 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.16.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.16.bb
+@@ -19,6 +19,7 @@ DEPENDS_class-native = ""
+ SRC_URI_BASE = "http://downloads.ghostscript.com/public/ghostscript-${PV}.tar.gz \
+                 file://ghostscript-9.15-parallel-make.patch \
+                 file://ghostscript-9.16-Werror-return-type.patch \
++                file://png_mak.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
 -- 
-2.6.3
+1.7.9.5
 
 
