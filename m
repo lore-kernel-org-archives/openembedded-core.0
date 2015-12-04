@@ -1,38 +1,33 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BADE612E5
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F1B660132
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Dec 2015 16:24:02 +0000 (UTC)
-Received: by qkfo3 with SMTP id o3so45627274qkf.1
+	Fri,  4 Dec 2015 20:45:49 +0000 (UTC)
+Received: by wmvv187 with SMTP id v187so91546031wmv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Dec 2015 08:24:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=zySvMfMZBQRaul00uCzBAq1/ndPpFDKkqkr0KLOvXJg=;
-	b=A0awfEl+kYQx7IlQ+Ndg8zhAzT8w9IKhByh6GT8j38vHhEJTseH2QrcDrOVo2lR5jo
-	lCLNAe2anWYsYJgObN9AIPy3Qla7aAS9Dl4sB5fruFXU7bOy0kbPJ5rATbk5kWrv1lz8
-	PEn1PMgukCrCqoc+yQPLFhXzqeEdzqEwECVq+UT/ZG0wEIz4hNB/xf1SqmiVChPeT4gZ
-	rZytJ+bAD6gVQAD2Pc5fSyYmjvqqnEQxfnU/ETZn75RMuqd/4PETLDED6Fj+xkLetT+3
-	DaJzz2Zl4cnoPXioRe5Kqpk8/0WNPEg2DiNRnKoJCPeqZCPMF5R7f1YwuCkLgL8wvIpx
-	I8SQ==
-X-Received: by 10.55.76.213 with SMTP id z204mr19131513qka.58.1449246242952;
-	Fri, 04 Dec 2015 08:24:02 -0800 (PST)
-Received: from localhost ([177.194.217.47]) by smtp.gmail.com with ESMTPSA id
-	w10sm5722289qhc.16.2015.12.04.08.23.59
+	Fri, 04 Dec 2015 12:45:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=nqMe92zrktA3gGSZWdQKOn2E2AXrqWDiVXihVgy9rsM=;
+	b=owzafydpJPFfnNoo8PkWRkmoD8l6FzjoHTZw/3EqZvnsNmmg3kmMLqlKY7IRMNwjCL
+	HZ3uz459D6PDMqMWxvsc2Ake1whhbT1SWBzH5VgrDJ0eel8BFj3jt6A/Q4cYhp5h0Ap1
+	cu6BZhTmJQw4WRNHl1obq18cv39Pchz8uRO4fXMkNOULK+tJgECLTYSnRvcdGwZEzst/
+	HMBMhSZ7GCrUMvqJ9BLgC6TWUsHh5udNTNz5Qmn88e1fkN0aASV8ju+shfLgzAN960kn
+	nkmBP39Q14sWtNOpCdAg5tvNk/pF4UhRxUmS7CJPFEqeUaAX1Wy5TYm2r4JZBHThggHp
+	T9Cw==
+X-Received: by 10.28.49.65 with SMTP id x62mr7475338wmx.49.1449261949738;
+	Fri, 04 Dec 2015 12:45:49 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id z66sm5052831wmz.7.2015.12.04.12.45.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 04 Dec 2015 08:24:01 -0800 (PST)
-Received: by localhost (sSMTP sendmail emulation);
-	Fri, 04 Dec 2015 14:23:56 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  4 Dec 2015 14:23:55 -0200
-Message-Id: <1449246235-14680-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.6.2
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] lttng-tools: Revert wrong enforcement of Python 3.0 use
+	Fri, 04 Dec 2015 12:45:48 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 Dec 2015 21:47:07 +0100
+Message-Id: <1449262027-26919-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.6.3
+Subject: [PATCH] texinfo: don't create dependency on INHERIT variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,71 +40,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Dec 2015 16:24:03 -0000
+X-List-Received-Date: Fri, 04 Dec 2015 20:45:51 -0000
 
-The code has support and checks for Python 2 and Python 3 however
-during the development of 2.7 release a requirement for Python 3 was
-include, without a reason.
+* we don't want the do_package signature depending on INHERIT variable
+* e.g. just adding the own-mirrors causes texinfo to rebuild:
+  # bitbake-diffsigs BUILD/sstate-diff/*/*/texinfo/*do_package.sig*
+  basehash changed from 015df2fd8e396cc1e15622dbac843301 to 9f1d06c4f238c70a99ccb6d8da348b6a
+  Variable INHERIT value changed from
+  ' rm_work blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
+  to
+  ' rm_work own-mirrors blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
 
-This reverts the commit restoring the Python 2 support.
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
+ meta/recipes-extended/texinfo/texinfo_6.0.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
- ...d-look-for-python-3.0-when-building-pytho.patch | 30 ++++++++++++++++++++++
- meta/recipes-kernel/lttng/lttng-tools_git.bb       |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools/Revert-Build-look-for-python-3.0-when-building-pytho.patch
-
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/Revert-Build-look-for-python-3.0-when-building-pytho.patch b/meta/recipes-kernel/lttng/lttng-tools/Revert-Build-look-for-python-3.0-when-building-pytho.patch
-new file mode 100644
-index 0000000..d05c04c
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-tools/Revert-Build-look-for-python-3.0-when-building-pytho.patch
-@@ -0,0 +1,30 @@
-+From: Otavio Salvador <otavio@ossystems.com.br>
-+Date: Fri, 4 Dec 2015 16:11:41 +0000
-+Subject: [PATCH] Revert "Build: look for python >= 3.0 when building python bindings"
-+Organization: O.S. Systems Software LTDA.
-+
-+This reverts commit 227703a2ceada3c104edd56756d48455ca4c271a.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 4dee4b4..6608bcd 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -339,7 +339,7 @@ AM_CONDITIONAL([PYTHON_BINDING], [test "x${enable_python_binding:-yes}" = xyes])
-+ 
-+ if test "x${enable_python_binding:-yes}" = xyes; then
-+   AX_PKG_SWIG($swig_version, [], [ AC_MSG_ERROR([SWIG $swig_version or newer is needed]) ])
-+-  AM_PATH_PYTHON([3.0])
-++  AM_PATH_PYTHON
-+ 
-+   AC_ARG_VAR([PYTHON_INCLUDE], [Include flags for python, bypassing python-config])
-+   AC_ARG_VAR([PYTHON_CONFIG], [Path to python-config])
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_git.bb b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-index b124b95..82a0840 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_git.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_git.bb
-@@ -26,6 +26,7 @@ PACKAGECONFIG[lttng-ust] = "--enable-lttng-ust, --disable-lttng-ust, lttng-ust"
- PACKAGECONFIG[kmod] = "--enable-kmod, --disable-kmod, kmod"
+diff --git a/meta/recipes-extended/texinfo/texinfo_6.0.bb b/meta/recipes-extended/texinfo/texinfo_6.0.bb
+index 8fb715a..b0a6975 100644
+--- a/meta/recipes-extended/texinfo/texinfo_6.0.bb
++++ b/meta/recipes-extended/texinfo/texinfo_6.0.bb
+@@ -9,8 +9,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
- SRC_URI = "git://git.lttng.org/lttng-tools.git;branch=stable-2.7 \
-+           file://Revert-Build-look-for-python-3.0-when-building-pytho.patch \
-            file://stop-using-SIGUNUSED.patch \
-            file://runtest-2.4.0.patch \
-            file://run-ptest"
+ PROVIDES_append_class-native = " texinfo-replacement-native"
+ 
++DOC_COMPRESS_ENABLED = "${@ '1' if 'compress_doc' in (d.getVar('INHERIT', True) or '').split() else '0' }"
++DOC_COMPRESS_ENABLED[vardepvalue] = "${DOC_COMPRESS_ENABLED}"
++
+ def compress_pkg(d):
+-    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
++    if d.getVar("DOC_COMPRESS_ENABLED", True) == "1":
+          compress = d.getVar("DOC_COMPRESS", True)
+          if compress == "gz":
+              return "gzip"
 -- 
-2.6.2
+2.6.3
 
 
