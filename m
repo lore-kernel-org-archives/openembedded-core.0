@@ -1,34 +1,47 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
-	[209.85.218.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 303716FFF7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 025D365D00
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Dec 2015 05:16:41 +0000 (UTC)
-Received: by oige206 with SMTP id e206so62573082oig.2
+	Fri,  4 Dec 2015 09:12:18 +0000 (UTC)
+Received: by igvg19 with SMTP id g19so31839216igv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Dec 2015 21:16:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=JoebA7a3/dffd2NfimhDWKod3/a0V/9KsyKPLsYAsno=;
-	b=EdfKMobY2N1tVm/EvsX0oinUJvVimuX5rQ8VblZeNSvZmNd7GLYSd0dqho0tWOYRYn
-	RkpWMTGEvNOuIRD+/lPXKguIpdw8g5sHWucd9poYM6iTW70Eee3fsaSSsmVhnftWjwft
-	Fo+Hce6tdx27h1bx5vpAyAfQW1NE9+nF/pcrmFpyVawlBDGtffqYolAKiiqzvKCUo5GE
-	wA7Axj2xT3JejkaTgXllZSHAAMUsWqbvDPdhbQSp6O61AxO7jOkOhbwrZUlVsDFboMO5
-	NS3hqobeu4d03WAuOC1uUQG43RTlqSw/GxAt8r09jvl60bmszGuZYvEfYWhrlqCa6zKM
-	5jow==
-X-Received: by 10.202.85.211 with SMTP id j202mr10768886oib.55.1449206202265; 
-	Thu, 03 Dec 2015 21:16:42 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id j7sm5166424oeq.0.2015.12.03.21.16.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Dec 2015 21:16:41 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Dec 2015 21:16:35 -0800
-Message-Id: <1449206195-22318-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] libpng: update 1.6.19 -> 1.6.20 (CVE-2015-8126)
+	Fri, 04 Dec 2015 01:12:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=uo0MiS1cz4ZCv88//M17YVjjjU0jNz8+WZzwsoHMHg4=;
+	b=FC6tGttfl0f5Doivq2RnWsTo0xBzgHJSRxAF8G24gHf1ELmVDcjf/ITUiM6t9T64Zn
+	Xsyl2E7lMaxzh6sX+5gvPj1qFt+UjY0sldLm6k5byvDS00Op7r9rmGJLHT3oGJ/m1RUb
+	GHNw+56i/ZXyrNpyZdTYD9QqJsy9O9lLr1Gmurwj22ClDw2GCY+BjGwK5D6cCN2EkGtK
+	u7z+BJbVigW6ykOQl7E83Gc+rqFrBqgJ3et4Yg6/npliO7UeXhIz4lO1l6d5bRphssrR
+	j0eadnVUpC8wiSQugXXYMohQm6nVC6wnSot7kJdy+xZ6UvD6m6vBRhfUMYLEGTnrPzUU
+	uLaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=uo0MiS1cz4ZCv88//M17YVjjjU0jNz8+WZzwsoHMHg4=;
+	b=WQFG1bhJhesbWtFzPI3HCrE3cbjdLGpYP2Qtyfq+Y60St9NiBX4b3BLzAis+9tPw6R
+	d8PMB9RHNjq1/0uDsn7K+b3DdtXA1joCR6FIIYROjcC8MOzUtQj07t7cU1s27TECbHMR
+	AEfQiLN/quTR6dOOTlz095eITpJWr9yVV5CM3U1gRtjT7YJ2vVJmoJFvCqQDpFDTJkV6
+	R0FbEeuJuaxczzynnx1nNBPvyjOWKQy7EyGuVabNeIVFOW6UiMpuMke0zMf8JjrdfUEB
+	P4absp3SgGQX+iPD4vlJYCTS8E2zr8KIr0C5yQHD6qPsXgWse+O8zaPd7O01jTXTLx3P
+	QH/Q==
+X-Gm-Message-State: ALoCoQmyQRP/q9yb2Na0Nxt9jsucLEZzYE+OjlIFEjYAxK2zPpSxhhPGaEQA0fkF44RCqAjI8R/E
+X-Received: by 10.50.155.33 with SMTP id vt1mr2927993igb.64.1449220338965;
+	Fri, 04 Dec 2015 01:12:18 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Fri, 4 Dec 2015 01:11:59 -0800 (PST)
+In-Reply-To: <1449042969-24132-1-git-send-email-maxin.john@intel.com>
+References: <1449042969-24132-1-git-send-email-maxin.john@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 4 Dec 2015 09:11:59 +0000
+Message-ID: <CAJTo0LZjk_FQBhpm-K95rsO9k2ux-a7x+a4+uGL6GuFi2oj_pA@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] libjpeg: Replace libjpeg with libjpeg-turbo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,114 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Dec 2015 05:16:42 -0000
+X-List-Received-Date: Fri, 04 Dec 2015 09:12:19 -0000
+Content-Type: multipart/alternative; boundary=001a11343daa817b6805260ee7d8
 
-Version 1.6.20beta01 [November 20, 2015]
-  Avoid potential pointer overflow/underflow in png_handle_sPLT() and
-    png_handle_pCAL() (Bug report by John Regehr).
+--001a11343daa817b6805260ee7d8
+Content-Type: text/plain; charset=UTF-8
 
-Version 1.6.20beta02 [November 23, 2015]
-  Fixed incorrect implementation of png_set_PLTE() that uses png_ptr
-    not info_ptr, that left png_set_PLTE() open to the CVE-2015-8126
-    vulnerability.
+Hi Maxin,
 
-Version 1.6.20beta03 [November 24, 2015]
-  Backported tests from libpng-1.7.0beta69.
+On 2 December 2015 at 07:56, Maxin B. John <maxin.john@intel.com> wrote:
 
-Version 1.6.20rc01 [November 26, 2015]
-  Fixed an error in handling of bad zlib CMINFO field in pngfix, found by
-    American Fuzzy Lop, reported by Brian Carpenter.  inflate() doesn't
-    immediately fault a bad CMINFO field; instead a 'too far back' error
-    happens later (at least some times).  pngfix failed to limit CMINFO to
-    the allowed values but then assumed that window_bits was in range,
-    triggering an assert. The bug is mostly harmless; the PNG file cannot
-    be fixed.
+> Moving libjpeg-turbo from meta-oe as a replacement for libjpeg
+> package. libjpeg-turbo has same API/ABI as libjpeg. It is
+> relatively faster in JPEG compression/decompression than libjpeg.
+>
 
-Version 1.6.20rc02 [November 29, 2015]
-  In libpng 1.6 zlib initialization was changed to use the window size
-    in the zlib stream, not a fixed value. This causes some invalid images,
-    where CINFO is too large, to display 'correctly' if the rest of the
-    data is valid.  This provides a workaround for zlib versions where the
-    error arises (ones that support the API change to use the window size
-    in the stream).
+As jpeg-turbo has assembler bits it's getting all confused about x32:
 
-Version 1.6.20 [December 3, 2015]
-  No changes.
+| checking if we have SIMD optimisations for cpu type... yes (x86_64)
+| checking for nasm... nasm
+| checking for object file format of host system... ELF64
+| checking for object file format specifier (NAFLAGS) ... -felf64 -DELF
+-D__x86_64__
+| checking whether the assembler (nasm -felf64 -DELF -D__x86_64__) works...
+yes
+| checking whether the linker accepts assembler output... no
+| configure: error: configuration problem: maybe object file format
+mismatch.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-multimedia/libpng/libpng_1.6.19.bb | 27 -------------------------
- meta/recipes-multimedia/libpng/libpng_1.6.20.bb | 26 ++++++++++++++++++++++++
- 2 files changed, 26 insertions(+), 27 deletions(-)
- delete mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.19.bb
- create mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.20.bb
+(https://autobuilder.yoctoproject.org/main/builders/nightly-x32/builds/545)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.19.bb b/meta/recipes-multimedia/libpng/libpng_1.6.19.bb
-deleted file mode 100644
-index 214f9d3..0000000
---- a/meta/recipes-multimedia/libpng/libpng_1.6.19.bb
-+++ /dev/null
-@@ -1,27 +0,0 @@
--SUMMARY = "PNG image format decoding library"
--HOMEPAGE = "http://www.libpng.org/"
--SECTION = "libs"
--LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=586a8dac4d039e74af7b68ff2bc5fc41 \
--                    file://png.h;endline=17;md5=a38a64f8b5cf0ea4e2d4c2cb47150151 \
--                    file://png.h;beginline=19;endline=111;md5=d3e773acb87d7a35863203538167a776"
--DEPENDS = "zlib"
--LIBV = "16"
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
--          "
--SRC_URI[md5sum] = "1e6a458429e850fc93c1f3b6dc00a48f"
--SRC_URI[sha256sum] = "311c5657f53516986c67713c946f616483e3cdb52b8b2ee26711be74e8ac35e8"
--
--BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
--
--inherit autotools binconfig-disabled pkgconfig
--
--# Work around missing symbols
--EXTRA_OECONF_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
--
--PACKAGES =+ "${PN}-tools"
--
--FILES_${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.20.bb b/meta/recipes-multimedia/libpng/libpng_1.6.20.bb
-new file mode 100644
-index 0000000..6c149d2
---- /dev/null
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.20.bb
-@@ -0,0 +1,26 @@
-+SUMMARY = "PNG image format decoding library"
-+HOMEPAGE = "http://www.libpng.org/"
-+SECTION = "libs"
-+LICENSE = "Libpng"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=55b60b5bb3ed92fbf9197e565a7fac02 \
-+                    file://png.h;endline=112;md5=a6352a338642f0dbd2fc280ae060d3e9"
-+DEPENDS = "zlib"
-+LIBV = "16"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
-+          "
-+SRC_URI[md5sum] = "3968acb7c66ef81a9dab867f35d0eb4b"
-+SRC_URI[sha256sum] = "55c5959e9f3484d96141a3226c53bc9da42a4845e70879d3e1d6e94833d1918b"
-+
-+BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
-+
-+inherit autotools binconfig-disabled pkgconfig
-+
-+# Work around missing symbols
-+EXTRA_OECONF_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
-+
-+PACKAGES =+ "${PN}-tools"
-+
-+FILES_${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix"
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-1.9.1
+Ross
 
+--001a11343daa817b6805260ee7d8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Maxin,</div><div class=3D"gm=
+ail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_quote">=
+On 2 December 2015 at 07:56, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
+-left-style:solid;padding-left:1ex"><div id=3D":9nz" class=3D"" style=3D"ov=
+erflow:hidden">Moving libjpeg-turbo from meta-oe as a replacement for libjp=
+eg<br>
+package. libjpeg-turbo has same API/ABI as libjpeg. It is<br>
+relatively faster in <span class=3D"">JPEG</span> compression/decompression=
+ than libjpeg.<br></div></blockquote></div><br>As jpeg-turbo has assembler =
+bits it&#39;s getting all confused about x32:</div><div class=3D"gmail_extr=
+a"><br></div>| checking if we have SIMD optimisations for cpu type... yes (=
+x86_64)<div>| checking for nasm... nasm</div><div>| checking for object fil=
+e format of host system... ELF64</div><div>| checking for object file forma=
+t specifier (NAFLAGS) ... -felf64 -DELF -D__x86_64__</div><div>| checking w=
+hether the assembler (nasm -felf64 -DELF -D__x86_64__) works... yes</div><d=
+iv>| checking whether the linker accepts assembler output... no</div><div>|=
+ configure: error: configuration problem: maybe object file format mismatch=
+.</div><div><br></div><div>(<a href=3D"https://autobuilder.yoctoproject.org=
+/main/builders/nightly-x32/builds/545">https://autobuilder.yoctoproject.org=
+/main/builders/nightly-x32/builds/545</a>)</div><div><br></div><div>Ross</d=
+iv></div>
+
+--001a11343daa817b6805260ee7d8--
