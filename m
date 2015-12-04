@@ -1,34 +1,34 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id C594C6AC4B
+Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
+	[209.85.218.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 303716FFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Dec 2015 03:53:22 +0000 (UTC)
-Received: by obbnk6 with SMTP id nk6so66499258obb.2
+	Fri,  4 Dec 2015 05:16:41 +0000 (UTC)
+Received: by oige206 with SMTP id e206so62573082oig.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Dec 2015 19:53:23 -0800 (PST)
+	Thu, 03 Dec 2015 21:16:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=jzOXXbJ7B3Wx+ECYcvfPapnfE2bOI4USNCWXBtMj7HY=;
-	b=kb73qhnfflKJoX3DUzxabu1tik9xuxVsq8x8gQQfqBKt8jKh6EINOCg1mC4/47EiqV
-	oW9Vn4oQFR3J0NWpeFMo+V5bzD4Jq6/J98X2YcpEXPSaO8hjZb9iRAOF8NtbFPJj8edQ
-	xquHo6WCjkcW08yXuWWx/4vMXaoww4B1COXKnH/0cyG6Ok+GNBXHxG7Oe1r1bPGtA64i
-	pEv3AWh3L8Z08cx2Lwky7Ltn69RMcMv3PquukHOZ3ijNu2mYY2n8nThAL/g10KO6DiBe
-	EEuyw1C+ZTMCk6hJZ0pOSAiJ5Zgb1ACfdSzVqA4KTuBTCex5XGWPuw1jtfcAO83dSuY3
-	rj8A==
-X-Received: by 10.182.236.101 with SMTP id ut5mr7554943obc.1.1449201203092;
-	Thu, 03 Dec 2015 19:53:23 -0800 (PST)
+	bh=JoebA7a3/dffd2NfimhDWKod3/a0V/9KsyKPLsYAsno=;
+	b=EdfKMobY2N1tVm/EvsX0oinUJvVimuX5rQ8VblZeNSvZmNd7GLYSd0dqho0tWOYRYn
+	RkpWMTGEvNOuIRD+/lPXKguIpdw8g5sHWucd9poYM6iTW70Eee3fsaSSsmVhnftWjwft
+	Fo+Hce6tdx27h1bx5vpAyAfQW1NE9+nF/pcrmFpyVawlBDGtffqYolAKiiqzvKCUo5GE
+	wA7Axj2xT3JejkaTgXllZSHAAMUsWqbvDPdhbQSp6O61AxO7jOkOhbwrZUlVsDFboMO5
+	NS3hqobeu4d03WAuOC1uUQG43RTlqSw/GxAt8r09jvl60bmszGuZYvEfYWhrlqCa6zKM
+	5jow==
+X-Received: by 10.202.85.211 with SMTP id j202mr10768886oib.55.1449206202265; 
+	Thu, 03 Dec 2015 21:16:42 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id 133sm5104188oid.5.2015.12.03.19.53.21
+	by smtp.gmail.com with ESMTPSA id j7sm5166424oeq.0.2015.12.03.21.16.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Dec 2015 19:53:22 -0800 (PST)
+	Thu, 03 Dec 2015 21:16:41 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Dec 2015 19:53:16 -0800
-Message-Id: <1449201196-14450-1-git-send-email-armccurdy@gmail.com>
+Date: Thu,  3 Dec 2015 21:16:35 -0800
+Message-Id: <1449206195-22318-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] waf.bbclass: remove unused parameter from get_waf_parallel_make()
+Subject: [PATCH] libpng: update 1.6.19 -> 1.6.20 (CVE-2015-8126)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,32 +41,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Dec 2015 03:53:23 -0000
+X-List-Received-Date: Fri, 04 Dec 2015 05:16:42 -0000
+
+Version 1.6.20beta01 [November 20, 2015]
+  Avoid potential pointer overflow/underflow in png_handle_sPLT() and
+    png_handle_pCAL() (Bug report by John Regehr).
+
+Version 1.6.20beta02 [November 23, 2015]
+  Fixed incorrect implementation of png_set_PLTE() that uses png_ptr
+    not info_ptr, that left png_set_PLTE() open to the CVE-2015-8126
+    vulnerability.
+
+Version 1.6.20beta03 [November 24, 2015]
+  Backported tests from libpng-1.7.0beta69.
+
+Version 1.6.20rc01 [November 26, 2015]
+  Fixed an error in handling of bad zlib CMINFO field in pngfix, found by
+    American Fuzzy Lop, reported by Brian Carpenter.  inflate() doesn't
+    immediately fault a bad CMINFO field; instead a 'too far back' error
+    happens later (at least some times).  pngfix failed to limit CMINFO to
+    the allowed values but then assumed that window_bits was in range,
+    triggering an assert. The bug is mostly harmless; the PNG file cannot
+    be fixed.
+
+Version 1.6.20rc02 [November 29, 2015]
+  In libpng 1.6 zlib initialization was changed to use the window size
+    in the zlib stream, not a fixed value. This causes some invalid images,
+    where CINFO is too large, to display 'correctly' if the rest of the
+    data is valid.  This provides a workaround for zlib versions where the
+    error arises (ones that support the API change to use the window size
+    in the stream).
+
+Version 1.6.20 [December 3, 2015]
+  No changes.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/classes/waf.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-multimedia/libpng/libpng_1.6.19.bb | 27 -------------------------
+ meta/recipes-multimedia/libpng/libpng_1.6.20.bb | 26 ++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 27 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.19.bb
+ create mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.20.bb
 
-diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
-index 220dc58..b3b5e94 100644
---- a/meta/classes/waf.bbclass
-+++ b/meta/classes/waf.bbclass
-@@ -1,4 +1,4 @@
--def get_waf_parallel_make(bb, d):
-+def get_waf_parallel_make(d):
-     pm = d.getVar('PARALLEL_MAKE', True)
-     if pm:
-         # look for '-j' and throw other options (e.g. '-l') away
-@@ -25,7 +25,7 @@ waf_do_configure() {
- }
- 
- waf_do_compile()  {
--	${S}/waf build ${@get_waf_parallel_make('PARALLEL_MAKE', d)}
-+	${S}/waf build ${@get_waf_parallel_make(d)}
- }
- 
- waf_do_install() {
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.19.bb b/meta/recipes-multimedia/libpng/libpng_1.6.19.bb
+deleted file mode 100644
+index 214f9d3..0000000
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.19.bb
++++ /dev/null
+@@ -1,27 +0,0 @@
+-SUMMARY = "PNG image format decoding library"
+-HOMEPAGE = "http://www.libpng.org/"
+-SECTION = "libs"
+-LICENSE = "Libpng"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=586a8dac4d039e74af7b68ff2bc5fc41 \
+-                    file://png.h;endline=17;md5=a38a64f8b5cf0ea4e2d4c2cb47150151 \
+-                    file://png.h;beginline=19;endline=111;md5=d3e773acb87d7a35863203538167a776"
+-DEPENDS = "zlib"
+-LIBV = "16"
+-
+-SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
+-          "
+-SRC_URI[md5sum] = "1e6a458429e850fc93c1f3b6dc00a48f"
+-SRC_URI[sha256sum] = "311c5657f53516986c67713c946f616483e3cdb52b8b2ee26711be74e8ac35e8"
+-
+-BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
+-
+-inherit autotools binconfig-disabled pkgconfig
+-
+-# Work around missing symbols
+-EXTRA_OECONF_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
+-
+-PACKAGES =+ "${PN}-tools"
+-
+-FILES_${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.20.bb b/meta/recipes-multimedia/libpng/libpng_1.6.20.bb
+new file mode 100644
+index 0000000..6c149d2
+--- /dev/null
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.20.bb
+@@ -0,0 +1,26 @@
++SUMMARY = "PNG image format decoding library"
++HOMEPAGE = "http://www.libpng.org/"
++SECTION = "libs"
++LICENSE = "Libpng"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=55b60b5bb3ed92fbf9197e565a7fac02 \
++                    file://png.h;endline=112;md5=a6352a338642f0dbd2fc280ae060d3e9"
++DEPENDS = "zlib"
++LIBV = "16"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
++          "
++SRC_URI[md5sum] = "3968acb7c66ef81a9dab867f35d0eb4b"
++SRC_URI[sha256sum] = "55c5959e9f3484d96141a3226c53bc9da42a4845e70879d3e1d6e94833d1918b"
++
++BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
++
++inherit autotools binconfig-disabled pkgconfig
++
++# Work around missing symbols
++EXTRA_OECONF_append_class-target = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
++
++PACKAGES =+ "${PN}-tools"
++
++FILES_${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 1.9.1
 
