@@ -1,51 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 93375607AA
+Return-Path: <maxin.john@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B4422608B7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Dec 2015 10:31:55 +0000 (UTC)
-Received: by igcmv3 with SMTP id mv3so32891612igc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Dec 2015 02:31:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=U/6RFXWZVB0ERCOmLkzn/6R+Ilpabw2dJMRO5oghOBE=;
-	b=TFpUC32yowuNY0tYo6CM5M/Iwfwd2EpAFe0TzDayayylNlaT+5sfJhfUF3wsy3ecii
-	HAT8aTZhQkBrIRAnYiDHez9EbLwbxxSJP7PmArxh0IpwRuZEqESCIE66jvFdUOQIgGKP
-	80QyIYJC3Uti6nCaYgguYSge6m1RmjzJi9wlFI4RITUk3AsIfHy7ffYeePnTkQDh/4qe
-	rLiJ9YpbsjT8tDvbLY/jNbvQAKXm4Q7ju0Ij0ilosAYOpWQ7JYufcp3riD2AnFY1QSII
-	+8a37R1ysFnnvKZg/sDeT553AAAuFFeGMTBsQnlnrgFQQOXLbS3ZyTPq+R3fYEOtRLlv
-	l1Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=U/6RFXWZVB0ERCOmLkzn/6R+Ilpabw2dJMRO5oghOBE=;
-	b=IHCku9sVxxvJz83x6Lom/Rty0KwK9q95e+5sdxMU089LBvDTDSDjUd6zjFylkwBzwS
-	g0TcpTF7LWOuBHZaQu4fxdRFWCAKjr4NsEbVWST8kRzkzqxm+ei8WZfZF4UXAFDjgnv3
-	DTrIVi3OHAqV6CXmSWGGBjO+3TxKOEZbT75ylrzZcFka1f4hGIEfR0bdEq2hOgUanGIK
-	xhZwAI4gifi2dmY4KV6mWYhVf2bG28VS7GuF1Aw4mpD6iyb74FQxo+LHUuNY8+jLuEYW
-	58LAap2N4/k9R4Kw5D19CW/sDFqUiNAron8+boDM24p2xQOy+2VzXsRqmQa4gwjGd1BL
-	bM1A==
-X-Gm-Message-State: ALoCoQm4ReQL7+J48tO/lY8Ac47I7+fHVFZ5HgOxwGWd3UhpzRdQWSMYu0cOWYmomTMSphxtUNPe
-X-Received: by 10.50.155.33 with SMTP id vt1mr3187218igb.64.1449225116832;
-	Fri, 04 Dec 2015 02:31:56 -0800 (PST)
+	Fri,  4 Dec 2015 10:50:42 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 04 Dec 2015 02:50:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,380,1444719600"; d="scan'208";a="864575478"
+Received: from mbabyjoh-mobl.fi.intel.com ([10.237.72.71])
+	by orsmga002.jf.intel.com with ESMTP; 04 Dec 2015 02:50:42 -0800
+Date: Fri, 4 Dec 2015 08:03:06 +0200
+From: "Maxin B. John" <maxin.john@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20151204060306.GA28070@mbabyjoh-mobl.fi.intel.com>
+References: <1449042969-24132-1-git-send-email-maxin.john@intel.com>
+	<CAJTo0LZjk_FQBhpm-K95rsO9k2ux-a7x+a4+uGL6GuFi2oj_pA@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Fri, 4 Dec 2015 02:31:37 -0800 (PST)
-In-Reply-To: <5661685E.9080001@linux.intel.com>
-References: <cover.1449152021.git.alexander.kanavin@linux.intel.com>
-	<CAP9ODKomNG8pbmjH=-k2qVOBrmnopeTjht6devfRJD=mH=NpZQ@mail.gmail.com>
-	<5661685E.9080001@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 4 Dec 2015 10:31:37 +0000
-Message-ID: <CAJTo0Lbkx3ar8btEZn3idG7nzy979LJTtotpK4qhu_2s1EGcXg@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/9] Move Qt4 recipes to a separate meta-qt4 layer
+In-Reply-To: <CAJTo0LZjk_FQBhpm-K95rsO9k2ux-a7x+a4+uGL6GuFi2oj_pA@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] libjpeg: Replace libjpeg with libjpeg-turbo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,38 +32,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Dec 2015 10:31:59 -0000
-Content-Type: multipart/alternative; boundary=001a11343daa49ef650526100422
+X-List-Received-Date: Fri, 04 Dec 2015 10:50:43 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a11343daa49ef650526100422
-Content-Type: text/plain; charset=UTF-8
+Hi Ross,
 
-On 4 December 2015 at 10:18, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
-
-> That's fine with me. Ross, can you squish these commits together in your
-> testing branch?
+On Fri, Dec 04, 2015 at 09:11:59AM +0000, Burton, Ross wrote:
+>Hi Maxin,
 >
+>>On 2 December 2015 at 07:56, Maxin B. John <maxin.john@intel.com> wrote:
+>>
+>>    Moving libjpeg-turbo from meta-oe as a replacement for libjpeg
+>>        package. libjpeg-turbo has same API/ABI as libjpeg. It is
+>>            relatively faster in JPEG compression/decompression than libjpeg.
+>>
+>
+>   As jpeg-turbo has assembler bits it's getting all confused about x32:
+>
+>            | checking if we have SIMD optimisations for cpu type... yes (x86_64)
+>            | checking for nasm... nasm
+>            | checking for object file format of host system... ELF64
+>            | checking for object file format specifier (NAFLAGS) ... -felf64 -DELF -D__x86_64__
+>            | checking whether the assembler (nasm -felf64 -DELF -D__x86_64__) works... yes
+>            | checking whether the linker accepts assembler output... no
+>            | configure: error: configuration problem: maybe object file format mismatch.
+>
+>            (https://autobuilder.yoctoproject.org/main/builders/nightly-x32/builds/545)
 
-Certainly can.  We'll probably need a layer version bump so the autobuilder
-can do the right thing but I'll talk to Beth about this first.
+There was a discussion about supporting x32 support in libjpeg-turbo:
+http://sourceforge.net/p/libjpeg-turbo/patches/35/
 
-Ross
+Due to some reasons, that ended up in "closed-wont-integrate".
 
---001a11343daa49ef650526100422
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Work-around could be to build with "--without-simd" for x32 or implement the x32 assembly SIMD 
+routines to support that feature (long and painful).
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 4 December 2015 at 10:18, Alexander Kanavin <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.=
-kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex"><div id=3D":5ip" class=3D"a3s" style=3D"overflow:hidden">That&#39;s fi=
-ne with me. Ross, can you squish these commits together in your testing bra=
-nch?<br></div></blockquote></div><br>Certainly can.=C2=A0 We&#39;ll probabl=
-y need a layer version bump so the autobuilder can do the right thing but I=
-&#39;ll talk to Beth about this first.</div><div class=3D"gmail_extra"><br>=
-</div><div class=3D"gmail_extra">Ross</div></div>
+>Ross
 
---001a11343daa49ef650526100422--
+Best Regards,
+Maxin
+
