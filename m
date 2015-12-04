@@ -1,23 +1,47 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B4422608B7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F15260132
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Dec 2015 10:50:42 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 04 Dec 2015 02:50:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,380,1444719600"; d="scan'208";a="864575478"
-Received: from mbabyjoh-mobl.fi.intel.com ([10.237.72.71])
-	by orsmga002.jf.intel.com with ESMTP; 04 Dec 2015 02:50:42 -0800
-Date: Fri, 4 Dec 2015 08:03:06 +0200
-From: "Maxin B. John" <maxin.john@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20151204060306.GA28070@mbabyjoh-mobl.fi.intel.com>
+	Fri,  4 Dec 2015 10:58:20 +0000 (UTC)
+Received: by ioc74 with SMTP id 74so111712101ioc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Dec 2015 02:58:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=1Ck/8uA/ewJ3Kk0C5feXSwVtR/D0FsKhvx16NF2sW2E=;
+	b=1IQhl7/8VroyHyLLIUVXIZvulRJawN53mr2ShcLcv/ORVsndXAxTJbW7VUc1CKt+H8
+	PDG3ntH3rFA2f8Vnj7+KEZazzH3EwE5sC4EWb3QZqyfe5nuILUl0Fber2OtDzy2LuNfO
+	KVwS9iTc7A2BnuDLxm2fOgBbAYI6mkfyFFZFTlsQXrzr9Zfd2Pl/O4wiuriPEsaBOilk
+	CiP/I45JeKgSG/t14rylf2K16vtVTHJLWdKBEyxAQWyDK1Y5z1DTpSszEjiI/+hMCMm/
+	heAFmOeMYkdN51iUOhHgYJcRViyp4mL7kND7Vk4gvuVHnq0AQ3RSxKw85wf3PGlC/Co6
+	Xptw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=1Ck/8uA/ewJ3Kk0C5feXSwVtR/D0FsKhvx16NF2sW2E=;
+	b=jnb44MnqmpX5XTVF3HfFMehymqU0bmW2iNJSVlyQzW6YEsLLFso1SBdqrY3oYpTC0u
+	hztWHcH0UX4G6lT9S6JOXC0/CRUmkYCp3ujr+9X3YBe2k99PrmHcIxWbkmh6xXP9Wck+
+	pe1GvUAYbQ1fqd5DZFzeN3+0IvqudTf7fVc/cHbaDGt/CSFBEWHNQ05xNUQ0Ecteeab3
+	LH7ISolXy8PsgUH9bNh9GIQMpk/GyGPmWSkIF9YG30I+8Lr+fR2ma+x+bVZHJcu3F5wi
+	2K1NqfsI+YtBiCiGXEpFS/HCc+7yEUL2jLtHYqA3coK5NMnDhD5JnkQP9USqbmAQ5E76
+	Mbhg==
+X-Gm-Message-State: ALoCoQnkk4pgVdSasgZDsab9IzAeC5C8E/O8anZqMMZrODbuvMUP2TyVunxtkrtaY5pYnY2wVM9S
+X-Received: by 10.107.135.30 with SMTP id j30mr12163778iod.148.1449226700936; 
+	Fri, 04 Dec 2015 02:58:20 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Fri, 4 Dec 2015 02:58:01 -0800 (PST)
+In-Reply-To: <20151204060306.GA28070@mbabyjoh-mobl.fi.intel.com>
 References: <1449042969-24132-1-git-send-email-maxin.john@intel.com>
 	<CAJTo0LZjk_FQBhpm-K95rsO9k2ux-a7x+a4+uGL6GuFi2oj_pA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZjk_FQBhpm-K95rsO9k2ux-a7x+a4+uGL6GuFi2oj_pA@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+	<20151204060306.GA28070@mbabyjoh-mobl.fi.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 4 Dec 2015 10:58:01 +0000
+Message-ID: <CAJTo0LaLsgDV_yU131nSCeEF_ZEqoHMwkcU=CCk-HMU8tuvOag@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v3] libjpeg: Replace libjpeg with libjpeg-turbo
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -32,44 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Dec 2015 10:50:43 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 04 Dec 2015 10:58:22 -0000
+Content-Type: multipart/alternative; boundary=001a113ec64ab56c7c052610623d
 
-Hi Ross,
+--001a113ec64ab56c7c052610623d
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, Dec 04, 2015 at 09:11:59AM +0000, Burton, Ross wrote:
->Hi Maxin,
+On 4 December 2015 at 06:03, Maxin B. John <maxin.john@intel.com> wrote:
+
+> There was a discussion about supporting x32 support in libjpeg-turbo:
+> http://sourceforge.net/p/libjpeg-turbo/patches/35/
 >
->>On 2 December 2015 at 07:56, Maxin B. John <maxin.john@intel.com> wrote:
->>
->>    Moving libjpeg-turbo from meta-oe as a replacement for libjpeg
->>        package. libjpeg-turbo has same API/ABI as libjpeg. It is
->>            relatively faster in JPEG compression/decompression than libjpeg.
->>
+> Due to some reasons, that ended up in "closed-wont-integrate".
 >
->   As jpeg-turbo has assembler bits it's getting all confused about x32:
+> Work-around could be to build with "--without-simd" for x32 or implement
+> the x32 assembly SIMD
+> routines to support that feature (long and painful).
 >
->            | checking if we have SIMD optimisations for cpu type... yes (x86_64)
->            | checking for nasm... nasm
->            | checking for object file format of host system... ELF64
->            | checking for object file format specifier (NAFLAGS) ... -felf64 -DELF -D__x86_64__
->            | checking whether the assembler (nasm -felf64 -DELF -D__x86_64__) works... yes
->            | checking whether the linker accepts assembler output... no
->            | configure: error: configuration problem: maybe object file format mismatch.
+
+Looks like that was closed because the patch made it compile but failed to
+actually work.  --without-simd for x32 is clearly the right thing to do.
+
+Ross
+
+--001a113ec64ab56c7c052610623d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 December 2015 at 06:03, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":9rz" class=3D=
+"a3s" style=3D"overflow:hidden">There was a discussion about supporting x32=
+ support in libjpeg-turbo:<br>
+<a href=3D"http://sourceforge.net/p/libjpeg-turbo/patches/35/" rel=3D"noref=
+errer" target=3D"_blank">http://sourceforge.net/p/libjpeg-turbo/patches/35/=
+</a><br>
+<br>
+Due to some reasons, that ended up in &quot;closed-wont-integrate&quot;.<br=
 >
->            (https://autobuilder.yoctoproject.org/main/builders/nightly-x32/builds/545)
+<br>
+Work-around could be to build with &quot;--without-simd&quot; for x32 or im=
+plement the x32 assembly SIMD<br>
+routines to support that feature (long and painful).</div></blockquote></di=
+v><br>Looks like that was closed because the patch made it compile but fail=
+ed to actually work. =C2=A0--without-simd for x32 is clearly the right thin=
+g to do.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
+a">Ross</div></div>
 
-There was a discussion about supporting x32 support in libjpeg-turbo:
-http://sourceforge.net/p/libjpeg-turbo/patches/35/
-
-Due to some reasons, that ended up in "closed-wont-integrate".
-
-Work-around could be to build with "--without-simd" for x32 or implement the x32 assembly SIMD 
-routines to support that feature (long and painful).
-
->Ross
-
-Best Regards,
-Maxin
-
+--001a113ec64ab56c7c052610623d--
