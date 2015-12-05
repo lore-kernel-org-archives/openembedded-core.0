@@ -1,37 +1,37 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f181.google.com (mail-pf0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BF34605FF
+Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id C200D65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 Dec 2015 19:35:55 +0000 (UTC)
-Received: by pfdd184 with SMTP id d184so43101049pfd.3
+	Sat,  5 Dec 2015 19:35:56 +0000 (UTC)
+Received: by pfdd184 with SMTP id d184so43101260pfd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 05 Dec 2015 11:35:56 -0800 (PST)
+	Sat, 05 Dec 2015 11:35:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=NHA6CxFtpTbrAL9Ex70eh1JEYd8L58gX3iWwt0uuUTc=;
-	b=OeDUg/uzxCjN4VuUOZC0PTaZnnDqruYGrXkD2kSLzu7wSqrZVY8lK1RZ95JoJLIaKV
-	mnggIHNyf1GgVxDrODzpuljyn3IWxJ0QXUdskx4EYIL+OcIH3AD/ZI3+Ze86b9OAdr3e
-	yfC45qtwAcZgshqkHhMF4oRY9wdrHXG5eTFPEkCMqUb4OM69Mo0do6WWUgTKbfP6Ye7y
-	/Kl76rEFiYaOXAd08lP0pSkyCkhnCGz5UrpLaCnJcbnOffQ1jmg+Hr/xCrTn6AjhBRBH
-	f7t4mt5/VErOAfr8G9FXzC77HTeIQCSSTEsyRfmFaTDADJsdpp2qjA6G2wO9oLuoixoh
-	+d9Q==
-X-Received: by 10.98.0.140 with SMTP id 134mr31475327pfa.6.1449344156117;
-	Sat, 05 Dec 2015 11:35:56 -0800 (PST)
+	bh=w5kSsUIXEV8aETInuCnoxbAflLseKqcj2nDrxRKhx3o=;
+	b=kshmIG+cHnGCxHEsUkojAfxGRnsReMJ78TdStkW8aOWB5JtWVvyYu/J5ICXGlasd5Z
+	hoMfpCpgpwiYTRcvBwb6LQEIY+Ic4e+94ABA9uq9bQJlwtT3rWSPDFZGQiTmMLNXYeqU
+	Fx/4PdyeH3dPpDHqZP3CUFDrUHiJS333G0nD54M1vGoHKuYHe9WbrjvL//2PSqqJeEm8
+	sIHRjWh45jb1OfBVLeCK0bSdApN3aY+84HEgWx/NZNyxOk0LT9aSVU9Jm3RBXSdneryE
+	yV7VX0l5Pd03WDegyvb/bPzon+MsgZm8cARXpdZkVxDW/fZ6q7PipH6EmWqjl48yXwVs
+	JMrg==
+X-Received: by 10.98.7.91 with SMTP id b88mr31595920pfd.48.1449344157851;
+	Sat, 05 Dec 2015 11:35:57 -0800 (PST)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	w8sm24789831pfi.41.2015.12.05.11.35.54
+	w8sm24789831pfi.41.2015.12.05.11.35.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 05 Dec 2015 11:35:54 -0800 (PST)
+	Sat, 05 Dec 2015 11:35:56 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Dec 2015 11:35:27 -0800
-Message-Id: <1449344129-32738-14-git-send-email-akuster808@gmail.com>
+Date: Sat,  5 Dec 2015 11:35:28 -0800
+Message-Id: <1449344129-32738-15-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <1449344129-32738-1-git-send-email-akuster808@gmail.com>
 References: <1449344129-32738-1-git-send-email-akuster808@gmail.com>
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH][jethro][fido] 13/15] libxml2: security fix CVE-2015-8242
+Subject: [PATCH][jethro][fido] 14/15] libxml2: security fix CVE-2015-5312
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,68 +44,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Dec 2015 19:35:55 -0000
+X-List-Received-Date: Sat, 05 Dec 2015 19:35:56 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- ...42-Buffer-overead-with-HTML-parser-in-pus.patch | 49 ++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch
+ ...-2015-5312-Another-entity-expansion-issue.patch | 39 ++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-5312-Another-entity-expansion-issue.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch b/meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch
+diff --git a/meta/recipes-core/libxml/libxml2/0001-CVE-2015-5312-Another-entity-expansion-issue.patch b/meta/recipes-core/libxml/libxml2/0001-CVE-2015-5312-Another-entity-expansion-issue.patch
 new file mode 100644
-index 0000000..73531b3
+index 0000000..979618d
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch
-@@ -0,0 +1,49 @@
-+From 8fb4a770075628d6441fb17a1e435100e2f3b1a2 Mon Sep 17 00:00:00 2001
-+From: Hugh Davenport <hugh@allthethings.co.nz>
-+Date: Fri, 20 Nov 2015 17:16:06 +0800
-+Subject: [PATCH] CVE-2015-8242 Buffer overead with HTML parser in push mode
++++ b/meta/recipes-core/libxml/libxml2/0001-CVE-2015-5312-Another-entity-expansion-issue.patch
+@@ -0,0 +1,39 @@
++From 69030714cde66d525a8884bda01b9e8f0abf8e1e Mon Sep 17 00:00:00 2001
++From: David Drysdale <drysdale@google.com>
++Date: Fri, 20 Nov 2015 11:13:45 +0800
++Subject: [PATCH] CVE-2015-5312 Another entity expansion issue
 +
-+For https://bugzilla.gnome.org/show_bug.cgi?id=756372
-+Error in the code pointing to the codepoint in the stack for the
-+current char value instead of the pointer in the input that the SAX
-+callback expects
-+Reported and fixed by Hugh Davenport
++For https://bugzilla.gnome.org/show_bug.cgi?id=756733
++It is one case where the code in place to detect entities expansions
++failed to exit when the situation was detected, leading to DoS
++Problem reported by Kostya Serebryany @ Google
++Patch provided by David Drysdale @ Google
 +
 +Upstream-Status: Backport
 +
-+CVE-2015-8242
++CVE-2015-5312
 +
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ HTMLparser.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
++ parser.c | 4 ++++
++ 1 file changed, 4 insertions(+)
 +
-+diff --git a/HTMLparser.c b/HTMLparser.c
-+index bdf7807..b729197 100644
-+--- a/HTMLparser.c
-++++ b/HTMLparser.c
-+@@ -5735,17 +5735,17 @@ htmlParseTryOrFinish(htmlParserCtxtPtr ctxt, int terminate) {
-+ 				if (ctxt->keepBlanks) {
-+ 				    if (ctxt->sax->characters != NULL)
-+ 					ctxt->sax->characters(
-+-						ctxt->userData, &cur, 1);
-++						ctxt->userData, &in->cur[0], 1);
-+ 				} else {
-+ 				    if (ctxt->sax->ignorableWhitespace != NULL)
-+ 					ctxt->sax->ignorableWhitespace(
-+-						ctxt->userData, &cur, 1);
-++						ctxt->userData, &in->cur[0], 1);
-+ 				}
-+ 			    } else {
-+ 				htmlCheckParagraph(ctxt);
-+ 				if (ctxt->sax->characters != NULL)
-+ 				    ctxt->sax->characters(
-+-					    ctxt->userData, &cur, 1);
-++					    ctxt->userData, &in->cur[0], 1);
-+ 			    }
-+ 			}
-+ 			ctxt->token = 0;
++diff --git a/parser.c b/parser.c
++index b7b6668..da6e729 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -2806,6 +2806,10 @@ xmlStringLenDecodeEntities(xmlParserCtxtPtr ctxt, const xmlChar *str, int len,
++ 			                      0, 0, 0);
++ 		ctxt->depth--;
++ 
+++		if ((ctxt->lastError.code == XML_ERR_ENTITY_LOOP) ||
+++		    (ctxt->lastError.code == XML_ERR_INTERNAL_ERROR))
+++		    goto int_error;
+++
++ 		if (rep != NULL) {
++ 		    current = rep;
++ 		    while (*current != 0) { /* non input consuming loop */
 +-- 
 +2.3.5
 +
