@@ -1,37 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B70F6E5CB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D1DE60249
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 Dec 2015 19:35:58 +0000 (UTC)
-Received: by pabfh17 with SMTP id fh17so106312557pab.0
+	Sat,  5 Dec 2015 20:53:38 +0000 (UTC)
+Received: by iouu10 with SMTP id u10so151141596iou.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 05 Dec 2015 11:35:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=smD3ZR2sILcCOV/5vmpzH8y8eZ0ryeFoYs/2MrGh35E=;
-	b=dvXFX0v89YJwuvnjXaX3l1c48dKalRrqwPdCv+tocM+bmUphVAcu30tROKIDMe9njK
-	8qnLpmHi0fD+Xx4u8F1vOIrGnFtNrFgdOkTa0BUpeW7nyKJny5fdAwNQiAs21HC7Y9ZO
-	SYvrap1MLFCeufow5NzP1OoYoVhUufbfOME8fWCl4sQlSAvg02Olq9y6ofw3JpBNkf4o
-	gfisOEiWOjCSLYpq00SuONPgyxe9WudBdIWEduSmpc7G1GDqEdRFZmgvuz7o94BZ/+3X
-	OCvcww+9eUeSQ0BB3v2mtjdi9K0JW0f3ctXRTHeiDkJAATXDrIhnQECbEGMqkKGcjmyl
-	XB/g==
-X-Received: by 10.66.251.193 with SMTP id zm1mr30936893pac.154.1449344159364; 
-	Sat, 05 Dec 2015 11:35:59 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	w8sm24789831pfi.41.2015.12.05.11.35.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 05 Dec 2015 11:35:58 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Dec 2015 11:35:29 -0800
-Message-Id: <1449344129-32738-16-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-In-Reply-To: <1449344129-32738-1-git-send-email-akuster808@gmail.com>
-References: <1449344129-32738-1-git-send-email-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH][jethro][fido] 15/15] libxml2: multiple security fixes.
+	Sat, 05 Dec 2015 12:53:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=byB3OaViFZ07DZmMvCDTNMFqhFVkPbCxuvFhgNFwcbw=;
+	b=BbNbh6a610Zn8hf+nU78c+/aap70yxUtDoWOSQ6oLJUd+q4Irzw8ENpoFFpKyOq0iB
+	iA3gw1Pd+cXg1WqEpj87ZOddnbZr56cVAgplpX5O/rxgUbptBlUn0XbuD/iHszXOCfkk
+	jW13mgSVv5XOlfjtVprRQ7eZLN7psENzG67nOCrD7ONmZ5clu36zk5mWxqSIHo83BVUh
+	5873F+TTj7svpM5131Dtb6VZ4s4FaItd4A/sOfREolPLZNssrb68MwhNtOzvamI7nJnY
+	6oNqjl7eEp220Lqh5zT5jBFLZ754SPyKzarUbW2npGWjA/IsUVI8tIQdt1Xc/jS/RJbx
+	d2YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=byB3OaViFZ07DZmMvCDTNMFqhFVkPbCxuvFhgNFwcbw=;
+	b=aX/hgSoyPyhIMxnnurFdUQ7EsAZSYSrTpr0o2wCY8qc3Dus8wHXrVsI0vvk6kW5VfD
+	FjeVkwTrdLAujSCwHdtqu8xia76uoIeeW5bAalzK842wQFyAJPiGS989IWIjOB5/TXAy
+	HkEyFljDH6B6XQKQR/jtqbajF4pPR1Qpnt804bwFjtXfI/jbDL8tJeszGlgaDdjwiKEa
+	OVziZwYPf6C7S1VKh9jbrOTR1RCVHDho/MM96TeXok75dcXH6ME1aTbn+kzjvLDokULZ
+	KVEyKRl99G6Col/CKB4BZwpUdDZmQPwd/lQtZQhce3l5hecVvbjtZomn9CFZrQsPQIJB
+	2dvw==
+X-Gm-Message-State: ALoCoQlRrfozlIwBVfrt6dSukGITGxbtKUhNLUNy7tO76+UXHEZuaCZkhkomMdMlXIY0NYiC3qr3
+X-Received: by 10.107.135.30 with SMTP id j30mr17773981iod.148.1449348819636; 
+	Sat, 05 Dec 2015 12:53:39 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Sat, 5 Dec 2015 12:53:20 -0800 (PST)
+In-Reply-To: <1449194500-9664-1-git-send-email-Yuanjie.Huang@windriver.com>
+References: <1449194500-9664-1-git-send-email-Yuanjie.Huang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 5 Dec 2015 20:53:20 +0000
+Message-ID: <CAJTo0La+Uku73AEXObS4OuXpuve=d_GyEJJxdNBSZQAKHNRdXQ@mail.gmail.com>
+To: Yuanjie Huang <Yuanjie.Huang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc: Security Advisory - gcc - CVE-2015-5276
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,56 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Dec 2015 19:35:58 -0000
+X-List-Received-Date: Sat, 05 Dec 2015 20:53:41 -0000
+Content-Type: multipart/alternative; boundary=001a113ec64a8ceb0905262cd100
 
-From: Armin Kuster <akuster@mvista.com>
+--001a113ec64a8ceb0905262cd100
+Content-Type: text/plain; charset=UTF-8
 
-CVE-2015-7941-1
-CVE-2015-7941-2
-CVE-2015-8317
-CVE-2015-7942
-CVE-2015-7942-2
-CVE-2015-8035
-CVE-2015-7498
-CVE-2015-7497
-CVE-2015-5312
-CVE-2015-7499-1
-CVE-2015-7499-2
-CVE-2015-7500
-CVE-2015-8242
+On 4 December 2015 at 02:01, Yuanjie Huang <Yuanjie.Huang@windriver.com>
+wrote:
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-core/libxml/libxml2.inc | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+> Upstream-status: backport[4.9.4]
+>
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 1c3c37d..0a85aaa 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -20,7 +20,21 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://python-sitepackages-dir.patch \
-            file://libxml-m4-use-pkgconfig.patch \
-            file://configure.ac-fix-cross-compiling-warning.patch \
-+           file://CVE-2015-7941-1-Stop-parsing-on-entities-boundaries-errors.patch \
-+           file://CVE-2015-7941-2-Cleanup-conditional-section-error-handling.patch \
-            file://0001-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch \
-+           file://CVE-2015-8317-Fail-parsing-early-on-if-encoding-conversion-failed.patch \
-+           file://CVE-2015-7942-Another-variation-of-overflow-in-Conditional-section.patch \
-+           file://CVE-2015-7942-2-Fix-an-error-in-previous-Conditional-section-patch.patch \
-+           file://0001-CVE-2015-8035-Fix-XZ-compression-support-loop.patch \
-+           file://CVE-2015-7498-Avoid-processing-entities-after-encoding-conversion-.patch \
-+           file://0001-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch \
-+           file://0001-CVE-2015-5312-Another-entity-expansion-issue.patch \
-+           file://CVE-2015-7499-1-Add-xmlHaltParser-to-stop-the-parser.patch \
-+           file://CVE-2015-7499-2-Detect-incoherency-on-GROW.patch \
-+           file://0001-Fix-a-bug-on-name-parsing-at-the-end-of-current-inpu.patch \
-+           file://0001-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch \
-+           file://0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch \
-           "
- 
- BINCONFIG = "${bindir}/xml2-config"
--- 
-2.3.5
+Correct capitalisation please as this is machine-readable metadata:
+Upstream-Status: Backport [4.9.4].  Also it should be in the patch itself,
+not the commit log.  As M1 is closing shortly and this is a security issue,
+I'll fix the patch.
 
+Ross
 
+--001a113ec64a8ceb0905262cd100
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 December 2015 at 02:01, Yuanjie Huang <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:Yuanjie.Huang@windriver.com" target=3D"_blank">Yuanjie.Huang@windri=
+ver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
+:95l" class=3D"a3s" style=3D"overflow:hidden">Upstream-status: backport[4.9=
+.4]<br></div></blockquote></div><br>Correct capitalisation please as this i=
+s machine-readable metadata: Upstream-Status: Backport [4.9.4].=C2=A0 Also =
+it should be in the patch itself, not the commit log.=C2=A0 As M1 is closin=
+g shortly and this is a security issue, I&#39;ll fix the patch.</div><div c=
+lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113ec64a8ceb0905262cd100--
