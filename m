@@ -1,47 +1,47 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 41D8C601A5
+Return-Path: <matt@madison.systems>
+Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 34639601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Dec 2015 15:53:36 +0000 (UTC)
-Received: by ioir85 with SMTP id r85so159608689ioi.1
+	Sun,  6 Dec 2015 16:54:03 +0000 (UTC)
+Received: by pfu207 with SMTP id 207so51719762pfu.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Dec 2015 07:53:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=qNREt0p3UutolznVjKy83EpJuE3qXQqt55gb1iF1rEI=;
-	b=zWB9LbJiYipkqd70QBgrltv9JPMPCe5b4vnKfEycN9JRZ2yKfUlrz0hlmyZz8+qBYw
-	0DKKE+Tf5TqxbfBKPtVSBKgJxE+XNpjbCZVOci7sqelN432BfYY6OdcmrkAGLJ4BfbFI
-	vvqieuy+u9Fm95XZIMFMbiY01cmxqeUZxMZ1fjlZ6V51TnGytZna1Y+XsZwIWXPCBZnG
-	z1qbqtcrpISn45a+Ex82vIWq0axRBdp5t2VueoSUbwvOlhOKy6HrQg6t6G7Sb0HHMjn9
-	H/1Yv6O+KO4txcBZjB/iJNJ2wEe7aNjnBlB0GhmHxPcmW+SJrc9qtbGFHqK8NSOsU8E+
-	tqZg==
+	Sun, 06 Dec 2015 08:54:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kergoth-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=qNREt0p3UutolznVjKy83EpJuE3qXQqt55gb1iF1rEI=;
-	b=bLOlYkwSOvx6bpA305FjgR2mP52y4sUwcLzZrUXC3LccZeb0l5FsIk5zZDn2NmikqG
-	o2ssN2SFSou3OAMmkWafgfS7/FU8+k5jkhJOtyMMYhpA4XXjF3MtkqUBFQ/ArMQTYLm3
-	88wFd0SqoWDrxAJdLPopyD00phfINAFqceWePVzlxbqk+rPT+qPcaZmKRPTGtIpepczj
-	SHpXRy+uWMKTLw1eH+Cmb7gJjmwLfK9A1Fjk3VeyKhTDrXnVWUnKPJom/1IMlbI961Li
-	HHRKknkI1n8jcSuB5GAN7pnY/vQZW13MK81hza/3nmYi2FVUkQy0cYFMfNRqDp/qBwfI
-	w9qg==
-X-Received: by 10.107.134.28 with SMTP id i28mr21908557iod.74.1449417217390;
-	Sun, 06 Dec 2015 07:53:37 -0800 (PST)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.69.129 with HTTP; Sun, 6 Dec 2015 07:53:17 -0800 (PST)
-In-Reply-To: <alpine.LFD.2.20.1512060812150.19723@localhost>
-References: <alpine.LFD.2.20.1512060812150.19723@localhost>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Sun, 6 Dec 2015 08:53:17 -0700
-X-Google-Sender-Auth: jW3baNLmUT1-E295kymDx8Li5pQ
-Message-ID: <CABcZAN=nufN_K2C9n_-TeHTuvDbq9YdmvADLtO0YAwftgYJAyw@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: why would a BBFILES variable refer to a "classes" directory?
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=ONN+pqr5OJGva6w4uzfWrZmPKvXChvwkda1RTIcWzus=;
+	b=Ud/qtKrQvQ0Y8EijQWEEMyBqMEijfqZ2o7UCXu7ohHEgfYeNiRAg/SPN3uqgBp/rNh
+	kKJaHz54x/9sp5EsPVdyjQaj6p7Q/HK5s0lskHUP28WgKDPQ1vhfkG6LenFAszRfd4OC
+	D15O/IUme5MGp8ZDky7PaEBPyYgVrMijG4LtzN4OMOvPnRjO2P/WywVN2kUDwYY2ovwT
+	MWNRvCbqFWqauAqQGBLMapnOCYUxDVffygIXagT3abo89jZI2Mb8/8H9rlcetVyizDV5
+	IITgO/eBpsmQhyW/SBRjpg23B3SyA0hSZQaV73TjewrvuPGFltI4aUUtH1v++b90eXqu
+	TaKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ONN+pqr5OJGva6w4uzfWrZmPKvXChvwkda1RTIcWzus=;
+	b=YE8KTH+dcUM8sGrFN5vYH6VUSupFrk1D9RvjSCv+Eu+P9l0N67Cei/MNAu7kn56NMs
+	t5gj4vS46pgvGY3bmuzPJmbcaZZ8qPimSb2tKjhAnc3SCnEvKzX5yh3lMBwQ1GA05AbU
+	bBJ5Ehgtx6KXSP6SbAHOtY8Bt1gh6UkpRH4UMBoSTVJUVBpRRwaghFZFvy/2Y51BZnRY
+	6XOIZiN20+YlXl6Wc2Un5zqdVNq2RmiD7SneUzahPSkDZMSxwXfs43SeA75wmVL8PdnW
+	uvwvgMdIZ4SgYY7xf/aQDmZuWoN7ql22/l75d8kvWckZmcS9I9lMeBQOIP/BV90r9KSL
+	5pHA==
+X-Gm-Message-State: ALoCoQm3EcyeZr/hm2C4ThDDcZuL+02E0NRFBb0iB7SF3ROhD+sK7bB3hk5w6iEvJFtylqmc44BD
+X-Received: by 10.98.16.133 with SMTP id 5mr36590993pfq.150.1449420844082;
+	Sun, 06 Dec 2015 08:54:04 -0800 (PST)
+Received: from workhorse.madison.systems
+	(70.90.175.93-BusName-ca.sfba.hfc.comcastbusiness.net.
+	[70.90.175.93]) by smtp.gmail.com with ESMTPSA id
+	tb8sm29278366pab.22.2015.12.06.08.54.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 06 Dec 2015 08:54:02 -0800 (PST)
+From: Matt Madison <matt@madison.systems>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  6 Dec 2015 08:53:22 -0800
+Message-Id: <1449420803-12282-1-git-send-email-matt@madison.systems>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] wic: insert local Python paths at front
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,71 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Dec 2015 15:53:37 -0000
-Content-Type: multipart/alternative; boundary=001a113ecc0a5fc1cf05263cbe2c
+X-List-Received-Date: Sun, 06 Dec 2015 16:54:06 -0000
 
---001a113ecc0a5fc1cf05263cbe2c
-Content-Type: text/plain; charset=UTF-8
+This follows how bitbake performs path insertion, and fixes a
+failure to start wic on Ubuntu 15.10 with the distribution's
+version of python-ply installed.
 
-On Sun, Dec 6, 2015 at 6:16 AM, Robert P. J. Day <rpjday@crashcourse.ca>
-wrote:
+Signed-off-by: Matt Madison <matt@madison.systems>
+---
+ scripts/wic | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->   possibly a stupid question, but i'm looking at a publicly available
-> OE layer and, in layer.conf, there is a setting for BBFILES that pulls
-> in a number of subdirectories and ends with:
->
->         ... snip ...
->         ${LAYERDIR}/recipes-*/*/*.bbappend \
->         ${LAYERDIR}/classes/*.bbclass"
->
->   i am unfamiliar with BBFILES used to include references to a classes
-> directory, and that layer.conf file already includes the earlier line:
->
->   BBPATH := "${LAYERDIR}:${BBPATH}"
->
->   can someone explain what BBFILES has to do with defining additional
-> classes in a layer? thanks muchly.
->
-
-Nothing. It's not accomplishing anything.
+diff --git a/scripts/wic b/scripts/wic
+index 7ad2b19..2286f20 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -41,12 +41,12 @@ from distutils import spawn
+ # External modules
+ scripts_path = os.path.abspath(os.path.dirname(__file__))
+ lib_path = scripts_path + '/lib'
+-sys.path.append(lib_path)
++sys.path.insert(0, lib_path)
+ 
+ bitbake_exe = spawn.find_executable('bitbake')
+ if bitbake_exe:
+     bitbake_path = os.path.join(os.path.dirname(bitbake_exe), '../lib')
+-    sys.path.append(bitbake_path)
++    sys.path.insert(0, bitbake_path)
+     from bb import cookerdata
+     from bb.main import bitbake_main, BitBakeConfigParameters
+ else:
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+2.5.0
 
---001a113ecc0a5fc1cf05263cbe2c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Sun, Dec 6, 2015 at 6:16 AM, Robert P. J. Day <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcourse.c=
-a</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":kt" c=
-lass=3D"a3s" style=3D"overflow:hidden">=C2=A0 possibly a stupid question, b=
-ut i&#39;m looking at a publicly available<br>
-OE layer and, in layer.conf, there is a setting for BBFILES that pulls<br>
-in a number of subdirectories and ends with:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ... snip ...<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${LAYERDIR}/recipes-*/*/*.bbappend \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${LAYERDIR}/classes/*.bbclass&quot;<br>
-<br>
-=C2=A0 i am unfamiliar with BBFILES used to include references to a classes=
-<br>
-directory, and that layer.conf file already includes the earlier line:<br>
-<br>
-=C2=A0 BBPATH :=3D &quot;${LAYERDIR}:${BBPATH}&quot;<br>
-<br>
-=C2=A0 can someone explain what BBFILES has to do with defining additional<=
-br>
-classes in a layer? thanks muchly.</div></blockquote></div><br>Nothing. It&=
-#39;s not accomplishing anything.<br>-- <br><div class=3D"gmail_signature">=
-Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, Open=
-Embedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Men=
-tor Graphics</div>
-</div></div>
-
---001a113ecc0a5fc1cf05263cbe2c--
