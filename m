@@ -1,49 +1,26 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 89611601A5
+Return-Path: <gerharddeclercq@outlook.com>
+Received: from DUB004-OMC3S29.hotmail.com (dub004-omc3s29.hotmail.com
+	[157.55.2.38])
+	by mail.openembedded.org (Postfix) with ESMTP id 25B1F601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Dec 2015 18:22:48 +0000 (UTC)
-Received: by lbpu9 with SMTP id u9so5944793lbp.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Dec 2015 10:22:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=JS/mQT1iaHAcY51gJ2QLBWhiyXTLn9Jd1/a8cZL6Rc0=;
-	b=PL4mooNsBlss3BMIze8NcWq+ZAP/AibQou4qC62M9NAKAU/IKzTMvFIKbIi1T5dSoH
-	XyaFEvWYQ7tWpZYvOh9NtdBldNo29SSC6JCp0sRIVLubIuolsNQdHsEoC04fU0zJLzZb
-	ta/7pNYjmbYDeaZCIPObyoQFsYfnPIKFz6/r5ptSc+ujfb8MOBEIhaWAM81/4Q/Quh1Q
-	rXNJubqB9xmQf8tdpDZbhCrwlINmPPAcelvNd/VODvWZhzKzr9MfJmeQ+B2eZwiq3ae/
-	7Or7x5BjMx+A2777Jb9BpQ71uyPMwO2aPgbT/kdyS4U8lXSapIcj9Y+xLGd5dtUvaFhe
-	nCbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=JS/mQT1iaHAcY51gJ2QLBWhiyXTLn9Jd1/a8cZL6Rc0=;
-	b=BLWzStJyoVNfsnGmHO6aHyQLIpo4VmNWZ7kznqtwpq0Shao0/RjL6Pc6lCZUZ39Q1L
-	ueTGG8UgjyT6BLsJ5Hnc2ER2mXApKSf3SVdLvc39+I8ZHJwoR+f1rR6Ygeok2KpLFfZl
-	TaI09qFCLpeg0bqr1QlixcSW/EhZGaOYIKmSaGZa9bYmTCGfju4fI/pInz/gPMjJjZ4X
-	4IWXLvseUqHeDaSx9S+aA9cdpcughTBBViYJSh0l1Z/p9IPWOTMT53lKZ2FYC+pUWErQ
-	OZGn4B2S0zm+EpvgnJw4pvgiQwdwLK7nlUxMijg45+nZV4Ul4ILaxpW+/G6HazeyDd/S
-	9wxg==
-X-Gm-Message-State: ALoCoQnO7eueng/ggIBcdaaIvdUjhB1jTZ5+UN1JcMfcn12pui2NhiIQmqv5mq1+CzFcZvEPsPHX
-MIME-Version: 1.0
-X-Received: by 10.112.123.208 with SMTP id mc16mr11918656lbb.107.1449426168275;
-	Sun, 06 Dec 2015 10:22:48 -0800 (PST)
-Received: by 10.25.145.200 with HTTP; Sun, 6 Dec 2015 10:22:48 -0800 (PST)
-In-Reply-To: <CA+chaQeA0AFTk3eTEckJnsc1jp-RLx-9LRde0BkrPnJHRp+AtA@mail.gmail.com>
-References: <1449421751-12670-1-git-send-email-matt@madison.systems>
-	<CA+chaQeA0AFTk3eTEckJnsc1jp-RLx-9LRde0BkrPnJHRp+AtA@mail.gmail.com>
-Date: Sun, 6 Dec 2015 10:22:48 -0800
-Message-ID: <CAGgRHJrZOA8+nGyfXQgFaeZ28M3uuLf7EziN2DK_dM2Hoe5J6A@mail.gmail.com>
-From: Matt Madison <matt@madison.systems>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+	Sun,  6 Dec 2015 19:26:34 +0000 (UTC)
+Received: from DUB127-W13 ([157.55.2.8]) by DUB004-OMC3S29.hotmail.com over
+	TLS secured channel with Microsoft SMTPSVC(7.5.7601.23008); 
+	Sun, 6 Dec 2015 11:26:34 -0800
+X-TMN: [iA0OVCiySN9r/bn3Jx6aIf7cgMbmRFTw4yASmbqdqsw=]
+X-Originating-Email: [gerharddeclercq@outlook.com]
+Message-ID: <DUB127-W1311B96F5C21DD5CB0A262B80A0@phx.gbl>
+From: Gerhard de Clercq <gerharddeclercq@outlook.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] ARMPKGSFX_FP ordering
+Date: Sun, 6 Dec 2015 19:26:34 +0000
+Importance: Normal
+In-Reply-To: <DUB127-W3511BD769D66A53690A1DEB80A0@phx.gbl>
+References: <DUB127-W3511BD769D66A53690A1DEB80A0@phx.gbl>
+MIME-Version: 1.0
+X-OriginalArrivalTime: 06 Dec 2015 19:26:34.0926 (UTC)
+	FILETIME=[04FCDCE0:01D1305C]
+Subject: Re: Packagegroup breaking sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,54 +33,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Dec 2015 18:22:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 06 Dec 2015 19:26:35 -0000
+Content-Type: multipart/alternative;
+	boundary="_5868afc6-0fd4-47d7-9496-a0c44ac50798_"
 
-On Sun, Dec 6, 2015 at 9:47 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> See:
->
-> http://lists.openembedded.org/pipermail/openembedded-core/2015-November/112919.html
->
-> I think it fixes the same issue.
+--_5868afc6-0fd4-47d7-9496-a0c44ac50798_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Close, but not quite, I think.  It doesn't look like it addresses the
-ordering mismatch that occurs due to the -vfp include being processed
-before the -neon include, resulting vfpv4 preceding neon in
-ARMPKGSFX_FPU when both are enabled.
+I have determined that the script is most likely failing at the end of http=
+s://github.com/openembedded/openembedded-core/blob/fido/meta/files/toolchai=
+n-shar-extract.sh indicating that the environment-setup file is never creat=
+ed (or copied I guess). I have also found that simply using something like =
+TOOLCHAIN_HOST_TASK +=3D "nativesdk-qtbase-tools" in my image recipe also c=
+auses the problem. I therefore believe that the problem is coming from the =
+inclusion of anything non-standard into the SDK. Any ideas where I should b=
+e looking for the cause of this?
 
-Thanks,
--Matt
+From: gerharddeclercq@outlook.com
+To: openembedded-core@lists.openembedded.org
+Date: Sun=2C 6 Dec 2015 14:48:22 +0000
+Subject: [OE-core] Packagegroup breaking sdk
 
->
-> On Sun, Dec 6, 2015 at 6:09 PM, Matt Madison <matt@madison.systems> wrote:
->>
->> I was trying some multilib ARM builds and ran into an issue.  For
->> armv7ahf-neon-vfpv4, PACKAGE_EXTRA_ARCHS is coded as
->> "armv7ahf-vfp-neon-vfpv4",
->> but the ARMPKGSFX_FPU suffix was getting constructed as "-vfp-vfpv4-neon",
->> resulting
->> in 32-bit packages not getting found due to the name mismatch.
->>
->> The following patch fixes this by changing ARMPKGSFX_FPU.  I'm not sure if
->> it
->> would be more correct to change the PACKAGE_EXTRA_ARCHS settings, but the
->> 'neon-vfpv4' more closely aligns to the tune names, so I took this route.
->>
->> Matt Madison (1):
->>   feature-arm-neon.inc, feature-arm-vfp.inc: fix vfpv4 suffix ordering
->>
->>  meta/conf/machine/include/arm/feature-arm-neon.inc | 2 +-
->>  meta/conf/machine/include/arm/feature-arm-vfp.inc  | 2 +-
->>  2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> --
->> 2.5.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+=0A=
+=0A=
+=0A=
+I am not sure why this is happening but it seems as if though the packagegr=
+oup class is causing generated SDKs to be corrupt on my system. I could run=
+ -c populate_sdk just fine on my system and image and the resulting SDK was=
+ just fine too.  The problem was that it did not include the needed Qt file=
+s. Now I know there is another mailing list for that but I don't think the =
+problem lies there. I managed to get the Qt files added by adding TOOLCHAIN=
+_HOST_TASK +=3D "nativesdk-packagegroup-qt5-toolchain-host" to my image rec=
+ipe. The problem is that this seems to corrupt the SDK installer script bec=
+ause with that it fails with "Setting it up...ls: cannot access /usr/local/=
+simon/environment-setup-*: No such file or directory" before completing the=
+ install thereby rendering it useless. The contents of that file can be see=
+n at https://github.com/meta-qt5/meta-qt5/blob/master/recipes-qt/packagegro=
+ups/nativesdk-packagegroup-qt5-toolchain-host.bb but I don't think it's imp=
+ortant. I tried too delete parts of it in order to determine what was causi=
+ng the problem and it seems that the "inherit packagegroup" line was causin=
+g the trouble and therefore there must be something wrong that class in oe-=
+core. In other words any packagegroup recipe seems to cause this on my syst=
+em. Now I realize that if this were a serious problem with openembedded-cor=
+e that someone should have picked up on it already and I am therefore led t=
+o believe that it comes as a result of some peculiarity in my system. Does =
+anyone have any idea what could cause the base recipe to behave like this?
+ 		 	   		  =0A=
 
+-- =0A=
+_______________________________________________=0A=
+Openembedded-core mailing list=0A=
+Openembedded-core@lists.openembedded.org=0A=
+http://lists.openembedded.org/mailman/listinfo/openembedded-core 		 	   		 =
+ =
+
+--_5868afc6-0fd4-47d7-9496-a0c44ac50798_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<style><!--
+.hmmessage P
+{
+margin:0px=3B
+padding:0px
+}
+body.hmmessage
+{
+font-size: 12pt=3B
+font-family:Calibri
+}
+--></style></head>
+<body class=3D'hmmessage'><div dir=3D'ltr'>I have determined that the scrip=
+t is most likely failing at the end of <a href=3D"https://github.com/openem=
+bedded/openembedded-core/blob/fido/meta/files/toolchain-shar-extract.sh" ta=
+rget=3D"_blank">https://github.com/openembedded/openembedded-core/blob/fido=
+/meta/files/toolchain-shar-extract.sh</a> indicating that the environment-s=
+etup file is never created (or copied I guess). I have also found that simp=
+ly using something like TOOLCHAIN_HOST_TASK +=3D "nativesdk-qtbase-tools" i=
+n my image recipe also causes the problem. I therefore believe that the pro=
+blem is coming from the inclusion of anything non-standard into<span class=
+=3D"pl-s"> the SDK. Any ideas where I should be looking for the cause of th=
+is?<br><br></span><div><hr id=3D"stopSpelling">From: gerharddeclercq@outloo=
+k.com<br>To: openembedded-core@lists.openembedded.org<br>Date: Sun=2C 6 Dec=
+ 2015 14:48:22 +0000<br>Subject: [OE-core] Packagegroup breaking sdk<br><br=
+>=0A=
+=0A=
+<style><!--=0A=
+.ExternalClass .ecxhmmessage P {=0A=
+padding:0px=3B=0A=
+}=0A=
+=0A=
+.ExternalClass body.ecxhmmessage {=0A=
+font-size:12pt=3B=0A=
+font-family:Calibri=3B=0A=
+}=0A=
+=0A=
+--></style>=0A=
+<div dir=3D"ltr">I am not sure why this is happening but it seems as if tho=
+ugh the packagegroup class is causing generated SDKs to be corrupt on my sy=
+stem. I could run -c populate_sdk just fine on my system and image and the =
+resulting SDK was just fine too.&nbsp=3B The problem was that it did not in=
+clude the needed Qt files. Now I know there is another mailing list for tha=
+t but I don't think the problem lies there. I managed to get the Qt files a=
+dded by adding TOOLCHAIN_HOST_TASK +=3D "nativesdk-packagegroup-qt5-toolcha=
+in-host" to my image recipe. The problem is that this seems to corrupt the =
+SDK installer script because with that it fails with "Setting it up...ls: c=
+annot access /usr/local/simon/environment-setup-*: No such file or director=
+y" before completing the install thereby rendering it useless. The contents=
+ of that file can be seen at https://github.com/meta-qt5/meta-qt5/blob/mast=
+er/recipes-qt/packagegroups/nativesdk-packagegroup-qt5-toolchain-host.bb bu=
+t I don't think it's important. I tried too delete parts of it in order to =
+determine what was causing the problem and it seems that the "inherit packa=
+gegroup" line was causing the trouble and therefore there must be something=
+ wrong that class in oe-core. In other words any packagegroup recipe seems =
+to cause this on my system. Now I realize that if this were a serious probl=
+em with openembedded-core that someone should have picked up on it already =
+and I am therefore led to believe that it comes as a result of some peculia=
+rity in my system. Does anyone have any idea what could cause the base reci=
+pe to behave like this?<br> 		 	   		  </div>=0A=
+<br>-- =0A=
+_______________________________________________=0A=
+Openembedded-core mailing list=0A=
+Openembedded-core@lists.openembedded.org=0A=
+http://lists.openembedded.org/mailman/listinfo/openembedded-core</div> 		 	=
+   		  </div></body>
+</html>=
+
+--_5868afc6-0fd4-47d7-9496-a0c44ac50798_--
