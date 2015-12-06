@@ -1,36 +1,39 @@
-Return-Path: <paul.barker.commagility@gmail.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E54C601A5
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Dec 2015 11:32:30 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so129639663wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Dec 2015 03:32:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=hRQKY1/WJof7H1q0whWSX/G0Lt2ma8du6/O39CfI/48=;
-	b=cMy0p3cdMxVEKCdIlIfKv+JGrfNQOjSTjFeM6TFtXwAIdI+AYriFpxAWShtHL+fDV5
-	SqmSP3J0+Rs/EV7+zuFr8YtjXGlhcackiTdSqArv7AyQHE/psqQm3csthSPTl2yx/QZd
-	zUP8Y/4v5A818hgI6VmoslO5kM3KjSJs4q+FiGPe09tkvNK9kNEyFRjvvZdPADH+gRuL
-	044j4Rj9LHo1F1qdOqsqRL92SsNEFT8HEHLvD1btt9wBYWv+lNiEaiaTg3J2nvgMlkt9
-	OhhcBkhaddofCuv+LFEc2I3ztDk6jdcUoMj/NdjufIMYKXV08t62i+Yv09kk3qo7K6+e
-	wH+w==
-X-Received: by 10.28.127.200 with SMTP id a191mr16368376wmd.27.1449401551439; 
-	Sun, 06 Dec 2015 03:32:31 -0800 (PST)
-Received: from oebuild.commagility.com (inno-commagility-ownrouter.lut.ac.uk.
-	[131.231.60.35]) by smtp.gmail.com with ESMTPSA id
-	186sm11662017wmv.9.2015.12.06.03.32.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 06 Dec 2015 03:32:30 -0800 (PST)
-From: Paul Barker <paul.barker@commagility.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  6 Dec 2015 11:26:34 +0000
-Message-Id: <1449401194-31567-2-git-send-email-paul.barker@commagility.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1449401194-31567-1-git-send-email-paul.barker@commagility.com>
-References: <1449401194-31567-1-git-send-email-paul.barker@commagility.com>
-Subject: [PATCH RFC] module.bbclass: Fix potential do_compile/do_make_scripts race condition
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id D0D4F60767;
+	Sun,  6 Dec 2015 11:34:27 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so109631487wmw.1;
+	Sun, 06 Dec 2015 03:34:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=tiZI0oDP8p0/ufyTb1jNDyChdkxvxOZfLKECSUYk/fk=;
+	b=oth/Uk2gR+OIYthtlegbkhSsmfZTB8Nb99psqGAWRX63chxlgzQ4mLpw0vrc/67DKK
+	voSc7YzQtVi/4706VdBmJ6VSBfexCPoyBrDh0toqQdUGXPQCYCKdCGP/YMlGLF0mI6iD
+	q+L1xmwTpxvCglJoO4ER/JG2TakjcrMYdurDRtiGbxp+IHsYlINFM1z3+48LBuPj9Ir6
+	nVZn5UuBfl7h9K3JN8CwL5VX6lbBOZd2MRJ6BE6kUFc+iyxrXiroC+VF8mUT4CKa3cSA
+	rkO9xrQD4EUglMagCTBXRtLv0Pl1pZ8l4DTmYVvw8wLFqt3F41S/x+S+QJhmi6R4E6gX
+	0Gfg==
+X-Received: by 10.28.61.4 with SMTP id k4mr15733003wma.34.1449401667654;
+	Sun, 06 Dec 2015 03:34:27 -0800 (PST)
+Received: from ernie.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
+	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
+	c194sm11547737wmd.13.2015.12.06.03.34.26
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 06 Dec 2015 03:34:27 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+From: Jens Rehsack <rehsack@gmail.com>
+In-Reply-To: <566071A5.4010005@linux.intel.com>
+Date: Sun, 6 Dec 2015 12:34:25 +0100
+Message-Id: <EBE355CC-5515-4C2A-AB72-A326E2D46F70@gmail.com>
+References: <56538808.5050606@linux.intel.com> <90526450.BhUWnDVvgQ@masala.hex>
+	<5654AC12.9060808@windriver.com> <11874234.lUveKP5eiY@masala.hex>
+	<566071A5.4010005@linux.intel.com>
+To: Mariano Lopez <mariano.lopez@linux.intel.com>
+X-Mailer: Apple Mail (2.2104)
+Cc: openembedded-devel@lists.openembedded.org,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] RFC: Reference updater filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +46,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Dec 2015 11:32:31 -0000
+X-List-Received-Date: Sun, 06 Dec 2015 11:34:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-In the Linux 3.10.y series, repeatedly running 'make scripts' causes the modpost
-script to be rebuilt every time. This causes a potential race condition when
-building multiple external modules against a 3.10.y series kernel: one recipe
-may be running do_make_scripts and modifying modpost whilst another is running
-do_compile and using modpost. In my case this caused a permission error during
-do_compile for one recipe as modpost was not executable at the time it tried to
-run it.
 
-In Linux 3.11 this was resolved and multiple invocations of 'make scripts' does
-not cause modpost to be rebuilt. However, there are still vendor kernels in use
-based on the 3.10.y series. Even on later kernel versions it would require more
-investigation to conclude that running 'make scripts' whilst also building an
-out-of-tree module is always safe. Therefore we should prevent do_make_scripts
-from running at the same time as do_compile.
+> Am 03.12.2015 um 17:45 schrieb Mariano Lopez =
+<mariano.lopez@linux.intel.com>:
+>=20
+> [...]
+>=20
+> Thanks to all for your input. The conclusion of this thread is:
+>=20
+> 1. One size doesn't fit all.
+> 2. Most of the people was fine with the image based update.
 
-A side effect of this is that only one out-of-tree module recipe can be running
-do_compile at any time. This may affect build time if multiple, large
-out-of-tree modules are being built but that should be rare and the impact on
-overall build time should be low.
+Where is the image stored? I read over referred =
+http://sbabic.github.io/swupdate/
+and realized that the update image must include a stripped rootfs and =
+the entire
+software for rootfs as well as probably the recoveryfs/maintfs and some =
+logic
+for updating the data volume (eg. migrator for database of business =
+logic).
 
-Signed-off-by: Paul Barker <paul.barker@commagility.com>
----
- meta/classes/module.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+This can be very large ... and must be stored somewhere.
 
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index 0952c0c..74280f0 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -4,6 +4,10 @@ addtask make_scripts after do_patch before do_compile
- do_make_scripts[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
- do_make_scripts[depends] += "virtual/kernel:do_shared_workdir"
- 
-+# Ensure one recipe isn't running do_make_scripts whilst another is using those
-+# scripts in do_compile.
-+do_compile[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
-+
- EXTRA_OEMAKE += "KERNEL_SRC=${STAGING_KERNEL_DIR}"
- 
- module_do_compile() {
--- 
-1.8.3.1
+Next question: how bullet proof is the swupdate?
+
+Out process is designed (because of typical users can't interact) to can =
+survive
+surprising power outage. Unfortunately we didn't manage to split out =
+u-boot into
+separate updatable parts, so we can't benefit from it - but technically =
+(if one
+has implemented for heir targets), our script updates and continues =
+after power
+comes back.
+
+I think, beside the question of having an image containing the update =
+(we have such
+an add-on, too - for legacy devices without he modern Yocto based =
+firmware), the
+question of stability should be evaluated, too.
+
+> 3. The recommended way to keep the configuration is to have a =
+separated data partition.
+> 4. The partition scheme would be:
+>    1. boot. This is the usual boot partition
+>    2. rootfs. Partition used for normal operation.
+>    3. maintenance. This partition will be used to update rootfs.
+>    4. data. This will hold the configuration files. Not modified by
+>    updates.
+
+Cheers
+--=20
+Jens Rehsack - rehsack@gmail.com
 
 
