@@ -1,47 +1,47 @@
 Return-Path: <matt@madison.systems>
-Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 34639601A5
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id C0E9E601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Dec 2015 16:54:03 +0000 (UTC)
-Received: by pfu207 with SMTP id 207so51719762pfu.2
+	Sun,  6 Dec 2015 17:09:33 +0000 (UTC)
+Received: by pabfh17 with SMTP id fh17so115137353pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Dec 2015 08:54:04 -0800 (PST)
+	Sun, 06 Dec 2015 09:09:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=madison-systems.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=ONN+pqr5OJGva6w4uzfWrZmPKvXChvwkda1RTIcWzus=;
-	b=Ud/qtKrQvQ0Y8EijQWEEMyBqMEijfqZ2o7UCXu7ohHEgfYeNiRAg/SPN3uqgBp/rNh
-	kKJaHz54x/9sp5EsPVdyjQaj6p7Q/HK5s0lskHUP28WgKDPQ1vhfkG6LenFAszRfd4OC
-	D15O/IUme5MGp8ZDky7PaEBPyYgVrMijG4LtzN4OMOvPnRjO2P/WywVN2kUDwYY2ovwT
-	MWNRvCbqFWqauAqQGBLMapnOCYUxDVffygIXagT3abo89jZI2Mb8/8H9rlcetVyizDV5
-	IITgO/eBpsmQhyW/SBRjpg23B3SyA0hSZQaV73TjewrvuPGFltI4aUUtH1v++b90eXqu
-	TaKg==
+	bh=YJGFJ4A9bteS/RUeFriT9uYB8MVCwD4cjWIlnCmFXwI=;
+	b=SPZvOqGJbl0leJ8QDk0TAhdm9ZuEvrttB/EPM+GiLdMo5aBi9DzWvJexvBmR3io4mq
+	CelniEEfGPeKUQNfZLsc4Z1/XABuQGwpZlM+QNtDiEBLiIzcJ1YW3VRqxTv/mgcFXK3C
+	o7CWJIyS5vODRVF/ZKYxOb+WP7gTgv1CwHObUjdCJR2ois6DIDYRd3WXmUXFN4rOtlJZ
+	WzsNt2l10sTmKaWUWvKk/itPPqcPCvuc5MBk1QxDbLjfkw9HEHyQiUMH9v7G2osSjnIY
+	A6Tp5K/ctHZgodsMyoNKk9K1ZDtL+Az5WEbQX/jg+E18DEx5EOdy0kxv4Ln0PyqDwDdp
+	C3+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ONN+pqr5OJGva6w4uzfWrZmPKvXChvwkda1RTIcWzus=;
-	b=YE8KTH+dcUM8sGrFN5vYH6VUSupFrk1D9RvjSCv+Eu+P9l0N67Cei/MNAu7kn56NMs
-	t5gj4vS46pgvGY3bmuzPJmbcaZZ8qPimSb2tKjhAnc3SCnEvKzX5yh3lMBwQ1GA05AbU
-	bBJ5Ehgtx6KXSP6SbAHOtY8Bt1gh6UkpRH4UMBoSTVJUVBpRRwaghFZFvy/2Y51BZnRY
-	6XOIZiN20+YlXl6Wc2Un5zqdVNq2RmiD7SneUzahPSkDZMSxwXfs43SeA75wmVL8PdnW
-	uvwvgMdIZ4SgYY7xf/aQDmZuWoN7ql22/l75d8kvWckZmcS9I9lMeBQOIP/BV90r9KSL
-	5pHA==
-X-Gm-Message-State: ALoCoQm3EcyeZr/hm2C4ThDDcZuL+02E0NRFBb0iB7SF3ROhD+sK7bB3hk5w6iEvJFtylqmc44BD
-X-Received: by 10.98.16.133 with SMTP id 5mr36590993pfq.150.1449420844082;
-	Sun, 06 Dec 2015 08:54:04 -0800 (PST)
+	bh=YJGFJ4A9bteS/RUeFriT9uYB8MVCwD4cjWIlnCmFXwI=;
+	b=KivTH+qEBC5+TO78b2C7Q+zVM47lExCCq/4NTymCKeU4TiTyVOk9qQwAfaXHFm36yp
+	7r780KPOw9tqAK9j+aRK9gy5/CaIHLQSGmWAwNTEjHbghjICqgM7ZZFaRoogyMos5O/F
+	p3noaTBtWX2JdkL4nkGbyDfPeN1HmMYljeIWlotGwuva/afMrTtpbiqAWkff41kdhejG
+	MEpGMFi3kDRJSyIxkFVG3AxvJ/uznh6aZVoqT4msQAVc4f2fBzcA66ZD7p92jf692Yay
+	uqysBmgS/UvgjkfFFhsoUoxmnQWgL9I/Q9pxj/njyduxibkFxlW+WbMCLYeCsT0gt3L+
+	i+tQ==
+X-Gm-Message-State: ALoCoQmvWB9bnbI5eQ9VfcPXffoILHIoee1aNrQfeTuKW4zYJ2EVh7X8L106MHPQSWtPUIFWHyIk
+X-Received: by 10.66.192.7 with SMTP id hc7mr364422pac.48.1449421774141;
+	Sun, 06 Dec 2015 09:09:34 -0800 (PST)
 Received: from workhorse.madison.systems
 	(70.90.175.93-BusName-ca.sfba.hfc.comcastbusiness.net.
 	[70.90.175.93]) by smtp.gmail.com with ESMTPSA id
-	tb8sm29278366pab.22.2015.12.06.08.54.02
+	h10sm29367381pat.7.2015.12.06.09.09.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 06 Dec 2015 08:54:02 -0800 (PST)
+	Sun, 06 Dec 2015 09:09:33 -0800 (PST)
 From: Matt Madison <matt@madison.systems>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  6 Dec 2015 08:53:22 -0800
-Message-Id: <1449420803-12282-1-git-send-email-matt@madison.systems>
+Date: Sun,  6 Dec 2015 09:09:10 -0800
+Message-Id: <1449421751-12670-1-git-send-email-matt@madison.systems>
 X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] wic: insert local Python paths at front
+Subject: [PATCH 0/1] ARMPKGSFX_FP ordering
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +54,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Dec 2015 16:54:06 -0000
+X-List-Received-Date: Sun, 06 Dec 2015 17:09:33 -0000
 
-This follows how bitbake performs path insertion, and fixes a
-failure to start wic on Ubuntu 15.10 with the distribution's
-version of python-ply installed.
+I was trying some multilib ARM builds and ran into an issue.  For
+armv7ahf-neon-vfpv4, PACKAGE_EXTRA_ARCHS is coded as "armv7ahf-vfp-neon-vfpv4",
+but the ARMPKGSFX_FPU suffix was getting constructed as "-vfp-vfpv4-neon", resulting
+in 32-bit packages not getting found due to the name mismatch.
 
-Signed-off-by: Matt Madison <matt@madison.systems>
----
- scripts/wic | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The following patch fixes this by changing ARMPKGSFX_FPU.  I'm not sure if it
+would be more correct to change the PACKAGE_EXTRA_ARCHS settings, but the
+'neon-vfpv4' more closely aligns to the tune names, so I took this route.
 
-diff --git a/scripts/wic b/scripts/wic
-index 7ad2b19..2286f20 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -41,12 +41,12 @@ from distutils import spawn
- # External modules
- scripts_path = os.path.abspath(os.path.dirname(__file__))
- lib_path = scripts_path + '/lib'
--sys.path.append(lib_path)
-+sys.path.insert(0, lib_path)
- 
- bitbake_exe = spawn.find_executable('bitbake')
- if bitbake_exe:
-     bitbake_path = os.path.join(os.path.dirname(bitbake_exe), '../lib')
--    sys.path.append(bitbake_path)
-+    sys.path.insert(0, bitbake_path)
-     from bb import cookerdata
-     from bb.main import bitbake_main, BitBakeConfigParameters
- else:
+Matt Madison (1):
+  feature-arm-neon.inc, feature-arm-vfp.inc: fix vfpv4 suffix ordering
+
+ meta/conf/machine/include/arm/feature-arm-neon.inc | 2 +-
+ meta/conf/machine/include/arm/feature-arm-vfp.inc  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
 -- 
 2.5.0
 
