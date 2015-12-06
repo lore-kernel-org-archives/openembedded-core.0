@@ -1,50 +1,34 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id A283C60761
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B1B2601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Dec 2015 17:25:38 +0000 (UTC)
-Received: by pacej9 with SMTP id ej9so112330347pac.2
+	Sun,  6 Dec 2015 17:47:19 +0000 (UTC)
+Received: by wmuu63 with SMTP id u63so115349639wmu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Dec 2015 09:25:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=AJfmqHJfZYeule86vygrpNEKcbcSpEgnyfQMHcBd2BQ=;
-	b=i0rSZs8k5lNMGw3ChxSbgNF9wPV1xr4ACUaKveSyQhHXTlRe3PIjAcOv+Z9GJn44Ra
-	chrHWtdd+oNmwAdwXDfgodYj8G+2yiu3VmSzb7GtRK/DJ44uMfwywqxgOrXzNgSj3mI6
-	BAMTNfaOUMYdtVjmGDimKvgdi86nUi84tdDk5hCiigXfEiTrhNFldmcnpWn6x+4AZZsC
-	wMNUMprQ7dWFxAnaN4ZGBVm9SZyrdStxV0E0t/wEd/PxyQNTl5NtaIzNtnHFIQtef1b2
-	TopKBglmKNmNta5nZoUrM7URHSpLHmY3eaZdQN2vlw9PwlUpFXV/Obpzvjr2XjF/YDZ3
-	nvew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=AJfmqHJfZYeule86vygrpNEKcbcSpEgnyfQMHcBd2BQ=;
-	b=MOsqBjtf18Dr8KgkI2aXQeiKbGJJgzo5RdGYCiQzoWb5+MDs5oy2jVINTun5Nvbp6J
-	vd33ffYIdPQzo+H84arMKvAeLa828m6OouPUylSHJXRypgACU0k4qSLzU0UyxUyPYl0C
-	IjG4mCwDT3un2AdFzb2g4o+NdD9ym6469dPXi4vgc8brHJAQ7t2LZcPjmnnXtoaUiPet
-	GSMFj5WVcgeNFLG0RJWobWnaYH9U7GxdVuPUX3Jk1oqOwHRjURTEAW34EUgw9GWuZjp+
-	nopL8/eKkVAsaCA+px1S9QP6EktcwilqimujiyBUAdrGCnhKOe5sTLHp+8+/V8dylvZV
-	PCVg==
-X-Gm-Message-State: ALoCoQmLWnRMq+qya191nDPMT+1Vo/0e9ddlkdYNWWYaDx7CKpRxJhH9FU19TVTgngziqjoydDUL
-X-Received: by 10.66.146.130 with SMTP id tc2mr36475237pab.26.1449422739389;
-	Sun, 06 Dec 2015 09:25:39 -0800 (PST)
-Received: from workhorse.madison.systems
-	(70.90.175.93-BusName-ca.sfba.hfc.comcastbusiness.net.
-	[70.90.175.93]) by smtp.gmail.com with ESMTPSA id
-	134sm29280465pfa.30.2015.12.06.09.25.37
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 06 Dec 2015 09:25:38 -0800 (PST)
-From: Matt Madison <matt@madison.systems>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  6 Dec 2015 09:25:32 -0800
-Message-Id: <1449422732-12975-3-git-send-email-matt@madison.systems>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1449422732-12975-1-git-send-email-matt@madison.systems>
-References: <1449422732-12975-1-git-send-email-matt@madison.systems>
-Subject: [PATCH 2/2] package_manager.py: fixes for multilib deb packaging builds
+	Sun, 06 Dec 2015 09:47:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=iKaifeiHo6PTZ+JI17iLVJtBORHT7ELrSQr7W4MGuyU=;
+	b=0iM6rmmVgq/3caMw35bNvZ2PYvRKY0iKLTy1ra6ZI1dXKLB7WL3DDtYJ9P7tJMQKvT
+	QXlBA8OQUD8GyDF/GveQLxSWJLQdRp1uhW0kl5ET1b6s37yyrnbiLDp2xSdRGpyRf+rA
+	Ft1/+sP2Fy1LXNJslZO1s9uqBM0iAQLVI2+OHQDl+PalUSPqkMI1IiEPtncMCLwHVsC1
+	JQYKFyMMulnpPi9jhLWO+Q1vdSEii/U67tJfPe1oi8bVjetBWsTnXjsoyRdVJFkz3udb
+	fH1knhqcJLZ99QOHWiyNKxuFbLuG9Pzfz7/q+O0nu+Hj5YPSbvxPUciKNJuFWFCCqxSi
+	ju1A==
+MIME-Version: 1.0
+X-Received: by 10.28.183.215 with SMTP id h206mr17764282wmf.0.1449424040418;
+	Sun, 06 Dec 2015 09:47:20 -0800 (PST)
+Received: by 10.194.2.15 with HTTP; Sun, 6 Dec 2015 09:47:20 -0800 (PST)
+In-Reply-To: <1449421751-12670-1-git-send-email-matt@madison.systems>
+References: <1449421751-12670-1-git-send-email-matt@madison.systems>
+Date: Sun, 6 Dec 2015 18:47:20 +0100
+Message-ID: <CA+chaQeA0AFTk3eTEckJnsc1jp-RLx-9LRde0BkrPnJHRp+AtA@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Matt Madison <matt@madison.systems>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] ARMPKGSFX_FP ordering
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,73 +41,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Dec 2015 17:25:38 -0000
+X-List-Received-Date: Sun, 06 Dec 2015 17:47:21 -0000
+Content-Type: multipart/alternative; boundary=001a1148d9e40eec5905263e5523
 
-* tmp/deploy/deb subdirectories do not get hyphens replaced
-  with underscores, so don't do that translation when building
-  the sources list.
+--001a1148d9e40eec5905263e5523
+Content-Type: text/plain; charset=UTF-8
 
-* Fix MULTILIB_VARIANTS handling to be more general and
-  work for all architectures
+See:
 
-* Also include a fix for a warning generated by apt
-  due to missing apt/preferences.d directory.
+http://lists.openembedded.org/pipermail/openembedded-core/2015-November/112919.html
 
-Signed-off-by: Matt Madison <matt@madison.systems>
----
- meta/lib/oe/package_manager.py | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+I think it fixes the same issue.
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index d6104b3..b07cbb4 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -247,7 +247,7 @@ class DpkgIndexer(Indexer):
-                 if a not in pkg_archs:
-                     arch_list.append(a)
- 
--        all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS', True) or "").replace('-', '_').split()
-+        all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS', True) or "").split()
-         arch_list.extend(arch for arch in all_mlb_pkg_arch_list if arch not in arch_list)
- 
-         apt_ftparchive = bb.utils.which(os.getenv('PATH'), "apt-ftparchive")
-@@ -1712,7 +1712,7 @@ class DpkgPM(PackageManager):
-         self.apt_args = d.getVar("APT_ARGS", True)
- 
-         self.all_arch_list = archs.split()
--        all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS', True) or "").replace('-', '_').split()
-+        all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS', True) or "").split()
-         self.all_arch_list.extend(arch for arch in all_mlb_pkg_arch_list if arch not in self.all_arch_list)
- 
-         self._create_configs(archs, base_archs)
-@@ -1897,6 +1897,7 @@ class DpkgPM(PackageManager):
-         bb.utils.mkdirhier(self.apt_conf_dir)
-         bb.utils.mkdirhier(self.apt_conf_dir + "/lists/partial/")
-         bb.utils.mkdirhier(self.apt_conf_dir + "/apt.conf.d/")
-+        bb.utils.mkdirhier(self.apt_conf_dir + "/preferences.d/")
- 
-         arch_list = []
-         for arch in self.all_arch_list:
-@@ -1931,10 +1932,14 @@ class DpkgPM(PackageManager):
-         base_arch_list = base_archs.split()
-         multilib_variants = self.d.getVar("MULTILIB_VARIANTS", True);
-         for variant in multilib_variants.split():
--            if variant == "lib32":
--                base_arch_list.append("i386")
--            elif variant == "lib64":
--                base_arch_list.append("amd64")
-+            localdata = bb.data.createCopy(self.d)
-+            variant_tune = localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + variant, False)
-+            orig_arch = localdata.getVar("DPKG_ARCH", True)
-+            localdata.setVar("DEFAULTTUNE", variant_tune)
-+            bb.data.update_data(localdata)
-+            variant_arch = localdata.getVar("DPKG_ARCH", True)
-+            if variant_arch not in base_arch_list:
-+                base_arch_list.append(variant_arch)
- 
-         with open(self.apt_conf_file, "w+") as apt_conf:
-             with open(self.d.expand("${STAGING_ETCDIR_NATIVE}/apt/apt.conf.sample")) as apt_conf_sample:
--- 
-2.5.0
+On Sun, Dec 6, 2015 at 6:09 PM, Matt Madison <matt@madison.systems> wrote:
 
+> I was trying some multilib ARM builds and ran into an issue.  For
+> armv7ahf-neon-vfpv4, PACKAGE_EXTRA_ARCHS is coded as
+> "armv7ahf-vfp-neon-vfpv4",
+> but the ARMPKGSFX_FPU suffix was getting constructed as "-vfp-vfpv4-neon",
+> resulting
+> in 32-bit packages not getting found due to the name mismatch.
+>
+> The following patch fixes this by changing ARMPKGSFX_FPU.  I'm not sure if
+> it
+> would be more correct to change the PACKAGE_EXTRA_ARCHS settings, but the
+> 'neon-vfpv4' more closely aligns to the tune names, so I took this route.
+>
+> Matt Madison (1):
+>   feature-arm-neon.inc, feature-arm-vfp.inc: fix vfpv4 suffix ordering
+>
+>  meta/conf/machine/include/arm/feature-arm-neon.inc | 2 +-
+>  meta/conf/machine/include/arm/feature-arm-vfp.inc  | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> --
+> 2.5.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--001a1148d9e40eec5905263e5523
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">See:<div><br></div><div><a href=3D"http://lists.openembedd=
+ed.org/pipermail/openembedded-core/2015-November/112919.html">http://lists.=
+openembedded.org/pipermail/openembedded-core/2015-November/112919.html</a><=
+br></div><div><br></div><div>I think it fixes the same issue.</div></div><d=
+iv class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Sun, Dec 6, 2015=
+ at 6:09 PM, Matt Madison <span dir=3D"ltr">&lt;<a href=3D"mailto:matt@madi=
+son.systems" target=3D"_blank">matt@madison.systems</a>&gt;</span> wrote:<b=
+r><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">I was trying some multilib ARM builds and =
+ran into an issue.=C2=A0 For<br>
+armv7ahf-neon-vfpv4, PACKAGE_EXTRA_ARCHS is coded as &quot;armv7ahf-vfp-neo=
+n-vfpv4&quot;,<br>
+but the ARMPKGSFX_FPU suffix was getting constructed as &quot;-vfp-vfpv4-ne=
+on&quot;, resulting<br>
+in 32-bit packages not getting found due to the name mismatch.<br>
+<br>
+The following patch fixes this by changing ARMPKGSFX_FPU.=C2=A0 I&#39;m not=
+ sure if it<br>
+would be more correct to change the PACKAGE_EXTRA_ARCHS settings, but the<b=
+r>
+&#39;neon-vfpv4&#39; more closely aligns to the tune names, so I took this =
+route.<br>
+<br>
+Matt Madison (1):<br>
+=C2=A0 feature-arm-neon.inc, feature-arm-vfp.inc: fix vfpv4 suffix ordering=
+<br>
+<br>
+=C2=A0meta/conf/machine/include/arm/feature-arm-neon.inc | 2 +-<br>
+=C2=A0meta/conf/machine/include/arm/feature-arm-vfp.inc=C2=A0 | 2 +-<br>
+=C2=A02 files changed, 2 insertions(+), 2 deletions(-)<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+2.5.0<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</font></span></blockquote></div><br></div>
+
+--001a1148d9e40eec5905263e5523--
