@@ -1,29 +1,30 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 2842A6E668
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EE2260124
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Dec 2015 16:42:57 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 07 Dec 2015 08:42:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,395,1444719600"; d="scan'208";a="836075203"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 07 Dec 2015 08:42:57 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 9B0696A4087
+	Mon,  7 Dec 2015 18:27:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tB7IRjJv021380 for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Dec 2015 18:27:45 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id JY1VPl6ulDwZ
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Dec 2015 08:41:47 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Dec 2015 18:43:50 +0200
-Message-Id: <1449506630-31407-2-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1449506630-31407-1-git-send-email-maxin.john@intel.com>
-References: <1449506630-31407-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 2/2] libical: Fix x32 ABI build
+	Mon,  7 Dec 2015 18:27:45 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tB7IRTTt021376
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Dec 2015 18:27:40 GMT
+Message-ID: <1449512849.19730.13.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 07 Dec 2015 18:27:29 +0000
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] site/common-linux: Add some macros to avoid sleeps during configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,74 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Dec 2015 16:42:57 -0000
+X-List-Received-Date: Mon, 07 Dec 2015 18:27:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Fix x32 ABI build failure by using GNUInstallDirs in CMakeLists.txt
+If you profile gettext do_configure you notice it has some "sleep 1"
+type events occurring. This patch ensures we cache the right values to
+avoid those pointless delays there and in any other configure scripts
+using the same macros.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- .../libical/libical/Fix-x32-ABI-build.patch        | 38 ++++++++++++++++++++++
- meta/recipes-support/libical/libical_1.0.1.bb      |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-support/libical/libical/Fix-x32-ABI-build.patch
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-support/libical/libical/Fix-x32-ABI-build.patch b/meta/recipes-support/libical/libical/Fix-x32-ABI-build.patch
-new file mode 100644
-index 0000000..12186e2
---- /dev/null
-+++ b/meta/recipes-support/libical/libical/Fix-x32-ABI-build.patch
-@@ -0,0 +1,38 @@
-+Subject: [PATCH] Use GNUInstallDirs.
+diff --git a/meta/site/common-linux b/meta/site/common-linux
+index 8b5be68..448758b 100644
+--- a/meta/site/common-linux
++++ b/meta/site/common-linux
+@@ -1,3 +1,7 @@
++# gettext - these add sleep delays otherwise
++gl_cv_func_sleep_works=${gl_cv_func_sleep_works=yes}
++gl_cv_header_working_fcntl_h=${gl_cv_header_working_fcntl_h=yes}
 +
-+x32 ABI build fails because of improper library path. Use
-+GNUInstallDirs to fix it.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+diff -Naur libical-1.0.1-orig/CMakeLists.txt libical-1.0.1/CMakeLists.txt
-+--- libical-1.0.1-orig/CMakeLists.txt	2015-12-07 18:13:58.311503974 +0200
-++++ libical-1.0.1/CMakeLists.txt	2015-12-07 18:17:18.362002998 +0200
-+@@ -92,6 +92,10 @@
-+ endif()
-+ 
-+ set(PERL_EXECUTABLE perl)
-++# Ensure finding 64bit libs when using 64-bit compilers
-++if(CMAKE_CL_64)
-++  set_property(GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS True)
-++endif()
-+ 
-+ # MSVC specific definitions
-+ if(WIN32)
-+@@ -104,10 +108,10 @@
-+   add_definitions(-DBIG_ENDIAN=0 -DLITTLE_ENDIAN=1 -DBYTE_ORDER=BIG_ENDIAN)
-+ endif()
-+ 
-+-set(LIB_SUFFIX "" CACHE STRING "Define suffix of directory name (32/64)")
-+-set(LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}" CACHE STRING "Library directory name" FORCE)
-+-set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE STRING "Include directory name" FORCE)
-+-set(SHARE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share" CACHE STRING "Share directory name" FORCE)
-++include(GNUInstallDirs)
-++set(LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR} CACHE STRING "Library directory name" FORCE)
-++set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR} CACHE STRING "Include directory name" FORCE)
-++set(SHARE_INSTALL_DIR ${CMAKE_INSTALL_DATAROOTDIR} CACHE STRING "Share directory name")
-+ 
-+ # set the output paths
-+ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
-diff --git a/meta/recipes-support/libical/libical_1.0.1.bb b/meta/recipes-support/libical/libical_1.0.1.bb
-index 7dcb9eb..0dcee46 100644
---- a/meta/recipes-support/libical/libical_1.0.1.bb
-+++ b/meta/recipes-support/libical/libical_1.0.1.bb
-@@ -8,6 +8,7 @@ SECTION = "libs"
- 
- SRC_URI = "https://github.com/${BPN}/${BPN}/archive/v${PV}.tar.gz \
-            file://Remove-cmake-check-for-Perl.patch \
-+           file://Fix-x32-ABI-build.patch \
-            "
- SRC_URI[md5sum] = "af91db06b22559f863869c5a382ad08a"
- SRC_URI[sha256sum] = "7d5f613454ec6c7d1bcfb441c919215be53292aa15cd1cb14249d1413d6c610c"
--- 
-2.4.0
+ # apr
+ ac_cv_file__dev_zero=${ac_cv_file__dev_zero=yes}
+ ac_cv_sizeof_pid_t=${ac_cv_sizeof_pid_t=4}
+
 
 
