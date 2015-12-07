@@ -1,23 +1,38 @@
-Return-Path: <andrew.shadura@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 39CFE6012C
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C70360124
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Dec 2015 19:08:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: andrewsh) with ESMTPSA id 0C65C2613AC
-To: Patrick Ohly <patrick.ohly@intel.com>
-References: <ef26757c2c56efbd37d8577432a8e451399ad245.1448030272.git.andrew.shadura@collabora.co.uk>
-	<1449514958.30674.37.camel@intel.com>
-From: Andrew Shadura <andrew.shadura@collabora.co.uk>
-Organization: Collabora Limited
-Message-ID: <5665D910.8040008@collabora.co.uk>
-Date: Mon, 7 Dec 2015 20:08:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Mon,  7 Dec 2015 19:49:21 +0000 (UTC)
+Received: by igl9 with SMTP id 9so81557219igl.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Dec 2015 11:49:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=M+J85RMLQ7b1G/Up2AnVS/sLElgIWzjigrTWmOZke+o=;
+	b=QaggRDsm8hkY+4IhyKI2yCrefOdpfW4m6j5mnQS/MH+1GQD9IyGGGpjRZKQY/Ypugu
+	y1cOXybqM5kmVfpwEXfNg6dTM1iyTCj5QAz0s2igo0ycD8ewRAwLgjDF5C3O8lVWfCYI
+	6AZdy0lKseipuDi1b2gE086fmzCskUHS8MRcmYq1Xxj+fDVb70YazsUT2ucZlb3jSf4x
+	e+lMaKoe5rOnDp+woKJmFIKRayGFqXa06P2oas6VvnAfhsCYsZBwxzJ95miPqO8hQIyT
+	d8QbfOjwnx0VZkY7LSuiLAgQC1dHPykrj4B8xB1hIXg7/ufViLhzZQUAEMSzxbfDAJdK
+	vGww==
+X-Received: by 10.50.78.161 with SMTP id c1mr197210igx.10.1449517761769; Mon,
+	07 Dec 2015 11:49:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1449514958.30674.37.camel@intel.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] dbus: build with systemd support
+Received: by 10.79.69.129 with HTTP; Mon, 7 Dec 2015 11:49:02 -0800 (PST)
+In-Reply-To: <CACS+7ZR-KmxgSjSOptx_E3w4dFbMz_90munhQPcCfcEmvdV2DA@mail.gmail.com>
+References: <cover.1447371049.git.chris_larson@mentor.com>
+	<130d9a6c1f4ecea86748a44b73f51d8ddb2e63da.1447371049.git.chris_larson@mentor.com>
+	<05b7cc8c957a9756e7af964a09bc2a89e0aedd9f.1447371049.git.chris_larson@mentor.com>
+	<CACS+7ZR-KmxgSjSOptx_E3w4dFbMz_90munhQPcCfcEmvdV2DA@mail.gmail.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Mon, 7 Dec 2015 12:49:02 -0700
+Message-ID: <CABcZANn0wr+1GgYiPVkpTbqVLfOZOK44xZEtPDxdLfSaJgx6Qg@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] systemd: add myhostname to nsswitch.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,65 +45,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Dec 2015 19:08:11 -0000
-X-Groupsio-MsgNum: 74418
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="lA37IwWUagIECAJ3T9VIkI5r5mrApsLjl"
+X-List-Received-Date: Mon, 07 Dec 2015 19:49:24 -0000
+Content-Type: multipart/alternative; boundary=089e0111e07a4946200526542735
 
---lA37IwWUagIECAJ3T9VIkI5r5mrApsLjl
-Content-Type: text/plain; charset=utf-8
+--089e0111e07a4946200526542735
+Content-Type: text/plain; charset=UTF-8
+
+On Tue, Nov 17, 2015 at 8:49 PM, Dan McGregor <danismostlikely@gmail.com>
+wrote:
+
+> On 12 Nov 2015 5:41 p.m., "Christopher Larson" <kergoth@gmail.com> wrote:
+> >
+> > From: Christopher Larson <chris_larson@mentor.com>
+> >
+> > We don't need nss-myhostname on systemd systems, because systemd already
+> > provides myhostname, but we weren't configuring nsswitch to use it.
+> Being able
+> > to resolve the hostname is useful for a number of different
+> applications, so
+> > enable it using the same postinst/prerm bits which are in nss-myhostname.
+>
+> I have this and a similar change for resolved in an append at work. Would
+> others be interested in that too?
+>
+
+I'm sure there are folks that would find that interesting. I'm sure not
+everyone uses resolved, but I'm sure we want it to work well for folks taht
+do want to use it.
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--089e0111e07a4946200526542735
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 07/12/15 20:02, Patrick Ohly wrote:
-> On Fri, 2015-11-20 at 15:38 +0100, Andrew Shadura wrote:
->> > It's good to have the extra functionality, such as seat support
->> > provided with systemd support. Not least of all to support
->> > systemd user-sessions.
-> Your patch is against D-Bus 1.10.2, which is not yet in OE-core master.=
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Nov 17, 2015 at 8:49 PM, Dan McGregor <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:danismostlikely@gmail.com" target=3D"_blank">danismostlikely@gma=
+il.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=
+=3D""><p dir=3D"ltr">On 12 Nov 2015 5:41 p.m., &quot;Christopher Larson&quo=
+t; &lt;<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail=
+.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
+" target=3D"_blank">chris_larson@mentor.com</a>&gt;<br>
+&gt;<br>
+&gt; We don&#39;t need nss-myhostname on systemd systems, because systemd a=
+lready<br>
+&gt; provides myhostname, but we weren&#39;t configuring nsswitch to use it=
+. Being able<br>
+&gt; to resolve the hostname is useful for a number of different applicatio=
+ns, so<br>
+&gt; enable it using the same postinst/prerm bits which are in nss-myhostna=
+me.</p>
+</span><p dir=3D"ltr">I have this and a similar change for resolved in an a=
+ppend at work. Would others be interested in that too?</p></blockquote></di=
+v><br>I&#39;m sure there are folks that would find that interesting. I&#39;=
+m sure not everyone uses resolved, but I&#39;m sure we want it to work well=
+ for folks taht do want to use it.<br>-- <br><div class=3D"gmail_signature"=
+><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder=
+ - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Softwa=
+re Engineer, Mentor Graphics</div></div>
+</div></div>
 
-> I adapted the patch to the current D-Bus 1.8.20, but there the
-> advantages turned out to be (IMHO) fairly minor: it only adds logging
-> via journald.
->=20
-> socket activation via systemd already works even without
-> --enable-systemd, because the recipe explicitly installs the systemd
-> unit files and the code itself supports it also without
-> --enable-systemd.
->=20
-> But I like your patches, so perhaps including D-Bus 1.10.x (1.10.6 is
-> the latest stable release) can be considered for the next OE-core
-> release?
-
-This patch is supposed to be applied after other series of mine adding
-1.10.2, see <http://patchwork.openembedded.org/patch/108237/>.
-
---=20
-Cheers,
-  Andrew
-
-
---lA37IwWUagIECAJ3T9VIkI5r5mrApsLjl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBCAAGBQJWZdkQAAoJEEFnG7NKhJOBVK4QALyYGGlNpQVJlf5BP7kD2kjf
-ucpOOhqn0QUkXGuUuS03OqnODMo1BUxfi6ElFlf4zkpmBGpE2tg1MIPukSUCikuD
-V+8pztXOXKXSQ1Aetosp7+YoysHasVPWfB+cDZCt6207jHqTQjfjXD3gjGAgCDcC
-PDjvLYR3gKRRo96d/mRNAh0XP52vVpYUE8D0D/mpANVh+qxXfsgTto0YucplFWCp
-vf3GFXA3VuUVxAeH8D8gccWpML/c68NZ/H8GuFuHtLmoGx54fCmCCO4hzhjzSGtw
-SDmx1+1OQNtG+hiZnP4dlSOI+on1SjYdkhW1573vbzT5da/f0Yi3zALI2PtXicPn
-Mqva8G9t4hfDbcw0fiV//sekESXYU9xw++cuaDYeU3jdVQHCkMjGZt87PowUYDNA
-eKdCaTGgDBauTz3D3s8eoAczA5ASLdfzHkTP9DCl40FyY905X02yQlo3z19Lq9GS
-8AfqgpGxkg749btdGnRdSYxS81050trnKdFPK4nJ/5buQPdVQTq9CsWdCQJdRSSe
-QHlXnyAVrK59Xd6kqUIjg3HwY/zC4MjH0KtHZeyFGWk1DHpCuZlASMGdalTWKSid
-0OSXUK2p3K6x+6aPeUyAn+UEXOd3PlRKNAI5qFVbJDXni+nIVLuVHxP0JCHPGaTO
-lEew1P4Wf+2cnkSvvx2h
-=TPX3
------END PGP SIGNATURE-----
-
---lA37IwWUagIECAJ3T9VIkI5r5mrApsLjl--
+--089e0111e07a4946200526542735--
