@@ -1,26 +1,47 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DD99560124
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id D684A60124
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Dec 2015 15:54:35 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Dec 2015 07:54:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,395,1444719600"; d="scan'208";a="855692327"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Dec 2015 07:54:25 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 123386A4087;
-	Mon,  7 Dec 2015 07:53:14 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Dec 2015 17:55:14 +0200
-Message-Id: <1449503714-18873-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] libical: Upgrade 1.0.0 -> 1.0.1
+	Mon,  7 Dec 2015 16:28:27 +0000 (UTC)
+Received: by igcmv3 with SMTP id mv3so82121014igc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Dec 2015 08:28:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=wM9PdEung9Yxo8S2hcxAd5CVARPRAL9yyFW/0K6i1W4=;
+	b=UmbcUzC6ocM2Z3sakEAlpW552ncXB2nMOiYcJbHSBS5NY43V5167eVJyrbfR1Ai7NV
+	edO6ksbP3LfaBihpvGFNZA3bmXQHtNzvUoIAj0N9KNMIfjG2AAoobCR3/a9eQn24ZyBM
+	YGTD4k/1NC1X5PaPx3/2Wc2UvAafJsRC82zInxxPjgtbZ12sPQeJrOzB3Cg0iH9bp6hq
+	BuUlPlEZYkXXIJMymwbRP2Vf6gtROfu5bPs5H2+L+5LKdeBESHa1TM17ViH+qKy08ErO
+	UcBkvgP2N2n5s5sefVhuPQhUNNnZpmt2MZI7qlxlmRRB6JF3/cTsjV3FesaDrmvB03GQ
+	yiOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=wM9PdEung9Yxo8S2hcxAd5CVARPRAL9yyFW/0K6i1W4=;
+	b=eOb0zAaHWr6bfd/RjP8GEdstOF+3AxtrtIIJCMO+wX58L+ok1S7yVAmlmbFOtHEQio
+	EJr7oVldHg3InWxJ7sN13qdgA58uzU3+3pRVaXm66APMIU1IiRZLtJ4BQGbxZ6Te2AND
+	0+bftalOHMwWZ6fvw83BjYxnnXF25e0A4AkjdMkM3+9yM/q/WTEvRUhPLxPNhzrcd/Fb
+	jrk0l7hOnQzP4rzY31mm/fD8SE9pD7vsGiwGOQHxmKsHlcdkrjeZFasKHUOZKIbY+IiQ
+	LSsGlT3bYJv3y4PgO6h2qafa+Dj2ipkYy/jN+zKTTXiAaNwG/o876N/Ise1cb+U6hE0M
+	aU6g==
+X-Gm-Message-State: ALoCoQl0N6I7oARfmTZph+XHfIa1PdaJ0hAryKqPqv/Dq9+e3i/nTYGRL2m612DKREinef0P4PNgUb1wD6b3PBNFL/MLymaDUHpxmsp7clKSpGine3+O1Tw=
+X-Received: by 10.50.60.2 with SMTP id d2mr16364631igr.52.1449505708025; Mon,
+	07 Dec 2015 08:28:28 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Mon, 7 Dec 2015 08:28:08 -0800 (PST)
+In-Reply-To: <1447948114-30329-1-git-send-email-otavio@ossystems.com.br>
+References: <1447948114-30329-1-git-send-email-otavio@ossystems.com.br>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 7 Dec 2015 16:28:08 +0000
+Message-ID: <CAJTo0LZYWxzDwnizQ2vrWL7n0Q4uPnccU-K-umgwYxaRTb7GBg@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4 1/4] lttng-modules: Upgrade to 2.7 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,99 +54,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Dec 2015 15:54:36 -0000
+X-List-Received-Date: Mon, 07 Dec 2015 16:28:28 -0000
+Content-Type: multipart/alternative; boundary=047d7b15b117d3d55705265158a9
 
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+--047d7b15b117d3d55705265158a9
+Content-Type: text/plain; charset=UTF-8
 
-* Build system changed to cmake.
-* Patch build system to not check for perl (we use host
-  perl which won't be found)
+On 19 November 2015 at 15:48, Otavio Salvador <otavio@ossystems.com.br>
+wrote:
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- .../libical/Remove-cmake-check-for-Perl.patch      | 45 ++++++++++++++++++++++
- .../libical/{libical_1.0.0.bb => libical_1.0.1.bb} | 12 ++++--
- 2 files changed, 53 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-support/libical/libical/Remove-cmake-check-for-Perl.patch
- rename meta/recipes-support/libical/{libical_1.0.0.bb => libical_1.0.1.bb} (61%)
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>
+> Changes in v4: None
+> Changes in v3: None
+> Changes in v2: None
+>
 
-diff --git a/meta/recipes-support/libical/libical/Remove-cmake-check-for-Perl.patch b/meta/recipes-support/libical/libical/Remove-cmake-check-for-Perl.patch
-new file mode 100644
-index 0000000..11cffbb
---- /dev/null
-+++ b/meta/recipes-support/libical/libical/Remove-cmake-check-for-Perl.patch
-@@ -0,0 +1,45 @@
-+Subject: [PATCH] Remove cmake check for Perl
-+
-+We set "CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY" in cmake bbclass to
-+make sure cmake does not find host programs. In this case we actually
-+are fine with host perl: remove the check.
-+
-+Also fix the x32 ABI build.
-+
-+Inappropriate [workaround]
-+
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+diff -Naur libical-1.0.1-orig/CMakeLists.txt libical-1.0.1/CMakeLists.txt
-+--- libical-1.0.1-orig/CMakeLists.txt	2014-10-09 18:07:05.000000000 +0300
-++++ libical-1.0.1/CMakeLists.txt	2015-12-07 17:19:52.519081963 +0200
-+@@ -91,8 +91,11 @@
-+   set(LIBRARY_TYPE SHARED)
-+ endif()
-+ 
-+-# must have Perl to create the derived stuff
-+-find_package(Perl REQUIRED)
-++set(PERL_EXECUTABLE perl)
-++# Ensure finding 64bit libs when using 64-bit compilers
-++if(CMAKE_CL_64)
-++  set_property(GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS True)
-++endif()
-+ 
-+ # MSVC specific definitions
-+ if(WIN32)
-+@@ -105,10 +108,10 @@
-+   add_definitions(-DBIG_ENDIAN=0 -DLITTLE_ENDIAN=1 -DBYTE_ORDER=BIG_ENDIAN)
-+ endif()
-+ 
-+-set(LIB_SUFFIX "" CACHE STRING "Define suffix of directory name (32/64)")
-+-set(LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}" CACHE STRING "Library directory name" FORCE)
-+-set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE STRING "Include directory name" FORCE)
-+-set(SHARE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/share" CACHE STRING "Share directory name" FORCE)
-++include(GNUInstallDirs)
-++set(LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR} CACHE STRING "Library directory name" FORCE)
-++set(INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR} CACHE STRING "Include directory name" FORCE)
-++set(SHARE_INSTALL_DIR ${CMAKE_INSTALL_DATAROOTDIR} CACHE STRING "Share directory name")
-+ 
-+ # set the output paths
-+ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
-diff --git a/meta/recipes-support/libical/libical_1.0.0.bb b/meta/recipes-support/libical/libical_1.0.1.bb
-similarity index 61%
-rename from meta/recipes-support/libical/libical_1.0.0.bb
-rename to meta/recipes-support/libical/libical_1.0.1.bb
-index be6b635..7dcb9eb 100644
---- a/meta/recipes-support/libical/libical_1.0.0.bb
-+++ b/meta/recipes-support/libical/libical_1.0.1.bb
-@@ -6,8 +6,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d4fc58309d8ed46587ac63bb449d82f8 \
-                     file://LICENSE;md5=d1a0891cd3e582b3e2ec8fe63badbbb6"
- SECTION = "libs"
- 
--SRC_URI = "https://github.com/${BPN}/${BPN}/archive/v${PV}.tar.gz"
--SRC_URI[md5sum] = "f4b8e33ae5efb2f025eb43ce69682a36"
--SRC_URI[sha256sum] = "0072e83834092315772e6719b85fc8b11530b1ff53f4d108315fb38cddbce8c2"
-+SRC_URI = "https://github.com/${BPN}/${BPN}/archive/v${PV}.tar.gz \
-+           file://Remove-cmake-check-for-Perl.patch \
-+           "
-+SRC_URI[md5sum] = "af91db06b22559f863869c5a382ad08a"
-+SRC_URI[sha256sum] = "7d5f613454ec6c7d1bcfb441c919215be53292aa15cd1cb14249d1413d6c610c"
- 
--inherit autotools
-+inherit cmake
-+
-+FILES_${PN}-dev += "${libdir}/cmake/*"
--- 
-2.4.0
+Sorry but this just failed on the AB:
 
+/home/pokybuild/yocto-autobuilder/yocto-worker/ptest-x86/build/build/tmp/work-shared/genericx86/kernel-source/arch/x86/include/asm/unistd.h:15:29:
+fatal error: asm/unistd_32.h: No such file or directory
+compilation terminated.
 
+(http://errors.yoctoproject.org/Errors/Details/22212/)
+
+Hopefully not an annoying build race!
+
+Ross
+
+--047d7b15b117d3d55705265158a9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 November 2015 at 15:48, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.=
+br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,20=
+4);border-left-style:solid;padding-left:1ex"><div id=3D":2z9" class=3D"" st=
+yle=3D"overflow:hidden">Signed-off-by: Otavio Salvador &lt;<a href=3D"mailt=
+o:otavio@ossystems.com.br">otavio@ossystems.com.br</a>&gt;<br>
+---<br>
+<br>
+Changes in v4: None<br>
+Changes in v3: None<br>
+Changes in v2: None</div></blockquote><div>=C2=A0</div></div></div>Sorry bu=
+t this just failed on the AB:<br><br>/home/pokybuild/yocto-autobuilder/yoct=
+o-worker/ptest-x86/build/build/tmp/work-shared/genericx86/kernel-source/arc=
+h/x86/include/asm/unistd.h:15:29: fatal error: asm/unistd_32.h: No such fil=
+e or directory<br>compilation terminated.<br><br>(<a href=3D"http://errors.=
+yoctoproject.org/Errors/Details/22212/">http://errors.yoctoproject.org/Erro=
+rs/Details/22212/</a>)<div><br></div><div>Hopefully not an annoying build r=
+ace!</div><div><br></div><div>Ross</div></div>
+
+--047d7b15b117d3d55705265158a9--
