@@ -1,25 +1,26 @@
 Return-Path: <gerharddeclercq@outlook.com>
-Received: from DUB004-OMC3S29.hotmail.com (dub004-omc3s29.hotmail.com
-	[157.55.2.38])
-	by mail.openembedded.org (Postfix) with ESMTP id 25B1F601A5
+Received: from DUB004-OMC3S9.hotmail.com (dub004-omc3s9.hotmail.com
+	[157.55.2.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 1477B6012C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Dec 2015 19:26:34 +0000 (UTC)
-Received: from DUB127-W13 ([157.55.2.8]) by DUB004-OMC3S29.hotmail.com over
-	TLS secured channel with Microsoft SMTPSVC(7.5.7601.23008); 
-	Sun, 6 Dec 2015 11:26:34 -0800
-X-TMN: [iA0OVCiySN9r/bn3Jx6aIf7cgMbmRFTw4yASmbqdqsw=]
+	Mon,  7 Dec 2015 06:19:09 +0000 (UTC)
+Received: from DUB127-W58 ([157.55.2.7]) by DUB004-OMC3S9.hotmail.com over TLS
+	secured channel with Microsoft SMTPSVC(7.5.7601.23008); 
+	Sun, 6 Dec 2015 22:19:09 -0800
+X-TMN: [alSm8sqz7/fRL1cINSTYqhVe0THoYglxrDrhKjqq07E=]
 X-Originating-Email: [gerharddeclercq@outlook.com]
-Message-ID: <DUB127-W1311B96F5C21DD5CB0A262B80A0@phx.gbl>
+Message-ID: <DUB127-W584F28B43BA42BBB693FEBB8090@phx.gbl>
 From: Gerhard de Clercq <gerharddeclercq@outlook.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Date: Sun, 6 Dec 2015 19:26:34 +0000
+Date: Mon, 7 Dec 2015 06:19:09 +0000
 Importance: Normal
-In-Reply-To: <DUB127-W3511BD769D66A53690A1DEB80A0@phx.gbl>
-References: <DUB127-W3511BD769D66A53690A1DEB80A0@phx.gbl>
+In-Reply-To: <DUB127-W1311B96F5C21DD5CB0A262B80A0@phx.gbl>
+References: <DUB127-W3511BD769D66A53690A1DEB80A0@phx.gbl>,
+	<DUB127-W1311B96F5C21DD5CB0A262B80A0@phx.gbl>
 MIME-Version: 1.0
-X-OriginalArrivalTime: 06 Dec 2015 19:26:34.0926 (UTC)
-	FILETIME=[04FCDCE0:01D1305C]
+X-OriginalArrivalTime: 07 Dec 2015 06:19:09.0546 (UTC)
+	FILETIME=[2EF5BCA0:01D130B7]
 Subject: Re: Packagegroup breaking sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -33,14 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Dec 2015 19:26:35 -0000
+X-List-Received-Date: Mon, 07 Dec 2015 06:19:10 -0000
 Content-Type: multipart/alternative;
-	boundary="_5868afc6-0fd4-47d7-9496-a0c44ac50798_"
+	boundary="_62958ed8-f2ed-4b1e-8c46-b3cc625dacf9_"
 
---_5868afc6-0fd4-47d7-9496-a0c44ac50798_
+--_62958ed8-f2ed-4b1e-8c46-b3cc625dacf9_
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
+Ok I have found the cause of the problem. It seems that assigning anything =
+to TOOLCHAIN_HOST_TASK even with the +=3D operator invalidates the "TOOLCHA=
+IN_HOST_TASK ?=3D "nativesdk-packagegroup-sdk-host packagegroup-cross-canad=
+ian-${MACHINE}" statement that can be found in https://github.com/openembed=
+ded/openembedded-core/blob/fido/meta/classes/populate_sdk_base.bbclass. The=
+ solution is therefore to inherit from populate_sdk before adding to the va=
+riable. That base assignment is necessary to create the non Qt part of the =
+SDK.
+
+From: gerharddeclercq@outlook.com
+To: openembedded-core@lists.openembedded.org
+Date: Sun=2C 6 Dec 2015 19:26:34 +0000
+Subject: Re: [OE-core] Packagegroup breaking sdk
+
+=0A=
+=0A=
+=0A=
 I have determined that the script is most likely failing at the end of http=
 s://github.com/openembedded/openembedded-core/blob/fido/meta/files/toolchai=
 n-shar-extract.sh indicating that the environment-setup file is never creat=
@@ -86,9 +104,16 @@ _______________________________________________=0A=
 Openembedded-core mailing list=0A=
 Openembedded-core@lists.openembedded.org=0A=
 http://lists.openembedded.org/mailman/listinfo/openembedded-core 		 	   		 =
+ =0A=
+
+-- =0A=
+_______________________________________________=0A=
+Openembedded-core mailing list=0A=
+Openembedded-core@lists.openembedded.org=0A=
+http://lists.openembedded.org/mailman/listinfo/openembedded-core 		 	   		 =
  =
 
---_5868afc6-0fd4-47d7-9496-a0c44ac50798_
+--_62958ed8-f2ed-4b1e-8c46-b3cc625dacf9_
 Content-Type: text/html; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
@@ -106,20 +131,19 @@ font-size: 12pt=3B
 font-family:Calibri
 }
 --></style></head>
-<body class=3D'hmmessage'><div dir=3D'ltr'>I have determined that the scrip=
-t is most likely failing at the end of <a href=3D"https://github.com/openem=
-bedded/openembedded-core/blob/fido/meta/files/toolchain-shar-extract.sh" ta=
-rget=3D"_blank">https://github.com/openembedded/openembedded-core/blob/fido=
-/meta/files/toolchain-shar-extract.sh</a> indicating that the environment-s=
-etup file is never created (or copied I guess). I have also found that simp=
-ly using something like TOOLCHAIN_HOST_TASK +=3D "nativesdk-qtbase-tools" i=
-n my image recipe also causes the problem. I therefore believe that the pro=
-blem is coming from the inclusion of anything non-standard into<span class=
-=3D"pl-s"> the SDK. Any ideas where I should be looking for the cause of th=
-is?<br><br></span><div><hr id=3D"stopSpelling">From: gerharddeclercq@outloo=
-k.com<br>To: openembedded-core@lists.openembedded.org<br>Date: Sun=2C 6 Dec=
- 2015 14:48:22 +0000<br>Subject: [OE-core] Packagegroup breaking sdk<br><br=
->=0A=
+<body class=3D'hmmessage'><div dir=3D'ltr'>Ok I have found the cause of the=
+ problem. It seems that assigning anything to TOOLCHAIN_HOST_TASK even with=
+ the +=3D operator invalidates the "TOOLCHAIN_HOST_TASK ?=3D "nativesdk-pac=
+kagegroup-sdk-host packagegroup-cross-canadian-${MACHINE}" statement that c=
+an be found in <a href=3D"https://github.com/openembedded/openembedded-core=
+/blob/fido/meta/classes/populate_sdk_base.bbclass." target=3D"_blank">https=
+://github.com/openembedded/openembedded-core/blob/fido/meta/classes/populat=
+e_sdk_base.bbclass.</a> The solution is therefore to inherit from populate_=
+sdk before adding to the variable. That base assignment is necessary to cre=
+ate the non Qt part of the SDK.<br><br><div><hr id=3D"stopSpelling">From: g=
+erharddeclercq@outlook.com<br>To: openembedded-core@lists.openembedded.org<=
+br>Date: Sun=2C 6 Dec 2015 19:26:34 +0000<br>Subject: Re: [OE-core] Package=
+group breaking sdk<br><br>=0A=
 =0A=
 <style><!--=0A=
 .ExternalClass .ecxhmmessage P {=0A=
@@ -130,6 +154,32 @@ padding:0px=3B=0A=
 font-size:12pt=3B=0A=
 font-family:Calibri=3B=0A=
 }=0A=
+=0A=
+--></style>=0A=
+<div dir=3D"ltr">I have determined that the script is most likely failing a=
+t the end of <a href=3D"https://github.com/openembedded/openembedded-core/b=
+lob/fido/meta/files/toolchain-shar-extract.sh" target=3D"_blank">https://gi=
+thub.com/openembedded/openembedded-core/blob/fido/meta/files/toolchain-shar=
+-extract.sh</a> indicating that the environment-setup file is never created=
+ (or copied I guess). I have also found that simply using something like TO=
+OLCHAIN_HOST_TASK +=3D "nativesdk-qtbase-tools" in my image recipe also cau=
+ses the problem. I therefore believe that the problem is coming from the in=
+clusion of anything non-standard into<span class=3D"ecxpl-s"> the SDK. Any =
+ideas where I should be looking for the cause of this?<br><br></span><div><=
+hr id=3D"ecxstopSpelling">From: gerharddeclercq@outlook.com<br>To: openembe=
+dded-core@lists.openembedded.org<br>Date: Sun=2C 6 Dec 2015 14:48:22 +0000<=
+br>Subject: [OE-core] Packagegroup breaking sdk<br><br>=0A=
+=0A=
+<style><!--=0A=
+.ExternalClass .ecxhmmessage P {=0A=
+padding:0px=3B=0A=
+}=0A=
+=0A=
+.ExternalClass body.ecxhmmessage {=0A=
+font-size:12pt=3B=0A=
+font-family:Calibri=3B=0A=
+}=0A=
+=0A=
 =0A=
 --></style>=0A=
 <div dir=3D"ltr">I am not sure why this is happening but it seems as if tho=
@@ -159,7 +209,13 @@ _______________________________________________=0A=
 Openembedded-core mailing list=0A=
 Openembedded-core@lists.openembedded.org=0A=
 http://lists.openembedded.org/mailman/listinfo/openembedded-core</div> 		 	=
+   		  </div>=0A=
+<br>-- =0A=
+_______________________________________________=0A=
+Openembedded-core mailing list=0A=
+Openembedded-core@lists.openembedded.org=0A=
+http://lists.openembedded.org/mailman/listinfo/openembedded-core</div> 		 	=
    		  </div></body>
 </html>=
 
---_5868afc6-0fd4-47d7-9496-a0c44ac50798_--
+--_62958ed8-f2ed-4b1e-8c46-b3cc625dacf9_--
