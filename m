@@ -1,43 +1,29 @@
-Return-Path: <fabrice.coulon@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 9896360124
+Return-Path: <rpjday@crashcourse.ca>
+Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
+	by mail.openembedded.org (Postfix) with ESMTP id BF9AA60124
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Dec 2015 09:15:53 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id CC69A2E144;
-	Mon,  7 Dec 2015 10:15:53 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id Qujg9HUcoCKs; Mon,  7 Dec 2015 10:15:53 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 3AB002E1A7;
-	Mon,  7 Dec 2015 10:15:53 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 233861429;
-	Mon,  7 Dec 2015 10:15:53 +0100 (CET)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 16DE4D6;
-	Mon,  7 Dec 2015 10:15:53 +0100 (CET)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by thoth.se.axis.com (Postfix) with ESMTP id 12802341CC;
-	Mon,  7 Dec 2015 10:15:53 +0100 (CET)
-Received: from [10.92.161.3] (10.92.161.3) by xmail2.se.axis.com (10.0.5.74)
-	with Microsoft SMTP Server (TLS) id 8.3.342.0;
-	Mon, 7 Dec 2015 10:15:52 +0100
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <1449062556-13116-1-git-send-email-fabrice.coulon@axis.com>
-	<CAJ86T=VF1HsQdgbyVsvutJO0HJ+LNp6d+rKMEsReB0XmDs3=mw@mail.gmail.com>
-From: Fabrice Coulon <fabrice.coulon@axis.com>
-Message-ID: <56654E31.8020601@axis.com>
-Date: Mon, 7 Dec 2015 10:15:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Mon,  7 Dec 2015 09:44:59 +0000 (UTC)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
+	via TCP (outbound) with ESMTPS id 20151207094459033_0485
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Dec 2015 09:44:59 +0000
+X-RC-FROM: <rpjday@crashcourse.ca>
+X-RC-RCPT: <openembedded-core@lists.openembedded.org>
+Received: from [99.240.204.5] (port=60942 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1a5sMg-0002eI-Hs for openembedded-core@lists.openembedded.org;
+	Mon, 07 Dec 2015 04:45:50 -0500
+Date: Mon, 7 Dec 2015 04:44:52 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.20.1512070440340.13574@localhost>
+User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=VF1HsQdgbyVsvutJO0HJ+LNp6d+rKMEsReB0XmDs3=mw@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pseudo: Make it possible to override the append in a bbappend
+X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
+Subject: what feature fixed the gcc-5 preprocessor build error from a few months back?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,26 +36,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Dec 2015 09:15:57 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Dec 2015 09:45:00 -0000
+Content-Type: text/plain; charset=US-ASCII
 
 
+  once upon a time, i asked a question about the origin of this OE
+build error using gcc-5 to build ncurses-native:
 
-On 12/02/2015 08:05 PM, Andre McCurdy wrote:
-> On Wed, Dec 2, 2015 at 5:22 AM, Fabrice Coulon <fabrice.coulon@axis.com> wrote:
->> I need this in order to avoid a conflict when used with
->> base-passwd-native.
-> Doesn't something like this work from your .bbappend?
->
->    do_install_append_class-native () {
->        # Remove to avoid conflict with base-passwd-native
->        rm -f ${D}${sysconfdir}/passwd ${D}${sysconfdir}/group
->    }
->
+> In file included from
+/home/rpjday/oe/builds/oe/qemux86/tmp-glibc/work/x86_64-linux/ncurses-native/5.9-r15.1/ncurses-5.9/ncurses/curses.priv.h:283:0,
+>                  from ../ncurses/lib_gen.c:19:
+> _20141.c:835:15: error: expected ')' before 'int'
+> ../include/curses.h:1594:56: note: in definition of macro
+'mouse_trafo'
+>  #define mouse_trafo(y,x,to_screen)
+wmouse_trafo(stdscr,y,x,to_screen)
 
-Yes it works. I don't need to change the recipe, it's enough with this 
-in a bbappend. Thanks!
+  it didn't take long to be pointed to an explanation on the fedora
+mailing list:
+
+http://lists.openembedded.org/pipermail/openembedded-core/2015-February/101820.html
+
+"	these packages failed to build because of the changes in the preprocessor;
+	gcc started to generate line directives to better detect whether a macro
+	tokens come from a system header - see http://gcc.gnu.org/PR60723
+	The fix is to use the -P option if the code isn't prepared to deal with
+	such directives.
+
+  so i just added to my local.conf:
+
+CPPFLAGS_append_pn-ncurses-native = " -P"
+
+  that issue was apparently fixed and i haven't needed to do that for
+a while. however, i'm now using someone's custom version of OE-core
+and that very error is back, so what was it that was tweaked to deal
+with it? thanks.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
 
