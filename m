@@ -1,27 +1,24 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A28F607AA
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D416601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Dec 2015 21:25:36 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 07 Dec 2015 13:25:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,396,1444719600"; d="scan'208";a="836260681"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.171])
-	by orsmga001.jf.intel.com with ESMTP; 07 Dec 2015 13:25:36 -0800
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Dec 2015 15:26:31 -0600
-Message-Id: <20ec28565a14f3647b0e5831c4d81846a26c032c.1449523356.git.anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1449523356.git.anibal.limon@linux.intel.com>
-References: <cover.1449523356.git.anibal.limon@linux.intel.com>
-In-Reply-To: <cover.1449523356.git.anibal.limon@linux.intel.com>
-References: <cover.1449523356.git.anibal.limon@linux.intel.com>
+	Mon,  7 Dec 2015 21:36:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tB7LaCfj015367
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Dec 2015 13:36:13 -0800 (PST)
+Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Mon, 7 Dec 2015 13:36:12 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 7 Dec 2015 15:36:11 -0600
+Message-ID: <1449524171-2835-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.9.3
 MIME-Version: 1.0
-Cc: paul.eggleton@linux.intel.com, georgex.l.musat@intel.com, bjst@enea.com,
-	benjamin.esquivel@intel.com
-Subject: [PATCH 2/2] ptest-runner: Add a recipe for install ptest-runner 2.0.
+Subject: [PATCH] cross-canadian.bbclass: Add BASECANADIANEXTRAOS to specify main extraos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,53 +31,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Dec 2015 21:25:37 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 07 Dec 2015 21:36:13 -0000
+Content-Type: text/plain
 
-[YOCTO #8021]
+By default the system will expand the extra os entries for uclibc and musl
+even if they are not enabled in the build.  There was no way to prevent this
+behavior while still getting the expansion for things like x32 or spe.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+The change adds a new setting which a distribution creator can override
+easily, setting the base set of canadianextraos components.  The other
+expansions are then based on this setting.
+
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- .../ptest-runner/ptest-runner_2.0.bb               | 28 ++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
- create mode 100644 meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+ meta/classes/cross-canadian.bbclass | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
-new file mode 100644
-index 0000000..64fd0df
---- /dev/null
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
-@@ -0,0 +1,28 @@
-+SUMMARY = "A python script to run all installed ptests"
-+
-+DESCRIPTION = "The ptest-runner package installs a ptest-runner \
-+python script which loops through all installed ptest test suites and \
-+runs them in sequence."
-+
-+HOMEPAGE = "https://wiki.yoctoproject.org/wiki/Ptest"
-+SRC_URI += "file://ptest-runner_2.0.py"
-+
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
-+                    file://${COREBASE}/meta/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+RDEPENDS_${PN} = "python python-fcntl python-argparse python-logging python-datetime \
-+                  python-subprocess"
-+
-+S = "${WORKDIR}"
-+
-+do_install () {
-+    mkdir -p ${D}${bindir}
-+    install -m 0755 ${WORKDIR}/ptest-runner_2.0.py ${D}${bindir}/ptest-runner
-+}
-+
-+do_patch[noexec] = "1"
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
-+do_build[noexec] = "1"
+diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+index ea17f09..799844b 100644
+--- a/meta/classes/cross-canadian.bbclass
++++ b/meta/classes/cross-canadian.bbclass
+@@ -15,7 +15,8 @@ STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${S
+ # Update BASE_PACKAGE_ARCH and PACKAGE_ARCHS
+ #
+ PACKAGE_ARCH = "${SDK_ARCH}-${SDKPKGSUFFIX}"
+-CANADIANEXTRAOS = "linux-uclibc linux-musl"
++BASECANADIANEXTRAOS ?= "linux-uclibc linux-musl"
++CANADIANEXTRAOS = "${BASECANADIANEXTRAOS}"
+ CANADIANEXTRAVENDOR = ""
+ MODIFYTOS ??= "1"
+ python () {
+@@ -34,8 +35,13 @@ python () {
+ 
+     tos = d.getVar("TARGET_OS", True)
+     whitelist = []
++    extralibcs = [""]
++    if "uclibc" in d.getVar("BASECANADIANEXTRAOS", True):
++        extralibcs.append("uclibc")
++    if "musl" in d.getVar("BASECANADIANEXTRAOS", True):
++        extralibcs.append("musl")
+     for variant in ["", "spe", "x32", "eabi", "n32"]:
+-        for libc in ["", "uclibc", "musl"]:
++        for libc in extralibcs:
+             entry = "linux"
+             if variant and libc:
+                 entry = entry + "-" + libc + variant
+@@ -59,14 +65,20 @@ python () {
+     if tarch == "x86_64":
+         d.setVar("LIBCEXTENSION", "")
+         d.setVar("ABIEXTENSION", "")
+-        d.appendVar("CANADIANEXTRAOS", " linux-gnux32 linux-uclibcx32 linux-muslx32")
++        d.appendVar("CANADIANEXTRAOS", " linux-gnux32")
++        for extraos in d.getVar("BASECANADIANEXTRAOS", True).split():
++            d.appendVar("CANADIANEXTRAOS", " " + extraos + "x32")
+     elif tarch == "powerpc":
+         # PowerPC can build "linux" and "linux-gnuspe"
+         d.setVar("LIBCEXTENSION", "")
+         d.setVar("ABIEXTENSION", "")
+-        d.appendVar("CANADIANEXTRAOS", " linux-gnuspe linux-uclibcspe linux-muslspe")
++        d.appendVar("CANADIANEXTRAOS", " linux-gnuspe")
++        for extraos in d.getVar("BASECANADIANEXTRAOS", True).split():
++            d.appendVar("CANADIANEXTRAOS", " " + extraos + "spe")
+     elif tarch == "mips64":
+-        d.appendVar("CANADIANEXTRAOS", " linux-gnun32 linux-uclibcn32 linux-musln32")
++        d.appendVar("CANADIANEXTRAOS", " linux-gnun32")
++        for extraos in d.getVar("BASECANADIANEXTRAOS", True).split():
++            d.appendVar("CANADIANEXTRAOS", " " + extraos + "n32")
+     if tarch == "arm" or tarch == "armeb":
+         d.setVar("TARGET_OS", "linux-gnueabi")
+     else:
 -- 
-2.1.4
+1.9.3
 
 
