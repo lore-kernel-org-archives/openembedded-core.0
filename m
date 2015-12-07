@@ -1,38 +1,23 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C70360124
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C2F760670
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Dec 2015 19:49:21 +0000 (UTC)
-Received: by igl9 with SMTP id 9so81557219igl.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Dec 2015 11:49:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=M+J85RMLQ7b1G/Up2AnVS/sLElgIWzjigrTWmOZke+o=;
-	b=QaggRDsm8hkY+4IhyKI2yCrefOdpfW4m6j5mnQS/MH+1GQD9IyGGGpjRZKQY/Ypugu
-	y1cOXybqM5kmVfpwEXfNg6dTM1iyTCj5QAz0s2igo0ycD8ewRAwLgjDF5C3O8lVWfCYI
-	6AZdy0lKseipuDi1b2gE086fmzCskUHS8MRcmYq1Xxj+fDVb70YazsUT2ucZlb3jSf4x
-	e+lMaKoe5rOnDp+woKJmFIKRayGFqXa06P2oas6VvnAfhsCYsZBwxzJ95miPqO8hQIyT
-	d8QbfOjwnx0VZkY7LSuiLAgQC1dHPykrj4B8xB1hIXg7/ufViLhzZQUAEMSzxbfDAJdK
-	vGww==
-X-Received: by 10.50.78.161 with SMTP id c1mr197210igx.10.1449517761769; Mon,
-	07 Dec 2015 11:49:21 -0800 (PST)
+	Mon,  7 Dec 2015 21:25:34 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 07 Dec 2015 13:25:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,396,1444719600"; d="scan'208";a="836260667"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.171])
+	by orsmga001.jf.intel.com with ESMTP; 07 Dec 2015 13:25:34 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Dec 2015 15:26:29 -0600
+Message-Id: <cover.1449523356.git.anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Received: by 10.79.69.129 with HTTP; Mon, 7 Dec 2015 11:49:02 -0800 (PST)
-In-Reply-To: <CACS+7ZR-KmxgSjSOptx_E3w4dFbMz_90munhQPcCfcEmvdV2DA@mail.gmail.com>
-References: <cover.1447371049.git.chris_larson@mentor.com>
-	<130d9a6c1f4ecea86748a44b73f51d8ddb2e63da.1447371049.git.chris_larson@mentor.com>
-	<05b7cc8c957a9756e7af964a09bc2a89e0aedd9f.1447371049.git.chris_larson@mentor.com>
-	<CACS+7ZR-KmxgSjSOptx_E3w4dFbMz_90munhQPcCfcEmvdV2DA@mail.gmail.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Mon, 7 Dec 2015 12:49:02 -0700
-Message-ID: <CABcZANn0wr+1GgYiPVkpTbqVLfOZOK44xZEtPDxdLfSaJgx6Qg@mail.gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] systemd: add myhostname to nsswitch.conf
+Cc: paul.eggleton@linux.intel.com, georgex.l.musat@intel.com, bjst@enea.com,
+	benjamin.esquivel@intel.com
+Subject: [PATCH 0/2] ptest-runner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,72 +30,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Dec 2015 19:49:24 -0000
-Content-Type: multipart/alternative; boundary=089e0111e07a4946200526542735
-
---089e0111e07a4946200526542735
+X-List-Received-Date: Mon, 07 Dec 2015 21:25:37 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 17, 2015 at 8:49 PM, Dan McGregor <danismostlikely@gmail.com>
-wrote:
+These two commits adds a new ptest-runner written in python the sh one is conserved
+to use in tiny systems.
 
-> On 12 Nov 2015 5:41 p.m., "Christopher Larson" <kergoth@gmail.com> wrote:
-> >
-> > From: Christopher Larson <chris_larson@mentor.com>
-> >
-> > We don't need nss-myhostname on systemd systems, because systemd already
-> > provides myhostname, but we weren't configuring nsswitch to use it.
-> Being able
-> > to resolve the hostname is useful for a number of different
-> applications, so
-> > enable it using the same postinst/prerm bits which are in nss-myhostname.
->
-> I have this and a similar change for resolved in an append at work. Would
-> others be interested in that too?
->
+What's new in ptest runner:
 
-I'm sure there are folks that would find that interesting. I'm sure not
-everyone uses resolved, but I'm sure we want it to work well for folks taht
-do want to use it.
+	- Monitor/timeout stdout, stderr of the test suite to avoid block indefinetly.
+	- Add option for change ptest root directory.
+	- Add option for list available tests.
+	- Add option for only run certain tests.
+
+The following changes since commit d9bc1f4b9a8aff859c59dbf9bbdd6b16e99381b2:
+
+  classes/sstate.bbclass: checkhashes modify to take into account siginfo. (2015-12-02 10:55:25 -0600)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib alimon/ptest-runner
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/ptest-runner
+
+Aníbal Limón (2):
+  ptest-runner: Add version 2.0 re-implementation in python.
+  ptest-runner: Add a recipe for install ptest-runner 2.0.
+
+ .../ptest-runner/files/ptest-runner_2.0.py         | 144 +++++++++++++++++++++
+ .../ptest-runner/ptest-runner_2.0.bb               |  28 ++++
+ 2 files changed, 172 insertions(+)
+ create mode 100755 meta/recipes-support/ptest-runner/files/ptest-runner_2.0.py
+ create mode 100644 meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+2.1.4
 
---089e0111e07a4946200526542735
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, Nov 17, 2015 at 8:49 PM, Dan McGregor <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:danismostlikely@gmail.com" target=3D"_blank">danismostlikely@gma=
-il.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=
-=3D""><p dir=3D"ltr">On 12 Nov 2015 5:41 p.m., &quot;Christopher Larson&quo=
-t; &lt;<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail=
-.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
-" target=3D"_blank">chris_larson@mentor.com</a>&gt;<br>
-&gt;<br>
-&gt; We don&#39;t need nss-myhostname on systemd systems, because systemd a=
-lready<br>
-&gt; provides myhostname, but we weren&#39;t configuring nsswitch to use it=
-. Being able<br>
-&gt; to resolve the hostname is useful for a number of different applicatio=
-ns, so<br>
-&gt; enable it using the same postinst/prerm bits which are in nss-myhostna=
-me.</p>
-</span><p dir=3D"ltr">I have this and a similar change for resolved in an a=
-ppend at work. Would others be interested in that too?</p></blockquote></di=
-v><br>I&#39;m sure there are folks that would find that interesting. I&#39;=
-m sure not everyone uses resolved, but I&#39;m sure we want it to work well=
- for folks taht do want to use it.<br>-- <br><div class=3D"gmail_signature"=
-><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder=
- - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Softwa=
-re Engineer, Mentor Graphics</div></div>
-</div></div>
-
---089e0111e07a4946200526542735--
