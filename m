@@ -1,30 +1,20 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from smtp485.redcondor.net (smtp485.redcondor.net [208.80.204.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 114D760124
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 38AC760124
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Dec 2015 12:42:04 +0000 (UTC)
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by smtp485.redcondor.net ({3be039ea-4351-44b0-a8af-642c38b25916})
-	via TCP (outbound) with ESMTPS id 20151207124200562_0485;
-	Mon, 07 Dec 2015 12:42:00 +0000
-X-RC-FROM: <rpjday@crashcourse.ca>
-Received: from [69.196.158.250] (port=48664 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES128-SHA:128)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1a5v7z-0001bY-39; Mon, 07 Dec 2015 07:42:51 -0500
-Date: Mon, 7 Dec 2015 07:41:46 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost
-To: Andreas Oberritter <obi@opendreambox.org>
-In-Reply-To: <56655CB9.2050500@opendreambox.org>
-Message-ID: <alpine.LFD.2.20.1512070740530.18780@localhost>
-References: <alpine.LFD.2.20.1512070440340.13574@localhost>
-	<56655CB9.2050500@opendreambox.org>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-MAG-OUTBOUND: ccj.redcondor.net@64.235.106.9/32
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: what feature fixed the gcc-5 preprocessor build error from a few months back?
+	Mon,  7 Dec 2015 13:04:42 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 07 Dec 2015 05:04:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,394,1444719600"; d="scan'208";a="855581547"
+Received: from sentry.rb.intel.com ([10.237.105.108])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Dec 2015 05:04:42 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Dec 2015 15:06:03 +0200
+Message-Id: <1449493563-32455-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH V2] bluez5: upgrade to 5.36
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,80 +27,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Dec 2015 12:42:07 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Mon, 07 Dec 2015 13:04:43 -0000
 
-On Mon, 7 Dec 2015, Andreas Oberritter wrote:
+Backported a fix for a segfault crash.
 
-> Hello Robert,
->
-> On 07.12.2015 10:44, Robert P. J. Day wrote:
-> >
-> >   once upon a time, i asked a question about the origin of this OE
-> > build error using gcc-5 to build ncurses-native:
-> >
-> >> In file included from
-> > /home/rpjday/oe/builds/oe/qemux86/tmp-glibc/work/x86_64-linux/ncurses-native/5.9-r15.1/ncurses-5.9/ncurses/curses.priv.h:283:0,
-> >>                  from ../ncurses/lib_gen.c:19:
-> >> _20141.c:835:15: error: expected ')' before 'int'
-> >> ../include/curses.h:1594:56: note: in definition of macro
-> > 'mouse_trafo'
-> >>  #define mouse_trafo(y,x,to_screen)
-> > wmouse_trafo(stdscr,y,x,to_screen)
-> >
-> >   it didn't take long to be pointed to an explanation on the fedora
-> > mailing list:
-> >
-> > http://lists.openembedded.org/pipermail/openembedded-core/2015-February/101820.html
-> >
-> > "	these packages failed to build because of the changes in the preprocessor;
-> > 	gcc started to generate line directives to better detect whether a macro
-> > 	tokens come from a system header - see http://gcc.gnu.org/PR60723
-> > 	The fix is to use the -P option if the code isn't prepared to deal with
-> > 	such directives.
-> >
-> >   so i just added to my local.conf:
-> >
-> > CPPFLAGS_append_pn-ncurses-native = " -P"
-> >
-> >   that issue was apparently fixed and i haven't needed to do that for
-> > a while. however, i'm now using someone's custom version of OE-core
-> > and that very error is back, so what was it that was tweaked to deal
-> > with it? thanks.
->
-> see this commit in fido:
->
-> commit 3a5435b371c84ec28b6936b8c8fa6541a592d061
-> Author: Martin Stolpe <martinstolpe@gmail.com>
-> Date:   Wed Jun 10 16:28:26 2015 +0200
->
->     ncurses: fix native builds when host has gcc5
->
->     GCC"s preprocessor starts to add newlines which are not
->     handled properly by ncurses build system startin from
->     version 5.0.
->
->     See also: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7870
->
->     Signed-off-by: Martin Stolpe <martin.stolpe@gmail.com>
->     Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
->
-> In master it's probably been solved by updating ncurses.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc        |  1 +
+ ...e-Fix-possible-crash-when-registering-pro.patch | 54 ++++++++++++++++++++++
+ .../bluez5/{bluez5_5.33.bb => bluez5_5.36.bb}      |  4 +-
+ 3 files changed, 57 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.33.bb => bluez5_5.36.bb} (88%)
 
-  ah, that's pretty much the hackaround i used once upon a time, and i
-can see that that patch is not in the vendor-specific OE-Core layer i
-was given. so that definitely explains that problem. thanks.
-
-rday
-
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 13fd600..529d5a6 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -18,6 +18,7 @@ PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
+ 
+ SRC_URI = "\
+     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
++    file://core-profile-Fix-possible-crash-when-registering-pro.patch \
+     file://init \
+ "
+ S = "${WORKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch b/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
+new file mode 100644
+index 0000000..5c6cee1
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
+@@ -0,0 +1,54 @@
++From bc4dbda3362d3654447d8ae6525cac1540b7d705 Mon Sep 17 00:00:00 2001
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++Date: Thu, 5 Nov 2015 15:14:50 +0200
++Subject: [PATCH] core/profile: Fix possible crash when registering profiles
++
++Upstream-Status: Backport
++
++Profiles under ext_profiles are local and should no be mixed with other
++external profiles since its type is different which can may cause invalid
++memory when accessing member of ext_profile struct.
++---
++ src/profile.c | 14 ++------------
++ 1 file changed, 2 insertions(+), 12 deletions(-)
++
++diff --git a/src/profile.c b/src/profile.c
++index 49445d7..5a4f09c 100644
++--- a/src/profile.c
+++++ b/src/profile.c
++@@ -719,19 +719,13 @@ void btd_profile_foreach(void (*func)(struct btd_profile *p, void *data),
++ 
++ int btd_profile_register(struct btd_profile *profile)
++ {
++-	if (profile->external)
++-		ext_profiles = g_slist_append(ext_profiles, profile);
++-	else
++-		profiles = g_slist_append(profiles, profile);
+++	profiles = g_slist_append(profiles, profile);
++ 	return 0;
++ }
++ 
++ void btd_profile_unregister(struct btd_profile *profile)
++ {
++-	if (profile->external)
++-		ext_profiles = g_slist_remove(ext_profiles, profile);
++-	else
++-		profiles = g_slist_remove(profiles, profile);
+++	profiles = g_slist_remove(profiles, profile);
++ }
++ 
++ static struct ext_profile *find_ext_profile(const char *owner,
++@@ -742,10 +736,6 @@ static struct ext_profile *find_ext_profile(const char *owner,
++ 	for (l = ext_profiles; l != NULL; l = g_slist_next(l)) {
++ 		struct ext_profile *ext = l->data;
++ 
++-		/*
++-		 * Owner and path can be NULL if profile was registered by a
++-		 * plugin using external flag.
++-		 */
++ 		if (g_strcmp0(ext->owner, owner))
++ 			continue;
++ 
++-- 
++2.5.0
++
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.33.bb b/meta/recipes-connectivity/bluez5/bluez5_5.36.bb
+similarity index 88%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.33.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.36.bb
+index 23c7397..b94ed31 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.33.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.36.bb
+@@ -1,6 +1,6 @@
+ require bluez5.inc
+-SRC_URI[md5sum] = "78782dc33d9a8b6344c4cc1af70c8a98"
+-SRC_URI[sha256sum] = "1801807a13506678cbfeb15c6a4b89ecb5739efe1067eb464da6641d731436d3"
++SRC_URI[md5sum] = "9a0ee479cacc44fac68f6a65b1cd3eba"
++SRC_URI[sha256sum] = "a343ea1aeb53d3bd139087f3b1c1e1fb70db452d9762cc7a3d23e75962e578f2"
+ 
+ # noinst programs in Makefile.tools that are conditional on READLINE
+ # support
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+2.5.0
 
 
