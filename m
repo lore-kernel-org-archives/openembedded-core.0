@@ -1,34 +1,43 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwym01.jp.fujitsu.com (mgwym01.jp.fujitsu.com [211.128.242.40])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CF1960110
+Return-Path: <fabrice.coulon@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 9896360124
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Dec 2015 08:25:35 +0000 (UTC)
-Received: from yt-mxauth.gw.nic.fujitsu.com (unknown [192.168.229.68]) by
-	mgwym01.jp.fujitsu.com with smtp
-	id 3dd7_57c4_50169b5b_639f_4d56_aeb9_9d266f4136bd;
-	Mon, 07 Dec 2015 17:25:27 +0900
-Received: from g01jpfmpwkw02.exch.g01.fujitsu.local
-	(g01jpfmpwkw02.exch.g01.fujitsu.local [10.0.193.56])
-	by yt-mxauth.gw.nic.fujitsu.com (Postfix) with ESMTP id F12BDAC0497
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Dec 2015 17:25:26 +0900 (JST)
-Received: from g01jpexchkw36.g01.fujitsu.local (unknown [10.0.193.4])
-	by g01jpfmpwkw02.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	36E913286E3 for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Dec 2015 17:25:26 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	g01jpexchkw36.g01.fujitsu.local (10.0.193.54) with Microsoft SMTP
-	Server id 14.3.266.1; Mon, 7 Dec 2015 17:25:26 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 7 Dec 2015 17:26:28 +0900
-Message-ID: <1449476788-28731-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
+	Mon,  7 Dec 2015 09:15:53 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id CC69A2E144;
+	Mon,  7 Dec 2015 10:15:53 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id Qujg9HUcoCKs; Mon,  7 Dec 2015 10:15:53 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id 3AB002E1A7;
+	Mon,  7 Dec 2015 10:15:53 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 233861429;
+	Mon,  7 Dec 2015 10:15:53 +0100 (CET)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 16DE4D6;
+	Mon,  7 Dec 2015 10:15:53 +0100 (CET)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by thoth.se.axis.com (Postfix) with ESMTP id 12802341CC;
+	Mon,  7 Dec 2015 10:15:53 +0100 (CET)
+Received: from [10.92.161.3] (10.92.161.3) by xmail2.se.axis.com (10.0.5.74)
+	with Microsoft SMTP Server (TLS) id 8.3.342.0;
+	Mon, 7 Dec 2015 10:15:52 +0100
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <1449062556-13116-1-git-send-email-fabrice.coulon@axis.com>
+	<CAJ86T=VF1HsQdgbyVsvutJO0HJ+LNp6d+rKMEsReB0XmDs3=mw@mail.gmail.com>
+From: Fabrice Coulon <fabrice.coulon@axis.com>
+Message-ID: <56654E31.8020601@axis.com>
+Date: Mon, 7 Dec 2015 10:15:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-MML: disable
-Cc: Fan Xin <fan.xin@jp.fujitsu.com>
-Subject: [PATCH v2] libpcre: upgrade to 8.38
+In-Reply-To: <CAJ86T=VF1HsQdgbyVsvutJO0HJ+LNp6d+rKMEsReB0XmDs3=mw@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pseudo: Make it possible to override the append in a bbappend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,48 +50,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Dec 2015 08:25:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 07 Dec 2015 09:15:57 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is the latest release in the 8.xx series.
-It fixes 46 bugs as listed:
-http://vcs.pcre.org/pcre/code/trunk/ChangeLog?view=markup
 
-Vulnerabilities from CVE-2015-8380 to CVE-2015-8395 have been fixed in 8.38.
 
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
----
- meta/recipes-support/libpcre/{libpcre_8.37.bb => libpcre_8.38.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libpcre/{libpcre_8.37.bb => libpcre_8.38.bb} (91%)
+On 12/02/2015 08:05 PM, Andre McCurdy wrote:
+> On Wed, Dec 2, 2015 at 5:22 AM, Fabrice Coulon <fabrice.coulon@axis.com> wrote:
+>> I need this in order to avoid a conflict when used with
+>> base-passwd-native.
+> Doesn't something like this work from your .bbappend?
+>
+>    do_install_append_class-native () {
+>        # Remove to avoid conflict with base-passwd-native
+>        rm -f ${D}${sysconfdir}/passwd ${D}${sysconfdir}/group
+>    }
+>
 
-diff --git a/meta/recipes-support/libpcre/libpcre_8.37.bb b/meta/recipes-support/libpcre/libpcre_8.38.bb
-similarity index 91%
-rename from meta/recipes-support/libpcre/libpcre_8.37.bb
-rename to meta/recipes-support/libpcre/libpcre_8.38.bb
-index 1880639..4f31f8c 100644
---- a/meta/recipes-support/libpcre/libpcre_8.37.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.38.bb
-@@ -7,15 +7,15 @@ HOMEPAGE = "http://www.pcre.org"
- SECTION = "devel"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=7e4937814aee14758c1c95b59c80c44d"
--SRC_URI = "${SOURCEFORGE_MIRROR}/project/pcre/pcre/${PV}/pcre-${PV}.tar.bz2 \
-+SRC_URI = "ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${PV}.tar.bz2 \
-            file://pcre-cross.patch \
-            file://fix-pcre-name-collision.patch \
-            file://run-ptest \
-            file://Makefile \
- "
- 
--SRC_URI[md5sum] = "ed91be292cb01d21bc7e526816c26981"
--SRC_URI[sha256sum] = "51679ea8006ce31379fb0860e46dd86665d864b5020fc9cd19e71260eef4789d"
-+SRC_URI[md5sum] = "00aabbfe56d5a48b270f999b508c5ad2"
-+SRC_URI[sha256sum] = "b9e02d36e23024d6c02a2e5b25204b3a4fa6ade43e0a5f869f254f49535079df"
- 
- S = "${WORKDIR}/pcre-${PV}"
- 
--- 
-1.8.4.2
+Yes it works. I don't need to change the recipe, it's enough with this 
+in a bbappend. Thanks!
+
 
 
