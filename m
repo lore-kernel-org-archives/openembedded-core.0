@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C3F060589
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 691326FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 08:12:45 +0000 (UTC)
-Received: by qgcc31 with SMTP id c31so9895886qgc.3
+	Tue,  8 Dec 2015 08:12:43 +0000 (UTC)
+Received: by qgec40 with SMTP id c40so9970171qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 00:12:46 -0800 (PST)
+	Tue, 08 Dec 2015 00:12:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=d2FOsGo4HsjWe6+FTbK7H7CG3JGBOu/uVagbRaxRwOo=;
-	b=dCIXqhh1Efa+gsN3WMjol4U/7iFsw6e6WnpnX2zepFahACCVBKplqOUz3aurfQQKE+
-	2hNrCOFkiRshi9Mrw1w5uYgLdKvmERmhttJzJ31TRKr5vs2O+CtoCYBq0LOdkEE3YIL4
-	hGvh5/wYswjHObBMv3o3nmCZWGdZD2Lh1SPX1CHKsajTjSV/AsNON1BM5UAXy80fdXrI
-	rT8Q1sOvC+ws9gUCLhFrkjzAuqdghZXmd2bA68LAUtJGBCg3jx0HEkKyfjZm7+MlhVNd
-	4R5uaurMj24zdOd2HvuL8PGNlHUN9AEAkOIXP4ILuM0/S4Yuv1o9Bx6d6qbm7uaJp1lz
-	hgsA==
-X-Received: by 10.140.102.244 with SMTP id w107mr2819719qge.90.1449562366400; 
-	Tue, 08 Dec 2015 00:12:46 -0800 (PST)
+	bh=Ow6Kq5DnhrcfBEngfaQsmXMCQIzq7pMpW4t/5xt3BPY=;
+	b=s2rjHTo3rwgSDJ+uCY57RzrhKKXGJQEZKOqERMc3EYf828eqp6LOk2lASrumUbUX6P
+	U237z0XyQmE72cgWPBv9mX9DMqOJAT910dhEfOF2/R0HQzy1zdLlzn5kdZmL4b9pEIht
+	mj3lK5MBHldOtuIc4AlOfEjbzzijPy61a+T3ioJ3TK59/d35idg0bEJqjEAolJcxJmzW
+	gvQVQ9NOSDDyBF2MehSFCTGxSQUKVGFIP78K8UIVHFyGMLDZawkHgxlwBWbdfHaAfy36
+	qiSNoP/IcDtzeiMcT0JrwT5PJEcj4J3RK+GnnOz3UFfFv+dyE7Gubuwf1OS7SSNi+Kdf
+	OVGw==
+X-Received: by 10.140.100.175 with SMTP id s44mr2713757qge.47.1449562364598;
+	Tue, 08 Dec 2015 00:12:44 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	v66sm1023174qkv.32.2015.12.08.00.12.45
+	v66sm1023174qkv.32.2015.12.08.00.12.43
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Dec 2015 00:12:45 -0800 (PST)
+	Tue, 08 Dec 2015 00:12:43 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Dec 2015 08:12:32 +0000
-Message-Id: <8dc833ff1624c144e17a5e613234207326ad3926.1449562195.git.raj.khem@gmail.com>
+Date: Tue,  8 Dec 2015 08:12:29 +0000
+Message-Id: <18f9e395d969a0d33d4d78da4be0237b5cb1ea18.1449562195.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
 References: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1449562195.git.raj.khem@gmail.com>
 References: <cover.1449562195.git.raj.khem@gmail.com>
-Subject: [PATCH 12/13] libpam: Fix build with musl
+Subject: [PATCH 09/13] gettext: Delete libintl.h and charset.alias
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,173 +48,46 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 08 Dec 2015 08:12:46 -0000
 
-Define strndupa if not available in libc additionally fix headers
-to explicitly needed include files which glibc was including indirectly
+libintl.h is already provided by musl and charset.alias is regenerated
+by packages themselves
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...upport-for-defining-missing-funcitonality.patch | 68 ++++++++++++++++++++++
- .../pam/libpam/include_paths_header.patch          | 59 +++++++++++++++++++
- meta/recipes-extended/pam/libpam_1.2.1.bb          |  5 +-
- 3 files changed, 131 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
- create mode 100644 meta/recipes-extended/pam/libpam/include_paths_header.patch
+ meta/recipes-core/gettext/gettext_0.16.1.bb | 5 +++++
+ meta/recipes-core/gettext/gettext_0.19.4.bb | 4 ++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch b/meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
-new file mode 100644
-index 0000000..c55b648
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
-@@ -0,0 +1,68 @@
-+From 45d1ed58927593968faead7dbb295f3922f41a2f Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 8 Aug 2015 14:16:43 -0700
-+Subject: [PATCH] Add support for defining missing funcitonality
-+
-+In order to support alternative libc on linux ( musl, bioninc ) etc we
-+need to check for glibc-only features and provide alternatives, in this
-+list strndupa is first one, when configure detects that its not included
-+in system C library then the altrnative implementation from missing.h is
-+used
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+
-+ configure.ac                |  3 +++
-+ libpam/include/missing.h    | 12 ++++++++++++
-+ modules/pam_exec/pam_exec.c |  1 +
-+ 3 files changed, 16 insertions(+)
-+ create mode 100644 libpam/include/missing.h
-+
-+diff --git a/configure.ac b/configure.ac
-+index 9e1257f..cbed979 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -599,6 +599,9 @@ dnl
-+ AC_CHECK_DECL(__NR_keyctl, [have_key_syscalls=1],[have_key_syscalls=0],[#include <sys/syscall.h>])
-+ AC_CHECK_DECL(ENOKEY, [have_key_errors=1],[have_key_errors=0],[#include <errno.h>])
-+ 
-++# musl and bionic don't have strndupa
-++AC_CHECK_DECLS_ONCE([strndupa])
-++
-+ HAVE_KEY_MANAGEMENT=0
-+ if test $have_key_syscalls$have_key_errors = 11
-+ then
-+diff --git a/libpam/include/missing.h b/libpam/include/missing.h
-+new file mode 100644
-+index 0000000..3cf011c
-+--- /dev/null
-++++ b/libpam/include/missing.h
-+@@ -0,0 +1,12 @@
-++#pragma once
-++
-++#if !HAVE_DECL_STRNDUPA
-++#define strndupa(s, n)                                                  \
-++        ({                                                              \
-++                const char *__old = (s);                                \
-++                size_t __len = strnlen(__old, (n));                     \
-++                char *__new = alloca(__len + 1);                        \
-++                __new[__len] = '\0';                                    \
-++                memcpy(__new, __old, __len);                            \
-++         })
-++#endif
-+diff --git a/modules/pam_exec/pam_exec.c b/modules/pam_exec/pam_exec.c
-+index 17ba6ca..3aa2694 100644
-+--- a/modules/pam_exec/pam_exec.c
-++++ b/modules/pam_exec/pam_exec.c
-+@@ -59,6 +59,7 @@
-+ #include <security/pam_modutil.h>
-+ #include <security/pam_ext.h>
-+ #include <security/_pam_macros.h>
-++#include <missing.h>
-+ 
-+ #define ENV_ITEM(n) { (n), #n }
-+ static struct {
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-extended/pam/libpam/include_paths_header.patch b/meta/recipes-extended/pam/libpam/include_paths_header.patch
-new file mode 100644
-index 0000000..e4eb956
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/include_paths_header.patch
-@@ -0,0 +1,59 @@
-+This patch adds missing include for paths.h which should provide
-+_PATH_LASTLOG definition
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Index: Linux-PAM-1.1.6/modules/pam_lastlog/pam_lastlog.c
-+===================================================================
-+--- Linux-PAM-1.1.6.orig/modules/pam_lastlog/pam_lastlog.c
-++++ Linux-PAM-1.1.6/modules/pam_lastlog/pam_lastlog.c
-+@@ -23,9 +23,11 @@
-+ #include <stdarg.h>
-+ #include <stdio.h>
-+ #include <string.h>
-++#include <sys/file.h>
-+ #include <sys/types.h>
-+ #include <syslog.h>
-+ #include <unistd.h>
-++#include <paths.h>
-+ 
-+ #if defined(hpux) || defined(sunos) || defined(solaris)
-+ # ifndef _PATH_LASTLOG
-+@@ -332,6 +334,23 @@ last_login_read(pam_handle_t *pamh, int
-+     return retval;
-+ }
-+ 
-++#ifndef __GLIBC__
-++static void logwtmp(const char * line, const char * name, const char * host)
-++{
-++    struct utmp u;
-++    memset(&u, 0, sizeof(u));
-++
-++    u.ut_pid = getpid();
-++    u.ut_type = name[0] ? USER_PROCESS : DEAD_PROCESS;
-++    strncpy(u.ut_line, line, sizeof(u.ut_line));
-++    strncpy(u.ut_name, name, sizeof(u.ut_name));
-++    strncpy(u.ut_host, host, sizeof(u.ut_host));
-++    gettimeofday(&(u.ut_tv), NULL);
-++
-++    updwtmp(_PATH_WTMP, &u);
-++}
-++#endif /* __GLIBC__ */
-++
-+ static int
-+ last_login_write(pam_handle_t *pamh, int announce, int last_fd,
-+ 		 uid_t uid, const char *user)
-+Index: Linux-PAM-1.1.6/modules/Makefile.am
-+===================================================================
-+--- Linux-PAM-1.1.6.orig/modules/Makefile.am
-++++ Linux-PAM-1.1.6/modules/Makefile.am
-+@@ -7,7 +7,7 @@ SUBDIRS = pam_access pam_cracklib pam_de
-+ 	pam_group pam_issue pam_keyinit pam_lastlog pam_limits \
-+ 	pam_listfile pam_localuser pam_loginuid pam_mail \
-+ 	pam_mkhomedir pam_motd pam_namespace pam_nologin \
-+-	pam_permit pam_pwhistory pam_rhosts pam_rootok pam_securetty \
-++	pam_permit pam_pwhistory pam_rootok pam_securetty \
-+ 	pam_selinux pam_sepermit pam_shells pam_stress \
-+ 	pam_succeed_if pam_tally pam_tally2 pam_time pam_timestamp \
-+ 	pam_tty_audit pam_umask \
-diff --git a/meta/recipes-extended/pam/libpam_1.2.1.bb b/meta/recipes-extended/pam/libpam_1.2.1.bb
-index 0353356..7e81e72 100644
---- a/meta/recipes-extended/pam/libpam_1.2.1.bb
-+++ b/meta/recipes-extended/pam/libpam_1.2.1.bb
-@@ -31,7 +31,10 @@ SRC_URI[sha256sum] = "342b1211c0d3b203a7df2540a5b03a428a087bd8a48c17e49ae268f992
- SRC_URI_append_libc-uclibc = " file://pam-no-innetgr.patch \
-                                file://use-utmpx.patch"
+diff --git a/meta/recipes-core/gettext/gettext_0.16.1.bb b/meta/recipes-core/gettext/gettext_0.16.1.bb
+index f9f7a7f..cd0b759 100644
+--- a/meta/recipes-core/gettext/gettext_0.16.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.16.1.bb
+@@ -39,6 +39,11 @@ do_configure_prepend() {
+ 	rm -f ${S}/config/m4/libtool.m4
+ }
  
--SRC_URI_append_libc-musl = " file://pam-no-innetgr.patch"
-+SRC_URI_append_libc-musl = " file://pam-no-innetgr.patch \
-+                             file://0001-Add-support-for-defining-missing-funcitonality.patch \
-+                             file://include_paths_header.patch \
-+                           "
++do_install_append_libc-musl () {
++	rm -f ${D}${libdir}/charset.alias
++	rm -f ${D}${includedir}/libintl.h
++}
++
+ # these lack the .x behind the .so, but shouldn't be in the -dev package
+ # Otherwise you get the following results:
+ # 7.4M    glibc/images/ep93xx/Angstrom-console-image-glibc-ipk-2008.1-test-20080104-ep93xx.rootfs.tar.gz
+diff --git a/meta/recipes-core/gettext/gettext_0.19.4.bb b/meta/recipes-core/gettext/gettext_0.19.4.bb
+index cebf6c7..a9c919a 100644
+--- a/meta/recipes-core/gettext/gettext_0.19.4.bb
++++ b/meta/recipes-core/gettext/gettext_0.19.4.bb
+@@ -42,6 +42,10 @@ EXTRA_OECONF += "--without-lispdir \
+ acpaths = '-I ${S}/gettext-runtime/m4 \
+            -I ${S}/gettext-tools/m4'
  
- DEPENDS = "bison flex flex-native cracklib"
++do_install_append_libc-musl () {
++	rm -f ${D}${libdir}/charset.alias
++	rm -f ${D}${includedir}/libintl.h
++}
  
+ # these lack the .x behind the .so, but shouldn't be in the -dev package
+ # Otherwise you get the following results:
 -- 
 2.6.3
 
