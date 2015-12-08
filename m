@@ -1,24 +1,42 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C322F6FF7F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 421626FF7F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 13:57:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tB8DvpHa022547
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 8 Dec 2015 05:57:51 -0800 (PST)
-Received: from yow-bashfiel-d4.corp.ad.wrs.com (128.224.5.149) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 8 Dec 2015 05:57:50 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <ross.burton@intel.com>
-Date: Tue, 8 Dec 2015 08:57:48 -0500
-Message-ID: <1449583068-5706-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.1.0
+	Tue,  8 Dec 2015 14:01:56 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so30883141wmw.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Dec 2015 06:01:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=8XJiC1hW9uV0cgGU9xtazqzT+yeNCkQC/mHPrEcFBaI=;
+	b=Z5/nBJtujFFq+cmArHtWOnvjF5xXlzCiQk2uNO7JH7YnOJ9Ua0tut55TAX1aHOqa8I
+	JJUxXTEyNWOyS3QVcUa0/7douQ7ZDNcZMfkko8P9Lk3uzasBpYfk1L297CsbG8lb6o4W
+	JRbLwijoyqbvWdDoZnqaZre8p5EDhHmks0kv7E2gpIw7I6M1nBqMgXqGobbU5HojdOum
+	j7RyBvzr25uEfyt65S36IQUq6kumpPvNKY6zdX2BBMe3Jdr5iZ3LN5u0ateggOx4Nr1T
+	Fxe1Hl2tqKXn09BKtZvYtq6FkfSKgYQ+AV6peu6aEEzGVzz2YV/nOlvZaaxYth1mHap6
+	QP2w==
+X-Received: by 10.28.61.213 with SMTP id k204mr29379777wma.5.1449583316583;
+	Tue, 08 Dec 2015 06:01:56 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id bh6sm3180633wjb.0.2015.12.08.06.01.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 08 Dec 2015 06:01:55 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 8 Dec 2015 15:03:33 +0100
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20151208140333.GB2238@jama>
+References: <1447864860.1472.56.camel@pbcl.net>
+	<1447871842-30347-1-git-send-email-Martin.Jansa@gmail.com>
+	<1447871842-30347-5-git-send-email-Martin.Jansa@gmail.com>
+	<20151207223502.GC2249@jama>
+	<1449570887.19730.47.camel@linuxfoundation.org>
 MIME-Version: 1.0
+In-Reply-To: <1449570887.19730.47.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/4.1: Fix kernel oops on qemuarm boot
+Subject: Re: [PATCHv3 5/6] feature-arm-vfp.inc: respect vfpv4 when setting -mfloat-abi and ARMPKGSFX_EABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,92 +49,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 13:57:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 08 Dec 2015 14:01:59 -0000
+X-Groupsio-MsgNum: 74479
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="bKyqfOwhbdpXa4YI"
+Content-Disposition: inline
 
-Backporting two mainline commits to address kernel oops:
+--bKyqfOwhbdpXa4YI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   Internal error: Oops: 17 [#1] PREEMPT ARM
-   Modules linked in:
-   CPU: 0 PID: 42 Comm: jbd2/vda-8 Not tainted 4.1.8-yocto-standard #1
-   Hardware name: ARM-Versatile PB
-   task: c7223300 ti: c725e000 task.ti: c725e000
-   PC is at blk_mq_tag_to_rq+0x24/0x78
-   LR is at bt_for_each+0x70/0xc4
-   pc : [<c0364458>]    lr : [<c0368118>]    psr: 20000113
-   sp : c725fa18  ip : c725fa30  fp : c725fa2c
-   r10: c0365ce0  r9 : 00000020  r8 : c7104200
-   r7 : c70ee5ac  r6 : 00000001  r5 : 00000021  r4 : c7122da0
-   r3 : c7104000  r2 : 00000000  r1 : 00000021  r0 : 00000000
-   Flags: nzCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment kernel
-   Control: 00093177  Table: 072f4000  DAC: 00000017
-   Process jbd2/vda-8 (pid: 42, stack limit = 0xc725e190)
-   Stack: (0xc725fa18 to 0xc7260000)
+On Tue, Dec 08, 2015 at 10:34:47AM +0000, Richard Purdie wrote:
+> On Mon, 2015-12-07 at 23:35 +0100, Martin Jansa wrote:
+> > It's highly recommended to use the script together with memres bitbake,
+> > the execution time is at least 10 times shorted, but the changes aren't
+> > picked between runs, so make sure to restart bitbake after changing the
+> > tunes.
+>=20
+> That sounds like something it should detect. Could you file a bug
+> please, preferably with a simpler test case that shows the problem?
 
-[YOCTO #8663]
+Once I finish the tune testing I'll try to get simpler test case.
 
-Signed-off-by: Alimon Limon <anibal.limon@linux.intel.com
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 16 ++++++++--------
- 3 files changed, 10 insertions(+), 10 deletions(-)
+FWIW: yesterday I've changed the test to set the DEFAULTTUNE directly in
+MACHINE.conf instead of using DEFAULTTUNE_MACHINE =3D "foo" overrides in
+=2Einc file included in local.conf and since then even with memres bitbake
+it's terribly slow, because each combination causes all metadata to be
+reparsed.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-index e569d1658105..6bb38f8c059b 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-@@ -2,7 +2,7 @@ KBRANCH ?= "standard/preempt-rt/base"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--SRCREV_machine ?= "44fb75fd4731d1169725ac49a305e0913440974f"
-+SRCREV_machine ?= "190c42da30140d227cc948ed5fa8fee8467d55f3"
- SRCREV_meta ?= "30c4b4bd79c5d774de6dcf23d0deab554e31f3d4"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index fe04f51d15ea..cd4f2acff69a 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.1.13"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "c22dc676d6d560d0b2a316283a514d65d2a510e4"
-+SRCREV_machine ?= "2c30f87db7824e90b0b096eee3a5b7f93c84b079"
- SRCREV_meta ?= "30c4b4bd79c5d774de6dcf23d0deab554e31f3d4"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index 9553f3d2a7f2..776620261f60 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "817a421e7c1be9c1136da5772f351e77513a1ed2"
--SRCREV_machine_qemuarm64 ?= "c22dc676d6d560d0b2a316283a514d65d2a510e4"
--SRCREV_machine_qemumips ?= "9f244d964a5910244fc82c261c48e1dc0862654b"
--SRCREV_machine_qemuppc ?= "c22dc676d6d560d0b2a316283a514d65d2a510e4"
--SRCREV_machine_qemux86 ?= "c22dc676d6d560d0b2a316283a514d65d2a510e4"
--SRCREV_machine_qemux86-64 ?= "c22dc676d6d560d0b2a316283a514d65d2a510e4"
--SRCREV_machine_qemumips64 ?= "7fdfaf2387d7896c1ead6a000616e01ce72f0764"
--SRCREV_machine ?= "c22dc676d6d560d0b2a316283a514d65d2a510e4"
-+SRCREV_machine_qemuarm ?= "2494184ad34764bdfa1bfd9a57eabfb34d170c0e"
-+SRCREV_machine_qemuarm64 ?= "2c30f87db7824e90b0b096eee3a5b7f93c84b079"
-+SRCREV_machine_qemumips ?= "85a76c24f5aaa99618fdb15d5f3966a2e03cd572"
-+SRCREV_machine_qemuppc ?= "2c30f87db7824e90b0b096eee3a5b7f93c84b079"
-+SRCREV_machine_qemux86 ?= "2c30f87db7824e90b0b096eee3a5b7f93c84b079"
-+SRCREV_machine_qemux86-64 ?= "2c30f87db7824e90b0b096eee3a5b7f93c84b079"
-+SRCREV_machine_qemumips64 ?= "79181dc5284d9831d240d7ba58a2b574f6528b90"
-+SRCREV_machine ?= "2c30f87db7824e90b0b096eee3a5b7f93c84b079"
- SRCREV_meta ?= "30c4b4bd79c5d774de6dcf23d0deab554e31f3d4"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
--- 
-2.1.0
+So after 12 hours, I'm not even in half:
+Testing DEFAULTTUNE armv5te (18/82) for fake MACHINE fake-cortexa9 (14/44)
 
+I haven't confirmed it, but I think it weren't re-parsing anything
+yesterday, that's probably why it was so fast, but IIRC it was
+generating different output (with bitbake -e) so it was noticing
+something (but maybe it was only for different MACHINEs not different
+DEFAULTTUNEs.. I need to reproduce that and confirm).
 
+Regards,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--bKyqfOwhbdpXa4YI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlZm4zQACgkQN1Ujt2V2gBx3dwCgrcK2A073gJfA4PmSrZ5QbbGK
+2AcAoJpf98/biKFQLChVcLw9e4+fN2eV
+=mZQw
+-----END PGP SIGNATURE-----
+
+--bKyqfOwhbdpXa4YI--
