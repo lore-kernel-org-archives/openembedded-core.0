@@ -1,42 +1,27 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 421626FF7F
+Return-Path: <maxin.john@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id BF2E16FF91
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 14:01:56 +0000 (UTC)
-Received: by wmww144 with SMTP id w144so30883141wmw.0
+	Tue,  8 Dec 2015 14:32:05 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 08 Dec 2015 06:32:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,400,1444719600"; d="scan'208";a="856456206"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 08 Dec 2015 06:32:05 -0800
+Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 6FD8F6A4083
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 06:01:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=8XJiC1hW9uV0cgGU9xtazqzT+yeNCkQC/mHPrEcFBaI=;
-	b=Z5/nBJtujFFq+cmArHtWOnvjF5xXlzCiQk2uNO7JH7YnOJ9Ua0tut55TAX1aHOqa8I
-	JJUxXTEyNWOyS3QVcUa0/7douQ7ZDNcZMfkko8P9Lk3uzasBpYfk1L297CsbG8lb6o4W
-	JRbLwijoyqbvWdDoZnqaZre8p5EDhHmks0kv7E2gpIw7I6M1nBqMgXqGobbU5HojdOum
-	j7RyBvzr25uEfyt65S36IQUq6kumpPvNKY6zdX2BBMe3Jdr5iZ3LN5u0ateggOx4Nr1T
-	Fxe1Hl2tqKXn09BKtZvYtq6FkfSKgYQ+AV6peu6aEEzGVzz2YV/nOlvZaaxYth1mHap6
-	QP2w==
-X-Received: by 10.28.61.213 with SMTP id k204mr29379777wma.5.1449583316583;
-	Tue, 08 Dec 2015 06:01:56 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id bh6sm3180633wjb.0.2015.12.08.06.01.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 08 Dec 2015 06:01:55 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 8 Dec 2015 15:03:33 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20151208140333.GB2238@jama>
-References: <1447864860.1472.56.camel@pbcl.net>
-	<1447871842-30347-1-git-send-email-Martin.Jansa@gmail.com>
-	<1447871842-30347-5-git-send-email-Martin.Jansa@gmail.com>
-	<20151207223502.GC2249@jama>
-	<1449570887.19730.47.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1449570887.19730.47.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv3 5/6] feature-arm-vfp.inc: respect vfpv4 when setting -mfloat-abi and ARMPKGSFX_EABI
+	Tue,  8 Dec 2015 06:30:55 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Dec 2015 16:33:03 +0200
+Message-Id: <1449585184-7423-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/2] libtirpc: upgrade to 1.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,59 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 14:01:59 -0000
-X-Groupsio-MsgNum: 74479
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="bKyqfOwhbdpXa4YI"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 08 Dec 2015 14:32:08 -0000
 
---bKyqfOwhbdpXa4YI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+0.2.5  -> 1.0.1
 
-On Tue, Dec 08, 2015 at 10:34:47AM +0000, Richard Purdie wrote:
-> On Mon, 2015-12-07 at 23:35 +0100, Martin Jansa wrote:
-> > It's highly recommended to use the script together with memres bitbake,
-> > the execution time is at least 10 times shorted, but the changes aren't
-> > picked between runs, so make sure to restart bitbake after changing the
-> > tunes.
->=20
-> That sounds like something it should detect. Could you file a bug
-> please, preferably with a simpler test case that shows the problem?
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ .../libtirpc/{libtirpc_0.2.5.bb => libtirpc_1.0.1.bb}                 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/libtirpc/{libtirpc_0.2.5.bb => libtirpc_1.0.1.bb} (88%)
 
-Once I finish the tune testing I'll try to get simpler test case.
+diff --git a/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
+similarity index 88%
+rename from meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
+rename to meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
+index 330b829..0a236d2 100644
+--- a/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
++++ b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
+@@ -19,8 +19,8 @@ SRC_URI_append_libc-uclibc = " file://remove-des-uclibc.patch \
+                                file://va_list.patch \
+                              "
+ 
+-SRC_URI[libtirpc.md5sum] = "8cd41a5ef5a9b50d0fb6abb98af15368"
+-SRC_URI[libtirpc.sha256sum] = "62f9de7c2c8686c568757730e1fef66502a0e00d6cacf33546d0267984e002db"
++SRC_URI[libtirpc.md5sum] = "36ce1c0ff80863bb0839d54aa0b94014"
++SRC_URI[libtirpc.sha256sum] = "5156974f31be7ccbc8ab1de37c4739af6d9d42c87b1d5caf4835dda75fcbb89e"
+ SRC_URI[glibc-nfs.md5sum] = "5ae500b9d0b6b72cb875bc04944b9445"
+ SRC_URI[glibc-nfs.sha256sum] = "2677cfedf626f3f5a8f6e507aed5bb8f79a7453b589d684dbbc086e755170d83"
+ 
+-- 
+2.4.0
 
-FWIW: yesterday I've changed the test to set the DEFAULTTUNE directly in
-MACHINE.conf instead of using DEFAULTTUNE_MACHINE =3D "foo" overrides in
-=2Einc file included in local.conf and since then even with memres bitbake
-it's terribly slow, because each combination causes all metadata to be
-reparsed.
 
-So after 12 hours, I'm not even in half:
-Testing DEFAULTTUNE armv5te (18/82) for fake MACHINE fake-cortexa9 (14/44)
-
-I haven't confirmed it, but I think it weren't re-parsing anything
-yesterday, that's probably why it was so fast, but IIRC it was
-generating different output (with bitbake -e) so it was noticing
-something (but maybe it was only for different MACHINEs not different
-DEFAULTTUNEs.. I need to reproduce that and confirm).
-
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---bKyqfOwhbdpXa4YI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlZm4zQACgkQN1Ujt2V2gBx3dwCgrcK2A073gJfA4PmSrZ5QbbGK
-2AcAoJpf98/biKFQLChVcLw9e4+fN2eV
-=mZQw
------END PGP SIGNATURE-----
-
---bKyqfOwhbdpXa4YI--
