@@ -1,46 +1,61 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id DE1AA60110
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lf0-f45.google.com (mail-lf0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 7934060110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 07:12:54 +0000 (UTC)
-Received: by pacwq6 with SMTP id wq6so7577570pac.1
+	Tue,  8 Dec 2015 07:49:25 +0000 (UTC)
+Received: by lfdl133 with SMTP id l133so7212263lfd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Dec 2015 23:12:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=YdwrEUHw2p1Q7Q6ufNpMeBPjuVELq16KGIiEYKAjkOE=;
-	b=KpUNryjY3R8r2B928gwgs6Zeeike88NVwwJfT4LUlCzHoSg53VsIOF6oM46ZuP3+IU
-	vY7DCJnJqYEWY1Ye+1QxriGIeAjfEcubQdJ1E/7Po1lkVODXu8Imlo092v7hnwlKo19n
-	jAexpht4Z+PEgG52cOGpPDi3PKElQcwJV/bk1imgHDzGcB98T0YTO4wxOF1S5aQ9/OZl
-	q/Po16636yclzi2dGzXzV3y/UT7EZOPch0zCNNlHlXIJfMq+AT6TfXmg12KZQpFfyQ0v
-	WBErSvGSOltVR320W4hzneQRCuAXbBdwJHt1ILXfeNfhjC+xa+CDrSs/6vA8YRtrbl/2
-	gvcg==
-X-Received: by 10.66.158.169 with SMTP id wv9mr2766528pab.138.1449558775315;
-	Mon, 07 Dec 2015 23:12:55 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:5933:3119:130:5e9b?
-	([2601:646:8802:5d5c:5933:3119:130:5e9b])
-	by smtp.gmail.com with ESMTPSA id
-	n16sm2343583pfa.53.2015.12.07.23.12.53
+	Mon, 07 Dec 2015 23:49:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:subject:message-id:mail-followup-to:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:organization:user-agent;
+	bh=kGl+q/Qr37Hatz9WP6Gg/VzdumTyy1FhoujMXMaNxVQ=;
+	b=WZq03xpDfVuEUhx/gHYqV9PzMqy2nWLfm8+Lns7OSmpDFq6W+mLkG7hSqil9nbJtb0
+	EqqTWS1R9aR3xr8QIMW+NlAz3BW1XbriIZcGHb/5JARdjm0q8VRuxci9tIhigheNCjQD
+	XHFB7+sdR6D7OVPuV9y+mRXYecbacrU0HRYzKlYO5j51XXg1IgfZOcxQHz4hqSoDYbnT
+	acIHm4Yj/dg90QPJD0HNzI6rOqjxDfZ4LjRQKBd7DTnsPpguujILA+dnNQLII5FZ926R
+	rHeX3XVprHMMNX38Bd4+8TIXcX4gnSSjGQFCLx3PXHwTEfCZMC98dEjfGtuxoeUWEc7F
+	hYAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-type:content-disposition
+	:in-reply-to:organization:user-agent;
+	bh=kGl+q/Qr37Hatz9WP6Gg/VzdumTyy1FhoujMXMaNxVQ=;
+	b=MgPpuW6R7FQXdxzEqeeAgW2CAJ/abmE3C6/nrvS1nRlmU9YcgMc2rrPgUBks+P51Jg
+	N/KAlm+2Q8z5C7owEHWD3L81OjvJL9AWJsGkhH6m4NHFsvQlajL4sqZsth45W4Ha4qja
+	de6zT0huVjYqRjLq6AI8hccRydcYu2wy1tQfuC8g6vhTP2xasBwpVo7tB4Q6bmMTouQb
+	xGjiqzAr/EgUhFpLeG0pEK9+t8IkYgtztdjTU7nVKUbNAJtybhIbqxypNhYtYffR0c6E
+	/le8yhec+Gc6wBPWhTR0kaVZVXQy/6mrIClVnU/3Sk+tQcjSNqkzAkVat+WZoWZGc8Qq
+	czQw==
+X-Gm-Message-State: ALoCoQlVUT3ujznfFxONNbt3JRvcPlUXyPd+uBntvTv5tgckJ7x6BBOd09LjrN7kLWz124TKLrzsXw9CRIBoA3SsOMIKKveHcA==
+X-Received: by 10.25.39.19 with SMTP id n19mr706231lfn.156.1449560965173;
+	Mon, 07 Dec 2015 23:49:25 -0800 (PST)
+Received: from ad.chargestorm.se (h83-209-191-235.dynamic.se.alltele.net.
+	[83.209.191.235])
+	by smtp.gmail.com with ESMTPSA id l67sm331197lfl.26.2015.12.07.23.49.24
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 07 Dec 2015 23:12:54 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <565EC7BE.6060105@windriver.com>
-Date: Mon, 7 Dec 2015 23:12:48 -0800
-Message-Id: <9CDC0749-BCB9-4D45-99F7-55F52B4CCE6B@gmail.com>
-References: <cover.1449032673.git.hongxu.jia@windriver.com>
-	<8e3c76d86f19c59b63908de6d7d9c2cc24858858.1449032673.git.hongxu.jia@windriver.com>
-	<CAJTo0LaqebZA8akpdnAtFU2rJHsFX=1AxxtHWbq3JuEe5vBVyg@mail.gmail.com>
-	<565EBF04.6050509@windriver.com>
-	<CAJTo0Lag5J+cytX8C+Z7b8dmX65MZWJBV6JXQt=Ocwy==szenA@mail.gmail.com>
-	<565EC7BE.6060105@windriver.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] python: gcc optimization level 2
+	Mon, 07 Dec 2015 23:49:24 -0800 (PST)
+Date: Tue, 8 Dec 2015 08:49:23 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20151208074923.GB8707@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1449539278-20070-1-git-send-email-akuster808@gmail.com>
+	<1449539278-20070-4-git-send-email-akuster808@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1449539278-20070-4-git-send-email-akuster808@gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: Re: [jethro][fido][PATCH 4/4] openssl: three CVE fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,153 +68,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 07:12:55 -0000
-X-Groupsio-MsgNum: 74438
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_71D9E655-DF95-48D2-A79C-A115BED0F335";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 08 Dec 2015 07:49:26 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---Apple-Mail=_71D9E655-DF95-48D2-A79C-A115BED0F335
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_98D9C1C7-D044-4770-9CEB-D8070147E748"
+Hi,
 
---Apple-Mail=_98D9C1C7-D044-4770-9CEB-D8070147E748
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+* Armin Kuster <akuster808@gmail.com> [151208 02:49]:
 
+>  meta/recipes-connectivity/openssl/openssl_1.0.2d.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-> On Dec 2, 2015, at 2:28 AM, Hongxu Jia <hongxu.jia@windriver.com> =
-wrote:
->=20
-> On 12/02/2015 05:57 PM, Burton, Ross wrote:
->>=20
->> On 2 December 2015 at 09:51, Hongxu Jia <hongxu.jia@windriver.com =
-<mailto:hongxu.jia@windriver.com>> wrote:
->> The root cause is the qemu didn't support gcc optimization level 3 =
-very well.
->>=20
->> Oh, so the problem only appears in qemu if you enable tuning that is =
-known to be broken in qemu?
->=20
-> Yes, since I tested qemux86/qemux86-64 with default tune, and =
-everything is ok.
->=20
->> I don't think we should apply the Python workaround to oe-core as =
-everyone will suffer for a configuration that is known to be broken (and =
-isn't enabled in oe-core).
->=20
-> Trace the issue costs a lot of time,  the original failure was =
-invoking
-> 'smart update' in qemu, and found out the python md5/sha checksum
-> output incorrect, and then found out qemu86-64 with corei7-64 did
-> not support gcc optimization level 3 '-O3' very well [YOCTO #8748]
->=20
-> BTW, boot the same image with virtualbox, everything is ok
->=20
+I'm just a little curious about this serious, and a few others that I've
+seen recently. They all add a number of CVE-patches, with one commit per
+patch, and as the last commit, they all get added to SRC_URI in a single
+patch.
 
-This is a Qemu bug, So it should be persued in that direction. Secondly, =
-this patch should be applied only
-for emulator BSPs and not across the board
+What's the reason to do it like this? i
 
-> //Hongxu
->=20
->>=20
->> Ross
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I'd personally prefer to have each CVE-path also add the patch to
+SRC_URI, as that make cherry-picking more straightforward. And it also
+ensures that if we have a need to bisect some issue, that'll work. At
+the same time that will make the meta-data consistent, i.e. no dead
+patches.
 
+I'd personally even prefer that whole series squashed to one commit,
+compared to this adding a lot of un-applied patches. 
 
---Apple-Mail=_98D9C1C7-D044-4770-9CEB-D8070147E748
-Content-Transfer-Encoding: 7bit
-Content-Type: text/html;
-	charset=us-ascii
+Any comments on this?
 
-<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><br class=""><div><blockquote type="cite" class=""><div class="">On Dec 2, 2015, at 2:28 AM, Hongxu Jia &lt;<a href="mailto:hongxu.jia@windriver.com" class="">hongxu.jia@windriver.com</a>&gt; wrote:</div><br class="Apple-interchange-newline"><div class="">
-  
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" class="">
-  
-  <div bgcolor="#FFFFFF" text="#000000" class="">
-    <div class="moz-cite-prefix">On 12/02/2015 05:57 PM, Burton, Ross
-      wrote:<br class="">
-    </div>
-    <blockquote cite="mid:CAJTo0Lag5J+cytX8C+Z7b8dmX65MZWJBV6JXQt=Ocwy==szenA@mail.gmail.com" type="cite" class="">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" class="">
-      <div dir="ltr" class="">
-        <div class="gmail_extra"><br class="">
-          <div class="gmail_quote">On 2 December 2015 at 09:51, Hongxu
-            Jia <span dir="ltr" class="">&lt;<a moz-do-not-send="true" href="mailto:hongxu.jia@windriver.com" target="_blank" class="">hongxu.jia@windriver.com</a>&gt;</span>
-            wrote:<br class="">
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div bgcolor="#FFFFFF" text="#000000" class="">The root cause is
-                the qemu didn't support gcc optimization level 3 very
-                well.<br class="">
-              </div>
-            </blockquote>
-          </div>
-          <br class="">
-          Oh, so the problem only appears in qemu if you enable tuning
-          that is known to be broken in qemu?&nbsp; </div>
-      </div>
-    </blockquote>
-    <br class="">
-    Yes, since I tested qemux86/qemux86-64 with default tune, and
-    everything is ok.<br class="">
-    <br class="">
-    <blockquote cite="mid:CAJTo0Lag5J+cytX8C+Z7b8dmX65MZWJBV6JXQt=Ocwy==szenA@mail.gmail.com" type="cite" class="">
-      <div dir="ltr" class="">
-        <div class="gmail_extra">I don't think we should apply the
-          Python workaround to oe-core as everyone will suffer for a
-          configuration that is known to be broken (and isn't enabled in
-          oe-core).</div>
-      </div>
-    </blockquote>
-    <br class="">
-    Trace the issue costs a lot of time,&nbsp; the original failure was
-    invoking<br class="">
-    'smart update' in qemu, and found out the python md5/sha checksum<br class="">
-    output incorrect, and then found out qemu86-64 with corei7-64 did<br class="">
-    not support gcc optimization level 3 '-O3' very well
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" class="">
-    [YOCTO #8748]<br class="">
-    <br class="">
-    BTW, boot the same image with virtualbox, everything is ok<br class="">
-    <br class=""></div></div></blockquote><div><br class=""></div><div>This is a Qemu bug, So it should be persued in that direction. Secondly, this patch should be applied only</div><div>for emulator BSPs and not across the board</div><br class=""><blockquote type="cite" class=""><div class=""><div bgcolor="#FFFFFF" text="#000000" class="">
-    //Hongxu<br class="">
-    <br class="">
-    <blockquote cite="mid:CAJTo0Lag5J+cytX8C+Z7b8dmX65MZWJBV6JXQt=Ocwy==szenA@mail.gmail.com" type="cite" class="">
-      <div dir="ltr" class="">
-        <div class="gmail_extra"><br class="">
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br class="">
-  </div>
+Cheers,
+Anders
 
--- <br class="">_______________________________________________<br class="">Openembedded-core mailing list<br class=""><a href="mailto:Openembedded-core@lists.openembedded.org" class="">Openembedded-core@lists.openembedded.org</a><br class="">http://lists.openembedded.org/mailman/listinfo/openembedded-core<br class=""></div></blockquote></div><br class=""></body></html>
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+> index fd56841..3864e88 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+> @@ -37,6 +37,10 @@ SRC_URI += "file://configure-targets.patch \
+>              file://crypto_use_bigint_in_x86-64_perl.patch \
+>              file://openssl-1.0.2a-x32-asm.patch \
+>              file://ptest_makefile_deps.patch  \
+> +            file://CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch \
+> +            file://CVE-2015-3194-1-Add-PSS-parameter-check.patch \
+> +            file://0001-Add-test-for-CVE-2015-3194.patch \
+> +            file://CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch \
+>             "
 
---Apple-Mail=_98D9C1C7-D044-4770-9CEB-D8070147E748--
+-- 
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
---Apple-Mail=_71D9E655-DF95-48D2-A79C-A115BED0F335
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlZmgvUACgkQuwUzVZGdMxR1wwCfWxkPOc5gCxP0/ysmMdW+LTrf
-/LMAniR+OfvDDa6RRISIyP6YrdUvKTtC
-=Gtle
------END PGP SIGNATURE-----
-
---Apple-Mail=_71D9E655-DF95-48D2-A79C-A115BED0F335--
