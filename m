@@ -1,46 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id C74D96FFC0
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 870FF60116
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 14:43:00 +0000 (UTC)
-Received: by wmuu63 with SMTP id u63so183694558wmu.0
+	Tue,  8 Dec 2015 15:38:50 +0000 (UTC)
+Received: by iofh3 with SMTP id h3so27909306iof.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 06:43:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=y8xudFliH+XnRHwMkIqm2e8R/fj8qdSsuVyp2DPY0a4=;
-	b=apwLXjIEb33WjKQ+jvAY6qlDD53/2CvshYop3ZiZw35mdgrsJoBT1s1XltlKhDPVbq
-	56Sn4mPc9mmjsu2QSwYDTOXK2x0S9RkW8YsNFFyMVyoeBe/US3/VI9RAFqdqh0RWACdi
-	u9SkfHRazi7OKGrVrFEnwyXmhKEgYi8ka/SCudRNhJsO5LTA0VwFvnhcvL39lwwL3Atu
-	HCDazEPEjL8psh0M43sXo8CcJlqMcar2AdYSmygjOU55Ieo2XbDqSRd8wUTLQWFja8fM
-	nlsozlPPh+hg0eUx7H4q8arNlBP6GCV5Gc5BJ/t8Ha7wda3752cvPeDvZX7I6UkOwy4K
-	/+VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=y8xudFliH+XnRHwMkIqm2e8R/fj8qdSsuVyp2DPY0a4=;
-	b=TaS/FFEV6OCxcvpJxivDfztp0TPdzLRq4UOqbSt/KxyRllCRPuKys7978Q14fVue0q
-	nKrQCrnWixcIWGivpoJcJVd/7ar+od/zaTOMhSlCJXLaJQCBELRAZ1kG3LiCMERHOKXx
-	ZGGS1M1Lk8btr+a70eSNIlnh8uefjymnR3kXtT/LiV56v7lQz3D5S2MmnDgDwI3463EF
-	wv6KKaSIHw6Zj9TyGYWLAj1ShdwSEndL+ye7UHN7uQpnQbEuCvl48u6uV2Z0v2n3Eiri
-	R7Xb+L2Twqw8/Ud8wDqo0TOFg7lx+AcdB3T+Di45yNfJZGgSQaiBzOzyEPQHnhSwEiy5
-	Raqg==
-X-Gm-Message-State: ALoCoQkik+OhoEx1HMigriWQntQuXd3OA641UuWriGH5eQ2e3Yyfrt0BetS0wlSGF/atrF19MmYAYuPGqju5FXLnHDtbi0iD1Q==
-X-Received: by 10.28.226.86 with SMTP id z83mr29710008wmg.77.1449585780414;
-	Tue, 08 Dec 2015 06:43:00 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	cs4sm3297442wjc.10.2015.12.08.06.42.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Dec 2015 06:42:59 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Dec 2015 14:42:57 +0000
-Message-Id: <1449585777-6697-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH][RFC] bitbake: set libexecdir to prefix/libexec
+	Tue, 08 Dec 2015 07:38:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=xKHbd3xE69IMMeTZ6l3SF0x0PMLLW7Ae4NS7yIhq3SQ=;
+	b=cMLx1hbqKhGs8LZl2Tmdcdzgmzq9qINceEMvFb4Ji3ymd754MKGSOGtMcpfPcKbvB8
+	oILx3gfq2+6FqEhKIE/J1K4ReOyfs+BDVlhYshaSkSQqw0tUfS6Mi3V3MEKbHEhk4ROT
+	boZjK9nE67aEpWWKPMwarGTvJmQoKv3zoExdxnCiWAU3Zv6PodT7DJyB7TAhdjjNRHrh
+	/h9g/EJ4ofLC1W/7iBAitj7eg0Bnh+MItl7V74k5f/q5KnUaLFZstVkawTqQBp3LOlSY
+	Pf7Qu4QSArsSNtSu/elG8/XqsI/oYg5J4LdWfnBXO3NTqBsX7DOLsayk0ovV0UwtVQj5
+	wd6A==
+X-Received: by 10.107.134.28 with SMTP id i28mr517651iod.74.1449589131331;
+	Tue, 08 Dec 2015 07:38:51 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.79.69.129 with HTTP; Tue, 8 Dec 2015 07:38:31 -0800 (PST)
+In-Reply-To: <564F3ADB.7040000@intel.com>
+References: <cover.1447455202.git.chris_larson@mentor.com>
+	<0a2bdfd48b566acec7f05734758da7811980a0bb.1447455202.git.chris_larson@mentor.com>
+	<CAJTo0LZYFwj9+5XOS6ewLTKwiWoBd7+YY+uXoCe0V4M7YwYRvg@mail.gmail.com>
+	<CABcZAN=HG8AJCjWHWTwWGs4vswnEL=SRF81fZz5r+iE+iQZ76g@mail.gmail.com>
+	<564F3ADB.7040000@intel.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Tue, 8 Dec 2015 08:38:31 -0700
+Message-ID: <CABcZANnjV02+O46SSWTKCh5CL-bfFDDgSpHNPMXjZ3bwJwJ3KQ@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 6/6] psplash: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,48 +45,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 14:43:01 -0000
+X-List-Received-Date: Tue, 08 Dec 2015 15:38:52 -0000
+Content-Type: multipart/alternative; boundary=001a113ecc0a3e4da0052664c501
 
-Hi,
+--001a113ecc0a3e4da0052664c501
+Content-Type: text/plain; charset=UTF-8
 
-This is very much a RFC as currently systemd images with this fail to boot
-(logind fails to start), but once that is sorted I really want to see this
-merged.
+On Fri, Nov 20, 2015 at 8:23 AM, Ross Burton <ross.burton@intel.com> wrote:
 
-tl;dr: our definition of libexecdir is fundamentally wrong because it embeds
-$BPN.  The prevailing trend (and default in GNU tools) is to use /usr/libexec,
-so this patch changes it.
+> On 18/11/2015 02:03, Christopher Larson wrote:
+>
+>> Interesting, is psplash configured in our test environment? Either way,
+>> worst case we can drop this commit for now and can revisit it. I'm
+>> heading out of town tomorrow until December 1st, so likely will be
+>> limited in what I can do to address any issues that crop up during that
+>> period. Thanks.
+>>
+>
+> It should be working - at least the sysvinit images work absolutely fine
+> and show the splash.  I'll add giving this a go locally to my list of
+> things to do.
 
-Ross
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/bitbake.conf | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 06971da..ccc781d 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -41,7 +41,7 @@ export systemd_user_unitdir = "${nonarch_libdir}/systemd/user"
- export bindir = "${exec_prefix}/bin"
- export sbindir = "${exec_prefix}/sbin"
- export libdir = "${exec_prefix}/${baselib}"
--export libexecdir = "${libdir}/${BPN}"
-+export libexecdir = "${exec_prefix}/libexec"
- export includedir = "${exec_prefix}/include"
- export oldincludedir = "${exec_prefix}/include"
- localedir = "${libdir}/locale"
-@@ -55,7 +55,7 @@ bindir_native = "${prefix_native}/bin"
- sbindir_native = "${prefix_native}/sbin"
- includedir_native = "${prefix_native}/include"
- libdir_native = "${prefix_native}/lib"
--libexecdir_native = "${libdir_native}/${BPN}"
-+libexecdir_native = "${prefix_native}/libexec"
- base_libdir_native = "/lib"
- datadir_native = "${prefix_native}/share"
- bindir_cross = "/bin"
+I'll dig into this shortly and re-submit if appropriate. Getting caught up
+on the status of submitted patches now. Thanks.
 -- 
-2.1.4
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a113ecc0a3e4da0052664c501
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Fri, Nov 20, 2015 at 8:23 AM, Ross Burton <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On =
+18/11/2015 02:03, Christopher Larson wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Interesting, is psplash configured in our test environment? Either way,<br>
+worst case we can drop this commit for now and can revisit it. I&#39;m<br>
+heading out of town tomorrow until December 1st, so likely will be<br>
+limited in what I can do to address any issues that crop up during that<br>
+period. Thanks.<br>
+</blockquote>
+<br></span>
+It should be working - at least the sysvinit images work absolutely fine an=
+d show the splash.=C2=A0 I&#39;ll add giving this a go locally to my list o=
+f things to do.</blockquote></div><br>I&#39;ll dig into this shortly and re=
+-submit if appropriate. Getting caught up on the status of submitted patche=
+s now. Thanks.<br>-- <br><div class=3D"gmail_signature"><div dir=3D"ltr">Ch=
+ristopher Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbe=
+dded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor =
+Graphics</div></div>
+</div></div>
+
+--001a113ecc0a3e4da0052664c501--
