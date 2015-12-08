@@ -1,48 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id BAD2960110
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
+	[209.85.218.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B6A560110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 21:13:53 +0000 (UTC)
-Received: by igcph11 with SMTP id ph11so104604535igc.1
+	Tue,  8 Dec 2015 21:42:55 +0000 (UTC)
+Received: by oiww189 with SMTP id w189so16728536oiw.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 13:13:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=K0JBZG+J7GqzMR8h082XD9D+yrleLqvVWZH5iOlQMdc=;
-	b=o5uzMq+B84GjLvPjgB8mSL0/t67gPjE0Eb4YLLHUmWaCzkCrC53SCs0rrj/CvUdzWZ
-	xV3NjFux7konZvZRKVgHUx02hlWiJL8BPSDFGejihH/k/vHbI0y435pjnHBhyRE3Tl9G
-	zmO7fd/RlaODmqszcc9+hiSaH/bnMMnUrkCToCmIQYftLZNI3xdTh5iOoocfzh6mo2Js
-	9uvpqIJ3n8yR58r/x/ShsAcHg2oiDeLlla3PhojsGypY15zL+Wm/XY99hhSDFC13xprp
-	goSc89HF1LhB/b9hlKRe7JLz2Bxe+5joFXH+vIXfn5vBJ08sOmKA3RhDfRDxPxYM6AVN
-	k2ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=K0JBZG+J7GqzMR8h082XD9D+yrleLqvVWZH5iOlQMdc=;
-	b=JUySco6zVhwylMgbU77Ob+RYxY06Gom8Ap16gUKvF4kiFSJ+Z9sf3mISA4ZjH5Scfd
-	1uYyAdfoP7ulwS2CnSSmwbGlBJdugozsxsHatwBV6D18jdiCnYfkINTOb3E0WK95giHR
-	eYTUBIAO+UctYmzthQnfYmzd5vbxZRE2ASEJCR+lfX0hbzMLfnZmVOI5a4LLnZmRi8sM
-	TgEZftpmh/VhKvx13kTvT7UWQs50DbAMlomLfSNcaC8uVCaq6MyYzgZuBc0ty3TCS8iy
-	eGUXdXCrShhasSrDz1rJBKxTKLQ4jo6mEF7JK4orUM9PQjiROXLJENKknabwxWEXPhAi
-	j2LQ==
-X-Gm-Message-State: ALoCoQlOYWUtM/iPdXjfnMcd5PjHH/7n3jt9jxeX8YyIevomWqRrKS00PWMhXfMBx6t3UpNkn3ptlKcLbpXtLhACuoOaZbZ46viaUqk9YlFK0F+FyyJ/SF4=
-X-Received: by 10.50.126.8 with SMTP id mu8mr5851636igb.52.1449609233777; Tue,
-	08 Dec 2015 13:13:53 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Tue, 8 Dec 2015 13:13:34 -0800 (PST)
-In-Reply-To: <CAJ86T=XJqne2HOGpWo346qncmGaXwkjVVU8RZmxMok4vg7e+kg@mail.gmail.com>
-References: <1446813421.15270.168.camel@linuxfoundation.org>
-	<CAJ86T=XJqne2HOGpWo346qncmGaXwkjVVU8RZmxMok4vg7e+kg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Dec 2015 21:13:34 +0000
-Message-ID: <CAJTo0LZFdg0AqLD_dF5HOreNiQRzVVS5eQtRmUTViCjz2N=6xg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base: Improve handling of switching virtual/x providers
+	Tue, 08 Dec 2015 13:42:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=lsX+2claWDQ6lApj7U2LsHaLcyPLWXrvWYxQx5KXuBU=;
+	b=fUKUGDjG8wbMlgEDC0kz+0FvTYL7TgDzrTDr+MiYcRTkJN/iWOUz7fPRj3bmh2cqqF
+	AODvgYXrhxmXODTnepuCVJDjg7JHTb7XEKYbWe+aAB9bYHpz0PHSMeY1sqMRaNBe12p+
+	M6x60OZdic6MmUo3Dh5CqQhcoY4oOE6qaIVIPDp02S01apcaIdcXbkM+d8YEfvBrZQnB
+	7S/6m/jq/xjG0uRGrUmXg/kozuaX7sFO+9XSuN9EqigayTn3f1l1AJ1p8M84Sy5XvT1S
+	KiZSqkyilN/Q/LHkXOBFvqC9J+7D2bz+jSocGE4eS0q2voDq4XFBMZ7qp4tu53eueKVQ
+	Tp7w==
+X-Received: by 10.202.182.133 with SMTP id g127mr1460395oif.41.1449610976515; 
+	Tue, 08 Dec 2015 13:42:56 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	e202sm2140533oic.23.2015.12.08.13.42.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 08 Dec 2015 13:42:55 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Dec 2015 13:42:49 -0800
+Message-Id: <1449610970-23073-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/2] dropbear: update 2015.70 -> 2015.71
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,88 +42,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 21:13:54 -0000
-Content-Type: multipart/alternative; boundary=047d7b1635bf715f13052669735a
+X-List-Received-Date: Tue, 08 Dec 2015 21:42:56 -0000
 
---047d7b1635bf715f13052669735a
-Content-Type: text/plain; charset=UTF-8
+2015.71 - 3 December 2015
 
-On 8 December 2015 at 18:58, Andre McCurdy <armccurdy@gmail.com> wrote:
+- Fix "bad buf_incrpos" when data is transferred, broke in 2015.69
 
-> This change seems to cause problems for musl libc builds (I'm using
-> today's oe-core master and Khem's meta-musl layer).
->
->   ERROR: Nothing RPROVIDES 'nativesdk-glibc' (but
-> /home/andre/rdk/rdk-master-musl/openembedded-core/meta/recipes-core/meta/
-> uninative-tarball.bb
-> RDEPENDS on or otherwise requires it)
->   ERROR: nativesdk-glibc was skipped:
-> PREFERRED_PROVIDER_virtual/nativesdk-x86_64-rdksdk-linux-libc-for-gcc
-> set to nativesdk-musl, not nativesdk-glibc
->   ERROR: Required build target 'rdk-image-wpe' has no buildable providers.
->   Missing or unbuildable dependency chain was: ['rdk-image-wpe',
-> 'uninative-tarball', 'nativesdk-glibc']
->
-> Reverting this one commit (oe-core 9a3b992) gets the builds working again.
->
+- Fix crash on exit when -p address:port is used, broke in 2015.68
 
-It's breaking universe fetch too:
+- Fix building with only ENABLE_CLI_REMOTETCPFWD given, patch from Konstantin Tokarev
 
-ERROR: Nothing PROVIDES 'linux-yocto-rt' (but
-/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/meta/recipes-rt/images/
-core-image-rt-sdk.bb,
-/home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/meta/recipes-rt/images/
-core-image-rt.bb DEPENDS on or otherwise requires it)
-ERROR: linux-yocto-rt was skipped: PREFERRED_PROVIDER_virtual/kernel set to
-linux-yocto, not linux-yocto-rt
-ERROR: linux-yocto-rt was skipped: PREFERRED_PROVIDER_virtual/kernel set to
-linux-yocto, not linux-yocto-rt
-ERROR: Nothing RPROVIDES 'core-image-rt-sdk'
-ERROR: No eligible RPROVIDERs exist for 'core-image-rt-sdk'
+- Fix bad configure script test which didn't work with dash shell, patch from Juergen Daubert,
+  broke in 2015.70
 
-Ross
+- Fix server race condition that could cause sessions to hang on exit,
+  https://github.com/robotframework/SSHLibrary/issues/128
 
---047d7b1635bf715f13052669735a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-core/dropbear/dropbear_2015.70.bb | 5 -----
+ meta/recipes-core/dropbear/dropbear_2015.71.bb | 5 +++++
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear_2015.70.bb
+ create mode 100644 meta/recipes-core/dropbear/dropbear_2015.71.bb
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 December 2015 at 18:58, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-l=
-eft-style:solid;padding-left:1ex"><div id=3D":2uq" class=3D"" style=3D"over=
-flow:hidden">This change seems to cause problems for musl libc builds (I&#3=
-9;m using<br>
-today&#39;s oe-core master and Khem&#39;s meta-musl layer).<br>
-<br>
-=C2=A0 ERROR: Nothing RPROVIDES &#39;nativesdk-glibc&#39; (but<br>
-/home/andre/rdk/rdk-master-musl/openembedded-core/meta/recipes-core/meta/<a=
- href=3D"http://uninative-tarball.bb" rel=3D"noreferrer" target=3D"_blank">=
-uninative-tarball.bb</a><br>
-RDEPENDS on or otherwise requires it)<br>
-=C2=A0 ERROR: nativesdk-glibc was skipped:<br>
-PREFERRED_PROVIDER_virtual/nativesdk-x86_64-rdksdk-linux-libc-for-gcc<br>
-set to nativesdk-musl, not nativesdk-glibc<br>
-=C2=A0 ERROR: Required build target &#39;rdk-image-wpe&#39; has no buildabl=
-e providers.<br>
-=C2=A0 Missing or unbuildable dependency chain was: [&#39;rdk-image-wpe&#39=
-;,<br>
-&#39;uninative-tarball&#39;, &#39;nativesdk-glibc&#39;]<br>
-<br>
-Reverting this one commit (oe-core 9a3b992) gets the builds working again.<=
-/div></blockquote></div><br>It&#39;s breaking universe fetch too:</div><div=
- class=3D"gmail_extra"><br>ERROR: Nothing PROVIDES &#39;linux-yocto-rt&#39;=
- (but /home/pokybuild/yocto-autobuilder/yocto-worker/build-appliance/build/=
-meta/recipes-rt/images/<a href=3D"http://core-image-rt-sdk.bb">core-image-r=
-t-sdk.bb</a>, /home/pokybuild/yocto-autobuilder/yocto-worker/build-applianc=
-e/build/meta/recipes-rt/images/<a href=3D"http://core-image-rt.bb">core-ima=
-ge-rt.bb</a> DEPENDS on or otherwise requires it)<br>ERROR: linux-yocto-rt =
-was skipped: PREFERRED_PROVIDER_virtual/kernel set to linux-yocto, not linu=
-x-yocto-rt<br>ERROR: linux-yocto-rt was skipped: PREFERRED_PROVIDER_virtual=
-/kernel set to linux-yocto, not linux-yocto-rt<br>ERROR: Nothing RPROVIDES =
-&#39;core-image-rt-sdk&#39;<br>ERROR: No eligible RPROVIDERs exist for &#39=
-;core-image-rt-sdk&#39;</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">Ross</div></div>
+diff --git a/meta/recipes-core/dropbear/dropbear_2015.70.bb b/meta/recipes-core/dropbear/dropbear_2015.70.bb
+deleted file mode 100644
+index 3da8d5f..0000000
+--- a/meta/recipes-core/dropbear/dropbear_2015.70.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-require dropbear.inc
+-
+-SRC_URI[md5sum] = "0b0a1d9be6a094710d884209562a626c"
+-SRC_URI[sha256sum] = "62a8cc3df1d0f136d46f50d4f8d92f7ab7ce1addac76b25446b3f6aaf80bf257"
+-
+diff --git a/meta/recipes-core/dropbear/dropbear_2015.71.bb b/meta/recipes-core/dropbear/dropbear_2015.71.bb
+new file mode 100644
+index 0000000..6332579
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear_2015.71.bb
+@@ -0,0 +1,5 @@
++require dropbear.inc
++
++SRC_URI[md5sum] = "2ccc0a2f3e37ca221db12c5af6a88137"
++SRC_URI[sha256sum] = "376214169c0e187ee9f48ae1a99b3f835016ad5b98ede4bfd1cf581deba783af"
++
+-- 
+1.9.1
 
---047d7b1635bf715f13052669735a--
+
