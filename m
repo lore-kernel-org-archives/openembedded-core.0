@@ -1,42 +1,65 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f179.google.com (mail-pf0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 177EB60110
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 58D8C60110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 16:33:30 +0000 (UTC)
-Received: by pfdd184 with SMTP id d184so14433504pfd.3
+	Tue,  8 Dec 2015 17:15:43 +0000 (UTC)
+Received: by pabur14 with SMTP id ur14so14975829pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 08:33:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-type:content-transfer-encoding;
-	bh=wQoN2/jt43gfKXXv1V+PnUy7TOMsEiLCgloQPVM4Btw=;
-	b=tC+d8CDB6pQWj1DtGqpxyg1CwRapFB4dUjSj3S9LnGT4Q2t7AUuuShgZSPpPD1E6kS
-	MMVebVx3PCI6ngi/ja5A2LarDQ664jijT3vCZf2kOqbdICf/FJKOpSgvZMVauu9EKUQ4
-	ERzUPZIxcJdQEhKRwCZJFNhEVYDS1ecAncT9PkoergDDQ8wURYzN3NOEYq39qom5opEK
-	vW+n2+ulRPLS5Q5gNzqefNRPWlKxwaC/Qr2GIvVSxkgFZ/vvoFIZB+UiIOcekAqcfRrN
-	oHCyt3smhK66sdtDlZMCD7zjpSV7XIxX3LVWH7SyvsLCi+d5PWGyXtExuUz+auBZorrQ
-	CWMw==
-X-Received: by 10.98.79.206 with SMTP id f75mr6220747pfj.24.1449592411526;
-	Tue, 08 Dec 2015 08:33:31 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1239:a1ff:59ed:52e8:f7de?
-	([2601:202:4000:1239:a1ff:59ed:52e8:f7de])
-	by smtp.googlemail.com with ESMTPSA id
-	ry1sm5912461pab.30.2015.12.08.08.33.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 08 Dec 2015 08:33:30 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <1447263707-27696-1-git-send-email-akuster808@gmail.com>
-	<1447263707-27696-2-git-send-email-akuster808@gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <56670658.3070109@gmail.com>
-Date: Tue, 8 Dec 2015 08:33:28 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Tue, 08 Dec 2015 09:15:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-type;
+	bh=K+sgN0P+GiZl0yBxLTC19dHyypLoesgPYmscDcpDbLY=;
+	b=bPKIraEHVBmQZKFlbg21543wHGkj/qX2GFQcAiFwhR3BPR7WhvMGy/CozDjzwLRWq1
+	lPylYtQXgmv88X8S+LQ1hQceEOIGy0Xp6fXMRq1g+OJ7Nf9IG1WxWTyqrmqgsQsPgy8m
+	EqUDkUZ5Q7NezY+u2vlLZ62H9ADDXvzqKynzZeRMAjtdiDKqUtgx5BCGbJ4ZCldFaq+l
+	5I7A/MCzlCCM//Zql2rynl+5qBVrPotiXkfRf9VIfBGf0qxsaWGuOQNIGSXjJuHec2PM
+	EtHFJICHCXkCjiIGTarYOOcYYfQISIFJB732mz6xc9Mg/LArCffeBZRn7g0uYk6h0cTP
+	HHtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=K+sgN0P+GiZl0yBxLTC19dHyypLoesgPYmscDcpDbLY=;
+	b=DNRoVmK6F+7ckbZa02r6NMrwpKwHOcfiwZlt/3R5cpMpFir1bBktTGK0+Xu+JVqGB/
+	XPezsL9sVfVQs1bEHCWCEstGZBZantz3YEYpoK2Xg/TvBBGL8r/ZpVWVwP8187xaoi0i
+	MnUXVwHFS7zYBO3QxKstGnwEGqMZtTHpK/OxDLOudK83LLj+9F9Xq/pYjmJgemKxNZzW
+	bwpZ2EnghGl+TctOmuJYSuYwBGhrKeYlIpbdth0PKPapzALLToKj+p4LaQZOcDqUf7Fu
+	HC5HvF849BBoLYICq3RWrjWImg635fb51v6sz6fMlHXfTVDp0s99y3LWLeMIRaap/LVu
+	POEQ==
+X-Gm-Message-State: ALoCoQm8NguV7Gr9BQRrL++YiByBASU6cqXUqjBONpDPagPzjnDxYYyFv9FeGR5bhQ2jt17K2qomWUamSaV1FqEaVysIRp7x1w==
+X-Received: by 10.66.217.138 with SMTP id oy10mr1438500pac.112.1449594944471; 
+	Tue, 08 Dec 2015 09:15:44 -0800 (PST)
+Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com.
+	[209.85.192.173]) by smtp.gmail.com with ESMTPSA id
+	kh9sm6096721pad.11.2015.12.08.09.15.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 08 Dec 2015 09:15:43 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by pfu207 with SMTP id 207so15019921pfu.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Dec 2015 09:15:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1447263707-27696-2-git-send-email-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: Re: [PATCH 1/2] ldconfig: add method to extend ldconfig search dirs
+X-Received: by 10.98.68.201 with SMTP id m70mr6447259pfi.101.1449594943024;
+	Tue, 08 Dec 2015 09:15:43 -0800 (PST)
+Received: by 10.66.72.229 with HTTP; Tue, 8 Dec 2015 09:15:42 -0800 (PST)
+In-Reply-To: <CABcZANnjV02+O46SSWTKCh5CL-bfFDDgSpHNPMXjZ3bwJwJ3KQ@mail.gmail.com>
+References: <cover.1447455202.git.chris_larson@mentor.com>
+	<0a2bdfd48b566acec7f05734758da7811980a0bb.1447455202.git.chris_larson@mentor.com>
+	<CAJTo0LZYFwj9+5XOS6ewLTKwiWoBd7+YY+uXoCe0V4M7YwYRvg@mail.gmail.com>
+	<CABcZAN=HG8AJCjWHWTwWGs4vswnEL=SRF81fZz5r+iE+iQZ76g@mail.gmail.com>
+	<564F3ADB.7040000@intel.com>
+	<CABcZANnjV02+O46SSWTKCh5CL-bfFDDgSpHNPMXjZ3bwJwJ3KQ@mail.gmail.com>
+Date: Tue, 8 Dec 2015 15:15:42 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKpZkPAUCXYg2XWKHRE9=HeCw760_hnw2b8wJ9R-guBuAg@mail.gmail.com>
+Message-ID: <CAP9ODKpZkPAUCXYg2XWKHRE9=HeCw760_hnw2b8wJ9R-guBuAg@mail.gmail.com>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 6/6] psplash: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,120 +72,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 16:33:33 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Dec 2015 17:15:44 -0000
+Content-Type: text/plain; charset=UTF-8
 
-ping
+On Tue, Dec 8, 2015 at 1:38 PM, Christopher Larson <kergoth@gmail.com> wrote:
+>
+> On Fri, Nov 20, 2015 at 8:23 AM, Ross Burton <ross.burton@intel.com> wrote:
+>>
+>> On 18/11/2015 02:03, Christopher Larson wrote:
+>>>
+>>> Interesting, is psplash configured in our test environment? Either way,
+>>> worst case we can drop this commit for now and can revisit it. I'm
+>>> heading out of town tomorrow until December 1st, so likely will be
+>>> limited in what I can do to address any issues that crop up during that
+>>> period. Thanks.
+>>
+>>
+>> It should be working - at least the sysvinit images work absolutely fine
+>> and show the splash.  I'll add giving this a go locally to my list of things
+>> to do.
+>
+>
+> I'll dig into this shortly and re-submit if appropriate. Getting caught up
+> on the status of submitted patches now. Thanks.
 
-On 11/11/2015 09:41 AM, Armin Kuster wrote:
-> From: Armin Kuster <akuster@mvista.com>
-> 
-> this provides a method to extend the search path ldconfig-native
-> uses when creating ls.so.cache.
-> 
-> To enable in recipe:
-> 
-> add:
-> inherit ldconfig
-> 
-> LDSOCONF = "/opt/lib"
-> 
-> this will create a ld.so.conf file in work-shared/ldconfig/${PN}/
-> 
-> to create an image with these new search paths included, add to local.conf:
-> 
-> INHERIT += "image-ldconfig"
-> 
-> this will take all the ${PN}/ld.so.conf files and create a single ld.so.conf
-> that will be used by ldconfig-native when building an image.
-> 
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> ---
->  meta/classes/image-ldconfig.bbclass | 26 ++++++++++++++++++++++++++
->  meta/classes/ldconfig.bbclass       | 27 +++++++++++++++++++++++++++
->  meta/conf/bitbake.conf              |  5 +++++
->  3 files changed, 58 insertions(+)
->  create mode 100644 meta/classes/image-ldconfig.bbclass
->  create mode 100644 meta/classes/ldconfig.bbclass
-> 
-> diff --git a/meta/classes/image-ldconfig.bbclass b/meta/classes/image-ldconfig.bbclass
-> new file mode 100644
-> index 0000000..e9946da
-> --- /dev/null
-> +++ b/meta/classes/image-ldconfig.bbclass
-> @@ -0,0 +1,26 @@
-> +#
-> +# To enable, use INHERIT in local.conf:
-> +#
-> +#       INHERIT += "image-ldconfig"
-> +
-> +do_rootfs[depends] += "ldconfig-native:do_populate_sysroot"
-> +
-> +IMAGE_PREPROCESS_COMMAND += "ld_so_conf; "
-> +
-> +ld_so_conf() {
-> +
-> +    rm -f ${STAGING_DIR_NATIVE}${sysconfdir_native}/ld.so.conf
-> +
-> +    # save lib dirs as defined in recipes
-> +    for file in `find ${STAGING_LDSO_CONF_DIR}/*/* -name "ld.so.conf"`;
-> +    do
-> +        cat ${file} >> ${STAGING_LDSO_CONF_DIR}/ld.so.conf
-> +    done
-> +
-> +    # remove dups and sort
-> +    cat ${STAGING_LDSO_CONF_DIR}/ld.so.conf | sort -u > ${IMAGE_ROOTFS}/etc/ld.so.conf
-> +
-> +    # this seems to work if at rootfs location.
-> +    cd ${IMAGE_ROOTFS}
-> +    ${STAGING_DIR_NATIVE}${bindir_native}/ldconfig -r . -c new -f etc/ld.so.conf 
-> +}
-> diff --git a/meta/classes/ldconfig.bbclass b/meta/classes/ldconfig.bbclass
-> new file mode 100644
-> index 0000000..558122f
-> --- /dev/null
-> +++ b/meta/classes/ldconfig.bbclass
-> @@ -0,0 +1,27 @@
-> +# Allows adding libs or alt lib locations to be included
-> +# during ld.so.cache creation.
-> +#
-> +#
-> +
-> +do_package[postfuncs] += "save_ld_so_conf "
-> +do_clean[cleandirs] += "${STAGING_LDSO_CONF_DIR}/${PN} "
-> +
-> +python save_ld_so_conf() {
-> +    import os
-> +
-> +    if (d.getVar('USE_LDCONFIG', True) or "1") == "1":
-> +        ldsodir = d.getVar('STAGING_LDSO_CONF_DIR', True)
-> +        if not os.path.isdir(ldsodir):
-> +            os.mkdir(ldsodir)
-> +    
-> +        staging_ld = os.path.join(ldsodir, d.expand("${PN}"))
-> +        if not os.path.isdir(staging_ld):
-> +            os.mkdir(staging_ld)
-> +
-> +        ldsofile = os.path.join(staging_ld, 'ld.so.conf')
-> +
-> +        ldconf = d.getVar('LDSOCONF', True).split()
-> +        with open(ldsofile, 'w') as lsdo:
-> +            for ldso_entry in ldconf:
-> +                lsdo.write(ldso_entry+"\n")
-> +}
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 06971da..f0471f4 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -811,3 +811,8 @@ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
->  
->  MLPREFIX ??= ""
->  MULTILIB_VARIANTS ??= ""
-> +
-> +# 
-> +# ldconfig stuff
-> +#
-> +STAGING_LDSO_CONF_DIR = "${TMPDIR}/work-shared/ldconfig"
-> 
+We have an internal user-space splash system and we ended using
+libsystemd to notify when the initialization is complete.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
