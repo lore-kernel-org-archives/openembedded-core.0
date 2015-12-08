@@ -1,24 +1,24 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 0998E6FF77
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C3F060589
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  8 Dec 2015 08:12:45 +0000 (UTC)
-Received: by qgeb1 with SMTP id b1so10087494qge.1
+Received: by qgcc31 with SMTP id c31so9895886qgc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 00:12:45 -0800 (PST)
+	Tue, 08 Dec 2015 00:12:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=nX3g648i7sEGoze/4TKvL6TRjhsmqSmJny3au0xT1cg=;
-	b=hRxqm21RpgwPsl8+n8h5hnHYZUqb2YONUFTlgE/YDjofQNWURjFYkFmwsp4ObRxDiv
-	pZWUcSQeXpnfgEezUP8MxPX7qdFtZz9MBPwJHhaxX8wgKGSy5sztT7NWTlNI0BMU2mbn
-	yAHcu46hBXRTA4+7QsFil3dXYYbxWYzVtjPLgki0pkJLR+2bIYSPkrFEZ322f/tDVLQ9
-	Yk+aNX5dbvdf7aLRLaZy9Jr5x6x/m65my+G7eX9mhHgNFpeaOEPL5q+PZX4mw2U/M0Bt
-	e9Bu6wbdF+mZ48a9nqP6qvXdyl+ITMEu0gsYq5745/jDKXVBPzoUHrGF0VQDllFt/QS2
-	vrTQ==
-X-Received: by 10.140.81.112 with SMTP id e103mr2113717qgd.99.1449562365870;
-	Tue, 08 Dec 2015 00:12:45 -0800 (PST)
+	bh=d2FOsGo4HsjWe6+FTbK7H7CG3JGBOu/uVagbRaxRwOo=;
+	b=dCIXqhh1Efa+gsN3WMjol4U/7iFsw6e6WnpnX2zepFahACCVBKplqOUz3aurfQQKE+
+	2hNrCOFkiRshi9Mrw1w5uYgLdKvmERmhttJzJ31TRKr5vs2O+CtoCYBq0LOdkEE3YIL4
+	hGvh5/wYswjHObBMv3o3nmCZWGdZD2Lh1SPX1CHKsajTjSV/AsNON1BM5UAXy80fdXrI
+	rT8Q1sOvC+ws9gUCLhFrkjzAuqdghZXmd2bA68LAUtJGBCg3jx0HEkKyfjZm7+MlhVNd
+	4R5uaurMj24zdOd2HvuL8PGNlHUN9AEAkOIXP4ILuM0/S4Yuv1o9Bx6d6qbm7uaJp1lz
+	hgsA==
+X-Received: by 10.140.102.244 with SMTP id w107mr2819719qge.90.1449562366400; 
+	Tue, 08 Dec 2015 00:12:46 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
 	v66sm1023174qkv.32.2015.12.08.00.12.45
@@ -26,14 +26,14 @@ Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	Tue, 08 Dec 2015 00:12:45 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Dec 2015 08:12:31 +0000
-Message-Id: <10e517815b08aac4808777f4dd0cfb2cebed1875.1449562195.git.raj.khem@gmail.com>
+Date: Tue,  8 Dec 2015 08:12:32 +0000
+Message-Id: <8dc833ff1624c144e17a5e613234207326ad3926.1449562195.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
 References: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1449562195.git.raj.khem@gmail.com>
 References: <cover.1449562195.git.raj.khem@gmail.com>
-Subject: [PATCH 11/13] openssl: Add musl configuration support
+Subject: [PATCH 12/13] libpam: Fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,81 +46,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 08:12:45 -0000
+X-List-Received-Date: Tue, 08 Dec 2015 08:12:46 -0000
 
-use termios instead of termio
+Define strndupa if not available in libc additionally fix headers
+to explicitly needed include files which glibc was including indirectly
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-connectivity/openssl/openssl.inc      |  4 +++-
- .../openssl/openssl/configure-musl-target.patch    | 27 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2d.bb |  1 +
- 3 files changed, 31 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch
+ ...upport-for-defining-missing-funcitonality.patch | 68 ++++++++++++++++++++++
+ .../pam/libpam/include_paths_header.patch          | 59 +++++++++++++++++++
+ meta/recipes-extended/pam/libpam_1.2.1.bb          |  5 +-
+ 3 files changed, 131 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
+ create mode 100644 meta/recipes-extended/pam/libpam/include_paths_header.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 429fc5e..199e9ab 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -18,10 +18,12 @@ S = "${WORKDIR}/openssl-${PV}"
- PACKAGECONFIG[perl] = ",,,"
- 
- AR_append = " r"
-+TERMIO_libc-musl = "-DTERMIOS"
-+TERMIO ?= "-DTERMIO"
- # Avoid binaries being marked as requiring an executable stack since it 
- # doesn't(which causes and this causes issues with SELinux
- CFLAG = "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '-DL_ENDIAN', '-DB_ENDIAN', d)} \
--	-DTERMIO ${CFLAGS} -Wall -Wa,--noexecstack"
-+	 ${TERMIO} ${CFLAGS} -Wall -Wa,--noexecstack"
- 
- # -02 does not work on mipsel: ssh hangs when it tries to read /dev/urandom
- CFLAG_mtx-1 := "${@'${CFLAG}'.replace('-O2', '')}"
-diff --git a/meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch b/meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch
+diff --git a/meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch b/meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
 new file mode 100644
-index 0000000..613dc7b
+index 0000000..c55b648
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch
-@@ -0,0 +1,27 @@
-+Add musl triplet support
++++ b/meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
+@@ -0,0 +1,68 @@
++From 45d1ed58927593968faead7dbb295f3922f41a2f Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 8 Aug 2015 14:16:43 -0700
++Subject: [PATCH] Add support for defining missing funcitonality
++
++In order to support alternative libc on linux ( musl, bioninc ) etc we
++need to check for glibc-only features and provide alternatives, in this
++list strndupa is first one, when configure detects that its not included
++in system C library then the altrnative implementation from missing.h is
++used
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ configure.ac                |  3 +++
++ libpam/include/missing.h    | 12 ++++++++++++
++ modules/pam_exec/pam_exec.c |  1 +
++ 3 files changed, 16 insertions(+)
++ create mode 100644 libpam/include/missing.h
++
++diff --git a/configure.ac b/configure.ac
++index 9e1257f..cbed979 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -599,6 +599,9 @@ dnl
++ AC_CHECK_DECL(__NR_keyctl, [have_key_syscalls=1],[have_key_syscalls=0],[#include <sys/syscall.h>])
++ AC_CHECK_DECL(ENOKEY, [have_key_errors=1],[have_key_errors=0],[#include <errno.h>])
++ 
+++# musl and bionic don't have strndupa
+++AC_CHECK_DECLS_ONCE([strndupa])
+++
++ HAVE_KEY_MANAGEMENT=0
++ if test $have_key_syscalls$have_key_errors = 11
++ then
++diff --git a/libpam/include/missing.h b/libpam/include/missing.h
++new file mode 100644
++index 0000000..3cf011c
++--- /dev/null
+++++ b/libpam/include/missing.h
++@@ -0,0 +1,12 @@
+++#pragma once
+++
+++#if !HAVE_DECL_STRNDUPA
+++#define strndupa(s, n)                                                  \
+++        ({                                                              \
+++                const char *__old = (s);                                \
+++                size_t __len = strnlen(__old, (n));                     \
+++                char *__new = alloca(__len + 1);                        \
+++                __new[__len] = '\0';                                    \
+++                memcpy(__new, __old, __len);                            \
+++         })
+++#endif
++diff --git a/modules/pam_exec/pam_exec.c b/modules/pam_exec/pam_exec.c
++index 17ba6ca..3aa2694 100644
++--- a/modules/pam_exec/pam_exec.c
+++++ b/modules/pam_exec/pam_exec.c
++@@ -59,6 +59,7 @@
++ #include <security/pam_modutil.h>
++ #include <security/pam_ext.h>
++ #include <security/_pam_macros.h>
+++#include <missing.h>
++ 
++ #define ENV_ITEM(n) { (n), #n }
++ static struct {
++-- 
++2.1.4
++
+diff --git a/meta/recipes-extended/pam/libpam/include_paths_header.patch b/meta/recipes-extended/pam/libpam/include_paths_header.patch
+new file mode 100644
+index 0000000..e4eb956
+--- /dev/null
++++ b/meta/recipes-extended/pam/libpam/include_paths_header.patch
+@@ -0,0 +1,59 @@
++This patch adds missing include for paths.h which should provide
++_PATH_LASTLOG definition
 +
 +Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+Index: openssl-1.0.2a/Configure
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Index: Linux-PAM-1.1.6/modules/pam_lastlog/pam_lastlog.c
 +===================================================================
-+--- openssl-1.0.2a.orig/Configure
-++++ openssl-1.0.2a/Configure
-+@@ -431,7 +431,7 @@ my %table=(
-+ #
-+ #       ./Configure linux-armv4 -march=armv6 -D__ARM_MAX_ARCH__=8
-+ #
-+-"linux-armv4",	"gcc: -O3 -Wall::-D_REENTRANT::-ldl:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-++"linux-armv4", "gcc: -O3 -Wall::-D_REENTRANT::-ldl:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-+ "linux-aarch64","gcc: -O3 -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${aarch64_asm}:linux64:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-+ # Configure script adds minimally required -march for assembly support,
-+ # if no -march was specified at command line. mips32 and mips64 below
-+@@ -504,6 +504,8 @@ my %table=(
-+ "linux-gnueabi-armeb","$ENV{'CC'}:-DB_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-+ "linux-uclibceabi-arm","$ENV{'CC'}:-DL_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-+ "linux-uclibceabi-armeb","$ENV{'CC'}:-DB_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-++"linux-musleabi-arm","$ENV{'CC'}:-DL_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-++"linux-musleabi-armeb","$ENV{'CC'}:-DB_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++--- Linux-PAM-1.1.6.orig/modules/pam_lastlog/pam_lastlog.c
+++++ Linux-PAM-1.1.6/modules/pam_lastlog/pam_lastlog.c
++@@ -23,9 +23,11 @@
++ #include <stdarg.h>
++ #include <stdio.h>
++ #include <string.h>
+++#include <sys/file.h>
++ #include <sys/types.h>
++ #include <syslog.h>
++ #include <unistd.h>
+++#include <paths.h>
 + 
-+ "linux-avr32","$ENV{'CC'}:-O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).",
++ #if defined(hpux) || defined(sunos) || defined(solaris)
++ # ifndef _PATH_LASTLOG
++@@ -332,6 +334,23 @@ last_login_read(pam_handle_t *pamh, int
++     return retval;
++ }
 + 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-index 249f8c4..454d075 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-@@ -37,6 +37,7 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
-             file://crypto_use_bigint_in_x86-64_perl.patch \
-             file://openssl-1.0.2a-x32-asm.patch \
-             file://ptest_makefile_deps.patch  \
-+            file://configure-musl-target.patch \
-            "
+++#ifndef __GLIBC__
+++static void logwtmp(const char * line, const char * name, const char * host)
+++{
+++    struct utmp u;
+++    memset(&u, 0, sizeof(u));
+++
+++    u.ut_pid = getpid();
+++    u.ut_type = name[0] ? USER_PROCESS : DEAD_PROCESS;
+++    strncpy(u.ut_line, line, sizeof(u.ut_line));
+++    strncpy(u.ut_name, name, sizeof(u.ut_name));
+++    strncpy(u.ut_host, host, sizeof(u.ut_host));
+++    gettimeofday(&(u.ut_tv), NULL);
+++
+++    updwtmp(_PATH_WTMP, &u);
+++}
+++#endif /* __GLIBC__ */
+++
++ static int
++ last_login_write(pam_handle_t *pamh, int announce, int last_fd,
++ 		 uid_t uid, const char *user)
++Index: Linux-PAM-1.1.6/modules/Makefile.am
++===================================================================
++--- Linux-PAM-1.1.6.orig/modules/Makefile.am
+++++ Linux-PAM-1.1.6/modules/Makefile.am
++@@ -7,7 +7,7 @@ SUBDIRS = pam_access pam_cracklib pam_de
++ 	pam_group pam_issue pam_keyinit pam_lastlog pam_limits \
++ 	pam_listfile pam_localuser pam_loginuid pam_mail \
++ 	pam_mkhomedir pam_motd pam_namespace pam_nologin \
++-	pam_permit pam_pwhistory pam_rhosts pam_rootok pam_securetty \
+++	pam_permit pam_pwhistory pam_rootok pam_securetty \
++ 	pam_selinux pam_sepermit pam_shells pam_stress \
++ 	pam_succeed_if pam_tally pam_tally2 pam_time pam_timestamp \
++ 	pam_tty_audit pam_umask \
+diff --git a/meta/recipes-extended/pam/libpam_1.2.1.bb b/meta/recipes-extended/pam/libpam_1.2.1.bb
+index 0353356..7e81e72 100644
+--- a/meta/recipes-extended/pam/libpam_1.2.1.bb
++++ b/meta/recipes-extended/pam/libpam_1.2.1.bb
+@@ -31,7 +31,10 @@ SRC_URI[sha256sum] = "342b1211c0d3b203a7df2540a5b03a428a087bd8a48c17e49ae268f992
+ SRC_URI_append_libc-uclibc = " file://pam-no-innetgr.patch \
+                                file://use-utmpx.patch"
  
- SRC_URI[md5sum] = "38dd619b2e77cbac69b99f52a053d25a"
+-SRC_URI_append_libc-musl = " file://pam-no-innetgr.patch"
++SRC_URI_append_libc-musl = " file://pam-no-innetgr.patch \
++                             file://0001-Add-support-for-defining-missing-funcitonality.patch \
++                             file://include_paths_header.patch \
++                           "
+ 
+ DEPENDS = "bison flex flex-native cracklib"
+ 
 -- 
 2.6.3
 
