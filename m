@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
 	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id C3974605BB
+	by mail.openembedded.org (Postfix) with ESMTP id C4DDE6FF77
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  8 Dec 2015 08:12:40 +0000 (UTC)
-Received: by qgeb1 with SMTP id b1so10086581qge.1
+Received: by qgeb1 with SMTP id b1so10086687qge.1
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 08 Dec 2015 00:12:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=hMG9vBlhyP/+fz0B02mutYOCsl6t3KSdkbbrF5MGylw=;
-	b=gO2zSQa4HBVt8PCsJ+aeUmQV4pk1yqH9C12X4ZZSKT5kI1O3jbj2UZqDn5aN1lY3iG
-	NWOYEKZ3swErUwVtJRUYB13omczVf7kA0lwAtsbLF1Ualdjtk2lvd+KPKZtvrTTTQbIl
-	Ju+vGsT8Ofdcc7vjHIUjMLrWgo1iw42JgiSufQBCtftgTJJdVs9QsTEBwZRAV4B139HU
-	NQvCAVjZEu9Y5qnqpgaKxPBQJQywNoqOuW1xT6mhGQY0rRDdE5avObojxx3eaNEGFUOG
-	EJF41YaSydgTRjoi8hCOO7kajot9zRuJ3T6KmGnjfAKGzSa9Yf4yQ/mnbL2U/zRYpskh
-	M2RA==
-X-Received: by 10.140.94.243 with SMTP id g106mr2770352qge.57.1449562361051;
+	bh=naJ23SAPWTfpxHfGItduWt/49uB+F6GKjs9hgvROZxk=;
+	b=Y5hh4fWGegZtC04ONMy+ceMB6ip3DtXFkIS5P3UbWgcPitPB8lK1m5MPf6afiLavbK
+	L514RvKWzbNy1UArVNcEtW5xUVp3tSgxxwqHSJsW67tGfySWDoGdmxkIsanPg9MZOJ8b
+	ra0D4Fw3RDhQyvoJ4aznDE3GJAtbOQhQWNyTSwmhHNDo98O3d7TPdy2WdtMaZeV+S48H
+	r9EzwQ+tpoUVFvmZU1KmN73+Lu4d+mAyci3fQFVzXuzBzfhnBiJ44o5V1acoE6ndR+Rp
+	UyDQVoxFop5L7R78ZZlca5DzFYtrSOCe6g2+lMwKPAySP7ai/ucCIufsFhnjvnt1D1Zo
+	bPxQ==
+X-Received: by 10.140.91.78 with SMTP id y72mr2835119qgd.68.1449562361588;
 	Tue, 08 Dec 2015 00:12:41 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	v66sm1023174qkv.32.2015.12.08.00.12.40
+	v66sm1023174qkv.32.2015.12.08.00.12.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Dec 2015 00:12:40 -0800 (PST)
+	Tue, 08 Dec 2015 00:12:41 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Dec 2015 08:12:23 +0000
-Message-Id: <c39d1e3f36ab0e87c4a9e270516910ecc76424f2.1449562195.git.raj.khem@gmail.com>
+Date: Tue,  8 Dec 2015 08:12:24 +0000
+Message-Id: <46122824497e0a24f644050342d2055f6a24b878.1449562195.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
 References: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1449562195.git.raj.khem@gmail.com>
 References: <cover.1449562195.git.raj.khem@gmail.com>
-Subject: [PATCH 03/13] gdb: Fix build with musl
+Subject: [PATCH 04/13] mtd-utils: Backport and create patches to support musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,89 +46,187 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 08:12:40 -0000
-
-This is a patch that has been submitted upstream as well
+X-List-Received-Date: Tue, 08 Dec 2015 08:12:41 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gdb/gdb.inc                  |  1 +
- ...0001-Use-exported-definitions-of-SIGRTMIN.patch | 54 ++++++++++++++++++++++
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-devtools/gdb/gdb/0001-Use-exported-definitions-of-SIGRTMIN.patch
+ .../mtd/mtd-utils/0001-Fix-build-with-musl.patch   | 53 ++++++++++++++++++++
+ ...ibfec-use-standard-C-type-instead-of-u_lo.patch | 56 ++++++++++++++++++++++
+ .../mtd/mtd-utils/010-fix-rpmatch.patch            | 24 ++++++++++
+ meta/recipes-devtools/mtd/mtd-utils_git.bb         |  4 ++
+ 4 files changed, 137 insertions(+)
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch
 
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index 88c0213..2162cad 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -5,6 +5,7 @@ inherit gettext
- SRC_URI += "file://0002-Change-order-of-CFLAGS.patch \
-             file://0003-Add-support-for-Renesas-SH-sh4-architecture.patch \
-             file://fix-detection-of-64-bit-PPC-inferior-in-gdbserver.patch \
-+            file://0001-Use-exported-definitions-of-SIGRTMIN.patch \
-            "
- #LDFLAGS_append = " -s"
- #export CFLAGS_append=" -L${STAGING_LIBDIR}"
-diff --git a/meta/recipes-devtools/gdb/gdb/0001-Use-exported-definitions-of-SIGRTMIN.patch b/meta/recipes-devtools/gdb/gdb/0001-Use-exported-definitions-of-SIGRTMIN.patch
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
 new file mode 100644
-index 0000000..5f0c096
+index 0000000..d3699c6
 --- /dev/null
-+++ b/meta/recipes-devtools/gdb/gdb/0001-Use-exported-definitions-of-SIGRTMIN.patch
-@@ -0,0 +1,54 @@
-+From 2f97e89e9e4e5797d0d973e1d05c1f44c46b4912 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
+@@ -0,0 +1,53 @@
++From e16fa28bc57c29923ab60af2ac343da83e1992d8 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 5 Jun 2015 20:21:38 -0700
-+Subject: [PATCH] Use exorted definitions of SIGRTMIN
++Date: Tue, 6 Oct 2015 23:51:34 +0000
++Subject: [PATCH] Fix build with musl
 +
-+Define W_STOPCODE if not defined already
-+
-+__SIGRTMIN is internal to glibc and other libcs e.g. musl
-+may not provide them
-+
-+Fixes
-+https://sourceware.org/bugzilla/show_bug.cgi?id=13012
++Upstream-Status: Pending
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+Upstream-Status: Submitted
++ mkfs.jffs2.c  | 44 ++++++++++++++++++++++++++++++++++++++++++--
++ recv_image.c  |  1 -
++ serve_image.c |  1 -
++ 3 files changed, 42 insertions(+), 4 deletions(-)
 +
-+ gdb/linux-nat.c     | 4 ++--
-+ gdb/nat/linux-nat.h | 4 ++++
-+ 2 files changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/gdb/linux-nat.c b/gdb/linux-nat.c
-+index 396c30c..50320ee 100644
-+--- a/gdb/linux-nat.c
-++++ b/gdb/linux-nat.c
-+@@ -4856,10 +4856,10 @@ lin_thread_get_thread_signals (sigset_t *set)
-+      fortunately they don't change!  */
++diff --git a/mkfs.jffs2.c b/mkfs.jffs2.c
++index f09c0b2..ed2dc43 100644
++--- a/mkfs.jffs2.c
+++++ b/mkfs.jffs2.c
++@@ -72,6 +72,7 @@
++ #include <byteswap.h>
++ #include <crc32.h>
++ #include <inttypes.h>
+++#include <limits.h>
 + 
-+   if (restart == 0)
-+-    restart = __SIGRTMIN;
-++    restart = SIGRTMIN;
++ #include "rbtree.h"
++ #include "common.h"
++diff --git a/recv_image.c b/recv_image.c
++index 26a8361..0093831 100644
++--- a/recv_image.c
+++++ b/recv_image.c
++@@ -4,7 +4,6 @@
++ #define _BSD_SOURCE	/* struct ip_mreq */
 + 
-+   if (cancel == 0)
-+-    cancel = __SIGRTMIN + 1;
-++    cancel = SIGRTMIN + 1;
++ #include <errno.h>
++-#include <error.h>
++ #include <stdio.h>
++ #include <netdb.h>
++ #include <stdlib.h>
++diff --git a/serve_image.c b/serve_image.c
++index 38549a1..4f0e946 100644
++--- a/serve_image.c
+++++ b/serve_image.c
++@@ -3,7 +3,6 @@
 + 
-+   sigaddset (set, restart);
-+   sigaddset (set, cancel);
-+diff --git a/gdb/nat/linux-nat.h b/gdb/nat/linux-nat.h
-+index 83a6d91..efbe0fd 100644
-+--- a/gdb/nat/linux-nat.h
-++++ b/gdb/nat/linux-nat.h
-+@@ -25,4 +25,8 @@
-+    instead SIGTRAP with bit 7 set.  */
-+ #define SYSCALL_SIGTRAP (SIGTRAP | 0x80)
-+ 
-++#ifndef W_STOPCODE
-++#define W_STOPCODE(sig) ((sig) << 8 | 0x7f)
-++#endif
-++
-+ #endif /* LINUX_NAT_H */
++ #include <time.h>
++ #include <errno.h>
++-#include <error.h>
++ #include <netdb.h>
++ #include <stdio.h>
++ #include <stdlib.h>
 +-- 
-+2.1.4
++2.6.1
 +
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch
+new file mode 100644
+index 0000000..46ed956
+--- /dev/null
++++ b/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch
+@@ -0,0 +1,56 @@
++From 26cc709291fc6c5d2e45b26c602407706d9142df Mon Sep 17 00:00:00 2001
++From: Imre Kaloz <kaloz@openwrt.org>
++Date: Mon, 4 May 2015 15:36:34 +0200
++Subject: [PATCH] mtd-utils: libfec: use standard C type instead of u_long
++
++Fixes compilation on hosts with the musl C library.
++Also drops the unused u_short typedef.
++
++Signed-off-by: Imre Kaloz <kaloz@openwrt.org>
++Signed-off-by: Brian Norris <computersforpeace@gmail.com>
++---
++Upstream-Status: Backport
++
++ lib/libfec.c | 8 +++-----
++ 1 file changed, 3 insertions(+), 5 deletions(-)
++
++diff --git a/lib/libfec.c b/lib/libfec.c
++index ff5a127..bf68381 100644
++--- a/lib/libfec.c
+++++ b/lib/libfec.c
++@@ -61,8 +61,6 @@ struct timeval {
++ };
++ #define gettimeofday(x, dummy) { (x)->ticks = clock() ; }
++ #define DIFF_T(a,b) (1+ 1000000*(a.ticks - b.ticks) / CLOCKS_PER_SEC )
++-typedef unsigned long u_long ;
++-typedef unsigned short u_short ;
++ #else /* typically, unix systems */
++ #include <sys/time.h>
++ #define DIFF_T(a,b) \
++@@ -75,12 +73,12 @@ typedef unsigned short u_short ;
++ 	t = x.tv_usec + 1000000* (x.tv_sec & 0xff ) ; \
++ 	}
++ #define TOCK(t) \
++-	{ u_long t1 ; TICK(t1) ; \
+++	{ unsigned long t1 ; TICK(t1) ; \
++ 	  if (t1 < t) t = 256000000 + t1 - t ; \
++ 	  else t = t1 - t ; \
++ 	  if (t == 0) t = 1 ;}
++ 
++-u_long ticks[10];	/* vars for timekeeping */
+++unsigned long ticks[10];	/* vars for timekeeping */
++ #else
++ #define DEB(x)
++ #define DDB(x)
++@@ -625,7 +623,7 @@ init_fec(void)
++ #define FEC_MAGIC	0xFECC0DEC
++ 
++ struct fec_parms {
++-    u_long magic ;
+++    unsigned long magic ;
++     int k, n ;		/* parameters of the code */
++     gf *enc_matrix ;
++ } ;
++-- 
++2.6.0
++
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch b/meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch
+new file mode 100644
+index 0000000..7d783e7
+--- /dev/null
++++ b/meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch
+@@ -0,0 +1,24 @@
++Replace rpmatch() usage with checking first character of line
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++--- a/include/common.h
+++++ b/include/common.h
++@@ -122,10 +122,12 @@
++ 		}
++ 
++ 		if (strcmp("\n", line) != 0) {
++-			switch (rpmatch(line)) {
++-			case 0: ret = false; break;
++-			case 1: ret = true; break;
++-			case -1:
+++			switch (line[0]) {
+++			case 'N':
+++			case 'n': ret = false; break;
+++			case 'Y':
+++			case 'y': ret = true; break;
+++			default:
++ 				puts("unknown response; please try again");
++ 				continue;
++ 			}
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index 17dca77..bc15ddd 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -15,8 +15,12 @@ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+            file://fix-armv7-neon-alignment.patch \
+            file://0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch \
+            file://mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch \
++           file://0001-Fix-build-with-musl.patch \
++           file://0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch \
+ "
+ 
++SRC_URI_append_libc-musl = " file://010-fix-rpmatch.patch "
++
+ S = "${WORKDIR}/git/"
+ 
+ # xattr support creates an additional compile-time dependency on acl because
 -- 
 2.6.3
 
