@@ -1,32 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 345AC6FFEA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 84F8D6FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 10:35:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tB8AYxLC024155; Tue, 8 Dec 2015 10:34:59 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id H6ss0w19xHAn; Tue,  8 Dec 2015 10:34:59 +0000 (GMT)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tB8AYlma024146
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 8 Dec 2015 10:34:58 GMT
-Message-ID: <1449570887.19730.47.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 08 Dec 2015 10:34:47 +0000
-In-Reply-To: <20151207223502.GC2249@jama>
-References: <1447864860.1472.56.camel@pbcl.net>
-	<1447871842-30347-1-git-send-email-Martin.Jansa@gmail.com>
-	<1447871842-30347-5-git-send-email-Martin.Jansa@gmail.com>
-	<20151207223502.GC2249@jama>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv3 5/6] feature-arm-vfp.inc: respect vfpv4 when setting -mfloat-abi and ARMPKGSFX_EABI
+	Tue,  8 Dec 2015 10:53:19 +0000 (UTC)
+Received: by wmec201 with SMTP id c201so24492043wme.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Dec 2015 02:53:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=d4I29XO+FeZHSLzDVZXDriYG4vncIhp16UPbXXbGIa0=;
+	b=yDjs/RY1sSCZDAzjngL33R90q+reGNm32IyWeTlGSwnVd8z037lp8+vXZm0/yuLbnj
+	ISZrg4uczS5zckcYBWakWmU86dmsOseykij1LUH/4eAGGiPbixUy0vQddXvmt4pqYTkX
+	2MWPxjAHayUQ2ExocupWXn9stvBoUAXI3HqbUVbPLPR7RFZiFLtCrzwFUEWBzMs9Z4fn
+	ANNdBbcjH3khH7KZPiuERkd04cnDMelXFyNejCIfN3KBgbj7NXPzPVex2gQg/rcQ7bsb
+	kZIorfkKfYEUoZrHbulaRvrU2e06BNZ+IYxFw4MkDy4HrqCe14n0ca1uz3s4tVcZ0zBV
+	13/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=d4I29XO+FeZHSLzDVZXDriYG4vncIhp16UPbXXbGIa0=;
+	b=T1XFqEZGFRnospV+/nShze36ZKLLWN+taqVE6xjBRDg2Y3F3ifwoj5FzqfC2vrK72N
+	K/24LUaUxEX9SqeUNlO7a5d9t5cxm06+UG1PGqYqcRGBIHZ52xPxhC51NtMO1672Dgez
+	5Ec44sZkgtgAe8DIrc2hMWqYv/wbxfQBB3WJpnwgGnYZ3XucWrs/l9c9vxMU0UY09UJ5
+	A7mfp5k43SJuwiQxz0n+7PibQicsQOnOAEY9gEhwKH2xuM7MK9y6+WSD93rqXTDL/mKT
+	Llato3k96EFWKnK7S5O1NQV7wOCf0a9KCwZcySWZPULXE4Ri+pa2wdPaSzpyNiYWNpHe
+	bLFw==
+X-Gm-Message-State: ALoCoQkiCmztGZ9b0+sTwQOn8QmC+4Bg1e9rr9AfAVXGGZufmOUpPxJ9IN+TlwdGEVRdUoUGeOWvkWfaeS6nIPTKRco125PXjw==
+X-Received: by 10.28.224.86 with SMTP id x83mr3994334wmg.36.1449571999816;
+	Tue, 08 Dec 2015 02:53:19 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id lx4sm2444025wjb.5.2015.12.08.02.53.19
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 08 Dec 2015 02:53:19 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Dec 2015 10:53:16 +0000
+Message-Id: <1449571996-16060-2-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1449571996-16060-1-git-send-email-ross.burton@intel.com>
+References: <1449571996-16060-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] sudo: remove libdir INSANE_SKIP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,21 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 10:35:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Dec 2015 10:53:19 -0000
 
-On Mon, 2015-12-07 at 23:35 +0100, Martin Jansa wrote:
-> It's highly recommended to use the script together with memres bitbake,
-> the execution time is at least 10 times shorted, but the changes aren't
-> picked between runs, so make sure to restart bitbake after changing the
-> tunes.
+Now that the libdir check allows libraries in libexecdir, remove INSANE_SKIP.
 
-That sounds like something it should detect. Could you file a bug
-please, preferably with a simpler test case that shows the problem?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/sudo/sudo.inc | 5 -----
+ 1 file changed, 5 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index 48ed436..a25876b 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -38,8 +38,3 @@ do_compile_prepend () {
+ do_install_prepend (){
+ 	mkdir -p ${D}/${localstatedir}/lib
+ }
+-
+-# Sudo insists on putting libraries into libexecdir
+-INSANE_SKIP_${PN} += "libdir"
+-INSANE_SKIP_${PN}-dev += "libdir"
+-INSANE_SKIP_${PN}-dbg += "libdir"
+-- 
+2.1.4
 
 
