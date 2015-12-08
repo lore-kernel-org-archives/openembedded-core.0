@@ -1,35 +1,42 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 380F460116
+Received: from mail-pf0-f179.google.com (mail-pf0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 177EB60110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 15:57:07 +0000 (UTC)
-Received: by pacwq6 with SMTP id wq6so13846028pac.1
+	Tue,  8 Dec 2015 16:33:30 +0000 (UTC)
+Received: by pfdd184 with SMTP id d184so14433504pfd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 07:57:08 -0800 (PST)
+	Tue, 08 Dec 2015 08:33:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=Fp13d6jNR0DkqK0QgRA7HEQRzG0FsdqCTma4qFFpruc=;
-	b=fQEPBoWFeIh1z+xZLCH7NTABS+fECBov7Kq6nHJ/3JMea8RgDLbZx/be9U0sj2JTXb
-	WfFR+L7MhkcRf6qCoOEBfe2vatTwI/B+dZnR2sUrSdxRcakVjh2PMDMJmcVTuBuS7B5Y
-	3k9CylxNfKQey1kVzwXW2I6LplUIG1Pkuai6ljdApj4xbNtMYb6znuD2GPWk25uB1P64
-	9Nk2D0MAvZG0q7Ud+l29zcgaoC2tcNCQc/XM0n2Frh9LLh9o9HYsZDxtvXxKqq89oAtI
-	ct4/Za+ptl8HtK7Wefxx+ZTr/JQL0Bj4Qdu2VjzQzvFkegAcMQ39iyLUGATo2daVOOui
-	xNLA==
-X-Received: by 10.66.193.36 with SMTP id hl4mr808181pac.153.1449590228602;
-	Tue, 08 Dec 2015 07:57:08 -0800 (PST)
-Received: from Pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by smtp.gmail.com with ESMTPSA id w8sm5641143pfi.41.2015.12.08.07.57.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Dec 2015 07:57:07 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-type:content-transfer-encoding;
+	bh=wQoN2/jt43gfKXXv1V+PnUy7TOMsEiLCgloQPVM4Btw=;
+	b=tC+d8CDB6pQWj1DtGqpxyg1CwRapFB4dUjSj3S9LnGT4Q2t7AUuuShgZSPpPD1E6kS
+	MMVebVx3PCI6ngi/ja5A2LarDQ664jijT3vCZf2kOqbdICf/FJKOpSgvZMVauu9EKUQ4
+	ERzUPZIxcJdQEhKRwCZJFNhEVYDS1ecAncT9PkoergDDQ8wURYzN3NOEYq39qom5opEK
+	vW+n2+ulRPLS5Q5gNzqefNRPWlKxwaC/Qr2GIvVSxkgFZ/vvoFIZB+UiIOcekAqcfRrN
+	oHCyt3smhK66sdtDlZMCD7zjpSV7XIxX3LVWH7SyvsLCi+d5PWGyXtExuUz+auBZorrQ
+	CWMw==
+X-Received: by 10.98.79.206 with SMTP id f75mr6220747pfj.24.1449592411526;
+	Tue, 08 Dec 2015 08:33:31 -0800 (PST)
+Received: from ?IPv6:2601:202:4000:1239:a1ff:59ed:52e8:f7de?
+	([2601:202:4000:1239:a1ff:59ed:52e8:f7de])
+	by smtp.googlemail.com with ESMTPSA id
+	ry1sm5912461pab.30.2015.12.08.08.33.29
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 08 Dec 2015 08:33:30 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Dec 2015 07:57:05 -0800
-Message-Id: <1449590225-29133-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-Subject: [PATCH] linux-firmware: update to latest
+References: <1447263707-27696-1-git-send-email-akuster808@gmail.com>
+	<1447263707-27696-2-git-send-email-akuster808@gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <56670658.3070109@gmail.com>
+Date: Tue, 8 Dec 2015 08:33:28 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <1447263707-27696-2-git-send-email-akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: Re: [PATCH 1/2] ldconfig: add method to extend ldconfig search dirs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,108 +49,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 15:57:08 -0000
+X-List-Received-Date: Tue, 08 Dec 2015 16:33:33 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-Update to latest linux-firmware
-Fix ar3k license to be QualcommAtheros
-Add ath10K firmware package
+ping
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- .../linux-firmware/linux-firmware_git.bb           | 33 +++++++++++++++++-----
- 1 file changed, 26 insertions(+), 7 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 3c5729d..76ad522 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -40,6 +40,8 @@ LICENSE = "\
-     & Firmware-xc5000 \
-     & Firmware-xc5000c \
-     & Firmware-siano \
-+    & Firmware-qualcommAthos_ar3k \
-+    & Firmware-qualcommAthos_ath10k \
- "
- 
- LIC_FILES_CHKSUM = "\
-@@ -81,6 +83,8 @@ LIC_FILES_CHKSUM = "\
-     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
-     file://LICENSE.radeon;md5=6c7f97c6c62bdd9596d0238bb205118c \
-     file://LICENCE.siano;md5=602c79ae3f98f1e73d880fd9f940a418 \
-+    file://LICENSE.QualcommAtheros_ar3k;md5=b5fe244fb2b532311de1472a3bc06da5 \
-+    file://LICENSE.QualcommAtheros_ath10k;md5=b5fe244fb2b532311de1472a3bc06da5 \
- "
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -123,8 +127,10 @@ NO_GENERIC_LICENSE[Firmware-amd-ucode] = "LICENSE.amd-ucode"
- NO_GENERIC_LICENSE[Firmware-dib0700] = "LICENSE.dib0700"
- NO_GENERIC_LICENSE[Firmware-radeon] = "LICENSE.radeon"
- NO_GENERIC_LICENSE[Firmware-siano] = "LICENCE.siano"
-+NO_GENERIC_LICENSE[Firmware-qualcommAthos_ar3k] = "LICENSE.QualcommAtheros_ar3k"
-+NO_GENERIC_LICENSE[Firmware-qualcommAthos_ath10k] = "LICENSE.QualcommAtheros_ath10k"
- 
--SRCREV = "75cc3ef8ba6712fd72c073b17a790282136cc743"
-+SRCREV = "bbe4917c054eb0a73e250c6363341e3bf6725839"
- PE = "1"
- PV = "0.0+git${SRCPV}"
- 
-@@ -169,7 +175,8 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
-              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 ${PN}-bcm4339 ${PN}-bcm4354 \
--             ${PN}-atheros-license ${PN}-ar9170 ${PN}-ar3k ${PN}-ath6k ${PN}-ath9k \
-+             ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k \
-+             ${PN}-ar3k-license  ${PN}-ar3k  ${PN}-ath10k-license  ${PN}-ath10k  \
-              \
-              ${PN}-iwlwifi-license ${PN}-iwlwifi-135-6 \
-              ${PN}-iwlwifi-3160-7 ${PN}-iwlwifi-3160-8 ${PN}-iwlwifi-3160-9 \
-@@ -184,7 +191,6 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
- 
- # For atheros
- LICENSE_${PN}-ar9170 = "Firmware-atheros_firmware"
--LICENSE_${PN}-ar3k = "Firmware-atheros_firmware"
- LICENSE_${PN}-ath6k = "Firmware-atheros_firmware"
- LICENSE_${PN}-ath9k = "Firmware-atheros_firmware"
- 
-@@ -192,9 +198,6 @@ FILES_${PN}-atheros-license = "/lib/firmware/LICENCE.atheros_firmware"
- FILES_${PN}-ar9170 = " \
-   /lib/firmware/ar9170*.fw \
- "
--FILES_${PN}-ar3k = " \
--  /lib/firmware/ar3k \
--"
- FILES_${PN}-ath6k = " \
-   /lib/firmware/ath6k \
- "
-@@ -206,10 +209,26 @@ FILES_${PN}-ath9k = " \
- "
- 
- RDEPENDS_${PN}-ar9170 += "${PN}-atheros-license"
--RDEPENDS_${PN}-ar3k += "${PN}-atheros-license"
- RDEPENDS_${PN}-ath6k += "${PN}-atheros-license"
- RDEPENDS_${PN}-ath9k += "${PN}-atheros-license"
- 
-+# For QualCommAthos
-+LICENSE_${PN}-ar3k = "Firmware-qualcommAthos_ar3k"
-+LICENSE_${PN}-ath10k = "Firmware-qualcommAthos_ath10k"
-+
-+FILES_${PN}-ar3k-license = "/lib/firmware/LICENSE.QualcommAtheros_ar3k"
-+FILES_${PN}-ar3k = " \
-+  /lib/firmware/ar3k \
-+"
-+
-+FILES_${PN}-ath10k-license = "/lib/firmware/LICENSE.QualcommAtheros_ath10k"
-+FILES_${PN}-ath10k = " \
-+  /lib/firmware/ath10k \
-+"
-+
-+RDEPENDS_${PN}-ar3k += "${PN}-ar3k-license"
-+RDEPENDS_${PN}-ath10k += "${PN}-ath10k-license"
-+
- # For ralink
- LICENSE_${PN}-ralink = "Firmware-ralink-firmware"
- 
--- 
-2.3.5
-
+On 11/11/2015 09:41 AM, Armin Kuster wrote:
+> From: Armin Kuster <akuster@mvista.com>
+> 
+> this provides a method to extend the search path ldconfig-native
+> uses when creating ls.so.cache.
+> 
+> To enable in recipe:
+> 
+> add:
+> inherit ldconfig
+> 
+> LDSOCONF = "/opt/lib"
+> 
+> this will create a ld.so.conf file in work-shared/ldconfig/${PN}/
+> 
+> to create an image with these new search paths included, add to local.conf:
+> 
+> INHERIT += "image-ldconfig"
+> 
+> this will take all the ${PN}/ld.so.conf files and create a single ld.so.conf
+> that will be used by ldconfig-native when building an image.
+> 
+> Signed-off-by: Armin Kuster <akuster@mvista.com>
+> ---
+>  meta/classes/image-ldconfig.bbclass | 26 ++++++++++++++++++++++++++
+>  meta/classes/ldconfig.bbclass       | 27 +++++++++++++++++++++++++++
+>  meta/conf/bitbake.conf              |  5 +++++
+>  3 files changed, 58 insertions(+)
+>  create mode 100644 meta/classes/image-ldconfig.bbclass
+>  create mode 100644 meta/classes/ldconfig.bbclass
+> 
+> diff --git a/meta/classes/image-ldconfig.bbclass b/meta/classes/image-ldconfig.bbclass
+> new file mode 100644
+> index 0000000..e9946da
+> --- /dev/null
+> +++ b/meta/classes/image-ldconfig.bbclass
+> @@ -0,0 +1,26 @@
+> +#
+> +# To enable, use INHERIT in local.conf:
+> +#
+> +#       INHERIT += "image-ldconfig"
+> +
+> +do_rootfs[depends] += "ldconfig-native:do_populate_sysroot"
+> +
+> +IMAGE_PREPROCESS_COMMAND += "ld_so_conf; "
+> +
+> +ld_so_conf() {
+> +
+> +    rm -f ${STAGING_DIR_NATIVE}${sysconfdir_native}/ld.so.conf
+> +
+> +    # save lib dirs as defined in recipes
+> +    for file in `find ${STAGING_LDSO_CONF_DIR}/*/* -name "ld.so.conf"`;
+> +    do
+> +        cat ${file} >> ${STAGING_LDSO_CONF_DIR}/ld.so.conf
+> +    done
+> +
+> +    # remove dups and sort
+> +    cat ${STAGING_LDSO_CONF_DIR}/ld.so.conf | sort -u > ${IMAGE_ROOTFS}/etc/ld.so.conf
+> +
+> +    # this seems to work if at rootfs location.
+> +    cd ${IMAGE_ROOTFS}
+> +    ${STAGING_DIR_NATIVE}${bindir_native}/ldconfig -r . -c new -f etc/ld.so.conf 
+> +}
+> diff --git a/meta/classes/ldconfig.bbclass b/meta/classes/ldconfig.bbclass
+> new file mode 100644
+> index 0000000..558122f
+> --- /dev/null
+> +++ b/meta/classes/ldconfig.bbclass
+> @@ -0,0 +1,27 @@
+> +# Allows adding libs or alt lib locations to be included
+> +# during ld.so.cache creation.
+> +#
+> +#
+> +
+> +do_package[postfuncs] += "save_ld_so_conf "
+> +do_clean[cleandirs] += "${STAGING_LDSO_CONF_DIR}/${PN} "
+> +
+> +python save_ld_so_conf() {
+> +    import os
+> +
+> +    if (d.getVar('USE_LDCONFIG', True) or "1") == "1":
+> +        ldsodir = d.getVar('STAGING_LDSO_CONF_DIR', True)
+> +        if not os.path.isdir(ldsodir):
+> +            os.mkdir(ldsodir)
+> +    
+> +        staging_ld = os.path.join(ldsodir, d.expand("${PN}"))
+> +        if not os.path.isdir(staging_ld):
+> +            os.mkdir(staging_ld)
+> +
+> +        ldsofile = os.path.join(staging_ld, 'ld.so.conf')
+> +
+> +        ldconf = d.getVar('LDSOCONF', True).split()
+> +        with open(ldsofile, 'w') as lsdo:
+> +            for ldso_entry in ldconf:
+> +                lsdo.write(ldso_entry+"\n")
+> +}
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 06971da..f0471f4 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -811,3 +811,8 @@ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
+>  
+>  MLPREFIX ??= ""
+>  MULTILIB_VARIANTS ??= ""
+> +
+> +# 
+> +# ldconfig stuff
+> +#
+> +STAGING_LDSO_CONF_DIR = "${TMPDIR}/work-shared/ldconfig"
+> 
 
