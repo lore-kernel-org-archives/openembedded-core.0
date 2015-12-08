@@ -1,33 +1,31 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id DDBA860110
+Return-Path: <haris.okanovic@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 9896260110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 18:58:06 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so42197613wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 10:58:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=SeG0PyRPFZ7HEYBwgAl2BKqcYMMONJKpIxopPFX5zCY=;
-	b=OCD4QNkjqm174t6JM9syPq/8KAv1uj4ioBdAPRiEcaQRBDjSv8MVs0yy/uMEKS654o
-	2mOZ5c4IoJsCqmkW4S/saLfAkxTlq/sPRrzwRRjceqcJYNdYCDHHkOOaREncgDI+cyic
-	I8TLQ5co2G0Oj8hzissla3E2BiwYAc2IHXBSDr9SHg94NvNOgKVA83RcvZJR5lolxBU8
-	HikBWgoaXcucGZBwaAYk+xjQxfZL9D9p3+ZlzAUWffyQfMV7Ra5eIMIY/Krzius2GKa+
-	fUYxJ6m3llYuOQRvKJwdasvKFzSpD0pu2A71vtoUqSeKXVcJCT+ChMPM/NH/EjDgqWy5
-	+Wng==
-MIME-Version: 1.0
-X-Received: by 10.194.200.134 with SMTP id js6mr1397425wjc.114.1449601087010; 
-	Tue, 08 Dec 2015 10:58:07 -0800 (PST)
-Received: by 10.194.117.68 with HTTP; Tue, 8 Dec 2015 10:58:06 -0800 (PST)
-In-Reply-To: <1446813421.15270.168.camel@linuxfoundation.org>
-References: <1446813421.15270.168.camel@linuxfoundation.org>
-Date: Tue, 8 Dec 2015 10:58:06 -0800
-Message-ID: <CAJ86T=XJqne2HOGpWo346qncmGaXwkjVVU8RZmxMok4vg7e+kg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base: Improve handling of switching virtual/x providers
+	Tue,  8 Dec 2015 20:53:31 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tB8KrV0C023088 for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Dec 2015 14:53:31 -0600
+Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015120814533167-904933 ;
+	Tue, 8 Dec 2015 14:53:31 -0600 
+From: Haris Okanovic <haris.okanovic@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 8 Dec 2015 14:53:28 -0600
+Message-Id: <1449608008-25611-1-git-send-email-haris.okanovic@ni.com>
+X-Mailer: git-send-email 2.6.2
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 12/08/2015 02:53:31 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 12/08/2015 02:53:31 PM,
+	Serialize complete at 12/08/2015 02:53:31 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-12-08_12:, , signatures=0
+Cc: Haris Okanovic <haris.okanovic@ni.com>
+Subject: [RFC] Source packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,89 +38,275 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 18:58:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 Dec 2015 20:53:35 -0000
 
-On Fri, Nov 6, 2015 at 4:37 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> If you build virtual/kernel, then change PREFERRED_PROVIDER_virtual/kernel from say
-> "linux-yocto" to "linux-yocto-dev", you see errors from the sysroot about overlapping
-> files. The automatic uninstall logic doesn't trigger since the other recipes is
-> still technically parsed/buildable.
->
-> What we can do is look at the value of PREFERRED_PROVIDER_virtual/X and raise SkipRecipe
-> (skip parsing) if it provides this thing and its not selected. We skip cases no preferred
-> provider is set, or the value is in MULTI_PROVIDER_WHITELIST.We also inform the user
-> if they try to build something which conflicts with the configuration:
->
-> $ bitbake linux-yocto-tiny
-> ERROR: Nothing PROVIDES 'linux-yocto-tiny'
-> ERROR: linux-yocto-tiny was skipped: PREFERRED_PROVIDER_virtual/kernel set to linux-yocto, not linux-yocto-tiny
+This change enables creation of ${PN}-src packages which provide recipe
+source code on target machines. A distribution might use this facility
+to provide a feed of source packages for user reference and
+debugging/development activities.
 
-This change seems to cause problems for musl libc builds (I'm using
-today's oe-core master and Khem's meta-musl layer).
+The packaged source code is copy of SRC_URI files + a manifest declaring
+the contents in order of appearance in SRC_URI. For example, it might
+include a tarball + patch files, which could be used to reconstruct the
+state of a recipe's working dir after do_patch() by unpacking the
+archive and applying patches in order.
 
-  ERROR: Nothing RPROVIDES 'nativesdk-glibc' (but
-/home/andre/rdk/rdk-master-musl/openembedded-core/meta/recipes-core/meta/uninative-tarball.bb
-RDEPENDS on or otherwise requires it)
-  ERROR: nativesdk-glibc was skipped:
-PREFERRED_PROVIDER_virtual/nativesdk-x86_64-rdksdk-linux-libc-for-gcc
-set to nativesdk-musl, not nativesdk-glibc
-  ERROR: Required build target 'rdk-image-wpe' has no buildable providers.
-  Missing or unbuildable dependency chain was: ['rdk-image-wpe',
-'uninative-tarball', 'nativesdk-glibc']
+At the moment, unpacking need to be done by hand. However, RPM and Dpkg
+can both do this automatically upon install when the source is packaged
+in a src.rpm or dsc file, respectively, as opposed to a binary archive
+(rpm or deb). A good future improvement might be to provide proper
+src.rpm's or .dsc's for distributions using those package manager.
 
-Reverting this one commit (oe-core 9a3b992) gets the builds working again.
+I don't believe opkg can distinguish between binary and source archives
+at the moment, so this may be the best we can do at the moment for IPK
+distributions.
 
 
-> [YOCTO #4102]
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index 44ca781..b8f2aea 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -204,7 +204,7 @@ def buildcfg_neededvars(d):
->          bb.fatal('The following variable(s) were not set: %s\nPlease set them directly, or choose a MACHINE or DISTRO that sets them.' % ', '.join(pesteruser))
->
->  addhandler base_eventhandler
-> -base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.runqueue.sceneQueueComplete"
-> +base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.runqueue.sceneQueueComplete bb.event.RecipeParsed"
->  python base_eventhandler() {
->      import bb.runqueue
->
-> @@ -257,6 +257,25 @@ python base_eventhandler() {
->              bb.debug(1, "Executing SceneQueue Completion commands: %s" % "\n".join(cmds))
->              bb.build.exec_func("completion_function", e.data)
->              os.remove(completions)
-> +
-> +    if isinstance(e, bb.event.RecipeParsed):
-> +        #
-> +        # If we have multiple providers of virtual/X and a PREFERRED_PROVIDER_virtual/X is set
-> +        # skip parsing for all the other providers which will mean they get uninstalled from the
-> +        # sysroot since they're now "unreachable". This makes switching virtual/kernel work in
-> +        # particular.
-> +        #
-> +        pn = d.getVar('PN', True)
-> +        source_mirror_fetch = d.getVar('SOURCE_MIRROR_FETCH', False)
-> +        if not source_mirror_fetch:
-> +            provs = (d.getVar("PROVIDES", True) or "").split()
-> +            multiwhitelist = (d.getVar("MULTI_PROVIDER_WHITELIST", True) or "").split()
-> +            for p in provs:
-> +                if p.startswith("virtual/") and p not in multiwhitelist:
-> +                    profprov = d.getVar("PREFERRED_PROVIDER_" + p, True)
-> +                    if profprov and pn != profprov:
-> +                        bb.warn("PREFERRED_PROVIDER_%s set to %s, not %s" % (p, profprov, pn))
-> +                        raise bb.parse.SkipPackage("PREFERRED_PROVIDER_%s set to %s, not %s" % (p, profprov, pn))
->  }
->
->  CONFIGURESTAMPFILE = "${WORKDIR}/configure.sstate"
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Classic OE provided a similar facility for IPKs only with
+sourceipk.bbclass [1]. It was dropped at some point in modern OE and I'm
+not familiar enough with OE's history pre Yocto to track down exactly
+why. I'm curious if this was this a deliberate change or just an
+accidental regression, and the reasons it was removed in the former
+case.
+
+One significant difference between the classic sourceipk.bbclass and my
+proposal is what gets packaged: sourceipk simply archived the entire
+${S} dir after do_patch() but before do_configure() pollutes it. I opted
+not to go this route because it's seems at odds with RPM and Dpkg, both
+of which use the aforementioned tarball+patch file scheme. This may
+allow us to re-use the staging logic should we implement proper
+src.rpm's and dsc's in the future.
+
+
+Not all recipes have useful source to package: For example,
+linux-libc-headers build from the kernel source, which is is already
+provided by the kernel recipe. base-files just provides initial system
+configuration, so it's source package provides no additional info than
+it's binary.
+
+I couldn't find a clever way to filter out these edge cases, other than
+disabling source packages inside those recipes which would require a
+lengthy review of OE meta layers.
+
+I imagine many OE distro also target small, resource constrained,
+systems, that couldn't benefit from source packaging.
+
+Therefore I've made this an opt-in feature for individual distro
+maintainers to enable as needed. It can be enabled per recipe via the
+ENABLE_SRC_INSTALL_${PN} var or globally via ENABLE_SRC_INSTALL from
+distribution confs.
+
+
+=== Implementation details ===
+
+[PATCH 1/3] package.bbclass/package.py: Add do_install_source() task
+
+Add do_install_source() task to stage a recipe's SRC_URI files under
+SRC_D.
+
+Dependencies:
+ After do_fetch() to ensure SRC_URI files are downloaded
+ After do_install() because it resets ${D} that's also used by this task
+ Before do_package() to stage files before writing installers
+
+No-ops unless ENABLE_SRC_INSTALL_${PN} = 1, which needs to be set in
+distro config or recipes wanting to use this facility.
+
+[PATCH 2/3] documentation.conf: Document do_install_source()
+
+[PATCH 3/3] bitbake.conf: Define source package, disabled by default
+
+Add ${PN}-src to PACKAGES with a default set of FILES_{PV}-src
+per FHS [2].
+
+Define a staging directory SRC_D under ${D}.
+
+Define ENABLE_SRC_INSTALL to enable source staging via package.bbclass's
+do_install_source() task. It's disabled by default, but may be
+overridden by distro configs or individual recipes as needed.
+
+
+=== References ===
+
+[1] https://github.com/openembedded/openembedded/blob/master/classes/sourceipk.bbclass
+[2] https://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html#usrsrcSourceCode
+
+
+Comments, opinions, and other meandering thoughts welcome....
+
+Thanks,
+Haris
+---
+ meta/classes/package.bbclass |  5 +++
+ meta/conf/bitbake.conf       |  9 ++++-
+ meta/conf/documentation.conf |  1 +
+ meta/lib/oe/package.py       | 96 ++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 110 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index d731757..98f01e5 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -2079,3 +2079,8 @@ def mapping_rename_hook(d):
+     runtime_mapping_rename("RRECOMMENDS", pkg, d)
+     runtime_mapping_rename("RSUGGESTS", pkg, d)
+ 
++addtask do_install_source after do_fetch after do_install before do_package
++
++python do_install_source () {
++    oe.package.do_install_source(d)
++}
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 06971da..431865d 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -36,6 +36,7 @@ export systemd_unitdir = "${nonarch_base_libdir}/systemd"
+ export systemd_system_unitdir = "${nonarch_base_libdir}/systemd/system"
+ export nonarch_libdir = "${exec_prefix}/lib"
+ export systemd_user_unitdir = "${nonarch_libdir}/systemd/user"
++export srcdir = "${prefix}/src"
+ 
+ # Architecture dependent paths
+ export bindir = "${exec_prefix}/bin"
+@@ -267,7 +268,7 @@ SOLIBSDEV = ".so"
+ SOLIBSDEV_darwin = ".dylibbroken"
+ 
+ PACKAGE_BEFORE_PN ?= ""
+-PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
++PACKAGES = "${PN}-src ${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
+ PACKAGES_DYNAMIC = "^${PN}-locale-.*"
+ FILES = ""
+ 
+@@ -313,6 +314,12 @@ ALLOW_EMPTY_${PN}-dbg = "1"
+ 
+ FILES_${PN}-locale = "${datadir}/locale"
+ 
++FILES_${PN}-src = "${srcdir}/${PN}"
++SRC_D = "${D}${srcdir}/${PN}"
++
++ENABLE_SRC_INSTALL = "0"
++ENABLE_SRC_INSTALL_${PN} = "${ENABLE_SRC_INSTALL}"
++
+ # File manifest
+ 
+ FILE_DIRNAME = "${@os.path.dirname(d.getVar('FILE', False))}"
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 845559a..0df8a2f 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -26,6 +26,7 @@ do_fetchall[doc] = "Fetches all remote sources required to build a target"
+ do_generate_qt_config_file[doc] = "Writes a qt.conf file for building a Qt-based application"
+ do_install[doc] = "Copies files from the compilation directory to a holding area"
+ do_install_ptest_base[doc] = "Copies the runtime test suite files from the compilation directory to a holding area"
++do_install_source[doc] = "Stages source code for packaging"
+ do_kernel_checkout[doc] = "Checks out source/meta branches for a linux-yocto style kernel"
+ do_kernel_configcheck[doc] = "Validates the kernel configuration for a linux-yocto style kernel"
+ do_kernel_configme[doc] = "Assembles the kernel configuration for a linux-yocto style kernel"
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index ea6feaa..f980f25 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -123,3 +123,99 @@ def read_shlib_providers(d):
+                         shlib_provider[s[0]] = {}
+                     shlib_provider[s[0]][s[1]] = (dep_pkg, s[2])
+     return shlib_provider
++
++def archive_dir(dirPath, archivePath):
++    ''' Create tar.bz2 archive at archivePath from dirPath '''
++    import os, oe, bb
++
++    arDir = os.path.dirname(dirPath)
++    arName = os.path.basename(dirPath)
++
++    cmd = 'tar -c -j -f \"%s\" -C \"%s\" -p \"%s\"' % (archivePath, arDir, arName)
++    (retval, output) = oe.utils.getstatusoutput(cmd)
++    if retval:
++        bb.fatal('Failed to archive %s --> %s: %s %s' % (dirPath, archivePath, cmd, output))
++
++def do_install_source(d):
++    ''' Stage recipe's source for packaging '''
++    import os, oe, bb
++
++    pn = d.getVar("PN", True)
++
++    if d.getVar("ENABLE_SRC_INSTALL_%s" % pn, True) != "1":
++        return
++
++    packages = (d.getVar("PACKAGES") or "").split()
++    if ("%s-src" % pn) not in packages:
++        # Some recipes redefine PACKAGES without ${PN}-src. Don't stage
++        # anything in this case to avoid installed-vs-shipped warning.
++        return
++
++    urls = (d.getVar('SRC_URI', True) or "").split()
++    if len(urls) == 0:
++        return
++
++    workdir = d.getVar('WORKDIR', True)
++
++    # TODO rm_work() should clean this up
++    unpackTempDir = os.path.join(workdir, 'install-source-unpack-temp')
++    if os.path.exists(unpackTempDir):
++        bb.utils.remove(unpackTempDir, recurse=True)
++    os.makedirs(unpackTempDir, 0755)
++
++    src_d = d.getVar("SRC_D", True)
++    if os.path.exists(src_d):
++        bb.warn("SRC_D already exist. Removing.")
++        bb.utils.remove(src_d, recurse=True)
++    os.makedirs(src_d, 0755)
++
++    fetcher = bb.fetch2.Fetch(urls, d)
++
++    fileManif = []
++    for url in urls:
++        urlScheme = bb.fetch2.decodeurl(url)[0]
++        srcPath = fetcher.localpath(url)
++        srcName = os.path.basename(srcPath)
++
++        dstName = srcName
++        if os.path.isdir(srcPath):
++            dstName += '.tar.bz2'
++
++        dstPath = os.path.join(src_d, dstName)
++
++        # fetch() doesn't retrieve any actual files from git:// URLs,
++        # so we do an additional unpack() step to get something useful
++        # for these.
++        # TODO: May need to pre-process other revision control schemes
++        if urlScheme == 'git':
++            unpackPath = os.path.join(unpackTempDir, srcName)
++            if os.path.exists(unpackPath):
++                bb.utils.remove(unpackPath, recurse=True)
++            os.makedirs(unpackPath, 0755)
++
++            fetcher.unpack(unpackPath, [url])
++
++            # unpack() puts actual source in a 'git' subdir
++            srcPath = os.path.join(unpackPath, 'git')
++
++        if os.path.exists(dstPath):
++            bb.warn('Duplicate file %s in SRC_URI. Overwriting.' % dstName)
++            bb.utils.remove(dstPath, recurse=True)
++
++        if not dstName in fileManif:
++            fileManif.append(dstName)
++
++        if os.path.isdir(srcPath):
++            archive_dir(srcPath, dstPath)
++        else:
++            bb.utils.copyfile(srcPath, dstPath)
++
++    manifFilePath = os.path.join(src_d, 'manifest')
++    if os.path.exists(manifFilePath):
++        bb.warn('manifest file found in SRC_URI. Overwriting.')
++        bb.utils.remove(manifFilePath, recurse=True)
++
++    with open(manifFilePath, 'wb') as manif:
++        for fname in fileManif:
++            manif.write(fname)
++            manif.write('\n')
+-- 
+2.6.2
+
 
