@@ -1,24 +1,24 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 300596FF97
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id DC5C560589
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 08:12:41 +0000 (UTC)
-Received: by qgea14 with SMTP id a14so10016923qge.0
+	Tue,  8 Dec 2015 08:12:42 +0000 (UTC)
+Received: by qgcc31 with SMTP id c31so9895201qgc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 00:12:42 -0800 (PST)
+	Tue, 08 Dec 2015 00:12:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=tpok9v1LBCnqNrQV8gBCcFVsS/zuBLU5akAGDhVAq5Y=;
-	b=ZqVRRHLKzNPqlh6UgNyRRIPK4T+g4k8AC7NdsBjv+u4CkN9J7f5NewSjgfvjf9brwD
-	OZsYY8FPl63awEkc7fCo96OlAsY/nEyzFJBir2Ot4fRA7hjOSN1eDimt74aclau+RNrZ
-	tnbjUgIj8RWBP7QcE0k0VatiY2kZwi+YWGpOlww6+zsQzkNPieFdpKeDILH6ryfJLsH9
-	dO6Ed1aUBLXZyYNGJObiGgcAWgkQwVohwgYurcn91aQRD42gFwAZxO5mYtahturuXSA+
-	NmeQhN3CcawDhAC5ogQw3810uC3s7gnwDhNr3CDC59nkDbiWy5VCVYHxqm6ioVUYBYLm
-	TxJQ==
-X-Received: by 10.140.20.144 with SMTP id 16mr2809325qgj.45.1449562362734;
-	Tue, 08 Dec 2015 00:12:42 -0800 (PST)
+	bh=75qXn8ODa+Fl6taPKi8fbnytDjNIJ3C2n2Et1aUsE+s=;
+	b=PvMkEqx8xTejpAPl4K8INHA01YT+3sZJa7L5FOmAdt/UqXQl0VUvRbTwxwcYXNQGCy
+	FJVP9AbbHvjloKId2OEoMJz1OeEnpM65IAIPJFboCQ3suXT+bBvPUwL62hdFt5sq0rqM
+	/PWGXxe5b1wNGLiHgovtKtHNZBqA1P8ZmX5j9loXVfNDZiAhAbNQo7joMcAC8QCeXhM6
+	KFJa47WQl1n745ujyfe0T11nvX4yswFLUjbcHqeKnrL+KVD0nGyLWVgv3U0jcD5SrH96
+	jNrJdwLk/UQlC4Cv6L+wPQL0t8ykiwDzm4lla4B4VGhYFew35uETXaZQ2/D2Ku+fCzqR
+	nzjQ==
+X-Received: by 10.140.93.52 with SMTP id c49mr2220542qge.101.1449562363235;
+	Tue, 08 Dec 2015 00:12:43 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
 	v66sm1023174qkv.32.2015.12.08.00.12.42
@@ -26,14 +26,14 @@ Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	Tue, 08 Dec 2015 00:12:42 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Dec 2015 08:12:26 +0000
-Message-Id: <8c749dc7ab6d9aac5af4d72dea0cde06ac741c3f.1449562195.git.raj.khem@gmail.com>
+Date: Tue,  8 Dec 2015 08:12:27 +0000
+Message-Id: <7f9828ffb085c01fd49c12d3b15933702637783c.1449562195.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
 References: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1449562195.git.raj.khem@gmail.com>
 References: <cover.1449562195.git.raj.khem@gmail.com>
-Subject: [PATCH 06/13] mtools: Use proper glibc override to add glibc packages to recommendations
+Subject: [PATCH 07/13] musl: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,30 +46,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 08:12:42 -0000
+X-List-Received-Date: Tue, 08 Dec 2015 08:12:43 -0000
 
-Helps building mtools on musl
+musl is posix compliant C library for linux
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/mtools/mtools_4.0.18.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/musl/musl.inc    | 26 +++++++++++++++++
+ meta/recipes-core/musl/musl_git.bb | 58 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-core/musl/musl.inc
+ create mode 100644 meta/recipes-core/musl/musl_git.bb
 
-diff --git a/meta/recipes-devtools/mtools/mtools_4.0.18.bb b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
-index 24c9d49..bc9b79c 100644
---- a/meta/recipes-devtools/mtools/mtools_4.0.18.bb
-+++ b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
-@@ -6,8 +6,8 @@ LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- 
--RDEPENDS_${PN} = "glibc-gconv-ibm850"
--RRECOMMENDS_${PN} = "\
-+RDEPENDS_${PN}_libc-glibc = "glibc-gconv-ibm850"
-+RRECOMMENDS_${PN}_libc-glibc = "\
- 	glibc-gconv-ibm437 \
- 	glibc-gconv-ibm737 \
- 	glibc-gconv-ibm775 \
+diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
+new file mode 100644
+index 0000000..c3fd5c8
+--- /dev/null
++++ b/meta/recipes-core/musl/musl.inc
+@@ -0,0 +1,26 @@
++# Copyright (C) 2014 Khem Raj <raj.khem@gmail.com>
++# Released under the MIT license (see COPYING.MIT for the terms)
++
++SUMMARY = "An implementation of the standard library for Linux-based systems"
++DESCRIPTION = "A new standard library to power a new generation of Linux-based devices. \
++musl is lightweight, fast, simple, free, and strives to be correct in the sense of \
++standards-conformance and safety."
++
++HOMEPAGE = "http://www.musl-libc.org/"
++LICENSE = "MIT"
++SECTION = "libs"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=bccdfe36b123d1b0757d8025278d86ba"
++
++PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
++TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
++
++INHIBIT_DEFAULT_DEPS = "1"
++
++STAGINGCC = "gcc-cross-initial-${TARGET_ARCH}"
++STAGINGCC_class-nativesdk = "gcc-crosssdk-initial-${TARGET_ARCH}"
++
++
++FILES_SOLIBSDEV = ""
++FILES_${PN} += "${libdir}/lib*${SOLIBSDEV}"
++INSANE_SKIP_${PN} = "dev-so"
++
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+new file mode 100644
+index 0000000..1feb436
+--- /dev/null
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -0,0 +1,58 @@
++# Copyright (C) 2014 Khem Raj <raj.khem@gmail.com>
++# Released under the MIT license (see COPYING.MIT for the terms)
++
++require musl.inc
++
++SRCREV = "6c5cad2aa56745302c1d42d2c8baf6424d29c0f3"
++
++PV = "1.1.11+git${SRCPV}"
++
++# mirror is at git://github.com/bminor/musl.git
++
++SRC_URI = "git://git.musl-libc.org/musl \
++          "
++
++S = "${WORKDIR}/git"
++
++PROVIDES += "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc virtual/libiconv virtual/libintl"
++
++DEPENDS = "virtual/${TARGET_PREFIX}binutils \
++           virtual/${TARGET_PREFIX}gcc-initial \
++           libgcc-initial \
++          "
++
++export CROSS_COMPILE="${TARGET_PREFIX}"
++
++EXTRA_OEMAKE = ""
++
++LDFLAGS += "-Wl,-soname,libc.so"
++
++CONFIGUREOPTS = " \
++    --prefix=${prefix} \
++    --exec-prefix=${exec_prefix} \
++    --bindir=${bindir} \
++    --libdir=${libdir} \
++    --includedir=${includedir} \
++    --syslibdir=${base_libdir} \
++"
++
++do_configure() {
++	${S}/configure ${CONFIGUREOPTS}
++}
++
++do_compile() {
++	oe_runmake
++}
++
++do_install() {
++	oe_runmake install DESTDIR='${D}'
++
++	install -d ${D}${bindir}
++	ln -s ${libdir}/libc.so ${D}${bindir}/ldd
++}
++
++RDEPENDS_${PN}-dev = "linux-libc-headers-dev"
++RPROVIDES_${PN}-dev += "libc-dev virtual-libc-dev"
++RPROVIDES_${PN} += "ldd libsegfault rtld(GNU_HASH)"
++
++LEAD_SONAME = "libc.so"
 -- 
 2.6.3
 
