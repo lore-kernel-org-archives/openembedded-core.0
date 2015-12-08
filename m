@@ -1,84 +1,84 @@
 Return-Path: <bhuvanchandra.dv@toradex.com>
-Received: from emea01-db3-obe.outbound.protection.outlook.com
-	(mail-db3on0102.outbound.protection.outlook.com [157.55.234.102])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AAC56FF64
+Received: from emea01-am1-obe.outbound.protection.outlook.com
+	(mail-am1on0142.outbound.protection.outlook.com [157.56.112.142])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F12760110
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  8 Dec 2015 07:03:31 +0000 (UTC)
 Authentication-Results: spf=none (sender IP is )
 	smtp.mailfrom=bhuvanchandra.dv@toradex.com; 
 Received: from [10.18.0.138] (115.115.225.206) by
-	AMSPR05MB264.eurprd05.prod.outlook.com (10.242.95.27) with Microsoft
+	DB3PR05MB266.eurprd05.prod.outlook.com (10.141.4.23) with Microsoft
 	SMTP Server (TLS) id 15.1.337.19; Tue, 8 Dec 2015 07:03:29 +0000
 Reply-To: <bhuvanchandra.dv@toradex.com>
-References: <1448529155-14970-1-git-send-email-bhuvanchandra.dv@toradex.com>
+References: <1448527865-13315-1-git-send-email-bhuvanchandra.dv@toradex.com>
 To: <openembedded-core@lists.openembedded.org>
 From: Bhuvanchandra DV <bhuvanchandra.dv@toradex.com>
 Organization: Toradex
-Message-ID: <566680AA.8070206@toradex.com>
-Date: Tue, 8 Dec 2015 12:33:06 +0530
+Message-ID: <566680AB.2090400@toradex.com>
+Date: Tue, 8 Dec 2015 12:33:07 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.3.0
 MIME-Version: 1.0
-In-Reply-To: <1448529155-14970-1-git-send-email-bhuvanchandra.dv@toradex.com>
+In-Reply-To: <1448527865-13315-1-git-send-email-bhuvanchandra.dv@toradex.com>
 X-Originating-IP: [115.115.225.206]
-X-ClientProxiedBy: SG2PR03CA0003.apcprd03.prod.outlook.com (25.160.233.13) To
-	AMSPR05MB264.eurprd05.prod.outlook.com (10.242.95.27)
-X-Microsoft-Exchange-Diagnostics: 1; AMSPR05MB264;
-	2:a4CO7nJwYoWA1jP1yN4KQOUaGvm0rHsTthY6uxF3wEM/dgTmOFG4jPEj+KXj1k0A4hDTudfNaVTzHuM9jNqbUeprS+VFSdkmCNBBzY4KlSrEpKmObbFDSOWiJQAyGs5tRQxmf+Ue6XmKMkdgCxoNWg==;
-	3:AQZQrOILrvGnXaob7EvCfUpu81o9osLRXU7vXNQXEgCtxUYEx95WQ9FmTSZLw3oduvbFRXkDoFbCvpdcZi8EGJEXU3upA81g3qGWxVVnXOCjZ4DOnzkRStMgSb/9x6Rx;
-	25:ZbPeToH9Z7f0N/5yw53UuemiQtiWeqT+p2cy0DDR39adAOSXfrvIVWePczO4T+bF6glcGHXooOMCL85ukRBqV5DMxEw3cx2O+lpUwWODhj1f90gh5EX9+tjiyC8T6mjV/3SEcZrxupK2vSAk6PgOTW1fVwFscGAIuIwpIsoIq+mJyOc+tQKsdDIuHFaZPXX6CYZ45qhuud5gjhhRBJRbsJjLoBlDwrz0VNMuYxhxeYaTPZ+/mSavTlOrqKh5hbxH4aLJXnevvnmItkdd880lQg==;
-	20:7LwjAkW/3/lhPI6azaynUrgPsP1meiVdRawwOc0bmSdu4MoLK/hyFNT94dUZkJ8cy3Viv6ZB65L7szLd2+FBKVD+z4sAqQTaG5M9GKfPQ+YSfhBOCufp4J5PD30rXxwYILdeiwsrMZFPvtrneMGK1OGuuo1TcRJ2CnXbdomi0ctYzAq+kejwYDgXCkG0iCwR9OhxDrbV95CG3xi7hQivteiQUQOOvXiZV5/h4tN4LoUvRJrIyRSaHDhjmdlOwc5DK4fXxpm++r7GGdvqUba34WYG7VQ8Uq0MBAw4H/nz+YP052KVP/NwH+QpgfwT01gsyB9Wpj3IP+jHlhs4tdtvmQ==
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:AMSPR05MB264;
-X-Microsoft-Antispam-PRVS: <AMSPR05MB264DD6A52A25199488A34D58D080@AMSPR05MB264.eurprd05.prod.outlook.com>
+X-ClientProxiedBy: SG2PR03CA0008.apcprd03.prod.outlook.com (25.160.233.18) To
+	DB3PR05MB266.eurprd05.prod.outlook.com (10.141.4.23)
+X-Microsoft-Exchange-Diagnostics: 1; DB3PR05MB266;
+	2:PwifaMFGhdSq1xRMDazofNNEu6kchjbUoRKMhPrGz7fjvQXvahHJEzqmhskQsaoXaIKXdCTvWbiyTw0aMt9DeZ8l5gr8r7ZFukwC6H07R1L1Ug3FtMAM2cw9EUROqUlEsCzwd4ib/c8io+16qN4SJQ==;
+	3:WC4ToQMTAx73eqcleDgIb+mLECw5eYAsESJ6ILXXacFDatCOOahjTjCDLznawRcf60XaNDrm7GV75c6C7w0Xtl1TFLNN+NYV14KESkIaP7SqVRmOQ5M9YvH4Sygr/ngk;
+	25:PVtAMrMvw6j5795aXXYrGv0oOqHHQ6LaHVqeqffuL6EODZup237cmjrf7IubDA46eg2Lp8lVom/CS0GAObXh8hvCNvonU3o81EEnuJ5Ey3zgsEFUxY3/lviJlYqPINCnh9W5/Ti24tRavZEqk4U4mGgwu9T4gIlGuD4dFrnGhw6AAG/hN/Z3tcL++A/+BrcITw10CDVS7z+n2UU1EAhsSGfT+X7L4UORYlRNJfMmvYABvy/gvuyyFM1SHzBrPiYt+wyE+WXjjU8OjphrOsOSDw==;
+	20:nrCYMq/FceDJUEpTEYnP1bM2/uIeQTK47DDF3DnqdPz1L5cq7xAmNZC3d6KU+VDJ7WVNJNZcAehXTFPvOpIqJIPc3c1v5XU2Pcb2qJtDS8zoggKhXXN/zt1tTJda3e0jEampi6jlKNox6sS2TLN3fUdhOs7/Fneu+Xhk4vYaccSFkiCglZ64K+EwPDmcZPhEcW7B4X2vYpsgkE2mMzrBUYUXLK3qUey3fvijoO2hSOF2hh0YemJzlratpp9onAEKeD7GfaQffGuchtmRnjj34xXkWgEudmZXrZIH55ySIlw/H3wrg6cDZbPZ4z7ZJJsC508malTBSf7bmvS41HayuQ==
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DB3PR05MB266;
+X-Microsoft-Antispam-PRVS: <DB3PR05MB266AF0E85D4D1AC1D57B4DB8D080@DB3PR05MB266.eurprd05.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:(90676262408878);
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(8121501046)(520078)(5005006)(3002001)(10201501046);
-	SRVR:AMSPR05MB264; BCL:0; PCL:0; RULEID:; SRVR:AMSPR05MB264; 
-X-Microsoft-Exchange-Diagnostics: 1; AMSPR05MB264;
-	4:ZZdF2axiLndwNlHh4pLUvWm7AXaoMuVNrBXkIzKOnqakp6omsbvyv3Q4OfVJkifZwpQJc0WtxAznHpYR3D/izm4ro6qM9+H6GuTyi7k7T59kynceUQBOAGCOXw0hDsB93cYXgrHLwiAlQoBIA3ZKgCAlPKjkQ5y22eIcVRxdpu+UbvAMfoB56F1Ly7WCwMgRyhNzJD+1aRM6PaQTXcb8ruYsLjICkgmhI+c9X4tKxR6efXqOJsrOfbv535DWveNveLDrHOnAViTtLKFGhZrp9LAmtKwCuZbwRaLjmlQGFAuExA04EVNgUGYEEOpsgGJIaeTHbYnt1nrY1LR5CWVtIMyKfe/87HJWehSZkNtLRXP1rENBX+cY9T6hj3wNGF9wTHRR3LhV618EVTNwXw86w/g/bt/9xZlvt82tx/YulER29KKhFVgWWmlrPd7JKXeo
+	RULEID:(601004)(2401047)(520078)(5005006)(8121501046)(3002001)(10201501046);
+	SRVR:DB3PR05MB266; BCL:0; PCL:0; RULEID:; SRVR:DB3PR05MB266; 
+X-Microsoft-Exchange-Diagnostics: 1; DB3PR05MB266;
+	4:ddHHNb5yu8WnFF+nbtJXFz5Qo8Acha+0Mm7Lp+1P83/ZUS1dERSb6NVpD9C3uzoSrMPBCG5VHpTkU+TEysHreahjpfXaSBD+rewAA9FSIi+mw/AaWiT+KIlvBUrSO+acluHfFIHLvHcC0cmovyxQPoH6QFsCJ20TXORgPyqg0QkXg5GrWWDjBiXcyAuZ/adARFSnsdwfKaXXYujcMZVEq5aVMrNT4s13D/bmIYQ1/pCM6AwmdfkwhdlTJ6lvI22w7frCADDaOOUjyRv7Kc5qN6pSuYOTLl483dIkk2RO+CnnlUPlsC8W+Lo82XbuuBVnmfhfMtodTRpeu30/S6oK6avla93C7aFGJ5S/cAzQw6x90YFtz7DSJ8XLQW3eGzgQJkV1vz7DSJFedndVWdcy5R8Wt3gMgu95TLVr5tLrlwmAX/NXAR4wvMW1upwz3MKX
 X-Forefront-PRVS: 0784C803FD
 X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10019020)(6009001)(6049001)(377454003)(24454002)(189002)(479174004)(199003)(5001960100002)(81156007)(66066001)(97736004)(65816999)(65806001)(122386002)(47776003)(105586002)(106356001)(189998001)(43066003)(87976001)(65956001)(110136002)(40100003)(99136001)(53806999)(101416001)(33656002)(2950100001)(59896002)(83506001)(86362001)(42186005)(36756003)(23746002)(5004730100002)(2351001)(50466002)(64126003)(76176999)(3846002)(19580405001)(80316001)(5008740100001)(4001350100001)(6116002)(54356999)(230700001)(50986999)(87266999)(19580395003)(586003)(77096005)(1096002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:AMSPR05MB264; H:[10.18.0.138];
+	SFS:(10019020)(6009001)(6049001)(377454003)(479174004)(189002)(199003)(24454002)(122386002)(77096005)(87976001)(80316001)(99136001)(40100003)(5001960100002)(19580405001)(76176999)(43066003)(86362001)(47776003)(19580395003)(65816999)(2351001)(23746002)(101416001)(42186005)(106356001)(65956001)(50986999)(83506001)(54356999)(189998001)(87266999)(105586002)(53806999)(66066001)(33656002)(81156007)(110136002)(4001350100001)(97736004)(65806001)(2950100001)(36756003)(64126003)(230700001)(586003)(59896002)(50466002)(5004730100002)(3846002)(1096002)(6116002)(5008740100001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DB3PR05MB266; H:[10.18.0.138];
 	FPR:; SPF:None; PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
 Received-SPF: None (protection.outlook.com: toradex.com does not designate
 	permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?Windows-1252?Q?1; AMSPR05MB264;
-	23:oDxqXC55JV3jA5jkpEFXobqtj+OuOXUlhRc1kw?=
-	=?Windows-1252?Q?QOK+wVVXF+C0/osSyebKdEvkpF54KTIY3lYE/R9jrVZdzHPwKMOL+vFY?=
-	=?Windows-1252?Q?yydBlOdqAfCwP4HpotEr5itmTuP2QJsPtmX0Tt8NKAvftZitdoR+hvwa?=
-	=?Windows-1252?Q?04zOadyfgDm98hnTqKoK0rn4CIQTmvModkWPtLgWdEJmN0Lk7lv9hJjU?=
-	=?Windows-1252?Q?UkfQQ+4BrXdp90+qO4YbqnTaetmyg0indE4mO2ONyeQYPSdo0OQLgBsy?=
-	=?Windows-1252?Q?c5tqPDMXyVlJZpEvBkzTO5A8daL6SJjv+6iavqqpp+UJTsMTfG21lz3L?=
-	=?Windows-1252?Q?9Ae+kLfg3I10DMwG1B4YfBGtlQ3ox+zYB56o6wuwFWi54NUNTwrIxeXb?=
-	=?Windows-1252?Q?RCx0OADzheyztvrYsfSpfCsF8a7BEC1t71qA/yuqM47kxZD+7ZBev1SL?=
-	=?Windows-1252?Q?GwIDm9HW03AFq23WBODo5IB8K0zIuQOoCCAIwlnHWBD0XgD1u6ZIkYcH?=
-	=?Windows-1252?Q?W5at7L6R+ngtahoalKCBJIqau9QmaCoVVu/BJ5WOqVJykWdyyZjF6Top?=
-	=?Windows-1252?Q?tULuYlribhTZTwv/QdRZ2Av7Y53m9nO3eEVmqly2zeYSgYh+O8Tg2lZ8?=
-	=?Windows-1252?Q?1EBNXgfsro9+rT+i+dcfZ0USpLME2qksvwFvLCkY/O7C9Ak8Jt3m3NDO?=
-	=?Windows-1252?Q?1ql+qh1AptHiVVCb6/RX2fI/GjvJiPL5269MKhvadc9PvPRpuPB6HCFB?=
-	=?Windows-1252?Q?8BlEm92TxBUYPLrF61OHXoQ/PC3yVhC4iyaOHCDwTXDQ0jWX+8yYYOdS?=
-	=?Windows-1252?Q?jxGOLfN+FiYoOSPWhG8bWdOpAvNnv25hnSeNKORGiLM+HdEAKlEPKke+?=
-	=?Windows-1252?Q?wCK07Xf/QH/XsiqH4DTydrra3qomTo8HFw+O4M7/HeJDplqmbXe1Lnvj?=
-	=?Windows-1252?Q?QX/LA3oWpNw9DLbt73gbFoVAnYZoLUKbnY2tw2GFWy0bfrxepxfka4Hj?=
-	=?Windows-1252?Q?xt96rzWmf2jZ+tFT4u18KHTuqC1bPjIIQCmbsVvtobFJlXZIw+FvO8Gt?=
-	=?Windows-1252?Q?Mey/H0qtjYuA7zY4gnQveJmDDnJr6HIn2bLGohNqHSDtmsVEg/BAYPuY?=
-	=?Windows-1252?Q?lhJ+xpY2KQC2b24VTi8PdRcESG2qSheV09IyoaXKeanSRETP/xzRiQza?=
-	=?Windows-1252?Q?zKfgTrLE8NUtXkhIWOuFy5SHf2uwZzV8+oNOzXupFbe2iVpvlxJzovRy?=
-	=?Windows-1252?Q?yaGSedZm+CVkydfYeSMlWR6XVqsZH6Ompiok+Hs2NMazJWTULcwONFuj?=
-	=?Windows-1252?Q?JUZcS2TQa97nosGdMoSfePYxZe+483by7+o42C1YwmSJt8ReGh+razwG?=
-	=?Windows-1252?Q?2Dq2uqr3+MuYQZsOUr0I8OlLQiF6co+GEV2nBW/WUrwrYoSL8kLuhoKY?=
-	=?Windows-1252?Q?TNvyeKC6pu7A91ZHzLwzvAAB4KrpZdskTjIID7EQ=3D=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; AMSPR05MB264;
-	5:WkGCDKkeivg0Tsuw4VVw/x2IAM2Rr+sG0yDkUGtLa0EH2LQL+usL0ifIb6QQ8iCCdvJKJwmY/x8d+pdfEoMWpb26bIFcA8VWeIiAO2qn+KhogyZqhnYxjqqc4Vxjd3/ECm/02jlvaRDZEl4+EaowkA==;
-	24:IVGMsb8Nuut6DIVg1OJqq9scUYKY7Jl5k2KhvQUEQPa8Muq3KXbX549xfWY/XvbtQF3Nk9S/pl0T3gUsQRVIY/sB0CiPCFMprwHYc/Ajbdo=
+X-Microsoft-Exchange-Diagnostics: =?Windows-1252?Q?1; DB3PR05MB266;
+	23:RpPJNsx0Ys27JusD6gm8/7VclHyUp3MEE6iRyY?=
+	=?Windows-1252?Q?okE/YpLUutLfzYbORIIJ3OX/18Jh/gdYriUT55auOvTceoluTSGcPeM/?=
+	=?Windows-1252?Q?LMe52eBInmBZ51A+7YjupY/BWPOMKjGwxx99I5LR1hIhE5waWdNf3lS2?=
+	=?Windows-1252?Q?lo6CsixgzFhfHMnIMuALsgx25YSEwRZlR44PnGu8sVsAwLwqUdDhO3ZM?=
+	=?Windows-1252?Q?TS5oTVFAhGOJTcCUmGncB9auVC7vIM+QhdmpRX8FYpmOEt7ByPmQLQ7s?=
+	=?Windows-1252?Q?eycZs+aXRv0ZBXQZ9nFobTV4HHRZi9saftLW7sDejjxFmDu4pFCVTj/c?=
+	=?Windows-1252?Q?Lyi+/UX1G155IQSca4O7/P8Vv9vYmhX/SPAEXGFpT4KRqZMPD9apZBjz?=
+	=?Windows-1252?Q?0hh/qtrj9QgDovmftFSyj6PVyfB9qv0FH1lSayYacFf/EV6CLWu38BrH?=
+	=?Windows-1252?Q?SbdD5ID3I4uWZowo0ZjuaVxyPy8OzxcpEkNh4DlzokYBxwoi7soFD/DT?=
+	=?Windows-1252?Q?MhsXDwg+Vl/bBTkXAbubk1fqJOPE3udG5DIwX7zZJW5PZvh0XWeNHq6/?=
+	=?Windows-1252?Q?czBMYrpkXe6Csh+elhbor/uNp83U6rb+u4A1SZZTcwx/RspqM7EgaMZg?=
+	=?Windows-1252?Q?2rW9B8bnpkpoPq1qts9oJGlStQz6MmlZbvuM3U8OtlYm3+sDGuVKxhF4?=
+	=?Windows-1252?Q?Ox/BYyFQGuvOpVvVh7lkt2Cg0YlLb83MIx4ZCh+H1hDy31HaPBrpSz3G?=
+	=?Windows-1252?Q?lXGPhezN8VIoVGz2id+qvfUl6Mb+HRhKxY866NtQSFMBzJeFa0UqiCpe?=
+	=?Windows-1252?Q?CcEOm2hL1FLLk6xHhJSAzHcT84GlBq69GM1u5MWURf2YK0Du13Oc9D7R?=
+	=?Windows-1252?Q?SPRbgX0D8pPCq4sZjnrlQvRuj2SGY3Yvw4pNbIUzbD8z1ajwu10fRhYx?=
+	=?Windows-1252?Q?k8K18GekZQsnOrIeniqjUyQ7RPtl/MYn4ajjHlHtGxVEtragJc6Zel2H?=
+	=?Windows-1252?Q?HScDjchuYh9HKAvelFmNdQ6YWcAAWC7cPIKXVLVzGhIxm8Muu2m5g4SG?=
+	=?Windows-1252?Q?HSyK6BdBXJVnifASdzqg+PE0z31Iy6m6jTXMf2Xk59bELvDKAgiC8TDA?=
+	=?Windows-1252?Q?kyDLdFr8kjaubiTUfl2FwIeRbNvYCuN9CUC2YhbUW3XSUiZzwhqT4Lp+?=
+	=?Windows-1252?Q?DDXt8wvtRNqRKXJXoapkLMflYQfI7kEtWUAGUcQHQiWRogaA6XiDTGBz?=
+	=?Windows-1252?Q?Yr51buRy+nO3zUADaQPRBcH94b2o4IA/IX6dpVO2p07EfEUuh7qsbxc2?=
+	=?Windows-1252?Q?nmFWaHsWH8WJQ3HANZMMjoiwrmpv3yWiLSVtlbnhcMIIFybjqVnHkdMx?=
+	=?Windows-1252?Q?YV7CdnPhp8UrSU1xguYz+SmmRkkjXs02+s3qaH9dRSWc5Fx8kRap97mw?=
+	=?Windows-1252?Q?G+o35Sif/p7l5Xiis6vR6Pp/WyU33JFxpefRqYxg=3D=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; DB3PR05MB266;
+	5:7fm9QmLEff+wYgRrIU62W0ZGzy4wnhm/WR+wp2SNEdTB5gRSODYPptAggdaK0wIC/6wxrSk7L2WcXAP3HfEm9yFKevif6Q5Hld5B/blymmPEq/4dhDcEA3X9HbCM+VJZEr0Mw60q/VVfOmskU0lhUA==;
+	24:ciJG5ENwuoBc5d3yy+iCjrKD2/+n5sMB1xNhyjg/6phEFK7vfBzhzKydo6ntg0IfXG+KrxOAN1F0sWT43CF875ix+KVH1s+XFhR8dQuHHYw=
 SpamDiagnosticOutput: 1:23
 SpamDiagnosticMetadata: NSPM
 X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2015 07:03:29.2441 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2015 07:03:29.3329 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMSPR05MB264
-Subject: Re: [PATCH] linux-firmware: rtl8192cx: Add latest available firmware
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR05MB266
+Subject: Re: [fido][PATCH] linux-firmware: rtl8192cx: Add latest available firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -95,7 +95,7 @@ X-List-Received-Date: Tue, 08 Dec 2015 07:03:35 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/26/2015 02:42 PM, Bhuvanchandra DV wrote:
+On 11/26/2015 02:21 PM, Bhuvanchandra DV wrote:
 > Add latest available firmware binaries for RTL8192CX chipsets.
 > These new firmwares have been released in 2012, have been used
 > by the mainline kernel as preferred firmware since 3.13 and
@@ -110,22 +110,25 @@ Ping!
 >   1 file changed, 2 insertions(+), 2 deletions(-)
 >
 > diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> index 615fbdb..3c5729d 100644
+> index 16ebf6a..e81bce0 100644
 > --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
 > +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> @@ -260,10 +260,10 @@ FILES_${PN}-rtl-license = " \
->     /lib/firmware/LICENCE.rtlwifi_firmware.txt \
->   "
+> @@ -145,13 +145,13 @@ FILES_${PN}-rtl-license = " \
+>
+>   LICENSE_${PN}-rtl8192cu = "Firmware-rtlwifi"
 >   FILES_${PN}-rtl8192cu = " \
 > -  /lib/firmware/rtlwifi/rtl8192cufw.bin \
 > +  /lib/firmware/rtlwifi/rtl8192cufw*.bin \
 >   "
+>   RDEPENDS_${PN}-rtl8192cu += "${PN}-rtl-license"
+>
+>   LICENSE_${PN}-rtl8192ce = "Firmware-rtlwifi"
 >   FILES_${PN}-rtl8192ce = " \
 > -  /lib/firmware/rtlwifi/rtl8192cfw.bin \
 > +  /lib/firmware/rtlwifi/rtl8192cfw*.bin \
 >   "
->   FILES_${PN}-rtl8192su = " \
->     /lib/firmware/rtlwifi/rtl8712u.bin \
+>   RDEPENDS_${PN}-rtl8192ce += "${PN}-rtl-license"
+>
 >
 
 -- 
