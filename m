@@ -1,61 +1,33 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f45.google.com (mail-lf0-f45.google.com
-	[209.85.215.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 7934060110
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 00F0260110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 07:49:25 +0000 (UTC)
-Received: by lfdl133 with SMTP id l133so7212263lfd.2
+	Tue,  8 Dec 2015 08:12:27 +0000 (UTC)
+Received: by qgeb1 with SMTP id b1so10083640qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Dec 2015 23:49:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:subject:message-id:mail-followup-to:references
-	:mime-version:content-type:content-disposition:in-reply-to
-	:organization:user-agent;
-	bh=kGl+q/Qr37Hatz9WP6Gg/VzdumTyy1FhoujMXMaNxVQ=;
-	b=WZq03xpDfVuEUhx/gHYqV9PzMqy2nWLfm8+Lns7OSmpDFq6W+mLkG7hSqil9nbJtb0
-	EqqTWS1R9aR3xr8QIMW+NlAz3BW1XbriIZcGHb/5JARdjm0q8VRuxci9tIhigheNCjQD
-	XHFB7+sdR6D7OVPuV9y+mRXYecbacrU0HRYzKlYO5j51XXg1IgfZOcxQHz4hqSoDYbnT
-	acIHm4Yj/dg90QPJD0HNzI6rOqjxDfZ4LjRQKBd7DTnsPpguujILA+dnNQLII5FZ926R
-	rHeX3XVprHMMNX38Bd4+8TIXcX4gnSSjGQFCLx3PXHwTEfCZMC98dEjfGtuxoeUWEc7F
-	hYAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-type:content-disposition
-	:in-reply-to:organization:user-agent;
-	bh=kGl+q/Qr37Hatz9WP6Gg/VzdumTyy1FhoujMXMaNxVQ=;
-	b=MgPpuW6R7FQXdxzEqeeAgW2CAJ/abmE3C6/nrvS1nRlmU9YcgMc2rrPgUBks+P51Jg
-	N/KAlm+2Q8z5C7owEHWD3L81OjvJL9AWJsGkhH6m4NHFsvQlajL4sqZsth45W4Ha4qja
-	de6zT0huVjYqRjLq6AI8hccRydcYu2wy1tQfuC8g6vhTP2xasBwpVo7tB4Q6bmMTouQb
-	xGjiqzAr/EgUhFpLeG0pEK9+t8IkYgtztdjTU7nVKUbNAJtybhIbqxypNhYtYffR0c6E
-	/le8yhec+Gc6wBPWhTR0kaVZVXQy/6mrIClVnU/3Sk+tQcjSNqkzAkVat+WZoWZGc8Qq
-	czQw==
-X-Gm-Message-State: ALoCoQlVUT3ujznfFxONNbt3JRvcPlUXyPd+uBntvTv5tgckJ7x6BBOd09LjrN7kLWz124TKLrzsXw9CRIBoA3SsOMIKKveHcA==
-X-Received: by 10.25.39.19 with SMTP id n19mr706231lfn.156.1449560965173;
-	Mon, 07 Dec 2015 23:49:25 -0800 (PST)
-Received: from ad.chargestorm.se (h83-209-191-235.dynamic.se.alltele.net.
-	[83.209.191.235])
-	by smtp.gmail.com with ESMTPSA id l67sm331197lfl.26.2015.12.07.23.49.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 07 Dec 2015 23:49:24 -0800 (PST)
-Date: Tue, 8 Dec 2015 08:49:23 +0100
-From: Anders Darander <anders@chargestorm.se>
+	Tue, 08 Dec 2015 00:12:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=lTNlICACKaiDGyOb3n5L/iur9UvOrf2LOtWiotWY6yQ=;
+	b=ej8yy5dUSqhV0LS3hK3INKApzf4LLZlMhIXUmiWu27PF3fmePBaKziH+u7nZY2reUR
+	LRckmZI19iw1CdR3ku4heQ7hdZ8jc8IOHeHu6TsjvOVjGe9Sw3sqaMa+9VIRDzC3Ia7r
+	lVM2dZGjJfs0W9YPTVbRIfMDBqppX9SxZHFVdVelxlL7JV2kDlhDhIixKFm3U8sdQY+u
+	EcMjVTjF40hz5CwO/JPfDA0gqBn2ZClLry19MiFPPqzve9BopOG1unTyTnhYGdJ8bf1u
+	G1arYv/IcVU4nU6IV7595xt5ZFDuvoqCfA/XdLvXnbzWbsmytdndWZerRXjMQujVxk8e
+	jDRQ==
+X-Received: by 10.140.239.87 with SMTP id k84mr2504455qhc.87.1449562347989;
+	Tue, 08 Dec 2015 00:12:27 -0800 (PST)
+Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
+	by smtp.gmail.com with ESMTPSA id c48sm994814qge.49.2015.12.08.00.12.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 08 Dec 2015 00:12:26 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20151208074923.GB8707@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <1449539278-20070-1-git-send-email-akuster808@gmail.com>
-	<1449539278-20070-4-git-send-email-akuster808@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1449539278-20070-4-git-send-email-akuster808@gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Subject: Re: [jethro][fido][PATCH 4/4] openssl: three CVE fixes
+Date: Tue,  8 Dec 2015 08:12:21 +0000
+Message-Id: <cover.1449562195.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.6.3
+Subject: [PATCH 00/13] Add musl to OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,53 +40,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 07:49:26 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 08 Dec 2015 08:12:28 -0000
 
-Hi,
+This is a mimimal set of changes brought in from meta-musl
+to OE-Core, with this set one can build core-image-minimal using musl
+by setting
 
-* Armin Kuster <akuster808@gmail.com> [151208 02:49]:
+TCLIBC=musl
 
->  meta/recipes-connectivity/openssl/openssl_1.0.2d.bb | 4 ++++
->  1 file changed, 4 insertions(+)
+for all supported architectures, eventually we will bring
+more changes to other packages which will enable more complex
+image builds and eventually world.
 
-I'm just a little curious about this serious, and a few others that I've
-seen recently. They all add a number of CVE-patches, with one commit per
-patch, and as the last commit, they all get added to SRC_URI in a single
-patch.
+v2: Address review feedback
 
-What's the reason to do it like this? i
+Khem Raj (13):
+  gcc: Add support for building musl configuration
+  autoconf: Add musl support
+  gdb: Fix build with musl
+  mtd-utils: Backport and create patches to support musl
+  squashfs-tools: Define FNM_EXTMATCH if not defined
+  mtools: Use proper glibc override to add glibc packages to
+    recommendations
+  musl: Add recipe
+  sysvinit: Fix build with musl
+  gettext: Delete libintl.h and charset.alias
+  busybox: Add config for musl
+  openssl: Add musl configuration support
+  libpam: Fix build with musl
+  attr: Add patch to account for use of internal glibc header
 
-I'd personally prefer to have each CVE-path also add the patch to
-SRC_URI, as that make cherry-picking more straightforward. And it also
-ensures that if we have a need to bisect some issue, that'll work. At
-the same time that will make the meta-data consistent, i.e. no dead
-patches.
-
-I'd personally even prefer that whole series squashed to one commit,
-compared to this adding a lot of un-applied patches. 
-
-Any comments on this?
-
-Cheers,
-Anders
-
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-> index fd56841..3864e88 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-> @@ -37,6 +37,10 @@ SRC_URI += "file://configure-targets.patch \
->              file://crypto_use_bigint_in_x86-64_perl.patch \
->              file://openssl-1.0.2a-x32-asm.patch \
->              file://ptest_makefile_deps.patch  \
-> +            file://CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch \
-> +            file://CVE-2015-3194-1-Add-PSS-parameter-check.patch \
-> +            file://0001-Add-test-for-CVE-2015-3194.patch \
-> +            file://CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch \
->             "
+ meta/recipes-connectivity/openssl/openssl.inc      |   4 +-
+ .../openssl/openssl/configure-musl-target.patch    |  27 +++
+ .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   1 +
+ ...user-use-POSIX-getpwent-instead-of-getpwe.patch |  71 ++++++
+ meta/recipes-core/busybox/busybox/musl.cfg         |  12 +
+ meta/recipes-core/busybox/busybox_1.24.1.bb        |   2 +
+ meta/recipes-core/gettext/gettext_0.16.1.bb        |   5 +
+ meta/recipes-core/gettext/gettext_0.19.4.bb        |   4 +
+ meta/recipes-core/musl/musl.inc                    |  26 ++
+ meta/recipes-core/musl/musl_git.bb                 |  58 +++++
+ meta/recipes-core/sysvinit/sysvinit/realpath.patch |  78 ++++++
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |   1 +
+ .../autoconf/autoconf/add_musl_config.patch        |  26 ++
+ meta/recipes-devtools/autoconf/autoconf_2.69.bb    |   1 +
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |   4 +
+ .../gcc/gcc-4.9/0067-gcc-musl-support.patch        | 267 +++++++++++++++++++++
+ .../gcc/gcc-4.9/0068-musl-dynamic-linker.patch     | 205 ++++++++++++++++
+ .../gcc/gcc-4.9/0069-musl-no-fixincludes.patch     |  21 ++
+ .../gcc/gcc-4.9/0070-libstdc-musl.patch            |  32 +++
+ meta/recipes-devtools/gcc/gcc-5.2.inc              |   4 +
+ .../gcc/gcc-5.2/0043-libstdc-musl.patch            |  32 +++
+ .../gcc/gcc-5.2/0044-gcc-musl-support.patch        | 267 +++++++++++++++++++++
+ .../gcc/gcc-5.2/0045-musl-dynamic-linker.patch     | 198 +++++++++++++++
+ .../gcc/gcc-5.2/0046-musl-no-fixincludes.patch     |  22 ++
+ meta/recipes-devtools/gdb/gdb.inc                  |   1 +
+ ...0001-Use-exported-definitions-of-SIGRTMIN.patch |  54 +++++
+ .../mtd/mtd-utils/0001-Fix-build-with-musl.patch   |  53 ++++
+ ...ibfec-use-standard-C-type-instead-of-u_lo.patch |  56 +++++
+ .../mtd/mtd-utils/010-fix-rpmatch.patch            |  24 ++
+ meta/recipes-devtools/mtd/mtd-utils_git.bb         |   4 +
+ meta/recipes-devtools/mtools/mtools_4.0.18.bb      |   4 +-
+ .../squashfs-tools/squashfs-tools/fix-compat.patch |  63 +++++
+ .../squashfs-tools/squashfs-tools_git.bb           |   1 +
+ ...upport-for-defining-missing-funcitonality.patch |  68 ++++++
+ .../pam/libpam/include_paths_header.patch          |  59 +++++
+ meta/recipes-extended/pam/libpam_1.2.1.bb          |   5 +-
+ meta/recipes-support/attr/attr_2.4.47.bb           |   4 +-
+ .../attr/files/dont-use-decl-macros.patch          |  56 +++++
+ 38 files changed, 1815 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-linedit-deluser-use-POSIX-getpwent-instead-of-getpwe.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/musl.cfg
+ create mode 100644 meta/recipes-core/musl/musl.inc
+ create mode 100644 meta/recipes-core/musl/musl_git.bb
+ create mode 100644 meta/recipes-core/sysvinit/sysvinit/realpath.patch
+ create mode 100644 meta/recipes-devtools/autoconf/autoconf/add_musl_config.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0067-gcc-musl-support.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0068-musl-dynamic-linker.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0069-musl-no-fixincludes.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0070-libstdc-musl.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0043-libstdc-musl.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0044-gcc-musl-support.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0045-musl-dynamic-linker.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0046-musl-no-fixincludes.patch
+ create mode 100644 meta/recipes-devtools/gdb/gdb/0001-Use-exported-definitions-of-SIGRTMIN.patch
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch
+ create mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/fix-compat.patch
+ create mode 100644 meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
+ create mode 100644 meta/recipes-extended/pam/libpam/include_paths_header.patch
+ create mode 100644 meta/recipes-support/attr/files/dont-use-decl-macros.patch
 
 -- 
-Anders Darander, Senior System Architect
-ChargeStorm AB / eStorm AB
+2.6.3
+
 
