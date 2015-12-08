@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 691326FF7F
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C02C6FFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 08:12:43 +0000 (UTC)
-Received: by qgec40 with SMTP id c40so9970171qge.2
+	Tue,  8 Dec 2015 08:12:46 +0000 (UTC)
+Received: by qgea14 with SMTP id a14so10017927qge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 00:12:44 -0800 (PST)
+	Tue, 08 Dec 2015 00:12:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=Ow6Kq5DnhrcfBEngfaQsmXMCQIzq7pMpW4t/5xt3BPY=;
-	b=s2rjHTo3rwgSDJ+uCY57RzrhKKXGJQEZKOqERMc3EYf828eqp6LOk2lASrumUbUX6P
-	U237z0XyQmE72cgWPBv9mX9DMqOJAT910dhEfOF2/R0HQzy1zdLlzn5kdZmL4b9pEIht
-	mj3lK5MBHldOtuIc4AlOfEjbzzijPy61a+T3ioJ3TK59/d35idg0bEJqjEAolJcxJmzW
-	gvQVQ9NOSDDyBF2MehSFCTGxSQUKVGFIP78K8UIVHFyGMLDZawkHgxlwBWbdfHaAfy36
-	qiSNoP/IcDtzeiMcT0JrwT5PJEcj4J3RK+GnnOz3UFfFv+dyE7Gubuwf1OS7SSNi+Kdf
-	OVGw==
-X-Received: by 10.140.100.175 with SMTP id s44mr2713757qge.47.1449562364598;
-	Tue, 08 Dec 2015 00:12:44 -0800 (PST)
+	bh=2k/TLh77rBSwGc6pOwqebBEzbdWZ6KXndB3jmWjaJf4=;
+	b=vIioaDU4d1ZbaizF1oSOh3T77bXycUOD68bU8kn1AYvgdvsMmu0XJXOdxOGu88TsgL
+	ImRO9S0dzO+gAf0ledCaCvn8lGLn3EoTt5iYAKtUUN1BqSnVL+975zezVii4jYtFr1JQ
+	pLWVNHRg+EX7hPvrP5StbL/StfypOwFpaaZyBJRLF7KOvYrsar1Z6xgng7H6uMO94swa
+	q+d178RUd/nle0NBFTNhAdR3o/XoX040ELThmTgpCLWS+4TzWElI7fbhYMMFaNSt7nOW
+	zp2MtLtQUWGmg6q8oKy8cGKCOZoTNDaaf44jFLoEEdDFc9U7VEVQukQaW/pu3WdtMme0
+	/XWw==
+X-Received: by 10.140.107.11 with SMTP id g11mr2739409qgf.37.1449562366985;
+	Tue, 08 Dec 2015 00:12:46 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	v66sm1023174qkv.32.2015.12.08.00.12.43
+	v66sm1023174qkv.32.2015.12.08.00.12.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Dec 2015 00:12:43 -0800 (PST)
+	Tue, 08 Dec 2015 00:12:46 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Dec 2015 08:12:29 +0000
-Message-Id: <18f9e395d969a0d33d4d78da4be0237b5cb1ea18.1449562195.git.raj.khem@gmail.com>
+Date: Tue,  8 Dec 2015 08:12:33 +0000
+Message-Id: <d8defb90c3618fcd6819dffd70795401c2b86f99.1449562195.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
 References: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1449562195.git.raj.khem@gmail.com>
 References: <cover.1449562195.git.raj.khem@gmail.com>
-Subject: [PATCH 09/13] gettext: Delete libintl.h and charset.alias
+Subject: [PATCH 13/13] attr: Add patch to account for use of internal glibc header
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,46 +48,93 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 08 Dec 2015 08:12:46 -0000
 
-libintl.h is already provided by musl and charset.alias is regenerated
-by packages themselves
+based on suggestions on musl FAQ
+http://wiki.musl-libc.org/wiki/FAQ
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/gettext/gettext_0.16.1.bb | 5 +++++
- meta/recipes-core/gettext/gettext_0.19.4.bb | 4 ++++
- 2 files changed, 9 insertions(+)
+ meta/recipes-support/attr/attr_2.4.47.bb           |  4 +-
+ .../attr/files/dont-use-decl-macros.patch          | 56 ++++++++++++++++++++++
+ 2 files changed, 59 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/attr/files/dont-use-decl-macros.patch
 
-diff --git a/meta/recipes-core/gettext/gettext_0.16.1.bb b/meta/recipes-core/gettext/gettext_0.16.1.bb
-index f9f7a7f..cd0b759 100644
---- a/meta/recipes-core/gettext/gettext_0.16.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.16.1.bb
-@@ -39,6 +39,11 @@ do_configure_prepend() {
- 	rm -f ${S}/config/m4/libtool.m4
- }
+diff --git a/meta/recipes-support/attr/attr_2.4.47.bb b/meta/recipes-support/attr/attr_2.4.47.bb
+index ad40c9b..44eee39 100644
+--- a/meta/recipes-support/attr/attr_2.4.47.bb
++++ b/meta/recipes-support/attr/attr_2.4.47.bb
+@@ -2,7 +2,9 @@ require attr.inc
  
-+do_install_append_libc-musl () {
-+	rm -f ${D}${libdir}/charset.alias
-+	rm -f ${D}${includedir}/libintl.h
-+}
+ # configure.ac was missing from the release tarball. This should be fixed in
+ # future releases of attr, remove this when updating the recipe.
+-SRC_URI_append += "file://attr-Missing-configure.ac.patch"
++SRC_URI_append += "file://attr-Missing-configure.ac.patch \
++                   file://dont-use-decl-macros.patch \
++                  "
+ 
+ SRC_URI[md5sum] = "84f58dec00b60f2dc8fd1c9709291cc7"
+ SRC_URI[sha256sum] = "25772f653ac5b2e3ceeb89df50e4688891e21f723c460636548971652af0a859"
+diff --git a/meta/recipes-support/attr/files/dont-use-decl-macros.patch b/meta/recipes-support/attr/files/dont-use-decl-macros.patch
+new file mode 100644
+index 0000000..9d4b892
+--- /dev/null
++++ b/meta/recipes-support/attr/files/dont-use-decl-macros.patch
+@@ -0,0 +1,56 @@
++Use extern "C" instead of __BEGIN_DECL/__END_DECL macros
++these macros are defined in sys/cdefs.h for glibc and this header is not available on all libc
 +
- # these lack the .x behind the .so, but shouldn't be in the -dev package
- # Otherwise you get the following results:
- # 7.4M    glibc/images/ep93xx/Angstrom-console-image-glibc-ipk-2008.1-test-20080104-ep93xx.rootfs.tar.gz
-diff --git a/meta/recipes-core/gettext/gettext_0.19.4.bb b/meta/recipes-core/gettext/gettext_0.19.4.bb
-index cebf6c7..a9c919a 100644
---- a/meta/recipes-core/gettext/gettext_0.19.4.bb
-+++ b/meta/recipes-core/gettext/gettext_0.19.4.bb
-@@ -42,6 +42,10 @@ EXTRA_OECONF += "--without-lispdir \
- acpaths = '-I ${S}/gettext-runtime/m4 \
-            -I ${S}/gettext-tools/m4'
- 
-+do_install_append_libc-musl () {
-+	rm -f ${D}${libdir}/charset.alias
-+	rm -f ${D}${includedir}/libintl.h
-+}
- 
- # these lack the .x behind the .so, but shouldn't be in the -dev package
- # Otherwise you get the following results:
++anyway they defined like below
++
++#ifdef __cplusplus
++# define __BEGIN_DECLS extern "C" {
++# define __END_DECLS }
++#else
++# define __BEGIN_DECLS /* empty */
++# define __END_DECLS /* empty */
++#endif
++
++__THROW macro is also not available on musl, defined thusly
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: attr-2.4.47/include/xattr.h
++===================================================================
++--- attr-2.4.47.orig/include/xattr.h	2014-04-02 00:01:30.252091280 -0700
+++++ attr-2.4.47/include/xattr.h	2014-04-02 00:12:57.985428099 -0700
++@@ -30,8 +30,20 @@
++ #define XATTR_CREATE  0x1       /* set value, fail if attr already exists */
++ #define XATTR_REPLACE 0x2       /* set value, fail if attr does not exist */
++ 
++-
++-__BEGIN_DECLS
+++#ifndef __THROW
+++# ifndef __GNUC_PREREQ
+++#  define __GNUC_PREREQ(maj, min) (0)
+++# endif
+++# if defined __cplusplus && __GNUC_PREREQ (2,8)
+++#  define __THROW       throw ()
+++# else
+++#  define __THROW
+++# endif
+++#endif
+++
+++#ifdef __cplusplus
+++extern "C" {
+++#endif
++ 
++ extern int setxattr (const char *__path, const char *__name,
++ 		      const void *__value, size_t __size, int __flags) __THROW;
++@@ -58,6 +70,8 @@
++ extern int lremovexattr (const char *__path, const char *__name) __THROW;
++ extern int fremovexattr (int __filedes,   const char *__name) __THROW;
++ 
++-__END_DECLS
+++#ifdef __cplusplus
+++}
+++#endif
++ 
++ #endif	/* __XATTR_H__ */
 -- 
 2.6.3
 
