@@ -1,27 +1,44 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 00C6060110
+Return-Path: <fabrice.coulon@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 19D8760110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 08:16:04 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tB88G3Rr015019
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 8 Dec 2015 00:16:03 -0800
-Received: from [128.224.162.160] (128.224.162.160) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 8 Dec 2015 00:16:03 -0800
-To: Armin Kuster <akuster808@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1449344129-32738-1-git-send-email-akuster808@gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <566691C1.4050000@windriver.com>
-Date: Tue, 8 Dec 2015 16:16:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101
+	Tue,  8 Dec 2015 08:51:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 243FA180A2;
+	Tue,  8 Dec 2015 09:51:08 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id veQzOJK+Z-RY; Tue,  8 Dec 2015 09:51:07 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 78E9018094;
+	Tue,  8 Dec 2015 09:51:07 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 545B7151B;
+	Tue,  8 Dec 2015 09:51:07 +0100 (CET)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 4547215B;
+	Tue,  8 Dec 2015 09:51:07 +0100 (CET)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by thoth.se.axis.com (Postfix) with ESMTP id 42A11341C2;
+	Tue,  8 Dec 2015 09:51:07 +0100 (CET)
+Received: from [10.92.161.3] (10.92.161.3) by xmail2.se.axis.com (10.0.5.74)
+	with Microsoft SMTP Server (TLS) id 8.3.342.0;
+	Tue, 8 Dec 2015 09:51:07 +0100
+To: Christopher Larson <clarson@kergoth.com>
+References: <1449484744-7362-1-git-send-email-fabrice.coulon@axis.com>
+	<CABcZANmnKsvaQBykUSZP2_Qsy4oW7v5WwRzF_4vpUbMxkezKPQ@mail.gmail.com>
+From: Fabrice Coulon <fabrice.coulon@axis.com>
+Message-ID: <566699E2.2030300@axis.com>
+Date: Tue, 8 Dec 2015 09:50:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.3.0
 MIME-Version: 1.0
-In-Reply-To: <1449344129-32738-1-git-send-email-akuster808@gmail.com>
-Subject: Re: [PATCH][jethro][fido][ 00/15] Libxml2: multiple security fixes
+In-Reply-To: <CABcZANmnKsvaQBykUSZP2_Qsy4oW7v5WwRzF_4vpUbMxkezKPQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] useradd_base: Make perform_groupmems work with native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,77 +51,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 08:16:05 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Tue, 08 Dec 2015 08:51:10 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-Hi Armin,
 
-With these patches, for jethro, I think that the following one is not
-needed any more ?
-
-commit d7fa0b41843dd417eba31f1a8dcd60ce08a57d66
-Author: Armin Kuster <akuster@mvista.com>
-Date:   Wed Nov 11 14:21:46 2015 -0800
-
-     libxml2: fix CVE-2015-7942 and CVE-2015-8035
-
-// Robert
-
-On 12/06/2015 03:35 AM, Armin Kuster wrote:
-> Each CVE is an independant patch so they can be easily merged to other distros
-> and/or stable branches.
+On 12/07/2015 04:30 PM, Christopher Larson wrote:
 >
-> I have included two previous CVE's sent for jethro which can be ignored.
-> I put the CVE's in order as there where fixed upstream.
+> On Mon, Dec 7, 2015 at 3:39 AM, Fabrice Coulon 
+> <fabrice.coulon@axis.com <mailto:fabrice.coulon@axis.com>> wrote:
 >
-> Armin Kuster (15):
->    libxml2: security fix CVE-2015-7941-1
->    libxml2: security fix CVE-2015-7941-2
->    libxml2: security fix CVE-2015-8317
->    libxml2: security fix CVE-2015-7942
->    libxml2: security fix CVE-2015-7942-2
->    libxml2: security fix CVE-2015-8317
->    libxml2: security fix CVE-2015-7498
->    libxml2: security fix CVE-2015-7497
->    libxml2: security fix CVE-2015-7499-1
->    libxml2: security fix CVE-2015-7499-2
->    libxml2: depend fix security issue CVE-2015-7500
->    libxml2: security fix CVE-2015-7500
->    libxml2: security fix CVE-2015-8242
->    libxml2: security fix CVE-2015-5312
->    libxml2: multiple security fixes.
+>     I have a problem when using useradd_base.bbclass together with native.
+>     ${sysconfdir} is BUILDDIR/tmp/sysroots/x86_64-linux/etc for native,
+>     and ${sysconfdir} is "/etc" for target.
 >
->   meta/recipes-core/libxml/libxml2.inc               |  14 +++
->   ...-2015-5312-Another-entity-expansion-issue.patch |  39 ++++++
->   ...97-Avoid-an-heap-buffer-overflow-in-xmlDi.patch |  40 ++++++
->   ...00-Fix-memory-access-error-due-to-incorre.patch | 131 +++++++++++++++++++
->   ...2015-8035-Fix-XZ-compression-support-loop.patch |  38 ++++++
->   ...42-Buffer-overead-with-HTML-parser-in-pus.patch |  49 ++++++++
->   ...n-name-parsing-at-the-end-of-current-inpu.patch | 138 +++++++++++++++++++++
->   ...ssing-entities-after-encoding-conversion-.patch |  89 +++++++++++++
->   ...99-1-Add-xmlHaltParser-to-stop-the-parser.patch |  88 +++++++++++++
->   ...VE-2015-7499-2-Detect-incoherency-on-GROW.patch |  43 +++++++
->   ...top-parsing-on-entities-boundaries-errors.patch |  39 ++++++
->   ...leanup-conditional-section-error-handling.patch |  56 +++++++++
->   ...ror-in-previous-Conditional-section-patch.patch |  35 ++++++
->   ...iation-of-overflow-in-Conditional-section.patch |  39 ++++++
->   ...ng-early-on-if-encoding-conversion-failed.patch |  42 +++++++
->   15 files changed, 880 insertions(+)
->   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-5312-Another-entity-expansion-issue.patch
->   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch
->   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch
->   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8035-Fix-XZ-compression-support-loop.patch
->   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch
->   create mode 100644 meta/recipes-core/libxml/libxml2/0001-Fix-a-bug-on-name-parsing-at-the-end-of-current-inpu.patch
->   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7498-Avoid-processing-entities-after-encoding-conversion-.patch
->   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-1-Add-xmlHaltParser-to-stop-the-parser.patch
->   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-2-Detect-incoherency-on-GROW.patch
->   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-1-Stop-parsing-on-entities-boundaries-errors.patch
->   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-2-Cleanup-conditional-section-error-handling.patch
->   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-2-Fix-an-error-in-previous-Conditional-section-patch.patch
->   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-Another-variation-of-overflow-in-Conditional-section.patch
->   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8317-Fail-parsing-early-on-if-encoding-conversion-failed.patch
+>     rootdir is BUILDDIR/tmp/sysroots/x86_64-linux for native, so,
+>     $rootdir${sysconfdir} is not correct for native.
 >
+>     The solution for me was to replace instances of $rootdir${sysconfdir}
+>     with $rootdir/etc under perform_groupmems.
+>
+>     Signed-off-by: Fabrice Coulon <fabrice.coulon@axis.com
+>     <mailto:fabrice.coulon@axis.com>>
+>
+>
+> Hardcoding a path is *not* an appropriate fix.
+
+I agree that hardcoding a path is not OK but maybe you should not see 
+this as a fix but more like a question/discussion.
+
+The problem is that "/etc" is hardcoded in 13 other places in 
+meta/classes/useradd_base.bbclass.
+
+Do you know how to solve this so that it will work well for native?
+
+> -- 
+> Christopher Larson
+> clarson at kergoth dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Maintainer - Tslib
+> Senior Software Engineer, Mentor Graphics
+
 
