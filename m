@@ -1,37 +1,22 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id B483E6FF78
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 346BD606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 01:48:06 +0000 (UTC)
-Received: by pabur14 with SMTP id ur14so3288156pab.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Dec 2015 17:48:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=NPE4KRvpg7B0Y9mR+6QblNt1AI+GYLbxFATcMPjKcDU=;
-	b=iS4B6a04bw+EPwF7eRPeBDkX8r9JZlWeqVT5+V7VEnW8bX1Dl0oxCG0FVhFe3/H/3g
-	jy2dj/qfXCT+CbeeQzEGx6WhzmSfzAJW1+IUiIl6kO99UuSo3AtQU/8WQ3KO08HiFviw
-	TN9WELPkfrxd+F5k/5VzdFcqlQcsu0CqDYS2noUjrlUd/EtE0xCeKCok4vW62YNdv3ew
-	+14pfkL9xDA1//Z8HcaoACzuuddimxbUfBXeqbgv8ZOhjPWgaeRbJKXoH77dZ1g88csE
-	psOeP1kppIj7tk+T3Fm/zsarRvnAtnSmT+7ZEyeMQPAxbPgR7n6EfeM6lA6vk9y0yLm7
-	65aw==
-X-Received: by 10.66.150.228 with SMTP id ul4mr1270066pab.15.1449539287108;
-	Mon, 07 Dec 2015 17:48:07 -0800 (PST)
-Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	cc16sm605285pac.44.2015.12.07.17.48.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 07 Dec 2015 17:48:06 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
+	Tue,  8 Dec 2015 02:42:59 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga103.fm.intel.com with ESMTP; 07 Dec 2015 18:43:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,397,1444719600"; 
+   d="scan'208";a="9286396"
+Received: from schan8-mobl7.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.144.63])
+	by fmsmga004.fm.intel.com with ESMTP; 07 Dec 2015 18:42:58 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Dec 2015 17:47:58 -0800
-Message-Id: <1449539278-20070-4-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-In-Reply-To: <1449539278-20070-1-git-send-email-akuster808@gmail.com>
-References: <1449539278-20070-1-git-send-email-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [jethro][fido][PATCH 4/4] openssl: three CVE fixes
+Date: Tue,  8 Dec 2015 15:42:37 +1300
+Message-Id: <cover.1449542331.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH 0/1] Fix ext SDK installer regression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +29,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 01:48:07 -0000
+X-List-Received-Date: Tue, 08 Dec 2015 02:43:02 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+The following changes since commit 687e5ef86361a16d6c411386939d4ba96a5909ea:
 
-CVE-2015-3193
-CVE-2015-3194
-CVE-2105-3195
+  libsdl: remove redundant configure_tweak patch (2015-12-01 21:31:04 +0000)
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-connectivity/openssl/openssl_1.0.2d.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+are available in the git repository at:
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-index fd56841..3864e88 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-@@ -37,6 +37,10 @@ SRC_URI += "file://configure-targets.patch \
-             file://crypto_use_bigint_in_x86-64_perl.patch \
-             file://openssl-1.0.2a-x32-asm.patch \
-             file://ptest_makefile_deps.patch  \
-+            file://CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch \
-+            file://CVE-2015-3194-1-Add-PSS-parameter-check.patch \
-+            file://0001-Add-test-for-CVE-2015-3194.patch \
-+            file://CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch \
-            "
- 
- SRC_URI[md5sum] = "38dd619b2e77cbac69b99f52a053d25a"
+  git://git.openembedded.org/openembedded-core-contrib paule/sdk-env-fix3
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/sdk-env-fix3
+
+Paul Eggleton (1):
+  toolchain-shar-extract.sh: ensure cleaned environment will work for ext SDK
+
+ meta/files/toolchain-shar-extract.sh | 2 ++
+ 1 file changed, 2 insertions(+)
+
 -- 
-2.3.5
+2.5.0
 
 
