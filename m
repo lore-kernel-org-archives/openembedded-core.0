@@ -1,62 +1,57 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E72A6E668
+Received: from mail-pf0-f175.google.com (mail-pf0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DCA66612D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 12:06:18 +0000 (UTC)
-Received: by pfbg73 with SMTP id g73so11671352pfb.1
+	Tue,  8 Dec 2015 12:36:44 +0000 (UTC)
+Received: by pfnn128 with SMTP id n128so11752705pfn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 04:06:19 -0800 (PST)
+	Tue, 08 Dec 2015 04:36:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-type;
-	bh=hGAXkM+rz1LmgmbukOXo0WgoSxVC5BiIiLIjJQhwhjw=;
-	b=lKT+8GHbCZ1o3PWtF+GnBA+g6+XD+Y4lXZe5tPd6pCUWSNQINP273pFVNbimSqk+Kj
-	IO22r/E9CtMovs42T/ovIgz0I2G5kQi2LxIQiQxS+ipep/ngb/u1S2iOirIpCLaUfIhn
-	8x5t0svDatzYSnXhB6bXxCTpn+naaDyu4dLLgtPZbc1Rs2OCeqADJsIM5l/Nr1UVxwbY
-	FjQ7istmfmyQcDOzefqnL8Z2LxviCT8Ka9e9GtcSItdW/3XhKR5cOTuedKS56QiGJ+zM
-	i5N/MUd9cSR4Y4DZgYUTFDw4S8S7KItzx10mrmxZ4h13MxMZIhJMGY94idPbFSQT0bGf
-	5afA==
+	h=from:mime-version:date:message-id:subject:to:cc:content-type;
+	bh=RjeT8vxcxMy3dlafjnJbMwU0Avt2ZCI5ieQ8X1JJv3w=;
+	b=kUudPULz+zKLCioQNGdthap0jgN5wshwrbpWFIdYjJvWxTOW7YUmgdA0PuJxX1Z6Qp
+	qfT3T/AqfBa9xFyYEvRuxkYfhhELpEYDd6k5Qk+WrYRTnV47UE3o5mtYMDxVmKaWkiqU
+	2KuOZrSEyJLVUCB4sK4//sUfgT7Ur0AHZRfm6IYKOVEFx+8BwmqmNizKi9cQo3dsLxVN
+	J7DA7miBHwwiJYg7dFnqs45sXSgDC3ZWW80f51z8hRMkbB7ofCzDl7iEj1Dz2hE6/5au
+	Z5m5rZuRJY7lW13dDx90aP1sEHF9jbYW35V3TciLhS1KZS3k4f60LvCvD37vlkoS214e
+	jqHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=hGAXkM+rz1LmgmbukOXo0WgoSxVC5BiIiLIjJQhwhjw=;
-	b=ImI8qbEaFZhTjZrf5UY2y0EMW/a3sZJPCUXAxBJbJY+lDwzdf+P/3ArvOTzqSZ1qbH
-	Rc8X1l6OzFnDeKc4VwekTQKMJfnu7wSqTGdt60ey9B0nbgbsrDR3bKBwv93C8gbezZy9
-	SdzbDAPue2NKpfqyF7ikyMogXvZSBoZqMw38qfBuCiys9ifjme3xrBqCNcTIz9xvS8px
-	ygmP+e3rOl68eae+MiUrQ+OXRKzdl1+QxTAfd1gSukVN9b0Bop1FMCE4NPSA/30tXpII
-	04PABYPaAM0PhTEAD9PTrO8rodKBDwyrMmjsTVBSUczeHgnoECx+088VslQ24kkWcr47
-	BVEw==
-X-Gm-Message-State: ALoCoQknfaClo/gK6h+4Ujjj8XLL5wb3oQKvcSaeoi4j6E8ddv80dDWqgLd83BiCteyymmQpDqKo2DlZRr9pBs7HBKqug6CZeg==
-X-Received: by 10.98.10.197 with SMTP id 66mr4257042pfk.37.1449576379616;
-	Tue, 08 Dec 2015 04:06:19 -0800 (PST)
-Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com.
-	[209.85.192.172]) by smtp.gmail.com with ESMTPSA id
-	fe6sm4504670pab.40.2015.12.08.04.06.17
+	h=x-gm-message-state:from:mime-version:date:message-id:subject:to:cc
+	:content-type;
+	bh=RjeT8vxcxMy3dlafjnJbMwU0Avt2ZCI5ieQ8X1JJv3w=;
+	b=ktdX3I8P2m1Nx6gwOzdyz1nQTwmtQoCq39zfjMe05aH0Ul6Xz61td+9eNf4q7Jv0Vj
+	ZrJzuK/EA3emYLlNOr73EW7znUyNEDggH7Al+v3MuJ8vJDkTjW7jQQeZKOIXOTn3qeq4
+	hVHNmjMoPsEhmFzK3NxXeQfkhqnc47eCnupteZy5GvOXyhKYMZCbTSmzt5/1iAOAfT1K
+	ZCvTMf+PuM+i/psfUJ1mAhUXxT4/zV/iYzWYoczdJGMm3QoEdUEhx4czZiHQfh1dluLd
+	39Yw3AXQeTTfznAJjFvQyHpb3+tycL7+RDGn0VSMZZWkhxGZHVrL+wlpFzVjhsTlQPbQ
+	4qsg==
+X-Gm-Message-State: ALoCoQlHOSAeUp6hi45rrLyNML+vbhXh5pF94JVUZ+YkC8MFfCur/JA35kPuqiPKV5S1uM8Mo7dwm0iE5ciP7EN9Oe6FXaV1PQ==
+X-Received: by 10.98.0.138 with SMTP id 132mr4467898pfa.131.1449578205355;
+	Tue, 08 Dec 2015 04:36:45 -0800 (PST)
+Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com.
+	[209.85.192.176]) by smtp.gmail.com with ESMTPSA id
+	ww5sm4704727pac.35.2015.12.08.04.36.43
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 08 Dec 2015 04:06:18 -0800 (PST)
+	Tue, 08 Dec 2015 04:36:43 -0800 (PST)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by pfdd184 with SMTP id d184so11350757pfd.3
+Received: by pfu207 with SMTP id 207so11737944pfu.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 04:06:17 -0800 (PST)
+	Tue, 08 Dec 2015 04:36:43 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.98.64.136 with SMTP id f8mr4299751pfd.95.1449576377546; Tue,
-	08 Dec 2015 04:06:17 -0800 (PST)
-Received: by 10.66.72.229 with HTTP; Tue, 8 Dec 2015 04:06:17 -0800 (PST)
-In-Reply-To: <CAJTo0LZYWxzDwnizQ2vrWL7n0Q4uPnccU-K-umgwYxaRTb7GBg@mail.gmail.com>
-References: <1447948114-30329-1-git-send-email-otavio@ossystems.com.br>
-	<CAJTo0LZYWxzDwnizQ2vrWL7n0Q4uPnccU-K-umgwYxaRTb7GBg@mail.gmail.com>
-Date: Tue, 8 Dec 2015 10:06:17 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKqWgmKcpKNvVPGtwSqxfniP_tMvTCyB5mX-sEq1LVLuMw@mail.gmail.com>
-Message-ID: <CAP9ODKqWgmKcpKNvVPGtwSqxfniP_tMvTCyB5mX-sEq1LVLuMw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4 1/4] lttng-modules: Upgrade to 2.7 release
+X-Received: by 10.98.64.136 with SMTP id f8mr4496409pfd.95.1449578203054; Tue,
+	08 Dec 2015 04:36:43 -0800 (PST)
+Received: by 10.66.72.229 with HTTP; Tue, 8 Dec 2015 04:36:42 -0800 (PST)
+Date: Tue, 8 Dec 2015 10:36:42 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKrKM=aR4__PTNxVc7uTYY0xhrOPObPuzJr1wwqW2tci6Q@mail.gmail.com>
+Message-ID: <CAP9ODKrKM=aR4__PTNxVc7uTYY0xhrOPObPuzJr1wwqW2tci6Q@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Backport for Jethro of fe506ed (autotools: Allow recipe-individual configure scripts)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,35 +64,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 12:06:19 -0000
+X-List-Received-Date: Tue, 08 Dec 2015 12:36:48 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Dec 7, 2015 at 2:28 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 19 November 2015 at 15:48, Otavio Salvador <otavio@ossystems.com.br>
-> wrote:
->>
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> ---
->>
->> Changes in v4: None
->> Changes in v3: None
->> Changes in v2: None
->
->
-> Sorry but this just failed on the AB:
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/ptest-x86/build/build/tmp/work-shared/genericx86/kernel-source/arch/x86/include/asm/unistd.h:15:29:
-> fatal error: asm/unistd_32.h: No such file or directory
-> compilation terminated.
->
-> (http://errors.yoctoproject.org/Errors/Details/22212/)
->
-> Hopefully not an annoying build race!
+Hello,
 
-This succeed here; however I am not testing against linux-yocto.
+I would like to propose the backport of fe506ed (autotools: Allow
+recipe-individual configure scripts):
 
-Has kernel changes been merged recently? It was working fine.
+commit fe506eddb0790e37ac1e50f37fa2e32ad81d5493
+Author: Jens Rehsack <rehsack@gmail.com>
+Date:   Tue Oct 13 22:35:52 2015 +0200
+
+    autotools: Allow recipe-individual configure scripts
+
+    OpenJDK-8 has it's configure script at common/autotools - which will cause
+    the entire assumption of ${S}/configure is regenerated by
+autoreconf, intltoolize or alike
+    fails heavily.
+
+    Also - other configure mechanisms can be supported more similar
+(see how pkgsrc
+    manages different ones ...)
+
+    Signed-off-by: Jens Rehsack <sno@netbsd.org>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+
+This allows for a more controlled execution of the autotools scripts
+and as described on the commit log allows the use of OpenJDK-8 as
+well.
 
 -- 
 Otavio Salvador                             O.S. Systems
