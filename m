@@ -1,38 +1,35 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 870FF60116
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 380F460116
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 15:38:50 +0000 (UTC)
-Received: by iofh3 with SMTP id h3so27909306iof.3
+	Tue,  8 Dec 2015 15:57:07 +0000 (UTC)
+Received: by pacwq6 with SMTP id wq6so13846028pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 07:38:51 -0800 (PST)
+	Tue, 08 Dec 2015 07:57:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=xKHbd3xE69IMMeTZ6l3SF0x0PMLLW7Ae4NS7yIhq3SQ=;
-	b=cMLx1hbqKhGs8LZl2Tmdcdzgmzq9qINceEMvFb4Ji3ymd754MKGSOGtMcpfPcKbvB8
-	oILx3gfq2+6FqEhKIE/J1K4ReOyfs+BDVlhYshaSkSQqw0tUfS6Mi3V3MEKbHEhk4ROT
-	boZjK9nE67aEpWWKPMwarGTvJmQoKv3zoExdxnCiWAU3Zv6PodT7DJyB7TAhdjjNRHrh
-	/h9g/EJ4ofLC1W/7iBAitj7eg0Bnh+MItl7V74k5f/q5KnUaLFZstVkawTqQBp3LOlSY
-	Pf7Qu4QSArsSNtSu/elG8/XqsI/oYg5J4LdWfnBXO3NTqBsX7DOLsayk0ovV0UwtVQj5
-	wd6A==
-X-Received: by 10.107.134.28 with SMTP id i28mr517651iod.74.1449589131331;
-	Tue, 08 Dec 2015 07:38:51 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.79.69.129 with HTTP; Tue, 8 Dec 2015 07:38:31 -0800 (PST)
-In-Reply-To: <564F3ADB.7040000@intel.com>
-References: <cover.1447455202.git.chris_larson@mentor.com>
-	<0a2bdfd48b566acec7f05734758da7811980a0bb.1447455202.git.chris_larson@mentor.com>
-	<CAJTo0LZYFwj9+5XOS6ewLTKwiWoBd7+YY+uXoCe0V4M7YwYRvg@mail.gmail.com>
-	<CABcZAN=HG8AJCjWHWTwWGs4vswnEL=SRF81fZz5r+iE+iQZ76g@mail.gmail.com>
-	<564F3ADB.7040000@intel.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Tue, 8 Dec 2015 08:38:31 -0700
-Message-ID: <CABcZANnjV02+O46SSWTKCh5CL-bfFDDgSpHNPMXjZ3bwJwJ3KQ@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 6/6] psplash: add systemd support
+	h=from:to:subject:date:message-id;
+	bh=Fp13d6jNR0DkqK0QgRA7HEQRzG0FsdqCTma4qFFpruc=;
+	b=fQEPBoWFeIh1z+xZLCH7NTABS+fECBov7Kq6nHJ/3JMea8RgDLbZx/be9U0sj2JTXb
+	WfFR+L7MhkcRf6qCoOEBfe2vatTwI/B+dZnR2sUrSdxRcakVjh2PMDMJmcVTuBuS7B5Y
+	3k9CylxNfKQey1kVzwXW2I6LplUIG1Pkuai6ljdApj4xbNtMYb6znuD2GPWk25uB1P64
+	9Nk2D0MAvZG0q7Ud+l29zcgaoC2tcNCQc/XM0n2Frh9LLh9o9HYsZDxtvXxKqq89oAtI
+	ct4/Za+ptl8HtK7Wefxx+ZTr/JQL0Bj4Qdu2VjzQzvFkegAcMQ39iyLUGATo2daVOOui
+	xNLA==
+X-Received: by 10.66.193.36 with SMTP id hl4mr808181pac.153.1449590228602;
+	Tue, 08 Dec 2015 07:57:08 -0800 (PST)
+Received: from Pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207])
+	by smtp.gmail.com with ESMTPSA id w8sm5641143pfi.41.2015.12.08.07.57.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 08 Dec 2015 07:57:07 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Dec 2015 07:57:05 -0800
+Message-Id: <1449590225-29133-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Subject: [PATCH] linux-firmware: update to latest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,64 +42,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 15:38:52 -0000
-Content-Type: multipart/alternative; boundary=001a113ecc0a3e4da0052664c501
+X-List-Received-Date: Tue, 08 Dec 2015 15:57:08 -0000
 
---001a113ecc0a3e4da0052664c501
-Content-Type: text/plain; charset=UTF-8
+Update to latest linux-firmware
+Fix ar3k license to be QualcommAtheros
+Add ath10K firmware package
 
-On Fri, Nov 20, 2015 at 8:23 AM, Ross Burton <ross.burton@intel.com> wrote:
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../linux-firmware/linux-firmware_git.bb           | 33 +++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 7 deletions(-)
 
-> On 18/11/2015 02:03, Christopher Larson wrote:
->
->> Interesting, is psplash configured in our test environment? Either way,
->> worst case we can drop this commit for now and can revisit it. I'm
->> heading out of town tomorrow until December 1st, so likely will be
->> limited in what I can do to address any issues that crop up during that
->> period. Thanks.
->>
->
-> It should be working - at least the sysvinit images work absolutely fine
-> and show the splash.  I'll add giving this a go locally to my list of
-> things to do.
-
-
-I'll dig into this shortly and re-submit if appropriate. Getting caught up
-on the status of submitted patches now. Thanks.
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 3c5729d..76ad522 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -40,6 +40,8 @@ LICENSE = "\
+     & Firmware-xc5000 \
+     & Firmware-xc5000c \
+     & Firmware-siano \
++    & Firmware-qualcommAthos_ar3k \
++    & Firmware-qualcommAthos_ath10k \
+ "
+ 
+ LIC_FILES_CHKSUM = "\
+@@ -81,6 +83,8 @@ LIC_FILES_CHKSUM = "\
+     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
+     file://LICENSE.radeon;md5=6c7f97c6c62bdd9596d0238bb205118c \
+     file://LICENCE.siano;md5=602c79ae3f98f1e73d880fd9f940a418 \
++    file://LICENSE.QualcommAtheros_ar3k;md5=b5fe244fb2b532311de1472a3bc06da5 \
++    file://LICENSE.QualcommAtheros_ath10k;md5=b5fe244fb2b532311de1472a3bc06da5 \
+ "
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -123,8 +127,10 @@ NO_GENERIC_LICENSE[Firmware-amd-ucode] = "LICENSE.amd-ucode"
+ NO_GENERIC_LICENSE[Firmware-dib0700] = "LICENSE.dib0700"
+ NO_GENERIC_LICENSE[Firmware-radeon] = "LICENSE.radeon"
+ NO_GENERIC_LICENSE[Firmware-siano] = "LICENCE.siano"
++NO_GENERIC_LICENSE[Firmware-qualcommAthos_ar3k] = "LICENSE.QualcommAtheros_ar3k"
++NO_GENERIC_LICENSE[Firmware-qualcommAthos_ath10k] = "LICENSE.QualcommAtheros_ath10k"
+ 
+-SRCREV = "75cc3ef8ba6712fd72c073b17a790282136cc743"
++SRCREV = "bbe4917c054eb0a73e250c6363341e3bf6725839"
+ PE = "1"
+ PV = "0.0+git${SRCPV}"
+ 
+@@ -169,7 +175,8 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-vt6656-license ${PN}-vt6656 \
+              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
+              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 ${PN}-bcm4339 ${PN}-bcm4354 \
+-             ${PN}-atheros-license ${PN}-ar9170 ${PN}-ar3k ${PN}-ath6k ${PN}-ath9k \
++             ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k \
++             ${PN}-ar3k-license  ${PN}-ar3k  ${PN}-ath10k-license  ${PN}-ath10k  \
+              \
+              ${PN}-iwlwifi-license ${PN}-iwlwifi-135-6 \
+              ${PN}-iwlwifi-3160-7 ${PN}-iwlwifi-3160-8 ${PN}-iwlwifi-3160-9 \
+@@ -184,7 +191,6 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+ 
+ # For atheros
+ LICENSE_${PN}-ar9170 = "Firmware-atheros_firmware"
+-LICENSE_${PN}-ar3k = "Firmware-atheros_firmware"
+ LICENSE_${PN}-ath6k = "Firmware-atheros_firmware"
+ LICENSE_${PN}-ath9k = "Firmware-atheros_firmware"
+ 
+@@ -192,9 +198,6 @@ FILES_${PN}-atheros-license = "/lib/firmware/LICENCE.atheros_firmware"
+ FILES_${PN}-ar9170 = " \
+   /lib/firmware/ar9170*.fw \
+ "
+-FILES_${PN}-ar3k = " \
+-  /lib/firmware/ar3k \
+-"
+ FILES_${PN}-ath6k = " \
+   /lib/firmware/ath6k \
+ "
+@@ -206,10 +209,26 @@ FILES_${PN}-ath9k = " \
+ "
+ 
+ RDEPENDS_${PN}-ar9170 += "${PN}-atheros-license"
+-RDEPENDS_${PN}-ar3k += "${PN}-atheros-license"
+ RDEPENDS_${PN}-ath6k += "${PN}-atheros-license"
+ RDEPENDS_${PN}-ath9k += "${PN}-atheros-license"
+ 
++# For QualCommAthos
++LICENSE_${PN}-ar3k = "Firmware-qualcommAthos_ar3k"
++LICENSE_${PN}-ath10k = "Firmware-qualcommAthos_ath10k"
++
++FILES_${PN}-ar3k-license = "/lib/firmware/LICENSE.QualcommAtheros_ar3k"
++FILES_${PN}-ar3k = " \
++  /lib/firmware/ar3k \
++"
++
++FILES_${PN}-ath10k-license = "/lib/firmware/LICENSE.QualcommAtheros_ath10k"
++FILES_${PN}-ath10k = " \
++  /lib/firmware/ath10k \
++"
++
++RDEPENDS_${PN}-ar3k += "${PN}-ar3k-license"
++RDEPENDS_${PN}-ath10k += "${PN}-ath10k-license"
++
+ # For ralink
+ LICENSE_${PN}-ralink = "Firmware-ralink-firmware"
+ 
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+2.3.5
 
---001a113ecc0a3e4da0052664c501
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Fri, Nov 20, 2015 at 8:23 AM, Ross Burton <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On =
-18/11/2015 02:03, Christopher Larson wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-Interesting, is psplash configured in our test environment? Either way,<br>
-worst case we can drop this commit for now and can revisit it. I&#39;m<br>
-heading out of town tomorrow until December 1st, so likely will be<br>
-limited in what I can do to address any issues that crop up during that<br>
-period. Thanks.<br>
-</blockquote>
-<br></span>
-It should be working - at least the sysvinit images work absolutely fine an=
-d show the splash.=C2=A0 I&#39;ll add giving this a go locally to my list o=
-f things to do.</blockquote></div><br>I&#39;ll dig into this shortly and re=
--submit if appropriate. Getting caught up on the status of submitted patche=
-s now. Thanks.<br>-- <br><div class=3D"gmail_signature"><div dir=3D"ltr">Ch=
-ristopher Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbe=
-dded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor =
-Graphics</div></div>
-</div></div>
-
---001a113ecc0a3e4da0052664c501--
