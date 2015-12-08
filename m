@@ -1,26 +1,32 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C588A6FFEA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 345AC6FFEA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 09:56:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tB89uu4N017896
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Dec 2015 01:56:56 -0800
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 8 Dec 2015 01:56:56 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 8 Dec 2015 01:56:43 -0800
-Message-ID: <224bcc2ead676600bcd9e290ed23d9b2ed2f481e.1449568553.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1449568553.git.liezhi.yang@windriver.com>
-References: <cover.1449568553.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 15/15] rpcbind: Security Advisory - rpcbind - CVE-2015-7236
+	Tue,  8 Dec 2015 10:35:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tB8AYxLC024155; Tue, 8 Dec 2015 10:34:59 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id H6ss0w19xHAn; Tue,  8 Dec 2015 10:34:59 +0000 (GMT)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tB8AYlma024146
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 8 Dec 2015 10:34:58 GMT
+Message-ID: <1449570887.19730.47.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 08 Dec 2015 10:34:47 +0000
+In-Reply-To: <20151207223502.GC2249@jama>
+References: <1447864860.1472.56.camel@pbcl.net>
+	<1447871842-30347-1-git-send-email-Martin.Jansa@gmail.com>
+	<1447871842-30347-5-git-send-email-Martin.Jansa@gmail.com>
+	<20151207223502.GC2249@jama>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv3 5/6] feature-arm-vfp.inc: respect vfpv4 when setting -mfloat-abi and ARMPKGSFX_EABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,137 +39,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 09:56:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 08 Dec 2015 10:35:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Li Zhou <li.zhou@windriver.com>
+On Mon, 2015-12-07 at 23:35 +0100, Martin Jansa wrote:
+> It's highly recommended to use the script together with memres bitbake,
+> the execution time is at least 10 times shorted, but the changes aren't
+> picked between runs, so make sure to restart bitbake after changing the
+> tunes.
 
-rpcbind: Fix memory corruption in PMAP_CALLIT code
+That sounds like something it should detect. Could you file a bug
+please, preferably with a simpler test case that shows the problem?
 
-Use-after-free vulnerability in xprt_set_caller in rpcb_svc_com.c in
-rpcbind 0.2.1 and earlier allows remote attackers to cause a denial of
-service (daemon crash) via crafted packets, involving a PMAP_CALLIT
-code.
+Cheers,
 
-The patch comes from
-<http://www.openwall.com/lists/oss-security/2015/09/18/7>, and it hasn't
-been in rpcbind upstream yet.
-
-(From OE-Core master rev: cc4f62f3627f3804907e8ff9c68d9321979df32b)
-
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../rpcbind/rpcbind/cve-2015-7236.patch            |   83 ++++++++++++++++++++
- meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb     |    1 +
- 2 files changed, 84 insertions(+)
- create mode 100644 meta/recipes-extended/rpcbind/rpcbind/cve-2015-7236.patch
-
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/cve-2015-7236.patch b/meta/recipes-extended/rpcbind/rpcbind/cve-2015-7236.patch
-new file mode 100644
-index 0000000..f156290
---- /dev/null
-+++ b/meta/recipes-extended/rpcbind/rpcbind/cve-2015-7236.patch
-@@ -0,0 +1,83 @@
-+commit 06f7ebb1dade2f0dbf872ea2bedf17cff4734bdd
-+Author: Olaf Kirch <okir@...e.de>
-+Date:   Thu Aug 6 16:27:20 2015 +0200
-+
-+    Fix memory corruption in PMAP_CALLIT code
-+    
-+     - A PMAP_CALLIT call comes in on IPv4 UDP
-+     - rpcbind duplicates the caller's address to a netbuf and stores it in
-+       FINFO[0].caller_addr. caller_addr->buf now points to a memory region A
-+       with a size of 16 bytes
-+     - rpcbind forwards the call to the local service, receives a reply
-+     - when processing the reply, it does this in xprt_set_caller:
-+         xprt->xp_rtaddr = *FINFO[0].caller_addr
-+       It sends out the reply, and then frees the netbuf caller_addr and
-+       caller_addr.buf.
-+       However, it does not clear xp_rtaddr, so xp_rtaddr.buf now refers
-+       to memory region A, which is free.
-+     - When the next call comes in on the UDP/IPv4 socket, svc_dg_recv will
-+       be called, which will set xp_rtaddr to the client's address.
-+       It will reuse the buffer inside xp_rtaddr, ie it will write a
-+       sockaddr_in to region A
-+    
-+    Some time down the road, an incoming TCP connection is accepted,
-+    allocating a fresh SVCXPRT. The memory region A is inside the
-+    new SVCXPRT
-+    
-+     - While processing the TCP call, another UDP call comes in, again
-+       overwriting region A with the client's address
-+     - TCP client closes connection. In svc_destroy, we now trip over
-+       the garbage left in region A
-+    
-+    We ran into the case where a commercial scanner was triggering
-+    occasional rpcbind segfaults. The core file that was captured showed
-+    a corrupted xprt->xp_netid pointer that was really a sockaddr_in.
-+    
-+    Signed-off-by: Olaf Kirch <okir@...e.de>
-+
-+    Upstream-Status: Backport
-+
-+    Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ src/rpcb_svc_com.c |   23 ++++++++++++++++++++++-
-+ 1 file changed, 22 insertions(+), 1 deletion(-)
-+
-+Index: rpcbind-0.1.6+git20080930/src/rpcb_svc_com.c
-+===================================================================
-+--- rpcbind-0.1.6+git20080930.orig/src/rpcb_svc_com.c
-++++ rpcbind-0.1.6+git20080930/src/rpcb_svc_com.c
-+@@ -1298,12 +1298,33 @@ check_rmtcalls(struct pollfd *pfds, int
-+ 	return (ncallbacks_found);
-+ }
-+ 
-++/*
-++ * This is really a helper function defined in libtirpc, but unfortunately, it hasn't
-++ * been exported yet.
-++ */
-++static struct netbuf *
-++__rpc_set_netbuf(struct netbuf *nb, const void *ptr, size_t len)
-++{
-++	if (nb->len != len) {
-++		if (nb->len)
-++			mem_free(nb->buf, nb->len);
-++		nb->buf = mem_alloc(len);
-++		if (nb->buf == NULL)
-++			return NULL;
-++
-++		nb->maxlen = nb->len = len;
-++	}
-++	memcpy(nb->buf, ptr, len);
-++	return nb;
-++}
-++
-+ static void
-+ xprt_set_caller(SVCXPRT *xprt, struct finfo *fi)
-+ {
-++	const struct netbuf *caller = fi->caller_addr;
-+ 	u_int32_t *xidp;
-+ 
-+-	*(svc_getrpccaller(xprt)) = *(fi->caller_addr);
-++	__rpc_set_netbuf(svc_getrpccaller(xprt), caller->buf, caller->len);
-+ 	xidp = __rpcb_get_dg_xidp(xprt);
-+ 	*xidp = fi->caller_xid;
-+ }
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb
-index 237018b..ecd3ba8 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
-            file://rpcbind.conf \
-            file://rpcbind.socket \
-            file://rpcbind.service \
-+           file://cve-2015-7236.patch \
-           "
- MUSLPATCHES_libc-musl = "file://musl-sunrpc.patch"
- 
--- 
-1.7.9.5
+Richard
 
 
