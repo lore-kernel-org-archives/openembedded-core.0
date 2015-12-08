@@ -1,29 +1,27 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A2BF260110
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 00C6060110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 08:14:46 +0000 (UTC)
+	Tue,  8 Dec 2015 08:16:04 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tB88Ej6p016129
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Dec 2015 00:14:45 -0800 (PST)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tB88G3Rr015019
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 8 Dec 2015 00:16:03 -0800
 Received: from [128.224.162.160] (128.224.162.160) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 8 Dec 2015 00:14:45 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <1449539278-20070-1-git-send-email-akuster808@gmail.com>
-	<1449539278-20070-4-git-send-email-akuster808@gmail.com>
-	<20151208074923.GB8707@ad.chargestorm.se>
+	Tue, 8 Dec 2015 00:16:03 -0800
+To: Armin Kuster <akuster808@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1449344129-32738-1-git-send-email-akuster808@gmail.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <56669173.1080901@windriver.com>
-Date: Tue, 8 Dec 2015 16:14:43 +0800
+Message-ID: <566691C1.4050000@windriver.com>
+Date: Tue, 8 Dec 2015 16:16:01 +0800
 User-Agent: Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101
 	Thunderbird/38.3.0
 MIME-Version: 1.0
-In-Reply-To: <20151208074923.GB8707@ad.chargestorm.se>
-Subject: Re: [jethro][fido][PATCH 4/4] openssl: three CVE fixes
+In-Reply-To: <1449344129-32738-1-git-send-email-akuster808@gmail.com>
+Subject: Re: [PATCH][jethro][fido][ 00/15] Libxml2: multiple security fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,58 +34,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 08:14:48 -0000
+X-List-Received-Date: Tue, 08 Dec 2015 08:16:05 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
+Hi Armin,
 
-On 12/08/2015 03:49 PM, Anders Darander wrote:
-> Hi,
->
-> * Armin Kuster <akuster808@gmail.com> [151208 02:49]:
->
->>   meta/recipes-connectivity/openssl/openssl_1.0.2d.bb | 4 ++++
->>   1 file changed, 4 insertions(+)
->
-> I'm just a little curious about this serious, and a few others that I've
-> seen recently. They all add a number of CVE-patches, with one commit per
-> patch, and as the last commit, they all get added to SRC_URI in a single
-> patch.
->
-> What's the reason to do it like this? i
->
-> I'd personally prefer to have each CVE-path also add the patch to
-> SRC_URI, as that make cherry-picking more straightforward. And it also
-> ensures that if we have a need to bisect some issue, that'll work. At
-> the same time that will make the meta-data consistent, i.e. no dead
-> patches.
->
-> I'd personally even prefer that whole series squashed to one commit,
-> compared to this adding a lot of un-applied patches.
+With these patches, for jethro, I think that the following one is not
+needed any more ?
 
-Yes, I think that would be better.
+commit d7fa0b41843dd417eba31f1a8dcd60ce08a57d66
+Author: Armin Kuster <akuster@mvista.com>
+Date:   Wed Nov 11 14:21:46 2015 -0800
 
-// Robert.
+     libxml2: fix CVE-2015-7942 and CVE-2015-8035
 
+// Robert
+
+On 12/06/2015 03:35 AM, Armin Kuster wrote:
+> Each CVE is an independant patch so they can be easily merged to other distros
+> and/or stable branches.
 >
-> Any comments on this?
+> I have included two previous CVE's sent for jethro which can be ignored.
+> I put the CVE's in order as there where fixed upstream.
 >
-> Cheers,
-> Anders
+> Armin Kuster (15):
+>    libxml2: security fix CVE-2015-7941-1
+>    libxml2: security fix CVE-2015-7941-2
+>    libxml2: security fix CVE-2015-8317
+>    libxml2: security fix CVE-2015-7942
+>    libxml2: security fix CVE-2015-7942-2
+>    libxml2: security fix CVE-2015-8317
+>    libxml2: security fix CVE-2015-7498
+>    libxml2: security fix CVE-2015-7497
+>    libxml2: security fix CVE-2015-7499-1
+>    libxml2: security fix CVE-2015-7499-2
+>    libxml2: depend fix security issue CVE-2015-7500
+>    libxml2: security fix CVE-2015-7500
+>    libxml2: security fix CVE-2015-8242
+>    libxml2: security fix CVE-2015-5312
+>    libxml2: multiple security fixes.
 >
->> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
->> index fd56841..3864e88 100644
->> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
->> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
->> @@ -37,6 +37,10 @@ SRC_URI += "file://configure-targets.patch \
->>               file://crypto_use_bigint_in_x86-64_perl.patch \
->>               file://openssl-1.0.2a-x32-asm.patch \
->>               file://ptest_makefile_deps.patch  \
->> +            file://CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch \
->> +            file://CVE-2015-3194-1-Add-PSS-parameter-check.patch \
->> +            file://0001-Add-test-for-CVE-2015-3194.patch \
->> +            file://CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch \
->>              "
+>   meta/recipes-core/libxml/libxml2.inc               |  14 +++
+>   ...-2015-5312-Another-entity-expansion-issue.patch |  39 ++++++
+>   ...97-Avoid-an-heap-buffer-overflow-in-xmlDi.patch |  40 ++++++
+>   ...00-Fix-memory-access-error-due-to-incorre.patch | 131 +++++++++++++++++++
+>   ...2015-8035-Fix-XZ-compression-support-loop.patch |  38 ++++++
+>   ...42-Buffer-overead-with-HTML-parser-in-pus.patch |  49 ++++++++
+>   ...n-name-parsing-at-the-end-of-current-inpu.patch | 138 +++++++++++++++++++++
+>   ...ssing-entities-after-encoding-conversion-.patch |  89 +++++++++++++
+>   ...99-1-Add-xmlHaltParser-to-stop-the-parser.patch |  88 +++++++++++++
+>   ...VE-2015-7499-2-Detect-incoherency-on-GROW.patch |  43 +++++++
+>   ...top-parsing-on-entities-boundaries-errors.patch |  39 ++++++
+>   ...leanup-conditional-section-error-handling.patch |  56 +++++++++
+>   ...ror-in-previous-Conditional-section-patch.patch |  35 ++++++
+>   ...iation-of-overflow-in-Conditional-section.patch |  39 ++++++
+>   ...ng-early-on-if-encoding-conversion-failed.patch |  42 +++++++
+>   15 files changed, 880 insertions(+)
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-5312-Another-entity-expansion-issue.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8035-Fix-XZ-compression-support-loop.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-Fix-a-bug-on-name-parsing-at-the-end-of-current-inpu.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7498-Avoid-processing-entities-after-encoding-conversion-.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-1-Add-xmlHaltParser-to-stop-the-parser.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-2-Detect-incoherency-on-GROW.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-1-Stop-parsing-on-entities-boundaries-errors.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-2-Cleanup-conditional-section-error-handling.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-2-Fix-an-error-in-previous-Conditional-section-patch.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-Another-variation-of-overflow-in-Conditional-section.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8317-Fail-parsing-early-on-if-encoding-conversion-failed.patch
 >
 
