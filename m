@@ -1,39 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C02C6FFD7
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A2BF260110
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 08:12:46 +0000 (UTC)
-Received: by qgea14 with SMTP id a14so10017927qge.0
+	Tue,  8 Dec 2015 08:14:46 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tB88Ej6p016129
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 00:12:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=2k/TLh77rBSwGc6pOwqebBEzbdWZ6KXndB3jmWjaJf4=;
-	b=vIioaDU4d1ZbaizF1oSOh3T77bXycUOD68bU8kn1AYvgdvsMmu0XJXOdxOGu88TsgL
-	ImRO9S0dzO+gAf0ledCaCvn8lGLn3EoTt5iYAKtUUN1BqSnVL+975zezVii4jYtFr1JQ
-	pLWVNHRg+EX7hPvrP5StbL/StfypOwFpaaZyBJRLF7KOvYrsar1Z6xgng7H6uMO94swa
-	q+d178RUd/nle0NBFTNhAdR3o/XoX040ELThmTgpCLWS+4TzWElI7fbhYMMFaNSt7nOW
-	zp2MtLtQUWGmg6q8oKy8cGKCOZoTNDaaf44jFLoEEdDFc9U7VEVQukQaW/pu3WdtMme0
-	/XWw==
-X-Received: by 10.140.107.11 with SMTP id g11mr2739409qgf.37.1449562366985;
-	Tue, 08 Dec 2015 00:12:46 -0800 (PST)
-Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
-	by smtp.gmail.com with ESMTPSA id
-	v66sm1023174qkv.32.2015.12.08.00.12.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Dec 2015 00:12:46 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Dec 2015 08:12:33 +0000
-Message-Id: <d8defb90c3618fcd6819dffd70795401c2b86f99.1449562195.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.6.3
-In-Reply-To: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
-References: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1449562195.git.raj.khem@gmail.com>
-References: <cover.1449562195.git.raj.khem@gmail.com>
-Subject: [PATCH 13/13] attr: Add patch to account for use of internal glibc header
+	Tue, 8 Dec 2015 00:14:45 -0800 (PST)
+Received: from [128.224.162.160] (128.224.162.160) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 8 Dec 2015 00:14:45 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <1449539278-20070-1-git-send-email-akuster808@gmail.com>
+	<1449539278-20070-4-git-send-email-akuster808@gmail.com>
+	<20151208074923.GB8707@ad.chargestorm.se>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <56669173.1080901@windriver.com>
+Date: Tue, 8 Dec 2015 16:14:43 +0800
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <20151208074923.GB8707@ad.chargestorm.se>
+Subject: Re: [jethro][fido][PATCH 4/4] openssl: three CVE fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,96 +36,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 08:12:46 -0000
+X-List-Received-Date: Tue, 08 Dec 2015 08:14:48 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-based on suggestions on musl FAQ
-http://wiki.musl-libc.org/wiki/FAQ
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-support/attr/attr_2.4.47.bb           |  4 +-
- .../attr/files/dont-use-decl-macros.patch          | 56 ++++++++++++++++++++++
- 2 files changed, 59 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/attr/files/dont-use-decl-macros.patch
 
-diff --git a/meta/recipes-support/attr/attr_2.4.47.bb b/meta/recipes-support/attr/attr_2.4.47.bb
-index ad40c9b..44eee39 100644
---- a/meta/recipes-support/attr/attr_2.4.47.bb
-+++ b/meta/recipes-support/attr/attr_2.4.47.bb
-@@ -2,7 +2,9 @@ require attr.inc
- 
- # configure.ac was missing from the release tarball. This should be fixed in
- # future releases of attr, remove this when updating the recipe.
--SRC_URI_append += "file://attr-Missing-configure.ac.patch"
-+SRC_URI_append += "file://attr-Missing-configure.ac.patch \
-+                   file://dont-use-decl-macros.patch \
-+                  "
- 
- SRC_URI[md5sum] = "84f58dec00b60f2dc8fd1c9709291cc7"
- SRC_URI[sha256sum] = "25772f653ac5b2e3ceeb89df50e4688891e21f723c460636548971652af0a859"
-diff --git a/meta/recipes-support/attr/files/dont-use-decl-macros.patch b/meta/recipes-support/attr/files/dont-use-decl-macros.patch
-new file mode 100644
-index 0000000..9d4b892
---- /dev/null
-+++ b/meta/recipes-support/attr/files/dont-use-decl-macros.patch
-@@ -0,0 +1,56 @@
-+Use extern "C" instead of __BEGIN_DECL/__END_DECL macros
-+these macros are defined in sys/cdefs.h for glibc and this header is not available on all libc
-+
-+anyway they defined like below
-+
-+#ifdef __cplusplus
-+# define __BEGIN_DECLS extern "C" {
-+# define __END_DECLS }
-+#else
-+# define __BEGIN_DECLS /* empty */
-+# define __END_DECLS /* empty */
-+#endif
-+
-+__THROW macro is also not available on musl, defined thusly
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: attr-2.4.47/include/xattr.h
-+===================================================================
-+--- attr-2.4.47.orig/include/xattr.h	2014-04-02 00:01:30.252091280 -0700
-++++ attr-2.4.47/include/xattr.h	2014-04-02 00:12:57.985428099 -0700
-+@@ -30,8 +30,20 @@
-+ #define XATTR_CREATE  0x1       /* set value, fail if attr already exists */
-+ #define XATTR_REPLACE 0x2       /* set value, fail if attr does not exist */
-+ 
-+-
-+-__BEGIN_DECLS
-++#ifndef __THROW
-++# ifndef __GNUC_PREREQ
-++#  define __GNUC_PREREQ(maj, min) (0)
-++# endif
-++# if defined __cplusplus && __GNUC_PREREQ (2,8)
-++#  define __THROW       throw ()
-++# else
-++#  define __THROW
-++# endif
-++#endif
-++
-++#ifdef __cplusplus
-++extern "C" {
-++#endif
-+ 
-+ extern int setxattr (const char *__path, const char *__name,
-+ 		      const void *__value, size_t __size, int __flags) __THROW;
-+@@ -58,6 +70,8 @@
-+ extern int lremovexattr (const char *__path, const char *__name) __THROW;
-+ extern int fremovexattr (int __filedes,   const char *__name) __THROW;
-+ 
-+-__END_DECLS
-++#ifdef __cplusplus
-++}
-++#endif
-+ 
-+ #endif	/* __XATTR_H__ */
--- 
-2.6.3
+On 12/08/2015 03:49 PM, Anders Darander wrote:
+> Hi,
+>
+> * Armin Kuster <akuster808@gmail.com> [151208 02:49]:
+>
+>>   meta/recipes-connectivity/openssl/openssl_1.0.2d.bb | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>
+> I'm just a little curious about this serious, and a few others that I've
+> seen recently. They all add a number of CVE-patches, with one commit per
+> patch, and as the last commit, they all get added to SRC_URI in a single
+> patch.
+>
+> What's the reason to do it like this? i
+>
+> I'd personally prefer to have each CVE-path also add the patch to
+> SRC_URI, as that make cherry-picking more straightforward. And it also
+> ensures that if we have a need to bisect some issue, that'll work. At
+> the same time that will make the meta-data consistent, i.e. no dead
+> patches.
+>
+> I'd personally even prefer that whole series squashed to one commit,
+> compared to this adding a lot of un-applied patches.
 
+Yes, I think that would be better.
+
+// Robert.
+
+>
+> Any comments on this?
+>
+> Cheers,
+> Anders
+>
+>> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+>> index fd56841..3864e88 100644
+>> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+>> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+>> @@ -37,6 +37,10 @@ SRC_URI += "file://configure-targets.patch \
+>>               file://crypto_use_bigint_in_x86-64_perl.patch \
+>>               file://openssl-1.0.2a-x32-asm.patch \
+>>               file://ptest_makefile_deps.patch  \
+>> +            file://CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch \
+>> +            file://CVE-2015-3194-1-Add-PSS-parameter-check.patch \
+>> +            file://0001-Add-test-for-CVE-2015-3194.patch \
+>> +            file://CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch \
+>>              "
+>
 
