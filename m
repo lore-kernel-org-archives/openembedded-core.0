@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FF796FFCD
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 0998E6FF77
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 08:12:44 +0000 (UTC)
-Received: by qgec40 with SMTP id c40so9970282qge.2
+	Tue,  8 Dec 2015 08:12:45 +0000 (UTC)
+Received: by qgeb1 with SMTP id b1so10087494qge.1
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 08 Dec 2015 00:12:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=WZXhKMK4NxPJf/Gb5E+AUGM7XGBvkG6P0DkDKxUYRFk=;
-	b=Z+Gj1Rqal0uG0xzVZ1zxvEZEzdiN6W9zc7R7amI8PFvKY2XpnpaPfNoLhNvgtlA1j4
-	GhqBWOLLaKn/IRuFbpy/swGDbjV2/viy9DI1Glveq5jx1PTP93AYUjxyNxOlZvtKhScw
-	YLqfuGPm0ubUrnA3l4ck13Q7sszc/y8ekqoOxgREVBny8FVwH4LYvPzPzoQeOWIeqKMt
-	tpZA/yWSIc86vSdYcAE+v3iPjq0MOUfKfSDUbZGAjJ38MkfjC5gs1B9jk88tM5x1r3VF
-	OJsdghocxnz1pEuV9luiDcDYaK2mbLFjaSaH33qo94IC4U3vxq2pnWB58Y0ZKIAKO0pl
-	xIOw==
-X-Received: by 10.140.92.85 with SMTP id a79mr2259199qge.105.1449562365206;
+	bh=nX3g648i7sEGoze/4TKvL6TRjhsmqSmJny3au0xT1cg=;
+	b=hRxqm21RpgwPsl8+n8h5hnHYZUqb2YONUFTlgE/YDjofQNWURjFYkFmwsp4ObRxDiv
+	pZWUcSQeXpnfgEezUP8MxPX7qdFtZz9MBPwJHhaxX8wgKGSy5sztT7NWTlNI0BMU2mbn
+	yAHcu46hBXRTA4+7QsFil3dXYYbxWYzVtjPLgki0pkJLR+2bIYSPkrFEZ322f/tDVLQ9
+	Yk+aNX5dbvdf7aLRLaZy9Jr5x6x/m65my+G7eX9mhHgNFpeaOEPL5q+PZX4mw2U/M0Bt
+	e9Bu6wbdF+mZ48a9nqP6qvXdyl+ITMEu0gsYq5745/jDKXVBPzoUHrGF0VQDllFt/QS2
+	vrTQ==
+X-Received: by 10.140.81.112 with SMTP id e103mr2113717qgd.99.1449562365870;
 	Tue, 08 Dec 2015 00:12:45 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	v66sm1023174qkv.32.2015.12.08.00.12.44
+	v66sm1023174qkv.32.2015.12.08.00.12.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Dec 2015 00:12:44 -0800 (PST)
+	Tue, 08 Dec 2015 00:12:45 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Dec 2015 08:12:30 +0000
-Message-Id: <58367996ce98eadb065c56cac62a034052e9cc4f.1449562195.git.raj.khem@gmail.com>
+Date: Tue,  8 Dec 2015 08:12:31 +0000
+Message-Id: <10e517815b08aac4808777f4dd0cfb2cebed1875.1449562195.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
 References: <bb86e885996a2878e8d8d8e128f9b9b724ed0227.1449562195.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1449562195.git.raj.khem@gmail.com>
 References: <cover.1449562195.git.raj.khem@gmail.com>
-Subject: [PATCH 10/13] busybox: Add config for musl
+Subject: [PATCH 11/13] openssl: Add musl configuration support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,135 +46,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 08:12:44 -0000
+X-List-Received-Date: Tue, 08 Dec 2015 08:12:45 -0000
 
-Default config is enabling additional features that dont compile with
-musl so lets disable them for musl case and use posix compliant
-getpwent()
+use termios instead of termio
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...user-use-POSIX-getpwent-instead-of-getpwe.patch | 71 ++++++++++++++++++++++
- meta/recipes-core/busybox/busybox/musl.cfg         | 12 ++++
- meta/recipes-core/busybox/busybox_1.24.1.bb        |  2 +
- 3 files changed, 85 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-linedit-deluser-use-POSIX-getpwent-instead-of-getpwe.patch
- create mode 100644 meta/recipes-core/busybox/busybox/musl.cfg
+ meta/recipes-connectivity/openssl/openssl.inc      |  4 +++-
+ .../openssl/openssl/configure-musl-target.patch    | 27 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2d.bb |  1 +
+ 3 files changed, 31 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch
 
-diff --git a/meta/recipes-core/busybox/busybox/0001-linedit-deluser-use-POSIX-getpwent-instead-of-getpwe.patch b/meta/recipes-core/busybox/busybox/0001-linedit-deluser-use-POSIX-getpwent-instead-of-getpwe.patch
-new file mode 100644
-index 0000000..4cb9a73
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/0001-linedit-deluser-use-POSIX-getpwent-instead-of-getpwe.patch
-@@ -0,0 +1,71 @@
-+From f47fa75ef19a43848dedb4a2bff79368878362bf Mon Sep 17 00:00:00 2001
-+From: Natanael Copa <ncopa@alpinelinux.org>
-+Date: Tue, 22 Apr 2014 12:41:20 +0000
-+Subject: [PATCH] linedit, deluser: use POSIX getpwent instead of getpwent_r
-+
-+This fixes building with musl libc.
-+
-+Signed-off-by: Natanael Copa <ncopa@alpinelinux.org>
-+---
-+Upstream-Status: backport
-+
-+ libbb/lineedit.c     | 11 ++++-------
-+ loginutils/deluser.c | 11 +++++------
-+ 2 files changed, 9 insertions(+), 13 deletions(-)
-+
-+diff --git a/libbb/lineedit.c b/libbb/lineedit.c
-+index 8564307..99e6e2c 100644
-+--- a/libbb/lineedit.c
-++++ b/libbb/lineedit.c
-+@@ -672,20 +672,17 @@ static char *username_path_completion(char *ud)
-+  */
-+ static NOINLINE unsigned complete_username(const char *ud)
-+ {
-+-	/* Using _r function to avoid pulling in static buffers */
-+-	char line_buff[256];
-+-	struct passwd pwd;
-+-	struct passwd *result;
-++	struct passwd *pw;
-+ 	unsigned userlen;
-+ 
-+ 	ud++; /* skip ~ */
-+ 	userlen = strlen(ud);
-+ 
-+ 	setpwent();
-+-	while (!getpwent_r(&pwd, line_buff, sizeof(line_buff), &result)) {
-++	while ((pw = getpwent())) {
-+ 		/* Null usernames should result in all users as possible completions. */
-+-		if (/*!userlen || */ strncmp(ud, pwd.pw_name, userlen) == 0) {
-+-			add_match(xasprintf("~%s/", pwd.pw_name));
-++		if (/*!userlen || */ strncmp(ud, pw->pw_name, userlen) == 0) {
-++			add_match(xasprintf("~%s/", pw->pw_name));
-+ 		}
-+ 	}
-+ 	endpwent();
-+diff --git a/loginutils/deluser.c b/loginutils/deluser.c
-+index e39ac55..d7d9b24 100644
-+--- a/loginutils/deluser.c
-++++ b/loginutils/deluser.c
-+@@ -73,14 +73,13 @@ int deluser_main(int argc, char **argv)
-+ 			if (!member) {
-+ 				/* "delgroup GROUP" */
-+ 				struct passwd *pw;
-+-				struct passwd pwent;
-+ 				/* Check if the group is in use */
-+-#define passwd_buf bb_common_bufsiz1
-+-				while (!getpwent_r(&pwent, passwd_buf, sizeof(passwd_buf), &pw)) {
-+-					if (pwent.pw_gid == gr->gr_gid)
-+-						bb_error_msg_and_die("'%s' still has '%s' as their primary group!", pwent.pw_name, name);
-++				setpwent();
-++				while ((pw = getpwent())) {
-++					if (pw->pw_gid == gr->gr_gid)
-++						bb_error_msg_and_die("'%s' still has '%s' as their primary group!", pw->pw_name, name);
-+ 				}
-+-				//endpwent();
-++				endpwent();
-+ 			}
-+ 			pfile = bb_path_group_file;
-+ 			if (ENABLE_FEATURE_SHADOWPASSWDS)
-+-- 
-+1.9.2
-+
-diff --git a/meta/recipes-core/busybox/busybox/musl.cfg b/meta/recipes-core/busybox/busybox/musl.cfg
-new file mode 100644
-index 0000000..facfe85
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/musl.cfg
-@@ -0,0 +1,12 @@
-+# CONFIG_EXTRA_COMPAT is not set
-+# CONFIG_SELINUX is not set
-+# CONFIG_FEATURE_HAVE_RPC is not set
-+# CONFIG_WERROR is not set
-+# CONFIG_FEATURE_SYSTEMD is not set
-+# CONFIG_FEATURE_VI_REGEX_SEARCH is not set
-+# CONFIG_PAM is not set
-+# CONFIG_FEATURE_INETD_RPC is not set
-+# CONFIG_SELINUXENABLED is not set
-+# CONFIG_FEATURE_MOUNT_NFS is not set
-+# CONFIG_FEATURE_UTMP is not set
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.24.1.bb b/meta/recipes-core/busybox/busybox_1.24.1.bb
-index 7d2a7b2..7c9e5ea 100644
---- a/meta/recipes-core/busybox/busybox_1.24.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.24.1.bb
-@@ -32,12 +32,14 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://busybox-cross-menuconfig.patch \
-            file://0001-Use-CC-when-linking-instead-of-LD-and-use-CFLAGS-and.patch \
-            file://0002-Passthrough-r-to-linker.patch \
-+           file://0001-linedit-deluser-use-POSIX-getpwent-instead-of-getpwe.patch \
-            file://mount-via-label.cfg \
-            file://sha1sum.cfg \
-            file://sha256sum.cfg \
-            file://getopts.cfg \
-            file://resize.cfg \
- "
-+SRC_URI_append_libc-musl = " file://musl.cfg "
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index 429fc5e..199e9ab 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -18,10 +18,12 @@ S = "${WORKDIR}/openssl-${PV}"
+ PACKAGECONFIG[perl] = ",,,"
  
- SRC_URI[tarball.md5sum] = "be98a40cadf84ce2d6b05fa41a275c6a"
- SRC_URI[tarball.sha256sum] = "37d03132cc078937360b392170b7a1d0e5b322eee9f57c0b82292a8b1f0afe3d"
+ AR_append = " r"
++TERMIO_libc-musl = "-DTERMIOS"
++TERMIO ?= "-DTERMIO"
+ # Avoid binaries being marked as requiring an executable stack since it 
+ # doesn't(which causes and this causes issues with SELinux
+ CFLAG = "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '-DL_ENDIAN', '-DB_ENDIAN', d)} \
+-	-DTERMIO ${CFLAGS} -Wall -Wa,--noexecstack"
++	 ${TERMIO} ${CFLAGS} -Wall -Wa,--noexecstack"
+ 
+ # -02 does not work on mipsel: ssh hangs when it tries to read /dev/urandom
+ CFLAG_mtx-1 := "${@'${CFLAG}'.replace('-O2', '')}"
+diff --git a/meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch b/meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch
+new file mode 100644
+index 0000000..613dc7b
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch
+@@ -0,0 +1,27 @@
++Add musl triplet support
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: openssl-1.0.2a/Configure
++===================================================================
++--- openssl-1.0.2a.orig/Configure
+++++ openssl-1.0.2a/Configure
++@@ -431,7 +431,7 @@ my %table=(
++ #
++ #       ./Configure linux-armv4 -march=armv6 -D__ARM_MAX_ARCH__=8
++ #
++-"linux-armv4",	"gcc: -O3 -Wall::-D_REENTRANT::-ldl:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+++"linux-armv4", "gcc: -O3 -Wall::-D_REENTRANT::-ldl:BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${armv4_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++ "linux-aarch64","gcc: -O3 -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${aarch64_asm}:linux64:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++ # Configure script adds minimally required -march for assembly support,
++ # if no -march was specified at command line. mips32 and mips64 below
++@@ -504,6 +504,8 @@ my %table=(
++ "linux-gnueabi-armeb","$ENV{'CC'}:-DB_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++ "linux-uclibceabi-arm","$ENV{'CC'}:-DL_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++ "linux-uclibceabi-armeb","$ENV{'CC'}:-DB_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+++"linux-musleabi-arm","$ENV{'CC'}:-DL_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+++"linux-musleabi-armeb","$ENV{'CC'}:-DB_ENDIAN -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
++ 
++ "linux-avr32","$ENV{'CC'}:-O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).",
++ 
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+index 249f8c4..454d075 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+@@ -37,6 +37,7 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://crypto_use_bigint_in_x86-64_perl.patch \
+             file://openssl-1.0.2a-x32-asm.patch \
+             file://ptest_makefile_deps.patch  \
++            file://configure-musl-target.patch \
+            "
+ 
+ SRC_URI[md5sum] = "38dd619b2e77cbac69b99f52a053d25a"
 -- 
 2.6.3
 
