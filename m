@@ -1,29 +1,46 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BBC76FFA4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id C74D96FFC0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 14:32:14 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Dec 2015 06:32:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,400,1444719600"; d="scan'208";a="614544704"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 08 Dec 2015 06:32:08 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 20C876A4083
+	Tue,  8 Dec 2015 14:43:00 +0000 (UTC)
+Received: by wmuu63 with SMTP id u63so183694558wmu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Dec 2015 06:30:57 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Tue, 08 Dec 2015 06:43:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=y8xudFliH+XnRHwMkIqm2e8R/fj8qdSsuVyp2DPY0a4=;
+	b=apwLXjIEb33WjKQ+jvAY6qlDD53/2CvshYop3ZiZw35mdgrsJoBT1s1XltlKhDPVbq
+	56Sn4mPc9mmjsu2QSwYDTOXK2x0S9RkW8YsNFFyMVyoeBe/US3/VI9RAFqdqh0RWACdi
+	u9SkfHRazi7OKGrVrFEnwyXmhKEgYi8ka/SCudRNhJsO5LTA0VwFvnhcvL39lwwL3Atu
+	HCDazEPEjL8psh0M43sXo8CcJlqMcar2AdYSmygjOU55Ieo2XbDqSRd8wUTLQWFja8fM
+	nlsozlPPh+hg0eUx7H4q8arNlBP6GCV5Gc5BJ/t8Ha7wda3752cvPeDvZX7I6UkOwy4K
+	/+VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=y8xudFliH+XnRHwMkIqm2e8R/fj8qdSsuVyp2DPY0a4=;
+	b=TaS/FFEV6OCxcvpJxivDfztp0TPdzLRq4UOqbSt/KxyRllCRPuKys7978Q14fVue0q
+	nKrQCrnWixcIWGivpoJcJVd/7ar+od/zaTOMhSlCJXLaJQCBELRAZ1kG3LiCMERHOKXx
+	ZGGS1M1Lk8btr+a70eSNIlnh8uefjymnR3kXtT/LiV56v7lQz3D5S2MmnDgDwI3463EF
+	wv6KKaSIHw6Zj9TyGYWLAj1ShdwSEndL+ye7UHN7uQpnQbEuCvl48u6uV2Z0v2n3Eiri
+	R7Xb+L2Twqw8/Ud8wDqo0TOFg7lx+AcdB3T+Di45yNfJZGgSQaiBzOzyEPQHnhSwEiy5
+	Raqg==
+X-Gm-Message-State: ALoCoQkik+OhoEx1HMigriWQntQuXd3OA641UuWriGH5eQ2e3Yyfrt0BetS0wlSGF/atrF19MmYAYuPGqju5FXLnHDtbi0iD1Q==
+X-Received: by 10.28.226.86 with SMTP id z83mr29710008wmg.77.1449585780414;
+	Tue, 08 Dec 2015 06:43:00 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	cs4sm3297442wjc.10.2015.12.08.06.42.59
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 08 Dec 2015 06:42:59 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Dec 2015 16:33:04 +0200
-Message-Id: <1449585184-7423-2-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1449585184-7423-1-git-send-email-maxin.john@intel.com>
-References: <1449585184-7423-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 2/2] rpcbind: Fix build with libtirpc 1.0.1
+Date: Tue,  8 Dec 2015 14:42:57 +0000
+Message-Id: <1449585777-6697-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH][RFC] bitbake: set libexecdir to prefix/libexec
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,80 +53,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Dec 2015 14:32:15 -0000
+X-List-Received-Date: Tue, 08 Dec 2015 14:43:01 -0000
 
-libtirpc 1.0.1 uses the SVC_XP_AUTH macro to access xp_auth.
-Update rpcbind to follow the same way.
+Hi,
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+This is very much a RFC as currently systemd images with this fail to boot
+(logind fails to start), but once that is sorted I really want to see this
+merged.
+
+tl;dr: our definition of libexecdir is fundamentally wrong because it embeds
+$BPN.  The prevailing trend (and default in GNU tools) is to use /usr/libexec,
+so this patch changes it.
+
+Ross
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...ly-Don-t-use-the-xp_auth-pointer-directly.patch | 43 ++++++++++++++++++++++
- meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb     |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-handle_reply-Don-t-use-the-xp_auth-pointer-directly.patch
+ meta/conf/bitbake.conf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/0001-handle_reply-Don-t-use-the-xp_auth-pointer-directly.patch b/meta/recipes-extended/rpcbind/rpcbind/0001-handle_reply-Don-t-use-the-xp_auth-pointer-directly.patch
-new file mode 100644
-index 0000000..16b763e
---- /dev/null
-+++ b/meta/recipes-extended/rpcbind/rpcbind/0001-handle_reply-Don-t-use-the-xp_auth-pointer-directly.patch
-@@ -0,0 +1,43 @@
-+From 9194122389f2a56b1cd1f935e64307e2e963c2da Mon Sep 17 00:00:00 2001
-+From: Steve Dickson <steved@redhat.com>
-+Date: Mon, 2 Nov 2015 17:05:18 -0500
-+Subject: [PATCH] handle_reply: Don't use the xp_auth pointer directly
-+
-+In the latest libtirpc version to access the xp_auth
-+one must use the SVC_XP_AUTH macro. To be backwards
-+compatible a couple ifdefs were added to use the
-+macro when it exists.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Steve Dickson <steved@redhat.com>
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+ src/rpcb_svc_com.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/src/rpcb_svc_com.c b/src/rpcb_svc_com.c
-+index 4ae93f1..22d6c84 100644
-+--- a/src/rpcb_svc_com.c
-++++ b/src/rpcb_svc_com.c
-+@@ -1295,10 +1295,17 @@ handle_reply(int fd, SVCXPRT *xprt)
-+ 	a.rmt_localvers = fi->versnum;
-+ 
-+ 	xprt_set_caller(xprt, fi);
-++#if defined(SVC_XP_AUTH)
-++	SVC_XP_AUTH(xprt) = svc_auth_none;
-++#else 
-+ 	xprt->xp_auth = &svc_auth_none;
-++#endif
-+ 	svc_sendreply(xprt, (xdrproc_t) xdr_rmtcall_result, (char *) &a);
-++#if !defined(SVC_XP_AUTH)
-+ 	SVCAUTH_DESTROY(xprt->xp_auth);
-+ 	xprt->xp_auth = NULL;
-++#endif
-++
-+ done:
-+ 	if (buffer)
-+ 		free(buffer);
-+-- 
-+2.4.0
-+
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb
-index ecd3ba8..c19a197 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.3.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
-            file://init.d \
-            file://0001-Avoid-use-of-glibc-sys-cdefs.h-header.patch \
-            file://remove-sys-queue.patch \
-+           file://0001-handle_reply-Don-t-use-the-xp_auth-pointer-directly.patch \
-            ${UCLIBCPATCHES} \
-            ${MUSLPATCHES} \
-            file://rpcbind.conf \
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 06971da..ccc781d 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -41,7 +41,7 @@ export systemd_user_unitdir = "${nonarch_libdir}/systemd/user"
+ export bindir = "${exec_prefix}/bin"
+ export sbindir = "${exec_prefix}/sbin"
+ export libdir = "${exec_prefix}/${baselib}"
+-export libexecdir = "${libdir}/${BPN}"
++export libexecdir = "${exec_prefix}/libexec"
+ export includedir = "${exec_prefix}/include"
+ export oldincludedir = "${exec_prefix}/include"
+ localedir = "${libdir}/locale"
+@@ -55,7 +55,7 @@ bindir_native = "${prefix_native}/bin"
+ sbindir_native = "${prefix_native}/sbin"
+ includedir_native = "${prefix_native}/include"
+ libdir_native = "${prefix_native}/lib"
+-libexecdir_native = "${libdir_native}/${BPN}"
++libexecdir_native = "${prefix_native}/libexec"
+ base_libdir_native = "/lib"
+ datadir_native = "${prefix_native}/share"
+ bindir_cross = "/bin"
 -- 
-2.4.0
+2.1.4
 
 
