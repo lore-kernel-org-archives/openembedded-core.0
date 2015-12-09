@@ -1,26 +1,47 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 022946FFCD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CFB16FFDC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Dec 2015 09:17:33 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 09 Dec 2015 01:17:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,402,1444719600"; d="scan'208";a="857110631"
-Received: from mbabyjoh-mobl.fi.intel.com ([10.237.72.71])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Dec 2015 01:17:32 -0800
-Date: Wed, 9 Dec 2015 11:18:41 +0200
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20151209091840.GA25916@mbabyjoh-mobl.fi.intel.com>
-References: <1449585184-7423-1-git-send-email-maxin.john@intel.com>
-	<CAMKF1srf+pv0uaZw1kv3Lr9n+2gJ+=npQcB8AZUUh8=nDGHbig@mail.gmail.com>
+	Wed,  9 Dec 2015 11:53:04 +0000 (UTC)
+Received: by ioc74 with SMTP id 74so55982202ioc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Dec 2015 03:53:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=BjcpxSr++miONZIVdwNHM0iD0oGhtCfmm9bX3UXtu8k=;
+	b=LwUJhH8qt7XiY/3a12COQGaR4snfBpY0H8VuaBFKcq22VAYCow4Ae2YySawInIOsig
+	3KQLSyU5DXM76T5SyDGVxB54kiLINZnK1hGt84bf2F/3IZu4evPF1mQEQCDP+UPFR7gl
+	Duyt6M+YKJT5oszmghQoQtQ+7wibwBR7vZkGBjlwsG1Y17uLc55BAtUfb6kFT9Hs2EFA
+	CQGZDgmjBf5B9UtIV+8JIjJ1J9Jq3G8/gVee9sb9LEifaQ+HRGjXIdyq8yZN68VsCHN8
+	W/r+v4lZJJhgXM9kgQlXJfatfPoTEW70Rv/swQessWxlLCEhttZWjJJpc9RJYMdfVe7H
+	LWOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=BjcpxSr++miONZIVdwNHM0iD0oGhtCfmm9bX3UXtu8k=;
+	b=IldOCKiAGlPfrFXOdoY3vCw3zHuSKjW46WLUY1iRh/A7vKaOh+VNJm5JkKd4hhKYDt
+	gZO8Ovb8y0Qmg856e559f5YqUtj5g5Picvs5g9szb4fccG4ZCETVZalqQb/zNhlKea2C
+	pkRbEmC4+GoUsu36B1c0dWGg19b1u0clczSiNLr+n3jziTWb7zjHCqemZ1OIAjZMy001
+	NW0dBrmRUJRl7hJ38dlcR8mt212jligKvNxJqR0ANcGkNHtfA6GA4wHCTFk6HVlOE+Zo
+	57ILrwfH4wsno60WYzGUdzFYRnzp27TZ3Cgz5L0raSGiT4fHKf/AquUR8Qce2JipvVQ2
+	CEiw==
+X-Gm-Message-State: ALoCoQl5MmwKh6Nk6n7pPOuIFWX4YXBMuCL1t/pOXi9AEYQg6YUtcDaYwPlvgPg5f85I5E+ORms8+DvRpSexpDUmNOv25JT4zH24UtDz0p2Wgmlv2DzM2mE=
+X-Received: by 10.107.3.144 with SMTP id e16mr4567062ioi.99.1449661985077;
+	Wed, 09 Dec 2015 03:53:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1srf+pv0uaZw1kv3Lr9n+2gJ+=npQcB8AZUUh8=nDGHbig@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] libtirpc: upgrade to 1.0.1
+Received: by 10.107.136.141 with HTTP; Wed, 9 Dec 2015 03:52:45 -0800 (PST)
+In-Reply-To: <1449626605-10934-1-git-send-email-fan.xin@jp.fujitsu.com>
+References: <1449626605-10934-1-git-send-email-fan.xin@jp.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 9 Dec 2015 11:52:45 +0000
+Message-ID: <CAJTo0LZR3Jy8rvGQEsjGquZXKHpFnhSqWgHNh4k711xnLJqw2Q@mail.gmail.com>
+To: Fan Xin <fan.xin@jp.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl: fix for CVE-2015-1794
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +54,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Dec 2015 09:17:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 09 Dec 2015 11:53:05 -0000
+Content-Type: multipart/alternative; boundary=001a113ecf40aa54e6052675bbde
 
-Hi Khem,
+--001a113ecf40aa54e6052675bbde
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Dec 08, 2015 at 10:54:58AM -0800, Khem Raj wrote:
-> On Tue, Dec 8, 2015 at 6:33 AM, Maxin B. John <maxin.john@intel.com> wrote:
-> > 0.2.5  -> 1.0.1
-> >
-> 
-> this library is used by non-glibc system C libs e.g. uclibc a lot. Can
-> you see if it builds with uclibc and with musl.
+On 9 December 2015 at 02:03, Fan Xin <fan.xin@jp.fujitsu.com> wrote:
+
+> +++
+> b/meta/recipes-connectivity/openssl/openssl/Fix-seg-fault-with-0-p-val-in-SKE.patch
+> @@ -0,0 +1,101 @@
+> +Upstream-Status: Backport
+> +
+> +From ada57746b6b80beae73111fe1291bf8dd89af91c Mon Sep 17 00:00:00 2001
+> +From: Guy Leaver (guleaver) <guleaver@cisco.com>
+> +Date: Fri, 7 Aug 2015 15:45:21 +0100
+> +Subject: [PATCH] Fix seg fault with 0 p val in SKE
+> +
+> +If a client receives a ServerKeyExchange for an anon DH ciphersuite with
+> the
+> +value of p set to 0 then a seg fault can occur. This commits adds a test
+> to
+> +reject p, g and pub key parameters that have a 0 value (in accordance with
+> +RFC 5246)
+> +
+> +The security vulnerability only affects master and 1.0.2, but the fix is
+> +additionally applied to 1.0.1 for additional confidence.
+> +
+> +CVE-2015-1794
+> +
+> +Reviewed-by: Richard Levitte <levitte@openssl.org>
+> +Reviewed-by: Matt Caswell <matt@openssl.org>
 >
 
-Ok, Will check that, Thanks.
+This patch needs to have your (or whoever actually did the work)
+signed-off-by inside the patch, alongside the Upstream-Status.
 
-> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > ---
-> >  .../libtirpc/{libtirpc_0.2.5.bb => libtirpc_1.0.1.bb}                 | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >  rename meta/recipes-extended/libtirpc/{libtirpc_0.2.5.bb => libtirpc_1.0.1.bb} (88%)
-> >
-> > diff --git a/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
-> > similarity index 88%
-> > rename from meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
-> > rename to meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
-> > index 330b829..0a236d2 100644
-> > --- a/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
-> > +++ b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
-> > @@ -19,8 +19,8 @@ SRC_URI_append_libc-uclibc = " file://remove-des-uclibc.patch \
-> >                                 file://va_list.patch \
-> >                               "
-> >
-> > -SRC_URI[libtirpc.md5sum] = "8cd41a5ef5a9b50d0fb6abb98af15368"
-> > -SRC_URI[libtirpc.sha256sum] = "62f9de7c2c8686c568757730e1fef66502a0e00d6cacf33546d0267984e002db"
-> > +SRC_URI[libtirpc.md5sum] = "36ce1c0ff80863bb0839d54aa0b94014"
-> > +SRC_URI[libtirpc.sha256sum] = "5156974f31be7ccbc8ab1de37c4739af6d9d42c87b1d5caf4835dda75fcbb89e"
-> >  SRC_URI[glibc-nfs.md5sum] = "5ae500b9d0b6b72cb875bc04944b9445"
-> >  SRC_URI[glibc-nfs.sha256sum] = "2677cfedf626f3f5a8f6e507aed5bb8f79a7453b589d684dbbc086e755170d83"
-> >
-> > --
-> > 2.4.0
-> >
-Best Regards,
-Maxin
+Thanks,
+Ross
 
+--001a113ecf40aa54e6052675bbde
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 December 2015 at 02:03, Fan Xin <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:fan.xin@jp.fujitsu.com" target=3D"_blank">fan.xin@jp.fujitsu.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-l=
+eft-style:solid;padding-left:1ex"><div id=3D":2x2" class=3D"" style=3D"over=
+flow:hidden">+++ b/meta/recipes-connectivity/openssl/openssl/Fix-seg-fault-=
+with-0-p-val-in-SKE.patch<br>
+@@ -0,0 +1,101 @@<br>
++Upstream-Status: Backport<br>
++<br>
++From ada57746b6b80beae73111fe1291bf8dd89af91c Mon Sep 17 00:00:00 2001<br>
++From: Guy Leaver (guleaver) &lt;<a href=3D"mailto:guleaver@cisco.com">gule=
+aver@cisco.com</a>&gt;<br>
++Date: Fri, 7 Aug 2015 15:45:21 +0100<br>
++Subject: [PATCH] Fix seg fault with 0 p val in SKE<br>
++<br>
++If a client receives a ServerKeyExchange for an anon DH ciphersuite with t=
+he<br>
++value of p set to 0 then a seg fault can occur. This commits adds a test t=
+o<br>
++reject p, g and pub key parameters that have a 0 value (in accordance with=
+<br>
++RFC 5246)<br>
++<br>
++The security vulnerability only affects master and 1.0.2, but the fix is<b=
+r>
++additionally applied to 1.0.1 for additional confidence.<br>
++<br>
++CVE-2015-1794<br>
++<br>
++Reviewed-by: Richard Levitte &lt;<a href=3D"mailto:levitte@openssl.org">le=
+vitte@openssl.org</a>&gt;<br>
++Reviewed-by: Matt Caswell &lt;<a href=3D"mailto:matt@openssl.org">matt@ope=
+nssl.org</a>&gt;</div></blockquote></div><br>This patch needs to have your =
+(or whoever actually did the work) signed-off-by inside the patch, alongsid=
+e the Upstream-Status.</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Thanks,</div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113ecf40aa54e6052675bbde--
