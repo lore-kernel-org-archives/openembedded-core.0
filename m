@@ -1,46 +1,33 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id D09AD605B3
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id EB9AB6FF91
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Dec 2015 16:48:27 +0000 (UTC)
-Received: by igcph11 with SMTP id ph11so123005052igc.1
+	Wed,  9 Dec 2015 17:56:38 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so84374347wmw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Dec 2015 08:48:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=xEdDgxQtg3N0WyWV0PlkxO1lWt9lArxIVPUN2dI8zU0=;
-	b=gyRb7l7MEWxTMYDYFO7hSeIYHLEwqkfJmjtPf6IGYAzQ93UO61jHg/HnIOzpM5ApIL
-	9iCRRKCTaJgoTvBoXf0j9YDH/vjszNhVoVoK+BcI8GLzRgh3cyk8RRzssG8vB8Q1syTr
-	wqUO448gUPD32JCMXwEMtdw2uIDQN9ynzUw++PwjIGbK9IG73/HIb1wRjEkPI+uoH7B2
-	ndudn+vpzJMFeWvq2RUrcGBnZ7ENVKvmzIEsqnpri47RCoQeLBkeUZ4ZtNYdA9I8BrGs
-	5h6XrIGkcr+A/OPeyARuR1sqMxIZckxT6Q5WAwwzbnoTwUhr4Pt3qJzJ+j7jiD+DzLAy
-	PxdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=xEdDgxQtg3N0WyWV0PlkxO1lWt9lArxIVPUN2dI8zU0=;
-	b=OKiSVmFqe9dJ3MWTrelnRpuyyU4J8/U686E10JjME/BkTTzdw6EW3ypqgX4tHSerkn
-	t9YaNQmw/cgB345OFfrW9Paflj3V/8PTX4+hxiMu4Ga/Z3/xyz+nCX4yjkzR7JKq8GfM
-	4l0tLuKqu3NRYH4LVvf+7s93rdj8jM/Bu1IU0YMHpoC9NLqaelUbew5s1axYgon8nA21
-	EkZVpYDUbNWOeRfaRRQ8ACwrBNEjoZ9Mc3myrNTFuAPdfZW4Mpu9YEe2/x3cxCT+MGNB
-	2myUwWKtmpJwZZ0ShSdBpCkV828Fd3bZHQ5/bx4A6E3cuIpX27y+xC12rTDcqsvtL3mi
-	UMtg==
-X-Gm-Message-State: ALoCoQlu8dmAhy1FRvjnv3P/LZaDjUuzDAmNscmpaP82IcxvEoczqS8187Qfgs4jMpXAfUjOb8fkzGkeQJ99QjMiuCMkXiX6nQ==
-X-Received: by 10.50.28.19 with SMTP id x19mr17049960igg.92.1449679707639;
-	Wed, 09 Dec 2015 08:48:27 -0800 (PST)
-Received: from pohly-desktop.fritz.box (p57A560AC.dip0.t-ipconnect.de.
-	[87.165.96.172])
-	by smtp.gmail.com with ESMTPSA id e3sm10452445igx.0.2015.12.09.08.48.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 Dec 2015 08:48:26 -0800 (PST)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Dec 2015 18:48:28 +0100
-Message-Id: <1449683308-20004-1-git-send-email-patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] package_manager.py: add debugging support for rpm scriptlet execution
+	Wed, 09 Dec 2015 09:56:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=6gojfSawlo8Lh0+Xm1+V3Cs14u40HImVQULKUjcYSQc=;
+	b=m80576IxnEf2FT1Kiuj5cyVfwtttWatQzuREdPGyzGQSQ1hGg+HDfYkUF5R+TWLi3I
+	F/6aPzwNzPhfQ0Pcy2uFykz0gMLLhdQW/tg0aI6mI4RY4HOW2JiuWyerj8GdbPj0o4L4
+	NVybSvf32s3FngQ7swtpgZ/XUfAnVOywG8kSGuOUC+OCn/KwxNXwuJHiutASPIGNadQK
+	m58l+fVfRIgJJ+IEQF/iPx3zUOAu1xBpueHlokTg+WdlqAjlKsj7AAX4AiN2JbPfAnHH
+	BGbpPqmfsMI8IL1af5f9wZlg5RYS57KvIpRqQBWs557jn3Jb5U33leeR7XAAIdu86x3v
+	EVMg==
+MIME-Version: 1.0
+X-Received: by 10.28.86.196 with SMTP id k187mr34604214wmb.61.1449683799110;
+	Wed, 09 Dec 2015 09:56:39 -0800 (PST)
+Received: by 10.194.117.68 with HTTP; Wed, 9 Dec 2015 09:56:39 -0800 (PST)
+In-Reply-To: <1449608008-25611-1-git-send-email-haris.okanovic@ni.com>
+References: <1449608008-25611-1-git-send-email-haris.okanovic@ni.com>
+Date: Wed, 9 Dec 2015 09:56:39 -0800
+Message-ID: <CAJ86T=VSauxfhwap_96w3SHnEPm1-NA469=cpm2emoJtgmZ31Q@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Haris Okanovic <haris.okanovic@ni.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] Source packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,99 +40,304 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Dec 2015 16:48:31 -0000
+X-List-Received-Date: Wed, 09 Dec 2015 17:56:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-By default, smart is invoked with --log-level=warning, which hides all
-output from pre/post install scriptlets. That makes it hard to debug
-scriptlet failure or why they get postponed to first-boot via
-/etc/rpm-postinst.
+Hi Haris,
 
-The new ROOTFS_RPM_DEBUG variabled is expected to be set to an integer in
-local.conf an incrementally adds more output:
-  0 = default, only warnings
-  1 = --log-level=info (includes information about executing scriptlets and their output)
-  2 = --log-level=debug
-  3 = --log-level=debug plus dumps of scriplet content and command invocation
+On Tue, Dec 8, 2015 at 12:53 PM, Haris Okanovic <haris.okanovic@ni.com> wrote:
+> This change enables creation of ${PN}-src packages which provide recipe
+> source code on target machines. A distribution might use this facility
+> to provide a feed of source packages for user reference and
+> debugging/development activities.
+>
+> The packaged source code is copy of SRC_URI files + a manifest declaring
+> the contents in order of appearance in SRC_URI. For example, it might
+> include a tarball + patch files, which could be used to reconstruct the
+> state of a recipe's working dir after do_patch() by unpacking the
+> archive and applying patches in order.
+>
+> At the moment, unpacking need to be done by hand. However, RPM and Dpkg
+> can both do this automatically upon install when the source is packaged
+> in a src.rpm or dsc file, respectively, as opposed to a binary archive
+> (rpm or deb). A good future improvement might be to provide proper
+> src.rpm's or .dsc's for distributions using those package manager.
+>
+> I don't believe opkg can distinguish between binary and source archives
+> at the moment, so this may be the best we can do at the moment for IPK
+> distributions.
+>
+>
+> Classic OE provided a similar facility for IPKs only with
+> sourceipk.bbclass [1]. It was dropped at some point in modern OE and I'm
+> not familiar enough with OE's history pre Yocto to track down exactly
+> why. I'm curious if this was this a deliberate change or just an
+> accidental regression, and the reasons it was removed in the former
+> case.
+>
+> One significant difference between the classic sourceipk.bbclass and my
+> proposal is what gets packaged: sourceipk simply archived the entire
+> ${S} dir after do_patch() but before do_configure() pollutes it. I opted
+> not to go this route because it's seems at odds with RPM and Dpkg, both
+> of which use the aforementioned tarball+patch file scheme. This may
+> allow us to re-use the staging logic should we implement proper
+> src.rpm's and dsc's in the future.
+>
+>
+> Not all recipes have useful source to package: For example,
+> linux-libc-headers build from the kernel source, which is is already
+> provided by the kernel recipe. base-files just provides initial system
+> configuration, so it's source package provides no additional info than
+> it's binary.
+>
+> I couldn't find a clever way to filter out these edge cases, other than
+> disabling source packages inside those recipes which would require a
+> lengthy review of OE meta layers.
+>
+> I imagine many OE distro also target small, resource constrained,
+> systems, that couldn't benefit from source packaging.
+>
+> Therefore I've made this an opt-in feature for individual distro
+> maintainers to enable as needed. It can be enabled per recipe via the
+> ENABLE_SRC_INSTALL_${PN} var or globally via ENABLE_SRC_INSTALL from
+> distribution confs.
+>
+>
+> === Implementation details ===
+>
+> [PATCH 1/3] package.bbclass/package.py: Add do_install_source() task
+>
+> Add do_install_source() task to stage a recipe's SRC_URI files under
+> SRC_D.
+>
+> Dependencies:
+>  After do_fetch() to ensure SRC_URI files are downloaded
+>  After do_install() because it resets ${D} that's also used by this task
+>  Before do_package() to stage files before writing installers
+>
+> No-ops unless ENABLE_SRC_INSTALL_${PN} = 1, which needs to be set in
+> distro config or recipes wanting to use this facility.
+>
+> [PATCH 2/3] documentation.conf: Document do_install_source()
+>
+> [PATCH 3/3] bitbake.conf: Define source package, disabled by default
+>
+> Add ${PN}-src to PACKAGES with a default set of FILES_{PV}-src
+> per FHS [2].
+>
+> Define a staging directory SRC_D under ${D}.
+>
+> Define ENABLE_SRC_INSTALL to enable source staging via package.bbclass's
+> do_install_source() task. It's disabled by default, but may be
+> overridden by distro configs or individual recipes as needed.
+>
+>
+> === References ===
+>
+> [1] https://github.com/openembedded/openembedded/blob/master/classes/sourceipk.bbclass
+> [2] https://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.html#usrsrcSourceCode
+>
+>
+> Comments, opinions, and other meandering thoughts welcome....
+>
+> Thanks,
+> Haris
+> ---
+>  meta/classes/package.bbclass |  5 +++
+>  meta/conf/bitbake.conf       |  9 ++++-
+>  meta/conf/documentation.conf |  1 +
+>  meta/lib/oe/package.py       | 96 ++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 110 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index d731757..98f01e5 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -2079,3 +2079,8 @@ def mapping_rename_hook(d):
+>      runtime_mapping_rename("RRECOMMENDS", pkg, d)
+>      runtime_mapping_rename("RSUGGESTS", pkg, d)
+>
+> +addtask do_install_source after do_fetch after do_install before do_package
+> +
+> +python do_install_source () {
+> +    oe.package.do_install_source(d)
+> +}
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 06971da..431865d 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -36,6 +36,7 @@ export systemd_unitdir = "${nonarch_base_libdir}/systemd"
+>  export systemd_system_unitdir = "${nonarch_base_libdir}/systemd/system"
+>  export nonarch_libdir = "${exec_prefix}/lib"
+>  export systemd_user_unitdir = "${nonarch_libdir}/systemd/user"
+> +export srcdir = "${prefix}/src"
 
-The default behavior is not changed yet, but it seems that level 1 would
-be a better default.
+I wonder if globally exporting a "srcdir" environment variable is the
+correct thing to do. If it's not expected to be recognised or used
+directly by any package's "make install", etc, then perhaps it should
+just be a bitbake internal variable to avoid any concerns about
+namespace pollution.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/lib/oe/package_manager.py | 35 ++++++++++++++++++++++++++++++-----
- 1 file changed, 30 insertions(+), 5 deletions(-)
+(AFAIK, variables like "prefix" are only exported to support legacy
+packages which rely on environment variables + "make -e" to ensure
+that "make install", etc, do the right thing. For autotools packages,
+for example, prefix etc are all passed directly on the configure
+command line so exporting them too is mostly redundant. If we succeed
+in getting rid of "make -e" then I guess eventually none of these
+directory variables will need to be exported any more?).
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index fd9caa3..32afeaf 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -685,8 +685,16 @@ class RpmPM(PackageManager):
-         self.install_dir_path = os.path.join(self.target_rootfs, self.install_dir_name)
-         self.rpm_cmd = bb.utils.which(os.getenv('PATH'), "rpm")
-         self.smart_cmd = bb.utils.which(os.getenv('PATH'), "smart")
--        self.smart_opt = "--log-level=warning --data-dir=" + os.path.join(target_rootfs,
--                                                      'var/lib/smart')
-+        # 0 = default, only warnings
-+        # 1 = --log-level=info (includes information about executing scriptlets and their output)
-+        # 2 = --log-level=debug
-+        # 3 = --log-level=debug plus dumps of scriplet content and command invocation
-+        self.debug_level = int(d.getVar('ROOTFS_RPM_DEBUG', True) or "0")
-+        self.smart_opt = "--log-level=%s --data-dir=%s" % \
-+                         ("warning" if self.debug_level == 0 else
-+                          "info" if self.debug_level == 1 else
-+                          "debug",
-+                          os.path.join(target_rootfs, 'var/lib/smart'))
-         self.scriptlet_wrapper = self.d.expand('${WORKDIR}/scriptlet_wrapper')
-         self.solution_manifest = self.d.expand('${T}/saved/%s_solution' %
-                                                self.task_name)
-@@ -1051,6 +1059,17 @@ class RpmPM(PackageManager):
-             scriptletcmd = "$2 $1/$3 $4\n"
-             scriptpath = "$1/$3"
- 
-+        # When self.debug_level >= 3, also dump the content of the
-+        # executed scriptlets and how they get invoked.  We have to
-+        # replace "exit 1" and "ERR" because printing those as-is
-+        # would trigger a log analysis failure.
-+        if self.debug_level >= 3:
-+            dump_invocation = 'echo "Executing ${name} ${kind} with: ' + scriptletcmd + '"\n'
-+            dump_script = 'cat ' + scriptpath + '| sed -e "s/exit 1/exxxit 1/g" -e "s/ERR/IRR/g"; echo\n'
-+        else:
-+            dump_invocation = 'echo "Executing ${name} ${kind}"\n'
-+            dump_script = ''
-+
-         SCRIPTLET_FORMAT = "#!/bin/bash\n" \
-             "\n" \
-             "export PATH=%s\n" \
-@@ -1061,19 +1080,25 @@ class RpmPM(PackageManager):
-             "export INTERCEPT_DIR=%s\n" \
-             "export NATIVE_ROOT=%s\n" \
-             "\n" \
-+            "name=`head -1 " + scriptpath + " | cut -d\' \' -f 2`\n" \
-+            "kind=`head -1 " + scriptpath + " | cut -d\' \' -f 4`\n" \
-+            + dump_invocation \
-+            + dump_script \
-             + scriptletcmd + \
--            "if [ $? -ne 0 ]; then\n" \
-+            "ret=$?\n" \
-+            "echo Result of ${name} ${kind}: ${ret}\n" \
-+            "if [ ${ret} -ne 0 ]; then\n" \
-             "  if [ $4 -eq 1 ]; then\n" \
-             "    mkdir -p $1/etc/rpm-postinsts\n" \
-             "    num=100\n" \
-             "    while [ -e $1/etc/rpm-postinsts/${num}-* ]; do num=$((num + 1)); done\n" \
--            "    name=`head -1 " + scriptpath + " | cut -d\' \' -f 2`\n" \
-             '    echo "#!$2" > $1/etc/rpm-postinsts/${num}-${name}\n' \
-             '    echo "# Arg: $4" >> $1/etc/rpm-postinsts/${num}-${name}\n' \
-             "    cat " + scriptpath + " >> $1/etc/rpm-postinsts/${num}-${name}\n" \
-             "    chmod +x $1/etc/rpm-postinsts/${num}-${name}\n" \
-+            '    echo "Info: deferring ${name} ${kind} install scriptlet to first boot"\n' \
-             "  else\n" \
--            '    echo "Error: pre/post remove scriptlet failed"\n' \
-+            '    echo "Error: ${name} ${kind} remove scriptlet failed"\n' \
-             "  fi\n" \
-             "fi\n"
- 
--- 
-2.1.4
+>  # Architecture dependent paths
+>  export bindir = "${exec_prefix}/bin"
+> @@ -267,7 +268,7 @@ SOLIBSDEV = ".so"
+>  SOLIBSDEV_darwin = ".dylibbroken"
+>
+>  PACKAGE_BEFORE_PN ?= ""
+> -PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
+> +PACKAGES = "${PN}-src ${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
+>  PACKAGES_DYNAMIC = "^${PN}-locale-.*"
+>  FILES = ""
+>
+> @@ -313,6 +314,12 @@ ALLOW_EMPTY_${PN}-dbg = "1"
+>
+>  FILES_${PN}-locale = "${datadir}/locale"
+>
+> +FILES_${PN}-src = "${srcdir}/${PN}"
+> +SRC_D = "${D}${srcdir}/${PN}"
+> +
+> +ENABLE_SRC_INSTALL = "0"
+> +ENABLE_SRC_INSTALL_${PN} = "${ENABLE_SRC_INSTALL}"
+> +
+>  # File manifest
+>
+>  FILE_DIRNAME = "${@os.path.dirname(d.getVar('FILE', False))}"
+> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+> index 845559a..0df8a2f 100644
+> --- a/meta/conf/documentation.conf
+> +++ b/meta/conf/documentation.conf
+> @@ -26,6 +26,7 @@ do_fetchall[doc] = "Fetches all remote sources required to build a target"
+>  do_generate_qt_config_file[doc] = "Writes a qt.conf file for building a Qt-based application"
+>  do_install[doc] = "Copies files from the compilation directory to a holding area"
+>  do_install_ptest_base[doc] = "Copies the runtime test suite files from the compilation directory to a holding area"
+> +do_install_source[doc] = "Stages source code for packaging"
+>  do_kernel_checkout[doc] = "Checks out source/meta branches for a linux-yocto style kernel"
+>  do_kernel_configcheck[doc] = "Validates the kernel configuration for a linux-yocto style kernel"
+>  do_kernel_configme[doc] = "Assembles the kernel configuration for a linux-yocto style kernel"
+> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+> index ea6feaa..f980f25 100644
+> --- a/meta/lib/oe/package.py
+> +++ b/meta/lib/oe/package.py
+> @@ -123,3 +123,99 @@ def read_shlib_providers(d):
+>                          shlib_provider[s[0]] = {}
+>                      shlib_provider[s[0]][s[1]] = (dep_pkg, s[2])
+>      return shlib_provider
+> +
+> +def archive_dir(dirPath, archivePath):
+> +    ''' Create tar.bz2 archive at archivePath from dirPath '''
+> +    import os, oe, bb
+> +
+> +    arDir = os.path.dirname(dirPath)
+> +    arName = os.path.basename(dirPath)
+> +
+> +    cmd = 'tar -c -j -f \"%s\" -C \"%s\" -p \"%s\"' % (archivePath, arDir, arName)
 
+Perhaps try to make use of pbzip2 instead of "tar -j" to create
+tar.bz2 files. See:
+
+  http://git.openembedded.org/openembedded-core/commit/?id=670f5cda06070ae888d17cca7a07aa74d751c2f7
+
+> +    (retval, output) = oe.utils.getstatusoutput(cmd)
+> +    if retval:
+> +        bb.fatal('Failed to archive %s --> %s: %s %s' % (dirPath, archivePath, cmd, output))
+> +
+> +def do_install_source(d):
+> +    ''' Stage recipe's source for packaging '''
+> +    import os, oe, bb
+> +
+> +    pn = d.getVar("PN", True)
+> +
+> +    if d.getVar("ENABLE_SRC_INSTALL_%s" % pn, True) != "1":
+> +        return
+> +
+> +    packages = (d.getVar("PACKAGES") or "").split()
+> +    if ("%s-src" % pn) not in packages:
+> +        # Some recipes redefine PACKAGES without ${PN}-src. Don't stage
+> +        # anything in this case to avoid installed-vs-shipped warning.
+> +        return
+> +
+> +    urls = (d.getVar('SRC_URI', True) or "").split()
+> +    if len(urls) == 0:
+> +        return
+> +
+> +    workdir = d.getVar('WORKDIR', True)
+> +
+> +    # TODO rm_work() should clean this up
+> +    unpackTempDir = os.path.join(workdir, 'install-source-unpack-temp')
+> +    if os.path.exists(unpackTempDir):
+> +        bb.utils.remove(unpackTempDir, recurse=True)
+> +    os.makedirs(unpackTempDir, 0755)
+> +
+> +    src_d = d.getVar("SRC_D", True)
+> +    if os.path.exists(src_d):
+> +        bb.warn("SRC_D already exist. Removing.")
+> +        bb.utils.remove(src_d, recurse=True)
+> +    os.makedirs(src_d, 0755)
+> +
+> +    fetcher = bb.fetch2.Fetch(urls, d)
+> +
+> +    fileManif = []
+> +    for url in urls:
+> +        urlScheme = bb.fetch2.decodeurl(url)[0]
+> +        srcPath = fetcher.localpath(url)
+> +        srcName = os.path.basename(srcPath)
+> +
+> +        dstName = srcName
+> +        if os.path.isdir(srcPath):
+> +            dstName += '.tar.bz2'
+> +
+> +        dstPath = os.path.join(src_d, dstName)
+> +
+> +        # fetch() doesn't retrieve any actual files from git:// URLs,
+> +        # so we do an additional unpack() step to get something useful
+> +        # for these.
+> +        # TODO: May need to pre-process other revision control schemes
+> +        if urlScheme == 'git':
+> +            unpackPath = os.path.join(unpackTempDir, srcName)
+> +            if os.path.exists(unpackPath):
+> +                bb.utils.remove(unpackPath, recurse=True)
+> +            os.makedirs(unpackPath, 0755)
+> +
+> +            fetcher.unpack(unpackPath, [url])
+> +
+> +            # unpack() puts actual source in a 'git' subdir
+> +            srcPath = os.path.join(unpackPath, 'git')
+> +
+> +        if os.path.exists(dstPath):
+> +            bb.warn('Duplicate file %s in SRC_URI. Overwriting.' % dstName)
+> +            bb.utils.remove(dstPath, recurse=True)
+> +
+> +        if not dstName in fileManif:
+> +            fileManif.append(dstName)
+> +
+> +        if os.path.isdir(srcPath):
+> +            archive_dir(srcPath, dstPath)
+> +        else:
+> +            bb.utils.copyfile(srcPath, dstPath)
+> +
+> +    manifFilePath = os.path.join(src_d, 'manifest')
+> +    if os.path.exists(manifFilePath):
+> +        bb.warn('manifest file found in SRC_URI. Overwriting.')
+> +        bb.utils.remove(manifFilePath, recurse=True)
+> +
+> +    with open(manifFilePath, 'wb') as manif:
+> +        for fname in fileManif:
+> +            manif.write(fname)
+> +            manif.write('\n')
+> --
+> 2.6.2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
