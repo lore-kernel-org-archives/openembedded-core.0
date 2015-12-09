@@ -1,42 +1,30 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id CF85F60589
+Return-Path: <alejandro.delcastillo@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F5546E5CC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Dec 2015 19:52:12 +0000 (UTC)
-Received: by pacwq6 with SMTP id wq6so34452953pac.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Dec 2015 11:52:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=WRK9j+KpoAJP/Iacdc/LNQ8Ku5a9xBZG3q9Vw3XYj2A=;
-	b=UJ3je7QK8KMGZ88imqOQMe1Z5iF3Nw8p15q3ljxVtFBOxG+dQZjoDk/KWOia5GnQZa
-	plaR8A140XagLheuvi7Nv5hvEo7c//ZIJcr271FbUObDnzjSu0k6vjQKJGlqeR6nAYq8
-	hkso/AvMFaOA2FFENioTTJw45BP2mLdTPufikwcP550o+CCbr+iOwnIuTq7mh72YSfNN
-	2QjaHfytwVy61bmEPBRbeqOV8km2siqI8v4MzQDgWCPmlkvJt1qdnb6B2iTjflTqhTMk
-	O6b5MUfypuhUE5HfMaF4Zig1xHj4ZnpnoNCouwlDWKcxwl1gZisP+TMYX4MrK/zjKMe+
-	GFgA==
-X-Received: by 10.67.5.164 with SMTP id cn4mr10255954pad.141.1449690732582;
-	Wed, 09 Dec 2015 11:52:12 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1239:7588:9f7b:1ab6:88af?
-	([2601:202:4000:1239:7588:9f7b:1ab6:88af])
-	by smtp.googlemail.com with ESMTPSA id
-	sy5sm13671684pac.5.2015.12.09.11.52.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 Dec 2015 11:52:11 -0800 (PST)
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1449671297.git.alexander.kanavin@linux.intel.com>
-	<80f3d12d7eb901a0deb50508d54bd89192b88a8a.1449671297.git.alexander.kanavin@linux.intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <5668866A.7030900@gmail.com>
-Date: Wed, 9 Dec 2015 11:52:10 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <80f3d12d7eb901a0deb50508d54bd89192b88a8a.1449671297.git.alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH 01/10] openssl: update to 1.0.2e
+	Wed,  9 Dec 2015 20:50:05 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tB9Ko5wA027468 for <openembedded-core@lists.openembedded.org>;
+	Wed, 9 Dec 2015 14:50:05 -0600
+Received: from delcastillo2.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015120914500575-949445 ;
+	Wed, 9 Dec 2015 14:50:05 -0600 
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 9 Dec 2015 14:50:03 -0600
+Message-Id: <1449694203-15173-1-git-send-email-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 1.9.1
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 12/09/2015 02:50:05 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 12/09/2015 02:50:05 PM,
+	Serialize complete at 12/09/2015 02:50:05 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-12-09_08:, , signatures=0
+Subject: [PATCH] libsolv: add new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,41 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Dec 2015 19:52:13 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Dec 2015 20:50:08 -0000
 
-Can we get the CVE's fix by this update included in the commit?
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+---
+ meta/recipes-extended/libsolv/libsolv_0.6.14.bb | 26 +++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+ create mode 100644 meta/recipes-extended/libsolv/libsolv_0.6.14.bb
 
-- armin
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.14.bb b/meta/recipes-extended/libsolv/libsolv_0.6.14.bb
+new file mode 100644
+index 0000000..14955da
+--- /dev/null
++++ b/meta/recipes-extended/libsolv/libsolv_0.6.14.bb
+@@ -0,0 +1,26 @@
++SUMMARY = "Library for solving packages and reading repositories"
++HOMEPAGE = "https://github.com/openSUSE/libsolv"
++BUGTRACKER = "https://github.com/openSUSE/libsolv/issues"
++SECTION = "devel"
++LICENSE = "BSD"
++LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
++
++SRC_URI = "https://github.com/openSUSE/libsolv/archive/0.6.14.zip"
++
++SRC_URI[md5sum] = "171da68f08f672cacd1930643f8d1b4d"
++SRC_URI[sha256sum] = "0263b11372012be9c83f1c01f7d55ea9464dde58c109f5ae4de1e52870034a45"
++
++PACKAGES =+ "${PN}-tools ${PN}ext ${PN}ext-dbg"
++
++S = "${WORKDIR}/libsolv-0.6.14"
++
++inherit cmake
++
++EXTRA_OECMAKE = "-DLIB=${baselib}"
++
++DEPENDS = "expat zlib"
++
++FILES_${PN}-dev += "${datadir}/cmake/Modules/FindLibSolv.cmake"
++FILES_${PN}-tools = "${bindir}/*"
++FILES_${PN}ext = "${libdir}/${PN}ext.so.*"
++FILES_${PN}ext-dbg = "${libdir}/.debug/${PN}ext.so.*"
+-- 
+1.9.1
 
-On 12/09/2015 06:40 AM, Alexander Kanavin wrote:
-> [YOCTO #8765]
-> [YOCTO #8758]
-> 
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  .../openssl/{openssl_1.0.2d.bb => openssl_1.0.2e.bb}                  | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-connectivity/openssl/{openssl_1.0.2d.bb => openssl_1.0.2e.bb} (94%)
-> 
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2e.bb
-> similarity index 94%
-> rename from meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-> rename to meta/recipes-connectivity/openssl/openssl_1.0.2e.bb
-> index 249f8c4..e41f46b 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2e.bb
-> @@ -39,8 +39,8 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
->              file://ptest_makefile_deps.patch  \
->             "
->  
-> -SRC_URI[md5sum] = "38dd619b2e77cbac69b99f52a053d25a"
-> -SRC_URI[sha256sum] = "671c36487785628a703374c652ad2cebea45fa920ae5681515df25d9f2c9a8c8"
-> +SRC_URI[md5sum] = "5262bfa25b60ed9de9f28d5d52d77fc5"
-> +SRC_URI[sha256sum] = "e23ccafdb75cfcde782da0151731aa2185195ac745eea3846133f2e05c0e0bff"
->  
->  PACKAGES =+ " \
->  	${PN}-engines \
-> 
 
