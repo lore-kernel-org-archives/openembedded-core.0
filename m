@@ -1,36 +1,36 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id E1F7D607AB
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C0B9607AB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Dec 2015 01:10:07 +0000 (UTC)
-Received: by oiww189 with SMTP id w189so19045837oiw.3
+	Wed,  9 Dec 2015 01:10:10 +0000 (UTC)
+Received: by oixx65 with SMTP id x65so19090673oix.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Dec 2015 17:10:08 -0800 (PST)
+	Tue, 08 Dec 2015 17:10:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=C/Sx1hkVSSlP61PanaF5WxPdvfuxRbIMoynsJMwUaU4=;
-	b=xV4R6iL+Ro+Nw5UW4y9sBrXDTKZlzXKmeZTfjD+uDz/MSsN4A+vIPN86GeXSEOWLgO
-	P5ORzrWrbrYJZ1HrRqazHA8wkrv5q/8CoIy9kW7k/jea98Z+8ggaL+QK413OzzNF2C29
-	YsNqWQmnpJ0ZPGqlQmQR6M0K4xhpcuHhE/9OLm8DrvF/R5NiPwElPeMAL49k4gUjf9O6
-	AkZNOrMWuFfdwSI9Eq1zrFqjURtbCIvN6XsIFe9lyoCeUx/sTtr4oSbs1YJ+cw9fKf5k
-	Tphft8MNluJufCg8xSkq4MJ50t7dRtfKIXF0+7E5wMAsbQ2ExF/Vi/e/YiNf0I8vg3BK
-	d4KQ==
-X-Received: by 10.202.81.87 with SMTP id f84mr2194288oib.0.1449623408423;
-	Tue, 08 Dec 2015 17:10:08 -0800 (PST)
+	bh=bJrcAlPuRGOMFUTikjqd8E3GYlvQSQ4zA0TPPkjHAsc=;
+	b=EFHnnLx4zGBWscCqeR7xd71C2+0sBncLw4Ic38UvlAg1aHmp12dMyIpu5JF4wjZm7P
+	K6wkIqw8BV21+ctuM49ELkph2/dSSEt5VJJFoLfTFNed3BYxs5lp9htKnoJBKQTLYn0w
+	i6yeWMCB9vPy5ldLVvh2iZWluI04h3VXAT4atZQ8X+A3QFpYNKNxcqMbyM+qQbsJhuLQ
+	CbnBpUYHBMmYekhsshFSSIKfXkIIUVatVKLAcGZ4rYFt6Za4HDZrfU+E+zJBCzOhk3nG
+	qDUW9999ngm2aCxE5M7OosR4V3MgU09ao47yoZ4S2c+BfeyWaH0RmIPLQAIbFYJwiNSr
+	2WIA==
+X-Received: by 10.202.73.133 with SMTP id w127mr2140443oia.43.1449623411051;
+	Tue, 08 Dec 2015 17:10:11 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id t84sm2540098oie.1.2015.12.08.17.10.06
+	by smtp.gmail.com with ESMTPSA id t84sm2540098oie.1.2015.12.08.17.10.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Dec 2015 17:10:07 -0800 (PST)
+	Tue, 08 Dec 2015 17:10:10 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Dec 2015 17:09:56 -0800
-Message-Id: <1449623398-29127-2-git-send-email-armccurdy@gmail.com>
+Date: Tue,  8 Dec 2015 17:09:57 -0800
+Message-Id: <1449623398-29127-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1449623398-29127-1-git-send-email-armccurdy@gmail.com>
 References: <1449623398-29127-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 1/3] feature-arm-thumb.inc: drop ARM -vs- thumb comments
+Subject: [PATCH 2/3] feature-arm-thumb.inc: drop legacy _thumb and _thumb-interwork over-rides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,29 +45,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 09 Dec 2015 01:10:10 -0000
 
-Comments are old and specific to thumb1. Since oe-core CPU tuning
-files aren't really the right place to fully document ARM -vs- thumb,
-drop the comments instead of trying to update them.
+Bitbake over-rides for _thumb and _thumb-interwork are undocumented
+and are not used anywhere in oe-core or meta-oe. The logic setting up
+the thumb-interwork over-ride even seems to be reversed and nobody
+noticed, so it seems safe to assume that these over-rides are not
+used.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/conf/machine/include/arm/feature-arm-thumb.inc | 6 ------
- 1 file changed, 6 deletions(-)
+ meta/conf/machine/include/arm/feature-arm-thumb.inc | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-index 5632171..0a9545c 100644
+index 0a9545c..fb22977 100644
 --- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
 +++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-@@ -1,9 +1,3 @@
--# The instruction set the compiler should use when generating application
--# code. The kernel is always compiled with arm code at present. arm code
--# is the original 32 bit ARM instruction set, thumb code is the 16 bit
--# encoded RISC sub-set. Thumb code is smaller (maybe 70% of the ARM size)
--# but requires more instructions (140% for 70% smaller code) so may be
--# slower.
- TUNEVALID[thumb] = "Use thumb instructions instead of ARM"
- ARM_THUMB_OPT = "${@['arm', 'thumb'][d.getVar('ARM_INSTRUCTION_SET', True) == 'thumb']}"
- ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4',  't',  '', d)}"
+@@ -24,7 +24,6 @@ python () {
+ }
+ 
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ' -m${ARM_M_OPT}', '', d)}"
+-OVERRIDES .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ':thumb', '', d)}"
+ 
+ # Add suffix from ARM_THUMB_SUFFIX only if after all this we still set ARM_M_OPT to thumb
+ ARMPKGSFX_THUMB .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', '${ARM_THUMB_SUFFIX}', '', d) if d.getVar('ARM_M_OPT', True) == 'thumb' else ''}"
+@@ -35,9 +34,7 @@ ARMPKGSFX_THUMB .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', '${ARM_THUMB_
+ # turn this off - the actual cost is very small.
+ TUNEVALID[no-thumb-interwork] = "Disable mixing of thumb and ARM functions"
+ THUMB_TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'no-thumb-interwork', ' -mno-thumb-interwork', ' -mthumb-interwork', d)}"
+-THUMB_OVERRIDES .= "${@bb.utils.contains('TUNE_FEATURES', 'no-thumb-interwork', ':thumb-interwork', '', d)}"
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ' ${THUMB_TUNE_CCARGS}', '', d)}"
+-OVERRIDES .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', '${THUMB_OVERRIDES}', '', d)}"
+ 
+ # what about armv7m devices which don't support -marm (e.g. Cortex-M3)?
+ TARGET_CC_KERNEL_ARCH += "${@bb.utils.contains('TUNE_FEATURES', 'thumb', '-mno-thumb-interwork -marm', '', d)}"
 -- 
 1.9.1
 
