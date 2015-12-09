@@ -1,32 +1,35 @@
-Return-Path: <alejandro.delcastillo@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C6E360616
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 910216FF91
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Dec 2015 23:01:18 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	tB9N1Jdm005786 for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 Dec 2015 17:01:19 -0600
-Received: from delcastillo2.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015120917011908-953252 ;
-	Wed, 9 Dec 2015 17:01:19 -0600 
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+	Wed,  9 Dec 2015 23:45:09 +0000 (UTC)
+Received: by pfbg73 with SMTP id g73so38439468pfb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Dec 2015 15:45:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=OSdFYw7zkYYltyE4QoZjZe/v1331FShf/JaSb522hx4=;
+	b=G7lVylCXCOxWVEUs9f0NCMmM49kppiFHn6cYG8rAIsmTugNS3wIyQPs9OO/Ka+cxLE
+	O7v6cmo5Prd8SmJopbX+OqhqIIstGE8U/CbOXL7he3vbt2eBa3lMq/WmL0Oqk/M1Sl2s
+	DCHMFWvZ+wayNcl8SzTwXBBPu+sTllqP9d2yQSlVKqNXVkOBu5tNYv2+FM9QshkbTu3S
+	9gzDu8xVTI6/M0EmJnHKZen3VdwoJJNdQsYhcRApm5zILzg5p2ErEo3NelsIAq+9nc7T
+	s0J1+lPivaiRmQj898Aci8MSs3dL0yK9Xrk54xgFECazN/QsiQzttVfTywIlObYS57JW
+	L7GQ==
+X-Received: by 10.98.74.221 with SMTP id c90mr2334141pfj.127.1449704710367;
+	Wed, 09 Dec 2015 15:45:10 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	o2sm14252466pap.31.2015.12.09.15.45.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 09 Dec 2015 15:45:09 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 9 Dec 2015 17:01:09 -0600
-Message-Id: <1449702069-11889-1-git-send-email-alejandro.delcastillo@ni.com>
+Date: Wed,  9 Dec 2015 15:45:03 -0800
+Message-Id: <1449704703-28285-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1750958.3rdPrcUnoM@peggleto-mobl.ger.corp.intel.com>
-References: <1750958.3rdPrcUnoM@peggleto-mobl.ger.corp.intel.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 12/09/2015 05:01:19 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 12/09/2015 05:01:19 PM,
-	Serialize complete at 12/09/2015 05:01:19 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-12-09_09:, , signatures=0
-Subject: [PATCH v2] libsolv: add new recipe
+Subject: [PATCH] kernel.bbclass: drop unnecessary 'eval' from kernel_do_configure()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,48 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Dec 2015 23:01:21 -0000
+X-List-Received-Date: Wed, 09 Dec 2015 23:45:11 -0000
 
-Required by the optional opkg 0.3.1 libsolv backend.
+KERNEL_CONFIG_COMMAND will be expanded by bitbake, so can be
+used directly in kernel_do_configure()
 
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-extended/libsolv/libsolv_0.6.14.bb | 26 +++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
- create mode 100644 meta/recipes-extended/libsolv/libsolv_0.6.14.bb
+ meta/classes/kernel.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.14.bb b/meta/recipes-extended/libsolv/libsolv_0.6.14.bb
-new file mode 100644
-index 0000000..de374f8
---- /dev/null
-+++ b/meta/recipes-extended/libsolv/libsolv_0.6.14.bb
-@@ -0,0 +1,26 @@
-+SUMMARY = "Library for solving packages and reading repositories"
-+HOMEPAGE = "https://github.com/openSUSE/libsolv"
-+BUGTRACKER = "https://github.com/openSUSE/libsolv/issues"
-+SECTION = "devel"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index b75a462..4ce1611 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -346,7 +346,8 @@ kernel_do_configure() {
+ 	if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
+ 		cp "${WORKDIR}/defconfig" "${B}/.config"
+ 	fi
+-	eval ${KERNEL_CONFIG_COMMAND}
 +
-+SRC_URI = "https://github.com/openSUSE/libsolv/archive/${PV}.zip"
-+
-+SRC_URI[md5sum] = "171da68f08f672cacd1930643f8d1b4d"
-+SRC_URI[sha256sum] = "0263b11372012be9c83f1c01f7d55ea9464dde58c109f5ae4de1e52870034a45"
-+
-+S = "${WORKDIR}/libsolv-${PV}"
-+
-+inherit cmake
-+
-+EXTRA_OECMAKE = "-DLIB=${baselib}"
-+
-+DEPENDS = "expat zlib"
-+
-+PACKAGES =+ "${PN}-tools ${PN}ext ${PN}ext-dbg"
-+
-+FILES_${PN}-dev += "${datadir}/cmake/Modules/FindLibSolv.cmake"
-+FILES_${PN}-tools = "${bindir}/*"
-+FILES_${PN}ext = "${libdir}/${PN}ext.so.*"
-+FILES_${PN}ext-dbg = "${libdir}/.debug/${PN}ext.so.*"
++	${KERNEL_CONFIG_COMMAND}
+ }
+ 
+ do_savedefconfig() {
 -- 
 1.9.1
 
