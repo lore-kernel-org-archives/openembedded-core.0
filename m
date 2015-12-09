@@ -1,36 +1,34 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 48AEE60116
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D7A76FF76
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Dec 2015 07:11:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tB97BgHV027758
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  9 Dec 2015 07:56:55 +0000 (UTC)
+Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
+	mgwym02.jp.fujitsu.com with smtp
+	id 5f44_167c_80f87018_ea3c_41dc_8327_d74fb72c348e;
+	Wed, 09 Dec 2015 16:56:51 +0900
+Received: from g01jpfmpwyt02.exch.g01.fujitsu.local
+	(g01jpfmpwyt02.exch.g01.fujitsu.local [10.128.193.56])
+	by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 92FCBAC019C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Dec 2015 23:11:42 -0800 (PST)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.3.84]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0248.002;
-	Tue, 8 Dec 2015 23:11:41 -0800
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "KUKKONEN, JUSSI" <jussi.kukkonen@intel.com>
-Thread-Topic: [OE-core] [PATCH] matchbox-desktop: sync with gio for the
-	inotify-sub
-Thread-Index: AQHRLBYsk+StN7FzSkeXbi2rCSmlG564+r5QgAC3A4CACJbGsA==
-Date: Wed, 9 Dec 2015 07:11:39 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA010C765418@ALA-MBA.corp.ad.wrs.com>
-References: <1448948830-9690-1-git-send-email-jackie.huang@windriver.com>
-	<CAJTo0LYtfrPYpfYMDfmO=-CbFcO4=8_K0dWLChEq+AwgAcxYBQ@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AA010C7598D7@ALA-MBA.corp.ad.wrs.com>
-	<CAHiDW_GuGGZTeTSuN+0frWGZS9aPUwGTeAcjo5NZhACbsW+3vA@mail.gmail.com>
-In-Reply-To: <CAHiDW_GuGGZTeTSuN+0frWGZS9aPUwGTeAcjo5NZhACbsW+3vA@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.163.142]
+	Wed,  9 Dec 2015 16:56:51 +0900 (JST)
+Received: from g01jpexchyt35.g01.fujitsu.local (unknown [10.128.193.4])
+	by g01jpfmpwyt02.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	D35A6584236 for <openembedded-core@lists.openembedded.org>;
+	Wed,  9 Dec 2015 16:56:50 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchyt35.g01.fujitsu.local (10.128.193.50) with Microsoft SMTP
+	Server id 14.3.266.1; Wed, 9 Dec 2015 16:56:50 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 9 Dec 2015 16:57:54 +0900
+Message-ID: <1449647874-13465-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] matchbox-desktop: sync with gio for the inotify-sub
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-MML: disable
+Cc: Fan Xin <fan.xin@jp.fujitsu.com>
+Subject: [PATCH] sudo: upgrade to 1.8.15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,127 +41,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Dec 2015 07:11:42 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA010C765418ALAMBAcorpadw_"
+X-List-Received-Date: Wed, 09 Dec 2015 07:56:56 -0000
+Content-Type: text/plain
 
---_000_1B858668EC6A94408DCA5225FDFA85AA010C765418ALAMBAcorpadw_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+1. upgrade to 1.8.15
+2. delete patch file due to the bug has been fixed in sudo 1.8.15
+(http://bugzilla.sudo.ws/show_bug.cgi?id=708)
 
-VGhhbmtzLCBzbyB3ZSBjYW4gaWdub3JlIHRoaXMgcGF0Y2ggYW5kIHNob3VsZCBnZXQgcmlkIG9m
-IHRoZSBpbm90aWZ5IGNvZGVzIGluIHRoZSByZXdyaXRlLg0KDQpUaGFua3MsDQpKYWNraWUNCg0K
-RnJvbTogSnVzc2kgS3Vra29uZW4gW21haWx0bzpqdXNzaS5rdWtrb25lbkBpbnRlbC5jb21dDQpT
-ZW50OiBUaHVyc2RheSwgRGVjZW1iZXIgMDMsIDIwMTUgNzo1OCBQTQ0KVG86IEh1YW5nLCBKaWUg
-KEphY2tpZSkNCkNjOiBCVVJUT04sIFJPU1M7IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29y
-ZV0gW1BBVENIXSBtYXRjaGJveC1kZXNrdG9wOiBzeW5jIHdpdGggZ2lvIGZvciB0aGUgaW5vdGlm
-eS1zdWINCg0KT24gMyBEZWNlbWJlciAyMDE1IGF0IDExOjExLCBIdWFuZywgSmllIChKYWNraWUp
-IDxKYWNraWUuSHVhbmdAd2luZHJpdmVyLmNvbTxtYWlsdG86SmFja2llLkh1YW5nQHdpbmRyaXZl
-ci5jb20+PiB3cm90ZToNCj4NCj4gSSBhZ3JlZSB0byBkcm9wIHRob3NlIGNvZGVzLCBhbmQgaXQg
-c2hvdWxkIGFscmVhZHkgYmUgcGFydCBvZiB0aGUgcmV3cml0ZSwNCj4NCj4gd2hlcmUgSSBjYW4g
-ZmluZCBpbmZvIGFib3V0IHRoZSByZXdyaXRlLCBJIGRvbuKAmXQgc2VlIGFueSBhY3RpdmVzIGlu
-Og0KPg0KPiBnaXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL21hdGNoYm94LWRlc2t0
-b3AtMjxodHRwOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9tYXRjaGJveC1k
-ZXNrdG9wLTI+DQo+DQo+IFRoZSBsYXRlc3QgY29tbWl0IGlzIDMgeWVhcnMgYWdvLg0KDQoNClRo
-ZXkncmUgbm90IHZlcnkgcmVjZW50IGVpdGhlciBidXQgbW9zdCBvZiB0aGUgbWF0Y2hib3gtKiBy
-ZXBvcyBoYXZlIGEgYnJhbmNoICdndGszJyB0aGF0IGNvbnRhaW5zIHRoZSBtb3N0IHVwIHRvIGRh
-dGUgd29yay4gSSd2ZSBqdXN0IHN0YXJ0ZWQgbG9va2luZyBhdCB0aGUgY29kZSB3aXRoIHRoZSBp
-bnRlbnRpb24gb2YgZmluaXNoaW5nIHRoaXMgZ3RrMyB0cmFuc2l0aW9uOiBhbiB1cC10by1kYXRl
-IHBva3kgYnJhbmNoIHdpdGggdGhlc2UgY2hhbmdlcyBpcyAnamt1L3NodWt1JyBpbiBnaXQ6Ly9n
-aXQueW9jdG9wcm9qZWN0Lm9yZy9wb2t5LWNvbnRyaWI8aHR0cDovL2dpdC55b2N0b3Byb2plY3Qu
-b3JnL3Bva3ktY29udHJpYj4uIEJlIHdhcm5lZCB0aGF0IGl0J3MgY3VycmVudGx5IHF1aXRlIGJy
-b2tlbjogSSBob3BlIEkgaGF2ZSBzb21ldGhpbmcgdGhhdCBydW5zIGluIGEgd2VlayBvciB0d28u
-DQoNCkkgYWdyZWUgd2l0aCByb3NzIGFib3V0IHByZWZlcmFibHkgZ2V0dGluZyByaWQgb2YgdGhp
-bmdzIGxpa2UgY3VzdG9tIGlub3RpZnkgY29kZS4NCiAtIEp1c3NpDQo=
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+---
+ ...rrect-path-to-init.d-and-tmpfiles.d-files.patch | 31 ----------------------
+ .../sudo/{sudo_1.8.14p3.bb => sudo_1.8.15.bb}      |  5 ++--
+ 2 files changed, 2 insertions(+), 34 deletions(-)
+ delete mode 100644 meta/recipes-extended/sudo/sudo/0001-Use-correct-path-to-init.d-and-tmpfiles.d-files.patch
+ rename meta/recipes-extended/sudo/{sudo_1.8.14p3.bb => sudo_1.8.15.bb} (86%)
 
---_000_1B858668EC6A94408DCA5225FDFA85AA010C765418ALAMBAcorpadw_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+diff --git a/meta/recipes-extended/sudo/sudo/0001-Use-correct-path-to-init.d-and-tmpfiles.d-files.patch b/meta/recipes-extended/sudo/sudo/0001-Use-correct-path-to-init.d-and-tmpfiles.d-files.patch
+deleted file mode 100644
+index 2418689..0000000
+--- a/meta/recipes-extended/sudo/sudo/0001-Use-correct-path-to-init.d-and-tmpfiles.d-files.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-The makefile uses top_srcdir to find files that were created by configure, when
+-it should use top_builddir.
+-
+-Upstream-Status: Submitted (http://bugzilla.sudo.ws/show_bug.cgi?id=708)
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+----
+- src/Makefile.in | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/src/Makefile.in b/src/Makefile.in
+-index f009e10..7acfb2d 100644
+---- a/src/Makefile.in
+-+++ b/src/Makefile.in
+-@@ -165,11 +165,11 @@ install-dirs:
+- 
+- install-rc: install-dirs
+- 	if [ -n "$(INIT_SCRIPT)" ]; then \
+--	    $(INSTALL) $(INSTALL_OWNER) -m 0755 $(top_srcdir)/init.d/$(INIT_SCRIPT) $(DESTDIR)$(INIT_DIR)/sudo; \
+-+	    $(INSTALL) $(INSTALL_OWNER) -m 0755 $(top_builddir)/init.d/$(INIT_SCRIPT) $(DESTDIR)$(INIT_DIR)/sudo; \
+- 	    rm -f $(DESTDIR)$(RC_LINK); \
+- 	    ln -s $(INIT_DIR)/sudo $(DESTDIR)$(RC_LINK); \
+- 	elif test -n "$(tmpfiles_d)"; then \
+--	    $(INSTALL) $(INSTALL_OWNER) -m 0644 $(top_srcdir)/init.d/sudo.conf $(DESTDIR)$(tmpfiles_d)/sudo.conf; \
+-+	    $(INSTALL) $(INSTALL_OWNER) -m 0644 $(top_builddir)/init.d/sudo.conf $(DESTDIR)$(tmpfiles_d)/sudo.conf; \
+- 	fi
+- 
+- install-binaries: install-dirs $(PROGS)
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.14p3.bb b/meta/recipes-extended/sudo/sudo_1.8.15.bb
+similarity index 86%
+rename from meta/recipes-extended/sudo/sudo_1.8.14p3.bb
+rename to meta/recipes-extended/sudo/sudo_1.8.15.bb
+index 4db85e2..042043e 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.14p3.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.15.bb
+@@ -2,14 +2,13 @@ require sudo.inc
+ 
+ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+-           file://0001-Use-correct-path-to-init.d-and-tmpfiles.d-files.patch \
+            file://0001-Include-sys-types.h-for-id_t-definition.patch \
+            "
+ 
+ PAM_SRC_URI = "file://sudo.pam"
+ 
+-SRC_URI[md5sum] = "93dbd1e47c136179ff1b01494c1c0e75"
+-SRC_URI[sha256sum] = "a8a697cbb113859058944850d098464618254804cf97961dee926429f00a1237"
++SRC_URI[md5sum] = "7cf6b9b76d0478a572432bed481dd7b5"
++SRC_URI[sha256sum] = "4316381708324da8b6cb151f655c1a11855207c7c02244d8ffdea5104d7cc308"
+ 
+ DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+-- 
+1.8.4.2
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
-NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
-b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
-DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
-LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
-bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
-DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
-YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
-b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
-IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+VGhhbmtzLCBzbyB3ZSBjYW4gaWdub3JlIHRoaXMgcGF0
-Y2ggYW5kIHNob3VsZCBnZXQgcmlkIG9mIHRoZSBpbm90aWZ5IGNvZGVzIGluIHRoZSByZXdyaXRl
-LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7
-c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48
-L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
-b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29s
-b3I6IzFGNDk3RCI+VGhhbmtzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5KYWNraWU8
-bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0i
-Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3Nh
-bnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
-Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtw
-YWRkaW5nOjBpbiAwaW4gMGluIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9u
-ZTtib3JkZXItdG9wOnNvbGlkICNCNUM0REYgMS4wcHQ7cGFkZGluZzozLjBwdCAwaW4gMGluIDBp
-biI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBw
-dDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+
-RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5
-OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij4gSnVzc2kgS3Vra29u
-ZW4gW21haWx0bzpqdXNzaS5rdWtrb25lbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4g
-VGh1cnNkYXksIERlY2VtYmVyIDAzLCAyMDE1IDc6NTggUE08YnI+DQo8Yj5Ubzo8L2I+IEh1YW5n
-LCBKaWUgKEphY2tpZSk8YnI+DQo8Yj5DYzo8L2I+IEJVUlRPTiwgUk9TUzsgT0UtY29yZTxicj4N
-CjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSF0gbWF0Y2hib3gtZGVza3RvcDog
-c3luYyB3aXRoIGdpbyBmb3IgdGhlIGlub3RpZnktc3ViPG86cD48L286cD48L3NwYW4+PC9wPg0K
-PC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
-Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIDMgRGVjZW1iZXIgMjAxNSBhdCAxMTox
-MSwgSHVhbmcsIEppZSAoSmFja2llKSAmbHQ7PGEgaHJlZj0ibWFpbHRvOkphY2tpZS5IdWFuZ0B3
-aW5kcml2ZXIuY29tIj5KYWNraWUuSHVhbmdAd2luZHJpdmVyLmNvbTwvYT4mZ3Q7IHdyb3RlOjxi
-cj4NCiZndDs8YnI+DQomZ3Q7IEkgYWdyZWUgdG8gZHJvcCB0aG9zZSBjb2RlcywgYW5kIGl0IHNo
-b3VsZCBhbHJlYWR5IGJlIHBhcnQgb2YgdGhlIHJld3JpdGUsPGJyPg0KJmd0Ozxicj4NCiZndDsg
-d2hlcmUgSSBjYW4gZmluZCBpbmZvIGFib3V0IHRoZSByZXdyaXRlLCBJIGRvbuKAmXQgc2VlIGFu
-eSBhY3RpdmVzIGluOjxicj4NCiZndDs8YnI+DQomZ3Q7IDxhIGhyZWY9Imh0dHA6Ly9naXQueW9j
-dG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL21hdGNoYm94LWRlc2t0b3AtMiI+Z2l0LnlvY3Rv
-cHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9tYXRjaGJveC1kZXNrdG9wLTI8L2E+PGJyPg0KJmd0
-Ozxicj4NCiZndDsgVGhlIGxhdGVzdCBjb21taXQgaXMgMyB5ZWFycyBhZ28uPGJyPg0KPGJyPg0K
-PGJyPg0KVGhleSdyZSBub3QgdmVyeSByZWNlbnQgZWl0aGVyIGJ1dCBtb3N0IG9mIHRoZSBtYXRj
-aGJveC0qIHJlcG9zIGhhdmUgYSBicmFuY2ggJ2d0azMnIHRoYXQgY29udGFpbnMgdGhlIG1vc3Qg
-dXAgdG8gZGF0ZSB3b3JrLiBJJ3ZlIGp1c3Qgc3RhcnRlZCBsb29raW5nIGF0IHRoZSBjb2RlIHdp
-dGggdGhlIGludGVudGlvbiBvZiBmaW5pc2hpbmcgdGhpcyBndGszIHRyYW5zaXRpb246IGFuIHVw
-LXRvLWRhdGUgcG9reSBicmFuY2ggd2l0aCB0aGVzZSBjaGFuZ2VzDQogaXMgJ2prdS9zaHVrdScg
-aW4gZ2l0Oi8vPGEgaHJlZj0iaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL3Bva3ktY29udHJp
-YiI+Z2l0LnlvY3RvcHJvamVjdC5vcmcvcG9reS1jb250cmliPC9hPi4gQmUgd2FybmVkIHRoYXQg
-aXQncyBjdXJyZW50bHkgcXVpdGUgYnJva2VuOiBJIGhvcGUgSSBoYXZlIHNvbWV0aGluZyB0aGF0
-IHJ1bnMgaW4gYSB3ZWVrIG9yIHR3by48bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+SSBhZ3JlZSB3aXRoIHJv
-c3MgYWJvdXQgcHJlZmVyYWJseSBnZXR0aW5nIHJpZCBvZiB0aGluZ3MgbGlrZSBjdXN0b20gaW5v
-dGlmeSBjb2RlLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+Jm5ic3A7LSBKdXNzaSZuYnNwOzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4N
-CjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
---_000_1B858668EC6A94408DCA5225FDFA85AA010C765418ALAMBAcorpadw_--
