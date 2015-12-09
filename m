@@ -1,49 +1,26 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C67060589
+Return-Path: <maxin.john@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 022946FFCD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Dec 2015 08:54:37 +0000 (UTC)
-Received: by wmvv187 with SMTP id v187so250045496wmv.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Dec 2015 00:54:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linaro-org.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=GLYzyE6sRLZ1JnFsRE2bcfWv2Eyea7QWYnzimiG858c=;
-	b=rbtzmFsHp5YwCiqFNH213zwOF3hgrB5B0NXNx/DpZhNr3bUZaUdZ4CiVkCTb+JCD/z
-	P/uR5xG/xo8vDO0zdkyfwEgzksvI+dEUPvrbncdYQ++Qx8MJhEvM4c4i50H7oorByw57
-	M66spf+CNv8HzUVsacI3rdjHy7X529P3bLwAnHhJQtIG6MiyOLUxIMCi0AsIjC3PXDT6
-	Z2DzqgfwMnOfKRB5Q9WKS+T5+NNJZtcDWvpw4U11VRg177AeGq3wDWM6Tfq6A6n0AWA7
-	DimscIFVxgpOqQLQJ1OK0CdZQphbSKZG2wjvEP+sqcazNkF1tsmd2tH/vgNL4LhmtAZ9
-	YEWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=GLYzyE6sRLZ1JnFsRE2bcfWv2Eyea7QWYnzimiG858c=;
-	b=IwbmMhv2GHovS7xTnHQnC04/lgNP1SA2CU2TCa5LtweYgK1r8rkv+o+X2+ELs0OeWD
-	AGC4gwWJemxghEHzy3788DEJouqDDRXtlAuBFxA/+kZie8jLAC7zXZJXGEVDydTbxT6p
-	nXCRANx3OINgi0cfkandunLriYlzPXvxbKMBwVeNkBlQQnZ4IQ/D8O5NeCTlO5bZ16uV
-	kAycE4UvfDm+nT140qgEhn8AjeGYWMGvqFOpg3gaJEaP4dxQopUrDtrIXu8Q5P79phVI
-	S1KgQTTcW0aJknWUOgn4MM8mEeQlr90EQz0/2pHK4c/hGt8E7MTlAo2gsVywHdx0D6Gj
-	08sw==
-X-Gm-Message-State: ALoCoQnD+s2i+RbUhhbUqTYnOvKZOeZ7KzPBmMEu0XA8EcAa98aumvTIDx9gtcpIAJSJbstRUUPqOp0gX6HcYAg6G9+9pOVVPNW0jCZXExHYXPoPrlHNuY8=
-X-Received: by 10.194.175.194 with SMTP id cc2mr4559419wjc.121.1449651277838; 
-	Wed, 09 Dec 2015 00:54:37 -0800 (PST)
+	Wed,  9 Dec 2015 09:17:33 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 09 Dec 2015 01:17:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,402,1444719600"; d="scan'208";a="857110631"
+Received: from mbabyjoh-mobl.fi.intel.com ([10.237.72.71])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Dec 2015 01:17:32 -0800
+Date: Wed, 9 Dec 2015 11:18:41 +0200
+From: "Maxin B. John" <maxin.john@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20151209091840.GA25916@mbabyjoh-mobl.fi.intel.com>
+References: <1449585184-7423-1-git-send-email-maxin.john@intel.com>
+	<CAMKF1srf+pv0uaZw1kv3Lr9n+2gJ+=npQcB8AZUUh8=nDGHbig@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.194.184.110 with HTTP; Wed, 9 Dec 2015 00:54:18 -0800 (PST)
-In-Reply-To: <5667EB4A.2080307@windriver.com>
-References: <CAJ86T=Xg9mE5MCKL-w=6O+LUZAv5e-iOeTX9Rgto4LVhS+Xoww@mail.gmail.com>
-	<5667C7DF.9090903@windriver.com>
-	<CAP71WjybAZL8DvS_-ybeWvC7SAMzMGpsRXwaWduhJezHcaGCAA@mail.gmail.com>
-	<5667EB4A.2080307@windriver.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Wed, 9 Dec 2015 09:54:18 +0100
-Message-ID: <CAP71Wjzzt_PnKkXMC=ynp=RsEPvaPJ58NzznyXVjn7QL+7z7TA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: jethro backports
+In-Reply-To: <CAMKF1srf+pv0uaZw1kv3Lr9n+2gJ+=npQcB8AZUUh8=nDGHbig@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] libtirpc: upgrade to 1.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,14 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Dec 2015 08:54:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 09 Dec 2015 09:17:34 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Dec 9, 2015 at 9:50 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
-> I had added it to this thread:
-> http://lists.openembedded.org/pipermail/openembedded-core/2015-December/113838.html
+Hi Khem,
+
+On Tue, Dec 08, 2015 at 10:54:58AM -0800, Khem Raj wrote:
+> On Tue, Dec 8, 2015 at 6:33 AM, Maxin B. John <maxin.john@intel.com> wrote:
+> > 0.2.5  -> 1.0.1
+> >
+> 
+> this library is used by non-glibc system C libs e.g. uclibc a lot. Can
+> you see if it builds with uclibc and with musl.
 >
 
+Ok, Will check that, Thanks.
 
-oops. sorry.. i missed it.. thanks a lot!
+> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> > ---
+> >  .../libtirpc/{libtirpc_0.2.5.bb => libtirpc_1.0.1.bb}                 | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >  rename meta/recipes-extended/libtirpc/{libtirpc_0.2.5.bb => libtirpc_1.0.1.bb} (88%)
+> >
+> > diff --git a/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
+> > similarity index 88%
+> > rename from meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
+> > rename to meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
+> > index 330b829..0a236d2 100644
+> > --- a/meta/recipes-extended/libtirpc/libtirpc_0.2.5.bb
+> > +++ b/meta/recipes-extended/libtirpc/libtirpc_1.0.1.bb
+> > @@ -19,8 +19,8 @@ SRC_URI_append_libc-uclibc = " file://remove-des-uclibc.patch \
+> >                                 file://va_list.patch \
+> >                               "
+> >
+> > -SRC_URI[libtirpc.md5sum] = "8cd41a5ef5a9b50d0fb6abb98af15368"
+> > -SRC_URI[libtirpc.sha256sum] = "62f9de7c2c8686c568757730e1fef66502a0e00d6cacf33546d0267984e002db"
+> > +SRC_URI[libtirpc.md5sum] = "36ce1c0ff80863bb0839d54aa0b94014"
+> > +SRC_URI[libtirpc.sha256sum] = "5156974f31be7ccbc8ab1de37c4739af6d9d42c87b1d5caf4835dda75fcbb89e"
+> >  SRC_URI[glibc-nfs.md5sum] = "5ae500b9d0b6b72cb875bc04944b9445"
+> >  SRC_URI[glibc-nfs.sha256sum] = "2677cfedf626f3f5a8f6e507aed5bb8f79a7453b589d684dbbc086e755170d83"
+> >
+> > --
+> > 2.4.0
+> >
+Best Regards,
+Maxin
+
 
