@@ -1,45 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 29C8C60767
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D7226612D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 15:25:53 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id su19so17951406igc.0
+	Thu, 10 Dec 2015 15:50:57 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id w144so29649416wmw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 07:25:54 -0800 (PST)
+	Thu, 10 Dec 2015 07:50:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=puqRt6sr+6Y85hnuLzObO1igPaJRA3vUkjlge05D/bw=;
-	b=ia29Ok2uQnAn/WhRjQr1WAzKvr73E/7JO8eWGcTDgUW4p95xJiMB+ONr8PPvcr6by/
-	40jqHqr7sXjroql68DXr8zNPWyK7yQoErNKByLVut8EAhSwxe34fNnPxJsMfEOsBO3nO
-	6KPR7Dz6AG/7cRuc/cZfvqG2prsFFzDPzTI83lljr80t34PJF6GgTQ6sEKtmFfsCbv7s
-	ufDA579U57HIFCV8HcMH9JRlAlubBQmeUwgAsTVu+BbJ2cggswhSfCXckiJTY+Ci07lK
-	TGd7Xge7EQ8QwmjR3HgNpFz75sMqv2xeMDgz0alL8F9w7UMWCVIVBOBW8F1s8+sjDO5S
-	3YMw==
+	h=from:to:subject:date:message-id;
+	bh=Q1+0jKEG9YEP6aNAk9qgGtPGozcDeYJBCGa8FcmTvMA=;
+	b=uZCOsOpJz8hmvmRwJc+RGU2ja88RG6lVeJbnY/xhdxZHKz1TbKIgi5zOZdhCqVR1Wm
+	gqv06oAwmztY2FKCIpkUGhWPSV5pYhpK4iYZHzPW6ukGOQrXhczbqNzE4QAz40KWs+G2
+	voHWdBDU4nzKZOK/E9+qR43D0m4+0ooucqUpoqh4NRc8N+tuh7tg/6J4ZX3xvrEzSjGb
+	hJ8r0EClW8EoJctPFpJlcHfo7EIryT0Zc6V6QWkQGlO8wwkB57aJb1737LM6N0seZqfY
+	cGj6TCkDfqF/HfGzcPyb3v42vkgP2u1oTvqIaVLRo/V4JxANOQlKJCpGx/wWOcwFpg1y
+	3aoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type;
-	bh=puqRt6sr+6Y85hnuLzObO1igPaJRA3vUkjlge05D/bw=;
-	b=Z7fdiralzt32BBhLKArbO/KcqeUiVZvMV2q5eal1Gvl+9v5bhbSg2aYbNiPfD1HuSa
-	EbxreEXggOKOetbPYVNJT1IFgll/mylH/zLj0T/Nd6396UMo1/ZtBg1kpemkPgB+40t9
-	0yGqFaKzwodrhQfkrc9psUsJXkhi+ZvithaqONC7N2xyaVFs9pqWUu/FXYYjtM4Oj2oe
-	4lqSDnGlfVFquAy4ekxB2xWtk8P2REhJBPs8CszsAeZWjPySWWAgK9ZbUTxzFtV/hHNS
-	fNMqBKUO9sRJGfVSW4WZ/zBYGy7PDQ+FGj2J6U/DNw3+iznqznqHpBsetEpE14b8apPs
-	gjbg==
-X-Gm-Message-State: ALoCoQnGIUHQ5Rz2RX0R5x4HKNhc74LceZ07WGHqJ4G6/ubeojWxsUs383bDBkgOascu8O2MDQiYQT/2Dr1iCKdOIVNAUg+qw3ghyD2bLc2noRnMxIpBXcw=
-X-Received: by 10.50.155.33 with SMTP id vt1mr15547897igb.64.1449761153685;
-	Thu, 10 Dec 2015 07:25:53 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Thu, 10 Dec 2015 07:25:34 -0800 (PST)
-In-Reply-To: <1449761060-21041-1-git-send-email-ross.burton@intel.com>
-References: <1449761060-21041-1-git-send-email-ross.burton@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 10 Dec 2015 15:25:34 +0000
-Message-ID: <CAJTo0LZLPOLWJsDH5QBmqGgLyxOSqqqiEmjnL2Kk2mDFcw8hMQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cooker: use in instead of count
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Q1+0jKEG9YEP6aNAk9qgGtPGozcDeYJBCGa8FcmTvMA=;
+	b=BJoFpG3fLsbBWm4pG9ZVUQwConm2Vw5SKdYvzud2lucszNl0efkLU/DFNyjQZhR0ef
+	tDmeGyTD/CwGvZHLkzJgCQP9ZfWdfutU+Q5kJzPXv9W73FOjDbdmie8+K0s9Y67TEA8S
+	Lrz7A/BAtWKIAeq2SoNnKQfo4DUpAL3k/ID5ATL64SEHlkN59LrPlDQqHQQZO1f4G7ST
+	0ZX5Lzq63izoVWUcvzij41WkT83EfFw72DEf+ZB9kwsIC5CpHlC01oLE3jQj9o8rh67V
+	WH/WRGG5hagp/Fs7IdZ8fiv9hwS+5R015A6S06E6/uTEQgEyGCDsB8jG2rD0hO8ljJmS
+	5j8Q==
+X-Gm-Message-State: ALoCoQmVChHwkdv3A6rXz+lsuxUXBVLIc3QmIX6EF2dIwH2gbMIWFNYvvHAO072LZmJ8a+Vt99GvS/IPCMOAHz+cu7RIdU4LlQ==
+X-Received: by 10.28.68.213 with SMTP id r204mr40795307wma.35.1449762658292;
+	Thu, 10 Dec 2015 07:50:58 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	198sm13521177wmr.18.2015.12.10.07.50.57
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 10 Dec 2015 07:50:57 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Dec 2015 15:50:52 +0000
+Message-Id: <1449762652-24100-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] attr: add attr dependency to attr-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,77 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 15:25:54 -0000
-Content-Type: multipart/alternative; boundary=001a11343daa935bfb05268cd26d
+X-List-Received-Date: Thu, 10 Dec 2015 15:51:00 -0000
 
---001a11343daa935bfb05268cd26d
-Content-Type: text/plain; charset=UTF-8
+If attr-ptest is explicitly installed it will fail as attr isn't a dependency.
 
-Whoops, wrong list, and lame commit message.
+[ YOCTO #8766 ]
 
-Ross
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-support/attr/attr.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On 10 December 2015 at 15:24, Ross Burton <ross.burton@intel.com> wrote:
+diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
+index 28c750f..6860978 100644
+--- a/meta/recipes-support/attr/attr.inc
++++ b/meta/recipes-support/attr/attr.inc
+@@ -34,6 +34,6 @@ do_install_ptest() {
+ 	sed -e 's|; @echo|; echo|' -i ${D}${PTEST_PATH}/test/Makefile
+ }
+ 
+-RDEPENDS_${PN}-ptest = "coreutils perl-module-filehandle perl-module-getopt-std perl-module-posix"
++RDEPENDS_${PN}-ptest = "attr coreutils perl-module-filehandle perl-module-getopt-std perl-module-posix"
+ 
+-BBCLASSEXTEND = "native nativesdk"
+\ No newline at end of file
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.1.4
 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  bitbake/lib/bb/cooker.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/bitbake/lib/bb/cooker.py b/bitbake/lib/bb/cooker.py
-> index 4df8881..d39c64b 100644
-> --- a/bitbake/lib/bb/cooker.py
-> +++ b/bitbake/lib/bb/cooker.py
-> @@ -1072,7 +1072,7 @@ class BBCooker:
->
->          for pfn in self.recipecache.pkg_fn:
->              inherits = self.recipecache.inherits.get(pfn, None)
-> -            if inherits and inherits.count(klass) > 0:
-> +            if inherits and klass in inherits:
->                  pkg_list.append(self.recipecache.pkg_fn[pfn])
->
->          return pkg_list
-> --
-> 2.1.4
->
->
 
---001a11343daa935bfb05268cd26d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Whoops, wrong list, and lame commit message.<div><br></div=
-><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_qu=
-ote">On 10 December 2015 at 15:24, Ross Burton <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed-off-by: Ross=
- Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com<=
-/a>&gt;<br>
----<br>
-=C2=A0bitbake/lib/bb/cooker.py | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/bitbake/lib/bb/cooker.py b/bitbake/lib/bb/cooker.py<br>
-index 4df8881..d39c64b 100644<br>
---- a/bitbake/lib/bb/cooker.py<br>
-+++ b/bitbake/lib/bb/cooker.py<br>
-@@ -1072,7 +1072,7 @@ class BBCooker:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for pfn in self.recipecache.pkg_fn:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0inherits =3D self.recipecac=
-he.inherits.get(pfn, None)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if inherits and inherits.count(k=
-lass) &gt; 0:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if inherits and klass in inherit=
-s:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkg_list.appe=
-nd(self.recipecache.pkg_fn[pfn])<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return pkg_list<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.1.4<br>
-<br>
-</font></span></blockquote></div><br></div>
-
---001a11343daa935bfb05268cd26d--
