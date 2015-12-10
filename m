@@ -1,37 +1,37 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id D4F486AC3C
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id AC6056AC3C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 13:46:57 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id c201so33858607wme.0
+	Thu, 10 Dec 2015 13:46:58 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id v187so33918966wmv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 05:46:58 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=0VEQlmp/WYX4F0iSKmUtM5N6DFKjK/UvrgFBE5QUdA0=;
-	b=lRfRjsbBwEldgkKrMFTzroQMY0gVEf1qn9xrqLoOx27uJCX2hEXR9X/781WXNRCKRv
-	y85H+UyqJBpw8KoGrgMa7RBton8nWT0f+LKTIuTmScN7BJO0k5aSG5NePgtpfgdvd2dZ
-	sdnn4TbVyNGUUBZBMEouHyAiFmNtXyS5FAhtrGIT7w/PFUY+Lrzmowu7VuBYwNN6PPof
-	fiUa7l0E7Ld8Av3rk/x2thvVQ5T33V0Gl0i/A9uzZ01vEHvUILCpkWO6ip8aOZ/2Qql1
-	/T8JeJjLiMmTPLyFeEZaGxxHMfsc0CXucFaijG9jLW89rjiMQYlvAP875lwrJS4JL1w9
-	d2dg==
-X-Received: by 10.28.100.69 with SMTP id y66mr42432283wmb.98.1449755218083;
-	Thu, 10 Dec 2015 05:46:58 -0800 (PST)
+	bh=JlZuI9Hqi4MDfrhmxddlNLSzEy+/xs+kqa+ZYcsLeNg=;
+	b=DMkGCWnHJGuTmSHwjSlVGZ9lpGz9rI5XfbUP4q2xnZMSrR7tfwDb1zXFWRsXzZFqQw
+	BiuNNJ6acylOs1P8da130Fej5uzckQg9ZGjefc874zAeCkHfRcmyxDoBlX8Ua7LwodAG
+	QWAuKhDehkyt3P0GrXGMghTAdQNt6V5cdvU4LKS7NTYLKirvZtQYmbNVa/v3C5mXvdLE
+	nlNx/BTju5ydFTtq2jleYg4rCvX/u2Hr+KIq0heBVOFLOPuMq9pMIQURSd5YFpmeJDOB
+	CQZnuPHZDTlujvVqoi2IP9PoS7hIAY/Dpbk9hBsehFq221mWKxskJPJAu0PJC3AdDHxR
+	wKiQ==
+X-Received: by 10.194.185.42 with SMTP id ez10mr14934541wjc.82.1449755219327; 
+	Thu, 10 Dec 2015 05:46:59 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	n127sm915936wmf.12.2015.12.10.05.46.57
+	bh6sm12558216wjb.0.2015.12.10.05.46.58
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Dec 2015 05:46:57 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:58 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>,
 	openembedded-core@lists.openembedded.org
-Date: Thu, 10 Dec 2015 14:48:26 +0100
-Message-Id: <1449755316-17611-5-git-send-email-Martin.Jansa@gmail.com>
+Date: Thu, 10 Dec 2015 14:48:27 +0100
+Message-Id: <1449755316-17611-6-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <cover.1449754341.git.Martin.Jansa@gmail.com>
 References: <cover.1449754341.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 05/11] gstreamer1.0-plugins-{base, good}: update PACKAGECONFIGs
+Subject: [PATCH 06/11] gstreamer1.0-plugins-bad: fix dependencies for uvch264 PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,61 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 13:46:58 -0000
+X-List-Received-Date: Thu, 10 Dec 2015 13:46:59 -0000
 
-* there are new libavc1394, libiec61883, libraw1394, cdparanoia recipes in meta-multimedia
+* ERROR: gstreamer1.0-plugins-bad: gstreamer1.0-plugins-bad-uvch264 package isn't created when building with minimal dependencies?
+* ERROR: gstreamer1.0-plugins-bad: gstreamer1.0-plugins-bad-uvch264-dev package isn't created when building with minimal dependencies?
+
+* it's because it should depend on libgudev not udev:
+  configure: *** for plug-ins: uvch264 ***
+  checking linux/uvcvideo.h usability... yes
+  checking linux/uvcvideo.h presence... yes
+  checking for linux/uvcvideo.h... yes
+  checking for GST_VIDEO... yes
+  checking for G_UDEV... no
+  checking for LIBUSB... yes
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc | 7 +++----
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc | 6 +-----
- 2 files changed, 4 insertions(+), 9 deletions(-)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-index 47f3f40..4909b10 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-@@ -25,13 +25,12 @@ PACKAGECONFIG[ogg]     = "--enable-ogg,--disable-ogg,libogg"
- PACKAGECONFIG[theora]  = "--enable-theora,--disable-theora,libtheora"
- PACKAGECONFIG[vorbis]  = "--enable-vorbis,--disable-vorbis,libvorbis"
- PACKAGECONFIG[pango]   = "--enable-pango,--disable-pango,pango"
-+# libvisual do not seem to exist anywhere in OE
-+PACKAGECONFIG[visual]  = "--enable-libvisual,--disable-libvisual,libvisual"
-+PACKAGECONFIG[cdparanoia] = "--enable-cdparanoia,--disable-cdparanoia,cdparanoia"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+index cdedb60..d7aefec 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+@@ -20,7 +20,7 @@ PACKAGECONFIG ??= " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+-    orc curl uvch264 neon sndfile \
++    orc curl neon sndfile \
+     hls sbc dash bz2 smoothstreaming \
+     "
  
--
--# cdparanoia and libvisual do not seem to exist anywhere in OE
- EXTRA_OECONF += " \
-     --disable-freetypetest \
--    --disable-cdparanoia \
--    --disable-libvisual \
- "
- 
- FILES_${MLPREFIX}libgsttag-1.0 += "${datadir}/gst-plugins-base/1.0/license-translations.dict"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-index 6e316de..0ce4b8f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-@@ -31,10 +31,7 @@ PACKAGECONFIG[speex]      = "--enable-speex,--disable-speex,speex"
- PACKAGECONFIG[taglib]     = "--enable-taglib,--disable-taglib,taglib"
- PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
- PACKAGECONFIG[wavpack]    = "--enable-wavpack,--disable-wavpack,wavpack"
--
--# the 1394 plugins require both libraw1394 and libiec61883
--# the former is included in meta-oe, the latter isn't
--# -> disabled
-+PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libraw1394 libiec61883 libavc1394"
- 
- EXTRA_OECONF += " \
-     --enable-oss \
-@@ -51,7 +48,6 @@ EXTRA_OECONF += " \
-     --disable-libdv \
-     --disable-shout2 \
-     --disable-examples \
--    --disable-dv1394 \
- "
- 
- FILES_${PN}-equalizer += "${datadir}/gstreamer-1.0/presets/*.prs"
+@@ -38,7 +38,7 @@ PACKAGECONFIG[opus]            = "--enable-opus,--disable-opus,libopus"
+ PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
+ PACKAGECONFIG[opencv]          = "--enable-opencv,--disable-opencv,opencv"
+ PACKAGECONFIG[wayland]         = "--enable-wayland --enable-egl,--disable-wayland --disable-egl,wayland virtual/egl"
+-PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 udev"
++PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
+ PACKAGECONFIG[directfb]        = "--enable-directfb,--disable-directfb,directfb"
+ PACKAGECONFIG[neon]            = "--enable-neon,--disable-neon,neon"
+ PACKAGECONFIG[openal]          = "--enable-openal,--disable-openal,openal-soft"
 -- 
 2.6.3
 
