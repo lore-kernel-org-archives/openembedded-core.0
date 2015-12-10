@@ -1,23 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E354608B7
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1459E6FF86
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 10:41:27 +0000 (UTC)
+	Thu, 10 Dec 2015 10:41:32 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBAAfQcb009255
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 10 Dec 2015 02:41:26 -0800 (PST)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBAAfThl016219
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 10 Dec 2015 02:41:31 -0800
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 10 Dec 2015 02:41:26 -0800
+	14.3.248.2; Thu, 10 Dec 2015 02:41:29 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Thu, 10 Dec 2015 18:41:12 +0800
-Message-ID: <cover.1449743618.git.hongxu.jia@windriver.com>
+Date: Thu, 10 Dec 2015 18:41:13 +0800
+Message-ID: <54cd9261fec878206933940c7b097835d738e3f7.1449743618.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1449743618.git.hongxu.jia@windriver.com>
+References: <cover.1449743618.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] fix IMAGE_LINGUAS did not support multilib correctly
+Subject: [PATCH 1/1] image/multilib bbclass: install multilib and non-multilib language pkgs for image recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,178 +32,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 10:41:29 -0000
+X-List-Received-Date: Thu, 10 Dec 2015 10:41:35 -0000
 Content-Type: text/plain
 
-Test steps:
+Previously if multilib enabled and IMAGE_LINGUAS is assigned,
+according to the type of image (multilib or non-multilib),
+only the mapped language pkgs (multilib or non-multilib)
+is installed to the image. It caused the other part could
+not work.
 
-1. Make use of service in meta-skeleton to test the issue.
-   The app invoke setlocale(LC_CTYPE, "en_US.UTF-8") in C.
+Such as qemux86-64, the multilib prefix is lib32, and assign
+IMAGE_LINGUAS_append = " en-us". For core-image-minimal image,
+only locale-base-en-us is installed; and for lib32-core-image-
+minimal image, only lib32-locale-base-en-us is installed.
+For the core-image-minimal image, it did not support the
+multilib version app to invoke setlocale(LC_CTYPE, "en_US.UTF-8")
+in C.
 
---- a/meta-skeleton/recipes-skeleton/service/service/skeleton_test.c
-+++ b/meta-skeleton/recipes-skeleton/service/service/skeleton_test.c
-@@ -1,12 +1,13 @@
--#include <unistd.h>
--
--/* This demo does nothing except for testing /etc/init.d/skeleton */
-+#include <locale.h>
-+#include <stdio.h>
-+#include <errno.h>
-+#include <string.h>
- 
- int main(int argc, char *argv[])
- {
--       daemon(0, 0);
--       while (1) {
--               sleep(1);
--       }
--       return 0;
-+    char *p = setlocale (LC_CTYPE, "en_US.UTF-8");
-+    if (p == NULL)
-+        printf("setlocale failed: %s\n", strerror(errno));
-+    else
-+        printf("p %s\n", p);
- }
+Install multilib and non-multilib language pkgs for image
+recipes could fix it.
 
---- a/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-+++ b/meta-skeleton/recipes-skeleton/service/service_0.1.bb
-@@ -1,4 +1,4 @@
--SUMMARY = "The canonical example of init scripts"
-+SUMMARY = "The example to test multilib of setlocale"
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYRIGHT;md5=349c872e0066155e1818b786938876a4"
-@@ -8,24 +8,14 @@ SRC_URI = "file://skeleton \
-           file://COPYRIGHT \
-           "
- 
-+FILES_${PN} += "${libdir}/setlocale"
-+
- do_compile () {
--       ${CC} ${WORKDIR}/skeleton_test.c -o ${WORKDIR}/skeleton-test
-+       ${CC} ${WORKDIR}/skeleton_test.c -o ${WORKDIR}/setlocale
- }
- 
- do_install () {
--       install -d ${D}${sysconfdir}/init.d
--       cat ${WORKDIR}/skeleton | \
--         sed -e 's,/etc,${sysconfdir},g' \
--             -e 's,/usr/sbin,${sbindir},g' \
--             -e 's,/var,${localstatedir},g' \
--             -e 's,/usr/bin,${bindir},g' \
--             -e 's,/usr,${prefix},g' > ${D}${sysconfdir}/init.d/skeleton
--       chmod a+x ${D}${sysconfdir}/init.d/skeleton
--
--       install -d ${D}${sbindir}
--       install -m 0755 ${WORKDIR}/skeleton-test ${D}${sbindir}/
-+       install -d ${D}${libdir}
-+       install -m 0755 ${WORKDIR}/setlocale ${D}${libdir}/
- }
- 
--RDEPENDS_${PN} = "initscripts"
--
--CONFFILES_${PN} += "${sysconfdir}/init.d/skeleton"
+The fix in image.bbclass is for non-multilib image recipes
+(such as core-image-minimal); the fix in multilib.bbclass
+is for multilib image (such as lib32-core-image-minimal)
 
+[YOCTO #8784]
 
-2. On qemux86-64, enable multilib, add non-multilib and
-   multilib service to image, assign 'en-us' to IMAGE_LINGUAS
-vim local.conf
-...
-MACHINE ?= "qemux86-64"
-
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "core2-32"
-
-IMAGE_INSTALL_append = " file service lib32-service"
-IMAGE_LINGUAS_append = " en-us"
-...
-
-vim bblayers.conf
-...
-BBLAYERS ?= " \ 
-  /buildarea/raid0/hjia/poky/meta \
-  /buildarea/raid0/hjia/poky/meta-yocto \
-  /buildarea/raid0/hjia/poky/meta-skeleton \
-  "
-...
-
-2. Build non-multilib image
-$ bitbake core-image-minimal
-
-3. Run qemu
-$ runqemu qemux86-64 core-image-minimal slirp nographic
-
-4. In qemu, invoke multilib /usr/lib/setlocale and non-multilib
-   /usr/lib64/setlocale success
-
-root@qemux86-64:~# file /usr/lib/setlocale 
-/usr/lib/setlocale: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=0caa404112fe8963dd1418757fc4bdee0cab272d, stripped
-root@qemux86-64:~# /usr/lib/setlocale 
-p en_US.UTF-8
-
-root@qemux86-64:~# file /usr/lib64/setlocale  
-/usr/lib64/setlocale: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=b8c88222213ffbd4603b34337b3db71aba43c968, stripped
-root@qemux86-64:~# 
-root@qemux86-64:~# /usr/lib64/setlocale
-p en_US.UTF-8
-
-5. Both locale-base-en-us and lib32-locale-base-en-us installed
-root@qemux86-64:~# ls /usr/lib64/locale/en_US/
-LC_ADDRESS         LC_CTYPE           LC_MEASUREMENT     LC_MONETARY        LC_NUMERIC         LC_TELEPHONE
-LC_COLLATE         LC_IDENTIFICATION  LC_MESSAGES
-
-root@qemux86-64:~# ls /usr/lib/locale/en_US/
-LC_ADDRESS         LC_CTYPE           LC_MEASUREMENT     LC_MONETARY        LC_NUMERIC         LC_TELEPHONE
-LC_COLLATE         LC_IDENTIFICATION  LC_MESSAGES
-
-6. Build multilib image
-$ bitbake lib32-core-image-minimal
-
-7. Run qemu
-$ runqemu qemux86-64 lib32-core-image-minimal slirp nographic
-
-8. Both locale-base-en-us and lib32-locale-base-en-us installed
-root@qemux86-64:~# ls /usr/lib64/locale/en_US/
-LC_ADDRESS         LC_CTYPE           LC_MEASUREMENT     LC_MONETARY        LC_NUMERIC         LC_TELEPHONE
-LC_COLLATE         LC_IDENTIFICATION  LC_MESSAGES
-
-root@qemux86-64:~# ls /usr/lib/locale/en_US/
-LC_ADDRESS         LC_CTYPE           LC_MEASUREMENT     LC_MONETARY        LC_NUMERIC         LC_TELEPHONE
-LC_COLLATE         LC_IDENTIFICATION  LC_MESSAGES
-
-9. Disable multilib and build core-image-minimal
-   only locale-base-en-us is installed
-
-root@qemux86-64:~# /usr/lib/setlocale 
-p en_US.UTF-8
-
-root@qemux86-64:~# file /usr/lib/setlocale
-/usr/lib/setlocale: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=bc6d1a23619ad5629f8e064ce8e426d5d8b20434, stripped
-
-root@qemux86-64:~# ls /usr/lib/locale/en_US/
-LC_ADDRESS         LC_CTYPE           LC_MEASUREMENT     LC_MONETARY        LC_NUMERIC         LC_TELEPHONE
-LC_COLLATE         LC_IDENTIFICATION  LC_MESSAGES        LC_NAME            LC_PAPER           LC_TIME
-
-//Hongxu
-
-The following changes since commit 5e3e2e0cbb0a49986f4653e64c4c8d2b5461645e:
-
-  poky.conf: Bump for 2.1 development (2015-12-10 00:13:13 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-locale
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-locale
-
-Hongxu Jia (1):
-  image/multilib bbclass: install multilib and non-multilib language
-    pkgs for image recipes
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  meta/classes/image.bbclass    | 20 +++++++++++++++++++-
  meta/classes/multilib.bbclass |  9 +++++++++
  2 files changed, 28 insertions(+), 1 deletion(-)
 
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index d2f8105..06b4003 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -220,7 +220,25 @@ ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
+ # some default locales
+ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
+ 
+-LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IMAGE_LINGUAS', True).split()))}"
++# Need all non-multilib and multilib of LINGUAS_INSTALL
++LINGUAS_INSTALL ?= "${@locale_base_packages(d)}"
++def locale_base_packages(d):
++    pkgs = []
++    imagelinguas = (d.getVar('IMAGE_LINGUAS', True) or "").split()
++    mlvars = (d.getVar("MULTILIB_VARIANTS", True) or "").split()
++    for lang in imagelinguas:
++        # Add non-multilib packages
++        pkg = "locale-base-%s" % lang
++        if pkg not in pkgs:
++            pkgs.append(pkg)
++
++        for prefix in mlvars:
++            # Add multilib packages
++            mlpkg = "%s-%s" % (prefix, pkg)
++            if mlpkg not in pkgs:
++                pkgs.append(mlpkg)
++
++    return ' '.join(pkgs)
+ 
+ # Prefer image, but use the fallback files for lookups if the image ones
+ # aren't yet available.
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 052f911..ec8beb5 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -86,8 +86,17 @@ python __anonymous () {
+ 
+     if bb.data.inherits_class('image', d):
+         clsextend.map_depends_variable("PACKAGE_INSTALL")
++
++        # Need all non-multilib and multilib of LINGUAS_INSTALL
++        linguasinstall =  (d.getVar("LINGUAS_INSTALL", True) or "").split()
+         clsextend.map_depends_variable("LINGUAS_INSTALL")
++        for lang in linguasinstall:
++            if lang not in (d.getVar("LINGUAS_INSTALL", True) or "").split():
++                d.appendVar("LINGUAS_INSTALL", " " + lang)
+         clsextend.map_depends_variable("RDEPENDS")
++        for lang in linguasinstall:
++            if lang not in (d.getVar("RDEPENDS", True) or "").split():
++                d.appendVar("RDEPENDS", " " + lang)
+         pinstall = d.getVar("LINGUAS_INSTALL", True) + " " + d.getVar("PACKAGE_INSTALL", True)
+         d.setVar("PACKAGE_INSTALL", pinstall)
+         d.setVar("LINGUAS_INSTALL", "")
 -- 
 1.9.1
 
