@@ -1,42 +1,24 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CE57601D3
+Return-Path: <Konrad.Scherer@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D25C607AB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 16:21:16 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id w144so30941931wmw.1
+	Thu, 10 Dec 2015 16:44:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBAGigUk023915
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 08:21:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=s4koC9jC+bhsBrguEEI5LLNYHWP8Ljqdpa+bzZYCFmc=;
-	b=rRag7otZodA1WLcDCdGAzJc9ps8D0S2ehzmy6i1dW6rgPa77qqzEH3+ykmS6o4cdsr
-	NMZjwTQVuQ+PBog18m9m8NoXeDDBxtVoJLsmBn11gepZF84gDq7pWsgvppDdN0T6tFrF
-	mSk9Ph8lJPwfFrlEGebtFHMGJDxwmkhZ8QbBUSYHfyorvzbnKhjMhJ7xa/5DS//XU+YD
-	AgcmG0DMimSDGsqJ0LDIu76CJl/CW8tbtPHHCYAGGzBP2kA0IGvi4P5whzsZqy6dMMw/
-	5u2fTRyrqsAeB3UMpliubd+J7CeUTkszmPuuCWeZmkjmep24y1Qb/rqmHa8pOIKyQ0d1
-	fY9A==
-X-Received: by 10.28.45.216 with SMTP id t207mr20219792wmt.89.1449764477060;
-	Thu, 10 Dec 2015 08:21:17 -0800 (PST)
-Received: from ernie.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
-	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
-	h5sm13083937wjz.21.2015.12.10.08.21.15
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 10 Dec 2015 08:21:15 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5.2
-From: Jens Rehsack <rehsack@gmail.com>
-In-Reply-To: <CACS+7ZT6GE=pXpJLbX-5j_2PS3Q80L9Q+V8Za_TJZi46B40pew@mail.gmail.com>
-Date: Thu, 10 Dec 2015 17:21:13 +0100
-Message-Id: <DCD85C92-82AC-4B8C-874D-6959D1008D45@gmail.com>
-References: <CAP9ODKrKM=aR4__PTNxVc7uTYY0xhrOPObPuzJr1wwqW2tci6Q@mail.gmail.com>
-	<CACS+7ZT6GE=pXpJLbX-5j_2PS3Q80L9Q+V8Za_TJZi46B40pew@mail.gmail.com>
-To: Dan McGregor <danismostlikely@gmail.com>
-X-Mailer: Apple Mail (2.2104)
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Backport for Jethro of fe506ed (autotools: Allow recipe-individual configure scripts)
+	Thu, 10 Dec 2015 08:44:43 -0800
+Received: from yow-kscherer-d1.wrs.com (128.224.56.106) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 10 Dec 2015 08:44:42 -0800
+From: Konrad Scherer <konrad.scherer@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 Dec 2015 11:44:40 -0500
+Message-ID: <1449765882-15910-1-git-send-email-konrad.scherer@windriver.com>
+X-Mailer: git-send-email 2.6.3
+MIME-Version: 1.0
+Subject: Support GPG_PATH when exporting gpg keys
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,87 +31,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 16:21:17 -0000
-X-Groupsio-MsgNum: 74615
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_3CF74A21-3C01-4E73-B8AE-D2C5E507FF6D";
-	protocol="application/pgp-signature"; micalg=pgp-sha512
+X-List-Received-Date: Thu, 10 Dec 2015 16:44:45 -0000
+Content-Type: text/plain
 
---Apple-Mail=_3CF74A21-3C01-4E73-B8AE-D2C5E507FF6D
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Summary: Fix exporting of gpg keys when using a temporary keyring
 
+When I tried to sign rpms and feeds using a gpg key on a temporary
+keyring, I got a build failure in os-release.bb due to missing
+exported keys. I traced the failure back to signing-keys.bb. Even
+though the task had logged successful completion, when I tried to run
+bitbake -c do_export_public_keys signing-keys I found two problems:
+missing sysroot path and no GPG_PATH support.
 
-> Am 09.12.2015 um 17:16 schrieb Dan McGregor =
-<danismostlikely@gmail.com>:
->=20
-> On 8 December 2015 at 06:36, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->> Hello,
->>=20
->> I would like to propose the backport of fe506ed (autotools: Allow
->> recipe-individual configure scripts):
->>=20
->> commit fe506eddb0790e37ac1e50f37fa2e32ad81d5493
->> Author: Jens Rehsack <rehsack@gmail.com>
->> Date:   Tue Oct 13 22:35:52 2015 +0200
->>=20
->>    autotools: Allow recipe-individual configure scripts
->>=20
->>    OpenJDK-8 has it's configure script at common/autotools - which =
-will cause
->>    the entire assumption of ${S}/configure is regenerated by
->> autoreconf, intltoolize or alike
->>    fails heavily.
->>=20
->>    Also - other configure mechanisms can be supported more similar
->> (see how pkgsrc
->>    manages different ones ...)
->>=20
->>    Signed-off-by: Jens Rehsack <sno@netbsd.org>
->>    Signed-off-by: Ross Burton <ross.burton@intel.com>
->>=20
->> This allows for a more controlled execution of the autotools scripts
->> and as described on the commit log allows the use of OpenJDK-8 as
->> well.
->=20
-> I'd like to second this. Without it one needs the master branch to
-> build the new openjdk-8 recipes.
-
-I currently use this on our jethro builds (those with the overlayfs ^^)
-without any issues. Build check might be easy, but we don't encounter
-any unexpected behavior on target.
-
-Cheers
---
-Jens Rehsack - rehsack@gmail.com
-
-
---Apple-Mail=_3CF74A21-3C01-4E73-B8AE-D2C5E507FF6D
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iQIcBAEBCgAGBQJWaaZ6AAoJEESZlq7c5Qqd8EUQAJP6RwRnmKjmmEW9nUJc4l7u
-6yuovdqhWtMF4ejrl9QEanjpKiyC1yMRRH1OmO938NJsN6dcUZUfdAryPa6dsmVh
-PHmOCzAGLdntKhViA86UU9OWsEW9eG93vZfL78ujH9ft2HSelwvSXMwRhnV2iUyx
-oJQa+ltNeS24j7SritfQd0eQsFfYMlSJyj7IPMbBwCygx5A/kUH8j0FnozmQ90wo
-yTJoCrm9COJBMIISJCu9a7JNVbSuQsFRDkHISEKhbfN7acPYAUcEWUzET0mfebZX
-/bbpaHS3YMU/QYPS9pzYTgBmpz2Zvpmo0J0dzhnBqA0fLb6DgfR0a40IXI9QaBMk
-bLgOQTWQ8Gb324OOnAVNvisIMkUncquk5SG4HD1OIUt5fMBoMKQidTghbWVF/WaP
-92rC35/S6tqb5Oej5T+BOzODbhtvKYzt/fJCnGJWVhIcMawHjq6NFMdSdgllSQUn
-/RzRUCuySZRRwP3bmJzfoRFEDaunT7LjqjcB6zPNzR7ktTit2kiBocswWgD3HTbS
-SW0nRl6+y8L+y1/0nbXmq7QDAMPMIIOhLi6crJDwnhWM9pXkUT+NxAIxkJ9/eY/T
-kguXT2u30o4UjReVbDu4IfSEao1hNXNblk20qT9GHGeSGNIjjDnuWl652QmH7UR7
-5LmZhFGWX449MpjmwcGi
-=zBt4
------END PGP SIGNATURE-----
-
---Apple-Mail=_3CF74A21-3C01-4E73-B8AE-D2C5E507FF6D--
