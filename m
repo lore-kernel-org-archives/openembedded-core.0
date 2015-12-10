@@ -1,27 +1,42 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B4FF6FFC7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A4F06FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 19:52:17 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 10 Dec 2015 11:52:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,409,1444719600"; d="scan'208";a="616022509"
-Received: from wcluu-mobl3.amr.corp.intel.com (HELO [10.254.29.243])
-	([10.254.29.243])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Dec 2015 11:52:19 -0800
-To: openembedded-core@lists.openembedded.org
-References: <cover.1449523356.git.anibal.limon@linux.intel.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <5669D82F.3090606@linux.intel.com>
-Date: Thu, 10 Dec 2015 13:53:19 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1449523356.git.anibal.limon@linux.intel.com>
-Cc: bjst@enea.com, paul.eggleton@linux.intel.com, benjamin.esquivel@intel.com,
-	georgex.l.musat@intel.com
-Subject: Re: [PATCH 0/2] ptest-runner
+	Thu, 10 Dec 2015 21:11:49 +0000 (UTC)
+Received: by pfv76 with SMTP id 76so1135324pfv.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Dec 2015 13:11:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=Xd2aPdEW3LrO4Rq/2w6U5qScJ2BE+SBpe97appuE4JI=;
+	b=ELGvH3qvawKcHEnBQU0Dw8Ed0JfZKeu57gDbAC8QydhFH8Pj7x5J+BeeOOpfmjDI4A
+	MVgFcniW8OzVJMcU+3xX8Y+sKj8zX6iUgVxtS1Nkte6KK+ZHLpxPXczESbifUkpzfrUm
+	aguoKVi5AriYuVH++T2algv6tCAA6522z9KyUUGam9/4X/mKNQWWNqG/JUxzRQamHsAa
+	5OpAuGVMrjYSW1VCeb5kUlkrtdU+45q42sVgKypDsmIQInB+CDEqnvUbkXbKoxzwG/wY
+	0uWz/ImKoCGDTwQ0dfCQIa4QzGWf86gcwH85XvUlwjZbocVek+9+75mGNP080vblAErW
+	5A1g==
+X-Received: by 10.98.79.206 with SMTP id f75mr10175082pfj.24.1449781910778;
+	Thu, 10 Dec 2015 13:11:50 -0800 (PST)
+Received: from ?IPv6:2601:647:4c02:370d:8808:cc68:7cdd:e1d?
+	([2601:647:4c02:370d:8808:cc68:7cdd:e1d])
+	by smtp.gmail.com with ESMTPSA id 1sm20428188pfc.3.2015.12.10.13.11.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 10 Dec 2015 13:11:49 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <12d049af4428da8cac1638636b8f655eca44d48d.1449754344.git.Martin.Jansa@gmail.com>
+Date: Thu, 10 Dec 2015 13:11:44 -0800
+Message-Id: <FEE7EF40-0110-4F2B-9A24-FF9C48E6DFFC@gmail.com>
+References: <cover.1449754344.git.Martin.Jansa@gmail.com>
+	<cover.1449754344.git.Martin.Jansa@gmail.com>
+	<12d049af4428da8cac1638636b8f655eca44d48d.1449754344.git.Martin.Jansa@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.3112)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH][master][RESEND 01/15] sanity.bbclass: add more information to error message about TUNE_PKGARCH missing in PACKAGE_ARCHS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,40 +49,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 19:52:21 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 10 Dec 2015 21:11:51 -0000
+X-Groupsio-MsgNum: 74624
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_BF5AB789-FD67-4642-8C45-E0FA075914B4";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-ping
+--Apple-Mail=_BF5AB789-FD67-4642-8C45-E0FA075914B4
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On 12/07/2015 03:26 PM, Aníbal Limón wrote:
-> These two commits adds a new ptest-runner written in python the sh one is conserved
-> to use in tiny systems.
-> 
-> What's new in ptest runner:
-> 
-> 	- Monitor/timeout stdout, stderr of the test suite to avoid block indefinetly.
-> 	- Add option for change ptest root directory.
-> 	- Add option for list available tests.
-> 	- Add option for only run certain tests.
-> 
-> The following changes since commit d9bc1f4b9a8aff859c59dbf9bbdd6b16e99381b2:
-> 
->   classes/sstate.bbclass: checkhashes modify to take into account siginfo. (2015-12-02 10:55:25 -0600)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib alimon/ptest-runner
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/ptest-runner
-> 
-> Aníbal Limón (2):
->   ptest-runner: Add version 2.0 re-implementation in python.
->   ptest-runner: Add a recipe for install ptest-runner 2.0.
-> 
->  .../ptest-runner/files/ptest-runner_2.0.py         | 144 +++++++++++++++++++++
->  .../ptest-runner/ptest-runner_2.0.bb               |  28 ++++
->  2 files changed, 172 insertions(+)
->  create mode 100755 meta/recipes-support/ptest-runner/files/ptest-runner_2.0.py
->  create mode 100644 meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
-> 
 
+> On Dec 10, 2015, at 5:48 AM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
+>=20
+> * sometimes it's hard to see whots wrong here
+
+typo 'whats'
+
+> * error message:
+>  Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH =
+(cortexa7t2hfhf-vfp-vfpv4-neon).
+>  doesn't help much to understand what exactly went wrong and where
+>=20
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+> meta/classes/sanity.bbclass | 3 ++-
+> 1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index ad9dda8..9f35558 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -329,6 +329,7 @@ def check_sanity_validmachine(sanity_data):
+>     # Check that we don't have duplicate entries in PACKAGE_ARCHS & =
+that TUNE_PKGARCH is in PACKAGE_ARCHS
+>     pkgarchs =3D sanity_data.getVar('PACKAGE_ARCHS', True)
+>     tunepkg =3D sanity_data.getVar('TUNE_PKGARCH', True)
+> +    defaulttune =3D sanity_data.getVar('DEFAULTTUNE', True)
+>     tunefound =3D False
+>     seen =3D {}
+>     dups =3D []
+> @@ -345,7 +346,7 @@ def check_sanity_validmachine(sanity_data):
+>         messages =3D messages + "Error, the PACKAGE_ARCHS variable =
+contains duplicates. The following archs are listed more than once: %s" =
+% " ".join(dups)
+>=20
+>     if tunefound =3D=3D False:
+> -        messages =3D messages + "Error, the PACKAGE_ARCHS variable =
+does not contain TUNE_PKGARCH (%s)." % tunepkg
+> +        messages =3D messages + "Error, the PACKAGE_ARCHS variable =
+(%s) for DEFAULTTUNE (%s) does not contain TUNE_PKGARCH (%s)." % =
+(pkgarchs, defaulttune, tunepkg)
+
+
+
+>=20
+>     return messages
+>=20
+> --
+> 2.6.3
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_BF5AB789-FD67-4642-8C45-E0FA075914B4
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlZp6pMACgkQuwUzVZGdMxTClgCfUGvrW4oc9ZcaHTXWLRW2R84r
+M54AoIzu8IJ7YbW4J8MzJ/rS50IXRjm5
+=qLFU
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_BF5AB789-FD67-4642-8C45-E0FA075914B4--
