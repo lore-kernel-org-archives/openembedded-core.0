@@ -1,35 +1,20 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwkm04.jp.fujitsu.com (mgwkm04.jp.fujitsu.com [202.219.69.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 81EFB60589
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C2E66612D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 05:43:55 +0000 (UTC)
-Received: from kw-mxauth.gw.nic.fujitsu.com (unknown [192.168.231.132]) by
-	mgwkm04.jp.fujitsu.com with smtp
-	id 2773_61f1_c13ace14_3c50_49b0_851a_763482364488;
-	Thu, 10 Dec 2015 14:43:55 +0900
-Received: from g01jpfmpwkw01.exch.g01.fujitsu.local
-	(g01jpfmpwkw01.exch.g01.fujitsu.local [10.0.193.38])
-	by kw-mxauth.gw.nic.fujitsu.com (Postfix) with ESMTP id CAEECAC031C
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 14:43:54 +0900 (JST)
-Received: from G01JPEXCHKW18.g01.fujitsu.local
-	(G01JPEXCHKW18.g01.fujitsu.local [10.0.194.57])
-	by g01jpfmpwkw01.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	2A1BB6924F8 for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 14:43:54 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	G01JPEXCHKW18.g01.fujitsu.local (10.0.194.57) with Microsoft SMTP
-	Server id 14.3.266.1; Thu, 10 Dec 2015 14:43:52 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Dec 2015 14:44:57 +0900
-Message-ID: <1449726297-20673-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-MML: disable
-Cc: Fan Xin <fan.xin@jp.fujitsu.com>
-Subject: [PATCH] cups: upgrade to 2.1.2
+	Thu, 10 Dec 2015 09:01:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id B691826394D
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Dec 2015 09:01:43 +0000
+Message-Id: <accfe2aa0774602538c6a37d3ceb442547576fa5.1449737824.git.joshua.lock@collabora.co.uk>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1449737824.git.joshua.lock@collabora.co.uk>
+References: <cover.1449737824.git.joshua.lock@collabora.co.uk>
+In-Reply-To: <cover.1449737824.git.joshua.lock@collabora.co.uk>
+References: <cover.1449737824.git.joshua.lock@collabora.co.uk>
+Subject: [PATCH v3 3/3] connman-conf: convert to an allarch package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,31 +27,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 05:43:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 10 Dec 2015 09:01:48 -0000
 
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+This recipe just installs some data files and a script and isn't machine or
+architecture specific. Even though it was designed to be used only for qemu
+machines there's no reason it can't be used elsewhere.
+
+Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 ---
- meta/recipes-extended/cups/{cups_2.0.4.bb => cups_2.1.2.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/cups/{cups_2.0.4.bb => cups_2.1.2.bb} (40%)
+ meta/recipes-connectivity/connman/connman-conf.bb              | 10 ++++------
+ .../connman-conf/{qemuall => }/wired-connection.service        |  0
+ .../connman/connman-conf/{qemuall => }/wired-setup             |  0
+ .../connman/connman-conf/{qemuall => }/wired.config            |  0
+ 4 files changed, 4 insertions(+), 6 deletions(-)
+ rename meta/recipes-connectivity/connman/connman-conf/{qemuall => }/wired-connection.service (100%)
+ rename meta/recipes-connectivity/connman/connman-conf/{qemuall => }/wired-setup (100%)
+ rename meta/recipes-connectivity/connman/connman-conf/{qemuall => }/wired.config (100%)
 
-diff --git a/meta/recipes-extended/cups/cups_2.0.4.bb b/meta/recipes-extended/cups/cups_2.1.2.bb
-similarity index 40%
-rename from meta/recipes-extended/cups/cups_2.0.4.bb
-rename to meta/recipes-extended/cups/cups_2.1.2.bb
-index bad73b3..0c1e75d 100644
---- a/meta/recipes-extended/cups/cups_2.0.4.bb
-+++ b/meta/recipes-extended/cups/cups_2.1.2.bb
-@@ -2,5 +2,5 @@ require cups.inc
+diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/recipes-connectivity/connman/connman-conf.bb
+index bef9237..a8fdb8c 100644
+--- a/meta/recipes-connectivity/connman/connman-conf.bb
++++ b/meta/recipes-connectivity/connman/connman-conf.bb
+@@ -4,18 +4,16 @@ network interface for a qemu machine."
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
  
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=6c5a350596fba02754bd96eb6df3afd0"
+-inherit systemd
++inherit systemd allarch
  
--SRC_URI[md5sum] = "f5c847d9a4fac6c4c66fb0526a7afaae"
--SRC_URI[sha256sum] = "e1d5e68d9f24faca317aeaebc164c34102813bc0f1d69c00b3a59b49c49f4abd"
-+SRC_URI[md5sum] = "b3ba0ca676d56857bbd9b182ef4b14b3"
-+SRC_URI[sha256sum] = "bab0ca3ba80eae48319b3a6b19a5b14fad5ce230f30151a0cfa4c0271df281ad"
+-SRC_URI_append_qemuall = " file://wired.config \
+-                           file://wired-setup \
+-                           file://wired-connection.service \
++SRC_URI = "file://wired.config \
++           file://wired-setup \
++           file://wired-connection.service \
+ "
+ PR = "r2"
+ 
+ S = "${WORKDIR}"
+ 
+-PACKAGE_ARCH = "${MACHINE_ARCH}"
+-
+ FILES_${PN} = "${localstatedir}/* ${datadir}/*"
+ 
+ do_install() {
+diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-connection.service b/meta/recipes-connectivity/connman/connman-conf/wired-connection.service
+similarity index 100%
+rename from meta/recipes-connectivity/connman/connman-conf/qemuall/wired-connection.service
+rename to meta/recipes-connectivity/connman/connman-conf/wired-connection.service
+diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup b/meta/recipes-connectivity/connman/connman-conf/wired-setup
+similarity index 100%
+rename from meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup
+rename to meta/recipes-connectivity/connman/connman-conf/wired-setup
+diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/wired.config b/meta/recipes-connectivity/connman/connman-conf/wired.config
+similarity index 100%
+rename from meta/recipes-connectivity/connman/connman-conf/qemuall/wired.config
+rename to meta/recipes-connectivity/connman/connman-conf/wired.config
 -- 
-1.8.4.2
+2.5.0
 
 
