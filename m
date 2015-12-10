@@ -1,37 +1,37 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id AC6056AC3C
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AC977016E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 13:46:58 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id v187so33918966wmv.1
+	Thu, 10 Dec 2015 13:47:00 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id v187so33920112wmv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 05:46:59 -0800 (PST)
+	Thu, 10 Dec 2015 05:47:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=JlZuI9Hqi4MDfrhmxddlNLSzEy+/xs+kqa+ZYcsLeNg=;
-	b=DMkGCWnHJGuTmSHwjSlVGZ9lpGz9rI5XfbUP4q2xnZMSrR7tfwDb1zXFWRsXzZFqQw
-	BiuNNJ6acylOs1P8da130Fej5uzckQg9ZGjefc874zAeCkHfRcmyxDoBlX8Ua7LwodAG
-	QWAuKhDehkyt3P0GrXGMghTAdQNt6V5cdvU4LKS7NTYLKirvZtQYmbNVa/v3C5mXvdLE
-	nlNx/BTju5ydFTtq2jleYg4rCvX/u2Hr+KIq0heBVOFLOPuMq9pMIQURSd5YFpmeJDOB
-	CQZnuPHZDTlujvVqoi2IP9PoS7hIAY/Dpbk9hBsehFq221mWKxskJPJAu0PJC3AdDHxR
-	wKiQ==
-X-Received: by 10.194.185.42 with SMTP id ez10mr14934541wjc.82.1449755219327; 
-	Thu, 10 Dec 2015 05:46:59 -0800 (PST)
+	bh=GyemS0oZ9b3HTNaRLYMUvt0/Ur4BAvmkE1YB/+o5Yfg=;
+	b=j2P3vVF11m8dbJkyYRBb65lAyfILMoWrpyuSpo59HAPpriZxS1R2K139JxIpZHJYsP
+	D1olB+GHEQYtJ3i3WJGQRY8j87falXyIbMXRo0ZgwDEKd2u3TplQcow1FFKN8HclhBi4
+	TiHHtXEwkBEcJaH1eAAYj4Up4Bc08i/vrkjhAVoLKTvV2+30v9G8eW+l/bADBLBXADAd
+	gbXAyJM3xXImhXqhASo68vHCgEGPdn59MRjkR35J4jnE/uKFXINd0p3s/gWRRCvV7JbD
+	vX8sN5fbXRmkWe+Ln6LXpWv10nMQ1T5m8LI7GON7+IhoPNRnz6Z0QZb/ILcYQMi5Y7TD
+	O88A==
+X-Received: by 10.194.114.164 with SMTP id jh4mr12917197wjb.153.1449755220839; 
+	Thu, 10 Dec 2015 05:47:00 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	bh6sm12558216wjb.0.2015.12.10.05.46.58
+	i18sm12972309wmf.6.2015.12.10.05.46.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Dec 2015 05:46:58 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:59 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>,
 	openembedded-core@lists.openembedded.org
-Date: Thu, 10 Dec 2015 14:48:27 +0100
-Message-Id: <1449755316-17611-6-git-send-email-Martin.Jansa@gmail.com>
+Date: Thu, 10 Dec 2015 14:48:28 +0100
+Message-Id: <1449755316-17611-7-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <cover.1449754341.git.Martin.Jansa@gmail.com>
 References: <cover.1449754341.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 06/11] gstreamer1.0-plugins-bad: fix dependencies for uvch264 PACKAGECONFIG
+Subject: [PATCH 07/11] gstreamer1.0-plugins-good: fix PACKAGECONFIG for gudev and add one for v4l2 and libv4l2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,47 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 13:46:59 -0000
+X-List-Received-Date: Thu, 10 Dec 2015 13:47:00 -0000
 
-* ERROR: gstreamer1.0-plugins-bad: gstreamer1.0-plugins-bad-uvch264 package isn't created when building with minimal dependencies?
-* ERROR: gstreamer1.0-plugins-bad: gstreamer1.0-plugins-bad-uvch264-dev package isn't created when building with minimal dependencies?
-
-* it's because it should depend on libgudev not udev:
-  configure: *** for plug-ins: uvch264 ***
-  checking linux/uvcvideo.h usability... yes
-  checking linux/uvcvideo.h presence... yes
-  checking for linux/uvcvideo.h... yes
-  checking for GST_VIDEO... yes
-  checking for G_UDEV... no
-  checking for LIBUSB... yes
+* WARN: gstreamer1.0-plugins-good: gstreamer1.0-plugins-good-video4linux2 rdepends on libcap, but it isn't a build dependency?
+  WARN: gstreamer1.0-plugins-good: gstreamer1.0-plugins-good-video4linux2 rdepends on libgudev, but it isn't a build dependency?
+  WARN: gstreamer1.0-plugins-good: gstreamer1.0-plugins-good-video4linux2 rdepends on libudev, but it isn't a build dependency?
+  WARN: gstreamer1.0-plugins-good: gstreamer1.0-plugins-good-video4linux2 rdepends on zlib, but it isn't a build dependency?
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index cdedb60..d7aefec 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -20,7 +20,7 @@ PACKAGECONFIG ??= " \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
--    orc curl uvch264 neon sndfile \
-+    orc curl neon sndfile \
-     hls sbc dash bz2 smoothstreaming \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+index 0ce4b8f..edaafe8 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
+@@ -11,7 +11,7 @@ inherit gettext
+ PACKAGECONFIG ??= " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
+-    orc cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib \
++    orc cairo flac gdk-pixbuf jpeg libpng soup speex taglib v4l2\
      "
  
-@@ -38,7 +38,7 @@ PACKAGECONFIG[opus]            = "--enable-opus,--disable-opus,libopus"
- PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
- PACKAGECONFIG[opencv]          = "--enable-opencv,--disable-opencv,opencv"
- PACKAGECONFIG[wayland]         = "--enable-wayland --enable-egl,--disable-wayland --disable-egl,wayland virtual/egl"
--PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 udev"
-+PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
- PACKAGECONFIG[directfb]        = "--enable-directfb,--disable-directfb,directfb"
- PACKAGECONFIG[neon]            = "--enable-neon,--disable-neon,neon"
- PACKAGECONFIG[openal]          = "--enable-openal,--disable-openal,openal-soft"
+ X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
+@@ -22,7 +22,8 @@ PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
+ PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
+ PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
+ PACKAGECONFIG[gdk-pixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
+-PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,udev"
++PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
++PACKAGECONFIG[libv4l2]    = "--with-libv4l2,--without-libv4l2,libv4l2"
+ PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
+ PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
+ PACKAGECONFIG[libpng]     = "--enable-libpng,--disable-libpng,libpng"
+@@ -32,11 +33,10 @@ PACKAGECONFIG[taglib]     = "--enable-taglib,--disable-taglib,taglib"
+ PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
+ PACKAGECONFIG[wavpack]    = "--enable-wavpack,--disable-wavpack,wavpack"
+ PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libraw1394 libiec61883 libavc1394"
++PACKAGECONFIG[v4l2]       = "--enable-gst_v4l2,--disable-gst_v4l2"
+ 
+ EXTRA_OECONF += " \
+     --enable-oss \
+-    --enable-gst_v4l2 \
+-    --without-libv4l2 \
+     --disable-directsound \
+     --disable-waveform \
+     --disable-oss4 \
 -- 
 2.6.3
 
