@@ -1,32 +1,48 @@
-Return-Path: <alejandro.delcastillo@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id BAD6E6012C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C11A6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 21:22:21 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	tBALMME1007938 for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 15:22:22 -0600
-Received: from delcastillo2.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015121015222200-992303 ;
-	Thu, 10 Dec 2015 15:22:22 -0600 
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Dec 2015 15:22:20 -0600
-Message-Id: <1449782540-4416-1-git-send-email-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1449702069-11889-1-git-send-email-alejandro.delcastillo@ni.com>
-References: <1449702069-11889-1-git-send-email-alejandro.delcastillo@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 12/10/2015 03:22:22 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 12/10/2015 03:22:22 PM,
-	Serialize complete at 12/10/2015 03:22:22 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-12-10_12:, , signatures=0
-Subject: [PATCH v3] libsolv: add new recipe
+	Thu, 10 Dec 2015 22:02:08 +0000 (UTC)
+Received: by ioc74 with SMTP id 74so107472174ioc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Dec 2015 14:02:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=AJjV7nTymjxGwFkkZZElq9229tkCWm5zAbIPwD3JkGk=;
+	b=EC0jqapj9IukO++KibJMeWXCbpRLeNUNz6z5EmYYpZ/ueXUI9h+PbN4uhDTlQV9a4H
+	NfZB4qM/KLVYnL9odLALckMMzinnGv3vDUp4lkeTC/K3gPZ1d2vT1lY/u3bMKb/FEEf4
+	SfpwbjGNJTGbda6lw24lssfJvQxPTXX/FpW1cIs+k9Y8d5fg8GJ6NC/5KUnxg9cz+YzZ
+	cUP0KCoVkaL3sCArEKNBJJj9hr1QzV5hbJRY76rwuNkR4twoTyUkqHNQT97vKgQ2vZGS
+	xFyskGBXOdZUFASW3vs32byfj15m5V4BtH2NxdI+iltTQZqsTDM42jVtgxVuznZWUaWs
+	gfUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=AJjV7nTymjxGwFkkZZElq9229tkCWm5zAbIPwD3JkGk=;
+	b=Mx/r6CAUq2PAn0cqFVNXKfWvO8ikXwUmS18+TG5EeW6pIkpdUwn6lUdr3bFX0Jh5XE
+	0jefV0KOIkCfo/0EGlXnmzPYXXbkk2qa/D+GnIps0Bk6djRNEijlqcJh29FUs5laclhH
+	kaRO3+zHaXflJPfSfPbZMjmRrtE77tfJzIvTutSgErbBJgnPTIlllQ/DAbbhd2l6guhP
+	7vN6Da+0ZqI98I69F6idLSVrJcxohmlhpdmmUluxyg493LAQTWTwvlhr2IrUYIGPp4Vl
+	S6wX+g0c9UDFnKurRt9MP3Cgu2GvWF3vARcZDeAnv/BLHtm7DsKoenaw+8UNaI4ysLf8
+	grdg==
+X-Gm-Message-State: ALoCoQllCEqZCku1Gs108ACtVE4luwJXkTNeoebc3TyCBn3ca1O6OZW8eWSVVc3Fq2+NKHzsIDHt4xcpJXHMf1ruUIbTWZY1e5fY42zT239HsPItTYo3K4I=
+X-Received: by 10.107.130.155 with SMTP id m27mr15277042ioi.133.1449784928807; 
+	Thu, 10 Dec 2015 14:02:08 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Thu, 10 Dec 2015 14:01:49 -0800 (PST)
+In-Reply-To: <49ad2cee12cc6fdf471ea3e600afb7949138beb6.1449693306.git.randy.e.witt@linux.intel.com>
+References: <cover.1449693306.git.randy.e.witt@linux.intel.com>
+	<49ad2cee12cc6fdf471ea3e600afb7949138beb6.1449693306.git.randy.e.witt@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 10 Dec 2015 22:01:49 +0000
+Message-ID: <CAJTo0LbpvDC-NZrKkAmVMan17-DNLptSKUhagrPzA3LcundFNQ@mail.gmail.com>
+To: Randy Witt <randy.e.witt@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [jethro][master][PATCH 1/1] uninative.bbclass: Choose the correct loader based on BUILD_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,51 +55,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 21:22:22 -0000
+X-List-Received-Date: Thu, 10 Dec 2015 22:02:09 -0000
+Content-Type: multipart/alternative; boundary=001a113ecd94aebf5c0526925b92
 
-Required by the optional opkg 0.3.1 libsolv backend.
+--001a113ecd94aebf5c0526925b92
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
----
- meta/recipes-extended/libsolv/libsolv_0.6.14.bb | 28 +++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
- create mode 100644 meta/recipes-extended/libsolv/libsolv_0.6.14.bb
+On 9 December 2015 at 20:50, Randy Witt <randy.e.witt@linux.intel.com>
+wrote:
 
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.14.bb b/meta/recipes-extended/libsolv/libsolv_0.6.14.bb
-new file mode 100644
-index 0000000..fba6b2d
---- /dev/null
-+++ b/meta/recipes-extended/libsolv/libsolv_0.6.14.bb
-@@ -0,0 +1,28 @@
-+SUMMARY = "Library for solving packages and reading repositories"
-+HOMEPAGE = "https://github.com/openSUSE/libsolv"
-+BUGTRACKER = "https://github.com/openSUSE/libsolv/issues"
-+SECTION = "devel"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
-+
-+SRC_URI = "https://github.com/openSUSE/libsolv/archive/${PV}.zip"
-+
-+SRC_URI[md5sum] = "171da68f08f672cacd1930643f8d1b4d"
-+SRC_URI[sha256sum] = "0263b11372012be9c83f1c01f7d55ea9464dde58c109f5ae4de1e52870034a45"
-+
-+S = "${WORKDIR}/libsolv-${PV}"
-+
-+inherit cmake
-+
-+EXTRA_OECMAKE = "-DLIB=${baselib}"
-+
-+DEPENDS = "expat zlib"
-+
-+PACKAGES =+ "${PN}-tools ${PN}ext ${PN}ext-dbg"
-+
-+FILES_${PN}-dev += "${datadir}/cmake/Modules/FindLibSolv.cmake"
-+FILES_${PN}-tools = "${bindir}/*"
-+FILES_${PN}ext = "${libdir}/${PN}ext.so.*"
-+FILES_${PN}ext-dbg = "${libdir}/.debug/${PN}ext.so.*"
-+
-+BBCLASSEXTEND =+ "native nativesdk"
--- 
-1.9.1
+> -UNINATIVE_LOADER = "${STAGING_DIR_NATIVE}/lib/ld-linux-x86-64.so.2"
+> +UNINATIVE_LOADER ?= "${@bb.utils.contains('BUILD_ARCH', 'x86_64',
+> '${STAGING_DIR_NATIVE}/lib/ld-linux-x86-64.so.2',
+> '${STAGING_DIR_NATIVE}/lib/ld-linux.so.2', d)}"
+>
 
+Would it be neater, and more flexible when other arches are different
+(specifically I'm thinking of aarch64 here) to do:
 
+UNINATIVE_LOADER = "${STAGING_DIR_NATIVE}/lib/ld-linux.so.2"
+UNINATIVE_LOADER_x86-64 = "'${STAGING_DIR_NATIVE}/lib/ld-linux-x86-64.so.2"
+
+At least I think that overload is correct...
+
+Ross
+
+--001a113ecd94aebf5c0526925b92
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 December 2015 at 20:50, Randy Witt <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:randy.e.witt@linux.intel.com" target=3D"_blank">randy.e.witt@linux.int=
+el.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,20=
+4,204);border-left-style:solid;padding-left:1ex"><div id=3D":1it" class=3D"=
+" style=3D"overflow:hidden">-UNINATIVE_LOADER =3D &quot;${STAGING_DIR_NATIV=
+E}/lib/ld-linux-x86-64.so.2&quot;<br>
++UNINATIVE_LOADER ?=3D &quot;${@bb.utils.contains(&#39;BUILD_ARCH&#39;, &#3=
+9;x86_64&#39;, &#39;${STAGING_DIR_NATIVE}/lib/ld-linux-x86-64.so.2&#39;, &#=
+39;${STAGING_DIR_NATIVE}/lib/ld-linux.so.2&#39;, d)}&quot;</div></blockquot=
+e></div><br>Would it be neater, and more flexible when other arches are dif=
+ferent (specifically I&#39;m thinking of aarch64 here) to do:</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">UNINATIVE_LOADER =
+=3D &quot;${STAGING_DIR_NATIVE}/lib/ld-linux.so.2&quot;</div><div class=3D"=
+gmail_extra">UNINATIVE_LOADER_x86-64 =3D &quot;&#39;${STAGING_DIR_NATIVE}/l=
+ib/ld-linux-x86-64.so.2&quot;</div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">At least I think that overload is correct...</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
+div>
+
+--001a113ecd94aebf5c0526925b92--
