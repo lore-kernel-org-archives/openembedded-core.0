@@ -1,48 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F99B601D3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 580626FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 22:28:08 +0000 (UTC)
-Received: by ioir85 with SMTP id r85so108447812ioi.1
+	Thu, 10 Dec 2015 22:48:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tBAMmoxL022575 for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Dec 2015 22:48:50 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id vhzo2woMT3yq
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 14:28:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Dspvd7g0EwsUaTX9wc4pNe344H2NOqLN2zwxcc7ahLA=;
-	b=PlZHYTDtLGkEgeMEX94EU6RBzoKcaOynYahqU+l6rpBgzlJR/xDNf/GTsw3uY/SBeA
-	k5gQE6fGW3a7g2HTiJ+H08CKChcL80CKG3lPWWnUdfQtkxETOrDo4qJAKYGt1dLZ4bBX
-	9lAG9YM+yXbqmF7GiFPFv6sAGz2pe1zi1UlVW+IlduFuhMD7ccL2WujnUZzgSZAHXANy
-	xoITknkVdfAwUdqNWZLn9oggboVeFjbJzb3mhJj0goRWhP5HECyyFs0JRMgKxyb68zjf
-	Rk3tIz+JJiCFJQRjkp3VmQGsCH8iF4BOMvgUxffeq0WExjDI+JiV+r6NgqaebpMrm4/x
-	RKNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Dspvd7g0EwsUaTX9wc4pNe344H2NOqLN2zwxcc7ahLA=;
-	b=jGV0hlUn9K3rCAE2046BEcQXtPA/aStTrZGWYLwC+PxTmCIh0a71tSJ5qKgNB10mK0
-	iG9D5FC49ZhY5sHOGCY+OU/YJKBtsJsFhEJ+o1weOEScmqb1Y99iWApznr44CmYhv7uF
-	uYJYcZIkpiH9pKJ30ercaSZCHg+QNIjkQOjn6iba4u24WdYkH6ncdcUM40/je401sZE4
-	s+l2Pa0Na2D0zOe4uVKlnEJQYbKXkYlrNgo66d1URzE8NlPQRyAmqwmAwwhFh+PUiQUj
-	8KkL5S7LHgErqqwdAL+UTBkBDMhYdc2oOunASeL08cxwfrdfkMP98dbxbBCMaLv2bsfb
-	YwgQ==
-X-Gm-Message-State: ALoCoQl8c03SkV7Zp9T6vu0uq95O0qFh2P2cBIDH3ue1YAtupAhMEfHszKeeQuCmuzeWD+F2YG2ACqPf+qDRpYCLo/MNF+QyS1Qev7E3RujTnQM3LFp7L5Q=
-X-Received: by 10.107.130.155 with SMTP id m27mr15389743ioi.133.1449786488867; 
-	Thu, 10 Dec 2015 14:28:08 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Thu, 10 Dec 2015 14:27:49 -0800 (PST)
-In-Reply-To: <eabd8b5e8f190284202546c171b0893fe39cc3a6.1449671297.git.alexander.kanavin@linux.intel.com>
-References: <cover.1449671297.git.alexander.kanavin@linux.intel.com>
-	<eabd8b5e8f190284202546c171b0893fe39cc3a6.1449671297.git.alexander.kanavin@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 10 Dec 2015 22:27:49 +0000
-Message-ID: <CAJTo0Lb9EU6anFAP8OaFgzrMuMnBCpcxxpxLE3hy3=WSvXRO9Q@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 02/10] gnutls: update to 3.4.7
+	Thu, 10 Dec 2015 22:48:50 +0000 (GMT)
+Received: from [192.168.3.30] ([192.168.3.30]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tBAMmaWH022571
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Dec 2015 22:48:47 GMT
+Message-ID: <1449787715.29412.46.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 Dec 2015 22:48:35 +0000
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] populate_sdk_ext/sign_rpm/sign_package_feed: Add missing getVar parameter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,53 +37,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 22:28:09 -0000
-Content-Type: multipart/alternative; boundary=001a113ecd94ab5e76052692b851
+X-List-Received-Date: Thu, 10 Dec 2015 22:48:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a113ecd94ab5e76052692b851
-Content-Type: text/plain; charset=UTF-8
+We should always pass a parameter to getVar, add missing default value.
 
-On 9 December 2015 at 14:40, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-> libidn is needed by the new version to compare hostnames.
-> Openssl compatibility is no longer enabled by default, but is
-> required by other packages in oe-core.
->
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 249ec36..18ff7a6 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -144,7 +144,7 @@ python copy_buildsystem () {
+         f.write('CONF_VERSION = "%s"\n\n' % d.getVar('CONF_VERSION', False))
+ 
+         # Some classes are not suitable for SDK, remove them from INHERIT
+-        f.write('INHERIT_remove = "%s"\n' % d.getVar('SDK_INHERIT_BLACKLIST'))
++        f.write('INHERIT_remove = "%s"\n' % d.getVar('SDK_INHERIT_BLACKLIST', False))
+ 
+         # Bypass the default connectivity check if any
+         f.write('CONNECTIVITY_CHECK_URIS = ""\n\n')
+diff --git a/meta/classes/sign_package_feed.bbclass b/meta/classes/sign_package_feed.bbclass
+index 4263810..d89bc0b 100644
+--- a/meta/classes/sign_package_feed.bbclass
++++ b/meta/classes/sign_package_feed.bbclass
+@@ -24,7 +24,7 @@ python () {
+ 
+     # Set expected location of the public key
+     d.setVar('PACKAGE_FEED_GPG_PUBKEY',
+-             os.path.join(d.getVar('STAGING_ETCDIR_NATIVE'),
++             os.path.join(d.getVar('STAGING_ETCDIR_NATIVE', False),
+                                    'PACKAGE-FEED-GPG-PUBKEY'))
+ }
+ 
+diff --git a/meta/classes/sign_rpm.bbclass b/meta/classes/sign_rpm.bbclass
+index f0c3dc9..bc916a7 100644
+--- a/meta/classes/sign_rpm.bbclass
++++ b/meta/classes/sign_rpm.bbclass
+@@ -23,7 +23,7 @@ python () {
+             raise_sanity_error("You need to define %s in the config" % var, d)
+ 
+     # Set the expected location of the public key
+-    d.setVar('RPM_GPG_PUBKEY', os.path.join(d.getVar('STAGING_ETCDIR_NATIVE'),
++    d.setVar('RPM_GPG_PUBKEY', os.path.join(d.getVar('STAGING_ETCDIR_NATIVE', False),
+                                             'RPM-GPG-PUBKEY'))
+ }
+ 
 
-ERROR: Nothing PROVIDES 'nativesdk-libidn' (but
-virtual:nativesdk:/home/ross/Yocto/poky/meta/recipes-support/gnutls/
-gnutls_3.4.7.bb DEPENDS on or otherwise requires it). Close matches:
 
-Can you enable and test the native and nativesdk forms of libidn (set
-BBCLASSEXTEND, check stuff builds as expected) as this breaks the building
-of wget-native and nativesdk-wget (the latter is part of the buildtools
-tarball, so is a blocker).
 
-Ross
-
---001a113ecd94ab5e76052692b851
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 December 2015 at 14:40, Alexander Kanavin <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.=
-kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left=
--color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=
-=3D":17i" class=3D"" style=3D"overflow:hidden">libidn is needed by the new =
-version to compare hostnames.<br>
-Openssl compatibility is no longer enabled by default, but is<br>
-required by other packages in oe-core.</div></blockquote></div><br>ERROR: N=
-othing PROVIDES &#39;nativesdk-libidn&#39; (but virtual:nativesdk:/home/ros=
-s/Yocto/poky/meta/recipes-support/gnutls/<a href=3D"http://gnutls_3.4.7.bb"=
->gnutls_3.4.7.bb</a> DEPENDS on or otherwise requires it). Close matches:<b=
-r></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Can=
- you enable and test the native and nativesdk forms of libidn (set BBCLASSE=
-XTEND, check stuff builds as expected) as this breaks the building of wget-=
-native and nativesdk-wget (the latter is part of the buildtools tarball, so=
- is a blocker).</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Ross</div></div>
-
---001a113ecd94ab5e76052692b851--
