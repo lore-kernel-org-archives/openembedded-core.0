@@ -1,37 +1,36 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 801176E665
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D5D3B6E665
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 13:46:52 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id w144so24561612wmw.1
+	Thu, 10 Dec 2015 13:46:53 +0000 (UTC)
+Received: by wmec201 with SMTP id c201so25505918wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 05:46:53 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=YXpESxJM+AmoM2YDw7Ofp33JLrzLnIFccdb6Tqk9k98=;
-	b=G/win5ts0+aaPv9KKO5ZqdfUSbYiWZFhYa58Y2Zo7KTiw+5mKD/wt4JU8ZULzO0XYT
-	x2lsU/l7U+85UqoPtjSotis54zfr7sSyy6CZikv5QzekevK4apABgOw14ajPvMbsWUbQ
-	GojrH7h5xPRMMZ8fK6WoAYjEenHXDzlcmhy7Ow1wWp2ANEvGMZ73B4odiVq+nt0qMvbw
-	gQWUxR9NoHXkCWfPGxBwXOFK43pTyBZ+x9Y7w8CoWKU+M8tyngQCGuMZr0SBrZnhs7Lw
-	kjMisPaJmuTrRLqQc/W7huRX2e4Tq96QaKckR/YxU8nj8j1bMaP6bQuDvOzQSoUT2h1K
-	Pnqw==
-X-Received: by 10.28.225.6 with SMTP id y6mr19220763wmg.58.1449755212675;
-	Thu, 10 Dec 2015 05:46:52 -0800 (PST)
+	bh=U3tHUMauc4Kw+XZWPeGPxe1wnyrBQyTt+TfM/v3naP4=;
+	b=vix5OmbR4W+CoRm+YOMt6AGmQpNPRSBPcLKQREPWyvc5rZXQWR5DF7XWDOvBG+NjmM
+	Ebdqm8b8/qUTyNyNcDftAufWpicpoiTTTZHZAKbiPNueug1kZ/4z7HXKt+ReQVglkaGg
+	vEMV1FQKnyTJzqOjQC0BW4Bf5EQ2VebZqSljozn1SCcI7m0WTCssfoTJHHcyFA7ixC4L
+	kMqyq61FHh4FUnruNCFimWpMo31NHL5jUr0Coq+otrlk6EXQxTzlQCStUqNC9r78jfuG
+	mUlwf9fIK01t8icli9CFzakbZdeQv85GUs6kXYFJLmY55UxVetiPHJ3tUoLjL1DQ3C6l
+	F55A==
+X-Received: by 10.28.23.136 with SMTP id 130mr44613880wmx.94.1449755214251;
+	Thu, 10 Dec 2015 05:46:54 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	l7sm12534502wjx.14.2015.12.10.05.46.51
+	by smtp.gmail.com with ESMTPSA id u134sm948415wmd.0.2015.12.10.05.46.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Dec 2015 05:46:51 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:53 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>,
 	openembedded-core@lists.openembedded.org
-Date: Thu, 10 Dec 2015 14:48:22 +0100
-Message-Id: <1449755316-17611-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Thu, 10 Dec 2015 14:48:23 +0100
+Message-Id: <1449755316-17611-2-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <cover.1449754341.git.Martin.Jansa@gmail.com>
 References: <cover.1449754341.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 01/11] icu: force arm mode
+Subject: [PATCH 02/11] guile, mailx, gcc, opensp, gstreamer1.0-libav, libunwind: disable thumb where it fails for qemuarm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,65 +43,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 13:46:52 -0000
-
-* otherwise it triggers following ICE:
-ERROR: Function failed: do_compile (log file is located at /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/temp/log.do_compile.21570)
-ERROR: Logfile of failure stored in: /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/temp/log.do_compile.21570
-Log data follows:
-| DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common', 'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi', 'common']
-| DEBUG: Executing shell function do_compile
-| NOTE: make
-| Note: rebuild with "make VERBOSE=1 " to show all compiler parameters.
-| make[0]: Making `all' in `stubdata'
-| make[1]: Entering directory '/OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/build/stubdata'
-| make[1]: Nothing to be done for 'all'.
-| make[1]: Leaving directory '/OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/build/stubdata'
-| make[0]: Making `all' in `common'
-| make[1]: Entering directory '/OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/build/common'
-|    arm-oe-linux-gnueabi-gcc    ...  /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/icu/source/common/ubidiwrt.c
-| /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/icu/source/common/ubidiwrt.c: In function 'ubidi_writeReordered_53':
-| /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/icu/source/common/ubidiwrt.c:643:1: internal compiler error: in patch_jump_insn, at cfgrtl.c:1275
-|  }
-|  ^
-| Please submit a full bug report,
-| with preprocessed source if appropriate.
-| See <http://gcc.gnu.org/bugs.html> for instructions.
-| *** Failed compilation command follows: ----------------------------------------------------------
-| arm-oe-linux-gnueabi-gcc -march=armv4t -mthumb -mthumb-interwork -mtune=arm920t --sysroot=/OE/build/shr-core/tmp-eglibc/sysroots/om-gta02 -D_REENTRANT -DU_HAVE_ELF_H=1 -DU_HAVE_ATOMIC=1 -I/OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/icu/source/common -DDEFAULT_ICU_PLUGINS="/usr/lib/icu"  -DU_ATTRIBUTE_DEPRECATED= -DU_COMMON_IMPLEMENTATION -O2 -pipe -g -feliminate-unused-debug-types -std=c99 -Wall -pedantic -Wshadow -Wpointer-arith -Wmissing-prototypes -Wwrite-strings -c -DPIC -fPIC -o ubidiwrt.o /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/icu/source/common/ubidiwrt.c
-| --- ( rebuild with "make VERBOSE=1 all" to show all parameters ) --------
-| /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/icu/source/config/mh-linux:44: recipe for target 'ubidiwrt.o' failed
-| make[1]: *** [ubidiwrt.o] Error 1
-| make[1]: Leaving directory '/OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/build/common'
-| Makefile:141: recipe for target 'all-recursive' failed
-| make: *** [all-recursive] Error 2
-| ERROR: oe_runmake failed
-| WARNING: /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/temp/run.do_compile.21570:1 exit 1 from
-|   exit 1
-| ERROR: Function failed: do_compile (log file is located at /OE/build/shr-core/tmp-eglibc/work/arm920tt-oe-linux-gnueabi/icu/53.1-r0/temp/log.do_compile.21570)
-NOTE: recipe icu-53.1-r0: task do_compile: Failed
-ERROR: Task 6803 (/OE/build/shr-core/openembedded-core/meta/recipes-support/icu/icu_53.1.bb, do_compile) failed with exit code '1'
+X-List-Received-Date: Thu, 10 Dec 2015 13:46:54 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-support/icu/icu_55.1.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-devtools/gcc/gcc_4.9.bb                          | 5 ++---
+ meta/recipes-devtools/guile/guile_2.0.11.bb                   | 4 ++++
+ meta/recipes-devtools/opensp/opensp_1.5.2.bb                  | 4 ++++
+ meta/recipes-extended/mailx/mailx_12.5-5.bb                   | 5 +++++
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb | 3 +++
+ meta/recipes-support/libunwind/libunwind_1.1.bb               | 4 ++++
+ 6 files changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/icu/icu_55.1.bb b/meta/recipes-support/icu/icu_55.1.bb
-index 2661fd3..e91b6f3 100644
---- a/meta/recipes-support/icu/icu_55.1.bb
-+++ b/meta/recipes-support/icu/icu_55.1.bb
-@@ -8,6 +8,10 @@ def icu_download_version(d):
+diff --git a/meta/recipes-devtools/gcc/gcc_4.9.bb b/meta/recipes-devtools/gcc/gcc_4.9.bb
+index b84baae..a9dc612 100644
+--- a/meta/recipes-devtools/gcc/gcc_4.9.bb
++++ b/meta/recipes-devtools/gcc/gcc_4.9.bb
+@@ -1,10 +1,9 @@
+ require recipes-devtools/gcc/gcc-${PV}.inc
+ require gcc-target.inc
  
- ICU_PV = "${@icu_download_version(d)}"
+-# Building with thumb enabled on armv4t fails with
+-# | gcc-4.8.1-r0/gcc-4.8.1/gcc/cp/decl.c:7438:(.text.unlikely+0x2fa): relocation truncated to fit: R_ARM_THM_CALL against symbol `fancy_abort(char const*, int, char const*)' defined in .glue_7 section in linker stubs
+-# | gcc-4.8.1-r0/gcc-4.8.1/gcc/cp/decl.c:7442:(.text.unlikely+0x318): additional relocation overflows omitted from the output
++# http://errors.yoctoproject.org/Errors/Details/20497/
+ ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
  
-+# http://errors.yoctoproject.org/Errors/Details/20486/
+ BBCLASSEXTEND = "nativesdk"
+ 
+diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
+index f455740..98b465b 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.11.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
+@@ -119,3 +119,7 @@ guile_sstate_postinst() {
+                 find ${STAGING_DIR_TARGET}/${libdir}/guile/2.0/ccache -type f | xargs touch
+ 	fi
+ }
++
++# http://errors.yoctoproject.org/Errors/Details/20491/
 +ARM_INSTRUCTION_SET_armv4 = "arm"
 +ARM_INSTRUCTION_SET_armv5 = "arm"
+diff --git a/meta/recipes-devtools/opensp/opensp_1.5.2.bb b/meta/recipes-devtools/opensp/opensp_1.5.2.bb
+index a1f115c..60a7d2e 100644
+--- a/meta/recipes-devtools/opensp/opensp_1.5.2.bb
++++ b/meta/recipes-devtools/opensp/opensp_1.5.2.bb
+@@ -53,3 +53,7 @@ do_install_append_class-native() {
+ FILES_${PN} += "${datadir}/OpenSP/"
+ 
+ BBCLASSEXTEND = "native"
 +
- BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/${PV}/icu4c-${ICU_PV}-src.tgz"
- SRC_URI = "${BASE_SRC_URI} \
-            file://icu-pkgdata-large-cmd.patch \
++# http://errors.yoctoproject.org/Errors/Details/20489/
++ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
+diff --git a/meta/recipes-extended/mailx/mailx_12.5-5.bb b/meta/recipes-extended/mailx/mailx_12.5-5.bb
+index ffa9049..c87c582 100644
+--- a/meta/recipes-extended/mailx/mailx_12.5-5.bb
++++ b/meta/recipes-extended/mailx/mailx_12.5-5.bb
+@@ -41,3 +41,8 @@ EXTRA_OEMAKE = "SENDMAIL=${sbindir}/sendmail IPv6=-DHAVE_IPv6_FUNCS PREFIX=/usr
+ # fio.c:56:17: fatal error: ssl.h: No such file or directory
+ # #include <ssl.h>
+ PARALLEL_MAKE = ""
++
++# Causes gcc to get stuck and eat all available memory in qemuarm builds
++# http://errors.yoctoproject.org/Errors/Details/20488/
++ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb
+index 97fc7ec..5d74a2e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb
+@@ -25,3 +25,6 @@ LIBAV_EXTRA_CONFIGURE_COMMON_ARG = "--target-os=linux \
+ 
+ S = "${WORKDIR}/gst-libav-${PV}"
+ 
++# http://errors.yoctoproject.org/Errors/Details/20493/
++ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
+diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
+index 8282c1b..29bdf94 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
+@@ -10,3 +10,7 @@ SRC_URI += "\
+ 
+ SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
+ SRC_URI[sha256sum] = "9dfe0fcae2a866de9d3942c66995e4b460230446887dbdab302d41a8aee8d09a"
++
++# http://errors.yoctoproject.org/Errors/Details/20487/
++ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
 -- 
 2.6.3
 
