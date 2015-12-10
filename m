@@ -1,46 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D7226612D
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CE57601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 15:50:57 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id w144so29649416wmw.1
+	Thu, 10 Dec 2015 16:21:16 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id w144so30941931wmw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 07:50:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Q1+0jKEG9YEP6aNAk9qgGtPGozcDeYJBCGa8FcmTvMA=;
-	b=uZCOsOpJz8hmvmRwJc+RGU2ja88RG6lVeJbnY/xhdxZHKz1TbKIgi5zOZdhCqVR1Wm
-	gqv06oAwmztY2FKCIpkUGhWPSV5pYhpK4iYZHzPW6ukGOQrXhczbqNzE4QAz40KWs+G2
-	voHWdBDU4nzKZOK/E9+qR43D0m4+0ooucqUpoqh4NRc8N+tuh7tg/6J4ZX3xvrEzSjGb
-	hJ8r0EClW8EoJctPFpJlcHfo7EIryT0Zc6V6QWkQGlO8wwkB57aJb1737LM6N0seZqfY
-	cGj6TCkDfqF/HfGzcPyb3v42vkgP2u1oTvqIaVLRo/V4JxANOQlKJCpGx/wWOcwFpg1y
-	3aoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Q1+0jKEG9YEP6aNAk9qgGtPGozcDeYJBCGa8FcmTvMA=;
-	b=BJoFpG3fLsbBWm4pG9ZVUQwConm2Vw5SKdYvzud2lucszNl0efkLU/DFNyjQZhR0ef
-	tDmeGyTD/CwGvZHLkzJgCQP9ZfWdfutU+Q5kJzPXv9W73FOjDbdmie8+K0s9Y67TEA8S
-	Lrz7A/BAtWKIAeq2SoNnKQfo4DUpAL3k/ID5ATL64SEHlkN59LrPlDQqHQQZO1f4G7ST
-	0ZX5Lzq63izoVWUcvzij41WkT83EfFw72DEf+ZB9kwsIC5CpHlC01oLE3jQj9o8rh67V
-	WH/WRGG5hagp/Fs7IdZ8fiv9hwS+5R015A6S06E6/uTEQgEyGCDsB8jG2rD0hO8ljJmS
-	5j8Q==
-X-Gm-Message-State: ALoCoQmVChHwkdv3A6rXz+lsuxUXBVLIc3QmIX6EF2dIwH2gbMIWFNYvvHAO072LZmJ8a+Vt99GvS/IPCMOAHz+cu7RIdU4LlQ==
-X-Received: by 10.28.68.213 with SMTP id r204mr40795307wma.35.1449762658292;
-	Thu, 10 Dec 2015 07:50:58 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	198sm13521177wmr.18.2015.12.10.07.50.57
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 10 Dec 2015 07:50:57 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Dec 2015 15:50:52 +0000
-Message-Id: <1449762652-24100-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] attr: add attr dependency to attr-ptest
+	Thu, 10 Dec 2015 08:21:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=s4koC9jC+bhsBrguEEI5LLNYHWP8Ljqdpa+bzZYCFmc=;
+	b=rRag7otZodA1WLcDCdGAzJc9ps8D0S2ehzmy6i1dW6rgPa77qqzEH3+ykmS6o4cdsr
+	NMZjwTQVuQ+PBog18m9m8NoXeDDBxtVoJLsmBn11gepZF84gDq7pWsgvppDdN0T6tFrF
+	mSk9Ph8lJPwfFrlEGebtFHMGJDxwmkhZ8QbBUSYHfyorvzbnKhjMhJ7xa/5DS//XU+YD
+	AgcmG0DMimSDGsqJ0LDIu76CJl/CW8tbtPHHCYAGGzBP2kA0IGvi4P5whzsZqy6dMMw/
+	5u2fTRyrqsAeB3UMpliubd+J7CeUTkszmPuuCWeZmkjmep24y1Qb/rqmHa8pOIKyQ0d1
+	fY9A==
+X-Received: by 10.28.45.216 with SMTP id t207mr20219792wmt.89.1449764477060;
+	Thu, 10 Dec 2015 08:21:17 -0800 (PST)
+Received: from ernie.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
+	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
+	h5sm13083937wjz.21.2015.12.10.08.21.15
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 10 Dec 2015 08:21:15 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5.2
+From: Jens Rehsack <rehsack@gmail.com>
+In-Reply-To: <CACS+7ZT6GE=pXpJLbX-5j_2PS3Q80L9Q+V8Za_TJZi46B40pew@mail.gmail.com>
+Date: Thu, 10 Dec 2015 17:21:13 +0100
+Message-Id: <DCD85C92-82AC-4B8C-874D-6959D1008D45@gmail.com>
+References: <CAP9ODKrKM=aR4__PTNxVc7uTYY0xhrOPObPuzJr1wwqW2tci6Q@mail.gmail.com>
+	<CACS+7ZT6GE=pXpJLbX-5j_2PS3Q80L9Q+V8Za_TJZi46B40pew@mail.gmail.com>
+To: Dan McGregor <danismostlikely@gmail.com>
+X-Mailer: Apple Mail (2.2104)
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Backport for Jethro of fe506ed (autotools: Allow recipe-individual configure scripts)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +49,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 15:51:00 -0000
+X-List-Received-Date: Thu, 10 Dec 2015 16:21:17 -0000
+X-Groupsio-MsgNum: 74615
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_3CF74A21-3C01-4E73-B8AE-D2C5E507FF6D";
+	protocol="application/pgp-signature"; micalg=pgp-sha512
 
-If attr-ptest is explicitly installed it will fail as attr isn't a dependency.
-
-[ YOCTO #8766 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-support/attr/attr.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
-index 28c750f..6860978 100644
---- a/meta/recipes-support/attr/attr.inc
-+++ b/meta/recipes-support/attr/attr.inc
-@@ -34,6 +34,6 @@ do_install_ptest() {
- 	sed -e 's|; @echo|; echo|' -i ${D}${PTEST_PATH}/test/Makefile
- }
- 
--RDEPENDS_${PN}-ptest = "coreutils perl-module-filehandle perl-module-getopt-std perl-module-posix"
-+RDEPENDS_${PN}-ptest = "attr coreutils perl-module-filehandle perl-module-getopt-std perl-module-posix"
- 
--BBCLASSEXTEND = "native nativesdk"
-\ No newline at end of file
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.1.4
+--Apple-Mail=_3CF74A21-3C01-4E73-B8AE-D2C5E507FF6D
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> Am 09.12.2015 um 17:16 schrieb Dan McGregor =
+<danismostlikely@gmail.com>:
+>=20
+> On 8 December 2015 at 06:36, Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
+>> Hello,
+>>=20
+>> I would like to propose the backport of fe506ed (autotools: Allow
+>> recipe-individual configure scripts):
+>>=20
+>> commit fe506eddb0790e37ac1e50f37fa2e32ad81d5493
+>> Author: Jens Rehsack <rehsack@gmail.com>
+>> Date:   Tue Oct 13 22:35:52 2015 +0200
+>>=20
+>>    autotools: Allow recipe-individual configure scripts
+>>=20
+>>    OpenJDK-8 has it's configure script at common/autotools - which =
+will cause
+>>    the entire assumption of ${S}/configure is regenerated by
+>> autoreconf, intltoolize or alike
+>>    fails heavily.
+>>=20
+>>    Also - other configure mechanisms can be supported more similar
+>> (see how pkgsrc
+>>    manages different ones ...)
+>>=20
+>>    Signed-off-by: Jens Rehsack <sno@netbsd.org>
+>>    Signed-off-by: Ross Burton <ross.burton@intel.com>
+>>=20
+>> This allows for a more controlled execution of the autotools scripts
+>> and as described on the commit log allows the use of OpenJDK-8 as
+>> well.
+>=20
+> I'd like to second this. Without it one needs the master branch to
+> build the new openjdk-8 recipes.
+
+I currently use this on our jethro builds (those with the overlayfs ^^)
+without any issues. Build check might be easy, but we don't encounter
+any unexpected behavior on target.
+
+Cheers
+--
+Jens Rehsack - rehsack@gmail.com
+
+
+--Apple-Mail=_3CF74A21-3C01-4E73-B8AE-D2C5E507FF6D
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iQIcBAEBCgAGBQJWaaZ6AAoJEESZlq7c5Qqd8EUQAJP6RwRnmKjmmEW9nUJc4l7u
+6yuovdqhWtMF4ejrl9QEanjpKiyC1yMRRH1OmO938NJsN6dcUZUfdAryPa6dsmVh
+PHmOCzAGLdntKhViA86UU9OWsEW9eG93vZfL78ujH9ft2HSelwvSXMwRhnV2iUyx
+oJQa+ltNeS24j7SritfQd0eQsFfYMlSJyj7IPMbBwCygx5A/kUH8j0FnozmQ90wo
+yTJoCrm9COJBMIISJCu9a7JNVbSuQsFRDkHISEKhbfN7acPYAUcEWUzET0mfebZX
+/bbpaHS3YMU/QYPS9pzYTgBmpz2Zvpmo0J0dzhnBqA0fLb6DgfR0a40IXI9QaBMk
+bLgOQTWQ8Gb324OOnAVNvisIMkUncquk5SG4HD1OIUt5fMBoMKQidTghbWVF/WaP
+92rC35/S6tqb5Oej5T+BOzODbhtvKYzt/fJCnGJWVhIcMawHjq6NFMdSdgllSQUn
+/RzRUCuySZRRwP3bmJzfoRFEDaunT7LjqjcB6zPNzR7ktTit2kiBocswWgD3HTbS
+SW0nRl6+y8L+y1/0nbXmq7QDAMPMIIOhLi6crJDwnhWM9pXkUT+NxAIxkJ9/eY/T
+kguXT2u30o4UjReVbDu4IfSEao1hNXNblk20qT9GHGeSGNIjjDnuWl652QmH7UR7
+5LmZhFGWX449MpjmwcGi
+=zBt4
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_3CF74A21-3C01-4E73-B8AE-D2C5E507FF6D--
