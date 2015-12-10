@@ -1,40 +1,46 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <ross.burton@intel.com>
 Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 889F66FFDC
+	by mail.openembedded.org (Postfix) with ESMTP id 3D2BA60767
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 14:59:07 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so28485570wme.1
+	Thu, 10 Dec 2015 15:24:22 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so29352870wmw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 06:59:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=RzpbTu4CQ32TDhRLjfuIsOlQ1bjfStc2MYnl0V26GM4=;
-	b=U2Eb2se29j33W9tcfha179rLceB2I+ZiybdjK9xeJlmfoEx34OR5fojC1A/jIlWggK
-	aS9nOPjUdm6zOHs0jbYCNqVOocUjqD1n0M4IojhjUoX/3iNABrRGakcyqTMhatWUrsu/
-	TW10oWmoFyntWvZ5WI4TE7WcmIJcJGoeAybju9kwWCnpwc1kpcrLuRxQRIsovS+ltNQL
-	o1Kdn/ZMK2griqe9W0EGEltLjcXJGKy/njUSLqRQgcZiu8sZTwJ7s4BVuknX7ka0BT8P
-	wIPeLzHnxOpRivuZ0hD0D1XeyTBpvDjmmgxN+IRC3emUsMN+++IRH0aqJhtBgLqGk3QB
-	rUNA==
-X-Received: by 10.194.77.51 with SMTP id p19mr13139011wjw.159.1449759547636;
-	Thu, 10 Dec 2015 06:59:07 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	l128sm1196082wmf.10.2015.12.10.06.59.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Dec 2015 06:59:06 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 10 Dec 2015 16:00:51 +0100
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Message-ID: <20151210150051.GK2246@jama>
-References: <cover.1449754341.git.Martin.Jansa@gmail.com>
-	<1449755316-17611-3-git-send-email-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1449755316-17611-3-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Subject: Re: [PATCH 03/11] directfb: add fPIC to CFLAGS
+	Thu, 10 Dec 2015 07:24:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=0bOzAfB47giTb3h2LyBGjYeIQuTqMmb5wARMr42pE3I=;
+	b=SGBPjTq4RQUcRFuOVyqI4fuNQ4iqmuaLh6E41eI0FMtYrczlL6Y5xXxW3EDJhriE+M
+	u+ISsNxA/97l/JOzFlc1pa9xeCr9sTZUENRXZxKZzq523mYbvIGt9gL39lpqC5jy+/B5
+	b/N9+m7R9fPhCCUYihPYrWJ3Fb9xpphxEeI6rH9NaasOONymvnWqtF8kc+U+nFUrgfHV
+	CHvIVv0XOZzSh7ve593MfkfiCsvSIkXqklRb4CcmuEr2cG01bOL6ZZJQmCfOSOt4ndqe
+	6d7+MP8X7+I7hCQqUDDhtTjrl5o0bPE6gAgOgwS605WOSJemw0+Gu39wt3eDn7ZBk5iD
+	LBLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=0bOzAfB47giTb3h2LyBGjYeIQuTqMmb5wARMr42pE3I=;
+	b=DNlKVkNmXLDMgV0i0wg/yE/0s1Kr23QXnoVpOmRKGzSrw+GWUIWSSfOtNTNMF3pyn/
+	hHv941thsrODhGCakYhy9wQ/ZcYiStm1VpTOhWkyC/V0IoD3TGJS+jCuwi2eomLcdPt8
+	qG6kE2DHHWPclvF6uKWnL01Ia3bjoCTmzM81DGguYes8kLfFT+LVupbEQN/KKDgvRPen
+	wwFeQ6QMGgXEs7MlyxGZb/b8yhrWOkO3CY3k0Nn+RZRDuprCMDLUZyNkn1WkfKmPQ5SG
+	gpoEJLmesL66KOLT3b6oXdjIP97FtlybG7onFY6hocXD0wasvWNuOrqNqom+HALpKM45
+	XJmA==
+X-Gm-Message-State: ALoCoQm3QaAMohIyCGEvAvymMPxkDRP58wzbTzi/KiM0Y6Bpg669X4+/z27qB09iCNeVT2MWUaHvqtoKMzWiKmDKjGxw6hCy/g==
+X-Received: by 10.28.126.215 with SMTP id z206mr43110760wmc.71.1449761062864; 
+	Thu, 10 Dec 2015 07:24:22 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	yr7sm12901867wjc.9.2015.12.10.07.24.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 10 Dec 2015 07:24:22 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Dec 2015 15:24:20 +0000
+Message-Id: <1449761060-21041-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] cooker: use in instead of count
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,81 +53,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 14:59:07 -0000
-X-Groupsio-MsgNum: 74611
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Mit9XoPEfICDqq/V"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 10 Dec 2015 15:24:24 -0000
 
---Mit9XoPEfICDqq/V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ bitbake/lib/bb/cooker.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Thu, Dec 10, 2015 at 02:48:24PM +0100, Martin Jansa wrote:
-> * fPIC is missing when building directfb-csource.o
->   | arm-webos-linux-gnueabi-libtool: link: arm-webos-linux-gnueabi-gcc -m=
-arch=3Darmv7-a -mfloat-abi=3Dsoftfp -mfpu=3Dneon --sysroot=3D/home/jenkins/=
-workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/mako -I/home/jenki=
-ns/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/mako/usr/includ=
-e/freetype2 -I/home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc=
-/sysroots/mako/usr/include/libpng16 -Wall -Wstrict-prototypes -Wmissing-pro=
-totypes -Wno-strict-aliasing -Werror-implicit-function-declaration -O3 -g2 =
--ffast-math -pipe -O2 -pipe -g -feliminate-unused-debug-types -D_GNU_SOURCE=
- -std=3Dgnu99 -Werror-implicit-function-declaration -Wl,-O1 -Wl,--hash-styl=
-e=3Dgnu -Wl,--as-needed -o directfb-csource directfb-csource.o  /home/jenki=
-ns/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/mako/usr/lib/li=
-bts.so /home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroo=
-ts/mako/usr/lib/libpng16.so -lz -lm -ldl -lrt -lpthread
->   | /home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroot=
-s/x86_64-linux/usr/libexec/arm-webos-linux-gnueabi/gcc/arm-webos-linux-gnue=
-abi/5.2.0/ld: error: directfb-csource.o: requires unsupported dynamic reloc=
- R_ARM_MOVW_ABS_NC; recompile with -fPIC
->   | collect2: error: ld returned 1 exit status
->   | make[2]: *** [directfb-csource] Error 1
+diff --git a/bitbake/lib/bb/cooker.py b/bitbake/lib/bb/cooker.py
+index 4df8881..d39c64b 100644
+--- a/bitbake/lib/bb/cooker.py
++++ b/bitbake/lib/bb/cooker.py
+@@ -1072,7 +1072,7 @@ class BBCooker:
+ 
+         for pfn in self.recipecache.pkg_fn:
+             inherits = self.recipecache.inherits.get(pfn, None)
+-            if inherits and inherits.count(klass) > 0:
++            if inherits and klass in inherits:
+                 pkg_list.append(self.recipecache.pkg_fn[pfn])
+ 
+         return pkg_list
+-- 
+2.1.4
 
-Please cherry-pick c075d6e514b0a4511007844baf96ad44d7513399 instead of
-this one.
 
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-graphics/directfb/directfb.inc | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-g=
-raphics/directfb/directfb.inc
-> index 446aaea..e00b59b 100644
-> --- a/meta/recipes-graphics/directfb/directfb.inc
-> +++ b/meta/recipes-graphics/directfb/directfb.inc
-> @@ -20,7 +20,8 @@ SRC_URI =3D "http://www.directfb.org/downloads/Core/Dir=
-ectFB-1.7/DirectFB-${PV}.ta
-> =20
->  S =3D "${WORKDIR}/DirectFB-${PV}"
-> =20
-> -LDFLAGS_append =3D" -lts -lm"
-> +LDFLAGS_append =3D " -lts -lm"
-> +CFLAGS_append =3D " -fPIC"
-> =20
->  BINCONFIG =3D "${bindir}/directfb-config"
-> =20
-> --=20
-> 2.6.3
->=20
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---Mit9XoPEfICDqq/V
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlZpk6IACgkQN1Ujt2V2gBxm4QCgkQZUlkARMcBFcGi9hYS9xei8
-BlEAn2zbcvb+t5fz74utEOkFXZC4KHXx
-=0Qmz
------END PGP SIGNATURE-----
-
---Mit9XoPEfICDqq/V--
