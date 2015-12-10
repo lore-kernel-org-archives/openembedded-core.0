@@ -1,17 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D1896FFD4
+	by mail.openembedded.org (Postfix) with ESMTP id 9B13760722
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 10 Dec 2015 09:01:48 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 76239261460
+	(Authenticated sender: joshuagl) with ESMTPSA id 8DD51261F92
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Dec 2015 09:01:40 +0000
-Message-Id: <cover.1449737824.git.joshua.lock@collabora.co.uk>
+Date: Thu, 10 Dec 2015 09:01:41 +0000
+Message-Id: <189c7e8c3f3544c8bb7bce30de2ae68ddadee95c.1449737824.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.5.0
-MIME-Version: 1.0
-Subject: [PATCH v3 0/3] Clean up connman-conf
+In-Reply-To: <cover.1449737824.git.joshua.lock@collabora.co.uk>
+References: <cover.1449737824.git.joshua.lock@collabora.co.uk>
+In-Reply-To: <cover.1449737824.git.joshua.lock@collabora.co.uk>
+References: <cover.1449737824.git.joshua.lock@collabora.co.uk>
+Subject: [PATCH v3 1/3] connman-conf: convert to systemd oneshot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,50 +27,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 09:01:48 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 10 Dec 2015 09:01:49 -0000
 
-As reported in YP#8399[1] we currently hack the connman service to try and
-execute a script which is only installed on qemu targets. This set of
-patches changes the connman-conf recipe to install a oneshot systemd unit
-that is called before ConnMan, removes the ExecStartPre and adds an override
-to the RRECOMMENDS so that the connman-conf is only installed by default for
-qemu machines.
+Install a oneshot unit file that is started before ConnMan to
+configure a wired network inteface with the wired-setup script,
+rather than requiring this script to be manually run some how.
 
-SysV init based images are unaffected by this change, the existing mechanisms to check for the presence of the wired-setup script from the init script remain in place.
+Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+---
+ meta/recipes-connectivity/connman/connman-conf.bb              |  9 ++++++++-
+ .../connman/connman-conf/qemuall/wired-connection.service      | 10 ++++++++++
+ 2 files changed, 18 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman-conf/qemuall/wired-connection.service
 
-Since the earlier version of the series I've changed connman-conf to be an allarch package — as the series only adds connman-conf to RRECOMMENDS for qemu machines I don't think there's any reason to prevent people from choosing to install the generated packages if a pre-configured network would be useful.
-
-Regards,
-
-Joshua
-
-The following changes since commit 7e8ff7b9d793b7be106415c3c80b687977217566:
-
-  bitbake: toaster: toasterui Add ParseStarted/ParseProgress events to mask (2015-12-09 09:03:35 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib joshuagl/connman
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=joshuagl/connman
-
-Joshua Lock (3):
-  connman-conf: convert to systemd oneshot
-  connman: tidy up connman-conf usage
-  connman-conf: convert to an allarch package
-
- meta/recipes-connectivity/connman/connman-conf.bb         | 15 ++++++++++-----
- .../connman/connman-conf/wired-connection.service         | 10 ++++++++++
- .../connman/connman-conf/{qemuall => }/wired-setup        |  0
- .../connman/connman-conf/{qemuall => }/wired.config       |  0
- meta/recipes-connectivity/connman/connman.inc             |  5 -----
- meta/recipes-connectivity/connman/connman_1.30.bb         |  3 +--
- 6 files changed, 21 insertions(+), 12 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman-conf/wired-connection.service
- rename meta/recipes-connectivity/connman/connman-conf/{qemuall => }/wired-setup (100%)
- rename meta/recipes-connectivity/connman/connman-conf/{qemuall => }/wired.config (100%)
-
---
+diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/recipes-connectivity/connman/connman-conf.bb
+index 9254ed7..bef9237 100644
+--- a/meta/recipes-connectivity/connman/connman-conf.bb
++++ b/meta/recipes-connectivity/connman/connman-conf.bb
+@@ -4,8 +4,11 @@ network interface for a qemu machine."
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+ 
++inherit systemd
++
+ SRC_URI_append_qemuall = " file://wired.config \
+                            file://wired-setup \
++                           file://wired-connection.service \
+ "
+ PR = "r2"
+ 
+@@ -17,10 +20,14 @@ FILES_${PN} = "${localstatedir}/* ${datadir}/*"
+ 
+ do_install() {
+     #Configure Wired network interface in case of qemu* machines
+-    if test -e ${WORKDIR}/wired.config && test -e ${WORKDIR}/wired-setup; then
++    if test -e ${WORKDIR}/wired.config &&
++       test -e ${WORKDIR}/wired-setup &&
++       test -e ${WORKDIR}/wired-connection.service; then
+         install -d ${D}${localstatedir}/lib/connman
+         install -m 0644 ${WORKDIR}/wired.config ${D}${localstatedir}/lib/connman
+         install -d ${D}${datadir}/connman
+         install -m 0755 ${WORKDIR}/wired-setup ${D}${datadir}/connman
++        install -d ${D}${systemd_system_unitdir}
++        install -m 0644 ${WORKDIR}/wired-connection.service ${D}${systemd_system_unitdir}
+     fi
+ }
+diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-connection.service b/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-connection.service
+new file mode 100644
+index 0000000..ecb59cd
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-connection.service
+@@ -0,0 +1,10 @@
++[Unit]
++Description=Setup a wired interface
++Before=connman.service
++
++[Service]
++Type=oneshot
++ExecStart=/usr/lib/connman/wired-setup
++
++[Install]
++WantedBy=network.target
+-- 
 2.5.0
+
 
