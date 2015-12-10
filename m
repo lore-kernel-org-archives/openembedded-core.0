@@ -1,40 +1,39 @@
-Return-Path: <danismostlikely@gmail.com>
-Received: from mail-vk0-f41.google.com (mail-vk0-f41.google.com
-	[209.85.213.41])
-	by mail.openembedded.org (Postfix) with ESMTP id EC0036FFDC
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 413236FFDC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 18:33:46 +0000 (UTC)
-Received: by vkha189 with SMTP id a189so95432167vkh.2
+	Thu, 10 Dec 2015 18:35:35 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so36735050wmw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 10:33:47 -0800 (PST)
+	Thu, 10 Dec 2015 10:35:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=EyDrVyr6JC5B6X6Thn52Z6nkh27hy992b6QJFhbVb+A=;
-	b=F7UG+cSIqUL6kleVPpg0nb8HMBOkYz3cBFE9muDIsdR+tjv0fp0woAjwuH73sH3gp0
-	f2eBOYBel2AMwA3FEoa/IJoO+9SqGjciSv5GGrs4/5YSTZI53Ozs/wnd5Y41y64yy3CR
-	1hdqb+989h/pfWMb/6x6ILPsI7wYbc5DY6HovsRc6ISQLt65H6ifzmWicKMtLs0l75oD
-	2aNeTT6U45PlTs6RzKE7+0sPWouE4jnsR4vmAq5M+yj/96L6pavPhk60ybR8XMgL9B/0
-	veHxJJYBWVWGgLlxeVz58ZUS1+pnnw7XCAwS+35+fdc3hSD47FliOEb89xaO+GWjzCZm
-	cc4Q==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=AaWPxr7vnQuOPATOEeLBFysPxaqbZsTAnEcrsGZ4w1I=;
+	b=kQO7Pcf0AZ7d2DtSXJ0HEEDFzN0xebFYqS6c2wY3z8aSeK7vt/HsmiyrMfqJM913bo
+	f7osKifDVfD2iDHzJy2JvUJZmXy9DUnk5jq/GW00N13QSR2FuetdxfUkA9bNG9KI5Nw5
+	HqJqKVei8sGxe9Lz7Em/r0MKot/a4MPfEHnzeXaogb0i6R19yhFx73FFu2sNTQOWpTdd
+	8fHLk9/M7mCBYtHHZLEBlO/1HG1K2EISVf4fie34jA2PkOxMdmQ84/8NjRXrB0YKJqxo
+	7cFxvFce4TWbG+ko18gq7sQspYv196GivmEH/22Y8Oec30wLVdpVua4nkYrX4qqXslFD
+	mANA==
+X-Received: by 10.28.32.22 with SMTP id g22mr608988wmg.43.1449772536463;
+	Thu, 10 Dec 2015 10:35:36 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	uw6sm13590575wjc.42.2015.12.10.10.35.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 10 Dec 2015 10:35:35 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 10 Dec 2015 19:37:20 +0100
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20151210183720.GO2246@jama>
+References: <1449772407-30369-1-git-send-email-armccurdy@gmail.com>
 MIME-Version: 1.0
-X-Received: by 10.31.49.147 with SMTP id x141mr11225140vkx.1.1449772427068;
-	Thu, 10 Dec 2015 10:33:47 -0800 (PST)
-Received: by 10.103.37.196 with HTTP; Thu, 10 Dec 2015 10:33:46 -0800 (PST)
-Received: by 10.103.37.196 with HTTP; Thu, 10 Dec 2015 10:33:46 -0800 (PST)
-In-Reply-To: <CABcZANn0wr+1GgYiPVkpTbqVLfOZOK44xZEtPDxdLfSaJgx6Qg@mail.gmail.com>
-References: <cover.1447371049.git.chris_larson@mentor.com>
-	<130d9a6c1f4ecea86748a44b73f51d8ddb2e63da.1447371049.git.chris_larson@mentor.com>
-	<05b7cc8c957a9756e7af964a09bc2a89e0aedd9f.1447371049.git.chris_larson@mentor.com>
-	<CACS+7ZR-KmxgSjSOptx_E3w4dFbMz_90munhQPcCfcEmvdV2DA@mail.gmail.com>
-	<CABcZANn0wr+1GgYiPVkpTbqVLfOZOK44xZEtPDxdLfSaJgx6Qg@mail.gmail.com>
-Date: Thu, 10 Dec 2015 12:33:46 -0600
-Message-ID: <CACS+7ZSF4Z3HPg8YesgQ2hADevRyzC5=obKFUADy_ZgixvurqQ@mail.gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-To: Christopher Larson <kergoth@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] systemd: add myhostname to nsswitch.conf
+In-Reply-To: <1449772407-30369-1-git-send-email-armccurdy@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] documentation.conf: document PREFERRED_VERSION wildcard limitations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,66 +46,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 18:33:47 -0000
-Content-Type: multipart/alternative; boundary=001a114383468549c805268f720a
+X-List-Received-Date: Thu, 10 Dec 2015 18:35:37 -0000
+X-Groupsio-MsgNum: 74621
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="6sj9mcRtP+pTWLOo"
+Content-Disposition: inline
 
---001a114383468549c805268f720a
-Content-Type: text/plain; charset=UTF-8
+--6sj9mcRtP+pTWLOo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 7 Dec 2015 1:49 p.m., "Christopher Larson" <kergoth@gmail.com> wrote:
->
->
-> On Tue, Nov 17, 2015 at 8:49 PM, Dan McGregor <danismostlikely@gmail.com>
-wrote:
->>
->> On 12 Nov 2015 5:41 p.m., "Christopher Larson" <kergoth@gmail.com> wrote:
->> >
->> > From: Christopher Larson <chris_larson@mentor.com>
->> >
->> > We don't need nss-myhostname on systemd systems, because systemd
-already
->> > provides myhostname, but we weren't configuring nsswitch to use it.
-Being able
->> > to resolve the hostname is useful for a number of different
-applications, so
->> > enable it using the same postinst/prerm bits which are in
-nss-myhostname.
->>
->> I have this and a similar change for resolved in an append at work.
-Would others be interested in that too?
->
->
-> I'm sure there are folks that would find that interesting. I'm sure not
-everyone uses resolved, but I'm sure we want it to work well for folks taht
-do want to use it.
->
+On Thu, Dec 10, 2015 at 10:33:27AM -0800, Andre McCurdy wrote:
+> PREFERRED_VERSION values containing the '%' wildcard should only be
+> used when the wildcard pattern is known to only match one available
+> recipe. See longer explanation in:
+>=20
+>   http://comments.gmane.org/gmane.comp.sysutils.bitbake.devel/1038
 
-Cool. I'll post my change. nss_resolve can be used unconditionally if it's
-there. If resolved isn't running it falls back to nss_dns.
+Thanks
 
---001a114383468549c805268f720a
-Content-Type: text/html; charset=UTF-8
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
-<p dir="ltr"><br>
-On 7 Dec 2015 1:49 p.m., &quot;Christopher Larson&quot; &lt;<a href="mailto:kergoth@gmail.com">kergoth@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; On Tue, Nov 17, 2015 at 8:49 PM, Dan McGregor &lt;<a href="mailto:danismostlikely@gmail.com">danismostlikely@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On 12 Nov 2015 5:41 p.m., &quot;Christopher Larson&quot; &lt;<a href="mailto:kergoth@gmail.com">kergoth@gmail.com</a>&gt; wrote:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; From: Christopher Larson &lt;<a href="mailto:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; We don&#39;t need nss-myhostname on systemd systems, because systemd already<br>
-&gt;&gt; &gt; provides myhostname, but we weren&#39;t configuring nsswitch to use it. Being able<br>
-&gt;&gt; &gt; to resolve the hostname is useful for a number of different applications, so<br>
-&gt;&gt; &gt; enable it using the same postinst/prerm bits which are in nss-myhostname.<br>
-&gt;&gt;<br>
-&gt;&gt; I have this and a similar change for resolved in an append at work. Would others be interested in that too?<br>
-&gt;<br>
-&gt;<br>
-&gt; I&#39;m sure there are folks that would find that interesting. I&#39;m sure not everyone uses resolved, but I&#39;m sure we want it to work well for folks taht do want to use it.<br>
-&gt;</p>
-<p dir="ltr">Cool. I&#39;ll post my change. nss_resolve can be used unconditionally if it&#39;s there. If resolved isn&#39;t running it falls back to nss_dns.</p>
+>=20
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/conf/documentation.conf | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+> index 845559a..c31c217 100644
+> --- a/meta/conf/documentation.conf
+> +++ b/meta/conf/documentation.conf
+> @@ -332,7 +332,7 @@ PN[doc] =3D "PN refers to a recipe name in the contex=
+t of a file used by the OpenE
+>  PNBLACKLIST[doc] =3D "Lists recipes you do not want the OpenEmbedded bui=
+ld system to build."
+>  PR[doc] =3D "The revision of the recipe. The default value for this vari=
+able is 'r0'."
+>  PREFERRED_PROVIDER[doc] =3D "If multiple recipes provide an item, this v=
+ariable determines which recipe should be given preference."
+> -PREFERRED_VERSION[doc] =3D "If there are multiple versions of recipes av=
+ailable, this variable determines which recipe should be given preference."
+> +PREFERRED_VERSION[doc] =3D "If there are multiple versions of recipes av=
+ailable, this variable determines which recipe should be given preference. =
+The '%' wildcard is supported but should be used with care, results are unp=
+redictable if it matches more than one available version."
+>  PREMIRRORS[doc] =3D "Specifies additional paths from which the OpenEmbed=
+ded build system gets source code."
+>  PRINC[doc] =3D "Causes the PR variable of .bbappend files to dynamically=
+ increment. This increment minimizes the impact of layer ordering. This var=
+iable defaults to '0'."
+>  PRIORITY[doc] =3D "Indicates the importance of a package.  The default v=
+alue is 'optional'.  Other standard values are 'required', 'standard' and '=
+extra'."
+> --=20
+> 1.9.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a114383468549c805268f720a--
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--6sj9mcRtP+pTWLOo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlZpxl8ACgkQN1Ujt2V2gBwo7wCgkOS5vVxjSjiWmtzEJAVtKHXt
+ivUAoLa/c4LA78hHVHil1sXgpOtEceaC
+=BKs5
+-----END PGP SIGNATURE-----
+
+--6sj9mcRtP+pTWLOo--
