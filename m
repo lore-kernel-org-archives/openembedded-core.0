@@ -1,39 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
 Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 511C76FFDF
+	by mail.openembedded.org (Postfix) with ESMTP id B052A6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 13:46:31 +0000 (UTC)
-Received: by wmww144 with SMTP id w144so25391791wmw.0
+	Thu, 10 Dec 2015 13:46:33 +0000 (UTC)
+Received: by wmec201 with SMTP id c201so25492596wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 05:46:32 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=XP1HJsntWeUtgevf58kU8OC+yb/gIpAB4qecpso1jZc=;
-	b=bTgypRdVwUOUWUXlmg8ExNiLGQWybB3JNspUURzPg9lHA8nGZXLSOqF0bjmjggJawv
-	KZ6fyJbjS2c2IZQIgoAlNGF286kvn1rgEf0lL+6JdaQOY24K1di+JBAAbWTL+YJJJP0R
-	sQWDPmzPPVxHWgZ4Z8Uubi2y8edkI1pesseW6uhJRL5LjDu6RKqk3yPc5+pSTFeg6f4b
-	uDnfu4kIgQ/7tq3IVYKNSeIoSFjglMrNLa6fZ+eoFrIu0gxANBqu38ve8vPT4owhkOt/
-	QqFYkq9sCCLqZmv/+kmTaZVwnli79PTPIPbXd62Y+SI/qwnWG7/30tDPzIf+v9Ey1ifj
-	hy5g==
-X-Received: by 10.195.12.163 with SMTP id er3mr13068750wjd.135.1449755192386; 
-	Thu, 10 Dec 2015 05:46:32 -0800 (PST)
+	:references; bh=3GYyEkAO2s+3YMPXGRQgrCCskoyPVcg9bnuPNyCLUdY=;
+	b=V8rJmUzrL54MVbH63iJHm47qN3qJF2UmBKQVSqKs4Yeara2ONrLt2o66bLMQv1jPle
+	Dni6Bnayr5cyH2c+dceJ2qCfyl43HPE+rXY4CYqtW8NnngtUiLKp9wYC3IFfmnXcV535
+	ynAVuyY7szlwvIYKszmNJ66/SSAUUyBYwIs0IKBqPSUcEN76/3GnOiKYE6tOmEDuS2gm
+	lh18eslSe/jTU06hH44jjJIvENofhyKL/8OS2i0iTFz54wef4NlwLSWoAFPoyvX8b80d
+	V9brK8eHvZTZ94kU1T76xaOxAlF7tcqMeKo8757PPD4KBHohHxM0cbk5P/TPFnoynri+
+	HUWQ==
+X-Received: by 10.28.17.7 with SMTP id 7mr39067973wmr.45.1449755194322;
+	Thu, 10 Dec 2015 05:46:34 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	un6sm12495771wjc.34.2015.12.10.05.46.31
+	o65sm13055602wmg.3.2015.12.10.05.46.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Dec 2015 05:46:31 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:32 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: Armin Kuster <akuster808@gmail.com>,
 	openembedded-core@lists.openembedded.org
-Date: Thu, 10 Dec 2015 14:48:03 +0100
-Message-Id: <6a4f93be9fbd229e16d08e514570b047b00d2561.1449754336.git.Martin.Jansa@gmail.com>
+Date: Thu, 10 Dec 2015 14:48:04 +0100
+Message-Id: <412babd6d9b3cf9452a110a9923be3e9e3716343.1449754336.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <cover.1449754336.git.Martin.Jansa@gmail.com>
 References: <cover.1449754336.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1449754336.git.Martin.Jansa@gmail.com>
 References: <cover.1449754336.git.Martin.Jansa@gmail.com>
-Subject: [PATCH][dizzy][RESEND 5/7] allarch: Force TARGET_*FLAGS variable values
+Subject: [PATCH][dizzy][RESEND 6/7] texinfo: don't create dependency on INHERIT variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,43 +46,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 13:46:32 -0000
+X-List-Received-Date: Thu, 10 Dec 2015 13:46:34 -0000
 
-From: Mike Crowe <mac@mcrowe.com>
+* we don't want the do_package signature depending on INHERIT variable
+* e.g. just adding the own-mirrors causes texinfo to rebuild:
+  # bitbake-diffsigs BUILD/sstate-diff/*/*/texinfo/*do_package.sig*
+  basehash changed from 015df2fd8e396cc1e15622dbac843301 to 9f1d06c4f238c70a99ccb6d8da348b6a
+  Variable INHERIT value changed from
+  ' rm_work blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
+  to
+  ' rm_work own-mirrors blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
 
-TARGET_CPPFLAGS, TARGET_CFLAGS, TARGET_CPPFLAGS and TARGET_LDFLAGS may
-differ between MACHINEs. Since they are exported they affect task hashes
-even if unused which leads to multiple variants of allarch packages
-existing in sstate and bouncing in the sysroot when switching between
-MACHINEs.
-
-allarch packages shouldn't be using these variables anyway, so let's
-ensure they have a fixed value in order to avoid this problem.
-
-(Compare with 05a70ac30b37cab0952f1b9df501993a9dec70da and
-14f4d016fef9d660da1e7e91aec4a0e807de59ab.)
-
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/allarch.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-extended/texinfo/texinfo_5.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-index 4bc9927..6f63f9d 100644
---- a/meta/classes/allarch.bbclass
-+++ b/meta/classes/allarch.bbclass
-@@ -27,6 +27,10 @@ python () {
-         d.setVar("PACKAGE_EXTRA_ARCHS", "")
-         d.setVar("SDK_ARCH", "none")
-         d.setVar("SDK_CC_ARCH", "none")
-+        d.setVar("TARGET_CPPFLAGS", "none")
-+        d.setVar("TARGET_CFLAGS", "none")
-+        d.setVar("TARGET_CXXFLAGS", "none")
-+        d.setVar("TARGET_LDFLAGS", "none")
+diff --git a/meta/recipes-extended/texinfo/texinfo_5.2.bb b/meta/recipes-extended/texinfo/texinfo_5.2.bb
+index cf9dcfd..3394474 100644
+--- a/meta/recipes-extended/texinfo/texinfo_5.2.bb
++++ b/meta/recipes-extended/texinfo/texinfo_5.2.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ PROVIDES_append_class-native = " texinfo-replacement-native"
  
-         # Avoid this being unnecessarily different due to nuances of
-         # the target machine that aren't important for "all" arch
+ def compress_pkg(d):
+-    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
++    if bb.data.inherits_class('compress_doc', d):
+          compress = d.getVar("DOC_COMPRESS", True)
+          if compress == "gz":
+              return "gzip"
 -- 
 2.6.3
 
