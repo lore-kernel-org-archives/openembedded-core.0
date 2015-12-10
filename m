@@ -1,33 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 585CF6AC37
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B1A506E665
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 13:29:02 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id w144so23876947wmw.1
+	Thu, 10 Dec 2015 13:46:25 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id v187so33893724wmv.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 05:29:03 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=cCeychDnLSSKCKMudDD2i/Yp4AQuTnksTDjqq3L9Zb0=;
-	b=vOwSWVVbG5sZQmrM36RfjEkP+X2sOd+KkN1hFNVqTB9UNoXKxeZ+3I+WrvEfyPYk6S
-	S0Pne2sC0Cn7IXR3pmItdezvLE53DRTmR2pDauVUdgvx9e3JssjT6S8YwWWmCOYtClfH
-	9biI1K4mFcYuCKyhxBh2Q2+o22Vgdw9jr6EEcd9dkYQbSa4XIQqZsRa+hEAc8Nsao5ut
-	E6cc8PoQO4dEch10eUBikL35CP/Wfz8AyQSvPTSvLSadFEqolmdafEWNiSIojiW86tNh
-	wqDsk7PyFkrCjFYCnfl7AqKZMMwqrFKlHy0r6K+ShHJr5gs0VRwlXY3NXmKQ6/kYdlwm
-	5+Ew==
-X-Received: by 10.28.104.132 with SMTP id d126mr17180474wmc.30.1449754142019; 
-	Thu, 10 Dec 2015 05:29:02 -0800 (PST)
+	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
+	:references; bh=l4u98GIvePIyL7eKOz56rkbMim/bANZ84aBNmC8A5Fg=;
+	b=fTcCL/f4JPZYjXuu8nHZkVhDdPY7Ed2ESBrK9kc++QckKVDoywH3oImPPtqU2bv4Fg
+	/XesPMWCFUgbAIJuSuhWUKFCalVu2d7xTR5qg/jfaYtR5YFR7m0tqybogeGNDvkvN5VQ
+	mnihb6RzDhrUS7KtgKziQOGm8SQO7S1oa4c1ssiy/QvivpA/TKsiNLFLS9YES4OOX1+K
+	9Yjw0gvFjIJV7acpJEhDZycaaBqXbKYNJ0/8QfVVPgVxmeIe8dY6AjNcx0qDx/W5y61H
+	qvlBSFYe8x/b4WinyBcNYNB0xb0JE5nf/1zf9u94qH8wM888BO22P04dlWt0IxZBgmbU
+	VLIw==
+X-Received: by 10.195.12.163 with SMTP id er3mr13068108wjd.135.1449755185883; 
+	Thu, 10 Dec 2015 05:46:25 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id l20sm846477wmd.20.2015.12.10.05.29.01
+	by smtp.gmail.com with ESMTPSA id
+	d2sm12518235wjy.16.2015.12.10.05.46.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Dec 2015 05:29:01 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:25 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Dec 2015 14:30:43 +0100
-Message-Id: <1449754243-28053-1-git-send-email-Martin.Jansa@gmail.com>
+To: Armin Kuster <akuster808@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 10 Dec 2015 14:47:59 +0100
+Message-Id: <14c2dfbe315db976b43f7f2db2fd092296cbc6f3.1449754336.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.3
-Subject: [PATCH] scripts/create-pull-request: fix git request-pull syntax
+In-Reply-To: <cover.1449754336.git.Martin.Jansa@gmail.com>
+References: <cover.1449754336.git.Martin.Jansa@gmail.com>
+In-Reply-To: <cover.1449754336.git.Martin.Jansa@gmail.com>
+References: <cover.1449754336.git.Martin.Jansa@gmail.com>
+Subject: [PATCH][dizzy][RESEND 1/7] fontcache: allow to pass extra parameters and environment to fc-cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,55 +46,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 13:29:04 -0000
+X-List-Received-Date: Thu, 10 Dec 2015 13:46:26 -0000
 
-* at least with git 2.6.3 I see git request-pull failing
-  when there is only :{BRANCH} as ending commit
+* this can be useful for passing extra parameters, pass
+  -v by default to see what's going on in do_rootfs
+* we need to use this for extra parameter we implemented
+  in fontconfig:
+  --ignore-mtime always use cache file regardless of font directory mtime
+  because the checksum of fontcache generated in do_rootfs
+  doesn't match with /usr/share/fonts directory as seen on
+  target device causing fontconfig to re-create the cache
+  when fontconfig is used for first time or worse create
+  new cache in every user's home directory when /usr/
+  filesystem is read only and cache cannot be updated.
 
-* $ git request-pull origin/dizzy git://git.openembedded.org/openembedded-core-contrib jansa/dizzy-backports:jansa/dizzy-backports
-  The following changes since commit 7bb182bdd130266100fc541fd09b82d09c51cd80:
-    build-appliance-image: Update to dizzy head revision (2015-09-29 14:56:04 +0100)
-  ...
-  And finds correct 7 changes there
-
-* $ git request-pull origin/dizzy git://git.openembedded.org/openembedded-core-contrib :jansa/dizzy-backports
-  warn: No match for commit 6068d1c90336ddc1fb32856efd1d9ccf07733896 found at git://git.openembedded.org/openembedded-core-contrib
-  warn: Are you sure you pushed 'jansa/dizzy-backports' there?
-  The following changes since commit 97756472d3a69eaca95d105494ffea78c6b077e0:
-    build-appliance-image: Update to dizzy head revision (2014-10-18 16:16:27 +0200)
-  ...
-  and lists all commits in _current_ branch since origin/dizzy, then it refuses
-  to continue, because there are too many changes.
-
-* 6068d1c90336ddc1fb32856efd1d9ccf07733896 is this commit in jansa/master-submitted
-  branch so it really shouldn't be included in pull request from jansa/dizzy branch.
-* git help says:
-  <end>
-    Commit to end at (defaults to HEAD). This names the commit at the tip of the history you are asking to be pulled.
-
-    When the repository named by <url> has the commit at a tip of a ref that is different from the ref you have locally, you can use
-    the <local>:<remote> syntax, to have its local name, a colon :, and its remote name.
-* maybe the syntax got changes since git 2.1.0 when Saul added :${BRANCH}
-* I haven't found how to respect ${COMMIT_ID in the new syntax
+  Running FC_DEBUG=16 fc-cache -v on such device shows:
+  FcCacheTimeValid dir "/usr/share/fonts" cache checksum 1441207803 dir checksum 1441206149
+* my guess is that the checksum is different, because pseudo
+  (which is unloaded when running qemuwrapper) or because some
+  influence of running the rootfs under qemu.
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- scripts/create-pull-request | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/fontcache.bbclass                | 19 +++++++++++++++----
+ scripts/postinst-intercepts/update_font_cache |  4 ++--
+ 2 files changed, 17 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-index a3744cc..dd66dfe 100755
---- a/scripts/create-pull-request
-+++ b/scripts/create-pull-request
-@@ -203,7 +203,7 @@ NEWER_GIT_VERSION=210
- if [ $GIT_VERSION -lt $NEWER_GIT_VERSION ]; then
- 	git request-pull $RELATIVE_TO $REMOTE_URL $COMMIT_ID >> "$PM"
+diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
+index d122387..8ebdfc4 100644
+--- a/meta/classes/fontcache.bbclass
++++ b/meta/classes/fontcache.bbclass
+@@ -9,12 +9,23 @@ inherit qemu
+ FONT_PACKAGES ??= "${PN}"
+ FONT_EXTRA_RDEPENDS ?= "fontconfig-utils"
+ FONTCONFIG_CACHE_DIR ?= "${localstatedir}/cache/fontconfig"
++FONTCONFIG_CACHE_PARAMS ?= "-v"
++# You can change this to e.g. FC_DEBUG=16 to debug fc-cache issues,
++# something has to be set, because qemuwrapper is using this variable after -E
++# multiple variables aren't allowed because for qemu they are separated
++# by comma and in -n "$D" case they should be separated by space
++FONTCONFIG_CACHE_ENV ?= "FC_DEBUG=1"
+ fontcache_common() {
+-if [ "x$D" != "x" ] ; then
+-	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=${MLPREFIX} bindir=${bindir} \
+-		libdir=${libdir} base_libdir=${base_libdir} fontconfigcachedir=${FONTCONFIG_CACHE_DIR}
++if [ -n "$D" ] ; then
++	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=${MLPREFIX} \
++		'bindir="${bindir}"' \
++		'libdir="${libdir}"' \
++		'base_libdir="${base_libdir}"' \
++		'fontconfigcachedir="${FONTCONFIG_CACHE_DIR}"' \
++		'fontconfigcacheparams="${FONTCONFIG_CACHE_PARAMS}"' \
++		'fontconfigcacheenv="${FONTCONFIG_CACHE_ENV}"'
  else
--	git request-pull $RELATIVE_TO $REMOTE_URL :$BRANCH >> "$PM"
-+	git request-pull $RELATIVE_TO $REMOTE_URL $BRANCH:$BRANCH >> "$PM"
+-	fc-cache
++	${FONTCONFIG_CACHE_ENV} fc-cache ${FONTCONFIG_CACHE_PARAMS}
  fi
- if [ $? -ne 0 ]; then
- 	echo "ERROR: git request-pull reported an error"
+ }
+ 
+diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
+index c8c6018..0deab3c 100644
+--- a/scripts/postinst-intercepts/update_font_cache
++++ b/scripts/postinst-intercepts/update_font_cache
+@@ -1,5 +1,5 @@
+ #!/bin/sh
+ 
+-PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
+-					$D${bindir}/fc-cache --sysroot=$D
++PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir} \
++					-E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D ${fontconfigcacheparams}
+ chown -R root:root $D${fontconfigcachedir}
 -- 
 2.6.3
 
