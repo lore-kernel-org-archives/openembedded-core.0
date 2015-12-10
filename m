@@ -1,38 +1,35 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 487F96FFEA
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 97DEB6E665
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 13:46:45 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id w144so24557619wmw.1
+	Thu, 10 Dec 2015 13:46:50 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id w144so24560649wmw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 05:46:47 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=NqAebPSdNBt6FpW8AQC2RZ5LIqhcrjeHYRVuCCGjmjo=;
-	b=PKEg8XhwpU9bcrit35ycYV4G1UC4+wTWlSq6lFxSm+ZXKWUnQzrIRjuO48eqmap5Lg
-	vLpoJpEc0mrIdyPyTF1ZgYg435hRRRhBfvkKR/xql8IV+mNfKFH0ZgCoVjHV+vMMemlV
-	1QeITg11X4GErDLUlnXxsV4L4ZrGNwsnEecrA1hpbmm0ZQPh1o2giNobjgu9fleEg5no
-	fU038oUv7LedrHctVZqUWEbTKaJ3QfWlmqiDn1OHOF5wD6hqGDWKQzgjcccvXeNrFmC5
-	xG0Hse7tN64fQB53M9kFd7HJR7hmLdZxCVE2Qlmuyp6SWDYa8dZFCt1JoVyUDgWujhxX
-	SKxQ==
-X-Received: by 10.28.32.65 with SMTP id g62mr40151567wmg.81.1449755206601;
-	Thu, 10 Dec 2015 05:46:46 -0800 (PST)
+	h=from:to:subject:date:message-id;
+	bh=6iu/wJydzwsdjY3tomvDqCrsH0D/lWkzYyWwIQNc7VQ=;
+	b=rNF5+AW5HglngSaZWzCyMFJ/r0GGrJT71GNRXZNl1f9MM59zZeufBuXhCZa1XsqZbC
+	DnARSIbWa5j8iwCMIDRgACtexZD7UI7fMPz9oFjPHBTUPKRJE6GS7bNjr6hUeWCdBYmt
+	nw5DcVXJQud/5ymTH9vtpjzH3UrzLQqTIlEN4m6DyH2DsDIreiCojl2DccJPhpwvwDJ9
+	2HCNng7W8av2B7vtuFBFh5JKkr0RctcUKePrjLH9WPyLRaNQsvHEgw7TDdJHuD0pZLqc
+	ooyCDqMraPdy8jiTRLRyoSJ98QXZxg2EBaTP1192gWuowDbCSU0NtqFWCSiHiPWkAbG2
+	OjKQ==
+X-Received: by 10.194.133.100 with SMTP id pb4mr10342105wjb.133.1449755211244; 
+	Thu, 10 Dec 2015 05:46:51 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id u4sm12484530wjz.4.2015.12.10.05.46.45
+	by smtp.gmail.com with ESMTPSA id
+	t194sm928677wmt.11.2015.12.10.05.46.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Dec 2015 05:46:45 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:50 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: Joshua Lock <joshua.lock@collabora.co.uk>,
+To: Robert Yang <liezhi.yang@windriver.com>,
 	openembedded-core@lists.openembedded.org
 Date: Thu, 10 Dec 2015 14:48:21 +0100
-Message-Id: <ebb53828ca0b315745d74598eaafd22eb135997f.1449754339.git.Martin.Jansa@gmail.com>
+Message-Id: <cover.1449754341.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.3
-In-Reply-To: <cover.1449754339.git.Martin.Jansa@gmail.com>
-References: <cover.1449754339.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1449754339.git.Martin.Jansa@gmail.com>
-References: <cover.1449754339.git.Martin.Jansa@gmail.com>
-Subject: [PATCH][fido][RESEND 5/5] linux-dtb.inc: drop unused DTB_NAME variable from do_install
+Subject: [PATCH][jethro][RESEND 00/11] Backports for jethro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,35 +42,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 13:46:46 -0000
+X-List-Received-Date: Thu, 10 Dec 2015 13:46:50 -0000
 
-* this is causing do_install to depend on KERNEL_IMAGE_BASE_NAME which
-  in some cases contains something like BUILD_NUMBER from CI, that
-  caused do_install to be reexecuted every single time, which is very
-  sad to be caused by unused variable.
-* jethro and newer don't need this change, because it's also fixed in
-  commit 86b3f29f93e3f87903668ea317c6bd97be4cdf62
-  Author: Marek Vasut <marex@denx.de>
-  Date:   Thu May 14 14:31:11 2015 +0200
-  Subject: kernel: Build DTBs early
+The following changes since commit 224bcc2ead676600bcd9e290ed23d9b2ed2f481e:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-kernel/linux/linux-dtb.inc | 1 -
- 1 file changed, 1 deletion(-)
+  rpcbind: Security Advisory - rpcbind - CVE-2015-7236 (2015-12-08 00:18:12 -0800)
 
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 6b8f1a5..4779be2 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -13,7 +13,6 @@ do_install_append() {
- 				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
- 			fi
- 			DTB_BASE_NAME=`basename ${DTB} .dtb`
--			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
- 			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
- 			DTB_PATH="${B}/arch/${ARCH}/boot/dts/${DTB}"
- 			oe_runmake ${DTB}
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib jansa/jethro-backports
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/jethro-backports
+
+Martin Jansa (10):
+  icu: force arm mode
+  guile, mailx, gcc, opensp, gstreamer1.0-libav, libunwind: disable
+    thumb where it fails for qemuarm
+  directfb: add fPIC to CFLAGS
+  libunwind: fix build for qemuarm
+  gstreamer1.0-plugins-{base,good}: update PACKAGECONFIGs
+  gstreamer1.0-plugins-bad: fix dependencies for uvch264 PACKAGECONFIG
+  gstreamer1.0-plugins-good: fix PACKAGECONFIG for gudev and add one for
+    v4l2 and libv4l2
+  gst-plugins-bad: add PACKAGECONFIGs for voamrwbenc, voaacenc, resindvd
+  package_manager.py: define info_dir and status_file when OPKGLIBDIR
+    isn't the default
+  texinfo: don't create dependency on INHERIT variable
+
+Ross Burton (1):
+  libsdl2: require GLES when building Wayland support
+
+ meta/lib/oe/package_manager.py                     | 19 +++++++
+ meta/recipes-devtools/gcc/gcc_4.9.bb               |  5 +-
+ meta/recipes-devtools/guile/guile_2.0.11.bb        |  4 ++
+ meta/recipes-devtools/opensp/opensp_1.5.2.bb       |  4 ++
+ meta/recipes-extended/mailx/mailx_12.5-5.bb        |  5 ++
+ meta/recipes-extended/texinfo/texinfo_6.0.bb       |  2 +-
+ meta/recipes-graphics/directfb/directfb.inc        |  3 +-
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb     |  2 +-
+ .../gstreamer/gstreamer1.0-libav_1.4.5.bb          |  3 ++
+ .../gstreamer/gstreamer1.0-plugins-bad.inc         | 13 ++---
+ .../gstreamer/gstreamer1.0-plugins-base.inc        |  7 ++-
+ .../gstreamer/gstreamer1.0-plugins-good.inc        | 14 ++---
+ meta/recipes-support/icu/icu_55.1.bb               |  4 ++
+ ...Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch | 61 ++++++++++++++++++++++
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |  5 ++
+ 15 files changed, 126 insertions(+), 25 deletions(-)
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
+
 -- 
 2.6.3
 
