@@ -1,39 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id B052A6E668
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id DD24D6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 13:46:33 +0000 (UTC)
-Received: by wmec201 with SMTP id c201so25492596wme.1
+	Thu, 10 Dec 2015 13:46:34 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id c201so33842105wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 05:46:34 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=3GYyEkAO2s+3YMPXGRQgrCCskoyPVcg9bnuPNyCLUdY=;
-	b=V8rJmUzrL54MVbH63iJHm47qN3qJF2UmBKQVSqKs4Yeara2ONrLt2o66bLMQv1jPle
-	Dni6Bnayr5cyH2c+dceJ2qCfyl43HPE+rXY4CYqtW8NnngtUiLKp9wYC3IFfmnXcV535
-	ynAVuyY7szlwvIYKszmNJ66/SSAUUyBYwIs0IKBqPSUcEN76/3GnOiKYE6tOmEDuS2gm
-	lh18eslSe/jTU06hH44jjJIvENofhyKL/8OS2i0iTFz54wef4NlwLSWoAFPoyvX8b80d
-	V9brK8eHvZTZ94kU1T76xaOxAlF7tcqMeKo8757PPD4KBHohHxM0cbk5P/TPFnoynri+
-	HUWQ==
-X-Received: by 10.28.17.7 with SMTP id 7mr39067973wmr.45.1449755194322;
-	Thu, 10 Dec 2015 05:46:34 -0800 (PST)
+	:references; bh=NqAebPSdNBt6FpW8AQC2RZ5LIqhcrjeHYRVuCCGjmjo=;
+	b=fkr83OAv9NA3L5LoPhd1yzJ7Mj1Jwjuz8iH86RN7RufMu08BjvnRvJng3f8eGZx5+3
+	OrW6hNLsBQDDSpJ5lLnn9naT09JXPi+ZX6RrsrbnyNxI+60HpK5pYe6Jc5+dMroZjkkz
+	6PhlS5C2pNJR6ogmo8sttaX1RvKBTB+BiprW9nl6FHdyTfgIhP0hZ9hU+oPkU3aQ7g6j
+	xbWJ8yjkc1pzAoyLML2QNlMAvtDnI9aiPnuJy+LafigLLf8KAXzrAQz96t/VSBKTPvx4
+	t6esivG7B1qQdv2b11RD6uuXPtsErAAp1gx8Jmi3LBr6H3mKtl6tTB5rVOQjzByLdEp2
+	ytbQ==
+X-Received: by 10.28.18.9 with SMTP id 9mr39747289wms.96.1449755195537;
+	Thu, 10 Dec 2015 05:46:35 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	o65sm13055602wmg.3.2015.12.10.05.46.32
+	e83sm13003063wmc.23.2015.12.10.05.46.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Dec 2015 05:46:32 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:34 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: Armin Kuster <akuster808@gmail.com>,
 	openembedded-core@lists.openembedded.org
-Date: Thu, 10 Dec 2015 14:48:04 +0100
-Message-Id: <412babd6d9b3cf9452a110a9923be3e9e3716343.1449754336.git.Martin.Jansa@gmail.com>
+Date: Thu, 10 Dec 2015 14:48:05 +0100
+Message-Id: <3e0a14b5ab46fd35c6e0de0fea5acb87589fe1a1.1449754336.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <cover.1449754336.git.Martin.Jansa@gmail.com>
 References: <cover.1449754336.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1449754336.git.Martin.Jansa@gmail.com>
 References: <cover.1449754336.git.Martin.Jansa@gmail.com>
-Subject: [PATCH][dizzy][RESEND 6/7] texinfo: don't create dependency on INHERIT variable
+Subject: [PATCH][dizzy][RESEND 7/7] linux-dtb.inc: drop unused DTB_NAME variable from do_install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,35 +46,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 13:46:34 -0000
+X-List-Received-Date: Thu, 10 Dec 2015 13:46:35 -0000
 
-* we don't want the do_package signature depending on INHERIT variable
-* e.g. just adding the own-mirrors causes texinfo to rebuild:
-  # bitbake-diffsigs BUILD/sstate-diff/*/*/texinfo/*do_package.sig*
-  basehash changed from 015df2fd8e396cc1e15622dbac843301 to 9f1d06c4f238c70a99ccb6d8da348b6a
-  Variable INHERIT value changed from
-  ' rm_work blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
-  to
-  ' rm_work own-mirrors blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
+* this is causing do_install to depend on KERNEL_IMAGE_BASE_NAME which
+  in some cases contains something like BUILD_NUMBER from CI, that
+  caused do_install to be reexecuted every single time, which is very
+  sad to be caused by unused variable.
+* jethro and newer don't need this change, because it's also fixed in
+  commit 86b3f29f93e3f87903668ea317c6bd97be4cdf62
+  Author: Marek Vasut <marex@denx.de>
+  Date:   Thu May 14 14:31:11 2015 +0200
+  Subject: kernel: Build DTBs early
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-extended/texinfo/texinfo_5.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-kernel/linux/linux-dtb.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-extended/texinfo/texinfo_5.2.bb b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-index cf9dcfd..3394474 100644
---- a/meta/recipes-extended/texinfo/texinfo_5.2.bb
-+++ b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- PROVIDES_append_class-native = " texinfo-replacement-native"
- 
- def compress_pkg(d):
--    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
-+    if bb.data.inherits_class('compress_doc', d):
-          compress = d.getVar("DOC_COMPRESS", True)
-          if compress == "gz":
-              return "gzip"
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 6b8f1a5..4779be2 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -13,7 +13,6 @@ do_install_append() {
+ 				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
+ 			fi
+ 			DTB_BASE_NAME=`basename ${DTB} .dtb`
+-			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+ 			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+ 			DTB_PATH="${B}/arch/${ARCH}/boot/dts/${DTB}"
+ 			oe_runmake ${DTB}
 -- 
 2.6.3
 
