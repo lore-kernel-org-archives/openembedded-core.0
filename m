@@ -1,26 +1,26 @@
 Return-Path: <Konrad.Scherer@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ACE36FFDF
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DDA756FFE2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 16:44:43 +0000 (UTC)
+	Thu, 10 Dec 2015 16:44:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBAGiigH010305
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBAGiiXn013772
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 08:44:44 -0800 (PST)
+	Thu, 10 Dec 2015 08:44:45 -0800 (PST)
 Received: from yow-kscherer-d1.wrs.com (128.224.56.106) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 10 Dec 2015 08:44:43 -0800
+	14.3.248.2; Thu, 10 Dec 2015 08:44:44 -0800
 From: Konrad Scherer <konrad.scherer@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Dec 2015 11:44:41 -0500
-Message-ID: <1449765882-15910-2-git-send-email-konrad.scherer@windriver.com>
+Date: Thu, 10 Dec 2015 11:44:42 -0500
+Message-ID: <1449765882-15910-3-git-send-email-konrad.scherer@windriver.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <1449765882-15910-1-git-send-email-konrad.scherer@windriver.com>
 References: <1449765882-15910-1-git-send-email-konrad.scherer@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] signing-keys: Create destination path for exported keys
+Subject: [PATCH 2/2] signing-keys: Use GPG_PATH as keyring location if it is defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,29 +38,34 @@ Content-Type: text/plain
 
 From: Konrad Scherer <Konrad.Scherer@windriver.com>
 
-When testing the do_export_public_keys function using
-  bitbake -c do_export_public_keys signing-keys
-the destination path for the exported keys does not exist
-and the gpg export call fails.
+While experimenting with signing rpms, I attempted to import the keys
+into a temporary keyring and set GPG_PATH to the temporary keyring.
+This fails because the gpg export call cannot find the requested key
+in the default keyring.
 
 Signed-off-by: Konrad Scherer <Konrad.Scherer@windriver.com>
 ---
- meta/recipes-core/meta/signing-keys.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/meta/signing-keys.bb | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-core/meta/signing-keys.bb b/meta/recipes-core/meta/signing-keys.bb
-index cc401f3..c19a5fe 100644
+index c19a5fe..ecfcfd0 100644
 --- a/meta/recipes-core/meta/signing-keys.bb
 +++ b/meta/recipes-core/meta/signing-keys.bb
-@@ -22,6 +22,8 @@ EXCLUDE_FROM_WORLD = "1"
- 
- def export_gpg_pubkey(d, keyid, path):
-     import bb
-+    import os.path
-+    bb.utils.mkdirhier(os.path.dirname(path))
+@@ -26,8 +26,11 @@ def export_gpg_pubkey(d, keyid, path):
+     bb.utils.mkdirhier(os.path.dirname(path))
      gpg_bin = d.getVar('GPG_BIN', True) or \
                bb.utils.which(os.getenv('PATH'), "gpg")
-     cmd = '%s --batch --yes --export --armor -o %s %s' % \
+-    cmd = '%s --batch --yes --export --armor -o %s %s' % \
+-          (gpg_bin, path, keyid)
++    cmd = gpg_bin
++    if d.getVar('GPG_PATH', True):
++        cmd += " --homedir %s" % d.getVar('GPG_PATH', True)
++    cmd += ' --batch --yes --export --armor -o %s %s' % (path, keyid)
++
+     status, output = oe.utils.getstatusoutput(cmd)
+     if status:
+         raise bb.build.FuncFailed('Failed to export gpg public key (%s): %s' %
 -- 
 2.6.3
 
