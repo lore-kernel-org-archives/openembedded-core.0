@@ -1,21 +1,35 @@
-Return-Path: <nate.karstens@garmin.com>
-X-Greylist: delayed 430 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 10 Dec 2015 03:44:33 UTC
-Received: from p3plsmtpa09-09.prod.phx3.secureserver.net
-	(p3plsmtpa09-09.prod.phx3.secureserver.net [173.201.193.238])
-	by mail.openembedded.org (Postfix) with ESMTP id BE98E607AB
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwkm04.jp.fujitsu.com (mgwkm04.jp.fujitsu.com [202.219.69.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 81EFB60589
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 03:44:33 +0000 (UTC)
-Received: from localhost.localdomain ([74.222.250.91])
-	by p3plsmtpa09-09.prod.phx3.secureserver.net with 
-	id rfd81r0041z4HfN01fdPvs; Wed, 09 Dec 2015 20:37:24 -0700
-X-Sender: nate@karstens.us
-From: Nate Karstens <nate.karstens@garmin.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Dec 2015 21:36:37 -0600
-Message-Id: <1449718597-2085-1-git-send-email-nate.karstens@garmin.com>
+	Thu, 10 Dec 2015 05:43:55 +0000 (UTC)
+Received: from kw-mxauth.gw.nic.fujitsu.com (unknown [192.168.231.132]) by
+	mgwkm04.jp.fujitsu.com with smtp
+	id 2773_61f1_c13ace14_3c50_49b0_851a_763482364488;
+	Thu, 10 Dec 2015 14:43:55 +0900
+Received: from g01jpfmpwkw01.exch.g01.fujitsu.local
+	(g01jpfmpwkw01.exch.g01.fujitsu.local [10.0.193.38])
+	by kw-mxauth.gw.nic.fujitsu.com (Postfix) with ESMTP id CAEECAC031C
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Dec 2015 14:43:54 +0900 (JST)
+Received: from G01JPEXCHKW18.g01.fujitsu.local
+	(G01JPEXCHKW18.g01.fujitsu.local [10.0.194.57])
+	by g01jpfmpwkw01.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	2A1BB6924F8 for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Dec 2015 14:43:54 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	G01JPEXCHKW18.g01.fujitsu.local (10.0.194.57) with Microsoft SMTP
+	Server id 14.3.266.1; Thu, 10 Dec 2015 14:43:52 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 Dec 2015 14:44:57 +0900
+Message-ID: <1449726297-20673-1-git-send-email-fan.xin@jp.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] dhcpcd: add recipe for dhcpcd
+MIME-Version: 1.0
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-MML: disable
+Cc: Fan Xin <fan.xin@jp.fujitsu.com>
+Subject: [PATCH] cups: upgrade to 2.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,63 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 03:44:36 -0000
+X-List-Received-Date: Thu, 10 Dec 2015 05:43:56 -0000
+Content-Type: text/plain
 
-Adds a new recipe for dhcpcd. Modifies the configure script to keep the
-host system header files from being used instead of the target system.
-
-Signed-off-by: Nate Karstens <nate.karstens@garmin.com>
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 ---
- .../dhcpcd/dhcpcd-6.9.4/configure.patch               | 12 ++++++++++++
- meta/recipes-connectivity/dhcpcd/dhcpcd_6.9.4.bb      | 19 +++++++++++++++++++
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcpcd/dhcpcd-6.9.4/configure.patch
- create mode 100644 meta/recipes-connectivity/dhcpcd/dhcpcd_6.9.4.bb
+ meta/recipes-extended/cups/{cups_2.0.4.bb => cups_2.1.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/cups/{cups_2.0.4.bb => cups_2.1.2.bb} (40%)
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd-6.9.4/configure.patch b/meta/recipes-connectivity/dhcpcd/dhcpcd-6.9.4/configure.patch
-new file mode 100644
-index 0000000..d61b05e
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd-6.9.4/configure.patch
-@@ -0,0 +1,12 @@
-+--- ./configure
-++++ ./configure
-+@@ -316,9 +316,6 @@
-+ if [ "$STATIC" = yes ]; then
-+ 	echo "LDFLAGS+=	-static" >>$CONFIG_MK
-+ fi
-+-for x in $INCLUDEDIR; do
-+-	echo "CPPFLAGS+=	-I$x" >>$CONFIG_MK
-+-done
-+
-+ if [ -z "$DEBUG" -a -f .fslckout ]; then
-+ 	printf "Found fossil checkout ... "
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_6.9.4.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_6.9.4.bb
-new file mode 100644
-index 0000000..1c0aff4
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_6.9.4.bb
-@@ -0,0 +1,19 @@
-+SECTION = "console/network"
-+SUMMARY = "dhcpcd - a DHCP client"
-+DESCRIPTION = "dhcpcd runs on your machine and silently configures your computer to work on the attached networks without trouble and mostly without configuration."
-+
-+HOMEPAGE = "http://roy.marples.name/projects/dhcpcd/"
-+
-+LICENSE = "BSD-2-Clause"
-+LIC_FILES_CHKSUM = "file://dhcpcd.c;endline=26;md5=7daf225c91b8065ecc974fc594b2a7de"
-+
-+SRC_URI = "http://roy.marples.name/downloads/${BPN}/${BPN}-${PV}.tar.xz \
-+           file://configure.patch"
-+
-+SRC_URI[md5sum] = "02f5043a415cd4b6d089631a0cd95f5b"
-+SRC_URI[sha256sum] = "c3f3ff7473ef158a1e71db9aea7424df2c3477ad064e2b542f27948a5abc9ba0"
-+
-+inherit autotools
-+
-+B = "${S}"
-+EXTRA_OECONF = "--enable-ipv4 --enable-ipv6"
+diff --git a/meta/recipes-extended/cups/cups_2.0.4.bb b/meta/recipes-extended/cups/cups_2.1.2.bb
+similarity index 40%
+rename from meta/recipes-extended/cups/cups_2.0.4.bb
+rename to meta/recipes-extended/cups/cups_2.1.2.bb
+index bad73b3..0c1e75d 100644
+--- a/meta/recipes-extended/cups/cups_2.0.4.bb
++++ b/meta/recipes-extended/cups/cups_2.1.2.bb
+@@ -2,5 +2,5 @@ require cups.inc
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=6c5a350596fba02754bd96eb6df3afd0"
+ 
+-SRC_URI[md5sum] = "f5c847d9a4fac6c4c66fb0526a7afaae"
+-SRC_URI[sha256sum] = "e1d5e68d9f24faca317aeaebc164c34102813bc0f1d69c00b3a59b49c49f4abd"
++SRC_URI[md5sum] = "b3ba0ca676d56857bbd9b182ef4b14b3"
++SRC_URI[sha256sum] = "bab0ca3ba80eae48319b3a6b19a5b14fad5ce230f30151a0cfa4c0271df281ad"
 -- 
-1.9.1
+1.8.4.2
 
 
