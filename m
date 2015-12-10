@@ -1,37 +1,36 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DE356AC3C
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 771E56E665
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 13:46:54 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id v187so33916027wmv.1
+	Thu, 10 Dec 2015 13:46:56 +0000 (UTC)
+Received: by wmww144 with SMTP id w144so25408331wmw.0
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 10 Dec 2015 05:46:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=IkeGc2u6GBJnwwSMSFXpz7a+HtupEIWAhkIFdqDcAbM=;
-	b=dAIpZIXu3fLvZEYYsQVrC+MSRPbHALiqSjR9qz1qTj2OBqTxdSQqo8x3CUxnuafnbQ
-	W9wiLcW6KuzwlDRu+gBaSYvgC3SGyoQitPoSrwnAr489IB8YgaDBQEej+HAjjwhldWLn
-	xJeHgv2gzLyPNBgaRSOLFWUkaGSd+btTaulMLl3JWhiF04juvE0V6uF5rJ1JvrIBUUVe
-	N7rgIhnsCIfrWVtuefo7Q+ge7UXj1OALD8LZdbyKu9xWLV7+6IhRLots/ovb+/8bVNz8
-	v2qTVCTLVUd9fT/RAWa2ux7fAHG6PHXlha2vicSzxApcycqFJW4/cm096IU0/dEI3GfS
-	YWbg==
-X-Received: by 10.28.187.69 with SMTP id l66mr17852731wmf.21.1449755215464;
-	Thu, 10 Dec 2015 05:46:55 -0800 (PST)
+	bh=d4yyd2n8X7BUKTL19N//rsaK+MicK+C47VxYlTTbTFI=;
+	b=jLd1UrGW+FIwi/7zabm63lzkVBEZJUnXhccv2EJDcVZ/7x5OWa00P2gWF0V3wXZSHj
+	93tiZt3bOrBxFRdNLGGrnQGhxxvgFiHFjk1HzZXZ4MVJ4shMF9R5WKRlsSD80093/vtC
+	1rlf+MmoaE1jPO3ukLDPUHtArxr/zEyvOG1+gQyrATjx77qai/C3fGm/LGTfotvvgVok
+	chfiQQt4/iEX2S1dupPwLpQ/sc6sdkhc0ZfHwBMyHgdUU3o15mui7KcuFk3beW2V99rA
+	OqBHP8gv3TKmmcVhG9euus/B3EfyFmjY7Henebd7Tm0CWnCUHAmP/KBBgkkGg7JxRuAj
+	R1fw==
+X-Received: by 10.195.13.201 with SMTP id fa9mr14897509wjd.68.1449755216753;
+	Thu, 10 Dec 2015 05:46:56 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	yr7sm12532158wjc.9.2015.12.10.05.46.54
+	by smtp.gmail.com with ESMTPSA id z66sm945775wmz.7.2015.12.10.05.46.55
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Dec 2015 05:46:54 -0800 (PST)
+	Thu, 10 Dec 2015 05:46:56 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>,
 	openembedded-core@lists.openembedded.org
-Date: Thu, 10 Dec 2015 14:48:24 +0100
-Message-Id: <1449755316-17611-3-git-send-email-Martin.Jansa@gmail.com>
+Date: Thu, 10 Dec 2015 14:48:25 +0100
+Message-Id: <1449755316-17611-4-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.6.3
 In-Reply-To: <cover.1449754341.git.Martin.Jansa@gmail.com>
 References: <cover.1449754341.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 03/11] directfb: add fPIC to CFLAGS
+Subject: [PATCH 04/11] libunwind: fix build for qemuarm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +43,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 13:46:55 -0000
-
-* fPIC is missing when building directfb-csource.o
-  | arm-webos-linux-gnueabi-libtool: link: arm-webos-linux-gnueabi-gcc -march=armv7-a -mfloat-abi=softfp -mfpu=neon --sysroot=/home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/mako -I/home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/mako/usr/include/freetype2 -I/home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/mako/usr/include/libpng16 -Wall -Wstrict-prototypes -Wmissing-prototypes -Wno-strict-aliasing -Werror-implicit-function-declaration -O3 -g2 -ffast-math -pipe -O2 -pipe -g -feliminate-unused-debug-types -D_GNU_SOURCE -std=gnu99 -Werror-implicit-function-declaration -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o directfb-csource directfb-csource.o  /home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/mako/usr/lib/libts.so /home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/mako/usr/lib/libpng16.so -lz -lm -ldl -lrt -lpthread
-  | /home/jenkins/workspace/luneos-unstable/webos-ports/tmp-glibc/sysroots/x86_64-linux/usr/libexec/arm-webos-linux-gnueabi/gcc/arm-webos-linux-gnueabi/5.2.0/ld: error: directfb-csource.o: requires unsupported dynamic reloc R_ARM_MOVW_ABS_NC; recompile with -fPIC
-  | collect2: error: ld returned 1 exit status
-  | make[2]: *** [directfb-csource] Error 1
+X-List-Received-Date: Thu, 10 Dec 2015 13:46:56 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-graphics/directfb/directfb.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ ...Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch | 61 ++++++++++++++++++++++
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |  1 +
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
 
-diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-graphics/directfb/directfb.inc
-index 446aaea..e00b59b 100644
---- a/meta/recipes-graphics/directfb/directfb.inc
-+++ b/meta/recipes-graphics/directfb/directfb.inc
-@@ -20,7 +20,8 @@ SRC_URI = "http://www.directfb.org/downloads/Core/DirectFB-1.7/DirectFB-${PV}.ta
+diff --git a/meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch b/meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
+new file mode 100644
+index 0000000..d552502
+--- /dev/null
++++ b/meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
+@@ -0,0 +1,61 @@
++From 24484e80b3e329c9edee1995e102f8612eedb79c Mon Sep 17 00:00:00 2001
++From: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
++Date: Tue, 13 May 2014 23:32:27 +0200
++Subject: [PATCH] Add AO_REQUIRE_CAS to fix build on ARM < v6
++
++ARM earlier than ARMv6, such as ARMv4 and ARMv5 do not provide
++optimize atomic operations in libatomic_ops. Since libunwind is using
++such operations, it should define AO_REQUIRE_CAS before including
++<atomic_ops.h> so that libatomic_ops knows it should use emulated
++atomic operations instead (even though they are obviously a lot more
++expensive).
++
++Also, while real atomic operations are all inline functions and
++therefore linking against libatomic_ops was not required, the emulated
++atomic operations actually require linking against libatomic_ops, so
++the commented AC_CHECK_LIB test in acinclude.m4 is uncommented to make
++sure we link against libatomic_ops.
++
++Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
++
++Upstream-Status: Pending
++Taken from:
++https://raw.githubusercontent.com/rdnetto/teapot-buildroot/master/package/libunwind/libunwind-02-Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
++
++---
++ acinclude.m4          | 8 +-------
++ include/libunwind_i.h | 1 +
++ 2 files changed, 2 insertions(+), 7 deletions(-)
++
++diff --git a/acinclude.m4 b/acinclude.m4
++index 497f7c2..9c15af1 100644
++--- a/acinclude.m4
+++++ b/acinclude.m4
++@@ -22,11 +22,5 @@ fi])
++ AC_DEFUN([CHECK_ATOMIC_OPS],
++ [dnl Check whether the system has the atomic_ops package installed.
++   AC_CHECK_HEADERS(atomic_ops.h)
++-#
++-# Don't link against libatomic_ops for now.  We don't want libunwind
++-# to depend on libatomic_ops.so.  Fortunately, none of the platforms
++-# we care about so far need libatomic_ops.a (everything is done via
++-# inline macros).
++-#
++-#  AC_CHECK_LIB(atomic_ops, main)
+++  AC_CHECK_LIB(atomic_ops, main)
++ ])
++diff --git a/include/libunwind_i.h b/include/libunwind_i.h
++index 23f615e..deabdfd 100644
++--- a/include/libunwind_i.h
+++++ b/include/libunwind_i.h
++@@ -95,6 +95,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
++ 	(pthread_mutex_unlock != NULL ? pthread_mutex_unlock (l) : 0)
++ 
++ #ifdef HAVE_ATOMIC_OPS_H
+++# define AO_REQUIRE_CAS
++ # include <atomic_ops.h>
++ static inline int
++ cmpxchg_ptr (void *addr, void *old, void *new)
++-- 
++1.9.2
++
+diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
+index 29bdf94..aa62bcc 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
+@@ -6,6 +6,7 @@ SRC_URI += "\
+     file://Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch \
+     file://Link-libunwind-to-libgcc_s-rather-than-libgcc.patch \
+     file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch \
++    file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
+ "
  
- S = "${WORKDIR}/DirectFB-${PV}"
- 
--LDFLAGS_append =" -lts -lm"
-+LDFLAGS_append = " -lts -lm"
-+CFLAGS_append = " -fPIC"
- 
- BINCONFIG = "${bindir}/directfb-config"
- 
+ SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
 -- 
 2.6.3
 
