@@ -1,35 +1,40 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DC776FFDC
+Return-Path: <danismostlikely@gmail.com>
+Received: from mail-vk0-f41.google.com (mail-vk0-f41.google.com
+	[209.85.213.41])
+	by mail.openembedded.org (Postfix) with ESMTP id EC0036FFDC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 18:33:33 +0000 (UTC)
-Received: by pfnn128 with SMTP id n128so51960279pfn.0
+	Thu, 10 Dec 2015 18:33:46 +0000 (UTC)
+Received: by vkha189 with SMTP id a189so95432167vkh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 10:33:34 -0800 (PST)
+	Thu, 10 Dec 2015 10:33:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=CR45v7RPa75EHLelJpKHvCoGTbbA73G4qGm/iF5ZfXc=;
-	b=ZNbfBmE+fyX+tWTziFPdZTTLNuuAG0mYAGLOh59mwTllFQb1v0n6aNaD7ROpCYqp4j
-	Ya3xj5bRCaF1mNumVW8juuXBjJ0xMNzHYAG5GJ+0lBNGAiyYvFHZQ2U1AEz/8le+gFH8
-	m2AJhjp3QMJhZGwTWLDISIHS0uMYbbOMHnZ/X41P+52dGVrwylTAgnaga/vis5i4MJlA
-	WnMy4ooWhCOLBQFOh4hDt2FQYUa7rC7x/GJJQrQ7zQhfKDec96ON5CSJZY43Cbe+f9Ul
-	8fZuxQytiVXl9/qEEYy99cytFac6hH0VzPd99GUbe7ZsWEWOiePtWJh9qXLOR1D54RtV
-	80iQ==
-X-Received: by 10.98.68.83 with SMTP id r80mr8903570pfa.120.1449772414237;
-	Thu, 10 Dec 2015 10:33:34 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	e14sm17907973pap.24.2015.12.10.10.33.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 10 Dec 2015 10:33:32 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Dec 2015 10:33:27 -0800
-Message-Id: <1449772407-30369-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] documentation.conf: document PREFERRED_VERSION wildcard limitations
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=EyDrVyr6JC5B6X6Thn52Z6nkh27hy992b6QJFhbVb+A=;
+	b=F7UG+cSIqUL6kleVPpg0nb8HMBOkYz3cBFE9muDIsdR+tjv0fp0woAjwuH73sH3gp0
+	f2eBOYBel2AMwA3FEoa/IJoO+9SqGjciSv5GGrs4/5YSTZI53Ozs/wnd5Y41y64yy3CR
+	1hdqb+989h/pfWMb/6x6ILPsI7wYbc5DY6HovsRc6ISQLt65H6ifzmWicKMtLs0l75oD
+	2aNeTT6U45PlTs6RzKE7+0sPWouE4jnsR4vmAq5M+yj/96L6pavPhk60ybR8XMgL9B/0
+	veHxJJYBWVWGgLlxeVz58ZUS1+pnnw7XCAwS+35+fdc3hSD47FliOEb89xaO+GWjzCZm
+	cc4Q==
+MIME-Version: 1.0
+X-Received: by 10.31.49.147 with SMTP id x141mr11225140vkx.1.1449772427068;
+	Thu, 10 Dec 2015 10:33:47 -0800 (PST)
+Received: by 10.103.37.196 with HTTP; Thu, 10 Dec 2015 10:33:46 -0800 (PST)
+Received: by 10.103.37.196 with HTTP; Thu, 10 Dec 2015 10:33:46 -0800 (PST)
+In-Reply-To: <CABcZANn0wr+1GgYiPVkpTbqVLfOZOK44xZEtPDxdLfSaJgx6Qg@mail.gmail.com>
+References: <cover.1447371049.git.chris_larson@mentor.com>
+	<130d9a6c1f4ecea86748a44b73f51d8ddb2e63da.1447371049.git.chris_larson@mentor.com>
+	<05b7cc8c957a9756e7af964a09bc2a89e0aedd9f.1447371049.git.chris_larson@mentor.com>
+	<CACS+7ZR-KmxgSjSOptx_E3w4dFbMz_90munhQPcCfcEmvdV2DA@mail.gmail.com>
+	<CABcZANn0wr+1GgYiPVkpTbqVLfOZOK44xZEtPDxdLfSaJgx6Qg@mail.gmail.com>
+Date: Thu, 10 Dec 2015 12:33:46 -0600
+Message-ID: <CACS+7ZSF4Z3HPg8YesgQ2hADevRyzC5=obKFUADy_ZgixvurqQ@mail.gmail.com>
+From: Dan McGregor <danismostlikely@gmail.com>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] systemd: add myhostname to nsswitch.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +47,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Dec 2015 18:33:38 -0000
+X-List-Received-Date: Thu, 10 Dec 2015 18:33:47 -0000
+Content-Type: multipart/alternative; boundary=001a114383468549c805268f720a
 
-PREFERRED_VERSION values containing the '%' wildcard should only be
-used when the wildcard pattern is known to only match one available
-recipe. See longer explanation in:
+--001a114383468549c805268f720a
+Content-Type: text/plain; charset=UTF-8
 
-  http://comments.gmane.org/gmane.comp.sysutils.bitbake.devel/1038
+On 7 Dec 2015 1:49 p.m., "Christopher Larson" <kergoth@gmail.com> wrote:
+>
+>
+> On Tue, Nov 17, 2015 at 8:49 PM, Dan McGregor <danismostlikely@gmail.com>
+wrote:
+>>
+>> On 12 Nov 2015 5:41 p.m., "Christopher Larson" <kergoth@gmail.com> wrote:
+>> >
+>> > From: Christopher Larson <chris_larson@mentor.com>
+>> >
+>> > We don't need nss-myhostname on systemd systems, because systemd
+already
+>> > provides myhostname, but we weren't configuring nsswitch to use it.
+Being able
+>> > to resolve the hostname is useful for a number of different
+applications, so
+>> > enable it using the same postinst/prerm bits which are in
+nss-myhostname.
+>>
+>> I have this and a similar change for resolved in an append at work.
+Would others be interested in that too?
+>
+>
+> I'm sure there are folks that would find that interesting. I'm sure not
+everyone uses resolved, but I'm sure we want it to work well for folks taht
+do want to use it.
+>
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/conf/documentation.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cool. I'll post my change. nss_resolve can be used unconditionally if it's
+there. If resolved isn't running it falls back to nss_dns.
 
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 845559a..c31c217 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -332,7 +332,7 @@ PN[doc] = "PN refers to a recipe name in the context of a file used by the OpenE
- PNBLACKLIST[doc] = "Lists recipes you do not want the OpenEmbedded build system to build."
- PR[doc] = "The revision of the recipe. The default value for this variable is 'r0'."
- PREFERRED_PROVIDER[doc] = "If multiple recipes provide an item, this variable determines which recipe should be given preference."
--PREFERRED_VERSION[doc] = "If there are multiple versions of recipes available, this variable determines which recipe should be given preference."
-+PREFERRED_VERSION[doc] = "If there are multiple versions of recipes available, this variable determines which recipe should be given preference. The '%' wildcard is supported but should be used with care, results are unpredictable if it matches more than one available version."
- PREMIRRORS[doc] = "Specifies additional paths from which the OpenEmbedded build system gets source code."
- PRINC[doc] = "Causes the PR variable of .bbappend files to dynamically increment. This increment minimizes the impact of layer ordering. This variable defaults to '0'."
- PRIORITY[doc] = "Indicates the importance of a package.  The default value is 'optional'.  Other standard values are 'required', 'standard' and 'extra'."
--- 
-1.9.1
+--001a114383468549c805268f720a
+Content-Type: text/html; charset=UTF-8
 
+<p dir="ltr"><br>
+On 7 Dec 2015 1:49 p.m., &quot;Christopher Larson&quot; &lt;<a href="mailto:kergoth@gmail.com">kergoth@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt; On Tue, Nov 17, 2015 at 8:49 PM, Dan McGregor &lt;<a href="mailto:danismostlikely@gmail.com">danismostlikely@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On 12 Nov 2015 5:41 p.m., &quot;Christopher Larson&quot; &lt;<a href="mailto:kergoth@gmail.com">kergoth@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; From: Christopher Larson &lt;<a href="mailto:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; We don&#39;t need nss-myhostname on systemd systems, because systemd already<br>
+&gt;&gt; &gt; provides myhostname, but we weren&#39;t configuring nsswitch to use it. Being able<br>
+&gt;&gt; &gt; to resolve the hostname is useful for a number of different applications, so<br>
+&gt;&gt; &gt; enable it using the same postinst/prerm bits which are in nss-myhostname.<br>
+&gt;&gt;<br>
+&gt;&gt; I have this and a similar change for resolved in an append at work. Would others be interested in that too?<br>
+&gt;<br>
+&gt;<br>
+&gt; I&#39;m sure there are folks that would find that interesting. I&#39;m sure not everyone uses resolved, but I&#39;m sure we want it to work well for folks taht do want to use it.<br>
+&gt;</p>
+<p dir="ltr">Cool. I&#39;ll post my change. nss_resolve can be used unconditionally if it&#39;s there. If resolved isn&#39;t running it falls back to nss_dns.</p>
 
+--001a114383468549c805268f720a--
