@@ -1,49 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C8AF60796
+Return-Path: <stephen.k.jolley@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 05BB16FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 16:24:14 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id l68so21229859wml.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 08:24:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=6xx4JjIzJz3LzQJgScnFEA+IqQfFSMf0oyYNx0XBqmg=;
-	b=NmsfvlTA7HVHXCSOt6iZnVJ537aAfvSGLP6oqYqP+ISknOHTdW/jNBNBPn9vtM9fs6
-	dAvl6Yq+xRC+98OaLSWCCkZHJO2SnrfBaiP+PsGoIF5jWOTZ207uiVdMuSTIf8K65OTR
-	uQDLAsD3uQTlwFFe4CjIFetkyOGT8iDMnzg37vBRguNVVQv4HxoCWG5bJU18i8skAa7R
-	ho/SgGJlXcZu/EQuogMa22jENv9vsdLCK0zFY162XkoGbZqHTWPknr7FxUSYKcvr5TRR
-	snAZsFhM6o+Od4A934IlXS8T6yOIWGozCeom4LOcdENbPBmwbhKMy3oGg7nKd2R4Y1JS
-	vD2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-type:content-transfer-encoding;
-	bh=6xx4JjIzJz3LzQJgScnFEA+IqQfFSMf0oyYNx0XBqmg=;
-	b=f3JaF9oZxTORIGMNDOEqTZV+Cf6jD7Q9RKdf63Exw6EIzVLDL29+pqxnC4bW6nuCUD
-	fO4/iVa8TeUNhDuzUEkQpP9Y92BoEk8a8uzdRkMgtfE6nR8KDzp/S92V9Snr0TT5HpyS
-	T9i4ELkXLgFvHY19bnkuzfH2+LLKuZI7dghelcsrl9zzwaHFe2HO+rKFrJLgtGiRzk3+
-	w9GB9bFVD3QV+O/UhPQwQDvmcLS9AbdmeqffV3Hm99RkJHnVQx6FEsRfSn+IacDL1iuX
-	ZshI0MF2rv/hOGZDwAcfUHFI6ay0rqvdcdb0kb7uNPsZYp/syqggE38d6PBSxcNQvJu4
-	FqLw==
-X-Gm-Message-State: ALoCoQm6H/q2MA5ahJ3qGJhsdAXmYF40NtjlrXUfqMdgtqQe1+KJwjUmTsddEvrs2VbxqrlVWw7nfyEhxDMkOD1nl3ECxZy7FQ==
-X-Received: by 10.194.209.195 with SMTP id mo3mr21142694wjc.16.1449851055058; 
-	Fri, 11 Dec 2015 08:24:15 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id m190sm932133wma.5.2015.12.11.08.24.13
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 11 Dec 2015 08:24:14 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Dec 2015 16:24:11 +0000
-Message-Id: <cover.1449850996.git.ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
+	Fri, 11 Dec 2015 16:25:42 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 11 Dec 2015 08:25:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,414,1444719600"; 
+	d="scan'208,217";a="616495362"
+Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
+	by FMSMGA003.fm.intel.com with ESMTP; 11 Dec 2015 08:25:43 -0800
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.239]) by
+	FMSMSX108.amr.corp.intel.com ([169.254.9.130]) with mapi id
+	14.03.0248.002; Fri, 11 Dec 2015 08:25:42 -0800
+From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Yocto Project Status WW50
+Thread-Index: AdE0MI8x5AViAWdkTeiqlY/HFYxyPw==
+Date: Fri, 11 Dec 2015 16:25:41 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E56F70284@fmsmsx111.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.107]
 MIME-Version: 1.0
-Subject: [PATCH 00/57] Consolidated pull for master
+Subject: Yocto Project Status WW50
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,548 +39,477 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Dec 2015 16:24:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 11 Dec 2015 16:25:43 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E56F70284fmsmsx111amrcor_"
 
-Hi,
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E56F70284fmsmsx111amrcor_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Here is a consolidated pull for master featuring upgrades, fixes, and the first
-stage of musl integration.
+Current Dev Position: YP 2.1 M2
 
-Ross
-
-The following changes since commit 9cab798490100f0d1223abfe51f9f19dab40ab14:
-
-  toolchain-shar-extract.sh: fix ~ not working in path (2015-12-11 11:23:30 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/mut
-
-for you to fetch changes up to b861da2a7bc1910b07c7cf3d87636977dcd8fecf:
-
-  attr: Add patch to account for use of internal glibc header (2015-12-11 16:22:53 +0000)
-
-----------------------------------------------------------------
-Alexander Kanavin (9):
-      weston-init: add a native systemd unit file
-      openssl: update to 1.0.2e
-      python-setuptools: update to 18.7.1
-      nspr: update to 4.11
-      mobile-broadband-provider-info: update to current commit
-      mirrors: replace references to archive.apache.org
-      json-c: add manual upstream version check
-      subversion: update to 1.9.2
-      slang: update upstream URI to (official) jedsoft.org
-
-Andre McCurdy (6):
-      kernel.bbclass: drop unnecessary 'eval' from kernel_do_configure()
-      linux-libc-headers.inc: remove '-e MAKEFLAGS=' from EXTRA_OEMAKE
-      linux-libc-headers: update default KORG_ARCHIVE_COMPRESSION bz2 -> xz
-      dropbear: update 2015.70 -> 2015.71
-      dropbear.inc: drop legacy CFLAGS and LD tweaks
-      valgrind: import Debian link_tool patch for MIPS
-
-Aníbal Limón (1):
-      dev-manual: Fix errata in new kvm-vhost.
-
-Armin Kuster (1):
-      linux-firmware: update to latest
-
-Benjamin Esquivel (2):
-      oeqa/systemd: journalctl helper function
-      oeqa/systemd: get runtest target boot time and log
-
-Chen Qi (1):
-      cpio: fix test case of symlink-bad-length
-
-Cristian Iorga (1):
-      bluez5: upgrade to 5.36
-
-Daniel Istrate (1):
-      scripts: oe-selftest Added new features.
-
-Dmitry Eremin-Solenikov (2):
-      gcc-5.2: import patch fixing compilation in thumb mode
-      gcc-4.9: import patch fixing compilation in thumb mode
-
-Fan Xin (1):
-      sudo: upgrade to 1.8.15
-
-Hongxu Jia (1):
-      bash: fix testcase run-coproc/run-execscript/run-test/run-heredoc failed
-
-Humberto Ibarra (1):
-      scripts/yocto-layer: Avoids duplication of "meta-" prefix
-
-Jackie Huang (1):
-      python: Fix cross compiling issue
-
-Juro Bystricky (3):
-      oe-buildenv-internal: preserve existing BB_ENV_EXTRAWHITE
-      insane: in libdir test allow libraries in libexecdir
-      buildtools-tarball.bb: 32bit tools need pseudo 32bit library
-
-Jussi Kukkonen (1):
-      dropbear: Upgrade 2015.68 -> 2015.70
-
-Khem Raj (13):
-      gcc: Add support for building musl configuration
-      autoconf: Add musl support
-      gdb: Fix build with musl
-      mtd-utils: Backport and create patches to support musl
-      squashfs-tools: Define FNM_EXTMATCH if not defined
-      mtools: Use proper glibc override to add glibc packages to recommendations
-      musl: Add recipe
-      sysvinit: Fix build with musl
-      gettext: Delete libintl.h and charset.alias
-      busybox: Add config for musl
-      openssl: Add musl configuration support
-      libpam: Fix build with musl
-      attr: Add patch to account for use of internal glibc header
-
-Mariano Lopez (1):
-      rootfs.py: Change logic to unistall packages
-
-Mark Hatle (1):
-      rpm: Enable MIPS64 N32 transactions
-
-Martin Jansa (1):
-      texinfo: don't create dependency on INHERIT variable
-
-Mike Crowe (2):
-      icu: Upgrade 55.1 -> 56.1
-      gstreamer1.0: Split bash completion information into separate package
-
-Otavio Salvador (1):
-      lttng-tools: Revert wrong enforcement of Python 3.0 use
-
-Robert Yang (1):
-      rpm: fix file conflicts for MIPS64 N32
-
-Ross Burton (4):
-      cooker: use in instead of count
-      libsdl: expand PACKAGECONFIG and enable native builds
-      sudo: remove libdir INSANE_SKIP
-      attr: add attr dependency to attr-ptest
-
-Yuanjie Huang (1):
-      gcc-cross-initial: make dependency on gnu-config-native and autoconf-native explicit
-
- bitbake/lib/bb/cooker.py                           |    2 +-
- documentation/dev-manual/dev-manual-qemu.xml       |    8 +-
- meta/classes/insane.bbclass                        |    3 +-
- meta/classes/kernel.bbclass                        |    3 +-
- meta/classes/mirrors.bbclass                       |    2 +-
- meta/conf/bitbake.conf                             |    2 +-
- meta/lib/oe/rootfs.py                              |   41 +-
- meta/lib/oeqa/runtime/systemd.py                   |   75 +
- meta/recipes-connectivity/bluez5/bluez5.inc        |    1 +
- ...e-Fix-possible-crash-when-registering-pro.patch |   54 +
- .../bluez5/{bluez5_5.33.bb => bluez5_5.36.bb}      |    4 +-
- .../mobile-broadband-provider-info_git.bb          |    4 +-
- meta/recipes-connectivity/openssl/openssl.inc      |    4 +-
- .../openssl/openssl/configure-musl-target.patch    |   27 +
- .../{openssl_1.0.2d.bb => openssl_1.0.2e.bb}       |    5 +-
- meta/recipes-core/busybox/busybox/musl.cfg         |   12 +
- meta/recipes-core/busybox/busybox_1.24.1.bb        |    1 +
- meta/recipes-core/dropbear/dropbear.inc            |    3 -
- .../dropbear/0005-dropbear-enable-pam.patch        |   26 +-
- meta/recipes-core/dropbear/dropbear_2015.68.bb     |    4 -
- meta/recipes-core/dropbear/dropbear_2015.71.bb     |    5 +
- meta/recipes-core/gettext/gettext_0.16.1.bb        |    5 +
- meta/recipes-core/gettext/gettext_0.19.4.bb        |    4 +
- meta/recipes-core/meta/buildtools-tarball.bb       |    6 +
- meta/recipes-core/musl/musl.inc                    |   26 +
- meta/recipes-core/musl/musl_git.bb                 |   58 +
- meta/recipes-core/sysvinit/sysvinit/realpath.patch |   78 +
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |    1 +
- .../autoconf/autoconf/add_musl_config.patch        |   26 +
- meta/recipes-devtools/autoconf/autoconf_2.69.bb    |    1 +
- meta/recipes-devtools/gcc/gcc-4.9.inc              |    5 +
- .../gcc/gcc-4.9/0067-fix-arm-thumb.patch           |   39 +
- .../gcc/gcc-4.9/0067-gcc-musl-support.patch        |  267 +++
- .../gcc/gcc-4.9/0068-musl-dynamic-linker.patch     |  205 ++
- .../gcc/gcc-4.9/0069-musl-no-fixincludes.patch     |   21 +
- .../gcc/gcc-4.9/0070-libstdc-musl.patch            |   32 +
- meta/recipes-devtools/gcc/gcc-5.2.inc              |    5 +
- .../gcc/gcc-5.2/0043-fix-arm-thumb.patch           |   39 +
- .../gcc/gcc-5.2/0043-libstdc-musl.patch            |   32 +
- .../gcc/gcc-5.2/0044-gcc-musl-support.patch        |  267 +++
- .../gcc/gcc-5.2/0045-musl-dynamic-linker.patch     |  198 ++
- .../gcc/gcc-5.2/0046-musl-no-fixincludes.patch     |   22 +
- meta/recipes-devtools/gcc/gcc-cross-initial.inc    |    3 +
- meta/recipes-devtools/gdb/gdb.inc                  |    1 +
- ...0001-Use-exported-definitions-of-SIGRTMIN.patch |   54 +
- meta/recipes-devtools/json-c/json-c_0.12.bb        |    3 +
- .../mtd/mtd-utils/0001-Fix-build-with-musl.patch   |   53 +
- ...ibfec-use-standard-C-type-instead-of-u_lo.patch |   56 +
- .../mtd/mtd-utils/010-fix-rpmatch.patch            |   24 +
- meta/recipes-devtools/mtd/mtd-utils_git.bb         |    4 +
- meta/recipes-devtools/mtools/mtools_4.0.18.bb      |    4 +-
- ...uptools_18.2.bb => python-setuptools_18.7.1.bb} |    5 +-
- .../add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch |   31 +
- ...ptools_18.2.bb => python3-setuptools_18.7.1.bb} |    5 +-
- meta/recipes-devtools/python/python_2.7.9.bb       |    1 +
- ...ction.c-fix-file-conflicts-for-mips64-N32.patch |   52 +
- meta/recipes-devtools/rpm/rpm_5.4.14.bb            |    4 +
- .../squashfs-tools/squashfs-tools/fix-compat.patch |   63 +
- .../squashfs-tools/squashfs-tools_git.bb           |    1 +
- .../subversion/subversion-1.8.13/libtool2.patch    |   15 -
- .../subversion-CVE-2015-3184.patch                 | 2094 --------------------
- .../subversion-CVE-2015-3187.patch                 |  346 ----
- .../0001-Fix-libtool-name-in-configure.ac.patch    |   29 +
- .../disable_macos.patch                            |    0
- ...erf.m4-Regex-modified-to-allow-D-in-paths.patch |   14 +-
- .../{subversion_1.8.13.bb => subversion_1.9.2.bb}  |   12 +-
- .../valgrind/valgrind/11_mips-link-tool.patch      |   37 +
- meta/recipes-devtools/valgrind/valgrind_3.10.1.bb  |    1 +
- meta/recipes-extended/bash/bash.inc                |    3 +
- ...roc-run-heredoc-run-execscript-run-test-f.patch |  169 ++
- meta/recipes-extended/bash/bash/run-ptest          |    2 +-
- meta/recipes-extended/bash/bash_4.3.30.bb          |    1 +
- .../0001-fix-testcase-of-symlink-bad-length.patch  |   57 +
- meta/recipes-extended/cpio/cpio_2.11.bb            |    1 +
- ...upport-for-defining-missing-funcitonality.patch |   68 +
- .../pam/libpam/include_paths_header.patch          |   59 +
- meta/recipes-extended/pam/libpam_1.2.1.bb          |    5 +-
- meta/recipes-extended/slang/slang_2.2.4.bb         |    3 +-
- meta/recipes-extended/sudo/sudo.inc                |    5 -
- ...rrect-path-to-init.d-and-tmpfiles.d-files.patch |   31 -
- .../sudo/{sudo_1.8.14p3.bb => sudo_1.8.15.bb}      |    5 +-
- meta/recipes-extended/texinfo/texinfo_6.0.bb       |    2 +-
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |   37 +-
- meta/recipes-graphics/wayland/weston-init.bb       |   13 +-
- .../wayland/weston-init/weston.service             |   15 +
- .../linux-firmware/linux-firmware_git.bb           |   33 +-
- .../linux-libc-headers/linux-libc-headers.inc      |    5 +-
- .../linux-libc-headers/linux-libc-headers_4.1.bb   |    3 -
- ...d-look-for-python-3.0-when-building-pytho.patch |   30 +
- meta/recipes-kernel/lttng/lttng-tools_git.bb       |    1 +
- meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |    5 +-
- meta/recipes-support/attr/attr.inc                 |    4 +-
- meta/recipes-support/attr/attr_2.4.47.bb           |    4 +-
- .../attr/files/dont-use-decl-macros.patch          |   56 +
- .../icu/icu/icu-release-56-1-flagparser-fix.patch  |   24 +
- .../icu/{icu_55.1.bb => icu_56.1.bb}               |    5 +-
- .../nspr/{nspr_4.10.8.bb => nspr_4.11.bb}          |    9 +-
- scripts/oe-buildenv-internal                       |    6 +-
- scripts/oe-selftest                                |  218 +-
- scripts/yocto-layer                                |    6 +-
- 100 files changed, 2803 insertions(+), 2617 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
- rename meta/recipes-connectivity/bluez5/{bluez5_5.33.bb => bluez5_5.36.bb} (88%)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch
- rename meta/recipes-connectivity/openssl/{openssl_1.0.2d.bb => openssl_1.0.2e.bb} (92%)
- create mode 100644 meta/recipes-core/busybox/busybox/musl.cfg
- delete mode 100644 meta/recipes-core/dropbear/dropbear_2015.68.bb
- create mode 100644 meta/recipes-core/dropbear/dropbear_2015.71.bb
- create mode 100644 meta/recipes-core/musl/musl.inc
- create mode 100644 meta/recipes-core/musl/musl_git.bb
- create mode 100644 meta/recipes-core/sysvinit/sysvinit/realpath.patch
- create mode 100644 meta/recipes-devtools/autoconf/autoconf/add_musl_config.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0067-fix-arm-thumb.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0067-gcc-musl-support.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0068-musl-dynamic-linker.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0069-musl-no-fixincludes.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0070-libstdc-musl.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0043-fix-arm-thumb.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0043-libstdc-musl.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0044-gcc-musl-support.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0045-musl-dynamic-linker.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0046-musl-no-fixincludes.patch
- create mode 100644 meta/recipes-devtools/gdb/gdb/0001-Use-exported-definitions-of-SIGRTMIN.patch
- create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
- create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch
- create mode 100644 meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch
- rename meta/recipes-devtools/python/{python-setuptools_18.2.bb => python-setuptools_18.7.1.bb} (84%)
- create mode 100644 meta/recipes-devtools/python/python/add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch
- rename meta/recipes-devtools/python/{python3-setuptools_18.2.bb => python3-setuptools_18.7.1.bb} (91%)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lib-transaction.c-fix-file-conflicts-for-mips64-N32.patch
- create mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/fix-compat.patch
- delete mode 100644 meta/recipes-devtools/subversion/subversion-1.8.13/libtool2.patch
- delete mode 100644 meta/recipes-devtools/subversion/subversion-1.8.13/subversion-CVE-2015-3184.patch
- delete mode 100644 meta/recipes-devtools/subversion/subversion-1.8.13/subversion-CVE-2015-3187.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion/0001-Fix-libtool-name-in-configure.ac.patch
- rename meta/recipes-devtools/subversion/{subversion-1.8.13 => subversion}/disable_macos.patch (100%)
- rename meta/recipes-devtools/subversion/{subversion-1.8.13 => subversion}/serf.m4-Regex-modified-to-allow-D-in-paths.patch (59%)
- rename meta/recipes-devtools/subversion/{subversion_1.8.13.bb => subversion_1.9.2.bb} (90%)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/11_mips-link-tool.patch
- create mode 100644 meta/recipes-extended/bash/bash/fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch
- create mode 100644 meta/recipes-extended/cpio/cpio-2.11/0001-fix-testcase-of-symlink-bad-length.patch
- create mode 100644 meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
- create mode 100644 meta/recipes-extended/pam/libpam/include_paths_header.patch
- delete mode 100644 meta/recipes-extended/sudo/sudo/0001-Use-correct-path-to-init.d-and-tmpfiles.d-files.patch
- rename meta/recipes-extended/sudo/{sudo_1.8.14p3.bb => sudo_1.8.15.bb} (86%)
- create mode 100644 meta/recipes-graphics/wayland/weston-init/weston.service
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools/Revert-Build-look-for-python-3.0-when-building-pytho.patch
- create mode 100644 meta/recipes-support/attr/files/dont-use-decl-macros.patch
- create mode 100644 meta/recipes-support/icu/icu/icu-release-56-1-flagparser-fix.patch
- rename meta/recipes-support/icu/{icu_55.1.bb => icu_56.1.bb} (78%)
- rename meta/recipes-support/nspr/{nspr_4.10.8.bb => nspr_4.11.bb} (93%)
-
-Alexander Kanavin (9):
-  weston-init: add a native systemd unit file
-  openssl: update to 1.0.2e
-  python-setuptools: update to 18.7.1
-  nspr: update to 4.11
-  mobile-broadband-provider-info: update to current commit
-  mirrors: replace references to archive.apache.org
-  json-c: add manual upstream version check
-  subversion: update to 1.9.2
-  slang: update upstream URI to (official) jedsoft.org
-
-Andre McCurdy (6):
-  kernel.bbclass: drop unnecessary 'eval' from kernel_do_configure()
-  linux-libc-headers.inc: remove '-e MAKEFLAGS=' from EXTRA_OEMAKE
-  linux-libc-headers: update default KORG_ARCHIVE_COMPRESSION bz2 -> xz
-  dropbear: update 2015.70 -> 2015.71
-  dropbear.inc: drop legacy CFLAGS and LD tweaks
-  valgrind: import Debian link_tool patch for MIPS
-
-Aníbal Limón (1):
-  dev-manual: Fix errata in new kvm-vhost.
-
-Armin Kuster (1):
-  linux-firmware: update to latest
-
-Benjamin Esquivel (2):
-  oeqa/systemd: journalctl helper function
-  oeqa/systemd: get runtest target boot time and log
-
-Chen Qi (1):
-  cpio: fix test case of symlink-bad-length
-
-Cristian Iorga (1):
-  bluez5: upgrade to 5.36
-
-Daniel Istrate (1):
-  scripts: oe-selftest Added new features.
-
-Dmitry Eremin-Solenikov (2):
-  gcc-5.2: import patch fixing compilation in thumb mode
-  gcc-4.9: import patch fixing compilation in thumb mode
-
-Fan Xin (1):
-  sudo: upgrade to 1.8.15
-
-Hongxu Jia (1):
-  bash: fix testcase run-coproc/run-execscript/run-test/run-heredoc
-    failed
-
-Humberto Ibarra (1):
-  scripts/yocto-layer: Avoids duplication of "meta-" prefix
-
-Jackie Huang (1):
-  python: Fix cross compiling issue
-
-Juro Bystricky (3):
-  oe-buildenv-internal: preserve existing BB_ENV_EXTRAWHITE
-  insane: in libdir test allow libraries in libexecdir
-  buildtools-tarball.bb: 32bit tools need pseudo 32bit library
-
-Jussi Kukkonen (1):
-  dropbear: Upgrade 2015.68 -> 2015.70
-
-Khem Raj (13):
-  gcc: Add support for building musl configuration
-  autoconf: Add musl support
-  gdb: Fix build with musl
-  mtd-utils: Backport and create patches to support musl
-  squashfs-tools: Define FNM_EXTMATCH if not defined
-  mtools: Use proper glibc override to add glibc packages to
-    recommendations
-  musl: Add recipe
-  sysvinit: Fix build with musl
-  gettext: Delete libintl.h and charset.alias
-  busybox: Add config for musl
-  openssl: Add musl configuration support
-  libpam: Fix build with musl
-  attr: Add patch to account for use of internal glibc header
-
-Mariano Lopez (1):
-  rootfs.py: Change logic to unistall packages
-
-Mark Hatle (1):
-  rpm: Enable MIPS64 N32 transactions
-
-Martin Jansa (1):
-  texinfo: don't create dependency on INHERIT variable
-
-Mike Crowe (2):
-  icu: Upgrade 55.1 -> 56.1
-  gstreamer1.0: Split bash completion information into separate package
-
-Otavio Salvador (1):
-  lttng-tools: Revert wrong enforcement of Python 3.0 use
-
-Robert Yang (1):
-  rpm: fix file conflicts for MIPS64 N32
-
-Ross Burton (4):
-  cooker: use in instead of count
-  libsdl: expand PACKAGECONFIG and enable native builds
-  sudo: remove libdir INSANE_SKIP
-  attr: add attr dependency to attr-ptest
-
-Yuanjie Huang (1):
-  gcc-cross-initial: make dependency on gnu-config-native and
-    autoconf-native explicit
-
- bitbake/lib/bb/cooker.py                           |    2 +-
- documentation/dev-manual/dev-manual-qemu.xml       |    8 +-
- meta/classes/insane.bbclass                        |    3 +-
- meta/classes/kernel.bbclass                        |    3 +-
- meta/classes/mirrors.bbclass                       |    2 +-
- meta/conf/bitbake.conf                             |    2 +-
- meta/lib/oe/rootfs.py                              |   41 +-
- meta/lib/oeqa/runtime/systemd.py                   |   75 +
- meta/recipes-connectivity/bluez5/bluez5.inc        |    1 +
- ...e-Fix-possible-crash-when-registering-pro.patch |   54 +
- .../bluez5/{bluez5_5.33.bb => bluez5_5.36.bb}      |    4 +-
- .../mobile-broadband-provider-info_git.bb          |    4 +-
- meta/recipes-connectivity/openssl/openssl.inc      |    4 +-
- .../openssl/openssl/configure-musl-target.patch    |   27 +
- .../{openssl_1.0.2d.bb => openssl_1.0.2e.bb}       |    5 +-
- meta/recipes-core/busybox/busybox/musl.cfg         |   12 +
- meta/recipes-core/busybox/busybox_1.24.1.bb        |    1 +
- meta/recipes-core/dropbear/dropbear.inc            |    3 -
- .../dropbear/0005-dropbear-enable-pam.patch        |   26 +-
- meta/recipes-core/dropbear/dropbear_2015.68.bb     |    4 -
- meta/recipes-core/dropbear/dropbear_2015.71.bb     |    5 +
- meta/recipes-core/gettext/gettext_0.16.1.bb        |    5 +
- meta/recipes-core/gettext/gettext_0.19.4.bb        |    4 +
- meta/recipes-core/meta/buildtools-tarball.bb       |    6 +
- meta/recipes-core/musl/musl.inc                    |   26 +
- meta/recipes-core/musl/musl_git.bb                 |   58 +
- meta/recipes-core/sysvinit/sysvinit/realpath.patch |   78 +
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |    1 +
- .../autoconf/autoconf/add_musl_config.patch        |   26 +
- meta/recipes-devtools/autoconf/autoconf_2.69.bb    |    1 +
- meta/recipes-devtools/gcc/gcc-4.9.inc              |    5 +
- .../gcc/gcc-4.9/0067-fix-arm-thumb.patch           |   39 +
- .../gcc/gcc-4.9/0067-gcc-musl-support.patch        |  267 +++
- .../gcc/gcc-4.9/0068-musl-dynamic-linker.patch     |  205 ++
- .../gcc/gcc-4.9/0069-musl-no-fixincludes.patch     |   21 +
- .../gcc/gcc-4.9/0070-libstdc-musl.patch            |   32 +
- meta/recipes-devtools/gcc/gcc-5.2.inc              |    5 +
- .../gcc/gcc-5.2/0043-fix-arm-thumb.patch           |   39 +
- .../gcc/gcc-5.2/0043-libstdc-musl.patch            |   32 +
- .../gcc/gcc-5.2/0044-gcc-musl-support.patch        |  267 +++
- .../gcc/gcc-5.2/0045-musl-dynamic-linker.patch     |  198 ++
- .../gcc/gcc-5.2/0046-musl-no-fixincludes.patch     |   22 +
- meta/recipes-devtools/gcc/gcc-cross-initial.inc    |    3 +
- meta/recipes-devtools/gdb/gdb.inc                  |    1 +
- ...0001-Use-exported-definitions-of-SIGRTMIN.patch |   54 +
- meta/recipes-devtools/json-c/json-c_0.12.bb        |    3 +
- .../mtd/mtd-utils/0001-Fix-build-with-musl.patch   |   53 +
- ...ibfec-use-standard-C-type-instead-of-u_lo.patch |   56 +
- .../mtd/mtd-utils/010-fix-rpmatch.patch            |   24 +
- meta/recipes-devtools/mtd/mtd-utils_git.bb         |    4 +
- meta/recipes-devtools/mtools/mtools_4.0.18.bb      |    4 +-
- ...uptools_18.2.bb => python-setuptools_18.7.1.bb} |    5 +-
- .../add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch |   31 +
- ...ptools_18.2.bb => python3-setuptools_18.7.1.bb} |    5 +-
- meta/recipes-devtools/python/python_2.7.9.bb       |    1 +
- ...ction.c-fix-file-conflicts-for-mips64-N32.patch |   52 +
- meta/recipes-devtools/rpm/rpm_5.4.14.bb            |    4 +
- .../squashfs-tools/squashfs-tools/fix-compat.patch |   63 +
- .../squashfs-tools/squashfs-tools_git.bb           |    1 +
- .../subversion/subversion-1.8.13/libtool2.patch    |   15 -
- .../subversion-CVE-2015-3184.patch                 | 2094 --------------------
- .../subversion-CVE-2015-3187.patch                 |  346 ----
- .../0001-Fix-libtool-name-in-configure.ac.patch    |   29 +
- .../disable_macos.patch                            |    0
- ...erf.m4-Regex-modified-to-allow-D-in-paths.patch |   14 +-
- .../{subversion_1.8.13.bb => subversion_1.9.2.bb}  |   12 +-
- .../valgrind/valgrind/11_mips-link-tool.patch      |   37 +
- meta/recipes-devtools/valgrind/valgrind_3.10.1.bb  |    1 +
- meta/recipes-extended/bash/bash.inc                |    3 +
- ...roc-run-heredoc-run-execscript-run-test-f.patch |  169 ++
- meta/recipes-extended/bash/bash/run-ptest          |    2 +-
- meta/recipes-extended/bash/bash_4.3.30.bb          |    1 +
- .../0001-fix-testcase-of-symlink-bad-length.patch  |   57 +
- meta/recipes-extended/cpio/cpio_2.11.bb            |    1 +
- ...upport-for-defining-missing-funcitonality.patch |   68 +
- .../pam/libpam/include_paths_header.patch          |   59 +
- meta/recipes-extended/pam/libpam_1.2.1.bb          |    5 +-
- meta/recipes-extended/slang/slang_2.2.4.bb         |    3 +-
- meta/recipes-extended/sudo/sudo.inc                |    5 -
- ...rrect-path-to-init.d-and-tmpfiles.d-files.patch |   31 -
- .../sudo/{sudo_1.8.14p3.bb => sudo_1.8.15.bb}      |    5 +-
- meta/recipes-extended/texinfo/texinfo_6.0.bb       |    2 +-
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |   37 +-
- meta/recipes-graphics/wayland/weston-init.bb       |   13 +-
- .../wayland/weston-init/weston.service             |   15 +
- .../linux-firmware/linux-firmware_git.bb           |   33 +-
- .../linux-libc-headers/linux-libc-headers.inc      |    5 +-
- .../linux-libc-headers/linux-libc-headers_4.1.bb   |    3 -
- ...d-look-for-python-3.0-when-building-pytho.patch |   30 +
- meta/recipes-kernel/lttng/lttng-tools_git.bb       |    1 +
- meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |    5 +-
- meta/recipes-support/attr/attr.inc                 |    4 +-
- meta/recipes-support/attr/attr_2.4.47.bb           |    4 +-
- .../attr/files/dont-use-decl-macros.patch          |   56 +
- .../icu/icu/icu-release-56-1-flagparser-fix.patch  |   24 +
- .../icu/{icu_55.1.bb => icu_56.1.bb}               |    5 +-
- .../nspr/{nspr_4.10.8.bb => nspr_4.11.bb}          |    9 +-
- scripts/oe-buildenv-internal                       |    6 +-
- scripts/oe-selftest                                |  218 +-
- scripts/yocto-layer                                |    6 +-
- 100 files changed, 2803 insertions(+), 2617 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
- rename meta/recipes-connectivity/bluez5/{bluez5_5.33.bb => bluez5_5.36.bb} (88%)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/configure-musl-target.patch
- rename meta/recipes-connectivity/openssl/{openssl_1.0.2d.bb => openssl_1.0.2e.bb} (92%)
- create mode 100644 meta/recipes-core/busybox/busybox/musl.cfg
- delete mode 100644 meta/recipes-core/dropbear/dropbear_2015.68.bb
- create mode 100644 meta/recipes-core/dropbear/dropbear_2015.71.bb
- create mode 100644 meta/recipes-core/musl/musl.inc
- create mode 100644 meta/recipes-core/musl/musl_git.bb
- create mode 100644 meta/recipes-core/sysvinit/sysvinit/realpath.patch
- create mode 100644 meta/recipes-devtools/autoconf/autoconf/add_musl_config.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0067-fix-arm-thumb.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0067-gcc-musl-support.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0068-musl-dynamic-linker.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0069-musl-no-fixincludes.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0070-libstdc-musl.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0043-fix-arm-thumb.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0043-libstdc-musl.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0044-gcc-musl-support.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0045-musl-dynamic-linker.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-5.2/0046-musl-no-fixincludes.patch
- create mode 100644 meta/recipes-devtools/gdb/gdb/0001-Use-exported-definitions-of-SIGRTMIN.patch
- create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
- create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch
- create mode 100644 meta/recipes-devtools/mtd/mtd-utils/010-fix-rpmatch.patch
- rename meta/recipes-devtools/python/{python-setuptools_18.2.bb => python-setuptools_18.7.1.bb} (84%)
- create mode 100644 meta/recipes-devtools/python/python/add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch
- rename meta/recipes-devtools/python/{python3-setuptools_18.2.bb => python3-setuptools_18.7.1.bb} (91%)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lib-transaction.c-fix-file-conflicts-for-mips64-N32.patch
- create mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/fix-compat.patch
- delete mode 100644 meta/recipes-devtools/subversion/subversion-1.8.13/libtool2.patch
- delete mode 100644 meta/recipes-devtools/subversion/subversion-1.8.13/subversion-CVE-2015-3184.patch
- delete mode 100644 meta/recipes-devtools/subversion/subversion-1.8.13/subversion-CVE-2015-3187.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion/0001-Fix-libtool-name-in-configure.ac.patch
- rename meta/recipes-devtools/subversion/{subversion-1.8.13 => subversion}/disable_macos.patch (100%)
- rename meta/recipes-devtools/subversion/{subversion-1.8.13 => subversion}/serf.m4-Regex-modified-to-allow-D-in-paths.patch (59%)
- rename meta/recipes-devtools/subversion/{subversion_1.8.13.bb => subversion_1.9.2.bb} (90%)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/11_mips-link-tool.patch
- create mode 100644 meta/recipes-extended/bash/bash/fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch
- create mode 100644 meta/recipes-extended/cpio/cpio-2.11/0001-fix-testcase-of-symlink-bad-length.patch
- create mode 100644 meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
- create mode 100644 meta/recipes-extended/pam/libpam/include_paths_header.patch
- delete mode 100644 meta/recipes-extended/sudo/sudo/0001-Use-correct-path-to-init.d-and-tmpfiles.d-files.patch
- rename meta/recipes-extended/sudo/{sudo_1.8.14p3.bb => sudo_1.8.15.bb} (86%)
- create mode 100644 meta/recipes-graphics/wayland/weston-init/weston.service
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools/Revert-Build-look-for-python-3.0-when-building-pytho.patch
- create mode 100644 meta/recipes-support/attr/files/dont-use-decl-macros.patch
- create mode 100644 meta/recipes-support/icu/icu/icu-release-56-1-flagparser-fix.patch
- rename meta/recipes-support/icu/{icu_55.1.bb => icu_56.1.bb} (78%)
- rename meta/recipes-support/nspr/{nspr_4.10.8.bb => nspr_4.11.bb} (93%)
-
--- 
-2.1.4
+Next Deadline: YP 2.1 M2 Cutoff (Feature Freeze) date is January 25, 2016 n=
+oon GMT
 
 
+SWAT team rotation: Beth -> Saul
+
+https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
+
+
+Key Status/Updates:
+
+*         M1 release has been build and passed to QA
+
+*         Patch stabilization continues to be a problem, many patches causi=
+ng failures which slow down patch merging
+
+*         Various things missed M1, primarily due to it being a short miles=
+tone because of the overrun of 2.0 stabilization
+
+*         Some key changes upcoming, automation of -dbg packages, tinfoil2 =
+and default to memory resident bitbake, perhaps default of using uninative =
+for poky, require expansion parameter to getVar, gobject introspection, lib=
+execdir changes, musl integration.
+
+
+Key YP 2.1 Dates:
+
+YP 2.1 M1 Target release date is December 24, 2015
+
+YP 2.1 M2 Cutoff (Feature Freeze) date is January 25, 2016 noon GMT
+
+YP 2.1 M2 Target release date is February 12, 2016
+
+YP 2.1 M3 Cutoff (Feature Freeze) date is February 29, 2016 noon GMT
+
+YP 2.1 M3 Target release date is March 18, 2016
+
+YP 2.1 M4 / Final Cutoff: March 28, 2016 noon GMT - Stabilization only mile=
+stone.
+
+YP 2.1 Final Release Target: April 29, 2016
+
+
+Key Status Links for YP:
+
+https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.1_Status
+
+https://wiki.yoctoproject.org/wiki/Yocto_2.1_Schedule
+
+https://wiki.yoctoproject.org/wiki/Yocto_2.1_Features
+
+
+Tracking Metrics:
+
+            WDD 2300 (last week 2228)
+
+(https://wiki.yoctoproject.org/charts/combo.html)
+
+[If anyone has suggestions for other information you'd like to see on this =
+weekly status update, let us know!]
+
+Thanks,
+
+Stephen K. Jolley
+Yocto Project Program Manager
+INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+*   Work Telephone:          (503) 712-0534
+*    Cell:                                (208) 244-4460
+* Email:                             stephen.k.jolley@intel.com
+
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E56F70284fmsmsx111amrcor_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:p=3D"urn:schemas-m=
+icrosoft-com:office:powerpoint" xmlns:a=3D"urn:schemas-microsoft-com:office=
+:access" xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns:s=3D"=
+uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" xmlns:rs=3D"urn:schemas-microsof=
+t-com:rowset" xmlns:z=3D"#RowsetSchema" xmlns:b=3D"urn:schemas-microsoft-co=
+m:office:publisher" xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadshee=
+t" xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" xmlns=
+:odc=3D"urn:schemas-microsoft-com:office:odc" xmlns:oa=3D"urn:schemas-micro=
+soft-com:office:activation" xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
+xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" xmlns:rtc=3D"http://m=
+icrosoft.com/officenet/conferencing" xmlns:D=3D"DAV:" xmlns:Repl=3D"http://=
+schemas.microsoft.com/repl/" xmlns:mt=3D"http://schemas.microsoft.com/share=
+point/soap/meetings/" xmlns:x2=3D"http://schemas.microsoft.com/office/excel=
+/2003/xml" xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" xmlns:ois=
+=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" xmlns:dir=3D"http://=
+schemas.microsoft.com/sharepoint/soap/directory/" xmlns:ds=3D"http://www.w3=
+.org/2000/09/xmldsig#" xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint=
+/dsp" xmlns:udc=3D"http://schemas.microsoft.com/data/udc" xmlns:xsd=3D"http=
+://www.w3.org/2001/XMLSchema" xmlns:sub=3D"http://schemas.microsoft.com/sha=
+repoint/soap/2002/1/alerts/" xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#"=
+ xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" xmlns:sps=3D"http://=
+schemas.microsoft.com/sharepoint/soap/" xmlns:xsi=3D"http://www.w3.org/2001=
+/XMLSchema-instance" xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/so=
+ap" xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" xmlns:udc=
+p2p=3D"http://schemas.microsoft.com/data/udc/parttopart" xmlns:wf=3D"http:/=
+/schemas.microsoft.com/sharepoint/soap/workflow/" xmlns:dsss=3D"http://sche=
+mas.microsoft.com/office/2006/digsig-setup" xmlns:dssi=3D"http://schemas.mi=
+crosoft.com/office/2006/digsig" xmlns:mdssi=3D"http://schemas.openxmlformat=
+s.org/package/2006/digital-signature" xmlns:mver=3D"http://schemas.openxmlf=
+ormats.org/markup-compatibility/2006" xmlns:m=3D"http://schemas.microsoft.c=
+om/office/2004/12/omml" xmlns:mrels=3D"http://schemas.openxmlformats.org/pa=
+ckage/2006/relationships" xmlns:spwp=3D"http://microsoft.com/sharepoint/web=
+partpages" xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/20=
+06/types" xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/200=
+6/messages" xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/Sli=
+deLibrary/" xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortal=
+Server/PublishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" xmlns:=
+st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+p
+	{mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+span.apple-tab-span
+	{mso-style-name:apple-tab-span;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:1865367502;
+	mso-list-template-ids:-445212160;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Curren=
+t Dev Position: YP 2.1 M2</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Next D=
+eadline: YP 2.1 M2 Cutoff (Feature Freeze) date is January 25, 2016 noon GM=
+T</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">SWAT t=
+eam rotation: Beth -&gt; Saul</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_Build_Failure_Swat_Team"><span style=3D"font-size:11=
+.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki=
+/Yocto_Build_Failure_Swat_Team</span></a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Key St=
+atus/Updates:</span><o:p></o:p></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+1;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
+ &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">M1 release has been b=
+uild and passed to QA<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+1;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
+ &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Patch stabilization c=
+ontinues to be a problem, many patches causing failures which slow down pat=
+ch merging<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+1;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
+ &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Various things missed=
+ M1, primarily due to it being a short milestone because of the overrun of =
+2.0 stabilization
+<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
+1;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">&middot;<span style=3D"font:7.0pt=
+ &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Some key changes upco=
+ming, automation of -dbg packages, tinfoil2 and default to memory resident =
+bitbake, perhaps default of using uninative for poky,
+ require expansion parameter to getVar, gobject introspection, libexecdir c=
+hanges, musl integration.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
+mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Key YP=
+ 2.1 Dates:</span><o:p></o:p></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt">
+<span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
+rif&quot;;color:black">YP 2.1 M1 Target release date is December 24, 2015</=
+span><o:p></o:p></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt">
+<span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
+rif&quot;;color:black">YP 2.1 M2 Cutoff (Feature Freeze) date is January 25=
+, 2016 noon GMT</span><o:p></o:p></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt">
+<span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
+rif&quot;;color:black">YP 2.1 M2 Target release date is February 12, 2016</=
+span><o:p></o:p></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt">
+<span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
+rif&quot;;color:black">YP 2.1 M3 Cutoff (Feature Freeze) date is February 2=
+9, 2016 noon GMT</span><o:p></o:p></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt">
+<span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
+rif&quot;;color:black">YP 2.1 M3 Target release date is March 18, 2016</spa=
+n><o:p></o:p></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt">
+<span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
+rif&quot;;color:black">YP 2.1 M4 / Final Cutoff: March 28, 2016 noon GMT - =
+Stabilization only milestone.</span><o:p></o:p></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt">
+<span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,&quot;sans-se=
+rif&quot;;color:black">YP 2.1 Final Release Target: April 29, 2016</span><o=
+:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Key St=
+atus Links for YP:</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_Project_v2.1_Status"><span style=3D"font-size:11.0pt=
+;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yoc=
+to_Project_v2.1_Status</span></a><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_2.1_Schedule"><span style=3D"font-size:11.0pt;font-f=
+amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.1_=
+Schedule</span></a><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_2.1_Features"><span style=3D"font-size:11.0pt;font-f=
+amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.1_=
+Features</span></a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Tracki=
+ng Metrics:</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span class=3D"apple-tab-span=
+"><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,&quot;sans-=
+serif&quot;;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;
+</span></span><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;=
+,&quot;sans-serif&quot;;color:black">WDD 2300 (last week 2228)</span><o:p><=
+/o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt;text-indent:.5in"><span style=
+=3D"font-size:11.0pt;font-family:Consolas;color:black">(</span><a href=3D"h=
+ttps://wiki.yoctoproject.org/charts/combo.html"><span style=3D"font-size:11=
+.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:#1155CC">ht=
+tps://wiki.yoctoproject.org/charts/combo.html</span></a><span style=3D"font=
+-size:11.0pt;font-family:Consolas;color:black">)</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><br>
+<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:b=
+lack">[If anyone has suggestions for other information you&#8217;d like to =
+see on this weekly status update, let us know!]<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
+ans-serif&quot;;color:black"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
+ans-serif&quot;;color:black">Thanks,</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
+ot;,&quot;serif&quot;;color:purple">Stephen K. Jolley</span></i></b><b><i><=
+span style=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-se=
+rif&quot;;color:purple"><o:p></o:p></span></i></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
+Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
+or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:Wingdings;color:black">(<=
+/span><span style=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">
+</span><span style=3D"font-size:8.0pt;font-family:&quot;MS Sans Serif&quot;=
+;color:teal">&nbsp;&nbsp;</span><b><span style=3D"font-size:8.0pt;font-fami=
+ly:&quot;Comic Sans MS&quot;;color:teal">Work Telephone</span></b><span sty=
+le=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(503) 712-0534<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
+ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
+</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
+ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
+quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+">* </span>
+<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
+MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
+.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
+=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;
+<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
+span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,&q=
+uot;sans-serif&quot;"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155E56F70284fmsmsx111amrcor_--
