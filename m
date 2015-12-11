@@ -1,24 +1,36 @@
-Return-Path: <Wenlin.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AAD8E65CBF
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwkm04.jp.fujitsu.com (mgwkm04.jp.fujitsu.com [202.219.69.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F8AB60616
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 06:16:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBB6GwJC008552
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Fri, 11 Dec 2015 07:23:08 +0000 (UTC)
+Received: from kw-mxq.gw.nic.fujitsu.com (unknown [192.168.231.130]) by
+	mgwkm04.jp.fujitsu.com with smtp
+	id 0ea0_3928_f09d7d51_0bb4_470a_b040_8f26af236022;
+	Fri, 11 Dec 2015 16:23:05 +0900
+Received: from g01jpfmpwyt03.exch.g01.fujitsu.local
+	(g01jpfmpwyt03.exch.g01.fujitsu.local [10.128.193.57])
+	by kw-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id 94E09AC03C2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Dec 2015 22:16:58 -0800
-Received: from pek-wkang-u14.corp.ad.wrs.com (128.224.162.238) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 10 Dec 2015 22:16:57 -0800
-From: Wenlin Kang <wenlin.kang@windriver.com>
+	Fri, 11 Dec 2015 16:23:04 +0900 (JST)
+Received: from g01jpexchyt38.g01.fujitsu.local (unknown [10.128.193.4])
+	by g01jpfmpwyt03.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	A0BE946E450 for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Dec 2015 16:23:03 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchyt38.g01.fujitsu.local (10.128.193.68) with Microsoft SMTP
+	Server id 14.3.266.1; Fri, 11 Dec 2015 16:23:01 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 11 Dec 2015 14:16:53 +0800
-Message-ID: <1449814613-3094-1-git-send-email-wenlin.kang@windriver.com>
+Date: Fri, 11 Dec 2015 16:24:08 +0900
+Message-ID: <1449818648-29055-1-git-send-email-fan.xin@jp.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <CAJTo0LZR3Jy8rvGQEsjGquZXKHpFnhSqWgHNh4k711xnLJqw2Q@mail.gmail.com>
+References: <CAJTo0LZR3Jy8rvGQEsjGquZXKHpFnhSqWgHNh4k711xnLJqw2Q@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] kexec-tools: added the script kdump
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-MML: disable
+Cc: Fan Xin <fan.xin@jp.fujitsu.com>
+Subject: [PATCH v2][jethro] openssl: fix for CVE-2015-1794
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,252 +43,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Dec 2015 06:17:00 -0000
+X-List-Received-Date: Fri, 11 Dec 2015 07:23:13 -0000
 Content-Type: text/plain
 
-Added the script file kdump,it provides the follow support:
-1. Load a kdump kernel image into memory;
-2. Copy away vmcore when system panic.
+This patch was imported from
+https://git.openssl.org/?p=openssl.git;a=commit;h=ada57746b6b80beae73111fe1291bf8dd89af91c
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 ---
- meta/recipes-kernel/kexec/kexec-tools.inc        |   5 +-
- meta/recipes-kernel/kexec/kexec-tools/kdump      | 163 +++++++++++++++++++++++
- meta/recipes-kernel/kexec/kexec-tools/kdump.conf |  18 +++
- meta/recipes-kernel/kexec/kexec-tools_2.0.10.bb  |   8 ++
- 4 files changed, 193 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-kernel/kexec/kexec-tools/kdump
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/kdump.conf
+ .../Fix-seg-fault-with-0-p-val-in-SKE.patch        | 103 +++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   1 +
+ 2 files changed, 104 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/Fix-seg-fault-with-0-p-val-in-SKE.patch
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools.inc b/meta/recipes-kernel/kexec/kexec-tools.inc
-index 7797a25..758a3a7 100644
---- a/meta/recipes-kernel/kexec/kexec-tools.inc
-+++ b/meta/recipes-kernel/kexec/kexec-tools.inc
-@@ -8,7 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a \
-                     file://kexec/kexec.c;beginline=1;endline=20;md5=af10f6ae4a8715965e648aa687ad3e09"
- DEPENDS = "zlib xz"
- 
--SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz"
-+SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz \
-+           file://kdump \
-+           file://kdump.conf \
-+"
- 
- PR = "r1"
- 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/kdump b/meta/recipes-kernel/kexec/kexec-tools/kdump
-new file mode 100755
-index 0000000..3fb133f
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/kdump
-@@ -0,0 +1,163 @@
-+#! /bin/sh
-+#
-+#  kdump
-+#
-+#  Description: The kdump script provides the support:
-+#		1. Load a kdump kernel image into memory;
-+#		2. Copy away vmcore when system panic.
-+#
-+
-+#default
-+KDUMP_KVER="`uname -r`"
-+KDUMP_KIMAGE="/boot/bzImage-${KDUMP_KVER}"
-+KDUMP_CMDLINE="`cat /proc/cmdline`"
-+KDUMP_CMDLINE_APPEND="kdump_needed maxcpus=1 irqpoll reset_devices"
-+KDUMP_VMCORE_PATH="/var/crash/`date +"%Y-%m-%d"`"
-+
-+#get right kernel image
-+march="`uname -m`"
-+case ${march} in
-+	x86*|i?86)
-+		;;
-+		*)
-+		KDUMP_KIMAGE="/boot/uImage-${KDUMP_KVER}"
-+		;;
-+esac
-+
-+KEXEC=usr/sbin/kexec
-+KEXEC_ARGS="-p"
-+
-+MAKEDUMPFILE=/usr/bin/makedumpfile
-+MAKEDUMPFILE_ARGS="-E -d 1"
-+
-+LOGGER="logger -p info -t kdump"
-+
-+if [ -f /etc/sysconfig/kdump.conf ]; then
-+	. /etc/sysconfig/kdump.conf
-+fi
-+
-+do_check()
-+{
-+	#check makedumpfile
-+	if [ ! -e ${MAKEDUMPFILE} -o ! -x ${MAKEDUMPFILE} ] ;then
-+		echo "No makedumpfile found."
-+		return 1;
-+	fi
-+
-+	#check kexec
-+	if [ ! -e ${KEXEC} -o ! -x ${KEXEC} ] ;then
-+		echo "No kexec found."
-+		return 1;
-+	fi
-+
-+	#check whether kdump kernel image exists on the system
-+	if [ ! -f ${KDUMP_KIMAGE} ]; then
-+		echo "No kdump kernel image found."
-+		return 1
-+	fi
-+}
-+
-+do_save_vmcore()
-+{
-+	mkdir -p ${KDUMP_VMCORE_PATH}
-+	echo "Saving a vmcore to ${KDUMP_VMCORE_PATH}."
-+
-+	${MAKEDUMPFILE} ${MAKEDUMPFILE_ARGS} /proc/vmcore ${KDUMP_VMCORE_PATH}/vmcore-"`date +"%H:%M:%S"`"
-+#	cp --sparse=always /proc/vmcore ${KDUMP_VMCORE_PATH}/vmcore-"`date +"%H:%M:%S"`"
-+	rc=$?
-+	if [ ${rc} == 0 ]; then
-+		${LOGGER} "Saved a vmcore to ${KDUMP_VMCORE_PATH}."
-+	else
-+		${LOGGER} "Failed to save vmcore!"
-+	fi
-+	return ${rc}
-+}
-+
-+do_start()
-+{
-+	#check file
-+	do_check
-+
-+	#check whether the running kernel supports kdump.
-+	if [ ! -e /sys/kernel/kexec_crash_loaded ]; then
-+		echo "Kdump isn't supported on the running kernel!!!"
-+		${LOGGER} "Kdump isn't supported on the running kernel!!!"
-+		return 1
-+	fi
-+
-+	#check whether kdump kernel image has been loaded
-+	rc=`cat /sys/kernel/kexec_crash_loaded`
-+	if [ ${rc} != 0 ]; then
-+		echo "Kdump is already running.";
-+		${LOGGER} "Kdump is already running."
-+		return 0
-+	fi
-+
-+	#check the running kernel cmdline option,insure "crashkenrel=" always set.
-+	grep -q crashkernel= /proc/cmdline
-+	if [ $? != 0 ]; then
-+		echo "Kdump isn't supported on the running kernel,please check boot option!!!"
-+		${LOGGER} "Kdump isn't supported on the running kernel,please check boot option!!!"
-+		return 1
-+	fi
-+
-+	#handle kdump cmdline parameters, remove some useless options
-+	kcmdline=""
-+	for x in `cat /proc/cmdline`; do
-+		case $x in
-+			crashkernel*)
-+				;;
-+			*)
-+				kcmdline="${kcmdline} $x"
-+				;;
-+		esac
-+	done
-+
-+	KDUMP_CMDLINE="${kcmdline} ${KDUMP_CMDLINE_APPEND}"
-+
-+	#Load the kdump kernel image
-+	${KEXEC} ${KEXEC_ARGS} "${KDUMP_KIMAGE}" --append="${KDUMP_CMDLINE}"
-+	if [ $? != 0 ]; then
-+		echo "Failed to load kdump kernel!"
-+		${LOGGER} "Failed to load kdump kernel!"
-+		return 1
-+	fi
-+
-+	echo "Kdump started up."
-+	${LOGGER} "Kdump started up."
-+}
-+
-+do_stop()
-+{
-+	${KEXEC} -p -u 2>/dev/null
-+	if [ $? == 0 ]; then
-+		echo "Kdump has been stopped."
-+		${LOGGER} "Kdump has been stopped."
-+	else
-+		echo "Failed to stop kdump!"
-+		${LOGGER} "Failed to stop kdump!"
-+	fi
-+}
-+
-+case "$1" in
-+  start)
-+	if [ -s /proc/vmcore ]; then
-+		do_save_vmcore
-+		reboot
-+	else
-+		do_start
-+	fi
-+	;;
-+ restart)
-+	do_stop
-+	do_start
-+	;;
-+  stop)
-+	do_stop
-+	;;
-+   *)
-+	echo $"Usage: $0 {start|stop|restart}"
-+	exit 1
-+esac
-+
-+exit $?
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/kdump.conf b/meta/recipes-kernel/kexec/kexec-tools/kdump.conf
+diff --git a/meta/recipes-connectivity/openssl/openssl/Fix-seg-fault-with-0-p-val-in-SKE.patch b/meta/recipes-connectivity/openssl/openssl/Fix-seg-fault-with-0-p-val-in-SKE.patch
 new file mode 100644
-index 0000000..42a2435
+index 0000000..e6715e5
 --- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/kdump.conf
-@@ -0,0 +1,18 @@
-+#the kdump kernel version string.
-+#KDUMP_KVER="`uname -r`"
++++ b/meta/recipes-connectivity/openssl/openssl/Fix-seg-fault-with-0-p-val-in-SKE.patch
+@@ -0,0 +1,103 @@
++Upstream-Status: Backport
 +
-+#this will be passed to the kdump kernel as kdump kernel command line, it
-+#usually comes from /proc/cmdline
-+#KDUMP_CMDLINE="`cat /proc/cmdline`"
++Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 +
-+# append arguments to the kdump commandline
-+#KDUMP_CMDLINE_APPEND="kdump_needed maxcpus=1 irqpoll reset_devices"
++From ada57746b6b80beae73111fe1291bf8dd89af91c Mon Sep 17 00:00:00 2001
++From: Guy Leaver (guleaver) <guleaver@cisco.com>
++Date: Fri, 7 Aug 2015 15:45:21 +0100
++Subject: [PATCH] Fix seg fault with 0 p val in SKE
 +
-+#the kernel image for kdump
-+#KDUMP_KIMAGE="/boot/bzImage-${KDUMP_KVER}"
++If a client receives a ServerKeyExchange for an anon DH ciphersuite with the
++value of p set to 0 then a seg fault can occur. This commits adds a test to
++reject p, g and pub key parameters that have a 0 value (in accordance with
++RFC 5246)
 +
-+#Where to save the vmcore
-+#KDUMP_VMCORE_PATH="/var/crash/`date +"%Y-%m-%d"`"
++The security vulnerability only affects master and 1.0.2, but the fix is
++additionally applied to 1.0.1 for additional confidence.
 +
-+#the arguments to makedumpfile
-+MAKEDUMPFILE_ARGS="--dump-dmesg -x /boot/vmlinux-`uname -r`"
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.10.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.10.bb
-index ffdb983..f211217 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.10.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.10.bb
-@@ -17,6 +17,14 @@ PACKAGES =+ "kexec kdump vmcore-dmesg"
- ALLOW_EMPTY_${PN} = "1"
- RRECOMMENDS_${PN} = "kexec kdump vmcore-dmesg"
++CVE-2015-1794
++
++Reviewed-by: Richard Levitte <levitte@openssl.org>
++Reviewed-by: Matt Caswell <matt@openssl.org>
++---
++ ssl/s3_clnt.c |   16 ++++++++++++++++
++ ssl/ssl.h     |    3 +++
++ ssl/ssl_err.c |    3 +++
++ 3 files changed, 22 insertions(+), 0 deletions(-)
++
++diff --git a/ssl/s3_clnt.c b/ssl/s3_clnt.c
++index 6af145a..2059151 100644
++--- a/ssl/s3_clnt.c
+++++ b/ssl/s3_clnt.c
++@@ -1699,6 +1699,12 @@ int ssl3_get_key_exchange(SSL *s)
++         }
++         p += i;
++ 
+++        if (BN_is_zero(dh->p)) {
+++            SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE, SSL_R_BAD_DH_P_VALUE);
+++            goto f_err;
+++        }
+++
+++
++         if (2 > n - param_len) {
++             SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE, SSL_R_LENGTH_TOO_SHORT);
++             goto f_err;
++@@ -1719,6 +1725,11 @@ int ssl3_get_key_exchange(SSL *s)
++         }
++         p += i;
++ 
+++        if (BN_is_zero(dh->g)) {
+++            SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE, SSL_R_BAD_DH_G_VALUE);
+++            goto f_err;
+++        }
+++
++         if (2 > n - param_len) {
++             SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE, SSL_R_LENGTH_TOO_SHORT);
++             goto f_err;
++@@ -1740,6 +1751,11 @@ int ssl3_get_key_exchange(SSL *s)
++         p += i;
++         n -= param_len;
++ 
+++        if (BN_is_zero(dh->pub_key)) {
+++            SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE, SSL_R_BAD_DH_PUB_KEY_VALUE);
+++            goto f_err;
+++        }
+++
++ # ifndef OPENSSL_NO_RSA
++         if (alg_a & SSL_aRSA)
++             pkey =
++diff --git a/ssl/ssl.h b/ssl/ssl.h
++index 6fe1a24..c6c5bce 100644
++--- a/ssl/ssl.h
+++++ b/ssl/ssl.h
++@@ -2846,8 +2846,11 @@ void ERR_load_SSL_strings(void);
++ # define SSL_R_BAD_DATA_RETURNED_BY_CALLBACK              106
++ # define SSL_R_BAD_DECOMPRESSION                          107
++ # define SSL_R_BAD_DH_G_LENGTH                            108
+++# define SSL_R_BAD_DH_G_VALUE                             375
++ # define SSL_R_BAD_DH_PUB_KEY_LENGTH                      109
+++# define SSL_R_BAD_DH_PUB_KEY_VALUE                       393
++ # define SSL_R_BAD_DH_P_LENGTH                            110
+++# define SSL_R_BAD_DH_P_VALUE                             395
++ # define SSL_R_BAD_DIGEST_LENGTH                          111
++ # define SSL_R_BAD_DSA_SIGNATURE                          112
++ # define SSL_R_BAD_ECC_CERT                               304
++diff --git a/ssl/ssl_err.c b/ssl/ssl_err.c
++index 1a6030e..202228b 100644
++--- a/ssl/ssl_err.c
+++++ b/ssl/ssl_err.c
++@@ -386,8 +386,11 @@ static ERR_STRING_DATA SSL_str_reasons[] = {
++      "bad data returned by callback"},
++     {ERR_REASON(SSL_R_BAD_DECOMPRESSION), "bad decompression"},
++     {ERR_REASON(SSL_R_BAD_DH_G_LENGTH), "bad dh g length"},
+++    {ERR_REASON(SSL_R_BAD_DH_G_VALUE), "bad dh g value"},
++     {ERR_REASON(SSL_R_BAD_DH_PUB_KEY_LENGTH), "bad dh pub key length"},
+++    {ERR_REASON(SSL_R_BAD_DH_PUB_KEY_VALUE), "bad dh pub key value"},
++     {ERR_REASON(SSL_R_BAD_DH_P_LENGTH), "bad dh p length"},
+++    {ERR_REASON(SSL_R_BAD_DH_P_VALUE), "bad dh p value"},
++     {ERR_REASON(SSL_R_BAD_DIGEST_LENGTH), "bad digest length"},
++     {ERR_REASON(SSL_R_BAD_DSA_SIGNATURE), "bad dsa signature"},
++     {ERR_REASON(SSL_R_BAD_ECC_CERT), "bad ecc cert"},
++-- 
++1.7.0.4
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+index 249f8c4..c5a2a65 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+@@ -37,6 +37,7 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
+             file://crypto_use_bigint_in_x86-64_perl.patch \
+             file://openssl-1.0.2a-x32-asm.patch \
+             file://ptest_makefile_deps.patch  \
++            file://Fix-seg-fault-with-0-p-val-in-SKE.patch  \
+            "
  
-+FILES_${PN} =+ "${sysconfig}/init.d/kdump ${sysconfig}/sysconfig/kdump.conf"
- FILES_kexec = "${sbindir}/kexec"
- FILES_kdump = "${sbindir}/kdump"
- FILES_vmcore-dmesg = "${sbindir}/vmcore-dmesg"
-+
-+do_install_append () {
-+        install -d ${D}${sysconfdir}/init.d
-+        install -m 0755 ${WORKDIR}/kdump ${D}${sysconfdir}/init.d/kdump
-+        install -d ${D}${sysconfdir}/sysconfig
-+        install -m 0644 ${WORKDIR}/kdump.conf ${D}${sysconfdir}/sysconfig
-+}
+ SRC_URI[md5sum] = "38dd619b2e77cbac69b99f52a053d25a"
 -- 
-1.9.1
+1.8.4.2
 
 
