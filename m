@@ -1,35 +1,51 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 4952A6FFA1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F8D46FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 21:32:45 +0000 (UTC)
-Received: by wmnn186 with SMTP id n186so49106165wmn.0
+	Fri, 11 Dec 2015 21:39:40 +0000 (UTC)
+Received: by iouu10 with SMTP id u10so143089453iou.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 13:32:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	Fri, 11 Dec 2015 13:39:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=6ZCP0frzOJpuhHJxY3+OUIY+XWyETXUsw0hyuHbOQTA=;
-	b=E1pT/pyiPeGGd+yqQJ+NtmbmeiQzqjfdPuFyp9JqOwRgp6OHjSghUzaVW7FyRCanHC
-	3ZRv3QhOoNcBFHFmOQI4kqInsTLKmxfHF1FbO9IiawI1yr7hr3j+GT/XcTQk9ykz+I6b
-	QoizV0MT/hOS/Fhx9uwqlk2XdvIGYRd8eVWhJQtJZGe2u6KqqL0z04UoVcBzI2nzS2SL
-	CxEffwoyYbJlxYi4Eqc5ROB+rrTcIWLIi2IBps7atHgmbyfCQTMNpAxSUJ/Cf0oCumlC
-	S9tOgMDJqe5BmcgKCdRTtCOZrdA582EDiSPxVR+92kYYQUcRXKyMBmUB5r1tea6U1OfV
-	2VqA==
+	bh=T6XEvAUCjVqy2305YsIrDwu2PeFQQHjgp2/LkxSFiXo=;
+	b=vMg49PBF1NGJlbAl8EQYiMD5LbzNK4xKpXJ0SWZb+gZSHi2Qsi2aWcTlWWZp/4F/EE
+	GF3VZ/35I1Cy6AQmGBhBk/F5BkRD2keHEuUF5JkkC57ASi/7n4gG4waJ7qhO8K1PBetg
+	ePvw1oX+RbaO0dybJy7CHd+GOCpKDaQ2h0/eYhrgqbQECVX/Q7FcJWhWJmVcCLU+49te
+	Fd6HqKFshzPrnF5JQTHaMjsYwZPMkjArU6vlm4OpWF2EeRUYrCzGfEC7EmvFuCXhtZ6C
+	cXN27/jEML3H5QT99cCX/ooNVztMFQ0T+Chy60wO+FH6wvAAD1iQl/3wQlnT4dlR65/f
+	hegQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=T6XEvAUCjVqy2305YsIrDwu2PeFQQHjgp2/LkxSFiXo=;
+	b=e+3fyo5Q7o7mng6hD12AGBsQZop4xvTGlUAK3Gu+nGpExJdpDM792NLuMEgHNCRr17
+	mJVVM1MgW2WJ85JnSow2vdborHbbO2SznF1W6LQyIcJNgJf5vpOTKYUAc9blt0UQtBQC
+	ypGd+w2c2z9bGKP2EdI4u9FwQAn1ZV8rCNCwJGaXLOENgVwGR/VQxN5NGk9Jf70Dh61o
+	qo5dy5O0RMOOtdQIP3wjNZfvSIYaiHmGGoX0DCgz3UOnX/h+b7tUaUHQqDLlwlT8y52N
+	ZCOLQvpB6D4IFzXuhPJnaCe58NvhBkQF/X3RbWtsUvO9YNR73QDt7gyJqYVLI/GNcU/n
+	VrMg==
+X-Gm-Message-State: ALoCoQlkcG6IP9RqFbDMvsDwa0wEUV9H7/CMkWeR6KJ4f+FTw/T0XTbWbgAVSo7pc+XeDrmTJ9LIGXDw7uwNJFjU9hOdhBy346bQK38swWNweGVuXhY80NQ=
+X-Received: by 10.107.130.155 with SMTP id m27mr20966464ioi.133.1449869981180; 
+	Fri, 11 Dec 2015 13:39:41 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.194.116.170 with SMTP id jx10mr21829790wjb.166.1449869566439;
-	Fri, 11 Dec 2015 13:32:46 -0800 (PST)
-Received: by 10.194.2.15 with HTTP; Fri, 11 Dec 2015 13:32:46 -0800 (PST)
-In-Reply-To: <1449869359-2915-1-git-send-email-alejandro.delcastillo@ni.com>
-References: <CAJ86T=WinR1iEU-7QwQ1j75174dM8S+oY6H3WZgudXUyoOaX7A@mail.gmail.com>
-	<1449869359-2915-1-git-send-email-alejandro.delcastillo@ni.com>
-Date: Fri, 11 Dec 2015 22:32:46 +0100
-Message-ID: <CA+chaQfoFMrgSjwW6Pj0Pfzu=UdeuB+hh-d0qimmeMqt2B5y8A@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] libsolv: add new recipe
+Received: by 10.107.136.141 with HTTP; Fri, 11 Dec 2015 13:39:21 -0800 (PST)
+In-Reply-To: <11321f065e34ca094a0aff494291662852f05805.1445522417.git.andrew.shadura@collabora.co.uk>
+References: <CAJTo0LZ4eNqiyX0JzPEb=FLAk=k=2p2c2+c5mKd77a0zquepAw@mail.gmail.com>
+	<94093E93-77C6-403A-9E9F-69C02C6C8D11@collabora.co.uk>
+	<CAJTo0Lada89cW8Hs=P65aHfRKiiZuu13jDu3PO=3NkJq_Wt7xA@mail.gmail.com>
+	<c64105ff4adca9a4e05280aa52644919d646d660.1445449278.git.andrew.shadura@collabora.co.uk>
+	<11321f065e34ca094a0aff494291662852f05805.1445522417.git.andrew.shadura@collabora.co.uk>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 11 Dec 2015 21:39:21 +0000
+Message-ID: <CAJTo0LbyG07bauQnVJeHYCcZ9=zhjFZdj44E1vS-kXHMVuq0BQ@mail.gmail.com>
+To: Andrew Shadura <andrew.shadura@collabora.co.uk>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] cups: update systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,159 +58,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Dec 2015 21:32:46 -0000
-Content-Type: multipart/alternative; boundary=001a1130cd247a791b0526a61061
+X-List-Received-Date: Fri, 11 Dec 2015 21:39:43 -0000
+Content-Type: multipart/alternative; boundary=001a113ecd9432f67c0526a6293d
 
---001a1130cd247a791b0526a61061
+--001a113ecd9432f67c0526a6293d
 Content-Type: text/plain; charset=UTF-8
 
-branch=master is the default, you can drop it
+On 22 October 2015 at 15:00, Andrew Shadura <andrew.shadura@collabora.co.uk>
+wrote:
 
-As you set the PV inside it would be nicer to rename it to _git.bb so it's
-clear that it's from git.
-
-On Fri, Dec 11, 2015 at 10:29 PM, Alejandro del Castillo <
-alejandro.delcastillo@ni.com> wrote:
-
-> Required by the optional opkg 0.3.1 libsolv backend.
+> Add PACKAGECONFIG for systemd, enable it when systemd is enabled
+> in DISTRO_FEATURES. Pass the correct path to systemd units,
+> ensure they're installed into the package.
 >
-> Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-> ---
->  meta/recipes-extended/libsolv/libsolv_0.6.14.bb | 28
-> +++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
->  create mode 100644 meta/recipes-extended/libsolv/libsolv_0.6.14.bb
->
-> diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.14.bb
-> b/meta/recipes-extended/libsolv/libsolv_0.6.14.bb
-> new file mode 100644
-> index 0000000..11d6c70
-> --- /dev/null
-> +++ b/meta/recipes-extended/libsolv/libsolv_0.6.14.bb
-> @@ -0,0 +1,28 @@
-> +SUMMARY = "Library for solving packages and reading repositories"
-> +HOMEPAGE = "https://github.com/openSUSE/libsolv"
-> +BUGTRACKER = "https://github.com/openSUSE/libsolv/issues"
-> +SECTION = "devel"
-> +LICENSE = "BSD-3-Clause"
-> +LIC_FILES_CHKSUM =
-> "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
-> +
-> +DEPENDS = "expat zlib"
-> +
-> +PV = "0.6.14+git${SRCPV}"
-> +
-> +SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master"
-> +SRCREV = "b1ea39233f86cd62fbab1964d7497244f6be0087"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +inherit cmake
-> +
-> +EXTRA_OECMAKE = "-DLIB=${baselib}"
-> +
-> +PACKAGES =+ "${PN}-tools ${PN}ext ${PN}ext-dbg"
-> +
-> +FILES_${PN}-dev += "${datadir}/cmake/Modules/FindLibSolv.cmake"
-> +FILES_${PN}-tools = "${bindir}/*"
-> +FILES_${PN}ext = "${libdir}/${PN}ext.so.*"
-> +FILES_${PN}ext-dbg = "${libdir}/.debug/${PN}ext.so.*"
-> +
-> +BBCLASSEXTEND =+ "native nativesdk"
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Drop custom systemd unit files, use those shipped by the upstream
+> instead.
 >
 
---001a1130cd247a791b0526a61061
+Sorry for the delay in looking at this.  buildhistory-diff reports this:
+
+packages/corei7-64-poky-linux/cups/cups: FILELIST: removed
+"/etc/rc2.d/S81cups /lib/systemd/system/cups.service /etc/rc5.d/S81cups
+/etc/rc5.d/K36cups /etc/rc0.d/K36cups /etc/rc2.d/K36cups /etc/rc3.d/S81cups
+/etc/rc3.d/K36cups /lib/systemd/system/cups.socket
+/lib/systemd/system/cups.path /etc/init.d/cups" added
+"/lib/systemd/system/org.cups.cupsd.socket
+/lib/systemd/system/org.cups.cupsd.service
+/lib/systemd/system/org.cups.cups-lpd@.service
+/lib/systemd/system/org.cups.cupsd.path
+/lib/systemd/system/org.cups.cups-lpd.socket"
+
+Looks like if systemd is enabled it removes the sysvinit files, but we
+still need those installed if sysvinit is in DISTRO_FEATURES.
+
+Also the configure script checks for libsystemd-daemon which we don't build
+by default, so we'll either need to enable compat in systemd or patch
+configure to look for the new library name.  To be honest so much is
+silently breaking that I think we should enable compat in systemd...
+
+Ross
+
+--001a113ecd9432f67c0526a6293d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">branch=3Dmaster is the default, you can drop it<div><br></=
-div><div>As you set the PV inside it would be nicer to rename it to _<a hre=
-f=3D"http://git.bb">git.bb</a> so it&#39;s clear that it&#39;s from git.</d=
-iv></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Fri, =
-Dec 11, 2015 at 10:29 PM, Alejandro del Castillo <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:alejandro.delcastillo@ni.com" target=3D"_blank">alejandro.del=
-castillo@ni.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><sp=
-an class=3D"">Required by the optional opkg 0.3.1 libsolv backend.<br>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 October 2015 at 15:00, Andrew Shadura <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:andrew.shadura@collabora.co.uk" target=3D"_blank">andrew.shadura=
+@collabora.co.uk</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:=
+rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div style=3D"ov=
+erflow:hidden">Add PACKAGECONFIG for systemd, enable it when systemd is ena=
+bled<br>
+in DISTRO_FEATURES. Pass the correct path to systemd units,<br>
+ensure they&#39;re installed into the package.<br>
 <br>
-Signed-off-by: Alejandro del Castillo &lt;<a href=3D"mailto:alejandro.delca=
-stillo@ni.com">alejandro.delcastillo@ni.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-extended/libsolv/<a href=3D"http://libsolv_0.6.14.bb" re=
-l=3D"noreferrer" target=3D"_blank">libsolv_0.6.14.bb</a> | 28 +++++++++++++=
-++++++++++++<br>
-=C2=A01 file changed, 28 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-extended/libsolv/<a href=3D"http://li=
-bsolv_0.6.14.bb" rel=3D"noreferrer" target=3D"_blank">libsolv_0.6.14.bb</a>=
-<br>
-<br>
-diff --git a/meta/recipes-extended/libsolv/<a href=3D"http://libsolv_0.6.14=
-.bb" rel=3D"noreferrer" target=3D"_blank">libsolv_0.6.14.bb</a> b/meta/reci=
-pes-extended/libsolv/<a href=3D"http://libsolv_0.6.14.bb" rel=3D"noreferrer=
-" target=3D"_blank">libsolv_0.6.14.bb</a><br>
-new file mode 100644<br>
-</span>index 0000000..11d6c70<br>
-<span class=3D"">--- /dev/null<br>
-+++ b/meta/recipes-extended/libsolv/<a href=3D"http://libsolv_0.6.14.bb" re=
-l=3D"noreferrer" target=3D"_blank">libsolv_0.6.14.bb</a><br>
-@@ -0,0 +1,28 @@<br>
-+SUMMARY =3D &quot;Library for solving packages and reading repositories&qu=
-ot;<br>
-+HOMEPAGE =3D &quot;<a href=3D"https://github.com/openSUSE/libsolv" rel=3D"=
-noreferrer" target=3D"_blank">https://github.com/openSUSE/libsolv</a>&quot;=
-<br>
-+BUGTRACKER =3D &quot;<a href=3D"https://github.com/openSUSE/libsolv/issues=
-" rel=3D"noreferrer" target=3D"_blank">https://github.com/openSUSE/libsolv/=
-issues</a>&quot;<br>
-+SECTION =3D &quot;devel&quot;<br>
-+LICENSE =3D &quot;BSD-3-Clause&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://LICENSE.BSD;md5=3D62272bd11c97396d4aaf1c=
-41bc11f7d8&quot;<br>
-+<br>
-</span><span class=3D"">+DEPENDS =3D &quot;expat zlib&quot;<br>
-+<br>
-</span>+PV =3D &quot;0.6.14+git${SRCPV}&quot;<br>
-+<br>
-+SRC_URI =3D &quot;git://<a href=3D"http://github.com/openSUSE/libsolv.git;=
-branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">github.com/openSUSE/l=
-ibsolv.git;branch=3Dmaster</a>&quot;<br>
-+SRCREV =3D &quot;b1ea39233f86cd62fbab1964d7497244f6be0087&quot;<br>
-+<br>
-+S =3D &quot;${WORKDIR}/git&quot;<br>
-+<br>
-<span class=3D"im HOEnZb">+inherit cmake<br>
-+<br>
-+EXTRA_OECMAKE =3D &quot;-DLIB=3D${baselib}&quot;<br>
-+<br>
-</span><div class=3D"HOEnZb"><div class=3D"h5">+PACKAGES =3D+ &quot;${PN}-t=
-ools ${PN}ext ${PN}ext-dbg&quot;<br>
-+<br>
-+FILES_${PN}-dev +=3D &quot;${datadir}/cmake/Modules/FindLibSolv.cmake&quot=
-;<br>
-+FILES_${PN}-tools =3D &quot;${bindir}/*&quot;<br>
-+FILES_${PN}ext =3D &quot;${libdir}/${PN}ext.so.*&quot;<br>
-+FILES_${PN}ext-dbg =3D &quot;${libdir}/.debug/${PN}ext.so.*&quot;<br>
-+<br>
-+BBCLASSEXTEND =3D+ &quot;native nativesdk&quot;<br>
---<br>
-1.9.1<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</div></div></blockquote></div><br></div>
+Drop custom systemd unit files, use those shipped by the upstream<br>
+instead.</div></blockquote></div><div class=3D"gmail_extra"><br></div>Sorry=
+ for the delay in looking at this. =C2=A0buildhistory-diff reports this:</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">packages=
+/corei7-64-poky-linux/cups/cups: FILELIST: removed &quot;/etc/rc2.d/S81cups=
+ /lib/systemd/system/cups.service /etc/rc5.d/S81cups /etc/rc5.d/K36cups /et=
+c/rc0.d/K36cups /etc/rc2.d/K36cups /etc/rc3.d/S81cups /etc/rc3.d/K36cups /l=
+ib/systemd/system/cups.socket /lib/systemd/system/cups.path /etc/init.d/cup=
+s&quot; added &quot;/lib/systemd/system/org.cups.cupsd.socket /lib/systemd/=
+system/org.cups.cupsd.service /lib/systemd/system/org.cups.cups-lpd@.servic=
+e /lib/systemd/system/org.cups.cupsd.path /lib/systemd/system/org.cups.cups=
+-lpd.socket&quot;<br></div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Looks like if systemd is enabled it removes the sysvinit f=
+iles, but we still need those installed if sysvinit is in DISTRO_FEATURES.<=
+/div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Also t=
+he configure script checks for libsystemd-daemon which we don&#39;t build b=
+y default, so we&#39;ll either need to enable compat in systemd or patch co=
+nfigure to look for the new library name.=C2=A0 To be honest so much is sil=
+ently breaking that I think we should enable compat in systemd...</div><div=
+ class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
+>
 
---001a1130cd247a791b0526a61061--
+--001a113ecd9432f67c0526a6293d--
