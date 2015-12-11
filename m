@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 25BED6FFDF
+	by mail.openembedded.org (Postfix) with ESMTP id CB6A66FFD3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 00:52:00 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 10 Dec 2015 16:52:01 -0800
+	Fri, 11 Dec 2015 03:12:10 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 10 Dec 2015 19:12:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,410,1444719600"; d="scan'208";a="871282135"
+X-IronPort-AV: E=Sophos;i="5.20,411,1444719600"; d="scan'208";a="838942720"
 Received: from exxie-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.172.26])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Dec 2015 16:51:59 -0800
+	by orsmga001.jf.intel.com with ESMTP; 10 Dec 2015 19:12:08 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Dec 2015 13:51:31 +1300
-Message-Id: <aedaf829fcf527c3d74abfeaccc35317a9b539c4.1449794902.git.paul.eggleton@linux.intel.com>
+Date: Fri, 11 Dec 2015 16:11:48 +1300
+Message-Id: <ad7389ae6f6a79ce04934369656e8bb214e7ab3b.1449803403.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1449794902.git.paul.eggleton@linux.intel.com>
-References: <cover.1449794902.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1449794902.git.paul.eggleton@linux.intel.com>
-References: <cover.1449794902.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] nativesdk-buildtools-perl-dummy: properly set PACKAGE_ARCH
+In-Reply-To: <cover.1449803403.git.paul.eggleton@linux.intel.com>
+References: <cover.1449803403.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1449803403.git.paul.eggleton@linux.intel.com>
+References: <cover.1449803403.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] toolchain-shar-extract.sh: fix ~ not working in path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Dec 2015 00:52:00 -0000
+X-List-Received-Date: Fri, 11 Dec 2015 03:12:11 -0000
 
-Turns out I did a silly thing in OE-Core revision
-9b1831cf4a2940dca1d23f14dff460ff5a50a520 and forgot to remove the
-explicit setting of PACKAGE_ARCH outside of the anonymous python
-function; the original bug was apparently fixed but the functionality of
-allarch.bbclass was being disabled because it was able to see that
-PACKAGE_ARCH was not set to "all" - which was what I was trying to
-ensure.
+Fix a second regression in the extensible SDK installation caused by
+OE-Core revision 6d2074d477596971dc52027dd87b02af7f39138d - the HOME
+environment variable was being cleared, thus using ~/ in the install
+path (which is in the default path for the extensible SDK) resulted in a
+directory named '~' being created in the current directory.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb | 2 --
- 1 file changed, 2 deletions(-)
+ meta/files/toolchain-shar-extract.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-index 6fb2b64..23c0a5c 100644
---- a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-+++ b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
-@@ -12,8 +12,6 @@ python() {
-     d.setVar('PACKAGE_ARCH', 'buildtools-dummy-${SDKPKGSUFFIX}')
- }
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 606a44e..de8c669 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -1,6 +1,6 @@
+ #!/bin/sh
  
--PACKAGE_ARCH = "buildtools-dummy-${SDKPKGSUFFIX}"
--
- PERLPACKAGES = "nativesdk-perl \
-                 nativesdk-perl-module-file-path"
+-[ -z "$ENVCLEANED" ] && exec /usr/bin/env -i ENVCLEANED=1 "$0" "$@"
++[ -z "$ENVCLEANED" ] && exec /usr/bin/env -i ENVCLEANED=1 HOME="$HOME" "$0" "$@"
+ [ -f /etc/environment ] && . /etc/environment
+ export PATH=`echo "$PATH" | sed -e 's/:\.//' -e 's/::/:/'`
  
 -- 
 2.5.0
