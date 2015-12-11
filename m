@@ -1,36 +1,35 @@
 Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwkm04.jp.fujitsu.com (mgwkm04.jp.fujitsu.com [202.219.69.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F8AB60616
+Received: from mgwym01.jp.fujitsu.com (mgwym01.jp.fujitsu.com [211.128.242.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 69F3F6AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 07:23:08 +0000 (UTC)
-Received: from kw-mxq.gw.nic.fujitsu.com (unknown [192.168.231.130]) by
-	mgwkm04.jp.fujitsu.com with smtp
-	id 0ea0_3928_f09d7d51_0bb4_470a_b040_8f26af236022;
-	Fri, 11 Dec 2015 16:23:05 +0900
-Received: from g01jpfmpwyt03.exch.g01.fujitsu.local
-	(g01jpfmpwyt03.exch.g01.fujitsu.local [10.128.193.57])
-	by kw-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id 94E09AC03C2
+	Fri, 11 Dec 2015 08:12:32 +0000 (UTC)
+Received: from yt-mxoi2.gw.nic.fujitsu.com (unknown [192.168.229.69]) by
+	mgwym01.jp.fujitsu.com with smtp
+	id 6465_13b7_8cf4d71f_e79e_41cc_8e26_2ff50d308be4;
+	Fri, 11 Dec 2015 17:12:26 +0900
+Received: from g01jpfmpwyt02.exch.g01.fujitsu.local
+	(g01jpfmpwyt02.exch.g01.fujitsu.local [10.128.193.56])
+	by yt-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id A1B98AC026B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 16:23:04 +0900 (JST)
-Received: from g01jpexchyt38.g01.fujitsu.local (unknown [10.128.193.4])
-	by g01jpfmpwyt03.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	A0BE946E450 for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 16:23:03 +0900 (JST)
+	Fri, 11 Dec 2015 17:12:26 +0900 (JST)
+Received: from G01JPEXCHYT16.g01.fujitsu.local
+	(G01JPEXCHYT16.g01.fujitsu.local [10.128.194.55])
+	by g01jpfmpwyt02.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	F0E8958427C for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Dec 2015 17:12:25 +0900 (JST)
 Received: from localhost.localdomain (10.24.19.99) by
-	g01jpexchyt38.g01.fujitsu.local (10.128.193.68) with Microsoft SMTP
-	Server id 14.3.266.1; Fri, 11 Dec 2015 16:23:01 +0900
+	G01JPEXCHYT16.g01.fujitsu.local (10.128.194.55) with Microsoft SMTP
+	Server id 14.3.266.1; Fri, 11 Dec 2015 17:12:25 +0900
 From: Fan Xin <fan.xin@jp.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 11 Dec 2015 16:24:08 +0900
-Message-ID: <1449818648-29055-1-git-send-email-fan.xin@jp.fujitsu.com>
+Date: Fri, 11 Dec 2015 17:13:30 +0900
+Message-ID: <1449821610-29533-1-git-send-email-fan.xin@jp.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <CAJTo0LZR3Jy8rvGQEsjGquZXKHpFnhSqWgHNh4k711xnLJqw2Q@mail.gmail.com>
-References: <CAJTo0LZR3Jy8rvGQEsjGquZXKHpFnhSqWgHNh4k711xnLJqw2Q@mail.gmail.com>
 MIME-Version: 1.0
 X-SecurityPolicyCheck-GC: OK by FENCE-Mail
 X-TM-AS-MML: disable
 Cc: Fan Xin <fan.xin@jp.fujitsu.com>
-Subject: [PATCH v2][jethro] openssl: fix for CVE-2015-1794
+Subject: [PATCH][dizzy][daisy][dylan] openssl: fix for CVE-2015-3195
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,140 +42,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Dec 2015 07:23:13 -0000
+X-List-Received-Date: Fri, 11 Dec 2015 08:12:34 -0000
 Content-Type: text/plain
 
-This patch was imported from
-https://git.openssl.org/?p=openssl.git;a=commit;h=ada57746b6b80beae73111fe1291bf8dd89af91c
+This vulnerability  affects OpenSSL versions 1.0.2 and 1.0.1, 1.0.0 and 0.9.8.
+So the patch also should be merged into dizzy, daisy and dylan.
 
 Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 ---
- .../Fix-seg-fault-with-0-p-val-in-SKE.patch        | 103 +++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.2d.bb |   1 +
- 2 files changed, 104 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/Fix-seg-fault-with-0-p-val-in-SKE.patch
+ .../0001-Fix-leak-with-ASN.1-combine.patch         | 65 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.1e.bb |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-leak-with-ASN.1-combine.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/Fix-seg-fault-with-0-p-val-in-SKE.patch b/meta/recipes-connectivity/openssl/openssl/Fix-seg-fault-with-0-p-val-in-SKE.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-leak-with-ASN.1-combine.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-leak-with-ASN.1-combine.patch
 new file mode 100644
-index 0000000..e6715e5
+index 0000000..5bda457
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/Fix-seg-fault-with-0-p-val-in-SKE.patch
-@@ -0,0 +1,103 @@
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-leak-with-ASN.1-combine.patch
+@@ -0,0 +1,65 @@
 +Upstream-Status: Backport
++
++This patch was imprted from
++https://git.openssl.org/?p=openssl.git;a=commit;h=cc598f321fbac9c04da5766243ed55d55948637d
 +
 +Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 +
-+From ada57746b6b80beae73111fe1291bf8dd89af91c Mon Sep 17 00:00:00 2001
-+From: Guy Leaver (guleaver) <guleaver@cisco.com>
-+Date: Fri, 7 Aug 2015 15:45:21 +0100
-+Subject: [PATCH] Fix seg fault with 0 p val in SKE
++From cc598f321fbac9c04da5766243ed55d55948637d Mon Sep 17 00:00:00 2001
++From: Dr. Stephen Henson <steve@openssl.org>
++Date: Tue, 10 Nov 2015 19:03:07 +0000
++Subject: [PATCH] Fix leak with ASN.1 combine.
 +
-+If a client receives a ServerKeyExchange for an anon DH ciphersuite with the
-+value of p set to 0 then a seg fault can occur. This commits adds a test to
-+reject p, g and pub key parameters that have a 0 value (in accordance with
-+RFC 5246)
++When parsing a combined structure pass a flag to the decode routine
++so on error a pointer to the parent structure is not zeroed as
++this will leak any additional components in the parent.
 +
-+The security vulnerability only affects master and 1.0.2, but the fix is
-+additionally applied to 1.0.1 for additional confidence.
++This can leak memory in any application parsing PKCS#7 or CMS structures.
 +
-+CVE-2015-1794
++CVE-2015-3195.
++
++Thanks to Adam Langley (Google/BoringSSL) for discovering this bug using
++libFuzzer.
++
++PR#4131
 +
 +Reviewed-by: Richard Levitte <levitte@openssl.org>
-+Reviewed-by: Matt Caswell <matt@openssl.org>
 +---
-+ ssl/s3_clnt.c |   16 ++++++++++++++++
-+ ssl/ssl.h     |    3 +++
-+ ssl/ssl_err.c |    3 +++
-+ 3 files changed, 22 insertions(+), 0 deletions(-)
++ crypto/asn1/tasn_dec.c |    7 +++++--
++ 1 files changed, 5 insertions(+), 2 deletions(-)
 +
-+diff --git a/ssl/s3_clnt.c b/ssl/s3_clnt.c
-+index 6af145a..2059151 100644
-+--- a/ssl/s3_clnt.c
-++++ b/ssl/s3_clnt.c
-+@@ -1699,6 +1699,12 @@ int ssl3_get_key_exchange(SSL *s)
-+         }
-+         p += i;
-+ 
-++        if (BN_is_zero(dh->p)) {
-++            SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE, SSL_R_BAD_DH_P_VALUE);
-++            goto f_err;
-++        }
-++
-++
-+         if (2 > n - param_len) {
-+             SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE, SSL_R_LENGTH_TOO_SHORT);
-+             goto f_err;
-+@@ -1719,6 +1725,11 @@ int ssl3_get_key_exchange(SSL *s)
-+         }
-+         p += i;
-+ 
-++        if (BN_is_zero(dh->g)) {
-++            SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE, SSL_R_BAD_DH_G_VALUE);
-++            goto f_err;
-++        }
-++
-+         if (2 > n - param_len) {
-+             SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE, SSL_R_LENGTH_TOO_SHORT);
-+             goto f_err;
-+@@ -1740,6 +1751,11 @@ int ssl3_get_key_exchange(SSL *s)
-+         p += i;
-+         n -= param_len;
-+ 
-++        if (BN_is_zero(dh->pub_key)) {
-++            SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE, SSL_R_BAD_DH_PUB_KEY_VALUE);
-++            goto f_err;
-++        }
-++
-+ # ifndef OPENSSL_NO_RSA
-+         if (alg_a & SSL_aRSA)
-+             pkey =
-+diff --git a/ssl/ssl.h b/ssl/ssl.h
-+index 6fe1a24..c6c5bce 100644
-+--- a/ssl/ssl.h
-++++ b/ssl/ssl.h
-+@@ -2846,8 +2846,11 @@ void ERR_load_SSL_strings(void);
-+ # define SSL_R_BAD_DATA_RETURNED_BY_CALLBACK              106
-+ # define SSL_R_BAD_DECOMPRESSION                          107
-+ # define SSL_R_BAD_DH_G_LENGTH                            108
-++# define SSL_R_BAD_DH_G_VALUE                             375
-+ # define SSL_R_BAD_DH_PUB_KEY_LENGTH                      109
-++# define SSL_R_BAD_DH_PUB_KEY_VALUE                       393
-+ # define SSL_R_BAD_DH_P_LENGTH                            110
-++# define SSL_R_BAD_DH_P_VALUE                             395
-+ # define SSL_R_BAD_DIGEST_LENGTH                          111
-+ # define SSL_R_BAD_DSA_SIGNATURE                          112
-+ # define SSL_R_BAD_ECC_CERT                               304
-+diff --git a/ssl/ssl_err.c b/ssl/ssl_err.c
-+index 1a6030e..202228b 100644
-+--- a/ssl/ssl_err.c
-++++ b/ssl/ssl_err.c
-+@@ -386,8 +386,11 @@ static ERR_STRING_DATA SSL_str_reasons[] = {
-+      "bad data returned by callback"},
-+     {ERR_REASON(SSL_R_BAD_DECOMPRESSION), "bad decompression"},
-+     {ERR_REASON(SSL_R_BAD_DH_G_LENGTH), "bad dh g length"},
-++    {ERR_REASON(SSL_R_BAD_DH_G_VALUE), "bad dh g value"},
-+     {ERR_REASON(SSL_R_BAD_DH_PUB_KEY_LENGTH), "bad dh pub key length"},
-++    {ERR_REASON(SSL_R_BAD_DH_PUB_KEY_VALUE), "bad dh pub key value"},
-+     {ERR_REASON(SSL_R_BAD_DH_P_LENGTH), "bad dh p length"},
-++    {ERR_REASON(SSL_R_BAD_DH_P_VALUE), "bad dh p value"},
-+     {ERR_REASON(SSL_R_BAD_DIGEST_LENGTH), "bad digest length"},
-+     {ERR_REASON(SSL_R_BAD_DSA_SIGNATURE), "bad dsa signature"},
-+     {ERR_REASON(SSL_R_BAD_ECC_CERT), "bad ecc cert"},
++diff --git a/crypto/asn1/tasn_dec.c b/crypto/asn1/tasn_dec.c
++index febf605..9256049 100644
++--- a/crypto/asn1/tasn_dec.c
+++++ b/crypto/asn1/tasn_dec.c
++@@ -180,6 +180,8 @@ int ASN1_item_ex_d2i(ASN1_VALUE **pval, const unsigned char **in, long len,
++     int otag;
++     int ret = 0;
++     ASN1_VALUE **pchptr, *ptmpval;
+++    int combine = aclass & ASN1_TFLG_COMBINE;
+++    aclass &= ~ASN1_TFLG_COMBINE;
++     if (!pval)
++         return 0;
++     if (aux && aux->asn1_cb)
++@@ -500,7 +502,8 @@ int ASN1_item_ex_d2i(ASN1_VALUE **pval, const unsigned char **in, long len,
++  auxerr:
++     ASN1err(ASN1_F_ASN1_ITEM_EX_D2I, ASN1_R_AUX_ERROR);
++  err:
++-    ASN1_item_ex_free(pval, it);
+++    if (combine == 0)
+++        ASN1_item_ex_free(pval, it);
++     if (errtt)
++         ERR_add_error_data(4, "Field=", errtt->field_name,
++                            ", Type=", it->sname);
++@@ -689,7 +692,7 @@ static int asn1_template_noexp_d2i(ASN1_VALUE **val,
++     } else {
++         /* Nothing special */
++         ret = ASN1_item_ex_d2i(val, &p, len, ASN1_ITEM_ptr(tt->item),
++-                               -1, 0, opt, ctx);
+++                               -1, tt->flags & ASN1_TFLG_COMBINE, opt, ctx);
++         if (!ret) {
++             ASN1err(ASN1_F_ASN1_TEMPLATE_NOEXP_D2I, ERR_R_NESTED_ASN1_ERROR);
++             goto err;
 +-- 
 +1.7.0.4
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-index 249f8c4..c5a2a65 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-@@ -37,6 +37,7 @@ SRC_URI += "file://find.pl;subdir=${BP}/util/ \
-             file://crypto_use_bigint_in_x86-64_perl.patch \
-             file://openssl-1.0.2a-x32-asm.patch \
-             file://ptest_makefile_deps.patch  \
-+            file://Fix-seg-fault-with-0-p-val-in-SKE.patch  \
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+index bc1b944..dbc2da2 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+@@ -37,6 +37,7 @@ SRC_URI += "file://configure-targets.patch \
+             file://0001-Use-version-in-SSL_METHOD-not-SSL-structure.patch \
+             file://CVE-2014-0160.patch \
+             file://openssl-CVE-2014-0198-fix.patch \
++            file://0001-Fix-leak-with-ASN.1-combine.patch \
             "
  
- SRC_URI[md5sum] = "38dd619b2e77cbac69b99f52a053d25a"
+ SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
 -- 
 1.8.4.2
 
