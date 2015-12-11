@@ -1,51 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id BCCE7607AB
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6362465CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 08:48:27 +0000 (UTC)
-Received: by igcto18 with SMTP id to18so33785677igc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 00:48:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=qC0IG1yXeFVgXh7RvMmYWyFG2SnX0DwDDo4+mmtSecY=;
-	b=DlXzLBvzU+/1MGpM8DWTwBPSrraawTf3zv4+5ACLJji0NlRy9lFCkpz2rIdmMbRMFN
-	+asmfC6yfUVURbfTSRiTwE1Lbni9PXNTX62AgkONpG97W1Iz/DSNwk7b+dCAe8fAf8yG
-	oH0YcStqhV3nqL6xih8Q1voawSPwJZap8a6mzT+w80ffLMIJfi/A3YdF8Zbvn3LGXbMO
-	YiSsr8DFp9XgxTVwJbSvpp6BuB0Set3kr+LyZVe6cEovyiYkmNSvO3USuIXe5kIB7fq4
-	Yy8fYHIN9CbD6KTIlqZwjnjidQuPGU/5EP72E9yGiEj/jPIFsTmtqab/PHtMwIzGHj2H
-	i4Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=qC0IG1yXeFVgXh7RvMmYWyFG2SnX0DwDDo4+mmtSecY=;
-	b=JKVL2AUmqBdZiNDDfvhqcnB1Id9KbJJjNr8SHIE42ORQTIIeABzsJfA16MiJhN6/34
-	5C6yjDJxrHeIZC/9EyTFPIOYsNDCodI2wtgwVzPdOCX7abHPGGJp5UcWqOU3BxJlioMq
-	ohl51n3JhP2PnCrs51kVDGJ4qxngnningqhI3lxblc7VRdBrXJWsq1/mYnPJcYHjuRG5
-	s+oruTmsatKkhzyd9naDJYjij/qRhuGMAaB/8CCtBg3011wyl+jboUkv/vgc+mi7VZPr
-	u3AlLWsguLamLPHPAzOm5vlhTnXP4Fn80hCC3dgbdc+L49hdn5J9dmevdnrHc3NkuLH7
-	Dp0Q==
-X-Gm-Message-State: ALoCoQnxRfLugJVtQq+/cdhEkklJCfcYkJqPADuSptT94TxhrFboi0xN+6XfQ+rPhiKgI2zYSxS4fvvfVxTwN8DQdaf51/EmWr6cxxAQHYzpGoNG8nTeCYA=
-X-Received: by 10.50.30.69 with SMTP id q5mr3719789igh.78.1449823707824; Fri,
-	11 Dec 2015 00:48:27 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Fri, 11 Dec 2015 00:48:08 -0800 (PST)
-In-Reply-To: <CA+chaQfNL8XPqxgLkBq=ZP98TMLqjo3Zq9Va0-eqCv0raOUCyg@mail.gmail.com>
-References: <1449702069-11889-1-git-send-email-alejandro.delcastillo@ni.com>
-	<1449782540-4416-1-git-send-email-alejandro.delcastillo@ni.com>
-	<CAJ86T=WinR1iEU-7QwQ1j75174dM8S+oY6H3WZgudXUyoOaX7A@mail.gmail.com>
-	<CAJTo0LaabSzVjvsSsQ7Gudunb7YOiuX8Zc=b27J+6_LNFwAT5w@mail.gmail.com>
-	<CA+chaQfNL8XPqxgLkBq=ZP98TMLqjo3Zq9Va0-eqCv0raOUCyg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 11 Dec 2015 08:48:08 +0000
-Message-ID: <CAJTo0LZKZn+xQu-jyuv9cOxJ1WjHhLizLLGUC7tfF12vjVw58Q@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] libsolv: add new recipe
+	Fri, 11 Dec 2015 09:54:09 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 Dec 2015 01:54:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,412,1444719600"; d="scan'208";a="839121303"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 11 Dec 2015 01:54:10 -0800
+Received: from localhost.localdomain (unknown [10.237.112.239])
+	by linux.intel.com (Postfix) with ESMTP id 134936A4087;
+	Fri, 11 Dec 2015 02:42:11 -0800 (PST)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Dec 2015 11:58:15 +0200
+Message-Id: <1449827895-5899-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oeqa/selftest: Added testcase decorators for 2 testcases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +30,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Dec 2015 08:48:28 -0000
-Content-Type: multipart/alternative; boundary=047d7bdc1c0c17a58005269b6350
+X-List-Received-Date: Fri, 11 Dec 2015 09:54:10 -0000
 
---047d7bdc1c0c17a58005269b6350
-Content-Type: text/plain; charset=UTF-8
+bblayers: test_bitbakelayers_showrecipes    1384
+wic:      test_directdisk_bootloader_config 1385
 
-On 11 December 2015 at 00:15, Martin Jansa <martin.jansa@gmail.com> wrote:
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+---
+ meta/lib/oeqa/selftest/bblayers.py | 1 +
+ meta/lib/oeqa/selftest/wic.py      | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-> I was hit by this regeneration again last month so it's still happening.
->
+diff --git a/meta/lib/oeqa/selftest/bblayers.py b/meta/lib/oeqa/selftest/bblayers.py
+index 5452925..b88c25e 100644
+--- a/meta/lib/oeqa/selftest/bblayers.py
++++ b/meta/lib/oeqa/selftest/bblayers.py
+@@ -61,6 +61,7 @@ class BitbakeLayers(oeSelfTest):
+         result = runCmd('bitbake-layers show-layers')
+         self.assertNotIn('meta-skeleton', result.output, msg = "meta-skeleton should have been removed at this step.  bitbake-layers show-layers output: %s" % result.output)
+ 
++    @testcase(1384)
+     def test_bitbakelayers_showrecipes(self):
+         result = runCmd('bitbake-layers show-recipes')
+         self.assertIn('aspell:', result.output)
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index f4404bf..55f6f82 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -257,7 +257,7 @@ class Wic(oeSelfTest):
+                                    % image).status)
+         self.assertEqual(1, len(glob(self.resultdir + "%s-*direct" % image)))
+ 
+-    #@testcase()
++    @testcase(1385)
+     def test_directdisk_bootloader_config(self):
+         """Test creation of directdisk-bootloader-config image"""
+         image = "directdisk-bootloader-config"
+-- 
+2.1.4
 
-That's very interesting, as I was assured by GitHub engineering that it
-wouldn't. :)  Can you recall what the archive was, and the before/after
-md5sums?
 
-Ross
-
---047d7bdc1c0c17a58005269b6350
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 December 2015 at 00:15, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">I wa=
-s hit by this regeneration again last month so it&#39;s still happening.</d=
-iv></blockquote><div><br></div><div>That&#39;s very interesting, as I was a=
-ssured by GitHub engineering that it wouldn&#39;t. :) =C2=A0Can you recall =
-what the archive was, and the before/after md5sums?</div><div><br></div><di=
-v>Ross=C2=A0</div></div></div></div>
-
---047d7bdc1c0c17a58005269b6350--
