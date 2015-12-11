@@ -1,68 +1,34 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E1656FF78
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id BE1D16E668
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 12:34:31 +0000 (UTC)
-Received: by pabur14 with SMTP id ur14so65325539pab.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 04:34:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-type;
-	bh=sVF7lTGYhMbVjeTbzoJL8JH6V/6p1kudtVYIO/Sc/Ac=;
-	b=MKm8yEgp9bfETD8rnM6YfSLNuJaqNNw8tHKqZ3maTMPo7ehfjLauaWNNovY0koqahq
-	VA9Ck0e0H2c3eOSdR4y53ELhDWO57J+QMSpmeHzfCXbqyvbzLXzVLeAKFRuRQqHCLLA+
-	qoPTpm6uoXosscXLG7DM1lXsbMaCjvYwWUFhvMkN7pQbM6ArV5dhcMLefITbGDy+hdhz
-	XN+ssB6syy2hSjrNBWmH8/Xc1dbYGUusQJqfqs8/alx2lBWLLvgIsVZtpUv0uXe4ChUr
-	beK7qtgzzDw6CR5KqOpbUm3hXeYTKla+XEOBktAavRKMZBaVgQQgBnsOCcq9EqzKdvrg
-	x8Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=sVF7lTGYhMbVjeTbzoJL8JH6V/6p1kudtVYIO/Sc/Ac=;
-	b=m/fwzlj+vI1daGo6hN15kDXDHslLinh1EYY8etLa+U/kBacRFRg57/11vFaPFH9piT
-	7MXEPqXKn+XwCcMn5rviuGLNWYE9L7yHz0GNBhzjwyXceEAcqUCSGwbFi/ndFSTot5X+
-	13i0p6mw0aMhen/djhLXzbgN/QfkHGvKdZIIB74H0dhiXTVc5tTKoMaMN9VUmV3mLABi
-	z95iXcuCzKkDt5BMjLadzisAMw5QvaRbRp9V/BobH48xFXlLxu6pVcD17XvNplabFQ58
-	OO2oZ5nVIIEaCquMaqY9kpYfOPNkCbekgjohLVsLh5Xd3Mu80RQIymks1TsyGYD7efTU
-	eWtg==
-X-Gm-Message-State: ALoCoQkE1vQPMocyvPLechO5oD2KA9OS231OXssDtjyChC3j4C4FT1kEYqWLsmaMHk1PLdGekpm85HiXZiAaibBCkJjxWIhd9g==
-X-Received: by 10.67.3.196 with SMTP id by4mr24361687pad.67.1449837271877;
-	Fri, 11 Dec 2015 04:34:31 -0800 (PST)
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com.
-	[209.85.220.41]) by smtp.gmail.com with ESMTPSA id
-	p26sm25027382pfi.94.2015.12.11.04.34.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 Dec 2015 04:34:30 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by pabur14 with SMTP id ur14so65325231pab.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 04:34:30 -0800 (PST)
+	Fri, 11 Dec 2015 15:09:24 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tBBF9OIw013333; Fri, 11 Dec 2015 09:09:24 -0600
+Received: from adi-pc-linux ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015121109092444-1022835 ;
+	Fri, 11 Dec 2015 09:09:24 -0600 
+Date: Fri, 11 Dec 2015 17:09:21 +0200
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20151211170921.5def47d6@adi-pc-linux>
+In-Reply-To: <CAJTo0LYjcHpM20DUiu2CzR8hw-wH0zCya+nUzGjBC1FkMRmzPw@mail.gmail.com>
+References: <1449137834-20165-1-git-send-email-adrian.ratiu@ni.com>
+	<CAJTo0LYjcHpM20DUiu2CzR8hw-wH0zCya+nUzGjBC1FkMRmzPw@mail.gmail.com>
+Organization: National Instruments
 MIME-Version: 1.0
-X-Received: by 10.66.119.136 with SMTP id ku8mr24895003pab.128.1449837270393; 
-	Fri, 11 Dec 2015 04:34:30 -0800 (PST)
-Received: by 10.66.72.229 with HTTP; Fri, 11 Dec 2015 04:34:30 -0800 (PST)
-In-Reply-To: <566AC1B4.9050508@linux.intel.com>
-References: <1449001866-29286-1-git-send-email-tom.hochstein@freescale.com>
-	<60070.10.252.17.232.1449008484.squirrel@linux.intel.com>
-	<BN3PR03MB1415F09661073294ECA6D2A2E8090@BN3PR03MB1415.namprd03.prod.outlook.com>
-	<CAP9ODKr8E+mYH3rY-XKLnaWMUr0r9bLQhfAmp9iru1vvYQ0MZg@mail.gmail.com>
-	<56659548.8090509@linux.intel.com>
-	<BN3PR03MB1415A9FC4E4B3D1B7773F618E8E90@BN3PR03MB1415.namprd03.prod.outlook.com>
-	<566AC1B4.9050508@linux.intel.com>
-Date: Fri, 11 Dec 2015 10:34:30 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKpmpyjZTN6KSKOMebR+_wjNwEAwaFL1gXF9uqkmNCb3Qg@mail.gmail.com>
-Message-ID: <CAP9ODKpmpyjZTN6KSKOMebR+_wjNwEAwaFL1gXF9uqkmNCb3Qg@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	Sundararaj Prabhu <Prabhu.Sundararaj@freescale.com>
-Subject: Re: [PATCH v2] weston-init: Use weston-launch for XWayland
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 12/11/2015 09:09:24 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 12/11/2015 09:09:24 AM,
+	Serialize complete at 12/11/2015 09:09:24 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-12-11_08:, , signatures=0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RESEND PATCH] x11vnc: move recipe to meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -75,41 +41,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Dec 2015 12:34:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 11 Dec 2015 15:09:27 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-On Fri, Dec 11, 2015 at 10:29 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 12/11/2015 01:44 AM, Tom Hochstein wrote:
->
->>          # There are multiple ways to start weston.
->>          if [ "$WAYLAND_DISPLAY" ]; then
->>              echo -e "\aError: Weston is already running."
->>              echo "This script does not support launching Weston nested."
->>              exit 1
->>          else if [ "$DISPLAY" ]; then
->>              echo "Launching Weston with the x11 backend"
->>              openvt -s weston -- --log=/var/log/weston.log $OPTARGS
->>          else
->>              echo "Launching Weston with the DRM backend"
->>              export XDG_CONFIG_HOME=/etc
->>              openvt -v -- weston-launch -- --log=/var/log/weston.log
->> $OPTARGS
->>          fi
->>
->> I still need to test this (and apply the design in systemd), but I wanted
->> your feedback on the approach.
->
->
-> I think this looks okay, but you obviously need to test that all three
-> scenarios works as expected. Also, systemd unit file language may not
-> support this logic (it's not a full programming language), so the above
-> snippet probably needs to be separated into a wrapper script.
+On Thu, 3 Dec 2015 14:18:53 +0000
+"Burton, Ross" <ross.burton@intel.com> wrote:
 
-Agreed; the wrapper might make easier to integrate it on both, with less work.
+> On 3 December 2015 at 10:17, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+> 
+> > x11vnc can be configured with --use-system-libvncserver to use an
+> > external libvncserver which will be added to meta-oe. Since oe-core
+> > should not depend on meta-oe, we move x11vnc there.
+> >
+> > Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+> >
+> 
+> Obviously we shouldn't remove it from oe-core until it's been merged into
+> meta-oe, so please ping when that's happened.
+> 
+> Ross
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Hello
+
+x11vnc has just been accepted into meta-oe on master-next an hour ago.
+
+Thank you,
+Adrian
 
