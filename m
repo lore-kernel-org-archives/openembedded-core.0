@@ -1,28 +1,32 @@
-Return-Path: <Nathan_Lynch@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F32E6FF64
+Return-Path: <alejandro.delcastillo@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AC506080F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 23:23:59 +0000 (UTC)
-Received: from svr-orw-fem-06.mgc.mentorg.com ([147.34.97.120])
-	by relay1.mentorg.com with esmtp 
-	id 1a7X2c-0002Ws-J8 from Nathan_Lynch@mentor.com ;
-	Fri, 11 Dec 2015 15:23:58 -0800
-Received: from wedge.localnet (147.34.91.1) by svr-orw-fem-06.mgc.mentorg.com
-	(147.34.97.120) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 11 Dec 2015 15:23:58 -0800
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-References: <cover.1449523356.git.anibal.limon@linux.intel.com>
-	<75b7c85d17559f2f279039e1606fbf1e1e1dee23.1449523356.git.anibal.limon@linux.intel.com>
-From: Nathan Lynch <Nathan_Lynch@mentor.com>
-Message-ID: <566B5B0C.2000501@mentor.com>
-Date: Fri, 11 Dec 2015 17:23:56 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <75b7c85d17559f2f279039e1606fbf1e1e1dee23.1449523356.git.anibal.limon@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com, georgex.l.musat@intel.com, bjst@enea.com,
-	benjamin.esquivel@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] ptest-runner: Add version 2.0 re-implementation in python.
+	Sat, 12 Dec 2015 00:14:34 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tBC0EZsr026570 for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Dec 2015 18:14:35 -0600
+Received: from delcastillo2.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015121118143504-1041923 ;
+	Fri, 11 Dec 2015 18:14:35 -0600 
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Dec 2015 18:14:31 -0600
+Message-Id: <1449879271-10287-1-git-send-email-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <CA+chaQfoFMrgSjwW6Pj0Pfzu=UdeuB+hh-d0qimmeMqt2B5y8A@mail.gmail.com>
+References: <CA+chaQfoFMrgSjwW6Pj0Pfzu=UdeuB+hh-d0qimmeMqt2B5y8A@mail.gmail.com>
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 12/11/2015 06:14:35 PM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 12/11/2015 06:14:35 PM,
+	Serialize complete at 12/11/2015 06:14:35 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-12-11_12:, , signatures=0
+Subject: [PATCH v5] libsolv: add new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +39,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Dec 2015 23:24:03 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 12 Dec 2015 00:14:38 -0000
 
-On 12/07/2015 03:26 PM, Aníbal Limón wrote:
-> The new ptest-runner supports timeout of upstream tests executed,
-> it looks for stdout of process and if no information is available
-> in certain time (defaults to 5m) the process is treaty as blocked
-> and ptest-runner kills it, this handles problems of ptest-runner
-> being blocked indefinitly for upstream test suites.
+Required by the optional opkg 0.3.1 libsolv backend.
 
-Having the option to specify a timeout is obviously useful, but please
-add the ability to wait indefinitely, and consider making this the
-default behavior.  The appropriate value for a timeout, if any, will
-always be a function of the particular circumstances of the test run.
-An indefinite wait at least gives one the opportunity to investigate a
-misbehaving test without racing the test harness.
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+---
+ meta/recipes-extended/libsolv/libsolv_git.bb | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+ create mode 100644 meta/recipes-extended/libsolv/libsolv_git.bb
 
-> +DEFAULT_TIMEOUT_SECS = 500
-
-The change description says the default is five minutes, but this is not
-five minutes :-)
-
+diff --git a/meta/recipes-extended/libsolv/libsolv_git.bb b/meta/recipes-extended/libsolv/libsolv_git.bb
+new file mode 100644
+index 0000000..2011487
+--- /dev/null
++++ b/meta/recipes-extended/libsolv/libsolv_git.bb
+@@ -0,0 +1,28 @@
++SUMMARY = "Library for solving packages and reading repositories"
++HOMEPAGE = "https://github.com/openSUSE/libsolv"
++BUGTRACKER = "https://github.com/openSUSE/libsolv/issues"
++SECTION = "devel"
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://LICENSE.BSD;md5=62272bd11c97396d4aaf1c41bc11f7d8"
++
++DEPENDS = "expat zlib"
++
++PV = "0.6.14+git${SRCPV}"
++
++SRC_URI = "git://github.com/openSUSE/libsolv.git"
++SRCREV = "b1ea39233f86cd62fbab1964d7497244f6be0087"
++
++S = "${WORKDIR}/git"
++
++inherit cmake
++
++EXTRA_OECMAKE = "-DLIB=${baselib}"
++
++PACKAGES =+ "${PN}-tools ${PN}ext ${PN}ext-dbg"
++
++FILES_${PN}-dev += "${datadir}/cmake/Modules/FindLibSolv.cmake"
++FILES_${PN}-tools = "${bindir}/*"
++FILES_${PN}ext = "${libdir}/${PN}ext.so.*"
++FILES_${PN}ext-dbg = "${libdir}/.debug/${PN}ext.so.*"
++
++BBCLASSEXTEND =+ "native nativesdk"
+-- 
+1.9.1
 
 
