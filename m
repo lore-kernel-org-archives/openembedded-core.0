@@ -1,35 +1,33 @@
 Return-Path: <tanuk@iki.fi>
-X-Greylist: delayed 367 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 12 Dec 2015 02:17:35 UTC
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
 	[66.111.4.25])
-	by mail.openembedded.org (Postfix) with ESMTP id EDB9E6FFEA
+	by mail.openembedded.org (Postfix) with ESMTP id 8C6036FFEA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Dec 2015 02:17:35 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id D925020BD2
+	Sat, 12 Dec 2015 02:23:25 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailout.nyi.internal (Postfix) with ESMTP id D96E920129
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 21:11:27 -0500 (EST)
-Received: from frontend1 ([10.202.2.160])
-	by compute4.internal (MEProxy); Fri, 11 Dec 2015 21:11:27 -0500
+	Fri, 11 Dec 2015 21:23:25 -0500 (EST)
+Received: from frontend2 ([10.202.2.161])
+	by compute2.internal (MEProxy); Fri, 11 Dec 2015 21:23:25 -0500
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
 	messagingengine.com; h=date:from:message-id:subject:to
-	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=fb56w+zXVBeHzf2GUft5ALWQQc
-	c=; b=gP71sTM69fMCRDnxzlkRU07o3vZCEuerjZb2m4pWwm0kyJn1VOMhuz3hjg
-	Koso4jsohV619nUoflnDhe/HqqdmvkO87hx/MuYvix3mGXwMWqZIkX/Wfa0s/O0M
-	oy8KA5cBxLOlptmPhVFnCVdEpAZjPVKvNZwBKB5MAilf02LoY=
-X-Sasl-enc: EEY/Djjh1jZCk4T5CR0kmjdWzh+rBIQQRhiyVclJcmWN 1449886287
+	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=kJAtGV2ffjNwWJHpsUi0hBuWDG
+	w=; b=DUBt8va7aSMed96DUa/egp/N0bkJPS4oEzuAfzvBNgOLZgnvkxdxk7wD5n
+	y2vUTGzlfvLQbrWLY+yVX+5vp0KnYM5O8kEPkbgjrbZiiksp/UXAQsa9bqxyUlXX
+	JzmGzhUaZv6ljaBZv1IQ9AbnccRmNKOoM4Xk/Un2N/kCV5VsM=
+X-Sasl-enc: 2d7WiwQ2UzdfBXsWi4yL5eX5dgw/f61PqdYoRMeu9Vvk 1449887005
 Received: from laptop.tanuk.dy.fi (a88-114-110-232.elisa-laajakaista.fi
 	[88.114.110.232])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 4CCACC013FE
+	by mail.messagingengine.com (Postfix) with ESMTPA id 4ADA16800C7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Dec 2015 21:11:27 -0500 (EST)
+	Fri, 11 Dec 2015 21:23:25 -0500 (EST)
 From: Tanu Kaskinen <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Dec 2015 04:11:20 +0200
-Message-Id: <1449886280-32729-1-git-send-email-tanuk@iki.fi>
+Date: Sat, 12 Dec 2015 04:23:12 +0200
+Message-Id: <1449886992-642-1-git-send-email-tanuk@iki.fi>
 X-Mailer: git-send-email 2.6.2
-Subject: [PATCH] libsndfile1: 1.0.25 -> 1.0.26
+Subject: [PATCH v2] libsndfile1: 1.0.25 -> 1.0.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,7 +40,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Dec 2015 02:17:36 -0000
+X-List-Received-Date: Sat, 12 Dec 2015 02:23:26 -0000
 
 Main points from the release announcement:
 
@@ -59,17 +57,20 @@ Dropped PR from the recipe.
 
 Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
 ---
+
+Changes in v2:
+ - Used the -M switch with git send-email to make the recipe changes
+   easier to see.
+
  ...src-sd2.c-Fix-segfault-in-SD2-RSRC-parser.patch | 211 ---------------------
  ...c-Fix-two-potential-buffer-read-overflows.patch |  49 -----
  .../files/libsndfile-fix-CVE-2014-9756.patch       |  24 ---
- .../libsndfile/libsndfile1_1.0.25.bb               |  34 ----
- .../libsndfile/libsndfile1_1.0.26.bb               |  29 +++
- 5 files changed, 29 insertions(+), 318 deletions(-)
+ ...libsndfile1_1.0.25.bb => libsndfile1_1.0.26.bb} |  11 +-
+ 4 files changed, 3 insertions(+), 292 deletions(-)
  delete mode 100644 meta/recipes-multimedia/libsndfile/files/0001-src-sd2.c-Fix-segfault-in-SD2-RSRC-parser.patch
  delete mode 100644 meta/recipes-multimedia/libsndfile/files/0001-src-sd2.c-Fix-two-potential-buffer-read-overflows.patch
  delete mode 100644 meta/recipes-multimedia/libsndfile/files/libsndfile-fix-CVE-2014-9756.patch
- delete mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
+ rename meta/recipes-multimedia/libsndfile/{libsndfile1_1.0.25.bb => libsndfile1_1.0.26.bb} (65%)
 
 diff --git a/meta/recipes-multimedia/libsndfile/files/0001-src-sd2.c-Fix-segfault-in-SD2-RSRC-parser.patch b/meta/recipes-multimedia/libsndfile/files/0001-src-sd2.c-Fix-segfault-in-SD2-RSRC-parser.patch
 deleted file mode 100644
@@ -373,81 +374,33 @@ index b54b3ba..0000000
 - 	if (psf->virtual_io)
 - 		return psf->vio.write (ptr, bytes*items, psf->vio_user_data) / bytes ;
 - 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb
-deleted file mode 100644
-index be875c2..0000000
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
+similarity index 65%
+rename from meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb
+rename to meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
+index be875c2..3b11568 100644
 --- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb
-+++ /dev/null
-@@ -1,34 +0,0 @@
--SUMMARY = "Audio format Conversion library"
--HOMEPAGE = "http://www.mega-nerd.com/libsndfile"
--AUTHOR = "Erik de Castro Lopo"
--DEPENDS = "sqlite3"
--SECTION = "libs/multimedia"
--LICENSE = "LGPLv2.1"
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
+@@ -4,16 +4,11 @@ AUTHOR = "Erik de Castro Lopo"
+ DEPENDS = "sqlite3"
+ SECTION = "libs/multimedia"
+ LICENSE = "LGPLv2.1"
 -PR = "r2"
--
+ 
 -SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
 -           file://0001-src-sd2.c-Fix-segfault-in-SD2-RSRC-parser.patch \
 -           file://0001-src-sd2.c-Fix-two-potential-buffer-read-overflows.patch \
 -           file://libsndfile-fix-CVE-2014-9756.patch \
 -"
--
++SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz"
+ 
 -SRC_URI[md5sum] = "e2b7bb637e01022c7d20f95f9c3990a2"
 -SRC_URI[sha256sum] = "59016dbd326abe7e2366ded5c344c853829bebfd1702ef26a07ef662d6aa4882"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=e77fe93202736b47c07035910f47974a"
--
--S = "${WORKDIR}/libsndfile-${PV}"
--
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
--PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
--
--EXTRA_OECONF = "--disable-external-libs"
--
--inherit autotools lib_package pkgconfig
--
--do_configure_prepend_arm() {
--	export ac_cv_sys_largefile_source=1
--	export ac_cv_sys_file_offset_bits=64
--	ac_cv_sizeof_off_t=8
--}
--
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
-new file mode 100644
-index 0000000..3b11568
---- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
-@@ -0,0 +1,29 @@
-+SUMMARY = "Audio format Conversion library"
-+HOMEPAGE = "http://www.mega-nerd.com/libsndfile"
-+AUTHOR = "Erik de Castro Lopo"
-+DEPENDS = "sqlite3"
-+SECTION = "libs/multimedia"
-+LICENSE = "LGPLv2.1"
-+
-+SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz"
-+
 +SRC_URI[md5sum] = "ec810a0c60c08772a8a5552704b63393"
 +SRC_URI[sha256sum] = "cd6520ec763d1a45573885ecb1f8e4e42505ac12180268482a44b28484a25092"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=e77fe93202736b47c07035910f47974a"
-+
-+S = "${WORKDIR}/libsndfile-${PV}"
-+
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
-+PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
-+
-+EXTRA_OECONF = "--disable-external-libs"
-+
-+inherit autotools lib_package pkgconfig
-+
-+do_configure_prepend_arm() {
-+	export ac_cv_sys_largefile_source=1
-+	export ac_cv_sys_file_offset_bits=64
-+	ac_cv_sizeof_off_t=8
-+}
-+
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e77fe93202736b47c07035910f47974a"
+ 
 -- 
 2.6.2
 
