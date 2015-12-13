@@ -1,43 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id A1CC4608B7
+Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 443CA6FFDD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Dec 2015 21:14:55 +0000 (UTC)
-Received: by pfnn128 with SMTP id n128so84177325pfn.0
+	Sun, 13 Dec 2015 00:10:11 +0000 (UTC)
+Received: by pfbo64 with SMTP id o64so7168117pfb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Dec 2015 13:14:55 -0800 (PST)
+	Sat, 12 Dec 2015 16:10:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
 	:in-reply-to:content-type:content-transfer-encoding;
-	bh=M2JMZsg7b2m0ZXf9OLMqGHKuk5JiqX/jrxMeGT/O1DQ=;
-	b=Aj8oTpf9vHNU84JwEC3mZ7r8f0Tq2CYrHVVsHeWfue7X+RlUSXPVJDmUSRVbJ3a42g
-	icMVUvNzjq/9PcTL7GLvQXgtawDnJ87BHSYHgo9TkQwIRbr1VTgYQpigi6shpHqOH35Q
-	BDHYuyyPYN7d2/lTr0Cpm+r8sueJ1ioGo51fKkFQzwQelzRnAKx6aB6hM9vM3tOQL2zR
-	RSv5SUoXkbPKQhiSvUCpEDkUdtcb6szJzXkHF0PSz83jUvwatwTaqGdK97poQQri1h7/
-	y4L23LwDaXlq7B3ymFCTru1CNaEF15Ntl+GQ7JIK+JK7sO6DnTkI16CKM/+5mDozMCLR
-	OYFQ==
-X-Received: by 10.98.16.67 with SMTP id y64mr21985597pfi.152.1449954895778;
-	Sat, 12 Dec 2015 13:14:55 -0800 (PST)
+	bh=2qqti+qWB2Q/GeKUtSlqIXcJJV10HmvXrM6tUXzlsPI=;
+	b=Pw5lLmkKv0xrGPPrTgWsGAa4KZdKGYXxmGm2oAELPZyeLLp+nRxXwa6tX46cUP+bkS
+	wTXPHtaHSo6WEAEKnQqz6A02fGzBEcw2qG0yOBr23DdilQAnPzkX0CfQg01w9vKb/Tt5
+	s4xH8P9KrwzL2u/hSP0uIJlr91Td0gU8OkwMYgkQ2FzLzY0vtzxR6D3XUJVqfgmrOZz1
+	+3+q5K9HknPAZhDSc+4FiYjahrDRZ7Djs0qCbe0ReAsFIWrWNGqWXtX/nbJEz3oalbvd
+	emCRu2hnRc8DQ7KoTSCL7kKQgQpTcH5V2PxzpirSuZK3pyPxctKflNxSFt+jrk8didk4
+	Nu1Q==
+X-Received: by 10.98.89.196 with SMTP id k65mr25815759pfj.12.1449965412305;
+	Sat, 12 Dec 2015 16:10:12 -0800 (PST)
 Received: from ?IPv6:2601:202:4000:1239:b850:fd27:ad42:7471?
 	([2601:202:4000:1239:b850:fd27:ad42:7471])
 	by smtp.googlemail.com with ESMTPSA id
-	w8sm33011409pfi.41.2015.12.12.13.14.53
+	ah10sm33811469pad.23.2015.12.12.16.10.10
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 12 Dec 2015 13:14:54 -0800 (PST)
-To: openembedded-core@lists.openembedded.org, anders@chargestorm.se
-References: <1449539278-20070-1-git-send-email-akuster808@gmail.com>
-	<1449539278-20070-4-git-send-email-akuster808@gmail.com>
-	<20151208074923.GB8707@ad.chargestorm.se>
+	Sat, 12 Dec 2015 16:10:11 -0800 (PST)
+To: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1449754336.git.Martin.Jansa@gmail.com>
 From: akuster808 <akuster808@gmail.com>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <566C8E4C.102@gmail.com>
-Date: Sat, 12 Dec 2015 13:14:52 -0800
+Message-ID: <566CB761.2060109@gmail.com>
+Date: Sat, 12 Dec 2015 16:10:09 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.3.0
 MIME-Version: 1.0
-In-Reply-To: <20151208074923.GB8707@ad.chargestorm.se>
-Subject: Re: [jethro][fido][PATCH 4/4] openssl: three CVE fixes
+In-Reply-To: <cover.1449754336.git.Martin.Jansa@gmail.com>
+Subject: Re: [PATCH][dizzy][RESEND 0/7] Backports for dizzy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,70 +48,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Dec 2015 21:14:57 -0000
+X-List-Received-Date: Sun, 13 Dec 2015 00:10:12 -0000
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
 
+merged to staging.
 
-On 12/07/2015 11:49 PM, Anders Darander wrote:
-> Hi,
+thanks
+Armin
+
+On 12/10/2015 05:47 AM, Martin Jansa wrote:
+> The following changes since commit 7bb182bdd130266100fc541fd09b82d09c51cd80:
 > 
-> * Armin Kuster <akuster808@gmail.com> [151208 02:49]:
+>   build-appliance-image: Update to dizzy head revision (2015-09-29 14:56:04 +0100)
 > 
->>  meta/recipes-connectivity/openssl/openssl_1.0.2d.bb | 4 ++++
->>  1 file changed, 4 insertions(+)
+> are available in the git repository at:
 > 
-> I'm just a little curious about this serious, and a few others that I've
-> seen recently. They all add a number of CVE-patches, with one commit per
-> patch, and as the last commit, they all get added to SRC_URI in a single
-> patch.
+>   git://git.openembedded.org/openembedded-core-contrib jansa/dizzy-backports
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/dizzy-backports
 > 
-> What's the reason to do it like this? i
-
-Each CVE patch can be leveraged independently so back porting to other
-branches is simpler and less work.  The recipe file is  where merge
-conflicts will occur. Not all CVE's are weighted the same so someone who
-has a product in the field can easily cherry pick the CVE's they want or
-need. This was talked about on IRC a few weeks ago.
-
+> Chen Qi (1):
+>   image.bbclass: don't let do_rootfs depend on BUILDNAME
 > 
-> I'd personally prefer to have each CVE-path also add the patch to
-> SRC_URI, as that make cherry-picking more straightforward. And it also
-> ensures that if we have a need to bisect some issue, that'll work. At
-> the same time that will make the meta-data consistent, i.e. no dead
-> patches.
+> Martin Jansa (3):
+>   fontcache: allow to pass extra parameters and environment to fc-cache
+>   texinfo: don't create dependency on INHERIT variable
+>   linux-dtb.inc: drop unused DTB_NAME variable from do_install
 > 
-> I'd personally even prefer that whole series squashed to one commit,
-> compared to this adding a lot of un-applied patches.
-
-That would add more overhead to the work I do internally as I need them
-in the format you have seen here.
-
-Are this patches not in the preferred method as described on wiki?
-
-Regards,
-- armin
-
-> Any comments on this?
-
-
+> Mike Crowe (1):
+>   allarch: Force TARGET_*FLAGS variable values
 > 
-> Cheers,
-> Anders
+> Richard Purdie (2):
+>   layer.conf: Add several allarch dependency exclusions
+>   layer.conf: Add missing dependency for allarch package
+>     initramfs-framework
 > 
->> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
->> index fd56841..3864e88 100644
->> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
->> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
->> @@ -37,6 +37,10 @@ SRC_URI += "file://configure-targets.patch \
->>              file://crypto_use_bigint_in_x86-64_perl.patch \
->>              file://openssl-1.0.2a-x32-asm.patch \
->>              file://ptest_makefile_deps.patch  \
->> +            file://CVE-2015-3193-bn-asm-x86_64-mont5.pl-fix-carry-propagating-bug-CVE.patch \
->> +            file://CVE-2015-3194-1-Add-PSS-parameter-check.patch \
->> +            file://0001-Add-test-for-CVE-2015-3194.patch \
->> +            file://CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch \
->>             "
+>  meta/classes/allarch.bbclass                  |  4 ++++
+>  meta/classes/fontcache.bbclass                | 19 +++++++++++++++----
+>  meta/classes/image.bbclass                    |  2 +-
+>  meta/conf/layer.conf                          | 11 +++++++++++
+>  meta/recipes-extended/texinfo/texinfo_5.2.bb  |  2 +-
+>  meta/recipes-kernel/linux/linux-dtb.inc       |  1 -
+>  scripts/postinst-intercepts/update_font_cache |  4 ++--
+>  7 files changed, 34 insertions(+), 9 deletions(-)
 > 
 
