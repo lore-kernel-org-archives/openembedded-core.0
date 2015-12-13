@@ -1,41 +1,28 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 443CA6FFDD
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id CC6E86E64A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Dec 2015 00:10:11 +0000 (UTC)
-Received: by pfbo64 with SMTP id o64so7168117pfb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Dec 2015 16:10:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=2qqti+qWB2Q/GeKUtSlqIXcJJV10HmvXrM6tUXzlsPI=;
-	b=Pw5lLmkKv0xrGPPrTgWsGAa4KZdKGYXxmGm2oAELPZyeLLp+nRxXwa6tX46cUP+bkS
-	wTXPHtaHSo6WEAEKnQqz6A02fGzBEcw2qG0yOBr23DdilQAnPzkX0CfQg01w9vKb/Tt5
-	s4xH8P9KrwzL2u/hSP0uIJlr91Td0gU8OkwMYgkQ2FzLzY0vtzxR6D3XUJVqfgmrOZz1
-	+3+q5K9HknPAZhDSc+4FiYjahrDRZ7Djs0qCbe0ReAsFIWrWNGqWXtX/nbJEz3oalbvd
-	emCRu2hnRc8DQ7KoTSCL7kKQgQpTcH5V2PxzpirSuZK3pyPxctKflNxSFt+jrk8didk4
-	Nu1Q==
-X-Received: by 10.98.89.196 with SMTP id k65mr25815759pfj.12.1449965412305;
-	Sat, 12 Dec 2015 16:10:12 -0800 (PST)
-Received: from ?IPv6:2601:202:4000:1239:b850:fd27:ad42:7471?
-	([2601:202:4000:1239:b850:fd27:ad42:7471])
-	by smtp.googlemail.com with ESMTPSA id
-	ah10sm33811469pad.23.2015.12.12.16.10.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 12 Dec 2015 16:10:11 -0800 (PST)
-To: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1449754336.git.Martin.Jansa@gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <566CB761.2060109@gmail.com>
-Date: Sat, 12 Dec 2015 16:10:09 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Sun, 13 Dec 2015 19:32:34 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 13 Dec 2015 11:32:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,423,1444719600"; d="scan'208";a="872782177"
+Received: from jang-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.171.145])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Dec 2015 11:32:33 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, akuster808 <akuster808@gmail.com>
+Date: Mon, 14 Dec 2015 08:32:31 +1300
+Message-ID: <30211243.jsT0NjOi6x@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.2.6-301.fc23.x86_64; KDE/4.14.14; x86_64; ;
+	)
+In-Reply-To: <566C8E4C.102@gmail.com>
+References: <1449539278-20070-1-git-send-email-akuster808@gmail.com>
+	<20151208074923.GB8707@ad.chargestorm.se> <566C8E4C.102@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <cover.1449754336.git.Martin.Jansa@gmail.com>
-Subject: Re: [PATCH][dizzy][RESEND 0/7] Backports for dizzy
+Cc: anders@chargestorm.se
+Subject: Re: [jethro][fido][PATCH 4/4] openssl: three CVE fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,49 +35,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Dec 2015 00:10:12 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 13 Dec 2015 19:32:36 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Sat, 12 Dec 2015 13:14:52 akuster808 wrote:
+> On 12/07/2015 11:49 PM, Anders Darander wrote:
+> > Hi,
+> > 
+> > * Armin Kuster <akuster808@gmail.com> [151208 02:49]:
+> >>  meta/recipes-connectivity/openssl/openssl_1.0.2d.bb | 4 ++++
+> >>  1 file changed, 4 insertions(+)
+> > 
+> > I'm just a little curious about this serious, and a few others that I've
+> > seen recently. They all add a number of CVE-patches, with one commit per
+> > patch, and as the last commit, they all get added to SRC_URI in a single
+> > patch.
+> > 
+> > What's the reason to do it like this? i
+> 
+> Each CVE patch can be leveraged independently so back porting to other
+> branches is simpler and less work.  The recipe file is  where merge
+> conflicts will occur. Not all CVE's are weighted the same so someone who
+> has a product in the field can easily cherry pick the CVE's they want or
+> need. This was talked about on IRC a few weeks ago.
 
-merged to staging.
+Well, except they might cherry-pick the fix commit on the assumption that it 
+fixes the CVE, when unfortunately it doesn't because the included patch isn't 
+actually applied within the recipe in that commit.
 
-thanks
-Armin
+I can see how this makes things slightly easier for backporting, but honestly 
+I don't like it. I don't believe it matches with our practice up to this point 
+either.
 
-On 12/10/2015 05:47 AM, Martin Jansa wrote:
-> The following changes since commit 7bb182bdd130266100fc541fd09b82d09c51cd80:
-> 
->   build-appliance-image: Update to dizzy head revision (2015-09-29 14:56:04 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib jansa/dizzy-backports
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/dizzy-backports
-> 
-> Chen Qi (1):
->   image.bbclass: don't let do_rootfs depend on BUILDNAME
-> 
-> Martin Jansa (3):
->   fontcache: allow to pass extra parameters and environment to fc-cache
->   texinfo: don't create dependency on INHERIT variable
->   linux-dtb.inc: drop unused DTB_NAME variable from do_install
-> 
-> Mike Crowe (1):
->   allarch: Force TARGET_*FLAGS variable values
-> 
-> Richard Purdie (2):
->   layer.conf: Add several allarch dependency exclusions
->   layer.conf: Add missing dependency for allarch package
->     initramfs-framework
-> 
->  meta/classes/allarch.bbclass                  |  4 ++++
->  meta/classes/fontcache.bbclass                | 19 +++++++++++++++----
->  meta/classes/image.bbclass                    |  2 +-
->  meta/conf/layer.conf                          | 11 +++++++++++
->  meta/recipes-extended/texinfo/texinfo_5.2.bb  |  2 +-
->  meta/recipes-kernel/linux/linux-dtb.inc       |  1 -
->  scripts/postinst-intercepts/update_font_cache |  4 ++--
->  7 files changed, 34 insertions(+), 9 deletions(-)
-> 
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
