@@ -1,46 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C9F36E5CB
+Return-Path: <tanuk@iki.fi>
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+	[66.111.4.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F73F607AB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 17:48:00 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id p66so55559885wmp.0
+	Mon, 14 Dec 2015 18:17:42 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 591E22151B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 09:48:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=eixD+f5LibRdpc+tGUxGsbqg8/v1UX9LHGyiw/wX76U=;
-	b=SImouMfQCX6WLkPIBIvxBhVqzH3ESVyED84K8VGVP/xkTWGv4NdGmUikoxoTAOeHp4
-	MAmdbGhiv89Rcw3LCp2DJ25bf5xsN1xfk6WXEn8Ks2Z5uZGopmZVM/zNA6GWGKswOdLs
-	pGqzQhggMSKW82TSm1hPI2dxxrt1bth0+uBn4wULPG8tztq7Re8LrHOY16aqVgnL2KbI
-	RmLIkxa0UGgc0LrL3oveM28VIgrbETIf8VzgbxMGsksQM5x/VigUUegKk2BPUd/yMNrx
-	+xa8CyJn16hx6bCs+F2Lfm168PHfrzi1xhXWjN+niKvl+lhLPldY/S98BW98OV07fmCE
-	rB8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=eixD+f5LibRdpc+tGUxGsbqg8/v1UX9LHGyiw/wX76U=;
-	b=DFuHAIgvmmr90fCqnyW1Dwib0N4I0KBy6gTW8yY71ZzeCZ6FdcFcUZim5WJPQW6sBm
-	L1lmb4uR7Dzm62jG6R4i26BqNL3MY/4QlqBgPahQNK6KB2z0EPFW+cWn+UHCFmy0xwk4
-	anoWvznNphWafZoyxgIO8OU8smgbR1zAcJnnFaRizCvDPchoq21NGwUjwf3UUOtPusBo
-	zNoZcWJ3fvAMLwM4PAprYqVUXxV1rkNzl1wlE+DRzFodmuW7G9//9X6A3BKXt5kAK8J5
-	xKpGZXeR1+rceiY3IwYSdpN/0NQ/40cJBd+jgRgEjSF4fNYlD6WvGqBdDzPOooKQFOhN
-	9zvA==
-X-Gm-Message-State: ALoCoQm/TuriisinvOvvq0GdkbJbeEf+zILkEsmUMpiFdasFYsUldu5KPkmATBgRi2xcdmpy/sBvaoqMKr/v4E/b9ydgN8wirg==
-X-Received: by 10.28.179.68 with SMTP id c65mr24995301wmf.81.1450115280469;
-	Mon, 14 Dec 2015 09:48:00 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	u139sm17106190wmu.22.2015.12.14.09.47.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 14 Dec 2015 09:47:59 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Dec 2015 17:47:57 +0000
-Message-Id: <1450115277-23685-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] unifdef: upgrade to 2.11
+	Mon, 14 Dec 2015 13:17:42 -0500 (EST)
+Received: from frontend1 ([10.202.2.160])
+	by compute3.internal (MEProxy); Mon, 14 Dec 2015 13:17:42 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-sasl-enc:x-sasl-enc; s=smtpout; bh=Yo3xhCUTM5VcIBc
+	ASeZmvSTZvM8=; b=NxY77Hrbg8/uNfuZUeYu9BDYYMDNirUS5tioseyUu7H34c7
+	TDCHfi0syCf9li6kkN33Ahog0MXhkjBY9dr6JYeQqy3fMbEdGMkDC+B1BqLzeIq4
+	U6fyaAWvSFBStU1qQGlWpa1mRelUR+FwWsEKGat4cMmaPLlY0nFBHE8iS+/o=
+X-Sasl-enc: it6qJe5TKdMNOaCuNCPc21naJQASUcS4RbQ9txzGnWID 1450117061
+Received: from laptop (a88-114-110-232.elisa-laajakaista.fi [88.114.110.232])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 9D050C016DA;
+	Mon, 14 Dec 2015 13:17:41 -0500 (EST)
+Message-ID: <1450117059.3147.41.camel@iki.fi>
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 14 Dec 2015 20:17:39 +0200
+In-Reply-To: <566E973D.8010903@linux.intel.com>
+References: <1449886992-642-1-git-send-email-tanuk@iki.fi>
+	<566E973D.8010903@linux.intel.com>
+X-Mailer: Evolution 3.18.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2] libsndfile1: 1.0.25 -> 1.0.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,64 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 17:48:01 -0000
+X-List-Received-Date: Mon, 14 Dec 2015 18:17:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Add COPYING to the license checksums, and update the checksum for unifdef.c as
-the copyright dates changed.
+On Mon, 2015-12-14 at 12:17 +0200, Alexander Kanavin wrote:
+> On 12/12/2015 04:23 AM, Tanu Kaskinen wrote:
+> > Main points from the release announcement:
+> 
+> There's also other audio stuff in need of update (alsa, pulseaudio), can 
+> you look into that? Now is a good time to do those version updates.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/unifdef/unifdef_2.10.bb | 15 ---------------
- meta/recipes-devtools/unifdef/unifdef_2.11.bb | 17 +++++++++++++++++
- 2 files changed, 17 insertions(+), 15 deletions(-)
- delete mode 100644 meta/recipes-devtools/unifdef/unifdef_2.10.bb
- create mode 100644 meta/recipes-devtools/unifdef/unifdef_2.11.bb
+Yes, certainly. Those updates have been on my radar for a while, sorry
+for not having done that already.
 
-diff --git a/meta/recipes-devtools/unifdef/unifdef_2.10.bb b/meta/recipes-devtools/unifdef/unifdef_2.10.bb
-deleted file mode 100644
-index b8a0079..0000000
---- a/meta/recipes-devtools/unifdef/unifdef_2.10.bb
-+++ /dev/null
-@@ -1,15 +0,0 @@
--SUMMARY = "Selectively remove #ifdef statements from sources"
--SECTION = "devel"
--LICENSE = "BSD-2-Clause"
--
--LIC_FILES_CHKSUM = "file://unifdef.c;endline=32;md5=2cc23f0382a6f560f6a9ecf4e040c0da"
--
--SRC_URI = "http://dotat.at/prog/${BPN}/${BP}.tar.xz"
--SRC_URI[md5sum] = "bb5d895e5ebbba5c5cc0c2771cf97ebe"
--SRC_URI[sha256sum] = "3b9b2b6b1952e9b9c1b9f734edec270689a35bdbf33ae66b50e19b2ed0d2df06"
--
--do_install() {
--	oe_runmake install DESTDIR=${D} prefix=${prefix}
--}
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-devtools/unifdef/unifdef_2.11.bb b/meta/recipes-devtools/unifdef/unifdef_2.11.bb
-new file mode 100644
-index 0000000..1d13b9a
---- /dev/null
-+++ b/meta/recipes-devtools/unifdef/unifdef_2.11.bb
-@@ -0,0 +1,17 @@
-+SUMMARY = "Selectively remove #ifdef statements from sources"
-+SECTION = "devel"
-+LICENSE = "BSD-2-Clause"
-+HOMEPAGE = "http://dotat.at/prog/unifdef/"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=78fc6c2c1dc4f18c891ed5b7a469fe32 \
-+                    file://unifdef.c;endline=32;md5=aaec84d8b68d8b6dea71f45e9949ebfe"
-+
-+SRC_URI = "http://dotat.at/prog/${BPN}/${BP}.tar.xz"
-+SRC_URI[md5sum] = "337053fd8a7d9ab3adf5e50f88af95b7"
-+SRC_URI[sha256sum] = "828ffc270ac262b88fe011136acef2780c05b0dc3c5435d005651740788d4537"
-+
-+do_install() {
-+	oe_runmake install DESTDIR=${D} prefix=${prefix}
-+}
-+
-+BBCLASSEXTEND = "native"
--- 
-2.1.4
-
+-- 
+Tanu
 
