@@ -1,22 +1,22 @@
 Return-Path: <sona.sarmadi@enea.com>
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 9EF147317E
+	by mail.openembedded.org (Postfix) with SMTP id 4A35073185
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 12:24:25 +0000 (UTC)
+	Mon, 14 Dec 2015 12:24:27 +0000 (UTC)
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 14 Dec 2015 13:24:13 +0100
+	Mon, 14 Dec 2015 13:24:15 +0100
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Dec 2015 13:24:11 +0100
-Message-ID: <1450095853-48305-4-git-send-email-sona.sarmadi@enea.com>
+Date: Mon, 14 Dec 2015 13:24:12 +0100
+Message-ID: <1450095853-48305-5-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1450095853-48305-1-git-send-email-sona.sarmadi@enea.com>
 References: <1450095853-48305-1-git-send-email-sona.sarmadi@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
 	designate permitted sender hosts)
-Subject: [PATCH][dizzy 4/6] grep2.19: CVE-2015-1345
+Subject: [PATCH][dizzy 5/6] libxml2: CVE-2015-8035
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,172 +29,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 12:24:26 -0000
+X-List-Received-Date: Mon, 14 Dec 2015 12:24:28 -0000
 Content-Type: text/plain
 
-Fixes heap-based buffer overflow flaw in grep.
-Affected versions are: grep 2.19 through 2.21
+Fixes DoS when parsing specially crafted XML document
+if XZ support is enabled.
 
-Upstream fix:
-http://git.sv.gnu.org/cgit/grep.git/commit/?id=83a95bd8c8561875b948cadd417c653dbe7ef2e2
+References:
+https://bugzilla.gnome.org/show_bug.cgi?id=757466
 
+Upstream correction:
+https://git.gnome.org/browse/libxml2/commit/?id=
+f0709e3ca8f8947f2d91ed34e92e38a4c23eae63
+
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
 Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 ---
- .../grep/grep-2.19/grep2.19-CVE-2015-1345.patch    | 129 +++++++++++++++++++++
- meta/recipes-extended/grep/grep_2.19.bb            |   4 +-
- 2 files changed, 132 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/grep/grep-2.19/grep2.19-CVE-2015-1345.patch
+ meta/recipes-core/libxml/libxml2.inc               |  1 +
+ .../libxml/libxml2/CVE-2015-8035.patch             | 35 ++++++++++++++++++++++
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
 
-diff --git a/meta/recipes-extended/grep/grep-2.19/grep2.19-CVE-2015-1345.patch b/meta/recipes-extended/grep/grep-2.19/grep2.19-CVE-2015-1345.patch
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 15a2421..d5e263b 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -24,6 +24,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml2-CVE-2014-3660.patch \
+            file://0001-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch \
+            file://CVE-2015-7942.patch \
++           file://CVE-2015-8035.patch \
+           "
+ 
+ BINCONFIG = "${bindir}/xml2-config"
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
 new file mode 100644
-index 0000000..32846f5
+index 0000000..d08693f
 --- /dev/null
-+++ b/meta/recipes-extended/grep/grep-2.19/grep2.19-CVE-2015-1345.patch
-@@ -0,0 +1,129 @@
-+From 83a95bd8c8561875b948cadd417c653dbe7ef2e2 Mon Sep 17 00:00:00 2001
-+From: Yuliy Pisetsky <ypisetsky@fb.com>
-+Date: Thu, 01 Jan 2015 23:36:55 +0000
-+Subject: grep -F: fix a heap buffer (read) overrun
++++ b/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
+@@ -0,0 +1,35 @@
++From f0709e3ca8f8947f2d91ed34e92e38a4c23eae63 Mon Sep 17 00:00:00 2001
++From: Daniel Veillard <veillard@redhat.com>
++Date: Tue, 3 Nov 2015 15:31:25 +0800
++Subject: CVE-2015-8035 Fix XZ compression support loop
 +
-+grep's read buffer is often filled to its full size, except when
-+reading the final buffer of a file.  In that case, the number of
-+bytes read may be far less than the size of the buffer.  However, for
-+certain unusual pattern/text combinations, grep -F would mistakenly
-+examine bytes in that uninitialized region of memory when searching
-+for a match.  With carefully chosen inputs, one can cause grep -F to
-+read beyond the end of that buffer altogether.  This problem arose via
-+commit v2.18-90-g73893ff with the introduction of a more efficient
-+heuristic using what is now the memchr_kwset function. The use of
-+that function in bmexec_trans could leave TP much larger than EP,
-+and the subsequent call to bm_delta2_search would mistakenly access
-+beyond end of the main input read buffer.
++For https://bugzilla.gnome.org/show_bug.cgi?id=757466
++DoS when parsing specially crafted XML document if XZ support
++is compiled in (which wasn't the case for 2.9.2 and master since
++Nov 2013, fixed in next commit !)
 +
-+* src/kwset.c (bmexec_trans): When TP reaches or exceeds EP,
-+do not call bm_delta2_search.
-+* tests/kwset-abuse: New file.
-+* tests/Makefile.am (TESTS): Add it.
-+* NEWS (Bug fixes): Mention it.
-+
-+Prior to this patch, this command would trigger a UMR:
-+
-+  printf %0360db 0 | valgrind src/grep -F $(printf %019dXb 0)
-+
-+  Use of uninitialised value of size 8
-+     at 0x4142BE: bmexec_trans (kwset.c:657)
-+     by 0x4143CA: bmexec (kwset.c:678)
-+     by 0x414973: kwsexec (kwset.c:848)
-+     by 0x414DC4: Fexecute (kwsearch.c:128)
-+     by 0x404E2E: grepbuf (grep.c:1238)
-+     by 0x4054BF: grep (grep.c:1417)
-+     by 0x405CEB: grepdesc (grep.c:1645)
-+     by 0x405EC1: grep_command_line_arg (grep.c:1692)
-+     by 0x4077D4: main (grep.c:2570)
-+
-+See the accompanying test for how to trigger the heap buffer overrun.
-+
-+Thanks to Nima Aghdaii for testing and finding numerous
-+ways to break early iterations of this patch.
-+
-+Fixes CVE-2015-1345.
 +Upstream-Status: Backport
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 +
 +---
-+diff --git a/NEWS b/NEWS
-+index 975440d..3835d8d 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -2,6 +2,11 @@ GNU grep NEWS                                    -*- outline -*-
++ xzlib.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/xzlib.c b/xzlib.c
++index 0dcb9f4..1fab546 100644
++--- a/xzlib.c
+++++ b/xzlib.c
++@@ -581,6 +581,10 @@ xz_decomp(xz_statep state)
++             xz_error(state, LZMA_DATA_ERROR, "compressed data error");
++             return -1;
++         }
+++        if (ret == LZMA_PROG_ERROR) {
+++            xz_error(state, LZMA_PROG_ERROR, "compression error");
+++            return -1;
+++        }
++     } while (strm->avail_out && ret != LZMA_STREAM_END);
 + 
-+ * Noteworthy changes in release ?.? (????-??-??) [?]
-+ 
-++** Bug fixes
-++
-++  grep no longer reads from uninitialized memory or from beyond the end
-++  of the heap-allocated input buffer.
-++
-+ 
-+ * Noteworthy changes in release 2.21 (2014-11-23) [stable]
-+ 
-+diff --git a/src/kwset.c b/src/kwset.c
-+index 4003c8d..376f7c3 100644
-+--- a/src/kwset.c
-++++ b/src/kwset.c
-+@@ -643,6 +643,8 @@ bmexec_trans (kwset_t kwset, char const *text, size_t size)
-+                     if (! tp)
-+                       return -1;
-+                     tp++;
-++                    if (ep <= tp)
-++                      break;
-+                   }
-+               }
-+           }
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index 2cba2cd..0508cd2 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -75,6 +75,7 @@ TESTS =						\
-+   inconsistent-range				\
-+   invalid-multibyte-infloop			\
-+   khadafy					\
-++  kwset-abuse					\
-+   long-line-vs-2GiB-read			\
-+   match-lines					\
-+   max-count-overread				\
-+diff --git a/tests/kwset-abuse b/tests/kwset-abuse
-+new file mode 100755
-+index 0000000..6d8ec0c
-+--- a/dev/null
-++++ b/tests/kwset-abuse
-+@@ -0,0 +1,32 @@
-++#! /bin/sh
-++# Evoke a segfault in a hard-to-reach code path of kwset.c.
-++# This bug affected grep versions 2.19 through 2.21.
-++#
-++# Copyright (C) 2015 Free Software Foundation, Inc.
-++#
-++# This program is free software: you can redistribute it and/or modify
-++# it under the terms of the GNU General Public License as published by
-++# the Free Software Foundation, either version 3 of the License, or
-++# (at your option) any later version.
-++
-++# This program is distributed in the hope that it will be useful,
-++# but WITHOUT ANY WARRANTY; without even the implied warranty of
-++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++# GNU General Public License for more details.
-++
-++# You should have received a copy of the GNU General Public License
-++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-++
-++. "${srcdir=.}/init.sh"; path_prepend_ ../src
-++
-++fail=0
-++
-++# This test case chooses a haystack of size 260,000, since prodding
-++# with gdb showed a reallocation slightly larger than that in fillbuf.
-++# To reach the buggy code, the needle must have length < 1/11 that of
-++# the haystack, and 10,000 is a nice round number that fits the bill.
-++printf '%0260000dXy\n' 0 | grep -F $(printf %010000dy 0)
-++
-++test $? = 1 || fail=1
-++
-++Exit $fail
-+--
-+cgit v0.9.0.2
-diff --git a/meta/recipes-extended/grep/grep_2.19.bb b/meta/recipes-extended/grep/grep_2.19.bb
-index 9c162cc..d60ce5e 100644
---- a/meta/recipes-extended/grep/grep_2.19.bb
-+++ b/meta/recipes-extended/grep/grep_2.19.bb
-@@ -5,7 +5,9 @@ SECTION = "console/utils"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8006d9c814277c1bfc4ca22af94b59ee"
- 
--SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz"
-+SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz \
-+           file://grep2.19-CVE-2015-1345.patch \
-+           "
- 
- SRC_URI[md5sum] = "ac732142227d9fe9567d71301e127979"
- SRC_URI[sha256sum] = "6388295be48cfcaf7665d9cd3914e6625ea000e9414132bfefd45cf1d8eec34d"
++     /* update available output and crc check value */
++-- 
++cgit v0.11.2
++
 -- 
 1.9.1
 
