@@ -1,35 +1,35 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 003C473173
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 18:30:58 +0000 (UTC)
-Received: by iow186 with SMTP id 186so35724296iow.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 10:30:59 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A0106FF73;
+	Mon, 14 Dec 2015 19:01:45 +0000 (UTC)
+Received: by mail-wm0-f44.google.com with SMTP id p66so76836409wmp.1;
+	Mon, 14 Dec 2015 11:01:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=vPxe8JvKc1DPRKlpI0ZknzIlxpFJ9dg21Xp8oom4g7M=;
-	b=n41WtQBh4Vkbylp40BiRfcWXrwsaRehO2Tnzkg5WiKCSH7T/Ykqg3UgQrO+JSxsvYa
-	lXkyCF8opFJM66nNUhEW34TWzSY24qOIOq/iKkT5RF6MnGY5uSiHWGSq6eVTdLG6Fx1S
-	A5HqgDsNUdjzWDevM2R7dXcWu4nTLWpjPRDfglJD7vc5vkYBuRXUE/0H27gZ209ENf3Z
-	HXb4cwi6NO3gvUL3m4QvTMI9GBKyYungoGEut3o39HTJCdan17uaw4bnWIkYeENN6C1R
-	TUgDwWNb2vW8rdX8HmYrNHjl1w1VNLMYm3lVPjl0u01O+bPgf60k/I431+8I4860EyQ+
-	qt3A==
-X-Received: by 10.107.153.136 with SMTP id b130mr11940406ioe.83.1450117859516; 
-	Mon, 14 Dec 2015 10:30:59 -0800 (PST)
+	h=from:date:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=AXUeFjRt6eehEFOtPBtkkodqFqYpZQM2SYeL+RmbwQI=;
+	b=YchchgKaif1gWI5AS+IblitrrpLZjSaeH8FhFkLAQdxCfcxl0gXFdlcXYS/uxLWGAi
+	G+8JJ1Cc4SZe4Fe/BQ15ZOJfXqAkfc+m7A7g+jofBxMQNbI6lK9oEXh3W5nss8jiNElU
+	heTVxERn9cZxI5AD6j+/L0o+1k61r0OaZ71NC0qo8rEHueMa8yZ0Y5EprabxNKIkzmDW
+	7SttIU110SO25ALDZPcecW8zAUTinN/qroGNcTB6a+9saOFGDP7q0L/d92E9/SIbjAkZ
+	CuXACDC8+9T+EkQimi/KSs5ZEPhG9ggtx8NvVDsQ/pAAtwTzx3Oy3QOFUd8jVldZkkUm
+	c0Ig==
+X-Received: by 10.28.88.5 with SMTP id m5mr27137468wmb.54.1450119706276;
+	Mon, 14 Dec 2015 11:01:46 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	u205sm17370170wmb.12.2015.12.14.11.01.45
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 14 Dec 2015 11:01:45 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 14 Dec 2015 20:03:47 +0100
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20151214190347.GB2212@jama>
 MIME-Version: 1.0
-Received: by 10.79.69.129 with HTTP; Mon, 14 Dec 2015 10:30:40 -0800 (PST)
-In-Reply-To: <CAJTo0La2XQ6JOt5Qt3eS+80LVKGEktVOKVe=pe=KpbC8X-TYAQ@mail.gmail.com>
-References: <cover.1443032533.git.chris_larson@mentor.com>
-	<CAJTo0La2XQ6JOt5Qt3eS+80LVKGEktVOKVe=pe=KpbC8X-TYAQ@mail.gmail.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Mon, 14 Dec 2015 11:30:40 -0700
-Message-ID: <CABcZAN=1AGrZPG4xkU2BoyQWcY3GB8ezvixPX63d9U0bs_cT-g@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] recipetool/devtool: send errors to stderr
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: State of bitbake world, test-dependencies 2015-11-19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,67 +42,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 18:31:01 -0000
-Content-Type: multipart/alternative; boundary=001a1140e940e628f90526dfdf9f
+X-List-Received-Date: Mon, 14 Dec 2015 19:01:49 -0000
+X-Groupsio-MsgNum: 74741
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="WhfpMioaduB5tiZL"
+Content-Disposition: inline
 
---001a1140e940e628f90526dfdf9f
-Content-Type: text/plain; charset=UTF-8
-
-On Mon, Dec 14, 2015 at 5:06 AM, Burton, Ross <ross.burton@intel.com> wrote:
-
-> On 23 September 2015 at 19:24, Christopher Larson <kergoth@gmail.com>
-> wrote:
->
->> are available in the git repository at:
->>
->>   git://github.com/kergoth/openembedded-core scriptutils-log-improvements
->>
->> https://github.com/kergoth/openembedded-core/tree/scriptutils-log-improvements
->>
->
-> There's also a similar scriptutils-log-improvements-2 branch, what branch
-> is the one you want merged?
-
-
-The scriptutils-log-improvements branch, please. scriptutils-log-improvements-2
-includes bits which aren't yet ready. Thanks.
--- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a1140e940e628f90526dfdf9f
-Content-Type: text/html; charset=UTF-8
+--WhfpMioaduB5tiZL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Dec 14, 2015 at 5:06 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
-span class=3D"">On 23 September 2015 at 19:24, Christopher Larson <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth=
-@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_quote"><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex"><div style=3D"overflow:hidden">are av=
-ailable in the git repository at:<br>
-<br>
-=C2=A0 git://<a href=3D"http://github.com/kergoth/openembedded-core" rel=3D=
-"noreferrer" target=3D"_blank">github.com/kergoth/openembedded-core</a> scr=
-iptutils-log-improvements<br>
-=C2=A0 <a href=3D"https://github.com/kergoth/openembedded-core/tree/scriptu=
-tils-log-improvements" rel=3D"noreferrer" target=3D"_blank">https://github.=
-com/kergoth/openembedded-core/tree/scriptutils-log-improvements</a></div></=
-blockquote></div><br></span>There&#39;s also a similar scriptutils-log-impr=
-ovements-2 branch, what branch is the one you want merged?</blockquote></di=
-v><br></div><div class=3D"gmail_extra">The <span class=3D"">scriptutils-log=
--improvements branch, please. </span><span class=3D"">scriptutils-log-impro=
-vements-2 includes bits </span>which aren&#39;t yet ready. Thanks.<br>-- <b=
-r><div class=3D"gmail_signature"><div dir=3D"ltr">Christopher Larson<br>ker=
-goth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Mai=
-ntainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div></div>
-</div></div>
+This time full build (testing all recipes available in "my world" - 2503
+recipes), it took record-breaking 25days to finish.
 
---001a1140e940e628f90526dfdf9f--
+Complete log:
+http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20151120_14=
+4802.log/
+=20
+I've already sent patches for few of them, will send one for pulseaudio-lir=
+c as well
+as I already have it in out local recipes. For the rest I would appreciate =
+some help
+=66rom people actually using these recipes.
+
+I'll trigger new incremental build after that huge meta-oe patch queue from=
+ master-next
+is in master.
+
+ERROR: 34 issues were found in these recipes: clutter-gst-3.0 cryptodev-mod=
+ule ctdb gnome-panel jasper lcdproc libftdi mpd places pulseaudio python py=
+thon3 rain rygel samba shr-e-gadgets shr-wizard snort sysdig tmux uptime vb=
+oxguestdrivers xfce4-clipman-plugin
+
+Found differences:
+WARN: clutter-gst-3.0: clutter-gst-3.0 rdepends on libcap, but it isn't a b=
+uild dependency?
+WARN: clutter-gst-3.0: clutter-gst-3.0 rdepends on libgudev, but it isn't a=
+ build dependency?
+WARN: clutter-gst-3.0: clutter-gst-3.0 rdepends on libudev, but it isn't a =
+build dependency?
+WARN: ctdb: ctdb rdepends on libtdb, but it isn't a build dependency?
+WARN: gnome-panel: gnome-panel rdepends on dbus-lib, but it isn't a build d=
+ependency?
+WARN: jasper: jasper-bin rdepends on libgl-mesa, but it isn't a build depen=
+dency?
+WARN: jasper: jasper-bin rdepends on libglu, but it isn't a build dependenc=
+y?
+WARN: jasper: jasper-bin rdepends on mesa-glut, but it isn't a build depend=
+ency?
+WARN: libftdi: libftdi rdepends on libgcc, but it isn't a build dependency?
+WARN: libftdi: libftdi rdepends on libstdc++, but it isn't a build dependen=
+cy?
+WARN: mpd: mpd rdepends on libupnp, but it isn't a build dependency?
+WARN: places: places rdepends on luajit, but it isn't a build dependency?
+WARN: python: python-tkinter rdepends on glibc, but it isn't a build depend=
+ency?
+WARN: python: python-tkinter rdepends on libpython2, but it isn't a build d=
+ependency?
+WARN: python: python-tkinter rdepends on tcl-lib, but it isn't a build depe=
+ndency?
+WARN: python3: python3-tkinter rdepends on glibc, but it isn't a build depe=
+ndency?
+WARN: python3: python3-tkinter rdepends on libpython3, but it isn't a build=
+ dependency?
+WARN: python3: python3-tkinter rdepends on tcl-lib, but it isn't a build de=
+pendency?
+WARN: rain: rain rdepends on luajit, but it isn't a build dependency?
+WARN: rygel: rygel-plugin-media-export rdepends on libunistring, but it isn=
+'t a build dependency?
+WARN: samba: samba rdepends on libpam, but it isn't a build dependency?
+WARN: shr-e-gadgets: shr-e-gadgets rdepends on luajit, but it isn't a build=
+ dependency?
+WARN: shr-wizard: shr-wizard rdepends on luajit, but it isn't a build depen=
+dency?
+WARN: snort: snort rdepends on liblzma, but it isn't a build dependency?
+WARN: sysdig: sysdig rdepends on luajit, but it isn't a build dependency?
+WARN: tmux: tmux rdepends on libutempter, but it isn't a build dependency?
+WARN: uptime: uptime rdepends on luajit, but it isn't a build dependency?
+WARN: xfce4-clipman-plugin: xfce4-clipman-plugin rdepends on qrencode, but =
+it isn't a build dependency?
+WARN: cryptodev-module: kernel-module-cryptodev rdepends on kernel-3.19.5-y=
+octo-tiny, but it isn't a build dependency?
+WARN: vboxguestdrivers: kernel-module-vboxguest rdepends on kernel-3.19.5-y=
+octo-tiny, but it isn't a build dependency?
+WARN: vboxguestdrivers: kernel-module-vboxsf rdepends on kernel-3.19.5-yoct=
+o-tiny, but it isn't a build dependency?
+WARN: vboxguestdrivers: kernel-module-vboxvideo rdepends on kernel-3.19.5-y=
+octo-tiny, but it isn't a build dependency?
+Found errors:
+ERROR: lcdproc: lcdd-driver-lirc package isn't created when building with m=
+inimal dependencies?
+ERROR: pulseaudio: pulseaudio-module-lirc package isn't created when buildi=
+ng with minimal dependencies?
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--WhfpMioaduB5tiZL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlZvEpIACgkQN1Ujt2V2gBwnYwCfU1Qa/0GeqC5Ha87B9/kv14br
+i4MAniqPPNItTrusOVne5fL3qIv/yfHl
+=SLwE
+-----END PGP SIGNATURE-----
+
+--WhfpMioaduB5tiZL--
