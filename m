@@ -1,49 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id D9D9B60796
+Return-Path: <anibal.limon@linux.intel.com>
+X-Greylist: delayed 576 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 14 Dec 2015 23:05:43 UTC
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id D50CF60796
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 23:04:18 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id o67so463257iof.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 15:04:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=iltD7dKutS7BttI6+Ks5sGiyGVaVp34QLL4WzLkwX+Q=;
-	b=N/1nEXOcNuOTGFjGeMXGAdCww27KsObv8OAxSmgZ90T4UmPaBBL2cArc1ZNW4ISIsM
-	8Q85LcAGLv1XhYd/x+Lq0da81mD6hJ7Sr/V1nuzU49/EBg0rHckKJHZeMtRwRePIiqcA
-	rwuW3zUosoxt+0e5UQz8eEDJPAyGSAfVRkUhAoyPpsC1Z1G0evn8HXEpdd9g/V5dGDDm
-	J0tVw06iVSZig8JKQwYvz/P0DWJq4hRvMTLfjeP3marB3Vn1+1m3qqu4XuOHqyFrX9aH
-	GU0psWo70apfVnLtl6Cw4Vul9mt7b2ViAk6rF9XKSiERP4NyQeixSAMkTOF/Uhx5Vv3F
-	knlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=iltD7dKutS7BttI6+Ks5sGiyGVaVp34QLL4WzLkwX+Q=;
-	b=PuCqR/zRmfgbZ6BXoKDpaDVSydcx02YkXBs6sYzz3OSSZ2ifli6JQPSD/gxkSOxJDj
-	HUJC5UXvGGj/Pcpp8kSSWY0Pj3mOaZ0/fy8laU6DRsVmIfGoPJMRlQENvZJ/a1QuV2Gb
-	/hNR53xS4LlVLMjhiljZVGfee29wvCmp0KfODZ3O24RiPP/GmNDeZBiWZ0udsf963F9G
-	7lqeWPw+k4llWu/zsfS9EMNO8TA9/Kdzv/FkrgHE4/FdtuD92Ix2CT+m6SAaD24zKX0x
-	/1a5emS7DbHJlvqxpovwdPisr2M0hpxYgqZvbDeQxiLJClSXVNIWeH4qhLlon4w8XerD
-	vfOg==
-X-Gm-Message-State: ALoCoQmqFLtxtWDdCWGHBLF0hLHHxsoEN+z/Ang73pfHg9uvUpq1AxTIWlHjgAm94OsgvQpmwxjYh64Gjwe3Anya8O8hyhIKZzqrmb8XHTHUIoMMOnP7YAw=
-X-Received: by 10.107.154.131 with SMTP id c125mr9699250ioe.148.1450134258989; 
-	Mon, 14 Dec 2015 15:04:18 -0800 (PST)
+	Mon, 14 Dec 2015 23:05:43 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 14 Dec 2015 14:56:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,429,1444719600"; d="scan'208";a="841133956"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.48])
+	by orsmga001.jf.intel.com with ESMTP; 14 Dec 2015 14:56:10 -0800
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Dec 2015 16:57:09 -0600
+Message-Id: <1450133829-17751-3-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1450133829-17751-1-git-send-email-anibal.limon@linux.intel.com>
+References: <1450133829-17751-1-git-send-email-anibal.limon@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Mon, 14 Dec 2015 15:03:59 -0800 (PST)
-In-Reply-To: <CA+chaQdQuUXMF2jtNMb3b1P=CoXyenTDcOFM=CjFzA5AS71Uxw@mail.gmail.com>
-References: <1450132464-14675-1-git-send-email-ross.burton@intel.com>
-	<CA+chaQdQuUXMF2jtNMb3b1P=CoXyenTDcOFM=CjFzA5AS71Uxw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Dec 2015 23:03:59 +0000
-Message-ID: <CAJTo0LaLWWaQF4BWpSutXwt6MkbfnNK2eveZjX7Xa7a4=rD3fg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] clutter-gst-3.0: add missing gudev build dependency
+Cc: paul.eggleton@linux.intel.com, Nathan_Lynch@mentor.com
+Subject: [PATCHv2 2/2] ptest-runner: Add a recipe for install ptest-runner 2.0.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 23:04:19 -0000
-Content-Type: multipart/alternative; boundary=001a1140f36862543b0526e3b171
-
---001a1140f36862543b0526e3b171
+X-List-Received-Date: Mon, 14 Dec 2015 23:05:44 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 14 December 2015 at 22:59, Martin Jansa <martin.jansa@gmail.com> wrote:
+[YOCTO #8021]
 
-> It's libgudev not just gudev, see:
->
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ .../ptest-runner/ptest-runner_2.0.bb               | 28 ++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+ create mode 100644 meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
 
-Damnit, thanks.  I'll drop mine and pick yours. :)
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+new file mode 100644
+index 0000000..64fd0df
+--- /dev/null
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+@@ -0,0 +1,28 @@
++SUMMARY = "A python script to run all installed ptests"
++
++DESCRIPTION = "The ptest-runner package installs a ptest-runner \
++python script which loops through all installed ptest test suites and \
++runs them in sequence."
++
++HOMEPAGE = "https://wiki.yoctoproject.org/wiki/Ptest"
++SRC_URI += "file://ptest-runner_2.0.py"
++
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
++                    file://${COREBASE}/meta/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe"
++
++INHIBIT_DEFAULT_DEPS = "1"
++RDEPENDS_${PN} = "python python-fcntl python-argparse python-logging python-datetime \
++                  python-subprocess"
++
++S = "${WORKDIR}"
++
++do_install () {
++    mkdir -p ${D}${bindir}
++    install -m 0755 ${WORKDIR}/ptest-runner_2.0.py ${D}${bindir}/ptest-runner
++}
++
++do_patch[noexec] = "1"
++do_configure[noexec] = "1"
++do_compile[noexec] = "1"
++do_build[noexec] = "1"
+-- 
+2.1.4
 
-Ross
 
---001a1140f36862543b0526e3b171
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 December 2015 at 22:59, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">It&#=
-39;s libgudev not just gudev, see:<div></div></div></blockquote></div><br><=
-/div><div class=3D"gmail_extra">Damnit, thanks.=C2=A0 I&#39;ll drop mine an=
-d pick yours. :)</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Ross</div></div>
-
---001a1140f36862543b0526e3b171--
