@@ -1,20 +1,64 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 3AFAE6FEFE
+Return-Path: <anders@chargestorm.se>
+Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
+	[209.85.217.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 1565D6FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 10:25:10 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 14 Dec 2015 11:22:29 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Dec 2015 11:25:07 +0100
-Message-ID: <1450088707-64294-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 14 Dec 2015 10:40:35 +0000 (UTC)
+Received: by lbpu9 with SMTP id u9so96668386lbp.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 02:40:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:cc:subject:message-id:mail-followup-to:references
+	:mime-version:content-type:content-disposition
+	:content-transfer-encoding:in-reply-to:organization:user-agent;
+	bh=eiVQVL7WuXtTRgJeqor6O38oJdEp5XD05Q/zL6gjvwQ=;
+	b=Xk2ghpgDsF3jFgyZ4/s5Rlm1aOQNyIUPrKy096rmVE+/PP0LX0FcVb8D7qP/jASVWU
+	fYI3sM9vhF8B2zDb4wk+cK3HIAfy9xJJ2MNUbwY3qe1LKHo5w1SVa8VzCidOtup9X0x+
+	uJZXUxIrIFBAiiKqs7rOtHp+5vjQrGwkfbTFk7CeMm2mm/TBH9SulVPxZI0gKLugXq7L
+	W2TyMITKVO8G81V1dO/F13RVAevz1AjrczbkQKJT6bOMrXUpqyxcBjaWtqMLUV25S+7t
+	idKuSVfSE6oq+bIZe4ECoimZicGhcGjYB0cx00uJ3D3EwKMAh03ZAI4sdpXRjKk7Fs7P
+	+RIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id
+	:mail-followup-to:references:mime-version:content-type
+	:content-disposition:content-transfer-encoding:in-reply-to
+	:organization:user-agent;
+	bh=eiVQVL7WuXtTRgJeqor6O38oJdEp5XD05Q/zL6gjvwQ=;
+	b=GFBx0KRICxjjqao9KKpUse1QwLRfapezdg7yTJmAW2mpe78bGqbHmDnPtXV8EgcZPY
+	9rT02M9lP7rwN6iYmIqQ2KggjWV4V1uZMEqP2QhKWJCnP5lSDITzii+x1pfwNN40TAVG
+	QY9s2nfljD+bXpwfwGZlweXvm5KwOGMuQMIMom21pyekHL2Tqvj45scmqchAmDM5ZLLs
+	cJ5eGVB0ryB0KdckhAYMrn+SKRd39GKzvtpu8PlIFyDZJkC12oV183PhequGoqGzm3Pn
+	VkvKEPJkn5jUGNjQMoDQpY9WeXZ8DIzHVSn9Yn9giQNlRpzDUFa/IBVOS5d/qL4BHQYL
+	sccA==
+X-Gm-Message-State: ALoCoQnj2tNuR7FLqznvtmJSErtaxKcCQQM23/TO6HLQHSL3HESIaRSHod82wC8AInj8nNHyaozWU8Atocdn4TDEmsygzr2tQg==
+X-Received: by 10.112.11.169 with SMTP id r9mr13192250lbb.8.1450089635560;
+	Mon, 14 Dec 2015 02:40:35 -0800 (PST)
+Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
+	[213.64.219.84]) by smtp.gmail.com with ESMTPSA id
+	t82sm5477104lfe.14.2015.12.14.02.40.33
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 14 Dec 2015 02:40:34 -0800 (PST)
+Date: Mon, 14 Dec 2015 11:40:27 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: akuster808 <akuster808@gmail.com>
+Message-ID: <20151214104027.GA31532@ad.chargestorm.se>
+Mail-Followup-To: akuster808 <akuster808@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <1449539278-20070-1-git-send-email-akuster808@gmail.com>
+	<1449539278-20070-4-git-send-email-akuster808@gmail.com>
+	<20151208074923.GB8707@ad.chargestorm.se> <566C8E4C.102@gmail.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH][dizzy] openssl: CVE-2015-3194, CVE-2015-3195
+In-Reply-To: <566C8E4C.102@gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [jethro][fido][PATCH 4/4] openssl: three CVE fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,163 +71,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 10:25:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 14 Dec 2015 10:40:37 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Fixes following vulnerabilities:
-Certificate verify crash with missing PSS parameter (CVE-2015-3194)
-X509_ATTRIBUTE memory leak (CVE-2015-3195)
+* akuster808 <akuster808@gmail.com> [151212 22:14]:
+> On 12/07/2015 11:49 PM, Anders Darander wrote:
+> > Hi,
 
-References:
-https://openssl.org/news/secadv/20151203.txt
-http://cve.mitre.org/cgi-bin/cvename.cgi?name=3DCVE-2015-3194
-http://cve.mitre.org/cgi-bin/cvename.cgi?name=3DCVE-2015-3195
+> > * Armin Kuster <akuster808@gmail.com> [151208 02:49]:
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- .../CVE-2015-3194-Add-PSS-parameter-check.patch    | 35 +++++++++++++
- ...CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch | 59 ++++++++++++++++++=
-++++
- .../recipes-connectivity/openssl/openssl_1.0.1p.bb |  2 +
- 3 files changed, 96 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3194=
--Add-PSS-parameter-check.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3195=
--Fix-leak-with-ASN.1-combine.patch
+> >>  meta/recipes-connectivity/openssl/openssl_1.0.2d.bb | 4 ++++
+> >>  1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2015-3194-Add-PS=
-S-parameter-check.patch b/meta/recipes-connectivity/openssl/openssl/CVE-201=
-5-3194-Add-PSS-parameter-check.patch
-new file mode 100644
-index 0000000..3c00bc1
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2015-3194-Add-PSS-param=
-eter-check.patch
-@@ -0,0 +1,35 @@
-+Date: Fri, 2 Oct 2015 13:10:29 +0100
-+Subject: [PATCH] Add PSS parameter check.
-+
-+Avoid seg fault by checking mgf1 parameter is not NULL. This can be
-+triggered during certificate verification so could be a DoS attack
-+against a client or a server enabling client authentication.
-+
-+Thanks to Lo=C3=AFc Jonas Etienne (Qnective AG) for discovering this bug.
-+
-+CVE-2015-3194
-+
-+Upstream-Status: Backport
-+
-+Reviewed-by: Matt Caswell <matt@openssl.org>
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+---
-+ crypto/rsa/rsa_ameth.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/crypto/rsa/rsa_ameth.c b/crypto/rsa/rsa_ameth.c
-+index 93e071d..c7f1148 100644
-+--- a/crypto/rsa/rsa_ameth.c
-++++ b/crypto/rsa/rsa_ameth.c
-+@@ -279,7 +279,7 @@ static RSA_PSS_PARAMS *rsa_pss_decode(const X509_ALGOR=
- *alg,
-+     if (pss->maskGenAlgorithm) {
-+         ASN1_TYPE *param =3D pss->maskGenAlgorithm->parameter;
-+         if (OBJ_obj2nid(pss->maskGenAlgorithm->algorithm) =3D=3D NID_mgf1
-+-            && param->type =3D=3D V_ASN1_SEQUENCE) {
-++            && param && param->type =3D=3D V_ASN1_SEQUENCE) {
-+             p =3D param->value.sequence->data;
-+             plen =3D param->value.sequence->length;
-+             *pmaskHash =3D d2i_X509_ALGOR(NULL, &p, plen);
-+--=20
-+1.9.1
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2015-3195-Fix-le=
-ak-with-ASN.1-combine.patch b/meta/recipes-connectivity/openssl/openssl/CVE=
--2015-3195-Fix-leak-with-ASN.1-combine.patch
-new file mode 100644
-index 0000000..87c4c6c
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2015-3195-Fix-leak-with=
--ASN.1-combine.patch
-@@ -0,0 +1,59 @@
-+Date: Tue, 10 Nov 2015 19:03:07 +0000
-+Subject: [PATCH] Fix leak with ASN.1 combine.
-+
-+When parsing a combined structure pass a flag to the decode routine
-+so on error a pointer to the parent structure is not zeroed as
-+this will leak any additional components in the parent.
-+
-+This can leak memory in any application parsing PKCS#7 or CMS structures.
-+
-+CVE-2015-3195.
-+
-+Upstream-Status: Backport
-+
-+Thanks to Adam Langley (Google/BoringSSL) for discovering this bug using
-+libFuzzer.
-+
-+PR#4131
-+
-+Reviewed-by: Richard Levitte <levitte@openssl.org>
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+---
-+ crypto/asn1/tasn_dec.c | 7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/crypto/asn1/tasn_dec.c b/crypto/asn1/tasn_dec.c
-+index febf605..9256049 100644
-+--- a/crypto/asn1/tasn_dec.c
-++++ b/crypto/asn1/tasn_dec.c
-+@@ -180,6 +180,8 @@ int ASN1_item_ex_d2i(ASN1_VALUE **pval, const unsigned=
- char **in, long len,
-+     int otag;
-+     int ret =3D 0;
-+     ASN1_VALUE **pchptr, *ptmpval;
-++    int combine =3D aclass & ASN1_TFLG_COMBINE;
-++    aclass &=3D ~ASN1_TFLG_COMBINE;
-+     if (!pval)
-+         return 0;
-+     if (aux && aux->asn1_cb)
-+@@ -500,7 +502,8 @@ int ASN1_item_ex_d2i(ASN1_VALUE **pval, const unsigned=
- char **in, long len,
-+  auxerr:
-+     ASN1err(ASN1_F_ASN1_ITEM_EX_D2I, ASN1_R_AUX_ERROR);
-+  err:
-+-    ASN1_item_ex_free(pval, it);
-++    if (combine =3D=3D 0)
-++        ASN1_item_ex_free(pval, it);
-+     if (errtt)
-+         ERR_add_error_data(4, "Field=3D", errtt->field_name,
-+                            ", Type=3D", it->sname);
-+@@ -689,7 +692,7 @@ static int asn1_template_noexp_d2i(ASN1_VALUE **val,
-+     } else {
-+         /* Nothing special */
-+         ret =3D ASN1_item_ex_d2i(val, &p, len, ASN1_ITEM_ptr(tt->item),
-+-                               -1, 0, opt, ctx);
-++                               -1, tt->flags & ASN1_TFLG_COMBINE, opt, ct=
-x);
-+         if (!ret) {
-+             ASN1err(ASN1_F_ASN1_TEMPLATE_NOEXP_D2I, ERR_R_NESTED_ASN1_ERR=
-OR);
-+             goto err;
-+--=20
-+1.9.1
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1p.bb b/meta/rec=
-ipes-connectivity/openssl/openssl_1.0.1p.bb
-index 3f61790..1d0242f 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.1p.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.1p.bb
-@@ -34,6 +34,8 @@ SRC_URI +=3D "file://configure-targets.patch \
-             file://Makefiles-ptest.patch \
-             file://ptest-deps.patch \
-             file://run-ptest \
-+            file://CVE-2015-3194-Add-PSS-parameter-check.patch \
-+            file://CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch \
-            "
-=20
- SRC_URI[md5sum] =3D "7563e92327199e0067ccd0f79f436976"
+> > I'm just a little curious about this serious, and a few others that I've
+> > seen recently. They all add a number of CVE-patches, with one commit per
+> > patch, and as the last commit, they all get added to SRC_URI in a single
+> > patch.
+
+> > What's the reason to do it like this? i
+
+> Each CVE patch can be leveraged independently so back porting to other
+> branches is simpler and less work.  The recipe file is  where merge
+> conflicts will occur. Not all CVE's are weighted the same so someone who
+> has a product in the field can easily cherry pick the CVE's they want or
+> need. This was talked about on IRC a few weeks ago.
+
+Well, you have the obviuos risk of backporting a fix, and assuming that
+it gets applied.
+
+The confligt will anyway appear on in the recipe, so there's no real
+issue. Handling that conflict (which is easy to spot and solve) will
+also ensure that you're aware of the fact that you have a difference
+between your local branch and upstream.=20
+
+> > I'd personally prefer to have each CVE-path also add the patch to
+> > SRC_URI, as that make cherry-picking more straightforward. And it also
+> > ensures that if we have a need to bisect some issue, that'll work. At
+> > the same time that will make the meta-data consistent, i.e. no dead
+> > patches.
+
+> > I'd personally even prefer that whole series squashed to one commit,
+> > compared to this adding a lot of un-applied patches.
+
+> That would add more overhead to the work I do internally as I need them
+> in the format you have seen here.
+
+Sure, I don=CD=84't want the squashed patch either, but I want commit that
+introduces a patch to also apply it.
+
+> Are this patches not in the preferred method as described on wiki?
+
+In my opinion, the patches should be applied by the commit adding them.
+Otherwise, we've got commits that just adds dead weight to the
+meta-data.  Just as we prefer a commit that removes a patch from SRC_URI
+to also remove the actual patch itself.
+
+Cheers,
+Anders
+
 --=20
-1.9.1
-
+Anders Darander, Senior System Architect
+ChargeStorm AB / eStorm AB
 
