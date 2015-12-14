@@ -1,48 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 87CEA73182
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwkm03.jp.fujitsu.com (mgwkm03.jp.fujitsu.com [202.219.69.170])
+	by mail.openembedded.org (Postfix) with ESMTP id CAABB70101
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 12:25:40 +0000 (UTC)
-Received: by igbxm8 with SMTP id xm8so82135248igb.1
+	Mon, 14 Dec 2015 12:30:25 +0000 (UTC)
+Received: from kw-mxoi2.gw.nic.fujitsu.com (unknown [192.168.231.133]) by
+	mgwkm03.jp.fujitsu.com with smtp
+	id 7220_75bd_86b6dfe8_cc50_45f2_a512_3f874e4ba619;
+	Mon, 14 Dec 2015 21:30:17 +0900
+Received: from g01jpfmpwkw02.exch.g01.fujitsu.local
+	(g01jpfmpwkw02.exch.g01.fujitsu.local [10.0.193.56])
+	by kw-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 8836DAC0227
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 04:25:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Pn6cuv8Cr2tFvgMd1bWGH7Zo0fDxYPD//nZ42ZoHW1M=;
-	b=w8ZoB+OpaxEneVYdBNhNy17Hg5ei4Hy/ksNrLheg4EAxd34ppba3xTxdaJD+g2hcTC
-	t54dTPsbNBZljXAt/2ijrpkPSy944h8CY3/lSg5Crq2RvOuTNhY3FozIozhbDUHf8SvR
-	HjCLSXkpQvY2bjZ1H+wPehNUpfc5cZErNTUoEZ8IvUt7gaydQdo1ge5VYfSpUGsfVn1B
-	s4gTm+X88TdEfrtl3n24lzx8MoGxopkvIRi5BobvUeOvObeX6zy2B+zKnT0MjNE42dy9
-	iIIYG/4zkLq5mwro9wYWZa9P0w76eLdFnDtUnBA/G8DvSOeN/IeO1Aa6OKgPFR9rioHF
-	u77A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Pn6cuv8Cr2tFvgMd1bWGH7Zo0fDxYPD//nZ42ZoHW1M=;
-	b=RYCj4FrVvbSj6f99YXYSpkHPQaZFNy8Ja8Q6WMeIPCVr8GtcZzyZAPGA83toUHErlq
-	d7RRYlcbS7Jy20/5nWP+RVlajue3gPG/Vr5q4elUf7MEX4dSPIsyRq0hP48ofaqXuN+e
-	Iodg254t9SIxTbRmqDJTLs394C2Wo/hKaVyRneZWiwihn2WjjrEzaAh8bdLtoZmExUj1
-	bgfwVa6HceckkEyNIugJ0zDD7tZnRilHPHvD8iErJIhmOjv4oS6epjXqzDq4KHmqXooy
-	vFUZw4K+X4AY6ty2gsSNvtw6I9y9vTxRsgLF79+ekESEOPStDneajBUbwpYWhBqV/md0
-	AyPA==
-X-Gm-Message-State: ALoCoQn+WvGpWvqfoHfEekIZUdszIR96fh9BSVsGAKk1DlrnDVytm8A+b9KLT35cTKxG2jBv+/2TjHWgAVawqOXLuU85Jutu9M5ZDGWjvRWA3XZaAB6S96Q=
-X-Received: by 10.50.126.8 with SMTP id mu8mr16505997igb.52.1450095941368;
-	Mon, 14 Dec 2015 04:25:41 -0800 (PST)
+	Mon, 14 Dec 2015 21:30:17 +0900 (JST)
+Received: from g01jpexchkw37.g01.fujitsu.local (unknown [10.0.193.4])
+	by g01jpfmpwkw02.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	D27DF3286DE for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 21:30:16 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchkw37.g01.fujitsu.local (10.0.193.67) with Microsoft SMTP
+	Server id 14.3.266.1; Mon, 14 Dec 2015 21:30:15 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 Dec 2015 21:31:24 +0900
+Message-ID: <1450096284-21791-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Mon, 14 Dec 2015 04:25:21 -0800 (PST)
-In-Reply-To: <2ae1ec09a656b0401bdc399ac0b8fb7d488c4106.1450073907.git.raj.khem@gmail.com>
-References: <cover.1450073907.git.raj.khem@gmail.com>
-	<2ae1ec09a656b0401bdc399ac0b8fb7d488c4106.1450073907.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Dec 2015 12:25:21 +0000
-Message-ID: <CAJTo0LbqBEGMkfS+9AFHimvDvg5evE55R5yoxkWqQRPwx3QtTg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] uclibc: Switch to using uclibc-ng
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-MML: disable
+Cc: Fan Xin <fan.xin@jp.fujitsu.com>
+Subject: [PATCH] gettext: Upgrade 0.19.4 -> 0.19.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,86 +41,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 12:25:40 -0000
-Content-Type: multipart/alternative; boundary=047d7b1635bf79ceee0526dac5b0
+X-List-Received-Date: Mon, 14 Dec 2015 12:30:26 -0000
+Content-Type: text/plain
 
---047d7b1635bf79ceee0526dac5b0
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+---
+ .../gettext/{gettext-0.19.4 => gettext-0.19.6}/parallel.patch         | 0
+ meta/recipes-core/gettext/{gettext_0.19.4.bb => gettext_0.19.6.bb}    | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/gettext/{gettext-0.19.4 => gettext-0.19.6}/parallel.patch (100%)
+ rename meta/recipes-core/gettext/{gettext_0.19.4.bb => gettext_0.19.6.bb} (97%)
 
-On 14 December 2015 at 06:23, Khem Raj <raj.khem@gmail.com> wrote:
+diff --git a/meta/recipes-core/gettext/gettext-0.19.4/parallel.patch b/meta/recipes-core/gettext/gettext-0.19.6/parallel.patch
+similarity index 100%
+rename from meta/recipes-core/gettext/gettext-0.19.4/parallel.patch
+rename to meta/recipes-core/gettext/gettext-0.19.6/parallel.patch
+diff --git a/meta/recipes-core/gettext/gettext_0.19.4.bb b/meta/recipes-core/gettext/gettext_0.19.6.bb
+similarity index 97%
+rename from meta/recipes-core/gettext/gettext_0.19.4.bb
+rename to meta/recipes-core/gettext/gettext_0.19.6.bb
+index a9c919a..737561d 100644
+--- a/meta/recipes-core/gettext/gettext_0.19.4.bb
++++ b/meta/recipes-core/gettext/gettext_0.19.6.bb
+@@ -18,8 +18,8 @@ PACKAGECONFIG[msgcat-curses] = "--with-libncurses-prefix=${STAGING_LIBDIR}/..,--
+ 
+ LDFLAGS_prepend_libc-uclibc = " -lrt -lpthread "
+ 
+-SRC_URI[md5sum] = "d3511af1e604a3478900d2c2b4a4a48e"
+-SRC_URI[sha256sum] = "8ac9f1ed1a5f8c4e656a2f37f5ba6b9ee04c4df79a575e876b0b6946aa417f3f"
++SRC_URI[md5sum] = "6d1447f8c5c45c329371ef4bfe7d79a5"
++SRC_URI[sha256sum] = "ed4b4c19bd3a3034eb6769500a3592ff616759ef43cf30586dbb7a17c9dd695d"
+ 
+ inherit autotools texinfo
+ 
+-- 
+1.8.4.2
 
-> --- /dev/null
-> +++
-> b/meta/recipes-core/uclibc/uclibc-git/0001-Revert-glibc-compat-bump-glibc-minor-version.patch
-> @@ -0,0 +1,26 @@
-> +From f9f566849ad0785b2fd3fd6c4c5d324f9f822aac Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Sun, 13 Dec 2015 17:25:11 +0000
-> +Subject: [PATCH] Revert "glibc compat: bump glibc minor version"
-> +
-> +This reverts commit 4ff3a6c8eb91db71d6dc3d2932b66e848bd20ac3.
->
 
-No explanation, no signed-off-by, no upstream-status.
-
-
-> diff --git
-> a/meta/recipes-core/uclibc/uclibc-git/libc-stdlib-canonicalize_file_name-memory-leak.patch
-> b/meta/recipes-core/uclibc/uclibc-git/libc-stdlib-canonicalize_file_name-memory-leak.patch
-> new file mode 100644
-> index 0000000..8b36cfc
-> --- /dev/null
-> +++
-> b/meta/recipes-core/uclibc/uclibc-git/libc-stdlib-canonicalize_file_name-memory-leak.patch
-> @@ -0,0 +1,36 @@
-> +diff --git a/libc/stdlib/canonicalize.c b/libc/stdlib/canonicalize.c
-> +index 06e710a..da09d58 100644
-> +--- a/libc/stdlib/canonicalize.c
-> ++++ b/libc/stdlib/canonicalize.c
->
-
-No comment, no upstream-status, no signed-off-by.
-
-Ross
-
---047d7b1635bf79ceee0526dac5b0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 14 December 2015 at 06:23, Khem Raj <span dir=3D"ltr">&=
-lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.c=
-om</a>&gt;</span> wrote:<div class=3D"gmail_extra"><div class=3D"gmail_quot=
-e"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">
---- /dev/null<br>
-+++ b/meta/recipes-core/uclibc/uclibc-git/0001-Revert-glibc-compat-bump-gli=
-bc-minor-version.patch<br>
-@@ -0,0 +1,26 @@<br>
-+From f9f566849ad0785b2fd3fd6c4c5d324f9f822aac Mon Sep 17 00:00:00 2001<br>
-+From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.co=
-m</a>&gt;<br>
-+Date: Sun, 13 Dec 2015 17:25:11 +0000<br>
-+Subject: [PATCH] Revert &quot;glibc compat: bump glibc minor version&quot;=
-<br>
-+<br>
-+This reverts commit 4ff3a6c8eb91db71d6dc3d2932b66e848bd20ac3.<br></blockqu=
-ote><div><br></div><div>No explanation, no signed-off-by, no upstream-statu=
-s.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-diff --git a/meta/recipes-core/uclibc/uclibc-git/libc-stdlib-canonicalize_f=
-ile_name-memory-leak.patch b/meta/recipes-core/uclibc/uclibc-git/libc-stdli=
-b-canonicalize_file_name-memory-leak.patch<br>
-new file mode 100644<br>
-index 0000000..8b36cfc<br>
---- /dev/null<br>
-+++ b/meta/recipes-core/uclibc/uclibc-git/libc-stdlib-canonicalize_file_nam=
-e-memory-leak.patch<br>
-@@ -0,0 +1,36 @@<br>
-+diff --git a/libc/stdlib/canonicalize.c b/libc/stdlib/canonicalize.c<br>
-+index 06e710a..da09d58 100644<br>
-+--- a/libc/stdlib/canonicalize.c<br>
-++++ b/libc/stdlib/canonicalize.c<br></blockquote><div><br></div><div>No co=
-mment, no upstream-status, no signed-off-by.</div><div><br></div><div>Ross<=
-/div></div></div></div>
-
---047d7b1635bf79ceee0526dac5b0--
