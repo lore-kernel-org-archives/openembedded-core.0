@@ -1,34 +1,34 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwym01.jp.fujitsu.com (mgwym01.jp.fujitsu.com [211.128.242.40])
-	by mail.openembedded.org (Postfix) with ESMTP id D44EC73175
+Return-Path: <Jian.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 937476FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 01:12:38 +0000 (UTC)
-Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
-	mgwym01.jp.fujitsu.com with smtp
-	id 1a2d_11b2_4a572e10_64ce_442f_9be4_cc3438b4a9a5;
-	Mon, 14 Dec 2015 10:12:32 +0900
-Received: from g01jpfmpwyt01.exch.g01.fujitsu.local
-	(g01jpfmpwyt01.exch.g01.fujitsu.local [10.128.193.38])
-	by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 315F5AC0199
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 10:12:32 +0900 (JST)
-Received: from g01jpexchyt37.g01.fujitsu.local (unknown [10.128.193.4])
-	by g01jpfmpwyt01.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	5E5A96D649E for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 10:12:31 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	g01jpexchyt37.g01.fujitsu.local (10.128.193.67) with Microsoft SMTP
-	Server id 14.3.266.1; Mon, 14 Dec 2015 10:12:31 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Dec 2015 10:13:38 +0900
-Message-ID: <1450055618-16152-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 14 Dec 2015 05:37:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBE5bc4l024049
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 13 Dec 2015 21:37:38 -0800 (PST)
+Received: from [0.0.0.0] (147.11.103.217) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 13 Dec 2015 21:37:37 -0800
+To: Khem Raj <raj.khem@gmail.com>
+References: <1446445418-31492-1-git-send-email-jian.liu@windriver.com>
+	<CAMKF1sqBfdSMphfZJ_O3nEd3cMA7A=5tKa2Xu0wGUsSr-HtuNg@mail.gmail.com>
+	<56387CE7.5040907@windriver.com>
+	<6A9FCF09-82E7-4A16-AEDD-D081F67704E7@gmail.com>
+	<563ABB70.8060400@windriver.com>
+	<CAMKF1spD5BoS+b8h72_4pOXvaDU5xJ5snnONVQFP57Ez7TTfRQ@mail.gmail.com>
+	<56459C6D.90202@windriver.com>
+From: Jian Liu <jian.liu@windriver.com>
+Message-ID: <566E558E.1070509@windriver.com>
+Date: Mon, 14 Dec 2015 13:37:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
 MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-MML: disable
-Cc: Fan Xin <fan.xin@jp.fujitsu.com>
-Subject: [PATCH] curl: upgrade to 7.45
+In-Reply-To: <56459C6D.90202@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] archiver.bbclass: do checkout for kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,34 +41,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 01:12:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 Dec 2015 05:37:39 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
----
- meta/recipes-support/curl/{curl_7.44.0.bb => curl_7.45.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.44.0.bb => curl_7.45.0.bb} (93%)
+Ping
 
-diff --git a/meta/recipes-support/curl/curl_7.44.0.bb b/meta/recipes-support/curl/curl_7.45.0.bb
-similarity index 93%
-rename from meta/recipes-support/curl/curl_7.44.0.bb
-rename to meta/recipes-support/curl/curl_7.45.0.bb
-index f6d350e..a7ed778 100644
---- a/meta/recipes-support/curl/curl_7.44.0.bb
-+++ b/meta/recipes-support/curl/curl_7.45.0.bb
-@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "6b952ca00e5473b16a11f05f06aa8dae"
--SRC_URI[sha256sum] = "1e2541bae6582bb697c0fbae49e1d3e6fad5d05d5aa80dbd6f072e0a44341814"
-+SRC_URI[md5sum] = "62c1a352b28558f25ba6209214beadc8"
-+SRC_URI[sha256sum] = "65154e66b9f8a442b57c436904639507b4ac37ec13d6f8a48248f1b4012b98ea"
- 
- inherit autotools pkgconfig binconfig multilib_header
- 
--- 
-1.8.4.2
+On 2015年11月13日 16:16, Jian Liu wrote:
+> Hi Raj,
+>
+> I tried meta-rasberrypi with my patch and it works well.
+> The tasks of the recipe linux-rasberrypi is similar with linux-yocto 
+> and linux-rasberrypi also inherits linux-yocto.bbclass
+>
+> I read the codes of archiver and it seems that kernel is recognised by 
+> "bb.data.inherits_class('kernel-yocto', d)" when kernel needs to be 
+> handled specially
+>
+> What do you think?
+>
+> Thanks!
+> Jian
+>
+> On 2015年11月05日 10:22, Khem Raj wrote:
+>> On Wed, Nov 4, 2015 at 6:14 PM, Jian Liu <jian.liu@windriver.com> wrote:
+>>> Hi,
+>>>
+>>> All kernels I list bellow will perform do_fetch(), do_unpack(),
+>>> do_kernel_checkout().
+>>> do_unpack() will put a bare git repo under WORKDIR and then
+>>> do_kernel_checkout()
+>>> will move the bare repo to bitbake/tmp/work-share/<board
+>>> name>/kernel-source(value of variable S),
+>>> then performing "git checkout".
+>>>
+>>> So do_ar_original must wait until do_kernel_checkout() is completed 
+>>> and then
+>>> make tarball using the code under S.
+>>> Do I make that clear?
+>>>
+>>>
+>>> You refer to kernels other than linux-yocto. Can you give me an 
+>>> example?
+>>> I do not know how to build such kernel.
+>> Add another BSP layer e.g. meta-raspberrypi to your bblayers.conf
+>> and then MACHINE=raspberrypi2
+>>
+>> and see what you are trying to do still holds.
+>>
+>>> Thanks!
+>>> Jian
+>>>
+>>>
+>>> On 2015年11月04日 13:57, Khem Raj wrote:
+>>>>> On Nov 3, 2015, at 1:22 AM, Jian Liu<jian.liu@windriver.com>  wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> I test linux-dummy linux-yocto-dev linux-yocto-rt 
+>>>>>> linux-yocto-tiny and
+>>>>>> the result is as follows,
+>>>>>>
+>>>>>> linux-dummy: this package just meets some dependency and there is no
+>>>>>> source code for it.
+>>>>>>                       The patch does not impact it
+>>>>>> linux-yocto, linux-yocto-dev, linux-yocto-rt, linux-yocto-tiny: 
+>>>>>> The S
+>>>>>> variable of all packages is set to STAGING_KERNEK_DIR.
+>>>>>>                        do_fetch and do_unpack just leave a bare 
+>>>>>> git repo
+>>>>>> of kernel and do_kernel_checkout gets the source code
+>>>>>>
+>>>> does it cover the case when kernel is not linux-yocto was basic 
+>>>> question,
+>>>> I am not clear if thats covered in any of above
+>>>>
+>>>>>> Thanks!
+>>>
+>
 
 
