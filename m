@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id D55C77318B
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 22EA97318D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 06:23:22 +0000 (UTC)
-Received: by qgz52 with SMTP id 52so56394683qgz.1
+	Mon, 14 Dec 2015 06:23:20 +0000 (UTC)
+Received: by qkht125 with SMTP id t125so121066574qkh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Dec 2015 22:23:23 -0800 (PST)
+	Sun, 13 Dec 2015 22:23:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=HpmGBeWfpRmX/DvC1fwmGR+X9sLdcgyLr6uiJdq8/cY=;
-	b=tEPj5pV6KZ8FDg9Jrd3EdvyUjCtt9IeKThj27ASExuvzvSEer2tfUYlGWnPSNwnH5+
-	NYFa/m/roDhAJbJRQ4/f1O/1qrHWttdU3byudA5sigpD0qzvzKN8Abb9qrTF63Dj2Z5O
-	byruLuJA9ALkdmCMZO2zlmpoZWNe6MFIG7seOxJeEhzJ8YNVGvMYy6hJHczmtL2Lc4Xw
-	sKL1dcjwJaT4lO97zI4vrI1WWOj+8mAN3NmnaxN6ZrdxtYMN6bGcbjL/r9A9/6fOomJ6
-	zYo2j9TWZpo2NM9SHWP00Sq913Fx1dpcrx+xVMcPQWKeI3iDbAWNSOPg8SOB6MZWFdfP
-	XTPQ==
-X-Received: by 10.140.133.145 with SMTP id 139mr33091309qhf.0.1450074203401;
-	Sun, 13 Dec 2015 22:23:23 -0800 (PST)
+	bh=rQLnZG+3qXVHm7H3c2mprJ7UqfcjUw7Hc6qAF0ru8HE=;
+	b=rxYiPX/uwYV5ZA7GPlvugULxScvIwGFjyQrwczCMyNOKSR5fweYSpGlPxPAwPkwyiG
+	FWGGefWPnlviWzqDExg51rRdxWMl5Wf53PdUXglZau/ugMIPrZPLDgZHnRAaidKYXuCE
+	Ls3gOVv3jSIA2uK3OqgEwUw79vHMKiKOPkWW2WvxdwZ2796BPrThUy7vQgy49DRUpuZx
+	/JhgjNo2rc6Ham/6tQ7HJ6+Tm+BuerXZu0f7Hq5IiEa7HMKs/7xZNv0tBw7guaT7986O
+	9xPKJAB2BJHqDXt0VU8ctyXdWesvMs37ioUay2u6dm/kMoll/6gonWiQb3l+hZbLbkya
+	PE3g==
+X-Received: by 10.55.209.214 with SMTP id o83mr41781830qkl.60.1450074201345;
+	Sun, 13 Dec 2015 22:23:21 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	s105sm13252860qge.40.2015.12.13.22.23.22
+	s105sm13252860qge.40.2015.12.13.22.23.20
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Dec 2015 22:23:22 -0800 (PST)
+	Sun, 13 Dec 2015 22:23:20 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Dec 2015 06:23:13 +0000
-Message-Id: <d9f5c0f9918163a8149c6bc155542b101d424e19.1450073907.git.raj.khem@gmail.com>
+Date: Mon, 14 Dec 2015 06:23:10 +0000
+Message-Id: <2096b5f38e1ff74c44a5ae504d7f7b6cae3fc508.1450073907.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.6.4
 In-Reply-To: <a2dd5384b2607cf7e507cf280addd31ee6df2391.1450073907.git.raj.khem@gmail.com>
 References: <a2dd5384b2607cf7e507cf280addd31ee6df2391.1450073907.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1450073907.git.raj.khem@gmail.com>
 References: <cover.1450073907.git.raj.khem@gmail.com>
-Subject: [PATCH 6/6] musl: Update to latest 1.1.12 release
+Subject: [PATCH 3/6] packagegroup-core-sdk: Disable sanitizers for uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,32 +48,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 14 Dec 2015 06:23:23 -0000
 
-point to maintained github mirror in comments
+They dont build for non-glibc C libraries yet
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/musl/musl_git.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-core/packagegroups/packagegroup-core-sdk.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 1feb436..051d925 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -3,11 +3,11 @@
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+index 3badd0e..46cb6ee 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+@@ -35,6 +35,7 @@ SANITIZERS_mips64n32 = ""
+ SANITIZERS_powerpc64 = ""
+ SANITIZERS_sparc = ""
+ SANITIZERS_libc-musl = ""
++SANITIZERS_libc-uclibc = ""
  
- require musl.inc
- 
--SRCREV = "6c5cad2aa56745302c1d42d2c8baf6424d29c0f3"
-+SRCREV = "3abb094d19ca4c7c4adcf373d971fb5aa05c5252"
- 
--PV = "1.1.11+git${SRCPV}"
-+PV = "1.1.12+git${SRCPV}"
- 
--# mirror is at git://github.com/bminor/musl.git
-+# mirror is at git://github.com/kraj/musl.git
- 
- SRC_URI = "git://git.musl-libc.org/musl \
-           "
+ RRECOMMENDS_packagegroup-core-sdk = "\
+     libgomp \
 -- 
 2.6.4
 
