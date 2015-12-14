@@ -1,26 +1,24 @@
 Return-Path: <anibal.limon@linux.intel.com>
-X-Greylist: delayed 576 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 14 Dec 2015 23:05:43 UTC
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id D50CF60796
+	by mail.openembedded.org (Postfix) with ESMTP id B5ADB6FFD3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 23:05:43 +0000 (UTC)
+	Mon, 14 Dec 2015 23:05:54 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 14 Dec 2015 14:56:10 -0800
+	by fmsmga104.fm.intel.com with ESMTP; 14 Dec 2015 14:56:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,429,1444719600"; d="scan'208";a="841133956"
+X-IronPort-AV: E=Sophos;i="5.20,429,1444719600"; d="scan'208";a="841133942"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.48])
-	by orsmga001.jf.intel.com with ESMTP; 14 Dec 2015 14:56:10 -0800
+	by orsmga001.jf.intel.com with ESMTP; 14 Dec 2015 14:56:09 -0800
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Dec 2015 16:57:09 -0600
-Message-Id: <1450133829-17751-3-git-send-email-anibal.limon@linux.intel.com>
+Date: Mon, 14 Dec 2015 16:57:08 -0600
+Message-Id: <1450133829-17751-2-git-send-email-anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1450133829-17751-1-git-send-email-anibal.limon@linux.intel.com>
 References: <1450133829-17751-1-git-send-email-anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: paul.eggleton@linux.intel.com, Nathan_Lynch@mentor.com
-Subject: [PATCHv2 2/2] ptest-runner: Add a recipe for install ptest-runner 2.0.
+Subject: [PATCHv2 1/2] ptest-runner: Add version 2.0 re-implementation in python.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +31,195 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 23:05:44 -0000
+X-List-Received-Date: Mon, 14 Dec 2015 23:05:54 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+
+The new ptest-runner supports timeout of upstream tests executed,
+it looks for stdout of process and if no information is available
+in certain time (defaults to 5m) the process is treaty as blocked
+and ptest-runner kills it, this handles problems of ptest-runner
+being blocked indefinitly for upstream test suites.
+
+Also an options was added for list test available, specify directory
+of ptests and run only certain tests.
 
 [YOCTO #8021]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- .../ptest-runner/ptest-runner_2.0.bb               | 28 ++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
- create mode 100644 meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+ .../ptest-runner/files/ptest-runner_2.0.py         | 162 +++++++++++++++++++++
+ 1 file changed, 162 insertions(+)
+ create mode 100755 meta/recipes-support/ptest-runner/files/ptest-runner_2.0.py
 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
-new file mode 100644
-index 0000000..64fd0df
+diff --git a/meta/recipes-support/ptest-runner/files/ptest-runner_2.0.py b/meta/recipes-support/ptest-runner/files/ptest-runner_2.0.py
+new file mode 100755
+index 0000000..2b71970
 --- /dev/null
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
-@@ -0,0 +1,28 @@
-+SUMMARY = "A python script to run all installed ptests"
++++ b/meta/recipes-support/ptest-runner/files/ptest-runner_2.0.py
+@@ -0,0 +1,162 @@
++#!/usr/bin/env python
 +
-+DESCRIPTION = "The ptest-runner package installs a ptest-runner \
-+python script which loops through all installed ptest test suites and \
-+runs them in sequence."
++# Ptest-runner
++#
++# Copyright (C) 2014-2015 Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 +
-+HOMEPAGE = "https://wiki.yoctoproject.org/wiki/Ptest"
-+SRC_URI += "file://ptest-runner_2.0.py"
++import os
++import sys
++import fcntl
++import time
 +
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
-+                    file://${COREBASE}/meta/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe"
++import argparse
++import logging 
++from datetime import datetime
 +
-+INHIBIT_DEFAULT_DEPS = "1"
-+RDEPENDS_${PN} = "python python-fcntl python-argparse python-logging python-datetime \
-+                  python-subprocess"
++import subprocess
 +
-+S = "${WORKDIR}"
++DEFAULT_LIBDIR='/usr/lib'
++DEFAULT_TIMEOUT_SECS = 300
 +
-+do_install () {
-+    mkdir -p ${D}${bindir}
-+    install -m 0755 ${WORKDIR}/ptest-runner_2.0.py ${D}${bindir}/ptest-runner
-+}
++logging.basicConfig(format="%(message)s")
++logger = logging.getLogger()
++logger.setLevel(logging.INFO)
 +
-+do_patch[noexec] = "1"
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
-+do_build[noexec] = "1"
++def get_available_ptests(libdir):
++    ptests = {}
++
++    if os.path.exists(libdir) and os.path.isdir(libdir):
++        for d in os.listdir(libdir):
++            full_d = os.path.join(libdir, d)
++            if os.path.isdir(full_d) and not os.path.islink(full_d):
++                run_ptest = os.path.join(full_d, 'ptest', 'run-ptest')
++                if os.path.exists(run_ptest):
++                    ptests[d] = run_ptest
++
++    return ptests
++
++def print_ptests(ptests):
++    if ptests.keys():
++        logger.info("Available ptests:\n")
++        for p in ptests.keys():
++            logger.info("%s\t%s" % (p, ptests[p]))
++        return 0
++    else:
++        logger.error("No ptests found.\n")
++        return 1
++
++def get_ptests_to_run(available_ptests, requested_ptests):
++    if requested_ptests:
++        for rp in requested_ptests:
++            if not rp in available_ptests.keys():
++                logger.error("%s ptest isn't available." % rp)
++                return 1
++
++        for ap in available_ptests.keys():
++            if not ap in requested_ptests:
++                del available_ptests[ap]
++    return 0
++
++def run_ptests(ptests, timeout):
++    def _set_nonblocking(fp):
++        fd = process.stdout.fileno()
++        fl = fcntl.fcntl(fd, fcntl.F_GETFL)
++        fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
++
++    def _write_output(stdout):
++        import select
++        data_written = False
++
++        rlist = [stdout.fileno()]
++        (rrlist, _, _) = select.select(rlist, [], [], 0)
++
++        for fd in rrlist:
++            try:
++                sys.stdout.write(stdout.read())
++                data_written = True
++            except:
++                pass
++
++        return data_written
++
++    exit_code = 0
++
++    print "START: %s" % sys.argv[0]
++    for p in ptests.keys():
++        run_ptest = ptests[p]
++
++        print datetime.strftime(datetime.now(), "%Y-%m-%dT%H:%M")
++        print "BEGIN: %s" % run_ptest
++
++        os.chdir(os.path.dirname(run_ptest))
++
++        process = subprocess.Popen([run_ptest], stdout=subprocess.PIPE,
++                stderr=subprocess.STDOUT, shell=True, close_fds=True,
++                bufsize=-1)
++        _set_nonblocking(process.stdout)
++
++        sentinel = datetime.now()
++        while True:
++            if _write_output(process.stdout):
++                sentinel = datetime.now()
++            elif timeout >= 0 and \
++                ((datetime.now() - sentinel).total_seconds() > timeout):
++                    print "\nTIMEOUT: %s" % run_ptest
++                    process.kill()
++                    break
++
++            if process.poll() is not None:
++                break
++
++            time.sleep(0.5)
++
++        if process.returncode:
++            exit_code = process.returncode
++
++        print "END: %s" % run_ptest
++        print datetime.strftime(datetime.now(), "%Y-%m-%dT%H:%M")
++    print "STOP: %s" % sys.argv[0]
++
++    return exit_code
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser(description="ptest-runner runs ptests from upstream packages",
++            add_help=False,
++            epilog="Use %(prog)s [ptest1 ptest2 ...] --help to get help on a specific command")
++    parser.add_argument('ptests', metavar='ptests', help='ptests to run',
++            nargs='*')
++    parser.add_argument('-d', '--directory', help='Directory for search ptests',
++            action='store', default=DEFAULT_LIBDIR)
++    parser.add_argument('-l', '--list', help='List available ptests',
++            action='store_true')
++    parser.add_argument('-t', '--timeout',
++            help='Timeout (secs) for use when run ptests, -1 waits indefinitely', action='store', type=int,
++            default=DEFAULT_TIMEOUT_SECS)
++    parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS,
++                        help='show this help message and exit')
++
++    global_args, unparsed_args = parser.parse_known_args()
++
++    ptests = get_available_ptests(global_args.directory)
++    if global_args.list:
++        exit_code = print_ptests(ptests)
++        sys.exit(exit_code)
++
++    exit_code = get_ptests_to_run(ptests, global_args.ptests)
++    if exit_code:
++        sys.exit(exit_code)
++
++    sys.exit(run_ptests(ptests, global_args.timeout))
 -- 
 2.1.4
 
