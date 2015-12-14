@@ -1,35 +1,32 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A0106FF73;
-	Mon, 14 Dec 2015 19:01:45 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id p66so76836409wmp.1;
-	Mon, 14 Dec 2015 11:01:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=AXUeFjRt6eehEFOtPBtkkodqFqYpZQM2SYeL+RmbwQI=;
-	b=YchchgKaif1gWI5AS+IblitrrpLZjSaeH8FhFkLAQdxCfcxl0gXFdlcXYS/uxLWGAi
-	G+8JJ1Cc4SZe4Fe/BQ15ZOJfXqAkfc+m7A7g+jofBxMQNbI6lK9oEXh3W5nss8jiNElU
-	heTVxERn9cZxI5AD6j+/L0o+1k61r0OaZ71NC0qo8rEHueMa8yZ0Y5EprabxNKIkzmDW
-	7SttIU110SO25ALDZPcecW8zAUTinN/qroGNcTB6a+9saOFGDP7q0L/d92E9/SIbjAkZ
-	CuXACDC8+9T+EkQimi/KSs5ZEPhG9ggtx8NvVDsQ/pAAtwTzx3Oy3QOFUd8jVldZkkUm
-	c0Ig==
-X-Received: by 10.28.88.5 with SMTP id m5mr27137468wmb.54.1450119706276;
-	Mon, 14 Dec 2015 11:01:46 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	u205sm17370170wmb.12.2015.12.14.11.01.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 14 Dec 2015 11:01:45 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 14 Dec 2015 20:03:47 +0100
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20151214190347.GB2212@jama>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Subject: State of bitbake world, test-dependencies 2015-11-19
+Return-Path: <haris.okanovic@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A54AB73170
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 19:06:47 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tBEJ6l1s011031 for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 13:06:47 -0600
+Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015121413064749-1120126 ;
+	Mon, 14 Dec 2015 13:06:47 -0600 
+From: Haris Okanovic <haris.okanovic@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Dec 2015 13:06:38 -0600
+Message-Id: <1450119998-2912-1-git-send-email-haris.okanovic@ni.com>
+X-Mailer: git-send-email 2.6.2
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 12/14/2015 01:06:47 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 12/14/2015 01:06:47 PM,
+	Serialize complete at 12/14/2015 01:06:47 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-12-14_12:, , signatures=0
+Cc: Haris Okanovic <haris.okanovic@ni.com>,
+	Gratian Crisan <gratian.crisan@ni.com>
+Subject: [PATCH] kernel: Add support for multiple kernel packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,113 +39,254 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 19:01:49 -0000
-X-Groupsio-MsgNum: 74741
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="WhfpMioaduB5tiZL"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 14 Dec 2015 19:06:48 -0000
 
---WhfpMioaduB5tiZL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Gratian Crisan <gratian.crisan@ni.com>
 
-This time full build (testing all recipes available in "my world" - 2503
-recipes), it took record-breaking 25days to finish.
+Templetize kernel package name:
 
-Complete log:
-http://logs.nslu2-linux.org/buildlogs/oe/world/log.dependencies.20151120_14=
-4802.log/
-=20
-I've already sent patches for few of them, will send one for pulseaudio-lir=
-c as well
-as I already have it in out local recipes. For the rest I would appreciate =
-some help
-=66rom people actually using these recipes.
+Add a "weak" variable KERNEL_PACKAGE_NAME used as the base name for kernel
+packages. It defaults to the old hard-coded name 'kernel' but it can be
+redefined by recipes that provide additional kernel packages in order
+to avoid build conflicts.
 
-I'll trigger new incremental build after that huge meta-oe patch queue from=
- master-next
-is in master.
+Change hard-coded 'kernel' references to KERNEL_PACKAGE_NAME in
+kernel bbclass-es.
 
-ERROR: 34 issues were found in these recipes: clutter-gst-3.0 cryptodev-mod=
-ule ctdb gnome-panel jasper lcdproc libftdi mpd places pulseaudio python py=
-thon3 rain rygel samba shr-e-gadgets shr-wizard snort sysdig tmux uptime vb=
-oxguestdrivers xfce4-clipman-plugin
+Build alternate kernels from WORKDIR instead of STAGING_KERNEL_DIR:
 
-Found differences:
-WARN: clutter-gst-3.0: clutter-gst-3.0 rdepends on libcap, but it isn't a b=
-uild dependency?
-WARN: clutter-gst-3.0: clutter-gst-3.0 rdepends on libgudev, but it isn't a=
- build dependency?
-WARN: clutter-gst-3.0: clutter-gst-3.0 rdepends on libudev, but it isn't a =
-build dependency?
-WARN: ctdb: ctdb rdepends on libtdb, but it isn't a build dependency?
-WARN: gnome-panel: gnome-panel rdepends on dbus-lib, but it isn't a build d=
-ependency?
-WARN: jasper: jasper-bin rdepends on libgl-mesa, but it isn't a build depen=
-dency?
-WARN: jasper: jasper-bin rdepends on libglu, but it isn't a build dependenc=
-y?
-WARN: jasper: jasper-bin rdepends on mesa-glut, but it isn't a build depend=
-ency?
-WARN: libftdi: libftdi rdepends on libgcc, but it isn't a build dependency?
-WARN: libftdi: libftdi rdepends on libstdc++, but it isn't a build dependen=
-cy?
-WARN: mpd: mpd rdepends on libupnp, but it isn't a build dependency?
-WARN: places: places rdepends on luajit, but it isn't a build dependency?
-WARN: python: python-tkinter rdepends on glibc, but it isn't a build depend=
-ency?
-WARN: python: python-tkinter rdepends on libpython2, but it isn't a build d=
-ependency?
-WARN: python: python-tkinter rdepends on tcl-lib, but it isn't a build depe=
-ndency?
-WARN: python3: python3-tkinter rdepends on glibc, but it isn't a build depe=
-ndency?
-WARN: python3: python3-tkinter rdepends on libpython3, but it isn't a build=
- dependency?
-WARN: python3: python3-tkinter rdepends on tcl-lib, but it isn't a build de=
-pendency?
-WARN: rain: rain rdepends on luajit, but it isn't a build dependency?
-WARN: rygel: rygel-plugin-media-export rdepends on libunistring, but it isn=
-'t a build dependency?
-WARN: samba: samba rdepends on libpam, but it isn't a build dependency?
-WARN: shr-e-gadgets: shr-e-gadgets rdepends on luajit, but it isn't a build=
- dependency?
-WARN: shr-wizard: shr-wizard rdepends on luajit, but it isn't a build depen=
-dency?
-WARN: snort: snort rdepends on liblzma, but it isn't a build dependency?
-WARN: sysdig: sysdig rdepends on luajit, but it isn't a build dependency?
-WARN: tmux: tmux rdepends on libutempter, but it isn't a build dependency?
-WARN: uptime: uptime rdepends on luajit, but it isn't a build dependency?
-WARN: xfce4-clipman-plugin: xfce4-clipman-plugin rdepends on qrencode, but =
-it isn't a build dependency?
-WARN: cryptodev-module: kernel-module-cryptodev rdepends on kernel-3.19.5-y=
-octo-tiny, but it isn't a build dependency?
-WARN: vboxguestdrivers: kernel-module-vboxguest rdepends on kernel-3.19.5-y=
-octo-tiny, but it isn't a build dependency?
-WARN: vboxguestdrivers: kernel-module-vboxsf rdepends on kernel-3.19.5-yoct=
-o-tiny, but it isn't a build dependency?
-WARN: vboxguestdrivers: kernel-module-vboxvideo rdepends on kernel-3.19.5-y=
-octo-tiny, but it isn't a build dependency?
-Found errors:
-ERROR: lcdproc: lcdd-driver-lirc package isn't created when building with m=
-inimal dependencies?
-ERROR: pulseaudio: pulseaudio-module-lirc package isn't created when buildi=
-ng with minimal dependencies?
+Prior to this change, kernel recipes would all fetch source to
+STAGING_KERNEL_DIR as defined by bitbake/distro confs. This broke
+parallel builds when more than one kernel recipes are defined in
+the distribution, since they all attempted to fetch() and patch()
+in a shared source dir.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+With this change, alternate kernel recipes fetch source into their
+${WORKDIR} so that they may build in parallel to each other and the
+default kernel recipe, which still fetches to STAGING_KERNEL_DIR.
 
---WhfpMioaduB5tiZL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Testing:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Built linux-yocto-4.1.13 for qemux86 and verified it produced kernel
+image and modules packages. Added kernel recipe with non-default
+KERNEL_PACKAGE_NAME and verified it produces kernel image and modules
+packages with alternate name next to default kernel.
 
-iEYEARECAAYFAlZvEpIACgkQN1Ujt2V2gBwnYwCfU1Qa/0GeqC5Ha87B9/kv14br
-i4MAniqPPNItTrusOVne5fL3qIv/yfHl
-=SLwE
------END PGP SIGNATURE-----
+Signed-off-by: Gratian Crisan <gratian.crisan@ni.com>
+Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+Coauthored-by: Haris Okanovic <haris.okanovic@ni.com>
+Coauthored-by: Josh Hernstrom <josh.hernstrom@ni.com>
+Natinst-ReviewBoard-ID: 120348
+Natinst-ReviewBoard-ID: 120447
+---
+ meta/classes/kernel-module-split.bbclass |  9 ++--
+ meta/classes/kernel.bbclass              | 71 ++++++++++++++++++--------------
+ meta/conf/documentation.conf             |  1 +
+ meta/recipes-kernel/linux/linux-dtb.inc  |  2 +-
+ 4 files changed, 49 insertions(+), 34 deletions(-)
 
---WhfpMioaduB5tiZL--
+diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+index e1a70e6..7415ec8 100644
+--- a/meta/classes/kernel-module-split.bbclass
++++ b/meta/classes/kernel-module-split.bbclass
+@@ -28,7 +28,7 @@ do_install_append() {
+ 
+ PACKAGESPLITFUNCS_prepend = "split_kernel_module_packages "
+ 
+-KERNEL_MODULES_META_PACKAGE ?= "kernel-modules"
++KERNEL_MODULES_META_PACKAGE ?= "${KERNEL_PACKAGE_NAME}-modules"
+ 
+ python split_kernel_module_packages () {
+     import re
+@@ -179,14 +179,17 @@ python split_kernel_module_packages () {
+         # Avoid automatic -dev recommendations for modules ending with -dev.
+         d.setVarFlag('RRECOMMENDS_' + pkg, 'nodeprrecs', 1)
+ 
++    kernel_package_name = d.getVar("KERNEL_PACKAGE_NAME", True)
++    kernel_version = d.getVar("KERNEL_VERSION", True)
++
+     module_deps = parse_depmod()
+     module_regex = '^(.*)\.k?o$'
+-    module_pattern = 'kernel-module-%s'
++    module_pattern = '%s-module-%%s' % kernel_package_name
+ 
+     postinst = d.getVar('pkg_postinst_modules', True)
+     postrm = d.getVar('pkg_postrm_modules', True)
+ 
+-    modules = do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION", True)))
++    modules = do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='%s-%s' % (kernel_package_name, kernel_version))
+     if modules:
+         metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE', True)
+         d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index b75a462..cc27364 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -3,7 +3,6 @@ inherit linux-kernel-base kernel-module-split
+ PROVIDES += "virtual/kernel"
+ DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross bc-native"
+ 
+-S = "${STAGING_KERNEL_DIR}"
+ B = "${WORKDIR}/build"
+ KBUILD_OUTPUT = "${B}"
+ OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
+@@ -11,6 +10,7 @@ OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
+ # we include gcc above, we dont need virtual/libc
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
++KERNEL_PACKAGE_NAME ??= "kernel"
+ KERNEL_IMAGETYPE ?= "zImage"
+ INITRAMFS_IMAGE ?= ""
+ INITRAMFS_TASK ?= ""
+@@ -34,6 +34,17 @@ python __anonymous () {
+     image_task = d.getVar('INITRAMFS_TASK', True)
+     if image_task:
+         d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
++
++    # The default kernel recipe fetches it's source to
++    # STAGING_KERNEL_DIR as defined by bitbake/distro confs.
++    # Alternate kernel recipes (E.g. debug kernels) fetch source into
++    # their work dir so that they may build in parallel.
++    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel":
++        d.setVar("S", d.getVar("STAGING_KERNEL_DIR", True))
++    else:
++        workdir = d.getVar("WORKDIR", True)
++        kernelSourceDir = os.path.join(workdir, 'kernel-source')
++        d.setVar("S", kernelSourceDir)
+ }
+ 
+ # Here we pull in all various kernel image types which we support.
+@@ -79,9 +90,9 @@ base_do_unpack_append () {
+ 
+ inherit kernel-arch deploy
+ 
+-PACKAGES_DYNAMIC += "^kernel-module-.*"
+-PACKAGES_DYNAMIC += "^kernel-image-.*"
+-PACKAGES_DYNAMIC += "^kernel-firmware-.*"
++PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-module-.*"
++PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-image-.*"
++PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-firmware-.*"
+ 
+ export OS = "${TARGET_OS}"
+ export CROSS_COMPILE = "${TARGET_PREFIX}"
+@@ -270,9 +281,9 @@ do_shared_workdir_setscene () {
+ 
+ emit_depmod_pkgdata() {
+ 	# Stash data for depmod
+-	install -d ${PKGDESTWORK}/kernel-depmod/
+-	echo "${KERNEL_VERSION}" > ${PKGDESTWORK}/kernel-depmod/kernel-abiversion
+-	cp ${B}/System.map ${PKGDESTWORK}/kernel-depmod/System.map-${KERNEL_VERSION}
++	install -d ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/
++	echo "${KERNEL_VERSION}" > ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/${KERNEL_PACKAGE_NAME}-abiversion
++	cp ${B}/System.map ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/System.map-${KERNEL_VERSION}
+ }
+ 
+ PACKAGEFUNCS += "emit_depmod_pkgdata"
+@@ -287,7 +298,7 @@ do_shared_workdir () {
+ 	# Store the kernel version in sysroots for module-base.bbclass
+ 	#
+ 
+-	echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
++	echo "${KERNEL_VERSION}" > $kerneldir/${KERNEL_PACKAGE_NAME}-abiversion
+ 
+ 	# Copy files required for module builds
+ 	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
+@@ -361,28 +372,28 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+ 
+ # kernel-base becomes kernel-${KERNEL_VERSION}
+ # kernel-image becomes kernel-image-${KERNEL_VERISON}
+-PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
++PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules"
+ FILES_${PN} = ""
+-FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
+-FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
+-FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
+-FILES_kernel-vmlinux = "/boot/vmlinux*"
+-FILES_kernel-modules = ""
+-RDEPENDS_kernel = "kernel-base"
++FILES_${KERNEL_PACKAGE_NAME}-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
++FILES_${KERNEL_PACKAGE_NAME}-image = "/boot/${KERNEL_IMAGETYPE}*"
++FILES_${KERNEL_PACKAGE_NAME}-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
++FILES_${KERNEL_PACKAGE_NAME}-vmlinux = "/boot/vmlinux*"
++FILES_${KERNEL_PACKAGE_NAME}-modules = ""
++RDEPENDS_${KERNEL_PACKAGE_NAME} = "${KERNEL_PACKAGE_NAME}-base"
+ # Allow machines to override this dependency if kernel image files are 
+ # not wanted in images as standard
+-RDEPENDS_kernel-base ?= "kernel-image"
+-PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
+-RDEPENDS_kernel-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', 'kernel-vmlinux', '', d)}"
+-PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
+-RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
+-ALLOW_EMPTY_kernel = "1"
+-ALLOW_EMPTY_kernel-base = "1"
+-ALLOW_EMPTY_kernel-image = "1"
+-ALLOW_EMPTY_kernel-modules = "1"
+-DESCRIPTION_kernel-modules = "Kernel modules meta package"
+-
+-pkg_postinst_kernel-base () {
++RDEPENDS_${KERNEL_PACKAGE_NAME}-base ?= "${KERNEL_PACKAGE_NAME}-image"
++PKG_${KERNEL_PACKAGE_NAME}-image = "${KERNEL_PACKAGE_NAME}-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
++RDEPENDS_${KERNEL_PACKAGE_NAME}-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', '${KERNEL_PACKAGE_NAME}-vmlinux', '', d)}"
++PKG_${KERNEL_PACKAGE_NAME}-base = "${KERNEL_PACKAGE_NAME}-${@legitimize_package_name('${KERNEL_VERSION}')}"
++RPROVIDES_${KERNEL_PACKAGE_NAME}-base += "${KERNEL_PACKAGE_NAME}-${KERNEL_VERSION}"
++ALLOW_EMPTY_${KERNEL_PACKAGE_NAME} = "1"
++ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-base = "1"
++ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-image = "1"
++ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-modules = "1"
++DESCRIPTION_${KERNEL_PACKAGE_NAME}-modules = "Kernel modules meta package"
++
++pkg_postinst_${KERNEL_PACKAGE_NAME}-base () {
+ 	if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
+ 		mkdir -p $D/lib/modules/${KERNEL_VERSION}
+ 	fi
+@@ -393,18 +404,18 @@ pkg_postinst_kernel-base () {
+ 	fi
+ }
+ 
+-pkg_postinst_kernel-image () {
++pkg_postinst_${KERNEL_PACKAGE_NAME}-image () {
+ 	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
+ }
+ 
+-pkg_postrm_kernel-image () {
++pkg_postrm_${KERNEL_PACKAGE_NAME}-image () {
+ 	update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
+ }
+ 
+ PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
+ 
+ python split_kernel_packages () {
+-    do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.(bin|fw|cis|dsp)$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
++    do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.(bin|fw|cis|dsp)$', output_pattern='${KERNEL_PACKAGE_NAME}-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
+ }
+ 
+ do_strip() {
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 1b5c071..fb5e03f 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -250,6 +250,7 @@ KERNEL_FEATURES[doc] = "Includes additional metadata from the Yocto Project kern
+ KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device, usually set by the machine configuration files and defaults to 'zImage'."
+ KERNEL_MODULE_AUTOLOAD[doc] = "Lists kernel modules that need to be auto-loaded during boot"
+ KERNEL_MODULE_PROBECONF[doc] = "Lists kernel modules for which the build system expects to find module_conf_* values that specify configuration for each of the modules"
++KERNEL_PACKAGE_NAME[doc] = "Name prefix for kernel packages. Defaults to 'kernel'."
+ KERNEL_PATH[doc] = "The location of the kernel sources. This variable is set to the value of the STAGING_KERNEL_DIR within the module class (module.bbclass)."
+ KERNEL_SRC[doc] = "The location of the kernel sources. This variable is set to the value of the STAGING_KERNEL_DIR within the module class (module.bbclass)."
+ KFEATURE_DESCRIPTION[doc] = "Provides a short description of a configuration fragment. You use this variable in the .scc file that describes a configuration fragment file."
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 772adcb..c27a3cb 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -2,7 +2,7 @@
+ FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/devicetree*"
+ 
+ python __anonymous () {
+-    d.appendVar("PACKAGES", " kernel-devicetree")
++    d.appendVar("PACKAGES", " ${KERNEL_PACKAGE_NAME}-devicetree")
+ }
+ 
+ normalize_dtb () {
+-- 
+2.6.2
+
+
