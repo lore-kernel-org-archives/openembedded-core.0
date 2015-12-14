@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E160700FD
+	by mail.openembedded.org (Postfix) with ESMTP id 6DB196AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 15:08:10 +0000 (UTC)
+	Mon, 14 Dec 2015 15:08:11 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 14 Dec 2015 07:08:12 -0800
+	by orsmga101.jf.intel.com with ESMTP; 14 Dec 2015 07:08:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,427,1444719600"; d="scan'208";a="707064182"
+X-IronPort-AV: E=Sophos;i="5.20,427,1444719600"; d="scan'208";a="707064196"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 14 Dec 2015 07:08:11 -0800
+	by orsmga003.jf.intel.com with ESMTP; 14 Dec 2015 07:08:12 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Dec 2015 17:05:21 +0200
-Message-Id: <3c6aad0ceff281ee906af21540d632b9eb3ca811.1450104283.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 14 Dec 2015 17:05:22 +0200
+Message-Id: <b1355e6ab66d1ef033ef17e03ce5682649ebaf95.1450104283.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
 In-Reply-To: <cover.1450104283.git.alexander.kanavin@linux.intel.com>
 References: <cover.1450104283.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1450104283.git.alexander.kanavin@linux.intel.com>
 References: <cover.1450104283.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 09/20] unfs3: update to r497
+Subject: [PATCH 10/20] mtd-utils: update to 1.5.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,116 +31,213 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 15:08:10 -0000
+X-List-Received-Date: Mon, 14 Dec 2015 15:08:11 -0000
 
-Drop fix_warnings.patch as it's been merged upstream.
+Drop 0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch,
+the problem has been fixed upstream.
+Drop backported 0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch
+Rebase 0001-Fix-build-with-musl.patch (2 out of 3 fixes have been made upstream)
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../unfs3/unfs3/fix_warnings.patch                 | 53 ----------------------
- .../{unfs3_0.9.22.r490.bb => unfs3_0.9.22.r497.bb} | 11 ++---
- 2 files changed, 5 insertions(+), 59 deletions(-)
- delete mode 100644 meta/recipes-devtools/unfs3/unfs3/fix_warnings.patch
- rename meta/recipes-devtools/unfs3/{unfs3_0.9.22.r490.bb => unfs3_0.9.22.r497.bb} (88%)
+ .../mtd/mtd-utils/0001-Fix-build-with-musl.patch   | 24 --------
+ ...emove-duplicate-hashtable_iterator_value-.patch | 64 ----------------------
+ ...ibfec-use-standard-C-type-instead-of-u_lo.patch | 56 -------------------
+ meta/recipes-devtools/mtd/mtd-utils_git.bb         |  6 +-
+ 4 files changed, 2 insertions(+), 148 deletions(-)
+ delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch
+ delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch
 
-diff --git a/meta/recipes-devtools/unfs3/unfs3/fix_warnings.patch b/meta/recipes-devtools/unfs3/unfs3/fix_warnings.patch
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
+index d3699c6..305be52 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
++++ b/meta/recipes-devtools/mtd/mtd-utils/0001-Fix-build-with-musl.patch
+@@ -24,30 +24,6 @@ index f09c0b2..ed2dc43 100644
+  
+  #include "rbtree.h"
+  #include "common.h"
+-diff --git a/recv_image.c b/recv_image.c
+-index 26a8361..0093831 100644
+---- a/recv_image.c
+-+++ b/recv_image.c
+-@@ -4,7 +4,6 @@
+- #define _BSD_SOURCE	/* struct ip_mreq */
+- 
+- #include <errno.h>
+--#include <error.h>
+- #include <stdio.h>
+- #include <netdb.h>
+- #include <stdlib.h>
+-diff --git a/serve_image.c b/serve_image.c
+-index 38549a1..4f0e946 100644
+---- a/serve_image.c
+-+++ b/serve_image.c
+-@@ -3,7 +3,6 @@
+- 
+- #include <time.h>
+- #include <errno.h>
+--#include <error.h>
+- #include <netdb.h>
+- #include <stdio.h>
+- #include <stdlib.h>
+ -- 
+ 2.6.1
+ 
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch
 deleted file mode 100644
-index cda8655..0000000
---- a/meta/recipes-devtools/unfs3/unfs3/fix_warnings.patch
+index 2d36158..0000000
+--- a/meta/recipes-devtools/mtd/mtd-utils/0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch
 +++ /dev/null
-@@ -1,53 +0,0 @@
--exports.*: fix warnings.
+@@ -1,64 +0,0 @@
+-From b856ff35c20124ceae40bbc4d32584df47618c96 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 25 Feb 2015 09:28:26 +0000
+-Subject: [PATCH] hashtable: Remove duplicate hashtable_iterator_value/hashtable_iterator_key
 -
--Fix these warnings:
--lex.yy.c:1207: warning: 'yyunput' defined but not used
--lex.yy.c:1248: warning: 'input' defined but not used
--exports.y: In function 'set_hostname':
--exports.y:334: warning: large integer implicitly truncated to unsigned type
--exports.y: In function 'set_ipaddr':
--exports.y:350: warning: large integer implicitly truncated to unsigned type
+-gcc5 is defaulting to gnu11 instead of gnu89 like previous versions
+-as a result the semantics of 'extern inline' changes where in gnu89 for 'extern inline' no external
+-visible function is generated,in c99 'external inline' generates externally visible function
+-there is no equivalent in c99+ because redefinitions arent allowed
+-but 'static inline' remains same for for c89 and c99+, thats why we change the semantics
+-so we make the functions static inline, and achieve the same effect
 -
--Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
--
--Upstream-Status: Submitted http://sourceforge.net/p/unfs3/bugs/5/
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: pending
 -
 ----
-- Config/exports.l |    3 +++
-- Config/exports.y |    6 ++++--
-- 2 files changed, 7 insertions(+), 2 deletions(-)
+- mkfs.ubifs/hashtable/hashtable_itr.c | 12 ------------
+- 1 file changed, 12 deletions(-)
 -
----- a/Config/exports.l
--+++ b/Config/exports.l
--@@ -48,6 +48,9 @@ NETCOMP [0-9]{1,2}
-- NET {IP}"/"{NETCOMP}
-- OLDNET {IP}"/"{IP}
+-Index: git/mkfs.ubifs/hashtable/hashtable_itr.h
+-===================================================================
+---- git.orig/mkfs.ubifs/hashtable/hashtable_itr.h
+-+++ git/mkfs.ubifs/hashtable/hashtable_itr.h
+-@@ -28,7 +28,7 @@ hashtable_iterator(struct hashtable *h);
+- /* hashtable_iterator_key
+-  * - return the value of the (key,value) pair at the current position */
 - 
--+%option nounput
--+%option noinput
--+
-- %%
+--extern inline void *
+-+static inline void *
+- hashtable_iterator_key(struct hashtable_itr *i)
+- {
+-     return i->e->k;
+-@@ -37,7 +37,7 @@ hashtable_iterator_key(struct hashtable_
+- /*****************************************************************************/
+- /* value - return the value of the (key,value) pair at the current position */
 - 
-- ^{WHITE}*\n		{ /* eat empty line */ }
----- a/Config/exports.y
--+++ b/Config/exports.y
--@@ -331,7 +331,8 @@ static void set_hostname(const char *nam
-- 	if (ent) {
-- 		memcpy(&cur_host.addr, ent->h_addr_list[0],
-- 		       sizeof(struct in_addr));
---		cur_host.mask.s_addr = ~0UL;
--+		cur_host.mask.s_addr = 0;
--+		cur_host.mask.s_addr = ~cur_host.mask.s_addr;
-- 	} else {
-- 		logmsg(LOG_CRIT, "could not resolve hostname '%s'", name);
-- 		e_error = TRUE;
--@@ -347,7 +348,8 @@ static void set_ipaddr(const char *addr)
-- 	
-- 	if (!inet_aton(addr, &cur_host.addr))
-- 		e_error = TRUE;
---	cur_host.mask.s_addr = ~0UL;
--+	cur_host.mask.s_addr = 0;
--+	cur_host.mask.s_addr = ~cur_host.mask.s_addr;
+--extern inline void *
+-+static inline void *
+- hashtable_iterator_value(struct hashtable_itr *i)
+- {
+-     return i->e->v;
+-Index: git/mkfs.ubifs/hashtable/hashtable_itr.c
+-===================================================================
+---- git.orig/mkfs.ubifs/hashtable/hashtable_itr.c
+-+++ git/mkfs.ubifs/hashtable/hashtable_itr.c
+-@@ -35,18 +35,6 @@ hashtable_iterator(struct hashtable *h)
 - }
 - 
-- /*
-diff --git a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r490.bb b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
-similarity index 88%
-rename from meta/recipes-devtools/unfs3/unfs3_0.9.22.r490.bb
-rename to meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
-index 5130895..7e9d659 100644
---- a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r490.bb
-+++ b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
-@@ -4,9 +4,9 @@ LICENSE = "unfs3"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=9475885294e17c0cc0067820d042792e"
+- /*****************************************************************************/
+--/* key      - return the key of the (key,value) pair at the current position */
+--/* value    - return the value of the (key,value) pair at the current position */
+--
+--void *
+--hashtable_iterator_key(struct hashtable_itr *i)
+--{ return i->e->k; }
+--
+--void *
+--hashtable_iterator_value(struct hashtable_itr *i)
+--{ return i->e->v; }
+--
+--/*****************************************************************************/
+- /* advance - advance the iterator to the next element
+-  *           returns zero if advanced to end of table */
+- 
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch
+deleted file mode 100644
+index 46ed956..0000000
+--- a/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-From 26cc709291fc6c5d2e45b26c602407706d9142df Mon Sep 17 00:00:00 2001
+-From: Imre Kaloz <kaloz@openwrt.org>
+-Date: Mon, 4 May 2015 15:36:34 +0200
+-Subject: [PATCH] mtd-utils: libfec: use standard C type instead of u_long
+-
+-Fixes compilation on hosts with the musl C library.
+-Also drops the unused u_short typedef.
+-
+-Signed-off-by: Imre Kaloz <kaloz@openwrt.org>
+-Signed-off-by: Brian Norris <computersforpeace@gmail.com>
+----
+-Upstream-Status: Backport
+-
+- lib/libfec.c | 8 +++-----
+- 1 file changed, 3 insertions(+), 5 deletions(-)
+-
+-diff --git a/lib/libfec.c b/lib/libfec.c
+-index ff5a127..bf68381 100644
+---- a/lib/libfec.c
+-+++ b/lib/libfec.c
+-@@ -61,8 +61,6 @@ struct timeval {
+- };
+- #define gettimeofday(x, dummy) { (x)->ticks = clock() ; }
+- #define DIFF_T(a,b) (1+ 1000000*(a.ticks - b.ticks) / CLOCKS_PER_SEC )
+--typedef unsigned long u_long ;
+--typedef unsigned short u_short ;
+- #else /* typically, unix systems */
+- #include <sys/time.h>
+- #define DIFF_T(a,b) \
+-@@ -75,12 +73,12 @@ typedef unsigned short u_short ;
+- 	t = x.tv_usec + 1000000* (x.tv_sec & 0xff ) ; \
+- 	}
+- #define TOCK(t) \
+--	{ u_long t1 ; TICK(t1) ; \
+-+	{ unsigned long t1 ; TICK(t1) ; \
+- 	  if (t1 < t) t = 256000000 + t1 - t ; \
+- 	  else t = t1 - t ; \
+- 	  if (t == 0) t = 1 ;}
+- 
+--u_long ticks[10];	/* vars for timekeeping */
+-+unsigned long ticks[10];	/* vars for timekeeping */
+- #else
+- #define DEB(x)
+- #define DDB(x)
+-@@ -625,7 +623,7 @@ init_fec(void)
+- #define FEC_MAGIC	0xFECC0DEC
+- 
+- struct fec_parms {
+--    u_long magic ;
+-+    unsigned long magic ;
+-     int k, n ;		/* parameters of the code */
+-     gf *enc_matrix ;
+- } ;
+--- 
+-2.6.0
+-
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index bc15ddd..cd9ae06 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -7,16 +7,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
  
- # SVN support for upstream version check isn't implemented yet
--RECIPE_UPSTREAM_VERSION = "0.9.22.r495"
--RECIPE_UPSTREAM_DATE = "Feb 05, 2015"
--CHECK_DATE = "Jun 10, 2015"
-+RECIPE_UPSTREAM_VERSION = "0.9.22.r497"
-+RECIPE_UPSTREAM_DATE = "Oct 08, 2015"
-+CHECK_DATE = "Dec 10, 2015"
+ DEPENDS = "zlib lzo e2fsprogs util-linux"
  
- DEPENDS = "flex-native bison-native flex"
- DEPENDS_append_class-nativesdk += "flex-nativesdk"
-@@ -14,16 +14,15 @@ DEPENDS_append_class-nativesdk += "flex-nativesdk"
- SRC_URI[md5sum] = "3687acc4ee992e536472365dd99712a7"
- SRC_URI[sha256sum] = "274b43ada9c6eea1da26eb7010d72889c5278984ba0b50dff4e093057d4d64f8"
+-PV = "1.5.1+git${SRCPV}"
++PV = "1.5.2"
  
--MOD_PV = "490"
-+MOD_PV = "497"
- S = "${WORKDIR}/trunk"
--SRC_URI = "svn://svn.code.sf.net/p/unfs3/code;module=trunk;rev=${MOD_PV} \
-+SRC_URI = "svn://svn.code.sf.net/p/unfs3/code;module=trunk;rev=${MOD_PV};protocol=http \
-            file://unfs3_parallel_build.patch \
-            file://alternate_rpc_ports.patch \
-            file://fix_pid_race_parent_writes_child_pid.patch \
-            file://fix_compile_warning.patch \
-            file://rename_fh_cache.patch \
-            file://relative_max_socket_path_len.patch \
--           file://fix_warnings.patch \
-            file://tcp_no_delay.patch \
-           "
- BBCLASSEXTEND = "native nativesdk"
+-SRCREV = "9f107132a6a073cce37434ca9cda6917dd8d866b"
++SRCREV = "aea36417067dade75192bafa03af70b6eb2677b1"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
+            file://fix-armv7-neon-alignment.patch \
+-           file://0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch \
+            file://mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch \
+            file://0001-Fix-build-with-musl.patch \
+-           file://0001-mtd-utils-libfec-use-standard-C-type-instead-of-u_lo.patch \
+ "
+ 
+ SRC_URI_append_libc-musl = " file://010-fix-rpmatch.patch "
 -- 
 2.6.2
 
