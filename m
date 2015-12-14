@@ -1,34 +1,25 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwkm01.jp.fujitsu.com (mgwkm01.jp.fujitsu.com [202.219.69.168])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D2A56FF78
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 79A1A6FEFE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 09:23:10 +0000 (UTC)
-Received: from kw-mxauth.gw.nic.fujitsu.com (unknown [192.168.231.132]) by
-	mgwkm01.jp.fujitsu.com with smtp
-	id 4fdb_2d32_cc15a715_ba97_44ff_a5b0_4285604f0d17;
-	Mon, 14 Dec 2015 18:23:06 +0900
-Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
-	(g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
-	by kw-mxauth.gw.nic.fujitsu.com (Postfix) with ESMTP id 427A0AC022F
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 18:23:06 +0900 (JST)
-Received: from g01jpexchkw36.g01.fujitsu.local (unknown [10.0.193.4])
-	by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	8F489BD656D for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 18:23:05 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	g01jpexchkw36.g01.fujitsu.local (10.0.193.54) with Microsoft SMTP
-	Server id 14.3.266.1; Mon, 14 Dec 2015 18:23:05 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Dec 2015 18:24:12 +0900
-Message-ID: <1450085052-20113-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 14 Dec 2015 10:19:53 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 14 Dec 2015 02:19:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,426,1444719600"; d="scan'208";a="12738512"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 14 Dec 2015 02:19:53 -0800
+To: openembedded-core@lists.openembedded.org
+References: <1449886992-642-1-git-send-email-tanuk@iki.fi>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <566E973D.8010903@linux.intel.com>
+Date: Mon, 14 Dec 2015 12:17:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.3.0
 MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-MML: disable
-Cc: Fan Xin <fan.xin@jp.fujitsu.com>
-Subject: [PATCH] wget: Upgrade 1.16.3 -> 1.17
+In-Reply-To: <1449886992-642-1-git-send-email-tanuk@iki.fi>
+Subject: Re: [PATCH v2] libsndfile1: 1.0.25 -> 1.0.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,33 +32,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 09:23:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 Dec 2015 10:19:55 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
----
- meta/recipes-extended/wget/{wget_1.16.3.bb => wget_1.17.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/wget/{wget_1.16.3.bb => wget_1.17.bb} (58%)
+On 12/12/2015 04:23 AM, Tanu Kaskinen wrote:
+> Main points from the release announcement:
 
-diff --git a/meta/recipes-extended/wget/wget_1.16.3.bb b/meta/recipes-extended/wget/wget_1.17.bb
-similarity index 58%
-rename from meta/recipes-extended/wget/wget_1.16.3.bb
-rename to meta/recipes-extended/wget/wget_1.17.bb
-index 5c34a42..10434d3 100644
---- a/meta/recipes-extended/wget/wget_1.16.3.bb
-+++ b/meta/recipes-extended/wget/wget_1.17.bb
-@@ -3,7 +3,7 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-           "
- 
--SRC_URI[md5sum] = "f61d9011b99f824106a5d5a05dd0f63d"
--SRC_URI[sha256sum] = "9f1c6d09d7148c1c2d9fd0ea655dcf4dcc407deb2db32d4126251ca0245cb670"
-+SRC_URI[md5sum] = "c4c4727766f24ac716936275014a0536"
-+SRC_URI[sha256sum] = "3e04ad027c5b6ebd67c616eec13e66fbedb3d4d8cbe19cc29dadde44b92bda55"
- 
- require wget.inc
--- 
-1.8.4.2
+There's also other audio stuff in need of update (alsa, pulseaudio), can 
+you look into that? Now is a good time to do those version updates.
+
+Alex
 
 
