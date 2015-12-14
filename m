@@ -1,36 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 43D327317B
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 72CCA6AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 15:37:31 +0000 (UTC)
-Received: by igbxm8 with SMTP id xm8so86264057igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 07:37:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=ntcxakOkExIWvVWo4BpiR7kxD8m3Bo2qfk7q/JnRHt0=;
-	b=o7Dv2C3uT6tdOw5xTpP3V7nE7FFkK0CBsr5jQEOuZN6DWQFQEznaRJfFb21L/NoWcV
-	L2W7/REyHJaxekqxWnrY+XI9R5/vjtJ4ic1w6F9qyqCNzm7UyVOEEmoXwBnX4QvYQqXV
-	ZOHCSHHvOGeBmQhtZ+RXBRpc1Tj3Un+DZHdQDlNAioIXAZ03UDHVuVfZwcENjkRjnb1S
-	yaZ0S9tqK+oWyQmnLefXk6H7Rp1oEJ10U7KQin60a/KzsKsSIQh0RF7nQggoF1wI0YtZ
-	/h1TzT+876973byjH/V8s0QwLssUoDcZEdury9TBcfwOOZeRYlBTwCnz9p6p56OpC3Jq
-	QyjQ==
-X-Received: by 10.50.155.65 with SMTP id vu1mr19127251igb.11.1450107452646;
-	Mon, 14 Dec 2015 07:37:32 -0800 (PST)
+	Mon, 14 Dec 2015 15:48:59 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Dec 2015 07:49:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,427,1444719600"; d="scan'208";a="871185472"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.48]) ([10.219.5.48])
+	by orsmga002.jf.intel.com with ESMTP; 14 Dec 2015 07:48:59 -0800
+To: Nathan Lynch <Nathan_Lynch@mentor.com>
+References: <cover.1449523356.git.anibal.limon@linux.intel.com>
+	<75b7c85d17559f2f279039e1606fbf1e1e1dee23.1449523356.git.anibal.limon@linux.intel.com>
+	<566B5B0C.2000501@mentor.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <566EE52B.4010203@linux.intel.com>
+Date: Mon, 14 Dec 2015 09:50:03 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Received: by 10.107.12.205 with HTTP; Mon, 14 Dec 2015 07:37:02 -0800 (PST)
-In-Reply-To: <CAJTo0LaXYu8epz1WaQCbOB0JLrvChOS8o2LADQWcjwpx4vCxnA@mail.gmail.com>
-References: <cover.1450073907.git.raj.khem@gmail.com>
-	<2ae1ec09a656b0401bdc399ac0b8fb7d488c4106.1450073907.git.raj.khem@gmail.com>
-	<CAJTo0LaXYu8epz1WaQCbOB0JLrvChOS8o2LADQWcjwpx4vCxnA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 14 Dec 2015 07:37:02 -0800
-Message-ID: <CAMKF1spi7+A7Z1=kqxptZQ9nBtKevMWfwnJxoywG86evdaeLeA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] uclibc: Switch to using uclibc-ng
+In-Reply-To: <566B5B0C.2000501@mentor.com>
+Cc: paul.eggleton@linux.intel.com, georgex.l.musat@intel.com, bjst@enea.com,
+	benjamin.esquivel@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] ptest-runner: Add version 2.0 re-implementation in python.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,11 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 15:37:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 14 Dec 2015 15:49:03 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 14, 2015 at 4:20 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> Was this for testing?  Presumably I can drop it?
 
-yes drop it.
+
+On 12/11/2015 05:23 PM, Nathan Lynch wrote:
+> On 12/07/2015 03:26 PM, Aníbal Limón wrote:
+>> The new ptest-runner supports timeout of upstream tests executed,
+>> it looks for stdout of process and if no information is available
+>> in certain time (defaults to 5m) the process is treaty as blocked
+>> and ptest-runner kills it, this handles problems of ptest-runner
+>> being blocked indefinitly for upstream test suites.
+> 
+> Having the option to specify a timeout is obviously useful, but please
+> add the ability to wait indefinitely, and consider making this the
+> default behavior.  The appropriate value for a timeout, if any, will
+> always be a function of the particular circumstances of the test run.
+> An indefinite wait at least gives one the opportunity to investigate a
+> misbehaving test without racing the test harness.
+
+I'll add the ability to wait indefinitely adding a -1 to timeout option
+but for default i think is better to wait certain time by default
+because when ptest-runner is used in automatically manner
+(i.e.testimage) this cause the block indefinitely.
+
+> 
+>> +DEFAULT_TIMEOUT_SECS = 500
+> 
+> The change description says the default is five minutes, but this is not
+> five minutes :-)
+
+Thanks for notice it, it was a mistake :).
+
+> 
+> 
 
