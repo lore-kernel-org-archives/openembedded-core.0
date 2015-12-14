@@ -1,30 +1,31 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-vk0-f51.google.com (mail-vk0-f51.google.com
-	[209.85.213.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A4DF7316F
+Received: from mail-vk0-f49.google.com (mail-vk0-f49.google.com
+	[209.85.213.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 995F06E665
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 19:16:59 +0000 (UTC)
-Received: by vkgj66 with SMTP id j66so64030468vkg.1
+	Mon, 14 Dec 2015 20:02:44 +0000 (UTC)
+Received: by vkca188 with SMTP id a188so162371043vkc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 11:17:00 -0800 (PST)
+	Mon, 14 Dec 2015 12:02:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=damWMoFbXehkk+NmubzduFLuTB9SiKYoGRagrjvLtN8=;
-	b=J1wL8ckj/gwyzmszCXOm4JMzTEFPqlLtKctdvJ/i5yXA4ebHqrUDETdg7y86OHPl8B
-	olRFNQdIGMtdZMWSnF7PUhkfWAZKIqHsVPIQQ4Nwgq2GB/XVrM8EGhP1hMLMnThQLw8Z
-	ku/zt2ZLDlZFcIatBMhkqmCQO22BRgbLWdgxOHCom6wxmD/brLzQk1oCg86ip6fsU+Re
-	FRJkzr087MhyKZDMGN5yl7A6H15XbGd5UrrFiwmQJWf6aQxqbD4gDiuxs79qZh/OBOX9
-	+7JfPC1tO87Lrd9rh9b8HZ1QH1y2mcVjyObpHWcDAG8IzM06a4UDQdfbaA29otLBg75v
-	0p2w==
+	bh=e6Ymm6NYzKYDrMsIWP8Xcp+U306CRRCxNrs1Qe2iNUI=;
+	b=qlTMHY7Cy0Qsic4VS3s7iKhHLw3uWWCzKKJFZfpi//6wBOkSTn4Xq9RAt6+gvUwVcQ
+	ulF5HhWxA7feHJWCz2WJgO06jvdYftKQMCQQDtPRiRPM1bpuIJue6n1tAD9BQMFtBIH3
+	aUVWZp5hwWYi2zU/CqOwbY4gMnuyV/rx7Sr0Afy5UwGwWVf1Ze9baxuraoh6NL1JWAl5
+	Nw4AWISIbTZZVlHXpfeaP+KLXMJ3Ys+5e9jHuWNv/CYD1naEcUPddosiJ+Ec0a/bXYtK
+	kVSY5KX/PXHPcgzLXksvhbGhQEMm03sP+FEsROFLTouBL5WdBmPkXmOjGW4wzPdWLkNb
+	zLEg==
 MIME-Version: 1.0
-X-Received: by 10.31.48.11 with SMTP id w11mr23293840vkw.114.1450120620144;
-	Mon, 14 Dec 2015 11:17:00 -0800 (PST)
-Received: by 10.31.202.196 with HTTP; Mon, 14 Dec 2015 11:17:00 -0800 (PST)
-In-Reply-To: <1450119998-2912-1-git-send-email-haris.okanovic@ni.com>
+X-Received: by 10.31.192.12 with SMTP id q12mr26315073vkf.96.1450123364820;
+	Mon, 14 Dec 2015 12:02:44 -0800 (PST)
+Received: by 10.31.202.196 with HTTP; Mon, 14 Dec 2015 12:02:44 -0800 (PST)
+In-Reply-To: <CADkTA4OFzBpvo_fSnf-0h85erobO=DY4cJcc05+=Gg+Ua9xHyQ@mail.gmail.com>
 References: <1450119998-2912-1-git-send-email-haris.okanovic@ni.com>
-Date: Mon, 14 Dec 2015 14:17:00 -0500
-Message-ID: <CADkTA4OFzBpvo_fSnf-0h85erobO=DY4cJcc05+=Gg+Ua9xHyQ@mail.gmail.com>
+	<CADkTA4OFzBpvo_fSnf-0h85erobO=DY4cJcc05+=Gg+Ua9xHyQ@mail.gmail.com>
+Date: Mon, 14 Dec 2015 15:02:44 -0500
+Message-ID: <CADkTA4PoDAgiJ2kdpT9HBnWLfGG-spLmSnF66BP33z520ig6wA@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Haris Okanovic <haris.okanovic@ni.com>
 Cc: Gratian Crisan <gratian.crisan@ni.com>,
@@ -43,345 +44,371 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 19:17:01 -0000
-Content-Type: multipart/alternative; boundary=001a1143e72871fc920526e08489
+X-List-Received-Date: Mon, 14 Dec 2015 20:02:49 -0000
+Content-Type: multipart/alternative; boundary=001a114394260a6dc00526e128ca
 
---001a1143e72871fc920526e08489
+--001a114394260a6dc00526e128ca
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Dec 14, 2015 at 2:06 PM, Haris Okanovic <haris.okanovic@ni.com>
+On Mon, Dec 14, 2015 at 2:17 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
 wrote:
 
-> From: Gratian Crisan <gratian.crisan@ni.com>
 >
-> Templetize kernel package name:
 >
-> Add a "weak" variable KERNEL_PACKAGE_NAME used as the base name for kernel
-> packages. It defaults to the old hard-coded name 'kernel' but it can be
-> redefined by recipes that provide additional kernel packages in order
-> to avoid build conflicts.
+> On Mon, Dec 14, 2015 at 2:06 PM, Haris Okanovic <haris.okanovic@ni.com>
+> wrote:
 >
-> Change hard-coded 'kernel' references to KERNEL_PACKAGE_NAME in
-> kernel bbclass-es.
+>> From: Gratian Crisan <gratian.crisan@ni.com>
+>>
+>> Templetize kernel package name:
+>>
+>> Add a "weak" variable KERNEL_PACKAGE_NAME used as the base name for kernel
+>> packages. It defaults to the old hard-coded name 'kernel' but it can be
+>> redefined by recipes that provide additional kernel packages in order
+>> to avoid build conflicts.
+>>
+>> Change hard-coded 'kernel' references to KERNEL_PACKAGE_NAME in
+>> kernel bbclass-es.
+>>
+>> Build alternate kernels from WORKDIR instead of STAGING_KERNEL_DIR:
+>>
+>> Prior to this change, kernel recipes would all fetch source to
+>> STAGING_KERNEL_DIR as defined by bitbake/distro confs. This broke
+>> parallel builds when more than one kernel recipes are defined in
+>> the distribution, since they all attempted to fetch() and patch()
+>> in a shared source dir.
+>>
+>> With this change, alternate kernel recipes fetch source into their
+>> ${WORKDIR} so that they may build in parallel to each other and the
+>> default kernel recipe, which still fetches to STAGING_KERNEL_DIR.
+>>
 >
-> Build alternate kernels from WORKDIR instead of STAGING_KERNEL_DIR:
 >
-> Prior to this change, kernel recipes would all fetch source to
-> STAGING_KERNEL_DIR as defined by bitbake/distro confs. This broke
-> parallel builds when more than one kernel recipes are defined in
-> the distribution, since they all attempted to fetch() and patch()
-> in a shared source dir.
+> But what's the system level use case for this capability ? Honestly, it
+> just
+> looks complicated .. and I'm not seeing exactly multiple kernels are being
+> built in parallel in a single build. We've been forcing everything
+> explicitly
+> to be in a single, shared location .. and I see that this is both
+> complicating
+> and a possible source of errors.
 >
-> With this change, alternate kernel recipes fetch source into their
-> ${WORKDIR} so that they may build in parallel to each other and the
-> default kernel recipe, which still fetches to STAGING_KERNEL_DIR.
+> It's probably that I'm just misunderstanding the point of the change.
+>
+> If I had to guess, you are building recovery, or kexec/kdump kernels along
+> side the main kernel ?
 >
 
+Aha. I see the debug kernel reference in the comments (as one example).
 
-But what's the system level use case for this capability ? Honestly, it just
-looks complicated .. and I'm not seeing exactly multiple kernels are being
-built in parallel in a single build. We've been forcing everything
-explicitly
-to be in a single, shared location .. and I see that this is both
-complicating
-and a possible source of errors.
-
-It's probably that I'm just misunderstanding the point of the change.
-
-If I had to guess, you are building recovery, or kexec/kdump kernels along
-side the main kernel ?
-
-Cheers,
+As a follow up. If these kernel's are building via kernel.bbclass, how are
+you
+avoiding the artifacts all ending up in STAGING_KERNEL_BUILDDIR ? I did
+a quick scan, and couldn't see if it was being considered.
 
 Bruce
 
 
 >
-> Testing:
+> Cheers,
 >
-> Built linux-yocto-4.1.13 for qemux86 and verified it produced kernel
-> image and modules packages. Added kernel recipe with non-default
-> KERNEL_PACKAGE_NAME and verified it produces kernel image and modules
-> packages with alternate name next to default kernel.
+> Bruce
 >
-> Signed-off-by: Gratian Crisan <gratian.crisan@ni.com>
-> Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
-> Coauthored-by: Haris Okanovic <haris.okanovic@ni.com>
-> Coauthored-by: Josh Hernstrom <josh.hernstrom@ni.com>
-> Natinst-ReviewBoard-ID: 120348
-> Natinst-ReviewBoard-ID: 120447
-> ---
->  meta/classes/kernel-module-split.bbclass |  9 ++--
->  meta/classes/kernel.bbclass              | 71
-> ++++++++++++++++++--------------
->  meta/conf/documentation.conf             |  1 +
->  meta/recipes-kernel/linux/linux-dtb.inc  |  2 +-
->  4 files changed, 49 insertions(+), 34 deletions(-)
 >
-> diff --git a/meta/classes/kernel-module-split.bbclass
-> b/meta/classes/kernel-module-split.bbclass
-> index e1a70e6..7415ec8 100644
-> --- a/meta/classes/kernel-module-split.bbclass
-> +++ b/meta/classes/kernel-module-split.bbclass
-> @@ -28,7 +28,7 @@ do_install_append() {
+>>
+>> Testing:
+>>
+>> Built linux-yocto-4.1.13 for qemux86 and verified it produced kernel
+>> image and modules packages. Added kernel recipe with non-default
+>> KERNEL_PACKAGE_NAME and verified it produces kernel image and modules
+>> packages with alternate name next to default kernel.
+>>
+>> Signed-off-by: Gratian Crisan <gratian.crisan@ni.com>
+>> Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+>> Coauthored-by: Haris Okanovic <haris.okanovic@ni.com>
+>> Coauthored-by: Josh Hernstrom <josh.hernstrom@ni.com>
+>> Natinst-ReviewBoard-ID: 120348
+>> Natinst-ReviewBoard-ID: 120447
+>> ---
+>>  meta/classes/kernel-module-split.bbclass |  9 ++--
+>>  meta/classes/kernel.bbclass              | 71
+>> ++++++++++++++++++--------------
+>>  meta/conf/documentation.conf             |  1 +
+>>  meta/recipes-kernel/linux/linux-dtb.inc  |  2 +-
+>>  4 files changed, 49 insertions(+), 34 deletions(-)
+>>
+>> diff --git a/meta/classes/kernel-module-split.bbclass
+>> b/meta/classes/kernel-module-split.bbclass
+>> index e1a70e6..7415ec8 100644
+>> --- a/meta/classes/kernel-module-split.bbclass
+>> +++ b/meta/classes/kernel-module-split.bbclass
+>> @@ -28,7 +28,7 @@ do_install_append() {
+>>
+>>  PACKAGESPLITFUNCS_prepend = "split_kernel_module_packages "
+>>
+>> -KERNEL_MODULES_META_PACKAGE ?= "kernel-modules"
+>> +KERNEL_MODULES_META_PACKAGE ?= "${KERNEL_PACKAGE_NAME}-modules"
+>>
+>>  python split_kernel_module_packages () {
+>>      import re
+>> @@ -179,14 +179,17 @@ python split_kernel_module_packages () {
+>>          # Avoid automatic -dev recommendations for modules ending with
+>> -dev.
+>>          d.setVarFlag('RRECOMMENDS_' + pkg, 'nodeprrecs', 1)
+>>
+>> +    kernel_package_name = d.getVar("KERNEL_PACKAGE_NAME", True)
+>> +    kernel_version = d.getVar("KERNEL_VERSION", True)
+>> +
+>>      module_deps = parse_depmod()
+>>      module_regex = '^(.*)\.k?o$'
+>> -    module_pattern = 'kernel-module-%s'
+>> +    module_pattern = '%s-module-%%s' % kernel_package_name
+>>
+>>      postinst = d.getVar('pkg_postinst_modules', True)
+>>      postrm = d.getVar('pkg_postrm_modules', True)
+>>
+>> -    modules = do_split_packages(d, root='/lib/modules',
+>> file_regex=module_regex, output_pattern=module_pattern, description='%s
+>> kernel module', postinst=postinst, postrm=postrm, recursive=True,
+>> hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION",
+>> True)))
+>> +    modules = do_split_packages(d, root='/lib/modules',
+>> file_regex=module_regex, output_pattern=module_pattern, description='%s
+>> kernel module', postinst=postinst, postrm=postrm, recursive=True,
+>> hook=frob_metadata, extra_depends='%s-%s' % (kernel_package_name,
+>> kernel_version))
+>>      if modules:
+>>          metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE', True)
+>>          d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
+>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>> index b75a462..cc27364 100644
+>> --- a/meta/classes/kernel.bbclass
+>> +++ b/meta/classes/kernel.bbclass
+>> @@ -3,7 +3,6 @@ inherit linux-kernel-base kernel-module-split
+>>  PROVIDES += "virtual/kernel"
+>>  DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc
+>> kmod-native depmodwrapper-cross bc-native"
+>>
+>> -S = "${STAGING_KERNEL_DIR}"
+>>  B = "${WORKDIR}/build"
+>>  KBUILD_OUTPUT = "${B}"
+>>  OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
+>> @@ -11,6 +10,7 @@ OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
+>>  # we include gcc above, we dont need virtual/libc
+>>  INHIBIT_DEFAULT_DEPS = "1"
+>>
+>> +KERNEL_PACKAGE_NAME ??= "kernel"
+>>  KERNEL_IMAGETYPE ?= "zImage"
+>>  INITRAMFS_IMAGE ?= ""
+>>  INITRAMFS_TASK ?= ""
+>> @@ -34,6 +34,17 @@ python __anonymous () {
+>>      image_task = d.getVar('INITRAMFS_TASK', True)
+>>      if image_task:
+>>          d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
+>> +
+>> +    # The default kernel recipe fetches it's source to
+>> +    # STAGING_KERNEL_DIR as defined by bitbake/distro confs.
+>> +    # Alternate kernel recipes (E.g. debug kernels) fetch source into
+>> +    # their work dir so that they may build in parallel.
+>> +    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel":
+>> +        d.setVar("S", d.getVar("STAGING_KERNEL_DIR", True))
+>> +    else:
+>> +        workdir = d.getVar("WORKDIR", True)
+>> +        kernelSourceDir = os.path.join(workdir, 'kernel-source')
+>> +        d.setVar("S", kernelSourceDir)
+>>  }
+>>
+>>  # Here we pull in all various kernel image types which we support.
+>> @@ -79,9 +90,9 @@ base_do_unpack_append () {
+>>
+>>  inherit kernel-arch deploy
+>>
+>> -PACKAGES_DYNAMIC += "^kernel-module-.*"
+>> -PACKAGES_DYNAMIC += "^kernel-image-.*"
+>> -PACKAGES_DYNAMIC += "^kernel-firmware-.*"
+>> +PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-module-.*"
+>> +PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-image-.*"
+>> +PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-firmware-.*"
+>>
+>>  export OS = "${TARGET_OS}"
+>>  export CROSS_COMPILE = "${TARGET_PREFIX}"
+>> @@ -270,9 +281,9 @@ do_shared_workdir_setscene () {
+>>
+>>  emit_depmod_pkgdata() {
+>>         # Stash data for depmod
+>> -       install -d ${PKGDESTWORK}/kernel-depmod/
+>> -       echo "${KERNEL_VERSION}" >
+>> ${PKGDESTWORK}/kernel-depmod/kernel-abiversion
+>> -       cp ${B}/System.map
+>> ${PKGDESTWORK}/kernel-depmod/System.map-${KERNEL_VERSION}
+>> +       install -d ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/
+>> +       echo "${KERNEL_VERSION}" >
+>> ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/${KERNEL_PACKAGE_NAME}-abiversion
+>> +       cp ${B}/System.map
+>> ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/System.map-${KERNEL_VERSION}
+>>  }
+>>
+>>  PACKAGEFUNCS += "emit_depmod_pkgdata"
+>> @@ -287,7 +298,7 @@ do_shared_workdir () {
+>>         # Store the kernel version in sysroots for module-base.bbclass
+>>         #
+>>
+>> -       echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
+>> +       echo "${KERNEL_VERSION}" >
+>> $kerneldir/${KERNEL_PACKAGE_NAME}-abiversion
+>>
+>>         # Copy files required for module builds
+>>         cp System.map $kerneldir/System.map-${KERNEL_VERSION}
+>> @@ -361,28 +372,28 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+>>
+>>  # kernel-base becomes kernel-${KERNEL_VERSION}
+>>  # kernel-image becomes kernel-image-${KERNEL_VERISON}
+>> -PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev
+>> kernel-modules"
+>> +PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base
+>> ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image
+>> ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules"
+>>  FILES_${PN} = ""
+>> -FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order
+>> /lib/modules/${KERNEL_VERSION}/modules.builtin"
+>> -FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
+>> -FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers*
+>> /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
+>> -FILES_kernel-vmlinux = "/boot/vmlinux*"
+>> -FILES_kernel-modules = ""
+>> -RDEPENDS_kernel = "kernel-base"
+>> +FILES_${KERNEL_PACKAGE_NAME}-base =
+>> "/lib/modules/${KERNEL_VERSION}/modules.order
+>> /lib/modules/${KERNEL_VERSION}/modules.builtin"
+>> +FILES_${KERNEL_PACKAGE_NAME}-image = "/boot/${KERNEL_IMAGETYPE}*"
+>> +FILES_${KERNEL_PACKAGE_NAME}-dev = "/boot/System.map*
+>> /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}
+>> /lib/modules/${KERNEL_VERSION}/build"
+>> +FILES_${KERNEL_PACKAGE_NAME}-vmlinux = "/boot/vmlinux*"
+>> +FILES_${KERNEL_PACKAGE_NAME}-modules = ""
+>> +RDEPENDS_${KERNEL_PACKAGE_NAME} = "${KERNEL_PACKAGE_NAME}-base"
+>>  # Allow machines to override this dependency if kernel image files are
+>>  # not wanted in images as standard
+>> -RDEPENDS_kernel-base ?= "kernel-image"
+>> -PKG_kernel-image =
+>> "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
+>> -RDEPENDS_kernel-image += "${@base_conditional('KERNEL_IMAGETYPE',
+>> 'vmlinux', 'kernel-vmlinux', '', d)}"
+>> -PKG_kernel-base =
+>> "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
+>> -RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
+>> -ALLOW_EMPTY_kernel = "1"
+>> -ALLOW_EMPTY_kernel-base = "1"
+>> -ALLOW_EMPTY_kernel-image = "1"
+>> -ALLOW_EMPTY_kernel-modules = "1"
+>> -DESCRIPTION_kernel-modules = "Kernel modules meta package"
+>> -
+>> -pkg_postinst_kernel-base () {
+>> +RDEPENDS_${KERNEL_PACKAGE_NAME}-base ?= "${KERNEL_PACKAGE_NAME}-image"
+>> +PKG_${KERNEL_PACKAGE_NAME}-image =
+>> "${KERNEL_PACKAGE_NAME}-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
+>> +RDEPENDS_${KERNEL_PACKAGE_NAME}-image +=
+>> "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux',
+>> '${KERNEL_PACKAGE_NAME}-vmlinux', '', d)}"
+>> +PKG_${KERNEL_PACKAGE_NAME}-base =
+>> "${KERNEL_PACKAGE_NAME}-${@legitimize_package_name('${KERNEL_VERSION}')}"
+>> +RPROVIDES_${KERNEL_PACKAGE_NAME}-base +=
+>> "${KERNEL_PACKAGE_NAME}-${KERNEL_VERSION}"
+>> +ALLOW_EMPTY_${KERNEL_PACKAGE_NAME} = "1"
+>> +ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-base = "1"
+>> +ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-image = "1"
+>> +ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-modules = "1"
+>> +DESCRIPTION_${KERNEL_PACKAGE_NAME}-modules = "Kernel modules meta
+>> package"
+>> +
+>> +pkg_postinst_${KERNEL_PACKAGE_NAME}-base () {
+>>         if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
+>>                 mkdir -p $D/lib/modules/${KERNEL_VERSION}
+>>         fi
+>> @@ -393,18 +404,18 @@ pkg_postinst_kernel-base () {
+>>         fi
+>>  }
+>>
+>> -pkg_postinst_kernel-image () {
+>> +pkg_postinst_${KERNEL_PACKAGE_NAME}-image () {
+>>         update-alternatives --install
+>> /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}
+>> /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
+>> ${KERNEL_PRIORITY} || true
+>>  }
+>>
+>> -pkg_postrm_kernel-image () {
+>> +pkg_postrm_${KERNEL_PACKAGE_NAME}-image () {
+>>         update-alternatives --remove ${KERNEL_IMAGETYPE}
+>> ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
+>>  }
+>>
+>>  PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
+>>
+>>  python split_kernel_packages () {
+>> -    do_split_packages(d, root='/lib/firmware',
+>> file_regex='^(.*)\.(bin|fw|cis|dsp)$', output_pattern='kernel-firmware-%s',
+>> description='Firmware for %s', recursive=True, extra_depends='')
+>> +    do_split_packages(d, root='/lib/firmware',
+>> file_regex='^(.*)\.(bin|fw|cis|dsp)$',
+>> output_pattern='${KERNEL_PACKAGE_NAME}-firmware-%s', description='Firmware
+>> for %s', recursive=True, extra_depends='')
+>>  }
+>>
+>>  do_strip() {
+>> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+>> index 1b5c071..fb5e03f 100644
+>> --- a/meta/conf/documentation.conf
+>> +++ b/meta/conf/documentation.conf
+>> @@ -250,6 +250,7 @@ KERNEL_FEATURES[doc] = "Includes additional metadata
+>> from the Yocto Project kern
+>>  KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device,
+>> usually set by the machine configuration files and defaults to 'zImage'."
+>>  KERNEL_MODULE_AUTOLOAD[doc] = "Lists kernel modules that need to be
+>> auto-loaded during boot"
+>>  KERNEL_MODULE_PROBECONF[doc] = "Lists kernel modules for which the build
+>> system expects to find module_conf_* values that specify configuration for
+>> each of the modules"
+>> +KERNEL_PACKAGE_NAME[doc] = "Name prefix for kernel packages. Defaults to
+>> 'kernel'."
+>>  KERNEL_PATH[doc] = "The location of the kernel sources. This variable is
+>> set to the value of the STAGING_KERNEL_DIR within the module class
+>> (module.bbclass)."
+>>  KERNEL_SRC[doc] = "The location of the kernel sources. This variable is
+>> set to the value of the STAGING_KERNEL_DIR within the module class
+>> (module.bbclass)."
+>>  KFEATURE_DESCRIPTION[doc] = "Provides a short description of a
+>> configuration fragment. You use this variable in the .scc file that
+>> describes a configuration fragment file."
+>> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc
+>> b/meta/recipes-kernel/linux/linux-dtb.inc
+>> index 772adcb..c27a3cb 100644
+>> --- a/meta/recipes-kernel/linux/linux-dtb.inc
+>> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+>> @@ -2,7 +2,7 @@
+>>  FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/devicetree*"
+>>
+>>  python __anonymous () {
+>> -    d.appendVar("PACKAGES", " kernel-devicetree")
+>> +    d.appendVar("PACKAGES", " ${KERNEL_PACKAGE_NAME}-devicetree")
+>>  }
+>>
+>>  normalize_dtb () {
+>> --
+>> 2.6.2
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
 >
->  PACKAGESPLITFUNCS_prepend = "split_kernel_module_packages "
 >
-> -KERNEL_MODULES_META_PACKAGE ?= "kernel-modules"
-> +KERNEL_MODULES_META_PACKAGE ?= "${KERNEL_PACKAGE_NAME}-modules"
 >
->  python split_kernel_module_packages () {
->      import re
-> @@ -179,14 +179,17 @@ python split_kernel_module_packages () {
->          # Avoid automatic -dev recommendations for modules ending with
-> -dev.
->          d.setVarFlag('RRECOMMENDS_' + pkg, 'nodeprrecs', 1)
->
-> +    kernel_package_name = d.getVar("KERNEL_PACKAGE_NAME", True)
-> +    kernel_version = d.getVar("KERNEL_VERSION", True)
-> +
->      module_deps = parse_depmod()
->      module_regex = '^(.*)\.k?o$'
-> -    module_pattern = 'kernel-module-%s'
-> +    module_pattern = '%s-module-%%s' % kernel_package_name
->
->      postinst = d.getVar('pkg_postinst_modules', True)
->      postrm = d.getVar('pkg_postrm_modules', True)
->
-> -    modules = do_split_packages(d, root='/lib/modules',
-> file_regex=module_regex, output_pattern=module_pattern, description='%s
-> kernel module', postinst=postinst, postrm=postrm, recursive=True,
-> hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION",
-> True)))
-> +    modules = do_split_packages(d, root='/lib/modules',
-> file_regex=module_regex, output_pattern=module_pattern, description='%s
-> kernel module', postinst=postinst, postrm=postrm, recursive=True,
-> hook=frob_metadata, extra_depends='%s-%s' % (kernel_package_name,
-> kernel_version))
->      if modules:
->          metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE', True)
->          d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index b75a462..cc27364 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -3,7 +3,6 @@ inherit linux-kernel-base kernel-module-split
->  PROVIDES += "virtual/kernel"
->  DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc
-> kmod-native depmodwrapper-cross bc-native"
->
-> -S = "${STAGING_KERNEL_DIR}"
->  B = "${WORKDIR}/build"
->  KBUILD_OUTPUT = "${B}"
->  OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
-> @@ -11,6 +10,7 @@ OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
->  # we include gcc above, we dont need virtual/libc
->  INHIBIT_DEFAULT_DEPS = "1"
->
-> +KERNEL_PACKAGE_NAME ??= "kernel"
->  KERNEL_IMAGETYPE ?= "zImage"
->  INITRAMFS_IMAGE ?= ""
->  INITRAMFS_TASK ?= ""
-> @@ -34,6 +34,17 @@ python __anonymous () {
->      image_task = d.getVar('INITRAMFS_TASK', True)
->      if image_task:
->          d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
-> +
-> +    # The default kernel recipe fetches it's source to
-> +    # STAGING_KERNEL_DIR as defined by bitbake/distro confs.
-> +    # Alternate kernel recipes (E.g. debug kernels) fetch source into
-> +    # their work dir so that they may build in parallel.
-> +    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel":
-> +        d.setVar("S", d.getVar("STAGING_KERNEL_DIR", True))
-> +    else:
-> +        workdir = d.getVar("WORKDIR", True)
-> +        kernelSourceDir = os.path.join(workdir, 'kernel-source')
-> +        d.setVar("S", kernelSourceDir)
->  }
->
->  # Here we pull in all various kernel image types which we support.
-> @@ -79,9 +90,9 @@ base_do_unpack_append () {
->
->  inherit kernel-arch deploy
->
-> -PACKAGES_DYNAMIC += "^kernel-module-.*"
-> -PACKAGES_DYNAMIC += "^kernel-image-.*"
-> -PACKAGES_DYNAMIC += "^kernel-firmware-.*"
-> +PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-module-.*"
-> +PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-image-.*"
-> +PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-firmware-.*"
->
->  export OS = "${TARGET_OS}"
->  export CROSS_COMPILE = "${TARGET_PREFIX}"
-> @@ -270,9 +281,9 @@ do_shared_workdir_setscene () {
->
->  emit_depmod_pkgdata() {
->         # Stash data for depmod
-> -       install -d ${PKGDESTWORK}/kernel-depmod/
-> -       echo "${KERNEL_VERSION}" >
-> ${PKGDESTWORK}/kernel-depmod/kernel-abiversion
-> -       cp ${B}/System.map
-> ${PKGDESTWORK}/kernel-depmod/System.map-${KERNEL_VERSION}
-> +       install -d ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/
-> +       echo "${KERNEL_VERSION}" >
-> ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/${KERNEL_PACKAGE_NAME}-abiversion
-> +       cp ${B}/System.map
-> ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/System.map-${KERNEL_VERSION}
->  }
->
->  PACKAGEFUNCS += "emit_depmod_pkgdata"
-> @@ -287,7 +298,7 @@ do_shared_workdir () {
->         # Store the kernel version in sysroots for module-base.bbclass
->         #
->
-> -       echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
-> +       echo "${KERNEL_VERSION}" >
-> $kerneldir/${KERNEL_PACKAGE_NAME}-abiversion
->
->         # Copy files required for module builds
->         cp System.map $kerneldir/System.map-${KERNEL_VERSION}
-> @@ -361,28 +372,28 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
->
->  # kernel-base becomes kernel-${KERNEL_VERSION}
->  # kernel-image becomes kernel-image-${KERNEL_VERISON}
-> -PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev
-> kernel-modules"
-> +PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base
-> ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image
-> ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules"
->  FILES_${PN} = ""
-> -FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order
-> /lib/modules/${KERNEL_VERSION}/modules.builtin"
-> -FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
-> -FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config*
-> ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
-> -FILES_kernel-vmlinux = "/boot/vmlinux*"
-> -FILES_kernel-modules = ""
-> -RDEPENDS_kernel = "kernel-base"
-> +FILES_${KERNEL_PACKAGE_NAME}-base =
-> "/lib/modules/${KERNEL_VERSION}/modules.order
-> /lib/modules/${KERNEL_VERSION}/modules.builtin"
-> +FILES_${KERNEL_PACKAGE_NAME}-image = "/boot/${KERNEL_IMAGETYPE}*"
-> +FILES_${KERNEL_PACKAGE_NAME}-dev = "/boot/System.map*
-> /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}
-> /lib/modules/${KERNEL_VERSION}/build"
-> +FILES_${KERNEL_PACKAGE_NAME}-vmlinux = "/boot/vmlinux*"
-> +FILES_${KERNEL_PACKAGE_NAME}-modules = ""
-> +RDEPENDS_${KERNEL_PACKAGE_NAME} = "${KERNEL_PACKAGE_NAME}-base"
->  # Allow machines to override this dependency if kernel image files are
->  # not wanted in images as standard
-> -RDEPENDS_kernel-base ?= "kernel-image"
-> -PKG_kernel-image =
-> "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
-> -RDEPENDS_kernel-image += "${@base_conditional('KERNEL_IMAGETYPE',
-> 'vmlinux', 'kernel-vmlinux', '', d)}"
-> -PKG_kernel-base =
-> "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
-> -RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
-> -ALLOW_EMPTY_kernel = "1"
-> -ALLOW_EMPTY_kernel-base = "1"
-> -ALLOW_EMPTY_kernel-image = "1"
-> -ALLOW_EMPTY_kernel-modules = "1"
-> -DESCRIPTION_kernel-modules = "Kernel modules meta package"
-> -
-> -pkg_postinst_kernel-base () {
-> +RDEPENDS_${KERNEL_PACKAGE_NAME}-base ?= "${KERNEL_PACKAGE_NAME}-image"
-> +PKG_${KERNEL_PACKAGE_NAME}-image =
-> "${KERNEL_PACKAGE_NAME}-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
-> +RDEPENDS_${KERNEL_PACKAGE_NAME}-image +=
-> "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux',
-> '${KERNEL_PACKAGE_NAME}-vmlinux', '', d)}"
-> +PKG_${KERNEL_PACKAGE_NAME}-base =
-> "${KERNEL_PACKAGE_NAME}-${@legitimize_package_name('${KERNEL_VERSION}')}"
-> +RPROVIDES_${KERNEL_PACKAGE_NAME}-base +=
-> "${KERNEL_PACKAGE_NAME}-${KERNEL_VERSION}"
-> +ALLOW_EMPTY_${KERNEL_PACKAGE_NAME} = "1"
-> +ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-base = "1"
-> +ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-image = "1"
-> +ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-modules = "1"
-> +DESCRIPTION_${KERNEL_PACKAGE_NAME}-modules = "Kernel modules meta package"
-> +
-> +pkg_postinst_${KERNEL_PACKAGE_NAME}-base () {
->         if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
->                 mkdir -p $D/lib/modules/${KERNEL_VERSION}
->         fi
-> @@ -393,18 +404,18 @@ pkg_postinst_kernel-base () {
->         fi
->  }
->
-> -pkg_postinst_kernel-image () {
-> +pkg_postinst_${KERNEL_PACKAGE_NAME}-image () {
->         update-alternatives --install
-> /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}
-> /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
-> ${KERNEL_PRIORITY} || true
->  }
->
-> -pkg_postrm_kernel-image () {
-> +pkg_postrm_${KERNEL_PACKAGE_NAME}-image () {
->         update-alternatives --remove ${KERNEL_IMAGETYPE}
-> ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
->  }
->
->  PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
->
->  python split_kernel_packages () {
-> -    do_split_packages(d, root='/lib/firmware',
-> file_regex='^(.*)\.(bin|fw|cis|dsp)$', output_pattern='kernel-firmware-%s',
-> description='Firmware for %s', recursive=True, extra_depends='')
-> +    do_split_packages(d, root='/lib/firmware',
-> file_regex='^(.*)\.(bin|fw|cis|dsp)$',
-> output_pattern='${KERNEL_PACKAGE_NAME}-firmware-%s', description='Firmware
-> for %s', recursive=True, extra_depends='')
->  }
->
->  do_strip() {
-> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-> index 1b5c071..fb5e03f 100644
-> --- a/meta/conf/documentation.conf
-> +++ b/meta/conf/documentation.conf
-> @@ -250,6 +250,7 @@ KERNEL_FEATURES[doc] = "Includes additional metadata
-> from the Yocto Project kern
->  KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device,
-> usually set by the machine configuration files and defaults to 'zImage'."
->  KERNEL_MODULE_AUTOLOAD[doc] = "Lists kernel modules that need to be
-> auto-loaded during boot"
->  KERNEL_MODULE_PROBECONF[doc] = "Lists kernel modules for which the build
-> system expects to find module_conf_* values that specify configuration for
-> each of the modules"
-> +KERNEL_PACKAGE_NAME[doc] = "Name prefix for kernel packages. Defaults to
-> 'kernel'."
->  KERNEL_PATH[doc] = "The location of the kernel sources. This variable is
-> set to the value of the STAGING_KERNEL_DIR within the module class
-> (module.bbclass)."
->  KERNEL_SRC[doc] = "The location of the kernel sources. This variable is
-> set to the value of the STAGING_KERNEL_DIR within the module class
-> (module.bbclass)."
->  KFEATURE_DESCRIPTION[doc] = "Provides a short description of a
-> configuration fragment. You use this variable in the .scc file that
-> describes a configuration fragment file."
-> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc
-> b/meta/recipes-kernel/linux/linux-dtb.inc
-> index 772adcb..c27a3cb 100644
-> --- a/meta/recipes-kernel/linux/linux-dtb.inc
-> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
-> @@ -2,7 +2,7 @@
->  FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/devicetree*"
->
->  python __anonymous () {
-> -    d.appendVar("PACKAGES", " kernel-devicetree")
-> +    d.appendVar("PACKAGES", " ${KERNEL_PACKAGE_NAME}-devicetree")
->  }
->
->  normalize_dtb () {
 > --
-> 2.6.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> at its end"
 >
 
 
@@ -390,17 +417,23 @@ Bruce
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---001a1143e72871fc920526e08489
+--001a114394260a6dc00526e128ca
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, Dec 14, 2015 at 2:06 PM, Haris Okanovic <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:haris.okanovic@ni.com" target=3D"_blank">haris.okanovic@ni=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Gratian =
-Crisan &lt;<a href=3D"mailto:gratian.crisan@ni.com">gratian.crisan@ni.com</=
-a>&gt;<br>
+te">On Mon, Dec 14, 2015 at 2:17 PM, Bruce Ashfield <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield=
+@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=
+=3D"gmail_quote"><span class=3D"">On Mon, Dec 14, 2015 at 2:06 PM, Haris Ok=
+anovic <span dir=3D"ltr">&lt;<a href=3D"mailto:haris.okanovic@ni.com" targe=
+t=3D"_blank">haris.okanovic@ni.com</a>&gt;</span> wrote:<br><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">From: Gratian Crisan &lt;<a href=3D"mail=
+to:gratian.crisan@ni.com" target=3D"_blank">gratian.crisan@ni.com</a>&gt;<b=
+r>
 <br>
 Templetize kernel package name:<br>
 <br>
@@ -425,18 +458,27 @@ in a shared source dir.<br>
 With this change, alternate kernel recipes fetch source into their<br>
 ${WORKDIR} so that they may build in parallel to each other and the<br>
 default kernel recipe, which still fetches to STAGING_KERNEL_DIR.<br></bloc=
-kquote><div><br><br></div><div>But what&#39;s the system level use case for=
- this capability ? Honestly, it just<br></div><div>looks complicated .. and=
- I&#39;m not seeing exactly multiple kernels are being<br></div><div>built =
-in parallel in a single build. We&#39;ve been forcing everything explicitly=
-<br></div><div>to be in a single, shared location .. and I see that this is=
- both complicating<br></div><div>and a possible source of errors.<br><br></=
-div><div>It&#39;s probably that I&#39;m just misunderstanding the point of =
-the change.<br><br></div><div>If I had to guess, you are building recovery,=
- or kexec/kdump kernels along<br></div><div>side the main kernel ?<br></div=
-><div><br></div><div>Cheers,<br><br></div><div>Bruce<br></div><div>=C2=A0</=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">
+kquote><div><br><br></div></span><div>But what&#39;s the system level use c=
+ase for this capability ? Honestly, it just<br></div><div>looks complicated=
+ .. and I&#39;m not seeing exactly multiple kernels are being<br></div><div=
+>built in parallel in a single build. We&#39;ve been forcing everything exp=
+licitly<br></div><div>to be in a single, shared location .. and I see that =
+this is both complicating<br></div><div>and a possible source of errors.<br=
+><br></div><div>It&#39;s probably that I&#39;m just misunderstanding the po=
+int of the change.<br><br></div><div>If I had to guess, you are building re=
+covery, or kexec/kdump kernels along<br></div><div>side the main kernel ?<b=
+r></div></div></div></div></blockquote><div><br></div><div>Aha. I see the d=
+ebug kernel reference in the comments (as one example).<br><br></div><div>A=
+s a follow up. If these kernel&#39;s are building via kernel.bbclass, how a=
+re you<br></div><div>avoiding the artifacts all ending up in STAGING_KERNEL=
+_BUILDDIR ? I did<br></div><div>a quick scan, and couldn&#39;t see if it wa=
+s being considered.<br><br></div><div>Bruce<br></div><div>=C2=A0</div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D=
+"gmail_extra"><div class=3D"gmail_quote"><div></div><div><br></div><div>Che=
+ers,<br><br></div><div>Bruce<br></div><div><div class=3D"h5"><div>=C2=A0</d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
 <br>
 Testing:<br>
 <br>
@@ -445,14 +487,14 @@ image and modules packages. Added kernel recipe with non-default<br>
 KERNEL_PACKAGE_NAME and verified it produces kernel image and modules<br>
 packages with alternate name next to default kernel.<br>
 <br>
-Signed-off-by: Gratian Crisan &lt;<a href=3D"mailto:gratian.crisan@ni.com">=
-gratian.crisan@ni.com</a>&gt;<br>
-Signed-off-by: Haris Okanovic &lt;<a href=3D"mailto:haris.okanovic@ni.com">=
-haris.okanovic@ni.com</a>&gt;<br>
-Coauthored-by: Haris Okanovic &lt;<a href=3D"mailto:haris.okanovic@ni.com">=
-haris.okanovic@ni.com</a>&gt;<br>
-Coauthored-by: Josh Hernstrom &lt;<a href=3D"mailto:josh.hernstrom@ni.com">=
-josh.hernstrom@ni.com</a>&gt;<br>
+Signed-off-by: Gratian Crisan &lt;<a href=3D"mailto:gratian.crisan@ni.com" =
+target=3D"_blank">gratian.crisan@ni.com</a>&gt;<br>
+Signed-off-by: Haris Okanovic &lt;<a href=3D"mailto:haris.okanovic@ni.com" =
+target=3D"_blank">haris.okanovic@ni.com</a>&gt;<br>
+Coauthored-by: Haris Okanovic &lt;<a href=3D"mailto:haris.okanovic@ni.com" =
+target=3D"_blank">haris.okanovic@ni.com</a>&gt;<br>
+Coauthored-by: Josh Hernstrom &lt;<a href=3D"mailto:josh.hernstrom@ni.com" =
+target=3D"_blank">josh.hernstrom@ni.com</a>&gt;<br>
 Natinst-ReviewBoard-ID: 120348<br>
 Natinst-ReviewBoard-ID: 120447<br>
 ---<br>
@@ -755,20 +797,25 @@ ME}-devicetree&quot;)<br>
 =C2=A0}<br>
 <br>
 =C2=A0normalize_dtb () {<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+<span><font color=3D"#888888">--<br>
 2.6.2<br>
 <br>
 --<br>
 _______________________________________________<br>
 Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
 <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
 n/listinfo/openembedded-core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
-s=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer, for cha=
-os and madness await thee at its end&quot;</div>
+</font></span></blockquote></div></div></div><span class=3D""><font color=
+=3D"#888888"><br><br clear=3D"all"><br>-- <br><div>&quot;Thou shalt not fol=
+low the NULL pointer, for chaos and madness await thee at its end&quot;</di=
+v>
+</font></span></div></div>
+</blockquote></div><br><br clear=3D"all"><br>-- <br><div class=3D"gmail_sig=
+nature">&quot;Thou shalt not follow the NULL pointer, for chaos and madness=
+ await thee at its end&quot;</div>
 </div></div>
 
---001a1143e72871fc920526e08489--
+--001a114394260a6dc00526e128ca--
