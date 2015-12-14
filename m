@@ -1,48 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id F07E76FF56
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 0E3B373173
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 12:20:42 +0000 (UTC)
-Received: by mail-ig0-f173.google.com with SMTP id mv3so80422428igc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 04:20:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=2qi04M4M8nfMdBzmB2XYLfpFttqndOHy6ZIrUXgn5Kw=;
-	b=TARHmZuOvt7SwXyLY1c6wam02k2cKwsbyaOcrale8n0rk/q2p3rrN6xIii/bfXtbRk
-	Om3/hU9mXatbsTrbXWz+ejFB4IqGh/gO5FuUjGSFsaro2xiGdZygfNO0dqva7AgakK4w
-	evzWhGQt3N6WrXc9oSSE2zIzE7ZimeX4GpKu5gaREiGBVRbP9gyfkczlD1qLFWQxcUj8
-	GXwrHYKwvulFZHJBx5yE+6qk5a9sUUXQhVPW51QWqBaVh4xLfVeolvjFOXdjlq05iv0T
-	YgrQq5Ax7Z/nyPtpsouxoBoQDr8+xVC/ERlhcqXI/2ci4TFAi+YvxcsPXgN8jvO4JZsh
-	O7MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=2qi04M4M8nfMdBzmB2XYLfpFttqndOHy6ZIrUXgn5Kw=;
-	b=UOx3FwxUav4Nw3BxwPqtUVl0SRMCpCEOKGolL9TaZ8Q5JNugMwI2R5672E8Ye9dFvt
-	XhPFEWIdF6eSD0YjpeNK88X8PK0gv9LE049wkc/Vg+qviZcnm+0WJODCXikS7hPqPCe3
-	evevnO4IXd1W8B6AcXyQMzNnMnI/DW30joUsWxotJYicy8twxz98zyqfrKh0mRTa1+Ai
-	VkGHGETsv846YiIeYG4EzPiRF8ciqtd1iUivRp9Hodw5zq2XJ4+OJ7zJs45nZkHas3nw
-	KtsfGdGAO2GYU3j3AW/feYVxT6uRq+ty97ArdGEj+qjFdnvrmyV5frssG2H+qxDp6i6L
-	SRhg==
-X-Gm-Message-State: ALoCoQlWwiFvirUU6Q84qsk57IpXuwSeQUMZ/JcbAv3k4OBqjrKfvpypUUttdAkJ5UwBIkhZFvpJp+mu6AcE7GetWPxluYjOE1ltG5Nul/WYMn3WrATQRh4=
-X-Received: by 10.50.7.71 with SMTP id h7mr7520632iga.64.1450095642809; Mon,
-	14 Dec 2015 04:20:42 -0800 (PST)
+	Mon, 14 Dec 2015 12:24:17 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 14 Dec 2015 13:24:02 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 Dec 2015 13:24:08 +0100
+Message-ID: <1450095853-48305-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Mon, 14 Dec 2015 04:20:23 -0800 (PST)
-In-Reply-To: <2ae1ec09a656b0401bdc399ac0b8fb7d488c4106.1450073907.git.raj.khem@gmail.com>
-References: <cover.1450073907.git.raj.khem@gmail.com>
-	<2ae1ec09a656b0401bdc399ac0b8fb7d488c4106.1450073907.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Dec 2015 12:20:23 +0000
-Message-ID: <CAJTo0LaXYu8epz1WaQCbOB0JLrvChOS8o2LADQWcjwpx4vCxnA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] uclibc: Switch to using uclibc-ng
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH][dizzy 1/6] glibc/wscanf: CVE-2015-1472
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,64 +27,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 12:20:45 -0000
-Content-Type: multipart/alternative; boundary=e89a8f642ed4ae33890526dab336
+X-List-Received-Date: Mon, 14 Dec 2015 12:24:21 -0000
+Content-Type: text/plain
 
---e89a8f642ed4ae33890526dab336
-Content-Type: text/plain; charset=UTF-8
+Fixes a heap buffer overflow in glibc wscanf.
 
-On 14 December 2015 at 06:23, Khem Raj <raj.khem@gmail.com> wrote:
+References:
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1472
+https://sourceware.org/ml/libc-alpha/2015-02/msg00119.html
+http://openwall.com/lists/oss-security/2015/02/04/1
 
-> diff --git a/meta/recipes-core/uclibc/uclibc_git.bb
-> b/meta/recipes-core/uclibc/uclibc_git.bb
-> index fd02b3d..81756ac 100644
-> --- a/meta/recipes-core/uclibc/uclibc_git.bb
-> +++ b/meta/recipes-core/uclibc/uclibc_git.bb
-> @@ -13,6 +13,11 @@ DEPENDS = "virtual/${TARGET_PREFIX}binutils \
->             linux-libc-headers ncurses-native \
->             libgcc-initial kern-tools-native"
->
-> +#do_compile_prepend () {
-> +#  unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-> +#  oe_runmake pregen
-> +#}
-> +#
->
+Reference to upstream fix:
+https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;
+h=5bd80bfe9ca0d955bfbbc002781bc7b01b6bcb06
 
-Was this for testing?  Presumably I can drop it?
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+---
+ ...5-1472-wscanf-allocates-too-little-memory.patch | 108 +++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.20.bb              |   1 +
+ 2 files changed, 109 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-memory.patch
 
-Ross
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-memory.patch b/meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-memory.patch
+new file mode 100644
+index 0000000..ab513aa
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2015-1472-wscanf-allocates-too-little-memory.patch
+@@ -0,0 +1,108 @@
++CVE-2015-1472: wscanf allocates too little memory
++
++BZ #16618
++
++Under certain conditions wscanf can allocate too little memory for the
++to-be-scanned arguments and overflow the allocated buffer.  The
++implementation now correctly computes the required buffer size when
++using malloc.
++
++A regression test was added to tst-sscanf.
++
++Upstream-Status: Backport
++
++The patch is from (Paul Pluzhnikov <ppluzhnikov@google.com>):
++[https://sourceware.org/git/?p=glibc.git;a=patch;h=5bd80bfe9ca0d955bfbbc002781bc7b01b6bcb06]
++
++diff -ruN a/ChangeLog b/ChangeLog
++--- a/ChangeLog	2015-09-22 10:20:14.399408389 +0200
+++++ b/ChangeLog	2015-09-22 10:33:07.374388595 +0200
++@@ -1,3 +1,12 @@
+++2015-02-05  Paul Pluzhnikov  <ppluzhnikov@google.com>
+++
+++       [BZ #16618] CVE-2015-1472
+++       * stdio-common/tst-sscanf.c (main): Test for buffer overflow.
+++       * stdio-common/vfscanf.c (_IO_vfscanf_internal): Compute needed
+++       size in bytes. Store needed elements in wpmax. Use needed size
+++       in bytes for extend_alloca.
+++
+++
++ 2014-12-16  Florian Weimer  <fweimer@redhat.com>
++ 
++        [BZ #17630]
++diff -ruN a/stdio-common/tst-sscanf.c b/stdio-common/tst-sscanf.c
++--- a/stdio-common/tst-sscanf.c	2015-09-22 10:20:09.995596201 +0200
+++++ b/stdio-common/tst-sscanf.c	2015-09-22 10:21:39.211791399 +0200
++@@ -233,5 +233,38 @@
++ 	}
++     }
++ 
+++  /* BZ #16618
+++     The test will segfault during SSCANF if the buffer overflow
+++     is not fixed.  The size of `s` is such that it forces the use
+++     of malloc internally and this triggers the incorrect computation.
+++     Thus the value for SIZE is arbitrariy high enough that malloc
+++     is used.  */
+++  {
+++#define SIZE 131072
+++    CHAR *s = malloc ((SIZE + 1) * sizeof (*s));
+++    if (s == NULL)
+++      abort ();
+++    for (size_t i = 0; i < SIZE; i++)
+++      s[i] = L('0');
+++    s[SIZE] = L('\0');
+++    int i = 42;
+++    /* Scan multi-digit zero into `i`.  */
+++    if (SSCANF (s, L("%d"), &i) != 1)
+++      {
+++	printf ("FAIL: bug16618: SSCANF did not read one input item.\n");
+++	result = 1;
+++      }
+++    if (i != 0)
+++      {
+++	printf ("FAIL: bug16618: Value of `i` was not zero as expected.\n");
+++	result = 1;
+++      }
+++    free (s);
+++    if (result != 1)
+++      printf ("PASS: bug16618: Did not crash.\n");
+++#undef SIZE
+++  }
+++
+++
++   return result;
++ }
++diff -ruN a/stdio-common/vfscanf.c b/stdio-common/vfscanf.c
++--- a/stdio-common/vfscanf.c	2015-09-22 10:20:14.051423230 +0200
+++++ b/stdio-common/vfscanf.c	2015-09-22 10:21:39.215791228 +0200
++@@ -279,9 +279,10 @@
++       if (__glibc_unlikely (wpsize == wpmax))				      \
++ 	{								    \
++ 	  CHAR_T *old = wp;						    \
++-	  size_t newsize = (UCHAR_MAX + 1 > 2 * wpmax			    \
++-			    ? UCHAR_MAX + 1 : 2 * wpmax);		    \
++-	  if (use_malloc || !__libc_use_alloca (newsize))		    \
+++	  bool fits = __glibc_likely (wpmax <= SIZE_MAX / sizeof (CHAR_T) / 2); \
+++	  size_t wpneed = MAX (UCHAR_MAX + 1, 2 * wpmax);		    \
+++	  size_t newsize = fits ? wpneed * sizeof (CHAR_T) : SIZE_MAX;	    \
+++	  if (!__libc_use_alloca (newsize))				    \
++ 	    {								    \
++ 	      wp = realloc (use_malloc ? wp : NULL, newsize);		    \
++ 	      if (wp == NULL)						    \
++@@ -293,14 +294,13 @@
++ 		}							    \
++ 	      if (! use_malloc)						    \
++ 		MEMCPY (wp, old, wpsize);				    \
++-	      wpmax = newsize;						    \
+++	      wpmax = wpneed;						    \
++ 	      use_malloc = true;					    \
++ 	    }								    \
++ 	  else								    \
++ 	    {								    \
++ 	      size_t s = wpmax * sizeof (CHAR_T);			    \
++-	      wp = (CHAR_T *) extend_alloca (wp, s,			    \
++-					     newsize * sizeof (CHAR_T));    \
+++	      wp = (CHAR_T *) extend_alloca (wp, s, newsize);		    \
++ 	      wpmax = s / sizeof (CHAR_T);				    \
++ 	      if (old != NULL)						    \
++ 		MEMCPY (wp, old, wpsize);				    \
+diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
+index a0736cd..cfbc1c2 100644
+--- a/meta/recipes-core/glibc/glibc_2.20.bb
++++ b/meta/recipes-core/glibc/glibc_2.20.bb
+@@ -48,6 +48,7 @@ CVEPATCHES = "\
+         file://CVE-2014-7817-wordexp-fails-to-honour-WRDE_NOCMD.patch \
+         file://CVE-2012-3406-Stack-overflow-in-vfprintf-BZ-16617.patch \
+         file://CVE-2014-9402_endless-loop-in-getaddr_r.patch \
++        file://CVE-2015-1472-wscanf-allocates-too-little-memory.patch \
+     "
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
+       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-- 
+1.9.1
 
---e89a8f642ed4ae33890526dab336
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 December 2015 at 06:23, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":33d" class=3D"a3s" st=
-yle=3D"overflow:hidden">diff --git a/meta/recipes-core/uclibc/<a href=3D"ht=
-tp://uclibc_git.bb" rel=3D"noreferrer" target=3D"_blank">uclibc_git.bb</a> =
-b/meta/recipes-core/uclibc/<a href=3D"http://uclibc_git.bb" rel=3D"noreferr=
-er" target=3D"_blank">uclibc_git.bb</a><br>
-index fd02b3d..81756ac 100644<br>
---- a/meta/recipes-core/uclibc/<a href=3D"http://uclibc_git.bb" rel=3D"nore=
-ferrer" target=3D"_blank">uclibc_git.bb</a><br>
-+++ b/meta/recipes-core/uclibc/<a href=3D"http://uclibc_git.bb" rel=3D"nore=
-ferrer" target=3D"_blank">uclibc_git.bb</a><br>
-@@ -13,6 +13,11 @@ DEPENDS =3D &quot;virtual/${TARGET_PREFIX}binutils \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 linux-libc-headers ncurses-native=
- \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libgcc-initial kern-tools-native&=
-quot;<br>
-<br>
-+#do_compile_prepend () {<br>
-+#=C2=A0 unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS<br>
-+#=C2=A0 oe_runmake pregen<br>
-+#}<br>
-+#</div></blockquote></div><br>Was this for testing?=C2=A0 Presumably I can=
- drop it?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
-ra">Ross</div></div>
-
---e89a8f642ed4ae33890526dab336--
