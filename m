@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BA6F6AC37
+	by mail.openembedded.org (Postfix) with ESMTP id 127F36AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 15:08:03 +0000 (UTC)
+	Mon, 14 Dec 2015 15:08:04 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 14 Dec 2015 07:08:05 -0800
+	by orsmga101.jf.intel.com with ESMTP; 14 Dec 2015 07:08:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,427,1444719600"; d="scan'208";a="707063998"
+X-IronPort-AV: E=Sophos;i="5.20,427,1444719600"; d="scan'208";a="707064041"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 14 Dec 2015 07:08:02 -0800
+	by orsmga003.jf.intel.com with ESMTP; 14 Dec 2015 07:08:04 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Dec 2015 17:05:14 +0200
-Message-Id: <2705af0afb928cebaebe264c4da451a6ae3f2f60.1450104283.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 14 Dec 2015 17:05:15 +0200
+Message-Id: <b78f0e291be8c42b407b58d418f08581599d4742.1450104283.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
 In-Reply-To: <cover.1450104283.git.alexander.kanavin@linux.intel.com>
 References: <cover.1450104283.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1450104283.git.alexander.kanavin@linux.intel.com>
 References: <cover.1450104283.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 02/20] gnutls: update to 3.4.7
+Subject: [PATCH 03/20] puzzles: update to current commit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,114 +31,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 15:08:03 -0000
+X-List-Received-Date: Mon, 14 Dec 2015 15:08:04 -0000
 
-libidn is needed by the new version to compare hostnames.
-Openssl compatibility is no longer enabled by default, but is
-required by other packages in oe-core.
+gtk+3 support has been added upstream, so add an option for that.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-support/gnutls/gnutls.inc             |  3 ++-
- ...tch => 0001-configure.ac-fix-sed-command.patch} | 29 +++++++++++-----------
- .../gnutls/{gnutls_3.3.17.1.bb => gnutls_3.4.7.bb} |  6 ++---
- 3 files changed, 20 insertions(+), 18 deletions(-)
- rename meta/recipes-support/gnutls/gnutls/{configure.ac-fix-sed-command.patch => 0001-configure.ac-fix-sed-command.patch} (40%)
- rename meta/recipes-support/gnutls/{gnutls_3.3.17.1.bb => gnutls_3.4.7.bb} (42%)
+ .../puzzles/files/fix-compiling-failure-with-option-g-O.patch    | 9 ---------
+ meta/recipes-sato/puzzles/puzzles_git.bb                         | 8 ++++++--
+ 2 files changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index e9b138a..c1ec120 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
+diff --git a/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch b/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
+index d246fee..c134acd 100644
+--- a/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
++++ b/meta/recipes-sato/puzzles/files/fix-compiling-failure-with-option-g-O.patch
+@@ -29,15 +29,6 @@ diff --git a/gtk.c b/gtk.c
+ index a2eba2c..c54bf63 100644
+ --- a/gtk.c
+ +++ b/gtk.c
+-@@ -381,7 +381,7 @@ static void clear_backing_store(frontend *fe)
+- 
+- static void setup_backing_store(frontend *fe)
+- {
+--    cairo_t *cr;
+-+    cairo_t *cr = NULL;
+-     int i;
+- 
+-     fe->pixmap = gdk_pixmap_new(fe->area->window, fe->pw, fe->ph, -1);
+ @@ -2481,7 +2481,7 @@ char *fgetline(FILE *fp)
+  int main(int argc, char **argv)
+  {
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index 95826c1..df000e3 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
 @@ -1,7 +1,7 @@
- SUMMARY = "GNU Transport Layer Security Library"
- HOMEPAGE = "http://www.gnu.org/software/gnutls/"
- BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
--DEPENDS = "nettle"
-+DEPENDS = "nettle libidn"
+ SUMMARY = "Simon Tatham's Portable Puzzle Collection"
+ HOMEPAGE = "http://www.chiark.greenend.org.uk/~sgtatham/puzzles/"
  
- LICENSE = "GPLv3+ & LGPLv2.1+"
- LICENSE_${PN} = "LGPLv2.1+"
-@@ -26,6 +26,7 @@ EXTRA_OECONF="--disable-rpath \
-               --disable-guile \
-               --disable-crywrap \
-               --without-p11-kit \
-+              --enable-openssl-compatibility \
-               "
+-DEPENDS = "gtk+ libxt"
++DEPENDS = "libxt"
  
- do_configure_prepend() {
-diff --git a/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch b/meta/recipes-support/gnutls/gnutls/0001-configure.ac-fix-sed-command.patch
-similarity index 40%
-rename from meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch
-rename to meta/recipes-support/gnutls/gnutls/0001-configure.ac-fix-sed-command.patch
-index 44a9934..c5b95eb 100644
---- a/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch
-+++ b/meta/recipes-support/gnutls/gnutls/0001-configure.ac-fix-sed-command.patch
-@@ -1,6 +1,6 @@
--From eb93aa7b986c84da60a3db40afb29d1a70c50223 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Sat, 17 Jan 2015 17:02:15 +0000
-+From 67c638c7e209554d9b19627e9402a20fdabead21 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 4 Dec 2015 13:19:28 +0200
- Subject: [PATCH] configure.ac: fix sed command
+ # The libxt requires x11 in DISTRO_FEATURES
+ REQUIRED_DISTRO_FEATURES = "x11"
+@@ -13,7 +13,7 @@ SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
+            file://fix-compiling-failure-with-option-g-O.patch \
+            file://0001-Use-labs-instead-of-abs.patch \
+ "
+-SRCREV = "c296301a06ce49b87c954c9d15452521dfeddf1a"
++SRCREV = "346584bf6e38232be8773c24fd7dedcbd7b3d9ed"
+ PE = "1"
+ PV = "0.0+git${SRCPV}"
  
- The "sed 's/.bak//g'" matchs "bitbake", which would cause strange errors
-@@ -9,23 +9,24 @@ when the S contains "bitbake", fix to "sed 's/\.bak$//'`"
- Upstream-Status: Pending
+@@ -21,6 +21,10 @@ S = "${WORKDIR}/git"
  
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  configure.ac | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+ inherit autotools-brokensep distro_features_check
  
- diff --git a/configure.ac b/configure.ac
--index c6818a0..1c4582d 100644
-+index e634236..dc9e6a8 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -466,7 +466,7 @@ if test "$NEED_LIBOPTS_DIR" = "true";then
-- 	dnl replace libopts-generated files with distributed backups, if present
-- 	missing_baks=
-- 	for i in ${srcdir}/src/*-args.c.bak ${srcdir}/src/*-args.h.bak; do
---		nam=`echo $i|sed 's/.bak//g'`
--+		nam=`echo $i|sed 's/\.bak$//'`
-- 		if test -f $i;then
-- 			cp -f $i $nam
-- 		else
-+@@ -549,7 +549,7 @@ if test "$enable_tools" != "no" || test "$enable_doc" != "no"; then
-+ 		dnl replace libopts-generated files with distributed backups, if present
-+ 		missing_baks=
-+ 		for i in ${srcdir}/src/*-args.c.bak ${srcdir}/src/*-args.h.bak; do
-+-			nam=`echo $i|sed 's/.bak//g'`
-++                        nam=`echo $i|sed 's/\.bak$//'`
-+ 			if test -f $i;then
-+ 				cp -f $i $nam
-+ 			else
- -- 
--2.0.1
-+2.6.2
- 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.3.17.1.bb b/meta/recipes-support/gnutls/gnutls_3.4.7.bb
-similarity index 42%
-rename from meta/recipes-support/gnutls/gnutls_3.3.17.1.bb
-rename to meta/recipes-support/gnutls/gnutls_3.4.7.bb
-index 0185797..c90b44a 100644
---- a/meta/recipes-support/gnutls/gnutls_3.3.17.1.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.4.7.bb
-@@ -1,8 +1,8 @@
- require gnutls.inc
- 
- SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
--            file://configure.ac-fix-sed-command.patch \
-+            file://0001-configure.ac-fix-sed-command.patch \
-             file://use-pkg-config-to-locate-zlib.patch \
-            "
--SRC_URI[md5sum] = "8d01c7e7f2cbc5871fdca832d2260b6b"
--SRC_URI[sha256sum] = "b40f158030a92f450a07b20300a3996710ca19800848d9f6fd62493170c5bbb4"
-+SRC_URI[md5sum] = "e7556cec73c8b34fd2ff0b591e24e44c"
-+SRC_URI[sha256sum] = "c1be9e4b30295d7b5f96fa332c6a908e6fa2254377b67811301fca92eb882e5a"
++PACKAGECONFIG ??= "gtk2"
++PACKAGECONFIG[gtk2] = "--with-gtk=2,,gtk+,"
++PACKAGECONFIG[gtk3] = "--with-gtk=3,,gtk+3,"
++
+ do_configure_prepend () {
+     ./mkfiles.pl
+ }
 -- 
 2.6.2
 
