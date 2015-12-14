@@ -1,29 +1,62 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AF606FFCE
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A0B6607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 14:33:24 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Dec 2015 06:33:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,427,1444719600"; d="scan'208";a="871139457"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 14 Dec 2015 06:33:08 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id C69F56A4007
+	Mon, 14 Dec 2015 14:34:08 +0000 (UTC)
+Received: by pfnn128 with SMTP id n128so106353003pfn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 07:21:09 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Dec 2015 16:34:12 +0200
-Message-Id: <1450103652-30181-4-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1450103652-30181-1-git-send-email-maxin.john@intel.com>
-References: <1450103652-30181-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 4/4] libpng: Update SRC_URI to use GENTOO_MIRROR
+	Mon, 14 Dec 2015 06:34:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-type;
+	bh=I42QFz47WnvsBD38VdF2fipOuYpWhjn8xKMnj9ToosI=;
+	b=HPCz4GxIm4j8Uz9xpJiBvo1xRGRhpvBl1OKwKvkkXBuSW6+BvnZXWw5GVB9LbUa/DH
+	4pJBiL47qwrnyZDEcIu0gRkUBC3VY9vlLHf6N5xUR3hZDVHRzG56WTfTturbMqcMguiy
+	OcGzHmh+8dKfLwUd4+u7jKRRgU9tY9PgtTn1SwJPkIhUZA5nf0QgCZhw5MyKId08Oo5d
+	ygMX7vHOI/6k9KO0RJ1X7G7QGkkwRtGVNTl5fanmZj9KO8+cvRHzFwSjfzC4MaEJkvgG
+	yeaT5xBaLJHA7bhC4uecaVZAiKNOlZ/8vjGLO0U4QYuYyjTKERTCikNnltEY7PZxjKFo
+	IzSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=I42QFz47WnvsBD38VdF2fipOuYpWhjn8xKMnj9ToosI=;
+	b=jTmkKPoxgs7viRAwXShCBsg5P32uUrLUfjOeTwu9kTAwYUVr2btNXof8EQ3aPmDWCp
+	4sBe0yjA/dJpSvELAR/zkIWKjk6N05HsfSyElqtJrb8KuupZVonw7aYXidfRsOgEkn7J
+	hMHeFPx5fCbu9Kgh3kASeHK998fD1yq9E06sGHrrb2UQViTibqR4SsUr3OTGFfw12P2g
+	QfpfwoapfHzOtr6axb43LMXjfakmjWUpRnaU317DIpVxTZNWfDlVLEIpZthtPMacFt2h
+	BLQpH5xVAh+laVX8EeghRr2CksubzXwDeSjjCRAyIuVt2ffgpdfkOyPcRRSaSOy8WwOf
+	YYwA==
+X-Gm-Message-State: ALoCoQk4IcQ4cwUpbGQvlGpe9EFx2Q0os5xaQo7MeFbMxnfGFYkrLDWpLSHlC6WQgg1oguLKYROjSu1QohSGcsqT5kEYmcW27A==
+X-Received: by 10.98.0.139 with SMTP id 133mr9774927pfa.131.1450103649732;
+	Mon, 14 Dec 2015 06:34:09 -0800 (PST)
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com.
+	[209.85.220.41]) by smtp.gmail.com with ESMTPSA id
+	mj1sm43429816pab.34.2015.12.14.06.34.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 14 Dec 2015 06:34:08 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by pacdm15 with SMTP id dm15so104452216pac.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 06:34:07 -0800 (PST)
+MIME-Version: 1.0
+X-Received: by 10.66.136.47 with SMTP id px15mr14072146pab.102.1450103647660; 
+	Mon, 14 Dec 2015 06:34:07 -0800 (PST)
+Received: by 10.66.72.229 with HTTP; Mon, 14 Dec 2015 06:34:07 -0800 (PST)
+In-Reply-To: <80f3d12d7eb901a0deb50508d54bd89192b88a8a.1449671297.git.alexander.kanavin@linux.intel.com>
+References: <cover.1449671297.git.alexander.kanavin@linux.intel.com>
+	<80f3d12d7eb901a0deb50508d54bd89192b88a8a.1449671297.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 14 Dec 2015 12:34:07 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKp8nvmTMe-Vu8Y+JyYF7453bV_zMK0GjTqhMk0rQDBsUw@mail.gmail.com>
+Message-ID: <CAP9ODKp8nvmTMe-Vu8Y+JyYF7453bV_zMK0GjTqhMk0rQDBsUw@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/10] openssl: update to 1.0.2e
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +69,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 14:33:25 -0000
+X-List-Received-Date: Mon, 14 Dec 2015 14:34:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Update SRC_URI to use GENTOO_MIRROR as SOURCEFORGE_MIRROR continue
-to move around the release files.
+On Wed, Dec 9, 2015 at 12:40 PM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> [YOCTO #8765]
+> [YOCTO #8758]
+>
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 
-[YOCTO #8739]
+This update seems to have break imx53 build[1].
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-multimedia/libpng/libpng_1.6.20.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+1. http://ci.ossystems.com.br/view/All%20failing%20jobs/job/fsl-community-bsp-master-next_x11-imx53qsb/909/consoleText
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.20.bb b/meta/recipes-multimedia/libpng/libpng_1.6.20.bb
-index 6c149d2..3c4af38 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.20.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.20.bb
-@@ -5,9 +5,8 @@ LICENSE = "Libpng"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=55b60b5bb3ed92fbf9197e565a7fac02 \
-                     file://png.h;endline=112;md5=a6352a338642f0dbd2fc280ae060d3e9"
- DEPENDS = "zlib"
--LIBV = "16"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
-+SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz \
-           "
- SRC_URI[md5sum] = "3968acb7c66ef81a9dab867f35d0eb4b"
- SRC_URI[sha256sum] = "55c5959e9f3484d96141a3226c53bc9da42a4845e70879d3e1d6e94833d1918b"
+Has anyone seen something similar?
+
 -- 
-2.4.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
