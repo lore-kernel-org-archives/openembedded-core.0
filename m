@@ -1,39 +1,34 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 22EA97318D
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwkm03.jp.fujitsu.com (mgwkm03.jp.fujitsu.com [202.219.69.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AED2606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 06:23:20 +0000 (UTC)
-Received: by qkht125 with SMTP id t125so121066574qkh.3
+	Mon, 14 Dec 2015 06:54:18 +0000 (UTC)
+Received: from kw-mxq.gw.nic.fujitsu.com (unknown [192.168.231.130]) by
+	mgwkm03.jp.fujitsu.com with smtp
+	id 242a_4f10_21d30d3c_b6d8_4fc0_a0d8_9402dcc4204f;
+	Mon, 14 Dec 2015 15:54:15 +0900
+Received: from g01jpfmpwyt02.exch.g01.fujitsu.local
+	(g01jpfmpwyt02.exch.g01.fujitsu.local [10.128.193.56])
+	by kw-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id 91E72AC0101
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Dec 2015 22:23:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=rQLnZG+3qXVHm7H3c2mprJ7UqfcjUw7Hc6qAF0ru8HE=;
-	b=rxYiPX/uwYV5ZA7GPlvugULxScvIwGFjyQrwczCMyNOKSR5fweYSpGlPxPAwPkwyiG
-	FWGGefWPnlviWzqDExg51rRdxWMl5Wf53PdUXglZau/ugMIPrZPLDgZHnRAaidKYXuCE
-	Ls3gOVv3jSIA2uK3OqgEwUw79vHMKiKOPkWW2WvxdwZ2796BPrThUy7vQgy49DRUpuZx
-	/JhgjNo2rc6Ham/6tQ7HJ6+Tm+BuerXZu0f7Hq5IiEa7HMKs/7xZNv0tBw7guaT7986O
-	9xPKJAB2BJHqDXt0VU8ctyXdWesvMs37ioUay2u6dm/kMoll/6gonWiQb3l+hZbLbkya
-	PE3g==
-X-Received: by 10.55.209.214 with SMTP id o83mr41781830qkl.60.1450074201345;
-	Sun, 13 Dec 2015 22:23:21 -0800 (PST)
-Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
-	by smtp.gmail.com with ESMTPSA id
-	s105sm13252860qge.40.2015.12.13.22.23.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Dec 2015 22:23:20 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Dec 2015 06:23:10 +0000
-Message-Id: <2096b5f38e1ff74c44a5ae504d7f7b6cae3fc508.1450073907.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.6.4
-In-Reply-To: <a2dd5384b2607cf7e507cf280addd31ee6df2391.1450073907.git.raj.khem@gmail.com>
-References: <a2dd5384b2607cf7e507cf280addd31ee6df2391.1450073907.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1450073907.git.raj.khem@gmail.com>
-References: <cover.1450073907.git.raj.khem@gmail.com>
-Subject: [PATCH 3/6] packagegroup-core-sdk: Disable sanitizers for uclibc
+	Mon, 14 Dec 2015 15:54:14 +0900 (JST)
+Received: from g01jpexchyt35.g01.fujitsu.local (unknown [10.128.193.4])
+	by g01jpfmpwyt02.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	CB08F5842DE for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 15:54:13 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchyt35.g01.fujitsu.local (10.128.193.50) with Microsoft SMTP
+	Server id 14.3.266.1; Mon, 14 Dec 2015 15:54:12 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 Dec 2015 15:55:20 +0900
+Message-ID: <1450076120-18740-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-MML: disable
+Cc: Fan Xin <fan.xin@jp.fujitsu.com>
+Subject: [PATCH] ltp: Upgrade 20150420 -> 20150903
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,28 +41,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 06:23:23 -0000
+X-List-Received-Date: Mon, 14 Dec 2015 06:54:20 -0000
+Content-Type: text/plain
 
-They dont build for non-glibc C libraries yet
+Since the last release 272 patches by 27 authors were merged.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Notable changes are:
+
+    -Network namespace testcases were rewritten from scratch
+    -New user namespaces testcases
+    -New testcases for various virtual network interfaces
+    -New umount2() testcases (for UMOUNT_NOFOLLOW, MNT_EXPIRE and MNT_DETACH flags)
+    -New open() testcase (for O_PATH flag)
+    -New getrandom() testcases
+    -New inotify, cpuset, futex_wake() and recvmsg() regression tests
+    -Plus the usual number of fixes and enhancements
+
+https://github.com/linux-test-project/ltp/releases/tag/20150903
+
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-sdk.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-extended/ltp/{ltp_20150420.bb => ltp_20150903.bb} | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-extended/ltp/{ltp_20150420.bb => ltp_20150903.bb} (100%)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-index 3badd0e..46cb6ee 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-@@ -35,6 +35,7 @@ SANITIZERS_mips64n32 = ""
- SANITIZERS_powerpc64 = ""
- SANITIZERS_sparc = ""
- SANITIZERS_libc-musl = ""
-+SANITIZERS_libc-uclibc = ""
- 
- RRECOMMENDS_packagegroup-core-sdk = "\
-     libgomp \
+diff --git a/meta/recipes-extended/ltp/ltp_20150420.bb b/meta/recipes-extended/ltp/ltp_20150903.bb
+similarity index 100%
+rename from meta/recipes-extended/ltp/ltp_20150420.bb
+rename to meta/recipes-extended/ltp/ltp_20150903.bb
 -- 
-2.6.4
+1.8.4.2
 
 
