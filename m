@@ -1,28 +1,36 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id A06606FF72
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E71A46FFD3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 08:00:20 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0224.002; Mon, 14 Dec 2015 09:00:17 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: Fan Xin <fan.xin@jp.fujitsu.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH][dizzy][daisy][dylan] openssl: fix for
-	CVE-2015-3195
-Thread-Index: AQHRM+vMuljxNO2WVkKzh12Q357n157KHRvA
-Date: Mon, 14 Dec 2015 08:00:18 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48ABABB49B@SESTOEX04.enea.se>
-References: <1449821610-29533-1-git-send-email-fan.xin@jp.fujitsu.com>
-In-Reply-To: <1449821610-29533-1-git-send-email-fan.xin@jp.fujitsu.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
+	Mon, 14 Dec 2015 08:28:26 +0000 (UTC)
+Received: from yt-mxauth.gw.nic.fujitsu.com (unknown [192.168.229.68]) by
+	mgwym02.jp.fujitsu.com with smtp
+	id 4660_1a64_7a44bce5_a4d6_4c75_8daf_871ca7cebeb3;
+	Mon, 14 Dec 2015 17:28:18 +0900
+Received: from g01jpfmpwkw02.exch.g01.fujitsu.local
+	(g01jpfmpwkw02.exch.g01.fujitsu.local [10.0.193.56])
+	by yt-mxauth.gw.nic.fujitsu.com (Postfix) with ESMTP id 2A8FDAC01B1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 17:28:18 +0900 (JST)
+Received: from g01jpexchkw38.g01.fujitsu.local (unknown [10.0.193.4])
+	by g01jpfmpwkw02.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	3E9443284A3 for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 17:28:17 +0900 (JST)
+Received: from localhost.localdomain (10.24.19.99) by
+	g01jpexchkw38.g01.fujitsu.local (10.0.193.68) with Microsoft SMTP
+	Server id 14.3.266.1; Mon, 14 Dec 2015 17:28:16 +0900
+From: Fan Xin <fan.xin@jp.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 Dec 2015 17:29:24 +0900
+Message-ID: <1450081764-19732-1-git-send-email-fan.xin@jp.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1450076120-18740-1-git-send-email-fan.xin@jp.fujitsu.com>
+References: <1450076120-18740-1-git-send-email-fan.xin@jp.fujitsu.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH][dizzy][daisy][dylan] openssl: fix for	CVE-2015-3195
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-MML: disable
+Cc: Fan Xin <fan.xin@jp.fujitsu.com>
+Subject: [PATCH v2] ltp: Upgrade 20150420 -> 20150903
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,160 +43,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 08:00:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 14 Dec 2015 08:28:28 -0000
+Content-Type: text/plain
 
-Hi Fan,
+1. Upgrade from 20150420 to 20150903
 
-dizzy branch has Openssl version 1.0.1p now:
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-connectivi=
-ty/openssl/openssl_1.0.1p.bb?h=3Ddizzy
+https://github.com/linux-test-project/ltp/releases/tag/20150903
 
-How can this patch be applied to dizzy branch?
+2. Replace the patch file 0001-replace-inline-with-static-inline-for-gcc-5.x.patch due to the ltp original source code is changed.
 
-You have only sent patch for CVE-2015-3195, how about CVE-2015-3194?
-CVE-2015-3193 does not seem to affect OpenSSL version 1.0.1 according to Mi=
-tre:
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+---
+ ...atch => 0001-Fix-compilation-for-gcc-5.x.patch} | 39 +++++++++++++---------
+ .../ltp/{ltp_20150420.bb => ltp_20150903.bb}       |  4 +--
+ 2 files changed, 26 insertions(+), 17 deletions(-)
+ rename meta/recipes-extended/ltp/ltp/{0001-replace-inline-with-static-inline-for-gcc-5.x.patch => 0001-Fix-compilation-for-gcc-5.x.patch} (69%)
+ rename meta/recipes-extended/ltp/{ltp_20150420.bb => ltp_20150903.bb} (97%)
 
-http://cve.mitre.org/cgi-bin/cvename.cgi?name=3DCVE-2015-3193
-CVE-2015-3193 (OpenSSL 1.0.2)
-CVE-2015-3194 (OpenSSL 1.0.1 before 1.0.1q and 1.0.2 before 1.0.2e)
-CVE-2015-3195 (OpenSSL before before 1.0.0t, 1.0.1 before 1.0.1q, and 1.0.2=
- before 1.0.2e)
+diff --git a/meta/recipes-extended/ltp/ltp/0001-replace-inline-with-static-inline-for-gcc-5.x.patch b/meta/recipes-extended/ltp/ltp/0001-Fix-compilation-for-gcc-5.x.patch
+similarity index 69%
+rename from meta/recipes-extended/ltp/ltp/0001-replace-inline-with-static-inline-for-gcc-5.x.patch
+rename to meta/recipes-extended/ltp/ltp/0001-Fix-compilation-for-gcc-5.x.patch
+index 0b594dc..390a3c8 100644
+--- a/meta/recipes-extended/ltp/ltp/0001-replace-inline-with-static-inline-for-gcc-5.x.patch
++++ b/meta/recipes-extended/ltp/ltp/0001-Fix-compilation-for-gcc-5.x.patch
+@@ -1,15 +1,24 @@
+-Upstream-Status: Backport [From https://github.com/linux-test-project/ltp/commit/40a2457cb8ec42a05a2f96b0810057efdb2a55f5]
++From 40a2457cb8ec42a05a2f96b0810057efdb2a55f5 Mon Sep 17 00:00:00 2001
++From: Kai Kang <kai.kang@windriver.com>
++Date: Wed, 16 Sep 2015 13:23:43 +0200
++Subject: [PATCH] Fix compilation for gcc-5.x
+ 
+-gcc 5.x defaults to -std=gnu11 instead of -std=gnu89 which causes
++The gcc-5.x defaults to -std=gnu11 instead of -std=gnu89 which causes
+ semantics for inline functions changes.
+ 
+-The standalone 'inline' causes error with gcc 5 such as:
++GNU89 inline: Same as C99 extern inline.
++
++So the standalone 'inline' causes error such as:
+ 
+ git/testcases/kernel/syscalls/kill/kill10.c:355: undefined reference to `k_sigaction'
+ 
+-Replace inline with static inline to be compatible with both gcc 4 and 5.
++Replace inline with static inline to fix this issue.
++
++Ref:
++https://gcc.gnu.org/gcc-5/porting_to.html
+ 
+ Signed-off-by: Kai Kang <kai.kang@windriver.com>
++Acked-by: Cyril Hrubis <chrubis@suse.cz>
+ ---
+  testcases/kernel/controllers/libcontrollers/libcontrollers.c | 2 +-
+  testcases/kernel/controllers/libcontrollers/libcontrollers.h | 2 +-
+@@ -17,30 +26,30 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+  3 files changed, 4 insertions(+), 4 deletions(-)
+ 
+ diff --git a/testcases/kernel/controllers/libcontrollers/libcontrollers.c b/testcases/kernel/controllers/libcontrollers/libcontrollers.c
+-index b01e1b8..8857bc9 100644
++index 844c5bc..75766fc 100644
+ --- a/testcases/kernel/controllers/libcontrollers/libcontrollers.c
+ +++ b/testcases/kernel/controllers/libcontrollers/libcontrollers.c
+-@@ -146,7 +146,7 @@ int read_file(char *filepath, int action, unsigned int *value)
++@@ -158,7 +158,7 @@ int read_file(char *filepath, int action, unsigned int *value)
+   * Prints error message and returns -1
+   */
+  
+--inline int error_function(char *msg1, char *msg2)
+-+static inline int error_function(char *msg1, char *msg2)
++-inline void error_function(char *msg1, char *msg2)
+++static inline void error_function(char *msg1, char *msg2)
+  {
+  	fprintf(stdout, "ERROR: %s ", msg1);
+  	fprintf(stdout, "%s\n", msg2);
+ diff --git a/testcases/kernel/controllers/libcontrollers/libcontrollers.h b/testcases/kernel/controllers/libcontrollers/libcontrollers.h
+-index 4001555..a1a0dfa 100644
++index bd8e2d8..cdde9f9 100644
+ --- a/testcases/kernel/controllers/libcontrollers/libcontrollers.h
+ +++ b/testcases/kernel/controllers/libcontrollers/libcontrollers.h
+ @@ -70,7 +70,7 @@ enum{
+  	GET_TASKS
+  };
+  
+--inline int error_function(char *msg1, char *msg2);
+-+static inline int error_function(char *msg1, char *msg2);
++-inline void error_function(char *msg1, char *msg2);
+++static inline void error_function(char *msg1, char *msg2);
+  
+- unsigned int read_shares_file (char *filepath);
++ int read_shares_file(char *filepath);
+  
+ diff --git a/testcases/kernel/syscalls/kill/kill10.c b/testcases/kernel/syscalls/kill/kill10.c
+ index 982d9da..33dbcd3 100644
+@@ -64,6 +73,6 @@ index 982d9da..33dbcd3 100644
+  {
+  	int ret;
+  	if ((ret = sigaction(sig, sa, osa)) == -1) {
+----
+--1.9.1
+--
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/ltp/ltp_20150420.bb b/meta/recipes-extended/ltp/ltp_20150903.bb
+similarity index 97%
+rename from meta/recipes-extended/ltp/ltp_20150420.bb
+rename to meta/recipes-extended/ltp/ltp_20150903.bb
+index ed46b5e..31043c6 100644
+--- a/meta/recipes-extended/ltp/ltp_20150420.bb
++++ b/meta/recipes-extended/ltp/ltp_20150903.bb
+@@ -20,7 +20,7 @@ LIC_FILES_CHKSUM = "\
+ "
+ 
+ DEPENDS = "attr libaio libcap acl openssl zip-native"
+-SRCREV = "77d0b7fd0148ce657c5a25060667e978c07662a0"
++SRCREV = "d19755a1deddd0268d7c29991afddab497da1823"
+ 
+ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+     file://0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch \
+@@ -29,7 +29,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+     file://add-knob-for-numa.patch \
+     file://add-knob-for-tirpc.patch \
+     file://0001-ltp-vma03-fix-the-alginment-of-page-size.patch \
+-    file://0001-replace-inline-with-static-inline-for-gcc-5.x.patch \
++    file://0001-Fix-compilation-for-gcc-5.x.patch \
+ "
+ 
+ S = "${WORKDIR}/git"
+-- 
+1.8.4.2
 
-Regards
-//Sona
-
-
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Fan Xin
-> Sent: den 11 december 2015 09:14
-> To: openembedded-core@lists.openembedded.org
-> Cc: Fan Xin <fan.xin@jp.fujitsu.com>
-> Subject: [OE-core] [PATCH][dizzy][daisy][dylan] openssl: fix for CVE-2015=
--
-> 3195
->=20
-> This vulnerability  affects OpenSSL versions 1.0.2 and 1.0.1, 1.0.0 and 0=
-.9.8.
-> So the patch also should be merged into dizzy, daisy and dylan.
->=20
-> Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
-> ---
->  .../0001-Fix-leak-with-ASN.1-combine.patch         | 65
-> ++++++++++++++++++++++
->  .../recipes-connectivity/openssl/openssl_1.0.1e.bb |  1 +
->  2 files changed, 66 insertions(+)
->  create mode 100644 meta/recipes-connectivity/openssl/openssl-
-> 1.0.1e/0001-Fix-leak-with-ASN.1-combine.patch
->=20
-> diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-le=
-ak-
-> with-ASN.1-combine.patch b/meta/recipes-connectivity/openssl/openssl-
-> 1.0.1e/0001-Fix-leak-with-ASN.1-combine.patch
-> new file mode 100644
-> index 0000000..5bda457
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/0001-Fix-leak-wit
-> +++ h-ASN.1-combine.patch
-> @@ -0,0 +1,65 @@
-> +Upstream-Status: Backport
-> +
-> +This patch was imprted from
-> +https://git.openssl.org/?p=3Dopenssl.git;a=3Dcommit;h=3Dcc598f321fbac9c0=
-4da57
-> +66243ed55d55948637d
-> +
-> +Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
-> +
-> +From cc598f321fbac9c04da5766243ed55d55948637d Mon Sep 17
-> 00:00:00 2001
-> +From: Dr. Stephen Henson <steve@openssl.org>
-> +Date: Tue, 10 Nov 2015 19:03:07 +0000
-> +Subject: [PATCH] Fix leak with ASN.1 combine.
-> +
-> +When parsing a combined structure pass a flag to the decode routine so
-> +on error a pointer to the parent structure is not zeroed as this will
-> +leak any additional components in the parent.
-> +
-> +This can leak memory in any application parsing PKCS#7 or CMS structures=
-.
-> +
-> +CVE-2015-3195.
-> +
-> +Thanks to Adam Langley (Google/BoringSSL) for discovering this bug
-> +using libFuzzer.
-> +
-> +PR#4131
-> +
-> +Reviewed-by: Richard Levitte <levitte@openssl.org>
-> +---
-> + crypto/asn1/tasn_dec.c |    7 +++++--
-> + 1 files changed, 5 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/crypto/asn1/tasn_dec.c b/crypto/asn1/tasn_dec.c index
-> +febf605..9256049 100644
-> +--- a/crypto/asn1/tasn_dec.c
-> ++++ b/crypto/asn1/tasn_dec.c
-> +@@ -180,6 +180,8 @@ int ASN1_item_ex_d2i(ASN1_VALUE **pval, const
-> unsigned char **in, long len,
-> +     int otag;
-> +     int ret =3D 0;
-> +     ASN1_VALUE **pchptr, *ptmpval;
-> ++    int combine =3D aclass & ASN1_TFLG_COMBINE;
-> ++    aclass &=3D ~ASN1_TFLG_COMBINE;
-> +     if (!pval)
-> +         return 0;
-> +     if (aux && aux->asn1_cb)
-> +@@ -500,7 +502,8 @@ int ASN1_item_ex_d2i(ASN1_VALUE **pval, const
-> +unsigned char **in, long len,
-> +  auxerr:
-> +     ASN1err(ASN1_F_ASN1_ITEM_EX_D2I, ASN1_R_AUX_ERROR);
-> +  err:
-> +-    ASN1_item_ex_free(pval, it);
-> ++    if (combine =3D=3D 0)
-> ++        ASN1_item_ex_free(pval, it);
-> +     if (errtt)
-> +         ERR_add_error_data(4, "Field=3D", errtt->field_name,
-> +                            ", Type=3D", it->sname); @@ -689,7 +692,7 @@
-> +static int asn1_template_noexp_d2i(ASN1_VALUE **val,
-> +     } else {
-> +         /* Nothing special */
-> +         ret =3D ASN1_item_ex_d2i(val, &p, len, ASN1_ITEM_ptr(tt->item),
-> +-                               -1, 0, opt, ctx);
-> ++                               -1, tt->flags & ASN1_TFLG_COMBINE, opt,
-> ++ ctx);
-> +         if (!ret) {
-> +             ASN1err(ASN1_F_ASN1_TEMPLATE_NOEXP_D2I,
-> ERR_R_NESTED_ASN1_ERROR);
-> +             goto err;
-> +--
-> +1.7.0.4
-> +
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-> b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-> index bc1b944..dbc2da2 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-> @@ -37,6 +37,7 @@ SRC_URI +=3D "file://configure-targets.patch \
->              file://0001-Use-version-in-SSL_METHOD-not-SSL-structure.patc=
-h \
->              file://CVE-2014-0160.patch \
->              file://openssl-CVE-2014-0198-fix.patch \
-> +            file://0001-Fix-leak-with-ASN.1-combine.patch \
->             "
->=20
->  SRC_URI[md5sum] =3D "66bf6f10f060d561929de96f9dfe5b8c"
-> --
-> 1.8.4.2
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
