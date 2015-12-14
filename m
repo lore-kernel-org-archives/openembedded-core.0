@@ -1,22 +1,22 @@
 Return-Path: <sona.sarmadi@enea.com>
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 3C0DD73173
+	by mail.openembedded.org (Postfix) with SMTP id F1E167317C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 12:24:21 +0000 (UTC)
+	Mon, 14 Dec 2015 12:24:23 +0000 (UTC)
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 14 Dec 2015 13:24:09 +0100
+	Mon, 14 Dec 2015 13:24:12 +0100
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Dec 2015 13:24:09 +0100
-Message-ID: <1450095853-48305-2-git-send-email-sona.sarmadi@enea.com>
+Date: Mon, 14 Dec 2015 13:24:10 +0100
+Message-ID: <1450095853-48305-3-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1450095853-48305-1-git-send-email-sona.sarmadi@enea.com>
 References: <1450095853-48305-1-git-send-email-sona.sarmadi@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
 	designate permitted sender hosts)
-Subject: [PATCH][dizzy 2/6] libxml2: CVE-2015-7942
+Subject: [PATCH][dizzy 3/6] unzip: CVE-2015-7696, CVE-2015-7697
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,102 +29,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 12:24:22 -0000
+X-List-Received-Date: Mon, 14 Dec 2015 12:24:24 -0000
 Content-Type: text/plain
 
-Fixes heap-based buffer overflow in xmlParseConditionalSections().
+From: Tudor Florea <tudor.florea@enea.com>
 
-Upstream patch:
-https://git.gnome.org/browse/libxml2/commit/
-?id=9b8512337d14c8ddf662fcb98b0135f225a1c489
+CVE-2015-7696: Fixes a heap overflow triggered by unzipping a file with password
+CVE-2015-7697: Fixes a denial of service with a file that never finishes unzipping
 
-Upstream bug:
-https://bugzilla.gnome.org/show_bug.cgi?id=756456
+References:
+http://www.openwall.com/lists/oss-security/2015/10/11/5
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-7696
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-7697
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 ---
- meta/recipes-core/libxml/libxml2.inc               |  1 +
- .../libxml/libxml2/CVE-2015-7942.patch             | 58 ++++++++++++++++++++++
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
+ .../unzip/unzip/CVE-2015-7696.patch                | 38 ++++++++++++++++++++++
+ .../unzip/unzip/CVE-2015-7697.patch                | 31 ++++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb           |  2 ++
+ 3 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 840a8eb..15a2421 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -23,6 +23,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml-m4-use-pkgconfig.patch \
-            file://libxml2-CVE-2014-3660.patch \
-            file://0001-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch \
-+           file://CVE-2015-7942.patch \
-           "
- 
- BINCONFIG = "${bindir}/xml2-config"
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch b/meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch
 new file mode 100644
-index 0000000..738ae94
+index 0000000..ea93823
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
-@@ -0,0 +1,58 @@
-+From 9b8512337d14c8ddf662fcb98b0135f225a1c489 Mon Sep 17 00:00:00 2001
-+From: Daniel Veillard <veillard@redhat.com>
-+Date: Mon, 23 Feb 2015 11:29:20 +0800
-+Subject: Cleanup conditional section error handling
-+
-+For https://bugzilla.gnome.org/show_bug.cgi?id=744980
-+
-+The error handling of Conditional Section also need to be
-+straightened as the structure of the document can't be
-+guessed on a failure there and it's better to stop parsing
-+as further errors are likely to be irrelevant.
-+
-+Fixes CVE-2015-7942.
++++ b/meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch
+@@ -0,0 +1,38 @@
 +Upstream-Status: Backport
++Signed-off-by: Tudor Florea <tudor.flore@enea.com>
 +
-+Upstream patch:
-+https://git.gnome.org/browse/libxml2/commit/
-+?id=9b8512337d14c8ddf662fcb98b0135f225a1c489
++From 68efed87fabddd450c08f3112f62a73f61d493c9 Mon Sep 17 00:00:00 2001
++From: Petr Stodulka <pstodulk@redhat.com>
++Date: Mon, 14 Sep 2015 18:23:17 +0200
++Subject: [PATCH 1/2] upstream fix for heap overflow
 +
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++https://bugzilla.redhat.com/attachment.cgi?id=1073002
 +---
-+ parser.c | 6 ++++++
++ crypt.c | 12 +++++++++++-
++ 1 file changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/crypt.c b/crypt.c
++index 784e411..a8975f2 100644
++--- a/crypt.c
+++++ b/crypt.c
++@@ -465,7 +465,17 @@ int decrypt(__G__ passwrd)
++     GLOBAL(pInfo->encrypted) = FALSE;
++     defer_leftover_input(__G);
++     for (n = 0; n < RAND_HEAD_LEN; n++) {
++-        b = NEXTBYTE;
+++        /* 2012-11-23 SMS.  (OUSPG report.)
+++         * Quit early if compressed size < HEAD_LEN.  The resulting
+++         * error message ("unable to get password") could be improved,
+++         * but it's better than trying to read nonexistent data, and
+++         * then continuing with a negative G.csize.  (See
+++         * fileio.c:readbyte()).
+++         */
+++        if ((b = NEXTBYTE) == (ush)EOF)
+++        {
+++            return PK_ERR;
+++        }
++         h[n] = (uch)b;
++         Trace((stdout, " (%02x)", h[n]));
++     }
++-- 
++2.4.6
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch b/meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch
+new file mode 100644
+index 0000000..da68988
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch
+@@ -0,0 +1,31 @@
++Upstream-Status: Backport
++Signed-off-by: Tudor Florea <tudor.flore@enea.com>
++
++From bd8a743ee0a77e65ad07ef4196c4cd366add3f26 Mon Sep 17 00:00:00 2001
++From: Kamil Dudka <kdudka@redhat.com>
++Date: Mon, 14 Sep 2015 18:24:56 +0200
++Subject: [PATCH 2/2] fix infinite loop when extracting empty bzip2 data
++
++---
++ extract.c | 6 ++++++
 + 1 file changed, 6 insertions(+)
 +
-+diff --git a/parser.c b/parser.c
-+index bbe97eb..fe603ac 100644
-+--- a/parser.c
-++++ b/parser.c
-+@@ -6770,6 +6770,8 @@ xmlParseConditionalSections(xmlParserCtxtPtr ctxt) {
-+ 	SKIP_BLANKS;
-+ 	if (RAW != '[') {
-+ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
-++	    xmlStopParser(ctxt);
-++	    return;
-+ 	} else {
-+ 	    if (ctxt->input->id != id) {
-+ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
-+@@ -6830,6 +6832,8 @@ xmlParseConditionalSections(xmlParserCtxtPtr ctxt) {
-+ 	SKIP_BLANKS;
-+ 	if (RAW != '[') {
-+ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
-++	    xmlStopParser(ctxt);
-++	    return;
-+ 	} else {
-+ 	    if (ctxt->input->id != id) {
-+ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
-+@@ -6885,6 +6889,8 @@ xmlParseConditionalSections(xmlParserCtxtPtr ctxt) {
++diff --git a/extract.c b/extract.c
++index 7134bfe..29db027 100644
++--- a/extract.c
+++++ b/extract.c
++@@ -2733,6 +2733,12 @@ __GDEF
++     int repeated_buf_err;
++     bz_stream bstrm;
 + 
-+     } else {
-+ 	xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID_KEYWORD, NULL);
-++	xmlStopParser(ctxt);
-++	return;
-+     }
-+ 
-+     if (RAW == 0)
+++    if (G.incnt <= 0 && G.csize <= 0L) {
+++        /* avoid an infinite loop */
+++        Trace((stderr, "UZbunzip2() got empty input\n"));
+++        return 2;
+++    }
+++
++ #if (defined(DLL) && !defined(NO_SLIDE_REDIR))
++     if (G.redirect_slide)
++         wsize = G.redirect_size, redirSlide = G.redirect_buffer;
 +-- 
-+cgit v0.11.2
-+
++2.4.6
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index e590f81..acbc837 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -14,6 +14,8 @@ SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
+ 	file://09-cve-2014-8139-crc-overflow.patch \
+ 	file://10-cve-2014-8140-test-compr-eb.patch \
+ 	file://11-cve-2014-8141-getzip64data.patch \
++	file://CVE-2015-7696.patch \
++	file://CVE-2015-7697.patch \
+ "
+ 
+ SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
 -- 
 1.9.1
 
