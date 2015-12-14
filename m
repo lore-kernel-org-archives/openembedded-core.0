@@ -1,34 +1,42 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwkm03.jp.fujitsu.com (mgwkm03.jp.fujitsu.com [202.219.69.170])
-	by mail.openembedded.org (Postfix) with ESMTP id CAABB70101
+Return-Path: <fabrice.coulon@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 214326012C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 12:30:25 +0000 (UTC)
-Received: from kw-mxoi2.gw.nic.fujitsu.com (unknown [192.168.231.133]) by
-	mgwkm03.jp.fujitsu.com with smtp
-	id 7220_75bd_86b6dfe8_cc50_45f2_a512_3f874e4ba619;
-	Mon, 14 Dec 2015 21:30:17 +0900
-Received: from g01jpfmpwkw02.exch.g01.fujitsu.local
-	(g01jpfmpwkw02.exch.g01.fujitsu.local [10.0.193.56])
-	by kw-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 8836DAC0227
+	Mon, 14 Dec 2015 13:18:59 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id BDB062E0CE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 21:30:17 +0900 (JST)
-Received: from g01jpexchkw37.g01.fujitsu.local (unknown [10.0.193.4])
-	by g01jpfmpwkw02.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	D27DF3286DE for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 21:30:16 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	g01jpexchkw37.g01.fujitsu.local (10.0.193.67) with Microsoft SMTP
-	Server id 14.3.266.1; Mon, 14 Dec 2015 21:30:15 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Dec 2015 21:31:24 +0900
-Message-ID: <1450096284-21791-1-git-send-email-fan.xin@jp.fujitsu.com>
+	Mon, 14 Dec 2015 14:18:57 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 4UK6gqOCCSET
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 14:18:57 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id 2B9B72E08E
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 14:18:57 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 0B1C711D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 14:18:57 +0100 (CET)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id F3890117
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 14:18:56 +0100 (CET)
+Received: from lnxfabrice2.se.axis.com (lnxfabrice2.se.axis.com [10.92.161.3])
+	by seth.se.axis.com (Postfix) with ESMTP id EDA103E471;
+	Mon, 14 Dec 2015 14:18:56 +0100 (CET)
+Received: by lnxfabrice2.se.axis.com (Postfix, from userid 9523)
+	id 7E91F80086B; Mon, 14 Dec 2015 14:18:28 +0100 (CET)
+From: Fabrice Coulon <fabrice.coulon@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Dec 2015 14:18:26 +0100
+Message-Id: <1450099106-17586-1-git-send-email-fabrice.coulon@axis.com>
 X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-MML: disable
-Cc: Fan Xin <fan.xin@jp.fujitsu.com>
-Subject: [PATCH] gettext: Upgrade 0.19.4 -> 0.19.6
+Cc: Fabrice Coulon <fabrice@axis.com>
+Subject: [PATCH] useradd: Allow overriding USERADDDEPENDS for native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,40 +49,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 12:30:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 Dec 2015 13:19:00 -0000
 
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+If I want to be able to override USERADDDEPENDS from another bbclass,
+I need to give USERADDDEPENDS a default value and use DEPENDS_append
+for the different types of class. This is one example of what I need
+to be able to do in another .bbclass:
+
+USERADDDEPENDS_class-native = " base-files-native base-passwd-native...
+DEPENDS_append_class-native = " pseudo-native"
+
+Signed-off-by: Fabrice Coulon <fabrice.coulon@axis.com>
 ---
- .../gettext/{gettext-0.19.4 => gettext-0.19.6}/parallel.patch         | 0
- meta/recipes-core/gettext/{gettext_0.19.4.bb => gettext_0.19.6.bb}    | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/gettext/{gettext-0.19.4 => gettext-0.19.6}/parallel.patch (100%)
- rename meta/recipes-core/gettext/{gettext_0.19.4.bb => gettext_0.19.6.bb} (97%)
+ meta/classes/useradd.bbclass | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/gettext/gettext-0.19.4/parallel.patch b/meta/recipes-core/gettext/gettext-0.19.6/parallel.patch
-similarity index 100%
-rename from meta/recipes-core/gettext/gettext-0.19.4/parallel.patch
-rename to meta/recipes-core/gettext/gettext-0.19.6/parallel.patch
-diff --git a/meta/recipes-core/gettext/gettext_0.19.4.bb b/meta/recipes-core/gettext/gettext_0.19.6.bb
-similarity index 97%
-rename from meta/recipes-core/gettext/gettext_0.19.4.bb
-rename to meta/recipes-core/gettext/gettext_0.19.6.bb
-index a9c919a..737561d 100644
---- a/meta/recipes-core/gettext/gettext_0.19.4.bb
-+++ b/meta/recipes-core/gettext/gettext_0.19.6.bb
-@@ -18,8 +18,8 @@ PACKAGECONFIG[msgcat-curses] = "--with-libncurses-prefix=${STAGING_LIBDIR}/..,--
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 4577e56..e27ca04 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -3,11 +3,8 @@ inherit useradd_base
+ # base-passwd-cross provides the default passwd and group files in the
+ # target sysroot, and shadow -native and -sysroot provide the utilities
+ # and support files needed to add and modify user and group accounts
++USERADDDEPENDS ?= " base-files shadow-native shadow-sysroot shadow"
+ DEPENDS_append = "${USERADDDEPENDS}"
+-USERADDDEPENDS = " base-files shadow-native shadow-sysroot shadow"
+-USERADDDEPENDS_class-cross = ""
+-USERADDDEPENDS_class-native = ""
+-USERADDDEPENDS_class-nativesdk = ""
  
- LDFLAGS_prepend_libc-uclibc = " -lrt -lpthread "
- 
--SRC_URI[md5sum] = "d3511af1e604a3478900d2c2b4a4a48e"
--SRC_URI[sha256sum] = "8ac9f1ed1a5f8c4e656a2f37f5ba6b9ee04c4df79a575e876b0b6946aa417f3f"
-+SRC_URI[md5sum] = "6d1447f8c5c45c329371ef4bfe7d79a5"
-+SRC_URI[sha256sum] = "ed4b4c19bd3a3034eb6769500a3592ff616759ef43cf30586dbb7a17c9dd695d"
- 
- inherit autotools texinfo
- 
+ # This preinstall function can be run in four different contexts:
+ #
 -- 
-1.8.4.2
+1.9.1
 
 
