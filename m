@@ -1,34 +1,48 @@
-Return-Path: <haris.okanovic@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 988E060745
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D48060745
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 22:35:56 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	tBEMZves023824 for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 16:35:57 -0600
-Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015121416355691-1130533 ;
-	Mon, 14 Dec 2015 16:35:56 -0600 
-From: Haris Okanovic <haris.okanovic@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Dec 2015 16:35:48 -0600
-Message-Id: <1450132548-31177-1-git-send-email-haris.okanovic@ni.com>
-X-Mailer: git-send-email 2.6.2
-In-Reply-To: <CADkTA4PoDAgiJ2kdpT9HBnWLfGG-spLmSnF66BP33z520ig6wA@mail.gmail.com>
-References: <CADkTA4PoDAgiJ2kdpT9HBnWLfGG-spLmSnF66BP33z520ig6wA@mail.gmail.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 12/14/2015 04:35:56 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 12/14/2015 04:35:56 PM,
-	Serialize complete at 12/14/2015 04:35:56 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-12-14_14:, , signatures=0
-Cc: Haris Okanovic <haris.okanovic@ni.com>,
-	Gratian Crisan <gratian.crisan@ni.com>
-Subject: [PATCH v2] kernel: Add support for multiple kernel packages
+	Mon, 14 Dec 2015 22:36:02 +0000 (UTC)
+Received: by ioae126 with SMTP id e126so60810813ioa.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 14:36:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=srqvWt1YFKMwSTMKlTkiGese28DNYyDn7Oiq8+8o9nU=;
+	b=lck6DqYZz5Cgym3OAEBp92XT/rbYl8s1EbYEU0mXwHFmK1Z9KsRL1m1A8sX52Eddm+
+	Ma3W8ca8+1k1ORmz3WawF9CEqhWk+T/e46rQA1iZAtxGFvZsBKL5SXrGg+VAAzIvEeWd
+	P59wkR0wU9FARpPmFjTJV4AX3IE5dP5iB5kJA7H7vn6XX9mptMn0cdm2azwnN6PMdqNl
+	Ms/+9V3fwUdMdHZbPgnJl/xKBf6VF9oN1LMIJ43+9l1oWb9qk4D4uERhXipSguLx5y64
+	Zieis5TLST2UHaXVB0espO21XRNC8nhRgfq0SAKUPA1NEZslK5JK9PXbPsuTV69oGOpx
+	mAgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=srqvWt1YFKMwSTMKlTkiGese28DNYyDn7Oiq8+8o9nU=;
+	b=M2lpNQ7iBrQ/ig4tmH+e2bUmlFuXQ6WEYkeovnegjwM4RgB4DMWg2iHNm9QpUXFSgM
+	N1lUVHFinouvNW1gfrE5q/owcLuQf4VAignClr5gK2XTLA5R5lNA6/7jeOEHIy3mkB1K
+	OYZcJt4TxJrIN661T8vWjnBhas/Ecy6ZH6TdpuhNcaTMB/LlUkrrpP4FV4DBNdQdOiOl
+	VMFZthoLzoD1DV/P9HZLyT4bEvjyoL86UXET3AqojMxs15pXA9v0XKnVP35eCvauMHHd
+	+IlQ3IxMT5lHeK4Ic5wvNYWnjnPYDwVUKTggwygievjEWnkJ2HF7d/z/f0M0I5Dt8+XQ
+	RJ3A==
+X-Gm-Message-State: ALoCoQmc3Z8bonAtS68wU8LF5VFymHIcBlh9a64s/4xWSkxSU7f1Dh3M3SuuzZcttdTqtThSREBvc8SYPeYxdZEXgkqzeyMUWkVA6HT1FxcBSCCO1uYGpeM=
+X-Received: by 10.107.130.155 with SMTP id m27mr35900371ioi.133.1450132563375; 
+	Mon, 14 Dec 2015 14:36:03 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Mon, 14 Dec 2015 14:35:43 -0800 (PST)
+In-Reply-To: <75361fe58bb48cbda4dd21063e55af80dfeee838.1450104283.git.alexander.kanavin@linux.intel.com>
+References: <cover.1450104283.git.alexander.kanavin@linux.intel.com>
+	<75361fe58bb48cbda4dd21063e55af80dfeee838.1450104283.git.alexander.kanavin@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 14 Dec 2015 22:35:43 +0000
+Message-ID: <CAJTo0La_gCF36J-3taAp4j2sAf67vi4Bv+ocNLk_tg=tu6dn2A@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 11/20] flex: update to 2.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,248 +55,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Dec 2015 22:35:56 -0000
+X-List-Received-Date: Mon, 14 Dec 2015 22:36:05 -0000
+Content-Type: multipart/alternative; boundary=001a113ecd945154500526e34c2a
 
-From: Gratian Crisan <gratian.crisan@ni.com>
+--001a113ecd945154500526e34c2a
+Content-Type: text/plain; charset=UTF-8
 
-This change allows distributions to provide multiple builds of kernel
-and module packages. For example, a distro may want provide an alternate
-debug kernel in a package feed for debug/testing.
+On 14 December 2015 at 15:05, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-Templetize kernel package name:
+> Drop backported
+> 0001-bison-test-fixes-Do-not-use-obsolete-bison-construct.patch
+>
+> Test cases have been completely rearranged upstream, so ptest support
+> is fully rewritten.
+>
 
-Add a "weak" variable KERNEL_PACKAGE_NAME used as the base name for kernel
-packages. It defaults to the old hard-coded name 'kernel' but it can be
-redefined by recipes that provide additional kernel packages in order
-to avoid build conflicts.
+Fails to build for me:
 
-Change hard-coded 'kernel' references to KERNEL_PACKAGE_NAME in
-kernel bbclass-es.
+| Making all in tests
+| make[1]: Entering directory
+'/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/build/tests'
+| /bin/bash
+/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/build-aux/ylwrap
+/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/tests/bison_nr_parser.y
+y.tab.c bison_nr_parser.c y.tab.h `echo bison_nr_parser.c | sed -e
+s/cc$/hh/ -e s/cpp$/hpp/ -e s/cxx$/hxx/ -e s/c++$/h++/ -e s/c$/h/` y.output
+bison_nr_parser.output -- bison -y -d -p test
+| ../src/flex -o bison_nr_scanner.c
+/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/tests/bison_nr_scanner.l
+| /bin/bash
+/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/build-aux/ylwrap
+/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/tests/bison_yylloc_parser.y
+y.tab.c bison_yylloc_parser.c y.tab.h `echo bison_yylloc_parser.c | sed -e
+s/cc$/hh/ -e s/cpp$/hpp/ -e s/cxx$/hxx/ -e s/c++$/h++/ -e s/c$/h/` y.output
+bison_yylloc_parser.output -- bison -y -d -p test
+| ../src/flex -o bison_yylloc_scanner.c
+/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/tests/bison_yylloc_scanner.l
+| /bin/bash
+/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/build-aux/ylwrap
+/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/tests/bison_yylval_parser.y
+y.tab.c bison_yylval_parser.c y.tab.h `echo bison_yylval_parser.c | sed -e
+s/cc$/hh/ -e s/cpp$/hpp/ -e s/cxx$/hxx/ -e s/c++$/h++/ -e s/c$/h/` y.output
+bison_yylval_parser.output -- bison -y -d -p test
+| ../src/flex -o bison_yylval_scanner.c
+/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/tests/bison_yylval_scanner.l
+| /bin/bash: ../src/flex: No such file or directory
+| Makefile:2868: recipe for target 'bison_nr_scanner.c' failed
+| make[1]: *** [bison_nr_scanner.c] Error 127
+| make[1]: *** Waiting for unfinished jobs....
+| /bin/bash: ../src/flex: No such file or directory
+| Makefile:2868: recipe for target 'bison_yylloc_scanner.c' failed
+| make[1]: *** [bison_yylloc_scanner.c] Error 127
+| /bin/bash: ../src/flex: No such file or directory
+| Makefile:2868: recipe for target 'bison_yylval_scanner.c' failed
+| make[1]: *** [bison_yylval_scanner.c] Error 127
+|
+/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/tests/bison_nr_parser.y:57.1-12:
+warning: deprecated directive, use '%pure-parser' [-Wdeprecated]
+|  %pure_parser
+|  ^^^^^^^^^^^^
+| updating bison_nr_parser.h
+| updating bison_yylloc_parser.h
+| updating bison_yylval_parser.h
+| make[1]: Leaving directory
+'/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/build/tests'
+| Makefile:523: recipe for target 'all-recursive' failed
+| make: *** [all-recursive] Error 1
 
-Build alternate kernels from WORKDIR instead of STAGING_KERNEL_DIR:
+A race in the test build?
 
-Prior to this change, kernel recipes would all fetch source to
-STAGING_KERNEL_DIR as defined by bitbake/distro confs. This broke
-parallel builds when more than one kernel recipes are defined in
-the distribution, since they all attempted to fetch() and patch()
-in a shared source dir.
+Ross
 
-With this change, alternate kernel recipes fetch source into their
-${WORKDIR} so that they may build in parallel to each other and the
-default kernel recipe, which still fetches to STAGING_KERNEL_DIR.
+--001a113ecd945154500526e34c2a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Testing:
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 December 2015 at 15:05, Alexander Kanavin <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander=
+.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-lef=
+t-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=
+=3D":401" class=3D"" style=3D"overflow:hidden">Drop backported 0001-bison-t=
+est-fixes-Do-not-use-obsolete-bison-construct.patch<br>
+<br>
+Test cases have been completely rearranged upstream, so ptest support<br>
+is fully rewritten.</div></blockquote></div><br>Fails to build for me:</div=
+><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=
+=3D"gmail_extra">| Making all in tests</div><div class=3D"gmail_extra">| ma=
+ke[1]: Entering directory &#39;/data/poky-master/tmp/work/corei7-64-poky-li=
+nux/flex/2.6.0-r0/build/tests&#39;</div><div class=3D"gmail_extra">| /bin/b=
+ash /data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.=
+0/build-aux/ylwrap /data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6=
+.0-r0/flex-2.6.0/tests/bison_nr_parser.y y.tab.c bison_nr_parser.c y.tab.h =
+`echo bison_nr_parser.c | sed -e s/cc$/hh/ -e s/cpp$/hpp/ -e s/cxx$/hxx/ -e=
+ s/c++$/h++/ -e s/c$/h/` y.output bison_nr_parser.output -- bison -y -d -p =
+test</div><div class=3D"gmail_extra">| ../src/flex -o bison_nr_scanner.c /d=
+ata/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/test=
+s/bison_nr_scanner.l</div><div class=3D"gmail_extra">| /bin/bash /data/poky=
+-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/build-aux/yl=
+wrap /data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6=
+.0/tests/bison_yylloc_parser.y y.tab.c bison_yylloc_parser.c y.tab.h `echo =
+bison_yylloc_parser.c | sed -e s/cc$/hh/ -e s/cpp$/hpp/ -e s/cxx$/hxx/ -e s=
+/c++$/h++/ -e s/c$/h/` y.output bison_yylloc_parser.output -- bison -y -d -=
+p test</div><div class=3D"gmail_extra">| ../src/flex -o bison_yylloc_scanne=
+r.c /data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.=
+0/tests/bison_yylloc_scanner.l</div><div class=3D"gmail_extra">| /bin/bash =
+/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/bu=
+ild-aux/ylwrap /data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r=
+0/flex-2.6.0/tests/bison_yylval_parser.y y.tab.c bison_yylval_parser.c y.ta=
+b.h `echo bison_yylval_parser.c | sed -e s/cc$/hh/ -e s/cpp$/hpp/ -e s/cxx$=
+/hxx/ -e s/c++$/h++/ -e s/c$/h/` y.output bison_yylval_parser.output -- bis=
+on -y -d -p test</div><div class=3D"gmail_extra">| ../src/flex -o bison_yyl=
+val_scanner.c /data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0=
+/flex-2.6.0/tests/bison_yylval_scanner.l</div><div class=3D"gmail_extra">| =
+/bin/bash: ../src/flex: No such file or directory</div><div class=3D"gmail_=
+extra">| Makefile:2868: recipe for target &#39;bison_nr_scanner.c&#39; fail=
+ed</div><div class=3D"gmail_extra">| make[1]: *** [bison_nr_scanner.c] Erro=
+r 127</div><div class=3D"gmail_extra">| make[1]: *** Waiting for unfinished=
+ jobs....</div><div class=3D"gmail_extra">| /bin/bash: ../src/flex: No such=
+ file or directory</div><div class=3D"gmail_extra">| Makefile:2868: recipe =
+for target &#39;bison_yylloc_scanner.c&#39; failed</div><div class=3D"gmail=
+_extra">| make[1]: *** [bison_yylloc_scanner.c] Error 127</div><div class=
+=3D"gmail_extra">| /bin/bash: ../src/flex: No such file or directory</div><=
+div class=3D"gmail_extra">| Makefile:2868: recipe for target &#39;bison_yyl=
+val_scanner.c&#39; failed</div><div class=3D"gmail_extra">| make[1]: *** [b=
+ison_yylval_scanner.c] Error 127</div><div class=3D"gmail_extra">| /data/po=
+ky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/flex-2.6.0/tests/biso=
+n_nr_parser.y:57.1-12: warning: deprecated directive, use &#39;%pure-parser=
+&#39; [-Wdeprecated]</div><div class=3D"gmail_extra">| =C2=A0%pure_parser</=
+div><div class=3D"gmail_extra">| =C2=A0^^^^^^^^^^^^</div><div class=3D"gmai=
+l_extra">| updating bison_nr_parser.h</div><div class=3D"gmail_extra">| upd=
+ating bison_yylloc_parser.h</div><div class=3D"gmail_extra">| updating biso=
+n_yylval_parser.h</div><div class=3D"gmail_extra">| make[1]: Leaving direct=
+ory &#39;/data/poky-master/tmp/work/corei7-64-poky-linux/flex/2.6.0-r0/buil=
+d/tests&#39;</div><div class=3D"gmail_extra">| Makefile:523: recipe for tar=
+get &#39;all-recursive&#39; failed</div><div class=3D"gmail_extra">| make: =
+*** [all-recursive] Error 1</div><div class=3D"gmail_extra"><br></div><div =
+class=3D"gmail_extra">A race in the test build?</div><div class=3D"gmail_ex=
+tra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
 
-Built linux-yocto-4.1.13 for qemux86 and verified it produced kernel
-image and modules packages. Added kernel recipe with non-default
-KERNEL_PACKAGE_NAME and verified it produces kernel image and modules
-packages with alternate name next to default kernel.
-
-Signed-off-by: Gratian Crisan <gratian.crisan@ni.com>
-Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
-Coauthored-by: Haris Okanovic <haris.okanovic@ni.com>
-Coauthored-by: Josh Hernstrom <josh.hernstrom@ni.com>
-Natinst-ReviewBoard-ID: 120348
-Natinst-ReviewBoard-ID: 120447
----
- meta/classes/kernel-module-split.bbclass |  9 ++--
- meta/classes/kernel.bbclass              | 76 ++++++++++++++++++++------------
- meta/conf/documentation.conf             |  1 +
- meta/recipes-kernel/linux/linux-dtb.inc  |  2 +-
- 4 files changed, 55 insertions(+), 33 deletions(-)
-
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index e1a70e6..7415ec8 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -28,7 +28,7 @@ do_install_append() {
- 
- PACKAGESPLITFUNCS_prepend = "split_kernel_module_packages "
- 
--KERNEL_MODULES_META_PACKAGE ?= "kernel-modules"
-+KERNEL_MODULES_META_PACKAGE ?= "${KERNEL_PACKAGE_NAME}-modules"
- 
- python split_kernel_module_packages () {
-     import re
-@@ -179,14 +179,17 @@ python split_kernel_module_packages () {
-         # Avoid automatic -dev recommendations for modules ending with -dev.
-         d.setVarFlag('RRECOMMENDS_' + pkg, 'nodeprrecs', 1)
- 
-+    kernel_package_name = d.getVar("KERNEL_PACKAGE_NAME", True)
-+    kernel_version = d.getVar("KERNEL_VERSION", True)
-+
-     module_deps = parse_depmod()
-     module_regex = '^(.*)\.k?o$'
--    module_pattern = 'kernel-module-%s'
-+    module_pattern = '%s-module-%%s' % kernel_package_name
- 
-     postinst = d.getVar('pkg_postinst_modules', True)
-     postrm = d.getVar('pkg_postrm_modules', True)
- 
--    modules = do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION", True)))
-+    modules = do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='%s-%s' % (kernel_package_name, kernel_version))
-     if modules:
-         metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE', True)
-         d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index b75a462..281519e 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -1,5 +1,23 @@
- inherit linux-kernel-base kernel-module-split
- 
-+KERNEL_PACKAGE_NAME ??= "kernel"
-+
-+# The default kernel recipe builds in a shared location defined by
-+# bitbake/distro confs: STAGING_KERNEL_DIR and STAGING_KERNEL_BUILDDIR.
-+# Set these variables to directories under ${WORKDIR} in alternate
-+# kernel recipes (I.e. where KERNEL_PACKAGE_NAME != kernel) so that they
-+# may build in parallel with the default kernel without clobbering.
-+python __anonymous () {
-+    if d.getVar("KERNEL_PACKAGE_NAME", True) != "kernel":
-+        workdir = d.getVar("WORKDIR", True)
-+
-+        sourceDir = os.path.join(workdir, 'kernel-source')
-+        artifactsDir = os.path.join(workdir, 'kernel-build-artifacts')
-+
-+        d.setVar("STAGING_KERNEL_DIR", sourceDir)
-+        d.setVar("STAGING_KERNEL_BUILDDIR", artifactsDir)
-+}
-+
- PROVIDES += "virtual/kernel"
- DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross bc-native"
- 
-@@ -79,9 +97,9 @@ base_do_unpack_append () {
- 
- inherit kernel-arch deploy
- 
--PACKAGES_DYNAMIC += "^kernel-module-.*"
--PACKAGES_DYNAMIC += "^kernel-image-.*"
--PACKAGES_DYNAMIC += "^kernel-firmware-.*"
-+PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-module-.*"
-+PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-image-.*"
-+PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-firmware-.*"
- 
- export OS = "${TARGET_OS}"
- export CROSS_COMPILE = "${TARGET_PREFIX}"
-@@ -270,9 +288,9 @@ do_shared_workdir_setscene () {
- 
- emit_depmod_pkgdata() {
- 	# Stash data for depmod
--	install -d ${PKGDESTWORK}/kernel-depmod/
--	echo "${KERNEL_VERSION}" > ${PKGDESTWORK}/kernel-depmod/kernel-abiversion
--	cp ${B}/System.map ${PKGDESTWORK}/kernel-depmod/System.map-${KERNEL_VERSION}
-+	install -d ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/
-+	echo "${KERNEL_VERSION}" > ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/${KERNEL_PACKAGE_NAME}-abiversion
-+	cp ${B}/System.map ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/System.map-${KERNEL_VERSION}
- }
- 
- PACKAGEFUNCS += "emit_depmod_pkgdata"
-@@ -287,7 +305,7 @@ do_shared_workdir () {
- 	# Store the kernel version in sysroots for module-base.bbclass
- 	#
- 
--	echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
-+	echo "${KERNEL_VERSION}" > $kerneldir/${KERNEL_PACKAGE_NAME}-abiversion
- 
- 	# Copy files required for module builds
- 	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
-@@ -361,28 +379,28 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
- 
- # kernel-base becomes kernel-${KERNEL_VERSION}
- # kernel-image becomes kernel-image-${KERNEL_VERISON}
--PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
-+PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules"
- FILES_${PN} = ""
--FILES_kernel-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
--FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
--FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
--FILES_kernel-vmlinux = "/boot/vmlinux*"
--FILES_kernel-modules = ""
--RDEPENDS_kernel = "kernel-base"
-+FILES_${KERNEL_PACKAGE_NAME}-base = "/lib/modules/${KERNEL_VERSION}/modules.order /lib/modules/${KERNEL_VERSION}/modules.builtin"
-+FILES_${KERNEL_PACKAGE_NAME}-image = "/boot/${KERNEL_IMAGETYPE}*"
-+FILES_${KERNEL_PACKAGE_NAME}-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} /lib/modules/${KERNEL_VERSION}/build"
-+FILES_${KERNEL_PACKAGE_NAME}-vmlinux = "/boot/vmlinux*"
-+FILES_${KERNEL_PACKAGE_NAME}-modules = ""
-+RDEPENDS_${KERNEL_PACKAGE_NAME} = "${KERNEL_PACKAGE_NAME}-base"
- # Allow machines to override this dependency if kernel image files are 
- # not wanted in images as standard
--RDEPENDS_kernel-base ?= "kernel-image"
--PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
--RDEPENDS_kernel-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', 'kernel-vmlinux', '', d)}"
--PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
--RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
--ALLOW_EMPTY_kernel = "1"
--ALLOW_EMPTY_kernel-base = "1"
--ALLOW_EMPTY_kernel-image = "1"
--ALLOW_EMPTY_kernel-modules = "1"
--DESCRIPTION_kernel-modules = "Kernel modules meta package"
--
--pkg_postinst_kernel-base () {
-+RDEPENDS_${KERNEL_PACKAGE_NAME}-base ?= "${KERNEL_PACKAGE_NAME}-image"
-+PKG_${KERNEL_PACKAGE_NAME}-image = "${KERNEL_PACKAGE_NAME}-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
-+RDEPENDS_${KERNEL_PACKAGE_NAME}-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', '${KERNEL_PACKAGE_NAME}-vmlinux', '', d)}"
-+PKG_${KERNEL_PACKAGE_NAME}-base = "${KERNEL_PACKAGE_NAME}-${@legitimize_package_name('${KERNEL_VERSION}')}"
-+RPROVIDES_${KERNEL_PACKAGE_NAME}-base += "${KERNEL_PACKAGE_NAME}-${KERNEL_VERSION}"
-+ALLOW_EMPTY_${KERNEL_PACKAGE_NAME} = "1"
-+ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-base = "1"
-+ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-image = "1"
-+ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-modules = "1"
-+DESCRIPTION_${KERNEL_PACKAGE_NAME}-modules = "Kernel modules meta package"
-+
-+pkg_postinst_${KERNEL_PACKAGE_NAME}-base () {
- 	if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
- 		mkdir -p $D/lib/modules/${KERNEL_VERSION}
- 	fi
-@@ -393,18 +411,18 @@ pkg_postinst_kernel-base () {
- 	fi
- }
- 
--pkg_postinst_kernel-image () {
-+pkg_postinst_${KERNEL_PACKAGE_NAME}-image () {
- 	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
- }
- 
--pkg_postrm_kernel-image () {
-+pkg_postrm_${KERNEL_PACKAGE_NAME}-image () {
- 	update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
- }
- 
- PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
- 
- python split_kernel_packages () {
--    do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.(bin|fw|cis|dsp)$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
-+    do_split_packages(d, root='/lib/firmware', file_regex='^(.*)\.(bin|fw|cis|dsp)$', output_pattern='${KERNEL_PACKAGE_NAME}-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
- }
- 
- do_strip() {
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 1b5c071..fb5e03f 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -250,6 +250,7 @@ KERNEL_FEATURES[doc] = "Includes additional metadata from the Yocto Project kern
- KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device, usually set by the machine configuration files and defaults to 'zImage'."
- KERNEL_MODULE_AUTOLOAD[doc] = "Lists kernel modules that need to be auto-loaded during boot"
- KERNEL_MODULE_PROBECONF[doc] = "Lists kernel modules for which the build system expects to find module_conf_* values that specify configuration for each of the modules"
-+KERNEL_PACKAGE_NAME[doc] = "Name prefix for kernel packages. Defaults to 'kernel'."
- KERNEL_PATH[doc] = "The location of the kernel sources. This variable is set to the value of the STAGING_KERNEL_DIR within the module class (module.bbclass)."
- KERNEL_SRC[doc] = "The location of the kernel sources. This variable is set to the value of the STAGING_KERNEL_DIR within the module class (module.bbclass)."
- KFEATURE_DESCRIPTION[doc] = "Provides a short description of a configuration fragment. You use this variable in the .scc file that describes a configuration fragment file."
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 772adcb..c27a3cb 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -2,7 +2,7 @@
- FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/devicetree*"
- 
- python __anonymous () {
--    d.appendVar("PACKAGES", " kernel-devicetree")
-+    d.appendVar("PACKAGES", " ${KERNEL_PACKAGE_NAME}-devicetree")
- }
- 
- normalize_dtb () {
--- 
-2.6.2
-
-
+--001a113ecd945154500526e34c2a--
