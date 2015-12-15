@@ -1,30 +1,20 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id EF8517316B
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 1DD937317E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Dec 2015 09:49:30 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	tBF9nVg4017071 for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Dec 2015 03:49:31 -0600
-Received: from adi-pc-linux.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015121503493087-1147361 ;
-	Tue, 15 Dec 2015 03:49:30 -0600 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Dec 2015 11:49:29 +0200
-Message-Id: <1450172969-11076-1-git-send-email-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.1.4
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 12/15/2015 03:49:31 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 12/15/2015 03:49:31 AM,
-	Serialize complete at 12/15/2015 03:49:31 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-12-15_06:, , signatures=0
-Subject: [RESEND PATCH v3] util-linux: create util-linux-runuser package
+	Tue, 15 Dec 2015 10:07:52 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 15 Dec 2015 11:07:49 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Dec 2015 11:07:48 +0100
+Message-ID: <1450174068-18106-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX03.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH][dizzy] openssl: CVE-2015-3194, CVE-2015-3195
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,50 +27,176 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Dec 2015 09:49:32 -0000
+X-List-Received-Date: Tue, 15 Dec 2015 10:07:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Split runuser into its own package (previously provided by util-linux).
-Since runuser is compiled only when DISTRO_FEATURES includes pam,
-the creation of util-linux-runuser is also constrained by this.
+Fixes following vulnerabilities:
+Certificate verify crash with missing PSS parameter (CVE-2015-3194)
+X509_ATTRIBUTE memory leak (CVE-2015-3195)
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+References:
+https://openssl.org/news/secadv/20151203.txt
+http://cve.mitre.org/cgi-bin/cvename.cgi?name=3DCVE-2015-3194
+http://cve.mitre.org/cgi-bin/cvename.cgi?name=3DCVE-2015-3195
+
+Upstream patches:
+CVE-2015-3194:
+https://git.openssl.org/?p=3Dopenssl.git;a=3Dcommit;h=3D
+d8541d7e9e63bf5f343af24644046c8d96498c17
+
+CVE-2015-3195:
+https://git.openssl.org/?p=3Dopenssl.git;a=3Dcommit;h=3D
+b29ffa392e839d05171206523e84909146f7a77c
+
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../CVE-2015-3194-Add-PSS-parameter-check.patch    | 37 +++++++++++++
+ ...CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch | 61 ++++++++++++++++++=
+++++
+ .../recipes-connectivity/openssl/openssl_1.0.1p.bb |  2 +
+ 3 files changed, 100 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3194=
+-Add-PSS-parameter-check.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2015-3195=
+-Fix-leak-with-ASN.1-combine.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 318c74b..0493935 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -34,6 +34,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-partx ${PN}-bash-completion util-linux-hwclock \
-              util-linux-findfs util-linux-getopt util-linux-sulogin"
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
-+PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
- 
- PACKAGES_DYNAMIC = "^util-linux-lib.*"
- 
-@@ -85,6 +86,7 @@ FILES_util-linux-partx = "${sbindir}/partx"
- FILES_util-linux-hwclock = "${base_sbindir}/hwclock.${BPN}"
- FILES_util-linux-findfs = "${sbindir}/findfs"
- FILES_util-linux-getopt = "${base_bindir}/getopt.${BPN}"
-+FILES_util-linux-runuser = "${sbindir}/runuser"
- 
- FILES_util-linux-pylibmount = "${libdir}/${PYTHON_DIR}/dist-packages/libmount/pylibmount.so \
-                                ${libdir}/${PYTHON_DIR}/dist-packages/libmount/__init__.*"
-@@ -106,7 +108,11 @@ RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
- # reset calls 'tput'
- RDEPENDS_util-linux-reset += "ncurses"
- 
-+RDEPENDS_util-linux-runuser += "libpam"
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2015-3194-Add-PS=
+S-parameter-check.patch b/meta/recipes-connectivity/openssl/openssl/CVE-201=
+5-3194-Add-PSS-parameter-check.patch
+new file mode 100644
+index 0000000..a6697ca
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2015-3194-Add-PSS-param=
+eter-check.patch
+@@ -0,0 +1,37 @@
++From d8541d7e9e63bf5f343af24644046c8d96498c17 Mon Sep 17 00:00:00 2001
++From: "Dr. Stephen Henson" <steve@openssl.org>
++Date: Fri, 2 Oct 2015 13:10:29 +0100
++Subject:Add PSS parameter check.
 +
- RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin"
-+RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
++Avoid seg fault by checking mgf1 parameter is not NULL. This can be
++triggered during certificate verification so could be a DoS attack
++against a client or a server enabling client authentication.
 +
- RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs "
- 
- RRECOMMENDS_${PN}_class-native = ""
--- 
-2.1.4
++Thanks to Lo=C3=AFc Jonas Etienne (Qnective AG) for discovering this bug.
++
++CVE-2015-3194
++
++Upstream-Status: Backport
++
++Reviewed-by: Matt Caswell <matt@openssl.org>
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ crypto/rsa/rsa_ameth.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/crypto/rsa/rsa_ameth.c b/crypto/rsa/rsa_ameth.c
++index 93e071d..c7f1148 100644
++--- a/crypto/rsa/rsa_ameth.c
+++++ b/crypto/rsa/rsa_ameth.c
++@@ -279,7 +279,7 @@ static RSA_PSS_PARAMS *rsa_pss_decode(const X509_ALGOR=
+ *alg,
++     if (pss->maskGenAlgorithm) {
++         ASN1_TYPE *param =3D pss->maskGenAlgorithm->parameter;
++         if (OBJ_obj2nid(pss->maskGenAlgorithm->algorithm) =3D=3D NID_mgf1
++-            && param->type =3D=3D V_ASN1_SEQUENCE) {
+++            && param && param->type =3D=3D V_ASN1_SEQUENCE) {
++             p =3D param->value.sequence->data;
++             plen =3D param->value.sequence->length;
++             *pmaskHash =3D d2i_X509_ALGOR(NULL, &p, plen);
++--=20
++1.9.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2015-3195-Fix-le=
+ak-with-ASN.1-combine.patch b/meta/recipes-connectivity/openssl/openssl/CVE=
+-2015-3195-Fix-leak-with-ASN.1-combine.patch
+new file mode 100644
+index 0000000..be705c0
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2015-3195-Fix-leak-with=
+-ASN.1-combine.patch
+@@ -0,0 +1,61 @@
++commit b29ffa392e839d05171206523e84909146f7a77c
++Author: Dr. Stephen Henson <steve@openssl.org>
++Date: Tue, 10 Nov 2015 19:03:07 +0000
++Subject: Fix leak with ASN.1 combine.
++
++When parsing a combined structure pass a flag to the decode routine
++so on error a pointer to the parent structure is not zeroed as
++this will leak any additional components in the parent.
++
++This can leak memory in any application parsing PKCS#7 or CMS structures.
++
++CVE-2015-3195.
++
++Upstream-Status: Backport
++
++Thanks to Adam Langley (Google/BoringSSL) for discovering this bug using
++libFuzzer.
++
++PR#4131
++
++Reviewed-by: Richard Levitte <levitte@openssl.org>
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ crypto/asn1/tasn_dec.c | 7 +++++--
++ 1 file changed, 5 insertions(+), 2 deletions(-)
++
++diff --git a/crypto/asn1/tasn_dec.c b/crypto/asn1/tasn_dec.c
++index febf605..9256049 100644
++--- a/crypto/asn1/tasn_dec.c
+++++ b/crypto/asn1/tasn_dec.c
++@@ -180,6 +180,8 @@ int ASN1_item_ex_d2i(ASN1_VALUE **pval, const unsigned=
+ char **in, long len,
++     int otag;
++     int ret =3D 0;
++     ASN1_VALUE **pchptr, *ptmpval;
+++    int combine =3D aclass & ASN1_TFLG_COMBINE;
+++    aclass &=3D ~ASN1_TFLG_COMBINE;
++     if (!pval)
++         return 0;
++     if (aux && aux->asn1_cb)
++@@ -500,7 +502,8 @@ int ASN1_item_ex_d2i(ASN1_VALUE **pval, const unsigned=
+ char **in, long len,
++  auxerr:
++     ASN1err(ASN1_F_ASN1_ITEM_EX_D2I, ASN1_R_AUX_ERROR);
++  err:
++-    ASN1_item_ex_free(pval, it);
+++    if (combine =3D=3D 0)
+++        ASN1_item_ex_free(pval, it);
++     if (errtt)
++         ERR_add_error_data(4, "Field=3D", errtt->field_name,
++                            ", Type=3D", it->sname);
++@@ -689,7 +692,7 @@ static int asn1_template_noexp_d2i(ASN1_VALUE **val,
++     } else {
++         /* Nothing special */
++         ret =3D ASN1_item_ex_d2i(val, &p, len, ASN1_ITEM_ptr(tt->item),
++-                               -1, 0, opt, ctx);
+++                               -1, tt->flags & ASN1_TFLG_COMBINE, opt, ct=
+x);
++         if (!ret) {
++             ASN1err(ASN1_F_ASN1_TEMPLATE_NOEXP_D2I, ERR_R_NESTED_ASN1_ERR=
+OR);
++             goto err;
++--=20
++1.9.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1p.bb b/meta/rec=
+ipes-connectivity/openssl/openssl_1.0.1p.bb
+index 3f61790..1d0242f 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1p.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1p.bb
+@@ -34,6 +34,8 @@ SRC_URI +=3D "file://configure-targets.patch \
+             file://Makefiles-ptest.patch \
+             file://ptest-deps.patch \
+             file://run-ptest \
++            file://CVE-2015-3194-Add-PSS-parameter-check.patch \
++            file://CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch \
+            "
+=20
+ SRC_URI[md5sum] =3D "7563e92327199e0067ccd0f79f436976"
+--=20
+1.9.1
 
 
