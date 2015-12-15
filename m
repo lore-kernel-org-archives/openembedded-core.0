@@ -1,39 +1,23 @@
-Return-Path: <paul.barker.commagility@gmail.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D1D16612D
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 46D3065CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Dec 2015 14:04:47 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id p66so27048364wmp.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Dec 2015 06:04:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=date:from:to:subject:message-id:in-reply-to:references:organization
-	:mime-version:content-type:content-transfer-encoding;
-	bh=RXTLP4KycBfvRNkNmKow+Qp+qxn86xP/fe9RM6gxSfA=;
-	b=kNS8uoIWUhwqxpBHn6YKWxxhmEAjEzbvOF95RpwPPkOkKUFPeIjy+u+VK7mfoG+Cn9
-	aQ/X8BFjYRV9ig5QoFs8XKuTa1m3X9RiuqPKz1XcIPDAPsCulBy+oxJKCTbcUwL3mmen
-	JTiXBmu1q7TvxlXdyHJujp2CHAOp9KkqybwCh16BOv8ym9MeZkXkXM+aXXvG0+ELW92c
-	puSWKscJoeHXu1Ma+tulKyXS7YnWcAdrX4EwpweCvwWTvqibhDKNHoLVbD2DVkO0kvIU
-	/pambA6ARk2FFfFkVqkVNUkCdz+ae1i0yGx0iJ2P7ymhYUdMzwos6vZBYIxOK1Qw+LjH
-	/CkQ==
-X-Received: by 10.194.114.105 with SMTP id jf9mr43647014wjb.102.1450188287598; 
-	Tue, 15 Dec 2015 06:04:47 -0800 (PST)
-Received: from centos-7 (inno-commagility-ownrouter.lut.ac.uk. [131.231.60.35])
-	by smtp.gmail.com with ESMTPSA id e9sm1576747wjp.18.2015.12.15.06.04.45
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Dec 2015 06:04:46 -0800 (PST)
-Date: Tue, 15 Dec 2015 14:04:34 +0000
-From: Paul Barker <paul.barker@commagility.com>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20151215140434.75233de0@centos-7>
-In-Reply-To: <1449401194-31567-1-git-send-email-paul.barker@commagility.com>
-References: <1449401194-31567-1-git-send-email-paul.barker@commagility.com>
-Organization: CommAgility Ltd
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Subject: Re: [PATCH RFC] module.bbclass: Fix potential do_compile/do_make_scripts race condition
+	Tue, 15 Dec 2015 14:30:26 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Dec 2015 06:30:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,432,1444719600"; d="scan'208";a="618355492"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 15 Dec 2015 06:30:08 -0800
+Received: from fedora-ws.localdomain (unknown [10.237.112.240])
+	by linux.intel.com (Postfix) with ESMTP id CAC216A4087;
+	Tue, 15 Dec 2015 07:18:09 -0800 (PST)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Dec 2015 16:32:43 +0200
+Message-Id: <1450189963-7141-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] selftest/buildhistory.py: Test buildhistory does not change sigs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,78 +30,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Dec 2015 14:04:49 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Dec 2015 14:30:27 -0000
 
-On Sun, 6 Dec 2015 11:26:33 +0000
-Paul Barker <paul.barker@commagility.com> wrote:
+[YOCTO #5953] Add a test to ensure buildhistory does not
+change signatures.
 
-> I ran into a race condition building multiple external modules against a 3.10.y
-> series kernel using the dylan branch of OpenEmbedded. This is difficult to
-> reproduce as it requires very specific timing: the do_make_scripts task for one
-> module was linking the modpost script whilst the do_compile task for another
-> module was attempting to use the modpost script. This resulted in a permission
-> error:
-> 
-> ERROR: Function failed: do_compile (see /home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/work/amc_d24a4-oe-linux-gnueabi/ti-hplib-mod/01.01.00.04-r3d/temp/log.do_compile.25434 for further information)
-> ERROR: Logfile of failure stored in: /home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/work/amc_d24a4-oe-linux-gnueabi/ti-hplib-mod/01.01.00.04-r3d/temp/log.do_compile.25434
-> Log data follows:
-> | DEBUG: Executing shell function do_compile
-> | make -C /home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/sysroots/amc-d24a4/usr/src/kernel M=$PWD clean
-> | make[1]: Entering directory `/home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/sysroots/amc-d24a4/usr/src/kernel'
-> | make[1]: Leaving directory `/home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/sysroots/amc-d24a4/usr/src/kernel'
-> | make -C /home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/sysroots/amc-d24a4/usr/src/kernel M=$PWD modules
-> | make[1]: Entering directory `/home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/sysroots/amc-d24a4/usr/src/kernel'
-> |   CC [M]  /home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/work/amc_d24a4-oe-linux-gnueabi/ti-hplib-mod/01.01.00.04-r3d/git/ti/runtime/hplib/module/hplibmod.o
-> |   Building modules, stage 2.
-> |   MODPOST 1 modules
-> | /bin/sh: scripts/mod/modpost: Permission denied
-> | make[2]: *** [__modpost] Error 126
-> | make[1]: *** [modules] Error 2
-> | make[1]: Leaving directory `/home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/sysroots/amc-d24a4/usr/src/kernel'
-> | make: *** [default] Error 2
-> | ERROR: Function failed: do_compile (see /home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/work/amc_d24a4-oe-linux-gnueabi/ti-hplib-mod/01.01.00.04-r3d/temp/log.do_compile.25434 for further information)
-> ERROR: Task 1284 (/home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/meta-mcsdk/meta-arago-extras/recipes-bsp/ti-hplib/ti-hplib-mod_git.bb, do_compile) failed with exit code '1'
-> 
-> Later kernel versions do not rebuild the modpost script every time that 'make
-> scripts' is invoked so they should be safe from this particular failure. However
-> I'm not convinced that running 'make scripts' whilst also building an
-> out-of-tree module is always safe on later kernels and there is always the
-> potential for vendor kernels to have different behaviour here.
-> 
-> Although this was seen on the dylan branch the behaviour of master and jethro
-> looks to be the same here - do_make_scripts is locked so that only one instance
-> of it may run at one time but there is nothing to prevent one instance of
-> do_make_scripts running at the same time as an instance of do_compile.
-> 
-> The patch I'm sending attempts to solve this issue by locking the do_compile
-> task with the same lockfile as the do_make_scripts task in module.bbclass so
-> that an instance of do_copile can't run at the same time as an instance of
-> do_make_scripts. I don't know enough about the task locking to guarantee that
-> this is the right solution or to be able to test that it works as expected so
-> I'm marking the patch as an RFC.
-> 
-> Please let me know if this is the right approach and if there is any easy way to
-> test this.
-> 
-> Paul Barker (1):
->   module.bbclass: Fix potential do_compile/do_make_scripts race
->     condition
-> 
->  meta/classes/module.bbclass | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
+Also removed unused imports.
 
-ping on this.
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+---
+ meta/lib/oeqa/selftest/buildhistory.py | 69 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 65 insertions(+), 4 deletions(-)
 
-I've just got bitten by this again so it's not a one-off. Is anyone able to
-give me some feedback on the patch, whether this is the right approach to fix
-the problem and whether this is applicable to jethro/master.
-
-Thanks,
-
+diff --git a/meta/lib/oeqa/selftest/buildhistory.py b/meta/lib/oeqa/selftest/buildhistory.py
+index d8cae46..e8aa05d 100644
+--- a/meta/lib/oeqa/selftest/buildhistory.py
++++ b/meta/lib/oeqa/selftest/buildhistory.py
+@@ -1,12 +1,10 @@
+-import unittest
+ import os
+ import re
+-import shutil
+ import datetime
+ 
+-import oeqa.utils.ftools as ftools
+ from oeqa.selftest.base import oeSelfTest
+-from oeqa.utils.commands import Command, runCmd, bitbake, get_bb_var, get_test_layer
++from oeqa.utils.commands import bitbake, get_bb_var
++from oeqa.utils.decorators import testcase
+ 
+ 
+ class BuildhistoryBase(oeSelfTest):
+@@ -43,3 +41,66 @@ class BuildhistoryBase(oeSelfTest):
+             self.assertTrue(search_for_error, msg="Could not find desired error in output: %s" % error_regex)
+         else:
+             self.assertEqual(result.status, 0, msg="Command 'bitbake %s' has failed unexpectedly: %s" % (target, result.output))
++
++    @testcase(1386)
++    def test_buildhistory_does_not_change_signatures(self):
++        """
++        Summary:     Ensure that buildhistory does not change signatures
++        Expected:    Only 'do_rootfs' and 'do_build' tasks are rerun
++        Product:     oe-core
++        Author:      Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        """
++
++        tmpdir1_name = 'tmpsig1'
++        tmpdir2_name = 'tmpsig2'
++        builddir = os.environ.get('BUILDDIR')
++        tmpdir1 = os.path.join(builddir, tmpdir1_name)
++        tmpdir2 = os.path.join(builddir, tmpdir2_name)
++
++        self.track_for_cleanup(tmpdir1)
++        self.track_for_cleanup(tmpdir2)
++
++        features = 'TMPDIR = "%s"\n' % tmpdir1
++        self.write_config(features)
++        bitbake('core-image-sato -S none')
++
++        features = 'TMPDIR = "%s"\n' % tmpdir2
++        features += 'INHERIT += "buildhistory"\n'
++        self.write_config(features)
++        bitbake('core-image-sato -S none')
++
++        def get_files(d):
++            f = []
++            for root, dirs, files in os.walk(d):
++                for name in files:
++                    f.append(os.path.join(root, name))
++            return f
++
++        files1 = get_files(tmpdir1 + '/stamps')
++        files2 = get_files(tmpdir2 + '/stamps')
++        files2 = [x.replace(tmpdir2_name, tmpdir1_name) for x in files2]
++
++        f1 = set(files1)
++        f2 = set(files2)
++        sigdiff = f1 - f2
++
++        self.assertEqual(len(sigdiff), 2, 'Expected 2 signature differences. Out: %s' % list(sigdiff))
++
++        unexpected_diff = []
++
++        # No new signatures should appear apart from do_rootfs and do_build
++        found_do_rootfs_flag = False
++        found_do_build_flag = False
++
++        for sig in sigdiff:
++            if 'do_rootfs' in sig:
++                found_do_rootfs_flag = True
++            elif 'do_build' in sig:
++                found_do_build_flag = True
++            else:
++                unexpected_diff.append(sig)
++
++        self.assertTrue(found_do_rootfs_flag, 'Task do_rootfs did not rerun.')
++        self.assertTrue(found_do_build_flag, 'Task do_build did not rerun')
++        self.assertFalse(unexpected_diff, 'Found unexpected signature differences. Out: %s' % unexpected_diff)
 -- 
-Paul Barker
-CommAgility Ltd
+2.1.0
+
 
