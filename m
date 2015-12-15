@@ -1,20 +1,39 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FB7A6FFDF
+Return-Path: <paul.barker.commagility@gmail.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D1D16612D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Dec 2015 12:01:56 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Dec 2015 04:01:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,431,1444719600"; d="scan'208";a="618285935"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Dec 2015 04:01:57 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Dec 2015 13:59:34 +0200
-Message-Id: <1450180774-32343-1-git-send-email-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.6.2
-Subject: [PATCH] flex: update to 2.6.0
+	Tue, 15 Dec 2015 14:04:47 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id p66so27048364wmp.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Dec 2015 06:04:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=date:from:to:subject:message-id:in-reply-to:references:organization
+	:mime-version:content-type:content-transfer-encoding;
+	bh=RXTLP4KycBfvRNkNmKow+Qp+qxn86xP/fe9RM6gxSfA=;
+	b=kNS8uoIWUhwqxpBHn6YKWxxhmEAjEzbvOF95RpwPPkOkKUFPeIjy+u+VK7mfoG+Cn9
+	aQ/X8BFjYRV9ig5QoFs8XKuTa1m3X9RiuqPKz1XcIPDAPsCulBy+oxJKCTbcUwL3mmen
+	JTiXBmu1q7TvxlXdyHJujp2CHAOp9KkqybwCh16BOv8ym9MeZkXkXM+aXXvG0+ELW92c
+	puSWKscJoeHXu1Ma+tulKyXS7YnWcAdrX4EwpweCvwWTvqibhDKNHoLVbD2DVkO0kvIU
+	/pambA6ARk2FFfFkVqkVNUkCdz+ae1i0yGx0iJ2P7ymhYUdMzwos6vZBYIxOK1Qw+LjH
+	/CkQ==
+X-Received: by 10.194.114.105 with SMTP id jf9mr43647014wjb.102.1450188287598; 
+	Tue, 15 Dec 2015 06:04:47 -0800 (PST)
+Received: from centos-7 (inno-commagility-ownrouter.lut.ac.uk. [131.231.60.35])
+	by smtp.gmail.com with ESMTPSA id e9sm1576747wjp.18.2015.12.15.06.04.45
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 15 Dec 2015 06:04:46 -0800 (PST)
+Date: Tue, 15 Dec 2015 14:04:34 +0000
+From: Paul Barker <paul.barker@commagility.com>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20151215140434.75233de0@centos-7>
+In-Reply-To: <1449401194-31567-1-git-send-email-paul.barker@commagility.com>
+References: <1449401194-31567-1-git-send-email-paul.barker@commagility.com>
+Organization: CommAgility Ltd
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Subject: Re: [PATCH RFC] module.bbclass: Fix potential do_compile/do_make_scripts race condition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,273 +46,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Dec 2015 12:01:57 -0000
+X-List-Received-Date: Tue, 15 Dec 2015 14:04:49 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Drop backported 0001-bison-test-fixes-Do-not-use-obsolete-bison-construct.patch
+On Sun, 6 Dec 2015 11:26:33 +0000
+Paul Barker <paul.barker@commagility.com> wrote:
 
-Test cases have been completely rearranged upstream, so ptest support
-is fully rewritten. Flex is now using its own binary both during
-compilation and test running, so the target recipe depends on the native
-version on itself unconditionally now, and the location of the flex binary
-is adjusted when building for the target.
+> I ran into a race condition building multiple external modules against a 3.10.y
+> series kernel using the dylan branch of OpenEmbedded. This is difficult to
+> reproduce as it requires very specific timing: the do_make_scripts task for one
+> module was linking the modpost script whilst the do_compile task for another
+> module was attempting to use the modpost script. This resulted in a permission
+> error:
+> 
+> ERROR: Function failed: do_compile (see /home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/work/amc_d24a4-oe-linux-gnueabi/ti-hplib-mod/01.01.00.04-r3d/temp/log.do_compile.25434 for further information)
+> ERROR: Logfile of failure stored in: /home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/work/amc_d24a4-oe-linux-gnueabi/ti-hplib-mod/01.01.00.04-r3d/temp/log.do_compile.25434
+> Log data follows:
+> | DEBUG: Executing shell function do_compile
+> | make -C /home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/sysroots/amc-d24a4/usr/src/kernel M=$PWD clean
+> | make[1]: Entering directory `/home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/sysroots/amc-d24a4/usr/src/kernel'
+> | make[1]: Leaving directory `/home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/sysroots/amc-d24a4/usr/src/kernel'
+> | make -C /home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/sysroots/amc-d24a4/usr/src/kernel M=$PWD modules
+> | make[1]: Entering directory `/home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/sysroots/amc-d24a4/usr/src/kernel'
+> |   CC [M]  /home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/work/amc_d24a4-oe-linux-gnueabi/ti-hplib-mod/01.01.00.04-r3d/git/ti/runtime/hplib/module/hplibmod.o
+> |   Building modules, stage 2.
+> |   MODPOST 1 modules
+> | /bin/sh: scripts/mod/modpost: Permission denied
+> | make[2]: *** [__modpost] Error 126
+> | make[1]: *** [modules] Error 2
+> | make[1]: Leaving directory `/home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/sysroots/amc-d24a4/usr/src/kernel'
+> | make: *** [default] Error 2
+> | ERROR: Function failed: do_compile (see /home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/build/tmp/work/amc_d24a4-oe-linux-gnueabi/ti-hplib-mod/01.01.00.04-r3d/temp/log.do_compile.25434 for further information)
+> ERROR: Task 1284 (/home/COMMAGILITY/paul.barker/linux-bsp/work-1.0.1/ca-linux-bsp/meta-mcsdk/meta-arago-extras/recipes-bsp/ti-hplib/ti-hplib-mod_git.bb, do_compile) failed with exit code '1'
+> 
+> Later kernel versions do not rebuild the modpost script every time that 'make
+> scripts' is invoked so they should be safe from this particular failure. However
+> I'm not convinced that running 'make scripts' whilst also building an
+> out-of-tree module is always safe on later kernels and there is always the
+> potential for vendor kernels to have different behaviour here.
+> 
+> Although this was seen on the dylan branch the behaviour of master and jethro
+> looks to be the same here - do_make_scripts is locked so that only one instance
+> of it may run at one time but there is nothing to prevent one instance of
+> do_make_scripts running at the same time as an instance of do_compile.
+> 
+> The patch I'm sending attempts to solve this issue by locking the do_compile
+> task with the same lockfile as the do_make_scripts task in module.bbclass so
+> that an instance of do_copile can't run at the same time as an instance of
+> do_make_scripts. I don't know enough about the task locking to guarantee that
+> this is the right solution or to be able to test that it works as expected so
+> I'm marking the patch as an RFC.
+> 
+> Please let me know if this is the right approach and if there is any easy way to
+> test this.
+> 
+> Paul Barker (1):
+>   module.bbclass: Fix potential do_compile/do_make_scripts race
+>     condition
+> 
+>  meta/classes/module.bbclass | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- ...fixes-Do-not-use-obsolete-bison-construct.patch | 80 ----------------------
- meta/recipes-devtools/flex/files/run-ptest         | 30 +-------
- meta/recipes-devtools/flex/flex.inc                | 22 +++---
- ...-target-for-building-tests-without-runnin.patch | 28 ++++++++
- meta/recipes-devtools/flex/flex_2.5.39.bb          |  9 ---
- meta/recipes-devtools/flex/flex_2.6.0.bb           | 13 ++++
- 6 files changed, 54 insertions(+), 128 deletions(-)
- delete mode 100644 meta/recipes-devtools/flex/files/0001-bison-test-fixes-Do-not-use-obsolete-bison-construct.patch
- create mode 100644 meta/recipes-devtools/flex/flex/0001-tests-add-a-target-for-building-tests-without-runnin.patch
- delete mode 100644 meta/recipes-devtools/flex/flex_2.5.39.bb
- create mode 100644 meta/recipes-devtools/flex/flex_2.6.0.bb
+ping on this.
 
-diff --git a/meta/recipes-devtools/flex/files/0001-bison-test-fixes-Do-not-use-obsolete-bison-construct.patch b/meta/recipes-devtools/flex/files/0001-bison-test-fixes-Do-not-use-obsolete-bison-construct.patch
-deleted file mode 100644
-index 3504f54..0000000
---- a/meta/recipes-devtools/flex/files/0001-bison-test-fixes-Do-not-use-obsolete-bison-construct.patch
-+++ /dev/null
-@@ -1,80 +0,0 @@
--From 7fbc074901129ffaff9e18fadacae62d8053ad95 Mon Sep 17 00:00:00 2001
--From: Manoj Srivastava <srivasta@golden-gryphon.com>
--Date: Wed, 9 Apr 2014 00:23:07 -0700
--Subject: [PATCH] Do not use obsolete bison constructs in tests.
--
--In Bison 3.0, support for YYLEX_PARAM and YYPARSE_PARAM has been
--removed (deprecated in Bison 1.875): use %lex-param, %parse-param, or
--%param. This commit fixes the tests so they still work.
--
--Signed-off-by: Manoj Srivastava <srivasta@golden-gryphon.com>
--
--Upstream-Status: Backport [from http://sourceforge.net/p/flex/bugs/169/]
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- tests/test-bison-yylloc/parser.y | 4 ++--
-- tests/test-bison-yylval/parser.y | 4 ++--
-- 2 files changed, 4 insertions(+), 4 deletions(-)
--
--diff --git a/tests/test-bison-yylloc/parser.y b/tests/test-bison-yylloc/parser.y
--index e8f4e56..224d252 100644
----- a/tests/test-bison-yylloc/parser.y
--+++ b/tests/test-bison-yylloc/parser.y
--@@ -22,6 +22,7 @@
--  */
-- 
-- %parse-param { void* scanner }
--+%lex-param { void* scanner }
-- 
-- /* 
--    How to compile:
--@@ -34,7 +35,6 @@
-- #include "config.h"
-- 
-- #define YYERROR_VERBOSE 1
---#define YYLEX_PARAM   scanner
-- 
-- extern int testget_lineno(void*);
-- 
--@@ -52,7 +52,7 @@ int process_text(char* s) {
-- 
-- %}
-- 
---%pure_parser
--+%pure-parser
-- 
-- %union  {
--     int  lineno;
--diff --git a/tests/test-bison-yylval/parser.y b/tests/test-bison-yylval/parser.y
--index 0ffdb89..626c5e7 100644
----- a/tests/test-bison-yylval/parser.y
--+++ b/tests/test-bison-yylval/parser.y
--@@ -26,6 +26,7 @@
--    bison --defines --output-file="parser.c" --name-prefix="test" parser.y
--  */
-- %parse-param { void* scanner }
--+%lex-param { void* scanner }
-- %{
-- #include <stdio.h>
-- #include <stdlib.h>
--@@ -33,7 +34,6 @@
-- #include "config.h"
-- 
-- #define YYERROR_VERBOSE 1
---#define YYLEX_PARAM   scanner
-- 
-- 
-- /* A dummy function. A check against seg-faults in yylval->str. */
--@@ -49,7 +49,7 @@ int process_text(char* s) {
-- 
-- %}
-- 
---%pure_parser
--+%pure-parser
-- 
-- %union  {
--     long unused;
---- 
--1.9.1
--
-diff --git a/meta/recipes-devtools/flex/files/run-ptest b/meta/recipes-devtools/flex/files/run-ptest
-index bffba16..19db337 100755
---- a/meta/recipes-devtools/flex/files/run-ptest
-+++ b/meta/recipes-devtools/flex/files/run-ptest
-@@ -1,29 +1,5 @@
- #!/bin/sh
- 
--test1="test-alloc-extra test-array-nr test-array-r test-basic-nr test-basic-r test-extended test-quotes \
--test-bison-nr test-bison-yylloc test-bison-yylval test-c++-basic test-c-cpp-nr test-prefix-nr test-ccl \
--test-c-cpp-r test-c++-multiple-scanners test-mem-r test-mem-nr test-debug-nr test-linedir-r test-noansi-r \
--test-yyextra test-header-r test-noansi-nr test-debug-r TEMPLATE test-top test-header-nr test-prefix-r"
--test2="test-multiple-scanners-nr test-posixly-correct test-posix test-string-r test-string-nr"
--test3="test-pthread test-include-by-push test-include-by-buffer test-include-by-reentrant"
--test4="test-lineno-nr test-lineno-r test-lineno-trailing"
--test5="test-c++-yywrap test-rescan-r test-rescan-nr"
--test6="test-reject-nr test-reject-r"
--test7="test-reject-ser test-reject-ver"
--test8="test-multiple-scanners-r"
--
--output() {
--  if [ $? -eq 0 ]; \
--    then echo "PASS: $i"; \
--    else echo "FAIL: $i"; \
--  fi;
--}
--
--for i in $test1; do $i/$i < $i/test.input >/dev/null; output; done
--for i in $test2; do $i/$i >/dev/null; output; done
--for i in $test3; do cd $i; ./$i test-1.input >/dev/null; output; cd ..; done
--for i in $test4; do test `$i/$i < $i/test.input` -eq `$i/$i 1 < $i/test.input` >/dev/null; output; done
--for i in $test5; do $i/$i $i/test.input >/dev/null; output; done
--for i in $test6; do test-reject/$i < test-reject/test.input >/dev/null; output; done
--for i in $test7; do test-reject/$i test-reject/$i.tables < test-reject/test.input >/dev/null; output; done
--cd $test8; ./$test8 >/dev/null; i=$test8 output
-+# make would want to rebuild some files with a compiler otherwise :-/
-+make FLEX=/usr/bin/flex -t check-TESTS || true
-+make FLEX=/usr/bin/flex check-TESTS
-diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
-index fbe921b..e23bb3d 100644
---- a/meta/recipes-devtools/flex/flex.inc
-+++ b/meta/recipes-devtools/flex/flex.inc
-@@ -5,12 +5,9 @@ HOMEPAGE = "http://sourceforge.net/projects/flex/"
- 
- SECTION = "devel"
- LICENSE = "BSD"
--DEPENDS += "${@'bison-native flex-native' if '${PTEST_ENABLED}' == '1' else ''}"
-+DEPENDS_class-target += "bison-native flex-native"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 \
--           file://0001-bison-test-fixes-Do-not-use-obsolete-bison-construct.patch \
--           file://run-ptest \
--"
-+UPSTREAM_CHECK_REGEX = "flex-(?P<pver>\d+(\.\d+)+)\.tar"
- 
- inherit autotools gettext texinfo ptest
- 
-@@ -20,6 +17,7 @@ M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
- 
- EXTRA_OECONF += "ac_cv_path_M4=${M4}"
- EXTRA_OEMAKE += "m4=${STAGING_BINDIR_NATIVE}/m4"
-+EXTRA_OEMAKE_class-target += "FLEX=`which flex`"
- 
- do_install_append_class-native() {
- 	create_wrapper ${D}/${bindir}/flex M4=${M4}
-@@ -30,16 +28,16 @@ do_install_append_class-nativesdk() {
- }
- 
- RDEPENDS_${PN} += "m4"
-+RDEPENDS_${PN}-ptest += "bash gawk"
- 
- do_compile_ptest() {
--	for i in `find ${S}/tests/ -type d |grep -Ev "concatenated-options|reject|table-opts" | awk -F/ '{print $NF}'`; \
--	  do oe_runmake -C ${S}/tests/$i -f ${B}/tests/$i/Makefile top_builddir=${B} FLEX=flex $i; \
--	done
--	oe_runmake -C ${S}/tests/test-reject -f ${B}/tests/test-reject/Makefile top_builddir=${B} FLEX=flex test-reject-nr test-reject-r test-reject-ser test-reject-ver
-+	oe_runmake -C ${B}/tests -f ${B}/tests/Makefile top_builddir=${B} INCLUDES=-I${S}/src FLEX=`which flex` buildtests
- }
- 
- do_install_ptest() {
--	for i in `find ${S}/tests/ -type d | awk -F/ '{print $NF}'`; \
--	  do cp -r ${S}/tests/$i ${D}${PTEST_PATH}; \
--	done
-+        mkdir -p ${D}${PTEST_PATH}/build-aux/
-+        cp ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
-+        cp -r ${S}/tests/* ${D}${PTEST_PATH}
-+        cp -r ${B}/tests/* ${D}${PTEST_PATH}
-+        sed -e 's/^Makefile:/_Makefile:/' -e 's/^srcdir = \(.*\)/srcdir = ./' -e 's/^top_srcdir = \(.*\)/top_srcdir = ./'  -i ${D}${PTEST_PATH}/Makefile
- }
-diff --git a/meta/recipes-devtools/flex/flex/0001-tests-add-a-target-for-building-tests-without-runnin.patch b/meta/recipes-devtools/flex/flex/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-new file mode 100644
-index 0000000..556c240
---- /dev/null
-+++ b/meta/recipes-devtools/flex/flex/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-@@ -0,0 +1,28 @@
-+From b4aa18d939fc0c8825fa584dfcee1a7da61099cf Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 10 Dec 2015 16:09:26 +0200
-+Subject: [PATCH] tests: add a target for building tests without running them
-+
-+Upstream-Status: Inappropriate [oe specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ tests/Makefile.am | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index 4ac3c17..0025cfe 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -21,6 +21,9 @@
-+ 
-+ TESTS = $(check_PROGRAMS) options.cn
-+ 
-++# This allows building tests without running them
-++buildtests: $(TESTS)
-++
-+ # The script testwrapper.sh will run most tests as is. A couple tests
-+ # in the suite end in .reject, .table and the like so that we can pass
-+ # different arguments to the test runner. We list those extensions so
-+-- 
-+2.6.2
-+
-diff --git a/meta/recipes-devtools/flex/flex_2.5.39.bb b/meta/recipes-devtools/flex/flex_2.5.39.bb
-deleted file mode 100644
-index 7485743..0000000
---- a/meta/recipes-devtools/flex/flex_2.5.39.bb
-+++ /dev/null
-@@ -1,9 +0,0 @@
--require flex.inc
--LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
--BBCLASSEXTEND = "native nativesdk"
--
--SRC_URI += "file://do_not_create_pdf_doc.patch"
--
--SRC_URI[md5sum] = "77d44c6bb8c0705e0017ab9a84a1502b"
--SRC_URI[sha256sum] = "add2b55f3bc38cb512b48fad7d72f43b11ef244487ff25fc00aabec1e32b617f"
-diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.0.bb
-new file mode 100644
-index 0000000..ecacd60
---- /dev/null
-+++ b/meta/recipes-devtools/flex/flex_2.6.0.bb
-@@ -0,0 +1,13 @@
-+require flex.inc
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
-+BBCLASSEXTEND = "native nativesdk"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 \
-+           file://run-ptest \
-+           file://do_not_create_pdf_doc.patch \
-+           file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-+           "
-+
-+SRC_URI[md5sum] = "266270f13c48ed043d95648075084d59"
-+SRC_URI[sha256sum] = "24e611ef5a4703a191012f80c1027dc9d12555183ce0ecd46f3636e587e9b8e9"
+I've just got bitten by this again so it's not a one-off. Is anyone able to
+give me some feedback on the patch, whether this is the right approach to fix
+the problem and whether this is applicable to jethro/master.
+
+Thanks,
+
 -- 
-2.6.2
-
+Paul Barker
+CommAgility Ltd
 
