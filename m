@@ -1,42 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id C31B76FFE8
+Return-Path: <haris.okanovic@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 537986FFE8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Dec 2015 00:23:08 +0000 (UTC)
-Received: by pfbu66 with SMTP id u66so69740147pfb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Dec 2015 16:23:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=ytOZNyNduk8G0dy9e80MVv+EBUtiW91CRyFJEMgQS8Q=;
-	b=LyBc0bZN8ib3T3UGm+rpUgqTp+X/rD87HZH5f/OmxvgU9CLYZljzwYELY0OaP4wBvp
-	GLZGycahqPgmR+isyG0qqDEjobtxIACm+VVmj6aoys7ZCmBdnjmtJK3hOw+xtoxcPvmf
-	Lt13gOJJ6/3q3z2e8fCGjnPPtebrtEYuglvRJWEBh2/ZolvmRZoLBkwIhIey39TfiJvn
-	et2HXISI1ZX3YxOd0V9qbFE5aIc1XoYyKt7dRbB2WnSqZtipcwGLpK+UN5wyudxz5fj7
-	qBTCL0+hvhtXx3cCiiKVPO3P/lH6z/7XwxCjYs+/mKkfHEpxgSGvknawrSOWOoEeKzK7
-	V62w==
-X-Received: by 10.98.7.66 with SMTP id b63mr39860401pfd.19.1450138989705;
-	Mon, 14 Dec 2015 16:23:09 -0800 (PST)
-Received: from [192.168.0.4] (c-73-252-206-77.hsd1.ca.comcast.net.
-	[73.252.206.77]) by smtp.gmail.com with ESMTPSA id
-	81sm44718320pfk.56.2015.12.14.16.23.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 14 Dec 2015 16:23:08 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1450133829-17751-3-git-send-email-anibal.limon@linux.intel.com>
-Date: Mon, 14 Dec 2015 16:23:03 -0800
-Message-Id: <CD9AEE25-4D49-4DDF-82B2-93EBEA001BDF@gmail.com>
-References: <1450133829-17751-1-git-send-email-anibal.limon@linux.intel.com>
-	<1450133829-17751-3-git-send-email-anibal.limon@linux.intel.com>
-To: =?utf-8?Q?An=C3=ADbal_Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: paul.eggleton@linux.intel.com, Nathan_Lynch@mentor.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2 2/2] ptest-runner: Add a recipe for install ptest-runner 2.0.
+	Tue, 15 Dec 2015 00:26:02 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tBF0Q30T005524 for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Dec 2015 18:26:03 -0600
+Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015121418260351-1131285 ;
+	Mon, 14 Dec 2015 18:26:03 -0600 
+From: Haris Okanovic <haris.okanovic@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Dec 2015 18:25:51 -0600
+Message-Id: <1450139152-19802-1-git-send-email-haris.okanovic@ni.com>
+X-Mailer: git-send-email 2.6.2
+In-Reply-To: <1449608008-25611-1-git-send-email-haris.okanovic@ni.com>
+References: <1449608008-25611-1-git-send-email-haris.okanovic@ni.com>
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 12/14/2015 06:26:03 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 12/14/2015 06:26:03 PM,
+	Serialize complete at 12/14/2015 06:26:03 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-12-15_01:, , signatures=0
+Cc: Haris Okanovic <haris.okanovic@ni.com>
+Subject: [PATCH 1/2] package.bbclass/package.py: Add do_install_source() task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,105 +40,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Dec 2015 00:23:09 -0000
-X-Groupsio-MsgNum: 74763
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_A91044AA-6DCD-4ED1-82BC-E38465FE953E";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 15 Dec 2015 00:26:03 -0000
 
---Apple-Mail=_A91044AA-6DCD-4ED1-82BC-E38465FE953E
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+Add do_install_source() task to stage a recipe's SRC_URI files under
+SRC_D.
+
+Dependencies:
+ After do_fetch() to ensure SRC_URI files are downloaded
+ After do_install() because it resets ${D} that's also used by this task
+ Before do_package() to stage files before writing installers
+
+No-ops unless ENABLE_SRC_INSTALL_${PN} = 1, which needs to be set in
+distro config or recipes wanting to use this facility.
+
+This is change is part of a series which add source packages to OE.
+See the following thread for more information:
+http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/72660
+
+Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+---
+ meta/classes/package.bbclass |  5 +++
+ meta/conf/documentation.conf |  1 +
+ meta/lib/oe/package.py       | 96 ++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 102 insertions(+)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index d731757..98f01e5 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -2079,3 +2079,8 @@ def mapping_rename_hook(d):
+     runtime_mapping_rename("RRECOMMENDS", pkg, d)
+     runtime_mapping_rename("RSUGGESTS", pkg, d)
+ 
++addtask do_install_source after do_fetch after do_install before do_package
++
++python do_install_source () {
++    oe.package.do_install_source(d)
++}
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 845559a..0df8a2f 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -26,6 +26,7 @@ do_fetchall[doc] = "Fetches all remote sources required to build a target"
+ do_generate_qt_config_file[doc] = "Writes a qt.conf file for building a Qt-based application"
+ do_install[doc] = "Copies files from the compilation directory to a holding area"
+ do_install_ptest_base[doc] = "Copies the runtime test suite files from the compilation directory to a holding area"
++do_install_source[doc] = "Stages source code for packaging"
+ do_kernel_checkout[doc] = "Checks out source/meta branches for a linux-yocto style kernel"
+ do_kernel_configcheck[doc] = "Validates the kernel configuration for a linux-yocto style kernel"
+ do_kernel_configme[doc] = "Assembles the kernel configuration for a linux-yocto style kernel"
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index ea6feaa..c85aa22 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -123,3 +123,99 @@ def read_shlib_providers(d):
+                         shlib_provider[s[0]] = {}
+                     shlib_provider[s[0]][s[1]] = (dep_pkg, s[2])
+     return shlib_provider
++
++def archive_dir(dirPath, archivePath):
++    ''' Create tar.bz2 archive at archivePath from dirPath '''
++    import os, oe, bb
++
++    arDir = os.path.dirname(dirPath)
++    arName = os.path.basename(dirPath)
++
++    cmd = 'tar -c -I pbzip2 -f \"%s\" -C \"%s\" -p \"%s\"' % (archivePath, arDir, arName)
++    (retval, output) = oe.utils.getstatusoutput(cmd)
++    if retval:
++        bb.fatal('Failed to archive %s --> %s: %s %s' % (dirPath, archivePath, cmd, output))
++
++def do_install_source(d):
++    ''' Stage recipe's source for packaging '''
++    import os, oe, bb
++
++    pn = d.getVar("PN", True)
++
++    if d.getVar("ENABLE_SRC_INSTALL_%s" % pn, True) != "1":
++        return
++
++    packages = (d.getVar("PACKAGES", True) or "").split()
++    if ("%s-src" % pn) not in packages:
++        # Some recipes redefine PACKAGES without ${PN}-src. Don't stage
++        # anything in this case to avoid installed-vs-shipped warning.
++        return
++
++    urls = (d.getVar('SRC_URI', True) or "").split()
++    if len(urls) == 0:
++        return
++
++    workdir = d.getVar('WORKDIR', True)
++
++    # TODO rm_work() should clean this up
++    unpackTempDir = os.path.join(workdir, 'install-source-unpack-temp')
++    if os.path.exists(unpackTempDir):
++        bb.utils.remove(unpackTempDir, recurse=True)
++    os.makedirs(unpackTempDir, 0755)
++
++    src_d = d.getVar("SRC_D", True)
++    if os.path.exists(src_d):
++        bb.warn("SRC_D already exist. Removing.")
++        bb.utils.remove(src_d, recurse=True)
++    os.makedirs(src_d, 0755)
++
++    fetcher = bb.fetch2.Fetch(urls, d)
++
++    fileManif = []
++    for url in urls:
++        urlScheme = bb.fetch2.decodeurl(url)[0]
++        srcPath = fetcher.localpath(url)
++        srcName = os.path.basename(srcPath)
++
++        dstName = srcName
++        if os.path.isdir(srcPath):
++            dstName += '.tar.bz2'
++
++        dstPath = os.path.join(src_d, dstName)
++
++        # fetch() doesn't retrieve any actual files from git:// URLs,
++        # so we do an additional unpack() step to get something useful
++        # for these.
++        # TODO: May need to pre-process other revision control schemes
++        if urlScheme == 'git':
++            unpackPath = os.path.join(unpackTempDir, srcName)
++            if os.path.exists(unpackPath):
++                bb.utils.remove(unpackPath, recurse=True)
++            os.makedirs(unpackPath, 0755)
++
++            fetcher.unpack(unpackPath, [url])
++
++            # unpack() puts actual source in a 'git' subdir
++            srcPath = os.path.join(unpackPath, 'git')
++
++        if os.path.exists(dstPath):
++            bb.warn('Duplicate file %s in SRC_URI. Overwriting.' % dstName)
++            bb.utils.remove(dstPath, recurse=True)
++
++        if not dstName in fileManif:
++            fileManif.append(dstName)
++
++        if os.path.isdir(srcPath):
++            archive_dir(srcPath, dstPath)
++        else:
++            bb.utils.copyfile(srcPath, dstPath)
++
++    manifFilePath = os.path.join(src_d, 'manifest')
++    if os.path.exists(manifFilePath):
++        bb.warn('manifest file found in SRC_URI. Overwriting.')
++        bb.utils.remove(manifFilePath, recurse=True)
++
++    with open(manifFilePath, 'wb') as manif:
++        for fname in fileManif:
++            manif.write(fname)
++            manif.write('\n')
+-- 
+2.6.2
 
 
-> On Dec 14, 2015, at 2:57 PM, An=C3=ADbal Lim=C3=B3n =
-<anibal.limon@linux.intel.com> wrote:
->=20
-> [YOCTO #8021]
->=20
-> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
-> ---
-> .../ptest-runner/ptest-runner_2.0.bb               | 28 =
-++++++++++++++++++++++
-> 1 file changed, 28 insertions(+)
-> create mode 100644 =
-meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
->=20
-> diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb =
-b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
-> new file mode 100644
-> index 0000000..64fd0df
-> --- /dev/null
-> +++ b/meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
-> @@ -0,0 +1,28 @@
-> +SUMMARY =3D "A python script to run all installed ptests"
-> +
-> +DESCRIPTION =3D "The ptest-runner package installs a ptest-runner \
-> +python script which loops through all installed ptest test suites and =
-\
-> +runs them in sequence."
-> +
-> +HOMEPAGE =3D "https://wiki.yoctoproject.org/wiki/Ptest"
-> +SRC_URI +=3D "file://ptest-runner_2.0.py"
-> +
-> +LICENSE =3D "GPLv2"
-> +LIC_FILES_CHKSUM =3D =
-"file://${COREBASE}/LICENSE;md5=3D4d92cd373abda3937c2bc47fbc49d690 \
-> +                    =
-file://${COREBASE}/meta/COPYING.GPLv2;md5=3D751419260aa954499f7abaabaa882b=
-be"
-> +
-> +INHIBIT_DEFAULT_DEPS =3D "1"
-> +RDEPENDS_${PN} =3D "python python-fcntl python-argparse =
-python-logging python-datetime \
-> +                  python-subprocess"
-> +
-> +S =3D "${WORKDIR}"
-> +
-> +do_install () {
-> +    mkdir -p ${D}${bindir}
-> +    install -m 0755 ${WORKDIR}/ptest-runner_2.0.py =
-${D}${bindir}/ptest-runner
-
-both above can be replaced with single install
-
-install -D -m 0755 ${WORKDIR}/ptest-runner_2.0.py =
-${D}${bindir}/ptest-runner
-
-> +}
-> +
-> +do_patch[noexec] =3D "1"
-> +do_configure[noexec] =3D "1"
-> +do_compile[noexec] =3D "1"
-> +do_build[noexec] =3D =E2=80=9C1"
-
-may they should be deleted instead of being nops
-
-> --
-> 2.1.4
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_A91044AA-6DCD-4ED1-82BC-E38465FE953E
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlZvXWwACgkQuwUzVZGdMxRb5ACfWdVSL7jvkg6tTmhnHbBvZP76
-g/YAoIucbFpUGoCX6JB+ktVLVULdk245
-=sH7a
------END PGP SIGNATURE-----
-
---Apple-Mail=_A91044AA-6DCD-4ED1-82BC-E38465FE953E--
