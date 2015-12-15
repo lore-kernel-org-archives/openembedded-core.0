@@ -1,27 +1,30 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 864B36FF84
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id EF8517316B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Dec 2015 09:41:57 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
-	14.03.0224.002; Tue, 15 Dec 2015 10:41:54 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: "Armin Kuster (akuster808@gmail.com)" <akuster808@gmail.com>
-Thread-Topic: [OE-core] [PATCH][dizzy] openssl: CVE-2015-3194, CVE-2015-3195
-Thread-Index: AQHRNlnIB6wOnzLFm06qJHTlqPDa9Z7Ly4mQ
-Date: Tue, 15 Dec 2015 09:41:55 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48ABABCCC7@SESTOEX04.enea.se>
-References: <1450088707-64294-1-git-send-email-sona.sarmadi@enea.com>
-In-Reply-To: <1450088707-64294-1-git-send-email-sona.sarmadi@enea.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.1.188]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][dizzy] openssl: CVE-2015-3194, CVE-2015-3195
+	Tue, 15 Dec 2015 09:49:30 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tBF9nVg4017071 for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Dec 2015 03:49:31 -0600
+Received: from adi-pc-linux.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015121503493087-1147361 ;
+	Tue, 15 Dec 2015 03:49:30 -0600 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Dec 2015 11:49:29 +0200
+Message-Id: <1450172969-11076-1-git-send-email-adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.1.4
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 12/15/2015 03:49:31 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 12/15/2015 03:49:31 AM,
+	Serialize complete at 12/15/2015 03:49:31 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-12-15_06:, , signatures=0
+Subject: [RESEND PATCH v3] util-linux: create util-linux-runuser package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,130 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Dec 2015 09:42:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 15 Dec 2015 09:49:32 -0000
 
-SGkgQXJtaW4gDQoNCkkgbm90aWNlZCB0aGF0IG15IHBhdGNoIGRvZXMgbm90IGhhdmUgcmVmZXJl
-bmNlIHRvIHRoZSBvcmlnaW5hbCAgY29tbWl0IGhhc2gsIEkgIHdpbGwgY3JlYXRlIGEgbmV3IHBh
-dGNoIGFuZCBzZW5kIGl0IHRvIHlvdSwgc29ycnkgYWJvdXQgdGhpcy4NCg0KY29tbWl0IGIyOWZm
-YTM5MmU4MzlkMDUxNzEyMDY1MjNlODQ5MDkxNDZmN2E3N2MNCkF1dGhvcjogRHIuIFN0ZXBoZW4g
-SGVuc29uIDxzdGV2ZUBvcGVuc3NsLm9yZz4NCg0KLy9Tb25hDQoNCj4gLS0tLS1PcmlnaW5hbCBN
-ZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnDQo+IFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYNCj4gT2YgU29uYSBTYXJtYWRpDQo+IFNlbnQ6IGRl
-biAxNCBkZWNlbWJlciAyMDE1IDExOjI1DQo+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFtPRS1jb3JlXSBbUEFUQ0hdW2Rpenp5XSBvcGVu
-c3NsOiBDVkUtMjAxNS0zMTk0LCBDVkUtMjAxNS0zMTk1DQo+IA0KPiBGaXhlcyBmb2xsb3dpbmcg
-dnVsbmVyYWJpbGl0aWVzOg0KPiBDZXJ0aWZpY2F0ZSB2ZXJpZnkgY3Jhc2ggd2l0aCBtaXNzaW5n
-IFBTUyBwYXJhbWV0ZXIgKENWRS0yMDE1LTMxOTQpDQo+IFg1MDlfQVRUUklCVVRFIG1lbW9yeSBs
-ZWFrIChDVkUtMjAxNS0zMTk1KQ0KPiANCj4gUmVmZXJlbmNlczoNCj4gaHR0cHM6Ly9vcGVuc3Ns
-Lm9yZy9uZXdzL3NlY2Fkdi8yMDE1MTIwMy50eHQNCj4gaHR0cDovL2N2ZS5taXRyZS5vcmcvY2dp
-LWJpbi9jdmVuYW1lLmNnaT9uYW1lPUNWRS0yMDE1LTMxOTQNCj4gaHR0cDovL2N2ZS5taXRyZS5v
-cmcvY2dpLWJpbi9jdmVuYW1lLmNnaT9uYW1lPUNWRS0yMDE1LTMxOTUNCj4gDQo+IFNpZ25lZC1v
-ZmYtYnk6IFNvbmEgU2FybWFkaSA8c29uYS5zYXJtYWRpQGVuZWEuY29tPg0KPiAtLS0NCj4gIC4u
-Li9DVkUtMjAxNS0zMTk0LUFkZC1QU1MtcGFyYW1ldGVyLWNoZWNrLnBhdGNoICAgIHwgMzUgKysr
-KysrKysrKysrKw0KPiAgLi4uQ1ZFLTIwMTUtMzE5NS1GaXgtbGVhay13aXRoLUFTTi4xLWNvbWJp
-bmUucGF0Y2ggfCA1OQ0KPiArKysrKysrKysrKysrKysrKysrKysrICAuLi4vcmVjaXBlcy0NCj4g
-Y29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbF8xLjAuMXAuYmIgfCAgMiArDQo+ICAzIGZpbGVz
-IGNoYW5nZWQsIDk2IGluc2VydGlvbnMoKykNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC9DVkUtMjAxNS0NCj4gMzE5NC1BZGQt
-UFNTLXBhcmFtZXRlci1jaGVjay5wYXRjaA0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsL0NWRS0yMDE1LQ0KPiAzMTk1LUZpeC1s
-ZWFrLXdpdGgtQVNOLjEtY29tYmluZS5wYXRjaA0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsL0NWRS0yMDE1LTMxOTQtQWRkLQ0KPiBQ
-U1MtcGFyYW1ldGVyLWNoZWNrLnBhdGNoIGIvbWV0YS9yZWNpcGVzLQ0KPiBjb25uZWN0aXZpdHkv
-b3BlbnNzbC9vcGVuc3NsL0NWRS0yMDE1LTMxOTQtQWRkLVBTUy1wYXJhbWV0ZXItDQo+IGNoZWNr
-LnBhdGNoDQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAuLjNjMDBiYzEN
-Cj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5z
-c2wvb3BlbnNzbC9DVkUtMjAxNS0zMTk0LUFkZC1QU1MtDQo+IHBhDQo+ICsrKyByYW1ldGVyLWNo
-ZWNrLnBhdGNoDQo+IEBAIC0wLDAgKzEsMzUgQEANCj4gK0RhdGU6IEZyaSwgMiBPY3QgMjAxNSAx
-MzoxMDoyOSArMDEwMA0KPiArU3ViamVjdDogW1BBVENIXSBBZGQgUFNTIHBhcmFtZXRlciBjaGVj
-ay4NCj4gKw0KPiArQXZvaWQgc2VnIGZhdWx0IGJ5IGNoZWNraW5nIG1nZjEgcGFyYW1ldGVyIGlz
-IG5vdCBOVUxMLiBUaGlzIGNhbiBiZQ0KPiArdHJpZ2dlcmVkIGR1cmluZyBjZXJ0aWZpY2F0ZSB2
-ZXJpZmljYXRpb24gc28gY291bGQgYmUgYSBEb1MgYXR0YWNrDQo+ICthZ2FpbnN0IGEgY2xpZW50
-IG9yIGEgc2VydmVyIGVuYWJsaW5nIGNsaWVudCBhdXRoZW50aWNhdGlvbi4NCj4gKw0KPiArVGhh
-bmtzIHRvIExvw69jIEpvbmFzIEV0aWVubmUgKFFuZWN0aXZlIEFHKSBmb3IgZGlzY292ZXJpbmcg
-dGhpcyBidWcuDQo+ICsNCj4gK0NWRS0yMDE1LTMxOTQNCj4gKw0KPiArVXBzdHJlYW0tU3RhdHVz
-OiBCYWNrcG9ydA0KPiArDQo+ICtSZXZpZXdlZC1ieTogTWF0dCBDYXN3ZWxsIDxtYXR0QG9wZW5z
-c2wub3JnPg0KPiArU2lnbmVkLW9mZi1ieTogU29uYSBTYXJtYWRpIDxzb25hLnNhcm1hZGlAZW5l
-YS5jb20+DQo+ICstLS0NCj4gKyBjcnlwdG8vcnNhL3JzYV9hbWV0aC5jIHwgMiArLQ0KPiArIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiArDQo+ICtkaWZm
-IC0tZ2l0IGEvY3J5cHRvL3JzYS9yc2FfYW1ldGguYyBiL2NyeXB0by9yc2EvcnNhX2FtZXRoLmMg
-aW5kZXgNCj4gKzkzZTA3MWQuLmM3ZjExNDggMTAwNjQ0DQo+ICstLS0gYS9jcnlwdG8vcnNhL3Jz
-YV9hbWV0aC5jDQo+ICsrKysgYi9jcnlwdG8vcnNhL3JzYV9hbWV0aC5jDQo+ICtAQCAtMjc5LDcg
-KzI3OSw3IEBAIHN0YXRpYyBSU0FfUFNTX1BBUkFNUyAqcnNhX3Bzc19kZWNvZGUoY29uc3QNCj4g
-WDUwOV9BTEdPUiAqYWxnLA0KPiArICAgICBpZiAocHNzLT5tYXNrR2VuQWxnb3JpdGhtKSB7DQo+
-ICsgICAgICAgICBBU04xX1RZUEUgKnBhcmFtID0gcHNzLT5tYXNrR2VuQWxnb3JpdGhtLT5wYXJh
-bWV0ZXI7DQo+ICsgICAgICAgICBpZiAoT0JKX29iajJuaWQocHNzLT5tYXNrR2VuQWxnb3JpdGht
-LT5hbGdvcml0aG0pID09IE5JRF9tZ2YxDQo+ICstICAgICAgICAgICAgJiYgcGFyYW0tPnR5cGUg
-PT0gVl9BU04xX1NFUVVFTkNFKSB7DQo+ICsrICAgICAgICAgICAgJiYgcGFyYW0gJiYgcGFyYW0t
-PnR5cGUgPT0gVl9BU04xX1NFUVVFTkNFKSB7DQo+ICsgICAgICAgICAgICAgcCA9IHBhcmFtLT52
-YWx1ZS5zZXF1ZW5jZS0+ZGF0YTsNCj4gKyAgICAgICAgICAgICBwbGVuID0gcGFyYW0tPnZhbHVl
-LnNlcXVlbmNlLT5sZW5ndGg7DQo+ICsgICAgICAgICAgICAgKnBtYXNrSGFzaCA9IGQyaV9YNTA5
-X0FMR09SKE5VTEwsICZwLCBwbGVuKTsNCj4gKy0tDQo+ICsxLjkuMQ0KPiArDQo+IGRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC9DVkUtMjAxNS0z
-MTk1LUZpeC0NCj4gbGVhay13aXRoLUFTTi4xLWNvbWJpbmUucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-DQo+IGNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvQ1ZFLTIwMTUtMzE5NS1GaXgtbGVhay13
-aXRoLUFTTi4xLQ0KPiBjb21iaW5lLnBhdGNoDQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGlu
-ZGV4IDAwMDAwMDAuLjg3YzRjNmMNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9tZXRhL3JlY2lw
-ZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC9DVkUtMjAxNS0zMTk1LUZpeC1sZWFrLQ0K
-PiB3DQo+ICsrKyBpdGgtQVNOLjEtY29tYmluZS5wYXRjaA0KPiBAQCAtMCwwICsxLDU5IEBADQo+
-ICtEYXRlOiBUdWUsIDEwIE5vdiAyMDE1IDE5OjAzOjA3ICswMDAwDQo+ICtTdWJqZWN0OiBbUEFU
-Q0hdIEZpeCBsZWFrIHdpdGggQVNOLjEgY29tYmluZS4NCj4gKw0KPiArV2hlbiBwYXJzaW5nIGEg
-Y29tYmluZWQgc3RydWN0dXJlIHBhc3MgYSBmbGFnIHRvIHRoZSBkZWNvZGUgcm91dGluZSBzbw0K
-PiArb24gZXJyb3IgYSBwb2ludGVyIHRvIHRoZSBwYXJlbnQgc3RydWN0dXJlIGlzIG5vdCB6ZXJv
-ZWQgYXMgdGhpcyB3aWxsDQo+ICtsZWFrIGFueSBhZGRpdGlvbmFsIGNvbXBvbmVudHMgaW4gdGhl
-IHBhcmVudC4NCj4gKw0KPiArVGhpcyBjYW4gbGVhayBtZW1vcnkgaW4gYW55IGFwcGxpY2F0aW9u
-IHBhcnNpbmcgUEtDUyM3IG9yIENNUyBzdHJ1Y3R1cmVzLg0KPiArDQo+ICtDVkUtMjAxNS0zMTk1
-Lg0KPiArDQo+ICtVcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0DQo+ICsNCj4gK1RoYW5rcyB0byBB
-ZGFtIExhbmdsZXkgKEdvb2dsZS9Cb3JpbmdTU0wpIGZvciBkaXNjb3ZlcmluZyB0aGlzIGJ1Zw0K
-PiArdXNpbmcgbGliRnV6emVyLg0KPiArDQo+ICtQUiM0MTMxDQo+ICsNCj4gK1Jldmlld2VkLWJ5
-OiBSaWNoYXJkIExldml0dGUgPGxldml0dGVAb3BlbnNzbC5vcmc+DQo+ICtTaWduZWQtb2ZmLWJ5
-OiBTb25hIFNhcm1hZGkgPHNvbmEuc2FybWFkaUBlbmVhLmNvbT4NCj4gKy0tLQ0KPiArIGNyeXB0
-by9hc24xL3Rhc25fZGVjLmMgfCA3ICsrKysrLS0NCj4gKyAxIGZpbGUgY2hhbmdlZCwgNSBpbnNl
-cnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiArDQo+ICtkaWZmIC0tZ2l0IGEvY3J5cHRvL2Fz
-bjEvdGFzbl9kZWMuYyBiL2NyeXB0by9hc24xL3Rhc25fZGVjLmMgaW5kZXgNCj4gK2ZlYmY2MDUu
-LjkyNTYwNDkgMTAwNjQ0DQo+ICstLS0gYS9jcnlwdG8vYXNuMS90YXNuX2RlYy5jDQo+ICsrKysg
-Yi9jcnlwdG8vYXNuMS90YXNuX2RlYy5jDQo+ICtAQCAtMTgwLDYgKzE4MCw4IEBAIGludCBBU04x
-X2l0ZW1fZXhfZDJpKEFTTjFfVkFMVUUgKipwdmFsLCBjb25zdA0KPiB1bnNpZ25lZCBjaGFyICoq
-aW4sIGxvbmcgbGVuLA0KPiArICAgICBpbnQgb3RhZzsNCj4gKyAgICAgaW50IHJldCA9IDA7DQo+
-ICsgICAgIEFTTjFfVkFMVUUgKipwY2hwdHIsICpwdG1wdmFsOw0KPiArKyAgICBpbnQgY29tYmlu
-ZSA9IGFjbGFzcyAmIEFTTjFfVEZMR19DT01CSU5FOw0KPiArKyAgICBhY2xhc3MgJj0gfkFTTjFf
-VEZMR19DT01CSU5FOw0KPiArICAgICBpZiAoIXB2YWwpDQo+ICsgICAgICAgICByZXR1cm4gMDsN
-Cj4gKyAgICAgaWYgKGF1eCAmJiBhdXgtPmFzbjFfY2IpDQo+ICtAQCAtNTAwLDcgKzUwMiw4IEBA
-IGludCBBU04xX2l0ZW1fZXhfZDJpKEFTTjFfVkFMVUUgKipwdmFsLCBjb25zdA0KPiArdW5zaWdu
-ZWQgY2hhciAqKmluLCBsb25nIGxlbiwNCj4gKyAgYXV4ZXJyOg0KPiArICAgICBBU04xZXJyKEFT
-TjFfRl9BU04xX0lURU1fRVhfRDJJLCBBU04xX1JfQVVYX0VSUk9SKTsNCj4gKyAgZXJyOg0KPiAr
-LSAgICBBU04xX2l0ZW1fZXhfZnJlZShwdmFsLCBpdCk7DQo+ICsrICAgIGlmIChjb21iaW5lID09
-IDApDQo+ICsrICAgICAgICBBU04xX2l0ZW1fZXhfZnJlZShwdmFsLCBpdCk7DQo+ICsgICAgIGlm
-IChlcnJ0dCkNCj4gKyAgICAgICAgIEVSUl9hZGRfZXJyb3JfZGF0YSg0LCAiRmllbGQ9IiwgZXJy
-dHQtPmZpZWxkX25hbWUsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIiwgVHlwZT0i
-LCBpdC0+c25hbWUpOyBAQCAtNjg5LDcgKzY5Miw3IEBADQo+ICtzdGF0aWMgaW50IGFzbjFfdGVt
-cGxhdGVfbm9leHBfZDJpKEFTTjFfVkFMVUUgKip2YWwsDQo+ICsgICAgIH0gZWxzZSB7DQo+ICsg
-ICAgICAgICAvKiBOb3RoaW5nIHNwZWNpYWwgKi8NCj4gKyAgICAgICAgIHJldCA9IEFTTjFfaXRl
-bV9leF9kMmkodmFsLCAmcCwgbGVuLCBBU04xX0lURU1fcHRyKHR0LT5pdGVtKSwNCj4gKy0gICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgLTEsIDAsIG9wdCwgY3R4KTsNCj4gKysgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgLTEsIHR0LT5mbGFncyAmIEFTTjFfVEZMR19DT01CSU5F
-LCBvcHQsDQo+ICsrIGN0eCk7DQo+ICsgICAgICAgICBpZiAoIXJldCkgew0KPiArICAgICAgICAg
-ICAgIEFTTjFlcnIoQVNOMV9GX0FTTjFfVEVNUExBVEVfTk9FWFBfRDJJLA0KPiBFUlJfUl9ORVNU
-RURfQVNOMV9FUlJPUik7DQo+ICsgICAgICAgICAgICAgZ290byBlcnI7DQo+ICstLQ0KPiArMS45
-LjENCj4gKw0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3Ns
-L29wZW5zc2xfMS4wLjFwLmJiDQo+IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3Ns
-L29wZW5zc2xfMS4wLjFwLmJiDQo+IGluZGV4IDNmNjE3OTAuLjFkMDI0MmYgMTAwNjQ0DQo+IC0t
-LSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzEuMC4xcC5iYg0K
-PiArKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbF8xLjAuMXAu
-YmINCj4gQEAgLTM0LDYgKzM0LDggQEAgU1JDX1VSSSArPSAiZmlsZTovL2NvbmZpZ3VyZS10YXJn
-ZXRzLnBhdGNoIFwNCj4gICAgICAgICAgICAgIGZpbGU6Ly9NYWtlZmlsZXMtcHRlc3QucGF0Y2gg
-XA0KPiAgICAgICAgICAgICAgZmlsZTovL3B0ZXN0LWRlcHMucGF0Y2ggXA0KPiAgICAgICAgICAg
-ICAgZmlsZTovL3J1bi1wdGVzdCBcDQo+ICsgICAgICAgICAgICBmaWxlOi8vQ1ZFLTIwMTUtMzE5
-NC1BZGQtUFNTLXBhcmFtZXRlci1jaGVjay5wYXRjaCBcDQo+ICsgICAgICAgICAgICBmaWxlOi8v
-Q1ZFLTIwMTUtMzE5NS1GaXgtbGVhay13aXRoLUFTTi4xLWNvbWJpbmUucGF0Y2ggXA0KPiAgICAg
-ICAgICAgICAiDQo+IA0KPiAgU1JDX1VSSVttZDVzdW1dID0gIjc1NjNlOTIzMjcxOTllMDA2N2Nj
-ZDBmNzlmNDM2OTc2Ig0KPiAtLQ0KPiAxLjkuMQ0KPiANCj4gLS0NCj4gX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4gT3BlbmVtYmVkZGVkLWNvcmUgbWFp
-bGluZyBsaXN0DQo+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4g
-aHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRk
-ZWQtY29yZQ0K
+Split runuser into its own package (previously provided by util-linux).
+Since runuser is compiled only when DISTRO_FEATURES includes pam,
+the creation of util-linux-runuser is also constrained by this.
+
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 318c74b..0493935 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -34,6 +34,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+              util-linux-partx ${PN}-bash-completion util-linux-hwclock \
+              util-linux-findfs util-linux-getopt util-linux-sulogin"
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
++PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
+ 
+ PACKAGES_DYNAMIC = "^util-linux-lib.*"
+ 
+@@ -85,6 +86,7 @@ FILES_util-linux-partx = "${sbindir}/partx"
+ FILES_util-linux-hwclock = "${base_sbindir}/hwclock.${BPN}"
+ FILES_util-linux-findfs = "${sbindir}/findfs"
+ FILES_util-linux-getopt = "${base_bindir}/getopt.${BPN}"
++FILES_util-linux-runuser = "${sbindir}/runuser"
+ 
+ FILES_util-linux-pylibmount = "${libdir}/${PYTHON_DIR}/dist-packages/libmount/pylibmount.so \
+                                ${libdir}/${PYTHON_DIR}/dist-packages/libmount/__init__.*"
+@@ -106,7 +108,11 @@ RREPLACES_util-linux-blkid = "e2fsprogs-blkid"
+ # reset calls 'tput'
+ RDEPENDS_util-linux-reset += "ncurses"
+ 
++RDEPENDS_util-linux-runuser += "libpam"
++
+ RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin"
++RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser', '', d)}"
++
+ RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs "
+ 
+ RRECOMMENDS_${PN}_class-native = ""
+-- 
+2.1.4
+
 
