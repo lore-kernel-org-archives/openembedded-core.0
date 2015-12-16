@@ -1,30 +1,35 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 019A76E64A
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 420406E64A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 15:49:52 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP; 16 Dec 2015 07:49:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,437,1444719600"; d="scan'208";a="14298501"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.48]) ([10.219.5.48])
-	by fmsmga004.fm.intel.com with ESMTP; 16 Dec 2015 07:49:52 -0800
-To: Matt Madison <matt@madison.systems>
-References: <1449422732-12975-1-git-send-email-matt@madison.systems>
-	<56704DFF.9070804@linux.intel.com>
-	<CAGgRHJqibg_vCYzFp_nQktE4kEcMYe1SMWrz=UH0Up0Q2vuXmg@mail.gmail.com>
-	<567092CA.2040600@linux.intel.com>
-	<CAGgRHJptKNTkhDi5s9F1S821PG5apBDtW4mG7anGqA84m5d7kw@mail.gmail.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <56718862.80803@linux.intel.com>
-Date: Wed, 16 Dec 2015 09:50:58 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAGgRHJptKNTkhDi5s9F1S821PG5apBDtW4mG7anGqA84m5d7kw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Debian multilib packaging fixes
+	Wed, 16 Dec 2015 15:59:09 +0000 (UTC)
+Received: by mail-ob0-f180.google.com with SMTP id 18so35575233obc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Dec 2015 07:59:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=ICVOr9U0HJVfruzOa1AsLl4EE9RT3YEJnUXnGjyMIh8=;
+	b=BU/TTghcX55Ki3EZ2zNWtv/zUTLnxI+aPig6MtXSAhK0Ujb6IVU6zAoFo8jAjRyyvp
+	Wmg7Vyu/3gB07j9mrCf/Q1lEvRREwchZlBIXYUcYp3H/2VmGayQQ8QfGwpsMK9j6jbst
+	s04i++r1NGXc0KSSjNuGjsfjFTW6VqoNy6ZWSoDboipImWh3kOvdsunNxC5EOoVPMttW
+	IC9ALTuGZipYvtEVzN4xZI0VJrjY1/Xo6AN5JwFuaB1C9MDBEoIxOKlSzVUcMnAcScsF
+	aJFGIuhDl3Vc0uzOfE08HNqBCAiWUziFxvccINuycbZxlErthfd/LrYR+k/nkP6WfZNn
+	QCIA==
+X-Received: by 10.182.129.132 with SMTP id nw4mr30054319obb.48.1450281550330; 
+	Wed, 16 Dec 2015 07:59:10 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	kw1sm2476980obb.28.2015.12.16.07.59.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 16 Dec 2015 07:59:09 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Dec 2015 07:59:00 -0800
+Message-Id: <1450281543-9320-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/3] add gcc-runtime ABI fixes for armv7m and armv7r
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,85 +42,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Dec 2015 15:49:53 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 16 Dec 2015 15:59:11 -0000
 
-Hi Matt,
+Andre McCurdy (3):
+  tune-cortexm3.inc: provide an _armv7m over-ride via MACHINEOVERRIDES
+  tune-cortexr4.inc: provide an _armv7r over-ride via MACHINEOVERRIDES
+  gcc-configure-common.inc: add gcc-runtime ABI fixes for armv7m and armv7r
 
-I tried to do again without your patches and the problem appears, seems
-to be an older problem.
+ meta/conf/machine/include/tune-cortexm3.inc        | 1 +
+ meta/conf/machine/include/tune-cortexr4.inc        | 1 +
+ meta/recipes-devtools/gcc/gcc-configure-common.inc | 2 ++
+ 3 files changed, 4 insertions(+)
 
-Regards,
-	alimon
+-- 
+1.9.1
 
-On 12/16/2015 07:31 AM, Matt Madison wrote:
-> On Tue, Dec 15, 2015 at 2:23 PM, Aníbal Limón
-> <anibal.limon@linux.intel.com> wrote:
->> Hi Matt,
->>
->> Trying to build core-image-sato with qemux86-64 and multilib enabled an
->> errors appear (see attached log), next the config.
-> 
-> OK, yep, I can reproduce this.  I'll investigate further.
-> 
-> Thanks,
-> -Matt
-> 
-> 
->>
->> MACHINE ??= "qemux86-64"
->>
->> IMAGE_INSTALL_append = " lib32-connman"
->> require conf/multilib.conf
->> MULTILIBS = "multilib:lib32"
->> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
->> PACKAGE_CLASSES ?= "package_deb"
->> EXTRA_IMAGE_FEATURES = "debug-tweaks package-management"
->>
->> Kind regards,
->>         alimon
->>
->>
->> On 12/15/2015 01:28 PM, Matt Madison wrote:
->>> On Tue, Dec 15, 2015 at 9:29 AM, Aníbal Limón
->>> <anibal.limon@linux.intel.com> wrote:
->>>> Hi Matt,
->>>>
->>>> I'm starting to look at your patches, in what arches/combinations you
->>>> test the patches?
->>>
->>> I've been working on a BSP layer for the jetson-tx1, which is
->>> aarch64/armv7a-hf, so that's what I've been testing with.  The BSP
->>> defs are in https://github.com/madisongh/meta-tegra.
->>>
->>> Thanks,
->>> -Matt
->>>
->>>
->>>>
->>>> Kind regards,
->>>>         alimon
->>>>
->>>>
->>>> On 12/06/2015 11:25 AM, Matt Madison wrote:
->>>>> I ran into sevearl issues while trying to build an ARM multilib rootfs
->>>>> using Debian packaging.  After several go-rounds, it looked like the
->>>>> cleanest solution was to tweak how DPKG_ARCH gets constructed and
->>>>> to have the DpkgPM class in oe/package_manager.py use that variable
->>>>> to locate multilib variants (similar to RpmPM).  I also took the
->>>>> liberty of expanding the Debian architecture mappings so the names
->>>>> align better with what's documented on the Debian wiki, for those
->>>>> cases where a direct mapping is possible.
->>>>>
->>>>> Matt Madison (2):
->>>>>   package_deb.bbclass, cross-canadian.bbclass: DPKG_ARCH mapping
->>>>>     function
->>>>>   package_manager.py: fixes for multilib deb packaging builds
->>>>>
->>>>>  meta/classes/cross-canadian.bbclass |  2 +-
->>>>>  meta/classes/package_deb.bbclass    | 35 +++++++++++++++++++++++++----------
->>>>>  meta/lib/oe/package_manager.py      | 17 +++++++++++------
->>>>>  3 files changed, 37 insertions(+), 17 deletions(-)
->>>>>
 
