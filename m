@@ -1,23 +1,25 @@
 Return-Path: <daniel.alexandrux.istrate@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E3E4765CBF
+	by mail.openembedded.org (Postfix) with ESMTP id 4C40373187
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 16:10:57 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 16 Dec 2015 08:10:59 -0800
+	Wed, 16 Dec 2015 16:10:58 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 16 Dec 2015 08:11:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,437,1444719600"; d="scan'208";a="709014494"
+X-IronPort-AV: E=Sophos;i="5.20,437,1444719600"; d="scan'208";a="842526945"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 16 Dec 2015 08:10:58 -0800
+	by orsmga001.jf.intel.com with ESMTP; 16 Dec 2015 08:10:59 -0800
 Received: from fedora-ws.localdomain (unknown [10.237.112.240])
-	by linux.intel.com (Postfix) with ESMTP id E60496A408D;
-	Wed, 16 Dec 2015 08:58:58 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id 290AC6A4007;
+	Wed, 16 Dec 2015 08:58:59 -0800 (PST)
 From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Dec 2015 18:13:34 +0200
-Message-Id: <1450282415-4243-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+Date: Wed, 16 Dec 2015 18:13:35 +0200
+Message-Id: <1450282415-4243-2-git-send-email-daniel.alexandrux.istrate@intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 1/2] scripts/oe-selftest: Allow to run tests on random/all architecture oeqa/selftest/base.py: Updated to accomodate this feature
+In-Reply-To: <1450282415-4243-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+References: <1450282415-4243-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+Subject: [PATCH 2/2] selftest: Added MACHINE = "qemux86" to tests that use runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,172 +34,69 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 16 Dec 2015 16:10:58 -0000
 
-[YOCTO #5880] oe-selftest : add an option for random arch
-Added new feature to oe-selftest: --arch [random/all]
-1. random: will set a random MACHINE for each test
-2. all: will run tests for all architectures
-
-Custom arch sets only weak default values (??=) for MACHINE in local.conf
-This let test cases that require a specific MACHINE to be able to override it,
-using (?= or =).
-
-eg: oe-selftest --run-tests signing --arch random --> will run all tests
-    switching MACHINE randomly for each test
-
-    oe-selftest --run-tests signing --arch all --> for each arch
-    will run all tests
-
-    oe-selftest --run-all-tests --arch random
+It makes sense for tests that use runqemu to have MACHINE set as qemu.
+This also avoid issues when running oe-selftest with --arch random/all
+option.
 
 Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 ---
- meta/lib/oeqa/selftest/base.py | 39 +++++++++++++++++++++++++++++++++------
- scripts/oe-selftest            | 34 +++++++++++++++++++++++++++-------
- 2 files changed, 60 insertions(+), 13 deletions(-)
+ meta/lib/oeqa/selftest/devtool.py       | 7 ++++---
+ meta/lib/oeqa/selftest/imagefeatures.py | 9 ++++++---
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
-index 9bddc23..4ee0a8a 100644
---- a/meta/lib/oeqa/selftest/base.py
-+++ b/meta/lib/oeqa/selftest/base.py
-@@ -16,6 +16,7 @@ import errno
- import oeqa.utils.ftools as ftools
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
- from oeqa.utils.decorators import LogResults
-+from random import choice
- 
- @LogResults
- class oeSelfTest(unittest.TestCase):
-@@ -29,9 +30,12 @@ class oeSelfTest(unittest.TestCase):
-         self.testinc_path = os.path.join(self.builddir, "conf/selftest.inc")
-         self.local_bblayers_path = os.path.join(self.builddir, "conf/bblayers.conf")
-         self.testinc_bblayers_path = os.path.join(self.builddir, "conf/bblayers.inc")
-+        self.archinc_path = os.path.join(self.builddir, "conf/arch.inc")
-         self.testlayer_path = oeSelfTest.testlayer_path
-         self._extra_tear_down_commands = []
--        self._track_for_cleanup = [self.testinc_path]
-+        self._track_for_cleanup = [self.testinc_path, self.testinc_bblayers_path, self.archinc_path]
-+        self.arch_list = ['qemuarm', 'qemuarm64', 'qemumips', 'qemuppc', 'qemux86', 'qemux86-64',
-+                         'beaglebone', 'genericx86', 'genericx86-64', 'mpc8315e-rdb', 'edgerouter']
-         super(oeSelfTest, self).__init__(methodName)
- 
-     def setUp(self):
-@@ -47,11 +51,25 @@ class oeSelfTest(unittest.TestCase):
-             for f in files:
-                 if f == 'test_recipe.inc':
-                     os.remove(os.path.join(root, f))
--        try:
--            os.remove(self.testinc_bblayers_path)
--        except OSError as e:
--            if e.errno != errno.ENOENT:
--                raise
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index 0a44ae7..84665e4 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -875,10 +875,11 @@ class DevtoolTests(DevtoolBase):
+         # Additionally we are testing build-time functionality as well, so
+         # really this has to be done as an oe-selftest test.
+         #
 +
-+        for incl_file in [self.testinc_bblayers_path, self.archinc_path]:
-+            try:
-+                os.remove(incl_file)
-+            except OSError as e:
-+                if e.errno != errno.ENOENT:
-+                    raise
++        features = 'MACHINE = "qemux86"\n'
++        self.write_config(features)
 +
-+        # Get CUSTOMARCH from env (set by --arch argument to oe-selftest)
-+        customarch = os.getenv('CUSTOMARCH')
-+        if customarch:
-+            if customarch == 'random':
-+                machine = self.get_random_arch()
-+            else:
-+                machine = customarch
-+            arch_conf = 'MACHINE ??= "%s"\n' % machine
-+            self.set_arch_config(arch_conf)
-+            print 'Arch: %s' % machine
-+
-         # tests might need their own setup
-         # but if they overwrite this one they have to call
-         # super each time, so let's give them an alternative
-@@ -151,3 +169,12 @@ class oeSelfTest(unittest.TestCase):
-     def remove_bblayers_config(self, data):
-         self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_bblayers_path, data))
-         ftools.remove_from_file(self.testinc_bblayers_path, data)
-+
-+    def get_random_arch(self):
-+        # Return a random arch from the arch_list
-+        return choice(self.arch_list)
-+
-+    # write to <builddir>/conf/arch.inc
-+    def set_arch_config(self, data):
-+        self.log.debug("Writing to: %s\n%s\n" % (self.archinc_path, data))
-+        ftools.write_file(self.archinc_path, data)
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index bc50b2a..8a3df19 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -78,6 +78,8 @@ def get_args_parser():
-                        help='list-tests-by <name|class|module|id|tag> <list of tests|classes|modules|ids|tags>')
-     group.add_argument('--list-tags', required=False, dest='list_tags', default=False, action="store_true",
-                        help='List all tags that have been set to test cases.')
-+    parser.add_argument('--arch', required=False, dest='arch', choices=['random', 'all'], default=None,
-+                        help='Run tests on different architecture (random/all).')
-     return parser
+         # Check preconditions
+-        machine = get_bb_var('MACHINE')
+-        if not machine.startswith('qemu'):
+-            self.skipTest('This test only works with qemu machines')
+         if not os.path.exists('/etc/runqemu-nosudo'):
+             self.skipTest('You must set up tap devices with scripts/runqemu-gen-tapdevs before running this test')
+         result = runCmd('PATH="$PATH:/sbin:/usr/sbin" ip tuntap show', ignore_status=True)
+diff --git a/meta/lib/oeqa/selftest/imagefeatures.py b/meta/lib/oeqa/selftest/imagefeatures.py
+index 4efb0d9..62ddc52 100644
+--- a/meta/lib/oeqa/selftest/imagefeatures.py
++++ b/meta/lib/oeqa/selftest/imagefeatures.py
+@@ -22,7 +22,8 @@ class ImageFeatures(oeSelfTest):
+         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+         """
  
+-        features = 'EXTRA_IMAGE_FEATURES = "ssh-server-openssh empty-root-password allow-empty-password"\n'
++        features = 'MACHINE = "qemux86"\n'
++        features += 'EXTRA_IMAGE_FEATURES = "ssh-server-openssh empty-root-password allow-empty-password"\n'
+         features += 'INHERIT += "extrausers"\n'
+         features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(self.test_user, self.test_user)
+         self.write_config(features)
+@@ -48,7 +49,8 @@ class ImageFeatures(oeSelfTest):
+         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+         """
  
-@@ -109,7 +111,7 @@ def add_include():
-         not in ftools.read_file(os.path.join(builddir, "conf/local.conf")):
-             log.info("Adding: \"include selftest.inc\" in local.conf")
-             ftools.append_file(os.path.join(builddir, "conf/local.conf"), \
--                    "\n#include added by oe-selftest.py\ninclude selftest.inc")
-+                    "\n#include added by oe-selftest.py\ninclude selftest.inc\ninclude arch.inc")
+-        features = 'EXTRA_IMAGE_FEATURES = "ssh-server-openssh allow-empty-password"\n'
++        features = 'MACHINE = "qemux86"\n'
++        features += 'EXTRA_IMAGE_FEATURES = "ssh-server-openssh allow-empty-password"\n'
+         features += 'INHERIT += "extrausers"\n'
+         features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(self.test_user, self.test_user)
+         self.write_config(features)
+@@ -77,7 +79,8 @@ class ImageFeatures(oeSelfTest):
+         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+         """
  
-     if "#include added by oe-selftest.py" \
-         not in ftools.read_file(os.path.join(builddir, "conf/bblayers.conf")):
-@@ -125,7 +127,7 @@ def remove_include():
-         in ftools.read_file(os.path.join(builddir, "conf/local.conf")):
-             log.info("Removing the include from local.conf")
-             ftools.remove_from_file(os.path.join(builddir, "conf/local.conf"), \
--                    "#include added by oe-selftest.py\ninclude selftest.inc")
-+                    "#include added by oe-selftest.py\ninclude selftest.inc\ninclude arch.inc")
- 
-     if "#include added by oe-selftest.py" \
-         in ftools.read_file(os.path.join(builddir, "conf/bblayers.conf")):
-@@ -143,10 +145,11 @@ def remove_inc_files():
-     except (AttributeError, OSError,) as e:    # AttributeError may happen if BUILDDIR is not set
-         pass
- 
--    try:
--        os.remove(os.path.join(os.environ.get("BUILDDIR"), "conf/bblayers.inc"))
--    except:
--        pass
-+    for incl_file in ['conf/bblayers.inc', 'conf/arch.inc']:
-+        try:
-+            os.remove(os.path.join(os.environ.get("BUILDDIR"), incl_file))
-+        except:
-+            pass
- 
- def get_tests(exclusive_modules=[], include_hidden=False):
-     testslist = []
-@@ -466,7 +469,24 @@ def main():
-                 log.error(e)
-                 return 1
-         add_include()
--        result = runner.run(suite)
-+
-+        if args.arch:
-+            # Custom arch sets only weak default values (??=) for MACHINE in local.conf
-+            # This let test cases that require a specific MACHINE to be able to override it, using (?= or =)
-+            log.info('Custom arch mode enabled. Arch set to %s' % args.arch)
-+            if args.arch == 'random':
-+                os.environ['CUSTOMARCH'] = 'random'
-+                result = runner.run(suite)
-+            else:  # all
-+                arch_list = ['qemuarm', 'qemuarm64', 'qemumips', 'qemuppc', 'qemux86', 'qemux86-64',
-+                             'beaglebone', 'genericx86', 'genericx86-64', 'mpc8315e-rdb', 'edgerouter']
-+                for arch in arch_list:
-+                    log.info('Run tests with custom arch set to: %s' % arch)
-+                    os.environ['CUSTOMARCH'] = arch
-+                    result = runner.run(suite)
-+        else:
-+            result = runner.run(suite)
-+
-         log.info("Finished")
- 
-         if args.coverage:
+-        features = 'PREFERRED_VERSION_rpm = "4.%"\n'
++        features = 'MACHINE = "qemux86"\n'
++        features += 'PREFERRED_VERSION_rpm = "4.%"\n'
+         features += 'PREFERRED_VERSION_rpm-native = "4.%"\n'
+         # Use openssh in IMAGE_INSTALL instead of ssh-server-openssh in EXTRA_IMAGE_FEATURES as a workaround for bug 8047
+         features += 'IMAGE_INSTALL_append = " openssh"\n'
 -- 
 2.1.0
 
