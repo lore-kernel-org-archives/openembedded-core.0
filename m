@@ -1,25 +1,25 @@
 Return-Path: <mschiffer@universe-factory.net>
 Received: from chaos.universe-factory.net (chaos.universe-factory.net
 	[37.72.148.22])
-	by mail.openembedded.org (Postfix) with ESMTP id 537027317F
+	by mail.openembedded.org (Postfix) with ESMTP id 561E473183
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 16 Dec 2015 18:21:29 +0000 (UTC)
 Received: from avalon.neoraider.dn42 (unknown [IPv6:fd1b:c28a:2fd6::2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by chaos.universe-factory.net (Postfix) with ESMTPSA id 72A6E180FDE
+	by chaos.universe-factory.net (Postfix) with ESMTPSA id 10FD5180FD9
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 16 Dec 2015 19:12:04 +0100 (CET)
 From: Matthias Schiffer <mschiffer@universe-factory.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Dec 2015 19:12:00 +0100
-Message-Id: <1b8e3d820ac8f20f89ba01e1f88543deed69620e.1450288828.git.mschiffer@universe-factory.net>
+Date: Wed, 16 Dec 2015 19:11:57 +0100
+Message-Id: <eb217bbe312a0035cec22c97fa23e93c27b034b6.1450288828.git.mschiffer@universe-factory.net>
 X-Mailer: git-send-email 2.6.4
 In-Reply-To: <cover.1450288828.git.mschiffer@universe-factory.net>
 References: <cover.1450288828.git.mschiffer@universe-factory.net>
 In-Reply-To: <cover.1450288828.git.mschiffer@universe-factory.net>
 References: <cover.1450288828.git.mschiffer@universe-factory.net>
-Subject: [PATCH 4/4] base-files: create typical merged /usr symlinks if the "merged-usr" distro feature is set
+Subject: [PATCH 1/4] busybox: generalize recipe to work with arbitrary install directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,66 +34,86 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 16 Dec 2015 18:21:31 -0000
 
-The typical symlinks are:
+Allow configuring base_bindir, base_sbindir, bindir and sbindir
+arbitrarily.
 
-* /bin -> usr/bin
-* /sbin -> usr/sbin
-* /lib -> usr/lib
-* /usr/sbin -> bin
-
-It is checked that only sane symlinks are created, so a half-merged /usr
-(e.g, merging bin and sbin, but not lib) is feasible as well.
-
-The following options in a distro configuration create a full Fedora-style
-merged /usr:
-
-  DISTRO_FEATURES_DEFAULT += "merged-usr"
-  base_bindir = "${exec_prefix}/bin"
-  base_sbindir = "${exec_prefix}/bin"
-  sbindir = "${exec_prefix}/bin"
-  base_libdir = "${exec_prefix}/${baselib}"
-  nonarch_base_libdir = "${exec_prefix}/lib"
-
-[YOCTO #7040]
+Also change the temporary symlinks created in the postinst script from
+relative to absolute to make the code simpler and more flexible. There was
+no reason to use relative links anyways, as directly afterwards
+update-alternatives would replace them by absolute links anyways.
 
 Signed-off-by: Matthias Schiffer <mschiffer@universe-factory.net>
 ---
- meta/recipes-core/base-files/base-files_3.0.14.bb | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ meta/recipes-core/busybox/busybox.inc | 35 ++++++++++++-----------------------
+ 1 file changed, 12 insertions(+), 23 deletions(-)
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 0c1171f..852f4f5 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -134,6 +134,28 @@ do_install () {
- 	fi
- 
- 	ln -sf /proc/mounts ${D}${sysconfdir}/mtab
-+
-+	if ${@bb.utils.contains('DISTRO_FEATURES','merged-usr','true','false',d)}; then
-+		if [ "${base_bindir}" != "/bin" ]; then
-+			ln -snf "${@d.getVar('base_bindir', True)[1:]}" ${D}/bin
-+		fi
-+
-+		if [ "${base_sbindir}" != "/sbin"  ]; then
-+			ln -snf "${@d.getVar('base_sbindir', True)[1:]}" ${D}/sbin
-+		fi
-+
-+		if [ "${nonarch_base_libdir}" != "/lib" ]; then
-+			ln -snf "${@d.getVar('nonarch_base_libdir', True)[1:]}" ${D}/lib
-+		fi
-+
-+		if [ "${base_libdir}" != "/${baselib}" ]; then
-+			ln -snf "${@d.getVar('base_libdir', True)[1:]}" ${D}/${baselib}
-+		fi
-+
-+		if [ "${bindir}" = "${exec_prefix}/bin" -a "${sbindir}" = "${exec_prefix}/bin" ]; then
-+			ln -snf bin ${D}${exec_prefix}/sbin
-+		fi
-+	fi
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index fba956e..9541123 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -171,20 +171,20 @@ do_compile() {
  }
  
- DISTRO_VERSION[vardepsexclude] += "DATE"
+ do_install () {
+-	if [ "${prefix}" != "/usr" ]; then
+-		sed -i "s:^/usr/:${prefix}/:" busybox.links*
+-	fi
+-	if [ "${base_sbindir}" != "/sbin" ]; then
+-		sed -i "s:^/sbin/:${base_sbindir}/:" busybox.links*
+-	fi
+-	if [ "${base_bindir}" != "/bin" ]; then
+-		sed -i "s:^/bin/:${base_bindir}/:" busybox.links*
+-	fi
++	sed -i "s:^/bin/:BASE_BINDIR/:" busybox.links*
++	sed -i "s:^/sbin/:BASE_SBINDIR/:" busybox.links*
++	sed -i "s:^/usr/bin/:BINDIR/:" busybox.links*
++	sed -i "s:^/usr/sbin/:SBINDIR/:" busybox.links*
++
++	sed -i "s:^BASE_BINDIR/:${base_bindir}/:" busybox.links*
++	sed -i "s:^BASE_SBINDIR/:${base_sbindir}/:" busybox.links*
++	sed -i "s:^BINDIR/:${bindir}/:" busybox.links*
++	sed -i "s:^SBINDIR/:${sbindir}/:" busybox.links*
+ 
+ 	install -d ${D}${sysconfdir}/init.d
+ 
+ 	if ! grep -q "CONFIG_FEATURE_INDIVIDUAL=y" ${B}/.config; then
+-		# Install /bin/busybox, and the /bin/sh link so the postinst script
++		# Install ${base_bindir}/busybox, and the ${base_bindir}/sh link so the postinst script
+ 		# can run. Let update-alternatives handle the rest.
+ 		install -d ${D}${base_bindir}
+ 		if [ "${BUSYBOX_SPLIT_SUID}" = "1" ]; then
+@@ -212,7 +212,7 @@ do_install () {
+ 			# We make this symlink here to eliminate the error when upgrading together
+ 			# with busybox-syslog. Without this symlink, the opkg may think of the
+ 			# busybox.nosuid as obsolete and remove it, resulting in dead links like
+-			# /bin/sed -> /bin/busybox.nosuid. This will make upgrading busybox-syslog fail.
++			# ${base_bindir}/sed -> ${base_bindir}/busybox.nosuid. This will make upgrading busybox-syslog fail.
+ 			# This symlink will be safely deleted in postinst, thus no negative effect.
+ 			ln -sf busybox ${D}${base_bindir}/busybox.nosuid
+ 		fi
+@@ -368,21 +368,10 @@ pkg_postinst_${PN} () {
+ 			if test -e ${sysconfdir}/busybox.links$suffix; then
+ 				while read link; do
+ 					if test ! -e "$link"; then
+-						case "$link" in
+-							/*/*/*)
+-								to="../..${base_bindir}/busybox$suffix"
+-								;;
+-							/bin/*)
+-								to="busybox$suffix"
+-								;;
+-							/*/*)
+-								to="..${base_bindir}/busybox$suffix"
+-								;;
+-						esac
+ 						# we can use busybox here because even if we are using splitted busybox
+ 						# we've made a symlink from /bin/busybox to /bin/busybox.nosuid.
+ 						busybox rm -f $link
+-						busybox ln -s $to $link
++						busybox ln -s "${base_bindir}/busybox$suffix" $link
+ 					fi
+ 				done < ${sysconfdir}/busybox.links$suffix
+ 			fi
 -- 
 2.6.4
 
