@@ -1,57 +1,52 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-Received: from mx12-09.smtp.antispamcloud.com (mx12-09.smtp.antispamcloud.com
-	[46.165.232.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 8196A7317E
+Return-Path: <matt@madison.systems>
+Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
+	[209.85.217.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 073F17317E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 13:26:08 +0000 (UTC)
-Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
-	helo=TOP-EX01.TOPIC.LOCAL)
-	by mx12.antispamcloud.com with esmtps (TLSv1:AES256-SHA:256)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1a9C5i-0005ke-2y for openembedded-core@lists.openembedded.org;
-	Wed, 16 Dec 2015 14:26:07 +0100
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Wed, 16 Dec 2015 14:24:24 +0100
-To: <openembedded-core@lists.openembedded.org>
-References: <5671310A.1000000@topic.nl>
-	<1450269344.13505.113.camel@linuxfoundation.org>
-	<567164AF.1040405@topic.nl>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <56716669.6040503@topic.nl>
-Date: Wed, 16 Dec 2015 14:26:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Wed, 16 Dec 2015 13:31:07 +0000 (UTC)
+Received: by mail-lb0-f178.google.com with SMTP id u9so25324330lbp.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Dec 2015 05:31:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=I8wT+4SGr09MBMSNTy8Uj9nqvVD0JixZS7eVdhD5Ao0=;
+	b=opMMHTZXvyagMPEz1JLErXLQ2wGzdRq4r6lGYiy5FLGseTe0zW4+HXFe9Y7QWJqXk9
+	kjfbvDyyHbV5VGU8n+0V+7gySRi+LBZAvVOGMRCfpRT5PSAO0hlykZQnZ+4EI94cECiG
+	Cvap4BLG7FRR13yh7eq/fdf06+ZOkp8mVgDf8S8S6l52BRSfQlMP1QVdrpppQrzQSGnA
+	L3LZ+BblTMhYEIiRl7tW5ok6R+pEp07+OeHQIzIHqo6i/Wvy1DpBZmYtrlz9gsyv63ep
+	k/HHBkL1D7PRwbGcmr8cliNFJOn6WFZguW/UIBXc48y/lmspo4mhod3BhQx304SmpuWJ
+	Q+tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=I8wT+4SGr09MBMSNTy8Uj9nqvVD0JixZS7eVdhD5Ao0=;
+	b=hOEgR3JSRPJDMqPOdIyVLpykWove2+xnR2Gs6QRRRwYPP8x2YXfkuzZVQqwqfwqfyx
+	d1eH4zDbJCCANRX+uCT/y+hxAF0dHs53MyD2jLs4oMJ3GOopr/yWdgaaTUq+JMR2AsyB
+	NxCTlWG2uvaEO4jNzil++HLDLnDP2tsW1edZkj+7hmsvipRYxNFGGKMD3ApSfRWpcDha
+	IkcHXGqNXMtijzc1iRMdtgz/0u0P3Kot+Z7K0itBcm7UOlRnOVV77uXE2RgDe6QnE1oJ
+	qxKqG8XoWImGwkrAJLwVNKcPkJRENq34qfSA+N26NML/lxpKdyyCVodNMWFGsawdkFkC
+	F3cA==
+X-Gm-Message-State: ALoCoQmc60Gginu+J0LB1qZgUJ28nhENwr0H2y42+i7Ds7fj/v/oWqFDhQ4W07WowBtreGYM3j5V0mqlwQIK3VpL9+avtTfCrA==
 MIME-Version: 1.0
-In-Reply-To: <567164AF.1040405@topic.nl>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
-	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJrwcVd/ineQ0gXq1SSG0JOKtam85qWbcVy1XP6
-	vX923Ic8CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
-	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
-	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
-	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
-	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OTh+h+CzXS8eUe
-	C5gEulNqQ4FWPxtvTWQlG7LubmSVPcFB6J1fhOzjF0b4LXcjJZ5lokhecaVqDL9uaaBYOuxasEpt
-	pbQqVsjuh0JlrWxsIcuBhkb6GDdB6OAsNDDRIxpg15xifUD173ICRv+qGaUPXf0=
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJUb3OPwsHaH0Fvg5oXltHd/JUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
-	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
-	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
-	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
-X-Originating-IP: 88.159.208.100
-X-Spampanel-Domain: topic.nl
-X-Spampanel-Username: 88.159.208.100
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=88.159.208.100@topic.nl
-X-Spampanel-Outgoing-Class: ham
-X-Spampanel-Outgoing-Evidence: Combined (0.00)
-X-Recommended-Action: accept
-Subject: Re: How to move a recipe to another directory without invalidating its sstate-cache?
+X-Received: by 10.112.184.45 with SMTP id er13mr18203559lbc.133.1450272667664; 
+	Wed, 16 Dec 2015 05:31:07 -0800 (PST)
+Received: by 10.25.145.200 with HTTP; Wed, 16 Dec 2015 05:31:07 -0800 (PST)
+In-Reply-To: <567092CA.2040600@linux.intel.com>
+References: <1449422732-12975-1-git-send-email-matt@madison.systems>
+	<56704DFF.9070804@linux.intel.com>
+	<CAGgRHJqibg_vCYzFp_nQktE4kEcMYe1SMWrz=UH0Up0Q2vuXmg@mail.gmail.com>
+	<567092CA.2040600@linux.intel.com>
+Date: Wed, 16 Dec 2015 05:31:07 -0800
+Message-ID: <CAGgRHJptKNTkhDi5s9F1S821PG5apBDtW4mG7anGqA84m5d7kw@mail.gmail.com>
+From: Matt Madison <matt@madison.systems>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Debian multilib packaging fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,92 +59,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Dec 2015 13:26:09 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Wed, 16 Dec 2015 13:31:08 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-=EF=BB=BFOn 16-12-15 14:18, Mike Looijmans wrote:
-> On 16-12-15 13:35, Richard Purdie wrote:
->> On Wed, 2015-12-16 at 10:38 +0100, Mike Looijmans wrote:
->>> =EF=BB=BFI renamed "recipes-some/foo/bar.bb" to "recipes-some/buzz/bar.=
-bb"
+On Tue, Dec 15, 2015 at 2:23 PM, An=C3=ADbal Lim=C3=B3n
+<anibal.limon@linux.intel.com> wrote:
+> Hi Matt,
+>
+> Trying to build core-image-sato with qemux86-64 and multilib enabled an
+> errors appear (see attached log), next the config.
+
+OK, yep, I can reproduce this.  I'll investigate further.
+
+Thanks,
+-Matt
+
+
+>
+> MACHINE ??=3D "qemux86-64"
+>
+> IMAGE_INSTALL_append =3D " lib32-connman"
+> require conf/multilib.conf
+> MULTILIBS =3D "multilib:lib32"
+> DEFAULTTUNE_virtclass-multilib-lib32 =3D "x86"
+> PACKAGE_CLASSES ?=3D "package_deb"
+> EXTRA_IMAGE_FEATURES =3D "debug-tweaks package-management"
+>
+> Kind regards,
+>         alimon
+>
+>
+> On 12/15/2015 01:28 PM, Matt Madison wrote:
+>> On Tue, Dec 15, 2015 at 9:29 AM, An=C3=ADbal Lim=C3=B3n
+>> <anibal.limon@linux.intel.com> wrote:
+>>> Hi Matt,
 >>>
->>> Rebuilding bar and its dependencies will take about 16 hours. So I
->>> don't want
->>> to trigger a rebuild.
+>>> I'm starting to look at your patches, in what arches/combinations you
+>>> test the patches?
+>>
+>> I've been working on a BSP layer for the jetson-tx1, which is
+>> aarch64/armv7a-hf, so that's what I've been testing with.  The BSP
+>> defs are in https://github.com/madisongh/meta-tegra.
+>>
+>> Thanks,
+>> -Matt
+>>
+>>
 >>>
->>> running "bitbake -S printdiff bar" only reveils this:
->>
->> I'm not sure I trust the output of -S printdiff, there are some cases
->> it doesn't seem to "guess" right. I wish I or someone one could fix but
->> but we can do its work manually. Can you try something like:
->>
->> set TMPDIR =3D "x"
->> bitbake -S bar
->> rename the recipe
->> set TMPDIR =3D "y"
->> bitbake -S bar
->
-> Found out I need an extra "none" in here:
-> bitbake -S none bar
->
->>
->> then
->>
->> "ls tmp-x/stamps/xxxx/bar"
->> "ls tmp-y/stamps/xxxx/bar"
->>
->> and see which tasks change signature. Then run:
->>
->> "bitbake-diffsigs <sig A> <sig B>"
->>
->> and see if that makes more sense?
->
-> That gave the same output. Everything after "runtaskdeps" is bogus becaus=
-e its
-> value changes from [blahblah, foobar] into [buzbar, blahblah] and now dif=
-fsig
-> seems to attempt to match the "blahblah" signatures against those of "buz=
-bar".
->
-> Which sort of hints that if my new name starts with an "f" the reordering
-> won't happen, so I'm gonna try renaming to "fbuz" now,,,
->
-
-Indeed.... If I rename the directory without affecting the sort order of th=
-at=20
-array, in this situation, "fbuz" instead of "buz",  the signatures will mat=
-ch=20
-again, and it won't rebuild.
-
-Looks like the problem is the way the "runtaskdeps" are sorted.
-
-If a recipe depends on another recipe say "X", moving the recipe to a=20
-directory which sorts to the other side of "X" will trigger a rebuild at so=
-me=20
-stage.
-
-
-M.
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Embedded Products
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-Telefax: +31 (0) 499 33 69 70
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
-
+>>> Kind regards,
+>>>         alimon
+>>>
+>>>
+>>> On 12/06/2015 11:25 AM, Matt Madison wrote:
+>>>> I ran into sevearl issues while trying to build an ARM multilib rootfs
+>>>> using Debian packaging.  After several go-rounds, it looked like the
+>>>> cleanest solution was to tweak how DPKG_ARCH gets constructed and
+>>>> to have the DpkgPM class in oe/package_manager.py use that variable
+>>>> to locate multilib variants (similar to RpmPM).  I also took the
+>>>> liberty of expanding the Debian architecture mappings so the names
+>>>> align better with what's documented on the Debian wiki, for those
+>>>> cases where a direct mapping is possible.
+>>>>
+>>>> Matt Madison (2):
+>>>>   package_deb.bbclass, cross-canadian.bbclass: DPKG_ARCH mapping
+>>>>     function
+>>>>   package_manager.py: fixes for multilib deb packaging builds
+>>>>
+>>>>  meta/classes/cross-canadian.bbclass |  2 +-
+>>>>  meta/classes/package_deb.bbclass    | 35 +++++++++++++++++++++++++---=
+-------
+>>>>  meta/lib/oe/package_manager.py      | 17 +++++++++++------
+>>>>  3 files changed, 37 insertions(+), 17 deletions(-)
+>>>>
 
