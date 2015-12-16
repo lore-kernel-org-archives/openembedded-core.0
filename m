@@ -1,25 +1,25 @@
 Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C40373187
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 18A9260761
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 16:10:58 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 16 Dec 2015 08:11:01 -0800
+	Wed, 16 Dec 2015 16:22:59 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Dec 2015 08:23:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,437,1444719600"; d="scan'208";a="842526945"
+X-IronPort-AV: E=Sophos;i="5.20,437,1444719600"; d="scan'208";a="872821421"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 16 Dec 2015 08:10:59 -0800
+	by orsmga002.jf.intel.com with ESMTP; 16 Dec 2015 08:23:00 -0800
 Received: from fedora-ws.localdomain (unknown [10.237.112.240])
-	by linux.intel.com (Postfix) with ESMTP id 290AC6A4007;
-	Wed, 16 Dec 2015 08:58:59 -0800 (PST)
+	by linux.intel.com (Postfix) with ESMTP id 52B506A4007;
+	Wed, 16 Dec 2015 09:11:01 -0800 (PST)
 From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Dec 2015 18:13:35 +0200
-Message-Id: <1450282415-4243-2-git-send-email-daniel.alexandrux.istrate@intel.com>
+Date: Wed, 16 Dec 2015 18:25:40 +0200
+Message-Id: <1450283140-6599-2-git-send-email-daniel.alexandrux.istrate@intel.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1450282415-4243-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-References: <1450282415-4243-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-Subject: [PATCH 2/2] selftest: Added MACHINE = "qemux86" to tests that use runqemu
+In-Reply-To: <1450283140-6599-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+References: <1450283140-6599-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+Subject: [PATCHv2 2/2] selftest: Added MACHINE = "qemux86" to tests that use runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Dec 2015 16:10:58 -0000
+X-List-Received-Date: Wed, 16 Dec 2015 16:23:00 -0000
 
 It makes sense for tests that use runqemu to have MACHINE set as qemu.
 This also avoid issues when running oe-selftest with --arch random/all
