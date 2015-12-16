@@ -1,30 +1,30 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id EE6D373186
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 019A76E64A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 15:32:14 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 54ADCF811D7; Wed, 16 Dec 2015 08:32:15 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id B7D3DF81188;
-	Wed, 16 Dec 2015 08:32:14 -0700 (MST)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <56717A07.2010100@mlbassoc.com>
-	<CAJTo0LYaTqK1BOQZLNxK2Sxg6bA_hx=m-XLUQSWwuv9YymgVdw@mail.gmail.com>
-From: Gary Thomas <gary@mlbassoc.com>
-Message-ID: <56718408.9080607@mlbassoc.com>
-Date: Wed, 16 Dec 2015 08:32:24 -0700
+	Wed, 16 Dec 2015 15:49:52 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 16 Dec 2015 07:49:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,437,1444719600"; d="scan'208";a="14298501"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.48]) ([10.219.5.48])
+	by fmsmga004.fm.intel.com with ESMTP; 16 Dec 2015 07:49:52 -0800
+To: Matt Madison <matt@madison.systems>
+References: <1449422732-12975-1-git-send-email-matt@madison.systems>
+	<56704DFF.9070804@linux.intel.com>
+	<CAGgRHJqibg_vCYzFp_nQktE4kEcMYe1SMWrz=UH0Up0Q2vuXmg@mail.gmail.com>
+	<567092CA.2040600@linux.intel.com>
+	<CAGgRHJptKNTkhDi5s9F1S821PG5apBDtW4mG7anGqA84m5d7kw@mail.gmail.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <56718862.80803@linux.intel.com>
+Date: Wed, 16 Dec 2015 09:50:58 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYaTqK1BOQZLNxK2Sxg6bA_hx=m-XLUQSWwuv9YymgVdw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Error building glib
+In-Reply-To: <CAGgRHJptKNTkhDi5s9F1S821PG5apBDtW4mG7anGqA84m5d7kw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Debian multilib packaging fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,52 +37,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Dec 2015 15:32:15 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Dec 2015 15:49:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On 2015-12-16 08:10, Burton, Ross wrote:
->
-> On 16 December 2015 at 14:49, Gary Thomas <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
->
->     Using master as of 2015-12-16 (f1f3716776078d68bd9e3734bca881a486dc2ea3)
->     I get this error:
->
->     ERROR: Command Error: exit status: 1  Output:
->     Applying patch allow-deprecated.patch
->
->
-> Looks like you have a layer with a bbappend for glib-2.0, as master's glib-2.0 doesn't have that patch:
+Hi Matt,
 
-I didn't think to look for that.  Oh the perils of % in recipe names.
+I tried to do again without your patches and the problem appears, seems
+to be an older problem.
 
-Thanks
+Regards,
+	alimon
 
->
-> SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
->             file://configure-libtool.patch \
->             file://fix-conflicting-rand.patch \
->             file://add-march-i486-into-CFLAGS-automatically.patch \
->             file://glib-2.0-configure-readlink.patch \
->             file://run-ptest \
->             file://ptest-paths.patch \
->             file://uclibc.patch \
->             file://0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch \
->             file://allow-run-media-sdX-drive-mount-if-username-root.patch \
->    file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
->    file://0001-gio-tests-Don-t-depend-on-a-data-file-that-s-not-bui.patch \
->             file://Enable-more-tests-while-cross-compiling.patch \
->            "
->
-> In fact that revision isn't a poky or oe-core commit.
->
-> The problem is that allow-deprecated.patch is patching generated files.  Remove all hunks that touch Makefile.in.
->
-> Ross
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+On 12/16/2015 07:31 AM, Matt Madison wrote:
+> On Tue, Dec 15, 2015 at 2:23 PM, Aníbal Limón
+> <anibal.limon@linux.intel.com> wrote:
+>> Hi Matt,
+>>
+>> Trying to build core-image-sato with qemux86-64 and multilib enabled an
+>> errors appear (see attached log), next the config.
+> 
+> OK, yep, I can reproduce this.  I'll investigate further.
+> 
+> Thanks,
+> -Matt
+> 
+> 
+>>
+>> MACHINE ??= "qemux86-64"
+>>
+>> IMAGE_INSTALL_append = " lib32-connman"
+>> require conf/multilib.conf
+>> MULTILIBS = "multilib:lib32"
+>> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+>> PACKAGE_CLASSES ?= "package_deb"
+>> EXTRA_IMAGE_FEATURES = "debug-tweaks package-management"
+>>
+>> Kind regards,
+>>         alimon
+>>
+>>
+>> On 12/15/2015 01:28 PM, Matt Madison wrote:
+>>> On Tue, Dec 15, 2015 at 9:29 AM, Aníbal Limón
+>>> <anibal.limon@linux.intel.com> wrote:
+>>>> Hi Matt,
+>>>>
+>>>> I'm starting to look at your patches, in what arches/combinations you
+>>>> test the patches?
+>>>
+>>> I've been working on a BSP layer for the jetson-tx1, which is
+>>> aarch64/armv7a-hf, so that's what I've been testing with.  The BSP
+>>> defs are in https://github.com/madisongh/meta-tegra.
+>>>
+>>> Thanks,
+>>> -Matt
+>>>
+>>>
+>>>>
+>>>> Kind regards,
+>>>>         alimon
+>>>>
+>>>>
+>>>> On 12/06/2015 11:25 AM, Matt Madison wrote:
+>>>>> I ran into sevearl issues while trying to build an ARM multilib rootfs
+>>>>> using Debian packaging.  After several go-rounds, it looked like the
+>>>>> cleanest solution was to tweak how DPKG_ARCH gets constructed and
+>>>>> to have the DpkgPM class in oe/package_manager.py use that variable
+>>>>> to locate multilib variants (similar to RpmPM).  I also took the
+>>>>> liberty of expanding the Debian architecture mappings so the names
+>>>>> align better with what's documented on the Debian wiki, for those
+>>>>> cases where a direct mapping is possible.
+>>>>>
+>>>>> Matt Madison (2):
+>>>>>   package_deb.bbclass, cross-canadian.bbclass: DPKG_ARCH mapping
+>>>>>     function
+>>>>>   package_manager.py: fixes for multilib deb packaging builds
+>>>>>
+>>>>>  meta/classes/cross-canadian.bbclass |  2 +-
+>>>>>  meta/classes/package_deb.bbclass    | 35 +++++++++++++++++++++++++----------
+>>>>>  meta/lib/oe/package_manager.py      | 17 +++++++++++------
+>>>>>  3 files changed, 37 insertions(+), 17 deletions(-)
+>>>>>
 
