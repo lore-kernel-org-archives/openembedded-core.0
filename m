@@ -1,27 +1,50 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 8A7476FF97;
-	Wed, 16 Dec 2015 09:03:08 +0000 (UTC)
-Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0224.002; Wed, 16 Dec 2015 10:03:05 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: Mariano Lopez <mariano.lopez@linux.intel.com>,
-	"openembedded-devel@lists.openembedded.org"
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D5166072C
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Dec 2015 09:21:48 +0000 (UTC)
+Received: by mail-ig0-f177.google.com with SMTP id sf7so14584656igc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Dec 2015 01:21:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=Ry+GXUOEl5dvdb81qAlQAxXVtDhPKujb+tmQqJzt0Ys=;
+	b=btKsQg4CuL4LdNYK396BYhCGKeioaVe4bsATdLRcE2wrCuhY3jd2RZhqytA6I8DePT
+	jhDgEe47JX8VOEqrAg+kMoWuxd78slDCBv6QKrV9zz7VXabJeXPHpE4h/hkb9sk7eNaY
+	ooUn/lMON+QfCJgnBDVyMCSWSubVdS3UpCLLRShsMuO7leb+SmfKTu7ySeJVFE/0YJCS
+	pB73OKZMn2XGcJNEEIJb6/uB2Teq7ATdfaeiidcYJjjsaEWexKr32ujDRprC3QUcbg7h
+	k+x0pUJpoOj/pVhYIdz/apWyUNgppwb+M4Qbr0PZMWzAbi8SISpUZC3MK9UG4T8+IPd8
+	QERw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Ry+GXUOEl5dvdb81qAlQAxXVtDhPKujb+tmQqJzt0Ys=;
+	b=WHS7HbAhHH0SuBLAKoZB2xJJ57E6m1GRu7uww2/RT2XIxq7lXqlFvmjgGmRGORiDoM
+	B5RVb9sAHOkqeO8V2j91pjwp16sOOQv3w2/WLYndHkINcGfddHEXns+TinNZY1UZcbtU
+	soUUcm/YpFEOVrJ3atGi+1W91miIvV+zNqtnC2SnmTjMDGL2xLOdM93p1diFgkVMicIZ
+	5RsYM9uLig0zO2q+V03I8be9ZtFsolnYOQ2meCgcGsTNqZtWlQpweaM3qvnRA6q6/HvO
+	kKyi5LLdk7YaGs6sr4Uc7XdBifuiV1dcedpSOXVtluozvBDJBJf1iAp5y0iX+Vr1QS9c
+	vJNw==
+X-Gm-Message-State: ALoCoQlAkq+RXH3GocWtraxa/rJRJrV9SuOMIAe8qkHBebuMurmGUbD6waeQXgolaPao0+gHRgsLW4tHCjKAMBK9ZJs/wyAuLYVPhgtt46ukNZvLeNFId44=
+X-Received: by 10.107.3.154 with SMTP id e26mr6712362ioi.99.1450257709343;
+	Wed, 16 Dec 2015 01:21:49 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Wed, 16 Dec 2015 01:21:29 -0800 (PST)
+In-Reply-To: <3230301C09DEF9499B442BBE162C5E48ABABDD6C@SESTOEX04.enea.se>
+References: <567039E1.5000205@linux.intel.com>
+	<3230301C09DEF9499B442BBE162C5E48ABABDD6C@SESTOEX04.enea.se>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 16 Dec 2015 09:21:29 +0000
+Message-ID: <CAJTo0LYO9ptJ4PDmR49N-Yw9TbTFGsuyCUBUc4zW2FLk2CNoWQ@mail.gmail.com>
+To: Sona Sarmadi <sona.sarmadi@enea.com>
+Cc: "openembedded-devel@lists.openembedded.org"
 	<openembedded-devel@lists.openembedded.org>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [RFC] Mark of upstream CVE patches
-Thread-Index: AQHRN1JnqZ9MaZXTHkqXkkSwzLRjlJ7NMyfg
-Date: Wed, 16 Dec 2015 09:03:06 +0000
-Message-ID: <3230301C09DEF9499B442BBE162C5E48ABABDD6C@SESTOEX04.enea.se>
-References: <567039E1.5000205@linux.intel.com>
-In-Reply-To: <567039E1.5000205@linux.intel.com>
-Accept-Language: sv-SE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.142.231]
-MIME-Version: 1.0
 Subject: Re: [RFC] Mark of upstream CVE patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,84 +58,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Dec 2015 09:03:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 16 Dec 2015 09:21:49 -0000
+Content-Type: multipart/alternative; boundary=001a113ec10a994c7f0527006fe9
+
+--001a113ec10a994c7f0527006fe9
+Content-Type: text/plain; charset=UTF-8
+
+On 16 December 2015 at 09:03, Sona Sarmadi <sona.sarmadi@enea.com> wrote:
+
+> We are supposed to have reference to the CVE identifier both in the patch
+> file/s
+>  and the commit message(e.g.  xxx- CVE-2013-6435.pacth) according to the
+> guidelines
+> for "Patch name convention and commit message" in the Yocto
+> Wiki https://wiki.yoctoproject.org/wiki/Security.
+>
+> If a patch address multiple CVEs, perhaps we should name the patch:
+> Fix-for-multiple-CVEs.patch and list all CVEs in the patch file.
+>
+> Will this not solve the problem? Do you think there is still need for a
+> new tag "CVE"?
+>
+
+I'd say a new tag is essential if we want to automate tooling, to reduce
+the chance of false-positives from simply searching the patch for something
+that looks like a CVE reference.
+
+Ross
+
+--001a113ec10a994c7f0527006fe9
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Mariano, all,
-
-See my comments regarding "Bug 8119 - Define a format to mark Upstream CVE =
-patches" below.
-
-
-> There is an initiative to track vulnerable software being built (see bugs=
- 8119
-> and 7515). The idea is to have a testing tool that would check the recipe
-> versions against CVEs. In order to accomplish such task there is need to
-> reliable mark the patches from upstream that solve CVEs.
->=20
-> There have been two options to mark the patches that solve CVEs:
->=20
-> 1. Have  "CVE" and the CVE number as the patch filename.
->    Pros:
->      Doesn't require a new tag.
->    Cons:
->      It is not flexible to add more information, for example two CVEs in =
-the same
-> patch
-> 2. Add a new tag in the patch that have the CVE information.
->    Pros:
->      It is flexible and can add more information.
->    Cons:
->      Require a change in the patch metadata.
->=20
-> What I would recommend is to add a new tag in the patch, it must contain =
-the
-> CVE ID. With this it would be possible to look for the CVE information ea=
-sily in
-> the testing tool or in NIST, MITRE, or another web page. For example, thi=
-s
-> would be part of the patch for CVE-2013-6435, currently in OE-Core:
->=20
-> -- snip --
->=20
-> Upstream-Status: Backport
-> CVE: CVE-2013-6435
->=20
-> Reference:
-> https://bugzilla.redhat.com/show_bug.cgi?id=3DCVE-2013-6435
->=20
-> -- snip --
->=20
-> The expected output of this discussion is a standard format for CVE patch=
-es
-> that most, if not all, of community members agree on.
->=20
-> Please let me know your comments.
-
-We are supposed to have reference to the CVE identifier both in the patch f=
-ile/s
- and the commit message(e.g.  xxx- CVE-2013-6435.pacth) according to the gu=
-idelines=20
-for "Patch name convention and commit message" in the Yocto=20
-Wiki https://wiki.yoctoproject.org/wiki/Security.
-
-If a patch address multiple CVEs, perhaps we should name the patch:
-Fix-for-multiple-CVEs.patch and list all CVEs in the patch file.
-
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 December 2015 at 09:03, Sona Sarmadi <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:sona.sarmadi@enea.com" target=3D"_blank">sona.sarmadi@enea.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ce" class=
+=3D"a3s" style=3D"overflow:hidden">We are supposed to have reference to the=
+ CVE identifier both in the patch file/s<br>
+=C2=A0and the commit message(e.g.=C2=A0 xxx- CVE-2013-6435.pacth) according=
+ to the guidelines<br>
+for &quot;Patch name convention and commit message&quot; in the Yocto<br>
+Wiki <a href=3D"https://wiki.yoctoproject.org/wiki/Security" rel=3D"norefer=
+rer" target=3D"_blank">https://wiki.yoctoproject.org/wiki/Security</a>.<br>
+<br>
+If a patch address multiple CVEs, perhaps we should name the patch:<br>
+Fix-for-multiple-CVEs.patch and list all CVEs in the patch file.<br>
+<br>
 Will this not solve the problem? Do you think there is still need for a new=
- tag "CVE"?
+ tag &quot;CVE&quot;?</div></blockquote></div><br>I&#39;d say a new tag is =
+essential if we want to automate tooling, to reduce the chance of false-pos=
+itives from simply searching the patch for something that looks like a CVE =
+reference.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
+tra">Ross</div></div>
 
-Adding RedHat reference is ok for me along with Mitre & NVD or other useful=
-=20
-& reliable references.
-
-I have updated Yocto security wiki. Please feel free to update the page if =
-you have=20
-some improvement or send your text/suggestion to me or Michael and we will =
-help you.
-
-Thanks
-//Sona
-
+--001a113ec10a994c7f0527006fe9--
