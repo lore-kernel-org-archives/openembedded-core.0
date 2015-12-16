@@ -1,20 +1,21 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id A4D9E73181
+	by mail.openembedded.org (Postfix) with ESMTP id A8C5C6FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 20:43:17 +0000 (UTC)
+	Wed, 16 Dec 2015 20:57:16 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id A0A38265477
+	(Authenticated sender: joshuagl) with ESMTPSA id E7ADB261149
+To: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1449754339.git.Martin.Jansa@gmail.com>
 From: Joshua Lock <joshua.lock@collabora.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Dec 2015 20:43:08 +0000
-Message-Id: <97a7a9b254227a9dd6f45325c667caf9593d299e.1450298303.git.joshua.lock@collabora.co.uk>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <cover.1450298303.git.joshua.lock@collabora.co.uk>
-References: <cover.1450298303.git.joshua.lock@collabora.co.uk>
-In-Reply-To: <cover.1450298303.git.joshua.lock@collabora.co.uk>
-References: <cover.1450298303.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v4 2/2] connman: tidy up connman-conf usage
+Message-ID: <5671D029.9040005@collabora.co.uk>
+Date: Wed, 16 Dec 2015 20:57:13 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
+MIME-Version: 1.0
+In-Reply-To: <cover.1449754339.git.Martin.Jansa@gmail.com>
+Subject: Re: [PATCH][fido][RESEND 0/5] Backports for fido
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,44 +28,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Dec 2015 20:43:18 -0000
+X-List-Received-Date: Wed, 16 Dec 2015 20:57:17 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-connman-conf is now a systemd oneshot and therefore doesn't need to
-be sed'ed in to the ConnMan service file.
+On 10/12/15 13:48, Martin Jansa wrote:
+> The following changes since commit 9f339f516ab03d598fae0e536b3a420ea4d8ee1a:
+>
+>    bash: Disable custom memory allocator (2015-11-20 15:46:27 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib jansa/fido-backports
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/fido-backports
+>
+> Martin Jansa (2):
+>    texinfo: don't create dependency on INHERIT variable
+>    linux-dtb.inc: drop unused DTB_NAME variable from do_install
+>
+> Mike Crowe (1):
+>    allarch: Force TARGET_*FLAGS variable values
+>
+> Richard Purdie (2):
+>    layer.conf: Add several allarch dependency exclusions
+>    layer.conf: Add missing dependency for allarch package
+>      initramfs-framework
 
-Furthermore we add connman-conf as RRECCOMENDS only for qemu machines.
+Thanks, I've merged these 5 and the 6th that followed to my fido-next 
+branch, I hope to test it on the autobuilder tomorrow.
 
-This cleans up connman-conf so that it is not automatically installed
-and unconditionally calling a script that doesn't exist for most
-machines.
+http://cgit.openembedded.org/openembedded-core-contrib/log/?h=joshuagl/fido-next
 
-Note: this doesn't affect sysvinit where we provide a ConnMan
-init script which checks for the presence of the wired-networking
-script and, if it exists, executes it as part of the connman init.
+Regards,
 
-[YOCTO #8399]
+Joshua
 
-Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
----
- meta/recipes-connectivity/connman/connman.inc | 5 -----
- 1 file changed, 5 deletions(-)
+>
+>   meta/classes/allarch.bbclass                 |  4 ++++
+>   meta/conf/layer.conf                         | 11 +++++++++++
+>   meta/recipes-extended/texinfo/texinfo_5.2.bb |  2 +-
+>   meta/recipes-kernel/linux/linux-dtb.inc      |  1 -
+>   4 files changed, 16 insertions(+), 2 deletions(-)
+>
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index ba2ca24..a446e66 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -68,11 +68,6 @@ python __anonymous () {
-
- SYSTEMD_SERVICE_${PN} = "connman.service"
- SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
--SYSTEMD_WIRED_SETUP = "ExecStartPre=-${datadir}/connman/wired-setup"
--
--do_compile_append() {
--	sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#" ${B}/src/connman.service
--}
-
- do_install_append() {
- 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
---
-2.5.0
 
