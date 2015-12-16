@@ -1,36 +1,28 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwkm03.jp.fujitsu.com (mgwkm03.jp.fujitsu.com [202.219.69.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D4607319C
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 06:49:14 +0000 (UTC)
-Received: from kw-mxoi1.gw.nic.fujitsu.com (unknown [192.168.231.131]) by
-	mgwkm03.jp.fujitsu.com with smtp
-	id 4a5a_61a4_2d1f796f_9982_45c0_8bf9_e2c44b88ff89;
-	Wed, 16 Dec 2015 15:49:11 +0900
-Received: from m3050.s.css.fujitsu.com (msm.b.css.fujitsu.com [10.134.21.208])
-	by kw-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 7B790AC0269
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 15:49:11 +0900 (JST)
-Received: from omame (omame.fct.css.fujitsu.com [10.24.14.171])
-	by m3050.s.css.fujitsu.com (Postfix) with ESMTP id 603FE10F
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 15:49:11 +0900 (JST)
-Received: from [10.24.19.99] (fan1.utsfd.cs.fujitsu.co.jp [10.24.19.99])
-	by omame (Postfix) with ESMTPSA id 3D8301E0088
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 15:49:11 +0900 (JST)
-References: <1450174068-18106-1-git-send-email-sona.sarmadi@enea.com>
-	<A8FC939F80655644A89BB21CCD3741E80140909C16@G08CNEXMBPEKD02.g08.fujitsu.local>
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-Message-ID: <567109AD.8030602@jp.fujitsu.com>
-Date: Wed, 16 Dec 2015 15:50:21 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 8A7476FF97;
+	Wed, 16 Dec 2015 09:03:08 +0000 (UTC)
+Received: from SESTOEX04.enea.se ([fe80::bc2d:9299:d6b2:d0b7]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0224.002; Wed, 16 Dec 2015 10:03:05 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: Mariano Lopez <mariano.lopez@linux.intel.com>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [RFC] Mark of upstream CVE patches
+Thread-Index: AQHRN1JnqZ9MaZXTHkqXkkSwzLRjlJ7NMyfg
+Date: Wed, 16 Dec 2015 09:03:06 +0000
+Message-ID: <3230301C09DEF9499B442BBE162C5E48ABABDD6C@SESTOEX04.enea.se>
+References: <567039E1.5000205@linux.intel.com>
+In-Reply-To: <567039E1.5000205@linux.intel.com>
+Accept-Language: sv-SE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.142.231]
 MIME-Version: 1.0
-In-Reply-To: <A8FC939F80655644A89BB21CCD3741E80140909C16@G08CNEXMBPEKD02.g08.fujitsu.local>
-X-TM-AS-MML: disable
-Subject: Re: [PATCH][dizzy] openssl: CVE-2015-3194, CVE-2015-3195
+Subject: Re: [RFC] Mark of upstream CVE patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,206 +35,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Dec 2015 06:49:16 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 16 Dec 2015 09:03:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Armin
+Hi Mariano, all,
 
-Please merge this patch to daisy branch.
-Thanks.
+See my comments regarding "Bug 8119 - Define a format to mark Upstream CVE =
+patches" below.
 
-Fan
 
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> Sona Sarmadi
->> Sent: Tuesday, December 15, 2015 6:08 PM
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] [PATCH][dizzy] openssl: CVE-2015-3194, CVE-2015-3195
->>
->> Fixes following vulnerabilities:
->> Certificate verify crash with missing PSS parameter (CVE-2015-3194)
->> X509_ATTRIBUTE memory leak (CVE-2015-3195)
->>
->> References:
->> https://openssl.org/news/secadv/20151203.txt
->> http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3194
->> http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3195
->>
->> Upstream patches:
->> CVE-2015-3194:
->> https://git.openssl.org/?p=openssl.git;a=commit;h=
->> d8541d7e9e63bf5f343af24644046c8d96498c17
->>
->> CVE-2015-3195:
->> https://git.openssl.org/?p=openssl.git;a=commit;h=
->> b29ffa392e839d05171206523e84909146f7a77c
->>
->> Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
->> ---
->> .../CVE-2015-3194-Add-PSS-parameter-check.patch    | 37 +++++++++++++
->> ...CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch | 61
->> ++++++++++++++++++++++  .../recipes-connectivity/openssl/openssl_1.0.1p.bb |
->> 2 +
->> 3 files changed, 100 insertions(+)
->> create mode 100644
->> meta/recipes-connectivity/openssl/openssl/CVE-2015-3194-Add-PSS-parameter-c
->> heck.patch
->> create mode 100644
->> meta/recipes-connectivity/openssl/openssl/CVE-2015-3195-Fix-leak-with-ASN.1-
->> combine.patch
->>
->> diff --git
->> a/meta/recipes-connectivity/openssl/openssl/CVE-2015-3194-Add-PSS-paramete
->> r-check.patch
->> b/meta/recipes-connectivity/openssl/openssl/CVE-2015-3194-Add-PSS-paramete
->> r-check.patch
->> new file mode 100644
->> index 0000000..a6697ca
->> --- /dev/null
->> +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2015-3194-Add-PSS-pa
->> +++ rameter-check.patch
->> @@ -0,0 +1,37 @@
->> +From d8541d7e9e63bf5f343af24644046c8d96498c17 Mon Sep 17 00:00:00 2001
->> +From: "Dr. Stephen Henson" <steve@openssl.org>
->> +Date: Fri, 2 Oct 2015 13:10:29 +0100
->> +Subject:Add PSS parameter check.
->> +
->> +Avoid seg fault by checking mgf1 parameter is not NULL. This can be
->> +triggered during certificate verification so could be a DoS attack
->> +against a client or a server enabling client authentication.
->> +
->> +Thanks to Loïc Jonas Etienne (Qnective AG) for discovering this bug.
->> +
->> +CVE-2015-3194
->> +
->> +Upstream-Status: Backport
->> +
->> +Reviewed-by: Matt Caswell <matt@openssl.org>
->> +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
->> +---
->> + crypto/rsa/rsa_ameth.c | 2 +-
->> + 1 file changed, 1 insertion(+), 1 deletion(-)
->> +
->> +diff --git a/crypto/rsa/rsa_ameth.c b/crypto/rsa/rsa_ameth.c index
->> +93e071d..c7f1148 100644
->> +--- a/crypto/rsa/rsa_ameth.c
->> ++++ b/crypto/rsa/rsa_ameth.c
->> +@@ -279,7 +279,7 @@ static RSA_PSS_PARAMS *rsa_pss_decode(const
->> X509_ALGOR *alg,
->> +     if (pss->maskGenAlgorithm) {
->> +         ASN1_TYPE *param = pss->maskGenAlgorithm->parameter;
->> +         if (OBJ_obj2nid(pss->maskGenAlgorithm->algorithm) == NID_mgf1
->> +-            && param->type == V_ASN1_SEQUENCE) {
->> ++            && param && param->type == V_ASN1_SEQUENCE) {
->> +             p = param->value.sequence->data;
->> +             plen = param->value.sequence->length;
->> +             *pmaskHash = d2i_X509_ALGOR(NULL, &p, plen);
->> +--
->> +1.9.1
->> +
->> diff --git
->> a/meta/recipes-connectivity/openssl/openssl/CVE-2015-3195-Fix-leak-with-ASN.
->> 1-combine.patch
->> b/meta/recipes-connectivity/openssl/openssl/CVE-2015-3195-Fix-leak-with-ASN.
->> 1-combine.patch
->> new file mode 100644
->> index 0000000..be705c0
->> --- /dev/null
->> +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2015-3195-Fix-leak-w
->> +++ ith-ASN.1-combine.patch
->> @@ -0,0 +1,61 @@
->> +commit b29ffa392e839d05171206523e84909146f7a77c
->> +Author: Dr. Stephen Henson <steve@openssl.org>
->> +Date: Tue, 10 Nov 2015 19:03:07 +0000
->> +Subject: Fix leak with ASN.1 combine.
->> +
->> +When parsing a combined structure pass a flag to the decode routine so
->> +on error a pointer to the parent structure is not zeroed as this will
->> +leak any additional components in the parent.
->> +
->> +This can leak memory in any application parsing PKCS#7 or CMS structures.
->> +
->> +CVE-2015-3195.
->> +
->> +Upstream-Status: Backport
->> +
->> +Thanks to Adam Langley (Google/BoringSSL) for discovering this bug
->> +using libFuzzer.
->> +
->> +PR#4131
->> +
->> +Reviewed-by: Richard Levitte <levitte@openssl.org>
->> +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
->> +---
->> + crypto/asn1/tasn_dec.c | 7 +++++--
->> + 1 file changed, 5 insertions(+), 2 deletions(-)
->> +
->> +diff --git a/crypto/asn1/tasn_dec.c b/crypto/asn1/tasn_dec.c index
->> +febf605..9256049 100644
->> +--- a/crypto/asn1/tasn_dec.c
->> ++++ b/crypto/asn1/tasn_dec.c
->> +@@ -180,6 +180,8 @@ int ASN1_item_ex_d2i(ASN1_VALUE **pval, const
->> unsigned char **in, long len,
->> +     int otag;
->> +     int ret = 0;
->> +     ASN1_VALUE **pchptr, *ptmpval;
->> ++    int combine = aclass & ASN1_TFLG_COMBINE;
->> ++    aclass &= ~ASN1_TFLG_COMBINE;
->> +     if (!pval)
->> +         return 0;
->> +     if (aux && aux->asn1_cb)
->> +@@ -500,7 +502,8 @@ int ASN1_item_ex_d2i(ASN1_VALUE **pval, const
->> +unsigned char **in, long len,
->> +  auxerr:
->> +     ASN1err(ASN1_F_ASN1_ITEM_EX_D2I, ASN1_R_AUX_ERROR);
->> +  err:
->> +-    ASN1_item_ex_free(pval, it);
->> ++    if (combine == 0)
->> ++        ASN1_item_ex_free(pval, it);
->> +     if (errtt)
->> +         ERR_add_error_data(4, "Field=", errtt->field_name,
->> +                            ", Type=", it->sname); @@ -689,7 +692,7 @@
->> +static int asn1_template_noexp_d2i(ASN1_VALUE **val,
->> +     } else {
->> +         /* Nothing special */
->> +         ret = ASN1_item_ex_d2i(val, &p, len, ASN1_ITEM_ptr(tt->item),
->> +-                               -1, 0, opt, ctx);
->> ++                               -1, tt->flags & ASN1_TFLG_COMBINE,
->> opt,
->> ++ ctx);
->> +         if (!ret) {
->> +             ASN1err(ASN1_F_ASN1_TEMPLATE_NOEXP_D2I,
->> ERR_R_NESTED_ASN1_ERROR);
->> +             goto err;
->> +--
->> +1.9.1
->> +
->> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1p.bb
->> b/meta/recipes-connectivity/openssl/openssl_1.0.1p.bb
->> index 3f61790..1d0242f 100644
->> --- a/meta/recipes-connectivity/openssl/openssl_1.0.1p.bb
->> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1p.bb
->> @@ -34,6 +34,8 @@ SRC_URI += "file://configure-targets.patch \
->>              file://Makefiles-ptest.patch \
->>              file://ptest-deps.patch \
->>              file://run-ptest \
->> +            file://CVE-2015-3194-Add-PSS-parameter-check.patch \
->> +            file://CVE-2015-3195-Fix-leak-with-ASN.1-combine.patch \
->>             "
->>
->> SRC_URI[md5sum] = "7563e92327199e0067ccd0f79f436976"
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
+> There is an initiative to track vulnerable software being built (see bugs=
+ 8119
+> and 7515). The idea is to have a testing tool that would check the recipe
+> versions against CVEs. In order to accomplish such task there is need to
+> reliable mark the patches from upstream that solve CVEs.
+>=20
+> There have been two options to mark the patches that solve CVEs:
+>=20
+> 1. Have  "CVE" and the CVE number as the patch filename.
+>    Pros:
+>      Doesn't require a new tag.
+>    Cons:
+>      It is not flexible to add more information, for example two CVEs in =
+the same
+> patch
+> 2. Add a new tag in the patch that have the CVE information.
+>    Pros:
+>      It is flexible and can add more information.
+>    Cons:
+>      Require a change in the patch metadata.
+>=20
+> What I would recommend is to add a new tag in the patch, it must contain =
+the
+> CVE ID. With this it would be possible to look for the CVE information ea=
+sily in
+> the testing tool or in NIST, MITRE, or another web page. For example, thi=
+s
+> would be part of the patch for CVE-2013-6435, currently in OE-Core:
+>=20
+> -- snip --
+>=20
+> Upstream-Status: Backport
+> CVE: CVE-2013-6435
+>=20
+> Reference:
+> https://bugzilla.redhat.com/show_bug.cgi?id=3DCVE-2013-6435
+>=20
+> -- snip --
+>=20
+> The expected output of this discussion is a standard format for CVE patch=
+es
+> that most, if not all, of community members agree on.
+>=20
+> Please let me know your comments.
 
+We are supposed to have reference to the CVE identifier both in the patch f=
+ile/s
+ and the commit message(e.g.  xxx- CVE-2013-6435.pacth) according to the gu=
+idelines=20
+for "Patch name convention and commit message" in the Yocto=20
+Wiki https://wiki.yoctoproject.org/wiki/Security.
+
+If a patch address multiple CVEs, perhaps we should name the patch:
+Fix-for-multiple-CVEs.patch and list all CVEs in the patch file.
+
+Will this not solve the problem? Do you think there is still need for a new=
+ tag "CVE"?
+
+Adding RedHat reference is ok for me along with Mitre & NVD or other useful=
+=20
+& reliable references.
+
+I have updated Yocto security wiki. Please feel free to update the page if =
+you have=20
+some improvement or send your text/suggestion to me or Michael and we will =
+help you.
+
+Thanks
+//Sona
 
