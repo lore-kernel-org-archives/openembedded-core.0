@@ -1,24 +1,30 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DB7D6FFEC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C9D4B6FFEC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 09:53:52 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBG9rqtO013506
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 01:53:53 -0800 (PST)
-Received: from pek-kkang-d2.wrs.com (128.224.162.180) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 16 Dec 2015 01:53:52 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Dec 2015 17:54:01 +0800
-Message-ID: <1450259641-19389-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] staging.bbclass: make already-stripped can be skipped
+	Wed, 16 Dec 2015 09:56:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tBG9uCqS010169; Wed, 16 Dec 2015 09:56:12 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id CYPx_ncS62qQ; Wed, 16 Dec 2015 09:56:12 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tBG9u8xi010164
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 16 Dec 2015 09:56:09 GMT
+Message-ID: <1450259768.13505.99.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Wed, 16 Dec 2015 09:56:08 +0000
+In-Reply-To: <CAP9ODKpCU+5tM0UzjmxyARRCqP_VSQ0X1nnF3mDNYCtFoVjwuQ@mail.gmail.com>
+References: <1450218466.13505.95.camel@linuxfoundation.org>
+	<CAP9ODKpCU+5tM0UzjmxyARRCqP_VSQ0X1nnF3mDNYCtFoVjwuQ@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] m4: Drop unused/unreferenced patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Dec 2015 09:53:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Dec 2015 09:56:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On Tue, 2015-12-15 at 22:13 -0200, Otavio Salvador wrote:
+> On Tue, Dec 15, 2015 at 8:27 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> Is there a way to have a task, like fetchall, which checks for
+> non-referenced metadata files? This would help to avoid this to
+> happen
+> in future.
 
-Add a check like what we does in package.bbclass
-so that the already-stripped QA test can be skipped.
+Its a nice idea, the complexity is we have patches which can be native
+specific, libc specific, machine specific and so on.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/classes/staging.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+I guess if there were some bitbake API to pull out 'all possible
+overrides', we might be able to come up with a definitive list and do
+some checks based on that. Its not a simple problem and its also not a 
+top priority issue right now with available resources. Might be an idea
+to open an enhancement bug for it though?
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 967eddd..243bcdf 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -127,7 +127,10 @@ python sysroot_strip () {
-                     elf_file = isELF(file)
-                     if elf_file & 1:
-                         if elf_file & 2:
--                            bb.warn("File '%s' from %s was already stripped, this will prevent future debugging!" % (file[len(dvar):], pn))
-+                            if 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn, True) or "").split():
-+                                bb.note("Skipping file %s from %s for already-stripped QA test" % (file[len(dvar):], pn))
-+                            else:
-+                                bb.warn("File '%s' from %s was already stripped, this will prevent future debugging!" % (file[len(dvar):], pn))
-                             continue
- 
-                         if s.st_ino in inodes:
--- 
-2.3.5
+Cheers,
+
+Richard
 
 
