@@ -1,25 +1,22 @@
-Return-Path: <mschiffer@universe-factory.net>
-Received: from chaos.universe-factory.net (chaos.universe-factory.net
-	[37.72.148.22])
-	by mail.openembedded.org (Postfix) with ESMTP id 561E473183
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A1C1260291
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 18:21:29 +0000 (UTC)
-Received: from avalon.neoraider.dn42 (unknown [IPv6:fd1b:c28a:2fd6::2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by chaos.universe-factory.net (Postfix) with ESMTPSA id 10FD5180FD9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 19:12:04 +0100 (CET)
-From: Matthias Schiffer <mschiffer@universe-factory.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Dec 2015 19:11:57 +0100
-Message-Id: <eb217bbe312a0035cec22c97fa23e93c27b034b6.1450288828.git.mschiffer@universe-factory.net>
-X-Mailer: git-send-email 2.6.4
-In-Reply-To: <cover.1450288828.git.mschiffer@universe-factory.net>
-References: <cover.1450288828.git.mschiffer@universe-factory.net>
-In-Reply-To: <cover.1450288828.git.mschiffer@universe-factory.net>
-References: <cover.1450288828.git.mschiffer@universe-factory.net>
-Subject: [PATCH 1/4] busybox: generalize recipe to work with arbitrary install directories
+	Wed, 16 Dec 2015 19:26:51 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 16 Dec 2015 11:26:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,437,1444719600"; d="scan'208";a="619130991"
+Received: from mlmcgint-mobl.amr.corp.intel.com (HELO swold-mobl.jf.intel.com)
+	([10.252.195.82])
+	by FMSMGA003.fm.intel.com with ESMTP; 16 Dec 2015 11:26:42 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Wed, 16 Dec 2015 11:26:41 -0800
+Message-Id: <1450294001-6610-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] libdrm: Upgrade to 2.4.64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,89 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Dec 2015 18:21:31 -0000
+X-List-Received-Date: Wed, 16 Dec 2015 19:26:52 -0000
 
-Allow configuring base_bindir, base_sbindir, bindir and sbindir
-arbitrarily.
-
-Also change the temporary symlinks created in the postinst script from
-relative to absolute to make the code simpler and more flexible. There was
-no reason to use relative links anyways, as directly afterwards
-update-alternatives would replace them by absolute links anyways.
-
-Signed-off-by: Matthias Schiffer <mschiffer@universe-factory.net>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 35 ++++++++++++-----------------------
- 1 file changed, 12 insertions(+), 23 deletions(-)
+ meta/recipes-graphics/drm/{libdrm_2.4.62.bb => libdrm_2.4.64.bb} | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.62.bb => libdrm_2.4.64.bb} (92%)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index fba956e..9541123 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -171,20 +171,20 @@ do_compile() {
- }
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.62.bb b/meta/recipes-graphics/drm/libdrm_2.4.64.bb
+similarity index 92%
+rename from meta/recipes-graphics/drm/libdrm_2.4.62.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.64.bb
+index ea6305e..cb0efe1 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.62.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.64.bb
+@@ -12,8 +12,9 @@ DEPENDS = "libpthread-stubs udev libpciaccess"
  
- do_install () {
--	if [ "${prefix}" != "/usr" ]; then
--		sed -i "s:^/usr/:${prefix}/:" busybox.links*
--	fi
--	if [ "${base_sbindir}" != "/sbin" ]; then
--		sed -i "s:^/sbin/:${base_sbindir}/:" busybox.links*
--	fi
--	if [ "${base_bindir}" != "/bin" ]; then
--		sed -i "s:^/bin/:${base_bindir}/:" busybox.links*
--	fi
-+	sed -i "s:^/bin/:BASE_BINDIR/:" busybox.links*
-+	sed -i "s:^/sbin/:BASE_SBINDIR/:" busybox.links*
-+	sed -i "s:^/usr/bin/:BINDIR/:" busybox.links*
-+	sed -i "s:^/usr/sbin/:SBINDIR/:" busybox.links*
+ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+            file://installtests.patch "
+-SRC_URI[md5sum] = "c9291bae0e5ca65d1483821d3698d3ab"
+-SRC_URI[sha256sum] = "906c294bdbe1c94c3ca084305d61a6e5a8367f3b4986e6cc13b1e9b3f75931dc"
 +
-+	sed -i "s:^BASE_BINDIR/:${base_bindir}/:" busybox.links*
-+	sed -i "s:^BASE_SBINDIR/:${base_sbindir}/:" busybox.links*
-+	sed -i "s:^BINDIR/:${bindir}/:" busybox.links*
-+	sed -i "s:^SBINDIR/:${sbindir}/:" busybox.links*
++SRC_URI[md5sum] = "543b2d28359cf33974fa0e772dd61732"
++SRC_URI[sha256sum] = "b60786fe7d6e42adb3966ce1a658f63fec528d537396381cbda93bcc99a934b6"
  
- 	install -d ${D}${sysconfdir}/init.d
+ inherit autotools pkgconfig
  
- 	if ! grep -q "CONFIG_FEATURE_INDIVIDUAL=y" ${B}/.config; then
--		# Install /bin/busybox, and the /bin/sh link so the postinst script
-+		# Install ${base_bindir}/busybox, and the ${base_bindir}/sh link so the postinst script
- 		# can run. Let update-alternatives handle the rest.
- 		install -d ${D}${base_bindir}
- 		if [ "${BUSYBOX_SPLIT_SUID}" = "1" ]; then
-@@ -212,7 +212,7 @@ do_install () {
- 			# We make this symlink here to eliminate the error when upgrading together
- 			# with busybox-syslog. Without this symlink, the opkg may think of the
- 			# busybox.nosuid as obsolete and remove it, resulting in dead links like
--			# /bin/sed -> /bin/busybox.nosuid. This will make upgrading busybox-syslog fail.
-+			# ${base_bindir}/sed -> ${base_bindir}/busybox.nosuid. This will make upgrading busybox-syslog fail.
- 			# This symlink will be safely deleted in postinst, thus no negative effect.
- 			ln -sf busybox ${D}${base_bindir}/busybox.nosuid
- 		fi
-@@ -368,21 +368,10 @@ pkg_postinst_${PN} () {
- 			if test -e ${sysconfdir}/busybox.links$suffix; then
- 				while read link; do
- 					if test ! -e "$link"; then
--						case "$link" in
--							/*/*/*)
--								to="../..${base_bindir}/busybox$suffix"
--								;;
--							/bin/*)
--								to="busybox$suffix"
--								;;
--							/*/*)
--								to="..${base_bindir}/busybox$suffix"
--								;;
--						esac
- 						# we can use busybox here because even if we are using splitted busybox
- 						# we've made a symlink from /bin/busybox to /bin/busybox.nosuid.
- 						busybox rm -f $link
--						busybox ln -s $to $link
-+						busybox ln -s "${base_bindir}/busybox$suffix" $link
- 					fi
- 				done < ${sysconfdir}/busybox.links$suffix
- 			fi
 -- 
-2.6.4
+2.5.0
 
 
