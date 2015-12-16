@@ -1,21 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id A8C5C6FFD8
+	by mail.openembedded.org (Postfix) with ESMTP id A947A6FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 20:57:16 +0000 (UTC)
+	Wed, 16 Dec 2015 21:05:10 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id E7ADB261149
-To: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1449754339.git.Martin.Jansa@gmail.com>
+	(Authenticated sender: joshuagl) with ESMTPSA id E10152613B5
+To: openembedded-core@lists.openembedded.org
+References: <1449344129-32738-1-git-send-email-akuster808@gmail.com>
 From: Joshua Lock <joshua.lock@collabora.co.uk>
-Message-ID: <5671D029.9040005@collabora.co.uk>
-Date: Wed, 16 Dec 2015 20:57:13 +0000
+Message-ID: <5671D1FE.7010306@collabora.co.uk>
+Date: Wed, 16 Dec 2015 21:05:02 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.4.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1449754339.git.Martin.Jansa@gmail.com>
-Subject: Re: [PATCH][fido][RESEND 0/5] Backports for fido
+In-Reply-To: <1449344129-32738-1-git-send-email-akuster808@gmail.com>
+Subject: Re: [PATCH][jethro][fido][ 00/15] Libxml2: multiple security fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,47 +27,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Dec 2015 20:57:17 -0000
+X-List-Received-Date: Wed, 16 Dec 2015 21:05:11 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/12/15 13:48, Martin Jansa wrote:
-> The following changes since commit 9f339f516ab03d598fae0e536b3a420ea4d8ee1a:
->
->    bash: Disable custom memory allocator (2015-11-20 15:46:27 +0000)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib jansa/fido-backports
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/fido-backports
->
-> Martin Jansa (2):
->    texinfo: don't create dependency on INHERIT variable
->    linux-dtb.inc: drop unused DTB_NAME variable from do_install
->
-> Mike Crowe (1):
->    allarch: Force TARGET_*FLAGS variable values
->
-> Richard Purdie (2):
->    layer.conf: Add several allarch dependency exclusions
->    layer.conf: Add missing dependency for allarch package
->      initramfs-framework
+Hi Armin,
 
-Thanks, I've merged these 5 and the 6th that followed to my fido-next 
-branch, I hope to test it on the autobuilder tomorrow.
+On 05/12/15 19:35, Armin Kuster wrote:
+> Each CVE is an independant patch so they can be easily merged to other distros
+> and/or stable branches.
 
-http://cgit.openembedded.org/openembedded-core-contrib/log/?h=joshuagl/fido-next
+As others have mentioned elsewhere I think this would be much nicer if 
+each patch was added to the SRC_URI in the same commit which introduces 
+the patch.
 
-Regards,
+In addition, I believe it would also make sense to have 2 patches for 
+the same CVE applied at once?
+
+Ideally this series would be 11 patches, each of which updated SRC_URI 
+and added the patch files to fix a single CVE.
+
+What do you think? I am more than happy to take this series and make the 
+suggested change (11 commits, each editing SRC_URI) myself before 
+requesting my fido-next branch be merged?
+
+Thanks,
 
 Joshua
 
+> I have included two previous CVE's sent for jethro which can be ignored.
+> I put the CVE's in order as there where fixed upstream.
 >
->   meta/classes/allarch.bbclass                 |  4 ++++
->   meta/conf/layer.conf                         | 11 +++++++++++
->   meta/recipes-extended/texinfo/texinfo_5.2.bb |  2 +-
->   meta/recipes-kernel/linux/linux-dtb.inc      |  1 -
->   4 files changed, 16 insertions(+), 2 deletions(-)
+> Armin Kuster (15):
+>    libxml2: security fix CVE-2015-7941-1
+>    libxml2: security fix CVE-2015-7941-2
+>    libxml2: security fix CVE-2015-8317
+>    libxml2: security fix CVE-2015-7942
+>    libxml2: security fix CVE-2015-7942-2
+>    libxml2: security fix CVE-2015-8317
+>    libxml2: security fix CVE-2015-7498
+>    libxml2: security fix CVE-2015-7497
+>    libxml2: security fix CVE-2015-7499-1
+>    libxml2: security fix CVE-2015-7499-2
+>    libxml2: depend fix security issue CVE-2015-7500
+>    libxml2: security fix CVE-2015-7500
+>    libxml2: security fix CVE-2015-8242
+>    libxml2: security fix CVE-2015-5312
+>    libxml2: multiple security fixes.
+>
+>   meta/recipes-core/libxml/libxml2.inc               |  14 +++
+>   ...-2015-5312-Another-entity-expansion-issue.patch |  39 ++++++
+>   ...97-Avoid-an-heap-buffer-overflow-in-xmlDi.patch |  40 ++++++
+>   ...00-Fix-memory-access-error-due-to-incorre.patch | 131 +++++++++++++++++++
+>   ...2015-8035-Fix-XZ-compression-support-loop.patch |  38 ++++++
+>   ...42-Buffer-overead-with-HTML-parser-in-pus.patch |  49 ++++++++
+>   ...n-name-parsing-at-the-end-of-current-inpu.patch | 138 +++++++++++++++++++++
+>   ...ssing-entities-after-encoding-conversion-.patch |  89 +++++++++++++
+>   ...99-1-Add-xmlHaltParser-to-stop-the-parser.patch |  88 +++++++++++++
+>   ...VE-2015-7499-2-Detect-incoherency-on-GROW.patch |  43 +++++++
+>   ...top-parsing-on-entities-boundaries-errors.patch |  39 ++++++
+>   ...leanup-conditional-section-error-handling.patch |  56 +++++++++
+>   ...ror-in-previous-Conditional-section-patch.patch |  35 ++++++
+>   ...iation-of-overflow-in-Conditional-section.patch |  39 ++++++
+>   ...ng-early-on-if-encoding-conversion-failed.patch |  42 +++++++
+>   15 files changed, 880 insertions(+)
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-5312-Another-entity-expansion-issue.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8035-Fix-XZ-compression-support-loop.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/0001-Fix-a-bug-on-name-parsing-at-the-end-of-current-inpu.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7498-Avoid-processing-entities-after-encoding-conversion-.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-1-Add-xmlHaltParser-to-stop-the-parser.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-2-Detect-incoherency-on-GROW.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-1-Stop-parsing-on-entities-boundaries-errors.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-2-Cleanup-conditional-section-error-handling.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-2-Fix-an-error-in-previous-Conditional-section-patch.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942-Another-variation-of-overflow-in-Conditional-section.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8317-Fail-parsing-early-on-if-encoding-conversion-failed.patch
 >
 
 
