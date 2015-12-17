@@ -1,33 +1,25 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B37BF6FFF2
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 59C676FFE5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 14:25:23 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Dec 2015 06:25:25 -0800
+	Thu, 17 Dec 2015 14:35:40 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 17 Dec 2015 06:35:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,441,1444719600"; d="scan'208";a="14917800"
+X-IronPort-AV: E=Sophos;i="5.20,441,1444719600"; d="scan'208";a="875715509"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 17 Dec 2015 06:25:24 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 007CB6A4087;
-	Thu, 17 Dec 2015 07:13:24 -0800 (PST)
-Date: Thu, 17 Dec 2015 15:53:59 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Joshua Lock <joshua.lock@collabora.co.uk>
-Message-ID: <20151217135359.GA13025@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1450283593-26774-1-git-send-email-joshua.lock@collabora.co.uk>
-	<20151217122121.GB30559@linux.intel.com>
-	<5672B673.5030400@collabora.co.uk>
-MIME-Version: 1.0
-In-Reply-To: <5672B673.5030400@collabora.co.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic/utils/partitionedfs.py: assemble .wic images as sparse files
+	by fmsmga002.fm.intel.com with ESMTP; 17 Dec 2015 06:35:40 -0800
+Received: from fedora-ws.localdomain (unknown [10.237.112.240])
+	by linux.intel.com (Postfix) with ESMTP id A0C986A4087;
+	Thu, 17 Dec 2015 07:23:41 -0800 (PST)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Dec 2015 16:38:20 +0200
+Message-Id: <1450363100-17478-2-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <1450363100-17478-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+References: <1450363100-17478-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+Subject: [PATCHv3 2/2] selftest: Added MACHINE = "qemux86" to tests that use runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,40 +32,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Dec 2015 14:25:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 17 Dec 2015 14:35:42 -0000
 
-On Thu, Dec 17, 2015 at 01:19:47PM +0000, Joshua Lock wrote:
-> Hi Ed,
-> 
-> On 17/12/15 12:21, Ed Bartosh wrote:
-> >Thank you for the patch! I like the change. It's a first step towards
-> >supporting bmaptool, which is in my TODO list.
-> 
-> No problem, I've been playing with bmaptool myself and that's what
-> prompted the change.
-> 
-> >Would you be willing to write or modify wic test case to test this?
-> 
-> I'd be willing to do that, is there any documentation on the
-> development of test cases?
-You can find short info here:
-https://wiki.yoctoproject.org/wiki/Oe-selftest
+It makes sense for tests that use runqemu to have MACHINE set as qemu.
+This also avoid issues when running oe-selftest with --arch random/all
+option.
 
-And here https://docs.python.org/2/library/unittest.html as oe-selftest
-test cases are based on Python unittest.
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+---
+ meta/lib/oeqa/selftest/devtool.py       | 7 ++++---
+ meta/lib/oeqa/selftest/imagefeatures.py | 9 ++++++---
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
-> I see meta/lib/oeqa/selftest/wic.py has a bunch of functions with
-> @testcase decorators but I'm not familiar with how this should all
-> fit together.
-You've spotted it right. All wic testcases are in that file.
-You can run them this way:  oe-selftest --run-tests wic
+diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
+index 0a44ae7..84665e4 100644
+--- a/meta/lib/oeqa/selftest/devtool.py
++++ b/meta/lib/oeqa/selftest/devtool.py
+@@ -875,10 +875,11 @@ class DevtoolTests(DevtoolBase):
+         # Additionally we are testing build-time functionality as well, so
+         # really this has to be done as an oe-selftest test.
+         #
++
++        features = 'MACHINE = "qemux86"\n'
++        self.write_config(features)
++
+         # Check preconditions
+-        machine = get_bb_var('MACHINE')
+-        if not machine.startswith('qemu'):
+-            self.skipTest('This test only works with qemu machines')
+         if not os.path.exists('/etc/runqemu-nosudo'):
+             self.skipTest('You must set up tap devices with scripts/runqemu-gen-tapdevs before running this test')
+         result = runCmd('PATH="$PATH:/sbin:/usr/sbin" ip tuntap show', ignore_status=True)
+diff --git a/meta/lib/oeqa/selftest/imagefeatures.py b/meta/lib/oeqa/selftest/imagefeatures.py
+index 4efb0d9..62ddc52 100644
+--- a/meta/lib/oeqa/selftest/imagefeatures.py
++++ b/meta/lib/oeqa/selftest/imagefeatures.py
+@@ -22,7 +22,8 @@ class ImageFeatures(oeSelfTest):
+         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+         """
+ 
+-        features = 'EXTRA_IMAGE_FEATURES = "ssh-server-openssh empty-root-password allow-empty-password"\n'
++        features = 'MACHINE = "qemux86"\n'
++        features += 'EXTRA_IMAGE_FEATURES = "ssh-server-openssh empty-root-password allow-empty-password"\n'
+         features += 'INHERIT += "extrausers"\n'
+         features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(self.test_user, self.test_user)
+         self.write_config(features)
+@@ -48,7 +49,8 @@ class ImageFeatures(oeSelfTest):
+         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+         """
+ 
+-        features = 'EXTRA_IMAGE_FEATURES = "ssh-server-openssh allow-empty-password"\n'
++        features = 'MACHINE = "qemux86"\n'
++        features += 'EXTRA_IMAGE_FEATURES = "ssh-server-openssh allow-empty-password"\n'
+         features += 'INHERIT += "extrausers"\n'
+         features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(self.test_user, self.test_user)
+         self.write_config(features)
+@@ -77,7 +79,8 @@ class ImageFeatures(oeSelfTest):
+         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+         """
+ 
+-        features = 'PREFERRED_VERSION_rpm = "4.%"\n'
++        features = 'MACHINE = "qemux86"\n'
++        features += 'PREFERRED_VERSION_rpm = "4.%"\n'
+         features += 'PREFERRED_VERSION_rpm-native = "4.%"\n'
+         # Use openssh in IMAGE_INSTALL instead of ssh-server-openssh in EXTRA_IMAGE_FEATURES as a workaround for bug 8047
+         features += 'IMAGE_INSTALL_append = " openssh"\n'
+-- 
+2.1.0
 
-As Ross already pointed out you can omit @testcase decorator if you add
-new test. QA team will add it later when they need it.
-
---
-Regards,
-Ed
 
