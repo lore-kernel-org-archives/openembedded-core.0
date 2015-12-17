@@ -1,27 +1,60 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B9AB1731A6
+Return-Path: <mike.looijmans@topicproducts.com>
+Received: from mx18-05.smtp.antispamcloud.com (mx18-05.smtp.antispamcloud.com
+	[207.244.64.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B47AE6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 12:37:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tBHCb94S024507; Thu, 17 Dec 2015 12:37:09 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id W2R0E57Js7l2; Thu, 17 Dec 2015 12:37:09 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tBHCb21D024490
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 17 Dec 2015 12:37:09 GMT
-Message-ID: <1450355822.13505.197.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Dec 2015 12:37:02 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
-Subject: [PATCH] combo-layer: Stop using filterdiff
+	Thu, 17 Dec 2015 12:47:36 +0000 (UTC)
+Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
+	helo=TOP-EX01.TOPIC.LOCAL)
+	by mx18.antispamcloud.com with esmtps (TLSv1:AES256-SHA:256)
+	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1a9Xxw-0003Bf-5F; Thu, 17 Dec 2015 13:47:35 +0100
+Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Thu, 17 Dec 2015 13:45:48 +0100
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, OE-core
+	<openembedded-core@lists.openembedded.org>
+References: <5671310A.1000000@topic.nl>
+	<1450269344.13505.113.camel@linuxfoundation.org>
+	<567164AF.1040405@topic.nl>
+	<1450272836.13505.124.camel@linuxfoundation.org>
+	<56725504.8030704@topic.nl>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <5672AEDD.2030607@topic.nl>
+Date: Thu, 17 Dec 2015 13:47:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
+MIME-Version: 1.0
+In-Reply-To: <56725504.8030704@topic.nl>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
+	NXFr4uarw0mvayrARxQsaVhW6R5/2thqbscANip7ZwTyX91RPNepXTxYO9+h4+Kgr/VqvR5kS1nT
+	JCAz68Bp5Nzs1GLNXgZmraJGWVbN0zdCh+St1How76M88A/FMgbf0S+ThhoMitkj8yvQGyRT2EBh
+	ndiab5jvtWM5d+RkRXA/IaA9U5iefpsBrGwPJx3E5hMQ8KUiEOivaP4tOS0dAa6Pl/yne7cYyBDs
+	CGVQWjIY1+wA/g3TOcE5pDPR2nxU6DRRSGtNFtezYqxGMqsKjARq8PBC4qg7sLBrShfGp4EU0fbo
+	qhhOIvH2lPPHVNWXnkQ7ilsl/36m+UeFXprlCOm3BAEbJtAcDD/sssj+FwWEyCWpBXdJ6Vkh5Qbj
+	nuYeddfovBvutRuK7R6H57ct58uzcYYv7W/KknLmkljuMMLsWJ3maWWze/Ls0fU8FArYrRMJBumI
+	Njn9+eCHJ3AcQe7onCBsCZOJ+cv73CChOPjKA0/DVd83+ELfnXyprHiD0GLOK2LqWxX85/pGRMZi
+	MCNSygwAMg8WArZ9cfx8JEUvIQRTnKBcCtLX8J42f9dl5Wct40Eou5FVgpT1b21uZVckGp0ccOZC
+	RSZMN8y/+1WP1E8Mrbp/GKpoeQlcxlC8WilnINez4DvJjvC82Pa/1OgFKCyVRnxuK13W89C6y2hL
+	dJzdo1/6c0Jn5QFm5L3+9JoiLT95+g==
+X-Report-Abuse-To: spam@mx99.antispamcloud.com
+X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJUb3OPwsHaH0Fvg5oXltHd/JUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
+	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
+	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
+	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
+X-Originating-IP: 88.159.208.100
+X-Spampanel-Domain: topic.nl
+X-Spampanel-Username: 88.159.208.100
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=88.159.208.100@topic.nl
+X-Spampanel-Outgoing-Class: ham
+X-Spampanel-Outgoing-Evidence: Combined (0.00)
+X-Recommended-Action: accept
+Subject: Re: How to move a recipe to another directory without invalidating its sstate-cache?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,94 +67,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Dec 2015 12:37:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Dec 2015 12:47:38 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-I ran into an issue where a patch just deleting a single file
-within the repository (meta/recipes-devtools/m4/m4/make.patch)
-would get skipped by combo-layer.
+=EF=BB=BFOn 17-12-15 07:24, Mike Looijmans wrote:
+> On 16-12-15 14:33, Richard Purdie wrote:
+>> On Wed, 2015-12-16 at 14:18 +0100, Mike Looijmans wrote:
+>>> =EF=BB=BFOn 16-12-15 13:35, Richard Purdie wrote:
+>>>> On Wed, 2015-12-16 at 10:38 +0100, Mike Looijmans wrote:
+>>>>> =EF=BB=BFI renamed "recipes-some/foo/bar.bb" to "recipes
+>>>>> -some/buzz/bar.bb"
+>>>>>
+>>>>> Rebuilding bar and its dependencies will take about 16 hours. So
+>>>>> I
+>>>>> don't want
+>>>>> to trigger a rebuild.
+>>>>>
+>>>>> running "bitbake -S printdiff bar" only reveils this:
+>>>>
+>>>> I'm not sure I trust the output of -S printdiff, there are some
+>>>> cases
+>>>> it doesn't seem to "guess" right. I wish I or someone one could fix
+>>>> but
+>>>> but we can do its work manually. Can you try something like:
+>>>>
+>>>> set TMPDIR =3D "x"
+>>>> bitbake -S bar
+>>>> rename the recipe
+>>>> set TMPDIR =3D "y"
+>>>> bitbake -S bar
+>>>
+>>> Found out I need an extra "none" in here:
+>>> bitbake -S none bar
+>>
+>> Sorry, yes.
+>>
+>>>> then
+>>>>
+>>>> "ls tmp-x/stamps/xxxx/bar"
+>>>> "ls tmp-y/stamps/xxxx/bar"
+>>>>
+>>>> and see which tasks change signature. Then run:
+>>>>
+>>>> "bitbake-diffsigs <sig A> <sig B>"
+>>>>
+>>>> and see if that makes more sense?
+>>>
+>>> That gave the same output. Everything after "runtaskdeps" is bogus
+>>> because its
+>>> value changes from [blahblah, foobar] into [buzbar, blahblah] and now
+>>> diffsig
+>>> seems to attempt to match the "blahblah" signatures against those of
+>>> "buzbar".
+>>>
+>>> Which sort of hints that if my new name starts with an "f" the
+>>> reordering
+>>> won't happen, so I'm gonna try renaming to "fbuz" now,,,
+>>
+>> I still suspect this might be the way the tool displays the data rather
+>> than the real problem as there is some fuzziness in the data that code
+>> has to work with. Bitbake just knows there are dependencies on hashes
+>> X, Y, Z and it has to try and guess how to match them up. The paths are
+>> included to help reduce fuzz but are only used by the analysis code,
+>> not the checksum creation.
+>
+> No, if the sort order doesn't change, the checksum remains the same as we=
+ll.
+>
+> So if i rename "foo" to "far" it will not rebuild the package (using plai=
+n
+> bitbake without -S switches), but if I rename "foo" to "buz" it will rebu=
+ild
+> because there's a dependent package that sorts before "far" but after "bu=
+z".
+>
+>
+>> Did the hashes themselves change or just the paths? I'm wondering if
+>> the order that bitbake adds the checksums to the main checksum may have
+>> some bearing on this...
+>>
+>> Being able to see some real data would also help. Does this reproduce
+>> with a public recipe I can see the real data for?
+>
+> There should be quite a few recipes in OE-core that might match this patt=
+ern:
+>
+> Recipe X must depend on recipe Y. The directory of Y sorts before that of=
+ X.
+> Renaming the directory of X to something that sorts before that of Y shou=
+ld
+> trigger the problem.
+>
+> I'll see if I can locate an existing one.
 
-It turns out this has the patch header (commented to avoid breaking scripts):
+Found several candidates, but couldn't get them to trigger this... Must be=
+=20
+something more involved than just renaming the directory...
 
-: diff --git a/meta/recipes-devtools/m4/m4/make.patch b/meta/recipes-devtools/m4/m4/make.patch
-: deleted file mode 100644
-: index 79fb415..0000000
-: --- a/meta/recipes-devtools/m4/m4/make.patch
-: +++ /dev/null
-: @@ -1,42 +0,0 @@
 
-and this is classed as > 5 headers in filterdiff. When we piped the path
-through filterdiff, the --- line disappears, then the second time we pass
-through filterdiff, it shows no lines changed and the patch is assumed
-to be empty and skipped.
 
-Changing MAX_HEADERS in filterdiff is one way to fix this, another would
-be to grep out "deleted file mode" lines. Instead, we can use new
-git syntax to exclude files from the git format-patch instead and avoid
-filterdiff entirely.
+Kind regards,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Mike Looijmans
+System Expert
 
-diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 92c5cbb..f028098 100755
---- a/scripts/combo-layer
-+++ b/scripts/combo-layer
-@@ -662,7 +662,14 @@ def action_update(conf, args):
-             patch_cmd_range = "%s..%s" % (repo['last_revision'], top_revision)
-             rev_cmd_range = patch_cmd_range
- 
--        file_filter = repo.get('file_filter',"")
-+        file_filter = repo.get('file_filter',".")
-+
-+        # Filter out unwanted files
-+        exclude = repo.get('file_exclude', '')
-+        if exclude:
-+            for path in exclude.split():
-+                p = "%s/%s" % (dest_dir, path) if dest_dir != '.' else path
-+                file_filter += " ':!%s'" % p
- 
-         patch_cmd = "git format-patch -N %s --output-directory %s %s -- %s" % \
-             (prefix,repo_patch_dir, patch_cmd_range, file_filter)
-@@ -681,38 +688,6 @@ def action_update(conf, args):
-                 runcmd("%s %s %s %s" % (repo['hook'], patch, revlist[count], name))
-                 count=count-1
- 
--        # Step 3a: Filter out unwanted files and patches.
--        exclude = repo.get('file_exclude', '')
--        if exclude:
--            filter = ['filterdiff', '-p1']
--            for path in exclude.split():
--                filter.append('-x')
--                filter.append('%s/%s' % (dest_dir, path) if dest_dir != '.' else path)
--            for patch in patchlist[:]:
--                filtered = patch + '.tmp'
--                with open(filtered, 'w') as f:
--                    runcmd(filter + [patch], out=f)
--                # Now check for empty patches.
--                if runcmd(['filterdiff', '--list', filtered]):
--                    # Possibly modified.
--                    os.unlink(patch)
--                    os.rename(filtered, patch)
--                else:
--                    # Empty, ignore it. Must also remove from revlist.
--                    with open(patch, 'r') as f:
--                        fromline = f.readline()
--                    if not fromline:
--                        # Patch must have been empty to start with. No need
--                        # to remove it.
--                        continue
--                    m = re.match(r'''^From ([0-9a-fA-F]+) .*\n''', fromline)
--                    rev = m.group(1)
--                    logger.debug('skipping empty patch %s = %s' % (patch, rev))
--                    os.unlink(patch)
--                    os.unlink(filtered)
--                    patchlist.remove(patch)
--                    revlist.remove(rev)
--
-         # Step 4: write patch list and revision list to file, for user to edit later
-         patchlist_file = os.path.join(os.getcwd(), patch_dir, "patchlist-%s" % name)
-         repo['patchlist'] = patchlist_file
+TOPIC Embedded Products
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+Telefax: +31 (0) 499 33 69 70
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
 
 
 
