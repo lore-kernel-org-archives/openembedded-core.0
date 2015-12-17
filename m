@@ -1,48 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id E3666605B3
+Return-Path: <mschiffer@universe-factory.net>
+Received: from chaos.universe-factory.net (chaos.universe-factory.net
+	[37.72.148.22])
+	by mail.openembedded.org (Postfix) with ESMTP id BA95960116
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 09:26:18 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id ph11so7590694igc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 01:26:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=wR8sEuYXdVY+S6iK0/qHYPOl5MSHOer/SgGcGsqWwiY=;
-	b=0oVPzkxsHFnIondbAKvGydBBs9V735qF8dd5U+gropLfi7UMpxbbsSVS/Or06ybDju
-	blgErlRGzri293+AEiJnvfxMuCu2q7BO5dDUwEk+o+/9gPF1a97t8CQ2ZLeJqn/n1YkE
-	01gMVQgTKxj250BIZLVfCflW/1BZeDXgZ4gxSiYRKoR/i52op5OZtbH0WaBc26vimk5e
-	PIF1BumNF+VrF1jAN7Z8fzptMg9dm48YLddjTZEh+cOI8hhOpkoSmA6IqIHHFxOSm2rz
-	vkhLhfvfVOcOBMgQi5tsvhzk6E7IvlxLWIXgZ4bo7QrdqPHfEZ1tl/AlO+BOqoB70IDl
-	VRdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=wR8sEuYXdVY+S6iK0/qHYPOl5MSHOer/SgGcGsqWwiY=;
-	b=PsTRFEkohpJzpSXQM8IZmuRNglPqR5OQL3ki0oaeO5sCAwMltsNgMLKuXfTGw/5SKX
-	uCwMHIBKCBknARE9LZ9D514AHTZJ0KijHu9LHwfn7nMT/tv2ZYNkp6mgEcQFdK4J7YZx
-	IkCOfCEEyYRSM4NfFhFR42P47yvOixDf5DdCX5tUqmx9M+U7udnn6/a+Eza+5N5mXo1B
-	/+PlVIOf3Ttmg0eVHPvQHEOb8Imm7y+oS1qQa3tukephyVo953UUbw8Y9nlTrwCAc/SW
-	Racs6NDw3AYmYuWZvk7YOqt8MXWGOrntINoPI3NBt2GHoVs47eW9dOMe3+GogByL/edo
-	1xHg==
-X-Gm-Message-State: ALoCoQnfdSv4QWay61CD283iDaMConkpzeTyp3gUsl1Tg+rZKhu7JPBbVfmbiR1dvmrh3kqdSJqFH8lOemBcUaYXAAkkT9jRyYBlOPGjLbetlctuC1rmlbw=
-X-Received: by 10.50.126.8 with SMTP id mu8mr2449833igb.52.1450344378779; Thu,
-	17 Dec 2015 01:26:18 -0800 (PST)
+	Thu, 17 Dec 2015 09:47:29 +0000 (UTC)
+Received: from [IPv6:fd1b:c28a:2fd6::2] (unknown [IPv6:fd1b:c28a:2fd6::2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by chaos.universe-factory.net (Postfix) with ESMTPSA id 931D91803BF;
+	Thu, 17 Dec 2015 10:47:29 +0100 (CET)
+To: Roman Khimov <roman@khimov.ru>
+References: <cover.1450288828.git.mschiffer@universe-factory.net>
+	<1b8e3d820ac8f20f89ba01e1f88543deed69620e.1450288828.git.mschiffer@universe-factory.net>
+	<1893430.e3TcZXnnJp@masala.hex>
+From: Matthias Schiffer <mschiffer@universe-factory.net>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <567284B0.4020603@universe-factory.net>
+Date: Thu, 17 Dec 2015 10:47:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-Received: by 10.107.136.141 with HTTP; Thu, 17 Dec 2015 01:25:59 -0800 (PST)
-In-Reply-To: <DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl>
-References: <DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 17 Dec 2015 09:25:59 +0000
-Message-ID: <CAJTo0LYW=LbsM8kaaqUnukH_p7U1i-EpXcPsekjbjwFooxXW9g@mail.gmail.com>
-To: Chris Trobridge <christrobridge@hotmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: gobject introspection to oe-core
+In-Reply-To: <1893430.e3TcZXnnJp@masala.hex>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] base-files: create typical merged /usr symlinks if the "merged-usr" distro feature is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,35 +35,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Dec 2015 09:26:20 -0000
-Content-Type: multipart/alternative; boundary=047d7b1635bf7fe6480527149d14
+X-List-Received-Date: Thu, 17 Dec 2015 09:47:30 -0000
+X-Groupsio-MsgNum: 74876
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="cuM0KojKggms9mb77kJNmHb4Qsr3FuLtx"
 
---047d7b1635bf7fe6480527149d14
-Content-Type: text/plain; charset=UTF-8
-
-On 17 December 2015 at 09:16, Chris Trobridge <christrobridge@hotmail.com>
-wrote:
-
-> I have successfully run my own python3 service, which uses python3 dbus
-> and GObject from gi.repository.
->
-
-Thanks for the feedback, it's much appreciated.
-
-Ross
-
---047d7b1635bf7fe6480527149d14
-Content-Type: text/html; charset=UTF-8
+--cuM0KojKggms9mb77kJNmHb4Qsr3FuLtx
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 December 2015 at 09:16, Chris Trobridge <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:christrobridge@hotmail.com" target=3D"_blank">christrobridge@hot=
-mail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>I h=
-ave successfully run my own python3 service, which uses python3 dbus and GO=
-bject from gi.repository.</div><div></div></blockquote></div><br>Thanks for=
- the feedback, it&#39;s much appreciated.</div><div class=3D"gmail_extra"><=
-br></div><div class=3D"gmail_extra">Ross</div></div>
+On 12/16/2015 08:46 PM, Roman Khimov wrote:
+> =D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 16 =D0=B4=D0=B5=
+=D0=BA=D0=B0=D0=B1=D1=80=D1=8F 2015 19:12:00 =D0=BF=D0=BE=D0=BB=D1=8C=D0=B7=
+=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Matthias Schiffer =D0=BD=D0=B0=
+=D0=BF=D0=B8=D1=81=D0=B0=D0=BB:
+>> The following options in a distro configuration create a full Fedora-s=
+tyle
+>> merged /usr:
+>>
+>>   DISTRO_FEATURES_DEFAULT +=3D "merged-usr"
+>>   base_bindir =3D "${exec_prefix}/bin"
+>>   base_sbindir =3D "${exec_prefix}/bin"
+>>   sbindir =3D "${exec_prefix}/bin"
+>>   base_libdir =3D "${exec_prefix}/${baselib}"
+>>   nonarch_base_libdir =3D "${exec_prefix}/lib"
+>=20
+> Hmm. Why not just change the base_prefix? We've done it this way (not m=
+erging=20
+> bin with sbin, but that's a separate thing):
+>=20
+> +base_prefix =3D "/usr"
+> +sysconfdir =3D "/etc"
+> +localstatedir =3D "/var"
 
---047d7b1635bf7fe6480527149d14--
+My patches don't care how base_bindir etc. are set, your way would work
+with it just fine. My recommendation is to set the dirs explicitly
+instead of changing the base_prefix, as other things might depend on the
+base_prefix, and symlinks are created for /bin, /sbin, /lib and
+/${baselib} only.
+
+>=20
+> Also, you probably want to add this symlinks to fs-perms.txt. I don't q=
+uite=20
+> remember which packages failed for me without it, but there were some.
+>=20
+
+Is it even possible to have fs-perms.txt entries depending on a
+DISTRO_FEATURE? And can fs-perms.txt move files from one directory to
+another (as you suggested in your reply for PATCH 2)?
+
+AFAICT, fs-perms.txt is only there to fix some common issues with
+directory permissions. Most packages already respect base_libdir etc.
+just fine, so in my opinion it would be preferable to just fix the
+packages which don't if adding such things to fs-perms.txt is non-trivial=
+=2E
+
+
+--cuM0KojKggms9mb77kJNmHb4Qsr3FuLtx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBCgAGBQJWcoSxAAoJEBbvP2TLIB2cDPIP/jHzvzHjbe9ocOnRjAh/K6w8
+eGu++ucQwZKQzs5WqRX+fX7N+fY/mYQ0YyQnB5wI7Y1giZ/irBYAyuiNVovUYfY3
+PhMYitSUmTFr1iNFnYeiuAIHysLB6ZHWvYs/8olwzOH/bPaCobcJLg1u10WTQf8j
+YWWzTSoN8IGSvSNrreULfyaTndWhoC0B8RFfWPwIG1JjYx7tG1IEyFMyloLh7ObL
+q0xaGn/ZLeSwzEPnJCMECcBKBlnV9GmsqXRN8+w5Pbn40FgRYd4OIfBrzNynzGcg
+oaAJ2Qy6Yj7KsOikM3w1B3C6/oZLCxB4/S0bDKvGq2PvoCP4RsFEBZ6elUar7OQO
+yKgi3xgVuA3s5O9lGwlmfhd3/Ldt9Nm8nweQBLh1+HqlcmgLgB8ftGtFI6CkR3t4
+TejVmuxki6NSR2sBfjEkSkP1jMoB1EQnAQtiBnTcSxghnXo8jjBie0smjLYgpkTT
+WTbBsVcwcsq7OnR5ZWJZaEAmhejEwTQuhzrOfpRrFaMgKZX5V7QeV0VBZmwDWO94
+mrM40lkWK7z4iHmiLa8jMv7r8TMlQG86JKgqWFdBpUmuhBwooOR8aq8Livl5J67F
+09d170MQJtv9oDc9nY/LLEAKe/xer9Njy+hUXnbIiNtOvLLW/sRSWMApNRu4cXxC
+/WCtJaE8NGneCr+JZzEU
+=FkGQ
+-----END PGP SIGNATURE-----
+
+--cuM0KojKggms9mb77kJNmHb4Qsr3FuLtx--
