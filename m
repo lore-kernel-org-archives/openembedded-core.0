@@ -1,37 +1,27 @@
-Return-Path: <daniel.alexandrux.istrate@intel.com>
-X-Greylist: delayed 566 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 17 Dec 2015 14:51:55 UTC
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id EFDF76FFE2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A7B527319D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 14:51:55 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 17 Dec 2015 06:42:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,441,1444719600"; d="scan'208";a="873541088"
-Received: from irsmsx107.ger.corp.intel.com ([163.33.3.99])
-	by orsmga002.jf.intel.com with ESMTP; 17 Dec 2015 06:42:29 -0800
-Received: from irsmsx102.ger.corp.intel.com ([169.254.2.251]) by
-	IRSMSX107.ger.corp.intel.com ([169.254.10.124]) with mapi id
-	14.03.0248.002; Thu, 17 Dec 2015 14:42:28 +0000
-From: "Istrate, Daniel AlexandruX" <daniel.alexandrux.istrate@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCHv3 1/2] scripts/oe-selftest: Allow to run tests on
-	random/all architecture
-Thread-Index: AQHRONhSZH8NHIlxxEqYMZHd+spX2p7PPxZg
-Date: Thu, 17 Dec 2015 14:42:28 +0000
-Message-ID: <174AD7CFE5F468498ACCFE3FEE0EF1EB142EBBC5@IRSMSX102.ger.corp.intel.com>
-References: <1450363100-17478-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-In-Reply-To: <1450363100-17478-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMGUwNTYzN2UtZmNmNy00ZjY3LWI1NGQtOTU0NzAzMWE2MGY1IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX1BVQkxJQyJ9XX1dfSwiU3ViamVjdExhYmVscyI6W10sIlRNQ1ZlcnNpb24iOiIxNS40LjEwLjE5IiwiVHJ1c3RlZExhYmVsSGFzaCI6Ik1nR2dVK0hna0wwdHpuTitlZXJaNGpMem5EN1hZYzFFUjFic0pWSzFvdVU9In0=
-x-ctpclassification: CTP_PUBLIC
-x-originating-ip: [163.33.239.181]
-MIME-Version: 1.0
-Subject: Re: [PATCHv3 1/2] scripts/oe-selftest: Allow to run tests on random/all architecture
+	Thu, 17 Dec 2015 14:54:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tBHEs1su032682; Thu, 17 Dec 2015 14:54:01 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id IZm--8Iujgno; Thu, 17 Dec 2015 14:54:01 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tBHErt8u032679
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 17 Dec 2015 14:53:57 GMT
+Message-ID: <1450364035.13505.204.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>,
+	"Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+Date: Thu, 17 Dec 2015 14:53:55 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH 1/7] buildstats: Drop disk data from buildstats
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,281 +34,206 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Dec 2015 14:51:56 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 17 Dec 2015 14:54:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Added warning message for tests that override MACHINE previously set by --a=
-rch option.
+The existing diskstats data from buildstats simply isn't useful. It
+gives stats on the total IO counts on some random disk within the
+system. This means that the count includes data from all other tasks
+running at the same time and from any other process running on the
+system.
 
-16:40:46 [daniel@fedora-ws poky-build]$ oe-selftest --run-tests-by name tes=
-t_all_users_can_connect_via_ssh_without_password --arch random
-2015-12-17 16:40:55,256 - selftest - INFO - Running bitbake -e to get BBPAT=
-H
-2015-12-17 16:40:58,074 - selftest - INFO - Checking that everything is in =
-order before running the tests
-2015-12-17 16:41:00,852 - selftest - INFO - Running bitbake -p
-2015-12-17 16:41:07,591 - selftest - INFO - Loading tests from: oeqa.selfte=
-st.imagefeatures.ImageFeatures.test_all_users_can_connect_via_ssh_without_p=
-assword
-2015-12-17 16:41:07,592 - selftest - INFO - Adding: "include selftest.inc" =
-in local.conf
-2015-12-17 16:41:07,592 - selftest - INFO - Adding: "include bblayers.inc" =
-in bblayers.conf
-2015-12-17 16:41:07,592 - selftest - INFO - Custom arch mode enabled. Arch =
-set to random
-2015-12-17 16:41:07 - test_all_users_can_connect_via_ssh_without_password (=
-oeqa.selftest.imagefeatures.ImageFeatures) ... Arch: qemuarm64
-2015-12-17 16:41:10,334 - selftest.base - WARNING - Arch overridden: qemux8=
-6
-Parsing recipes..done.
-ok
+I've been unable to find any use for the data so as a start at
+reworking the class, remove the related code.
 
-----------------------------------------------------------------------
-Ran 1 test in 153.521s
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-OK
-2015-12-17 16:43:41,114 - selftest - INFO - Finished
-2015-12-17 16:43:41,114 - selftest - INFO - Removing the include from local=
-.conf
-2015-12-17 16:43:41,115 - selftest - INFO - Removing the include from bblay=
-ers.conf
-
------Original Message-----
-From: Istrate, Daniel AlexandruX=20
-Sent: Thursday, December 17, 2015 16:38
-To: openembedded-core@lists.openembedded.org
-Cc: Istrate, Daniel AlexandruX <daniel.alexandrux.istrate@intel.com>
-Subject: [PATCHv3 1/2] scripts/oe-selftest: Allow to run tests on random/al=
-l architecture
-
-Add an option for random arch into oe-selftest:
---arch [random/all]
-1. random: will set a random MACHINE for each test 2. all: will run tests f=
-or all architectures
-
-Custom arch sets only weak default values (??=3D) for MACHINE in local.conf=
-.
-This let test cases that require a specific MACHINE to be able to override =
-it, using (?=3D or =3D).
-
-e.g.:
-oe-selftest --run-tests signing --arch random --> will run all tests switch=
-ing MACHINE randomly for each test
-
-oe-selftest --run-tests signing --arch all --> for each arch will run all t=
-ests
-
-oe-selftest --run-all-tests --arch random
-
-Also update oeqa/selftest/base.py to accomodate this feature.
-
-Fix for [YOCTO #5880].
-
-Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
----
- meta/lib/oeqa/selftest/base.py | 49 ++++++++++++++++++++++++++++++++++++--=
-----
- scripts/oe-selftest            | 34 +++++++++++++++++++++++------
- 2 files changed, 70 insertions(+), 13 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.p=
-y index 9bddc23..d71bbbd 100644
---- a/meta/lib/oeqa/selftest/base.py
-+++ b/meta/lib/oeqa/selftest/base.py
-@@ -16,6 +16,7 @@ import errno
- import oeqa.utils.ftools as ftools
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_laye=
-r  from oeqa.utils.decorators import LogResults
-+from random import choice
-=20
- @LogResults
- class oeSelfTest(unittest.TestCase):
-@@ -29,9 +30,12 @@ class oeSelfTest(unittest.TestCase):
-         self.testinc_path =3D os.path.join(self.builddir, "conf/selftest.i=
-nc")
-         self.local_bblayers_path =3D os.path.join(self.builddir, "conf/bbl=
-ayers.conf")
-         self.testinc_bblayers_path =3D os.path.join(self.builddir, "conf/b=
-blayers.inc")
-+        self.archinc_path =3D os.path.join(self.builddir,=20
-+ "conf/arch.inc")
-         self.testlayer_path =3D oeSelfTest.testlayer_path
-         self._extra_tear_down_commands =3D []
--        self._track_for_cleanup =3D [self.testinc_path]
-+        self._track_for_cleanup =3D [self.testinc_path, self.testinc_bblay=
-ers_path, self.archinc_path]
-+        self.arch_list =3D ['qemuarm', 'qemuarm64', 'qemumips', 'qemuppc',=
- 'qemux86', 'qemux86-64',
-+                          'beaglebone', 'genericx86', 'genericx86-64',=20
-+ 'mpc8315e-rdb', 'edgerouter']
-         super(oeSelfTest, self).__init__(methodName)
-=20
-     def setUp(self):
-@@ -47,11 +51,25 @@ class oeSelfTest(unittest.TestCase):
-             for f in files:
-                 if f =3D=3D 'test_recipe.inc':
-                     os.remove(os.path.join(root, f))
--        try:
--            os.remove(self.testinc_bblayers_path)
--        except OSError as e:
--            if e.errno !=3D errno.ENOENT:
--                raise
-+
-+        for incl_file in [self.testinc_bblayers_path, self.archinc_path]:
-+            try:
-+                os.remove(incl_file)
-+            except OSError as e:
-+                if e.errno !=3D errno.ENOENT:
-+                    raise
-+
-+        # Get CUSTOMARCH from env (set by --arch argument to oe-selftest)
-+        customarch =3D os.getenv('CUSTOMARCH')
-+        if customarch:
-+            if customarch =3D=3D 'random':
-+                machine =3D self.get_random_arch()
-+            else:
-+                machine =3D customarch
-+            arch_conf =3D 'MACHINE ??=3D "%s"\n' % machine
-+            self.set_arch_config(arch_conf)
-+            print 'Arch: %s' % machine
-+
-         # tests might need their own setup
-         # but if they overwrite this one they have to call
-         # super each time, so let's give them an alternative @@ -99,11 +11=
-7,21 @@ class oeSelfTest(unittest.TestCase):
-         self.log.debug("Writing to: %s\n%s\n" % (self.testinc_path, data))
-         ftools.write_file(self.testinc_path, data)
-=20
-+        customarch =3D os.getenv('CUSTOMARCH')
-+        if customarch and 'MACHINE' in data:
-+            machine =3D get_bb_var('MACHINE')
-+            self.log.warning('Arch overridden: %s' % machine)
-+
-     # append to <builddir>/conf/selftest.inc
-     def append_config(self, data):
-         self.log.debug("Appending to: %s\n%s\n" % (self.testinc_path, data=
-))
-         ftools.append_file(self.testinc_path, data)
-=20
-+        customarch =3D os.getenv('CUSTOMARCH')
-+        if customarch and 'MACHINE' in data:
-+            machine =3D get_bb_var('MACHINE')
-+            self.log.warning('Arch overridden: %s' % machine)
-+
-     # remove data from <builddir>/conf/selftest.inc
-     def remove_config(self, data):
-         self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_path, da=
-ta)) @@ -151,3 +179,12 @@ class oeSelfTest(unittest.TestCase):
-     def remove_bblayers_config(self, data):
-         self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_bblayers=
-_path, data))
-         ftools.remove_from_file(self.testinc_bblayers_path, data)
-+
-+    def get_random_arch(self):
-+        # Return a random arch from the arch_list
-+        return choice(self.arch_list)
-+
-+    # write to <builddir>/conf/arch.inc
-+    def set_arch_config(self, data):
-+        self.log.debug("Writing to: %s\n%s\n" % (self.archinc_path, data))
-+        ftools.write_file(self.archinc_path, data)
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest index bc50b2a..8a3df=
-19 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -78,6 +78,8 @@ def get_args_parser():
-                        help=3D'list-tests-by <name|class|module|id|tag> <l=
-ist of tests|classes|modules|ids|tags>')
-     group.add_argument('--list-tags', required=3DFalse, dest=3D'list_tags'=
-, default=3DFalse, action=3D"store_true",
-                        help=3D'List all tags that have been set to test ca=
-ses.')
-+    parser.add_argument('--arch', required=3DFalse, dest=3D'arch', choices=
-=3D['random', 'all'], default=3DNone,
-+                        help=3D'Run tests on different architecture=20
-+ (random/all).')
-     return parser
-=20
-=20
-@@ -109,7 +111,7 @@ def add_include():
-         not in ftools.read_file(os.path.join(builddir, "conf/local.conf"))=
-:
-             log.info("Adding: \"include selftest.inc\" in local.conf")
-             ftools.append_file(os.path.join(builddir, "conf/local.conf"), =
-\
--                    "\n#include added by oe-selftest.py\ninclude selftest.=
-inc")
-+                    "\n#include added by oe-selftest.py\ninclude=20
-+ selftest.inc\ninclude arch.inc")
-=20
-     if "#include added by oe-selftest.py" \
-         not in ftools.read_file(os.path.join(builddir, "conf/bblayers.conf=
-")):
-@@ -125,7 +127,7 @@ def remove_include():
-         in ftools.read_file(os.path.join(builddir, "conf/local.conf")):
-             log.info("Removing the include from local.conf")
-             ftools.remove_from_file(os.path.join(builddir, "conf/local.con=
-f"), \
--                    "#include added by oe-selftest.py\ninclude selftest.in=
-c")
-+                    "#include added by oe-selftest.py\ninclude=20
-+ selftest.inc\ninclude arch.inc")
-=20
-     if "#include added by oe-selftest.py" \
-         in ftools.read_file(os.path.join(builddir, "conf/bblayers.conf")):
-@@ -143,10 +145,11 @@ def remove_inc_files():
-     except (AttributeError, OSError,) as e:    # AttributeError may happen=
- if BUILDDIR is not set
-         pass
-=20
+diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
+index 22ec571..04307d8 100644
+--- a/meta/classes/buildstats.bbclass
++++ b/meta/classes/buildstats.bbclass
+@@ -1,6 +1,5 @@
+ BUILDSTATS_BASE = "${TMPDIR}/buildstats/"
+ BUILDSTATS_BNFILE = "${BUILDSTATS_BASE}/.buildname"
+-BUILDSTATS_DEVFILE = "${BUILDSTATS_BASE}/.device"
+ 
+ ################################################################################
+ # Build statistics gathering.
+@@ -36,78 +35,6 @@ def get_bn(e):
+         bn = f.readline()
+     return bn
+ 
+-def set_device(e):
+-    tmpdir = e.data.getVar('TMPDIR', True)
+-    devfile = e.data.getVar('BUILDSTATS_DEVFILE', True)
 -    try:
--        os.remove(os.path.join(os.environ.get("BUILDDIR"), "conf/bblayers.=
-inc"))
+-        os.remove(devfile)
 -    except:
 -        pass
-+    for incl_file in ['conf/bblayers.inc', 'conf/arch.inc']:
-+        try:
-+            os.remove(os.path.join(os.environ.get("BUILDDIR"), incl_file))
-+        except:
-+            pass
-=20
- def get_tests(exclusive_modules=3D[], include_hidden=3DFalse):
-     testslist =3D []
-@@ -466,7 +469,24 @@ def main():
-                 log.error(e)
-                 return 1
-         add_include()
--        result =3D runner.run(suite)
-+
-+        if args.arch:
-+            # Custom arch sets only weak default values (??=3D) for MACHIN=
-E in local.conf
-+            # This let test cases that require a specific MACHINE to be ab=
-le to override it, using (?=3D or =3D)
-+            log.info('Custom arch mode enabled. Arch set to %s' % args.arc=
-h)
-+            if args.arch =3D=3D 'random':
-+                os.environ['CUSTOMARCH'] =3D 'random'
-+                result =3D runner.run(suite)
-+            else:  # all
-+                arch_list =3D ['qemuarm', 'qemuarm64', 'qemumips', 'qemupp=
-c', 'qemux86', 'qemux86-64',
-+                             'beaglebone', 'genericx86', 'genericx86-64', =
-'mpc8315e-rdb', 'edgerouter']
-+                for arch in arch_list:
-+                    log.info('Run tests with custom arch set to: %s' % arc=
-h)
-+                    os.environ['CUSTOMARCH'] =3D arch
-+                    result =3D runner.run(suite)
-+        else:
-+            result =3D runner.run(suite)
-+
-         log.info("Finished")
-=20
-         if args.coverage:
---
-2.1.0
+-    ############################################################################
+-    # We look for the volume TMPDIR lives on. To do all disks would make little
+-    # sense and not give us any particularly useful data. In theory we could do
+-    # something like stick DL_DIR on a different partition and this would
+-    # throw stats gathering off. The same goes with SSTATE_DIR. However, let's
+-    # get the basics in here and work on the cornercases later.
+-    # A note. /proc/diskstats does not contain info on encryptfs, tmpfs, etc.
+-    # If we end up hitting one of these fs, we'll just skip diskstats collection.
+-    ############################################################################
+-    device = os.stat(tmpdir)
+-    majordev = os.major(long(device.st_dev))
+-    minordev = os.minor(long(device.st_dev))
+-    ############################################################################
+-    # Bug 1700:
+-    # Because tmpfs/encryptfs/ramfs etc inserts no entry in /proc/diskstats
+-    # we set rdev to NoLogicalDevice and search for it later. If we find NLD
+-    # we do not collect diskstats as the method to collect meaningful statistics
+-    # for these fs types requires a bit more research.
+-    ############################################################################
+-    rdev = "NoLogicalDevice"
+-    try:
+-        with open("/proc/diskstats", "r") as f:
+-            for line in f:
+-                if majordev == int(line.split()[0]) and minordev == int(line.split()[1]):
+-                    rdev = line.split()[2]
+-    except:
+-        pass
+-    with open(devfile, "w") as f:
+-        f.write(rdev)
+-
+-def get_device(e):
+-    with open(e.data.getVar('BUILDSTATS_DEVFILE', True)) as f:
+-        device = f.readline()
+-    return device
+-
+-def get_diskstats(dev):
+-    import itertools
+-    ############################################################################
+-    # For info on what these are, see kernel doc file iostats.txt
+-    ############################################################################
+-    DSTAT_KEYS = ['ReadsComp', 'ReadsMerged', 'SectRead', 'TimeReads', 'WritesComp', 'SectWrite', 'TimeWrite', 'IOinProgress', 'TimeIO', 'WTimeIO']
+-    try:
+-        with open("/proc/diskstats", "r") as f:
+-            for x in f:
+-                if dev in x:
+-                    diskstats_val = x.rstrip().split()[4:]
+-    except IOError as e:
+-        return
+-    diskstats = dict(itertools.izip(DSTAT_KEYS, diskstats_val))
+-    return diskstats
+-
+-def set_diskdata(var, dev, data):
+-    data.setVar(var, get_diskstats(dev))
+-
+-def get_diskdata(var, dev, data):
+-    olddiskdata = data.getVar(var, False)
+-    diskdata = {}
+-    if olddiskdata is None:
+-        return
+-    newdiskdata = get_diskstats(dev)
+-    for key in olddiskdata.iterkeys():
+-        diskdata["Start"+key] = str(int(olddiskdata[key]))
+-        diskdata["End"+key] = str(int(newdiskdata[key]))
+-    return diskdata
+-
+ def set_timedata(var, data, server_time=None):
+     import time
+     if server_time:
+@@ -137,7 +64,7 @@ def get_timedata(var, data, server_time=None):
+         cpuperc = None
+     return timediff, cpuperc
+ 
+-def write_task_data(status, logfile, dev, e):
++def write_task_data(status, logfile, e):
+     bn = get_bn(e)
+     bsdir = os.path.join(e.data.getVar('BUILDSTATS_BASE', True), bn)
+     with open(os.path.join(logfile), "a") as f:
+@@ -148,19 +75,6 @@ def write_task_data(status, logfile, dev, e):
+                                     (e.task, elapsedtime), e.data))
+             if cpu:
+                 f.write("CPU usage: %0.1f%% \n" % cpu)
+-        ############################################################################
+-        # Here we gather up disk data. In an effort to avoid lying with stats
+-        # I do a bare minimum of analysis of collected data.
+-        # The simple fact is, doing disk io collection on a per process basis
+-        # without effecting build time would be difficult.
+-        # For the best information, running things with BB_TOTAL_THREADS = "1"
+-        # would return accurate per task results.
+-        ############################################################################
+-        if dev != "NoLogicalDevice":
+-            diskdata = get_diskdata("__diskdata_task", dev, e.data)
+-            if diskdata:
+-                for key in sorted(diskdata.iterkeys()):
+-                    f.write(key + ": " + diskdata[key] + "\n")
+         if status is "passed":
+             f.write("Status: PASSED \n")
+         else:
+@@ -181,13 +95,9 @@ python run_buildstats () {
+         bb.utils.mkdirhier(e.data.getVar('BUILDSTATS_BASE', True))
+         set_bn(e)
+         bn = get_bn(e)
+-        set_device(e)
+-        device = get_device(e)
+ 
+         bsdir = os.path.join(e.data.getVar('BUILDSTATS_BASE', True), bn)
+         bb.utils.mkdirhier(bsdir)
+-        if device != "NoLogicalDevice":
+-            set_diskdata("__diskdata_build", device, e.data)
+         set_timedata("__timedata_build", e.data)
+         build_time = os.path.join(bsdir, "build_stats")
+         # write start of build into build_time
+@@ -202,7 +112,6 @@ python run_buildstats () {
+ 
+     elif isinstance(e, bb.event.BuildCompleted):
+         bn = get_bn(e)
+-        device = get_device(e)
+         bsdir = os.path.join(e.data.getVar('BUILDSTATS_BASE', True), bn)
+         build_time = os.path.join(bsdir, "build_stats")
+         with open(build_time, "a") as f:
+@@ -216,19 +125,11 @@ python run_buildstats () {
+                 f.write("Elapsed time: %0.2f seconds \n" % (time))
+                 if cpu:
+                     f.write("CPU usage: %0.1f%% \n" % cpu)
+-            if device != "NoLogicalDevice":
+-                diskio = get_diskdata("__diskdata_build", device, e.data)
+-                if diskio:
+-                    for key in sorted(diskio.iterkeys()):
+-                        f.write(key + ": " + diskio[key] + "\n")
+ 
+     if isinstance(e, bb.build.TaskStarted):
+         bn = get_bn(e)
+-        device = get_device(e)
+         bsdir = os.path.join(e.data.getVar('BUILDSTATS_BASE', True), bn)
+         taskdir = os.path.join(bsdir, e.data.getVar('PF', True))
+-        if device != "NoLogicalDevice":
+-            set_diskdata("__diskdata_task", device, e.data)
+         set_timedata("__timedata_task", e.data, e.time)
+         bb.utils.mkdirhier(taskdir)
+         # write into the task event file the name and start time
+@@ -238,10 +139,9 @@ python run_buildstats () {
+ 
+     elif isinstance(e, bb.build.TaskSucceeded):
+         bn = get_bn(e)
+-        device = get_device(e)
+         bsdir = os.path.join(e.data.getVar('BUILDSTATS_BASE', True), bn)
+         taskdir = os.path.join(bsdir, e.data.getVar('PF', True))
+-        write_task_data("passed", os.path.join(taskdir, e.task), device, e)
++        write_task_data("passed", os.path.join(taskdir, e.task), e)
+         if e.task == "do_rootfs":
+             bs = os.path.join(bsdir, "build_stats")
+             with open(bs, "a") as f:
+@@ -251,10 +151,9 @@ python run_buildstats () {
+ 
+     elif isinstance(e, bb.build.TaskFailed):
+         bn = get_bn(e)
+-        device = get_device(e)
+         bsdir = os.path.join(e.data.getVar('BUILDSTATS_BASE', True), bn)
+         taskdir = os.path.join(bsdir, e.data.getVar('PF', True))
+-        write_task_data("failed", os.path.join(taskdir, e.task), device, e)
++        write_task_data("failed", os.path.join(taskdir, e.task), e)
+         ########################################################################
+         # Lets make things easier and tell people where the build failed in
+         # build_status. We do this here because BuildCompleted triggers no
+
 
 
