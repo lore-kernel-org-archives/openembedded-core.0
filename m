@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id AE220731CD
+	by mail.openembedded.org (Postfix) with ESMTP id B69A0731C6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 15:11:35 +0000 (UTC)
+	Thu, 17 Dec 2015 15:11:36 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Dec 2015 07:11:36 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 17 Dec 2015 07:11:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,441,1444719600"; d="scan'208";a="875740031"
+X-IronPort-AV: E=Sophos;i="5.20,441,1444719600"; d="scan'208";a="875740051"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Dec 2015 07:11:36 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 17 Dec 2015 07:11:37 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Dec 2015 17:08:51 +0200
-Message-Id: <c38a1e246e584164bdd0c69a571a938610be64ff.1450364672.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 17 Dec 2015 17:08:52 +0200
+Message-Id: <33bfc34faceed03fc3f743c7d550da219fb92fcb.1450364672.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
 In-Reply-To: <cover.1450364672.git.alexander.kanavin@linux.intel.com>
 References: <cover.1450364672.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1450364672.git.alexander.kanavin@linux.intel.com>
 References: <cover.1450364672.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 14/17] iso-codes: update to 3.63
+Subject: [PATCH 15/17] btrfs-tools: update to 4.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Dec 2015 15:11:36 -0000
+X-List-Received-Date: Thu, 17 Dec 2015 15:11:37 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../iso-codes/{iso-codes_3.58.bb => iso-codes_3.63.bb}                | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/iso-codes/{iso-codes_3.58.bb => iso-codes_3.63.bb} (76%)
+ .../btrfs-tools/{btrfs-tools_4.1.2.bb => btrfs-tools_4.3.1.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.1.2.bb => btrfs-tools_4.3.1.bb} (94%)
 
-diff --git a/meta/recipes-support/iso-codes/iso-codes_3.58.bb b/meta/recipes-support/iso-codes/iso-codes_3.63.bb
-similarity index 76%
-rename from meta/recipes-support/iso-codes/iso-codes_3.58.bb
-rename to meta/recipes-support/iso-codes/iso-codes_3.63.bb
-index 7112e46..8ae8a43 100644
---- a/meta/recipes-support/iso-codes/iso-codes_3.58.bb
-+++ b/meta/recipes-support/iso-codes/iso-codes_3.63.bb
-@@ -3,8 +3,8 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=fbc093901857fcd118f065f900982c24"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.1.2.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.3.1.bb
+similarity index 94%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_4.1.2.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_4.3.1.bb
+index 37c622b..e6b0132 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.1.2.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.3.1.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+ SECTION = "base"
+ DEPENDS = "util-linux attr e2fsprogs lzo acl"
  
- SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
--SRC_URI[md5sum] = "34097a0085f0979e28f9db66ec274c5e"
--SRC_URI[sha256sum] = "86af5735dce6e4eff2b983e5d8aa9a3dea1b8db702333ff20be89e45f7f35a72"
-+SRC_URI[md5sum] = "129f822fd64c9bf80931cccc269ccb95"
-+SRC_URI[sha256sum] = "60600e56952dc92b3a8cd8a7044348f7cfa35be528bab2491c3c18582fb5277f"
- 
- # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
- # are inhibited by allarch
+-SRCREV = "7f1328ccb5d159efe850d4eaea9b49bbe8c4181e"
++SRCREV = "7c3394ed9ef2063a7256d4bc078a485b6f826bc5"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+            file://fix-parallel.patch \
+ "
 -- 
 2.6.2
 
