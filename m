@@ -1,41 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id D875260116
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B1A5731A6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 20:58:13 +0000 (UTC)
-Received: by mail-pf0-f170.google.com with SMTP id n128so18567178pfn.0
+	Thu, 17 Dec 2015 20:58:16 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id q126so68571448iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 12:58:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=NTf6ky1lAuEwRvEXhE4mg94ZZIshMj7YSP0ij+Ajahc=;
-	b=cYP5/HS2UuQWMQLo8xMgR7WZ1cQlqHLkNAPT8orGuk/E0jH8qBITJNN3k7SeIRvJiQ
-	v2C3HEiodC5YwSA10cyu1gyYQZXC9s+5rUQNdj3MlrgTVW+hrwbZnpGKAL/bInNZT+vr
-	yQILQmKDafMvSB3ZQgYXWbj4/svfJmn3f4S47MyVA/5WUYRETk8w9ECQ+xRlDWrs2WeF
-	BSb+ik8stJSAPDaVNW6Go06I4CK7n7ogaBFgEpdZHYJzuXPAiYQxVkcyH75jxoGIxFRx
-	drY0+yYD+hidlUbQSNg+Kl1K4VV63S2t1waYU9Ps4Po8+7NbK4c/aeWJ4ybClcDW6dfZ
-	dscw==
-X-Received: by 10.98.67.130 with SMTP id l2mr17334072pfi.93.1450385894245;
-	Thu, 17 Dec 2015 12:58:14 -0800 (PST)
-Received: from 10.177.192.236-ra01.everett.wa.seattle.comcast.net
-	(fw01.everett.wa.seattle.comcast.net. [69.241.105.242])
-	by smtp.gmail.com with ESMTPSA id
-	t73sm13243858pfi.26.2015.12.17.12.58.13
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 17 Dec 2015 12:58:13 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1450385828-5510-1-git-send-email-ross.burton@intel.com>
-Date: Thu, 17 Dec 2015 12:58:12 -0800
-Message-Id: <22709A94-E679-468F-82C7-DE41155706E6@gmail.com>
-References: <1450385828-5510-1-git-send-email-ross.burton@intel.com>
-To: Ross Burton <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd: remove merge conflicts accidently left in
+	Thu, 17 Dec 2015 12:58:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=MYeXcU/Zv4uRGTnUy4soOO5V4piZcgBKxl609KWveSE=;
+	b=hEF1Yl15lUA5oUFtd1N3gNy0sosyr75P5026mkEY+9Zc38/4guIiQq0waaNvIezNnl
+	9dErnHMlBv99WbzFsCDnmuqS/Nq46A1CunPAbNTtIjEvi7HME7GZf1T01Mlp+i9uHEEe
+	dw2duaazKzViEYeghxS84ed9kX6ugWEH6NKZLzKQXfnHXpI0hbm/LtvpUoIipA6PYKhj
+	dlDMpss9549K9q6c80+61VlE+ebOEY4qye8AxRu+BMCIKWmYHjVGd97Vin4VGZnK7RZH
+	LbeBqpy6g/9wVvgWvhXxzwksGrETaiCvsiBaLryWMz1xAS7a6fJx5NmVm8RkqkPsgQ5y
+	JUEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=MYeXcU/Zv4uRGTnUy4soOO5V4piZcgBKxl609KWveSE=;
+	b=eeq0JNsTcfGSya75ZOGLYFrFJSw8iDGh9t3Ec+pJVXBkNgKN/+618nIYrofUPvxsy0
+	f5yyLGZtMym3YQ8aXSIjr8vaFFWBOvIy/ULzZpS4b0PH6xuRSZz4rfxUcHKdvPG3QKM3
+	aqh1haVzMVogXLqRBd4Tu+/kRvw7y8kd/xpvBO0RYj4/ZddpKTLDINoRf00x5RmC9IyX
+	IWhxJaXMUL4ye82vFANlkCXRo/mUXtmVU0eU0DC/qVVnbV1n/RI/VINPLC6lalSoC+lB
+	+4QNm4tUFB5vMkjF3L+ih3MhtViuGAhU7u7DSvIql+EK2j2/BWe6EWvDe7ps55aLisvp
+	o/7w==
+X-Gm-Message-State: ALoCoQlfY+YDAJOJpqzR+IvwNxjyrV8RHt7m8dNvdyODVVmY8XQgTwQgdYir+xEnZBUxipCdjuzCOKKcPkVmSXdHugfrjcXRX0uHXnrB45vBjIjrgxxSAY4=
+X-Received: by 10.107.155.209 with SMTP id d200mr525084ioe.133.1450385896698; 
+	Thu, 17 Dec 2015 12:58:16 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.136.141 with HTTP; Thu, 17 Dec 2015 12:57:57 -0800 (PST)
+In-Reply-To: <551819BB-909A-4462-BDF7-C27A1DA00C96@gmail.com>
+References: <cover.1450073907.git.raj.khem@gmail.com>
+	<a2dd5384b2607cf7e507cf280addd31ee6df2391.1450073907.git.raj.khem@gmail.com>
+	<6c5db9084bed25c8ae9fb93cfe2e3d0ba76121d2.1450073907.git.raj.khem@gmail.com>
+	<CAJ86T=WgFsVHRxvC70+xDr_N-=jUu9ircbdvXZNYz37U16+uzg@mail.gmail.com>
+	<551819BB-909A-4462-BDF7-C27A1DA00C96@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 17 Dec 2015 20:57:57 +0000
+Message-ID: <CAJTo0La3SXE9TK4eZdShnhDs97r3oGS-RS=vqm+seNLUfSqFJA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/6] systemd: Upgrade to 228
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,86 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Dec 2015 20:58:14 -0000
-X-Groupsio-MsgNum: 74940
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_DB64AD4F-18FB-4A7E-A9B8-4FC9DAB5CE9F";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 17 Dec 2015 20:58:18 -0000
+Content-Type: multipart/alternative; boundary=001a11403402290aa205271e488c
 
---Apple-Mail=_DB64AD4F-18FB-4A7E-A9B8-4FC9DAB5CE9F
+--001a11403402290aa205271e488c
+Content-Type: text/plain; charset=UTF-8
+
+On 17 December 2015 at 20:55, Khem Raj <raj.khem@gmail.com> wrote:
+
+> Ugh yes. but they are harmless fortunately. I will send a refresh update
+> to fix it
+>
+
+Done already, don't worry.
+
+Ross
+
+--001a11403402290aa205271e488c
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 December 2015 at 20:55, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div id=3D":2uk" class=3D"a3s" st=
+yle=3D"overflow:hidden">Ugh yes. but they are harmless fortunately. I will =
+send a refresh update to fix it<br>
+<div class=3D"HOEnZb"></div></div></blockquote></div><br>Done already, don&=
+#39;t worry.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
+extra">Ross</div></div>
 
-> On Dec 17, 2015, at 12:57 PM, Ross Burton <ross.burton@intel.com> =
-wrote:
->=20
-
-thanks for fixing it. I was about to send a patch
-
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
-> .../0016-Revert-udev-remove-userspace-firmware-loading-suppor.patch  | =
-5 +----
-> 1 file changed, 1 insertion(+), 4 deletions(-)
->=20
-> diff --git =
-a/meta/recipes-core/systemd/systemd/0016-Revert-udev-remove-userspace-firm=
-ware-loading-suppor.patch =
-b/meta/recipes-core/systemd/systemd/0016-Revert-udev-remove-userspace-firm=
-ware-loading-suppor.patch
-> index 03ab0d4..6e5a8fb 100644
-> --- =
-a/meta/recipes-core/systemd/systemd/0016-Revert-udev-remove-userspace-firm=
-ware-loading-suppor.patch
-> +++ =
-b/meta/recipes-core/systemd/systemd/0016-Revert-udev-remove-userspace-firm=
-ware-loading-suppor.patch
-> @@ -110,16 +110,13 @@ index a3e639d..00736f5 100644
->  have_manpages=3Dno
->  AC_ARG_ENABLE(manpages, AS_HELP_STRING([--disable-manpages], [disable =
-manpages]))
->  AS_IF([test "x$enable_manpages" !=3D xno], [
-> -@@ -1616,6 +1635,12 @@ AC_MSG_RESULT([
-> +@@ -1616,6 +1635,9 @@ AC_MSG_RESULT([
->          SysV init scripts:       ${SYSTEM_SYSVINIT_PATH}
->          SysV rc?.d directories:  ${SYSTEM_SYSVRCND_PATH}
->          Build Python:            ${PYTHON}
-> -+<<<<<<< HEAD
-> -+=3D=3D=3D=3D=3D=3D=3D
-> +        Installation Python:     ${PYTHON_BINARY}
-> +        sphinx binary:           ${SPHINX_BUILD}
-> +        firmware path:           ${FIRMWARE_PATH}
-> -+>>>>>>> parent of be2ea72... udev: remove userspace firmware loading =
-support
->          PAM modules dir:         ${with_pamlibdir}
->          PAM configuration dir:   ${with_pamconfdir}
->          D-Bus policy dir:        ${with_dbuspolicydir}
-> --
-> 2.6.4
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_DB64AD4F-18FB-4A7E-A9B8-4FC9DAB5CE9F
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlZzIeQACgkQuwUzVZGdMxQfzgCfRG6RCgPMrk56YdtBl5olsK4p
-fEkAnjGeVIuNVGkKXBug5ee2mYV6F9Oz
-=IK+d
------END PGP SIGNATURE-----
-
---Apple-Mail=_DB64AD4F-18FB-4A7E-A9B8-4FC9DAB5CE9F--
+--001a11403402290aa205271e488c--
