@@ -1,17 +1,29 @@
-Return-Path: <lukas.bulwahn@oss.bmw-carit.de>
-Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 31E657317A
+Return-Path: <roman@khimov.ru>
+Received: from roman.khimov.ru (roman.khimov.ru [82.146.54.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A00C7317A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 11:45:35 +0000 (UTC)
-Received: from hsp.bmw-carit.intra (hsp.bmw-carit.intra [192.168.101.108])
-	by linuxmail.bmw-carit.de (Postfix) with ESMTP id 10CA0403A4;
-	Thu, 17 Dec 2015 12:32:45 +0100 (CET)
-From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Dec 2015 12:45:12 +0100
-Message-Id: <1450352712-31476-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] boost: update to 1.59.0
+	Thu, 17 Dec 2015 11:49:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=khimov.ru;
+	s=mail; 
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From;
+	bh=gg2B1khD4OYNl+5sr8/uD5HOhJd+YJI99KyQvcUfNGA=; 
+	b=hO6VSSWwsN/gIi4DlUJEsr7GRSWR3vgtesb7Q3gkIvInODYaokki6IJIDQliziS5GtZOAnTSaT3mn1u8OSIphPIYgJJZzwIsxyk0/7Rnajs1BDyIlibhp+qKT76pp522u0LfgKFiL79cfp96el9B6LVTW/9EhUk/r74T27uZnPxq0BicqDouXWYFpCyX4phCr6ZQUWrOmhUOuYO4lMI4Xe+suARTo/wIgbOkBBI3FMcahAvak0AIP12RadRgjXGk73UvMf96SlfyjFEzr6DdWJSCf7MFpFV+oFp2B2nErYYKkMwCxDIJpqhDuyhfs+IH02eyJQkakDNUU4qxLI+2lw==;
+Received: from mail.pkcc-tb.ru ([185.33.199.10] helo=bancha.hex)
+	by roman.khimov.ru with esmtpsa (TLS1.0:ECDHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.84) (envelope-from <roman@khimov.ru>)
+	id 1a9X3Z-00044C-Ql; Thu, 17 Dec 2015 14:49:14 +0300
+From: Roman Khimov <roman@khimov.ru>
+To: Matthias Schiffer <mschiffer@universe-factory.net>
+Date: Thu, 17 Dec 2015 14:49:13 +0300
+Message-ID: <20429947.OAhnyEDPKl@bancha.hex>
+User-Agent: KMail/4.14.9 (Linux/3.16.7-24-desktop; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <567284B0.4020603@universe-factory.net>
+References: <cover.1450288828.git.mschiffer@universe-factory.net>
+	<1893430.e3TcZXnnJp@masala.hex>
+	<567284B0.4020603@universe-factory.net>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] base-files: create typical merged /usr symlinks if the "merged-usr" distro feature is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,246 +36,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Dec 2015 11:45:37 -0000
+X-List-Received-Date: Thu, 17 Dec 2015 11:49:16 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Due to the version update, the two patches previously backported in
-this recipe are now dropped. The actual status of the
-arm-intrinsics.patch (reported with Upstream-Status: Backport)
-is unknown to the committer, and hence, that patch is kept in the
-recipe, even if it is possibly not required anymore. A deeper
-analysis is required to determine need and status of that patch.
+=D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 17 =D0=B4=D0=B5=
+=D0=BA=D0=B0=D0=B1=D1=80=D1=8F 2015 10:47:28 =D0=BF=D0=BE=D0=BB=D1=8C=D0=
+=B7=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Matthias Schiffer =D0=BD=D0=
+=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BB:
+> On 12/16/2015 08:46 PM, Roman Khimov wrote:
+> > =D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 16 =D0=B4=D0=
+=B5=D0=BA=D0=B0=D0=B1=D1=80=D1=8F 2015 19:12:00 =D0=BF=D0=BE=D0=BB=D1=8C=
+=D0=B7=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Matthias Schiffer=20
+> > =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BB:
+> > Also, you probably want to add this symlinks to fs-perms.txt. I don=
+'t
+> > quite
+> > remember which packages failed for me without it, but there were so=
+me.
+>=20
+> Is it even possible to have fs-perms.txt entries depending on a
+> DISTRO_FEATURE?=20
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
----
- meta/recipes-support/boost/bjam-native_1.58.0.bb   | 18 ----------
- meta/recipes-support/boost/bjam-native_1.59.0.bb   | 18 ++++++++++
- meta/recipes-support/boost/boost-1.58.0.inc        | 22 ------------
- meta/recipes-support/boost/boost-1.59.0.inc        | 19 ++++++++++
- meta/recipes-support/boost/boost_1.58.0.bb         |  6 ----
- meta/recipes-support/boost/boost_1.59.0.bb         |  6 ++++
- ...dded-gcc.jam-was-passing-the-options-m32-.patch | 33 ------------------
- ...n-t-pass-m32-m64-where-it-s-not-supported.patch | 40 ----------------------
- 8 files changed, 43 insertions(+), 119 deletions(-)
- delete mode 100644 meta/recipes-support/boost/bjam-native_1.58.0.bb
- create mode 100644 meta/recipes-support/boost/bjam-native_1.59.0.bb
- delete mode 100644 meta/recipes-support/boost/boost-1.58.0.inc
- create mode 100644 meta/recipes-support/boost/boost-1.59.0.inc
- delete mode 100644 meta/recipes-support/boost/boost_1.58.0.bb
- create mode 100644 meta/recipes-support/boost/boost_1.59.0.bb
- delete mode 100644 meta/recipes-support/boost/files/0001-mips1-fix-added-gcc.jam-was-passing-the-options-m32-.patch
- delete mode 100644 meta/recipes-support/boost/files/0002-Don-t-pass-m32-m64-where-it-s-not-supported.patch
+Probably not.
 
-diff --git a/meta/recipes-support/boost/bjam-native_1.58.0.bb b/meta/recipes-support/boost/bjam-native_1.58.0.bb
-deleted file mode 100644
-index 32646d7..0000000
---- a/meta/recipes-support/boost/bjam-native_1.58.0.bb
-+++ /dev/null
-@@ -1,18 +0,0 @@
--include boost-${PV}.inc
--
--SUMMARY = "Portable Boost.Jam build tool for boost"
--SECTION = "devel"
--
--inherit native
--
--SRC_URI += "file://bjam-native-build-bjam.debug.patch"
--
--do_compile() {
--    ./bootstrap.sh --with-toolset=gcc
--}
--
--do_install() {
--    install -d ${D}${bindir}/
--    # install unstripped version for bjam
--    install -c -m 755 bjam.debug ${D}${bindir}/bjam
--}
-diff --git a/meta/recipes-support/boost/bjam-native_1.59.0.bb b/meta/recipes-support/boost/bjam-native_1.59.0.bb
-new file mode 100644
-index 0000000..32646d7
---- /dev/null
-+++ b/meta/recipes-support/boost/bjam-native_1.59.0.bb
-@@ -0,0 +1,18 @@
-+include boost-${PV}.inc
-+
-+SUMMARY = "Portable Boost.Jam build tool for boost"
-+SECTION = "devel"
-+
-+inherit native
-+
-+SRC_URI += "file://bjam-native-build-bjam.debug.patch"
-+
-+do_compile() {
-+    ./bootstrap.sh --with-toolset=gcc
-+}
-+
-+do_install() {
-+    install -d ${D}${bindir}/
-+    # install unstripped version for bjam
-+    install -c -m 755 bjam.debug ${D}${bindir}/bjam
-+}
-diff --git a/meta/recipes-support/boost/boost-1.58.0.inc b/meta/recipes-support/boost/boost-1.58.0.inc
-deleted file mode 100644
-index b47d091..0000000
---- a/meta/recipes-support/boost/boost-1.58.0.inc
-+++ /dev/null
-@@ -1,22 +0,0 @@
--# The Boost web site provides free peer-reviewed portable
--# C++ source libraries. The emphasis is on libraries which
--# work well with the C++ Standard Library. The libraries are
--# intended to be widely useful, and are in regular use by
--# thousands of programmers across a broad spectrum of applications.
--HOMEPAGE = "http://www.boost.org/"
--LICENSE = "BSL-1.0 & MIT & Python-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE_1_0.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
--
--BOOST_VER = "${@"_".join(d.getVar("PV",1).split("."))}"
--BOOST_MAJ = "${@"_".join(d.getVar("PV",1).split(".")[0:2])}"
--BOOST_P = "boost_${BOOST_VER}"
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/boost/${BOOST_P}.tar.bz2 \
--           file://0001-mips1-fix-added-gcc.jam-was-passing-the-options-m32-.patch \
--           file://0002-Don-t-pass-m32-m64-where-it-s-not-supported.patch \
--"
--
--SRC_URI[md5sum] = "b8839650e61e9c1c0a89f371dd475546"
--SRC_URI[sha256sum] = "fdfc204fc33ec79c99b9a74944c3e54bd78be4f7f15e260c0e2700a36dc7d3e5"
--
--S = "${WORKDIR}/${BOOST_P}"
-diff --git a/meta/recipes-support/boost/boost-1.59.0.inc b/meta/recipes-support/boost/boost-1.59.0.inc
-new file mode 100644
-index 0000000..e94c714
---- /dev/null
-+++ b/meta/recipes-support/boost/boost-1.59.0.inc
-@@ -0,0 +1,19 @@
-+# The Boost web site provides free peer-reviewed portable
-+# C++ source libraries. The emphasis is on libraries which
-+# work well with the C++ Standard Library. The libraries are
-+# intended to be widely useful, and are in regular use by
-+# thousands of programmers across a broad spectrum of applications.
-+HOMEPAGE = "http://www.boost.org/"
-+LICENSE = "BSL-1.0 & MIT & Python-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE_1_0.txt;md5=e4224ccaecb14d942c71d31bef20d78c"
-+
-+BOOST_VER = "${@"_".join(d.getVar("PV",1).split("."))}"
-+BOOST_MAJ = "${@"_".join(d.getVar("PV",1).split(".")[0:2])}"
-+BOOST_P = "boost_${BOOST_VER}"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/boost/${BOOST_P}.tar.bz2"
-+
-+SRC_URI[md5sum] = "6aa9a5c6a4ca1016edd0ed1178e3cb87"
-+SRC_URI[sha256sum] = "727a932322d94287b62abb1bd2d41723eec4356a7728909e38adb65ca25241ca"
-+
-+S = "${WORKDIR}/${BOOST_P}"
-diff --git a/meta/recipes-support/boost/boost_1.58.0.bb b/meta/recipes-support/boost/boost_1.58.0.bb
-deleted file mode 100644
-index c09d5f4..0000000
---- a/meta/recipes-support/boost/boost_1.58.0.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--include boost-${PV}.inc
--include boost.inc
--
--SRC_URI += "\
--    file://arm-intrinsics.patch \
--"
-diff --git a/meta/recipes-support/boost/boost_1.59.0.bb b/meta/recipes-support/boost/boost_1.59.0.bb
-new file mode 100644
-index 0000000..c09d5f4
---- /dev/null
-+++ b/meta/recipes-support/boost/boost_1.59.0.bb
-@@ -0,0 +1,6 @@
-+include boost-${PV}.inc
-+include boost.inc
-+
-+SRC_URI += "\
-+    file://arm-intrinsics.patch \
-+"
-diff --git a/meta/recipes-support/boost/files/0001-mips1-fix-added-gcc.jam-was-passing-the-options-m32-.patch b/meta/recipes-support/boost/files/0001-mips1-fix-added-gcc.jam-was-passing-the-options-m32-.patch
-deleted file mode 100644
-index 329b4c3..0000000
---- a/meta/recipes-support/boost/files/0001-mips1-fix-added-gcc.jam-was-passing-the-options-m32-.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 817aed0d755bf8c0ba4ef6a77d41538e50b571fd Mon Sep 17 00:00:00 2001
--From: claymore <carlosmf.pt@gmail.com>
--Date: Fri, 24 Apr 2015 02:28:47 +0100
--Subject: [PATCH 1/2] mips1 fix added gcc.jam was passing the options -m32 and
-- -m64 to mips cross-compilers, when those do not use
-- such options This modification solves it by adding mips
-- as an exception
--
--Signed-off-by: Carlos M. Ferreira carlosmf.pt@gmail.com
--
--Upstream-Status: Backport
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
--
-----
-- tools/build/src/tools/gcc.jam |    2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
--index db04534..eff95ae 100644
----- a/tools/build/src/tools/gcc.jam
--+++ b/tools/build/src/tools/gcc.jam
--@@ -451,7 +451,7 @@ rule setup-address-model ( targets * : sources * : properties * )
--         else
--         {
--             local arch = [ feature.get-values architecture : $(properties) ] ;
---            if $(arch) != arm
--+            if $(arch) != arm && $(arch) != mips1
--             {
--                 if $(model) = 32
--                 {
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-support/boost/files/0002-Don-t-pass-m32-m64-where-it-s-not-supported.patch b/meta/recipes-support/boost/files/0002-Don-t-pass-m32-m64-where-it-s-not-supported.patch
-deleted file mode 100644
-index ecf7e55..0000000
---- a/meta/recipes-support/boost/files/0002-Don-t-pass-m32-m64-where-it-s-not-supported.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From f825634a56b119dfa9d712119a66279cc7635978 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?J=C3=B6rg=20Krause?= <joerg.krause@embedded.rocks>
--Date: Sat, 2 May 2015 14:24:02 +0200
--Subject: [PATCH 2/2] Don't pass -m32/-m64 where it's not supported.
--
--Only PowerPC, SPARC, and x86 do support the -m32 and -m64 compiler options [1].
--
--Rather then excluding all architectures not supporting these options as it is
--done in commit c0634341d9ee2c02d3a55c91dafb988afc066c49 [2], include all
--architectures that do support them.
--
--This will fix building Boost for the SuperH architecture with Buildroot [3].
--
--[1] https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html
--[2] https://github.com/boostorg/build/commit/c0634341d9ee2c02d3a55c91dafb988afc066c49
--[3] http://autobuild.buildroot.net/results/ccd/ccd5c83963032ba49b1627b1dff39e34a9486943/build-end.log
--
--Upstream-Status: Backport
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
--
-----
-- tools/build/src/tools/gcc.jam |    2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
--index eff95ae..2f6af93 100644
----- a/tools/build/src/tools/gcc.jam
--+++ b/tools/build/src/tools/gcc.jam
--@@ -451,7 +451,7 @@ rule setup-address-model ( targets * : sources * : properties * )
--         else
--         {
--             local arch = [ feature.get-values architecture : $(properties) ] ;
---            if $(arch) != arm && $(arch) != mips1
--+            if $(arch) = power || $(arch) = sparc || $(arch) = x86
--             {
--                 if $(model) = 32
--                 {
---- 
--1.7.9.5
--
--- 
-1.9.1
+> And can fs-perms.txt move files from one directory to
+> another (as you suggested in your reply for PATCH 2)?
 
+IIRC, yes.
+
+> AFAICT, fs-perms.txt is only there to fix some common issues with
+> directory permissions. Most packages already respect base_libdir etc.=
+
+> just fine, so in my opinion it would be preferable to just fix the
+> packages which don't if adding such things to fs-perms.txt is non-tri=
+vial.
+
+fs-perms can fix things automatically, with no additional code in recip=
+es (and=20
+that's a nice thing IMO), but, yes, at the moment it probably can't do =
+or=20
+don't do things based on DISTRO_FEATURE settings. Maybe using=20
+FILESYSTEM_PERMS_TABLES can help or even generating fs-perms on the fly=
+ taking=20
+into account real ${somedir} values.
 
