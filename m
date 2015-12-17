@@ -1,17 +1,30 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id A80787014A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E04BD6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 12:02:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 3E5362602C6
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Dec 2015 12:02:28 +0000
-Message-Id: <1450353748-14381-1-git-send-email-joshua.lock@collabora.co.uk>
-X-Mailer: git-send-email 2.5.0
-MIME-Version: 1.0
-Subject: [PATCH] wic/help.py: document that mountpoint is optional for part command
+	Thu, 17 Dec 2015 12:36:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tBHCa7DK024418 for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Dec 2015 12:36:07 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id BK3TEQLzTZhC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Dec 2015 12:36:07 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tBHCa4TJ024409
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Dec 2015 12:36:05 GMT
+Message-ID: <1450355764.13505.196.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Dec 2015 12:36:04 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] nativesdk-buildtools-perl-dummy: Bump PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,45 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Dec 2015 12:02:32 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 17 Dec 2015 12:36:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If no mountpoint is specified for a partition command the partition
-will be created but not mounted — mention this in the kickstart
-help text.
+Recent changes to this recipe caused automated PR increments
+to break, regressing package feeds. The only way to recover
+is to bump PR, so do this centrally to fix anyone affected.
 
-[YOCTO #8820]
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
----
- scripts/lib/wic/help.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 89fb7be..be334e7 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -617,7 +617,7 @@ DESCRIPTION
-        This command creates a partition on the system and uses the
-        following syntax:
+diff --git a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+index 23c0a5c..9041734 100644
+--- a/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
++++ b/meta/recipes-core/meta/nativesdk-buildtools-perl-dummy.bb
+@@ -4,6 +4,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
  
--         part <mountpoint>
-+         part [<mountpoint>]
+ inherit allarch
  
-        The <mountpoint> is where the partition will be mounted and
-        must take of one of the following forms:
-@@ -626,6 +626,9 @@ DESCRIPTION
- 
-          swap: The partition will be used as swap space.
- 
-+       If a <mountpoint> is not specified the partition will be created
-+       but will not be mounted.
++PR = "r1"
 +
-        The following are supported 'part' options:
- 
-          --size: The minimum partition size. Specify an integer value
--- 
-2.5.0
+ python() {
+     # Put the package somewhere separate to ensure it's never used except
+     # when we want it
+
 
 
