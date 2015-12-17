@@ -1,29 +1,17 @@
-Return-Path: <roman@khimov.ru>
-Received: from roman.khimov.ru (roman.khimov.ru [82.146.54.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A00C7317A
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id A80787014A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 11:49:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=khimov.ru;
-	s=mail; 
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From;
-	bh=gg2B1khD4OYNl+5sr8/uD5HOhJd+YJI99KyQvcUfNGA=; 
-	b=hO6VSSWwsN/gIi4DlUJEsr7GRSWR3vgtesb7Q3gkIvInODYaokki6IJIDQliziS5GtZOAnTSaT3mn1u8OSIphPIYgJJZzwIsxyk0/7Rnajs1BDyIlibhp+qKT76pp522u0LfgKFiL79cfp96el9B6LVTW/9EhUk/r74T27uZnPxq0BicqDouXWYFpCyX4phCr6ZQUWrOmhUOuYO4lMI4Xe+suARTo/wIgbOkBBI3FMcahAvak0AIP12RadRgjXGk73UvMf96SlfyjFEzr6DdWJSCf7MFpFV+oFp2B2nErYYKkMwCxDIJpqhDuyhfs+IH02eyJQkakDNUU4qxLI+2lw==;
-Received: from mail.pkcc-tb.ru ([185.33.199.10] helo=bancha.hex)
-	by roman.khimov.ru with esmtpsa (TLS1.0:ECDHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.84) (envelope-from <roman@khimov.ru>)
-	id 1a9X3Z-00044C-Ql; Thu, 17 Dec 2015 14:49:14 +0300
-From: Roman Khimov <roman@khimov.ru>
-To: Matthias Schiffer <mschiffer@universe-factory.net>
-Date: Thu, 17 Dec 2015 14:49:13 +0300
-Message-ID: <20429947.OAhnyEDPKl@bancha.hex>
-User-Agent: KMail/4.14.9 (Linux/3.16.7-24-desktop; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <567284B0.4020603@universe-factory.net>
-References: <cover.1450288828.git.mschiffer@universe-factory.net>
-	<1893430.e3TcZXnnJp@masala.hex>
-	<567284B0.4020603@universe-factory.net>
+	Thu, 17 Dec 2015 12:02:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 3E5362602C6
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Dec 2015 12:02:28 +0000
+Message-Id: <1450353748-14381-1-git-send-email-joshua.lock@collabora.co.uk>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] base-files: create typical merged /usr symlinks if the "merged-usr" distro feature is set
+Subject: [PATCH] wic/help.py: document that mountpoint is optional for part command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +24,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Dec 2015 11:49:16 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 17 Dec 2015 12:02:32 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-=D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 17 =D0=B4=D0=B5=
-=D0=BA=D0=B0=D0=B1=D1=80=D1=8F 2015 10:47:28 =D0=BF=D0=BE=D0=BB=D1=8C=D0=
-=B7=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Matthias Schiffer =D0=BD=D0=
-=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BB:
-> On 12/16/2015 08:46 PM, Roman Khimov wrote:
-> > =D0=92 =D0=BF=D0=B8=D1=81=D1=8C=D0=BC=D0=B5 =D0=BE=D1=82 16 =D0=B4=D0=
-=B5=D0=BA=D0=B0=D0=B1=D1=80=D1=8F 2015 19:12:00 =D0=BF=D0=BE=D0=BB=D1=8C=
-=D0=B7=D0=BE=D0=B2=D0=B0=D1=82=D0=B5=D0=BB=D1=8C Matthias Schiffer=20
-> > =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BB:
-> > Also, you probably want to add this symlinks to fs-perms.txt. I don=
-'t
-> > quite
-> > remember which packages failed for me without it, but there were so=
-me.
->=20
-> Is it even possible to have fs-perms.txt entries depending on a
-> DISTRO_FEATURE?=20
+If no mountpoint is specified for a partition command the partition
+will be created but not mounted — mention this in the kickstart
+help text.
 
-Probably not.
+[YOCTO #8820]
 
-> And can fs-perms.txt move files from one directory to
-> another (as you suggested in your reply for PATCH 2)?
+Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+---
+ scripts/lib/wic/help.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-IIRC, yes.
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index 89fb7be..be334e7 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -617,7 +617,7 @@ DESCRIPTION
+        This command creates a partition on the system and uses the
+        following syntax:
+ 
+-         part <mountpoint>
++         part [<mountpoint>]
+ 
+        The <mountpoint> is where the partition will be mounted and
+        must take of one of the following forms:
+@@ -626,6 +626,9 @@ DESCRIPTION
+ 
+          swap: The partition will be used as swap space.
+ 
++       If a <mountpoint> is not specified the partition will be created
++       but will not be mounted.
++
+        The following are supported 'part' options:
+ 
+          --size: The minimum partition size. Specify an integer value
+-- 
+2.5.0
 
-> AFAICT, fs-perms.txt is only there to fix some common issues with
-> directory permissions. Most packages already respect base_libdir etc.=
-
-> just fine, so in my opinion it would be preferable to just fix the
-> packages which don't if adding such things to fs-perms.txt is non-tri=
-vial.
-
-fs-perms can fix things automatically, with no additional code in recip=
-es (and=20
-that's a nice thing IMO), but, yes, at the moment it probably can't do =
-or=20
-don't do things based on DISTRO_FEATURE settings. Maybe using=20
-FILESYSTEM_PERMS_TABLES can help or even generating fs-perms on the fly=
- taking=20
-into account real ${somedir} values.
 
