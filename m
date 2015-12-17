@@ -1,60 +1,31 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-Received: from mx18-05.smtp.antispamcloud.com (mx18-05.smtp.antispamcloud.com
-	[207.244.64.174])
-	by mail.openembedded.org (Postfix) with ESMTP id B47AE6E5CB
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 31B8C6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 12:47:36 +0000 (UTC)
-Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
-	helo=TOP-EX01.TOPIC.LOCAL)
-	by mx18.antispamcloud.com with esmtps (TLSv1:AES256-SHA:256)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1a9Xxw-0003Bf-5F; Thu, 17 Dec 2015 13:47:35 +0100
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Thu, 17 Dec 2015 13:45:48 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, OE-core
-	<openembedded-core@lists.openembedded.org>
-References: <5671310A.1000000@topic.nl>
-	<1450269344.13505.113.camel@linuxfoundation.org>
-	<567164AF.1040405@topic.nl>
-	<1450272836.13505.124.camel@linuxfoundation.org>
-	<56725504.8030704@topic.nl>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <5672AEDD.2030607@topic.nl>
-Date: Thu, 17 Dec 2015 13:47:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Thu, 17 Dec 2015 12:49:22 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 17 Dec 2015 04:49:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,441,1444719600"; d="scan'208";a="843210907"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 17 Dec 2015 04:49:23 -0800
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.51])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id DC57F6A4087;
+	Thu, 17 Dec 2015 05:37:23 -0800 (PST)
+Date: Thu, 17 Dec 2015 14:17:58 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Joshua Lock <joshua.lock@collabora.co.uk>
+Message-ID: <20151217121758.GA30559@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1450353748-14381-1-git-send-email-joshua.lock@collabora.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <56725504.8030704@topic.nl>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw0mvayrARxQsaVhW6R5/2thqbscANip7ZwTyX91RPNepXTxYO9+h4+Kgr/VqvR5kS1nT
-	JCAz68Bp5Nzs1GLNXgZmraJGWVbN0zdCh+St1How76M88A/FMgbf0S+ThhoMitkj8yvQGyRT2EBh
-	ndiab5jvtWM5d+RkRXA/IaA9U5iefpsBrGwPJx3E5hMQ8KUiEOivaP4tOS0dAa6Pl/yne7cYyBDs
-	CGVQWjIY1+wA/g3TOcE5pDPR2nxU6DRRSGtNFtezYqxGMqsKjARq8PBC4qg7sLBrShfGp4EU0fbo
-	qhhOIvH2lPPHVNWXnkQ7ilsl/36m+UeFXprlCOm3BAEbJtAcDD/sssj+FwWEyCWpBXdJ6Vkh5Qbj
-	nuYeddfovBvutRuK7R6H57ct58uzcYYv7W/KknLmkljuMMLsWJ3maWWze/Ls0fU8FArYrRMJBumI
-	Njn9+eCHJ3AcQe7onCBsCZOJ+cv73CChOPjKA0/DVd83+ELfnXyprHiD0GLOK2LqWxX85/pGRMZi
-	MCNSygwAMg8WArZ9cfx8JEUvIQRTnKBcCtLX8J42f9dl5Wct40Eou5FVgpT1b21uZVckGp0ccOZC
-	RSZMN8y/+1WP1E8Mrbp/GKpoeQlcxlC8WilnINez4DvJjvC82Pa/1OgFKCyVRnxuK13W89C6y2hL
-	dJzdo1/6c0Jn5QFm5L3+9JoiLT95+g==
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJUb3OPwsHaH0Fvg5oXltHd/JUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
-	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
-	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
-	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
-X-Originating-IP: 88.159.208.100
-X-Spampanel-Domain: topic.nl
-X-Spampanel-Username: 88.159.208.100
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=88.159.208.100@topic.nl
-X-Spampanel-Outgoing-Class: ham
-X-Spampanel-Outgoing-Evidence: Combined (0.00)
-X-Recommended-Action: accept
-Subject: Re: How to move a recipe to another directory without invalidating its sstate-cache?
+In-Reply-To: <1450353748-14381-1-git-send-email-joshua.lock@collabora.co.uk>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic/help.py: document that mountpoint is optional for part command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,123 +38,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Dec 2015 12:47:38 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 17 Dec 2015 12:49:25 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-=EF=BB=BFOn 17-12-15 07:24, Mike Looijmans wrote:
-> On 16-12-15 14:33, Richard Purdie wrote:
->> On Wed, 2015-12-16 at 14:18 +0100, Mike Looijmans wrote:
->>> =EF=BB=BFOn 16-12-15 13:35, Richard Purdie wrote:
->>>> On Wed, 2015-12-16 at 10:38 +0100, Mike Looijmans wrote:
->>>>> =EF=BB=BFI renamed "recipes-some/foo/bar.bb" to "recipes
->>>>> -some/buzz/bar.bb"
->>>>>
->>>>> Rebuilding bar and its dependencies will take about 16 hours. So
->>>>> I
->>>>> don't want
->>>>> to trigger a rebuild.
->>>>>
->>>>> running "bitbake -S printdiff bar" only reveils this:
->>>>
->>>> I'm not sure I trust the output of -S printdiff, there are some
->>>> cases
->>>> it doesn't seem to "guess" right. I wish I or someone one could fix
->>>> but
->>>> but we can do its work manually. Can you try something like:
->>>>
->>>> set TMPDIR =3D "x"
->>>> bitbake -S bar
->>>> rename the recipe
->>>> set TMPDIR =3D "y"
->>>> bitbake -S bar
->>>
->>> Found out I need an extra "none" in here:
->>> bitbake -S none bar
->>
->> Sorry, yes.
->>
->>>> then
->>>>
->>>> "ls tmp-x/stamps/xxxx/bar"
->>>> "ls tmp-y/stamps/xxxx/bar"
->>>>
->>>> and see which tasks change signature. Then run:
->>>>
->>>> "bitbake-diffsigs <sig A> <sig B>"
->>>>
->>>> and see if that makes more sense?
->>>
->>> That gave the same output. Everything after "runtaskdeps" is bogus
->>> because its
->>> value changes from [blahblah, foobar] into [buzbar, blahblah] and now
->>> diffsig
->>> seems to attempt to match the "blahblah" signatures against those of
->>> "buzbar".
->>>
->>> Which sort of hints that if my new name starts with an "f" the
->>> reordering
->>> won't happen, so I'm gonna try renaming to "fbuz" now,,,
->>
->> I still suspect this might be the way the tool displays the data rather
->> than the real problem as there is some fuzziness in the data that code
->> has to work with. Bitbake just knows there are dependencies on hashes
->> X, Y, Z and it has to try and guess how to match them up. The paths are
->> included to help reduce fuzz but are only used by the analysis code,
->> not the checksum creation.
->
-> No, if the sort order doesn't change, the checksum remains the same as we=
-ll.
->
-> So if i rename "foo" to "far" it will not rebuild the package (using plai=
-n
-> bitbake without -S switches), but if I rename "foo" to "buz" it will rebu=
-ild
-> because there's a dependent package that sorts before "far" but after "bu=
-z".
->
->
->> Did the hashes themselves change or just the paths? I'm wondering if
->> the order that bitbake adds the checksums to the main checksum may have
->> some bearing on this...
->>
->> Being able to see some real data would also help. Does this reproduce
->> with a public recipe I can see the real data for?
->
-> There should be quite a few recipes in OE-core that might match this patt=
-ern:
->
-> Recipe X must depend on recipe Y. The directory of Y sorts before that of=
- X.
-> Renaming the directory of X to something that sorts before that of Y shou=
-ld
-> trigger the problem.
->
-> I'll see if I can locate an existing one.
+Hi Joshua,
 
-Found several candidates, but couldn't get them to trigger this... Must be=
-=20
-something more involved than just renaming the directory...
+Thank you for the patch!
 
+Acked-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Embedded Products
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-Telefax: +31 (0) 499 33 69 70
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
-
+On Thu, Dec 17, 2015 at 12:02:28PM +0000, Joshua Lock wrote:
+> If no mountpoint is specified for a partition command the partition
+> will be created but not mounted — mention this in the kickstart
+> help text.
+> 
+> [YOCTO #8820]
+> 
+> Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+> ---
+>  scripts/lib/wic/help.py | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+> index 89fb7be..be334e7 100644
+> --- a/scripts/lib/wic/help.py
+> +++ b/scripts/lib/wic/help.py
+> @@ -617,7 +617,7 @@ DESCRIPTION
+>         This command creates a partition on the system and uses the
+>         following syntax:
+>  
+> -         part <mountpoint>
+> +         part [<mountpoint>]
+>  
+>         The <mountpoint> is where the partition will be mounted and
+>         must take of one of the following forms:
+> @@ -626,6 +626,9 @@ DESCRIPTION
+>  
+>           swap: The partition will be used as swap space.
+>  
+> +       If a <mountpoint> is not specified the partition will be created
+> +       but will not be mounted.
+> +
+>         The following are supported 'part' options:
+>  
+>           --size: The minimum partition size. Specify an integer value
+--
+Regards,
+Ed
 
