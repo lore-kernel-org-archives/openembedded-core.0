@@ -1,26 +1,32 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id 3A93760745
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 6696E60745
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 20:09:10 +0000 (UTC)
-Received: (qmail 10683 invoked by uid 1003); 17 Dec 2015 20:09:10 -0000
-Received: from unknown (HELO ?192.168.11.140?)
-	(philip@opensdr.com@108.44.110.59)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	17 Dec 2015 20:09:10 -0000
-To: "Barros Pena, Belen" <belen.barros.pena@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
-References: <D298425C.6D42F%belen.barros.pena@intel.com>
-From: Philip Balister <philip@balister.org>
-Message-ID: <56731665.6060006@balister.org>
-Date: Thu, 17 Dec 2015 15:09:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Thu, 17 Dec 2015 20:18:18 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id p187so37400180wmp.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Dec 2015 12:18:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Khmwd92mYfUDT6OmXaWKJAdJkSOKsicTPRlR8b8MLjA=;
+	b=H5uqOm1EjCZiACN8/8AJGqTs3FmAYgFVjJonCytsNmjoxxAQtVVU7bRH9oXfpkJHqV
+	xkbw4TQBhxJ0wVGJDUipes7OV/t7al0UxK5OnNaLmph7py7OpZaaqx5rs8xliImElUUg
+	JAednKWTZA7+8Gaiwy8YQbvu6OVONufHOph9MdAOkd9tb73Pd6uERMK2s+BCiAwaVHCW
+	m6sesWL7Oy0Moi4zynUNGmzr0OBFBxp07E863GjuPKpbyeSodk2c1GBuAwzCe0Fw8C1q
+	5fxJNhlwAo40MjTRGblF2qeZql4pZ78a0KGlNr5ZBn2lM2uZXU+RXOGY4gpzaUe+qEdJ
+	Op4w==
 MIME-Version: 1.0
-In-Reply-To: <D298425C.6D42F%belen.barros.pena@intel.com>
-Subject: Re: Demos for FOSDEM 2016
+X-Received: by 10.28.211.203 with SMTP id k194mr359898wmg.4.1450383498844;
+	Thu, 17 Dec 2015 12:18:18 -0800 (PST)
+Received: by 10.194.117.68 with HTTP; Thu, 17 Dec 2015 12:18:18 -0800 (PST)
+In-Reply-To: <1449623398-29127-1-git-send-email-armccurdy@gmail.com>
+References: <1449623398-29127-1-git-send-email-armccurdy@gmail.com>
+Date: Thu, 17 Dec 2015 12:18:18 -0800
+Message-ID: <CAJ86T=VFUeJ6=BXkOz++xG-n7L5Gjtip8RN9r_x+pjPsb=FE=Q@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] feature-arm-thumb.inc cleanups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +39,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Dec 2015 20:09:11 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 17 Dec 2015 20:18:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 12/17/2015 05:43 AM, Barros Pena, Belen wrote:
-> Hi all,
-> 
-> OpenEmbedded will have a huge 2-table stand at FOSDEM'16, which happens
-> January 30th and 31st in Brussels.
-> 
-> We need to fill up those 2 tables with something, so this is a call for
-> demos. If you have something built with OpenEmbedded you'd like to show,
-> let me know. 
-> 
-> Looking forward to your hundreds of demo proposals ;)
+On Tue, Dec 8, 2015 at 5:09 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> Drop legacy interworking over-rides and cflags.
 
-Remember we are "selling" the OpenEmbedded build system, not cool
-gadgets. (Yes, we have the same problem every year).
+Ping. Does anyone see any issues with these changes?
 
-We do want to show that we can build embedded Linux solutions for a
-variety of hardware, both development and production systems.
-
-I'm working toward having two different pieces of hardware, both running
-the same SDR app. And I want to ahve a copy of toaster running to show
-how the images are built.
-
-Philip
-
-
-> 
-> Cheers,
-> 
-> Belén
-> 
+> Andre McCurdy (3):
+>   feature-arm-thumb.inc: drop ARM -vs- thumb comments
+>   feature-arm-thumb.inc: drop legacy _thumb and _thumb-interwork over-rides
+>   feature-arm-thumb.inc: drop 'no-thumb-interwork' tuning feature
+>
+>  meta/conf/machine/include/arm/feature-arm-thumb.inc | 17 -----------------
+>  1 file changed, 17 deletions(-)
+>
+> --
+> 1.9.1
+>
 
