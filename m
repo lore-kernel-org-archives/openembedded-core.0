@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 85CCC731B7
+	by mail.openembedded.org (Postfix) with ESMTP id 1053A73180
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 15:11:27 +0000 (UTC)
+	Thu, 17 Dec 2015 15:11:29 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Dec 2015 07:11:28 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 17 Dec 2015 07:11:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,441,1444719600"; d="scan'208";a="875739917"
+X-IronPort-AV: E=Sophos;i="5.20,441,1444719600"; d="scan'208";a="875739941"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Dec 2015 07:11:27 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 17 Dec 2015 07:11:28 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Dec 2015 17:08:45 +0200
-Message-Id: <7f461ec11f222a76ab6ef5837da529bfb0e906ab.1450364672.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 17 Dec 2015 17:08:46 +0200
+Message-Id: <e8a4619a9aa371a5c9866a7844f3126f0232d6fe.1450364672.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
 In-Reply-To: <cover.1450364672.git.alexander.kanavin@linux.intel.com>
 References: <cover.1450364672.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1450364672.git.alexander.kanavin@linux.intel.com>
 References: <cover.1450364672.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 08/17] msmtp: update to 1.6.3
+Subject: [PATCH 09/17] libassuan: update to 2.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Dec 2015 15:11:27 -0000
+X-List-Received-Date: Thu, 17 Dec 2015 15:11:29 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-extended/msmtp/{msmtp_1.6.2.bb => msmtp_1.6.3.bb} | 4 ++--
+ .../libassuan/{libassuan_2.2.1.bb => libassuan_2.4.2.bb}              | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/msmtp/{msmtp_1.6.2.bb => msmtp_1.6.3.bb} (86%)
+ rename meta/recipes-support/libassuan/{libassuan_2.2.1.bb => libassuan_2.4.2.bb} (86%)
 
-diff --git a/meta/recipes-extended/msmtp/msmtp_1.6.2.bb b/meta/recipes-extended/msmtp/msmtp_1.6.3.bb
+diff --git a/meta/recipes-support/libassuan/libassuan_2.2.1.bb b/meta/recipes-support/libassuan/libassuan_2.4.2.bb
 similarity index 86%
-rename from meta/recipes-extended/msmtp/msmtp_1.6.2.bb
-rename to meta/recipes-extended/msmtp/msmtp_1.6.3.bb
-index f9bf563..6dbd78f 100644
---- a/meta/recipes-extended/msmtp/msmtp_1.6.2.bb
-+++ b/meta/recipes-extended/msmtp/msmtp_1.6.3.bb
-@@ -12,8 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- SRC_URI = "http://sourceforge.net/projects/msmtp/files/msmtp/${PV}/${BPN}-${PV}.tar.xz \
-           "
+rename from meta/recipes-support/libassuan/libassuan_2.2.1.bb
+rename to meta/recipes-support/libassuan/libassuan_2.4.2.bb
+index 75ae43f..57eab38 100644
+--- a/meta/recipes-support/libassuan/libassuan_2.2.1.bb
++++ b/meta/recipes-support/libassuan/libassuan_2.4.2.bb
+@@ -13,8 +13,8 @@ DEPENDS = "libgpg-error"
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libassuan/libassuan-${PV}.tar.bz2 \
+ 	   file://libassuan-add-pkgconfig-support.patch"
  
--SRC_URI[md5sum] = "3baca93c7e5f1aa9d36a2e5b38739ab9"
--SRC_URI[sha256sum] = "2f6ecd7cbfadf548fd55205bd24cb63b84bcbb1185efed917dd7800595a48789"
-+SRC_URI[md5sum] = "6d9384c09405db9476beaa2237c56705"
-+SRC_URI[sha256sum] = "f982be069c0772c3ee83925f552f5dac5fb307d2d1c68202f9926bb13b757355"
+-SRC_URI[md5sum] = "6290e750ee87be3bfd9579fc44c6a186"
+-SRC_URI[sha256sum] = "949285bb79345362cb72a40c798defefc007031c60f2f10251720bf60a9de2de"
++SRC_URI[md5sum] = "70151995c2330ae1261c0a7ca34cf478"
++SRC_URI[sha256sum] = "bb06dc81380b74bf1b64d5849be5c0409a336f3b4c45f20ac688e86d1b5bcb20"
  
- inherit gettext autotools update-alternatives pkgconfig
+ BINCONFIG = "${bindir}/libassuan-config"
  
 -- 
 2.6.2
