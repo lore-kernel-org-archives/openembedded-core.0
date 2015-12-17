@@ -1,24 +1,35 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D04D37316B
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id BAA236FFE2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 23:37:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBGNbkb9011219
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Thu, 17 Dec 2015 00:08:18 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id ur14so31645433pab.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Dec 2015 15:37:47 -0800
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Wed, 16 Dec 2015 15:37:46 -0800
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <randy.macleod@windriver.com>
-Date: Wed, 16 Dec 2015 15:37:46 -0800
-Message-ID: <1450309066-18270-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-Subject: [PATCH 1/1] blacklist: add SELFBLACKLIST support
+	Wed, 16 Dec 2015 16:08:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=Fmx28qRHQBxrz4MimIPx1yeryk6zfKhgqHf5EvUncTg=;
+	b=E6EH11Qa+fpeHP+Frs86/H4dqXFaH+iZNvU4SOQCVqDLkZVjyjhRdXzx5DgtD72czK
+	Q/QG59OvyMVsSwJUnbNvl6BOQykefrFhG1RIZ8nFIkY42Yi/a/pY8MhUmqDQOfqcAIaz
+	55EcSFvv2wB7IP+3H6LDOCLvtHl9IPKojKx8C4W2leaiKFDF6SDmVHxTv0CTLk0Lyl4P
+	xWcZtCnksZHXOkbsdTV4oqvfSLTfDB0sQo/5mOsVApmRMJgkwd97di1mP9viEQ1ElCXs
+	xeHTOIXLs1XGzbeRhMGupJFP4msnkoDM2gPPYk3USduJ8RX9uk+s/3BHSHlxGqpYVGp+
+	FMEg==
+X-Received: by 10.66.139.72 with SMTP id qw8mr67768687pab.130.1450310899602;
+	Wed, 16 Dec 2015 16:08:19 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	cn1sm6549686pad.11.2015.12.16.16.08.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 16 Dec 2015 16:08:18 -0800 (PST)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Dec 2015 16:08:13 -0800
+Message-Id: <1450310893-27099-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] pixman: check neon support via TUNE_FEATURES, not the _armv7a over-ride
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Dec 2015 23:37:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 17 Dec 2015 00:08:21 -0000
 
-BLACKLIST[pn] in a recipe does not work for multilib.
-Add SELFBLACKLIST specifically for use in recipes.
+Neon support is optional in armv7a so the _armv7a over-ride is not
+the best way to determine whether or not the target supports neon.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
+Since pixman will always use neon in preference to 'simd' (ie VFPv2)
+if it can, it's safe to disable the simd routines if the target is
+known to support neon.
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/classes/blacklist.bbclass |   14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/xorg-lib/pixman_0.32.8.bb | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/blacklist.bbclass b/meta/classes/blacklist.bbclass
-index a0141a8..a396536 100644
---- a/meta/classes/blacklist.bbclass
-+++ b/meta/classes/blacklist.bbclass
-@@ -11,6 +11,9 @@
- # * To add a package to the blacklist, set:
- #   PNBLACKLIST[pn] = "message"
- #
-+# * To have a recipe blacklist itself, in the recipe set:
-+#   SELFBLACKLIST = "message"
-+#
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.32.8.bb b/meta/recipes-graphics/xorg-lib/pixman_0.32.8.bb
+index e13b9ad..16e68fc 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.32.8.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.32.8.bb
+@@ -19,13 +19,12 @@ PE = "1"
  
- # Cope with PNBLACKLIST flags for multilib case
- addhandler blacklist_multilib_eventhandler
-@@ -38,8 +41,13 @@ python blacklist_multilib_eventhandler() {
- }
+ IWMMXT = "--disable-arm-iwmmxt"
+ LOONGSON_MMI = "--disable-loongson-mmi"
+-NEON = " --disable-arm-neon "
+-NEON_class-nativesdk = " --disable-arm-neon "
+-NEON_armv7a = " "
+-NEON_armv7a-vfp-neon = " "
++# If target supports neon then disable the 'simd' (ie VFPv2) fallback, otherwise disable neon.
++NEON = "${@bb.utils.contains("TUNE_FEATURES", "neon", "--disable-arm-simd", "--disable-arm-neon" ,d)}"
  
- python () {
--    blacklist = d.getVarFlag('PNBLACKLIST', d.getVar('PN', True), True)
-+    reason = d.getVar('SELFBLACKLIST', True)
-+
-+    if reason:
-+        raise bb.parse.SkipPackage("Recipe blacklists itself!: %s" % (reason))
-+
-+    reason = d.getVarFlag('PNBLACKLIST', d.getVar('PN', True), True)
+ EXTRA_OECONF = "--disable-gtk ${IWMMXT} ${LOONGSON_MMI} ${NEON}"
+ EXTRA_OECONF_class-native = "--disable-gtk"
++EXTRA_OECONF_class-nativesdk = "--disable-gtk"
  
--    if blacklist:
--        raise bb.parse.SkipPackage("Recipe is blacklisted: %s" % (blacklist))
-+    if reason:
-+        raise bb.parse.SkipPackage("Recipe is blacklisted: %s" % (reason))
- }
+ SRC_URI += "\
+             file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
 -- 
-1.7.9.5
+1.9.1
 
 
