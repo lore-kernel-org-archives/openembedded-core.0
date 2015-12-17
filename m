@@ -1,20 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6532E73193
+	by mail.openembedded.org (Postfix) with ESMTP id 8D09F7319F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 15:11:19 +0000 (UTC)
+	Thu, 17 Dec 2015 15:11:20 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Dec 2015 07:11:20 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 17 Dec 2015 07:11:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,441,1444719600"; d="scan'208";a="875739816"
+X-IronPort-AV: E=Sophos;i="5.20,441,1444719600"; d="scan'208";a="875739823"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Dec 2015 07:11:20 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 17 Dec 2015 07:11:21 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Dec 2015 17:08:37 +0200
-Message-Id: <cover.1450364672.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 17 Dec 2015 17:08:38 +0200
+Message-Id: <829c351f83e3afe818c20903d786c45164b90184.1450364672.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.6.2
-Subject: [PATCH 00/17] Recipe version updates
+In-Reply-To: <cover.1450364672.git.alexander.kanavin@linux.intel.com>
+References: <cover.1450364672.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <cover.1450364672.git.alexander.kanavin@linux.intel.com>
+References: <cover.1450364672.git.alexander.kanavin@linux.intel.com>
+Subject: [PATCH 01/17] cryptodev: update to 1.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,87 +33,169 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 17 Dec 2015 15:11:20 -0000
 
-Here's another bunch of version updates; this time everything that is assigned
-to me has been updated (except the webkit/epiphany related recipes which will
-be handled separately). I also updated recipes that don't have a listed maintainer.
+Drop 0001-ioctl.c-Fix-build-on-3.19.patch and
+0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch, the code
+has been fixed upstream.
 
-The following changes since commit 6544bed72142c9ff07b55f41d66e137b1b453f7b:
-
-  valgrind: update to 3.11.0 (2015-12-16 15:14:27 +0200)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
-
-Alexander Kanavin (17):
-  cryptodev: update to 1.8
-  gptfdisk: update to 1.0.1
-  ifupdown: update to 0.8.2
-  pytnon-pexpect: update to 4.0.1
-  python3-pip: update to 7.1.2
-  trace-cmd: update to 2.6
-  liburcu: update to 0.9.1
-  msmtp: update to 1.6.3
-  libassuan: update to 2.4.2
-  tiff: update to 4.0.6
-  lighttpd: update to 1.4.38
-  kexec-tools: update to 2.0.11
-  nss: update to 3.21
-  iso-codes: update to 3.63
-  btrfs-tools: update to 4.3.1
-  icu: fix upstream version check
-  mobile-broadband-provider-info: update to tagged release 20151214
-
- .../mobile-broadband-provider-info_git.bb          |   4 +-
- .../{ifupdown_0.7.48.1.bb => ifupdown_0.8.2.bb}    |   9 +-
- .../{btrfs-tools_4.1.2.bb => btrfs-tools_4.3.1.bb} |   2 +-
- .../fdisk/{gptfdisk_1.0.0.bb => gptfdisk_1.0.1.bb} |   4 +-
- ...thon-pexpect_3.3.bb => python-pexpect_4.0.1.bb} |   6 +-
- .../{python3-pip_6.1.1.bb => python3-pip_7.1.2.bb} |   4 +-
- .../{lighttpd_1.4.36.bb => lighttpd_1.4.38.bb}     |   4 +-
- .../msmtp/{msmtp_1.6.2.bb => msmtp_1.6.3.bb}       |   4 +-
- ...yptodev-linux_1.7.bb => cryptodev-linux_1.8.bb} |   2 +-
- ...todev-module_1.7.bb => cryptodev-module_1.8.bb} |   3 +-
- ...yptodev-tests_1.7.bb => cryptodev-tests_1.8.bb} |   3 +-
- .../cryptodev/{cryptodev_1.7.inc => cryptodev.inc} |   4 +-
- .../files/0001-ioctl.c-Fix-build-on-3.19.patch     |  29 ----
- ...ests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch |  29 ----
- ...kexec-tools_2.0.10.bb => kexec-tools_2.0.11.bb} |   4 +-
- meta/recipes-kernel/trace-cmd/trace-cmd.inc        |   6 +-
- .../libtiff/{tiff_4.0.4.bb => tiff_4.0.6.bb}       |   4 +-
- meta/recipes-support/icu/icu_56.1.bb               |   2 +
- .../{iso-codes_3.58.bb => iso-codes_3.63.bb}       |   4 +-
- .../{libassuan_2.2.1.bb => libassuan_2.4.2.bb}     |   4 +-
- ...cify-complete-types-for-atomic-function-c.patch | 158 ---------------------
- ...evert-Blacklist-ARM-gcc-4.8.0-4.8.1-4.8.2.patch |  47 ------
- meta/recipes-support/liburcu/liburcu/aarch64.patch |  19 ---
- .../liburcu/{liburcu_0.8.7.bb => liburcu_0.9.1.bb} |   9 +-
- .../nss/{nss_3.19.2.bb => nss_3.21.bb}             |   6 +-
- 25 files changed, 41 insertions(+), 329 deletions(-)
- rename meta/recipes-core/ifupdown/{ifupdown_0.7.48.1.bb => ifupdown_0.8.2.bb} (81%)
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.1.2.bb => btrfs-tools_4.3.1.bb} (94%)
- rename meta/recipes-devtools/fdisk/{gptfdisk_1.0.0.bb => gptfdisk_1.0.1.bb} (86%)
- rename meta/recipes-devtools/python/{python-pexpect_3.3.bb => python-pexpect_4.0.1.bb} (69%)
- rename meta/recipes-devtools/python/{python3-pip_6.1.1.bb => python3-pip_7.1.2.bb} (90%)
- rename meta/recipes-extended/lighttpd/{lighttpd_1.4.36.bb => lighttpd_1.4.38.bb} (94%)
- rename meta/recipes-extended/msmtp/{msmtp_1.6.2.bb => msmtp_1.6.3.bb} (86%)
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ ...yptodev-linux_1.7.bb => cryptodev-linux_1.8.bb} |  2 +-
+ ...todev-module_1.7.bb => cryptodev-module_1.8.bb} |  3 +--
+ ...yptodev-tests_1.7.bb => cryptodev-tests_1.8.bb} |  3 +--
+ .../cryptodev/{cryptodev_1.7.inc => cryptodev.inc} |  4 +--
+ .../files/0001-ioctl.c-Fix-build-on-3.19.patch     | 29 ----------------------
+ ...ests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch | 29 ----------------------
+ 6 files changed, 5 insertions(+), 65 deletions(-)
  rename meta/recipes-kernel/cryptodev/{cryptodev-linux_1.7.bb => cryptodev-linux_1.8.bb} (91%)
  rename meta/recipes-kernel/cryptodev/{cryptodev-module_1.7.bb => cryptodev-module_1.8.bb} (83%)
  rename meta/recipes-kernel/cryptodev/{cryptodev-tests_1.7.bb => cryptodev-tests_1.8.bb} (79%)
  rename meta/recipes-kernel/cryptodev/{cryptodev_1.7.inc => cryptodev.inc} (66%)
  delete mode 100644 meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-on-3.19.patch
  delete mode 100644 meta/recipes-kernel/cryptodev/files/0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch
- rename meta/recipes-kernel/kexec/{kexec-tools_2.0.10.bb => kexec-tools_2.0.11.bb} (87%)
- rename meta/recipes-multimedia/libtiff/{tiff_4.0.4.bb => tiff_4.0.6.bb} (92%)
- rename meta/recipes-support/iso-codes/{iso-codes_3.58.bb => iso-codes_3.63.bb} (76%)
- rename meta/recipes-support/libassuan/{libassuan_2.2.1.bb => libassuan_2.4.2.bb} (86%)
- delete mode 100644 meta/recipes-support/liburcu/liburcu/0001-uatomic-Specify-complete-types-for-atomic-function-c.patch
- delete mode 100644 meta/recipes-support/liburcu/liburcu/Revert-Blacklist-ARM-gcc-4.8.0-4.8.1-4.8.2.patch
- delete mode 100644 meta/recipes-support/liburcu/liburcu/aarch64.patch
- rename meta/recipes-support/liburcu/{liburcu_0.8.7.bb => liburcu_0.9.1.bb} (61%)
- rename meta/recipes-support/nss/{nss_3.19.2.bb => nss_3.21.bb} (97%)
 
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev-linux_1.7.bb b/meta/recipes-kernel/cryptodev/cryptodev-linux_1.8.bb
+similarity index 91%
+rename from meta/recipes-kernel/cryptodev/cryptodev-linux_1.7.bb
+rename to meta/recipes-kernel/cryptodev/cryptodev-linux_1.8.bb
+index a33841d..c55577c 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev-linux_1.7.bb
++++ b/meta/recipes-kernel/cryptodev/cryptodev-linux_1.8.bb
+@@ -1,4 +1,4 @@
+-require cryptodev_${PV}.inc
++require cryptodev.inc
+ 
+ SUMMARY = "A /dev/crypto device driver header file"
+ 
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev-module_1.7.bb b/meta/recipes-kernel/cryptodev/cryptodev-module_1.8.bb
+similarity index 83%
+rename from meta/recipes-kernel/cryptodev/cryptodev-module_1.7.bb
+rename to meta/recipes-kernel/cryptodev/cryptodev-module_1.8.bb
+index 5cd52eb..552eb6a 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev-module_1.7.bb
++++ b/meta/recipes-kernel/cryptodev/cryptodev-module_1.8.bb
+@@ -1,4 +1,4 @@
+-require cryptodev_${PV}.inc
++require cryptodev.inc
+ 
+ SUMMARY = "A /dev/crypto device driver kernel module"
+ 
+@@ -9,7 +9,6 @@ DEPENDS += "cryptodev-linux"
+ 
+ SRC_URI += " \
+ file://0001-Disable-installing-header-file-provided-by-another-p.patch \
+-file://0001-ioctl.c-Fix-build-on-3.19.patch \
+ "
+ 
+ EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.7.bb b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.8.bb
+similarity index 79%
+rename from meta/recipes-kernel/cryptodev/cryptodev-tests_1.7.bb
+rename to meta/recipes-kernel/cryptodev/cryptodev-tests_1.8.bb
+index f1ca36e..c400524 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.7.bb
++++ b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.8.bb
+@@ -1,4 +1,4 @@
+-require cryptodev_${PV}.inc
++require cryptodev.inc
+ 
+ SUMMARY = "A test suite for /dev/crypto device driver"
+ 
+@@ -6,7 +6,6 @@ DEPENDS += "openssl"
+ 
+ SRC_URI += " \
+ file://0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch \
+-file://0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch \
+ "
+ 
+ EXTRA_OEMAKE='KERNEL_DIR="${STAGING_EXECPREFIXDIR}" PREFIX="${D}"'
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev_1.7.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
+similarity index 66%
+rename from meta/recipes-kernel/cryptodev/cryptodev_1.7.inc
+rename to meta/recipes-kernel/cryptodev/cryptodev.inc
+index cca6925..ade7ef9 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev_1.7.inc
++++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
+@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SRC_URI = "http://download.gna.org/cryptodev-linux/cryptodev-linux-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "0b63b3481cf2c90386b35f057481d36b"
+-SRC_URI[sha256sum] = "41880533b53de4d7b3f054e230f576988dafb8eed7bef5ebcf6422bb2e3a3b25"
++SRC_URI[md5sum] = "02644cc4cd02301e0b503a332eb2f0b5"
++SRC_URI[sha256sum] = "67fabde9fb67b286a96c4f45b594b0eccd0f761b495705c18f2ae9461b831376"
+ 
+ S = "${WORKDIR}/cryptodev-linux-${PV}"
+ 
+diff --git a/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-on-3.19.patch b/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-on-3.19.patch
+deleted file mode 100644
+index 74c8972..0000000
+--- a/meta/recipes-kernel/cryptodev/files/0001-ioctl.c-Fix-build-on-3.19.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 7d71124991030f99965e6e6aaed421115f185adb Mon Sep 17 00:00:00 2001
+-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+-Date: Mon, 9 Feb 2015 13:51:56 +0100
+-Subject: [PATCH] ioctl.c: Fix build on 3.19
+-
+-get_unused_fd() MACRO has been removed on kernel 3.19. Replace by the
+-actual output of the macro.
+-
+-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+----
+- ioctl.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/ioctl.c b/ioctl.c
+-index f26cf93..cf8cc17 100644
+---- a/ioctl.c
+-+++ b/ioctl.c
+-@@ -529,7 +529,7 @@ static int
+- clonefd(struct file *filp)
+- {
+- 	int ret;
+--	ret = get_unused_fd();
+-+	ret = get_unused_fd_flags(0);
+- 	if (ret >= 0) {
+- 			get_file(filp);
+- 			fd_install(ret, filp);
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-kernel/cryptodev/files/0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch b/meta/recipes-kernel/cryptodev/files/0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch
+deleted file mode 100644
+index f5ab8b4..0000000
+--- a/meta/recipes-kernel/cryptodev/files/0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 47ff1eb9bb4f872c1d731b93d334ee5865bf3439 Mon Sep 17 00:00:00 2001
+-From: Denys Dmytriyenko <denys@ti.com>
+-Date: Sun, 6 Apr 2014 22:16:30 -0400
+-Subject: [PATCH] Fix tests Makefile usage of LDLIBS vs. LDFLAGS
+-
+-Libraries must come after objects, as link order matters, especially
+-when using linker flags like -Wl,--as-needed.
+-
+-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+-
+-Upstream-Status: Pending
+----
+- tests/Makefile | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/tests/Makefile b/tests/Makefile
+-index cd202af..67c3c83 100644
+---- a/tests/Makefile
+-+++ b/tests/Makefile
+-@@ -39,5 +39,5 @@ testprogs: $(hostprogs)
+- clean:
+- 	rm -f *.o *~ $(hostprogs)
+- 
+--${comp_progs}: LDFLAGS += -lssl -lcrypto
+-+${comp_progs}: LDLIBS += -lssl -lcrypto
+- ${comp_progs}: %: %.o openssl_wrapper.o
+--- 
+-1.9.1
+-
 -- 
 2.6.2
 
