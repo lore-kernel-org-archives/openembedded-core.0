@@ -1,32 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 342C4731AD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id B69D86FF80
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 10:56:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tBIAurHL030440; Fri, 18 Dec 2015 10:56:53 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vSDmAId76LwK; Fri, 18 Dec 2015 10:56:53 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tBIAukqf030437
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 18 Dec 2015 10:56:48 GMT
-Message-ID: <1450436206.8461.29.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Barros Pena, Belen" <belen.barros.pena@intel.com>,
-	"toaster@yoctoproject.org" <toaster@yoctoproject.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Dec 2015 10:56:46 +0000
-In-Reply-To: <D2997F47.6D98C%belen.barros.pena@intel.com>
-References: <1450364093.13505.210.camel@linuxfoundation.org>
-	<D2997F47.6D98C%belen.barros.pena@intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: "Bartosh, Eduard" <eduard.bartosh@intel.com>
-Subject: Re: [Toaster] FW: [PATCH 6/7] toaster: Update for buildstats changes
+	Fri, 18 Dec 2015 11:20:46 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id l126so59800383wml.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Dec 2015 03:20:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=KXOJQXjePavFNEYTimDiI+Lp+B2KuwF0fyN69Lw3JMY=;
+	b=uNhx+WunX9JQd9Kzf3q7pMG15VwBtKc+GAFLuofPLrn1aM03RxzlduI0pFPAJtG+Sz
+	7gX1u1sH6BFWXcieUhFOiQR0l7i1rzt5UWRcdVH66r2L6Xot+02jIqfDiUWjkNq7KMCh
+	ww1abG5n8g0HJdeSYwsDtr8LilOe+Eb3HA4BWUR0X33MpD4qQQNF7TaJh4+NZULi+xuc
+	LPpJTM2hMQ/CsQA4HcJmi7xM8R3CBX5fWh/OkcSfYDNkoXq6VgN3Ct+YMkCN46e0/hNY
+	G++uagtigBko+buuGOr3HnccZ0cfRF/YmGorliJ74pM5o9pj7AO1DjbCcj0knlHBfthA
+	kQPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=KXOJQXjePavFNEYTimDiI+Lp+B2KuwF0fyN69Lw3JMY=;
+	b=N/nbgvIgiBOW6cMxLLjiTwxJHiNlX9D+oTOHFLwtkPn5uRQHNB8rIZ0qcsQlKTTXP1
+	CPvov0zs4MiNj/IXqNJW+ciELWf1BA3Ke5sI2EgLkp+4rv1S+SbjvGtPv0wBtVFOzZCW
+	NzhMiE/BdcMxojzU2s1FVe6JIEk3zfvFZnGCuCyrxgM2SGmpkvxSskmlayd7yiDILi5p
+	18QilBRiWid+UtY0dGa/fovcTch6ZqqUmo1ReSovStdT5LbJgKkFsAYQgZ8wish9f8mH
+	lq+XQSVdoXJsSUV/lRjF3LLKF6MCSzYPKF1K1xgwhmLQYFS4B3t+MJ5c5kYyYW9oOTxc
+	PbQA==
+X-Gm-Message-State: ALoCoQmN2mK0dmW+w5cYZe40UK4JRAB3X7KuLXCH5DR6QPH2vSVajQWoPJIzXAP7PtGtuY4xZ4uyKPpzUUByNJc6sPNzVsbI/g==
+X-Received: by 10.195.13.137 with SMTP id ey9mr3907772wjd.81.1450437646700;
+	Fri, 18 Dec 2015 03:20:46 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	pn6sm14381484wjb.15.2015.12.18.03.20.45
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 18 Dec 2015 03:20:46 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Dec 2015 11:20:41 +0000
+Message-Id: <1450437641-2745-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] flex: fix native tool problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,110 +53,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 10:56:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 18 Dec 2015 11:20:48 -0000
 
-On Fri, 2015-12-18 at 09:21 +0000, Barros Pena, Belen wrote:
-> I applied the buildstats series on top of toaster-next, ran a build,
-> and
-> checked the build stats info. I can see time per task coming in. I
-> cannot
-> see cpu usage or disk i/o data in the UI because of this
-> 
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=8571
-> 
-> But there is data for both in the database, and it looks sane. So I
-> guess,
-> from the UI standpoint, the patches are ok: things were as broken as
-> they
-> were before ;)
+Always depend on bison-native and flex-native, yacc is needed during the build
+and a host flex is also needed to build flex (apart from for flex-native where
+it can run itself, but this dependency will be automatically pruned).
 
-Thanks Belén!
+Also instead of special-casing class-target builds when telling it where to find
+a host flex, always pass the path to a sysroot flex apart from when building
+flex-native.  This fixes the build of nativesdk-flex, which can't run the flex
+it built.
 
-I was asked what new data was available from buildstats. Right now you
-show in toaster:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/flex/flex.inc | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Task execution time
-CPU usage
-Some IO usage number
-
-I'd note that CPU usage is no longer logged, the reason being that the
-numbers were basically misleading and inaccurate. The raw data in
-buildstats looks like:
-
-Started: 1450427397.44 
-quilt-0.64-r0: do_compile: Elapsed time: 0.37 seconds 
-utime: 7
-stime: 2
-cutime: 16
-cstime: 7
-IO write_bytes: 1269760
-IO read_bytes: 0
-IO cancelled_write_bytes: 0
-IO syscr: 6165
-IO wchar: 1205445
-IO rchar: 4465276
-IO syscw: 1508
-rusage ru_utime: 0.076
-rusage ru_stime: 0.02
-rusage ru_maxrss: 39684
-rusage ru_minflt: 4618
-rusage ru_majflt: 0
-rusage ru_inblock: 0
-rusage ru_oublock: 32
-rusage ru_nvcsw: 53
-rusage ru_nivcsw: 0
-Child rusage ru_utime: 0.168
-Child rusage ru_stime: 0.076
-Child rusage ru_maxrss: 41180
-Child rusage ru_minflt: 81640
-Child rusage ru_majflt: 0
-Child rusage ru_inblock: 0
-Child rusage ru_oublock: 2448
-Child rusage ru_nvcsw: 988
-Child rusage ru_nivcsw: 352
-Status: PASSED 
-Ended: 1450427397.81 
-
-In particular what you can do now is:
-
-a) breakdown filesystem IO usage to reads and writes (read_bytes and
-write_bytes)
-b) show total IO (wchar and rchar)
-
-[difference between filesystem IO and total IO is that there are caches
-in the middle, filesystem IO goes to the physical disk, total IO can be
-from memory - all the reads above were from cache hence 0 read_bytes
-but a large rchar]
-
-c) break down task execution time into "system" (cstime) and "user"
-(cutime) time. Divide those numbers by 100HZ to get seconds. This tells
-us how much time was in the kernel in syscalls and how much doing
-execution in userspace. 
-
-d) break down times into parent and child processes (stime and utime
-verses cstime and ustime). The latter includes all children so is a
-total. This is probably less interesting to most users.
-
-e) show the number of voluntary and involuntary context switches
-(ru_nvcsw and ru_nivcsw). Again, the child numbers are totals, you can
-also just get the parent value.
-
-f) there is other data but the above is the pieces I've personally
-found to be interesting/useful.
-
-Some of the numbers are duplicates, e.g. ru_stime is stime/100 (convert
-to seconds) in the parent and child cases. You could do a better CPU
-usage approximation by something like:
-
-(child(ru_stime + ru_utime) / elapsed time) * 100 = % CPU Usage
-
-Hope that makes some kind of sense and that we could expose a bit more
-of this to the user at some point!
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
+index e23bb3d..7398b15 100644
+--- a/meta/recipes-devtools/flex/flex.inc
++++ b/meta/recipes-devtools/flex/flex.inc
+@@ -5,19 +5,20 @@ HOMEPAGE = "http://sourceforge.net/projects/flex/"
+ 
+ SECTION = "devel"
+ LICENSE = "BSD"
+-DEPENDS_class-target += "bison-native flex-native"
++DEPENDS = "bison-native flex-native"
+ 
+ UPSTREAM_CHECK_REGEX = "flex-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ inherit autotools gettext texinfo ptest
+ 
+-
+ M4 = "${bindir}/m4"
+ M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
++FLEX = "${STAGING_BINDIR_NATIVE}/flex"
++FLEX_class-native = ""
+ 
+ EXTRA_OECONF += "ac_cv_path_M4=${M4}"
+ EXTRA_OEMAKE += "m4=${STAGING_BINDIR_NATIVE}/m4"
+-EXTRA_OEMAKE_class-target += "FLEX=`which flex`"
++EXTRA_OEMAKE += "FLEX=${FLEX}"
+ 
+ do_install_append_class-native() {
+ 	create_wrapper ${D}/${bindir}/flex M4=${M4}
+-- 
+2.6.4
 
 
