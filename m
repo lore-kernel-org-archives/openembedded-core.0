@@ -1,28 +1,28 @@
 Return-Path: <costin.c.constantin@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id BAB21731AC
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 00D8D731B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 12:28:35 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP; 18 Dec 2015 04:28:36 -0800
+	Fri, 18 Dec 2015 12:28:36 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Dec 2015 04:28:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,446,1444719600"; d="scan'208";a="843990146"
+X-IronPort-AV: E=Sophos;i="5.20,446,1444719600"; d="scan'208";a="863931641"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 18 Dec 2015 04:28:36 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2015 04:28:37 -0800
 Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id B8F366A4007
+	by linux.intel.com (Postfix) with ESMTP id C24326A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 05:16:37 -0800 (PST)
+	Fri, 18 Dec 2015 05:16:38 -0800 (PST)
 From: Costin Constantin <costin.c.constantin@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Dec 2015 14:40:54 +0200
-Message-Id: <cc3c84fac65210a37769e2057bf1d4db10f42965.1450441923.git.costin.c.constantin@intel.com>
+Date: Fri, 18 Dec 2015 14:40:55 +0200
+Message-Id: <66fc1be529e8b27f03264fdc351c1f8392509f55.1450441923.git.costin.c.constantin@intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1450441923.git.costin.c.constantin@intel.com>
 References: <cover.1450441923.git.costin.c.constantin@intel.com>
 In-Reply-To: <cover.1450441923.git.costin.c.constantin@intel.com>
 References: <cover.1450441923.git.costin.c.constantin@intel.com>
-Subject: [PATCH 02/12] classes/testimage.bbclass: add support for binaries export
+Subject: [PATCH 03/12] utils/decorators.py: add TestNeedsBin() decorator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,159 +37,83 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 18 Dec 2015 12:28:37 -0000
 
-Some test cases require support for target and native binaries.
-This enhancement is designed to help exporting testing environment
-for machines where poky/bitbake environment is not available.
-At the same time, tarball files are created that encapsulate
-native, target specific and runner related files separatelly.
-This helps deployment of separate functionality files in
-their own tarballs.
-
-Partial fix for [YOCTO #7850].
+TestNeedsBin() is used in all tests where binaries are required.
+It offers functionality to send binaries to DUTs
+both in unpacked (raw)  and in an .rpm form.
+It is able to handle native binaries, intended for the machine
+launching tests on DUTs.
+It also offers functionality for removing DUTs
+related binaries after finishing the test.
 
 Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
 ---
- meta/classes/testimage.bbclass | 126 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
+ meta/lib/oeqa/utils/decorators.py | 48 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index e833db4..bcf113f 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -263,7 +263,133 @@ def exportTests(d,tc):
-         for f in files:
-             shutil.copy2(os.path.join(root, f), os.path.join(exportpath, "oeqa/runtime/files"))
+diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
+index 0d79223..93a728e 100644
+--- a/meta/lib/oeqa/utils/decorators.py
++++ b/meta/lib/oeqa/utils/decorators.py
+@@ -12,7 +12,9 @@ import sys
+ import unittest
+ import threading
+ import signal
++import re
+ from functools import wraps
++import testexport as te
  
-+    #integrating binaries too
-+    # creting needed directory structure
-+    arch = te.get_dest_folder(d.getVar("TUNE_FEATURES", True), os.listdir(d.getVar("DEPLOY_DIR_RPM", True)))
-+    bb.utils.mkdirhier(os.path.join(exportpath,"tar_files"))
-+    bb.utils.mkdirhier(os.path.join(exportpath,"binaries", arch, "packaged_binaries"))
-+    bb.utils.mkdirhier(os.path.join(exportpath,"binaries", "native"))
-+    bb.utils.mkdirhier(os.path.join(exportpath,"binaries", arch, "extracted_binaries"))
-+    with open(os.path.join(exportpath,"binaries",arch, "mapping.cfg"), "a") as mapping_file:
-+        #prepare the needed info for the mapping file
-+        mapping_params = dict()
-+        mapping_params[d.getVar("MACHINE",True)] = (d.getVar("TARGET_SYS",True), d.getVar("TUNE_FEATURES",True))
-+        mapping_file.write(mapping_params.__str__())
+ #get the "result" object from one of the upper frames provided that one of these upper frames is a unittest.case frame
+ class getResults(object):
+@@ -260,3 +262,49 @@ def timeout_handler(seconds):
+         else:
+             return fn
+     return decorator
 +
-+    populate_binaries(d)
-+
-+    # create the "runner" tar file, but before that erase them if created in a previous run
-+    [runner_tar, bin_tar, native_tar] = [os.path.join(exportpath,"tar_files", item) for item in ("runner_files.tar", "{}_binaries.tar".format(arch), "native_binaries.tar")]
-+    for item in os.listdir(exportpath): # create the runner tarball
-+        if item not in ('binaries','tar_files'):
-+            create_tar(runner_tar, os.path.join(exportpath,item), item.replace(exportpath, ""))
-+    #create the binaries tar file
-+    for item in os.listdir(os.path.join(exportpath, "binaries")):
-+        if re.search("native", item): # creating native binaries tarfile
-+            create_tar(os.path.join(exportpath,"tar_files", os.path.basename(native_tar)), os.path.join(exportpath,"binaries", "native"), os.path.join("binaries", item.replace(exportpath, "")))
-+        else: # creating target binaries tar file
-+            create_tar(os.path.join(exportpath,"tar_files",os.path.basename(bin_tar)), os.path.join(exportpath,"binaries", arch), os.path.join("binaries", item.replace(exportpath, "")))
-     bb.plain("Exported tests to: %s" % exportpath)
-+    for item in os.listdir(exportpath):
-+        if item == "tar_files":
-+            bb.plain("Exported tarballs to: {}".format(exportpath + "/tar_files"))
-+
-+def create_tar(tar_fl,file_to_add, a_name=None):
-+    import tarfile as tar
-+    with tar.open(tar_fl,"a") as tar_file:
-+        tar_file.add(file_to_add, arcname=a_name) 
-+
-+def obtain_binaries(d, param):
++class TestNeedsBin(object):
 +    """
-+    this func. will extract binaries based on their version (if required)
++    This decorator provides binary support for test cases
 +    """
-+    import oeqa.utils.testexport as te
-+    te.process_binaries(d, param) # for native packages, this is not extracting binaries, but only copies them
-+                                  # for a local machine with poky on it the user should build native binaries
++    def __init__(self, *args):
++        self.params_list = list()
++        self. clean_list = list()
++        if args:# these are tuples of values
++            for param_tuple in args:
++                bn,bv,t, p,rm_b = ("", "", "", "", "")
++                for index,value in enumerate(param_tuple):
++                    if index == 0:
++                        bn = value
++                    elif index == 1 and re.match("[0-9]+\.",value):
++                        bv = value
++                    elif value == "rpm":
++                        p = value
++                    elif value == "native":
++                        t = value
++                    elif value == "rm":
++                        rm_b = value
++                self.params_list.append("%s_%s_%s_%s_%s" % (bn, bv, p, t, rm_b))
 +
-+def read_test_files(file_pth):
-+    """
-+    The only way to read what binaries are to be included in the tarball file(s) is to search for each
-+    test file (.py) and see if the decorator TestNeedsBin is present. If yes, just extract the information
-+    from there. The lib/oeqa/runtime dir is taken as default to read files from. The result is a list 
-+    containing needed information like binary name, binary, version etc. in a string of values separated 
-+    by "_". This aproach was taken because it helps when TestNeedsBin contains multiple binaries and some
-+    are with identical name and different version or when same binary is needed both in extracted and 
-+    packaged mode. A dictionary would have eliminated the duplicate same key (in our case binary name) 
-+    fields.
-+    """
-+    import re
-+    bin_ver = list()
-+    f_to_list = list()
-+    #the actual reading part of the file:
-+    with open(file_pth, 'r') as fl:
-+        f_to_list = list(fl)
-+    def process_found_tuple(list_of_tuples):
-+        for params in eval("{}".format(list_of_tuples)): # in our case, value is a list of values
-+            ver = ""
-+            packaged = ""
-+            t = ""
-+            for item in eval("{}".format(params)):
-+                if re.match("[0-9]+\.",item):
-+                    ver = item
-+                elif item == "rpm":
-+                    packaged = "rpm"
-+                elif item == "native":
-+                    t = item
-+            bin_ver.append("{}_{}_{}_{}".format(params[0],ver,packaged,t))
++    def deploy_binary(self, params):
++        from oeqa.oetest import oeRuntimeTest
++        p = params.split("_")
++        if p[3] == "native":
++            te.process_binaries(oeRuntimeTest.tc.d, params)
++        else:
++            status = te.process_binaries(oeRuntimeTest.tc.d, params)
++            if status:
++                bin_to_rm = te.send_bin_to_DUT(oeRuntimeTest.tc.d, params)
++                if bin_to_rm:
++                    self.clean_list.extend(bin_to_rm)
++                    
++    def __call__(self, func):
++        def wrapped_f(*args):
++            for item in set(self.params_list):
++                self.deploy_binary(item)
++            func(*args)
++            te.rm_bin(self.clean_list) # used to remove sent binaries 
++            return
++        wrapped_f.__name__ = func.__name__
++        return wrapped_f
 +
-+    def search_for_tuples_of_params(i):
-+        read_tuple = ""
-+        ind = i
-+        if re.search('\(\(', f_to_list[ind]) and not f_to_list[ind].startswith("#"): # the line is sure to be a valid one, not a comment
-+            read_tuple += f_to_list[ind].strip()
-+            while True:
-+                if re.search('\)\)', read_tuple):
-+                    read_tuple = read_tuple.replace("@TestNeedsBin","")#read_tuple[read_tuple.find('((')+1:read_tuple.find('))')+1]
-+                    break
-+                else:
-+                    ind += 1
-+                    read_tuple += f_to_list[ind].strip()
-+            process_found_tuple(read_tuple)
-+            return ind
-+        return
-+
-+    # parsing all found lists
-+    for index,line in enumerate(f_to_list): 
-+        line=line.strip()
-+        if re.search("@TestNeedsBin", line) and not line.startswith("#") and not (re.search('\(\(', line) or re.search('\)\)', line)):
-+            packaged = ""
-+            version = ""
-+            t = ""
-+            for index, value in enumerate(eval(line.replace("@TestNeedsBin", ""))):
-+                if index == 0:
-+                    bin_name = value
-+                elif index == 1 and re.match("[0-9]+\.",value):
-+                    version = value
-+                elif value == "rpm":
-+                    packaged = value
-+                elif value == "native":
-+                    t = value
-+            bin_ver.append("{}_{}_{}_{}".format(bin_name,version,packaged,t))
-+        elif re.search("@TestNeedsBin", line) and not line.startswith("#") and (re.search('\(\(', line) or re.search('\)\)', line)):
-+            search_for_tuples_of_params(index)
-+
-+    return bin_ver
-+
-+def populate_binaries(d):
-+    default_pth_to_files = os.path.join(d.getVar("COREBASE",True), "meta/lib/oeqa/runtime")
-+    pth_to_file = list()
-+    pth_to_file.append(default_pth_to_files)
-+    bin_with_version = list()
-+    bbpath = d.getVar("BBPATH", True).split(':')
-+    testlist = get_tests_list(d)
-+    for pth in bbpath:
-+        for item in testlist:
-+            test_file_pth = os.path.join(pth, "lib", item.replace(".", os.sep) + ".py")
-+            if os.path.exists(test_file_pth):
-+                bin_with_version.extend(read_test_files(test_file_pth))
-+    for item in set(bin_with_version):
-+        obtain_binaries(d,item)
- 
- 
- def testimage_main(d):
 -- 
 2.5.0
 
