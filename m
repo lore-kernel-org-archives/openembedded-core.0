@@ -1,35 +1,27 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 7985F73198
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id B8C9A73198
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 13:12:54 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id l126so65082258wml.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 05:12:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=NYX/pLrmtQm3gu3mKTD185RiFLb9+u2v9EtLDY3nkSM=;
-	b=pO0Nl2J+7X83XqZqgP37/iQQL3+2w1GCv3jcLUtDWOIjSDYNP/RBrNT3VNzeND/w1N
-	SvkIN4tqQPxFppXcswVOJE/hKwcoVx14A/X9Nkt5f+KDnpyNjtSba/2wdrxSXtPnnsUE
-	n8chSHwcVZiTdVUBL1+h3rrAs1fSH+IIkH+8N9+vRTCKV905n0ene+6GSk/s+EW7EDrF
-	ZWKp9XP6PieTYE5HonnP7L2O4P5suf5uxTk9xd5Nuc+wlf574UHygfGrbTc+9iVUnWsx
-	8ToJiixDJn0HS3uSCvn64Ia8W3we9LqM0/mEVjxRsv48cmf+kffvSkzB5wlINcDIE9wr
-	CC3g==
-X-Received: by 10.194.178.135 with SMTP id cy7mr3988075wjc.61.1450444374608;
-	Fri, 18 Dec 2015 05:12:54 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id o65sm6690140wmg.3.2015.12.18.05.12.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Dec 2015 05:12:53 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Fri, 18 Dec 2015 13:13:51 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 18 Dec 2015 05:13:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,446,1444719600"; d="scan'208";a="863961000"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2015 05:13:51 -0800
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Dec 2015 14:15:25 +0100
-Message-Id: <1450444525-12405-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.6.4
-In-Reply-To: <FEE7EF40-0110-4F2B-9A24-FF9C48E6DFFC@gmail.com>
-References: <FEE7EF40-0110-4F2B-9A24-FF9C48E6DFFC@gmail.com>
-Subject: [PATCHv2] sanity.bbclass: add more information to error message about TUNE_PKGARCH missing in PACKAGE_ARCHS
+References: <1450352712-31476-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+	<CAJTo0LZkPQgzt6Kttmg4sWrXQk_m+iT9qLK1sR-ftkMBZxK0YA@mail.gmail.com>
+	<567402B6.8060907@linux.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <56740607.3060906@linux.intel.com>
+Date: Fri, 18 Dec 2015 15:11:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <567402B6.8060907@linux.intel.com>
+Subject: Re: [PATCH] boost: update to 1.59.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,40 +34,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 13:12:56 -0000
+X-List-Received-Date: Fri, 18 Dec 2015 13:13:51 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* sometimes it's hard to see what's wrong here
-* error message:
-  Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH (cortexa7t2hfhf-vfp-vfpv4-neon).
-  doesn't help much to understand what exactly went wrong and where
+On 12/18/2015 02:57 PM, Alexander Kanavin wrote:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/sanity.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+>> This adds a new library so the packaging needs to be updated to reflect
+>> that.  The obvious problem is that the development/debug/test packages
+>> are all called libboost-timer after this upgrade.
+>>
+>> Once fixed (extend BOOST_LIBS) it would be good to set FILES_${PN} to ""
+>> so this can't happen in the future, and instead you'd get
+>> installed-not-shipped errors.
+>
+> Also, the latest upstream is 1.60.0.
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index ad9dda8..9f35558 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -329,6 +329,7 @@ def check_sanity_validmachine(sanity_data):
-     # Check that we don't have duplicate entries in PACKAGE_ARCHS & that TUNE_PKGARCH is in PACKAGE_ARCHS
-     pkgarchs = sanity_data.getVar('PACKAGE_ARCHS', True)
-     tunepkg = sanity_data.getVar('TUNE_PKGARCH', True)
-+    defaulttune = sanity_data.getVar('DEFAULTTUNE', True)
-     tunefound = False
-     seen = {}
-     dups = []
-@@ -345,7 +346,7 @@ def check_sanity_validmachine(sanity_data):
-         messages = messages + "Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: %s" % " ".join(dups)
- 
-     if tunefound == False:
--        messages = messages + "Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH (%s)." % tunepkg
-+        messages = messages + "Error, the PACKAGE_ARCHS variable (%s) for DEFAULTTUNE (%s) does not contain TUNE_PKGARCH (%s)." % (pkgarchs, defaulttune, tunepkg)
- 
-     return messages
- 
--- 
-2.6.4
+(released yesterday, so don't take it as submitter's fault)
+
+Alex
 
 
