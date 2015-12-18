@@ -1,32 +1,24 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3352D607AB
+Return-Path: <Jian.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4582560721
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 09:39:32 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Dec 2015 01:39:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,445,1444719600"; d="scan'208";a="15446914"
-Received: from irsmsx108.ger.corp.intel.com ([163.33.3.3])
-	by fmsmga004.fm.intel.com with ESMTP; 18 Dec 2015 01:39:33 -0800
-Received: from irsmsx103.ger.corp.intel.com ([169.254.3.13]) by
-	IRSMSX108.ger.corp.intel.com ([169.254.11.23]) with mapi id
-	14.03.0248.002; Fri, 18 Dec 2015 09:39:31 +0000
-From: "John, Maxin" <maxin.john@intel.com>
-To: Andre McCurdy <armccurdy@gmail.com>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] gstreamer 1.6.2
-Thread-Index: AQHROV5dsL8Q/+Cgy06xrpN7NRa68p7QfIKQ
-Date: Fri, 18 Dec 2015 09:39:30 +0000
-Message-ID: <61C0517EAD808B429A1DE2DD9164D4002CC96D@IRSMSX103.ger.corp.intel.com>
-References: <CAJ86T=VZ41Ck-wOPwqD+VhrUWc7h1z0G09CopCfkR3Pof1kUmQ@mail.gmail.com>
-In-Reply-To: <CAJ86T=VZ41Ck-wOPwqD+VhrUWc7h1z0G09CopCfkR3Pof1kUmQ@mail.gmail.com>
-Accept-Language: fi-FI, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
+	Fri, 18 Dec 2015 09:41:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBI9f3CS019748
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Dec 2015 01:41:03 -0800 (PST)
+Received: from pek-jliu7-d1.corp.ad.wrs.com (128.224.162.169) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Fri, 18 Dec 2015 01:41:03 -0800
+From: Jian Liu <jian.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 18 Dec 2015 17:40:56 +0800
+Message-ID: <1450431656-12921-1-git-send-email-jian.liu@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Re: gstreamer 1.6.2
+Subject: [PATCH 1/1] Fix missing check for permission denied.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,29 +31,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 09:39:37 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 18 Dec 2015 09:41:05 -0000
+Content-Type: text/plain
 
-Hi,
+If the path to "ROOT_SYSCONFDIR /mke2fs.conf" has a permission denied problem,
+then the get_dirlist() call will return EACCES. But the code in profile_init
+will treat that as a fatal error and all executions will fail with:
+      Couldn't init profile successfully (error: 13).
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Andre McCurdy
-Sent: Friday, December 18, 2015 8:35 AM
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] gstreamer 1.6.2
+But the problem should not really be visible for the target package as the path
+then will be "/etc/mke2fs.conf", and it is not likely that a user have no
+permission to read /etc.
 
->Hi all,
->
->Is anyone already working on updating gstreamer 1.6.1 -> 1.6.2 ?
->
->http://gstreamer.freedesktop.org/releases/1.6/
+Signed-off-by: Jian Liu <jian.liu@windriver.com>
+---
+ .../fix-missing-check-for-permission-denied.patch  | 23 ++++++++++++++++++++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb |  1 +
+ 2 files changed, 24 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/fix-missing-check-for-permission-denied.patch
 
-I plan to work on the upgrade. It will be nice if we can work together on i=
-t :)
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/fix-missing-check-for-permission-denied.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/fix-missing-check-for-permission-denied.patch
+new file mode 100644
+index 0000000..3287eb3
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/fix-missing-check-for-permission-denied.patch
+@@ -0,0 +1,23 @@
++Fix missing check for permission denied.
++
++If the path to "ROOT_SYSCONFDIR/mke2fs.conf" has a permission denied problem, 
++then the get_dirlist() call will return EACCES. But the code in profile_init 
++will treat that as a fatal error and all executions will fail with: 
++      Couldn't init profile successfully (error: 13).
++
++Upstream-Status: Pending
++
++Written-by: Henrik Wallin <henrik.b.wallin@ericsson.com>
++
++diff -Nur e2fsprogs-1.42.9.orig/e2fsck/profile.c e2fsprogs-1.42.9/e2fsck/profile.c
++--- e2fsprogs-1.42.9.orig/e2fsck/profile.c	2015-12-18 17:29:52.904625948 +0800
+++++ e2fsprogs-1.42.9/e2fsck/profile.c	2015-12-18 17:31:02.484626433 +0800
++@@ -333,7 +333,7 @@
++ 				*last = new_file;
++ 				last = &new_file->next;
++ 			}
++-		} else if ((retval != ENOTDIR) &&
+++		} else if ((retval != ENOTDIR) && (retval != EACCES) &&
++ 			   strcmp(*fs, default_filename))
++ 			goto errout;
++ 
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+index ce7d2e8..961af40 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+@@ -25,6 +25,7 @@ SRC_URI += "file://acinclude.m4 \
+             file://0001-libext2fs-fix-potential-buffer-overflow-in-closefs.patch \
+             file://copy-in-create-hardlinks-with-the-correct-directory-.patch \
+ "
++SRC_URI_append_class-native = " file://fix-missing-check-for-permission-denied.patch"
+ 
+ SRC_URI[md5sum] = "3f8e41e63b432ba114b33f58674563f7"
+ SRC_URI[sha256sum] = "2f92ac06e92fa00f2ada3ee67dad012d74d685537527ad1241d82f2d041f2802"
+-- 
+1.9.1
 
-Best Regards,
-Maxin
 
