@@ -1,39 +1,24 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BB316FFCD;
-	Fri, 18 Dec 2015 15:25:23 +0000 (UTC)
-Received: by mail-qg0-f42.google.com with SMTP id v36so35161174qgd.2;
-	Fri, 18 Dec 2015 07:25:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=Sz8DZ26H+HsGxigEOLxt/qgmCcHSNa/z1pkGu6IOmAI=;
-	b=HoaygYdkUp8wGgy3FpeGcJJJ3R35BQwpNa2eHuK3vbclGHwoI6AqfTVted9/Bm1al5
-	7DIqni+iXPGllfhUQrNRKrzbsYaENm5/rlX275tQIuVNYw0eRkNrFaMhT3Kmnb9LCAwP
-	0vmLKjwho/4hPnIcgIL0GFxzIYSKCzpq9nYlm3UeufddluHFuYRYMSNO9XK7Al5pKrit
-	UzU2YJ+GyubE0Mj1Vo1/jeoKswYvWw6izvLFBPXnwx0+As4lmFsqRs03VNk0IVxTwlTc
-	vVsNSSoSd2O0/aeDfbvMLor1CvcFLzXKVD0BzDXfMAR4w44Wog6/VjFiUibYHRdpSoKm
-	I3IQ==
-X-Received: by 10.140.234.17 with SMTP id f17mr6209458qhc.19.1450452324187;
-	Fri, 18 Dec 2015 07:25:24 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	45sm6994207qgg.17.2015.12.18.07.25.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 18 Dec 2015 07:25:23 -0800 (PST)
-To: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-References: <20151113165249.GF2567@jama> <20151218112530.GA2563@jama>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <5674255F.7020009@gmail.com>
-Date: Fri, 18 Dec 2015 10:25:19 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
-MIME-Version: 1.0
-In-Reply-To: <20151218112530.GA2563@jama>
-Subject: Re: State of bitbake world, Failed tasks 2015-12-17
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7757D60851
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Dec 2015 15:43:40 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 18 Dec 2015 07:43:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,446,1444719600"; d="scan'208";a="710464766"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 18 Dec 2015 07:43:22 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Dec 2015 17:40:53 +0200
+Message-Id: <88e61e43fbf0f96fab16c63dcd9089f457785db2.1450453089.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.6.2
+In-Reply-To: <cover.1450453089.git.alexander.kanavin@linux.intel.com>
+References: <cover.1450453089.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <cover.1450453089.git.alexander.kanavin@linux.intel.com>
+References: <cover.1450453089.git.alexander.kanavin@linux.intel.com>
+Subject: [PATCH 1/6] gcr: update to 3.18.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,13 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 15:25:24 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 18 Dec 2015 15:43:43 -0000
 
-On 12/18/15 06:25, Martin Jansa wrote:
-> === qemuarm (1) ===
->     * /meta-openembedded/meta-oe/recipes-devtools/nodejs/nodejs_4.2.2.bb, do_compile
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/recipes-gnome/gcr/{gcr_3.16.0.bb => gcr_3.18.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/gcr/{gcr_3.16.0.bb => gcr_3.18.0.bb} (79%)
 
-I'm having a look at this one.
+diff --git a/meta/recipes-gnome/gcr/gcr_3.16.0.bb b/meta/recipes-gnome/gcr/gcr_3.18.0.bb
+similarity index 79%
+rename from meta/recipes-gnome/gcr/gcr_3.16.0.bb
+rename to meta/recipes-gnome/gcr/gcr_3.18.0.bb
+index e50b3a8..0636afe 100644
+--- a/meta/recipes-gnome/gcr/gcr_3.16.0.bb
++++ b/meta/recipes-gnome/gcr/gcr_3.18.0.bb
+@@ -11,8 +11,8 @@ inherit autotools gnomebase gtk-icon-cache gtk-doc distro_features_check
+ # depends on gtk+3, but also x11 through gtk+-x11
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+-SRC_URI[archive.md5sum] = "d5835680be0b6a838e02a528d5378d9c"
+-SRC_URI[archive.sha256sum] = "ecfe8df41cc88158364bb15addc670b11e539fe844742983629ba2323888d075"
++SRC_URI[archive.md5sum] = "b959bac99e17c9bb0990a15c9be11aed"
++SRC_URI[archive.sha256sum] = "d4d16da5af55148a694055835ccd07ad34daf0ad03bdad929bf7cad15637ce00"
+ 
+ FILES_${PN} += " \
+     ${datadir}/dbus-1 \
+-- 
+2.6.2
+
 
