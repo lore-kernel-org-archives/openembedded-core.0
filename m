@@ -1,50 +1,23 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 978B86FFEC
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9279D60116
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 14:35:20 +0000 (UTC)
-Received: by mail-pf0-f180.google.com with SMTP id o64so50031997pfb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 06:35:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=UOokn7W7m9v0dR/HwgSCPKnbP7tRAdYnAK1UFtVMtK0=;
-	b=vGlUQvtF9XA3uXPYpgJAt24R0u+NCXKlJZAKk9jBKAEXYNcmNk75h6b2MfMCgoj2f4
-	gxEg1k9HO2Jv/jQ4eRelAA3cxVdqTdJ3IEpz70n3ajzSLz00QIdA/RwZN878bChDSo7s
-	jOb9/3Oyrru+L4LqfVS79IBOQuO1LQdciZ3ju9YF++vrQ8qL/8SiySOrz2qz6hBY7nES
-	aVU459FOlvDDAtoxe1wPwcKSM8Q4XLXV7mgYRKp+xBjjNh5WrqHQH5Jhu9YSCdBBv4r4
-	TwOxH06WGNyeaUwNGSW0Cr34QELdDlWnrgBSijVmBGNNCsBwgSAw7VfF/LWdfgVgdk/I
-	zYmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=UOokn7W7m9v0dR/HwgSCPKnbP7tRAdYnAK1UFtVMtK0=;
-	b=DIWMLFkG7rDPllSh5ZW/DK8fsvf8V5x8ZwPw/EuPQnpZZlchc9SpyP0v9lhm8KD69Y
-	CK6DNGcHUvUqAs9pFCBU1zip58rH6lHKRyeNsoqlfbUBhDzKlw2NLNqQxohg20MOWXBu
-	Ug9jLH6Vz59ExPPP8FdNbC1qp72oHDPJshB/KgXC648JXrtcugqm9AkMiLxW4KKu4chF
-	gRnQ4WUTl2IRcwux6xjSeaSfh6H31L6CqrZBjG/S8GEHrqbqK4hkyKaT3vEYAIgiQBmB
-	OL6ck2bRncpzeN1MneLbkcyDHYRTv5GEgCPX4vznyF4AkPAtL5VivrijHQhq6y3BR71X
-	n3lA==
-X-Gm-Message-State: ALoCoQm/a5UqmiESKtuhhlDcrSKzvsgVMnAPRUrMWk5VuztagSkWfCbXDQkptc3JvM26MYIRab98EP6D9+q6r/+xGH6lmvw5NA==
-X-Received: by 10.98.12.150 with SMTP id 22mr5624994pfm.46.1450449321275;
-	Fri, 18 Dec 2015 06:35:21 -0800 (PST)
-Received: from workhorse.madison.systems
-	(70.90.175.93-BusName-ca.sfba.hfc.comcastbusiness.net.
-	[70.90.175.93]) by smtp.gmail.com with ESMTPSA id
-	l66sm18429653pfj.71.2015.12.18.06.35.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 18 Dec 2015 06:35:19 -0800 (PST)
-From: Matt Madison <matt@madison.systems>
+	Fri, 18 Dec 2015 15:09:39 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 18 Dec 2015 07:09:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,446,1444719600"; d="scan'208";a="864045452"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2015 07:09:39 -0800
+Received: from fedora-ws.localdomain (unknown [10.237.112.240])
+	by linux.intel.com (Postfix) with ESMTP id EAAA06A4007;
+	Fri, 18 Dec 2015 07:57:39 -0800 (PST)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Dec 2015 06:34:31 -0800
-Message-Id: <1450449271-28582-4-git-send-email-matt@madison.systems>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1450449271-28582-1-git-send-email-matt@madison.systems>
-References: <1450449271-28582-1-git-send-email-matt@madison.systems>
-Subject: [PATCH v2 3/3] package_deb.bbclass: add 'Multi-Arch: foreign' tag to allarch packages
+Date: Fri, 18 Dec 2015 17:12:15 +0200
+Message-Id: <1450451536-25571-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCHv4 1/2] scripts/oe-selftest: Allow to run tests on random/all architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +30,232 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 14:35:22 -0000
+X-List-Received-Date: Fri, 18 Dec 2015 15:09:42 -0000
 
-This tells APT that it can use such packages to resolve dependencies
-from packages of any architecture in a multilib build.
+Add an option for random MACHINE into oe-selftest:
+--machine [random/all]
+1. random: will set a random MACHINE for each test
+2. all: will run tests for all machines
 
-Signed-off-by: Matt Madison <matt@madison.systems>
+Custom machine sets only weak default values (??=) for MACHINE in machine.inc.
+This let test cases that require a specific MACHINE to be able to
+override it, using (?= or =).
+
+e.g.:
+oe-selftest --run-tests signing --machine random -->
+will run all tests switching MACHINE randomly for each test
+
+oe-selftest --run-tests signing --machine all -->
+for each machine will run all tests
+
+oe-selftest --run-all-tests --machine random
+
+Also update oeqa/selftest/base.py to accomodate this feature.
+
+Fix for [YOCTO #5880].
+
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 ---
- meta/classes/package_deb.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/lib/oeqa/selftest/base.py | 64 ++++++++++++++++++++++++++++++++++++++----
+ scripts/oe-selftest            | 37 ++++++++++++++++++------
+ 2 files changed, 86 insertions(+), 15 deletions(-)
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 8d27adf..25218d0 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -161,6 +161,8 @@ python do_package_deb () {
-             return l2
+diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
+index 9bddc23..f4a0383 100644
+--- a/meta/lib/oeqa/selftest/base.py
++++ b/meta/lib/oeqa/selftest/base.py
+@@ -16,6 +16,8 @@ import errno
+ import oeqa.utils.ftools as ftools
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
+ from oeqa.utils.decorators import LogResults
++from random import choice
++import glob
  
-         ctrlfile.write("Package: %s\n" % pkgname)
-+        if d.getVar('PACKAGE_ARCH', True) == "all":
-+            ctrlfile.write("Multi-Arch: foreign\n")
-         # check for required fields
-         try:
-             for (c, fs) in fields:
+ @LogResults
+ class oeSelfTest(unittest.TestCase):
+@@ -29,9 +31,10 @@ class oeSelfTest(unittest.TestCase):
+         self.testinc_path = os.path.join(self.builddir, "conf/selftest.inc")
+         self.local_bblayers_path = os.path.join(self.builddir, "conf/bblayers.conf")
+         self.testinc_bblayers_path = os.path.join(self.builddir, "conf/bblayers.inc")
++        self.machineinc_path = os.path.join(self.builddir, "conf/machine.inc")
+         self.testlayer_path = oeSelfTest.testlayer_path
+         self._extra_tear_down_commands = []
+-        self._track_for_cleanup = [self.testinc_path]
++        self._track_for_cleanup = [self.testinc_path, self.testinc_bblayers_path, self.machineinc_path]
+         super(oeSelfTest, self).__init__(methodName)
+ 
+     def setUp(self):
+@@ -47,11 +50,25 @@ class oeSelfTest(unittest.TestCase):
+             for f in files:
+                 if f == 'test_recipe.inc':
+                     os.remove(os.path.join(root, f))
+-        try:
+-            os.remove(self.testinc_bblayers_path)
+-        except OSError as e:
+-            if e.errno != errno.ENOENT:
+-                raise
++
++        for incl_file in [self.testinc_bblayers_path, self.machineinc_path]:
++            try:
++                os.remove(incl_file)
++            except OSError as e:
++                if e.errno != errno.ENOENT:
++                    raise
++
++        # Get CUSTOMMACHINE from env (set by --machine argument to oe-selftest)
++        custommachine = os.getenv('CUSTOMMACHINE')
++        if custommachine:
++            if custommachine == 'random':
++                machine = get_random_machine()
++            else:
++                machine = custommachine
++            machine_conf = 'MACHINE ??= "%s"\n' % machine
++            self.set_machine_config(machine_conf)
++            print 'MACHINE: %s' % machine
++
+         # tests might need their own setup
+         # but if they overwrite this one they have to call
+         # super each time, so let's give them an alternative
+@@ -99,11 +116,21 @@ class oeSelfTest(unittest.TestCase):
+         self.log.debug("Writing to: %s\n%s\n" % (self.testinc_path, data))
+         ftools.write_file(self.testinc_path, data)
+ 
++        custommachine = os.getenv('CUSTOMMACHINE')
++        if custommachine and 'MACHINE' in data:
++            machine = get_bb_var('MACHINE')
++            self.log.warning('MACHINE overridden: %s' % machine)
++
+     # append to <builddir>/conf/selftest.inc
+     def append_config(self, data):
+         self.log.debug("Appending to: %s\n%s\n" % (self.testinc_path, data))
+         ftools.append_file(self.testinc_path, data)
+ 
++        custommachine = os.getenv('CUSTOMMACHINE')
++        if custommachine and 'MACHINE' in data:
++            machine = get_bb_var('MACHINE')
++            self.log.warning('MACHINE overridden: %s' % machine)
++
+     # remove data from <builddir>/conf/selftest.inc
+     def remove_config(self, data):
+         self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_path, data))
+@@ -151,3 +178,28 @@ class oeSelfTest(unittest.TestCase):
+     def remove_bblayers_config(self, data):
+         self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_bblayers_path, data))
+         ftools.remove_from_file(self.testinc_bblayers_path, data)
++
++    # write to <builddir>/conf/machine.inc
++    def set_machine_config(self, data):
++        self.log.debug("Writing to: %s\n%s\n" % (self.machineinc_path, data))
++        ftools.write_file(self.machineinc_path, data)
++
++
++def get_available_machines():
++    # Get a list of all available machines
++    bbpath = get_bb_var('BBPATH').split(':')
++    machines = []
++
++    for path in bbpath:
++        found_machines = glob.glob(path + '/conf/machine/*.conf')
++        if found_machines:
++            for i in found_machines:
++                # eg: '/home/<user>/poky/meta-intel/conf/machine/intel-core2-32.conf'
++                machines.append(i.split('/')[-1].split('.')[0])
++
++    return machines
++
++
++def get_random_machine():
++    # Get a random machine
++    return choice(get_available_machines())
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index bc50b2a..3af9593 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -40,7 +40,7 @@ scriptpath.add_oe_lib_path()
+ import oeqa.selftest
+ import oeqa.utils.ftools as ftools
+ from oeqa.utils.commands import runCmd, get_bb_var, get_test_layer
+-from oeqa.selftest.base import oeSelfTest
++from oeqa.selftest.base import oeSelfTest, get_available_machines
+ 
+ def logger_create():
+     log = logging.getLogger("selftest")
+@@ -78,6 +78,8 @@ def get_args_parser():
+                        help='list-tests-by <name|class|module|id|tag> <list of tests|classes|modules|ids|tags>')
+     group.add_argument('--list-tags', required=False, dest='list_tags', default=False, action="store_true",
+                        help='List all tags that have been set to test cases.')
++    parser.add_argument('--machine', required=False, dest='machine', choices=['random', 'all'], default=None,
++                        help='Run tests on different machines (random/all).')
+     return parser
+ 
+ 
+@@ -109,7 +111,7 @@ def add_include():
+         not in ftools.read_file(os.path.join(builddir, "conf/local.conf")):
+             log.info("Adding: \"include selftest.inc\" in local.conf")
+             ftools.append_file(os.path.join(builddir, "conf/local.conf"), \
+-                    "\n#include added by oe-selftest.py\ninclude selftest.inc")
++                    "\n#include added by oe-selftest.py\ninclude machine.inc\ninclude selftest.inc")
+ 
+     if "#include added by oe-selftest.py" \
+         not in ftools.read_file(os.path.join(builddir, "conf/bblayers.conf")):
+@@ -125,13 +127,13 @@ def remove_include():
+         in ftools.read_file(os.path.join(builddir, "conf/local.conf")):
+             log.info("Removing the include from local.conf")
+             ftools.remove_from_file(os.path.join(builddir, "conf/local.conf"), \
+-                    "#include added by oe-selftest.py\ninclude selftest.inc")
++                    "\n#include added by oe-selftest.py\ninclude machine.inc\ninclude selftest.inc")
+ 
+     if "#include added by oe-selftest.py" \
+         in ftools.read_file(os.path.join(builddir, "conf/bblayers.conf")):
+             log.info("Removing the include from bblayers.conf")
+             ftools.remove_from_file(os.path.join(builddir, "conf/bblayers.conf"), \
+-                    "#include added by oe-selftest.py\ninclude bblayers.inc")
++                    "\n#include added by oe-selftest.py\ninclude bblayers.inc")
+ 
+ def remove_inc_files():
+     try:
+@@ -143,10 +145,11 @@ def remove_inc_files():
+     except (AttributeError, OSError,) as e:    # AttributeError may happen if BUILDDIR is not set
+         pass
+ 
+-    try:
+-        os.remove(os.path.join(os.environ.get("BUILDDIR"), "conf/bblayers.inc"))
+-    except:
+-        pass
++    for incl_file in ['conf/bblayers.inc', 'conf/machine.inc']:
++        try:
++            os.remove(os.path.join(os.environ.get("BUILDDIR"), incl_file))
++        except:
++            pass
+ 
+ def get_tests(exclusive_modules=[], include_hidden=False):
+     testslist = []
+@@ -466,7 +469,23 @@ def main():
+                 log.error(e)
+                 return 1
+         add_include()
+-        result = runner.run(suite)
++
++        if args.machine:
++            # Custom machine sets only weak default values (??=) for MACHINE in machine.inc
++            # This let test cases that require a specific MACHINE to be able to override it, using (?= or =)
++            log.info('Custom machine mode enabled. MACHINE set to %s' % args.machine)
++            if args.machine == 'random':
++                os.environ['CUSTOMMACHINE'] = 'random'
++                result = runner.run(suite)
++            else:  # all
++                machines = get_available_machines()
++                for m in machines:
++                    log.info('Run tests with custom MACHINE set to: %s' % m)
++                    os.environ['CUSTOMMACHINE'] = m
++                    result = runner.run(suite)
++        else:
++            result = runner.run(suite)
++
+         log.info("Finished")
+ 
+         if args.coverage:
 -- 
-2.5.0
+2.1.0
 
 
