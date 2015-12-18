@@ -1,42 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C8EF73198
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 1939973198
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 13:07:39 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id l126so64895169wml.1
+	Fri, 18 Dec 2015 13:11:04 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id l126so65016352wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 05:07:40 -0800 (PST)
+	Fri, 18 Dec 2015 05:11:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=II+AFC3K1vxeQz3etDEGUw9a+6lIPrsKxstumllRcxY=;
-	b=oqMJjL86Ue3hnNZVb8zE4mtObDoc+BFKmcg3XJm57vurwvsXKf/V9ndulvXaSplJfF
-	WOAleI3BU74EU6kwey4HvOrH8wf7YJeVaOiCGiTDJZN934y4P74/qG8q0znCOxB0hA9o
-	143RwoHhNEZUWqQDbcmoSNVdgJEEOnsvJLBEyPq9rsBywpCus6XYKv+K6rMWqG4RfKPi
-	EdKQV1vR1AZN80d3M81IR99UAUUlrDMBz7rcGiJwAaUqECJwkdZ6kt5vCzolsidKSp/N
-	KCSIUAUFuv1fMXhTlcWbivbSH4JWp17NZhvKpu3louxaKFgk+SYxpBNmAll0IhdwtFAi
-	CL+Q==
-X-Received: by 10.194.179.162 with SMTP id dh2mr3990259wjc.17.1450444060125;
-	Fri, 18 Dec 2015 05:07:40 -0800 (PST)
+	bh=ZW6cY7PkE07GthCDJkZlCmsHHEeaUFhr/gX0DKrA7yE=;
+	b=yU2b/W3uL/VQabJFlTgmpD2yEMcXeUH75rOVZswPlfnxixuLJ0PUcmZ7FJPjamrNEJ
+	3qzEZcF6tB6EfIYIw9irVu2R8206hHm1Y5iYA8HuIDgjFHU/IFNwM2dTUio32xEEFBaD
+	CDDAa9HmxDwxuTD+Hs4ZwP51zV5ukSxgUEhwYFsdRi/6YEGZhOd61VQWMMyyRkM70Q0P
+	9IqXQMv8yFzCKpSuZpgFQK1NfOq9bL4UWM6uzzGo4Ea5NRpWVPO8iRnFe1NF6bF3QGSz
+	aEnxzzbGjlReHp3XLneTj/pqmcGJkvtxM8N2KysmwKWysMMUIfywhR0FbT6nGjI1ZlBM
+	4Flg==
+X-Received: by 10.194.19.226 with SMTP id i2mr4027320wje.167.1450444265102;
+	Fri, 18 Dec 2015 05:11:05 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	c143sm1586903wmd.2.2015.12.18.05.07.38
+	by smtp.gmail.com with ESMTPSA id n7sm6629504wmf.21.2015.12.18.05.11.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Dec 2015 05:07:38 -0800 (PST)
+	Fri, 18 Dec 2015 05:11:01 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 18 Dec 2015 14:10:11 +0100
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20151218131011.GI2563@jama>
+Date: Fri, 18 Dec 2015 14:13:33 +0100
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20151218131333.GJ2563@jama>
 References: <cover.1449754344.git.Martin.Jansa@gmail.com>
-	<cover.1449754344.git.Martin.Jansa@gmail.com>
-	<1350437f19e20de76f98bcda866b2f0239ee7f9d.1449754344.git.Martin.Jansa@gmail.com>
-	<CBD4B6C1-4663-467C-943A-05779F2C94C6@gmail.com>
+	<491ead1c0e8db7f1c919c163431be7bb9b087ddd.1449754344.git.Martin.Jansa@gmail.com>
+	<CAJ86T=Vg-Q-oqiVuZXLU-rMwr=vwypdE2PUBMXuxJqQ6_a4+Bg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CBD4B6C1-4663-467C-943A-05779F2C94C6@gmail.com>
+In-Reply-To: <CAJ86T=Vg-Q-oqiVuZXLU-rMwr=vwypdE2PUBMXuxJqQ6_a4+Bg@mail.gmail.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][master][RESEND 11/15] feature-arm-{neon, vfp}.inc: refactor and fix issues
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][master][RESEND 14/15] arch-armv7ve: add tune include for armv7ve and use it from cortexa7 and cortexa15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,661 +47,612 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 13:07:42 -0000
-X-Groupsio-MsgNum: 75013
+X-List-Received-Date: Fri, 18 Dec 2015 13:11:07 -0000
+X-Groupsio-MsgNum: 75014
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4LwthZj+AV2mq5CX"
+	protocol="application/pgp-signature"; boundary="SBT+cnFS/G3NVgv4"
 Content-Disposition: inline
 
---4LwthZj+AV2mq5CX
+--SBT+cnFS/G3NVgv4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 10, 2015 at 01:14:25PM -0800, Khem Raj wrote:
+On Thu, Dec 17, 2015 at 07:13:55PM -0800, Andre McCurdy wrote:
+> On Thu, Dec 10, 2015 at 5:48 AM, Martin Jansa <martin.jansa@gmail.com> wr=
+ote:
+> > * be aware that this -march value is available only in gcc-4.9 and
+> >   newer:
+> >   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D57907
+> > * -mcpu=3Dcortex15 and -mcpu=3Dcortexa7 conflict with -march=3Darmv7a
+> >   We either have to stop putting -march in default CCARGS or at
+> >   least set it compatible one like this patch does.
 >=20
-> > On Dec 10, 2015, at 5:48 AM, Martin Jansa <martin.jansa@gmail.com> wrot=
-e:
-> >=20
-> > * respect all 4 vfp options ('vfp', 'vfpv3d16', 'vfpv3', 'vfpv4') when
-> >  setting -mfloat-abi and ARMPKGSFX_EABI, without this change it wasn't
-> >  possible to use call-convention hard together with vfpv4
-> > * move 'vfpv3d16', 'vfpv3', 'vfpv4' support from
-> >  feature-arm-vfp.inc
-> >  to
-> >  feature-arm-neon.inc
+> Can we drop the concept of armv7ve without Thumb support?
 >=20
-> may be this should be other way around semantically, what does vip file h=
-as
+> Thumb was optional for armv4 but from armv5 onwards every ARM core has
+> been able to support Thumb as well. Unfortunately the cpu tuning .inc
+> files in oe-core for armv5 and above just seem to have copied any
+> pasted from armv4 and so provide bogus non-thumb capable tuning
+> options, which just add a lot of unnecessary complexity (the only real
+> difference between them is that the thumb capable versions respect
+> ARM_INSTRUCTION_SET and the non-thumb capable versions ignore it).
+>=20
+> To avoid breaking existing machine configs and package feeds, I guess
+> we might be stuck with the existing AVAILTUNES for armv7a and below,
+> but can we at least fix it for armv7ve ?
 
-But that would include them and mark as valid for armv5 as said below.
+Well even when the HW supports the thumb, some DISTROs tend to disable
+it for whatever reasons (e.g. you can use very low common denominator
+DEFAULTTUNE for many MACHINEs - which cannot be controlled by
+ARM_INSTRUCTION_SET only).
 
-> >  the main difference is that feature-arm-vfp.inc is included in
-> >  arch-armv5.inc while feature-arm-neon.inc only in armv7*.inc, so
-> >  these options should be added to TUNEVALID also only for armv7*
-> >  MACHINEs.
-> > * support vfpv4 with or without neon
-> >  when both vfpv4 and neon are in TUNE_FEATURES we want to set only one
-> >  -mfpu parameter and to neon-vfpv4
-> > * prevent multiple appends to ARMPKGSFX_FPU, we don't want to include
-> >  e.g. -vfp as well as -vfpv4 when both "vfp" and "vfpv4" are in
-> >  TUNE_FEATURES
-> > * add -mfpu=3Dvfp for tunes with "vfp" in TUNE_FEATURES - before that we
-> >  were only adding -vfp to ARMPKGSFX_FPU
-> > * add TUNE_CCARGS_MFPU variable which is used to set -mfpu parameter as
-> >  well as ARMPKGSFX_FPU suffix in TUNE_PKGARCH, all enabled values are
-> >  appended to it based on TUNE_FEATURES and then the last one is used
-> >  in the actual param and suffix
-> > * this prevents multiple -mfpu options in TUNE_CCARGS
-> >=20
-> > * !!!
-> >  This means we need to change TUNE_PKGARCH and PACKAGE_EXTRA_ARCHS for
-> >  vfpv4, vfpv3d16, vfpv3 tunes, because the -vfp* isn't prependend
-> >  multiple times. If you're using one of these new DEFAULTTUNES (which
-> >  were at least partially broken anyway) and depend on working binary
-> >  package feed upgrade-path, then don't forget to migrate PR service
-> >  database to new TUNE_PKGARCH.
-> >=20
+What harm do you see from keeping tunes without Thumb? Only the
+maintenance of the tune file? That's not so bad because it's exact copy
+of arch-armv7a.inc with s/7a/7ve/g.
+
 > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > > ---
-> > meta/conf/machine/include/arm/arch-armv7a.inc      | 64 +++++++++++----=
--------
-> > meta/conf/machine/include/arm/feature-arm-neon.inc | 19 ++++++-
-> > meta/conf/machine/include/arm/feature-arm-vfp.inc  | 22 +++-----
-> > meta/conf/machine/include/tune-cortexa15.inc       |  8 +--
-> > meta/conf/machine/include/tune-cortexa17.inc       |  8 +--
-> > meta/conf/machine/include/tune-cortexa5.inc        |  8 +--
-> > meta/conf/machine/include/tune-cortexa7.inc        | 12 ++--
-> > meta/conf/machine/include/tune-cortexa8.inc        |  8 +--
-> > meta/conf/machine/include/tune-cortexa9.inc        |  8 +--
-> > 9 files changed, 84 insertions(+), 73 deletions(-)
-> >=20
-> > diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/=
-machine/include/arm/arch-armv7a.inc
-> > index 0c6e755..1f2e071 100644
-> > --- a/meta/conf/machine/include/arm/arch-armv7a.inc
-> > +++ b/meta/conf/machine/include/arm/arch-armv7a.inc
-> > @@ -32,14 +32,14 @@ TUNE_FEATURES_tune-armv7a-neon-vfpv4  =3D "${TUNE_F=
-EATURES_tune-armv7a-neon}  vfpv
-> > TUNE_FEATURES_tune-armv7at-neon-vfpv4 =3D "${TUNE_FEATURES_tune-armv7at=
--neon} vfpv4"
-> > PACKAGE_EXTRA_ARCHS_tune-armv7a             =3D "${PACKAGE_EXTRA_ARCHS_=
-tune-armv6}  armv7a armv7a-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-armv7at            =3D "${PACKAGE_EXTRA_ARCHS_=
-tune-armv6t} armv7a armv7a-vfp armv7at2-vfp"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7a-vfpv3d16    =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7a}  armv7a-vfp-vfpv3d16"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7at-vfpv3d16   =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7at} armv7a-vfp-vfpv3d16 armv7at2-vfp-vfpv3d16"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7a-vfpv3       =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7a-vfpv3d16}  armv7a-vfp-vfpv3d16-vfpv3"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7at-vfpv3      =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7at-vfpv3d16} armv7a-vfp-vfpv3d16-vfpv3 armv7at2-vfp-vfpv3d16-vfp=
-v3"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7a-neon        =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7a}  armv7a-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7at-neon       =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7at} armv7a-vfp-neon armv7at2-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7a-neon-vfpv4  =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7a-neon}  armv7a-vfp-neon-vfpv4"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7at-neon-vfpv4 =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7at-neon} armv7a-vfp-neon-vfpv4 armv7at2-vfp-neon-vfpv4"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7a-vfpv3d16    =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7a}  armv7a-vfpv3d16"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7at-vfpv3d16   =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7at} armv7a-vfpv3d16 armv7at2-vfpv3d16"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7a-vfpv3       =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7a-vfpv3d16}  armv7a-vfpv3"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7at-vfpv3      =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7at-vfpv3d16} armv7a-vfpv3 armv7at2-vfpv3"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7a-neon        =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7a}  armv7a-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7at-neon       =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7at} armv7a-neon armv7at2-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7a-neon-vfpv4  =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7a-neon}  armv7a-neon-vfpv4"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7at-neon-vfpv4 =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv7at-neon} armv7a-neon-vfpv4 armv7at2-neon-vfpv4"
-> >=20
-> > # HF Tunes
-> > AVAILTUNES +=3D "armv7ahf armv7athf armv7ahf-vfpv3d16 armv7athf-vfpv3d1=
-6 armv7ahf-vfpv3 armv7athf-vfpv3 armv7ahf-neon armv7athf-neon armv7ahf-neon=
--vfpv4 armv7athf-neon-vfpv4"
-> > @@ -65,14 +65,14 @@ TUNE_FEATURES_tune-armv7ahf-neon-vfpv4  =3D "${TUNE=
-_FEATURES_tune-armv7a-neon-vfpv
-> > TUNE_FEATURES_tune-armv7athf-neon-vfpv4 =3D "${TUNE_FEATURES_tune-armv7=
-at-neon-vfpv4} callconvention-hard"
-> > PACKAGE_EXTRA_ARCHS_tune-armv7ahf             =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv6hf}  armv7ahf-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-armv7athf            =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv6thf} armv7ahf-vfp armv7at2hf-vfp"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7ahf-vfpv3d16    =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7ahf}  armv7ahf-vfp-vfpv3d16"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3d16   =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7athf} armv7ahf-vfp-vfpv3d16 armv7at2hf-vfp-vfpv3d16"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7ahf-vfpv3       =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7ahf-vfpv3d16}  armv7ahf-vfp-vfpv3d16-vfpv3"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3      =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7athf-vfpv3d16} armv7ahf-vfp-vfpv3d16-vfpv3 armv7at2hf-vfp-vfpv=
-3d16-vfpv3"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon        =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7ahf}  armv7ahf-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon       =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7athf} armv7ahf-vfp-neon armv7at2hf-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4  =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7ahf-neon}  armv7ahf-vfp-neon-vfpv4"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4 =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7athf-neon} armv7ahf-vfp-neon-vfpv4 armv7at2hf-vfp-neon-vfpv4"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7ahf-vfpv3d16    =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7ahf}  armv7ahf-vfpv3d16"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3d16   =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7athf} armv7ahf-vfpv3d16 armv7at2hf-vfpv3d16"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7ahf-vfpv3       =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7ahf-vfpv3d16}  armv7ahf-vfpv3"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7athf-vfpv3      =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7athf-vfpv3d16} armv7ahf-vfpv3 armv7at2hf-vfpv3"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon        =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7ahf}  armv7ahf-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon       =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7athf} armv7ahf-neon armv7at2hf-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4  =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7ahf-neon}  armv7ahf-neon-vfpv4"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4 =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7athf-neon} armv7ahf-neon-vfpv4 armv7at2hf-neon-vfpv4"
-> >=20
-> > # Big Endian
-> > AVAILTUNES +=3D "armv7ab armv7atb armv7ab-vfpv3d16 armv7atb-vfpv3d16 ar=
-mv7ab-vfpv3 armv7atb-vfpv3 armv7ab-neon armv7atb-neon armv7ab-neon-vfpv4 ar=
-mv7atb-neon-vfpv4"
-> > @@ -98,14 +98,14 @@ TUNE_FEATURES_tune-armv7ab-neon-vfpv4  =3D "${TUNE_=
-FEATURES_tune-armv7a-neon-vfpv4
-> > TUNE_FEATURES_tune-armv7atb-neon-vfpv4 =3D "${TUNE_FEATURES_tune-armv7a=
-t-neon-vfpv4} bigendian"
-> > PACKAGE_EXTRA_ARCHS_tune-armv7ab             =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv6b}  armv7ab-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-armv7atb            =3D "${PACKAGE_EXTRA_ARCHS=
-_tune-armv6tb} armv7ab-vfp armv7at2b-vfp"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7ab-vfpv3d16    =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7ab}  armv7ab-vfp-vfpv3d16"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv3d16   =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7atb} armv7ab-vfp-vfpv3d16 armv7at2b-vfp-vfpv3d16"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7ab-vfpv3       =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7ab-vfpv3d16}  armv7ab-vfp-vfpv3d16-vfpv3"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv3      =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7atb-vfpv3d16} armv7ab-vfp-vfpv3d16-vfpv3 armv7at2b-vfp-vfpv3d16=
--vfpv3"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7ab-neon        =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7ab}  armv7ab-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7atb-neon       =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7atb} armv7ab-vfp-neon armv7at2b-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7ab-neon-vfpv4  =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7ab-neon}  armv7ab-vfp-neon-vfpv4"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7atb-neon-vfpv4 =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7atb-neon} armv7ab-vfp-neon-vfpv4 armv7at2b-vfp-neon-vfpv4"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7ab-vfpv3d16    =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7ab}  armv7ab-vfpv3d16"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv3d16   =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7atb} armv7ab-vfpv3d16 armv7at2b-vfpv3d16"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7ab-vfpv3       =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7ab-vfpv3d16}  armv7ab-vfpv3"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv3      =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7atb-vfpv3d16} armv7ab-vfpv3 armv7at2b-vfpv3"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7ab-neon        =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7ab}  armv7ab-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7atb-neon       =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7atb} armv7ab-neon armv7at2b-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7ab-neon-vfpv4  =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7ab-neon}  armv7ab-neon-vfpv4"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7atb-neon-vfpv4 =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7atb-neon} armv7ab-neon-vfpv4 armv7at2b-neon-vfpv4"
-> >=20
-> > # Big Endian + HF
-> > AVAILTUNES +=3D "armv7ahfb armv7athfb armv7ahfb-vfpv3d16 armv7athfb-vfp=
-v3d16 armv7ahfb-vfpv3 armv7athfb-vfpv3 armv7ahfb-neon armv7athfb-neon armv7=
-ahfb-neon-vfpv4 armv7athfb-neon-vfpv4"
-> > @@ -131,11 +131,11 @@ TUNE_FEATURES_tune-armv7ahfb-neon-vfpv4  =3D "${T=
-UNE_FEATURES_tune-armv7ahf-neon-v
-> > TUNE_FEATURES_tune-armv7athfb-neon-vfpv4 =3D "${TUNE_FEATURES_tune-armv=
-7athf-neon-vfpv4} bigendian"
-> > PACKAGE_EXTRA_ARCHS_tune-armv7ahfb             =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv6hfb}  armv7ahfb-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-armv7athfb            =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv6thfb} armv7ahfb-vfp armv7at2hfb-vfp"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7ahfb-vfpv3d16    =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7ahfb}  armv7ahfb-vfp-vfpv3d16"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7athfb-vfpv3d16   =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7athfb} armv7ahfb-vfp-vfpv3d16 armv7at2hfb-vfp-vfpv3d16"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7ahfb-vfpv3       =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7ahfb-vfpv3d16}  armv7ahfb-vfp-vfpv3d16-vfpv3"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7athfb-vfpv3      =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7athfb-vfpv3d16} armv7ahfb-vfp-vfpv3d16-vfpv3 armv7at2hfb-vfp-=
-vfpv3d16-vfpv3"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7ahfb-neon        =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7ahfb}  armv7ahfb-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7athfb-neon       =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7athfb} armv7ahfb-vfp-neon armv7at2hfb-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7ahfb-neon-vfpv4  =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7ahfb-neon}  armv7ahfb-vfp-neon-vfpv4"
-> > -PACKAGE_EXTRA_ARCHS_tune-armv7athfb-neon-vfpv4 =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7athfb-neon} armv7ahfb-vfp-neon-vfpv4 armv7at2hfb-vfp-neon-vfp=
-v4"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7ahfb-vfpv3d16    =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7ahfb}  armv7ahfb-vfpv3d16"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7athfb-vfpv3d16   =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7athfb} armv7ahfb-vfpv3d16 armv7at2hfb-vfpv3d16"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7ahfb-vfpv3       =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7ahfb-vfpv3d16}  armv7ahfb-vfpv3"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7athfb-vfpv3      =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7athfb-vfpv3d16} armv7ahfb-vfpv3 armv7at2hfb-vfpv3"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7ahfb-neon        =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7ahfb}  armv7ahfb-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7athfb-neon       =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7athfb} armv7ahfb-neon armv7at2hfb-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7ahfb-neon-vfpv4  =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7ahfb-neon}  armv7ahfb-neon-vfpv4"
-> > +PACKAGE_EXTRA_ARCHS_tune-armv7athfb-neon-vfpv4 =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7athfb-neon} armv7ahfb-neon-vfpv4 armv7at2hfb-neon-vfpv4"
-> > diff --git a/meta/conf/machine/include/arm/feature-arm-neon.inc b/meta/=
-conf/machine/include/arm/feature-arm-neon.inc
-> > index e9351f9..50d9175 100644
-> > --- a/meta/conf/machine/include/arm/feature-arm-neon.inc
-> > +++ b/meta/conf/machine/include/arm/feature-arm-neon.inc
-> > @@ -1,3 +1,18 @@
-> > +# GCC supports following options:
-> > +# 'vfp', 'vfpv3', 'vfpv3-fp16', 'vfpv3-d16', 'vfpv3-d16-fp16', 'vfpv3x=
-d', 'vfpv3xd-fp16', 'neon', 'neon-fp16', 'vfpv4', 'vfpv4-d16', 'fpv4-sp-d16=
-', 'neon-vfpv4', 'fpv5-d16', 'fpv5-sp-d16', 'fp-armv8', 'neon-fp-armv8', an=
-d 'crypto-neon-fp-armv8'
+> >  meta/conf/machine/include/arm/arch-armv7ve.inc     | 141 +++++++++++++=
+++++++++
+> >  .../conf/machine/include/arm/feature-arm-thumb.inc |   1 +
+> >  meta/conf/machine/include/tune-cortexa15.inc       |  52 ++++----
+> >  meta/conf/machine/include/tune-cortexa7.inc        |  52 ++++----
+> >  4 files changed, 194 insertions(+), 52 deletions(-)
+> >  create mode 100644 meta/conf/machine/include/arm/arch-armv7ve.inc
+> >
+> > diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc b/meta/conf=
+/machine/include/arm/arch-armv7ve.inc
+> > new file mode 100644
+> > index 0000000..79e1ef6
+> > --- /dev/null
+> > +++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
+> > @@ -0,0 +1,141 @@
+> > +DEFAULTTUNE ?=3D "armv7ve"
 > > +
-> > +# Only some combinations are supported here.
-> > +# 'vfp', -mfloat-abi parameter and 'hf' suffix is implemented in featu=
-re-arm-vfp.inc
+> > +TUNEVALID[armv7ve] =3D "Enable instructions for ARMv7ve"
+> > +TUNECONFLICTS[armv7ve] =3D "armv4 armv5 armv6 armv7 armv7a"
+> > +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', ' -=
+march=3Darmv7ve', '', d)}"
+> > +MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve'=
+, 'armv7ve:', '' ,d)}"
 > > +
-> > TUNEVALID[neon] =3D "Enable Neon SIMD accelerator unit."
-> > -TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'neon', bb.uti=
-ls.contains('TUNE_FEATURES', 'vfpv4', ' -mfpu=3Dneon-vfpv4', ' -mfpu=3Dneon=
-', d), '' , d)}"
-> > -ARMPKGSFX_FPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'neon', '-ne=
-on', '', d)}"
-> > +TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'neon', '=
- neon', '', d)}"
+> > +require conf/machine/include/arm/arch-armv6.inc
+> > +require conf/machine/include/arm/feature-arm-neon.inc
 > > +
-> > +TUNEVALID[vfpv3d16] =3D "Enable Vector Floating Point Version 3 with 1=
-6 registers (vfpv3-d16) unit."
-> > +TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16=
-', ' vfpv3d16', '', d)}"
+> > +# Little Endian base configs
+> > +AVAILTUNES +=3D "armv7ve armv7vet armv7ve-vfpv3d16 armv7vet-vfpv3d16 a=
+rmv7ve-vfpv3 armv7vet-vfpv3 armv7ve-neon armv7vet-neon armv7ve-neon-vfpv4 a=
+rmv7vet-neon-vfpv4"
+> > +ARMPKGARCH_tune-armv7ve             ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vet            ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7ve-vfpv3d16    ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vet-vfpv3d16   ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7ve-vfpv3       ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vet-vfpv3      ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7ve-neon        ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vet-neon       ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7ve-neon-vfpv4  ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vet-neon-vfpv4 ?=3D "armv7ve"
+> > +TUNE_FEATURES_tune-armv7ve             =3D "arm armv7ve vfp"
+> > +TUNE_FEATURES_tune-armv7vet            =3D "${TUNE_FEATURES_tune-armv7=
+ve} thumb"
+> > +TUNE_FEATURES_tune-armv7ve-vfpv3d16    =3D "${TUNE_FEATURES_tune-armv7=
+ve}  vfpv3d16"
+> > +TUNE_FEATURES_tune-armv7vet-vfpv3d16   =3D "${TUNE_FEATURES_tune-armv7=
+vet} vfpv3d16"
+> > +TUNE_FEATURES_tune-armv7ve-vfpv3       =3D "${TUNE_FEATURES_tune-armv7=
+ve-vfpv3d16}  vfpv3"
+> > +TUNE_FEATURES_tune-armv7vet-vfpv3      =3D "${TUNE_FEATURES_tune-armv7=
+vet-vfpv3d16} vfpv3"
+> > +TUNE_FEATURES_tune-armv7ve-neon        =3D "${TUNE_FEATURES_tune-armv7=
+ve}  neon"
+> > +TUNE_FEATURES_tune-armv7vet-neon       =3D "${TUNE_FEATURES_tune-armv7=
+vet} neon"
+> > +TUNE_FEATURES_tune-armv7ve-neon-vfpv4  =3D "${TUNE_FEATURES_tune-armv7=
+ve-neon}  vfpv4"
+> > +TUNE_FEATURES_tune-armv7vet-neon-vfpv4 =3D "${TUNE_FEATURES_tune-armv7=
+vet-neon} vfpv4"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7ve             =3D "${PACKAGE_EXTRA_ARCH=
+S_tune-armv6}  armv7ve armv7ve-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vet            =3D "${PACKAGE_EXTRA_ARCH=
+S_tune-armv6t} armv7ve armv7ve-vfp armv7vet2-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7ve-vfpv3d16    =3D "${PACKAGE_EXTRA_ARCH=
+S_tune-armv7ve}  armv7ve-vfpv3d16"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vet-vfpv3d16   =3D "${PACKAGE_EXTRA_ARCH=
+S_tune-armv7vet} armv7ve-vfpv3d16 armv7vet2-vfpv3d16"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7ve-vfpv3       =3D "${PACKAGE_EXTRA_ARCH=
+S_tune-armv7ve-vfpv3d16}  armv7ve-vfpv3"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vet-vfpv3      =3D "${PACKAGE_EXTRA_ARCH=
+S_tune-armv7vet-vfpv3d16} armv7ve-vfpv3 armv7vet2-vfpv3"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon        =3D "${PACKAGE_EXTRA_ARCH=
+S_tune-armv7ve}  armv7ve-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vet-neon       =3D "${PACKAGE_EXTRA_ARCH=
+S_tune-armv7vet} armv7ve-neon armv7vet2-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon-vfpv4  =3D "${PACKAGE_EXTRA_ARCH=
+S_tune-armv7ve-neon}  armv7ve-neon-vfpv4"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vet-neon-vfpv4 =3D "${PACKAGE_EXTRA_ARCH=
+S_tune-armv7vet-neon} armv7ve-neon-vfpv4 armv7vet2-neon-vfpv4"
 > > +
-> > +TUNEVALID[vfpv3] =3D "Enable Vector Floating Point Version 3 with 32 r=
-egisters (vfpv3) unit."
-> > +TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', =
-' vfpv3', '' , d)}"
+> > +# HF Tunes
+> > +AVAILTUNES +=3D "armv7vehf armv7vethf armv7vehf-vfpv3d16 armv7vethf-vf=
+pv3d16 armv7vehf-vfpv3 armv7vethf-vfpv3 armv7vehf-neon armv7vethf-neon armv=
+7vehf-neon-vfpv4 armv7vethf-neon-vfpv4"
+> > +ARMPKGARCH_tune-armv7vehf             ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vethf            ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vehf-vfpv3d16    ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vethf-vfpv3d16   ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vehf-vfpv3       ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vethf-vfpv3      ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vehf-neon        ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vethf-neon       ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vehf-neon-vfpv4  ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vethf-neon-vfpv4 ?=3D "armv7ve"
+> > +TUNE_FEATURES_tune-armv7vehf             =3D "${TUNE_FEATURES_tune-arm=
+v7ve}             callconvention-hard"
+> > +TUNE_FEATURES_tune-armv7vethf            =3D "${TUNE_FEATURES_tune-arm=
+v7vet}            callconvention-hard"
+> > +TUNE_FEATURES_tune-armv7vehf-vfpv3d16    =3D "${TUNE_FEATURES_tune-arm=
+v7ve-vfpv3d16}    callconvention-hard"
+> > +TUNE_FEATURES_tune-armv7vethf-vfpv3d16   =3D "${TUNE_FEATURES_tune-arm=
+v7vet-vfpv3d16}   callconvention-hard"
+> > +TUNE_FEATURES_tune-armv7vehf-vfpv3       =3D "${TUNE_FEATURES_tune-arm=
+v7ve-vfpv3}       callconvention-hard"
+> > +TUNE_FEATURES_tune-armv7vethf-vfpv3      =3D "${TUNE_FEATURES_tune-arm=
+v7vet-vfpv3}      callconvention-hard"
+> > +TUNE_FEATURES_tune-armv7vehf-neon        =3D "${TUNE_FEATURES_tune-arm=
+v7ve-neon}        callconvention-hard"
+> > +TUNE_FEATURES_tune-armv7vethf-neon       =3D "${TUNE_FEATURES_tune-arm=
+v7vet-neon}       callconvention-hard"
+> > +TUNE_FEATURES_tune-armv7vehf-neon-vfpv4  =3D "${TUNE_FEATURES_tune-arm=
+v7ve-neon-vfpv4}  callconvention-hard"
+> > +TUNE_FEATURES_tune-armv7vethf-neon-vfpv4 =3D "${TUNE_FEATURES_tune-arm=
+v7vet-neon-vfpv4} callconvention-hard"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehf             =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv6hf}  armv7vehf-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethf            =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv6thf} armv7vehf-vfp armv7vet2hf-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehf-vfpv3d16    =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7vehf}  armv7vehf-vfpv3d16"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethf-vfpv3d16   =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7vethf} armv7vehf-vfpv3d16 armv7vet2hf-vfpv3d16"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehf-vfpv3       =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7vehf-vfpv3d16}  armv7vehf-vfpv3"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethf-vfpv3      =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7vethf-vfpv3d16} armv7vehf-vfpv3 armv7vet2hf-vfpv3"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehf-neon        =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7vehf}  armv7vehf-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethf-neon       =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7vethf} armv7vehf-neon armv7vet2hf-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehf-neon-vfpv4  =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7vehf-neon}  armv7vehf-neon-vfpv4"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethf-neon-vfpv4 =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7vethf-neon} armv7vehf-neon-vfpv4 armv7vet2hf-neon-vfpv4"
 > > +
-> > +TUNEVALID[vfpv4] =3D "Enable Vector Floating Point Version 4 (vfpv4) u=
-nit."
-> > +TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv4', =
-' vfpv4', '', d)}"
-> > +TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', [ 'vfpv4'=
-, 'neon' ], ' neon-vfpv4', '', d)}"
-> > diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc b/meta/c=
-onf/machine/include/arm/feature-arm-vfp.inc
-> > index e23d377..1b39488 100644
-> > --- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
-> > +++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
-> > @@ -1,17 +1,13 @@
-> > -TUNEVALID[vfp] =3D "Enable Vector Floating Point (vfp) unit."
-> > -ARMPKGSFX_FPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfp', '-vfp=
-', '' ,d)}"
-> > -
-> > -TUNEVALID[vfpv3d16] =3D "Enable Vector Floating Point Version 3 with 1=
-6 registers (vfpv3-d16) unit."
-> > -TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16', ' =
--mfpu=3Dvfpv3-d16', '', d)}"
-> > -ARMPKGSFX_FPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3d16', =
-'-vfpv3d16', '' ,d)}"
-> > +# This is only for VFPv1 or VFPv2, other vfp* tunes are defined in
-> > +# feature-arm-neon.inc, because they are available only for armv7*
-> > +# and this .inc file is included from armv5
-> >=20
-> > -TUNEVALID[vfpv3] =3D "Enable Vector Floating Point Version 3 with 32 r=
-egisters (vfpv3) unit."
-> > -TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', ' -mf=
-pu=3Dvfpv3', '', d)}"
-> > -ARMPKGSFX_FPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv3', '-v=
-fpv3', '' ,d)}"
-> > +TUNEVALID[vfp] =3D "Enable Vector Floating Point (vfp) unit."
-> > +TUNE_CCARGS_MFPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfp', ' =
-vfp', '', d)}"
-> >=20
-> > -TUNEVALID[vfpv4] =3D "Enable Vector Floating Point Version 4 (vfpv4) u=
-nit."
-> > -ARMPKGSFX_FPU .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfpv4', '-v=
-fpv4', '' ,d)}"
-> > +TUNE_CCARGS  .=3D "${@ (' -mfpu=3D%s ' % d.getVar('TUNE_CCARGS_MFPU', =
-True).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) !=3D '') else ''}"
-> > +ARMPKGSFX_FPU =3D "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU', Tr=
-ue).split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU', True) !=3D '') else ''}"
-> >=20
-> > TUNEVALID[callconvention-hard] =3D "Enable EABI hard float call convent=
-ion, requires VFP."
-> > -TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'vfp', bb.util=
-s.contains('TUNE_FEATURES', 'callconvention-hard', ' -mfloat-abi=3Dhard', '=
- -mfloat-abi=3Dsoftfp', d), '' ,d)}"
-> > -ARMPKGSFX_EABI .=3D "${@bb.utils.contains('TUNE_FEATURES', [ 'callconv=
-ention-hard', 'vfp' ], 'hf', '', d)}"
-> > +TUNE_CCARGS   .=3D "${@ bb.utils.contains('TUNE_FEATURES', 'callconven=
-tion-hard', ' -mfloat-abi=3Dhard', ' -mfloat-abi=3Dsoftfp', d) if (d.getVar=
-('TUNE_CCARGS_MFPU', True) !=3D '') else '' }"
-> > +ARMPKGSFX_EABI =3D "${@ bb.utils.contains('TUNE_FEATURES', 'callconven=
-tion-hard', 'hf',                '',                    d) if (d.getVar('TU=
-NE_CCARGS_MFPU', True) !=3D '') else '' }"
+> > +# Big Endian
+> > +AVAILTUNES +=3D "armv7veb armv7vetb armv7veb-vfpv3d16 armv7vetb-vfpv3d=
+16 armv7veb-vfpv3 armv7vetb-vfpv3 armv7veb-neon armv7vetb-neon armv7veb-neo=
+n-vfpv4 armv7vetb-neon-vfpv4"
+> > +ARMPKGARCH_tune-armv7veb             ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vetb            ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7veb-vfpv3d16    ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vetb-vfpv3d16   ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7veb-vfpv3       ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vetb-vfpv3      ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7veb-neon        ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vetb-neon       ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7veb-neon-vfpv4  ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vetb-neon-vfpv4 ?=3D "armv7ve"
+> > +TUNE_FEATURES_tune-armv7veb             =3D "${TUNE_FEATURES_tune-armv=
+7ve}             bigendian"
+> > +TUNE_FEATURES_tune-armv7vetb            =3D "${TUNE_FEATURES_tune-armv=
+7vet}            bigendian"
+> > +TUNE_FEATURES_tune-armv7veb-vfpv3d16    =3D "${TUNE_FEATURES_tune-armv=
+7ve-vfpv3d16}    bigendian"
+> > +TUNE_FEATURES_tune-armv7vetb-vfpv3d16   =3D "${TUNE_FEATURES_tune-armv=
+7vet-vfpv3d16}   bigendian"
+> > +TUNE_FEATURES_tune-armv7veb-vfpv3       =3D "${TUNE_FEATURES_tune-armv=
+7ve-vfpv3}       bigendian"
+> > +TUNE_FEATURES_tune-armv7vetb-vfpv3      =3D "${TUNE_FEATURES_tune-armv=
+7vet-vfpv3}      bigendian"
+> > +TUNE_FEATURES_tune-armv7veb-neon        =3D "${TUNE_FEATURES_tune-armv=
+7ve-neon}        bigendian"
+> > +TUNE_FEATURES_tune-armv7vetb-neon       =3D "${TUNE_FEATURES_tune-armv=
+7vet-neon}       bigendian"
+> > +TUNE_FEATURES_tune-armv7veb-neon-vfpv4  =3D "${TUNE_FEATURES_tune-armv=
+7ve-neon-vfpv4}  bigendian"
+> > +TUNE_FEATURES_tune-armv7vetb-neon-vfpv4 =3D "${TUNE_FEATURES_tune-armv=
+7vet-neon-vfpv4} bigendian"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7veb             =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv6b}  armv7veb-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vetb            =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv6tb} armv7veb-vfp armv7vet2b-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7veb-vfpv3d16    =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7veb}  armv7veb-vfpv3d16"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vetb-vfpv3d16   =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7vetb} armv7veb-vfpv3d16 armv7vet2b-vfpv3d16"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7veb-vfpv3       =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7veb-vfpv3d16}  armv7veb-vfpv3"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vetb-vfpv3      =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7vetb-vfpv3d16} armv7veb-vfpv3 armv7vet2b-vfpv3"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7veb-neon        =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7veb}  armv7veb-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vetb-neon       =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7vetb} armv7veb-neon armv7vet2b-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7veb-neon-vfpv4  =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7veb-neon}  armv7veb-neon-vfpv4"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vetb-neon-vfpv4 =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7vetb-neon} armv7veb-neon-vfpv4 armv7vet2b-neon-vfpv4"
+> > +
+> > +# Big Endian + HF
+> > +AVAILTUNES +=3D "armv7vehfb armv7vethfb armv7vehfb-vfpv3d16 armv7vethf=
+b-vfpv3d16 armv7vehfb-vfpv3 armv7vethfb-vfpv3 armv7vehfb-neon armv7vethfb-n=
+eon armv7vehfb-neon-vfpv4 armv7vethfb-neon-vfpv4"
+> > +ARMPKGARCH_tune-armv7vehfb             ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vethfb            ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vehfb-vfpv3d16    ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vethfb-vfpv3d16   ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vehfb-vfpv3       ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vethfb-vfpv3      ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vehfb-neon        ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vethfb-neon       ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vehfb-neon-vfpv4  ?=3D "armv7ve"
+> > +ARMPKGARCH_tune-armv7vethfb-neon-vfpv4 ?=3D "armv7ve"
+> > +TUNE_FEATURES_tune-armv7vehfb             =3D "${TUNE_FEATURES_tune-ar=
+mv7vehf}             bigendian"
+> > +TUNE_FEATURES_tune-armv7vethfb            =3D "${TUNE_FEATURES_tune-ar=
+mv7vethf}            bigendian"
+> > +TUNE_FEATURES_tune-armv7vehfb-vfpv3d16    =3D "${TUNE_FEATURES_tune-ar=
+mv7vehf-vfpv3d16}    bigendian"
+> > +TUNE_FEATURES_tune-armv7vethfb-vfpv3d16   =3D "${TUNE_FEATURES_tune-ar=
+mv7vethf-vfpv3d16}   bigendian"
+> > +TUNE_FEATURES_tune-armv7vehfb-vfpv3       =3D "${TUNE_FEATURES_tune-ar=
+mv7vehf-vfpv3}       bigendian"
+> > +TUNE_FEATURES_tune-armv7vethfb-vfpv3      =3D "${TUNE_FEATURES_tune-ar=
+mv7vethf-vfpv3}      bigendian"
+> > +TUNE_FEATURES_tune-armv7vehfb-neon        =3D "${TUNE_FEATURES_tune-ar=
+mv7vehf-neon}        bigendian"
+> > +TUNE_FEATURES_tune-armv7vethfb-neon       =3D "${TUNE_FEATURES_tune-ar=
+mv7vethf-neon}       bigendian"
+> > +TUNE_FEATURES_tune-armv7vehfb-neon-vfpv4  =3D "${TUNE_FEATURES_tune-ar=
+mv7vehf-neon-vfpv4}  bigendian"
+> > +TUNE_FEATURES_tune-armv7vethfb-neon-vfpv4 =3D "${TUNE_FEATURES_tune-ar=
+mv7vethf-neon-vfpv4} bigendian"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehfb             =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv6hfb}  armv7vehfb-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethfb            =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv6thfb} armv7vehfb-vfp armv7vet2hfb-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-vfpv3d16    =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vehfb}  armv7vehfb-vfpv3d16"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethfb-vfpv3d16   =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vethfb} armv7vehfb-vfpv3d16 armv7vet2hfb-vfpv3d16"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-vfpv3       =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vehfb-vfpv3d16}  armv7vehfb-vfpv3"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethfb-vfpv3      =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vethfb-vfpv3d16} armv7vehfb-vfpv3 armv7vet2hfb-vfpv3"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-neon        =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vehfb}  armv7vehfb-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethfb-neon       =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vethfb} armv7vehfb-neon armv7vet2hfb-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-neon-vfpv4  =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vehfb-neon}  armv7vehfb-neon-vfpv4"
+> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethfb-neon-vfpv4 =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vethfb-neon} armv7vehfb-neon-vfpv4 armv7vet2hfb-neon-vfpv4"
+> > diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta=
+/conf/machine/include/arm/feature-arm-thumb.inc
+> > index 5632171..54c0cee 100644
+> > --- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
+> > +++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+> > @@ -12,6 +12,7 @@ ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEA=
+TURES', 'armv6',  't',  '', d
+> >  ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv7a',=
+ 't2', '', d)}"
+> >  ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv7r',=
+ 't2', '', d)}"
+> >  ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv7m',=
+ 't2', '', d)}"
+> > +ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve'=
+, 't2', '', d)}"
+> >
+> >  # If the device supports ARM, then respect ARM_THUMB_OPT (which can be=
+ "arm" or "thumb")
+> >  # If the defice doesn't support ARM, then always set "thumb" even when
 > > diff --git a/meta/conf/machine/include/tune-cortexa15.inc b/meta/conf/m=
 achine/include/tune-cortexa15.inc
-> > index b4a693d..7e597f3 100644
+> > index 8b34bb2..cfc8151 100644
 > > --- a/meta/conf/machine/include/tune-cortexa15.inc
 > > +++ b/meta/conf/machine/include/tune-cortexa15.inc
-> > @@ -17,8 +17,8 @@ TUNE_FEATURES_tune-cortexa15-neon        =3D "${TUNE_=
-FEATURES_tune-armv7a-neon}
-> > TUNE_FEATURES_tune-cortexa15t-neon       =3D "${TUNE_FEATURES_tune-armv=
-7at-neon}       cortexa15"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa15             =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7a}  cortexa15-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa15t            =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7at} cortexa15-vfp cortexa15t2-vfp"
+> > @@ -1,6 +1,6 @@
+> > -DEFAULTTUNE ?=3D "armv7a-neon"
+> > +DEFAULTTUNE ?=3D "armv7ve-neon"
+> >
+> > -require conf/machine/include/arm/arch-armv7a.inc
+> > +require conf/machine/include/arm/arch-armv7ve.inc
+> >
+> >  TUNEVALID[cortexa15] =3D "Enable Cortex-A15 specific processor optimiz=
+ations"
+> >  TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexa15', '=
+ -mtune=3Dcortex-a15', '', d)}"
+> > @@ -13,18 +13,18 @@ ARMPKGARCH_tune-cortexa15-neon        =3D "cortexa1=
+5"
+> >  ARMPKGARCH_tune-cortexa15t-neon       =3D "cortexa15"
+> >  ARMPKGARCH_tune-cortexa15-neon-vfpv4  =3D "cortexa15"
+> >  ARMPKGARCH_tune-cortexa15t-neon-vfpv4 =3D "cortexa15"
+> > -TUNE_FEATURES_tune-cortexa15             =3D "${TUNE_FEATURES_tune-arm=
+v7a}             cortexa15"
+> > -TUNE_FEATURES_tune-cortexa15t            =3D "${TUNE_FEATURES_tune-arm=
+v7at}            cortexa15"
+> > -TUNE_FEATURES_tune-cortexa15-neon        =3D "${TUNE_FEATURES_tune-arm=
+v7a-neon}        cortexa15"
+> > -TUNE_FEATURES_tune-cortexa15t-neon       =3D "${TUNE_FEATURES_tune-arm=
+v7at-neon}       cortexa15"
+> > -TUNE_FEATURES_tune-cortexa15-neon-vfpv4  =3D "${TUNE_FEATURES_tune-arm=
+v7a-neon-vfpv4}  cortexa15"
+> > -TUNE_FEATURES_tune-cortexa15t-neon-vfpv4 =3D "${TUNE_FEATURES_tune-arm=
+v7at-neon-vfpv4} cortexa15"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15             =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7a}  cortexa15-vfp"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15t            =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7at} cortexa15-vfp cortexa15t2-vfp"
 > > -PACKAGE_EXTRA_ARCHS_tune-cortexa15-neon        =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7a-neon}  cortexa15-vfp cortexa15-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15t-neon       =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7at-neon} cortexa15-vfp cortexa15-vfp-neon cortexa15t2-vfp cor=
-texa15t2-vfp-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15-neon        =3D "${PACKAGE_EXTRA_AR=
 CHS_tune-armv7a-neon}  cortexa15-vfp cortexa15-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15t-neon       =3D "${PACKAGE_EXTRA_AR=
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15t-neon       =3D "${PACKAGE_EXTRA_AR=
 CHS_tune-armv7at-neon} cortexa15-vfp cortexa15-neon cortexa15t2-vfp cortexa=
 15t2-neon"
-> >=20
-> > # HF Tunes
-> > AVAILTUNES +=3D "cortexa15hf cortexa15thf cortexa15hf-neon cortexa15thf=
--neon"
-> > @@ -32,5 +32,5 @@ TUNE_FEATURES_tune-cortexa15hf-neon        =3D "${TUN=
-E_FEATURES_tune-armv7ahf-neon
-> > TUNE_FEATURES_tune-cortexa15thf-neon       =3D "${TUNE_FEATURES_tune-ar=
-mv7athf-neon}       cortexa15"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa15hf             =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7ahf}  cortexa15hf-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa15thf            =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7athf} cortexa15hf-vfp cortexa15t2hf-vfp"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15-neon-vfpv4  =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7a-neon-vfpv4}  cortexa15-vfp cortexa15-neon cortexa15-neon-vf=
+pv4"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15t-neon-vfpv4 =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7at-neon-vfpv4} cortexa15-vfp cortexa15-neon cortexa15-neon-vf=
+pv4 cortexa15t2-vfp cortexa15t2-neon cortexa15t2-neon-vfpv4"
+> > +TUNE_FEATURES_tune-cortexa15             =3D "${TUNE_FEATURES_tune-arm=
+v7ve}             cortexa15"
+> > +TUNE_FEATURES_tune-cortexa15t            =3D "${TUNE_FEATURES_tune-arm=
+v7vet}            cortexa15"
+> > +TUNE_FEATURES_tune-cortexa15-neon        =3D "${TUNE_FEATURES_tune-arm=
+v7ve-neon}        cortexa15"
+> > +TUNE_FEATURES_tune-cortexa15t-neon       =3D "${TUNE_FEATURES_tune-arm=
+v7vet-neon}       cortexa15"
+> > +TUNE_FEATURES_tune-cortexa15-neon-vfpv4  =3D "${TUNE_FEATURES_tune-arm=
+v7ve-neon-vfpv4}  cortexa15"
+> > +TUNE_FEATURES_tune-cortexa15t-neon-vfpv4 =3D "${TUNE_FEATURES_tune-arm=
+v7vet-neon-vfpv4} cortexa15"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15             =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7ve}  cortexa15-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15t            =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7vet} cortexa15-vfp cortexa15t2-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15-neon        =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7ve-neon}  cortexa15-vfp cortexa15-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15t-neon       =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7vet-neon} cortexa15-vfp cortexa15-neon cortexa15t2-vfp cortex=
+a15t2-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15-neon-vfpv4  =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7ve-neon-vfpv4}  cortexa15-vfp cortexa15-neon cortexa15-neon-v=
+fpv4"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15t-neon-vfpv4 =3D "${PACKAGE_EXTRA_AR=
+CHS_tune-armv7vet-neon-vfpv4} cortexa15-vfp cortexa15-neon cortexa15-neon-v=
+fpv4 cortexa15t2-vfp cortexa15t2-neon cortexa15t2-neon-vfpv4"
+> >
+> >  # HF Tunes
+> >  AVAILTUNES +=3D "cortexa15hf cortexa15thf cortexa15hf-neon cortexa15th=
+f-neon cortexa15hf-neon-vfpv4 cortexa15thf-neon-vfpv4"
+> > @@ -34,15 +34,15 @@ ARMPKGARCH_tune-cortexa15hf-neon        =3D "cortex=
+a15"
+> >  ARMPKGARCH_tune-cortexa15thf-neon       =3D "cortexa15"
+> >  ARMPKGARCH_tune-cortexa15hf-neon-vfpv4  =3D "cortexa15"
+> >  ARMPKGARCH_tune-cortexa15thf-neon-vfpv4 =3D "cortexa15"
+> > -TUNE_FEATURES_tune-cortexa15hf             =3D "${TUNE_FEATURES_tune-a=
+rmv7ahf}             cortexa15"
+> > -TUNE_FEATURES_tune-cortexa15thf            =3D "${TUNE_FEATURES_tune-a=
+rmv7athf}            cortexa15"
+> > -TUNE_FEATURES_tune-cortexa15hf-neon        =3D "${TUNE_FEATURES_tune-a=
+rmv7ahf-neon}        cortexa15"
+> > -TUNE_FEATURES_tune-cortexa15thf-neon       =3D "${TUNE_FEATURES_tune-a=
+rmv7athf-neon}       cortexa15"
+> > -TUNE_FEATURES_tune-cortexa15hf-neon-vfpv4  =3D "${TUNE_FEATURES_tune-a=
+rmv7ahf-neon-vfpv4}  cortexa15"
+> > -TUNE_FEATURES_tune-cortexa15thf-neon-vfpv4 =3D "${TUNE_FEATURES_tune-a=
+rmv7athf-neon-vfpv4} cortexa15"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15hf             =3D "${PACKAGE_EXTRA_=
+ARCHS_tune-armv7ahf}  cortexa15hf-vfp"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15thf            =3D "${PACKAGE_EXTRA_=
+ARCHS_tune-armv7athf} cortexa15hf-vfp cortexa15t2hf-vfp"
 > > -PACKAGE_EXTRA_ARCHS_tune-cortexa15hf-neon        =3D "${PACKAGE_EXTRA_=
-ARCHS_tune-armv7ahf-neon}  cortexa15hf-vfp cortexa15hf-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15thf-neon       =3D "${PACKAGE_EXTRA_=
-ARCHS_tune-armv7athf-neon} cortexa15hf-vfp cortexa15hf-vfp-neon cortexa15t2=
-hf-vfp cortexa15t2hf-vfp-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15hf-neon        =3D "${PACKAGE_EXTRA_=
 ARCHS_tune-armv7ahf-neon}  cortexa15hf-vfp cortexa15hf-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15thf-neon       =3D "${PACKAGE_EXTRA_=
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15thf-neon       =3D "${PACKAGE_EXTRA_=
 ARCHS_tune-armv7athf-neon} cortexa15hf-vfp cortexa15hf-neon cortexa15t2hf-v=
 fp cortexa15t2hf-neon"
-> > diff --git a/meta/conf/machine/include/tune-cortexa17.inc b/meta/conf/m=
-achine/include/tune-cortexa17.inc
-> > index 69232d0..5cc4567 100644
-> > --- a/meta/conf/machine/include/tune-cortexa17.inc
-> > +++ b/meta/conf/machine/include/tune-cortexa17.inc
-> > @@ -17,8 +17,8 @@ TUNE_FEATURES_tune-cortexa17-neon        =3D "${TUNE_=
-FEATURES_tune-armv7a-neon}
-> > TUNE_FEATURES_tune-cortexa17t-neon       =3D "${TUNE_FEATURES_tune-armv=
-7at-neon}       cortexa17"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa17             =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7a}  cortexa17-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa17t            =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7at} cortexa17-vfp cortexa17t2-vfp"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa17-neon        =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7a-neon}  cortexa17-vfp cortexa17-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa17t-neon       =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7at-neon} cortexa17-vfp cortexa17-vfp-neon cortexa17t2-vfp cor=
-texa17t2-vfp-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa17-neon        =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7a-neon}  cortexa17-vfp cortexa17-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa17t-neon       =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7at-neon} cortexa17-vfp cortexa17-neon cortexa17t2-vfp cortexa=
-17t2-neon"
-> >=20
-> > # HF Tunes
-> > AVAILTUNES +=3D "cortexa17hf cortexa17thf cortexa17hf-neon cortexa17thf=
--neon"
-> > @@ -32,5 +32,5 @@ TUNE_FEATURES_tune-cortexa17hf-neon        =3D "${TUN=
-E_FEATURES_tune-armv7ahf-neon
-> > TUNE_FEATURES_tune-cortexa17thf-neon       =3D "${TUNE_FEATURES_tune-ar=
-mv7athf-neon}       cortexa17"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa17hf             =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7ahf}  cortexa17hf-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa17thf            =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7athf} cortexa17hf-vfp cortexa17t2hf-vfp"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa17hf-neon        =3D "${PACKAGE_EXTRA_=
-ARCHS_tune-armv7ahf-neon}  cortexa17hf-vfp cortexa17hf-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa17thf-neon       =3D "${PACKAGE_EXTRA_=
-ARCHS_tune-armv7athf-neon} cortexa17hf-vfp cortexa17hf-vfp-neon cortexa17t2=
-hf-vfp cortexa17t2hf-vfp-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa17hf-neon        =3D "${PACKAGE_EXTRA_=
-ARCHS_tune-armv7ahf-neon}  cortexa17hf-vfp cortexa17hf-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa17thf-neon       =3D "${PACKAGE_EXTRA_=
-ARCHS_tune-armv7athf-neon} cortexa17hf-vfp cortexa17hf-neon cortexa17t2hf-v=
-fp cortexa17t2hf-neon"
-> > diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/ma=
-chine/include/tune-cortexa5.inc
-> > index b649641..0d82854 100644
-> > --- a/meta/conf/machine/include/tune-cortexa5.inc
-> > +++ b/meta/conf/machine/include/tune-cortexa5.inc
-> > @@ -17,8 +17,8 @@ TUNE_FEATURES_tune-cortexa5-neon        =3D "${TUNE_F=
-EATURES_tune-armv7a-neon}
-> > TUNE_FEATURES_tune-cortexa5t-neon       =3D "${TUNE_FEATURES_tune-armv7=
-at-neon}       cortexa5"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa5             =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7a}  cortexa5-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa5t            =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7at} cortexa5-vfp cortexa5t2-vfp"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa5-neon        =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7a-neon}  cortexa5-vfp cortexa5-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa5t-neon       =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7at-neon} cortexa5-vfp cortexa5-vfp-neon cortexa5t2-vfp cortexa=
-5t2-vfp-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5-neon        =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7a-neon}  cortexa5-vfp cortexa5-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5t-neon       =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7at-neon} cortexa5-vfp cortexa5-neon cortexa5t2-vfp cortexa5t2-=
-neon"
-> >=20
-> > # HF Tunes
-> > AVAILTUNES +=3D "cortexa5hf cortexa5thf cortexa5hf-neon cortexa5thf-neo=
-n"
-> > @@ -32,5 +32,5 @@ TUNE_FEATURES_tune-cortexa5hf-neon        =3D "${TUNE=
-_FEATURES_tune-armv7ahf-neon}
-> > TUNE_FEATURES_tune-cortexa5thf-neon       =3D "${TUNE_FEATURES_tune-arm=
-v7athf-neon}       cortexa5"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa5hf             =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7ahf}  cortexa5hf-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa5thf            =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7athf} cortexa5hf-vfp cortexa5t2hf-vfp"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa5hf-neon        =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7ahf-neon}  cortexa5hf-vfp cortexa5hf-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa5thf-neon       =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7athf-neon} cortexa5hf-vfp cortexa5hf-vfp-neon cortexa5t2hf-v=
-fp cortexa5t2hf-vfp-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5hf-neon        =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7ahf-neon}  cortexa5hf-vfp cortexa5hf-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa5thf-neon       =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7athf-neon} cortexa5hf-vfp cortexa5hf-neon cortexa5t2hf-vfp c=
-ortexa5t2hf-neon"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15hf-neon-vfpv4  =3D "${PACKAGE_EXTRA_=
+ARCHS_tune-armv7ahf-neon-vfpv4}  cortexa15hf-vfp cortexa15hf-neon cortexa15=
+hf-neon-vfpv4"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15thf-neon-vfpv4 =3D "${PACKAGE_EXTRA_=
+ARCHS_tune-armv7athf-neon-vfpv4} cortexa15hf-vfp cortexa15hf-neon cortexa15=
+hf-neon-vfpv4 cortexa15t2hf-vfp cortexa15t2hf-neon cortexa15t2hf-neon-vfpv4"
+> > +TUNE_FEATURES_tune-cortexa15hf             =3D "${TUNE_FEATURES_tune-a=
+rmv7vehf}             cortexa15"
+> > +TUNE_FEATURES_tune-cortexa15thf            =3D "${TUNE_FEATURES_tune-a=
+rmv7vethf}            cortexa15"
+> > +TUNE_FEATURES_tune-cortexa15hf-neon        =3D "${TUNE_FEATURES_tune-a=
+rmv7vehf-neon}        cortexa15"
+> > +TUNE_FEATURES_tune-cortexa15thf-neon       =3D "${TUNE_FEATURES_tune-a=
+rmv7vethf-neon}       cortexa15"
+> > +TUNE_FEATURES_tune-cortexa15hf-neon-vfpv4  =3D "${TUNE_FEATURES_tune-a=
+rmv7vehf-neon-vfpv4}  cortexa15"
+> > +TUNE_FEATURES_tune-cortexa15thf-neon-vfpv4 =3D "${TUNE_FEATURES_tune-a=
+rmv7vethf-neon-vfpv4} cortexa15"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15hf             =3D "${PACKAGE_EXTRA_=
+ARCHS_tune-armv7vehf}  cortexa15hf-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15thf            =3D "${PACKAGE_EXTRA_=
+ARCHS_tune-armv7vethf} cortexa15hf-vfp cortexa15t2hf-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15hf-neon        =3D "${PACKAGE_EXTRA_=
+ARCHS_tune-armv7vehf-neon}  cortexa15hf-vfp cortexa15hf-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15thf-neon       =3D "${PACKAGE_EXTRA_=
+ARCHS_tune-armv7vethf-neon} cortexa15hf-vfp cortexa15hf-neon cortexa15t2hf-=
+vfp cortexa15t2hf-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15hf-neon-vfpv4  =3D "${PACKAGE_EXTRA_=
+ARCHS_tune-armv7vehf-neon-vfpv4}  cortexa15hf-vfp cortexa15hf-neon cortexa1=
+5hf-neon-vfpv4"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15thf-neon-vfpv4 =3D "${PACKAGE_EXTRA_=
+ARCHS_tune-armv7vethf-neon-vfpv4} cortexa15hf-vfp cortexa15hf-neon cortexa1=
+5hf-neon-vfpv4 cortexa15t2hf-vfp cortexa15t2hf-neon cortexa15t2hf-neon-vfpv=
+4"
 > > diff --git a/meta/conf/machine/include/tune-cortexa7.inc b/meta/conf/ma=
 chine/include/tune-cortexa7.inc
-> > index 23f2ff6..133ce38 100644
+> > index 4fea36f..84432bd 100644
 > > --- a/meta/conf/machine/include/tune-cortexa7.inc
 > > +++ b/meta/conf/machine/include/tune-cortexa7.inc
-> > @@ -17,8 +17,8 @@ TUNE_FEATURES_tune-cortexa7-neon        =3D "${TUNE_F=
-EATURES_tune-armv7a-neon}
-> > TUNE_FEATURES_tune-cortexa7t-neon       =3D "${TUNE_FEATURES_tune-armv7=
-at-neon}       cortexa7"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa7             =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7a}  cortexa7-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa7t            =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7at} cortexa7-vfp cortexa7t2-vfp"
+> > @@ -1,6 +1,6 @@
+> > -DEFAULTTUNE ?=3D "armv7a-neon"
+> > +DEFAULTTUNE ?=3D "armv7ve-neon"
+> >
+> > -require conf/machine/include/arm/arch-armv7a.inc
+> > +require conf/machine/include/arm/arch-armv7ve.inc
+> >
+> >  TUNEVALID[cortexa7] =3D "Enable Cortex-A7 specific processor optimizat=
+ions"
+> >  TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexa7', ' =
+-mtune=3Dcortex-a7', '', d)}"
+> > @@ -13,18 +13,18 @@ ARMPKGARCH_tune-cortexa7-neon        =3D "cortexa7"
+> >  ARMPKGARCH_tune-cortexa7t-neon       =3D "cortexa7"
+> >  ARMPKGARCH_tune-cortexa7-neon-vfpv4  =3D "cortexa7"
+> >  ARMPKGARCH_tune-cortexa7t-neon-vfpv4 =3D "cortexa7"
+> > -TUNE_FEATURES_tune-cortexa7             =3D "${TUNE_FEATURES_tune-armv=
+7a}             cortexa7"
+> > -TUNE_FEATURES_tune-cortexa7t            =3D "${TUNE_FEATURES_tune-armv=
+7at}            cortexa7"
+> > -TUNE_FEATURES_tune-cortexa7-neon        =3D "${TUNE_FEATURES_tune-armv=
+7a-neon}        cortexa7"
+> > -TUNE_FEATURES_tune-cortexa7t-neon       =3D "${TUNE_FEATURES_tune-armv=
+7at-neon}       cortexa7"
+> > -TUNE_FEATURES_tune-cortexa7-neon-vfpv4  =3D "${TUNE_FEATURES_tune-armv=
+7a-neon-vfpv4}  cortexa7"
+> > -TUNE_FEATURES_tune-cortexa7t-neon-vfpv4 =3D "${TUNE_FEATURES_tune-armv=
+7at-neon-vfpv4} cortexa7"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7             =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7a}  cortexa7-vfp"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7t            =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7at} cortexa7-vfp cortexa7t2-vfp"
 > > -PACKAGE_EXTRA_ARCHS_tune-cortexa7-neon        =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7a-neon}  cortexa7-vfp cortexa7-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7t-neon       =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7at-neon} cortexa7-vfp cortexa7-vfp-neon cortexa7t2-vfp cortexa=
-7t2-vfp-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7-neon        =3D "${PACKAGE_EXTRA_ARC=
 HS_tune-armv7a-neon}  cortexa7-vfp cortexa7-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7t-neon       =3D "${PACKAGE_EXTRA_ARC=
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7t-neon       =3D "${PACKAGE_EXTRA_ARC=
 HS_tune-armv7at-neon} cortexa7-vfp cortexa7-neon cortexa7t2-vfp cortexa7t2-=
 neon"
-> >=20
-> > # HF Tunes
-> > AVAILTUNES +=3D "cortexa7hf cortexa7thf cortexa7hf-neon cortexa7thf-neo=
-n cortexa7hf-neon-vfpv4 cortexa7thf-neon-vfpv4"
-> > @@ -36,7 +36,7 @@ TUNE_FEATURES_tune-cortexa7hf-neon-vfpv4  =3D "${TUNE=
-_FEATURES_tune-armv7ahf-neon-
-> > TUNE_FEATURES_tune-cortexa7thf-neon-vfpv4 =3D "${TUNE_FEATURES_tune-arm=
-v7athf-neon-vfpv4} cortexa7"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa7hf             =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7ahf}  cortexa7hf-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa7thf            =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7athf} cortexa7hf-vfp cortexa7t2hf-vfp"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7-neon-vfpv4  =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7a-neon-vfpv4}  cortexa7-vfp cortexa7-neon cortexa7-neon-vfpv4"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7t-neon-vfpv4 =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7at-neon-vfpv4} cortexa7-vfp cortexa7-neon cortexa7-neon-vfpv4 =
+cortexa7t2-vfp cortexa7t2-neon cortexa7t2-neon-vfpv4"
+> > +TUNE_FEATURES_tune-cortexa7             =3D "${TUNE_FEATURES_tune-armv=
+7ve}             cortexa7"
+> > +TUNE_FEATURES_tune-cortexa7t            =3D "${TUNE_FEATURES_tune-armv=
+7vet}            cortexa7"
+> > +TUNE_FEATURES_tune-cortexa7-neon        =3D "${TUNE_FEATURES_tune-armv=
+7ve-neon}        cortexa7"
+> > +TUNE_FEATURES_tune-cortexa7t-neon       =3D "${TUNE_FEATURES_tune-armv=
+7vet-neon}       cortexa7"
+> > +TUNE_FEATURES_tune-cortexa7-neon-vfpv4  =3D "${TUNE_FEATURES_tune-armv=
+7ve-neon-vfpv4}  cortexa7"
+> > +TUNE_FEATURES_tune-cortexa7t-neon-vfpv4 =3D "${TUNE_FEATURES_tune-armv=
+7vet-neon-vfpv4} cortexa7"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7             =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7ve}  cortexa7-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7t            =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7vet} cortexa7-vfp cortexa7t2-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7-neon        =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7ve-neon}  cortexa7-vfp cortexa7-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7t-neon       =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7vet-neon} cortexa7-vfp cortexa7-neon cortexa7t2-vfp cortexa7t2=
+-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7-neon-vfpv4  =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7ve-neon-vfpv4}  cortexa7-vfp cortexa7-neon cortexa7-neon-vfpv4"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7t-neon-vfpv4 =3D "${PACKAGE_EXTRA_ARC=
+HS_tune-armv7vet-neon-vfpv4} cortexa7-vfp cortexa7-neon cortexa7-neon-vfpv4=
+ cortexa7t2-vfp cortexa7t2-neon cortexa7t2-neon-vfpv4"
+> >
+> >  # HF Tunes
+> >  AVAILTUNES +=3D "cortexa7hf cortexa7thf cortexa7hf-neon cortexa7thf-ne=
+on cortexa7hf-neon-vfpv4 cortexa7thf-neon-vfpv4"
+> > @@ -34,15 +34,15 @@ ARMPKGARCH_tune-cortexa7hf-neon        =3D "cortexa=
+7"
+> >  ARMPKGARCH_tune-cortexa7thf-neon       =3D "cortexa7"
+> >  ARMPKGARCH_tune-cortexa7hf-neon-vfpv4  =3D "cortexa7"
+> >  ARMPKGARCH_tune-cortexa7thf-neon-vfpv4 =3D "cortexa7"
+> > -TUNE_FEATURES_tune-cortexa7hf             =3D "${TUNE_FEATURES_tune-ar=
+mv7ahf}             cortexa7"
+> > -TUNE_FEATURES_tune-cortexa7thf            =3D "${TUNE_FEATURES_tune-ar=
+mv7athf}            cortexa7"
+> > -TUNE_FEATURES_tune-cortexa7hf-neon        =3D "${TUNE_FEATURES_tune-ar=
+mv7ahf-neon}        cortexa7"
+> > -TUNE_FEATURES_tune-cortexa7thf-neon       =3D "${TUNE_FEATURES_tune-ar=
+mv7athf-neon}       cortexa7"
+> > -TUNE_FEATURES_tune-cortexa7hf-neon-vfpv4  =3D "${TUNE_FEATURES_tune-ar=
+mv7ahf-neon-vfpv4}  cortexa7"
+> > -TUNE_FEATURES_tune-cortexa7thf-neon-vfpv4 =3D "${TUNE_FEATURES_tune-ar=
+mv7athf-neon-vfpv4} cortexa7"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7hf             =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7ahf}  cortexa7hf-vfp"
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7thf            =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7athf} cortexa7hf-vfp cortexa7t2hf-vfp"
 > > -PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon        =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7ahf-neon}  cortexa7hf-vfp cortexa7hf-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7thf-neon       =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7athf-neon} cortexa7hf-vfp cortexa7hf-vfp-neon cortexa7t2hf-v=
-fp cortexa7t2hf-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon-vfpv4  =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7ahf-neon-vfpv4}  cortexa7hf-vfp cortexa7hf-vfp-neon cortexa7=
-hf-vfp-vfpv4-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7thf-neon-vfpv4 =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7athf-neon-vfpv4} cortexa7hf-vfp cortexa7hf-vfp-neon cortexa7=
-hf-vfp-vfpv4-neon cortexa7t2hf-vfp cortexa7t2hf-vfp-neon cortexa7t2hf-vfp-v=
-fpv4-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon        =3D "${PACKAGE_EXTRA_A=
 RCHS_tune-armv7ahf-neon}  cortexa7hf-vfp cortexa7hf-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7thf-neon       =3D "${PACKAGE_EXTRA_A=
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7thf-neon       =3D "${PACKAGE_EXTRA_A=
 RCHS_tune-armv7athf-neon} cortexa7hf-vfp cortexa7hf-neon cortexa7t2hf-vfp c=
 ortexa7t2hf-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon-vfpv4  =3D "${PACKAGE_EXTRA_A=
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon-vfpv4  =3D "${PACKAGE_EXTRA_A=
 RCHS_tune-armv7ahf-neon-vfpv4}  cortexa7hf-vfp cortexa7hf-neon cortexa7hf-n=
 eon-vfpv4"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7thf-neon-vfpv4 =3D "${PACKAGE_EXTRA_A=
+> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7thf-neon-vfpv4 =3D "${PACKAGE_EXTRA_A=
 RCHS_tune-armv7athf-neon-vfpv4} cortexa7hf-vfp cortexa7hf-neon cortexa7hf-n=
 eon-vfpv4 cortexa7t2hf-vfp cortexa7t2hf-neon cortexa7t2hf-neon-vfpv4"
-> > diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/ma=
-chine/include/tune-cortexa8.inc
-> > index 71706e4..1daaf83 100644
-> > --- a/meta/conf/machine/include/tune-cortexa8.inc
-> > +++ b/meta/conf/machine/include/tune-cortexa8.inc
-> > @@ -17,8 +17,8 @@ TUNE_FEATURES_tune-cortexa8-neon        =3D "${TUNE_F=
-EATURES_tune-armv7a-neon}
-> > TUNE_FEATURES_tune-cortexa8t-neon       =3D "${TUNE_FEATURES_tune-armv7=
-at-neon}       cortexa8"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa8             =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7a}  cortexa8-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa8t            =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7at} cortexa8-vfp cortexa8t2-vfp"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa8-neon        =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7a-neon}  cortexa8-vfp cortexa8-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa8t-neon       =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7at-neon} cortexa8-vfp cortexa8-vfp-neon cortexa8t2-vfp cortexa=
-8t2-vfp-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa8-neon        =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7a-neon}  cortexa8-vfp cortexa8-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa8t-neon       =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7at-neon} cortexa8-vfp cortexa8-neon cortexa8t2-vfp cortexa8t2-=
-neon"
-> >=20
-> > # HF Tunes
-> > AVAILTUNES +=3D "cortexa8hf cortexa8thf cortexa8hf-neon cortexa8thf-neo=
-n"
-> > @@ -32,5 +32,5 @@ TUNE_FEATURES_tune-cortexa8hf-neon        =3D "${TUNE=
-_FEATURES_tune-armv7ahf-neon}
-> > TUNE_FEATURES_tune-cortexa8thf-neon       =3D "${TUNE_FEATURES_tune-arm=
-v7athf-neon}       cortexa8"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa8hf             =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7ahf}  cortexa8hf-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa8thf            =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7athf} cortexa8hf-vfp cortexa8t2hf-vfp"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa8hf-neon        =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7ahf-neon}  cortexa8hf-vfp cortexa8hf-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa8thf-neon       =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7athf-neon} cortexa8hf-vfp cortexa8hf-vfp-neon cortexa8t2hf-v=
-fp cortexa8t2hf-vfp-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa8hf-neon        =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7ahf-neon}  cortexa8hf-vfp cortexa8hf-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa8thf-neon       =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7athf-neon} cortexa8hf-vfp cortexa8hf-neon cortexa8t2hf-vfp c=
-ortexa8t2hf-neon"
-> > diff --git a/meta/conf/machine/include/tune-cortexa9.inc b/meta/conf/ma=
-chine/include/tune-cortexa9.inc
-> > index ddd6f77..29e6651 100644
-> > --- a/meta/conf/machine/include/tune-cortexa9.inc
-> > +++ b/meta/conf/machine/include/tune-cortexa9.inc
-> > @@ -17,8 +17,8 @@ TUNE_FEATURES_tune-cortexa9-neon        =3D "${TUNE_F=
-EATURES_tune-armv7a-neon}
-> > TUNE_FEATURES_tune-cortexa9t-neon       =3D "${TUNE_FEATURES_tune-armv7=
-at-neon}       cortexa9"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa9             =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7a}  cortexa9-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa9t            =3D "${PACKAGE_EXTRA_ARCH=
-S_tune-armv7at} cortexa9-vfp cortexa9t2-vfp"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa9-neon        =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7a-neon}  cortexa9-vfp cortexa9-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa9t-neon       =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7at-neon} cortexa9-vfp cortexa9-vfp-neon cortexa9t2-vfp cortexa=
-9t2-vfp-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa9-neon        =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7a-neon}  cortexa9-vfp cortexa9-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa9t-neon       =3D "${PACKAGE_EXTRA_ARC=
-HS_tune-armv7at-neon} cortexa9-vfp cortexa9-neon cortexa9t2-vfp cortexa9t2-=
-neon"
-> >=20
-> > # HF Tunes
-> > AVAILTUNES +=3D "cortexa9hf cortexa9thf cortexa9hf-neon cortexa9thf-neo=
-n"
-> > @@ -32,5 +32,5 @@ TUNE_FEATURES_tune-cortexa9hf-neon        =3D "${TUNE=
-_FEATURES_tune-armv7ahf-neon}
-> > TUNE_FEATURES_tune-cortexa9thf-neon       =3D "${TUNE_FEATURES_tune-arm=
-v7athf-neon}       cortexa9"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa9hf             =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7ahf}  cortexa9hf-vfp"
-> > PACKAGE_EXTRA_ARCHS_tune-cortexa9thf            =3D "${PACKAGE_EXTRA_AR=
-CHS_tune-armv7athf} cortexa9hf-vfp cortexa9t2hf-vfp"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa9hf-neon        =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7ahf-neon}  cortexa9hf-vfp cortexa9hf-vfp-neon"
-> > -PACKAGE_EXTRA_ARCHS_tune-cortexa9thf-neon       =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7athf-neon} cortexa9hf-vfp cortexa9hf-vfp-neon cortexa9t2hf-v=
-fp cortexa9t2hf-vfp-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa9hf-neon        =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7ahf-neon}  cortexa9hf-vfp cortexa9hf-neon"
-> > +PACKAGE_EXTRA_ARCHS_tune-cortexa9thf-neon       =3D "${PACKAGE_EXTRA_A=
-RCHS_tune-armv7athf-neon} cortexa9hf-vfp cortexa9hf-neon cortexa9t2hf-vfp c=
-ortexa9t2hf-neon"
+> > +TUNE_FEATURES_tune-cortexa7hf             =3D "${TUNE_FEATURES_tune-ar=
+mv7vehf}             cortexa7"
+> > +TUNE_FEATURES_tune-cortexa7thf            =3D "${TUNE_FEATURES_tune-ar=
+mv7vethf}            cortexa7"
+> > +TUNE_FEATURES_tune-cortexa7hf-neon        =3D "${TUNE_FEATURES_tune-ar=
+mv7vehf-neon}        cortexa7"
+> > +TUNE_FEATURES_tune-cortexa7thf-neon       =3D "${TUNE_FEATURES_tune-ar=
+mv7vethf-neon}       cortexa7"
+> > +TUNE_FEATURES_tune-cortexa7hf-neon-vfpv4  =3D "${TUNE_FEATURES_tune-ar=
+mv7vehf-neon-vfpv4}  cortexa7"
+> > +TUNE_FEATURES_tune-cortexa7thf-neon-vfpv4 =3D "${TUNE_FEATURES_tune-ar=
+mv7vethf-neon-vfpv4} cortexa7"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7hf             =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vehf}  cortexa7hf-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7thf            =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vethf} cortexa7hf-vfp cortexa7t2hf-vfp"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon        =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vehf-neon}  cortexa7hf-vfp cortexa7hf-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7thf-neon       =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vethf-neon} cortexa7hf-vfp cortexa7hf-neon cortexa7t2hf-vfp =
+cortexa7t2hf-neon"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon-vfpv4  =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vehf-neon-vfpv4}  cortexa7hf-vfp cortexa7hf-neon cortexa7hf-=
+neon-vfpv4"
+> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7thf-neon-vfpv4 =3D "${PACKAGE_EXTRA_A=
+RCHS_tune-armv7vethf-neon-vfpv4} cortexa7hf-vfp cortexa7hf-neon cortexa7hf-=
+neon-vfpv4 cortexa7t2hf-vfp cortexa7t2hf-neon cortexa7t2hf-neon-vfpv4"
 > > --
 > > 2.6.3
-> >=20
+> >
 > > --
 > > _______________________________________________
 > > Openembedded-core mailing list
 > > Openembedded-core@lists.openembedded.org
 > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
-
-
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---4LwthZj+AV2mq5CX
+--SBT+cnFS/G3NVgv4
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlZ0BbIACgkQN1Ujt2V2gBzoOQCfbChLyQFZw8SmkormFsQ24Jjp
-4SIAn02WkcPlLFjRVWrTdyScdCgP9C7L
-=nutP
+iEUEARECAAYFAlZ0BnwACgkQN1Ujt2V2gBzE5gCdFDe4eIp/WvnP5svWRb4dOHzX
+tikAlRlIbq8tBDUS0wJ0O0xL8GIS1IM=
+=S6ej
 -----END PGP SIGNATURE-----
 
---4LwthZj+AV2mq5CX--
+--SBT+cnFS/G3NVgv4--
