@@ -1,28 +1,28 @@
 Return-Path: <costin.c.constantin@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 828FE731D3
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 76603731C7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 12:28:50 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 18 Dec 2015 04:28:51 -0800
+	Fri, 18 Dec 2015 12:28:52 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 18 Dec 2015 04:28:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,446,1444719600"; d="scan'208";a="874234821"
+X-IronPort-AV: E=Sophos;i="5.20,446,1444719600"; d="scan'208";a="863931807"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 18 Dec 2015 04:28:52 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2015 04:28:52 -0800
 Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id 868D06A4007
+	by linux.intel.com (Postfix) with ESMTP id B67976A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 05:16:52 -0800 (PST)
+	Fri, 18 Dec 2015 05:16:53 -0800 (PST)
 From: Costin Constantin <costin.c.constantin@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Dec 2015 14:41:03 +0200
-Message-Id: <5429ba2e30b47f54a2cd042c37b45a6cc4bc5dc6.1450441923.git.costin.c.constantin@intel.com>
+Date: Fri, 18 Dec 2015 14:41:04 +0200
+Message-Id: <ba3d364af8626bb06303816f232cb11df2e308ff.1450441923.git.costin.c.constantin@intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1450441923.git.costin.c.constantin@intel.com>
 References: <cover.1450441923.git.costin.c.constantin@intel.com>
 In-Reply-To: <cover.1450441923.git.costin.c.constantin@intel.com>
 References: <cover.1450441923.git.costin.c.constantin@intel.com>
-Subject: [PATCH 11/12] oeqa/runtime: Copy all __init__.py files from all layers.
+Subject: [PATCH 12/12] buildtools-with-tc.bb: extend buildtools-tarball to include test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,133 +35,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 12:28:50 -0000
+X-List-Received-Date: Fri, 18 Dec 2015 12:28:52 -0000
 
-From: Lucian Musat <george.l.musat@intel.com>
+recipes-core/meta/buildtools-with-tc.bb is a new recipe that uses
+all buildtools-tarball has to offer and adds test cases support.
 
-Copy all the __init__.py files from all the extra layers
-also, specified in bblayers.conf, in accordance to
-TEST_SUITES variable.
-
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
 ---
- meta/classes/testimage.bbclass | 67 +++++++++++++++++++++++-------------------
- meta/lib/oeqa/runexported.py   |  2 +-
- 2 files changed, 38 insertions(+), 31 deletions(-)
+ meta/recipes-core/meta/buildtools-with-tc.bb | 37 ++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+ create mode 100644 meta/recipes-core/meta/buildtools-with-tc.bb
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 88aa941..83a11ee 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -211,6 +211,7 @@ def exportTests(d,tc):
-     import shutil
-     import pkgutil
-     import re
-+    import oeqa.utils.testexport as te
- 
-     exportpath = d.getVar("TEST_EXPORT_DIR", True)
- 
-@@ -300,37 +301,37 @@ def exportTests(d,tc):
-             if not os.path.exists(target_folder):
-                 shutil.copytree(mod.filename, target_folder)
- 
--         if not isfolder:
-+        if not isfolder:
-             shutil.copy2(mod.filename, os.path.join(layerpath, "oeqa/runtime"))
--    # copy __init__.py files
--    for _oeqadir in get_extra_layers(d):
--        oeqadir = os.path.join(_oeqadir,"lib","oeqa")
--        # copy oeqa/oetest.py and oeqa/runexported.py
--        if os.path.basename(_oeqadir) == "meta":
--            layerpath = exportpath
--            # Make sure we always copy the minimum required files from meta
--            shutil.copy2(os.path.join(oeqadir, "oetest.py"), os.path.join(layerpath, "oeqa"))
--            shutil.copy2(os.path.join(oeqadir, "__init__.py"), os.path.join(layerpath, "oeqa"))
--            shutil.copy2(os.path.join(oeqadir, "runtime", "__init__.py"), os.path.join(layerpath, "oeqa", "runtime"))
--            shutil.copy2(os.path.join(oeqadir, "runexported.py"), layerpath)
--            for root, dirs, files in os.walk(os.path.join(oeqadir, "utils")):
--                for f in files:
--                    if f.endswith(".py"):
--                        shutil.copy2(os.path.join(root, f), os.path.join(layerpath, "oeqa/utils"))
--        else:
--            if oeqadir in mod.filename:
--                layerpath = os.path.join(exportpath, "extralayers", get_layer(mod.filename))
--
--        try:
--            if oeqadir in mod.filename:
-+        # copy __init__.py files
-+        for _oeqadir in get_extra_layers(d):
-+            oeqadir = os.path.join(_oeqadir,"lib","oeqa")
-+            # copy oeqa/oetest.py and oeqa/runexported.py
-+            if os.path.basename(_oeqadir) == "meta":
-+                layerpath = exportpath
-+                # Make sure we always copy the minimum required files from meta
-+                shutil.copy2(os.path.join(oeqadir, "oetest.py"), os.path.join(layerpath, "oeqa"))
-                 shutil.copy2(os.path.join(oeqadir, "__init__.py"), os.path.join(layerpath, "oeqa"))
--        except IOError:
--            pass
--        try:
--            if oeqadir in mod.filename:
--                shutil.copy2(os.path.join(oeqadir, "runtime/__init__.py"), os.path.join(layerpath, "oeqa/runtime"))
--        except IOError:
--            pass
-+                shutil.copy2(os.path.join(oeqadir, "runtime", "__init__.py"), os.path.join(layerpath, "oeqa", "runtime"))
-+                shutil.copy2(os.path.join(oeqadir, "runexported.py"), layerpath)
-+                for root, dirs, files in os.walk(os.path.join(oeqadir, "utils")):
-+                    for f in files:
-+                        if f.endswith(".py"):
-+                            shutil.copy2(os.path.join(root, f), os.path.join(layerpath, "oeqa/utils"))
-+            else:
-+                if oeqadir in mod.filename:
-+                    layerpath = os.path.join(exportpath, "extralayers", get_layer(mod.filename))
+diff --git a/meta/recipes-core/meta/buildtools-with-tc.bb b/meta/recipes-core/meta/buildtools-with-tc.bb
+new file mode 100644
+index 0000000..84a57ee
+--- /dev/null
++++ b/meta/recipes-core/meta/buildtools-with-tc.bb
+@@ -0,0 +1,37 @@
++DESCRIPTION = "This recipe is used to extend the functionality of buildtools-tarball \
++               by adding the test harness plus binaries that might be required for DUTs.\
++              "
 +
-+            try:
-+                if oeqadir in mod.filename:
-+                    shutil.copy2(os.path.join(oeqadir, "__init__.py"), os.path.join(layerpath, "oeqa"))
-+            except IOError:
-+                pass
-+            try:
-+                if oeqadir in mod.filename:
-+                    shutil.copy2(os.path.join(oeqadir, "runtime/__init__.py"), os.path.join(layerpath, "oeqa/runtime"))
-+            except IOError:
-+                pass
-         # copy oeqa/utils/*.py
-         for root, dirs, files in os.walk(os.path.join(oeqadir, "utils")):
-             for f in files:
-@@ -347,13 +348,19 @@ def exportTests(d,tc):
-                 bb.utils.mkdirhier(os.path.join(exportpath, "conf/test"))
-             else:
-                 bb.utils.mkdirhier(os.path.join(exportpath, "extralayers/%s/conf/test" % os.path.basename(os.path.normpath(layer))))
-+                layerpath = os.path.join(exportpath, "extralayers", os.path.basename(os.path.normpath(layer)))
-             for root, dirs, files in os.walk(os.path.join(_oeqadir, "conf", "test")):
-                 for f in files:
-                     shutil.copy2(os.path.join(root, f), os.path.join(layerpath, "conf/test"))
- 
-     #integrating binaries too
-     # creting needed directory structure
--    arch = te.get_dest_folder(d.getVar("TUNE_FEATURES", True), os.listdir(d.getVar("DEPLOY_DIR_RPM", True)))
-+    try:
-+        arch = te.get_dest_folder(d.getVar("TUNE_FEATURES", True), os.listdir(d.getVar("DEPLOY_DIR_RPM", True)))
-+    except OSError:
-+        # Make a default folder
-+        bb.utils.mkdirhier(os.path.join(d.getVar("DEPLOY_DIR_RPM", True), "i586"))
-+        arch = "i586"
-     bb.utils.mkdirhier(os.path.join(exportpath,"tar_files"))
-     bb.utils.mkdirhier(os.path.join(exportpath,"binaries", arch, "packaged_binaries"))
-     bb.utils.mkdirhier(os.path.join(exportpath,"binaries", "native"))
-diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
-index 3a6bad7..2ce4922 100755
---- a/meta/lib/oeqa/runexported.py
-+++ b/meta/lib/oeqa/runexported.py
-@@ -24,7 +24,7 @@ import time
- import argparse
- import re
- 
--from oeqa.utils.testsexport import get_dest_folder
-+from oeqa.utils.testexport import get_dest_folder
- 
- try:
-     import simplejson as json
++require ${COREBASE}/meta/recipes-core/meta/buildtools-tarball.bb
++inherit testimage
++
++SDK_TITLE += "with test cases and binaries"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++TEST_EXPORT_ONLY = "1"
++TEST_TARGET = "simpleremote"
++IMAGE_NO_MANIFEST = "1"
++
++addtask testimage before do_populate_sdk
++
++tar_sdk_prepend () {
++  mkdir ${SDK_OUTPUT}${SDKPATH}/exported_tests 2>/dev/null
++  for i in $(ls ${TEST_EXPORT_DIR})
++  do
++    if [ ${i} != "tar_files" ]
++    then
++      cp -r ${TEST_EXPORT_DIR}/${i} ${SDK_OUTPUT}${SDKPATH}/exported_tests
++    fi
++  done
++  sed -i 's/\"pkgmanifest\": \"\"/\"pkgmanifest\": \"\\ndropbear\\n\"/' ${SDK_OUTPUT}${SDKPATH}/exported_tests/testdata.json
++  cp ${SDK_OUTPUT}${SDKPATH}/exported_tests/testdata.json ${TEST_EXPORT_DIR}
++}
++
++create_shar_append () {
++  message='echo "To run exported tests, go into exported_tests directory and run ./runexported.py"'
++  sed -i "/exit\ 0/i \
++${message}" ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
++}
++
 -- 
 2.5.0
 
