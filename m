@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CEB04731AD
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B1628731A7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 12:22:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tBICMg8s002731; Fri, 18 Dec 2015 12:22:42 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id CeaBN_DwK93S; Fri, 18 Dec 2015 12:22:42 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tBICMevc002727
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 18 Dec 2015 12:22:41 GMT
-Message-ID: <1450441360.8461.37.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 18 Dec 2015 12:22:40 +0000
-In-Reply-To: <1450427985-12504-3-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1450427985-12504-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1450427985-12504-3-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 2/5] kernel.bbclass: copy .config instead of moving
+	Fri, 18 Dec 2015 12:28:33 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Dec 2015 04:28:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,446,1444719600"; d="scan'208";a="863931614"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2015 04:28:34 -0800
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id 52C5C6A4007
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Dec 2015 05:16:35 -0800 (PST)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Dec 2015 14:40:52 +0200
+Message-Id: <cover.1450441923.git.costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH 00/12] Include binaries in test cases and update runexported.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,46 +31,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 12:22:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 18 Dec 2015 12:28:37 -0000
 
-On Fri, 2015-12-18 at 10:39 +0200, Markus Lehtonen wrote:
-> Copy kernel .config from ${S} to ${B}, instead of moving it. This
-> prevents mangling the source tree, which is undesirable e.g. when
-> externalsrc is used.
-> 
-> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> ---
->  meta/classes/kernel.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/kernel.bbclass
-> b/meta/classes/kernel.bbclass
-> index 4ce1611..7de9f20 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -338,7 +338,7 @@ kernel_do_configure() {
->  	touch ${B}/.scmversion ${S}/.scmversion
->  
->  	if [ "${S}" != "${B}" ] && [ -f "${S}/.config" ] && [ ! -f
-> "${B}/.config" ]; then
-> -		mv "${S}/.config" "${B}/.config"
-> +		cp "${S}/.config" "${B}/.config"
->  	fi
->  
->  	# Copy defconfig to .config if .config does not exist. This
-> allows
+The set of patches addresses Yocto binararies inclusion related features and
+updates to the runexported.py test launcher script for machines where poky
+environment is not available.
+As a result runtime test cases can be written to include native and target
+specific binaries, both packed as .rpm files or pre-unpacked for the situation
+where the remote target has no package manager. runexported.py includes new
+functionality.
 
-I'm not sure about this, doesn't this trigger the kernel to see ${S} as
-being 'dirty' and cause other issues when you try and do out of tree
-builds with it? 
+For all the above, enhancements are described in:
+[YOCTO #7850], [YOCTO #8478], [YOCTO #8479], [YOCTO #8481], [YOCTO #8530]
+[YOCTO #8534], [YOCTO #8535], [YOCTO #8536]
 
-It also means we have two copies of "config" around which can end up
-being different and confuse users no end :(.
+The following changes since commit f1f3716776078d68bd9e3734bca881a486dc2ea3:
 
-Cheers,
+  meta: more removals of redunant FILES_${PN}-dbg (2015-12-16 12:12:18 +0000)
 
-Richard
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/CI2-YOCTO7850
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/CI2-YOCTO7850
+
+Costin Constantin (4):
+  oeqa/utils/testexport.py: add functionality for exporting binaries
+  classes/testimage.bbclass: add support for binaries export
+  utils/decorators.py: add TestNeedsBin() decorator
+  buildtools-with-tc.bb: extend buildtools-tarball to include test cases
+
+Lucian Musat (8):
+  oeqa/runexported: Add option to run arbitrary tests.
+  oeqa/runexported: Fix a problem with ssh_target_log symlink.
+  oeqa/testimage: Added support for folder names in TEST_SUITES.
+  oeqa/runexported: Added support for folder names in TEST_SUITES.
+  oeqa/runexported: The runner supports tests from other layers.
+  oeqa/runexported: Add parameter support for machine arch.
+  oeqa/testimage: Added export features.
+  oeqa/runtime: Copy all __init__.py files from all layers.
+
+ meta/classes/testimage.bbclass               | 257 ++++++++++++++++++++++++--
+ meta/lib/oeqa/runexported.py                 |  57 +++++-
+ meta/lib/oeqa/utils/decorators.py            |  48 +++++
+ meta/lib/oeqa/utils/testexport.py            | 263 +++++++++++++++++++++++++++
+ meta/recipes-core/meta/buildtools-with-tc.bb |  37 ++++
+ 5 files changed, 641 insertions(+), 21 deletions(-)
+ create mode 100644 meta/lib/oeqa/utils/testexport.py
+ create mode 100644 meta/recipes-core/meta/buildtools-with-tc.bb
+
+-- 
+2.5.0
 
 
