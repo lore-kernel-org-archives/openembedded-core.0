@@ -1,25 +1,28 @@
-Return-Path: <richard.purdie@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 810AB6FFED
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 342C4731AD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 10:56:41 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 18 Dec 2015 02:56:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,445,1444719600"; d="scan'208";a="863860946"
-Received: from jhalimi-mobl1.amr.corp.intel.com ([10.252.27.108])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2015 02:56:40 -0800
-Message-ID: <1450436199.8461.28.camel@intel.com>
-From: Richard Purdie <richard.purdie@intel.com>
-To: "Barros Pena, Belen" <belen.barros.pena@intel.com>, 
+	Fri, 18 Dec 2015 10:56:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tBIAurHL030440; Fri, 18 Dec 2015 10:56:53 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id vSDmAId76LwK; Fri, 18 Dec 2015 10:56:53 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tBIAukqf030437
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 18 Dec 2015 10:56:48 GMT
+Message-ID: <1450436206.8461.29.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Barros Pena, Belen" <belen.barros.pena@intel.com>,
 	"toaster@yoctoproject.org" <toaster@yoctoproject.org>, openembedded-core
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Dec 2015 10:56:39 +0000
+Date: Fri, 18 Dec 2015 10:56:46 +0000
 In-Reply-To: <D2997F47.6D98C%belen.barros.pena@intel.com>
 References: <1450364093.13505.210.camel@linuxfoundation.org>
 	<D2997F47.6D98C%belen.barros.pena@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
 Cc: "Bartosh, Eduard" <eduard.bartosh@intel.com>
@@ -36,7 +39,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 10:56:42 -0000
+X-List-Received-Date: Fri, 18 Dec 2015 10:56:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
