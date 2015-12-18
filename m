@@ -1,24 +1,21 @@
-Return-Path: <Fupan.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A936E60745
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9146960721
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 08:33:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBI8XO99003067
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 00:33:24 -0800 (PST)
-Received: from ala-lpd-susbld2.wrs.com (147.11.105.122) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 18 Dec 2015 00:33:24 -0800
-From: <fupan.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Dec 2015 00:33:23 -0800
-Message-ID: <1450427603-121666-1-git-send-email-fupan.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] package_manager.py: extract target arch from TARGET_SYS
+	Fri, 18 Dec 2015 08:39:47 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 18 Dec 2015 00:39:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,445,1444719600"; d="scan'208";a="843854138"
+Received: from lleszczu-mobl.igk.intel.com (HELO mqz-osx-suse64.fi.intel.com)
+	([10.252.17.67])
+	by orsmga001.jf.intel.com with ESMTP; 18 Dec 2015 00:39:47 -0800
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Dec 2015 10:39:40 +0200
+Message-Id: <1450427985-12504-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/5] devtool: create kernel config fragment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,47 +28,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 08:33:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 18 Dec 2015 08:39:49 -0000
 
-From: fli <fupan.li@windriver.com>
+This patchset implements an initial support for creating kernel config
+fragments on 'devtool update-recipe'. The feature relies on having an updated
+.config file and an initial base config (.config.orig) in the source tree.
+Devtool does a diff operation between the two and creates/upates a config
+fragment which is added to SRC_URI of the recipe.
 
-Since the rpmbuild on the target will use TARGET_SYS as the
-'target' to build the source rpm packages, which will extracted
-the target arch from TARGET_SYS, such as if TARGET_SYS values
-'arm-wrs-linux-gnueabi', the target arch will be 'arm'.
+The first patch in the series is a bugfix and should be straightforward to
+merge.
 
-In order to make the rpm pkgs built out on the target compatilbe
-with target, extract the arch from TARGET_SYS and add it into
-package archs.
+[YOCTO #6658]
 
-Signed-off-by: fli <fupan.li@windriver.com>
----
- meta/lib/oe/package_manager.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 04812d2..ef5e2f3 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -55,6 +55,16 @@ class RpmIndexer(Indexer):
-             target_os['default'] = self.d.getVar(os_var, True).strip()
-         else:
-             package_archs['default'] = self.d.getVar("PACKAGE_ARCHS", True).split()
-+
-+	    #add the compatible arch extracted from TARGET_SYS.
-+	    #TARGET_SYS usually values as "arm-wrs-linux-gnueabi",
-+	    #so the arch is 'arm'
-+	    target_sys = self.d.getVar("TARGET_SYS", True)
-+	    if target_sys:
-+	        target_arch = target_sys.split('-')[0]
-+	    if target_arch not in package_archs['default']:
-+                package_archs['default'].append(target_arch)
-+                
-             # arch order is reversed.  This ensures the -best- match is
-             # listed first!
-             package_archs['default'].reverse()
+The following changes since commit 6f822a9fd185f479ef86c584b6d91a51b3a24e44:
+
+  meta: more removals of redunant FILES_${PN}-dbg (2015-12-16 12:11:26 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/devtool/kernel
+
+for you to fetch changes up to 2adc35e3129be74afe28dc3087ea44665a80221c:
+
+  devtool: update-recipe: create kernel config fragment (2015-12-17 14:34:15 +0200)
+
+
+Markus Lehtonen (5):
+  devtool: extract: use the correct datastore for builddir
+  kernel.bbclass: copy .config instead of moving
+  devtool: extract: cleanup srctree
+  cml1.bbclass: copy .config to S if externalsr is in use
+  devtool: update-recipe: create kernel config fragment
+
+ meta/classes/cml1.bbclass       |  5 ++++
+ meta/classes/kernel.bbclass     |  2 +-
+ scripts/lib/devtool/standard.py | 65 +++++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 68 insertions(+), 4 deletions(-)
+
 -- 
-1.9.1
+2.1.4
 
 
