@@ -1,35 +1,34 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B7936067D
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D9496FF86
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 04:31:06 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id p187so48394566wmp.0
+	Fri, 18 Dec 2015 04:42:09 +0000 (UTC)
+Received: by mail-ig0-f179.google.com with SMTP id ph11so28440622igc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 20:31:07 -0800 (PST)
+	Thu, 17 Dec 2015 20:42:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=d2YXYE6ZZUBA5bKdrW6CmLF7DhOi6bs16iwC9qeBSd8=;
-	b=o+/cvdFoFhUH1vCUkOWReoOj6CofR6+lZ9Tgbw6IvB7mKCO1LNO1zM5V1TLn4j722F
-	gErAT6i7+6Ft3rLiv6GYsl1hlze5LvPBk5umH6MK1KFNOjrrODUNzHJlU9gYKaAG0lxx
-	k5aQ0Yz3gHZKjXfM2nppsnktImFnflaPI7ODsYmeX4kQKN2ZdCauNt4LjjXVfdIpvdq9
-	YmG3/pbiYS8xw0Yz083n04Yz4Be6fuGafjcqBBUjLuuC57o40jLkEhV1VvYRSOmKYYNH
-	H8JTQMyqJV9hJccGdVX1PdVtRXMWpF1uGXk0q3DUpn/Bgp9/8KURMWZziV4I8Ur/wtsy
-	9gOw==
-MIME-Version: 1.0
-X-Received: by 10.194.203.99 with SMTP id kp3mr1444393wjc.3.1450413066412;
-	Thu, 17 Dec 2015 20:31:06 -0800 (PST)
-Received: by 10.194.117.68 with HTTP; Thu, 17 Dec 2015 20:31:06 -0800 (PST)
-In-Reply-To: <685B7CE0-BE34-4C9F-8A8C-841E3D5A488B@gmail.com>
-References: <1450402525-11430-1-git-send-email-armccurdy@gmail.com>
-	<1450402525-11430-4-git-send-email-armccurdy@gmail.com>
-	<685B7CE0-BE34-4C9F-8A8C-841E3D5A488B@gmail.com>
-Date: Thu, 17 Dec 2015 20:31:06 -0800
-Message-ID: <CAJ86T=VFLOwED-RTw_CN6id=HATHk5+3hwUpEVN5_BxNc2=V_g@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id;
+	bh=AkJDqA+htBnDYav5UxLp+fRaVirgWl8eBxxwpT3TRX0=;
+	b=BlOce2ZfFChdCLockSIwcMzIDrut8mNVCFmwXFL3Alv34Yr+6K4zbWgwu0/maGNwV8
+	yH2GdzZuaf38xEpBkIG9DfJD3c98gdaSAlnktZ9F9ZvQMTKShY7r56HbH3KSeH7Vytga
+	hOSw9vn3Lb2GPcZjxmTUNkIIR2leE1JIcTtGh3zu/BOhP/yUuR2L17BHoD2zWBuF1j1y
+	Z95MMQna5qfDQ1xMWEiP/o2v/S/TeCwPKQdg95jZgg3aa4SeNwhdzmlFux5TamQ1Jxf8
+	Fw5REnfKJfqIAMHXsqeLShqkSQ/qN2bXOB/RS+JqTpr/5+I0tT4IlEtEyCTd8zotO2UN
+	rY7w==
+X-Received: by 10.50.142.9 with SMTP id rs9mr574210igb.76.1450413730533;
+	Thu, 17 Dec 2015 20:42:10 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id c5sm2011003igt.9.2015.12.17.20.42.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 17 Dec 2015 20:42:09 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4 v2] valgrind: make it explicit that valgrind supports armv7a and above
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Dec 2015 20:41:59 -0800
+Message-Id: <1450413723-22208-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/4 v3] valgrind: update to 3.11.0 + fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,69 +41,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 04:31:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 18 Dec 2015 04:42:12 -0000
 
-On Thu, Dec 17, 2015 at 8:14 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Dec 17, 2015, at 5:35 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> Update comments etc and remove usage of the _armv7a over-ride.
->>
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->> meta/recipes-devtools/valgrind/valgrind_3.11.0.bb | 13 ++++++++++---
->> 1 file changed, 10 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/re=
-cipes-devtools/valgrind/valgrind_3.11.0.bb
->> index 3dc3cc1..0481c63 100644
->> --- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
->> +++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
->> @@ -26,14 +26,21 @@ SRC_URI =3D "http://www.valgrind.org/downloads/valgr=
-ind-${PV}.tar.bz2 \
->> SRC_URI[md5sum] =3D "4ea62074da73ae82e0162d6550d3f129"
->> SRC_URI[sha256sum] =3D "6c396271a8c1ddd5a6fb9abe714ea1e8a86fce85b30ab26b=
-4266aeb4c2413b42"
->>
->> -COMPATIBLE_HOST =3D '(i.86|x86_64|mips|powerpc|powerpc64).*-linux'
->> -COMPATIBLE_HOST_armv7a =3D 'arm.*-linux'
->> +COMPATIBLE_HOST =3D '(i.86|x86_64|arm|mips|powerpc|powerpc64).*-linux'
->> +
->> +# valgrind supports armv7 and above
->> +COMPATIBLE_HOST_armv4 =3D 'null'
->> +COMPATIBLE_HOST_armv5 =3D 'null'
->> +COMPATIBLE_HOST_armv6 =3D =E2=80=98null'
->
-> I just used it last week with armv5te/qemuarm
+Rebase Alexander's valgrind 3.11.0 update patch to current
+oe-core master (remove redunant FILES_${PN}-dbg line) plus
+fix additional issues.
 
-Oh, that's good to know. If it works for armv5 then we should probably
-just make it available for all arm builds. I'll send a new patch.
+This time based on v2 of Alexander's 3.11.0 update patch...
 
->>
->> inherit autotools ptest
->>
->> EXTRA_OECONF =3D "--enable-tls --without-mpicc"
->> -EXTRA_OECONF_armv7a =3D "--enable-tls -host=3Darmv7-none-linux-gnueabi =
---without-mpicc"
->> EXTRA_OECONF +=3D "${@['--enable-only32bit','--enable-only64bit'][d.getV=
-ar('SITEINFO_BITS', True) !=3D '32']}"
->> +
->> +# valgrind checks host_cpu "armv7*)", so we need to over-ride the autot=
-ools.bbclass default --host option
->> +EXTRA_OECONF_append_arm =3D " --host=3Darmv7${HOST_VENDOR}-${HOST_OS}"
->> +
->> EXTRA_OEMAKE =3D "-w"
->>
->> do_install_append () {
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Alexander Kanavin (1):
+  valgrind: update to 3.11.0
+
+Andre McCurdy (3):
+  security_flags.inc: disable -fstack-protector-XXX for valgrind
+  valgrind: don't restrict to armv7a
+  valgrind: include aarch64 in COMPATIBLE_HOST
+
+ meta/conf/distro/include/security_flags.inc        |   2 +-
+ ...able-rt_sigpending-syscall-on-ppc64-linux.patch |  35 ---
+ .../valgrind/valgrind/0002-remove-rpath.patch      |  35 +++
+ .../valgrind/0004-Fix-out-of-tree-builds.patch     | 175 +++++++++++++++
+ ...vg_test-wrapper-to-support-PTEST-formats.patch} |  87 ++++----
+ .../valgrind/enable.building.on.4.x.kernel.patch   |  37 ----
+ .../valgrind/valgrind/force-nostabs.patch          |  42 ----
+ .../recipes-devtools/valgrind/valgrind/glibc.patch |  44 ----
+ .../pass-maltivec-only-if-it-supported.patch       |  68 ------
+ .../valgrind/remove-ppc-tests-failing-build.patch  |  75 -------
+ .../valgrind/valgrind/sepbuildfix.patch            | 235 ---------------------
+ .../{valgrind_3.10.1.bb => valgrind_3.11.0.bb}     |  42 ++--
+ 12 files changed, 278 insertions(+), 599 deletions(-)
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-valgrind-Enable-rt_sigpending-syscall-on-ppc64-linux.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/0002-remove-rpath.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/0004-Fix-out-of-tree-builds.patch
+ rename meta/recipes-devtools/valgrind/valgrind/{add-ptest.patch => 0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch} (80%)
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/enable.building.on.4.x.kernel.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/force-nostabs.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/glibc.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/pass-maltivec-only-if-it-supported.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/sepbuildfix.patch
+ rename meta/recipes-devtools/valgrind/{valgrind_3.10.1.bb => valgrind_3.11.0.bb} (72%)
+
+-- 
+1.9.1
+
 
