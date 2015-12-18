@@ -1,42 +1,62 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 57521731AF
+Return-Path: <Tom.Hochstein@freescale.com>
+X-Greylist: delayed 86021 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 18 Dec 2015 21:58:43 UTC
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bon0137.outbound.protection.outlook.com [157.56.111.137])
+	by mail.openembedded.org (Postfix) with ESMTP id 40EA46AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 21:18:38 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id p187so975552wmp.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 13:18:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=FKoEk5G7J8Z9venfMwA9TjBPvUQEK6OIgPa2skscY00=;
-	b=s6KAB/xp+wtzvoh67KoFJ4+btLIjEWNqu2L9cXu2gUUTVVXhDPN4Fs7uXKqxtDCxbG
-	ZZ3bzyNEkUVWUa3wI7j/xZF/ZwGm5zvWgKjL8KYCGteUHeV9oRUEHc/wXNT2cr+OSbZ+
-	OVfmkS/6SlayHWCVi++4wdR44+2IybuGAkNk2udZmsiZsFeoW6csz3Z1G5fTN3i2FMV5
-	BoS9BtoPCg2/AUjeTb4rH2MrmV8LmIdG8a1YU3f4qxvCavcp6iYj9zfwZP3mo73Smqw/
-	Hz3Ma56xmq5Uz1x8FlZypF1jhBvP7frwoW05zVAA53SFXPQ6+DVh0WBlSfVkSkcgDrqM
-	ObKg==
+	Fri, 18 Dec 2015 21:58:43 +0000 (UTC)
+Received: from BLUPR03MB1411.namprd03.prod.outlook.com (10.163.81.145) by
+	BLUPR03MB1411.namprd03.prod.outlook.com (10.163.81.145) with Microsoft
+	SMTP Server (TLS) id 15.1.361.13; Fri, 18 Dec 2015 21:58:42 +0000
+Received: from BLUPR03MB1411.namprd03.prod.outlook.com ([10.163.81.145]) by
+	BLUPR03MB1411.namprd03.prod.outlook.com ([10.163.81.145]) with mapi id
+	15.01.0361.006; Fri, 18 Dec 2015 21:58:42 +0000
+From: Tom Hochstein <Tom.Hochstein@freescale.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Thread-Topic: [OE-core] [<OE-core][PATCH v2 2/4] weston: Include weston-launch
+	if Wayland is configured.
+Thread-Index: AQHRORb6fKXh0jp6REKygNhOgRJT8Z7Q9rSAgABHpiA=
+Date: Fri, 18 Dec 2015 21:58:42 +0000
+Message-ID: <BLUPR03MB1411555504B87423056408ECE8E10@BLUPR03MB1411.namprd03.prod.outlook.com>
+References: <1450389888-24760-1-git-send-email-tom.hochstein@freescale.com>
+	<1450389888-24760-2-git-send-email-tom.hochstein@freescale.com>
+	<CAP9ODKrdjBD=RXJ_hPgQCqO0C7hK3=dECXg_JKT11xVVYOEMwA@mail.gmail.com>
+In-Reply-To: <CAP9ODKrdjBD=RXJ_hPgQCqO0C7hK3=dECXg_JKT11xVVYOEMwA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=Tom.Hochstein@freescale.com; 
+x-originating-ip: [192.88.168.50]
+x-microsoft-exchange-diagnostics: 1; BLUPR03MB1411;
+	5:Ds3EI48nK0z3nY1SLGmQSD8AMjnMu2n6MAaI2OgRm6xZR9dsG5juBHyZ/ALn9DnkqEtpEl2m+cFE2CwWMxGve+HzEzHzoYLqfPO/m6393wbu0l582TJaBcvYMtMLntwMoDfYLPRvy8haF+L0yUHsDA==;
+	24:hlkhP90UVBzBtwnFb9W42ggHaSYGxnOU0ezqdSsrD1Nzjl6oW5pNpreCPcML5umXnJ9saiA6fzLHAOuxu22+x/SPU9VUVlgoGo+vXHCYohY=
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BLUPR03MB1411;
+x-microsoft-antispam-prvs: <BLUPR03MB1411EA826DB7B3D4A2A7C63EE8E10@BLUPR03MB1411.namprd03.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(101931422205132);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(2401047)(5005006)(520078)(8121501046)(10201501046)(3002001);
+	SRVR:BLUPR03MB1411; BCL:0; PCL:0; RULEID:; SRVR:BLUPR03MB1411; 
+x-forefront-prvs: 07943272E1
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(164054003)(199003)(24454002)(13464003)(377454003)(189002)(77096005)(66066001)(5001960100002)(189998001)(2950100001)(97736004)(102836003)(2900100001)(5008740100001)(586003)(40100003)(6116002)(33656002)(106356001)(10400500002)(110136002)(1220700001)(92566002)(122556002)(16601075003)(11100500001)(76576001)(101416001)(1096002)(5004730100002)(15975445007)(105586002)(106116001)(76176999)(50986999)(19580395003)(99286002)(5002640100001)(3846002)(81156007)(86362001)(87936001)(74316001)(54356999)(5003600100002)(19580405001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BLUPR03MB1411;
+	H:BLUPR03MB1411.namprd03.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
+received-spf: None (protection.outlook.com: freescale.com does not designate
+	permitted sender hosts)
+spamdiagnosticoutput: 1:23
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-X-Received: by 10.194.24.226 with SMTP id x2mr6186878wjf.43.1450473518686;
-	Fri, 18 Dec 2015 13:18:38 -0800 (PST)
-Received: by 10.194.117.68 with HTTP; Fri, 18 Dec 2015 13:18:38 -0800 (PST)
-In-Reply-To: <CA+chaQfU4WKnHqaPvJzOnuU0bxKKOBS-MkpyC__4miapHdAb0A@mail.gmail.com>
-References: <cover.1449754344.git.Martin.Jansa@gmail.com>
-	<491ead1c0e8db7f1c919c163431be7bb9b087ddd.1449754344.git.Martin.Jansa@gmail.com>
-	<CAJ86T=Vg-Q-oqiVuZXLU-rMwr=vwypdE2PUBMXuxJqQ6_a4+Bg@mail.gmail.com>
-	<20151218131333.GJ2563@jama>
-	<CAJ86T=VqZQb_QfS2Px8CP4u0NqoOnC0b_qpEbU-BnRuxoGF-Uw@mail.gmail.com>
-	<CA+chaQcWrSYA3O9rLesY8TwaAgz+efqWE=G-Pp0ZAgubh_AgGg@mail.gmail.com>
-	<CAJ86T=UaBymFVsUhNxOt=Rf3OVUCKMTTYx021Kz1_WDObEt0fQ@mail.gmail.com>
-	<CA+chaQcQYQHfR5NQ811w9jZz03MN-cSnmyxRDe=p8HSJQ_NU9g@mail.gmail.com>
-	<CAJ86T=V7ytRq_E5hMMx9GxQaUfo9s-TRsf-63rG=wUc67RfVKg@mail.gmail.com>
-	<CA+chaQfU4WKnHqaPvJzOnuU0bxKKOBS-MkpyC__4miapHdAb0A@mail.gmail.com>
-Date: Fri, 18 Dec 2015 13:18:38 -0800
-Message-ID: <CAJ86T=VRNdjR9A62Qrz8Tg7zgZt=oN19-k+SO1rDBJTpAM4G3Q@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][master][RESEND 14/15] arch-armv7ve: add tune include for armv7ve and use it from cortexa7 and cortexa15
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2015 21:58:42.7194 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLUPR03MB1411
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [<OE-core][PATCH v2 2/4] weston: Include weston-launch if Wayland is configured.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,784 +69,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 21:18:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 18 Dec 2015 21:58:47 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-  On Fri, Dec 18, 2015 at 12:57 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> Sorry I've meant that you (DISTRO) cannot select it with DEFAULTTUNE. I
-> shouldn't mention cortexm3 which was only confusing...
-
-I still don't really understand what you mean.
-
-If a distro wants to set a default ARM_INSTRUCTION_SET for all
-machines or for a particular group of machines, it should be able to
-do so.
-
-If we let machine configs decide to ignore ARM_INSTRUCTION_SET then
-those machines will not work correctly for a distro which wants to
-default to thumb.
-
-> On Fri, Dec 18, 2015 at 9:50 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> On Fri, Dec 18, 2015 at 12:45 PM, Martin Jansa <martin.jansa@gmail.com>
->> wrote:
->> >> Machines should let the distro decide, not the other way around
->> >
->> > I agree, but that's IMHO argument for keeping thumb-less tunes
->> > available.
->> >
->> > MACHINEs should define what they can support and DISTRO decides what
->> > features they want to use for given MACHINE(s).
->> >
->> > Dropping thumb-less tunes would indicate that MACHINE doesn't support
->> > arm
->> > ISA, which isn't true for armv7ve (only cortexm3 is currently using
->> > that).
->>
->> Huh? Dropping thumb-less tunes doesn't have any impact on whether or
->> not a MACHINE supports for ARM.
->>
->> > On Fri, Dec 18, 2015 at 9:29 PM, Andre McCurdy <armccurdy@gmail.com>
->> > wrote:
->> >>
->> >> On Fri, Dec 18, 2015 at 12:13 PM, Martin Jansa <martin.jansa@gmail.com>
->> >> wrote:
->> >> > I've meant that the DISTRO can enable thumb with ARM_INSTRUCTION_SET
->> >> > while
->> >> > still using DEFAULTTUNE without thumb as common denominator for some
->> >> > group
->> >> > of MACHINEs.
->> >>
->> >> That seems like inverting the normal priority. Machines should let the
->> >> distro decide, not the other way around - so we should discourage that
->> >> situation, not try to support it!
->> >>
->> >> > I'm not saying that it's common scenario and really has to be
->> >> > supported,
->> >> > but
->> >> > having thumb-less tunes in armv7ve like we have in armv7a is IMHO
->> >> > worth
->> >> > it
->> >> > at least for consistency sake between these 2.
->> >>
->> >> Yes, maybe. Consistency is a good argument. My own preference would be
->> >> to remove the thumb-less tunes from armv7a too, but maybe that's too
->> >> radical...
->> >>
->> >> > On Fri, Dec 18, 2015 at 9:08 PM, Andre McCurdy <armccurdy@gmail.com>
->> >> > wrote:
->> >> >>
->> >> >> On Fri, Dec 18, 2015 at 5:13 AM, Martin Jansa
->> >> >> <martin.jansa@gmail.com>
->> >> >> wrote:
->> >> >> > On Thu, Dec 17, 2015 at 07:13:55PM -0800, Andre McCurdy wrote:
->> >> >> >> On Thu, Dec 10, 2015 at 5:48 AM, Martin Jansa
->> >> >> >> <martin.jansa@gmail.com>
->> >> >> >> wrote:
->> >> >> >> > * be aware that this -march value is available only in gcc-4.9
->> >> >> >> > and
->> >> >> >> >   newer:
->> >> >> >> >   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=57907
->> >> >> >> > * -mcpu=cortex15 and -mcpu=cortexa7 conflict with -march=armv7a
->> >> >> >> >   We either have to stop putting -march in default CCARGS or at
->> >> >> >> >   least set it compatible one like this patch does.
->> >> >> >>
->> >> >> >> Can we drop the concept of armv7ve without Thumb support?
->> >> >> >>
->> >> >> >> Thumb was optional for armv4 but from armv5 onwards every ARM
->> >> >> >> core
->> >> >> >> has
->> >> >> >> been able to support Thumb as well. Unfortunately the cpu tuning
->> >> >> >> .inc
->> >> >> >> files in oe-core for armv5 and above just seem to have copied any
->> >> >> >> pasted from armv4 and so provide bogus non-thumb capable tuning
->> >> >> >> options, which just add a lot of unnecessary complexity (the only
->> >> >> >> real
->> >> >> >> difference between them is that the thumb capable versions
->> >> >> >> respect
->> >> >> >> ARM_INSTRUCTION_SET and the non-thumb capable versions ignore
->> >> >> >> it).
->> >> >> >>
->> >> >> >> To avoid breaking existing machine configs and package feeds, I
->> >> >> >> guess
->> >> >> >> we might be stuck with the existing AVAILTUNES for armv7a and
->> >> >> >> below,
->> >> >> >> but can we at least fix it for armv7ve ?
->> >> >> >
->> >> >> > Well even when the HW supports the thumb, some DISTROs tend to
->> >> >> > disable
->> >> >> > it for whatever reasons (e.g. you can use very low common
->> >> >> > denominator
->> >> >> > DEFAULTTUNE for many MACHINEs - which cannot be controlled by
->> >> >> > ARM_INSTRUCTION_SET only).
->> >> >>
->> >> >> Could you explain a little more about that? Can't
->> >> >> ARM_INSTRUCTION_SET
->> >> >> always be used to force ARM for cores which support both?
->> >> >>
->> >> >> > What harm do you see from keeping tunes without Thumb? Only the
->> >> >> > maintenance of the tune file? That's not so bad because it's exact
->> >> >> > copy
->> >> >> > of arch-armv7a.inc with s/7a/7ve/g.
->> >> >> >
->> >> >> >> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> >> >> >> > ---
->> >> >> >> >  meta/conf/machine/include/arm/arch-armv7ve.inc     | 141
->> >> >> >> > +++++++++++++++++++++
->> >> >> >> >  .../conf/machine/include/arm/feature-arm-thumb.inc |   1 +
->> >> >> >> >  meta/conf/machine/include/tune-cortexa15.inc       |  52
->> >> >> >> > ++++----
->> >> >> >> >  meta/conf/machine/include/tune-cortexa7.inc        |  52
->> >> >> >> > ++++----
->> >> >> >> >  4 files changed, 194 insertions(+), 52 deletions(-)
->> >> >> >> >  create mode 100644
->> >> >> >> > meta/conf/machine/include/arm/arch-armv7ve.inc
->> >> >> >> >
->> >> >> >> > diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc
->> >> >> >> > b/meta/conf/machine/include/arm/arch-armv7ve.inc
->> >> >> >> > new file mode 100644
->> >> >> >> > index 0000000..79e1ef6
->> >> >> >> > --- /dev/null
->> >> >> >> > +++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
->> >> >> >> > @@ -0,0 +1,141 @@
->> >> >> >> > +DEFAULTTUNE ?= "armv7ve"
->> >> >> >> > +
->> >> >> >> > +TUNEVALID[armv7ve] = "Enable instructions for ARMv7ve"
->> >> >> >> > +TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
->> >> >> >> > +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES',
->> >> >> >> > 'armv7ve',
->> >> >> >> > '
->> >> >> >> > -march=armv7ve', '', d)}"
->> >> >> >> > +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES',
->> >> >> >> > 'armv7ve', 'armv7ve:', '' ,d)}"
->> >> >> >> > +
->> >> >> >> > +require conf/machine/include/arm/arch-armv6.inc
->> >> >> >> > +require conf/machine/include/arm/feature-arm-neon.inc
->> >> >> >> > +
->> >> >> >> > +# Little Endian base configs
->> >> >> >> > +AVAILTUNES += "armv7ve armv7vet armv7ve-vfpv3d16
->> >> >> >> > armv7vet-vfpv3d16
->> >> >> >> > armv7ve-vfpv3 armv7vet-vfpv3 armv7ve-neon armv7vet-neon
->> >> >> >> > armv7ve-neon-vfpv4
->> >> >> >> > armv7vet-neon-vfpv4"
->> >> >> >> > +ARMPKGARCH_tune-armv7ve             ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vet            ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7ve-vfpv3d16    ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vet-vfpv3d16   ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7ve-vfpv3       ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vet-vfpv3      ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7ve-neon        ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vet-neon       ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7ve-neon-vfpv4  ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vet-neon-vfpv4 ?= "armv7ve"
->> >> >> >> > +TUNE_FEATURES_tune-armv7ve             = "arm armv7ve vfp"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vet            =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve} thumb"
->> >> >> >> > +TUNE_FEATURES_tune-armv7ve-vfpv3d16    =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve}  vfpv3d16"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vet-vfpv3d16   =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet} vfpv3d16"
->> >> >> >> > +TUNE_FEATURES_tune-armv7ve-vfpv3       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-vfpv3d16}  vfpv3"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vet-vfpv3      =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-vfpv3d16} vfpv3"
->> >> >> >> > +TUNE_FEATURES_tune-armv7ve-neon        =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve}  neon"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vet-neon       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet} neon"
->> >> >> >> > +TUNE_FEATURES_tune-armv7ve-neon-vfpv4  =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-neon}  vfpv4"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vet-neon-vfpv4 =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-neon} vfpv4"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7ve             =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv6}  armv7ve armv7ve-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vet            =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv6t} armv7ve armv7ve-vfp
->> >> >> >> > armv7vet2-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7ve-vfpv3d16    =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ve}  armv7ve-vfpv3d16"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vet-vfpv3d16   =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vet} armv7ve-vfpv3d16
->> >> >> >> > armv7vet2-vfpv3d16"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7ve-vfpv3       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ve-vfpv3d16}  armv7ve-vfpv3"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vet-vfpv3      =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vet-vfpv3d16} armv7ve-vfpv3
->> >> >> >> > armv7vet2-vfpv3"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon        =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ve}  armv7ve-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vet-neon       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vet} armv7ve-neon
->> >> >> >> > armv7vet2-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon-vfpv4  =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon}  armv7ve-neon-vfpv4"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vet-neon-vfpv4 =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vet-neon} armv7ve-neon-vfpv4
->> >> >> >> > armv7vet2-neon-vfpv4"
->> >> >> >> > +
->> >> >> >> > +# HF Tunes
->> >> >> >> > +AVAILTUNES += "armv7vehf armv7vethf armv7vehf-vfpv3d16
->> >> >> >> > armv7vethf-vfpv3d16 armv7vehf-vfpv3 armv7vethf-vfpv3
->> >> >> >> > armv7vehf-neon
->> >> >> >> > armv7vethf-neon armv7vehf-neon-vfpv4 armv7vethf-neon-vfpv4"
->> >> >> >> > +ARMPKGARCH_tune-armv7vehf             ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vethf            ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vehf-vfpv3d16    ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vethf-vfpv3d16   ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vehf-vfpv3       ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vethf-vfpv3      ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vehf-neon        ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vethf-neon       ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vehf-neon-vfpv4  ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vethf-neon-vfpv4 ?= "armv7ve"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vehf             =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve}             callconvention-hard"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vethf            =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet}            callconvention-hard"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vehf-vfpv3d16    =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-vfpv3d16}    callconvention-hard"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vethf-vfpv3d16   =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-vfpv3d16}   callconvention-hard"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vehf-vfpv3       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-vfpv3}       callconvention-hard"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vethf-vfpv3      =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-vfpv3}      callconvention-hard"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vehf-neon        =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-neon}        callconvention-hard"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vethf-neon       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-neon}       callconvention-hard"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vehf-neon-vfpv4  =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-neon-vfpv4}  callconvention-hard"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vethf-neon-vfpv4 =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-neon-vfpv4} callconvention-hard"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehf             =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv6hf}  armv7vehf-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethf            =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv6thf} armv7vehf-vfp
->> >> >> >> > armv7vet2hf-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehf-vfpv3d16    =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf}  armv7vehf-vfpv3d16"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethf-vfpv3d16   =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf} armv7vehf-vfpv3d16
->> >> >> >> > armv7vet2hf-vfpv3d16"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehf-vfpv3       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf-vfpv3d16}
->> >> >> >> > armv7vehf-vfpv3"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethf-vfpv3      =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf-vfpv3d16}
->> >> >> >> > armv7vehf-vfpv3
->> >> >> >> > armv7vet2hf-vfpv3"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehf-neon        =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf}  armv7vehf-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethf-neon       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf} armv7vehf-neon
->> >> >> >> > armv7vet2hf-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehf-neon-vfpv4  =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf-neon}
->> >> >> >> > armv7vehf-neon-vfpv4"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethf-neon-vfpv4 =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf-neon}
->> >> >> >> > armv7vehf-neon-vfpv4
->> >> >> >> > armv7vet2hf-neon-vfpv4"
->> >> >> >> > +
->> >> >> >> > +# Big Endian
->> >> >> >> > +AVAILTUNES += "armv7veb armv7vetb armv7veb-vfpv3d16
->> >> >> >> > armv7vetb-vfpv3d16 armv7veb-vfpv3 armv7vetb-vfpv3 armv7veb-neon
->> >> >> >> > armv7vetb-neon armv7veb-neon-vfpv4 armv7vetb-neon-vfpv4"
->> >> >> >> > +ARMPKGARCH_tune-armv7veb             ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vetb            ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7veb-vfpv3d16    ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vetb-vfpv3d16   ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7veb-vfpv3       ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vetb-vfpv3      ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7veb-neon        ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vetb-neon       ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7veb-neon-vfpv4  ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vetb-neon-vfpv4 ?= "armv7ve"
->> >> >> >> > +TUNE_FEATURES_tune-armv7veb             =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve}             bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vetb            =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet}            bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7veb-vfpv3d16    =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-vfpv3d16}    bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vetb-vfpv3d16   =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-vfpv3d16}   bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7veb-vfpv3       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-vfpv3}       bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vetb-vfpv3      =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-vfpv3}      bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7veb-neon        =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-neon}        bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vetb-neon       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-neon}       bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7veb-neon-vfpv4  =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-neon-vfpv4}  bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vetb-neon-vfpv4 =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-neon-vfpv4} bigendian"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7veb             =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv6b}  armv7veb-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vetb            =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv6tb} armv7veb-vfp
->> >> >> >> > armv7vet2b-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7veb-vfpv3d16    =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7veb}  armv7veb-vfpv3d16"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vetb-vfpv3d16   =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vetb} armv7veb-vfpv3d16
->> >> >> >> > armv7vet2b-vfpv3d16"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7veb-vfpv3       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7veb-vfpv3d16}  armv7veb-vfpv3"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vetb-vfpv3      =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vetb-vfpv3d16} armv7veb-vfpv3
->> >> >> >> > armv7vet2b-vfpv3"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7veb-neon        =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7veb}  armv7veb-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vetb-neon       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vetb} armv7veb-neon
->> >> >> >> > armv7vet2b-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7veb-neon-vfpv4  =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7veb-neon}
->> >> >> >> > armv7veb-neon-vfpv4"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vetb-neon-vfpv4 =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vetb-neon} armv7veb-neon-vfpv4
->> >> >> >> > armv7vet2b-neon-vfpv4"
->> >> >> >> > +
->> >> >> >> > +# Big Endian + HF
->> >> >> >> > +AVAILTUNES += "armv7vehfb armv7vethfb armv7vehfb-vfpv3d16
->> >> >> >> > armv7vethfb-vfpv3d16 armv7vehfb-vfpv3 armv7vethfb-vfpv3
->> >> >> >> > armv7vehfb-neon
->> >> >> >> > armv7vethfb-neon armv7vehfb-neon-vfpv4 armv7vethfb-neon-vfpv4"
->> >> >> >> > +ARMPKGARCH_tune-armv7vehfb             ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vethfb            ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vehfb-vfpv3d16    ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vethfb-vfpv3d16   ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vehfb-vfpv3       ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vethfb-vfpv3      ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vehfb-neon        ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vethfb-neon       ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vehfb-neon-vfpv4  ?= "armv7ve"
->> >> >> >> > +ARMPKGARCH_tune-armv7vethfb-neon-vfpv4 ?= "armv7ve"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vehfb             =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vehf}             bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vethfb            =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vethf}            bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vehfb-vfpv3d16    =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vehf-vfpv3d16}    bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vethfb-vfpv3d16   =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vethf-vfpv3d16}   bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vehfb-vfpv3       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vehf-vfpv3}       bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vethfb-vfpv3      =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vethf-vfpv3}      bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vehfb-neon        =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vehf-neon}        bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vethfb-neon       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vethf-neon}       bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vehfb-neon-vfpv4  =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vehf-neon-vfpv4}  bigendian"
->> >> >> >> > +TUNE_FEATURES_tune-armv7vethfb-neon-vfpv4 =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vethf-neon-vfpv4} bigendian"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehfb             =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv6hfb}  armv7vehfb-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethfb            =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv6thfb} armv7vehfb-vfp
->> >> >> >> > armv7vet2hfb-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-vfpv3d16    =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehfb}  armv7vehfb-vfpv3d16"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethfb-vfpv3d16   =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethfb} armv7vehfb-vfpv3d16
->> >> >> >> > armv7vet2hfb-vfpv3d16"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-vfpv3       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-vfpv3d16}
->> >> >> >> > armv7vehfb-vfpv3"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethfb-vfpv3      =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethfb-vfpv3d16}
->> >> >> >> > armv7vehfb-vfpv3
->> >> >> >> > armv7vet2hfb-vfpv3"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-neon        =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehfb}  armv7vehfb-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethfb-neon       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethfb} armv7vehfb-neon
->> >> >> >> > armv7vet2hfb-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-neon-vfpv4  =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehfb-neon}
->> >> >> >> > armv7vehfb-neon-vfpv4"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-armv7vethfb-neon-vfpv4 =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethfb-neon}
->> >> >> >> > armv7vehfb-neon-vfpv4
->> >> >> >> > armv7vet2hfb-neon-vfpv4"
->> >> >> >> > diff --git
->> >> >> >> > a/meta/conf/machine/include/arm/feature-arm-thumb.inc
->> >> >> >> > b/meta/conf/machine/include/arm/feature-arm-thumb.inc
->> >> >> >> > index 5632171..54c0cee 100644
->> >> >> >> > --- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
->> >> >> >> > +++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
->> >> >> >> > @@ -12,6 +12,7 @@ ARM_THUMB_SUFFIX .=
->> >> >> >> > "${@bb.utils.contains('TUNE_FEATURES', 'armv6',  't',  '', d
->> >> >> >> >  ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES',
->> >> >> >> > 'armv7a',
->> >> >> >> > 't2', '', d)}"
->> >> >> >> >  ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES',
->> >> >> >> > 'armv7r',
->> >> >> >> > 't2', '', d)}"
->> >> >> >> >  ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES',
->> >> >> >> > 'armv7m',
->> >> >> >> > 't2', '', d)}"
->> >> >> >> > +ARM_THUMB_SUFFIX .= "${@bb.utils.contains('TUNE_FEATURES',
->> >> >> >> > 'armv7ve', 't2', '', d)}"
->> >> >> >> >
->> >> >> >> >  # If the device supports ARM, then respect ARM_THUMB_OPT
->> >> >> >> > (which
->> >> >> >> > can
->> >> >> >> > be "arm" or "thumb")
->> >> >> >> >  # If the defice doesn't support ARM, then always set "thumb"
->> >> >> >> > even
->> >> >> >> > when
->> >> >> >> > diff --git a/meta/conf/machine/include/tune-cortexa15.inc
->> >> >> >> > b/meta/conf/machine/include/tune-cortexa15.inc
->> >> >> >> > index 8b34bb2..cfc8151 100644
->> >> >> >> > --- a/meta/conf/machine/include/tune-cortexa15.inc
->> >> >> >> > +++ b/meta/conf/machine/include/tune-cortexa15.inc
->> >> >> >> > @@ -1,6 +1,6 @@
->> >> >> >> > -DEFAULTTUNE ?= "armv7a-neon"
->> >> >> >> > +DEFAULTTUNE ?= "armv7ve-neon"
->> >> >> >> >
->> >> >> >> > -require conf/machine/include/arm/arch-armv7a.inc
->> >> >> >> > +require conf/machine/include/arm/arch-armv7ve.inc
->> >> >> >> >
->> >> >> >> >  TUNEVALID[cortexa15] = "Enable Cortex-A15 specific processor
->> >> >> >> > optimizations"
->> >> >> >> >  TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES',
->> >> >> >> > 'cortexa15', '
->> >> >> >> > -mtune=cortex-a15', '', d)}"
->> >> >> >> > @@ -13,18 +13,18 @@ ARMPKGARCH_tune-cortexa15-neon        =
->> >> >> >> > "cortexa15"
->> >> >> >> >  ARMPKGARCH_tune-cortexa15t-neon       = "cortexa15"
->> >> >> >> >  ARMPKGARCH_tune-cortexa15-neon-vfpv4  = "cortexa15"
->> >> >> >> >  ARMPKGARCH_tune-cortexa15t-neon-vfpv4 = "cortexa15"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa15             =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7a}             cortexa15"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa15t            =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7at}            cortexa15"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa15-neon        =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7a-neon}        cortexa15"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa15t-neon       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7at-neon}       cortexa15"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa15-neon-vfpv4  =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7a-neon-vfpv4}  cortexa15"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa15t-neon-vfpv4 =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7at-neon-vfpv4} cortexa15"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15             =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7a}  cortexa15-vfp"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15t            =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortexa15-vfp
->> >> >> >> > cortexa15t2-vfp"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15-neon        =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon}  cortexa15-vfp
->> >> >> >> > cortexa15-neon"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15t-neon       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon} cortexa15-vfp
->> >> >> >> > cortexa15-neon
->> >> >> >> > cortexa15t2-vfp cortexa15t2-neon"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15-neon-vfpv4  =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon-vfpv4}  cortexa15-vfp
->> >> >> >> > cortexa15-neon
->> >> >> >> > cortexa15-neon-vfpv4"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15t-neon-vfpv4 =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon-vfpv4} cortexa15-vfp
->> >> >> >> > cortexa15-neon
->> >> >> >> > cortexa15-neon-vfpv4 cortexa15t2-vfp cortexa15t2-neon
->> >> >> >> > cortexa15t2-neon-vfpv4"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa15             =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve}             cortexa15"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa15t            =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet}            cortexa15"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa15-neon        =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-neon}        cortexa15"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa15t-neon       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-neon}       cortexa15"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa15-neon-vfpv4  =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-neon-vfpv4}  cortexa15"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa15t-neon-vfpv4 =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-neon-vfpv4} cortexa15"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15             =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ve}  cortexa15-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15t            =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vet} cortexa15-vfp
->> >> >> >> > cortexa15t2-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15-neon        =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon}  cortexa15-vfp
->> >> >> >> > cortexa15-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15t-neon       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vet-neon} cortexa15-vfp
->> >> >> >> > cortexa15-neon
->> >> >> >> > cortexa15t2-vfp cortexa15t2-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15-neon-vfpv4  =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon-vfpv4}  cortexa15-vfp
->> >> >> >> > cortexa15-neon cortexa15-neon-vfpv4"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15t-neon-vfpv4 =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vet-neon-vfpv4} cortexa15-vfp
->> >> >> >> > cortexa15-neon cortexa15-neon-vfpv4 cortexa15t2-vfp
->> >> >> >> > cortexa15t2-neon
->> >> >> >> > cortexa15t2-neon-vfpv4"
->> >> >> >> >
->> >> >> >> >  # HF Tunes
->> >> >> >> >  AVAILTUNES += "cortexa15hf cortexa15thf cortexa15hf-neon
->> >> >> >> > cortexa15thf-neon cortexa15hf-neon-vfpv4
->> >> >> >> > cortexa15thf-neon-vfpv4"
->> >> >> >> > @@ -34,15 +34,15 @@ ARMPKGARCH_tune-cortexa15hf-neon        =
->> >> >> >> > "cortexa15"
->> >> >> >> >  ARMPKGARCH_tune-cortexa15thf-neon       = "cortexa15"
->> >> >> >> >  ARMPKGARCH_tune-cortexa15hf-neon-vfpv4  = "cortexa15"
->> >> >> >> >  ARMPKGARCH_tune-cortexa15thf-neon-vfpv4 = "cortexa15"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa15hf             =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ahf}             cortexa15"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa15thf            =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7athf}            cortexa15"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa15hf-neon        =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ahf-neon}        cortexa15"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa15thf-neon       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7athf-neon}       cortexa15"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa15hf-neon-vfpv4  =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ahf-neon-vfpv4}  cortexa15"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa15thf-neon-vfpv4 =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7athf-neon-vfpv4} cortexa15"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15hf             =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf}  cortexa15hf-vfp"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15thf            =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa15hf-vfp
->> >> >> >> > cortexa15t2hf-vfp"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15hf-neon        =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon}  cortexa15hf-vfp
->> >> >> >> > cortexa15hf-neon"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15thf-neon       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} cortexa15hf-vfp
->> >> >> >> > cortexa15hf-neon
->> >> >> >> > cortexa15t2hf-vfp cortexa15t2hf-neon"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15hf-neon-vfpv4  =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4}
->> >> >> >> > cortexa15hf-vfp
->> >> >> >> > cortexa15hf-neon cortexa15hf-neon-vfpv4"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa15thf-neon-vfpv4 =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4}
->> >> >> >> > cortexa15hf-vfp
->> >> >> >> > cortexa15hf-neon cortexa15hf-neon-vfpv4 cortexa15t2hf-vfp
->> >> >> >> > cortexa15t2hf-neon
->> >> >> >> > cortexa15t2hf-neon-vfpv4"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa15hf             =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vehf}             cortexa15"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa15thf            =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vethf}            cortexa15"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa15hf-neon        =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vehf-neon}        cortexa15"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa15thf-neon       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vethf-neon}       cortexa15"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa15hf-neon-vfpv4  =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vehf-neon-vfpv4}  cortexa15"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa15thf-neon-vfpv4 =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vethf-neon-vfpv4} cortexa15"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15hf             =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf}  cortexa15hf-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15thf            =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf} cortexa15hf-vfp
->> >> >> >> > cortexa15t2hf-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15hf-neon        =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf-neon}  cortexa15hf-vfp
->> >> >> >> > cortexa15hf-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15thf-neon       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf-neon} cortexa15hf-vfp
->> >> >> >> > cortexa15hf-neon cortexa15t2hf-vfp cortexa15t2hf-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15hf-neon-vfpv4  =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf-neon-vfpv4}
->> >> >> >> > cortexa15hf-vfp
->> >> >> >> > cortexa15hf-neon cortexa15hf-neon-vfpv4"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa15thf-neon-vfpv4 =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf-neon-vfpv4}
->> >> >> >> > cortexa15hf-vfp
->> >> >> >> > cortexa15hf-neon cortexa15hf-neon-vfpv4 cortexa15t2hf-vfp
->> >> >> >> > cortexa15t2hf-neon
->> >> >> >> > cortexa15t2hf-neon-vfpv4"
->> >> >> >> > diff --git a/meta/conf/machine/include/tune-cortexa7.inc
->> >> >> >> > b/meta/conf/machine/include/tune-cortexa7.inc
->> >> >> >> > index 4fea36f..84432bd 100644
->> >> >> >> > --- a/meta/conf/machine/include/tune-cortexa7.inc
->> >> >> >> > +++ b/meta/conf/machine/include/tune-cortexa7.inc
->> >> >> >> > @@ -1,6 +1,6 @@
->> >> >> >> > -DEFAULTTUNE ?= "armv7a-neon"
->> >> >> >> > +DEFAULTTUNE ?= "armv7ve-neon"
->> >> >> >> >
->> >> >> >> > -require conf/machine/include/arm/arch-armv7a.inc
->> >> >> >> > +require conf/machine/include/arm/arch-armv7ve.inc
->> >> >> >> >
->> >> >> >> >  TUNEVALID[cortexa7] = "Enable Cortex-A7 specific processor
->> >> >> >> > optimizations"
->> >> >> >> >  TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES',
->> >> >> >> > 'cortexa7',
->> >> >> >> > '
->> >> >> >> > -mtune=cortex-a7', '', d)}"
->> >> >> >> > @@ -13,18 +13,18 @@ ARMPKGARCH_tune-cortexa7-neon        =
->> >> >> >> > "cortexa7"
->> >> >> >> >  ARMPKGARCH_tune-cortexa7t-neon       = "cortexa7"
->> >> >> >> >  ARMPKGARCH_tune-cortexa7-neon-vfpv4  = "cortexa7"
->> >> >> >> >  ARMPKGARCH_tune-cortexa7t-neon-vfpv4 = "cortexa7"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa7             =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7a}             cortexa7"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa7t            =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7at}            cortexa7"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa7-neon        =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7a-neon}        cortexa7"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa7t-neon       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7at-neon}       cortexa7"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa7-neon-vfpv4  =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7a-neon-vfpv4}  cortexa7"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa7t-neon-vfpv4 =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7at-neon-vfpv4} cortexa7"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7             =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7a}  cortexa7-vfp"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7t            =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortexa7-vfp
->> >> >> >> > cortexa7t2-vfp"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7-neon        =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon}  cortexa7-vfp
->> >> >> >> > cortexa7-neon"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7t-neon       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon} cortexa7-vfp
->> >> >> >> > cortexa7-neon
->> >> >> >> > cortexa7t2-vfp cortexa7t2-neon"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7-neon-vfpv4  =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon-vfpv4}  cortexa7-vfp
->> >> >> >> > cortexa7-neon
->> >> >> >> > cortexa7-neon-vfpv4"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7t-neon-vfpv4 =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon-vfpv4} cortexa7-vfp
->> >> >> >> > cortexa7-neon
->> >> >> >> > cortexa7-neon-vfpv4 cortexa7t2-vfp cortexa7t2-neon
->> >> >> >> > cortexa7t2-neon-vfpv4"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa7             =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve}             cortexa7"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa7t            =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet}            cortexa7"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa7-neon        =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-neon}        cortexa7"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa7t-neon       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-neon}       cortexa7"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa7-neon-vfpv4  =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ve-neon-vfpv4}  cortexa7"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa7t-neon-vfpv4 =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vet-neon-vfpv4} cortexa7"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7             =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ve}  cortexa7-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7t            =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vet} cortexa7-vfp
->> >> >> >> > cortexa7t2-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7-neon        =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon}  cortexa7-vfp
->> >> >> >> > cortexa7-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7t-neon       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vet-neon} cortexa7-vfp
->> >> >> >> > cortexa7-neon
->> >> >> >> > cortexa7t2-vfp cortexa7t2-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7-neon-vfpv4  =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon-vfpv4}  cortexa7-vfp
->> >> >> >> > cortexa7-neon
->> >> >> >> > cortexa7-neon-vfpv4"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7t-neon-vfpv4 =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vet-neon-vfpv4} cortexa7-vfp
->> >> >> >> > cortexa7-neon
->> >> >> >> > cortexa7-neon-vfpv4 cortexa7t2-vfp cortexa7t2-neon
->> >> >> >> > cortexa7t2-neon-vfpv4"
->> >> >> >> >
->> >> >> >> >  # HF Tunes
->> >> >> >> >  AVAILTUNES += "cortexa7hf cortexa7thf cortexa7hf-neon
->> >> >> >> > cortexa7thf-neon cortexa7hf-neon-vfpv4 cortexa7thf-neon-vfpv4"
->> >> >> >> > @@ -34,15 +34,15 @@ ARMPKGARCH_tune-cortexa7hf-neon        =
->> >> >> >> > "cortexa7"
->> >> >> >> >  ARMPKGARCH_tune-cortexa7thf-neon       = "cortexa7"
->> >> >> >> >  ARMPKGARCH_tune-cortexa7hf-neon-vfpv4  = "cortexa7"
->> >> >> >> >  ARMPKGARCH_tune-cortexa7thf-neon-vfpv4 = "cortexa7"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa7hf             =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ahf}             cortexa7"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa7thf            =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7athf}            cortexa7"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa7hf-neon        =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ahf-neon}        cortexa7"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa7thf-neon       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7athf-neon}       cortexa7"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa7hf-neon-vfpv4  =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7ahf-neon-vfpv4}  cortexa7"
->> >> >> >> > -TUNE_FEATURES_tune-cortexa7thf-neon-vfpv4 =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7athf-neon-vfpv4} cortexa7"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7hf             =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf}  cortexa7hf-vfp"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7thf            =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa7hf-vfp
->> >> >> >> > cortexa7t2hf-vfp"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon        =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon}  cortexa7hf-vfp
->> >> >> >> > cortexa7hf-neon"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7thf-neon       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} cortexa7hf-vfp
->> >> >> >> > cortexa7hf-neon
->> >> >> >> > cortexa7t2hf-vfp cortexa7t2hf-neon"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon-vfpv4  =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon-vfpv4}
->> >> >> >> > cortexa7hf-vfp
->> >> >> >> > cortexa7hf-neon cortexa7hf-neon-vfpv4"
->> >> >> >> > -PACKAGE_EXTRA_ARCHS_tune-cortexa7thf-neon-vfpv4 =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon-vfpv4}
->> >> >> >> > cortexa7hf-vfp
->> >> >> >> > cortexa7hf-neon cortexa7hf-neon-vfpv4 cortexa7t2hf-vfp
->> >> >> >> > cortexa7t2hf-neon
->> >> >> >> > cortexa7t2hf-neon-vfpv4"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa7hf             =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vehf}             cortexa7"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa7thf            =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vethf}            cortexa7"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa7hf-neon        =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vehf-neon}        cortexa7"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa7thf-neon       =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vethf-neon}       cortexa7"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa7hf-neon-vfpv4  =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vehf-neon-vfpv4}  cortexa7"
->> >> >> >> > +TUNE_FEATURES_tune-cortexa7thf-neon-vfpv4 =
->> >> >> >> > "${TUNE_FEATURES_tune-armv7vethf-neon-vfpv4} cortexa7"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7hf             =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf}  cortexa7hf-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7thf            =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf} cortexa7hf-vfp
->> >> >> >> > cortexa7t2hf-vfp"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon        =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf-neon}  cortexa7hf-vfp
->> >> >> >> > cortexa7hf-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7thf-neon       =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf-neon} cortexa7hf-vfp
->> >> >> >> > cortexa7hf-neon
->> >> >> >> > cortexa7t2hf-vfp cortexa7t2hf-neon"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon-vfpv4  =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf-neon-vfpv4}
->> >> >> >> > cortexa7hf-vfp
->> >> >> >> > cortexa7hf-neon cortexa7hf-neon-vfpv4"
->> >> >> >> > +PACKAGE_EXTRA_ARCHS_tune-cortexa7thf-neon-vfpv4 =
->> >> >> >> > "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf-neon-vfpv4}
->> >> >> >> > cortexa7hf-vfp
->> >> >> >> > cortexa7hf-neon cortexa7hf-neon-vfpv4 cortexa7t2hf-vfp
->> >> >> >> > cortexa7t2hf-neon
->> >> >> >> > cortexa7t2hf-neon-vfpv4"
->> >> >> >> > --
->> >> >> >> > 2.6.3
->> >> >> >> >
->> >> >> >> > --
->> >> >> >> > _______________________________________________
->> >> >> >> > Openembedded-core mailing list
->> >> >> >> > Openembedded-core@lists.openembedded.org
->> >> >> >> >
->> >> >> >> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> >> >> >
->> >> >> > --
->> >> >> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->> >> >
->> >> >
->> >
->> >
->
->
+VGhhbmtzLCBPdGF2aW8uIFNoYWxsIEkgc2ltcGx5IHF1b3RlIHRoZSB3ZXN0b24gbWFuIHBhZ2U6
+DQoNCldoZW4gd2VzdG9uIGlzIHN0YXJ0ZWQgYXMgdGhlIGZpcnN0IHdpbmRvd2luZyBzeXN0ZW0g
+KGkuZS4gbm90IHVuZGVyIFgNCm5vciB1bmRlciBhbm90aGVyIFdheWxhbmQgc2VydmVyKSwgaXQg
+c2hvdWxkIGJlIGRvbmUgd2l0aCB0aGUgY29tbWFuZA0Kd2VzdG9uLWxhdW5jaCB0byBzZXQgdXAg
+cHJvcGVyIHByaXZpbGVnZWQgYWNjZXNzIHRvIGRldmljZXMuDQoNClRvbQ0KDQotLS0tLU9yaWdp
+bmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogT3RhdmlvIFNhbHZhZG9yIFttYWlsdG86b3RhdmlvLnNh
+bHZhZG9yQG9zc3lzdGVtcy5jb20uYnJdIA0KU2VudDogRnJpZGF5LCBEZWNlbWJlciAxOCwgMjAx
+NSAxMDo1MiBBTQ0KVG86IEhvY2hzdGVpbiBUb20tUjYwODc0IDxUb20uSG9jaHN0ZWluQGZyZWVz
+Y2FsZS5jb20+DQpDYzogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUg
+bGF5ZXIgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0
+OiBSZTogW09FLWNvcmVdIFs8T0UtY29yZV1bUEFUQ0ggdjIgMi80XSB3ZXN0b246IEluY2x1ZGUg
+d2VzdG9uLWxhdW5jaCBpZiBXYXlsYW5kIGlzIGNvbmZpZ3VyZWQuDQoNCk9uIFRodSwgRGVjIDE3
+LCAyMDE1IGF0IDg6MDQgUE0sIFRvbSBIb2Noc3RlaW4gPHRvbS5ob2Noc3RlaW5AZnJlZXNjYWxl
+LmNvbT4gd3JvdGU6DQo+IFRoZSB3ZXN0b24tbGF1bmNoIGFwcCBpcyByZXF1aXJlZCBmb3IgV2F5
+bGFuZC4NCj4NCj4gU2lnbmVkLW9mZi1ieTogVG9tIEhvY2hzdGVpbiA8dG9tLmhvY2hzdGVpbkBm
+cmVlc2NhbGUuY29tPg0KDQpUaGUgY29tbWl0IGxvZyBuZWVkcyBhIGdvb2QgcmV3b3JrOyB0aGlz
+IGlzIGV4cGxhaW5pbmcgdGhlIHNvdXJjZSBjb2RlIGFuZCBub3Qgd2h5IGl0IGhhcyBiZWVuIGNo
+YW5nZS4gUGxlYXNlIHJld29yayBpdC4NCg0KLS0gDQpPdGF2aW8gU2FsdmFkb3IgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIE8uUy4gU3lzdGVtcw0KaHR0cDovL3d3dy5vc3N5c3RlbXMuY29t
+LmJyICAgICAgICBodHRwOi8vY29kZS5vc3N5c3RlbXMuY29tLmJyDQpNb2JpbGU6ICs1NSAoNTMp
+IDk5ODEtNzg1NCAgICAgICAgICAgIE1vYmlsZTogKzEgKDM0NykgOTAzLTk3NTANCg==
 
