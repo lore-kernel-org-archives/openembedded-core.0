@@ -1,42 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id E92797319C
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id A694B73173
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 05:17:01 +0000 (UTC)
-Received: by mail-pf0-f169.google.com with SMTP id v86so42878838pfa.2
+	Fri, 18 Dec 2015 05:48:05 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id p187so49853846wmp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 21:17:02 -0800 (PST)
+	Thu, 17 Dec 2015 21:48:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=Mk0rZvw+XY56FxbUXi1Yx1h4EhWn9be7SydC/wmNR4k=;
-	b=r6RnKsyzxmOfhJMNzL7WGHqpOMuzrgVLpJTKXyRfE+ZPhg09RzB4E69aTeYsR4JVsC
-	ZlA+nsuM9zQNt5lmZ3udsr18FLNy4dTfm3ekQCei9PjAOIOYQFcSK+CuBsuneubu2IBf
-	lsE9Qz+Ccuup3AhzatXtjq3cmLmuT2Cj25OjTPt9msq9niZ8Cn0vapNIeZw1SmFdtd48
-	0uDeBO4CK1juWfKwieurdIcSQYKK+itKcnjxjLKC5KBoVE/LPJ5frb+u0AdvrgPRV09q
-	e/CrtobAUrdpH1kv0Kcs9cDLiTRRVZLL4Kgv12DdtVGRDHTXfpFzO+vxXsad05ISmVUM
-	Z4WA==
-X-Received: by 10.98.44.15 with SMTP id s15mr2439244pfs.2.1450415822770;
-	Thu, 17 Dec 2015 21:17:02 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:3df1:6e85:f350:aa60?
-	([2601:646:8802:5d5c:3df1:6e85:f350:aa60])
-	by smtp.gmail.com with ESMTPSA id
-	87sm14725617pfp.38.2015.12.17.21.17.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 17 Dec 2015 21:17:01 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1450413723-22208-4-git-send-email-armccurdy@gmail.com>
-Date: Thu, 17 Dec 2015 21:17:01 -0800
-Message-Id: <FB8878E7-D891-4BB0-A20A-E3536DBF316F@gmail.com>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=wC0SkEpUFwWQmq8k746Fcw7besEL2/bn6F5GYWH6QeI=;
+	b=ZQQIUr+CHh0S+3eukA2D4eIhk1Oi3OFN7t0QC4hwWk0l3mzDnJPPmbAJA7HTZcisWu
+	KzK8ucD+F5JCcX0inbDfTUnu1Rgi9vjBIzalAqBhUhFnkbHcOCWcblAuotf/Ldv4eUHB
+	HzRrcrwqVXsHztZCG3avoaF/vRv4XuJ6lP/0tBP85Oy5cVzVmQShlgGkKMvaC3KH+qlr
+	PlHFKD0wAsfPXG8JGRw0j+Jb6mQG6rNeCawF/gm3O6oXkheZR5W6cTVWgXu0XmLysPP8
+	Z9+++wK6il+XKsl3XZ4p2Z9N+hv0Yy+6XFouPt8AxTLa1aX7G3qTts06mVkMfJlLFPaV
+	dDRw==
+MIME-Version: 1.0
+X-Received: by 10.28.146.18 with SMTP id u18mr728794wmd.72.1450417685481; Thu,
+	17 Dec 2015 21:48:05 -0800 (PST)
+Received: by 10.194.117.68 with HTTP; Thu, 17 Dec 2015 21:48:05 -0800 (PST)
+In-Reply-To: <B851FF48-5C89-4537-A03D-DA4AA4C1AB73@gmail.com>
 References: <1450413723-22208-1-git-send-email-armccurdy@gmail.com>
-	<1450413723-22208-4-git-send-email-armccurdy@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4 v3] valgrind: don't restrict to armv7a
+	<1450413723-22208-3-git-send-email-armccurdy@gmail.com>
+	<B851FF48-5C89-4537-A03D-DA4AA4C1AB73@gmail.com>
+Date: Thu, 17 Dec 2015 21:48:05 -0800
+Message-ID: <CAJ86T=U3ELL1RsUw8+3UKjZ8mnRdg9eFgh13fkVKZMdpugs4dg@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4 v3] security_flags.inc: disable -fstack-protector-XXX for valgrind
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,90 +42,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 05:17:02 -0000
-X-Groupsio-MsgNum: 74969
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_D7E413D3-6704-452F-8640-CE6C467FF9C1";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_D7E413D3-6704-452F-8640-CE6C467FF9C1
+X-List-Received-Date: Fri, 18 Dec 2015 05:48:06 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
 
+On Thu, Dec 17, 2015 at 9:16 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> On Dec 17, 2015, at 8:42 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>> Valgrind (v3.11.0) expects to build with stack protection disabled
+>> and includes -fno-stack-protector in its default CFLAGS. However, the
+>> CFLAGS provided by OE are included on the compiler command line after
+>> the defaults so any -fstack-protector-all / -fstack-protector-strong
+>> option provided by security_flags.inc will cause problems.
+>>
+>> | .../build-bcm97425vms/tmp/work/mips32el-rdk-linux/valgrind/3.11.0-r0/v=
+algrind-3.11.0/coregrind/m_mallocfree.c:892: undefined reference to `__stac=
+k_chk_guard'
+>> | .../build-bcm97425vms/tmp/work/mips32el-rdk-linux/valgrind/3.11.0-r0/v=
+algrind-3.11.0/coregrind/m_mallocfree.c:947: undefined reference to `__stac=
+k_chk_fail'
+>>
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
+>> meta/conf/distro/include/security_flags.inc | 2 +-
+>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/dis=
+tro/include/security_flags.inc
+>> index 14ac0bf..1795750 100644
+>> --- a/meta/conf/distro/include/security_flags.inc
+>> +++ b/meta/conf/distro/include/security_flags.inc
+>> @@ -84,7 +84,7 @@ SECURITY_CFLAGS_pn-python-numpy =3D "${SECURITY_NO_PIE=
+_CFLAGS}"
+>> SECURITY_CFLAGS_pn-python3 =3D "${SECURITY_NO_PIE_CFLAGS}"
+>> SECURITY_CFLAGS_pn-tcl =3D "${SECURITY_NO_PIE_CFLAGS}"
+>> SECURITY_CFLAGS_pn-tiff =3D "${SECURITY_NO_PIE_CFLAGS}"
+>> -SECURITY_CFLAGS_pn-valgrind =3D "${SECURITY_NO_PIE_CFLAGS}"
+>> +SECURITY_CFLAGS_pn-valgrind =3D =E2=80=9C"
+>
+> Can we instead add -lssp to LDFLAGS ?
 
-> On Dec 17, 2015, at 8:42 PM, Andre McCurdy <armccurdy@gmail.com> =
-wrote:
->=20
-> Valgrind has been tested on armv5te/qemuarm, so it seems
-> that valgrind's configure check for armv7 is over cautious.
->=20
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
-> meta/recipes-devtools/valgrind/valgrind_3.11.0.bb | 8 +++++---
-> 1 file changed, 5 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb =
-b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-> index 3dc3cc1..bb3f6e1 100644
-> --- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-> +++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-> @@ -26,14 +26,16 @@ SRC_URI =3D =
-"http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
-> SRC_URI[md5sum] =3D "4ea62074da73ae82e0162d6550d3f129"
-> SRC_URI[sha256sum] =3D =
-"6c396271a8c1ddd5a6fb9abe714ea1e8a86fce85b30ab26b4266aeb4c2413b42"
->=20
-> -COMPATIBLE_HOST =3D '(i.86|x86_64|mips|powerpc|powerpc64).*-linux'
-> -COMPATIBLE_HOST_armv7a =3D 'arm.*-linux'
-> +COMPATIBLE_HOST =3D =
-'(i.86|x86_64|arm|mips|powerpc|powerpc64).*-linux'
->=20
-> inherit autotools ptest
->=20
-> EXTRA_OECONF =3D "--enable-tls --without-mpicc"
-> -EXTRA_OECONF_armv7a =3D "--enable-tls -host=3Darmv7-none-linux-gnueabi =
---without-mpicc"
-> EXTRA_OECONF +=3D =
-"${@['--enable-only32bit','--enable-only64bit'][d.getVar('SITEINFO_BITS', =
-True) !=3D '32']}"
-> +
-> +# valgrind checks host_cpu "armv7*)", so we need to over-ride the =
-autotools.bbclass default --host option
-> +EXTRA_OECONF_append_arm =3D " =
---host=3Darmv7${HOST_VENDOR}-${HOST_OS}=E2=80=9D
+Probably. Valgrind deliberately adds -fno-stack-protector to it's own
+CFLAGS though, so by forcing it to use the stack protector you would
+be going against the wishes of the Valgrind developers.
 
-this could be problematic for arm < v7
+>> SECURITY_CFLAGS_pn-zlib =3D "${SECURITY_NO_PIE_CFLAGS}"
+>>
+>> # These 2 have text relco errors with the pie options enabled
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-> +
-
-> EXTRA_OEMAKE =3D "-w"
->=20
-> do_install_append () {
-> --
-> 1.9.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_D7E413D3-6704-452F-8640-CE6C467FF9C1
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlZzls0ACgkQuwUzVZGdMxQbgQCfWXmd14uW2MaoMfTjTIWVl1PZ
-4D0AnjvZMNPy2d6KrQMh9E2hW57mMNLn
-=93zT
------END PGP SIGNATURE-----
-
---Apple-Mail=_D7E413D3-6704-452F-8640-CE6C467FF9C1--
