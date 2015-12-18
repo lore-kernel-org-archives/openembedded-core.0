@@ -1,28 +1,28 @@
 Return-Path: <costin.c.constantin@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id F420F731CC
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 828FE731D3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 12:28:49 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Dec 2015 04:28:50 -0800
+	Fri, 18 Dec 2015 12:28:50 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 18 Dec 2015 04:28:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,446,1444719600"; d="scan'208";a="15507388"
+X-IronPort-AV: E=Sophos;i="5.20,446,1444719600"; d="scan'208";a="874234821"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga004.fm.intel.com with ESMTP; 18 Dec 2015 04:28:50 -0800
+	by orsmga002.jf.intel.com with ESMTP; 18 Dec 2015 04:28:52 -0800
 Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id 4D1066A408D
+	by linux.intel.com (Postfix) with ESMTP id 868D06A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 05:16:51 -0800 (PST)
+	Fri, 18 Dec 2015 05:16:52 -0800 (PST)
 From: Costin Constantin <costin.c.constantin@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Dec 2015 14:41:02 +0200
-Message-Id: <c35601912e9c89da000ca4814b037a0de6fe1e9b.1450441923.git.costin.c.constantin@intel.com>
+Date: Fri, 18 Dec 2015 14:41:03 +0200
+Message-Id: <5429ba2e30b47f54a2cd042c37b45a6cc4bc5dc6.1450441923.git.costin.c.constantin@intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1450441923.git.costin.c.constantin@intel.com>
 References: <cover.1450441923.git.costin.c.constantin@intel.com>
 In-Reply-To: <cover.1450441923.git.costin.c.constantin@intel.com>
 References: <cover.1450441923.git.costin.c.constantin@intel.com>
-Subject: [PATCH 10/12] oeqa/testimage: Added export features.
+Subject: [PATCH 11/12] oeqa/runtime: Copy all __init__.py files from all layers.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,170 +39,129 @@ X-List-Received-Date: Fri, 18 Dec 2015 12:28:50 -0000
 
 From: Lucian Musat <george.l.musat@intel.com>
 
-It is now possible to export tests from all the layers that are
-added in bblayers even when grouped in folders. They are exported
-in another folder called "extralayers" and nicely grouped per layer
-so the test files won't mingle.
-If a layer contains a conf/test folder then export that as well.
+Copy all the __init__.py files from all the extra layers
+also, specified in bblayers.conf, in accordance to
+TEST_SUITES variable.
 
 Signed-off-by: Lucian Musat <george.l.musat@intel.com>
 ---
- meta/classes/testimage.bbclass | 113 ++++++++++++++++++++++++++++++++++-------
- 1 file changed, 96 insertions(+), 17 deletions(-)
+ meta/classes/testimage.bbclass | 67 +++++++++++++++++++++++-------------------
+ meta/lib/oeqa/runexported.py   |  2 +-
+ 2 files changed, 38 insertions(+), 31 deletions(-)
 
 diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 40442b7..88aa941 100644
+index 88aa941..83a11ee 100644
 --- a/meta/classes/testimage.bbclass
 +++ b/meta/classes/testimage.bbclass
-@@ -161,6 +161,11 @@ def get_tests_list(d, type="runtime"):
-                     testslist.append("oeqa." + type + "." + testname)
-                     found = True
-                     break
-+                elif os.path.exists(os.path.join(p, 'lib', 'oeqa', type, testname.split(".")[0]))\
-+                    and os.path.isdir(os.path.join(p, 'lib', 'oeqa', type, testname.split(".")[0])):
-+                    testslist.append("oeqa." + type + "." + testname)
-+                    found = True
-+                    break
-             if not found:
-                 bb.fatal('Test %s specified in TEST_SUITES could not be found in lib/oeqa/runtime under BBPATH' % testname)
+@@ -211,6 +211,7 @@ def exportTests(d,tc):
+     import shutil
+     import pkgutil
+     import re
++    import oeqa.utils.testexport as te
  
-@@ -182,6 +187,24 @@ def get_tests_list(d, type="runtime"):
+     exportpath = d.getVar("TEST_EXPORT_DIR", True)
  
-     return testslist
+@@ -300,37 +301,37 @@ def exportTests(d,tc):
+             if not os.path.exists(target_folder):
+                 shutil.copytree(mod.filename, target_folder)
  
-+def get_extra_layers(d):
-+    default_layers = ['meta-yocto','meta-yocto-bsp']
-+    extra_layers = []
-+
-+    layer_list = [var for var in d.getVar("BBLAYERS", True).split(" ") if var]
-+
-+    for layer in layer_list:
-+        if (os.path.basename(os.path.normpath(layer)) not in default_layers)\
-+        and os.path.exists(os.path.join(layer,"lib","oeqa")):
-+            extra_layers.append(layer)
-+    return extra_layers
-+
-+def get_layer(fullpath):
-+    try:
-+        layer = os.path.basename(fullpath.split(os.path.join("lib","oeqa"))[0].rstrip(os.sep))
-+    except IndexError:
-+        layer = None
-+    return layer
- 
- def exportTests(d,tc):
-     import json
-@@ -237,6 +260,13 @@ def exportTests(d,tc):
-     #   - __init__.py files
-     bb.utils.mkdirhier(os.path.join(exportpath, "oeqa/runtime/files"))
-     bb.utils.mkdirhier(os.path.join(exportpath, "oeqa/utils"))
-+    if len(get_extra_layers(d)) > 1:
-+        bb.utils.mkdirhier(os.path.join(exportpath, "extralayers"))
-+        for layer in get_extra_layers(d):
-+            if os.path.basename(os.path.normpath(layer)) != "meta":
-+                bb.utils.mkdirhier(os.path.join(exportpath, "extralayers/%s/oeqa/runtime/files" % os.path.basename(os.path.normpath(layer))))
-+                bb.utils.mkdirhier(os.path.join(exportpath, "extralayers/%s/oeqa/utils" % os.path.basename(os.path.normpath(layer))))
-+
-     # copy test modules, this should cover tests in other layers too
-     bbpath = d.getVar("BBPATH", True).split(':')
-     for t in tc.testslist:
-@@ -244,6 +274,18 @@ def exportTests(d,tc):
-         if re.search("\w+\.\w+\.test_\S+", t):
-             t = '.'.join(t.split('.')[:3])
-         mod = pkgutil.get_loader(t)
-+        if (str(os.path.join("meta","lib","oeqa")) not in mod.filename):
-+            if get_layer(mod.filename):
-+                layerpath = os.path.join(exportpath, "extralayers", get_layer(mod.filename))
-+            else:
+-         if not isfolder:
++        if not isfolder:
+             shutil.copy2(mod.filename, os.path.join(layerpath, "oeqa/runtime"))
+-    # copy __init__.py files
+-    for _oeqadir in get_extra_layers(d):
+-        oeqadir = os.path.join(_oeqadir,"lib","oeqa")
+-        # copy oeqa/oetest.py and oeqa/runexported.py
+-        if os.path.basename(_oeqadir) == "meta":
+-            layerpath = exportpath
+-            # Make sure we always copy the minimum required files from meta
+-            shutil.copy2(os.path.join(oeqadir, "oetest.py"), os.path.join(layerpath, "oeqa"))
+-            shutil.copy2(os.path.join(oeqadir, "__init__.py"), os.path.join(layerpath, "oeqa"))
+-            shutil.copy2(os.path.join(oeqadir, "runtime", "__init__.py"), os.path.join(layerpath, "oeqa", "runtime"))
+-            shutil.copy2(os.path.join(oeqadir, "runexported.py"), layerpath)
+-            for root, dirs, files in os.walk(os.path.join(oeqadir, "utils")):
+-                for f in files:
+-                    if f.endswith(".py"):
+-                        shutil.copy2(os.path.join(root, f), os.path.join(layerpath, "oeqa/utils"))
+-        else:
+-            if oeqadir in mod.filename:
+-                layerpath = os.path.join(exportpath, "extralayers", get_layer(mod.filename))
+-
+-        try:
+-            if oeqadir in mod.filename:
++        # copy __init__.py files
++        for _oeqadir in get_extra_layers(d):
++            oeqadir = os.path.join(_oeqadir,"lib","oeqa")
++            # copy oeqa/oetest.py and oeqa/runexported.py
++            if os.path.basename(_oeqadir) == "meta":
 +                layerpath = exportpath
-+        else:
-+            layerpath = exportpath
-+
-+        if os.path.isdir(mod.filename):
-+            isfolder = True
-+        else:
-+            shutil.copy2(mod.filename, os.path.join(layerpath, "oeqa/runtime"))
-         # More depth than usual?
-         if (t.count('.') > 2):
-             for p in bbpath:
-@@ -253,24 +295,61 @@ def exportTests(d,tc):
-                     target_folder = os.path.join(exportpath, "oeqa", "runtime", os.path.basename(foldername))
-                     if not os.path.exists(target_folder):
-                         shutil.copytree(foldername, target_folder)
--        if not isfolder:
--            shutil.copy2(mod.filename, os.path.join(exportpath, "oeqa/runtime"))
-+        if isfolder:
-+            target_folder = os.path.join(layerpath, "oeqa", "runtime", os.path.basename(mod.filename))
-+            if not os.path.exists(target_folder):
-+                shutil.copytree(mod.filename, target_folder)
-+
-+         if not isfolder:
-+            shutil.copy2(mod.filename, os.path.join(layerpath, "oeqa/runtime"))
-     # copy __init__.py files
--    oeqadir = pkgutil.get_loader("oeqa").filename
--    shutil.copy2(os.path.join(oeqadir, "__init__.py"), os.path.join(exportpath, "oeqa"))
--    shutil.copy2(os.path.join(oeqadir, "runtime/__init__.py"), os.path.join(exportpath, "oeqa/runtime"))
--    # copy oeqa/oetest.py and oeqa/runexported.py
--    shutil.copy2(os.path.join(oeqadir, "oetest.py"), os.path.join(exportpath, "oeqa"))
--    shutil.copy2(os.path.join(oeqadir, "runexported.py"), exportpath)
--    # copy oeqa/utils/*.py
--    for root, dirs, files in os.walk(os.path.join(oeqadir, "utils")):
--        for f in files:
--            if f.endswith(".py"):
--                shutil.copy2(os.path.join(root, f), os.path.join(exportpath, "oeqa/utils"))
--    # copy oeqa/runtime/files/*
--    for root, dirs, files in os.walk(os.path.join(oeqadir, "runtime/files")):
--        for f in files:
--            shutil.copy2(os.path.join(root, f), os.path.join(exportpath, "oeqa/runtime/files"))
-+    for _oeqadir in get_extra_layers(d):
-+        oeqadir = os.path.join(_oeqadir,"lib","oeqa")
-+        # copy oeqa/oetest.py and oeqa/runexported.py
-+        if os.path.basename(_oeqadir) == "meta":
-+            layerpath = exportpath
-+            # Make sure we always copy the minimum required files from meta
-+            shutil.copy2(os.path.join(oeqadir, "oetest.py"), os.path.join(layerpath, "oeqa"))
-+            shutil.copy2(os.path.join(oeqadir, "__init__.py"), os.path.join(layerpath, "oeqa"))
-+            shutil.copy2(os.path.join(oeqadir, "runtime", "__init__.py"), os.path.join(layerpath, "oeqa", "runtime"))
-+            shutil.copy2(os.path.join(oeqadir, "runexported.py"), layerpath)
-+            for root, dirs, files in os.walk(os.path.join(oeqadir, "utils")):
-+                for f in files:
-+                    if f.endswith(".py"):
-+                        shutil.copy2(os.path.join(root, f), os.path.join(layerpath, "oeqa/utils"))
-+        else:
-+            if oeqadir in mod.filename:
-+                layerpath = os.path.join(exportpath, "extralayers", get_layer(mod.filename))
-+
-+        try:
-+            if oeqadir in mod.filename:
-+                shutil.copy2(os.path.join(oeqadir, "__init__.py"), os.path.join(layerpath, "oeqa"))
-+        except IOError:
-+            pass
-+        try:
-+            if oeqadir in mod.filename:
-+                shutil.copy2(os.path.join(oeqadir, "runtime/__init__.py"), os.path.join(layerpath, "oeqa/runtime"))
-+        except IOError:
-+            pass
-+        # copy oeqa/utils/*.py
-+        for root, dirs, files in os.walk(os.path.join(oeqadir, "utils")):
-+            for f in files:
-+                if f.endswith(".py") and (oeqadir in mod.filename):
-+                    shutil.copy2(os.path.join(root, f), os.path.join(layerpath, "oeqa/utils"))
-+        # copy oeqa/runtime/files/*
-+        for root, dirs, files in os.walk(os.path.join(oeqadir, "runtime/files")):
-+            for f in files:
-+                if oeqadir in mod.filename:
-+                    shutil.copy2(os.path.join(root, f), os.path.join(layerpath, "oeqa/runtime/files"))
-+        # copy conf/test folder
-+        if os.path.isdir(os.path.join(_oeqadir, "conf", "test")):
-+            if os.path.join("meta","lib","oeqa") in oeqadir:
-+                bb.utils.mkdirhier(os.path.join(exportpath, "conf/test"))
++                # Make sure we always copy the minimum required files from meta
++                shutil.copy2(os.path.join(oeqadir, "oetest.py"), os.path.join(layerpath, "oeqa"))
+                 shutil.copy2(os.path.join(oeqadir, "__init__.py"), os.path.join(layerpath, "oeqa"))
+-        except IOError:
+-            pass
+-        try:
+-            if oeqadir in mod.filename:
+-                shutil.copy2(os.path.join(oeqadir, "runtime/__init__.py"), os.path.join(layerpath, "oeqa/runtime"))
+-        except IOError:
+-            pass
++                shutil.copy2(os.path.join(oeqadir, "runtime", "__init__.py"), os.path.join(layerpath, "oeqa", "runtime"))
++                shutil.copy2(os.path.join(oeqadir, "runexported.py"), layerpath)
++                for root, dirs, files in os.walk(os.path.join(oeqadir, "utils")):
++                    for f in files:
++                        if f.endswith(".py"):
++                            shutil.copy2(os.path.join(root, f), os.path.join(layerpath, "oeqa/utils"))
 +            else:
-+                bb.utils.mkdirhier(os.path.join(exportpath, "extralayers/%s/conf/test" % os.path.basename(os.path.normpath(layer))))
-+            for root, dirs, files in os.walk(os.path.join(_oeqadir, "conf", "test")):
-+                for f in files:
-+                    shutil.copy2(os.path.join(root, f), os.path.join(layerpath, "conf/test"))
++                if oeqadir in mod.filename:
++                    layerpath = os.path.join(exportpath, "extralayers", get_layer(mod.filename))
++
++            try:
++                if oeqadir in mod.filename:
++                    shutil.copy2(os.path.join(oeqadir, "__init__.py"), os.path.join(layerpath, "oeqa"))
++            except IOError:
++                pass
++            try:
++                if oeqadir in mod.filename:
++                    shutil.copy2(os.path.join(oeqadir, "runtime/__init__.py"), os.path.join(layerpath, "oeqa/runtime"))
++            except IOError:
++                pass
+         # copy oeqa/utils/*.py
+         for root, dirs, files in os.walk(os.path.join(oeqadir, "utils")):
+             for f in files:
+@@ -347,13 +348,19 @@ def exportTests(d,tc):
+                 bb.utils.mkdirhier(os.path.join(exportpath, "conf/test"))
+             else:
+                 bb.utils.mkdirhier(os.path.join(exportpath, "extralayers/%s/conf/test" % os.path.basename(os.path.normpath(layer))))
++                layerpath = os.path.join(exportpath, "extralayers", os.path.basename(os.path.normpath(layer)))
+             for root, dirs, files in os.walk(os.path.join(_oeqadir, "conf", "test")):
+                 for f in files:
+                     shutil.copy2(os.path.join(root, f), os.path.join(layerpath, "conf/test"))
  
      #integrating binaries too
      # creting needed directory structure
+-    arch = te.get_dest_folder(d.getVar("TUNE_FEATURES", True), os.listdir(d.getVar("DEPLOY_DIR_RPM", True)))
++    try:
++        arch = te.get_dest_folder(d.getVar("TUNE_FEATURES", True), os.listdir(d.getVar("DEPLOY_DIR_RPM", True)))
++    except OSError:
++        # Make a default folder
++        bb.utils.mkdirhier(os.path.join(d.getVar("DEPLOY_DIR_RPM", True), "i586"))
++        arch = "i586"
+     bb.utils.mkdirhier(os.path.join(exportpath,"tar_files"))
+     bb.utils.mkdirhier(os.path.join(exportpath,"binaries", arch, "packaged_binaries"))
+     bb.utils.mkdirhier(os.path.join(exportpath,"binaries", "native"))
+diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
+index 3a6bad7..2ce4922 100755
+--- a/meta/lib/oeqa/runexported.py
++++ b/meta/lib/oeqa/runexported.py
+@@ -24,7 +24,7 @@ import time
+ import argparse
+ import re
+ 
+-from oeqa.utils.testsexport import get_dest_folder
++from oeqa.utils.testexport import get_dest_folder
+ 
+ try:
+     import simplejson as json
 -- 
 2.5.0
 
