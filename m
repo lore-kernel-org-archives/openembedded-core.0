@@ -1,61 +1,23 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id DB70173198
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 069ED73198
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 12:12:42 +0000 (UTC)
-Received: by mail-pf0-f174.google.com with SMTP id n128so30658781pfn.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 04:12:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-type;
-	bh=6m+Dgy/6/pTXppdZKpiXTnCtcSvO3WGNH63zqoj6QHU=;
-	b=OnuupivkdvhfaefQrprxx16Ngcijf5ttUnrAtC2Tfm3baLde/JH6NUvSvs0iE4lp71
-	lhNd8Z5df584NhyI7RRH+EEIFbSBTQFAVx5v2X2ttkxjMXUdzdOpSrYM3zs+GtcknojK
-	Clio8tf4hJNJx9G8m8hsa1CtMS7ZfWVqQCGzndEfLmJk8l5O55KsF0rfF5h7T8nndin4
-	aTkcAJqh45/Weem/k8yQ/WnyHh+PwI6+UmIQy9aTFKOr8UmY+KHhxz/USUu0nIiQKZhx
-	ttXEn+ic6qJMNG1a6B2632+CFSknRZ+oeiWPUiJa6QOTRpXZyIYzkrjZ69bJGI1/46uw
-	nGkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=6m+Dgy/6/pTXppdZKpiXTnCtcSvO3WGNH63zqoj6QHU=;
-	b=c4qzTUqH3PzdSIe4+dibOIA5flGzusPTEEqP1MpwF13iORoMWTHBqLXuHIsf65CzYC
-	drU0+DcGyQcof/A2oobKXyDgoOKWY0S5dyihS6V3rh+EhiLEx/Lv7l8bVEZFc2aBKRNS
-	/oUJ5MU57dYbpjyfIfsqFm8jU81hYabHPoxpppcA2gXq38JYA+gza9vuvxsL3LnC12nK
-	DcIYHWmrinPbsMNhBuNFEGBD02E09Wb1vxSORyKx4pwf7noPYKdlg0+YXWsAEsc0bcrd
-	TtIKWWpSGXnKw4E7gbChPrxNTOSLVIL81tPiPJ4IynrxVMBSJ2mrdA/PjZqHbNZ3hCZU
-	5uig==
-X-Gm-Message-State: ALoCoQlYvU8N+d8bIijhuhwqQrNClfbxGhwpzGZS0LKPcbMJt4nqgCD9uyNVes3og9m/b/PsU4C17h8cBDKN3JBekv+d0cIG5A==
-X-Received: by 10.98.71.20 with SMTP id u20mr4722449pfa.16.1450440763827;
-	Fri, 18 Dec 2015 04:12:43 -0800 (PST)
-Received: from mail-pf0-f171.google.com (mail-pf0-f171.google.com.
-	[209.85.192.171]) by smtp.gmail.com with ESMTPSA id
-	l66sm17684366pfi.76.2015.12.18.04.12.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Dec 2015 04:12:42 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pf0-f171.google.com with SMTP id u7so1891255pfb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 04:12:42 -0800 (PST)
-MIME-Version: 1.0
-X-Received: by 10.98.7.210 with SMTP id 79mr4653691pfh.98.1450440761901; Fri,
-	18 Dec 2015 04:12:41 -0800 (PST)
-Received: by 10.66.72.229 with HTTP; Fri, 18 Dec 2015 04:12:41 -0800 (PST)
-In-Reply-To: <cover.1450434192.git.costin.c.constantin@intel.com>
-References: <cover.1450434192.git.costin.c.constantin@intel.com>
-Date: Fri, 18 Dec 2015 10:12:41 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKowf_dvxoPjqV87GX7st=4VgpViq4eimcBE+oUOAm+Uqg@mail.gmail.com>
-Message-ID: <CAP9ODKowf_dvxoPjqV87GX7st=4VgpViq4eimcBE+oUOAm+Uqg@mail.gmail.com>
-To: Costin Constantin <costin.c.constantin@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 000/502] Include binaries in test cases and update runexported.py
+	Fri, 18 Dec 2015 12:17:59 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 18 Dec 2015 04:18:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,446,1444719600"; d="scan'208";a="843983637"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 18 Dec 2015 04:17:58 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id AC6816A4007;
+	Fri, 18 Dec 2015 05:05:59 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Dec 2015 13:46:31 +0200
+Message-Id: <1450439191-13123-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] devtool: use cp instead of shutil.copytree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,31 +30,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 12:12:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 18 Dec 2015 12:18:01 -0000
 
-On Fri, Dec 18, 2015 at 10:22 AM, Costin Constantin
-<costin.c.constantin@intel.com> wrote:
-> The set of patches addresses Yocto binararies inclusion related features and
-> updates to the runexported.py test launcher script for machines where poky
-> environment is not available.
-> As a result runtime test cases can be written to include native and target
-> specific binaries, both packed as .rpm files or pre-unpacked for the situation
-> where the remote target has no package manager. runexported.py includes new
-> functionality.
->
-> For all the above, enhancements are described in:
-> [YOCTO #7850], [YOCTO #8478], [YOCTO #8479], [YOCTO #8481], [YOCTO #8530]
-> [YOCTO #8534], [YOCTO #8535], [YOCTO #8536]
->
->
-> The following changes since commit 1b25a70991589ed1f123015c16ee4806c46e3199:
+Copied layers with 'cp -a' instead of calling shutil.copytree as
+copytree fails to copy broken symlinks.
 
-This seems wrong; please check the way you called the pull request
-script as it seems to have included other changes.
+More pythonic fix would be to use copytree with 'ignore' parameter,
+but this could slow down copying complex directory structures.
 
+[YOCTO #8825]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/devtool/sdk.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/lib/devtool/sdk.py b/scripts/lib/devtool/sdk.py
+index 85c0fb1..906038e 100644
+--- a/scripts/lib/devtool/sdk.py
++++ b/scripts/lib/devtool/sdk.py
+@@ -132,7 +132,10 @@ def sdk_update(args, config, basepath, workspace):
+         new_layers_dir = os.path.join(args.updateserver, 'layers')
+         old_layers_dir = os.path.join(basepath, 'layers')
+         shutil.rmtree(old_layers_dir)
+-        shutil.copytree(new_layers_dir, old_layers_dir)
++        ret = subprocess.call("cp -a %s %s" % (new_layers_dir, old_layers_dir), shell=True)
++        if ret != 0:
++            logger.error("Copying %s to %s failed" % (new_layers_dir, old_layers_dir))
++            return ret
+     else:
+         # devtool sdk-update http://myhost/sdk
+         tmpsdk_dir = '/tmp/sdk-ext'
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.1.4
+
 
