@@ -1,38 +1,61 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id B8A177014A
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 57E2E7014A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 16:47:52 +0000 (UTC)
-Received: by mail-qg0-f44.google.com with SMTP id k90so58039536qge.0
+	Fri, 18 Dec 2015 16:50:09 +0000 (UTC)
+Received: by mail-pf0-f169.google.com with SMTP id o64so51607873pfb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 08:47:53 -0800 (PST)
+	Fri, 18 Dec 2015 08:50:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc:content-type;
+	bh=egDDFO1MnYhIPVT0VL5ZII0/1cyl2R5/eFlZ7vYAj7Q=;
+	b=DT3oy5ZPha/y70kymw8mZK4YW+2MJ9ZkP9pfwV+vml8vLRHUu9vncC+olI113J74cV
+	1bVHE8M4/+Fh7d4TSfyv+Y7DjUAD+AsLBLOAM47PNhsyT+ewSyjYLLotaJUQLPbfPJhy
+	dcxzPCVJctXoDL3xWZTfjSY3u3QApqs4EHuw0QTpS9Me10MbwNU0CaSq8vIlh1rJqZLH
+	qUyePe6Kh5tHduU80+psVrRBeTQtErkvIh2TLk+D5q1xZYiqygK/gotCRMMjG5wKPacy
+	fskGOR/TdaUeW/1j8PUxNSDuanmjPlzLw7oLoytuyDls3Er1l53hGzgDOCbt/UBvZnYh
+	mUQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=2B8QiC8AepbMoISLHdvBkPe8bJh3KWZ7FNMjNaZhcqk=;
-	b=P5CkjG4rWmHbng0hAdxm/zqktvNmmwqiR9t78v3SyFQS30GPRPZvAKdVWAFf7IuGOR
-	KvJNBN/qYhM46mrWAftylrCYNT3pxa1SSelUbCa019/MGkl5jIbc8pmEQ3Z0FKeJVRr/
-	NLvKAApqMYKMVPDQjegXaupmMgpewObhwF8tWlNUJG0bS3zR1nOcGaPTh9uG3PHbap7D
-	ieFP2yKqr4DSYhTWrB/hnqxcSzKbKxl2lqaMNCTg6iTz/DiwMFEHdZr9InmQWdwVjhU6
-	3Au/l8JEYK8V/H1s/eH26y6QApAHWD6nBEhY/m7M8j33Hn0fP8eOItcZCROX8V71k4YL
-	PbFg==
-X-Received: by 10.140.19.52 with SMTP id 49mr6274538qgg.65.1450457272794;
-	Fri, 18 Dec 2015 08:47:52 -0800 (PST)
-Received: from localhost ([177.127.6.55])
-	by smtp.gmail.com with ESMTPSA id k9sm7127383qgd.21.2015.12.18.08.47.49
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=egDDFO1MnYhIPVT0VL5ZII0/1cyl2R5/eFlZ7vYAj7Q=;
+	b=OX+Vm4GD37rw4x7OKoximFDc0vOBXYZ8ZB/AaphYZkYu5ilupwX2mL+SoWqmjGUqeB
+	FOvEBSIcHWf2vNISRfpmYT/PIPFjTfAMWvBnujdZLghPN5AmfMy+WIvNu5zPJJFJXj9H
+	U4y1dQf53fqo7MZY8FvCeYgd8koYIVdJ4iGVTpSKtUnXpOxWs2zds28312/ZG+NtKpzG
+	Zc+81Ad6oUffpfQrelWgwdOnvBgkEvaf0dSnqeZ5zfolVrbOkENb1i0ut7zue9qNjZ7G
+	ZCRGZtIlXn9kE7ouq7MyJyC5srLVqLuXZkbk39dWjRCmtcyZi0EGkJff6Bry8tYpGdFH
+	jaYg==
+X-Gm-Message-State: ALoCoQmeZjXIaFALHKkHpfl2/0M3crtmzOwqGENZjbVUjgsJ+/x2r19ehIIC/Cstrl21FyAlE/KuRrp1ZHCEfVc+vRwzz0rAMA==
+X-Received: by 10.98.89.21 with SMTP id n21mr6784902pfb.70.1450457410298;
+	Fri, 18 Dec 2015 08:50:10 -0800 (PST)
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com.
+	[209.85.220.54]) by smtp.gmail.com with ESMTPSA id
+	e66sm18983184pfb.35.2015.12.18.08.50.08
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Dec 2015 08:47:51 -0800 (PST)
-Received: by localhost (sSMTP sendmail emulation);
-	Fri, 18 Dec 2015 14:47:46 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Dec 2015 14:47:44 -0200
-Message-Id: <1450457264-13741-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.6.4
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] util-linux: Fix floating dependency upon 'readline'
+	Fri, 18 Dec 2015 08:50:08 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-pa0-f54.google.com with SMTP id q3so42835050pav.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Dec 2015 08:50:08 -0800 (PST)
+MIME-Version: 1.0
+X-Received: by 10.66.221.228 with SMTP id qh4mr6680671pac.68.1450457408362;
+	Fri, 18 Dec 2015 08:50:08 -0800 (PST)
+Received: by 10.66.72.229 with HTTP; Fri, 18 Dec 2015 08:50:08 -0800 (PST)
+In-Reply-To: <1450389888-24760-1-git-send-email-tom.hochstein@freescale.com>
+References: <1450389888-24760-1-git-send-email-tom.hochstein@freescale.com>
+Date: Fri, 18 Dec 2015 14:50:08 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKryNw_GeZ7_87+geio0H54_GMuJ0fFkXvHfFVezqGGbEg@mail.gmail.com>
+Message-ID: <CAP9ODKryNw_GeZ7_87+geio0H54_GMuJ0fFkXvHfFVezqGGbEg@mail.gmail.com>
+To: Tom Hochstein <tom.hochstein@freescale.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [<OE-core][PATCH v2 1/4] weston-init: Handle Weston startup correctly.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,33 +68,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 16:47:53 -0000
+X-List-Received-Date: Fri, 18 Dec 2015 16:50:14 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The configure script checks for 'readline' availability and enables
-it, if available. Now, a PACKAGECONFIG (readline) controls the
-feature.
+Hello Tom,
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+On Thu, Dec 17, 2015 at 8:04 PM, Tom Hochstein
+<tom.hochstein@freescale.com> wrote:
+> Weston is started in different ways depending on the image
+> configuration and the runtime scenario. Refer to the weston man
+> page for more information.
+>
+> Signed-off-by: Tom Hochstein <tom.hochstein@freescale.com>
 
- meta/recipes-core/util-linux/util-linux.inc | 3 +++
- 1 file changed, 3 insertions(+)
+I think we are quite close to something which works for all supported
+use-cases. More below...
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index cf321c6..fb384e1 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -61,6 +61,9 @@ PACKAGECONFIG[libcap-ng] = "--enable-setpriv,--disable-setpriv,libcap-ng,"
- # Build python bindings for libmount
- PACKAGECONFIG[pylibmount] = "--with-python --enable-pylibmount,--without-python --disable-pylibmount,python"
- 
-+# Readline support
-+PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
-+
- FILES_${PN}-bash-completion += "${datadir}/bash-completion"
- FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
- 
+...
+> @@ -13,6 +14,18 @@ do_install() {
+>
+>         install -d ${D}${systemd_system_unitdir}
+>         install -m0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}
+> +
+> +       install -d ${D}/${bindir}
+> +       install -m755 ${WORKDIR}/weston-start ${D}/${bindir}
+> +       if [ "${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)}" = "xwayland" ]; then
+> +               weston_launch_setup="mkdir -p /tmp/.X11-unix"
+> +               weston_launch_args="--modules=xwayland.so"
+> +       else
+> +               weston_launch_setup=""
+> +               weston_launch_args=""
+> +       fi
+> +       sed -i "s#WESTON_LAUNCH_SETUP#${weston_launch_setup}#" ${D}/${bindir}/weston-start
+> +       sed -i "s#WESTON_LAUNCH_ARGS#${weston_launch_args}#" ${D}/${bindir}/weston-start
+
+We can do it at runtime and avoid using this hardcoded options?
+
+One possibility is to check if XWayland is available. If it is, it can
+enable those options.
+
 -- 
-2.6.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
