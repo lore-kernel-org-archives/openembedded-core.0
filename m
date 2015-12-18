@@ -1,60 +1,53 @@
-Return-Path: <Tom.Hochstein@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bon0119.outbound.protection.outlook.com [157.56.111.119])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E5FC6E5CB
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CD5B731C5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 22:36:51 +0000 (UTC)
-Received: from BLUPR03MB1411.namprd03.prod.outlook.com (10.163.81.145) by
-	BN1PR0301MB0721.namprd03.prod.outlook.com (10.160.78.140) with
-	Microsoft SMTP
-	Server (TLS) id 15.1.355.16; Fri, 18 Dec 2015 22:36:51 +0000
-Received: from BLUPR03MB1411.namprd03.prod.outlook.com ([10.163.81.145]) by
-	BLUPR03MB1411.namprd03.prod.outlook.com ([10.163.81.145]) with mapi id
-	15.01.0361.006; Fri, 18 Dec 2015 22:36:50 +0000
-From: Tom Hochstein <Tom.Hochstein@freescale.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>, Sundararaj Prabhu
-	<Prabhu.Sundararaj@freescale.com>
-Thread-Topic: [OE-core] [<OE-core][PATCH v2 1/4] weston-init: Handle Weston
-	startup correctly.
-Thread-Index: AQHRORb6Cxp3mSQlXUGgmN1EFcOkd57Q9h8AgABZUHA=
-Date: Fri, 18 Dec 2015 22:36:50 +0000
-Message-ID: <BLUPR03MB1411A316AD75000948872FC9E8E10@BLUPR03MB1411.namprd03.prod.outlook.com>
-References: <1450389888-24760-1-git-send-email-tom.hochstein@freescale.com>
-	<CAP9ODKryNw_GeZ7_87+geio0H54_GMuJ0fFkXvHfFVezqGGbEg@mail.gmail.com>
-In-Reply-To: <CAP9ODKryNw_GeZ7_87+geio0H54_GMuJ0fFkXvHfFVezqGGbEg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=Tom.Hochstein@freescale.com; 
-x-originating-ip: [192.88.168.50]
-x-microsoft-exchange-diagnostics: 1; BN1PR0301MB0721;
-	5:Y4NIxGLlze6vKCLzAo/kge9y1NgzAXFlqHjtyNDhNG6X28g7hyiqpQeL1ajG/pdGmdnRWC2PTtugMEg3qwyPD3393DyIZOXgLtTjDlRJ/a4GGb5v5VsWXkXalLpiMBcFg1mkZMWgOj8RbyyeHyNHDQ==;
-	24:paNEd6fhYK+mpz2p39V6RE/3bcCyuWO5d3OfMVS6fQ3FSzMc6BwZSgiaE2LszxuHDNAFnYeypwEtVdQn6enP4vYDpKNZcy5Ppgq+WBVaT1Y=
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BN1PR0301MB0721;
-x-microsoft-antispam-prvs: <BN1PR0301MB0721C105E320F300992D405EE8E10@BN1PR0301MB0721.namprd03.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(101931422205132);
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(5005006)(520078)(8121501046)(10201501046)(3002001);
-	SRVR:BN1PR0301MB0721; BCL:0; PCL:0; RULEID:;
-	SRVR:BN1PR0301MB0721; 
-x-forefront-prvs: 07943272E1
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(377454003)(199003)(13464003)(189002)(24454002)(40100003)(5003600100002)(86362001)(54356999)(76176999)(50986999)(15975445007)(77096005)(122556002)(87936001)(4001450100002)(81156007)(2950100001)(10400500002)(92566002)(5002640100001)(2900100001)(189998001)(33656002)(5001960100002)(5001770100001)(97736004)(5008740100001)(76576001)(101416001)(5004730100002)(105586002)(1096002)(106116001)(1220700001)(66066001)(19580395003)(106356001)(102836003)(99286002)(19580405001)(6116002)(3846002)(16601075003)(586003)(74316001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BN1PR0301MB0721;
-	H:BLUPR03MB1411.namprd03.prod.outlook.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
-received-spf: None (protection.outlook.com: freescale.com does not designate
-	permitted sender hosts)
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2015 22:36:50.3124 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN1PR0301MB0721
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [<OE-core][PATCH v2 1/4] weston-init: Handle Weston startup correctly.
+	Fri, 18 Dec 2015 23:54:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id C41B818093
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Dec 2015 00:54:05 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id jAWzZugXk3w7
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Dec 2015 00:54:04 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 1E60018123
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Dec 2015 00:54:04 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id EE25E1229
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Dec 2015 00:54:03 +0100 (CET)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id EA86C11FB
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Dec 2015 00:54:03 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id E578A3E3C9
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Dec 2015 00:54:03 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id tBINs36l017943
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Dec 2015 00:54:03 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id tBINs3RW017942
+	for openembedded-core@lists.openembedded.org;
+	Sat, 19 Dec 2015 00:54:03 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 19 Dec 2015 00:53:51 +0100
+Message-Id: <84abb4b295c50ee5af031d11c9360ba4d01c59b6.1450482563.git.pkj@axis.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1450482563.git.pkj@axis.com>
+References: <cover.1450482563.git.pkj@axis.com>
+In-Reply-To: <cover.1450482563.git.pkj@axis.com>
+References: <cover.1450482563.git.pkj@axis.com>
+Subject: [PATCHv2 5/6] useradd-staticids.bbclass: Read passwd/group files before parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,51 +60,248 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 22:36:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 18 Dec 2015 23:54:06 -0000
 
-SGkgT3RhdmlvLA0KDQpEb2VzIHRoZSBleGlzdGVuY2Ugb2YgL3Vzci9saWIvd2VzdG9uL3h3YXls
-YW5kLnNvIGdpdmUgdXMgd2hhdCB3ZSB3YW50Pw0KDQogICAgICAgIGlmIFsgLWYgL3Vzci9saWIv
-d2VzdG9uL3h3YXlsYW5kLnNvIF07IHRoZW4NCiAgICAgICAgICAgIG1rZGlyIC1wIC90bXAvLlgx
-MS11bml4DQogICAgICAgICAgICBPUFRBUkdTPSItLW1vZHVsZXM9eHdheWxhbmQuc28gJE9QVEFS
-R1MiDQogICAgICAgIGZpDQogICAgICAgIG9wZW52dCAkT1BFTlZUX0FSR1MgLS0gc2ggLWMgIndl
-c3Rvbi1sYXVuY2ggLS0gJE9QVEFSR1MgPiAvdmFyL2xvZy93ZXN0b24ubG9nIDI+JjEiDQoNClRv
-bQ0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogT3RhdmlvIFNhbHZhZG9yIFtt
-YWlsdG86b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnJdIA0KU2VudDogRnJpZGF5LCBE
-ZWNlbWJlciAxOCwgMjAxNSAxMDo1MCBBTQ0KVG86IEhvY2hzdGVpbiBUb20tUjYwODc0IDxUb20u
-SG9jaHN0ZWluQGZyZWVzY2FsZS5jb20+DQpDYzogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJv
-dXQgdGhlIG9lLWNvcmUgbGF5ZXIgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFs8T0UtY29yZV1bUEFUQ0ggdjIgMS80XSB3
-ZXN0b24taW5pdDogSGFuZGxlIFdlc3RvbiBzdGFydHVwIGNvcnJlY3RseS4NCg0KSGVsbG8gVG9t
-LA0KDQpPbiBUaHUsIERlYyAxNywgMjAxNSBhdCA4OjA0IFBNLCBUb20gSG9jaHN0ZWluIDx0b20u
-aG9jaHN0ZWluQGZyZWVzY2FsZS5jb20+IHdyb3RlOg0KPiBXZXN0b24gaXMgc3RhcnRlZCBpbiBk
-aWZmZXJlbnQgd2F5cyBkZXBlbmRpbmcgb24gdGhlIGltYWdlIA0KPiBjb25maWd1cmF0aW9uIGFu
-ZCB0aGUgcnVudGltZSBzY2VuYXJpby4gUmVmZXIgdG8gdGhlIHdlc3RvbiBtYW4gcGFnZSANCj4g
-Zm9yIG1vcmUgaW5mb3JtYXRpb24uDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFRvbSBIb2Noc3RlaW4g
-PHRvbS5ob2Noc3RlaW5AZnJlZXNjYWxlLmNvbT4NCg0KSSB0aGluayB3ZSBhcmUgcXVpdGUgY2xv
-c2UgdG8gc29tZXRoaW5nIHdoaWNoIHdvcmtzIGZvciBhbGwgc3VwcG9ydGVkIHVzZS1jYXNlcy4g
-TW9yZSBiZWxvdy4uLg0KDQouLi4NCj4gQEAgLTEzLDYgKzE0LDE4IEBAIGRvX2luc3RhbGwoKSB7
-DQo+DQo+ICAgICAgICAgaW5zdGFsbCAtZCAke0R9JHtzeXN0ZW1kX3N5c3RlbV91bml0ZGlyfQ0K
-PiAgICAgICAgIGluc3RhbGwgLW0wNjQ0ICR7V09SS0RJUn0vd2VzdG9uLnNlcnZpY2UgDQo+ICR7
-RH0ke3N5c3RlbWRfc3lzdGVtX3VuaXRkaXJ9DQo+ICsNCj4gKyAgICAgICBpbnN0YWxsIC1kICR7
-RH0vJHtiaW5kaXJ9DQo+ICsgICAgICAgaW5zdGFsbCAtbTc1NSAke1dPUktESVJ9L3dlc3Rvbi1z
-dGFydCAke0R9LyR7YmluZGlyfQ0KPiArICAgICAgIGlmIFsgIiR7QGJiLnV0aWxzLmNvbnRhaW5z
-KCdESVNUUk9fRkVBVFVSRVMnLCAneDExIHdheWxhbmQnLCAneHdheWxhbmQnLCAnJywgZCl9IiA9
-ICJ4d2F5bGFuZCIgXTsgdGhlbg0KPiArICAgICAgICAgICAgICAgd2VzdG9uX2xhdW5jaF9zZXR1
-cD0ibWtkaXIgLXAgL3RtcC8uWDExLXVuaXgiDQo+ICsgICAgICAgICAgICAgICB3ZXN0b25fbGF1
-bmNoX2FyZ3M9Ii0tbW9kdWxlcz14d2F5bGFuZC5zbyINCj4gKyAgICAgICBlbHNlDQo+ICsgICAg
-ICAgICAgICAgICB3ZXN0b25fbGF1bmNoX3NldHVwPSIiDQo+ICsgICAgICAgICAgICAgICB3ZXN0
-b25fbGF1bmNoX2FyZ3M9IiINCj4gKyAgICAgICBmaQ0KPiArICAgICAgIHNlZCAtaSAicyNXRVNU
-T05fTEFVTkNIX1NFVFVQIyR7d2VzdG9uX2xhdW5jaF9zZXR1cH0jIiAke0R9LyR7YmluZGlyfS93
-ZXN0b24tc3RhcnQNCj4gKyAgICAgICBzZWQgLWkgInMjV0VTVE9OX0xBVU5DSF9BUkdTIyR7d2Vz
-dG9uX2xhdW5jaF9hcmdzfSMiIA0KPiArICR7RH0vJHtiaW5kaXJ9L3dlc3Rvbi1zdGFydA0KDQpX
-ZSBjYW4gZG8gaXQgYXQgcnVudGltZSBhbmQgYXZvaWQgdXNpbmcgdGhpcyBoYXJkY29kZWQgb3B0
-aW9ucz8NCg0KT25lIHBvc3NpYmlsaXR5IGlzIHRvIGNoZWNrIGlmIFhXYXlsYW5kIGlzIGF2YWls
-YWJsZS4gSWYgaXQgaXMsIGl0IGNhbiBlbmFibGUgdGhvc2Ugb3B0aW9ucy4NCg0KLS0gDQpPdGF2
-aW8gU2FsdmFkb3IgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE8uUy4gU3lzdGVtcw0KaHR0
-cDovL3d3dy5vc3N5c3RlbXMuY29tLmJyICAgICAgICBodHRwOi8vY29kZS5vc3N5c3RlbXMuY29t
-LmJyDQpNb2JpbGU6ICs1NSAoNTMpIDk5ODEtNzg1NCAgICAgICAgICAgIE1vYmlsZTogKzEgKDM0
-NykgOTAzLTk3NTANCg==
+Read and merge the passwd/group files before parsing the user and
+group definitions. This means they will only be read once per
+recipe. This solves a problem where if a user was definied in multiple
+files, it could generate group definitions for groups that should not
+be created. E.g., if the first passwd file read defines a user as:
+
+foobar::1234::::
+
+and the second passwd file defines it as:
+
+foobar:::nogroup:The foobar user:/:/bin/sh
+
+then a foobar group would be created even if the user will use the
+nogroup as its primary group.
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/classes/useradd-staticids.bbclass | 164 ++++++++++++++++++---------------
+ 1 file changed, 91 insertions(+), 73 deletions(-)
+
+diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
+index df4902e..4e0ab1b 100644
+--- a/meta/classes/useradd-staticids.bbclass
++++ b/meta/classes/useradd-staticids.bbclass
+@@ -22,6 +22,30 @@ def update_useradd_static_config(d):
+         and return it as a list"""
+         return list(itertools.islice(itertools.chain(iterable, itertools.repeat(obj)), length))
+ 
++    def merge_files(file_list, exp_fields):
++        """Read each passwd/group file in file_list, split each line and create
++        a dictionary with the user/group names as keys and the split lines as
++        values. If the user/group name already exists in the dictionary, then
++        update any fields in the list with the values from the new list (if they
++        are set)."""
++        id_table = dict()
++        for conf in file_list.split():
++            if os.path.exists(conf):
++                f = open(conf, "r")
++                for line in f:
++                    if line.startswith('#'):
++                        continue
++                    # Make sure there always are at least exp_fields elements in
++                    # the field list. This allows for leaving out trailing
++                    # colons in the files.
++                    fields = list_extend(line.rstrip().split(":"), exp_fields)
++                    if fields[0] not in id_table:
++                        id_table[fields[0]] = fields
++                    else:
++                        id_table[fields[0]] = list(itertools.imap(lambda x, y: x or y, fields, id_table[fields[0]]))
++
++        return id_table
++
+     # We parse and rewrite the useradd components
+     def rewrite_useradd(params):
+         # The following comes from --help on useradd from shadow
+@@ -63,6 +87,7 @@ def update_useradd_static_config(d):
+             return str
+ 
+         newparams = []
++        users = None
+         for param in re.split('''[ \t]*;[ \t]*(?=(?:[^'"]|'[^']*'|"[^"]*")*$)''', params):
+             param = param.strip()
+             if not param:
+@@ -72,10 +97,9 @@ def update_useradd_static_config(d):
+             except:
+                 raise bb.build.FuncFailed("%s: Unable to parse arguments for USERADD_PARAM_%s: '%s'" % (d.getVar('PN', True), pkg, param))
+ 
+-            # files/passwd or the contents of USERADD_UID_TABLES
++            # Read all passwd files specified in USERADD_UID_TABLES or files/passwd
+             # Use the standard passwd layout:
+             #  username:password:user_id:group_id:comment:home_directory:login_shell
+-            # (we want to process in reverse order, as 'last found' in the list wins)
+             #
+             # If a field is left blank, the original value will be used.  The 'username'
+             # field is required.
+@@ -84,61 +108,57 @@ def update_useradd_static_config(d):
+             # in the useradd command may introduce a security hole.  It's assumed that
+             # all new users get the default ('*' which prevents login) until the user is
+             # specifically configured by the system admin.
+-            for conf in get_passwd_list(d).split()[::-1]:
+-                if os.path.exists(conf):
+-                    f = open(conf, "r")
+-                    for line in f:
+-                        if line.startswith('#'):
+-                            continue
+-                        # Make sure there always are at least seven elements in
+-                        # the field list. This allows for leaving out trailing
+-                        # colons in the passwd file.
+-                        field = list_extend(line.rstrip().split(":"), 7)
+-                        if field[0] == uaargs.LOGIN:
+-                            if uaargs.uid and field[2] and (uaargs.uid != field[2]):
+-                                bb.warn("%s: Changing username %s's uid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.uid, field[2]))
+-                            uaargs.uid = field[2] or uaargs.uid
+-
+-                            # Determine the possible groupname
+-                            # Unless the group name (or gid) is specified, we assume that the LOGIN is the groupname
+-                            #
+-                            # By default the system has creation of the matching groups enabled
+-                            # So if the implicit username-group creation is on, then the implicit groupname (LOGIN)
+-                            # is used, and we disable the user_group option.
+-                            #
+-                            user_group = uaargs.user_group is None or uaargs.user_group is True
+-                            uaargs.groupname = uaargs.LOGIN if user_group else uaargs.gid
+-                            uaargs.groupid = field[3] or uaargs.gid or uaargs.groupname
+-
+-                            if uaargs.groupid and uaargs.gid != uaargs.groupid:
+-                                newgroup = None
+-                                if not uaargs.groupid.isdigit():
+-                                    # We don't have a group number, so we have to add a name
+-                                    bb.debug(1, "Adding group %s!" % uaargs.groupid)
+-                                    newgroup = "%s %s" % (' --system' if uaargs.system else '', uaargs.groupid)
+-                                elif uaargs.groupname and not uaargs.groupname.isdigit():
+-                                    # We have a group name and a group number to assign it to
+-                                    bb.debug(1, "Adding group %s (gid %s)!" % (uaargs.groupname, uaargs.groupid))
+-                                    newgroup = "-g %s %s" % (uaargs.groupid, uaargs.groupname)
+-                                else:
+-                                    # We want to add a group, but we don't know it's name... so we can't add the group...
+-                                    # We have to assume the group has previously been added or we'll fail on the adduser...
+-                                    # Note: specifying the actual gid is very rare in OE, usually the group name is specified.
+-                                    bb.warn("%s: Changing gid for login %s to %s, verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.groupid))
+-
+-                                uaargs.gid = uaargs.groupid
+-                                uaargs.user_group = None
+-                                if newgroup:
+-                                    groupadd = d.getVar("GROUPADD_PARAM_%s" % pkg, True)
+-                                    if groupadd:
+-                                        d.setVar("GROUPADD_PARAM_%s" % pkg, "%s ; %s" % (groupadd, newgroup))
+-                                    else:
+-                                        d.setVar("GROUPADD_PARAM_%s" % pkg, newgroup)
+-
+-                            uaargs.comment = "'%s'" % field[4] if field[4] else uaargs.comment
+-                            uaargs.home_dir = field[5] or uaargs.home_dir
+-                            uaargs.shell = field[6] or uaargs.shell
+-                            break
++            if not users:
++                users = merge_files(get_passwd_list(d), 7)
++
++            if uaargs.LOGIN not in users:
++                continue
++
++            field = users[uaargs.LOGIN]
++
++            if uaargs.uid and field[2] and (uaargs.uid != field[2]):
++                bb.warn("%s: Changing username %s's uid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.uid, field[2]))
++            uaargs.uid = field[2] or uaargs.uid
++
++            # Determine the possible groupname
++            # Unless the group name (or gid) is specified, we assume that the LOGIN is the groupname
++            #
++            # By default the system has creation of the matching groups enabled
++            # So if the implicit username-group creation is on, then the implicit groupname (LOGIN)
++            # is used, and we disable the user_group option.
++            #
++            user_group = uaargs.user_group is None or uaargs.user_group is True
++            uaargs.groupname = uaargs.LOGIN if user_group else uaargs.gid
++            uaargs.groupid = field[3] or uaargs.gid or uaargs.groupname
++
++            if uaargs.groupid and uaargs.gid != uaargs.groupid:
++                newgroup = None
++                if not uaargs.groupid.isdigit():
++                    # We don't have a group number, so we have to add a name
++                    bb.debug(1, "Adding group %s!" % uaargs.groupid)
++                    newgroup = "%s %s" % (' --system' if uaargs.system else '', uaargs.groupid)
++                elif uaargs.groupname and not uaargs.groupname.isdigit():
++                    # We have a group name and a group number to assign it to
++                    bb.debug(1, "Adding group %s (gid %s)!" % (uaargs.groupname, uaargs.groupid))
++                    newgroup = "-g %s %s" % (uaargs.groupid, uaargs.groupname)
++                else:
++                    # We want to add a group, but we don't know it's name... so we can't add the group...
++                    # We have to assume the group has previously been added or we'll fail on the adduser...
++                    # Note: specifying the actual gid is very rare in OE, usually the group name is specified.
++                    bb.warn("%s: Changing gid for login %s to %s, verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.groupid))
++
++                uaargs.gid = uaargs.groupid
++                uaargs.user_group = None
++                if newgroup:
++                    groupadd = d.getVar("GROUPADD_PARAM_%s" % pkg, True)
++                    if groupadd:
++                        d.setVar("GROUPADD_PARAM_%s" % pkg, "%s ; %s" % (groupadd, newgroup))
++                    else:
++                        d.setVar("GROUPADD_PARAM_%s" % pkg, newgroup)
++
++            uaargs.comment = "'%s'" % field[4] if field[4] else uaargs.comment
++            uaargs.home_dir = field[5] or uaargs.home_dir
++            uaargs.shell = field[6] or uaargs.shell
+ 
+             # Should be an error if a specific option is set...
+             if d.getVar('USERADD_ERROR_DYNAMIC', True) == '1' and not ((uaargs.uid and uaargs.uid.isdigit()) and uaargs.gid):
+@@ -200,6 +220,7 @@ def update_useradd_static_config(d):
+             return str
+ 
+         newparams = []
++        groups = None
+         for param in re.split('''[ \t]*;[ \t]*(?=(?:[^'"]|'[^']*'|"[^"]*")*$)''', params):
+             param = param.strip()
+             if not param:
+@@ -210,7 +231,7 @@ def update_useradd_static_config(d):
+             except:
+                 raise bb.build.FuncFailed("%s: Unable to parse arguments for GROUPADD_PARAM_%s: '%s'" % (d.getVar('PN', True), pkg, param))
+ 
+-            # Need to iterate over layers and open the right file(s)
++            # Read all group files specified in USERADD_GID_TABLES or files/group
+             # Use the standard group layout:
+             #  groupname:password:group_id:group_members
+             #
+@@ -219,21 +240,18 @@ def update_useradd_static_config(d):
+             #
+             # Note: similar to the passwd file, the 'password' filed is ignored
+             # Note: group_members is ignored, group members must be configured with the GROUPMEMS_PARAM
+-            for conf in get_group_list(d).split()[::-1]:
+-                if os.path.exists(conf):
+-                    f = open(conf, "r")
+-                    for line in f:
+-                        if line.startswith('#'):
+-                            continue
+-                        # Make sure there always are at least four elements in
+-                        # the field list. This allows for leaving out trailing
+-                        # colons in the group file.
+-                        field = list_extend(line.rstrip().split(":"), 4)
+-                        if field[0] == gaargs.GROUP and field[2]:
+-                            if gaargs.gid and (gaargs.gid != field[2]):
+-                                bb.warn("%s: Changing groupname %s's gid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), gaargs.GROUP, gaargs.gid, field[2]))
+-                            gaargs.gid = field[2]
+-                            break
++            if not groups:
++                groups = merge_files(get_group_list(d), 4)
++
++            if gaargs.GROUP not in groups:
++                continue
++
++            field = groups[gaargs.GROUP]
++
++            if field[2]:
++                if gaargs.gid and (gaargs.gid != field[2]):
++                    bb.warn("%s: Changing groupname %s's gid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), gaargs.GROUP, gaargs.gid, field[2]))
++                gaargs.gid = field[2]
+ 
+             if d.getVar('USERADD_ERROR_DYNAMIC', True) == '1' and not (gaargs.gid and gaargs.gid.isdigit()):
+                 #bb.error("Skipping recipe %s, package %s which adds groupname %s does not have a static gid defined." % (d.getVar('PN', True),  pkg, gaargs.GROUP))
+-- 
+2.1.0
+
 
