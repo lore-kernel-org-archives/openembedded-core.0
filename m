@@ -1,50 +1,50 @@
 Return-Path: <matt@madison.systems>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AFCE731C3
+Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 978B86FFEC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 14:35:18 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id wq6so61477639pac.1
+	Fri, 18 Dec 2015 14:35:20 +0000 (UTC)
+Received: by mail-pf0-f180.google.com with SMTP id o64so50031997pfb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 06:35:19 -0800 (PST)
+	Fri, 18 Dec 2015 06:35:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=madison-systems.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=5Rf0I7rxMly3Z4tStlV7UGCTamCuhQJaqyk3XXlZrA0=;
-	b=nuNFtPtBjR+c/N3ebc0mvrIbuEhkqtiMDfuQYW5gGvtEFH/mtH1pDp3B/IEL+fFf39
-	/TdbnwRpSvjR1XZvQlesDINjIIKvpv7y8rU6+gxcOjss3fQWhk8eMJk3MnmJpuo/6zqZ
-	O8dgmjCBXf8fQQwBDwrCall4EQJh4O2tbO05ICt2yEBwxF44sK+8LsO956GM8dZE3Wd9
-	Oox/74ozS7xQ0vT4sufDkd9iallm1+n51R4Id8c9iqXRm3tBkPPvBquN44fLu30s14qC
-	/o9cbAvNhi4xIvsSZfw7iYEqYQJycyXQphLZE0kDlua5GRG7X7vFbeWP2JTO1BrGH0+9
-	Tluw==
+	bh=UOokn7W7m9v0dR/HwgSCPKnbP7tRAdYnAK1UFtVMtK0=;
+	b=vGlUQvtF9XA3uXPYpgJAt24R0u+NCXKlJZAKk9jBKAEXYNcmNk75h6b2MfMCgoj2f4
+	gxEg1k9HO2Jv/jQ4eRelAA3cxVdqTdJ3IEpz70n3ajzSLz00QIdA/RwZN878bChDSo7s
+	jOb9/3Oyrru+L4LqfVS79IBOQuO1LQdciZ3ju9YF++vrQ8qL/8SiySOrz2qz6hBY7nES
+	aVU459FOlvDDAtoxe1wPwcKSM8Q4XLXV7mgYRKp+xBjjNh5WrqHQH5Jhu9YSCdBBv4r4
+	TwOxH06WGNyeaUwNGSW0Cr34QELdDlWnrgBSijVmBGNNCsBwgSAw7VfF/LWdfgVgdk/I
+	zYmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=5Rf0I7rxMly3Z4tStlV7UGCTamCuhQJaqyk3XXlZrA0=;
-	b=K6pFzLXMxWdSQvoxVruNXAUDZ0RgwFJua6HPcXM5zqUyPJqKsI0J0QRsH81wU0jAQz
-	aP9OSVhJ6NdxibWXZjrSPjvgI+Vz0sU6pjRSGi1O91t2lrpXL7PEn6KJIHE9SoY/wDU7
-	U1Zwu5LIybJGFlnk2P4Z0NeqzSKmqsQvYOlRBwFT6+AiKKWntqz6Pn6TIDkqr1UeKu6h
-	7f4ZChGaP+cIEzi2NtSWPwA1UamsaBGbx+TmYugs73YCZo10iiKuoDJAaSoEEcw5n/vN
-	XUC5icQJyt0/mKgBapgsjm5CLgDmsmcdbv1vw1w+bwBoQZfwhRuM2vMajFbz3gveHdgu
-	bAuQ==
-X-Gm-Message-State: ALoCoQk/IZvqyzkABSQ6Fq5tgP/imh+Nakg3DJLo4eXpbBULgQeGdbbdAA4KJCk/3zcqiCodHml25mOujbIUoNcw9pFMlMAV5A==
-X-Received: by 10.66.236.229 with SMTP id ux5mr5564886pac.91.1450449319498;
-	Fri, 18 Dec 2015 06:35:19 -0800 (PST)
+	bh=UOokn7W7m9v0dR/HwgSCPKnbP7tRAdYnAK1UFtVMtK0=;
+	b=DIWMLFkG7rDPllSh5ZW/DK8fsvf8V5x8ZwPw/EuPQnpZZlchc9SpyP0v9lhm8KD69Y
+	CK6DNGcHUvUqAs9pFCBU1zip58rH6lHKRyeNsoqlfbUBhDzKlw2NLNqQxohg20MOWXBu
+	Ug9jLH6Vz59ExPPP8FdNbC1qp72oHDPJshB/KgXC648JXrtcugqm9AkMiLxW4KKu4chF
+	gRnQ4WUTl2IRcwux6xjSeaSfh6H31L6CqrZBjG/S8GEHrqbqK4hkyKaT3vEYAIgiQBmB
+	OL6ck2bRncpzeN1MneLbkcyDHYRTv5GEgCPX4vznyF4AkPAtL5VivrijHQhq6y3BR71X
+	n3lA==
+X-Gm-Message-State: ALoCoQm/a5UqmiESKtuhhlDcrSKzvsgVMnAPRUrMWk5VuztagSkWfCbXDQkptc3JvM26MYIRab98EP6D9+q6r/+xGH6lmvw5NA==
+X-Received: by 10.98.12.150 with SMTP id 22mr5624994pfm.46.1450449321275;
+	Fri, 18 Dec 2015 06:35:21 -0800 (PST)
 Received: from workhorse.madison.systems
 	(70.90.175.93-BusName-ca.sfba.hfc.comcastbusiness.net.
 	[70.90.175.93]) by smtp.gmail.com with ESMTPSA id
-	l66sm18429653pfj.71.2015.12.18.06.35.17
+	l66sm18429653pfj.71.2015.12.18.06.35.19
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 18 Dec 2015 06:35:18 -0800 (PST)
+	Fri, 18 Dec 2015 06:35:19 -0800 (PST)
 From: Matt Madison <matt@madison.systems>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Dec 2015 06:34:30 -0800
-Message-Id: <1450449271-28582-3-git-send-email-matt@madison.systems>
+Date: Fri, 18 Dec 2015 06:34:31 -0800
+Message-Id: <1450449271-28582-4-git-send-email-matt@madison.systems>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <1450449271-28582-1-git-send-email-matt@madison.systems>
 References: <1450449271-28582-1-git-send-email-matt@madison.systems>
-Subject: [PATCH v2 2/3] package_manager.py: fixes for multilib deb packaging builds
+Subject: [PATCH v2 3/3] package_deb.bbclass: add 'Multi-Arch: foreign' tag to allarch packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,72 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 14:35:19 -0000
+X-List-Received-Date: Fri, 18 Dec 2015 14:35:22 -0000
 
-* tmp/deploy/deb subdirectories do not get hyphens replaced
-  with underscores, so don't do that translation when building
-  the sources list.
-
-* Fix MULTILIB_VARIANTS handling to be more general and
-  work for all architectures
-
-* Also include a fix for a warning generated by apt
-  due to missing apt/preferences.d directory.
+This tells APT that it can use such packages to resolve dependencies
+from packages of any architecture in a multilib build.
 
 Signed-off-by: Matt Madison <matt@madison.systems>
 ---
- meta/lib/oe/package_manager.py | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ meta/classes/package_deb.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index fd9caa3..b78d291 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -247,7 +247,7 @@ class DpkgIndexer(Indexer):
-                 if a not in pkg_archs:
-                     arch_list.append(a)
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 8d27adf..25218d0 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -161,6 +161,8 @@ python do_package_deb () {
+             return l2
  
--        all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS', True) or "").replace('-', '_').split()
-+        all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS', True) or "").split()
-         arch_list.extend(arch for arch in all_mlb_pkg_arch_list if arch not in arch_list)
- 
-         apt_ftparchive = bb.utils.which(os.getenv('PATH'), "apt-ftparchive")
-@@ -1750,7 +1750,7 @@ class DpkgPM(PackageManager):
-         self.apt_args = d.getVar("APT_ARGS", True)
- 
-         self.all_arch_list = archs.split()
--        all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS', True) or "").replace('-', '_').split()
-+        all_mlb_pkg_arch_list = (self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS', True) or "").split()
-         self.all_arch_list.extend(arch for arch in all_mlb_pkg_arch_list if arch not in self.all_arch_list)
- 
-         self._create_configs(archs, base_archs)
-@@ -1941,6 +1941,7 @@ class DpkgPM(PackageManager):
-         bb.utils.mkdirhier(self.apt_conf_dir)
-         bb.utils.mkdirhier(self.apt_conf_dir + "/lists/partial/")
-         bb.utils.mkdirhier(self.apt_conf_dir + "/apt.conf.d/")
-+        bb.utils.mkdirhier(self.apt_conf_dir + "/preferences.d/")
- 
-         arch_list = []
-         for arch in self.all_arch_list:
-@@ -1975,10 +1976,14 @@ class DpkgPM(PackageManager):
-         base_arch_list = base_archs.split()
-         multilib_variants = self.d.getVar("MULTILIB_VARIANTS", True);
-         for variant in multilib_variants.split():
--            if variant == "lib32":
--                base_arch_list.append("i386")
--            elif variant == "lib64":
--                base_arch_list.append("amd64")
-+            localdata = bb.data.createCopy(self.d)
-+            variant_tune = localdata.getVar("DEFAULTTUNE_virtclass-multilib-" + variant, False)
-+            orig_arch = localdata.getVar("DPKG_ARCH", True)
-+            localdata.setVar("DEFAULTTUNE", variant_tune)
-+            bb.data.update_data(localdata)
-+            variant_arch = localdata.getVar("DPKG_ARCH", True)
-+            if variant_arch not in base_arch_list:
-+                base_arch_list.append(variant_arch)
- 
-         with open(self.apt_conf_file, "w+") as apt_conf:
-             with open(self.d.expand("${STAGING_ETCDIR_NATIVE}/apt/apt.conf.sample")) as apt_conf_sample:
+         ctrlfile.write("Package: %s\n" % pkgname)
++        if d.getVar('PACKAGE_ARCH', True) == "all":
++            ctrlfile.write("Multi-Arch: foreign\n")
+         # check for required fields
+         try:
+             for (c, fs) in fields:
 -- 
 2.5.0
 
