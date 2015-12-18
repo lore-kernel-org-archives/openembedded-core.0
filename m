@@ -1,28 +1,28 @@
 Return-Path: <costin.c.constantin@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 83903731BD
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D4CE731CA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 12:28:45 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP; 18 Dec 2015 04:28:46 -0800
+	Fri, 18 Dec 2015 12:28:47 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 18 Dec 2015 04:28:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,446,1444719600"; d="scan'208";a="710370869"
+X-IronPort-AV: E=Sophos;i="5.20,446,1444719600"; d="scan'208";a="874234805"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 18 Dec 2015 04:28:46 -0800
+	by orsmga002.jf.intel.com with ESMTP; 18 Dec 2015 04:28:49 -0800
 Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id EA7166A4007
+	by linux.intel.com (Postfix) with ESMTP id A3C326A408D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 05:16:46 -0800 (PST)
+	Fri, 18 Dec 2015 05:16:48 -0800 (PST)
 From: Costin Constantin <costin.c.constantin@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Dec 2015 14:41:00 +0200
-Message-Id: <626bc03ee8e8b358d0ec891f8b140575edbdf4c2.1450441923.git.costin.c.constantin@intel.com>
+Date: Fri, 18 Dec 2015 14:41:01 +0200
+Message-Id: <0347743a02f033142a1193483a4df4b9db30a548.1450441923.git.costin.c.constantin@intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1450441923.git.costin.c.constantin@intel.com>
 References: <cover.1450441923.git.costin.c.constantin@intel.com>
 In-Reply-To: <cover.1450441923.git.costin.c.constantin@intel.com>
 References: <cover.1450441923.git.costin.c.constantin@intel.com>
-Subject: [PATCH 08/12] oeqa/runexported: The runner supports tests from other layers.
+Subject: [PATCH 09/12] oeqa/runexported: Add parameter support for machine arch.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,49 +35,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 12:28:45 -0000
+X-List-Received-Date: Fri, 18 Dec 2015 12:28:47 -0000
 
 From: Lucian Musat <george.l.musat@intel.com>
 
-It looks in "extralayers" folder if it can't find the test
-that needs to be run.
+Added support to change machine architecture on the fly and
+support for future TestNeedsBin decorator for tests that need
+binaries.
 
 Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
 ---
- meta/lib/oeqa/runexported.py | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ meta/lib/oeqa/runexported.py | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/meta/lib/oeqa/runexported.py b/meta/lib/oeqa/runexported.py
-index c3ce79a..b8d621c 100755
+index b8d621c..3a6bad7 100755
 --- a/meta/lib/oeqa/runexported.py
 +++ b/meta/lib/oeqa/runexported.py
-@@ -92,6 +92,12 @@ def main():
+@@ -22,6 +22,9 @@ import sys
+ import os
+ import time
+ import argparse
++import re
++
++from oeqa.utils.testsexport import get_dest_folder
+ 
+ try:
+     import simplejson as json
+@@ -88,10 +91,13 @@ def main():
+             the current dir is used. This is used for usually creating a ssh log file and a scp test file.")
+     parser.add_argument("--list-tests", dest="list_tests", help="This lists the current TEST_SUITES that will be run.", action='store_true')
+     parser.add_argument("-r","--run-tests", dest="run_tests", help="Overwrite TEST_SUITES from the json file with custom list of tests.", nargs = '*')
++    parser.add_argument("-m","--machine", dest="machine", help="Overwrite MACHINE from the json file ")
+     parser.add_argument("json", help="The json file exported by the build system", default="testdata.json", nargs='?')
  
      args = parser.parse_args()
  
-+    if os.path.isdir("extralayers"):
-+        extrapaths = [x[0] for x in os.walk('extralayers')]
-+        for path in extrapaths:
-+            if os.path.isdir(os.path.join(path,"oeqa")) and (os.path.join(path,"oeqa") not in sys.path):
-+                sys.path.append(os.path.abspath(path))
++    os.environ["bin_dir"] = os.path.join(os.getcwd(), "binaries") # exporting bin_dir path
 +
-     with open(args.json, "r") as f:
-         loaded = json.load(f)
+     if os.path.isdir("extralayers"):
+         extrapaths = [x[0] for x in os.walk('extralayers')]
+         for path in extrapaths:
+@@ -137,6 +143,22 @@ def main():
+         if key != "d" and key != "target" and key != "host_dumper":
+             setattr(tc, key, loaded[key])
  
-@@ -144,6 +150,14 @@ def main():
-                 for files in os.listdir(os.sep.join(test.split('.'))):
-                     if (files.endswith(".py")) and not files.startswith("_"):
-                         tc.testslist.insert(index, test+'.'+files.split('.')[0])
-+            elif not os.path.isfile(os.path.join(os.sep.join(test.split('.')), '.py')):
-+                for testpath in sys.path:
-+                    directory = os.path.join(testpath, os.sep.join(test.split('.')))
-+                    if os.path.isdir(directory):
-+                        del tc.testslist[index]
-+                        for files in os.listdir(directory):
-+                            if (files.endswith(".py")) and not files.startswith("_"):
-+                                tc.testslist.insert(index, test+'.'+files.split('.')[0])
-         target.exportStart()
-         runTests(tc)
++    if args.machine:
++        d['MACHINE'] = args.machine
++        bin_dir = os.getenv("bin_dir")
++        found = False
++        if os.path.exists(bin_dir):
++            for item in os.listdir(bin_dir):
++                if not re.search("native", item) and os.path.exists(os.path.join(bin_dir, item, "mapping.cfg")):
++                    with open(os.path.join(bin_dir, item, "mapping.cfg"), "r") as mapping_file:
++                        mapping = eval(mapping_file.read())
++                        if args.machine in mapping.keys():
++                            d['TARGET_SYS'] = mapping[args.machine][0]
++                            d['TUNE_FEATURES'] = mapping[args.machine][1]
++                            found = True
++        if not found:
++            print("WARNING: Cannot find binaries for provided machine %s." % args.machine)
++
+     if args.run_tests:
+         tc.testslist = args.run_tests
  
 -- 
 2.5.0
