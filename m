@@ -1,37 +1,34 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f179.google.com (mail-pf0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 017D7731A6
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CA4D6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 01:09:33 +0000 (UTC)
-Received: by mail-pf0-f179.google.com with SMTP id n128so21656992pfn.0
+	Fri, 18 Dec 2015 01:35:32 +0000 (UTC)
+Received: by mail-ig0-f176.google.com with SMTP id to4so25970759igc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Dec 2015 17:09:34 -0800 (PST)
+	Thu, 17 Dec 2015 17:35:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=RA4IK2gHzToR/jUSpP7w6w2Ig6PfYp9xTpTgh2locG0=;
-	b=YzSC+R/0n62P8PZ/n831QscbjxAF9ZR2HJNqFANrYSuhz78l3//W2C1YJ15uRTKDH7
-	CXScPH7uC/7U66ybqyNcB8Yo4ml4oxcpF0GsQ2oH5QkkeZ52/bw3/V8cPnCkcYb2oulq
-	clUBgBj+JEvcwLUNad5/2ka4dBtim8g4Z0VjXW/VWdBXaRVsLq+nqOxtXS6yOnbGSgtp
-	dDzsuu3HuguPB2R8PEZgNlZtEY8GGYICWYUx76QUjA6j++7zFw/wgxGbpEyNuUGjDQ01
-	YWuDg8uiAmzLXDE0axzWsZ4iNQc/RKlAwtX0/NVZmCPwNEYxh5LfCd/Se4FZao4X3P0c
-	h5qg==
-X-Received: by 10.98.76.72 with SMTP id z69mr1161003pfa.35.1450400974511;
-	Thu, 17 Dec 2015 17:09:34 -0800 (PST)
+	h=from:to:cc:subject:date:message-id;
+	bh=SN2ZVbVrMQdNTmCY3SUJESkBm7VF7zSScaWYzjNqVek=;
+	b=MWl66oV4G18m8sHDiHcAfTRldLhvjRSP/dVgZeMHPdA8elyiInzNNXOzpa+xbwSKLz
+	M4z5yZsDNQbbPV9mWZGHKf8ErXmvW4wY+SzfHAI0xYC8aJwmU2RVsMtKzOkkd2rcOePd
+	O+zCiE6oDtQ+yv4kGMpTtuRkRcLooo45wIT5NZwBLj5oX8cuTu0zLz6Kq7dlaU4BHFtQ
+	fj/4RkQKz0dsBjYW98whQJ1529ZiTpv8jTljW1Z2+2xUn2jdJ+HnWrV215maSMOAxCeu
+	HzSrtWKwg+J4V7hXL7xooj/7lqS1lIXOrn6LWHRrO06ORF2GkctBhZ07iNPjX11ROtP+
+	riNQ==
+X-Received: by 10.50.171.197 with SMTP id aw5mr637734igc.21.1450402532988;
+	Thu, 17 Dec 2015 17:35:32 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	ah10sm18207114pad.23.2015.12.17.17.09.33
+	by smtp.gmail.com with ESMTPSA id w8sm1745659igl.0.2015.12.17.17.35.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 17 Dec 2015 17:09:33 -0800 (PST)
+	Thu, 17 Dec 2015 17:35:32 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Dec 2015 17:09:04 -0800
-Message-Id: <1450400944-10350-5-git-send-email-armccurdy@gmail.com>
+Date: Thu, 17 Dec 2015 17:35:21 -0800
+Message-Id: <1450402525-11430-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1450400944-10350-1-git-send-email-armccurdy@gmail.com>
-References: <1450400944-10350-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 4/4] valgrind: include aarch64 in COMPATIBLE_HOST
+Subject: [PATCH 0/4 v2] valgrind: update to 3.11.0 + fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +41,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 01:09:34 -0000
+X-List-Received-Date: Fri, 18 Dec 2015 01:35:34 -0000
 
-Valgrind has supported aarch64 since v3.10.0.
+Rebase Alexander's valgrind 3.11.0 update patch to current
+oe-core master (remove redunant FILES_${PN}-dbg line) plus
+fix additional issues.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-devtools/valgrind/valgrind_3.11.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This time based on v2 of Alexander's 3.11.0 update patch...
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-index 9e18ec1..ed609e1 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-@@ -26,7 +26,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
- SRC_URI[md5sum] = "4ea62074da73ae82e0162d6550d3f129"
- SRC_URI[sha256sum] = "6c396271a8c1ddd5a6fb9abe714ea1e8a86fce85b30ab26b4266aeb4c2413b42"
- 
--COMPATIBLE_HOST = '(i.86|x86_64|arm|mips|powerpc|powerpc64).*-linux'
-+COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'
- 
- # valgrind supports armv7 and above
- COMPATIBLE_HOST_armv4 = 'null'
+Alexander Kanavin (1):
+  valgrind: update to 3.11.0
+
+Andre McCurdy (3):
+  security_flags.inc: disable -fstack-protector-XXX for valgrind
+  valgrind: make it explicit that valgrind supports armv7a and above
+  valgrind: include aarch64 in COMPATIBLE_HOST
+
+ meta/conf/distro/include/security_flags.inc        |   2 +-
+ ...able-rt_sigpending-syscall-on-ppc64-linux.patch |  35 ---
+ .../valgrind/valgrind/0002-remove-rpath.patch      |  35 +++
+ .../valgrind/0004-Fix-out-of-tree-builds.patch     | 175 +++++++++++++++
+ ...vg_test-wrapper-to-support-PTEST-formats.patch} |  87 ++++----
+ .../valgrind/enable.building.on.4.x.kernel.patch   |  37 ----
+ .../valgrind/valgrind/force-nostabs.patch          |  42 ----
+ .../recipes-devtools/valgrind/valgrind/glibc.patch |  44 ----
+ .../pass-maltivec-only-if-it-supported.patch       |  68 ------
+ .../valgrind/remove-ppc-tests-failing-build.patch  |  75 -------
+ .../valgrind/valgrind/sepbuildfix.patch            | 235 ---------------------
+ .../{valgrind_3.10.1.bb => valgrind_3.11.0.bb}     |  45 ++--
+ 12 files changed, 282 insertions(+), 598 deletions(-)
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-valgrind-Enable-rt_sigpending-syscall-on-ppc64-linux.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/0002-remove-rpath.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/0004-Fix-out-of-tree-builds.patch
+ rename meta/recipes-devtools/valgrind/valgrind/{add-ptest.patch => 0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch} (80%)
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/enable.building.on.4.x.kernel.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/force-nostabs.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/glibc.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/pass-maltivec-only-if-it-supported.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/sepbuildfix.patch
+ rename meta/recipes-devtools/valgrind/{valgrind_3.10.1.bb => valgrind_3.11.0.bb} (71%)
+
 -- 
 1.9.1
 
