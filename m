@@ -1,26 +1,24 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FE746FF77
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 62B25731BC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 20:44:39 +0000 (UTC)
+	Fri, 18 Dec 2015 20:44:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBIKids5026049
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBIKicun006337
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 18 Dec 2015 12:44:39 -0800 (PST)
+	Fri, 18 Dec 2015 12:44:38 -0800 (PST)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Fri, 18 Dec 2015 12:44:39 -0800
+	14.3.248.2; Fri, 18 Dec 2015 12:44:38 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <ross.burton@intel.com>
-Date: Fri, 18 Dec 2015 15:44:32 -0500
-Message-ID: <1eae81ffa224e969164974aabe8f5a09b03e5cb1.1450471022.git.bruce.ashfield@windriver.com>
+Date: Fri, 18 Dec 2015 15:44:31 -0500
+Message-ID: <cover.1450471022.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1450471022.git.bruce.ashfield@windriver.com>
-References: <cover.1450471022.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/6] yaffs2: fix checkpoint functionality
+Subject: [PATCH 0/6] linux-yocto: consolidate pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,97 +34,66 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 18 Dec 2015 20:44:40 -0000
 Content-Type: text/plain
 
-Updating the linux-yocto SRCREVs to pull in the following change:
+Hi all,
 
-  Author: He Zhe <zhe.he@windriver.com>
-  Date:   Wed Dec 2 01:31:31 2015 -0500
+To get some of the prep out of the way early for the 2.1 release, consider
+this a "needs more builds and testing" pull request. I've built for all
+arches (both with -dev and 4.1), booted core-image-minimal and sato, and
+built core-image-kernel-dev .. but when you are balancing all the combos,
+some things can slip through.
 
-    fs/yaffs2: fix missing checkpoint on yaffs
+4.4 is the next LTSI kernel, and will be the newest versioned/named recipe
+for the release, so this series does the following:
 
-    For yaffs file system, the mode of reading or writing is restricted
-    at four pointer where are mnt->mnt_flags,mnt->mnt_sb->s_flags,mtd->flags and
-    dev->read_only,the first three is used handle file and file
-    system(eg,remount) operation, and last one(dev->read_only) almost is
-    used handle checkpoint of yaffs2. However, in current code, the
-    dev->read_only only can be changed at first time when the yaffs2
-    file system is mounted, later it can't be changed again(eg,mount -o
-    remount), the result is that the checkpoint's saving operation
-    always can't succeed if you set readonly mode for yaffs2 file system
-    when it is mounted at the first time.
+ - updated -dev to 4.4-rc5
+ - removed 3.14 and 3.19
+ - fixes recipes/package that broke during 4.4/4.1 testing
+ - has a minor regression fix for kernel checkouts
 
-    To fix this issue, we implement yaffs_remount_fs() which allows the
-    rootfs to be remounted as r/w.
+I'll follow up with patches to the yocto mailing list to remove references to
+the 3.14 and 3.19 kernels.
 
-    Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-    Signed-off-by: He Zhe <zhe.he@windriver.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cheers,
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 18 +++++++++---------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+Bruce
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-index 6bb38f8c059b..1eb032bfe6ac 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-@@ -2,8 +2,8 @@ KBRANCH ?= "standard/preempt-rt/base"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--SRCREV_machine ?= "190c42da30140d227cc948ed5fa8fee8467d55f3"
--SRCREV_meta ?= "30c4b4bd79c5d774de6dcf23d0deab554e31f3d4"
-+SRCREV_machine ?= "ed3fa3e6d62c1fb3411099478c69cef4e3d4f415"
-+SRCREV_meta ?= "46bb64d605fd336d99fa05bab566b9553b40b4b4"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index cd4f2acff69a..66c8a6575e5e 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -9,8 +9,8 @@ LINUX_VERSION ?= "4.1.13"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "2c30f87db7824e90b0b096eee3a5b7f93c84b079"
--SRCREV_meta ?= "30c4b4bd79c5d774de6dcf23d0deab554e31f3d4"
-+SRCREV_machine ?= "4e659b86ffcf20ece27f42a671853d5f42d52a6c"
-+SRCREV_meta ?= "46bb64d605fd336d99fa05bab566b9553b40b4b4"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index 776620261f60..12245295a3f3 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "2494184ad34764bdfa1bfd9a57eabfb34d170c0e"
--SRCREV_machine_qemuarm64 ?= "2c30f87db7824e90b0b096eee3a5b7f93c84b079"
--SRCREV_machine_qemumips ?= "85a76c24f5aaa99618fdb15d5f3966a2e03cd572"
--SRCREV_machine_qemuppc ?= "2c30f87db7824e90b0b096eee3a5b7f93c84b079"
--SRCREV_machine_qemux86 ?= "2c30f87db7824e90b0b096eee3a5b7f93c84b079"
--SRCREV_machine_qemux86-64 ?= "2c30f87db7824e90b0b096eee3a5b7f93c84b079"
--SRCREV_machine_qemumips64 ?= "79181dc5284d9831d240d7ba58a2b574f6528b90"
--SRCREV_machine ?= "2c30f87db7824e90b0b096eee3a5b7f93c84b079"
--SRCREV_meta ?= "30c4b4bd79c5d774de6dcf23d0deab554e31f3d4"
-+SRCREV_machine_qemuarm ?= "c19d15710a9e0a01a83a1ac03356390bc26a01f7"
-+SRCREV_machine_qemuarm64 ?= "4e659b86ffcf20ece27f42a671853d5f42d52a6c"
-+SRCREV_machine_qemumips ?= "ca7ddd2ce6e7c3fb599512bcc31a1de23ecb589d"
-+SRCREV_machine_qemuppc ?= "4e659b86ffcf20ece27f42a671853d5f42d52a6c"
-+SRCREV_machine_qemux86 ?= "4e659b86ffcf20ece27f42a671853d5f42d52a6c"
-+SRCREV_machine_qemux86-64 ?= "4e659b86ffcf20ece27f42a671853d5f42d52a6c"
-+SRCREV_machine_qemumips64 ?= "5945b7d7abce3ede46ae133a24420751d99ea55b"
-+SRCREV_machine ?= "4e659b86ffcf20ece27f42a671853d5f42d52a6c"
-+SRCREV_meta ?= "46bb64d605fd336d99fa05bab566b9553b40b4b4"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+The following changes since commit 5f406915b5e26761faa4ea5e0edd887ac5ae6e2f:
+
+  bitbake: toaster: remove 2 confusing parameters (2015-12-18 13:51:54 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  yaffs2: fix checkpoint functionality
+  lttng-modules: fix build issue against kernel 4.4
+  linux-yocto-dev: bump to 4.4-rcX
+  linux-yocto/4.1: update to v4.1.15
+  linux-yocto: remove 3.14 and 3.19 recipes
+
+Jianxun Zhang (1):
+  kernel-yocto: fix checkout bare-cloned kernel repositories
+
+ meta/classes/kernel-yocto.bbclass                  | 13 +++++--
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   | 29 ---------------
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb | 23 ------------
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb | 23 ------------
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 42 ----------------------
+ meta/recipes-kernel/linux/linux-yocto_3.19.bb      | 42 ----------------------
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb       | 20 +++++------
+ meta/recipes-kernel/lttng/lttng-modules_git.bb     |  2 +-
+ 11 files changed, 28 insertions(+), 180 deletions(-)
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto_3.14.bb
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto_3.19.bb
+
 -- 
 2.1.0
 
