@@ -1,32 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CB7F60796
+Return-Path: <matt@madison.systems>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id BBF4D60796
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Dec 2015 14:18:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tBIEIDF2009592; Fri, 18 Dec 2015 14:18:13 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jkt2X2oCDOWI; Fri, 18 Dec 2015 14:18:13 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tBIEICp2009577
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 18 Dec 2015 14:18:13 GMT
-Message-ID: <1450448292.8461.52.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 18 Dec 2015 14:18:12 +0000
-In-Reply-To: <19CCFDE4-E8FC-4B6A-BFD4-BCB6E14922C8@linux.intel.com>
-References: <1450427985-12504-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1450427985-12504-3-git-send-email-markus.lehtonen@linux.intel.com>
-	<1450441360.8461.37.camel@linuxfoundation.org>
-	<19CCFDE4-E8FC-4B6A-BFD4-BCB6E14922C8@linux.intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH 2/5] kernel.bbclass: copy .config instead of moving
+	Fri, 18 Dec 2015 14:35:15 +0000 (UTC)
+Received: by mail-pa0-f46.google.com with SMTP id q3so41293619pav.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Dec 2015 06:35:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=XltOKNUiL4bHwA2nPQO1ch8Oj5mF2DPhmi0SLGg/BUI=;
+	b=Jtqa7agdmjxppr+3XapINgbbieepYoWmg2cG9yxvNJSk4v7sIIwaMm1sEw6qyUkmgn
+	XzVqWMktqpdTJyAKOFF0/MUPXyqzbATvgOzEa7hmjYsuwTfs63wGScI6HFHPWFwfuM2p
+	j1tjnSmvXG7P46CSdjYDFiQBIMmTFKZyCp9M8ucGFn9GUS26AVrWp+OguCbLe0XLYqld
+	EwbLlK98ROJ3zy1DU4sRg4QctSNmA6pTwgVYo5NQfC50CYC0ykmQYn2qeNoW/8dfRToA
+	LELvKhVupxS3xPd8idKYUAMZCcvakziXOPHtqbzbBpvn0az37khJl0ypdws1tn6EWrhI
+	8y3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=XltOKNUiL4bHwA2nPQO1ch8Oj5mF2DPhmi0SLGg/BUI=;
+	b=USOv8mZ2VZcWrLgpn63HT9BoF3V2GgHIXEjGdtGV8uCafWS5M4+cl/71wU2dPKVeCn
+	hts7zSkRmuJ4L7XhJ8V+j4mlbNZLC4/FuKHS6gX29QOuLqvIOGmQl6kbuamEfPvdxcFt
+	0dhvGOH0ZEnODUn5LkIwbhc9dIFkLDRriPSzeTLhcC58FWk+tEmrrCris0u2PggQnl3l
+	NOqXwaF8L41WH6h4TMqZpovbPb5Zo0LyYG5+xtIkJph2JUMi823rk3Yri5eFvj9mXKUR
+	rMEE+PiylkKsVHXftKcg6bJHMfYS36myinmAbJCTrfEi9OXOaLllA3DFcXFo/TGwfO5f
+	9rDw==
+X-Gm-Message-State: ALoCoQmm7Rq2TjGMWvPK6il6dK1gW/pOpDfkD/Xizj1m//4A1BgwUmJfTCbN+pJcIUUOHXq0cXVrYfSvQjE7AhOl0rTy0tbx6Q==
+X-Received: by 10.66.162.231 with SMTP id yd7mr5603269pab.98.1450449315853;
+	Fri, 18 Dec 2015 06:35:15 -0800 (PST)
+Received: from workhorse.madison.systems
+	(70.90.175.93-BusName-ca.sfba.hfc.comcastbusiness.net.
+	[70.90.175.93]) by smtp.gmail.com with ESMTPSA id
+	l66sm18429653pfj.71.2015.12.18.06.35.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 18 Dec 2015 06:35:14 -0800 (PST)
+From: Matt Madison <matt@madison.systems>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Dec 2015 06:34:28 -0800
+Message-Id: <1450449271-28582-1-git-send-email-matt@madison.systems>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH v2 0/3] Debian multilib packaging fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,50 +54,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Dec 2015 14:18:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 18 Dec 2015 14:35:17 -0000
 
-On Fri, 2015-12-18 at 14:39 +0200, Markus Lehtonen wrote:
-> On 18/12/15 14:22, "Richard Purdie" <
-> richard.purdie@linuxfoundation.org> wrote:
-> > On Fri, 2015-12-18 at 10:39 +0200, Markus Lehtonen wrote: 
-> > >  	if [ "${S}" != "${B}" ] && [ -f "${S}/.config" ] && [ ! 
-> > > -f
-> > > "${B}/.config" ]; then
-> > > -		mv "${S}/.config" "${B}/.config"
-> > > +		cp "${S}/.config" "${B}/.config"
-> > >  	fi
-> > >  
-> > >  	# Copy defconfig to .config if .config does not exist.
-> > > This
-> > > allows
-> > 
-> > I'm not sure about this, doesn't this trigger the kernel to see
-> > ${S} as
-> > being 'dirty' and cause other issues when you try and do out of
-> > tree
-> > builds with it?
-> 
-> That shouldn't be a problem as the kernel .gitignore ignores .config
-> (or '.*' to be more specific). There are other tasks that make
-> changes to the kernel source tree, as well, like do_kernel_metadata.
-> 
-> 
-> > It also means we have two copies of "config" around which can end
-> > up
-> > being different and confuse users no end :(.
-> 
-> Yes, I must agree. What do you think if ${B}/.config would be a
-> symlink to ${S}/.config? I.e.
-> +               ln -s "${S}/.config" "${B}/.config"
-> 
+This adds a third patch that fixes the problem where APT couldn't
+resolve dependencies between when two packages of different architectures
+both depended on an allarch package.
 
-I think I'd prefer we move the file over the ${B} and then symlink from
-${S} since that way if its modified, its mostly likely to be done from
-${B} at least by the automated code?
+Matt Madison (3):
+  package_deb.bbclass, cross-canadian.bbclass: DPKG_ARCH mapping
+    function
+  package_manager.py: fixes for multilib deb packaging builds
+  package_deb.bbclass: add 'Multi-Arch: foreign' tag to allarch packages
 
-Cheers,
+ meta/classes/cross-canadian.bbclass |  2 +-
+ meta/classes/package_deb.bbclass    | 37 +++++++++++++++++++++++++++----------
+ meta/lib/oe/package_manager.py      | 17 +++++++++++------
+ 3 files changed, 39 insertions(+), 17 deletions(-)
 
-Richard
+-- 
+2.5.0
+
 
