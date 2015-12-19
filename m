@@ -1,38 +1,38 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 76413731CF
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 81E3B731AD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Dec 2015 23:52:40 +0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id n135so5578036qka.2
+	Sat, 19 Dec 2015 23:52:42 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id k189so125478560qkc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Dec 2015 15:52:42 -0800 (PST)
+	Sat, 19 Dec 2015 15:52:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=kubzl4HYNk++IOM6TmewI9+RDDL5wRGepagmlcezMJM=;
-	b=izq9rz7AS9hTn0Wgj2eSjFBrRSQxlPk49k5NUyxS6pYqASem61Awc5OuwJsbEdFGw0
-	SJ/mGAkh6uGaFL87SX5kzwve9KwH4IcDKvzBPr0E2y/euc+cZ5lbA+IV3gcAbc+pGRjc
-	CUnebR9AoDUDbbnoswBHMfNeXczlRnVXRA9A8nI5TO8R63rCPa3txAfxchXnAiAQhSE4
-	10tV5dHU4MNGRJP45QVVxAvK6Vgx4jCysGHF4J0ffJlY+UqbOyNlfCkSZeGZRWQ7ygmb
-	Hxmd5JkusKAShxOH3D9AoeV+5zVCKi2xiPAlHZM+33frTdwKHiU5FOD1hTT9+Qv0eJSE
-	QE6Q==
-X-Received: by 10.55.204.211 with SMTP id n80mr15364629qkl.36.1450569161576;
-	Sat, 19 Dec 2015 15:52:41 -0800 (PST)
+	bh=C6PLA1T5PGIMowVtTPHoTpflAPILcffuAw52+L7fxVw=;
+	b=yNXfv8vxeJXcJ2yFKHUJY3mrGIIapjb2HWK/j9MMv6GeGkFusyFSjxyk7YmxakM9i/
+	p7yXyrdcScbTKwGH3wuwUVQWP9MVbu6IH0olMjxyoaXK0KfCUpulmAAvrBnSdFD1sAo0
+	jhUGItQJFhcdJRSscv/vXePs4Fh18jVoy52HvZgm8Iij7KKm8hcleFO9vHMNs6+schsf
+	HE0eytoNuq9Nzde/yY7UEv+KIYPRoqDlQ0wDpHjNB3aFnPOJcNZNlrXUjARXwroxOu0k
+	w9sz79j3ptNNIKq3tKcbEjjvusemD2nYgpTV3ad7mU8hI36YZqrdLrCakhu3QxIdDtpp
+	TWMg==
+X-Received: by 10.55.214.82 with SMTP id t79mr15216623qki.61.1450569162859;
+	Sat, 19 Dec 2015 15:52:42 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
-	by smtp.gmail.com with ESMTPSA id c2sm9785372qkb.41.2015.12.19.15.52.40
+	by smtp.gmail.com with ESMTPSA id c2sm9785372qkb.41.2015.12.19.15.52.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 19 Dec 2015 15:52:41 -0800 (PST)
+	Sat, 19 Dec 2015 15:52:42 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 19 Dec 2015 23:52:24 +0000
-Message-Id: <a331b534820b2206c739cc1632d31b2fc2a4ebac.1450568936.git.raj.khem@gmail.com>
+Date: Sat, 19 Dec 2015 23:52:26 +0000
+Message-Id: <3024f5fd79b2e5f3fcbe03bc322317dce4ed20a6.1450568936.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.6.4
 In-Reply-To: <81170e1970685f34735007c496ce175279d46304.1450568936.git.raj.khem@gmail.com>
 References: <81170e1970685f34735007c496ce175279d46304.1450568936.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1450568936.git.raj.khem@gmail.com>
 References: <cover.1450568936.git.raj.khem@gmail.com>
-Subject: [PATCH 15/17] argp-standalone: Add recipe
+Subject: [PATCH 17/17] util-linux: Fix ptest builds on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,203 +45,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Dec 2015 23:52:41 -0000
+X-List-Received-Date: Sat, 19 Dec 2015 23:52:42 -0000
 
-This helps packages like gnutls to compile with musl
-any package that needs glibc's implementation of argp
-can link to this library
+musl doesnt implement error() API, hence provide one
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../argp-standalone/argp-standalone_1.3.bb         | 28 ++++++++
- .../files/0001-throw-in-funcdef.patch              | 84 ++++++++++++++++++++++
- .../argp-standalone/files/0002-isprint.patch       | 51 +++++++++++++
- 3 files changed, 163 insertions(+)
- create mode 100644 meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
- create mode 100644 meta/recipes-support/argp-standalone/files/0001-throw-in-funcdef.patch
- create mode 100644 meta/recipes-support/argp-standalone/files/0002-isprint.patch
+ .../util-linux/uuid-test-error-api.patch           | 92 ++++++++++++++++++++++
+ meta/recipes-core/util-linux/util-linux_2.27.1.bb  |  1 +
+ 2 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
 
-diff --git a/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb b/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
+diff --git a/meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch b/meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
 new file mode 100644
-index 0000000..a5d20d3
+index 0000000..1b0ff79
 --- /dev/null
-+++ b/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
-@@ -0,0 +1,28 @@
-+# Copyright (C) 2015 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+DESCRIPTION = "Glibc hierarchical argument parsing standalone library"
-+HOMEPAGE = "http://www.lysator.liu.se/~nisse/misc/"
-+LICENSE = "LGPL-2.1"
-+LIC_FILES_CHKSUM = "file://argp.h;beginline=1;endline=20;md5=008b7e53dea6f9e1d9fdef0d9cf3184a"
-+SECTION = "libs"
-+
-+SRC_URI = "http://www.lysator.liu.se/~nisse/misc/argp-standalone-${PV}.tar.gz \
-+           file://0001-throw-in-funcdef.patch \
-+           file://0002-isprint.patch \
-+          "
-+SRC_URI[md5sum] = "720704bac078d067111b32444e24ba69"
-+SRC_URI[sha256sum] = "dec79694da1319acd2238ce95df57f3680fea2482096e483323fddf3d818d8be"
-+
-+inherit autotools
-+
-+CFLAGS += "-fPIC -U__OPTIMIZE__"
-+
-+do_install() {
-+	install -D -m 0644 ${B}/libargp.a ${D}${libdir}/libargp.a
-+	install -D -m 0644 ${S}/argp.h ${D}${includedir}/argp.h
-+}
-+#
-+# We will skip parsing for non-musl systems
-+#
-+COMPATIBLE_HOST = ".*-musl.*"
-diff --git a/meta/recipes-support/argp-standalone/files/0001-throw-in-funcdef.patch b/meta/recipes-support/argp-standalone/files/0001-throw-in-funcdef.patch
-new file mode 100644
-index 0000000..a6e2759
---- /dev/null
-+++ b/meta/recipes-support/argp-standalone/files/0001-throw-in-funcdef.patch
-@@ -0,0 +1,84 @@
-+# --- T2-COPYRIGHT-NOTE-BEGIN ---
-+# This copyright note is auto-generated by ./scripts/Create-CopyPatch.
-+# 
-+# T2 SDE: package/.../rng-tools/throw-in-funcdef.patch.argp-standalone
-+# Copyright (C) 2006 The T2 SDE Project
-+# 
-+# More information can be found in the files COPYING and README.
-+# 
-+# This patch file is dual-licensed. It is available under the license the
-+# patched project is licensed under, as long as it is an OpenSource license
-+# as defined at http://www.opensource.org/ (e.g. BSD, X11) or under the terms
-+# of the GNU General Public License as published by the Free Software
-+# Foundation; either version 2 of the License, or (at your option) any later
-+# version.
-+# --- T2-COPYRIGHT-NOTE-END ---
-+
-+
-+No __THROW in function implementation.
-+	--jsaw
-+
-+Taken from buildroot
++++ b/meta/recipes-core/util-linux/util-linux/uuid-test-error-api.patch
+@@ -0,0 +1,92 @@
++This patch adds error() API implementation for non-glibc system C libs
 +
 +Upstream-Status: Pending
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+--- argp-standalone-1.4-test2/argp.h.orig	2006-01-06 02:29:59.000000000 +0100
-++++ argp-standalone-1.4-test2/argp.h	2006-01-06 02:41:10.000000000 +0100
-+@@ -560,17 +560,17 @@
-+ # endif
-+ 
-+ # ifndef ARGP_EI
-+-#  define ARGP_EI extern __inline__
-++#  define ARGP_EI extern inline
-+ # endif
-+ 
-+ ARGP_EI void
-+-__argp_usage (__const struct argp_state *__state) __THROW
-++__argp_usage (__const struct argp_state *__state)
-+ {
-+   __argp_state_help (__state, stderr, ARGP_HELP_STD_USAGE);
-+ }
-+ 
-+ ARGP_EI int
-+-__option_is_short (__const struct argp_option *__opt) __THROW
-++__option_is_short (__const struct argp_option *__opt)
-+ {
-+   if (__opt->flags & OPTION_DOC)
-+     return 0;
-+@@ -582,7 +582,7 @@
-+ }
-+ 
-+ ARGP_EI int
-+-__option_is_end (__const struct argp_option *__opt) __THROW
-++__option_is_end (__const struct argp_option *__opt)
-+ {
-+   return !__opt->key && !__opt->name && !__opt->doc && !__opt->group;
-+ }
-+--- argp-standalone-1.4-test2/argp-parse.c.orig	2006-01-06 02:47:48.000000000 +0100
-++++ argp-standalone-1.4-test2/argp-parse.c	2006-01-06 02:48:16.000000000 +0100
-+@@ -1290,13 +1290,13 @@
-+ /* Defined here, in case a user is not inlining the definitions in
-+  * argp.h */
-+ void
-+-__argp_usage (__const struct argp_state *__state) __THROW
-++__argp_usage (__const struct argp_state *__state)
-+ {
-+   __argp_state_help (__state, stderr, ARGP_HELP_STD_USAGE);
-+ }
-+ 
-+ int
-+-__option_is_short (__const struct argp_option *__opt) __THROW
-++__option_is_short (__const struct argp_option *__opt) 
-+ {
-+   if (__opt->flags & OPTION_DOC)
-+     return 0;
-+@@ -1310,7 +1310,7 @@
-+ }
-+ 
-+ int
-+-__option_is_end (__const struct argp_option *__opt) __THROW
-++__option_is_end (__const struct argp_option *__opt) 
-+ {
-+   return !__opt->key && !__opt->name && !__opt->doc && !__opt->group;
-+ }
-diff --git a/meta/recipes-support/argp-standalone/files/0002-isprint.patch b/meta/recipes-support/argp-standalone/files/0002-isprint.patch
-new file mode 100644
-index 0000000..1c07eea
---- /dev/null
-+++ b/meta/recipes-support/argp-standalone/files/0002-isprint.patch
-@@ -0,0 +1,51 @@
-+Subject: restrict value range passed to isprint function
-+
-+According to C standards isprint argument shall be representable as an
-+unsigned char or be equal to EOF, otherwise the behaviour is undefined.
-+
-+Passing arbitrary ints leads to segfault in nm program from elfutils.
-+
-+Restrict isprint argument range to values representable by unsigned char.
-+
-+Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
-+
-+Taken from buildroot
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+---
-+Index: b/argp.h
++Index: util-linux-2.27.1/tests/helpers/test_uuidd.c
 +===================================================================
-+--- a/argp.h
-++++ b/argp.h
-+@@ -23,6 +23,7 @@
-+ 
++--- util-linux-2.27.1.orig/tests/helpers/test_uuidd.c
+++++ util-linux-2.27.1/tests/helpers/test_uuidd.c
++@@ -23,7 +23,6 @@
++  *
++  *	make uuidd uuidgen localstatedir=/var
++  */
++-#include <error.h>
++ #include <libgen.h>
++ #include <pthread.h>
 + #include <stdio.h>
-+ #include <ctype.h>
-++#include <limits.h>
++@@ -39,6 +38,17 @@
++ #include "xalloc.h"
++ #include "strutils.h"
 + 
-+ #define __need_error_t
-+ #include <errno.h>
-+@@ -577,7 +578,7 @@
-+   else
-+     {
-+       int __key = __opt->key;
-+-      return __key > 0 && isprint (__key);
-++      return __key > 0 && __key <= UCHAR_MAX && isprint (__key);
-+     }
+++#ifdef __GLIBC__
+++#include <error.h>
+++#else
+++extern void (*error_print_progname)(void);
+++extern unsigned int error_message_count;
+++extern int error_one_per_line;
+++
+++void error(int, int, const char *, ...);
+++void error_at_line(int, int, const char *, unsigned int, const char *, ...);
+++#endif
+++
++ #define LOG(level,args) if (loglev >= level) { fprintf args; }
++ 
++ size_t nprocesses = 4;
++@@ -257,6 +267,56 @@ static void object_dump(size_t idx, obje
++ 	fprintf(stderr, "}\n");
 + }
 + 
-+Index: b/argp-parse.c
-+===================================================================
-+--- a/argp-parse.c
-++++ b/argp-parse.c
-+@@ -1292,7 +1292,7 @@
-+       int __key = __opt->key;
-+       /* FIXME: whether or not a particular key implies a short option
-+        * ought not to be locale dependent. */
-+-      return __key > 0 && isprint (__key);
-++      return __key > 0 && __key <= UCHAR_MAX && isprint (__key);
-+     }
-+ }
-+ 
+++#ifndef __GLIBC__
+++extern char *__progname;
+++
+++void (*error_print_progname)(void) = 0;
+++unsigned int error_message_count = 0;
+++int error_one_per_line = 0;
+++
+++static void eprint(int status, int e, const char *file, unsigned int line, const char *fmt, va_list ap)
+++{
+++	if (file && error_one_per_line) {
+++		static const char *oldfile;
+++		static unsigned int oldline;
+++		if (line == oldline && strcmp(file, oldfile) == 0)
+++			return;
+++		oldfile = file;
+++		oldline = line;
+++	}
+++	if (error_print_progname)
+++		error_print_progname();
+++	else
+++		fprintf(stderr, "%s: ", __progname);
+++	if (file)
+++		fprintf(stderr, "%s:%u: ", file, line);
+++	vfprintf(stderr, fmt, ap);
+++	if (e)
+++		fprintf(stderr, ": %s", strerror(e));
+++	putc('\n', stderr);
+++	fflush(stderr);
+++	error_message_count++;
+++	if (status)
+++		exit(status);
+++}
+++
+++void error(int status, int e, const char *fmt, ...)
+++{
+++	va_list ap;
+++	va_start(ap,fmt);
+++	eprint(status, e, 0, 0, fmt, ap);
+++	va_end(ap);
+++}
+++
+++void error_at_line(int status, int e, const char *file, unsigned int line, const char *fmt, ...)
+++{
+++	va_list ap;
+++	va_start(ap,fmt);
+++	eprint(status, e, file, line, fmt, ap);
+++	va_end(ap);
+++}
+++#endif /* __GLIBC__ */
+++
++ int main(int argc, char *argv[])
++ {
++ 	size_t i, nfailed = 0, nignored = 0;
+diff --git a/meta/recipes-core/util-linux/util-linux_2.27.1.bb b/meta/recipes-core/util-linux/util-linux_2.27.1.bb
+index 14a77ca..7549158 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.27.1.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.27.1.bb
+@@ -19,6 +19,7 @@ SRC_URI += "file://util-linux-ng-2.16-mount_lock_path.patch \
+             file://avoid_unsupported_grep_opts.patch \
+             file://display_testname_for_subtest.patch \
+             file://avoid_parallel_tests.patch \
++            file://uuid-test-error-api.patch \
+ "
+ SRC_URI[md5sum] = "3cd2698d1363a2c64091c2dadc974647"
+ SRC_URI[sha256sum] = "0a818fcdede99aec43ffe6ca5b5388bff80d162f2f7bd4541dca94fecb87a290"
 -- 
 2.6.4
 
