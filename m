@@ -1,38 +1,62 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-vk0-f50.google.com (mail-vk0-f50.google.com
-	[209.85.213.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BE0D73171
+Return-Path: <Tom.Hochstein@freescale.com>
+Received: from na01-bl2-obe.outbound.protection.outlook.com
+	(mail-bl2on0137.outbound.protection.outlook.com [65.55.169.137])
+	by mail.openembedded.org (Postfix) with ESMTP id A609F7316E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Dec 2015 17:48:35 +0000 (UTC)
-Received: by mail-vk0-f50.google.com with SMTP id f2so43159600vkb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Dec 2015 09:48:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=bv8jBxQDw9xMpFS73ZCtPDDGYDnCaZJyGSHtiPpGwc0=;
-	b=nisrKATR17/Q6bXuAm8faqed7Ea8x1RUCS2wdtNabBlloD085CEl3+CAcbXXI6eM06
-	Uvxa6UUEF8pCO6Tu/BjXuCNMaUmB7IiVUC9gV410Y5SVCpJOMf2+s0lvUeeitMCEC/sF
-	WJ8/7GfQAGDT7yEBgzYt7kioctXpGVC0uc1PT4nOFZq2Ms1HL7bnZgrEbdDgiLRcqLsY
-	05gA1gIYHW/Ofk1jm9VwJdcBFRuklJe2cvdpyGORwIwKQ+hgyuA9K+wkc+bCYMJxPsCA
-	NPxDrp1hAb+nLykf1tLzbhTLisz3bpfDBXfflG1cFRRqtOvG1VBnRv2Ouhkv7nv5Veb9
-	a0Og==
-MIME-Version: 1.0
-X-Received: by 10.31.10.199 with SMTP id 190mr6616112vkk.51.1450547316242;
-	Sat, 19 Dec 2015 09:48:36 -0800 (PST)
-Received: by 10.31.202.196 with HTTP; Sat, 19 Dec 2015 09:48:36 -0800 (PST)
-In-Reply-To: <CADkTA4OLTmiDHTwHec+Pnyhs_p-kLZp=yD2k4GOpc-LB-7sEUA@mail.gmail.com>
-References: <cover.1450471022.git.bruce.ashfield@windriver.com>
-	<0aa694bda5500aef7d326fa880c77b726c8c2779.1450471022.git.bruce.ashfield@windriver.com>
-	<CAP9ODKqJyZq29L7=mFzCVo2=oAX3O8WtyiJ498inW5d2fJrBBQ@mail.gmail.com>
-	<CADkTA4OLTmiDHTwHec+Pnyhs_p-kLZp=yD2k4GOpc-LB-7sEUA@mail.gmail.com>
-Date: Sat, 19 Dec 2015 12:48:36 -0500
-Message-ID: <CADkTA4PpkeA29W6EugnEd5WecRY2bJybF6Ajm9O25soAwTFfKQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+	Sat, 19 Dec 2015 18:08:03 +0000 (UTC)
+Received: from BLUPR03MB1411.namprd03.prod.outlook.com (10.163.81.145) by
+	DM2PR0301MB0734.namprd03.prod.outlook.com (10.160.97.142) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.337.19; Sat, 19 Dec 2015 18:08:03 +0000
+Received: from BLUPR03MB1411.namprd03.prod.outlook.com ([10.163.81.145]) by
+	BLUPR03MB1411.namprd03.prod.outlook.com ([10.163.81.145]) with mapi id
+	15.01.0361.006; Sat, 19 Dec 2015 18:08:02 +0000
+From: Tom Hochstein <Tom.Hochstein@freescale.com>
 To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
+Thread-Topic: [OE-core] [<OE-core][PATCH v2 1/4] weston-init: Handle Weston
+	startup correctly.
+Thread-Index: AQHRORb6Cxp3mSQlXUGgmN1EFcOkd57Q9h8AgABZUHCAAMW/gIAAa/ig
+Date: Sat, 19 Dec 2015 18:08:01 +0000
+Message-ID: <BLUPR03MB1411453A7700F557F173C5ABE8E20@BLUPR03MB1411.namprd03.prod.outlook.com>
+References: <1450389888-24760-1-git-send-email-tom.hochstein@freescale.com>
+	<CAP9ODKryNw_GeZ7_87+geio0H54_GMuJ0fFkXvHfFVezqGGbEg@mail.gmail.com>
+	<BLUPR03MB1411A316AD75000948872FC9E8E10@BLUPR03MB1411.namprd03.prod.outlook.com>
+	<CAP9ODKpDTaDRndcdMYygHqO60fh5NU9uxyw-193rm=mtFdLyrw@mail.gmail.com>
+In-Reply-To: <CAP9ODKpDTaDRndcdMYygHqO60fh5NU9uxyw-193rm=mtFdLyrw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=Tom.Hochstein@freescale.com; 
+x-originating-ip: [192.88.168.50]
+x-microsoft-exchange-diagnostics: 1; DM2PR0301MB0734;
+	5:fmVDkjCGD+iJS4w5dgMsK8IcdIbNi6Msv4WegmJsyHNZeDUICgyGVOQWiRPEdVY/kjcKb+HGrQaHwk2DqSNMG11K7mCYvo1DNPeO/spv/YhIZWYZ5+03pKn6NKAtvQQhLXH8nxLMoWKO2jIHdk2xwA==;
+	24:yoJUS3AIWwQCxtcSrRDfLMOQGIAXGiyNTBLEc1v7OqtTge98JODDfmvVfRH+0IKR5L1to9CLXbtUeWQcOLil5tJnWmuibERSXttS1x9fCmA=
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DM2PR0301MB0734;
+x-microsoft-antispam-prvs: <DM2PR0301MB0734E966CF4876788E7E9F3CE8E20@DM2PR0301MB0734.namprd03.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(101931422205132);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(2401047)(520078)(5005006)(8121501046)(3002001)(10201501046);
+	SRVR:DM2PR0301MB0734; BCL:0; PCL:0; RULEID:;
+	SRVR:DM2PR0301MB0734; 
+x-forefront-prvs: 07954CC105
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(979002)(6009001)(377454003)(13464003)(199003)(24454002)(189002)(106116001)(561944003)(1220700001)(66066001)(92566002)(19580405001)(99286002)(19580395003)(106356001)(101416001)(33656002)(77096005)(5004730100002)(87936001)(54356999)(122556002)(40100003)(105586002)(5002640100001)(15975445007)(1096002)(76176999)(5003600100002)(50986999)(93886004)(110136002)(5008740100001)(5001960100002)(74316001)(2950100001)(586003)(86362001)(16601075003)(76576001)(189998001)(102836003)(10400500002)(2900100001)(81156007)(97736004)(3846002)(6116002)(969003)(989001)(999001)(1009001)(1019001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0301MB0734;
+	H:BLUPR03MB1411.namprd03.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
+received-spf: None (protection.outlook.com: freescale.com does not designate
+	permitted sender hosts)
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Dec 2015 18:08:01.9654 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0301MB0734
+Cc: Sundararaj Prabhu <Prabhu.Sundararaj@freescale.com>, Patches and
+	discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] lttng-modules: fix build issue against kernel 4.4
+Subject: Re: [<OE-core][PATCH v2 1/4] weston-init: Handle Weston startup correctly.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,146 +69,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Dec 2015 17:48:38 -0000
-Content-Type: multipart/alternative; boundary=001a1144017683bfb2052743dd50
+X-List-Received-Date: Sat, 19 Dec 2015 18:08:06 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---001a1144017683bfb2052743dd50
-Content-Type: text/plain; charset=UTF-8
+SGkgT3RhdmlvLA0KDQpDYW4geW91IGJlIG1vcmUgZXhwbGljaXQgYWJvdXQgd2hhdCB5b3UgbWVh
+biBieSB3ZXN0b24tbGF1bmNoIHdyYXBwZXI/IERvIHlvdSB3YW50IHRvIGhpZGUgdGhlIGN1cnJl
+bnQgd2VzdG9uLWxhdW5jaCBiaW5hcnkgYW5kIHJlcGxhY2UgaXQgYnkgYSBuZXcgd2VzdG9uLWxh
+dW5jaCB3cmFwcGVyPyBXaGF0IGhhcHBlbnMgdG8gbXkgcHJvcG9zZWQgd2VzdG9uLXN0YXJ0LCB3
+aGljaCBpcyBpdHNlbGYgYSB3cmFwcGVyPyBEb2VzIGl0cyBmdW5jdGlvbmFsaXR5IG1vdmUgaW50
+byB3ZXN0b24tbGF1bmNoPw0KICAgICAgIA0KQ2FuIHlvdSBoZWxwIG1lIHVuZGVyc3RhbmQgdGhl
+IHJhdGlvbmFsZSBmb3IgdGhlIGV4dHJhIFhXYXlsYW5kIHNjcmlwdD8gVGhlIGV4aXN0aW5nIHdl
+c3RvbiByZWNpcGUgaW5zdGFsbHMgeHdheWxhbmQuc28gd2hlbiB0aGUgWFdheWxhbmQgcGFja2Fn
+ZSBpcyBzcGVjaWZpZWQuIEluIHlvdXIgcHJvcG9zYWwsIHRoZSB3ZXN0b24gcmVjaXBlIHdvdWxk
+IGFsc28gaW5zdGFsbCB0aGUgZXh0cmEgc2NyaXB0IHdoZW4gdGhlIFhXYXlsYW5kIHBhY2thZ2Ug
+aXMgc3BlY2lmaWVkLiBTaW5jZSB0aGUgc2FtZSBYV2F5bGFuZCBwYWNrYWdlIG1lY2hhbmlzbSBp
+cyB1c2VkIGluIGJvdGggY2FzZXMsIHRoZSBiZW5lZml0IG9mIHRoZSBleHRyYSBzY3JpcHQgaXNu
+J3QgY2xlYXIgdG8gbWUuDQoJDQpUb20NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZy
+b206IE90YXZpbyBTYWx2YWRvciBbbWFpbHRvOm90YXZpby5zYWx2YWRvckBvc3N5c3RlbXMuY29t
+LmJyXSANClNlbnQ6IFNhdHVyZGF5LCBEZWNlbWJlciAxOSwgMjAxNSAzOjU4IEFNDQpUbzogSG9j
+aHN0ZWluIFRvbS1SNjA4NzQgPFRvbS5Ib2Noc3RlaW5AZnJlZXNjYWxlLmNvbT4NCkNjOiBTdW5k
+YXJhcmFqIFByYWJodS1CMzY4NzYgPFByYWJodS5TdW5kYXJhcmFqQGZyZWVzY2FsZS5jb20+OyBQ
+YXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVk
+ZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0g
+WzxPRS1jb3JlXVtQQVRDSCB2MiAxLzRdIHdlc3Rvbi1pbml0OiBIYW5kbGUgV2VzdG9uIHN0YXJ0
+dXAgY29ycmVjdGx5Lg0KDQpPbiBGcmksIERlYyAxOCwgMjAxNSBhdCA4OjM2IFBNLCBUb20gSG9j
+aHN0ZWluIDxUb20uSG9jaHN0ZWluQGZyZWVzY2FsZS5jb20+IHdyb3RlOg0KPiBIaSBPdGF2aW8s
+DQo+DQo+IERvZXMgdGhlIGV4aXN0ZW5jZSBvZiAvdXNyL2xpYi93ZXN0b24veHdheWxhbmQuc28g
+Z2l2ZSB1cyB3aGF0IHdlIHdhbnQ/DQo+DQo+ICAgICAgICAgaWYgWyAtZiAvdXNyL2xpYi93ZXN0
+b24veHdheWxhbmQuc28gXTsgdGhlbg0KPiAgICAgICAgICAgICBta2RpciAtcCAvdG1wLy5YMTEt
+dW5peA0KPiAgICAgICAgICAgICBPUFRBUkdTPSItLW1vZHVsZXM9eHdheWxhbmQuc28gJE9QVEFS
+R1MiDQo+ICAgICAgICAgZmkNCj4gICAgICAgICBvcGVudnQgJE9QRU5WVF9BUkdTIC0tIHNoIC1j
+ICJ3ZXN0b24tbGF1bmNoIC0tICRPUFRBUkdTID4gL3Zhci9sb2cvd2VzdG9uLmxvZyAyPiYxIg0K
+DQpOby4NCg0KSSB0aGluayBJIGNhbWUgdXAgd2l0aCBhIHBsYW46DQoNCiAtIG1ha2Ugd2VzdG9u
+LWxhdW5jaCB0byBiZSBhIHdyYXBwZXINCiAtIG1ha2UgaXQgc291cmNlICR7ZGF0YWRpcn0vd2Vz
+dG9uL3dlc3Rvbi1sYXVuY2guZC88c2NyaXB0cz4NCiAtICBYV2F5bGFuZCBwYWNrYWdlLCB5b3Ug
+aW5zdGFsbCBhICR7ZGF0YWRpcn0vd2VzdG9uL3dlc3Rvbi1sYXVuY2guZC9YV2F5bGFuZA0KDQpY
+V2F5bGFuZCBmaWxlOg0KDQpta2RpciAtcCAvdG1wLy5YMTEtdW5peA0KT1BUQVJHUz0iLS1tb2R1
+bGVzPXh3YXlsYW5kLnNvICRPUFRBUkdTIg0KDQpEb25lLiBJdCBiZWNhbWUgYSBnZW5lcmljIG9u
+ZSA7LSkNCg0KLS0gDQpPdGF2aW8gU2FsdmFkb3IgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IE8uUy4gU3lzdGVtcw0KaHR0cDovL3d3dy5vc3N5c3RlbXMuY29tLmJyICAgICAgICBodHRwOi8v
+Y29kZS5vc3N5c3RlbXMuY29tLmJyDQpNb2JpbGU6ICs1NSAoNTMpIDk5ODEtNzg1NCAgICAgICAg
+ICAgIE1vYmlsZTogKzEgKDM0NykgOTAzLTk3NTANCg==
 
-On Sat, Dec 19, 2015 at 12:44 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
-wrote:
-
->
->
-> On Sat, Dec 19, 2015 at 5:05 AM, Otavio Salvador <
-> otavio.salvador@ossystems.com.br> wrote:
->
->> On Fri, Dec 18, 2015 at 6:44 PM, Bruce Ashfield
->> <bruce.ashfield@windriver.com> wrote:
->> > f4b27072
->>
->>
->> Use this revision on commit log; latest is not accurate as it moves
->> during time.
->>
->>
-> We'll disagree on that. The patch has the commit hash, repeating it in the
-> commit message is not necessary. It's like patches saying "this patch", or
-> explaining what is obvious from the patch. Both are not necessary.
->
-> If Ross wants to change the commit during merge, I won't complain, but
-> I'm happy with it, as is.
->
-
-That and I'm now far away from my development machines until mid next week,
-so
-I can't easily rebase to change the log until then .. and this would be
-better under
-test, since without it, I can't bump to 4.4-rcX.
-
-(and yes, I can at least use a date versus "latest" in any future updates).
-
-Cheers,
-
-Bruce
-
-
->
-> Bruce
->
->
->> --
->> Otavio Salvador                             O.S. Systems
->> http://www.ossystems.com.br        http://code.ossystems.com.br
->> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
-> at its end"
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---001a1144017683bfb2052743dd50
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Sat, Dec 19, 2015 at 12:44 PM, Bruce Ashfield <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfiel=
-d@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div di=
-r=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"><sp=
-an class=3D"">On Sat, Dec 19, 2015 at 5:05 AM, Otavio Salvador <span dir=3D=
-"ltr">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_bl=
-ank">otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">On Fri, Dec 18, 2015 at 6:44 PM, Bruce Ashfield<br>
-&lt;<a href=3D"mailto:bruce.ashfield@windriver.com" target=3D"_blank">bruce=
-.ashfield@windriver.com</a>&gt; wrote:<br>
-&gt; f4b27072<br>
-<br>
-<br>
-Use this revision on commit log; latest is not accurate as it moves during =
-time.<br>
-<span><font color=3D"#888888"><br></font></span></blockquote><div><br></div=
-></span><div>We&#39;ll disagree on that. The patch has the commit hash, rep=
-eating it in the</div><div>commit message is not necessary. It&#39;s like p=
-atches saying &quot;this patch&quot;, or</div><div>explaining what is obvio=
-us from the patch. Both are not necessary.</div><div><br></div><div>If Ross=
- wants to change the commit during merge, I won&#39;t complain, but</div><d=
-iv>I&#39;m happy with it, as is.</div></div></div></div></blockquote><div><=
-br></div><div>That and I&#39;m now far away from my development machines un=
-til mid next week, so=C2=A0</div><div>I can&#39;t easily rebase to change t=
-he log until then .. and this would be better under</div><div>test, since w=
-ithout it, I can&#39;t bump to 4.4-rcX.</div><div><br></div><div>(and yes, =
-I can at least use a date versus &quot;latest&quot; in any future updates).=
-</div><div><br></div><div>Cheers,</div><div><br></div><div>Bruce</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"g=
-mail_extra"><div class=3D"gmail_quote"><div><br></div><div>Bruce</div><span=
- class=3D""><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span><font col=
-or=3D"#888888">
---<br>
-Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
-">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
-p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
-.ossystems.com.br</a><br>
-Mobile: <a href=3D"tel:%2B55%20%2853%29%209981-7854" value=3D"+555399817854=
-" target=3D"_blank">+55 (53) 9981-7854</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 Mobile: <a href=3D"tel:%2B1%20%28347%29%20903-9750" value=3D"+13=
-479039750" target=3D"_blank">+1 (347) 903-9750</a><br>
-</font></span><div><div>--<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</div></div></blockquote></span></div><span class=3D"HOEnZb"><font color=3D=
-"#888888"><br><br clear=3D"all"><div><br></div>-- <br><div>&quot;Thou shalt=
- not follow the NULL pointer, for chaos and madness await thee at its end&q=
-uot;</div>
-</font></span></div></div>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
-=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer, for chao=
-s and madness await thee at its end&quot;</div>
-</div></div>
-
---001a1144017683bfb2052743dd50--
