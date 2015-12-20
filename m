@@ -1,38 +1,30 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 582B36FF7F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 34B9E7316A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Dec 2015 00:30:23 +0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id t125so125419117qkh.3
+	Sun, 20 Dec 2015 13:20:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tBKDKcFu025167 for <openembedded-core@lists.openembedded.org>;
+	Sun, 20 Dec 2015 13:20:38 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id PnM63WI_7uWo
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Dec 2015 16:30:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-type:content-transfer-encoding;
-	bh=pH/PgILJYDUG7yiOl8sMXYhNylpMpctG+XdVpN3SLVE=;
-	b=yTFMRr4V8nEdx+ZtR6ba0G3GngYOpkArWPeGu3AG5+QVJvpcG92sh9Z/GDHQoivw8w
-	2/m6zyq+iCS/n6tmM3X1q1ytHFqIJ3tFNC0CO5mj/NrZrZ3UzVB9Eq/OcYVrEdA4Sayv
-	vykzBFlP/dVU/qqtbcP4UvEigWS+SO1vKMqbltxD1ugJnlvTLYPex/AXJz1yJzPEP5YP
-	lvXH6a3cvinoxX5ZA2Py8RiidBcHHd+SgmNZNbt4KxE+dSuVOzdHZDLC85K1DOryEXrs
-	DDyj+is9mtwabeugsoSaMkbxi6INAW42K21A/5fl64gJxFzCLhiThHllGUm0pXE0+Hrs
-	Wm1A==
-X-Received: by 10.55.79.195 with SMTP id d186mr15347172qkb.62.1450571424677;
-	Sat, 19 Dec 2015 16:30:24 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	e90sm3373316qkj.2.2015.12.19.16.30.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 19 Dec 2015 16:30:24 -0800 (PST)
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <5675F69B.2050604@gmail.com>
-Date: Sat, 19 Dec 2015 19:30:19 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
-MIME-Version: 1.0
-Subject: qemuarm update
+	Sun, 20 Dec 2015 13:20:38 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	tBKDKKhn025117
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 20 Dec 2015 13:20:37 GMT
+Message-ID: <1450617620.8461.90.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 20 Dec 2015 13:20:20 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] bitbake.conf: Add filename and lineno to BB_SIGNATURE_EXCLUDE_FLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,10 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Dec 2015 00:30:24 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Sun, 20 Dec 2015 13:20:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Would it make sense, would it be possible, for the qemuarm machine to
-emulate ARMv7a instead of ARMv5?
+This is mainly a performance optimisation. Since we added these flags
+to functions, the system spends a lot of time trying to expand these
+flags. The values don't really influence checksums and don't need to
+be included since if the function content changes, that is will be
+detected regardless and is the key detail we care about.
+
+Therefore exclude these from the checksums and gain a signficiant
+chunk of parsing speed back.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index cec4110..371af31 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -801,7 +801,7 @@ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
+     lockfiles type vardepsexclude vardeps vardepvalue vardepvalueexclude \
+     file-checksums python func task export unexport noexec nostamp dirs cleandirs \
+     sstate-lockfile-shared prefuncs postfuncs export_func deptask rdeptask \
+-    recrdeptask nodeprrecs stamp-base stamp-extra-info sstate-outputdirs"
++    recrdeptask nodeprrecs stamp-base stamp-extra-info sstate-outputdirs filename lineno"
+ 
+ MLPREFIX ??= ""
+ MULTILIB_VARIANTS ??= ""
+
+
 
