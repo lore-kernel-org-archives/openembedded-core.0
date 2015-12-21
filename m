@@ -1,34 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id BDF326FFCC
+Return-Path: <roylee17@currantlabs.com>
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
+	[209.85.220.54])
+	by mail.openembedded.org (Postfix) with ESMTP id ADAD2605BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Dec 2015 01:42:08 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id 74so27029101qgh.1
+	Mon, 21 Dec 2015 05:38:23 +0000 (UTC)
+Received: by mail-pa0-f54.google.com with SMTP id cy9so11669561pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Dec 2015 17:42:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Sun, 20 Dec 2015 21:38:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=currantlabs-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=Yf5yBK1MZszgHuc9aX1P9JbMa9fWFucEdKTcbdEXQBA=;
-	b=fzK5erxUMXANtw7+QS9ltF1FdkfzqxWykPXfxlYR+A0m9tY/Arlh5FSzjYhYHniRR6
-	w8n7fuSNErYcvoQiI551EeeeAORF2CO2ZTR8igw74J1t47ilWECOsYrQedy2nBD6pnEm
-	u72WZOJyc/gFbE+fgKhq2UcC73dmfpSUf+VDDpstTy9JojLpcbgkAWTu6E/K98HFU5Y1
-	ei3RicDXvZhAaklCPQWNwJRm527PWVtBhZ7j9w270pn4nIY5lY9JFKaeSxUA+Z7gB1+n
-	FGsrEt36iln44dJxfYA38/9Zb41LA+fVW652DOm1doScTaUXAPYbeK3GxsXU5907iZp/
-	DeJA==
-X-Received: by 10.140.109.100 with SMTP id k91mr21682380qgf.23.1450662129043; 
-	Sun, 20 Dec 2015 17:42:09 -0800 (PST)
-Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
-	by smtp.gmail.com with ESMTPSA id
-	c3sm11739925qge.12.2015.12.20.17.42.08
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 20 Dec 2015 17:42:08 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	bh=/hSrlGt9w7nZt3kpF1pZGxKxFMo84kQ8TunfFxvVdcM=;
+	b=PqM4/ACX0NFCWPst2voscPqkQ2/gL/yXUyCrpXAvbT29rG+kG3WK/+0mnftUTnrcr5
+	eWmF4Js++yhSrcxEkw0nRSnMFfM3Zr9QcDCodJkJFJepbB7H+cgOprHpaSf7FnJbIuGn
+	5+HSuM+0O/9BcgrDKHOufxSRWpWv5A7vHYTvE4/oMO3RATPFZPfH2AsqYXAeCzLajzUU
+	7kyxGixXaOA6jfwwmXgsm9kTsiZW6Xmmcg4FKzyVpnaLADtU1HL3ju9xU7nYGwv1jJek
+	Ew8jRFNVAphZVnqnQj1ygvRk/eCvcgTWz9B395ohC8SQNzv1wtknO6+96jXpr1cAkifc
+	lQbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=/hSrlGt9w7nZt3kpF1pZGxKxFMo84kQ8TunfFxvVdcM=;
+	b=cYvlmy/w9HN0qo54C4DlKaSFi38+i4ij/jYuXSAzLMBhfrPpaeQt/Ei+L6D9SrmWYQ
+	y+oZ4aDbt2pZvTxoJnHN8ePlg5DRfYNELW6bW64wPLUJj0WnC5n0r5PaNpZ37n9T0s1i
+	rq1gQLXyklt15SNEZCZtsICvRi0E+9Rr6Nav2wADBNYrptbSvVx0PRU7i+yk16hzilOs
+	1kDOhcHtrcIipwUz6gQerafuj6+X6zYBVxPVWoCZkIxStAV8+I/PmIejdxHbT3eYBE3E
+	fqiP6IVG6afsdrV2PQxX8mJOwmmJUjDpeB46gxzjZtA0DdAtd9U5DmErMf2ph7iYqhvB
+	ZUtA==
+X-Gm-Message-State: ALoCoQnqpbu3bY3GVcMaUBcz8E9HuqV/OCe9slKmgnLdiySy7jTfxA1CvFfrO2/RxY+VlWtzYzcXx0FwKyMzDfadKd/EbyDCrw==
+X-Received: by 10.66.237.102 with SMTP id vb6mr24393986pac.133.1450676303784; 
+	Sun, 20 Dec 2015 21:38:23 -0800 (PST)
+Received: from Tzu-Jungs-iMac.local.net (c-67-169-68-81.hsd1.ca.comcast.net.
+	[67.169.68.81]) by smtp.gmail.com with ESMTPSA id
+	n64sm31601030pfi.19.2015.12.20.21.38.22
+	(version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 20 Dec 2015 21:38:23 -0800 (PST)
+From: Tzu-Jung Lee <roylee17@currantlabs.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Dec 2015 01:42:02 +0000
-Message-Id: <1450662122-121762-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [master/jethro][PATCH] libxcb: Add a workaround for gcc5 bug on mips
+Date: Sun, 20 Dec 2015 21:38:18 -0800
+Message-Id: <1450676298-15503-1-git-send-email-roylee17@currantlabs.com>
+X-Mailer: git-send-email 2.6.3
+Subject: [PATCH] linux-firmware: package Broadcom BCM43340 firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,61 +53,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Dec 2015 01:42:10 -0000
+X-List-Received-Date: Mon, 21 Dec 2015 05:38:25 -0000
 
-This fixes build failure for libxcb on mips
+Signed-off-by: Tzu-Jung Lee <roylee17@currantlabs.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../libxcb/gcc-mips-pr68302-mips-workaround.patch  | 22 ++++++++++++++++++++++
- meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb    |  4 +++-
- 2 files changed, 25 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxcb/gcc-mips-pr68302-mips-workaround.patch
-
-diff --git a/meta/recipes-graphics/xorg-lib/libxcb/gcc-mips-pr68302-mips-workaround.patch b/meta/recipes-graphics/xorg-lib/libxcb/gcc-mips-pr68302-mips-workaround.patch
-new file mode 100644
-index 0000000..698d038
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxcb/gcc-mips-pr68302-mips-workaround.patch
-@@ -0,0 +1,22 @@
-+Reduce debug info for xcb.c since on mips we run into a gcc5 bug
-+
-+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=68302
-+
-+This patch is a workaround to get past the gcc bug until its resolved.
-+it should have minimal impact on libxcb while make it work.
-+
-+Upstream-Status: Inappropriate [OE-Specific]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: libxcb-1.11.1/src/Makefile.am
-+===================================================================
-+--- libxcb-1.11.1.orig/src/Makefile.am
-++++ libxcb-1.11.1/src/Makefile.am
-+@@ -188,6 +188,7 @@ EXTSOURCES += xkb.c
-+ if BUILD_XKB
-+ lib_LTLIBRARIES += libxcb-xkb.la
-+ libxcb_xkb_la_LDFLAGS = -version-info 1:0:0 -no-undefined
-++CFLAGS += -g1
-+ libxcb_xkb_la_LIBADD = $(XCB_LIBS)
-+ nodist_libxcb_xkb_la_SOURCES = xkb.c xkb.h
-+ endif
-diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb
-index 1f4852d..6b944c9 100644
---- a/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb
-@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 76ad522..0ed3970 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -174,7 +174,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-ti-connectivity-license ${PN}-wl12xx ${PN}-wl18xx \
+              ${PN}-vt6656-license ${PN}-vt6656 \
+              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
+-             ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 ${PN}-bcm4339 ${PN}-bcm4354 \
++             ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 ${PN}-bcm43340 ${PN}-bcm4339 ${PN}-bcm4354 \
+              ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k \
+              ${PN}-ar3k-license  ${PN}-ar3k  ${PN}-ath10k-license  ${PN}-ath10k  \
+              \
+@@ -330,6 +330,7 @@ RDEPENDS_${PN}-vt6656 = "${PN}-vt6656-license"
+ LICENSE_${PN}-bcm4329 = "Firmware-broadcom_bcm43xx"
+ LICENSE_${PN}-bcm4330 = "Firmware-broadcom_bcm43xx"
+ LICENSE_${PN}-bcm4334 = "Firmware-broadcom_bcm43xx"
++LICENSE_${PN}-bcm43340 = "Firmware-broadcom_bcm43xx"
+ LICENSE_${PN}-bcm4339 = "Firmware-broadcom_bcm43xx"
+ LICENSE_${PN}-bcm4354 = "Firmware-broadcom_bcm43xx"
  
- SRC_URI = "http://xcb.freedesktop.org/dist/libxcb-${PV}.tar.bz2 \
-            file://xcbincludedir.patch \
--           file://disable-check.patch"
-+           file://disable-check.patch \
-+           file://gcc-mips-pr68302-mips-workaround.patch \
-+          "
- SRC_URI[md5sum] = "f97a65e6158775de518ac391935634c2"
- SRC_URI[sha256sum] = "b720fd6c7d200e5371affdb3f049cc8f88cff9aed942ff1b824d95eedbf69d30"
+@@ -345,6 +346,9 @@ FILES_${PN}-bcm4330 = " \
+ FILES_${PN}-bcm4334 = " \
+   /lib/firmware/brcm/brcmfmac4334-sdio.bin \
+ "
++FILES_${PN}-bcm43340 = " \
++  /lib/firmware/brcm/brcmfmac43340-sdio.bin \
++"
+ FILES_${PN}-bcm4339 = " \
+   /lib/firmware/brcm/brcmfmac4339-sdio.bin \
+ "
+@@ -356,6 +360,8 @@ ALTERNATIVE_LINK_NAME[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac-sdio.bin
+ 
+ ALTERNATIVE_linux-firmware-bcm4334 = "brcmfmac-sdio.bin"
+ ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334-sdio.bin"
++ALTERNATIVE_linux-firmware-bcm43340 = "brcmfmac-sdio.bin"
++ALTERNATIVE_TARGET_linux-firmware-bcm43340[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac43340-sdio.bin"
+ ALTERNATIVE_linux_firmware-bcm4354 = "brcmfmac-sdio.bin"
+ ALTERNATIVE_TARGET_linux-firmware-bcm4354[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4354-sdio.bin"
+ ALTERNATIVE_linux-firmware-bcm4329 = "brcmfmac-sdio.bin"
+@@ -368,6 +374,7 @@ ALTERNATIVE_TARGET_linux-firmware-bcm4339[brcmfmac-sdio.bin] = "/lib/firmware/br
+ RDEPENDS_${PN}-bcm4329 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4330 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4334 += "${PN}-broadcom-license"
++RDEPENDS_${PN}-bcm43340 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4339 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4354 += "${PN}-broadcom-license"
  
 -- 
-2.6.4
+2.6.3
 
 
