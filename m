@@ -1,41 +1,20 @@
-Return-Path: <belen.barros.pena@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C2B86FFE8
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id D19AF73189
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Dec 2015 11:34:51 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 21 Dec 2015 03:34:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,459,1444719600"; d="scan'208";a="621566378"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by FMSMGA003.fm.intel.com with ESMTP; 21 Dec 2015 03:34:51 -0800
-Received: from irsmsx156.ger.corp.intel.com (10.108.20.68) by
-	IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Mon, 21 Dec 2015 11:34:50 +0000
-Received: from irsmsx110.ger.corp.intel.com ([169.254.15.163]) by
-	IRSMSX156.ger.corp.intel.com ([169.254.3.110]) with mapi id
-	14.03.0248.002; Mon, 21 Dec 2015 11:34:50 +0000
-From: "Barros Pena, Belen" <belen.barros.pena@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"toaster@yoctoproject.org" <toaster@yoctoproject.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [Toaster] FW: [OE-core] [PATCH 6/7] toaster: Update for
-	buildstats changes
-Thread-Index: AQHROXVy7ZBNK8RZ1kejZvi1bQRPug==
-Date: Mon, 21 Dec 2015 11:34:50 +0000
-Message-ID: <D29D9433.6DBEA%belen.barros.pena@intel.com>
-References: <1450364093.13505.210.camel@linuxfoundation.org>
-	<D2997F47.6D98C%belen.barros.pena@intel.com>
-	<1450436206.8461.29.camel@linuxfoundation.org>
-In-Reply-To: <1450436206.8461.29.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/14.5.9.151119
-x-originating-ip: [10.237.224.30]
+	Mon, 21 Dec 2015 11:35:25 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 21 Dec 2015 12:35:23 +0100
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 21 Dec 2015 12:35:20 +0100
+Message-ID: <1450697720-40020-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: "Bartosh, Eduard" <eduard.bartosh@intel.com>
-Subject: Re: [Toaster] FW: [PATCH 6/7] toaster: Update for buildstats changes
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH][fido][dizzy] bind: CVE-2015-8000
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,128 +27,244 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Dec 2015 11:34:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <23753CF74F368041B23718AD6CB7CA33@intel.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 21 Dec 2015 11:35:26 -0000
+Content-Type: text/plain
 
+Fixes a denial of service in BIND.
 
+An error in the parsing of incoming responses allows some
+records with an incorrect class to be accepted by BIND
+instead of being rejected as malformed. This can trigger
+a REQUIRE assertion failure when those records are subsequently
+cached.
 
-On 18/12/2015 10:56, "Richard Purdie" <richard.purdie@linuxfoundation.org>
-wrote:
+[YOCTO #8838]
 
->On Fri, 2015-12-18 at 09:21 +0000, Barros Pena, Belen wrote:
->> I applied the buildstats series on top of toaster-next, ran a build,
->> and
->> checked the build stats info. I can see time per task coming in. I
->> cannot
->> see cpu usage or disk i/o data in the UI because of this
->>=20
->> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D8571
->>=20
->> But there is data for both in the database, and it looks sane. So I
->> guess,
->> from the UI standpoint, the patches are ok: things were as broken as
->> they
->> were before ;)
->
->Thanks Bel=E9n!
->
->I was asked what new data was available from buildstats.
+References:
+http://www.openwall.com/lists/oss-security/2015/12/15/14
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8000
+https://bugzilla.redhat.com/attachment.cgi?id=1105581
 
-Thanks. I've opened an enhancement for this
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ .../bind/bind/CVE-2015-8000.patch                  | 194 +++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.9.5.bb       |   1 +
+ 2 files changed, 195 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D8842
-
-Cheers
-
-Bel=E9n
-
->Right now you
->show in toaster:
->
->Task execution time
->CPU usage
->Some IO usage number
->
->I'd note that CPU usage is no longer logged, the reason being that the
->numbers were basically misleading and inaccurate. The raw data in
->buildstats looks like:
->
->Started: 1450427397.44
->quilt-0.64-r0: do_compile: Elapsed time: 0.37 seconds
->utime: 7
->stime: 2
->cutime: 16
->cstime: 7
->IO write_bytes: 1269760
->IO read_bytes: 0
->IO cancelled_write_bytes: 0
->IO syscr: 6165
->IO wchar: 1205445
->IO rchar: 4465276
->IO syscw: 1508
->rusage ru_utime: 0.076
->rusage ru_stime: 0.02
->rusage ru_maxrss: 39684
->rusage ru_minflt: 4618
->rusage ru_majflt: 0
->rusage ru_inblock: 0
->rusage ru_oublock: 32
->rusage ru_nvcsw: 53
->rusage ru_nivcsw: 0
->Child rusage ru_utime: 0.168
->Child rusage ru_stime: 0.076
->Child rusage ru_maxrss: 41180
->Child rusage ru_minflt: 81640
->Child rusage ru_majflt: 0
->Child rusage ru_inblock: 0
->Child rusage ru_oublock: 2448
->Child rusage ru_nvcsw: 988
->Child rusage ru_nivcsw: 352
->Status: PASSED=20
->Ended: 1450427397.81
->
->In particular what you can do now is:
->
->a) breakdown filesystem IO usage to reads and writes (read_bytes and
->write_bytes)
->b) show total IO (wchar and rchar)
->
->[difference between filesystem IO and total IO is that there are caches
->in the middle, filesystem IO goes to the physical disk, total IO can be
->from memory - all the reads above were from cache hence 0 read_bytes
->but a large rchar]
->
->c) break down task execution time into "system" (cstime) and "user"
->(cutime) time. Divide those numbers by 100HZ to get seconds. This tells
->us how much time was in the kernel in syscalls and how much doing
->execution in userspace.
->
->d) break down times into parent and child processes (stime and utime
->verses cstime and ustime). The latter includes all children so is a
->total. This is probably less interesting to most users.
->
->e) show the number of voluntary and involuntary context switches
->(ru_nvcsw and ru_nivcsw). Again, the child numbers are totals, you can
->also just get the parent value.
->
->f) there is other data but the above is the pieces I've personally
->found to be interesting/useful.
->
->Some of the numbers are duplicates, e.g. ru_stime is stime/100 (convert
->to seconds) in the parent and child cases. You could do a better CPU
->usage approximation by something like:
->
->(child(ru_stime + ru_utime) / elapsed time) * 100 =3D % CPU Usage
->
->Hope that makes some kind of sense and that we could expose a bit more
->of this to the user at some point!
->
->Cheers,
->
->Richard
->
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
+new file mode 100644
+index 0000000..b8d8412
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
+@@ -0,0 +1,194 @@
++responses with a malformed class attribute can trigger an
++assertion failure in db.c
++
++[security]
++Insufficient testing when parsing a message allowed records with
++an incorrect class to be be accepted, triggering a REQUIRE failure
++when those records were subsequently cached. (CVE-2015-8000) [RT#4098]
++
++Upstream-Status: Backport
++
++[The patch is taken from BIND 9.9.4:
++https://bugzilla.redhat.com/attachment.cgi?id=1105581]
++
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++diff --git a/lib/dns/include/dns/message.h b/lib/dns/include/dns/message.h
++index a6862fa..d999e75 100644
++--- a/lib/dns/include/dns/message.h
+++++ b/lib/dns/include/dns/message.h
++@@ -210,6 +210,8 @@ struct dns_message {
++ 	unsigned int			verify_attempted : 1;
++ 	unsigned int			free_query : 1;
++ 	unsigned int			free_saved : 1;
+++	unsigned int			tkey : 1;
+++	unsigned int			rdclass_set : 1;
++ 
++ 	unsigned int			opt_reserved;
++ 	unsigned int			sig_reserved;
++@@ -1374,6 +1376,15 @@ dns_message_buildopt(dns_message_t *msg, dns_rdataset_t **opt,
++  * \li	 other.
++  */
++ 
+++void
+++dns_message_setclass(dns_message_t *msg, dns_rdataclass_t rdclass);
+++/*%<
+++ * Set the expected class of records in the response.
+++ *
+++ * Requires:
+++ * \li   msg be a valid message with parsing intent.
+++ */
+++
++ ISC_LANG_ENDDECLS
++ 
++ #endif /* DNS_MESSAGE_H */
++diff --git a/lib/dns/message.c b/lib/dns/message.c
++index 53efc5a..73def73 100644
++--- a/lib/dns/message.c
+++++ b/lib/dns/message.c
++@@ -436,6 +436,8 @@ msginit(dns_message_t *m) {
++ 	m->saved.base = NULL;
++ 	m->saved.length = 0;
++ 	m->free_saved = 0;
+++	m->tkey = 0;
+++	m->rdclass_set = 0;
++ 	m->querytsig = NULL;
++ }
++ 
++@@ -1086,13 +1088,19 @@ getquestions(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
++ 		 * If this class is different than the one we already read,
++ 		 * this is an error.
++ 		 */
++-		if (msg->state == DNS_SECTION_ANY) {
++-			msg->state = DNS_SECTION_QUESTION;
+++		if (msg->rdclass_set == 0) {
++ 			msg->rdclass = rdclass;
+++			msg->rdclass_set = 1;
++ 		} else if (msg->rdclass != rdclass)
++ 			DO_FORMERR;
++ 
++ 		/*
+++		 * Is this a TKEY query?
+++		 */
+++		if (rdtype == dns_rdatatype_tkey)
+++			msg->tkey = 1;
+++
+++		/*
++ 		 * Can't ask the same question twice.
++ 		 */
++ 		result = dns_message_find(name, rdclass, rdtype, 0, NULL);
++@@ -1236,12 +1244,12 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
++ 		 * If there was no question section, we may not yet have
++ 		 * established a class.  Do so now.
++ 		 */
++-		if (msg->state == DNS_SECTION_ANY &&
+++		if (msg->rdclass_set == 0 &&
++ 		    rdtype != dns_rdatatype_opt &&	/* class is UDP SIZE */
++ 		    rdtype != dns_rdatatype_tsig &&	/* class is ANY */
++ 		    rdtype != dns_rdatatype_tkey) {	/* class is undefined */
++ 			msg->rdclass = rdclass;
++-			msg->state = DNS_SECTION_QUESTION;
+++			msg->rdclass_set = 1;
++ 		}
++ 
++ 		/*
++@@ -1251,7 +1259,7 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
++ 		if (msg->opcode != dns_opcode_update
++ 		    && rdtype != dns_rdatatype_tsig
++ 		    && rdtype != dns_rdatatype_opt
++-		    && rdtype != dns_rdatatype_dnskey /* in a TKEY query */
+++		    && rdtype != dns_rdatatype_key /* in a TKEY query */
++ 		    && rdtype != dns_rdatatype_sig /* SIG(0) */
++ 		    && rdtype != dns_rdatatype_tkey /* Win2000 TKEY */
++ 		    && msg->rdclass != dns_rdataclass_any
++@@ -1259,6 +1267,16 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
++ 			DO_FORMERR;
++ 
++ 		/*
+++		 * If this is not a TKEY query/response then the KEY
+++		 * record's class needs to match.
+++		 */
+++		if (msg->opcode != dns_opcode_update && !msg->tkey &&
+++		    rdtype == dns_rdatatype_key &&
+++		    msg->rdclass != dns_rdataclass_any &&
+++		    msg->rdclass != rdclass)
+++			DO_FORMERR;
+++
+++		/*
++ 		 * Special type handling for TSIG, OPT, and TKEY.
++ 		 */
++ 		if (rdtype == dns_rdatatype_tsig) {
++@@ -1372,6 +1390,10 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
++ 				skip_name_search = ISC_TRUE;
++ 				skip_type_search = ISC_TRUE;
++ 				issigzero = ISC_TRUE;
+++			} else {
+++				if (msg->rdclass != dns_rdataclass_any &&
+++				    msg->rdclass != rdclass)
+++					DO_FORMERR;
++ 			}
++ 		} else
++ 			covers = 0;
++@@ -1610,6 +1632,7 @@ dns_message_parse(dns_message_t *msg, isc_buffer_t *source,
++ 	msg->counts[DNS_SECTION_ADDITIONAL] = isc_buffer_getuint16(source);
++ 
++ 	msg->header_ok = 1;
+++	msg->state = DNS_SECTION_QUESTION;
++ 
++ 	/*
++ 	 * -1 means no EDNS.
++@@ -3550,3 +3573,15 @@ dns_message_buildopt(dns_message_t *message, dns_rdataset_t **rdatasetp,
++ 		dns_message_puttemprdatalist(message, &rdatalist);
++ 	return (result);
++ }
+++
+++void
+++dns_message_setclass(dns_message_t *msg, dns_rdataclass_t rdclass) {
+++
+++	REQUIRE(DNS_MESSAGE_VALID(msg));
+++	REQUIRE(msg->from_to_wire == DNS_MESSAGE_INTENTPARSE);
+++	REQUIRE(msg->state == DNS_SECTION_ANY);
+++	REQUIRE(msg->rdclass_set == 0);
+++
+++	msg->rdclass = rdclass;
+++	msg->rdclass_set = 1;
+++}
++diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
++index aa23b11..d220986 100644
++--- a/lib/dns/resolver.c
+++++ b/lib/dns/resolver.c
++@@ -6964,6 +6964,8 @@ resquery_response(isc_task_t *task, isc_event_t *event) {
++ 			goto done;
++ 	}
++ 
+++	dns_message_setclass(message, fctx->res->rdclass);
+++
++ 	result = dns_message_parse(message, &devent->buffer, 0);
++ 	if (result != ISC_R_SUCCESS) {
++ 		switch (result) {
++@@ -7036,6 +7038,12 @@ resquery_response(isc_task_t *task, isc_event_t *event) {
++ 	 */
++ 	log_packet(message, ISC_LOG_DEBUG(10), fctx->res->mctx);
++ 
+++	if (message->rdclass != fctx->res->rdclass) {
+++		resend = ISC_TRUE;
+++		FCTXTRACE("bad class");
+++		goto done;
+++	}
+++
++ 	/*
++ 	 * Process receive opt record.
++ 	 */
++diff --git a/lib/dns/xfrin.c b/lib/dns/xfrin.c
++index 9ad8960..938373a 100644
++--- a/lib/dns/xfrin.c
+++++ b/lib/dns/xfrin.c
++@@ -1241,6 +1241,8 @@ xfrin_recv_done(isc_task_t *task, isc_event_t *ev) {
++ 	msg->tsigctx = xfr->tsigctx;
++ 	xfr->tsigctx = NULL;
++ 
+++	dns_message_setclass(msg, xfr->rdclass);
+++
++ 	if (xfr->nmsg > 0)
++ 		msg->tcp_continuation = 1;
++ 
+diff --git a/meta/recipes-connectivity/bind/bind_9.9.5.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+index ee94011..6e4878d 100644
+--- a/meta/recipes-connectivity/bind/bind_9.9.5.bb
++++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+@@ -22,6 +22,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+ 	   file://CVE-2015-1349.patch \ 
+ 	   file://CVE-2015-4620.patch \
+ 	   file://CVE-2015-5722.patch \
++           file://CVE-2015-8000.patch \
+ 	   "
+ 
+ SRC_URI[md5sum] = "e676c65cad5234617ee22f48e328c24e"
+-- 
+1.9.1
 
 
