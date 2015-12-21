@@ -1,47 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id A762F6FF97
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id C82366067D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Dec 2015 12:15:49 +0000 (UTC)
-Received: by mail-ig0-f169.google.com with SMTP id mv3so29595687igc.0
+	Mon, 21 Dec 2015 13:42:47 +0000 (UTC)
+Received: by mail-ig0-f171.google.com with SMTP id to4so37190689igc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Dec 2015 04:15:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	Mon, 21 Dec 2015 05:42:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=/90cDVVdaONkJqZEq5kRgKzgEAWdi/dazQuZG78WzJk=;
-	b=cWR2jMLseVo0FKkb88W3jV7mHOfornnJu13mZAjFM5bjDR1AX221vmcFbESHZ8lKv0
-	qusSngFXD/9nj3MZyuUP2aAJX4Mri5h7I67Oo3vXBgaPDwqdFzzFxbCxxyTq5Q7Ilxtz
-	+ge65Bnwq48GaWHqUwGy+gsANWKsQmHeaZhbw+rRcp5reQdeBHcmSTsTMBHYUFsUUrcb
-	lwdLPeUqHtp0GAINShrzzHpjCLkCexINqPPlMuiLGMpXkd5b/vpE3mqsBK63WvS6+9X3
-	sGYdOl9+Si6EP8GGDsKefCeyDIFoxTNFmTwb6SP2O6oE3cQpkyS0iOeAfQpU9NuVrxqV
-	LkOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=/90cDVVdaONkJqZEq5kRgKzgEAWdi/dazQuZG78WzJk=;
-	b=AUAqmvt/FQ2LtBPA1gZra0bWdJhk51s9IA79sMp2eNoBjM9r1SZe2AyKfeNEUToQ6z
-	f4pN98qz9VemXmbQfDlQjdeS4D6PZEpCrwtsiQwG8mXls8o+OxdWXMHCvH/lRngMe79z
-	KN6qLJBr7qzDNg/z0fhXwK4RwhpDaZXy+IChRJiDDnHVoXnGPBYwcbm952j9YGSdpaOa
-	f2t6cWfnJnJeEvD4nnTtUAdrYQw4cIyOS0qAXbVdIxzHN1Yw/R23WerzCslCXPR9VCHU
-	QaoWVlWlo9D7Efd6COLKMrHLg8PmPMc9mC0YQI898ps4AcYKMP/8Z4aVUdpm7Opbcnzl
-	E5vg==
-X-Gm-Message-State: ALoCoQkI/28Ord/rzF2BMkqst6+/HKiHYO2DOTyAWXl2wSjuz+t6wmNEQpoW0tHlpIpQKQXsoOvRK519Rx90btyo1RPcRzYr+YX5Zcq/2+wJ1Cj1f8cHIQo=
-X-Received: by 10.50.30.69 with SMTP id q5mr18119605igh.78.1450700150017; Mon,
-	21 Dec 2015 04:15:50 -0800 (PST)
+	bh=XoFwlLvn2ORyPZmze1apVV4TyQOiyXsCKsO/cy0RG7g=;
+	b=cYE3k/R8+G8ZH7NYlX+HtXcKrdHa+WXREuVGB2RVymtF8W0SENYJOOsdM1PcRFX7qN
+	9gXNSaB4KHbon1JzHJAeQaUHxOU3A5aB4naENl0mfUcF0EC8PgBFjDktTUd/PHTuN2Ut
+	a70AfXMtEqMuhXQ6tDwTp9BWhG+LsiUtfvkscvfcFaugW6K0wpYuhxOzyPUriOIwzzWM
+	3jSRl4FGuxp/jXu6x7HgraAB76ZXocuXYRHO3W7Jp4jV50vSEQPBaf5z5/MhpGgkciVy
+	PrAeuPRUakrDX1Dw08xR7TKfyn9oMcuAE0Amvomj/aRlNEkI0WmMQnzSiQlYjS0anwbY
+	ekUQ==
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 21 Dec 2015 04:15:30 -0800 (PST)
-In-Reply-To: <379ef3716c72c2230a75294f4be5430903f17450.1450568936.git.raj.khem@gmail.com>
+X-Received: by 10.50.138.232 with SMTP id qt8mr16328538igb.75.1450705368552;
+	Mon, 21 Dec 2015 05:42:48 -0800 (PST)
+Received: by 10.107.16.74 with HTTP; Mon, 21 Dec 2015 05:42:47 -0800 (PST)
+Received: by 10.107.16.74 with HTTP; Mon, 21 Dec 2015 05:42:47 -0800 (PST)
+In-Reply-To: <CAJTo0LaF5ByQoxkOzD22=A6Sq7eiNJCgbObX5E=-AWFVdm=9ng@mail.gmail.com>
 References: <cover.1450568936.git.raj.khem@gmail.com>
 	<379ef3716c72c2230a75294f4be5430903f17450.1450568936.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 21 Dec 2015 12:15:30 +0000
-Message-ID: <CAJTo0LaF5ByQoxkOzD22=A6Sq7eiNJCgbObX5E=-AWFVdm=9ng@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+	<CAJTo0LaF5ByQoxkOzD22=A6Sq7eiNJCgbObX5E=-AWFVdm=9ng@mail.gmail.com>
+Date: Mon, 21 Dec 2015 05:42:47 -0800
+Message-ID: <CAMKF1sqZbhW2DO-2d9M4hOqG2EGPn_vcKPWFJb1CjjpQH_KqLQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 08/17] fts: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -55,41 +45,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Dec 2015 12:15:49 -0000
-Content-Type: multipart/alternative; boundary=047d7bdc1c0c1e300605276773c2
+X-List-Received-Date: Mon, 21 Dec 2015 13:42:49 -0000
+Content-Type: multipart/alternative; boundary=089e01184cba2a9c15052768aa07
 
---047d7bdc1c0c1e300605276773c2
+--089e01184cba2a9c15052768aa07
 Content-Type: text/plain; charset=UTF-8
 
-On 19 December 2015 at 23:52, Khem Raj <raj.khem@gmail.com> wrote:
-
->  create mode 100644 meta/recipes-core/fts/fts/fts-header-correctness.patch
->  create mode 100644 meta/recipes-core/fts/fts/fts-uclibc.patch
->  create mode 100644 meta/recipes-core/fts/fts/gcc5.patch
->  create mode 100644 meta/recipes-core/fts/fts/remove_cdefs.patch
->  create mode 100644 meta/recipes-core/fts/fts/stdint.patch
+On Dec 21, 2015 4:15 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
 >
+>
+> On 19 December 2015 at 23:52, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>  create mode 100644
+meta/recipes-core/fts/fts/fts-header-correctness.patch
+>>  create mode 100644 meta/recipes-core/fts/fts/fts-uclibc.patch
+>>  create mode 100644 meta/recipes-core/fts/fts/gcc5.patch
+>>  create mode 100644 meta/recipes-core/fts/fts/remove_cdefs.patch
+>>  create mode 100644 meta/recipes-core/fts/fts/stdint.patch
+>
+>
+> None of these patches have headers.
 
-None of these patches have headers.
+Thanks Ross. I will update the pull tree and send a note afterwards
+>
+> Ross
 
-Ross
-
---047d7bdc1c0c1e300605276773c2
+--089e01184cba2a9c15052768aa07
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 December 2015 at 23:52, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":50g" class=3D"a3s" st=
-yle=3D"overflow:hidden">=C2=A0create mode 100644 meta/recipes-core/fts/fts/=
-fts-header-correctness.patch<br>
-=C2=A0create mode 100644 meta/recipes-core/fts/fts/fts-uclibc.patch<br>
-=C2=A0create mode 100644 meta/recipes-core/fts/fts/gcc5.patch<br>
-=C2=A0create mode 100644 meta/recipes-core/fts/fts/remove_cdefs.patch<br>
-=C2=A0create mode 100644 meta/recipes-core/fts/fts/stdint.patch</div></bloc=
-kquote></div><br>None of these patches have headers.</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+<p dir=3D"ltr"><br>
+On Dec 21, 2015 4:15 AM, &quot;Burton, Ross&quot; &lt;<a href=3D"mailto:ros=
+s.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt; On 19 December 2015 at 23:52, Khem Raj &lt;<a href=3D"mailto:raj.khem@=
+gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; =C2=A0create mode 100644 meta/recipes-core/fts/fts/fts-header-corr=
+ectness.patch<br>
+&gt;&gt; =C2=A0create mode 100644 meta/recipes-core/fts/fts/fts-uclibc.patc=
+h<br>
+&gt;&gt; =C2=A0create mode 100644 meta/recipes-core/fts/fts/gcc5.patch<br>
+&gt;&gt; =C2=A0create mode 100644 meta/recipes-core/fts/fts/remove_cdefs.pa=
+tch<br>
+&gt;&gt; =C2=A0create mode 100644 meta/recipes-core/fts/fts/stdint.patch<br=
+>
+&gt;<br>
+&gt;<br>
+&gt; None of these patches have headers.</p>
+<p dir=3D"ltr">Thanks Ross. I will update the pull tree and send a note aft=
+erwards<br>
+&gt;<br>
+&gt; Ross</p>
 
---047d7bdc1c0c1e300605276773c2--
+--089e01184cba2a9c15052768aa07--
