@@ -1,39 +1,35 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id CF6056FFE2
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id A0EF56FF72
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Dec 2015 17:00:50 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 21 Dec 2015 09:00:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,460,1444719600"; d="scan'208";a="621700409"
-Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
-	by FMSMGA003.fm.intel.com with ESMTP; 21 Dec 2015 09:00:50 -0800
-Received: from orsmsx111.amr.corp.intel.com (10.22.240.12) by
-	ORSMSX107.amr.corp.intel.com (10.22.240.5) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Mon, 21 Dec 2015 09:00:50 -0800
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.29]) by
-	ORSMSX111.amr.corp.intel.com ([169.254.12.27]) with mapi id
-	14.03.0248.002; Mon, 21 Dec 2015 09:00:49 -0800
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Thread-Topic: [OE-core] [PATCH 2/2] oe-buildenv-internal: preserve existing
-	BB_ENV_EXTRAWHITE
-Thread-Index: AQHRLiEJ9/9ZrVtpa0eClWjpbMo7qZ7LvVYAgAoHx6A=
-Date: Mon, 21 Dec 2015 17:00:49 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6117C5988@ORSMSX112.amr.corp.intel.com>
-References: <1449184196-21113-1-git-send-email-juro.bystricky@intel.com>
-	<1449184196-21113-2-git-send-email-juro.bystricky@intel.com>
-	<CAJ86T=UbLswt_z286cNq87N7ft92m_XXiDfNG1yL4tH=5Gx3Dg@mail.gmail.com>
-In-Reply-To: <CAJ86T=UbLswt_z286cNq87N7ft92m_XXiDfNG1yL4tH=5Gx3Dg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
+	Mon, 21 Dec 2015 20:38:03 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id p187so85070380wmp.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Dec 2015 12:38:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=E9bsvNKP9+mVBEZlmo0YqDbEh42FgyvZntff9nqW4O4=;
+	b=Jfz46tnotz6rG5ZmCHk4qjDyjtsvHvgoAJmB66i0Z49BIm8W1U3mRdV+Wz7K4XJO2E
+	mtuJl+E3f6ReXLoLyCtaZakducWoLupOT9n02Y01Cv99qiqZ6ea9e6uxODzQXXLDjgvt
+	f6AyzjEdKigsVrzVCCoqqDYiFqD6wi4TVG+Tp7YPJPlW7AMXdngAW4pnOpN2uGfjNafV
+	abrId1BEZQSdTLgOeG+AYw8fJwKOgDR6ayrNJtGdyYatMBkDifpbBCUrCP3RkJtQuhiy
+	S2LyEa8Ixhmb7xnBqtDBsbkItaTIZU9MmJeN6VcaAQbRuQmAeKa/rtX+YwCIFHYqpnfl
+	FcJQ==
 MIME-Version: 1.0
-Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] oe-buildenv-internal: preserve existing BB_ENV_EXTRAWHITE
+X-Received: by 10.194.24.226 with SMTP id x2mr23011305wjf.43.1450730283395;
+	Mon, 21 Dec 2015 12:38:03 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Mon, 21 Dec 2015 12:38:03 -0800 (PST)
+In-Reply-To: <ab5e796a793f112dbfb186d31d9006c6ed78d03b.1450568936.git.raj.khem@gmail.com>
+References: <cover.1450568936.git.raj.khem@gmail.com>
+	<81170e1970685f34735007c496ce175279d46304.1450568936.git.raj.khem@gmail.com>
+	<ab5e796a793f112dbfb186d31d9006c6ed78d03b.1450568936.git.raj.khem@gmail.com>
+Date: Mon, 21 Dec 2015 12:38:03 -0800
+Message-ID: <CAJ86T=UwarUoEkGNkDG8Y9m6_6NOOW+YhDTN53AkgqJBCsNw3g@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 09/17] valgrind: Define __UCLIBC__ for uclibc based systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,61 +42,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Dec 2015 17:00:53 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 21 Dec 2015 20:38:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-VGhhbmtzLCBpdCBpcyBhIGxlZ2l0aW1hdGUgYnVnLCBjZXJ0YWlubHkgbm90IGludGVuZGVkLg0K
-IEkgYWxyZWFkeSBwb3N0ZWQgYSBwYXRjaCB0byB0aGUgbWFpbGluZyBsaXN0IGxhc3Qgd2Vlay4g
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5kcmUgTWNDdXJkeSBb
-bWFpbHRvOmFybWNjdXJkeUBnbWFpbC5jb21dDQo+IFNlbnQ6IE1vbmRheSwgRGVjZW1iZXIgMTQs
-IDIwMTUgMzo0NyBQTQ0KPiBUbzogQnlzdHJpY2t5LCBKdXJvDQo+IENjOiBPRSBDb3JlIG1haWxp
-bmcgbGlzdDsganVyb2J5c3RyaWNreUBob3RtYWlsLmNvbQ0KPiBTdWJqZWN0OiBSZTogW09FLWNv
-cmVdIFtQQVRDSCAyLzJdIG9lLWJ1aWxkZW52LWludGVybmFsOiBwcmVzZXJ2ZSBleGlzdGluZw0K
-PiBCQl9FTlZfRVhUUkFXSElURQ0KPiANCj4gT24gVGh1LCBEZWMgMywgMjAxNSBhdCAzOjA5IFBN
-LCBKdXJvIEJ5c3RyaWNreSA8anVyby5ieXN0cmlja3lAaW50ZWwuY29tPg0KPiB3cm90ZToNCj4g
-PiBBY2NvcmRpbmcgdG8gdGhlIEJpdEJha2UgVXNlciBNYW51YWwgdGhlIGVudmlyb25tZW50IHZh
-cmlhYmxlDQo+ID4gQkJfRU5WX0VYVFJBV0hJVEUgc3BlY2lmaWVzIGFuIGFkZGl0aW9uYWwgc2V0
-IG9mIHZhcmlhYmxlcyB0byBhbGxvdw0KPiA+IHRocm91Z2ggKHdoaXRlbGlzdCkgZnJvbSB0aGUg
-ZXh0ZXJuYWwgZW52aXJvbm1lbnQgaW50byBCaXRCYWtlJ3MgZGF0YXN0b3JlLg0KPiBIb3dldmVy
-LCBydW5uaW5nOg0KPiA+DQo+ID4gICAkIHNvdXJjZSBvZS1pbml0LWJ1aWxkLWVudiBidWlsZC1u
-YW1lDQo+ID4NCj4gPiB3aWxsIG92ZXJ3cml0ZSBhbnkgcHJlLWV4aXN0aW5nIEJCX0VOVl9FWFRS
-QVdISVRFIHZhcmlhYmxlcy4NCj4gPiBUaGlzIHBhdGNoIG1vZGlmaWVzIHRoaXMgYmVoYXZpb3Vy
-OiBhbGwgb2UtYnVpbGQtaW50ZXJuYWwNCj4gPiBCQl9FTlZfRVhUUkFXSElURSB2YXJpYWJsZXMg
-YXJlIGFwcGVuZGVkIHRvIGFueSBwb3RlbnRpYWxseSBhbHJlYWR5DQo+ID4gZXhpc3RpbmcgQkJf
-RU5WX0VYVFJBV0hJVEUgdmFyaWFibGVzLiAoVGhlIHZhcmlhYmxlcyBhcmUgb25seSBhcHBlbmRl
-ZA0KPiA+IGlmIG5vdCBhbHJlYWR5IGluIEJCX0VOVl9FWFRSQVdISVRFKQ0KPiA+DQo+ID4gU2ln
-bmVkLW9mZi1ieTogSnVybyBCeXN0cmlja3kgPGp1cm8uYnlzdHJpY2t5QGludGVsLmNvbT4NCj4g
-PiAtLS0NCj4gPiAgc2NyaXB0cy9vZS1idWlsZGVudi1pbnRlcm5hbCB8IDYgKysrKystDQo+ID4g
-IDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+
-IGRpZmYgLS1naXQgYS9zY3JpcHRzL29lLWJ1aWxkZW52LWludGVybmFsDQo+ID4gYi9zY3JpcHRz
-L29lLWJ1aWxkZW52LWludGVybmFsIGluZGV4IDllZDI3MjEuLjUxZTQ0OWEgMTAwNzU1DQo+ID4g
-LS0tIGEvc2NyaXB0cy9vZS1idWlsZGVudi1pbnRlcm5hbA0KPiA+ICsrKyBiL3NjcmlwdHMvb2Ut
-YnVpbGRlbnYtaW50ZXJuYWwNCj4gPiBAQCAtMTAyLDggKzEwMiwxMiBAQCB1bnNldCBCSVRCQUtF
-RElSIE5FV1BBVEhTICAjIFVzZWQgYnkgdGhlDQo+IHJ1bnFlbXUNCj4gPiBzY3JpcHQgIGV4cG9y
-dCBCVUlMRERJUiAgZXhwb3J0IFBBVEggLWV4cG9ydA0KPiA+IEJCX0VOVl9FWFRSQVdISVRFPSJN
-QUNISU5FIERJU1RSTyBUQ01PREUgVENMSUJDIEhUVFBfUFJPWFkNCj4gaHR0cF9wcm94eQ0KPiA+
-IFwNCj4gPiArDQo+ID4gK0JCX0VOVl9FWFRSQVdISVRFX09FPSJNQUNISU5FIERJU1RSTyBUQ01P
-REUgVENMSUJDDQo+IEhUVFBfUFJPWFkNCj4gPiAraHR0cF9wcm94eSBcDQo+ID4gIEhUVFBTX1BS
-T1hZIGh0dHBzX3Byb3h5IEZUUF9QUk9YWSBmdHBfcHJveHkgRlRQU19QUk9YWSBmdHBzX3Byb3h5
-DQo+ID4gQUxMX1BST1hZIFwgIGFsbF9wcm94eSBOT19QUk9YWSBub19wcm94eSBTU0hfQUdFTlRf
-UElEDQo+IFNTSF9BVVRIX1NPQ0sNCj4gPiBCQl9TUkNSRVZfUE9MSUNZIFwgIFNES01BQ0hJTkUg
-QkJfTlVNQkVSX1RIUkVBRFMNCj4gQkJfTk9fTkVUV09SSw0KPiA+IFBBUkFMTEVMX01BS0UgR0lU
-X1BST1hZX0NPTU1BTkQgXCAgU09DS1M1X1BBU1NXRA0KPiBTT0NLUzVfVVNFUiBTQ1JFRU5ESVIg
-U1RBTVBTX0RJUiINCj4gPiArDQo+ID4gK2VjaG8gIiRCQl9FTlZfRVhUUkFXSElURSIgfCBncmVw
-IC1xICIke0JCX0VOVl9FWFRSQVdISVRFX09FfSINCj4gPiArWyAkPyAhPSAwIF0gJiYgZXhwb3J0
-DQo+IEJCX0VOVl9FWFRSQVdISVRFPSIke0JCX0VOVl9FWFRSQVdISVRFX09FfQ0KPiAkQkJfRU5W
-X0VYVFJBV0hJVEUiDQo+IA0KPiBJZiAke0JCX0VOVl9FWFRSQVdISVRFX09FfSBpcyBmb3VuZCBp
-biAke0JCX0VOVl9FWFRSQVdISVRFfSAoZS5nLiBpZg0KPiBvZS1pbml0LWJ1aWxkLWVudiBpcyBy
-ZS1ydW4gZnJvbSBhIHNoZWxsIHdoZXJlIGl0IGhhcyBhbHJlYWR5IGJlZW4gcnVuIGJlZm9yZSks
-DQo+IHRoZW4gdGhpcyBjaGFuZ2UgY2F1c2Ugb2UtYnVpbGRlbnYtaW50ZXJuYWwgdG8gZXhpdCB3
-aXRoIGEgbm9uLXplcm8gc3RhdHVzLA0KPiB3aGljaCB3aWxsIHByZXZlbnQgb2UtaW5pdC1idWls
-ZC1lbnYgZnJvbSBjYWxsaW5nIG9lLXNldHVwLWJ1aWxkZGlyIG9yIGNkJ2luZyB0bw0KPiAke0JV
-SUxERElSfS4gSXMgdGhhdCByZWFsbHkgdGhlIGludGVudGlvbj8gSXQgYnJlYWtzIG15IHR5cGlj
-YWwgd29yayBmbG93Li4uDQo+IA0KPiANCj4gPiAtLQ0KPiA+IDEuOS4xDQo+ID4NCj4gPiAtLQ0K
-PiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+ID4g
-T3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+ID4gT3BlbmVtYmVkZGVkLWNvcmVAbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21h
-aWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg==
+On Sat, Dec 19, 2015 at 3:52 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> Helps configure valgrind for uclibc targets otherwise it tries to assume
+> funcitons that are implemented in glibc like __free_res
+
+This is going to conflict with the valgrind version update patches
+already posted to the list.
+
+Ross, any thoughts on which set of patches might get merged first, so
+that either Khem or I can rebase accordingly? Or perhaps I could just
+pull this one change into the valgrind update series and Khem could
+drop it?
+
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-devtools/valgrind/valgrind_3.10.1.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.10.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.10.1.bb
+> index c38a07b..c1c11d4 100644
+> --- a/meta/recipes-devtools/valgrind/valgrind_3.10.1.bb
+> +++ b/meta/recipes-devtools/valgrind/valgrind_3.10.1.bb
+> @@ -44,6 +44,8 @@ EXTRA_OECONF_armv7a = "--enable-tls -host=armv7-none-linux-gnueabi --without-mpi
+>  EXTRA_OECONF += "${@['--enable-only32bit','--enable-only64bit'][d.getVar('SITEINFO_BITS', True) != '32']}"
+>  EXTRA_OEMAKE = "-w"
+>
+> +CFLAGS_append_libc-uclibc = " -D__UCLIBC__ "
+> +
+>  do_install_append () {
+>      install -m 644 ${B}/default.supp ${D}/${libdir}/valgrind/
+>  }
+> --
+> 2.6.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
