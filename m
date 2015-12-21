@@ -1,20 +1,29 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id D19AF73189
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id A29BC601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Dec 2015 11:35:25 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 21 Dec 2015 12:35:23 +0100
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 21 Dec 2015 12:35:20 +0100
-Message-ID: <1450697720-40020-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 21 Dec 2015 11:41:27 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP; 21 Dec 2015 03:41:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,459,1444719600"; d="scan'208";a="711994143"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga003.jf.intel.com with ESMTP; 21 Dec 2015 03:41:28 -0800
+To: openembedded-core@lists.openembedded.org
+References: <cover.1450471022.git.bruce.ashfield@windriver.com>
+	<0aa694bda5500aef7d326fa880c77b726c8c2779.1450471022.git.bruce.ashfield@windriver.com>
+	<CAP9ODKqJyZq29L7=mFzCVo2=oAX3O8WtyiJ498inW5d2fJrBBQ@mail.gmail.com>
+	<CADkTA4OLTmiDHTwHec+Pnyhs_p-kLZp=yD2k4GOpc-LB-7sEUA@mail.gmail.com>
+	<CAP9ODKoENbVi-ALn-2PWdW9pv1BfGbyejBQrf7md3bH3FnJFCQ@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <5677E4E3.6010607@linux.intel.com>
+Date: Mon, 21 Dec 2015 13:39:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Icedove/38.3.0
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH][fido][dizzy] bind: CVE-2015-8000
+In-Reply-To: <CAP9ODKoENbVi-ALn-2PWdW9pv1BfGbyejBQrf7md3bH3FnJFCQ@mail.gmail.com>
+Subject: Re: [PATCH 2/6] lttng-modules: fix build issue against kernel 4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,244 +36,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Dec 2015 11:35:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 21 Dec 2015 11:41:28 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fixes a denial of service in BIND.
+On 12/21/2015 01:27 PM, Otavio Salvador wrote:
 
-An error in the parsing of incoming responses allows some
-records with an incorrect class to be accepted by BIND
-instead of being rejected as malformed. This can trigger
-a REQUIRE assertion failure when those records are subsequently
-cached.
+> Commit logs are suppose to have the information useful to understand
+> the reason of the change. Latest hides all behind it and does not
+> communicate anything. I don't think expect people to read the code to
+> know you bumped (and to which) revision is right.
 
-[YOCTO #8838]
+Having the exact upstream commit id - a bunch of random numbers and 
+letters - in the commit message does not make the commit message any 
+more useful, readable, or searchable. You can't even click on that id to 
+open a gitweb webpage with the upstream patch (having that kind of link 
+*would* be useful though).
 
-References:
-http://www.openwall.com/lists/oss-security/2015/12/15/14
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8000
-https://bugzilla.redhat.com/attachment.cgi?id=1105581
+The change to the recipe is short, and no one should be overwhelmed by 
+looking at it if they need the commit id.
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- .../bind/bind/CVE-2015-8000.patch                  | 194 +++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.9.5.bb       |   1 +
- 2 files changed, 195 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
-
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
-new file mode 100644
-index 0000000..b8d8412
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
-@@ -0,0 +1,194 @@
-+responses with a malformed class attribute can trigger an
-+assertion failure in db.c
-+
-+[security]
-+Insufficient testing when parsing a message allowed records with
-+an incorrect class to be be accepted, triggering a REQUIRE failure
-+when those records were subsequently cached. (CVE-2015-8000) [RT#4098]
-+
-+Upstream-Status: Backport
-+
-+[The patch is taken from BIND 9.9.4:
-+https://bugzilla.redhat.com/attachment.cgi?id=1105581]
-+
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+---
-+diff --git a/lib/dns/include/dns/message.h b/lib/dns/include/dns/message.h
-+index a6862fa..d999e75 100644
-+--- a/lib/dns/include/dns/message.h
-++++ b/lib/dns/include/dns/message.h
-+@@ -210,6 +210,8 @@ struct dns_message {
-+ 	unsigned int			verify_attempted : 1;
-+ 	unsigned int			free_query : 1;
-+ 	unsigned int			free_saved : 1;
-++	unsigned int			tkey : 1;
-++	unsigned int			rdclass_set : 1;
-+ 
-+ 	unsigned int			opt_reserved;
-+ 	unsigned int			sig_reserved;
-+@@ -1374,6 +1376,15 @@ dns_message_buildopt(dns_message_t *msg, dns_rdataset_t **opt,
-+  * \li	 other.
-+  */
-+ 
-++void
-++dns_message_setclass(dns_message_t *msg, dns_rdataclass_t rdclass);
-++/*%<
-++ * Set the expected class of records in the response.
-++ *
-++ * Requires:
-++ * \li   msg be a valid message with parsing intent.
-++ */
-++
-+ ISC_LANG_ENDDECLS
-+ 
-+ #endif /* DNS_MESSAGE_H */
-+diff --git a/lib/dns/message.c b/lib/dns/message.c
-+index 53efc5a..73def73 100644
-+--- a/lib/dns/message.c
-++++ b/lib/dns/message.c
-+@@ -436,6 +436,8 @@ msginit(dns_message_t *m) {
-+ 	m->saved.base = NULL;
-+ 	m->saved.length = 0;
-+ 	m->free_saved = 0;
-++	m->tkey = 0;
-++	m->rdclass_set = 0;
-+ 	m->querytsig = NULL;
-+ }
-+ 
-+@@ -1086,13 +1088,19 @@ getquestions(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
-+ 		 * If this class is different than the one we already read,
-+ 		 * this is an error.
-+ 		 */
-+-		if (msg->state == DNS_SECTION_ANY) {
-+-			msg->state = DNS_SECTION_QUESTION;
-++		if (msg->rdclass_set == 0) {
-+ 			msg->rdclass = rdclass;
-++			msg->rdclass_set = 1;
-+ 		} else if (msg->rdclass != rdclass)
-+ 			DO_FORMERR;
-+ 
-+ 		/*
-++		 * Is this a TKEY query?
-++		 */
-++		if (rdtype == dns_rdatatype_tkey)
-++			msg->tkey = 1;
-++
-++		/*
-+ 		 * Can't ask the same question twice.
-+ 		 */
-+ 		result = dns_message_find(name, rdclass, rdtype, 0, NULL);
-+@@ -1236,12 +1244,12 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
-+ 		 * If there was no question section, we may not yet have
-+ 		 * established a class.  Do so now.
-+ 		 */
-+-		if (msg->state == DNS_SECTION_ANY &&
-++		if (msg->rdclass_set == 0 &&
-+ 		    rdtype != dns_rdatatype_opt &&	/* class is UDP SIZE */
-+ 		    rdtype != dns_rdatatype_tsig &&	/* class is ANY */
-+ 		    rdtype != dns_rdatatype_tkey) {	/* class is undefined */
-+ 			msg->rdclass = rdclass;
-+-			msg->state = DNS_SECTION_QUESTION;
-++			msg->rdclass_set = 1;
-+ 		}
-+ 
-+ 		/*
-+@@ -1251,7 +1259,7 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
-+ 		if (msg->opcode != dns_opcode_update
-+ 		    && rdtype != dns_rdatatype_tsig
-+ 		    && rdtype != dns_rdatatype_opt
-+-		    && rdtype != dns_rdatatype_dnskey /* in a TKEY query */
-++		    && rdtype != dns_rdatatype_key /* in a TKEY query */
-+ 		    && rdtype != dns_rdatatype_sig /* SIG(0) */
-+ 		    && rdtype != dns_rdatatype_tkey /* Win2000 TKEY */
-+ 		    && msg->rdclass != dns_rdataclass_any
-+@@ -1259,6 +1267,16 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
-+ 			DO_FORMERR;
-+ 
-+ 		/*
-++		 * If this is not a TKEY query/response then the KEY
-++		 * record's class needs to match.
-++		 */
-++		if (msg->opcode != dns_opcode_update && !msg->tkey &&
-++		    rdtype == dns_rdatatype_key &&
-++		    msg->rdclass != dns_rdataclass_any &&
-++		    msg->rdclass != rdclass)
-++			DO_FORMERR;
-++
-++		/*
-+ 		 * Special type handling for TSIG, OPT, and TKEY.
-+ 		 */
-+ 		if (rdtype == dns_rdatatype_tsig) {
-+@@ -1372,6 +1390,10 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
-+ 				skip_name_search = ISC_TRUE;
-+ 				skip_type_search = ISC_TRUE;
-+ 				issigzero = ISC_TRUE;
-++			} else {
-++				if (msg->rdclass != dns_rdataclass_any &&
-++				    msg->rdclass != rdclass)
-++					DO_FORMERR;
-+ 			}
-+ 		} else
-+ 			covers = 0;
-+@@ -1610,6 +1632,7 @@ dns_message_parse(dns_message_t *msg, isc_buffer_t *source,
-+ 	msg->counts[DNS_SECTION_ADDITIONAL] = isc_buffer_getuint16(source);
-+ 
-+ 	msg->header_ok = 1;
-++	msg->state = DNS_SECTION_QUESTION;
-+ 
-+ 	/*
-+ 	 * -1 means no EDNS.
-+@@ -3550,3 +3573,15 @@ dns_message_buildopt(dns_message_t *message, dns_rdataset_t **rdatasetp,
-+ 		dns_message_puttemprdatalist(message, &rdatalist);
-+ 	return (result);
-+ }
-++
-++void
-++dns_message_setclass(dns_message_t *msg, dns_rdataclass_t rdclass) {
-++
-++	REQUIRE(DNS_MESSAGE_VALID(msg));
-++	REQUIRE(msg->from_to_wire == DNS_MESSAGE_INTENTPARSE);
-++	REQUIRE(msg->state == DNS_SECTION_ANY);
-++	REQUIRE(msg->rdclass_set == 0);
-++
-++	msg->rdclass = rdclass;
-++	msg->rdclass_set = 1;
-++}
-+diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
-+index aa23b11..d220986 100644
-+--- a/lib/dns/resolver.c
-++++ b/lib/dns/resolver.c
-+@@ -6964,6 +6964,8 @@ resquery_response(isc_task_t *task, isc_event_t *event) {
-+ 			goto done;
-+ 	}
-+ 
-++	dns_message_setclass(message, fctx->res->rdclass);
-++
-+ 	result = dns_message_parse(message, &devent->buffer, 0);
-+ 	if (result != ISC_R_SUCCESS) {
-+ 		switch (result) {
-+@@ -7036,6 +7038,12 @@ resquery_response(isc_task_t *task, isc_event_t *event) {
-+ 	 */
-+ 	log_packet(message, ISC_LOG_DEBUG(10), fctx->res->mctx);
-+ 
-++	if (message->rdclass != fctx->res->rdclass) {
-++		resend = ISC_TRUE;
-++		FCTXTRACE("bad class");
-++		goto done;
-++	}
-++
-+ 	/*
-+ 	 * Process receive opt record.
-+ 	 */
-+diff --git a/lib/dns/xfrin.c b/lib/dns/xfrin.c
-+index 9ad8960..938373a 100644
-+--- a/lib/dns/xfrin.c
-++++ b/lib/dns/xfrin.c
-+@@ -1241,6 +1241,8 @@ xfrin_recv_done(isc_task_t *task, isc_event_t *ev) {
-+ 	msg->tsigctx = xfr->tsigctx;
-+ 	xfr->tsigctx = NULL;
-+ 
-++	dns_message_setclass(msg, xfr->rdclass);
-++
-+ 	if (xfr->nmsg > 0)
-+ 		msg->tcp_continuation = 1;
-+ 
-diff --git a/meta/recipes-connectivity/bind/bind_9.9.5.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-index ee94011..6e4878d 100644
---- a/meta/recipes-connectivity/bind/bind_9.9.5.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-@@ -22,6 +22,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
- 	   file://CVE-2015-1349.patch \ 
- 	   file://CVE-2015-4620.patch \
- 	   file://CVE-2015-5722.patch \
-+           file://CVE-2015-8000.patch \
- 	   "
- 
- SRC_URI[md5sum] = "e676c65cad5234617ee22f48e328c24e"
--- 
-1.9.1
-
+Alex
 
