@@ -1,40 +1,47 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-vk0-f50.google.com (mail-vk0-f50.google.com
-	[209.85.213.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B39E6FFE8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 534FD60762
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 00:08:49 +0000 (UTC)
-Received: by mail-vk0-f50.google.com with SMTP id f2so70866993vkb.3
+	Tue, 22 Dec 2015 00:11:23 +0000 (UTC)
+Received: by mail-ig0-f171.google.com with SMTP id to18so46990604igc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Dec 2015 16:08:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	Mon, 21 Dec 2015 16:11:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=iIs8dfHJhFdDNykEPagV/3llaeY83LERx/izBztFA88=;
-	b=AJhrVtF95lXRsBANiHrZHfKuu+G/jqfz7LjXIjeAH5+1DsbsWMfY6TLc6rU/PJ3tw8
-	q5LCahibABGhp7A+Hyx/FbC8/WJdvMCgG9/8s3569iZMnu1MA8/COssrEb9EcDOZVn7Y
-	x4Q+3JvNAXyUyGj2QAso96h0UNlbPdOQ2flaAfqti4nj1DFx1Kb56TT+Or/eT7J57Bvk
-	rg3LKNWonJVuJDJ23bQcabGdGrRVxxbDYTDxxIuVZlX5zlKlWBr5lREIBE/jI3sbMYIb
-	oOgTiHwjar75tSZJVXgg6OQRZ/8Kxex7ERZO9y56uhIK+lExcH7ZcMeWh2Kg/oPbecDX
-	5iOg==
+	bh=gxN7oJ7j35VYpzg4syGR6yrRp89cRRmi663vJu95CdA=;
+	b=2B5YsxsU5sn1KVAwahPCEEzKjBy3H2Y5/3OKX4yRgZQwxdToaQEgazPwpjNtuF5WEI
+	me4bcr+Kf5y5vgJIMmky1GBtLqQonTBwEuyYh2D9FkKtkFUAmvMTPWOdS5o81ARNlwDg
+	e2n7Kk+5c01kciIZv+gxcGC8DGaeN7kJcfZvR38bvPvLNxY8fk98P7m0A1wRL4K8RnPr
+	n4E5/0RzHAWNzfGg4/TthDiXFGwi5d1H3i4NW2gi9COTGQ/K1TB+MY6JWBrrUWSaA11b
+	PEv9LPi8/HPDdyBylflvvz8bpf9a8u5nq3d24amFJ3WC0Gf3x4sOFGsq5PfelcIwhnLI
+	dUkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=gxN7oJ7j35VYpzg4syGR6yrRp89cRRmi663vJu95CdA=;
+	b=G36H7FoPBSHwjM0SDJzk39GLZWs3hyA5Io4voRlkOVMKjrCsMTXwXzF/N2rkEd7gbW
+	6roCYYGuH43b2vHsisW0QDxg9TmphgfHIXnrQmf/pW71em047YW0cgl64azfRXZlFNZ9
+	UEBLmc7dHOpjhhP0Hf5we3kb9nRj/PvIczO7kTJOYUi09ELFgCNZ1/VjjNjTElnrZeHE
+	ewxcsQ5xu2cdEV640nq4f9gSJjWzdqAvFdDj3idDjgVHAYYrFkO9c2Gek9Ix6OWGgD8s
+	UGIwi0/VrZZinX0WEZSyF4wwZqcbZOd4La3OHhZ8HoRKpTw27yhozrpw0U84/U6ueSUR
+	THvQ==
+X-Gm-Message-State: ALoCoQlnJMtrJ/RSWopKP1xJFEAsPV52nDpBFUO3NH5XdNNQ2TTuzNFBRgR40b0J9Icb3l/5I6ybQXOPFJF3A1MCZAcRj9ky6pgRAl1YXfMKjMSHcRIky4A=
+X-Received: by 10.50.30.69 with SMTP id q5mr21848227igh.78.1450743083931; Mon,
+	21 Dec 2015 16:11:23 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.31.174.142 with SMTP id x136mr14440572vke.11.1450742930096; 
-	Mon, 21 Dec 2015 16:08:50 -0800 (PST)
-Received: by 10.31.202.196 with HTTP; Mon, 21 Dec 2015 16:08:50 -0800 (PST)
-In-Reply-To: <5677E4E3.6010607@linux.intel.com>
-References: <cover.1450471022.git.bruce.ashfield@windriver.com>
-	<0aa694bda5500aef7d326fa880c77b726c8c2779.1450471022.git.bruce.ashfield@windriver.com>
-	<CAP9ODKqJyZq29L7=mFzCVo2=oAX3O8WtyiJ498inW5d2fJrBBQ@mail.gmail.com>
-	<CADkTA4OLTmiDHTwHec+Pnyhs_p-kLZp=yD2k4GOpc-LB-7sEUA@mail.gmail.com>
-	<CAP9ODKoENbVi-ALn-2PWdW9pv1BfGbyejBQrf7md3bH3FnJFCQ@mail.gmail.com>
-	<5677E4E3.6010607@linux.intel.com>
-Date: Mon, 21 Dec 2015 19:08:50 -0500
-Message-ID: <CADkTA4MCdk29-wANKfCziyquHuzmHEno1vmXoJaopuia-=QfyQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] lttng-modules: fix build issue against kernel 4.4
+Received: by 10.107.162.70 with HTTP; Mon, 21 Dec 2015 16:11:04 -0800 (PST)
+In-Reply-To: <1450554119-15984-1-git-send-email-costin.c.constantin@intel.com>
+References: <1450554119-15984-1-git-send-email-costin.c.constantin@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Dec 2015 00:11:04 +0000
+Message-ID: <CAJTo0Lah03Ts32rUyR=eAijWk+m4nnHDLU7145n2TkCWY2N_=w@mail.gmail.com>
+To: Costin Constantin <costin.c.constantin@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] scripts/oe-selftest: Add support for selftest log with timestamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,127 +54,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 00:08:50 -0000
-Content-Type: multipart/alternative; boundary=001a11438eb20248ca05277169a0
+X-List-Received-Date: Tue, 22 Dec 2015 00:11:24 -0000
+Content-Type: multipart/alternative; boundary=047d7bdc1c0c2dc06f0527717221
 
---001a11438eb20248ca05277169a0
+--047d7bdc1c0c2dc06f0527717221
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Dec 21, 2015 at 6:39 AM, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+On 19 December 2015 at 19:41, Costin Constantin <
+costin.c.constantin@intel.com> wrote:
 
-> On 12/21/2015 01:27 PM, Otavio Salvador wrote:
->
-> Commit logs are suppose to have the information useful to understand
->> the reason of the change. Latest hides all behind it and does not
->> communicate anything. I don't think expect people to read the code to
->> know you bumped (and to which) revision is right.
->>
->
-> Having the exact upstream commit id - a bunch of random numbers and
-> letters - in the commit message does not make the commit message any more
-> useful, readable, or searchable. You can't even click on that id to open a
-> gitweb webpage with the upstream patch (having that kind of link *would* be
-> useful though).
->
-> The change to the recipe is short, and no one should be overwhelmed by
-> looking at it if they need the commit id.
+> +    log_file = "oe-selftest-" + t.strftime("%Y-%m-%d_%H:%M:%S") + ".log"
+> +    if os.path.exists("oe-selftest.log"): os.remove("oe-selftest.log")
+> +    os.symlink(log_file, "oe-selftest.log")
 >
 
+Wouldn't it be sensible to also then write directly to the timestamped file
+instead of the symlink, just in case? (in the FileHandler call just below).
 
-We are of like minds on those points. It is more important to say why a
-change
-was required, which is all that I look for in anything that I maintain.
+Ross
 
-That, and I'm always concerned that if someone contributes a patch that
-fixes
-a real problem, or is part of a larger feature, and all they get are
-nit-pick comments
-about more minor elements, it is a barrier to entry. Hence, why I'll also
-just
-fix commit messages on the way into my queues if they need a tweak.
-
-But I digress. I'll see if this passes autobuilder sanity, and if there's a
-chance,
-I'll add a date to the log (but of course the commit also carries that
-info).
-
-Cheers,
-
-Bruce
-
-
->
-> Alex
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---001a11438eb20248ca05277169a0
+--047d7bdc1c0c2dc06f0527717221
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, Dec 21, 2015 at 6:39 AM, Alexander Kanavin <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">al=
-exander.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><span class=3D"">On 12/21/2015 01:27 PM, Otavio Salvador wrot=
-e:<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-Commit logs are suppose to have the information useful to understand<br>
-the reason of the change. Latest hides all behind it and does not<br>
-communicate anything. I don&#39;t think expect people to read the code to<b=
-r>
-know you bumped (and to which) revision is right.<br>
-</blockquote>
-<br></span>
-Having the exact upstream commit id - a bunch of random numbers and letters=
- - in the commit message does not make the commit message any more useful, =
-readable, or searchable. You can&#39;t even click on that id to open a gitw=
-eb webpage with the upstream patch (having that kind of link *would* be use=
-ful though).<br>
-<br>
-The change to the recipe is short, and no one should be overwhelmed by look=
-ing at it if they need the commit id.<br></blockquote><div><br></div><div><=
-br></div><div>We are of like minds on those points. It is more important to=
- say why a change</div><div>was required, which is all that I look for in a=
-nything that I maintain.</div><div><br></div><div>That, and I&#39;m always =
-concerned that if someone contributes a patch that fixes</div><div>a real p=
-roblem, or is part of a larger feature, and all they get are nit-pick comme=
-nts</div><div>about more minor elements, it is a barrier to entry. Hence, w=
-hy I&#39;ll also just</div><div>fix commit messages on the way into my queu=
-es if they need a tweak.</div><div><br></div><div>But I digress. I&#39;ll s=
-ee if this passes autobuilder sanity, and if there&#39;s a chance,</div><di=
-v>I&#39;ll add a date to the log (but of course the commit also carries tha=
-t info).</div><div><br></div><div>Cheers,</div><div><br></div><div>Bruce</d=
-iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Alex<div class=3D"HOEnZb"><div class=3D"h5"><br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
-<div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer=
-, for chaos and madness await thee at its end&quot;</div>
-</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 December 2015 at 19:41, Costin Constantin <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:costin.c.constantin@intel.com" target=3D"_blank">costin.c.cons=
+tantin@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
+iv id=3D":2m6" class=3D"a3s" style=3D"overflow:hidden">+=C2=A0 =C2=A0 log_f=
+ile =3D &quot;oe-selftest-&quot; + t.strftime(&quot;%Y-%m-%d_%H:%M:%S&quot;=
+) + &quot;.log&quot;<br>
++=C2=A0 =C2=A0 if os.path.exists(&quot;oe-selftest.log&quot;): os.remove(&q=
+uot;oe-selftest.log&quot;)<br>
++=C2=A0 =C2=A0 os.symlink(log_file, &quot;oe-selftest.log&quot;)<br></div><=
+/blockquote></div><br>Wouldn&#39;t it be sensible to also then write direct=
+ly to the timestamped file instead of the symlink, just in case? (in the Fi=
+leHandler call just below).</div><div class=3D"gmail_extra"><br></div><div =
+class=3D"gmail_extra">Ross</div></div>
 
---001a11438eb20248ca05277169a0--
+--047d7bdc1c0c2dc06f0527717221--
