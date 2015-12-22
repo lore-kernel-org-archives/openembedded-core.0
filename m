@@ -1,40 +1,27 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 030E3731D7
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B714731E5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 04:24:08 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id k90so123786519qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Dec 2015 20:24:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-type:content-transfer-encoding;
-	bh=9OzaFHRs682D9PoNG2SQZHoUk6U81MZVjdTEOpoNgMw=;
-	b=U79R8dAc6fDrwiMwz9pz8eDta1sxj+mFBbkW0+TrLca3K6Izp7FxNPucvPkUWGvCL4
-	jsk6NXrlIEh1kpBCSxPSA7Lwnnum8W0ikX8+vYWfYjZWFpMhp3mioiHJz91CxZw9qGH1
-	gc83E1Ief4rcKJtQ24cLzh60VLre6i81OnI8TLuoYCet0rxHaJvn9fqkeNkr8PDY2HTU
-	7Q996y9Hi3dqaY0Lw3lU0Go16j72+Jt3y90Ndyfeqi+reQWT6RFVFJqfmAIldXKSOJUM
-	Z4FMTLHpTmrpYtazuKui4iZay4hNJow4Z4BAjZDb8RAivTgdm+rPikXOLxVOTRDYR4X1
-	REaQ==
-X-Received: by 10.140.255.10 with SMTP id a10mr31423789qhd.103.1450758249322; 
-	Mon, 21 Dec 2015 20:24:09 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	o51sm6593494qge.34.2015.12.21.20.24.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 21 Dec 2015 20:24:08 -0800 (PST)
+	Tue, 22 Dec 2015 04:48:29 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 21 Dec 2015 20:48:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,462,1444719600"; d="scan'208";a="876479494"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
+	([10.255.148.44])
+	by orsmga002.jf.intel.com with ESMTP; 21 Dec 2015 20:48:29 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1450757450-17359-1-git-send-email-twoerner@gmail.com>
-	<1450757450-17359-2-git-send-email-twoerner@gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <5678D061.3080200@gmail.com>
-Date: Mon, 21 Dec 2015 23:24:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+Date: Tue, 22 Dec 2015 17:48:26 +1300
+Message-ID: <8902667.dRqJiN5CyU@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.2.7-300.fc23.x86_64; KDE/4.14.14; x86_64; ;
+	)
+In-Reply-To: <bf656aa4c94050e325b5070d7bf9a9ccf7858243.1450751834.git.paul.eggleton@linux.intel.com>
+References: <cover.1450751834.git.paul.eggleton@linux.intel.com>
+	<bf656aa4c94050e325b5070d7bf9a9ccf7858243.1450751834.git.paul.eggleton@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1450757450-17359-2-git-send-email-twoerner@gmail.com>
-Subject: Re: [meta-oe][PATCH v3 1/1] nodejs: cleanup and update
+Subject: Re: [PATCH 1/2] buildhistory: fix not recording SDK information
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,9 +34,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 04:24:09 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Dec 2015 04:48:31 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Oops, sent to wrong list. resending...
+On Tue, 22 Dec 2015 15:41:27 Paul Eggleton wrote:
+> After OE-Core revision baa4e43a29e45df17eaa3456acc179b08d571db6 we lost
+> recording SDK the contents in buildhistory. This was due to the
+> SDK_POSTPROCESS_COMMAND variable being set with = in
+> populate_sdk_base.bbclass which overwrote any value set with += in
+> buildhistory.bbclass; to fix it, use _append in buildhistory.bbclass
+> instead.
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+I neglected to note this fixes bug 8839 - I've re-pushed the branch with the 
+commit message updated.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
