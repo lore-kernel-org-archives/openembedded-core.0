@@ -1,25 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 62FB2731EC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 31C386AC4B
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 22 Dec 2015 08:43:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBM8hoU8008094
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBM8hr8v023259
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Dec 2015 00:43:50 -0800 (PST)
+	Tue, 22 Dec 2015 00:43:53 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 22 Dec 2015 00:43:49 -0800
+	14.3.248.2; Tue, 22 Dec 2015 00:43:52 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <randy.macleod@windriver.com>, 
 	<ross.burton@intel.com>, <jackie.huang@windriver.com>,
 	<mark.hatle@windriver.com>, <liezhi.yang@windriver.com>
-Date: Tue, 22 Dec 2015 16:43:18 +0800
-Message-ID: <cover.1450772654.git.hongxu.jia@windriver.com>
+Date: Tue, 22 Dec 2015 16:43:19 +0800
+Message-ID: <2c95c13720906c8788e7b42abfc6c711af8a87f9.1450772654.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1450772654.git.hongxu.jia@windriver.com>
+References: <cover.1450772654.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3][RFC] fix confliction between connman and networkmanager
+Subject: [PATCH 1/3] connman.inc: add missing RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,46 +37,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 22 Dec 2015 08:43:53 -0000
 Content-Type: text/plain
 
-Provide two solutions for discussion.
+All of the connman-tools, connman-tests and connman-client
+runtime depends connman.
 
-SOLUTION 1: add virtual/netmanager to RPROVIDES and choose connman or
-            networkmanager by override PREFERRED_PROVIDER_virtual/netmanager;
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-connectivity/connman/connman.inc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-SOLUTION 2: add variable NETWORK_MANAGER to RDEPENDS, and select connman or
-            networkmanager by override NETWORK_MANAGER.
-
-SOLUTION 3: for networkmanager, directly remove RCONFLICTS_${PN} = "connman".
-            The networkmanager and connman are not file confliction, they
-            just provide the same function. Install both of them is ok.
-            https://wiki.ubuntu.com/DesktopTeam/ConnectionManagerComparison 
-
-If one of them is accepted, we also need to modify networkmanager in
-meta-oe and related recipes/layers(such as meta-xfce).
-
-//Hongxu
-
-The following changes since commit 0381b78aa4dfc0d338fba69502e8f03a0c0f21e7:
-
-  bitbake: event/utils/methodpool: Add a cache of compiled code objects (2015-12-22 00:02:05 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/netmanager-confliction
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/netmanager-confliction
-
-Hongxu Jia (3):
-  connman.inc: add missing RDEPENDS
-  connman.inc: add networkmanager to RCONFLICTS
-  add virtual/netmanager to fix confliction between connman and
-    networkmanager
-
- meta/conf/bitbake.conf                                        | 2 ++
- meta/recipes-connectivity/connman/connman.inc                 | 9 ++++++++-
- meta/recipes-core/packagegroups/packagegroup-self-hosted.bb   | 3 +--
- meta/recipes-extended/images/core-image-kernel-dev.bb         | 2 +-
- meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb | 2 +-
- 5 files changed, 13 insertions(+), 5 deletions(-)
-
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index ba2ca24..76e61b4 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -142,11 +142,15 @@ python populate_packages_prepend() {
+ PACKAGES =+ "${PN}-tools ${PN}-tests ${PN}-client"
+ 
+ FILES_${PN}-tools = "${bindir}/wispr"
++RDEPENDS_${PN}-tools ="${PN}"
+ 
+ FILES_${PN}-tests = "${bindir}/*-test ${libdir}/${BPN}/test/*"
+-RDEPENDS_${PN}-tests = "python-dbus python-pygobject python-textutils python-subprocess python-fcntl python-netclient"
++RDEPENDS_${PN}-tests = "python-dbus python-pygobject python-textutils python-subprocess python-fcntl python-netclient \
++                        ${PN} \
++"
+ 
+ FILES_${PN}-client = "${bindir}/connmanctl"
++RDEPENDS_${PN}-client ="${PN}"
+ 
+ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
+             ${libdir}/connman/plugins \
 -- 
 1.9.1
 
