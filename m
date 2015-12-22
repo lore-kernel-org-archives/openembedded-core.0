@@ -1,35 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F58B6FFE5
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3022273188
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 01:07:12 +0000 (UTC)
-Received: by mail-pa0-f54.google.com with SMTP id uo6so3070284pac.1
+	Tue, 22 Dec 2015 01:17:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBM1Hj9E002984
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Dec 2015 17:07:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=019wDSDlPyTYolXL6r5rq5rCUGFY8UIrYf+CxWuJSEw=;
-	b=OVozt1+T+gAwN6lw5IEeGaNUT+z3d9sYI2QzvG3ASfAeSssQQBnpocZcNZ4ylumewr
-	fYBFdoNVxFmBTQTz0EyAWx8NfdgzgIjUYwNql7EMK5RIjesxk7XXUEReNvP+fVKJgy0t
-	S0RDKoPr73tYfYTWHwu2juzsbAtauNochjPUe4fPiy4qV1VOsLOG7zehCGu2amZGejgF
-	M9KH943TGySXjcQK7RcUCRFmuL8KM09aL5urtjiSRd0LWnIwLDDN5a0JlGepvRda2Z5V
-	/Tu0t2moazsajS0dzfeQd20lf/FkWhCdxKKgdONoxBc5Nu94CUCAHrIaIOrZ22Je/R8z
-	e2WA==
-X-Received: by 10.66.161.133 with SMTP id xs5mr31446160pab.70.1450746433063;
-	Mon, 21 Dec 2015 17:07:13 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	dg1sm41776567pad.18.2015.12.21.17.07.11
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 21 Dec 2015 17:07:11 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Dec 2015 17:07:02 -0800
-Message-Id: <1450746422-10755-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] directfb.inc: enable bfd linker workaround for all arm targets
+	Mon, 21 Dec 2015 17:17:45 -0800 (PST)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 21 Dec 2015 17:17:45 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 22 Dec 2015 09:04:52 +0800
+Message-ID: <cover.1450746244.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.6.1
+MIME-Version: 1.0
+Subject: [PATCH 0/2] Patches for guile and bind
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 01:07:14 -0000
+X-List-Received-Date: Tue, 22 Dec 2015 01:17:46 -0000
+Content-Type: text/plain
 
-Although the gold linker problems with DirectFB have only so far been
-observed with armv7a, they could potentially affect future arm targets
-too. Since there's no particular downside to using the bfd linker for
-DirectFB, apply the workaround to all arm targets.
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-graphics/directfb/directfb.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 5f406915b5e26761faa4ea5e0edd887ac5ae6e2f:
 
-diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-graphics/directfb/directfb.inc
-index b905ab0..603aba3 100644
---- a/meta/recipes-graphics/directfb/directfb.inc
-+++ b/meta/recipes-graphics/directfb/directfb.inc
-@@ -23,7 +23,7 @@ S = "${WORKDIR}/DirectFB-${PV}"
- LDFLAGS_append =" -lts -lm"
- 
- # Workaround for linking issues seen with armv7a + gold
--LDFLAGS_append_armv7a = "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
-+LDFLAGS_append_arm = "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
- 
- BINCONFIG = "${bindir}/directfb-config"
- 
+  bitbake: toaster: remove 2 confusing parameters (2015-12-18 13:51:54 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/misc
+
+Kai Kang (2):
+  guile: remove redundant replacement of .pc file
+  bind: 9.10.2-P4 -> 9.10.3-P2
+
+ .../0001-build-use-pkg-config-to-find-libxml2.patch  | 20 ++++++++++++++------
+ .../bind/{bind_9.10.2-P4.bb => bind_9.10.3-P2.bb}    |  9 ++++++---
+ meta/recipes-devtools/guile/guile_2.0.11.bb          | 19 ++++---------------
+ 3 files changed, 24 insertions(+), 24 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.10.2-P4.bb => bind_9.10.3-P2.bb} (90%)
+
 -- 
-1.9.1
+2.6.1
 
 
