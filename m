@@ -1,22 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BADE6AC4B
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E0E037319E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 19:40:43 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP; 22 Dec 2015 11:40:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,465,1444719600"; d="scan'208";a="17777072"
-Received: from lvargasv-mobl3.amr.corp.intel.com (HELO
-	swold-mobl.jf.intel.com) ([10.252.136.123])
-	by fmsmga004.fm.intel.com with ESMTP; 22 Dec 2015 11:40:42 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Tue, 22 Dec 2015 11:40:41 -0800
-Message-Id: <1450813241-20883-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH][v3] libdrm: Upgrade to 2.4.65
+	Tue, 22 Dec 2015 19:52:26 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id l126so122071585wml.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Dec 2015 11:52:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=txlN2yZoDBwtsPSV9Ti+B2Y6+eX05fYNZr76e2yK9R0=;
+	b=z3xguGBV0LdSOWfg8w6ztFCVStZ5sGWHqnv7SQCP9Hl60+21qnu8W3fwy46JlD+dJB
+	UejN3yvUSWsHDDa7f2eEyvMCnpWCHO7ZCFj1n4loFyXsUglZabl43PU5AdU2Y3LQHRRS
+	4tHds0OXTQVDE6td4IcJ+v26FDb/dCuRJ7v/8/iDRGj4YJl66Vjypr7zA06lCtCkMdK/
+	ZyneyJhScbaRPvdZNNg4X0Sa2RzoxVSPwviXo2SEBYm7xzukzk+bKVRzwyxa419g8PCW
+	ImVSxk0G0fr5hhHsJ0lYnX015GAAaRsmHwdr5HckyCeNQzCpn3r7dk0zPOA2gEvdXhTs
+	O//g==
+MIME-Version: 1.0
+X-Received: by 10.28.86.196 with SMTP id k187mr28491888wmb.61.1450813946962;
+	Tue, 22 Dec 2015 11:52:26 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Tue, 22 Dec 2015 11:52:26 -0800 (PST)
+In-Reply-To: <56794E98.3050605@linux.intel.com>
+References: <cover.1449671297.git.alexander.kanavin@linux.intel.com>
+	<91b12be58798efa4bcd8742b50d48077aa3ae6bd.1449671297.git.alexander.kanavin@linux.intel.com>
+	<CAJ86T=Uo0tAtbNYXYkmcvm2bqMUeq79it_cH5aSChgtNsBdsNA@mail.gmail.com>
+	<56794E98.3050605@linux.intel.com>
+Date: Tue, 22 Dec 2015 11:52:26 -0800
+Message-ID: <CAJ86T=V721kLwWtqLEWmTvJPj-LSw93uoM=s9afOH8xiZKd5Rg@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 07/10] mirrors: replace references to archive.apache.org
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,95 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 19:40:48 -0000
+X-List-Received-Date: Tue, 22 Dec 2015 19:52:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Rebased patch to reflect changes in Makefile
-Add libdrm_amdgpu package as a new library was added
+On Tue, Dec 22, 2015 at 5:22 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> On 12/22/2015 12:21 AM, Andre McCurdy wrote:
+>>>
+>>> -http://www.apache.org/dist  http://archive.apache.org/dist \n \
+>>> +http://www.eu.apache.org/dist  http://www.us.apache.org/dist \n \
+>>
+>>
+>> Is this change correct? Shouldn't mirrors.bbclass provide a fallback
+>> to the historical releases URL (so that things keep working if the
+>> oe-core version of an apache.org package is no longer a current
+>> version) ?
+>
+> When I have checked, archive.apache.org did not have the latest releases of
+> subversion, so it can't be relied on as a primary upstream source. On the
+> other hand, primary mirrors only keep the latest releases, and remove
+> anything else. So the right thing would be to first try to use those primary
+> mirrors, and fall back to archive if those mirrors no longer have the
+> version we need.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../recipes-graphics/drm/libdrm/installtests.patch | 24 ++++++++++++----------
- .../drm/{libdrm_2.4.62.bb => libdrm_2.4.65.bb}     | 11 +++++-----
- 2 files changed, 19 insertions(+), 16 deletions(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.62.bb => libdrm_2.4.65.bb} (81%)
+Yes, that's what I was getting at - there should be a fallback to the
+archives since oe-core releases typically won't be using the latest
+release versions. Your new patch looks good.
 
-diff --git a/meta/recipes-graphics/drm/libdrm/installtests.patch b/meta/recipes-graphics/drm/libdrm/installtests.patch
-index 1175dae..f460ef5 100644
---- a/meta/recipes-graphics/drm/libdrm/installtests.patch
-+++ b/meta/recipes-graphics/drm/libdrm/installtests.patch
-@@ -4,20 +4,22 @@ Upstream-Status: Inappropriate [configuration]
- 
- Signed-off-by: Yu Ke <ke.yu@intel.com>
- 
--diff --git a/tests/Makefile.am b/tests/Makefile.am
--index bf1987f..d909e19 100644
----- a/tests/Makefile.am
--+++ b/tests/Makefile.am
--@@ -27,10 +27,11 @@ AM_CPPFLAGS = \
-+Index: libdrm-2.4.65/tests/Makefile.am
-+===================================================================
-+--- libdrm-2.4.65.orig/tests/Makefile.am
-++++ libdrm-2.4.65/tests/Makefile.am
-+@@ -29,9 +29,11 @@ AM_CFLAGS = \
-  
-  LDADD = $(top_builddir)/libdrm.la
-  
- -check_PROGRAMS = \
-+-	dristat \
-+-	drmstat
- +bin_PROGRAMS = \
-- 	dristat \
-- 	drmstat
-- 
-++        dristat \
-++        drmstat
-++ 
- +check_PROGRAMS =
-- if HAVE_NOUVEAU
-- SUBDIRS += nouveau
-- endif
-+ 
-+ dristat_LDADD = -lm
-+ 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.62.bb b/meta/recipes-graphics/drm/libdrm_2.4.65.bb
-similarity index 81%
-rename from meta/recipes-graphics/drm/libdrm_2.4.62.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.65.bb
-index ea6305e..e5ed260 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.62.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.65.bb
-@@ -12,8 +12,9 @@ DEPENDS = "libpthread-stubs udev libpciaccess"
- 
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
-            file://installtests.patch "
--SRC_URI[md5sum] = "c9291bae0e5ca65d1483821d3698d3ab"
--SRC_URI[sha256sum] = "906c294bdbe1c94c3ca084305d61a6e5a8367f3b4986e6cc13b1e9b3f75931dc"
-+
-+SRC_URI[md5sum] = "de49916e5f8aef4eba55223c79709b05"
-+SRC_URI[sha256sum] = "71960ac8bde7d710992b1bc8879935e8300a870c36bd06f22412d0447e3d96c4"
- 
- inherit autotools pkgconfig
- 
-@@ -26,10 +27,10 @@ EXTRA_OECONF += "--disable-cairo-tests \
- 
- ALLOW_EMPTY_${PN}-drivers = "1"
- PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap \
--             ${PN}-intel ${PN}-exynos ${PN}-kms ${PN}-freedreno"
-+             ${PN}-intel ${PN}-exynos ${PN}-kms ${PN}-freedreno ${PN}-amdgpu"
- 
- RRECOMMENDS_${PN}-drivers = "${PN}-radeon ${PN}-nouveau ${PN}-omap ${PN}-intel \
--                             ${PN}-exynos ${PN}-freedreno"
-+                             ${PN}-exynos ${PN}-freedreno ${PN}-amdgpu"
- 
- FILES_${PN}-tests = "${bindir}/dr* ${bindir}/mode* ${bindir}/*test"
- FILES_${PN}-radeon = "${libdir}/libdrm_radeon.so.*"
-@@ -39,4 +40,4 @@ FILES_${PN}-intel = "${libdir}/libdrm_intel.so.*"
- FILES_${PN}-exynos = "${libdir}/libdrm_exynos.so.*"
- FILES_${PN}-kms = "${libdir}/libkms*.so.*"
- FILES_${PN}-freedreno = "${libdir}/libdrm_freedreno.so.*"
--
-+FILES_${PN}-amdgpu = "${libdir}/libdrm_amdgpu.so.*"
--- 
-2.5.0
+Checking subversion on http://archive.apache.org/dist today though,
+the archive site does seem to have copies of the latest versions, so
+not sure what was happening when you looked.
 
+> This problem also shows up with debian upstream.
+>
+> Alex
+>
 
