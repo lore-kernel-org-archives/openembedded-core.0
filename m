@@ -1,34 +1,36 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id B60EB6E5CC
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 260656FF97
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 23:58:07 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id 186so204673332iow.0
+	Tue, 22 Dec 2015 23:58:10 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id q126so201809155iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 15:58:08 -0800 (PST)
+	Tue, 22 Dec 2015 15:58:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=XF8WVgB4VFZflvTCrfDrDHWd7+Is44HfmNS+9K4DiZE=;
-	b=Ucq7wpTNx9aCBxbUIE6yyF/3gqMQ8sVVte+yppRU66y2sxf0PFDa77dyKTseLPY8mY
-	WTppb5bAEGfW5z9nKFTxqwksdz8JohK0wnPVyVZhVc0OVGDnS2fb7dNn+Ay6vCtp+Lr2
-	gZpl4xzBgBloaMWDQA9WbbSg+WYmf0sl+AoRj9j5Bvta7hNYZS7u61BoeI0CHWehVYkl
-	Jz1/yqeJrE/N9MDhr//OcMLq6vI5v0Qky18iPsB6YeTAoNKJQ0Daq4TnII0CgQwEEiAj
-	/O72XeGPGi1c7If1QT6vd3qgKGxTKvaobLDgf6jmsd4a1VOJ/Wmonr603NFEU/+AB2hp
-	6hlw==
-X-Received: by 10.107.153.11 with SMTP id b11mr29193750ioe.95.1450828687799;
-	Tue, 22 Dec 2015 15:58:07 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=E8M82gZEjAjky3LYsQn89V8JvOtBz5s90He1gXe/+GQ=;
+	b=Y7I2e5xcL3fR12j/jS2nudp73FpfKGvYmFSbEvxpYFhqkxFWcFxFI7NTs4MdT+D8qw
+	PfRyDmVb7Ogds+m58F38YZgRACP3Ztyz+iGeiB5J3u7TsA4S9zR/nRkvRqaSXr+MkFEx
+	1JAn/sa79mqzlgDhAYKy4sVO65DWzpvPT8Mv4P0QF/ci/TvizQfxujcKufqfYNbAHZcn
+	A6KxOtA5YX2P6B81otBu936YUH4GgSrf7fLeRELRiGN2YtSy9JmFJLdAZ8m44plkazuR
+	gWB+GdAwBFL1a3pRTIoLRySrzMoKwZSA4QabwTZs4yjj5bUvn2TnRI0/Y20Z3E26BdZv
+	hlMg==
+X-Received: by 10.107.47.195 with SMTP id v64mr28124504iov.193.1450828691578; 
+	Tue, 22 Dec 2015 15:58:11 -0800 (PST)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id 4sm10079020igz.2.2015.12.22.15.58.06
+	by smtp.gmail.com with ESMTPSA id 4sm10079020igz.2.2015.12.22.15.58.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 22 Dec 2015 15:58:06 -0800 (PST)
+	Tue, 22 Dec 2015 15:58:10 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Dec 2015 15:57:57 -0800
-Message-Id: <1450828680-662-1-git-send-email-armccurdy@gmail.com>
+Date: Tue, 22 Dec 2015 15:57:58 -0800
+Message-Id: <1450828680-662-2-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 0/3] valgrind fixes
+In-Reply-To: <1450828680-662-1-git-send-email-armccurdy@gmail.com>
+References: <1450828680-662-1-git-send-email-armccurdy@gmail.com>
+Subject: [PATCH 1/3] security_flags.inc: disable -fstack-protector-XXX for valgrind
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,17 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 23:58:09 -0000
+X-List-Received-Date: Tue, 22 Dec 2015 23:58:11 -0000
 
-Andre McCurdy (3):
-  security_flags.inc: disable -fstack-protector-XXX for valgrind
-  valgrind: don't restrict to armv7a
-  valgrind: include aarch64 in COMPATIBLE_HOST
+Valgrind (v3.11.0) expects to build with stack protection disabled
+and includes -fno-stack-protector in its default CFLAGS. However, the
+CFLAGS provided by OE are included on the compiler command line after
+the defaults so any -fstack-protector-all / -fstack-protector-strong
+option provided by security_flags.inc will cause problems.
 
- meta/conf/distro/include/security_flags.inc       | 2 +-
- meta/recipes-devtools/valgrind/valgrind_3.11.0.bb | 8 +++++---
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ | .../build-bcm97425vms/tmp/work/mips32el-rdk-linux/valgrind/3.11.0-r0/valgrind-3.11.0/coregrind/m_mallocfree.c:892: undefined reference to `__stack_chk_guard'
+ | .../build-bcm97425vms/tmp/work/mips32el-rdk-linux/valgrind/3.11.0-r0/valgrind-3.11.0/coregrind/m_mallocfree.c:947: undefined reference to `__stack_chk_fail'
 
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/conf/distro/include/security_flags.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 14ac0bf..1795750 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -84,7 +84,7 @@ SECURITY_CFLAGS_pn-python-numpy = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python3 = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-tcl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-tiff = "${SECURITY_NO_PIE_CFLAGS}"
+-SECURITY_CFLAGS_pn-valgrind = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-valgrind = ""
+ SECURITY_CFLAGS_pn-zlib = "${SECURITY_NO_PIE_CFLAGS}"
+ 
+ # These 2 have text relco errors with the pie options enabled
 -- 
 1.9.1
 
