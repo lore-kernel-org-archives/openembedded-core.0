@@ -1,27 +1,33 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 512AF7327E
+Return-Path: <tanuk@iki.fi>
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+	[66.111.4.27])
+	by mail.openembedded.org (Postfix) with ESMTP id 55484607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 08:44:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBM8i4gV023262
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Dec 2015 00:44:04 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 22 Dec 2015 00:44:03 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <randy.macleod@windriver.com>, 
-	<ross.burton@intel.com>, <jackie.huang@windriver.com>,
-	<mark.hatle@windriver.com>, <liezhi.yang@windriver.com>
-Date: Tue, 22 Dec 2015 16:43:22 +0800
-Message-ID: <2fbaa15f862743a9c207842edf3e5f34a6686641.1450772654.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1450772654.git.hongxu.jia@windriver.com>
-References: <cover.1450772654.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3][SOLUTION 1] add virtual/netmanager to fix confliction between connman and networkmanager
+	Tue, 22 Dec 2015 09:50:24 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 1A50B20552
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Dec 2015 04:50:23 -0500 (EST)
+Received: from frontend2 ([10.202.2.161])
+	by compute6.internal (MEProxy); Tue, 22 Dec 2015 04:50:23 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=date:from:message-id:subject:to
+	:x-sasl-enc:x-sasl-enc; s=smtpout; bh=lxqrFpUGkk9hXTJx6lQhlGyGDd
+	U=; b=DJBb9I1p6Pn1gZlH0MD9EckZU0xELi84F/ilBlkMLIyA3eeL6nllF+DTjW
+	+VWSzjW7ksn4xUVlkU5LgW4CWuEDmASJZUmZBMTYm5Dbw8X2TPnMPN89oDJjLDjx
+	Gt7iD6s7lX98rDwjPdeBRpdOeQKY4HSAGB9QauKmiV36PXmtY=
+X-Sasl-enc: wraXYkMLPdOXk4UaN5DRmpd2aoNwDKKdFRE6ijRyjwkh 1450777822
+Received: from laptop.tanuk.dy.fi (a88-114-110-232.elisa-laajakaista.fi
+	[88.114.110.232])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 88973680190
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Dec 2015 04:50:22 -0500 (EST)
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Dec 2015 11:49:36 +0200
+Message-Id: <1450777776-12195-1-git-send-email-tanuk@iki.fi>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] libsndfile1: enable FLAC/Ogg/Vorbis support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,91 +40,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 08:44:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 22 Dec 2015 09:50:25 -0000
 
-In meta-oe, the networkmanager conflicts with connman.In order to fix
-it, we introduce virtual/netmanager and decide which network manager
-(connman or networkmanager...) to use by override PREFERRED_PROVIDER_virtual/netmanager.
+This makes it possible to handle FLAC and Vorbis files in programs
+that use libsndfile.
 
-The connman-plugin-ethernet has been added to connman's
-RPROVIDES, so remove it and keep connman is ok.
+It seems that the external dependencies were disabled just as a
+routine measure to make builds deterministic, since the dependencies
+were missing from DEPENDS[1]. Therefore it seems likely that nobody
+particularly wants to have libsndfile without support for these
+formats.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+[1] http://git.openembedded.org/openembedded-core/commit/?id=34a14ce3ea78be299175e1a803f92519aa02355b
+
+Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
 ---
- meta/conf/bitbake.conf                                        | 2 ++
- meta/recipes-connectivity/connman/connman.inc                 | 1 +
- meta/recipes-core/packagegroups/packagegroup-self-hosted.bb   | 3 +--
- meta/recipes-extended/images/core-image-kernel-dev.bb         | 2 +-
- meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb | 2 +-
- 5 files changed, 6 insertions(+), 4 deletions(-)
+ meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 371af31..880baf2 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -783,6 +783,8 @@ SHELL[unexport] = "1"
- # Used by canadian-cross to handle string conversions on TARGET_ARCH where needed
- TRANSLATED_TARGET_ARCH ??= "${@d.getVar('TARGET_ARCH', True).replace("_", "-")}"
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
+index 3b11568..a5ac84e 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.26.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Audio format Conversion library"
+ HOMEPAGE = "http://www.mega-nerd.com/libsndfile"
+ AUTHOR = "Erik de Castro Lopo"
+-DEPENDS = "sqlite3"
++DEPENDS = "flac libogg libvorbis sqlite3"
+ SECTION = "libs/multimedia"
+ LICENSE = "LGPLv2.1"
  
-+PREFERRED_PROVIDER_virtual/netmanager ??= "connman"
-+
- # Complete output from bitbake
- BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
+@@ -17,8 +17,6 @@ S = "${WORKDIR}/libsndfile-${PV}"
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
+ PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
  
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index a4b814a..0d40cb9 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -98,6 +98,7 @@ do_install_append() {
+-EXTRA_OECONF = "--disable-external-libs"
+-
+ inherit autotools lib_package pkgconfig
  
- # These used to be plugins, but now they are core
- RPROVIDES_${PN} = "\
-+	virtual/netmanager \
- 	connman-plugin-loopback \
- 	connman-plugin-ethernet \
- 	${@bb.utils.contains('PACKAGECONFIG', 'bluetooth','connman-plugin-bluetooth', '', d)} \
-diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index d38be26..666896a 100644
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -29,8 +29,7 @@ RDEPENDS_packagegroup-self-hosted = "\
-     "
- 
- RDEPENDS_packagegroup-self-hosted-host-tools = "\
--    connman \
--    connman-plugin-ethernet \
-+    virtual/netmanager \
-     dhcp-client \
-     e2fsprogs \
-     e2fsprogs-e2fsck \
-diff --git a/meta/recipes-extended/images/core-image-kernel-dev.bb b/meta/recipes-extended/images/core-image-kernel-dev.bb
-index 26b88c9..2ea9847 100644
---- a/meta/recipes-extended/images/core-image-kernel-dev.bb
-+++ b/meta/recipes-extended/images/core-image-kernel-dev.bb
-@@ -4,7 +4,7 @@ sensitive to kernel updates and version changes"
- # Could also be core-image-basic, but we'll keep this small for now
- require recipes-core/images/core-image-minimal.bb
- 
--KERNEL_DEV_UTILS ?= "dropbear connman"
-+KERNEL_DEV_UTILS ?= "dropbear virtual/netmanager"
- KERNEL_DEV_TOOLS ?= "packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
- KERNEL_DEV_MODULE ?= "kernel-modules"
- 
-diff --git a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-index 6679db8..8e9d5a7 100644
---- a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-+++ b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-@@ -20,7 +20,7 @@ RDEPENDS_${PN} = "\
-     ${PN}-games \
-     "
- 
--NETWORK_MANAGER ?= "connman-gnome"
-+NETWORK_MANAGER ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/netmanager","connman","connman-gnome","virtual/netmanager",d)}'
- NETWORK_MANAGER_libc-uclibc = ""
- 
- SUMMARY_${PN}-base = "Sato desktop - base packages"
+ do_configure_prepend_arm() {
 -- 
-1.9.1
+2.6.4
 
 
