@@ -1,48 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id AA60D6E5CB
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 93AA76E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 17:31:49 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id m11so53614368igk.1
+	Tue, 22 Dec 2015 17:34:31 +0000 (UTC)
+Received: by mail-io0-f175.google.com with SMTP id e126so193488291ioa.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 09:31:50 -0800 (PST)
+	Tue, 22 Dec 2015 09:34:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=15T35hjJToFfZooxSGElj35U7gND+AvumuIrERiuPso=;
-	b=RPZ586cYfkcYtufUTVB+/XuDMwDaw1MaEX4H3ROk5Icu8Pi6zriFuK+lo3ctndxrmU
-	nJZ9YsWmtssd0C+BjYrByo55ZZeCkhrC9rp2Ck6eeAYera9/cmZfepBWbQj2/YBGydxR
-	Gc7ylqtRkCExfqKa0g8nr/iWESt60JnBVugoxi1l7aFeqdpz+XCU5iNvxWepkxXEu5lO
-	xg/b2OpfhQJtCFfe7Z/araHnjMNnF2dVrKEMxkQWM1gruFWYuu8PmmXLm/buq6JvAzwr
-	KUKqHXGAh1gs44oJl8IYdnOVCZVkHwCnYeV61VPkAuHfSadh9gSdQX+Fw3Zyr9WMm+z9
-	Jmvw==
+	bh=jLR2r+H1Fn6a9OaJLg5QJw7fBV8sy+LSvn2gZUsFiKM=;
+	b=bbKua2UOhYqgezYmzE2r52OCUzOvUuJjCqnm3vqoQmbwUTm/ehs7dzTkFMzzmIJFHC
+	HA50Em3NVkLjoAReoUck8kKu/6ZSTehnmJAb9562E+XLrM0oCuNC6yiIVr76IwHZ7v9G
+	I4yoaaoWDQ6+6g704e89eefS2yn6XmqV8ODIAHb5/BNJJwCPU0Av+QcywPjSw4eQr6v0
+	Lb2uH5VRl2LeJ2It3P+/NEoABoxCSnShluHUc2lngUS8gpAFVsGoNtUsGeqUUb8fYzXo
+	abKJoqggbUGjOgxwSW+viVSe9TTmrboLlw/xv/k+qqP+h+oD7nNC4zCjOSAaDnCDvz2P
+	nZtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=15T35hjJToFfZooxSGElj35U7gND+AvumuIrERiuPso=;
-	b=TvN4n9p/UD8w+il3kjSbqFtkCXcsD0QZJi+6AmbezOo4F/Uo/FoeYs/gK2/e7NUcPC
-	aXhWe+0+klI5Uqq57F3fd6fDsEZQq25xSIe4kXdBa16nDgJUNgDC8ZnpHubP0V4TRGwf
-	vZa/w1ihj2z3/lMNCpVgG+X+B8zPh35ZEd0VcLBf67xH+4W4TuFnjqopaBr+RtBG6vEy
-	Ytk5reasPFepLM9KxjIEQ93zyN4b2bg1UTSfitxr/0UoyC3qV7Foo0SBzx0eeGiHTF/P
-	mIuveyM+L2I6jBe4dZUr2AhNQUd3VhuIgbtLqdOwcstQzzzmrpjZPxK9f43NoLlDy6p7
-	UbcA==
-X-Gm-Message-State: ALoCoQlLbg35w35X+zz4TkZagg/8dU5MXitABWZT8RrwsDrlMeRBUV1xs2fVeWkFD9h8wBJwyJoj4/GuRKJ+gznFgw09OnyNjnN7uIzFNEi0YstR0v+A7/M=
-X-Received: by 10.50.18.113 with SMTP id v17mr9337054igd.64.1450805509852;
-	Tue, 22 Dec 2015 09:31:49 -0800 (PST)
+	bh=jLR2r+H1Fn6a9OaJLg5QJw7fBV8sy+LSvn2gZUsFiKM=;
+	b=cEk1FD6Q4P37MCVaUfChrxaHeEmO8OfZXHq+pYzn5yW3HatjAQDhdcFlFSnuUwZTt3
+	pLw6YQx/kBv1Rlsbl6CFISM4odWbmWZEvXznB29SGz+hCUrbeCob+kXUbAtXe0X5MLrZ
+	q0WsFNpWOtZaAg3W9niBPvFtSZlxF2AUYfs3HR0UNJNupPKF58oBSMrd05mF946kD+t+
+	Dv8TriN1yzx+MjifXNUeATC5pxoBSLaByksLhkDHvY89k2TuOUPqoIu6+rMtqGZQAt4l
+	rgL28qub6CwuLodt5Es2uKCWJ0tY3Fd21k3VUSCDJlMOraPrAnZkxu2ymez+TacjMrZE
+	qFbg==
+X-Gm-Message-State: ALoCoQnp2EOOX/CJvODZAK8oAwaqW/YFLKtQ/i0Jij4oAFQBSzGywM+1QJIb2/6aw5nCjmtAkYibGrGFcmP34lYF7sXiMafsb0Ku3Qev4uy0iN8vFt6S01g=
+X-Received: by 10.107.3.154 with SMTP id e26mr25070962ioi.99.1450805671921;
+	Tue, 22 Dec 2015 09:34:31 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 22 Dec 2015 09:31:30 -0800 (PST)
-In-Reply-To: <55c3139023d3c2d418e5c34b2a7f4a000fdbc1dc.1450288828.git.mschiffer@universe-factory.net>
-References: <cover.1450288828.git.mschiffer@universe-factory.net>
-	<55c3139023d3c2d418e5c34b2a7f4a000fdbc1dc.1450288828.git.mschiffer@universe-factory.net>
+Received: by 10.107.162.70 with HTTP; Tue, 22 Dec 2015 09:34:12 -0800 (PST)
+In-Reply-To: <1450172969-11076-1-git-send-email-adrian.ratiu@ni.com>
+References: <1450172969-11076-1-git-send-email-adrian.ratiu@ni.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 22 Dec 2015 17:31:30 +0000
-Message-ID: <CAJTo0LZfmtfw-XsnVd7THwv1gKfmY=hjBF9EiNknA9jhLRS6Aw@mail.gmail.com>
-To: Matthias Schiffer <mschiffer@universe-factory.net>
+Date: Tue, 22 Dec 2015 17:34:12 +0000
+Message-ID: <CAJTo0LbnFsAVPv6r_vh8EX9m7Kir-WW-zq+24FJS1Cr4-vVKZA@mail.gmail.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] base-files: create ${base_bindir} etc. instead of /bin, /sbin and /lib
+Subject: Re: [RESEND PATCH v3] util-linux: create util-linux-runuser package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,45 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 17:31:50 -0000
-Content-Type: multipart/alternative; boundary=089e01494ff20dacba05277ffb55
+X-List-Received-Date: Tue, 22 Dec 2015 17:34:31 -0000
+Content-Type: multipart/alternative; boundary=001a113ec10ab6983f0527800464
 
---089e01494ff20dacba05277ffb55
+--001a113ec10ab6983f0527800464
 Content-Type: text/plain; charset=UTF-8
 
-On 16 December 2015 at 18:11, Matthias Schiffer <
-mschiffer@universe-factory.net> wrote:
+On 15 December 2015 at 09:49, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
 
-> -dirs755 = "/bin /boot /dev ${sysconfdir} ${sysconfdir}/default \
-> -           ${sysconfdir}/skel /lib /mnt /proc ${ROOT_HOME} /run /sbin \
-> +dirs755 = "${base_bindir} /boot /dev ${sysconfdir} ${sysconfdir}/default \
-> +           ${sysconfdir}/skel ${nonarch_base_libdir} /mnt /proc
-> ${ROOT_HOME} /run ${base_sbindir} \
+> Split runuser into its own package (previously provided by util-linux).
+> Since runuser is compiled only when DISTRO_FEATURES includes pam,
+> the creation of util-linux-runuser is also constrained by this.
 >
 
-I think the *intention* of /lib was to be $(base_libdir).
+What's the rationale for pulling this out into a separate package?
+
+
+>  PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount',
+> 'util-linux-pylibmount', '', d)}"
+> +PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam',
+> 'util-linux-runuser', '', d)}"
+>
+
+No need for conditionals: empty packages are not created.
 
 Ross
 
---089e01494ff20dacba05277ffb55
+--001a113ec10ab6983f0527800464
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 December 2015 at 18:11, Matthias Schiffer <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:mschiffer@universe-factory.net" target=3D"_blank">mschiffer@un=
-iverse-factory.net</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<div id=3D":1k2" class=3D"a3s" style=3D"overflow:hidden">-dirs755 =3D &quot=
-;/bin /boot /dev ${sysconfdir} ${sysconfdir}/default \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${sysconfdir}/skel /lib /mnt /pro=
-c ${ROOT_HOME} /run /sbin \<br>
-+dirs755 =3D &quot;${base_bindir} /boot /dev ${sysconfdir} ${sysconfdir}/de=
-fault \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${sysconfdir}/skel ${nonarch_base=
-_libdir} /mnt /proc ${ROOT_HOME} /run ${base_sbindir} \</div></blockquote><=
-/div><br>I think the *intention* of /lib was to be $(base_libdir).</div><di=
-v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
-v>
+<div dir=3D"ltr">On 15 December 2015 at 09:49, Ioan-Adrian Ratiu <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adria=
+n.ratiu@ni.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div cla=
+ss=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex">Split runuser into its ow=
+n package (previously provided by util-linux).<br>
+Since runuser is compiled only when DISTRO_FEATURES includes pam,<br>
+the creation of util-linux-runuser is also constrained by this.<br></blockq=
+uote><div><br></div><div>What&#39;s the rationale for pulling this out into=
+ a separate package?</div><div>=C2=A0</div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+=C2=A0PACKAGES +=3D &quot;${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#3=
+9;pylibmount&#39;, &#39;util-linux-pylibmount&#39;, &#39;&#39;, d)}&quot;<b=
+r>
++PACKAGES =3D+ &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;p=
+am&#39;, &#39;util-linux-runuser&#39;, &#39;&#39;, d)}&quot;<br></blockquot=
+e><div><br></div><div>No need for conditionals: empty packages are not crea=
+ted.</div><div><br></div><div>Ross</div></div></div></div>
 
---089e01494ff20dacba05277ffb55--
+--001a113ec10ab6983f0527800464--
