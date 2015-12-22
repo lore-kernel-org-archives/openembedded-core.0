@@ -1,47 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 07F9B60796
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id AA60D6E5CB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 17:04:48 +0000 (UTC)
-Received: by mail-io0-f178.google.com with SMTP id q126so192398001iof.2
+	Tue, 22 Dec 2015 17:31:49 +0000 (UTC)
+Received: by mail-ig0-f177.google.com with SMTP id m11so53614368igk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 09:04:49 -0800 (PST)
+	Tue, 22 Dec 2015 09:31:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=+fjP+oRhj/YlN5JZftowv/yyecGpRyeFwIG4GKtPn8g=;
-	b=IFsV6hduwYV9Xzdb57UKgbT/zB2E0AkD4VUxVy2wR8qvJsWO0iryYgks92ouSD1y5J
-	RDOyQKBBBmrZAwDpQIw97XHzx9GcIQB0ZR8XnCQUiqkCSRKJ9oXEt4VfMRa4ZYQSbyNb
-	R6SmKxeFSw5uablSY/TkDL3nZhCR88G29llXpy4Bu0SE95BSsfB64I4DmFfV56kPh8z4
-	A34IdOQmEbQoadoG8xesVTPrW2MdQh5zQkReB5ewG2u52PQDFqdEXWz9Y6bx8wbPi1uw
-	K7AFfFWD+xMH99QkRUqoXWnTn7vplPbmKjtyoQDS+ItyFgdeMZ7U72i9NnNvY4/V+s6L
-	qdgA==
+	bh=15T35hjJToFfZooxSGElj35U7gND+AvumuIrERiuPso=;
+	b=RPZ586cYfkcYtufUTVB+/XuDMwDaw1MaEX4H3ROk5Icu8Pi6zriFuK+lo3ctndxrmU
+	nJZ9YsWmtssd0C+BjYrByo55ZZeCkhrC9rp2Ck6eeAYera9/cmZfepBWbQj2/YBGydxR
+	Gc7ylqtRkCExfqKa0g8nr/iWESt60JnBVugoxi1l7aFeqdpz+XCU5iNvxWepkxXEu5lO
+	xg/b2OpfhQJtCFfe7Z/araHnjMNnF2dVrKEMxkQWM1gruFWYuu8PmmXLm/buq6JvAzwr
+	KUKqHXGAh1gs44oJl8IYdnOVCZVkHwCnYeV61VPkAuHfSadh9gSdQX+Fw3Zyr9WMm+z9
+	Jmvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=+fjP+oRhj/YlN5JZftowv/yyecGpRyeFwIG4GKtPn8g=;
-	b=KPJB4G/F9WLsXkAqsqZTysW7vx5mY1Pyu8SUJhCv787eWV41HFiWM6t682UI7yNjWU
-	9XuYJ7zC5mnzDIp9UNpi7poNg1Wn/JB3cQybJdukBiNyIxUvkuiZ1lN4LKqOPFiMTiJa
-	j1pG3YayzWzb6l2+6a7sMw2m5ptp1gRJXvEokzQ9vYEEaIL/1S3pYNUHb16CNEb9Q2K4
-	4gz9MX88ezAM+bqcTr755Yi76QD7Y4VfHPCnP3LVKQ8GJbTCrOkC/D8eE836xMwAGpR+
-	jN6loUm6M56ZXAsfL8zNcILhPwYdpOvRM1ay22ilW5cBnv/knlvGuHgWjdO++3mJPGCu
-	GYng==
-X-Gm-Message-State: ALoCoQk9Rew3dSYCguO3TrqAWkAy4sDzo5YOXb6xRG702/KdOsZXLQzesFJjOczkwlr1F8s8m38bWkx3AkBoHPFIfHmvuxcFYnTmCtUjnRWDgTAgLhHrXHQ=
-X-Received: by 10.107.3.154 with SMTP id e26mr24916411ioi.99.1450803887499;
-	Tue, 22 Dec 2015 09:04:47 -0800 (PST)
+	bh=15T35hjJToFfZooxSGElj35U7gND+AvumuIrERiuPso=;
+	b=TvN4n9p/UD8w+il3kjSbqFtkCXcsD0QZJi+6AmbezOo4F/Uo/FoeYs/gK2/e7NUcPC
+	aXhWe+0+klI5Uqq57F3fd6fDsEZQq25xSIe4kXdBa16nDgJUNgDC8ZnpHubP0V4TRGwf
+	vZa/w1ihj2z3/lMNCpVgG+X+B8zPh35ZEd0VcLBf67xH+4W4TuFnjqopaBr+RtBG6vEy
+	Ytk5reasPFepLM9KxjIEQ93zyN4b2bg1UTSfitxr/0UoyC3qV7Foo0SBzx0eeGiHTF/P
+	mIuveyM+L2I6jBe4dZUr2AhNQUd3VhuIgbtLqdOwcstQzzzmrpjZPxK9f43NoLlDy6p7
+	UbcA==
+X-Gm-Message-State: ALoCoQlLbg35w35X+zz4TkZagg/8dU5MXitABWZT8RrwsDrlMeRBUV1xs2fVeWkFD9h8wBJwyJoj4/GuRKJ+gznFgw09OnyNjnN7uIzFNEi0YstR0v+A7/M=
+X-Received: by 10.50.18.113 with SMTP id v17mr9337054igd.64.1450805509852;
+	Tue, 22 Dec 2015 09:31:49 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 22 Dec 2015 09:04:27 -0800 (PST)
-In-Reply-To: <1449718597-2085-1-git-send-email-nate.karstens@garmin.com>
-References: <1449718597-2085-1-git-send-email-nate.karstens@garmin.com>
+Received: by 10.107.162.70 with HTTP; Tue, 22 Dec 2015 09:31:30 -0800 (PST)
+In-Reply-To: <55c3139023d3c2d418e5c34b2a7f4a000fdbc1dc.1450288828.git.mschiffer@universe-factory.net>
+References: <cover.1450288828.git.mschiffer@universe-factory.net>
+	<55c3139023d3c2d418e5c34b2a7f4a000fdbc1dc.1450288828.git.mschiffer@universe-factory.net>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 22 Dec 2015 17:04:27 +0000
-Message-ID: <CAJTo0LbEMPzVs6JsjtnagwfHqxuyHmTXGXyKc302gCRrb4LKAw@mail.gmail.com>
-To: Nate Karstens <nate.karstens@garmin.com>
+Date: Tue, 22 Dec 2015 17:31:30 +0000
+Message-ID: <CAJTo0LZfmtfw-XsnVd7THwv1gKfmY=hjBF9EiNknA9jhLRS6Aw@mail.gmail.com>
+To: Matthias Schiffer <mschiffer@universe-factory.net>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dhcpcd: add recipe for dhcpcd
+Subject: Re: [PATCH 3/4] base-files: create ${base_bindir} etc. instead of /bin, /sbin and /lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,45 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 17:04:49 -0000
-Content-Type: multipart/alternative; boundary=001a113ec10a5a839f05277f9ae1
+X-List-Received-Date: Tue, 22 Dec 2015 17:31:50 -0000
+Content-Type: multipart/alternative; boundary=089e01494ff20dacba05277ffb55
 
---001a113ec10a5a839f05277f9ae1
+--089e01494ff20dacba05277ffb55
 Content-Type: text/plain; charset=UTF-8
 
-On 10 December 2015 at 03:36, Nate Karstens <nate.karstens@garmin.com>
-wrote:
+On 16 December 2015 at 18:11, Matthias Schiffer <
+mschiffer@universe-factory.net> wrote:
 
-> Adds a new recipe for dhcpcd. Modifies the configure script to keep the
-> host system header files from being used instead of the target system.
->
-> Signed-off-by: Nate Karstens <nate.karstens@garmin.com>
+> -dirs755 = "/bin /boot /dev ${sysconfdir} ${sysconfdir}/default \
+> -           ${sysconfdir}/skel /lib /mnt /proc ${ROOT_HOME} /run /sbin \
+> +dirs755 = "${base_bindir} /boot /dev ${sysconfdir} ${sysconfdir}/default \
+> +           ${sysconfdir}/skel ${nonarch_base_libdir} /mnt /proc
+> ${ROOT_HOME} /run ${base_sbindir} \
 >
 
-For new recipes to be added to oe-core there needs to be a good rationale.
-It seems that this is very well suited for the meta-networking layer (part
-of meta-oe).
+I think the *intention* of /lib was to be $(base_libdir).
 
 Ross
 
---001a113ec10a5a839f05277f9ae1
+--089e01494ff20dacba05277ffb55
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 December 2015 at 03:36, Nate Karstens <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:nate.karstens@garmin.com" target=3D"_blank">nate.karstens@garmin=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":70=
-7" class=3D"a3s" style=3D"overflow:hidden">Adds a new recipe for dhcpcd. Mo=
-difies the configure script to keep the<br>
-host system header files from being used instead of the target system.<br>
-<br>
-Signed-off-by: Nate Karstens &lt;<a href=3D"mailto:nate.karstens@garmin.com=
-">nate.karstens@garmin.com</a>&gt;</div></blockquote></div><br>For new reci=
-pes to be added to oe-core there needs to be a good rationale.=C2=A0 It see=
-ms that this is very well suited for the meta-networking layer (part of met=
-a-oe).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
->Ross</div></div>
+On 16 December 2015 at 18:11, Matthias Schiffer <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:mschiffer@universe-factory.net" target=3D"_blank">mschiffer@un=
+iverse-factory.net</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<div id=3D":1k2" class=3D"a3s" style=3D"overflow:hidden">-dirs755 =3D &quot=
+;/bin /boot /dev ${sysconfdir} ${sysconfdir}/default \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${sysconfdir}/skel /lib /mnt /pro=
+c ${ROOT_HOME} /run /sbin \<br>
++dirs755 =3D &quot;${base_bindir} /boot /dev ${sysconfdir} ${sysconfdir}/de=
+fault \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${sysconfdir}/skel ${nonarch_base=
+_libdir} /mnt /proc ${ROOT_HOME} /run ${base_sbindir} \</div></blockquote><=
+/div><br>I think the *intention* of /lib was to be $(base_libdir).</div><di=
+v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
+v>
 
---001a113ec10a5a839f05277f9ae1--
+--089e01494ff20dacba05277ffb55--
