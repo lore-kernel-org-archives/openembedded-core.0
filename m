@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id D6CA27319A
+	by mail.openembedded.org (Postfix) with ESMTP id C402C7318B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 04:04:16 +0000 (UTC)
+	Tue, 22 Dec 2015 04:04:19 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP; 21 Dec 2015 20:04:17 -0800
+	by fmsmga104.fm.intel.com with ESMTP; 21 Dec 2015 20:04:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,462,1444719600"; d="scan'208";a="621978865"
+X-IronPort-AV: E=Sophos;i="5.20,462,1444719600"; d="scan'208";a="621978888"
 Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
 	([10.255.148.44])
-	by FMSMGA003.fm.intel.com with ESMTP; 21 Dec 2015 20:04:14 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 21 Dec 2015 20:04:17 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Dec 2015 17:02:56 +1300
-Message-Id: <5d782ef5e3e79e7aa9c296f36a9b5eb1d00daf37.1450756555.git.paul.eggleton@linux.intel.com>
+Date: Tue, 22 Dec 2015 17:02:57 +1300
+Message-Id: <0443897aba52e93a3cc7cbf3a3c2d730c9ab75ae.1450756555.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1450756555.git.paul.eggleton@linux.intel.com>
 References: <cover.1450756555.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1450756555.git.paul.eggleton@linux.intel.com>
 References: <cover.1450756555.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 03/26] recipetool: create: avoid traceback on fetch error
+Subject: [PATCH 04/26] recipetool: create: fix do_install handling for makefile-only software
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 04:04:17 -0000
+X-List-Received-Date: Tue, 22 Dec 2015 04:04:20 -0000
 
-If a fetch error occurs, the fetcher already prints a reasonable error -
-we don't need the traceback as well, so catch that and exit if it
-occurs.
+In my testing here it appears make -qn returns an error (exit code 2)
+whereas make -n doesn't; I can't immediately tell why based on the
+documentation. We don't actually care for it to be quiet since we're
+capturing the output, so let's just leave -q off and have this work
+properly as a result.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/recipetool/create.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ scripts/lib/recipetool/create_buildsys.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 7987fbb..f98f525 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -122,7 +122,11 @@ def create_recipe(args):
-         tempsrc = tempfile.mkdtemp(prefix='recipetool-')
-         srctree = tempsrc
-         logger.info('Fetching %s...' % srcuri)
--        checksums = scriptutils.fetch_uri(tinfoil.config_data, fetchuri, srctree, srcrev)
-+        try:
-+            checksums = scriptutils.fetch_uri(tinfoil.config_data, fetchuri, srctree, srcrev)
-+        except bb.fetch2.FetchError:
-+            # Error already printed
-+            sys.exit(1)
-         dirlist = os.listdir(srctree)
-         if 'git.indirectionsymlink' in dirlist:
-             dirlist.remove('git.indirectionsymlink')
+diff --git a/scripts/lib/recipetool/create_buildsys.py b/scripts/lib/recipetool/create_buildsys.py
+index ed14a53..931ef3b 100644
+--- a/scripts/lib/recipetool/create_buildsys.py
++++ b/scripts/lib/recipetool/create_buildsys.py
+@@ -279,7 +279,7 @@ class MakefileRecipeHandler(RecipeHandler):
+ 
+             installtarget = True
+             try:
+-                stdout, stderr = bb.process.run('make -qn install', cwd=srctree, shell=True)
++                stdout, stderr = bb.process.run('make -n install', cwd=srctree, shell=True)
+             except bb.process.ExecutionError as e:
+                 if e.exitcode != 1:
+                     installtarget = False
 -- 
 2.5.0
 
