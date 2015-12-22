@@ -1,27 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BF23E7327E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E578373286
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 08:43:57 +0000 (UTC)
+	Tue, 22 Dec 2015 08:44:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBM8hvs3005596
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 22 Dec 2015 00:43:57 -0800
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBM8i1jL008109
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Dec 2015 00:44:01 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 22 Dec 2015 00:43:55 -0800
+	14.3.248.2; Tue, 22 Dec 2015 00:44:00 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <randy.macleod@windriver.com>, 
 	<ross.burton@intel.com>, <jackie.huang@windriver.com>,
 	<mark.hatle@windriver.com>, <liezhi.yang@windriver.com>
-Date: Tue, 22 Dec 2015 16:43:20 +0800
-Message-ID: <41cf19965419fa391815e56eff811f54c8d16c9c.1450772654.git.hongxu.jia@windriver.com>
+Date: Tue, 22 Dec 2015 16:43:21 +0800
+Message-ID: <1450773814-31322-1-git-send-email-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1450772654.git.hongxu.jia@windriver.com>
 References: <cover.1450772654.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] connman.inc: add networkmanager to RCONFLICTS
+Subject: [PATCH 3/3][SOLUTION 2] add variable NETWORK_MANAGER to fix confliction between connman and networkmanager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +34,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 08:43:59 -0000
+X-List-Received-Date: Tue, 22 Dec 2015 08:44:01 -0000
 Content-Type: text/plain
 
-Since networkmanager add connman to its RCONFLICTS,
-The connman should do the same thing.
+In meta-oe, the networkmanager conflicts with connman. In order to fix
+it, we introduce variable NETWORK_MANAGER which was original used in
+meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb.
+
+So we could decide which network manager (connman or networkmanager...) to
+use by override NETWORK_MANAGER.
+
+The connman-plugin-ethernet has been added to connman's
+RPROVIDES, so remove it and keep connman is ok.
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-connectivity/connman/connman.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/conf/bitbake.conf                                      | 4 ++++
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 3 +--
+ meta/recipes-extended/images/core-image-kernel-dev.bb       | 2 +-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 76e61b4..a4b814a 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -109,6 +109,8 @@ RDEPENDS_${PN} = "\
- 	dbus \
- 	"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 2b81be1..04fa3ff 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -789,6 +789,10 @@ SHELL[unexport] = "1"
+ # Used by canadian-cross to handle string conversions on TARGET_ARCH where needed
+ TRANSLATED_TARGET_ARCH ??= "${@d.getVar('TARGET_ARCH', True).replace("_", "-")}"
  
-+RCONFLICTS_${PN} = "networkmanager"
++# Added to related recipe's RDEPDNS to decide which network manager
++# (connman or networkmanager...) to use
++NETWORK_MANAGER ??= "connman"
 +
- PACKAGES_DYNAMIC += "^${PN}-plugin-.*"
+ # Complete output from bitbake
+ BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
  
- def add_rdepends(bb, d, file, pkg, depmap, multilib_prefix, add_insane_skip):
+diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+index ceaa242..f5291e7 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+@@ -29,8 +29,7 @@ RDEPENDS_packagegroup-self-hosted = "\
+     "
+ 
+ RDEPENDS_packagegroup-self-hosted-host-tools = "\
+-    connman \
+-    connman-plugin-ethernet \
++    ${NETWORK_MANAGER} \
+     dhcp-client \
+     e2fsprogs \
+     e2fsprogs-e2fsck \
+diff --git a/meta/recipes-extended/images/core-image-kernel-dev.bb b/meta/recipes-extended/images/core-image-kernel-dev.bb
+index 6b636ed..605df46 100644
+--- a/meta/recipes-extended/images/core-image-kernel-dev.bb
++++ b/meta/recipes-extended/images/core-image-kernel-dev.bb
+@@ -4,7 +4,7 @@ sensitive to kernel updates and version changes"
+ # Could also be core-image-basic, but we'll keep this small for now
+ require recipes-core/images/core-image-minimal.bb
+ 
+-KERNEL_DEV_UTILS ?= "dropbear connman"
++KERNEL_DEV_UTILS ?= "dropbear ${NETWORK_MANAGER}"
+ KERNEL_DEV_TOOLS ?= "packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
+ KERNEL_DEV_MODULE ?= "kernel-modules"
+ 
 -- 
 1.9.1
 
