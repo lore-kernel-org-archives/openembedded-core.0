@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BCAF731D3
+	by mail.openembedded.org (Postfix) with ESMTP id 6448F731D3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 04:05:02 +0000 (UTC)
+	Tue, 22 Dec 2015 04:05:05 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 21 Dec 2015 20:05:03 -0800
+	by orsmga101.jf.intel.com with ESMTP; 21 Dec 2015 20:05:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,462,1444719600"; d="scan'208";a="621979181"
+X-IronPort-AV: E=Sophos;i="5.20,462,1444719600"; d="scan'208";a="621979273"
 Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
 	([10.255.148.44])
-	by FMSMGA003.fm.intel.com with ESMTP; 21 Dec 2015 20:05:02 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 21 Dec 2015 20:05:04 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Dec 2015 17:03:11 +1300
-Message-Id: <eaf256010ae6354aa4841e9650c4eb9a94493579.1450756556.git.paul.eggleton@linux.intel.com>
+Date: Tue, 22 Dec 2015 17:03:12 +1300
+Message-Id: <5ab8ba76221b435159122310b9f6311751661671.1450756556.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1450756555.git.paul.eggleton@linux.intel.com>
 References: <cover.1450756555.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1450756555.git.paul.eggleton@linux.intel.com>
 References: <cover.1450756555.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 18/26] devtool: add: allow specifying URL as positional argument
+Subject: [PATCH 19/26] devtool: modify: default source tree path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,183 +32,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 04:05:04 -0000
+X-List-Received-Date: Tue, 22 Dec 2015 04:05:06 -0000
 
-Having to specify -f is a little bit ugly when a URI is distinctive
-enough to recognise amongst the other positional parameters, so take it
-as an optional positional parameter. -f/--fetch is still supported, but
-deprecated.
+As per the changes to "devtool add", make the source tree path optional
+and use the default path if none is specified.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/devtool                 |  2 ++
- scripts/lib/argparse_oe.py      | 16 +++++++++++++
- scripts/lib/devtool/standard.py | 52 +++++++++++++++++++++++++++++------------
- 3 files changed, 55 insertions(+), 15 deletions(-)
+ scripts/devtool                 |  4 ++++
+ scripts/lib/devtool/standard.py | 26 +++++++++++++++-----------
+ 2 files changed, 19 insertions(+), 11 deletions(-)
 
 diff --git a/scripts/devtool b/scripts/devtool
-index 955495e..93ba58e 100755
+index 93ba58e..bda05e1 100755
 --- a/scripts/devtool
 +++ b/scripts/devtool
-@@ -280,6 +280,8 @@ def main():
-         if str(err):
-             logger.error(str(err))
-         ret = 1
-+    except argparse_oe.ArgumentUsageError as ae:
-+        parser.error_subcommand(ae.message, ae.subcommand)
+@@ -152,6 +152,10 @@ def _create_workspace(workspacedir, config, basepath):
+             f.write('\nIf you no longer need to use devtool you can remove the path to this\n')
+             f.write('workspace layer from your conf/bblayers.conf file (and then delete the\n')
+             f.write('layer, if you wish).\n')
++            f.write('\nNote that by default, if devtool fetches and unpacks source code, it\n')
++            f.write('will place it in a subdirectory of a "sources" subdirectory of the\n')
++            f.write('layer. If you prefer it to be elsewhere you can specify the source\n')
++            f.write('tree path on the command line.\n')
  
-     return ret
- 
-diff --git a/scripts/lib/argparse_oe.py b/scripts/lib/argparse_oe.py
-index ec7eb8d..fd86692 100644
---- a/scripts/lib/argparse_oe.py
-+++ b/scripts/lib/argparse_oe.py
-@@ -1,6 +1,12 @@
- import sys
- import argparse
- 
-+class ArgumentUsageError(Exception):
-+    """Exception class you can raise (and catch) in order to show the help"""
-+    def __init__(self, message, subcommand=None):
-+        self.message = message
-+        self.subcommand = subcommand
-+
- class ArgumentParser(argparse.ArgumentParser):
-     """Our own version of argparse's ArgumentParser"""
- 
-@@ -9,6 +15,16 @@ class ArgumentParser(argparse.ArgumentParser):
-         self.print_help()
-         sys.exit(2)
- 
-+    def error_subcommand(self, message, subcommand):
-+        if subcommand:
-+            for action in self._actions:
-+                if isinstance(action, argparse._SubParsersAction):
-+                    for choice, subparser in action.choices.items():
-+                        if choice == subcommand:
-+                            subparser.error(message)
-+                            return
-+        self.error(message)
-+
-     def add_subparsers(self, *args, **kwargs):
-         ret = super(ArgumentParser, self).add_subparsers(*args, **kwargs)
-         ret._parser_class = ArgumentSubParser
+ def _enable_workspace_layer(workspacedir, config, basepath):
+     """Ensure the workspace layer is in bblayers.conf"""
 diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 6cdd44c..e249661 100644
+index e249661..c710c16 100644
 --- a/scripts/lib/devtool/standard.py
 +++ b/scripts/lib/devtool/standard.py
-@@ -23,6 +23,7 @@ import shutil
- import tempfile
- import logging
- import argparse
-+import argparse_oe
- import scriptutils
- import errno
- from collections import OrderedDict
-@@ -37,16 +38,38 @@ def add(args, config, basepath, workspace):
-     import bb
-     import oe.recipeutils
+@@ -644,10 +644,15 @@ def modify(args, config, basepath, workspace):
+         raise DevtoolError("recipe %s is already in your workspace" %
+                            args.recipename)
  
--    if args.recipename and not args.srctree:
--        # These are positional arguments, but because we're nice, allow
--        # specifying source tree without name if we can detect that that
--        # is what the user meant
-+    if not args.recipename and not args.srctree and not args.fetch and not args.fetchuri:
-+        raise argparse_oe.ArgumentUsageError('At least one of recipename, srctree, fetchuri or -f/--fetch must be specified', 'add')
+-    if not args.extract and not os.path.isdir(args.srctree):
++    if args.srctree:
++        srctree = os.path.abspath(args.srctree)
++    else:
++        srctree = get_default_srctree(config, args.recipename)
 +
-+    # These are positional arguments, but because we're nice, allow
-+    # specifying e.g. source tree without name, or fetch URI without name or
-+    # source tree (if we can detect that that is what the user meant)
-+    if '://' in args.recipename:
-+        if not args.fetchuri:
-+            if args.fetch:
-+                raise DevtoolError('URI specified as positional argument as well as -f/--fetch')
-+            args.fetchuri = args.recipename
-+            args.recipename = ''
-+    elif '://' in args.srctree:
-+        if not args.fetchuri:
-+            if args.fetch:
-+                raise DevtoolError('URI specified as positional argument as well as -f/--fetch')
-+            args.fetchuri = args.srctree
-+            args.srctree = ''
-+    elif args.recipename and not args.srctree:
-         if os.sep in args.recipename:
-             args.srctree = args.recipename
-             args.recipename = None
-         elif os.path.isdir(args.recipename):
-             logger.warn('Ambiguous argument %s - assuming you mean it to be the recipe name')
++    if not args.extract and not os.path.isdir(srctree):
+         raise DevtoolError("directory %s does not exist or not a directory "
+                            "(specify -x to extract source from recipe)" %
+-                           args.srctree)
++                           srctree)
+     if args.extract:
+         tinfoil = _prep_extract_operation(config, basepath, args.recipename)
+         if not tinfoil:
+@@ -679,29 +684,28 @@ def modify(args, config, basepath, workspace):
  
-+    if args.fetch:
-+        if args.fetchuri:
-+            raise DevtoolError('URI specified as positional argument as well as -f/--fetch')
-+        else:
-+            # FIXME should show a warning that -f/--fetch is deprecated here
-+            args.fetchuri = args.fetch
-+
-     if args.recipename:
-         if args.recipename in workspace:
-             raise DevtoolError("recipe %s is already in your workspace" %
-@@ -70,7 +93,7 @@ def add(args, config, basepath, workspace):
-         tmpsrcdir = tempfile.mkdtemp(prefix='devtoolsrc', dir=srctreeparent)
- 
-     if srctree and os.path.exists(srctree):
--        if args.fetch:
-+        if args.fetchuri:
-             if not os.path.isdir(srctree):
-                 raise DevtoolError("Cannot fetch into source tree path %s as "
-                                    "it exists and is not a directory" %
-@@ -79,20 +102,18 @@ def add(args, config, basepath, workspace):
-                 raise DevtoolError("Cannot fetch into source tree path %s as "
-                                    "it already exists and is non-empty" %
-                                    srctree)
--    elif not args.fetch:
-+    elif not args.fetchuri:
-         if args.srctree:
-             raise DevtoolError("Specified source tree %s could not be found" %
-                                args.srctree)
-         elif srctree:
-             raise DevtoolError("No source tree exists at default path %s - "
-                                "either create and populate this directory, "
--                               "or specify a path to a source tree, or use "
--                               "the -f/--fetch option to fetch source code "
--                               "and extract it to the source directory" %
--                               srctree)
-+                               "or specify a path to a source tree, or a "
-+                               "URI to fetch source from" % srctree)
-         else:
-             raise DevtoolError("You must either specify a source tree "
--                               "or -f to fetch source")
-+                               "or a URI to fetch source from")
- 
-     if args.version:
-         if '_' in args.version or ' ' in args.version:
-@@ -103,8 +124,8 @@ def add(args, config, basepath, workspace):
+     initial_rev = None
+     commits = []
+-    srctree = os.path.abspath(args.srctree)
+     if args.extract:
+-        initial_rev = _extract_source(args.srctree, False, args.branch, False, rd)
++        initial_rev = _extract_source(srctree, False, args.branch, False, rd)
+         if not initial_rev:
+             return 1
+         logger.info('Source tree extracted to %s' % srctree)
+         # Get list of commits since this revision
+-        (stdout, _) = bb.process.run('git rev-list --reverse %s..HEAD' % initial_rev, cwd=args.srctree)
++        (stdout, _) = bb.process.run('git rev-list --reverse %s..HEAD' % initial_rev, cwd=srctree)
+         commits = stdout.split()
      else:
-         color = args.color
-     extracmdopts = ''
--    if args.fetch:
--        source = args.fetch
-+    if args.fetchuri:
-+        source = args.fetchuri
-         if srctree:
-             extracmdopts += ' -x %s' % srctree
-         else:
-@@ -1250,12 +1271,13 @@ def register_commands(subparsers, context):
-                                        description='Adds a new recipe to the workspace to build a specified source tree. Can optionally fetch a remote URI and unpack it to create the source tree.')
-     parser_add.add_argument('recipename', nargs='?', help='Name for new recipe to add (just name - no version, path or extension). If not specified, will attempt to auto-detect it.')
-     parser_add.add_argument('srctree', nargs='?', help='Path to external source tree. If not specified, a subdirectory of %s will be used.' % defsrctree)
-+    parser_add.add_argument('fetchuri', nargs='?', help='Fetch the specified URI and extract it to create the source tree')
-     group = parser_add.add_mutually_exclusive_group()
-     group.add_argument('--same-dir', '-s', help='Build in same directory as source', action="store_true")
-     group.add_argument('--no-same-dir', help='Force build in a separate build directory', action="store_true")
--    parser_add.add_argument('--fetch', '-f', help='Fetch the specified URI and extract it to create the source tree', metavar='URI')
-+    parser_add.add_argument('--fetch', '-f', help='Fetch the specified URI and extract it to create the source tree (deprecated - pass as positional argument instead)', metavar='URI')
-     parser_add.add_argument('--version', '-V', help='Version to use within recipe (PV)')
--    parser_add.add_argument('--no-git', '-g', help='If -f/--fetch is specified, do not set up source tree as a git repository', action="store_true")
-+    parser_add.add_argument('--no-git', '-g', help='If fetching source, do not set up source tree as a git repository', action="store_true")
-     parser_add.add_argument('--binary', '-b', help='Treat the source tree as something that should be installed verbatim (no compilation, same directory structure). Useful with binary packages e.g. RPMs.', action='store_true')
+-        if os.path.exists(os.path.join(args.srctree, '.git')):
++        if os.path.exists(os.path.join(srctree, '.git')):
+             # Check if it's a tree previously extracted by us
+             try:
+-                (stdout, _) = bb.process.run('git branch --contains devtool-base', cwd=args.srctree)
++                (stdout, _) = bb.process.run('git branch --contains devtool-base', cwd=srctree)
+             except bb.process.ExecutionError:
+                 stdout = ''
+             for line in stdout.splitlines():
+                 if line.startswith('*'):
+-                    (stdout, _) = bb.process.run('git rev-parse devtool-base', cwd=args.srctree)
++                    (stdout, _) = bb.process.run('git rev-parse devtool-base', cwd=srctree)
+                     initial_rev = stdout.rstrip()
+             if not initial_rev:
+                 # Otherwise, just grab the head revision
+-                (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=args.srctree)
++                (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=srctree)
+                 initial_rev = stdout.rstrip()
+ 
+     # Check that recipe isn't using a shared workdir
+@@ -1282,9 +1286,9 @@ def register_commands(subparsers, context):
      parser_add.set_defaults(func=add)
  
+     parser_modify = subparsers.add_parser('modify', help='Modify the source for an existing recipe',
+-                                       description='Enables modifying the source for an existing recipe')
++                                       description='Enables modifying the source for an existing recipe. You can either provide your own pre-prepared source tree, or specify -x/--extract to extract the source being fetched by the recipe.')
+     parser_modify.add_argument('recipename', help='Name of existing recipe to edit (just name - no version, path or extension)')
+-    parser_modify.add_argument('srctree', help='Path to external source tree')
++    parser_modify.add_argument('srctree', nargs='?', help='Path to external source tree. If not specified, a subdirectory of %s will be used.' % defsrctree)
+     parser_modify.add_argument('--wildcard', '-w', action="store_true", help='Use wildcard for unversioned bbappend')
+     parser_modify.add_argument('--extract', '-x', action="store_true", help='Extract source as well')
+     group = parser_modify.add_mutually_exclusive_group()
 -- 
 2.5.0
 
