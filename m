@@ -1,34 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6362860112
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 9703D60721
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 19:57:02 +0000 (UTC)
-Received: by mail-pf0-f176.google.com with SMTP id q63so5027663pfb.0
+	Tue, 22 Dec 2015 21:11:55 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id q126so198626894iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 11:57:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=mA3c1B+3gGAiW/Q+jQuOxn6yNCOLOnjXQQj15SKcRiA=;
-	b=pcwozFw8jQhc3ZluY6vYJYPjoXAJOhIYc3gE9+co9KikwyLHVIo68Atw3AEPjZtMBc
-	lADjPttnFjR/5WNKFGOkNXJNARmyEH2G+BN72nqMT3gmPIS61o1P7Yr+f5i/2+Ea8Swx
-	pJnhbB4Y+parVDknzf9a3NghVBb31iKBCbFtsCp8+E2GtXXP1uVHQD+/aK6NfJNyr8AS
-	JngcZDkuR05+Amje+jdrpQjZk9hCxGAbHjuVooWL+xfMxld5x/NSkFRKqK1qm5u7CkM2
-	PrtG4NaU00MdQkUHiDKD3Y2SjLbDfxav6MCzFssnW2aLOUOaubmlJu/Izw4ANYup/DUs
-	u/4g==
-X-Received: by 10.98.8.14 with SMTP id c14mr28718070pfd.19.1450814223520;
-	Tue, 22 Dec 2015 11:57:03 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id 13sm36417450pft.5.2015.12.22.11.57.02
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 22 Dec 2015 11:57:02 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Dec 2015 11:56:56 -0800
-Message-Id: <1450814216-23030-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] cairo: update 1.14.4 -> 1.14.6
+	Tue, 22 Dec 2015 13:11:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=CX9JyPZSUr2i/OXxPo/B+ZQzU5nFcYSU+G22wDwYEmc=;
+	b=gvY7eD7p94lo6guYY2/NAhxGYz/cxE/ZzTd2M4b5iE+UnMreXjeHbqh9gaw4M2tVNv
+	LbMENey0hILSTA/s7E/nNk5GxrCOmQKq3IYGf+LKY6FLapclz0qayURyBoPbn1tdcXZN
+	xclpNQXujk+1J0VXfkr37iF9yN2lL450CCELT4Tksz2KKxkYbFBphv9RO1+1EODcoyYX
+	6ki41uEn5MFdJ8itHDO0J0ESBf+E0Wh+gHAgIwHN6gt+kXN+SSPKBZRaamitQAmnnjVA
+	UBGbZOUOS7F8IVoT26xSjHqd45QyBxTkZ9ckAoHMo2qvHhhHwoJvngETBgbOpXrbRdwC
+	QZmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=CX9JyPZSUr2i/OXxPo/B+ZQzU5nFcYSU+G22wDwYEmc=;
+	b=mEryI1x8rfnqg0a+f0m7q9W/ofnbSwUHCtO8PRhlMd57yNlHjRrEJGod5MQQU48r5T
+	8HlC+QrAjXilaI2CSWqHKVrKHc+xGK4JUFqreLkAwjhhfeGoKenftvM6V6DNFDz5icFk
+	Y5vkb3c2fWwU+RVw5qljfw/f516+HABl+QU+TO5R/f9c/O7ZUVWKdw/KLAqFBJSnCUy1
+	x4q1Ye4XP/vs3LaQ7XqCTaMGJF3Zb1nqEBxlaSeEF1Lv7H38MilNUBpAfecLEj7b9UzE
+	vAKQJhvlxQ4G15q781d+DmcwQt1antVnUFhHIzPjZXtLZdtRfYtJN8A+t9Delh4NAxES
+	xzkg==
+X-Gm-Message-State: ALoCoQma+La2u+DDuThx/8r2CXPhFSn7bUW7C3doBYH4pHMjY7Tu2Aj+yQhq3rcSMZ5xVxfLDAcjykZgcCztRNiL6jH/8x9LAq54TIF1i5Iidj66ZhXHmVw=
+X-Received: by 10.107.3.154 with SMTP id e26mr26057177ioi.99.1450818716101;
+	Tue, 22 Dec 2015 13:11:56 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Tue, 22 Dec 2015 13:11:36 -0800 (PST)
+In-Reply-To: <567999B4.8090201@universe-factory.net>
+References: <cover.1450288828.git.mschiffer@universe-factory.net>
+	<55c3139023d3c2d418e5c34b2a7f4a000fdbc1dc.1450288828.git.mschiffer@universe-factory.net>
+	<CAJTo0LZfmtfw-XsnVd7THwv1gKfmY=hjBF9EiNknA9jhLRS6Aw@mail.gmail.com>
+	<567999B4.8090201@universe-factory.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 22 Dec 2015 21:11:36 +0000
+Message-ID: <CAJTo0LY=7WNEcQNeqraLzbEyy-LfQ_3YyA18oEF=aK-yfgXZMQ@mail.gmail.com>
+To: Matthias Schiffer <mschiffer@universe-factory.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] base-files: create ${base_bindir} etc. instead of /bin, /sbin and /lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,41 +57,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 19:57:03 -0000
+X-List-Received-Date: Tue, 22 Dec 2015 21:11:56 -0000
+Content-Type: multipart/alternative; boundary=001a113ec10a3502030527830e2c
 
-Release 1.14.6    (2015-12-09  Bryce Harrington <bryce@osg.samsung.com>)
-========================================================================
-Simple bugfix release to fix one Windows issue.
+--001a113ec10a3502030527830e2c
+Content-Type: text/plain; charset=UTF-8
 
-For a complete log of changes since 1.14.4, please see:
+On 22 December 2015 at 18:43, Matthias Schiffer <
+mschiffer@universe-factory.net> wrote:
 
-    http://cairographics.org/releases/ChangeLog.1.14.6
+> Maybe adding both ${base_libdir} and ${nonarch_base_libdir} would make
+> sense?
+>
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-graphics/cairo/{cairo_1.14.4.bb => cairo_1.14.6.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/cairo/{cairo_1.14.4.bb => cairo_1.14.6.bb} (92%)
+Sure.
 
-diff --git a/meta/recipes-graphics/cairo/cairo_1.14.4.bb b/meta/recipes-graphics/cairo/cairo_1.14.6.bb
-similarity index 92%
-rename from meta/recipes-graphics/cairo/cairo_1.14.4.bb
-rename to meta/recipes-graphics/cairo/cairo_1.14.6.bb
-index a47bfa5..20b4668 100644
---- a/meta/recipes-graphics/cairo/cairo_1.14.4.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.14.6.bb
-@@ -4,8 +4,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
- 
- SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "90a929e8fe66fb5d19b5adaaea1e9a12"
--SRC_URI[sha256sum] = "f6ec9c7c844db9ec011f0d66b57ef590c45adf55393d1fc249003512522ee716"
-+SRC_URI[md5sum] = "23a0b2f0235431d35238df1d3a517fdb"
-+SRC_URI[sha256sum] = "613cb38447b76a93ff7235e17acd55a78b52ea84a9df128c3f2257f8eaa7b252"
- 
- UPSTREAM_CHECK_REGEX = "cairo-(?P<pver>\d+(\.\d+)+)\.tar"
- 
--- 
-1.9.1
+Ross
 
+--001a113ec10a3502030527830e2c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 22 December 2015 at 18:43, Matthias Schiffer <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:mschiffer@universe-factory.net" target=3D"_blank">mschiffer@un=
+iverse-factory.net</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<div id=3D":h0" class=3D"a3s" style=3D"overflow:hidden">Maybe adding both $=
+{base_libdir} and ${nonarch_base_libdir} would make<br>
+sense?</div></blockquote><div><br></div><div>Sure.</div><div><br></div><div=
+>Ross=C2=A0</div></div></div></div>
+
+--001a113ec10a3502030527830e2c--
