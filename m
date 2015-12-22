@@ -1,23 +1,25 @@
-Return-Path: <costin.c.constantin@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B4B786AC4B
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 62FB2731EC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 08:26:16 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Dec 2015 00:26:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,463,1444719600"; d="scan'208";a="867124271"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Dec 2015 00:23:55 -0800
-Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id 78A306A4007;
-	Tue, 22 Dec 2015 01:11:55 -0800 (PST)
-From: Costin Constantin <costin.c.constantin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Dec 2015 10:36:29 +0200
-Message-Id: <1450773389-6402-1-git-send-email-costin.c.constantin@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCHv2] scripts/oe-selftest: Add support for selftest log with timestamp
+	Tue, 22 Dec 2015 08:43:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBM8hoU8008094
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Dec 2015 00:43:50 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 22 Dec 2015 00:43:49 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <randy.macleod@windriver.com>, 
+	<ross.burton@intel.com>, <jackie.huang@windriver.com>,
+	<mark.hatle@windriver.com>, <liezhi.yang@windriver.com>
+Date: Tue, 22 Dec 2015 16:43:18 +0800
+Message-ID: <cover.1450772654.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/3][RFC] fix confliction between connman and networkmanager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,46 +32,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 08:26:16 -0000
+X-List-Received-Date: Tue, 22 Dec 2015 08:43:53 -0000
+Content-Type: text/plain
 
-Each time oe-selftest runs, the oe-selftest.log file is overwritten.
-This patch solves it by adding time stamp to each selftest log file
-and doing a symlink named as oe-selftest.log to the last one created.
+Provide two solutions for discussion.
 
-Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
----
- scripts/oe-selftest | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+SOLUTION 1: add virtual/netmanager to RPROVIDES and choose connman or
+            networkmanager by override PREFERRED_PROVIDER_virtual/netmanager;
 
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index bc50b2a..ff3307b 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -31,6 +31,7 @@ import unittest
- import logging
- import argparse
- import subprocess
-+import time as t
- 
- sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)) + '/lib')
- import scriptpath
-@@ -43,10 +44,14 @@ from oeqa.utils.commands import runCmd, get_bb_var, get_test_layer
- from oeqa.selftest.base import oeSelfTest
- 
- def logger_create():
-+    log_file = "oe-selftest-" + t.strftime("%Y-%m-%d_%H:%M:%S") + ".log"
-+    if os.path.exists("oe-selftest.log"): os.remove("oe-selftest.log")
-+    os.symlink(log_file, "oe-selftest.log")
-+
-     log = logging.getLogger("selftest")
-     log.setLevel(logging.DEBUG)
- 
--    fh = logging.FileHandler(filename='oe-selftest.log', mode='w')
-+    fh = logging.FileHandler(filename=log_file, mode='w')
-     fh.setLevel(logging.DEBUG)
- 
-     ch = logging.StreamHandler(sys.stdout)
+SOLUTION 2: add variable NETWORK_MANAGER to RDEPENDS, and select connman or
+            networkmanager by override NETWORK_MANAGER.
+
+SOLUTION 3: for networkmanager, directly remove RCONFLICTS_${PN} = "connman".
+            The networkmanager and connman are not file confliction, they
+            just provide the same function. Install both of them is ok.
+            https://wiki.ubuntu.com/DesktopTeam/ConnectionManagerComparison 
+
+If one of them is accepted, we also need to modify networkmanager in
+meta-oe and related recipes/layers(such as meta-xfce).
+
+//Hongxu
+
+The following changes since commit 0381b78aa4dfc0d338fba69502e8f03a0c0f21e7:
+
+  bitbake: event/utils/methodpool: Add a cache of compiled code objects (2015-12-22 00:02:05 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/netmanager-confliction
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/netmanager-confliction
+
+Hongxu Jia (3):
+  connman.inc: add missing RDEPENDS
+  connman.inc: add networkmanager to RCONFLICTS
+  add virtual/netmanager to fix confliction between connman and
+    networkmanager
+
+ meta/conf/bitbake.conf                                        | 2 ++
+ meta/recipes-connectivity/connman/connman.inc                 | 9 ++++++++-
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb   | 3 +--
+ meta/recipes-extended/images/core-image-kernel-dev.bb         | 2 +-
+ meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb | 2 +-
+ 5 files changed, 13 insertions(+), 5 deletions(-)
+
 -- 
-2.5.0
+1.9.1
 
 
