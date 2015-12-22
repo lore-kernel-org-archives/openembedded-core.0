@@ -1,30 +1,23 @@
-Return-Path: <Jian.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B7C1731E5
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B4B786AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 05:08:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBM58m6E021777
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 21 Dec 2015 21:08:48 -0800 (PST)
-Received: from [128.224.162.169] (128.224.162.169) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Mon, 21 Dec 2015 21:08:48 -0800
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1447652032-31142-1-git-send-email-jian.liu@windriver.com>
-	<CAJTo0LZcvVSoNnndi1qU5Pv3K5UfmpkcfRhzdQwFot6BeHrbvA@mail.gmail.com>
-	<564ABBBA.5000408@windriver.com>
-From: Jian Liu <jian.liu@windriver.com>
-Message-ID: <5678DAD1.9070801@windriver.com>
-Date: Tue, 22 Dec 2015 13:08:33 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
-MIME-Version: 1.0
-In-Reply-To: <564ABBBA.5000408@windriver.com>
-X-Originating-IP: [128.224.162.169]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] archiver.bbclass: fix an exception of the mode configured
+	Tue, 22 Dec 2015 08:26:16 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Dec 2015 00:26:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,463,1444719600"; d="scan'208";a="867124271"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Dec 2015 00:23:55 -0800
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id 78A306A4007;
+	Tue, 22 Dec 2015 01:11:55 -0800 (PST)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Dec 2015 10:36:29 +0200
+Message-Id: <1450773389-6402-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCHv2] scripts/oe-selftest: Add support for selftest log with timestamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,128 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 05:08:49 -0000
-Content-Type: multipart/alternative;
-	boundary="------------050700010207000203020107"
+X-List-Received-Date: Tue, 22 Dec 2015 08:26:16 -0000
 
---------------050700010207000203020107
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Each time oe-selftest runs, the oe-selftest.log file is overwritten.
+This patch solves it by adding time stamp to each selftest log file
+and doing a symlink named as oe-selftest.log to the last one created.
 
-Ping
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+---
+ scripts/oe-selftest | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-On 2015年11月17日 13:31, Jian Liu wrote:
-> Hi Ross,
->
-> I check the values of d.getVarFlag('do_configure', 'task') and 
-> d.getVarFlag('do_unpack', 'task') for gcc-source.
-> But it seems that both values are 1.
->
-> I use the following command to get the values,
-> os.system("echo 'do_unpack=%s, do_configure=%s, noexec=%s, pn=%s' >> 
-> /tmp/task.txt" %(d.getVarFlag('do_unpack', 
-> 'task'),d.getVarFlag('do_configure', 
-> 'task'),d.getVarFlag('do_configure', 'noexec'),pn))
->
-> Does I miss something?
->
-> I query several people about how to get the current tasks of a recipe. 
-> But I get nothing more.
->
-> Thanks!
-> Jian
->
-> On 2015年11月16日 23:08, Burton, Ross wrote:
->>
->> On 16 November 2015 at 05:33, Jian Liu <jian.liu@windriver.com 
->> <mailto:jian.liu@windriver.com>> wrote:
->>
->>     + if d.getVarFlag('do_configure', 'noexec') == '1' or
->>     'do_configure' not in d.getVar('__BBTASKS', False):
->>
->>
->> __BBTASKS is internal so shouldn't beused unless you have an awesome 
->> reason.  Richard tells me that d.getVarFlag('do_configure', 'task') 
->> is probably what you want.
->>
->> Ross
->
->
->
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index bc50b2a..ff3307b 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -31,6 +31,7 @@ import unittest
+ import logging
+ import argparse
+ import subprocess
++import time as t
+ 
+ sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)) + '/lib')
+ import scriptpath
+@@ -43,10 +44,14 @@ from oeqa.utils.commands import runCmd, get_bb_var, get_test_layer
+ from oeqa.selftest.base import oeSelfTest
+ 
+ def logger_create():
++    log_file = "oe-selftest-" + t.strftime("%Y-%m-%d_%H:%M:%S") + ".log"
++    if os.path.exists("oe-selftest.log"): os.remove("oe-selftest.log")
++    os.symlink(log_file, "oe-selftest.log")
++
+     log = logging.getLogger("selftest")
+     log.setLevel(logging.DEBUG)
+ 
+-    fh = logging.FileHandler(filename='oe-selftest.log', mode='w')
++    fh = logging.FileHandler(filename=log_file, mode='w')
+     fh.setLevel(logging.DEBUG)
+ 
+     ch = logging.StreamHandler(sys.stdout)
+-- 
+2.5.0
 
 
---------------050700010207000203020107
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    Ping<br>
-    <br>
-    <div class="moz-cite-prefix">On 2015年11月17日 13:31, Jian Liu wrote:<br>
-    </div>
-    <blockquote cite="mid:564ABBBA.5000408@windriver.com" type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      Hi Ross,<br>
-      <br>
-      I check the values of d.getVarFlag('do_configure', 'task') and
-      d.getVarFlag('do_unpack', 'task') for gcc-source.<br>
-      But it seems that both values are 1.<br>
-      <br>
-      I use the following command to get the values,<br>
-      os.system("echo 'do_unpack=%s, do_configure=%s, noexec=%s, pn=%s'
-      &gt;&gt; /tmp/task.txt" %(d.getVarFlag('do_unpack',
-      'task'),d.getVarFlag('do_configure',
-      'task'),d.getVarFlag('do_configure', 'noexec'),pn))<br>
-      <br>
-      Does I miss something?<br>
-      <br>
-      I query several people about how to get the current tasks of a
-      recipe. But I get nothing more.<br>
-      <br>
-      Thanks!<br>
-      Jian<br>
-      <br>
-      <div class="moz-cite-prefix">On 2015年11月16日 23:08, Burton, Ross
-        wrote:<br>
-      </div>
-      <blockquote
-cite="mid:CAJTo0LZcvVSoNnndi1qU5Pv3K5UfmpkcfRhzdQwFot6BeHrbvA@mail.gmail.com"
-        type="cite">
-        <div dir="ltr">
-          <div class="gmail_extra"><br>
-            <div class="gmail_quote">On 16 November 2015 at 05:33, Jian
-              Liu <span dir="ltr">&lt;<a moz-do-not-send="true"
-                  href="mailto:jian.liu@windriver.com" target="_blank">jian.liu@windriver.com</a>&gt;</span>
-              wrote:<br>
-              <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
-                <div id=":3d3" class="" style="overflow:hidden">+       
-                  if d.getVarFlag('do_configure', 'noexec') == '1' or
-                  'do_configure' not in d.getVar('__BBTASKS', False):<br>
-                </div>
-              </blockquote>
-            </div>
-            <br>
-            __BBTASKS is internal so shouldn't beused unless you have an
-            awesome reason.  Richard tells me that
-            d.getVarFlag('do_configure', 'task') is probably what you
-            want.</div>
-          <div class="gmail_extra"><br>
-          </div>
-          <div class="gmail_extra">Ross</div>
-        </div>
-      </blockquote>
-      <br>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------050700010207000203020107--
