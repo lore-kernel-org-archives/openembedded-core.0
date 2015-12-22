@@ -1,36 +1,34 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id E0E037319E
+Received: from mail-pf0-f176.google.com (mail-pf0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 6362860112
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 19:52:26 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id l126so122071585wml.1
+	Tue, 22 Dec 2015 19:57:02 +0000 (UTC)
+Received: by mail-pf0-f176.google.com with SMTP id q63so5027663pfb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 11:52:27 -0800 (PST)
+	Tue, 22 Dec 2015 11:57:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=txlN2yZoDBwtsPSV9Ti+B2Y6+eX05fYNZr76e2yK9R0=;
-	b=z3xguGBV0LdSOWfg8w6ztFCVStZ5sGWHqnv7SQCP9Hl60+21qnu8W3fwy46JlD+dJB
-	UejN3yvUSWsHDDa7f2eEyvMCnpWCHO7ZCFj1n4loFyXsUglZabl43PU5AdU2Y3LQHRRS
-	4tHds0OXTQVDE6td4IcJ+v26FDb/dCuRJ7v/8/iDRGj4YJl66Vjypr7zA06lCtCkMdK/
-	ZyneyJhScbaRPvdZNNg4X0Sa2RzoxVSPwviXo2SEBYm7xzukzk+bKVRzwyxa419g8PCW
-	ImVSxk0G0fr5hhHsJ0lYnX015GAAaRsmHwdr5HckyCeNQzCpn3r7dk0zPOA2gEvdXhTs
-	O//g==
-MIME-Version: 1.0
-X-Received: by 10.28.86.196 with SMTP id k187mr28491888wmb.61.1450813946962;
-	Tue, 22 Dec 2015 11:52:26 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Tue, 22 Dec 2015 11:52:26 -0800 (PST)
-In-Reply-To: <56794E98.3050605@linux.intel.com>
-References: <cover.1449671297.git.alexander.kanavin@linux.intel.com>
-	<91b12be58798efa4bcd8742b50d48077aa3ae6bd.1449671297.git.alexander.kanavin@linux.intel.com>
-	<CAJ86T=Uo0tAtbNYXYkmcvm2bqMUeq79it_cH5aSChgtNsBdsNA@mail.gmail.com>
-	<56794E98.3050605@linux.intel.com>
-Date: Tue, 22 Dec 2015 11:52:26 -0800
-Message-ID: <CAJ86T=V721kLwWtqLEWmTvJPj-LSw93uoM=s9afOH8xiZKd5Rg@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id;
+	bh=mA3c1B+3gGAiW/Q+jQuOxn6yNCOLOnjXQQj15SKcRiA=;
+	b=pcwozFw8jQhc3ZluY6vYJYPjoXAJOhIYc3gE9+co9KikwyLHVIo68Atw3AEPjZtMBc
+	lADjPttnFjR/5WNKFGOkNXJNARmyEH2G+BN72nqMT3gmPIS61o1P7Yr+f5i/2+Ea8Swx
+	pJnhbB4Y+parVDknzf9a3NghVBb31iKBCbFtsCp8+E2GtXXP1uVHQD+/aK6NfJNyr8AS
+	JngcZDkuR05+Amje+jdrpQjZk9hCxGAbHjuVooWL+xfMxld5x/NSkFRKqK1qm5u7CkM2
+	PrtG4NaU00MdQkUHiDKD3Y2SjLbDfxav6MCzFssnW2aLOUOaubmlJu/Izw4ANYup/DUs
+	u/4g==
+X-Received: by 10.98.8.14 with SMTP id c14mr28718070pfd.19.1450814223520;
+	Tue, 22 Dec 2015 11:57:03 -0800 (PST)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id 13sm36417450pft.5.2015.12.22.11.57.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 22 Dec 2015 11:57:02 -0800 (PST)
 From: Andre McCurdy <armccurdy@gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 07/10] mirrors: replace references to archive.apache.org
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Dec 2015 11:56:56 -0800
+Message-Id: <1450814216-23030-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] cairo: update 1.14.4 -> 1.14.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +41,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 19:52:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 22 Dec 2015 19:57:03 -0000
 
-On Tue, Dec 22, 2015 at 5:22 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 12/22/2015 12:21 AM, Andre McCurdy wrote:
->>>
->>> -http://www.apache.org/dist  http://archive.apache.org/dist \n \
->>> +http://www.eu.apache.org/dist  http://www.us.apache.org/dist \n \
->>
->>
->> Is this change correct? Shouldn't mirrors.bbclass provide a fallback
->> to the historical releases URL (so that things keep working if the
->> oe-core version of an apache.org package is no longer a current
->> version) ?
->
-> When I have checked, archive.apache.org did not have the latest releases of
-> subversion, so it can't be relied on as a primary upstream source. On the
-> other hand, primary mirrors only keep the latest releases, and remove
-> anything else. So the right thing would be to first try to use those primary
-> mirrors, and fall back to archive if those mirrors no longer have the
-> version we need.
+Release 1.14.6    (2015-12-09  Bryce Harrington <bryce@osg.samsung.com>)
+========================================================================
+Simple bugfix release to fix one Windows issue.
 
-Yes, that's what I was getting at - there should be a fallback to the
-archives since oe-core releases typically won't be using the latest
-release versions. Your new patch looks good.
+For a complete log of changes since 1.14.4, please see:
 
-Checking subversion on http://archive.apache.org/dist today though,
-the archive site does seem to have copies of the latest versions, so
-not sure what was happening when you looked.
+    http://cairographics.org/releases/ChangeLog.1.14.6
 
-> This problem also shows up with debian upstream.
->
-> Alex
->
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-graphics/cairo/{cairo_1.14.4.bb => cairo_1.14.6.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/cairo/{cairo_1.14.4.bb => cairo_1.14.6.bb} (92%)
+
+diff --git a/meta/recipes-graphics/cairo/cairo_1.14.4.bb b/meta/recipes-graphics/cairo/cairo_1.14.6.bb
+similarity index 92%
+rename from meta/recipes-graphics/cairo/cairo_1.14.4.bb
+rename to meta/recipes-graphics/cairo/cairo_1.14.6.bb
+index a47bfa5..20b4668 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.14.4.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.14.6.bb
+@@ -4,8 +4,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+ 
+ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "90a929e8fe66fb5d19b5adaaea1e9a12"
+-SRC_URI[sha256sum] = "f6ec9c7c844db9ec011f0d66b57ef590c45adf55393d1fc249003512522ee716"
++SRC_URI[md5sum] = "23a0b2f0235431d35238df1d3a517fdb"
++SRC_URI[sha256sum] = "613cb38447b76a93ff7235e17acd55a78b52ea84a9df128c3f2257f8eaa7b252"
+ 
+ UPSTREAM_CHECK_REGEX = "cairo-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+-- 
+1.9.1
+
 
