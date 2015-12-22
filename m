@@ -1,27 +1,27 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 31C386AC4B
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BF23E7327E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Dec 2015 08:43:52 +0000 (UTC)
+	Tue, 22 Dec 2015 08:43:57 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBM8hr8v023259
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Dec 2015 00:43:53 -0800 (PST)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBM8hvs3005596
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 22 Dec 2015 00:43:57 -0800
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Tue, 22 Dec 2015 00:43:52 -0800
+	14.3.248.2; Tue, 22 Dec 2015 00:43:55 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <randy.macleod@windriver.com>, 
 	<ross.burton@intel.com>, <jackie.huang@windriver.com>,
 	<mark.hatle@windriver.com>, <liezhi.yang@windriver.com>
-Date: Tue, 22 Dec 2015 16:43:19 +0800
-Message-ID: <2c95c13720906c8788e7b42abfc6c711af8a87f9.1450772654.git.hongxu.jia@windriver.com>
+Date: Tue, 22 Dec 2015 16:43:20 +0800
+Message-ID: <41cf19965419fa391815e56eff811f54c8d16c9c.1450772654.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1450772654.git.hongxu.jia@windriver.com>
 References: <cover.1450772654.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] connman.inc: add missing RDEPENDS
+Subject: [PATCH 2/3] connman.inc: add networkmanager to RCONFLICTS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,38 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 08:43:53 -0000
+X-List-Received-Date: Tue, 22 Dec 2015 08:43:59 -0000
 Content-Type: text/plain
 
-All of the connman-tools, connman-tests and connman-client
-runtime depends connman.
+Since networkmanager add connman to its RCONFLICTS,
+The connman should do the same thing.
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-connectivity/connman/connman.inc | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/connman/connman.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index ba2ca24..76e61b4 100644
+index 76e61b4..a4b814a 100644
 --- a/meta/recipes-connectivity/connman/connman.inc
 +++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -142,11 +142,15 @@ python populate_packages_prepend() {
- PACKAGES =+ "${PN}-tools ${PN}-tests ${PN}-client"
+@@ -109,6 +109,8 @@ RDEPENDS_${PN} = "\
+ 	dbus \
+ 	"
  
- FILES_${PN}-tools = "${bindir}/wispr"
-+RDEPENDS_${PN}-tools ="${PN}"
++RCONFLICTS_${PN} = "networkmanager"
++
+ PACKAGES_DYNAMIC += "^${PN}-plugin-.*"
  
- FILES_${PN}-tests = "${bindir}/*-test ${libdir}/${BPN}/test/*"
--RDEPENDS_${PN}-tests = "python-dbus python-pygobject python-textutils python-subprocess python-fcntl python-netclient"
-+RDEPENDS_${PN}-tests = "python-dbus python-pygobject python-textutils python-subprocess python-fcntl python-netclient \
-+                        ${PN} \
-+"
- 
- FILES_${PN}-client = "${bindir}/connmanctl"
-+RDEPENDS_${PN}-client ="${PN}"
- 
- FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
-             ${libdir}/connman/plugins \
+ def add_rdepends(bb, d, file, pkg, depmap, multilib_prefix, add_insane_skip):
 -- 
 1.9.1
 
