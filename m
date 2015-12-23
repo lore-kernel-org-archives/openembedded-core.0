@@ -1,48 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 327226FFC7
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id E5FDD7318B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 13:26:19 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id q126so215488405iof.2
+	Wed, 23 Dec 2015 13:39:17 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id l126so150447766wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 05:26:20 -0800 (PST)
+	Wed, 23 Dec 2015 05:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=JB4ZSi1Huit9s8awP/fac/DRs+PW1xFSM3W5amSE08w=;
-	b=I+ksINGrl+mR60DyQMAJ7oNwLLeIMb9NZ7Hvj/0KivtVgbI60PWRjvTPLnmjbDyCi3
-	mdtGbQNDTFh3HLR3sYj3lerNOQ8FCDQGfRTqohAgHUObXdMtQw9Us020mRXz9rTO1odB
-	9n1k6VqDVf5xs1sXqWvBucEaRlUJ3KDqAOK5f7HRhtoYNc0CL9R0IE1y05FLAzrD3ykZ
-	tdUUAqsTX3DTcettlhX8XG0RD6zh3gH9QIMJg4qaf19XsTFq14k0JfnxxaS0f2UtPrhc
-	LXvJ1bd0BKMVPBkwp38CRnGq7DZQqaDE4B3AkkcaqX0o8e14BPh2qaN1XPFXq0eLpnLb
-	QSjA==
+	h=from:to:subject:date:message-id;
+	bh=J/2kT+qg7O5sZ6RyIoAwYCRQ+hw7/MBGC1+KgQ5LaAA=;
+	b=U508KRHo8ftTkHvzuEwMKlRr7DKJi2NJ4jcO1vA7OLrSBH2PMSquUzuDkDWqv42OMN
+	fWYr/GjBNCL0a6g8/vOdACvdBSA23ikyTa7rZlffj7tz4eEVPNCq7hIRQFhYR6PI7SPz
+	o0zBXox7kLdI95v/bDlBJqkTWgWti4hO/Y2cAOC55ppCY/osYBKIRIgQ2FqKuz8a7SzA
+	mz8+XOcpUkz1OrWbzVW3hHUq3udeut886QzUIgwsKVi405EJ2B35+nZr82++DdwgkjIb
+	NWND5Ub1JQUt6ohAQDepTRSfoZyX1Iw+QSgFG6qBPH+LN9pjzc3uMbU/eYAm5onKFKEO
+	dj8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=JB4ZSi1Huit9s8awP/fac/DRs+PW1xFSM3W5amSE08w=;
-	b=PlyOpF9fAEXhslC/wHwVF1XFG/HiZmZXo+AsaXkpOKpS17JgIpW9C4QARX9c6Qci7k
-	e3PIP5MkNZCHGdk7jdVRsI984qj3JzoybpENi5qB0V9jR/oQ1kiiU/8WCFG7fPB3vgVb
-	UVpRJEDBljPlM0hSbRTcGDJMn+XOO/8S6WAncyOBFNVIYNbzBHv5c6Zijvjz5omMtGL8
-	a2eZXTnY3MEf1V3B8R1UqHOjlFRIW6Rp2jc6IztCXOT0GMnq13HjGdCAnSOb2yfadOpW
-	T4zzMasY9kOIGQnt1w+6k440wW5gjirPrIPJ9iLaLbQg7tNg4sitAuXHmuX2mMhdCE64
-	k13w==
-X-Gm-Message-State: ALoCoQnobFGM2Cxvr98bc60sOc1LjWgDaewuAGrm9q1ZxEaa7h3DFaJbgKTKDWZJeXYd5dFL7UD5+vl1y9vi87c973jhlhIwRnAI6vCmJIHMpoZiAMYTHLc=
-X-Received: by 10.107.155.209 with SMTP id d200mr34499245ioe.133.1450877180529;
-	Wed, 23 Dec 2015 05:26:20 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 23 Dec 2015 05:26:00 -0800 (PST)
-In-Reply-To: <567A9EED.7040305@topic.nl>
-References: <1450857946-8428-1-git-send-email-mike.looijmans@topic.nl>
-	<567A9EED.7040305@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 23 Dec 2015 13:26:00 +0000
-Message-ID: <CAJTo0Laj05q8FkFWB+=qb70Ax55W99LKNEKXHMOhJW8eZujuxg@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: OE <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libav: Add "--enable-gpl" to PACKAGECONFIG[x264]
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=J/2kT+qg7O5sZ6RyIoAwYCRQ+hw7/MBGC1+KgQ5LaAA=;
+	b=kvB6Sw1K9NYEzP9zMvXP+v07wPF4dciOCx71Y+MAk2Um7Edwj+tl8TdjUEJV5lwe6x
+	bJi0mhCF3SMICjTF+kTne+WmpR4B/hVJos5UPLH/mzd+8LjJ4glHtuIYq1n1rNqX4g0i
+	N6nJ0lmI6CxqUNMyOiky4olTdPHKCx47z2ew2BM3HQ4Pn8uX7piVfXYWfNN4FrsjV3tq
+	1ESjrpQmlYnGCyTEIHhsXBt4h3W1O95TVY0iA2uBcNINnHwvC2DUQdJ4LSwwpgCgea/N
+	osM3I+GCaBu7fqAQZCIH2aJVqGiFXU3jrP3aAMHrKMB0pq4sY1Se+2b0QhmpVPP6FQvq
+	jRqQ==
+X-Gm-Message-State: ALoCoQkFVoSqumcWpXz7raHwdmgivgS6i4G9VKPCPssbMp+arQlrQcS6CLzMsVvsOcwonFfg8Iqvc+upMBEeyQrlShWcY5CUMw==
+X-Received: by 10.194.104.130 with SMTP id ge2mr33910366wjb.111.1450877957987; 
+	Wed, 23 Dec 2015 05:39:17 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	w80sm8006661wme.17.2015.12.23.05.39.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 23 Dec 2015 05:39:17 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Dec 2015 13:39:12 +0000
+Message-Id: <1450877952-28148-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] xorg-lib: allow native building without x11 DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Dec 2015 13:26:20 -0000
-Content-Type: multipart/alternative; boundary=001a11403402f566db052790aa53
+X-List-Received-Date: Wed, 23 Dec 2015 13:39:19 -0000
 
---001a11403402f566db052790aa53
-Content-Type: text/plain; charset=UTF-8
+The Xorg libraries use REQUIRED_DISTRO_FEATURES to stop building on
+distributions without the x11 feature but this stops people building native
+tooling that uses libX11, such as libsdl-native.
 
-On 23 December 2015 at 13:17, Mike Looijmans <mike.looijmans@topic.nl>
-wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb    | 1 +
+ meta/recipes-graphics/xorg-lib/xorg-lib-common.inc | 1 +
+ 2 files changed, 2 insertions(+)
 
-> I don't think we have dependencies in that, so there's no easy way to tell
-> people that "if you include 'x264' in the list you must include 'gpl' as
-> well"?
->
+diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb
+index 4372be1..0856c19 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb
+@@ -29,6 +29,7 @@ inherit autotools pkgconfig distro_features_check
+ 
+ # The libxau and others requires x11 in DISTRO_FEATURES
+ REQUIRED_DISTRO_FEATURES = "x11"
++REQUIRED_DISTRO_FEATURES_class-native = ""
+ 
+ python populate_packages_prepend () {
+     do_split_packages(d, '${libdir}', '^libxcb-(.*)\.so\..*$', 'libxcb-%s', 'XCB library module for %s', allow_links=True)
+diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+index 09df010..6f4e444 100644
+--- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
++++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+@@ -24,3 +24,4 @@ UNKNOWN_CONFIGURE_WHITELIST += "--enable-malloc0returnsnull --disable-malloc0ret
+ "
+ 
+ REQUIRED_DISTRO_FEATURES ?= "x11"
++REQUIRED_DISTRO_FEATURES_class-native = ""
+-- 
+2.6.4
 
-I think the best approach here would be a comment.
 
-Ross
-
---001a11403402f566db052790aa53
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 December 2015 at 13:17, Mike Looijmans <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic.=
-nl</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":12c"=
- class=3D"a3s" style=3D"overflow:hidden">I don&#39;t think we have dependen=
-cies in that, so there&#39;s no easy way to tell people that &quot;if you i=
-nclude &#39;x264&#39; in the list you must include &#39;gpl&#39; as well&qu=
-ot;?<br></div></blockquote></div><br>I think the best approach here would b=
-e a comment.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
-extra">Ross</div></div>
-
---001a11403402f566db052790aa53--
