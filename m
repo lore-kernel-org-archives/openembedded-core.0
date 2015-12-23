@@ -1,23 +1,27 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp01.mail.online.nl (smtp01.mail.online.nl [194.134.25.71])
-	by mail.openembedded.org (Postfix) with ESMTP id A35D370101
+Return-Path: <maxin.john@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 520496FFE2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 13:17:35 +0000 (UTC)
-Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
-	by smtp01.mail.online.nl (Postfix) with ESMTP id 37E1E4005C
+	Wed, 23 Dec 2015 13:24:15 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 23 Dec 2015 05:24:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,468,1444719600"; d="scan'208";a="847120530"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 23 Dec 2015 05:24:16 -0800
+Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 650396A4087
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 14:17:33 +0100 (CET)
-To: OE <openembedded-core@lists.openembedded.org>
-References: <1450857946-8428-1-git-send-email-mike.looijmans@topic.nl>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-Message-ID: <567A9EED.7040305@topic.nl>
-Date: Wed, 23 Dec 2015 14:17:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
-MIME-Version: 1.0
-In-Reply-To: <1450857946-8428-1-git-send-email-mike.looijmans@topic.nl>
-Subject: Re: [PATCH] libav: Add "--enable-gpl" to PACKAGECONFIG[x264]
+	Wed, 23 Dec 2015 06:12:16 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Dec 2015 15:25:40 +0200
+Message-Id: <1450877140-15246-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] packagegroup-core-x11-sato: include pulseaudio-misc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,43 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Dec 2015 13:17:37 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Dec 2015 13:24:19 -0000
 
-hmm, apparently there's already a "gpl" PACKAGECONFIG item.
-I don't think we have dependencies in that, so there's no easy way to 
-tell people that "if you include 'x264' in the list you must include 
-'gpl' as well"?
+Add pulseaudio-misc to include "pacmd" in core-image-sato* images.
+This helps in modifying audio setup during runtime.
 
-I guess this patch better be dropped then.
+[YOCTO #8815]
 
-On 23-12-15 09:05, Mike Looijmans wrote:
-> Building libav resulted in the following message during configure:
->    libx264 is gpl and --enable-gpl is not specified.
-> Resolve it by adding --enable-gpl to the x264 package config.
->
-> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
-> ---
->   meta/recipes-multimedia/libav/libav.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
-> index 05b7e87..8ae6739 100644
-> --- a/meta/recipes-multimedia/libav/libav.inc
-> +++ b/meta/recipes-multimedia/libav/libav.inc
-> @@ -52,7 +52,7 @@ PACKAGECONFIG[theora] = "--enable-libtheora,--disable-libtheora,libtheora"
->   PACKAGECONFIG[vaapi] = "--enable-vaapi,--disable-vaapi,libva"
->   PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
->   PACKAGECONFIG[x11] = "--enable-x11grab,--disable-x11grab,virtual/libx11 libxfixes libxext xproto virtual/libsdl"
-> -PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
-> +PACKAGECONFIG[x264] = "--enable-gpl --enable-libx264,--disable-libx264,x264"
->
->   # Check codecs that require --enable-nonfree
->   USE_NONFREE = "${@bb.utils.contains_any('PACKAGECONFIG', [ 'faac', 'openssl' ], 'yes', '', d)}"
->
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
+diff --git a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
+index 6679db8..753d2bf 100644
+--- a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
++++ b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
+@@ -39,7 +39,7 @@ RDEPENDS_${PN}-base = "\
+     libsdl \
+     ${NETWORK_MANAGER} \
+     udev-extraconf \
+-    ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio-server pulseaudio-client-conf-sato', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio-server pulseaudio-client-conf-sato pulseaudio-misc', '', d)} \
+     "
+ 
+ # pcmanfm doesn't work on mips
 -- 
-Mike Looijmans
+2.4.0
+
 
