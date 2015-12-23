@@ -1,21 +1,34 @@
-Return-Path: <mike.looijmans@topic.nl>
-X-Greylist: delayed 540 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 23 Dec 2015 08:14:49 UTC
-Received: from smtp04.mail.online.nl (smtp04.mail.online.nl [194.134.25.74])
-	by mail.openembedded.org (Postfix) with ESMTP id 721EF60118
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 25C9E6AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 08:14:49 +0000 (UTC)
-Received: from localhost.localdomain (s55969068.adsl.online.nl
-	[85.150.144.104])
-	by smtp04.mail.online.nl (Postfix) with ESMTP id 44A6F280060;
-	Wed, 23 Dec 2015 09:05:49 +0100 (CET)
-From: Mike Looijmans <mike.looijmans@topic.nl>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Dec 2015 09:05:46 +0100
-Message-Id: <1450857946-8428-1-git-send-email-mike.looijmans@topic.nl>
-X-Mailer: git-send-email 2.1.4
-Cc: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: [PATCH] libav: Add "--enable-gpl" to PACKAGECONFIG[x264]
+	Wed, 23 Dec 2015 10:03:08 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	tBNA38Bh014985; Wed, 23 Dec 2015 04:03:08 -0600
+Received: from adi-pc-linux ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015122304030796-1447893 ;
+	Wed, 23 Dec 2015 04:03:07 -0600 
+Date: Wed, 23 Dec 2015 12:03:03 +0200
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20151223120303.7a2bb7df@adi-pc-linux>
+In-Reply-To: <CAJTo0LbnFsAVPv6r_vh8EX9m7Kir-WW-zq+24FJS1Cr4-vVKZA@mail.gmail.com>
+References: <1450172969-11076-1-git-send-email-adrian.ratiu@ni.com>
+	<CAJTo0LbnFsAVPv6r_vh8EX9m7Kir-WW-zq+24FJS1Cr4-vVKZA@mail.gmail.com>
+Organization: National Instruments
+MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 12/23/2015 04:03:08 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 12/23/2015 04:03:08 AM,
+	Serialize complete at 12/23/2015 04:03:08 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-12-23_08:, , signatures=0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RESEND PATCH v3] util-linux: create util-linux-runuser package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,31 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Dec 2015 08:14:50 -0000
+X-List-Received-Date: Wed, 23 Dec 2015 10:03:09 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-Building libav resulted in the following message during configure:
-  libx264 is gpl and --enable-gpl is not specified.
-Resolve it by adding --enable-gpl to the x264 package config.
+On Tue, 22 Dec 2015 17:34:12 +0000
+"Burton, Ross" <ross.burton@intel.com> wrote:
 
-Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
----
- meta/recipes-multimedia/libav/libav.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On 15 December 2015 at 09:49, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+> 
+> > Split runuser into its own package (previously provided by util-linux).
+> > Since runuser is compiled only when DISTRO_FEATURES includes pam,
+> > the creation of util-linux-runuser is also constrained by this.
+> >
+> 
+> What's the rationale for pulling this out into a separate package?
 
-diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
-index 05b7e87..8ae6739 100644
---- a/meta/recipes-multimedia/libav/libav.inc
-+++ b/meta/recipes-multimedia/libav/libav.inc
-@@ -52,7 +52,7 @@ PACKAGECONFIG[theora] = "--enable-libtheora,--disable-libtheora,libtheora"
- PACKAGECONFIG[vaapi] = "--enable-vaapi,--disable-vaapi,libva"
- PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
- PACKAGECONFIG[x11] = "--enable-x11grab,--disable-x11grab,virtual/libx11 libxfixes libxext xproto virtual/libsdl"
--PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
-+PACKAGECONFIG[x264] = "--enable-gpl --enable-libx264,--disable-libx264,x264"
- 
- # Check codecs that require --enable-nonfree
- USE_NONFREE = "${@bb.utils.contains_any('PACKAGECONFIG', [ 'faac', 'openssl' ], 'yes', '', d)}"
--- 
-2.1.4
+I need runuser on a busybox image and can't install the entire util-linux package.
+
+> 
+> 
+> >  PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount',
+> > 'util-linux-pylibmount', '', d)}"
+> > +PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam',
+> > 'util-linux-runuser', '', d)}"
+> >
+> 
+> No need for conditionals: empty packages are not created.
+
+Thank you for this tip, I've modified and sent v4.
+
+> 
+> Ross
 
 
