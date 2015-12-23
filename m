@@ -1,34 +1,46 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id CE7456080F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 58260607AB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 20:49:45 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id p187so158296109wmp.0
+	Wed, 23 Dec 2015 21:22:36 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id l126so164668879wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 12:49:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=5jHKslAVof/Z/gzJCli6Tr3CAo1frZs2EIWpeC7tVKk=;
-	b=ZLJqFmsMc9O68TpBCQs4BZbWKHF3itrr8R8ka6Eomwl7+8UcfD3aClvXEaOc+L6hL/
-	qRYuKNeo7ZDLbu+6spWMVa8OyT+DqNMwaPkfs1E+3ZkRHDDq0w1ywxA4AbtyUXrn2+g3
-	obuGqtdRHqCjFlxiyALXCikQqR9lno5ydJTFTQodnhqls/+NgbD+bkoccsN6DZ/zgDoo
-	3cXycWu6si6DLErHrADjw3/fnk2DWp/rC6aC8imx2LBMYCsC44DauQud+GSpdouiSG3R
-	myXW3sFDFM3dEFylyfiISAX8TXB2WYxCRH+zSwYjAPBx+Gg1mXqzT9Oiypm5LY8ozjKK
-	9KiQ==
-MIME-Version: 1.0
-X-Received: by 10.28.98.133 with SMTP id w127mr6938923wmb.4.1450903786107;
-	Wed, 23 Dec 2015 12:49:46 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Wed, 23 Dec 2015 12:49:46 -0800 (PST)
-In-Reply-To: <CAJTo0LYLr=Qq1ETPdwTyjGddUNmuZvx+z7GtzTM5-N+EeNcHkQ@mail.gmail.com>
-References: <1450827499-32386-1-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LYLr=Qq1ETPdwTyjGddUNmuZvx+z7GtzTM5-N+EeNcHkQ@mail.gmail.com>
-Date: Wed, 23 Dec 2015 12:49:46 -0800
-Message-ID: <CAJ86T=XDVLVzraADPy6O=9SiKpcZai__8m9VY=8DCEC4u=RHrw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] strace: update 4.10 -> 4.11
+	Wed, 23 Dec 2015 13:22:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=q1tfyWVLrlVG0/iUcvXg74ko+1fO7jufkx2xeXo70Pc=;
+	b=TNLbUJ5jusM9Zst8ubZx0xnnY4i3qXqhTQRtkR0jW/rS1XRAwKVS84nklSV7Xd80jV
+	jhAuWK5DmWDj0SPm8VXyNb47WwrvlSUKd6seXW5vZZUPOTqqV3n6/NASZ/w6+67mtkpU
+	s0kgzZ54tA3LGmCpMA9eh5eJMXcmFsiKCaFJLrt2D2vwEqo8GQz6vCA5athCkrQ5YrfV
+	durwL3F/nONG1mqNx0XeA8XJOQ8laW1G1nwqI5SoOsqd9zcH4qR8dbAu4epoGDlVc+qK
+	xDaTq0oVJgTVHGIPN7/QGoOdRjPeLesfcStaMF6zy0qKWKr7BLt55Zraz5SMCNBjvnHR
+	yP4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=q1tfyWVLrlVG0/iUcvXg74ko+1fO7jufkx2xeXo70Pc=;
+	b=TOTVCDCjUVSyi/ogECX5TQg+tncw4msGxgnrlnj38jnVKaYMlVp/DfGz1fSTc4yrMn
+	ZwGyYqVV3v1DQTtniuejZSfz0Cpn2TZqhG8FdBdGuloNWYin5X7dkirt3D5CaOMf7Wf1
+	a3uvl8s5uwErYI/58WXtXpLeqP0TIUvaEf5LXOZ+yejq6iVRpJ3TUvuie1X2Yh5gnXNX
+	gSXsbOOU3mTgW131F1IB2MHxxbAia++QjR/LQAzIyHtUtAlVYEGbyt7zEUL9w3EcbwOn
+	UxKpbMCnWEveSbihrHjO1IbfGRgkQ31zLMLB7fza2+Pb7CAreDeh8iJUDR639qRt0syH
+	FtXw==
+X-Gm-Message-State: ALoCoQlRbwDEr+egy9k2I+UQM1TRpAJK9YNeBnjicytqlXSs3U9BUmfLtIis282QwcsdWkYOZPpkjZsmMWbMPedpzZGubhhMbg==
+X-Received: by 10.194.190.19 with SMTP id gm19mr18717618wjc.77.1450905757000; 
+	Wed, 23 Dec 2015 13:22:37 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	l7sm38987813wjx.14.2015.12.23.13.22.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 23 Dec 2015 13:22:36 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Dec 2015 21:22:27 +0000
+Message-Id: <1450905747-3900-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] qemu: add PACKAGECONFIG for Nettle crypto support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,52 +53,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Dec 2015 20:49:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 23 Dec 2015 21:22:39 -0000
 
-On Wed, Dec 23, 2015 at 6:53 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 22 December 2015 at 23:38, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> Noteworthy changes in release 4.11 (2015-12-21)
->
->
-> They forgot to mention "breaks on the yocto autobuilder". :)
->
-> |
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-deb-non-deb/build/build/tmp/work/i586-poky-linux/strace/4.11-r0/strace-4.11/tests/ksysent.c:45:24:
-> fatal error: syscallent.h: No such file or directory
-> | compilation terminated.
-> | make: *** [ksysent.o] Error 1
-> | make: Leaving directory
-> `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-deb-non-deb/build/build/tmp/work/i586-poky-linux/strace/4.11-r0/build/tests'
-> | ERROR: Function failed: do_compile_ptest_base (log file is located at
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-deb-non-deb/build/build/tmp/work/i586-poky-linux/strace/4.11-r0/temp/log.do_compile_ptest_base.18605)
->
-> Did you test with ptests enabled?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Not for x86 :-(
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 8b51324..95fe66f 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -115,6 +115,7 @@ PACKAGECONFIG[gtk+] = "--enable-gtk --enable-vte,--disable-gtk --disable-vte,gtk
+ PACKAGECONFIG[libcap-ng] = "--enable-cap-ng,--disable-cap-ng,libcap-ng,"
+ PACKAGECONFIG[ssh2] = "--enable-libssh2,--disable-libssh2,libssh2,"
+ PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,gcrypt,"
++PACKAGECONFIG[nettle] = "--enable-nettle,--disable-nettle,nettle"
+ PACKAGECONFIG[libusb] = "--enable-libusb,--disable-libusb,libusb1"
+ PACKAGECONFIG[fdt] = "--enable-fdt,--disable-fdt,dtc"
+ PACKAGECONFIG[alsa] = ",,alsa-lib"
+-- 
+2.6.4
 
-Error is due to do_compile_ptest() forcing ARCH="${TARGET_ARCH}". The
-tests Makefile uses ARCH to setup include paths but there isn't a
-direct mapping between OE's arch values and the ones expected by
-strace. In this case ARCH should be "i386" in order to find the header
-file correctly, not "i586".
-
-Removing ARCH="${TARGET_ARCH}" from do_compile_ptest() and letting
-strace auto detect fixes the build failure.
-
-Forcing ARCH was introduced here:
-
-  http://git.openembedded.org/openembedded-core/commit/?id=af76eb0405352d66dfd00d7f856f401d892855e1
-
-But I'm not 100% clear what the original problem was though, so I'm
-not sure about just undoing that change without some more
-investigation. Any thoughts?
-
-
-> (full log at
-> https://autobuilder.yoctoproject.org/main/builders/nightly-deb-non-deb/builds/235/steps/BuildImages/logs/stdio)
->
-> Ross
 
