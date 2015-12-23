@@ -1,46 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 41E0873188
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B1596AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 13:48:31 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id p187so145724011wmp.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 05:48:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=H83jK58YqZsdiAyf7PNFC6vl/+/Hzv5jJWsphr4NzX8=;
-	b=o+N9cwcjyojzD3rW9mmge+j8U52fOcDX2XlVgADNjbn7qns9U64ncu9XCJFTDlnBqU
-	WmiExrCOG+DQAGFRk9zbiZyos60FC5rfUf5JkSjypntEck9g+hT0M6XWMVVuv5rsJNwm
-	njDHeClo+i9doIekV04UXPWyGRU5AJz4/G4GpcLckcQoJ+LIjXXILXBwod0a6vgoT1Ib
-	KpIpfKjZQZ/UeWkYgE1CCtHqs720eXpnmg9upajo5hRplDqxdUy3hScgdp8gzv4nQNuj
-	C6UL/1i5H9JC0srikJTzIM5p7U4BCrxWzsjoMoTfLjyDDTxSrN/7KzQJuPKER2R5Jk4f
-	3ffQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=H83jK58YqZsdiAyf7PNFC6vl/+/Hzv5jJWsphr4NzX8=;
-	b=jySl1YXvqGSDKkr/sf4C2gKfkyDVBc7Or9r5G6CK8wSOBKZZs+YFHygVd1FCnfdvmD
-	+fhb0sQG20AH1hCYUkYCONybUykhkSHtTBbX1kZ2gDvt5CiwbIj5NNe9ZNxJTRE+sNNv
-	g+IOFaU19ezN1P2y993jFIMUgZb8txVXjNbuqayNhwPEnzghv1Uw0PT1o3+nZ36tWeIR
-	paDtarzb/r8cDBcMgMZmAOgcqbuPiwcDenyFPZE5ZhM7xV/lGWKljvCpNpnBwwN0F6vN
-	mY8+iwoQGgo0ZoZkh3oeSHoM1x3Sx4G9iKhRb/Y0Fd+Deuoi3+XwTYnlRHvSjxqj4FGO
-	w0cQ==
-X-Gm-Message-State: ALoCoQnrEqc9sfr4f3PhvgTsloVWZjhORWLN/Rf51Ytir6jArQuPX8UKq5f01b7M6rkgUrhnKhCHwc1ZxSZw+IntcZ37aGSZ9A==
-X-Received: by 10.194.236.6 with SMTP id uq6mr33692267wjc.126.1450878512171;
-	Wed, 23 Dec 2015 05:48:32 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	r74sm29503024wmb.2.2015.12.23.05.48.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 23 Dec 2015 05:48:31 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 23 Dec 2015 14:22:12 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Dec 2015 06:22:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,469,1444719600"; d="scan'208";a="713511242"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga003.jf.intel.com with ESMTP; 23 Dec 2015 06:22:13 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id DEF5C6A4087;
+	Wed, 23 Dec 2015 07:10:12 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Dec 2015 13:48:29 +0000
-Message-Id: <1450878509-3827-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [PATCH] oeqa/selftest: support sets in devtool comparisons
+Date: Wed, 23 Dec 2015 15:50:35 +0200
+Message-Id: <1450878635-25307-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Joshua Lock <joshua.lock@collabora.co.uk>
+Subject: [wic][PATCH] wic: rawcopy: Copy source file to build folder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,50 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Dec 2015 13:48:32 -0000
+X-List-Received-Date: Wed, 23 Dec 2015 14:22:14 -0000
 
-The devtool and recipetool tests do literal string comparisons, but for some
-fields the ordering could be irrelevant and potentially non-deterministic.  For
-example, the recipetool_create_simple test started failing with:
+From: Noor Ahsan <noor_ahsan@mentor.com>
 
-AssertionError: 'GPLv2 Unknown' != 'Unknown GPLv2' : values for LICENSE do not match
+When a file is given using --sourceparams then wic directly use that file
+instead of copying them to build folder. At time of assembling it os.rename
+is called which renames all the files to name. In that process the original
+file is renamed. When image recipe is rebuilt then wic complains about
+missing file which was renamed in previous build.
 
-The ordering of the LICENSE field isn't relevant.  So, if the expected value is
-a set(), split the string into a set too and compare those.
+[YOCTO #8854]
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/devtool.py    | 2 ++
- meta/lib/oeqa/selftest/recipetool.py | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ scripts/lib/wic/plugins/source/rawcopy.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index 6f76ce7..1eadd6b 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -44,6 +44,8 @@ class DevtoolBase(oeSelfTest):
-                     needvalue = checkvars.pop(var)
-                     if needvalue is None:
-                         self.fail('Variable %s should not appear in recipe')
-+                    if isinstance(needvalue, set):
-+                        value = set(value.split())
-                     self.assertEqual(value, needvalue, 'values for %s do not match' % var)
+diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
+index f0691ba..0472f53 100644
+--- a/scripts/lib/wic/plugins/source/rawcopy.py
++++ b/scripts/lib/wic/plugins/source/rawcopy.py
+@@ -67,13 +67,14 @@ class RawCopyPlugin(SourcePlugin):
+             return
  
+         src = os.path.join(bootimg_dir, source_params['file'])
+-        dst = src
++        dst = os.path.join(cr_workdir, source_params['file'])
  
-diff --git a/meta/lib/oeqa/selftest/recipetool.py b/meta/lib/oeqa/selftest/recipetool.py
-index 34e383f..85a40f7 100644
---- a/meta/lib/oeqa/selftest/recipetool.py
-+++ b/meta/lib/oeqa/selftest/recipetool.py
-@@ -413,7 +413,7 @@ class RecipetoolTests(RecipetoolBase):
-             self.fail('recipetool did not create recipe file; output:\n%s' % result.output)
-         self.assertEqual(dirlist[0], 'socat_%s.bb' % pv, 'Recipe file incorrectly named')
-         checkvars = {}
--        checkvars['LICENSE'] = 'Unknown GPLv2'
-+        checkvars['LICENSE'] = set(['Unknown', 'GPLv2'])
-         checkvars['LIC_FILES_CHKSUM'] = 'file://COPYING.OpenSSL;md5=5c9bccc77f67a8328ef4ebaf468116f4 file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263'
-         # We don't check DEPENDS since they are variable for this recipe depending on what's in the sysroot
-         checkvars['S'] = None
+         if 'skip' in source_params:
+-            dst = os.path.join(cr_workdir, source_params['file'])
+             dd_cmd = "dd if=%s of=%s ibs=%s skip=1 conv=notrunc" % \
+                     (src, dst, source_params['skip'])
+-            exec_cmd(dd_cmd)
++        else:
++            dd_cmd = "cp %s %s" % (src, dst)
++        exec_cmd(dd_cmd)
+ 
+         # get the size in the right units for kickstart (kB)
+         du_cmd = "du -Lbks %s" % dst
 -- 
-2.6.4
+2.1.4
 
 
