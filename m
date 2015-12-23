@@ -1,44 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
-	[209.85.213.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 679326FFCD
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 31BFE6FFA4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 21:41:54 +0000 (UTC)
-Received: by mail-ig0-f171.google.com with SMTP id to4so88453864igc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 13:41:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=X+wQ3buA17PUTfBbFOoQ6egd4Kxe2VhAuB35UNy9tRk=;
-	b=uZ4k+wFNx+wykC7pD2bIFppU4WidFtHhlCR8vPwwW6vbL+Cxx/Vqt1LEB6H+ogc9QU
-	kQUy40KlgAVDrfqI3rsfQiZCsLHBp3Ns3mi1aoDUaGUDVc/0AWJmh2O5x6yC816kUCsO
-	QW35+AhsrmuuehrO2iUID5nq1IUhLRxXQ9W6BmHwFwvn1ZgUwTei7nIznxfULJgqVDd/
-	XpPYPuNA/GapCjyCcHESlUluXQGLru+l3YrHWD3fHjREeETkoS1PhUXvmiBAYhBQYBbO
-	7Qxquzh2yScJYe5XWjKUkGV2FyLODXBFmNX0//bsbX0psDiYUAG0LaEP/akmbw7+Yy3h
-	v1/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-	:content-type;
-	bh=X+wQ3buA17PUTfBbFOoQ6egd4Kxe2VhAuB35UNy9tRk=;
-	b=erxStkoddPjClAYlddL33u7l8Z2hSuYB/F/H2t/SR+KdMkbIVWFRVP741P5qAs2dBB
-	8AOjZdbH3ZlGQ9UmJT2mluizpv1ewkSOk218E6lWJTSLv4kjcQOHQrWlvqPdQaFzuxPp
-	I9hTve3gFGQOLrRqscBskOZIBTzVmUFGr5ayJdP6KnVmudbVvYvYKTcC11ifCva19WOi
-	Nzy4t+vO0OGai8BRMa5PPVhc+/cXzRhtF57EGKJ4At1OTMQXJfeKQROOhMPCV1iuLfbk
-	A6FfxKwaBmeOMSVHef6RmapMfPCemhZeSWADSJlO+9cWFqu4k+hrLt0iq4jmGtW0lrfD
-	qMEA==
-X-Gm-Message-State: ALoCoQkx6gB+jIIPTxX8hIYHApGvpm2jL2qs5XGG2uQlePr+em/kMg/UBAMX/TglG0evSJaOu0BWNjhYyIxmU6DEd2BvS5w0ouqCxHSsjVwVd5PLNffmTco=
-X-Received: by 10.50.126.8 with SMTP id mu8mr31178104igb.52.1450906914663;
-	Wed, 23 Dec 2015 13:41:54 -0800 (PST)
+	Wed, 23 Dec 2015 22:03:15 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 23 Dec 2015 14:03:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,470,1444719600"; d="scan'208";a="713740483"
+Received: from shwumeie-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.145.224])
+	by orsmga003.jf.intel.com with ESMTP; 23 Dec 2015 14:03:14 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Dec 2015 11:03:11 +1300
+Message-ID: <1508862.OrpW3lfmya@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.2.7-300.fc23.x86_64; KDE/4.14.14; x86_64; ;
+	)
+In-Reply-To: <1450878509-3827-1-git-send-email-ross.burton@intel.com>
+References: <1450878509-3827-1-git-send-email-ross.burton@intel.com>
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 23 Dec 2015 13:41:35 -0800 (PST)
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 23 Dec 2015 21:41:35 +0000
-Message-ID: <CAJTo0LayEjj9moB9xgup=vB+C9Sn2-WX+s97UWRt9tg=HYFnag@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
-Subject: [RFC] Delete all .la files?
+Subject: Re: [PATCH] oeqa/selftest: support sets in devtool comparisons
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,68 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Dec 2015 21:41:54 -0000
-Content-Type: multipart/alternative; boundary=047d7b1635bf4041fb0527979790
+X-List-Received-Date: Wed, 23 Dec 2015 22:03:20 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---047d7b1635bf4041fb0527979790
-Content-Type: text/plain; charset=UTF-8
+On Wed, 23 Dec 2015 13:48:29 Ross Burton wrote:
+> The devtool and recipetool tests do literal string comparisons, but for some
+> fields the ordering could be irrelevant and potentially non-deterministic. 
+> For example, the recipetool_create_simple test started failing with:
+> 
+> AssertionError: 'GPLv2 Unknown' != 'Unknown GPLv2' : values for LICENSE do
+> not match
+> 
+> The ordering of the LICENSE field isn't relevant.  So, if the expected value
+> is a set(), split the string into a set too and compare those.
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/lib/oeqa/selftest/devtool.py    | 2 ++
+>  meta/lib/oeqa/selftest/recipetool.py | 2 +-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/lib/oeqa/selftest/devtool.py
+> b/meta/lib/oeqa/selftest/devtool.py index 6f76ce7..1eadd6b 100644
+> --- a/meta/lib/oeqa/selftest/devtool.py
+> +++ b/meta/lib/oeqa/selftest/devtool.py
+> @@ -44,6 +44,8 @@ class DevtoolBase(oeSelfTest):
+>                      needvalue = checkvars.pop(var)
+>                      if needvalue is None:
+>                          self.fail('Variable %s should not appear in
+> recipe') +                    if isinstance(needvalue, set):
+> +                        value = set(value.split())
+>                      self.assertEqual(value, needvalue, 'values for %s do
+> not match' % var)
+> 
+> 
+> diff --git a/meta/lib/oeqa/selftest/recipetool.py
+> b/meta/lib/oeqa/selftest/recipetool.py index 34e383f..85a40f7 100644
+> --- a/meta/lib/oeqa/selftest/recipetool.py
+> +++ b/meta/lib/oeqa/selftest/recipetool.py
+> @@ -413,7 +413,7 @@ class RecipetoolTests(RecipetoolBase):
+>              self.fail('recipetool did not create recipe file; output:\n%s'
+> % result.output) self.assertEqual(dirlist[0], 'socat_%s.bb' % pv, 'Recipe
+> file incorrectly named') checkvars = {}
+> -        checkvars['LICENSE'] = 'Unknown GPLv2'
+> +        checkvars['LICENSE'] = set(['Unknown', 'GPLv2'])
+>          checkvars['LIC_FILES_CHKSUM'] =
+> 'file://COPYING.OpenSSL;md5=5c9bccc77f67a8328ef4ebaf468116f4
+> file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263' # We don't check
+> DEPENDS since they are variable for this recipe depending on what's in the
+> sysroot checkvars['S'] = None
 
-Hi,
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-So I've just done an oe-core world build with my latest .la-killer class
-enabled (
-https://github.com/rossburton/meta-ross/blob/master/classes/wipe-la.bbclass)
-and the results are pretty good.  Basically this class hooks onto
-do_install and simply deletes every *.la file it can find in ${D}, with an
-opt-out if required.  .la files can cause rebuild problems if directories
-move around and are mostly pointless on Linux anyway, so they can just be
-deleted.
+Cheers,
+Paul
 
-One recipe (opensp-native) needs to opt out of the .la deletion as
-openjade-native for <redacted> reasons explicitly expects .la files to be
-installed.  Some other desktop distros already strip out .la files so I
-wouldn't be surprised if there's a patch floating around to solve this.
+-- 
 
-One recipe fails to build (gcc-sanitizers) as it expects to have built its
-own libstdc++ so the recipe just deletes the source and drops in symlinks
-to the libraries in the sysroot.  Works, but is nasty.   I could either opt
-gcc out of la removal, or improve the fixup to make it actually link to the
-installed libraries.  Or, merge the sanitisers into the main gcc recipe, as
-I can't recall why they're separate anyway.
+Paul Eggleton
+Intel Open Source Technology Centre
 
-Apart from that, my world build was successful.
-
-So in the new year I plan on submitting a renamed version of this class to
-oe-core and adding it to INHERIT_DISTRO.  Any comments?
-
-Ross
-
---047d7b1635bf4041fb0527979790
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div><br></div><div>So I&#39;ve just done an oe-core wo=
-rld build with my latest .la-killer class enabled (<a href=3D"https://githu=
-b.com/rossburton/meta-ross/blob/master/classes/wipe-la.bbclass">https://git=
-hub.com/rossburton/meta-ross/blob/master/classes/wipe-la.bbclass</a>) and t=
-he results are pretty good.=C2=A0 Basically this class hooks onto do_instal=
-l and simply deletes every *.la file it can find in ${D}, with an opt-out i=
-f required. =C2=A0.la files can cause rebuild problems if directories move =
-around and are mostly pointless on Linux anyway, so they can just be delete=
-d.</div><div><br></div><div>One recipe (opensp-native) needs to opt out of =
-the .la deletion as openjade-native for &lt;redacted&gt; reasons explicitly=
- expects .la files to be installed.=C2=A0 Some other desktop distros alread=
-y strip out .la files so I wouldn&#39;t be surprised if there&#39;s a patch=
- floating around to solve this.</div><div><br></div><div>One recipe fails t=
-o build (gcc-sanitizers) as it expects to have built its own libstdc++ so t=
-he recipe just deletes the source and drops in symlinks to the libraries in=
- the sysroot.=C2=A0 Works, but is nasty. =C2=A0 I could either opt gcc out =
-of la removal, or improve the fixup to make it actually link to the install=
-ed libraries.=C2=A0 Or, merge the sanitisers into the main gcc recipe, as I=
- can&#39;t recall why they&#39;re separate anyway.</div><div><br></div><div=
->Apart from that, my world build was successful.</div><div><br></div><div>S=
-o in the new year I plan on submitting a renamed version of this class to o=
-e-core and adding it to INHERIT_DISTRO.=C2=A0 Any comments?</div><div><br><=
-/div><div>Ross</div></div>
-
---047d7b1635bf4041fb0527979790--
