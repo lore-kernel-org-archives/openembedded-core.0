@@ -1,27 +1,48 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 520496FFE2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 327226FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 13:24:15 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Dec 2015 05:24:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,468,1444719600"; d="scan'208";a="847120530"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 23 Dec 2015 05:24:16 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 650396A4087
+	Wed, 23 Dec 2015 13:26:19 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id q126so215488405iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 06:12:16 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Dec 2015 15:25:40 +0200
-Message-Id: <1450877140-15246-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] packagegroup-core-x11-sato: include pulseaudio-misc
+	Wed, 23 Dec 2015 05:26:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=JB4ZSi1Huit9s8awP/fac/DRs+PW1xFSM3W5amSE08w=;
+	b=I+ksINGrl+mR60DyQMAJ7oNwLLeIMb9NZ7Hvj/0KivtVgbI60PWRjvTPLnmjbDyCi3
+	mdtGbQNDTFh3HLR3sYj3lerNOQ8FCDQGfRTqohAgHUObXdMtQw9Us020mRXz9rTO1odB
+	9n1k6VqDVf5xs1sXqWvBucEaRlUJ3KDqAOK5f7HRhtoYNc0CL9R0IE1y05FLAzrD3ykZ
+	tdUUAqsTX3DTcettlhX8XG0RD6zh3gH9QIMJg4qaf19XsTFq14k0JfnxxaS0f2UtPrhc
+	LXvJ1bd0BKMVPBkwp38CRnGq7DZQqaDE4B3AkkcaqX0o8e14BPh2qaN1XPFXq0eLpnLb
+	QSjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=JB4ZSi1Huit9s8awP/fac/DRs+PW1xFSM3W5amSE08w=;
+	b=PlyOpF9fAEXhslC/wHwVF1XFG/HiZmZXo+AsaXkpOKpS17JgIpW9C4QARX9c6Qci7k
+	e3PIP5MkNZCHGdk7jdVRsI984qj3JzoybpENi5qB0V9jR/oQ1kiiU/8WCFG7fPB3vgVb
+	UVpRJEDBljPlM0hSbRTcGDJMn+XOO/8S6WAncyOBFNVIYNbzBHv5c6Zijvjz5omMtGL8
+	a2eZXTnY3MEf1V3B8R1UqHOjlFRIW6Rp2jc6IztCXOT0GMnq13HjGdCAnSOb2yfadOpW
+	T4zzMasY9kOIGQnt1w+6k440wW5gjirPrIPJ9iLaLbQg7tNg4sitAuXHmuX2mMhdCE64
+	k13w==
+X-Gm-Message-State: ALoCoQnobFGM2Cxvr98bc60sOc1LjWgDaewuAGrm9q1ZxEaa7h3DFaJbgKTKDWZJeXYd5dFL7UD5+vl1y9vi87c973jhlhIwRnAI6vCmJIHMpoZiAMYTHLc=
+X-Received: by 10.107.155.209 with SMTP id d200mr34499245ioe.133.1450877180529;
+	Wed, 23 Dec 2015 05:26:20 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Wed, 23 Dec 2015 05:26:00 -0800 (PST)
+In-Reply-To: <567A9EED.7040305@topic.nl>
+References: <1450857946-8428-1-git-send-email-mike.looijmans@topic.nl>
+	<567A9EED.7040305@topic.nl>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 23 Dec 2015 13:26:00 +0000
+Message-ID: <CAJTo0Laj05q8FkFWB+=qb70Ax55W99LKNEKXHMOhJW8eZujuxg@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: OE <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libav: Add "--enable-gpl" to PACKAGECONFIG[x264]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,32 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Dec 2015 13:24:19 -0000
+X-List-Received-Date: Wed, 23 Dec 2015 13:26:20 -0000
+Content-Type: multipart/alternative; boundary=001a11403402f566db052790aa53
 
-Add pulseaudio-misc to include "pacmd" in core-image-sato* images.
-This helps in modifying audio setup during runtime.
+--001a11403402f566db052790aa53
+Content-Type: text/plain; charset=UTF-8
 
-[YOCTO #8815]
+On 23 December 2015 at 13:17, Mike Looijmans <mike.looijmans@topic.nl>
+wrote:
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> I don't think we have dependencies in that, so there's no easy way to tell
+> people that "if you include 'x264' in the list you must include 'gpl' as
+> well"?
+>
 
-diff --git a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-index 6679db8..753d2bf 100644
---- a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-+++ b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-@@ -39,7 +39,7 @@ RDEPENDS_${PN}-base = "\
-     libsdl \
-     ${NETWORK_MANAGER} \
-     udev-extraconf \
--    ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio-server pulseaudio-client-conf-sato', '', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio-server pulseaudio-client-conf-sato pulseaudio-misc', '', d)} \
-     "
- 
- # pcmanfm doesn't work on mips
--- 
-2.4.0
+I think the best approach here would be a comment.
 
+Ross
 
+--001a11403402f566db052790aa53
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 December 2015 at 13:17, Mike Looijmans <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic.=
+nl</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":12c"=
+ class=3D"a3s" style=3D"overflow:hidden">I don&#39;t think we have dependen=
+cies in that, so there&#39;s no easy way to tell people that &quot;if you i=
+nclude &#39;x264&#39; in the list you must include &#39;gpl&#39; as well&qu=
+ot;?<br></div></blockquote></div><br>I think the best approach here would b=
+e a comment.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
+extra">Ross</div></div>
+
+--001a11403402f566db052790aa53--
