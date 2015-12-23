@@ -1,46 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 58260607AB
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A8976FF77
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 21:22:36 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id l126so164668879wml.1
+	Wed, 23 Dec 2015 21:26:40 +0000 (UTC)
+Received: by mail-ig0-f178.google.com with SMTP id mv3so73665893igc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 13:22:37 -0800 (PST)
+	Wed, 23 Dec 2015 13:26:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=q1tfyWVLrlVG0/iUcvXg74ko+1fO7jufkx2xeXo70Pc=;
-	b=TNLbUJ5jusM9Zst8ubZx0xnnY4i3qXqhTQRtkR0jW/rS1XRAwKVS84nklSV7Xd80jV
-	jhAuWK5DmWDj0SPm8VXyNb47WwrvlSUKd6seXW5vZZUPOTqqV3n6/NASZ/w6+67mtkpU
-	s0kgzZ54tA3LGmCpMA9eh5eJMXcmFsiKCaFJLrt2D2vwEqo8GQz6vCA5athCkrQ5YrfV
-	durwL3F/nONG1mqNx0XeA8XJOQ8laW1G1nwqI5SoOsqd9zcH4qR8dbAu4epoGDlVc+qK
-	xDaTq0oVJgTVHGIPN7/QGoOdRjPeLesfcStaMF6zy0qKWKr7BLt55Zraz5SMCNBjvnHR
-	yP4w==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=aklV57XETN6zk6aVFBoYVpSwLNW1orcuPiuQuBwJNKc=;
+	b=GYDOxvLJHsNA0EZt0H9pF29eJw91WqltZo7yqG9LLuNw95b7fAWGL+rSSxTmkkH+IJ
+	lDiLc0Kz1kJQ7SUvzYQXmliTiLicKUEJhbNOIMyUuYe+ZYA67S1Vze41DAGWgKLRHv9z
+	54EDpWHVRpLkZh3wgA8E1dMe2hNBZfNYL0H4MLG1fSN18AJ9tZlIcMlnTEM/n+KXx12j
+	1K353cv2OiwZNCl4mCrl+JLRcUMQnSgnvnvA+a0ecGATJIy49cyuC/giKs4MKlOWvydw
+	l/8wdwfCh4/W6sNkssISvct5t7hhJHAB/Tv7aidIt8JFJZMPuuIe4NpltLxz83TulGeF
+	mclg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=q1tfyWVLrlVG0/iUcvXg74ko+1fO7jufkx2xeXo70Pc=;
-	b=TOTVCDCjUVSyi/ogECX5TQg+tncw4msGxgnrlnj38jnVKaYMlVp/DfGz1fSTc4yrMn
-	ZwGyYqVV3v1DQTtniuejZSfz0Cpn2TZqhG8FdBdGuloNWYin5X7dkirt3D5CaOMf7Wf1
-	a3uvl8s5uwErYI/58WXtXpLeqP0TIUvaEf5LXOZ+yejq6iVRpJ3TUvuie1X2Yh5gnXNX
-	gSXsbOOU3mTgW131F1IB2MHxxbAia++QjR/LQAzIyHtUtAlVYEGbyt7zEUL9w3EcbwOn
-	UxKpbMCnWEveSbihrHjO1IbfGRgkQ31zLMLB7fza2+Pb7CAreDeh8iJUDR639qRt0syH
-	FtXw==
-X-Gm-Message-State: ALoCoQlRbwDEr+egy9k2I+UQM1TRpAJK9YNeBnjicytqlXSs3U9BUmfLtIis282QwcsdWkYOZPpkjZsmMWbMPedpzZGubhhMbg==
-X-Received: by 10.194.190.19 with SMTP id gm19mr18717618wjc.77.1450905757000; 
-	Wed, 23 Dec 2015 13:22:37 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	l7sm38987813wjx.14.2015.12.23.13.22.35
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 23 Dec 2015 13:22:36 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Dec 2015 21:22:27 +0000
-Message-Id: <1450905747-3900-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [PATCH] qemu: add PACKAGECONFIG for Nettle crypto support
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=aklV57XETN6zk6aVFBoYVpSwLNW1orcuPiuQuBwJNKc=;
+	b=IlBia/8a67SvMvh7+bl2oXPEftp5lLefRBH8TEf9gtW4UrqxHyv45tUpzSPzkDE1lJ
+	nMhSunbpI5DOQaBY69Rf6JNImAzQfkn3AXfwqOA3sgmpwO0RnYwvhVGWmAykSYU9nZ3g
+	MeIYWU7zNeGrDiGCEwEzNLyFwJJESeJ08OuAg84upULnzKlb8uqHMv44b3dQk0+tAp3A
+	sxmtpuIwLhyR6TbCyj9XeZ6Fm3b2JgDPTfdnlMaw/h7/Q2syl9ICYgXgmFT4/XaESNa7
+	0fAMx6LNnbkCWHy6Hq+H2AJYSV9jaXFYFacffs39pJLJyIQbryA0hm1mFnmJ8LTy1O1s
+	QQ1A==
+X-Gm-Message-State: ALoCoQk42l+ggbx0PuCqLQ8r6iJPKJX3DiE53671yEslwE/r32no4u+9G8WOp/ggdsypGbjxg1jQrCM6BiUrlH9u7rcfvqUe0arUkYJ6+WGzjWEWCRbtp34=
+X-Received: by 10.50.126.8 with SMTP id mu8mr31130067igb.52.1450906001551;
+	Wed, 23 Dec 2015 13:26:41 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Wed, 23 Dec 2015 13:26:22 -0800 (PST)
+In-Reply-To: <CAJ86T=XDVLVzraADPy6O=9SiKpcZai__8m9VY=8DCEC4u=RHrw@mail.gmail.com>
+References: <1450827499-32386-1-git-send-email-armccurdy@gmail.com>
+	<CAJTo0LYLr=Qq1ETPdwTyjGddUNmuZvx+z7GtzTM5-N+EeNcHkQ@mail.gmail.com>
+	<CAJ86T=XDVLVzraADPy6O=9SiKpcZai__8m9VY=8DCEC4u=RHrw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 23 Dec 2015 21:26:22 +0000
+Message-ID: <CAJTo0Lat-1Zsmn2SAdDfaXbUuSkZyAJT7u9i3-37UZKsEQpZQw@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>,
+	Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] strace: update 4.10 -> 4.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,26 +57,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Dec 2015 21:22:39 -0000
+X-List-Received-Date: Wed, 23 Dec 2015 21:26:41 -0000
+Content-Type: multipart/alternative; boundary=047d7b1635bfd34ecb052797602e
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 1 +
- 1 file changed, 1 insertion(+)
+--047d7b1635bfd34ecb052797602e
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 8b51324..95fe66f 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -115,6 +115,7 @@ PACKAGECONFIG[gtk+] = "--enable-gtk --enable-vte,--disable-gtk --disable-vte,gtk
- PACKAGECONFIG[libcap-ng] = "--enable-cap-ng,--disable-cap-ng,libcap-ng,"
- PACKAGECONFIG[ssh2] = "--enable-libssh2,--disable-libssh2,libssh2,"
- PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,gcrypt,"
-+PACKAGECONFIG[nettle] = "--enable-nettle,--disable-nettle,nettle"
- PACKAGECONFIG[libusb] = "--enable-libusb,--disable-libusb,libusb1"
- PACKAGECONFIG[fdt] = "--enable-fdt,--disable-fdt,dtc"
- PACKAGECONFIG[alsa] = ",,alsa-lib"
--- 
-2.6.4
+CCing Robert as he wrote the patch that introduced the ARCH assignment.
 
+On 23 December 2015 at 20:49, Andre McCurdy <armccurdy@gmail.com> wrote:
 
+> Error is due to do_compile_ptest() forcing ARCH="${TARGET_ARCH}". The
+> tests Makefile uses ARCH to setup include paths but there isn't a
+> direct mapping between OE's arch values and the ones expected by
+> strace. In this case ARCH should be "i386" in order to find the header
+> file correctly, not "i586".
+>
+> Removing ARCH="${TARGET_ARCH}" from do_compile_ptest() and letting
+> strace auto detect fixes the build failure.
+>
+> Forcing ARCH was introduced here:
+>
+>
+> http://git.openembedded.org/openembedded-core/commit/?id=af76eb0405352d66dfd00d7f856f401d892855e1
+>
+> But I'm not 100% clear what the original problem was though, so I'm
+> not sure about just undoing that change without some more
+> investigation. Any thoughts?
+>
+
+I guess if it autodetects correctly now then the workaround isn't
+required.  Robert, what do you think?
+
+Ross
+
+--047d7b1635bfd34ecb052797602e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">CCing Robert as he wrote the pa=
+tch that introduced the ARCH assignment.</div><div class=3D"gmail_extra"><b=
+r><div class=3D"gmail_quote">On 23 December 2015 at 20:49, Andre McCurdy <s=
+pan dir=3D"ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" target=3D"_blank=
+">armccurdy@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x"><div id=3D":18h" class=3D"a3s" style=3D"overflow:hidden">Error is due to=
+ do_compile_ptest() forcing ARCH=3D&quot;${TARGET_ARCH}&quot;. The<br>
+tests Makefile uses ARCH to setup include paths but there isn&#39;t a<br>
+direct mapping between OE&#39;s arch values and the ones expected by<br>
+strace. In this case ARCH should be &quot;i386&quot; in order to find the h=
+eader<br>
+file correctly, not &quot;i586&quot;.<br>
+<br>
+Removing ARCH=3D&quot;${TARGET_ARCH}&quot; from do_compile_ptest() and lett=
+ing<br>
+strace auto detect fixes the build failure.<br>
+<br>
+Forcing ARCH was introduced here:<br>
+<br>
+=C2=A0 <a href=3D"http://git.openembedded.org/openembedded-core/commit/?id=
+=3Daf76eb0405352d66dfd00d7f856f401d892855e1" rel=3D"noreferrer" target=3D"_=
+blank">http://git.openembedded.org/openembedded-core/commit/?id=3Daf76eb040=
+5352d66dfd00d7f856f401d892855e1</a><br>
+<br>
+But I&#39;m not 100% clear what the original problem was though, so I&#39;m=
+<br>
+not sure about just undoing that change without some more<br>
+investigation. Any thoughts?</div></blockquote></div><br>I guess if it auto=
+detects correctly now then the workaround isn&#39;t required.=C2=A0 Robert,=
+ what do you think?</div><div class=3D"gmail_extra"><br></div><div class=3D=
+"gmail_extra">Ross</div></div>
+
+--047d7b1635bfd34ecb052797602e--
