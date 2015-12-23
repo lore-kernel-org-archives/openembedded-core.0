@@ -1,46 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id E5FDD7318B
+Return-Path: <joshuagloe@gmail.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 428AD6AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 13:39:17 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id l126so150447766wml.1
+	Wed, 23 Dec 2015 13:40:44 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id p187so149108294wmp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 05:39:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=J/2kT+qg7O5sZ6RyIoAwYCRQ+hw7/MBGC1+KgQ5LaAA=;
-	b=U508KRHo8ftTkHvzuEwMKlRr7DKJi2NJ4jcO1vA7OLrSBH2PMSquUzuDkDWqv42OMN
-	fWYr/GjBNCL0a6g8/vOdACvdBSA23ikyTa7rZlffj7tz4eEVPNCq7hIRQFhYR6PI7SPz
-	o0zBXox7kLdI95v/bDlBJqkTWgWti4hO/Y2cAOC55ppCY/osYBKIRIgQ2FqKuz8a7SzA
-	mz8+XOcpUkz1OrWbzVW3hHUq3udeut886QzUIgwsKVi405EJ2B35+nZr82++DdwgkjIb
-	NWND5Ub1JQUt6ohAQDepTRSfoZyX1Iw+QSgFG6qBPH+LN9pjzc3uMbU/eYAm5onKFKEO
-	dj8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=J/2kT+qg7O5sZ6RyIoAwYCRQ+hw7/MBGC1+KgQ5LaAA=;
-	b=kvB6Sw1K9NYEzP9zMvXP+v07wPF4dciOCx71Y+MAk2Um7Edwj+tl8TdjUEJV5lwe6x
-	bJi0mhCF3SMICjTF+kTne+WmpR4B/hVJos5UPLH/mzd+8LjJ4glHtuIYq1n1rNqX4g0i
-	N6nJ0lmI6CxqUNMyOiky4olTdPHKCx47z2ew2BM3HQ4Pn8uX7piVfXYWfNN4FrsjV3tq
-	1ESjrpQmlYnGCyTEIHhsXBt4h3W1O95TVY0iA2uBcNINnHwvC2DUQdJ4LSwwpgCgea/N
-	osM3I+GCaBu7fqAQZCIH2aJVqGiFXU3jrP3aAMHrKMB0pq4sY1Se+2b0QhmpVPP6FQvq
-	jRqQ==
-X-Gm-Message-State: ALoCoQkFVoSqumcWpXz7raHwdmgivgS6i4G9VKPCPssbMp+arQlrQcS6CLzMsVvsOcwonFfg8Iqvc+upMBEeyQrlShWcY5CUMw==
-X-Received: by 10.194.104.130 with SMTP id ge2mr33910366wjb.111.1450877957987; 
-	Wed, 23 Dec 2015 05:39:17 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	w80sm8006661wme.17.2015.12.23.05.39.17
+	Wed, 23 Dec 2015 05:40:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=XjBmVQ8SbWLktltlpMNX0+i0yNrUEX9a0Egv0exSsnk=;
+	b=mOk2k8V9lMJKjY5lBl4WtRpq2jv6cy4awBr9PZUIQD8mza0wikyz/KiNuEFLp6/3T4
+	EzHJGXo8eYm67GCRsySjpyyVXyTgcHy4g1mAESgPbIwMyqMnCNljt/7Ukp2GD/jWzTMS
+	ChOGottR8dv/vBcALxL1xrEaV3f8BzI0TBl+bVc7jycyUlx+kOT4QjUOs0fH9HhOMo8u
+	co8uNz5tINYNWCg0eg36W1YQV7BIVl6rQjfqoTJyxuUQnBWXvl5ZwiDcj4Xcq7MDm7yV
+	2n2xgSiDwQc+YjMC1Iva8YvJnYkp9mn7006CUX2mIgl+zBvkbIozU2SyjDY3hMmWF4vI
+	HGSA==
+X-Received: by 10.194.76.228 with SMTP id n4mr27075662wjw.35.1450878045520;
+	Wed, 23 Dec 2015 05:40:45 -0800 (PST)
+Received: from nothic.cbg.collabora.co.uk
+	(host86-190-54-244.range86-190.btcentralplus.com. [86.190.54.244])
+	by smtp.gmail.com with ESMTPSA id
+	df10sm22951338wjb.44.2015.12.23.05.40.44
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 23 Dec 2015 05:39:17 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 23 Dec 2015 05:40:44 -0800 (PST)
+From: Joshua Lock <joshuagloe@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Dec 2015 13:39:12 +0000
-Message-Id: <1450877952-28148-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [PATCH] xorg-lib: allow native building without x11 DISTRO_FEATURES
+Date: Wed, 23 Dec 2015 13:40:36 +0000
+Message-Id: <cover.1450877679.git.joshua.lock@collabora.co.uk>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
+Subject: [PATCH 0/9] Proposed changes for fido
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,40 +44,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Dec 2015 13:39:19 -0000
+X-List-Received-Date: Wed, 23 Dec 2015 13:40:47 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The Xorg libraries use REQUIRED_DISTRO_FEATURES to stop building on
-distributions without the x11 feature but this stops people building native
-tooling that uses libX11, such as libsdl-native.
+From: Joshua Lock <joshua.lock@collabora.co.uk>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb    | 1 +
- meta/recipes-graphics/xorg-lib/xorg-lib-common.inc | 1 +
- 2 files changed, 2 insertions(+)
+Please consider the following fixes, available in the joshuagl/fido-next
+branch of openembedded-core-contrib, for the fido branch.
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb
-index 4372be1..0856c19 100644
---- a/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcb_1.11.1.bb
-@@ -29,6 +29,7 @@ inherit autotools pkgconfig distro_features_check
- 
- # The libxau and others requires x11 in DISTRO_FEATURES
- REQUIRED_DISTRO_FEATURES = "x11"
-+REQUIRED_DISTRO_FEATURES_class-native = ""
- 
- python populate_packages_prepend () {
-     do_split_packages(d, '${libdir}', '^libxcb-(.*)\.so\..*$', 'libxcb-%s', 'XCB library module for %s', allow_links=True)
-diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-index 09df010..6f4e444 100644
---- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-+++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-@@ -24,3 +24,4 @@ UNKNOWN_CONFIGURE_WHITELIST += "--enable-malloc0returnsnull --disable-malloc0ret
- "
- 
- REQUIRED_DISTRO_FEATURES ?= "x11"
-+REQUIRED_DISTRO_FEATURES_class-native = ""
--- 
-2.6.4
+Regards,
 
+Joshua
+
+The following changes since commit 9f339f516ab03d598fae0e536b3a420ea4d8ee1a:
+
+  bash: Disable custom memory allocator (2015-11-20 15:46:27 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib joshuagl/fido-next
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/fido-next
+
+Armin Kuster (1):
+  libxml2: fix CVE-2015-7942 and CVE-2015-8035
+
+Bhuvanchandra DV (1):
+  linux-firmware: rtl8192cx: Add latest available firmware
+
+Martin Jansa (2):
+  linux-dtb.inc: drop unused DTB_NAME variable from do_install
+  feature-arm-thumb.inc: Fix ARMPKGSFX_THUMB value
+
+Mike Crowe (1):
+  allarch: Force TARGET_*FLAGS variable values
+
+Richard Purdie (2):
+  layer.conf: Add several allarch dependency exclusions
+  layer.conf: Add missing dependency for allarch package
+    initramfs-framework
+
+Sona Sarmadi (1):
+  bind: CVE-2015-8000
+
+Stefan Müller-Klieser (1):
+  gcc-4.9: backport from gcc trunk r212178
+
+ meta/classes/allarch.bbclass                       |   4 +
+ meta/conf/layer.conf                               |  11 ++
+ .../conf/machine/include/arm/feature-arm-thumb.inc |   2 +-
+ .../bind/bind/CVE-2015-8000.patch                  | 194 +++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.9.5.bb       |   1 +
+ meta/recipes-core/libxml/libxml2.inc               |   2 +
+ .../libxml/libxml2/CVE-2015-7942.patch             |  55 ++++++
+ .../libxml/libxml2/CVE-2015-8035.patch             |  41 +++++
+ meta/recipes-devtools/gcc/gcc-4.9.inc              |   1 +
+ ...racking.c-backport-from-gcc-trunk-r212178.patch |  39 +++++
+ .../linux-firmware/linux-firmware_git.bb           |   4 +-
+ meta/recipes-kernel/linux/linux-dtb.inc            |   1 -
+ 12 files changed, 351 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch
+
+--
+2.5.0
 
