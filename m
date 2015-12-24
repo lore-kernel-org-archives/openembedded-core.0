@@ -1,24 +1,34 @@
-Return-Path: <Fupan.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F50E6FF77
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Dec 2015 05:51:27 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBO5pPCs000374
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 21:51:25 -0800 (PST)
-Received: from pek-lpdfs01.wrs.com (128.224.153.15) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 23 Dec 2015 21:51:24 -0800
-From: <fupan.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Dec 2015 00:51:23 -0500
-Message-ID: <1450936283-177234-1-git-send-email-fupan.li@windriver.com>
-X-Mailer: git-send-email 2.6.4
+Return-Path: <just4tech83@gmail.com>
+Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com
+	[209.85.218.49])
+	by mail.openembedded.org (Postfix) with ESMTP id AF2C56FF7F;
+	Thu, 24 Dec 2015 08:10:28 +0000 (UTC)
+Received: by mail-oi0-f49.google.com with SMTP id l9so107066195oia.2;
+	Thu, 24 Dec 2015 00:10:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=FTZZ0rhjoD1+ZvOD2hupLe7UKJQyGiIL0BhzeFMfLd0=;
+	b=A1KzVL3wKV0LFU+VWZbVQDkxPQlMYkKdnON7uVkPn8vwm0qoAjZy7JIraCVy9D+lLH
+	HASU609Jry1fwvbdUoyIXoAurJoieyQ9yx5fH+D+coJN4Net8aGVejHs80xAu0CY9ZvZ
+	XOeqb4fTTboR5qFwhc3i00jkj6Gunw34dS9cxZsyL87gbh6kSHIoO/USRA16dJ8nf6YD
+	yHSqhcjIKdfvhT673yK33v4nxW7p8jqg8xbkkBmWAhoyYVo9MxTQoB694xQBYSG7IrUH
+	3EuHZE3QyQJ2HIMHmod7IvGUeZBiQ0wz2+yaXau3LtoMgV0RxzT0liC2ZEqU8sJXUZ09
+	N5Fw==
 MIME-Version: 1.0
-Subject: [PATCH] oe-core:package_manager extract target arch from TARGET_SYS and add it into package_archs
+X-Received: by 10.202.79.5 with SMTP id d5mr13342441oib.121.1450944628710;
+	Thu, 24 Dec 2015 00:10:28 -0800 (PST)
+Received: by 10.202.71.10 with HTTP; Thu, 24 Dec 2015 00:10:28 -0800 (PST)
+Received: by 10.202.71.10 with HTTP; Thu, 24 Dec 2015 00:10:28 -0800 (PST)
+In-Reply-To: <CAD2C2VSOXLTPM-yu6JFajf0LMHoE1t3utWG0vLFUzERcZs+7HA@mail.gmail.com>
+References: <CAD2C2VSOXLTPM-yu6JFajf0LMHoE1t3utWG0vLFUzERcZs+7HA@mail.gmail.com>
+Date: Thu, 24 Dec 2015 13:40:28 +0530
+Message-ID: <CAD2C2VTmyKj=T_F-DHrxNzW4d4gEDJ3=EaZFtQnF4m0in6C2Yg@mail.gmail.com>
+From: Bryan <just4tech83@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: bitbake-devel@lists.openembedded.org, poky@yoctoproject.org,
+	linux-yocto@yoctoproject.org, openembedded-devel@lists.openembedded.org
+Subject: Re: korean/chinese keyboard layout support on yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,47 +41,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Dec 2015 05:51:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Dec 2015 08:10:29 -0000
+Content-Type: multipart/alternative; boundary=001a113d70a02ee3db0527a05f81
 
-From: fli <fupan.li@windriver.com>
+--001a113d70a02ee3db0527a05f81
+Content-Type: text/plain; charset=UTF-8
 
-Since the rpmbuild on the target will use TARGET_SYS as the
-'target' to build the source rpm packages, which will extracted
-the target arch from TARGET_SYS, such as if TARGET_SYS values
-'arm-poky-linux-gnueabi', the target arch will be 'arm'.
+On Dec 18, 2015 1:03 PM, "Bryan" <just4tech83@gmail.com> wrote:
+>
+> Hi,
+>     I am working on yocto poky-dizzy 1.7.1 and have developed some
+application on top of customized os image. I have a reqirement to support
+korean/chinese keyboard layout for application.
+> I have added cross complied libraries for  ibus-hangul pckages. Can
+somebody suggest me how can i add support for keyboart layout and how to
+enable automatically.
+>
+> Is there any bitbake recipe available to support these keyboard layout.
+>
+>
+> regards
+> Bryan
 
-In order to make the rpm pkgs built out on the target compatilbe
-with target, extract the arch from TARGET_SYS and add it into
-package archs which will be write into the rootfs's /etc/rpm/platform.
+--001a113d70a02ee3db0527a05f81
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: fli <fupan.li@windriver.com>
----
- meta/lib/oe/package_manager.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+<p dir=3D"ltr"><br>
+On Dec 18, 2015 1:03 PM, &quot;Bryan&quot; &lt;<a href=3D"mailto:just4tech8=
+3@gmail.com">just4tech83@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi, <br>
+&gt; =C2=A0=C2=A0=C2=A0 I am working on yocto poky-dizzy 1.7.1 and have dev=
+eloped some application on top of customized os image. I have a reqirement =
+to support korean/chinese keyboard layout for application. <br>
+&gt; I have added cross complied libraries for=C2=A0 ibus-hangul pckages. C=
+an somebody suggest me how can i add support for keyboart layout and how to=
+ enable automatically.<br>
+&gt;<br>
+&gt; Is there any bitbake recipe available to support these keyboard layout=
+.<br>
+&gt;<br>
+&gt;<br>
+&gt; regards<br>
+&gt; Bryan</p>
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 04812d2..e4b53a0 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -55,6 +55,16 @@ class RpmIndexer(Indexer):
-             target_os['default'] = self.d.getVar(os_var, True).strip()
-         else:
-             package_archs['default'] = self.d.getVar("PACKAGE_ARCHS", True).split()
-+
-+            #add the compatible arch extracted from TARGET_SYS.
-+            #TARGET_SYS usually values as "arm-poky-linux-gnueabi",
-+            #so the arch is 'arm'
-+            target_sys = self.d.getVar("TARGET_SYS", True)
-+            if target_sys:
-+                target_arch = target_sys.split('-')[0]
-+            if target_arch not in package_archs['default']:
-+                package_archs['default'].append(target_arch)
-+                
-             # arch order is reversed.  This ensures the -best- match is
-             # listed first!
-             package_archs['default'].reverse()
--- 
-1.9.1
-
-
+--001a113d70a02ee3db0527a05f81--
