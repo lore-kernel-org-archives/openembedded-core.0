@@ -1,26 +1,26 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 85E51731A5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 25C2270030
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Dec 2015 10:00:56 +0000 (UTC)
+	Thu, 24 Dec 2015 10:00:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBOA0vfm022304
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBOA0wDI018907
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Dec 2015 02:00:57 -0800 (PST)
+	Thu, 24 Dec 2015 02:00:59 -0800 (PST)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 24 Dec 2015 02:00:56 -0800
+	14.3.248.2; Thu, 24 Dec 2015 02:00:58 -0800
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Dec 2015 17:47:53 +0800
-Message-ID: <f2632b42f6ee238729a9e4c040bf7a66c6229096.1450950403.git.kai.kang@windriver.com>
+Date: Thu, 24 Dec 2015 17:47:54 +0800
+Message-ID: <1cc4c701228bffaf1e86f71973cbfc8f20d1793d.1450950403.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.6.1
 In-Reply-To: <cover.1450950403.git.kai.kang@windriver.com>
 References: <cover.1450950403.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] bash: fix buildpaths qa check error
+Subject: [PATCH 2/2] gccmakedep: fix buildpaths qa check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Dec 2015 10:00:58 -0000
+X-List-Received-Date: Thu, 24 Dec 2015 10:00:59 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Script bashbug and Makefile for ptest contain build related paths
-which cause fail to pass buldpaths QA check.
+When enable "buildpaths" QA check, it fails to build gccmakedep:
 
-Remove such paths from these 2 files.
+| ERROR: QA Issue: File
+| work/mips64-poky-linux/gccmakedep/1_1.0.3-r3/packages-split/gccmakedep/usr/bin/gccmakedep
+| in package contained reference to tmpdir [buildpaths]
+
+Remove build related path to fix this issue.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-extended/bash/bash.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/xorg-util/gccmakedep_1.0.3.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index 85639d3..93ca00b 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -45,13 +45,15 @@ do_install_append () {
- }
- do_install_append_class-target () {
- 	# Clean host path in bashbug
--	sed -i -e "s,${STAGING_DIR_TARGET},,g" ${D}${bindir}/bashbug
-+	sed -i -e "s,--sysroot=${STAGING_DIR_TARGET},,g" \
-+		-e "s,-I${WORKDIR}/\S* ,,g" ${D}${bindir}/bashbug
- }
+diff --git a/meta/recipes-graphics/xorg-util/gccmakedep_1.0.3.bb b/meta/recipes-graphics/xorg-util/gccmakedep_1.0.3.bb
+index ccf2f4b..be3a667 100644
+--- a/meta/recipes-graphics/xorg-util/gccmakedep_1.0.3.bb
++++ b/meta/recipes-graphics/xorg-util/gccmakedep_1.0.3.bb
+@@ -14,4 +14,8 @@ PR = "r3"
+ PE = "1"
  
- do_install_ptest () {
- 	make INSTALL_TEST_DIR=${D}${PTEST_PATH}/tests install-test
- 	cp ${B}/Makefile ${D}${PTEST_PATH}
--        sed -i 's/^Makefile/_Makefile/' ${D}${PTEST_PATH}/Makefile
-+        sed -i -e 's/^Makefile/_Makefile/' -e "s,--sysroot=${STAGING_DIR_TARGET},,g" \
-+	    -e "s,${S},,g" -e "s,${B},,g" -e "s,${STAGING_DIR_NATIVE},,g" ${D}${PTEST_PATH}/Makefile
- }
- 
- pkg_postinst_${PN} () {
+ SRC_URI[md5sum] = "127ddb6131eb4a56fdf6644a63ade788"
+-SRC_URI[sha256sum] = "f9e2e7a590e27f84b6708ab7a81e546399b949bf652fb9b95193e0e543e6a548"
+\ No newline at end of file
++SRC_URI[sha256sum] = "f9e2e7a590e27f84b6708ab7a81e546399b949bf652fb9b95193e0e543e6a548"
++
++do_install_append() {
++	sed -i "s,--sysroot=${STAGING_DIR_TARGET},," ${D}${bindir}/gccmakedep
++}
 -- 
 2.6.1
 
