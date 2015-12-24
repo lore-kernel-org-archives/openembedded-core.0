@@ -1,31 +1,35 @@
-Return-Path: <haris.okanovic@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 34362601D3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B36B6FFEC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 23:51:40 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	tBNNpfJX012230 for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 17:51:41 -0600
-Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015122317514109-1463263 ;
-	Wed, 23 Dec 2015 17:51:41 -0600 
-From: Haris Okanovic <haris.okanovic@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Dec 2015 17:51:35 -0600
-Message-Id: <1450914695-19604-1-git-send-email-haris.okanovic@ni.com>
-X-Mailer: git-send-email 2.6.2
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 12/23/2015 05:51:41 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 12/23/2015 05:51:41 PM,
-	Serialize complete at 12/23/2015 05:51:41 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-12-24_01:, , signatures=0
-Cc: Haris Okanovic <haris.okanovic@ni.com>
-Subject: [PATCH] tzdata: Make /etc/timezone optional
+	Thu, 24 Dec 2015 02:46:19 +0000 (UTC)
+Received: by mail-ig0-f174.google.com with SMTP id m11so76631004igk.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Dec 2015 18:46:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=aOTRtecd/LzxG8w6Y2DXIBQlICmUcXW7Dk15rXlFxrg=;
+	b=YXIXb+Ded6QjRxu71x1KPx72mKptqeVC/TExtVB5Z/rKUFCkW5vTWdG0g5qtNrba0E
+	b29vylaCV5HqeHb9Ip92h1wfatJY15+6SuLm24p0mJx/o2RvLgLjET06hCStlh7KDpuV
+	R6lWZ3GM9Xfr0WncfrF7Yc2zlxBT3++msaQ50dnAnNgfPDpdN1jwD0id/i8ehxXMt5vq
+	5wDiCPYqraTzuuVVweYAF9NnLHniOyGD8qeGN/Z2FM9DFiuG3201PSaC36nFB8jS8dCs
+	fUepANEr7fX78P8UQk6S6XSdXuIk1eUG0CM0uZCTwLfl+NkZ3mxdzU5R4AF01Wa8B8lD
+	motQ==
+X-Received: by 10.50.20.138 with SMTP id n10mr34672081ige.11.1450925180242;
+	Wed, 23 Dec 2015 18:46:20 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.16.74 with HTTP; Wed, 23 Dec 2015 18:45:50 -0800 (PST)
+In-Reply-To: <cover.1450756555.git.paul.eggleton@linux.intel.com>
+References: <cover.1450756555.git.paul.eggleton@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 23 Dec 2015 18:45:50 -0800
+Message-ID: <CAMKF1sr99S3k7ZqHY9jri42dCHgFB_BNs9FWu++9wmhHuxVWvw@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/26] devtool/recipetool improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,62 +42,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Dec 2015 23:51:41 -0000
+X-List-Received-Date: Thu, 24 Dec 2015 02:46:20 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Add INSTALL_TIMEZONE_FILE config variable to enable/disable installation
-of ${sysconfdir}/timezone (/etc/timezone) by tzdata packages. Defaults
-to "1" to maintain previous behavior.
+Paul
 
-Most libc implementations can be configured to retrieve system's
-defaults timezone from /etc/localtime, and don't need a second file
-(/etc/timezone) to express this configuration. Maintaining this file is
-an unnecessary burden on sysadmins unless there's software using
-/etc/timezone directly (I.e. outside of libc). Some distributions may
-choose not to provide it.
+Can this series be backported to jethro as well ?
+most of them seems to be incremental changes
+hopefully not breaking backward compatibility in some
+unforseen ways
 
-Testing: Built tzdata under default config and verified CONFFILES_tzdata
-still has both /etc/timezone and /etc/localtime and both are in the
-image. Built with INSTALL_TIMEZONE_FILE = "0" and verified /etc/timezone
-is removed from CONFFILES_tzdata and the image. Successfully installed
-package to an x64 target.
-
-Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
-Natinst-ReviewBoard-ID: 121628
----
- meta/recipes-extended/tzdata/tzdata_2015g.bb | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-extended/tzdata/tzdata_2015g.bb b/meta/recipes-extended/tzdata/tzdata_2015g.bb
-index 5b2afa6..ce1f5c2 100644
---- a/meta/recipes-extended/tzdata/tzdata_2015g.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2015g.bb
-@@ -21,6 +21,7 @@ RCONFLICTS_${PN} = "timezones timezone-africa timezone-america timezone-antarcti
- S = "${WORKDIR}"
- 
- DEFAULT_TIMEZONE ?= "Universal"
-+INSTALL_TIMEZONE_FILE ?= "1"
- 
- TZONES= "africa antarctica asia australasia europe northamerica southamerica  \
-          factory etcetera backward systemv \
-@@ -48,7 +49,9 @@ do_install () {
-         # Install default timezone
-         if [ -e ${D}${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ]; then
-             install -d ${D}${sysconfdir}
--            echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
-+            if [ "${INSTALL_TIMEZONE_FILE}" == "1" ]; then
-+                echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
-+            fi
-             ln -s ${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ${D}${sysconfdir}/localtime
-         else
-             bberror "DEFAULT_TIMEZONE is set to an invalid value."
-@@ -205,4 +208,5 @@ FILES_${PN} += "${datadir}/zoneinfo/Pacific/Honolulu     \
-                 ${datadir}/zoneinfo/iso3166.tab          \
-                 ${datadir}/zoneinfo/Etc/*"
- 
--CONFFILES_${PN} += "${sysconfdir}/timezone ${sysconfdir}/localtime"
-+CONFFILES_${PN} += "${@['','${sysconfdir}/timezone'][d.getVar('INSTALL_TIMEZONE_FILE', True) == '1']}"
-+CONFFILES_${PN} += "${sysconfdir}/localtime"
--- 
-2.6.2
-
+On Mon, Dec 21, 2015 at 8:02 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> Apologies for the flood of patches today, this is the last one.
+>
+> There are quite a few changes here, but the common theme is making
+> devtool (and recipetool) a bit easier to use, as well as making
+> "devtool add" and "recipetool create" more effective at picking up
+> things from the specified source tree.
+>
+> I also extended the argparse fix to show the help text on error to all
+> of the command-line utilities that use it.
+>
+>
+> The following changes since commit 2a1edfd9cfa16ec334c0758b47677d4fee5e79a8:
+>
+>   bitbake.conf: Add filename and lineno to BB_SIGNATURE_EXCLUDE_FLAGS (2015-12-22 00:01:31 +0000)
+>
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib paule/devtool11
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool11
+>
+> Paul Eggleton (26):
+>   scripts: print usage in argparse-using scripts when a command-line error occurs
+>   recipetool: create: handle https://....git URLs
+>   recipetool: create: avoid traceback on fetch error
+>   recipetool: create: fix do_install handling for makefile-only software
+>   recipetool: create: minor fix for potential issue in python handling
+>   recipetool: create: prevent attempting to unpack entire DL_DIR
+>   recipetool: create: detect when specified URL returns a web page
+>   recipetool: create: set up priority system for recipe handlers
+>   recipetool: create: support extracting name and version from build scripts
+>   recipetool: create: basic extraction of name/version from filename
+>   devtool: edit-recipe: add new subcommand
+>   devtool: add: tweak help text
+>   devtool: split out function for naming bbappend
+>   devtool: update-recipe: use correct method to get bbappend filename
+>   scripts/lib/argparse_oe: handle intermixing of optional positional arguments
+>   devtool: add: allow source tree to be omitted
+>   devtool: add: figure out recipe name from recipetool
+>   devtool: add: allow specifying URL as positional argument
+>   devtool: modify: default source tree path
+>   devtool: status: list recipe file within workspace if one exists
+>   devtool: reset: print message about leaving source tree behind
+>   devtool: sync: tweak help / messages
+>   recipetool: create: improve autotools support
+>   recipetool: create: fix error when extracting source to a specified directory
+>   oe-selftest: add tests for simple devtool add / recipetool create URL case
+>   oe-selftest: devtool: add more explicit check for ls output
+>
+>  meta/lib/oeqa/selftest/devtool.py                |  82 +++++-
+>  meta/lib/oeqa/selftest/recipetool.py             |  21 +-
+>  scripts/contrib/devtool-stress.py                |   5 +-
+>  scripts/devtool                                  |  13 +-
+>  scripts/lib/argparse_oe.py                       |  66 +++++
+>  scripts/lib/devtool/__init__.py                  |  15 ++
+>  scripts/lib/devtool/standard.py                  | 315 +++++++++++++++++------
+>  scripts/lib/recipetool/create.py                 | 206 ++++++++++++---
+>  scripts/lib/recipetool/create_buildsys.py        | 296 +++++++++++++++++----
+>  scripts/lib/recipetool/create_buildsys_python.py |   7 +-
+>  scripts/lib/scriptutils.py                       |   5 +
+>  scripts/oe-pkgdata-util                          |   5 +-
+>  scripts/oe-publish-sdk                           |   5 +-
+>  scripts/oe-selftest                              |   3 +-
+>  scripts/recipetool                               |   7 +-
+>  scripts/send-error-report                        |   6 +-
+>  scripts/test-remote-image                        |   3 +-
+>  17 files changed, 872 insertions(+), 188 deletions(-)
+>  create mode 100644 scripts/lib/argparse_oe.py
+>
+> --
+> 2.5.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
