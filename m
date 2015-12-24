@@ -1,24 +1,24 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F0066612D
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ACD8460762
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Dec 2015 09:29:46 +0000 (UTC)
+	Thu, 24 Dec 2015 10:00:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBO9Tl8o018811
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBOA0t0j015628
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Dec 2015 01:29:47 -0800 (PST)
-Received: from pek-zchi-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 24 Dec 2015 01:29:47 -0800
-From: Zhixiong Chi <Zhixiong.Chi@windriver.com>
+	Thu, 24 Dec 2015 02:00:55 -0800
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 24 Dec 2015 02:00:54 -0800
+From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Dec 2015 17:29:59 +0800
-Message-ID: <1450949399-9255-1-git-send-email-Zhixiong.Chi@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Date: Thu, 24 Dec 2015 17:47:52 +0800
+Message-ID: <cover.1450950403.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.6.1
 MIME-Version: 1.0
-Subject: [PATCH][V2] expat: CVE-2015-1283
+Subject: [PATCH 0/2] Fix buildpaths QA check failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,109 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Dec 2015 09:29:47 -0000
+X-List-Received-Date: Thu, 24 Dec 2015 10:00:55 -0000
 Content-Type: text/plain
 
-Add CVE-2015-1283 patch for fixing integer overflow bug in expat.
+From: Kai Kang <kai.kang@windriver.com>
 
-Details are at below link:
-http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1283
+The following changes since commit a6f8a3f12ef0a6f7fe4123b8854848a4c6cf94c7:
 
-Patch comes from:
-https://hg.mozilla.org/releases/mozilla-esr31/rev/2f3e78643f5c
-https://codereview.chromium.org/1224303003
+  toaster.bbclass: fix TypeError when parsing build stats (2015-12-22 16:15:36 +0000)
 
-Signed-off-by: Zhixiong Chi <Zhixiong.Chi@windriver.com>
----
- .../expat/expat-2.1.0/expat-CVE-2015-1283.patch    | 62 ++++++++++++++++++++++
- meta/recipes-core/expat/expat.inc                  |  4 +-
- 2 files changed, 65 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/expat/expat-2.1.0/expat-CVE-2015-1283.patch
+are available in the git repository at:
 
-diff --git a/meta/recipes-core/expat/expat-2.1.0/expat-CVE-2015-1283.patch b/meta/recipes-core/expat/expat-2.1.0/expat-CVE-2015-1283.patch
-new file mode 100644
-index 0000000..1d0acb6
---- /dev/null
-+++ b/meta/recipes-core/expat/expat-2.1.0/expat-CVE-2015-1283.patch
-@@ -0,0 +1,62 @@
-+Multiple integer overflows in the XML_GetBuffer function in Expat 
-+through 2.1.0, allow remote attackers to cause a denial of service 
-+(heap-based buffer overflow) or possibly have unspecified other 
-+impact via crafted XML data.
-+
-+CVSSv2:  (AV:N/AC:M/Au:N/C:P/I:P/A:P)
-+
-+CVE: CVE-2015-1283
-+Upstream-Status: Backport
-+
-+Signed-off-by: Eric Rahm <erahm@mozilla.com>
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windirver.com>
-+
-+Index: expat-2.1.0/lib/xmlparse.c
-+===================================================================
-+--- expat-2.1.0.orig/lib/xmlparse.c	2012-03-11 13:13:12.000000000 +0800
-++++ expat-2.1.0/lib/xmlparse.c	2015-12-23 10:29:07.347361329 +0800
-+@@ -1678,6 +1678,12 @@
-+ void * XMLCALL
-+ XML_GetBuffer(XML_Parser parser, int len)
-+ {
-++/* BEGIN MOZILLA CHANGE (sanity check len) */
-++  if (len < 0) {
-++    errorCode = XML_ERROR_NO_MEMORY;
-++    return NULL;
-++  }
-++/* END MOZILLA CHANGE */
-+   switch (ps_parsing) {
-+   case XML_SUSPENDED:
-+     errorCode = XML_ERROR_SUSPENDED;
-+@@ -1689,8 +1695,13 @@
-+   }
-+ 
-+   if (len > bufferLim - bufferEnd) {
-+-    /* FIXME avoid integer overflow */
-+     int neededSize = len + (int)(bufferEnd - bufferPtr);
-++/* BEGIN MOZILLA CHANGE (sanity check neededSize) */
-++    if (neededSize < 0) {
-++      errorCode = XML_ERROR_NO_MEMORY;
-++      return NULL;
-++    }
-++/* END MOZILLA CHANGE */
-+ #ifdef XML_CONTEXT_BYTES
-+     int keep = (int)(bufferPtr - buffer);
-+ 
-+@@ -1719,7 +1730,15 @@
-+         bufferSize = INIT_BUFFER_SIZE;
-+       do {
-+         bufferSize *= 2;
-+-      } while (bufferSize < neededSize);
-++/* BEGIN MOZILLA CHANGE (prevent infinite loop on overflow) */
-++      } while (bufferSize < neededSize && bufferSize > 0);
-++/* END MOZILLA CHANGE */
-++/* BEGIN MOZILLA CHANGE (sanity check bufferSize) */
-++      if (bufferSize <= 0) {
-++        errorCode = XML_ERROR_NO_MEMORY;
-++        return NULL;
-++      }
-++/* END MOZILLA CHANGE */
-+       newBuf = (char *)MALLOC(bufferSize);
-+       if (newBuf == 0) {
-+         errorCode = XML_ERROR_NO_MEMORY;
-diff --git a/meta/recipes-core/expat/expat.inc b/meta/recipes-core/expat/expat.inc
-index 6dfafe9..4bd60a2 100644
---- a/meta/recipes-core/expat/expat.inc
-+++ b/meta/recipes-core/expat/expat.inc
-@@ -5,7 +5,9 @@ SECTION = "libs"
- LICENSE = "MIT"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.gz \
--           file://autotools.patch"
-+           file://autotools.patch \
-+           file://expat-CVE-2015-1283.patch \
-+	  "
- 
- inherit autotools lib_package gzipnative
- 
+  git://git.pokylinux.org/poky-contrib kangkai/buildpaths
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/buildpaths
+
+Kai Kang (2):
+  bash: fix buildpaths qa check error
+  gccmakedep: fix buildpaths qa check
+
+ meta/recipes-extended/bash/bash.inc                 | 6 ++++--
+ meta/recipes-graphics/xorg-util/gccmakedep_1.0.3.bb | 6 +++++-
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
 -- 
-1.9.1
+2.6.1
 
 
