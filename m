@@ -1,35 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B36B6FFEC
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1774460616
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Dec 2015 02:46:19 +0000 (UTC)
-Received: by mail-ig0-f174.google.com with SMTP id m11so76631004igk.1
+	Thu, 24 Dec 2015 02:59:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBO2xLbV005089
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Dec 2015 18:46:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=aOTRtecd/LzxG8w6Y2DXIBQlICmUcXW7Dk15rXlFxrg=;
-	b=YXIXb+Ded6QjRxu71x1KPx72mKptqeVC/TExtVB5Z/rKUFCkW5vTWdG0g5qtNrba0E
-	b29vylaCV5HqeHb9Ip92h1wfatJY15+6SuLm24p0mJx/o2RvLgLjET06hCStlh7KDpuV
-	R6lWZ3GM9Xfr0WncfrF7Yc2zlxBT3++msaQ50dnAnNgfPDpdN1jwD0id/i8ehxXMt5vq
-	5wDiCPYqraTzuuVVweYAF9NnLHniOyGD8qeGN/Z2FM9DFiuG3201PSaC36nFB8jS8dCs
-	fUepANEr7fX78P8UQk6S6XSdXuIk1eUG0CM0uZCTwLfl+NkZ3mxdzU5R4AF01Wa8B8lD
-	motQ==
-X-Received: by 10.50.20.138 with SMTP id n10mr34672081ige.11.1450925180242;
-	Wed, 23 Dec 2015 18:46:20 -0800 (PST)
+	Wed, 23 Dec 2015 18:59:22 -0800
+Received: from pek-zchi-d1.corp.ad.wrs.com (128.224.162.233) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 23 Dec 2015 18:59:16 -0800
+From: Zhixiong Chi <Zhixiong.Chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 24 Dec 2015 10:59:28 +0800
+Message-ID: <1450925968-6421-1-git-send-email-Zhixiong.Chi@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.107.16.74 with HTTP; Wed, 23 Dec 2015 18:45:50 -0800 (PST)
-In-Reply-To: <cover.1450756555.git.paul.eggleton@linux.intel.com>
-References: <cover.1450756555.git.paul.eggleton@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 23 Dec 2015 18:45:50 -0800
-Message-ID: <CAMKF1sr99S3k7ZqHY9jri42dCHgFB_BNs9FWu++9wmhHuxVWvw@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/26] devtool/recipetool improvements
+Subject: [PATCH] expat: Security Advisory-expat-CVE-2015-1283
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,92 +31,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Dec 2015 02:46:20 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 24 Dec 2015 02:59:22 -0000
+Content-Type: text/plain
 
-Paul
+Add CVE-2015-1283 patch for fixing integer overflow bug in expat.
 
-Can this series be backported to jethro as well ?
-most of them seems to be incremental changes
-hopefully not breaking backward compatibility in some
-unforseen ways
+Details are at below link:
+http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-1283
 
-On Mon, Dec 21, 2015 at 8:02 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> Apologies for the flood of patches today, this is the last one.
->
-> There are quite a few changes here, but the common theme is making
-> devtool (and recipetool) a bit easier to use, as well as making
-> "devtool add" and "recipetool create" more effective at picking up
-> things from the specified source tree.
->
-> I also extended the argparse fix to show the help text on error to all
-> of the command-line utilities that use it.
->
->
-> The following changes since commit 2a1edfd9cfa16ec334c0758b47677d4fee5e79a8:
->
->   bitbake.conf: Add filename and lineno to BB_SIGNATURE_EXCLUDE_FLAGS (2015-12-22 00:01:31 +0000)
->
-> are available in the git repository at:
->
->   git://git.openembedded.org/openembedded-core-contrib paule/devtool11
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool11
->
-> Paul Eggleton (26):
->   scripts: print usage in argparse-using scripts when a command-line error occurs
->   recipetool: create: handle https://....git URLs
->   recipetool: create: avoid traceback on fetch error
->   recipetool: create: fix do_install handling for makefile-only software
->   recipetool: create: minor fix for potential issue in python handling
->   recipetool: create: prevent attempting to unpack entire DL_DIR
->   recipetool: create: detect when specified URL returns a web page
->   recipetool: create: set up priority system for recipe handlers
->   recipetool: create: support extracting name and version from build scripts
->   recipetool: create: basic extraction of name/version from filename
->   devtool: edit-recipe: add new subcommand
->   devtool: add: tweak help text
->   devtool: split out function for naming bbappend
->   devtool: update-recipe: use correct method to get bbappend filename
->   scripts/lib/argparse_oe: handle intermixing of optional positional arguments
->   devtool: add: allow source tree to be omitted
->   devtool: add: figure out recipe name from recipetool
->   devtool: add: allow specifying URL as positional argument
->   devtool: modify: default source tree path
->   devtool: status: list recipe file within workspace if one exists
->   devtool: reset: print message about leaving source tree behind
->   devtool: sync: tweak help / messages
->   recipetool: create: improve autotools support
->   recipetool: create: fix error when extracting source to a specified directory
->   oe-selftest: add tests for simple devtool add / recipetool create URL case
->   oe-selftest: devtool: add more explicit check for ls output
->
->  meta/lib/oeqa/selftest/devtool.py                |  82 +++++-
->  meta/lib/oeqa/selftest/recipetool.py             |  21 +-
->  scripts/contrib/devtool-stress.py                |   5 +-
->  scripts/devtool                                  |  13 +-
->  scripts/lib/argparse_oe.py                       |  66 +++++
->  scripts/lib/devtool/__init__.py                  |  15 ++
->  scripts/lib/devtool/standard.py                  | 315 +++++++++++++++++------
->  scripts/lib/recipetool/create.py                 | 206 ++++++++++++---
->  scripts/lib/recipetool/create_buildsys.py        | 296 +++++++++++++++++----
->  scripts/lib/recipetool/create_buildsys_python.py |   7 +-
->  scripts/lib/scriptutils.py                       |   5 +
->  scripts/oe-pkgdata-util                          |   5 +-
->  scripts/oe-publish-sdk                           |   5 +-
->  scripts/oe-selftest                              |   3 +-
->  scripts/recipetool                               |   7 +-
->  scripts/send-error-report                        |   6 +-
->  scripts/test-remote-image                        |   3 +-
->  17 files changed, 872 insertions(+), 188 deletions(-)
->  create mode 100644 scripts/lib/argparse_oe.py
->
-> --
-> 2.5.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Patch comes from:
+https://hg.mozilla.org/releases/mozilla-esr31/rev/2f3e78643f5c
+https://codereview.chromium.org/1224303003
+
+Signed-off-by: Zhixiong Chi <Zhixiong.Chi@windriver.com>
+---
+ .../expat/expat-2.1.0/expat-CVE-2015-1283.patch    | 58 ++++++++++++++++++++++
+ meta/recipes-core/expat/expat.inc                  |  4 +-
+ 2 files changed, 61 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/expat/expat-2.1.0/expat-CVE-2015-1283.patch
+
+diff --git a/meta/recipes-core/expat/expat-2.1.0/expat-CVE-2015-1283.patch b/meta/recipes-core/expat/expat-2.1.0/expat-CVE-2015-1283.patch
+new file mode 100644
+index 0000000..385afd6
+--- /dev/null
++++ b/meta/recipes-core/expat/expat-2.1.0/expat-CVE-2015-1283.patch
+@@ -0,0 +1,58 @@
++Multiple integer overflows in the XML_GetBuffer function in Expat 
++through 2.1.0, allow remote attackers to cause a denial of service 
++(heap-based buffer overflow) or possibly have unspecified other 
++impact via crafted XML data.
++
++CVSSv2:  (AV:N/AC:M/Au:N/C:P/I:P/A:P)
++
++Upstream-Status: Backport
++
++Index: expat-2.1.0/lib/xmlparse.c
++===================================================================
++--- expat-2.1.0.orig/lib/xmlparse.c	2012-03-11 13:13:12.000000000 +0800
+++++ expat-2.1.0/lib/xmlparse.c	2015-12-23 10:29:07.347361329 +0800
++@@ -1678,6 +1678,12 @@
++ void * XMLCALL
++ XML_GetBuffer(XML_Parser parser, int len)
++ {
+++/* BEGIN MOZILLA CHANGE (sanity check len) */
+++  if (len < 0) {
+++    errorCode = XML_ERROR_NO_MEMORY;
+++    return NULL;
+++  }
+++/* END MOZILLA CHANGE */
++   switch (ps_parsing) {
++   case XML_SUSPENDED:
++     errorCode = XML_ERROR_SUSPENDED;
++@@ -1689,8 +1695,13 @@
++   }
++ 
++   if (len > bufferLim - bufferEnd) {
++-    /* FIXME avoid integer overflow */
++     int neededSize = len + (int)(bufferEnd - bufferPtr);
+++/* BEGIN MOZILLA CHANGE (sanity check neededSize) */
+++    if (neededSize < 0) {
+++      errorCode = XML_ERROR_NO_MEMORY;
+++      return NULL;
+++    }
+++/* END MOZILLA CHANGE */
++ #ifdef XML_CONTEXT_BYTES
++     int keep = (int)(bufferPtr - buffer);
++ 
++@@ -1719,7 +1730,15 @@
++         bufferSize = INIT_BUFFER_SIZE;
++       do {
++         bufferSize *= 2;
++-      } while (bufferSize < neededSize);
+++/* BEGIN MOZILLA CHANGE (prevent infinite loop on overflow) */
+++      } while (bufferSize < neededSize && bufferSize > 0);
+++/* END MOZILLA CHANGE */
+++/* BEGIN MOZILLA CHANGE (sanity check bufferSize) */
+++      if (bufferSize <= 0) {
+++        errorCode = XML_ERROR_NO_MEMORY;
+++        return NULL;
+++      }
+++/* END MOZILLA CHANGE */
++       newBuf = (char *)MALLOC(bufferSize);
++       if (newBuf == 0) {
++         errorCode = XML_ERROR_NO_MEMORY;
+diff --git a/meta/recipes-core/expat/expat.inc b/meta/recipes-core/expat/expat.inc
+index 6dfafe9..4bd60a2 100644
+--- a/meta/recipes-core/expat/expat.inc
++++ b/meta/recipes-core/expat/expat.inc
+@@ -5,7 +5,9 @@ SECTION = "libs"
+ LICENSE = "MIT"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.gz \
+-           file://autotools.patch"
++           file://autotools.patch \
++           file://expat-CVE-2015-1283.patch \
++	  "
+ 
+ inherit autotools lib_package gzipnative
+ 
+-- 
+1.9.1
+
 
