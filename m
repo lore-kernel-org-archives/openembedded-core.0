@@ -1,34 +1,38 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwym03.jp.fujitsu.com (mgwym03.jp.fujitsu.com [211.128.242.42])
-	by mail.openembedded.org (Postfix) with ESMTP id BA3186FFDF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id A50806FF56
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Dec 2015 04:51:43 +0000 (UTC)
-Received: from yt-mxauth.gw.nic.fujitsu.com (unknown [192.168.229.68]) by
-	mgwym03.jp.fujitsu.com with smtp
-	id 68e1_b934_3ed78a68_e30a_4996_a2b3_ed36dcbb6389;
-	Fri, 25 Dec 2015 13:51:39 +0900
-Received: from g01jpfmpwyt01.exch.g01.fujitsu.local
-	(g01jpfmpwyt01.exch.g01.fujitsu.local [10.128.193.38])
-	by yt-mxauth.gw.nic.fujitsu.com (Postfix) with ESMTP id 113D7AC026B
+	Fri, 25 Dec 2015 05:53:51 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id e126so255766344ioa.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Dec 2015 13:51:38 +0900 (JST)
-Received: from g01jpexchyt38.g01.fujitsu.local (unknown [10.128.193.4])
-	by g01jpfmpwyt01.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	59E446D65AD for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Dec 2015 13:51:37 +0900 (JST)
-Received: from localhost.localdomain (10.24.19.99) by
-	g01jpexchyt38.g01.fujitsu.local (10.128.193.68) with Microsoft SMTP
-	Server id 14.3.266.1; Fri, 25 Dec 2015 13:51:37 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 Dec 2015 13:52:50 +0900
-Message-ID: <1451019170-6949-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 24 Dec 2015 21:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=EMzzD0b15QOE4u0Tsg6g4OnfbdN7T//jNPpzZurqxSg=;
+	b=c+ciHVLuQ6dxHYpSZQm+6uNrrzhCsA6JWLSPWavX55uWj7kprr3RqDniXGg1OGfYWs
+	RBdEcVaI3E0o+C/d1cpR3A7oXWkLMW4CPR28JAoZxEDMREk2TgWeoZmhhix726/Yg9xJ
+	MrGn0M3MQRYNlh4Rs8x3nHd6MNubrT8tXg8JkzTqpxwmTYZQlNnOzhqTIEONHLxof5jQ
+	DK8CcKs/2mw3ZuoUaw1f2yn3QWKYp7Ti8cT7ojdZEoWlpPGdSbgkqn/J+6/PTvRqw/Vl
+	OD7t7DIRMkYcpx7oS+YpENWVrTEXpEPrafy4VXl5mGvhjCOljxsYyy+I1RvEFnv4zr1b
+	N/WQ==
+X-Received: by 10.107.9.224 with SMTP id 93mr37675269ioj.112.1451022831533;
+	Thu, 24 Dec 2015 21:53:51 -0800 (PST)
 MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-MML: disable
-Cc: Fan Xin <fan.xin@jp.fujitsu.com>
-Subject: [PATCH] tiff: upgrade 4.0.4 -> 4.0.6
+Received: by 10.107.16.74 with HTTP; Thu, 24 Dec 2015 21:53:22 -0800 (PST)
+In-Reply-To: <CAMKF1sqZbhW2DO-2d9M4hOqG2EGPn_vcKPWFJb1CjjpQH_KqLQ@mail.gmail.com>
+References: <cover.1450568936.git.raj.khem@gmail.com>
+	<379ef3716c72c2230a75294f4be5430903f17450.1450568936.git.raj.khem@gmail.com>
+	<CAJTo0LaF5ByQoxkOzD22=A6Sq7eiNJCgbObX5E=-AWFVdm=9ng@mail.gmail.com>
+	<CAMKF1sqZbhW2DO-2d9M4hOqG2EGPn_vcKPWFJb1CjjpQH_KqLQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 24 Dec 2015 21:53:22 -0800
+Message-ID: <CAMKF1soWBq24BTPnGg4MFJ4Ywuo-5CL9sZ36PKjeKt-Zn3UkCw@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 08/17] fts: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,34 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Dec 2015 04:51:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 25 Dec 2015 05:53:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
----
- meta/recipes-multimedia/libtiff/{tiff_4.0.4.bb => tiff_4.0.6.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/libtiff/{tiff_4.0.4.bb => tiff_4.0.6.bb} (92%)
+Ross
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.4.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-similarity index 92%
-rename from meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
-rename to meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-index 74f0a72..e2e24e0 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.0.6.bb
-@@ -7,8 +7,8 @@ SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
-            file://libtool2.patch \
-           "
- 
--SRC_URI[md5sum] = "9aee7107408a128c0c7b24286c0db900"
--SRC_URI[sha256sum] = "8cb1d90c96f61cdfc0bcf036acc251c9dbe6320334da941c7a83cfe1576ef890"
-+SRC_URI[md5sum] = "d1d2e940dea0b5ad435f21f03d96dd72"
-+SRC_URI[sha256sum] = "4d57a50907b510e3049a4bba0d7888930fdfc16ce49f1bf693e5b6247370d68c"
- 
- # exclude betas
- UPSTREAM_CHECK_REGEX = "tiff-(?P<pver>\d+(\.\d+)+).tar"
--- 
-1.8.4.2
+I have update the pull tree with all the comments addressed
 
+On Mon, Dec 21, 2015 at 5:42 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Dec 21, 2015 4:15 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
+>>
+>>
+>> On 19 December 2015 at 23:52, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>>  create mode 100644
+>>> meta/recipes-core/fts/fts/fts-header-correctness.patch
+>>>  create mode 100644 meta/recipes-core/fts/fts/fts-uclibc.patch
+>>>  create mode 100644 meta/recipes-core/fts/fts/gcc5.patch
+>>>  create mode 100644 meta/recipes-core/fts/fts/remove_cdefs.patch
+>>>  create mode 100644 meta/recipes-core/fts/fts/stdint.patch
+>>
+>>
+>> None of these patches have headers.
+>
+> Thanks Ross. I will update the pull tree and send a note afterwards
+>>
+>> Ross
 
