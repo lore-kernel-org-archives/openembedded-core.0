@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 38AC66FFA4
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A50D36FFA4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Dec 2015 07:14:54 +0000 (UTC)
+	Mon, 28 Dec 2015 07:14:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBS7Etfn013837
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBS7EumL024184
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Dec 2015 23:14:55 -0800
+	Sun, 27 Dec 2015 23:14:56 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Sun, 27 Dec 2015 23:14:55 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 27 Dec 2015 23:14:18 -0800
-Message-ID: <48a6d618d4b39058bf04a6cb0d8c076ae5da4013.1451286789.git.liezhi.yang@windriver.com>
+Date: Sun, 27 Dec 2015 23:14:19 -0800
+Message-ID: <9cee82c8267f8bc0cb5fa4c7313f9682edf1ce2d.1451286789.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1451286789.git.liezhi.yang@windriver.com>
 References: <cover.1451286789.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 10/40] package_manager.py: define info_dir and status_file when OPKGLIBDIR isn't the default
+Subject: [PATCH 11/40] texinfo: don't create dependency on INHERIT variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,54 +38,33 @@ Content-Type: text/plain
 
 From: Martin Jansa <Martin.Jansa@gmail.com>
 
-* without this the do_rootfs task doesn't respect OPKGLIBDIR and
-  info, status are created in different directory than opkg on
-  target expects
-* people who modify OPKGLIBDIR need to make sure that opkg.conf included
-  in opkg package also sets info_dir and status_file options
+* we don't want the do_package signature depending on INHERIT variable
+* e.g. just adding the own-mirrors causes texinfo to rebuild:
+  # bitbake-diffsigs BUILD/sstate-diff/*/*/texinfo/*do_package.sig*
+  basehash changed from 015df2fd8e396cc1e15622dbac843301 to 9f1d06c4f238c70a99ccb6d8da348b6a
+  Variable INHERIT value changed from
+  ' rm_work blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
+  to
+  ' rm_work own-mirrors blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/lib/oe/package_manager.py |   19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ meta/recipes-extended/texinfo/texinfo_6.0.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 964fddc..b9fa6d8 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1471,6 +1471,16 @@ class OpkgPM(PackageManager):
-                                         self.d.getVar('FEED_DEPLOYDIR_BASE_URI', True),
-                                         arch))
+diff --git a/meta/recipes-extended/texinfo/texinfo_6.0.bb b/meta/recipes-extended/texinfo/texinfo_6.0.bb
+index 8fb715a..a8702cf 100644
+--- a/meta/recipes-extended/texinfo/texinfo_6.0.bb
++++ b/meta/recipes-extended/texinfo/texinfo_6.0.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ PROVIDES_append_class-native = " texinfo-replacement-native"
  
-+            if self.opkg_dir != '/var/lib/opkg':
-+                # There is no command line option for this anymore, we need to add
-+                # info_dir and status_file to config file, if OPKGLIBDIR doesn't have
-+                # the default value of "/var/lib" as defined in opkg:
-+                # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_INFO_DIR      "/var/lib/opkg/info"
-+                # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_STATUS_FILE   "/var/lib/opkg/status"
-+                cfg_file.write("option info_dir     %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR', True), 'opkg', 'info'))
-+                cfg_file.write("option status_file  %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR', True), 'opkg', 'status'))
-+
-+
-     def _create_config(self):
-         with open(self.config_file, "w+") as config_file:
-             priority = 1
-@@ -1486,6 +1496,15 @@ class OpkgPM(PackageManager):
-                     config_file.write("src oe-%s file:%s\n" %
-                                       (arch, pkgs_dir))
- 
-+            if self.opkg_dir != '/var/lib/opkg':
-+                # There is no command line option for this anymore, we need to add
-+                # info_dir and status_file to config file, if OPKGLIBDIR doesn't have
-+                # the default value of "/var/lib" as defined in opkg:
-+                # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_INFO_DIR      "/var/lib/opkg/info"
-+                # libopkg/opkg_conf.h:#define OPKG_CONF_DEFAULT_STATUS_FILE   "/var/lib/opkg/status"
-+                config_file.write("option info_dir     %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR', True), 'opkg', 'info'))
-+                config_file.write("option status_file  %s\n" % os.path.join(self.d.getVar('OPKGLIBDIR', True), 'opkg', 'status'))
-+
-     def insert_feeds_uris(self):
-         if self.feed_uris == "":
-             return
+ def compress_pkg(d):
+-    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
++    if bb.data.inherits_class('compress_doc', d):
+          compress = d.getVar("DOC_COMPRESS", True)
+          if compress == "gz":
+              return "gzip"
 -- 
 1.7.9.5
 
