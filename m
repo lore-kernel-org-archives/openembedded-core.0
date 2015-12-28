@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 18FE973176
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FF8273176
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 28 Dec 2015 07:15:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBS7F0Jq013846
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBS7F1qH024200
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Dec 2015 23:15:01 -0800
+	Sun, 27 Dec 2015 23:15:01 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 27 Dec 2015 23:15:00 -0800
+	Sun, 27 Dec 2015 23:15:01 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 27 Dec 2015 23:14:27 -0800
-Message-ID: <8968ede9c8cdcd2cbf13bd5bba95883082189908.1451286789.git.liezhi.yang@windriver.com>
+Date: Sun, 27 Dec 2015 23:14:28 -0800
+Message-ID: <f521d8d2d1ea495383f54e5e7c2754dde007f7eb.1451286789.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1451286789.git.liezhi.yang@windriver.com>
 References: <cover.1451286789.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 19/40] classes/metadata_scm: fix git errors showing up on non-git repositories
+Subject: [PATCH 20/40] classes/license: fix intermittent license collection warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,63 +38,39 @@ Content-Type: text/plain
 
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-Fixes the following error showing up for layers that aren't a git repo
-(or aren't parented by one):
+Fixes the following warning sometimes appearing during image builds:
 
-fatal: Not a git repository (or any of the parent directories): .git
+WARNING: The license listed ABC was not in the licenses collected for recipe xyz
 
-This was because we weren't intercepting stderr. We might as well just
-use bb.process.run() here which does that and returns stdout and stderr
-separately.
+The files being looked for here, which runs during do_rootfs,
+are written out by the do_populate_lic task for each recipe. However,
+there was no explicit dependency between do_rootfs and all of the
+do_populate_lic tasks to ensure they had run - only an implicit link via
+do_build, so it is possible that sometimes they had not depending on how
+the tasks were scheduled. Add an explicit set of dependencies to fix
+this.
 
-(This was a regression that came in with OE-Core revision
-3aac11076e22ac4fea48f5404110bb959547a9fe).
-
-Fixes [YOCTO #8661].
-
-(From OE-Core master rev: f533c1bf4c6edbecc67f9e2c62fd475d64668e86)
+(From OE-Core master rev: ef7dc532e800d9b170246550cbc8703adf624beb)
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/metadata_scm.bbclass |   20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ meta/classes/license.bbclass |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
-index 64465fa..0f7f423 100644
---- a/meta/classes/metadata_scm.bbclass
-+++ b/meta/classes/metadata_scm.bbclass
-@@ -65,19 +65,19 @@ def base_get_metadata_svn_revision(path, d):
-     return revision
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index c616a20..8ad4614 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -474,6 +474,7 @@ do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
+ do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
  
- def base_get_metadata_git_branch(path, d):
--    import subprocess
-+    import bb.process
+ ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest; license_create_manifest; "
++do_rootfs[recrdeptask] += "do_populate_lic"
  
-     try:
--        return subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"],
--                                       cwd=path).strip()
--    except:
--        return "<unknown>"
-+        rev, _ = bb.process.run('git rev-parse --abbrev-ref HEAD', cwd=path)
-+    except bb.process.ExecutionError:
-+        rev = '<unknown>'
-+    return rev.strip()
- 
- def base_get_metadata_git_revision(path, d):
--    import subprocess
-+    import bb.process
- 
-     try:
--        return subprocess.check_output(["git", "rev-parse", "HEAD"],
--                                       cwd=path).strip()
--    except:
--        return "<unknown>"
-+        rev, _ = bb.process.run('git rev-parse HEAD', cwd=path)
-+    except bb.process.ExecutionError:
-+        rev = '<unknown>'
-+    return rev.strip()
+ do_populate_lic_setscene[dirs] = "${LICSSTATEDIR}/${PN}"
+ do_populate_lic_setscene[cleandirs] = "${LICSSTATEDIR}"
 -- 
 1.7.9.5
 
