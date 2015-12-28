@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D6FE73179
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D424F73179
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 28 Dec 2015 07:15:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBS7F9LJ024237
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBS7F9Fr025240
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 27 Dec 2015 23:15:09 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 27 Dec 2015 23:15:08 -0800
+	Sun, 27 Dec 2015 23:15:09 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 27 Dec 2015 23:14:37 -0800
-Message-ID: <d7bcdb33a675fbdd30596d62961be52aa98c9e05.1451286789.git.liezhi.yang@windriver.com>
+Date: Sun, 27 Dec 2015 23:14:38 -0800
+Message-ID: <e82466ebd9c8b9277255680d5efdd76eabf125b1.1451286789.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1451286789.git.liezhi.yang@windriver.com>
 References: <cover.1451286789.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 29/40] toolchain-shar-extract.sh: do not allow $ in paths for ext SDK
+Subject: [PATCH 30/40] devtool: include do_patch in SRCTREECOVEREDTASKS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Dec 2015 07:15:08 -0000
+X-List-Received-Date: Mon, 28 Dec 2015 07:15:09 -0000
 Content-Type: text/plain
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+From: Tzu-Jung Lee <roylee17@currantlabs.com>
 
-If you put an $ character in the path, SDK installation fails during the
-preparation stage, so add this to the disallowed characters.
+The external source of kernel has been patched during the
+construction of git repository. Include the do_patch task in the
+SRCTREECOVEREDTASKS.
 
-Fixes [YOCTO #8625].
+(From OE-Core master rev: 0731c5a9e98f7b7f6e5ada9bbb99acb3f5884516)
 
-(From OE-Core master rev: 654f4785f719552f4e78e14a5a901c07d00ce68d)
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Tzu-Jung Lee <roylee17@currantlabs.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/files/toolchain-shar-extract.sh |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/lib/devtool/standard.py |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 6af37b7..35d3c75 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -101,9 +101,9 @@ fi
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 1285974..c5c647b 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -593,7 +593,7 @@ def modify(args, config, basepath, workspace):
+             f.write('EXTERNALSRC_BUILD_pn-%s = "%s"\n' % (pn, srctree))
  
- if [ "$SDK_EXTENSIBLE" = "1" ]; then
- 	# We're going to be running the build system, additional restrictions apply
--	if echo "$target_sdk_dir" | grep -q '[+\ @]'; then
-+	if echo "$target_sdk_dir" | grep -q '[+\ @$]'; then
- 		echo "The target directory path ($target_sdk_dir) contains illegal" \
--		     "characters such as spaces, @ or +. Abort!"
-+		     "characters such as spaces, @, \$ or +. Abort!"
- 		exit 1
- 	fi
- else
+         if bb.data.inherits_class('kernel', rd):
+-            f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout do_fetch do_unpack"\n')
++            f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout do_fetch do_unpack do_patch"\n')
+         if initial_rev:
+             f.write('\n# initial_rev: %s\n' % initial_rev)
+             for commit in commits:
 -- 
 1.7.9.5
 
