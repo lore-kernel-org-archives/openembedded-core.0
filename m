@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3574E6FFFE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BA260731AF
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 28 Dec 2015 07:15:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBS7FEdL013866
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBS7FE92024257
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Dec 2015 23:15:14 -0800
+	Sun, 27 Dec 2015 23:15:14 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 27 Dec 2015 23:15:13 -0800
+	Sun, 27 Dec 2015 23:15:14 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 27 Dec 2015 23:14:45 -0800
-Message-ID: <de7f25e9d67b150db4780bb82ef9481982e81312.1451286789.git.liezhi.yang@windriver.com>
+Date: Sun, 27 Dec 2015 23:14:46 -0800
+Message-ID: <44adc575be5d9b9ad0d87e143467aeeadde2fe89.1451286789.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1451286789.git.liezhi.yang@windriver.com>
 References: <cover.1451286789.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 37/40] prelink: Fix various prelink issues on IA32, ARM, and MIPS.
+Subject: [PATCH 38/40] gcc: Update default Power GCC settings to use secure-plt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,46 +38,76 @@ Content-Type: text/plain
 
 From: Mark Hatle <mark.hatle@windriver.com>
 
-Fix the following issues:
+The gcc default, bss-plt, will cause errors when using the prelinker.  All
+other distributions that I am aware of are using the the secure-plt.  For an
+explanation of the differences, the gcc docs:
 
-IA32 / ARM - Resync to glibc-2.22, fix a mismatch w/ glibc's ld.so
-MIPS - Ignore the new SHT_MIPS_ABIFLAGS
-ARM - Fix missing ARM IFUNC support chunk
+  Current PowerPC GCC accepts a `-msecure-plt' option that generates code
+  capable of using a newer PLT and GOT layout that has the security
+  advantage of no executable section ever needing to be writable and no
+  writable section ever being executable. PowerPC ld will generate this
+  layout, including stubs to access the PLT, if all input files (including
+  startup and static libraries) were compiled with `-msecure-plt'.
+  `--bss-plt' forces the old BSS PLT (and GOT layout) which can give
+  slightly better performance.
 
-Also upstream prelink project no longer has a 'trunk' directory.
+The security of the new PLT and ability to run the prelinker outweigh
+any performance penalty.
 
-(From OE-Core master rev: c725328f2ab5c9b220c552ed37c0d24b098a218d)
+The secure-plt is enabled by default.  The old bss-plt can be enabled by
+selecting 'bssplt' in the DISTRO_FEATURES.
+
+(From OE-Core master rev: 70c55aada1101a5c687cdaa79f370fa4530b39d9)
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/prelink/prelink_git.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/gcc/gcc-common.inc           |    5 +++++
+ meta/recipes-devtools/gcc/gcc-configure-common.inc |    1 +
+ meta/recipes-devtools/gcc/gcc-cross-initial.inc    |    1 +
+ 3 files changed, 7 insertions(+)
 
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index 79a5f501..e223ef6 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -8,7 +8,7 @@ and executables, so that far fewer relocations need to be resolved at \
- runtime and thus programs come up faster."
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
--SRCREV = "cdee5a4dd226cc5e9f30f370067a9031f398ef3c"
-+SRCREV = "927979bbd115eeb8a75db3231906ef6aca4c4eb6"
- PV = "1.0+git${SRCPV}"
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index d63c07f..6f2f224 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -25,6 +25,11 @@ def get_gcc_mips_plt_setting(bb, d):
+         return "--with-mips-plt"
+     return ""
  
- #
-@@ -35,7 +35,7 @@ SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink \
- TARGET_OS_ORIG := "${TARGET_OS}"
- OVERRIDES_append = ":${TARGET_OS_ORIG}"
++def get_gcc_ppc_plt_settings(bb, d):
++    if d.getVar('TRANSLATED_TARGET_ARCH', True) in [ 'powerpc' ] and not bb.utils.contains('DISTRO_FEATURES', 'bssplt', True, False, d):
++        return "--enable-secureplt"
++    return ""
++
+ def get_long_double_setting(bb, d):
+     if d.getVar('TRANSLATED_TARGET_ARCH', True) in [ 'powerpc', 'powerpc64' ] and d.getVar('TCLIBC', True) in [ 'uclibc', 'glibc' ]:
+         return "--with-long-double-128"
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+index a14be73..cee6f4a 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+@@ -47,6 +47,7 @@ EXTRA_OECONF = "\
+     ${EXTRA_OECONF_GCC_FLOAT} \
+     ${EXTRA_OECONF_PATHS} \
+     ${@get_gcc_mips_plt_setting(bb, d)} \
++    ${@get_gcc_ppc_plt_settings(bb, d)} \
+     ${@get_long_double_setting(bb, d)} \
+     ${@get_gcc_multiarch_setting(bb, d)} \
+ "
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial.inc b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+index 7197447..c0fa139 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-initial.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-initial.inc
+@@ -26,6 +26,7 @@ EXTRA_OECONF = "\
+     ${EXTRA_OECONF_INITIAL} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '--with-ld=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}ld.bfd', '', d)} \
+     ${EXTRA_OECONF_GCC_FLOAT} \
++    ${@get_gcc_ppc_plt_settings(bb, d)} \
+ "
  
--S = "${WORKDIR}/git/trunk"
-+S = "${WORKDIR}/git"
- 
- inherit autotools 
- 
+ EXTRA_OECONF += "--with-native-system-header-dir=${SYSTEMHEADERS}"
 -- 
 1.7.9.5
 
