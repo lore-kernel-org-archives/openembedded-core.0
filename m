@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BA72773179
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 563F76FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Dec 2015 07:14:52 +0000 (UTC)
+	Mon, 28 Dec 2015 07:14:53 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBS7EraU013834
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBS7Es7G024181
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Dec 2015 23:14:53 -0800
+	Sun, 27 Dec 2015 23:14:54 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Sun, 27 Dec 2015 23:14:53 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 27 Dec 2015 23:14:15 -0800
-Message-ID: <66e32244aed8d33f1b49fbe78179f2442545c730.1451286789.git.liezhi.yang@windriver.com>
+Date: Sun, 27 Dec 2015 23:14:16 -0800
+Message-ID: <7d45881da23dca70334400f556ed198126190cea.1451286789.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1451286789.git.liezhi.yang@windriver.com>
 References: <cover.1451286789.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 07/40] gstreamer1.0-plugins-good: fix PACKAGECONFIG for gudev and add one for v4l2 and libv4l2
+Subject: [PATCH 08/40] gst-plugins-bad: add PACKAGECONFIGs for voamrwbenc, voaacenc, resindvd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +38,66 @@ Content-Type: text/plain
 
 From: Martin Jansa <Martin.Jansa@gmail.com>
 
-* WARN: gstreamer1.0-plugins-good: gstreamer1.0-plugins-good-video4linux2 rdepends on libcap, but it isn't a build dependency?
-  WARN: gstreamer1.0-plugins-good: gstreamer1.0-plugins-good-video4linux2 rdepends on libgudev, but it isn't a build dependency?
-  WARN: gstreamer1.0-plugins-good: gstreamer1.0-plugins-good-video4linux2 rdepends on libudev, but it isn't a build dependency?
-  WARN: gstreamer1.0-plugins-good: gstreamer1.0-plugins-good-video4linux2 rdepends on zlib, but it isn't a build dependency?
+* allows to easily enable them and fixes:
+WARNING: QA Issue: gstreamer1.0-plugins-bad: Files/directories were installed but not shipped in any package:
+  /usr/share/gstreamer-1.0
+  /usr/share/gstreamer-1.0/presets
+  /usr/share/gstreamer-1.0/presets/GstVoAmrwbEnc.prs
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+gstreamer1.0-plugins-bad: 3 installed and not shipped files. [installed-vs-shipped]
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-good.inc        |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../gstreamer/gstreamer1.0-plugins-bad.inc         |   11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-index 0ce4b8f..edaafe8 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-@@ -11,7 +11,7 @@ inherit gettext
- PACKAGECONFIG ??= " \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
--    orc cairo flac gdk-pixbuf gudev jpeg libpng soup speex taglib \
-+    orc cairo flac gdk-pixbuf jpeg libpng soup speex taglib v4l2\
-     "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+index d7aefec..b4f01af 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+@@ -55,6 +55,9 @@ PACKAGECONFIG[sndfile]         = "--enable-sndfile,--disable-sndfile,libsndfile1
+ PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
+ PACKAGECONFIG[rtmp]            = "--enable-rtmp,--disable-rtmp,rtmpdump"
+ PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
++PACKAGECONFIG[voamrwbenc]      = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
++PACKAGECONFIG[voaacenc]        = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
++PACKAGECONFIG[resindvd]        = "--enable-resindvd,--disable-resindvd,libdvdnav libdvdread"
  
- X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
-@@ -22,7 +22,8 @@ PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
- PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
- PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
- PACKAGECONFIG[gdk-pixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
--PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,udev"
-+PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
-+PACKAGECONFIG[libv4l2]    = "--with-libv4l2,--without-libv4l2,libv4l2"
- PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
- PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
- PACKAGECONFIG[libpng]     = "--enable-libpng,--disable-libpng,libpng"
-@@ -32,11 +33,10 @@ PACKAGECONFIG[taglib]     = "--enable-taglib,--disable-taglib,taglib"
- PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
- PACKAGECONFIG[wavpack]    = "--enable-wavpack,--disable-wavpack,wavpack"
- PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libraw1394 libiec61883 libavc1394"
-+PACKAGECONFIG[v4l2]       = "--enable-gst_v4l2,--disable-gst_v4l2"
+ # these plugins have not been ported to 1.0 (yet):
+ #   directdraw vcd apexsink dc1394 lv2 linsys musepack mythtv
+@@ -66,8 +69,8 @@ PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
+ # these plugins have no corresponding library in OE-core or meta-openembedded:
+ #   openni2 winks direct3d directdraw directsound winscreencap osx_video
+ #   apple_media android_media avc chromaprint daala dts gme gsm kate ladspa mimic
+-#   mpeg2enc mplex ofa openjpeg opensles pvr resindvd rtmp soundtouch spandsp spc
+-#   srtp vdpau voaacenc voamrwbenc wasapi zbar
++#   mpeg2enc mplex ofa openjpeg opensles pvr rtmp soundtouch spandsp spc
++#   srtp vdpau wasapi zbar
  
  EXTRA_OECONF += " \
-     --enable-oss \
--    --enable-gst_v4l2 \
--    --without-libv4l2 \
-     --disable-directsound \
-     --disable-waveform \
-     --disable-oss4 \
+     --enable-dvb \
+@@ -106,7 +109,6 @@ EXTRA_OECONF += " \
+     --disable-osx_video \
+     --disable-pvr \
+     --disable-quicktime \
+-    --disable-resindvd \
+     --disable-sdl \
+     --disable-sdltest \
+     --disable-sndio \
+@@ -118,8 +120,6 @@ EXTRA_OECONF += " \
+     --disable-timidity \
+     --disable-vcd \
+     --disable-vdpau \
+-    --disable-voaacenc \
+-    --disable-voamrwbenc \
+     --disable-wasapi \
+     --disable-wildmidi \
+     --disable-wininet \
+@@ -133,3 +133,4 @@ ARM_INSTRUCTION_SET = "arm"
+ 
+ FILES_gstreamer1.0-plugins-bad-opencv += "${datadir}/gst-plugins-bad/1.0/opencv*"
+ 
++FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-${LIBV}/presets/GstVoAmrwbEnc.prs"
 -- 
 1.7.9.5
 
