@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 356E86FFFE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D6FE73179
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Dec 2015 07:15:07 +0000 (UTC)
+	Mon, 28 Dec 2015 07:15:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBS7F8UW013856
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBS7F9LJ024237
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Dec 2015 23:15:08 -0800
+	Sun, 27 Dec 2015 23:15:09 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 27 Dec 2015 23:15:07 -0800
+	Sun, 27 Dec 2015 23:15:08 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 27 Dec 2015 23:14:36 -0800
-Message-ID: <5c5953cbc44c7532650cb9e3c877fa86c9d0f242.1451286789.git.liezhi.yang@windriver.com>
+Date: Sun, 27 Dec 2015 23:14:37 -0800
+Message-ID: <d7bcdb33a675fbdd30596d62961be52aa98c9e05.1451286789.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1451286789.git.liezhi.yang@windriver.com>
 References: <cover.1451286789.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 28/40] scripts/gen-lockedsig-cache: improve output
+Subject: [PATCH 29/40] toolchain-shar-extract.sh: do not allow $ in paths for ext SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,78 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Dec 2015 07:15:07 -0000
+X-List-Received-Date: Mon, 28 Dec 2015 07:15:08 -0000
 Content-Type: text/plain
 
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-* Print some status when running
-* When incorrect number of arguments specified, print usage text
+If you put an $ character in the path, SDK installation fails during the
+preparation stage, so add this to the disallowed characters.
 
-(From OE-Core master rev: ac38d245878b618ddf56f9a68834d344500e45a6)
+Fixes [YOCTO #8625].
+
+(From OE-Core master rev: 654f4785f719552f4e78e14a5a901c07d00ce68d)
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/gen-lockedsig-cache |   13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ meta/files/toolchain-shar-extract.sh |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/gen-lockedsig-cache b/scripts/gen-lockedsig-cache
-index 806c1e4..9c16506 100755
---- a/scripts/gen-lockedsig-cache
-+++ b/scripts/gen-lockedsig-cache
-@@ -1,7 +1,4 @@
- #!/usr/bin/env python
--#
--# gen-lockedsig-cache <locked-sigs.inc> <input-cachedir> <output-cachedir>
--#
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 6af37b7..35d3c75 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -101,9 +101,9 @@ fi
  
- import os
- import sys
-@@ -18,14 +15,17 @@ def mkdir(d):
- 
- if len(sys.argv) < 3:
-     print("Incorrect number of arguments specified")
-+    print("syntax: gen-lockedsig-cache <locked-sigs.inc> <input-cachedir> <output-cachedir>")
-     sys.exit(1)
- 
-+print('Reading %s' % sys.argv[1])
- sigs = []
- with open(sys.argv[1]) as f:
-     for l in f.readlines():
-         if ":" in l:
-             sigs.append(l.split(":")[2].split()[0])
- 
-+print('Gathering file list')
- files = set()
- for s in sigs:
-     p = sys.argv[2] + "/" + s[:2] + "/*" + s + "*"
-@@ -33,10 +33,13 @@ for s in sigs:
-     p = sys.argv[2] + "/*/" + s[:2] + "/*" + s + "*"
-     files |= set(glob.glob(p))
- 
-+print('Processing files')
- for f in files:
-+    sys.stdout.write('Processing %s... ' % f)
-     _, ext = os.path.splitext(f)
-     if not ext in ['.tgz', '.siginfo', '.sig']:
-         # Most likely a temp file, skip it
-+        print('skipping')
-         continue
-     dst = f.replace(sys.argv[2], sys.argv[3])
-     destdir = os.path.dirname(dst)
-@@ -45,6 +48,10 @@ for f in files:
-     if os.path.exists(dst):
-         os.remove(dst)
-     if (os.stat(f).st_dev == os.stat(destdir).st_dev):
-+        print('linking')
-         os.link(f, dst)
-     else:
-+        print('copying')
-         shutil.copyfile(f, dst)
-+
-+print('Done!')
+ if [ "$SDK_EXTENSIBLE" = "1" ]; then
+ 	# We're going to be running the build system, additional restrictions apply
+-	if echo "$target_sdk_dir" | grep -q '[+\ @]'; then
++	if echo "$target_sdk_dir" | grep -q '[+\ @$]'; then
+ 		echo "The target directory path ($target_sdk_dir) contains illegal" \
+-		     "characters such as spaces, @ or +. Abort!"
++		     "characters such as spaces, @, \$ or +. Abort!"
+ 		exit 1
+ 	fi
+ else
 -- 
 1.7.9.5
 
