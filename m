@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 82C066FFA4
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 166206FFA4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Dec 2015 07:15:03 +0000 (UTC)
+	Mon, 28 Dec 2015 07:15:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBS7F3XH013849
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBS7F5r5024210
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Dec 2015 23:15:03 -0800
+	Sun, 27 Dec 2015 23:15:05 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 27 Dec 2015 23:15:02 -0800
+	Sun, 27 Dec 2015 23:15:04 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 27 Dec 2015 23:14:30 -0800
-Message-ID: <98215b9513212b7002d072afa763347520544ee0.1451286789.git.liezhi.yang@windriver.com>
+Date: Sun, 27 Dec 2015 23:14:31 -0800
+Message-ID: <dbacd35c0db2e9f4b9b2a20ffa6bcc5f78432d8a.1451286789.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1451286789.git.liezhi.yang@windriver.com>
 References: <cover.1451286789.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 22/40] classes/populate_sdk_ext: make it clear when SDK installation has failed
+Subject: [PATCH 23/40] classes/populate_sdk_ext: tweak reporting of workspace exclusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +33,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Dec 2015 07:15:03 -0000
+X-List-Received-Date: Mon, 28 Dec 2015 07:15:04 -0000
 Content-Type: text/plain
 
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-When SDK preparation fails:
+If you have a local workspace layer enabled when building the
+extensible SDK, we explicitly exclude that from the SDK (mostly because
+the SDK has its own for the user to use). Adjust the message we print
+notifying the user of this so it's clear that we're excluding it from
+the SDK, and scale it back from a warning to a note printed with
+bb.plain().
 
-* Insert an ERROR: in front of the error message
-* Add an error message to the environment setup script
-
-Hopefully this should make it more obvious when this happens.
-
-Fixes [YOCTO #8658].
-
-(From OE-Core master rev: 105df569b3b1982005c2edb37f4690f9ba6bde35)
+(From OE-Core master rev: 90f46f74a088a7b965d2205eceb9eff6f276dd38)
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
  meta/classes/populate_sdk_ext.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/copy_buildsystem.py       |    5 +++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index d368d4f..e806d32 100644
+index e806d32..736f17f 100644
 --- a/meta/classes/populate_sdk_ext.bbclass
 +++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -250,7 +250,7 @@ sdk_ext_postinst() {
- 		# current working directory when first ran, nor will it set $1 when
- 		# sourcing a script. That is why this has to look so ugly.
- 		LOGFILE="$target_sdk_dir/preparing_build_system.log"
--		sh -c ". buildtools/environment-setup* > $LOGFILE && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> $LOGFILE && $target_sdk_dir/ext-sdk-prepare.sh $target_sdk_dir '${SDK_TARGETS}' >> $LOGFILE 2>&1" || { echo "SDK preparation failed: see $LOGFILE" ; exit 1 ; }
-+		sh -c ". buildtools/environment-setup* > $LOGFILE && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> $LOGFILE && $target_sdk_dir/ext-sdk-prepare.sh $target_sdk_dir '${SDK_TARGETS}' >> $LOGFILE 2>&1" || { echo "ERROR: SDK preparation failed: see $LOGFILE"; echo "printf 'ERROR: this SDK wasn't fully installed and needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
- 	fi
- 	rm -f $target_sdk_dir/ext-sdk-prepare.sh
- 	echo done
+@@ -51,7 +51,7 @@ python copy_buildsystem () {
+     core_meta_subdir = ''
+ 
+     # Copy in all metadata layers + bitbake (as repositories)
+-    buildsystem = oe.copy_buildsystem.BuildSystem(d)
++    buildsystem = oe.copy_buildsystem.BuildSystem('extensible SDK', d)
+     baseoutpath = d.getVar('SDK_OUTPUT', True) + '/' + d.getVar('SDKPATH', True)
+     layers_copied = buildsystem.copy_bitbake_and_layers(baseoutpath + '/layers')
+ 
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+index 979578c..c0e7541 100644
+--- a/meta/lib/oe/copy_buildsystem.py
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -14,8 +14,9 @@ def _smart_copy(src, dest):
+         shutil.copymode(src, dest)
+ 
+ class BuildSystem(object):
+-    def __init__(self, d):
++    def __init__(self, context, d):
+         self.d = d
++        self.context = context
+         self.layerdirs = d.getVar('BBLAYERS', True).split()
+ 
+     def copy_bitbake_and_layers(self, destdir):
+@@ -38,7 +39,7 @@ class BuildSystem(object):
+             if os.path.exists(layerconf):
+                 with open(layerconf, 'r') as f:
+                     if f.readline().startswith("# ### workspace layer auto-generated by devtool ###"):
+-                        bb.warn("Skipping local workspace layer %s" % layer)
++                        bb.plain("NOTE: Excluding local workspace layer %s from %s" % (layer, self.context))
+                         continue
+ 
+             # If the layer was already under corebase, leave it there
 -- 
 1.7.9.5
 
