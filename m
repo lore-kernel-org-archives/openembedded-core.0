@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D424F73179
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B3F3373179
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Dec 2015 07:15:08 +0000 (UTC)
+	Mon, 28 Dec 2015 07:15:09 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBS7F9Fr025240
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBS7FAEN013859
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Dec 2015 23:15:09 -0800 (PST)
+	Sun, 27 Dec 2015 23:15:10 -0800
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Sun, 27 Dec 2015 23:15:09 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 27 Dec 2015 23:14:38 -0800
-Message-ID: <e82466ebd9c8b9277255680d5efdd76eabf125b1.1451286789.git.liezhi.yang@windriver.com>
+Date: Sun, 27 Dec 2015 23:14:39 -0800
+Message-ID: <c44d41b0dec7457c4347a00b21d8b5bd24a9b887.1451286789.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1451286789.git.liezhi.yang@windriver.com>
 References: <cover.1451286789.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 30/40] devtool: include do_patch in SRCTREECOVEREDTASKS
+Subject: [PATCH 31/40] devtool: upgrade: fix removing other recipes from workspace on reset
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,15 +36,18 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 28 Dec 2015 07:15:09 -0000
 Content-Type: text/plain
 
-From: Tzu-Jung Lee <roylee17@currantlabs.com>
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-The external source of kernel has been patched during the
-construction of git repository. Include the do_patch task in the
-SRCTREECOVEREDTASKS.
+If you did a "devtool add" followed by "devtool upgrade" and then did
+a "devtool reset" on the recipe you upgraded, the first recipe would
+also be deleted from the workspace - this was because we were
+erroneously adding the entire "recipes" subdirectory and its contents to
+be tracked for removal on reset. Remove the unnecessary call to
+os.path.dirname() that caused this.
 
-(From OE-Core master rev: 0731c5a9e98f7b7f6e5ada9bbb99acb3f5884516)
+(From OE-Core master rev: 65354e066f87df7d3138adceb22d6a05d1685904)
 
-Signed-off-by: Tzu-Jung Lee <roylee17@currantlabs.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
@@ -52,18 +55,18 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 1285974..c5c647b 100644
+index c5c647b..d9b624d 100644
 --- a/scripts/lib/devtool/standard.py
 +++ b/scripts/lib/devtool/standard.py
-@@ -593,7 +593,7 @@ def modify(args, config, basepath, workspace):
-             f.write('EXTERNALSRC_BUILD_pn-%s = "%s"\n' % (pn, srctree))
+@@ -456,7 +456,7 @@ def _add_md5(config, recipename, filename):
+             f.write('%s|%s|%s\n' % (recipename, os.path.relpath(fn, config.workspace_path), md5))
  
-         if bb.data.inherits_class('kernel', rd):
--            f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout do_fetch do_unpack"\n')
-+            f.write('SRCTREECOVEREDTASKS = "do_validate_branches do_kernel_checkout do_fetch do_unpack do_patch"\n')
-         if initial_rev:
-             f.write('\n# initial_rev: %s\n' % initial_rev)
-             for commit in commits:
+     if os.path.isdir(filename):
+-        for root, _, files in os.walk(os.path.dirname(filename)):
++        for root, _, files in os.walk(filename):
+             for f in files:
+                 addfile(os.path.join(root, f))
+     else:
 -- 
 1.7.9.5
 
