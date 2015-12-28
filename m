@@ -1,29 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D493E60589;
-	Mon, 28 Dec 2015 13:18:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tBSDIK5g017440; Mon, 28 Dec 2015 13:18:57 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vxuD9es2AQmH; Mon, 28 Dec 2015 13:18:57 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	tBSDIpRP017471
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 28 Dec 2015 13:18:53 GMT
-Message-ID: <1451308731.4129.23.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>, openembedded-core
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F48060616
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Dec 2015 19:03:58 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga103.jf.intel.com with ESMTP; 28 Dec 2015 11:04:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,492,1444719600"; d="scan'208";a="20326997"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
+	([10.255.169.103])
+	by fmsmga004.fm.intel.com with ESMTP; 28 Dec 2015 11:03:56 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 29 Dec 2015 08:03:54 +1300
+Message-ID: <17919989.jSWpZWTNyU@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.2.8-300.fc23.x86_64; KDE/4.14.14; x86_64; ;
+	)
+In-Reply-To: <CAMKF1sr99S3k7ZqHY9jri42dCHgFB_BNs9FWu++9wmhHuxVWvw@mail.gmail.com>
+References: <cover.1450756555.git.paul.eggleton@linux.intel.com>
+	<CAMKF1sr99S3k7ZqHY9jri42dCHgFB_BNs9FWu++9wmhHuxVWvw@mail.gmail.com>
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Dec 2015 13:18:51 +0000
-In-Reply-To: <1451307640.4129.16.camel@linuxfoundation.org>
-References: <1451307640.4129.16.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: Re: [Openembedded-architecture] RFC: Split do_rootfs into image specific tasks?
+Subject: Re: [PATCH 00/26] devtool/recipetool improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,26 +36,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Dec 2015 13:18:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Dec 2015 19:04:00 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-To put this in a different why which people might be able to relate to,
-this changes:
+On Wed, 23 Dec 2015 18:45:50 Khem Raj wrote:
+> Can this series be backported to jethro as well ?
+> most of them seems to be incremental changes
+> hopefully not breaking backward compatibility in some
+> unforseen ways
 
-do_rootfs
-
-into:
-
-do_rootfs
-do_image
-do_image_ext4
-do_image_tar
-do_image_complete
-
-(for IMAGE_FSTYPES = "tar.bz2 ext4")
+Some of it should be OK, but I'd be nervous about backporting the entire 
+series. I'll prepare another jethro series soon (though I'm still waiting for 
+my last set to be merged.)
 
 Cheers,
+Paul
 
-Richard
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
