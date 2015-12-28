@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 563F76FFFE
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 16DF06FFFE
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 28 Dec 2015 07:14:53 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBS7Es7G024181
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBS7Esav025216
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Dec 2015 23:14:54 -0800 (PST)
+	Sun, 27 Dec 2015 23:14:55 -0800 (PST)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Sun, 27 Dec 2015 23:14:53 -0800
+	Sun, 27 Dec 2015 23:14:54 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 27 Dec 2015 23:14:16 -0800
-Message-ID: <7d45881da23dca70334400f556ed198126190cea.1451286789.git.liezhi.yang@windriver.com>
+Date: Sun, 27 Dec 2015 23:14:17 -0800
+Message-ID: <0f7f15ed02ec0f7b08b9ef62f6eca6c0c1e5a73f.1451286789.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1451286789.git.liezhi.yang@windriver.com>
 References: <cover.1451286789.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 08/40] gst-plugins-bad: add PACKAGECONFIGs for voamrwbenc, voaacenc, resindvd
+Subject: [PATCH 09/40] libsdl2: require GLES when building Wayland support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,71 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Dec 2015 07:14:53 -0000
+X-List-Received-Date: Mon, 28 Dec 2015 07:14:54 -0000
 Content-Type: text/plain
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Ross Burton <ross.burton@intel.com>
 
-* allows to easily enable them and fixes:
-WARNING: QA Issue: gstreamer1.0-plugins-bad: Files/directories were installed but not shipped in any package:
-  /usr/share/gstreamer-1.0
-  /usr/share/gstreamer-1.0/presets
-  /usr/share/gstreamer-1.0/presets/GstVoAmrwbEnc.prs
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-gstreamer1.0-plugins-bad: 3 installed and not shipped files. [installed-vs-shipped]
+The Wayland support requires GLES2 to be enabled as otherwise the EGL support
+code in SDL2 isn't enabled.
 
+| In file included from .../SDL2-2.0.3/src/video/wayland/SDL_waylandvideo.c:34:0:
+| .../SDL2-2.0.3/src/video/wayland/SDL_waylandvideo.c: In function 'Wayland_CreateDevice':
+| .../SDL2-2.0.3/src/video/wayland/SDL_waylandopengles.h:38:38: error: 'SDL_EGL_GetSwapInterval' undeclared (first use in this function)
+|  #define Wayland_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
+
+Solve this by adding gles2 to the Wayland PACKAGECONFIG option.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-bad.inc         |   11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index d7aefec..b4f01af 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -55,6 +55,9 @@ PACKAGECONFIG[sndfile]         = "--enable-sndfile,--disable-sndfile,libsndfile1
- PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
- PACKAGECONFIG[rtmp]            = "--enable-rtmp,--disable-rtmp,rtmpdump"
- PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
-+PACKAGECONFIG[voamrwbenc]      = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
-+PACKAGECONFIG[voaacenc]        = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
-+PACKAGECONFIG[resindvd]        = "--enable-resindvd,--disable-resindvd,libdvdnav libdvdread"
- 
- # these plugins have not been ported to 1.0 (yet):
- #   directdraw vcd apexsink dc1394 lv2 linsys musepack mythtv
-@@ -66,8 +69,8 @@ PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
- # these plugins have no corresponding library in OE-core or meta-openembedded:
- #   openni2 winks direct3d directdraw directsound winscreencap osx_video
- #   apple_media android_media avc chromaprint daala dts gme gsm kate ladspa mimic
--#   mpeg2enc mplex ofa openjpeg opensles pvr resindvd rtmp soundtouch spandsp spc
--#   srtp vdpau voaacenc voamrwbenc wasapi zbar
-+#   mpeg2enc mplex ofa openjpeg opensles pvr rtmp soundtouch spandsp spc
-+#   srtp vdpau wasapi zbar
- 
- EXTRA_OECONF += " \
-     --enable-dvb \
-@@ -106,7 +109,6 @@ EXTRA_OECONF += " \
-     --disable-osx_video \
-     --disable-pvr \
-     --disable-quicktime \
--    --disable-resindvd \
-     --disable-sdl \
-     --disable-sdltest \
-     --disable-sndio \
-@@ -118,8 +120,6 @@ EXTRA_OECONF += " \
-     --disable-timidity \
-     --disable-vcd \
-     --disable-vdpau \
--    --disable-voaacenc \
--    --disable-voamrwbenc \
-     --disable-wasapi \
-     --disable-wildmidi \
-     --disable-wininet \
-@@ -133,3 +133,4 @@ ARM_INSTRUCTION_SET = "arm"
- 
- FILES_gstreamer1.0-plugins-bad-opencv += "${datadir}/gst-plugins-bad/1.0/opencv*"
- 
-+FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-${LIBV}/presets/GstVoAmrwbEnc.prs"
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
+index 97f64f3..f138f97 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
+@@ -39,7 +39,7 @@ PACKAGECONFIG ??= " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
+-    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland gles2', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+ "
+ PACKAGECONFIG[alsa]       = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
 -- 
 1.7.9.5
 
