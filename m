@@ -1,36 +1,26 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id A928660116
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 074BD6FF56
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Dec 2015 09:12:29 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id p187so238516626wmp.0
+	Mon, 28 Dec 2015 07:14:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBS7Eppc025210
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Dec 2015 01:12:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=HUccJ30x4Oaq9u6IEkgjv347SjwULwY6bRJohuud8UI=;
-	b=LfFxfiiu36qiUh7DBHxYSB1eqqhJrkZ1CUKmPg6mFKx/VbRqvqRUFhJ6rFHN5u8ePu
-	tW6P+SsfHjP4At1l5jUn9s2WuEAVy5ZW3W4yBedJ61b3ZL4CQH1a/+X4n7bYvTUO90+x
-	Rm8juwz11xHA/OSpEd+yos/8IXc68NFX1xWHdwxhOvkh2/PfsCMbQlfjZ8QgYj5ycv9q
-	qr2CyxXEnyR0dqr7vl4YSANW7/V37/EvsejW/6WO68LY/Ieyvz4tgnBVTzVo2gIcrHG1
-	FLOOrS9CtIrBnVzsQeE8v1apz0jPCOgiKArRNmjBAznoIT9Og13Z2Jbas++3UPOErgxP
-	BVYg==
+	Sun, 27 Dec 2015 23:14:51 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 27 Dec 2015 23:14:50 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 27 Dec 2015 23:14:11 -0800
+Message-ID: <0d1ea096cde4a145b0bb6efaa8fac03de74848d1.1451286789.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1451286789.git.liezhi.yang@windriver.com>
+References: <cover.1451286789.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.28.98.133 with SMTP id w127mr23732539wmb.4.1451207549789;
-	Sun, 27 Dec 2015 01:12:29 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Sun, 27 Dec 2015 01:12:29 -0800 (PST)
-In-Reply-To: <CAJTo0Lat-1Zsmn2SAdDfaXbUuSkZyAJT7u9i3-37UZKsEQpZQw@mail.gmail.com>
-References: <1450827499-32386-1-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LYLr=Qq1ETPdwTyjGddUNmuZvx+z7GtzTM5-N+EeNcHkQ@mail.gmail.com>
-	<CAJ86T=XDVLVzraADPy6O=9SiKpcZai__8m9VY=8DCEC4u=RHrw@mail.gmail.com>
-	<CAJTo0Lat-1Zsmn2SAdDfaXbUuSkZyAJT7u9i3-37UZKsEQpZQw@mail.gmail.com>
-Date: Sun, 27 Dec 2015 01:12:29 -0800
-Message-ID: <CAJ86T=X_KBBuZwZCVL8ZBuZwh_aoP2fPmUcRPLThkUAYFq=9iQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] strace: update 4.10 -> 4.11
+Subject: [PATCH 03/40] guile, mailx, gcc, opensp, gstreamer1.0-libav, libunwind: disable thumb where it fails for qemuarm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +33,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Dec 2015 09:12:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 28 Dec 2015 07:14:51 -0000
+Content-Type: text/plain
 
-On Wed, Dec 23, 2015 at 1:26 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> CCing Robert as he wrote the patch that introduced the ARCH assignment.
->
-> On 23 December 2015 at 20:49, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> Error is due to do_compile_ptest() forcing ARCH="${TARGET_ARCH}". The
->> tests Makefile uses ARCH to setup include paths but there isn't a
->> direct mapping between OE's arch values and the ones expected by
->> strace. In this case ARCH should be "i386" in order to find the header
->> file correctly, not "i586".
->>
->> Removing ARCH="${TARGET_ARCH}" from do_compile_ptest() and letting
->> strace auto detect fixes the build failure.
->>
->> Forcing ARCH was introduced here:
->>
->> http://git.openembedded.org/openembedded-core/commit/?id=af76eb0405352d66dfd00d7f856f401d892855e1
->>
->> But I'm not 100% clear what the original problem was though, so I'm
->> not sure about just undoing that change without some more
->> investigation. Any thoughts?
->
-> I guess if it autodetects correctly now then the workaround isn't required.
-> Robert, what do you think?
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-Forcing ARCH (and OS) for strace 4.10 seems to be a purely cosmetic
-fix to make the include paths on the compiler command lines look
-prettier. None of the sources in tests seem to require the headers in
-the $(OS)/$(ARCH) directories, so it doesn't matter if ARCH is
-undefined or forced to something incorrect.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc_4.9.bb               |    5 ++---
+ meta/recipes-devtools/guile/guile_2.0.11.bb        |    4 ++++
+ meta/recipes-devtools/opensp/opensp_1.5.2.bb       |    4 ++++
+ meta/recipes-extended/mailx/mailx_12.5-5.bb        |    5 +++++
+ .../gstreamer/gstreamer1.0-libav_1.4.5.bb          |    3 +++
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |    4 ++++
+ 6 files changed, 22 insertions(+), 3 deletions(-)
 
-For strace 4.11, forcing OS and ARCH is wrong and should be removed.
+diff --git a/meta/recipes-devtools/gcc/gcc_4.9.bb b/meta/recipes-devtools/gcc/gcc_4.9.bb
+index b84baae..a9dc612 100644
+--- a/meta/recipes-devtools/gcc/gcc_4.9.bb
++++ b/meta/recipes-devtools/gcc/gcc_4.9.bb
+@@ -1,10 +1,9 @@
+ require recipes-devtools/gcc/gcc-${PV}.inc
+ require gcc-target.inc
+ 
+-# Building with thumb enabled on armv4t fails with
+-# | gcc-4.8.1-r0/gcc-4.8.1/gcc/cp/decl.c:7438:(.text.unlikely+0x2fa): relocation truncated to fit: R_ARM_THM_CALL against symbol `fancy_abort(char const*, int, char const*)' defined in .glue_7 section in linker stubs
+-# | gcc-4.8.1-r0/gcc-4.8.1/gcc/cp/decl.c:7442:(.text.unlikely+0x318): additional relocation overflows omitted from the output
++# http://errors.yoctoproject.org/Errors/Details/20497/
+ ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
+ 
+ BBCLASSEXTEND = "nativesdk"
+ 
+diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
+index f455740..98b465b 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.11.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
+@@ -119,3 +119,7 @@ guile_sstate_postinst() {
+                 find ${STAGING_DIR_TARGET}/${libdir}/guile/2.0/ccache -type f | xargs touch
+ 	fi
+ }
++
++# http://errors.yoctoproject.org/Errors/Details/20491/
++ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
+diff --git a/meta/recipes-devtools/opensp/opensp_1.5.2.bb b/meta/recipes-devtools/opensp/opensp_1.5.2.bb
+index a1f115c..60a7d2e 100644
+--- a/meta/recipes-devtools/opensp/opensp_1.5.2.bb
++++ b/meta/recipes-devtools/opensp/opensp_1.5.2.bb
+@@ -53,3 +53,7 @@ do_install_append_class-native() {
+ FILES_${PN} += "${datadir}/OpenSP/"
+ 
+ BBCLASSEXTEND = "native"
++
++# http://errors.yoctoproject.org/Errors/Details/20489/
++ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
+diff --git a/meta/recipes-extended/mailx/mailx_12.5-5.bb b/meta/recipes-extended/mailx/mailx_12.5-5.bb
+index ffa9049..c87c582 100644
+--- a/meta/recipes-extended/mailx/mailx_12.5-5.bb
++++ b/meta/recipes-extended/mailx/mailx_12.5-5.bb
+@@ -41,3 +41,8 @@ EXTRA_OEMAKE = "SENDMAIL=${sbindir}/sendmail IPv6=-DHAVE_IPv6_FUNCS PREFIX=/usr
+ # fio.c:56:17: fatal error: ssl.h: No such file or directory
+ # #include <ssl.h>
+ PARALLEL_MAKE = ""
++
++# Causes gcc to get stuck and eat all available memory in qemuarm builds
++# http://errors.yoctoproject.org/Errors/Details/20488/
++ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb
+index 97fc7ec..5d74a2e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.4.5.bb
+@@ -25,3 +25,6 @@ LIBAV_EXTRA_CONFIGURE_COMMON_ARG = "--target-os=linux \
+ 
+ S = "${WORKDIR}/gst-libav-${PV}"
+ 
++# http://errors.yoctoproject.org/Errors/Details/20493/
++ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
+diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
+index 8282c1b..29bdf94 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
+@@ -10,3 +10,7 @@ SRC_URI += "\
+ 
+ SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
+ SRC_URI[sha256sum] = "9dfe0fcae2a866de9d3942c66995e4b460230446887dbdab302d41a8aee8d09a"
++
++# http://errors.yoctoproject.org/Errors/Details/20487/
++ARM_INSTRUCTION_SET_armv4 = "arm"
++ARM_INSTRUCTION_SET_armv5 = "arm"
+-- 
+1.7.9.5
 
-The WIP change currently in mut is OK as a temporary solution, but
-maybe I'll send a new patch series for strace 4.11 in the next few
-days since I think some other things need fixing too (the configure.ac
-patch and acl / libaio dependencies are no longer correct and the
-git-version-gen script needs updating or dropping).
-
-> Ross
 
