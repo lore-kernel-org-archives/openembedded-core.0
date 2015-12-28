@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6369D60116
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ED77F60116
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Dec 2015 07:14:51 +0000 (UTC)
+	Mon, 28 Dec 2015 07:14:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBS7EqPj024178
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBS7Epr3013831
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Dec 2015 23:14:52 -0800 (PST)
+	Sun, 27 Dec 2015 23:14:51 -0800
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
 	Sun, 27 Dec 2015 23:14:51 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 27 Dec 2015 23:14:13 -0800
-Message-ID: <9b21563448c2616792bfc411a8f2b9bb48e38a78.1451286789.git.liezhi.yang@windriver.com>
+Date: Sun, 27 Dec 2015 23:14:12 -0800
+Message-ID: <481eab06645c633eba98de9f8e8632ce7a11c41b.1451286789.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1451286789.git.liezhi.yang@windriver.com>
 References: <cover.1451286789.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 05/40] gstreamer1.0-plugins-{base, good}: update PACKAGECONFIGs
+Subject: [PATCH 04/40] libunwind: fix build for qemuarm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,64 +33,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Dec 2015 07:14:51 -0000
+X-List-Received-Date: Mon, 28 Dec 2015 07:14:52 -0000
 Content-Type: text/plain
 
 From: Martin Jansa <Martin.Jansa@gmail.com>
 
-* there are new libavc1394, libiec61883, libraw1394, cdparanoia recipes in meta-multimedia
-
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-base.inc        |    7 +++----
- .../gstreamer/gstreamer1.0-plugins-good.inc        |    6 +-----
- 2 files changed, 4 insertions(+), 9 deletions(-)
+ ...Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch |   61 ++++++++++++++++++++
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |    1 +
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-index 47f3f40..4909b10 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-@@ -25,13 +25,12 @@ PACKAGECONFIG[ogg]     = "--enable-ogg,--disable-ogg,libogg"
- PACKAGECONFIG[theora]  = "--enable-theora,--disable-theora,libtheora"
- PACKAGECONFIG[vorbis]  = "--enable-vorbis,--disable-vorbis,libvorbis"
- PACKAGECONFIG[pango]   = "--enable-pango,--disable-pango,pango"
-+# libvisual do not seem to exist anywhere in OE
-+PACKAGECONFIG[visual]  = "--enable-libvisual,--disable-libvisual,libvisual"
-+PACKAGECONFIG[cdparanoia] = "--enable-cdparanoia,--disable-cdparanoia,cdparanoia"
- 
--
--# cdparanoia and libvisual do not seem to exist anywhere in OE
- EXTRA_OECONF += " \
-     --disable-freetypetest \
--    --disable-cdparanoia \
--    --disable-libvisual \
+diff --git a/meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch b/meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
+new file mode 100644
+index 0000000..d552502
+--- /dev/null
++++ b/meta/recipes-support/libunwind/libunwind-1.1/Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
+@@ -0,0 +1,61 @@
++From 24484e80b3e329c9edee1995e102f8612eedb79c Mon Sep 17 00:00:00 2001
++From: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
++Date: Tue, 13 May 2014 23:32:27 +0200
++Subject: [PATCH] Add AO_REQUIRE_CAS to fix build on ARM < v6
++
++ARM earlier than ARMv6, such as ARMv4 and ARMv5 do not provide
++optimize atomic operations in libatomic_ops. Since libunwind is using
++such operations, it should define AO_REQUIRE_CAS before including
++<atomic_ops.h> so that libatomic_ops knows it should use emulated
++atomic operations instead (even though they are obviously a lot more
++expensive).
++
++Also, while real atomic operations are all inline functions and
++therefore linking against libatomic_ops was not required, the emulated
++atomic operations actually require linking against libatomic_ops, so
++the commented AC_CHECK_LIB test in acinclude.m4 is uncommented to make
++sure we link against libatomic_ops.
++
++Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
++
++Upstream-Status: Pending
++Taken from:
++https://raw.githubusercontent.com/rdnetto/teapot-buildroot/master/package/libunwind/libunwind-02-Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch
++
++---
++ acinclude.m4          | 8 +-------
++ include/libunwind_i.h | 1 +
++ 2 files changed, 2 insertions(+), 7 deletions(-)
++
++diff --git a/acinclude.m4 b/acinclude.m4
++index 497f7c2..9c15af1 100644
++--- a/acinclude.m4
+++++ b/acinclude.m4
++@@ -22,11 +22,5 @@ fi])
++ AC_DEFUN([CHECK_ATOMIC_OPS],
++ [dnl Check whether the system has the atomic_ops package installed.
++   AC_CHECK_HEADERS(atomic_ops.h)
++-#
++-# Don't link against libatomic_ops for now.  We don't want libunwind
++-# to depend on libatomic_ops.so.  Fortunately, none of the platforms
++-# we care about so far need libatomic_ops.a (everything is done via
++-# inline macros).
++-#
++-#  AC_CHECK_LIB(atomic_ops, main)
+++  AC_CHECK_LIB(atomic_ops, main)
++ ])
++diff --git a/include/libunwind_i.h b/include/libunwind_i.h
++index 23f615e..deabdfd 100644
++--- a/include/libunwind_i.h
+++++ b/include/libunwind_i.h
++@@ -95,6 +95,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
++ 	(pthread_mutex_unlock != NULL ? pthread_mutex_unlock (l) : 0)
++ 
++ #ifdef HAVE_ATOMIC_OPS_H
+++# define AO_REQUIRE_CAS
++ # include <atomic_ops.h>
++ static inline int
++ cmpxchg_ptr (void *addr, void *old, void *new)
++-- 
++1.9.2
++
+diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
+index 29bdf94..aa62bcc 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
+@@ -6,6 +6,7 @@ SRC_URI += "\
+     file://Fix-test-case-link-failure-on-PowerPC-systems-with-Altivec.patch \
+     file://Link-libunwind-to-libgcc_s-rather-than-libgcc.patch \
+     file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch \
++    file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
  "
  
- FILES_${MLPREFIX}libgsttag-1.0 += "${datadir}/gst-plugins-base/1.0/license-translations.dict"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-index 6e316de..0ce4b8f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc
-@@ -31,10 +31,7 @@ PACKAGECONFIG[speex]      = "--enable-speex,--disable-speex,speex"
- PACKAGECONFIG[taglib]     = "--enable-taglib,--disable-taglib,taglib"
- PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
- PACKAGECONFIG[wavpack]    = "--enable-wavpack,--disable-wavpack,wavpack"
--
--# the 1394 plugins require both libraw1394 and libiec61883
--# the former is included in meta-oe, the latter isn't
--# -> disabled
-+PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libraw1394 libiec61883 libavc1394"
- 
- EXTRA_OECONF += " \
-     --enable-oss \
-@@ -51,7 +48,6 @@ EXTRA_OECONF += " \
-     --disable-libdv \
-     --disable-shout2 \
-     --disable-examples \
--    --disable-dv1394 \
- "
- 
- FILES_${PN}-equalizer += "${datadir}/gstreamer-1.0/presets/*.prs"
+ SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
 -- 
 1.7.9.5
 
