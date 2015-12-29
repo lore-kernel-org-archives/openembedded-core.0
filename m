@@ -1,36 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 4805360589
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
+	[209.85.217.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B04C16010D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Dec 2015 21:34:33 +0000 (UTC)
-Received: by mail-ig0-f178.google.com with SMTP id ph11so170191096igc.1
+	Tue, 29 Dec 2015 23:05:49 +0000 (UTC)
+Received: by mail-lb0-f174.google.com with SMTP id sv6so102207883lbb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Dec 2015 13:34:35 -0800 (PST)
+	Tue, 29 Dec 2015 15:05:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=jxqGeo0GF3/Sl4vvIg6b97aizLphhvHGu3xQsAL4Rmc=;
-	b=tuAVUtk06mk6FHaGPHc9Thse+cwC+M7uGTlirMACZGUfysvF1pMjBWYUJ6MshsVEdq
-	N1Vmdg/OppzLFah9p8jTfGHgKdgExx4n7CZjiL1+BM/S+E6I7s/CeXWSr5cqMI3IYWNa
-	2a6b9eCCbPu34z47JG9lI+3pHp9f+1LqMIE+HwE9jjgDdv1kwnx8H3SDw034k3gDZgtO
-	r/jjuxFO1+1lsmOAtUn992PfMxrH32VJjfZ3T5H4dXMEQrFmmkd4RA5I7uKiHTYCVlSZ
-	e6lTIFYzSZi19wZle0rl+GDI4uwBlhLrNjt9OQS7co9arACFmG0MBJgyUleud8Saja2l
-	rVPA==
-X-Received: by 10.50.155.65 with SMTP id vu1mr60521397igb.11.1451424874566;
-	Tue, 29 Dec 2015 13:34:34 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.16.74 with HTTP; Tue, 29 Dec 2015 13:34:05 -0800 (PST)
-In-Reply-To: <CABcZANmh8C2WDd_=zvZBPuFPvDX8w_tT5u0=Da_RTbSOs8__7A@mail.gmail.com>
-References: <CAH=96PH06f+uQqNVed2Tz_z1rNB3-nLO8xgxecq9SmOU4rK=vw@mail.gmail.com>
-	<CABcZANmh8C2WDd_=zvZBPuFPvDX8w_tT5u0=Da_RTbSOs8__7A@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 29 Dec 2015 13:34:05 -0800
-Message-ID: <CAMKF1sp=iZKkSQwHGep7TUCXTnCu-w6SOV8wTxoiK6z_Em0Ojw@mail.gmail.com>
-To: Christopher Larson <clarson@kergoth.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Multiple recipes sharing the same source
+	h=from:to:cc:subject:date:message-id;
+	bh=gdHbT/Z0v4cKpC+WJJgQwjxSds+FmEPnAlOMJUQ/ceM=;
+	b=eKwB2a1Q3Q1I79Nqbp3ivQgYm9fU0eKYO30/WT1ZrqIq0YL0KQdTDJM6NQ7dZfCe9R
+	AjfFgGplaF4Gyhcwnm6Kc1nbSHUsx0rkMoCBNv55fgshsL3Ze7LZKzxtIjkcFZFtKiit
+	7/24U/90PfBPD9CsD/Cgn1gXVym6BWH//lJduLcbXKNYSTsshTk/f17CjtSzDbcXTuqa
+	2T2lmNura9yyehykHnhDWDQFnW/5itazzn7/iL+vk2EAYBRrMQRKQKesOcVVsuPkcy0k
+	xfRkGdJOGxwnSPevTxCLXc9Z0tVNxYvbKZRbnCNde7wcVAVi7lx+rXFwPdTmkJabMbpf
+	Rd8A==
+X-Received: by 10.112.166.2 with SMTP id zc2mr16031603lbb.34.1451430349684;
+	Tue, 29 Dec 2015 15:05:49 -0800 (PST)
+Received: from localhost.localdomain (c80-217-62-231.bredband.comhem.se.
+	[80.217.62.231]) by smtp.gmail.com with ESMTPSA id
+	zm10sm11550870lbb.49.2015.12.29.15.05.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 29 Dec 2015 15:05:48 -0800 (PST)
+From: Ming Liu <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Dec 2015 00:05:27 +0100
+Message-Id: <1451430328-29838-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: bruce.ashfield@windriver.com, yue.tao@windriver.com,
+	Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH 1/2] kernel.bbclass: avoids installing kernel image in do_bundle_initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,62 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Dec 2015 21:34:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 29 Dec 2015 23:05:51 -0000
 
-On Tue, Dec 29, 2015 at 12:40 PM, Christopher Larson
-<clarson@kergoth.com> wrote:
->
-> On Tue, Dec 29, 2015 at 1:30 PM, Logan Buchy <logan.buchy@gmail.com> wrote:
->>
->> I've got a third-party SDK given to me by our SoC provider.  The SDK
->> contains
->> * Vanilla Linux kernel with a set of patches that adds drivers for SoC
->> peripherals
->> * Proprietary bootloader
->> * Proprietary binary libraries
->> * Proprietary firmware for on-chip peripherals
->> * A build system which compiles everything
->>
->> This SDK comes a a big tarball.  Splitting the tarball into separate
->> tarballs is not desirable since this would need to be done every time the
->> provider issues an update (which comes as another big tarball).
->>
->> What I have now is a recipe that compiles and installs the entire SDK,
->> which works alright but I am looking to split up the SDK into separate
->> packages with associated do_configure/do_compile/do_install tasks.  For
->> example, I would like to split this into packages that provide:
->> * virtual/kernel
->> * proprietary-binary-blob
->> * soc-kernel-drivers
->> * proprietary-firmware-blob
->>
->> What I am wondering about is how would I go about writing multiple recipes
->> that share the same tarball without having bitbake untar it for each recipe.
->> Is this even possible?  Are there any examples of packages that do this?
->>
->> My best guess about how to go about this would be to create a class which
->> defines a do_fetch/do_unpack routine and then for each package, inherit the
->> class and define custom do_configure/do_compile/do_install routines.
->
->
-> See the gcc-source recipe and gcc-shared-source.inc.
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-This comes with one restriction though. All recipes should be able to
-work with same sources. in other words
-there cant be package/recipe specific patches any more
+It makes no sense to install a initramfs bundled kernel image since
+do_package does not depend on do_bundle_initramfs at all, it leads to
+a implicit kernel-image package depending on do_package run before or
+after do_bundle_initramfs.
 
-> --
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ meta/classes/kernel.bbclass | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 4ce1611..d1ca614 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -179,10 +179,6 @@ do_bundle_initramfs () {
+ 		kernel_do_compile
+ 		mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
+ 		mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
+-		# Update install area
+-		echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}.initramfs"
+-		install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
+-		echo "${B}/${KERNEL_OUTPUT}.initramfs"
+ 	fi
+ }
+ 
+-- 
+1.9.1
+
 
