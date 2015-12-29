@@ -1,21 +1,30 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 59742607A4
+Return-Path: <logan.buchy@gmail.com>
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id A7ACE60291
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Dec 2015 18:29:38 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP; 29 Dec 2015 10:29:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,496,1444719600"; d="scan'208";a="880558950"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by orsmga002.jf.intel.com with ESMTP; 29 Dec 2015 10:29:19 -0800
-From: mariano.lopez@linux.intel.com
+	Tue, 29 Dec 2015 20:30:51 +0000 (UTC)
+Received: by mail-qg0-f44.google.com with SMTP id b35so42369757qge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Dec 2015 12:30:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=gnw55FuchKZMy4siDLwz9dHSCn4NZiQcmuGSDyX0Qtg=;
+	b=OV0hWeuytN/Bx1KJD3X1PdimxK3LDERrX0NdvPXW8VbNHjh2tkyODnw2Yz2u7rHlNa
+	T1OD6kDLDg7drJB/8l4jVI0JwxvKK8kEU5qH9EMaNjQl1o6WBgP49TivThWDwvtScsaQ
+	7MWxBAdX4gfpTz2sdf/q248kGm1cJIDOP4/btpXRJcyWVCSnKEHIHIk/gia9+ny0d4+h
+	m+V0ayGPc7nN4gWUemCsN35Uc9/RSzF1m67ZJeoAUqpX904bwBmKGwKiVdhauuAsfEib
+	+Wu1OaW9dZgzcn+F+TBrRGaGOwKJh919UvavJd+MZ60Fd7gvog5Rr/5U4FiuNNi2uAYx
+	yfSw==
+MIME-Version: 1.0
+X-Received: by 10.140.173.132 with SMTP id t126mr85002103qht.96.1451421051964; 
+	Tue, 29 Dec 2015 12:30:51 -0800 (PST)
+Received: by 10.55.150.133 with HTTP; Tue, 29 Dec 2015 12:30:51 -0800 (PST)
+Date: Tue, 29 Dec 2015 12:30:51 -0800
+Message-ID: <CAH=96PH06f+uQqNVed2Tz_z1rNB3-nLO8xgxecq9SmOU4rK=vw@mail.gmail.com>
+From: Logan Buchy <logan.buchy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Dec 2015 10:25:01 +0000
-Message-Id: <cover.1451384414.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH 0/1] rpmresolve.c: Fix unfreed pointers that keep DB opened
+Subject: Multiple recipes sharing the same source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,31 +37,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Dec 2015 18:29:43 -0000
+X-List-Received-Date: Tue, 29 Dec 2015 20:30:52 -0000
+Content-Type: multipart/alternative; boundary=001a1139c33c38d39805280f4c87
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+--001a1139c33c38d39805280f4c87
+Content-Type: text/plain; charset=UTF-8
 
-When rpmresolve is used, it keeps the DB opened because
-of unfreed pointers. This patch solve this issue.
+Hi,
 
-[YOCTO #8028]
+I've got a third-party SDK given to me by our SoC provider.  The SDK
+contains
+* Vanilla Linux kernel with a set of patches that adds drivers for SoC
+peripherals
+* Proprietary bootloader
+* Proprietary binary libraries
+* Proprietary firmware for on-chip peripherals
+* A build system which compiles everything
 
-The following changes since commit 2cd061a29a94fdcdfec86732e6bcbb71c12c4afc:
+This SDK comes a a big tarball.  Splitting the tarball into separate
+tarballs is not desirable since this would need to be done every time the
+provider issues an update (which comes as another big tarball).
 
-  bluez5: include the patch only for 5.36 (2015-12-28 13:02:11 +0000)
+What I have now is a recipe that compiles and installs the entire SDK,
+which works alright but I am looking to split up the SDK into separate
+packages with associated do_configure/do_compile/do_install tasks.  For
+example, I would like to split this into packages that provide:
+* virtual/kernel
+* proprietary-binary-blob
+* soc-kernel-drivers
+* proprietary-firmware-blob
 
-are available in the git repository at:
+What I am wondering about is how would I go about writing multiple recipes
+that share the same tarball without having bitbake untar it for each
+recipe.  Is this even possible?  Are there any examples of packages that do
+this?
 
-  git://git.yoctoproject.org/poky-contrib mariano/bug8028
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug8028
+My best guess about how to go about this would be to create a class which
+defines a do_fetch/do_unpack routine and then for each package, inherit the
+class and define custom do_configure/do_compile/do_install routines.
 
-Mariano Lopez (1):
-  rpmresolve.c: Fix unfreed pointers that keep DB opened
+Am I going down the right path here?
 
- meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Thanks,
+Logan
 
--- 
-1.8.4.5
+--001a1139c33c38d39805280f4c87
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hi,<div><br></div><div>I&#39;ve got a third-party SDK give=
+n to me by our SoC provider.=C2=A0 The SDK contains</div><div>* Vanilla Lin=
+ux kernel with a set of patches that adds drivers for SoC peripherals</div>=
+<div>* Proprietary bootloader</div><div>* Proprietary binary libraries</div=
+><div>* Proprietary firmware for on-chip peripherals</div><div>* A build sy=
+stem which compiles everything</div><div><br></div><div>This SDK comes a a =
+big tarball.=C2=A0 Splitting the tarball into separate tarballs is not desi=
+rable since this would need to be done every time the provider issues an up=
+date (which comes as another big tarball).</div><div><br></div><div>What I =
+have now is a recipe that compiles and installs the entire SDK, which works=
+ alright but I am looking to split up the SDK into separate packages with a=
+ssociated do_configure/do_compile/do_install tasks.=C2=A0 For example, I wo=
+uld like to split this into packages that provide:</div><div>* virtual/kern=
+el</div><div>* proprietary-binary-blob</div><div>* soc-kernel-drivers</div>=
+<div>* proprietary-firmware-blob</div><div><br></div><div>What I am wonderi=
+ng about is how would I go about writing multiple recipes that share the sa=
+me tarball without having bitbake untar it for each recipe.=C2=A0 Is this e=
+ven possible?=C2=A0 Are there any examples of packages that do this?</div><=
+div><br></div><div>My best guess about how to go about this would be to cre=
+ate a class which defines a do_fetch/do_unpack routine and then for each pa=
+ckage, inherit the class and define custom do_configure/do_compile/do_insta=
+ll routines.</div><div><br></div><div>Am I going down the right path here?<=
+/div><div><br></div><div>Thanks,</div><div>Logan</div><div><br></div></div>
 
+--001a1139c33c38d39805280f4c87--
