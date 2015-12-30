@@ -1,27 +1,37 @@
-Return-Path: <andrew.shadura@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FFBD60118
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-vk0-f50.google.com (mail-vk0-f50.google.com
+	[209.85.213.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 18E8960291
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Dec 2015 10:53:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: andrewsh) with ESMTPSA id EB40B261090
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <CAJTo0LZ4eNqiyX0JzPEb=FLAk=k=2p2c2+c5mKd77a0zquepAw@mail.gmail.com>
-	<94093E93-77C6-403A-9E9F-69C02C6C8D11@collabora.co.uk>
-	<CAJTo0Lada89cW8Hs=P65aHfRKiiZuu13jDu3PO=3NkJq_Wt7xA@mail.gmail.com>
-	<c64105ff4adca9a4e05280aa52644919d646d660.1445449278.git.andrew.shadura@collabora.co.uk>
-	<11321f065e34ca094a0aff494291662852f05805.1445522417.git.andrew.shadura@collabora.co.uk>
-	<CAJTo0LbyG07bauQnVJeHYCcZ9=zhjFZdj44E1vS-kXHMVuq0BQ@mail.gmail.com>
-From: Andrew Shadura <andrew.shadura@collabora.co.uk>
-Organization: Collabora Limited
-Message-ID: <5683B790.7000905@collabora.co.uk>
-Date: Wed, 30 Dec 2015 11:53:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Wed, 30 Dec 2015 14:18:36 +0000 (UTC)
+Received: by mail-vk0-f50.google.com with SMTP id f2so165841964vkb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Dec 2015 06:18:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=/1jqKOd2CSOf3bi8Yd6QhcRxzJrUXJN9MQUMxARwFlw=;
+	b=QxnFs5T+8whKEipH9Js/uTVk+90Ot48mLMsLB5rZRfSKQiVCoViE7TOwH00gco2cB3
+	UEOXoPgEG3w2gToIQ4WTMiJ/8R6LpVsXEVhsYQ5yspNL7d8pe+ZIkCfV9IHoc9H2oxcc
+	pFP1w2rXjsdZVr0e20KzWatgR1cqTXoqX0D3G7vaxdg8vXS0i4AcUOZt9EpaCdb4FSAr
+	etCuGHK94H0LpdQpCWPEExS1Nx9b49N4hVgDUtTpoCJgijSLB4D5TsYRARMJPCyer30f
+	HTfp5IMpbmxaA4dFj/6jgwGQ+R/GURggAZFM+8Hy4zXcv7X7ISnimfSk5q7J0SBoc55b
+	3nmw==
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbyG07bauQnVJeHYCcZ9=zhjFZdj44E1vS-kXHMVuq0BQ@mail.gmail.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] cups: update systemd support
+X-Received: by 10.31.161.131 with SMTP id k125mr44207505vke.74.1451485116604; 
+	Wed, 30 Dec 2015 06:18:36 -0800 (PST)
+Received: by 10.31.30.204 with HTTP; Wed, 30 Dec 2015 06:18:36 -0800 (PST)
+In-Reply-To: <1451430328-29838-2-git-send-email-liu.ming50@gmail.com>
+References: <1451430328-29838-1-git-send-email-liu.ming50@gmail.com>
+	<1451430328-29838-2-git-send-email-liu.ming50@gmail.com>
+Date: Wed, 30 Dec 2015 15:18:36 +0100
+Message-ID: <CALatG=5hCFEwNVJtd5Wv-aREN3VwyzL7rwmVRYM3=vuKikK6Xw@mail.gmail.com>
+From: Ming Liu <liu.ming50@gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	"yue.tao" <yue.tao@windriver.com>,
+	Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: Re: [PATCH 2/2] kernel-initramfs: new recipe, creates initramfs bundled kernel packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,65 +44,245 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Dec 2015 10:53:14 -0000
-X-Groupsio-MsgNum: 75322
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="V0qID7McMUwOuupWTrHl1c3UqkXdJ4txc"
+X-List-Received-Date: Wed, 30 Dec 2015 14:18:37 -0000
+Content-Type: multipart/alternative; boundary=001a1144071ac5a82805281e36d0
 
---V0qID7McMUwOuupWTrHl1c3UqkXdJ4txc
-Content-Type: text/plain; charset=utf-8
+--001a1144071ac5a82805281e36d0
+Content-Type: text/plain; charset=UTF-8
+
+Hi,
+
+I need do more work on this patch, and will send the V1 soon, please ignore
+this for now.
+
+//Ming Liu
+
+2015-12-30 0:05 GMT+01:00 Ming Liu <liu.ming50@gmail.com>:
+
+> From: Ming Liu <peter.x.liu@external.atlascopco.com>
+>
+> So far, there is not a workable way to package the initramfs bundled kernel
+> image, the only place is tmp/deploy from where we could get it, but if a
+> user want to add it into a certain image, there is no guarantee that he
+> will achieve it because a explicit dependency is missing between package
+> and bundle_initramfs, and this was designed to avoid introducing circular
+> dependencies when using kernel modules in the initramfs image.bb that is
+> caused by kernel.bbclass trying to build the initramfs before the kernel
+> packaging.
+>
+> To fix this problem, the idea is to split the initramfs bundled kernel
+> packaging to a new recipe, make the do_install depend on kernel's deploy
+> task, then with the following config:
+>
+> IMAGE_INSTALL_append = "kernel-initramfs"
+>
+> The initramfs bundled kernel could be added to the image without
+> introducing any circular dependencies.
+>
+> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+> ---
+>  meta/recipes-kernel/linux/kernel-initramfs.bb | 50
+> +++++++++++++++++++++++++++
+>  1 file changed, 50 insertions(+)
+>  create mode 100644 meta/recipes-kernel/linux/kernel-initramfs.bb
+>
+> diff --git a/meta/recipes-kernel/linux/kernel-initramfs.bb
+> b/meta/recipes-kernel/linux/kernel-initramfs.bb
+> new file mode 100644
+> index 0000000..481b142
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/kernel-initramfs.bb
+> @@ -0,0 +1,50 @@
+> +SUMMARY = "Initramfs bundled kernel image"
+> +DESCRIPTION = "When built, it packages a initramfs bundled kernel image
+> of the \
+> +preferred virtual/kernel provider."
+> +
+> +SECTION = "kernel"
+> +
+> +LICENSE = "GPLv2"
+> +LIC_FILES_CHKSUM =
+> "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+> +
+> +inherit linux-kernel-base
+> +
+> +# Whilst not a module, this ensures we don't get multilib extended (which
+> would make no sense)
+> +inherit module-base
+> +
+> +S = "${STAGING_KERNEL_DIR}"
+> +B = "${WORKDIR}/build"
+> +
+> +KERNEL_VERSION = "${@get_kernelversion_headers('${S}')}"
+> +
+> +PACKAGES = "kernel-initramfs"
+> +FILES_${PN} = "/boot/${KERNEL_IMAGETYPE}*"
+> +
+> +PACKAGE_ARCH = "${MACHINE_ARCH}"
+> +
+> +# Skip processing of this recipe if INITRAMFS_IMAGE or
+> INITRAMFS_IMAGE_BUNDLE
+> +# is not set correctly, to avoid generate a single empty package which
+> makes
+> +# no sense.
+> +python __anonymous () {
+> +    if not d.getVar('INITRAMFS_IMAGE', True) or
+> d.getVar('INITRAMFS_IMAGE_BUNDLE', True) != '1':
+> +        raise bb.parse.SkipPackage("Set INITRAMFS_IMAGE and
+> INITRAMFS_IMAGE_BUNDLE to enable it")
+> +}
+> +
+> +# Need the output of deploy.
+> +do_install[depends] += "virtual/kernel:do_deploy"
+> +
+> +# We only need the packaging tasks - disable the rest
+> +do_fetch[noexec] = "1"
+> +do_unpack[noexec] = "1"
+> +do_patch[noexec] = "1"
+> +do_configure[noexec] = "1"
+> +do_compile[noexec] = "1"
+> +do_populate_sysroot[noexec] = "1"
+> +
+> +do_install() {
+> +       if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" =
+> x1 ]; then
+> +               echo "Copying initramfs bundled kernel image from
+> ${DEPLOY_DIR_IMAGE}..."
+> +               install -d ${D}/boot
+> +               install -m 0644
+> ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin ${D}/boot
+> +       fi
+> +}
+> --
+> 1.9.1
+>
+>
+
+--001a1144071ac5a82805281e36d0
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 11/12/15 22:39, Burton, Ross wrote:
-> Sorry for the delay in looking at this.  buildhistory-diff reports this=
-:
->=20
-> packages/corei7-64-poky-linux/cups/cups: FILELIST: removed
-> "/etc/rc2.d/S81cups /lib/systemd/system/cups.service /etc/rc5.d/S81cups=
+<div dir=3D"ltr"><div><div>Hi,<br><br></div>I need do more work on this pat=
+ch, and will send the V1 soon, please ignore this for now.<br><br></div>//M=
+ing Liu<br></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+2015-12-30 0:05 GMT+01:00 Ming Liu <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+liu.ming50@gmail.com" target=3D"_blank">liu.ming50@gmail.com</a>&gt;</span>=
+:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex">From: Ming Liu &lt;<a href=3D"mailto:pe=
+ter.x.liu@external.atlascopco.com">peter.x.liu@external.atlascopco.com</a>&=
+gt;<br>
+<br>
+So far, there is not a workable way to package the initramfs bundled kernel=
+<br>
+image, the only place is tmp/deploy from where we could get it, but if a<br=
+>
+user want to add it into a certain image, there is no guarantee that he<br>
+will achieve it because a explicit dependency is missing between package<br=
+>
+and bundle_initramfs, and this was designed to avoid introducing circular<b=
+r>
+dependencies when using kernel modules in the initramfs <a href=3D"http://i=
+mage.bb" rel=3D"noreferrer" target=3D"_blank">image.bb</a> that is<br>
+caused by kernel.bbclass trying to build the initramfs before the kernel<br=
+>
+packaging.<br>
+<br>
+To fix this problem, the idea is to split the initramfs bundled kernel<br>
+packaging to a new recipe, make the do_install depend on kernel&#39;s deplo=
+y<br>
+task, then with the following config:<br>
+<br>
+IMAGE_INSTALL_append =3D &quot;kernel-initramfs&quot;<br>
+<br>
+The initramfs bundled kernel could be added to the image without<br>
+introducing any circular dependencies.<br>
+<br>
+Signed-off-by: Ming Liu &lt;<a href=3D"mailto:peter.x.liu@external.atlascop=
+co.com">peter.x.liu@external.atlascopco.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://kernel-initramfs.bb" rel=
+=3D"noreferrer" target=3D"_blank">kernel-initramfs.bb</a> | 50 ++++++++++++=
++++++++++++++++<br>
+=C2=A01 file changed, 50 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-kernel/linux/<a href=3D"http://kernel=
+-initramfs.bb" rel=3D"noreferrer" target=3D"_blank">kernel-initramfs.bb</a>=
+<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://kernel-initramfs.b=
+b" rel=3D"noreferrer" target=3D"_blank">kernel-initramfs.bb</a> b/meta/reci=
+pes-kernel/linux/<a href=3D"http://kernel-initramfs.bb" rel=3D"noreferrer" =
+target=3D"_blank">kernel-initramfs.bb</a><br>
+new file mode 100644<br>
+index 0000000..481b142<br>
+--- /dev/null<br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://kernel-initramfs.bb" rel=
+=3D"noreferrer" target=3D"_blank">kernel-initramfs.bb</a><br>
+@@ -0,0 +1,50 @@<br>
++SUMMARY =3D &quot;Initramfs bundled kernel image&quot;<br>
++DESCRIPTION =3D &quot;When built, it packages a initramfs bundled kernel i=
+mage of the \<br>
++preferred virtual/kernel provider.&quot;<br>
++<br>
++SECTION =3D &quot;kernel&quot;<br>
++<br>
++LICENSE =3D &quot;GPLv2&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=3D801f=
+80980d171dd6425610833a22dbe6&quot;<br>
++<br>
++inherit linux-kernel-base<br>
++<br>
++# Whilst not a module, this ensures we don&#39;t get multilib extended (wh=
+ich would make no sense)<br>
++inherit module-base<br>
++<br>
++S =3D &quot;${STAGING_KERNEL_DIR}&quot;<br>
++B =3D &quot;${WORKDIR}/build&quot;<br>
++<br>
++KERNEL_VERSION =3D &quot;${@get_kernelversion_headers(&#39;${S}&#39;)}&quo=
+t;<br>
++<br>
++PACKAGES =3D &quot;kernel-initramfs&quot;<br>
++FILES_${PN} =3D &quot;/boot/${KERNEL_IMAGETYPE}*&quot;<br>
++<br>
++PACKAGE_ARCH =3D &quot;${MACHINE_ARCH}&quot;<br>
++<br>
++# Skip processing of this recipe if INITRAMFS_IMAGE or INITRAMFS_IMAGE_BUN=
+DLE<br>
++# is not set correctly, to avoid generate a single empty package which mak=
+es<br>
++# no sense.<br>
++python __anonymous () {<br>
++=C2=A0 =C2=A0 if not d.getVar(&#39;INITRAMFS_IMAGE&#39;, True) or d.getVar=
+(&#39;INITRAMFS_IMAGE_BUNDLE&#39;, True) !=3D &#39;1&#39;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise bb.parse.SkipPackage(&quot;Set INITRAMFS=
+_IMAGE and INITRAMFS_IMAGE_BUNDLE to enable it&quot;)<br>
++}<br>
++<br>
++# Need the output of deploy.<br>
++do_install[depends] +=3D &quot;virtual/kernel:do_deploy&quot;<br>
++<br>
++# We only need the packaging tasks - disable the rest<br>
++do_fetch[noexec] =3D &quot;1&quot;<br>
++do_unpack[noexec] =3D &quot;1&quot;<br>
++do_patch[noexec] =3D &quot;1&quot;<br>
++do_configure[noexec] =3D &quot;1&quot;<br>
++do_compile[noexec] =3D &quot;1&quot;<br>
++do_populate_sysroot[noexec] =3D &quot;1&quot;<br>
++<br>
++do_install() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ! -z &quot;${INITRAMFS_IMAGE}&quot; -a x&q=
+uot;${INITRAMFS_IMAGE_BUNDLE}&quot; =3D x1 ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;Copying =
+initramfs bundled kernel image from ${DEPLOY_DIR_IMAGE}...&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}/boo=
+t<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${D=
+EPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin ${D}/boot<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
++}<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.9.1<br>
+<br>
+</font></span></blockquote></div><br></div>
 
-> /etc/rc5.d/K36cups /etc/rc0.d/K36cups /etc/rc2.d/K36cups
-> /etc/rc3.d/S81cups /etc/rc3.d/K36cups /lib/systemd/system/cups.socket
-> /lib/systemd/system/cups.path /etc/init.d/cups" added
-> "/lib/systemd/system/org.cups.cupsd.socket
-> /lib/systemd/system/org.cups.cupsd.service
-> /lib/systemd/system/org.cups.cups-lpd@.service
-> /lib/systemd/system/org.cups.cupsd.path
-> /lib/systemd/system/org.cups.cups-lpd.socket"
->=20
-> Looks like if systemd is enabled it removes the sysvinit files, but we
-> still need those installed if sysvinit is in DISTRO_FEATURES.
-
-I just had a look at the recipe, and it seems it removes those files on
-its own even without my patch. I guess fixing that makes sense in a
-separate patch then?
-
---=20
-Cheers,
-  Andrew
-
-
---V0qID7McMUwOuupWTrHl1c3UqkXdJ4txc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBCAAGBQJWg7eQAAoJEEFnG7NKhJOB5KkP/AtqoXHS1zEFNUwcEFrtjzQb
-YDYHN9jrjjln1gUzdcbR6eTXn62FuQt4P+8jifw9dyOa6FRGylLJzv4KjYgLfUPp
-lBgg1qC2FMKBH57O0UQRiUn5bfTm+nNPs3YZqpEPhIOXrKeQmT34s4UmuuCCrsm3
-LXEGj0igsA+J3cTJNMGkA8XDgzinsSQ5zUSEawvdbdKr0XTQp8Z06ELL1IV8i5Rs
-jdSNcYcK4oeeWFrTeBnXuuDDRTjZo0dGw6JdBGhkHRLB2IJckHg4FhzgSbUcSoWo
-O7LYV0tU3TsqH54MKLolazJTKsVEJeMgYYwVYfJrGBekB7MV5jhfFjMgi27nXnZy
-/JGEUaoddMHJL5c7avSVI8Ew7/otxcmfFbgT/X5N59EtbGDClJWODujCsVhhnZUz
-6dCeKoDGE2HhLICzDrsjVsuz6cpRHDDeA98O7yQMUsvBJ28lYbWfDo667Kzl+EMD
-OcOTtFm3VH13LrPJHhXyb7AwgZRI15gMyviPnqbVSG/snXbIPNr8NIQK2SvaJVtf
-NqGZ6egYOBSDhBCKwFWQEnOSln3nnQcITOQ8qsf0+uYw5r9MzzNCL9LmlxfdPdOV
-0d8/bbyzu8kGmkLJg/NrN3zGtW08e9zeWq95D/rtBo6fmsvVhbT0ZrzAR6P05cFO
-k0PJh9SA6FmEbQMKevIM
-=1BwI
------END PGP SIGNATURE-----
-
---V0qID7McMUwOuupWTrHl1c3UqkXdJ4txc--
+--001a1144071ac5a82805281e36d0--
