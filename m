@@ -1,25 +1,36 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A95E360118
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F1C46057B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Dec 2015 14:57:16 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2015 06:57:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,501,1444719600"; d="scan'208";a="625743369"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Dec 2015 06:57:18 -0800
-From: mariano.lopez@linux.intel.com
+	Wed, 30 Dec 2015 21:20:29 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id p203so234025107lfa.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Dec 2015 13:20:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=ubM38aIJIAz+jguztHdGhl+vVRh3Mx/HKy7sw8p3+bU=;
+	b=G1R3a96Gk6Ai+sJJl8G/rYB1f7p64Z8SS8QehxCGf11/LOGARamtUQvKm6u15uxpwy
+	DsL4S5F71vghnhLDH/mMKg08KenxmisO1ejUYfnXVjkKtg0iw4o50Rrg7yBTN0OkgKZq
+	ZTxvnSwuvTIhd0/jllcoBM7wJfSwjaVuSOuyRn2j4IebpRiUHKdTrV5u1HkQP/sENENi
+	gtfUzyJr+TRXTtZrjy7Y2rd9szEguuBoEgPD0LqdGeWzDxMmvbBN1cFSjEsggqGiL18i
+	6DS2y+IbOcH/AFXBLWUMgPcJ0owDmk9h6ZMLNal5MdP+cOchYp1CWDdaR+Mv9iP3/hpm
+	fkXA==
+X-Received: by 10.25.40.205 with SMTP id o196mr25644069lfo.116.1451510429489; 
+	Wed, 30 Dec 2015 13:20:29 -0800 (PST)
+Received: from localhost.localdomain (c80-217-62-231.bredband.comhem.se.
+	[80.217.62.231]) by smtp.gmail.com with ESMTPSA id
+	h82sm12247544lfh.27.2015.12.30.13.20.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 30 Dec 2015 13:20:28 -0800 (PST)
+From: Ming Liu <liu.ming50@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Dec 2015 06:52:54 +0000
-Message-Id: <75df2cf72d8739b620744ab04a5c44c1fa8d633c.1451458093.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1451458093.git.mariano.lopez@linux.intel.com>
-References: <cover.1451458093.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1451458093.git.mariano.lopez@linux.intel.com>
-References: <cover.1451458093.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/1] image_types.bbclass: Rebuild when WICVARS change
+Date: Wed, 30 Dec 2015 22:19:58 +0100
+Message-Id: <1451510400-7446-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Cc: bruce.ashfield@windriver.com, yue.tao@windriver.com,
+	Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH V1 1/3] kernel.bbclass: do not install initramfs bundled kernel image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Dec 2015 14:57:16 -0000
+X-List-Received-Date: Wed, 30 Dec 2015 21:20:30 -0000
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-The procces to do a wic image is to save a file with
-variables required by wic and then call wic using this
-file. Because this is external to bitbake if the vars
-change, the image won't be rebuild; an example of such
-is IMAGE_BOOT_FILES.
+It makes no sense to install a initramfs bundled kernel image since
+do_package does not depend on do_bundle_initramfs at all, otherwise, it
+leads to a impicit kernel-image package depending on do_package run before
+or after do_bundle_initramfs.
 
-This patch adds these variables to vardeps of do_rootfs
-when a wic image is build. This will rebuild the image
-if a variable needed by wic changes.
-
-[YOCTO #8693]
-
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- meta/classes/image_types.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/kernel.bbclass | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index afe8d0c..dea3bb0 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -198,9 +198,10 @@ IMAGE_CMD_wic () {
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 4ce1611..d1ca614 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -179,10 +179,6 @@ do_bundle_initramfs () {
+ 		kernel_do_compile
+ 		mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
+ 		mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
+-		# Update install area
+-		echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}.initramfs"
+-		install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
+-		echo "${B}/${KERNEL_OUTPUT}.initramfs"
+ 	fi
  }
- IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
- 
--# Rebuild when the wks file changes
-+# Rebuild when the wks file or vars in WICVARS change
- USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${COMPRESSIONTYPES}'.split()), '1', '', d)}"
- do_rootfs[file-checksums] += "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
-+do_rootfs[vardeps] += "${@bb.utils.contains("USING_WIC", "1", "${WICVARS}", "", d)}"
- 
- EXTRA_IMAGECMD = ""
  
 -- 
-1.8.4.5
+1.9.1
 
 
