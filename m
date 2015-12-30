@@ -1,21 +1,25 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B556B60118
+	by mail.openembedded.org (Postfix) with ESMTP id A95E360118
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Dec 2015 14:57:12 +0000 (UTC)
+	Wed, 30 Dec 2015 14:57:16 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2015 06:57:13 -0800
+	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2015 06:57:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,501,1444719600"; d="scan'208";a="625743356"
+X-IronPort-AV: E=Sophos;i="5.20,501,1444719600"; d="scan'208";a="625743369"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.23.219.46])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Dec 2015 06:57:13 -0800
+	by FMSMGA003.fm.intel.com with ESMTP; 30 Dec 2015 06:57:18 -0800
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Dec 2015 06:52:53 +0000
-Message-Id: <cover.1451458093.git.mariano.lopez@linux.intel.com>
+Date: Wed, 30 Dec 2015 06:52:54 +0000
+Message-Id: <75df2cf72d8739b620744ab04a5c44c1fa8d633c.1451458093.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH 0/1] Rebuild when WICVARS change
+In-Reply-To: <cover.1451458093.git.mariano.lopez@linux.intel.com>
+References: <cover.1451458093.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1451458093.git.mariano.lopez@linux.intel.com>
+References: <cover.1451458093.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1] image_types.bbclass: Rebuild when WICVARS change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,29 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Dec 2015 14:57:13 -0000
+X-List-Received-Date: Wed, 30 Dec 2015 14:57:16 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-This patch adds these WICVARS to vardeps of do_rootfs when
-a wic image is build. This will trigger a rebuild when
-a variable needed by WIC changes.
+The procces to do a wic image is to save a file with
+variables required by wic and then call wic using this
+file. Because this is external to bitbake if the vars
+change, the image won't be rebuild; an example of such
+is IMAGE_BOOT_FILES.
 
-The following changes since commit 2cd061a29a94fdcdfec86732e6bcbb71c12c4afc:
+This patch adds these variables to vardeps of do_rootfs
+when a wic image is build. This will rebuild the image
+if a variable needed by wic changes.
 
-  bluez5: include the patch only for 5.36 (2015-12-28 13:02:11 +0000)
+[YOCTO #8693]
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mariano/bug8693
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mariano/bug8693
-
-Mariano Lopez (1):
-  image_types.bbclass: Rebuild when WICVARS change
-
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
  meta/classes/image_types.bbclass | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index afe8d0c..dea3bb0 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -198,9 +198,10 @@ IMAGE_CMD_wic () {
+ }
+ IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES"
+ 
+-# Rebuild when the wks file changes
++# Rebuild when the wks file or vars in WICVARS change
+ USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${COMPRESSIONTYPES}'.split()), '1', '', d)}"
+ do_rootfs[file-checksums] += "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
++do_rootfs[vardeps] += "${@bb.utils.contains("USING_WIC", "1", "${WICVARS}", "", d)}"
+ 
+ EXTRA_IMAGECMD = ""
+ 
 -- 
 1.8.4.5
 
