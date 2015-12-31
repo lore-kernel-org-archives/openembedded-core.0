@@ -1,33 +1,32 @@
 Return-Path: <Awais_Belal@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id DF68660762
+	by mail.openembedded.org (Postfix) with ESMTP id BA5EB60762
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Dec 2015 13:37:58 +0000 (UTC)
+	Thu, 31 Dec 2015 13:38:09 +0000 (UTC)
 Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-05.mgc.mentorg.com)
+	helo=SVR-IES-FEM-01.mgc.mentorg.com)
 	by relay1.mentorg.com with esmtp 
-	id 1aEdQU-0000Gj-Jb from Awais_Belal@mentor.com 
+	id 1aEdQg-0000JW-DU from Awais_Belal@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 Dec 2015 05:37:58 -0800
+	Thu, 31 Dec 2015 05:38:10 -0800
 Received: from EU-MBX-02.mgc.mentorg.com ([169.254.3.44]) by
-	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
-	14.03.0224.002; Thu, 31 Dec 2015 13:37:57 +0000
+	SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) with mapi id
+	14.03.0224.002; Thu, 31 Dec 2015 13:38:09 +0000
 From: "Belal, Awais" <Awais_Belal@mentor.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] grub2: Fix CVE-2015-8370
-Thread-Index: AQHRPXKlzc7mBgdn8kWc/p76Y4njxZ7YbAUhgAy59M0=
-Date: Thu, 31 Dec 2015 13:37:56 +0000
-Message-ID: <2021B186DC632746BD5A3CE32F12BD28011FB77C39@EU-MBX-02.mgc.mentorg.com>
-References: <1450869034-27510-1-git-send-email-awais_belal@mentor.com>,
-	<2021B186DC632746BD5A3CE32F12BD280119AC1F0F@EU-MBX-03.mgc.mentorg.com>
-In-Reply-To: <2021B186DC632746BD5A3CE32F12BD280119AC1F0F@EU-MBX-03.mgc.mentorg.com>
+Thread-Topic: [OE-core] [fido][PATCH] grub2: Fix CVE-2015-8370
+Thread-Index: AQHRQVwytGEN41nhLkqEU9r2fs+rmJ7lHjn9
+Date: Thu, 31 Dec 2015 13:38:08 +0000
+Message-ID: <2021B186DC632746BD5A3CE32F12BD28011FB77C45@EU-MBX-02.mgc.mentorg.com>
+References: <1451299201-4745-1-git-send-email-awais_belal@mentor.com>
+In-Reply-To: <1451299201-4745-1-git-send-email-awais_belal@mentor.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [137.202.0.69]
 MIME-Version: 1.0
-Subject: Re: [PATCH] grub2: Fix CVE-2015-8370
+Subject: Re: [fido][PATCH] grub2: Fix CVE-2015-8370
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,7 +39,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Dec 2015 13:38:00 -0000
+X-List-Received-Date: Thu, 31 Dec 2015 13:38:09 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
@@ -51,22 +50,11 @@ BR,=0A=
 Awais=0A=
 =0A=
 ________________________________________=0A=
-From: Belal, Awais=0A=
-Sent: Wednesday, December 23, 2015 4:17 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: RE: [OE-core] [PATCH] grub2: Fix CVE-2015-8370=0A=
-=0A=
-This applies to jethro as well as master.=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
 From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
 ounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
-Sent: Wednesday, December 23, 2015 4:10 PM=0A=
+Sent: Monday, December 28, 2015 3:40 PM=0A=
 To: openembedded-core@lists.openembedded.org=0A=
-Subject: [OE-core] [PATCH] grub2: Fix CVE-2015-8370=0A=
+Subject: [OE-core] [fido][PATCH] grub2: Fix CVE-2015-8370=0A=
 =0A=
 http://git.savannah.gnu.org/cgit/grub.git/commit/?id=3D451d80e52d851432e109=
 771bb8febafca7a5f1f2=0A=
@@ -84,7 +72,7 @@ diff --git a/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-=
 pass-vulnerability.patch b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-83=
 70-Grub2-user-pass-vulnerability.patch=0A=
 new file mode 100644=0A=
-index 0000000..f9252e9=0A=
+index 0000000..1661f64=0A=
 --- /dev/null=0A=
 +++ b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pass-vu=
 lnerability.patch=0A=
@@ -143,16 +131,16 @@ lnerability.patch=0A=
 +cgit v0.9.0.2=0A=
 diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.=
 inc=0A=
-index 312771b..a8c41f8 100644=0A=
+index 8e733ec..c281098 100644=0A=
 --- a/meta/recipes-bsp/grub/grub2.inc=0A=
 +++ b/meta/recipes-bsp/grub/grub2.inc=0A=
-@@ -27,6 +27,7 @@ SRC_URI =3D "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz=
+@@ -25,6 +25,7 @@ SRC_URI =3D "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz=
  \=0A=
-            file://0001-Unset-need_charset_alias-when-building-for-musl.pat=
-ch \=0A=
+            file://grub-efi-allow-a-compilation-without-mcmodel-large.patch=
+ \=0A=
+            file://grub-efi-fix-with-glibc-2.20.patch \=0A=
             file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patc=
 h \=0A=
-            file://grub2-fix-initrd-size-bug.patch \=0A=
 +           file://0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.pat=
 ch \=0A=
              "=0A=
