@@ -1,42 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id C77C165CBA
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id DF68660762
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Dec 2015 08:50:25 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id do7so1938961pab.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Dec 2015 00:50:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=BP7SaYZeGjjOYUzFF/WTqZoCOMey0aq0a+rKo+rVHZo=;
-	b=ZDHD6qdtRjtb0ejr53utvSIKrwsfDx8LdY3MhRBwHAuh5Z37yRJSOrwvHgYn+DVOFl
-	Ci87UYpBu1R6fCEIYLPZCxRyW1D5XH+fHFLzw8DPImLHSMGaXL/Y5vKdX5F5+FRp0lfn
-	jgD8c2DDOXcEQAhtHAbqQ5hzBGUWUOcTq66m14tb3RB2alGHEJ1W4cXownEtwKQt+ZXI
-	zZ0ygaAvYDmjx6ckdGIiWlrlCmSdX660my496BRmqQ6v8GPhkFZE9u0MeK21eF5Hxbrt
-	C3JGtCjtoGUzM1pbfjX7eN9g7NioX0uF1tXLgu2svbD+nA3n15O+fVrk9yf94iUdKCsi
-	8+0A==
-X-Received: by 10.66.254.39 with SMTP id af7mr23493342pad.43.1451551825994;
-	Thu, 31 Dec 2015 00:50:25 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:859a:bd94:9969:6d02?
-	([2601:646:8802:5d5c:859a:bd94:9969:6d02])
-	by smtp.gmail.com with ESMTPSA id
-	i72sm76065978pfj.64.2015.12.31.00.50.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 Dec 2015 00:50:25 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <c46aeee4002b37e3f84433f78cbb82278e5d066e.1451382094.git.kai.kang@windriver.com>
-Date: Thu, 31 Dec 2015 00:50:20 -0800
-Message-Id: <D6F56C56-75BE-40AD-BDDC-AE6F14263057@gmail.com>
-References: <cover.1451382094.git.kai.kang@windriver.com>
-	<c46aeee4002b37e3f84433f78cbb82278e5d066e.1451382094.git.kai.kang@windriver.com>
-To: kai.kang@windriver.com
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] Revert "glib-2.0: build dependency cleanup"
+	Thu, 31 Dec 2015 13:37:58 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-05.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1aEdQU-0000Gj-Jb from Awais_Belal@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 31 Dec 2015 05:37:58 -0800
+Received: from EU-MBX-02.mgc.mentorg.com ([169.254.3.44]) by
+	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
+	14.03.0224.002; Thu, 31 Dec 2015 13:37:57 +0000
+From: "Belal, Awais" <Awais_Belal@mentor.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] grub2: Fix CVE-2015-8370
+Thread-Index: AQHRPXKlzc7mBgdn8kWc/p76Y4njxZ7YbAUhgAy59M0=
+Date: Thu, 31 Dec 2015 13:37:56 +0000
+Message-ID: <2021B186DC632746BD5A3CE32F12BD28011FB77C39@EU-MBX-02.mgc.mentorg.com>
+References: <1450869034-27510-1-git-send-email-awais_belal@mentor.com>,
+	<2021B186DC632746BD5A3CE32F12BD280119AC1F0F@EU-MBX-03.mgc.mentorg.com>
+In-Reply-To: <2021B186DC632746BD5A3CE32F12BD280119AC1F0F@EU-MBX-03.mgc.mentorg.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.69]
+MIME-Version: 1.0
+Subject: Re: [PATCH] grub2: Fix CVE-2015-8370
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,92 +40,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Dec 2015 08:50:25 -0000
-X-Groupsio-MsgNum: 75329
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_7D9D3369-BDF9-4188-8359-859BF13AE321";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_7D9D3369-BDF9-4188-8359-859BF13AE321
+X-List-Received-Date: Thu, 31 Dec 2015 13:38:00 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+Ping!=0A=
+=0A=
+BR,=0A=
+Awais=0A=
+=0A=
+________________________________________=0A=
+From: Belal, Awais=0A=
+Sent: Wednesday, December 23, 2015 4:17 PM=0A=
+To: openembedded-core@lists.openembedded.org=0A=
+Subject: RE: [OE-core] [PATCH] grub2: Fix CVE-2015-8370=0A=
+=0A=
+This applies to jethro as well as master.=0A=
+=0A=
+BR,=0A=
+Awais=0A=
+=0A=
+________________________________________=0A=
+From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
+ounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
+Sent: Wednesday, December 23, 2015 4:10 PM=0A=
+To: openembedded-core@lists.openembedded.org=0A=
+Subject: [OE-core] [PATCH] grub2: Fix CVE-2015-8370=0A=
+=0A=
+http://git.savannah.gnu.org/cgit/grub.git/commit/?id=3D451d80e52d851432e109=
+771bb8febafca7a5f1f2=0A=
+=0A=
+Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
+---=0A=
+ ...E-2015-8370-Grub2-user-pass-vulnerability.patch | 52 ++++++++++++++++++=
+++++=0A=
+ meta/recipes-bsp/grub/grub2.inc                    |  1 +=0A=
+ 2 files changed, 53 insertions(+)=0A=
+ create mode 100644 meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub=
+2-user-pass-vulnerability.patch=0A=
+=0A=
+diff --git a/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-=
+pass-vulnerability.patch b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-83=
+70-Grub2-user-pass-vulnerability.patch=0A=
+new file mode 100644=0A=
+index 0000000..f9252e9=0A=
+--- /dev/null=0A=
++++ b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pass-vu=
+lnerability.patch=0A=
+@@ -0,0 +1,52 @@=0A=
++Upstream-Status: Accepted=0A=
++Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
++=0A=
++From 451d80e52d851432e109771bb8febafca7a5f1f2 Mon Sep 17 00:00:00 2001=0A=
++From: Hector Marco-Gisbert <hecmargi@upv.es>=0A=
++Date: Wed, 16 Dec 2015 04:57:18 +0000=0A=
++Subject: Fix security issue when reading username and password=0A=
++=0A=
++This patch fixes two integer underflows at:=0A=
++  * grub-core/lib/crypto.c=0A=
++  * grub-core/normal/auth.c=0A=
++=0A=
++CVE-2015-8370=0A=
++=0A=
++Signed-off-by: Hector Marco-Gisbert <hecmargi@upv.es>=0A=
++Signed-off-by: Ismael Ripoll-Ripoll <iripoll@disca.upv.es>=0A=
++Also-By: Andrey Borzenkov <arvidjaar@gmail.com>=0A=
++---=0A=
++diff --git a/grub-core/lib/crypto.c b/grub-core/lib/crypto.c=0A=
++index 010e550..683a8aa 100644=0A=
++--- a/grub-core/lib/crypto.c=0A=
+++++ b/grub-core/lib/crypto.c=0A=
++@@ -470,7 +470,8 @@ grub_password_get (char buf[], unsigned buf_size)=0A=
++=0A=
++       if (key =3D=3D '\b')=0A=
++       {=0A=
++-        cur_len--;=0A=
+++        if (cur_len)=0A=
+++          cur_len--;=0A=
++         continue;=0A=
++       }=0A=
++=0A=
++diff --git a/grub-core/normal/auth.c b/grub-core/normal/auth.c=0A=
++index c6bd96e..8615c48 100644=0A=
++--- a/grub-core/normal/auth.c=0A=
+++++ b/grub-core/normal/auth.c=0A=
++@@ -174,8 +174,11 @@ grub_username_get (char buf[], unsigned buf_size)=0A=
++=0A=
++       if (key =3D=3D '\b')=0A=
++       {=0A=
++-        cur_len--;=0A=
++-        grub_printf ("\b");=0A=
+++        if (cur_len)=0A=
+++          {=0A=
+++            cur_len--;=0A=
+++            grub_printf ("\b");=0A=
+++          }=0A=
++         continue;=0A=
++       }=0A=
++=0A=
++--=0A=
++cgit v0.9.0.2=0A=
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.=
+inc=0A=
+index 312771b..a8c41f8 100644=0A=
+--- a/meta/recipes-bsp/grub/grub2.inc=0A=
++++ b/meta/recipes-bsp/grub/grub2.inc=0A=
+@@ -27,6 +27,7 @@ SRC_URI =3D "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz=
+ \=0A=
+            file://0001-Unset-need_charset_alias-when-building-for-musl.pat=
+ch \=0A=
+            file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patc=
+h \=0A=
+            file://grub2-fix-initrd-size-bug.patch \=0A=
++           file://0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.pat=
+ch \=0A=
+             "=0A=
+=0A=
+ DEPENDS =3D "flex-native bison-native xz"=0A=
+--=0A=
+1.9.1=0A=
+=0A=
+--=0A=
+_______________________________________________=0A=
+Openembedded-core mailing list=0A=
+Openembedded-core@lists.openembedded.org=0A=
+http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
 
-> On Dec 29, 2015, at 1:43 AM, kai.kang@windriver.com wrote:
->=20
-> From: Kai Kang <kai.kang@windriver.com>
->=20
-> This reverts commit fcd7494b347423185c883b2897c4908929843a71.
->=20
-> It uses command glib-genmarshal to build glib-2.0 which is from
-> glibc-2.0-native. If the command doesn't exist on host, build fails
-
-typo 'glib-2.0-native'
-
-> with error:
->=20
-> | /bin/sh: --prefix=3Dtest_marshal: command not found
-> | make[4]: *** [testmarshal.c] Error 127
->=20
-> So add the dependency back.
-
-I ran into the regression as well. So this patch is good.
-
->=20
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
-> meta/recipes-core/glib-2.0/glib.inc | 6 +++---
-> 1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-core/glib-2.0/glib.inc =
-b/meta/recipes-core/glib-2.0/glib.inc
-> index 86f7e0e..8e4dcd7 100644
-> --- a/meta/recipes-core/glib-2.0/glib.inc
-> +++ b/meta/recipes-core/glib-2.0/glib.inc
-> @@ -17,10 +17,10 @@ SECTION =3D "libs"
->=20
-> BBCLASSEXTEND =3D "native nativesdk"
->=20
-> -DEPENDS =3D "virtual/libiconv libffi zlib"
-> -DEPENDS_append =3D " ${@bb.utils.contains('PTEST_ENABLED', '1', ' =
-glib-2.0-native dbus', '', d)}"
-> +DEPENDS =3D "glib-2.0-native virtual/libiconv libffi zlib"
-> +DEPENDS_append_class-target =3D =
-"${@bb.utils.contains('DISTRO_FEATURES', 'ptest', ' dbus', '', d)}"
-> DEPENDS_class-native =3D "pkgconfig-native gettext-native =
-libffi-native zlib-native"
-> -DEPENDS_class-nativesdk =3D "nativesdk-libtool nativesdk-gettext =
-nativesdk-libffi nativesdk-zlib"
-> +DEPENDS_class-nativesdk =3D "nativesdk-libtool nativesdk-gettext =
-nativesdk-libffi nativesdk-zlib ${BPN}-native"
->=20
-> PACKAGES =3D+ "${PN}-utils ${PN}-bash-completion ${PN}-codegen"
->=20
-> --
-> 2.6.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_7D9D3369-BDF9-4188-8359-859BF13AE321
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlaE7FAACgkQuwUzVZGdMxTSFQCff3lumWky4FYpAlZDf8+sbA26
-H7cAnAkGKQgoZJcSyb94qXXMvdPxAfaj
-=ug6h
------END PGP SIGNATURE-----
-
---Apple-Mail=_7D9D3369-BDF9-4188-8359-859BF13AE321--
