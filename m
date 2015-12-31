@@ -1,38 +1,42 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 90AAB7316A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id C77C165CBA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Dec 2015 21:20:36 +0000 (UTC)
-Received: by mail-lb0-f174.google.com with SMTP id sv6so113506345lbb.0
+	Thu, 31 Dec 2015 08:50:25 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id do7so1938961pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Dec 2015 13:20:37 -0800 (PST)
+	Thu, 31 Dec 2015 00:50:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=IdkkaosXYHlQUG3cPQU1vPZPueX1MZHTzrgnL5X7QpU=;
-	b=Ua7PSVpkLt4/OxpCQJGhcDQoMC0NfAzm2tSHSIF0CUUSs75oT3CA1hWWNfHCY4jYVx
-	0dTfaNPu1cOwRmgq8NhsX86vYN4weO+dnj9S4S8Gb25sKNs69uJo5nud2WGfcqixjNyg
-	0ItQHrFn84+vjwlff19M8IKcgqtpQCzvpN1hLwfYYi0kMf/LGGaZyaVj0OoIn1oG2t3x
-	U75cfUdw+E6clWS/5eH5fW5DiVRYVOkXkm6nLf+DTNFzC9CZwdUd7QKI8BQMD7RdHxlq
-	LMMmeVQ/2zJHUABFbUxQMrg14mHBmG4E80qwFGh5XseAMUps2JDCw86KlQatkYdR0sek
-	lGnw==
-X-Received: by 10.112.172.130 with SMTP id bc2mr23391564lbc.132.1451510436714; 
-	Wed, 30 Dec 2015 13:20:36 -0800 (PST)
-Received: from localhost.localdomain (c80-217-62-231.bredband.comhem.se.
-	[80.217.62.231]) by smtp.gmail.com with ESMTPSA id
-	h82sm12247544lfh.27.2015.12.30.13.20.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 30 Dec 2015 13:20:36 -0800 (PST)
-From: Ming Liu <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Dec 2015 22:20:00 +0100
-Message-Id: <1451510400-7446-3-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1451510400-7446-1-git-send-email-liu.ming50@gmail.com>
-References: <1451510400-7446-1-git-send-email-liu.ming50@gmail.com>
-Cc: bruce.ashfield@windriver.com, yue.tao@windriver.com,
-	Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH V1 3/3] kernel-initramfs: new recipe, creates initramfs bundled kernel packaging
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=BP7SaYZeGjjOYUzFF/WTqZoCOMey0aq0a+rKo+rVHZo=;
+	b=ZDHD6qdtRjtb0ejr53utvSIKrwsfDx8LdY3MhRBwHAuh5Z37yRJSOrwvHgYn+DVOFl
+	Ci87UYpBu1R6fCEIYLPZCxRyW1D5XH+fHFLzw8DPImLHSMGaXL/Y5vKdX5F5+FRp0lfn
+	jgD8c2DDOXcEQAhtHAbqQ5hzBGUWUOcTq66m14tb3RB2alGHEJ1W4cXownEtwKQt+ZXI
+	zZ0ygaAvYDmjx6ckdGIiWlrlCmSdX660my496BRmqQ6v8GPhkFZE9u0MeK21eF5Hxbrt
+	C3JGtCjtoGUzM1pbfjX7eN9g7NioX0uF1tXLgu2svbD+nA3n15O+fVrk9yf94iUdKCsi
+	8+0A==
+X-Received: by 10.66.254.39 with SMTP id af7mr23493342pad.43.1451551825994;
+	Thu, 31 Dec 2015 00:50:25 -0800 (PST)
+Received: from ?IPv6:2601:646:8802:5d5c:859a:bd94:9969:6d02?
+	([2601:646:8802:5d5c:859a:bd94:9969:6d02])
+	by smtp.gmail.com with ESMTPSA id
+	i72sm76065978pfj.64.2015.12.31.00.50.24
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 31 Dec 2015 00:50:25 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <c46aeee4002b37e3f84433f78cbb82278e5d066e.1451382094.git.kai.kang@windriver.com>
+Date: Thu, 31 Dec 2015 00:50:20 -0800
+Message-Id: <D6F56C56-75BE-40AD-BDDC-AE6F14263057@gmail.com>
+References: <cover.1451382094.git.kai.kang@windriver.com>
+	<c46aeee4002b37e3f84433f78cbb82278e5d066e.1451382094.git.kai.kang@windriver.com>
+To: kai.kang@windriver.com
+X-Mailer: Apple Mail (2.3112)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] Revert "glib-2.0: build dependency cleanup"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,110 +49,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Dec 2015 21:20:37 -0000
+X-List-Received-Date: Thu, 31 Dec 2015 08:50:25 -0000
+X-Groupsio-MsgNum: 75329
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_7D9D3369-BDF9-4188-8359-859BF13AE321";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
-
-So far, there is not a workable way to package the initramfs bundled kernel
-image, the only place is tmp/deploy from where we could get it, but if a
-user want to add it into a certain image, there is no guarantee that he
-will achieve it because a explicit dependency is missing between package
-and bundle_initramfs, and this was designed to avoid introducing circular
-dependencies when using kernel modules in the initramfs image.bb that is
-caused by kernel.bbclass trying to build the initramfs before the kernel
-packaging.
-
-To fix this problem, the idea is to split the initramfs bundled kernel
-packaging to a new recipe, make the do_install depend on kernel's deploy
-task, then with the following config:
-
-IMAGE_INSTALL_append = " kernel-initramfs"
-
-The initramfs bundled kernel could be added to the image without
-introducing any circular dependencies.
-
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/recipes-kernel/linux/kernel-initramfs.bb | 69 +++++++++++++++++++++++++++
- 1 file changed, 69 insertions(+)
- create mode 100644 meta/recipes-kernel/linux/kernel-initramfs.bb
-
-diff --git a/meta/recipes-kernel/linux/kernel-initramfs.bb b/meta/recipes-kernel/linux/kernel-initramfs.bb
-new file mode 100644
-index 0000000..7f9d72b
---- /dev/null
-+++ b/meta/recipes-kernel/linux/kernel-initramfs.bb
-@@ -0,0 +1,69 @@
-+SUMMARY = "Initramfs bundled kernel image"
-+DESCRIPTION = "When built, it packages a initramfs bundled kernel image of the \
-+preferred virtual/kernel provider."
-+
-+SECTION = "kernel"
-+
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "[file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6]file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-+
-+inherit linux-kernel-base
-+
-+# Whilst not a module, this ensures we don't get multilib extended. (which would make no sense)
-+inherit module-base
-+
-+S = "${STAGING_KERNEL_DIR}"
-+B = "${WORKDIR}/build"
-+
-+# we dont need the default dependencies.
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+KERNEL_IMAGETYPE ?= "zImage"
-+KERNEL_VERSION = "${@get_kernelversion_file('${STAGING_KERNEL_BUILDDIR}')}"
-+KERNEL_IMAGEDEST = "boot"
-+
-+KERNEL_PRIORITY ?= "${@int(d.getVar('KERNEL_VERSION',1).split('-')[0].split('+')[0].split('.')[0]) * 10000 + \
-+                       int(d.getVar('KERNEL_VERSION',1).split('-')[0].split('+')[0].split('.')[1]) * 100 + \
-+                       int(d.getVar('KERNEL_VERSION',1).split('-')[0].split('+')[0].split('.')[-1])}"
-+
-+PACKAGES = "${PN}"
-+FILES_${PN} = "/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}*"
-+
-+PKG_${PN} = "${PN}-${@legitimize_package_name('${KERNEL_VERSION}')}"
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+# Skip processing of this recipe if INITRAMFS_IMAGE or INITRAMFS_IMAGE_BUNDLE
-+# is not set correctly, to avoid generate a single empty package which makes
-+# no sense.
-+python __anonymous () {
-+    if not d.getVar('INITRAMFS_IMAGE', True) or d.getVar('INITRAMFS_IMAGE_BUNDLE', True) != '1':
-+        raise bb.parse.SkipPackage("Set INITRAMFS_IMAGE and INITRAMFS_IMAGE_BUNDLE to enable it")
-+}
-+
-+# Need the output of deploy.
-+do_install[depends] += "virtual/kernel:do_deploy"
-+
-+# We only need the packaging tasks - disable the rest
-+do_fetch[noexec] = "1"
-+do_unpack[noexec] = "1"
-+do_patch[noexec] = "1"
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
-+do_populate_sysroot[noexec] = "1"
-+
-+do_install() {
-+	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-+		echo "Copying initramfs bundled kernel image from ${DEPLOY_DIR_IMAGE}..."
-+		install -d ${D}/${KERNEL_IMAGEDEST}
-+		install -m 0644 ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-initramfs-${KERNEL_VERSION}
-+	fi
-+}
-+
-+pkg_postinst_${PN} () {
-+	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-initramfs ${KERNEL_IMAGETYPE}-initramfs /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-initramfs-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
-+}
-+
-+pkg_postrm_${PN} () {
-+	update-alternatives --remove ${KERNEL_IMAGETYPE}-initramfs ${KERNEL_IMAGETYPE}-initramfs-${KERNEL_VERSION} || true
-+}
--- 
-1.9.1
+--Apple-Mail=_7D9D3369-BDF9-4188-8359-859BF13AE321
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Dec 29, 2015, at 1:43 AM, kai.kang@windriver.com wrote:
+>=20
+> From: Kai Kang <kai.kang@windriver.com>
+>=20
+> This reverts commit fcd7494b347423185c883b2897c4908929843a71.
+>=20
+> It uses command glib-genmarshal to build glib-2.0 which is from
+> glibc-2.0-native. If the command doesn't exist on host, build fails
+
+typo 'glib-2.0-native'
+
+> with error:
+>=20
+> | /bin/sh: --prefix=3Dtest_marshal: command not found
+> | make[4]: *** [testmarshal.c] Error 127
+>=20
+> So add the dependency back.
+
+I ran into the regression as well. So this patch is good.
+
+>=20
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+> meta/recipes-core/glib-2.0/glib.inc | 6 +++---
+> 1 file changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/glib-2.0/glib.inc =
+b/meta/recipes-core/glib-2.0/glib.inc
+> index 86f7e0e..8e4dcd7 100644
+> --- a/meta/recipes-core/glib-2.0/glib.inc
+> +++ b/meta/recipes-core/glib-2.0/glib.inc
+> @@ -17,10 +17,10 @@ SECTION =3D "libs"
+>=20
+> BBCLASSEXTEND =3D "native nativesdk"
+>=20
+> -DEPENDS =3D "virtual/libiconv libffi zlib"
+> -DEPENDS_append =3D " ${@bb.utils.contains('PTEST_ENABLED', '1', ' =
+glib-2.0-native dbus', '', d)}"
+> +DEPENDS =3D "glib-2.0-native virtual/libiconv libffi zlib"
+> +DEPENDS_append_class-target =3D =
+"${@bb.utils.contains('DISTRO_FEATURES', 'ptest', ' dbus', '', d)}"
+> DEPENDS_class-native =3D "pkgconfig-native gettext-native =
+libffi-native zlib-native"
+> -DEPENDS_class-nativesdk =3D "nativesdk-libtool nativesdk-gettext =
+nativesdk-libffi nativesdk-zlib"
+> +DEPENDS_class-nativesdk =3D "nativesdk-libtool nativesdk-gettext =
+nativesdk-libffi nativesdk-zlib ${BPN}-native"
+>=20
+> PACKAGES =3D+ "${PN}-utils ${PN}-bash-completion ${PN}-codegen"
+>=20
+> --
+> 2.6.1
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_7D9D3369-BDF9-4188-8359-859BF13AE321
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlaE7FAACgkQuwUzVZGdMxTSFQCff3lumWky4FYpAlZDf8+sbA26
+H7cAnAkGKQgoZJcSyb94qXXMvdPxAfaj
+=ug6h
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_7D9D3369-BDF9-4188-8359-859BF13AE321--
