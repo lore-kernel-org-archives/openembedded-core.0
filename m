@@ -1,23 +1,40 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BE586FFD3
+Return-Path: <twoerner@gmail.com>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B12CF606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Dec 2015 19:00:09 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 31 Dec 2015 11:00:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,504,1444719600"; d="scan'208";a="872553512"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 31 Dec 2015 11:00:09 -0800
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 79E6D6A4087;
-	Thu, 31 Dec 2015 11:48:07 -0800 (PST)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+	Thu, 31 Dec 2015 22:07:22 +0000 (UTC)
+Received: by mail-ig0-f174.google.com with SMTP id to18so185906787igc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Dec 2015 14:07:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-type:content-transfer-encoding;
+	bh=GAMipOBTT2S+D1FWLr2aXgajwVgTeMoZzKNoAZilZjE=;
+	b=LVgOS+k1ezGCP7dLokOD1aRQ/JJPcZb9YuuMh7hqPZEpGMkXh0jZq2HFlE4laulBdW
+	SxMXjD6B4qy4R1HLJG7UPpdlUFL/Fl5HsexgKYU12bRG9SLG1ZNqpWq9nndUPInc5a2q
+	vkIyoN4bRYNGmF86YxPzYCVCVpqhL2dbJ6kFF9RatywaplBVc2hPL06PRNa3VzdERUOe
+	AZmYDUs0TqfWNIg8u9HY5Qd2Mfcb4HU9atWcJWSz/cGEXy8XzXdfQ+noVuau96Dc6j5p
+	vl6LR6rzJTApkvp3eeUn/Gv6b3BU0KgjdQqNhsqjOH/Bi26RecH2T8Xs92PzuPwqn4Ee
+	Ovxw==
+X-Received: by 10.50.22.33 with SMTP id a1mr65044644igf.52.1451599643018;
+	Thu, 31 Dec 2015 14:07:23 -0800 (PST)
+Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	n6sm7121364ige.12.2015.12.31.14.07.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 31 Dec 2015 14:07:22 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Dec 2015 19:03:39 +0200
-Message-Id: <1451581419-30276-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] native: fix incorrect addition of -native suffix
+References: <1448721782-30965-1-git-send-email-twoerner@gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <5685A70D.3050708@gmail.com>
+Date: Thu, 31 Dec 2015 17:07:09 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <1448721782-30965-1-git-send-email-twoerner@gmail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH] mkefidisk.sh: add startup script for automated boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,44 +47,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Dec 2015 19:00:13 -0000
+X-List-Received-Date: Thu, 31 Dec 2015 22:07:24 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-The code in native.bbclass adds -native suffix for recipes that
-don't have it. If native package doesn't have this suffix it
-will be added to it. For example perl-native-runtime becomes
-perl-native-runtime-native because of this.
+ping?
 
-Added check to -native- in the recipe name to prevent addition
-of -native suffix.
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/native.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index aac2c1e..8bb3244 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -120,7 +120,7 @@ python native_virtclass_handler () {
-         return
- 
-     pn = e.data.getVar("PN", True)
--    if not pn.endswith("-native"):
-+    if not (pn.endswith("-native") or "-native-" in pn):
-         return
- 
-     def map_dependencies(varname, d, suffix = ""):
-@@ -136,7 +136,7 @@ python native_virtclass_handler () {
-                 continue
-             elif "-cross-" in dep:
-                 newdeps.append(dep.replace("-cross", "-native"))
--            elif not dep.endswith("-native"):
-+            elif not (dep.endswith("-native") or "-native-" in dep):
-                 newdeps.append(dep + "-native")
-             else:
-                 newdeps.append(dep)
--- 
-2.1.4
+On 11/28/15 09:43, Trevor Woerner wrote:
+> Regardless of which image is built using which layers, try to ensure the image
+> on the SD device being prepared is the one that is booted automatically when
+> the board is powered.
+>
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> ---
+>  scripts/contrib/mkefidisk.sh | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+> index 23c18cb..333284f 100755
+> --- a/scripts/contrib/mkefidisk.sh
+> +++ b/scripts/contrib/mkefidisk.sh
+> @@ -438,6 +438,9 @@ if [ -d $ROOTFS_MNT/etc/udev/ ] ; then
+>  	echo "$TARGET_DEVICE" >> $ROOTFS_MNT/etc/udev/mount.blacklist
+>  fi
+>  
+> +# Add startup.nsh script for automated boot
+> +echo "fs0:\EFI\BOOT\bootx64.efi" > $BOOTFS_MNT/startup.nsh
+> +
+>  
+>  # Call cleanup to unmount devices and images and remove the TMPDIR
+>  cleanup
 
 
