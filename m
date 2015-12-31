@@ -1,26 +1,23 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 370C86FF97
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BE586FFD3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Dec 2015 17:00:59 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 31 Dec 2015 09:00:55 -0800
+	Thu, 31 Dec 2015 19:00:09 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 31 Dec 2015 11:00:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,504,1444719600"; d="scan'208";a="626281553"
-Received: from lsandov1-mob1-linux.zpn.intel.com (HELO [10.219.5.143])
-	([10.219.5.143])
-	by FMSMGA003.fm.intel.com with ESMTP; 31 Dec 2015 09:00:55 -0800
-To: Mike Looijmans <mike.looijmans@topic.nl>,
-	openembedded-core@lists.openembedded.org
-References: <568533E5.4000105@topic.nl> <5685347E.5080003@topic.nl>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <56856023.5060407@linux.intel.com>
-Date: Thu, 31 Dec 2015 11:04:35 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
-MIME-Version: 1.0
-In-Reply-To: <5685347E.5080003@topic.nl>
-Subject: Re: Getting "menuconfig" to work again?
+X-IronPort-AV: E=Sophos;i="5.20,504,1444719600"; d="scan'208";a="872553512"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 31 Dec 2015 11:00:09 -0800
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id 79E6D6A4087;
+	Thu, 31 Dec 2015 11:48:07 -0800 (PST)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 Dec 2015 19:03:39 +0200
+Message-Id: <1451581419-30276-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] native: fix incorrect addition of -native suffix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +30,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Dec 2015 17:01:02 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 31 Dec 2015 19:00:13 -0000
 
+The code in native.bbclass adds -native suffix for recipes that
+don't have it. If native package doesn't have this suffix it
+will be added to it. For example perl-native-runtime becomes
+perl-native-runtime-native because of this.
 
+Added check to -native- in the recipe name to prevent addition
+of -native suffix.
 
-On 12/31/2015 07:58 AM, Mike Looijmans wrote:
-> On 31-12-15 14:55, Mike Looijmans wrote:
->> When running a "menuconfig" (or any other task that needs a terminal),
->> bitbake just "stops" and doesn't show any terminal.
->>
->> I'm using the current master branch of everything, on Ubuntu 15.
->>
->> When running with "-D" I can see the following log:
->>
->> DEBUG: Executing task do_menuconfig
->> DEBUG: Attempting to spawn terminal "custom"
->> DEBUG: No custom terminal (OE_TERMINAL_CUSTOMCMD) set
->> DEBUG: Attempting to spawn terminal "tmux-running"
->> DEBUG: Attempting to spawn terminal "tmux-new-window"
->> DEBUG: Attempting to spawn terminal "gnome"
->>
->> But nothing happens from that point.
->
-> Extra info: apparently it spawns a process:
->
-> /usr/bin/python3 /usr/bin/gnome-terminal --version
->
-gnome-terminal is a pain... there are some checks base on the version 
-and based on that certain parameters are set. which g-t version are you 
-using?
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/classes/native.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
-> If I kill that process, the menuconfig magically appears.
->
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index aac2c1e..8bb3244 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -120,7 +120,7 @@ python native_virtclass_handler () {
+         return
+ 
+     pn = e.data.getVar("PN", True)
+-    if not pn.endswith("-native"):
++    if not (pn.endswith("-native") or "-native-" in pn):
+         return
+ 
+     def map_dependencies(varname, d, suffix = ""):
+@@ -136,7 +136,7 @@ python native_virtclass_handler () {
+                 continue
+             elif "-cross-" in dep:
+                 newdeps.append(dep.replace("-cross", "-native"))
+-            elif not dep.endswith("-native"):
++            elif not (dep.endswith("-native") or "-native-" in dep):
+                 newdeps.append(dep + "-native")
+             else:
+                 newdeps.append(dep)
+-- 
+2.1.4
 
 
