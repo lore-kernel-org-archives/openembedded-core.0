@@ -1,40 +1,24 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 27202731A0
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp02.mail.online.nl (smtp02.mail.online.nl [194.134.25.72])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D37460721
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Dec 2015 22:07:58 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id q21so99348328iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Dec 2015 14:07:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-type:content-transfer-encoding;
-	bh=M9sgQ7WoiyLeIkdwInQXdUGxGiSo0873+lZhcVxM9uA=;
-	b=AogVAyI2sCSiaLIVN6UbHFWbI7MU2zXrMOdJixMtQ4fCcFOuHU8i6/Wk5NilADVZJZ
-	rS3u1RS3aYRryxZSiDcpkNk6iHzQt6kX8t4Qi3li7Yimfxivb2+YG/+tr/pcsp6zT9Kt
-	MhTKtJNq4hXcYQaiclbh/q+EO4RHaEOjsvozSP3y5NLD7Sdavi5oP+JZWn/WDa0HcrVV
-	hJ63DquDMY7BOJXuIWknsaJm/dBbASRMVOMPb+xhBuzIxvBB7GjTvfzje6jFj3EEzK1b
-	iqFHZP/yX5oWFCt4GhAYND1HI8O4lEZDxZlyVCk9vkOcHy3pyahjlFmSI+1aDFzcU6tp
-	xfRw==
-X-Received: by 10.107.31.17 with SMTP id f17mr13142848iof.68.1451599679197;
-	Thu, 31 Dec 2015 14:07:59 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	h187sm26725285ioh.4.2015.12.31.14.07.53
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 Dec 2015 14:07:58 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <1448720991-29707-1-git-send-email-twoerner@gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <5685A731.1070109@gmail.com>
-Date: Thu, 31 Dec 2015 17:07:45 -0500
+	Fri,  1 Jan 2016 09:18:56 +0000 (UTC)
+Received: from [192.168.1.4] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp02.mail.online.nl (Postfix) with ESMTP id 6C0171A002E;
+	Fri,  1 Jan 2016 10:18:55 +0100 (CET)
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <568533E5.4000105@topic.nl> <5685347E.5080003@topic.nl>
+	<56856023.5060407@linux.intel.com>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+Message-ID: <5686447F.60200@topic.nl>
+Date: Fri, 1 Jan 2016 10:18:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-In-Reply-To: <1448720991-29707-1-git-send-email-twoerner@gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [meta-oe][PATCH] mkefidisk.sh: add boot log on console
+In-Reply-To: <56856023.5060407@linux.intel.com>
+Subject: Re: Getting "menuconfig" to work again?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,44 +31,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Dec 2015 22:07:59 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Fri, 01 Jan 2016 09:18:58 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-ping?
-
-On 11/28/15 09:29, Trevor Woerner wrote:
-> Hooking up a serial console is a "developer mode", the chances are pretty good
-> developers are interested in watching the kernel boot log on the console so
-> they can spot any problems or diagnose any failed boots (e.g. can't find root
-> fs).
+On 31-12-15 18:04, Leonardo Sandoval wrote:
 >
-> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> ---
->  scripts/contrib/mkefidisk.sh | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-> index cd4de05..23c18cb 100755
-> --- a/scripts/contrib/mkefidisk.sh
-> +++ b/scripts/contrib/mkefidisk.sh
-> @@ -402,7 +402,7 @@ if [ -e "$GRUB_CFG" ]; then
->  	sed -i "s/ LABEL=[^ ]*/ /" $GRUB_CFG
->  
->  	sed -i "s@ root=[^ ]*@ @" $GRUB_CFG
-> -	sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS ro rootwait quiet @" $GRUB_CFG
-> +	sed -i "s@vmlinuz @vmlinuz root=$TARGET_ROOTFS ro rootwait console=ttyS0 console=tty0 @" $GRUB_CFG
->  fi
->  
->  # Look for a gummiboot installation
-> @@ -419,7 +419,7 @@ if [ -d "$GUMMI_ENTRIES" ]; then
->  
->  	sed -i "/initrd /d" $GUMMI_CFG
->  	sed -i "s@ root=[^ ]*@ @" $GUMMI_CFG
-> -	sed -i "s@options *LABEL=boot @options LABEL=Boot root=$TARGET_ROOTFS ro rootwait quiet @" $GUMMI_CFG
-> +	sed -i "s@options *LABEL=boot @options LABEL=Boot root=$TARGET_ROOTFS ro rootwait console=ttyS0 console=tty0 @" $GUMMI_CFG
->  fi
->  
->  # Ensure we have at least one EFI bootloader configured
+> On 12/31/2015 07:58 AM, Mike Looijmans wrote:
+>> On 31-12-15 14:55, Mike Looijmans wrote:
+>>> When running a "menuconfig" (or any other task that needs a terminal),
+>>> bitbake just "stops" and doesn't show any terminal.
+>>>
+>>> I'm using the current master branch of everything, on Ubuntu 15.
+>>>
+>>> When running with "-D" I can see the following log:
+>>>
+>>> DEBUG: Executing task do_menuconfig
+>>> DEBUG: Attempting to spawn terminal "custom"
+>>> DEBUG: No custom terminal (OE_TERMINAL_CUSTOMCMD) set
+>>> DEBUG: Attempting to spawn terminal "tmux-running"
+>>> DEBUG: Attempting to spawn terminal "tmux-new-window"
+>>> DEBUG: Attempting to spawn terminal "gnome"
+>>>
+>>> But nothing happens from that point.
+>>
+>> Extra info: apparently it spawns a process:
+>>
+>> /usr/bin/python3 /usr/bin/gnome-terminal --version
+>>
+> gnome-terminal is a pain... there are some checks base on the version
+> and based on that certain parameters are set. which g-t version are you
+> using?
 
+$ gnome-terminal --version
+GNOME Terminal 3.14.2
+
+>> If I kill that process, the menuconfig magically appears.
+
+Digging into the source code, I saw that "gnome-terminal --version" is 
+only being called to determine if the "--disable-factory" option should 
+be passed to it. For some reason, in OE that call "hangs", I suspect 
+because of the way the environment and pipes are laid out at that point.
+
+If I just run 'gnome-terminal -t hello --disable-factory -x sh' I don't 
+get any errors and it works just fine. To me it looks like the whole 
+version check could be removed and always pass "--disable-factory".
+
+Happy New Year!
+
+-- 
+Mike Looijmans
 
