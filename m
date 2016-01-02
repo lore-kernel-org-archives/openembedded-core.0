@@ -1,40 +1,25 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 96E7C60291;
-	Sat,  2 Jan 2016 22:24:53 +0000 (UTC)
-Received: by mail-qg0-f50.google.com with SMTP id 6so153897606qgy.1;
-	Sat, 02 Jan 2016 14:24:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=+SzdhvonmCyDTaqIPYN7W7joEZztOfIcpRjOIzWjQP8=;
-	b=fRHNAu82s3x62OX7FHGJvMBkHRfRUIMnyMowX5RAGOd0cyetAGB+TFSEo9INHAETfv
-	AoFNq6huBBf4aau/pW/TB1tABAT1a7RUQZXk3qO7tFGMqeLbYno/PlM+mIMX9BoPiW0Q
-	Piwt08rQkk0epB3TKP2vjyMf1GCTAVY/MUA0flDnqCal85Wk0mly5dq4hRNmqq266Xn6
-	bLR55WR1ZJmEyQZ/+LqCH5oVZGmVWVLewz55k2wETSpQi3RFF5UBBS1C+AFkRfXeZXe1
-	cyTW72F6qn9VTkHVgpi2ViX0+6Fwv4TxNhWjum2vKB2Cln3PjsMuwzQyt3bpZnfIa4nE
-	3NRw==
-X-Received: by 10.140.234.17 with SMTP id f17mr114614964qhc.19.1451773493801; 
-	Sat, 02 Jan 2016 14:24:53 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	l38sm37035077qgd.27.2016.01.02.14.24.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 02 Jan 2016 14:24:53 -0800 (PST)
-To: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <CA+chaQfGTBOqGyGq6S7fMbP8c9rdm+1cDrc===xA1kOF=+WGOQ@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <56884E30.2080703@gmail.com>
-Date: Sat, 2 Jan 2016 17:24:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <CA+chaQfGTBOqGyGq6S7fMbP8c9rdm+1cDrc===xA1kOF=+WGOQ@mail.gmail.com>
-Subject: Re: State of bitbake world, Failed tasks 2016-01-01
+Return-Path: <mschiffer@universe-factory.net>
+Received: from chaos.universe-factory.net (chaos.universe-factory.net
+	[37.72.148.22])
+	by mail.openembedded.org (Postfix) with ESMTP id EF5BA731A5
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  2 Jan 2016 23:53:08 +0000 (UTC)
+Received: from avalon.neoraider.dn42 (unknown [IPv6:fd1b:c28a:2fd6::2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by chaos.universe-factory.net (Postfix) with ESMTPSA id 662491814EB
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  3 Jan 2016 00:53:08 +0100 (CET)
+From: Matthias Schiffer <mschiffer@universe-factory.net>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  3 Jan 2016 00:53:01 +0100
+Message-Id: <7ef127138c4ba5c89b42b892c84aaa7766f78a4c.1451778497.git.mschiffer@universe-factory.net>
+X-Mailer: git-send-email 2.6.4
+In-Reply-To: <c00e9825d8e0221666adffd95ed157f9affe06b8.1451778497.git.mschiffer@universe-factory.net>
+References: <c00e9825d8e0221666adffd95ed157f9affe06b8.1451778497.git.mschiffer@universe-factory.net>
+In-Reply-To: <c00e9825d8e0221666adffd95ed157f9affe06b8.1451778497.git.mschiffer@universe-factory.net>
+References: <c00e9825d8e0221666adffd95ed157f9affe06b8.1451778497.git.mschiffer@universe-factory.net>
+Subject: [PATCH v2 3/3] base-files: create typical merged /usr symlinks if the "merged-usr" distro feature is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,24 +32,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Jan 2016 22:24:54 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 02 Jan 2016 23:53:10 -0000
 
-On 01/02/16 13:19, Martin Jansa wrote:
->
-> == Tested changes (not included in master yet) - meta-openembedded ==
-...
-> 7020a19 nodejs: cleanup and update
-...
->
-> == Failed tasks 2016-01-01 ==
-...
->
-> === qemuarm (1) ===
->     * /meta-openembedded/meta-oe/recipes-devtools/nodejs/nodejs_4.2.2.bb <http://nodejs_4.2.2.bb>, do_compile
->
+The typical symlinks are:
 
-Can it really be considered a failed build when the recipe explicitly
-excludes qemuarm (armv5) from the compatible machine list?
+* /bin -> usr/bin
+* /sbin -> usr/sbin
+* /lib -> usr/lib
+* /usr/sbin -> bin
+
+It is checked that only sane symlinks are created, so a half-merged /usr
+(e.g, merging bin and sbin, but not lib) is feasible as well.
+
+The following options in a distro configuration create a full Fedora-style
+merged /usr:
+
+  DISTRO_FEATURES_DEFAULT += "merged-usr"
+  base_bindir = "${exec_prefix}/bin"
+  base_sbindir = "${exec_prefix}/bin"
+  sbindir = "${exec_prefix}/bin"
+  base_libdir = "${exec_prefix}/${baselib}"
+  nonarch_base_libdir = "${exec_prefix}/lib"
+
+[YOCTO #7040]
+
+Signed-off-by: Matthias Schiffer <mschiffer@universe-factory.net>
+---
+v2:
+* add the merged-usr symlinks in a separate task, so do_install can be
+  overridden independently of the merged-usr feature.
+* add PACKAGECONFIG for merged-usr, so the package is rebuilt when the
+  distro feature is changed.
+
+
+ meta/recipes-core/base-files/base-files_3.0.14.bb | 36 +++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index 2af7ecd..21a740f 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -30,6 +30,13 @@ S = "${WORKDIR}"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
++PACKAGECONFIG ??= " \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'merged-usr','merged-usr', '', d)} \
++"
++
++PACKAGECONFIG[merged-usr] = ",,"
++
++
+ docdir_append = "/${P}"
+ dirs1777 = "/tmp ${localstatedir}/volatile/tmp"
+ dirs2775 = ""
+@@ -136,6 +143,35 @@ do_install () {
+ 	ln -sf /proc/mounts ${D}${sysconfdir}/mtab
+ }
+ 
++do_install_merged_usr () {
++	if ${@bb.utils.contains('PACKAGECONFIG','merged-usr','false','true',d)}; then
++		return
++	fi
++
++	if [ "${base_bindir}" != "/bin" ]; then
++		ln -snf "${@d.getVar('base_bindir', True)[1:]}" ${D}/bin
++	fi
++
++	if [ "${base_sbindir}" != "/sbin"  ]; then
++		ln -snf "${@d.getVar('base_sbindir', True)[1:]}" ${D}/sbin
++	fi
++
++	if [ "${nonarch_base_libdir}" != "/lib" ]; then
++		ln -snf "${@d.getVar('nonarch_base_libdir', True)[1:]}" ${D}/lib
++	fi
++
++	if [ "${base_libdir}" != "/${baselib}" ]; then
++		ln -snf "${@d.getVar('base_libdir', True)[1:]}" ${D}/${baselib}
++	fi
++
++	if [ "${bindir}" = "${exec_prefix}/bin" -a "${sbindir}" = "${exec_prefix}/bin" ]; then
++		ln -snf bin ${D}${exec_prefix}/sbin
++	fi
++}
++
++addtask install_merged_usr after do_install before do_package do_populate_sysroot
++
++
+ DISTRO_VERSION[vardepsexclude] += "DATE"
+ do_install_basefilesissue () {
+ 	if [ "${hostname}" ]; then
+-- 
+2.6.4
+
 
