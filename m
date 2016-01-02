@@ -1,25 +1,25 @@
 Return-Path: <mschiffer@universe-factory.net>
 Received: from chaos.universe-factory.net (chaos.universe-factory.net
 	[37.72.148.22])
-	by mail.openembedded.org (Postfix) with ESMTP id EF5BA731A5
+	by mail.openembedded.org (Postfix) with ESMTP id EE81073166
 	for <openembedded-core@lists.openembedded.org>;
 	Sat,  2 Jan 2016 23:53:08 +0000 (UTC)
 Received: from avalon.neoraider.dn42 (unknown [IPv6:fd1b:c28a:2fd6::2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by chaos.universe-factory.net (Postfix) with ESMTPSA id 662491814EB
+	by chaos.universe-factory.net (Postfix) with ESMTPSA id 3416B18122B
 	for <openembedded-core@lists.openembedded.org>;
 	Sun,  3 Jan 2016 00:53:08 +0100 (CET)
 From: Matthias Schiffer <mschiffer@universe-factory.net>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  3 Jan 2016 00:53:01 +0100
-Message-Id: <7ef127138c4ba5c89b42b892c84aaa7766f78a4c.1451778497.git.mschiffer@universe-factory.net>
+Date: Sun,  3 Jan 2016 00:53:00 +0100
+Message-Id: <f8b6e0a67be1bede97cded62d1ee42aae8b8977b.1451778497.git.mschiffer@universe-factory.net>
 X-Mailer: git-send-email 2.6.4
 In-Reply-To: <c00e9825d8e0221666adffd95ed157f9affe06b8.1451778497.git.mschiffer@universe-factory.net>
 References: <c00e9825d8e0221666adffd95ed157f9affe06b8.1451778497.git.mschiffer@universe-factory.net>
 In-Reply-To: <c00e9825d8e0221666adffd95ed157f9affe06b8.1451778497.git.mschiffer@universe-factory.net>
 References: <c00e9825d8e0221666adffd95ed157f9affe06b8.1451778497.git.mschiffer@universe-factory.net>
-Subject: [PATCH v2 3/3] base-files: create typical merged /usr symlinks if the "merged-usr" distro feature is set
+Subject: [PATCH v2 2/3] base-files: create ${base_bindir} etc. instead of /bin, /sbin and /lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,94 +34,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 02 Jan 2016 23:53:10 -0000
 
-The typical symlinks are:
-
-* /bin -> usr/bin
-* /sbin -> usr/sbin
-* /lib -> usr/lib
-* /usr/sbin -> bin
-
-It is checked that only sane symlinks are created, so a half-merged /usr
-(e.g, merging bin and sbin, but not lib) is feasible as well.
-
-The following options in a distro configuration create a full Fedora-style
-merged /usr:
-
-  DISTRO_FEATURES_DEFAULT += "merged-usr"
-  base_bindir = "${exec_prefix}/bin"
-  base_sbindir = "${exec_prefix}/bin"
-  sbindir = "${exec_prefix}/bin"
-  base_libdir = "${exec_prefix}/${baselib}"
-  nonarch_base_libdir = "${exec_prefix}/lib"
-
-[YOCTO #7040]
+These directories conflict with the symlinks created for merged-usr setups.
 
 Signed-off-by: Matthias Schiffer <mschiffer@universe-factory.net>
 ---
-v2:
-* add the merged-usr symlinks in a separate task, so do_install can be
-  overridden independently of the merged-usr feature.
-* add PACKAGECONFIG for merged-usr, so the package is rebuilt when the
-  distro feature is changed.
+v2: create both ${base_libdir} and ${nonarch_base_libdir}
 
-
- meta/recipes-core/base-files/base-files_3.0.14.bb | 36 +++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ meta/recipes-core/base-files/base-files_3.0.14.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 2af7ecd..21a740f 100644
+index b71d5c5..2af7ecd 100644
 --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
 +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -30,6 +30,13 @@ S = "${WORKDIR}"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-+PACKAGECONFIG ??= " \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'merged-usr','merged-usr', '', d)} \
-+"
-+
-+PACKAGECONFIG[merged-usr] = ",,"
-+
-+
+@@ -33,8 +33,8 @@ INHIBIT_DEFAULT_DEPS = "1"
  docdir_append = "/${P}"
  dirs1777 = "/tmp ${localstatedir}/volatile/tmp"
  dirs2775 = ""
-@@ -136,6 +143,35 @@ do_install () {
- 	ln -sf /proc/mounts ${D}${sysconfdir}/mtab
- }
- 
-+do_install_merged_usr () {
-+	if ${@bb.utils.contains('PACKAGECONFIG','merged-usr','false','true',d)}; then
-+		return
-+	fi
-+
-+	if [ "${base_bindir}" != "/bin" ]; then
-+		ln -snf "${@d.getVar('base_bindir', True)[1:]}" ${D}/bin
-+	fi
-+
-+	if [ "${base_sbindir}" != "/sbin"  ]; then
-+		ln -snf "${@d.getVar('base_sbindir', True)[1:]}" ${D}/sbin
-+	fi
-+
-+	if [ "${nonarch_base_libdir}" != "/lib" ]; then
-+		ln -snf "${@d.getVar('nonarch_base_libdir', True)[1:]}" ${D}/lib
-+	fi
-+
-+	if [ "${base_libdir}" != "/${baselib}" ]; then
-+		ln -snf "${@d.getVar('base_libdir', True)[1:]}" ${D}/${baselib}
-+	fi
-+
-+	if [ "${bindir}" = "${exec_prefix}/bin" -a "${sbindir}" = "${exec_prefix}/bin" ]; then
-+		ln -snf bin ${D}${exec_prefix}/sbin
-+	fi
-+}
-+
-+addtask install_merged_usr after do_install before do_package do_populate_sysroot
-+
-+
- DISTRO_VERSION[vardepsexclude] += "DATE"
- do_install_basefilesissue () {
- 	if [ "${hostname}" ]; then
+-dirs755 = "/bin /boot /dev ${sysconfdir} ${sysconfdir}/default \
+-           ${sysconfdir}/skel /lib /mnt /proc ${ROOT_HOME} /run /sbin \
++dirs755 = "${base_bindir} /boot /dev ${sysconfdir} ${sysconfdir}/default \
++           ${sysconfdir}/skel ${base_libdir} ${nonarch_base_libdir} /mnt /proc ${ROOT_HOME} /run ${base_sbindir} \
+            ${prefix} ${bindir} ${docdir} /usr/games ${includedir} \
+            ${libdir} ${sbindir} ${datadir} \
+            ${datadir}/common-licenses ${datadir}/dict ${infodir} \
 -- 
 2.6.4
 
