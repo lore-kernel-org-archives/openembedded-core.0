@@ -1,28 +1,31 @@
 Return-Path: <mschiffer@universe-factory.net>
 Received: from chaos.universe-factory.net (chaos.universe-factory.net
 	[37.72.148.22])
-	by mail.openembedded.org (Postfix) with ESMTP id DEDD96FFCC
+	by mail.openembedded.org (Postfix) with ESMTP id 01963600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jan 2016 23:46:11 +0000 (UTC)
+	Mon,  4 Jan 2016 23:57:07 +0000 (UTC)
 Received: from [IPv6:fd1b:c28a:2fd6::2] (unknown [IPv6:fd1b:c28a:2fd6::2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by chaos.universe-factory.net (Postfix) with ESMTPSA id 355C0181500;
-	Tue,  5 Jan 2016 00:46:12 +0100 (CET)
+	by chaos.universe-factory.net (Postfix) with ESMTPSA id AF082181501;
+	Tue,  5 Jan 2016 00:57:07 +0100 (CET)
 To: Mark Hatle <mark.hatle@windriver.com>
-References: <c00e9825d8e0221666adffd95ed157f9affe06b8.1451778497.git.mschiffer@universe-factory.net>
-	<f8b6e0a67be1bede97cded62d1ee42aae8b8977b.1451778497.git.mschiffer@universe-factory.net>
-	<568AF96A.50302@windriver.com>
+References: <cover.1451912446.git.ian.ray@ge.com>
+	<4e736dcbaf5c32f9d7728990ad4ac0ca975dfd6d.1451912446.git.ian.ray@ge.com>
+	<568A99CD.9000800@universe-factory.net>
+	<568A9E97.2050909@windriver.com>
+	<568AF189.5010801@universe-factory.net>
+	<568AF894.1010405@windriver.com>
 From: Matthias Schiffer <mschiffer@universe-factory.net>
 X-Enigmail-Draft-Status: N1110
-Message-ID: <568B0443.5090407@universe-factory.net>
-Date: Tue, 5 Jan 2016 00:46:11 +0100
+Message-ID: <568B06D3.7030205@universe-factory.net>
+Date: Tue, 5 Jan 2016 00:57:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.5.0
 MIME-Version: 1.0
-In-Reply-To: <568AF96A.50302@windriver.com>
+In-Reply-To: <568AF894.1010405@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/3] base-files: create ${base_bindir} etc. instead of /bin, /sbin and /lib
+Subject: Re: [PATCH 1/1] linux-firmware: remove hard-coded paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,68 +38,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jan 2016 23:46:13 -0000
-X-Groupsio-MsgNum: 75408
+X-List-Received-Date: Mon, 04 Jan 2016 23:57:08 -0000
+X-Groupsio-MsgNum: 75409
 Content-Type: multipart/signed; micalg=pgp-sha512;
 	protocol="application/pgp-signature";
-	boundary="1d4nKIOS7UievmAwbo5r4wf7uDGJct1AA"
+	boundary="Xtc8t0MHrKTIJsgepNpVMHECVoHQA9w7Q"
 
---1d4nKIOS7UievmAwbo5r4wf7uDGJct1AA
+--Xtc8t0MHrKTIJsgepNpVMHECVoHQA9w7Q
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 
-On 01/04/2016 11:59 PM, Mark Hatle wrote:
-> On 1/2/16 5:53 PM, Matthias Schiffer wrote:
->> These directories conflict with the symlinks created for merged-usr se=
-tups.
+On 01/04/2016 11:56 PM, Mark Hatle wrote:
+> On 1/4/16 4:26 PM, Matthias Schiffer wrote:
+>> On 01/04/2016 05:32 PM, Mark Hatle wrote:
+>>> On 1/4/16 10:11 AM, Matthias Schiffer wrote:
+>>>> On 01/04/2016 02:14 PM, Ian Ray wrote:
+>>>>> The recipe uses hard-coded paths (specifically /lib) in do_install
+>>>>> and in FILES, however on a merged /usr system this directory might
+>>>>> not exist. Prefer base_libdir.
+>>>>>
+>>>>> Signed-off-by: Ian Ray <ian.ray@ge.com>
+>>>>> ---
+>>>>
+>>>> This should use nonarch_base_libdir, base_libdir defaults to /lib64 =
+on
+>>>> ppc64, which is not where the firmware is expected.
+>>>>
+>>>
+>>> At a minimum, I would agree nonarch_base_libdir, however..
+>>>
+>>> I believe that the kernel loader/modules/tools themselves actually ha=
+ve '/lib'
+>>> hard coded into them.  This is the reason why /lib/firmware was used =
+and not one
+>>> of the variables.
+>>>
+>>> This is one of the cases were /lib is actually correct, since that is=
+ what the
+>>> system is expecting.  We can make some kind of accommodation for syst=
+ems where
+>>> /lib -> /usr/lib... but that should be done inside of the filesystem =
+setup
+>>> processing and not the package itself.  (I'm referring to the
+>>> 'meta/files/fs-perms.txt' file.
+>>>
+>>> --Mark
+>>>
 >>
->> Signed-off-by: Matthias Schiffer <mschiffer@universe-factory.net>
->> ---
->> v2: create both ${base_libdir} and ${nonarch_base_libdir}
->>
->>  meta/recipes-core/base-files/base-files_3.0.14.bb | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/=
-recipes-core/base-files/base-files_3.0.14.bb
->> index b71d5c5..2af7ecd 100644
->> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
->> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
->> @@ -33,8 +33,8 @@ INHIBIT_DEFAULT_DEPS =3D "1"
->>  docdir_append =3D "/${P}"
->>  dirs1777 =3D "/tmp ${localstatedir}/volatile/tmp"
->>  dirs2775 =3D ""
->> -dirs755 =3D "/bin /boot /dev ${sysconfdir} ${sysconfdir}/default \
->> -           ${sysconfdir}/skel /lib /mnt /proc ${ROOT_HOME} /run /sbin=
- \
->> +dirs755 =3D "${base_bindir} /boot /dev ${sysconfdir} ${sysconfdir}/de=
-fault \
->> +           ${sysconfdir}/skel ${base_libdir} ${nonarch_base_libdir} /=
-mnt /proc ${ROOT_HOME} /run ${base_sbindir} \
->>             ${prefix} ${bindir} ${docdir} /usr/games ${includedir} \
->>             ${libdir} ${sbindir} ${datadir} \
->>             ${datadir}/common-licenses ${datadir}/dict ${infodir} \
->>
+>> There seem to be some intresting ideas going around about what can or
+>> should be done via fs-perms.txt... AFAICT, fs-perms.txt can't move
+>> around files, so moving files form /lib to /usr/lib must be done in th=
+e
+>> package recipes themselves. (In my opinion, fs-perms.txt is a bad hack=
+
+>> for broken recipes that shouldn't exist anyways, but that's another
+>> discussion)
 >=20
-> I agree this new set looks correct.. but I'd like to see the correspond=
-ing
-> change to fs-perms that sets the permissions and such for each of these=
- new
-> locations.
+> Since I wrote fs-perms.txt, I'll explain the purpose.  Individual packa=
+ges don't
+> know if something is a directory, symbolic link, or what owner/group/pe=
+rmissions
+> a system level directory should be set to.
+>=20
+> The entire purpose of it is to declare a common set of -system- directo=
+ries.
+> (Packages/layers can amend and override this as necessary to add their =
+own
+> system directories.)
+>=20
+> FYI System directories are things like /usr/bin.  Having every package =
+in the
+> system need to define /usr/bin as a directory with an owner/group of ro=
+ot:root
+> and permission of 0755 is a REALLY bad practice.. but putting this know=
+ledge
+> into a single file that synchronizes everything is very practical.
+>=20
+> When the system level directories are mapped to symlinks.. the case whe=
+re
+> everyone is trying to folks /usr -> / or /bin -> /usr/bin.. then it can=
+
+> AUTOMATICALLY map and move the files in these places..
+
+Thanks for the explanation, I asked a similar question a few weeks ago
+and didn't get a satisfactory answer about what fs-perms can do. I'll
+rethink my approach for the merged-usr patchset.
+
+So the remaining issue is how to conditionalize this. I'd like to find a
+solution which doesn't require distros to define their own fs-perms when
+they just want to use a merged /usr dir.
+
+>=20
+>> I think if a distro config changes any of the base paths
+>> ({nonarch_,}base_libdir, base_{,s}bindir), *all* packages should respe=
+ct
+>> this. It's the distro's reponsiblity to create symlinks so everything =
+is
+>> found again at the expected paths (other examples for such hardcoded
+>> paths: /bin/sh; the dynamic linker). See also my patchset I submitted =
+to
+>> this mailing list, which introduces a distro feature to have such
+>> symlinks created by base-files.
+>=20
+> When this was written it was heavily argued against this knowledge bein=
+g in
+> base-files or base-dirs (suggested at the time) packages.
+
+Is that discussion archived somewhere? I'm interested in the
+argumentation. Do any non-OE distros have a similar feature?
+
+>=20
+> Defining a base setup, and then using a synchronization pass using the
+> fs-perms.txt was the way to go.
+>=20
+> Note, fs-perms process is absolutely supposed to move files around -if-=
+ a
+> symlink is generated.. i.e.:
+>=20
+> /lib -> /usr/lib
+>=20
+> if you write to /lib/firmware, the code is supposed to see the director=
+y of
+> '/lib', create a new /usr/lib (set perms properly) and move the content=
+s if /lib
+> to /usr/lib, then replace the directory with a symbolic link.
+>=20
+> If it's NOT doing that, lets fix it.
+
+I didn't try yet as I didn't now that it is supposed to to that.
+
 >=20
 > --Mark
 >=20
-
-The current meta/files/fs-perms.txt doesn't mention any of /bin, /sbin
-or /lib, and seemingly never did. I guess they could be added, but that
-could also be done in a separate patch (and as I mentioned in another
-mail, I'm not exactly a fan of the fs-perms concept, so I don't really
-care.)
-
-Matthias
+>> Matthias
+>>
+>>
+>>
+>=20
 
 
---1d4nKIOS7UievmAwbo5r4wf7uDGJct1AA
+
+--Xtc8t0MHrKTIJsgepNpVMHECVoHQA9w7Q
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -104,19 +186,19 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQIcBAEBCgAGBQJWiwRDAAoJEBbvP2TLIB2ct8EQAOat2JEoCYgRXaGUu3C2Pd+y
-UjBU5phhlyfhk3cjDhq1K7GwKQAdh5xn63rE3wxzoGDoyHTRZS9vTOOTgqkb5se/
-XEP/1T6BMuW+I92+og74oSLEvSeSLNYQ7t0ZSrtNGPRxIUHLL7Of5LOVVdDmrG7Q
-0pMYE1ys31S9ejSHJLln9mSBOKDEYJiEgjxlt1GaLlmf9yqBhNaYk5+Q4rIQA+hf
-s71AZX8npcl80JI5c+ZgrEnvOeEPyxIMWYBszs40uAu3eFQgfOADaKFCOkI2SCsE
-tai6wza5OfEMcvUilrRHmZfRc88X1SFYa6gPl4VKnkgLNBWzMcAUMXT3HHdO+O37
-CX0iQ0GfdHr53pQIJQDQNwxG663rNPcnFPI/8vdIaPUe627YA5NHjrv0fogNlgsL
-uiGp+pwKjhZEG4PUxWUPzT5w6m45tohAq9AsWElHJOk/v4JH0jc88+/0q0JglMDA
-lub9npuAhWM4iLXraE85rZj9xT3xkv2nQoetrsKeo6YzDKLKbwKdkrWDRMQPdqXy
-/vJ0axWEdkQdX/gjFBTwnt8uqM/JPAftVvmQm3khBCdXlOZfVcLK4L3BmoSjWfuX
-3A8oHZyUlB/AH0knhQC+rZzYsxGNfPIsy1gDV7NPFM+RF27Zi2zaRfoFQFIHJQG4
-LIecM/fAdtLsLz5McyMO
-=A3bN
+iQIcBAEBCgAGBQJWiwbTAAoJEBbvP2TLIB2cgkUQAMrAdoyKgNfDeAPJkJICGv4k
+HlptMXQJN9BC+3TmAE6hoORu3TeSmWA6jZXmOupTQ5UfYLII3vMHjzx8zUgd4nzR
+9e2lwkCV6VDwXc+l89Xgw6t9uBDTnVwfN6x+wzDjUPrs991YzUOtLgBtbwd6RnNf
+N+nSb5hr11rAkTOzKeSKn56/VK7L71Yr+zT59D6cfrtSUj/rOmvjRs4ENcDR0S/u
+/ZSzOJCQd3M2qCmEbQMyBDDKk9eieEVSJCquyPFfKxldk4i+FalPuibo2iLo1cSA
+FaxzHBAqFApOixnX9ThJdaQskSNa4FZc3RV7XS8FOF2ANEkUPOl0/GBLl7Dl6nYJ
+tTp99C5LCTuD5GftiDD1tWemqc6td5jo5qgYIC20fB7QWCz5h+SGcP3bVL++Sk9n
+sV5QTsal+x+NTDNvI7zOJ+NUat5xE4RIe0o2sCKxESgKYAKD6evakCePbEcO6joy
+KQ/bE7hN5KnIgub9rx+vHIRTcbkUuyzweE9/d7PU73q0W4UEQs+jggrYFdkLvi6e
+cQzP5cm0r1Mp7Un3T+NsWeKKH5nxFIgqpL/e30cx2CX1L5KtycWsJAB1e7o+p+Uw
+PMQ76e7eKPW8AjOQ/NoNGsgsn+VHRPg8wdyuzwqsUBNpwGAvOlUTrwX2VRTvj2NS
+xkB/nvFfy+WpXq2e150L
+=yv70
 -----END PGP SIGNATURE-----
 
---1d4nKIOS7UievmAwbo5r4wf7uDGJct1AA--
+--Xtc8t0MHrKTIJsgepNpVMHECVoHQA9w7Q--
