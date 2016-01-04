@@ -1,25 +1,41 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B79BB606BF
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 99A04731DC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jan 2016 02:09:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0429PAM004170
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 3 Jan 2016 18:09:25 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.159) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Sun, 3 Jan 2016 18:09:25 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Mon, 4 Jan 2016 10:08:42 +0800
-Message-ID: <06cb4a38d169505b4c7432a8e6208016863efad4.1451873095.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1451873095.git.hongxu.jia@windriver.com>
-References: <cover.1451873095.git.hongxu.jia@windriver.com>
+	Mon,  4 Jan 2016 02:13:18 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id yy13so96764353pab.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 03 Jan 2016 18:13:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-type:content-transfer-encoding;
+	bh=5x3llIOpgUYbMo2kYt7cwezaQ9EmbGd4oRCkwYzb2xw=;
+	b=epAVVuiM8UGrfEtbON9BSO/35Jf/ljhWIbgxP4Rmv5Vce1SpviFUZxcaUWppVnDsj8
+	YPBJLkOmujFdDXsCufrDP8d6EG0RxMk+fUGw10cOuAo8/kGeDqGlKOgNtJh7VwL34EAK
+	82LzuHxsUhFIZIj2otdBLiUOy9SIzPq49NwU9+HpzltFMWf3bLKO/1mM/BPFJOnaE5N0
+	rfoFmq8kVEw1Ql3ivkZ3RFXdkKaMzTyplCKuGAz/YxNmGqAMEDYFRKvMvdOQO0tqeqzP
+	7udEh6LJGd2SSTo4rauo4I1v6q32jzCUzazAPlYoh6gVz0mspNoyu5r8RPxE+6J/Qy9Y
+	RSQQ==
+X-Received: by 10.66.162.231 with SMTP id yd7mr121714710pab.98.1451873598898; 
+	Sun, 03 Jan 2016 18:13:18 -0800 (PST)
+Received: from Akusters-laptop.local ([2601:202:4000:1239:603d:1e7f:3049:777e])
+	by smtp.googlemail.com with ESMTPSA id
+	c87sm18613454pfj.79.2016.01.03.18.13.16
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 03 Jan 2016 18:13:17 -0800 (PST)
+To: Awais_Belal@mentor.com
+References: <1450869629-27805-1-git-send-email-awais_belal@mentor.com>
+	<2021B186DC632746BD5A3CE32F12BD28011FB77C51@EU-MBX-02.mgc.mentorg.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <5689D53A.3040902@gmail.com>
+Date: Sun, 3 Jan 2016 18:13:14 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.4.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] dbus: support large-file for stat64
+In-Reply-To: <2021B186DC632746BD5A3CE32F12BD28011FB77C51@EU-MBX-02.mgc.mentorg.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [dizzy][PATCH] grub2: Fix CVE-2015-8370
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,130 +48,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jan 2016 02:09:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 Jan 2016 02:13:19 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-While starting dbus-daemon on a 32-bit linux host and it invokes
-fstat to load /etc/dbus-1/system.conf through NFS. If system.conf
-was created with a large indoe number on 64-bit host. The above
-fstat invoking failed. Here is the log of strace:
-............
-$ ls -i /etc/dbus-1/system.conf
-53778558109 /etc/dbus-1/system.conf
+On 12/31/15 5:38 AM, Belal, Awais wrote:
+Awais,
 
-$ strace /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation
-|open("/etc/dbus-1/system.conf", O_RDONLY) = 4
-|fstat64(4, {st_mode=S_IFREG|0644, st_size=3340, ...}) = 0
-|close(4) = 0
-|close(3) = 0
-|write(2, "Failed to start message bus: Fai"..., 109Failed to start message bus:
-Failed to stat "/etc/dbus-1/system.conf": Value too large for defined data type
-|) = 109
-|exit_group(1) = ?
-|+++ exited with 1 +++
-............
+> Ping!
+This patch does not apply to the current dizzy branch.
 
-In this situation, we should support large-file for stat64. Add marco
-AC_SYS_LARGEFILE to do the detection at configure time. It can be disabled
-by configuring with the `--disable-largefile' option.
+is there a dependency patch I missed to apply?
 
-[YOCTO: #8863]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...onfigure.ac-support-large-file-for-stat64.patch | 53 ++++++++++++++++++++++
- meta/recipes-core/dbus/dbus_1.8.20.bb              |  3 ++
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-core/dbus/dbus/0001-configure.ac-support-large-file-for-stat64.patch
-
-diff --git a/meta/recipes-core/dbus/dbus/0001-configure.ac-support-large-file-for-stat64.patch b/meta/recipes-core/dbus/dbus/0001-configure.ac-support-large-file-for-stat64.patch
-new file mode 100644
-index 0000000..bb73288
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus/0001-configure.ac-support-large-file-for-stat64.patch
-@@ -0,0 +1,53 @@
-+From e18bd3a571be716d90bedc835a014472470ae7bd Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 30 Dec 2015 10:58:39 +0800
-+Subject: [PATCH] configure.ac: support large-file for stat64
-+
-+While starting dbus-daemon on a 32-bit linux host and it invokes
-+fstat to load /etc/dbus-1/system.conf through NFS. If system.conf
-+was created with a large indoe number on 64-bit host. The above
-+fstat invoking failed. Here is the log of strace:
-+............
-+$ ls -i /etc/dbus-1/system.conf
-+53778558109 /etc/dbus-1/system.conf
-+
-+$ strace /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation
-+|open("/etc/dbus-1/system.conf", O_RDONLY) = 4
-+|fstat64(4, {st_mode=S_IFREG|0644, st_size=3340, ...}) = 0
-+|close(4) = 0
-+|close(3) = 0
-+|write(2, "Failed to start message bus: Fai"..., 109Failed to start message bus:
-+Failed to stat "/etc/dbus-1/system.conf": Value too large for defined data type
-+|) = 109
-+|exit_group(1) = ?
-+|+++ exited with 1 +++
-+............
-+
-+In this situation, we should support large-file for stat64. Add marco
-+AC_SYS_LARGEFILE to do the detection at configure time. It can be disabled
-+by configuring with the `--disable-largefile' option.
-+
-+Upstream-Status: Submitted
-+
-+Bug: https://bugs.freedesktop.org/show_bug.cgi?id=93545
-+https://bugs.freedesktop.org/attachment.cgi?id=120747
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ configure.ac | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 82806ba..cb5a60b 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -64,6 +64,7 @@ AC_SUBST(DBUS_VERSION)
-+ AC_PROG_CC
-+ AM_PROG_CC_C_O
-+ AC_PROG_CXX
-++AC_SYS_LARGEFILE
-+ AC_USE_SYSTEM_EXTENSIONS
-+ AC_ISC_POSIX
-+ AC_HEADER_STDC
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-core/dbus/dbus_1.8.20.bb b/meta/recipes-core/dbus/dbus_1.8.20.bb
-index c0ad48b..0c7f6b1 100644
---- a/meta/recipes-core/dbus/dbus_1.8.20.bb
-+++ b/meta/recipes-core/dbus/dbus_1.8.20.bb
-@@ -17,6 +17,7 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://dbus-1.init \
-            file://os-test.patch \
-            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
-+           file://0001-configure.ac-support-large-file-for-stat64.patch \
- "
- 
- SRC_URI[md5sum] = "b49890bbabedab3a1c3f4f73c7ff8b2b"
-@@ -92,6 +93,7 @@ EXTRA_OECONF = "--disable-tests \
- EXTRA_OECONF_append_class-native = " --disable-selinux"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'largefile', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
- PACKAGECONFIG_class-native = ""
- PACKAGECONFIG_class-nativesdk = ""
-@@ -100,6 +102,7 @@ PACKAGECONFIG_class-nativesdk = ""
- # systemd<->dbus
- PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,--without-systemdsystemunitdir"
- PACKAGECONFIG[x11] = "--with-x --enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
-+PACKAGECONFIG[largefile] = "--enable-largefile,--disable-largefile,,"
- 
- do_install() {
- 	autotools_do_install
--- 
-1.9.1
+regards,
+Armin
+>
+> BR,
+> Awais
+>
+> ________________________________________
+> From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-bounces@lists.openembedded.org] on behalf of Belal, Awais
+> Sent: Wednesday, December 23, 2015 4:20 PM
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370
+>
+> http://git.savannah.gnu.org/cgit/grub.git/commit/?id=451d80e52d851432e109771bb8febafca7a5f1f2
+>
+> Signed-off-by: Awais Belal <awais_belal@mentor.com>
+> ---
+>  ...E-2015-8370-Grub2-user-pass-vulnerability.patch | 52 ++++++++++++++++++++++
+>  meta/recipes-bsp/grub/grub-efi_2.00.bb             |  1 +
+>  meta/recipes-bsp/grub/grub_2.00.bb                 |  1 +
+>  3 files changed, 54 insertions(+)
+>  create mode 100644 meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch
+>
+> diff --git a/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch
+> new file mode 100644
+> index 0000000..f9252e9
+> --- /dev/null
+> +++ b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch
+> @@ -0,0 +1,52 @@
+> +Upstream-Status: Accepted
+> +Signed-off-by: Awais Belal <awais_belal@mentor.com>
+> +
+> +From 451d80e52d851432e109771bb8febafca7a5f1f2 Mon Sep 17 00:00:00 2001
+> +From: Hector Marco-Gisbert <hecmargi@upv.es>
+> +Date: Wed, 16 Dec 2015 04:57:18 +0000
+> +Subject: Fix security issue when reading username and password
+> +
+> +This patch fixes two integer underflows at:
+> +  * grub-core/lib/crypto.c
+> +  * grub-core/normal/auth.c
+> +
+> +CVE-2015-8370
+> +
+> +Signed-off-by: Hector Marco-Gisbert <hecmargi@upv.es>
+> +Signed-off-by: Ismael Ripoll-Ripoll <iripoll@disca.upv.es>
+> +Also-By: Andrey Borzenkov <arvidjaar@gmail.com>
+> +---
+> +diff --git a/grub-core/lib/crypto.c b/grub-core/lib/crypto.c
+> +index 010e550..683a8aa 100644
+> +--- a/grub-core/lib/crypto.c
+> ++++ b/grub-core/lib/crypto.c
+> +@@ -470,7 +470,8 @@ grub_password_get (char buf[], unsigned buf_size)
+> +
+> +       if (key == '\b')
+> +       {
+> +-        cur_len--;
+> ++        if (cur_len)
+> ++          cur_len--;
+> +         continue;
+> +       }
+> +
+> +diff --git a/grub-core/normal/auth.c b/grub-core/normal/auth.c
+> +index c6bd96e..8615c48 100644
+> +--- a/grub-core/normal/auth.c
+> ++++ b/grub-core/normal/auth.c
+> +@@ -174,8 +174,11 @@ grub_username_get (char buf[], unsigned buf_size)
+> +
+> +       if (key == '\b')
+> +       {
+> +-        cur_len--;
+> +-        grub_printf ("\b");
+> ++        if (cur_len)
+> ++          {
+> ++            cur_len--;
+> ++            grub_printf ("\b");
+> ++          }
+> +         continue;
+> +       }
+> +
+> +--
+> +cgit v0.9.0.2
+> diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+> index 7674255..6822e7a 100644
+> --- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
+> +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+> @@ -30,6 +30,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+>             file://grub-2.00-add-oe-kernel.patch \
+>             file://grub-efi-fix-with-glibc-2.20.patch \
+>             file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patch \
+> +           file://0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch \
+>            "
+>  SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
+>  SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
+> diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
+> index d4df676..94b6da9 100644
+> --- a/meta/recipes-bsp/grub/grub_2.00.bb
+> +++ b/meta/recipes-bsp/grub/grub_2.00.bb
+> @@ -25,6 +25,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+>            file://fix-endianness-problem.patch \
+>            file://grub2-remove-sparc64-setup-from-x86-builds.patch \
+>            file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patch \
+> +          file://0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch \
+>            "
+>
+>  SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
