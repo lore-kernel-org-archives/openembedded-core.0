@@ -1,30 +1,22 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 025B5731B2;
-	Mon,  4 Jan 2016 19:01:22 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id q21so163554976iod.0;
-	Mon, 04 Jan 2016 11:01:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=yd5xhbkbt9gdSnFUQN8TsZAuPndel9Z31f3yNPXwKi8=;
-	b=HYJsxJtKlV7XXjmsI07RSa3v2RhGcIwskCpMXLJCTl3LUObqISpCLtBtPZGAyLLfY1
-	5MhtJhVPfcy0qJC6gXfVCrncsSLowFXeMPGqEXuN3EuTp7bxY4jrMteozkQ7p1Szl+Gr
-	Wj6GUNXGX1HHC6t5OMOHY9DGYQ69040sWuSTGuMBCNPCk6tJO9qfep4xnrexcYUrsmFC
-	W6yj2xxjX2RfSfYJITIhQyyg8gj1et9+w5dAHOei05IkLZa19VQ2+xIlBlX6U6EgRk0F
-	UoIsgmV3FGCUpSwBBDU86dWvOyPwwkEM2fpWzZ4V0Zr2xuvr/CBpLHzpNWI8U9emIEl3
-	HZVQ==
-X-Received: by 10.107.165.14 with SMTP id o14mr24107497ioe.49.1451934083265;
-	Mon, 04 Jan 2016 11:01:23 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.16.74 with HTTP; Mon, 4 Jan 2016 11:00:53 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 4 Jan 2016 11:00:53 -0800
-Message-ID: <CAMKF1sqAGXMFx9re3YgB1u9aLPGRT9KRCR-0Drux=4P5igirWw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>
-Subject: [RFT] glibc 2.23
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 20828731CA;
+	Mon,  4 Jan 2016 19:01:53 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
+	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1aGAO9-0005bw-GB; Mon, 04 Jan 2016 20:01:53 +0100
+Message-ID: <1451934106.2002.99.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-devel@lists.openembedded.org
+Date: Mon, 04 Jan 2016 19:01:46 +0000
+In-Reply-To: <CAJTo0LY-O9ee3jGoSPOPjqpu=u9zCEo2vfh3jfyxvgC15MWxbQ@mail.gmail.com>
+References: <CAJTo0LayEjj9moB9xgup=vB+C9Sn2-WX+s97UWRt9tg=HYFnag@mail.gmail.com>
+	<CAJTo0LY-O9ee3jGoSPOPjqpu=u9zCEo2vfh3jfyxvgC15MWxbQ@mail.gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [RFC] Delete all .la files?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +29,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jan 2016 19:01:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 04 Jan 2016 19:01:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi All,
+On Mon, 2016-01-04 at 17:28 +0000, Burton, Ross wrote:
+> Technicalities time: should this be a new class that is in the default
+> INHERIT_DISTRO?  Or directly integrated into base.bbclass?  Does anyone
+> have a strong opinion either way?
 
-I have put together patchset for upcoming glibc 2.23 release here
+I think I'd still be inclined to put it in autotools.bbclass, on the
+basis that very few non-autotools recipes use libtool.  Second
+preference, probably a new class as you suggest, following the argument
+that we'd be better off with less rather than more "stuff" in
+base.bbclass.  But I don't have a very strong opinion either way. 
 
-https://github.com/kraj/openembedded-core/tree/kraj/glibc-2.23
+p.
 
-There are two patches that you would need to cherry-pick
 
-https://github.com/kraj/openembedded-core/commit/8f6392f59c83117da07a1ebe25b9cbbdf79a6df5
-https://github.com/kraj/openembedded-core/commit/5f89cddb83a2682dc17b115940cc519dde83e4ae
-
-This has kconfig and options-group support dropped.
-
-I have done OE-Core only clean world builds for all Qemu machines
-without a single build failure and
-runtime boot tested.
-
-Let me know if you see issues in your environments and machines
-especially when bringing in other layers.
-
-Thanks
--Khem
 
