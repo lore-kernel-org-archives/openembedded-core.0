@@ -1,49 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B585731C0
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 84994731BD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jan 2016 16:50:30 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id o67so439964421iof.3
+	Mon,  4 Jan 2016 16:59:13 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id 77so130225822ioc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Jan 2016 08:50:31 -0800 (PST)
+	Mon, 04 Jan 2016 08:59:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=DB/jFLJktEI8S+dKhcqvVeyGR6fm8zXwZFVs5o5j04o=;
-	b=H830ut19bCavlkRfMK+PKdNLaL3dUzPcovpnP02wfD10dkxrRpYl8ObwAdcKzAYNo2
-	hymGZHKNdlTBKUoR64s4vUguQReW4TClxrNcf2Ea+A+VGiwUMaBn6q3BcAK8pHi8A36B
-	k0zFepXRWI9mus2RW0kcTFs362F2mGrKV1zrrdMnBKjgZkNH6ibkoBM7PfSSl81u5vi7
-	yFZGBr1jvC0TBbB+KtO2DMhUZCuddIitRkLk/tsd1L9xY9ayMTHCgyRmldawJqPl8iWK
-	xGKQgEgmzybd4E7eHtZtEFnyf7L4W1YI3CiTJ5/FBFXqMLHSVZ2QHkb6ZYDRmmv32qZP
-	x6pg==
+	bh=Y+MXRbbeMPmyswKb1v579HDIhoCeGxlasio1jkzdlDg=;
+	b=rqXecGlNFvtEn5STIv+hTzPgFzibiWWecrqggnL1PgWwoPUHwOPyHHaeAs938Ji672
+	TftmGCkDR+QvN16dmOrBPnaswx0pFvmSx4iJ4jThb21+5KH8clQnOWz4IjAYVx6Doecb
+	u1ZyhTJ72HpoP4jj6H8ju6hnD5+2v3QW2HyR6WIiez30KDoX3FDMmKMPdLqdpk8KuO7/
+	iPHslKsH7BAIOKJISkuifvOvb1kA1ADi+YNhj/LsO+SZuCO5owFSWLZ7cSWjbcBg6AlY
+	Sd6SnK7IKLsZLCuJwi/bHADiFnq/KzRMsQQvSEEobO97K6R3qraimXBdGnCugzmyeRyx
+	IcPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=DB/jFLJktEI8S+dKhcqvVeyGR6fm8zXwZFVs5o5j04o=;
-	b=ZuL8fyi1WxazlymjJSNb6IDpGmNap/lpwajTq0WRMM8e+ANkhL53kAYDJ8jj+h/MnP
-	dYwlUrpc1KYmk2eUyMSvWzEzQW+b2OPD/DbafDgOzeOtFU+2MME0hcE/25xIZsoqc0uA
-	AOj0rlfGd1ImPtrkfneF7G5HU4y6kdxEetGJ/VoES18K7eZQNcKt5R/7e53WQj9bI6BQ
-	pH/YkkliYykmdLsrnHpzwB4HpS7GTZLwWI94yY+EdnogsfAhQMEoFB9hobisDAs69RNy
-	HxehDf7MdV1A3x7rsoHFv2qfOWnyBWk9A447dipm5qkmOHYZRA7PCKAQk5T3TFVQtqpo
-	en1Q==
-X-Gm-Message-State: ALoCoQlWFckEUp37CFNsWITbPbdhsguuV9ET6E+UI7h3hZxRZgsrF9WHDqfeLOQuY8QKrUr8kqn7KhgFEAKXMiVFJ2rwE5T7+/2hgCV3ZV7xtYz3l7R5u54=
-X-Received: by 10.107.135.104 with SMTP id j101mr51758277iod.133.1451926231070;
-	Mon, 04 Jan 2016 08:50:31 -0800 (PST)
+	bh=Y+MXRbbeMPmyswKb1v579HDIhoCeGxlasio1jkzdlDg=;
+	b=YwADfJh7p6noufcLcYhCTBNvlZKKoQ7EDN/VcALZmoDnk7CwQghRqHEbvVt9JMxypQ
+	NYnJ9eIBTdYjWmtSI1ASv+X6/DC2xTwgGjwciS8CaEikQL3K7BttLBTYakLzr65o/Y3A
+	CFbqMNQ4lstsORnD4jMfrfncoshC0MBk3pSMdvDZ44F0a+IIKtz5j2N1z3qmzenRVo7y
+	Q9Dw5ls4UI9q7aW4sMsnrsV6LXcnvG7sDt2660HFux5IB7RZPE1Z82lCsSgUkqdWhZYa
+	xz5CA+21sM6A0g1VjJmoYYDFCzsGLRs5C11QfIc2uliwBZwrLy5PQi3/SvmJ8zAOR1Qi
+	EZ8Q==
+X-Gm-Message-State: ALoCoQkoLs7uz+iL4PWacZw6Yr0qlVOE6Dhj1K3o/3gDDTUmHKV/mPK2ZsFAs1+SzO64m7TBW6xfLVLQn6KKA0e1x60XDjZT0ZVCUHRLdNLf5OOEIqEjqZA=
+X-Received: by 10.107.164.161 with SMTP id d33mr73624104ioj.148.1451926753740; 
+	Mon, 04 Jan 2016 08:59:13 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 4 Jan 2016 08:50:11 -0800 (PST)
-In-Reply-To: <20160104084826.GA4807@ulm-bmuc496424.bmw-carit.de>
-References: <CAJTo0LayEjj9moB9xgup=vB+C9Sn2-WX+s97UWRt9tg=HYFnag@mail.gmail.com>
-	<20160104084826.GA4807@ulm-bmuc496424.bmw-carit.de>
+Received: by 10.107.162.70 with HTTP; Mon, 4 Jan 2016 08:58:54 -0800 (PST)
+In-Reply-To: <20151223101005.GC2569@jama>
+References: <cover.1449754344.git.Martin.Jansa@gmail.com>
+	<20151223101005.GC2569@jama>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 4 Jan 2016 16:50:11 +0000
-Message-ID: <CAJTo0LbM6p7BxOXf5bfOVMwRdLDWdYVqJCc5h79euMqfQeoo5g@mail.gmail.com>
-To: Clemens Lang <clemens.lang@bmw-carit.de>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Delete all .la files?
+Date: Mon, 4 Jan 2016 16:58:54 +0000
+Message-ID: <CAJTo0LZC=ubcFSsrc+GEb8F8nL2bXrCya9kh=GT5UvZkqPMrQQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][master][RESEND 00/15] ARM tune fixes and improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jan 2016 16:50:30 -0000
-Content-Type: multipart/alternative; boundary=001a113ebe923e71b6052884eb97
+X-List-Received-Date: Mon, 04 Jan 2016 16:59:14 -0000
+Content-Type: multipart/alternative; boundary=001a1141c97665a0ae0528850a9d
 
---001a113ebe923e71b6052884eb97
+--001a1141c97665a0ae0528850a9d
 Content-Type: text/plain; charset=UTF-8
 
-On 4 January 2016 at 08:48, Clemens Lang <clemens.lang@bmw-carit.de> wrote:
+On 23 December 2015 at 10:10, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-> Note that any software using libltdl will still require the .la files
-> and must thus opt-out of .la file deletion. ImageMagick is probably the
-> most common occurrence of this.
+> Ping, I've rebased this again.
 >
 
-The use of modules in imagemagick is disabled by default, so this only
-impacts people who change that default (and the wiper will optional).
+Merged to mut, will hit the AB with it tonight.
 
 Ross
 
---001a113ebe923e71b6052884eb97
+--001a1141c97665a0ae0528850a9d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 4 January 2016 at 08:48, Clemens Lang <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:clemens.lang@bmw-carit.de" target=3D"_blank">clemens.lang@bmw-carit.d=
-e</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":87" c=
-lass=3D"a3s" style=3D"overflow:hidden">Note that any software using libltdl=
- will still require the .la files<br>
-and must thus opt-out of .la file deletion. ImageMagick is probably the<br>
-most common occurrence of this.</div></blockquote></div><br>The use of modu=
-les in imagemagick is disabled by default, so this only impacts people who =
-change that default (and the wiper will optional).</div><div class=3D"gmail=
-_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 23 December 2015 at 10:10, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":9n" class=
+=3D"a3s" style=3D"overflow:hidden">Ping, I&#39;ve rebased this again.<div c=
+lass=3D"yj6qo ajU"><div id=3D":80" class=3D"ajR" tabindex=3D"0"></div></div=
+></div></blockquote></div><br>Merged to mut, will hit the AB with it tonigh=
+t.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
+s</div></div>
 
---001a113ebe923e71b6052884eb97--
+--001a1141c97665a0ae0528850a9d--
