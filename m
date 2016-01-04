@@ -1,27 +1,23 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id D2B346080F
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 905C760588
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jan 2016 15:19:00 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 04 Jan 2016 07:19:02 -0800
+	Mon,  4 Jan 2016 15:44:58 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 04 Jan 2016 07:44:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,521,1444719600"; d="scan'208";a="853210242"
+X-IronPort-AV: E=Sophos;i="5.20,521,1444719600"; d="scan'208";a="627793204"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 04 Jan 2016 07:19:02 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 2E1696A4002
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jan 2016 08:06:58 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
+	by FMSMGA003.fm.intel.com with ESMTP; 04 Jan 2016 07:44:59 -0800
+Received: from fedora-ws.localdomain (unknown [10.237.112.240])
+	by linux.intel.com (Postfix) with ESMTP id 3FA446A4002;
+	Mon,  4 Jan 2016 08:32:57 -0800 (PST)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Jan 2016 17:20:57 +0200
-Message-Id: <1451920857-2487-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] matchbox-keyboard: export GTK_IM_MODULE_FILE location
+Date: Mon,  4 Jan 2016 17:47:59 +0200
+Message-Id: <1451922479-13033-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] oe-selftest: New option --list-tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,46 +30,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jan 2016 15:19:02 -0000
+X-List-Received-Date: Mon, 04 Jan 2016 15:44:59 -0000
 
-This commit in gtk+ moved the cache files below <libdir>
-"
-commit c8849046860a9b17fa943247d85ddadb29262b48
-Author: Matthias Clasen <mclasen@redhat.com>
-Date:   Thu Jul 4 09:27:17 2013 -0400
+This option will list all available tests in a comprehensive manner.
 
-Move the module cache files below libdir
+Fix for [YOCTO #8868]
 
-These files contain architecture-dependent paths, and thus placing
-them into sysconfdir causes unnecessary hassle. Now the immodule cache
-file is looked for in libdir/gtk-2.0/2.10.0/immodules.cache.
-Belated backport of a change that was done in the run-up to 3.0.
-"
-
-Since gtk-immodules-cache.bbclass creates the cache file in
-"/etc/gtk-2.0/gtk.immodules", the environment variable "GTK_IM_MODULE_FILE"
-can be set to point GTK+ at the file.
-
-[YOCTO #6774]
-
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 ---
- meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/oe-selftest | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh b/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh
-index 6cf188b..63d9b8d 100644
---- a/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh
-+++ b/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh
-@@ -1,6 +1,7 @@
- #!/bin/sh
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index 08a5af3..113daf6 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -82,6 +82,8 @@ def get_args_parser():
+                        help='run-tests-by <name|class|module|id|tag> <list of tests|classes|modules|ids|tags>')
+     group.add_argument('--list-tests-by', required=False, dest='list_tests_by', default=False, nargs='*',
+                        help='list-tests-by <name|class|module|id|tag> <list of tests|classes|modules|ids|tags>')
++    group.add_argument('--list-tests', required=False,  action="store_true", dest="list_tests", default=False,
++                       help='List all available tests.')
+     group.add_argument('--list-tags', required=False, dest='list_tags', default=False, action="store_true",
+                        help='List all tags that have been set to test cases.')
+     return parser
+@@ -333,6 +335,22 @@ def list_testsuite_by(criteria, keyword):
+     print 'Total found:\t %s' % len(ts)
  
- . /etc/formfactor/config
-+export GTK_IM_MODULE_FILE="/etc/gtk-2.0/gtk.immodules"
  
- CMD=""
++def list_tests():
++    # List all available oe-selftest tests
++
++    ts = get_all_tests()
++
++    print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % ('id', 'tag', 'name', 'class', 'module')
++    print '_' * 150
++    for t in ts:
++        if isinstance(t.tctag, (tuple, list)):
++            print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % (t.tcid, ', '.join(t.tctag), t.tcname, t.tcclass, t.tcmodule)
++        else:
++            print '%-4s\t%-20s\t%-60s\t%-25s\t%-20s' % (t.tcid, t.tctag, t.tcname, t.tcclass, t.tcmodule)
++    print '_' * 150
++    print 'Total found:\t %s' % len(ts)
++
++
+ def list_tags():
+     # Get all tags set to test cases
+     # This is useful when setting tags to test cases
+@@ -380,6 +398,9 @@ def main():
+             keyword = args.list_tests_by[1:]
+             list_testsuite_by(criteria, keyword)
+ 
++    if args.list_tests:
++        list_tests()
++
+     if args.list_tags:
+         list_tags()
  
 -- 
-2.4.0
+2.1.0
 
 
