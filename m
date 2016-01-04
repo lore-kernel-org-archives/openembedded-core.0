@@ -1,34 +1,32 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C6E8605FE
+Return-Path: <clemens.lang@bmw-carit.de>
+X-Greylist: delayed 332 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 04 Jan 2016 08:54:02 UTC
+Received: from mail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
+	by mail.openembedded.org (Postfix) with ESMTP id EBA2E6FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jan 2016 07:53:39 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-02.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1aFzxT-0002xQ-Dr from Awais_Belal@mentor.com ;
-	Sun, 03 Jan 2016 23:53:39 -0800
-Received: from EU-MBX-02.mgc.mentorg.com ([169.254.3.44]) by
-	SVR-IES-FEM-02.mgc.mentorg.com ([137.202.0.106]) with mapi id
-	14.03.0224.002; Mon, 4 Jan 2016 07:53:38 +0000
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: akuster808 <akuster808@gmail.com>
-Thread-Topic: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370
-Thread-Index: AQHRPXQQ2iBTKTrMm0uMwa00fKoPVp7lJjJVgAWJ1ACAAF0f3A==
-Date: Mon, 4 Jan 2016 07:53:37 +0000
-Message-ID: <2021B186DC632746BD5A3CE32F12BD28011FB78A03@EU-MBX-02.mgc.mentorg.com>
-References: <1450869629-27805-1-git-send-email-awais_belal@mentor.com>
-	<2021B186DC632746BD5A3CE32F12BD28011FB77C51@EU-MBX-02.mgc.mentorg.com>,
-	<5689D53A.3040902@gmail.com>
-In-Reply-To: <5689D53A.3040902@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
+	Mon,  4 Jan 2016 08:54:02 +0000 (UTC)
+Received: from exchange2010.bmw-carit.intra ([192.168.100.28]:38638
+	helo=mail.bmw-carit.de)
+	by mail.bmw-carit.de with esmtps (TLSv1:AES256-SHA:256)
+	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Clemens.Lang@bmw-carit.de>)
+	id 1aG0oV-00064s-34; Mon, 04 Jan 2016 09:48:27 +0100
+Received: from localhost (172.20.20.163) by Exchange2010.bmw-carit.intra
+	(192.168.100.28) with Microsoft SMTP Server (TLS) id 14.3.123.3;
+	Mon, 4 Jan 2016 09:48:27 +0100
+X-CTCH-RefID: str=0001.0A0C0205.568A31DB.031E, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0
+Date: Mon, 4 Jan 2016 09:48:26 +0100
+From: Clemens Lang <clemens.lang@bmw-carit.de>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20160104084826.GA4807@ulm-bmuc496424.bmw-carit.de>
+References: <CAJTo0LayEjj9moB9xgup=vB+C9Sn2-WX+s97UWRt9tg=HYFnag@mail.gmail.com>
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [dizzy][PATCH] grub2: Fix CVE-2015-8370
+In-Reply-To: <CAJTo0LayEjj9moB9xgup=vB+C9Sn2-WX+s97UWRt9tg=HYFnag@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Originating-IP: [172.20.20.163]
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] Delete all .la files?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,201 +39,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jan 2016 07:53:40 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 04 Jan 2016 08:54:03 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Armin,=0A=
-=0A=
-Odd, applies cleanly on dizzy for me. Can you please share the patch log?=
-=0A=
-=0A=
-On a scratch build dir, I get the following:=0A=
---------------------------------------------------------------=0A=
-awais@alpha:~/yocto/build-dizzy$ bitbake -c patch grub=0A=
-Parsing recipes: 100% |####################################################=
-#########| Time: 00:00:36=0A=
-Parsing of 1458 .bb files complete (0 cached, 1458 parsed). 1914 targets, 6=
-6 skipped, 0 masked, 0 errors.=0A=
-NOTE: Resolving any missing task queue dependencies=0A=
-=0A=
-Build Configuration:=0A=
-BB_VERSION        =3D "1.24.0"=0A=
-BUILD_SYS         =3D "x86_64-linux"=0A=
-NATIVELSBSTRING   =3D "Ubuntu-14.04"=0A=
-TARGET_SYS        =3D "x86_64-poky-linux"=0A=
-MACHINE           =3D "amdfalconx86"=0A=
-DISTRO            =3D "poky"=0A=
-DISTRO_VERSION    =3D "1.7.3"=0A=
-TUNE_FEATURES     =3D "dbfp4"=0A=
-TARGET_FPU        =3D ""=0A=
-meta              =0A=
-meta-yocto        =0A=
-meta-yocto-bsp    =3D "(detachedfromorigin/dizzy):6d34267e0a13e10ab91b60590=
-b27a2b5ba3b7da6"=0A=
-common            =0A=
-meta-amdfalconx86 =3D "(detachedfromorigin/dizzy):84ae10ad68c7b253ab87558c5=
-a6df057c9a84f08"=0A=
-meta-oe           =0A=
-meta-python       =3D "(detachedfromorigin/dizzy):7f1df52e9409edcc4d4cd5f34=
-694f8740f56e1bf"=0A=
-=0A=
-NOTE: Preparing runqueue=0A=
-NOTE: Executing SetScene Tasks=0A=
-NOTE: Executing RunQueue Tasks=0A=
-NOTE: Tasks Summary: Attempted 10 tasks of which 0 didn't need to be rerun =
-and all succeeded.=0A=
-awais@alpha:~/yocto/build-dizzy$ =0A=
---------------------------------------------------------------=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: akuster808 [akuster808@gmail.com]=0A=
-Sent: Monday, January 04, 2016 7:13 AM=0A=
-To: Belal, Awais=0A=
-Cc: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370=0A=
-=0A=
-On 12/31/15 5:38 AM, Belal, Awais wrote:=0A=
-Awais,=0A=
-=0A=
-> Ping!=0A=
-This patch does not apply to the current dizzy branch.=0A=
-=0A=
-is there a dependency patch I missed to apply?=0A=
-=0A=
-regards,=0A=
-Armin=0A=
->=0A=
-> BR,=0A=
-> Awais=0A=
->=0A=
-> ________________________________________=0A=
-> From: openembedded-core-bounces@lists.openembedded.org [openembedded-core=
--bounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
-> Sent: Wednesday, December 23, 2015 4:20 PM=0A=
-> To: openembedded-core@lists.openembedded.org=0A=
-> Subject: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370=0A=
->=0A=
-> http://git.savannah.gnu.org/cgit/grub.git/commit/?id=3D451d80e52d851432e1=
-09771bb8febafca7a5f1f2=0A=
->=0A=
-> Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
-> ---=0A=
->  ...E-2015-8370-Grub2-user-pass-vulnerability.patch | 52 ++++++++++++++++=
-++++++=0A=
->  meta/recipes-bsp/grub/grub-efi_2.00.bb             |  1 +=0A=
->  meta/recipes-bsp/grub/grub_2.00.bb                 |  1 +=0A=
->  3 files changed, 54 insertions(+)=0A=
->  create mode 100644 meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Gr=
-ub2-user-pass-vulnerability.patch=0A=
->=0A=
-> diff --git a/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-use=
-r-pass-vulnerability.patch b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-=
-8370-Grub2-user-pass-vulnerability.patch=0A=
-> new file mode 100644=0A=
-> index 0000000..f9252e9=0A=
-> --- /dev/null=0A=
-> +++ b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pass-=
-vulnerability.patch=0A=
-> @@ -0,0 +1,52 @@=0A=
-> +Upstream-Status: Accepted=0A=
-> +Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
-> +=0A=
-> +From 451d80e52d851432e109771bb8febafca7a5f1f2 Mon Sep 17 00:00:00 2001=
-=0A=
-> +From: Hector Marco-Gisbert <hecmargi@upv.es>=0A=
-> +Date: Wed, 16 Dec 2015 04:57:18 +0000=0A=
-> +Subject: Fix security issue when reading username and password=0A=
-> +=0A=
-> +This patch fixes two integer underflows at:=0A=
-> +  * grub-core/lib/crypto.c=0A=
-> +  * grub-core/normal/auth.c=0A=
-> +=0A=
-> +CVE-2015-8370=0A=
-> +=0A=
-> +Signed-off-by: Hector Marco-Gisbert <hecmargi@upv.es>=0A=
-> +Signed-off-by: Ismael Ripoll-Ripoll <iripoll@disca.upv.es>=0A=
-> +Also-By: Andrey Borzenkov <arvidjaar@gmail.com>=0A=
-> +---=0A=
-> +diff --git a/grub-core/lib/crypto.c b/grub-core/lib/crypto.c=0A=
-> +index 010e550..683a8aa 100644=0A=
-> +--- a/grub-core/lib/crypto.c=0A=
-> ++++ b/grub-core/lib/crypto.c=0A=
-> +@@ -470,7 +470,8 @@ grub_password_get (char buf[], unsigned buf_size)=0A=
-> +=0A=
-> +       if (key =3D=3D '\b')=0A=
-> +       {=0A=
-> +-        cur_len--;=0A=
-> ++        if (cur_len)=0A=
-> ++          cur_len--;=0A=
-> +         continue;=0A=
-> +       }=0A=
-> +=0A=
-> +diff --git a/grub-core/normal/auth.c b/grub-core/normal/auth.c=0A=
-> +index c6bd96e..8615c48 100644=0A=
-> +--- a/grub-core/normal/auth.c=0A=
-> ++++ b/grub-core/normal/auth.c=0A=
-> +@@ -174,8 +174,11 @@ grub_username_get (char buf[], unsigned buf_size)=
-=0A=
-> +=0A=
-> +       if (key =3D=3D '\b')=0A=
-> +       {=0A=
-> +-        cur_len--;=0A=
-> +-        grub_printf ("\b");=0A=
-> ++        if (cur_len)=0A=
-> ++          {=0A=
-> ++            cur_len--;=0A=
-> ++            grub_printf ("\b");=0A=
-> ++          }=0A=
-> +         continue;=0A=
-> +       }=0A=
-> +=0A=
-> +--=0A=
-> +cgit v0.9.0.2=0A=
-> diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/gr=
-ub/grub-efi_2.00.bb=0A=
-> index 7674255..6822e7a 100644=0A=
-> --- a/meta/recipes-bsp/grub/grub-efi_2.00.bb=0A=
-> +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb=0A=
-> @@ -30,6 +30,7 @@ SRC_URI =3D "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.=
-gz \=0A=
->             file://grub-2.00-add-oe-kernel.patch \=0A=
->             file://grub-efi-fix-with-glibc-2.20.patch \=0A=
->             file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.pa=
-tch \=0A=
-> +           file://0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.p=
-atch \=0A=
->            "=0A=
->  SRC_URI[md5sum] =3D "e927540b6eda8b024fb0391eeaa4091c"=0A=
->  SRC_URI[sha256sum] =3D "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6ca=
-f1cd0fd3b3cc11e3"=0A=
-> diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/g=
-rub_2.00.bb=0A=
-> index d4df676..94b6da9 100644=0A=
-> --- a/meta/recipes-bsp/grub/grub_2.00.bb=0A=
-> +++ b/meta/recipes-bsp/grub/grub_2.00.bb=0A=
-> @@ -25,6 +25,7 @@ SRC_URI =3D "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.=
-gz \=0A=
->            file://fix-endianness-problem.patch \=0A=
->            file://grub2-remove-sparc64-setup-from-x86-builds.patch \=0A=
->            file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.pat=
-ch \=0A=
-> +          file://0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.pa=
-tch \=0A=
->            "=0A=
->=0A=
->  SRC_URI[md5sum] =3D "e927540b6eda8b024fb0391eeaa4091c"=0A=
-> --=0A=
-> 1.9.1=0A=
->=0A=
-> --=0A=
-> _______________________________________________=0A=
-> Openembedded-core mailing list=0A=
-> Openembedded-core@lists.openembedded.org=0A=
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
-=0A=
+Hi,
+
+On Wed, Dec 23, 2015 at 09:41:35PM +0000, Burton, Ross wrote:
+> One recipe (opensp-native) needs to opt out of the .la deletion as
+> openjade-native for <redacted> reasons explicitly expects .la files to
+> be installed.  Some other desktop distros already strip out .la files
+> so I wouldn't be surprised if there's a patch floating around to solve
+> this.
+
+Note that any software using libltdl will still require the .la files
+and must thus opt-out of .la file deletion. ImageMagick is probably the
+most common occurrence of this.
+
+To avoid overlinking when keeping the .la files for such recipes, it can
+be helpful to clear the dependency_libs field in the .la file.
+
+
+HTH,
+Clemens
+-- 
+Clemens Lang • Development Specialist
+BMW Car IT GmbH • Lise-Meitner-Str. 14 • 89081 Ulm • http://bmw-carit.com
+-------------------------------------------------------------------------
+BMW Car IT GmbH
+Geschäftsführer: Michael Würtenberger und Reinhard Stolle
+Sitz und Registergericht: München HRB 134810
+-------------------------------------------------------------------------
 
