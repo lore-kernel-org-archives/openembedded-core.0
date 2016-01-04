@@ -1,46 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 44FDD731CC
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id DB2CF731D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jan 2016 10:23:37 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id l65so157153006wmf.1
+	Mon,  4 Jan 2016 10:23:38 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id b14so177429808wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Jan 2016 02:23:38 -0800 (PST)
+	Mon, 04 Jan 2016 02:23:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=RMr4Q4yRg5asjoD8qELtu9drlBg/7fjFKbEYSM8ptlQ=;
-	b=jnzF+LtJkp35eVeDprE9b9c/svBDxIWgHlj9H7xd18zxpxKGK3gt4I8jhTOvEz09KL
-	BNLIoC4t71TjfkVJeohVxPWC5f7/EsrSHJpjPDHyjc3RQNguox5Xc3uW0fbYIR5ugbIP
-	neslbA8GQK1cfTklNUjbWPc6N0G0jOwddb1y+NEIi0IMynAtqIJLImrJ0XQJY8uLJIgQ
-	Q5xWeDiQERX+AbJbKGU1sz7QILV7zsx/4fe0XyNwK3jwwa0Ji2Iz0fXvMsRvTNxWs2p3
-	h5K/OU8yZqR047dRMwUdsXOOHdnL0VoIkaPbjeldq9LCjwETyZrtC4KoaIfbyjIe+lkW
-	E1xg==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=ZMGqRlsxpdj3ni0wOUbQiz6ShI0Fow0X9LX5NwOJs8o=;
+	b=ggJbKjP/j3L2C35sxsyHZP5VS17kLkTv2KmYhFAous2lml5RBnS6tXjOGYFH8dy7FX
+	YAozVcI3AQGXdIaGKxtePzQXCSJWyObKd3i2b7mJg2fgY8h1FKmnCjbkstT5LDDlCpU9
+	gBQLsiT5m4PyAs1hqwHrXeXYhERn1CZ+W6OiagKqBr5oWLbE7ac/H0O/8gcXqXHUOD1c
+	MNSkPr15JFk/Q5JB89n9a5C2glYIDWhsztIZOyOLo96tRDiS45uGaDRg/eDRIq79GVXA
+	eVFvkFrjw6ZZKdldl3IepLxRABx0RD043+SvjRl/b7mUcC37QunEjGanysfLwMFlNThO
+	phMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=RMr4Q4yRg5asjoD8qELtu9drlBg/7fjFKbEYSM8ptlQ=;
-	b=fHge7/om+b0CJ0TN4zydX5aTe8fPXgJS/tT3SR1ka0UrgfLZk3vGi+qIl9s1PJQpTh
-	dIBs+4DjhGZDQT0DDpbpA4jkgVZghofiXJG9vs96LA/TV5nC3VVdcFiF2nmRpzMYHXeb
-	W+R/8MUzn4vam+JeTrxPxBjd1Tp/0N3t3mP8iMEwFw2Tn4DbzVZIGOYpOSq2rt1BLdjB
-	b22Mhia08Hzhh9YiZ5A26pgKTpgIrC8EcArwx3HYQYQz65SoRfMjNCi8LGEKiDsnegc4
-	Vf+A9MiOGb7ZbdcjGM0ZTDKYHUjue3T1AKxTFT4PZrXPP5uAoD3R6CQh0lrkoEX5v/SK
-	F1iQ==
-X-Gm-Message-State: ALoCoQnRF0RxhrtMBj/eV2wGNPuQrT5jKZq2yp66II7Umd4yRVymMAOHoV9rfXqbd3VsYLU3P7DIjftKbtvmtS4GaiafKf/DLA==
-X-Received: by 10.28.175.135 with SMTP id y129mr101342203wme.24.1451903017956; 
-	Mon, 04 Jan 2016 02:23:37 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=ZMGqRlsxpdj3ni0wOUbQiz6ShI0Fow0X9LX5NwOJs8o=;
+	b=MOAe+HS4OOI3TaVz8+P66kv7MGNyAbOilOBBkwQ0KjWl27c4ufbas65T7aQuu+U/Gu
+	SdMh7HhrAYLPPWz+vs3FAi9QV+qnocutsBX5yoZwLuKXBm9UFD9fLG1UyGP6u2LixiqQ
+	p+agEyNOviGSfSmRgWNLNOptxLCWlvQ0lbBkk1zoX5gKrFOmNBB/HJ8hCTjpL3x7glKZ
+	aExF6nf2ediHnqBZ7rDC2Ekbh2/3kxmki1WNlCcpxTEqP2+kt6OsweMmlZWdjbMmHiSp
+	b+qSfFdSI3vksALXjXqZrx4MvwWo9BHDUeZ83SFydyqFHDxD9547yiOvTze24+YohR5Z
+	9sag==
+X-Gm-Message-State: ALoCoQkWgHDOnm8xhbL7mASrPxJNTaHmVHu/6JYFz95TgnDd/zmGVqkaV2P86VaGjN7gIrShuBNjUgR3E/MhQ4d9L0z7dP/B8Q==
+X-Received: by 10.194.184.104 with SMTP id et8mr102354366wjc.87.1451903018825; 
+	Mon, 04 Jan 2016 02:23:38 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	z65sm36901949wmg.10.2016.01.04.02.23.36
+	z65sm36901949wmg.10.2016.01.04.02.23.37
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 04 Jan 2016 02:23:37 -0800 (PST)
+	Mon, 04 Jan 2016 02:23:38 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Jan 2016 10:23:31 +0000
-Message-Id: <1451903012-22560-1-git-send-email-ross.burton@intel.com>
+Date: Mon,  4 Jan 2016 10:23:32 +0000
+Message-Id: <1451903012-22560-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.6.4
-Cc: Phil Blundell <philb@brightsign.biz>
-Subject: [PATCH 1/2] openjade: Fix build if not installing the libtool-garbage
+In-Reply-To: <1451903012-22560-1-git-send-email-ross.burton@intel.com>
+References: <1451903012-22560-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] systemd: add more compression and importd PACKAGECONFIGs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,57 +58,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 04 Jan 2016 10:23:39 -0000
 
-From: Phil Blundell <philb@brightsign.biz>
-
-The openjade build system is slightly funky and does strange things with
-library dependencies.  Fix it up so that it depends on the .so rather than
-the .la (which may not exist) for libraries from the sysroot.
+Add explicit PACKAGECONFIGs for all of compression formats that systemd can
+detect at configure time, and an explicit enable/disable for importd.  importd
+defaults to disabled as it needs curl and all the compression formats to be
+enabled.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../openjade/openjade-1.3.2/no-libtool.patch         | 20 ++++++++++++++++++++
- .../openjade/openjade-native_1.3.2.bb                |  1 +
- 2 files changed, 21 insertions(+)
- create mode 100644 meta/recipes-devtools/openjade/openjade-1.3.2/no-libtool.patch
+ meta/recipes-core/systemd/systemd_228.bb | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/openjade/openjade-1.3.2/no-libtool.patch b/meta/recipes-devtools/openjade/openjade-1.3.2/no-libtool.patch
-new file mode 100644
-index 0000000..8642bfd
---- /dev/null
-+++ b/meta/recipes-devtools/openjade/openjade-1.3.2/no-libtool.patch
-@@ -0,0 +1,20 @@
-+The openjade build is fairly unique in auto-generating explicit dependencies to
-+installed .la files.  As some distributions may delete these files unless
-+clearly required, change the Makefile fragment to depend on the .so instead.
-+
-+Patch originally by Phil Blundell <philb@brightsign.biz>.
-+
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+Upstream-Status: Inappropriate
-+
-+--- openjade-1.3.2/Makefile.prog.in~	2013-05-14 11:42:02.646782318 +0100
-++++ openjade-1.3.2/Makefile.prog.in	2013-05-14 11:54:55.051728343 +0100
-+@@ -12,7 +12,7 @@
-+ 
-+ ALL_LIBS = $(XLIBS) $(LIBS)
-+ Makefile.lt:
-+-	echo 'LT_LIBS='`echo $(ALL_LIBS)|sed 's/\.a/.la/g'` >Makefile.lt
-++	echo 'LT_LIBS='`for d in $(ALL_LIBS); do case $$d in ../*) echo $$d | sed 's/\.a/.la/g' ;; *) echo $$d | sed 's/\.a/.so/g' ;; esac ; done` >Makefile.lt
-+ 
-+ PROG:=$(shell echo "$(PROG)" | sed '@program_transform_name@')
-+ 
-diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-index a304daa..068fdf0 100644
---- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-+++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-@@ -16,6 +16,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/openjade/openjade-${PV}.tar.gz \
-            file://makefile.patch \
-            file://msggen.pl.patch \
-            file://reautoconf.patch \
-+	   file://no-libtool.patch \
- 	   file://user-declared-default-constructor.patch \
-            file://fix-regex.patch"
+diff --git a/meta/recipes-core/systemd/systemd_228.bb b/meta/recipes-core/systemd/systemd_228.bb
+index 0f95390..6673042 100644
+--- a/meta/recipes-core/systemd/systemd_228.bb
++++ b/meta/recipes-core/systemd/systemd_228.bb
+@@ -70,13 +70,13 @@ PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
+ # regardless of PACKAGECONFIG, libgcrypt is always required to expand
+ # the AM_PATH_LIBGCRYPT autoconf macro
+ DEPENDS += "libgcrypt"
+-# Compress the journal
+-PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
+ PACKAGECONFIG[cryptsetup] = "--enable-libcryptsetup,--disable-libcryptsetup,cryptsetup"
+ PACKAGECONFIG[microhttpd] = "--enable-microhttpd,--disable-microhttpd,libmicrohttpd"
+ PACKAGECONFIG[elfutils] = "--enable-elfutils,--disable-elfutils,elfutils"
+ PACKAGECONFIG[resolved] = "--enable-resolved,--disable-resolved"
+ PACKAGECONFIG[networkd] = "--enable-networkd,--disable-networkd"
++# importd requires curl/xz/zlib/bzip2/gcrypt
++PACKAGECONFIG[importd] = "--enable-importd,--disable-importd"
+ PACKAGECONFIG[libidn] = "--enable-libidn,--disable-libidn,libidn"
+ PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit"
+ PACKAGECONFIG[manpages] = "--enable-manpages,--disable-manpages,libxslt-native xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+@@ -92,6 +92,10 @@ PACKAGECONFIG[qrencode] = "--enable-qrencode,--disable-qrencode,qrencode"
+ PACKAGECONFIG[compat] = "--enable-compat-libs,--disable-compat-libs"
+ PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
+ PACKAGECONFIG[coredump] = "--enable-coredump,--disable-coredump"
++PACKAGECONFIG[bzip2] = "--enable-bzip2,--disable-bzip2,bzip2"
++PACKAGECONFIG[lz4] = "--enable-lz4,--disable-lz4,lz4"
++PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
++PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib"
  
+ CACHED_CONFIGUREVARS += "ac_cv_path_KILL=${base_bindir}/kill"
+ CACHED_CONFIGUREVARS += "ac_cv_path_KMOD=${base_bindir}/kmod"
 -- 
 2.6.4
 
