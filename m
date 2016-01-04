@@ -1,28 +1,33 @@
-Return-Path: <mschiffer@universe-factory.net>
-Received: from chaos.universe-factory.net (chaos.universe-factory.net
-	[37.72.148.22])
-	by mail.openembedded.org (Postfix) with ESMTP id 69F0B6FEE0
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8919F731C2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jan 2016 22:38:02 +0000 (UTC)
-Received: from [IPv6:fd1b:c28a:2fd6::2] (unknown [IPv6:fd1b:c28a:2fd6::2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by chaos.universe-factory.net (Postfix) with ESMTPSA id CE183181500;
-	Mon,  4 Jan 2016 23:38:02 +0100 (CET)
-To: Phil Blundell <pb@pbcl.net>
-References: <c00e9825d8e0221666adffd95ed157f9affe06b8.1451778497.git.mschiffer@universe-factory.net>
-	<7ef127138c4ba5c89b42b892c84aaa7766f78a4c.1451778497.git.mschiffer@universe-factory.net>
-	<1451826066.2002.96.camel@pbcl.net>
-From: Matthias Schiffer <mschiffer@universe-factory.net>
+	Mon,  4 Jan 2016 22:56:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u04MuMLV014044
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 Jan 2016 14:56:22 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Mon, 4 Jan 2016 14:56:21 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1451912446.git.ian.ray@ge.com>
+	<4e736dcbaf5c32f9d7728990ad4ac0ca975dfd6d.1451912446.git.ian.ray@ge.com>
+	<568A99CD.9000800@universe-factory.net>
+	<568A9E97.2050909@windriver.com>
+	<568AF189.5010801@universe-factory.net>
+From: Mark Hatle <mark.hatle@windriver.com>
 X-Enigmail-Draft-Status: N1110
-Message-ID: <568AF44A.2040804@universe-factory.net>
-Date: Mon, 4 Jan 2016 23:38:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.0
+Organization: Wind River Systems
+Message-ID: <568AF894.1010405@windriver.com>
+Date: Mon, 4 Jan 2016 16:56:20 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.5.0
 MIME-Version: 1.0
-In-Reply-To: <1451826066.2002.96.camel@pbcl.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 3/3] base-files: create typical merged /usr symlinks if the "merged-usr" distro feature is set
+In-Reply-To: <568AF189.5010801@universe-factory.net>
+Subject: Re: [PATCH 1/1] linux-firmware: remove hard-coded paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,68 +40,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jan 2016 22:38:04 -0000
-X-Groupsio-MsgNum: 75404
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature";
-	boundary="00WEUsJpEMO8Uca9FK3icRmuT0lXcB2C7"
+X-List-Received-Date: Mon, 04 Jan 2016 22:56:23 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 8bit
 
---00WEUsJpEMO8Uca9FK3icRmuT0lXcB2C7
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On 1/4/16 4:26 PM, Matthias Schiffer wrote:
+> On 01/04/2016 05:32 PM, Mark Hatle wrote:
+>> On 1/4/16 10:11 AM, Matthias Schiffer wrote:
+>>> On 01/04/2016 02:14 PM, Ian Ray wrote:
+>>>> The recipe uses hard-coded paths (specifically /lib) in do_install
+>>>> and in FILES, however on a merged /usr system this directory might
+>>>> not exist. Prefer base_libdir.
+>>>>
+>>>> Signed-off-by: Ian Ray <ian.ray@ge.com>
+>>>> ---
+>>>
+>>> This should use nonarch_base_libdir, base_libdir defaults to /lib64 on
+>>> ppc64, which is not where the firmware is expected.
+>>>
+>>
+>> At a minimum, I would agree nonarch_base_libdir, however..
+>>
+>> I believe that the kernel loader/modules/tools themselves actually have '/lib'
+>> hard coded into them.  This is the reason why /lib/firmware was used and not one
+>> of the variables.
+>>
+>> This is one of the cases were /lib is actually correct, since that is what the
+>> system is expecting.  We can make some kind of accommodation for systems where
+>> /lib -> /usr/lib... but that should be done inside of the filesystem setup
+>> processing and not the package itself.  (I'm referring to the
+>> 'meta/files/fs-perms.txt' file.
+>>
+>> --Mark
+>>
+> 
+> There seem to be some intresting ideas going around about what can or
+> should be done via fs-perms.txt... AFAICT, fs-perms.txt can't move
+> around files, so moving files form /lib to /usr/lib must be done in the
+> package recipes themselves. (In my opinion, fs-perms.txt is a bad hack
+> for broken recipes that shouldn't exist anyways, but that's another
+> discussion)
 
-On 01/03/2016 02:01 PM, Phil Blundell wrote:
-> On Sun, 2016-01-03 at 00:53 +0100, Matthias Schiffer wrote:
->> +PACKAGECONFIG ??=3D " \
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'merged-us=
-r','merged-usr', '', d)} \
->=20
-> Why is this DISTRO_FEATURE (or the corresponding PACKAGECONFIG)
-> required?  Surely it ought to suffice to simply set ${base_bindir} etc,=
+Since I wrote fs-perms.txt, I'll explain the purpose.  Individual packages don't
+know if something is a directory, symbolic link, or what owner/group/permissions
+a system level directory should be set to.
 
-> and everything else should follow from that.  This, albeit the other wa=
-y
-> around, is what micro has been doing for years.
->=20
-> p.
->=20
->=20
+The entire purpose of it is to declare a common set of -system- directories.
+(Packages/layers can amend and override this as necessary to add their own
+system directories.)
 
-Basically, I didn't want to break existing configurations. There might
-be unusual distros which don't want these symlinks (or want different
-ones). Of course, the alternative would be to force such distros to
-override the bases-files recipe in a .bbappend.
+FYI System directories are things like /usr/bin.  Having every package in the
+system need to define /usr/bin as a directory with an owner/group of root:root
+and permission of 0755 is a REALLY bad practice.. but putting this knowledge
+into a single file that synchronizes everything is very practical.
 
-I don't know of any OE-based distros with such unusual setups, but
-Debian is an example: they basically set base_libdir to /lib/$TARGET,
-but don't symlink /lib64 to this on 64bit targets. Instead, /lib64 is
-empty except of a symlink to the dynamic linker which is expected in /lib=
-64.
+When the system level directories are mapped to symlinks.. the case where
+everyone is trying to folks /usr -> / or /bin -> /usr/bin.. then it can
+AUTOMATICALLY map and move the files in these places..
 
-Matthias
+> I think if a distro config changes any of the base paths
+> ({nonarch_,}base_libdir, base_{,s}bindir), *all* packages should respect
+> this. It's the distro's reponsiblity to create symlinks so everything is
+> found again at the expected paths (other examples for such hardcoded
+> paths: /bin/sh; the dynamic linker). See also my patchset I submitted to
+> this mailing list, which introduces a distro feature to have such
+> symlinks created by base-files.
+
+When this was written it was heavily argued against this knowledge being in
+base-files or base-dirs (suggested at the time) packages.
+
+Defining a base setup, and then using a synchronization pass using the
+fs-perms.txt was the way to go.
+
+Note, fs-perms process is absolutely supposed to move files around -if- a
+symlink is generated.. i.e.:
+
+/lib -> /usr/lib
+
+if you write to /lib/firmware, the code is supposed to see the directory of
+'/lib', create a new /usr/lib (set perms properly) and move the contents if /lib
+to /usr/lib, then replace the directory with a symbolic link.
+
+If it's NOT doing that, lets fix it.
+
+--Mark
+
+> Matthias
+> 
+> 
+> 
 
 
---00WEUsJpEMO8Uca9FK3icRmuT0lXcB2C7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBCgAGBQJWivRKAAoJEBbvP2TLIB2cUcIQAKQcnEqpl+glFftOVI4tIxEy
-d7ylElqHeLXeWivc7nqm0YPPtDsUZh/Dmu+b/q1Syu3yKED9yy9igho92AkSKkGQ
-w9MR9fbJMLIIijLVOeUv5hqEXUryUjv0UplrrWLtsAD0Uc4cIleexFSToh3MrpAl
-pkR3QLOXScKD1HUe1QAHT+vvLnwbGpEjEQC47sCH8cSjNYmdIBvnFiJ8MpaENyvz
-UJHMvu+IdYaQx+kvMMT+1Eyjg51LZ2xoVuOOMuu0bZH5viSYyLG9icIlrg7IKlkI
-Mpi+YzpaO5xZfVcRztED8JO0g/WBEAQIx5POZWyc3gooqEvBJNG8gpciW/eDSA/2
-VQ2fSSosFaq4slgm7DNNPtVVuUmsdKAIlAYUL4ZpDR/hKZn05zPAB8o8JRIMjRT+
-tMWPj5r15UO7DoAPNiQ9+nkYKm5y2vMyifam8gfyXID/JD6l7KJ7V6ZT8XmUuyHu
-w860vE1nXScgO+zJBV5SlFy6IX+dTHDh5NXFywJXUJ8ucqwmG8FOH12R15JfIksD
-wuLp2n8iLN6jlSE8+lLq/8W4Hmz0lqkbO6jWbytIM+SomJcIh9HSCm69UyL2MHKR
-1eFEEVX4zgwbOoAuwtJR6wijPXTwm9arDp6UTr01+cpn6QB6oWWSGgW1K7mw395n
-LjLAddsCGGbLnwjLgK/X
-=n3aS
------END PGP SIGNATURE-----
-
---00WEUsJpEMO8Uca9FK3icRmuT0lXcB2C7--
