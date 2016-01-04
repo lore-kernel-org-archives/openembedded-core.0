@@ -1,50 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 64AD0731C2
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 65F44731C2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Jan 2016 20:53:45 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id 1so120691925ion.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Jan 2016 12:53:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=KDPVH7Qgxn8RFdhZxZLkjeXku5u5IDxJDegl/Qyj4KY=;
-	b=BoXA8+qla5dlx2tvDLOlB8/4awl0RcwWq0F25YRM7ZtvZqZ7bMx76Xi6eetx3E5miS
-	UZnO+3SPkACuThS/OaDwuo/WrC9nOO0HuBzc0Gmm8xj+Zq11RqCD7KrLFIO3rLwevzU0
-	rlEcXfEUJnkErlpbOyMaqSMYL/pwnxLxZG0voiIr9GfEKxts7NZRetNTX8NBpzqrSafF
-	ZOrxZDfVYWETa/wUPbm9vnqRz2HBLJKawo1RUh9mxBaKOhwpdjNSjbQNmZjeE/fuBqLl
-	zu2cz0ppUB0utCOmEo41aj4pLO+x2+hFZRwyaBAhqSjppiu2r3BzKV7u2r65GKhlWtct
-	ocjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=KDPVH7Qgxn8RFdhZxZLkjeXku5u5IDxJDegl/Qyj4KY=;
-	b=YmYysSqxIW4k+RGYT2roJVKboh3S88PyhnPlkDcAo6WlwaZRKVF1gZBKEU6LaDMpZ6
-	nGTcIeUS3328OEjoyKUIUb9e7Z1qf7RXvQssT58pJBkdZSEVJaM6KZSY54Fta6+sb9wU
-	VcD+N2mM8KkegHEI6lTdVWaAvc5Vu5Q6cPzcgrJBSuodxsr14o88gb2se7Q9Ka2mZqiS
-	kwv/ta0E28Rtzl+nngMYC7VT52Lj47aSWs/qZbJdvwdArvODOI7oegzif49qKDSSNw3z
-	rnRfXMzV8e1bT1QEKIBpF/UY1Aa/DibTdWxUCJsEBcMoJdb82P6Qfmy2W1azM5av+id0
-	BHMA==
-X-Gm-Message-State: ALoCoQmsXYQq1P3kRZIZw3V9M8ixnxcFmfUNouZ/Zg6VP8mM3uK7HyOZdqTOjHwgVauWHAPy0zMi2iT3uUTb7+z3jfx7MgA5p2SBnVvwo7WLTHlDyUADzzM=
-X-Received: by 10.107.135.104 with SMTP id j101mr52792498iod.133.1451940826495;
-	Mon, 04 Jan 2016 12:53:46 -0800 (PST)
+	Mon,  4 Jan 2016 20:54:57 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP; 04 Jan 2016 12:54:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,522,1444719600"; d="scan'208";a="853420397"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.151])
+	([10.219.5.151])
+	by orsmga001.jf.intel.com with ESMTP; 04 Jan 2016 12:55:00 -0800
+To: Matt Madison <matt@madison.systems>,
+	openembedded-core@lists.openembedded.org
+References: <1450449271-28582-1-git-send-email-matt@madison.systems>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <568ADC82.4040009@linux.intel.com>
+Date: Mon, 4 Jan 2016 14:56:34 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Mon, 4 Jan 2016 12:53:27 -0800 (PST)
-In-Reply-To: <CAMKF1soaRON--0ywMMeesGsakmcqS7tNZFxeVD=YCA2TE5532Q@mail.gmail.com>
-References: <1451903012-22560-1-git-send-email-ross.burton@intel.com>
-	<1451903012-22560-2-git-send-email-ross.burton@intel.com>
-	<CAMKF1soaRON--0ywMMeesGsakmcqS7tNZFxeVD=YCA2TE5532Q@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 4 Jan 2016 20:53:27 +0000
-Message-ID: <CAJTo0LZX0AnEjGSsRH87xsXNX1io=T17rBCnzJH_Ek=Lptzg5w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] systemd: add more compression and importd PACKAGECONFIGs
+In-Reply-To: <1450449271-28582-1-git-send-email-matt@madison.systems>
+Subject: Re: [PATCH v2 0/3] Debian multilib packaging fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jan 2016 20:53:46 -0000
-Content-Type: multipart/alternative; boundary=001a113ebe9232d40a0528885127
+X-List-Received-Date: Mon, 04 Jan 2016 20:54:58 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
---001a113ebe9232d40a0528885127
-Content-Type: text/plain; charset=UTF-8
+Hi Matt,
 
-On 4 January 2016 at 18:36, Khem Raj <raj.khem@gmail.com> wrote:
+Sorry for the delay in the response, i'll test again your patches with
+the new one and the same error appears when build
+core-image-full-cmdline or core-image-sato.
 
-> Would it thow some sensible configure errors on enabling importd
-> without the dependencies ? now that they are packageconfigs on their
-> own. ?
->
+	MACHINE ??= "qemux86-64"
 
-No, basically currently if you enable enough options then importd enables
-itself so the main aim here was to add some determinism to both all the
-compression backends and importd.
+	IMAGE_INSTALL_append = " lib32-connman"
+	require conf/multilib.conf
+	MULTILIBS = "multilib:lib32"
+	DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
 
-Ross
 
---001a113ebe9232d40a0528885127
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+I'm reviewing if this an error in the meta data (because
+core-image-minimal builds) or in the class.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 4 January 2016 at 18:36, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div id=3D":382" class=3D"a3s" styl=
-e=3D"overflow:hidden">Would it thow some sensible configure errors on enabl=
-ing importd<br>
-without the dependencies ? now that they are packageconfigs on their<br>
-own. ?</div></blockquote></div><br>No, basically currently if you enable en=
-ough options then importd enables itself so the main aim here was to add so=
-me determinism to both all the compression backends and importd.</div><div =
-class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+Best regards,
+	alimon
 
---001a113ebe9232d40a0528885127--
+On 12/18/2015 08:34 AM, Matt Madison wrote:
+> This adds a third patch that fixes the problem where APT couldn't
+> resolve dependencies between when two packages of different architectures
+> both depended on an allarch package.
+> 
+> Matt Madison (3):
+>   package_deb.bbclass, cross-canadian.bbclass: DPKG_ARCH mapping
+>     function
+>   package_manager.py: fixes for multilib deb packaging builds
+>   package_deb.bbclass: add 'Multi-Arch: foreign' tag to allarch packages
+> 
+>  meta/classes/cross-canadian.bbclass |  2 +-
+>  meta/classes/package_deb.bbclass    | 37 +++++++++++++++++++++++++++----------
+>  meta/lib/oe/package_manager.py      | 17 +++++++++++------
+>  3 files changed, 39 insertions(+), 17 deletions(-)
+> 
+
