@@ -1,51 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 885606FF76
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D7A2605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 15:32:30 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id o67so469177572iof.3
+	Tue,  5 Jan 2016 16:03:24 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id f206so28417063wmf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jan 2016 07:32:31 -0800 (PST)
+	Tue, 05 Jan 2016 08:03:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=YqH95MutxPgMZHS8dP8Lr2DkxPCcBqJyRqKglI3RhAg=;
-	b=hl4lt4ouGLiSVAdm2XOmPim2cfrLN+sRIuBye6rskblpNnWh63ufgaUtIy8bVjBJb5
-	4os2ITQBONMiw5MiURdskry+2bpvQ6zk3PmOt3AtkEBK0wFtpJZxcfYGNdVKRjWahC1j
-	jxQnidw/vhf6ekQhZnNrAzdL6xIfSpCb0k9pHX4eNJw6jYLA7nWgzwjpGptyaahVkuOQ
-	Aj5YW5v476J4uSc335igFmD3m+Dg6OQyIBQupc18yhojDiDBHOH+OoOnjOnOoxZqmWMZ
-	QIjT0mqn0YWWUXP3ln1BLDF5uC1kO8Q0k8LbSVPLDYKPphJBvOinWk5R3yfR79+AXyBE
-	KGZQ==
+	h=from:to:subject:date:message-id;
+	bh=Wfi56MEAzMJMGh6jpkVJ8uYtcHMXbhtLiX1ROTSmObI=;
+	b=a8aTvgvChgVE2Zhbb/2nEJBJxewX8v2Dl+OmNTSzMYIjK1uSyGkZ4Rw70+pTLmqv0H
+	8zJiYHMwQgsuS5B2nevMt3Lx7aAr+gwR0J67E2idZQam9JWLmcSt4bt//05dLGaHoXt7
+	RTT1Cu1Fd983OngjksRDkQ/K6uhW5ZZzFHHv6ZR3a1LsVQD5C7tzqdaSGpZaJn05f22T
+	QTzL4anxMLhNSVHhMNrYQ5k5mE4xlIODCbQ1ytHLdTW+gGs3SH4Luwv0g7ig2+P6nEYI
+	g2m0TNuOr/y+yA4TWZTBf9sL05S9wzo3z8j9kcRr3mi8yvIevoerCl4zkCdRLwSrSFqT
+	I29g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=YqH95MutxPgMZHS8dP8Lr2DkxPCcBqJyRqKglI3RhAg=;
-	b=GDUBQCbEOZAy3HriGkMfhQC3yAuetdd2WEnX+g6wW3CPZntiy2Ds34IOVeCF8Apxit
-	3uy5xupN73i/h6uyAfDlOAnRgCaLqplkYGpizjtDeRwv0+iMt5YfARJFNLMn55ijw7fN
-	KjtC/3RneSDcokclN3BxP3asmOGPspkBJMKAgv9aopdqWs1OMomDju7ALUlfHUQ+LyUY
-	5qTopIkqHglSuXlPW0C9QP/EpglUW73BWGh36d4+injn+0bN73ZqEcj+8maBGFpIaoez
-	4EE18zzHhrCiVV/OTnbumscVyyXITBrTrCCfmyRGaggd+RoIf2IguCToxKSADPn7j/Ru
-	oshg==
-X-Gm-Message-State: ALoCoQn33j8Nt4gg0QgxPJoWquqRHDyJk4YfQ6pv/lJwWbGY4/TDNih7BT0R8XLMo9fwpLqh6/SSaZtxDXYkpGbA9sD4K6AlXgnW6V5O0CohnopHT5PgZQs=
-X-Received: by 10.107.135.104 with SMTP id j101mr57006407iod.133.1452007951450;
-	Tue, 05 Jan 2016 07:32:31 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 5 Jan 2016 07:32:12 -0800 (PST)
-In-Reply-To: <20160105172502.5420d4ef@adi-pc-linux>
-References: <3ec94ad0d014bd99c4444523c2744e05c7120a89.1451996491.git.adrian.ratiu@ni.com>
-	<3182226859c3a37e168480aa8c2d93514de68895.1451996491.git.adrian.ratiu@ni.com>
-	<20160105134150.GA2574@jama> <20160105162239.21706269@adi-pc-linux>
-	<CAJTo0LZE2vzpyaw4KLNRxPJjaVHYCTRtiA0qim25Y8zPAhQ45Q@mail.gmail.com>
-	<20160105172502.5420d4ef@adi-pc-linux>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 Jan 2016 15:32:12 +0000
-Message-ID: <CAJTo0LYTz-Dz3cbaJMFf8eRFa=mtj8Yx-4HWSOBfZhjBbyuJTg@mail.gmail.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/2] x11vnc: remove all references to moved package
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Wfi56MEAzMJMGh6jpkVJ8uYtcHMXbhtLiX1ROTSmObI=;
+	b=RbfQ9nYQ/0KHnf3oskDshh2Eo4T1zMvlMDh8JMoWs/1iIZ6lo67+4UHa2c8ZfymmMZ
+	M3WjuNXd7TOU6/CfVEWuAM8T14Tl3672z3UKVYEIj8iyRjgczivjSh5VJnLy4QteWzyK
+	cTrVhEWfEcuqfJHP3nopX5FjooDrqTWBA+VKlpsUVSzzt33fE3uDcvIgscG5lcOfALxZ
+	o1xLN/WvrAR+f2BTIHrbOF0wp9A7acBCRFczUbH1fDcy0x1ANaocAdejPgXldDleL+2X
+	1ZEGOhDgzz94gVT6z95Zdfs9kFF6iiC0yJ6nqHJO3uvAJO9EM0I0azlPtKErfeXGLBKw
+	42lA==
+X-Gm-Message-State: ALoCoQnGMPzj2m+kU7jb3xrk4l0pBqXq0fWVuUOihO76FfpPruA6p0+L5GgVzDYR8Z1wiHvVMkn1D/3YcI8c8Ij0Tj81/uVLYQ==
+X-Received: by 10.28.55.209 with SMTP id e200mr5152944wma.2.1452009804747;
+	Tue, 05 Jan 2016 08:03:24 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	a126sm4216719wmh.0.2016.01.05.08.03.23
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 05 Jan 2016 08:03:24 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Jan 2016 16:03:20 +0000
+Message-Id: <1452009800-7349-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] uclibc: disable parallel builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +53,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 15:32:32 -0000
-Content-Type: multipart/alternative; boundary=001a113ebe92285759052897f263
+X-List-Received-Date: Tue, 05 Jan 2016 16:03:28 -0000
 
---001a113ebe92285759052897f263
-Content-Type: text/plain; charset=UTF-8
+There appears to be a parallel make race in uclibc:
 
-On 5 January 2016 at 15:25, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+ GEN /extra/locale/locale_collate.h
+ xargs: ../..//extra/locale/gen_collate: Text file busy
+ make[1]: *** [../..//extra/locale/locale_collate.h] Error 126
 
-> Just one more question: When you say don't are you referring only to the
-> image rename or also to the removal of the distro feature check?
->
+As uclibc is slated to be removed in the 2.1 cycle let's just disable parallel
+building for now.
 
-Both.  Don't rename the packagegroup, don't remove the check.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/uclibc/uclibc.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Ross
+diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+index ff7d744..2b34c34 100644
+--- a/meta/recipes-core/uclibc/uclibc.inc
++++ b/meta/recipes-core/uclibc/uclibc.inc
+@@ -39,6 +39,12 @@ COMPATIBLE_HOST = ".*-uclibc.*"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
++# There appears to be a parallel race in uclibc:
++# GEN /extra/locale/locale_collate.h
++# xargs: ../..//extra/locale/gen_collate: Text file busy
++# make[1]: *** [../..//extra/locale/locale_collate.h] Error 126
++PARALLEL_MAKE = ""
++
+ # do_stage barfs on a CC with whitespace, therefore put the 'HOST_CC_ARCH' in
+ # the CFLAGS (when building the utils).
+ OEMAKE_NO_CC = "'STRIPTOOL=true' 'LD=${LD}'"
+-- 
+2.6.4
 
---001a113ebe92285759052897f263
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 January 2016 at 15:25, Ioan-Adrian Ratiu <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adrian.ratiu@ni.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1f1" class=
-=3D"a3s" style=3D"overflow:hidden">Just one more question: When you say don=
-&#39;t are you referring only to the<br>
-image rename or also to the removal of the distro feature check?<br></div><=
-/blockquote></div><br>Both.=C2=A0 Don&#39;t rename the packagegroup, don&#3=
-9;t remove the check.</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
-
---001a113ebe92285759052897f263--
