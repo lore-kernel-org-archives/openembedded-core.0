@@ -1,25 +1,36 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 90CF36FFF7
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 371AC6FF76
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 15:20:27 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Jan 2016 07:20:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,525,1444719600"; d="scan'208";a="884199849"
-Received: from mbabyjoh-mobl.fi.intel.com ([10.237.72.71])
-	by orsmga002.jf.intel.com with ESMTP; 05 Jan 2016 07:20:23 -0800
-Date: Tue, 5 Jan 2016 17:21:57 +0200
-From: "Maxin B. John" <maxin.john@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20160105152157.GA31893@mbabyjoh-mobl.fi.intel.com>
-References: <1452002894-10301-1-git-send-email-maxin.john@intel.com>
-	<20160105150124.GB2574@jama>
+	Tue,  5 Jan 2016 15:25:06 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u05FP5Zb001390; Tue, 5 Jan 2016 09:25:05 -0600
+Received: from adi-pc-linux ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016010509250568-1703631 ;
+	Tue, 5 Jan 2016 09:25:05 -0600 
+Date: Tue, 5 Jan 2016 17:25:02 +0200
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20160105172502.5420d4ef@adi-pc-linux>
+In-Reply-To: <CAJTo0LZE2vzpyaw4KLNRxPJjaVHYCTRtiA0qim25Y8zPAhQ45Q@mail.gmail.com>
+References: <3ec94ad0d014bd99c4444523c2744e05c7120a89.1451996491.git.adrian.ratiu@ni.com>
+	<3182226859c3a37e168480aa8c2d93514de68895.1451996491.git.adrian.ratiu@ni.com>
+	<20160105134150.GA2574@jama> <20160105162239.21706269@adi-pc-linux>
+	<CAJTo0LZE2vzpyaw4KLNRxPJjaVHYCTRtiA0qim25Y8zPAhQ45Q@mail.gmail.com>
+Organization: National Instruments
 MIME-Version: 1.0
-In-Reply-To: <20160105150124.GB2574@jama>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] bluez5: upgrade to 5.37
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 01/05/2016 09:25:05 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 01/05/2016 09:25:05 AM,
+	Serialize complete at 01/05/2016 09:25:05 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-01-05_06:, , signatures=0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/2] x11vnc: remove all references to moved package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,55 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 15:20:27 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 05 Jan 2016 15:25:11 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Martin,
+On Tue, 5 Jan 2016 14:31:19 +0000
+"Burton, Ross" <ross.burton@intel.com> wrote:
 
-On Tue, Jan 05, 2016 at 04:01:24PM +0100, Martin Jansa wrote:
-> On Tue, Jan 05, 2016 at 04:08:13PM +0200, Maxin B. John wrote:
-> > 5.36 -> 5.37
-> > 
-> > Remove the backported patch:
-> > core-profile-Fix-possible-crash-when-registering-pro.patch
-> Don't you need to remove
-> file://core-profile-Fix-possible-crash-when-registering-pro.patch
-> from SRC_URI when you're removing the file?
-
-Yes, that change is present in the patch (based on "ross/mut" branch)
-
-> Can you please add PNBLACKLIST which will blacklist bluez5 when bluez4
-> is in DISTRO_FEATURES?
-
-Sure, will do that.
-
-> Like I did for bluez4 in:
-> http://git.openembedded.org/meta-openembedded/commit/?id=73ba7cd70f75a898bf4c3f8ae38c9904fc3e4724
+> On 5 January 2016 at 14:22, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
 > 
-> Making bluez4 and bluez5 really mutually exclusive would help with
-> issues like this one:
-> http://lists.openembedded.org/pipermail/openembedded-devel/2016-January/105341.html
+> > Yes and also if there are no x11 dependencies in this packagegroup,
+> > then it should be renamed to packagegroup-core-sato.
+> >
+> > I'll resubmit. Thank you.
+> >
+> 
+> Don't - sato is explicitly X11 based.
 
-Thank you very much for the comments. Will include these changes in v2.
+Just one more question: When you say don't are you referring only to the
+image rename or also to the removal of the distro feature check?
 
-> > Signed-off-by: Maxin B. John <maxin.john@intel.com>
-> > ---
-> >  ...e-Fix-possible-crash-when-registering-pro.patch | 54 ----------------------
-> >  .../bluez5/{bluez5_5.36.bb => bluez5_5.37.bb}      |  5 +-
-> >  2 files changed, 2 insertions(+), 57 deletions(-)
-> >  delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
-> >  rename meta/recipes-connectivity/bluez5/{bluez5_5.36.bb => bluez5_5.37.bb} (83%)
+I just want to clarify this before resubmitting.
 
-<snip>
-
-> > -SRC_URI += "file://core-profile-Fix-possible-crash-when-registering-pro.patch"
-> > -SRC_URI[md5sum] = "9a0ee479cacc44fac68f6a65b1cd3eba"
-> > -SRC_URI[sha256sum] = "a343ea1aeb53d3bd139087f3b1c1e1fb70db452d9762cc7a3d23e75962e578f2"
-> > +SRC_URI[md5sum] = "33177e5743e24b2b3738f72be64e3ffb"
-> > +SRC_URI[sha256sum] = "c14ba9ddcb0055522073477b8fd8bf1ddf5d219e75fdfd4699b7e0ce5350d6b0"
-
-Best Regards,
-Maxin
+> 
+> Ross
 
 
