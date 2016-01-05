@@ -1,62 +1,23 @@
-Return-Path: <ian.ray@ge.com>
-Received: from mx0a-00176a03.pphosted.com (mx0a-00176a03.pphosted.com
-	[67.231.149.52])
-	by mail.openembedded.org (Postfix) with ESMTP id C517B7317E
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 63CE460667
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 14:42:00 +0000 (UTC)
-Received: from pps.filterd (m0047961.ppops.net [127.0.0.1])
-	by m0047961.ppops.net-00176a03. (8.15.0.59/8.15.0.59) with SMTP id
-	u05Eb16k038300 for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jan 2016 09:42:01 -0500
-Received: from alpmlip14.e2k.ad.ge.com (n165-156-000-000.static.ge.com
-	[165.156.5.1] (may be forged))
-	by m0047961.ppops.net-00176a03. with ESMTP id 208e48r2vc-5
-	(version=TLSv1/SSLv3 cipher=RC4-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jan 2016 09:42:01 -0500
-Received: from unknown (HELO ALPMBHT01.e2k.ad.ge.com) ([3.159.19.194])
-	by alpmlip14.e2k.ad.ge.com with ESMTP/TLS/AES128-SHA;
-	05 Jan 2016 09:41:52 -0500
-Received: from BUDURLND10.e2k.ad.ge.com (3.159.54.66) by
-	ALPMBHT01.e2k.ad.ge.com (3.159.19.194) with Microsoft SMTP Server (TLS)
-	id 14.3.266.1; Tue, 5 Jan 2016 09:41:50 -0500
-Received: from BUDURBPA09.e2k.ad.ge.com ([169.254.3.15]) by
-	BUDURLND10.e2k.ad.ge.com ([169.254.8.64]) with mapi id 14.03.0266.001;
-	Tue, 5 Jan 2016 15:41:48 +0100
-From: "Ray, Ian (GE Healthcare)" <ian.ray@ge.com>
-To: Mark Hatle <mark.hatle@windriver.com>, Matthias Schiffer
-	<mschiffer@universe-factory.net>
-Thread-Topic: [OE-core] [PATCH 1/1] linux-firmware: remove hard-coded paths
-Thread-Index: AQHRRwqpojAWm2uRoE6spmZIIJY9MZ7rfCGAgABi4YCAAAhlAIAAEPyAgAAIpICAABBBgIAAt8pQgAAkGICAABHIsA==
-Date: Tue, 5 Jan 2016 14:41:47 +0000
-Message-ID: <30E719D66AEA914CBB7DAB303B1C722DB4A9E3@BUDURBPA09.e2k.ad.ge.com>
-References: <cover.1451912446.git.ian.ray@ge.com>
-	<4e736dcbaf5c32f9d7728990ad4ac0ca975dfd6d.1451912446.git.ian.ray@ge.com>
-	<568A99CD.9000800@universe-factory.net>
-	<568A9E97.2050909@windriver.com>
-	<568AF189.5010801@universe-factory.net>
-	<568AF894.1010405@windriver.com>
-	<568B06D3.7030205@universe-factory.net>
-	<568B0E13.6090108@windriver.com>
-	<568B1BB5.7060303@universe-factory.net>
-	<30E719D66AEA914CBB7DAB303B1C722DB4A8F9@BUDURBPA09.e2k.ad.ge.com>
-	<568BD429.9040003@windriver.com>
-In-Reply-To: <568BD429.9040003@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [3.159.17.85]
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-01-05_06:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
-	suspectscore=0
-	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
-	adjust=0 reason=mlx scancount=1 engine=8.0.1-1507310008
-	definitions=main-1601050241
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] linux-firmware: remove hard-coded paths
+	Tue,  5 Jan 2016 14:50:33 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Jan 2016 06:50:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,525,1444719600"; d="scan'208";a="874991975"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Jan 2016 06:50:35 -0800
+Received: from fedora-ws.localdomain (unknown [10.237.112.240])
+	by linux.intel.com (Postfix) with ESMTP id 51C766A4004;
+	Tue,  5 Jan 2016 07:38:32 -0800 (PST)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Jan 2016 16:53:34 +0200
+Message-Id: <1452005614-4552-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCHv5] scripts/oe-selftest: Allow to run tests on random/all MACHINEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,174 +30,232 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 14:42:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 05 Jan 2016 14:50:34 -0000
 
-On 01/05/2016 4:33 PM, Mark Hatle wrote:=0A=
-> On 1/5/16 8:04 AM, Ray, Ian (GE Healthcare) wrote:=0A=
->> On 01/05/2016 03:26 AM, Matthias Schiffer wrote:=0A=
->>> On 01/05/2016 01:28 AM, Mark Hatle wrote:=0A=
->>>> On 1/4/16 5:57 PM, Matthias Schiffer wrote:=0A=
->>>>> On 01/04/2016 11:56 PM, Mark Hatle wrote:=0A=
->>>>>> On 1/4/16 4:26 PM, Matthias Schiffer wrote:=0A=
->>>>>>> On 01/04/2016 05:32 PM, Mark Hatle wrote:=0A=
->>>>>>>> On 1/4/16 10:11 AM, Matthias Schiffer wrote:=0A=
->>>>>>>>> On 01/04/2016 02:14 PM, Ian Ray wrote:=0A=
->>>>>>>>>> The recipe uses hard-coded paths (specifically /lib) in do_insta=
-ll=0A=
->>>>>>>>>> and in FILES, however on a merged /usr system this directory mig=
-ht=0A=
->>>>>>>>>> not exist. Prefer base_libdir.=0A=
->>>>>>>>>>=0A=
->>>>>>>>>> Signed-off-by: Ian Ray <ian.ray@ge.com>=0A=
->>>>>>>>>> ---=0A=
->>>>>>>>>=0A=
->>>>>>>>> This should use nonarch_base_libdir, base_libdir defaults to /lib=
-64 on=0A=
->>>>>>>>> ppc64, which is not where the firmware is expected.=0A=
->>>>>>>>>=0A=
->>>>>>>>=0A=
->>>>>>>> At a minimum, I would agree nonarch_base_libdir, however..=0A=
->>>>>>>>=0A=
->>>>>>>> I believe that the kernel loader/modules/tools themselves actually=
- have '/lib'=0A=
->>>>>>>> hard coded into them.  This is the reason why /lib/firmware was us=
-ed and=0A=
->>>>>>>> not one=0A=
->>>>>>>> of the variables.=0A=
->>>>>>>>=0A=
->>>>>>>> This is one of the cases were /lib is actually correct, since that=
- is what the=0A=
->>>>>>>> system is expecting.  We can make some kind of accommodation for=
-=0A=
->>>>>>>> systems where=0A=
->>>>>>>> /lib -> /usr/lib... but that should be done inside of the filesyst=
-em setup=0A=
->>>>>>>> processing and not the package itself.  (I'm referring to the=0A=
->>>>>>>> 'meta/files/fs-perms.txt' file.=0A=
->>>>>>>>=0A=
->>>>>>>> --Mark=0A=
->>=0A=
->> Ah, that makes sense.=0A=
->>=0A=
->> <snip>=0A=
->>=0A=
->>>> You conditionalize it by providing different default fs-perms files --=
- OR since=0A=
->>>> more then one file can be loaded -- additional fs-perms with the permu=
-tations=0A=
->>>> you desire.=0A=
->>>>=0A=
->>>> I could easily see having an files/fs-perms-usr-only.txt and an=0A=
->>>> files/fs-perms-no-usr.txt=0A=
->>>>=0A=
->>>> Where the first would be something like:=0A=
->>>>=0A=
->>>> # Define symlinks from base directories to their prefix versions=0A=
->>>> /bin	link ${bindir}=0A=
->>>> /sbin	link ${sbindir}=0A=
->>>> ...=0A=
->>=0A=
->> This is very interesting -- thank you.=0A=
->>=0A=
->> I tried patching our additional fs-perms file as Mark suggested. This re=
-sulted in=0A=
->> a build failure during packaging of a recipe. The package directory look=
-s odd:=0A=
->>=0A=
->> ls -l /home/ian/myproduct/build/tmp/work/myproduct-linux-gnueabi/=0A=
->> myrecipe/4.3-r0/package=0A=
->> total 4=0A=
->> drwxr-xr-x. 2 ian ian 4096 Jan  5 11:30 boot=0A=
->> drwxr-xr-x. 4 ian ian   56 Jan  5 11:30 etc=0A=
->> lrwxrwxrwx. 1 ian ian    8 Jan  5 11:33 lib -> /usr/lib=0A=
->> drwxr-xr-x. 3 ian ian   16 Jan  5 11:33 usr=0A=
->=0A=
-> We should look into this further.  Pseudo (the fakeroot wrapper) should b=
-e=0A=
-> changing '/usr/lib' [in the cross build filesystem] to a relative path...=
- It=0A=
-> will only be '/usr/lib' in the target version if we're in the pseudo envi=
-ronment=0A=
-> or the translation is off.  (Maybe I'm remembering incorrectly, but that =
-was my=0A=
-> memory.)=0A=
->=0A=
->> This can be fixed by teaching classes/package.bbclass to _not_ use the l=
-eading=0A=
->> slash when making the link. Not sure if that is unacceptably hacky? But =
-it must=0A=
->> be better than leaking to host filesystem.=0A=
->>=0A=
->> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass=
-=0A=
->> index a86b680..59ef447 100644=0A=
->> --- a/meta/classes/package.bbclass=0A=
->> +++ b/meta/classes/package.bbclass=0A=
->> @@ -774,6 +774,7 @@ python fixup_perms () {=0A=
->>          link =3D fs_perms_table[dir].link=0A=
->>          if link[0] =3D=3D "/":=0A=
->>              target =3D dvar + link=0A=
->> +            link =3D link[1:]=0A=
->>              ptarget =3D link=0A=
->>          else:=0A=
->>              target =3D os.path.join(os.path.dirname(origin), link)=0A=
->=0A=
-> I'm definitely interested in understanding what may or may not be working=
-=0A=
-> properly here.=0A=
->=0A=
->> Once past that problem there is a QA problem since do_package now instal=
-ls=0A=
->> to /usr/lib (because of fs-perms) instead of /lib which is mentioned in =
-FILES.=0A=
->=0A=
-> What was the QA issue?  About the absolute path name or something else?=
-=0A=
-=0A=
-ERROR: QA Issue: linux-advantech: Files/directories were installed but not =
-shipped in any package:=0A=
-  /usr=0A=
-  /usr/lib=0A=
-  /usr/lib/modules=0A=
-  /usr/lib/modules/4.4.0-rc3-next-20151202=0A=
-  /usr/lib/modules/4.4.0-rc3-next-20151202/modules.order=0A=
-  /usr/lib/modules/4.4.0-rc3-next-20151202/modules.builtin=0A=
-  ...=0A=
-=0A=
->> Joshua's patches for merged /usr touched FILES in _some_ cases (for exam=
-ple=0A=
->> 73a6fe958f47642d18ba0098cfd45c3520d53560) but linux-firmware would requi=
-re=0A=
->> considerably more effort. Is that an argument in favour of nonarch_base_=
-libdir=0A=
->> instead of literal "/lib" or is there some other technique to address th=
-is?=0A=
->=0A=
-> For linux-firmware specifically.. we need to make sure the kernel and mod=
-ules=0A=
-> (which use the firmware) use the same filesystem notion as what the=0A=
-> linux-firmware package is doing.  In the past when I've looked, pretty mu=
-ch=0A=
-> everything was just hardcoded as '/lib/firmware'.  So using that in the=
-=0A=
-> packaging was correct for all three systems.  (I don't believe patching t=
-he=0A=
-> three to use bitbake variables is necessarily a good idea -- since I'm su=
-re=0A=
-> there are more instances of this type of usage that I'm unaware of.)=0A=
->=0A=
-> This is where using the fs-perms mechanism to move the files and setup th=
-e=0A=
-> symlink is the right approach in my opinion.  The key thing is figuring o=
-ut the=0A=
-> permutations of the libdir, nonarch libdir (since they may or may not be =
-the=0A=
-> same) and dealing with any QA errors that may occur.=0A=
-=0A=
-This makes sense, but I'm struggling to understand how FILES is affected,=
-=0A=
-when it lists /lib/foo but we install to /usr/lib/foo.=0A=
+Add an option for random MACHINE into oe-selftest:
+--machine [random/all]
+1. random: will set a random MACHINE for each test
+2. all: will run tests for all machines
+
+Custom machine sets only weak default values (??=) for MACHINE in machine.inc.
+This let test cases that require a specific MACHINE to be able to
+override it, using (?= or =).
+
+e.g.:
+oe-selftest --run-tests signing --machine random -->
+will run all tests switching MACHINE randomly for each test
+
+oe-selftest --run-tests signing --machine all -->
+for each machine will run all tests
+
+oe-selftest --run-all-tests --machine random
+
+Also update oeqa/selftest/base.py to accomodate this feature.
+
+Fix for [YOCTO #5880].
+
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+---
+ meta/lib/oeqa/selftest/base.py | 64 ++++++++++++++++++++++++++++++++++++++----
+ scripts/oe-selftest            | 37 ++++++++++++++++++------
+ 2 files changed, 86 insertions(+), 15 deletions(-)
+
+diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
+index 9bddc23..dc93731 100644
+--- a/meta/lib/oeqa/selftest/base.py
++++ b/meta/lib/oeqa/selftest/base.py
+@@ -16,6 +16,8 @@ import errno
+ import oeqa.utils.ftools as ftools
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
+ from oeqa.utils.decorators import LogResults
++from random import choice
++import glob
+ 
+ @LogResults
+ class oeSelfTest(unittest.TestCase):
+@@ -29,9 +31,10 @@ class oeSelfTest(unittest.TestCase):
+         self.testinc_path = os.path.join(self.builddir, "conf/selftest.inc")
+         self.local_bblayers_path = os.path.join(self.builddir, "conf/bblayers.conf")
+         self.testinc_bblayers_path = os.path.join(self.builddir, "conf/bblayers.inc")
++        self.machineinc_path = os.path.join(self.builddir, "conf/machine.inc")
+         self.testlayer_path = oeSelfTest.testlayer_path
+         self._extra_tear_down_commands = []
+-        self._track_for_cleanup = [self.testinc_path]
++        self._track_for_cleanup = [self.testinc_path, self.testinc_bblayers_path, self.machineinc_path]
+         super(oeSelfTest, self).__init__(methodName)
+ 
+     def setUp(self):
+@@ -47,11 +50,25 @@ class oeSelfTest(unittest.TestCase):
+             for f in files:
+                 if f == 'test_recipe.inc':
+                     os.remove(os.path.join(root, f))
+-        try:
+-            os.remove(self.testinc_bblayers_path)
+-        except OSError as e:
+-            if e.errno != errno.ENOENT:
+-                raise
++
++        for incl_file in [self.testinc_bblayers_path, self.machineinc_path]:
++            try:
++                os.remove(incl_file)
++            except OSError as e:
++                if e.errno != errno.ENOENT:
++                    raise
++
++        # Get CUSTOMMACHINE from env (set by --machine argument to oe-selftest)
++        custommachine = os.getenv('CUSTOMMACHINE')
++        if custommachine:
++            if custommachine == 'random':
++                machine = get_random_machine()
++            else:
++                machine = custommachine
++            machine_conf = 'MACHINE ??= "%s"\n' % machine
++            self.set_machine_config(machine_conf)
++            print 'MACHINE: %s' % machine
++
+         # tests might need their own setup
+         # but if they overwrite this one they have to call
+         # super each time, so let's give them an alternative
+@@ -99,11 +116,21 @@ class oeSelfTest(unittest.TestCase):
+         self.log.debug("Writing to: %s\n%s\n" % (self.testinc_path, data))
+         ftools.write_file(self.testinc_path, data)
+ 
++        custommachine = os.getenv('CUSTOMMACHINE')
++        if custommachine and 'MACHINE' in data:
++            machine = get_bb_var('MACHINE')
++            self.log.warning('MACHINE overridden: %s' % machine)
++
+     # append to <builddir>/conf/selftest.inc
+     def append_config(self, data):
+         self.log.debug("Appending to: %s\n%s\n" % (self.testinc_path, data))
+         ftools.append_file(self.testinc_path, data)
+ 
++        custommachine = os.getenv('CUSTOMMACHINE')
++        if custommachine and 'MACHINE' in data:
++            machine = get_bb_var('MACHINE')
++            self.log.warning('MACHINE overridden: %s' % machine)
++
+     # remove data from <builddir>/conf/selftest.inc
+     def remove_config(self, data):
+         self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_path, data))
+@@ -151,3 +178,28 @@ class oeSelfTest(unittest.TestCase):
+     def remove_bblayers_config(self, data):
+         self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_bblayers_path, data))
+         ftools.remove_from_file(self.testinc_bblayers_path, data)
++
++    # write to <builddir>/conf/machine.inc
++    def set_machine_config(self, data):
++        self.log.debug("Writing to: %s\n%s\n" % (self.machineinc_path, data))
++        ftools.write_file(self.machineinc_path, data)
++
++
++def get_available_machines():
++    # Get a list of all available machines
++    bbpath = get_bb_var('BBPATH').split(':')
++    machines = []
++
++    for path in bbpath:
++        found_machines = glob.glob(os.path.join(path, 'conf', 'machine', '*.conf'))
++        if found_machines:
++            for i in found_machines:
++                # eg: '/home/<user>/poky/meta-intel/conf/machine/intel-core2-32.conf'
++                machines.append(os.path.splitext(os.path.basename(i))[0])
++
++    return machines
++
++
++def get_random_machine():
++    # Get a random machine
++    return choice(get_available_machines())
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index 08a5af3..2ed88ef 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -42,7 +42,7 @@ import argparse_oe
+ import oeqa.selftest
+ import oeqa.utils.ftools as ftools
+ from oeqa.utils.commands import runCmd, get_bb_var, get_test_layer
+-from oeqa.selftest.base import oeSelfTest
++from oeqa.selftest.base import oeSelfTest, get_available_machines
+ 
+ def logger_create():
+     log_file = "oe-selftest-" + t.strftime("%Y-%m-%d_%H:%M:%S") + ".log"
+@@ -84,6 +84,8 @@ def get_args_parser():
+                        help='list-tests-by <name|class|module|id|tag> <list of tests|classes|modules|ids|tags>')
+     group.add_argument('--list-tags', required=False, dest='list_tags', default=False, action="store_true",
+                        help='List all tags that have been set to test cases.')
++    parser.add_argument('--machine', required=False, dest='machine', choices=['random', 'all'], default=None,
++                        help='Run tests on different machines (random/all).')
+     return parser
+ 
+ 
+@@ -115,7 +117,7 @@ def add_include():
+         not in ftools.read_file(os.path.join(builddir, "conf/local.conf")):
+             log.info("Adding: \"include selftest.inc\" in local.conf")
+             ftools.append_file(os.path.join(builddir, "conf/local.conf"), \
+-                    "\n#include added by oe-selftest.py\ninclude selftest.inc")
++                    "\n#include added by oe-selftest.py\ninclude machine.inc\ninclude selftest.inc")
+ 
+     if "#include added by oe-selftest.py" \
+         not in ftools.read_file(os.path.join(builddir, "conf/bblayers.conf")):
+@@ -131,13 +133,13 @@ def remove_include():
+         in ftools.read_file(os.path.join(builddir, "conf/local.conf")):
+             log.info("Removing the include from local.conf")
+             ftools.remove_from_file(os.path.join(builddir, "conf/local.conf"), \
+-                    "#include added by oe-selftest.py\ninclude selftest.inc")
++                    "\n#include added by oe-selftest.py\ninclude machine.inc\ninclude selftest.inc")
+ 
+     if "#include added by oe-selftest.py" \
+         in ftools.read_file(os.path.join(builddir, "conf/bblayers.conf")):
+             log.info("Removing the include from bblayers.conf")
+             ftools.remove_from_file(os.path.join(builddir, "conf/bblayers.conf"), \
+-                    "#include added by oe-selftest.py\ninclude bblayers.inc")
++                    "\n#include added by oe-selftest.py\ninclude bblayers.inc")
+ 
+ def remove_inc_files():
+     try:
+@@ -149,10 +151,11 @@ def remove_inc_files():
+     except (AttributeError, OSError,) as e:    # AttributeError may happen if BUILDDIR is not set
+         pass
+ 
+-    try:
+-        os.remove(os.path.join(os.environ.get("BUILDDIR"), "conf/bblayers.inc"))
+-    except:
+-        pass
++    for incl_file in ['conf/bblayers.inc', 'conf/machine.inc']:
++        try:
++            os.remove(os.path.join(os.environ.get("BUILDDIR"), incl_file))
++        except:
++            pass
+ 
+ def get_tests(exclusive_modules=[], include_hidden=False):
+     testslist = []
+@@ -472,7 +475,23 @@ def main():
+                 log.error(e)
+                 return 1
+         add_include()
+-        result = runner.run(suite)
++
++        if args.machine:
++            # Custom machine sets only weak default values (??=) for MACHINE in machine.inc
++            # This let test cases that require a specific MACHINE to be able to override it, using (?= or =)
++            log.info('Custom machine mode enabled. MACHINE set to %s' % args.machine)
++            if args.machine == 'random':
++                os.environ['CUSTOMMACHINE'] = 'random'
++                result = runner.run(suite)
++            else:  # all
++                machines = get_available_machines()
++                for m in machines:
++                    log.info('Run tests with custom MACHINE set to: %s' % m)
++                    os.environ['CUSTOMMACHINE'] = m
++                    result = runner.run(suite)
++        else:
++            result = runner.run(suite)
++
+         log.info("Finished")
+ 
+         if args.coverage:
+-- 
+2.1.0
+
 
