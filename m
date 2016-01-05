@@ -1,26 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F68E7318F
+Return-Path: <christrobridge@hotmail.com>
+Received: from DUB004-OMC3S34.hotmail.com (dub004-omc3s34.hotmail.com
+	[157.55.2.43])
+	by mail.openembedded.org (Postfix) with ESMTP id BBDD77318F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 07:54:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u057sQdN023427
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Jan 2016 23:54:26 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.246) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 4 Jan 2016 23:54:25 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Jan 2016 15:54:24 +0800
-Message-ID: <f51479ec00250de627c5a29851cc971b58efc080.1451980412.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1451980412.git.Qi.Chen@windriver.com>
-References: <cover.1451980412.git.Qi.Chen@windriver.com>
+	Tue,  5 Jan 2016 07:56:24 +0000 (UTC)
+Received: from DUB130-W34 ([157.55.2.9]) by DUB004-OMC3S34.hotmail.com over
+	TLS secured channel with Microsoft SMTPSVC(7.5.7601.23008); 
+	Mon, 4 Jan 2016 23:56:25 -0800
+X-TMN: [GD/MqLjBHa1Xke39PsLCCNGvYxX8/a13]
+X-Originating-Email: [christrobridge@hotmail.com]
+Message-ID: <DUB130-W34172069DFA8C7DAAB8590DAF30@phx.gbl>
+From: Chris Trobridge <christrobridge@hotmail.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Jan 2016 07:56:24 +0000
+Importance: Normal
+In-Reply-To: <568A6A49.7030508@linux.intel.com>
+References: <DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl>,
+	<DUB130-W169AB1FBDD4284EB42D7DBDAF20@phx.gbl>,
+	<CAJTo0LY6MpvHRaZ9teS088jaoSrgb5NLMF32uo7KmXJK0nGppA@mail.gmail.com>,
+	<DUB130-W21AF20AA18BC334FB9E61BDAF20@phx.gbl>,
+	<568A6A49.7030508@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] image/populate_sdk: seprate variables to fix dependency
+X-OriginalArrivalTime: 05 Jan 2016 07:56:25.0452 (UTC)
+	FILETIME=[936912C0:01D1478E]
+Subject: Re: gobject introspection - distccd?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,89 +37,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 07:54:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 05 Jan 2016 07:56:26 -0000
+Content-Type: multipart/alternative;
+	boundary="_1a9fbae6-d4b9-4ded-8f13-c099a14373f6_"
 
-Previously, do_rootfs depends on variables like SDK_OS, SDK_OUTPUT, etc.
-And changing variables like POPULATE_SDK_POST_HOST_COMMAND doesn't cause
-do_populate_sdk to rerun.
+--_1a9fbae6-d4b9-4ded-8f13-c099a14373f6_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-This patch separates variables so that do_rootfs and do_populate_sdk could
-correctly depend on their related variables.
+Problem solved - nothing to do with gobject introspection but from the othe=
+r change I had made=2C to build for qemu.
+packagegroup-core-device-devel is pulled in for qemu targets in poky.conf a=
+nd packagegroup-core-device-devel rdepends on distcc-config.
+> To: openembedded-core@lists.openembedded.org> From: alexander.kanavin@lin=
+ux.intel.com
+> Date: Mon=2C 4 Jan 2016 14:49:13 +0200
+> Subject: Re: [OE-core] gobject introspection - distccd?
+>=20
+> On 01/04/2016 02:24 PM=2C Chris Trobridge wrote:
+> > That's what I was thinking: gobject-introspection doesn't call it in
+> > directly but it does require compilation to be performed on the 'target=
+'
+> > system and that could pull it in indirectly.
+>=20
+> g-introspection does not require compilation to be performed on the=20
+> target. It requires running binaries that were cross-compiled for the=20
+> target architecture=2C which is achieved by running them using qemu.
 
-[YOCTO #8670]
+That's what I meant to imply by putting target in quotes.
+> > distcc (and hence avahi) are not required=2C so is this a general probl=
+em
+> > or just something I should explicitly remove from my image?
+>=20
+> I think it's a problem of your local setup=3B the g-o patchset definitely=
+=20
+> doesn't involve distcc at any point. You can build against a clean=20
+> directory with only basic poky layers to verify that.
+>=20
+>=20
+> Alex
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/image.bbclass             | 16 +++++++---------
- meta/classes/populate_sdk_base.bbclass | 14 ++++++++++++++
- 2 files changed, 21 insertions(+), 9 deletions(-)
+Thanks=2CChris
+ 		 	   		  =
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index d2f8105..707af2e 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -94,13 +94,12 @@ do_rootfs[depends] += " \
- "
- do_rootfs[recrdeptask] += "do_packagedata"
- 
--def command_variables(d):
-+def rootfs_command_variables(d):
-     return ['ROOTFS_POSTPROCESS_COMMAND','ROOTFS_PREPROCESS_COMMAND','ROOTFS_POSTINSTALL_COMMAND','OPKG_PREPROCESS_COMMANDS','OPKG_POSTPROCESS_COMMANDS','IMAGE_POSTPROCESS_COMMAND',
--            'IMAGE_PREPROCESS_COMMAND','ROOTFS_POSTPROCESS_COMMAND','POPULATE_SDK_POST_HOST_COMMAND','POPULATE_SDK_POST_TARGET_COMMAND','SDK_POSTPROCESS_COMMAND','RPM_PREPROCESS_COMMANDS',         
--            'RPM_POSTPROCESS_COMMANDS']
-+            'IMAGE_PREPROCESS_COMMAND','ROOTFS_POSTPROCESS_COMMAND','RPM_PREPROCESS_COMMANDS','RPM_POSTPROCESS_COMMANDS']
- 
- python () {
--    variables = command_variables(d)
-+    variables = rootfs_command_variables(d) + sdk_command_variables(d)
-     for var in variables:
-         if d.getVar(var, False):
-             d.setVarFlag(var, 'func', '1')
-@@ -124,13 +123,12 @@ def fstype_variables(d):
- def rootfs_variables(d):
-     from oe.rootfs import variable_depends
-     variables = ['IMAGE_DEVICE_TABLES','BUILD_IMAGES_FROM_FEEDS','IMAGE_TYPES_MASKED','IMAGE_ROOTFS_ALIGNMENT','IMAGE_OVERHEAD_FACTOR','IMAGE_ROOTFS_SIZE','IMAGE_ROOTFS_EXTRA_SPACE',
--                 'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','RM_OLD_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS','SDK_OS',
--                 'SDK_OUTPUT','SDKPATHNATIVE','SDKTARGETSYSROOT','SDK_DIR','SDK_VENDOR','SDKIMAGE_INSTALL_COMPLEMENTARY','SDK_PACKAGE_ARCHS','SDK_OUTPUT','SDKTARGETSYSROOT','MULTILIBRE_ALLOW_REP',
--                 'MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS','PACKAGE_ARCHS',
--                 'PACKAGE_CLASSES','TARGET_VENDOR','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
-+                 'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','RM_OLD_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS',
-+                 'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
-+                 'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
-                  'COMPRESSIONTYPES', 'IMAGE_GEN_DEBUGFS']
-     variables.extend(fstype_variables(d))
--    variables.extend(command_variables(d))
-+    variables.extend(rootfs_command_variables(d))
-     variables.extend(variable_depends(d))
-     return " ".join(variables)
- 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 35e129b..e225f9c 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -188,6 +188,20 @@ populate_sdk_log_check() {
- 	done
- }
- 
-+
-+def sdk_command_variables(d):
-+    return ['OPKG_PREPROCESS_COMMANDS','OPKG_POSTPROCESS_COMMANDS','POPULATE_SDK_POST_HOST_COMMAND','POPULATE_SDK_POST_TARGET_COMMAND','SDK_POSTPROCESS_COMMAND','RPM_PREPROCESS_COMMANDS',         
-+            'RPM_POSTPROCESS_COMMANDS']
-+
-+def sdk_variables(d):
-+    variables = ['BUILD_IMAGES_FROM_FEEDS','SDK_OS','SDK_OUTPUT','SDKPATHNATIVE','SDKTARGETSYSROOT','SDK_DIR','SDK_VENDOR','SDKIMAGE_INSTALL_COMPLEMENTARY','SDK_PACKAGE_ARCHS','SDK_OUTPUT',
-+                 'SDKTARGETSYSROOT','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS','PACKAGE_ARCHS',
-+                 'PACKAGE_CLASSES','TARGET_VENDOR','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI']
-+    variables.extend(sdk_command_variables(d))
-+    return " ".join(variables)
-+
-+do_populate_sdk[vardeps] += "${@sdk_variables(d)}"
-+
- do_populate_sdk[dirs] = "${PKGDATA_DIR} ${TOPDIR}"
- do_populate_sdk[depends] += "${@' '.join([x + ':do_populate_sysroot' for x in d.getVar('SDK_DEPENDS', True).split()])}  ${@d.getVarFlag('do_rootfs', 'depends', False)}"
- do_populate_sdk[rdepends] = "${@' '.join([x + ':do_populate_sysroot' for x in d.getVar('SDK_RDEPENDS', True).split()])}"
--- 
-1.9.1
+--_1a9fbae6-d4b9-4ded-8f13-c099a14373f6_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
+<html>
+<head>
+<style><!--
+.hmmessage P
+{
+margin:0px=3B
+padding:0px
+}
+body.hmmessage
+{
+font-size: 12pt=3B
+font-family:Calibri
+}
+--></style></head>
+<body class=3D'hmmessage'><div dir=3D'ltr'>Problem solved - nothing to do w=
+ith gobject introspection but from the other change I had made=2C to build =
+for qemu.<div><br></div><div><span style=3D"font-size: 12pt=3B">packagegrou=
+p-core-device-devel is pulled in for qemu targets in&nbsp=3B</span>poky.con=
+f and&nbsp=3B<span style=3D"font-size: 12pt=3B">packagegroup-core-device-de=
+vel rdepends on distcc-config.</span></div><div><br></div><div><span style=
+=3D"font-size: 12pt=3B">&gt=3B To: openembedded-core@lists.openembedded.org=
+</span></div><div>&gt=3B From: alexander.kanavin@linux.intel.com<br>&gt=3B =
+Date: Mon=2C 4 Jan 2016 14:49:13 +0200<br>&gt=3B Subject: Re: [OE-core] gob=
+ject introspection - distccd?<br>&gt=3B <br>&gt=3B On 01/04/2016 02:24 PM=
+=2C Chris Trobridge wrote:<br>&gt=3B &gt=3B That's what I was thinking: gob=
+ject-introspection doesn't call it in<br>&gt=3B &gt=3B directly but it does=
+ require compilation to be performed on the 'target'<br>&gt=3B &gt=3B syste=
+m and that could pull it in indirectly.<br>&gt=3B <br>&gt=3B g-introspectio=
+n does not require compilation to be performed on the <br>&gt=3B target. It=
+ requires running binaries that were cross-compiled for the <br>&gt=3B targ=
+et architecture=2C which is achieved by running them using qemu.<br><br></d=
+iv><div>That's what I meant to imply by putting target in quotes.</div><div=
+><br></div><div>&gt=3B &gt=3B distcc (and hence avahi) are not required=2C =
+so is this a general problem<br>&gt=3B &gt=3B or just something I should ex=
+plicitly remove from my image?<br>&gt=3B <br>&gt=3B I think it's a problem =
+of your local setup=3B the g-o patchset definitely <br>&gt=3B doesn't invol=
+ve distcc at any point. You can build against a clean <br>&gt=3B directory =
+with only basic poky layers to verify that.<br>&gt=3B <br>&gt=3B <br>&gt=3B=
+ Alex<br><br></div><div><div>Thanks=2C</div><div>Chris</div><div><br></div>=
+</div> 		 	   		  </div></body>
+</html>=
 
+--_1a9fbae6-d4b9-4ded-8f13-c099a14373f6_--
