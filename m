@@ -1,49 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D74DB6010D
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CB106010D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 14:31:39 +0000 (UTC)
-Received: by mail-ig0-f181.google.com with SMTP id mw1so13219416igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jan 2016 06:31:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=ATWS/2DEbd6m+Fvn5EWvG01ilib3C/FyOid+4dL/6oU=;
-	b=oBi0k5rcWPomDRtTh/+l1lVQA82XP0aDcDAPjKjmijo/MWu4RMVuFugOgCxK7SzmTy
-	XJv8A8YDE0Ht6icvGHGx8dQ1Q3xYVX+sIT8ePFLl7m4isq7yXyh5Hk+qJV3MdoTYDRHv
-	vVwanniIRYVhMVezQQkvgjH2ZZuygozt8lRMXww/xXE5IFYsvCs5sSRK1zE0XgagycBe
-	JxQfGkw7yfrPTOhXicLUoUuU85vn73RZNbRW/BwJFHTOKYnUr3I0ngpGcVNNHnTAJrWi
-	Ps6+sDHMmazIfmBSQcGf4apVEZd51MnN1o3WxDHyDbrkEHRKce+4V8/HQ0NCF3HedCMm
-	DlPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ATWS/2DEbd6m+Fvn5EWvG01ilib3C/FyOid+4dL/6oU=;
-	b=NKv2kVLKVXKaYtAGe1Sz382amZUaUemV/0L2mWX+pD9TB0FXLkbZZgzFPdiUwC08lK
-	FUthIKgKGsgazYrgN0G1SuByqwYE8/5CBf3aJsCKUP0XFqsns/UDbkY6RNMx5QeWHZSY
-	Ly1aN9LgPzH4NISuns+XCAxUP1LjjP/oS0nQ+rmk8DUm/ONrPaFYEOX7jJ6neA6FqroZ
-	8qXjOrdo0KQKkgcc+m3pZFCFcEfST0BqNzbK4vtshq/AwcEPX9ZR0iDFgQOVIFf6H5V1
-	q8UZLm9CdZQwNgA7B9EjMvgo2UkbxNgCUXuoP9ueIjzy6niDNi7+yiUOd79rSGXPCK6R
-	bI5w==
-X-Gm-Message-State: ALoCoQmsn6/dfSx+dQtOmjT2PFxs5bbKr1/GO1z9lWmMcSCMfid4eDICaEAgNNSRmy4PXcqdEFeVnqKpCuhFPyFPm7MA3G3kSkTkb2tiFlDYD1RnQLOXOhY=
-X-Received: by 10.50.22.33 with SMTP id a1mr3841066igf.52.1452004299125; Tue,
-	05 Jan 2016 06:31:39 -0800 (PST)
+	Tue,  5 Jan 2016 14:32:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u05EWe29028898
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 5 Jan 2016 06:32:45 -0800
+Received: from Marks-MacBook-Pro.local (147.11.119.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 5 Jan 2016 06:32:39 -0800
+To: "Ray, Ian (GE Healthcare)" <ian.ray@ge.com>, Matthias Schiffer
+	<mschiffer@universe-factory.net>
+References: <cover.1451912446.git.ian.ray@ge.com>
+	<4e736dcbaf5c32f9d7728990ad4ac0ca975dfd6d.1451912446.git.ian.ray@ge.com>
+	<568A99CD.9000800@universe-factory.net>
+	<568A9E97.2050909@windriver.com>
+	<568AF189.5010801@universe-factory.net>
+	<568AF894.1010405@windriver.com>
+	<568B06D3.7030205@universe-factory.net>
+	<568B0E13.6090108@windriver.com>
+	<568B1BB5.7060303@universe-factory.net>
+	<30E719D66AEA914CBB7DAB303B1C722DB4A8F9@BUDURBPA09.e2k.ad.ge.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+X-Enigmail-Draft-Status: N1110
+Organization: Wind River Systems
+Message-ID: <568BD429.9040003@windriver.com>
+Date: Tue, 5 Jan 2016 08:33:13 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.5.0
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 5 Jan 2016 06:31:19 -0800 (PST)
-In-Reply-To: <20160105162239.21706269@adi-pc-linux>
-References: <3ec94ad0d014bd99c4444523c2744e05c7120a89.1451996491.git.adrian.ratiu@ni.com>
-	<3182226859c3a37e168480aa8c2d93514de68895.1451996491.git.adrian.ratiu@ni.com>
-	<20160105134150.GA2574@jama> <20160105162239.21706269@adi-pc-linux>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 Jan 2016 14:31:19 +0000
-Message-ID: <CAJTo0LZE2vzpyaw4KLNRxPJjaVHYCTRtiA0qim25Y8zPAhQ45Q@mail.gmail.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/2] x11vnc: remove all references to moved package
+In-Reply-To: <30E719D66AEA914CBB7DAB303B1C722DB4A8F9@BUDURBPA09.e2k.ad.ge.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] linux-firmware: remove hard-coded paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +47,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 14:31:42 -0000
-Content-Type: multipart/alternative; boundary=047d7b10ca197677fe05289718b8
+X-List-Received-Date: Tue, 05 Jan 2016 14:32:46 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 8bit
 
---047d7b10ca197677fe05289718b8
-Content-Type: text/plain; charset=UTF-8
+On 1/5/16 8:04 AM, Ray, Ian (GE Healthcare) wrote:
+> On 01/05/2016 03:26 AM, Matthias Schiffer wrote:
+>> On 01/05/2016 01:28 AM, Mark Hatle wrote:
+>>> On 1/4/16 5:57 PM, Matthias Schiffer wrote:
+>>>> On 01/04/2016 11:56 PM, Mark Hatle wrote:
+>>>>> On 1/4/16 4:26 PM, Matthias Schiffer wrote:
+>>>>>> On 01/04/2016 05:32 PM, Mark Hatle wrote:
+>>>>>>> On 1/4/16 10:11 AM, Matthias Schiffer wrote:
+>>>>>>>> On 01/04/2016 02:14 PM, Ian Ray wrote:
+>>>>>>>>> The recipe uses hard-coded paths (specifically /lib) in do_install
+>>>>>>>>> and in FILES, however on a merged /usr system this directory might
+>>>>>>>>> not exist. Prefer base_libdir.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Ian Ray <ian.ray@ge.com>
+>>>>>>>>> ---
+>>>>>>>>
+>>>>>>>> This should use nonarch_base_libdir, base_libdir defaults to /lib64 on
+>>>>>>>> ppc64, which is not where the firmware is expected.
+>>>>>>>>
+>>>>>>>
+>>>>>>> At a minimum, I would agree nonarch_base_libdir, however..
+>>>>>>>
+>>>>>>> I believe that the kernel loader/modules/tools themselves actually have '/lib'
+>>>>>>> hard coded into them.  This is the reason why /lib/firmware was used and not one
+>>>>>>> of the variables.
+>>>>>>>
+>>>>>>> This is one of the cases were /lib is actually correct, since that is what the
+>>>>>>> system is expecting.  We can make some kind of accommodation for systems where
+>>>>>>> /lib -> /usr/lib... but that should be done inside of the filesystem setup
+>>>>>>> processing and not the package itself.  (I'm referring to the
+>>>>>>> 'meta/files/fs-perms.txt' file.
+>>>>>>>
+>>>>>>> --Mark
+> 
+> Ah, that makes sense.
+> 
+> <snip>
+> 
+>>> You conditionalize it by providing different default fs-perms files -- OR since
+>>> more then one file can be loaded -- additional fs-perms with the permutations
+>>> you desire.
+>>>
+>>> I could easily see having an files/fs-perms-usr-only.txt and an
+>>> files/fs-perms-no-usr.txt
+>>>
+>>> Where the first would be something like:
+>>>
+>>> # Define symlinks from base directories to their prefix versions
+>>> /bin	link ${bindir}
+>>> /sbin	link ${sbindir}
+>>> ...
+> 
+> This is very interesting -- thank you.
+> 
+> I tried patching our additional fs-perms file as Mark suggested. This resulted in
+> a build failure during packaging of a recipe. The package directory looks odd:
+> 
+> ls -l /home/ian/myproduct/build/tmp/work/myproduct-linux-gnueabi/
+> myrecipe/4.3-r0/package
+> total 4
+> drwxr-xr-x. 2 ian ian 4096 Jan  5 11:30 boot
+> drwxr-xr-x. 4 ian ian   56 Jan  5 11:30 etc
+> lrwxrwxrwx. 1 ian ian    8 Jan  5 11:33 lib -> /usr/lib
+> drwxr-xr-x. 3 ian ian   16 Jan  5 11:33 usr
 
-On 5 January 2016 at 14:22, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+We should look into this further.  Pseudo (the fakeroot wrapper) should be
+changing '/usr/lib' [in the cross build filesystem] to a relative path... It
+will only be '/usr/lib' in the target version if we're in the pseudo environment
+or the translation is off.  (Maybe I'm remembering incorrectly, but that was my
+memory.)
 
-> Yes and also if there are no x11 dependencies in this packagegroup,
-> then it should be renamed to packagegroup-core-sato.
->
-> I'll resubmit. Thank you.
->
+> This can be fixed by teaching classes/package.bbclass to _not_ use the leading
+> slash when making the link. Not sure if that is unacceptably hacky? But it must
+> be better than leaking to host filesystem.
+> 
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index a86b680..59ef447 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -774,6 +774,7 @@ python fixup_perms () {
+>          link = fs_perms_table[dir].link
+>          if link[0] == "/":
+>              target = dvar + link
+> +            link = link[1:]
+>              ptarget = link
+>          else:
+>              target = os.path.join(os.path.dirname(origin), link)
 
-Don't - sato is explicitly X11 based.
+I'm definitely interested in understanding what may or may not be working
+properly here.
 
-Ross
+> Once past that problem there is a QA problem since do_package now installs
+> to /usr/lib (because of fs-perms) instead of /lib which is mentioned in FILES.
 
---047d7b10ca197677fe05289718b8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+What was the QA issue?  About the absolute path name or something else?
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 January 2016 at 14:22, Ioan-Adrian Ratiu <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adrian.ratiu@ni.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3z4" class=
-=3D"a3s" style=3D"overflow:hidden">Yes and also if there are no x11 depende=
-ncies in this packagegroup,<br>
-then it should be renamed to packagegroup-core-sato.<br>
-<br>
-I&#39;ll resubmit. Thank you.<div class=3D"yj6qo ajU"><div id=3D":x1" class=
-=3D"ajR" tabindex=3D"0"></div></div></div></blockquote></div><br>Don&#39;t =
-- sato is explicitly X11 based.</div><div class=3D"gmail_extra"><br></div><=
-div class=3D"gmail_extra">Ross</div></div>
+> Joshua's patches for merged /usr touched FILES in _some_ cases (for example
+> 73a6fe958f47642d18ba0098cfd45c3520d53560) but linux-firmware would require
+> considerably more effort. Is that an argument in favour of nonarch_base_libdir
+> instead of literal "/lib" or is there some other technique to address this?
 
---047d7b10ca197677fe05289718b8--
+For linux-firmware specifically.. we need to make sure the kernel and modules
+(which use the firmware) use the same filesystem notion as what the
+linux-firmware package is doing.  In the past when I've looked, pretty much
+everything was just hardcoded as '/lib/firmware'.  So using that in the
+packaging was correct for all three systems.  (I don't believe patching the
+three to use bitbake variables is necessarily a good idea -- since I'm sure
+there are more instances of this type of usage that I'm unaware of.)
+
+This is where using the fs-perms mechanism to move the files and setup the
+symlink is the right approach in my opinion.  The key thing is figuring out the
+permutations of the libdir, nonarch libdir (since they may or may not be the
+same) and dealing with any QA errors that may occur.
+
+> Ian
+> 
+
+
