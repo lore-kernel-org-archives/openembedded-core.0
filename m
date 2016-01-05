@@ -1,45 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 606EB731D3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 21:10:18 +0000 (UTC)
-Received: by mail-pa0-f51.google.com with SMTP id yy13so128428939pab.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jan 2016 13:10:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=64okpSTLWRD/6p6IhIaVvPsXqySAv1M7orgatjqMzyQ=;
-	b=vZGqJlZBhrrqvyAHMCohDKAh3pFz2uLch/qeCaTJ6zkVsKKQ/NQodrmqg2C4ESc/Yr
-	fOeA8wLiLbEWAv3JP9w/JZ1CLI+ByK72+v16cjz7mJENGTDvSOWOIuHGEl+PsYdASe+F
-	2bcM0u/0sbQlR/Di2/SfK2LVuIDODKNe8eBE4g7BR0fXAycvF7afcPkqk3FFiAf2yLXw
-	Cdp3eplQW9IAzSxg9p7/Oh6iNJXRPNYbZJ16LCjK/g6v04Wqx3rxsDuipfQrPWgK3WdL
-	/4SelHWzU9M5tst+wtFnFNwbM4EqDnHq/mLsTMyjF1c/DFyFv7vszqfwVdvAIvqK7+oy
-	pN4A==
-X-Received: by 10.66.97.5 with SMTP id dw5mr47427325pab.27.1452028219774;
-	Tue, 05 Jan 2016 13:10:19 -0800 (PST)
-Received: from ?IPv6:2601:647:4c01:b37d:41f6:2669:fdf0:2010?
-	([2601:647:4c01:b37d:41f6:2669:fdf0:2010])
-	by smtp.gmail.com with ESMTPSA id
-	b9sm72048378pas.31.2016.01.05.13.10.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 05 Jan 2016 13:10:19 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LZX0AnEjGSsRH87xsXNX1io=T17rBCnzJH_Ek=Lptzg5w@mail.gmail.com>
-Date: Tue, 5 Jan 2016 13:10:20 -0800
-Message-Id: <763CE3E6-D793-46D3-8A52-8DA08F20F50E@gmail.com>
-References: <1451903012-22560-1-git-send-email-ross.burton@intel.com>
-	<1451903012-22560-2-git-send-email-ross.burton@intel.com>
-	<CAMKF1soaRON--0ywMMeesGsakmcqS7tNZFxeVD=YCA2TE5532Q@mail.gmail.com>
-	<CAJTo0LZX0AnEjGSsRH87xsXNX1io=T17rBCnzJH_Ek=Lptzg5w@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] systemd: add more compression and importd PACKAGECONFIGs
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 27D86731E1;
+	Tue,  5 Jan 2016 21:30:09 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Jan 2016 13:30:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,526,1444719600"; d="scan'208";a="854172097"
+Received: from nanoar-mobl3.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.178.248])
+	by orsmga001.jf.intel.com with ESMTP; 05 Jan 2016 13:30:07 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 06 Jan 2016 10:30:05 +1300
+Message-ID: <3002291.NNtibCZEiD@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.2.8-300.fc23.x86_64; KDE/4.14.14; x86_64; ;
+	)
+In-Reply-To: <1451307640.4129.16.camel@linuxfoundation.org>
+References: <1451307640.4129.16.camel@linuxfoundation.org>
+MIME-Version: 1.0
+Cc: openembedded-architecture@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: Split do_rootfs into image specific tasks?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,68 +34,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 21:10:19 -0000
-X-Groupsio-MsgNum: 75478
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_C4C671B8-6493-4504-A7E9-8A1340863258";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 05 Jan 2016 21:30:12 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---Apple-Mail=_C4C671B8-6493-4504-A7E9-8A1340863258
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_99900725-AF1E-402F-B6E3-97DCCBA65433"
+Hi Richard,
 
---Apple-Mail=_99900725-AF1E-402F-B6E3-97DCCBA65433
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+On Mon, 28 Dec 2015 13:00:40 Richard Purdie wrote:
+> I've heard complaints from people trying to create more interesting
+> image types about how hard it is to understand the rootfs/image
+> generation code and that its a pain to develop/test/debug.
+> 
+> Having looked at it myself, the internal construction of shell
+> functions which then gets passed into a multiprocessing pool is rather
+> convoluted and it places rather odd constraints on when variables are
+> expanded. Its therefore no wonder people find it confusing/complex.
+> 
+> I've sent three patches to the OE-Core list which illustrate how we
+> could split the code in lib/oe/image into separate tasks, one per image
+> type. This removes the need for the simple task graph code and defers
+> to the bitbake task management code to handle this instead.
+> 
+> This is a good step forward in splitting up the monolithic code and
+> starting to make it more accessible to people. It should also make it
+> easier for people to hook in other tasks and processes into the rootfs
+> code.
+> 
+> Incidentally, the reason this code was all combined originally was due
+> to limitations of fakeroot where if you exited the session, you lost
+> permissions data. With pseudo this constraint was removed.
+> 
+> We did start to rework the rootfs/image code previously and got so far
+> with untangling it however we did prioritise some performance tweaks
+> over splitting into separate tasks and in hindsight, this was a mistake
+> and should have been done the other way around. That work was suspended
+> due to changes in the people working on the project but this split has
+> always been intended, now is the time to finish it IMO.
+> 
+> The code I've sent does work but is not finished yet and has only had
+> basic testing. Things that remain to be done:
+> 
+> * Handling of IMAGE_GEN_DEBUGFS needs reimplementing on the new code
+>   structure
+> * Some variable dependencies on do_rootfs need moving to do_image
+> * References to do_rootfs need auditing to see if they should now be
+>   do_image_complete
+> * Changes need documenting with migration notes.
+> * The layout of image.bbclass is pretty horrid and needs cleanup, along
+>   with moving functions to the right places
+> * We should only calculate the rootfs size once, not once per image
+>   type.
+> 
+> This work could also be a stepping stone towards further changes to the
+> rootfs backends. Right now its pretty backwards compatible but we could
+> change the API a bit and create the image types as specific tasks right
+> from the start rather than hand crafting shell functions as we do now
+> for example. I believe there would be further benefits in debugging and
+> ease of understanding of the codebase if we did that.
+> 
+> I guess the real question is whether people like this direction and how
+> much should we change the API in order to improve things? Could we
+> afford a pretty heavy rewrite in this area to give a good end result?
 
+I like this a lot. I'd idly considered this model before (as I'm sure others 
+had) as it simplifies a lot of the multi-format image construction handling, 
+improves incremental performance, and the added granularity makes it slightly 
+easier to see what the build system is doing. Obviously there is some minor 
+cleanup work to be done on the patchset as you've noted.
 
-> On Jan 4, 2016, at 12:53 PM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->=20
->=20
-> On 4 January 2016 at 18:36, Khem Raj <raj.khem@gmail.com =
-<mailto:raj.khem@gmail.com>> wrote:
-> Would it thow some sensible configure errors on enabling importd
-> without the dependencies ? now that they are packageconfigs on their
-> own. ?
->=20
-> No, basically currently if you enable enough options then importd =
-enables itself so the main aim here was to add some determinism to both =
-all the compression backends and importd.
->=20
+The only "issue" I can think of is that bitbake -c rootfs will no longer build 
+the image files as it did previously; however I'm not sure I'd structure things 
+any differently to avoid that though. I suspect people will fairly easily adapt 
+to this change as long as we publicise it effectively.
 
-OK thank you.
+Cheers,
+Paul
 
-> Ross
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
---Apple-Mail=_99900725-AF1E-402F-B6E3-97DCCBA65433
-Content-Transfer-Encoding: 7bit
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><br class=""><div><blockquote type="cite" class=""><div class="">On Jan 4, 2016, at 12:53 PM, Burton, Ross &lt;<a href="mailto:ross.burton@intel.com" class="">ross.burton@intel.com</a>&gt; wrote:</div><br class="Apple-interchange-newline"><div class=""><div dir="ltr" class=""><div class="gmail_extra"><br class=""><div class="gmail_quote">On 4 January 2016 at 18:36, Khem Raj <span dir="ltr" class="">&lt;<a href="mailto:raj.khem@gmail.com" target="_blank" class="">raj.khem@gmail.com</a>&gt;</span> wrote:<br class=""><blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=":382" class="a3s" style="overflow:hidden">Would it thow some sensible configure errors on enabling importd<br class="">
-without the dependencies ? now that they are packageconfigs on their<br class="">
-own. ?</div></blockquote></div><br class="">No, basically currently if you enable enough options then importd enables itself so the main aim here was to add some determinism to both all the compression backends and importd.</div><div class="gmail_extra"><br class=""></div></div></div></blockquote><div><br class=""></div><div>OK thank you.</div><br class=""><blockquote type="cite" class=""><div class=""><div dir="ltr" class=""><div class="gmail_extra">Ross</div></div>
-</div></blockquote></div><br class=""></body></html>
-
---Apple-Mail=_99900725-AF1E-402F-B6E3-97DCCBA65433--
-
---Apple-Mail=_C4C671B8-6493-4504-A7E9-8A1340863258
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlaMMTwACgkQuwUzVZGdMxS1GACeNjSygEBsN50lpsefBXJ+wtwD
-tpQAn0G5awxN7xcAhsvDUjM6RYR5xlGf
-=aN+9
------END PGP SIGNATURE-----
-
---Apple-Mail=_C4C671B8-6493-4504-A7E9-8A1340863258--
