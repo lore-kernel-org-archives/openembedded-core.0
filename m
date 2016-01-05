@@ -1,37 +1,32 @@
 Return-Path: <just4tech83@gmail.com>
-Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com
-	[209.85.218.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 145A26FFF2;
-	Tue,  5 Jan 2016 13:07:35 +0000 (UTC)
-Received: by mail-oi0-f47.google.com with SMTP id l9so245735511oia.2;
-	Tue, 05 Jan 2016 05:07:36 -0800 (PST)
+Received: from mail-ob0-f178.google.com (mail-ob0-f178.google.com
+	[209.85.214.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 747416FF9B;
+	Tue,  5 Jan 2016 13:09:09 +0000 (UTC)
+Received: by mail-ob0-f178.google.com with SMTP id es1so1255778obc.2;
+	Tue, 05 Jan 2016 05:09:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=YH49h5OKpaHBeOexI2no2gnvj+NDgg6gXtVUzevunqU=;
-	b=m6NVrZkDDQle6c1Qp+VaLL+P0+G+Grc2+GU0v4Y6jq+TDFD18U96c6+wsG6l3gahK8
-	hvCx/E4aKeDgfu9/6ttAjfgL2Vfoef9nnOZAtXtVyXxFbk38IX4mpx9EpWbhPKdZDsPx
-	FWroZW6LgSX16LtrB8eyymS5vrXAFfTxg+0X41niIhtcYuwkNsKa1ldKddlhKRNCaXXr
-	05Gbi4auE8CWAPGog+FkH8XBi67YHex3Uv+RkvIbXq5Z2+GdYp3xCdnzd4uob55gZcQE
-	zJax6PnVBu+3/mRFu2fObEajVctPGzXqEX4J6mXPJYlSKhJRYbry3EWqE9qhmCMXz/GC
-	+Ejg==
+	:content-type; bh=OxTJwChB6XDBKsPIFgwsbBKhdJpK4NO/307tdFevFhE=;
+	b=FnkVdnhLovCm+Q77pzaAV74G1H1Thi7ruaas08v51ZCqXOH14Ut8BO7+3jr++rNms4
+	9EBYuHqjfzl4FD9qTXOrO5Biln9bdgk2Kl7fgCuT3gqpQ0x4cpWc0/3vuugT7JujrK9p
+	4ET6J0d17k9LelBANj1EFFRwIVJx7EvTh7DoE1zp2XkW0klLZa9gKipwX3yg9UjlWyto
+	vrOiz1p7gZr7jPHokdohcrLjplLIaj5IKNLylfkjWz9o/nJUzBGjs5W/WKC1HnHbLrK2
+	oZf+jljLaqTLbIzN2E5oVK38zN3b1LxKb0jWVR56dJQbNGwFikyw/aIa0IZypsUs0nL+
+	jtMQ==
 MIME-Version: 1.0
-X-Received: by 10.202.48.6 with SMTP id w6mr59662149oiw.97.1451999256340; Tue,
-	05 Jan 2016 05:07:36 -0800 (PST)
-Received: by 10.202.71.10 with HTTP; Tue, 5 Jan 2016 05:07:36 -0800 (PST)
-Received: by 10.202.71.10 with HTTP; Tue, 5 Jan 2016 05:07:36 -0800 (PST)
-In-Reply-To: <CAD2C2VTmyKj=T_F-DHrxNzW4d4gEDJ3=EaZFtQnF4m0in6C2Yg@mail.gmail.com>
+X-Received: by 10.60.246.135 with SMTP id xw7mr35322220oec.37.1451999350491;
+	Tue, 05 Jan 2016 05:09:10 -0800 (PST)
+Received: by 10.202.71.10 with HTTP; Tue, 5 Jan 2016 05:09:10 -0800 (PST)
+Received: by 10.202.71.10 with HTTP; Tue, 5 Jan 2016 05:09:10 -0800 (PST)
+In-Reply-To: <CAD2C2VSOXLTPM-yu6JFajf0LMHoE1t3utWG0vLFUzERcZs+7HA@mail.gmail.com>
 References: <CAD2C2VSOXLTPM-yu6JFajf0LMHoE1t3utWG0vLFUzERcZs+7HA@mail.gmail.com>
-	<CAD2C2VTmyKj=T_F-DHrxNzW4d4gEDJ3=EaZFtQnF4m0in6C2Yg@mail.gmail.com>
-Date: Tue, 5 Jan 2016 18:37:36 +0530
-Message-ID: <CAD2C2VRO2QwXk6i-SXJU6Rk7EoBaHgdEyLdAKR__9+CG=i57_Q@mail.gmail.com>
+Date: Tue, 5 Jan 2016 18:39:10 +0530
+Message-ID: <CAD2C2VRiUjiSFPHC+6KSyp_feBq0xhNeTgLJQdKyHF11kPuRCA@mail.gmail.com>
 From: Bryan <just4tech83@gmail.com>
 To: openembedded-core@lists.openembedded.org, 
 	openembedded-issues@lists.openembedded.org
-Cc: linux-yocto@yoctoproject.org, poky@yoctoproject.org,
-	bitbake-devel@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Subject: Re: korean/chinese keyboard layout support on yocto
+Subject: korean/chinese keyboard layout support on yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,58 +39,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 13:07:36 -0000
-Content-Type: multipart/alternative; boundary=001a113cd986e36e6a052895eb36
+X-List-Received-Date: Tue, 05 Jan 2016 13:09:10 -0000
+Content-Type: multipart/alternative; boundary=001a11368fca801b51052895f18f
 
---001a113cd986e36e6a052895eb36
+--001a11368fca801b51052895f18f
 Content-Type: text/plain; charset=UTF-8
 
-On Dec 24, 2015 1:40 PM, "Bryan" <just4tech83@gmail.com> wrote:
+---------- Forwarded message ----------
+From: "Bryan" <just4tech83@gmail.com>
+Date: Dec 18, 2015 1:03 PM
+Subject: korean/chinese keyboard layout support on yocto
+To: <openembedded-core@lists.openembedded.org>
+Cc:
 
->
-> On Dec 18, 2015 1:03 PM, "Bryan" <just4tech83@gmail.com> wrote:
-> >
-> > Hi,
-> >     I am working on yocto poky-dizzy 1.7.1 and have developed some
-> application on top of customized os image. I have a reqirement to support
-> korean/chinese keyboard layout for application.
-> > I have added cross complied libraries for  ibus-hangul pckages. Can
-> somebody suggest me how can i add support for keyboart layout and how to
-> enable automatically.
-> >
-> > Is there any bitbake recipe available to support these keyboard layout.
-> >
-> >
-> > regards
-> > Bryan
->
+Hi,
+    I am working on yocto poky-dizzy 1.7.1 and have developed some
+application on top of customized os image. I have a reqirement to support
+korean/chinese keyboard layout for application.
+I have added cross complied libraries for  ibus-hangul pckages. Can
+somebody suggest me how can i add support for keyboart layout and how to
+enable automatically.
 
---001a113cd986e36e6a052895eb36
+Is there any bitbake recipe available to support these keyboard layout.
+
+
+regards
+Bryan
+
+--001a11368fca801b51052895f18f
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Dec 24, 2015 1:40 PM, &quot;Bryan&quot; &lt;<=
-a href=3D"mailto:just4tech83@gmail.com">just4tech83@gmail.com</a>&gt; wrote=
-:<br type=3D"attribution"><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p dir=3D"ltr"><br=
->
-On Dec 18, 2015 1:03 PM, &quot;Bryan&quot; &lt;<a href=3D"mailto:just4tech8=
-3@gmail.com" target=3D"_blank">just4tech83@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Hi, <br>
-&gt; =C2=A0=C2=A0=C2=A0 I am working on yocto poky-dizzy 1.7.1 and have dev=
-eloped some application on top of customized os image. I have a reqirement =
-to support korean/chinese keyboard layout for application. <br>
-&gt; I have added cross complied libraries for=C2=A0 ibus-hangul pckages. C=
-an somebody suggest me how can i add support for keyboart layout and how to=
- enable automatically.<br>
-&gt;<br>
-&gt; Is there any bitbake recipe available to support these keyboard layout=
-.<br>
-&gt;<br>
-&gt;<br>
-&gt; regards<br>
-&gt; Bryan</p>
-</blockquote></div>
+<div class=3D"gmail_quote">---------- Forwarded message ----------<br>From:=
+ &quot;Bryan&quot; &lt;<a href=3D"mailto:just4tech83@gmail.com">just4tech83=
+@gmail.com</a>&gt;<br>Date: Dec 18, 2015 1:03 PM<br>Subject: korean/chinese=
+ keyboard layout support on yocto<br>To:  &lt;<a href=3D"mailto:openembedde=
+d-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>=
+&gt;<br>Cc: <br><br type=3D"attribution"><p dir=3D"ltr">Hi, <br>
+=C2=A0=C2=A0=C2=A0 I am working on yocto poky-dizzy 1.7.1 and have develope=
+d some application on top of customized os image. I have a reqirement to su=
+pport korean/chinese keyboard layout for application. <br>
+I have added cross complied libraries for=C2=A0 ibus-hangul pckages. Can so=
+mebody suggest me how can i add support for keyboart layout and how to enab=
+le automatically. </p>
+<p dir=3D"ltr">Is there any bitbake recipe available to support these keybo=
+ard layout. </p>
+<p dir=3D"ltr"> <br>
+regards<br>
+Bryan</p>
+</div>
 
---001a113cd986e36e6a052895eb36--
+--001a11368fca801b51052895f18f--
