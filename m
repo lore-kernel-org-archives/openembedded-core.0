@@ -1,30 +1,30 @@
-Return-Path: <christrobridge@hotmail.com>
-Received: from DUB004-OMC3S34.hotmail.com (dub004-omc3s34.hotmail.com
-	[157.55.2.43])
-	by mail.openembedded.org (Postfix) with ESMTP id BBDD77318F
+Return-Path: <adrian.ratiu@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id F393473175
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 07:56:24 +0000 (UTC)
-Received: from DUB130-W34 ([157.55.2.9]) by DUB004-OMC3S34.hotmail.com over
-	TLS secured channel with Microsoft SMTPSVC(7.5.7601.23008); 
-	Mon, 4 Jan 2016 23:56:25 -0800
-X-TMN: [GD/MqLjBHa1Xke39PsLCCNGvYxX8/a13]
-X-Originating-Email: [christrobridge@hotmail.com]
-Message-ID: <DUB130-W34172069DFA8C7DAAB8590DAF30@phx.gbl>
-From: Chris Trobridge <christrobridge@hotmail.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Jan 2016 07:56:24 +0000
-Importance: Normal
-In-Reply-To: <568A6A49.7030508@linux.intel.com>
-References: <DUB130-W63DCB3C4CAD84E460BB03FDAE00@phx.gbl>,
-	<DUB130-W169AB1FBDD4284EB42D7DBDAF20@phx.gbl>,
-	<CAJTo0LY6MpvHRaZ9teS088jaoSrgb5NLMF32uo7KmXJK0nGppA@mail.gmail.com>,
-	<DUB130-W21AF20AA18BC334FB9E61BDAF20@phx.gbl>,
-	<568A6A49.7030508@linux.intel.com>
-MIME-Version: 1.0
-X-OriginalArrivalTime: 05 Jan 2016 07:56:25.0452 (UTC)
-	FILETIME=[936912C0:01D1478E]
-Subject: Re: gobject introspection - distccd?
+	Tue,  5 Jan 2016 08:38:53 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u058croe000680 for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Jan 2016 02:38:53 -0600
+Received: from adi-pc-linux.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016010502385367-1694274 ;
+	Tue, 5 Jan 2016 02:38:53 -0600 
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 5 Jan 2016 10:38:51 +0200
+Message-Id: <88b6d7a2acf46e3623c02685cff661a958f9a7ea.1451983009.git.adrian.ratiu@ni.com>
+X-Mailer: git-send-email 2.1.4
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 01/05/2016 02:38:53 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 01/05/2016 02:38:53 AM,
+	Serialize complete at 01/05/2016 02:38:53 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-01-05_02:, , signatures=0
+Subject: [RESEND PATCH v3 1/2] package_ipk: support signing of ipk packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,93 +37,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 07:56:26 -0000
-Content-Type: multipart/alternative;
-	boundary="_1a9fbae6-d4b9-4ded-8f13-c099a14373f6_"
+X-List-Received-Date: Tue, 05 Jan 2016 08:38:54 -0000
 
---_1a9fbae6-d4b9-4ded-8f13-c099a14373f6_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Minimum required opkg version: 3.0 (already in master/jethro).
 
-Problem solved - nothing to do with gobject introspection but from the othe=
-r change I had made=2C to build for qemu.
-packagegroup-core-device-devel is pulled in for qemu targets in poky.conf a=
-nd packagegroup-core-device-devel rdepends on distcc-config.
-> To: openembedded-core@lists.openembedded.org> From: alexander.kanavin@lin=
-ux.intel.com
-> Date: Mon=2C 4 Jan 2016 14:49:13 +0200
-> Subject: Re: [OE-core] gobject introspection - distccd?
->=20
-> On 01/04/2016 02:24 PM=2C Chris Trobridge wrote:
-> > That's what I was thinking: gobject-introspection doesn't call it in
-> > directly but it does require compilation to be performed on the 'target=
-'
-> > system and that could pull it in indirectly.
->=20
-> g-introspection does not require compilation to be performed on the=20
-> target. It requires running binaries that were cross-compiled for the=20
-> target architecture=2C which is achieved by running them using qemu.
+Add a new bbclass for creating signatures for ipk files.
+The signing process is very similar to the existing rpm signing,
+but different in some important ways:
+    - Signatures are stored outside the ipk files, opkg connects
+to a feed server and downloads them as separate files which are
+used to verify ipk's. These files go everywhere alongside the ipk.
+    - Signatures can be of two types: binary (.sig) and ascii-armored
+(.asc). By default OE and opkg use binary, can be configured by using
+IPK_SIGNATURE_TYPE (in OE) and "option signature_type gpg-asc" in
+opkg.
+    - The public key is stored on device and the keyring managed
+by the opkg-keyrings package. See its recipe for more details.
 
-That's what I meant to imply by putting target in quotes.
-> > distcc (and hence avahi) are not required=2C so is this a general probl=
-em
-> > or just something I should explicitly remove from my image?
->=20
-> I think it's a problem of your local setup=3B the g-o patchset definitely=
-=20
-> doesn't involve distcc at any point. You can build against a clean=20
-> directory with only basic poky layers to verify that.
->=20
->=20
-> Alex
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+---
+ meta/classes/package_ipk.bbclass |  6 ++++
+ meta/classes/sign_ipk.bbclass    | 73 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/classes/sign_ipk.bbclass
 
-Thanks=2CChris
- 		 	   		  =
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 51bee28..4f5bbd0 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -246,6 +246,12 @@ python do_package_ipk () {
+             bb.utils.unlockfile(lf)
+             raise bb.build.FuncFailed("opkg-build execution failed")
+ 
++        if d.getVar('IPK_SIGN_PACKAGES', True) == '1':
++            ipkver = "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
++            ipk_to_sign = "%s/%s_%s_%s.ipk" % (pkgoutdir, pkgname, ipkver, d.getVar('PACKAGE_ARCH', True))
++            d.setVar('IPK_TO_SIGN', ipk_to_sign)
++            bb.build.exec_func("sign_ipk", d)
++
+         cleanupcontrol(root)
+         bb.utils.unlockfile(lf)
+ 
+diff --git a/meta/classes/sign_ipk.bbclass b/meta/classes/sign_ipk.bbclass
+new file mode 100644
+index 0000000..a4f1f3a
+--- /dev/null
++++ b/meta/classes/sign_ipk.bbclass
+@@ -0,0 +1,73 @@
++# Class for generating signed IPK packages.
++#
++# Configuration variables used by this class:
++# IPK_GPG_PASSPHRASE_FILE
++#           Path to a file containing the passphrase of the signing key.
++# IPK_GPG_NAME
++#           Name of the key to sign with.
++# IPK_SIGNATURE_TYPE
++#           Optional type of signature to accompany IPK files, can be:
++#                     1. Ascii armored (ASC)
++#                     2. Binary (BIN), default
++# GPG_BIN
++#           Optional variable for specifying the gpg binary/wrapper to use for
++#           signing.
++#
++
++inherit sanity
++
++IPK_SIGN_PACKAGES = '1'
++
++def ipksign_wrapper(d, ipk_file, passphrase, gpg_name=None, sigtype="BIN"):
++    import subprocess
++    from subprocess import Popen
++
++    keypipe = os.pipe()
++    os.write(keypipe[1], passphrase + '\n')
++
++    # use gpg from host PATH if user did not define a specific binary
++    cmd = [d.getVar('GPG_BIN', True) or bb.utils.which(os.getenv('PATH'), "gpg")]
++
++    if gpg_name:
++        cmd += ["-q", "--batch", "--yes", "-b", "-u", gpg_name]
++    else:
++        raise_sanity_error("You need to define IPK_GPG_NAME in bitbake config", d)
++
++    # transmit using pipes for security
++    cmd += ["--passphrase-fd",  str(keypipe[0])]
++
++    # ascii armored or binary signatures
++    if sigtype.lower() == "ASC".lower():
++        cmd += ["-a"]
++    elif sigtype.lower() != "BIN".lower():
++        raise_sanity_error("Invalid IPK_SIGNATURE_TYPE in bitbake config", d)
++
++    cmd += [ipk_file]
++
++    p = Popen(cmd, stdin=subprocess.PIPE)
++    p.wait()
++
++    os.close(keypipe[1])
++    os.close(keypipe[0])
++
++    return p.returncode
++
++
++python sign_ipk () {
++    ipk_gpg_pass_file = (d.getVar("IPK_GPG_PASSPHRASE_FILE", True) or "")
++    if ipk_gpg_pass_file:
++        with open(ipk_gpg_pass_file) as fobj:
++            ipk_gpg_passphrase = fobj.readlines()[0].rstrip('\n')
++    else:
++        raise_sanity_error("You need to define IPK_GPG_PASSPHRASE_FILE in the config", d)
++
++    ipk_gpg_name = (d.getVar("IPK_GPG_NAME", True) or "")
++
++    ipk_file = d.getVar('IPK_TO_SIGN')
++    bb.debug(1, 'IPK_TO_SIGN: %s' % ipk_file)
++
++    sigtype = (d.getVar("IPK_SIGNATURE_TYPE", True) or "")
++
++    if ipksign_wrapper(d, ipk_file, ipk_gpg_passphrase, ipk_gpg_name, sigtype) != 0:
++        raise bb.build.FuncFailed("IPK signing failed")
++}
+-- 
+2.1.4
 
---_1a9fbae6-d4b9-4ded-8f13-c099a14373f6_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
 
-<html>
-<head>
-<style><!--
-.hmmessage P
-{
-margin:0px=3B
-padding:0px
-}
-body.hmmessage
-{
-font-size: 12pt=3B
-font-family:Calibri
-}
---></style></head>
-<body class=3D'hmmessage'><div dir=3D'ltr'>Problem solved - nothing to do w=
-ith gobject introspection but from the other change I had made=2C to build =
-for qemu.<div><br></div><div><span style=3D"font-size: 12pt=3B">packagegrou=
-p-core-device-devel is pulled in for qemu targets in&nbsp=3B</span>poky.con=
-f and&nbsp=3B<span style=3D"font-size: 12pt=3B">packagegroup-core-device-de=
-vel rdepends on distcc-config.</span></div><div><br></div><div><span style=
-=3D"font-size: 12pt=3B">&gt=3B To: openembedded-core@lists.openembedded.org=
-</span></div><div>&gt=3B From: alexander.kanavin@linux.intel.com<br>&gt=3B =
-Date: Mon=2C 4 Jan 2016 14:49:13 +0200<br>&gt=3B Subject: Re: [OE-core] gob=
-ject introspection - distccd?<br>&gt=3B <br>&gt=3B On 01/04/2016 02:24 PM=
-=2C Chris Trobridge wrote:<br>&gt=3B &gt=3B That's what I was thinking: gob=
-ject-introspection doesn't call it in<br>&gt=3B &gt=3B directly but it does=
- require compilation to be performed on the 'target'<br>&gt=3B &gt=3B syste=
-m and that could pull it in indirectly.<br>&gt=3B <br>&gt=3B g-introspectio=
-n does not require compilation to be performed on the <br>&gt=3B target. It=
- requires running binaries that were cross-compiled for the <br>&gt=3B targ=
-et architecture=2C which is achieved by running them using qemu.<br><br></d=
-iv><div>That's what I meant to imply by putting target in quotes.</div><div=
-><br></div><div>&gt=3B &gt=3B distcc (and hence avahi) are not required=2C =
-so is this a general problem<br>&gt=3B &gt=3B or just something I should ex=
-plicitly remove from my image?<br>&gt=3B <br>&gt=3B I think it's a problem =
-of your local setup=3B the g-o patchset definitely <br>&gt=3B doesn't invol=
-ve distcc at any point. You can build against a clean <br>&gt=3B directory =
-with only basic poky layers to verify that.<br>&gt=3B <br>&gt=3B <br>&gt=3B=
- Alex<br><br></div><div><div>Thanks=2C</div><div>Chris</div><div><br></div>=
-</div> 		 	   		  </div></body>
-</html>=
-
---_1a9fbae6-d4b9-4ded-8f13-c099a14373f6_--
