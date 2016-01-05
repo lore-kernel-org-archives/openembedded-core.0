@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C65B6067D
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 5244A6067D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 17:28:09 +0000 (UTC)
-Received: by mail-ig0-f170.google.com with SMTP id mw1so16632393igb.1
+	Tue,  5 Jan 2016 17:31:32 +0000 (UTC)
+Received: by mail-ig0-f177.google.com with SMTP id z14so12574873igp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jan 2016 09:28:10 -0800 (PST)
+	Tue, 05 Jan 2016 09:31:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=MXnf/YHNVRcScI1GP1DjY5fqdxDKe5JmzEMMUPNOBl0=;
-	b=p6V7ciBO0tYbEfbvCA9JhBdOgkEJlM9Bf3HKjRjFFZf8Cdlw7rJxW5+nszx/AqNxgj
-	kF0T9K4toi2Zm1FOmKbp9PDgbUW24E1+rAMA9SBsCjVTEr4KLCr3xp5N23sUpJWiXUdZ
-	MqAOyeFUzutDctOEdX0Kb93SkZJyXUFbe6E/v5o0LsUuCS8ZgzqaJwK5AvQg631fhRjI
-	gCqkqroax5mYBRD6vsp6qQyMFdBW/M6qgyDWEAfAn8q6woFHgkS7k7s672b4z4oZJKDE
-	mPXdf9wFYBkRQzZUdNodWjliH+Cs79T9Q9ATDlLfk4FQN0wnKmSyt0UZRxvup/Kc+RWC
-	Fwfw==
+	bh=CkO5p72RE2eFGdZcC9Z1UVHrC01s7nAvuffbgF+e66k=;
+	b=2LwNKLI1heL7vJczE4RY/Wv65V4jQZzMOcoB8R/VOh/cSlpleDFLlI6FTfxWjMat6X
+	btiw66oxjpVQ0WJxwB0WgL9cYL/+eWV0uGUxpix2EQPEjyuX+4pMSeuMmYUsBp43PYTh
+	LFJ+X3SginvTPDYAQzGMVRvIha9LEmcDK46uBpe/gj4Ve4wDZYrJT62wbK7oS3LwvRmS
+	GTrUCx14X9yJc2vlHnxeBHdywqLVSMW1hbv5Sv2y9iB4faSkv7022Iy6Dz0k7e8UAsVG
+	JXHcoHcZv9Ce4I1QAbsMOhvp3k05o45h9sARCdDt18XEQazX57yVWM0j41iKaG9TkXXB
+	BtfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=MXnf/YHNVRcScI1GP1DjY5fqdxDKe5JmzEMMUPNOBl0=;
-	b=eup6Rr989v60zloBK0ETdUOOotFWOmQWansTEz1hVoLkAwf6U2TwHK6usz8nz1jyHc
-	WMqg7YNosdXPUtFVwMoQl/CG2RM0d2FfI/giPW98CUtMGUtmgaFlnHl+qzZLYox4gTxR
-	bBbjLDwEFL94taMYjO3UwGcA6+k8VAyGLjjiymbh8L6CDwQ7kkKjiskT4hhZYEhpnTBr
-	4JT+wFU+swYvKm7cGsZ5nM9tbh6ehwSXzpTF9YjCzY8K1RqgENI8iC8Yz62jzvhxac+e
-	TsVOJLbR7ksUG1QvCsfGPDie5gk/ym+DeI5REx4UJm/idY11agHo1WlADy4slNuTjToB
-	aSsQ==
-X-Gm-Message-State: ALoCoQlk7PXThPvVKscvga+xTuWcAG1llWAZysFbemIQL2ev8CYIelPORSwx2BGMto6RD1fXNfOMRBhswmfkU0KDwDkgxFgQ/WlVChY+6Q2Lah6yIr8ekIc=
-X-Received: by 10.50.30.69 with SMTP id q5mr5091257igh.78.1452014890088; Tue,
-	05 Jan 2016 09:28:10 -0800 (PST)
+	bh=CkO5p72RE2eFGdZcC9Z1UVHrC01s7nAvuffbgF+e66k=;
+	b=ixSpDC7IuvO0k1FYPMStBoLtV0Ah4n+1RCsxSDj1WV0l6VaZmuvZNq6atJniPCipSx
+	KYYTKisWgCZDx7EMGAVbFm/5MwJ/LM2CgI0KSptEy0QEmfGe/o67k39J/RhOSBzlNkgK
+	XGMqrpCW5+1CST2ZYUnUc2Bk5nMjUQQf7tD5Pq7MpLVCxv3lRWvEphhGKKwtb9OicIal
+	jg1KZBrTuENu03GURbQzKHWRovXrJTZZThhsx9XPF3N1vCnwdgSyRXFidAxxZoenmtY2
+	eoqUD6Vww6ibDU7ixasDK2IxCCaO6qUWHgVRfUtkl60Qt0sOCS11MKbFD/p6Jj4rg/ET
+	/vlA==
+X-Gm-Message-State: ALoCoQkI3/e7Oco7Y4DNQITlkH3clH/5JwmugEbRWe9Ry/ef98YccwHAhazon4nK2ykt2FY+Wrfh/u25+nyo0gLGDxGOBl2UEcZQz+DLvF8qzJ+sV4L2/9A=
+X-Received: by 10.50.30.69 with SMTP id q5mr5106366igh.78.1452015093629; Tue,
+	05 Jan 2016 09:31:33 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 5 Jan 2016 09:27:50 -0800 (PST)
-In-Reply-To: <568BFB09.2070203@digi.com>
-References: <1452011653-10012-1-git-send-email-maxin.john@intel.com>
-	<568BFB09.2070203@digi.com>
+Received: by 10.107.162.70 with HTTP; Tue, 5 Jan 2016 09:31:14 -0800 (PST)
+In-Reply-To: <1451986361-10021-2-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+References: <1450352712-31476-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+	<1451986361-10021-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+	<1451986361-10021-2-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 Jan 2016 17:27:50 +0000
-Message-ID: <CAJTo0La8dENcP3_zGoygWkvySLPrN6i_B2Z-scNNZ-fVd_35vg@mail.gmail.com>
-To: Javier Viguera <javier.viguera@digi.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] bluez5: upgrade to 5.37
+Date: Tue, 5 Jan 2016 17:31:14 +0000
+Message-ID: <CAJTo0LZrgzjXXWTzyRDU9=FquvUW16ynw1W26hj-MVVRnqZDEQ@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/2] boost: update to 1.60.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,41 +56,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 17:28:11 -0000
-Content-Type: multipart/alternative; boundary=047d7bdc1c0cbb9cf30528998f83
+X-List-Received-Date: Tue, 05 Jan 2016 17:31:33 -0000
+Content-Type: multipart/alternative; boundary=047d7bdc1c0cdd504b0528999bc1
 
---047d7bdc1c0cbb9cf30528998f83
+--047d7bdc1c0cdd504b0528999bc1
 Content-Type: text/plain; charset=UTF-8
 
-On 5 January 2016 at 17:19, Javier Viguera <javier.viguera@digi.com> wrote:
+On 5 January 2016 at 09:32, Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+wrote:
 
-> Is 'bluez4' a user's custom distro feature, because it doesn't seem to be
-> part of the standard distro features. What poky.git at current master has
-> is 'bluetooth' and 'bluez5' as distro features and those are used by
-> bluetooth.bbclass to set BLUEZ variable as follows:
+> Due to the version update to 1.59.0, the two patches previously
+> backported in this recipe are now dropped. The actual status of
+> the arm-intrinsics.patch (reported with Upstream-Status: Backport)
+> is unknown to the committer, and hence, that patch is kept in the
+> recipe, even if it is possibly not required anymore. A deeper
+> analysis is required to determine need and status of that patch.
+> Furthermore, boost 1.59.0 provides a new library, called timer,
+> which is packaged as further library in the boost recipe. The
+> update to boost 1.60.0 required no further changes beyond
+> changing the checksum hashes.
 >
 
-Right, the logic should be "blacklist if distro features doesn't contain
-bluez5".
+This is breaking on mpc8315e-rdb (the reference PPC in meta-yocto-bsp):
+
+| gcc.compile.c++
+bin.v2/libs/test/build/aca09349fdb84d131321425f6c3a38ed/execution_monitor.o
+| In file included from
+/data/poky-master/tmp/sysroots/mpc8315e-rdb/usr/include/fenv.h:114:0,
+|                  from
+/data/poky-master/tmp/sysroots/mpc8315e-rdb/usr/include/c++/5.3.0/fenv.h:36,
+|                  from ./boost/detail/fenv.hpp:97,
+|                  from ./boost/test/execution_monitor.hpp:64,
+|                  from ./boost/test/impl/execution_monitor.ipp:31,
+|                  from libs/test/src/execution_monitor.cpp:16:
+| ./boost/test/impl/execution_monitor.ipp: In function 'unsigned int
+boost::fpe::enable(unsigned int)':
+| ./boost/test/impl/execution_monitor.ipp:1383:7: error: expected
+id-expression before '(' token
+|      ::feclearexcept(BOOST_FPE_ALL);
+|        ^
+| ./boost/test/impl/execution_monitor.ipp: In function 'unsigned int
+boost::fpe::disable(unsigned int)':
+| ./boost/test/impl/execution_monitor.ipp:1420:7: error: expected
+id-expression before '(' token
+|      ::feclearexcept(BOOST_FPE_ALL);
+|        ^
+
+Any idea?
 
 Ross
 
---047d7bdc1c0cbb9cf30528998f83
+--047d7bdc1c0cdd504b0528999bc1
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 January 2016 at 17:19, Javier Viguera <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:javier.viguera@digi.com" target=3D"_blank">javier.viguera@digi.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2da" cl=
-ass=3D"a3s" style=3D"overflow:hidden">Is &#39;bluez4&#39; a user&#39;s cust=
-om distro feature, because it doesn&#39;t seem to be part of the standard d=
-istro features. What poky.git at current master has is &#39;bluetooth&#39; =
-and &#39;bluez5&#39; as distro features and those are used by bluetooth.bbc=
-lass to set BLUEZ variable as follows:<br></div></blockquote></div><br>Righ=
-t, the logic should be &quot;blacklist if distro features doesn&#39;t conta=
-in bluez5&quot;.</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Ross</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra">On 5 January 2016 at 09:32, Luk=
+as Bulwahn <span dir=3D"ltr">&lt;<a href=3D"mailto:lukas.bulwahn@oss.bmw-ca=
+rit.de" target=3D"_blank">lukas.bulwahn@oss.bmw-carit.de</a>&gt;</span> wro=
+te:<br><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
+4,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":2m2" class=
+=3D"" style=3D"overflow:hidden">Due to the version update to 1.59.0, the tw=
+o patches previously<br>
+backported in this recipe are now dropped. The actual status of<br>
+the arm-intrinsics.patch (reported with Upstream-Status: Backport)<br>
+is unknown to the committer, and hence, that patch is kept in the<br>
+recipe, even if it is possibly not required anymore. A deeper<br>
+analysis is required to determine need and status of that patch.<br>
+Furthermore, <span class=3D"">boost</span> 1.59.0 provides a new library, c=
+alled timer,<br>
+which is packaged as further library in the <span class=3D"">boost</span> r=
+ecipe. The<br>
+update to <span class=3D"">boost</span> 1.60.0 required no further changes =
+beyond<br>
+changing the checksum hashes.</div></blockquote></div><br>This is breaking =
+on=C2=A0mpc8315e-rdb (the reference PPC in meta-yocto-bsp):</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_e=
+xtra">| gcc.compile.c++ bin.v2/libs/test/build/aca09349fdb84d131321425f6c3a=
+38ed/execution_monitor.o</div><div class=3D"gmail_extra">| In file included=
+ from /data/poky-master/tmp/sysroots/mpc8315e-rdb/usr/include/fenv.h:114:0,=
+</div><div class=3D"gmail_extra">| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0from /data/poky-master/tmp/sysroots/mpc8315e-rdb/us=
+r/include/c++/5.3.0/fenv.h:36,</div><div class=3D"gmail_extra">| =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ./boost/detail/fen=
+v.hpp:97,</div><div class=3D"gmail_extra">| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from ./boost/test/execution_monitor.hpp:64,<=
+/div><div class=3D"gmail_extra">| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0from ./boost/test/impl/execution_monitor.ipp:31,</div>=
+<div class=3D"gmail_extra">| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0from libs/test/src/execution_monitor.cpp:16:</div><div cla=
+ss=3D"gmail_extra">| ./boost/test/impl/execution_monitor.ipp: In function &=
+#39;unsigned int boost::fpe::enable(unsigned int)&#39;:</div><div class=3D"=
+gmail_extra">| ./boost/test/impl/execution_monitor.ipp:1383:7: error: expec=
+ted id-expression before &#39;(&#39; token</div><div class=3D"gmail_extra">=
+| =C2=A0 =C2=A0 =C2=A0::feclearexcept(BOOST_FPE_ALL);</div><div class=3D"gm=
+ail_extra">| =C2=A0 =C2=A0 =C2=A0 =C2=A0^</div><div class=3D"gmail_extra">|=
+ ./boost/test/impl/execution_monitor.ipp: In function &#39;unsigned int boo=
+st::fpe::disable(unsigned int)&#39;:</div><div class=3D"gmail_extra">| ./bo=
+ost/test/impl/execution_monitor.ipp:1420:7: error: expected id-expression b=
+efore &#39;(&#39; token</div><div class=3D"gmail_extra">| =C2=A0 =C2=A0 =C2=
+=A0::feclearexcept(BOOST_FPE_ALL);</div><div class=3D"gmail_extra">| =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0^</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Any idea?</div><div class=3D"gmail_extra"><br></div><div c=
+lass=3D"gmail_extra">Ross</div></div></div>
 
---047d7bdc1c0cbb9cf30528998f83--
+--047d7bdc1c0cdd504b0528999bc1--
