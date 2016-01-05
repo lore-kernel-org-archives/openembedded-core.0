@@ -1,29 +1,31 @@
 Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 307A960249
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 10CF7731C7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 12:24:24 +0000 (UTC)
+	Tue,  5 Jan 2016 12:24:25 +0000 (UTC)
 Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
 	[130.164.19.134])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u05COOVZ016491; Tue, 5 Jan 2016 06:24:24 -0600
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u05COPV5028495; Tue, 5 Jan 2016 06:24:25 -0600
 Received: from adi-pc-linux.natinst.com ([130.164.14.198])
 	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016010506242451-1701066 ;
-	Tue, 5 Jan 2016 06:24:24 -0600 
+	HF1218) with ESMTP id 2016010506242539-1701067 ;
+	Tue, 5 Jan 2016 06:24:25 -0600 
 From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 5 Jan 2016 14:24:22 +0200
-Message-Id: <3ec94ad0d014bd99c4444523c2744e05c7120a89.1451996491.git.adrian.ratiu@ni.com>
+Date: Tue, 5 Jan 2016 14:24:23 +0200
+Message-Id: <3182226859c3a37e168480aa8c2d93514de68895.1451996491.git.adrian.ratiu@ni.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <3ec94ad0d014bd99c4444523c2744e05c7120a89.1451996491.git.adrian.ratiu@ni.com>
+References: <3ec94ad0d014bd99c4444523c2744e05c7120a89.1451996491.git.adrian.ratiu@ni.com>
 X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 01/05/2016 06:24:24 AM,
+	8.5.3FP6 HF1218|December 12, 2014) at 01/05/2016 06:24:25 AM,
 	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 01/05/2016 06:24:24 AM,
-	Serialize complete at 01/05/2016 06:24:24 AM
+	HF1218|December 12, 2014) at 01/05/2016 06:24:25 AM,
+	Serialize complete at 01/05/2016 06:24:25 AM
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
 	definitions=2016-01-05_05:, , signatures=0
-Subject: [PATCH v2 1/2] x11vnc: move recipe to meta-oe
+Subject: [PATCH v2 2/2] x11vnc: remove all references to moved package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,115 +40,76 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 05 Jan 2016 12:24:26 -0000
 
-x11vnc can be configured with --use-system-libvncserver to use an
-external libvncserver which will be added to meta-oe. Since oe-core
-should not depend on meta-oe, we move x11vnc there.
+Together with the move to meta-oe, all references to x11vnc should be
+removed from oe-core. There are three of these: a distro alias, a
+packagegroup rdepends and a runtime test.
 
 Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 ---
- .../recipes-graphics/x11vnc/files/endian-fix.patch | 24 -------------------
- .../x11vnc/files/starting-fix.patch                | 25 -------------------
- meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb      | 28 ----------------------
- 3 files changed, 77 deletions(-)
- delete mode 100644 meta/recipes-graphics/x11vnc/files/endian-fix.patch
- delete mode 100644 meta/recipes-graphics/x11vnc/files/starting-fix.patch
- delete mode 100644 meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
+ meta/conf/distro/include/distro_alias.inc            |  1 -
+ meta/lib/oeqa/runtime/vnc.py                         | 20 --------------------
+ .../packagegroups/packagegroup-core-x11-sato.bb      |  2 --
+ 3 files changed, 23 deletions(-)
+ delete mode 100644 meta/lib/oeqa/runtime/vnc.py
 
-diff --git a/meta/recipes-graphics/x11vnc/files/endian-fix.patch b/meta/recipes-graphics/x11vnc/files/endian-fix.patch
+diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
+index dfce760..84eaf03 100644
+--- a/meta/conf/distro/include/distro_alias.inc
++++ b/meta/conf/distro/include/distro_alias.inc
+@@ -436,7 +436,6 @@ DISTRO_PN_ALIAS_pn-which = "Mandriva=which Fedora=which"
+ DISTRO_PN_ALIAS_pn-wpa-supplicant = "Meego=wpa_supplicant Fedora=wpa_supplicant OpenSuSE=wpa_supplicant Ubuntu=wpasupplicant Mandriva=wpa_supplicant Debian=wpasupplicant"
+ DISTRO_PN_ALIAS_pn-x11-common = "OE-Core"
+ DISTRO_PN_ALIAS_pn-x11perf = "Fedora=xorg-x11-apps Ubuntu=x11-apps"
+-DISTRO_PN_ALIAS_pn-x11vnc = "Fedora=x11vnc Ubuntu=x11vnc"
+ DISTRO_PN_ALIAS_pn-xcb-util-image = "Debian=xcb-util Fedora=xcb-util"
+ DISTRO_PN_ALIAS_pn-xcb-util-keysyms = "Debian=xcb-util Fedora=xcb-util"
+ DISTRO_PN_ALIAS_pn-xcb-util-wm = "Debian=xcb-util Fedora=xcb-util"
+diff --git a/meta/lib/oeqa/runtime/vnc.py b/meta/lib/oeqa/runtime/vnc.py
 deleted file mode 100644
-index f2a538b..0000000
---- a/meta/recipes-graphics/x11vnc/files/endian-fix.patch
+index f31deff..0000000
+--- a/meta/lib/oeqa/runtime/vnc.py
 +++ /dev/null
-@@ -1,24 +0,0 @@
--libvncserver: replace LIBVNCSERVER_WORDS_BIGENDIAN with WORDS_BIGENDIAN
+@@ -1,20 +0,0 @@
+-from oeqa.oetest import oeRuntimeTest, skipModuleUnless
+-from oeqa.utils.decorators import *
+-import re
 -
--since macro AC_C_BIGENDIAN is used in autoconf and WORDS_BIGENDIAN is
--automatically set for different arch, it is better to use WORDS_BIGENDIAN
--instead of LIBVNCSERVER_WORDS_BIGENDIAN, which cuase issue in mips.
+-def setUpModule():
+-    skipModuleUnless(oeRuntimeTest.hasPackage('x11vnc'), "No x11vnc package in image")
 -
--Signed-off-by: Yu Ke <ke.yu@intel.com>
+-class VNCTest(oeRuntimeTest):
 -
--Upstream-Status: Pending
+-    @testcase(213)
+-    @skipUnlessPassed('test_ssh')
+-    def test_vnc(self):
+-        (status, output) = self.target.run('x11vnc -display :0 -bg -o x11vnc.log')
+-        self.assertEqual(status, 0, msg="x11vnc server failed to start: %s" % output)
+-        port = re.search('PORT=[0-9]*', output)
+-        self.assertTrue(port, msg="Listening port not specified in command output: %s" %output)
 -
--diff --git a/libvncserver/main.c b/libvncserver/main.c
--index b6bd930..8bbb7bf 100644
----- a/libvncserver/main.c
--+++ b/libvncserver/main.c
--@@ -47,7 +47,7 @@ static MUTEX(extMutex);
-- 
-- static int rfbEnableLogging=1;
-- 
---#ifdef LIBVNCSERVER_WORDS_BIGENDIAN
--+#ifdef WORDS_BIGENDIAN
-- char rfbEndianTest = (1==0);
-- #else
-- char rfbEndianTest = (1==1);
--
-diff --git a/meta/recipes-graphics/x11vnc/files/starting-fix.patch b/meta/recipes-graphics/x11vnc/files/starting-fix.patch
-deleted file mode 100644
-index f62e405..0000000
---- a/meta/recipes-graphics/x11vnc/files/starting-fix.patch
-+++ /dev/null
-@@ -1,25 +0,0 @@
--"-gui" & "-rfbport" require "wish" installed, or else x11vnc fails to start.
--Removing these 2 parameters makes x11vnc works well on poky sato image.
--
--Add also -skip_lockkeys option to ignore all Caps_Lock, Shift_Lock, Num_Lock,
--Scroll_Lock keysyms received from viewers, in order to leave the lock state on
--the server side unchanged. Yet, the keys will appear correctly.
--
--Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
--Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
--
--Upstream-Status: Inappropriate [configuration]
--
--Index: x11vnc-0.9.12/x11vnc/x11vnc.desktop
--===================================================================
----- x11vnc-0.9.12.orig/x11vnc/x11vnc.desktop	2011-03-03 10:33:18.000000000 +0800
--+++ x11vnc-0.9.12/x11vnc/x11vnc.desktop	2011-03-03 10:35:20.000000000 +0800
--@@ -1,7 +1,7 @@
-- [Desktop Entry]
-- Name=X11VNC Server
-- Comment=Share this desktop by VNC
---Exec=x11vnc -gui tray=setpass -rfbport PROMPT -bg -o %%HOME/.x11vnc.log.%%VNCDISPLAY
--+Exec=x11vnc -bg -rfbport 5900 -skip_lockkeys -o %%HOME/.x11vnc.log.%%VNCDISPLAY
-- Icon=computer
-- Terminal=false
-- Type=Application
-diff --git a/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb b/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
-deleted file mode 100644
-index b505eee..0000000
---- a/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
-+++ /dev/null
-@@ -1,28 +0,0 @@
--SUMMARY = "Exports your X session on-the-fly via VNC"
--HOMEPAGE = "http://www.karlrunge.com/x11vnc/"
--
--SECTION = "x11/utils"
--AUTHOR = "Karl Runge"
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=361b6b837cad26c6900a926b62aada5f \
--                    file://x11vnc/x11vnc.h;endline=33;md5=6f95dc6535467d7ee1563fd434fb372e"
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/libvncserver/x11vnc/${PV}/x11vnc-${PV}.tar.gz\
--           file://starting-fix.patch \
--           file://endian-fix.patch "
--
--SRC_URI[md5sum] = "a372ec4fe8211221547b1c108cf56e4c"
--SRC_URI[sha256sum] = "f6829f2e629667a5284de62b080b13126a0736499fe47cdb447aedb07a59f13b"
--
--UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libvncserver/files/x11vnc/"
--UPSTREAM_CHECK_REGEX = "/x11vnc/(?P<pver>(\d+[\.\-_]*)+)/"
--
--DEPENDS = "openssl virtual/libx11 libxext jpeg zlib libxfixes libxrandr libxdamage libxtst"
--
--inherit autotools-brokensep distro_features_check
--# depends on virtual/libx11
--REQUIRED_DISTRO_FEATURES = "x11"
--
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)}"
--PACKAGECONFIG[avahi] = "--with-avahi,--without-avahi,avahi"
--PACKAGECONFIG[xinerama] = "--with-xinerama,--without-xinerama,libxinerama"
+-        vncport = port.group(0).split('=')[1]
+-        (status, output) = self.target.run('netstat -ntl | grep ":%s"' % vncport)
+-        self.assertEqual(status, 0, msg="x11vnc server not running on port %s\n\n%s" % (vncport, self.target.run('netstat -ntl; cat x11vnc.log')[1]))
+diff --git a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
+index 753d2bf..812735e 100644
+--- a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
++++ b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
+@@ -9,7 +9,6 @@ PR = "r33"
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ inherit packagegroup distro_features_check
+-# rdepends on x11vnc
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
+ PACKAGES = "${PN} ${PN}-base ${PN}-apps ${PN}-games"
+@@ -53,7 +52,6 @@ SUMMARY_${PN}-apps = "Sato desktop - applications"
+ RDEPENDS_${PN}-apps = "\
+     leafpad \
+     gst-player-bin \
+-    x11vnc \
+     matchbox-terminal \
+     sato-screenshot \
+     ${FILEMANAGER} \
 -- 
 2.1.4
 
