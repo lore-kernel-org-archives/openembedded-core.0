@@ -1,35 +1,19 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id A18CC73175
+Return-Path: <lukas.bulwahn@oss.bmw-carit.de>
+Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
+	by mail.openembedded.org (Postfix) with ESMTP id 832F160745
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 08:46:25 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u058kPO7005300; Tue, 5 Jan 2016 02:46:25 -0600
-Received: from adi-pc-linux ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016010502462486-1689575 ;
-	Tue, 5 Jan 2016 02:46:24 -0600 
-Date: Tue, 5 Jan 2016 10:46:20 +0200
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160105104620.1367caef@adi-pc-linux>
-In-Reply-To: <20151211170921.5def47d6@adi-pc-linux>
-References: <1449137834-20165-1-git-send-email-adrian.ratiu@ni.com>
-	<CAJTo0LYjcHpM20DUiu2CzR8hw-wH0zCya+nUzGjBC1FkMRmzPw@mail.gmail.com>
-	<20151211170921.5def47d6@adi-pc-linux>
-Organization: National Instruments
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 01/05/2016 02:46:25 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 01/05/2016 02:46:25 AM,
-	Serialize complete at 01/05/2016 02:46:25 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-01-05_02:, , signatures=0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RESEND PATCH] x11vnc: move recipe to meta-oe
+	Tue,  5 Jan 2016 09:33:27 +0000 (UTC)
+Received: from hsp.bmw-carit.intra (hsp.bmw-carit.intra [192.168.101.108])
+	by linuxmail.bmw-carit.de (Postfix) with ESMTP id 7BEE05335C;
+	Tue,  5 Jan 2016 10:19:11 +0100 (CET)
+From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Jan 2016 10:32:40 +0100
+Message-Id: <1451986361-10021-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1450352712-31476-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+References: <1450352712-31476-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+Subject: [PATCH v2 1/2] boost: ensure boost to remain an empty metapackage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,36 +26,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 08:46:26 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Tue, 05 Jan 2016 09:33:27 -0000
 
-On Fri, 11 Dec 2015 17:09:21 +0200
-Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+To ensure that boost remains an empty metapackage after version
+updates, we explicitly require boost files to be empty. If new
+libraries exist after a version update of the boost recipe,
+bitbake will emit a warning at the do_package task. For example,
+at the version update from 1.58.0 to 1.59.0, the new timer
+library is indicated with:
 
-> On Thu, 3 Dec 2015 14:18:53 +0000
-> "Burton, Ross" <ross.burton@intel.com> wrote:
-> 
-> > On 3 December 2015 at 10:17, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
-> > 
-> > > x11vnc can be configured with --use-system-libvncserver to use an
-> > > external libvncserver which will be added to meta-oe. Since oe-core
-> > > should not depend on meta-oe, we move x11vnc there.
-> > >
-> > > Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> > >
-> > 
-> > Obviously we shouldn't remove it from oe-core until it's been merged into
-> > meta-oe, so please ping when that's happened.
-> > 
-> > Ross
-> 
-> Hello
-> 
-> x11vnc has just been accepted into meta-oe on master-next an hour ago.
-> 
-> Thank you,
-> Adrian
+WARNING: QA Issue: boost: Files/directories were installed but not shipped in any package:
+  /usr/lib/libboost_timer.so.1.59.0
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+boost: 1 installed and not shipped files. [installed-vs-shipped]
 
-ping? anyone? The x11vnc recipe is in meta-oe master since 18 dec
+Ross Burton suggested this improvement on the openembedded-core
+mailing list during review of the boost recipe version update [1].
+
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2015-December/114314.html
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+---
+ meta/recipes-support/boost/boost.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 9d7fb89..7167ac3 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -59,6 +59,7 @@ FILES_boost-test = "${libdir}/libboost_prg_exec_monitor*.so.* \
+ 
+ # -dev last to pick up the remaining stuff
+ PACKAGES += "${PN}-dev ${PN}-staticdev"
++FILES_${PN} = ""
+ FILES_${PN}-dev = "${includedir} ${libdir}/libboost_*.so"
+ FILES_${PN}-staticdev = "${libdir}/libboost_*.a"
+ 
+-- 
+1.9.1
+
 
