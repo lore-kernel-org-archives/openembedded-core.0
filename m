@@ -1,48 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 443F460851
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A53B73177
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 16:17:20 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id q21so191036052iod.0
+	Tue,  5 Jan 2016 16:32:14 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 05 Jan 2016 08:32:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,525,1444719600"; d="scan'208";a="884241709"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 05 Jan 2016 08:32:15 -0800
+Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id E3AEA6A4004
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jan 2016 08:17:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=BWPjGAfKt2o/jaeJd5mfAOrHgV4ThmXNikBp6JCV0UQ=;
-	b=rIA57OpnmybIjkT6HeVgrTjAe6tsdMz/xGZB+vtMZ0d3MmkfRRVHwh0DaD3ayh9osr
-	LC/p8CTgTdohOmt0Z1zvvLitwlpgn3//JOHNVWJH7e51j0Fi0UW8aX3uC3lHIEppLqlj
-	/rYNhzzXs/lk00IGjbqNiyu+4o8o97s59DAAakyO/COmh7Adaf0SzvPZwe4TcmgNq+xl
-	XeNTLibe+h2pQVrfvfG1tvtb3/OSXNaoWiI4r8s0rXhaxH1sLT55xSSDz/FpjOlZZibO
-	ejeRNOtV0pozBHg9gtofuiZpw++PEQulj1gcYUw76O/qL/pUFGPSV4FDBIJJXiMCAMrU
-	1HvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=BWPjGAfKt2o/jaeJd5mfAOrHgV4ThmXNikBp6JCV0UQ=;
-	b=L2LQUccIWmTyNdmyoMRg2Apzq2z+TW/NMVNme3izWg4YBxPja1LIBHd/qM4k2x8rZK
-	ak06mkG4ieR2N5d+0H/bZfrio8psMOGlUJz37U5pvC6SLS+MtGu5cc+F/2mRH8emW/3C
-	fRBsFaDb2Yedo0Pz/pI6m3pvpi7Q0sYjNCgOvzcyZ3Um0PlX3dSwLoRUMc6T2PrAULka
-	Ea6hOWN0w14/p8+i4hW8o5oHI1okLzPUScxiSTpkn0r0wuyGcGdmT5Kar50AuRQZEDgS
-	sSXb0Lbyh72kj6X0VKmuyH2/wQyB5xWEuxij2fPh+VnI60wcjrmpMF2H1qw58/fqQIO9
-	4rFA==
-X-Gm-Message-State: ALoCoQneIeXA9Rf+CLzd0SYd2j2b/kc8ZNLbeIXox1Hwd6foxZ6+DufLJk6PJeNYP1qVy3qAzGNVXaeSx/RrztrPJWFlUNmgA7b5wyXWvuVNiUHWRwkgyMY=
-X-Received: by 10.107.135.104 with SMTP id j101mr57241958iod.133.1452010641214;
-	Tue, 05 Jan 2016 08:17:21 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 5 Jan 2016 08:17:01 -0800 (PST)
-In-Reply-To: <CAMKF1sqAGXMFx9re3YgB1u9aLPGRT9KRCR-0Drux=4P5igirWw@mail.gmail.com>
-References: <CAMKF1sqAGXMFx9re3YgB1u9aLPGRT9KRCR-0Drux=4P5igirWw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 Jan 2016 16:17:01 +0000
-Message-ID: <CAJTo0LbB02LR=6Yyy0-3=Hg1tjcdX=DmMKN2MEJqctnvi5n0Kg@mail.gmail.com>
-To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] [RFT] glibc 2.23
+	Tue,  5 Jan 2016 09:20:12 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Jan 2016 18:34:13 +0200
+Message-Id: <1452011653-10012-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH v2] bluez5: upgrade to 5.37
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,43 +34,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 16:17:22 -0000
-Content-Type: multipart/alternative; boundary=001a113ebe927aef900528989277
+X-List-Received-Date: Tue, 05 Jan 2016 16:32:14 -0000
 
---001a113ebe927aef900528989277
-Content-Type: text/plain; charset=UTF-8
+5.36 -> 5.37
 
-On 4 January 2016 at 19:00, Khem Raj <raj.khem@gmail.com> wrote:
+Remove the backported patch:
+core-profile-Fix-possible-crash-when-registering-pro.patch
 
-> I have done OE-Core only clean world builds for all Qemu machines
-> without a single build failure and
-> runtime boot tested.
->
+Blacklist bluez5 only recipes when bluez4 is in DISTRO_FEATURES
 
-I threw this at the autobuilder and glibc failed to build on one of the
-runs:
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ ...e-Fix-possible-crash-when-registering-pro.patch | 54 ----------------------
+ .../bluez5/{bluez5_5.36.bb => bluez5_5.37.bb}      |  7 +--
+ 2 files changed, 4 insertions(+), 57 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.36.bb => bluez5_5.37.bb} (78%)
 
-http://errors.yoctoproject.org/Errors/Details/26057/
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch b/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
+deleted file mode 100644
+index 5c6cee1..0000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
++++ /dev/null
+@@ -1,54 +0,0 @@
+-From bc4dbda3362d3654447d8ae6525cac1540b7d705 Mon Sep 17 00:00:00 2001
+-From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+-Date: Thu, 5 Nov 2015 15:14:50 +0200
+-Subject: [PATCH] core/profile: Fix possible crash when registering profiles
+-
+-Upstream-Status: Backport
+-
+-Profiles under ext_profiles are local and should no be mixed with other
+-external profiles since its type is different which can may cause invalid
+-memory when accessing member of ext_profile struct.
+----
+- src/profile.c | 14 ++------------
+- 1 file changed, 2 insertions(+), 12 deletions(-)
+-
+-diff --git a/src/profile.c b/src/profile.c
+-index 49445d7..5a4f09c 100644
+---- a/src/profile.c
+-+++ b/src/profile.c
+-@@ -719,19 +719,13 @@ void btd_profile_foreach(void (*func)(struct btd_profile *p, void *data),
+- 
+- int btd_profile_register(struct btd_profile *profile)
+- {
+--	if (profile->external)
+--		ext_profiles = g_slist_append(ext_profiles, profile);
+--	else
+--		profiles = g_slist_append(profiles, profile);
+-+	profiles = g_slist_append(profiles, profile);
+- 	return 0;
+- }
+- 
+- void btd_profile_unregister(struct btd_profile *profile)
+- {
+--	if (profile->external)
+--		ext_profiles = g_slist_remove(ext_profiles, profile);
+--	else
+--		profiles = g_slist_remove(profiles, profile);
+-+	profiles = g_slist_remove(profiles, profile);
+- }
+- 
+- static struct ext_profile *find_ext_profile(const char *owner,
+-@@ -742,10 +736,6 @@ static struct ext_profile *find_ext_profile(const char *owner,
+- 	for (l = ext_profiles; l != NULL; l = g_slist_next(l)) {
+- 		struct ext_profile *ext = l->data;
+- 
+--		/*
+--		 * Owner and path can be NULL if profile was registered by a
+--		 * plugin using external flag.
+--		 */
+- 		if (g_strcmp0(ext->owner, owner))
+- 			continue;
+- 
+--- 
+-2.5.0
+-
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.36.bb b/meta/recipes-connectivity/bluez5/bluez5_5.37.bb
+similarity index 78%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.36.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.37.bb
+index 884bb77..a0a4e32 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.36.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.37.bb
+@@ -1,8 +1,9 @@
+ require bluez5.inc
+ 
+-SRC_URI += "file://core-profile-Fix-possible-crash-when-registering-pro.patch"
+-SRC_URI[md5sum] = "9a0ee479cacc44fac68f6a65b1cd3eba"
+-SRC_URI[sha256sum] = "a343ea1aeb53d3bd139087f3b1c1e1fb70db452d9762cc7a3d23e75962e578f2"
++PNBLACKLIST[bluez5] ?= "${@bb.utils.contains('DISTRO_FEATURES', 'bluez4', 'bluez5 conflicts with bluez4 and bluez4 is selected in DISTRO_FEATURES', '', d)}"
++
++SRC_URI[md5sum] = "33177e5743e24b2b3738f72be64e3ffb"
++SRC_URI[sha256sum] = "c14ba9ddcb0055522073477b8fd8bf1ddf5d219e75fdfd4699b7e0ce5350d6b0"
+ 
+ # noinst programs in Makefile.tools that are conditional on READLINE
+ # support
+-- 
+2.4.0
 
-Ross
 
---001a113ebe927aef900528989277
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 4 January 2016 at 19:00, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-styl=
-e:solid;padding-left:1ex"><div id=3D":pk" class=3D"" style=3D"overflow:hidd=
-en">I have done OE-Core only clean world builds for all Qemu machines<br>
-without a single build failure and<br>
-runtime boot tested.<br></div></blockquote></div><br>I threw this at the au=
-tobuilder and glibc failed to build on one of the runs:</div><div class=3D"=
-gmail_extra"><br></div><div class=3D"gmail_extra"><a href=3D"http://errors.=
-yoctoproject.org/Errors/Details/26057/">http://errors.yoctoproject.org/Erro=
-rs/Details/26057/</a><br></div><div class=3D"gmail_extra"><br></div><div cl=
-ass=3D"gmail_extra">Ross</div></div>
-
---001a113ebe927aef900528989277--
