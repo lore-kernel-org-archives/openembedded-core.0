@@ -1,37 +1,48 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id D49706011F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 443F460851
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 16:11:43 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id f206so28892192wmf.0
+	Tue,  5 Jan 2016 16:17:20 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id q21so191036052iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jan 2016 08:11:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:content-type:content-transfer-encoding:subject:message-id:date
-	:to:mime-version;
-	bh=AUPBIcLak+W4BgwRREo3M5XgOrF9spJ0ib995e5qSGE=;
-	b=CrmriEJi32he2IcZMxeALNNbxKrl1T3OnUeocqbssLZGQTROT6M5ZQAyEcwfFqsCdA
-	iQL4Gu+PWofzNoDdivdQfhEnLLs20XS0G4zJ290DYris/lkVrmTnf1EL3CJUC5Tc6Gp8
-	GZN/hcDX9lreuibsbDsnFnH2MLtPckE6Jot3TYOB+IxGzhWMF/SjMH1Kz5xWJhp5hF+J
-	KmE0wgtiwVm2kSXzFWn5EIVfK8OGZLzMVX22yv4wxKv6v3zOpgNAjIpLEm4NqIFi6Oao
-	+bJl2+fz8ZIUgNqDcoiCmCuTBFnwNTJhMjV6F7cxcaGjualuhgey5XhfYxqOdMaREAGK
-	GVQQ==
-X-Received: by 10.194.5.74 with SMTP id q10mr101846883wjq.138.1452010303911;
-	Tue, 05 Jan 2016 08:11:43 -0800 (PST)
-Received: from ernie.rdm.local (rademacherexchange.de. [46.245.221.222])
-	by smtp.gmail.com with ESMTPSA id
-	ke10sm91465949wjb.3.2016.01.05.08.11.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 05 Jan 2016 08:11:43 -0800 (PST)
-From: Jens Rehsack <rehsack@gmail.com>
-Message-Id: <6B13FBFC-89E1-45DE-9A15-611426D85CF0@gmail.com>
-Date: Tue, 5 Jan 2016 17:11:42 +0100
-To: Patches and discussions about the oe-core layer
+	Tue, 05 Jan 2016 08:17:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=BWPjGAfKt2o/jaeJd5mfAOrHgV4ThmXNikBp6JCV0UQ=;
+	b=rIA57OpnmybIjkT6HeVgrTjAe6tsdMz/xGZB+vtMZ0d3MmkfRRVHwh0DaD3ayh9osr
+	LC/p8CTgTdohOmt0Z1zvvLitwlpgn3//JOHNVWJH7e51j0Fi0UW8aX3uC3lHIEppLqlj
+	/rYNhzzXs/lk00IGjbqNiyu+4o8o97s59DAAakyO/COmh7Adaf0SzvPZwe4TcmgNq+xl
+	XeNTLibe+h2pQVrfvfG1tvtb3/OSXNaoWiI4r8s0rXhaxH1sLT55xSSDz/FpjOlZZibO
+	ejeRNOtV0pozBHg9gtofuiZpw++PEQulj1gcYUw76O/qL/pUFGPSV4FDBIJJXiMCAMrU
+	1HvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=BWPjGAfKt2o/jaeJd5mfAOrHgV4ThmXNikBp6JCV0UQ=;
+	b=L2LQUccIWmTyNdmyoMRg2Apzq2z+TW/NMVNme3izWg4YBxPja1LIBHd/qM4k2x8rZK
+	ak06mkG4ieR2N5d+0H/bZfrio8psMOGlUJz37U5pvC6SLS+MtGu5cc+F/2mRH8emW/3C
+	fRBsFaDb2Yedo0Pz/pI6m3pvpi7Q0sYjNCgOvzcyZ3Um0PlX3dSwLoRUMc6T2PrAULka
+	Ea6hOWN0w14/p8+i4hW8o5oHI1okLzPUScxiSTpkn0r0wuyGcGdmT5Kar50AuRQZEDgS
+	sSXb0Lbyh72kj6X0VKmuyH2/wQyB5xWEuxij2fPh+VnI60wcjrmpMF2H1qw58/fqQIO9
+	4rFA==
+X-Gm-Message-State: ALoCoQneIeXA9Rf+CLzd0SYd2j2b/kc8ZNLbeIXox1Hwd6foxZ6+DufLJk6PJeNYP1qVy3qAzGNVXaeSx/RrztrPJWFlUNmgA7b5wyXWvuVNiUHWRwkgyMY=
+X-Received: by 10.107.135.104 with SMTP id j101mr57241958iod.133.1452010641214;
+	Tue, 05 Jan 2016 08:17:21 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Tue, 5 Jan 2016 08:17:01 -0800 (PST)
+In-Reply-To: <CAMKF1sqAGXMFx9re3YgB1u9aLPGRT9KRCR-0Drux=4P5igirWw@mail.gmail.com>
+References: <CAMKF1sqAGXMFx9re3YgB1u9aLPGRT9KRCR-0Drux=4P5igirWw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 5 Jan 2016 16:17:01 +0000
+Message-ID: <CAJTo0LbB02LR=6Yyy0-3=Hg1tjcdX=DmMKN2MEJqctnvi5n0Kg@mail.gmail.com>
+To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Mailer: Apple Mail (2.3112)
-Subject: [PATCH RESEND] udev-extraconf: introduce multiple blacklist files for more complex setups
+Subject: Re: [oe] [RFT] glibc 2.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,66 +55,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 16:11:44 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Tue, 05 Jan 2016 16:17:22 -0000
+Content-Type: multipart/alternative; boundary=001a113ebe927aef900528989277
+
+--001a113ebe927aef900528989277
+Content-Type: text/plain; charset=UTF-8
+
+On 4 January 2016 at 19:00, Khem Raj <raj.khem@gmail.com> wrote:
+
+> I have done OE-Core only clean world builds for all Qemu machines
+> without a single build failure and
+> runtime boot tested.
+>
+
+I threw this at the autobuilder and glibc failed to build on one of the
+runs:
+
+http://errors.yoctoproject.org/Errors/Details/26057/
+
+Ross
+
+--001a113ebe927aef900528989277
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 January 2016 at 19:00, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
+rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-styl=
+e:solid;padding-left:1ex"><div id=3D":pk" class=3D"" style=3D"overflow:hidd=
+en">I have done OE-Core only clean world builds for all Qemu machines<br>
+without a single build failure and<br>
+runtime boot tested.<br></div></blockquote></div><br>I threw this at the au=
+tobuilder and glibc failed to build on one of the runs:</div><div class=3D"=
+gmail_extra"><br></div><div class=3D"gmail_extra"><a href=3D"http://errors.=
+yoctoproject.org/Errors/Details/26057/">http://errors.yoctoproject.org/Erro=
+rs/Details/26057/</a><br></div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra">Ross</div></div>
 
-In cases where a target image wants prevent the recovery partition is =
-mounted
-automatically, but the recovery partition identifier moves with the =
-device
-(internal flash, sd card, usb stick, ...), device/machine dependend =
-extra
-blacklists might be desired.
-
-The grep utility prints the file name for each match when there is more
-than one file to search. Add -h to suppress the prefixing of file names
-on output.
-
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
----
- meta/recipes-core/udev/udev-extraconf/mount.sh | 2 +-
- meta/recipes-core/udev/udev-extraconf_1.1.bb   | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh =
-b/meta/recipes-core/udev/udev-extraconf/mount.sh
-index 3eea910..d760328 100644
---- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-@@ -8,7 +8,7 @@
- MOUNT=3D"/bin/mount"
- PMOUNT=3D"/usr/bin/pmount"
- UMOUNT=3D"/bin/umount"
--for line in `grep -v ^# /etc/udev/mount.blacklist`
-+for line in `grep -h -v ^# /etc/udev/mount.blacklist =
-/etc/udev/mount.blacklist.d/*`
- do
- 	if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
- 	then
-diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb =
-b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-index 6fbd925..ecd4a8a 100644
---- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
-+++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-@@ -23,6 +23,7 @@ do_install() {
-     install -m 0644 ${WORKDIR}/autonet.rules       =
-${D}${sysconfdir}/udev/rules.d/autonet.rules
-     install -m 0644 ${WORKDIR}/localextra.rules    =
-${D}${sysconfdir}/udev/rules.d/localextra.rules
-=20
-+    install -d ${D}${sysconfdir}/udev/mount.blacklist.d
-     install -m 0644 ${WORKDIR}/mount.blacklist     =
-${D}${sysconfdir}/udev/
-=20
-     install -d ${D}${sysconfdir}/udev/scripts/
---=20
-1.9.1
-
-This time without signing the mail, maybe that corrupted the patch?
-
---=20
-Jens Rehsack - rehsack@gmail.com
-
-
+--001a113ebe927aef900528989277--
