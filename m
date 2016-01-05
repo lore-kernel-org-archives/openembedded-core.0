@@ -1,36 +1,39 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 0571660667
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 0570A6FF7B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 14:52:15 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u05EqEZl007627; Tue, 5 Jan 2016 08:52:14 -0600
-Received: from adi-pc-linux ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016010508521453-1707270 ;
-	Tue, 5 Jan 2016 08:52:14 -0600 
-Date: Tue, 5 Jan 2016 16:52:11 +0200
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20160105165211.4a7efa0a@adi-pc-linux>
-In-Reply-To: <CAJTo0LZE2vzpyaw4KLNRxPJjaVHYCTRtiA0qim25Y8zPAhQ45Q@mail.gmail.com>
-References: <3ec94ad0d014bd99c4444523c2744e05c7120a89.1451996491.git.adrian.ratiu@ni.com>
-	<3182226859c3a37e168480aa8c2d93514de68895.1451996491.git.adrian.ratiu@ni.com>
-	<20160105134150.GA2574@jama> <20160105162239.21706269@adi-pc-linux>
-	<CAJTo0LZE2vzpyaw4KLNRxPJjaVHYCTRtiA0qim25Y8zPAhQ45Q@mail.gmail.com>
-Organization: National Instruments
+	Tue,  5 Jan 2016 15:01:14 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id b14so33138517wmb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Jan 2016 07:01:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=fhFgui7TyQgkTv0QrGCvaqZNl4mEknjRx5lBHD6TE/4=;
+	b=KJrMrzpyl3wfTwzGu/DIEvYdQF/dNi7hVhg/pFnK8rs2zEIuTkGX+XdHclIr+1oHF6
+	O5PxLw33DeW3W98ELhuFLzBCCeRdCT3WenogNIhanwaMz2nAAhSdZZrdPnFhDZf0Qm9C
+	uwkg9g1IJdy+h+CZyLdJSrYDYZSZ6YmpRiBKSdOg8yG8fXSxl5FZ6CMHpw5qML6JDs6U
+	gls/z4OVz6mZpgK+R3rfK6LGHaoiRZvlVvR27lr4TPb6eqfyv3yvBwsP+a8QDbcjI8vE
+	NRMN8/kuDc/dtLfJ1jXlOxmHbdG/roDNWGFFFt/iCV3/z4BPJG8JG3VCrah59hB3TqgX
+	QIYA==
+X-Received: by 10.28.176.131 with SMTP id z125mr3635506wme.5.1452006074796;
+	Tue, 05 Jan 2016 07:01:14 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	c203sm3983665wmd.5.2016.01.05.07.01.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 05 Jan 2016 07:01:13 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 5 Jan 2016 16:01:24 +0100
+To: "Maxin B. John" <maxin.john@intel.com>
+Message-ID: <20160105150124.GB2574@jama>
+References: <1452002894-10301-1-git-send-email-maxin.john@intel.com>
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 01/05/2016 08:52:14 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 01/05/2016 08:52:14 AM,
-	Serialize complete at 01/05/2016 08:52:14 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-01-05_06:, , signatures=0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/2] x11vnc: remove all references to moved package
+In-Reply-To: <1452002894-10301-1-git-send-email-maxin.john@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] bluez5: upgrade to 5.37
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,34 +46,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 14:52:16 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Tue, 05 Jan 2016 15:01:19 -0000
+X-Groupsio-MsgNum: 75451
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="aVD9QWMuhilNxW9f"
+Content-Disposition: inline
 
-On Tue, 5 Jan 2016 14:31:19 +0000
-"Burton, Ross" <ross.burton@intel.com> wrote:
+--aVD9QWMuhilNxW9f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On 5 January 2016 at 14:22, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
-> 
-> > Yes and also if there are no x11 dependencies in this packagegroup,
-> > then it should be renamed to packagegroup-core-sato.
-> >
-> > I'll resubmit. Thank you.
-> >
-> 
-> Don't - sato is explicitly X11 based.
+On Tue, Jan 05, 2016 at 04:08:13PM +0200, Maxin B. John wrote:
+> 5.36 -> 5.37
+>=20
+> Remove the backported patch:
+> core-profile-Fix-possible-crash-when-registering-pro.patch
 
-I'm thinking that all recipes included in the sato image define
-REQUIRED_DISTRO_FEATURES = "x11" themselves, like matchbox-desktop does,
-so there's no need to define it again in the packagegroup recipe, since no
-package actually requires it there.
+Don't you need to remove
+file://core-profile-Fix-possible-crash-when-registering-pro.patch
+=66rom SRC_URI when you're removing the file?
 
-I thought the same rationale also applies to the packagegroup names. However
-now I understand the need to propagate the indirect x11 dependency in the names.
+Can you please add PNBLACKLIST which will blacklist bluez5 when bluez4
+is in DISTRO_FEATURES?
 
-So I'll just remove the features check as per Martin's suggestion and leave the name as it is.
+Like I did for bluez4 in:
+http://git.openembedded.org/meta-openembedded/commit/?id=3D73ba7cd70f75a898=
+bf4c3f8ae38c9904fc3e4724
 
-> 
-> Ross
+Making bluez4 and bluez5 really mutually exclusive would help with
+issues like this one:
+http://lists.openembedded.org/pipermail/openembedded-devel/2016-January/105=
+341.html
 
+> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+> ---
+>  ...e-Fix-possible-crash-when-registering-pro.patch | 54 ----------------=
+------
+>  .../bluez5/{bluez5_5.36.bb =3D> bluez5_5.37.bb}      |  5 +-
+>  2 files changed, 2 insertions(+), 57 deletions(-)
+>  delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/core-profile-=
+Fix-possible-crash-when-registering-pro.patch
+>  rename meta/recipes-connectivity/bluez5/{bluez5_5.36.bb =3D> bluez5_5.37=
+=2Ebb} (83%)
+>=20
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-pos=
+sible-crash-when-registering-pro.patch b/meta/recipes-connectivity/bluez5/b=
+luez5/core-profile-Fix-possible-crash-when-registering-pro.patch
+> deleted file mode 100644
+> index 5c6cee1..0000000
+> --- a/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-c=
+rash-when-registering-pro.patch
+> +++ /dev/null
+> @@ -1,54 +0,0 @@
+> -From bc4dbda3362d3654447d8ae6525cac1540b7d705 Mon Sep 17 00:00:00 2001
+> -From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+> -Date: Thu, 5 Nov 2015 15:14:50 +0200
+> -Subject: [PATCH] core/profile: Fix possible crash when registering profi=
+les
+> -
+> -Upstream-Status: Backport
+> -
+> -Profiles under ext_profiles are local and should no be mixed with other
+> -external profiles since its type is different which can may cause invalid
+> -memory when accessing member of ext_profile struct.
+> ----
+> - src/profile.c | 14 ++------------
+> - 1 file changed, 2 insertions(+), 12 deletions(-)
+> -
+> -diff --git a/src/profile.c b/src/profile.c
+> -index 49445d7..5a4f09c 100644
+> ---- a/src/profile.c
+> -+++ b/src/profile.c
+> -@@ -719,19 +719,13 @@ void btd_profile_foreach(void (*func)(struct btd_p=
+rofile *p, void *data),
+> -=20
+> - int btd_profile_register(struct btd_profile *profile)
+> - {
+> --	if (profile->external)
+> --		ext_profiles =3D g_slist_append(ext_profiles, profile);
+> --	else
+> --		profiles =3D g_slist_append(profiles, profile);
+> -+	profiles =3D g_slist_append(profiles, profile);
+> - 	return 0;
+> - }
+> -=20
+> - void btd_profile_unregister(struct btd_profile *profile)
+> - {
+> --	if (profile->external)
+> --		ext_profiles =3D g_slist_remove(ext_profiles, profile);
+> --	else
+> --		profiles =3D g_slist_remove(profiles, profile);
+> -+	profiles =3D g_slist_remove(profiles, profile);
+> - }
+> -=20
+> - static struct ext_profile *find_ext_profile(const char *owner,
+> -@@ -742,10 +736,6 @@ static struct ext_profile *find_ext_profile(const c=
+har *owner,
+> - 	for (l =3D ext_profiles; l !=3D NULL; l =3D g_slist_next(l)) {
+> - 		struct ext_profile *ext =3D l->data;
+> -=20
+> --		/*
+> --		 * Owner and path can be NULL if profile was registered by a
+> --		 * plugin using external flag.
+> --		 */
+> - 		if (g_strcmp0(ext->owner, owner))
+> - 			continue;
+> -=20
+> ---=20
+> -2.5.0
+> -
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.36.bb b/meta/recip=
+es-connectivity/bluez5/bluez5_5.37.bb
+> similarity index 83%
+> rename from meta/recipes-connectivity/bluez5/bluez5_5.36.bb
+> rename to meta/recipes-connectivity/bluez5/bluez5_5.37.bb
+> index 884bb77..b58423a 100644
+> --- a/meta/recipes-connectivity/bluez5/bluez5_5.36.bb
+> +++ b/meta/recipes-connectivity/bluez5/bluez5_5.37.bb
+> @@ -1,8 +1,7 @@
+>  require bluez5.inc
+> =20
+> -SRC_URI +=3D "file://core-profile-Fix-possible-crash-when-registering-pr=
+o.patch"
+> -SRC_URI[md5sum] =3D "9a0ee479cacc44fac68f6a65b1cd3eba"
+> -SRC_URI[sha256sum] =3D "a343ea1aeb53d3bd139087f3b1c1e1fb70db452d9762cc7a=
+3d23e75962e578f2"
+> +SRC_URI[md5sum] =3D "33177e5743e24b2b3738f72be64e3ffb"
+> +SRC_URI[sha256sum] =3D "c14ba9ddcb0055522073477b8fd8bf1ddf5d219e75fdfd46=
+99b7e0ce5350d6b0"
+> =20
+>  # noinst programs in Makefile.tools that are conditional on READLINE
+>  # support
+> --=20
+> 2.4.0
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--aVD9QWMuhilNxW9f
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEUEARECAAYFAlaL2sMACgkQN1Ujt2V2gBxZigCXYfsf9XHt7tRn//CFZ0geA8fl
+HQCeIR9NM9FzrxH6cZsZpu4nw28xYWY=
+=buoq
+-----END PGP SIGNATURE-----
+
+--aVD9QWMuhilNxW9f--
