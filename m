@@ -1,23 +1,48 @@
-Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 63CE460667
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 849C7731CF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 14:50:33 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Jan 2016 06:50:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,525,1444719600"; d="scan'208";a="874991975"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Jan 2016 06:50:35 -0800
-Received: from fedora-ws.localdomain (unknown [10.237.112.240])
-	by linux.intel.com (Postfix) with ESMTP id 51C766A4004;
-	Tue,  5 Jan 2016 07:38:32 -0800 (PST)
-From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Jan 2016 16:53:34 +0200
-Message-Id: <1452005614-4552-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCHv5] scripts/oe-selftest: Allow to run tests on random/all MACHINEs
+	Tue,  5 Jan 2016 14:51:29 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id q21so188323390iod.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Jan 2016 06:51:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=zkV7+ewcUoqdrucgblusUTc/g2kgkHhlUrD8CJ3KNr8=;
+	b=BrzWRgnbiuiQ+JsJTBWU28StqT+BkIJOrzf9Etl6hlRBvORkQ0XOiuJNTWVpNRRv2n
+	4FGBJwHMpdzV/GbCh5rBN4mANdZX4MRzUbKHnvcdk0Sp8ZX6IV8dvm2MTkyd/j/T7hXz
+	c+ISh5z/SLdcAnZNPwlN6GC83VPJXnNxOP57IXIinZKsavcrupuVC4Uyk6DWC6+arAVz
+	aUlxfJGztIt1iwzroJa6ZDzFuMs0z3EwQxwC+F+Dupt6XrDWfWKkIwohCoT79KTNxkcJ
+	Gts3paufry3Wdsy4WLCWnQrpraMZyb1vGcwqaKPaAyXYr2QqSzBx/jgD+lidHyR0eC0X
+	ebgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=zkV7+ewcUoqdrucgblusUTc/g2kgkHhlUrD8CJ3KNr8=;
+	b=ewm5zQRFv7Vcuavew15Hg4tAFFgMXkDZKAjf4VC1n9Qe6TGislEJbW8wMpJLOoQnYT
+	1IhRKFr/ys2jJiPQ7iAsx+8nMtva1JrJFBlmOaMloJR8R9yo/KH91Gyg4rOA66CoEaOf
+	NACXJA5oFGedYRfs/3JGhnAAO12gSrxXvvr+jBtenbx0ux8Vc7p2F0nmf9CFWL6eM+DW
+	OVm/oy7SN2uRBxG7GxD+V/83DFFG8cD/66e/DBdLITgEp3LANQPGKfqym6stkJaZnnLl
+	DsMzqdtyHDuEO0bjkN4R3flMu6IBENb//iZ3g2HfsnyaXKskwkdJiCwhLqlq4vroZSrf
+	RoHA==
+X-Gm-Message-State: ALoCoQkWUl5YxGjZCW1iLhCwaBieGHaw7SpsUi9tZSsp1XfznbxU5ju+qtwRe2Dh3t8tmkDqljFPIR6/PTaT2Pg0N1szIUogyHKFkw084dcVJf7Tbxlq11U=
+X-Received: by 10.107.164.161 with SMTP id d33mr77698944ioj.148.1452005490717; 
+	Tue, 05 Jan 2016 06:51:30 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Tue, 5 Jan 2016 06:51:11 -0800 (PST)
+In-Reply-To: <5A25F75E-2E79-42EA-82BF-31D469785EAA@gmail.com>
+References: <5A25F75E-2E79-42EA-82BF-31D469785EAA@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 5 Jan 2016 14:51:11 +0000
+Message-ID: <CAJTo0Law7YhbfkMMtjLKacd6VwrQCui55+-nad8tABWoAzCFmA@mail.gmail.com>
+To: Jens Rehsack <rehsack@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] udev-extraconf: introduce multiple blacklist files for more complex setups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,232 +55,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 14:50:34 -0000
+X-List-Received-Date: Tue, 05 Jan 2016 14:51:32 -0000
+Content-Type: multipart/alternative; boundary=001a1141c9767c8bd00528975ff0
 
-Add an option for random MACHINE into oe-selftest:
---machine [random/all]
-1. random: will set a random MACHINE for each test
-2. all: will run tests for all machines
+--001a1141c9767c8bd00528975ff0
+Content-Type: text/plain; charset=UTF-8
 
-Custom machine sets only weak default values (??=) for MACHINE in machine.inc.
-This let test cases that require a specific MACHINE to be able to
-override it, using (?= or =).
+Hi Jens,
 
-e.g.:
-oe-selftest --run-tests signing --machine random -->
-will run all tests switching MACHINE randomly for each test
+On 5 January 2016 at 13:58, Jens Rehsack <rehsack@gmail.com> wrote:
 
-oe-selftest --run-tests signing --machine all -->
-for each machine will run all tests
+> In cases where a target image wants prevent the recovery partition is
+> mounted
+> automatically, but the recovery partition identifier moves with the device
+> (internal flash, sd card, usb stick, ...), device/machine dependend extra
+> blacklists might be desired.
+>
+> The grep utility prints the file name for each match when there is more
+> than one file to search. Add -h to suppress the prefixing of file names
+> on output.
+>
 
-oe-selftest --run-all-tests --machine random
+Something happened to this patch:
 
-Also update oeqa/selftest/base.py to accomodate this feature.
+$ xam -s
+Applying: udev-extraconf: introduce multiple blacklist files for more
+complex setups
+fatal: corrupt patch at line 18
+Patch failed at 0001 udev-extraconf: introduce multiple blacklist files for
+more complex setups
 
-Fix for [YOCTO #5880].
+Can you resend it?
 
-Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
----
- meta/lib/oeqa/selftest/base.py | 64 ++++++++++++++++++++++++++++++++++++++----
- scripts/oe-selftest            | 37 ++++++++++++++++++------
- 2 files changed, 86 insertions(+), 15 deletions(-)
+Thanks,
+Ross
 
-diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
-index 9bddc23..dc93731 100644
---- a/meta/lib/oeqa/selftest/base.py
-+++ b/meta/lib/oeqa/selftest/base.py
-@@ -16,6 +16,8 @@ import errno
- import oeqa.utils.ftools as ftools
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
- from oeqa.utils.decorators import LogResults
-+from random import choice
-+import glob
- 
- @LogResults
- class oeSelfTest(unittest.TestCase):
-@@ -29,9 +31,10 @@ class oeSelfTest(unittest.TestCase):
-         self.testinc_path = os.path.join(self.builddir, "conf/selftest.inc")
-         self.local_bblayers_path = os.path.join(self.builddir, "conf/bblayers.conf")
-         self.testinc_bblayers_path = os.path.join(self.builddir, "conf/bblayers.inc")
-+        self.machineinc_path = os.path.join(self.builddir, "conf/machine.inc")
-         self.testlayer_path = oeSelfTest.testlayer_path
-         self._extra_tear_down_commands = []
--        self._track_for_cleanup = [self.testinc_path]
-+        self._track_for_cleanup = [self.testinc_path, self.testinc_bblayers_path, self.machineinc_path]
-         super(oeSelfTest, self).__init__(methodName)
- 
-     def setUp(self):
-@@ -47,11 +50,25 @@ class oeSelfTest(unittest.TestCase):
-             for f in files:
-                 if f == 'test_recipe.inc':
-                     os.remove(os.path.join(root, f))
--        try:
--            os.remove(self.testinc_bblayers_path)
--        except OSError as e:
--            if e.errno != errno.ENOENT:
--                raise
-+
-+        for incl_file in [self.testinc_bblayers_path, self.machineinc_path]:
-+            try:
-+                os.remove(incl_file)
-+            except OSError as e:
-+                if e.errno != errno.ENOENT:
-+                    raise
-+
-+        # Get CUSTOMMACHINE from env (set by --machine argument to oe-selftest)
-+        custommachine = os.getenv('CUSTOMMACHINE')
-+        if custommachine:
-+            if custommachine == 'random':
-+                machine = get_random_machine()
-+            else:
-+                machine = custommachine
-+            machine_conf = 'MACHINE ??= "%s"\n' % machine
-+            self.set_machine_config(machine_conf)
-+            print 'MACHINE: %s' % machine
-+
-         # tests might need their own setup
-         # but if they overwrite this one they have to call
-         # super each time, so let's give them an alternative
-@@ -99,11 +116,21 @@ class oeSelfTest(unittest.TestCase):
-         self.log.debug("Writing to: %s\n%s\n" % (self.testinc_path, data))
-         ftools.write_file(self.testinc_path, data)
- 
-+        custommachine = os.getenv('CUSTOMMACHINE')
-+        if custommachine and 'MACHINE' in data:
-+            machine = get_bb_var('MACHINE')
-+            self.log.warning('MACHINE overridden: %s' % machine)
-+
-     # append to <builddir>/conf/selftest.inc
-     def append_config(self, data):
-         self.log.debug("Appending to: %s\n%s\n" % (self.testinc_path, data))
-         ftools.append_file(self.testinc_path, data)
- 
-+        custommachine = os.getenv('CUSTOMMACHINE')
-+        if custommachine and 'MACHINE' in data:
-+            machine = get_bb_var('MACHINE')
-+            self.log.warning('MACHINE overridden: %s' % machine)
-+
-     # remove data from <builddir>/conf/selftest.inc
-     def remove_config(self, data):
-         self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_path, data))
-@@ -151,3 +178,28 @@ class oeSelfTest(unittest.TestCase):
-     def remove_bblayers_config(self, data):
-         self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_bblayers_path, data))
-         ftools.remove_from_file(self.testinc_bblayers_path, data)
-+
-+    # write to <builddir>/conf/machine.inc
-+    def set_machine_config(self, data):
-+        self.log.debug("Writing to: %s\n%s\n" % (self.machineinc_path, data))
-+        ftools.write_file(self.machineinc_path, data)
-+
-+
-+def get_available_machines():
-+    # Get a list of all available machines
-+    bbpath = get_bb_var('BBPATH').split(':')
-+    machines = []
-+
-+    for path in bbpath:
-+        found_machines = glob.glob(os.path.join(path, 'conf', 'machine', '*.conf'))
-+        if found_machines:
-+            for i in found_machines:
-+                # eg: '/home/<user>/poky/meta-intel/conf/machine/intel-core2-32.conf'
-+                machines.append(os.path.splitext(os.path.basename(i))[0])
-+
-+    return machines
-+
-+
-+def get_random_machine():
-+    # Get a random machine
-+    return choice(get_available_machines())
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index 08a5af3..2ed88ef 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -42,7 +42,7 @@ import argparse_oe
- import oeqa.selftest
- import oeqa.utils.ftools as ftools
- from oeqa.utils.commands import runCmd, get_bb_var, get_test_layer
--from oeqa.selftest.base import oeSelfTest
-+from oeqa.selftest.base import oeSelfTest, get_available_machines
- 
- def logger_create():
-     log_file = "oe-selftest-" + t.strftime("%Y-%m-%d_%H:%M:%S") + ".log"
-@@ -84,6 +84,8 @@ def get_args_parser():
-                        help='list-tests-by <name|class|module|id|tag> <list of tests|classes|modules|ids|tags>')
-     group.add_argument('--list-tags', required=False, dest='list_tags', default=False, action="store_true",
-                        help='List all tags that have been set to test cases.')
-+    parser.add_argument('--machine', required=False, dest='machine', choices=['random', 'all'], default=None,
-+                        help='Run tests on different machines (random/all).')
-     return parser
- 
- 
-@@ -115,7 +117,7 @@ def add_include():
-         not in ftools.read_file(os.path.join(builddir, "conf/local.conf")):
-             log.info("Adding: \"include selftest.inc\" in local.conf")
-             ftools.append_file(os.path.join(builddir, "conf/local.conf"), \
--                    "\n#include added by oe-selftest.py\ninclude selftest.inc")
-+                    "\n#include added by oe-selftest.py\ninclude machine.inc\ninclude selftest.inc")
- 
-     if "#include added by oe-selftest.py" \
-         not in ftools.read_file(os.path.join(builddir, "conf/bblayers.conf")):
-@@ -131,13 +133,13 @@ def remove_include():
-         in ftools.read_file(os.path.join(builddir, "conf/local.conf")):
-             log.info("Removing the include from local.conf")
-             ftools.remove_from_file(os.path.join(builddir, "conf/local.conf"), \
--                    "#include added by oe-selftest.py\ninclude selftest.inc")
-+                    "\n#include added by oe-selftest.py\ninclude machine.inc\ninclude selftest.inc")
- 
-     if "#include added by oe-selftest.py" \
-         in ftools.read_file(os.path.join(builddir, "conf/bblayers.conf")):
-             log.info("Removing the include from bblayers.conf")
-             ftools.remove_from_file(os.path.join(builddir, "conf/bblayers.conf"), \
--                    "#include added by oe-selftest.py\ninclude bblayers.inc")
-+                    "\n#include added by oe-selftest.py\ninclude bblayers.inc")
- 
- def remove_inc_files():
-     try:
-@@ -149,10 +151,11 @@ def remove_inc_files():
-     except (AttributeError, OSError,) as e:    # AttributeError may happen if BUILDDIR is not set
-         pass
- 
--    try:
--        os.remove(os.path.join(os.environ.get("BUILDDIR"), "conf/bblayers.inc"))
--    except:
--        pass
-+    for incl_file in ['conf/bblayers.inc', 'conf/machine.inc']:
-+        try:
-+            os.remove(os.path.join(os.environ.get("BUILDDIR"), incl_file))
-+        except:
-+            pass
- 
- def get_tests(exclusive_modules=[], include_hidden=False):
-     testslist = []
-@@ -472,7 +475,23 @@ def main():
-                 log.error(e)
-                 return 1
-         add_include()
--        result = runner.run(suite)
-+
-+        if args.machine:
-+            # Custom machine sets only weak default values (??=) for MACHINE in machine.inc
-+            # This let test cases that require a specific MACHINE to be able to override it, using (?= or =)
-+            log.info('Custom machine mode enabled. MACHINE set to %s' % args.machine)
-+            if args.machine == 'random':
-+                os.environ['CUSTOMMACHINE'] = 'random'
-+                result = runner.run(suite)
-+            else:  # all
-+                machines = get_available_machines()
-+                for m in machines:
-+                    log.info('Run tests with custom MACHINE set to: %s' % m)
-+                    os.environ['CUSTOMMACHINE'] = m
-+                    result = runner.run(suite)
-+        else:
-+            result = runner.run(suite)
-+
-         log.info("Finished")
- 
-         if args.coverage:
--- 
-2.1.0
+--001a1141c9767c8bd00528975ff0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Jens,</div><div class=3D"gma=
+il_extra"><br><div class=3D"gmail_quote">On 5 January 2016 at 13:58, Jens R=
+ehsack <span dir=3D"ltr">&lt;<a href=3D"mailto:rehsack@gmail.com" target=3D=
+"_blank">rehsack@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-l=
+eft-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div i=
+d=3D":kw" class=3D"" style=3D"overflow:hidden">In cases where a target imag=
+e wants prevent the recovery partition is mounted<br>
+automatically, but the recovery partition identifier moves with the device<=
+br>
+(internal flash, sd card, usb stick, ...), device/machine dependend extra<b=
+r>
+blacklists might be desired.<br>
+<br>
+The grep utility prints the file name for each match when there is more<br>
+than one file to search. Add -h to suppress the prefixing of file names<br>
+on output.</div></blockquote></div><br>Something happened to this patch:</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div cla=
+ss=3D"gmail_extra">$ xam -s</div><div class=3D"gmail_extra">Applying: udev-=
+extraconf: introduce multiple blacklist files for more complex setups</div>=
+<div class=3D"gmail_extra">fatal: corrupt patch at line 18</div><div class=
+=3D"gmail_extra">Patch failed at 0001 udev-extraconf: introduce multiple bl=
+acklist files for more complex setups</div><div class=3D"gmail_extra"><br><=
+/div><div class=3D"gmail_extra">Can you resend it?</div><div class=3D"gmail=
+_extra"><br></div><div class=3D"gmail_extra">Thanks,</div><div class=3D"gma=
+il_extra">Ross</div></div></div>
 
+--001a1141c9767c8bd00528975ff0--
