@@ -1,33 +1,41 @@
-Return-Path: <dl9pf@gmx.de>
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	by mail.openembedded.org (Postfix) with ESMTP id E6FBF600B3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 20:30:02 +0000 (UTC)
-Received: from elrond.auenland.lan ([95.90.4.156]) by mail.gmx.com (mrgmx002)
-	with ESMTPSA (Nemesis) id 0MQzIE-1aeEly0QjW-00UNhO;
-	Tue, 05 Jan 2016 21:17:28 +0100
-From: dl9pf@gmx.de
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Jan 2016 21:17:24 +0100
-Message-Id: <1452025045-32026-1-git-send-email-dl9pf@gmx.de>
-X-Mailer: git-send-email 2.6.2
-X-Provags-ID: V03:K0:bSscaLhulDjkK1ErAuboAAWvVkjgcOlTk5iFFI3VZJkt2IzBdWz
-	IFWUuwdkuz4kvVyW6fTN0ly8WGQjYQO9fGvVnVm/ykcmZPOS9h3N+6cUKTW68r444tkz/bi
-	o7jCHL/i214oNn9Jf29kUu8uJuIDNSL+5zWnjkAWyh884W1E9nCzidWx4o51VbxDew1sWdB
-	tc5nnrjn78NdDtG6bP8XQ==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:ptgzg9Mnf5o=:+UF924vbPEbiY7LMYuXzpT
-	+tuJqUHVJps27pYH9oP9HyznsZonoN5NXRhudU8oBWUFBxgoEqnj/7o1JoxYSBmaTT75mQ+eY
-	zTokcTNnZrR1b2ECPxtIwOv17NrsKtyZt/A6MxOj8WJvjOzUBxW1rdnhnltUb/9qDXrbSHAfT
-	P2UnKFsmiPO/1AShwUgXh+8ZcMkjSXB9RM5secAA5IgXUrqWv/M8R9uoeZ3nB8iVhkq9Fo8Nx
-	y3nLP/LtFYgLE7ORR8ZGBbzamq6lPCI/187wHfdtRcQSzRjojDNE9n2Qf8Ahn8+OzdWkvI4Xj
-	I2pU86zJExAmy5/4zi9od7iFyJKo/IJ75KcN1h11jsTATt4vBinfRf3+dR/G3lY6AtmHFm6a7
-	GQcyeiHdkyltpyOEANuHuZmjOJ5LB9spoC8SEzphHqyBIXP70YewRHPZBFGmMsjiXXOPf7fv/
-	zizGwR13+Sz7gPmDpNZ33uWYVTdqTzFMd2PsOXO9PIfInHSbLztk4Ig7z9l0Xvj3UpyVt8JRd
-	N51W5vDYrxD6mPOXzLdV/5npcxrGbi8MsSalCXh189onBosa0zqM2FS+8SxDOM3YnJsoiJC2d
-	bRHjLL4RqcrQCSj2GCxoZ1svs2gvhwtPUvkc3KOwdeDdZvnz6v2my5n95WbyEapTk8wFMEhCd
-	nbndmbuNfA8npf5Y9wqKPjQveYFCM+i07jwIqCrv8+ClH8Om+yRaHEe2yco/zKagSlWWK3m4h
-	3JkiW4/ZT5N71qUVOj7nX3kUgDOYkhIp/GB1/oWP8h7AJpZxrQRXghmfQ1U=
-Subject: [PATCH] [master, jethro] Fix connectivity check for BB_FETCH_PREMIRRORONLY case
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 60ED373180;
+	Tue,  5 Jan 2016 21:08:30 +0000 (UTC)
+Received: by mail-pa0-f49.google.com with SMTP id uo6so201780975pac.1;
+	Tue, 05 Jan 2016 13:08:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=PZZwuJdKP0FzJdrnTqSoyz2aQ5xx96uBr/RpPuzC8no=;
+	b=JK9mIV1ylrEtGK7nI/+swPiaCn5na4tYJ1xMwjTWM/tlbnrN+SpE3zeH3c0dlya56+
+	fBiEFuhFAj1oPj9Sn1gkZ1MNyY8pN/6hjdHF513cQiD6dejiEJNIxHkekE3DC5UIOZ1a
+	AUkSwPQl0aYye+GvS9HZ+Qt9BmteoQtZsc4s5e3WXVeY4MoOiopEbl/zSzrLdWCYDmdF
+	qJvYav3OZgVnKpx3yMM0anJ9cm9Rc8ZKZOLG+36FuNV60L2kGKP1lCspt6O6gZtxLNxl
+	3+05RDeg4H2sji2rg0DOYz2i96/4/SohDI0VNxT0xM9OmpOz+SUSS4hlEvyqfo/uwVYy
+	Pm5A==
+X-Received: by 10.66.252.6 with SMTP id zo6mr70206644pac.154.1452028111676;
+	Tue, 05 Jan 2016 13:08:31 -0800 (PST)
+Received: from ?IPv6:2601:647:4c01:b37d:41f6:2669:fdf0:2010?
+	([2601:647:4c01:b37d:41f6:2669:fdf0:2010])
+	by smtp.gmail.com with ESMTPSA id
+	g68sm93249721pfd.55.2016.01.05.13.08.30
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 05 Jan 2016 13:08:31 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LbB02LR=6Yyy0-3=Hg1tjcdX=DmMKN2MEJqctnvi5n0Kg@mail.gmail.com>
+Date: Tue, 5 Jan 2016 13:08:31 -0800
+Message-Id: <A374083C-8331-42F2-A3F5-9D5EB49538F7@gmail.com>
+References: <CAMKF1sqAGXMFx9re3YgB1u9aLPGRT9KRCR-0Drux=4P5igirWw@mail.gmail.com>
+	<CAJTo0LbB02LR=6Yyy0-3=Hg1tjcdX=DmMKN2MEJqctnvi5n0Kg@mail.gmail.com>
+To: openembedded-devel@lists.openembedded.org
+X-Mailer: Apple Mail (2.3112)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [RFT] glibc 2.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,24 +48,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 20:30:05 -0000
+X-List-Received-Date: Tue, 05 Jan 2016 21:08:33 -0000
+X-Groupsio-MsgNum: 75477
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_1D168DAA-6405-47C7-9367-3C176EAFD116";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_1D168DAA-6405-47C7-9367-3C176EAFD116
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset=us-ascii
 
 
-Hi!
+> On Jan 5, 2016, at 8:17 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> 
+> On 4 January 2016 at 19:00, Khem Raj <raj.khem@gmail.com> wrote:
+> 
+>> I have done OE-Core only clean world builds for all Qemu machines
+>> without a single build failure and
+>> runtime boot tested.
+>> 
+> 
+> I threw this at the autobuilder and glibc failed to build on one of the
+> runs:
+> 
+> http://errors.yoctoproject.org/Errors/Details/26057/
 
-This patch fixes a bug in the sanity checker that is visible if
-you set up a PREMIRROR and start a project from scratch using
-BB_FETCH_PREMIRRORONLY set. In this case the sanity check would fail
-as BB_NO_NETWORK is not set directly
-(just indirectly in the fetcher by BB_FETCH_PREMIRRORONLY).
 
-Reproduce: Set up a PREMIRROR in the local network. Disconnect from
-$INTERNET and build a new project using the PREMIRROR on the local net only.
+Thanks Ross, what MACHINE did you build for ?
 
-Expected result: Build works using the PREMIRROR
+rtld.c:1:0: error: SSE instruction set disabled, using 387 arithmetics
 
-Actual result: Build fails due to CONNECTIVITY_CHECK
+I think I have an idea whats going on. It was fixed in glibc 2.23 but maybe
+not in all cases. I will take a look at it later today.
 
-Best,
-Jan-Simon
+> 
+> Ross
+> --
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
+
+--Apple-Mail=_1D168DAA-6405-47C7-9367-3C176EAFD116
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlaMMM8ACgkQuwUzVZGdMxQGNwCfXlr124fO27XmEKneui5UF6mg
+Uk4AoJG7r5rqzT5d2LZUbakQSgwFEdbh
+=PQtd
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_1D168DAA-6405-47C7-9367-3C176EAFD116--
