@@ -1,46 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D7A2605BA
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id D49706011F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 16:03:24 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id f206so28417063wmf.0
+	Tue,  5 Jan 2016 16:11:43 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id f206so28892192wmf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jan 2016 08:03:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Wfi56MEAzMJMGh6jpkVJ8uYtcHMXbhtLiX1ROTSmObI=;
-	b=a8aTvgvChgVE2Zhbb/2nEJBJxewX8v2Dl+OmNTSzMYIjK1uSyGkZ4Rw70+pTLmqv0H
-	8zJiYHMwQgsuS5B2nevMt3Lx7aAr+gwR0J67E2idZQam9JWLmcSt4bt//05dLGaHoXt7
-	RTT1Cu1Fd983OngjksRDkQ/K6uhW5ZZzFHHv6ZR3a1LsVQD5C7tzqdaSGpZaJn05f22T
-	QTzL4anxMLhNSVHhMNrYQ5k5mE4xlIODCbQ1ytHLdTW+gGs3SH4Luwv0g7ig2+P6nEYI
-	g2m0TNuOr/y+yA4TWZTBf9sL05S9wzo3z8j9kcRr3mi8yvIevoerCl4zkCdRLwSrSFqT
-	I29g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Wfi56MEAzMJMGh6jpkVJ8uYtcHMXbhtLiX1ROTSmObI=;
-	b=RbfQ9nYQ/0KHnf3oskDshh2Eo4T1zMvlMDh8JMoWs/1iIZ6lo67+4UHa2c8ZfymmMZ
-	M3WjuNXd7TOU6/CfVEWuAM8T14Tl3672z3UKVYEIj8iyRjgczivjSh5VJnLy4QteWzyK
-	cTrVhEWfEcuqfJHP3nopX5FjooDrqTWBA+VKlpsUVSzzt33fE3uDcvIgscG5lcOfALxZ
-	o1xLN/WvrAR+f2BTIHrbOF0wp9A7acBCRFczUbH1fDcy0x1ANaocAdejPgXldDleL+2X
-	1ZEGOhDgzz94gVT6z95Zdfs9kFF6iiC0yJ6nqHJO3uvAJO9EM0I0azlPtKErfeXGLBKw
-	42lA==
-X-Gm-Message-State: ALoCoQnGMPzj2m+kU7jb3xrk4l0pBqXq0fWVuUOihO76FfpPruA6p0+L5GgVzDYR8Z1wiHvVMkn1D/3YcI8c8Ij0Tj81/uVLYQ==
-X-Received: by 10.28.55.209 with SMTP id e200mr5152944wma.2.1452009804747;
-	Tue, 05 Jan 2016 08:03:24 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	a126sm4216719wmh.0.2016.01.05.08.03.23
+	Tue, 05 Jan 2016 08:11:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:content-type:content-transfer-encoding:subject:message-id:date
+	:to:mime-version;
+	bh=AUPBIcLak+W4BgwRREo3M5XgOrF9spJ0ib995e5qSGE=;
+	b=CrmriEJi32he2IcZMxeALNNbxKrl1T3OnUeocqbssLZGQTROT6M5ZQAyEcwfFqsCdA
+	iQL4Gu+PWofzNoDdivdQfhEnLLs20XS0G4zJ290DYris/lkVrmTnf1EL3CJUC5Tc6Gp8
+	GZN/hcDX9lreuibsbDsnFnH2MLtPckE6Jot3TYOB+IxGzhWMF/SjMH1Kz5xWJhp5hF+J
+	KmE0wgtiwVm2kSXzFWn5EIVfK8OGZLzMVX22yv4wxKv6v3zOpgNAjIpLEm4NqIFi6Oao
+	+bJl2+fz8ZIUgNqDcoiCmCuTBFnwNTJhMjV6F7cxcaGjualuhgey5XhfYxqOdMaREAGK
+	GVQQ==
+X-Received: by 10.194.5.74 with SMTP id q10mr101846883wjq.138.1452010303911;
+	Tue, 05 Jan 2016 08:11:43 -0800 (PST)
+Received: from ernie.rdm.local (rademacherexchange.de. [46.245.221.222])
+	by smtp.gmail.com with ESMTPSA id
+	ke10sm91465949wjb.3.2016.01.05.08.11.42
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 05 Jan 2016 08:03:24 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Jan 2016 16:03:20 +0000
-Message-Id: <1452009800-7349-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [PATCH] uclibc: disable parallel builds
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 05 Jan 2016 08:11:43 -0800 (PST)
+From: Jens Rehsack <rehsack@gmail.com>
+Message-Id: <6B13FBFC-89E1-45DE-9A15-611426D85CF0@gmail.com>
+Date: Tue, 5 Jan 2016 17:11:42 +0100
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Mailer: Apple Mail (2.3112)
+Subject: [PATCH RESEND] udev-extraconf: introduce multiple blacklist files for more complex setups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,40 +44,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 16:03:28 -0000
+X-List-Received-Date: Tue, 05 Jan 2016 16:11:44 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-There appears to be a parallel make race in uclibc:
 
- GEN /extra/locale/locale_collate.h
- xargs: ../..//extra/locale/gen_collate: Text file busy
- make[1]: *** [../..//extra/locale/locale_collate.h] Error 126
+In cases where a target image wants prevent the recovery partition is =
+mounted
+automatically, but the recovery partition identifier moves with the =
+device
+(internal flash, sd card, usb stick, ...), device/machine dependend =
+extra
+blacklists might be desired.
 
-As uclibc is slated to be removed in the 2.1 cycle let's just disable parallel
-building for now.
+The grep utility prints the file name for each match when there is more
+than one file to search. Add -h to suppress the prefixing of file names
+on output.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Jens Rehsack <sno@netbsd.org>
 ---
- meta/recipes-core/uclibc/uclibc.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/recipes-core/udev/udev-extraconf/mount.sh | 2 +-
+ meta/recipes-core/udev/udev-extraconf_1.1.bb   | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
-index ff7d744..2b34c34 100644
---- a/meta/recipes-core/uclibc/uclibc.inc
-+++ b/meta/recipes-core/uclibc/uclibc.inc
-@@ -39,6 +39,12 @@ COMPATIBLE_HOST = ".*-uclibc.*"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
-+# There appears to be a parallel race in uclibc:
-+# GEN /extra/locale/locale_collate.h
-+# xargs: ../..//extra/locale/gen_collate: Text file busy
-+# make[1]: *** [../..//extra/locale/locale_collate.h] Error 126
-+PARALLEL_MAKE = ""
-+
- # do_stage barfs on a CC with whitespace, therefore put the 'HOST_CC_ARCH' in
- # the CFLAGS (when building the utils).
- OEMAKE_NO_CC = "'STRIPTOOL=true' 'LD=${LD}'"
--- 
-2.6.4
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh =
+b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index 3eea910..d760328 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -8,7 +8,7 @@
+ MOUNT=3D"/bin/mount"
+ PMOUNT=3D"/usr/bin/pmount"
+ UMOUNT=3D"/bin/umount"
+-for line in `grep -v ^# /etc/udev/mount.blacklist`
++for line in `grep -h -v ^# /etc/udev/mount.blacklist =
+/etc/udev/mount.blacklist.d/*`
+ do
+ 	if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
+ 	then
+diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb =
+b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+index 6fbd925..ecd4a8a 100644
+--- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
++++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+@@ -23,6 +23,7 @@ do_install() {
+     install -m 0644 ${WORKDIR}/autonet.rules       =
+${D}${sysconfdir}/udev/rules.d/autonet.rules
+     install -m 0644 ${WORKDIR}/localextra.rules    =
+${D}${sysconfdir}/udev/rules.d/localextra.rules
+=20
++    install -d ${D}${sysconfdir}/udev/mount.blacklist.d
+     install -m 0644 ${WORKDIR}/mount.blacklist     =
+${D}${sysconfdir}/udev/
+=20
+     install -d ${D}${sysconfdir}/udev/scripts/
+--=20
+1.9.1
+
+This time without signing the mail, maybe that corrupted the patch?
+
+--=20
+Jens Rehsack - rehsack@gmail.com
 
 
