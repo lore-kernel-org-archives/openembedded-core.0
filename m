@@ -1,49 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 15F41600B3
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id B6496600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 20:26:50 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id o67so477711815iof.3
+	Tue,  5 Jan 2016 20:29:24 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id q21so198325158iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jan 2016 12:26:51 -0800 (PST)
+	Tue, 05 Jan 2016 12:29:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=0K8+T8iVBGW+tRG8loyKMmUsbDIVnfwk5xOGkZDUe+4=;
-	b=vcXGK1IsWncpIG+k/U1C42cFm3+Jwdt8Zb8XXINaUFrsklPe7It/rwPj08/13PZC/W
-	Rd58UKaUOB/I/KxSNF9PTeOopLvyOx24c/F45aTvj7VJvPi32zixDCvg+jtTUX+/9OMG
-	wAt7HAPAIv1fJXMcOUL5xeNxNKUbAoNI2aDNWFmtixdgqUewjkV38G8K3pzzyKMT+eYu
-	JNKNJiOK4AbBzVlwix+UjfMpYF9Yn4ToncpUelpT4dl5SCqU+XGI6WbUsRmADr2v/KT0
-	0LaCDFU8COMKjaKkOjT+O9aCCjQKVbb8SmbpVm5DLysHqRvlPxKuNbEkaZGqqIdGaQN8
-	MnoQ==
+	bh=iJoIFewJIK8UpqxksZ94md1YfKyL8udB/rvSYQUj/0Q=;
+	b=tfU8eU4DRAvKlCCpCazzIaRHblLliROq01o8FvYAbVzl6krJZLLaITmRtHfLaisK2p
+	XvwArGEecZ48EFVyfOabZYNAoqsMvmBCSjv+WYEpxsY5aMtbkBtB/NTnTvoy74JOOqXv
+	1XL0FsGfRgbtGhrmQH/bhN0IK6sxYpLorVhUpcKogf+w2MBB8e0kna4o3THtFdEQyoRT
+	XJkfByBG4P2YtIPUAVd3YvDAhPE9sdLiq7twbnOy/WqkOkWe9GVp3vMxC28Ux+H0WrZy
+	CLyscFRTvu0FvvW6mz3g1ASOXt+aE8XohEmAwCDwRHxkwz18ZrGXVEpnFd1Xkg+9mMD4
+	JMsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=0K8+T8iVBGW+tRG8loyKMmUsbDIVnfwk5xOGkZDUe+4=;
-	b=mXwjL7zSgwkPUiqGz8POQVCrC9pXXRjS72LJwHdIb3ynXGdx/1JKbZ6NhRtt3GQWE3
-	bak+nnebjQQYjbDSqzl0rOyvGC7yD92/G6PaVFmzoAQJEKPAuw2Pbo0PTdqVMwMLtKJA
-	DgNKcS3kVHgilkoH1WKxcAEG56fG4npqa3Cra2tpANbUpyzG79yg8hG/scvUIUNaHf+a
-	6Nuji83U2MyyjffGHOFWquxffi50heWPseZo2k3Lp8A8ozl8IXf607ttVd52RXKP8zvN
-	KKjaPB+iyo8tRkrXD3j/zJO68Zh1gw7HAOkXNMU2EpUMuMgTfmpolirXfJH9EwSfnXJL
-	Tivw==
-X-Gm-Message-State: ALoCoQnmLl4dZZP0AlAyxnSceR5/pC1UN935yUZ1IG5BOO7eL8N9SFxJRn7OWkEppk6dGl7g6spjhIOVn9WL+9/u+eMYH9YgXHQSV8oJa43RlnwQO+7ZwK4=
-X-Received: by 10.107.3.154 with SMTP id e26mr80776521ioi.99.1452025611473;
-	Tue, 05 Jan 2016 12:26:51 -0800 (PST)
+	bh=iJoIFewJIK8UpqxksZ94md1YfKyL8udB/rvSYQUj/0Q=;
+	b=KKGMjitqtnJLO8cL8V/sslMzrXB59wVdmdVHq4oQDNi+HU5Jn12XhLx/KofICyq5BA
+	PlueoQppt3fUAFwGLhIVWPzExiXJn4CbIqfZ9Mym3Omc7aG+kfKX+dhV8SJVmI2dYY8Q
+	9G7EVDsH90mXHzjQtcYjmsEy2oKAIvLhE5f8USAgcOWgHmDJlUoRdIueg+XGs01GtmyY
+	V+KnpyA70kwuz6gHvUef3cTGIH5oXwN+7Sxo6FLaaMYy8i+pESvN449QhAWzmME28Vrk
+	SovHnLEfUQS1f4kPQIzH6i9UDhvJ1B4CIgSBHIoxZiUyH5hKkWVuyzcN4/vifqJQMwzu
+	zZZg==
+X-Gm-Message-State: ALoCoQkltTtbzZLhZXwXD2KS/1F0vVKrK3taI2sjHkyaxPeFVK+ynhaUPVT9z+mo2UZ2UB/r41n7pWeHxbeWy1IIJHOl0oxagizRK+K6GlMBA5Yq4zodjzA=
+X-Received: by 10.107.164.161 with SMTP id d33mr78990225ioj.148.1452025765722; 
+	Tue, 05 Jan 2016 12:29:25 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 5 Jan 2016 12:26:32 -0800 (PST)
-In-Reply-To: <CABcZAN=S55vPVZYA21tZvgBxSaCRoCOBfGzjdjvX7kqHgAiaMQ@mail.gmail.com>
-References: <cover.1447371049.git.chris_larson@mentor.com>
-	<CABcZAN=S55vPVZYA21tZvgBxSaCRoCOBfGzjdjvX7kqHgAiaMQ@mail.gmail.com>
+Received: by 10.107.162.70 with HTTP; Tue, 5 Jan 2016 12:29:06 -0800 (PST)
+In-Reply-To: <1452002894-10301-2-git-send-email-maxin.john@intel.com>
+References: <1452002894-10301-1-git-send-email-maxin.john@intel.com>
+	<1452002894-10301-2-git-send-email-maxin.john@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 Jan 2016 20:26:32 +0000
-Message-ID: <CAJTo0LZ-=ZAg6PDUshE=ytJ-c98Wdv=ggOPJSd0SyfgAU6uHVw@mail.gmail.com>
-To: Christopher Larson <chris_larson@mentor.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Misc improvements 2 from Mentor
+Date: Tue, 5 Jan 2016 20:29:06 +0000
+Message-ID: <CAJTo0LZYgfbPbXff_qose7LeaR7f8TZzcK7mqRQB_fvvBxX6ng@mail.gmail.com>
+To: "Maxin B. John" <maxin.john@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] connman: upgrade to 1.31
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +55,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 20:26:51 -0000
-Content-Type: multipart/alternative; boundary=001a113ec10ac6ef1505289c0e52
+X-List-Received-Date: Tue, 05 Jan 2016 20:29:26 -0000
+Content-Type: multipart/alternative; boundary=001a1141c976f892b405289c17fa
 
---001a113ec10ac6ef1505289c0e52
+--001a1141c976f892b405289c17fa
 Content-Type: text/plain; charset=UTF-8
 
-On 5 January 2016 at 19:08, Christopher Larson <chris_larson@mentor.com>
-wrote:
+On 5 January 2016 at 14:08, Maxin B. John <maxin.john@intel.com> wrote:
 
-> Any objections to this series?
+> 1.30 -> 1.31
 >
 
-Slipped through the net, thanks for the ping.  They look good to me, in mut
-now.
+I saw this on one of my builds locally:
+
+ERROR: QA Issue: connman: Files/directories were installed but not shipped
+in any package:
+  /lib/systemd/system/connman-wait-online.service
+  /usr/lib/tmpfiles.d
+  /usr/lib/tmpfiles.d/connman_resolvconf.conf
+
+I've not looked into what exactly was different between this build and
+others where it doesn't happen, but presumably it's detecting something in
+the sysroot and enabling these files.
 
 Ross
 
---001a113ec10ac6ef1505289c0e52
+--001a1141c976f892b405289c17fa
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 January 2016 at 19:08, Christopher Larson <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:chris_larson@mentor.com" target=3D"_blank">chris_larson@mentor.=
-com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"g=
-mail_extra">Any objections to this series?<span class=3D"HOEnZb"><font colo=
-r=3D"#888888"><br></font></span></div></blockquote></div><br>Slipped throug=
-h the net, thanks for the ping.=C2=A0 They look good to me, in mut now.</di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
-></div>
+On 5 January 2016 at 14:08, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-=
+left-style:solid;padding-left:1ex"><div id=3D":2x7" class=3D"" style=3D"ove=
+rflow:hidden">1.30 -&gt; 1.31<br></div></blockquote></div><br>I saw this on=
+ one of my builds locally:</div><div class=3D"gmail_extra"><br></div><div c=
+lass=3D"gmail_extra"><div class=3D"gmail_extra">ERROR: QA Issue: connman: F=
+iles/directories were installed but not shipped in any package:</div><div c=
+lass=3D"gmail_extra">=C2=A0 /lib/systemd/system/connman-wait-online.service=
+</div><div class=3D"gmail_extra">=C2=A0 /usr/lib/tmpfiles.d</div><div class=
+=3D"gmail_extra">=C2=A0 /usr/lib/tmpfiles.d/connman_resolvconf.conf</div><d=
+iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I&#39;ve not =
+looked into what exactly was different between this build and others where =
+it doesn&#39;t happen, but presumably it&#39;s detecting something in the s=
+ysroot and enabling these files.</div><div class=3D"gmail_extra"><br></div>=
+<div class=3D"gmail_extra">Ross</div></div></div>
 
---001a113ec10ac6ef1505289c0e52--
+--001a1141c976f892b405289c17fa--
