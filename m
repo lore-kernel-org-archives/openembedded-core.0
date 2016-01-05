@@ -1,37 +1,36 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CE8C60667
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A1F1A60667
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 13:58:48 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id b14so30294359wmb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jan 2016 05:58:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:content-type:subject:date:message-id:to:mime-version;
-	bh=xLDJgePmWtreYpQKw50O8iblqtKykTcH0h+TZ8pQw9k=;
-	b=gQDw8axEtDpjRq3SY7nv74m+45oSwpwMyFDvx6EnuK3YEwegLV3kPTYdNnBnAC0hZs
-	1OCloc/8292e94pRCJbX6c1OI8lSqfSbmAE0alqqAhkPh1pOdvDbyDk9ecgXJS5Pkc0D
-	8BhyCE08Jb8xGDhSXsjTHMdYqBPrXbB4S0a/BBlX5AorEPmlpAY3DicUvAPlpwZSxFcw
-	FgrP8HbHygzxLR5XaX3SWyhSQi1EWrvVObcXCubsEFuwbn1wFmAfnicy+22c99GM7Zzn
-	DrCQIi5nw31j93636klChjlvQbBv4KBeuVG2nNU5QylbRRbKIgg6HHkKG8PY2Wf2NZiF
-	56OA==
-X-Received: by 10.194.9.169 with SMTP id a9mr100650330wjb.60.1452002329075;
-	Tue, 05 Jan 2016 05:58:49 -0800 (PST)
-Received: from ernie.rdm.local (rademacherexchange.de. [46.245.221.222])
-	by smtp.gmail.com with ESMTPSA id
-	l194sm3719291wmb.14.2016.01.05.05.58.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 05 Jan 2016 05:58:47 -0800 (PST)
-From: Jens Rehsack <rehsack@gmail.com>
-X-Pgp-Agent: GPGMail 2.6b2
-Date: Tue, 5 Jan 2016 14:58:46 +0100
-Message-Id: <5A25F75E-2E79-42EA-82BF-31D469785EAA@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Mailer: Apple Mail (2.3112)
-Subject: [PATCH] udev-extraconf: introduce multiple blacklist files for more complex setups
+	Tue,  5 Jan 2016 14:03:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u05E2ueW029415
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 5 Jan 2016 06:02:57 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (147.11.119.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Tue, 5 Jan 2016 06:02:53 -0800
+To: Matthias Schiffer <mschiffer@universe-factory.net>
+References: <cover.1451912446.git.ian.ray@ge.com>
+	<4e736dcbaf5c32f9d7728990ad4ac0ca975dfd6d.1451912446.git.ian.ray@ge.com>
+	<568A99CD.9000800@universe-factory.net>
+	<568A9E97.2050909@windriver.com>
+	<568AF189.5010801@universe-factory.net>
+	<568AF894.1010405@windriver.com>
+	<568B06D3.7030205@universe-factory.net>
+	<568B0E13.6090108@windriver.com>
+	<568B1BB5.7060303@universe-factory.net>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <568BCD2F.6030700@windriver.com>
+Date: Tue, 5 Jan 2016 08:03:27 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.5.0
+MIME-Version: 1.0
+In-Reply-To: <568B1BB5.7060303@universe-factory.net>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] linux-firmware: remove hard-coded paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,98 +43,203 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 13:58:49 -0000
-X-Groupsio-MsgNum: 75439
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_D1080FCE-9ADB-4894-BB3D-E6E691C1C774";
-	protocol="application/pgp-signature"; micalg=pgp-sha512
-
---Apple-Mail=_D1080FCE-9ADB-4894-BB3D-E6E691C1C774
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-In cases where a target image wants prevent the recovery partition is =
-mounted
-automatically, but the recovery partition identifier moves with the =
-device
-(internal flash, sd card, usb stick, ...), device/machine dependend =
-extra
-blacklists might be desired.
-
-The grep utility prints the file name for each match when there is more
-than one file to search. Add -h to suppress the prefixing of file names
-on output.
-
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
----
- meta/recipes-core/udev/udev-extraconf/mount.sh | 2 +-
- meta/recipes-core/udev/udev-extraconf_1.1.bb   | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh =
-b/meta/recipes-core/udev/udev-extraconf/mount.sh
-index 3eea910..d760328 100644
---- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-@@ -8,7 +8,7 @@
- MOUNT=3D"/bin/mount"
- PMOUNT=3D"/usr/bin/pmount"
- UMOUNT=3D"/bin/umount"
--for line in `grep -v ^# /etc/udev/mount.blacklist`
-+for line in `grep -h -v ^# /etc/udev/mount.blacklist =
-/etc/udev/mount.blacklist.d/*`
- do
- 	if [ ` expr match "$DEVNAME" "$line" ` -gt 0 ];
- 	then
-diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb =
-b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-index 6fbd925..ecd4a8a 100644
---- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
-+++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-@@ -23,6 +23,7 @@ do_install() {
-     install -m 0644 ${WORKDIR}/autonet.rules       =
-${D}${sysconfdir}/udev/rules.d/autonet.rules
-     install -m 0644 ${WORKDIR}/localextra.rules    =
-${D}${sysconfdir}/udev/rules.d/localextra.rules
-
-+    install -d ${D}${sysconfdir}/udev/mount.blacklist.d
-     install -m 0644 ${WORKDIR}/mount.blacklist     =
-${D}${sysconfdir}/udev/
-
-     install -d ${D}${sysconfdir}/udev/scripts/
---
-1.9.1
-
---
-Jens Rehsack - rehsack@gmail.com
-
-
---Apple-Mail=_D1080FCE-9ADB-4894-BB3D-E6E691C1C774
+X-List-Received-Date: Tue, 05 Jan 2016 14:03:02 -0000
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+On 1/4/16 7:26 PM, Matthias Schiffer wrote:
+> On 01/05/2016 01:28 AM, Mark Hatle wrote:
+>> On 1/4/16 5:57 PM, Matthias Schiffer wrote:
+>>> On 01/04/2016 11:56 PM, Mark Hatle wrote:
+>>>> On 1/4/16 4:26 PM, Matthias Schiffer wrote:
+>>>>> On 01/04/2016 05:32 PM, Mark Hatle wrote:
+>>>>>> On 1/4/16 10:11 AM, Matthias Schiffer wrote:
+>>>>>>> On 01/04/2016 02:14 PM, Ian Ray wrote:
+>>>>>>>> The recipe uses hard-coded paths (specifically /lib) in do_install
+>>>>>>>> and in FILES, however on a merged /usr system this directory might
+>>>>>>>> not exist. Prefer base_libdir.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Ian Ray <ian.ray@ge.com>
+>>>>>>>> ---
+>>>>>>>
+>>>>>>> This should use nonarch_base_libdir, base_libdir defaults to /lib64 on
+>>>>>>> ppc64, which is not where the firmware is expected.
+>>>>>>>
+>>>>>>
+>>>>>> At a minimum, I would agree nonarch_base_libdir, however..
+>>>>>>
+>>>>>> I believe that the kernel loader/modules/tools themselves actually have '/lib'
+>>>>>> hard coded into them.  This is the reason why /lib/firmware was used and not one
+>>>>>> of the variables.
+>>>>>>
+>>>>>> This is one of the cases were /lib is actually correct, since that is what the
+>>>>>> system is expecting.  We can make some kind of accommodation for systems where
+>>>>>> /lib -> /usr/lib... but that should be done inside of the filesystem setup
+>>>>>> processing and not the package itself.  (I'm referring to the
+>>>>>> 'meta/files/fs-perms.txt' file.
+>>>>>>
+>>>>>> --Mark
+>>>>>>
+>>>>>
+>>>>> There seem to be some intresting ideas going around about what can or
+>>>>> should be done via fs-perms.txt... AFAICT, fs-perms.txt can't move
+>>>>> around files, so moving files form /lib to /usr/lib must be done in the
+>>>>> package recipes themselves. (In my opinion, fs-perms.txt is a bad hack
+>>>>> for broken recipes that shouldn't exist anyways, but that's another
+>>>>> discussion)
+>>>>
+>>>> Since I wrote fs-perms.txt, I'll explain the purpose.  Individual packages don't
+>>>> know if something is a directory, symbolic link, or what owner/group/permissions
+>>>> a system level directory should be set to.
+>>>>
+>>>> The entire purpose of it is to declare a common set of -system- directories.
+>>>> (Packages/layers can amend and override this as necessary to add their own
+>>>> system directories.)
+>>>>
+>>>> FYI System directories are things like /usr/bin.  Having every package in the
+>>>> system need to define /usr/bin as a directory with an owner/group of root:root
+>>>> and permission of 0755 is a REALLY bad practice.. but putting this knowledge
+>>>> into a single file that synchronizes everything is very practical.
+>>>>
+>>>> When the system level directories are mapped to symlinks.. the case where
+>>>> everyone is trying to folks /usr -> / or /bin -> /usr/bin.. then it can
+>>>> AUTOMATICALLY map and move the files in these places..
+>>>
+>>> Thanks for the explanation, I asked a similar question a few weeks ago
+>>> and didn't get a satisfactory answer about what fs-perms can do. I'll
+>>> rethink my approach for the merged-usr patchset.
+>>
+>> (I've been out since near the beginning of December, but I'm back now..)
+>>
+>>> So the remaining issue is how to conditionalize this. I'd like to find a
+>>> solution which doesn't require distros to define their own fs-perms when
+>>> they just want to use a merged /usr dir.
+>>
+>> You conditionalize it by providing different default fs-perms files -- OR since
+>> more then one file can be loaded -- additional fs-perms with the permutations
+>> you desire.
+>>
+>> I could easily see having an files/fs-perms-usr-only.txt and an
+>> files/fs-perms-no-usr.txt
+>>
+>> Where the first would be something like:
+>>
+>> # Define symlinks from base directories to their prefix versions
+>> /bin	link ${bindir}
+>> /sbin	link ${sbindir}
+>> ...
+>>
+>> fs-perms-no-user would be:
+>>
+>> # Define that $prefix as simply pointing back to root for compatibility
+>> /usr	link /
+>>
+>>
+>> Then in your distro.conf file:
+>>
+>> FILESYSTEM_PERMS_TABLES = "files/fs-perms.txt"
+>> FILESYSTEM_PERMS_TABLES_append_usronly = " files/fs-perms-usr-only.txt"
+>> FILESYSTEM_PERMS_TABLES_append_nousr = " files/fs-perms-no-user.txt"
+>>
+>>
+>> The above will cause packages to produce the symlinks ONLY if the package itself
+>> creates a matching directory.  If the package is moving all of it's files to the
+>> new configured location (from the distro.conf file) then no link is present.
+>>
+>> Assuming you want the links, I would add some kind of a change or configuration
+>> to the base-files to do this.
+>>
+>> (I did argue in the past, unsuccessfully, that base-files or something it calls
+>> should process the fs-perms files and simply generate a base configuration based
+>> on this setup.  Ensuring symlinks and final directories were always created..
+>> but that was rejected at the time..)
+> 
+> I see. Do you think it would make sense to provide a fs-perms snippet in
+> oe-core for the Fedora-style merged-usr setup?
 
-iQIcBAEBCgAGBQJWi8wXAAoJEESZlq7c5Qqd8qYP/1sG93TvcenOH0+ZVFxG8nra
-DMPJs0hCeJ7VBT3U+7zFnAeBIayz1+xhclvEeblseOO65VhbBPoIKNzk9ulCzzDo
-axpFFSWngb3BL6Yrz/cyqVT7hZuc1oFVH7w/SintC7za4HMdxsB/ab/BcVefdOII
-CxUquae0UfHzDM/KwrTPgBqDhOvKJ/aH2Waecy1vgppOUaJxzVpal6UBZ69eKHVi
-EOAoZgW7oQTbTUks4KrwyTE201j3CBuZTwvZV5Gpa6Wfg6wxkTFFt8cshT8uwKv4
-RTMYUs0GGdIflCEI9M2eewM8L181PJHPB1dhlSME52oY7NoFjMgtKixavNxMQObG
-x5+J8XdJX41cwPloZlYzuBaGljGIOoUDjXZ5s2DQpMpYsUFnFTgTfAXaTegcgGKu
-YMOmrHNJhk3CzmhkI5SNCteoEJA0x8VlpmyRg3Vz2e/kHT5LJ9j+ZLOgfiAicgKy
-Ma8jc5p+CbLOfQ+O6LHjdoZx4qKIAr8szVLiy3YfprN5b4l05nS+NA6xgAsOlWu8
-k48l3ze3xyf9IFtP1T5nih88r0Bjbbavdu8aT0beE75Cc6IXsQ5s1TSBKUw5Lfa8
-eMK3SSYvQbnGJPzprq8dM6YAtvJEWfdjidv6AD3bmSGKgNcteUfGmtBgUHaDwlP2
-vZgJSZm98OiSx7+hyDQz
-=ZyhQ
------END PGP SIGNATURE-----
+This has always been a question, and I leave the answer more up to the oe-core
+community as a whole.
 
---Apple-Mail=_D1080FCE-9ADB-4894-BB3D-E6E691C1C774--
+Right now oe-core has a basic distribution configuration, and it's expected that
+developers will override this configuration with their own requirements.  (I.e.
+the Yocto Project does this by providing the poky configuration.)
+
+If oe-core provides multiple configurations, then we'll need a test plan and
+resources to test them (not necessarily a bad thing, but there are ramifications
+outside of the code base when making these kinds of changes.)
+
+The immediate alternative is create a distribution layer that implements this
+work.. it can be used to show everything is functional or highlight areas where
+there are bugs in oe-core so they can be fixed.  (Supporting this workflow has
+always been intended, so I'm fully behind finding and fixing bugs with this kind
+of filesystem merge.)
+
+>>
+>>>>
+>>>>> I think if a distro config changes any of the base paths
+>>>>> ({nonarch_,}base_libdir, base_{,s}bindir), *all* packages should respect
+>>>>> this. It's the distro's reponsiblity to create symlinks so everything is
+>>>>> found again at the expected paths (other examples for such hardcoded
+>>>>> paths: /bin/sh; the dynamic linker). See also my patchset I submitted to
+>>>>> this mailing list, which introduces a distro feature to have such
+>>>>> symlinks created by base-files.
+>>>>
+>>>> When this was written it was heavily argued against this knowledge being in
+>>>> base-files or base-dirs (suggested at the time) packages.
+>>>
+>>> Is that discussion archived somewhere? I'm interested in the
+>>> argumentation. Do any non-OE distros have a similar feature?
+>>
+>> This would have been discussed back in the original oe-core days.  Likely around
+>> 2010 on the oe-core list....
+> 
+> Okay, I've found at least some fragments of the discussion.
+> 
+>>
+>>>>
+>>>> Defining a base setup, and then using a synchronization pass using the
+>>>> fs-perms.txt was the way to go.
+>>>>
+>>>> Note, fs-perms process is absolutely supposed to move files around -if- a
+>>>> symlink is generated.. i.e.:
+>>>>
+>>>> /lib -> /usr/lib
+>>>>
+>>>> if you write to /lib/firmware, the code is supposed to see the directory of
+>>>> '/lib', create a new /usr/lib (set perms properly) and move the contents if /lib
+>>>> to /usr/lib, then replace the directory with a symbolic link.
+>>>>
+>>>> If it's NOT doing that, lets fix it.
+>>>
+>>> I didn't try yet as I didn't now that it is supposed to to that.
+>>
+>> This is a good example where the upstream software is always going to use
+>> '/lib', but you want it to go somewhere else.  Without this fs-perms mechanism,
+>> you would need to patch this package and potentially others.  But by using
+>> fs-perms, they can continue to rely on their special knowledge of '/lib', and
+>> the system will fix it up before packaging to where the distribution actually
+>> wants the files.
+>>
+> 
+> I guess I'm fine with fs-perms.txt fixing permissions and owners, but
+> moving around files goes a bit too far in my opinion. Doing so will
+> potentially break relative symlinks and other relative paths used by
+> packages. I'd have implemented the "link" feature as a QA-only thing:
+> make the build fail if there are any files where a symlink is supposed
+> to go, but don't try to fix it up.
+> 
+> Another (more easily fixable) issue is that the automagic renaming
+> doesn't work if the target dir already exists (if I understand the code
+> correctly). So fixing up a package containing both files in /bin and
+> /usr/bin, where /bin is supposed to link to /usr/bin, will fail.
+
+I would consider this a bug we should fix in the code.  The only failure should
+be if moving the contents results in two non-identical files clashing.
+
+--Mark
+
+> Matthias
+> 
+> 
+
+
