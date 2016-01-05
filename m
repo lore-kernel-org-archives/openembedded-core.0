@@ -1,32 +1,48 @@
-Return-Path: <haris.okanovic@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 06B13607A5
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A9D860589
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 19:04:38 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u05J4css009417; Tue, 5 Jan 2016 13:04:38 -0600
-Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016010513043827-1711060 ;
-	Tue, 5 Jan 2016 13:04:38 -0600 
-From: Haris Okanovic <haris.okanovic@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 5 Jan 2016 13:04:29 -0600
-Message-Id: <1452020669-24036-1-git-send-email-haris.okanovic@ni.com>
-X-Mailer: git-send-email 2.6.2
-In-Reply-To: <CAJTo0LaHTkODDiLfOYDQoFC-VBDD5h4XctAidjzRfyYGgdAfKA@mail.gmail.com>
-References: <CAJTo0LaHTkODDiLfOYDQoFC-VBDD5h4XctAidjzRfyYGgdAfKA@mail.gmail.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 01/05/2016 01:04:38 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 01/05/2016 01:04:38 PM,
-	Serialize complete at 01/05/2016 01:04:38 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-01-05_08:, , signatures=0
-Cc: Haris Okanovic <haris.okanovic@ni.com>
-Subject: [PATCH v2] tzdata: Make /etc/timezone optional
+	Tue,  5 Jan 2016 19:08:23 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id 77so165396073ioc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Jan 2016 11:08:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=wLmucnXVy53wlkCb8q9fUlZlemaKO5rVLH8sp3j5cBc=;
+	b=DfwGQ/dUiwTJjrY2gWOWSuGHTzwRpEIF0MAfIiJX9vajIne51KTIjxmp4af9e7S5Jn
+	t5JdMGPqKMdzb84QlhX2FdnKl0Bgef+HtZlevu1W32kmvSNtzfa7nxZJM0UZQ+zginzB
+	3lmLC79ua+Hw0Z5TGXIExq42ZkTw6UHOLgJDnzNIPeP555B4i62GHMC3VYerZzdSyKHi
+	zjME1ppiDWW5aRBtQKfRTCi0P6FDtgtaKcVQaRTnbijjq0irC+W/IvD5mu+gFbfLQ+1s
+	aPdpHrMB8ibEXLPVcjO4mxq1m+xYQj3jUilXh1vOjHMyp5HJmg5ryJO0dMWEpuqCjnb6
+	/5+A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mentor-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=wLmucnXVy53wlkCb8q9fUlZlemaKO5rVLH8sp3j5cBc=;
+	b=ToMhzDMAlbqVwh2qCKA3DTu8v0eVfxt5/xJTJ+1uqm2328AFtLcRMatfiF6mVtZG8g
+	E3GhF7647TfeQ83IHTtlMsAjB77N8R8q29djj1/xxq3V7tBPEmAIxEHo34lTZBtYZM3Y
+	tCAVnY8pJxuaVUKZGvn6PwEfFOhdp7X/2SnX+T1LfrHFk3PcfAFysTRvaHzD599cTG/t
+	+G7jrwAsSSxc2y5CaSFQz8iHW04WhkdQVGbrSrIYhKXwLc+pYCzncXl78aMle5pg03qw
+	hhclHCw7bcTDiI6vTS3teZ6uHM6QDew3iU5xAAq0Z0sb6ve6nUK2/xeNlPcfN9R1hets
+	gRxw==
+X-Received: by 10.107.133.40 with SMTP id h40mr45887838iod.83.1452020904256;
+	Tue, 05 Jan 2016 11:08:24 -0800 (PST)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.79.104.194 with HTTP; Tue, 5 Jan 2016 11:08:04 -0800 (PST)
+In-Reply-To: <cover.1447371049.git.chris_larson@mentor.com>
+References: <cover.1447371049.git.chris_larson@mentor.com>
+From: Christopher Larson <chris_larson@mentor.com>
+Date: Tue, 5 Jan 2016 12:08:04 -0700
+X-Google-Sender-Auth: K4TCqbhA_xovRhH0EUAD8BNR_HE
+Message-ID: <CABcZAN=S55vPVZYA21tZvgBxSaCRoCOBfGzjdjvX7kqHgAiaMQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH 0/4] Misc improvements 2 from Mentor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,66 +55,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 19:04:39 -0000
+X-List-Received-Date: Tue, 05 Jan 2016 19:08:24 -0000
+Content-Type: multipart/alternative; boundary=001a113fd8cc346c5f05289af67e
 
-Add INSTALL_TIMEZONE_FILE config variable to enable/disable installation
-of ${sysconfdir}/timezone (/etc/timezone) by tzdata packages. Defaults
-to "1" to maintain previous behavior.
+--001a113fd8cc346c5f05289af67e
+Content-Type: text/plain; charset=UTF-8
 
-Most libc implementations can be configured to retrieve system's
-defaults timezone from /etc/localtime, and don't need a second file
-(/etc/timezone) to express this configuration. Maintaining this file is
-an unnecessary burden on sysadmins unless there's software using
-/etc/timezone directly (I.e. outside of libc). Some distributions may
-choose not to provide it.
+On Thu, Nov 12, 2015 at 4:41 PM, Christopher Larson <kergoth@gmail.com>
+wrote:
 
-Testing: Built tzdata under default config and verified CONFFILES_tzdata
-still has both /etc/timezone and /etc/localtime and both are in the
-image. Built with INSTALL_TIMEZONE_FILE = "0" and verified /etc/timezone
-is removed from CONFFILES_tzdata and the image. Successfully installed
-package to an x64 target.
+> From: Christopher Larson <chris_larson@mentor.com>
+>
+> This is the final of three pull requests / patch series from Mentor's
+> queue of
+> changes destined for oe-core master (not jethro). This series includes a
+> small
+> number of improvements which may be more contentious or may require more
+> consideration and review.
+>
+>
+> The following changes since commit
+> e44ed8c18e395b9c055aefee113b90708e8a8a2f:
+>
+>   build-appliance-image: Update to jethro head revision (2015-11-03
+> 14:02:57 +0000)
+>
+> are available in the git repository at:
+>
+>   git://github.com/kergoth/openembedded-core
+> mentor-misc-improvements-2-after-jethro
+>
+> https://github.com/kergoth/openembedded-core/tree/mentor-misc-improvements-2-after-jethro
+>
+> Christopher Larson (4):
+>   linux-dtb.inc: use absolute upd-alt paths
+>   opkg-utils: add update-alternatives PACKAGECONFIG
+>   systemd: add myhostname to nsswitch.conf
+>   systemd: arrange for volatile /etc/resolv.conf
+>
+>  meta/recipes-core/systemd/systemd_225.bb           | 20
+> ++++++++++++++++++++
+>  meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 12 +++++++++---
+>  meta/recipes-kernel/linux/linux-dtb.inc            |  4 ++--
+>  3 files changed, 31 insertions(+), 5 deletions(-)
+>
 
-Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
-Reviewed-by: Brad Mouring <brad.mouring@ni.com>
-Reviewed-by: Rich Tollerton <rich.tollerton@ni.com>
-Reviewed-by: Ken Sharp <ken.sharp@ni.com>
-Reviewed-by: Ross Burton <ross.burton@intel.com>
-Natinst-ReviewBoard-ID: 121628
----
- meta/recipes-extended/tzdata/tzdata_2015g.bb | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-extended/tzdata/tzdata_2015g.bb b/meta/recipes-extended/tzdata/tzdata_2015g.bb
-index 5b2afa6..a6faa1d 100644
---- a/meta/recipes-extended/tzdata/tzdata_2015g.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2015g.bb
-@@ -21,6 +21,7 @@ RCONFLICTS_${PN} = "timezones timezone-africa timezone-america timezone-antarcti
- S = "${WORKDIR}"
- 
- DEFAULT_TIMEZONE ?= "Universal"
-+INSTALL_TIMEZONE_FILE ?= "1"
- 
- TZONES= "africa antarctica asia australasia europe northamerica southamerica  \
-          factory etcetera backward systemv \
-@@ -48,7 +49,9 @@ do_install () {
-         # Install default timezone
-         if [ -e ${D}${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ]; then
-             install -d ${D}${sysconfdir}
--            echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
-+            if [ "${INSTALL_TIMEZONE_FILE}" == "1" ]; then
-+                echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
-+            fi
-             ln -s ${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ${D}${sysconfdir}/localtime
-         else
-             bberror "DEFAULT_TIMEZONE is set to an invalid value."
-@@ -205,4 +208,5 @@ FILES_${PN} += "${datadir}/zoneinfo/Pacific/Honolulu     \
-                 ${datadir}/zoneinfo/iso3166.tab          \
-                 ${datadir}/zoneinfo/Etc/*"
- 
--CONFFILES_${PN} += "${sysconfdir}/timezone ${sysconfdir}/localtime"
-+CONFFILES_${PN} += "${@ "${sysconfdir}/timezone" if bb.utils.to_boolean(d.getVar('INSTALL_TIMEZONE_FILE', True)) else "" }"
-+CONFFILES_${PN} += "${sysconfdir}/localtime"
+Any objections to this series?
 -- 
-2.6.2
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a113fd8cc346c5f05289af67e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Nov 12, 2015 at 4:41 PM, Christopher Larson <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ue" class=
+=3D"a3s" style=3D"overflow:hidden">From: Christopher Larson &lt;<a href=3D"=
+mailto:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
+<br>
+This is the final of three pull requests / patch series from Mentor&#39;s q=
+ueue of<br>
+changes destined for oe-core master (not jethro). This series includes a sm=
+all<br>
+number of improvements which may be more contentious or may require more<br=
+>
+consideration and review.<br>
+<br>
+<br>
+The following changes since commit e44ed8c18e395b9c055aefee113b90708e8a8a2f=
+:<br>
+<br>
+=C2=A0 build-appliance-image: Update to jethro head revision (2015-11-03 14=
+:02:57 +0000)<br>
+<br>
+are available in the git repository at:<br>
+<br>
+=C2=A0 git://<a href=3D"http://github.com/kergoth/openembedded-core" rel=3D=
+"noreferrer" target=3D"_blank">github.com/kergoth/openembedded-core</a> men=
+tor-misc-improvements-2-after-jethro<br>
+=C2=A0 <a href=3D"https://github.com/kergoth/openembedded-core/tree/mentor-=
+misc-improvements-2-after-jethro" rel=3D"noreferrer" target=3D"_blank">http=
+s://github.com/kergoth/openembedded-core/tree/mentor-misc-improvements-2-af=
+ter-jethro</a><br>
+<br>
+Christopher Larson (4):<br>
+=C2=A0 linux-dtb.inc: use absolute upd-alt paths<br>
+=C2=A0 opkg-utils: add update-alternatives PACKAGECONFIG<br>
+=C2=A0 systemd: add myhostname to nsswitch.<span class=3D"il">conf</span><b=
+r>
+=C2=A0 systemd: <span class=3D"il">arrange</span> for <span class=3D"il">vo=
+latile</span> /<span class=3D"il">etc</span>/<span class=3D"il">resolv</spa=
+n>.<span class=3D"il">conf</span><br>
+<br>
+=C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_225.bb" rel=3D"no=
+referrer" target=3D"_blank">systemd_225.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 20 ++++++++++++++++++++<br>
+=C2=A0meta/recipes-devtools/opkg-utils/<a href=3D"http://opkg-utils_git.bb"=
+ rel=3D"noreferrer" target=3D"_blank">opkg-utils_git.bb</a> | 12 +++++++++-=
+--<br>
+=C2=A0meta/recipes-kernel/linux/linux-dtb.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 4 ++--<br>
+=C2=A03 files changed, 31 insertions(+), 5 deletions(-)</div></blockquote><=
+/div><br></div><div class=3D"gmail_extra">Any objections to this series?<br=
+>-- <br><div class=3D"gmail_signature"><div dir=3D"ltr">Christopher Larson<=
+br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<=
+br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div></d=
+iv>
+</div></div>
+
+--001a113fd8cc346c5f05289af67e--
