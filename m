@@ -1,48 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id B6496600B3
+Return-Path: <dl9pf@gmx.de>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	by mail.openembedded.org (Postfix) with ESMTP id E6FBF600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 20:29:24 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id q21so198325158iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jan 2016 12:29:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=iJoIFewJIK8UpqxksZ94md1YfKyL8udB/rvSYQUj/0Q=;
-	b=tfU8eU4DRAvKlCCpCazzIaRHblLliROq01o8FvYAbVzl6krJZLLaITmRtHfLaisK2p
-	XvwArGEecZ48EFVyfOabZYNAoqsMvmBCSjv+WYEpxsY5aMtbkBtB/NTnTvoy74JOOqXv
-	1XL0FsGfRgbtGhrmQH/bhN0IK6sxYpLorVhUpcKogf+w2MBB8e0kna4o3THtFdEQyoRT
-	XJkfByBG4P2YtIPUAVd3YvDAhPE9sdLiq7twbnOy/WqkOkWe9GVp3vMxC28Ux+H0WrZy
-	CLyscFRTvu0FvvW6mz3g1ASOXt+aE8XohEmAwCDwRHxkwz18ZrGXVEpnFd1Xkg+9mMD4
-	JMsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=iJoIFewJIK8UpqxksZ94md1YfKyL8udB/rvSYQUj/0Q=;
-	b=KKGMjitqtnJLO8cL8V/sslMzrXB59wVdmdVHq4oQDNi+HU5Jn12XhLx/KofICyq5BA
-	PlueoQppt3fUAFwGLhIVWPzExiXJn4CbIqfZ9Mym3Omc7aG+kfKX+dhV8SJVmI2dYY8Q
-	9G7EVDsH90mXHzjQtcYjmsEy2oKAIvLhE5f8USAgcOWgHmDJlUoRdIueg+XGs01GtmyY
-	V+KnpyA70kwuz6gHvUef3cTGIH5oXwN+7Sxo6FLaaMYy8i+pESvN449QhAWzmME28Vrk
-	SovHnLEfUQS1f4kPQIzH6i9UDhvJ1B4CIgSBHIoxZiUyH5hKkWVuyzcN4/vifqJQMwzu
-	zZZg==
-X-Gm-Message-State: ALoCoQkltTtbzZLhZXwXD2KS/1F0vVKrK3taI2sjHkyaxPeFVK+ynhaUPVT9z+mo2UZ2UB/r41n7pWeHxbeWy1IIJHOl0oxagizRK+K6GlMBA5Yq4zodjzA=
-X-Received: by 10.107.164.161 with SMTP id d33mr78990225ioj.148.1452025765722; 
-	Tue, 05 Jan 2016 12:29:25 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 5 Jan 2016 12:29:06 -0800 (PST)
-In-Reply-To: <1452002894-10301-2-git-send-email-maxin.john@intel.com>
-References: <1452002894-10301-1-git-send-email-maxin.john@intel.com>
-	<1452002894-10301-2-git-send-email-maxin.john@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 Jan 2016 20:29:06 +0000
-Message-ID: <CAJTo0LZYgfbPbXff_qose7LeaR7f8TZzcK7mqRQB_fvvBxX6ng@mail.gmail.com>
-To: "Maxin B. John" <maxin.john@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] connman: upgrade to 1.31
+	Tue,  5 Jan 2016 20:30:02 +0000 (UTC)
+Received: from elrond.auenland.lan ([95.90.4.156]) by mail.gmx.com (mrgmx002)
+	with ESMTPSA (Nemesis) id 0MQzIE-1aeEly0QjW-00UNhO;
+	Tue, 05 Jan 2016 21:17:28 +0100
+From: dl9pf@gmx.de
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Jan 2016 21:17:24 +0100
+Message-Id: <1452025045-32026-1-git-send-email-dl9pf@gmx.de>
+X-Mailer: git-send-email 2.6.2
+X-Provags-ID: V03:K0:bSscaLhulDjkK1ErAuboAAWvVkjgcOlTk5iFFI3VZJkt2IzBdWz
+	IFWUuwdkuz4kvVyW6fTN0ly8WGQjYQO9fGvVnVm/ykcmZPOS9h3N+6cUKTW68r444tkz/bi
+	o7jCHL/i214oNn9Jf29kUu8uJuIDNSL+5zWnjkAWyh884W1E9nCzidWx4o51VbxDew1sWdB
+	tc5nnrjn78NdDtG6bP8XQ==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:ptgzg9Mnf5o=:+UF924vbPEbiY7LMYuXzpT
+	+tuJqUHVJps27pYH9oP9HyznsZonoN5NXRhudU8oBWUFBxgoEqnj/7o1JoxYSBmaTT75mQ+eY
+	zTokcTNnZrR1b2ECPxtIwOv17NrsKtyZt/A6MxOj8WJvjOzUBxW1rdnhnltUb/9qDXrbSHAfT
+	P2UnKFsmiPO/1AShwUgXh+8ZcMkjSXB9RM5secAA5IgXUrqWv/M8R9uoeZ3nB8iVhkq9Fo8Nx
+	y3nLP/LtFYgLE7ORR8ZGBbzamq6lPCI/187wHfdtRcQSzRjojDNE9n2Qf8Ahn8+OzdWkvI4Xj
+	I2pU86zJExAmy5/4zi9od7iFyJKo/IJ75KcN1h11jsTATt4vBinfRf3+dR/G3lY6AtmHFm6a7
+	GQcyeiHdkyltpyOEANuHuZmjOJ5LB9spoC8SEzphHqyBIXP70YewRHPZBFGmMsjiXXOPf7fv/
+	zizGwR13+Sz7gPmDpNZ33uWYVTdqTzFMd2PsOXO9PIfInHSbLztk4Ig7z9l0Xvj3UpyVt8JRd
+	N51W5vDYrxD6mPOXzLdV/5npcxrGbi8MsSalCXh189onBosa0zqM2FS+8SxDOM3YnJsoiJC2d
+	bRHjLL4RqcrQCSj2GCxoZ1svs2gvhwtPUvkc3KOwdeDdZvnz6v2my5n95WbyEapTk8wFMEhCd
+	nbndmbuNfA8npf5Y9wqKPjQveYFCM+i07jwIqCrv8+ClH8Om+yRaHEe2yco/zKagSlWWK3m4h
+	3JkiW4/ZT5N71qUVOj7nX3kUgDOYkhIp/GB1/oWP8h7AJpZxrQRXghmfQ1U=
+Subject: [PATCH] [master, jethro] Fix connectivity check for BB_FETCH_PREMIRRORONLY case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,52 +40,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 20:29:26 -0000
-Content-Type: multipart/alternative; boundary=001a1141c976f892b405289c17fa
+X-List-Received-Date: Tue, 05 Jan 2016 20:30:05 -0000
 
---001a1141c976f892b405289c17fa
-Content-Type: text/plain; charset=UTF-8
 
-On 5 January 2016 at 14:08, Maxin B. John <maxin.john@intel.com> wrote:
+Hi!
 
-> 1.30 -> 1.31
->
+This patch fixes a bug in the sanity checker that is visible if
+you set up a PREMIRROR and start a project from scratch using
+BB_FETCH_PREMIRRORONLY set. In this case the sanity check would fail
+as BB_NO_NETWORK is not set directly
+(just indirectly in the fetcher by BB_FETCH_PREMIRRORONLY).
 
-I saw this on one of my builds locally:
+Reproduce: Set up a PREMIRROR in the local network. Disconnect from
+$INTERNET and build a new project using the PREMIRROR on the local net only.
 
-ERROR: QA Issue: connman: Files/directories were installed but not shipped
-in any package:
-  /lib/systemd/system/connman-wait-online.service
-  /usr/lib/tmpfiles.d
-  /usr/lib/tmpfiles.d/connman_resolvconf.conf
+Expected result: Build works using the PREMIRROR
 
-I've not looked into what exactly was different between this build and
-others where it doesn't happen, but presumably it's detecting something in
-the sysroot and enabling these files.
+Actual result: Build fails due to CONNECTIVITY_CHECK
 
-Ross
+Best,
+Jan-Simon
 
---001a1141c976f892b405289c17fa
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 January 2016 at 14:08, Maxin B. John <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:maxin.john@intel.com" target=3D"_blank">maxin.john@intel.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-=
-left-style:solid;padding-left:1ex"><div id=3D":2x7" class=3D"" style=3D"ove=
-rflow:hidden">1.30 -&gt; 1.31<br></div></blockquote></div><br>I saw this on=
- one of my builds locally:</div><div class=3D"gmail_extra"><br></div><div c=
-lass=3D"gmail_extra"><div class=3D"gmail_extra">ERROR: QA Issue: connman: F=
-iles/directories were installed but not shipped in any package:</div><div c=
-lass=3D"gmail_extra">=C2=A0 /lib/systemd/system/connman-wait-online.service=
-</div><div class=3D"gmail_extra">=C2=A0 /usr/lib/tmpfiles.d</div><div class=
-=3D"gmail_extra">=C2=A0 /usr/lib/tmpfiles.d/connman_resolvconf.conf</div><d=
-iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I&#39;ve not =
-looked into what exactly was different between this build and others where =
-it doesn&#39;t happen, but presumably it&#39;s detecting something in the s=
-ysroot and enabling these files.</div><div class=3D"gmail_extra"><br></div>=
-<div class=3D"gmail_extra">Ross</div></div></div>
-
---001a1141c976f892b405289c17fa--
