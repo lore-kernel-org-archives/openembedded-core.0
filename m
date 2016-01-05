@@ -1,31 +1,46 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 10CF7731C7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 147D060797
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 12:24:25 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u05COPV5028495; Tue, 5 Jan 2016 06:24:25 -0600
-Received: from adi-pc-linux.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016010506242539-1701067 ;
-	Tue, 5 Jan 2016 06:24:25 -0600 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+	Tue,  5 Jan 2016 12:32:49 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id b14so26757253wmb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Jan 2016 04:32:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=XsY+h7spmN04ono7CMEa8CaXTSwh8YX+wfAWabKxG18=;
+	b=IJzEFqA5NoGfFVUz3V/00vgWdB1S2MeDiWSS1Moafagmu70zdM46tx5LZF5SIPwWTJ
+	zEIdM1OmHj500kUYI/fz4ZAFU00CI/4pZjdZbYMK2ZKlOpxk8tLremBQTknJoWCLEytG
+	Mc5nm/AbXHKQNO5wGNX/evNVwFp3HOu5u5Rnqp6sVzrEghZ8hXzocj0xk2DodgSSL/Av
+	5Zi07v3R0i8Y/LtNmSuPFao9T5vmCQrJGlDmv+KulBZDrQNAKyQU/Mq+Tf24JK/bIqh+
+	zh6Qlkt6I2qn8A3kUbwghIKqSZMXE+lEOlp+r2VbS9ia48uz52E8fueGe2b73MWj96je
+	T+nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=XsY+h7spmN04ono7CMEa8CaXTSwh8YX+wfAWabKxG18=;
+	b=JIcgTsdlyF36CjnBaj0opzM4k/t2UoFqDqHSQ2RKHpcuzbgDt4Tae7ujkhb2Yg7AZV
+	LsAT3q4MprMc/sQAyini57/2Wcmh0GpbXRIVxG58rN/TnptYxhhR/pfcEvUzWAjsWrg4
+	xjzAa4nAxVY6+3c5PhLzo6Dxx2LMgxUMxyT6FvM5eTQE8DsqY0VzyuijA67FR9kcz2mz
+	XhIXCe/c00q7hFc8KyJ4QHE/TxpK4lnOZu8X8GddFDA07yyTsYvxX6bIFhlNwDK1IFs0
+	5aLjgxpwTL7qnHyLOGh9JggeAhkWjv2yo/6VAcX9SWi+0+ftPBfXWCtfQDcybIeW2yqW
+	CaCA==
+X-Gm-Message-State: ALoCoQkvw679UMjlE2jJv5HgNqgHgWGHpUWpP/C/k3P5RL5M+uPjlSi7BAFVWh16xYRdVV5MaFrWsJeY/Cbyqf4PK+LIQ9GWaw==
+X-Received: by 10.194.185.42 with SMTP id ez10mr118579042wjc.82.1451997169653; 
+	Tue, 05 Jan 2016 04:32:49 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 79sm3385034wmo.7.2016.01.05.04.32.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 05 Jan 2016 04:32:48 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 5 Jan 2016 14:24:23 +0200
-Message-Id: <3182226859c3a37e168480aa8c2d93514de68895.1451996491.git.adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <3ec94ad0d014bd99c4444523c2744e05c7120a89.1451996491.git.adrian.ratiu@ni.com>
-References: <3ec94ad0d014bd99c4444523c2744e05c7120a89.1451996491.git.adrian.ratiu@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 01/05/2016 06:24:25 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 01/05/2016 06:24:25 AM,
-	Serialize complete at 01/05/2016 06:24:25 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-01-05_05:, , signatures=0
-Subject: [PATCH v2 2/2] x11vnc: remove all references to moved package
+Date: Tue,  5 Jan 2016 12:32:45 +0000
+Message-Id: <1451997165-25159-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] sstate: change "stamp is not reachable, removing manifests" message from info to debug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,79 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 12:24:26 -0000
+X-List-Received-Date: Tue, 05 Jan 2016 12:32:50 -0000
 
-Together with the move to meta-oe, all references to x11vnc should be
-removed from oe-core. There are three of these: a distro alias, a
-packagegroup rdepends and a runtime test.
+This code path has proven to work, so change the log level from info to debug so
+it doesn't spam the log in normal use.
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/conf/distro/include/distro_alias.inc            |  1 -
- meta/lib/oeqa/runtime/vnc.py                         | 20 --------------------
- .../packagegroups/packagegroup-core-x11-sato.bb      |  2 --
- 3 files changed, 23 deletions(-)
- delete mode 100644 meta/lib/oeqa/runtime/vnc.py
+ meta/classes/sstate.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
-index dfce760..84eaf03 100644
---- a/meta/conf/distro/include/distro_alias.inc
-+++ b/meta/conf/distro/include/distro_alias.inc
-@@ -436,7 +436,6 @@ DISTRO_PN_ALIAS_pn-which = "Mandriva=which Fedora=which"
- DISTRO_PN_ALIAS_pn-wpa-supplicant = "Meego=wpa_supplicant Fedora=wpa_supplicant OpenSuSE=wpa_supplicant Ubuntu=wpasupplicant Mandriva=wpa_supplicant Debian=wpasupplicant"
- DISTRO_PN_ALIAS_pn-x11-common = "OE-Core"
- DISTRO_PN_ALIAS_pn-x11perf = "Fedora=xorg-x11-apps Ubuntu=x11-apps"
--DISTRO_PN_ALIAS_pn-x11vnc = "Fedora=x11vnc Ubuntu=x11vnc"
- DISTRO_PN_ALIAS_pn-xcb-util-image = "Debian=xcb-util Fedora=xcb-util"
- DISTRO_PN_ALIAS_pn-xcb-util-keysyms = "Debian=xcb-util Fedora=xcb-util"
- DISTRO_PN_ALIAS_pn-xcb-util-wm = "Debian=xcb-util Fedora=xcb-util"
-diff --git a/meta/lib/oeqa/runtime/vnc.py b/meta/lib/oeqa/runtime/vnc.py
-deleted file mode 100644
-index f31deff..0000000
---- a/meta/lib/oeqa/runtime/vnc.py
-+++ /dev/null
-@@ -1,20 +0,0 @@
--from oeqa.oetest import oeRuntimeTest, skipModuleUnless
--from oeqa.utils.decorators import *
--import re
--
--def setUpModule():
--    skipModuleUnless(oeRuntimeTest.hasPackage('x11vnc'), "No x11vnc package in image")
--
--class VNCTest(oeRuntimeTest):
--
--    @testcase(213)
--    @skipUnlessPassed('test_ssh')
--    def test_vnc(self):
--        (status, output) = self.target.run('x11vnc -display :0 -bg -o x11vnc.log')
--        self.assertEqual(status, 0, msg="x11vnc server failed to start: %s" % output)
--        port = re.search('PORT=[0-9]*', output)
--        self.assertTrue(port, msg="Listening port not specified in command output: %s" %output)
--
--        vncport = port.group(0).split('=')[1]
--        (status, output) = self.target.run('netstat -ntl | grep ":%s"' % vncport)
--        self.assertEqual(status, 0, msg="x11vnc server not running on port %s\n\n%s" % (vncport, self.target.run('netstat -ntl; cat x11vnc.log')[1]))
-diff --git a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-index 753d2bf..812735e 100644
---- a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-+++ b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-@@ -9,7 +9,6 @@ PR = "r33"
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- inherit packagegroup distro_features_check
--# rdepends on x11vnc
- REQUIRED_DISTRO_FEATURES = "x11"
- 
- PACKAGES = "${PN} ${PN}-base ${PN}-apps ${PN}-games"
-@@ -53,7 +52,6 @@ SUMMARY_${PN}-apps = "Sato desktop - applications"
- RDEPENDS_${PN}-apps = "\
-     leafpad \
-     gst-player-bin \
--    x11vnc \
-     matchbox-terminal \
-     sato-screenshot \
-     ${FILEMANAGER} \
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 9bef212..9201146 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -952,7 +952,7 @@ python sstate_eventhandler2() {
+                 if stamp not in stamps:
+                     toremove.append(l)
+                     if stamp not in seen:
+-                        bb.note("Stamp %s is not reachable, removing related manifests" % stamp)
++                        bb.debug(2, "Stamp %s is not reachable, removing related manifests" % stamp)
+                         seen.append(stamp)
+         for r in toremove:
+             (stamp, manifest, workdir) = r.split()
 -- 
-2.1.4
+2.6.4
 
 
