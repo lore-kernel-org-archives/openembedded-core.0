@@ -1,47 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CF1D731D0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B62F16E6B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 17:50:30 +0000 (UTC)
-Received: by mail-ig0-f180.google.com with SMTP id mw1so17033818igb.1
+	Tue,  5 Jan 2016 17:52:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u05Hq9aN007995 for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Jan 2016 17:52:09 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id tMcMrQho1r0V
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jan 2016 09:50:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=/QI2ewz6RtuoDuk2f7udweuwVPxqaKufrdMdNIIumgA=;
-	b=HDmvCo8PaUqc+Gl1T0WN9hoAFgDdvXqq7u70+/bqehl+MbjtWFkxAO31Qf6Qj+C9fE
-	8szqSjKlpr5/RFgHSHfpvHYVRBj1lCmmWvtVybweEEVeKEJYQGrQ2+gDIgJYYs5hUfUk
-	Gd91KfjnU2rFy4gOOvzaW/v9ffc8BoEulLL5LDMxjftXc8iJrwUDdcntnCM44cqmAUho
-	suRZI2zlXpKisENrjGN8R8W9TyxuSiYlI3yfrPNPl0dlFAB4lgtOSqnyuIeEV3iKgu5D
-	t+bAR1k3dYUDFKyqIyh1GX7YBjn7ILvL+KvJM1FKW1ooVWpUVlZJjjAwawLRM9lKkMv3
-	SRYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=/QI2ewz6RtuoDuk2f7udweuwVPxqaKufrdMdNIIumgA=;
-	b=VDJyyTHbZsSj48DXpU4UAPtuPSkwGVju3/h1sRBUecr070R5+lu5K+6cyaRaVLqu2z
-	A5hwVg3gUEi/6ZAhNxeilcIg7AP/yIKRC4uOU48eZMw3hrnMrbQbTCptI5xEAclAUVA7
-	xSn0CLhwixUKk1S7MQawEM9CYs1dJ+6ZolAVQEvdbm2uYIr2zOoseK/7eUnytQl+Kt4b
-	ROEkG24Lq+qXTL0xtA3Hqsb41owaQkGZx44/iA7jExkxsOpJB4i6xTftIDMHnAAJrnCX
-	DBFaK1Y70vI/dwX0S+/Ie0yU+B5eKB3mO6PYg0hnlRslmYZWG8vn8/qGNxAI2YDvXRAz
-	lodw==
-X-Gm-Message-State: ALoCoQmUntkeTv0SRvnQ2wLimlpu912EwDP7ashQLk2jPbRcRHSZH9iM7d7Umb9+++PuXapdA0tqCPKSFcpdbAl4ACLR/qHUD5ISKCLLT7XPdQosttR7GRE=
-X-Received: by 10.50.126.8 with SMTP id mu8mr4720896igb.52.1452016231465; Tue,
-	05 Jan 2016 09:50:31 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Tue, 5 Jan 2016 09:50:11 -0800 (PST)
-In-Reply-To: <1450191753-13537-1-git-send-email-alexander.kanavin@linux.intel.com>
-References: <1450191753-13537-1-git-send-email-alexander.kanavin@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 Jan 2016 17:50:11 +0000
-Message-ID: <CAJTo0LZKb6T8xPMJfeVc=0AkFkr2ZV91f5AydZrqMqeym9XRDQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] valgrind: update to 3.11.0
+	Tue,  5 Jan 2016 17:52:09 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u05Hq6rg007992
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Jan 2016 17:52:07 GMT
+Message-ID: <1452016326.7598.55.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 05 Jan 2016 17:52:06 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: [PATCH] image/rootfs-postcommands: Separate out post rootfs commands to separate class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,131 +37,554 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 17:50:31 -0000
-Content-Type: multipart/alternative; boundary=047d7b1635bfaf5e72052899dfc5
+X-List-Received-Date: Tue, 05 Jan 2016 17:52:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---047d7b1635bfaf5e72052899dfc5
-Content-Type: text/plain; charset=UTF-8
+Reading image.bbclass is a little difficult as it has many post rootfs
+helper functions and its hard to separate those from the core contents
+of the rootfs/image code.
 
-On 15 December 2015 at 15:02, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+Moving it to a separate class would be one way of making it clearer
+what these functions are. There are some comment layout improvements
+but no code changes.
 
-> LICENSE checksums are changed due to a change in FSF address, or copyright
-> years update.
->
-> Rebased patches:
-> sepbuildfix.patch rebased to 0004-Fix-out-of-tree-builds.patch
-> add-ptest.patch rebased to
-> 0005-Modify-vg_test-wrapper-to-support-PTEST-formats.patch
->
-> Removed patches:
-> force-nostabs.patch removed because it's patching lines that have been
-> removed upstream
-> remove-ppc-tests-failing-build.patch removed because it no longer applies,
-> and rebasing it
-> requires building with special ppc32 machine configurations; qemuppc build
-> is fine without it.
-> enable.building.on.4.x.kernel.patch removed because the problem is fixed
-> upstream
-> glibc.patch removed for the same reason
->
-> Removed backports:
-> pass-maltivec-only-if-it-supported.patch
-> 0001-valgrind-Enable-rt_sigpending-syscall-on-ppc64-linux.patch
->
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This fails to build on real PPC hardware such as p1022ds or mpc8315e-rdb:
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 8242c56..da64cad 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -191,31 +191,7 @@ inherit ${IMAGE_CLASSES}
+ 
+ IMAGE_POSTPROCESS_COMMAND ?= ""
+ 
+-# Zap the root password if debug-tweaks feature is not enabled
+-ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password ; ",d)}'
+ 
+-# Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks is enabled
+-ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-empty-password' ], "ssh_allow_empty_password; ", "",d)}'
+-
+-# Enable postinst logging if debug-tweaks is enabled
+-ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; ", "",d)}'
+-
+-# Create /etc/timestamp during image construction to give a reasonably sane default time setting
+-ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
+-
+-# Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
+-ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
+-
+-# Write manifest
+-IMAGE_MANIFEST = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.manifest"
+-ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
+-# Set default postinst log file
+-POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
+-# Set default target for systemd images
+-SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
+-ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; ", "", d)}'
+-
+-ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
+ 
+ # some default locales
+ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
+@@ -233,67 +209,7 @@ do_rootfs[cleandirs] += "${S}"
+ # task, so that we have a single fakeroot context for the whole process.
+ do_rootfs[umask] = "022"
+ 
+-# A hook function to support read-only-rootfs IMAGE_FEATURES
+-read_only_rootfs_hook () {
+-	# Tweak the mount option and fs_passno for rootfs in fstab
+-	sed -i -e '/^[#[:space:]]*\/dev\/root/{s/defaults/ro/;s/\([[:space:]]*[[:digit:]]\)\([[:space:]]*\)[[:digit:]]$/\1\20/}' ${IMAGE_ROOTFS}/etc/fstab
+-
+-	# If we're using openssh and the /etc/ssh directory has no pre-generated keys,
+-	# we should configure openssh to use the configuration file /etc/ssh/sshd_config_readonly
+-	# and the keys under /var/run/ssh.
+-	if [ -d ${IMAGE_ROOTFS}/etc/ssh ]; then
+-		if [ -e ${IMAGE_ROOTFS}/etc/ssh/ssh_host_rsa_key ]; then
+-			echo "SYSCONFDIR=/etc/ssh" >> ${IMAGE_ROOTFS}/etc/default/ssh
+-			echo "SSHD_OPTS=" >> ${IMAGE_ROOTFS}/etc/default/ssh
+-		else
+-			echo "SYSCONFDIR=/var/run/ssh" >> ${IMAGE_ROOTFS}/etc/default/ssh
+-			echo "SSHD_OPTS='-f /etc/ssh/sshd_config_readonly'" >> ${IMAGE_ROOTFS}/etc/default/ssh
+-		fi
+-	fi
+-
+-	# Also tweak the key location for dropbear in the same way.
+-	if [ -d ${IMAGE_ROOTFS}/etc/dropbear ]; then
+-		if [ -e ${IMAGE_ROOTFS}/etc/dropbear/dropbear_rsa_host_key ]; then
+-			echo "DROPBEAR_RSAKEY_DIR=/etc/dropbear" >> ${IMAGE_ROOTFS}/etc/default/dropbear
+-		else
+-			echo "DROPBEAR_RSAKEY_DIR=/var/lib/dropbear" >> ${IMAGE_ROOTFS}/etc/default/dropbear
+-		fi
+-	fi
+-
+-
+-	if ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "true", "false", d)}; then
+-		# Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
+-		if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
+-			sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
+-		fi
+-		# Run populate-volatile.sh at rootfs time to set up basic files
+-		# and directories to support read-only rootfs.
+-		if [ -x ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
+-			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
+-		fi
+-	fi
+-
+-	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}; then
+-	    # Update user database files so that services don't fail for a read-only systemd system
+-	    for conffile in ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd.conf ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd-remote.conf; do
+-		[ -e $conffile ] || continue
+-		grep -v "^#" $conffile | sed -e '/^$/d' | while read type name id comment; do
+-		    if [ "$type" = "u" ]; then
+-			useradd_params=""
+-			[ "$id" != "-" ] && useradd_params="$useradd_params --uid $id"
+-			[ "$comment" != "-" ] && useradd_params="$useradd_params --comment $comment"
+-			useradd_params="$useradd_params --system $name"
+-			eval useradd --root ${IMAGE_ROOTFS} $useradd_params || true
+-		    elif [ "$type" = "g" ]; then
+-			groupadd_params=""
+-			[ "$id" != "-" ] && groupadd_params="$groupadd_params --gid $id"
+-			groupadd_params="$groupadd_params --system $name"
+-			eval groupadd --root ${IMAGE_ROOTFS} $groupadd_params || true
+-		    fi
+-		done
+-	    done
+-	fi
+-}
++inherit rootfs-postcommands
+ 
+ PACKAGE_EXCLUDE ??= ""
+ PACKAGE_EXCLUDE[type] = "list"
+@@ -346,164 +262,10 @@ fakeroot python do_rootfs () {
+     create_image(d)
+ }
+ 
+-insert_feed_uris () {
+-	
+-	echo "Building feeds for [${DISTRO}].."
+-
+-	for line in ${FEED_URIS}
+-	do
+-		# strip leading and trailing spaces/tabs, then split into name and uri
+-		line_clean="`echo "$line"|sed 's/^[ \t]*//;s/[ \t]*$//'`"
+-		feed_name="`echo "$line_clean" | sed -n 's/\(.*\)##\(.*\)/\1/p'`"
+-		feed_uri="`echo "$line_clean" | sed -n 's/\(.*\)##\(.*\)/\2/p'`"
+-		
+-		echo "Added $feed_name feed with URL $feed_uri"
+-		
+-		# insert new feed-sources
+-		echo "src/gz $feed_name $feed_uri" >> ${IMAGE_ROOTFS}/etc/opkg/${feed_name}-feed.conf
+-	done
+-}
+-
+ MULTILIBRE_ALLOW_REP =. "${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${libexecdir}|${sysconfdir}|${nonarch_base_libdir}/udev|/lib/modules/[^/]*/modules.*|"
+ MULTILIB_CHECK_FILE = "${WORKDIR}/multilib_check.py"
+ MULTILIB_TEMP_ROOTFS = "${WORKDIR}/multilib"
+ 
+-# This function is intended to disallow empty root password if 'debug-tweaks' is not in IMAGE_FEATURES.
+-zap_empty_root_password () {
+-	if [ -e ${IMAGE_ROOTFS}/etc/shadow ]; then
+-		sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/shadow
+-        fi
+-	if [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then
+-		sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/passwd
+-	fi
+-} 
+-
+-# allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
+-ssh_allow_empty_password () {
+-	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+-		sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
+-		sed -i 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
+-	fi
+-
+-	if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
+-		if grep -q DROPBEAR_EXTRA_ARGS ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear 2>/dev/null ; then
+-			if ! grep -q "DROPBEAR_EXTRA_ARGS=.*-B" ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear ; then
+-				sed -i 's/^DROPBEAR_EXTRA_ARGS="*\([^"]*\)"*/DROPBEAR_EXTRA_ARGS="\1 -B"/' ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear
+-			fi
+-		else
+-			printf '\nDROPBEAR_EXTRA_ARGS="-B"\n' >> ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear
+-		fi
+-	fi
+-
+-	if [ -d ${IMAGE_ROOTFS}${sysconfdir}/pam.d ] ; then
+-		sed -i 's/nullok_secure/nullok/' ${IMAGE_ROOTFS}${sysconfdir}/pam.d/*
+-	fi
+-}
+-
+-# Disable DNS lookups, the SSH_DISABLE_DNS_LOOKUP can be overridden to allow
+-# distros to choose not to take this change
+-SSH_DISABLE_DNS_LOOKUP ?= " ssh_disable_dns_lookup ; "
+-ROOTFS_POSTPROCESS_COMMAND_append_qemuall = "${SSH_DISABLE_DNS_LOOKUP}"
+-ssh_disable_dns_lookup () {
+-	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
+-		sed -i -e 's:#UseDNS yes:UseDNS no:' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
+-	fi
+-}
+-
+-# Enable postinst logging if debug-tweaks is enabled
+-postinst_enable_logging () {
+-	mkdir -p ${IMAGE_ROOTFS}${sysconfdir}/default
+-	echo "POSTINST_LOGGING=1" >> ${IMAGE_ROOTFS}${sysconfdir}/default/postinst
+-	echo "LOGFILE=${POSTINST_LOGFILE}" >> ${IMAGE_ROOTFS}${sysconfdir}/default/postinst
+-}
+-
+-# Modify systemd default target
+-set_systemd_default_target () {
+-	if [ -d ${IMAGE_ROOTFS}${sysconfdir}/systemd/system -a -e ${IMAGE_ROOTFS}${systemd_unitdir}/system/${SYSTEMD_DEFAULT_TARGET} ]; then
+-		ln -sf ${systemd_unitdir}/system/${SYSTEMD_DEFAULT_TARGET} ${IMAGE_ROOTFS}${sysconfdir}/systemd/system/default.target
+-	fi
+-}
+-
+-# If /var/volatile is not empty, we have seen problems where programs such as the
+-# journal make assumptions based on the contents of /var/volatile. The journal
+-# would then write to /var/volatile before it was mounted, thus hiding the
+-# items previously written.
+-#
+-# This change is to attempt to fix those types of issues in a way that doesn't
+-# affect users that may not be using /var/volatile.
+-empty_var_volatile () {
+-	if [ -e ${IMAGE_ROOTFS}/etc/fstab ]; then
+-		match=`awk '$1 !~ "#" && $2 ~ /\/var\/volatile/{print $2}' ${IMAGE_ROOTFS}/etc/fstab 2> /dev/null`
+-		if [ -n "$match" ]; then
+-			find ${IMAGE_ROOTFS}/var/volatile -mindepth 1 -delete
+-		fi
+-	fi
+-}
+-
+-# Turn any symbolic /sbin/init link into a file
+-remove_init_link () {
+-	if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
+-		LINKFILE=${IMAGE_ROOTFS}`readlink ${IMAGE_ROOTFS}/sbin/init`
+-		rm ${IMAGE_ROOTFS}/sbin/init
+-		cp $LINKFILE ${IMAGE_ROOTFS}/sbin/init
+-	fi
+-}
+-
+-make_zimage_symlink_relative () {
+-	if [ -L ${IMAGE_ROOTFS}/boot/zImage ]; then
+-		(cd ${IMAGE_ROOTFS}/boot/ && for i in `ls zImage-* | sort`; do ln -sf $i zImage; done)
+-	fi
+-}
+-
+-python write_image_manifest () {
+-    from oe.rootfs import image_list_installed_packages
+-    with open(d.getVar('IMAGE_MANIFEST', True), 'w+') as image_manifest:
+-        image_manifest.write(image_list_installed_packages(d, 'ver'))
+-        image_manifest.write("\n")
+-}
+-
+-# Can be use to create /etc/timestamp during image construction to give a reasonably 
+-# sane default time setting
+-rootfs_update_timestamp () {
+-	date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
+-}
+-
+-# Prevent X from being started
+-rootfs_no_x_startup () {
+-	if [ -f ${IMAGE_ROOTFS}/etc/init.d/xserver-nodm ]; then
+-		chmod a-x ${IMAGE_ROOTFS}/etc/init.d/xserver-nodm
+-	fi
+-}
+-
+-rootfs_trim_schemas () {
+-	for schema in ${IMAGE_ROOTFS}/etc/gconf/schemas/*.schemas
+-	do
+-		# Need this in case no files exist
+-		if [ -e $schema ]; then
+-			oe-trim-schemas $schema > $schema.new
+-			mv $schema.new $schema
+-		fi
+-	done
+-}
+-
+-rootfs_check_host_user_contaminated () {
+-	contaminated="${WORKDIR}/host-user-contaminated.txt"
+-	HOST_USER_UID="$(PSEUDO_UNLOAD=1 id -u)"
+-	HOST_USER_GID="$(PSEUDO_UNLOAD=1 id -g)"
+-
+-	find "${IMAGE_ROOTFS}" -wholename "${IMAGE_ROOTFS}/home" -prune \
+-	    -user "$HOST_USER_UID" -o -group "$HOST_USER_GID" >"$contaminated"
+-
+-	if [ -s "$contaminated" ]; then
+-		echo "WARNING: Paths in the rootfs are owned by the same user or group as the user running bitbake. See the logfile for the specific paths."
+-		cat "$contaminated" | sed "s,^,  ,"
+-	fi
+-}
+-
+-# Make any absolute links in a sysroot relative
+-rootfs_sysroot_relativelinks () {
+-	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
+-}
+ 
+ do_fetch[noexec] = "1"
+ do_unpack[noexec] = "1"
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+new file mode 100644
+index 0000000..7c440ac
+--- /dev/null
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -0,0 +1,258 @@
++
++# Zap the root password if debug-tweaks feature is not enabled
++ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password ; ",d)}'
++
++# Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks is enabled
++ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-empty-password' ], "ssh_allow_empty_password; ", "",d)}'
++
++# Enable postinst logging if debug-tweaks is enabled
++ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; ", "",d)}'
++
++# Create /etc/timestamp during image construction to give a reasonably sane default time setting
++ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
++
++# Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
++ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
++
++# Write manifest
++IMAGE_MANIFEST = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.manifest"
++ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
++# Set default postinst log file
++POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
++# Set default target for systemd images
++SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
++ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; ", "", d)}'
++
++ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
++
++# Disable DNS lookups, the SSH_DISABLE_DNS_LOOKUP can be overridden to allow
++# distros to choose not to take this change
++SSH_DISABLE_DNS_LOOKUP ?= " ssh_disable_dns_lookup ; "
++ROOTFS_POSTPROCESS_COMMAND_append_qemuall = "${SSH_DISABLE_DNS_LOOKUP}"
++
++
++
++#
++# A hook function to support read-only-rootfs IMAGE_FEATURES
++#
++read_only_rootfs_hook () {
++	# Tweak the mount option and fs_passno for rootfs in fstab
++	sed -i -e '/^[#[:space:]]*\/dev\/root/{s/defaults/ro/;s/\([[:space:]]*[[:digit:]]\)\([[:space:]]*\)[[:digit:]]$/\1\20/}' ${IMAGE_ROOTFS}/etc/fstab
++
++	# If we're using openssh and the /etc/ssh directory has no pre-generated keys,
++	# we should configure openssh to use the configuration file /etc/ssh/sshd_config_readonly
++	# and the keys under /var/run/ssh.
++	if [ -d ${IMAGE_ROOTFS}/etc/ssh ]; then
++		if [ -e ${IMAGE_ROOTFS}/etc/ssh/ssh_host_rsa_key ]; then
++			echo "SYSCONFDIR=/etc/ssh" >> ${IMAGE_ROOTFS}/etc/default/ssh
++			echo "SSHD_OPTS=" >> ${IMAGE_ROOTFS}/etc/default/ssh
++		else
++			echo "SYSCONFDIR=/var/run/ssh" >> ${IMAGE_ROOTFS}/etc/default/ssh
++			echo "SSHD_OPTS='-f /etc/ssh/sshd_config_readonly'" >> ${IMAGE_ROOTFS}/etc/default/ssh
++		fi
++	fi
++
++	# Also tweak the key location for dropbear in the same way.
++	if [ -d ${IMAGE_ROOTFS}/etc/dropbear ]; then
++		if [ -e ${IMAGE_ROOTFS}/etc/dropbear/dropbear_rsa_host_key ]; then
++			echo "DROPBEAR_RSAKEY_DIR=/etc/dropbear" >> ${IMAGE_ROOTFS}/etc/default/dropbear
++		else
++			echo "DROPBEAR_RSAKEY_DIR=/var/lib/dropbear" >> ${IMAGE_ROOTFS}/etc/default/dropbear
++		fi
++	fi
++
++
++	if ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "true", "false", d)}; then
++		# Change the value of ROOTFS_READ_ONLY in /etc/default/rcS to yes
++		if [ -e ${IMAGE_ROOTFS}/etc/default/rcS ]; then
++			sed -i 's/ROOTFS_READ_ONLY=no/ROOTFS_READ_ONLY=yes/' ${IMAGE_ROOTFS}/etc/default/rcS
++		fi
++		# Run populate-volatile.sh at rootfs time to set up basic files
++		# and directories to support read-only rootfs.
++		if [ -x ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
++			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
++		fi
++	fi
++
++	if ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "true", "false", d)}; then
++	    # Update user database files so that services don't fail for a read-only systemd system
++	    for conffile in ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd.conf ${IMAGE_ROOTFS}/usr/lib/sysusers.d/systemd-remote.conf; do
++		[ -e $conffile ] || continue
++		grep -v "^#" $conffile | sed -e '/^$/d' | while read type name id comment; do
++		    if [ "$type" = "u" ]; then
++			useradd_params=""
++			[ "$id" != "-" ] && useradd_params="$useradd_params --uid $id"
++			[ "$comment" != "-" ] && useradd_params="$useradd_params --comment $comment"
++			useradd_params="$useradd_params --system $name"
++			eval useradd --root ${IMAGE_ROOTFS} $useradd_params || true
++		    elif [ "$type" = "g" ]; then
++			groupadd_params=""
++			[ "$id" != "-" ] && groupadd_params="$groupadd_params --gid $id"
++			groupadd_params="$groupadd_params --system $name"
++			eval groupadd --root ${IMAGE_ROOTFS} $groupadd_params || true
++		    fi
++		done
++	    done
++	fi
++}
++
++#
++# This function is intended to disallow empty root password if 'debug-tweaks' is not in IMAGE_FEATURES.
++#
++zap_empty_root_password () {
++	if [ -e ${IMAGE_ROOTFS}/etc/shadow ]; then
++		sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/shadow
++        fi
++	if [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then
++		sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/passwd
++	fi
++} 
++
++#
++# allow dropbear/openssh to accept root logins and logins from accounts with an empty password string
++#
++ssh_allow_empty_password () {
++	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
++		sed -i 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
++		sed -i 's/^[#[:space:]]*PermitEmptyPasswords.*/PermitEmptyPasswords yes/' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
++	fi
++
++	if [ -e ${IMAGE_ROOTFS}${sbindir}/dropbear ] ; then
++		if grep -q DROPBEAR_EXTRA_ARGS ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear 2>/dev/null ; then
++			if ! grep -q "DROPBEAR_EXTRA_ARGS=.*-B" ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear ; then
++				sed -i 's/^DROPBEAR_EXTRA_ARGS="*\([^"]*\)"*/DROPBEAR_EXTRA_ARGS="\1 -B"/' ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear
++			fi
++		else
++			printf '\nDROPBEAR_EXTRA_ARGS="-B"\n' >> ${IMAGE_ROOTFS}${sysconfdir}/default/dropbear
++		fi
++	fi
++
++	if [ -d ${IMAGE_ROOTFS}${sysconfdir}/pam.d ] ; then
++		sed -i 's/nullok_secure/nullok/' ${IMAGE_ROOTFS}${sysconfdir}/pam.d/*
++	fi
++}
++
++ssh_disable_dns_lookup () {
++	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
++		sed -i -e 's:#UseDNS yes:UseDNS no:' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
++	fi
++}
++
++#
++# Enable postinst logging if debug-tweaks is enabled
++#
++postinst_enable_logging () {
++	mkdir -p ${IMAGE_ROOTFS}${sysconfdir}/default
++	echo "POSTINST_LOGGING=1" >> ${IMAGE_ROOTFS}${sysconfdir}/default/postinst
++	echo "LOGFILE=${POSTINST_LOGFILE}" >> ${IMAGE_ROOTFS}${sysconfdir}/default/postinst
++}
++
++#
++# Modify systemd default target
++#
++set_systemd_default_target () {
++	if [ -d ${IMAGE_ROOTFS}${sysconfdir}/systemd/system -a -e ${IMAGE_ROOTFS}${systemd_unitdir}/system/${SYSTEMD_DEFAULT_TARGET} ]; then
++		ln -sf ${systemd_unitdir}/system/${SYSTEMD_DEFAULT_TARGET} ${IMAGE_ROOTFS}${sysconfdir}/systemd/system/default.target
++	fi
++}
++
++# If /var/volatile is not empty, we have seen problems where programs such as the
++# journal make assumptions based on the contents of /var/volatile. The journal
++# would then write to /var/volatile before it was mounted, thus hiding the
++# items previously written.
++#
++# This change is to attempt to fix those types of issues in a way that doesn't
++# affect users that may not be using /var/volatile.
++empty_var_volatile () {
++	if [ -e ${IMAGE_ROOTFS}/etc/fstab ]; then
++		match=`awk '$1 !~ "#" && $2 ~ /\/var\/volatile/{print $2}' ${IMAGE_ROOTFS}/etc/fstab 2> /dev/null`
++		if [ -n "$match" ]; then
++			find ${IMAGE_ROOTFS}/var/volatile -mindepth 1 -delete
++		fi
++	fi
++}
++
++# Turn any symbolic /sbin/init link into a file
++remove_init_link () {
++	if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
++		LINKFILE=${IMAGE_ROOTFS}`readlink ${IMAGE_ROOTFS}/sbin/init`
++		rm ${IMAGE_ROOTFS}/sbin/init
++		cp $LINKFILE ${IMAGE_ROOTFS}/sbin/init
++	fi
++}
++
++make_zimage_symlink_relative () {
++	if [ -L ${IMAGE_ROOTFS}/boot/zImage ]; then
++		(cd ${IMAGE_ROOTFS}/boot/ && for i in `ls zImage-* | sort`; do ln -sf $i zImage; done)
++	fi
++}
++
++insert_feed_uris () {
++	
++	echo "Building feeds for [${DISTRO}].."
++
++	for line in ${FEED_URIS}
++	do
++		# strip leading and trailing spaces/tabs, then split into name and uri
++		line_clean="`echo "$line"|sed 's/^[ \t]*//;s/[ \t]*$//'`"
++		feed_name="`echo "$line_clean" | sed -n 's/\(.*\)##\(.*\)/\1/p'`"
++		feed_uri="`echo "$line_clean" | sed -n 's/\(.*\)##\(.*\)/\2/p'`"
++		
++		echo "Added $feed_name feed with URL $feed_uri"
++		
++		# insert new feed-sources
++		echo "src/gz $feed_name $feed_uri" >> ${IMAGE_ROOTFS}/etc/opkg/${feed_name}-feed.conf
++	done
++}
++
++python write_image_manifest () {
++    from oe.rootfs import image_list_installed_packages
++    with open(d.getVar('IMAGE_MANIFEST', True), 'w+') as image_manifest:
++        image_manifest.write(image_list_installed_packages(d, 'ver'))
++        image_manifest.write("\n")
++}
++
++# Can be use to create /etc/timestamp during image construction to give a reasonably 
++# sane default time setting
++rootfs_update_timestamp () {
++	date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
++}
++
++# Prevent X from being started
++rootfs_no_x_startup () {
++	if [ -f ${IMAGE_ROOTFS}/etc/init.d/xserver-nodm ]; then
++		chmod a-x ${IMAGE_ROOTFS}/etc/init.d/xserver-nodm
++	fi
++}
++
++rootfs_trim_schemas () {
++	for schema in ${IMAGE_ROOTFS}/etc/gconf/schemas/*.schemas
++	do
++		# Need this in case no files exist
++		if [ -e $schema ]; then
++			oe-trim-schemas $schema > $schema.new
++			mv $schema.new $schema
++		fi
++	done
++}
++
++rootfs_check_host_user_contaminated () {
++	contaminated="${WORKDIR}/host-user-contaminated.txt"
++	HOST_USER_UID="$(PSEUDO_UNLOAD=1 id -u)"
++	HOST_USER_GID="$(PSEUDO_UNLOAD=1 id -g)"
++
++	find "${IMAGE_ROOTFS}" -wholename "${IMAGE_ROOTFS}/home" -prune \
++	    -user "$HOST_USER_UID" -o -group "$HOST_USER_GID" >"$contaminated"
++
++	if [ -s "$contaminated" ]; then
++		echo "WARNING: Paths in the rootfs are owned by the same user or group as the user running bitbake. See the logfile for the specific paths."
++		cat "$contaminated" | sed "s,^,  ,"
++	fi
++}
++
++# Make any absolute links in a sysroot relative
++rootfs_sysroot_relativelinks () {
++	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
++}
++
++
 
-http://errors.yoctoproject.org/Errors/Search/?items=10&query=862d702fbb99e484631315aa44b9e46f8fc567da&filter=valgrind&type=recipe
 
-There are two different failures:
 
-In file included from
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc-lsb/build/build/tmp/work/ppce300c3-poky-linux/valgrind/3.11.0-r0/valgrind-3.11.0/none/tests/ppc32/testVMX.c:252:0:
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib/powerpc-poky-linux/gcc/powerpc-poky-linux/5.3.0/include/altivec.h:34:2:
-error: #error Use the "-maltivec" flag to enable PowerPC AltiVec support
- #error Use the "-maltivec" flag to enable PowerPC AltiVec support
-  ^
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc-lsb/build/build/tmp/work/ppce300c3-poky-linux/valgrind/3.11.0-r0/valgrind-3.11.0/none/tests/ppc32/testVMX.c:281:4:
-error: expected specifier-qualifier-list before '__vector'
-    vector signed char    v;
-
-And:
-
-/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/work/ppce500v2-poky-linux-gnuspe/valgrind/3.11.0-r0/valgrind-3.11.0/memcheck/tests/ppc32/power_ISA2_05.c:56:4:
-error: impossible constraint in 'asm'
-    __asm__ volatile ("lfiwax %0, 0, %1":"=f" (FRT1):"r"(base));
-    ^
-Makefile:661: recipe for target 'power_ISA2_05-power_ISA2_05.o' failed
-
-Any ideas?  Of interest is that it's always the ptest compilation that
-breaks.
-
-Ross
-
---047d7b1635bfaf5e72052899dfc5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 December 2015 at 15:02, Alexander Kanavin <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander=
-.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-lef=
-t-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=
-=3D":kq" class=3D"" style=3D"overflow:hidden">LICENSE checksums are changed=
- due to a change in FSF address, or copyright<br>
-years update.<br>
-<br>
-Rebased patches:<br>
-sepbuildfix.patch rebased to 0004-Fix-out-of-tree-builds.patch<br>
-add-ptest.patch rebased to 0005-Modify-vg_test-wrapper-to-support-PTEST-for=
-mats.patch<br>
-<br>
-Removed patches:<br>
-force-nostabs.patch removed because it&#39;s patching lines that have been =
-removed upstream<br>
-remove-ppc-tests-failing-build.patch removed because it no longer applies, =
-and rebasing it<br>
-requires building with special ppc32 machine configurations; qemuppc build =
-is fine without it.<br>
-enable.building.on.4.x.kernel.patch removed because the problem is fixed up=
-stream<br>
-glibc.patch removed for the same reason<br>
-<br>
-Removed backports:<br>
-pass-maltivec-only-if-it-supported.patch<br>
-0001-<span class=3D"">valgrind</span>-Enable-rt_sigpending-syscall-on-ppc64=
--linux.patch</div></blockquote></div><div class=3D"gmail_extra"><br></div>T=
-his fails to build on real PPC hardware such as p1022ds or mpc8315e-rdb:<br=
-><br></div><div class=3D"gmail_extra"><a href=3D"http://errors.yoctoproject=
-.org/Errors/Search/?items=3D10&amp;query=3D862d702fbb99e484631315aa44b9e46f=
-8fc567da&amp;filter=3Dvalgrind&amp;type=3Drecipe">http://errors.yoctoprojec=
-t.org/Errors/Search/?items=3D10&amp;query=3D862d702fbb99e484631315aa44b9e46=
-f8fc567da&amp;filter=3Dvalgrind&amp;type=3Drecipe</a><br></div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">There are two differe=
-nt failures:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
-extra">In file included from /home/pokybuild/yocto-autobuilder/yocto-worker=
-/nightly-ppc-lsb/build/build/tmp/work/ppce300c3-poky-linux/valgrind/3.11.0-=
-r0/valgrind-3.11.0/none/tests/ppc32/testVMX.c:252:0:<br>/home/pokybuild/yoc=
-to-autobuilder/yocto-worker/nightly-ppc-lsb/build/build/tmp/sysroots/x86_64=
--linux/usr/lib/powerpc-poky-linux/gcc/powerpc-poky-linux/5.3.0/include/alti=
-vec.h:34:2: error: #error Use the &quot;-maltivec&quot; flag to enable Powe=
-rPC AltiVec support<br>=C2=A0#error Use the &quot;-maltivec&quot; flag to e=
-nable PowerPC AltiVec support<br>=C2=A0 ^<br>/home/pokybuild/yocto-autobuil=
-der/yocto-worker/nightly-ppc-lsb/build/build/tmp/work/ppce300c3-poky-linux/=
-valgrind/3.11.0-r0/valgrind-3.11.0/none/tests/ppc32/testVMX.c:281:4: error:=
- expected specifier-qualifier-list before &#39;__vector&#39;<br>=C2=A0 =C2=
-=A0 vector signed char =C2=A0 =C2=A0v;<br><br>And:</div><div class=3D"gmail=
-_extra"><br>/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-=
-lsb/build/build/tmp/work/ppce500v2-poky-linux-gnuspe/valgrind/3.11.0-r0/val=
-grind-3.11.0/memcheck/tests/ppc32/power_ISA2_05.c:56:4: error: impossible c=
-onstraint in &#39;asm&#39;<br>=C2=A0 =C2=A0 __asm__ volatile (&quot;lfiwax =
-%0, 0, %1&quot;:&quot;=3Df&quot; (FRT1):&quot;r&quot;(base));<br>=C2=A0 =C2=
-=A0 ^<br>Makefile:661: recipe for target &#39;power_ISA2_05-power_ISA2_05.o=
-&#39; failed</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
-extra">Any ideas?=C2=A0 Of interest is that it&#39;s always the ptest compi=
-lation that breaks.</div><div class=3D"gmail_extra"><br></div><div class=3D=
-"gmail_extra">Ross</div></div>
-
---047d7b1635bfaf5e72052899dfc5--
