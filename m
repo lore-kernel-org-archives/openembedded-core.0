@@ -1,30 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 12A186E6B1
+Return-Path: <haris.okanovic@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 06B13607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 17:52:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u05HqvwU008061 for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jan 2016 17:52:57 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ZAD4HL-Pl3WT
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Jan 2016 17:52:57 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u05HqtkJ008057
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jan 2016 17:52:56 GMT
-Message-ID: <1452016375.7598.57.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 05 Jan 2016 17:52:55 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] image: Condense do_rootfs function/flags
+	Tue,  5 Jan 2016 19:04:38 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u05J4css009417; Tue, 5 Jan 2016 13:04:38 -0600
+Received: from harisdt.amer.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2016010513043827-1711060 ;
+	Tue, 5 Jan 2016 13:04:38 -0600 
+From: Haris Okanovic <haris.okanovic@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 5 Jan 2016 13:04:29 -0600
+Message-Id: <1452020669-24036-1-git-send-email-haris.okanovic@ni.com>
+X-Mailer: git-send-email 2.6.2
+In-Reply-To: <CAJTo0LaHTkODDiLfOYDQoFC-VBDD5h4XctAidjzRfyYGgdAfKA@mail.gmail.com>
+References: <CAJTo0LaHTkODDiLfOYDQoFC-VBDD5h4XctAidjzRfyYGgdAfKA@mail.gmail.com>
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 01/05/2016 01:04:38 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 01/05/2016 01:04:38 PM,
+	Serialize complete at 01/05/2016 01:04:38 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-01-05_08:, , signatures=0
+Cc: Haris Okanovic <haris.okanovic@ni.com>
+Subject: [PATCH v2] tzdata: Make /etc/timezone optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,114 +39,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 17:52:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Jan 2016 19:04:39 -0000
 
-Various prefuncs and flags and addtask statements make sense to belong together
-in one clearer function now, this patch cleans things up a bit.
+Add INSTALL_TIMEZONE_FILE config variable to enable/disable installation
+of ${sysconfdir}/timezone (/etc/timezone) by tzdata packages. Defaults
+to "1" to maintain previous behavior.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Most libc implementations can be configured to retrieve system's
+defaults timezone from /etc/localtime, and don't need a second file
+(/etc/timezone) to express this configuration. Maintaining this file is
+an unnecessary burden on sysadmins unless there's software using
+/etc/timezone directly (I.e. outside of libc). Some distributions may
+choose not to provide it.
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index da64cad..81971fe 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -191,8 +191,6 @@ inherit ${IMAGE_CLASSES}
- 
- IMAGE_POSTPROCESS_COMMAND ?= ""
- 
--
--
- # some default locales
- IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
- 
-@@ -202,19 +200,17 @@ LINGUAS_INSTALL ?= "${@" ".join(map(lambda s: "locale-base-%s" % s, d.getVar('IM
- # aren't yet available.
- PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
- 
--do_rootfs[dirs] = "${TOPDIR}"
--do_rootfs[cleandirs] += "${S}"
--
--# Must call real_do_rootfs() from inside here, rather than as a separate
--# task, so that we have a single fakeroot context for the whole process.
--do_rootfs[umask] = "022"
--
- inherit rootfs-postcommands
- 
- PACKAGE_EXCLUDE ??= ""
- PACKAGE_EXCLUDE[type] = "list"
- 
--python rootfs_process_ignore() {
-+fakeroot python do_rootfs () {
-+    from oe.rootfs import create_rootfs
-+    from oe.image import create_image
-+    from oe.manifest import create_manifest
-+
-+    # Handle package exclusions
-     excl_pkgs = d.getVar("PACKAGE_EXCLUDE", True).split()
-     inst_pkgs = d.getVar("PACKAGE_INSTALL", True).split()
-     inst_attempt_pkgs = d.getVar("PACKAGE_INSTALL_ATTEMPTONLY", True).split()
-@@ -233,40 +229,35 @@ python rootfs_process_ignore() {
- 
-     d.setVar("PACKAGE_INSTALL", ' '.join(inst_pkgs))
-     d.setVar("PACKAGE_INSTALL_ATTEMPTONLY", ' '.join(inst_attempt_pkgs))
--}
--do_rootfs[prefuncs] += "rootfs_process_ignore"
- 
--# We have to delay the runtime_mapping_rename until just before rootfs runs
--# otherwise, the multilib renaming could step in and squash any fixups that
--# may have occurred.
--python rootfs_runtime_mapping() {
-+    # Ensure we handle package name remapping
-+    # We have to delay the runtime_mapping_rename until just before rootfs runs
-+    # otherwise, the multilib renaming could step in and squash any fixups that
-+    # may have occurred.
-     pn = d.getVar('PN', True)
-     runtime_mapping_rename("PACKAGE_INSTALL", pn, d)
-     runtime_mapping_rename("PACKAGE_INSTALL_ATTEMPTONLY", pn, d)
-     runtime_mapping_rename("BAD_RECOMMENDATIONS", pn, d)
--}
--do_rootfs[prefuncs] += "rootfs_runtime_mapping"
--
--fakeroot python do_rootfs () {
--    from oe.rootfs import create_rootfs
--    from oe.image import create_image
--    from oe.manifest import create_manifest
- 
--    # generate the initial manifest
-+    # Generate the initial manifest
-     create_manifest(d)
- 
--    # generate rootfs
-+    # Generate rootfs
-     create_rootfs(d)
- 
-     # generate final images
-     create_image(d)
- }
-+do_rootfs[dirs] = "${TOPDIR}"
-+do_rootfs[lockfiles] += "${IMAGE_ROOTFS}.lock"
-+do_rootfs[cleandirs] += "${S}"
-+do_rootfs[umask] = "022"
-+addtask rootfs before do_build
- 
- MULTILIBRE_ALLOW_REP =. "${base_bindir}|${base_sbindir}|${bindir}|${sbindir}|${libexecdir}|${sysconfdir}|${nonarch_base_libdir}/udev|/lib/modules/[^/]*/modules.*|"
- MULTILIB_CHECK_FILE = "${WORKDIR}/multilib_check.py"
- MULTILIB_TEMP_ROOTFS = "${WORKDIR}/multilib"
- 
--
- do_fetch[noexec] = "1"
- do_unpack[noexec] = "1"
- do_patch[noexec] = "1"
-@@ -281,7 +272,6 @@ do_package_write_ipk[noexec] = "1"
- do_package_write_deb[noexec] = "1"
- do_package_write_rpm[noexec] = "1"
- 
--addtask rootfs before do_build
- # Allow the kernel to be repacked with the initramfs and boot image file as a single file
- do_bundle_initramfs[depends] += "virtual/kernel:do_bundle_initramfs"
- do_bundle_initramfs[nostamp] = "1"
+Testing: Built tzdata under default config and verified CONFFILES_tzdata
+still has both /etc/timezone and /etc/localtime and both are in the
+image. Built with INSTALL_TIMEZONE_FILE = "0" and verified /etc/timezone
+is removed from CONFFILES_tzdata and the image. Successfully installed
+package to an x64 target.
 
+Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+Reviewed-by: Brad Mouring <brad.mouring@ni.com>
+Reviewed-by: Rich Tollerton <rich.tollerton@ni.com>
+Reviewed-by: Ken Sharp <ken.sharp@ni.com>
+Reviewed-by: Ross Burton <ross.burton@intel.com>
+Natinst-ReviewBoard-ID: 121628
+---
+ meta/recipes-extended/tzdata/tzdata_2015g.bb | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-extended/tzdata/tzdata_2015g.bb b/meta/recipes-extended/tzdata/tzdata_2015g.bb
+index 5b2afa6..a6faa1d 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2015g.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2015g.bb
+@@ -21,6 +21,7 @@ RCONFLICTS_${PN} = "timezones timezone-africa timezone-america timezone-antarcti
+ S = "${WORKDIR}"
+ 
+ DEFAULT_TIMEZONE ?= "Universal"
++INSTALL_TIMEZONE_FILE ?= "1"
+ 
+ TZONES= "africa antarctica asia australasia europe northamerica southamerica  \
+          factory etcetera backward systemv \
+@@ -48,7 +49,9 @@ do_install () {
+         # Install default timezone
+         if [ -e ${D}${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ]; then
+             install -d ${D}${sysconfdir}
+-            echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
++            if [ "${INSTALL_TIMEZONE_FILE}" == "1" ]; then
++                echo ${DEFAULT_TIMEZONE} > ${D}${sysconfdir}/timezone
++            fi
+             ln -s ${datadir}/zoneinfo/${DEFAULT_TIMEZONE} ${D}${sysconfdir}/localtime
+         else
+             bberror "DEFAULT_TIMEZONE is set to an invalid value."
+@@ -205,4 +208,5 @@ FILES_${PN} += "${datadir}/zoneinfo/Pacific/Honolulu     \
+                 ${datadir}/zoneinfo/iso3166.tab          \
+                 ${datadir}/zoneinfo/Etc/*"
+ 
+-CONFFILES_${PN} += "${sysconfdir}/timezone ${sysconfdir}/localtime"
++CONFFILES_${PN} += "${@ "${sysconfdir}/timezone" if bb.utils.to_boolean(d.getVar('INSTALL_TIMEZONE_FILE', True)) else "" }"
++CONFFILES_${PN} += "${sysconfdir}/localtime"
+-- 
+2.6.2
 
 
