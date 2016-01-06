@@ -1,48 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F93260620
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 0106160620
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jan 2016 21:04:06 +0000 (UTC)
-Received: by mail-ig0-f174.google.com with SMTP id ik10so40798171igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jan 2016 13:04:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=vbnimR4PjhK5MHWSzRkWebMOYE3GMvniNGW3L5UWGak=;
-	b=XiH83IDnwLc8I335GJ+DmhutwH4HQOWBVtsqLLz6/tUxB5NOo5LIxl6b1G1Qx/bfIQ
-	XPdGjOJ04gMBx1xu1dmBPqfuwb/f636KzZzbiZBb4KpF3jwiEI9OFGQ1R9KJClSmCevg
-	0CR3hllXUw80zL5LEG34Lr2RvTbITSwWHI97nx8d7VrUZ1qlWwxxNte5pF2fgFEC+iX/
-	dsPpqh6oTDirilVdDSBtkZ6/sdtZGe9HK69raMmmC2ficV4JfRs4ELXN0VoHe78mQvvP
-	Jmb7sZKI6fejyI4GmlbW4uuchvJg2QGiMLfJzsh+P3rmz6rRW/92lN1pRX+HfiqtaHwR
-	hQPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=vbnimR4PjhK5MHWSzRkWebMOYE3GMvniNGW3L5UWGak=;
-	b=amLzKfM6pNItq/gwpQ57+gUuiUC/IHKykRktHJWMZfMG/p0vLCMRXbXUYUNrcwsT6A
-	iYp2bCPdZQQbmY/DBSINGveib5s2ZFXiF93hCK12B+bWVpGrz+nAG6+z7MWGudzZgyID
-	FKxhk5QOs0Elg7NUGXMMOc/Y6WPPwRDEApxRzzYSxbZ9pYCLBV5n3cBOrinehzpzEua4
-	Kw9s1d0bb1yWW73ZaE31qYOKcoHN+uviKQHieCK2tRa/lYoDiwa4VbPztTv1tRLmt9BE
-	A8pHuSv2K9d+Fo4ZYTXwVqjKgVVQYzN841pcRtVYyQ/qjsjsOsnZQuw9H/CFVKbZcjY4
-	wq5A==
-X-Gm-Message-State: ALoCoQnT1fXOHMjL+MzGOYZl9jQBQhLKILM9WZkAcFhKcQwnuhSiP+MAN7WzbLrbOfqItH3+qEOxay+GPhb6wfc5NQvjrkt/q5N/3fu2JY/Z4Kql4ul2pS8=
-X-Received: by 10.50.55.4 with SMTP id n4mr4927088igp.64.1452114246259; Wed,
-	06 Jan 2016 13:04:06 -0800 (PST)
+	Wed,  6 Jan 2016 21:05:10 +0000 (UTC)
+Received: from [IPv6:fda8:8b75:6fa6:1000:d5bf:4e6e:4af8:7c54] (192.168.15.34)
+	by smtp.enea.com (172.21.1.208) with Microsoft SMTP Server id
+	14.3.224.2; Wed, 6 Jan 2016 22:05:08 +0100
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1451932157-3190-1-git-send-email-anibal.limon@linux.intel.com>
+	<568C5C24.5060601@enea.com> <568D36EE.1070505@linux.intel.com>
+	<568D3BC3.6040607@linux.intel.com>
+From: Tudor Florea <tudor.florea@enea.com>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <568D8182.7080308@enea.com>
+Date: Wed, 6 Jan 2016 23:05:06 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Wed, 6 Jan 2016 13:03:46 -0800 (PST)
-In-Reply-To: <1452101461-20892-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-References: <1451986361-10021-2-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-	<1452101461-20892-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 6 Jan 2016 21:03:46 +0000
-Message-ID: <CAJTo0LZLmJvCHPN=6e1EBSTUaLu8rhPKx8ZQDuqoBsO1L=xqgA@mail.gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] boost: update to 1.60.0
+In-Reply-To: <568D3BC3.6040607@linux.intel.com>
+X-Originating-IP: [192.168.15.34]
+Cc: paul.eggleton@linux.intel.com, poky@yoctoproject.org,
+	benjamin.esquivel@intel.com, georgex.l.musat@intel.com
+Subject: Re: [PATCH v3 0/3] ptest-runner 2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,40 +35,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jan 2016 21:04:07 -0000
-Content-Type: multipart/alternative; boundary=e89a8f3b9b49d2728c0528b0b1b0
-
---e89a8f3b9b49d2728c0528b0b1b0
-Content-Type: text/plain; charset=UTF-8
-
-On 6 January 2016 at 17:31, Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-wrote:
-
-> The commit f50e7bc9fed323c5705c0ed992c03e80eeec1dd6 from the
-> boostorg/test github repository (branch: develop) [2] addresses
-> that issue, but it was not merged in the 1.60.0 release. This
-> commit adds this upstream-accepted patch, which was created by:
->
-
-Thanks Lukas, much appreciated.
-
-Ross
-
---e89a8f3b9b49d2728c0528b0b1b0
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Wed, 06 Jan 2016 21:05:11 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 January 2016 at 17:31, Lukas Bulwahn <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:lukas.bulwahn@oss.bmw-carit.de" target=3D"_blank">lukas.bulwahn@oss.=
-bmw-carit.de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div i=
-d=3D":12v" class=3D"a3s" style=3D"overflow:hidden">The commit f50e7bc9fed32=
-3c5705c0ed992c03e80eeec1dd6 from the<br>
-boostorg/test github repository (branch: develop) [2] addresses<br>
-that issue, but it was not merged in the 1.60.0 release. This<br>
-commit adds this upstream-accepted patch, which was created by:</div></bloc=
-kquote></div><br>Thanks Lukas, much appreciated.</div><div class=3D"gmail_e=
-xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+Hi Alimon
+See inline.
+Tudor.
 
---e89a8f3b9b49d2728c0528b0b1b0--
+On 06/01/2016 18:07, An=C3=ADbal Lim=C3=B3n wrote:
+> Hi again Tudor,
+>=20
+> Comments below,
+>=20
+> alimon
+>=20
+>=20
+>=20
+> On 01/06/2016 09:46 AM, An=C3=ADbal Lim=C3=B3n wrote:
+>> Hi Todor,
+>>=20
+>> Comments below, alimon
+>>=20
+>>=20
+>> On 01/05/2016 06:13 PM, Tudor Florea wrote:
+>>> Hi Anibal, Please see my comments inline. Regards, Tudor.
+>>>=20
+>>> On 04/01/2016 20:29, An=C3=ADbal Lim=C3=B3n wrote:
+>>>> The whole set is sent to two ML for reviewing purposes the
+>>>> first two patches are for oe-core and the last one for poky.
+>>>>=20
+>>>> The first two commits (oe-core) adds a new ptest-runner
+>>>> written in python the sh one is conserved to use in tiny
+>>>> systems.
+>>>>=20
+>>>> What's new in ptest runner:
+>>>>=20
+>>>> - Monitor/timeout stdout, stderr of the test suite to avoid
+>>>> block indefinetly.
+>>> This is definitely something useful.
+>>>> - Add option for change ptest root directory. - Add option
+>>>> for list available tests. - Add option for only run certain
+>>>> tests.
+>>>>=20
+>>>> The last commit (meta-yocto) sets ptest-runner to 1.0 in
+>>>> poky-tiny systems due to python dependency.
+>>> I think adding python dependency is a shift in a wrong
+>>> direction for for ptest-runner. The assumption that most
+>>> embedded devices (tiny or not) have python might not be
+>>> correct. The alternative of using the old version of
+>>> ptest-runner only complicate things. I do think this kind of
+>>> work is really useful but this should be done into a testing
+>>> framework that runs outside of the DUT.
+>>=20
+>> The original problem is the current sh ptest-runner blocks
+>> indefinitely when a package ptest blocks (we don't control this),
+>> now python-ptest is blocking the ptest-runner, see [1]. The way
+>> to solve this is adding timeout in some place.
+>>=20
+>> I know that bash support timeout option but this option works
+>> over the whole process making us to define timeouts too big or
+>> per machine/device also tiny systems mainly don't use bash.
+>> That's the reason for i decide to write python version of
+>> ptest-runner that applies a timeout over the output of the
+>> program give us better control/granularity over the running
+>> ptest.
+>>=20
+>>=20
+>> If you now other way to solve the problem please tell us.
+We may have to use our own version of timeout as we cannot rely on
+bash either. A good starting point is here:
+http://www.pixelbeat.org/scripts/timeout
+
+I'm thinking this is a good opportunity to improve ptest-runner to run
+the package tests in parallel. That is, we could spawn a shell per
+each run-ptest (wrapper) that have the output redirected to its own
+file  (e.g. /var/log/ptest/{package}/output) and then we only timeout
+monitoring the output file.
+In future we may eventually mimic the logic of automake parallel test
+harness
+(https://www.gnu.org/software/automake/manual/html_node/Parallel-Test-Harne=
+ss.html)
+
+>=20
+> I was thinking and one possible solution for this will be implement
+> in C the ptest-runner with the same features of python version, any
+> comment?
+That would be great!
+>=20
+>=20
+>>=20
+>>=20
+>> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D8021
+>>=20
+>>=20
+>>>>=20
+>>>> The changes are available in the git repository at:
+>>>>=20
+>>>> git://git.yoctoproject.org/poky-contrib alimon/ptest-runner=20
+>>>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dalimon/ptes=
+t-runner
+>>>>
+>>>>
+>>>>=20
+An=C3=ADbal Lim=C3=B3n (3): ptest-runner: Add version 2.0 re-implementation
+>>>> in python. ptest-runner: Add a recipe for install
+>>>> ptest-runner 2.0. conf/distro/poky-tiny.conf: Add default
+>>>> install of ptest-runner 1.0
+>>>>=20
+>>>> meta-yocto/conf/distro/poky-tiny.conf              |   4 +=20
+>>>> .../ptest-runner/files/ptest-runner_2.0.py         | 162=20
+>>>> +++++++++++++++++++++ .../ptest-runner/ptest-runner_2.0.bb |
+>>>> 27 ++++ 3 files changed, 193 insertions(+) create mode
+>>>> 100755=20
+>>>> meta/recipes-support/ptest-runner/files/ptest-runner_2.0.py
+>>>> create mode 100644
+>>>> meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+>>>>=20
+
