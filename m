@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DA87731E6
+	by mail.openembedded.org (Postfix) with ESMTP id 25769731EE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jan 2016 11:17:02 +0000 (UTC)
+	Wed,  6 Jan 2016 11:17:03 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Jan 2016 03:16:59 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 06 Jan 2016 03:17:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,528,1444719600"; d="scan'208";a="875594457"
+X-IronPort-AV: E=Sophos;i="5.20,528,1444719600"; d="scan'208";a="875594475"
 Received: from ngochun1-mobl.ccr.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.145.179])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Jan 2016 03:16:56 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 06 Jan 2016 03:16:59 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jan 2016 00:15:51 +1300
-Message-Id: <9bf1f14cff6c71579742a6c46f74ec133872afa4.1452078721.git.paul.eggleton@linux.intel.com>
+Date: Thu,  7 Jan 2016 00:15:52 +1300
+Message-Id: <de798a8006fabb828f0f0fb47758c8f0d721bd99.1452078721.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1452078721.git.paul.eggleton@linux.intel.com>
 References: <cover.1452078721.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1452078721.git.paul.eggleton@linux.intel.com>
 References: <cover.1452078721.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 10/14] devtool: reset: do clean for multiple recipes at once with -a
+Subject: [PATCH 11/14] devtool: add: support adding a native variant
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,58 +34,91 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 06 Jan 2016 11:17:03 -0000
 
-We need to run the clean for all recipes that are being reset before we
-start deleting things from the workspace; if we don't, recipes providing
-dependencies may be missing when we come to clean a recipe later (since
-we don't and couldn't practically reset them in dependency order). This
-also improves performance since we have the startup startup time for the
-clean just once rather than for every recipe.
+Sometimes you need to build a variant of a recipe for the build
+host as well as for the target (i.e. BBCLASSEXTEND = "native"); add a
+ --also-native command line option to "recipetool create" that enables
+this and plumb it through from an identical option for "devtool add".
+
+(We could conceivably do the same for nativesdk, but I felt it might be
+confusing within the context of the extensible SDK, where nativesdk
+isn't really relevant to the user.)
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ scripts/lib/devtool/standard.py  |  3 +++
+ scripts/lib/recipetool/create.py | 23 +++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
 
 diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index fbc49a9..741f0ea 100644
+index 741f0ea..7ef0ab8 100644
 --- a/scripts/lib/devtool/standard.py
 +++ b/scripts/lib/devtool/standard.py
-@@ -1196,21 +1196,24 @@ def reset(args, config, basepath, workspace):
-         raise DevtoolError("Recipe must be specified, or specify -a/--all to "
-                            "reset all recipes")
-     if args.all:
--        recipes = workspace
-+        recipes = workspace.keys()
-     else:
-         recipes = [args.recipename]
+@@ -139,6 +139,8 @@ def add(args, config, basepath, workspace):
+         extracmdopts += ' -V %s' % args.version
+     if args.binary:
+         extracmdopts += ' -b'
++    if args.also_native:
++        extracmdopts += ' --also-native'
  
--    for pn in recipes:
--        if not args.no_clean:
--            logger.info('Cleaning sysroot for recipe %s...' % pn)
--            try:
--                exec_build_env_command(config.init_path, basepath, 'bitbake -c clean %s' % pn)
--            except bb.process.ExecutionError as e:
--                raise DevtoolError('Command \'%s\' failed, output:\n%s\nIf you '
--                                   'wish, you may specify -n/--no-clean to '
--                                   'skip running this command when resetting' %
--                                   (e.command, e.stdout))
-+    if recipes and not args.no_clean:
-+        if len(recipes) == 1:
-+            logger.info('Cleaning sysroot for recipe %s...' % recipes[0])
-+        else:
-+            logger.info('Cleaning sysroot for recipes %s...' % ', '.join(recipes))
-+        try:
-+            exec_build_env_command(config.init_path, basepath, 'bitbake -c clean %s' % ' '.join(recipes))
-+        except bb.process.ExecutionError as e:
-+            raise DevtoolError('Command \'%s\' failed, output:\n%s\nIf you '
-+                                'wish, you may specify -n/--no-clean to '
-+                                'skip running this command when resetting' %
-+                                (e.command, e.stdout))
+     tempdir = tempfile.mkdtemp(prefix='devtool')
+     try:
+@@ -1307,6 +1309,7 @@ def register_commands(subparsers, context):
+     parser_add.add_argument('--version', '-V', help='Version to use within recipe (PV)')
+     parser_add.add_argument('--no-git', '-g', help='If fetching source, do not set up source tree as a git repository', action="store_true")
+     parser_add.add_argument('--binary', '-b', help='Treat the source tree as something that should be installed verbatim (no compilation, same directory structure). Useful with binary packages e.g. RPMs.', action='store_true')
++    parser_add.add_argument('--also-native', help='Also add native variant (i.e. support building recipe for the build host as well as the target machine)', action='store_true')
+     parser_add.set_defaults(func=add)
  
-+    for pn in recipes:
-         _check_preserve(config, pn)
+     parser_modify = subparsers.add_parser('modify', help='Modify the source for an existing recipe',
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 775be42..4f95d7e 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -252,8 +252,14 @@ def create_recipe(args):
+     if args.name:
+         pn = args.name
+         if args.name.endswith('-native'):
++            if args.also_native:
++                logger.error('--also-native cannot be specified for a recipe named *-native (*-native denotes a recipe that is already only for native) - either remove the -native suffix from the name or drop --also-native')
++                sys.exit(1)
+             classes.append('native')
+         elif args.name.startswith('nativesdk-'):
++            if args.also_native:
++                logger.error('--also-native cannot be specified for a recipe named nativesdk-* (nativesdk-* denotes a recipe that is already only for nativesdk)')
++                sys.exit(1)
+             classes.append('nativesdk')
  
-         preservepath = os.path.join(config.workspace_path, 'attic', pn)
+     if pv and pv not in 'git svn hg'.split():
+@@ -393,6 +399,22 @@ def create_recipe(args):
+                 line = re.sub('"[^+]*\+', '"%s+' % realpv, line)
+         lines_before.append(line)
+ 
++    if args.also_native:
++        lines = lines_after
++        lines_after = []
++        bbclassextend = None
++        for line in lines:
++            if line.startswith('BBCLASSEXTEND ='):
++                splitval = line.split('"')
++                if len(splitval) > 1:
++                    bbclassextend = splitval[1].split()
++                    if not 'native' in bbclassextend:
++                        bbclassextend.insert(0, 'native')
++                line = 'BBCLASSEXTEND = "%s"' % ' '.join(bbclassextend)
++            lines_after.append(line)
++        if not bbclassextend:
++            lines_after.append('BBCLASSEXTEND = "native"')
++
+     outlines = []
+     outlines.extend(lines_before)
+     if classes:
+@@ -591,5 +613,6 @@ def register_commands(subparsers):
+     parser_create.add_argument('-N', '--name', help='Name to use within recipe (PN)')
+     parser_create.add_argument('-V', '--version', help='Version to use within recipe (PV)')
+     parser_create.add_argument('-b', '--binary', help='Treat the source tree as something that should be installed verbatim (no compilation, same directory structure)', action='store_true')
++    parser_create.add_argument('--also-native', help='Also add native variant (i.e. support building recipe for the build host as well as the target machine)', action='store_true')
+     parser_create.set_defaults(func=create_recipe)
+ 
 -- 
 2.5.0
 
