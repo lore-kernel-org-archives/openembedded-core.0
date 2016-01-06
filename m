@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 25769731EE
+	by mail.openembedded.org (Postfix) with ESMTP id B48B3731EE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jan 2016 11:17:03 +0000 (UTC)
+	Wed,  6 Jan 2016 11:17:04 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Jan 2016 03:17:02 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 06 Jan 2016 03:17:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,528,1444719600"; d="scan'208";a="875594475"
+X-IronPort-AV: E=Sophos;i="5.20,528,1444719600"; d="scan'208";a="875594547"
 Received: from ngochun1-mobl.ccr.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.145.179])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Jan 2016 03:16:59 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 06 Jan 2016 03:17:03 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jan 2016 00:15:52 +1300
-Message-Id: <de798a8006fabb828f0f0fb47758c8f0d721bd99.1452078721.git.paul.eggleton@linux.intel.com>
+Date: Thu,  7 Jan 2016 00:15:53 +1300
+Message-Id: <fff5573c4feba4a957df536db4a4732445680f0e.1452078721.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1452078721.git.paul.eggleton@linux.intel.com>
 References: <cover.1452078721.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1452078721.git.paul.eggleton@linux.intel.com>
 References: <cover.1452078721.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 11/14] devtool: add: support adding a native variant
+Subject: [PATCH 12/14] devtool: refactor code for getting local recipe file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,92 +32,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jan 2016 11:17:03 -0000
+X-List-Received-Date: Wed, 06 Jan 2016 11:17:04 -0000
 
-Sometimes you need to build a variant of a recipe for the build
-host as well as for the target (i.e. BBCLASSEXTEND = "native"); add a
- --also-native command line option to "recipetool create" that enables
-this and plumb it through from an identical option for "devtool add".
-
-(We could conceivably do the same for nativesdk, but I felt it might be
-confusing within the context of the extensible SDK, where nativesdk
-isn't really relevant to the user.)
+We're doing this in a couple of places, let's just find the recipe file
+if it exists within the workspace (which it will if it's been added
+through "devtool add") when we read in the workspace.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py  |  3 +++
- scripts/lib/recipetool/create.py | 23 +++++++++++++++++++++++
- 2 files changed, 26 insertions(+)
+ scripts/devtool                 | 12 +++++++++++-
+ scripts/lib/devtool/standard.py | 19 ++++---------------
+ 2 files changed, 15 insertions(+), 16 deletions(-)
 
+diff --git a/scripts/devtool b/scripts/devtool
+index bda05e1..2d57da0b 100755
+--- a/scripts/devtool
++++ b/scripts/devtool
+@@ -112,8 +112,18 @@ def read_workspace():
+                 res = externalsrc_re.match(line.rstrip())
+                 if res:
+                     pn = res.group(2) or os.path.splitext(os.path.basename(fn))[0].split('_')[0]
++                    # Find the recipe file within the workspace, if any
++                    bbfile = os.path.basename(fn).replace('.bbappend', '.bb').replace('%', '*')
++                    recipefile = glob.glob(os.path.join(config.workspace_path,
++                                                        'recipes',
++                                                        pn,
++                                                        bbfile))
++                    if recipefile:
++                        recipefile = recipefile[0]
+                     workspace[pn] = {'srctree': res.group(3),
+-                                     'bbappend': fn}
++                                     'bbappend': fn,
++                                     'recipefile': recipefile}
++                    logger.debug('Found recipe %s' % workspace[pn])
+ 
+ def create_workspace(args, config, basepath, workspace):
+     if args.layerpath:
 diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 741f0ea..7ef0ab8 100644
+index 7ef0ab8..e26ce5a 100644
 --- a/scripts/lib/devtool/standard.py
 +++ b/scripts/lib/devtool/standard.py
-@@ -139,6 +139,8 @@ def add(args, config, basepath, workspace):
-         extracmdopts += ' -V %s' % args.version
-     if args.binary:
-         extracmdopts += ' -b'
-+    if args.also_native:
-+        extracmdopts += ' --also-native'
- 
-     tempdir = tempfile.mkdtemp(prefix='devtool')
-     try:
-@@ -1307,6 +1309,7 @@ def register_commands(subparsers, context):
-     parser_add.add_argument('--version', '-V', help='Version to use within recipe (PV)')
-     parser_add.add_argument('--no-git', '-g', help='If fetching source, do not set up source tree as a git repository', action="store_true")
-     parser_add.add_argument('--binary', '-b', help='Treat the source tree as something that should be installed verbatim (no compilation, same directory structure). Useful with binary packages e.g. RPMs.', action='store_true')
-+    parser_add.add_argument('--also-native', help='Also add native variant (i.e. support building recipe for the build host as well as the target machine)', action='store_true')
-     parser_add.set_defaults(func=add)
- 
-     parser_modify = subparsers.add_parser('modify', help='Modify the source for an existing recipe',
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 775be42..4f95d7e 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -252,8 +252,14 @@ def create_recipe(args):
-     if args.name:
-         pn = args.name
-         if args.name.endswith('-native'):
-+            if args.also_native:
-+                logger.error('--also-native cannot be specified for a recipe named *-native (*-native denotes a recipe that is already only for native) - either remove the -native suffix from the name or drop --also-native')
-+                sys.exit(1)
-             classes.append('native')
-         elif args.name.startswith('nativesdk-'):
-+            if args.also_native:
-+                logger.error('--also-native cannot be specified for a recipe named nativesdk-* (nativesdk-* denotes a recipe that is already only for nativesdk)')
-+                sys.exit(1)
-             classes.append('nativesdk')
- 
-     if pv and pv not in 'git svn hg'.split():
-@@ -393,6 +399,22 @@ def create_recipe(args):
-                 line = re.sub('"[^+]*\+', '"%s+' % realpv, line)
-         lines_before.append(line)
- 
-+    if args.also_native:
-+        lines = lines_after
-+        lines_after = []
-+        bbclassextend = None
-+        for line in lines:
-+            if line.startswith('BBCLASSEXTEND ='):
-+                splitval = line.split('"')
-+                if len(splitval) > 1:
-+                    bbclassextend = splitval[1].split()
-+                    if not 'native' in bbclassextend:
-+                        bbclassextend.insert(0, 'native')
-+                line = 'BBCLASSEXTEND = "%s"' % ' '.join(bbclassextend)
-+            lines_after.append(line)
-+        if not bbclassextend:
-+            lines_after.append('BBCLASSEXTEND = "native"')
-+
-     outlines = []
-     outlines.extend(lines_before)
-     if classes:
-@@ -591,5 +613,6 @@ def register_commands(subparsers):
-     parser_create.add_argument('-N', '--name', help='Name to use within recipe (PN)')
-     parser_create.add_argument('-V', '--version', help='Version to use within recipe (PV)')
-     parser_create.add_argument('-b', '--binary', help='Treat the source tree as something that should be installed verbatim (no compilation, same directory structure)', action='store_true')
-+    parser_create.add_argument('--also-native', help='Also add native variant (i.e. support building recipe for the build host as well as the target machine)', action='store_true')
-     parser_create.set_defaults(func=create_recipe)
+@@ -1171,13 +1171,9 @@ def status(args, config, basepath, workspace):
+     """Entry point for the devtool 'status' subcommand"""
+     if workspace:
+         for recipe, value in workspace.iteritems():
+-            bbfile = os.path.basename(value['bbappend']).replace('.bbappend', '.bb').replace('%', '*')
+-            recipefile = glob.glob(os.path.join(config.workspace_path,
+-                                                'recipes',
+-                                                recipe,
+-                                                bbfile))
++            recipefile = value['recipefile']
+             if recipefile:
+-                recipestr = ' (%s)' % recipefile[0]
++                recipestr = ' (%s)' % recipefile
+             else:
+                 recipestr = ''
+             print("%s: %s%s" % (recipe, value['srctree'], recipestr))
+@@ -1261,15 +1257,8 @@ def edit_recipe(args, config, basepath, workspace):
+             tinfoil.shutdown()
+     else:
+         check_workspace_recipe(workspace, args.recipename)
+-        bbappend = workspace[args.recipename]['bbappend']
+-        bbfile = os.path.basename(bbappend).replace('.bbappend', '.bb').replace('%', '*')
+-        recipefile = glob.glob(os.path.join(config.workspace_path,
+-                                            'recipes',
+-                                            args.recipename,
+-                                            bbfile))
+-        if recipefile:
+-            recipefile = recipefile[0]
+-        else:
++        recipefile = workspace[args.recipename]['recipefile']
++        if not recipefile:
+             raise DevtoolError("Recipe file for %s is not under the workspace" %
+                                args.recipename)
  
 -- 
 2.5.0
