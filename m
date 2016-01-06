@@ -1,33 +1,50 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id C298E65CC3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 0043065CC3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jan 2016 09:43:11 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-05.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1aGkca-0002OW-Kx from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Jan 2016 01:43:12 -0800
-Received: from EU-MBX-02.mgc.mentorg.com ([169.254.3.44]) by
-	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
-	14.03.0224.002; Wed, 6 Jan 2016 09:42:42 +0000
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] grub2: Fix CVE-2015-8370
-Thread-Index: AQHRPXKlzc7mBgdn8kWc/p76Y4njxZ7YbAUhgAy59M2ACSw5SA==
-Date: Wed, 6 Jan 2016 09:42:41 +0000
-Message-ID: <2021B186DC632746BD5A3CE32F12BD28011FB7A431@EU-MBX-02.mgc.mentorg.com>
-References: <1450869034-27510-1-git-send-email-awais_belal@mentor.com>,
-	<2021B186DC632746BD5A3CE32F12BD280119AC1F0F@EU-MBX-03.mgc.mentorg.com>,
-	<2021B186DC632746BD5A3CE32F12BD28011FB77C39@EU-MBX-02.mgc.mentorg.com>
-In-Reply-To: <2021B186DC632746BD5A3CE32F12BD28011FB77C39@EU-MBX-02.mgc.mentorg.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
+	Wed,  6 Jan 2016 09:47:32 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id g73so14564848ioe.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Jan 2016 01:47:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=zPIlLcWRXJlenbVXpt/zlxHNO7FY26DawW1UgefUQpk=;
+	b=FtzJZGCjOaEforjYN1QS2BbEWw7AOf3ZaRA9GcG6oSDo/qi4z3NQhV3JWrFZrpgTHy
+	YI7f/VtuUIDBNTtTSpqtPFZRhCyrufTIH0BiJOx+12NRcUxt52P2Z1w+XILqAsGK99l6
+	vtY7l7QpB3xGqJnL+5wNvqqfS89cU0u+WorAAOv5LrhaJLwuXQ6cvzEIjY1m4o3ugbvm
+	anDiil6sQrsKoDhcr7KebhBgxlRbkY16cCnpJ14XmosfmcuBeMWofnosuHLfMLMSBxfn
+	myq7disY4yAs5asRZZ6ekevWtIvp+GLaJU5umqWhIh348l/t5Hw+AAabfFWsTTUqoB/o
+	UYfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=zPIlLcWRXJlenbVXpt/zlxHNO7FY26DawW1UgefUQpk=;
+	b=B631FcVxEfQMca7txT04oYgDSJGmzFGpEUMkdlP1k4+I2CS854t3EaHt7DA53wrap0
+	jhwfhyXH7Yfwwl+W8D/TVWx85IJ0LqH+nFHpYodtkupAZ6ZwQ8S5hRQDlIKWWr+xYvwp
+	GyQqmyeHbKtnE48hgeZ/9M7rEN4JmEbh3IDzX7PYgh261SuOyQkBSKvxsyzIKN+04kMn
+	v92fzTRV2336crpAcpZ8fpAWZ7Ecjjd9AJLJsuZ6bH6gk6rxz8DbFCAfqRSAsZ47ItTi
+	1fqgkMxCd7yaMr1GWwnVdOYEsgogjajBnYvatsWcrQ+1xhGAgpFKja4y3l7GVi9/1PhB
+	PTPA==
+X-Gm-Message-State: ALoCoQnnawVh/Q8eCDNrk6ZSfaDxroHuKg3zgXjTu/H2uYLKHR3cqn89VBQQeezukYQhFkIPgo5FHyJ8oDDPeIIgKgZwD9tHw8VxYBJu/46u6RwwYbyKnGs=
+X-Received: by 10.107.164.161 with SMTP id d33mr81349790ioj.148.1452073653260; 
+	Wed, 06 Jan 2016 01:47:33 -0800 (PST)
 MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Wed, 6 Jan 2016 01:47:13 -0800 (PST)
+In-Reply-To: <2021B186DC632746BD5A3CE32F12BD28011FB7A431@EU-MBX-02.mgc.mentorg.com>
+References: <1450869034-27510-1-git-send-email-awais_belal@mentor.com>
+	<2021B186DC632746BD5A3CE32F12BD280119AC1F0F@EU-MBX-03.mgc.mentorg.com>
+	<2021B186DC632746BD5A3CE32F12BD28011FB77C39@EU-MBX-02.mgc.mentorg.com>
+	<2021B186DC632746BD5A3CE32F12BD28011FB7A431@EU-MBX-02.mgc.mentorg.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 6 Jan 2016 09:47:13 +0000
+Message-ID: <CAJTo0LaE3-wihVOas0k3YjBy30GbC4+2y+_hyRonnhe9pPfqcA@mail.gmail.com>
+To: "Belal, Awais" <Awais_Belal@mentor.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] grub2: Fix CVE-2015-8370
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -41,147 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jan 2016 09:43:14 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 06 Jan 2016 09:47:33 -0000
+Content-Type: multipart/alternative; boundary=001a1141c9764a6d870528a73e50
+
+--001a1141c9764a6d870528a73e50
+Content-Type: text/plain; charset=UTF-8
+
+On 6 January 2016 at 09:42, Belal, Awais <Awais_Belal@mentor.com> wrote:
+
+> Ping2!
+>
+
+This is queued for master, will be there shortly.
+
+Ross
+
+--001a1141c9764a6d870528a73e50
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Ping2!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
-Sent: Thursday, December 31, 2015 6:37 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH] grub2: Fix CVE-2015-8370=0A=
-=0A=
-Ping!=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: Belal, Awais=0A=
-Sent: Wednesday, December 23, 2015 4:17 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: RE: [OE-core] [PATCH] grub2: Fix CVE-2015-8370=0A=
-=0A=
-This applies to jethro as well as master.=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
-Sent: Wednesday, December 23, 2015 4:10 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: [OE-core] [PATCH] grub2: Fix CVE-2015-8370=0A=
-=0A=
-http://git.savannah.gnu.org/cgit/grub.git/commit/?id=3D451d80e52d851432e109=
-771bb8febafca7a5f1f2=0A=
-=0A=
-Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
----=0A=
- ...E-2015-8370-Grub2-user-pass-vulnerability.patch | 52 ++++++++++++++++++=
-++++=0A=
- meta/recipes-bsp/grub/grub2.inc                    |  1 +=0A=
- 2 files changed, 53 insertions(+)=0A=
- create mode 100644 meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub=
-2-user-pass-vulnerability.patch=0A=
-=0A=
-diff --git a/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-=
-pass-vulnerability.patch b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-83=
-70-Grub2-user-pass-vulnerability.patch=0A=
-new file mode 100644=0A=
-index 0000000..f9252e9=0A=
---- /dev/null=0A=
-+++ b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pass-vu=
-lnerability.patch=0A=
-@@ -0,0 +1,52 @@=0A=
-+Upstream-Status: Accepted=0A=
-+Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
-+=0A=
-+From 451d80e52d851432e109771bb8febafca7a5f1f2 Mon Sep 17 00:00:00 2001=0A=
-+From: Hector Marco-Gisbert <hecmargi@upv.es>=0A=
-+Date: Wed, 16 Dec 2015 04:57:18 +0000=0A=
-+Subject: Fix security issue when reading username and password=0A=
-+=0A=
-+This patch fixes two integer underflows at:=0A=
-+  * grub-core/lib/crypto.c=0A=
-+  * grub-core/normal/auth.c=0A=
-+=0A=
-+CVE-2015-8370=0A=
-+=0A=
-+Signed-off-by: Hector Marco-Gisbert <hecmargi@upv.es>=0A=
-+Signed-off-by: Ismael Ripoll-Ripoll <iripoll@disca.upv.es>=0A=
-+Also-By: Andrey Borzenkov <arvidjaar@gmail.com>=0A=
-+---=0A=
-+diff --git a/grub-core/lib/crypto.c b/grub-core/lib/crypto.c=0A=
-+index 010e550..683a8aa 100644=0A=
-+--- a/grub-core/lib/crypto.c=0A=
-++++ b/grub-core/lib/crypto.c=0A=
-+@@ -470,7 +470,8 @@ grub_password_get (char buf[], unsigned buf_size)=0A=
-+=0A=
-+       if (key =3D=3D '\b')=0A=
-+       {=0A=
-+-        cur_len--;=0A=
-++        if (cur_len)=0A=
-++          cur_len--;=0A=
-+         continue;=0A=
-+       }=0A=
-+=0A=
-+diff --git a/grub-core/normal/auth.c b/grub-core/normal/auth.c=0A=
-+index c6bd96e..8615c48 100644=0A=
-+--- a/grub-core/normal/auth.c=0A=
-++++ b/grub-core/normal/auth.c=0A=
-+@@ -174,8 +174,11 @@ grub_username_get (char buf[], unsigned buf_size)=0A=
-+=0A=
-+       if (key =3D=3D '\b')=0A=
-+       {=0A=
-+-        cur_len--;=0A=
-+-        grub_printf ("\b");=0A=
-++        if (cur_len)=0A=
-++          {=0A=
-++            cur_len--;=0A=
-++            grub_printf ("\b");=0A=
-++          }=0A=
-+         continue;=0A=
-+       }=0A=
-+=0A=
-+--=0A=
-+cgit v0.9.0.2=0A=
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.=
-inc=0A=
-index 312771b..a8c41f8 100644=0A=
---- a/meta/recipes-bsp/grub/grub2.inc=0A=
-+++ b/meta/recipes-bsp/grub/grub2.inc=0A=
-@@ -27,6 +27,7 @@ SRC_URI =3D "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz=
- \=0A=
-            file://0001-Unset-need_charset_alias-when-building-for-musl.pat=
-ch \=0A=
-            file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patc=
-h \=0A=
-            file://grub2-fix-initrd-size-bug.patch \=0A=
-+           file://0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.pat=
-ch \=0A=
-             "=0A=
-=0A=
- DEPENDS =3D "flex-native bison-native xz"=0A=
---=0A=
-1.9.1=0A=
-=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 January 2016 at 09:42, Belal, Awais <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:Awais_Belal@mentor.com" target=3D"_blank">Awais_Belal@mentor.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1xf" class=
+=3D"a3s" style=3D"overflow:hidden">Ping2!<br></div></blockquote></div><br>T=
+his is queued for master, will be there shortly.</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--001a1141c9764a6d870528a73e50--
