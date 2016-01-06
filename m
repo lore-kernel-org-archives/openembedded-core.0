@@ -1,28 +1,46 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F1A660797
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id A66BB6AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jan 2016 08:34:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u068Ywcr001077
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  6 Jan 2016 09:22:52 +0000 (UTC)
+Received: by mail-wm0-f51.google.com with SMTP id l65so52198354wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Jan 2016 00:34:58 -0800 (PST)
-Received: from [128.224.162.246] (128.224.162.246) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
-	Wed, 6 Jan 2016 00:34:58 -0800
-Message-ID: <568CD1B2.5040005@windriver.com>
-Date: Wed, 6 Jan 2016 16:34:58 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1452068455-13075-1-git-send-email-Qi.Chen@windriver.com>
-In-Reply-To: <1452068455-13075-1-git-send-email-Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.246]
-Subject: Re: [PATCH] bitbake: clean up stamp-base related codes
+	Wed, 06 Jan 2016 01:22:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=HwAcFEeVoTEnz/C+/to3lD3t3NpNr6qFHRpTtWOn1ZE=;
+	b=r4E6grA6J8SUcUtiL1bcxqJ6a0K0kUxdFeOx4Z8DARv4zLyxKvLaiWMaMo7JzlxM4C
+	iCjFJgs7OG4gs0ZIYB6LlLItC4VHDpTIqbpahvq/lgG6NUiYh6uJF6eq2LgcV6IWhJyg
+	h98RFK09jbSprHRq4Fy5PpFK1KivcqtJ30RAxy2kmb8F6c7TwldycRylCZE9YdlmZjUk
+	aUms1U81PJcNCeS71I1FDPfyKk8SDALo9kgzDIN0hLcxq8C5byhv1OhCjmMXOzyNL/iL
+	3tsCtYT648RV6M6omhmOuy6qmZRmCyeFdWRCgVtGrzgePdtVTwv5FY71X9LtJ3x1aE7O
+	pGWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=HwAcFEeVoTEnz/C+/to3lD3t3NpNr6qFHRpTtWOn1ZE=;
+	b=Lm7DHuf7BcI2xhJ1eLRi23EGxOb9mu4RN3J5FwRXUffQDQQYVhd0t1SdkaLXiRtVCX
+	6k7CNMQkKvP67MGs06XwAo97Jy3gcsM83FdCwMNG2ruwra8BfGQv2txT8Rr0Y5d3EQYb
+	lkfZVdUIiixNh9yjzv6blh/LUZxsvLbY+TmtmsbIk5i2rDdWSQ9B3QKuABIZMY5uc/lB
+	GeDGLw0D0/8cU41z6ZioSF+wlw3pL6QSttWTWe2fJMghv9V05o1onc7oAUBzKU0kNbLN
+	ob70C7Xwt3BqNuQyGSmjcj8y+QbahDR/JO74iSWD3Q+GMdcAxGhCUd3hl3ZFHpLdvllE
+	D6AQ==
+X-Gm-Message-State: ALoCoQlZu3cx2jweX1M0MwFmA/sgVyjSnNda7OOwT8xpTD3D9qJVCLmcO1Y1qJHCp1eDqDDNAXer5vEdD2uvlq9FOlWrr8xewA==
+X-Received: by 10.28.178.206 with SMTP id b197mr8631018wmf.20.1452072172632;
+	Wed, 06 Jan 2016 01:22:52 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	qs1sm34443596wjc.2.2016.01.06.01.22.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 06 Jan 2016 01:22:51 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Jan 2016 09:22:49 +0000
+Message-Id: <1452072169-1415-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] systemd: enable compatibility libraries by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,85 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jan 2016 08:34:59 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Jan 2016 09:22:52 -0000
 
-Please ignore this one.
-I've separated this patch into two and send them to the correct list.
+Too many packages haven't been updated to use the new systemd library names, so
+enable the compatibility libraries by default.
 
-// Qi
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/systemd/systemd_228.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-On 01/06/2016 04:20 PM, Chen Qi wrote:
-> The 'stamp-base' related codes are no longer useful, clean them up.
->
-> [YOCTO #8468]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   bitbake/lib/bb/build.py | 4 ++--
->   bitbake/lib/bb/cache.py | 3 ---
->   meta/conf/bitbake.conf  | 2 +-
->   3 files changed, 3 insertions(+), 6 deletions(-)
->
-> diff --git a/bitbake/lib/bb/build.py b/bitbake/lib/bb/build.py
-> index 22428a6..b84338b 100644
-> --- a/bitbake/lib/bb/build.py
-> +++ b/bitbake/lib/bb/build.py
-> @@ -582,10 +582,10 @@ def stamp_internal(taskname, d, file_name, baseonly=False):
->           taskflagname = taskname.replace("_setscene", "")
->   
->       if file_name:
-> -        stamp = d.stamp_base[file_name].get(taskflagname) or d.stamp[file_name]
-> +        stamp = d.stamp[file_name]
->           extrainfo = d.stamp_extrainfo[file_name].get(taskflagname) or ""
->       else:
-> -        stamp = d.getVarFlag(taskflagname, 'stamp-base', True) or d.getVar('STAMP', True)
-> +        stamp = d.getVar('STAMP', True)
->           file_name = d.getVar('BB_FILENAME', True)
->           extrainfo = d.getVarFlag(taskflagname, 'stamp-extra-info', True) or ""
->   
-> diff --git a/bitbake/lib/bb/cache.py b/bitbake/lib/bb/cache.py
-> index 521f758..0ec4057 100644
-> --- a/bitbake/lib/bb/cache.py
-> +++ b/bitbake/lib/bb/cache.py
-> @@ -129,7 +129,6 @@ class CoreRecipeInfo(RecipeInfoCommon):
->           self.not_world = self.getvar('EXCLUDE_FROM_WORLD', metadata)
->           self.stamp = self.getvar('STAMP', metadata)
->           self.stampclean = self.getvar('STAMPCLEAN', metadata)
-> -        self.stamp_base = self.flaglist('stamp-base', self.tasks, metadata)
->           self.stamp_base_clean = self.flaglist('stamp-base-clean', self.tasks, metadata)
->           self.stamp_extrainfo = self.flaglist('stamp-extra-info', self.tasks, metadata)
->           self.file_checksums = self.flaglist('file-checksums', self.tasks, metadata, True)
-> @@ -158,7 +157,6 @@ class CoreRecipeInfo(RecipeInfoCommon):
->   
->           cachedata.stamp = {}
->           cachedata.stampclean = {}
-> -        cachedata.stamp_base = {}
->           cachedata.stamp_base_clean = {}
->           cachedata.stamp_extrainfo = {}
->           cachedata.file_checksums = {}
-> @@ -192,7 +190,6 @@ class CoreRecipeInfo(RecipeInfoCommon):
->           cachedata.pkg_dp[fn] = self.defaultpref
->           cachedata.stamp[fn] = self.stamp
->           cachedata.stampclean[fn] = self.stampclean
-> -        cachedata.stamp_base[fn] = self.stamp_base
->           cachedata.stamp_base_clean[fn] = self.stamp_base_clean
->           cachedata.stamp_extrainfo[fn] = self.stamp_extrainfo
->           cachedata.file_checksums[fn] = self.file_checksums
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 371af31..51885af 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -801,7 +801,7 @@ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
->       lockfiles type vardepsexclude vardeps vardepvalue vardepvalueexclude \
->       file-checksums python func task export unexport noexec nostamp dirs cleandirs \
->       sstate-lockfile-shared prefuncs postfuncs export_func deptask rdeptask \
-> -    recrdeptask nodeprrecs stamp-base stamp-extra-info sstate-outputdirs filename lineno"
-> +    recrdeptask nodeprrecs stamp-extra-info sstate-outputdirs filename lineno"
->   
->   MLPREFIX ??= ""
->   MULTILIB_VARIANTS ??= ""
+diff --git a/meta/recipes-core/systemd/systemd_228.bb b/meta/recipes-core/systemd/systemd_228.bb
+index 6673042..19b7b42 100644
+--- a/meta/recipes-core/systemd/systemd_228.bb
++++ b/meta/recipes-core/systemd/systemd_228.bb
+@@ -59,7 +59,7 @@ LDFLAGS_append_libc-uclibc = " -lrt -lssp_nonshared -lssp "
+ 
+ GTKDOC_DOCDIR = "${S}/docs/"
+ 
+-PACKAGECONFIG ??= "xz ldconfig \
++PACKAGECONFIG ??= "compat xz ldconfig \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+-- 
+2.6.4
 
 
