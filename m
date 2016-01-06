@@ -1,43 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id B87AE73189;
-	Wed,  6 Jan 2016 03:16:06 +0000 (UTC)
-Received: by mail-pf0-f173.google.com with SMTP id 65so185741347pff.3;
-	Tue, 05 Jan 2016 19:16:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=L8mqbqliQX2HZ/SwGRDpvtynQ2ksCIER3knnhT2TB+E=;
-	b=lt9ADaNoCDTpsWVCvLqsp0EdXFOEvr6Nr4HyOlnpOENAbopJGuQw1zMT3Jz3S/K+uP
-	lgsMlEdX9vTcyORXktRhe0isNnOg6tTIsn5jW+rEdan6T5wEi08vvsLwd4LBJVRfmIAZ
-	Xq881pH5bNaNFGzATql/69DAPnWqkLKX+gDtaRs8XhSG+tXmqLciYk/tYGclRgP6wv2y
-	Ph5TlU+M6yzio20+3zJlVgnDmq2Dx+HAjDW2hYJhOQUk6Uk35tpVRKIKK8dywXeRZ4vD
-	pQm4qe7aKrZWDsq7gVEMEnagrG7f6uPqbmC9ElfOgl+h1nosyhXBFVHOqGZEWh31NEUR
-	p2GQ==
-X-Received: by 10.98.14.145 with SMTP id 17mr139593452pfo.145.1452050167210;
-	Tue, 05 Jan 2016 19:16:07 -0800 (PST)
-Received: from ?IPv6:2601:646:8802:5d5c:d17f:ed53:e760:c0ba?
-	([2601:646:8802:5d5c:d17f:ed53:e760:c0ba])
-	by smtp.gmail.com with ESMTPSA id
-	f12sm69504645pat.20.2016.01.05.19.16.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 05 Jan 2016 19:16:06 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
-X-Pgp-Agent: GPGMail 2.6b2
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <2007809.DSH5DR9lFx@peggleto-mobl.ger.corp.intel.com>
-Date: Tue, 5 Jan 2016 19:16:01 -0800
-Message-Id: <8AE765C7-71E0-46D1-A086-A86AEEFE3F6B@gmail.com>
-References: <CAMKF1sqAGXMFx9re3YgB1u9aLPGRT9KRCR-0Drux=4P5igirWw@mail.gmail.com>
-	<CAJTo0LbB02LR=6Yyy0-3=Hg1tjcdX=DmMKN2MEJqctnvi5n0Kg@mail.gmail.com>
-	<A374083C-8331-42F2-A3F5-9D5EB49538F7@gmail.com>
-	<2007809.DSH5DR9lFx@peggleto-mobl.ger.corp.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.3112)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] [RFT] glibc 2.23
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B869731E8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  6 Jan 2016 08:20:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u068KsbK001021
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 6 Jan 2016 00:20:54 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.246) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 6 Jan 2016 00:20:53 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 6 Jan 2016 16:20:55 +0800
+Message-ID: <1452068455-13075-1-git-send-email-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] bitbake: clean up stamp-base related codes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,72 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jan 2016 03:16:07 -0000
-X-Groupsio-MsgNum: 75489
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_FA6830F9-D73F-470C-BDE3-7323B21BEC35";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 06 Jan 2016 08:20:57 -0000
+Content-Type: text/plain
 
---Apple-Mail=_FA6830F9-D73F-470C-BDE3-7323B21BEC35
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+The 'stamp-base' related codes are no longer useful, clean them up.
+
+[YOCTO #8468]
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ bitbake/lib/bb/build.py | 4 ++--
+ bitbake/lib/bb/cache.py | 3 ---
+ meta/conf/bitbake.conf  | 2 +-
+ 3 files changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/bitbake/lib/bb/build.py b/bitbake/lib/bb/build.py
+index 22428a6..b84338b 100644
+--- a/bitbake/lib/bb/build.py
++++ b/bitbake/lib/bb/build.py
+@@ -582,10 +582,10 @@ def stamp_internal(taskname, d, file_name, baseonly=False):
+         taskflagname = taskname.replace("_setscene", "")
+ 
+     if file_name:
+-        stamp = d.stamp_base[file_name].get(taskflagname) or d.stamp[file_name]
++        stamp = d.stamp[file_name]
+         extrainfo = d.stamp_extrainfo[file_name].get(taskflagname) or ""
+     else:
+-        stamp = d.getVarFlag(taskflagname, 'stamp-base', True) or d.getVar('STAMP', True)
++        stamp = d.getVar('STAMP', True)
+         file_name = d.getVar('BB_FILENAME', True)
+         extrainfo = d.getVarFlag(taskflagname, 'stamp-extra-info', True) or ""
+ 
+diff --git a/bitbake/lib/bb/cache.py b/bitbake/lib/bb/cache.py
+index 521f758..0ec4057 100644
+--- a/bitbake/lib/bb/cache.py
++++ b/bitbake/lib/bb/cache.py
+@@ -129,7 +129,6 @@ class CoreRecipeInfo(RecipeInfoCommon):
+         self.not_world = self.getvar('EXCLUDE_FROM_WORLD', metadata)
+         self.stamp = self.getvar('STAMP', metadata)
+         self.stampclean = self.getvar('STAMPCLEAN', metadata)        
+-        self.stamp_base = self.flaglist('stamp-base', self.tasks, metadata)
+         self.stamp_base_clean = self.flaglist('stamp-base-clean', self.tasks, metadata)
+         self.stamp_extrainfo = self.flaglist('stamp-extra-info', self.tasks, metadata)
+         self.file_checksums = self.flaglist('file-checksums', self.tasks, metadata, True)
+@@ -158,7 +157,6 @@ class CoreRecipeInfo(RecipeInfoCommon):
+ 
+         cachedata.stamp = {}
+         cachedata.stampclean = {}
+-        cachedata.stamp_base = {}
+         cachedata.stamp_base_clean = {}
+         cachedata.stamp_extrainfo = {}
+         cachedata.file_checksums = {}
+@@ -192,7 +190,6 @@ class CoreRecipeInfo(RecipeInfoCommon):
+         cachedata.pkg_dp[fn] = self.defaultpref
+         cachedata.stamp[fn] = self.stamp
+         cachedata.stampclean[fn] = self.stampclean
+-        cachedata.stamp_base[fn] = self.stamp_base
+         cachedata.stamp_base_clean[fn] = self.stamp_base_clean
+         cachedata.stamp_extrainfo[fn] = self.stamp_extrainfo
+         cachedata.file_checksums[fn] = self.file_checksums
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 371af31..51885af 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -801,7 +801,7 @@ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
+     lockfiles type vardepsexclude vardeps vardepvalue vardepvalueexclude \
+     file-checksums python func task export unexport noexec nostamp dirs cleandirs \
+     sstate-lockfile-shared prefuncs postfuncs export_func deptask rdeptask \
+-    recrdeptask nodeprrecs stamp-base stamp-extra-info sstate-outputdirs filename lineno"
++    recrdeptask nodeprrecs stamp-extra-info sstate-outputdirs filename lineno"
+ 
+ MLPREFIX ??= ""
+ MULTILIB_VARIANTS ??= ""
+-- 
+1.9.1
 
 
-> On Jan 5, 2016, at 4:01 PM, Paul Eggleton =
-<paul.eggleton@linux.intel.com> wrote:
->=20
-> On Tue, 05 Jan 2016 13:08:31 Khem Raj wrote:
->>> On Jan 5, 2016, at 8:17 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->>>=20
->>> On 4 January 2016 at 19:00, Khem Raj <raj.khem@gmail.com> wrote:
->>>> I have done OE-Core only clean world builds for all Qemu machines
->>>> without a single build failure and
->>>> runtime boot tested.
->>>=20
->>> I threw this at the autobuilder and glibc failed to build on one of =
-the
->>> runs:
->>>=20
->>> http://errors.yoctoproject.org/Errors/Details/26057/
->>=20
->> Thanks Ross, what MACHINE did you build for ?
->=20
-> It's right there in the error report on the right hand side - =
-genericx86.
-
-Right, noticed it soon after. I have updated the patchset to fix the =
-genericx86
-and submitted it for glibc upstream as well.
-
-Same branch now has updated glibc patchset, if you have cycles please =
-try once more.
-
->=20
-> Cheers,
-> Paul
->=20
-> --
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
-
-
---Apple-Mail=_FA6830F9-D73F-470C-BDE3-7323B21BEC35
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlaMhvUACgkQuwUzVZGdMxQesgCbBPjFjM0UF4wBvq2dfDXgFVCB
-TcIAmwSceIp21hGp4vRI96ww11nK00dy
-=CJVv
------END PGP SIGNATURE-----
-
---Apple-Mail=_FA6830F9-D73F-470C-BDE3-7323B21BEC35--
