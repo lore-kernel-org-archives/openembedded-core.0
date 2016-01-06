@@ -1,46 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id EA0C260249
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id DD178601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jan 2016 15:50:33 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id u188so65020486wmu.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jan 2016 07:50:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=/6PQ1qJDmJl90b0FR9ixvazxF0ISoh8ze3p/ktWb2Cs=;
-	b=2T1/UCPPH2Twpr/hrbeP7duTZymjz3XoKqvOOYWuMsk+7krjhQ0zrmUwjBb0AxKFfI
-	/dB8Ud0e9OxBI+4bOFyvtBhDloQIyg147aM7Gk3XOuHkKluQFVMVC1irK3tScDloC0r4
-	E/HNWUyJ+1uMR+CkEpALsC8x0tKSjv0YgqvkyGd1GsXMkwaLQjiBui11EGyz8L30Tlao
-	Yg88pPt/HI7wVoIML18c3un+rpBWD8jV0ccHRdIlh0N0oNURhuzA1ih9ELnmnsJMQEj8
-	iCdz1S3eYGfEhYIL3eQrUt2Gyble9ME5Lf9SHek06trIuclFpiUFTv7ZjVDOuEzYt9XQ
-	sVXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=/6PQ1qJDmJl90b0FR9ixvazxF0ISoh8ze3p/ktWb2Cs=;
-	b=OwbFaloFU/rHMIp5T46eCSSSK1CqFm0l6Kfg+yKvgdThw/5sE249L+UAhkj62c1PpK
-	Dinmmvn75NU/DIMrMUlgESrQJxXimDqMiWQGSx7lcE+3faLC6LqPoyI/qBLomYSdcZY8
-	EwLlQ8r48KhERFqmPSLV83Va74TLy5qyq1WRdTdJMklmbhZ7mzQvsoLbe/G8U3YY6Ubd
-	2InZ21z7tZ7r+dHga4d9ddJdFhv8pmHuCK0SgASu/j2nfG1pKMY/Wuzfm/CKvV35dBpA
-	x4mAe4Mn/jF2kX7gwHEtMCIprnDrNv454YYnEv4bm1TW8ncJm0Ba3OfWcyTvurQSy2Is
-	80Gg==
-X-Gm-Message-State: ALoCoQnZF22bGNVMlPCxN26qXb+D4rabNl2SJ6TKskuDSxcWRW6Me54yST9RUV6luobgcMu2z1Eh4X+58dCGNk3cALxaYozgyg==
-X-Received: by 10.28.55.76 with SMTP id e73mr11484683wma.53.1452095434017;
-	Wed, 06 Jan 2016 07:50:34 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id y8sm9303314wmg.9.2016.01.06.07.50.33
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 06 Jan 2016 07:50:33 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Jan 2016 15:50:31 +0000
-Message-Id: <1452095431-16168-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [PATCH] postinst-intercepts: always use set -e
+	Wed,  6 Jan 2016 16:05:53 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 06 Jan 2016 08:05:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,529,1444719600"; d="scan'208";a="887517555"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.151])
+	([10.219.5.151])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Jan 2016 08:05:53 -0800
+To: Tudor Florea <tudor.florea@enea.com>,
+	openembedded-core@lists.openembedded.org
+References: <1451932157-3190-1-git-send-email-anibal.limon@linux.intel.com>
+	<568C5C24.5060601@enea.com> <568D36EE.1070505@linux.intel.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <568D3BC3.6040607@linux.intel.com>
+Date: Wed, 6 Jan 2016 10:07:31 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <568D36EE.1070505@linux.intel.com>
+Cc: paul.eggleton@linux.intel.com, poky@yoctoproject.org,
+	benjamin.esquivel@intel.com, georgex.l.musat@intel.com
+Subject: Re: [PATCH v3 0/3] ptest-runner 2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,43 +36,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jan 2016 15:50:35 -0000
+X-List-Received-Date: Wed, 06 Jan 2016 16:05:54 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-If a postinst has a problem (say, qemu crashes) and set -e isn't in operation,
-the only mention of the problem is a single line in the rootfs log that doesn't
-trigger any warnings.
+Hi again Tudor,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- scripts/postinst-intercepts/update_font_cache   | 2 ++
- scripts/postinst-intercepts/update_pixbuf_cache | 2 ++
- 2 files changed, 4 insertions(+)
+Comments below,
 
-diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
-index 0deab3c..d8b70ee 100644
---- a/scripts/postinst-intercepts/update_font_cache
-+++ b/scripts/postinst-intercepts/update_font_cache
-@@ -1,5 +1,7 @@
- #!/bin/sh
- 
-+set -e
-+
- PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir} \
- 					-E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D ${fontconfigcacheparams}
- chown -R root:root $D${fontconfigcachedir}
-diff --git a/scripts/postinst-intercepts/update_pixbuf_cache b/scripts/postinst-intercepts/update_pixbuf_cache
-index a8b4001..5d44075 100644
---- a/scripts/postinst-intercepts/update_pixbuf_cache
-+++ b/scripts/postinst-intercepts/update_pixbuf_cache
-@@ -1,5 +1,7 @@
- #!/bin/sh
- 
-+set -e
-+
- export GDK_PIXBUF_MODULEDIR=$D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders
- export GDK_PIXBUF_FATAL_LOADER=1
- 
--- 
-2.6.4
+	alimon
 
+
+
+On 01/06/2016 09:46 AM, Aníbal Limón wrote:
+> Hi Todor,
+> 
+> Comments below,
+> 	alimon
+> 
+> 
+> On 01/05/2016 06:13 PM, Tudor Florea wrote:
+>> Hi Anibal,
+>> Please see my comments inline.
+>> Regards,
+>>   Tudor.
+>>
+>> On 04/01/2016 20:29, Aníbal Limón wrote:
+>>> The whole set is sent to two ML for reviewing purposes the first
+>>> two patches are for oe-core and the last one for poky.
+>>>
+>>> The first two commits (oe-core) adds a new ptest-runner written in
+>>> python the sh one is conserved to use in tiny systems.
+>>>
+>>> What's new in ptest runner:
+>>>
+>>> - Monitor/timeout stdout, stderr of the test suite to avoid block
+>>> indefinetly.
+>> This is definitely something useful.
+>>> - Add option for change ptest root directory. - Add option for list
+>>> available tests. - Add option for only run certain tests.
+>>>
+>>> The last commit (meta-yocto) sets ptest-runner to 1.0 in poky-tiny
+>>> systems due to python dependency.
+>> I think adding python dependency is a shift in a wrong direction for
+>> for ptest-runner. The assumption that most embedded devices (tiny or
+>> not) have python might not be correct.
+>> The alternative of using the old version of ptest-runner only
+>> complicate things.
+>> I do think this kind of work is really useful but this should be done
+>> into a testing framework that runs outside of the DUT.
+> 
+> The original problem is the current sh ptest-runner blocks indefinitely
+> when a package ptest blocks (we don't control this), now python-ptest is
+> blocking the ptest-runner, see [1]. The way to solve this is adding
+> timeout in some place.
+> 
+> I know that bash support timeout option but this option works over the
+> whole process making us to define timeouts too big or per machine/device
+> also tiny systems mainly don't use bash. That's the reason for i decide
+> to write python version of ptest-runner that applies a timeout over the
+> output of the program give us better control/granularity over the
+> running ptest.
+> 
+> 
+> If you now other way to solve the problem please tell us.
+
+I was thinking and one possible solution for this will be implement in C
+the ptest-runner with the same features of python version, any comment?
+
+
+> 
+> 
+> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=8021
+> 
+> 
+>>>
+>>> The changes are available in the git repository at:
+>>>
+>>> git://git.yoctoproject.org/poky-contrib alimon/ptest-runner 
+>>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/ptest-runner
+>>>
+>>>  Aníbal Limón (3): ptest-runner: Add version 2.0 re-implementation
+>>> in python. ptest-runner: Add a recipe for install ptest-runner
+>>> 2.0. conf/distro/poky-tiny.conf: Add default install of
+>>> ptest-runner 1.0
+>>>
+>>> meta-yocto/conf/distro/poky-tiny.conf              |   4 + 
+>>> .../ptest-runner/files/ptest-runner_2.0.py         | 162
+>>> +++++++++++++++++++++ .../ptest-runner/ptest-runner_2.0.bb
+>>> |  27 ++++ 3 files changed, 193 insertions(+) create mode 100755
+>>> meta/recipes-support/ptest-runner/files/ptest-runner_2.0.py create
+>>> mode 100644 meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+>>>
 
