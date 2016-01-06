@@ -1,37 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 80F3360249
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A6B7260249
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Jan 2016 15:42:12 +0000 (UTC)
-Received: by mail-ig0-f173.google.com with SMTP id z14so30809150igp.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jan 2016 07:42:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=qGCcemkUDqyjU3ONdjdACMWbuP63sepJnHMoSCNDVO8=;
-	b=bOPfes4ywB6E3Bwz7CPaAaD5fMAH2FGCtC3n1V//XtYwsFwyC7TlX6sSwZWZkopld7
-	2Z5mfwY3iw2EciFQ3SF0aqp46wKzo6doDTN3elXyX4Izc32YrDStiHN3xFI42TR4P9cc
-	bAjCHqFVpcB3mguObRBN6Rf17/9YY4P3ttNFu52czy3Du1P6zf79XhAVCg7/4dYOKhM8
-	anEjwg5nzDhU56N0JLTNQpzbrk0L+veUl2PQ6CckcJPj6FcSwvp1Vt1jsDBKDwcgaHm6
-	V9h0h/09SLIkm3GEuCxU1khwiMt7D+uba/F2R0/ZxowihVLEkU3bMrjlPZ6bLWc2KSxG
-	KkJg==
-X-Received: by 10.50.20.138 with SMTP id n10mr10073213ige.11.1452094933146;
-	Wed, 06 Jan 2016 07:42:13 -0800 (PST)
+	Wed,  6 Jan 2016 15:45:17 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP; 06 Jan 2016 07:45:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,529,1444719600"; d="scan'208";a="24584555"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.151])
+	([10.219.5.151])
+	by fmsmga004.fm.intel.com with ESMTP; 06 Jan 2016 07:45:17 -0800
+To: Tudor Florea <tudor.florea@enea.com>,
+	openembedded-core@lists.openembedded.org
+References: <1451932157-3190-1-git-send-email-anibal.limon@linux.intel.com>
+	<568C5C24.5060601@enea.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <568D36EE.1070505@linux.intel.com>
+Date: Wed, 6 Jan 2016 09:46:54 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Received: by 10.107.16.74 with HTTP; Wed, 6 Jan 2016 07:41:43 -0800 (PST)
-In-Reply-To: <201601061256.18384.marex@denx.de>
-References: <1452046409-7350-1-git-send-email-marex@denx.de>
-	<C6305912-A665-4147-82C8-DB3213161A88@gmail.com>
-	<201601061256.18384.marex@denx.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 6 Jan 2016 07:41:43 -0800
-Message-ID: <CAMKF1srER82b_SoUvfqPoXZ7omHYgeZAhTpwSZZOhhQXo64JWw@mail.gmail.com>
-To: Marek Vasut <marex@denx.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc5: Fix build on NIOS2
+In-Reply-To: <568C5C24.5060601@enea.com>
+Cc: paul.eggleton@linux.intel.com, poky@yoctoproject.org,
+	benjamin.esquivel@intel.com, georgex.l.musat@intel.com
+Subject: Re: [PATCH v3 0/3] ptest-runner 2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,84 +37,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jan 2016 15:42:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 06 Jan 2016 15:45:17 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 6, 2016 at 3:56 AM, Marek Vasut <marex@denx.de> wrote:
-> On Wednesday, January 06, 2016 at 03:54:11 AM, Khem Raj wrote:
->> > On Jan 5, 2016, at 6:13 PM, Marek Vasut <marex@denx.de> wrote:
->> >
->> > The gcc 5.3 does not build on NIOS2 due to a missing MUSL_DYNAMIC_LINKER
->> > definition in it's config file. Add the definition to fix the build
->> > issue. The output produced during the failing build is as follows:
->> >
->> > g++    -isystem/b/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe
->> > -DIN_GCC  -DCROSS_DIRECTORY_STRUCTURE  -fno-exceptions -fno-rtti
->> > -fasynchronous-unwind-tables -W -Wall -Wno-narrowing -Wwrite-strings
->> > -Wcast-qual -Wmissing-format-attribute -Woverloaded-virtual -pedantic
->> > -Wno-long-long -Wno-variadic-macros -Wno-overlength-strings
->> > -DHAVE_CONFIG_H -static-libstdc++ -static-libgcc
->> > -L/b/tmp/sysroots/x86_64-linux/usr/lib
->> > -L/b/tmp/sysroots/x86_64-linux/lib
->> > -Wl,-rpath-link,/b/tmp/sysroots/x86_64-linux/usr/lib
->> > -Wl,-rpath-link,/b/tmp/sysroots/x86_64-linux/lib
->> > -Wl,-rpath,/b/tmp/sysroots/x86_64-linux/usr/lib
->> > -Wl,-rpath,/b/tmp/sysroots/x86_64-linux/lib -Wl,-O1 gcc-ar.o -o gcc-ar \
->> >
->> >        file-find.o libcommon.a ../libcpp/libcpp.a
->> >        ../libbacktrace/.libs/libbacktrace.a ../libiberty/libiberty.a
->> >        ../libdecnumber/libdecnumber.a
->> >
->> > In file included from ./tm.h:27:0,
->> >
->> >                 from /b/tmp/work-shared/gcc-5.3.0-r0/gcc-5.3.0/gcc/gcc.c:34:
->> > ./config/linux.h:92:28: error: expected ',' or ';' before
->> > 'MUSL_DYNAMIC_LINKER'
->> >
->> >     BIONIC_DYNAMIC_LINKER, MUSL_DYNAMIC_LINKER)
->> >
->> >                            ^
->> >
->> > ./config/linux.h:59:60: note: in definition of macro
->> > 'CHOOSE_DYNAMIC_LINKER1'
->> >
->> >   "%{" LIBC2 ":" LD2 ";:%{" LIBC3 ":" LD3 ";:%{" LIBC4 ":" LD4 ";:" LD1
->> >   "}}}"
->> >
->> >                                                            ^
->> >
->> > ./config/linux.h:91:3: note: in expansion of macro
->> > 'CHOOSE_DYNAMIC_LINKER'
->> >
->> >   CHOOSE_DYNAMIC_LINKER (GLIBC_DYNAMIC_LINKER, UCLIBC_DYNAMIC_LINKER, \
->> >   ^
->> >
->> > ./config/nios2/linux.h:40:25: note: in expansion of macro
->> > 'GNU_USER_DYNAMIC_LINKER'
->> >
->> >       -dynamic-linker " GNU_USER_DYNAMIC_LINKER "} \
->> >
->> >                         ^
->> >
->> > /b/tmp/work-shared/gcc-5.3.0-r0/gcc-5.3.0/gcc/gcc.c:884:32: note: in
->> > expansion of macro 'LINK_SPEC' static const char *link_spec = LINK_SPEC;
->> >
->> >                                ^
->> >
->> > <command-line>:0:27: warning: deprecated conversion from string constant
->> > to 'char*' [-Wwrite-strings]
->> > /b/tmp/work-shared/gcc-5.3.0-r0/gcc-5.3.0/gcc/gcc.c:1295:48: note: in
->> > expansion of macro 'STANDARD_STARTFILE_PREFIX' static char *const
->> > standard_startfile_prefix = STANDARD_STARTFILE_PREFIX;
+Hi Todor,
+
+Comments below,
+	alimon
+
+
+On 01/05/2016 06:13 PM, Tudor Florea wrote:
+> Hi Anibal,
+> Please see my comments inline.
+> Regards,
+>   Tudor.
+> 
+> On 04/01/2016 20:29, Aníbal Limón wrote:
+>> The whole set is sent to two ML for reviewing purposes the first
+>> two patches are for oe-core and the last one for poky.
 >>
->> This is ok to install.
->
-> Hi Khem, I don't quite get your comment, but check the error above. That's
-> what this patch addresses, the splat below is just a fallout from it.
+>> The first two commits (oe-core) adds a new ptest-runner written in
+>> python the sh one is conserved to use in tiny systems.
+>>
+>> What's new in ptest runner:
+>>
+>> - Monitor/timeout stdout, stderr of the test suite to avoid block
+>> indefinetly.
+> This is definitely something useful.
+>> - Add option for change ptest root directory. - Add option for list
+>> available tests. - Add option for only run certain tests.
+>>
+>> The last commit (meta-yocto) sets ptest-runner to 1.0 in poky-tiny
+>> systems due to python dependency.
+> I think adding python dependency is a shift in a wrong direction for
+> for ptest-runner. The assumption that most embedded devices (tiny or
+> not) have python might not be correct.
+> The alternative of using the old version of ptest-runner only
+> complicate things.
+> I do think this kind of work is really useful but this should be done
+> into a testing framework that runs outside of the DUT.
 
-it mean patch is ok to install :)
+The original problem is the current sh ptest-runner blocks indefinitely
+when a package ptest blocks (we don't control this), now python-ptest is
+blocking the ptest-runner, see [1]. The way to solve this is adding
+timeout in some place.
 
->
-> Best regards,
-> Marek Vasut
+I know that bash support timeout option but this option works over the
+whole process making us to define timeouts too big or per machine/device
+also tiny systems mainly don't use bash. That's the reason for i decide
+to write python version of ptest-runner that applies a timeout over the
+output of the program give us better control/granularity over the
+running ptest.
+
+
+If you now other way to solve the problem please tell us.
+
+
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=8021
+
+
+>>
+>> The changes are available in the git repository at:
+>>
+>> git://git.yoctoproject.org/poky-contrib alimon/ptest-runner 
+>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/ptest-runner
+>>
+>>  Aníbal Limón (3): ptest-runner: Add version 2.0 re-implementation
+>> in python. ptest-runner: Add a recipe for install ptest-runner
+>> 2.0. conf/distro/poky-tiny.conf: Add default install of
+>> ptest-runner 1.0
+>>
+>> meta-yocto/conf/distro/poky-tiny.conf              |   4 + 
+>> .../ptest-runner/files/ptest-runner_2.0.py         | 162
+>> +++++++++++++++++++++ .../ptest-runner/ptest-runner_2.0.bb
+>> |  27 ++++ 3 files changed, 193 insertions(+) create mode 100755
+>> meta/recipes-support/ptest-runner/files/ptest-runner_2.0.py create
+>> mode 100644 meta/recipes-support/ptest-runner/ptest-runner_2.0.bb
+>>
 
