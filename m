@@ -1,26 +1,27 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 24761606D1
+	by mail.openembedded.org (Postfix) with ESMTP id 1081B73172
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 07:45:25 +0000 (UTC)
+	Thu,  7 Jan 2016 08:07:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u077jQKo005704
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Jan 2016 23:45:26 -0800 (PST)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 6 Jan 2016 23:45:26 -0800
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0787L2M008717
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 7 Jan 2016 00:07:21 -0800 (PST)
+Received: from [128.224.162.155] (128.224.162.155) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 7 Jan 2016 00:07:20 -0800
+To: Trevor Woerner <twoerner@gmail.com>, OE-core
+	<openembedded-core@lists.openembedded.org>
+References: <568DF5C6.90509@gmail.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Jan 2016 23:45:24 -0800
-Message-ID: <228ce5dac7d96467f7165add45a39cfcd12c7bfc.1452152689.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1452152689.git.liezhi.yang@windriver.com>
-References: <cover.1452152689.git.liezhi.yang@windriver.com>
+Message-ID: <568E1CB6.708@windriver.com>
+Date: Thu, 7 Jan 2016 16:07:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-Subject: [PATCH 3/3] liberation-fonts: can't be allarch
+In-Reply-To: <568DF5C6.90509@gmail.com>
+Subject: Re: invoking a native compiler (gcc)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +34,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 07:45:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 07 Jan 2016 08:07:24 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-liberation-fonts inherit fontcache which would depend on fontconfig, and
-fontconfig is not allarch, so that liberation-fonts can't be allarch.
 
-It caused a problem:
-$ bitbake lib32-core-image-sato
 
-Both lib32-fontconfig and fontconfig would be built, but fontconfig
-shouldn't, this patch can fix the problem.
+On 01/07/2016 01:21 PM, Trevor Woerner wrote:
+> If a recipe needs to build some tool on the build machine which it later
+> wants to invoke, my understanding is that BUILD_CC should be used?
 
-[YOCTO #8882]
+Yes, you're right, use ${BUILD_CC}.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../ttf-fonts/liberation-fonts_1.04.bb             |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+// Robert
 
-diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-index bda82e7..f64748c 100644
---- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-+++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- PR = "r4"
- PE = "1"
- 
--inherit allarch fontcache
-+inherit fontcache
- 
- FONT_PACKAGES = "${PN}"
- 
--- 
-1.7.9.5
-
+>
 
