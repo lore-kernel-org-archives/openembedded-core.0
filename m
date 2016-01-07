@@ -1,48 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 4753E6FF84
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D2F06FF9B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 15:46:49 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id z14so36632799igp.1
+	Thu,  7 Jan 2016 16:00:33 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id 1so209636568ion.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 07:46:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=vUqK9Ihq6EH6sgt92qeAPGIpNA0N5dKdU/PE8b0R44I=;
-	b=mft6hpY4wI5HOlNZcOMjpT9r5xkmKJvqVfOUSF6sBOGOPgsjz1a9XkBCI5NfnMgLuZ
-	G9dtLF/xB5RXU8/6gTeM4RtnWZHn9lNcNbMkVqqEC7UR8cEP0cUgxiYowhACjjqxe0Dh
-	ECBjAZtcxW3l3hVXjt9Kkdi5NBJY4Am2geCNZ+ddseXcECWDxEkgo19X3yeIk23Utkdn
-	qdSB0+9CdtrJV9ZcaXOcxZ0RzdaIL66e565uxdoIfdNh97koMdv+PwC7Nrjn1gvzmBM7
-	xePI9qUeDcV4NVOtoWv3fmza85MZLDUg6HT+ttddrLq50Jv+vF5Sqq8wtQGxDBM5UauD
-	tDVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=vUqK9Ihq6EH6sgt92qeAPGIpNA0N5dKdU/PE8b0R44I=;
-	b=ikY9DXhkg8b0vauI2hZgJmXmKkuV0Coxa23VK8/N6R7a7eVPia1JTBEAMb1kD1j0a4
-	dDcJ3lzKPSZuk+TRANc4woocM4E4D6DGuSbP4TjYNRzak9/JLgygycvKJy2dMR8Otv9Z
-	2jlzo6UOP4WiFRN34skmgC+zoiw/DMATYaMev1rmPa4CcMppCSOixnFqyOWS4v48hen1
-	XoOO5gsSxw3CcNe2X8ppFTfnkJCL5mHTzRzW4LIEJHYfBr9igYxVWEIsWL8mk0p2ZiY3
-	Vz2wxn/9x1Jhmvy1ufTtvfLsjIb8ADI/mVS7JidaZmCr7bJ+sEmwdQegYB7RQjkcdYEC
-	KElg==
-X-Gm-Message-State: ALoCoQkdaPPpURCeQrHXj3pX5E7DIwd+3+el3saboK67ke5nN0E9Dn0CvLqtngEEzNxLhHPxpWsQwCi+ve/NDX/qXm4vJopWLJvXzJt7EeZ9SwQI6knxMwI=
-X-Received: by 10.50.126.8 with SMTP id mu8mr15462125igb.52.1452181610465;
-	Thu, 07 Jan 2016 07:46:50 -0800 (PST)
+	Thu, 07 Jan 2016 08:00:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=H1ez+u2/yGDb/1VGU545MOrm85tl+e8IydiivUbSTDg=;
+	b=WnLgGOs2JJSBzD8qx3t4rQXJjRJm42z062pqnrrrm0MnxxxlAAzzZJpX1F4UHKCzwA
+	uBIickYHaV66NMRu5+sE57zN1C4uPVrvxsEKpdkA5yb3w5NtC+naMvPUjckan2KSb9HB
+	4wLkbeU05BnS6etCSUsI0oAd4FS6+T3n4vo9DvfQzoYDBeB+zpUPkd4pYeftgKScByEJ
+	5HoiCdaHcJdXsIfRpCmwJnf1+o+lbp1KzoqHQE42Jw/Ld5LC4eg856YVS7Jwv3xPU+8H
+	sodRqgq657H7BkxQYE1tGInBLSUPHtC49urTqcB8aNRZRN4P077xGlHIoPvlo1orY4zq
+	eXXQ==
+X-Received: by 10.107.15.17 with SMTP id x17mr95217507ioi.35.1452182434747;
+	Thu, 07 Jan 2016 08:00:34 -0800 (PST)
+Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	j10sm5050920igx.15.2016.01.07.08.00.33
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 07 Jan 2016 08:00:34 -0800 (PST)
+To: Ross Burton <ross.burton@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1452096306.git.ross.burton@intel.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <568E8B9F.1040700@gmail.com>
+Date: Thu, 7 Jan 2016 11:00:31 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Thu, 7 Jan 2016 07:46:31 -0800 (PST)
-In-Reply-To: <568E86EF.5050408@gmail.com>
-References: <568DF5C6.90509@gmail.com> <568E1CB6.708@windriver.com>
-	<568E86EF.5050408@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 7 Jan 2016 15:46:31 +0000
-Message-ID: <CAJTo0LaDS4+ETDGLc+Ja8Q+TjCOJ=xn6dSvO4UsNMnLUPhzkcw@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: invoking a native compiler (gcc)
+In-Reply-To: <cover.1452096306.git.ross.burton@intel.com>
+Subject: Re: [PATCH 00/63] Consolidated pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +47,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 15:46:53 -0000
-Content-Type: multipart/alternative; boundary=047d7b1635bf0aa91d0528c061e6
+X-List-Received-Date: Thu, 07 Jan 2016 16:00:34 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---047d7b1635bf0aa91d0528c061e6
-Content-Type: text/plain; charset=UTF-8
+With this applied bitbake can't parse meta-openembedded because
 
-On 7 January 2016 at 15:40, Trevor Woerner <twoerner@gmail.com> wrote:
+meta-openembedded/meta-oe/recipes-devtools/python/python-pyqt_4.11.3.bb:25:
+Could not inherit file classes/qmake2.bbclass
 
-> I was surprised to find that BUILD_CC is being set to whatever comes up
-> first in our build computer's PATH. But I guess the alternative would be
-> to make our builds longer by compiling our own native compiler for such
-> cases.
->
+unless the user adds git://git.yoctoproject.org/meta-qt4 to their layers.
 
-You could always set BUILD_CC to explicitly point to the right compiler on
-your machine.  When I was trying to make OE work on Darwin I had to set
-BUILD_CC to point at brew's gcc binaries.
+Should this recipe be also moved to meta-qt4?
 
-Ross
-
---047d7b1635bf0aa91d0528c061e6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 January 2016 at 15:40, Trevor Woerner <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3kn" class=3D"a3s=
-" style=3D"overflow:hidden">I was surprised to find that BUILD_CC is being =
-set to whatever comes up<br>
-first in our build computer&#39;s PATH. But I guess the alternative would b=
-e<br>
-to make our builds longer by compiling our own native compiler for such<br>
-cases.</div></blockquote></div><br>You could always set BUILD_CC to explici=
-tly point to the right compiler on your machine.=C2=A0 When I was trying to=
- make OE work on Darwin I had to set BUILD_CC to point at brew&#39;s gcc bi=
-naries.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Ross</div></div>
-
---047d7b1635bf0aa91d0528c061e6--
