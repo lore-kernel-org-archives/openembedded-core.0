@@ -1,49 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 2485365CBF
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 587EA73232
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 21:39:41 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id 1so219638182ion.1
+	Thu,  7 Jan 2016 21:40:02 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id b14so144314996wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 13:39:42 -0800 (PST)
+	Thu, 07 Jan 2016 13:40:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=9K+fU3+F+0eiFF2VtC6PXlTlNissGPUK7T5uyZWI7Bc=;
-	b=teAZIb0XieegO1bCVNOdt5D+TCzqyrjJ0gq2lqmtBCk68SfB97JsBC6HkgEjX9nApV
-	jrW2I0rxizzX+7+yFKrm/OOsvrO4sqWPsdWbab/yy9NhZTCY9BYbtqB8EAu4yZu6QSMm
-	KX9ptJKLBEXtwuQi4hEyJOJYBrQ9dox3JTdqZepWedkwvsHt4wvl7tzaAIl3shuH7dv0
-	FI+cQ4pD/HHDhvlPEg1YmHUePbnkWzChNrGFb0kWpqiGRAqRfquLBl4ZIE/3ZLy7YXJq
-	IHmVvOqJFye277wHvElMiMxqMHuNt99Ej0lUYZE+DQmPyLnLYhVr0zP/U0LhJ3uCS9ra
-	xn+Q==
+	h=from:to:subject:date:message-id;
+	bh=gJ3MxGtB8pR5pxPnbzesUwHaptcgEuTT05qU0ubDdC0=;
+	b=IH1kifwnDWYMfb0M4vjbHh+l3kvbN21Uqi5cNbOyxHZHRX6hwKTlToU92IrbWpety3
+	QiSLSK5H3AaXZ9UlUunXQieDfDNJuWAi99IbZjXHSWGW4nADTVUs+wKsVRQVRfiTtKlp
+	IRkX1TYWEcdiJi1QLoZE6RhWqNA8MtL4j7OwsVYoyeyV1tuJ07Emx7P+CCVFrr88Tyxv
+	4ue5RXzoKSQzO5o9nSt042Ue++6L8114dQWe+r4EhAW+OHJe896qzx/AO475r5jZ1Xtn
+	CIevWY+xvMX0h8AUZl1BB5YQE4T7rnKYJ9LQLmRWRvgW4BaE55TQkX9ser1l8LpG07dU
+	EtWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=9K+fU3+F+0eiFF2VtC6PXlTlNissGPUK7T5uyZWI7Bc=;
-	b=XR9LhzZvZQrjx5b1T9ZrywvscoLMj1lEkGuPcibNb00vJLFuK13QScZ7ef/581/22E
-	0bbJAX5JnbBNeDJP/gqapQJIa4QZBTjKbSx+VRMqF6eFVTyfvC9rl2Z43Yaz+ELiX5Bi
-	lw1zxHUw0bI8ZDgJKpXcarwX1hi/RX73MO3z0Tma2w7UUQibwX1AzcaYZQVgSt+RgnLh
-	NgJoktkFx1xPzuWFLykj6fCqfati6bSFJ8rx0M1/bJ2KeaHcNTnsosbTBuinnc7YPEw/
-	u/m/o3fZksI2Zf6fQKdQxIMkmyJEX4zsiZ7+eac1/W75RZGRJidxRnrK0f4tLKNe+dOx
-	Uyrw==
-X-Gm-Message-State: ALoCoQm9pyGBZjyVqc0R3bSlz692cV1eki4+85Rtvh2bA8z7lkz/HvndwkUeAWKKcb2+9DxHHSlmZBgI3BDGJOBnwLGsMf7rchjqOgFQCBj8UOMmqNoNmWI=
-X-Received: by 10.107.164.161 with SMTP id d33mr90056353ioj.148.1452202782300; 
-	Thu, 07 Jan 2016 13:39:42 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Thu, 7 Jan 2016 13:39:22 -0800 (PST)
-In-Reply-To: <CAJ86T=VLQvP0mE3zCOYEr=Tkx0LJ-MYFh9kyEYZT7-1XYVi+XQ@mail.gmail.com>
-References: <1450828680-662-1-git-send-email-armccurdy@gmail.com>
-	<1450828680-662-3-git-send-email-armccurdy@gmail.com>
-	<CAJ86T=VLQvP0mE3zCOYEr=Tkx0LJ-MYFh9kyEYZT7-1XYVi+XQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 7 Jan 2016 21:39:22 +0000
-Message-ID: <CAJTo0LZi8hpETfuWBOTan=8B83V5up_fzM2__rK4ZmXZXf2UPg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] valgrind: don't restrict to armv7a
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=gJ3MxGtB8pR5pxPnbzesUwHaptcgEuTT05qU0ubDdC0=;
+	b=GLlNG+KoP3bPg3Z5aAAeprHT/8+v/IhD3j86pgTzy2AdEYtHIde2S1rzNxQtHBgnpw
+	WTPEAIbInraLteK2DGk/52s+r9Pp3BTr//fltj10xilmYNcc65//E44sXkTThHJ5Zph9
+	aNwgJrg6u5Riz9mLAUeJubqSF36R8CpL93+LM0IGg/VNoCvmApHZM4hwZnzb1OlYjhOk
+	xCn5ZNktScZgC1xCduNR5T+kG7JUzqwZhesexdSlg/BXRhE3ZFzDVi5Heh/P49PcmGz1
+	U3jU9daLpARh69+npgUkA1yAOEss+OqPzp/V9rX5ngzC6ncQabk5TjE7zbOChV/PkFhh
+	trmw==
+X-Gm-Message-State: ALoCoQlMxPbu445rz9OggXrfhscbiqacgcuUrCnsiNq4suMQoYGhG0Rt9u7ROdTfFA51XPPYB3jAXF3J0cHnZBXzGmMrhLfK+w==
+X-Received: by 10.28.111.194 with SMTP id c63mr19521863wmi.90.1452202802994;
+	Thu, 07 Jan 2016 13:40:02 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	u69sm15442575wmu.20.2016.01.07.13.40.02
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 07 Jan 2016 13:40:02 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Jan 2016 21:39:58 +0000
+Message-Id: <1452202798-31957-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] freetype: enable out-of-tree builds, and use host zlib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +53,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 21:39:42 -0000
-Content-Type: multipart/alternative; boundary=001a1141c976fb26aa0528c54e35
+X-List-Received-Date: Thu, 07 Jan 2016 21:40:04 -0000
 
---001a1141c976fb26aa0528c54e35
-Content-Type: text/plain; charset=UTF-8
+Add a few ${S} and ${B} to make out of tree builds work, and stop using
+autotools-brokensep.  Annoyingly we still need to use a custom do_configure so
+add a comment explaining why so someone else doesn't spend 30 minutes trying to
+make it work.
 
-On 7 January 2016 at 21:03, Andre McCurdy <armccurdy@gmail.com> wrote:
+Whilst here add a small patch so we don't need to tell the build where libtool
+is, and remove class-native do_configure as it doesn't appear to be required
+anymore.
 
-> Ping. This is more urgent now that arch-armv7ve.inc has been merged to
-> oe-core master.
->
+At this point I started to get carried away.
 
-Sadly 3.11 totally breaks on PPC, so that's blocking.  Maybe rebase the
-patch to master before the 3.11 upgrade?
+The do_compile_prepend is redundant now that configure is being told what
+compiler to use for build tools, so remove that.
 
-Ross
+Instead of using the integrated zlib fork, add a PACKAGECONFIG to use the zlib
+we build and enable that by default.  Also add a disabled PACKAGECONFIG for
+bzip2 support.
 
---001a1141c976fb26aa0528c54e35
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../freetype/freetype/use-right-libtool.patch      | 14 ++++++++++
+ meta/recipes-graphics/freetype/freetype_2.6.bb     | 32 ++++++++--------------
+ 2 files changed, 26 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-graphics/freetype/freetype/use-right-libtool.patch
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 January 2016 at 21:03, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3bo" class=3D"a3=
-s" style=3D"overflow:hidden">Ping. This is more urgent now that arch-armv7v=
-e.inc has been merged to<br>
-oe-core master.</div></blockquote><div><br></div><div>Sadly 3.11 totally br=
-eaks on PPC, so that&#39;s blocking.=C2=A0 Maybe rebase the patch to master=
- before the 3.11 upgrade?</div><div><br></div><div>Ross=C2=A0</div></div></=
-div></div>
+diff --git a/meta/recipes-graphics/freetype/freetype/use-right-libtool.patch b/meta/recipes-graphics/freetype/freetype/use-right-libtool.patch
+new file mode 100644
+index 0000000..c58d5b7
+--- /dev/null
++++ b/meta/recipes-graphics/freetype/freetype/use-right-libtool.patch
+@@ -0,0 +1,14 @@
++Freetype think that it knows best about where libtool is, and explicitly the
++libtool autoconf macros telling it where to find the libtool script.  Of course
++we prefix the script with the target triplet, so it's wrong.  Fix this by
++removing the forced assignment, so the configure script's knowledge of where it
++put libtool is used.
++
++Upstream-Status: Inappropriate
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++--- freetype-2.6/builds/unix/unix-cc.in.orig	2016-01-07 19:21:45.244943479 +0000
+++++ freetype-2.6/builds/unix/unix-cc.in	2016-01-07 19:21:50.213112131 +0000
++@@ -19,1 +18,1 @@
++-LIBTOOL := $(FT_LIBTOOL_DIR)/libtool
+++LIBTOOL := $(FT_LIBTOOL_DIR)/@LIBTOOL@
+diff --git a/meta/recipes-graphics/freetype/freetype_2.6.bb b/meta/recipes-graphics/freetype/freetype_2.6.bb
+index 70599c6..17ab1c8 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.6.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.6.bb
+@@ -13,48 +13,40 @@ LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=c017ff17fc6f0794adf93db5559ccd56
+ 
+ SECTION = "libs"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2"
++SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
++           file://use-right-libtool.patch"
+ SRC_URI[md5sum] = "5682890cb0267f6671dd3de6eabd3e69"
+ SRC_URI[sha256sum] = "8469fb8124764f85029cc8247c31e132a2c5e51084ddce2a44ea32ee4ae8347e"
+ 
+ BINCONFIG = "${bindir}/freetype-config"
+ 
+-inherit autotools-brokensep pkgconfig binconfig-disabled multilib_header
++inherit autotools pkgconfig binconfig-disabled multilib_header
+ 
+-LIBTOOL = "${S}/builds/unix/${HOST_SYS}-libtool"
+-EXTRA_OEMAKE = "'LIBTOOL=${LIBTOOL}'"
+-EXTRA_OEMAKE_class-native = ""
+-EXTRA_OECONF = "--without-zlib --without-bzip2 CC_BUILD='${BUILD_CC}'"
++EXTRA_OECONF = "CC_BUILD='${BUILD_CC}'"
+ TARGET_CPPFLAGS += "-D_FILE_OFFSET_BITS=64"
+ 
+-
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ??= "zlib"
++PACKAGECONFIG[bzip2] = "--with-bzip2,--without-bzip2,bzip2"
++PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
+ PACKAGECONFIG[pixmap] = "--with-png,--without-png,libpng"
+ # This results in a circular dependency so enabling is non-trivial
+ PACKAGECONFIG[harfbuzz] = "--with-harfbuzz,--without-harfbuzz,harfbuzz"
+ 
+ do_configure() {
+-	cd builds/unix
++	# Need this because although the autotools infrastructure is in
++	# builds/unix the configure script get written to ${S}, so we can't
++	# just use AUTOTOOLS_SCRIPT_PATH.
++	cd ${S}/builds/unix
+ 	libtoolize --force --copy
+ 	aclocal -I .
+ 	gnu-configize --force
+ 	autoconf
+-	cd ${S}
+-	oe_runconf
+-}
+-
+-do_configure_class-native() {
+-	(cd builds/unix && gnu-configize) || die "failure running gnu-configize"
++	cd ${B}
+ 	oe_runconf
+ }
+ 
+-do_compile_prepend() {
+-	${BUILD_CC} -o objs/apinames src/tools/apinames.c
+-}
+-
+ do_install_append() {
+ 	oe_multilib_header freetype2/config/ftconfig.h
+ }
+ 
+ BBCLASSEXTEND = "native"
+-
+-- 
+2.6.4
 
---001a1141c976fb26aa0528c54e35--
+
