@@ -1,47 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 31DE66FF84
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B7976FF84
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 15:32:35 +0000 (UTC)
-Received: by mail-ig0-f173.google.com with SMTP id h5so16695611igh.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 07:32:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=ox7ykPSHmaqJK7Pg1zCOcasRi26smnO0gFS2TGnWHg4=;
-	b=rfOmqvggLUvNQO3n2S6VQfLBuMKsi/ZqvFrLb271Y5IDTPFywSSDM2KtP+1zUBnbCg
-	lEjPxTP11sj6GyhnEiAphkvghT4LFNjifKoLRnooagMxvdYLOKWfq3WdQic909W29NOV
-	4Y/+g4aVoS4iurNEba3IGs/N67zJIk5pjNga5rv7yWh45dNgw3JRSN3DRUzPdtlT2JTd
-	VIC5vbSZifOvXQK7aUJ/d/M+NFf+W+WIdMFo0lPBHu3WCcsXzPWj0KnICuQGK+e3RvVe
-	4u1k/aV+0bHJUHJLrQfkr8dkArXGIXeSfKryYQbhOEP9f6IHTlFzFX50Q8lDi1aJTxB2
-	5FFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ox7ykPSHmaqJK7Pg1zCOcasRi26smnO0gFS2TGnWHg4=;
-	b=DIsBznjAl4cZ1wHGqTGE5jW9Z51rkrSQbP5Q2TKZXarE7gO1wYh0CMogg5h90uLBei
-	QFuzFM7eDdIgV+5CtieZ6WvyIhGPwfVjSJO6I65aZUNdW+UB+JfcvvM7p7x+VoFTid68
-	jkJmKr2EVnJ+cv864nW/fSPmAu7zfCdBaRLY48kSNyGmB1LLpcSMC5PIRY4x3jfQbTE0
-	3uh6pLunY3tiE/xuNsh0ULgfwC1EmVvGpAmljlmvoM+eYlZo39Q6tja0BgMmvON0GS1r
-	e21WfB3vYsePewqU6PrAiMoTg92xBm7SHUQVaXuh5oJi0q8Mli8LXSNS5oM46e4WxbcF
-	vKZg==
-X-Gm-Message-State: ALoCoQmksohOipfuEJRabPHts1U5ZQSBzvJto4modjCyHHg6QdIbyybO9YLFZf5K8yEDsP6n1WNQpmnwrcdXDGPZoKSYnrDaQxciw2smN6mpASA8kQozOEo=
-X-Received: by 10.50.111.111 with SMTP id ih15mr14429753igb.78.1452180756249; 
-	Thu, 07 Jan 2016 07:32:36 -0800 (PST)
+	Thu,  7 Jan 2016 15:33:36 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3pbs665ZfDz3hjZR;
+	Thu,  7 Jan 2016 16:33:34 +0100 (CET)
+X-Auth-Info: T1+xH7bj5RqAqKr5B/GZvIjtia7ahfq9fxpmupu4es4=
+Received: from chi.localnet (unknown [195.140.253.167])
+	(using TLSv1 with cipher DHE-RSA-CAMELLIA256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPSA id 3pbs6642vGzvdWS; 
+	Thu,  7 Jan 2016 16:33:34 +0100 (CET)
+From: Marek Vasut <marex@denx.de>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 7 Jan 2016 16:07:01 +0100
+User-Agent: KMail/1.13.7 (Linux/3.14-2-amd64; KDE/4.13.1; x86_64; ; )
+References: <1448983859-6096-1-git-send-email-marex@denx.de>
+	<201512011701.12802.marex@denx.de> <20160107143831.GE2512@jama>
+In-Reply-To: <20160107143831.GE2512@jama>
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Thu, 7 Jan 2016 07:32:16 -0800 (PST)
-In-Reply-To: <cover.1450568936.git.raj.khem@gmail.com>
-References: <cover.1450568936.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 7 Jan 2016 15:32:16 +0000
-Message-ID: <CAJTo0LbtH+=faMv7DpSbhsmaB6A9DmXkDSwAk6YA4cvGi7c_qg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+Message-Id: <201601071607.01877.marex@denx.de>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/17] musl fixes phase 2
+Subject: Re: [PATCH] libbsd: Upgrade to 0.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,117 +35,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 15:32:37 -0000
-Content-Type: multipart/alternative; boundary=089e0149be34205b540528c02ef0
+X-List-Received-Date: Thu, 07 Jan 2016 15:33:36 -0000
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
---089e0149be34205b540528c02ef0
-Content-Type: text/plain; charset=UTF-8
+On Thursday, January 07, 2016 at 03:38:31 PM, Martin Jansa wrote:
+> On Tue, Dec 01, 2015 at 05:01:12PM +0100, Marek Vasut wrote:
+> > On Tuesday, December 01, 2015 at 04:46:57 PM, Burton, Ross wrote:
+> > > On 1 December 2015 at 15:42, Marek Vasut <marex@denx.de> wrote:
+> > > > Looks like it depends on OpenSSL, so adding "DEPENDS = "openssl"" to
+> > > > the recipe would be the solution, right ?
+> > > 
+> > > Assuming it's a hard dependency, yes.
+> > 
+> > I was wrong, I just looked into the upstream git of libbsd and there's
+> > the solution:
+> > 
+> > http://cgit.freedesktop.org/libbsd/commit/?id=8493c7f27da2dcd2de71e9c7782
+> > c3d020d89c2a2
+> 
+> This upgrade breaks lldpd and possibly other libbsd users as well:
+> | In file included from
+> | /OE/build/oe-core/tmp-glibc/work/i586-oe-linux/lldpd/0.7.19-r0/lldpd-0.7
+> | .19/src/compat/compat.h:46:0,
+> | 
+> |                  from
+> |                  /OE/build/oe-core/tmp-glibc/work/i586-oe-linux/lldpd/0.
+> |                  7.19-r0/lldpd-0.7.19/src/lldpd-structs.h:41,
+> | 
+> |                  from /OE/build/oe-core/tmp-glibc/work/i586-oe-
+linux/lldpd/0.7.19-r0/lldpd-0.7.19/src/lldpd-structs.c:21:
+> | /OE/build/oe-core/tmp-glibc/sysroots/qemux86/usr/include/bsd/unistd.h: In
+> | function 'setproctitle':
+> | /OE/build/oe-core/tmp-glibc/sysroots/qemux86/usr/include/bsd/unistd.h:64
+> | :2: error: expected declaration specifiers before '__printflike'
+> | 
+> |   __printflike(1, 2);
+> |   ^
+> | 
+> | compilation terminated due to -Wfatal-errors.
+> | Makefile:493: recipe for target 'lldpd-structs.lo' failed
+> | make[2]: *** [lldpd-structs.lo] Error 1
+> 
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=807730
+> 
+> Luckily it's fixed in 0.8.1, I'll send patch for that soon.
 
-Hi Khem,
+Thanks
 
-I just reviewed this series again and there's still some patches that need
-tweaking:
+Best regards,
+Marek Vasut
 
-On 19 December 2015 at 23:52, Khem Raj <raj.khem@gmail.com> wrote:
-
-> Khem Raj (17):
->   powertop: Include right headers for timval struct
->
-
-Missing Upstream-Status.
-
-
->   dhcp: Include sys/types.h for u_int* defs
->
-
-Missing Upstream-Status.
-
-
->   blktrace: Include <sys/types.h for dev_t
->
-
-Missing Upstream-Status (Status doesn't count, there's machinery about this
-tag now)
-
-
->   fts: Add recipe
->
-
-Every patch is missing patch explanation / signed-off-by / upstream-status.
-
-  libcgroup: Add dependency on fts when building on musl
->
-
-The U-S is Pending but the commit isn't from you - was this actually a
-backport or just a patch that eg buildroot is carrying?
-
-  linux-libc-headers: Port patches for linux-headers for musl
->
-
-Patches are missing signed-off-by.
-
-
->   gdk-pixbuf: Fix latent build  issue exposed by musl
->
-
-This is a test that uses glibc features, so simply changing it to use
-malloc isn't right.  This is already fixed upstream properly:
-https://git.gnome.org/browse/gdk-pixbuf/commit/tests/pixbuf-lowmem.c?id=205a3b04e1216c1df199aec95185f7f48b8e0491
-
-The rest are merged into ross/mut so can you please rebase onto that.
-
-Ross
-
---089e0149be34205b540528c02ef0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Khem,</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">I just reviewed this series =
-again and there&#39;s still some patches that need tweaking:</div><div clas=
-s=3D"gmail_extra"><br><div class=3D"gmail_quote">On 19 December 2015 at 23:=
-52, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" ta=
-rget=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;=
-border-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex=
-"><span class=3D"">Khem</span> Raj (17):<br>
-=C2=A0 powertop: Include right headers for timval struct<br></blockquote><d=
-iv><br></div><div>Missing Upstream-Status.</div><div>=C2=A0</div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width=
-:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-lef=
-t:1ex">
-=C2=A0 dhcp: Include sys/types.h for u_int* defs<br></blockquote><div><br><=
-/div><div>Missing Upstream-Status.</div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
-=C2=A0 blktrace: Include &lt;sys/types.h for dev_t<br></blockquote><div><br=
-></div><div>Missing Upstream-Status (Status doesn&#39;t count, there&#39;s =
-machinery about this tag now)</div><div>=C2=A0</div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-l=
-eft-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">=C2=A0=
- fts: Add recipe<br></blockquote><div><br></div><div>Every patch is missing=
- patch explanation / signed-off-by / upstream-status.</div><div><br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;pa=
-dding-left:1ex">=C2=A0 libcgroup: Add dependency on fts when building on mu=
-sl<br></blockquote><div><br></div><div>The U-S is Pending but the commit is=
-n&#39;t from you - was this actually a backport or just a patch that eg bui=
-ldroot is carrying?</div><div><br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rg=
-b(204,204,204);border-left-style:solid;padding-left:1ex">
-=C2=A0 linux-libc-headers: Port patches for linux-headers for musl<br></blo=
-ckquote><div><br></div><div>Patches are missing signed-off-by.</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-s=
-tyle:solid;padding-left:1ex">=C2=A0 gdk-pixbuf: Fix latent build=C2=A0 issu=
-e exposed by musl<br></blockquote><div><br></div><div>This is a test that u=
-ses glibc features, so simply changing it to use malloc isn&#39;t right.=C2=
-=A0 This is already fixed upstream properly: <a href=3D"https://git.gnome.o=
-rg/browse/gdk-pixbuf/commit/tests/pixbuf-lowmem.c?id=3D205a3b04e1216c1df199=
-aec95185f7f48b8e0491">https://git.gnome.org/browse/gdk-pixbuf/commit/tests/=
-pixbuf-lowmem.c?id=3D205a3b04e1216c1df199aec95185f7f48b8e0491</a></div><div=
->=C2=A0</div><div>The rest are merged into ross/mut so can you please rebas=
-e onto that.</div><div><br></div><div>Ross</div><div><br></div></div><br></=
-div></div>
-
---089e0149be34205b540528c02ef0--
