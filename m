@@ -1,48 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id E7EF565CC3
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 2485365CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 21:34:45 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id q21so266269290iod.0
+	Thu,  7 Jan 2016 21:39:41 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id 1so219638182ion.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 13:34:47 -0800 (PST)
+	Thu, 07 Jan 2016 13:39:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=Im5CQ+ai0649h36gJBWoVFZKJCwL/5MsHcAfFuH4zbQ=;
-	b=ruNN+1oR08M7JDdQYjNbkOTKobT55eOQD4fidGme/cnQWpSPKa23zOyNvHH7vUzLCI
-	ix8QfIr85CGGNYKoVRTvRuncy3SP5GUYEJtKfiy3jMqyeYdDOJ9KdoH6sOJkntRNNiQk
-	6vB34qQ7SDXGSl5oO0bSX2uqVoHExCdzo/DkFCm8qaEEMckuEcgnwvCmakHRW4ztGuwM
-	MxfKt6n5EdNUA1xeeczSjUY0joDFYgBn7O6I+e59lf1fMMySmG7QJAuIY0lZfrcqIjs6
-	ktxXy5+W5F8WPftoSSOaFbHGNNzth0TwxHm+VkF5388hIuf/7DICDxppuRAXInDsrF4I
-	Zpww==
+	bh=9K+fU3+F+0eiFF2VtC6PXlTlNissGPUK7T5uyZWI7Bc=;
+	b=teAZIb0XieegO1bCVNOdt5D+TCzqyrjJ0gq2lqmtBCk68SfB97JsBC6HkgEjX9nApV
+	jrW2I0rxizzX+7+yFKrm/OOsvrO4sqWPsdWbab/yy9NhZTCY9BYbtqB8EAu4yZu6QSMm
+	KX9ptJKLBEXtwuQi4hEyJOJYBrQ9dox3JTdqZepWedkwvsHt4wvl7tzaAIl3shuH7dv0
+	FI+cQ4pD/HHDhvlPEg1YmHUePbnkWzChNrGFb0kWpqiGRAqRfquLBl4ZIE/3ZLy7YXJq
+	IHmVvOqJFye277wHvElMiMxqMHuNt99Ej0lUYZE+DQmPyLnLYhVr0zP/U0LhJ3uCS9ra
+	xn+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=Im5CQ+ai0649h36gJBWoVFZKJCwL/5MsHcAfFuH4zbQ=;
-	b=PFTkps4sl4eOfGksPtQTHdHWSsKitZo442o50QAfJ+gJ0WbEkYbl55FdiU/6ha1FtR
-	KFqJhE+h19IimKF9fw7GmI7CVAgJXHF7oBxU6qN9jV0ErHEQQ4jztnUPc614B6Jt2X+I
-	utPilO1KmMjTacshI6ew1f6PD5+41w3wAYlaGsXFwLAQepK7R0bjBVDvedLT5GbNZSIn
-	ra8tY87GbH71NbtT1GcSE2t62OnvsMDugfB4+CZQ5LBYs3f7ZD8wyGQ9ooL+v7AU6lDs
-	qGzWukia9ne2DdWIaR7ofzkHbngZEB2RJZRknkqLFV3hq9DGdDnxQiA7VA1PE3giM8Aj
-	byhw==
-X-Gm-Message-State: ALoCoQn1FzOcM3F7j6LZ6Coiw03glINjXIrByokDS/ImbcQp2lF03NOYJq/lk1NYhlyBcjnQ7sVeT7rio3EQ/ZJnTOTSLtCpb8gamFxHVcNFCeGuS7nZ0eI=
-X-Received: by 10.107.164.161 with SMTP id d33mr90037025ioj.148.1452202486849; 
-	Thu, 07 Jan 2016 13:34:46 -0800 (PST)
+	bh=9K+fU3+F+0eiFF2VtC6PXlTlNissGPUK7T5uyZWI7Bc=;
+	b=XR9LhzZvZQrjx5b1T9ZrywvscoLMj1lEkGuPcibNb00vJLFuK13QScZ7ef/581/22E
+	0bbJAX5JnbBNeDJP/gqapQJIa4QZBTjKbSx+VRMqF6eFVTyfvC9rl2Z43Yaz+ELiX5Bi
+	lw1zxHUw0bI8ZDgJKpXcarwX1hi/RX73MO3z0Tma2w7UUQibwX1AzcaYZQVgSt+RgnLh
+	NgJoktkFx1xPzuWFLykj6fCqfati6bSFJ8rx0M1/bJ2KeaHcNTnsosbTBuinnc7YPEw/
+	u/m/o3fZksI2Zf6fQKdQxIMkmyJEX4zsiZ7+eac1/W75RZGRJidxRnrK0f4tLKNe+dOx
+	Uyrw==
+X-Gm-Message-State: ALoCoQm9pyGBZjyVqc0R3bSlz692cV1eki4+85Rtvh2bA8z7lkz/HvndwkUeAWKKcb2+9DxHHSlmZBgI3BDGJOBnwLGsMf7rchjqOgFQCBj8UOMmqNoNmWI=
+X-Received: by 10.107.164.161 with SMTP id d33mr90056353ioj.148.1452202782300; 
+	Thu, 07 Jan 2016 13:39:42 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Thu, 7 Jan 2016 13:34:27 -0800 (PST)
-In-Reply-To: <1450389888-24760-3-git-send-email-tom.hochstein@freescale.com>
-References: <1450389888-24760-1-git-send-email-tom.hochstein@freescale.com>
-	<1450389888-24760-3-git-send-email-tom.hochstein@freescale.com>
+Received: by 10.107.162.70 with HTTP; Thu, 7 Jan 2016 13:39:22 -0800 (PST)
+In-Reply-To: <CAJ86T=VLQvP0mE3zCOYEr=Tkx0LJ-MYFh9kyEYZT7-1XYVi+XQ@mail.gmail.com>
+References: <1450828680-662-1-git-send-email-armccurdy@gmail.com>
+	<1450828680-662-3-git-send-email-armccurdy@gmail.com>
+	<CAJ86T=VLQvP0mE3zCOYEr=Tkx0LJ-MYFh9kyEYZT7-1XYVi+XQ@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 7 Jan 2016 21:34:27 +0000
-Message-ID: <CAJTo0LZwhxNv47sKdHn4fEd550X6+sdodD53+0WKRvUtqhy4PA@mail.gmail.com>
-To: Tom Hochstein <tom.hochstein@freescale.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [<OE-core][PATCH v2 3/4] packagegroup-core-x11-base: Remove matchbox for XWayland case.
+Date: Thu, 7 Jan 2016 21:39:22 +0000
+Message-ID: <CAJTo0LZi8hpETfuWBOTan=8B83V5up_fzM2__rK4ZmXZXf2UPg@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] valgrind: don't restrict to armv7a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,48 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 21:34:49 -0000
-Content-Type: multipart/alternative; boundary=001a1141c9765ef9ac0528c53ddf
+X-List-Received-Date: Thu, 07 Jan 2016 21:39:42 -0000
+Content-Type: multipart/alternative; boundary=001a1141c976fb26aa0528c54e35
 
---001a1141c9765ef9ac0528c53ddf
+--001a1141c976fb26aa0528c54e35
 Content-Type: text/plain; charset=UTF-8
 
-On 17 December 2015 at 22:04, Tom Hochstein <tom.hochstein@freescale.com>
-wrote:
+On 7 January 2016 at 21:03, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-> +    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '',
-> 'matchbox-terminal matchbox-wm', d)} \
+> Ping. This is more urgent now that arch-armv7ve.inc has been merged to
+> oe-core master.
 >
 
-No, this is broken.
-
-Poky (and others) build with wayland and x11 DISTRO_FEATURES, the presence
-of wayland DISTRO_FEATURE doesn't mean that XWayland is being used.  If
-you're using XWayland then you'll either have to create your own package
-groups, use appends to remove matchbox, or just live with matchbox being
-installed.
+Sadly 3.11 totally breaks on PPC, so that's blocking.  Maybe rebase the
+patch to master before the 3.11 upgrade?
 
 Ross
 
---001a1141c9765ef9ac0528c53ddf
+--001a1141c976fb26aa0528c54e35
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 December 2015 at 22:04, Tom Hochstein <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:tom.hochstein@freescale.com" target=3D"_blank">tom.hochstein@fre=
-escale.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":29h" class=3D"a3s" style=3D"overflow:hidden">+=C2=A0 =C2=A0 ${@bb.util=
-s.contains(&#39;DISTRO_FEATURES&#39;, &#39;wayland&#39;, &#39;&#39;, &#39;m=
-atchbox-terminal matchbox-wm&#39;, d)} \<br></div></blockquote></div><br></=
-div><div class=3D"gmail_extra">No, this is broken.</div><div class=3D"gmail=
-_extra"><br></div><div class=3D"gmail_extra">Poky (and others) build with w=
-ayland and x11 DISTRO_FEATURES, the presence of wayland DISTRO_FEATURE does=
-n&#39;t mean that XWayland is being used.=C2=A0 If you&#39;re using XWaylan=
-d then you&#39;ll either have to create your own package groups, use append=
-s to remove matchbox, or just live with matchbox being installed.</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
->
+On 7 January 2016 at 21:03, Andre McCurdy <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3bo" class=3D"a3=
+s" style=3D"overflow:hidden">Ping. This is more urgent now that arch-armv7v=
+e.inc has been merged to<br>
+oe-core master.</div></blockquote><div><br></div><div>Sadly 3.11 totally br=
+eaks on PPC, so that&#39;s blocking.=C2=A0 Maybe rebase the patch to master=
+ before the 3.11 upgrade?</div><div><br></div><div>Ross=C2=A0</div></div></=
+div></div>
 
---001a1141c9765ef9ac0528c53ddf--
+--001a1141c976fb26aa0528c54e35--
