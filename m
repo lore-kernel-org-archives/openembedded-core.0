@@ -1,43 +1,22 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 446D2731DB
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A8E660132
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 18:01:29 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id q21so260240591iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 10:01:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:references:cc:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=DUIw+Vg/5VIn/seRa1enyZDoGxf4Xv7H0NvYISufz4M=;
-	b=hwaaVgwNmgjH6MgQ3F0Qn13rEYCG2vDWGiFjmdF+kJzQad8evY9zCm3PSyJqs2ShqR
-	PJzprBCZhRWcplnpFJTnYur6XYuL7t9q6BNN/mpldpmDWwBQMeFobgUOungjZzLR14sN
-	lUrztQ8E4OpLa8F9UssT42o1F9P7I5iP7qtKyPcc7TIEtq8mTjoYhIVXRmZz6K1Vzzg0
-	XDatraQ38INGzHKlrkgZDsTH8lzoKKBF3enuPK1/WHLd8kyI7bW/wWLNi4yBWyLQ3j7R
-	dvBWKIpxgVafjRBP+Wx6mYNJAIr7cE8nSyemKIvzt+q9oqEUtlCMKt698I30017y96yD
-	JrAw==
-X-Received: by 10.107.135.198 with SMTP id r67mr55785625ioi.103.1452189690140; 
-	Thu, 07 Jan 2016 10:01:30 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	w84sm4896955ioi.20.2016.01.07.10.01.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 07 Jan 2016 10:01:28 -0800 (PST)
-References: <568DF5C6.90509@gmail.com> <568E1CB6.708@windriver.com>
-	<568E86EF.5050408@gmail.com>
-	<CAJTo0LaDS4+ETDGLc+Ja8Q+TjCOJ=xn6dSvO4UsNMnLUPhzkcw@mail.gmail.com>
-	<1452184627.7598.132.camel@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <568EA7ED.6010806@gmail.com>
-Date: Thu, 7 Jan 2016 13:01:17 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <1452184627.7598.132.camel@linuxfoundation.org>
-Subject: Re: invoking a native compiler (gcc)
+	Thu,  7 Jan 2016 19:24:07 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 07 Jan 2016 11:24:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,534,1444719600"; d="scan'208";a="885911172"
+Received: from bitbang.jf.intel.com ([10.7.199.73])
+	by orsmga002.jf.intel.com with ESMTP; 07 Jan 2016 11:24:07 -0800
+From: Randy Witt <randy.e.witt@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Jan 2016 11:23:59 -0800
+Message-Id: <cover.1452194521.git.randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <cover.1452118391.git.randy.e.witt@linux.intel.com>
+References: <cover.1452118391.git.randy.e.witt@linux.intel.com>
+Subject: [PATCH v2 0/3] Extensible SDK size reduction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,39 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 18:01:32 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Jan 2016 19:24:07 -0000
 
+This removes some unneeded items from the extensible sdk to reduce size by
+~300MB.
 
+Includes an additional patch
 
-On 01/07/16 11:37, Richard Purdie wrote:
-> On Thu, 2016-01-07 at 15:46 +0000, Burton, Ross wrote:
->> On 7 January 2016 at 15:40, Trevor Woerner <twoerner@gmail.com>
->> wrote:
->>> I was surprised to find that BUILD_CC is being set to whatever
->>> comes up
->>> first in our build computer's PATH. But I guess the alternative
->>> would be
->>> to make our builds longer by compiling our own native compiler for
->>> such
->>> cases.
->>>
->> You could always set BUILD_CC to explicitly point to the right
->> compiler on your machine.  When I was trying to make OE work on
->> Darwin I had to set BUILD_CC to point at brew's gcc binaries.
-> Or you setup PATH to include things in the right order as we do with
-> other native tools...
+The following changes since commit 0f3ad7c77aa0f8bb7641af1886e1420cdfa8419f:
 
-I was surprised to learn that a compiler from the host machine was
-potentially being used as part of a build, not which one is found and
-being used. When I discovered this I was quite sure I had configured
-something incorrectly. This is more of an academic exercise, I didn't
-run into any problems.
+  scripts/yocto-layer: Avoids duplication of "meta-" prefix (2016-01-07 13:52:21 +0000)
 
-I guess we're covered in the sense that each release specifies which
-distros are supported. So as long as any native tools that are used in
-each of the support distros are able to produce a successful build
-everything should be fine. BUILD_CC is almost like an implicit
-ASSUME_PROVIDED.
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib rewitt/extsdksize
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rewitt/extsdksize
+
+Randy Witt (3):
+  populate_sdk_ext: Pass excluded_targets as a list to prune_lockedsigs
+  copy_buildsystem.py: Allow substring matches for excluded_targets
+  populate_sdk_ext: Don't put nativesdk and crosssdk items in ext sdk
+
+ meta/classes/populate_sdk_ext.bbclass | 8 +++++++-
+ meta/lib/oe/copy_buildsystem.py       | 7 +++++--
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+-- 
+2.5.0
+
 
