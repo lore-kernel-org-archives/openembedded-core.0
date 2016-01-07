@@ -1,27 +1,42 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id AEB74731BE
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 34BE0731BE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 14:29:32 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 07 Jan 2016 06:29:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,533,1444719600"; d="scan'208";a="855439739"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 07 Jan 2016 06:29:32 -0800
-Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
-	[10.237.72.71])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 88B826A4004
+	Thu,  7 Jan 2016 14:38:07 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id u188so100927445wmu.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 07:17:30 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jan 2016 16:31:35 +0200
-Message-Id: <1452177095-26026-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH v3] bluez5: upgrade to 5.37
+	Thu, 07 Jan 2016 06:38:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=HiySVYPr2S/+HFOgCx2sZi37Cxxw2wqz9OHmWiUrlk4=;
+	b=ctTDgfmQFhMkmvEkeWi5X1zBHtfiuisDX6Eg9yFjgc1tEe7HA+GnVLJ9zd4N8HMpVX
+	IaxuwmVNpesG41EkIyFSx62hRxv3cbfKvv+dr24ypgyF87f+ku6a1h6zop6VQ29HhjxO
+	Ga7xGuBH/Jy2XoXpdomzvmLoAEzyRfrrbiBczhZBqsHmeiUO43+JF99xoQzOQQbhoTFq
+	O+Kmeoq5zHs8gUSKzXAsALv7vvnMJPQ3tdGhA0i+bW7CGsxVzNXbAVzv7Iog3PfEXW+z
+	jHmFVy3duiK/4eVR5WKaoph3VUTrXLHHHjb1drVlmBb/bH4QxYZk2z67/f4WTCUapceD
+	9yDw==
+X-Received: by 10.28.215.136 with SMTP id o130mr13836012wmg.33.1452177488056; 
+	Thu, 07 Jan 2016 06:38:08 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	ql10sm101456571wjc.23.2016.01.07.06.38.06
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 07 Jan 2016 06:38:06 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 7 Jan 2016 15:38:31 +0100
+To: Marek Vasut <marex@denx.de>
+Message-ID: <20160107143831.GE2512@jama>
+References: <1448983859-6096-1-git-send-email-marex@denx.de>
+	<201512011642.38085.marex@denx.de>
+	<CAJTo0LZYZ4GYKdMK7SGQxtd1o3PyO1zberj6nn0QXmAfhr8fDw@mail.gmail.com>
+	<201512011701.12802.marex@denx.de>
+MIME-Version: 1.0
+In-Reply-To: <201512011701.12802.marex@denx.de>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libbsd: Upgrade to 0.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,118 +49,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 14:29:35 -0000
+X-List-Received-Date: Thu, 07 Jan 2016 14:38:09 -0000
+X-Groupsio-MsgNum: 75568
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="gDGSpKKIBgtShtf+"
+Content-Disposition: inline
 
-5.36 -> 5.37
+--gDGSpKKIBgtShtf+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Remove the backported patch:
-core-profile-Fix-possible-crash-when-registering-pro.patch
+On Tue, Dec 01, 2015 at 05:01:12PM +0100, Marek Vasut wrote:
+> On Tuesday, December 01, 2015 at 04:46:57 PM, Burton, Ross wrote:
+> > On 1 December 2015 at 15:42, Marek Vasut <marex@denx.de> wrote:
+> > > Looks like it depends on OpenSSL, so adding "DEPENDS =3D "openssl"" t=
+o the
+> > > recipe would be the solution, right ?
+> >=20
+> > Assuming it's a hard dependency, yes.
+>=20
+> I was wrong, I just looked into the upstream git of libbsd and there's the
+> solution:
+>=20
+> http://cgit.freedesktop.org/libbsd/commit/?id=3D8493c7f27da2dcd2de71e9c77=
+82c3d020d89c2a2
 
-Build bluez5 only when DISTRO_FEATURES include bluez5
+This upgrade breaks lldpd and possibly other libbsd users as well:
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- meta/recipes-connectivity/bluez5/bluez5.inc        |  2 +-
- ...e-Fix-possible-crash-when-registering-pro.patch | 54 ----------------------
- .../bluez5/{bluez5_5.36.bb => bluez5_5.37.bb}      |  7 +--
- 3 files changed, 5 insertions(+), 58 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
- rename meta/recipes-connectivity/bluez5/{bluez5_5.36.bb => bluez5_5.37.bb} (83%)
+| In file included from /OE/build/oe-core/tmp-glibc/work/i586-oe-linux/lldp=
+d/0.7.19-r0/lldpd-0.7.19/src/compat/compat.h:46:0,
+|                  from /OE/build/oe-core/tmp-glibc/work/i586-oe-linux/lldp=
+d/0.7.19-r0/lldpd-0.7.19/src/lldpd-structs.h:41,
+|                  from /OE/build/oe-core/tmp-glibc/work/i586-oe-linux/lldp=
+d/0.7.19-r0/lldpd-0.7.19/src/lldpd-structs.c:21:
+| /OE/build/oe-core/tmp-glibc/sysroots/qemux86/usr/include/bsd/unistd.h: In=
+ function 'setproctitle':
+| /OE/build/oe-core/tmp-glibc/sysroots/qemux86/usr/include/bsd/unistd.h:64:=
+2: error: expected declaration specifiers before '__printflike'
+|   __printflike(1, 2);
+|   ^
+| compilation terminated due to -Wfatal-errors.
+| Makefile:493: recipe for target 'lldpd-structs.lo' failed
+| make[2]: *** [lldpd-structs.lo] Error 1
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 3aaefa3..ff2bdcb 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -22,7 +22,7 @@ SRC_URI = "\
- "
- S = "${WORKDIR}/bluez-${PV}"
- 
--inherit autotools-brokensep pkgconfig systemd update-rc.d
-+inherit autotools-brokensep pkgconfig systemd update-rc.d distro_features_check
- 
- EXTRA_OECONF = "\
-   --enable-tools \
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch b/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
-deleted file mode 100644
-index 5c6cee1..0000000
---- a/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
-+++ /dev/null
-@@ -1,54 +0,0 @@
--From bc4dbda3362d3654447d8ae6525cac1540b7d705 Mon Sep 17 00:00:00 2001
--From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
--Date: Thu, 5 Nov 2015 15:14:50 +0200
--Subject: [PATCH] core/profile: Fix possible crash when registering profiles
--
--Upstream-Status: Backport
--
--Profiles under ext_profiles are local and should no be mixed with other
--external profiles since its type is different which can may cause invalid
--memory when accessing member of ext_profile struct.
-----
-- src/profile.c | 14 ++------------
-- 1 file changed, 2 insertions(+), 12 deletions(-)
--
--diff --git a/src/profile.c b/src/profile.c
--index 49445d7..5a4f09c 100644
----- a/src/profile.c
--+++ b/src/profile.c
--@@ -719,19 +719,13 @@ void btd_profile_foreach(void (*func)(struct btd_profile *p, void *data),
-- 
-- int btd_profile_register(struct btd_profile *profile)
-- {
---	if (profile->external)
---		ext_profiles = g_slist_append(ext_profiles, profile);
---	else
---		profiles = g_slist_append(profiles, profile);
--+	profiles = g_slist_append(profiles, profile);
-- 	return 0;
-- }
-- 
-- void btd_profile_unregister(struct btd_profile *profile)
-- {
---	if (profile->external)
---		ext_profiles = g_slist_remove(ext_profiles, profile);
---	else
---		profiles = g_slist_remove(profiles, profile);
--+	profiles = g_slist_remove(profiles, profile);
-- }
-- 
-- static struct ext_profile *find_ext_profile(const char *owner,
--@@ -742,10 +736,6 @@ static struct ext_profile *find_ext_profile(const char *owner,
-- 	for (l = ext_profiles; l != NULL; l = g_slist_next(l)) {
-- 		struct ext_profile *ext = l->data;
-- 
---		/*
---		 * Owner and path can be NULL if profile was registered by a
---		 * plugin using external flag.
---		 */
-- 		if (g_strcmp0(ext->owner, owner))
-- 			continue;
-- 
---- 
--2.5.0
--
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.36.bb b/meta/recipes-connectivity/bluez5/bluez5_5.37.bb
-similarity index 83%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.36.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.37.bb
-index 884bb77..db20f79 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.36.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.37.bb
-@@ -1,8 +1,9 @@
- require bluez5.inc
- 
--SRC_URI += "file://core-profile-Fix-possible-crash-when-registering-pro.patch"
--SRC_URI[md5sum] = "9a0ee479cacc44fac68f6a65b1cd3eba"
--SRC_URI[sha256sum] = "a343ea1aeb53d3bd139087f3b1c1e1fb70db452d9762cc7a3d23e75962e578f2"
-+REQUIRED_DISTRO_FEATURES = "bluez5"
-+
-+SRC_URI[md5sum] = "33177e5743e24b2b3738f72be64e3ffb"
-+SRC_URI[sha256sum] = "c14ba9ddcb0055522073477b8fd8bf1ddf5d219e75fdfd4699b7e0ce5350d6b0"
- 
- # noinst programs in Makefile.tools that are conditional on READLINE
- # support
--- 
-2.4.0
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D807730
 
+Luckily it's fixed in 0.8.1, I'll send patch for that soon.
 
+Regards,
+
+>=20
+> Best regards,
+> Marek Vasut
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--gDGSpKKIBgtShtf+
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlaOeGcACgkQN1Ujt2V2gBxRJwCfXzwnR0PdBcLYsEEoUXm2MNnv
+RMQAn0xC/J0ca45A/e0SiBndIpO2R38x
+=weMP
+-----END PGP SIGNATURE-----
+
+--gDGSpKKIBgtShtf+--
