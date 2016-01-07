@@ -1,47 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id ABA42731BE
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id AEB74731BE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 14:24:03 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id 1so206552758ion.1
+	Thu,  7 Jan 2016 14:29:32 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 07 Jan 2016 06:29:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,533,1444719600"; d="scan'208";a="855439739"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 07 Jan 2016 06:29:32 -0800
+Received: from mbabyjoh-mobl.fi.intel.com (mbabyjoh-mobl.fi.intel.com
+	[10.237.72.71])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 88B826A4004
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 06:24:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=n8r8tYd8bXbFofZCdNQWMw0KSi6BtsWNSgpOJCRlWh8=;
-	b=kwLJ1lJlP/6mQMnkGgC1ZQNK25RzAvlHjN1oQm+L0jzNJike/i5NYs9Cvj3+ztbzCG
-	Xgtz6FaUO9VZagduDLu0xruf8J9+qB+QJeR61H+cFnMd1PXVuFJ7ApVjIIh7F/gMHht5
-	N9ruX+DTRFLK4kKZta5hMND/BZ7x5Uyw9hkfIVqxl2aLyESvwjxSYZHoSMuK8/jx5Xmv
-	zdZ7uXL63lPJ4nBo3RHb2bOEupz+jab1gG/G6S1WJa1/lmz+QM8st4fkYSULKTiRA01K
-	6u7GM+e2VxDN5PZqBrDPaVEGR0R/t/g5k22cEa2XGSAV7h+84TAgPeNFtnrPmsXvTe6N
-	LDpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=n8r8tYd8bXbFofZCdNQWMw0KSi6BtsWNSgpOJCRlWh8=;
-	b=eVtodyI5zArKqrp4cUxv/ZSoGeOg3Qd8jh8tg2/0Gg0A1H+CdIHT21CBYRpAg/8HCN
-	yn0Fpwn/JBizH+qyiHOSI4qmU7CFcBRsb9UqKveBsBAfROWr3IAo5PROoEAl7f4d570h
-	+cP/mGZTi7YsscJxzRwqNzn3Za6mECJF85h1HBWkkCYIE9e9vmJEQ9Jiq5/3+4Y+ODFd
-	VOREqy8gUaQe0KA99xWye3PxjYRGzllhdFldxt5gi3VBvzEgqa0deTimQUOubERHni9o
-	tnfljH0BuxysvitSMFbj8AXcX/EdcMMjkpoDW/df+5sFG7+2KlAX4k74jpS2dnL/nWx7
-	XdFQ==
-X-Gm-Message-State: ALoCoQmd/qJIT6wXfyvcVG0++Qk3BSKKv6S8L3cvyljGaRmQ6NffRm7isdKadP/w1ZIZ6KGWilvdns1iqX3rLhbsYhVdSh6ZhtPfbw93MwNUuV6mGFiaseY=
-X-Received: by 10.107.3.154 with SMTP id e26mr89972005ioi.99.1452176644068;
-	Thu, 07 Jan 2016 06:24:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Thu, 7 Jan 2016 06:23:44 -0800 (PST)
-In-Reply-To: <1450936283-177234-1-git-send-email-fupan.li@windriver.com>
-References: <1450936283-177234-1-git-send-email-fupan.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 7 Jan 2016 14:23:44 +0000
-Message-ID: <CAJTo0LYOiCPGMYE2BTeZD0hyhfLcO0KALR7pmDhr23jGNcdytg@mail.gmail.com>
-To: fupan.li@windriver.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oe-core:package_manager extract target arch from TARGET_SYS and add it into package_archs
+	Thu,  7 Jan 2016 07:17:30 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Jan 2016 16:31:35 +0200
+Message-Id: <1452177095-26026-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH v3] bluez5: upgrade to 5.37
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,57 +34,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 14:24:03 -0000
-Content-Type: multipart/alternative; boundary=001a113ec10a059d7c0528bf394e
+X-List-Received-Date: Thu, 07 Jan 2016 14:29:35 -0000
 
---001a113ec10a059d7c0528bf394e
-Content-Type: text/plain; charset=UTF-8
+5.36 -> 5.37
 
-On 24 December 2015 at 05:51, <fupan.li@windriver.com> wrote:
+Remove the backported patch:
+core-profile-Fix-possible-crash-when-registering-pro.patch
 
-> +            #add the compatible arch extracted from TARGET_SYS.
-> +            #TARGET_SYS usually values as "arm-poky-linux-gnueabi",
-> +            #so the arch is 'arm'
-> +            target_sys = self.d.getVar("TARGET_SYS", True)
-> +            if target_sys:
-> +                target_arch = target_sys.split('-')[0]
-> +            if target_arch not in package_archs['default']:
-> +                package_archs['default'].append(target_arch)
-> +
->
+Build bluez5 only when DISTRO_FEATURES include bluez5
 
-Isn't this a long-winded way of getting ${TARGET_ARCH}?
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc        |  2 +-
+ ...e-Fix-possible-crash-when-registering-pro.patch | 54 ----------------------
+ .../bluez5/{bluez5_5.36.bb => bluez5_5.37.bb}      |  7 +--
+ 3 files changed, 5 insertions(+), 58 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.36.bb => bluez5_5.37.bb} (83%)
 
-Ross
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 3aaefa3..ff2bdcb 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -22,7 +22,7 @@ SRC_URI = "\
+ "
+ S = "${WORKDIR}/bluez-${PV}"
+ 
+-inherit autotools-brokensep pkgconfig systemd update-rc.d
++inherit autotools-brokensep pkgconfig systemd update-rc.d distro_features_check
+ 
+ EXTRA_OECONF = "\
+   --enable-tools \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch b/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
+deleted file mode 100644
+index 5c6cee1..0000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/core-profile-Fix-possible-crash-when-registering-pro.patch
++++ /dev/null
+@@ -1,54 +0,0 @@
+-From bc4dbda3362d3654447d8ae6525cac1540b7d705 Mon Sep 17 00:00:00 2001
+-From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+-Date: Thu, 5 Nov 2015 15:14:50 +0200
+-Subject: [PATCH] core/profile: Fix possible crash when registering profiles
+-
+-Upstream-Status: Backport
+-
+-Profiles under ext_profiles are local and should no be mixed with other
+-external profiles since its type is different which can may cause invalid
+-memory when accessing member of ext_profile struct.
+----
+- src/profile.c | 14 ++------------
+- 1 file changed, 2 insertions(+), 12 deletions(-)
+-
+-diff --git a/src/profile.c b/src/profile.c
+-index 49445d7..5a4f09c 100644
+---- a/src/profile.c
+-+++ b/src/profile.c
+-@@ -719,19 +719,13 @@ void btd_profile_foreach(void (*func)(struct btd_profile *p, void *data),
+- 
+- int btd_profile_register(struct btd_profile *profile)
+- {
+--	if (profile->external)
+--		ext_profiles = g_slist_append(ext_profiles, profile);
+--	else
+--		profiles = g_slist_append(profiles, profile);
+-+	profiles = g_slist_append(profiles, profile);
+- 	return 0;
+- }
+- 
+- void btd_profile_unregister(struct btd_profile *profile)
+- {
+--	if (profile->external)
+--		ext_profiles = g_slist_remove(ext_profiles, profile);
+--	else
+--		profiles = g_slist_remove(profiles, profile);
+-+	profiles = g_slist_remove(profiles, profile);
+- }
+- 
+- static struct ext_profile *find_ext_profile(const char *owner,
+-@@ -742,10 +736,6 @@ static struct ext_profile *find_ext_profile(const char *owner,
+- 	for (l = ext_profiles; l != NULL; l = g_slist_next(l)) {
+- 		struct ext_profile *ext = l->data;
+- 
+--		/*
+--		 * Owner and path can be NULL if profile was registered by a
+--		 * plugin using external flag.
+--		 */
+- 		if (g_strcmp0(ext->owner, owner))
+- 			continue;
+- 
+--- 
+-2.5.0
+-
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.36.bb b/meta/recipes-connectivity/bluez5/bluez5_5.37.bb
+similarity index 83%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.36.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.37.bb
+index 884bb77..db20f79 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.36.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.37.bb
+@@ -1,8 +1,9 @@
+ require bluez5.inc
+ 
+-SRC_URI += "file://core-profile-Fix-possible-crash-when-registering-pro.patch"
+-SRC_URI[md5sum] = "9a0ee479cacc44fac68f6a65b1cd3eba"
+-SRC_URI[sha256sum] = "a343ea1aeb53d3bd139087f3b1c1e1fb70db452d9762cc7a3d23e75962e578f2"
++REQUIRED_DISTRO_FEATURES = "bluez5"
++
++SRC_URI[md5sum] = "33177e5743e24b2b3738f72be64e3ffb"
++SRC_URI[sha256sum] = "c14ba9ddcb0055522073477b8fd8bf1ddf5d219e75fdfd4699b7e0ce5350d6b0"
+ 
+ # noinst programs in Makefile.tools that are conditional on READLINE
+ # support
+-- 
+2.4.0
 
---001a113ec10a059d7c0528bf394e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 December 2015 at 05:51,  <span dir=3D"ltr">&lt;<a href=3D"mailto:fupa=
-n.li@windriver.com" target=3D"_blank">fupan.li@windriver.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":2v9" class=3D"a3s" st=
-yle=3D"overflow:hidden">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #add the=
- compatible arch extracted from <span class=3D"il">TARGET_SYS</span>.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #<span class=3D"il">TARGET_SYS</=
-span> usually values as &quot;arm-poky-linux-gnueabi&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #so the arch is &#39;arm&#39;<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <span class=3D"il">target_sys</s=
-pan> =3D self.d.getVar(&quot;<span class=3D"il">TARGET_SYS</span>&quot;, Tr=
-ue)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if <span class=3D"il">target_sys=
-</span>:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_arch =3D <s=
-pan class=3D"il">target_sys</span>.split(&#39;-&#39;)[0]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if target_arch not in package_ar=
-chs[&#39;default&#39;]:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 package_archs[&#39=
-;default&#39;].append(target_arch)<br>
-+</div></blockquote></div><br>Isn&#39;t this a long-winded way of getting $=
-{TARGET_ARCH}?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
-l_extra">Ross</div></div>
-
---001a113ec10a059d7c0528bf394e--
