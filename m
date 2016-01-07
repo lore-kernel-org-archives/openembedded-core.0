@@ -1,48 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id CA9FA731E6
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E48B60232
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 12:22:09 +0000 (UTC)
-Received: by mail-ig0-f178.google.com with SMTP id z14so32597062igp.1
+	Thu,  7 Jan 2016 12:54:38 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id f206so96620963wmf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 04:22:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=PkS3lLwmTSL/NuoOVNaaOImZCMxXPS0Pz9nEuN4ggVY=;
-	b=BI4CU3NwP0i6dVYm++/ljSry8zvsymgeG5pMtmGs8mWxFWaYdZuDcthX4buWJyIA3t
-	I2M3a//RL/nQ/r9vDsXws/sf9zh5gPTaLueJTGGr4rshj95U+zXwiSHJxPP/EzmZ0gDi
-	YcpM3hRhdVW66TMRdIz866HeTTch4+tht+c6UigMr61M31gyOdAZyBvK/Z/HvZ686qij
-	Ji1Rqg+ucDklc12OHHcpOBW6dPWyGp6ulJFvT7KQZ67aHhwWr/KScGRFjucVv40UTz2N
-	7ew1YbN/duVRIUpezOUJkfD5RRfzqRyc8Jmg15eAogtjjKh08BW9wsVLcwFedI1lbbNw
-	QL7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=PkS3lLwmTSL/NuoOVNaaOImZCMxXPS0Pz9nEuN4ggVY=;
-	b=MfMIo7oPE1pd2KekGU5ZOBUmadokLupbz5JesF4MUyVglu2dUbagOX06NPlckS3mYI
-	Vr4Wo7HzCXpsAhXezMSqJ8h9hjUyY7y5UsVbERU2Fk5Wfna1N91WPYX3vpwdbn8fVYM7
-	lwxfwPZnnU+jr6QwvKhpHPtmR6TRbRPmYRGoWT46YtWSTDFLpPuyy8sZS1AtoW/mtNL+
-	DjvmSMcYJxJfnLZXu9CZu/hm7n2GdFn4W06mnQpOcDiUnGWvIWIr1fsVFZi09+oxsAI/
-	tPUQeWqn9IjvEfRcV12Ll347vqKLefMpGT+vJZThN/KDTzlclN6Z+BE4+w0ftmU+gFRo
-	NBpQ==
-X-Gm-Message-State: ALoCoQn0l08qRPzYErQwba/xIOlldNDJZwL8cjHYk+tCDNW4rowqGKypEPe8z31HyG8Asc3pXq6yBA1GhjBIKi5P8zPDds6KnANyv6fZ/q/mTgOKYdzLBH0=
-X-Received: by 10.50.111.111 with SMTP id ih15mr13311809igb.78.1452169330022; 
-	Thu, 07 Jan 2016 04:22:10 -0800 (PST)
+	Thu, 07 Jan 2016 04:54:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Q2YIseRmtD+8OzjAYg9ILbuhf1C7m2UuP4XwyyBZSWE=;
+	b=Z7oib+A0UVHi76w2f8Gfz6cQvK6+kAOCcPUBhRtXgTtCYT7C2gXMHi1Mt+hS9XaYah
+	pDanehPRAxSxXXKjL1FP0052FeisDmw6HZVp8aBexGuNOpRbNfF76V0qD7if4LlYPFYQ
+	Akg7jdbpNFVnuLukjTtaUOtL1UzAbQYhzaqyQGzGT2o+DuJ9ElcEZDzY/j39Hy/+v2aq
+	WEmRr/NaVgyEtoGHNwO3wuiogMefM/ODoilkOCaTXcjCMMqMQxT5r+RX7kYc61gJDn6c
+	ef6npuqWJGzt5HTEhdfBRkb4JYQVIBdoj4azUUdk62zpEFZI3GI37zsxNIbXyO4IKofN
+	SbzQ==
+X-Received: by 10.194.235.137 with SMTP id um9mr52248135wjc.146.1452171278427; 
+	Thu, 07 Jan 2016 04:54:38 -0800 (PST)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	w23sm13552496wmd.1.2016.01.07.04.54.37
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 07 Jan 2016 04:54:37 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 7 Jan 2016 13:55:02 +0100
+To: Phil Blundell <pb@pbcl.net>
+Message-ID: <20160107125502.GD2512@jama>
+References: <cover.1452152689.git.liezhi.yang@windriver.com>
+	<228ce5dac7d96467f7165add45a39cfcd12c7bfc.1452152689.git.liezhi.yang@windriver.com>
+	<1452169004.3116.29.camel@pbcl.net>
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Thu, 7 Jan 2016 04:21:50 -0800 (PST)
-In-Reply-To: <1452137394-333-4-git-send-email-yi.zhao@windriver.com>
-References: <1452137394-333-1-git-send-email-yi.zhao@windriver.com>
-	<1452137394-333-4-git-send-email-yi.zhao@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 7 Jan 2016 12:21:50 +0000
-Message-ID: <CAJTo0LZ67jsAcGxjsDEExDOjDsqE5JwNcOitZ1PjpL10VTgObA@mail.gmail.com>
-To: Yi Zhao <yi.zhao@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] oeqa/runtime/parselogs: escape special character for grep
+In-Reply-To: <1452169004.3116.29.camel@pbcl.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] liberation-fonts: can't be allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,41 +48,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 12:22:11 -0000
-Content-Type: multipart/alternative; boundary=089e0149be3411f1940528bd85a1
+X-List-Received-Date: Thu, 07 Jan 2016 12:54:39 -0000
+X-Groupsio-MsgNum: 75562
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="RYJh/3oyKhIjGcML"
+Content-Disposition: inline
 
---089e0149be3411f1940528bd85a1
-Content-Type: text/plain; charset=UTF-8
-
-On 7 January 2016 at 03:29, Yi Zhao <yi.zhao@windriver.com> wrote:
-
-> Sometimes the grep output is not correct if the log message contains
-> some special characters. Use re.escape to escape all non-alphanumerics
-> before grep
->
-
-If we're going to insist that the strings are literal then instead of
-telling grep to use extended regexp's and passing escaped regexs, why not
-just use -F which tells grep to search for fixed strings, not expressions.
-
-Ross
-
---089e0149be3411f1940528bd85a1
-Content-Type: text/html; charset=UTF-8
+--RYJh/3oyKhIjGcML
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 January 2016 at 03:29, Yi Zhao <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windriver.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":16b" class=3D"a3s"=
- style=3D"overflow:hidden">Sometimes the grep output is not correct if the =
-log message contains<br>
-some special characters. Use re.escape to escape all non-alphanumerics<br>
-before grep<br></div></blockquote></div><br>If we&#39;re going to insist th=
-at the strings are literal then instead of telling grep to use extended reg=
-exp&#39;s and passing escaped regexs, why not just use -F which tells grep =
-to search for fixed strings, not expressions.</div><div class=3D"gmail_extr=
-a"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On Thu, Jan 07, 2016 at 12:16:44PM +0000, Phil Blundell wrote:
+> On Wed, 2016-01-06 at 23:45 -0800, Robert Yang wrote:
+> > liberation-fonts inherit fontcache which would depend on fontconfig,=20
+> > and fontconfig is not allarch, so that liberation-fonts can't be
+> > allarch.
+>=20
+> This doesn't make any sense.  I don't think allarch is, or ever has
+> been, contagious in that way.  There is no good reason I can think of
+> to require that all the dependencies of an allarch package should
+> themselves be allarch.  Indeed, if we did require this then it would
+> probably mean that virtually no packages could legitimately be allarch.
 
---089e0149be3411f1940528bd85a1--
+Current implementation requires that, because if there is dependency on
+TUNE_PKGARCH or MACHINE_ARCH recipe, then this "allarch" recipe will be
+rebuilt (or at least different archive is unpacked from sstate) every
+single time you switch MACHINE.
+
+That's why there is SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS and
+SIGGEN_EXCLUDERECIPES_ABISAFE for sstate code to skip some dependencies
+like this - but that doesn't remove the dependency only says that the
+allarch recipe doesn't need to be rebuilt when the dependency signature
+was modified.
+
+Marking recipe as allarch incorrectly is worse than leaving it
+TUNE_PKGARCH, because as TUNE_PKGARCH it's rebuilt once per architecture
+and the stamps are valid until next metadata change, with incorrect
+allarch it's also rebuilt once per architecture (or MACHINE), but also
+unpacked from sstate every time you change the MACHINE (even when the
+resulting packages end in the same directory with the same filename -
+except when PRservice changes the last number in EXTENDPRAUTO with each
+MACHINE change).
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--RYJh/3oyKhIjGcML
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlaOYCYACgkQN1Ujt2V2gBzmKgCfUT/41p20Wrey1bs0Bey6JNI6
+ZB4An1SWQgjc61gxZJTjJJ45G4ylkJ+5
+=pS+Y
+-----END PGP SIGNATURE-----
+
+--RYJh/3oyKhIjGcML--
