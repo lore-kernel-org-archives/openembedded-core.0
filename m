@@ -1,37 +1,30 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 6512C73189
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 429436E668
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 09:56:57 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1aH7JQ-0004dw-Sz from Awais_Belal@mentor.com ;
-	Thu, 07 Jan 2016 01:56:57 -0800
-Received: from EU-MBX-02.mgc.mentorg.com ([169.254.3.44]) by
-	SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) with mapi id
-	14.03.0224.002; Thu, 7 Jan 2016 09:56:55 +0000
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: akuster808 <akuster808@gmail.com>
-Thread-Topic: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370
-Thread-Index: AQHRPXQQ2iBTKTrMm0uMwa00fKoPVp7lJjJVgAWJ1ACAAF0f3IADRTSxgAB+ZQCAARebjw==
-Date: Thu, 7 Jan 2016 09:56:54 +0000
-Message-ID: <2021B186DC632746BD5A3CE32F12BD28011FB7A8B3@EU-MBX-02.mgc.mentorg.com>
-References: <1450869629-27805-1-git-send-email-awais_belal@mentor.com>
-	<2021B186DC632746BD5A3CE32F12BD28011FB77C51@EU-MBX-02.mgc.mentorg.com>
-	<5689D53A.3040902@gmail.com>
-	<2021B186DC632746BD5A3CE32F12BD28011FB78A03@EU-MBX-02.mgc.mentorg.com>
-	<2021B186DC632746BD5A3CE32F12BD28011FB7A43D@EU-MBX-02.mgc.mentorg.com>,
-	<568D4BAA.9050001@gmail.com>
-In-Reply-To: <568D4BAA.9050001@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [dizzy][PATCH] grub2: Fix CVE-2015-8370
+	Thu,  7 Jan 2016 10:57:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u07AuhPE016689; Thu, 7 Jan 2016 10:57:09 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id wng2JZyctoQb; Thu,  7 Jan 2016 10:57:09 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u07Av6LF016697
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 7 Jan 2016 10:57:08 GMT
+Message-ID: <1452164226.7598.108.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 07 Jan 2016 10:57:06 +0000
+In-Reply-To: <40d0365cec15c63a1f77e9aa43fb4022f62e0f66.1452152689.git.liezhi.yang@windriver.com>
+References: <cover.1452152689.git.liezhi.yang@windriver.com>
+	<40d0365cec15c63a1f77e9aa43fb4022f62e0f66.1452152689.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 2/3] run-postinsts: can't be allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,320 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 09:56:58 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 07 Jan 2016 10:57:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Armin,=0A=
-=0A=
-With dizzy-next from your fork=0A=
-=0A=
-awais@alpha:~/yocto/build-dizzy-akuster$ bitbake -c patch grub=0A=
-Parsing recipes: 100% |####################################################=
-##########| Time: 00:00:46=0A=
-Parsing of 1458 .bb files complete (0 cached, 1458 parsed). 1914 targets, 6=
-6 skipped, 0 masked, 0 errors.=0A=
-NOTE: Resolving any missing task queue dependencies=0A=
-=0A=
-Build Configuration:=0A=
-BB_VERSION        =3D "1.24.0"=0A=
-BUILD_SYS         =3D "x86_64-linux"=0A=
-NATIVELSBSTRING   =3D "Ubuntu-14.04"=0A=
-TARGET_SYS        =3D "x86_64-poky-linux"=0A=
-MACHINE           =3D "amdfalconx86"=0A=
-DISTRO            =3D "poky"=0A=
-DISTRO_VERSION    =3D "1.7.3"=0A=
-TUNE_FEATURES     =3D "dbfp4"=0A=
-TARGET_FPU        =3D ""=0A=
-meta              =0A=
-meta-yocto        =0A=
-meta-yocto-bsp    =3D "akuster/dizzy-next:4807ff0ca0abf085e6b81257534a4a62f=
-de88d16"=0A=
-common            =0A=
-meta-amdfalconx86 =3D "(detachedfromorigin/dizzy):84ae10ad68c7b253ab87558c5=
-a6df057c9a84f08"=0A=
-meta-oe           =0A=
-meta-python       =3D "(detachedfromorigin/dizzy):7f1df52e9409edcc4d4cd5f34=
-694f8740f56e1bf"=0A=
-=0A=
-NOTE: Preparing runqueue=0A=
-NOTE: Executing SetScene Tasks=0A=
-NOTE: Executing RunQueue Tasks=0A=
-NOTE: Tasks Summary: Attempted 10 tasks of which 0 didn't need to be rerun =
-and all succeeded.=0A=
-awais@alpha:~/yocto/build-dizzy-akuster$ ls tmp/work/dbfp4-poky-linux/grub/=
-2.00-r1/=0A=
-0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch=0A=
-0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patch=0A=
-check-if-liblzma-is-disabled.patch=0A=
-fix-endianness-problem.patch=0A=
-fix-issue-with-flex-2.5.37.patch=0A=
-grub-2.00=0A=
-grub-2.00-add-oe-kernel.patch=0A=
-grub-2.00-fpmath-sse-387-fix.patch=0A=
-grub2-remove-sparc64-setup-from-x86-builds.patch=0A=
-grub-install.in.patch=0A=
-remove-gets.patch=0A=
-temp=0A=
-awais@alpha:~/yocto/build-dizzy-akuster$=0A=
-=0A=
-Pretty odd what's happening :)=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: akuster808 [akuster808@gmail.com]=0A=
-Sent: Wednesday, January 06, 2016 10:15 PM=0A=
-To: Belal, Awais=0A=
-Cc: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370=0A=
-=0A=
-Awais,=0A=
-=0A=
-this is what I am seeing.=0A=
-=0A=
-NOTE: Executing RunQueue Tasks=0A=
-ERROR: Command Error: exit status: 1  Output:=0A=
-Applying patch 0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch=
-=0A=
-patching file grub-core/lib/crypto.c=0A=
-Hunk #1 FAILED at 470.=0A=
-1 out of 1 hunk FAILED -- rejects in file grub-core/lib/crypto.c=0A=
-patching file grub-core/normal/auth.c=0A=
-Hunk #1 FAILED at 174.=0A=
-1 out of 1 hunk FAILED -- rejects in file grub-core/normal/auth.c=0A=
-Patch 0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch does=0A=
-not apply (enforce with -f)=0A=
-ERROR: Function failed: patch_do_patch=0A=
-ERROR: Logfile of failure stored in:=0A=
-/home/akuster/oss/maint/mylayers/poky/build/tmp/work/i586-poky-linux/grub/2=
-.00-r1/temp/log.do_patch.3029=0A=
-ERROR: Task 1=0A=
-(/home/akuster/oss/maint/mylayers/poky/meta/recipes-bsp/grub/grub_2.00.bb,=
-=0A=
-do_patch) failed with exit code '1'=0A=
-=0A=
-=0A=
-I am using my contrib akuster/dizzy-next.=0A=
-=0A=
-I will hand fixup the changes. please give me a few days.=0A=
-=0A=
-- armin=0A=
-=0A=
-=0A=
-On 01/06/2016 01:43 AM, Belal, Awais wrote:=0A=
-> Ping!=0A=
->=0A=
-> BR,=0A=
-> Awais=0A=
->=0A=
-> ________________________________________=0A=
-> From: openembedded-core-bounces@lists.openembedded.org [openembedded-core=
--bounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
-> Sent: Monday, January 04, 2016 12:53 PM=0A=
-> To: akuster808=0A=
-> Cc: openembedded-core@lists.openembedded.org=0A=
-> Subject: Re: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370=0A=
->=0A=
-> Hi Armin,=0A=
->=0A=
-> Odd, applies cleanly on dizzy for me. Can you please share the patch log?=
-=0A=
->=0A=
-> On a scratch build dir, I get the following:=0A=
-> --------------------------------------------------------------=0A=
-> awais@alpha:~/yocto/build-dizzy$ bitbake -c patch grub=0A=
-> Parsing recipes: 100% |##################################################=
-###########| Time: 00:00:36=0A=
-> Parsing of 1458 .bb files complete (0 cached, 1458 parsed). 1914 targets,=
- 66 skipped, 0 masked, 0 errors.=0A=
-> NOTE: Resolving any missing task queue dependencies=0A=
->=0A=
-> Build Configuration:=0A=
-> BB_VERSION        =3D "1.24.0"=0A=
-> BUILD_SYS         =3D "x86_64-linux"=0A=
-> NATIVELSBSTRING   =3D "Ubuntu-14.04"=0A=
-> TARGET_SYS        =3D "x86_64-poky-linux"=0A=
-> MACHINE           =3D "amdfalconx86"=0A=
-> DISTRO            =3D "poky"=0A=
-> DISTRO_VERSION    =3D "1.7.3"=0A=
-> TUNE_FEATURES     =3D "dbfp4"=0A=
-> TARGET_FPU        =3D ""=0A=
-> meta=0A=
-> meta-yocto=0A=
-> meta-yocto-bsp    =3D "(detachedfromorigin/dizzy):6d34267e0a13e10ab91b605=
-90b27a2b5ba3b7da6"=0A=
-> common=0A=
-> meta-amdfalconx86 =3D "(detachedfromorigin/dizzy):84ae10ad68c7b253ab87558=
-c5a6df057c9a84f08"=0A=
-> meta-oe=0A=
-> meta-python       =3D "(detachedfromorigin/dizzy):7f1df52e9409edcc4d4cd5f=
-34694f8740f56e1bf"=0A=
->=0A=
-> NOTE: Preparing runqueue=0A=
-> NOTE: Executing SetScene Tasks=0A=
-> NOTE: Executing RunQueue Tasks=0A=
-> NOTE: Tasks Summary: Attempted 10 tasks of which 0 didn't need to be reru=
-n and all succeeded.=0A=
-> awais@alpha:~/yocto/build-dizzy$=0A=
-> --------------------------------------------------------------=0A=
->=0A=
-> BR,=0A=
-> Awais=0A=
->=0A=
-> ________________________________________=0A=
-> From: akuster808 [akuster808@gmail.com]=0A=
-> Sent: Monday, January 04, 2016 7:13 AM=0A=
-> To: Belal, Awais=0A=
-> Cc: openembedded-core@lists.openembedded.org=0A=
-> Subject: Re: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370=0A=
->=0A=
-> On 12/31/15 5:38 AM, Belal, Awais wrote:=0A=
-> Awais,=0A=
->=0A=
->> Ping!=0A=
-> This patch does not apply to the current dizzy branch.=0A=
->=0A=
-> is there a dependency patch I missed to apply?=0A=
->=0A=
-> regards,=0A=
-> Armin=0A=
->>=0A=
->> BR,=0A=
->> Awais=0A=
->>=0A=
->> ________________________________________=0A=
->> From: openembedded-core-bounces@lists.openembedded.org [openembedded-cor=
-e-bounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
->> Sent: Wednesday, December 23, 2015 4:20 PM=0A=
->> To: openembedded-core@lists.openembedded.org=0A=
->> Subject: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370=0A=
->>=0A=
->> http://git.savannah.gnu.org/cgit/grub.git/commit/?id=3D451d80e52d851432e=
-109771bb8febafca7a5f1f2=0A=
->>=0A=
->> Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
->> ---=0A=
->>  ...E-2015-8370-Grub2-user-pass-vulnerability.patch | 52 +++++++++++++++=
-+++++++=0A=
->>  meta/recipes-bsp/grub/grub-efi_2.00.bb             |  1 +=0A=
->>  meta/recipes-bsp/grub/grub_2.00.bb                 |  1 +=0A=
->>  3 files changed, 54 insertions(+)=0A=
->>  create mode 100644 meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-G=
-rub2-user-pass-vulnerability.patch=0A=
->>=0A=
->> diff --git a/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-us=
-er-pass-vulnerability.patch b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015=
--8370-Grub2-user-pass-vulnerability.patch=0A=
->> new file mode 100644=0A=
->> index 0000000..f9252e9=0A=
->> --- /dev/null=0A=
->> +++ b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pass=
--vulnerability.patch=0A=
->> @@ -0,0 +1,52 @@=0A=
->> +Upstream-Status: Accepted=0A=
->> +Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
->> +=0A=
->> +From 451d80e52d851432e109771bb8febafca7a5f1f2 Mon Sep 17 00:00:00 2001=
-=0A=
->> +From: Hector Marco-Gisbert <hecmargi@upv.es>=0A=
->> +Date: Wed, 16 Dec 2015 04:57:18 +0000=0A=
->> +Subject: Fix security issue when reading username and password=0A=
->> +=0A=
->> +This patch fixes two integer underflows at:=0A=
->> +  * grub-core/lib/crypto.c=0A=
->> +  * grub-core/normal/auth.c=0A=
->> +=0A=
->> +CVE-2015-8370=0A=
->> +=0A=
->> +Signed-off-by: Hector Marco-Gisbert <hecmargi@upv.es>=0A=
->> +Signed-off-by: Ismael Ripoll-Ripoll <iripoll@disca.upv.es>=0A=
->> +Also-By: Andrey Borzenkov <arvidjaar@gmail.com>=0A=
->> +---=0A=
->> +diff --git a/grub-core/lib/crypto.c b/grub-core/lib/crypto.c=0A=
->> +index 010e550..683a8aa 100644=0A=
->> +--- a/grub-core/lib/crypto.c=0A=
->> ++++ b/grub-core/lib/crypto.c=0A=
->> +@@ -470,7 +470,8 @@ grub_password_get (char buf[], unsigned buf_size)=
-=0A=
->> +=0A=
->> +       if (key =3D=3D '\b')=0A=
->> +       {=0A=
->> +-        cur_len--;=0A=
->> ++        if (cur_len)=0A=
->> ++          cur_len--;=0A=
->> +         continue;=0A=
->> +       }=0A=
->> +=0A=
->> +diff --git a/grub-core/normal/auth.c b/grub-core/normal/auth.c=0A=
->> +index c6bd96e..8615c48 100644=0A=
->> +--- a/grub-core/normal/auth.c=0A=
->> ++++ b/grub-core/normal/auth.c=0A=
->> +@@ -174,8 +174,11 @@ grub_username_get (char buf[], unsigned buf_size)=
-=0A=
->> +=0A=
->> +       if (key =3D=3D '\b')=0A=
->> +       {=0A=
->> +-        cur_len--;=0A=
->> +-        grub_printf ("\b");=0A=
->> ++        if (cur_len)=0A=
->> ++          {=0A=
->> ++            cur_len--;=0A=
->> ++            grub_printf ("\b");=0A=
->> ++          }=0A=
->> +         continue;=0A=
->> +       }=0A=
->> +=0A=
->> +--=0A=
->> +cgit v0.9.0.2=0A=
->> diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/g=
-rub/grub-efi_2.00.bb=0A=
->> index 7674255..6822e7a 100644=0A=
->> --- a/meta/recipes-bsp/grub/grub-efi_2.00.bb=0A=
->> +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb=0A=
->> @@ -30,6 +30,7 @@ SRC_URI =3D "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar=
-.gz \=0A=
->>             file://grub-2.00-add-oe-kernel.patch \=0A=
->>             file://grub-efi-fix-with-glibc-2.20.patch \=0A=
->>             file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.p=
-atch \=0A=
->> +           file://0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.=
-patch \=0A=
->>            "=0A=
->>  SRC_URI[md5sum] =3D "e927540b6eda8b024fb0391eeaa4091c"=0A=
->>  SRC_URI[sha256sum] =3D "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6c=
-af1cd0fd3b3cc11e3"=0A=
->> diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/=
-grub_2.00.bb=0A=
->> index d4df676..94b6da9 100644=0A=
->> --- a/meta/recipes-bsp/grub/grub_2.00.bb=0A=
->> +++ b/meta/recipes-bsp/grub/grub_2.00.bb=0A=
->> @@ -25,6 +25,7 @@ SRC_URI =3D "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar=
-.gz \=0A=
->>            file://fix-endianness-problem.patch \=0A=
->>            file://grub2-remove-sparc64-setup-from-x86-builds.patch \=0A=
->>            file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.pa=
-tch \=0A=
->> +          file://0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.p=
-atch \=0A=
->>            "=0A=
->>=0A=
->>  SRC_URI[md5sum] =3D "e927540b6eda8b024fb0391eeaa4091c"=0A=
->> --=0A=
->> 1.9.1=0A=
->>=0A=
->> --=0A=
->> _______________________________________________=0A=
->> Openembedded-core mailing list=0A=
->> Openembedded-core@lists.openembedded.org=0A=
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
->=0A=
-> --=0A=
-> _______________________________________________=0A=
-> Openembedded-core mailing list=0A=
-> Openembedded-core@lists.openembedded.org=0A=
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
->=0A=
+On Wed, 2016-01-06 at 23:45 -0800, Robert Yang wrote:
+> The dependencies chain:
+> run-postinsts -> update-rc.d.bbclass -> initscripts -> update
+> -alternatives.
+> 
+> The update-alternatives is provided by opkg-utils which is not
+> allarch.
+> 
+> This caused a problem:
+> $ bitbake lib32-core-image-minimal
+> 
+> Both lib32-opkg-utils and opkg-utils would be built, but opkg-utils
+> shouldn't, this patch can fix the problem.
+> 
+> [YOCTO #8879]
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  .../run-postinsts/run-postinsts_1.0.bb             |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Removing allarch isn't the correct way to fix this, we need to figure
+out what is going wrong and fix multilib.
+
+Cheers,
+
+Richard
 
