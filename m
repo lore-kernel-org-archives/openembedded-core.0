@@ -1,37 +1,32 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f174.google.com (mail-ob0-f174.google.com
-	[209.85.214.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 0883E6FF97
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 599AB73243
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 20:53:30 +0000 (UTC)
-Received: by mail-ob0-f174.google.com with SMTP id bx1so310191417obb.0
+	Thu,  7 Jan 2016 21:03:39 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id b14so143093503wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 12:53:31 -0800 (PST)
+	Thu, 07 Jan 2016 13:03:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=VOlzGlx9bdgG1oxKFP7+rtmrDDz4u+Y4DFOT46vTms4=;
-	b=B+DU/uZj8mgtutBee23nXJzYMoOcW26clTmY+CQ/4Q7ktW7F4ENHICwbwEC5wIDcyo
-	RQ1D692kA9N+h0NurMz+pEnaP1FcRgWR3CUo0jqxL6xBq/oggRtYhBoh/VMYFlddx6RD
-	O/JA8PNByGkJucwu4+dhMDyJTxMn2leHXldNRXUFsE63KIJtrY4/q6kjWTEk70vnNLOl
-	2u+LCjYH/79EN929vzuHhe3FePd1WhiBYfiDARhE21+SXncufGqUJxv/Sw4ZYag8RoSm
-	s59jERfXPBKvIfSgHHeGdfPHF3zzyy70dPOADFb0n38fAXGgkubTa6QkxZEz1QiKuNLe
-	uJfA==
-X-Received: by 10.182.28.162 with SMTP id c2mr72881175obh.76.1452200011117;
-	Thu, 07 Jan 2016 12:53:31 -0800 (PST)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	mm4sm42079156obb.1.2016.01.07.12.53.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 07 Jan 2016 12:53:30 -0800 (PST)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=RSLUz/f7Wbswsa5uX16cPdIzOBmWgGe8Pw3FDCDYjic=;
+	b=NVZSoo9HLc4WYiSZDD3uvEQOVONmauTQGzblcxxL1AN18bukkfWnlHwPOhsUtyKSP1
+	IBsgZxWzwWUVhZHxqw7otCfZpF2L5Uw1F5DPDyDulJ007H6v2kj7tTkKXuCBwpOsC/aL
+	Lywtf3/nU1z5I9xH9DxiAXv4uCY90psQznSeBSRfLLQK1qQ3q00mNO43RrL4kHk4FZts
+	28wirh7XwR4WyP0QwtbS943NHW6FpubOlSR/F0G3Bk27t5Byr42lcU0VFWW882McGXjL
+	SDg2CBmx/0D/gDLZnWTcnQ3qwpOAhNyr7tgak3pnXFXD6bw8N18JqDk0U51JNMF3xzXq
+	ECPQ==
+MIME-Version: 1.0
+X-Received: by 10.194.156.199 with SMTP id wg7mr112709022wjb.114.1452200619925;
+	Thu, 07 Jan 2016 13:03:39 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Thu, 7 Jan 2016 13:03:39 -0800 (PST)
+In-Reply-To: <1450828680-662-3-git-send-email-armccurdy@gmail.com>
+References: <1450828680-662-1-git-send-email-armccurdy@gmail.com>
+	<1450828680-662-3-git-send-email-armccurdy@gmail.com>
+Date: Thu, 7 Jan 2016 13:03:39 -0800
+Message-ID: <CAJ86T=VLQvP0mE3zCOYEr=Tkx0LJ-MYFh9kyEYZT7-1XYVi+XQ@mail.gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jan 2016 12:53:13 -0800
-Message-Id: <1452199993-3885-5-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1452199993-3885-1-git-send-email-armccurdy@gmail.com>
-References: <1452199993-3885-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 4/4] libpostproc: duplicate armv7a over-rides for armv7ve
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] valgrind: don't restrict to armv7a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,30 +39,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 20:53:31 -0000
+X-List-Received-Date: Thu, 07 Jan 2016 21:03:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-multimedia/libav/libpostproc_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+On Tue, Dec 22, 2015 at 3:57 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> Valgrind has been tested on armv5te/qemuarm, so it seems
+> that valgrind's configure check for armv7 is over cautious.
 
-diff --git a/meta/recipes-multimedia/libav/libpostproc_git.bb b/meta/recipes-multimedia/libav/libpostproc_git.bb
-index 4aaa50f..911ae86 100644
---- a/meta/recipes-multimedia/libav/libpostproc_git.bb
-+++ b/meta/recipes-multimedia/libav/libpostproc_git.bb
-@@ -18,9 +18,11 @@ S = "${WORKDIR}/git"
- inherit autotools lib_package pkgconfig
- 
- FULL_OPTIMIZATION_armv7a = "-fexpensive-optimizations -fomit-frame-pointer -O4 -ffast-math"
-+FULL_OPTIMIZATION_armv7ve = "-fexpensive-optimizations -fomit-frame-pointer -O4 -ffast-math"
- BUILD_OPTIMIZATION = "${FULL_OPTIMIZATION}"
- 
- EXTRA_FFCONF_armv7a = "--cpu=cortex-a8"
-+EXTRA_FFCONF_armv7ve = "--cpu=cortex-a8"
- EXTRA_FFCONF ?= ""
- 
- EXTRA_OECONF = " \
--- 
-1.9.1
+Ping. This is more urgent now that arch-armv7ve.inc has been merged to
+oe-core master.
 
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/recipes-devtools/valgrind/valgrind_3.11.0.bb | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
+> index 3dc3cc1..bb3f6e1 100644
+> --- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
+> +++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
+> @@ -26,14 +26,16 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+>  SRC_URI[md5sum] = "4ea62074da73ae82e0162d6550d3f129"
+>  SRC_URI[sha256sum] = "6c396271a8c1ddd5a6fb9abe714ea1e8a86fce85b30ab26b4266aeb4c2413b42"
+>
+> -COMPATIBLE_HOST = '(i.86|x86_64|mips|powerpc|powerpc64).*-linux'
+> -COMPATIBLE_HOST_armv7a = 'arm.*-linux'
+> +COMPATIBLE_HOST = '(i.86|x86_64|arm|mips|powerpc|powerpc64).*-linux'
+>
+>  inherit autotools ptest
+>
+>  EXTRA_OECONF = "--enable-tls --without-mpicc"
+> -EXTRA_OECONF_armv7a = "--enable-tls -host=armv7-none-linux-gnueabi --without-mpicc"
+>  EXTRA_OECONF += "${@['--enable-only32bit','--enable-only64bit'][d.getVar('SITEINFO_BITS', True) != '32']}"
+> +
+> +# valgrind checks host_cpu "armv7*)", so we need to over-ride the autotools.bbclass default --host option
+> +EXTRA_OECONF_append_arm = " --host=armv7${HOST_VENDOR}-${HOST_OS}"
+> +
+>  EXTRA_OEMAKE = "-w"
+>
+>  do_install_append () {
+> --
+> 1.9.1
+>
 
