@@ -1,34 +1,43 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 11CC6731A3
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 446D2731DB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 17:55:29 +0000 (UTC)
-Received: by mail-qg0-f51.google.com with SMTP id o11so333435646qge.2
+	Thu,  7 Jan 2016 18:01:29 +0000 (UTC)
+Received: by mail-io0-f169.google.com with SMTP id q21so260240591iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 09:55:30 -0800 (PST)
+	Thu, 07 Jan 2016 10:01:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=smqqgTIBKV8t8SD6blqPIWFzwo0wHnp/SS4CfeTGLGE=;
-	b=vlmUEGUPZr53gNm/TQ7VzP+i7wXgNeZvxUW2zOtWJ28vydQk43JS/IbILlBn5IZdwz
-	FXyqobbWWw6gWQ+pTY7jRuKY+cohPMKNukk5q/HYeCF7FUoOMu60iK3d+TV2Gvyev8i5
-	Bo8ENEdifMe0b4eEZO4cRFnZ517Ez9wo2oelbHTBISJF7055sUM8bR5SiWQsAkie4LIO
-	zVtMQfDRkKEVtccI3xeKfl6WlYGq8WmwrRu3qyaS9PmGQZ26BZ4ZNarpw8w6kuyKGcjN
-	bODhMWVe3s60iAycqt7K2cdGhxGbUY39nOKiAOI2uPcVCQ5ROGZ0HBHvIX4VpPYwrAPE
-	uwsQ==
-X-Received: by 10.140.226.198 with SMTP id w189mr147705134qhb.83.1452189330399;
-	Thu, 07 Jan 2016 09:55:30 -0800 (PST)
-Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
+	h=subject:references:cc:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=DUIw+Vg/5VIn/seRa1enyZDoGxf4Xv7H0NvYISufz4M=;
+	b=hwaaVgwNmgjH6MgQ3F0Qn13rEYCG2vDWGiFjmdF+kJzQad8evY9zCm3PSyJqs2ShqR
+	PJzprBCZhRWcplnpFJTnYur6XYuL7t9q6BNN/mpldpmDWwBQMeFobgUOungjZzLR14sN
+	lUrztQ8E4OpLa8F9UssT42o1F9P7I5iP7qtKyPcc7TIEtq8mTjoYhIVXRmZz6K1Vzzg0
+	XDatraQ38INGzHKlrkgZDsTH8lzoKKBF3enuPK1/WHLd8kyI7bW/wWLNi4yBWyLQ3j7R
+	dvBWKIpxgVafjRBP+Wx6mYNJAIr7cE8nSyemKIvzt+q9oqEUtlCMKt698I30017y96yD
+	JrAw==
+X-Received: by 10.107.135.198 with SMTP id r67mr55785625ioi.103.1452189690140; 
+	Thu, 07 Jan 2016 10:01:30 -0800 (PST)
+Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
 	by smtp.gmail.com with ESMTPSA id
-	e92sm42325420qge.2.2016.01.07.09.55.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 07 Jan 2016 09:55:29 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jan 2016 17:55:24 +0000
-Message-Id: <1452189324-9568-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] uclibc: Upgrade to 1.0.10
+	w84sm4896955ioi.20.2016.01.07.10.01.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 07 Jan 2016 10:01:28 -0800 (PST)
+References: <568DF5C6.90509@gmail.com> <568E1CB6.708@windriver.com>
+	<568E86EF.5050408@gmail.com>
+	<CAJTo0LaDS4+ETDGLc+Ja8Q+TjCOJ=xn6dSvO4UsNMnLUPhzkcw@mail.gmail.com>
+	<1452184627.7598.132.camel@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+From: Trevor Woerner <twoerner@gmail.com>
+Message-ID: <568EA7ED.6010806@gmail.com>
+Date: Thu, 7 Jan 2016 13:01:17 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <1452184627.7598.132.camel@linuxfoundation.org>
+Subject: Re: invoking a native compiler (gcc)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,311 +50,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 17:55:30 -0000
+X-List-Received-Date: Thu, 07 Jan 2016 18:01:32 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Drop upstreamed patches
-Seems to fix parallel build race with locales
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/uclibc/uclibc-git.inc            |   7 +-
- ...ert-glibc-compat-bump-glibc-minor-version.patch |  28 -----
- ...-Add-implementation-for-copysignl-for-ppc.patch | 125 ---------------------
- ...stdlib-canonicalize_file_name-memory-leak.patch |  95 ----------------
- 4 files changed, 2 insertions(+), 253 deletions(-)
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Revert-glibc-compat-bump-glibc-minor-version.patch
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/0002-Add-implementation-for-copysignl-for-ppc.patch
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/libc-stdlib-canonicalize_file_name-memory-leak.patch
 
-diff --git a/meta/recipes-core/uclibc/uclibc-git.inc b/meta/recipes-core/uclibc/uclibc-git.inc
-index b84912b..a5c4b5e 100644
---- a/meta/recipes-core/uclibc/uclibc-git.inc
-+++ b/meta/recipes-core/uclibc/uclibc-git.inc
-@@ -1,15 +1,12 @@
--SRCREV = "d1b81113b43a6d26dec4e0e58a380895d121006e"
-+SRCREV = "0ad73077c230093ae004829da44418597f330c6a"
- 
--PV = "1.0.9+git${SRCPV}"
-+PV = "1.0.10+git${SRCPV}"
- 
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/uclibc-git:"
- 
- SRC_URI = "git://uclibc-ng.org/git/uclibc-ng;branch=1.0 \
-         file://0001-Disable-lrount_tes-function.patch \
--        file://0001-Revert-glibc-compat-bump-glibc-minor-version.patch \
--        file://0002-Add-implementation-for-copysignl-for-ppc.patch \
-         file://0003-Add-argp-implementation.patch \
--        file://libc-stdlib-canonicalize_file_name-memory-leak.patch \
-         file://uClibc.machine \
-         file://uClibc.distro \
-         file://obstack.cfg \
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-Revert-glibc-compat-bump-glibc-minor-version.patch b/meta/recipes-core/uclibc/uclibc-git/0001-Revert-glibc-compat-bump-glibc-minor-version.patch
-deleted file mode 100644
-index 72d0109..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/0001-Revert-glibc-compat-bump-glibc-minor-version.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From f9f566849ad0785b2fd3fd6c4c5d324f9f822aac Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 13 Dec 2015 17:25:11 +0000
--Subject: [PATCH] Revert "glibc compat: bump glibc minor version"
--
--This reverts commit 4ff3a6c8eb91db71d6dc3d2932b66e848bd20ac3.
-----
--Upstream-Status: Inappropriate [ OE-Specific ]
--
-- include/features.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/include/features.h b/include/features.h
--index f6fbbf4..dcf1348 100644
----- a/include/features.h
--+++ b/include/features.h
--@@ -393,7 +393,7 @@ uClibc was built without large file support enabled.
--    these macros to test for features in specific releases.  */
-- /* Don't do it, if you want to keep uClibc happy.  */
-- #define	__GLIBC__	2
---#define	__GLIBC_MINOR__	10
--+#define	__GLIBC_MINOR__	2
-- #endif
-- 
-- #define __GLIBC_PREREQ(maj, min) \
---- 
--2.6.4
--
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0002-Add-implementation-for-copysignl-for-ppc.patch b/meta/recipes-core/uclibc/uclibc-git/0002-Add-implementation-for-copysignl-for-ppc.patch
-deleted file mode 100644
-index d4275c9..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/0002-Add-implementation-for-copysignl-for-ppc.patch
-+++ /dev/null
-@@ -1,125 +0,0 @@
--From 5d362074e5975b150a35bcfa77eab1bfa4e30de7 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 16 Aug 2015 20:50:56 -0700
--Subject: [PATCH 2/7] Add implementation for copysignl for ppc
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- libc/sysdeps/linux/powerpc/Makefile.arch |  2 +-
-- libc/sysdeps/linux/powerpc/copysignl.c   | 89 ++++++++++++++++++++++++++++++++
-- 2 files changed, 90 insertions(+), 1 deletion(-)
-- create mode 100644 libc/sysdeps/linux/powerpc/copysignl.c
--
--diff --git a/libc/sysdeps/linux/powerpc/Makefile.arch b/libc/sysdeps/linux/powerpc/Makefile.arch
--index 4fbcb11..7c09c87 100644
----- a/libc/sysdeps/linux/powerpc/Makefile.arch
--+++ b/libc/sysdeps/linux/powerpc/Makefile.arch
--@@ -5,7 +5,7 @@
-- # Licensed under the LGPL v2.1, see the file COPYING.LIB in this tarball.
-- #
-- 
---CSRC-y := __syscall_error.c ioctl.c
--+CSRC-y := __syscall_error.c ioctl.c copysignl.c
-- 
-- SSRC-y := \
-- 	__longjmp.S setjmp.S bsd-setjmp.S bsd-_setjmp.S brk.S \
--diff --git a/libc/sysdeps/linux/powerpc/copysignl.c b/libc/sysdeps/linux/powerpc/copysignl.c
--new file mode 100644
--index 0000000..000f653
----- /dev/null
--+++ b/libc/sysdeps/linux/powerpc/copysignl.c
--@@ -0,0 +1,89 @@
--+/* s_copysignl.c -- long double version of s_copysign.c.
--+ * Conversion to long double by Ulrich Drepper,
--+ * Cygnus Support, drepper@cygnus.com.
--+ */
--+
--+/*
--+ * ====================================================
--+ * Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
--+ *
--+ * Developed at SunPro, a Sun Microsystems, Inc. business.
--+ * Permission to use, copy, modify, and distribute this
--+ * software is freely granted, provided that this notice
--+ * is preserved.
--+ * ====================================================
--+ */
--+
--+/*
--+ * copysignl(long double x, long double y)
--+ * copysignl(x,y) returns a value with the magnitude of x and
--+ * with the sign bit of y.
--+ */
--+
--+#include <endian.h>
--+#include <stdint.h>
--+
--+#if __FLOAT_WORD_ORDER == BIG_ENDIAN
--+
--+typedef union
--+{
--+  long double value;
--+  struct
--+  {
--+    int sign_exponent:16;
--+    unsigned int empty:16;
--+    uint32_t msw;
--+    uint32_t lsw;
--+  } parts;
--+} ieee_long_double_shape_type;
--+
--+#endif
--+
--+#if __FLOAT_WORD_ORDER == LITTLE_ENDIAN
--+
--+typedef union
--+{
--+  long double value;
--+  struct
--+  {
--+    uint32_t lsw;
--+    uint32_t msw;
--+    int sign_exponent:16;
--+    unsigned int empty:16;
--+  } parts;
--+} ieee_long_double_shape_type;
--+
--+#endif
--+
--+/* Get int from the exponent of a long double.  */
--+
--+#define GET_LDOUBLE_EXP(exp,d)					\
--+do {								\
--+  ieee_long_double_shape_type ge_u;				\
--+  ge_u.value = (d);						\
--+  (exp) = ge_u.parts.sign_exponent;				\
--+} while (0)
--+
--+/* Set exponent of a long double from an int.  */
--+
--+#define SET_LDOUBLE_EXP(d,exp)					\
--+do {								\
--+  ieee_long_double_shape_type se_u;				\
--+  se_u.value = (d);						\
--+  se_u.parts.sign_exponent = (exp);				\
--+  (d) = se_u.value;						\
--+} while (0)
--+
--+long double copysignl(long double x, long double y);
--+libc_hidden_proto(copysignl);
--+
--+long double copysignl(long double x, long double y)
--+{
--+	uint32_t es1,es2;
--+	GET_LDOUBLE_EXP(es1,x);
--+	GET_LDOUBLE_EXP(es2,y);
--+	SET_LDOUBLE_EXP(x,(es1&0x7fff)|(es2&0x8000));
--+        return x;
--+}
--+
--+libc_hidden_def(copysignl);
---- 
--2.1.4
--
-diff --git a/meta/recipes-core/uclibc/uclibc-git/libc-stdlib-canonicalize_file_name-memory-leak.patch b/meta/recipes-core/uclibc/uclibc-git/libc-stdlib-canonicalize_file_name-memory-leak.patch
-deleted file mode 100644
-index 83d21e2..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/libc-stdlib-canonicalize_file_name-memory-leak.patch
-+++ /dev/null
-@@ -1,95 +0,0 @@
--From patchwork Wed Oct 21 06:02:30 2015
--Content-Type: text/plain; charset="utf-8"
--MIME-Version: 1.0
--Content-Transfer-Encoding: 7bit
--Subject: libc/stdlib: canonicalize_file_name() memory leak
--From: =?utf-8?q?Wojciech_Nizi=C5=84ski?= <niziak@spox.org>
--X-Patchwork-Id: 533608
--Message-Id: <loom.20151021T080015-833@post.gmane.org>
--To: uclibc@uclibc.org
--Date: Wed, 21 Oct 2015 06:02:30 +0000 (UTC)
--
--System based on Buildroot 2014.11
--    Linux 3.10.88
--    uclibc 0.9.33.2 (also with 1.0.2)
--    systemd 216
--    gcc 4.8.3 (also with 4.9.2)
--
--Bug:
--    After 2 days system is out of memory. PID 1 (systemd) is allocating.
--    over 120MB od RAM..
--    Just after reboot PID 1 is taking only about 600kB.
--
--How to reproduce:
--    With every systemd service reload or restart, heap of PID 1 grows.
--    Try with command:
--    watch -n1 \
--    'systemctl stop systemd-sysctl ; grep heap /proc/1/smaps -A15; free'
--
--Source of bug:
--
--    Uclibc's canonicalize_file_name() is allocating temprary buffer of.
--    4kB (PATH_MAX), and passing it to realpath() as second argument..
--    Function canonicalize... is not checking if realpath() fails and.
--    memory is lost.
--
--    Backtrace:
--    #0  malloc (bytes=4096) at libc/stdlib/malloc-standard/malloc.c:844
--    #1  canonicalize_file_name.
--        (name="/etc/systemd/system/systemd-sysctl.service.d") at.
--        libc/stdlib/canonicalize.c:30
--    #2  path_strv_resolve (...) at src/shared/path-util.c:275
--
--Solution:
--    Do not use temporary buffer like in eglibc.
--    Function realpath() will be responsible for allocation.
--
--From: Wojciech Nizinski <w.nizinski@grinn-global.com>
--Date: Tue, 20 Oct 2015 14:08:09 +0200
--Subject: [PATCH]libc/stdlib: canonicalize_file_name() memory leak
--
--Uclibc's canonicalize_file_name() is allocating temprary buffer of 4kB
--(PATH_MAX), and passing it to realpath() as second argument. Function is
--not checking if realpath() fails and memory is lost.
-----
--Upstream-Status: Submitted
--
-- libc/stdlib/canonicalize.c | 21 +--------------------
-- 1 file changed, 1 insertion(+), 20 deletions(-)
--
--diff --git a/libc/stdlib/canonicalize.c b/libc/stdlib/canonicalize.c
--index 06e710a..da09d58 100644
----- a/libc/stdlib/canonicalize.c
--+++ b/libc/stdlib/canonicalize.c
--@@ -9,30 +9,11 @@
--  */
-- 
-- #include <stdlib.h>
---#include <limits.h>
-- 
-- #ifdef __USE_GNU
-- 
---#ifndef PATH_MAX
---# ifdef _POSIX_VERSION
---#  define PATH_MAX _POSIX_PATH_MAX
---# else
---#  ifdef MAXPATHLEN
---#   define PATH_MAX MAXPATHLEN
---#  else
---#   define PATH_MAX 1024
---#  endif
---# endif
---#endif
---
-- char * canonicalize_file_name (const char *name)
-- {
---	char *buf = (char *) malloc(PATH_MAX);
---
---	if(unlikely(buf == NULL))
---		return NULL;
---
---	*buf='\0';
---	return realpath (name, buf);
--+	return realpath (name, NULL);
-- }
-- #endif
--- 
-2.7.0
+On 01/07/16 11:37, Richard Purdie wrote:
+> On Thu, 2016-01-07 at 15:46 +0000, Burton, Ross wrote:
+>> On 7 January 2016 at 15:40, Trevor Woerner <twoerner@gmail.com>
+>> wrote:
+>>> I was surprised to find that BUILD_CC is being set to whatever
+>>> comes up
+>>> first in our build computer's PATH. But I guess the alternative
+>>> would be
+>>> to make our builds longer by compiling our own native compiler for
+>>> such
+>>> cases.
+>>>
+>> You could always set BUILD_CC to explicitly point to the right
+>> compiler on your machine.  When I was trying to make OE work on
+>> Darwin I had to set BUILD_CC to point at brew's gcc binaries.
+> Or you setup PATH to include things in the right order as we do with
+> other native tools...
 
+I was surprised to learn that a compiler from the host machine was
+potentially being used as part of a build, not which one is found and
+being used. When I discovered this I was quite sure I had configured
+something incorrectly. This is more of an academic exercise, I didn't
+run into any problems.
+
+I guess we're covered in the sense that each release specifies which
+distros are supported. So as long as any native tools that are used in
+each of the support distros are able to produce a successful build
+everything should be fine. BUILD_CC is almost like an implicit
+ASSUME_PROVIDED.
 
