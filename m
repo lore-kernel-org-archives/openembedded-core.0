@@ -1,31 +1,41 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A2AAE6FF7B;
-	Wed,  6 Jan 2016 23:11:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u06NBjfa024144; Wed, 6 Jan 2016 23:11:45 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id SgM4R_YdRAkd; Wed,  6 Jan 2016 23:11:45 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u06NBdQW024141
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 6 Jan 2016 23:11:40 GMT
-Message-ID: <1452121899.7598.107.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Date: Wed, 06 Jan 2016 23:11:39 +0000
-In-Reply-To: <1451904943.23712.49.camel@intel.com>
-References: <1451307640.4129.16.camel@linuxfoundation.org>
-	<1451904943.23712.49.camel@intel.com>
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Split do_rootfs into image specific tasks?
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E7C360797
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  7 Jan 2016 01:08:45 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id uo6so225962168pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Jan 2016 17:08:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=fyUSTzu0ITgTQxvt+D+voKFOkBKbV57zZXRQovEJWQk=;
+	b=vPMp+vgX3iFtPnQRwTttogzJnp5UyZsVmebPRrstPa/OnpmeYKFyMjvk3De1JIxxMy
+	14+dmvv+1VOp237KLpE6Al326cQHVmPLvHzcBLejgY6q8EzQ7zhGjTCc//vBsMIBDzma
+	lp7Bm1pDH5hOEBtbZWgXJMbl5I7mLKNgTFBGmgvoTIle9a4ZaKBiE9mx1L9JyLmBYpZH
+	/WCxkVLCny9LioJUuyesM+Hyp0z8zcADWkSu0fl6JHjQW9YUS3SWIsPErKx1R2qzqc8S
+	H9RJEn1faqWvv4MtKG6BOkWnGzsHVI2iCyeHiWkvcZmxQmkXp26JttIyC96+Y2+Uqz3x
+	9klA==
+X-Received: by 10.66.234.226 with SMTP id uh2mr142654452pac.6.1452128926236;
+	Wed, 06 Jan 2016 17:08:46 -0800 (PST)
+Received: from ?IPv6:2601:646:8802:5d5c:91f8:e13b:8b12:2a64?
+	([2601:646:8802:5d5c:91f8:e13b:8b12:2a64])
+	by smtp.gmail.com with ESMTPSA id
+	by2sm90591866pab.6.2016.01.06.17.08.45
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 06 Jan 2016 17:08:45 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 9.2 \(3112\))
+X-Pgp-Agent: GPGMail 2.6b2
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1452072169-1415-1-git-send-email-ross.burton@intel.com>
+Date: Wed, 6 Jan 2016 17:08:41 -0800
+Message-Id: <43647F23-7669-45EF-952E-973D73AE7CF3@gmail.com>
+References: <1452072169-1415-1-git-send-email-ross.burton@intel.com>
+To: Ross Burton <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.3112)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd: enable compatibility libraries by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,75 +48,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jan 2016 23:11:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 07 Jan 2016 01:08:46 -0000
+X-Groupsio-MsgNum: 75544
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_454C74F6-BC47-41DC-8360-F63440335FF5";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_454C74F6-BC47-41DC-8360-F63440335FF5
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+> On Jan 6, 2016, at 1:22 AM, Ross Burton <ross.burton@intel.com> wrote:
+>=20
+> Too many packages haven't been updated to use the new systemd library =
+names, so
+> enable the compatibility libraries by default.
+
+I think it would be good if we could get them to move. How many such =
+packages do you see ?
+
+>=20
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+> meta/recipes-core/systemd/systemd_228.bb | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd_228.bb =
+b/meta/recipes-core/systemd/systemd_228.bb
+> index 6673042..19b7b42 100644
+> --- a/meta/recipes-core/systemd/systemd_228.bb
+> +++ b/meta/recipes-core/systemd/systemd_228.bb
+> @@ -59,7 +59,7 @@ LDFLAGS_append_libc-uclibc =3D " -lrt =
+-lssp_nonshared -lssp "
+>=20
+> GTKDOC_DOCDIR =3D "${S}/docs/"
+>=20
+> -PACKAGECONFIG ??=3D "xz ldconfig \
+> +PACKAGECONFIG ??=3D "compat xz ldconfig \
+>                    ${@bb.utils.contains('DISTRO_FEATURES', 'pam', =
+'pam', '', d)} \
+>                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', =
+'xkbcommon', '', d)} \
+>                    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', =
+'selinux', '', d)} \
+> --
+> 2.6.4
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_454C74F6-BC47-41DC-8360-F63440335FF5
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-On Mon, 2016-01-04 at 11:55 +0100, Patrick Ohly wrote:
-> On Mon, 2015-12-28 at 13:00 +0000, Richard Purdie wrote:
-> I think it is indeed a step in the right direction. Having to re
-> -create the rootfs directory each time one makes a change to an image
-> creation class or image configuration made experimenting with such 
-> changes awkward and slow.
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
-Agreed, that alone probably makes this change worthwhile in some ways.
+iEYEARECAAYFAlaNupwACgkQuwUzVZGdMxST0QCdHXS9LhVF9gUUp2jF894tcsRx
+194AnR2QLftCaND0WN/qAga+K6qA+tQQ
+=K7TF
+-----END PGP SIGNATURE-----
 
-> However, the question remains how far this rewrite should go. The
-> current semantic model of an "image" is essentially "rootfs + boot
-> loader + kernel", and the current "image" recipes define both the
-> content of the rootfs and additional parameter for turning that one
-> rootfs into an image.
-> 
-> That's arguably the most common scenario, but it is only a special
-> case.
-> Other image layouts may have multiple partitions, each with certain
-> files. For example, there might be a read-only rootfs, an overlay
-> partition for the rootfs and a data partition for user files (for the
-> sake of the argument, assume that it needs to be pre-populated with
-> certain files).
-> 
-> In my opinion, the proposed changes allow implementing a more general
-> image class. Such a class would have to create additional tasks (like
-> do_overlayfs and do_userfs where it installs files based on some
-> additional recipe variables), then in do_image_foobar combine these
-> additional directories into the full disk image.
-
-That is the intent, someone should be able to much more easily tap into
-and do other things with the generated data. It works better with
-rm_work for example too, since things don't get cleaned up until after
-do_image_complete.
-
-> This can be done without using any existing code, but probably there
-> are
-> overlaps in functionality and opportunities for code reuse. For
-> example,
-> converting a directory into a ext2/ext3/ext4/btrfs file system is a
-> common problem. Having that in a Python utility method would be 
-> useful (but not needed immediately).
-
-I'd be more than happy to see a function library of these kinds of
-useful things. This change sets the scene for more changes to the
-image_types.bbclass, we could for example change the IMAGE_CMD
-variables into tasks and drop IMAGE_CMD entirely (at least in
-principle, I'm not saying we should/shouldn't).
-
-> The "populate rootfs" code may also be a candidate for moving into an
-> utility method, although it may be harder to determine exactly which
-> variables it depends on and might not even be needed.
-
-If you look at the code after the recent changes, the do_rootfs code is
-already well abstracted into the lib/oe/rootfs.py and associated files
-as a module.
-
-> So, bottom line, I think it makes sense to move ahead as proposed and
-> refine later in cooperation with distros trying to implement their 
-> own special disk layout.
-
-Thanks for the feedback. I think this is a good first step and then we
-can consider if any subsequent ones make sense.
-
-Cheers,
-
-Richard
-
-
+--Apple-Mail=_454C74F6-BC47-41DC-8360-F63440335FF5--
