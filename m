@@ -1,35 +1,48 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 217D86011F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id E7EF565CC3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 21:17:46 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id b14so143582243wmb.1
+	Thu,  7 Jan 2016 21:34:45 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id q21so266269290iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 13:17:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	Thu, 07 Jan 2016 13:34:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=0zySUrXqjqsO5kCROvRfSXZd2BFomm/5kxA2xey+b1k=;
-	b=hdz4j4z0OgxeMbK7kQMtliOBdrgP6Ny0C8Hf8qYTRP8KSQ84ApIJMzUPvNFaiCNR7g
-	XD0YmLjcpgN4p/h+TAVuU23Eqe5K1he1HipCjCONJ09oZ2i8Zz252ADBCermmUK9pVWe
-	4oif4lZx+QYcghxNj5SAFvxIulyzksMYv+/ChS4OuzRDFlG5af0WsFDzt9xWYMfiD9sc
-	omaW5zJCKoNH0llKm2Qz9tvINc51E5fzFb+cKuBYPwazNct+pW2cajCOart7CTSTshon
-	FsyA0uFr6z4ax9myx12S6wbvutNTiUT4W6w3dLIsG/i2t69+23Yqwpkh5Af/SwOl/0VZ
-	kPtA==
+	bh=Im5CQ+ai0649h36gJBWoVFZKJCwL/5MsHcAfFuH4zbQ=;
+	b=ruNN+1oR08M7JDdQYjNbkOTKobT55eOQD4fidGme/cnQWpSPKa23zOyNvHH7vUzLCI
+	ix8QfIr85CGGNYKoVRTvRuncy3SP5GUYEJtKfiy3jMqyeYdDOJ9KdoH6sOJkntRNNiQk
+	6vB34qQ7SDXGSl5oO0bSX2uqVoHExCdzo/DkFCm8qaEEMckuEcgnwvCmakHRW4ztGuwM
+	MxfKt6n5EdNUA1xeeczSjUY0joDFYgBn7O6I+e59lf1fMMySmG7QJAuIY0lZfrcqIjs6
+	ktxXy5+W5F8WPftoSSOaFbHGNNzth0TwxHm+VkF5388hIuf/7DICDxppuRAXInDsrF4I
+	Zpww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Im5CQ+ai0649h36gJBWoVFZKJCwL/5MsHcAfFuH4zbQ=;
+	b=PFTkps4sl4eOfGksPtQTHdHWSsKitZo442o50QAfJ+gJ0WbEkYbl55FdiU/6ha1FtR
+	KFqJhE+h19IimKF9fw7GmI7CVAgJXHF7oBxU6qN9jV0ErHEQQ4jztnUPc614B6Jt2X+I
+	utPilO1KmMjTacshI6ew1f6PD5+41w3wAYlaGsXFwLAQepK7R0bjBVDvedLT5GbNZSIn
+	ra8tY87GbH71NbtT1GcSE2t62OnvsMDugfB4+CZQ5LBYs3f7ZD8wyGQ9ooL+v7AU6lDs
+	qGzWukia9ne2DdWIaR7ofzkHbngZEB2RJZRknkqLFV3hq9DGdDnxQiA7VA1PE3giM8Aj
+	byhw==
+X-Gm-Message-State: ALoCoQn1FzOcM3F7j6LZ6Coiw03glINjXIrByokDS/ImbcQp2lF03NOYJq/lk1NYhlyBcjnQ7sVeT7rio3EQ/ZJnTOTSLtCpb8gamFxHVcNFCeGuS7nZ0eI=
+X-Received: by 10.107.164.161 with SMTP id d33mr90037025ioj.148.1452202486849; 
+	Thu, 07 Jan 2016 13:34:46 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.28.195.138 with SMTP id t132mr18409482wmf.61.1452201467086; 
-	Thu, 07 Jan 2016 13:17:47 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Thu, 7 Jan 2016 13:17:47 -0800 (PST)
-In-Reply-To: <20160107210943.GH2512@jama>
-References: <1452199993-3885-1-git-send-email-armccurdy@gmail.com>
-	<1452199993-3885-2-git-send-email-armccurdy@gmail.com>
-	<20160107210943.GH2512@jama>
-Date: Thu, 7 Jan 2016 13:17:47 -0800
-Message-ID: <CAJ86T=V71XZfoY54VgBJP2=Ec6ycpi2YSF6FcR6tTuow4eBaVg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] qemu.bbclass: duplicate armv7a over-ride for armv7ve
+Received: by 10.107.162.70 with HTTP; Thu, 7 Jan 2016 13:34:27 -0800 (PST)
+In-Reply-To: <1450389888-24760-3-git-send-email-tom.hochstein@freescale.com>
+References: <1450389888-24760-1-git-send-email-tom.hochstein@freescale.com>
+	<1450389888-24760-3-git-send-email-tom.hochstein@freescale.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 7 Jan 2016 21:34:27 +0000
+Message-ID: <CAJTo0LZwhxNv47sKdHn4fEd550X6+sdodD53+0WKRvUtqhy4PA@mail.gmail.com>
+To: Tom Hochstein <tom.hochstein@freescale.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [<OE-core][PATCH v2 3/4] packagegroup-core-x11-base: Remove matchbox for XWayland case.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,46 +55,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 21:17:50 -0000
+X-List-Received-Date: Thu, 07 Jan 2016 21:34:49 -0000
+Content-Type: multipart/alternative; boundary=001a1141c9765ef9ac0528c53ddf
+
+--001a1141c9765ef9ac0528c53ddf
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jan 7, 2016 at 1:09 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Thu, Jan 07, 2016 at 12:53:10PM -0800, Andre McCurdy wrote:
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->>  meta/classes/qemu.bbclass | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
->> index 315c17f..4ec7657 100644
->> --- a/meta/classes/qemu.bbclass
->> +++ b/meta/classes/qemu.bbclass
->> @@ -43,6 +43,7 @@ QEMU_OPTIONS[vardeps] += "QEMU_EXTRAOPTIONS_${PACKAGE_ARCH}"
->>  QEMU_EXTRAOPTIONS_iwmmxt    = " -cpu pxa270-c5"
->>  QEMU_EXTRAOPTIONS_armv6     = " -cpu arm1136"
->>  QEMU_EXTRAOPTIONS_armv7a    = " -cpu cortex-a8"
->> +QEMU_EXTRAOPTIONS_armv7ve   = " -cpu cortex-a8"
+On 17 December 2015 at 22:04, Tom Hochstein <tom.hochstein@freescale.com>
+wrote:
+
+> +    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '',
+> 'matchbox-terminal matchbox-wm', d)} \
 >
-> would it make sense to use cortex-a15 here? It's supported at least in qemu-2.5.0
 
-Yes, I think you're right. If qemu configured for cortex-a8 is going
-to barf on armv7ve integer division instructions then we should enable
-an armv7ve cpu such as cortex-a15.
+No, this is broken.
 
-To avoid unnecessary diversity, should we then also use cortex-a15 for armv7a ?
+Poky (and others) build with wayland and x11 DISTRO_FEATURES, the presence
+of wayland DISTRO_FEATURE doesn't mean that XWayland is being used.  If
+you're using XWayland then you'll either have to create your own package
+groups, use appends to remove matchbox, or just live with matchbox being
+installed.
 
->>  QEMU_EXTRAOPTIONS_ppce500v2 = " -cpu e500v2"
->>  QEMU_EXTRAOPTIONS_ppce500mc = " -cpu e500mc"
->>  QEMU_EXTRAOPTIONS_ppce5500 = " -cpu e5500"
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
+
+--001a1141c9765ef9ac0528c53ddf
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 December 2015 at 22:04, Tom Hochstein <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:tom.hochstein@freescale.com" target=3D"_blank">tom.hochstein@fre=
+escale.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":29h" class=3D"a3s" style=3D"overflow:hidden">+=C2=A0 =C2=A0 ${@bb.util=
+s.contains(&#39;DISTRO_FEATURES&#39;, &#39;wayland&#39;, &#39;&#39;, &#39;m=
+atchbox-terminal matchbox-wm&#39;, d)} \<br></div></blockquote></div><br></=
+div><div class=3D"gmail_extra">No, this is broken.</div><div class=3D"gmail=
+_extra"><br></div><div class=3D"gmail_extra">Poky (and others) build with w=
+ayland and x11 DISTRO_FEATURES, the presence of wayland DISTRO_FEATURE does=
+n&#39;t mean that XWayland is being used.=C2=A0 If you&#39;re using XWaylan=
+d then you&#39;ll either have to create your own package groups, use append=
+s to remove matchbox, or just live with matchbox being installed.</div><div=
+ class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
 >
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--001a1141c9765ef9ac0528c53ddf--
