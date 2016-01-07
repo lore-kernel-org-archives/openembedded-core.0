@@ -1,41 +1,31 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id B66206E688
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 968CC60761
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 16:07:53 +0000 (UTC)
-Received: by mail-ig0-f178.google.com with SMTP id z14so37117095igp.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 08:07:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-type:content-transfer-encoding;
-	bh=RlHfIQjRfEP379dTbvF981zZfxr81l4t7lgCscfwOkw=;
-	b=aBLztOm5DjLy2bpAZ/6DLvfQupy8vYWXbXxoJi4ujglm5Whbyu+t6CkTssPHC0RdGZ
-	Hwk1rFgglu+Wvxj4+azz5Pl2cKkYEnEV0aJUDdZKrlOkpLapbCYEoaXmlJ8EGuFk1R/B
-	TtfmF6EC4qGFUpQM+GVxBoraVNXT1ipT/V6et44RzSKYlX0mIkHYfHMmGBAlg+2R8QiH
-	rFnE0rpdJ6YyBqDW5IrQ4FU1XI4XLe9jCzUscMl0pkWtybjh9Vm8zp32dMO3TyujdIw2
-	XkAuqVeR6RU4xC0QM5IBpx8O7luvRIpVKo8Dh3uzHzLFlajjP8msUhZWXgkj/BAH/kdV
-	Invg==
-X-Received: by 10.50.164.170 with SMTP id yr10mr16953246igb.91.1452182874046; 
-	Thu, 07 Jan 2016 08:07:54 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	qb7sm5100672igb.8.2016.01.07.08.07.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 07 Jan 2016 08:07:53 -0800 (PST)
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1452096306.git.ross.burton@intel.com>
-	<568E8B9F.1040700@gmail.com> <20160107160614.GF2512@jama>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <568E8D56.7070609@gmail.com>
-Date: Thu, 7 Jan 2016 11:07:50 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
-MIME-Version: 1.0
-In-Reply-To: <20160107160614.GF2512@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/63] Consolidated pull
+	Thu,  7 Jan 2016 16:37:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u07GanX3003715; Thu, 7 Jan 2016 16:37:12 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id SpdqelqxWDMm; Thu,  7 Jan 2016 16:37:12 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u07Gb7Aj003770
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 7 Jan 2016 16:37:08 GMT
+Message-ID: <1452184627.7598.132.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>, Trevor Woerner <twoerner@gmail.com>
+Date: Thu, 07 Jan 2016 16:37:07 +0000
+In-Reply-To: <CAJTo0LaDS4+ETDGLc+Ja8Q+TjCOJ=xn6dSvO4UsNMnLUPhzkcw@mail.gmail.com>
+References: <568DF5C6.90509@gmail.com> <568E1CB6.708@windriver.com>
+	<568E86EF.5050408@gmail.com>
+	<CAJTo0LaDS4+ETDGLc+Ja8Q+TjCOJ=xn6dSvO4UsNMnLUPhzkcw@mail.gmail.com>
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: invoking a native compiler (gcc)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,24 +38,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 16:07:54 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Thu, 07 Jan 2016 16:37:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Thu, 2016-01-07 at 15:46 +0000, Burton, Ross wrote:
+> 
+> On 7 January 2016 at 15:40, Trevor Woerner <twoerner@gmail.com>
+> wrote:
+> > I was surprised to find that BUILD_CC is being set to whatever
+> > comes up
+> > first in our build computer's PATH. But I guess the alternative
+> > would be
+> > to make our builds longer by compiling our own native compiler for
+> > such
+> > cases.
+> > 
+> You could always set BUILD_CC to explicitly point to the right
+> compiler on your machine.  When I was trying to make OE work on
+> Darwin I had to set BUILD_CC to point at brew's gcc binaries.
 
+Or you setup PATH to include things in the right order as we do with
+other native tools...
 
-On 01/07/16 11:06, Martin Jansa wrote:
-> On Thu, Jan 07, 2016 at 11:00:31AM -0500, Trevor Woerner wrote:
->> With this applied bitbake can't parse meta-openembedded because
->>
->> meta-openembedded/meta-oe/recipes-devtools/python/python-pyqt_4.11.3.bb:25:
->> Could not inherit file classes/qmake2.bbclass
->>
->> unless the user adds git://git.yoctoproject.org/meta-qt4 to their layers.
->>
->> Should this recipe be also moved to meta-qt4?
-> See openembedded-devel changes I've just sent or master-next.
->
+Cheers,
 
-Ok, thanks. I was in the process of making a list :-)
+Richard
 
