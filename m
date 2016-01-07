@@ -1,39 +1,22 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id BA6C66E668
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id D63B16FFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 11:10:55 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id l65so92457254wmf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 03:10:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=180Md9jIvryVHfFKNJLF2fVuGIFPFHsAEulpfh8BN0k=;
-	b=LapFgRIXW1d/4mcom8iC4WZZANZmCoTK/C6b3G52dRVkNXVyKm5FwdbgZeaoc3io0e
-	6J3c2eSzMGXArsk5K2HqHM6wWaN2+VRBol7ffnZBk4I4rh87WJbeUHxofxTSMCbJEnPx
-	xjrHENx/xCwdPl900s9PFZ2fyRH2DfmLmwjn6ePUMXFgNAjanH3CizeaaNjLfSMJX5XP
-	UvpRGO6d8RiR3ioEOZsbLWLRrwR5CgDku3NHVBC/1WYI0lQmbQNvh0ecGRxVqFgtOWcv
-	oRnliHNWM2QFHo6kUa39MMXCUoSEZSWkd5/nEjvhmU89xcMy5M5uOOoL5h3DXKg8kjXc
-	6D9A==
-X-Received: by 10.28.55.209 with SMTP id e200mr16696415wma.2.1452165056500;
-	Thu, 07 Jan 2016 03:10:56 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	ft4sm100353019wjb.37.2016.01.07.03.10.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 07 Jan 2016 03:10:55 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 7 Jan 2016 12:11:20 +0100
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20160107111120.GC2512@jama>
+	Thu,  7 Jan 2016 12:16:47 +0000 (UTC)
+Received: from [2a00:14f0:e04c:51ac:e23f:49ff:fe47:b7fd] (helo=phil-desktop)
+	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1aH9Uj-0000lb-Rd; Thu, 07 Jan 2016 13:16:46 +0100
+Message-ID: <1452169004.3116.29.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 07 Jan 2016 12:16:44 +0000
+In-Reply-To: <228ce5dac7d96467f7165add45a39cfcd12c7bfc.1452152689.git.liezhi.yang@windriver.com>
 References: <cover.1452152689.git.liezhi.yang@windriver.com>
 	<228ce5dac7d96467f7165add45a39cfcd12c7bfc.1452152689.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <228ce5dac7d96467f7165add45a39cfcd12c7bfc.1452152689.git.liezhi.yang@windriver.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
+X-Mailer: Evolution 3.16.5-1 
+Mime-Version: 1.0
 Subject: Re: [PATCH 3/3] liberation-fonts: can't be allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,82 +30,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 11:10:57 -0000
-X-Groupsio-MsgNum: 75559
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="S1BNGpv0yoYahz37"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 07 Jan 2016 12:16:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---S1BNGpv0yoYahz37
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2016-01-06 at 23:45 -0800, Robert Yang wrote:
+> liberation-fonts inherit fontcache which would depend on fontconfig, 
+> and fontconfig is not allarch, so that liberation-fonts can't be
+> allarch.
 
-On Wed, Jan 06, 2016 at 11:45:24PM -0800, Robert Yang wrote:
-> liberation-fonts inherit fontcache which would depend on fontconfig, and
-> fontconfig is not allarch, so that liberation-fonts can't be allarch.
->=20
-> It caused a problem:
-> $ bitbake lib32-core-image-sato
->=20
-> Both lib32-fontconfig and fontconfig would be built, but fontconfig
-> shouldn't, this patch can fix the problem.
->=20
-> [YOCTO #8882]
+This doesn't make any sense.  I don't think allarch is, or ever has
+been, contagious in that way.  There is no good reason I can think of
+to require that all the dependencies of an allarch package should
+themselves be allarch.  Indeed, if we did require this then it would
+probably mean that virtually no packages could legitimately be allarch.
 
-liberation-fonts excludes fontconfig dependency since:
-commit 0b5e868d160faca041cda42b670066facd4db531
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date:   Tue Aug 25 17:58:12 2015 +0100
+p.
 
-    layer.conf: Add several allarch dependency exclusions
 
-If it doesn't work then you probably should remove the entry from
-layer.conf as well.
-
->=20
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  .../ttf-fonts/liberation-fonts_1.04.bb             |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb b/m=
-eta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-> index bda82e7..f64748c 100644
-> --- a/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-> +++ b/meta/recipes-graphics/ttf-fonts/liberation-fonts_1.04.bb
-> @@ -13,7 +13,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9b=
-a36caa9b7df079bae19f"
->  PR =3D "r4"
->  PE =3D "1"
-> =20
-> -inherit allarch fontcache
-> +inherit fontcache
-> =20
->  FONT_PACKAGES =3D "${PN}"
-> =20
-> --=20
-> 1.7.9.5
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---S1BNGpv0yoYahz37
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlaOR9cACgkQN1Ujt2V2gBxpJACeJLVOF5aYvVSj9PNOsDFYjU6A
-RicAmwXBCKhx8qNDYYkrkYV3QnL6UKyc
-=MIiR
------END PGP SIGNATURE-----
-
---S1BNGpv0yoYahz37--
