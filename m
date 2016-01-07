@@ -1,38 +1,24 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A2FB731E6
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A78EB600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 05:21:17 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id q21so241099528iod.0
+	Thu,  7 Jan 2016 07:45:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u077jO3r005696
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jan 2016 21:21:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-type:content-transfer-encoding;
-	bh=lFQA7QNy+6jQwAy6T2RXZLScEQ8yA60B676LKZ3SuEc=;
-	b=MeI0WTavshRlIX5bYTCte90r47t1wqqKVecYpnkoOXwbnxhJBPjQ50tivE7HxUZH1P
-	M3IA1VRoU48U0rIoBvNJk2WjqeXrmQJyWwHQbS8E/eEL8HHmz06oKmnDQSzypE/YerPP
-	QJSgcKIEAY2t5Sub9w7KlVHw6OG26PF0Dbe0vRzj4el18YifN7QuBH6d46laCUUgBjl1
-	Ap2t1oxSoeMA1tvD2na3maXDv8moVFzrOqUiKraC/GhjUuDR3oo9KCm1ct1SlsAZI+yj
-	/FK/llKH4oXxUbuFclKGA1MTa0INNMqUD6exS3JgQDdP3Sc7RKUCUBX7JF5B+pcPtgfQ
-	/2/Q==
-X-Received: by 10.107.10.170 with SMTP id 42mr88187818iok.64.1452144077651;
-	Wed, 06 Jan 2016 21:21:17 -0800 (PST)
-Received: from [192.168.141.85] (dsl-67-55-28-109.acanac.net. [67.55.28.109])
-	by smtp.gmail.com with ESMTPSA id
-	x4sm4278205igw.12.2016.01.06.21.21.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 06 Jan 2016 21:21:17 -0800 (PST)
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Trevor Woerner <twoerner@gmail.com>
-Message-ID: <568DF5C6.90509@gmail.com>
-Date: Thu, 7 Jan 2016 00:21:10 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.5.1
+	Wed, 6 Jan 2016 23:45:24 -0800 (PST)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 6 Jan 2016 23:45:24 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 6 Jan 2016 23:45:21 -0800
+Message-ID: <cover.1452152689.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: invoking a native compiler (gcc)
+Subject: [PATCH 0/3] meta: 3 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,10 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 05:21:18 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Jan 2016 07:45:24 -0000
+Content-Type: text/plain
 
-If a recipe needs to build some tool on the build machine which it later
-wants to invoke, my understanding is that BUILD_CC should be used?
+The following changes since commit 95fced137a46dc98863fe5af7be5cbce708602f2:
+
+  udev-extraconf: introduce multiple blacklist files for more complex setups (2016-01-05 17:55:05 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/3fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/3fixes
+
+Robert Yang (3):
+  cogl-1.0: fix may be used uninitialized error
+  run-postinsts: can't be allarch
+  liberation-fonts: can't be allarch
+
+ .../run-postinsts/run-postinsts_1.0.bb             |    2 +-
+ ...ce-culling.c-fix-may-be-used-uninitialize.patch |   35 ++++++++++++++++++++
+ meta/recipes-graphics/cogl/cogl-1.0_1.22.0.bb      |    2 ++
+ .../ttf-fonts/liberation-fonts_1.04.bb             |    2 +-
+ 4 files changed, 39 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/cogl/cogl-1.0/test-backface-culling.c-fix-may-be-used-uninitialize.patch
+
+-- 
+1.7.9.5
+
 
