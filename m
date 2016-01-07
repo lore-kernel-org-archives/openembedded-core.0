@@ -1,34 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 45AD073183
+Return-Path: <steffen@linuxbe.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id D310273183
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Jan 2016 14:42:21 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id f206so99921794wmf.0
+	Thu,  7 Jan 2016 14:46:59 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id f206so126995126wmf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 06:42:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=8HRf2cvXSEDqvyRrTcX4dDXNyh7cPohtik8zI9Mt48w=;
-	b=faJkIKBQGIPHGsF927xdui373+DCCDNEuaNS7w1I2MJmA8EqUUAquGfMHbm+l3hy9d
-	1ViTSDvnNoun8uqf3VdWK8whyWTJyPTpSE9e9L5KSpV75FKesvEnqhgyAZ2u33mXpc4F
-	TlO0QN5NAHaE/NSlZY7tRZPgZT1OV4x4Vyi/EG0pCs5ZSprStN7TmuE14cj8pdgDIEBM
-	H6GTUURIrBeDTf3pdUV+TixzTBfkq/OUpsyaRcnxZP1Ev48dofYxH4mVyOFn///mrYVm
-	CdKz1aqLY1lEIrIiKpD2/GHp8v9PA3EA3W4zthLF91mBazGef/K7g/krOP+X74L00xTW
-	KVUA==
-X-Received: by 10.194.120.134 with SMTP id lc6mr132229880wjb.130.1452177742186;
-	Thu, 07 Jan 2016 06:42:22 -0800 (PST)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	bh6sm101435702wjb.0.2016.01.07.06.42.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 07 Jan 2016 06:42:20 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Thu, 07 Jan 2016 06:47:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxbe-com.20150623.gappssmtp.com; s=20150623;
+	h=from:subject:to:cc:message-id:date:user-agent:mime-version
+	:content-type:content-transfer-encoding;
+	bh=XhOj1MpsQQ5tW9xGlB+SHTyp0wdacNsCD//E83uXVaE=;
+	b=sbMQXAAtUEjtvzJ7CK/TcRUgfv/1wNw7gAl1CC1O2WRE9hnL0YG/tqLFOVFF5F77w+
+	0yvV62KU/VKCJ6yfYlgExZ2fHGoZWhXoE/fEDDHYxpUc+4zNe/q16ekpaDegJR/qHp4c
+	I67b6kzZXGy/6jZE+InsuFiwwzy5RDVfnDC2AJiEOaB+D5i5ESuWoWSZzFbsyVleuH5b
+	P09WS9otyRkmd/33VAsNMD1Hjq01Nu1HWcZo7BVWtHMzVLne8MYPytnLhOR7LSn8DNQf
+	DcM6jmid8AJsk5sjsng1RwqfMWH3V9f2kLvR9CBdeVy9W95/9Q1I3lLG143tVz4ftUv2
+	1MlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
+	:mime-version:content-type:content-transfer-encoding;
+	bh=XhOj1MpsQQ5tW9xGlB+SHTyp0wdacNsCD//E83uXVaE=;
+	b=hfOOPiYyjyitKqcliIjzOolBcJuutBo/0cw+KwriEadULfpL2pIqomnDlMoEKUQr2n
+	sl5J5rPAq7l2XbIjkCZby33lr5cY2ukpVM9CytPAC96CW346q++xtpbAynaUYMRjapiC
+	k2BvjOrUyKYWidCaKH//hInOqvUtZ8TGaFlIjpDJVkgL59G+E1Qymj7y1MftF3mcADfX
+	1iZ3koDY4NMwyI4CsogZXfYwUxNlEpMS56Hgf22TThWqy7Vi2WmBXhRzGTFDzWtuZyVF
+	bRSIHR3y7MPQIEsRVxwYGHi/44Fc88bke8Bj706sLDbH7ipQOCrzwkTLGQEC1R8WUWvi
+	6aMw==
+X-Gm-Message-State: ALoCoQlq3RLJDvJ5MxsliPMZiDhkJ8YQOXHhLMIrgDhb2Ja3NC/uYwmuRLFHr04BQinA7g6DtJIM3PirLDPcZjDkGJZ2sJEOAw==
+X-Received: by 10.28.176.131 with SMTP id z125mr16851419wme.5.1452178020094;
+	Thu, 07 Jan 2016 06:47:00 -0800 (PST)
+Received: from [10.47.50.105] ([81.83.24.121])
+	by smtp.googlemail.com with ESMTPSA id
+	q6sm101445024wjx.28.2016.01.07.06.46.59
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 07 Jan 2016 06:46:59 -0800 (PST)
+From: Steffen Jaeckel <steffen@linuxbe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jan 2016 15:42:44 +0100
-Message-Id: <1452177764-9314-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.7.0
-Subject: [PATCH] libbsd: upgrade to 0.8.1
+Message-ID: <568E7A62.8000006@linuxbe.com>
+Date: Thu, 7 Jan 2016 15:46:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:43.0) Gecko/20100101
+	Thunderbird/43.0
+MIME-Version: 1.0
+Subject: [jethro/fido] logrotate: backport binary location patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,160 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jan 2016 14:42:22 -0000
+X-List-Received-Date: Thu, 07 Jan 2016 14:47:00 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-* fixes building lldpd from meta-networking, more information in:
-  https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=807730
-  http://cgit.freedesktop.org/libbsd/commit/?id=48ac79b1883981f5135b5b9c76ca268e6cbe65b2
-* update LIC_FILES_CHKSUM and LICENSE according to:
-  http://cgit.freedesktop.org/libbsd/commit/?id=6bcb1312f4691b92d0193e4a923a776dc6f233df
-  http://cgit.freedesktop.org/libbsd/commit/?id=290a1ce8f262a7f30a77c0a89eaa28876de876ed
-  be aware that it doesn't list all LICENSEs, only those where
-  common license text already exists (feel free to add additional
-  texts).
+Hi,
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../libbsd/0001-Use-local-SHA512-header.patch      | 75 ----------------------
- .../libbsd/{libbsd_0.8.0.bb => libbsd_0.8.1.bb}    | 35 +++++++---
- 2 files changed, 27 insertions(+), 83 deletions(-)
- delete mode 100644 meta/recipes-support/libbsd/libbsd/0001-Use-local-SHA512-header.patch
- rename meta/recipes-support/libbsd/{libbsd_0.8.0.bb => libbsd_0.8.1.bb} (37%)
+I would like to propose the backport of the following logrotate patch to
+jethro/master and fido:
 
-diff --git a/meta/recipes-support/libbsd/libbsd/0001-Use-local-SHA512-header.patch b/meta/recipes-support/libbsd/libbsd/0001-Use-local-SHA512-header.patch
-deleted file mode 100644
-index af47b2b..0000000
---- a/meta/recipes-support/libbsd/libbsd/0001-Use-local-SHA512-header.patch
-+++ /dev/null
-@@ -1,75 +0,0 @@
--From 8493c7f27da2dcd2de71e9c7782c3d020d89c2a2 Mon Sep 17 00:00:00 2001
--From: Guillem Jover <guillem@hadrons.org>
--Date: Tue, 1 Dec 2015 03:39:10 +0100
--Subject: [PATCH] Use local SHA512 header
--
--Actually use the local private SHA512 header instead of relying on the
--OpenSSL one for no good reason. Add definition for expected macro
--SHA512_DIGEST_LENGTH.
--
--Signed-off-by: Marek Vasut <marex@denx.de>
--Upstream-Status: Backport
-----
-- src/getentropy_aix.c   | 2 +-
-- src/getentropy_hpux.c  | 3 ++-
-- src/getentropy_linux.c | 3 ++-
-- src/hash/sha512.h      | 2 ++
-- 4 files changed, 7 insertions(+), 3 deletions(-)
--
--diff --git a/src/getentropy_aix.c b/src/getentropy_aix.c
--index cbd4037..d4ccab7 100644
----- a/src/getentropy_aix.c
--+++ b/src/getentropy_aix.c
--@@ -39,7 +39,7 @@
-- #include <string.h>
-- #include <termios.h>
-- 
---#include <openssl/sha.h>
--+#include "hash/sha512.h"
-- 
-- #include <libperfstat.h>
-- 
--diff --git a/src/getentropy_hpux.c b/src/getentropy_hpux.c
--index 45ac84b..294d83a 100644
----- a/src/getentropy_hpux.c
--+++ b/src/getentropy_hpux.c
--@@ -41,7 +41,8 @@
-- #include <errno.h>
-- #include <unistd.h>
-- #include <time.h>
---#include <openssl/sha.h>
--+
--+#include "hash/sha512.h"
-- 
-- #include <sys/vfs.h>
-- 
--diff --git a/src/getentropy_linux.c b/src/getentropy_linux.c
--index 0a5d6b8..d7a8ae5 100644
----- a/src/getentropy_linux.c
--+++ b/src/getentropy_linux.c
--@@ -47,7 +47,8 @@
-- #include <errno.h>
-- #include <unistd.h>
-- #include <time.h>
---#include <openssl/sha.h>
--+
--+#include "hash/sha512.h"
-- 
-- #include <linux/types.h>
-- #include <linux/random.h>
--diff --git a/src/hash/sha512.h b/src/hash/sha512.h
--index 43c5aaf..4f368a1 100644
----- a/src/hash/sha512.h
--+++ b/src/hash/sha512.h
--@@ -31,6 +31,8 @@
-- 
-- #include <sys/types.h>
-- 
--+#define SHA512_DIGEST_LENGTH		64
--+
-- typedef struct SHA512Context {
-- 	uint64_t state[8];
-- 	uint64_t count[2];
---- 
--2.6.2
--
-diff --git a/meta/recipes-support/libbsd/libbsd_0.8.0.bb b/meta/recipes-support/libbsd/libbsd_0.8.1.bb
-similarity index 37%
-rename from meta/recipes-support/libbsd/libbsd_0.8.0.bb
-rename to meta/recipes-support/libbsd/libbsd_0.8.1.bb
-index 3456968..45420d5 100644
---- a/meta/recipes-support/libbsd/libbsd_0.8.0.bb
-+++ b/meta/recipes-support/libbsd/libbsd_0.8.1.bb
-@@ -8,17 +8,36 @@ DESCRIPTION = "This library provides useful functions commonly found on BSD syst
-                code over and over again on each project."
- 
- HOMEPAGE = "http://libbsd.freedesktop.org/wiki/"
--LICENSE = "BSD-4-Clause & MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=b99a70657f41053dc4b49d0ae73f7a78"
-+# There seems to be more licenses used in the code, I don't think we want to list them all here, complete list:
-+# OE @ ~/projects/libbsd $ grep ^License: COPYING  | sort
-+# License: BSD-2-clause
-+# License: BSD-2-clause
-+# License: BSD-2-clause-NetBSD
-+# License: BSD-2-clause-author
-+# License: BSD-2-clause-verbatim
-+# License: BSD-3-clause
-+# License: BSD-3-clause
-+# License: BSD-3-clause
-+# License: BSD-3-clause-Peter-Wemm
-+# License: BSD-3-clause-Regents
-+# License: BSD-4-clause-Christopher-G-Demetriou
-+# License: BSD-4-clause-Niels-Provos
-+# License: BSD-5-clause-Peter-Wemm
-+# License: Beerware
-+# License: Expat
-+# License: ISC
-+# License: ISC-Original
-+# License: public-domain
-+# License: public-domain-Colin-Plumb
-+LICENSE = "BSD-4-Clause & ISC & PD"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=145ec05a217d8f879f29cfc5f83084be"
- SECTION = "libs"
--DEPENDS = ""
- 
- SRC_URI = " \
--	http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
--	file://0001-Use-local-SHA512-header.patch \
--	"
-+    http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-+"
- 
--SRC_URI[md5sum] = "262bdd1aa3bee6066a8c9cb49bb6c584"
--SRC_URI[sha256sum] = "fbb732084bd960e4c78b688aac875be98e290cc6fe462b2ff8ee946a6473e38c"
-+SRC_URI[md5sum] = "f3daff0283af6e30f25d68be2deac4ef"
-+SRC_URI[sha256sum] = "adbc8781ad720bce939b689f38a9f0247732a36792147a7c28027c393c2af9b0"
- 
- inherit autotools pkgconfig
+> commit bca5a7a2b63411ee1d51cd2112ad9503d5107381
+> Author: Hongxu Jia <hongxu.jia@windriver.com>
+> Date:   Mon Nov 2 16:33:27 2015 +0800
+> 
+>     logrotate: do not move binary logrotate to /usr/bin
+
+I tested for jethro on i.MX6 successfully.
+
+Thanks in advance,
+Steffen
 -- 
-2.7.0
-
+Steffen Jaeckel
+Embedded Software Developer, Linux Belgium
+http://www.linuxbe.com
+GnuPG fingerprint: C438 6A23 7ED4 3A47 5541 B942 7B2C D0DD 4BCF F59B
+My OTR public key has changed on 20. Sept. 2015
+jabber: jaeckel@jabber.ccc.de F052DE29 4FA9A02D 44A794E5 AE5AC0FB C5865C64
 
