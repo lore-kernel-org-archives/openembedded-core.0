@@ -1,48 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id E5C39731D2
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id D4ABF731DE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 16:17:26 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id q21so290653289iod.0
+	Fri,  8 Jan 2016 16:24:35 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id u188so143163865wmu.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 08:17:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	Fri, 08 Jan 2016 08:24:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=6bjzgqeGjTqaSxIOtSlES9UW7czcq5E6Z8hfPnLFNI4=;
-	b=p3lKSCqwejdjZORjE1HaRZ3btS3Sjg0nbqz6S2PJ+CmHW3AGKwicmAauAf13gKJOtE
-	N9RUyWX1ezp84Vg4griszIU99aEU30iiAFP6a9iI8SkBrEAWZ+/Pyji3ydIoeija0dkw
-	CKIvGo4ic10lMyILwPXrZOvclVmU70gK8bhzjxYE2j9Hn/yBR6OFngyD1VTIkX0zMwuq
-	mB9HgCx5T8cKFMGsy/mCLCOGuTkBSBk9Se6e84DeYiU3Kd3ooMLzmsmrFoRyeilCeMG4
-	TN35bnHI2kF1ZprFeFyAClENnxHVxUlf3AAhl99rQJJDQXLZf/dRnL97BArO2OVoTkuv
-	Zp0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=6bjzgqeGjTqaSxIOtSlES9UW7czcq5E6Z8hfPnLFNI4=;
-	b=lyfOKDxM9V42boTHXMjXYEJIU6sxgg8kj2/DhmfTg0cSK+ZsBZEINwQ45OcWlHk8cO
-	86eit8al1zmSeDKCnkFxkgJi3he0dGdcRN/NradFGAeYLtL0o8Ki94evaPFFWCJLKf10
-	BZTOQObEgbqlHSTNtWwB1WU3jG+WOQTGd5JuKnslQRm2k5uT8Ap2dMVI1vlVYCLLNzul
-	wLdyYGQCqliA9eQD97LG2CI91+BYY6IXARUtvUC8RaWSwCb5gO+/Woyg21vem5+xXR++
-	wFstLy3ymit3R2CGDalSxok8MawIW1ySXgJTYQw8EeIgm/QGuDV7xsV5AlqNqBBrCzvQ
-	YJJw==
-X-Gm-Message-State: ALoCoQmyl8U8te6MzDI7AoCPyd9sPH0TH863o7PVi+PkOj4Rpa5i5qGhX9UIj4RDvKBOnsx4L7y2OUN5PIGqhFHJckOFyOyZqJUrPKi+TLTdEDhbkpSDr2M=
-X-Received: by 10.107.3.154 with SMTP id e26mr95920052ioi.99.1452269847093;
-	Fri, 08 Jan 2016 08:17:27 -0800 (PST)
+	bh=TYDHuvajJGwlwOFzALDyge/s2aMihPIvSuvc8StDVWg=;
+	b=OUVOY3W0/+iRv7WuL7Oh5ffAN6OZF5pPC+ZLDrYg20k7P5aYfLpvrZ+4ftj4gSdin9
+	NpXrCs9g1jih/feRpu2D2pFMXbzF+REBh3YzDrN798mosQJ2aJOhoxyYLyIQuKY0aoWA
+	kd2eoFb+RkB9aytvIVvHl7IZyAkhcM1uACC93ue6YkDRG/UousCmp8e0OJXNUD8Cpvs0
+	TYAVuvKb5sEgyzJ3JJCkXsO5v9hq0XVPdm9F0J7Z2vF+QHQesdQBUfwQ81Xc41Pj9UVD
+	AMwPsEzqIv2gk+Z7fKCP5ohJ6AGE5B5qBewUQuxxYaeGrrwefgNVi6xD632WzLP10Bgu
+	Gd9A==
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 8 Jan 2016 08:17:07 -0800 (PST)
-In-Reply-To: <baa98869574d7bb44be4171ff58d5abdc76f7d69.1452248145.git.raj.khem@gmail.com>
-References: <cover.1452248145.git.raj.khem@gmail.com>
-	<baa98869574d7bb44be4171ff58d5abdc76f7d69.1452248145.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 8 Jan 2016 16:17:07 +0000
-Message-ID: <CAJTo0LbiNhcb3G_omDB=V37p53dpG3MGA0O28T19BQiT4aL8Zw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 20/53] mtools: Fix build with uclibc
+X-Received: by 10.194.156.199 with SMTP id wg7mr118256471wjb.114.1452270276371;
+	Fri, 08 Jan 2016 08:24:36 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Fri, 8 Jan 2016 08:24:36 -0800 (PST)
+In-Reply-To: <1452257072-1799-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1452256574-21587-1-git-send-email-Martin.Jansa@gmail.com>
+	<1452257072-1799-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Fri, 8 Jan 2016 08:24:36 -0800
+Message-ID: <CAJ86T=WNGGp=L358DSu2+VXM4eEdOz9FRcDBkGueUap80RjGBw@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2][RFC] arch-armv7ve.inc: respect armv7a override as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,53 +41,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 16:17:27 -0000
-Content-Type: multipart/alternative; boundary=001a113ec10a5ac2ab0528d4ecba
-
---001a113ec10a5ac2ab0528d4ecba
+X-List-Received-Date: Fri, 08 Jan 2016 16:24:37 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 8 January 2016 at 10:18, Khem Raj <raj.khem@gmail.com> wrote:
+On Fri, Jan 8, 2016 at 4:44 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> * in all cases we currently have we consider armv7ve to be compatible with armv7a
 
-> +DEPENDS += "virtual/libiconv"
+Is this a short term workaround or a long term solution?
+
+If it's a long term solution then how will armv7m and armv7r be
+handled? They are likely to need to duplicate a lot of the current
+armv7a over-rides too.
+
+Maybe adding a generic "armv7" over-ride which can be enabled by all
+armv7 variants is a better option?
+
+Either way, I'd like to continue cleaning up of the existing armv7a
+over-rides (e.g. the libav armv7a specific optimisation is likely
+bogus and should be removed, etc).
+
+
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/conf/machine/include/arm/arch-armv7ve.inc | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
+> diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc b/meta/conf/machine/include/arm/arch-armv7ve.inc
+> index 79e1ef6..d0fdff7 100644
+> --- a/meta/conf/machine/include/arm/arch-armv7ve.inc
+> +++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
+> @@ -3,7 +3,8 @@ DEFAULTTUNE ?= "armv7ve"
+>  TUNEVALID[armv7ve] = "Enable instructions for ARMv7ve"
+>  TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
+>  TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', ' -march=armv7ve', '', d)}"
+> -MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 'armv7ve:', '' ,d)}"
+> +# In all cases we currently have we consider armv7ve to be compatible with armv7a
+> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 'armv7ve:armv7a:', '' ,d)}"
+>
+>  require conf/machine/include/arm/arch-armv6.inc
+>  require conf/machine/include/arm/feature-arm-neon.inc
+> --
+> 2.7.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Update: this breaks all builds for x86 hardware:
-
-ERROR: Nothing PROVIDES 'virtual/libiconv-native' (but
-virtual:native:/home/ross/Yocto/poky/meta/recipes-devtools/mtools/
-mtools_4.0.18.bb DEPENDS on or otherwise requires it). Close matches:
-  virtual/libiconv
-  virtual/libx11-native
-  virtual/libsdl-native
-
-It appears to be the first time that virtual/libiconv-native appears.
-Should we just ASSUME_PROVIDED that?
-
-Ross
-
---001a113ec10a5ac2ab0528d4ecba
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 January 2016 at 10:18, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-styl=
-e:solid;padding-left:1ex"><div id=3D":4zg" class=3D"" style=3D"overflow:hid=
-den">+DEPENDS +=3D &quot;virtual/libiconv&quot;<br></div></blockquote></div=
-><br>Update: this breaks all builds for x86 hardware:</div><div class=3D"gm=
-ail_extra"><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">=
-ERROR: Nothing PROVIDES &#39;virtual/libiconv-native&#39; (but virtual:nati=
-ve:/home/ross/Yocto/poky/meta/recipes-devtools/mtools/<a href=3D"http://mto=
-ols_4.0.18.bb">mtools_4.0.18.bb</a> DEPENDS on or otherwise requires it). C=
-lose matches:</div><div class=3D"gmail_extra">=C2=A0 virtual/libiconv</div>=
-<div class=3D"gmail_extra">=C2=A0 virtual/libx11-native</div><div class=3D"=
-gmail_extra">=C2=A0 virtual/libsdl-native</div><div class=3D"gmail_extra"><=
-br></div><div class=3D"gmail_extra">It appears to be the first time that vi=
-rtual/libiconv-native appears.=C2=A0 Should we just ASSUME_PROVIDED that?</=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</d=
-iv></div></div>
-
---001a113ec10a5ac2ab0528d4ecba--
