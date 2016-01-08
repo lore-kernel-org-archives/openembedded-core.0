@@ -1,39 +1,41 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B2837705E
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 7ADF176FE2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 10:19:56 +0000 (UTC)
-Received: by mail-qk0-f174.google.com with SMTP id p186so118758325qke.0
+	Fri,  8 Jan 2016 10:19:57 +0000 (UTC)
+Received: by mail-qg0-f48.google.com with SMTP id o11so348663641qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 02:19:57 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=rFVtDsiHNj29rNwTutaSoYe4M7E2wpCyQFYCd+9ZD5Y=;
-	b=T57d/Xd8dDHeToHqSEmuBSDuKaW9aBQPnsjRRYm3FGLq4rxHeKESAp2H1E1K74pRJt
-	jWLmJ079PAAcM0Lb6qn58VsjbpXN8j1eXsmW4xo/qHVzr/+CUX1W65yTGVJ/Ilx9dkN0
-	PtqERNObVXlRUIELj2BnVf0g2WhHedDX99awhZuCWsvoda7M7RvJAQbzZc/k1xGMdNUS
-	Cq7Vr1AZzXcMGPULeGpmwqrPi8GGNzkSFi8ddQSNf3MJMFzZIB727kygDne8NZKthxpq
-	Yn+U4xLFdG/uw1x2N9u5IYnVtMTbbL1UlaG7JTZshWXgRrd0ff4jvGJBl6teKpHQUv1b
-	ScLQ==
-X-Received: by 10.55.71.195 with SMTP id u186mr143177748qka.38.1452248397221; 
+	:mime-version:in-reply-to:references:content-type
+	:content-transfer-encoding;
+	bh=HYWgzrrPHtvKs0xmA0K5s3LsTtyNRqaYhB6qVvlzDjQ=;
+	b=lVi8R9JeusZbI1mR3hZsV9ZjB5bhHSxuWWWxpnc1Blr/MOaVMp61Bq1gD9z/EwKTP9
+	AFnL0MtBfyV+tUoKp6FU03NF4nB0RutrBDp26Invme0KlUA6LN+dghJ+GLTpf3b8VjuL
+	vgHF6Pot11HDmHhce7mCVPlZ7hENmxmZcq8iwRz4fgNv97zWVic4kpOovmofvs76zj0K
+	aXiFVbu+lpozlrOCWyPILJjHfXuNNpYGVZMczr6gbnRZ5L6cgu4G7aARzc39kTLyRil0
+	HnL9FxiZU22h604SfjZkZnwXVnCScPzQ/k1kALCoW8FHL00SoXbhScNjF2ZdhEe4kPaq
+	TTKQ==
+X-Received: by 10.140.238.88 with SMTP id j85mr142606372qhc.88.1452248397869; 
 	Fri, 08 Jan 2016 02:19:57 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	d129sm48549987qka.31.2016.01.08.02.19.56
+	d129sm48549987qka.31.2016.01.08.02.19.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Jan 2016 02:19:56 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:57 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:19:12 +0000
-Message-Id: <31b3314b4994ff0e9b190522776a85a34900cd22.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:19:13 +0000
+Message-Id: <bfb8f8a878bf84371eda95fc8d868a7429ffb8af.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
+MIME-Version: 1.0
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 44/53] libuser: Fix build when secure getenv is not there
+Subject: [PATCH 45/53] iproute2: Fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,135 +48,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 10:19:56 -0000
-
-Fixes build on musl
+X-List-Received-Date: Fri, 08 Jan 2016 10:19:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libuser/libuser/0001-Check-for-issetugid.patch | 62 ++++++++++++++++++++++
- .../libuser/0002-remove-unused-execinfo.h.patch    | 27 ++++++++++
- meta/recipes-extended/libuser/libuser_0.62.bb      |  4 +-
- 3 files changed, 92 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/libuser/libuser/0001-Check-for-issetugid.patch
- create mode 100644 meta/recipes-extended/libuser/libuser/0002-remove-unused-execinfo.h.patch
+ .../iproute2/iproute2/iproute2-4.3.0-musl.patch    | 97 ++++++++++++++++++++++
+ .../iproute2/iproute2_4.3.0.bb                     |  1 +
+ 2 files changed, 98 insertions(+)
+ create mode 100644 meta/recipes-connectivity/iproute2/iproute2/iproute2-4.3.0-musl.patch
 
-diff --git a/meta/recipes-extended/libuser/libuser/0001-Check-for-issetugid.patch b/meta/recipes-extended/libuser/libuser/0001-Check-for-issetugid.patch
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.3.0-musl.patch b/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.3.0-musl.patch
 new file mode 100644
-index 0000000..79756b9
+index 0000000..1b415a5
 --- /dev/null
-+++ b/meta/recipes-extended/libuser/libuser/0001-Check-for-issetugid.patch
-@@ -0,0 +1,62 @@
-+From d0537cb7f2dc5877700ad78dfd191515379d4edc Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 7 Jan 2016 02:22:51 +0000
-+Subject: [PATCH 1/2] Check for issetugid()
++++ b/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.3.0-musl.patch
+@@ -0,0 +1,97 @@
++From 48596709d8ab59727b79a5c6db33ebb251c36543 Mon Sep 17 00:00:00 2001
++From: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
++Date: Thu, 19 Nov 2015 17:44:25 +0100
++Subject: [PATCH] Avoid in6_addr redefinition
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+If secure version of getenv is not there then we can use
-+issetugid() as aid to call getenv()
++Due to both <netinet/in.h> and <linux/in6.h> being included, the
++in6_addr is being redefined: once from the C library headers and once
++from the kernel headers. This causes some build failures with for
++example the musl C library:
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++In file included from ../include/linux/xfrm.h:4:0,
++                 from xfrm.h:29,
++                 from ipxfrm.c:39:
++../include/linux/in6.h:32:8: error: redefinition of ‘struct in6_addr’
++ struct in6_addr {
++        ^
++In file included from .../output/host/usr/x86_64-buildroot-linux-musl/sysroot/usr/include/netdb.h:9:0,
++                 from ipxfrm.c:34:
++.../output/host/usr/x86_64-buildroot-linux-musl/sysroot/usr/include/netinet/in.h:24:8: note: originally defined here
++ struct in6_addr
++        ^
++
++In order to fix this, use just the C library header <netinet/in.h>.
++
++Original patch taken from
++http://git.alpinelinux.org/cgit/aports/tree/main/iproute2/musl-fixes.patch.
++
++Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
 +---
 +Upstream-Status: Pending
 +
-+ configure.ac |  1 +
-+ lib/config.c | 12 +++++++++++-
-+ 2 files changed, 12 insertions(+), 1 deletion(-)
++ include/libiptc/ipt_kernel_headers.h | 2 --
++ include/linux/if_bridge.h            | 1 -
++ include/linux/netfilter.h            | 2 --
++ include/linux/xfrm.h                 | 1 -
++ 4 files changed, 6 deletions(-)
 +
-+diff --git a/configure.ac b/configure.ac
-+index 1ded1a2..ee19e1f 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -125,6 +125,7 @@ AC_TYPE_OFF_T
-+ AC_TYPE_SIZE_T
-+ 
-+ AC_CHECK_FUNCS([__secure_getenv secure_getenv])
-++AC_CHECK_FUNCS([issetugid])
-+ 
-+ # Modify CFLAGS after all tests are run (some of them could fail because
-+ # of the -Werror).
-+diff --git a/lib/config.c b/lib/config.c
-+index 29e7120..30f9daf 100644
-+--- a/lib/config.c
-++++ b/lib/config.c
-+@@ -44,8 +44,10 @@
-+ #  define safe_getenv(string) secure_getenv(string)
-+ #elif defined(HAVE___SECURE_GETENV)
-+ #  define safe_getenv(string) __secure_getenv(string)
-++#elif defined(HAVE_ISSETUGID)
-++#  define safe_getenv(string) safe_getenv_issetugid(string)
-+ #else
-+-#  error Neither secure_getenv not __secure_getenv are available
-++#  error None of secure_getenv, __secure_getenv, or issetugid is available
++diff --git a/include/libiptc/ipt_kernel_headers.h b/include/libiptc/ipt_kernel_headers.h
++index 7e87828..9566be5 100644
++--- a/include/libiptc/ipt_kernel_headers.h
+++++ b/include/libiptc/ipt_kernel_headers.h
++@@ -15,12 +15,10 @@
++ #else /* libc5 */
++ #include <sys/socket.h>
++ #include <linux/ip.h>
++-#include <linux/in.h>
++ #include <linux/if.h>
++ #include <linux/icmp.h>
++ #include <linux/tcp.h>
++ #include <linux/udp.h>
++ #include <linux/types.h>
++-#include <linux/in6.h>
 + #endif
++ #endif
++diff --git a/include/linux/if_bridge.h b/include/linux/if_bridge.h
++index ee197a3..f823aa4 100644
++--- a/include/linux/if_bridge.h
+++++ b/include/linux/if_bridge.h
++@@ -15,7 +15,6 @@
 + 
-+ struct config_config {
-+@@ -59,6 +61,14 @@ struct config_key {
-+ 	GList *values;
-+ };
++ #include <linux/types.h>
++ #include <linux/if_ether.h>
++-#include <linux/in6.h>
 + 
-++static const char*
-++safe_getenv_issetugid(const char* name)
-++{
-++	if (issetugid ())
-++		return 0;
-++	return getenv (name);
-++}
-++
-+ /* Compare two section names */
-+ static int
-+ compare_section_names(gconstpointer a, gconstpointer b)
++ #define SYSFS_BRIDGE_ATTR	"bridge"
++ #define SYSFS_BRIDGE_FDB	"brforward"
++diff --git a/include/linux/netfilter.h b/include/linux/netfilter.h
++index b71b4c9..3e4e6ae 100644
++--- a/include/linux/netfilter.h
+++++ b/include/linux/netfilter.h
++@@ -4,8 +4,6 @@
++ #include <linux/types.h>
++ 
++ #include <linux/sysctl.h>
++-#include <linux/in.h>
++-#include <linux/in6.h>
++ 
++ /* Responses from hook functions. */
++ #define NF_DROP 0
++diff --git a/include/linux/xfrm.h b/include/linux/xfrm.h
++index b8f5451..a9761a5 100644
++--- a/include/linux/xfrm.h
+++++ b/include/linux/xfrm.h
++@@ -1,7 +1,6 @@
++ #ifndef _LINUX_XFRM_H
++ #define _LINUX_XFRM_H
++ 
++-#include <linux/in6.h>
++ #include <linux/types.h>
++ 
++ /* All of the structures in this file may not change size as they are
 +-- 
-+2.7.0
++2.6.3
 +
-diff --git a/meta/recipes-extended/libuser/libuser/0002-remove-unused-execinfo.h.patch b/meta/recipes-extended/libuser/libuser/0002-remove-unused-execinfo.h.patch
-new file mode 100644
-index 0000000..4bc0219
---- /dev/null
-+++ b/meta/recipes-extended/libuser/libuser/0002-remove-unused-execinfo.h.patch
-@@ -0,0 +1,27 @@
-+From 4b2f81f307ffeac12956e5c16e894e5ebb937ea5 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 7 Jan 2016 02:26:00 +0000
-+Subject: [PATCH 2/2] remove unused execinfo.h
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+
-+ lib/error.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/lib/error.c b/lib/error.c
-+index a5ec30a..443e601 100644
-+--- a/lib/error.c
-++++ b/lib/error.c
-+@@ -18,7 +18,6 @@
-+ #include <config.h>
-+ #include <sys/types.h>
-+ #include <errno.h>
-+-#include <execinfo.h>
-+ #include <libintl.h>
-+ #include <stdarg.h>
-+ #include <stdlib.h>
-+-- 
-+2.7.0
-+
-diff --git a/meta/recipes-extended/libuser/libuser_0.62.bb b/meta/recipes-extended/libuser/libuser_0.62.bb
-index 4caa8a1..2d5bd35 100644
---- a/meta/recipes-extended/libuser/libuser_0.62.bb
-+++ b/meta/recipes-extended/libuser/libuser_0.62.bb
-@@ -12,7 +12,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
- SECTION = "base"
- 
- SRC_URI = "https://fedorahosted.org/releases/l/i/libuser/libuser-${PV}.tar.xz \
--           "
-+           file://0001-Check-for-issetugid.patch \
-+           file://0002-remove-unused-execinfo.h.patch \
-+          "
- 
- SRC_URI[md5sum] = "63e5e5c551e99dc5302b40b80bd6d4f2"
- SRC_URI[sha256sum] = "a58ff4fabb01a25043b142185a33eeea961109dd60d4b40b6a9df4fa3cace20b"
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb b/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
+index 0b3d896..60f0a8d 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
+@@ -3,6 +3,7 @@ require iproute2.inc
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://configure-cross.patch \
+            file://0001-iproute2-de-bash-scripts.patch \
++           file://iproute2-4.3.0-musl.patch \
+           "
+ SRC_URI[md5sum] = "1a2bbb80cfc7ab3f3e987e18b3207c2f"
+ SRC_URI[sha256sum] = "f03b1188dd6c039512424de82ff7a8f3b446680bd4e908ff42a7b9b137422995"
 -- 
 2.7.0
 
