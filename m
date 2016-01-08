@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id D0B4076294
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 99C8476312
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 10:19:36 +0000 (UTC)
-Received: by mail-qk0-f170.google.com with SMTP id n135so198826342qka.2
+	Fri,  8 Jan 2016 10:19:34 +0000 (UTC)
+Received: by mail-qg0-f54.google.com with SMTP id o11so348658935qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 02:19:37 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=tubz7HbXeGSInsZhvZP5hFaBqbkY5pnaXKMq+sbK1iM=;
-	b=u4E9oI/kvbwoUjj6x8biRmlQliXgxqIV/DjxT5ed9119bSYkNucecDWdkx68z/snAG
-	occs8PUVo2d6MQ8XR4UxW9W/M7R7k1zVSX79FaNdICO4y7X4DBSJ5WPHc/BgxNQ5Y5bR
-	OjNP5yvcONu+RVxoKHq1U2I8QRas+6ilGUwbpffRUu0Mrw5uhn7BNLuHfRwIEzEv+mv/
-	Ow3Ol7nfA4pHUdoyQ8WENleJDPm1Kyj7HO+kuGkxCzQAwG+Xmw6n/sjnJmpbMMemLR6L
-	T7qaKk4LU7TwyFOsyMbQnE+LomtmMKLUWV8SrqeEtbrnLC0lW7M4r87gY2joyIUHE4D7
-	Z+hA==
-X-Received: by 10.55.76.11 with SMTP id z11mr142094798qka.83.1452248377592;
-	Fri, 08 Jan 2016 02:19:37 -0800 (PST)
+	bh=O2ID1iLrNjRVSxem0nFnde+iKPa6XhHh2U1hUlkaQuw=;
+	b=lchLRss8EDlo/Ybmyf83UJ3XGViTmCSa5ZeWdKGRZT3nZp9GvCLu4myH/+OiTiIw5e
+	fo5Bwmn+ct/uWgeF62Ji13oMpot9dqvafsq32kq1kFdQU0RsAMQcv8wx4D1vWvdFjyRp
+	peneZOO5wFGFbwfHLm3ie+qxE7EX8ZN0p4fljXNG5Fxrk0t9E2GSOR79DHsV9N8trbNr
+	zFAw/VnFKOozsOQayLyi4B3HOapicE6A/bAlTXDh8GZq1mmUpO2GxAMs1GbiauxoJwXU
+	Dm5eXnSg2ZQCO/Z1AmddhNN9hqY6AGzBN5Mq5YXcfbvJa16Ar/O9mGm7ae7woKBC3Zag
+	1inw==
+X-Received: by 10.140.93.77 with SMTP id c71mr109043764qge.46.1452248374943;
+	Fri, 08 Jan 2016 02:19:34 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	d129sm48549987qka.31.2016.01.08.02.19.37
+	d129sm48549987qka.31.2016.01.08.02.19.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Jan 2016 02:19:37 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:34 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:18:43 +0000
-Message-Id: <19d62253b48387b5f6aba7ca0beacc76b34ea3ab.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:18:39 +0000
+Message-Id: <b5a60b943feaa1238cd94ca7f9f92bea37fd24fa.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 15/53] webkitgtk: Fix build with clang
+Subject: [PATCH 11/53] gdk-pixbuf: Fix latent build issue exposed by musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,111 +46,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 10:19:37 -0000
-
-backtrace is glibc only feature on linux so check for glibc before using
-it
-Clangs clear_cache has different signature than gcc provided builtin
-make it compatible for both
+X-List-Received-Date: Fri, 08 Jan 2016 10:19:38 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...nable-backtrace-on-linux-when-using-glibc.patch | 39 ++++++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk/clang.patch     | 25 ++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.10.4.bb       |  2 ++
- 3 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Enable-backtrace-on-linux-when-using-glibc.patch
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/clang.patch
+ .../gdk-pixbuf/gdk-pixbuf/libc_memfuncs.patch      | 63 ++++++++++++++++++++++
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb |  1 +
+ 2 files changed, 64 insertions(+)
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/libc_memfuncs.patch
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Enable-backtrace-on-linux-when-using-glibc.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Enable-backtrace-on-linux-when-using-glibc.patch
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/libc_memfuncs.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/libc_memfuncs.patch
 new file mode 100644
-index 0000000..146087b
+index 0000000..82a27c3
 --- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-Enable-backtrace-on-linux-when-using-glibc.patch
-@@ -0,0 +1,39 @@
-+From 0b68ad206d2d90df78d91cad4da19152084014cf Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 16 Sep 2015 05:15:04 +0000
-+Subject: [PATCH] Enable backtrace on linux when using glibc
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/libc_memfuncs.patch
+@@ -0,0 +1,63 @@
++From 205a3b04e1216c1df199aec95185f7f48b8e0491 Mon Sep 17 00:00:00 2001
++From: Natanael Copa <ncopa@alpinelinux.org>
++Date: Tue, 6 Oct 2015 09:11:38 +0200
++Subject: Run only pixbuf-lowmem test on GNU libc
 +
-+We dont have backtrace() implemented on non-glibc libc's on linux
++The test case depends on GNU libc specific internals so we only run it
++on GNU libc.
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++This fixes build on Linux with musl libc.
++
++https://bugzilla.gnome.org/show_bug.cgi?id=756078
 +---
-+Upstream-Status: Pending
-+
-+ Source/WTF/wtf/Assertions.cpp | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/Source/WTF/wtf/Assertions.cpp b/Source/WTF/wtf/Assertions.cpp
-+index 191d53f..a4d86b5 100644
-+--- a/Source/WTF/wtf/Assertions.cpp
-++++ b/Source/WTF/wtf/Assertions.cpp
-+@@ -68,7 +68,7 @@
-+ #include <unistd.h>
-+ #endif
-+ 
-+-#if OS(DARWIN) || (OS(LINUX) && !defined(__UCLIBC__))
-++#if OS(DARWIN) || (OS(LINUX) && defined(__GLIBC__) && !defined(__UCLIBC__))
-+ #include <cxxabi.h>
-+ #include <dlfcn.h>
-+ #include <execinfo.h>
-+@@ -225,7 +225,7 @@ void WTFReportArgumentAssertionFailure(const char* file, int line, const char* f
-+ 
-+ void WTFGetBacktrace(void** stack, int* size)
-+ {
-+-#if OS(DARWIN) || (OS(LINUX) && !defined(__UCLIBC__))
-++#if OS(DARWIN) || (OS(LINUX) && defined(__GLIBC__) && !defined(__UCLIBC__))
-+     *size = backtrace(stack, *size);
-+ #elif OS(WINDOWS)
-+     // The CaptureStackBackTrace function is available in XP, but it is not defined
-+-- 
-+2.5.2
-+
-diff --git a/meta/recipes-sato/webkit/webkitgtk/clang.patch b/meta/recipes-sato/webkit/webkitgtk/clang.patch
-new file mode 100644
-index 0000000..ef77755
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/clang.patch
-@@ -0,0 +1,25 @@
-+Clang's builtin for clear_cache accepts char* and errors out when using void*,
-+using char* work on both gcc and clang since char* is auto-converted to void* in gcc case
-+
-+Source/JavaScriptCore/assembler/ARM64Assembler.h:2857:33: error: cannot initialize a parameter of type 'char *' with an rvalue of type 'void *'
-+        __builtin___clear_cache(reinterpret_cast<void*>(begin), reinterpret_cast<void*>(end));
-+                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+1 error generated.
-+
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Backport
 +
-+Upstream-Status: Pending
++ tests/Makefile.am     | 5 -----
++ tests/pixbuf-lowmem.c | 8 ++++++++
++ 2 files changed, 8 insertions(+), 5 deletions(-)
 +
-+Index: webkitgtk-2.8.5/Source/JavaScriptCore/assembler/ARM64Assembler.h
-+===================================================================
-+--- webkitgtk-2.8.5.orig/Source/JavaScriptCore/assembler/ARM64Assembler.h
-++++ webkitgtk-2.8.5/Source/JavaScriptCore/assembler/ARM64Assembler.h
-+@@ -2854,7 +2854,7 @@ public:
-+ #if OS(LINUX) && COMPILER(GCC)
-+     static inline void linuxPageFlush(uintptr_t begin, uintptr_t end)
-+     {
-+-        __builtin___clear_cache(reinterpret_cast<void*>(begin), reinterpret_cast<void*>(end));
-++        __builtin___clear_cache(reinterpret_cast<char*>(begin), reinterpret_cast<char*>(end));
-+     }
-+ #endif
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index bdd68f3..c122188 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -19,13 +19,8 @@ LDADD = \
++ noinst_PROGRAMS += 			\
++ 	pixbuf-read			\
++ 	pixbuf-random			\
++-	$(NULL)
++-
++-if OS_LINUX
++-noinst_PROGRAMS += 			\
++ 	pixbuf-lowmem			\
++ 	$(NULL)
++-endif
 + 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.10.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.10.4.bb
-index 4d5aeb4..f5add32 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.10.4.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.10.4.bb
-@@ -12,6 +12,8 @@ LIC_FILES_CHKSUM = "file://Source/JavaScriptCore/COPYING.LIB;md5=d0c6d6397a5d842
++ test_programs = 			\
++ 	animation			\
++diff --git a/tests/pixbuf-lowmem.c b/tests/pixbuf-lowmem.c
++index ae71788..9e9571f 100644
++--- a/tests/pixbuf-lowmem.c
+++++ b/tests/pixbuf-lowmem.c
++@@ -24,6 +24,7 @@
++ #include <time.h>
++ #include <string.h>
++ 
+++#ifdef __GLIBC__
++ #define PRETEND_MEM_SIZE (16 * 1024 * 1024)
++ #define REMAINING_MEM_SIZE 100000
++ 
++@@ -225,3 +226,10 @@ main (int argc, char **argv)
++   
++   return 0;
++ }
+++#else
+++int
+++main (int argc, char **argv)
+++{
+++	return 0;
+++}
+++#endif
++-- 
++cgit v0.11.2
++
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb
+index 084fe36..104c743 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.32.1.bb
+@@ -17,6 +17,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://extending-libinstall-dependencies.patch \
+            file://run-ptest \
+            file://fatal-loader.patch \
++           file://libc_memfuncs.patch \
+            "
  
- SRC_URI = "\
-   http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-+  file://clang.patch \
-+  file://0001-Enable-backtrace-on-linux-when-using-glibc.patch \
-   "
- SRC_URI[md5sum] = "fb010031c6f61c3a1a00793b112badb5"
- SRC_URI[sha256sum] = "dbf8260da5cac0c74de2d3cce1fe7c519da3cd816a2c769cb6c6d56addd2f055"
+ SRC_URI[md5sum] = "b1590189a2e89fab9f871959c168508c"
 -- 
 2.7.0
 
