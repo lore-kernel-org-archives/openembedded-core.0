@@ -1,24 +1,24 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 87FC176E3F
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 8627E76DBC
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  8 Jan 2016 10:19:48 +0000 (UTC)
-Received: by mail-qg0-f52.google.com with SMTP id e32so258873640qgf.3
+Received: by mail-qg0-f47.google.com with SMTP id e32so258873779qgf.3
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 08 Jan 2016 02:19:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=A71wkhRb/KdKJN5ettIY2JJf70cQv6JDjEVfp/oPbvU=;
-	b=XwlftrrNafnPW+7ufC2B1HhuE4QZXbdFlJWDghnYPyoI6zDa8UiB1SQYOHqfPUJGtH
-	0uRiu6DrGjiLYjSzXxPrRjFH3CSvuCMQcHK+oS/pxY5oPxtAxCT+mXgNk8FGm3e/jsmH
-	KVAmnODtLsfECBsH3IremtkUXX3bVWHncVmRr7pU90vH+ap4VOCmweTXshxoqpVJm9d4
-	P/fK1d9hfJnqZCFlBLbDpGVB/BlkHNb8ueK+ZoA2+66IZ4zMgI6qDWxtFfTACS/UUtJ1
-	kNRSoGt6lV79IHCvv1B1Xnj3R5wdM51TJoNrYxsDD5ldFWj7lzmB3ksfcVoL2GpN58ik
-	/QAw==
-X-Received: by 10.140.128.8 with SMTP id 8mr124961604qha.54.1452248388788;
-	Fri, 08 Jan 2016 02:19:48 -0800 (PST)
+	bh=WeONo7x5CbxSyB/+2ypQeS5jyd/KzBrNwlAj06YhQ9E=;
+	b=wjQyN3VniKPSyXB6ClLPPb3DAp/vZb/9uhjbSGwRq1kvmn7pTD13RjZw/NMwvaFWz2
+	0Dmq1hcf4bxCrXdP3G6zimItrVVcrt/oYgSFibl33BeaLkmpMLTd3qczsU6NPHJO33OR
+	pHdS/RDogHFwzno1nYw/Nyd2HSnsNxnS0anpievMY1iwkhgPWzADayf9cPuHSc7PT7Ij
+	f4BbPattyV1iXGddYTc2w6lgSFgGI9fOUjFR2Kcapb5P0hlRhpypEcoUesF/eHp6YQQ8
+	NB7PXKEXaJOxXMf6XdAnN2V5LUqb+ftDchv8m3kI4W7U6mexJDsVXsd3O7YqATTyhB6b
+	hqhw==
+X-Received: by 10.140.242.147 with SMTP id n141mr104316886qhc.2.1452248389397; 
+	Fri, 08 Jan 2016 02:19:49 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
 	d129sm48549987qka.31.2016.01.08.02.19.48
@@ -26,14 +26,14 @@ Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	Fri, 08 Jan 2016 02:19:48 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:19:00 +0000
-Message-Id: <e720072046be2c34dfd077be9ea4433ebb596715.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:19:01 +0000
+Message-Id: <d6cf5596d159935b91f74bba23e9f19e71190d20.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 32/53] libunwind: backtrace APIs are glibc specific
+Subject: [PATCH 33/53] babeltrace: Add missing header for MAXNAMLEN define
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,79 +48,72 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 08 Jan 2016 10:19:49 -0000
 
-Make backtrace() API's use conditional on glibc
-this helps make libunwind compile on musl
+Fix bug exposed on musl
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...-backtrace-Use-only-with-glibc-and-uclibc.patch | 45 ++++++++++++++++++++++
- meta/recipes-support/libunwind/libunwind_1.1.bb    |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/0001-backtrace-Use-only-with-glibc-and-uclibc.patch
+ ...Include-sys-param.h-for-MAXNAMLEN-definti.patch | 29 ++++++++++++++++++++++
+ meta/recipes-kernel/lttng/babeltrace_1.3.1.bb      |  5 ++--
+ 2 files changed, 32 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng/babeltrace/0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch
 
-diff --git a/meta/recipes-support/libunwind/libunwind-1.1/0001-backtrace-Use-only-with-glibc-and-uclibc.patch b/meta/recipes-support/libunwind/libunwind-1.1/0001-backtrace-Use-only-with-glibc-and-uclibc.patch
+diff --git a/meta/recipes-kernel/lttng/babeltrace/0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch b/meta/recipes-kernel/lttng/babeltrace/0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch
 new file mode 100644
-index 0000000..9aed419
+index 0000000..eb16cd1
 --- /dev/null
-+++ b/meta/recipes-support/libunwind/libunwind-1.1/0001-backtrace-Use-only-with-glibc-and-uclibc.patch
-@@ -0,0 +1,45 @@
-+From 04437142399662b576bd55a85485c6dcc14d0812 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-kernel/lttng/babeltrace/0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch
+@@ -0,0 +1,29 @@
++From 8331b87845cafdda40e59a682f2ca8120ed0c472 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 31 Dec 2015 06:44:07 +0000
-+Subject: [PATCH] backtrace: Use only with glibc and uclibc
++Date: Thu, 31 Dec 2015 08:17:40 +0000
++Subject: [PATCH] lttng-live: Include sys/param.h for MAXNAMLEN defintion
 +
-+backtrace API is glibc specific not linux specific
-+so make it behave so.
++exposed on musl based systems
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+Upstream-Status: Pending
++Upstream-Status: pending
 +
-+ tests/test-coredump-unwind.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
++ formats/lttng-live/lttng-live.h | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/tests/test-coredump-unwind.c b/tests/test-coredump-unwind.c
-+index 5254708..8767b42 100644
-+--- a/tests/test-coredump-unwind.c
-++++ b/tests/test-coredump-unwind.c
-+@@ -57,7 +57,9 @@
-+ #include <grp.h>
++diff --git a/formats/lttng-live/lttng-live.h b/formats/lttng-live/lttng-live.h
++index 4ab641d..808ed2b 100644
++--- a/formats/lttng-live/lttng-live.h
+++++ b/formats/lttng-live/lttng-live.h
++@@ -25,6 +25,7 @@
++  */
 + 
-+ /* For SIGSEGV handler code */
-++#ifdef __GLIBC__
-+ #include <execinfo.h>
-++#endif
-+ #include <sys/ucontext.h>
++ #include <stdint.h>
+++#include <sys/param.h>
++ #include "lttng-viewer-abi.h"
 + 
-+ #include <libunwind-coredump.h>
-+@@ -238,11 +240,11 @@ void handle_sigsegv(int sig, siginfo_t *info, void *ucontext)
-+ 			ip);
-+ 
-+   {
-++#ifdef __GLIBC__
-+     /* glibc extension */
-+     void *array[50];
-+     int size;
-+     size = backtrace(array, 50);
-+-#ifdef __linux__
-+     backtrace_symbols_fd(array, size, 2);
-+ #endif
-+   }
++ #define LTTNG_DEFAULT_NETWORK_VIEWER_PORT	5344
 +-- 
 +2.6.4
 +
-diff --git a/meta/recipes-support/libunwind/libunwind_1.1.bb b/meta/recipes-support/libunwind/libunwind_1.1.bb
-index aa62bcc..7df9f5e 100644
---- a/meta/recipes-support/libunwind/libunwind_1.1.bb
-+++ b/meta/recipes-support/libunwind/libunwind_1.1.bb
-@@ -7,6 +7,7 @@ SRC_URI += "\
-     file://Link-libunwind-to-libgcc_s-rather-than-libgcc.patch \
-     file://0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch \
-     file://Add-AO_REQUIRE_CAS-to-fix-build-on-ARM-v6.patch \
-+    file://0001-backtrace-Use-only-with-glibc-and-uclibc.patch \
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.3.1.bb b/meta/recipes-kernel/lttng/babeltrace_1.3.1.bb
+index 36345e3..1766026 100644
+--- a/meta/recipes-kernel/lttng/babeltrace_1.3.1.bb
++++ b/meta/recipes-kernel/lttng/babeltrace_1.3.1.bb
+@@ -6,14 +6,15 @@ BUGTRACKER = "https://bugs.lttng.org/projects/babeltrace"
+ LICENSE = "MIT & GPLv2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=76ba15dd76a248e1dd526bca0e2125fa"
+ 
+-inherit autotools pkgconfig
+-
+ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
+ 
++inherit autotools pkgconfig
++
+ SRCREV = "6e2b9096c77138593097335b9b27202d98918089"
+ 
+ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-1.3 \
+            file://0001-Fix-invalid-pointer-free-with-trace-collection.patch \
++           file://0001-lttng-live-Include-sys-param.h-for-MAXNAMLEN-definti.patch \
  "
  
- SRC_URI[md5sum] = "fb4ea2f6fbbe45bf032cd36e586883ce"
+ S = "${WORKDIR}/git"
 -- 
 2.7.0
 
