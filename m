@@ -1,55 +1,48 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DCBC60745
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 5179B60745
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 14:51:00 +0000 (UTC)
-Received: by mail-ig0-f174.google.com with SMTP id t15so53162852igr.0
+	Fri,  8 Jan 2016 14:54:07 +0000 (UTC)
+Received: by mail-ig0-f173.google.com with SMTP id mw1so75140004igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 06:51:01 -0800 (PST)
+	Fri, 08 Jan 2016 06:54:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:content-type:mime-version:content-transfer-encoding;
-	bh=20tSB09bqkHNQ6kHXvz706QUq2fkx49jy7IFKGjNh+Y=;
-	b=hDLkNwG3YgknYxq63DP1nM4kjixf3B+7Zbg0jszzyBmQSS3u0nJT7cSN0is+m8mGAz
-	GC/jhynCoDEXfm1ul+wLin86BV8rMib/HK+bfsJw6D/hf2NOGd3u4dpA7JlaLLxcTUHu
-	JFBrSFymJ1nk2jrEuZ6Pr+GJW25Hlo6mpyLBtT4HqhwQoJZrFlHbxcydJF03VMrFQO65
-	FfeY1i5LGBgrTPExAYKhwxgC25jlO7u4nm60nylH9Inn/koIN8/XxJmHsrUgsoPTSU5A
-	BZR7ZrAOUgwye0mZfCHY78h6JvlbH7HrKzgUuqzwue+DjHtVMSTv6X5zIQwGiE0WIEcy
-	f7gA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=xsl7MBC3Ek66ROwhlX/9dKHol6j1E8/vx4E7LKOLNak=;
+	b=e+2Jsko4xk1uJd9d8EleWGtQ+kgFsdC/u5ChKMUPkmP7iN8w1R+AZuJy/amzRyCtFR
+	FUAZPqpvLPVEtRCkWZCVqcnNa0GEWkC7F9vIIW1/I4Rm7+AP7SH7BeGVvi8UiDtl9P0W
+	b4RP/fFpx/lz1+Gc6P5aQlSWECk184i0CO3vgLdATwtFNrrWpwX3cchLMweQQV3erxsP
+	s56FSUomj9oztj+QprbRtmDSa/bRM/PFhlzJCCTJoaBGbRpzaBrSE1FcrEF1S9Nca56E
+	epdnR/ByDPAA12JYk5XMkVNabHjBLWO5zsUBo25U6uxh8QRNtqR2C+J69BEc4hRUlVrf
+	a75w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:content-type:mime-version
-	:content-transfer-encoding;
-	bh=20tSB09bqkHNQ6kHXvz706QUq2fkx49jy7IFKGjNh+Y=;
-	b=jUhgC+n7eTdQi8CU4gC6MRxy9pBo9TumHPqjuNlt9fc6cLTGJvUlly2uLXQyNJQGEY
-	2APq1QOA/AZZsXlXNpJvvJrZPUSAZMtwwyFjNxTD+yuE8yLIQBvXCm9Ne+r2RrAk5AMA
-	iYDaWh+AqxyaH1noxznJfP3zJhTmzcbuHL+4NNK0F7LQQsIqAEM4/DvJWQ/8GlGZvul0
-	qXBCKv1CKO7zK2f4LB7MQIw8CKPvk2U0dA1sHcsA1KFTUHAuxQ42XKLdH87MmAZGj6Df
-	0KRgxWhaqX0lFO7FK5mM7t8CvOkbw3Ze0qhOQbK4wYDtWkFxeBsdbSQyMZofL11lb53K
-	B8Mw==
-X-Gm-Message-State: ALoCoQm76454lPVEUFOra34Lnrha1fIJUHkZgfU3Gsy7LBpHjdWzpK8jv4Yj+CaACsKskJhW5d/UmQWWUdnfrQBfSKqNsU4Qyw==
-X-Received: by 10.50.109.167 with SMTP id ht7mr22276175igb.38.1452264661281;
-	Fri, 08 Jan 2016 06:51:01 -0800 (PST)
-Received: from pohly-mobl1 (p5DE8F2CE.dip0.t-ipconnect.de. [93.232.242.206])
-	by smtp.gmail.com with ESMTPSA id jc1sm6877751igb.7.2016.01.08.06.50.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Jan 2016 06:51:00 -0800 (PST)
-Message-ID: <1452264658.17716.21.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Andrew Shadura <andrew.shadura@collabora.co.uk>, Ross Burton
-	<ross.burton@intel.com>
-Date: Fri, 08 Jan 2016 15:50:58 +0100
-In-Reply-To: <5b0777dd5f120c6235dad62bab0dd8972a7c54be.1448029554.git.andrew.shadura@collabora.co.uk>
-References: <e36072a82de706f1485c054adf8cb2d38a01e899.1448029554.git.andrew.shadura@collabora.co.uk>
-	<5b0777dd5f120c6235dad62bab0dd8972a7c54be.1448029554.git.andrew.shadura@collabora.co.uk>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 2/3] dbus: update the recipes to 1.10.2
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=xsl7MBC3Ek66ROwhlX/9dKHol6j1E8/vx4E7LKOLNak=;
+	b=mDpNzMdnzXk5R/zCzpEjWODMI93pyhqYJ2TT801obTn2bN+pgeaN47tvGzqk1f/NTL
+	SGs4hMsJq9h1CqC48h44Gi01HZkJcwJNqbbprep0B1RkDisBG8FQ9Jul0y4s0njjLDU6
+	emGeCyVx5V4Ur0lZJ8Dg2tQOHzCLACRi+8PUaVveetnLDSKrTZ4fPnHBrDaeY3yIpHew
+	rPluteQBvoEwmKI1GYa/wor4SsHa6abO/pVmBzZ520BUZUM2rw7eg8UVpo5eBycggnG/
+	nB2YZZjjv5r6Aq36GfjSFrdwqnnJXgq4fQlmPSCkOvfLzaZZmdv7isLVQu5e6KO5fNPv
+	FmZA==
+X-Gm-Message-State: ALoCoQl4R6Zj4+9vGm7zimOl9CldFQvoSgj2oi34Hme4WB4WDaIEP+HZSq3eTPnsUZIeY9AaNdELoQylIlA0sBx1ufy+xk8XL8EVQ1a9tt5WuF+eSL0njRU=
+X-Received: by 10.50.13.100 with SMTP id g4mr20563204igc.64.1452264848744;
+	Fri, 08 Jan 2016 06:54:08 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Fri, 8 Jan 2016 06:53:49 -0800 (PST)
+In-Reply-To: <CAJTo0La=m_u33L7z06GssdbQoQ0bAFpTweaUchU_kVDfOgnNwQ@mail.gmail.com>
+References: <cover.1452248145.git.raj.khem@gmail.com>
+	<CAJTo0La=m_u33L7z06GssdbQoQ0bAFpTweaUchU_kVDfOgnNwQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 Jan 2016 14:53:49 +0000
+Message-ID: <CAJTo0LZeEtWA9qNQjNvqDPyW8d6hUjziJr_VuQsdEn4Y5dGcvw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/53] musl fixes 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,35 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 14:51:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Jan 2016 14:54:10 -0000
+Content-Type: multipart/alternative; boundary=089e013c66146dfea30528d3c2c6
 
-Hello!
+--089e013c66146dfea30528d3c2c6
+Content-Type: text/plain; charset=UTF-8
 
-I've tried this together with the user session patches on top of poky
-0f3ad7c77a (almost the latest), without problems (except the checksum
-problem that Ross already noticed). My local.conf had:
+On 8 January 2016 at 14:00, Burton, Ross <ross.burton@intel.com> wrote:
 
-DISTRO_FEATURES_append = " systemd pam"
-VIRTUAL-RUNTIME_init_manager = "systemd"
-VIRTUAL-RUNTIME_initscripts = ""
-DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
-PACKAGECONFIG_append_pn-dbus = " user-session"
+> Hm, for some reason, this doesn't work for me.
+>
+> Lots and lots of "files installed but not packaged", all locales.  eg
+> /usr/lib/locale/hu/LC_MESSAGES/glib20.mo in glib-2.0.
+>
 
-I also tried without pam and without user-session, again without
-problems.
+So under musl the translations are being installed to /usr/lib/locale,
+whereas under glibc its /usr/share/locale. This is showing some problems in
+bitbake.conf: that sets localedir to ${libdir}/locale but then sets
+FILES_PN-locale to ${datadir}/locale.
 
-https://github.com/pohly/poky/tree/dbus
+Ross
 
--- 
-Best Regards, Patrick Ohly
+--089e013c66146dfea30528d3c2c6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 January 2016 at 14:00, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra=
+">Hm, for some reason, this doesn&#39;t work for me.</div><div class=3D"gma=
+il_extra"><br></div><div class=3D"gmail_extra">Lots and lots of &quot;files=
+ installed but not packaged&quot;, all locales. =C2=A0eg /usr/lib/locale/hu=
+/LC_MESSAGES/glib20.mo in glib-2.0.</div><div class=3D"gmail_extra"></div><=
+/blockquote></div><br></div><div class=3D"gmail_extra">So under musl the tr=
+anslations are being installed to /usr/lib/locale, whereas under glibc its =
+/usr/share/locale. This is showing some problems in bitbake.conf: that sets=
+ localedir to ${libdir}/locale but then sets FILES_PN-locale to ${datadir}/=
+locale.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">Ross</div></div>
 
-
-
-
+--089e013c66146dfea30528d3c2c6--
