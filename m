@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 776D07325A
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F37177011
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  8 Jan 2016 10:19:49 +0000 (UTC)
-Received: by mail-qg0-f52.google.com with SMTP id 6so270215500qgy.1
+Received: by mail-qg0-f51.google.com with SMTP id b35so218714261qge.0
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 08 Jan 2016 02:19:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=LWaPBuNeEosDD0oEPfqUUM/9u5ACm3DB4hyWfC0dtRY=;
-	b=PQkIERfUCe2fPUP7kYi+drbAKKf+ipS/wF1spLZ9fCQCOPNMZDWsKLPPg4uM72BdKA
-	PwJ5yxNOjE1mwRTome8i8aJS3WzWRiBJZgPp90zV+ppsEEkaa0rpyuPcjyPtrQiAci5K
-	zj1TCpP95yPOTlczcQ7EgJd8mbQTXXHDuhZNUH+MqJzX+9xGwm2sCNsgAiINIlE6s96h
-	XRHFIyNN9WWqt+Yz0VHZtir1uCBMoRS/QOPNh0OicU/VoY3xfyXvu79bVNVFz10TshDo
-	y3699nml2PoL9gVrPKzw3p7E2ViUnVaeL5huNENHC+GV6v44ZMBg5DMVPB8Eq2rpUTmg
-	9njw==
-X-Received: by 10.140.102.14 with SMTP id v14mr77482154qge.48.1452248390060;
+	bh=uFWixOwWqrY/65FqrMYqhG6psdL6ALSitfeyp2PDiNU=;
+	b=dhvM8kpxGTFkGb4+gjCVB1tTDH799kVPOWqq8/rvQGoU+FMp9IXQzTIkB3zzdXnJjW
+	D6sZtwLE6k3W0mLP73Ol8V3qhu5f+EK7ijJjLtaetA0l03V9P/dZ652gp8tH80S0ypDT
+	7opKFFaki35RDYUc0pL7u/BMHAW1R4fbPeHc3qcQFWAUVbstSP6b68v4vwWguv6Igz4M
+	bdUGxlJGhX9RG8zlhLIBopCY2HTwmtoEC+9bg65x/sosas7swBqD+xR1aKpqnWEzTOPi
+	625m+/WUeZxwFSzttxHjpmAexbTW6+YDwYWI3JgXrTdCeo7AB+Z4NgwPs2/ljxgPh3AY
+	SF3Q==
+X-Received: by 10.140.230.134 with SMTP id a128mr151066881qhc.33.1452248390657;
 	Fri, 08 Jan 2016 02:19:50 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	d129sm48549987qka.31.2016.01.08.02.19.49
+	d129sm48549987qka.31.2016.01.08.02.19.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Jan 2016 02:19:49 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:50 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:19:02 +0000
-Message-Id: <0e17eca4782d600742d8dc041570e81213451a8a.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:19:03 +0000
+Message-Id: <5ade24fb410ab12416e08d7335e79d7b9481e0ff.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 34/53] elfutils: Fix build with musl
+Subject: [PATCH 35/53] sysklogd: untangle header inclusion maze
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,184 +46,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 10:19:49 -0000
+X-List-Received-Date: Fri, 08 Jan 2016 10:19:50 -0000
 
-Just compile libelf on musl similar to uclibc
-Provide alternatives to glibc assumptions
+wait is not union per posix it is int
+remove assumption about glibc is linux
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...de-alternatives-for-glibc-assumptions-hel.patch | 132 +++++++++++++++++++++
- meta/recipes-devtools/elfutils/elfutils_0.163.bb   |   3 +
- 2 files changed, 135 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.163/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+ .../sysklogd/files/0001-Fix-build-with-musl.patch  | 132 +++++++++++++++++++++
+ meta/recipes-extended/sysklogd/sysklogd.inc        |   1 +
+ 2 files changed, 133 insertions(+)
+ create mode 100644 meta/recipes-extended/sysklogd/files/0001-Fix-build-with-musl.patch
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.163/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch b/meta/recipes-devtools/elfutils/elfutils-0.163/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+diff --git a/meta/recipes-extended/sysklogd/files/0001-Fix-build-with-musl.patch b/meta/recipes-extended/sysklogd/files/0001-Fix-build-with-musl.patch
 new file mode 100644
-index 0000000..29d9c84
+index 0000000..9567946
 --- /dev/null
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.163/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch
++++ b/meta/recipes-extended/sysklogd/files/0001-Fix-build-with-musl.patch
 @@ -0,0 +1,132 @@
-+From 43c2c618d205f4fdffbc8d75217c127c824cdb67 Mon Sep 17 00:00:00 2001
++From f0af5bcfd753691652eac35efbcb208c933253f1 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 31 Dec 2015 06:35:34 +0000
-+Subject: [PATCH] build: Provide alternatives for glibc assumptions helps
-+ compiling it on musl
++Date: Mon, 31 Aug 2015 05:11:53 +0000
++Subject: [PATCH] Fix build with musl
++
++Explicitly include fcntl.h since with glibc is comes in as indirect
++include but not with musl
++
++linux/time.h inclusion is not required on musl so using !__GLIBC__ is
++not right for musl here
++
++wait type is glibc specific
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
 +Upstream-Status: Pending
 +
-+ lib/fixedsizehash.h              | 4 ++--
-+ lib/system.h                     | 4 ++++
-+ libdwfl/dwfl_build_id_find_elf.c | 2 +-
-+ libdwfl/find-debuginfo.c         | 2 +-
-+ libelf/elf.h                     | 9 ++++++---
-+ libelf/libelf.h                  | 1 +
-+ libelf/libelfP.h                 | 1 +
-+ 7 files changed, 16 insertions(+), 7 deletions(-)
++ klogd.c    | 10 +---------
++ ksym_mod.c |  5 +----
++ pidfile.c  |  1 +
++ syslog.c   |  3 ++-
++ syslogd.c  |  4 +---
++ 5 files changed, 6 insertions(+), 17 deletions(-)
 +
-+diff --git a/lib/fixedsizehash.h b/lib/fixedsizehash.h
-+index 06ce6a2..566def2 100644
-+--- a/lib/fixedsizehash.h
-++++ b/lib/fixedsizehash.h
-+@@ -30,12 +30,12 @@
++diff --git a/klogd.c b/klogd.c
++index 6cc80ed..9219671 100644
++--- a/klogd.c
+++++ b/klogd.c
++@@ -260,11 +260,8 @@
++ #include <unistd.h>
++ #include <signal.h>
 + #include <errno.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-+-#include <sys/cdefs.h>
-+ #include <sys/param.h>
-+ 
-+ #include <system.h>
-+ 
-+-#define CONCAT(t1,t2) __CONCAT (t1,t2)
-++#define CONCAT1(x,y) x##y
-++#define CONCAT(x,y) CONCAT1(x,y)
-+ 
-+ /* Before including this file the following macros must be defined:
-+ 
-+diff --git a/lib/system.h b/lib/system.h
-+index f31cfd0..78b629a 100644
-+--- a/lib/system.h
-++++ b/lib/system.h
-+@@ -49,6 +49,10 @@
-+ #else
-+ # error "Unknown byte order"
-+ #endif
-++#ifndef TEMP_FAILURE_RETRY
-++#define TEMP_FAILURE_RETRY(x) x
-++#define rawmemchr(s,c) memchr((s),(size_t)-1,(c))
-++#endif
-+ 
-+ extern void *xmalloc (size_t) __attribute__ ((__malloc__));
-+ extern void *xcalloc (size_t, size_t) __attribute__ ((__malloc__));
-+diff --git a/libdwfl/dwfl_build_id_find_elf.c b/libdwfl/dwfl_build_id_find_elf.c
-+index 99a5059..a796ef9 100644
-+--- a/libdwfl/dwfl_build_id_find_elf.c
-++++ b/libdwfl/dwfl_build_id_find_elf.c
-+@@ -94,7 +94,7 @@ __libdwfl_open_by_build_id (Dwfl_Module *mod, bool debug, char **file_name,
-+ 	{
-+ 	  if (*file_name != NULL)
-+ 	    free (*file_name);
-+-	  *file_name = canonicalize_file_name (name);
-++	  *file_name = realpath (name, NULL);
-+ 	  if (*file_name == NULL)
-+ 	    {
-+ 	      *file_name = name;
-+diff --git a/libdwfl/find-debuginfo.c b/libdwfl/find-debuginfo.c
-+index 1faa494..6932402 100644
-+--- a/libdwfl/find-debuginfo.c
-++++ b/libdwfl/find-debuginfo.c
-+@@ -361,7 +361,7 @@ dwfl_standard_find_debuginfo (Dwfl_Module *mod,
-+       /* If FILE_NAME is a symlink, the debug file might be associated
-+ 	 with the symlink target name instead.  */
-+ 
-+-      char *canon = canonicalize_file_name (file_name);
-++      char *canon = realpath (file_name, NULL);
-+       if (canon != NULL && strcmp (file_name, canon))
-+ 	fd = find_debuginfo_in_path (mod, canon,
-+ 				     debuglink_file, debuglink_crc,
-+diff --git a/libelf/elf.h b/libelf/elf.h
-+index aff6edc..0bd4f55 100644
-+--- a/libelf/elf.h
-++++ b/libelf/elf.h
-+@@ -21,7 +21,9 @@
-+ 
-+ #include <features.h>
-+ 
-+-__BEGIN_DECLS
-++#ifdef __cplusplus
-++extern "C" {
-++#endif
-+ 
-+ /* Standard ELF types.  */
-+ 
-+@@ -3552,7 +3554,8 @@ enum
-+ 
-+ #define R_TILEGX_NUM		130
-+ 
-+-
-+-__END_DECLS
-++#ifdef __cplusplus
-++}
-++#endif
-+ 
-+ #endif	/* elf.h */
-+diff --git a/libelf/libelf.h b/libelf/libelf.h
-+index 5a2b3af..5705e9c 100644
-+--- a/libelf/libelf.h
-++++ b/libelf/libelf.h
-+@@ -29,6 +29,7 @@
-+ #ifndef _LIBELF_H
-+ #define _LIBELF_H 1
-+ 
++-#include <sys/fcntl.h>
 ++#include <fcntl.h>
-+ #include <sys/types.h>
++ #include <sys/stat.h>
++-#if !defined(__GLIBC__)
++-#include <linux/time.h>
++-#endif /* __GLIBC__ */
++ #include <stdarg.h>
++ #include <paths.h>
++ #include <stdlib.h>
++@@ -277,13 +274,8 @@
 + 
-+ /* Get the ELF types.  */
-+diff --git a/libelf/libelfP.h b/libelf/libelfP.h
-+index 3f4d654..5c811ec 100644
-+--- a/libelf/libelfP.h
-++++ b/libelf/libelfP.h
-+@@ -36,6 +36,7 @@
++ #define __LIBRARY__
++ #include <linux/unistd.h>
++-#if !defined(__GLIBC__)
++-# define __NR_ksyslog __NR_syslog
++-_syscall3(int,ksyslog,int, type, char *, buf, int, len);
++-#else
++ #include <sys/klog.h>
++ #define ksyslog klogctl
++-#endif
 + 
-+ #include <ar.h>
-+ #include <gelf.h>
-++#include <libelf.h>
-+ 
++ #define LOG_BUFFER_SIZE 4096
++ #define LOG_LINE_LENGTH 1000
++diff --git a/ksym_mod.c b/ksym_mod.c
++index 68cd6b6..6e26da1 100644
++--- a/ksym_mod.c
+++++ b/ksym_mod.c
++@@ -113,12 +113,9 @@
++ #include <unistd.h>
++ #include <signal.h>
 + #include <errno.h>
-+ #include <stdint.h>
++-#include <sys/fcntl.h>
+++#include <fcntl.h>
++ #include <sys/stat.h>
++ #include "module.h"
++-#if !defined(__GLIBC__)
++-#include <linux/time.h>
++-#endif /* __GLIBC__ */
++ #include <stdarg.h>
++ #include <paths.h>
++ #include <linux/version.h>
++diff --git a/pidfile.c b/pidfile.c
++index e0959a0..6daa2e0 100644
++--- a/pidfile.c
+++++ b/pidfile.c
++@@ -31,6 +31,7 @@
++ #include <string.h>
++ #include <errno.h>
++ #include <signal.h>
+++#include <fcntl.h>
++ 
++ /* read_pid
++  *
++diff --git a/syslog.c b/syslog.c
++index bdb3ff2..ef7b34e 100644
++--- a/syslog.c
+++++ b/syslog.c
++@@ -55,7 +55,7 @@ static char sccsid[] = "@(#)syslog.c	5.28 (Berkeley) 6/27/90";
++ #include <sys/types.h>
++ #include <sys/socket.h>
++ #include <sys/file.h>
++-#include <sys/signal.h>
+++//#include <sys/signal.h>
++ #include <sys/syslog.h>
++ #if 0
++ #include "syslog.h"
++@@ -72,6 +72,7 @@ static char sccsid[] = "@(#)syslog.c	5.28 (Berkeley) 6/27/90";
++ #include <stdarg.h>
++ #include <paths.h>
++ #include <stdio.h>
+++#include <fcntl.h>
++ 
++ #define	_PATH_LOGNAME	"/dev/log"
++ 
++diff --git a/syslogd.c b/syslogd.c
++index ea73ea5..1ca0595 100644
++--- a/syslogd.c
+++++ b/syslogd.c
++@@ -818,9 +818,7 @@ void doexit(int sig);
++ void init();
++ void cfline(char *line, register struct filed *f);
++ int decode(char *name, struct code *codetab);
++-#if defined(__GLIBC__)
++ #define dprintf mydprintf
++-#endif /* __GLIBC__ */
++ static void dprintf(char *, ...);
++ static void allocate_log(void);
++ void sighup_handler();
++@@ -2094,7 +2092,7 @@ void reapchild()
++ 	(void) signal(SIGCHLD, reapchild);	/* reset signal handler -ASP */
++ 	wait ((int *)0);
++ #else
++-	union wait status;
+++	int status;
++ 
++ 	while (wait3(&status, WNOHANG, (struct rusage *) NULL) > 0)
++ 		;
 +-- 
-+2.6.4
++2.5.1
 +
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.163.bb b/meta/recipes-devtools/elfutils/elfutils_0.163.bb
-index 41bfbdc..0a7dd88 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.163.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.163.bb
-@@ -4,6 +4,7 @@ SECTION = "base"
- LICENSE = "(GPLv3 & Elfutils-Exception)"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- DEPENDS = "libtool bzip2 zlib virtual/libintl"
-+DEPENDS_append_libc-musl = " argp-standalone "
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index 85b3cdc..f789c54 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -15,6 +15,7 @@ inherit update-rc.d update-alternatives
  
- SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/${PV}/${BP}.tar.bz2"
- 
-@@ -37,6 +38,7 @@ SRC_URI += "\
- 
- # Only apply when building uclibc based target recipe
- SRC_URI_append_libc-uclibc = " file://uclibc-support-for-elfutils-0.161.patch"
-+SRC_URI_append_libc-musl = " file://0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch "
- 
- # The buildsystem wants to generate 2 .h files from source using a binary it just built,
- # which can not pass the cross compiling, so let's work around it by adding 2 .h files
-@@ -59,6 +61,7 @@ do_install_append() {
- # build only libelf for uclibc case
- 
- EXTRA_OEMAKE_libc-uclibc = "-C libelf"
-+EXTRA_OEMAKE_libc-musl = "-C libelf"
- EXTRA_OEMAKE_class-native = ""
- EXTRA_OEMAKE_class-nativesdk = ""
- 
+ SRC_URI = "http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar.gz \
+            file://no-strip-install.patch \
++           file://0001-Fix-build-with-musl.patch \
+            file://sysklogd \
+            file://syslog.conf \
+            "
 -- 
 2.7.0
 
