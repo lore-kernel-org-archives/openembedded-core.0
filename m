@@ -1,24 +1,24 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E0397570D
+Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
+	[209.85.192.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 91FD8769F8
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  8 Jan 2016 10:19:44 +0000 (UTC)
-Received: by mail-qg0-f49.google.com with SMTP id e32so258872856qgf.3
+Received: by mail-qg0-f47.google.com with SMTP id o11so348660995qge.2
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 08 Jan 2016 02:19:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=ie5arKgbwHRjYvfnprHLTG+oCrZtFrTcPPYWmRzSW5s=;
-	b=LHfdWEMoVrD8XdXsNIIkhCAUGbQaYZvkBvmuNP1SyLpC8u/Uv9gsQeiEg0PRbVLle9
-	lAeRNvIHAMCy8yMBcJVwu/WK/Q4LaVv9wt6KAiaENgGkYJodJA8GmhXbwsJeKyMqQl4g
-	qKo4K2MLQXezWxDwErZC8rDzRvAwDJQDkURGL16I4djjhcf++09nsNsjNk6MZPmC2LTH
-	jIOtqqqbLAez/z0Ciq70mzGUFK3mRRw5D3EJKfRhdOAp8YEnRduYCUU7yYh9gN8hU6d+
-	XS5xhST/JH0RPUXUoYTsdglomCD2BiktoM/j+hn6pAeaAXd2FpmU0siRvVdcFVV+H33v
-	xNEA==
-X-Received: by 10.140.222.79 with SMTP id s76mr149632246qhb.21.1452248384790; 
-	Fri, 08 Jan 2016 02:19:44 -0800 (PST)
+	bh=FpeVJ4iDNJebn5KEgzb/mNdudK2G1EhKoxguSbb+3mo=;
+	b=WYlbTIFEV2dWb0gNpu+RuV9IyvN1Hh5CtfyFJBGiQq87WZP9g/U+lLOHRoMH/C4obc
+	2YgPqvKLD60qTWvlYKN4M4ol7AHulqpvZ94xgAC/aBFWv4IDTjg8S5Udv0iKws9sTf9B
+	5z91qtPPHPoNTFDw6ZpPcPgZaMWMYwDMOSOycckapBDP0FpYHK1jYc92o7IvTGRnfvsA
+	XfXEbn72AQyVi9/LI2s+LwybuhIYbu2gtsDQfn9hzx3z1+NKeX57lWzXiKiA2zTTEpu2
+	KOs1nhjs1RxvXHE64yWyy0Ra8XzgxkXjzclPzEQO6lFHBh2Th+cxcarw5NGmCS0+q+P8
+	ovmw==
+X-Received: by 10.140.109.247 with SMTP id l110mr86664031qgf.52.1452248385364; 
+	Fri, 08 Jan 2016 02:19:45 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
 	d129sm48549987qka.31.2016.01.08.02.19.44
@@ -26,14 +26,14 @@ Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	Fri, 08 Jan 2016 02:19:44 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:18:54 +0000
-Message-Id: <d46ceb3f83b35ce6e92a038a843e126ee40a45aa.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:18:55 +0000
+Message-Id: <426cde93044880589aa8c695904608bde608e02b.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 26/53] watchdog: Fix build with musl
+Subject: [PATCH 27/53] xinetd: Fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,146 +48,152 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 08 Jan 2016 10:19:45 -0000
 
-This patch is generic but is found during compiling watchdog with musl
+musl relies on external rpc implemetation (libtirpc)
+and exposed a bug in configury when checking for rlim_t
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...d-issues-found-with-non-glibc-C-libraries.patch | 99 ++++++++++++++++++++++
- meta/recipes-extended/watchdog/watchdog_5.14.bb    |  8 +-
- 2 files changed, 106 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/watchdog/watchdog/0001-Fix-build-issues-found-with-non-glibc-C-libraries.patch
+ ...se-HAVE_SYS_RESOURCE_H-to-guard-sys-resou.patch | 100 +++++++++++++++++++++
+ meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |   5 ++
+ 2 files changed, 105 insertions(+)
+ create mode 100644 meta/recipes-extended/xinetd/xinetd/0001-configure-Use-HAVE_SYS_RESOURCE_H-to-guard-sys-resou.patch
 
-diff --git a/meta/recipes-extended/watchdog/watchdog/0001-Fix-build-issues-found-with-non-glibc-C-libraries.patch b/meta/recipes-extended/watchdog/watchdog/0001-Fix-build-issues-found-with-non-glibc-C-libraries.patch
+diff --git a/meta/recipes-extended/xinetd/xinetd/0001-configure-Use-HAVE_SYS_RESOURCE_H-to-guard-sys-resou.patch b/meta/recipes-extended/xinetd/xinetd/0001-configure-Use-HAVE_SYS_RESOURCE_H-to-guard-sys-resou.patch
 new file mode 100644
-index 0000000..8afed5c
+index 0000000..3c1b2f6
 --- /dev/null
-+++ b/meta/recipes-extended/watchdog/watchdog/0001-Fix-build-issues-found-with-non-glibc-C-libraries.patch
-@@ -0,0 +1,99 @@
-+From 83ec34df357218a1c9cfc13a23d3367d333652c3 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/xinetd/xinetd/0001-configure-Use-HAVE_SYS_RESOURCE_H-to-guard-sys-resou.patch
+@@ -0,0 +1,100 @@
++From e8b0ffc7ea04cc71dba97a38e1a134aaf2285c2d Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 30 Dec 2015 01:01:15 +0000
-+Subject: [PATCH] Fix build issues found with non glibc C libraries
++Date: Wed, 30 Dec 2015 07:14:50 +0000
++Subject: [PATCH] configure: Use HAVE_SYS_RESOURCE_H to guard sys/resource.h
++ inclusion
 +
-+Add time.h for getting time_t definition
-+limits.h for PATH_MAX
-+linux/param.h for EXEC_PAGESIZE
-+Replace deprecated MNTTAB with _PATH_MNTTAB
-+include ext2_mnt.h for MNTOPT_USRQUOTA and MNTOPT_GRPQUOTA and
-+MNTTYPE_EXT2
-+Include sys/types.h for u_char definition
++HAVE_RLIM_T check will not let sys/resource.h to be checked and
++rlim_t is defined in sys/resource.h so the check would fail.
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
++Upstream-Status: Pending
 +
-+Upstream-Status: Submitted
++ aclocal.m4 |  2 +-
++ configure  | 14 +++++++-------
++ 2 files changed, 8 insertions(+), 8 deletions(-)
 +
-+ include/extern.h | 1 +
-+ src/configfile.c | 1 +
-+ src/memory.c     | 3 +++
-+ src/net.c        | 1 +
-+ src/shutdown.c   | 3 ++-
-+ 5 files changed, 8 insertions(+), 1 deletion(-)
-+
-+diff --git a/include/extern.h b/include/extern.h
-+index 21db11b..04b16bc 100644
-+--- a/include/extern.h
-++++ b/include/extern.h
-+@@ -3,6 +3,7 @@
-+ 
-+ #include <netinet/in.h>
-+ #include <stdio.h>
-++#include <time.h>
-+ 
-+ #include "logmessage.h"
-+ #include "xmalloc.h"
-+diff --git a/src/configfile.c b/src/configfile.c
-+index be5d7b3..7c1d1dd 100644
-+--- a/src/configfile.c
-++++ b/src/configfile.c
-+@@ -16,6 +16,7 @@
-+ #include <errno.h>
-+ #include <string.h>
-+ #include <dirent.h>
-++#include <limits.h>
-+ #include <sys/stat.h>
-+ 
-+ #include "extern.h"
-+diff --git a/src/memory.c b/src/memory.c
-+index e9607e4..b5e08aa 100644
-+--- a/src/memory.c
-++++ b/src/memory.c
-+@@ -21,6 +21,9 @@
-+ #include <sys/stat.h>
-+ #include <sys/param.h>
-+ #include <sys/mman.h>
-++#ifdef __linux__
-++#include <linux/param.h>
-++#endif
-+ 
-+ #include "extern.h"
-+ #include "watch_err.h"
-+diff --git a/src/net.c b/src/net.c
-+index 21823ae..8930caf 100644
-+--- a/src/net.c
-++++ b/src/net.c
-+@@ -17,6 +17,7 @@
-+ #include <string.h>
-+ #include <unistd.h>		/* for gethostname() etc */
-+ #include <netdb.h>		/* for gethostbyname() */
-++#include <sys/types.h>
-+ #include <sys/param.h>	/* for MAXHOSTNAMELEN */
-+ #include <sys/socket.h>
-+ #include <netinet/in.h>
-+diff --git a/src/shutdown.c b/src/shutdown.c
-+index 74aafa5..46b99cf 100644
-+--- a/src/shutdown.c
-++++ b/src/shutdown.c
-+@@ -25,6 +25,7 @@
-+ 
-+ #include "watch_err.h"
-+ #include "extern.h"
-++#include "ext2_mnt.h"
-+ 
-+ #if defined __GLIBC__
-+ #include "ext2_mnt.h"
-+@@ -123,7 +124,7 @@ static void mnt_off()
-+ 	FILE *fp;
-+ 	struct mntent *mnt;
-+ 
-+-	fp = setmntent(MNTTAB, "r");
-++	fp = setmntent(_PATH_MNTTAB, "r");
-+ 	/* in some rare cases fp might be NULL so be careful */
-+ 	while (fp != NULL && ((mnt = getmntent(fp)) != (struct mntent *)0)) {
-+ 		/* First check if swap */
++diff --git a/aclocal.m4 b/aclocal.m4
++index 6e6f32c..70e7076 100644
++--- a/aclocal.m4
+++++ b/aclocal.m4
++@@ -11,7 +11,7 @@ AC_CACHE_VAL(xinetd_cv_type_$1,
++ #if HAVE_NETDB_H
++ #include <netdb.h>
++ #endif
++-#if HAVE_RLIM_T
+++#if HAVE_SYS_RESOURCE_H
++ #include <sys/resource.h>
++ #endif
++ #if HAVE_STDINT_H
++diff --git a/configure b/configure
++index b507d38..bec56ea 100755
++--- a/configure
+++++ b/configure
++@@ -7640,7 +7640,7 @@ cat >>conftest.$ac_ext <<_ACEOF
++ #if HAVE_NETDB_H
++ #include <netdb.h>
++ #endif
++-#if HAVE_RLIM_T
+++#if HAVE_SYS_RESOURCE_H
++ #include <sys/resource.h>
++ #endif
++ #if HAVE_STDINT_H
++@@ -7686,7 +7686,7 @@ cat >>conftest.$ac_ext <<_ACEOF
++ #if HAVE_NETDB_H
++ #include <netdb.h>
++ #endif
++-#if HAVE_RLIM_T
+++#if HAVE_SYS_RESOURCE_H
++ #include <sys/resource.h>
++ #endif
++ #if HAVE_STDINT_H
++@@ -7732,7 +7732,7 @@ cat >>conftest.$ac_ext <<_ACEOF
++ #if HAVE_NETDB_H
++ #include <netdb.h>
++ #endif
++-#if HAVE_RLIM_T
+++#if HAVE_SYS_RESOURCE_H
++ #include <sys/resource.h>
++ #endif
++ #if HAVE_STDINT_H
++@@ -7778,7 +7778,7 @@ cat >>conftest.$ac_ext <<_ACEOF
++ #if HAVE_NETDB_H
++ #include <netdb.h>
++ #endif
++-#if HAVE_RLIM_T
+++#if HAVE_SYS_RESOURCE_H
++ #include <sys/resource.h>
++ #endif
++ #if HAVE_STDINT_H
++@@ -7824,7 +7824,7 @@ cat >>conftest.$ac_ext <<_ACEOF
++ #if HAVE_NETDB_H
++ #include <netdb.h>
++ #endif
++-#if HAVE_RLIM_T
+++#if HAVE_SYS_RESOURCE_H
++ #include <sys/resource.h>
++ #endif
++ #if HAVE_STDINT_H
++@@ -7870,7 +7870,7 @@ cat >>conftest.$ac_ext <<_ACEOF
++ #if HAVE_NETDB_H
++ #include <netdb.h>
++ #endif
++-#if HAVE_RLIM_T
+++#if HAVE_SYS_RESOURCE_H
++ #include <sys/resource.h>
++ #endif
++ #if HAVE_STDINT_H
++@@ -7916,7 +7916,7 @@ cat >>conftest.$ac_ext <<_ACEOF
++ #if HAVE_NETDB_H
++ #include <netdb.h>
++ #endif
++-#if HAVE_RLIM_T
+++#if HAVE_SYS_RESOURCE_H
++ #include <sys/resource.h>
++ #endif
++ #if HAVE_STDINT_H
 +-- 
 +2.6.4
 +
-diff --git a/meta/recipes-extended/watchdog/watchdog_5.14.bb b/meta/recipes-extended/watchdog/watchdog_5.14.bb
-index 9cb89d5..fc717bc 100644
---- a/meta/recipes-extended/watchdog/watchdog_5.14.bb
-+++ b/meta/recipes-extended/watchdog/watchdog_5.14.bb
-@@ -12,7 +12,9 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
-            file://fixsepbuild.patch \
- 	   file://fix-ping-failure.patch \
- 	   file://watchdog-init.patch \
--	   file://watchdog-conf.patch"
-+	   file://watchdog-conf.patch \
-+	   file://0001-Fix-build-issues-found-with-non-glibc-C-libraries.patch \
-+"
+diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
+index 652fe91..6bfaabe 100644
+--- a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
++++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
+@@ -7,6 +7,7 @@ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8ad8615198542444f84d28a6cf226dd8"
  
- SRC_URI[md5sum] = "5b2dba0c593942f4acc100bca0d560c4"
- SRC_URI[sha256sum] = "620b2f49e9879f2e85c73d4c1f422f9101e6b38e824fea2414befd8bb6866ad1"
-@@ -23,6 +25,10 @@ UPSTREAM_CHECK_REGEX = "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
- inherit autotools
- inherit update-rc.d
- 
+ DEPENDS = ""
 +DEPENDS_append_libc-musl = " libtirpc "
+ PR = "r2"
+ 
+ # Blacklist a bogus tag in upstream check
+@@ -20,6 +21,7 @@ SRC_URI = "git://github.com/xinetd-org/xinetd.git;protocol=https \
+       file://Disable-services-from-inetd.conf-if-a-service-with-t.patch \
+       file://xinetd-should-be-able-to-listen-on-IPv6-even-in-ine.patch \
+       file://xinetd-CVE-2013-4342.patch \
++      file://0001-configure-Use-HAVE_SYS_RESOURCE_H-to-guard-sys-resou.patch \
+       file://xinetd.service \
+       "
+ 
+@@ -39,6 +41,9 @@ EXTRA_OECONF="--disable-nls"
+ PACKAGECONFIG ??= "tcp-wrappers"
+ PACKAGECONFIG[tcp-wrappers] = "--with-libwrap,,tcp-wrappers"
+ 
 +CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc "
 +LDFLAGS_append_libc-musl = " -ltirpc "
 +
- INITSCRIPT_NAME = "watchdog.sh"
- INITSCRIPT_PARAMS = "start 15 1 2 3 4 5 . stop 85 0 6 ."
- 
+ do_configure() {
+ 	# Looks like configure.in is broken, so we are skipping
+ 	# rebuilding configure and are just using the shipped one
 -- 
 2.7.0
 
