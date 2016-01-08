@@ -1,62 +1,34 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B50173212
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E09F60767
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 00:02:56 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id uo6so253317195pac.1
+	Fri,  8 Jan 2016 00:48:35 +0000 (UTC)
+Received: by mail-pf0-f177.google.com with SMTP id e65so1297063pfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 16:02:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-type;
-	bh=MWjAAcZ0TcBUqentmpYB0uF9dOw30LWO3euLOLCVfik=;
-	b=Ohg60gJvn5PntqdFS4ChPNYqZueX9qmSd14CRQmRe0J1za4AVkUr+ouqp+G0W70tFb
-	rku6q67140ZbkoZEXWTo4oqp210Y2k+a4lV/b/AU3Qfy+vl6D5pD+3MREkzXM6K27KgJ
-	9AEWNzKIFG9plFI8T+XkrPXMoxDG0ALV8jXaPMy8nR3K7nfE7E3xxrxinOfDf+Hwxkcd
-	c1Sgr3vFVsJ7IDEyweAZ/wB40AZubBsyy15Pln9nr8BZJqABkjNJal76KkSR8b7+QRTF
-	32Kc0W4XKzVHX2zfE/03+UCc3xgDdj1hUu+WguvSLrBunpdVYulH8rZ/iI/fG5j0kgMb
-	iYbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=MWjAAcZ0TcBUqentmpYB0uF9dOw30LWO3euLOLCVfik=;
-	b=Lv7evhHRISw5L7JTV1D3Y2BTNMlKARJleQ5+uHWIQtmN6jP8xmT9M4xr88jxWYNpGZ
-	Tf09TWuGmy8JxJ/OR7ocwd2GodruewUnrlfQJzygBRmZGuFN3HHpr6pAcJeXIAZR4Fnz
-	1BoXIEsgv2ZoH+YajzNuwuMkuNocLhvrz7lTlADmMNiX1R/5XKHJ0mqtwwXotnToIX1Y
-	K7Wf7UDa1tf5aAbSWtY54HE2FrGUwOYUemOVTKOU1Tt2prb0hIfH8bVXsxO7a0lhRYRX
-	3Q+E6SAVesenN6DH8Qva9vZHfuIlV1Vypazjvf4A+h4zybyYOOWv/yRF+snxBJ82LBfd
-	FJsw==
-X-Gm-Message-State: ALoCoQkVV21rOXEEWj/UWuIVNvE4T7eDI04txvI557sppyxTf4wwrj8FC/J32ZL/O/gOyfGdfjIZ8K/WlbQ7eUZZpYSgMRNQbw==
-X-Received: by 10.66.129.232 with SMTP id nz8mr117341187pab.102.1452211377623; 
-	Thu, 07 Jan 2016 16:02:57 -0800 (PST)
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com.
-	[209.85.220.47])
-	by smtp.gmail.com with ESMTPSA id a18sm195684pfj.40.2016.01.07.16.02.56
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 07 Jan 2016 16:02:56 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-pa0-f47.google.com with SMTP id ho8so10795576pac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 16:02:56 -0800 (PST)
-MIME-Version: 1.0
-X-Received: by 10.66.232.74 with SMTP id tm10mr100228134pac.128.1452211375722; 
-	Thu, 07 Jan 2016 16:02:55 -0800 (PST)
-Received: by 10.66.72.229 with HTTP; Thu, 7 Jan 2016 16:02:55 -0800 (PST)
-In-Reply-To: <CAJTo0LZwhxNv47sKdHn4fEd550X6+sdodD53+0WKRvUtqhy4PA@mail.gmail.com>
-References: <1450389888-24760-1-git-send-email-tom.hochstein@freescale.com>
-	<1450389888-24760-3-git-send-email-tom.hochstein@freescale.com>
-	<CAJTo0LZwhxNv47sKdHn4fEd550X6+sdodD53+0WKRvUtqhy4PA@mail.gmail.com>
-Date: Thu, 7 Jan 2016 22:02:55 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKoxURCGscRRdHcAi5S4zy7zo9Ub7moX4CJKsHC40UkZPw@mail.gmail.com>
-Message-ID: <CAP9ODKoxURCGscRRdHcAi5S4zy7zo9Ub7moX4CJKsHC40UkZPw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [<OE-core][PATCH v2 3/4] packagegroup-core-x11-base: Remove matchbox for XWayland case.
+	Thu, 07 Jan 2016 16:48:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=V4ey59dADa2oWgfOcMZWq0kyULtLy8XobRlPl1clcQQ=;
+	b=hP/cSIpMfzZuW6arpMhIfZGaUyqMo7EyZ7Zy1auCYnFIgxAXFAGfJgX9hBeNLLEe9Z
+	g8t5b50aJsqh1FSUwHIpfKoeNe0VFlWKdTIO20EHjerTQ91fLQeUFgJ8HQ/LTbf7fsZs
+	wKIAbxmFLMSUXD0bqQJqFNFxos09cwnml4rH2t/gsEe1LmC5KigDIPIJLsniOfF7xgHz
+	rYWtVSz/217IsFtWiUOlouEVxhAivsBVJ5rQj9L8OyioYGnNz4wmwODJ9w4cAz/yUYNn
+	7VDh02bNmIOWQp8xydkjVY1baJK4zUnMMsdKY0uZlPg9SoqZFvL31c/ImmbcwfyIxDQC
+	/9gw==
+X-Received: by 10.98.72.136 with SMTP id q8mr576911pfi.86.1452214115940;
+	Thu, 07 Jan 2016 16:48:35 -0800 (PST)
+Received: from Pahoa2.mvista.com ([64.2.3.194])
+	by smtp.gmail.com with ESMTPSA id o75sm300234pfi.17.2016.01.07.16.48.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 07 Jan 2016 16:48:34 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Jan 2016 16:48:24 -0800
+Message-Id: <1452214113-11697-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH][V2][Jethro, fido 01/10] libxml2: security fix CVE-2015-7941
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,31 +41,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 00:02:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 08 Jan 2016 00:48:36 -0000
 
-On Thu, Jan 7, 2016 at 7:34 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 17 December 2015 at 22:04, Tom Hochstein <tom.hochstein@freescale.com>
-> wrote:
->>
->> +    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '',
->> 'matchbox-terminal matchbox-wm', d)} \
->
->
-> No, this is broken.
->
-> Poky (and others) build with wayland and x11 DISTRO_FEATURES, the presence
-> of wayland DISTRO_FEATURE doesn't mean that XWayland is being used.  If
-> you're using XWayland then you'll either have to create your own package
-> groups, use appends to remove matchbox, or just live with matchbox being
-> installed.
+From: Armin Kuster <akuster@mvista.com>
 
-We may need an xwayland image or DISTRO_FEATURE so we avoid those
-hacks on BSP and distro layers.
+includes:
+CVE-2015-7941-1
+CVE-2015-7941-2
 
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/recipes-core/libxml/libxml2.inc               |  2 +
+ ...top-parsing-on-entities-boundaries-errors.patch | 39 +++++++++++++++
+ ...leanup-conditional-section-error-handling.patch | 56 ++++++++++++++++++++++
+ 3 files changed, 97 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-1-Stop-parsing-on-entities-boundaries-errors.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7941-2-Cleanup-conditional-section-error-handling.patch
+
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 1c3c37d..24b98a6 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -21,6 +21,8 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml-m4-use-pkgconfig.patch \
+            file://configure.ac-fix-cross-compiling-warning.patch \
+            file://0001-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch \
++           file://CVE-2015-7941-1-Stop-parsing-on-entities-boundaries-errors.patch \
++           file://CVE-2015-7941-2-Cleanup-conditional-section-error-handling.patch \
+           "
+ 
+ BINCONFIG = "${bindir}/xml2-config"
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-7941-1-Stop-parsing-on-entities-boundaries-errors.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-7941-1-Stop-parsing-on-entities-boundaries-errors.patch
+new file mode 100644
+index 0000000..11da9f9
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2015-7941-1-Stop-parsing-on-entities-boundaries-errors.patch
+@@ -0,0 +1,39 @@
++From a7dfab7411cbf545f359dd3157e5df1eb0e7ce31 Mon Sep 17 00:00:00 2001
++From: Daniel Veillard <veillard@redhat.com>
++Date: Mon, 23 Feb 2015 11:17:35 +0800
++Subject: [PATCH] Stop parsing on entities boundaries errors
++
++For https://bugzilla.gnome.org/show_bug.cgi?id=744980
++
++There are times, like on unterminated entities that it's preferable to
++stop parsing, even if that means less error reporting. Entities are
++feeding the parser on further processing, and if they are ill defined
++then it's possible to get the parser to bug. Also do the same on
++Conditional Sections if the input is broken, as the structure of
++the document can't be guessed.
++
++Upstream-Status: Backport
++
++CVE-2015-7941-1
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ parser.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/parser.c b/parser.c
++index a8d1b67..bbe97eb 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -5658,6 +5658,7 @@ xmlParseEntityDecl(xmlParserCtxtPtr ctxt) {
++ 	if (RAW != '>') {
++ 	    xmlFatalErrMsgStr(ctxt, XML_ERR_ENTITY_NOT_FINISHED,
++ 	            "xmlParseEntityDecl: entity %s not terminated\n", name);
+++	    xmlStopParser(ctxt);
++ 	} else {
++ 	    if (input != ctxt->input) {
++ 		xmlFatalErrMsg(ctxt, XML_ERR_ENTITY_BOUNDARY,
++-- 
++2.3.5
++
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-7941-2-Cleanup-conditional-section-error-handling.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-7941-2-Cleanup-conditional-section-error-handling.patch
+new file mode 100644
+index 0000000..b7bd960
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2015-7941-2-Cleanup-conditional-section-error-handling.patch
+@@ -0,0 +1,56 @@
++From 9b8512337d14c8ddf662fcb98b0135f225a1c489 Mon Sep 17 00:00:00 2001
++From: Daniel Veillard <veillard@redhat.com>
++Date: Mon, 23 Feb 2015 11:29:20 +0800
++Subject: [PATCH] Cleanup conditional section error handling
++
++For https://bugzilla.gnome.org/show_bug.cgi?id=744980
++
++The error handling of Conditional Section also need to be
++straightened as the structure of the document can't be
++guessed on a failure there and it's better to stop parsing
++as further errors are likely to be irrelevant.
++
++Upstream-Status: Backport
++
++CVE-2015-7941-2
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ parser.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/parser.c b/parser.c
++index bbe97eb..fe603ac 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -6770,6 +6770,8 @@ xmlParseConditionalSections(xmlParserCtxtPtr ctxt) {
++ 	SKIP_BLANKS;
++ 	if (RAW != '[') {
++ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
+++	    xmlStopParser(ctxt);
+++	    return;
++ 	} else {
++ 	    if (ctxt->input->id != id) {
++ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
++@@ -6830,6 +6832,8 @@ xmlParseConditionalSections(xmlParserCtxtPtr ctxt) {
++ 	SKIP_BLANKS;
++ 	if (RAW != '[') {
++ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
+++	    xmlStopParser(ctxt);
+++	    return;
++ 	} else {
++ 	    if (ctxt->input->id != id) {
++ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
++@@ -6885,6 +6889,8 @@ xmlParseConditionalSections(xmlParserCtxtPtr ctxt) {
++ 
++     } else {
++ 	xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID_KEYWORD, NULL);
+++	xmlStopParser(ctxt);
+++	return;
++     }
++ 
++     if (RAW == 0)
++-- 
++2.3.5
++
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.3.5
+
 
