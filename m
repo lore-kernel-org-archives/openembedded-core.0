@@ -1,24 +1,33 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id BA4D1755F8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 15:00:18 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 08 Jan 2016 07:00:01 -0800
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 893276011A;
+	Fri,  8 Jan 2016 15:22:43 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 08 Jan 2016 07:22:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,539,1444719600"; d="scan'208";a="889143790"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Jan 2016 06:59:59 -0800
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 16:57:06 +0200
-Message-Id: <7f2ad59c6ea7f4227f618741096a743c5a7bbdd3.1452264916.git.alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.6.4
-In-Reply-To: <cover.1452264916.git.alexander.kanavin@linux.intel.com>
-References: <cover.1452264916.git.alexander.kanavin@linux.intel.com>
-In-Reply-To: <cover.1452264916.git.alexander.kanavin@linux.intel.com>
-References: <cover.1452264916.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 3/3] valgrind: include aarch64 in COMPATIBLE_HOST
+X-IronPort-AV: E=Sophos;i="5.20,539,1444719600"; d="scan'208";a="856466144"
+Received: from mlopezva-mobl2.zpn.intel.com (HELO [10.219.16.32])
+	([10.219.16.32])
+	by orsmga001.jf.intel.com with ESMTP; 08 Jan 2016 07:22:41 -0800
+To: benjamin.esquivel@linux.intel.com,
+	openembedded-devel@lists.openembedded.org,
+	"Burton, Ross" <ross.burton@intel.com>,
+	Sona Sarmadi <sona.sarmadi@enea.com>
+References: <567039E1.5000205@linux.intel.com>
+	<3230301C09DEF9499B442BBE162C5E48ABABDD6C@SESTOEX04.enea.se>
+	<CAJTo0LYO9ptJ4PDmR49N-Yw9TbTFGsuyCUBUc4zW2FLk2CNoWQ@mail.gmail.com>
+	<568AB923.6080605@linux.intel.com>
+	<1451938621.11986.1.camel@linux.intel.com>
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
+Message-ID: <568FD44A.9020801@linux.intel.com>
+Date: Fri, 8 Jan 2016 09:22:50 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
+MIME-Version: 1.0
+In-Reply-To: <1451938621.11986.1.camel@linux.intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [RFC] Mark of upstream CVE patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +40,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 15:00:18 -0000
+X-List-Received-Date: Fri, 08 Jan 2016 15:22:43 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Andre McCurdy <armccurdy@gmail.com>
 
-Valgrind has supported aarch64 since v3.10.0.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-devtools/valgrind/valgrind_3.11.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 01/04/2016 02:17 PM, Benjamin Esquivel wrote:
+> On Mon, 2016-01-04 at 12:25 -0600, Mariano Lopez wrote:
+>> On 12/16/2015 03:21 AM, Burton, Ross wrote:
+>>> On 16 December 2015 at 09:03, Sona Sarmadi <sona.sarmadi@enea.com
+>>> <mailto:sona.sarmadi@enea.com>> wrote:
+>>>
+>>>      We are supposed to have reference to the CVE identifier both in
+>>>      the patch file/s
+>>>       and the commit message(e.g.  xxx- CVE-2013-6435.pacth)
+>>> according
+>>>      to the guidelines
+>>>      for "Patch name convention and commit message" in the Yocto
+>>>      Wiki https://wiki.yoctoproject.org/wiki/Security.
+>>>
+>>>      If a patch address multiple CVEs, perhaps we should name the
+>>> patch:
+>>>      Fix-for-multiple-CVEs.patch and list all CVEs in the patch
+>>> file.
+>>>
+>>>      Will this not solve the problem? Do you think there is still
+>>> need
+>>>      for a new tag "CVE"?
+>>>
+>>>
+>>> I'd say a new tag is essential if we want to automate tooling, to
+>>> reduce the chance of false-positives from simply searching the
+>>> patch
+>>> for something that looks like a CVE reference.
+>>>
+>>> Ross
+>> The conclusion of this thread is to add the tag "CVE" to the metadata
+>> of
+>> submitted CVE patches. I will edit the wiki to show this requirement.
+> Please let us know when the wiki has the changes reflected :)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-index 575db35..00217fa 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.11.0.bb
-@@ -27,7 +27,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
- SRC_URI[md5sum] = "4ea62074da73ae82e0162d6550d3f129"
- SRC_URI[sha256sum] = "6c396271a8c1ddd5a6fb9abe714ea1e8a86fce85b30ab26b4266aeb4c2413b42"
- 
--COMPATIBLE_HOST = '(i.86|x86_64|arm|mips|powerpc|powerpc64).*-linux'
-+COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'
- 
- inherit autotools ptest
- 
+You can find it here:
+
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#CVE_Patches
+
+>   
+>> Mariano
+
 -- 
-2.6.4
-
+Mariano Lopez
 
