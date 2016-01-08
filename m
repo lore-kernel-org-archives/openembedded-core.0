@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id E91D9759B4
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 56403769F8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 10:19:46 +0000 (UTC)
-Received: by mail-qg0-f43.google.com with SMTP id 6so270214878qgy.1
+	Fri,  8 Jan 2016 10:19:47 +0000 (UTC)
+Received: by mail-qg0-f49.google.com with SMTP id e32so258873522qgf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 02:19:47 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=LHqXhiQFtSdLpPh5h07VV4fwPEvZisdw8UQOENhOcw8=;
-	b=l3KtvZXyBzjnKqWVEz5JgnHaIrJKsOfFb5N7k3wzhCPNxomSWmW5kZvFGo3V5xyGOP
-	1MYMkVer7aaygpRjW8YrfvTkIZcyNtrASQqbfRSIP7nhgfslGb26OWLWEQntPSmYqOXd
-	5Ils7BueGAPg8aXPHQ+6ytEWQLGNQAsAGArNI8ZrHSutwPwqyOoecbFZCIpHSmZ1MHh5
-	BtqaS0+RSxOSxBoPrVlf72qdUr02NrYuFIiFkMo/OSK1jWKDCg2b3a7Vr6jpXVeXksv/
-	oFCjOfnbA+v21Q4WoSiT6WxRwLCd2OMv1OWulCr7YTafBNvHcxSxfzfgCjJUqMGrkxXK
-	Skmw==
-X-Received: by 10.140.218.72 with SMTP id o69mr15689720qhb.22.1452248387418;
-	Fri, 08 Jan 2016 02:19:47 -0800 (PST)
+	bh=Wfj1JOpKdvBOo3gY3y34N8ZFlS9kvjTR+vw3absvNUk=;
+	b=V0q/G+Msqh++RBDJrF0klcMBHUlvx3LC6XgAsE7slGm/vJe2oEpY1PszatSxTVHvY5
+	wS8NshuMVuUAj5VVNpohDL4+Lj/mrBvSSwdHbsFJimiaYTLs5CcggLUdF7l43xFN/ya7
+	TbiMm0V4Op7VnC2wmYb8hcf50UU6boyAtbc7uLOgzy9dXDLzzI65Xp0dECv13LKZXWs9
+	WzsUPmXrOF/mZLptYttxRPKE+QjVbGtYOhIe+bmuZ587L4SdyD7rKzqZmzb/CnTPcUpp
+	jFohghoOHUwIx4THPvVHM5MNhjrbQQvkLqntuTrurvNGsUXO9HSLti3UuqqhZRe8qNtb
+	qJyg==
+X-Received: by 10.140.105.36 with SMTP id b33mr144356144qgf.94.1452248388130; 
+	Fri, 08 Jan 2016 02:19:48 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	d129sm48549987qka.31.2016.01.08.02.19.46
+	d129sm48549987qka.31.2016.01.08.02.19.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Jan 2016 02:19:46 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:47 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:18:58 +0000
-Message-Id: <aa131735726856532f21d5f3264251679ca7d030.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:18:59 +0000
+Message-Id: <e95de7c89a0558417efb6c0f4ae6817b1a6fb602.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 30/53] Revert "glib-2.0: build dependency cleanup"
+Subject: [PATCH 31/53] apt: Add support for building for musl targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,43 +48,83 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 08 Jan 2016 10:19:47 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+Turn bzip2 support into a PACKAGECONFIG
+zlibs is a must have and therefore add it to DEPENDS will make the build
+consistent
 
-This reverts commit fcd7494b347423185c883b2897c4908929843a71.
-
-It uses command glib-genmarshal to build glib-2.0 which is from
-glibc-2.0-native. If the command doesn't exist on host, build fails
-with error:
-
-| /bin/sh: --prefix=test_marshal: command not found
-| make[4]: *** [testmarshal.c] Error 127
-
-So add the dependency back.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/apt/apt.inc                  |  1 +
+ ....mak-musl-based-systems-can-generate-shar.patch | 29 ++++++++++++++++++++++
+ meta/recipes-devtools/apt/apt_1.0.10.1.bb          |  3 ++-
+ 3 files changed, 32 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/apt/apt/0001-environment.mak-musl-based-systems-can-generate-shar.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 86f7e0e..8e4dcd7 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -17,10 +17,10 @@ SECTION = "libs"
+diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
+index 312c6a9..78ef5a7 100644
+--- a/meta/recipes-devtools/apt/apt.inc
++++ b/meta/recipes-devtools/apt/apt.inc
+@@ -11,6 +11,7 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20150805T094928Z/pool/main/
+            file://nodoc.patch \
+            file://disable-configure-in-makefile.patch \
+            file://disable-test.patch \
++           file://0001-environment.mak-musl-based-systems-can-generate-shar.patch \
+            "
+ SRC_URI[md5sum] = "6505c4297b338adb2087ce87bbc4a276"
+ SRC_URI[sha256sum] = "3fb1de9598363c416591d49e3c285458e095b035e6c06d5b944a54e15fc9b543"
+diff --git a/meta/recipes-devtools/apt/apt/0001-environment.mak-musl-based-systems-can-generate-shar.patch b/meta/recipes-devtools/apt/apt/0001-environment.mak-musl-based-systems-can-generate-shar.patch
+new file mode 100644
+index 0000000..042372b
+--- /dev/null
++++ b/meta/recipes-devtools/apt/apt/0001-environment.mak-musl-based-systems-can-generate-shar.patch
+@@ -0,0 +1,29 @@
++From 2f8aa21ace375c18977ed908b291c80a210a93c6 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 31 Dec 2015 08:06:12 +0000
++Subject: [PATCH] environment.mak: musl based systems can generate shared
++ objects too
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ buildlib/environment.mak.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/buildlib/environment.mak.in b/buildlib/environment.mak.in
++index b0a8d9d..3a52344 100644
++--- a/buildlib/environment.mak.in
+++++ b/buildlib/environment.mak.in
++@@ -68,7 +68,7 @@ NEED_SOCKLEN_T_DEFINE = @NEED_SOCKLEN_T_DEFINE@
++ 
++ # Shared library things
++ HOST_OS = @host_os@
++-ifneq ($(words $(filter gnu% linux-gnu% kfreebsd-gnu% %-gnu,$(HOST_OS))),0)
+++ifneq ($(words $(filter gnu% linux-gnu% kfreebsd-gnu% %-gnu linux-musl%,$(HOST_OS))),0)
++    SONAME_MAGIC=-Wl,-soname -Wl,
++    LFLAGS_SO=
++ else
++-- 
++2.6.4
++
+diff --git a/meta/recipes-devtools/apt/apt_1.0.10.1.bb b/meta/recipes-devtools/apt/apt_1.0.10.1.bb
+index bf77e2a..85c0d56 100644
+--- a/meta/recipes-devtools/apt/apt_1.0.10.1.bb
++++ b/meta/recipes-devtools/apt/apt_1.0.10.1.bb
+@@ -1,4 +1,4 @@
+-DEPENDS = "curl db"
++DEPENDS = "curl db zlib"
+ RDEPENDS_${PN} = "dpkg bash debianutils"
+ require apt.inc
  
- BBCLASSEXTEND = "native nativesdk"
+@@ -6,6 +6,7 @@ require apt-package.inc
  
--DEPENDS = "virtual/libiconv libffi zlib"
--DEPENDS_append = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' glib-2.0-native dbus', '', d)}"
-+DEPENDS = "glib-2.0-native virtual/libiconv libffi zlib"
-+DEPENDS_append_class-target = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', ' dbus', '', d)}"
- DEPENDS_class-native = "pkgconfig-native gettext-native libffi-native zlib-native"
--DEPENDS_class-nativesdk = "nativesdk-libtool nativesdk-gettext nativesdk-libffi nativesdk-zlib"
-+DEPENDS_class-nativesdk = "nativesdk-libtool nativesdk-gettext nativesdk-libffi nativesdk-zlib ${BPN}-native"
+ PACKAGECONFIG ??= "lzma"
+ PACKAGECONFIG[lzma] = "ac_cv_lib_lzma_lzma_easy_encoder=yes,ac_cv_lib_lzma_lzma_easy_encoder=no,xz"
++PACKAGECONFIG[bz2] = "ac_cv_lib_bz2_BZ2_bzopen=yes,ac_cv_lib_bz2_BZ2_bzopen=no,bzip2"
  
- PACKAGES =+ "${PN}-utils ${PN}-bash-completion ${PN}-codegen"
- 
+ FILES_${PN} += "${bindir}/apt-key"
+ apt-manpages += "doc/apt-key.8"
 -- 
 2.7.0
 
