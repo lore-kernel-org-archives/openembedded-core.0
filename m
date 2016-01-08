@@ -1,27 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E2C05731FE
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 31ED6731D6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 08:34:53 +0000 (UTC)
+	Fri,  8 Jan 2016 08:44:34 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u088Yshh026827
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 8 Jan 2016 00:34:54 -0800 (PST)
-Received: from [128.224.162.155] (128.224.162.155) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 8 Jan 2016 00:34:53 -0800
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1449152021.git.alexander.kanavin@linux.intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <568F74AB.70102@windriver.com>
-Date: Fri, 8 Jan 2016 16:34:51 +0800
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u088iYFh029095
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 8 Jan 2016 00:44:34 -0800
+Received: from [128.224.162.175] (128.224.162.175) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.248.2;
+	Fri, 8 Jan 2016 00:44:34 -0800
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1452137394-333-1-git-send-email-yi.zhao@windriver.com>
+	<1452137394-333-4-git-send-email-yi.zhao@windriver.com>
+	<CAJTo0LZ67jsAcGxjsDEExDOjDsqE5JwNcOitZ1PjpL10VTgObA@mail.gmail.com>
+From: Yi Zhao <yi.zhao@windriver.com>
+Message-ID: <568F76EF.20009@windriver.com>
+Date: Fri, 8 Jan 2016 16:44:31 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
 	Thunderbird/38.4.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1449152021.git.alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH 0/9] Move Qt4 recipes to a separate meta-qt4 layer
+In-Reply-To: <CAJTo0LZ67jsAcGxjsDEExDOjDsqE5JwNcOitZ1PjpL10VTgObA@mail.gmail.com>
+X-Originating-IP: [128.224.162.175]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] oeqa/runtime/parselogs: escape special character for grep
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,195 +37,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 08:34:55 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Jan 2016 08:44:36 -0000
+Content-Type: multipart/alternative;
+	boundary="------------000908040308010007070206"
+
+--------------000908040308010007070206
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
 
-On 12/03/2015 10:33 PM, Alexander Kanavin wrote:
-> Qt4 is reaching end of life at the end of 2015, and will not be supported
-> upstream. Qt4 recipes are moved out of oe-core to a separate meta-qt4 layer
-> available here:
-> http://git.yoctoproject.org/cgit/cgit.cgi/meta-qt4/about/
+在 2016年01月07日 20:21, Burton, Ross 写道:
 >
-> This patchset removes Qt4 from oe-core. I cannot send it to the list for review
-> because it contains very long lines that SMTP cannot handle.
+> On 7 January 2016 at 03:29, Yi Zhao <yi.zhao@windriver.com 
+> <mailto:yi.zhao@windriver.com>> wrote:
 >
-> The following changes since commit 698c74c373110ed081a7586e21d4a27b8b44c89b:
+>     Sometimes the grep output is not correct if the log message contains
+>     some special characters. Use re.escape to escape all non-alphanumerics
+>     before grep
 >
->    libsdl: remove redundant configure_tweak patch (2015-12-01 21:32:15 +0000)
 >
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib akanavin/remove-qt4
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/remove-qt4
->
-> Alexander Kanavin (9):
->    qt4: remove recipes and classes
+> If we're going to insist that the strings are literal then instead of 
+> telling grep to use extended regexp's and passing escaped regexs, why 
+> not just use -F which tells grep to search for fixed strings, not 
+> expressions.
+Hi Ross,
 
-There are a few recipes in meta-oe requires qmake2.bbclass which had been
-removed by this PULL:
+It still need to escape quotation marks if using -F option.
+Consider the following log:
+[521514.737] (EE) evdev: Qemu Tablet: Unable to open evdev device 
+"/dev/input/touchscreen0".
 
-meta-oe/recipes-devtools/python/python-pyqt_4.11.3.bb:inherit qmake2 
-pythonnative python-dir distro_features_check
-meta-oe/recipes-navigation/monav/monav_0.3.bb:inherit qmake2 qt4x11
-meta-oe/recipes-extended/sip/sip_4.16.4.bb:inherit qmake2 python-dir 
-pythonnative distro_features_check
+We still need an extra step to replace " with \" before grep
 
-What's the plan for these recipes, please ? Move them into meta-qt4 ?
+Yi
 
-// Robert
-
->    core-image.bbclass: drop qt4 references
->    core-image-sato-sdk: drop qt4 references
->    recipes.txt: drop qt4 references
->    documentation.conf: drop qt4 references
->    default-distrovars.inc: drop qt4 references
->    distro_alias.inc: drop qt4 references
->    package_regex.inc: drop qt4 references
->    packagegroup-core-lsb: treat qt4 packages same as qt3 packages
 >
->   meta/classes/core-image.bbclass                    |   2 -
->   meta/classes/qmake2.bbclass                        |  27 --
->   meta/classes/qmake_base.bbclass                    | 119 -----
->   meta/classes/qt4e.bbclass                          |  21 -
->   meta/classes/qt4x11.bbclass                        |  14 -
->   meta/conf/distro/include/default-distrovars.inc    |   2 -
->   meta/conf/distro/include/distro_alias.inc          |  20 -
->   meta/conf/distro/include/package_regex.inc         |  11 -
->   meta/conf/documentation.conf                       |   1 -
->   .../packagegroups/packagegroup-core-lsb.bb         |  12 +-
->   meta/recipes-qt/images/qt4e-demo-image.bb          |  14 -
->   meta/recipes-qt/meta/meta-toolchain-qt.bb          |   5 -
->   meta/recipes-qt/meta/meta-toolchain-qt.inc         |  35 --
->   meta/recipes-qt/meta/meta-toolchain-qte.bb         |   6 -
->   .../nativesdk-packagegroup-qt-toolchain-host.bb    |   3 -
->   .../nativesdk-packagegroup-qt-toolchain-host.inc   |   6 -
->   .../nativesdk-packagegroup-qte-toolchain-host.bb   |   3 -
->   .../packagegroups/packagegroup-core-qt.bb          |  22 -
->   .../packagegroups/packagegroup-core-qt4e.bb        |  52 ---
->   .../packagegroup-qt-toolchain-target.bb            |  15 -
->   .../packagegroup-qt-toolchain-target.inc           |  39 --
->   .../packagegroup-qte-toolchain-target.bb           |   7 -
->   .../ExportWizard-depends-on-ui_wizard.patch        |  18 -
->   meta/recipes-qt/qt-apps/fotowall_0.9.bb            |  29 --
->   meta/recipes-qt/qt-apps/qmmp/no-host-paths.patch   |  26 --
->   meta/recipes-qt/qt-apps/qmmp_0.8.6.bb              |  76 ----
->   meta/recipes-qt/qt-apps/quicky_0.4.bb              |  19 -
->   meta/recipes-qt/qt-demo/qt-demo-init/qtdemo-init   |  55 ---
->   meta/recipes-qt/qt-demo/qt-demo-init_0.1.bb        |  19 -
->   .../qt4-graphics-system/qt4-graphics-system_1.0.bb |  25 --
->   meta/recipes-qt/qt4/nativesdk-qt4-tools.inc        | 125 ------
->   meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.7.bb   |   6 -
->   meta/recipes-qt/qt4/qt4-4.8.7.inc                  |  68 ---
->   ...o-allow-to-set-qt.conf-from-the-outside-u.patch |  43 --
->   ...tty_qws-fix-build-with-old-kernel-headers.patch |  50 ---
->   ...003-webkit2-set-OUTPUT_DIR-value-if-empty.patch |  34 --
->   ...make-is-already-built-in-qt4-tools-native.patch |  29 --
->   ...e-set-LFLAGS-to-pick-up-zlib-from-staging.patch |  28 --
->   ...se-OE_QMAKE_-values-to-specify-Qt-utility.patch |  38 --
->   ...-const-usage-that-causes-compile-failure-.patch |  34 --
->   ...llow-building-a-separate-qmake-for-the-ta.patch |  29 --
->   ...e-fix-source-file-references-in-qmake.pri.patch |  52 ---
->   ...ack-to-not-use-the-pg_config-of-the-host-.patch |  46 --
->   .../qt4-4.8.7/0011-freetype-host-includes.patch    |  29 --
->   .../qt4/qt4-4.8.7/0012-Add-2bpp-support.patch      | 318 -------------
->   .../0013-configure-add-crossarch-option.patch      |  51 ---
->   ...tions-fix-phony-translation-linking-error.patch |  41 --
->   ...-configure-add-nostrip-for-debug-packages.patch |  32 --
->   .../qt4-4.8.7/0016-configure-eval-QMAKE_CXX.patch  |  37 --
->   ...nsure-we-identify-the-compiler-as-g-in-co.patch |  46 --
->   ...ure-make-pulseaudio-a-configurable-option.patch |  46 --
->   ...xes-for-gcc-4.7.0-particularly-on-qemux86.patch |  63 ---
->   ...ake-qt4-native-work-with-long-building-pa.patch |  95 ----
->   ...ls.pro-disable-qmeegographicssystemhelper.patch |  28 --
->   .../0030-aarch64_arm64_qatomic_support.patch       | 491 ---------------------
->   .../qt4/qt4-4.8.7/0031-aarch64_arm64_mkspecs.patch | 124 ------
->   .../qt4/qt4-4.8.7/0032-aarch64_add_header.patch    |  18 -
->   ...figure-support-c-0x-standard-for-directfd.patch |  40 --
->   .../0034-Fix-kmap2qmap-build-with-clang.patch      |  34 --
->   .../Fix-QWSLock-invalid-argument-logs.patch        |  98 ----
->   .../qt4/qt4-4.8.7/add_check_for_aarch64_32.patch   |  55 ---
->   meta/recipes-qt/qt4/qt4-4.8.7/g++.conf             |  40 --
->   meta/recipes-qt/qt4/qt4-4.8.7/linux.conf           |  66 ---
->   meta/recipes-qt/qt4/qt4-4.8.7/qte.sh               |   7 -
->   meta/recipes-qt/qt4/qt4-embedded.inc               |  74 ----
->   meta/recipes-qt/qt4/qt4-embedded_4.8.7.bb          |   9 -
->   meta/recipes-qt/qt4/qt4-native.inc                 | 112 -----
->   meta/recipes-qt/qt4/qt4-native_4.8.7.bb            |   6 -
->   meta/recipes-qt/qt4/qt4-x11-free.inc               |  38 --
->   meta/recipes-qt/qt4/qt4-x11-free_4.8.7.bb          |   9 -
->   meta/recipes-qt/qt4/qt4.inc                        | 391 ----------------
->   meta/recipes-qt/qt4/qt4_arch.inc                   |  22 -
->   meta/recipes-sato/images/core-image-sato-sdk.bb    |   6 +-
->   meta/recipes.txt                                   |   1 -
->   74 files changed, 12 insertions(+), 3700 deletions(-)
->   delete mode 100644 meta/classes/qmake2.bbclass
->   delete mode 100644 meta/classes/qmake_base.bbclass
->   delete mode 100644 meta/classes/qt4e.bbclass
->   delete mode 100644 meta/classes/qt4x11.bbclass
->   delete mode 100644 meta/recipes-qt/images/qt4e-demo-image.bb
->   delete mode 100644 meta/recipes-qt/meta/meta-toolchain-qt.bb
->   delete mode 100644 meta/recipes-qt/meta/meta-toolchain-qt.inc
->   delete mode 100644 meta/recipes-qt/meta/meta-toolchain-qte.bb
->   delete mode 100644 meta/recipes-qt/packagegroups/nativesdk-packagegroup-qt-toolchain-host.bb
->   delete mode 100644 meta/recipes-qt/packagegroups/nativesdk-packagegroup-qt-toolchain-host.inc
->   delete mode 100644 meta/recipes-qt/packagegroups/nativesdk-packagegroup-qte-toolchain-host.bb
->   delete mode 100644 meta/recipes-qt/packagegroups/packagegroup-core-qt.bb
->   delete mode 100644 meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb
->   delete mode 100644 meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb
->   delete mode 100644 meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
->   delete mode 100644 meta/recipes-qt/packagegroups/packagegroup-qte-toolchain-target.bb
->   delete mode 100644 meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch
->   delete mode 100644 meta/recipes-qt/qt-apps/fotowall_0.9.bb
->   delete mode 100644 meta/recipes-qt/qt-apps/qmmp/no-host-paths.patch
->   delete mode 100644 meta/recipes-qt/qt-apps/qmmp_0.8.6.bb
->   delete mode 100644 meta/recipes-qt/qt-apps/quicky_0.4.bb
->   delete mode 100644 meta/recipes-qt/qt-demo/qt-demo-init/qtdemo-init
->   delete mode 100644 meta/recipes-qt/qt-demo/qt-demo-init_0.1.bb
->   delete mode 100644 meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb
->   delete mode 100644 meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
->   delete mode 100644 meta/recipes-qt/qt4/nativesdk-qt4-tools_4.8.7.bb
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7.inc
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0001-qlibraryinfo-allow-to-set-qt.conf-from-the-outside-u.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0002-qkbdtty_qws-fix-build-with-old-kernel-headers.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0003-webkit2-set-OUTPUT_DIR-value-if-empty.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0004-configure-qmake-is-already-built-in-qt4-tools-native.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0005-configure-set-LFLAGS-to-pick-up-zlib-from-staging.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0006-configure-Use-OE_QMAKE_-values-to-specify-Qt-utility.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0007-dbus-Remove-const-usage-that-causes-compile-failure-.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0008-qmake.pro-Allow-building-a-separate-qmake-for-the-ta.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0009-qmake-fix-source-file-references-in-qmake.pri.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0010-configure-Hack-to-not-use-the-pg_config-of-the-host-.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0011-freetype-host-includes.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0012-Add-2bpp-support.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0013-configure-add-crossarch-option.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0014-translations-fix-phony-translation-linking-error.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0015-configure-add-nostrip-for-debug-packages.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0016-configure-eval-QMAKE_CXX.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0017-configure-ensure-we-identify-the-compiler-as-g-in-co.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0018-configure-make-pulseaudio-a-configurable-option.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0019-Fixes-for-gcc-4.7.0-particularly-on-qemux86.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0021-configure-make-qt4-native-work-with-long-building-pa.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0027-tools.pro-disable-qmeegographicssystemhelper.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0030-aarch64_arm64_qatomic_support.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0031-aarch64_arm64_mkspecs.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0032-aarch64_add_header.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0033-configure-support-c-0x-standard-for-directfd.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0034-Fix-kmap2qmap-build-with-clang.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/Fix-QWSLock-invalid-argument-logs.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/add_check_for_aarch64_32.patch
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/g++.conf
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/linux.conf
->   delete mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/qte.sh
->   delete mode 100644 meta/recipes-qt/qt4/qt4-embedded.inc
->   delete mode 100644 meta/recipes-qt/qt4/qt4-embedded_4.8.7.bb
->   delete mode 100644 meta/recipes-qt/qt4/qt4-native.inc
->   delete mode 100644 meta/recipes-qt/qt4/qt4-native_4.8.7.bb
->   delete mode 100644 meta/recipes-qt/qt4/qt4-x11-free.inc
->   delete mode 100644 meta/recipes-qt/qt4/qt4-x11-free_4.8.7.bb
->   delete mode 100644 meta/recipes-qt/qt4/qt4.inc
->   delete mode 100644 meta/recipes-qt/qt4/qt4_arch.inc
->
+> Ross
 
+
+--------------000908040308010007070206
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <br>
+    <div class="moz-cite-prefix">在 2016年01月07日 20:21, Burton, Ross 写道:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LZ67jsAcGxjsDEExDOjDsqE5JwNcOitZ1PjpL10VTgObA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 7 January 2016 at 03:29, Yi Zhao <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:yi.zhao@windriver.com" target="_blank">yi.zhao@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":16b" class="a3s" style="overflow:hidden">Sometimes
+                the grep output is not correct if the log message
+                contains<br>
+                some special characters. Use re.escape to escape all
+                non-alphanumerics<br>
+                before grep<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          If we're going to insist that the strings are literal then
+          instead of telling grep to use extended regexp's and passing
+          escaped regexs, why not just use -F which tells grep to search
+          for fixed strings, not expressions.</div>
+      </div>
+    </blockquote>
+    Hi Ross,<br>
+    <br>
+    It still need to escape quotation marks if using -F option. <br>
+    Consider the following log:<br>
+    [521514.737] (EE) evdev: Qemu Tablet: Unable to open evdev device
+    "/dev/input/touchscreen0".<br>
+    <br>
+    We still need an extra step to replace " with \" before grep<br>
+    <br>
+    Yi<br>
+     <br>
+    <blockquote
+cite="mid:CAJTo0LZ67jsAcGxjsDEExDOjDsqE5JwNcOitZ1PjpL10VTgObA@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------000908040308010007070206--
