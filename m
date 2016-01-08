@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id C38A075D4B
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 913DB73285
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 10:19:39 +0000 (UTC)
-Received: by mail-qg0-f44.google.com with SMTP id 6so270213272qgy.1
+	Fri,  8 Jan 2016 10:19:40 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id p186so118756715qke.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 02:19:40 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=/JMWb1fF8fJn97uqDvs/kshVNHoGEwBJW/9CSAoxEXc=;
-	b=CZAtsTncd8mPGW/xmGcWlEHrSPqh1joSDnJbaSkkyyWD8FhlOwCap+KtJcBdClLJxZ
-	0eLr88oJmCS11/Sy4k/kfhyW2NBTfmLIU/s/OgYD77mqnHNP7HfJSFmndGOBQXH2igFA
-	d93ICRB9W8xvoAmqwXXbbDQqrwDmfPQJo4jBH8Y4mFd268a5bQeAE+i4oy2GV3SsX4/X
-	2hVileOb4RjD6ykem99ejg3+0fq+ag8RUAGvHNlGH7BVhniZND+Fy/yloCfr/nTHoM15
-	jx5P0opj8pFPH1/9Oouut2ng2vOpO+JasJ3PF3ZeN/HYZOxU/jj/vA9Jk/l6UWgdA8Mf
-	+v4w==
-X-Received: by 10.140.99.5 with SMTP id p5mr139136684qge.76.1452248380305;
+	bh=Kc8IH0Wp5olOmKw4WGnjSmcB9CqHokZF9kwCuL6TOyY=;
+	b=i88XriCKMVXGfiUfU17Net6yn2P/TciPfj4DVztZNKfwiHw1V+eYHlGjkYqWYyxfrY
+	kV6w85etBTGZoEBfQR2tSBw03sxTnsR/9SEF3PmlBQUwPbZLAGqyL8ixPSfFCmsjrvrq
+	4HacrXKCRXOL6L3CnfADgRh2Uu9OZRPcMTjgGeK+MOgJ5zFV5KurZo6rJQb15N9WDLE8
+	9rmyDOQVWvNSJwc0mVWWKesIHBqhqrhcJ/PZHFSaS+t2fBF9Oz+siTAzUCiOS3PSAQw3
+	UgdcNFgmtU/i3c1rabnpuy0kg8FsuKqT665h3/q9uVBMCOOAv3ae2t18ybjP/QvfL+Hf
+	1bZQ==
+X-Received: by 10.55.81.70 with SMTP id f67mr22880631qkb.28.1452248380897;
 	Fri, 08 Jan 2016 02:19:40 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	d129sm48549987qka.31.2016.01.08.02.19.39
+	d129sm48549987qka.31.2016.01.08.02.19.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Jan 2016 02:19:39 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:40 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:18:47 +0000
-Message-Id: <fdd28ead535ba90b55b6fef1568e440d8266c173.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:18:48 +0000
+Message-Id: <baa98869574d7bb44be4171ff58d5abdc76f7d69.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 19/53] gnutls: Link with libuargp on uclibc
+Subject: [PATCH 20/53] mtools: Fix build with uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,36 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 10:19:40 -0000
+X-List-Received-Date: Fri, 08 Jan 2016 10:19:41 -0000
 
-uclibc has its own implementation for libargp
+unlike glibc, uclibc does not have internal APIs implemented for
+libiconv, so it needs to depend upon libiconv
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/gnutls/gnutls.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/mtools/mtools_4.0.18.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index 5bcfc9c..90597db 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -1,7 +1,7 @@
- SUMMARY = "GNU Transport Layer Security Library"
- HOMEPAGE = "http://www.gnu.org/software/gnutls/"
- BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
--DEPENDS = "nettle libidn"
-+DEPENDS = "nettle libidn virtual/libiconv"
- DEPENDS_append_libc-musl = " argp-standalone "
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.18.bb b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
+index bc9b79c..479fd32 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.18.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
+@@ -5,6 +5,7 @@ SECTION = "optional"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
- LICENSE = "GPLv3+ & LGPLv2.1+"
-@@ -30,6 +30,7 @@ EXTRA_OECONF="--disable-rpath \
-               --enable-openssl-compatibility \
-               "
- LDFLAGS_append_libc-musl = " -largp "
-+LDFLAGS_append_libc-uclibc = " -luargp "
++DEPENDS += "virtual/libiconv"
  
- do_configure_prepend() {
- 	for dir in . lib; do
+ RDEPENDS_${PN}_libc-glibc = "glibc-gconv-ibm850"
+ RRECOMMENDS_${PN}_libc-glibc = "\
+@@ -35,6 +36,8 @@ inherit autotools texinfo
+ 
+ EXTRA_OECONF = "--without-x"
+ 
++LDFLAGS_append_libc-uclibc = " -liconv "
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ PACKAGECONFIG ??= ""
 -- 
 2.7.0
 
