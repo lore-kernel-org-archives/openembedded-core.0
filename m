@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 65D1E7705E
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id BEF1876E3F
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  8 Jan 2016 10:19:55 +0000 (UTC)
-Received: by mail-qg0-f44.google.com with SMTP id 6so270216791qgy.1
+Received: by mail-qg0-f46.google.com with SMTP id e32so258875423qgf.3
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 08 Jan 2016 02:19:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=DHjoSgiTH2YQlzVfGul7OeC45AUzr1MNaf+6jBkJc1k=;
-	b=CXg5CXz/9c5K5z6r+caSSUGh28+xrc5L+ifLU5o6HIk75wXtOQQX/nJrCJfyjdN9/m
-	XA1d5Tqz0JAkJg+hH6IWAGb20gM4U2sVPGC0WFiTINZJvesZo6r52OV9ZjU39FKsn0oO
-	3qdW5pDXT2y9BO3myhdXv5/HJhI3UEh79eb7elOugL7lOChvkwJ719tQowueYmzXxet0
-	e6kM69NMpw0yNep48eu0dv/7D/IOJh6v+l4sKBgMxbrXnSAvn2q5vPgcCsA1CDL4LLwW
-	lekp+/cz8QxUEyVTvYh2bfVhJfIPxw873pE4LLONdF++Gr83voKVVykX+nO27FINIz5t
-	jcTA==
-X-Received: by 10.140.174.2 with SMTP id u2mr84243369qhu.62.1452248395996;
-	Fri, 08 Jan 2016 02:19:55 -0800 (PST)
+	bh=iAze4PkwcDejaD7r/lPQoCOyiyFOtjwpJU3Fb9iQGVA=;
+	b=KcPXhq3vz/vz+TV+MqjsI6GuogYF0ki139fYGvGpTTnCAIZpA0ENOXNo0sQS1Ng3LS
+	mzTAuu4tbC4gQAJRDdBdJbhVnBq02NH3joBejgfbTsnYBDRsZlqJBhGUcbOBJY7cg70d
+	ci0M7F+4fB1LlWK9f9HpnfQWVokhD77h4vodQgRytVgOlpy3DDu02nuTgkX5EQZjb8KT
+	WwJo5C9II64kTfL5YuJ4IWoQHXtFcr1BJE3sowJjHRFW/OyxjEwvPpFuoHcWxuftUR62
+	KBDT9CDh18Sq1T8ADWhBOQ1y76mEnuGfugjeZO+DmJv4AiGETzwrisjWtWg0XpqfpB6b
+	un4w==
+X-Received: by 10.140.219.136 with SMTP id p130mr151014331qhb.80.1452248396630;
+	Fri, 08 Jan 2016 02:19:56 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	d129sm48549987qka.31.2016.01.08.02.19.55
+	d129sm48549987qka.31.2016.01.08.02.19.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Jan 2016 02:19:55 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:56 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:19:10 +0000
-Message-Id: <be7585aefb5f05e45243e802e8e5fd07e8c97833.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:19:11 +0000
+Message-Id: <f62faf89dca98d5c730612b45a467991ed30bd79.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 42/53] pax: Fix build with musl
+Subject: [PATCH 43/53] iputils: Fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,1376 +48,123 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 08 Jan 2016 10:19:56 -0000
 
-There are several BSD specific assumptions
-and some GNU specific ones.
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../pax/pax/0001-Fix-build-with-musl.patch         | 1287 ++++++++++++++++++++
- .../pax/0001-use-strtoll-instead-of-strtoq.patch   |   33 +
- meta/recipes-extended/pax/pax_3.4.bb               |   10 +
- 3 files changed, 1330 insertions(+)
- create mode 100644 meta/recipes-extended/pax/pax/0001-Fix-build-with-musl.patch
- create mode 100644 meta/recipes-extended/pax/pax/0001-use-strtoll-instead-of-strtoq.patch
+ .../files/0001-Fix-header-inclusion-for-musl.patch | 92 ++++++++++++++++++++++
+ meta/recipes-extended/iputils/iputils_s20121221.bb |  1 +
+ 2 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-extended/iputils/files/0001-Fix-header-inclusion-for-musl.patch
 
-diff --git a/meta/recipes-extended/pax/pax/0001-Fix-build-with-musl.patch b/meta/recipes-extended/pax/pax/0001-Fix-build-with-musl.patch
+diff --git a/meta/recipes-extended/iputils/files/0001-Fix-header-inclusion-for-musl.patch b/meta/recipes-extended/iputils/files/0001-Fix-header-inclusion-for-musl.patch
 new file mode 100644
-index 0000000..61bf2de
+index 0000000..20ef07e
 --- /dev/null
-+++ b/meta/recipes-extended/pax/pax/0001-Fix-build-with-musl.patch
-@@ -0,0 +1,1287 @@
-+From 47c4db8d37248d968fac7ee4a71ca64398890723 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/iputils/files/0001-Fix-header-inclusion-for-musl.patch
+@@ -0,0 +1,92 @@
++From be0bb81d72fea4d20da74f4f2236aa145684f332 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 6 Jan 2016 11:57:21 -0800
-+Subject: [PATCH] Fix build with musl
++Date: Wed, 6 Jan 2016 14:14:22 -0800
++Subject: [PATCH] Fix header inclusion for musl
 +
-+Remove BSDisms
-+Remove fts, and link to libfts thats provided externally
++Fix errors e.g.
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Inappropriate[musl specific]
++In file included from tracepath.c:17:0:
++/usr/include/linux/errqueue.h:33:18:
++error: array type has incomplete element type 'struct timespec'
++  struct timespec ts[3];
++                  ^
++tracepath.c: In function 'main':
++tracepath.c:329:16: error: 'INT_MAX' undeclared (first use in this
++function)
++      overhead, INT_MAX);
++                ^
++tracepath.c:329:16: note: each undeclared identifier is reported only
++once for each function it appears in
++Makefile:131: recipe for target 'tracepath.o' failed
++make: *** [tracepath.o] Error 1
 +
-+ lib/Makefile.am |    4 +-
-+ lib/fts.c       | 1025 -------------------------------------------------------
-+ lib/fts.h       |  131 -------
-+ lib/vis.h       |   13 +-
-+ src/Makefile.am |    2 +-
-+ src/extern.h    |    2 -
-+ src/file_subs.c |    2 +-
-+ src/tables.c    |    2 +-
-+ 8 files changed, 14 insertions(+), 1167 deletions(-)
-+ delete mode 100644 lib/fts.c
-+ delete mode 100644 lib/fts.h
++ping_common.c: In function 'main_loop':
++ping_common.c:756:15: error: 'HZ' undeclared (first use in this
++function)
++    if (1000 % HZ == 0 ? next <= 1000 / HZ : (next < INT_MAX / HZ &&
++next * HZ <= 1000)) {
 +
-+diff --git a/lib/Makefile.am b/lib/Makefile.am
-+index 56d0859..7f5045a 100644
-+--- a/lib/Makefile.am
-++++ b/lib/Makefile.am
-+@@ -8,8 +8,8 @@ AUTOMAKE_OPTIONS = 1.7 gnits
-+ CLEANFILES = *~
-+ 
-+ noinst_LIBRARIES = libbsdfunc.a
-+-noinst_HEADERS = vis.h bsdfunc.h fts.h
-++noinst_HEADERS = vis.h bsdfunc.h
-+ 
-+ AM_CFLAGS = @EXTRA_CFLAGS@
-+ 
-+-libbsdfunc_a_SOURCES = vis.c strlcpy.c strmode.c fts.c
-++libbsdfunc_a_SOURCES = vis.c strlcpy.c strmode.c
-+diff --git a/lib/fts.c b/lib/fts.c
-+deleted file mode 100644
-+index 45e90ca..0000000
-+--- a/lib/fts.c
-++++ /dev/null
-+@@ -1,1025 +0,0 @@
-+-/*-
-+- * Copyright (c) 1990, 1993, 1994
-+- *      The Regents of the University of California.  All rights reserved.
-+- *
-+- * Redistribution and use in source and binary forms, with or without
-+- * modification, are permitted provided that the following conditions
-+- * are met:
-+- * 1. Redistributions of source code must retain the above copyright
-+- *    notice, this list of conditions and the following disclaimer.
-+- * 2. Redistributions in binary form must reproduce the above copyright
-+- *    notice, this list of conditions and the following disclaimer in the
-+- *    documentation and/or other materials provided with the distribution.
-+- * 4. Neither the name of the University nor the names of its contributors
-+- *    may be used to endorse or promote products derived from this software
-+- *    without specific prior written permission.
-+- *
-+- * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
-+- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-+- * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
-+- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-+- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-+- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-+- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-+- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-+- * SUCH DAMAGE.
-+- */
-+-
-+-#ifdef HAVE_CONFIG_H
-+-#include <config.h>
-+-#endif
-+-
-+-#include <sys/stat.h>
-+-#include <fcntl.h>
-+-#include <dirent.h>
-+-#include <errno.h>
-+-#include <fts.h>
-+-#include <stdlib.h>
-+-#include <string.h>
-+-#include <unistd.h>
-+-
-+-/* Largest alignment size needed, minus one.
-+-   Usually long double is the worst case.  */
-+-#ifndef ALIGNBYTES
-+-#define ALIGNBYTES	(__alignof__ (long double) - 1)
-+-#endif
-+-/* Align P to that size.  */
-+-#ifndef ALIGN
-+-#define	ALIGN(p)	(((unsigned long int) (p) + ALIGNBYTES) & ~ALIGNBYTES)
-+-#endif
-+-
-+-
-+-static FTSENT	*fts_alloc (FTS *, const char *, int);
-+-static FTSENT	*fts_build (FTS *, int);
-+-static void	 fts_lfree (FTSENT *);
-+-static void	 fts_load (FTS *, FTSENT *);
-+-static size_t	 fts_maxarglen (char * const *);
-+-static void	 fts_padjust (FTS *, FTSENT *);
-+-static int	 fts_palloc (FTS *, size_t);
-+-static FTSENT	*fts_sort (FTS *, FTSENT *, int);
-+-static u_short	 fts_stat (FTS *, FTSENT *, int);
-+-static int      fts_safe_changedir (FTS *, FTSENT *, int, const char *);
-+-
-+-#ifndef MAX
-+-#define MAX(a, b)	(a > b ? a : b)
-+-#endif
-+-
-+-#define	ISDOT(a)	(a[0] == '.' && (!a[1] || (a[1] == '.' && !a[2])))
-+-
-+-#define CLR(opt)	(sp->fts_options &= ~(opt))
-+-#define	ISSET(opt)	(sp->fts_options & (opt))
-+-#define	SET(opt)	(sp->fts_options |= (opt))
-+-
-+-#define	FCHDIR(sp, fd)	(!ISSET(FTS_NOCHDIR) && fchdir(fd))
-+-
-+-#define	BREAD		3		/* fts_read */
-+-
-+-FTS *
-+-fts_open(argv, koptions, compar)
-+-	char * const *argv;
-+-	register int koptions;
-+-	int (*compar) (const FTSENT **, const FTSENT **);
-+-{
-+-	register FTS *sp;
-+-	register FTSENT *p, *root;
-+-	register int nitems;
-+-	FTSENT *parent, *tmp;
-+-	int len;
-+-
-+-tmp = NULL;	/* stop compiler whinging */
-+-	/* Options check. */
-+-	if (koptions & ~FTS_OPTIONMASK) {
-+-		errno = EINVAL;
-+-		return (NULL);
-+-	}
-+-
-+-	/* Allocate/initialize the stream */
-+-	if ((sp = malloc((u_int)sizeof(FTS))) == NULL)
-+-		return (NULL);
-+-	memset(sp, 0, sizeof(FTS));
-+-	sp->fts_compar = (int (*) (const void *, const void *)) compar;
-+-	sp->fts_options = koptions;
-+-
-+-	/* Logical walks turn on NOCHDIR; symbolic links are too hard. */
-+-	if (ISSET(FTS_LOGICAL))
-+-		SET(FTS_NOCHDIR);
-+-
-+-	/*
-+-	 * Start out with 1K of path space, and enough, in any case,
-+-	 * to hold the user's paths.
-+-	 */
-+-#ifndef MAXPATHLEN
-+-#define MAXPATHLEN 1024
-+-#endif
-+-	if (fts_palloc(sp, MAX(fts_maxarglen(argv), MAXPATHLEN)))
-+-		goto mem1;
-+-
-+-	/* Allocate/initialize root's parent. */
-+-	if ((parent = fts_alloc(sp, "", 0)) == NULL)
-+-		goto mem2;
-+-	parent->fts_level = FTS_ROOTPARENTLEVEL;
-+-
-+-	/* Allocate/initialize root(s). */
-+-	for (root = NULL, nitems = 0; *argv != NULL; ++argv, ++nitems) {
-+-		/* Don't allow zero-length paths. */
-+-		if ((len = strlen(*argv)) == 0) {
-+-			errno = ENOENT;
-+-			goto mem3;
-+-		}
-+-
-+-		p = fts_alloc(sp, *argv, len);
-+-		p->fts_level = FTS_ROOTLEVEL;
-+-		p->fts_parent = parent;
-+-		p->fts_accpath = p->fts_name;
-+-		p->fts_info = fts_stat(sp, p, ISSET(FTS_COMFOLLOW));
-+-
-+-		/* Command-line "." and ".." are real directories. */
-+-		if (p->fts_info == FTS_DOT)
-+-			p->fts_info = FTS_D;
-+-
-+-		/*
-+-		 * If comparison routine supplied, traverse in sorted
-+-		 * order; otherwise traverse in the order specified.
-+-		 */
-+-		if (compar) {
-+-			p->fts_link = root;
-+-			root = p;
-+-		} else {
-+-			p->fts_link = NULL;
-+-			if (root == NULL)
-+-				tmp = root = p;
-+-			else {
-+-				tmp->fts_link = p;
-+-				tmp = p;
-+-			}
-+-		}
-+-	}
-+-	if (compar && nitems > 1)
-+-		root = fts_sort(sp, root, nitems);
-+-
-+-	/*
-+-	 * Allocate a dummy pointer and make fts_read think that we've just
-+-	 * finished the node before the root(s); set p->fts_info to FTS_INIT
-+-	 * so that everything about the "current" node is ignored.
-+-	 */
-+-	if ((sp->fts_cur = fts_alloc(sp, "", 0)) == NULL)
-+-		goto mem3;
-+-	sp->fts_cur->fts_link = root;
-+-	sp->fts_cur->fts_info = FTS_INIT;
-+-
-+-	/*
-+-	 * If using chdir(2), grab a file descriptor pointing to dot to ensure
-+-	 * that we can get back here; this could be avoided for some paths,
-+-	 * but almost certainly not worth the effort.  Slashes, symbolic links,
-+-	 * and ".." are all fairly nasty problems.  Note, if we can't get the
-+-	 * descriptor we run anyway, just more slowly.
-+-	 */
-+-	if (!ISSET(FTS_NOCHDIR)
-+-	    && (sp->fts_rfd = open(".", O_RDONLY, 0)) < 0)
-+-		SET(FTS_NOCHDIR);
-+-
-+-	return (sp);
-+-
-+-mem3:	fts_lfree(root);
-+-	free(parent);
-+-mem2:	free(sp->fts_path);
-+-mem1:	free(sp);
-+-	return (NULL);
-+-}
-+-
-+-static void
-+-fts_load(sp, p)
-+-	FTS *sp;
-+-	register FTSENT *p;
-+-{
-+-	register int len;
-+-	register char *cp;
-+-
-+-	/*
-+-	 * Load the stream structure for the next traversal.  Since we don't
-+-	 * actually enter the directory until after the preorder visit, set
-+-	 * the fts_accpath field specially so the chdir gets done to the right
-+-	 * place and the user can access the first node.  From fts_open it's
-+-	 * known that the path will fit.
-+-	 */
-+-	len = p->fts_pathlen = p->fts_namelen;
-+-	memmove(sp->fts_path, p->fts_name, len + 1);
-+-	if ((cp = strrchr(p->fts_name, '/')) && (cp != p->fts_name || cp[1])) {
-+-		len = strlen(++cp);
-+-		memmove(p->fts_name, cp, len + 1);
-+-		p->fts_namelen = len;
-+-	}
-+-	p->fts_accpath = p->fts_path = sp->fts_path;
-+-	sp->fts_dev = p->fts_dev;
-+-}
-+-
-+-int
-+-fts_close(sp)
-+-	FTS *sp;
-+-{
-+-	register FTSENT *freep, *p;
-+-	int saved_errno;
-+-
-+-	/*
-+-	 * This still works if we haven't read anything -- the dummy structure
-+-	 * points to the root list, so we step through to the end of the root
-+-	 * list which has a valid parent pointer.
-+-	 */
-+-	if (sp->fts_cur) {
-+-		for (p = sp->fts_cur; p->fts_level >= FTS_ROOTLEVEL;) {
-+-			freep = p;
-+-			p = p->fts_link != NULL ? p->fts_link : p->fts_parent;
-+-			free(freep);
-+-		}
-+-		free(p);
-+-	}
-+-
-+-	/* Free up child linked list, sort array, path buffer. */
-+-	if (sp->fts_child)
-+-		fts_lfree(sp->fts_child);
-+-	if (sp->fts_array)
-+-		free(sp->fts_array);
-+-	free(sp->fts_path);
-+-
-+-	/* Return to original directory, save errno if necessary. */
-+-	if (!ISSET(FTS_NOCHDIR)) {
-+-		saved_errno = fchdir(sp->fts_rfd) ? errno : 0;
-+-		(void)close(sp->fts_rfd);
-+-
-+-		/* Set errno and return. */
-+-		if (saved_errno != 0) {
-+-			/* Free up the stream pointer. */
-+-			free(sp);
-+-			errno = saved_errno;
-+-			return (-1);
-+-		}
-+-	}
-+-
-+-	/* Free up the stream pointer. */
-+-	free(sp);
-+-	return (0);
-+-}
-+-
-+-/*
-+- * Special case of "/" at the end of the path so that slashes aren't
-+- * appended which would cause paths to be written as "....//foo".
-+- */
-+-#define	NAPPEND(p)							\
-+-	(p->fts_path[p->fts_pathlen - 1] == '/'				\
-+-	    ? p->fts_pathlen - 1 : p->fts_pathlen)
-+-
-+-FTSENT *
-+-fts_read(sp)
-+-	register FTS *sp;
-+-{
-+-	register FTSENT *p, *tmp;
-+-	register int instr;
-+-	register char *t;
-+-	int saved_errno;
-+-
-+-	/* If finished or unrecoverable error, return NULL. */
-+-	if (sp->fts_cur == NULL || ISSET(FTS_STOP))
-+-		return (NULL);
-+-
-+-	/* Set current node pointer. */
-+-	p = sp->fts_cur;
-+-
-+-	/* Save and zero out user instructions. */
-+-	instr = p->fts_instr;
-+-	p->fts_instr = FTS_NOINSTR;
-+-
-+-	/* Any type of file may be re-visited; re-stat and re-turn. */
-+-	if (instr == FTS_AGAIN) {
-+-		p->fts_info = fts_stat(sp, p, 0);
-+-		return (p);
-+-	}
-+-
-+-	/*
-+-	 * Following a symlink -- SLNONE test allows application to see
-+-	 * SLNONE and recover.  If indirecting through a symlink, have
-+-	 * keep a pointer to current location.  If unable to get that
-+-	 * pointer, follow fails.
-+-	 */
-+-	if (instr == FTS_FOLLOW &&
-+-	    (p->fts_info == FTS_SL || p->fts_info == FTS_SLNONE)) {
-+-		p->fts_info = fts_stat(sp, p, 1);
-+-		if (p->fts_info == FTS_D && !ISSET(FTS_NOCHDIR)) {
-+-			if ((p->fts_symfd = open(".", O_RDONLY, 0)) < 0) {
-+-				p->fts_errno = errno;
-+-				p->fts_info = FTS_ERR;
-+-			} else
-+-				p->fts_flags |= FTS_SYMFOLLOW;
-+-		}
-+-		return (p);
-+-	}
-+-
-+-	/* Directory in pre-order. */
-+-	if (p->fts_info == FTS_D) {
-+-		/* If skipped or crossed mount point, do post-order visit. */
-+-		if (instr == FTS_SKIP ||
-+-		    (ISSET(FTS_XDEV) && p->fts_dev != sp->fts_dev)) {
-+-			if (p->fts_flags & FTS_SYMFOLLOW)
-+-				(void)close(p->fts_symfd);
-+-			if (sp->fts_child) {
-+-				fts_lfree(sp->fts_child);
-+-				sp->fts_child = NULL;
-+-			}
-+-			p->fts_info = FTS_DP;
-+-			return (p);
-+-		}
-+-
-+-		/* Rebuild if only read the names and now traversing. */
-+-		if (sp->fts_child != NULL && ISSET(FTS_NAMEONLY)) {
-+-			CLR(FTS_NAMEONLY);
-+-			fts_lfree(sp->fts_child);
-+-			sp->fts_child = NULL;
-+-		}
-+-
-+-		/*
-+-		 * Cd to the subdirectory.
-+-		 *
-+-		 * If have already read and now fail to chdir, whack the list
-+-		 * to make the names come out right, and set the parent errno
-+-		 * so the application will eventually get an error condition.
-+-		 * Set the FTS_DONTCHDIR flag so that when we logically change
-+-		 * directories back to the parent we don't do a chdir.
-+-		 *
-+-		 * If haven't read do so.  If the read fails, fts_build sets
-+-		 * FTS_STOP or the fts_info field of the node.
-+-		 */
-+-		if (sp->fts_child != NULL) {
-+-			if (fts_safe_changedir(sp, p, -1, p->fts_accpath)) {
-+-				p->fts_errno = errno;
-+-				p->fts_flags |= FTS_DONTCHDIR;
-+-				for (p = sp->fts_child; p != NULL;
-+-				     p = p->fts_link)
-+-					p->fts_accpath =
-+-					    p->fts_parent->fts_accpath;
-+-			}
-+-		} else if ((sp->fts_child = fts_build(sp, BREAD)) == NULL) {
-+-			if (ISSET(FTS_STOP))
-+-				return (NULL);
-+-			return (p);
-+-		}
-+-		p = sp->fts_child;
-+-		sp->fts_child = NULL;
-+-		goto name;
-+-	}
-+-
-+-	/* Move to the next node on this level. */
-+-next:	tmp = p;
-+-	if ((p = p->fts_link) != NULL) {
-+-		free(tmp);
-+-
-+-		/*
-+-		 * If reached the top, return to the original directory (or
-+-		 * the root of the tree), and load the paths for the next root.
-+-		 */
-+-		if (p->fts_level == FTS_ROOTLEVEL) {
-+-			if (FCHDIR(sp, sp->fts_rfd)) {
-+-				SET(FTS_STOP);
-+-				return (NULL);
-+-			}
-+-			fts_load(sp, p);
-+-			return (sp->fts_cur = p);
-+-		}
-+-
-+-		/*
-+-		 * User may have called fts_set on the node.  If skipped,
-+-		 * ignore.  If followed, get a file descriptor so we can
-+-		 * get back if necessary.
-+-		 */
-+-		if (p->fts_instr == FTS_SKIP)
-+-			goto next;
-+-		if (p->fts_instr == FTS_FOLLOW) {
-+-			p->fts_info = fts_stat(sp, p, 1);
-+-			if (p->fts_info == FTS_D && !ISSET(FTS_NOCHDIR)) {
-+-				if ((p->fts_symfd =
-+-				    open(".", O_RDONLY, 0)) < 0) {
-+-					p->fts_errno = errno;
-+-					p->fts_info = FTS_ERR;
-+-				} else
-+-					p->fts_flags |= FTS_SYMFOLLOW;
-+-			}
-+-			p->fts_instr = FTS_NOINSTR;
-+-		}
-+-
-+-name:		t = sp->fts_path + NAPPEND(p->fts_parent);
-+-		*t++ = '/';
-+-		memmove(t, p->fts_name, p->fts_namelen + 1);
-+-		return (sp->fts_cur = p);
-+-	}
-+-
-+-	/* Move up to the parent node. */
-+-	p = tmp->fts_parent;
-+-	free(tmp);
-+-
-+-	if (p->fts_level == FTS_ROOTPARENTLEVEL) {
-+-		/*
-+-		 * Done; free everything up and set errno to 0 so the user
-+-		 * can distinguish between error and EOF.
-+-		 */
-+-		free(p);
-+-		errno = 0;
-+-		return (sp->fts_cur = NULL);
-+-	}
-+-
-+-	/* NUL terminate the pathname. */
-+-	sp->fts_path[p->fts_pathlen] = '\0';
-+-
-+-	/*
-+-	 * Return to the parent directory.  If at a root node or came through
-+-	 * a symlink, go back through the file descriptor.  Otherwise, cd up
-+-	 * one directory.
-+-	 */
-+-	if (p->fts_level == FTS_ROOTLEVEL) {
-+-		if (FCHDIR(sp, sp->fts_rfd)) {
-+-			SET(FTS_STOP);
-+-			return (NULL);
-+-		}
-+-	} else if (p->fts_flags & FTS_SYMFOLLOW) {
-+-		if (FCHDIR(sp, p->fts_symfd)) {
-+-			saved_errno = errno;
-+-			(void)close(p->fts_symfd);
-+-			errno = saved_errno;
-+-			SET(FTS_STOP);
-+-			return (NULL);
-+-		}
-+-		(void)close(p->fts_symfd);
-+-	} else if (!(p->fts_flags & FTS_DONTCHDIR) &&
-+-		   fts_safe_changedir(sp, p->fts_parent, -1, "..")) {
-+-		SET(FTS_STOP);
-+-		return (NULL);
-+-	}
-+-	p->fts_info = p->fts_errno ? FTS_ERR : FTS_DP;
-+-	return (sp->fts_cur = p);
-+-}
-+-
-+-/*
-+- * Fts_set takes the stream as an argument although it's not used in this
-+- * implementation; it would be necessary if anyone wanted to add global
-+- * semantics to fts using fts_set.  An error return is allowed for similar
-+- * reasons.
-+- */
-+-/* ARGSUSED */
-+-int
-+-fts_set(sp, p, instr)
-+-	FTS __attribute__((__unused__)) *sp;
-+-	FTSENT *p;
-+-	int instr;
-+-{
-+-sp = NULL;	/* stop compiler whinging */
-+-	if (instr != 0 && instr != FTS_AGAIN && instr != FTS_FOLLOW &&
-+-	    instr != FTS_NOINSTR && instr != FTS_SKIP) {
-+-		errno = EINVAL;
-+-		return (1);
-+-	}
-+-	p->fts_instr = instr;
-+-	return (0);
-+-}
-+-
-+-/*
-+- * This is the tricky part -- do not casually change *anything* in here.  The
-+- * idea is to build the linked list of entries that are used by fts_children
-+- * and fts_read.  There are lots of special cases.
-+- *
-+- * The real slowdown in walking the tree is the stat calls.  If FTS_NOSTAT is
-+- * set and it's a physical walk (so that symbolic links can't be directories),
-+- * we can do things quickly.  First, if it's a 4.4BSD file system, the type
-+- * of the file is in the directory entry.  Otherwise, we assume that the number
-+- * of subdirectories in a node is equal to the number of links to the parent.
-+- * The former skips all stat calls.  The latter skips stat calls in any leaf
-+- * directories and for any files after the subdirectories in the directory have
-+- * been found, cutting the stat calls by about 2/3.
-+- */
-+-static FTSENT *
-+-fts_build(sp, type)
-+-	register FTS *sp;
-+-	int type;
-+-{
-+-	register struct dirent *dp;
-+-	register FTSENT *p, *head;
-+-	register int nitems;
-+-	FTSENT *cur, *tail;
-+-	DIR *dirp;
-+-	void *oldaddr;
-+-	int cderrno, descend, len, level, nlinks, saved_errno,
-+-	    nostat, doadjust;
-+-	size_t maxlen;
-+-	char *cp;
-+-
-+-	/* Set current node pointer. */
-+-	cur = sp->fts_cur;
-+-
-+-	/*
-+-	 * Open the directory for reading.  If this fails, we're done.
-+-	 * If being called from fts_read, set the fts_info field.
-+-	 */
-+-       if ((dirp = opendir(cur->fts_accpath)) == NULL) {
-+-		if (type == BREAD) {
-+-			cur->fts_info = FTS_DNR;
-+-			cur->fts_errno = errno;
-+-		}
-+-		return (NULL);
-+-	}
-+-
-+-	/*
-+-	 * Nlinks is the number of possible entries of type directory in the
-+-	 * directory if we're cheating on stat calls, 0 if we're not doing
-+-	 * any stat calls at all, -1 if we're doing stats on everything.
-+-	 */
-+-	nlinks = -1;
-+-	nostat = 0;
-+-
-+-	/*
-+-	 * If we're going to need to stat anything or we want to descend
-+-	 * and stay in the directory, chdir.  If this fails we keep going,
-+-	 * but set a flag so we don't chdir after the post-order visit.
-+-	 * We won't be able to stat anything, but we can still return the
-+-	 * names themselves.  Note, that since fts_read won't be able to
-+-	 * chdir into the directory, it will have to return different path
-+-	 * names than before, i.e. "a/b" instead of "b".  Since the node
-+-	 * has already been visited in pre-order, have to wait until the
-+-	 * post-order visit to return the error.  There is a special case
-+-	 * here, if there was nothing to stat then it's not an error to
-+-	 * not be able to stat.  This is all fairly nasty.  If a program
-+-	 * needed sorted entries or stat information, they had better be
-+-	 * checking FTS_NS on the returned nodes.
-+-	 */
-+-	cderrno = 0;
-+-	if (nlinks || type == BREAD) {
-+-		if (fts_safe_changedir(sp, cur, dirfd(dirp), NULL)) {
-+-			if (nlinks && type == BREAD)
-+-				cur->fts_errno = errno;
-+-			cur->fts_flags |= FTS_DONTCHDIR;
-+-			descend = 0;
-+-			cderrno = errno;
-+-			(void)closedir(dirp);
-+-			dirp = NULL;
-+-		} else
-+-			descend = 1;
-+-	} else
-+-		descend = 0;
-+-
-+-	/*
-+-	 * Figure out the max file name length that can be stored in the
-+-	 * current path -- the inner loop allocates more path as necessary.
-+-	 * We really wouldn't have to do the maxlen calculations here, we
-+-	 * could do them in fts_read before returning the path, but it's a
-+-	 * lot easier here since the length is part of the dirent structure.
-+-	 *
-+-	 * If not changing directories set a pointer so that can just append
-+-	 * each new name into the path.
-+-	 */
-+-	len = NAPPEND(cur);
-+-	if (ISSET(FTS_NOCHDIR)) {
-+-		cp = sp->fts_path + len;
-+-		*cp++ = '/';
-+-	} else {
-+-		/* GCC, you're too verbose. */
-+-		cp = NULL;
-+-	}
-+-	len++;
-+-	maxlen = sp->fts_pathlen - len;
-+-
-+-	level = cur->fts_level + 1;
-+-
-+-	/* Read the directory, attaching each entry to the `link' pointer. */
-+-	doadjust = 0;
-+-	for (head = tail = NULL, nitems = 0; dirp && (dp = readdir(dirp));) {
-+-		if (!ISSET(FTS_SEEDOT) && ISDOT(dp->d_name))
-+-			continue;
-+-
-+-		if ((p = fts_alloc(sp, dp->d_name, (int)_D_EXACT_NAMLEN (dp))) == NULL)
-+-			goto mem1;
-+-		if (_D_EXACT_NAMLEN (dp) >= maxlen) {/* include space for NUL */
-+-			oldaddr = sp->fts_path;
-+-			if (fts_palloc(sp, _D_EXACT_NAMLEN (dp) + len + 1)) {
-+-				/*
-+-				 * No more memory for path or structures.  Save
-+-				 * errno, free up the current structure and the
-+-				 * structures already allocated.
-+-				 */
-+-mem1:				saved_errno = errno;
-+-				if (p)
-+-					free(p);
-+-				fts_lfree(head);
-+-				(void)closedir(dirp);
-+-				cur->fts_info = FTS_ERR;
-+-				SET(FTS_STOP);
-+-				errno = saved_errno;
-+-				return (NULL);
-+-			}
-+-			/* Did realloc() change the pointer? */
-+-			if (oldaddr != sp->fts_path) {
-+-				doadjust = 1;
-+-				if (ISSET(FTS_NOCHDIR))
-+-					cp = sp->fts_path + len;
-+-			}
-+-			maxlen = sp->fts_pathlen - len;
-+-		}
-+-
-+-		if (len + _D_EXACT_NAMLEN (dp) >= 0x10000) {
-+-			/*
-+-			 * In an FTSENT, fts_pathlen is a u_short so it is
-+-			 * possible to wraparound here.  If we do, free up
-+-			 * the current structure and the structures already
-+-			 * allocated, then error out with ENAMETOOLONG.
-+-			 */
-+-			free(p);
-+-			fts_lfree(head);
-+-			(void)closedir(dirp);
-+-			cur->fts_info = FTS_ERR;
-+-			SET(FTS_STOP);
-+-			errno = ENAMETOOLONG;
-+-			return (NULL);
-+-		}
-+-		p->fts_level = level;
-+-		p->fts_parent = sp->fts_cur;
-+-		p->fts_pathlen = len + _D_EXACT_NAMLEN (dp);
-+-
-+-#if defined FTS_WHITEOUT && 0
-+-		if (dp->d_type == DT_WHT)
-+-			p->fts_flags |= FTS_ISW;
-+-#endif
-+-
-+-		if (cderrno) {
-+-			if (nlinks) {
-+-				p->fts_info = FTS_NS;
-+-				p->fts_errno = cderrno;
-+-			} else
-+-				p->fts_info = FTS_NSOK;
-+-			p->fts_accpath = cur->fts_accpath;
-+-		} else if (nlinks == 0
-+-#if defined DT_DIR && defined _DIRENT_HAVE_D_TYPE
-+-			   || (nostat &&
-+-			       dp->d_type != DT_DIR && dp->d_type != DT_UNKNOWN)
-+-#endif
-+-		    ) {
-+-			p->fts_accpath =
-+-			    ISSET(FTS_NOCHDIR) ? p->fts_path : p->fts_name;
-+-			p->fts_info = FTS_NSOK;
-+-		} else {
-+-			/* Build a file name for fts_stat to stat. */
-+-			if (ISSET(FTS_NOCHDIR)) {
-+-				p->fts_accpath = p->fts_path;
-+-				memmove(cp, p->fts_name, p->fts_namelen + 1);
-+-			} else
-+-				p->fts_accpath = p->fts_name;
-+-			/* Stat it. */
-+-			p->fts_info = fts_stat(sp, p, 0);
-+-
-+-			/* Decrement link count if applicable. */
-+-			if (nlinks > 0 && (p->fts_info == FTS_D ||
-+-			    p->fts_info == FTS_DC || p->fts_info == FTS_DOT))
-+-				--nlinks;
-+-		}
-+-
-+-		/* We walk in directory order so "ls -f" doesn't get upset. */
-+-		p->fts_link = NULL;
-+-		if (head == NULL)
-+-			head = tail = p;
-+-		else {
-+-			tail->fts_link = p;
-+-			tail = p;
-+-		}
-+-		++nitems;
-+-	}
-+-	if (dirp)
-+-		(void)closedir(dirp);
-+-
-+-	/*
-+-	 * If realloc() changed the address of the path, adjust the
-+-	 * addresses for the rest of the tree and the dir list.
-+-	 */
-+-	if (doadjust)
-+-		fts_padjust(sp, head);
-+-
-+-	/*
-+-	 * If not changing directories, reset the path back to original
-+-	 * state.
-+-	 */
-+-	if (ISSET(FTS_NOCHDIR)) {
-+-		if (len == sp->fts_pathlen || nitems == 0)
-+-			--cp;
-+-		*cp = '\0';
-+-	}
-+-
-+-	/*
-+-	 * If descended after called from fts_children or after called from
-+-	 * fts_read and nothing found, get back.  At the root level we use
-+-	 * the saved fd; if one of fts_open()'s arguments is a relative path
-+-	 * to an empty directory, we wind up here with no other way back.  If
-+-	 * can't get back, we're done.
-+-	 */
-+-	if (descend && nitems == 0 &&
-+-	    (cur->fts_level == FTS_ROOTLEVEL ?
-+-	     FCHDIR(sp, sp->fts_rfd) :
-+-	     fts_safe_changedir(sp, cur->fts_parent, -1, ".."))) {
-+-		cur->fts_info = FTS_ERR;
-+-		SET(FTS_STOP);
-+-		return (NULL);
-+-	}
-+-
-+-	/* If didn't find anything, return NULL. */
-+-	if (!nitems) {
-+-		if (type == BREAD)
-+-			cur->fts_info = FTS_DP;
-+-		return (NULL);
-+-	}
-+-
-+-	/* Sort the entries. */
-+-	if (sp->fts_compar && nitems > 1)
-+-		head = fts_sort(sp, head, nitems);
-+-	return (head);
-+-}
-+-
-+-static u_short
-+-fts_stat(sp, p, follow)
-+-	FTS *sp;
-+-	register FTSENT *p;
-+-	int follow;
-+-{
-+-	register FTSENT *t;
-+-	register dev_t dev;
-+-	register ino_t ino;
-+-	struct stat *sbp;
-+-	int saved_errno;
-+-
-+-	/* If user needs stat info, stat buffer already allocated. */
-+-	sbp = p->fts_statp;
-+-
-+-#if defined FTS_WHITEOUT && 0
-+-	/* check for whiteout */
-+-	if (p->fts_flags & FTS_ISW) {
-+-		if (sbp != &sb) {
-+-			memset(sbp, '\0', sizeof (*sbp));
-+-			sbp->st_mode = S_IFWHT;
-+-		}
-+-		return (FTS_W);
-+-       }
-+-#endif
-+-
-+-	/*
-+-	 * If doing a logical walk, or application requested FTS_FOLLOW, do
-+-	 * a stat(2).  If that fails, check for a non-existent symlink.  If
-+-	 * fail, set the errno from the stat call.
-+-	 */
-+-	if (ISSET(FTS_LOGICAL) || follow) {
-+-		if (stat(p->fts_accpath, sbp)) {
-+-			saved_errno = errno;
-+-			if (!lstat(p->fts_accpath, sbp)) {
-+-				errno = 0;
-+-				return (FTS_SLNONE);
-+-			}
-+-			p->fts_errno = saved_errno;
-+-			goto err;
-+-		}
-+-	} else if (lstat(p->fts_accpath, sbp)) {
-+-		p->fts_errno = errno;
-+-err:		memset(sbp, 0, sizeof(struct stat));
-+-		return (FTS_NS);
-+-	}
-+-
-+-	if (S_ISDIR(sbp->st_mode)) {
-+-		/*
-+-		 * Set the device/inode.  Used to find cycles and check for
-+-		 * crossing mount points.  Also remember the link count, used
-+-		 * in fts_build to limit the number of stat calls.  It is
-+-		 * understood that these fields are only referenced if fts_info
-+-		 * is set to FTS_D.
-+-		 */
-+-		dev = p->fts_dev = sbp->st_dev;
-+-		ino = p->fts_ino = sbp->st_ino;
-+-		p->fts_nlink = sbp->st_nlink;
-+-
-+-		if (ISDOT(p->fts_name))
-+-			return (FTS_DOT);
-+-
-+-		/*
-+-		 * Cycle detection is done by brute force when the directory
-+-		 * is first encountered.  If the tree gets deep enough or the
-+-		 * number of symbolic links to directories is high enough,
-+-		 * something faster might be worthwhile.
-+-		 */
-+-		for (t = p->fts_parent;
-+-		    t->fts_level >= FTS_ROOTLEVEL; t = t->fts_parent)
-+-			if (ino == t->fts_ino && dev == t->fts_dev) {
-+-				p->fts_cycle = t;
-+-				return (FTS_DC);
-+-			}
-+-		return (FTS_D);
-+-	}
-+-	if (S_ISLNK(sbp->st_mode))
-+-		return (FTS_SL);
-+-	if (S_ISREG(sbp->st_mode))
-+-		return (FTS_F);
-+-	return (FTS_DEFAULT);
-+-}
-+-
-+-static FTSENT *
-+-fts_sort(sp, head, nitems)
-+-	FTS *sp;
-+-	FTSENT *head;
-+-	register int nitems;
-+-{
-+-	register FTSENT **ap, *p;
-+-
-+-	/*
-+-	 * Construct an array of pointers to the structures and call qsort(3).
-+-	 * Reassemble the array in the order returned by qsort.  If unable to
-+-	 * sort for memory reasons, return the directory entries in their
-+-	 * current order.  Allocate enough space for the current needs plus
-+-	 * 40 so don't realloc one entry at a time.
-+-	 */
-+-	if (nitems > sp->fts_nitems) {
-+-		struct _ftsent **a;
-+-
-+-		sp->fts_nitems = nitems + 40;
-+-		if ((a = realloc(sp->fts_array,
-+- 		    (size_t)(sp->fts_nitems * sizeof(FTSENT *)))) == NULL) {
-+-			free(sp->fts_array);
-+-			sp->fts_array = NULL;
-+-			sp->fts_nitems = 0;
-+-			return (head);
-+-		}
-+-		sp->fts_array = a;
-+-	}
-+-	for (ap = sp->fts_array, p = head; p; p = p->fts_link)
-+-		*ap++ = p;
-+-	qsort((void *)sp->fts_array, nitems, sizeof(FTSENT *), sp->fts_compar);
-+-	for (head = *(ap = sp->fts_array); --nitems; ++ap)
-+-		ap[0]->fts_link = ap[1];
-+-	ap[0]->fts_link = NULL;
-+-	return (head);
-+-}
-+-
-+-static FTSENT *
-+-fts_alloc(sp, name, namelen)
-+-	FTS *sp;
-+-	const char *name;
-+-	register int namelen;
-+-{
-+-	register FTSENT *p;
-+-	size_t len;
-+-
-+-	/*
-+-	 * The file name is a variable length array and no stat structure is
-+-	 * necessary if the user has set the nostat bit.  Allocate the FTSENT
-+-	 * structure, the file name and the stat structure in one chunk, but
-+-	 * be careful that the stat structure is reasonably aligned.  Since the
-+-	 * fts_name field is declared to be of size 1, the fts_name pointer is
-+-	 * namelen + 2 before the first possible address of the stat structure.
-+-	 */
-+-	len = sizeof(FTSENT) + namelen;
-+-	len += sizeof(struct stat) + ALIGNBYTES;
-+-	if ((p = malloc(len)) == NULL)
-+-		return (NULL);
-+-
-+-	/* Copy the name and guarantee NUL termination. */
-+-	memmove(p->fts_name, name, namelen);
-+-	p->fts_name[namelen] = '\0';
-+-
-+-	p->fts_statp = (struct stat *)ALIGN(p->fts_name + namelen + 2);
-+-	p->fts_namelen = namelen;
-+-	p->fts_path = sp->fts_path;
-+-	p->fts_errno = 0;
-+-	p->fts_flags = 0;
-+-	p->fts_instr = FTS_NOINSTR;
-+-	p->fts_number = 0;
-+-	p->fts_pointer = NULL;
-+-	return (p);
-+-}
-+-
-+-static void
-+-fts_lfree(head)
-+-	register FTSENT *head;
-+-{
-+-	register FTSENT *p;
-+-
-+-	/* Free a linked list of structures. */
-+-	while ((p = head)) {
-+-		head = head->fts_link;
-+-		free(p);
-+-	}
-+-}
-+-
-+-/*
-+- * Allow essentially unlimited paths; find, rm, ls should all work on any tree.
-+- * Most systems will allow creation of paths much longer than MAXPATHLEN, even
-+- * though the kernel won't resolve them.  Add the size (not just what's needed)
-+- * plus 256 bytes so don't realloc the path 2 bytes at a time.
-+- */
-+-static int
-+-fts_palloc(sp, more)
-+-	FTS *sp;
-+-	size_t more;
-+-{
-+-	char *p;
-+-
-+-	sp->fts_pathlen += more + 256;
-+-	/*
-+-	 * Check for possible wraparound.  In an FTS, fts_pathlen is
-+-	 * a signed int but in an FTSENT it is an unsigned short.
-+-	 * We limit fts_pathlen to USHRT_MAX to be safe in both cases.
-+-	 */
-+-	if (sp->fts_pathlen < 0 || sp->fts_pathlen >= 0x10000) {
-+-		if (sp->fts_path) {
-+-			free(sp->fts_path);
-+-			sp->fts_path = NULL;
-+-		}
-+-		sp->fts_path = NULL;
-+-		errno = ENAMETOOLONG;
-+-		return (1);
-+-	}
-+-	p = realloc(sp->fts_path, sp->fts_pathlen);
-+-	if (p == NULL) {
-+-		free(sp->fts_path);
-+-		sp->fts_path = NULL;
-+-		return 1;
-+-	}
-+-	sp->fts_path = p;
-+-	return 0;
-+-}
-+-
-+-/*
-+- * When the path is realloc'd, have to fix all of the pointers in structures
-+- * already returned.
-+- */
-+-static void
-+-fts_padjust(sp, head)
-+-	FTS *sp;
-+-	FTSENT *head;
-+-{
-+-	FTSENT *p;
-+-	char *addr = sp->fts_path;
-+-
-+-#define	ADJUST(p) do {							\
-+-	if ((p)->fts_accpath != (p)->fts_name) {			\
-+-		(p)->fts_accpath =					\
-+-		    (char *)addr + ((p)->fts_accpath - (p)->fts_path);	\
-+-	}								\
-+-	(p)->fts_path = addr;						\
-+-} while (0)
-+-	/* Adjust the current set of children. */
-+-	for (p = sp->fts_child; p; p = p->fts_link)
-+-		ADJUST(p);
-+-
-+-	/* Adjust the rest of the tree, including the current level. */
-+-	for (p = head; p->fts_level >= FTS_ROOTLEVEL;) {
-+-		ADJUST(p);
-+-		p = p->fts_link ? p->fts_link : p->fts_parent;
-+-	}
-+-}
-+-
-+-static size_t
-+-fts_maxarglen(argv)
-+-	char * const *argv;
-+-{
-+-	size_t len, max;
-+-
-+-	for (max = 0; *argv; ++argv)
-+-		if ((len = strlen(*argv)) > max)
-+-			max = len;
-+-	return (max + 1);
-+-}
-+-
-+-/*
-+- * Change to dir specified by fd or p->fts_accpath without getting
-+- * tricked by someone changing the world out from underneath us.
-+- * Assumes p->fts_dev and p->fts_ino are filled in.
-+- */
-+-static int
-+-fts_safe_changedir(sp, p, fd, path)
-+-	FTS *sp;
-+-	FTSENT *p;
-+-	int fd;
-+-	const char *path;
-+-{
-+-	int ret, oerrno, newfd;
-+-	struct stat sb;
-+-
-+-	newfd = fd;
-+-	if (ISSET(FTS_NOCHDIR))
-+-		return (0);
-+-	if (fd < 0 && (newfd = open(path, O_RDONLY, 0)) < 0)
-+-		return (-1);
-+-	if (fstat(newfd, &sb)) {
-+-		ret = -1;
-+-		goto bail;
-+-	}
-+-	if (p->fts_dev != sb.st_dev || p->fts_ino != sb.st_ino) {
-+-		errno = ENOENT;		/* disinformation */
-+-		ret = -1;
-+-		goto bail;
-+-	}
-+-	ret = fchdir(newfd);
-+-bail:
-+-	oerrno = errno;
-+-	if (fd < 0)
-+-		(void)close(newfd);
-+-	errno = oerrno;
-+-	return (ret);
-+-}
-+diff --git a/lib/fts.h b/lib/fts.h
-+deleted file mode 100644
-+index 58846b9..0000000
-+--- a/lib/fts.h
-++++ /dev/null
-+@@ -1,131 +0,0 @@
-+-/*
-+- * Copyright (c) 1989, 1993
-+- *	The Regents of the University of California.  All rights reserved.
-+- *
-+- * Redistribution and use in source and binary forms, with or without
-+- * modification, are permitted provided that the following conditions
-+- * are met:
-+- * 1. Redistributions of source code must retain the above copyright
-+- *    notice, this list of conditions and the following disclaimer.
-+- * 2. Redistributions in binary form must reproduce the above copyright
-+- *    notice, this list of conditions and the following disclaimer in the
-+- *    documentation and/or other materials provided with the distribution.
-+- * 4. Neither the name of the University nor the names of its contributors
-+- *    may be used to endorse or promote products derived from this software
-+- *    without specific prior written permission.
-+- *
-+- * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
-+- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-+- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-+- * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
-+- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-+- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-+- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-+- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-+- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-+- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-+- * SUCH DAMAGE.
-+- *
-+- *	@(#)fts.h	8.3 (Berkeley) 8/14/94
-+- */
-+-
-+-#ifndef	_FTS_H
-+-#define	_FTS_H 1
-+-
-+-#include <features.h>
-+-#include <sys/types.h>
-+-
-+-typedef struct {
-+-	struct _ftsent *fts_cur;	/* current node */
-+-	struct _ftsent *fts_child;	/* linked list of children */
-+-	struct _ftsent **fts_array;	/* sort array */
-+-	dev_t fts_dev;			/* starting device # */
-+-	char *fts_path;			/* path for this descent */
-+-	int fts_rfd;			/* fd for root */
-+-	int fts_pathlen;		/* sizeof(path) */
-+-	int fts_nitems;			/* elements in the sort array */
-+-	int (*fts_compar) (const void *, const void *); /* compare fn */
-+-
-+-#define	FTS_COMFOLLOW	0x0001		/* follow command line symlinks */
-+-#define	FTS_LOGICAL	0x0002		/* logical walk */
-+-#define	FTS_NOCHDIR	0x0004		/* don't change directories */
-+-#define	FTS_NOSTAT	0x0008		/* don't get stat info */
-+-#define	FTS_PHYSICAL	0x0010		/* physical walk */
-+-#define	FTS_SEEDOT	0x0020		/* return dot and dot-dot */
-+-#define	FTS_XDEV	0x0040		/* don't cross devices */
-+-#define FTS_WHITEOUT	0x0080		/* return whiteout information */
-+-#define	FTS_OPTIONMASK	0x00ff		/* valid user option mask */
-+-
-+-#define	FTS_NAMEONLY	0x0100		/* (private) child names only */
-+-#define	FTS_STOP	0x0200		/* (private) unrecoverable error */
-+-	int fts_options;		/* fts_open options, global flags */
-+-} FTS;
-+-
-+-typedef struct _ftsent {
-+-	struct _ftsent *fts_cycle;	/* cycle node */
-+-	struct _ftsent *fts_parent;	/* parent directory */
-+-	struct _ftsent *fts_link;	/* next file in directory */
-+-	long fts_number;	        /* local numeric value */
-+-	void *fts_pointer;	        /* local address value */
-+-	char *fts_accpath;		/* access path */
-+-	char *fts_path;			/* root path */
-+-	int fts_errno;			/* errno for this node */
-+-	int fts_symfd;			/* fd for symlink */
-+-	u_short fts_pathlen;		/* strlen(fts_path) */
-+-	u_short fts_namelen;		/* strlen(fts_name) */
-+-
-+-	ino_t fts_ino;			/* inode */
-+-	dev_t fts_dev;			/* device */
-+-	nlink_t fts_nlink;		/* link count */
-+-
-+-#define	FTS_ROOTPARENTLEVEL	-1
-+-#define	FTS_ROOTLEVEL		 0
-+-	short fts_level;		/* depth (-1 to N) */
-+-
-+-#define	FTS_D		 1		/* preorder directory */
-+-#define	FTS_DC		 2		/* directory that causes cycles */
-+-#define	FTS_DEFAULT	 3		/* none of the above */
-+-#define	FTS_DNR		 4		/* unreadable directory */
-+-#define	FTS_DOT		 5		/* dot or dot-dot */
-+-#define	FTS_DP		 6		/* postorder directory */
-+-#define	FTS_ERR		 7		/* error; errno is set */
-+-#define	FTS_F		 8		/* regular file */
-+-#define	FTS_INIT	 9		/* initialized only */
-+-#define	FTS_NS		10		/* stat(2) failed */
-+-#define	FTS_NSOK	11		/* no stat(2) requested */
-+-#define	FTS_SL		12		/* symbolic link */
-+-#define	FTS_SLNONE	13		/* symbolic link without target */
-+-#define FTS_W		14		/* whiteout object */
-+-	u_short fts_info;		/* user flags for FTSENT structure */
-+-
-+-#define	FTS_DONTCHDIR	 0x01		/* don't chdir .. to the parent */
-+-#define	FTS_SYMFOLLOW	 0x02		/* followed a symlink to get here */
-+-	u_short fts_flags;		/* private flags for FTSENT structure */
-+-
-+-#define	FTS_AGAIN	 1		/* read node again */
-+-#define	FTS_FOLLOW	 2		/* follow symbolic link */
-+-#define	FTS_NOINSTR	 3		/* no instructions */
-+-#define	FTS_SKIP	 4		/* discard node */
-+-	u_short fts_instr;		/* fts_set() instructions */
-+-
-+-	struct stat *fts_statp;		/* stat(2) information */
-+-	char fts_name[1];		/* file name */
-+-} FTSENT;
-+-
-+-__BEGIN_DECLS
-+-
-+-#define fts_children pax_fts_children
-+-#define fts_close pax_fts_close
-+-#define fts_open pax_fts_open
-+-#define fts_read pax_fts_read
-+-#define fts_set pax_fts_set
-+-
-+-FTSENT	*fts_children (FTS *, int);
-+-int	 fts_close (FTS *);
-+-FTS	*fts_open (char * const *, int,
-+-		   int (*)(const FTSENT **, const FTSENT **));
-+-FTSENT	*fts_read (FTS *);
-+-int	 fts_set (FTS *, FTSENT *, int) __THROW;
-+-__END_DECLS
-+-
-+-#endif /* fts.h */
-+diff --git a/lib/vis.h b/lib/vis.h
-+index d34d342..71fa5f4 100644
-+--- a/lib/vis.h
-++++ b/lib/vis.h
-+@@ -73,14 +73,19 @@
-+  */
-+ #define	UNVIS_END	1	/* no more characters */
-+ 
-+-#include <sys/cdefs.h>
-++#ifndef __P
-++#define __P(x) x
-++#endif
-+ 
-+-__BEGIN_DECLS
-++#ifdef __cplusplus
-++extern "C" {
-++#endif
-+ char	*vis __P((char *, int, int, int));
-+ int	strvis __P((char *, const char *, int));
-+ int	strvisx __P((char *, const char *, size_t, int));
-+ int	strunvis __P((char *, const char *));
-+ int	unvis __P((char *, char, int *, int));
-+-__END_DECLS
-+-
-++#ifdef __cplusplus
-++}
-++#endif
-+ #endif /* !_VIS_H_ */
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 5ef52a3..227cdef 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -22,4 +22,4 @@ pax_SOURCES = ar_io.c ar_subs.c buf_subs.c cache.c cpio.c\
-+ 	file_subs.c ftree.c gen_subs.c getoldopt.c options.c\
-+ 	pat_rep.c pax.c sel_subs.c tables.c tar.c tty_subs.c
-+ 
-+-pax_LDADD = $(top_builddir)/lib/libbsdfunc.a
-++pax_LDADD = $(top_builddir)/lib/libbsdfunc.a -lfts
-+diff --git a/src/extern.h b/src/extern.h
-+index 361fa81..3ed365d 100644
-+--- a/src/extern.h
-++++ b/src/extern.h
-+@@ -37,8 +37,6 @@
-+  * External references from each source file
-+  */
-+ 
-+-#include <sys/cdefs.h>
-+-
-+ /*
-+  * ar_io.c
-+  */
-+diff --git a/src/file_subs.c b/src/file_subs.c
-+index 5590ff1..15bc339 100644
-+--- a/src/file_subs.c
-++++ b/src/file_subs.c
-+@@ -52,7 +52,7 @@
-+ #include "extern.h"
-+ 
-+ static int
-+-mk_link __P((register char *,register struct stat *,register char *, int));
-++mk_link (register char *,register struct stat *,register char *, int);
-+ 
-+ /*
-+  * routines that deal with file operations such as: creating, removing;
-+diff --git a/src/tables.c b/src/tables.c
-+index 2275bf7..8fddca4 100644
-+--- a/src/tables.c
-++++ b/src/tables.c
-+@@ -39,7 +39,7 @@
-+ #include <sys/time.h>
-+ #include <sys/stat.h>
-+ #include <sys/param.h>
-+-#include <sys/fcntl.h>
-++#include <fcntl.h>
-+ #include <stdio.h>
-+ #include <string.h>
-+ #include <unistd.h>
-+-- 
-+2.6.4
-+
-diff --git a/meta/recipes-extended/pax/pax/0001-use-strtoll-instead-of-strtoq.patch b/meta/recipes-extended/pax/pax/0001-use-strtoll-instead-of-strtoq.patch
-new file mode 100644
-index 0000000..58ac9ce
---- /dev/null
-+++ b/meta/recipes-extended/pax/pax/0001-use-strtoll-instead-of-strtoq.patch
-@@ -0,0 +1,33 @@
-+From b1f50320332c9c90fa33ab136ef0ec2d12cda461 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 6 Jan 2016 12:30:52 -0800
-+Subject: [PATCH] use strtoll instead of strtoq
-+
-+Use LLONG_MAX instead of LONG_LONG_MAX
-+LONG_LONG_MAX is GNU specific
++protocols/timed.h is not needed and is absent in musl
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
 +Upstream-Status: Pending
 +
-+ src/options.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ clockdiff.c   | 1 -
++ ping_common.c | 1 +
++ tracepath.c   | 2 ++
++ tracepath6.c  | 1 +
++ 4 files changed, 4 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/options.c b/src/options.c
-+index da8b4cf..c663b4e 100644
-+--- a/src/options.c
-++++ b/src/options.c
-+@@ -1547,8 +1547,8 @@ str_offt (char *val)
++diff --git a/clockdiff.c b/clockdiff.c
++index 7c1ea1b..1d6341e 100644
++--- a/clockdiff.c
+++++ b/clockdiff.c
++@@ -14,7 +14,6 @@
++ #include <netinet/ip.h>
++ #include <netinet/ip_icmp.h>
++ #define TSPTYPES
++-#include <protocols/timed.h>
++ #include <fcntl.h>
++ #include <netdb.h>
++ #include <arpa/inet.h>
++diff --git a/ping_common.c b/ping_common.c
++index 7f82851..3ce699d 100644
++--- a/ping_common.c
+++++ b/ping_common.c
++@@ -2,6 +2,7 @@
++ #include <ctype.h>
++ #include <sched.h>
++ #include <math.h>
+++#include <asm-generic/param.h>
 + 
-+ #if (SIZEOF_LONG == 4 && SIZEOF_OFF_T == 8) \
-+     || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64)
-+-  num = strtoq (val, &expr, 0);
-+-  if ((num == LONG_LONG_MAX) || (num <= 0) || (expr == val))
-++  num = strtoll (val, &expr, 0);
-++  if ((num == LLONG_MAX) || (num <= 0) || (expr == val))
-+ #else
-+   num = strtol (val, &expr, 0);
-+   if ((num == LONG_MAX) || (num <= 0) || (expr == val))
++ int options;
++ 
++diff --git a/tracepath.c b/tracepath.c
++index 89e6d16..c9d6ddd 100644
++--- a/tracepath.c
+++++ b/tracepath.c
++@@ -12,6 +12,8 @@
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <unistd.h>
+++#include <limits.h>
+++#include <time.h>
++ #include <sys/socket.h>
++ #include <linux/types.h>
++ #include <linux/errqueue.h>
++diff --git a/tracepath6.c b/tracepath6.c
++index 126fadf..9d5745c 100644
++--- a/tracepath6.c
+++++ b/tracepath6.c
++@@ -12,6 +12,7 @@
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <unistd.h>
+++#include <limits.h>
++ #include <sys/socket.h>
++ #include <netinet/in.h>
++ #include <netinet/icmp6.h>
 +-- 
 +2.6.4
 +
-diff --git a/meta/recipes-extended/pax/pax_3.4.bb b/meta/recipes-extended/pax/pax_3.4.bb
-index ad04871..cee52e3 100644
---- a/meta/recipes-extended/pax/pax_3.4.bb
-+++ b/meta/recipes-extended/pax/pax_3.4.bb
-@@ -12,11 +12,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4b0b674dfdc56daa3832d4069b820ea0 \
- SECTION = "base"
- PR = "r2"
+diff --git a/meta/recipes-extended/iputils/iputils_s20121221.bb b/meta/recipes-extended/iputils/iputils_s20121221.bb
+index 49913d6..225c28b 100644
+--- a/meta/recipes-extended/iputils/iputils_s20121221.bb
++++ b/meta/recipes-extended/iputils/iputils_s20121221.bb
+@@ -19,6 +19,7 @@ SRC_URI = "http://www.skbuff.net/iputils/${BPN}-${PV}.tar.bz2 \
+            file://debian/targets.diff \
+            file://nsgmls-path-fix.patch \
+            file://fix-build-command-line-argument-with-gnutls.patch \
++           file://0001-Fix-header-inclusion-for-musl.patch \
+           "
  
-+DEPENDS_append_libc-musl = " fts "
-+
- SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/${BPN}/${BP}.tar.bz2/fbd9023b590b45ac3ade95870702a0d6/${BP}.tar.bz2 \
- 	file://fix_for_compile_with_gcc-4.6.0.patch \
- 	file://pax-3.4_fix_for_x32.patch"
- 
-+SRC_URI_append_libc-musl = " file://0001-Fix-build-with-musl.patch \
-+                             file://0001-use-strtoll-instead-of-strtoq.patch \
-+                           "
-+
- SRC_URI[md5sum] = "fbd9023b590b45ac3ade95870702a0d6"
- SRC_URI[sha256sum] = "ac3c06048e02828077cf7757d3d142241429238893b91d529af29a2e8cc5623b"
- 
-+# see https://lists.yoctoproject.org/pipermail/poky/2013-December/009435.html
-+# We should ideally drop ac_cv_sizeof_off_t from site files but until then
-+EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'largefile', 'ac_cv_sizeof_off_t=8', '', d)}"
-+
- inherit autotools
+ SRC_URI[md5sum] = "6072aef64205720dd1893b375e184171"
 -- 
 2.7.0
 
