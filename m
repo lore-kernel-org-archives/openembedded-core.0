@@ -1,36 +1,36 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C8347326E
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 53E9C73281
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 00:48:43 +0000 (UTC)
-Received: by mail-pf0-f169.google.com with SMTP id 65so1294502pff.2
+	Fri,  8 Jan 2016 00:48:45 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id yy13so179559926pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 16:48:45 -0800 (PST)
+	Thu, 07 Jan 2016 16:48:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=SuN8Vd8RwzC2IlymKCLW9MOcIQZPYxQ6Wm7/LE3LpcM=;
-	b=h16PnLverZmDwnCZ3RLSEx7ruJaUWMRT4OMVLy7DeiWfQngIEtL0lz8XVPdMF8CBn9
-	+RREGY3HclQiZt16DKq0jHOmeBwUAgW8XUykuBkjvtIgbpVtr0o5rx8ibmR2tIFmLaY/
-	rFpAqsBoVjCxF4Kt1TlsI7yc0Qj5mQop9sQYOaurfOVTCFQjGlquH6k8o4VWskmq2OVI
-	ohGlBERVnGXJHepjb+/18JQ39S564Rk0kBjIi8GtOe4wt319hb91fyMFnfqxSrBrGdJW
-	tg3Bwlg2mlfqq+kSJz2/dos4vO//rX5z/ufHH6R8wgrr1wBHg0Ly1e5MZqvovd3HoWvQ
-	RSpw==
-X-Received: by 10.98.11.24 with SMTP id t24mr578798pfi.61.1452214124843;
-	Thu, 07 Jan 2016 16:48:44 -0800 (PST)
+	bh=xRQm6ehPAxb1BM71h9MiHpPoutaunBMNFebgxN3quu0=;
+	b=cRJuUF+nWx1cIfs11oIMxi9oRpov9ebkSPh66b13PBscq9HlEqzOd6M8kgPKO9yZTC
+	T6IIyzkZqQvtFLgBnCRdCF5ErmpmIrtrrXc80rhApUjpOO9FQYIAH9toj66VawosmvP9
+	TN97d3/2EycGKUtRG1UYYTXRdmseyKD2hQZR+sDTPxHs+CJHcfU1mxNJN0gCseHP7x1F
+	X+zAnCcHxLEQJ432Q2HSuSdHWTaKHo0QgS615GHdZzaJuR29PuNV8RQhhq5+42Dn/nEo
+	pN2s8XFmHEJ0gyhyL0UXYBbuxyywMRAKnkxDP2NB37CFRsoAGhlAPOAJEFOwZqlHk02W
+	k72A==
+X-Received: by 10.66.136.101 with SMTP id pz5mr26168677pab.91.1452214126573;
+	Thu, 07 Jan 2016 16:48:46 -0800 (PST)
 Received: from Pahoa2.mvista.com ([64.2.3.194])
-	by smtp.gmail.com with ESMTPSA id o75sm300234pfi.17.2016.01.07.16.48.43
+	by smtp.gmail.com with ESMTPSA id o75sm300234pfi.17.2016.01.07.16.48.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 07 Jan 2016 16:48:43 -0800 (PST)
+	Thu, 07 Jan 2016 16:48:45 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jan 2016 16:48:29 -0800
-Message-Id: <1452214113-11697-6-git-send-email-akuster808@gmail.com>
+Date: Thu,  7 Jan 2016 16:48:30 -0800
+Message-Id: <1452214113-11697-7-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <1452214113-11697-1-git-send-email-akuster808@gmail.com>
 References: <1452214113-11697-1-git-send-email-akuster808@gmail.com>
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH][V2][Jethro, fido 06/10] libxml2: security fix CVE-2015-7497
+Subject: [PATCH][V2][Jethro, fido 07/10] libxml2: security fix CVE-2015-7499
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,72 +43,176 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 00:48:45 -0000
+X-List-Received-Date: Fri, 08 Jan 2016 00:48:46 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
+includes:
+CVE-2015-7499-1
+CVE-2015-7499-2
+
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-core/libxml/libxml2.inc               |  1 +
- ...97-Avoid-an-heap-buffer-overflow-in-xmlDi.patch | 40 ++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch
+ meta/recipes-core/libxml/libxml2.inc               |  2 +
+ ...99-1-Add-xmlHaltParser-to-stop-the-parser.patch | 88 ++++++++++++++++++++++
+ ...VE-2015-7499-2-Detect-incoherency-on-GROW.patch | 43 +++++++++++
+ 3 files changed, 133 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-1-Add-xmlHaltParser-to-stop-the-parser.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7499-2-Detect-incoherency-on-GROW.patch
 
 diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 389f5cd..65b2625 100644
+index 65b2625..3073851 100644
 --- a/meta/recipes-core/libxml/libxml2.inc
 +++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -28,6 +28,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://CVE-2015-7942-2-Fix-an-error-in-previous-Conditional-section-patch.patch \
+@@ -29,6 +29,8 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
             file://0001-CVE-2015-8035-Fix-XZ-compression-support-loop.patch \
             file://CVE-2015-7498-Avoid-processing-entities-after-encoding-conversion-.patch \
-+           file://0001-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch \
+            file://0001-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch \
++           file://CVE-2015-7499-1-Add-xmlHaltParser-to-stop-the-parser.patch \
++           file://CVE-2015-7499-2-Detect-incoherency-on-GROW.patch \
            "
  
  BINCONFIG = "${bindir}/xml2-config"
-diff --git a/meta/recipes-core/libxml/libxml2/0001-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch b/meta/recipes-core/libxml/libxml2/0001-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-7499-1-Add-xmlHaltParser-to-stop-the-parser.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-7499-1-Add-xmlHaltParser-to-stop-the-parser.patch
 new file mode 100644
-index 0000000..955c9619
+index 0000000..e39ec65
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/0001-CVE-2015-7497-Avoid-an-heap-buffer-overflow-in-xmlDi.patch
-@@ -0,0 +1,40 @@
-+From 6360a31a84efe69d155ed96306b9a931a40beab9 Mon Sep 17 00:00:00 2001
-+From: David Drysdale <drysdale@google.com>
-+Date: Fri, 20 Nov 2015 10:47:12 +0800
-+Subject: [PATCH] CVE-2015-7497 Avoid an heap buffer overflow in
-+ xmlDictComputeFastQKey
++++ b/meta/recipes-core/libxml/libxml2/CVE-2015-7499-1-Add-xmlHaltParser-to-stop-the-parser.patch
+@@ -0,0 +1,88 @@
++From 28cd9cb747a94483f4aea7f0968d202c20bb4cfc Mon Sep 17 00:00:00 2001
++From: Daniel Veillard <veillard@redhat.com>
++Date: Fri, 20 Nov 2015 14:55:30 +0800
++Subject: [PATCH] Add xmlHaltParser() to stop the parser
 +
-+For https://bugzilla.gnome.org/show_bug.cgi?id=756528
-+It was possible to hit a negative offset in the name indexing
-+used to randomize the dictionary key generation
-+Reported and fix provided by David Drysdale @ Google
++The problem is doing it in a consistent and safe fashion
++It's more complex than just setting ctxt->instate = XML_PARSER_EOF
++Update the public function to reuse that new internal routine
 +
 +Upstream-Status: Backport
 +
-+CVE-2015-7497
++CVE-2015-7499-1
 +
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ dict.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
++ parser.c | 34 +++++++++++++++++++++++++++++-----
++ 1 file changed, 29 insertions(+), 5 deletions(-)
 +
-+diff --git a/dict.c b/dict.c
-+index 5f71d55..8c8f931 100644
-+--- a/dict.c
-++++ b/dict.c
-+@@ -486,7 +486,10 @@ xmlDictComputeFastQKey(const xmlChar *prefix, int plen,
-+ 	value += 30 * (*prefix);
++diff --git a/parser.c b/parser.c
++index da6e729..b6e99b1 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -94,6 +94,8 @@ static xmlParserCtxtPtr
++ xmlCreateEntityParserCtxtInternal(const xmlChar *URL, const xmlChar *ID,
++ 	                  const xmlChar *base, xmlParserCtxtPtr pctx);
 + 
-+     if (len > 10) {
-+-        value += name[len - (plen + 1 + 1)];
-++        int offset = len - (plen + 1 + 1);
-++	if (offset < 0)
-++	    offset = len - (10 + 1);
-++	value += name[offset];
-+         len = 10;
-+ 	if (plen > 10)
-+ 	    plen = 10;
+++static void xmlHaltParser(xmlParserCtxtPtr ctxt);
+++
++ /************************************************************************
++  *									*
++  *	Arbitrary limits set in the parser. See XML_PARSE_HUGE		*
++@@ -12625,25 +12627,47 @@ xmlCreatePushParserCtxt(xmlSAXHandlerPtr sax, void *user_data,
++ #endif /* LIBXML_PUSH_ENABLED */
++ 
++ /**
++- * xmlStopParser:
+++ * xmlHaltParser:
++  * @ctxt:  an XML parser context
++  *
++- * Blocks further parser processing
+++ * Blocks further parser processing don't override error
+++ * for internal use
++  */
++-void
++-xmlStopParser(xmlParserCtxtPtr ctxt) {
+++static void
+++xmlHaltParser(xmlParserCtxtPtr ctxt) {
++     if (ctxt == NULL)
++         return;
++     ctxt->instate = XML_PARSER_EOF;
++-    ctxt->errNo = XML_ERR_USER_STOP;
++     ctxt->disableSAX = 1;
++     if (ctxt->input != NULL) {
+++        /*
+++	 * in case there was a specific allocation deallocate before
+++	 * overriding base
+++	 */
+++        if (ctxt->input->free != NULL) {
+++	    ctxt->input->free((xmlChar *) ctxt->input->base);
+++	    ctxt->input->free = NULL;
+++	}
++ 	ctxt->input->cur = BAD_CAST"";
++ 	ctxt->input->base = ctxt->input->cur;
++     }
++ }
++ 
++ /**
+++ * xmlStopParser:
+++ * @ctxt:  an XML parser context
+++ *
+++ * Blocks further parser processing
+++ */
+++void
+++xmlStopParser(xmlParserCtxtPtr ctxt) {
+++    if (ctxt == NULL)
+++        return;
+++    xmlHaltParser(ctxt);
+++    ctxt->errNo = XML_ERR_USER_STOP;
+++}
+++
+++/**
++  * xmlCreateIOParserCtxt:
++  * @sax:  a SAX handler
++  * @user_data:  The user data returned on SAX callbacks
++-- 
++2.3.5
++
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-7499-2-Detect-incoherency-on-GROW.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-7499-2-Detect-incoherency-on-GROW.patch
+new file mode 100644
+index 0000000..aff3920
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2015-7499-2-Detect-incoherency-on-GROW.patch
+@@ -0,0 +1,43 @@
++From 35bcb1d758ed70aa7b257c9c3b3ff55e54e3d0da Mon Sep 17 00:00:00 2001
++From: Daniel Veillard <veillard@redhat.com>
++Date: Fri, 20 Nov 2015 15:04:09 +0800
++Subject: [PATCH] Detect incoherency on GROW
++
++the current pointer to the input has to be between the base and end
++if not stop everything we have an internal state error.
++
++Upstream-Status: Backport
++
++CVE-2015-7499-2
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ parser.c | 9 ++++++++-
++ 1 file changed, 8 insertions(+), 1 deletion(-)
++
++diff --git a/parser.c b/parser.c
++index 1810f99..ab007aa 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -2075,9 +2075,16 @@ static void xmlGROW (xmlParserCtxtPtr ctxt) {
++          ((ctxt->input->buf) && (ctxt->input->buf->readcallback != (xmlInputReadCallback) xmlNop)) &&
++         ((ctxt->options & XML_PARSE_HUGE) == 0)) {
++         xmlFatalErr(ctxt, XML_ERR_INTERNAL_ERROR, "Huge input lookup");
++-        ctxt->instate = XML_PARSER_EOF;
+++        xmlHaltParser(ctxt);
+++	return;
++     }
++     xmlParserInputGrow(ctxt->input, INPUT_CHUNK);
+++    if ((ctxt->input->cur > ctxt->input->end) ||
+++        (ctxt->input->cur < ctxt->input->base)) {
+++        xmlHaltParser(ctxt);
+++        xmlFatalErr(ctxt, XML_ERR_INTERNAL_ERROR, "cur index out of bound");
+++	return;
+++    }
++     if ((ctxt->input->cur != NULL) && (*ctxt->input->cur == 0) &&
++         (xmlParserInputGrow(ctxt->input, INPUT_CHUNK) <= 0))
++ 	    xmlPopInput(ctxt);
 +-- 
 +2.3.5
 +
