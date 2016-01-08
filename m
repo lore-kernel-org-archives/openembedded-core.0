@@ -1,30 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E17EE60290
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id E405673219
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 18:26:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u08IQjKS017153 for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Jan 2016 18:26:45 GMT
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RKfI_yQsoqVo
+	Fri,  8 Jan 2016 18:29:34 +0000 (UTC)
+Received: by mail-ig0-f179.google.com with SMTP id z14so63010560igp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 18:26:45 +0000 (GMT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u08IQeal017149
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Jan 2016 18:26:41 GMT
-Message-ID: <1452277599.7598.142.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 08 Jan 2016 18:26:39 +0000
-X-Mailer: Evolution 3.16.5-1ubuntu3.1 
-Mime-Version: 1.0
-Subject: [PATCH] populate_sdk_ext: Use new --setscene-only option to bitbake instead of workarounds
+	Fri, 08 Jan 2016 10:29:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=D2GS8Lc6J5FDgZ0z7Z10yui12uBftsUVjGKXaP8dvyQ=;
+	b=L3banL9pNCupeTuyvnHPFYhpG76Rc3AE6+pj4ThbdxHWKr7K8TlGQ69fqR0FEkNzXL
+	XQaYWUCyaVsTAwSQ3nNJwWxf/cqlRCWH92gyZ4eO2NrI45Q8Qv6X0SIFDUYg9QqtwZL0
+	CUGgN5ScEsKlU3Vx17Rx/Zy48Ox4F8E7274fWkygGEzgMbtMnnx6sReA1o04d7V1Cn1F
+	FgQLEs94Qo2jdiveFaBIC1MzIkjZec7eTn2xweMLunScZVNskT5I6CUqWAv2T7tzhSkI
+	NloFjp+VhDh1+OzdTzxZGh1OD2NGGRmve9p/QWp6wgg33WrrqArvsBYxv3iyBCtM3Prw
+	Z1Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=D2GS8Lc6J5FDgZ0z7Z10yui12uBftsUVjGKXaP8dvyQ=;
+	b=f6gvdUrx+4Z4moopDR22VoSDbXZ3dzKE4QmDKAsSQxgvvfiDqD7Pc/IN7JsvOtT2a5
+	HNhKDnQKcq7U/fQP9Mxz2QN8NU9se7KZistpgUGG1SzF6TIgEwp+xyD9nE7B/EZk7sAm
+	ebTzonnw55Xrj5jgFBNXzc1f+5OG0dNL7POF0CSiQlx3DSxNNa1rHnyJvhx7XhWFO4EF
+	b2q93woL+ec48Q+vPOmJWVkwhoIVqoZ2blmC7cHJm1s6LNw12SxDcWv/nT3m171zaOb7
+	3EJNhH6JN7QCVEnneKyvCw2M3tXx5VZx5uW9O78pVDGi3rEOWz9WIbGfPDuFCnggmMoI
+	2rQA==
+X-Gm-Message-State: ALoCoQnUrS/EYP1thTUXWUNNYggnbJYhK/jmgHDrV7K7zzPBPqDRzs4+xoXE4GxCzUmNLRE7dMCjOqUvSKDQfOpTF2lMiEF607J3y0sS27S89B5FtQUQhwM=
+X-Received: by 10.50.13.100 with SMTP id g4mr329289igc.64.1452277774867; Fri,
+	08 Jan 2016 10:29:34 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Fri, 8 Jan 2016 10:29:15 -0800 (PST)
+In-Reply-To: <CAMKF1so8xuy9Q8YjRynpgV68cjt-9KHae4TBTjKvn5EU0UzD+g@mail.gmail.com>
+References: <cover.1452248145.git.raj.khem@gmail.com>
+	<CAJTo0La=m_u33L7z06GssdbQoQ0bAFpTweaUchU_kVDfOgnNwQ@mail.gmail.com>
+	<CAMKF1so8xuy9Q8YjRynpgV68cjt-9KHae4TBTjKvn5EU0UzD+g@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 Jan 2016 18:29:15 +0000
+Message-ID: <CAJTo0LZ=wzVPAi3OuScYX7kmJNXhsLif+FCUfjm9ZdyogZm-Ng@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/53] musl fixes 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,50 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 18:26:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Jan 2016 18:29:35 -0000
+Content-Type: multipart/alternative; boundary=089e013c6614e2f6ee0528d6c4cb
 
-Rather than horrible workarounds, use the new --setscene-only option
-of bitbake to pre-populate the SDK structures.
+--089e013c6614e2f6ee0528d6c4cb
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+On 8 January 2016 at 17:43, Khem Raj <raj.khem@gmail.com> wrote:
 
-diff --git a/meta/files/ext-sdk-prepare.sh b/meta/files/ext-sdk-prepare.sh
-index 160c71e..b3f5d93 100644
---- a/meta/files/ext-sdk-prepare.sh
-+++ b/meta/files/ext-sdk-prepare.sh
-@@ -5,16 +5,4 @@
- target_sdk_dir="$1"
- sdk_targets="$2"
- 
--# Avoid actually building images during this phase, but still
--# ensure all dependencies are extracted from sstate
--# This is a hack, to be sure, but we really don't need to do this here
--for sdktarget in $sdk_targets ; do
--	bbappend=`recipetool newappend $target_sdk_dir/workspace $sdktarget`
--	printf 'python do_rootfs_forcevariable () {\n    bb.utils.mkdirhier(d.getVar("IMAGE_ROOTFS", True))\n}\n' > $bbappend
--	printf 'python do_bootimg () {\n    pass\n}\n' >> $bbappend
--	printf 'python do_bootdirectdisk () {\n    pass\n}\n' >> $bbappend
--	printf 'python do_vmimg () {\n    pass\n}\n' >> $bbappend
--	printf "Created bbappend %s\n" "$bbappend"
--done
--bitbake $sdk_targets || exit 1
--rm -rf $target_sdk_dir/workspace/appends/*
-+bitbake $sdk_targets --setscene-only || exit 1
-diff --git a/scripts/lib/devtool/sdk.py b/scripts/lib/devtool/sdk.py
-index 7faefab..0872df6 100644
---- a/scripts/lib/devtool/sdk.py
-+++ b/scripts/lib/devtool/sdk.py
-@@ -178,7 +178,7 @@ def sdk_update(args, config, basepath, workspace):
-         sdk_targets = config.get('SDK', 'sdk_targets')
-         logger.info("Preparing build system... (This may take some time.)")
-         try:
--            exec_build_env_command(config.init_path, basepath, 'bitbake %s' % sdk_targets)
-+            exec_build_env_command(config.init_path, basepath, 'bitbake %s --setscene-only' % sdk_targets)
-         except:
-             logger.error('bitbake %s failed' % sdk_targets)
-             return -1
+> systemd does not work with musl. I have patches in my tree to fix the
+> build but then it does not run :(. musl and systemd has different
+>
 
+I wonder if we can/should raise a SkipPackage for systemd if musl is
+enabled?
 
+Ross
 
+--089e013c6614e2f6ee0528d6c4cb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 January 2016 at 17:43, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
+rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex"><div id=3D":4uz" class=3D"a3s" styl=
+e=3D"overflow:hidden">systemd does not work with musl. I have patches in my=
+ tree to fix the<br>
+build but then it does not run :(. musl and systemd has different<br></div>=
+</blockquote></div><br>I wonder if we can/should raise a SkipPackage for sy=
+stemd if musl is enabled?</div><div class=3D"gmail_extra"><br></div><div cl=
+ass=3D"gmail_extra">Ross</div></div>
+
+--089e013c6614e2f6ee0528d6c4cb--
