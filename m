@@ -1,24 +1,24 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D28F675D4B
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id C38A075D4B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 10:19:38 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id r67so1591933qke.1
+	Fri,  8 Jan 2016 10:19:39 +0000 (UTC)
+Received: by mail-qg0-f44.google.com with SMTP id 6so270213272qgy.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 02:19:39 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=4w5CMvu3fvkBXyr8XAfxH41yKi0+G+1/x7omTObkgW0=;
-	b=S7kCTkXWzRbEdGpSgeenzExVvo7+WtsJWcBtVM3Gsli0ky97VVSMLK265Xgy1mXejv
-	zYUi37wXBGYnO/L9OrU9LFJyti8bO2ITJRZD5T1dPBOTzjBC3bl3qBW31mOxFaJiuPsl
-	Zu3duXTIXlijD8+c9LjwZ3whpwwaGYGwsAezXKKb7UoqlvWMsn+PmOka2IhH1lNv9/lH
-	M/Jx5YP1QIyu6rXTVRrEK+ENHfsLYM0Z684kfReO1ajWxxv+YsBXg0EHnm81NRyrf6j3
-	3AdzfNNYjlT9FZAdf0CzyvzdDH30frDIszf28EDJH2xWamcR5KvrxAyuFTaTQVrRAeUJ
-	yAdQ==
-X-Received: by 10.55.72.146 with SMTP id v140mr142805720qka.63.1452248379629; 
-	Fri, 08 Jan 2016 02:19:39 -0800 (PST)
+	bh=/JMWb1fF8fJn97uqDvs/kshVNHoGEwBJW/9CSAoxEXc=;
+	b=CZAtsTncd8mPGW/xmGcWlEHrSPqh1joSDnJbaSkkyyWD8FhlOwCap+KtJcBdClLJxZ
+	0eLr88oJmCS11/Sy4k/kfhyW2NBTfmLIU/s/OgYD77mqnHNP7HfJSFmndGOBQXH2igFA
+	d93ICRB9W8xvoAmqwXXbbDQqrwDmfPQJo4jBH8Y4mFd268a5bQeAE+i4oy2GV3SsX4/X
+	2hVileOb4RjD6ykem99ejg3+0fq+ag8RUAGvHNlGH7BVhniZND+Fy/yloCfr/nTHoM15
+	jx5P0opj8pFPH1/9Oouut2ng2vOpO+JasJ3PF3ZeN/HYZOxU/jj/vA9Jk/l6UWgdA8Mf
+	+v4w==
+X-Received: by 10.140.99.5 with SMTP id p5mr139136684qge.76.1452248380305;
+	Fri, 08 Jan 2016 02:19:40 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
 	d129sm48549987qka.31.2016.01.08.02.19.39
@@ -26,14 +26,14 @@ Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	Fri, 08 Jan 2016 02:19:39 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:18:46 +0000
-Message-Id: <13c8be8e8556032889783afc0c642a61cda3db6e.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:18:47 +0000
+Message-Id: <fdd28ead535ba90b55b6fef1568e440d8266c173.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 18/53] guile: Fix build with uclibc
+Subject: [PATCH 19/53] gnutls: Link with libuargp on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,80 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 10:19:39 -0000
+X-List-Received-Date: Fri, 08 Jan 2016 10:19:40 -0000
+
+uclibc has its own implementation for libargp
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../guile/files/remove_strcase_l_funcs.patch       | 38 ++++++++++++++++++++++
- meta/recipes-devtools/guile/guile_2.0.11.bb        |  3 +-
- 2 files changed, 40 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/guile/files/remove_strcase_l_funcs.patch
+ meta/recipes-support/gnutls/gnutls.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/guile/files/remove_strcase_l_funcs.patch b/meta/recipes-devtools/guile/files/remove_strcase_l_funcs.patch
-new file mode 100644
-index 0000000..e7a06fe
---- /dev/null
-+++ b/meta/recipes-devtools/guile/files/remove_strcase_l_funcs.patch
-@@ -0,0 +1,38 @@
-+These unused functions cause build failures with uclibc since they reference __uclibc_locale_struct
-+and this is exposed by uclibc API headers only if C locales are built, but for OE we build full locale
-+support
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Pending
-+Index: guile-2.0.11/libguile/i18n.c
-+===================================================================
-+--- guile-2.0.11.orig/libguile/i18n.c
-++++ guile-2.0.11/libguile/i18n.c
-+@@ -851,27 +851,6 @@ str_downcase (register char *dst, regist
-+   *dst = '\0';
-+ }
-+ 
-+-#ifdef USE_GNU_LOCALE_API
-+-static inline void
-+-str_upcase_l (register char *dst, register const char *src,
-+-	      scm_t_locale locale)
-+-{
-+-  for (; *src != '\0'; src++, dst++)
-+-    *dst = toupper_l (*src, locale);
-+-  *dst = '\0';
-+-}
-+-
-+-static inline void
-+-str_downcase_l (register char *dst, register const char *src,
-+-		scm_t_locale locale)
-+-{
-+-  for (; *src != '\0'; src++, dst++)
-+-    *dst = tolower_l (*src, locale);
-+-  *dst = '\0';
-+-}
-+-#endif
-+-
-+-
-+ SCM_DEFINE (scm_string_locale_lt, "string-locale<?", 2, 1, 0,
-+ 	    (SCM s1, SCM s2, SCM locale),
-+ 	    "Compare strings @var{s1} and @var{s2} in a locale-dependent way."
-diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
-index fa45008..413c81d 100644
---- a/meta/recipes-devtools/guile/guile_2.0.11.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
-@@ -23,6 +23,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
-            file://workaround-ice-ssa-corruption.patch \
-            file://libguile-Makefile.am-hook.patch \
-            file://libguile-VM-ASM_MUL-for-ARM-Add-earlyclobber.patch \
-+           file://remove_strcase_l_funcs.patch \
-            "
+diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+index 5bcfc9c..90597db 100644
+--- a/meta/recipes-support/gnutls/gnutls.inc
++++ b/meta/recipes-support/gnutls/gnutls.inc
+@@ -1,7 +1,7 @@
+ SUMMARY = "GNU Transport Layer Security Library"
+ HOMEPAGE = "http://www.gnu.org/software/gnutls/"
+ BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
+-DEPENDS = "nettle libidn"
++DEPENDS = "nettle libidn virtual/libiconv"
+ DEPENDS_append_libc-musl = " argp-standalone "
  
- #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
-@@ -50,7 +51,7 @@ EXTRA_OECONF += "${@['--without-libltdl-prefix --without-libgmp-prefix --without
- EXTRA_OECONF_append_class-target = " --with-libunistring-prefix=${STAGING_LIBDIR} \
-                                      --with-libgmp-prefix=${STAGING_LIBDIR} \
-                                      --with-libltdl-prefix=${STAGING_LIBDIR}"
--
-+EXTRA_OECONF_append_libc-uclibc = " guile_cv_use_csqrt=no "
+ LICENSE = "GPLv3+ & LGPLv2.1+"
+@@ -30,6 +30,7 @@ EXTRA_OECONF="--disable-rpath \
+               --enable-openssl-compatibility \
+               "
+ LDFLAGS_append_libc-musl = " -largp "
++LDFLAGS_append_libc-uclibc = " -luargp "
+ 
  do_configure_prepend() {
- 	mkdir -p po
- }
+ 	for dir in . lib; do
 -- 
 2.7.0
 
