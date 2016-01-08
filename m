@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 174D27325A
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 96116731FE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 10:19:27 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id b35so218709453qge.0
+	Fri,  8 Jan 2016 10:19:28 +0000 (UTC)
+Received: by mail-qk0-f182.google.com with SMTP id q19so143325828qke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 02:19:28 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=1QPpjqywnoAHJhADy3MCPrWA1ObWVwPz4Hv9GOKlUTA=;
-	b=V3UrPsX4pRf2rYujnusZw9DhbA1bG1F36Q8YXBNLObWmP8IxBQfN7g7cmJ3j64mpAI
-	e5YcjL7i7q10VggTQjzJ0RjPrKysEoXKDqrJOEwkwk2PWcguF9SPc/XgjR14yQ5raf1a
-	P0K7l7rKx8IP7YiDBdlXJZ+8ZIDu8qeiEkojJkJ35iIfxA9Z/WZsSFVgG7vMi/M873mB
-	iOMxMZvhq9FBNnp78w16yrwmscswPJ3yRU6kSJQ5UbgIwbjUeFxmQNyc/7QlfS7FSZLU
-	oPvqK1KnaMjqWMIvRfa7zUkQ6usOH79AnOo6nv78vnYp4zdHHE9l1VSf8Z1bdAF2/oM3
-	z72Q==
-X-Received: by 10.140.175.196 with SMTP id v187mr150721735qhv.75.1452248368475;
-	Fri, 08 Jan 2016 02:19:28 -0800 (PST)
+	bh=uCSXC2w8GgJr5Jswl7uXr5GJVJHag1RwjUABHJD6Blg=;
+	b=vccSJB0wSSnvjeDX5gP6PKEREo+yl3v53ia6xc9D8/eoRTlpwmXegDMMxrH1wdQIyC
+	Lbub4eFDFRAZHEovWh+KPSvBPVXbuK6nQ5zDd8gNBLezPxoFhX/rYaR6Iy1/Bbr+anPp
+	bQiBX7SrkAR6xXF9bcuBXWxnabrKk4sOTdHxwEaUgviZlIh8q/3MBphTK6xZCpg4AOob
+	L3N2MGwc3oZjqT+acrj/kvgioP7Q/mqrcKirSim/V4fs+xXq4JuGkSpWmmaZNViGRbjW
+	cRMWKooLCVo2uGmNnGyJUHOx9+L+1rzDT1uWiV0UQD9EwMdhOhvTi9MLIVUPsaR7HAN5
+	4q9A==
+X-Received: by 10.55.80.9 with SMTP id e9mr139198484qkb.94.1452248369208;
+	Fri, 08 Jan 2016 02:19:29 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	d129sm48549987qka.31.2016.01.08.02.19.27
+	d129sm48549987qka.31.2016.01.08.02.19.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Jan 2016 02:19:27 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:28 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:18:30 +0000
-Message-Id: <dae07ce0f8c22dd7950c0494e15ee06ccdd1dcff.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:18:31 +0000
+Message-Id: <52a5289e6104422826728c13411fdc48a366bbf1.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 02/53] dhcp: Include sys/types.h for u_int* defs
+Subject: [PATCH 03/53] blktrace: Include <sys/types.h for dev_t
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,87 +50,62 @@ X-List-Received-Date: Fri, 08 Jan 2016 10:19:28 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../dhcp/0001-include-missing-sys-types.h.patch    | 58 ++++++++++++++++++++++
- meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb       |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0001-include-missing-sys-types.h.patch
+ ...-include-sys-types.h-for-dev_t-definition.patch | 30 ++++++++++++++++++++++
+ meta/recipes-kernel/blktrace/blktrace_git.bb       |  4 ++-
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/blktrace/blktrace/0001-include-sys-types.h-for-dev_t-definition.patch
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0001-include-missing-sys-types.h.patch b/meta/recipes-connectivity/dhcp/dhcp/0001-include-missing-sys-types.h.patch
+diff --git a/meta/recipes-kernel/blktrace/blktrace/0001-include-sys-types.h-for-dev_t-definition.patch b/meta/recipes-kernel/blktrace/blktrace/0001-include-sys-types.h-for-dev_t-definition.patch
 new file mode 100644
-index 0000000..64f2bdd
+index 0000000..a4b7157
 --- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/0001-include-missing-sys-types.h.patch
-@@ -0,0 +1,58 @@
-+From 971491b6d7ab47d2f92f34269a129d0347fba15a Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-kernel/blktrace/blktrace/0001-include-sys-types.h-for-dev_t-definition.patch
+@@ -0,0 +1,30 @@
++From 6b5bbdfaac7f216fe8a02c4cf29e5eb2aee5a409 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 14 Sep 2015 23:51:38 +0000
-+Subject: [PATCH] include missing sys/types.h
++Date: Tue, 15 Sep 2015 00:01:00 +0000
++Subject: [PATCH] include sys/types.h for dev_t definition
 +
-+Code uses plain typedefs defines in this header but does not include it
-+Fixes
-+
-+error: unknown type name 'u_int16_t'; did you mean 'uint16_t'?
++Avoids the build failures when sys/types.h does not get included
++indirectly through other headers.
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+Upstream-Status: Pending
++Upstream-Status: Submitted
 +
-+ dst/dst_api.c     | 1 +
-+ dst/dst_support.c | 1 +
-+ dst/hmac_link.c   | 1 +
-+ 3 files changed, 3 insertions(+)
++ blktrace.h | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/dst/dst_api.c b/dst/dst_api.c
-+index a77abd2..7885538 100644
-+--- a/dst/dst_api.c
-++++ b/dst/dst_api.c
-+@@ -49,6 +49,7 @@
-+ #include <sys/param.h>
-+ #include <sys/stat.h>
-+ #include <sys/socket.h>
-++#include <sys/types.h>
-+ #include <netinet/in.h>
-+ 
-+ #include "cdefs.h"
-+diff --git a/dst/dst_support.c b/dst/dst_support.c
-+index 8e08a0c..f353ec6 100644
-+--- a/dst/dst_support.c
-++++ b/dst/dst_support.c
-+@@ -25,6 +25,7 @@
-+ #include <sys/stat.h>
-+ #include <netinet/in.h>
-+ #include <sys/socket.h>
++diff --git a/blktrace.h b/blktrace.h
++index 380aec7..944fc08 100644
++--- a/blktrace.h
+++++ b/blktrace.h
++@@ -5,6 +5,7 @@
++ #include <limits.h>
++ #include <byteswap.h>
++ #include <endian.h>
 ++#include <sys/types.h>
 + 
-+ #include "cdefs.h"
-+ #include "osdep.h"
-+diff --git a/dst/hmac_link.c b/dst/hmac_link.c
-+index b812c1c..a7de622 100644
-+--- a/dst/hmac_link.c
-++++ b/dst/hmac_link.c
-+@@ -31,6 +31,7 @@
-+ #include <sys/time.h>
-+ #include <netinet/in.h>
-+ #include <sys/socket.h>
-++#include <sys/types.h>
-+ 
-+ #include "cdefs.h"
-+ #include "osdep.h"
++ #include "blktrace_api.h"
++ #include "rbtree.h"
 +-- 
 +2.5.2
 +
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
-index b4a05fc..436a32e 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
-@@ -6,6 +6,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
-             file://fixsepbuild.patch \
-             file://dhclient-script-drop-resolv.conf.dhclient.patch \
-             file://replace-ifconfig-route.patch \
-+            file://0001-include-missing-sys-types.h.patch \
-            "
+diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-kernel/blktrace/blktrace_git.bb
+index 5b0be42..957cb70 100644
+--- a/meta/recipes-kernel/blktrace/blktrace_git.bb
++++ b/meta/recipes-kernel/blktrace/blktrace_git.bb
+@@ -9,7 +9,9 @@ SRCREV = "43fc870ce04e963def45dfc0d1ed4ea21ef10d4b"
+ PV = "1.1.0+git${SRCPV}"
  
- SRC_URI[md5sum] = "5a284875dd2c12ddd388416d69156a67"
+ SRC_URI = "git://git.kernel.dk/blktrace.git \
+-           file://ldflags.patch"
++           file://ldflags.patch \
++           file://0001-include-sys-types.h-for-dev_t-definition.patch \
++"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.7.0
 
