@@ -1,34 +1,36 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id A89A0731F0
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id E288E6FF56
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 12:35:44 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id f206so133429875wmf.0
+	Fri,  8 Jan 2016 12:44:02 +0000 (UTC)
+Received: by mail-wm0-f47.google.com with SMTP id b14so169545174wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 04:35:45 -0800 (PST)
+	Fri, 08 Jan 2016 04:44:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
 	bh=+Et1c9NE7Er7JMUa0p6GF+m1CzXKGkgSESP7YwGT7Yg=;
-	b=U02dRUG/tMXo9/AtBFkCmSuuK+LYWP16H9/6MA1Uuf32apyIOBqYeBU1QVFQs9vxof
-	3XXvOIlM9Y87L6hkaT2dAXbjOOm8eJVg3AIX7MrXyNiN2+YARv97G2EXAiMSZabgvH3L
-	9RT8B+3o2vNTCr+64TcsaQxZSQqicpNJnhnR9Ia0+z43Kt0bZhB1H6VVuyuo11G0e/JD
-	cCno+vJmsDnMDjaUfz/Eztdunpj5m9B77nwe2KXTthaAzME3h9OepnSiW4qJkFvpyy2Q
-	qDPFeS5JJiV8uW3qN9Jze5xM89zovbjR8NAmk1SNRlfbIA/VyLjy/MZ8XKfap4rlMMHI
-	wwkQ==
-X-Received: by 10.194.6.196 with SMTP id d4mr119295247wja.120.1452256544524;
-	Fri, 08 Jan 2016 04:35:44 -0800 (PST)
+	b=ZbL8Rovd68y+ApfNr7uUW4MgN/SMQIILvLK4QcVp5fWaNMbHd4q1FcGjHHh5ejgSlj
+	mnr3UduL/oVSN9yKEYrASleCbIXv+YiM/RDovEnWi2JsbZtKWg5vnzSbKzVIejuuzN9C
+	x2VMjQUyGIk+fHmSqzTCzDWJA7fa1OGNLhbyyKu2JzbHEu93/DE3BphkX7hLaMTE/UEQ
+	ikL/NTQ7APZopK06P2dEfF1ueI7rD3J9+31I9gAUjDX/OuwG2xsf1d0C1SsnkWBFq2b8
+	rhQwD4jedUWjRw0wRgh+TGIxpkHhjrCp5ft+LSoPJZtaDDvqAeabkLutleq2eu827xJ6
+	7bow==
+X-Received: by 10.28.125.147 with SMTP id y141mr21488967wmc.18.1452257042684; 
+	Fri, 08 Jan 2016 04:44:02 -0800 (PST)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	c15sm18352605wmd.19.2016.01.08.04.35.43
+	z3sm94784450wjx.38.2016.01.08.04.44.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Jan 2016 04:35:43 -0800 (PST)
+	Fri, 08 Jan 2016 04:44:00 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 13:36:14 +0100
-Message-Id: <1452256574-21587-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Fri,  8 Jan 2016 13:44:32 +0100
+Message-Id: <1452257072-1799-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.7.0
-Subject: [PATCH][RFC] arch-armv7ve.inc: respcet armv7a override as well
+In-Reply-To: <1452256574-21587-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1452256574-21587-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCHv2][RFC] arch-armv7ve.inc: respect armv7a override as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,7 +43,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 12:35:45 -0000
+X-List-Received-Date: Fri, 08 Jan 2016 12:44:03 -0000
 
 * in all cases we currently have we consider armv7ve to be compatible with armv7a
 
