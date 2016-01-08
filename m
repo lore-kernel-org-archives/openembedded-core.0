@@ -1,25 +1,29 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 49F4E60249
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B39C60616
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 04:11:26 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Jan 2016 20:11:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.20,536,1444719600"; d="scan'208";a="886244328"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by orsmga002.jf.intel.com with ESMTP; 07 Jan 2016 20:11:27 -0800
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jan 2016 20:07:37 +0000
-Message-Id: <e25a258a0b4a87a969c4b55a3c3d1068e715355c.1452191688.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1452191688.git.mariano.lopez@linux.intel.com>
-References: <cover.1452191688.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1452191688.git.mariano.lopez@linux.intel.com>
-References: <cover.1452191688.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 4/4] lib/oe/package_manager.py: Remove list() from PkgsList class
+	Fri,  8 Jan 2016 06:03:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0863os4001996
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 7 Jan 2016 22:03:50 -0800 (PST)
+Received: from [128.224.162.155] (128.224.162.155) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 7 Jan 2016 22:03:50 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1452152689.git.liezhi.yang@windriver.com>
+	<40d0365cec15c63a1f77e9aa43fb4022f62e0f66.1452152689.git.liezhi.yang@windriver.com>
+	<1452164226.7598.108.camel@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <568F5144.5000601@windriver.com>
+Date: Fri, 8 Jan 2016 14:03:48 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
+MIME-Version: 1.0
+In-Reply-To: <1452164226.7598.108.camel@linuxfoundation.org>
+Subject: Re: [PATCH 2/3] run-postinsts: can't be allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,205 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 04:11:26 -0000
+X-List-Received-Date: Fri, 08 Jan 2016 06:03:53 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Now that the method list() is not used anymore, remove it.
 
-[YOCTO #7427]
+On 01/07/2016 06:57 PM, Richard Purdie wrote:
+> On Wed, 2016-01-06 at 23:45 -0800, Robert Yang wrote:
+>> The dependencies chain:
+>> run-postinsts -> update-rc.d.bbclass -> initscripts -> update
+>> -alternatives.
+>>
+>> The update-alternatives is provided by opkg-utils which is not
+>> allarch.
+>>
+>> This caused a problem:
+>> $ bitbake lib32-core-image-minimal
+>>
+>> Both lib32-opkg-utils and opkg-utils would be built, but opkg-utils
+>> shouldn't, this patch can fix the problem.
+>>
+>> [YOCTO #8879]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   .../run-postinsts/run-postinsts_1.0.bb             |    2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> Removing allarch isn't the correct way to fix this, we need to figure
+> out what is going wrong and fix multilib.
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/lib/oe/package_manager.py | 153 -----------------------------------------
- 1 file changed, 153 deletions(-)
+Thanks, I will try to fix it from multilib.
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 522cbf7..6eac3e1 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -293,10 +293,6 @@ class PkgsList(object):
-         self.rootfs_dir = rootfs_dir
- 
-     @abstractmethod
--    def list(self, format=None):
--        pass
--
--    @abstractmethod
-     def list_pkgs(self):
-         pass
- 
-@@ -401,56 +397,6 @@ class RpmPkgsList(PkgsList):
- 
-         return output
- 
--    def list(self, format=None):
--        if format == "deps":
--            if self.rpm_version == 4:
--                bb.fatal("'deps' format dependency listings are not supported with rpm 4 since rpmresolve does not work")
--            return self._list_pkg_deps()
--
--        cmd = self.rpm_cmd + ' --root ' + self.rootfs_dir
--        cmd += ' -D "_dbpath /var/lib/rpm" -qa'
--        if self.rpm_version == 4:
--            cmd += " --qf '[%{NAME} %{ARCH} %{VERSION}\n]'"
--        else:
--            cmd += " --qf '[%{NAME} %{ARCH} %{VERSION} %{PACKAGEORIGIN}\n]'"
--
--        try:
--            # bb.note(cmd)
--            tmp_output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).strip()
--
--        except subprocess.CalledProcessError as e:
--            bb.fatal("Cannot get the installed packages list. Command '%s' "
--                     "returned %d:\n%s" % (cmd, e.returncode, e.output))
--
--        output = list()
--        for line in tmp_output.split('\n'):
--            if len(line.strip()) == 0:
--                continue
--            pkg = line.split()[0]
--            arch = line.split()[1]
--            ver = line.split()[2]
--            # Skip GPG keys
--            if pkg == 'gpg-pubkey':
--                continue
--            if self.rpm_version == 4:
--                pkgorigin = "unknown"
--            else:
--                pkgorigin = line.split()[3]
--            new_pkg, new_arch = self._pkg_translate_smart_to_oe(pkg, arch)
--
--            if format == "arch":
--                output.append('%s %s' % (new_pkg, new_arch))
--            elif format == "file":
--                output.append('%s %s %s' % (new_pkg, pkgorigin, new_arch))
--            elif format == "ver":
--                output.append('%s %s %s' % (new_pkg, new_arch, ver))
--            else:
--                output.append('%s' % (new_pkg))
--
--            output.sort()
--
--        return '\n'.join(output)
--
-     def list_pkgs(self):
-         cmd = self.rpm_cmd + ' --root ' + self.rootfs_dir
-         cmd += ' -D "_dbpath /var/lib/rpm" -qa'
-@@ -513,51 +459,6 @@ class OpkgPkgsList(PkgsList):
-         self.opkg_args = "-f %s -o %s " % (config_file, rootfs_dir)
-         self.opkg_args += self.d.getVar("OPKG_ARGS", True)
- 
--    def list(self, format=None):
--        opkg_query_cmd = bb.utils.which(os.getenv('PATH'), "opkg-query-helper.py")
--
--        if format == "arch":
--            cmd = "%s %s status | %s -a" % \
--                (self.opkg_cmd, self.opkg_args, opkg_query_cmd)
--        elif format == "file":
--            cmd = "%s %s status | %s -f" % \
--                (self.opkg_cmd, self.opkg_args, opkg_query_cmd)
--        elif format == "ver":
--            cmd = "%s %s status | %s -v" % \
--                (self.opkg_cmd, self.opkg_args, opkg_query_cmd)
--        elif format == "deps":
--            cmd = "%s %s status | %s" % \
--                (self.opkg_cmd, self.opkg_args, opkg_query_cmd)
--        else:
--            cmd = "%s %s list_installed | cut -d' ' -f1" % \
--                (self.opkg_cmd, self.opkg_args)
--
--        try:
--            # bb.note(cmd)
--            tmp_output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True).strip()
--
--        except subprocess.CalledProcessError as e:
--            bb.fatal("Cannot get the installed packages list. Command '%s' "
--                     "returned %d:\n%s" % (cmd, e.returncode, e.output))
--
--        output = list()
--        for line in tmp_output.split('\n'):
--            if len(line.strip()) == 0:
--                continue
--            if format == "file":
--                pkg, pkg_file, pkg_arch = line.split()
--                full_path = os.path.join(self.rootfs_dir, pkg_arch, pkg_file)
--                if os.path.exists(full_path):
--                    output.append('%s %s %s' % (pkg, full_path, pkg_arch))
--                else:
--                    output.append('%s %s %s' % (pkg, pkg_file, pkg_arch))
--            else:
--                output.append(line)
--
--        output.sort()
--
--        return '\n'.join(output)
--
-     def list_pkgs(self, format=None):
-         cmd = "%s %s status" % (self.opkg_cmd, self.opkg_args)
- 
-@@ -573,60 +474,6 @@ class OpkgPkgsList(PkgsList):
- 
- 
- class DpkgPkgsList(PkgsList):
--    def list(self, format=None):
--        cmd = [bb.utils.which(os.getenv('PATH'), "dpkg-query"),
--               "--admindir=%s/var/lib/dpkg" % self.rootfs_dir,
--               "-W"]
--
--        if format == "arch":
--            cmd.append("-f=${Package} ${PackageArch}\n")
--        elif format == "file":
--            cmd.append("-f=${Package} ${Package}_${Version}_${Architecture}.deb ${PackageArch}\n")
--        elif format == "ver":
--            cmd.append("-f=${Package} ${PackageArch} ${Version}\n")
--        elif format == "deps":
--            cmd.append("-f=Package: ${Package}\nDepends: ${Depends}\nRecommends: ${Recommends}\n\n")
--        else:
--            cmd.append("-f=${Package}\n")
--
--        try:
--            output = subprocess.check_output(cmd, stderr=subprocess.STDOUT).strip()
--        except subprocess.CalledProcessError as e:
--            bb.fatal("Cannot get the installed packages list. Command '%s' "
--                     "returned %d:\n%s" % (' '.join(cmd), e.returncode, e.output))
--
--        if format == "file":
--            tmp_output = ""
--            for line in tuple(output.split('\n')):
--                if not line.strip():
--                    continue
--                pkg, pkg_file, pkg_arch = line.split()
--                full_path = os.path.join(self.rootfs_dir, pkg_arch, pkg_file)
--                if os.path.exists(full_path):
--                    tmp_output += "%s %s %s\n" % (pkg, full_path, pkg_arch)
--                else:
--                    tmp_output += "%s %s %s\n" % (pkg, pkg_file, pkg_arch)
--
--            output = tmp_output
--        elif format == "deps":
--            opkg_query_cmd = bb.utils.which(os.getenv('PATH'), "opkg-query-helper.py")
--            file_out = tempfile.NamedTemporaryFile()
--            file_out.write(output)
--            file_out.flush()
--
--            try:
--                output = subprocess.check_output("cat %s | %s" %
--                                                 (file_out.name, opkg_query_cmd),
--                                                 stderr=subprocess.STDOUT,
--                                                 shell=True)
--            except subprocess.CalledProcessError as e:
--                file_out.close()
--                bb.fatal("Cannot compute packages dependencies. Command '%s' "
--                         "returned %d:\n%s" % (e.cmd, e.returncode, e.output))
--
--            file_out.close()
--
--        return output
- 
-     def list_pkgs(self):
-         cmd = [bb.utils.which(os.getenv('PATH'), "dpkg-query"),
--- 
-1.8.4.5
+// Robert
 
+>
+> Cheers,
+>
+> Richard
+>
 
