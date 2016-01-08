@@ -1,34 +1,46 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id D4ABF731DE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BC4F731BF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 16:24:35 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id u188so143163865wmu.1
+	Fri,  8 Jan 2016 16:25:06 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id b14so179073095wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 08:24:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=TYDHuvajJGwlwOFzALDyge/s2aMihPIvSuvc8StDVWg=;
-	b=OUVOY3W0/+iRv7WuL7Oh5ffAN6OZF5pPC+ZLDrYg20k7P5aYfLpvrZ+4ftj4gSdin9
-	NpXrCs9g1jih/feRpu2D2pFMXbzF+REBh3YzDrN798mosQJ2aJOhoxyYLyIQuKY0aoWA
-	kd2eoFb+RkB9aytvIVvHl7IZyAkhcM1uACC93ue6YkDRG/UousCmp8e0OJXNUD8Cpvs0
-	TYAVuvKb5sEgyzJ3JJCkXsO5v9hq0XVPdm9F0J7Z2vF+QHQesdQBUfwQ81Xc41Pj9UVD
-	AMwPsEzqIv2gk+Z7fKCP5ohJ6AGE5B5qBewUQuxxYaeGrrwefgNVi6xD632WzLP10Bgu
-	Gd9A==
-MIME-Version: 1.0
-X-Received: by 10.194.156.199 with SMTP id wg7mr118256471wjb.114.1452270276371;
-	Fri, 08 Jan 2016 08:24:36 -0800 (PST)
-Received: by 10.194.209.131 with HTTP; Fri, 8 Jan 2016 08:24:36 -0800 (PST)
-In-Reply-To: <1452257072-1799-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1452256574-21587-1-git-send-email-Martin.Jansa@gmail.com>
-	<1452257072-1799-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Fri, 8 Jan 2016 08:24:36 -0800
-Message-ID: <CAJ86T=WNGGp=L358DSu2+VXM4eEdOz9FRcDBkGueUap80RjGBw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2][RFC] arch-armv7ve.inc: respect armv7a override as well
+	Fri, 08 Jan 2016 08:25:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=Np5T1dF6pA9nq5Ao6wRUSzHjr5FA9MJ/VINZ6tMepQQ=;
+	b=TDvu4h4CMr4EbmP6jYS8etN5Mazzv/P/PrypUgj5qfUUym/rUCRKcCi3YZeC45Qk9z
+	C26D0W27Ia+y469KXDHMMMoHP1I4s9U+In2R8QzPkas0+WEskTkmaGone902LF8ZoEJf
+	hfolH0BShvMOEX8WxpQmF7NcT2LyiawMh6hOCKUHtipr2KKrPZvDMSpQzvurll6ndhES
+	Pz+fcPQJs+Djw+9EGredJ1VNjHRNSJ/bh5+6ZFUzDgDii6Pv/OmPzeipDAbOEsWZiMn7
+	TOOiLLePNaVlRAL23Vze/KcoQSFL0c0D5hQIihJTD3FdSnOjjb4ZDFIPg1uae+2Ctb1x
+	iVKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Np5T1dF6pA9nq5Ao6wRUSzHjr5FA9MJ/VINZ6tMepQQ=;
+	b=Y84z1Ran39bfceotKvbvgjcIJjN27iRIFdoelPd/azZWeXnfsIlxs3dq9Z1Hxezweq
+	t/6+tH763xBkNExrJXwn9swBoyRx0gsD+Yhw0/7qxx/Kulb1QLpABX8KrVm/rHjcp8Nd
+	CsW+KMXvT7tTl56ytxfbk4/dUJNUp2l21nwSkWBaX3tPDQg7tEiuMZCb2lKY/E1mV7Ez
+	1U9lbgHKK9ptJiZ1ekpoucqjg521MEXThh3R1DhcJY06iQKkW6CYqyoIqsR6qctvTlUW
+	A4od0l776W0gI6lbMoBNurECtroB0DFNzr3i/WTtLdVmKsVR7hdfeE27DtMHY+J1Tbvh
+	UBlw==
+X-Gm-Message-State: ALoCoQk4414mKpcg6I/h0frVsRGnxNOlBZrsLVzlvVqJ4jfafcJwhXlLjHf14Qge68MZVz6dpAYs+IzwsUgFRAliVmC9/stUCA==
+X-Received: by 10.194.117.5 with SMTP id ka5mr104888792wjb.20.1452270306930;
+	Fri, 08 Jan 2016 08:25:06 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	q4sm106979446wja.6.2016.01.08.08.25.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 08 Jan 2016 08:25:06 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Jan 2016 16:25:04 +0000
+Message-Id: <1452270304-28814-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] bitbake.conf: add virtual/libiconv-native to ASSUME_PROVIDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,51 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 16:24:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 08 Jan 2016 16:25:07 -0000
 
-On Fri, Jan 8, 2016 at 4:44 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> * in all cases we currently have we consider armv7ve to be compatible with armv7a
+It's possible for a native recipe to have virtual/libiconv-native as a build
+dependency, but as we expect that the host provides that add it to
+ASSUME_PROVIDED.
 
-Is this a short term workaround or a long term solution?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/bitbake.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-If it's a long term solution then how will armv7m and armv7r be
-handled? They are likely to need to duplicate a lot of the current
-armv7a over-rides too.
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index e7289b7..2fe6b24 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -175,6 +175,7 @@ ASSUME_PROVIDED = "\
+     python-native-runtime \
+     tar-native \
+     virtual/libintl-native \
++    virtual/libiconv-native \
+     texinfo-native \
+     bash-native \
+     sed-native \
+-- 
+2.6.4
 
-Maybe adding a generic "armv7" over-ride which can be enabled by all
-armv7 variants is a better option?
-
-Either way, I'd like to continue cleaning up of the existing armv7a
-over-rides (e.g. the libav armv7a specific optimisation is likely
-bogus and should be removed, etc).
-
-
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/conf/machine/include/arm/arch-armv7ve.inc | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc b/meta/conf/machine/include/arm/arch-armv7ve.inc
-> index 79e1ef6..d0fdff7 100644
-> --- a/meta/conf/machine/include/arm/arch-armv7ve.inc
-> +++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
-> @@ -3,7 +3,8 @@ DEFAULTTUNE ?= "armv7ve"
->  TUNEVALID[armv7ve] = "Enable instructions for ARMv7ve"
->  TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
->  TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', ' -march=armv7ve', '', d)}"
-> -MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 'armv7ve:', '' ,d)}"
-> +# In all cases we currently have we consider armv7ve to be compatible with armv7a
-> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 'armv7ve:armv7a:', '' ,d)}"
->
->  require conf/machine/include/arm/arch-armv6.inc
->  require conf/machine/include/arm/feature-arm-neon.inc
-> --
-> 2.7.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
