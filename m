@@ -1,39 +1,47 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 762A0736B6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 94B2E755F4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 10:45:33 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-03.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1aHUY1-0002Zo-By from Awais_Belal@mentor.com ;
-	Fri, 08 Jan 2016 02:45:33 -0800
-Received: from EU-MBX-02.mgc.mentorg.com ([169.254.3.44]) by
-	SVR-IES-FEM-03.mgc.mentorg.com ([137.202.0.108]) with mapi id
-	14.03.0224.002; Fri, 8 Jan 2016 10:45:32 +0000
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: akuster808 <akuster808@gmail.com>
-Thread-Topic: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370
-Thread-Index: AQHRPXQQ2iBTKTrMm0uMwa00fKoPVp7lJjJVgAWJ1ACAAF0f3IADRTSxgAB+ZQCAARebj4ABFoGAgACJSt0=
-Date: Fri, 8 Jan 2016 10:45:31 +0000
-Message-ID: <2021B186DC632746BD5A3CE32F12BD28011FB7BF5F@EU-MBX-02.mgc.mentorg.com>
-References: <1450869629-27805-1-git-send-email-awais_belal@mentor.com>
-	<2021B186DC632746BD5A3CE32F12BD28011FB77C51@EU-MBX-02.mgc.mentorg.com>
-	<5689D53A.3040902@gmail.com>
-	<2021B186DC632746BD5A3CE32F12BD28011FB78A03@EU-MBX-02.mgc.mentorg.com>
-	<2021B186DC632746BD5A3CE32F12BD28011FB7A43D@EU-MBX-02.mgc.mentorg.com>
-	<568D4BAA.9050001@gmail.com>
-	<2021B186DC632746BD5A3CE32F12BD28011FB7A8B3@EU-MBX-02.mgc.mentorg.com>,
-	<568F1FD7.2010606@gmail.com>
-In-Reply-To: <568F1FD7.2010606@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
+	Fri,  8 Jan 2016 10:59:04 +0000 (UTC)
+Received: by mail-ig0-f173.google.com with SMTP id ik10so76488749igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Jan 2016 02:59:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=rQjozBepnWArTYOjpthezPrJfEqsA1ctcy5vC5BioAs=;
+	b=MSXT1eqsWBuY/Vl7MSBtp/IsjNdmzNxBaK26UTjOD8Ve1siDjgSDm1bLBew/qdAmcw
+	8W3sA8oz4dI5CpRjmLqzkg7szK6z02+nxTvWM0eNBMos2jKZlHQhNxPD8WcSBduSQdlz
+	vbNH/R2HXVQUeA4HkUGY/1aRdGVinMoi8BLZs548wnogDxsr8PE0lRmHp5WZ33/rsNHF
+	WJ353JREgzS++iPRFMyV0//KhQwujd53InM3ZYP82lxIiJ0uMkWx6/Pd6TrOXBw81eue
+	e22qAHqetlspp7zRThM9dJuH/iEkR7wDSniFzWb20HO4IT8VbkI+3eJcQnAxhE6yTQQZ
+	Yv8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=rQjozBepnWArTYOjpthezPrJfEqsA1ctcy5vC5BioAs=;
+	b=AJKhBCFkOJhc62ns7/4k94adIMby8qzBBDvjFGpBZHNV2bKeitJaMrvldAWKIZbSuR
+	dcgfBfKq2c/4ocdNXzcunQuI4e3QFmmw2P2mvI6rl0cvcxShFITM1W1ef7ttZIRW5N1R
+	DiFvKLWH5lueaj/5URcoeFDU1wwXB6RDrmfofvco3iZtCjNKlK6cpgVrTpiJPQElcPLx
+	ROgQPrpVgtFVvDPIqinNw5380GYenY7Gmwh7eyxBsqzZ+c2HV4NnMfjG7Bcxfqm+pz6i
+	IsQU1VV2YPAJYjNRFQCnMqdZoIb3VRjsozztbzkQBpPRGNTYJfrBlhymnTsjc8AOHptQ
+	TalA==
+X-Gm-Message-State: ALoCoQkQV821CQrnli/KIhfgWuBrzOo6O+TBidfQqpaxE4ULJGedpNAw/xDd3vhmtg4Vaz97DVURUcq39x2tf0mYWYC5uVnZOj0VF5nZ2CvrWU38bGI88aA=
+X-Received: by 10.50.43.133 with SMTP id w5mr15817281igl.52.1452250744950;
+	Fri, 08 Jan 2016 02:59:04 -0800 (PST)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [dizzy][PATCH] grub2: Fix CVE-2015-8370
+Received: by 10.107.162.70 with HTTP; Fri, 8 Jan 2016 02:58:45 -0800 (PST)
+In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
+References: <cover.1452248145.git.raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 Jan 2016 10:58:45 +0000
+Message-ID: <CAJTo0Lah_Onp8nHtuhojUCc+a-G07TRz6ySVaE5V_PEk0AUXNw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/53] musl fixes 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,350 +54,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 10:45:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 08 Jan 2016 10:59:04 -0000
+Content-Type: multipart/alternative; boundary=089e01175f2bc726be0528d079f4
+
+--089e01175f2bc726be0528d079f4
+Content-Type: text/plain; charset=UTF-8
+
+On 8 January 2016 at 10:19, Khem Raj <raj.khem@gmail.com> wrote:
+
+> This set of fixes let core-image-full-cmdline build with musl along with
+> core-image-sato
+> and core-image-weston
+>
+
+I can't build an image for real x86 hardware though:
+
+ERROR: Nothing PROVIDES 'virtual/libiconv-native' (but
+virtual:native:/home/ross/Yocto/poky/meta/recipes-devtools/mtools/
+mtools_4.0.18.bb DEPENDS on or otherwise requires it). Close matches:
+  virtual/libiconv
+  virtual/libx11-native
+  virtual/libsdl-native
+NOTE: Runtime target 'core-image-sato' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['core-image-sato',
+'mtools-native', 'virtual/libiconv-native']
+
+Ross
+
+--089e01175f2bc726be0528d079f4
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Armin,=0A=
-=0A=
-Thanks a lot.=0A=
-=0A=
-Can you please share the diff? I am just asking because Joshua is seeing th=
-e same sort of issue with the fido branch while my local setup does not com=
-plain there either.=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: akuster808 [akuster808@gmail.com]=0A=
-Sent: Friday, January 08, 2016 7:32 AM=0A=
-To: Belal, Awais=0A=
-Cc: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370=0A=
-=0A=
-Awais,=0A=
-=0A=
-=0A=
-=0A=
-hand applied. merged and pushed to=0A=
-=0A=
-git.yoctoproject.org/poky-contrib.git akuster/dizzy-next=0A=
-=0A=
-thanks,=0A=
-Armin=0A=
-=0A=
-On 01/07/2016 01:56 AM, Belal, Awais wrote:=0A=
-> Hi Armin,=0A=
->=0A=
-> With dizzy-next from your fork=0A=
->=0A=
-> awais@alpha:~/yocto/build-dizzy-akuster$ bitbake -c patch grub=0A=
-> Parsing recipes: 100% |##################################################=
-############| Time: 00:00:46=0A=
-> Parsing of 1458 .bb files complete (0 cached, 1458 parsed). 1914 targets,=
- 66 skipped, 0 masked, 0 errors.=0A=
-> NOTE: Resolving any missing task queue dependencies=0A=
->=0A=
-> Build Configuration:=0A=
-> BB_VERSION        =3D "1.24.0"=0A=
-> BUILD_SYS         =3D "x86_64-linux"=0A=
-> NATIVELSBSTRING   =3D "Ubuntu-14.04"=0A=
-> TARGET_SYS        =3D "x86_64-poky-linux"=0A=
-> MACHINE           =3D "amdfalconx86"=0A=
-> DISTRO            =3D "poky"=0A=
-> DISTRO_VERSION    =3D "1.7.3"=0A=
-> TUNE_FEATURES     =3D "dbfp4"=0A=
-> TARGET_FPU        =3D ""=0A=
-> meta=0A=
-> meta-yocto=0A=
-> meta-yocto-bsp    =3D "akuster/dizzy-next:4807ff0ca0abf085e6b81257534a4a6=
-2fde88d16"=0A=
-> common=0A=
-> meta-amdfalconx86 =3D "(detachedfromorigin/dizzy):84ae10ad68c7b253ab87558=
-c5a6df057c9a84f08"=0A=
-> meta-oe=0A=
-> meta-python       =3D "(detachedfromorigin/dizzy):7f1df52e9409edcc4d4cd5f=
-34694f8740f56e1bf"=0A=
->=0A=
-> NOTE: Preparing runqueue=0A=
-> NOTE: Executing SetScene Tasks=0A=
-> NOTE: Executing RunQueue Tasks=0A=
-> NOTE: Tasks Summary: Attempted 10 tasks of which 0 didn't need to be reru=
-n and all succeeded.=0A=
-> awais@alpha:~/yocto/build-dizzy-akuster$ ls tmp/work/dbfp4-poky-linux/gru=
-b/2.00-r1/=0A=
-> 0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch=0A=
-> 0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patch=0A=
-> check-if-liblzma-is-disabled.patch=0A=
-> fix-endianness-problem.patch=0A=
-> fix-issue-with-flex-2.5.37.patch=0A=
-> grub-2.00=0A=
-> grub-2.00-add-oe-kernel.patch=0A=
-> grub-2.00-fpmath-sse-387-fix.patch=0A=
-> grub2-remove-sparc64-setup-from-x86-builds.patch=0A=
-> grub-install.in.patch=0A=
-> remove-gets.patch=0A=
-> temp=0A=
-> awais@alpha:~/yocto/build-dizzy-akuster$=0A=
->=0A=
-> Pretty odd what's happening :)=0A=
->=0A=
-> BR,=0A=
-> Awais=0A=
->=0A=
-> ________________________________________=0A=
-> From: akuster808 [akuster808@gmail.com]=0A=
-> Sent: Wednesday, January 06, 2016 10:15 PM=0A=
-> To: Belal, Awais=0A=
-> Cc: openembedded-core@lists.openembedded.org=0A=
-> Subject: Re: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370=0A=
->=0A=
-> Awais,=0A=
->=0A=
-> this is what I am seeing.=0A=
->=0A=
-> NOTE: Executing RunQueue Tasks=0A=
-> ERROR: Command Error: exit status: 1  Output:=0A=
-> Applying patch 0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch=
-=0A=
-> patching file grub-core/lib/crypto.c=0A=
-> Hunk #1 FAILED at 470.=0A=
-> 1 out of 1 hunk FAILED -- rejects in file grub-core/lib/crypto.c=0A=
-> patching file grub-core/normal/auth.c=0A=
-> Hunk #1 FAILED at 174.=0A=
-> 1 out of 1 hunk FAILED -- rejects in file grub-core/normal/auth.c=0A=
-> Patch 0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.patch does=0A=
-> not apply (enforce with -f)=0A=
-> ERROR: Function failed: patch_do_patch=0A=
-> ERROR: Logfile of failure stored in:=0A=
-> /home/akuster/oss/maint/mylayers/poky/build/tmp/work/i586-poky-linux/grub=
-/2.00-r1/temp/log.do_patch.3029=0A=
-> ERROR: Task 1=0A=
-> (/home/akuster/oss/maint/mylayers/poky/meta/recipes-bsp/grub/grub_2.00.bb=
-,=0A=
-> do_patch) failed with exit code '1'=0A=
->=0A=
->=0A=
-> I am using my contrib akuster/dizzy-next.=0A=
->=0A=
-> I will hand fixup the changes. please give me a few days.=0A=
->=0A=
-> - armin=0A=
->=0A=
->=0A=
-> On 01/06/2016 01:43 AM, Belal, Awais wrote:=0A=
->> Ping!=0A=
->>=0A=
->> BR,=0A=
->> Awais=0A=
->>=0A=
->> ________________________________________=0A=
->> From: openembedded-core-bounces@lists.openembedded.org [openembedded-cor=
-e-bounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
->> Sent: Monday, January 04, 2016 12:53 PM=0A=
->> To: akuster808=0A=
->> Cc: openembedded-core@lists.openembedded.org=0A=
->> Subject: Re: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370=0A=
->>=0A=
->> Hi Armin,=0A=
->>=0A=
->> Odd, applies cleanly on dizzy for me. Can you please share the patch log=
-?=0A=
->>=0A=
->> On a scratch build dir, I get the following:=0A=
->> --------------------------------------------------------------=0A=
->> awais@alpha:~/yocto/build-dizzy$ bitbake -c patch grub=0A=
->> Parsing recipes: 100% |#################################################=
-############| Time: 00:00:36=0A=
->> Parsing of 1458 .bb files complete (0 cached, 1458 parsed). 1914 targets=
-, 66 skipped, 0 masked, 0 errors.=0A=
->> NOTE: Resolving any missing task queue dependencies=0A=
->>=0A=
->> Build Configuration:=0A=
->> BB_VERSION        =3D "1.24.0"=0A=
->> BUILD_SYS         =3D "x86_64-linux"=0A=
->> NATIVELSBSTRING   =3D "Ubuntu-14.04"=0A=
->> TARGET_SYS        =3D "x86_64-poky-linux"=0A=
->> MACHINE           =3D "amdfalconx86"=0A=
->> DISTRO            =3D "poky"=0A=
->> DISTRO_VERSION    =3D "1.7.3"=0A=
->> TUNE_FEATURES     =3D "dbfp4"=0A=
->> TARGET_FPU        =3D ""=0A=
->> meta=0A=
->> meta-yocto=0A=
->> meta-yocto-bsp    =3D "(detachedfromorigin/dizzy):6d34267e0a13e10ab91b60=
-590b27a2b5ba3b7da6"=0A=
->> common=0A=
->> meta-amdfalconx86 =3D "(detachedfromorigin/dizzy):84ae10ad68c7b253ab8755=
-8c5a6df057c9a84f08"=0A=
->> meta-oe=0A=
->> meta-python       =3D "(detachedfromorigin/dizzy):7f1df52e9409edcc4d4cd5=
-f34694f8740f56e1bf"=0A=
->>=0A=
->> NOTE: Preparing runqueue=0A=
->> NOTE: Executing SetScene Tasks=0A=
->> NOTE: Executing RunQueue Tasks=0A=
->> NOTE: Tasks Summary: Attempted 10 tasks of which 0 didn't need to be rer=
-un and all succeeded.=0A=
->> awais@alpha:~/yocto/build-dizzy$=0A=
->> --------------------------------------------------------------=0A=
->>=0A=
->> BR,=0A=
->> Awais=0A=
->>=0A=
->> ________________________________________=0A=
->> From: akuster808 [akuster808@gmail.com]=0A=
->> Sent: Monday, January 04, 2016 7:13 AM=0A=
->> To: Belal, Awais=0A=
->> Cc: openembedded-core@lists.openembedded.org=0A=
->> Subject: Re: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370=0A=
->>=0A=
->> On 12/31/15 5:38 AM, Belal, Awais wrote:=0A=
->> Awais,=0A=
->>=0A=
->>> Ping!=0A=
->> This patch does not apply to the current dizzy branch.=0A=
->>=0A=
->> is there a dependency patch I missed to apply?=0A=
->>=0A=
->> regards,=0A=
->> Armin=0A=
->>>=0A=
->>> BR,=0A=
->>> Awais=0A=
->>>=0A=
->>> ________________________________________=0A=
->>> From: openembedded-core-bounces@lists.openembedded.org [openembedded-co=
-re-bounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
->>> Sent: Wednesday, December 23, 2015 4:20 PM=0A=
->>> To: openembedded-core@lists.openembedded.org=0A=
->>> Subject: [OE-core] [dizzy][PATCH] grub2: Fix CVE-2015-8370=0A=
->>>=0A=
->>> http://git.savannah.gnu.org/cgit/grub.git/commit/?id=3D451d80e52d851432=
-e109771bb8febafca7a5f1f2=0A=
->>>=0A=
->>> Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
->>> ---=0A=
->>>  ...E-2015-8370-Grub2-user-pass-vulnerability.patch | 52 ++++++++++++++=
-++++++++=0A=
->>>  meta/recipes-bsp/grub/grub-efi_2.00.bb             |  1 +=0A=
->>>  meta/recipes-bsp/grub/grub_2.00.bb                 |  1 +=0A=
->>>  3 files changed, 54 insertions(+)=0A=
->>>  create mode 100644 meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-=
-Grub2-user-pass-vulnerability.patch=0A=
->>>=0A=
->>> diff --git a/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-u=
-ser-pass-vulnerability.patch b/meta/recipes-bsp/grub/files/0001-Fix-CVE-201=
-5-8370-Grub2-user-pass-vulnerability.patch=0A=
->>> new file mode 100644=0A=
->>> index 0000000..f9252e9=0A=
->>> --- /dev/null=0A=
->>> +++ b/meta/recipes-bsp/grub/files/0001-Fix-CVE-2015-8370-Grub2-user-pas=
-s-vulnerability.patch=0A=
->>> @@ -0,0 +1,52 @@=0A=
->>> +Upstream-Status: Accepted=0A=
->>> +Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
->>> +=0A=
->>> +From 451d80e52d851432e109771bb8febafca7a5f1f2 Mon Sep 17 00:00:00 2001=
-=0A=
->>> +From: Hector Marco-Gisbert <hecmargi@upv.es>=0A=
->>> +Date: Wed, 16 Dec 2015 04:57:18 +0000=0A=
->>> +Subject: Fix security issue when reading username and password=0A=
->>> +=0A=
->>> +This patch fixes two integer underflows at:=0A=
->>> +  * grub-core/lib/crypto.c=0A=
->>> +  * grub-core/normal/auth.c=0A=
->>> +=0A=
->>> +CVE-2015-8370=0A=
->>> +=0A=
->>> +Signed-off-by: Hector Marco-Gisbert <hecmargi@upv.es>=0A=
->>> +Signed-off-by: Ismael Ripoll-Ripoll <iripoll@disca.upv.es>=0A=
->>> +Also-By: Andrey Borzenkov <arvidjaar@gmail.com>=0A=
->>> +---=0A=
->>> +diff --git a/grub-core/lib/crypto.c b/grub-core/lib/crypto.c=0A=
->>> +index 010e550..683a8aa 100644=0A=
->>> +--- a/grub-core/lib/crypto.c=0A=
->>> ++++ b/grub-core/lib/crypto.c=0A=
->>> +@@ -470,7 +470,8 @@ grub_password_get (char buf[], unsigned buf_size)=
-=0A=
->>> +=0A=
->>> +       if (key =3D=3D '\b')=0A=
->>> +       {=0A=
->>> +-        cur_len--;=0A=
->>> ++        if (cur_len)=0A=
->>> ++          cur_len--;=0A=
->>> +         continue;=0A=
->>> +       }=0A=
->>> +=0A=
->>> +diff --git a/grub-core/normal/auth.c b/grub-core/normal/auth.c=0A=
->>> +index c6bd96e..8615c48 100644=0A=
->>> +--- a/grub-core/normal/auth.c=0A=
->>> ++++ b/grub-core/normal/auth.c=0A=
->>> +@@ -174,8 +174,11 @@ grub_username_get (char buf[], unsigned buf_size)=
-=0A=
->>> +=0A=
->>> +       if (key =3D=3D '\b')=0A=
->>> +       {=0A=
->>> +-        cur_len--;=0A=
->>> +-        grub_printf ("\b");=0A=
->>> ++        if (cur_len)=0A=
->>> ++          {=0A=
->>> ++            cur_len--;=0A=
->>> ++            grub_printf ("\b");=0A=
->>> ++          }=0A=
->>> +         continue;=0A=
->>> +       }=0A=
->>> +=0A=
->>> +--=0A=
->>> +cgit v0.9.0.2=0A=
->>> diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/=
-grub/grub-efi_2.00.bb=0A=
->>> index 7674255..6822e7a 100644=0A=
->>> --- a/meta/recipes-bsp/grub/grub-efi_2.00.bb=0A=
->>> +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb=0A=
->>> @@ -30,6 +30,7 @@ SRC_URI =3D "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.ta=
-r.gz \=0A=
->>>             file://grub-2.00-add-oe-kernel.patch \=0A=
->>>             file://grub-efi-fix-with-glibc-2.20.patch \=0A=
->>>             file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.=
-patch \=0A=
->>> +           file://0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability=
-.patch \=0A=
->>>            "=0A=
->>>  SRC_URI[md5sum] =3D "e927540b6eda8b024fb0391eeaa4091c"=0A=
->>>  SRC_URI[sha256sum] =3D "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6=
-caf1cd0fd3b3cc11e3"=0A=
->>> diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub=
-/grub_2.00.bb=0A=
->>> index d4df676..94b6da9 100644=0A=
->>> --- a/meta/recipes-bsp/grub/grub_2.00.bb=0A=
->>> +++ b/meta/recipes-bsp/grub/grub_2.00.bb=0A=
->>> @@ -25,6 +25,7 @@ SRC_URI =3D "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.ta=
-r.gz \=0A=
->>>            file://fix-endianness-problem.patch \=0A=
->>>            file://grub2-remove-sparc64-setup-from-x86-builds.patch \=0A=
->>>            file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.p=
-atch \=0A=
->>> +          file://0001-Fix-CVE-2015-8370-Grub2-user-pass-vulnerability.=
-patch \=0A=
->>>            "=0A=
->>>=0A=
->>>  SRC_URI[md5sum] =3D "e927540b6eda8b024fb0391eeaa4091c"=0A=
->>> --=0A=
->>> 1.9.1=0A=
->>>=0A=
->>> --=0A=
->>> _______________________________________________=0A=
->>> Openembedded-core mailing list=0A=
->>> Openembedded-core@lists.openembedded.org=0A=
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
->>=0A=
->> --=0A=
->> _______________________________________________=0A=
->> Openembedded-core mailing list=0A=
->> Openembedded-core@lists.openembedded.org=0A=
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
->>=0A=
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 January 2016 at 10:19, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
+rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-styl=
+e:solid;padding-left:1ex"><div id=3D":5z5" class=3D"" style=3D"overflow:hid=
+den">This set of fixes let core-image-full-cmdline build with musl along wi=
+th core-image-sato<br>
+and core-image-weston<br></div></blockquote></div><br>I can&#39;t build an =
+image for real x86 hardware though:</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra"><div class=3D"gmail_extra">ERROR: Nothing PRO=
+VIDES &#39;virtual/libiconv-native&#39; (but virtual:native:/home/ross/Yoct=
+o/poky/meta/recipes-devtools/mtools/<a href=3D"http://mtools_4.0.18.bb">mto=
+ols_4.0.18.bb</a> DEPENDS on or otherwise requires it). Close matches:</div=
+><div class=3D"gmail_extra">=C2=A0 virtual/libiconv</div><div class=3D"gmai=
+l_extra">=C2=A0 virtual/libx11-native</div><div class=3D"gmail_extra">=C2=
+=A0 virtual/libsdl-native</div><div class=3D"gmail_extra">NOTE: Runtime tar=
+get &#39;core-image-sato&#39; is unbuildable, removing...</div><div class=
+=3D"gmail_extra">Missing or unbuildable dependency chain was: [&#39;core-im=
+age-sato&#39;, &#39;mtools-native&#39;, &#39;virtual/libiconv-native&#39;]<=
+/div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</=
+div></div></div>
 
+--089e01175f2bc726be0528d079f4--
