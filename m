@@ -1,46 +1,45 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D93473D46
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 368AA731D3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 14:23:36 +0000 (UTC)
-Received: by mail-ig0-f174.google.com with SMTP id t15so52622551igr.0
+	Fri,  8 Jan 2016 14:33:12 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id 1so240686063ion.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 06:23:37 -0800 (PST)
+	Fri, 08 Jan 2016 06:33:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=TYrueHKl19bVDOqgttmfXm9zuYwb6TsEGzWrEVJbVuc=;
-	b=BAzKcAoCdFPw8jFw+REyBX/z7KacsQGVO2gJr1fJvfFmX6BceXwaORHRC7UDB0X8Bt
-	+nnkDs2JBYSKNAkBdz/Hbe2BP0aT8zSCTRc+WZbNNxNUjMpmIzPJC4AwKXH11Lqxbgx/
-	jGa65eBJKQL0EM24Bqiks9Gna5U0QYQE5BGt7GNMcudZg4CNTCRX9VYlQPShqzWNhEtB
-	UEhVoHATs/xg17QYkACARe7rB4Fgdd6fX7X9PMkGWUVRfNw5EMvHnpacHR1Ct47VYwQF
-	FPrCBK9PH1ZkxF5TrB+M4P1sSd4bZGrrOeb8Y2WAen6qgB5ZnNwe+K+X151Qiylo4TCT
-	62Dg==
+	bh=MTtWW33hiQ0bUHGw5fEMiRbN0V7L9UcDSb3cMQyy8LM=;
+	b=sj5KqFkh3aKkADb8Q2fU1VADrkunCNeeeDPWtukFbP7lV/2oHccYTJHcq9iOULltvd
+	Y9i5GZZwBMpWOGzdVOlz2FRaBvXyT46MWhSFVMSQ7AveGvoi9MR4+VMEaHKEAFhm1JcF
+	m8etUxd7FmiytMoflAO/hVm9r7sif2O+SYPx4g5suc3H3i/XMFCDHoAHjP480SHy9ia7
+	eyORcz6mvlPQW0XZwlxXnMfRdvIso8ZhbsWhBoFasQfqlmpAfRgQJ5jXj1zxtUlEcQmf
+	bpG/SLYHdx3HdtE61fse04fRqoIoPIsHQFCIT7B4AfFaDGVCG0fhfQqjvFccoI5RM948
+	Lt/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=TYrueHKl19bVDOqgttmfXm9zuYwb6TsEGzWrEVJbVuc=;
-	b=itKf8QUs0saXXkx0JzWyXCFXsc0spFBtvQwq3C68Lpeci2kl5hSvGln38q2FxNjRT+
-	qNSfAGWV6oAQ0ISPzqznzsQLVgM0nAbOxI516A/6axuJx9q7+t+zISisdIDEM3qKJDah
-	TCSx+vGksGHZDDpWVaGfgta8fT/EjPYSO20xi+H0inePCRV6mZRD4X3CDn9SGPY84b0G
-	F2pqvoC7IjrzLFRP6RFTDyd1lIFNeP0dGOvHKyCnBBAX8f/C5BVwKTi/xhbyxnPyfzOV
-	g4Bb+XJNWiMvfahdSd7MtyH3XslVzg8mhRJRm9wwgfddfiFQ/yPR8ENEF5Bf2v7gsLJj
-	TfJw==
-X-Gm-Message-State: ALoCoQnrpWiKhkcAgkuw9hDE8XuNdiyQrQ/M4yHki6fSu6Dany5xqaXLNgpVD6FAbSuR8mp6wKlEceUX3ij8AJWxHnU+v7uixThIF/CDm62DE0gvDtYOzaA=
-X-Received: by 10.50.126.8 with SMTP id mu8mr20827863igb.52.1452263017241;
-	Fri, 08 Jan 2016 06:23:37 -0800 (PST)
+	bh=MTtWW33hiQ0bUHGw5fEMiRbN0V7L9UcDSb3cMQyy8LM=;
+	b=Fv7Wp6U7HG4oojkriIuuUR/FC2wQIsd6BoUakqhsNsvfMhUuTDsTny9EKA+XJKyHdw
+	V+sujXPA8wVkWmlyZTY5KKyqYniPWzQtzaETeapPoSTF/890k7w6vN4zhuhj0/piTHtJ
+	LcvRmPz2i6eaGX0RWXw50AM/1y5CNW8DiNGB61QKmZRLMF17mC+byBJ0VFWg1UzUxu2M
+	JkeRi6urZhCCYBVGjXHYQl3gqV1evV9QmSiG53nvzL01jT0ZbNbFLKuzJzuAp1TvWajg
+	aqP1Fc3gkIcAjzFYinuUXH1ZqKeHq3OTkT53AKTzHbEC9eAwznr+J6Z57bDgR/SYDfN5
+	08Iw==
+X-Gm-Message-State: ALoCoQlx1bQkQnidHprdrktT5zwURKqkM67NBc5Qr5vXztrqKMVX7kV/H6+P+dWXZaDzEYFL7jCXMcx20vVfOYU0NLV4MUrX6n6+Vo0dD6riZ+Ku1s7ygdE=
+X-Received: by 10.107.3.154 with SMTP id e26mr95443810ioi.99.1452263593417;
+	Fri, 08 Jan 2016 06:33:13 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 8 Jan 2016 06:23:17 -0800 (PST)
-In-Reply-To: <CAJTo0LZZhpUtmaKpkHf-NCtRBAt2KRx8cVoSpOQEH9eheFTP8g@mail.gmail.com>
+Received: by 10.107.162.70 with HTTP; Fri, 8 Jan 2016 06:32:54 -0800 (PST)
+In-Reply-To: <CAJTo0La=m_u33L7z06GssdbQoQ0bAFpTweaUchU_kVDfOgnNwQ@mail.gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
 	<CAJTo0La=m_u33L7z06GssdbQoQ0bAFpTweaUchU_kVDfOgnNwQ@mail.gmail.com>
-	<CAJTo0LZZhpUtmaKpkHf-NCtRBAt2KRx8cVoSpOQEH9eheFTP8g@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 8 Jan 2016 14:23:17 +0000
-Message-ID: <CAJTo0Lbj=bV=5PLm=W-ANnrv3nfwB0KyAtc1UDYHX4qGpQw5Og@mail.gmail.com>
+Date: Fri, 8 Jan 2016 14:32:54 +0000
+Message-ID: <CAJTo0La3v=55Kf=kd2N34g836tAzeieffFOX7c81=yudby=VWw@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 00/53] musl fixes 3
@@ -56,38 +55,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 14:23:37 -0000
-Content-Type: multipart/alternative; boundary=047d7b1635bf4398180528d35587
+X-List-Received-Date: Fri, 08 Jan 2016 14:33:14 -0000
+Content-Type: multipart/alternative; boundary=001a113ec10a9b4d520528d3779a
 
---047d7b1635bf4398180528d35587
+--001a113ec10a9b4d520528d3779a
 Content-Type: text/plain; charset=UTF-8
 
-On 8 January 2016 at 14:12, Burton, Ross <ross.burton@intel.com> wrote:
+On 8 January 2016 at 14:00, Burton, Ross <ross.burton@intel.com> wrote:
 
-> Looks like FTW_STOP etc are glibc-specific.
-> https://github.com/commodo/openwrt/blob/master/package/devel/oprofile/patches/100-musl.patch
-> seems reasonable, assuming it works.
+> systemd fails with this error, over and over:
+>
+> |
+> /data/poky-master/tmp/work/i586-poky-linux-musl/systemd/1_228+gitAUTOINC+dd050decb6-r0/git/src/basic/util.h:96:70:
+> error: unknown type name 'comparison_fn_t'
+> |  static inline void qsort_safe(void *base, size_t nmemb, size_t size,
+> comparison_fn_t compar) {
 >
 
-It builds at least!  Patch sent to the list. :)
+I've just remembered about meta-musl so this is likely fixed there but I'm
+also seeing this when building systemd:
+
+|
+/data/poky-master/tmp/work/i586-poky-linux-musl/systemd/1_228+gitAUTOINC+dd050decb6-r0/git/src/basic/missing.h:590:6:
+error: #error "neither secure_getenv nor __secure_getenv are available"
+
+Now I'll disable systemd verify it all works with sysvinit.
 
 Ross
 
---047d7b1635bf4398180528d35587
+--001a113ec10a9b4d520528d3779a
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 January 2016 at 14:12, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"m=
+On 8 January 2016 at 14:00, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"m=
 ailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra=
-">Looks like FTW_STOP etc are glibc-specific. =C2=A0<a href=3D"https://gith=
-ub.com/commodo/openwrt/blob/master/package/devel/oprofile/patches/100-musl.=
-patch" target=3D"_blank">https://github.com/commodo/openwrt/blob/master/pac=
-kage/devel/oprofile/patches/100-musl.patch</a> seems reasonable, assuming i=
-t works.</div></blockquote></div><br>It builds at least!=C2=A0 Patch sent t=
-o the list. :)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
-l_extra">Ross</div></div>
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
+-left-style:solid;padding-left:1ex"><div class=3D"gmail_extra">systemd fail=
+s with this error, over and over:</div><div class=3D"gmail_extra"><br></div=
+><div class=3D"gmail_extra"><div class=3D"gmail_extra">| /data/poky-master/=
+tmp/work/i586-poky-linux-musl/systemd/1_228+gitAUTOINC+dd050decb6-r0/git/sr=
+c/basic/util.h:96:70: error: unknown type name &#39;comparison_fn_t&#39;</d=
+iv><div class=3D"gmail_extra">| =C2=A0static inline void qsort_safe(void *b=
+ase, size_t nmemb, size_t size, comparison_fn_t compar) {</div></div></bloc=
+kquote></div><br>I&#39;ve just remembered about meta-musl so this is likely=
+ fixed there but I&#39;m also seeing this when building systemd:</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">| /data/poky-mas=
+ter/tmp/work/i586-poky-linux-musl/systemd/1_228+gitAUTOINC+dd050decb6-r0/gi=
+t/src/basic/missing.h:590:6: error: #error &quot;neither secure_getenv nor =
+__secure_getenv are available&quot;<br></div><div class=3D"gmail_extra"><br=
+></div><div class=3D"gmail_extra">Now I&#39;ll disable systemd verify it al=
+l works with sysvinit.</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
 
---047d7b1635bf4398180528d35587--
+--001a113ec10a9b4d520528d3779a--
