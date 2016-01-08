@@ -1,35 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 86B1C6FEFA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E40360290
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 18:00:03 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id q21so293660905iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 10:00:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Zvsdnd16z6FlunND4/6bPfEHZTggNN02PNddBWSmf+M=;
-	b=oFNqk4We/2+Naj/FEDVb2lm5TU5Ot5orXRlYnkEsMERRklD3IwAoyctfhfy/mpHFRi
-	3FIbKmdQ1CfiYKX3X/x0pt06Tlnp0+h5vAoU4UQ4E25YMo6sP8FInE8beDWdDGD26dMc
-	zUkRtiNSjG9zdIqckKHhk3pY5FSBE09ta2EeA4u/U15unNJQlZ2igDVMjsD/VtylkOMC
-	5fPhC+USMBBvcZZh4aLjMo4VfQ5i9MPeFY17h1Gj6sfNNzaYaXxpidcMn/u9sjkzgvW6
-	rn5igO+qPe7hJpXLI6rGkMd+VvtW6fY4xqV9fSEddBEyCFILCh7fmSfw5gIp7uGR840p
-	/J3g==
-X-Received: by 10.107.165.14 with SMTP id o14mr14516326ioe.49.1452276004743;
-	Fri, 08 Jan 2016 10:00:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.16.74 with HTTP; Fri, 8 Jan 2016 09:59:35 -0800 (PST)
-In-Reply-To: <CAJTo0Laga86qGDjuxoApENiqRS_j0-8cPLNfhs5J=QSdTZWOyg@mail.gmail.com>
-References: <cover.1452248145.git.raj.khem@gmail.com>
-	<CAJTo0Laga86qGDjuxoApENiqRS_j0-8cPLNfhs5J=QSdTZWOyg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 8 Jan 2016 09:59:35 -0800
-Message-ID: <CAMKF1srj+K5DriCcDDRC20kL5OG4BciteJ7MaRJh4rL8=xsyzw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/53] musl fixes 3
+	Fri,  8 Jan 2016 18:22:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u08IMHnA016760; Fri, 8 Jan 2016 18:22:17 GMT
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id F-3JqkXy2eNm; Fri,  8 Jan 2016 18:22:17 +0000 (GMT)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	u08IMBqb016755
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 8 Jan 2016 18:22:12 GMT
+Message-ID: <1452277331.7598.135.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 08 Jan 2016 18:22:11 +0000
+X-Mailer: Evolution 3.16.5-1ubuntu3.1 
+Mime-Version: 1.0
+Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
+Subject: [PATCH] sstatesig: Handle special case of gcc-source shared-workdir for printdiff
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,38 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 18:00:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 08 Jan 2016 18:22:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 8, 2016 at 6:56 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 8 January 2016 at 10:19, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> This set of fixes let core-image-full-cmdline build with musl along with
->> core-image-sato
->> and core-image-weston
->
->
-> The postinst intercepts that are ran at rootfs time using user-mode qemu
-> don't work with musl:
->
-> NOTE: Running intercept scripts:
-> NOTE: > Executing update_font_cache intercept ...
-> /lib/ld-musl-i386.so.1: No such file or directory
-> /data/poky-master/tmp/work/qemux86-poky-linux-musl/core-image-sato/1.0-r0/rootfs/usr/bin/fc-cache:
-> Invalid ELF image for this architecture
-> WARNING: The postinstall intercept hook 'update_font_cache' failed (exit
-> code: 255)! See log for details!
-> WARNING: The postinstalls for the following packages will be postponed for
-> first boot: liberation-fonts
-> NOTE: > Executing update_icon_cache intercept ...
-> NOTE: > Executing update_pixbuf_cache intercept ...
-> /lib/ld-musl-i386.so.1: No such file or directory
-> /data/poky-master/tmp/work/qemux86-poky-linux-musl/core-image-sato/1.0-r0/rootfs/usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders:
-> Invalid ELF image for this architecture
+Often, bitbake -S printdiff would show that there was a checksum not found
+which would turn out to be from gcc-source. This is due to it being a
+shared-workdir recipe.
 
-this is something new, havent seen it yet. will try to reproduce it here
+For now, hardcode the special case into the sstatesig code to stop people
+(including me) puzzling over this.
 
->
-> Ross
+If/as/when we add any other shared workdir recipes, we'll need to rethink
+this.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 6d1be3e..d65586b 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -236,6 +236,10 @@ def find_siginfo(pn, taskname, taskhashlist, d):
+     localdata.setVar('PR', '*')
+     localdata.setVar('EXTENDPE', '')
+     stamp = localdata.getVar('STAMP', True)
++    if pn.startswith("gcc-source"):
++        # gcc-source shared workdir is a special case :(
++        stamp = localdata.expand("${STAMPS_DIR}/work-shared/gcc-${PV}-${PR}")
++
+     filespec = '%s.%s.sigdata.*' % (stamp, taskname)
+     foundall = False
+     import glob
+
+
 
