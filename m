@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
 	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 20A5A7705D
+	by mail.openembedded.org (Postfix) with ESMTP id 66BC87705F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 10:19:52 +0000 (UTC)
-Received: by mail-qg0-f45.google.com with SMTP id b35so218714774qge.0
+	Fri,  8 Jan 2016 10:19:53 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id 6so270216381qgy.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 02:19:53 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=rcg1WeisGPNTF9TdNP+mIfx7vhL5vqCMSyX7OvXk69I=;
-	b=kBrXXfwvGtkG9iayZjbbO+HQ1hRDt8iQx3g+dOEI0L/fTUqY+GTWOAeomm1oPyRIxg
-	02tLgs5daihjWMTOJ+eqn4pkZrg1HyK47qrGHV+yiR2+6uM+PUfctSWjFfgMrTSTXT/7
-	SCFkeZIaaksa2iUJo7Vs5g2ut6a3WhqKQcKBslZ5QC7Z7BpgsXGmOOyJ+kwSQFGQNnBg
-	ivEL7LhTdq7FzTvtAGBgYzpvFDJZMj/zClS2snJ4ugqeqrgYBpoDCbqe17QsQk+GgBJP
-	yUVMTJBTaVq+BOIDWUlpnHGDHWri/yJbKmqfEokxKUqrxLuUuQegXe0RvDCYnVMi1Fmm
-	5Vkw==
-X-Received: by 10.140.247.67 with SMTP id s64mr153495419qhc.20.1452248393342; 
-	Fri, 08 Jan 2016 02:19:53 -0800 (PST)
+	bh=QlVOwoz4b3fAt/QfkBFYXGArRiwPVnKfDk8GLxYkBrc=;
+	b=0DSJ2Mt6V9EyB90y4ZZwxi5MPwJVqWbCjjta4LhCH5XeZKSXggmCMVVAEzlbb0skrS
+	7vsgiGmKTR36y1nki7A5/hd8AW4zUCQRbXxpuqqw7p5zzPGculziU9u+TC84/fVbFFL1
+	g582Ey9ogX4LWI4GFu1TXjxTTgRjW/UnWzfF91AG6Q+FeRud0DRalO/nExOPVSKgrO7d
+	IG6H8i/7jHyRk67noYfPSxBVN6HnXUGePiksGtsoR9dQ9fPQZT5C6yJn8FOK47G8bMLH
+	2MNKUgGleIK2pJBMKvu6ioosuDXhOHahNUIsC1oXwIcFmla7UfZ1Jx9y6f+qZFIowHUn
+	13IQ==
+X-Received: by 10.140.255.9 with SMTP id a9mr78431992qhd.103.1452248394048;
+	Fri, 08 Jan 2016 02:19:54 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	d129sm48549987qka.31.2016.01.08.02.19.51
+	d129sm48549987qka.31.2016.01.08.02.19.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Jan 2016 02:19:51 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:53 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:19:06 +0000
-Message-Id: <a251e465e6236a6763cc112e2352156837412fa7.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:19:07 +0000
+Message-Id: <51f9e3688c0a62b740217e62a64665c170931e1f.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 38/53] rt-tests: Fix build with non-gcc compilers
+Subject: [PATCH 39/53] webkitgtk: Update patch status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,66 +48,52 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 08 Jan 2016 10:19:53 -0000
 
-Makery hard sets CC to be some form of gcc, make it set only if CC
-variable is absent in environment.
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...t-CC-AR-variable-only-if-it-doesn-t-have-.patch | 30 ++++++++++++++++++++++
- meta/recipes-rt/rt-tests/rt-tests_0.96.bb          |  3 ++-
- 2 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-rt/rt-tests/files/0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch
+ .../webkitgtk/0001-Enable-backtrace-on-linux-when-using-glibc.patch     | 2 +-
+ .../webkitgtk/0001-Fix-build-with-non-glibc-libraries-on-linux.patch    | 2 +-
+ meta/recipes-sato/webkit/webkitgtk/clang.patch                          | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-rt/rt-tests/files/0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch b/meta/recipes-rt/rt-tests/files/0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch
-new file mode 100644
-index 0000000..00fcc7d
---- /dev/null
-+++ b/meta/recipes-rt/rt-tests/files/0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch
-@@ -0,0 +1,30 @@
-+From 9640dde4241e1314b8e8ea35b0c8dab0b30ae51f Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 3 Jan 2016 10:50:56 -0800
-+Subject: [PATCH] Makefile: Set CC/AR variable only if it doesn't have a value
-+
-+This helps it compile with clang or any other compilers besides gcc
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted
-+
-+ Makefile | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 1e4b7d1..2c2d396 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -1,6 +1,6 @@
-+ VERSION = 0.96
-+-CC=$(CROSS_COMPILE)gcc
-+-AR=$(CROSS_COMPILE)ar
-++CC?=$(CROSS_COMPILE)gcc
-++AR?=$(CROSS_COMPILE)ar
-+ 
-+ OBJDIR = bld
-+ 
-+-- 
-+2.6.4
-+
-diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.96.bb b/meta/recipes-rt/rt-tests/rt-tests_0.96.bb
-index 7d70392..2f96fea 100644
---- a/meta/recipes-rt/rt-tests/rt-tests_0.96.bb
-+++ b/meta/recipes-rt/rt-tests/rt-tests_0.96.bb
-@@ -10,7 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
- require rt-tests.inc
- inherit ptest
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Enable-backtrace-on-linux-when-using-glibc.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Enable-backtrace-on-linux-when-using-glibc.patch
+index 146087b..d7e4ef6 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-Enable-backtrace-on-linux-when-using-glibc.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-Enable-backtrace-on-linux-when-using-glibc.patch
+@@ -7,7 +7,7 @@ We dont have backtrace() implemented on non-glibc libc's on linux
  
--SRC_URI += "file://run-ptest \
-+SRC_URI += "file://0001-Makefile-Set-CC-AR-variable-only-if-it-doesn-t-have-.patch \
-+            file://run-ptest \
-             file://rt_bmark.py \
-            "
- # Do not install hwlatdetect
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+-Upstream-Status: Pending
++Upstream-Status: Accepted
+ 
+  Source/WTF/wtf/Assertions.cpp | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-with-non-glibc-libraries-on-linux.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-with-non-glibc-libraries-on-linux.patch
+index c57fcde..77ebf37 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-with-non-glibc-libraries-on-linux.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-with-non-glibc-libraries-on-linux.patch
+@@ -9,7 +9,7 @@ let ctype be used on non-glibc ( musl ) C library
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+-Upstream-Status: Submitted
++Upstream-Status: Accepted
+ 
+  Source/JavaScriptCore/runtime/Options.cpp                    | 2 +-
+  Source/WTF/wtf/DisallowCType.h                               | 2 +-
+diff --git a/meta/recipes-sato/webkit/webkitgtk/clang.patch b/meta/recipes-sato/webkit/webkitgtk/clang.patch
+index ef77755..e526713 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/clang.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/clang.patch
+@@ -8,7 +8,7 @@ Source/JavaScriptCore/assembler/ARM64Assembler.h:2857:33: error: cannot initiali
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
+-Upstream-Status: Pending
++Upstream-Status: Accepted
+ 
+ Index: webkitgtk-2.8.5/Source/JavaScriptCore/assembler/ARM64Assembler.h
+ ===================================================================
 -- 
 2.7.0
 
