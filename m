@@ -1,36 +1,35 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 980767328A
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id EE67D731AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 00:48:49 +0000 (UTC)
-Received: by mail-pa0-f41.google.com with SMTP id uo6so253939163pac.1
+	Fri,  8 Jan 2016 01:16:34 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id b14so149774581wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jan 2016 16:48:50 -0800 (PST)
+	Thu, 07 Jan 2016 17:16:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=uIFRM/xo4CP6eUJ+j82KFJ8wvNYEO2KKusc6PQkLFho=;
-	b=0+q7sLVE61racEoyTIWL8Yys/bJJ7pK2u/USMzcwvUczDwngLv+DBoEkAmievImUjf
-	P6K9TxVRUrH4qLX6fCeDD7j2fd493gA8QatYYMPxkEnJ+zCLrs21NtzlFc+NrF7UIpLP
-	DvuCeVblNcITH1oAZsVpSph9IW459B0Y7lEXFojwWFz06/Lf99LgpGwqrVYrkBjRiSvr
-	TeVeVLAP1Ry8gFC4isW6mvfTeJqNZaKAzjM/O1zq2jycLPaq6Pr/ROIVw+K2Xpd7dmjH
-	yGgcNQ6KpcxwWqZ9qVPrYILToFWp2UsusHz2J5Mj42rKAhvIG2jLlpYfOfg62pzGtTfl
-	CB5w==
-X-Received: by 10.66.164.102 with SMTP id yp6mr18918950pab.25.1452214130147;
-	Thu, 07 Jan 2016 16:48:50 -0800 (PST)
-Received: from Pahoa2.mvista.com ([64.2.3.194])
-	by smtp.gmail.com with ESMTPSA id o75sm300234pfi.17.2016.01.07.16.48.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 07 Jan 2016 16:48:48 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jan 2016 16:48:32 -0800
-Message-Id: <1452214113-11697-9-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-In-Reply-To: <1452214113-11697-1-git-send-email-akuster808@gmail.com>
-References: <1452214113-11697-1-git-send-email-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH][V2][Jethro, fido 09/10] libxml2: security fix CVE-2015-8242
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=RQyOlk/H44sx0ISOOPUlkeck3WrdK0HHEvN+yANMvAQ=;
+	b=cKSarkBzFiqK8XvIxM6gNKSLsUzrYq8YGNhJi8XkFOIoMshBD++Lu2NGiQg9m6sVNP
+	fngOxw6qF2GhMn+hEpnC5yJu5cx8bNzpEyqDi/M5FHMpPPgF35uyBe88TF/P0m9PQhan
+	/Sy3svNzQZbjrGomFsm3wfL1dtXDM3hnz8BmOeg4+P54mLSoUc3TW1+NKDIhD36QAk1g
+	ESniBZ3YrZ098qKamP43MOchqe/ta7ippQvb+uWsxj5m8zcUbMtuTWNx/VArsMI7aVsi
+	U3HkFHzuTDzeAvbbdhJEa4Ldn5AKoK3ypm/P1qautjr75xu8+0WsGvD9VuEuCus1ZuRQ
+	dfmg==
+MIME-Version: 1.0
+X-Received: by 10.194.24.226 with SMTP id x2mr115243660wjf.43.1452215795395;
+	Thu, 07 Jan 2016 17:16:35 -0800 (PST)
+Received: by 10.194.209.131 with HTTP; Thu, 7 Jan 2016 17:16:35 -0800 (PST)
+In-Reply-To: <1452209673.2002.125.camel@pbcl.net>
+References: <1452205752-6353-1-git-send-email-armccurdy@gmail.com>
+	<1452205752-6353-3-git-send-email-armccurdy@gmail.com>
+	<1452209673.2002.125.camel@pbcl.net>
+Date: Thu, 7 Jan 2016 17:16:35 -0800
+Message-ID: <CAJ86T=XK8e9FnfZCTP_B=Uw=sBHsFo-8rHFxVAZEG-hYPOGfEQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/4] gcc-configure-common.inc: duplicate armv7a over-ride for armv7ve
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,85 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 00:48:51 -0000
+X-List-Received-Date: Fri, 08 Jan 2016 01:16:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Armin Kuster <akuster@mvista.com>
+On Thu, Jan 7, 2016 at 3:34 PM, Phil Blundell <pb@pbcl.net> wrote:
+> On Thu, 2016-01-07 at 14:29 -0800, Andre McCurdy wrote:
+>>  EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a"
+>>  EXTRA_OECONF_append_armv7m = " --with-arch=armv7-m"
+>>  EXTRA_OECONF_append_armv7r = " --with-arch=armv7-r"
+>> +EXTRA_OECONF_append_armv7ve = " --with-arch=armv7-a"
+>
+> Please add a comment explaining why this isn't --with-arch=armv7ve.
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-core/libxml/libxml2.inc               |  1 +
- ...42-Buffer-overead-with-HTML-parser-in-pus.patch | 49 ++++++++++++++++++++++
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch
+To make it possible to (continue to) share the same gcc-cross etc
+binaries between armv7a and armv7ve builds. It's the minimal change to
+keep things working as they are now.
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 7fd7693..a30f0b6 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -33,6 +33,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://CVE-2015-7499-2-Detect-incoherency-on-GROW.patch \
-            file://0001-Fix-a-bug-on-name-parsing-at-the-end-of-current-inpu.patch \
-            file://0001-CVE-2015-7500-Fix-memory-access-error-due-to-incorre.patch \
-+           file://0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch \
-           "
- 
- BINCONFIG = "${bindir}/xml2-config"
-diff --git a/meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch b/meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch
-new file mode 100644
-index 0000000..73531b3
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/0001-CVE-2015-8242-Buffer-overead-with-HTML-parser-in-pus.patch
-@@ -0,0 +1,49 @@
-+From 8fb4a770075628d6441fb17a1e435100e2f3b1a2 Mon Sep 17 00:00:00 2001
-+From: Hugh Davenport <hugh@allthethings.co.nz>
-+Date: Fri, 20 Nov 2015 17:16:06 +0800
-+Subject: [PATCH] CVE-2015-8242 Buffer overead with HTML parser in push mode
-+
-+For https://bugzilla.gnome.org/show_bug.cgi?id=756372
-+Error in the code pointing to the codepoint in the stack for the
-+current char value instead of the pointer in the input that the SAX
-+callback expects
-+Reported and fixed by Hugh Davenport
-+
-+Upstream-Status: Backport
-+
-+CVE-2015-8242
-+
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ HTMLparser.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/HTMLparser.c b/HTMLparser.c
-+index bdf7807..b729197 100644
-+--- a/HTMLparser.c
-++++ b/HTMLparser.c
-+@@ -5735,17 +5735,17 @@ htmlParseTryOrFinish(htmlParserCtxtPtr ctxt, int terminate) {
-+ 				if (ctxt->keepBlanks) {
-+ 				    if (ctxt->sax->characters != NULL)
-+ 					ctxt->sax->characters(
-+-						ctxt->userData, &cur, 1);
-++						ctxt->userData, &in->cur[0], 1);
-+ 				} else {
-+ 				    if (ctxt->sax->ignorableWhitespace != NULL)
-+ 					ctxt->sax->ignorableWhitespace(
-+-						ctxt->userData, &cur, 1);
-++						ctxt->userData, &in->cur[0], 1);
-+ 				}
-+ 			    } else {
-+ 				htmlCheckParagraph(ctxt);
-+ 				if (ctxt->sax->characters != NULL)
-+ 				    ctxt->sax->characters(
-+-					    ctxt->userData, &cur, 1);
-++					    ctxt->userData, &in->cur[0], 1);
-+ 			    }
-+ 			}
-+ 			ctxt->token = 0;
-+-- 
-+2.3.5
-+
--- 
-2.3.5
+The more invasive, but perhaps more correct, change might be to
+completely remove these "--with-arch=XXX" options from
+gcc-configure-common.inc and replace them with "--with-cpu=XXX"
+options in gcc-target.inc ?
 
+> p.
+>
+>
 
