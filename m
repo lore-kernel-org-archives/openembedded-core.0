@@ -1,46 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id B5E0360667
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D93473D46
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 14:23:00 +0000 (UTC)
-Received: by mail-wm0-f48.google.com with SMTP id l65so136609307wmf.1
+	Fri,  8 Jan 2016 14:23:36 +0000 (UTC)
+Received: by mail-ig0-f174.google.com with SMTP id t15so52622551igr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 06:23:01 -0800 (PST)
+	Fri, 08 Jan 2016 06:23:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=iQNdHoPFoMOlssl2ViDoRKnAQsQt/RK9A28xirXrx9k=;
-	b=zd2s1JmQZt0d9TtqOe2xIJBeWu34iaGHVdG3OiW6ExaKyaECKwk0Unhb/wQjI+1QGW
-	RghILBegxa1lHaVCzXSWeRpKnmcboC9oLLBQUxT9JhodT/Mib/cvafot/V4FvX7gx/Gi
-	FpS1zuagpVZ499P47JjM1Nv7ehO1sqQk8lrveGDqw/Gzy+VJh29U4nh7GAsyXEO6qLVb
-	8ZO3TnDUrpj+eJ2NOIuq4Q/UzmQ8s+uJKUHkSTgaepU1CozR83fsu977nJVg9SpSOMN2
-	7+s8bomr1b5S2xHsz2yvKPBnmOdrP6jKOov/jOBWGDCMnlvLmo+fHmGx0G94LaE1bSP4
-	0HzA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=TYrueHKl19bVDOqgttmfXm9zuYwb6TsEGzWrEVJbVuc=;
+	b=BAzKcAoCdFPw8jFw+REyBX/z7KacsQGVO2gJr1fJvfFmX6BceXwaORHRC7UDB0X8Bt
+	+nnkDs2JBYSKNAkBdz/Hbe2BP0aT8zSCTRc+WZbNNxNUjMpmIzPJC4AwKXH11Lqxbgx/
+	jGa65eBJKQL0EM24Bqiks9Gna5U0QYQE5BGt7GNMcudZg4CNTCRX9VYlQPShqzWNhEtB
+	UEhVoHATs/xg17QYkACARe7rB4Fgdd6fX7X9PMkGWUVRfNw5EMvHnpacHR1Ct47VYwQF
+	FPrCBK9PH1ZkxF5TrB+M4P1sSd4bZGrrOeb8Y2WAen6qgB5ZnNwe+K+X151Qiylo4TCT
+	62Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=iQNdHoPFoMOlssl2ViDoRKnAQsQt/RK9A28xirXrx9k=;
-	b=CizuuNTEuAE5xcid/yPRwHtHyYhqUNhpFRROD5oCYEQY6EAalFy2b9un+XQRCVYIOa
-	72KLAemoZrDakYbGd+nYFexuUiRmLa4C760qqE5FWyAZNVSK40oWzN/YBAQggtLJD0x5
-	KG3L145fXQnbK6/dU2Vq0XN0MwmaaDHtQ8HNUGftnjD4sbRSZhf6sXL5JBGBbpeS52VW
-	EHMF9H3oYP+MoogM1aCxehpGUPF1/a1xCCTIFmarooU75lCLvlNVIlqGg2BlK6MNz481
-	+NuS8n4bnL1CxXI8OKmlJfT1mzPdW1QZ57YiQL2glHnjp7g8D3D+5A//9fBP8q5oiDp4
-	F0iQ==
-X-Gm-Message-State: ALoCoQmdrPQcg6iZCYhS6EgkNy4RQ/nr3Iv1+H9s2Q3aZwTocU1sS/Mhrg6hr6zCJ036DmHMLvn3ne/amUGZOtEjnzLVFwWQ3g==
-X-Received: by 10.194.246.37 with SMTP id xt5mr41496224wjc.7.1452262980754;
-	Fri, 08 Jan 2016 06:23:00 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id n5sm18795807wmf.3.2016.01.08.06.22.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Jan 2016 06:23:00 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 14:22:58 +0000
-Message-Id: <1452262978-12324-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.6.4
-Subject: [PATCH] oprofile: fix build with musl
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=TYrueHKl19bVDOqgttmfXm9zuYwb6TsEGzWrEVJbVuc=;
+	b=itKf8QUs0saXXkx0JzWyXCFXsc0spFBtvQwq3C68Lpeci2kl5hSvGln38q2FxNjRT+
+	qNSfAGWV6oAQ0ISPzqznzsQLVgM0nAbOxI516A/6axuJx9q7+t+zISisdIDEM3qKJDah
+	TCSx+vGksGHZDDpWVaGfgta8fT/EjPYSO20xi+H0inePCRV6mZRD4X3CDn9SGPY84b0G
+	F2pqvoC7IjrzLFRP6RFTDyd1lIFNeP0dGOvHKyCnBBAX8f/C5BVwKTi/xhbyxnPyfzOV
+	g4Bb+XJNWiMvfahdSd7MtyH3XslVzg8mhRJRm9wwgfddfiFQ/yPR8ENEF5Bf2v7gsLJj
+	TfJw==
+X-Gm-Message-State: ALoCoQnrpWiKhkcAgkuw9hDE8XuNdiyQrQ/M4yHki6fSu6Dany5xqaXLNgpVD6FAbSuR8mp6wKlEceUX3ij8AJWxHnU+v7uixThIF/CDm62DE0gvDtYOzaA=
+X-Received: by 10.50.126.8 with SMTP id mu8mr20827863igb.52.1452263017241;
+	Fri, 08 Jan 2016 06:23:37 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.107.162.70 with HTTP; Fri, 8 Jan 2016 06:23:17 -0800 (PST)
+In-Reply-To: <CAJTo0LZZhpUtmaKpkHf-NCtRBAt2KRx8cVoSpOQEH9eheFTP8g@mail.gmail.com>
+References: <cover.1452248145.git.raj.khem@gmail.com>
+	<CAJTo0La=m_u33L7z06GssdbQoQ0bAFpTweaUchU_kVDfOgnNwQ@mail.gmail.com>
+	<CAJTo0LZZhpUtmaKpkHf-NCtRBAt2KRx8cVoSpOQEH9eheFTP8g@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 Jan 2016 14:23:17 +0000
+Message-ID: <CAJTo0Lbj=bV=5PLm=W-ANnrv3nfwB0KyAtc1UDYHX4qGpQw5Og@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/53] musl fixes 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,82 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 14:23:01 -0000
+X-List-Received-Date: Fri, 08 Jan 2016 14:23:37 -0000
+Content-Type: multipart/alternative; boundary=047d7b1635bf4398180528d35587
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-kernel/oprofile/oprofile.inc        |  2 ++
- meta/recipes-kernel/oprofile/oprofile/musl.patch | 46 ++++++++++++++++++++++++
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-kernel/oprofile/oprofile/musl.patch
+--047d7b1635bf4398180528d35587
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-kernel/oprofile/oprofile.inc b/meta/recipes-kernel/oprofile/oprofile.inc
-index 6ec56e7..faf0e53 100644
---- a/meta/recipes-kernel/oprofile/oprofile.inc
-+++ b/meta/recipes-kernel/oprofile/oprofile.inc
-@@ -25,6 +25,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
-            file://run-ptest \
-            file://root-home-dir.patch"
- 
-+SRC_URI_append_libc-musl = " file://musl.patch"
-+
- inherit autotools pkgconfig ptest
- 
- EXTRA_OECONF = "--with-kernel=${STAGING_DIR_HOST}${prefix} --without-x ac_cv_prog_XSLTPROC="
-diff --git a/meta/recipes-kernel/oprofile/oprofile/musl.patch b/meta/recipes-kernel/oprofile/oprofile/musl.patch
-new file mode 100644
-index 0000000..39e5fdf
---- /dev/null
-+++ b/meta/recipes-kernel/oprofile/oprofile/musl.patch
-@@ -0,0 +1,46 @@
-+Fix glibc-isms so that oprofile builds with musl.
-+
-+Patch taken from openwrt (https://github.com/openwrt-mirror/openwrt/blob/master/package/devel/oprofile/patches/100-musl.patch)
-+
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+--- a/pe_profiling/operf.cpp
-++++ b/pe_profiling/operf.cpp
-+@@ -857,11 +857,14 @@ static int __delete_old_previous_sample_
-+                                 int tflag  __attribute__((unused)),
-+                                 struct FTW *ftwbuf __attribute__((unused)))
-+ {
-++	int err;
-++
-+ 	if (remove(fpath)) {
-++		err = errno;
-+ 		perror("sample data removal error");
-+-		return FTW_STOP;
-++		return err;
-+ 	} else {
-+-		return FTW_CONTINUE;
-++		return 0;
-+ 	}
-+ }
-+ 
-+@@ -896,7 +899,7 @@ static void convert_sample_data(void)
-+ 		return;
-+ 
-+ 	if (!operf_options::append) {
-+-                int flags = FTW_DEPTH | FTW_ACTIONRETVAL;
-++                int flags = FTW_DEPTH;
-+ 		errno = 0;
-+ 		if (nftw(previous_sampledir.c_str(), __delete_old_previous_sample_data, 32, flags) !=0 &&
-+ 				errno != ENOENT) {
-+--- a/libop/op_events.c
-++++ b/libop/op_events.c
-+@@ -83,7 +83,7 @@ static int parse_hex(char const * str)
-+ static u64 parse_long_hex(char const * str)
-+ {
-+ 	u64 value;
-+-	if (sscanf(str, "%Lx", &value) != 1)
-++	if (sscanf(str, "0x%llx", &value) != 1)
-+ 		parse_error("expected long hexadecimal value");
-+ 
-+ 	fflush(stderr);
-\ No newline at end of file
--- 
-2.6.4
+On 8 January 2016 at 14:12, Burton, Ross <ross.burton@intel.com> wrote:
 
+> Looks like FTW_STOP etc are glibc-specific.
+> https://github.com/commodo/openwrt/blob/master/package/devel/oprofile/patches/100-musl.patch
+> seems reasonable, assuming it works.
+>
 
+It builds at least!  Patch sent to the list. :)
+
+Ross
+
+--047d7b1635bf4398180528d35587
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 January 2016 at 14:12, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra=
+">Looks like FTW_STOP etc are glibc-specific. =C2=A0<a href=3D"https://gith=
+ub.com/commodo/openwrt/blob/master/package/devel/oprofile/patches/100-musl.=
+patch" target=3D"_blank">https://github.com/commodo/openwrt/blob/master/pac=
+kage/devel/oprofile/patches/100-musl.patch</a> seems reasonable, assuming i=
+t works.</div></blockquote></div><br>It builds at least!=C2=A0 Patch sent t=
+o the list. :)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
+l_extra">Ross</div></div>
+
+--047d7b1635bf4398180528d35587--
