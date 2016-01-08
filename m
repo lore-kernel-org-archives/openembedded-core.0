@@ -1,48 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 368AA731D3
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id E149F60745
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 14:33:12 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id 1so240686063ion.1
+	Fri,  8 Jan 2016 14:44:46 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id g73so90422451ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 06:33:13 -0800 (PST)
+	Fri, 08 Jan 2016 06:44:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=MTtWW33hiQ0bUHGw5fEMiRbN0V7L9UcDSb3cMQyy8LM=;
-	b=sj5KqFkh3aKkADb8Q2fU1VADrkunCNeeeDPWtukFbP7lV/2oHccYTJHcq9iOULltvd
-	Y9i5GZZwBMpWOGzdVOlz2FRaBvXyT46MWhSFVMSQ7AveGvoi9MR4+VMEaHKEAFhm1JcF
-	m8etUxd7FmiytMoflAO/hVm9r7sif2O+SYPx4g5suc3H3i/XMFCDHoAHjP480SHy9ia7
-	eyORcz6mvlPQW0XZwlxXnMfRdvIso8ZhbsWhBoFasQfqlmpAfRgQJ5jXj1zxtUlEcQmf
-	bpG/SLYHdx3HdtE61fse04fRqoIoPIsHQFCIT7B4AfFaDGVCG0fhfQqjvFccoI5RM948
-	Lt/w==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:content-type:mime-version:content-transfer-encoding;
+	bh=TveoJrXtpEMSJ0HUGS0Ir8qBXTZ2hYH9GcNSoASxc5Y=;
+	b=VtWIqzeedHt60yHzbrNpYCAilJcps2f98aNP8pdfMV6yhCiVyHvClhMi27zCB4JGyr
+	CWnmTaTM308KfVtmlXokfa2kmHKIgkiem2Lv6mKpi7Shq6o3dEVtDOs1QpygUaJacM1C
+	KPiB+r6InF32qfyofnriZBkAolw7/y/MD45yjXKC6QMGSYDLZWOJ9z+EicshH1rUYL5k
+	+AToVrYLlEalQGwC0ej0wqQS7u48pPYDwtog4IaXjdVNB9T3RQOoHE02twJVQ+VsJh/5
+	3oSlKy71R2RiePZJrTptaIStBD6WEoA2EhpVJdKjG8KurVEt3sybYxttlHXkD1+UoJc3
+	P+Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=MTtWW33hiQ0bUHGw5fEMiRbN0V7L9UcDSb3cMQyy8LM=;
-	b=Fv7Wp6U7HG4oojkriIuuUR/FC2wQIsd6BoUakqhsNsvfMhUuTDsTny9EKA+XJKyHdw
-	V+sujXPA8wVkWmlyZTY5KKyqYniPWzQtzaETeapPoSTF/890k7w6vN4zhuhj0/piTHtJ
-	LcvRmPz2i6eaGX0RWXw50AM/1y5CNW8DiNGB61QKmZRLMF17mC+byBJ0VFWg1UzUxu2M
-	JkeRi6urZhCCYBVGjXHYQl3gqV1evV9QmSiG53nvzL01jT0ZbNbFLKuzJzuAp1TvWajg
-	aqP1Fc3gkIcAjzFYinuUXH1ZqKeHq3OTkT53AKTzHbEC9eAwznr+J6Z57bDgR/SYDfN5
-	08Iw==
-X-Gm-Message-State: ALoCoQlx1bQkQnidHprdrktT5zwURKqkM67NBc5Qr5vXztrqKMVX7kV/H6+P+dWXZaDzEYFL7jCXMcx20vVfOYU0NLV4MUrX6n6+Vo0dD6riZ+Ku1s7ygdE=
-X-Received: by 10.107.3.154 with SMTP id e26mr95443810ioi.99.1452263593417;
-	Fri, 08 Jan 2016 06:33:13 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.162.70 with HTTP; Fri, 8 Jan 2016 06:32:54 -0800 (PST)
-In-Reply-To: <CAJTo0La=m_u33L7z06GssdbQoQ0bAFpTweaUchU_kVDfOgnNwQ@mail.gmail.com>
-References: <cover.1452248145.git.raj.khem@gmail.com>
-	<CAJTo0La=m_u33L7z06GssdbQoQ0bAFpTweaUchU_kVDfOgnNwQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 8 Jan 2016 14:32:54 +0000
-Message-ID: <CAJTo0La3v=55Kf=kd2N34g836tAzeieffFOX7c81=yudby=VWw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/53] musl fixes 3
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:content-type:mime-version
+	:content-transfer-encoding;
+	bh=TveoJrXtpEMSJ0HUGS0Ir8qBXTZ2hYH9GcNSoASxc5Y=;
+	b=Hwn992yaEe/DhS+XnMr3R2JLjQZetSOJPGsW5Az58c0z98jtBtgF8CEj2mH6pnEGVw
+	04Ec0wH2buLzEl2yUrbAqhS7YgKNcLMEeIOoMvmJk9OEQ3zu/jHmQ3bUPhHs5CTKyD1W
+	LQQ2D20BuebTWDcrP5Arn7DYIkzO3cvoggBPVijmg82sKCC40sfh3x4TV3uS1J3RmNjG
+	MoRcz/TEE+ladiXlA2lgG/iZ4Y4gXyJ/FXe8rYj2A1McndAWlKl+m/sBZv+2Opjh1pn7
+	+5Hw4JRaXO9sQSRdpnccGzkzu7CzVmcKIAPLSYROExcx7y1AvofXBHhJrD7/ZobvjyuL
+	Xvbg==
+X-Gm-Message-State: ALoCoQl+eisrI9xEDONF4vx9eOMOzUkWz3rVpWMh9C+2n50QJT7FZ9gHJnGF4jGusvCoL1gdP9uUW/XIB3hqDKFxlkwb/OPk7Q==
+X-Received: by 10.107.13.4 with SMTP id 4mr83398912ion.124.1452264287162;
+	Fri, 08 Jan 2016 06:44:47 -0800 (PST)
+Received: from pohly-mobl1 (p5DE8F2CE.dip0.t-ipconnect.de. [93.232.242.206])
+	by smtp.gmail.com with ESMTPSA id
+	wy7sm6813365igb.14.2016.01.08.06.44.45
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 08 Jan 2016 06:44:46 -0800 (PST)
+Message-ID: <1452264284.17716.16.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Andrew Shadura <andrew.shadura@collabora.co.uk>
+Date: Fri, 08 Jan 2016 15:44:44 +0100
+In-Reply-To: <73c4db7e6c63768735002961feb9c95815d352ea.1448030272.git.andrew.shadura@collabora.co.uk>
+References: <ef26757c2c56efbd37d8577432a8e451399ad245.1448030272.git.andrew.shadura@collabora.co.uk>
+	<73c4db7e6c63768735002961feb9c95815d352ea.1448030272.git.andrew.shadura@collabora.co.uk>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] dbus: add user sessions support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,58 +62,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 14:33:14 -0000
-Content-Type: multipart/alternative; boundary=001a113ec10a9b4d520528d3779a
+X-List-Received-Date: Fri, 08 Jan 2016 14:44:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a113ec10a9b4d520528d3779a
-Content-Type: text/plain; charset=UTF-8
+On Fri, 2015-11-20 at 15:38 +0100, Andrew Shadura wrote:
+> Enable the user-sessions support with a PACKAGECONFIG flag.
 
-On 8 January 2016 at 14:00, Burton, Ross <ross.burton@intel.com> wrote:
+I've tried this out in combination with the D-Bus 1.10 update patches.
+It's perhaps worth pointing out that user sessions only work in
+combination with pam.
 
-> systemd fails with this error, over and over:
->
-> |
-> /data/poky-master/tmp/work/i586-poky-linux-musl/systemd/1_228+gitAUTOINC+dd050decb6-r0/git/src/basic/util.h:96:70:
-> error: unknown type name 'comparison_fn_t'
-> |  static inline void qsort_safe(void *base, size_t nmemb, size_t size,
-> comparison_fn_t compar) {
->
+I also found that one minor fix was needed in
+meta/recipes-core/dbus/dbus_1.10.2.bb. Andrew, Ross, feel free to just
+squash that into the pending patch.
 
-I've just remembered about meta-musl so this is likely fixed there but I'm
-also seeing this when building systemd:
+But overall it looked good, so I'd love to have this in OE-core.
 
-|
-/data/poky-master/tmp/work/i586-poky-linux-musl/systemd/1_228+gitAUTOINC+dd050decb6-r0/git/src/basic/missing.h:590:6:
-error: #error "neither secure_getenv nor __secure_getenv are available"
+https://github.com/pohly/poky/commit/5b32e63f9e37492cef8de7aabfae562ab072b510
 
-Now I'll disable systemd verify it all works with sysvinit.
+commit 5b32e63f9e37492cef8de7aabfae562ab072b510
+Author: Patrick Ohly <patrick.ohly@intel.com>
+Date:   Fri Jan 8 15:34:50 2016 +0100
 
-Ross
+    dbus_1.10.2.bb: fix path to systemctl
+    
+    When compiling with systemd, pam and user sessions, the resulting
+    /usr/lib/systemd/user/dbus.socket ensures that the right
+    DBUS_SESSION_BUS_ADDRESS gets put into the environment when logging
+    into the system.
+    
+    The default configure behavior is to look in the PATH, which picks up
+    the tool from the host sysroot. We need to override that so that the
+    final location on the target is used instead. This is only relevant at
+    the moment when enabling user sessions, but it makes sense to fix the
+    value in all cases.
+    
+    Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 
---001a113ec10a9b4d520528d3779a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-core/dbus/dbus_1.10.2.bb b/meta/recipes-core/dbus/dbus_1.10.2.bb
+index ffb428b..a6cb649 100644
+--- a/meta/recipes-core/dbus/dbus_1.10.2.bb
++++ b/meta/recipes-core/dbus/dbus_1.10.2.bb
+@@ -96,6 +96,10 @@ EXTRA_OECONF = "--disable-tests \
+ 
+ EXTRA_OECONF_append_class-native = " --disable-selinux"
+ 
++# Automatic detection in the configure script picks up the path to
++# the native tool, therefore we must override the automatism.
++EXTRA_OECONF_append_class-target = " SYSTEMCTL=${base_bindir}/systemctl"
++
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+ PACKAGECONFIG_class-native = ""
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 January 2016 at 14:00, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
--left-style:solid;padding-left:1ex"><div class=3D"gmail_extra">systemd fail=
-s with this error, over and over:</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra"><div class=3D"gmail_extra">| /data/poky-master/=
-tmp/work/i586-poky-linux-musl/systemd/1_228+gitAUTOINC+dd050decb6-r0/git/sr=
-c/basic/util.h:96:70: error: unknown type name &#39;comparison_fn_t&#39;</d=
-iv><div class=3D"gmail_extra">| =C2=A0static inline void qsort_safe(void *b=
-ase, size_t nmemb, size_t size, comparison_fn_t compar) {</div></div></bloc=
-kquote></div><br>I&#39;ve just remembered about meta-musl so this is likely=
- fixed there but I&#39;m also seeing this when building systemd:</div><div =
-class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">| /data/poky-mas=
-ter/tmp/work/i586-poky-linux-musl/systemd/1_228+gitAUTOINC+dd050decb6-r0/gi=
-t/src/basic/missing.h:590:6: error: #error &quot;neither secure_getenv nor =
-__secure_getenv are available&quot;<br></div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">Now I&#39;ll disable systemd verify it al=
-l works with sysvinit.</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
+-- 
+Best Regards, Patrick Ohly
 
---001a113ec10a9b4d520528d3779a--
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
+
