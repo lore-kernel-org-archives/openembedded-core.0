@@ -1,24 +1,24 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id B2A6976BD7
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id E91D9759B4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 10:19:45 +0000 (UTC)
-Received: by mail-qk0-f169.google.com with SMTP id p186so118757253qke.0
+	Fri,  8 Jan 2016 10:19:46 +0000 (UTC)
+Received: by mail-qg0-f43.google.com with SMTP id 6so270214878qgy.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 02:19:46 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=rGCqPg+Rp76kQsia0bIMSO83K4ZIeYA/i41tsRi74wY=;
-	b=Jb2JoNkDrY7sSLojUfKOv04/7WsCnipBzPZCdut/aRKOUnSpBbb2/RBpZ175BAv8nT
-	QY0X7P4akl00f+FKVkMtjkJjVFdrSjutHUflRYWCcwGo9eRXwt8tA/eEBfcbfVAj0m14
-	cZMvrrTn32eg1vaAK/64W+XTlNVuhA9d8zHu6WWz3m2FR2gkMZxywIP455RjT8Hu/Ta7
-	9Q3EHMLnSpaey3lyiaya4Gz0eyOsL5lb5GXi6e1IEhZxaEhzIn67p1KFfWJBOeD9PI60
-	5qXLstREuBsG4q+cbw2JBvn1+896Og6Ap9A+dsKoT7FbTVrleRyMFMYPa7tz2WlVccX5
-	DSFw==
-X-Received: by 10.55.51.203 with SMTP id z194mr144581485qkz.21.1452248386584; 
-	Fri, 08 Jan 2016 02:19:46 -0800 (PST)
+	bh=LHqXhiQFtSdLpPh5h07VV4fwPEvZisdw8UQOENhOcw8=;
+	b=l3KtvZXyBzjnKqWVEz5JgnHaIrJKsOfFb5N7k3wzhCPNxomSWmW5kZvFGo3V5xyGOP
+	1MYMkVer7aaygpRjW8YrfvTkIZcyNtrASQqbfRSIP7nhgfslGb26OWLWEQntPSmYqOXd
+	5Ils7BueGAPg8aXPHQ+6ytEWQLGNQAsAGArNI8ZrHSutwPwqyOoecbFZCIpHSmZ1MHh5
+	BtqaS0+RSxOSxBoPrVlf72qdUr02NrYuFIiFkMo/OSK1jWKDCg2b3a7Vr6jpXVeXksv/
+	oFCjOfnbA+v21Q4WoSiT6WxRwLCd2OMv1OWulCr7YTafBNvHcxSxfzfgCjJUqMGrkxXK
+	Skmw==
+X-Received: by 10.140.218.72 with SMTP id o69mr15689720qhb.22.1452248387418;
+	Fri, 08 Jan 2016 02:19:47 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
 	d129sm48549987qka.31.2016.01.08.02.19.46
@@ -26,14 +26,14 @@ Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	Fri, 08 Jan 2016 02:19:46 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:18:57 +0000
-Message-Id: <4ca0017fb4c828edd4fcebbd8e7ed0dc72916201.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:18:58 +0000
+Message-Id: <aa131735726856532f21d5f3264251679ca7d030.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 29/53] puzzles: Zero'ise structs before use
+Subject: [PATCH 30/53] Revert "glib-2.0: build dependency cleanup"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,68 +46,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 10:19:46 -0000
+X-List-Received-Date: Fri, 08 Jan 2016 10:19:47 -0000
 
-Fixes build failures with musl where gcc5 flags it used before
-initialized.
+From: Kai Kang <kai.kang@windriver.com>
 
+This reverts commit fcd7494b347423185c883b2897c4908929843a71.
+
+It uses command glib-genmarshal to build glib-2.0 which is from
+glibc-2.0-native. If the command doesn't exist on host, build fails
+with error:
+
+| /bin/sh: --prefix=test_marshal: command not found
+| make[4]: *** [testmarshal.c] Error 127
+
+So add the dependency back.
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...mpiler-errors-about-uninitialized-use-of-.patch | 32 ++++++++++++++++++++++
- meta/recipes-sato/puzzles/puzzles_git.bb           |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-sato/puzzles/files/0001-rect-Fix-compiler-errors-about-uninitialized-use-of-.patch
+ meta/recipes-core/glib-2.0/glib.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-sato/puzzles/files/0001-rect-Fix-compiler-errors-about-uninitialized-use-of-.patch b/meta/recipes-sato/puzzles/files/0001-rect-Fix-compiler-errors-about-uninitialized-use-of-.patch
-new file mode 100644
-index 0000000..0b971c4
---- /dev/null
-+++ b/meta/recipes-sato/puzzles/files/0001-rect-Fix-compiler-errors-about-uninitialized-use-of-.patch
-@@ -0,0 +1,32 @@
-+From 78d6d1706c21ad467520075ff7a8bf15cfbd68b3 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 30 Dec 2015 22:13:16 +0000
-+Subject: [PATCH] rect: Fix compiler errors about uninitialized use of
-+ variables
-+
-+error: 'r2.x' may be used uninitialized in this function
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted
-+
-+ rect.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/rect.c b/rect.c
-+index 55667c0..fa3a786 100644
-+--- a/rect.c
-++++ b/rect.c
-+@@ -1317,7 +1317,8 @@ static char *new_game_desc(const game_params *params_in, random_state *rs,
-+                     if (ndirs > 0) {
-+                         int which, dir;
-+                         struct rect r1, r2;
-+-
-++                        memset(&r1, 0, sizeof(struct rect));
-++                        memset(&r2, 0, sizeof(struct rect));
-+                         which = random_upto(rs, ndirs);
-+                         dir = dirs[which];
-+ 
-+-- 
-+2.6.4
-+
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index 1e3bac7..9c8170c 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=33bcd4bce8f3c197f2aefbdbd2d299bc"
- SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
-            file://fix-compiling-failure-with-option-g-O.patch \
-            file://0001-Use-labs-instead-of-abs.patch \
-+           file://0001-rect-Fix-compiler-errors-about-uninitialized-use-of-.patch \
- "
- SRCREV = "346584bf6e38232be8773c24fd7dedcbd7b3d9ed"
- PE = "1"
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 86f7e0e..8e4dcd7 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -17,10 +17,10 @@ SECTION = "libs"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-DEPENDS = "virtual/libiconv libffi zlib"
+-DEPENDS_append = " ${@bb.utils.contains('PTEST_ENABLED', '1', ' glib-2.0-native dbus', '', d)}"
++DEPENDS = "glib-2.0-native virtual/libiconv libffi zlib"
++DEPENDS_append_class-target = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', ' dbus', '', d)}"
+ DEPENDS_class-native = "pkgconfig-native gettext-native libffi-native zlib-native"
+-DEPENDS_class-nativesdk = "nativesdk-libtool nativesdk-gettext nativesdk-libffi nativesdk-zlib"
++DEPENDS_class-nativesdk = "nativesdk-libtool nativesdk-gettext nativesdk-libffi nativesdk-zlib ${BPN}-native"
+ 
+ PACKAGES =+ "${PN}-utils ${PN}-bash-completion ${PN}-codegen"
+ 
 -- 
 2.7.0
 
