@@ -1,24 +1,24 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id BEF1876E3F
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B2837705E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 10:19:55 +0000 (UTC)
-Received: by mail-qg0-f46.google.com with SMTP id e32so258875423qgf.3
+	Fri,  8 Jan 2016 10:19:56 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id p186so118758325qke.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 02:19:56 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=iAze4PkwcDejaD7r/lPQoCOyiyFOtjwpJU3Fb9iQGVA=;
-	b=KcPXhq3vz/vz+TV+MqjsI6GuogYF0ki139fYGvGpTTnCAIZpA0ENOXNo0sQS1Ng3LS
-	mzTAuu4tbC4gQAJRDdBdJbhVnBq02NH3joBejgfbTsnYBDRsZlqJBhGUcbOBJY7cg70d
-	ci0M7F+4fB1LlWK9f9HpnfQWVokhD77h4vodQgRytVgOlpy3DDu02nuTgkX5EQZjb8KT
-	WwJo5C9II64kTfL5YuJ4IWoQHXtFcr1BJE3sowJjHRFW/OyxjEwvPpFuoHcWxuftUR62
-	KBDT9CDh18Sq1T8ADWhBOQ1y76mEnuGfugjeZO+DmJv4AiGETzwrisjWtWg0XpqfpB6b
-	un4w==
-X-Received: by 10.140.219.136 with SMTP id p130mr151014331qhb.80.1452248396630;
-	Fri, 08 Jan 2016 02:19:56 -0800 (PST)
+	bh=rFVtDsiHNj29rNwTutaSoYe4M7E2wpCyQFYCd+9ZD5Y=;
+	b=T57d/Xd8dDHeToHqSEmuBSDuKaW9aBQPnsjRRYm3FGLq4rxHeKESAp2H1E1K74pRJt
+	jWLmJ079PAAcM0Lb6qn58VsjbpXN8j1eXsmW4xo/qHVzr/+CUX1W65yTGVJ/Ilx9dkN0
+	PtqERNObVXlRUIELj2BnVf0g2WhHedDX99awhZuCWsvoda7M7RvJAQbzZc/k1xGMdNUS
+	Cq7Vr1AZzXcMGPULeGpmwqrPi8GGNzkSFi8ddQSNf3MJMFzZIB727kygDne8NZKthxpq
+	Yn+U4xLFdG/uw1x2N9u5IYnVtMTbbL1UlaG7JTZshWXgRrd0ff4jvGJBl6teKpHQUv1b
+	ScLQ==
+X-Received: by 10.55.71.195 with SMTP id u186mr143177748qka.38.1452248397221; 
+	Fri, 08 Jan 2016 02:19:57 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
 	d129sm48549987qka.31.2016.01.08.02.19.56
@@ -26,14 +26,14 @@ Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	Fri, 08 Jan 2016 02:19:56 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:19:11 +0000
-Message-Id: <f62faf89dca98d5c730612b45a467991ed30bd79.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:19:12 +0000
+Message-Id: <31b3314b4994ff0e9b190522776a85a34900cd22.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 43/53] iputils: Fix build with musl
+Subject: [PATCH 44/53] libuser: Fix build when secure getenv is not there
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,123 +48,133 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 08 Jan 2016 10:19:56 -0000
 
+Fixes build on musl
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../files/0001-Fix-header-inclusion-for-musl.patch | 92 ++++++++++++++++++++++
- meta/recipes-extended/iputils/iputils_s20121221.bb |  1 +
- 2 files changed, 93 insertions(+)
- create mode 100644 meta/recipes-extended/iputils/files/0001-Fix-header-inclusion-for-musl.patch
+ .../libuser/libuser/0001-Check-for-issetugid.patch | 62 ++++++++++++++++++++++
+ .../libuser/0002-remove-unused-execinfo.h.patch    | 27 ++++++++++
+ meta/recipes-extended/libuser/libuser_0.62.bb      |  4 +-
+ 3 files changed, 92 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/libuser/libuser/0001-Check-for-issetugid.patch
+ create mode 100644 meta/recipes-extended/libuser/libuser/0002-remove-unused-execinfo.h.patch
 
-diff --git a/meta/recipes-extended/iputils/files/0001-Fix-header-inclusion-for-musl.patch b/meta/recipes-extended/iputils/files/0001-Fix-header-inclusion-for-musl.patch
+diff --git a/meta/recipes-extended/libuser/libuser/0001-Check-for-issetugid.patch b/meta/recipes-extended/libuser/libuser/0001-Check-for-issetugid.patch
 new file mode 100644
-index 0000000..20ef07e
+index 0000000..79756b9
 --- /dev/null
-+++ b/meta/recipes-extended/iputils/files/0001-Fix-header-inclusion-for-musl.patch
-@@ -0,0 +1,92 @@
-+From be0bb81d72fea4d20da74f4f2236aa145684f332 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/libuser/libuser/0001-Check-for-issetugid.patch
+@@ -0,0 +1,62 @@
++From d0537cb7f2dc5877700ad78dfd191515379d4edc Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 6 Jan 2016 14:14:22 -0800
-+Subject: [PATCH] Fix header inclusion for musl
++Date: Thu, 7 Jan 2016 02:22:51 +0000
++Subject: [PATCH 1/2] Check for issetugid()
 +
-+Fix errors e.g.
-+
-+In file included from tracepath.c:17:0:
-+/usr/include/linux/errqueue.h:33:18:
-+error: array type has incomplete element type 'struct timespec'
-+  struct timespec ts[3];
-+                  ^
-+tracepath.c: In function 'main':
-+tracepath.c:329:16: error: 'INT_MAX' undeclared (first use in this
-+function)
-+      overhead, INT_MAX);
-+                ^
-+tracepath.c:329:16: note: each undeclared identifier is reported only
-+once for each function it appears in
-+Makefile:131: recipe for target 'tracepath.o' failed
-+make: *** [tracepath.o] Error 1
-+
-+ping_common.c: In function 'main_loop':
-+ping_common.c:756:15: error: 'HZ' undeclared (first use in this
-+function)
-+    if (1000 % HZ == 0 ? next <= 1000 / HZ : (next < INT_MAX / HZ &&
-+next * HZ <= 1000)) {
-+
-+protocols/timed.h is not needed and is absent in musl
++If secure version of getenv is not there then we can use
++issetugid() as aid to call getenv()
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
 +Upstream-Status: Pending
 +
-+ clockdiff.c   | 1 -
-+ ping_common.c | 1 +
-+ tracepath.c   | 2 ++
-+ tracepath6.c  | 1 +
-+ 4 files changed, 4 insertions(+), 1 deletion(-)
++ configure.ac |  1 +
++ lib/config.c | 12 +++++++++++-
++ 2 files changed, 12 insertions(+), 1 deletion(-)
 +
-+diff --git a/clockdiff.c b/clockdiff.c
-+index 7c1ea1b..1d6341e 100644
-+--- a/clockdiff.c
-++++ b/clockdiff.c
-+@@ -14,7 +14,6 @@
-+ #include <netinet/ip.h>
-+ #include <netinet/ip_icmp.h>
-+ #define TSPTYPES
-+-#include <protocols/timed.h>
-+ #include <fcntl.h>
-+ #include <netdb.h>
-+ #include <arpa/inet.h>
-+diff --git a/ping_common.c b/ping_common.c
-+index 7f82851..3ce699d 100644
-+--- a/ping_common.c
-++++ b/ping_common.c
-+@@ -2,6 +2,7 @@
-+ #include <ctype.h>
-+ #include <sched.h>
-+ #include <math.h>
-++#include <asm-generic/param.h>
++diff --git a/configure.ac b/configure.ac
++index 1ded1a2..ee19e1f 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -125,6 +125,7 @@ AC_TYPE_OFF_T
++ AC_TYPE_SIZE_T
 + 
-+ int options;
++ AC_CHECK_FUNCS([__secure_getenv secure_getenv])
+++AC_CHECK_FUNCS([issetugid])
 + 
-+diff --git a/tracepath.c b/tracepath.c
-+index 89e6d16..c9d6ddd 100644
-+--- a/tracepath.c
-++++ b/tracepath.c
-+@@ -12,6 +12,8 @@
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+ #include <unistd.h>
-++#include <limits.h>
-++#include <time.h>
-+ #include <sys/socket.h>
-+ #include <linux/types.h>
-+ #include <linux/errqueue.h>
-+diff --git a/tracepath6.c b/tracepath6.c
-+index 126fadf..9d5745c 100644
-+--- a/tracepath6.c
-++++ b/tracepath6.c
-+@@ -12,6 +12,7 @@
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+ #include <unistd.h>
-++#include <limits.h>
-+ #include <sys/socket.h>
-+ #include <netinet/in.h>
-+ #include <netinet/icmp6.h>
++ # Modify CFLAGS after all tests are run (some of them could fail because
++ # of the -Werror).
++diff --git a/lib/config.c b/lib/config.c
++index 29e7120..30f9daf 100644
++--- a/lib/config.c
+++++ b/lib/config.c
++@@ -44,8 +44,10 @@
++ #  define safe_getenv(string) secure_getenv(string)
++ #elif defined(HAVE___SECURE_GETENV)
++ #  define safe_getenv(string) __secure_getenv(string)
+++#elif defined(HAVE_ISSETUGID)
+++#  define safe_getenv(string) safe_getenv_issetugid(string)
++ #else
++-#  error Neither secure_getenv not __secure_getenv are available
+++#  error None of secure_getenv, __secure_getenv, or issetugid is available
++ #endif
++ 
++ struct config_config {
++@@ -59,6 +61,14 @@ struct config_key {
++ 	GList *values;
++ };
++ 
+++static const char*
+++safe_getenv_issetugid(const char* name)
+++{
+++	if (issetugid ())
+++		return 0;
+++	return getenv (name);
+++}
+++
++ /* Compare two section names */
++ static int
++ compare_section_names(gconstpointer a, gconstpointer b)
 +-- 
-+2.6.4
++2.7.0
 +
-diff --git a/meta/recipes-extended/iputils/iputils_s20121221.bb b/meta/recipes-extended/iputils/iputils_s20121221.bb
-index 49913d6..225c28b 100644
---- a/meta/recipes-extended/iputils/iputils_s20121221.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20121221.bb
-@@ -19,6 +19,7 @@ SRC_URI = "http://www.skbuff.net/iputils/${BPN}-${PV}.tar.bz2 \
-            file://debian/targets.diff \
-            file://nsgmls-path-fix.patch \
-            file://fix-build-command-line-argument-with-gnutls.patch \
-+           file://0001-Fix-header-inclusion-for-musl.patch \
-           "
+diff --git a/meta/recipes-extended/libuser/libuser/0002-remove-unused-execinfo.h.patch b/meta/recipes-extended/libuser/libuser/0002-remove-unused-execinfo.h.patch
+new file mode 100644
+index 0000000..4bc0219
+--- /dev/null
++++ b/meta/recipes-extended/libuser/libuser/0002-remove-unused-execinfo.h.patch
+@@ -0,0 +1,27 @@
++From 4b2f81f307ffeac12956e5c16e894e5ebb937ea5 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 7 Jan 2016 02:26:00 +0000
++Subject: [PATCH 2/2] remove unused execinfo.h
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ lib/error.c | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/lib/error.c b/lib/error.c
++index a5ec30a..443e601 100644
++--- a/lib/error.c
+++++ b/lib/error.c
++@@ -18,7 +18,6 @@
++ #include <config.h>
++ #include <sys/types.h>
++ #include <errno.h>
++-#include <execinfo.h>
++ #include <libintl.h>
++ #include <stdarg.h>
++ #include <stdlib.h>
++-- 
++2.7.0
++
+diff --git a/meta/recipes-extended/libuser/libuser_0.62.bb b/meta/recipes-extended/libuser/libuser_0.62.bb
+index 4caa8a1..2d5bd35 100644
+--- a/meta/recipes-extended/libuser/libuser_0.62.bb
++++ b/meta/recipes-extended/libuser/libuser_0.62.bb
+@@ -12,7 +12,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
+ SECTION = "base"
  
- SRC_URI[md5sum] = "6072aef64205720dd1893b375e184171"
+ SRC_URI = "https://fedorahosted.org/releases/l/i/libuser/libuser-${PV}.tar.xz \
+-           "
++           file://0001-Check-for-issetugid.patch \
++           file://0002-remove-unused-execinfo.h.patch \
++          "
+ 
+ SRC_URI[md5sum] = "63e5e5c551e99dc5302b40b80bd6d4f2"
+ SRC_URI[sha256sum] = "a58ff4fabb01a25043b142185a33eeea961109dd60d4b40b6a9df4fa3cace20b"
 -- 
 2.7.0
 
