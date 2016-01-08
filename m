@@ -1,41 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ADF176FE2
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 0366E77087
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  8 Jan 2016 10:19:57 +0000 (UTC)
-Received: by mail-qg0-f48.google.com with SMTP id o11so348663641qge.2
+Received: by mail-qk0-f173.google.com with SMTP id p186so118758449qke.0
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 08 Jan 2016 02:19:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:in-reply-to:references:content-type
-	:content-transfer-encoding;
-	bh=HYWgzrrPHtvKs0xmA0K5s3LsTtyNRqaYhB6qVvlzDjQ=;
-	b=lVi8R9JeusZbI1mR3hZsV9ZjB5bhHSxuWWWxpnc1Blr/MOaVMp61Bq1gD9z/EwKTP9
-	AFnL0MtBfyV+tUoKp6FU03NF4nB0RutrBDp26Invme0KlUA6LN+dghJ+GLTpf3b8VjuL
-	vgHF6Pot11HDmHhce7mCVPlZ7hENmxmZcq8iwRz4fgNv97zWVic4kpOovmofvs76zj0K
-	aXiFVbu+lpozlrOCWyPILJjHfXuNNpYGVZMczr6gbnRZ5L6cgu4G7aARzc39kTLyRil0
-	HnL9FxiZU22h604SfjZkZnwXVnCScPzQ/k1kALCoW8FHL00SoXbhScNjF2ZdhEe4kPaq
-	TTKQ==
-X-Received: by 10.140.238.88 with SMTP id j85mr142606372qhc.88.1452248397869; 
-	Fri, 08 Jan 2016 02:19:57 -0800 (PST)
+	:in-reply-to:references;
+	bh=hOA/Iid3+ixYQWFNswb2iyqhmFYBvOsDq4nM8hUXMuE=;
+	b=K28kXYcIr7jLWCLZqIxQQJ3xnK6t43COcq9J7mktFYvAxfLHK9dx7BWGMhcxrcGUMv
+	bPP+cbl2iSyRpO522ekkiW8X0bJ+pqU630udkFnXb11eP4AdaNrXOvPWmGVnb3eObjfy
+	i+l8ns1XxYryMdY6MV1r8uG8fQDbac1Q9CDquC/YkTBBxmpEBc7OxQUKaWzxGB7L7D0z
+	HwkK365sWxdg6TH3Yfw+pMYcebzkIiorJx/GVWUqPt2m8kaERwiEe59mgPYlV5gB6H2i
+	PNXC3Rc2psLN6yZxaFQ8TFUD0tVwxsqjaIShPoZP/Uc/PvOxw+rpP6/trEdlhMnksWaW
+	D3ZQ==
+X-Received: by 10.55.75.131 with SMTP id y125mr79383968qka.61.1452248398481;
+	Fri, 08 Jan 2016 02:19:58 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
 	d129sm48549987qka.31.2016.01.08.02.19.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Jan 2016 02:19:57 -0800 (PST)
+	Fri, 08 Jan 2016 02:19:58 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:19:13 +0000
-Message-Id: <bfb8f8a878bf84371eda95fc8d868a7429ffb8af.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:19:14 +0000
+Message-Id: <f2be4884ffaed3002529491586a39ad81618917c.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
-MIME-Version: 1.0
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 45/53] iproute2: Fix build with musl
+Subject: [PATCH 46/53] irda-utils: Fix header inclusions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,131 +47,63 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 08 Jan 2016 10:19:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+
+Helps compile with musl
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../iproute2/iproute2/iproute2-4.3.0-musl.patch    | 97 ++++++++++++++++++++++
- .../iproute2/iproute2_4.3.0.bb                     |  1 +
- 2 files changed, 98 insertions(+)
- create mode 100644 meta/recipes-connectivity/iproute2/iproute2/iproute2-4.3.0-musl.patch
+ .../irda-utils/irda-utils-0.9.18/musl.patch        | 29 ++++++++++++++++++++++
+ .../irda-utils/irda-utils_0.9.18.bb                |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/musl.patch
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.3.0-musl.patch b/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.3.0-musl.patch
+diff --git a/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/musl.patch b/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/musl.patch
 new file mode 100644
-index 0000000..1b415a5
+index 0000000..97eb975
 --- /dev/null
-+++ b/meta/recipes-connectivity/iproute2/iproute2/iproute2-4.3.0-musl.patch
-@@ -0,0 +1,97 @@
-+From 48596709d8ab59727b79a5c6db33ebb251c36543 Mon Sep 17 00:00:00 2001
-+From: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
-+Date: Thu, 19 Nov 2015 17:44:25 +0100
-+Subject: [PATCH] Avoid in6_addr redefinition
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/musl.patch
+@@ -0,0 +1,29 @@
++Replace use of <net/if_packet.h> with <linux/if_packet.h>.
 +
-+Due to both <netinet/in.h> and <linux/in6.h> being included, the
-+in6_addr is being redefined: once from the C library headers and once
-+from the kernel headers. This causes some build failures with for
-+example the musl C library:
++kernel headers <linux/if_packet.h> already provides the
++needed definitions, moreover not all libc implementations
++provide if_packet.h e.g. musl
 +
-+In file included from ../include/linux/xfrm.h:4:0,
-+                 from xfrm.h:29,
-+                 from ipxfrm.c:39:
-+../include/linux/in6.h:32:8: error: redefinition of ‘struct in6_addr’
-+ struct in6_addr {
-+        ^
-+In file included from .../output/host/usr/x86_64-buildroot-linux-musl/sysroot/usr/include/netdb.h:9:0,
-+                 from ipxfrm.c:34:
-+.../output/host/usr/x86_64-buildroot-linux-musl/sysroot/usr/include/netinet/in.h:24:8: note: originally defined here
-+ struct in6_addr
-+        ^
-+
-+In order to fix this, use just the C library header <netinet/in.h>.
-+
-+Original patch taken from
-+http://git.alpinelinux.org/cgit/aports/tree/main/iproute2/musl-fixes.patch.
-+
-+Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
-+---
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +Upstream-Status: Pending
 +
-+ include/libiptc/ipt_kernel_headers.h | 2 --
-+ include/linux/if_bridge.h            | 1 -
-+ include/linux/netfilter.h            | 2 --
-+ include/linux/xfrm.h                 | 1 -
-+ 4 files changed, 6 deletions(-)
-+
-+diff --git a/include/libiptc/ipt_kernel_headers.h b/include/libiptc/ipt_kernel_headers.h
-+index 7e87828..9566be5 100644
-+--- a/include/libiptc/ipt_kernel_headers.h
-++++ b/include/libiptc/ipt_kernel_headers.h
-+@@ -15,12 +15,10 @@
-+ #else /* libc5 */
++Index: irda-utils-0.9.18/irdaping/irdaping.c
++===================================================================
++--- irda-utils-0.9.18.orig/irdaping/irdaping.c
+++++ irda-utils-0.9.18/irdaping/irdaping.c
++@@ -33,7 +33,6 @@
 + #include <sys/socket.h>
-+ #include <linux/ip.h>
-+-#include <linux/in.h>
-+ #include <linux/if.h>
-+ #include <linux/icmp.h>
-+ #include <linux/tcp.h>
-+ #include <linux/udp.h>
-+ #include <linux/types.h>
-+-#include <linux/in6.h>
-+ #endif
-+ #endif
-+diff --git a/include/linux/if_bridge.h b/include/linux/if_bridge.h
-+index ee197a3..f823aa4 100644
-+--- a/include/linux/if_bridge.h
-++++ b/include/linux/if_bridge.h
-+@@ -15,7 +15,6 @@
++ #include <sys/ioctl.h>
++ #include <net/if.h>		/* For struct ifreq */
++-#include <net/if_packet.h>	/* For struct sockaddr_pkt */
++ #include <net/if_arp.h>		/* For ARPHRD_IRDA */
++ #include <netinet/if_ether.h>	/* For ETH_P_ALL */
++ #include <netinet/in.h>		/* For htons */
++@@ -46,6 +45,7 @@
++ #include <asm/byteorder.h>	/* __cpu_to_le32 and co. */
 + 
-+ #include <linux/types.h>
-+ #include <linux/if_ether.h>
-+-#include <linux/in6.h>
++ #include <linux/types.h>	/* For __u8 and co. */
+++#include <linux/if_packet.h>	/* For struct sockaddr_pkt */
++ #include <irda.h>
 + 
-+ #define SYSFS_BRIDGE_ATTR	"bridge"
-+ #define SYSFS_BRIDGE_FDB	"brforward"
-+diff --git a/include/linux/netfilter.h b/include/linux/netfilter.h
-+index b71b4c9..3e4e6ae 100644
-+--- a/include/linux/netfilter.h
-++++ b/include/linux/netfilter.h
-+@@ -4,8 +4,6 @@
-+ #include <linux/types.h>
-+ 
-+ #include <linux/sysctl.h>
-+-#include <linux/in.h>
-+-#include <linux/in6.h>
-+ 
-+ /* Responses from hook functions. */
-+ #define NF_DROP 0
-+diff --git a/include/linux/xfrm.h b/include/linux/xfrm.h
-+index b8f5451..a9761a5 100644
-+--- a/include/linux/xfrm.h
-++++ b/include/linux/xfrm.h
-+@@ -1,7 +1,6 @@
-+ #ifndef _LINUX_XFRM_H
-+ #define _LINUX_XFRM_H
-+ 
-+-#include <linux/in6.h>
-+ #include <linux/types.h>
-+ 
-+ /* All of the structures in this file may not change size as they are
-+-- 
-+2.6.3
-+
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb b/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
-index 0b3d896..60f0a8d 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_4.3.0.bb
-@@ -3,6 +3,7 @@ require iproute2.inc
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://configure-cross.patch \
-            file://0001-iproute2-de-bash-scripts.patch \
-+           file://iproute2-4.3.0-musl.patch \
-           "
- SRC_URI[md5sum] = "1a2bbb80cfc7ab3f3e987e18b3207c2f"
- SRC_URI[sha256sum] = "f03b1188dd6c039512424de82ff7a8f3b446680bd4e908ff42a7b9b137422995"
++ #ifndef AF_IRDA
+diff --git a/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb b/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
+index bd2f815..11b2ee9 100644
+--- a/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
++++ b/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://irdadump/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/irda/irda-utils-${PV}.tar.gz \
+            file://ldflags.patch \
++           file://musl.patch \
+            file://init"
+ 
+ SRC_URI[md5sum] = "84dc12aa4c3f61fccb8d8919bf4079bb"
 -- 
 2.7.0
 
