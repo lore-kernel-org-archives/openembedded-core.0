@@ -1,27 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9797F60290
+	by mail.openembedded.org (Postfix) with ESMTP id E17EE60290
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 18:25:29 +0000 (UTC)
+	Fri,  8 Jan 2016 18:26:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u08IPP79017028; Fri, 8 Jan 2016 18:25:25 GMT
+	u08IQjKS017153 for <openembedded-core@lists.openembedded.org>;
+	Fri, 8 Jan 2016 18:26:45 GMT
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Qr0n-PjO6psZ; Fri,  8 Jan 2016 18:25:25 +0000 (GMT)
+	with LMTP id RKfI_yQsoqVo
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  8 Jan 2016 18:26:45 +0000 (GMT)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	u08IPMw1017021
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 8 Jan 2016 18:25:23 GMT
-Message-ID: <1452277522.7598.140.camel@linuxfoundation.org>
+	u08IQeal017149
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 8 Jan 2016 18:26:41 GMT
+Message-ID: <1452277599.7598.142.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 08 Jan 2016 18:25:22 +0000
+Date: Fri, 08 Jan 2016 18:26:39 +0000
 X-Mailer: Evolution 3.16.5-1ubuntu3.1 
 Mime-Version: 1.0
-Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
-Subject: [RFC PATCH] populate_sdk_ext: Change to include siginfo and non sstate task sigs
+Subject: [PATCH] populate_sdk_ext: Use new --setscene-only option to bitbake instead of workarounds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,83 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 18:25:30 -0000
+X-List-Received-Date: Fri, 08 Jan 2016 18:26:46 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Right now, the locked task hashes list for the extensible SDK locks
-down only the sstate tasks.
-
-Whilst aesthetically pleasing, this gives two problems:
-
-* Half the task are left floating meaning checksum mismatches
-  are a pain to debug
-* The later code which copies relavent data files out the sstate
-  cache can't use any of this data.
-
-This patch modifies things so all the checksums are listed in the locked
-file. An exclusion of tasks probably makes more sense for the library
-function rather than an allowed list.
-
-The only sstate task being deliberately excluded here was do_package
-so add in a function to explictly exclude those sstate object files.
-
-The net result of this that siginfo files for all tasks are included in
-the SDK, which means commands like "bitbake -S printdiff" now function.
+Rather than horrible workarounds, use the new --setscene-only option
+of bitbake to pre-populate the SDK structures.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 317043d..3a65c07 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -171,10 +171,9 @@ python copy_buildsystem () {
-     oe.copy_buildsystem.generate_locked_sigs(sigfile, d)
+diff --git a/meta/files/ext-sdk-prepare.sh b/meta/files/ext-sdk-prepare.sh
+index 160c71e..b3f5d93 100644
+--- a/meta/files/ext-sdk-prepare.sh
++++ b/meta/files/ext-sdk-prepare.sh
+@@ -5,16 +5,4 @@
+ target_sdk_dir="$1"
+ sdk_targets="$2"
  
-     # Filter the locked signatures file to just the sstate tasks we are interested in
--    allowed_tasks = ['do_populate_lic', 'do_populate_sysroot', 'do_packagedata', 'do_package_write_ipk', 'do_package_write_rpm', 'do_package_write_deb', 'do_package_qa', 'do_deploy']
-     excluded_targets = d.getVar('SDK_TARGETS', True)
-     lockedsigs_pruned = baseoutpath + '/conf/locked-sigs.inc'
--    oe.copy_buildsystem.prune_lockedsigs(allowed_tasks,
-+    oe.copy_buildsystem.prune_lockedsigs([],
-                                          excluded_targets,
-                                          sigfile,
-                                          lockedsigs_pruned)
-@@ -187,6 +186,12 @@ python copy_buildsystem () {
-                                                    d.getVar('SSTATE_DIR', True),
-                                                    sstate_out, d,
-                                                    fixedlsbstring)
-+    # We don't need sstate do_package files
-+    for root, dirs, files in os.walk(sstate_out):
-+        for name in files:
-+            if name.endswith("_package.tgz"):
-+                f = os.path.join(root, name)
-+                os.remove(f)
- }
- 
- def extsdk_get_buildtools_filename(d):
-diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
-index 15af4eb..a5ca3df 100644
---- a/meta/lib/oe/copy_buildsystem.py
-+++ b/meta/lib/oe/copy_buildsystem.py
-@@ -75,7 +75,7 @@ def generate_locked_sigs(sigfile, d):
-     tasks = ['%s.%s' % (v[2], v[1]) for v in depd.itervalues()]
-     bb.parse.siggen.dump_lockedsigs(sigfile, tasks)
- 
--def prune_lockedsigs(allowed_tasks, excluded_targets, lockedsigs, pruned_output):
-+def prune_lockedsigs(excluded_tasks, excluded_targets, lockedsigs, pruned_output):
-     with open(lockedsigs, 'r') as infile:
-         bb.utils.mkdirhier(os.path.dirname(pruned_output))
-         with open(pruned_output, 'w') as f:
-@@ -84,7 +84,7 @@ def prune_lockedsigs(allowed_tasks, excluded_targets, lockedsigs, pruned_output)
-                 if invalue:
-                     if line.endswith('\\\n'):
-                         splitval = line.strip().split(':')
--                        if splitval[1] in allowed_tasks and not splitval[0] in excluded_targets:
-+                        if not splitval[1] in excluded_tasks and not splitval[0] in excluded_targets:
-                             f.write(line)
-                     else:
-                         f.write(line)
+-# Avoid actually building images during this phase, but still
+-# ensure all dependencies are extracted from sstate
+-# This is a hack, to be sure, but we really don't need to do this here
+-for sdktarget in $sdk_targets ; do
+-	bbappend=`recipetool newappend $target_sdk_dir/workspace $sdktarget`
+-	printf 'python do_rootfs_forcevariable () {\n    bb.utils.mkdirhier(d.getVar("IMAGE_ROOTFS", True))\n}\n' > $bbappend
+-	printf 'python do_bootimg () {\n    pass\n}\n' >> $bbappend
+-	printf 'python do_bootdirectdisk () {\n    pass\n}\n' >> $bbappend
+-	printf 'python do_vmimg () {\n    pass\n}\n' >> $bbappend
+-	printf "Created bbappend %s\n" "$bbappend"
+-done
+-bitbake $sdk_targets || exit 1
+-rm -rf $target_sdk_dir/workspace/appends/*
++bitbake $sdk_targets --setscene-only || exit 1
+diff --git a/scripts/lib/devtool/sdk.py b/scripts/lib/devtool/sdk.py
+index 7faefab..0872df6 100644
+--- a/scripts/lib/devtool/sdk.py
++++ b/scripts/lib/devtool/sdk.py
+@@ -178,7 +178,7 @@ def sdk_update(args, config, basepath, workspace):
+         sdk_targets = config.get('SDK', 'sdk_targets')
+         logger.info("Preparing build system... (This may take some time.)")
+         try:
+-            exec_build_env_command(config.init_path, basepath, 'bitbake %s' % sdk_targets)
++            exec_build_env_command(config.init_path, basepath, 'bitbake %s --setscene-only' % sdk_targets)
+         except:
+             logger.error('bitbake %s failed' % sdk_targets)
+             return -1
 
 
 
