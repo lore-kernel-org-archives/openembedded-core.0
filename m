@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 9366873289
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 222A2770EE
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  8 Jan 2016 10:20:01 +0000 (UTC)
-Received: by mail-qg0-f42.google.com with SMTP id 6so270218039qgy.1
+Received: by mail-qg0-f51.google.com with SMTP id b35so218716719qge.0
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 08 Jan 2016 02:20:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=kVdjeDweEZYylummDV5yASn6+05siiSqJMKX3ppQPNc=;
-	b=iQ0yHRvrqk5lJlqnOygEbltUJ0rxLeBDYg3iuwRLDWn8WaSZYtW+G9lW06YFq9LVSP
-	VF7/eQtxjFtyZlt2KLqI/e+8rNoKGrg+TFQsERNZv7lnMaaSaYY+EABOjTDeliKdSYA2
-	X9+mhC6/ktbcaAIZGYOv2GjeaS1NJz9fh5qLgV1q3+hD3iWuDmo88bCirLg87rkAgwmB
-	bOFdC8wQCqSTOPT6rnt85O5siQhyfOn+KV+SHkn1TQA7J98f7A3HBd2fhhYKDyOFntR2
-	CPwrYDMmJbuu5BCvVH7l2gUfuP+B+GLJNQOZfQq8juwOsPBdLkWOHKkx7UhHrbdUowRt
-	jQkA==
-X-Received: by 10.140.201.20 with SMTP id w20mr87296284qha.10.1452248402018;
+	bh=zlssQ+ljclRPlhw9ByoE8Xi+4wyQNFopMv0tORzh6RQ=;
+	b=NwgNRcL0ZqVW2D7CEATH3Zg9yO3a/MkgfoOpf6mOoeU8DMNWFvkRjGqrcxRBubnZVV
+	kb/Khnjjg2J5BWOC9pniLgKc67tFdsnJ0T+fETG2PUyazT9gaYS3fmI0BhHpET1r3pzI
+	9B2XPIYLCn2tGcufo7OspbTJeuUJNYWy0cpzh8TwnTcvjdSihlOAHEX60L8nYc5w+Lpj
+	gEMFcgcnDGrESiKx825G6X7fa5hsrHZ6fAfryet8PrUjPZMv3IFeXDxSd6zdP6N9CfRW
+	A/OFao8RIoFhnuJ1rcHJ3zsgKDYUpYiTTbAv5kjIqof60nBnsJnwF0+JxStrk2iY2NaS
+	OaOw==
+X-Received: by 10.140.159.194 with SMTP id f185mr6236721qhf.72.1452248402708; 
 	Fri, 08 Jan 2016 02:20:02 -0800 (PST)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	d129sm48549987qka.31.2016.01.08.02.20.01
+	d129sm48549987qka.31.2016.01.08.02.20.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Jan 2016 02:20:01 -0800 (PST)
+	Fri, 08 Jan 2016 02:20:02 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Jan 2016 10:19:19 +0000
-Message-Id: <4f3c369514223305ae263c23e9731ce78ad1a2ae.1452248145.git.raj.khem@gmail.com>
+Date: Fri,  8 Jan 2016 10:19:20 +0000
+Message-Id: <57a2344d28477ff6ae8943214cf7a97104497aa8.1452248145.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 References: <604bc7909e229178e6723a5323f99ae33cf7ec7f.1452248145.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1452248145.git.raj.khem@gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-Subject: [PATCH 51/53] nfs-utils: Disable tcp-wrappers for musl
+Subject: [PATCH 52/53] portmap: Point to tirpc headers and libraries on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,25 +48,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 08 Jan 2016 10:20:02 -0000
 
-Doesnt build with musl
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-connectivity/portmap/portmap_6.0.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb
-index 2e0c8b1..ea00656 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.3.bb
-@@ -64,6 +64,7 @@ EXTRA_OECONF = "--with-statduser=rpcuser \
-                "
+diff --git a/meta/recipes-connectivity/portmap/portmap_6.0.bb b/meta/recipes-connectivity/portmap/portmap_6.0.bb
+index e727fe3..999b4a9 100644
+--- a/meta/recipes-connectivity/portmap/portmap_6.0.bb
++++ b/meta/recipes-connectivity/portmap/portmap_6.0.bb
+@@ -1,5 +1,7 @@
+ require portmap.inc
  
- PACKAGECONFIG ??= "tcp-wrappers"
-+PACKAGECONFIG_remove_libc-musl = "tcp-wrappers"
- PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wrappers"
- PACKAGECONFIG[nfsidmap] = "--enable-nfsidmap,--disable-nfsidmap,keyutils"
++DEPENDS_append_libc-musl = " libtirpc "
++
+ PR = "r9"
  
+ SRC_URI = "http://www.sourcefiles.org/Networking/Tools/Miscellanenous/portmap-6.0.tgz \
+@@ -19,6 +21,8 @@ PACKAGECONFIG[tcp-wrappers] = ",,tcp-wrappers"
+ CPPFLAGS += "-DFACILITY=LOG_DAEMON -DENABLE_DNS -DHOSTS_ACCESS"
+ CFLAGS += "-Wall -Wstrict-prototypes -fPIC"
+ EXTRA_OEMAKE += "'NO_TCP_WRAPPER=${@bb.utils.contains('PACKAGECONFIG', 'tcp-wrappers', '', '1', d)}'"
++CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc "
++LDFLAGS_append_libc-musl = " -ltirpc "
+ 
+ do_install() {
+     install -d ${D}${mandir}/man8/ ${D}${base_sbindir} ${D}${sysconfdir}/init.d
 -- 
 2.7.0
 
