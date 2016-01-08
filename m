@@ -1,26 +1,46 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id B80F36FFFE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 421A06FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 20:44:50 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1aHdtx-0003zI-Pd; Fri, 08 Jan 2016 21:44:50 +0100
-Message-ID: <1452285883.1933.31.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 08 Jan 2016 20:44:43 +0000
-In-Reply-To: <CAJ86T=VQdAB9dRRb4c_XmFOO+BxH13ar=-Fi209Z59Ry6zVy1w@mail.gmail.com>
-References: <1452256574-21587-1-git-send-email-Martin.Jansa@gmail.com>
-	<1452257072-1799-1-git-send-email-Martin.Jansa@gmail.com>
-	<CAJ86T=WNGGp=L358DSu2+VXM4eEdOz9FRcDBkGueUap80RjGBw@mail.gmail.com>
-	<20160108170054.GB2573@jama>
-	<CAJ86T=VQdAB9dRRb4c_XmFOO+BxH13ar=-Fi209Z59Ry6zVy1w@mail.gmail.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2][RFC] arch-armv7ve.inc: respect armv7a override as well
+	Fri,  8 Jan 2016 20:46:16 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id f206so188944362wmf.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Jan 2016 12:46:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=933zcXYGsOh8KaZ/LxIhHQphQpW/90+ReMmhTjRc48o=;
+	b=ZDKXw8gbLd0vUAfCTQ05FMC4l2gEB+z0++4ehb2OWurPfp/Z+aQ2wXExbHr0ZSn8HM
+	T0dAM3PnHKmrzOhpEosAOABrlxgm5XZz+5++72bZhhemcoBkPx3akKKN7JNlU504mLEB
+	i3EpPOAimN0RqnH7yVD620JPn603gaa+XlzNNL3/67Z2AglYD1Hh5lkXQpWWx+Q2fOT9
+	S4RGTWz2L2nQhoSDROhcBTI6ObO4Rui/u7lWVVhgGRx+3MZ995v50lNYiTUaqKxPynyX
+	adMJiMQm82AovmfFLrtygMaGBae0LCAQZ35oL8Kta75bo9VMGebJffgxhwzJwQ9rS4J5
+	5EYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=933zcXYGsOh8KaZ/LxIhHQphQpW/90+ReMmhTjRc48o=;
+	b=NPRIp8x/P8S8BkvJCfCzgTuFTXkVwg7y8Ai0O48CndRMtufQdBhelRfzOvFkAlSQtH
+	vi0FYQpqZF3UNCfuyLmkAfid3i95uzIgf0ZwlqIBRfIxagxpPZ4j+vvDgkrAXb9z3rfO
+	lN7VQF7Wv3jNAxWwmM598aH56HbIBC5AAaueqKCkTu4031O+OAh2KFjqwSBAES9i6O03
+	aYinG5ipLyX7wW18V5gZsEsD1L1VgKx2VculPKHPRkfBrfYpS3B5Zzhydw+yP+41xKvP
+	s4pK5BXwfNmA1kLtANhneMR3iXASJIT8N/kmzariI3BlE052Un7Fl7INqY68hXTyPS/L
+	cxYg==
+X-Gm-Message-State: ALoCoQkO/nlebi7YcKAMwU3d2fXh2IaOVlHXlyOfUc21+JmvK53P9jYrBQtTkdxKdeuzs1lnIo3FjK/CHGft/1A/lDpHMhHTag==
+X-Received: by 10.194.202.135 with SMTP id ki7mr102337569wjc.81.1452285976807; 
+	Fri, 08 Jan 2016 12:46:16 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id w17sm760960wmw.15.2016.01.08.12.46.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 08 Jan 2016 12:46:16 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Jan 2016 20:46:11 +0000
+Message-Id: <1452285971-22612-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.6.4
+Subject: [PATCH] update_font_cache: only scan system font directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,59 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 20:44:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Jan 2016 20:46:17 -0000
 
-On Fri, 2016-01-08 at 10:24 -0800, Andre McCurdy wrote:
-> On Fri, Jan 8, 2016 at 9:00 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > On Fri, Jan 08, 2016 at 08:24:36AM -0800, Andre McCurdy wrote:
-> >> If it's a long term solution then how will armv7m and armv7r be
-> >> handled? They are likely to need to duplicate a lot of the current
-> >> armv7a over-rides too.
-> >
-> > armv7a and armv7ve are much closer than armv7a and armv7m or armv7r as
-> > Khem said in earlier discussion.
-> 
-> I'm not sure what the definition of "close" is here. An armv7a CPU can
-> not run armv7ve binaries.
-> 
-> Saying armv7a and armv7ve are close is like saying armv4 and armv5 are
-> close. True in some respects, but they don't define each other's
-> over-rides.
+By default fc-cache will scan both system and user directories, which means it
+attempts to scan $HOME/.fonts.  As this is the build host's idea of $HOME this
+generally doesn't exist, and causes fc-cache to exit with a failure.
 
-Yeah, there clearly is some difference in "closeness".
+Solve this by passing --system-only so that fc-cache will only scan system
+directories, as is appropriate for a rootfs-time invocation.
 
-armv4 and armv5 are at least moderately close, in the sense that an
-armv5 processor can run almost all (though not absolutely all) armv4
-binaries.  There are some significant differences in code generation
-and, in particular, ARMv4 is not supported by the EABI (i.e. binary
-libraries compiled with -march=armv4 are not EABI compliant).
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/postinst-intercepts/update_font_cache | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-armv7a and armv7ve are close to each other in the sense that an armv7ve
-processor can run any armv7a binary (i.e. the architecture with
-virtualisation extensions is a superset of the one without), and there
-are only fairly minor differences in code generation between the two.
-
-armv7a and armv7r are, as far as application code needs to be concerned,
-more or less equivalent.  Clearly ARMv7-R cores don't have MMUs, but
-this ought to manifest itself in a different TARGET_OS setting and there
-should be no particular need for overrides to distinguish armv7r
-specifically.
-
-armv7m and armv7a/r are a bit more complicated because, in general, you
-can't run an armv7a/r binary on an armv7m processor (which doesn't have
-32 bit instructions) and you can't run an armv7m binary on an armv7a
-processor (which may not have the divide instruction).  It might be true
-to say that armv7ve processors can always run binaries built for armv7m;
-I'm not sure.  But whether there are any situations where overrides need
-to care is unclear.
-
-But overall I remain fairly convinced that the direction of travel ought
-to be towards having fewer overrides, and the ones that we do have being
-more semantically meaningful.
-
-p.
-
+diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
+index d8b70ee..bf65e19 100644
+--- a/scripts/postinst-intercepts/update_font_cache
++++ b/scripts/postinst-intercepts/update_font_cache
+@@ -3,5 +3,5 @@
+ set -e
+ 
+ PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir} \
+-					-E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D ${fontconfigcacheparams}
++					-E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D --system-only ${fontconfigcacheparams}
+ chown -R root:root $D${fontconfigcachedir}
+-- 
+2.6.4
 
 
