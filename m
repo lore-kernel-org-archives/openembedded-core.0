@@ -1,33 +1,33 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E5EE6011F
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id E15FE6011F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Jan 2016 17:46:56 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id q21so293299294iod.0
+	Fri,  8 Jan 2016 17:48:03 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id 77so262396603ioc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jan 2016 09:46:58 -0800 (PST)
+	Fri, 08 Jan 2016 09:48:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=S/sNsUkYXgwHb6um/uc2nMv+/x8L/Gy+Ykg6JZ9B2Jc=;
-	b=rRalvqpYT+2E0lrB+ZeGjLpVO+pgxtbEqHztO611kmX2yOsimg70FjP80kGDXnhOay
-	ddlBiG9/9/+BzxDCMStbk3wJ8Dy+jktcuaxmgrHgscgLn+aM4jWIjMRjDFygW/rJKipk
-	eZA0WT6ra2y8s8tHHrtk7wCr8jEmtfMmHyJA8b85Sc9GyyHtIz5ToeUcwT8Vr6cXkns+
-	e01R6AMiT3dmeDN7BRBKgKfmdZf7pbbGVkkpj81fh2K7GYQVRVkpz1eulWqtJrskWlAU
-	+SFbiFv7k4Jeq0jxOUEfvMjHQ9+2j9Jy2bxtUSeF/7w5WWZwntbVldYgano1NynuhbNc
-	N1ow==
-X-Received: by 10.107.9.224 with SMTP id 93mr98231799ioj.112.1452275217744;
-	Fri, 08 Jan 2016 09:46:57 -0800 (PST)
+	bh=RFaW5jc9bTz2tfUWGkztAIrVuqhdUxeqt+8WXancXXI=;
+	b=etzT+flogwREQ6ElBahFOo2HmSIgM0jrvrX/0Z6Uw1G7UNmsaa5np7PvgAMRCoi/Oh
+	0Rai/U+U9q9tJ3SVx3eMAK8j84rATECnNde84jA38Iy9aF9tFXB84LOUd4efn7jJWes8
+	WDYi/36LRoYWp6qvIguRYT/4k/Vsqz5XIJ3DSzP9tJRz6iMbPpA33jIJrnfo6a8liDWg
+	kq4fAdJuTwxyjIHhjugw7+xyamtYq+u+hH9ULQSNpCs3IDvOpnCfeP4todr98DNLdnxa
+	jCQNAMFp7y48dGX/QK0AVE/8r2+k/BRZJDgrU/0A2yVsIw9/CBMuwcVfeevs8MOfHQxv
+	U7Vg==
+X-Received: by 10.107.34.79 with SMTP id i76mr52352696ioi.195.1452275284171;
+	Fri, 08 Jan 2016 09:48:04 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.16.74 with HTTP; Fri, 8 Jan 2016 09:46:28 -0800 (PST)
-In-Reply-To: <CAJTo0LZZhpUtmaKpkHf-NCtRBAt2KRx8cVoSpOQEH9eheFTP8g@mail.gmail.com>
+Received: by 10.107.16.74 with HTTP; Fri, 8 Jan 2016 09:47:34 -0800 (PST)
+In-Reply-To: <CAJTo0La3v=55Kf=kd2N34g836tAzeieffFOX7c81=yudby=VWw@mail.gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
 	<CAJTo0La=m_u33L7z06GssdbQoQ0bAFpTweaUchU_kVDfOgnNwQ@mail.gmail.com>
-	<CAJTo0LZZhpUtmaKpkHf-NCtRBAt2KRx8cVoSpOQEH9eheFTP8g@mail.gmail.com>
+	<CAJTo0La3v=55Kf=kd2N34g836tAzeieffFOX7c81=yudby=VWw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 8 Jan 2016 09:46:28 -0800
-Message-ID: <CAMKF1srb-7voEc3EpLxEfm2EPiDBWASabV4JwAKyz27fHmnKcA@mail.gmail.com>
+Date: Fri, 8 Jan 2016 09:47:34 -0800
+Message-ID: <CAMKF1sr8aqcB7=hF1D0ENejatX6W9piXgyzqKTtMCJZNTs-Sdg@mail.gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 00/53] musl fixes 3
@@ -43,25 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jan 2016 17:46:59 -0000
+X-List-Received-Date: Fri, 08 Jan 2016 17:48:04 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Jan 8, 2016 at 6:12 AM, Burton, Ross <ross.burton@intel.com> wrote:
+On Fri, Jan 8, 2016 at 6:32 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
 > On 8 January 2016 at 14:00, Burton, Ross <ross.burton@intel.com> wrote:
 >>
->> |                  int flags = FTW_DEPTH | FTW_ACTIONRETVAL;
+>> systemd fails with this error, over and over:
+>>
+>> |
+>> /data/poky-master/tmp/work/i586-poky-linux-musl/systemd/1_228+gitAUTOINC+dd050decb6-r0/git/src/basic/util.h:96:70:
+>> error: unknown type name 'comparison_fn_t'
+>> |  static inline void qsort_safe(void *base, size_t nmemb, size_t size,
+>> comparison_fn_t compar) {
 >
 >
-> ftw != fts, of course.
+> I've just remembered about meta-musl so this is likely fixed there but I'm
+> also seeing this when building systemd:
 >
-> Looks like FTW_STOP etc are glibc-specific.
-> https://github.com/commodo/openwrt/blob/master/package/devel/oprofile/patches/100-musl.patch
-> seems reasonable, assuming it works.
+> |
+> /data/poky-master/tmp/work/i586-poky-linux-musl/systemd/1_228+gitAUTOINC+dd050decb6-r0/git/src/basic/missing.h:590:6:
+> error: #error "neither secure_getenv nor __secure_getenv are available"
+>
+> Now I'll disable systemd verify it all works with sysvinit.
 
-Its changing the behaviour a bit. e.g. where its returning errno
-instead of FTW_STOP but since its an error case, it will work most of
-times.
+yes systemd is not supported yet as I describe in prior email. I have
+patches to build it though but I dont want us to have it unless it
+works
 
 >
 > Ross
