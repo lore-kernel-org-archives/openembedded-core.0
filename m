@@ -1,35 +1,33 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 955EE6FF7B
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D5197321C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Jan 2016 09:00:14 +0000 (UTC)
-Received: by mail-ig0-f170.google.com with SMTP id mw1so87190773igb.1
+	Sat,  9 Jan 2016 09:24:03 +0000 (UTC)
+Received: by mail-ig0-f179.google.com with SMTP id z14so72704276igp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jan 2016 01:00:15 -0800 (PST)
+	Sat, 09 Jan 2016 01:24:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=8+E/pF1uOS3XdQ8zHNQ16gP+wSpgCwcFu7gAurco8kY=;
-	b=OBtS/mLlkzKQ8pk1CsnebcQ0uEPF5IixsiPzl1V19wykrQX/s+oAJd4euFUbHatpgb
-	mChzZhGVByRGBqZm0CobmfYe8vLIVsLnnvbxZGmtCjwVFGtHOiaE6SFqQKBGaPZTgPFN
-	07l4tgVd6pwhc7ezPmzoPyTF6wHuAEwBrCJ0oifUm4GSTmmJigl9CKHxasAmbjpAnEzR
-	Z9fO8uPlMnd0rwaaAIhJWkbHJSsaQPrEyZTnnxu2Upi2aKSdJoCS/LDujy8R3I0wPtkm
-	Lcy08STozMZiblICYbTVrofPSNWoaa0oSrJooxZhXxfEQ20bgdpt5OUD1XyO257dFYET
-	ffBw==
-X-Received: by 10.50.171.200 with SMTP id aw8mr3061632igc.77.1452330015080;
-	Sat, 09 Jan 2016 01:00:15 -0800 (PST)
+	bh=2Nwl4rZaje70B5WYBkRrIIHS14Cf/da/mdG6S1+CnmE=;
+	b=HLgHM6miKz7QPY+hrP7D3rh2hfGjtqPHnzKiMGXUfpHwDKNIXEkQjRVLxXK2A5gmJ0
+	X1XQ6OYolcnxTwc44us3feM/vFjP3bYGqkC+SLqUQQBDhCEvXYmHVW9p27RYErSWrbGM
+	IYpIjicH/fU1q7THVmYFAV/IHDhKcfstLgeSeFTu03zinP82zC5dRCpWQmqrARfvoyCp
+	YJ2j99ys5Aurkla2bGi+osQHTW6B7XVl9UghzJBRvgBIE8RVJaLW6Gy/XFhzeSLF6vF4
+	RwiF7eI9Q0ey33aA4WP0X6vIPgNPJZZDwP84PHWAyiZr+wQJfFOdOWP7l0mUBQpBUG5P
+	8MTA==
+X-Received: by 10.50.79.196 with SMTP id l4mr3122947igx.11.1452331444496; Sat,
+	09 Jan 2016 01:24:04 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.16.74 with HTTP; Sat, 9 Jan 2016 00:59:45 -0800 (PST)
-In-Reply-To: <CAMKF1spdFfEJ0ZK22yDf30tnZ_1WFxFBLqprwqaPUDE_jMbQ_A@mail.gmail.com>
+Received: by 10.107.16.74 with HTTP; Sat, 9 Jan 2016 01:23:35 -0800 (PST)
+In-Reply-To: <CAJTo0LZeEtWA9qNQjNvqDPyW8d6hUjziJr_VuQsdEn4Y5dGcvw@mail.gmail.com>
 References: <cover.1452248145.git.raj.khem@gmail.com>
 	<CAJTo0La=m_u33L7z06GssdbQoQ0bAFpTweaUchU_kVDfOgnNwQ@mail.gmail.com>
-	<CAMKF1so8xuy9Q8YjRynpgV68cjt-9KHae4TBTjKvn5EU0UzD+g@mail.gmail.com>
-	<CAJTo0LZ=wzVPAi3OuScYX7kmJNXhsLif+FCUfjm9ZdyogZm-Ng@mail.gmail.com>
-	<CAMKF1spdFfEJ0ZK22yDf30tnZ_1WFxFBLqprwqaPUDE_jMbQ_A@mail.gmail.com>
+	<CAJTo0LZeEtWA9qNQjNvqDPyW8d6hUjziJr_VuQsdEn4Y5dGcvw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 9 Jan 2016 00:59:45 -0800
-Message-ID: <CAMKF1sp5KprYsDEvi6TQaVAVwB03dS4reUmq7e1pqbaRaV-AkA@mail.gmail.com>
+Date: Sat, 9 Jan 2016 01:23:35 -0800
+Message-ID: <CAMKF1sp5CX-n2SqZdhJzkmU4TVzhJXOPPW21apdTkRydn-2jqA@mail.gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 00/53] musl fixes 3
@@ -45,25 +43,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Jan 2016 09:00:14 -0000
+X-List-Received-Date: Sat, 09 Jan 2016 09:24:04 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Jan 8, 2016 at 10:34 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Fri, Jan 8, 2016 at 10:29 AM, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> On 8 January 2016 at 17:43, Khem Raj <raj.khem@gmail.com> wrote:
->>>
->>> systemd does not work with musl. I have patches in my tree to fix the
->>> build but then it does not run :(. musl and systemd has different
->>
->>
->> I wonder if we can/should raise a SkipPackage for systemd if musl is
->> enabled?
+On Fri, Jan 8, 2016 at 6:53 AM, Burton, Ross <ross.burton@intel.com> wrote:
 >
-> Seems good.
+> On 8 January 2016 at 14:00, Burton, Ross <ross.burton@intel.com> wrote:
+>>
+>> Hm, for some reason, this doesn't work for me.
+>>
+>> Lots and lots of "files installed but not packaged", all locales.  eg
+>> /usr/lib/locale/hu/LC_MESSAGES/glib20.mo in glib-2.0.
+>
+>
+> So under musl the translations are being installed to /usr/lib/locale,
+> whereas under glibc its /usr/share/locale. This is showing some problems in
+> bitbake.conf: that sets localedir to ${libdir}/locale but then sets
+> FILES_PN-locale to ${datadir}/locale.
+>
 
-I have updated the pull branch with
+I have pushed a fix for this to pull branch as well here
+https://github.com/kraj/openembedded-core/commit/db21a7a31e9c37f7c2dd0a914599d7b3467ae2d9
 
-1. Fix for recursive mutex for directfb
-2. Fix to skip parsing systemd for musl
+> Ross
 
