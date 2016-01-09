@@ -1,46 +1,49 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id D1E3A731F4
+Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A349C758DB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Jan 2016 14:32:39 +0000 (UTC)
-Received: by mail-pa0-f51.google.com with SMTP id cy9so297701092pac.0
+	Sat,  9 Jan 2016 14:32:44 +0000 (UTC)
+Received: by mail-pf0-f174.google.com with SMTP id e65so23120693pfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jan 2016 06:32:40 -0800 (PST)
+	Sat, 09 Jan 2016 06:32:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=wX8f3rd2EKok9RaamS+efqXgRtK9J/xJxOkmO2lRaI8=;
-	b=sCy8/5FIjkCGJmkgEAefWWvLtH+IbpbeVe/bCwWKri1ZMY+Dcw3LUzqw9MZ3TgORjl
-	wrGkRAX5oWtHW/WvbcoM/Z/WUQ7LinboX1x8kcmbtiWGqnbuFZ2+0dn6n2OpB0li3hEI
-	X23zcBzl10rff276Cbegie6DYjnH1/Jcnuc/iM/GXR5xXfILFLCum1tta1wMMtqHH7sV
-	TmzrpxnJLw9WxVnasQS1oFbIicH+ZfX9AZLEfWO6dZQ3zd8igVDQgbKJHvvt3TMobyCr
-	bfLEsmnfGRdx+gJKUk7JrG/YdqC/uTkFpNrYO/DJImF8rHAGgSsNMNm/ZshyoNlst6j3
-	peRg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=t24MmQYVjvSftporbQ36E/0TMscSgw0awIsvwQTtlb8=;
+	b=MQU69OEFn2OcY4LSUwH6G8GYh5wrWcLmOG26PUJvFa6sA67rGhS/c1YGPdICR+PIP0
+	I9Yni4IuaZfNyJudybAnz0W6myP9gLPtGsVTJkHYfAHx50N6qpopfDYLgsTHrws1G3Rf
+	FdZtVAJum8dBnPEsVDMzwkIEcj5dQvNOa/V8jpWJFRxAPwbiQCBKpJVvoEsH/Ji60I1Z
+	MuD4EKiKix7DW5spYdFdDOAngaRbAGsmyc45Sn3c6Ep8OupOBWfranN9jg+Q/ioQfjOa
+	8UeV99C6gPSp4j/9hkqurXq52DTc2EmhyeXMZ334hOWz+VErE+4KupfQx/L4U3CDaPBo
+	703Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=wX8f3rd2EKok9RaamS+efqXgRtK9J/xJxOkmO2lRaI8=;
-	b=ghsm78Zh6h6d6bu8c213q4tKhD0eKB3wmcvXducaQoLFPa4EC59aqywHDtHMDyTKL+
-	wKR02K3wDPOlrwZEm0cbhk2A+EnHgga1fuCocCNAzLbQy2Nzdrk/zHZo4MEZD9udle8K
-	rdkWSHu6odKqWlouQajLthmV1dDunGJACjDdpXHJsACJBJlR9z2pqN0MtUdEomyMTpqq
-	3vbv/Z1nx4zQCxicR9JNMf4DQCwPw8aTeICqbuQum8O7E6chNnQOsNi4JAxsyTURX9g5
-	eW46R6y6YiSr2827jBcqN4hZKtPaDmtxo1M//tuDKiun5w14Nfml9aUxLBHkhQhzpncj
-	UiUQ==
-X-Gm-Message-State: ALoCoQnZ6sDH5ubwOC/Mjh1R4BFOs13DTcyh6hNEsqzucpaP1p31dnIPQGSzFotXKgBQUG/vOWbHyg0AEy7pMXe0so3JdGuIkQ==
-X-Received: by 10.66.236.103 with SMTP id ut7mr21155124pac.4.1452349960148;
-	Sat, 09 Jan 2016 06:32:40 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=t24MmQYVjvSftporbQ36E/0TMscSgw0awIsvwQTtlb8=;
+	b=VVCZMWrd65VDQrfUbKhV81X0XsTultn3RMbyZ0hoVN8jDHNoZNcKTx65r+JgUp7uaB
+	8mgSvsC2s/MFuIMeRsBeEsEvYTfoTncXoa6Dk7qCv9ay/WU3Ya+35qLRf7ROTIM5e4aI
+	tkut+Tw/5kzDU96nZ3nBtsJMSAneYeYjHfvuRAjgcALOCcFpKHbWa8tgH8ucbJXy+eh4
+	C2R2G3sOVIhE25P4MXEZLAz7a88hUfpQAWEwpyoGoY0cca/xgg/0/B/Ct6FcpfRdIAQB
+	pt2SRycCZcUOeCrj9yrrNqZewvRRwo/ySxKmBZjLT7BrE/ZVEeAqH862xgjWDVI47K+7
+	MM7Q==
+X-Gm-Message-State: ALoCoQliHFZW7OSNLP7pm2buEQ9Pa/IdPmdpA7eu4TNmFNWtzqEIoB2469WSkanu2ebnUDKs+afgG+Shmh30DKjgjYGF54FGzw==
+X-Received: by 10.98.71.157 with SMTP id p29mr12492464pfi.45.1452349965774;
+	Sat, 09 Jan 2016 06:32:45 -0800 (PST)
 Received: from ubuntu64.mvista.com ([111.93.218.67])
 	by smtp.gmail.com with ESMTPSA id
-	68sm11858413pfa.78.2016.01.09.06.32.37
+	68sm11858413pfa.78.2016.01.09.06.32.43
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 09 Jan 2016 06:32:38 -0800 (PST)
+	Sat, 09 Jan 2016 06:32:44 -0800 (PST)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Jan 2016 20:02:31 +0530
-Message-Id: <1452349952-11016-1-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Sat,  9 Jan 2016 20:02:32 +0530
+Message-Id: <1452349952-11016-2-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 1/2] cantarell-fonts: Add recipe
+In-Reply-To: <1452349952-11016-1-git-send-email-jkrishnanjanappa@mvista.com>
+References: <1452349952-11016-1-git-send-email-jkrishnanjanappa@mvista.com>
+Subject: [PATCH 2/2] pango: make ${PN}-ptest RDEPENDS on cantarell-fonts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,53 +56,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Jan 2016 14:32:41 -0000
+X-List-Received-Date: Sat, 09 Jan 2016 14:32:45 -0000
 
-1. The Cantarell font typeface is designed as a
-   contemporary Humanist sans serif, and was developed for 
-   on-screen reading; in particular, reading web pages on an
-   HTC Dream mobile phone.
+Pango test case (test-layout.test) requires cantarell-font
+typeface. This test case uses 'Cantarell 11' font type.
 
-2. Pango test case (test-layout.test) requires cantarell-font
-   typeface. This test case uses 'Cantarell 11' font type
+Test result after this change on qemux86:
+-- snip --
+root@qemux86:/usr/lib/pango/ptest# ./run-ptest
+Running test: pango/testboundaries_ucd.test
+/text/break/grapheme: Testing
+/usr/lib/pango/installed-tests/pango/GraphemeBreakTest.txt.
+OK
+/text/break/word: /usr/lib/pango/installed-tests/pango/WordBreakTest.txt not
+found.  Skipping test.
+OK
+/text/break/sentence: /usr/lib/pango/installed-tests/pango/SentenceBreakTest.txt
+not found.  Skipping test.
+OK
+/text/break/line: /usr/lib/pango/installed-tests/pango/LineBreakTest.txt not
+found.  Skipping test.
+OK
+PASS: pango/testboundaries_ucd.test
+Running test: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+
+Executing: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+Executing: pango/test-pangocairo-threads.test
+PASS: pango/test-pangocairo-threads.test
+Running test: pango/test-layout.test
+/layout/valid-2.markup: OK
+/layout/valid-1.markup: OK
+PASS: pango/test-layout.test
+Running test: pango/markup-parse.test
+/markup/parse/fail-1.markup: OK
+/markup/parse/valid-3.markup: OK
+/markup/parse/valid-2.markup: OK
+/markup/parse/valid-1.markup: OK
+/markup/parse/valid-4.markup: OK
+PASS: pango/markup-parse.test
+Running test: pango/test-ot-tags.test
+/tags/script: OK
+/tags/language: OK
+PASS: pango/test-ot-tags.test
+Running test: pango/testiter.test
+/layout/iter: OK
+/layout/glyphitem-iter: OK
+PASS: pango/testiter.test
+Running test: pango/testcolor.test
+/color/parse: OK
+PASS: pango/testcolor.test
+Running test: pango/cxx-test.test
+PASS: pango/cxx-test.test
+Running test: pango/testboundaries.test
+/text/boundaries: sample file:
+/usr/lib/pango/installed-tests/pango/boundaries.utf8
+testboundaries passed
+OK
+PASS: pango/testboundaries.test
+Running test: pango/testscript.test
+/script/iter: OK
+PASS: pango/testscript.test
+Running test: pango/testattributes.test
+/attributes/basic: OK
+/attributes/equal: OK
+/attributes/list/basic: OK
+/attributes/list/change: OK
+/attributes/list/splice: OK
+/attributes/list/filter: OK
+/attributes/iter/basic: OK
+/attributes/iter/get: OK
+/attributes/iter/get_font: OK
+/attributes/iter/get_attrs: OK
+PASS: pango/testattributes.test
+Running test: pango/test-font.test
+/pango/fontdescription/parse: OK
+/pango/fontdescription/roundtrip: OK
+PASS: pango/test-font.test
+SUMMARY: total=12; passed=12; skipped=0; failed=0; user=74.9s; system=1.9s;
+maxrss=52356
+root@qemux86:/usr/lib/pango/ptest#
+-- CUT --
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- .../cantarell-fonts/cantarell-fonts_git.bb         | 25 ++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
+ meta/recipes-graphics/pango/pango.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
-new file mode 100644
-index 0000000..f55fef1
---- /dev/null
-+++ b/meta/recipes-graphics/cantarell-fonts/cantarell-fonts_git.bb
-@@ -0,0 +1,25 @@
-+SUMMARY = "Cantarell, a Humanist sans-serif font family"
-+
-+DESCRIPTION = "The Cantarell font typeface is designed as a \
-+               contemporary Humanist sans serif, and was developed for \
-+               on-screen reading; in particular, reading web pages on an \
-+               HTC Dream mobile phone."
-+
-+HOMEPAGE = "https://git.gnome.org/browse/cantarell-fonts/"
-+SECTION = "fonts"
-+LICENSE = "OFL-1.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=df91e3ffcab8cfb972a66bf11255188d"
-+
-+PV = "0.0.18.1+git${SRCPV}"
-+PR = "r0"
-+
-+SRCREV = "3e954528d06de1c7e5ba8ebf8b0cca9c68faa0c4"
-+SRC_URI = "git://git.gnome.org/cantarell-fonts;protocol=git;branch=master"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit autotools allarch fontcache
-+
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[fontforge] = "--enable-source-rebuild=yes,--enable-source-rebuild=no,fontforge-native"
-+FILES_${PN} = "${datadir}/fonts ${datadir}/fontconfig"
+diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+index 3e9c068..a2a92fe 100644
+--- a/meta/recipes-graphics/pango/pango.inc
++++ b/meta/recipes-graphics/pango/pango.inc
+@@ -42,7 +42,7 @@ do_compile_prepend () {
+ FILES_${PN} = "${bindir}/* ${libdir}/libpango*${SOLIBS}"
+ FILES_${PN}-dev += "${libdir}/pango/${LIBV}/modules/*.la"
+ 
+-RDEPENDS_${PN}-ptest += "liberation-fonts"
++RDEPENDS_${PN}-ptest += "liberation-fonts cantarell-fonts"
+ 
+ RPROVIDES_${PN} += "pango-modules pango-module-indic-lang \
+                     pango-module-basic-fc pango-module-arabic-lang"
 -- 
 1.9.1
 
