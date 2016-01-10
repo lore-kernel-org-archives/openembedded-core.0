@@ -1,41 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f66.google.com (mail-pa0-f66.google.com
-	[209.85.220.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D34F7422C
+Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
+	[209.85.220.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AB3875E80
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jan 2016 00:31:08 +0000 (UTC)
-Received: by mail-pa0-f66.google.com with SMTP id yy13so23082414pab.1
+	Sun, 10 Jan 2016 00:31:09 +0000 (UTC)
+Received: by mail-pa0-f68.google.com with SMTP id gi1so30413253pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jan 2016 16:31:09 -0800 (PST)
+	Sat, 09 Jan 2016 16:31:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=2vll+du6W15/syvQXhJTO+pcIM5d+EKcC32JikrWn/o=;
-	b=lzllYfbJJigjN4EVE/GSMDCZ6WlIxXCzK9j2mJYyR7YFDnZTCktiWbUlX5I26Hy+kL
-	X/uZnTBzoptQKKMmyj9FSpZ1i/tVn87ppk5L3RIq63KuUaDNkG1dHnTBOhmfEnq3fSna
-	FpMKfu0Beth2EXVlCe3dtFv+HTr3SuOeNu0RqHk7El9R6BEOqnO4vfuq+ISLJRs80Izp
-	rIDRXJ8r0mZf0qclW3TdHuV7p51VWcWicuM7NtSRHhwDtKDBsOepTUkhK1lAwk+Mb32r
-	zvYy4CJTZlkzuFNIQaVb/r7QCmjO/HP2Iy6fv8KmvlwEn0FcZaCZYmJ045rcOd9w1eGw
-	O5PQ==
-X-Received: by 10.66.191.195 with SMTP id ha3mr1153278pac.58.1452385869657;
-	Sat, 09 Jan 2016 16:31:09 -0800 (PST)
+	:references; bh=EDT9QSiABEj0NYsDQyh7t3LpNaXd0KDk4fgSY7xxgEM=;
+	b=vgEyeXcZZoQTLf/pg/AlfPclXPMsIME797gHsJo0xBRAuIjEaqXxuUrX4vUgvRJY5/
+	fcGz6KtQ/0AXW8VE7s7ar2p0JEJO1yJOF7Ssd5xI5Vopc35+qQGDtPWJnIDLNHv//UBd
+	CGhHOsCDT9BqK9f1eJyPdazKwae6Lj3nnxoQDIVWxshDczeMLbFDa5TLfUbo6Ub+rvmX
+	MzuvWIteWXtGw+/nHfHr6BGQuWef/b1wCru+jGChVUgzQ0GgPvGTKp3Fuz639V721fZl
+	H6xXlLB30A4lUFV1356GnqSPjC+j3Jky3AOXhGqtd1eHf4yFFbP+asBpEF/JJcqd3C/5
+	bljQ==
+X-Received: by 10.67.4.100 with SMTP id cd4mr97443936pad.59.1452385870885;
+	Sat, 09 Jan 2016 16:31:10 -0800 (PST)
 Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	k71sm13697016pfj.55.2016.01.09.16.31.00
+	v26sm13700040pfi.56.2016.01.09.16.31.00
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Sat, 09 Jan 2016 16:31:01 -0800 (PST)
 Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id CE64CFCC843; Sat,  9 Jan 2016 16:30:49 -0800 (PST)
+	id DCA87FCC844; Sat,  9 Jan 2016 16:30:50 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Jan 2016 16:30:35 -0800
-Message-Id: <d0ac662a911e5b31282888001876c7d4a53d6416.1452385571.git.akuster808@gmail.com>
+Date: Sat,  9 Jan 2016 16:30:38 -0800
+Message-Id: <4d342c4babf25ee750accb8cb190a91a5e9bf223.1452385571.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
 References: <cover.1452385571.git.akuster808@gmail.com>
 In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
 References: <cover.1452385571.git.akuster808@gmail.com>
-Subject: [PATCH 09/20] allarch: Force TARGET_*FLAGS variable values
+Subject: [PATCH 12/20] glibc: use patch for CVE-2015-1781
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,44 +48,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jan 2016 00:31:08 -0000
+X-List-Received-Date: Sun, 10 Jan 2016 00:31:10 -0000
 
-From: Mike Crowe <mac@mcrowe.com>
+From: Tudor Florea <tudor.florea@enea.com>
 
-TARGET_CPPFLAGS, TARGET_CFLAGS, TARGET_CPPFLAGS and TARGET_LDFLAGS may
-differ between MACHINEs. Since they are exported they affect task hashes
-even if unused which leads to multiple variants of allarch packages
-existing in sstate and bouncing in the sysroot when switching between
-MACHINEs.
+Patch added to the repo wasn't actually considered due to a
+erronously way of specifying the sources.
 
-allarch packages shouldn't be using these variables anyway, so let's
-ensure they have a fixed value in order to avoid this problem.
-
-(Compare with 05a70ac30b37cab0952f1b9df501993a9dec70da and
-14f4d016fef9d660da1e7e91aec4a0e807de59ab.)
-
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/allarch.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-core/glibc/glibc_2.20.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-index 4bc9927..6f63f9d 100644
---- a/meta/classes/allarch.bbclass
-+++ b/meta/classes/allarch.bbclass
-@@ -27,6 +27,10 @@ python () {
-         d.setVar("PACKAGE_EXTRA_ARCHS", "")
-         d.setVar("SDK_ARCH", "none")
-         d.setVar("SDK_CC_ARCH", "none")
-+        d.setVar("TARGET_CPPFLAGS", "none")
-+        d.setVar("TARGET_CFLAGS", "none")
-+        d.setVar("TARGET_CXXFLAGS", "none")
-+        d.setVar("TARGET_LDFLAGS", "none")
+diff --git a/meta/recipes-core/glibc/glibc_2.20.bb b/meta/recipes-core/glibc/glibc_2.20.bb
+index a0736cd..2ab4083 100644
+--- a/meta/recipes-core/glibc/glibc_2.20.bb
++++ b/meta/recipes-core/glibc/glibc_2.20.bb
+@@ -40,14 +40,12 @@ EGLIBCPATCHES = "\
+ #           file://eglibc-install-pic-archives.patch \
+ #	    file://initgroups_keys.patch \
+ #
+-CVEPATCHES = "\
+-        file://CVE-2015-1781-resolv-nss_dns-dns-host.c-buffer-overf.patch \
+-"
  
-         # Avoid this being unnecessarily different due to nuances of
-         # the target machine that aren't important for "all" arch
+ CVEPATCHES = "\
+         file://CVE-2014-7817-wordexp-fails-to-honour-WRDE_NOCMD.patch \
+         file://CVE-2012-3406-Stack-overflow-in-vfprintf-BZ-16617.patch \
+         file://CVE-2014-9402_endless-loop-in-getaddr_r.patch \
++        file://CVE-2015-1781-resolv-nss_dns-dns-host.c-buffer-overf.patch \
+     "
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=e9a558e243b36d3209f380deb394b213 \
+       file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
 -- 
 1.9.1
 
