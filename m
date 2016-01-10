@@ -1,24 +1,29 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C5A8731B3
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EBFF6011A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jan 2016 22:22:24 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1aIONV-0001Mo-0V; Sun, 10 Jan 2016 23:22:25 +0100
-Message-ID: <1452464539.1950.19.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Matthias Schiffer <mschiffer@universe-factory.net>
-Date: Sun, 10 Jan 2016 22:22:19 +0000
-In-Reply-To: <5692CD35.2060304@universe-factory.net>
+	Sun, 10 Jan 2016 22:24:16 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 10 Jan 2016 14:24:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,549,1444719600"; d="scan'208";a="890395425"
+Received: from mariacha-mobl2.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.175.41])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Jan 2016 14:24:14 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Phil Blundell <pb@pbcl.net>,
+	Matthias Schiffer <mschiffer@universe-factory.net>
+Date: Mon, 11 Jan 2016 11:24:12 +1300
+Message-ID: <13451091.uX0xhFoV9Y@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.2.8-300.fc23.x86_64; KDE/4.14.14; x86_64; ;
+	)
+In-Reply-To: <1452464539.1950.19.camel@pbcl.net>
 References: <cover.1452248145.git.raj.khem@gmail.com>
-	<CAJTo0Laga86qGDjuxoApENiqRS_j0-8cPLNfhs5J=QSdTZWOyg@mail.gmail.com>
-	<CAMKF1srdBj0iSp0ursf8=_pD-bV8Bp81haj8EkOhe8n=xvHFfQ@mail.gmail.com>
 	<5692CD35.2060304@universe-factory.net>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+	<1452464539.1950.19.camel@pbcl.net>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 00/53] musl fixes 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -32,21 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jan 2016 22:22:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 10 Jan 2016 22:24:17 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sun, 2016-01-10 at 22:29 +0100, Matthias Schiffer wrote:
-> systemd has been relying on ln's -r (--relative) option for some time
-> for similar reasons, but it's a fairly recent addition to ln, so I'm not
-> sure if it's acceptable for OE. If not, adding a symlink helper based on
-> python's os.path.relpath might be a good idea.
+On Sun, 10 Jan 2016 22:22:19 Phil Blundell wrote:
+> On Sun, 2016-01-10 at 22:29 +0100, Matthias Schiffer wrote:
+> > systemd has been relying on ln's -r (--relative) option for some time
+> > for similar reasons, but it's a fairly recent addition to ln, so I'm not
+> > sure if it's acceptable for OE. If not, adding a symlink helper based on
+> > python's os.path.relpath might be a good idea.
+> 
+> As a general rule, if it's not in POSIX (and I don't think "ln -r" is)
+> then we probably don't want OE to rely on it.  As far as I know, oe-core
+> doesn't currently require GNU ln to build.
 
-As a general rule, if it's not in POSIX (and I don't think "ln -r" is)
-then we probably don't want OE to rely on it.  As far as I know, oe-core
-doesn't currently require GNU ln to build.
+This is why we have scripts/lnr to provide equivalent functionality.
 
-p.
+Cheers,
+Paul
 
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
