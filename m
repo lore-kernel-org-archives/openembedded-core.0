@@ -1,41 +1,43 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C52C4762AD
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 63F7A6FF84
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jan 2016 00:31:01 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id gi1so30413161pac.2
+	Sun, 10 Jan 2016 00:31:03 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id n128so2203307pfn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jan 2016 16:31:02 -0800 (PST)
+	Sat, 09 Jan 2016 16:31:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=XFiyZQQcSOd+iTDkvLX+hUl3yxEprjIeUMZ4Sc2B+hM=;
-	b=kFgFGsR/zNLDSbTnu+/apEG6vG2YrVsyy79vHJTU1uyWQNhxBdZtC2oJLOZ9kXvqCX
-	ICgh/EC9X469LgRRw3yJJF+b/Gg8VUFiEaKOPzQasb5Gjj+y5ac94f03U32cEYF2FmCv
-	V5yh6IgajGiNtb50RSLDK0OEJKqCVzcdNOLLhBVYrq6CPFgC1aiZ4AjQD/UP8m3pnRK2
-	i9at/OWjmA5thoKrXDY27ioSSAnCeddREQws0iGSbilfzwoefH8AKVuAP3yCidhthFjQ
-	lE2zL5b1d2ABRV7L4EpRe4SHRXnrP45ZFpXhx6RvF6/KPkFKLrNKxtR9cfsVh1dlKcrj
-	/IUg==
-X-Received: by 10.66.164.102 with SMTP id yp6mr33816378pab.25.1452385862882;
-	Sat, 09 Jan 2016 16:31:02 -0800 (PST)
+	:references:mime-version:content-type:content-transfer-encoding;
+	bh=/ArOrwa7ATp6gGlXXaVpmME0dbGy83bDvQ5Y9qMkJ28=;
+	b=MqEwn53lmEcBVvJLZTVtX9GxeBXiaE4eDQYvJHxe974Za0Pyi7IBFSDShp5erRdv1m
+	zZM/YDSaT0PLl4rTSh0/LOLbMG/HS+3CrR+Gklsr5ud2amQKSiDSoBTc5WfYzhHKVfgV
+	4RixoDw8OvW9zJB8dcWArw6gzP5ZsHn2Cdhg1Y79X9ZHCTdHJIJs5K4tg5q+UNas7MD2
+	TLxoU5QWTsH7SJBY6DIJxkEr10XgRhK6F0uCC+LdmIGSeZhXbZA5GmdSGt+J+pewA4vy
+	fiFs/q65rOc0w+K9rgUlQjFIbI/fboZ6qX1gbmxsscYNP2AeqKNWJat2uI2mcrIenKsN
+	xw/A==
+X-Received: by 10.98.12.213 with SMTP id 82mr15322853pfm.116.1452385864039;
+	Sat, 09 Jan 2016 16:31:04 -0800 (PST)
 Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	g87sm13694045pfj.1.2016.01.09.16.30.58
+	l73sm13700462pfi.37.2016.01.09.16.30.59
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Sat, 09 Jan 2016 16:31:01 -0800 (PST)
 Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id 64E64FCC83E; Sat,  9 Jan 2016 16:30:49 -0800 (PST)
+	id 7F9FEFCC83F; Sat,  9 Jan 2016 16:30:49 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Jan 2016 16:30:31 -0800
-Message-Id: <917c434620262d6939650f6dd7b9325915d287e5.1452385571.git.akuster808@gmail.com>
+Date: Sat,  9 Jan 2016 16:30:27 -0800
+Message-Id: <24bdb7199d1d3cb9164d7e126f6a49e933eade43.1452385571.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
 References: <cover.1452385571.git.akuster808@gmail.com>
 In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
 References: <cover.1452385571.git.akuster808@gmail.com>
-Subject: [PATCH 05/20] fontcache: allow to pass extra parameters and environment to fc-cache
+MIME-Version: 1.0
+Subject: [PATCH 01/20] libtasn1: CVE-2015-3622
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,79 +50,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jan 2016 00:31:02 -0000
+X-List-Received-Date: Sun, 10 Jan 2016 00:31:03 -0000
+Content-Type: text/plain; charset=a
+Content-Transfer-Encoding: 8bit
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Sona Sarmadi <sona.sarmadi@enea.com>
 
-* this can be useful for passing extra parameters, pass
-  -v by default to see what's going on in do_rootfs
-* we need to use this for extra parameter we implemented
-  in fontconfig:
-  --ignore-mtime always use cache file regardless of font directory mtime
-  because the checksum of fontcache generated in do_rootfs
-  doesn't match with /usr/share/fonts directory as seen on
-  target device causing fontconfig to re-create the cache
-  when fontconfig is used for first time or worse create
-  new cache in every user's home directory when /usr/
-  filesystem is read only and cache cannot be updated.
+_asn1_extract_der_octet: prevent past of boundary access
 
-  Running FC_DEBUG=16 fc-cache -v on such device shows:
-  FcCacheTimeValid dir "/usr/share/fonts" cache checksum 1441207803 dir checksum 1441206149
-* my guess is that the checksum is different, because pseudo
-  (which is unloaded when running qemuwrapper) or because some
-  influence of running the rootfs under qemu.
+References:
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-3622
+http://git.savannah.gnu.org/gitweb/?p=libtasn1.git;a=patch;
+h=f979435823a02f842c41d49cd41cc81f25b5d677
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/classes/fontcache.bbclass                | 19 +++++++++++++++----
- scripts/postinst-intercepts/update_font_cache |  4 ++--
- 2 files changed, 17 insertions(+), 6 deletions(-)
+ .../gnutls/libtasn1/libtasn1-CVE-2015-3622.patch   | 44 ++++++++++++++++++++++
+ meta/recipes-support/gnutls/libtasn1_4.0.bb        |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/libtasn1/libtasn1-CVE-2015-3622.patch
 
-diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
-index d122387..8ebdfc4 100644
---- a/meta/classes/fontcache.bbclass
-+++ b/meta/classes/fontcache.bbclass
-@@ -9,12 +9,23 @@ inherit qemu
- FONT_PACKAGES ??= "${PN}"
- FONT_EXTRA_RDEPENDS ?= "fontconfig-utils"
- FONTCONFIG_CACHE_DIR ?= "${localstatedir}/cache/fontconfig"
-+FONTCONFIG_CACHE_PARAMS ?= "-v"
-+# You can change this to e.g. FC_DEBUG=16 to debug fc-cache issues,
-+# something has to be set, because qemuwrapper is using this variable after -E
-+# multiple variables aren't allowed because for qemu they are separated
-+# by comma and in -n "$D" case they should be separated by space
-+FONTCONFIG_CACHE_ENV ?= "FC_DEBUG=1"
- fontcache_common() {
--if [ "x$D" != "x" ] ; then
--	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=${MLPREFIX} bindir=${bindir} \
--		libdir=${libdir} base_libdir=${base_libdir} fontconfigcachedir=${FONTCONFIG_CACHE_DIR}
-+if [ -n "$D" ] ; then
-+	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=${MLPREFIX} \
-+		'bindir="${bindir}"' \
-+		'libdir="${libdir}"' \
-+		'base_libdir="${base_libdir}"' \
-+		'fontconfigcachedir="${FONTCONFIG_CACHE_DIR}"' \
-+		'fontconfigcacheparams="${FONTCONFIG_CACHE_PARAMS}"' \
-+		'fontconfigcacheenv="${FONTCONFIG_CACHE_ENV}"'
- else
--	fc-cache
-+	${FONTCONFIG_CACHE_ENV} fc-cache ${FONTCONFIG_CACHE_PARAMS}
- fi
- }
+diff --git a/meta/recipes-support/gnutls/libtasn1/libtasn1-CVE-2015-3622.patch b/meta/recipes-support/gnutls/libtasn1/libtasn1-CVE-2015-3622.patch
+new file mode 100644
+index 0000000..0989ef6
+--- /dev/null
++++ b/meta/recipes-support/gnutls/libtasn1/libtasn1-CVE-2015-3622.patch
+@@ -0,0 +1,44 @@
++From f979435823a02f842c41d49cd41cc81f25b5d677 Mon Sep 17 00:00:00 2001
++From: Nikos Mavrogiannopoulos <nmav@redhat.com>
++Date: Mon, 20 Apr 2015 14:56:27 +0200
++Subject: [PATCH] _asn1_extract_der_octet: prevent past of boundary access
++
++Fixes CVE-2015-3622.
++Upstream-Status: Backport
++
++Reported by Hanno Böck.
++---
++ lib/decoding.c |    3 ++-
++ 1 files changed, 2 insertions(+), 1 deletions(-)
++
++diff --git a/lib/decoding.c b/lib/decoding.c
++index 7fbd931..42ddc6b 100644
++--- a/lib/decoding.c
+++++ b/lib/decoding.c
++@@ -732,6 +732,7 @@ _asn1_extract_der_octet (asn1_node node, const unsigned char *der,
++     return ASN1_DER_ERROR;
++ 
++   counter = len3 + 1;
+++  DECR_LEN(der_len, len3);
++ 
++   if (len2 == -1)
++     counter_end = der_len - 2;
++@@ -740,6 +741,7 @@ _asn1_extract_der_octet (asn1_node node, const unsigned char *der,
++ 
++   while (counter < counter_end)
++     {
+++      DECR_LEN(der_len, 1);
++       len2 = asn1_get_length_der (der + counter, der_len, &len3);
++ 
++       if (IS_ERR(len2, flags))
++@@ -764,7 +766,6 @@ _asn1_extract_der_octet (asn1_node node, const unsigned char *der,
++ 	  len2 = 0;
++ 	}
++ 
++-      DECR_LEN(der_len, 1);
++       counter += len2 + len3 + 1;
++     }
++ 
++-- 
++1.7.2.5
++
+diff --git a/meta/recipes-support/gnutls/libtasn1_4.0.bb b/meta/recipes-support/gnutls/libtasn1_4.0.bb
+index 289833ec..16cf4d6 100644
+--- a/meta/recipes-support/gnutls/libtasn1_4.0.bb
++++ b/meta/recipes-support/gnutls/libtasn1_4.0.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+            file://libtasn1_fix_for_automake_1.12.patch \
+            file://dont-depend-on-help2man.patch \
++           file://libtasn1-CVE-2015-3622.patch \
+            "
  
-diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
-index c8c6018..0deab3c 100644
---- a/scripts/postinst-intercepts/update_font_cache
-+++ b/scripts/postinst-intercepts/update_font_cache
-@@ -1,5 +1,5 @@
- #!/bin/sh
- 
--PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
--					$D${bindir}/fc-cache --sysroot=$D
-+PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir} \
-+					-E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D ${fontconfigcacheparams}
- chown -R root:root $D${fontconfigcachedir}
+ SRC_URI[md5sum] = "d3d2d9bce3b6668b9827a9df52635be1"
 -- 
 1.9.1
 
