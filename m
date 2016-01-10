@@ -1,25 +1,28 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id EF9CD60588
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2805C6011F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jan 2016 22:18:26 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1aIOJR-0001MD-Rw; Sun, 10 Jan 2016 23:18:21 +0100
-Message-ID: <1452464286.1950.15.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: roman@khimov.ru
-Date: Sun, 10 Jan 2016 22:18:06 +0000
-In-Reply-To: <2644403.ISKvOHQyRX@masala.hex>
-References: <c00e9825d8e0221666adffd95ed157f9affe06b8.1451778497.git.mschiffer@universe-factory.net>
-	<568B0B5D.8000209@windriver.com>
-	<5692911F.1050601@universe-factory.net>
-	<2644403.ISKvOHQyRX@masala.hex>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
+	Sun, 10 Jan 2016 22:19:40 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga103.jf.intel.com with ESMTP; 10 Jan 2016 14:19:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.20,549,1444719600"; d="scan'208";a="26989731"
+Received: from mariacha-mobl2.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.175.41])
+	by fmsmga004.fm.intel.com with ESMTP; 10 Jan 2016 14:19:40 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Randy Witt <randy.e.witt@linux.intel.com>
+Date: Mon, 11 Jan 2016 11:19:37 +1300
+Message-ID: <2907273.zL3xaeCVSY@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.10 (Linux/4.2.8-300.fc23.x86_64; KDE/4.14.14; x86_64; ;
+	)
+In-Reply-To: <d1316b64c02b7e6263fb292f4fc30bff7200a71a.1452194521.git.randy.e.witt@linux.intel.com>
+References: <4faa88e5336bdd693906b65f00df34826e73b056.1452194521.git.randy.e.witt@linux.intel.com>
+	<d1316b64c02b7e6263fb292f4fc30bff7200a71a.1452194521.git.randy.e.witt@linux.intel.com>
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/3] base-files: create ${base_bindir} etc. instead of /bin, /sbin and /lib
+Subject: Re: [PATCH 3/3] populate_sdk_ext: Don't put nativesdk and crosssdk items in ext sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jan 2016 22:18:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 10 Jan 2016 22:19:41 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sun, 2016-01-10 at 20:52 +0300, Roman Khimov wrote:
-> IMO, FILES just shouldn't use hard-coded /lib or any other hard-coded path 
-> like that.
+On Thu, 07 Jan 2016 11:24:27 Randy Witt wrote:
+> The nativesdk and crosssdk targets were only getting pulled into the
+> extensible sdk due to buildtools dependencies being in BB_TASKDEPDATA.
+> However the nativesdk and crosssdk targets are not needed for the
+> extensible sdk to be used.
+> 
+> This patch therefore removes them since it reduces the size of the
+> extensible sdks that include sstate by ~300MB.
+> 
+> Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+> ---
+>  meta/classes/populate_sdk_ext.bbclass | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/meta/classes/populate_sdk_ext.bbclass
+> b/meta/classes/populate_sdk_ext.bbclass index 5c99bd0..ef014b8 100644
+> --- a/meta/classes/populate_sdk_ext.bbclass
+> +++ b/meta/classes/populate_sdk_ext.bbclass
+> @@ -173,6 +173,12 @@ python copy_buildsystem () {
+>      # Filter the locked signatures file to just the sstate tasks we are
+> interested in allowed_tasks = ['do_populate_lic', 'do_populate_sysroot',
+> 'do_packagedata', 'do_package_write_ipk', 'do_package_write_rpm',
+> 'do_package_write_deb', 'do_package_qa', 'do_deploy'] excluded_targets =
+> d.getVar('SDK_TARGETS', True)
+> +
+> +    # Since buildtools is included in the sdk, the nativesdk items and
+> +    # crosssdk end up in the tasks in locked-sigs.inc. However, the
+> nativesdk 
+> +    # and crosssdk items aren't needed for the extensible sdk to
+> function so 
+> +    # remove them from the list.
+> +    excluded_targets += 'nativesdk crosssdk'
 
-Well, right, but that doesn't really address the issue.  Even if FILES
-is defined in terms of ${base_libdir} or whatever, it's still not going
-to match if fixup_perms() has shuffled things around in some random way.
-I don't think there is any reliable way for fixup_perms() to find and
-patch all the variables that might refer to paths that it has decided to
-adjust.
+You need a leading space here to make this work (or alternatively split the 
+excluded_targets value in the previous patch when you first set it, and add the 
+items as list items here).
 
-Conversely, if FILES is defined in terms of ${base_libdir} and
-do_install() puts the files there, you can change the value of
-${base_libdir} to whatever you like and everything will "just work"
-without the need for fixup_perms() to move anything.
+Cheers,
+Paul
 
-As I mentioned somewhere else in this thread, micro has been using a
-merged /usr for several years (but done the other way around, so
-everything is installed into /bin and suchlike) and this has worked just
-fine without the need for any fsperms magic.  I can't see any obvious
-reason why the new-style /usr merge is fundamentally more difficult.
+-- 
 
-p.
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
