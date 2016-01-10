@@ -1,41 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f68.google.com (mail-pa0-f68.google.com
-	[209.85.220.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 249747422C
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FBAE7422C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jan 2016 00:31:12 +0000 (UTC)
-Received: by mail-pa0-f68.google.com with SMTP id gi1so30413276pac.2
+	Sun, 10 Jan 2016 00:31:13 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id e65so2210199pfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jan 2016 16:31:13 -0800 (PST)
+	Sat, 09 Jan 2016 16:31:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=rGX/oKcwLpU1m7Vc2//hGZeJFQw2vfK47lViqbH9MJI=;
-	b=dSxMCOvvtrJPWgTRK3vGVv4Vg3QFMlieIGotKYMvAEA+Quc1Vrq/94DoPD8Ygv6hzY
-	CWXxevSyGzXEK38UMTT2ehNbjCnRZcKluhVWZX8mgZAvEL/dtke5Bp/SJnocAVD1ZVov
-	zGzrQtJ+P7sCJqGynUxR1z4bifKHEMNiAIasWe9n+vC7OfLUV5DpxK6bd0XjcfmdGZPr
-	djy9cOCpnYyLLPeBp6fy5tshskuPgTf6M75HiKNCPJtPzzkSkD7PXFMc8OWs0btF5GuH
-	kCquPPOak64LBoH3XitP+9MujgfoQwB3QhoqGCHt4eZfHXGHLOpkvZNKd3dEUgVE5WOe
-	lBBg==
-X-Received: by 10.66.149.7 with SMTP id tw7mr44728828pab.72.1452385873210;
-	Sat, 09 Jan 2016 16:31:13 -0800 (PST)
+	:references; bh=nh4vBsE2xlAs9Y9EtyQ1mQj9yBg5rv/vCxA/hZPvazk=;
+	b=qMCc/uyeponMKfLedSCtpxBKfelms4lN9rA2tnLU2NuPTRpsxyyLhBzih/1v8hQC0W
+	W9f63wo8wbd2pNxJ+Rf8LSnRaucKSWEQ4Vn/6fVBpqgFzNdx609a5c3Jrrev407B2lGK
+	3qXwv4EuR3SsyZVzyuAlndwOW4CJ/rzssQaKBvrScPDXC+Bt6uU63ir/QsI1u/IwebGD
+	05Xt36Zp+bObXEifUOiGppiFRIE//rxXkHNu1BU9tWQ9XJWzl+0mRMDcOcDFeMiqpV5c
+	MbbWsiMw284c00C2lQyWwaV5vB0FPkzK6No5vRXI0LiPGGtj3pkC6/Mt+GJ4JJUGShtZ
+	2Bug==
+X-Received: by 10.98.18.76 with SMTP id a73mr15513994pfj.65.1452385874434;
+	Sat, 09 Jan 2016 16:31:14 -0800 (PST)
 Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	x80sm13702544pfi.72.2016.01.09.16.31.02
+	dz6sm176283063pab.19.2016.01.09.16.31.03
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Sat, 09 Jan 2016 16:31:10 -0800 (PST)
 Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id ECED8FCC845; Sat,  9 Jan 2016 16:30:50 -0800 (PST)
+	id 0E77DFCC847; Sat,  9 Jan 2016 16:30:50 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Jan 2016 16:30:41 -0800
-Message-Id: <a782fbc056aca03b9853e3debc46d379b436cdd1.1452385571.git.akuster808@gmail.com>
+Date: Sat,  9 Jan 2016 16:30:36 -0800
+Message-Id: <d39c154929a5d8da4bb6902b34fc8fe6a256abe8.1452385571.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
 References: <cover.1452385571.git.akuster808@gmail.com>
 In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
 References: <cover.1452385571.git.akuster808@gmail.com>
-Subject: [PATCH 15/20] libxml2: CVE-2015-8035
+Subject: [PATCH 10/20] texinfo: don't create dependency on INHERIT variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,82 +48,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jan 2016 00:31:12 -0000
+X-List-Received-Date: Sun, 10 Jan 2016 00:31:13 -0000
 
-From: Sona Sarmadi <sona.sarmadi@enea.com>
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-Fixes DoS when parsing specially crafted XML document
-if XZ support is enabled.
+* we don't want the do_package signature depending on INHERIT variable
+* e.g. just adding the own-mirrors causes texinfo to rebuild:
+  # bitbake-diffsigs BUILD/sstate-diff/*/*/texinfo/*do_package.sig*
+  basehash changed from 015df2fd8e396cc1e15622dbac843301 to 9f1d06c4f238c70a99ccb6d8da348b6a
+  Variable INHERIT value changed from
+  ' rm_work blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
+  to
+  ' rm_work own-mirrors blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
 
-References:
-https://bugzilla.gnome.org/show_bug.cgi?id=757466
-
-Upstream correction:
-https://git.gnome.org/browse/libxml2/commit/?id=
-f0709e3ca8f8947f2d91ed34e92e38a4c23eae63
-
-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-core/libxml/libxml2.inc               |  1 +
- .../libxml/libxml2/CVE-2015-8035.patch             | 35 ++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
+ meta/recipes-extended/texinfo/texinfo_5.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 15a2421..d5e263b 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -24,6 +24,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml2-CVE-2014-3660.patch \
-            file://0001-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch \
-            file://CVE-2015-7942.patch \
-+           file://CVE-2015-8035.patch \
-           "
+diff --git a/meta/recipes-extended/texinfo/texinfo_5.2.bb b/meta/recipes-extended/texinfo/texinfo_5.2.bb
+index cf9dcfd..3394474 100644
+--- a/meta/recipes-extended/texinfo/texinfo_5.2.bb
++++ b/meta/recipes-extended/texinfo/texinfo_5.2.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ PROVIDES_append_class-native = " texinfo-replacement-native"
  
- BINCONFIG = "${bindir}/xml2-config"
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
-new file mode 100644
-index 0000000..d08693f
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2015-8035.patch
-@@ -0,0 +1,35 @@
-+From f0709e3ca8f8947f2d91ed34e92e38a4c23eae63 Mon Sep 17 00:00:00 2001
-+From: Daniel Veillard <veillard@redhat.com>
-+Date: Tue, 3 Nov 2015 15:31:25 +0800
-+Subject: CVE-2015-8035 Fix XZ compression support loop
-+
-+For https://bugzilla.gnome.org/show_bug.cgi?id=757466
-+DoS when parsing specially crafted XML document if XZ support
-+is compiled in (which wasn't the case for 2.9.2 and master since
-+Nov 2013, fixed in next commit !)
-+
-+Upstream-Status: Backport
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+
-+---
-+ xzlib.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/xzlib.c b/xzlib.c
-+index 0dcb9f4..1fab546 100644
-+--- a/xzlib.c
-++++ b/xzlib.c
-+@@ -581,6 +581,10 @@ xz_decomp(xz_statep state)
-+             xz_error(state, LZMA_DATA_ERROR, "compressed data error");
-+             return -1;
-+         }
-++        if (ret == LZMA_PROG_ERROR) {
-++            xz_error(state, LZMA_PROG_ERROR, "compression error");
-++            return -1;
-++        }
-+     } while (strm->avail_out && ret != LZMA_STREAM_END);
-+ 
-+     /* update available output and crc check value */
-+-- 
-+cgit v0.11.2
-+
+ def compress_pkg(d):
+-    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
++    if bb.data.inherits_class('compress_doc', d):
+          compress = d.getVar("DOC_COMPRESS", True)
+          if compress == "gz":
+              return "gzip"
 -- 
 1.9.1
 
