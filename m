@@ -1,41 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FBAE7422C
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 363677422C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jan 2016 00:31:13 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id e65so2210199pfe.0
+	Sun, 10 Jan 2016 00:31:14 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id n128so2203433pfn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jan 2016 16:31:14 -0800 (PST)
+	Sat, 09 Jan 2016 16:31:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=nh4vBsE2xlAs9Y9EtyQ1mQj9yBg5rv/vCxA/hZPvazk=;
-	b=qMCc/uyeponMKfLedSCtpxBKfelms4lN9rA2tnLU2NuPTRpsxyyLhBzih/1v8hQC0W
-	W9f63wo8wbd2pNxJ+Rf8LSnRaucKSWEQ4Vn/6fVBpqgFzNdx609a5c3Jrrev407B2lGK
-	3qXwv4EuR3SsyZVzyuAlndwOW4CJ/rzssQaKBvrScPDXC+Bt6uU63ir/QsI1u/IwebGD
-	05Xt36Zp+bObXEifUOiGppiFRIE//rxXkHNu1BU9tWQ9XJWzl+0mRMDcOcDFeMiqpV5c
-	MbbWsiMw284c00C2lQyWwaV5vB0FPkzK6No5vRXI0LiPGGtj3pkC6/Mt+GJ4JJUGShtZ
-	2Bug==
-X-Received: by 10.98.18.76 with SMTP id a73mr15513994pfj.65.1452385874434;
-	Sat, 09 Jan 2016 16:31:14 -0800 (PST)
+	:references; bh=MhdKXRWAxv6JWeEHfBZALYmm3FHGaeyjOYI50g10Vrs=;
+	b=UBm1mEPomjAYuuKTSykSMXb9MFip9rcaViJElS+BNXEZDZvC2JbU2p7mx2SgD/M1dR
+	XT0bMtRpjPJRJA/lo83ytfeWLm6LcDm8feB2PP1WyP/lHtli+XDhQ3/HyokY+bLHNVoH
+	fm8boARkWex3e6az8Od2jTd/kvWEsYvP/COI94WLh74kx7GtABgRhUEk4EimGnosna/H
+	T5PMLe5FS/7qWgEc9btEmkUfPd2ydSQdq8KHjYvVv1LmgzkooP9Reiz/5K3RYzlOaNUN
+	c57zVnEqLUmfXCXAgxWKX8mDBnQMaZGIpRlKF7fip49cjb7bX1nejzbHp8LxcrRH2FWI
+	fVtA==
+X-Received: by 10.98.74.194 with SMTP id c63mr15655456pfj.25.1452385875284;
+	Sat, 09 Jan 2016 16:31:15 -0800 (PST)
 Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	dz6sm176283063pab.19.2016.01.09.16.31.03
+	q89sm13692159pfa.70.2016.01.09.16.31.03
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Sat, 09 Jan 2016 16:31:10 -0800 (PST)
 Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id 0E77DFCC847; Sat,  9 Jan 2016 16:30:50 -0800 (PST)
+	id 16B27FCC848; Sat,  9 Jan 2016 16:30:50 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Jan 2016 16:30:36 -0800
-Message-Id: <d39c154929a5d8da4bb6902b34fc8fe6a256abe8.1452385571.git.akuster808@gmail.com>
+Date: Sat,  9 Jan 2016 16:30:39 -0800
+Message-Id: <19b190bb5b79296fcfead0b50389fba6381c33fa.1452385571.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
 References: <cover.1452385571.git.akuster808@gmail.com>
 In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
 References: <cover.1452385571.git.akuster808@gmail.com>
-Subject: [PATCH 10/20] texinfo: don't create dependency on INHERIT variable
+Subject: [PATCH 13/20] libxml2: CVE-2015-7942
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,38 +48,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jan 2016 00:31:13 -0000
+X-List-Received-Date: Sun, 10 Jan 2016 00:31:14 -0000
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Sona Sarmadi <sona.sarmadi@enea.com>
 
-* we don't want the do_package signature depending on INHERIT variable
-* e.g. just adding the own-mirrors causes texinfo to rebuild:
-  # bitbake-diffsigs BUILD/sstate-diff/*/*/texinfo/*do_package.sig*
-  basehash changed from 015df2fd8e396cc1e15622dbac843301 to 9f1d06c4f238c70a99ccb6d8da348b6a
-  Variable INHERIT value changed from
-  ' rm_work blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
-  to
-  ' rm_work own-mirrors blacklist blacklist report-error ${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST} sanity'
+Fixes heap-based buffer overflow in xmlParseConditionalSections().
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Upstream patch:
+https://git.gnome.org/browse/libxml2/commit/
+?id=9b8512337d14c8ddf662fcb98b0135f225a1c489
+
+Upstream bug:
+https://bugzilla.gnome.org/show_bug.cgi?id=756456
+
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-extended/texinfo/texinfo_5.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/libxml/libxml2.inc               |  1 +
+ .../libxml/libxml2/CVE-2015-7942.patch             | 58 ++++++++++++++++++++++
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
 
-diff --git a/meta/recipes-extended/texinfo/texinfo_5.2.bb b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-index cf9dcfd..3394474 100644
---- a/meta/recipes-extended/texinfo/texinfo_5.2.bb
-+++ b/meta/recipes-extended/texinfo/texinfo_5.2.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- PROVIDES_append_class-native = " texinfo-replacement-native"
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 840a8eb..15a2421 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -23,6 +23,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml-m4-use-pkgconfig.patch \
+            file://libxml2-CVE-2014-3660.patch \
+            file://0001-CVE-2015-1819-Enforce-the-reader-to-run-in-constant-.patch \
++           file://CVE-2015-7942.patch \
+           "
  
- def compress_pkg(d):
--    if "compress_doc" in (d.getVar("INHERIT", True) or "").split():
-+    if bb.data.inherits_class('compress_doc', d):
-          compress = d.getVar("DOC_COMPRESS", True)
-          if compress == "gz":
-              return "gzip"
+ BINCONFIG = "${bindir}/xml2-config"
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch b/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
+new file mode 100644
+index 0000000..738ae94
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2015-7942.patch
+@@ -0,0 +1,58 @@
++From 9b8512337d14c8ddf662fcb98b0135f225a1c489 Mon Sep 17 00:00:00 2001
++From: Daniel Veillard <veillard@redhat.com>
++Date: Mon, 23 Feb 2015 11:29:20 +0800
++Subject: Cleanup conditional section error handling
++
++For https://bugzilla.gnome.org/show_bug.cgi?id=744980
++
++The error handling of Conditional Section also need to be
++straightened as the structure of the document can't be
++guessed on a failure there and it's better to stop parsing
++as further errors are likely to be irrelevant.
++
++Fixes CVE-2015-7942.
++Upstream-Status: Backport
++
++Upstream patch:
++https://git.gnome.org/browse/libxml2/commit/
++?id=9b8512337d14c8ddf662fcb98b0135f225a1c489
++
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ parser.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/parser.c b/parser.c
++index bbe97eb..fe603ac 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -6770,6 +6770,8 @@ xmlParseConditionalSections(xmlParserCtxtPtr ctxt) {
++ 	SKIP_BLANKS;
++ 	if (RAW != '[') {
++ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
+++	    xmlStopParser(ctxt);
+++	    return;
++ 	} else {
++ 	    if (ctxt->input->id != id) {
++ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
++@@ -6830,6 +6832,8 @@ xmlParseConditionalSections(xmlParserCtxtPtr ctxt) {
++ 	SKIP_BLANKS;
++ 	if (RAW != '[') {
++ 	    xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID, NULL);
+++	    xmlStopParser(ctxt);
+++	    return;
++ 	} else {
++ 	    if (ctxt->input->id != id) {
++ 		xmlValidityError(ctxt, XML_ERR_ENTITY_BOUNDARY,
++@@ -6885,6 +6889,8 @@ xmlParseConditionalSections(xmlParserCtxtPtr ctxt) {
++ 
++     } else {
++ 	xmlFatalErr(ctxt, XML_ERR_CONDSEC_INVALID_KEYWORD, NULL);
+++	xmlStopParser(ctxt);
+++	return;
++     }
++ 
++     if (RAW == 0)
++-- 
++cgit v0.11.2
++
 -- 
 1.9.1
 
