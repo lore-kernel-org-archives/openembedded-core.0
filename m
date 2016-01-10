@@ -1,41 +1,41 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
 	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id EAE6975E80
+	by mail.openembedded.org (Postfix) with ESMTP id A068675E80
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jan 2016 00:31:05 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id 65so2202313pff.2
+	Sun, 10 Jan 2016 00:31:06 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id 65so2202322pff.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jan 2016 16:31:06 -0800 (PST)
+	Sat, 09 Jan 2016 16:31:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=sh85dp1xz3cvVGIc0pExUh+/6TH12HjEgqVTfT7isps=;
-	b=yY0rBSfg7krQ5LYuXbAslRQZQegPglxIzNEJv09wy4WKzknKeQzos/6tONmR0bh1qs
-	68XVBraCrC5c/SKxyCLn/alyfK33xpH8JWwq6+hgYQaoQUd2g7BXaZJtLH1sznMVv4Jx
-	ffda8ZZYg8cjhCpm/sGHyC7ZynxMQ3KnQ6GpNiENAc/dqxaL3mOMXs0DMf7bXyiSdhzL
-	nYh4Uc+eE2NXTLmfCO8uyv60+l/5ur8QiYBhfV+ABfmQVYUa3cNVNEJQVFludYAASoob
-	gw+8jVFBYfIme5K9vC23ifA43XhzkzTbcoE0C2gzAMUO18V8Rg+KXiTUUSQKku4hm7fy
-	13BQ==
-X-Received: by 10.98.73.29 with SMTP id w29mr13245558pfa.106.1452385866389;
-	Sat, 09 Jan 2016 16:31:06 -0800 (PST)
+	:references; bh=w7oAHruvYQb++a6ctGO4J//A7dXP/PcyCWqFtvsRWME=;
+	b=f7YlgIdUHfX00r2c8E+54VPpnFDjcz4MQtMjJNiVUaaIYyLN5P1iWYxp7GILRQLpY4
+	D+ZgevffkAQcwkCgEoLaXvjy2ESGeKqNdl0C4kiFXZobNfZGdwUsen3PVMvkpVh71LLY
+	SLdhXeOikv+HWY4LJoOy55sERUHkMEX2oe0jmEpJfiTyMPeKgRlGmuBlOZ9QPkdQb/UJ
+	JJW2kaCmzarK5vNKqSx7GlDUg4AU5VnNMwj8SsEoA3Zp3SBD74CJ0FIDdrBeL+3MvdUm
+	Z/bnoAJL97j76icmnier29zxLNqHcyvW8v6dJC6nBLyB1prYAV59IMFKVKevEHOhxaVT
+	iZ8A==
+X-Received: by 10.98.10.198 with SMTP id 67mr15618752pfk.75.1452385867583;
+	Sat, 09 Jan 2016 16:31:07 -0800 (PST)
 Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	w85sm13694815pfi.13.2016.01.09.16.30.59
+	69sm13692298pfn.43.2016.01.09.16.31.00
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Sat, 09 Jan 2016 16:31:01 -0800 (PST)
 Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id 999C0FCC840; Sat,  9 Jan 2016 16:30:49 -0800 (PST)
+	id A7D96FCC841; Sat,  9 Jan 2016 16:30:50 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Jan 2016 16:30:29 -0800
-Message-Id: <d72b398ffb5ea9b64ada5fad3147f288897ffeb0.1452385571.git.akuster808@gmail.com>
+Date: Sat,  9 Jan 2016 16:30:40 -0800
+Message-Id: <cccd638df299114c58d65bb6778b08181a9550e1.1452385571.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
 References: <cover.1452385571.git.akuster808@gmail.com>
 In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
 References: <cover.1452385571.git.akuster808@gmail.com>
-Subject: [PATCH 03/20] rsync: backport libattr checking patch
+Subject: [PATCH 14/20] unzip: CVE-2015-7696, CVE-2015-7697
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,77 +50,121 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 10 Jan 2016 00:31:06 -0000
 
-From: Sergiy Kibrik <sakib@meta.ua>
+From: Tudor Florea <tudor.florea@enea.com>
 
-Add check_libattr.patch to version 3.1.0 recipe, which checks
-and includes libattr to linker, otherwise rsync may fail to build
-with linker error below (as -lattr option gets omitted):
+CVE-2015-7696: Fixes a heap overflow triggered by unzipping a file with password
+CVE-2015-7697: Fixes a denial of service with a file that never finishes unzipping
 
-[..]
-lib/sysxattrs.o: undefined reference to symbol 'llistxattr@@ATTR_1.0'
-[..]/lib/libattr.so.1: error adding symbols: DSO missing from command line
+References:
+http://www.openwall.com/lists/oss-security/2015/10/11/5
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-7696
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-7697
 
-Signed-off-by: Sergiy Kibrik <sakib@meta.ua>
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../rsync/files/check_libattr.patch                | 33 ++++++++++++++++++++++
- meta/recipes-devtools/rsync/rsync_3.1.0.bb         |  3 +-
- 2 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/rsync/files/check_libattr.patch
+ .../unzip/unzip/CVE-2015-7696.patch                | 38 ++++++++++++++++++++++
+ .../unzip/unzip/CVE-2015-7697.patch                | 31 ++++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb           |  2 ++
+ 3 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/check_libattr.patch b/meta/recipes-devtools/rsync/files/check_libattr.patch
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch b/meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch
 new file mode 100644
-index 0000000..cb159fa
+index 0000000..ea93823
 --- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/check_libattr.patch
-@@ -0,0 +1,33 @@
-+From 677c6e14cc7d5f41371d5616865a5f0cfc0a273f Mon Sep 17 00:00:00 2001
-+From: Wayne Davison <wayned@samba.org>
-+Date: Mon, 5 May 2014 09:25:13 -0700
-+Subject: [PATCH] Check for attr lib.
++++ b/meta/recipes-extended/unzip/unzip/CVE-2015-7696.patch
+@@ -0,0 +1,38 @@
++Upstream-Status: Backport
++Signed-off-by: Tudor Florea <tudor.flore@enea.com>
++
++From 68efed87fabddd450c08f3112f62a73f61d493c9 Mon Sep 17 00:00:00 2001
++From: Petr Stodulka <pstodulk@redhat.com>
++Date: Mon, 14 Sep 2015 18:23:17 +0200
++Subject: [PATCH 1/2] upstream fix for heap overflow
++
++https://bugzilla.redhat.com/attachment.cgi?id=1073002
++---
++ crypt.c | 12 +++++++++++-
++ 1 file changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/crypt.c b/crypt.c
++index 784e411..a8975f2 100644
++--- a/crypt.c
+++++ b/crypt.c
++@@ -465,7 +465,17 @@ int decrypt(__G__ passwrd)
++     GLOBAL(pInfo->encrypted) = FALSE;
++     defer_leftover_input(__G);
++     for (n = 0; n < RAND_HEAD_LEN; n++) {
++-        b = NEXTBYTE;
+++        /* 2012-11-23 SMS.  (OUSPG report.)
+++         * Quit early if compressed size < HEAD_LEN.  The resulting
+++         * error message ("unable to get password") could be improved,
+++         * but it's better than trying to read nonexistent data, and
+++         * then continuing with a negative G.csize.  (See
+++         * fileio.c:readbyte()).
+++         */
+++        if ((b = NEXTBYTE) == (ush)EOF)
+++        {
+++            return PK_ERR;
+++        }
++         h[n] = (uch)b;
++         Trace((stdout, " (%02x)", h[n]));
++     }
++-- 
++2.4.6
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch b/meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch
+new file mode 100644
+index 0000000..da68988
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/CVE-2015-7697.patch
+@@ -0,0 +1,31 @@
++Upstream-Status: Backport
++Signed-off-by: Tudor Florea <tudor.flore@enea.com>
++
++From bd8a743ee0a77e65ad07ef4196c4cd366add3f26 Mon Sep 17 00:00:00 2001
++From: Kamil Dudka <kdudka@redhat.com>
++Date: Mon, 14 Sep 2015 18:24:56 +0200
++Subject: [PATCH 2/2] fix infinite loop when extracting empty bzip2 data
 +
 +---
-+ configure.ac | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ extract.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+diff --git a/configure.ac b/configure.ac
-+index c7b28c5..8e3703c 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1007,7 +1007,7 @@ else
-+     *)
-+ 	AC_MSG_RESULT(running tests:)
-+ 	AC_CHECK_LIB(acl,acl_get_file)
-+-	    AC_CACHE_CHECK([for ACL support],samba_cv_HAVE_POSIX_ACLS,[
-++	AC_CACHE_CHECK([for ACL support],samba_cv_HAVE_POSIX_ACLS,[
-+ 	    AC_TRY_LINK([#include <sys/types.h>
-+ #include <sys/acl.h>],
-+ [ acl_t acl; int entry_id; acl_entry_t *entry_p; return acl_get_entry( acl, entry_id, entry_p);],
-+@@ -1057,6 +1057,7 @@ else
-+ 	AC_DEFINE(HAVE_LINUX_XATTRS, 1, [True if you have Linux xattrs])
-+ 	AC_DEFINE(SUPPORT_XATTRS, 1)
-+ 	AC_DEFINE(NO_SYMLINK_USER_XATTRS, 1, [True if symlinks do not support user xattrs])
-++	AC_CHECK_LIB(attr,getxattr)
-+ 	;;
-+     darwin*)
-+ 	AC_MSG_RESULT(Using OS X xattrs)
++diff --git a/extract.c b/extract.c
++index 7134bfe..29db027 100644
++--- a/extract.c
+++++ b/extract.c
++@@ -2733,6 +2733,12 @@ __GDEF
++     int repeated_buf_err;
++     bz_stream bstrm;
++ 
+++    if (G.incnt <= 0 && G.csize <= 0L) {
+++        /* avoid an infinite loop */
+++        Trace((stderr, "UZbunzip2() got empty input\n"));
+++        return 2;
+++    }
+++
++ #if (defined(DLL) && !defined(NO_SLIDE_REDIR))
++     if (G.redirect_slide)
++         wsize = G.redirect_size, redirSlide = G.redirect_buffer;
 +-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/rsync/rsync_3.1.0.bb b/meta/recipes-devtools/rsync/rsync_3.1.0.bb
-index a4a5c10..d253fe9 100644
---- a/meta/recipes-devtools/rsync/rsync_3.1.0.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.1.0.bb
-@@ -1,7 +1,8 @@
- require rsync.inc
++2.4.6
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index e590f81..acbc837 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -14,6 +14,8 @@ SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
+ 	file://09-cve-2014-8139-crc-overflow.patch \
+ 	file://10-cve-2014-8140-test-compr-eb.patch \
+ 	file://11-cve-2014-8141-getzip64data.patch \
++	file://CVE-2015-7696.patch \
++	file://CVE-2015-7697.patch \
+ "
  
- 
--SRC_URI += "file://acinclude.m4"
-+SRC_URI += "file://acinclude.m4 \
-+	    file://check_libattr.patch"
- 
- SRC_URI[md5sum] = "3be148772a33224771a8d4d2a028b132"
- SRC_URI[sha256sum] = "81ca23f77fc9b957eb9845a6024f41af0ff0c619b7f38576887c63fa38e2394e"
+ SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
 -- 
 1.9.1
 
