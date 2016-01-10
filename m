@@ -1,41 +1,29 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 09CA073CBD
+Return-Path: <mschiffer@universe-factory.net>
+Received: from chaos.universe-factory.net (chaos.universe-factory.net
+	[37.72.148.22])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B295731EC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jan 2016 00:39:35 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id n128so2208104pfn.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jan 2016 16:39:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=8ND6e8jOqWvLezkE1H8WcsXzqHAwsgKLr6+8sLaZGKw=;
-	b=uNKggwVfLObRTQz14gkfnvk5cu8/YI2TDI0c084SjzDq02x2X2YgKu9UgWBPbBSSBI
-	sNXUdvs14gn4yES8S3d+BFb0dhuBqL+JBtqmIKpfLhatyIxkb+pv8UAkrLj2cyXGvSbf
-	SzwTYMIdDunALeCGvS32luUxUS4q94fhAtOOrr5kirUVcWd+UNAJIU034FdWHjzbHOOj
-	nTUFuWIo6ojfWxIYR3V8DE37YCzlDHdV8n6fOavmtbWeuyHWdq0MXQ4JuRIa5QX/x7Rp
-	w0JzfJQHGeke9VOW3ctNV+8sUAJn8Pp0GvAi93+Nq7yoN6j0VXQQADLMIai3SgmALTnl
-	graQ==
-X-Received: by 10.98.31.151 with SMTP id l23mr15886084pfj.76.1452386376375;
-	Sat, 09 Jan 2016 16:39:36 -0800 (PST)
-Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	v2sm13722537pfi.93.2016.01.09.16.39.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 09 Jan 2016 16:39:34 -0800 (PST)
-Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id 41342FCC84C; Sat,  9 Jan 2016 16:30:50 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Jan 2016 16:30:46 -0800
-Message-Id: <7a99aa9ea73d5d12d73599c860644fc28efd5135.1452385572.git.akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
-References: <cover.1452385571.git.akuster808@gmail.com>
-In-Reply-To: <cover.1452385571.git.akuster808@gmail.com>
-References: <cover.1452385571.git.akuster808@gmail.com>
-Subject: [PATCH 20/20] bind: CVE-2015-8000
+	Sun, 10 Jan 2016 17:13:05 +0000 (UTC)
+Received: from [IPv6:fd1b:c28a:2fd6::2] (unknown [IPv6:fd1b:c28a:2fd6::2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by chaos.universe-factory.net (Postfix) with ESMTPSA id 9BE16181537;
+	Sun, 10 Jan 2016 18:13:04 +0100 (CET)
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <c00e9825d8e0221666adffd95ed157f9affe06b8.1451778497.git.mschiffer@universe-factory.net>
+	<f8b6e0a67be1bede97cded62d1ee42aae8b8977b.1451778497.git.mschiffer@universe-factory.net>
+	<568AF96A.50302@windriver.com> <568B0443.5090407@universe-factory.net>
+	<568B0B5D.8000209@windriver.com>
+From: Matthias Schiffer <mschiffer@universe-factory.net>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <5692911F.1050601@universe-factory.net>
+Date: Sun, 10 Jan 2016 18:13:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.5.1
+MIME-Version: 1.0
+In-Reply-To: <568B0B5D.8000209@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 2/3] base-files: create ${base_bindir} etc. instead of /bin, /sbin and /lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,246 +36,211 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jan 2016 00:39:36 -0000
+X-List-Received-Date: Sun, 10 Jan 2016 17:13:06 -0000
+X-Groupsio-MsgNum: 75786
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="qdLWS3Ss9FiV0aLFN8d3hQx8gjaJljax0"
 
-From: Sona Sarmadi <sona.sarmadi@enea.com>
+--qdLWS3Ss9FiV0aLFN8d3hQx8gjaJljax0
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-Fixes a denial of service in BIND.
+On 01/05/2016 01:16 AM, Mark Hatle wrote:
+> On 1/4/16 5:46 PM, Matthias Schiffer wrote:
+>> On 01/04/2016 11:59 PM, Mark Hatle wrote:
+>>> On 1/2/16 5:53 PM, Matthias Schiffer wrote:
+>>>> These directories conflict with the symlinks created for merged-usr =
+setups.
+>>>>
+>>>> Signed-off-by: Matthias Schiffer <mschiffer@universe-factory.net>
+>>>> ---
+>>>> v2: create both ${base_libdir} and ${nonarch_base_libdir}
+>>>>
+>>>>  meta/recipes-core/base-files/base-files_3.0.14.bb | 4 ++--
+>>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/met=
+a/recipes-core/base-files/base-files_3.0.14.bb
+>>>> index b71d5c5..2af7ecd 100644
+>>>> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
+>>>> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+>>>> @@ -33,8 +33,8 @@ INHIBIT_DEFAULT_DEPS =3D "1"
+>>>>  docdir_append =3D "/${P}"
+>>>>  dirs1777 =3D "/tmp ${localstatedir}/volatile/tmp"
+>>>>  dirs2775 =3D ""
+>>>> -dirs755 =3D "/bin /boot /dev ${sysconfdir} ${sysconfdir}/default \
+>>>> -           ${sysconfdir}/skel /lib /mnt /proc ${ROOT_HOME} /run /sb=
+in \
+>>>> +dirs755 =3D "${base_bindir} /boot /dev ${sysconfdir} ${sysconfdir}/=
+default \
+>>>> +           ${sysconfdir}/skel ${base_libdir} ${nonarch_base_libdir}=
+ /mnt /proc ${ROOT_HOME} /run ${base_sbindir} \
+>>>>             ${prefix} ${bindir} ${docdir} /usr/games ${includedir} \=
 
-An error in the parsing of incoming responses allows some
-records with an incorrect class to be accepted by BIND
-instead of being rejected as malformed. This can trigger
-a REQUIRE assertion failure when those records are subsequently
-cached.
+>>>>             ${libdir} ${sbindir} ${datadir} \
+>>>>             ${datadir}/common-licenses ${datadir}/dict ${infodir} \
+>>>>
+>>>
+>>> I agree this new set looks correct.. but I'd like to see the correspo=
+nding
+>>> change to fs-perms that sets the permissions and such for each of the=
+se new
+>>> locations.
+>>>
+>>> --Mark
+>>>
+>>
+>> The current meta/files/fs-perms.txt doesn't mention any of /bin, /sbin=
 
-[YOCTO #8838]
+>> or /lib, and seemingly never did. I guess they could be added, but tha=
+t
+>> could also be done in a separate patch (and as I mentioned in another
+>> mail, I'm not exactly a fan of the fs-perms concept, so I don't really=
 
-References:
-http://www.openwall.com/lists/oss-security/2015/12/15/14
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-8000
-https://bugzilla.redhat.com/attachment.cgi?id=1105581
+>> care.)
+>=20
+> Actually it does:
+>=20
+> # Note: all standard config directories are automatically assigned "075=
+5 root
+> root false - - -"
+>=20
+> Actual definition is buried in the code itself, meta/classes/package.bb=
+class:
+>=20
+>     # By default all of the standard directories specified in
+>     # bitbake.conf will get 0755 root:root.
+>     target_path_vars =3D [    'base_prefix',
+>                 'prefix',
+>                 'exec_prefix',
+>                 'base_bindir',
+>                 'base_sbindir',
+>                 'base_libdir',
+>                 'datadir',
+>                 'sysconfdir',
+>                 'servicedir',
+>                 'sharedstatedir',
+>                 'localstatedir',
+>                 'infodir',
+>                 'mandir',
+>                 'docdir',
+>                 'bindir',
+>                 'sbindir',
+>                 'libexecdir',
+>                 'libdir',
+>                 'includedir',
+>                 'oldincludedir' ]
+>=20
+> The problem is people have added 'additional' standard directories sinc=
+e that
+> time and have NOT updated the table.
+>=20
+> So likely the following needs to be added (based on the current bitbake=
+=2Econf):
+>=20
+> nonarch_base_libdir
+> systemd_unitdir
+> systemd_system_unitdir
+> nonarch_libdir
+> systemd_user_unitdir
+>=20
+>=20
+> As mentioned before.. the problem being solved is: If you don't have th=
+e table
+> of system directories and permission.. and you build a package that use=
+s a
+> standard system directory.. what owner/group/permission does that direc=
+tory get?
+>=20
+> Answer? depends on the package, package manager and other misc things..=
+ this is
+> a really really bad case on non-deterministic behavior.  If we run thro=
+ugh a
+> table of operations (this internal table and the one in the fs-perms.tx=
+t and
+> other files, if added) then we can synchronize -all- packages in a buil=
+d with
+> the configured system setup.
+>=20
+> Note, with the way this was designed.. if /bin should NOT be a director=
+y, the
+> fs-perms.txt (or additional files provided by a configuration) can simp=
+ly
+> declare it as a symlink and the original entry goes away.
+>=20
+> A distribution definition is a combination of the distro config file, m=
+atching
+> fs-perms settings, and other associated files.  People miss the fs-perm=
+s, I
+> don't know if they don't realize it's there and why it's there or if th=
+ey assume
+> it's a one size fits all default configuration.  (The default does fit =
+many
+> configurations, but not all....)
+>=20
+> --Mark
+>=20
+>=20
+>> Matthias
+>>
+>=20
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- .../bind/bind/CVE-2015-8000.patch                  | 194 +++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.9.5.bb       |   1 +
- 2 files changed, 195 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
+Okay, I've thought a bit more about this now.
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
-new file mode 100644
-index 0000000..b8d8412
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2015-8000.patch
-@@ -0,0 +1,194 @@
-+responses with a malformed class attribute can trigger an
-+assertion failure in db.c
-+
-+[security]
-+Insufficient testing when parsing a message allowed records with
-+an incorrect class to be be accepted, triggering a REQUIRE failure
-+when those records were subsequently cached. (CVE-2015-8000) [RT#4098]
-+
-+Upstream-Status: Backport
-+
-+[The patch is taken from BIND 9.9.4:
-+https://bugzilla.redhat.com/attachment.cgi?id=1105581]
-+
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+---
-+diff --git a/lib/dns/include/dns/message.h b/lib/dns/include/dns/message.h
-+index a6862fa..d999e75 100644
-+--- a/lib/dns/include/dns/message.h
-++++ b/lib/dns/include/dns/message.h
-+@@ -210,6 +210,8 @@ struct dns_message {
-+ 	unsigned int			verify_attempted : 1;
-+ 	unsigned int			free_query : 1;
-+ 	unsigned int			free_saved : 1;
-++	unsigned int			tkey : 1;
-++	unsigned int			rdclass_set : 1;
-+ 
-+ 	unsigned int			opt_reserved;
-+ 	unsigned int			sig_reserved;
-+@@ -1374,6 +1376,15 @@ dns_message_buildopt(dns_message_t *msg, dns_rdataset_t **opt,
-+  * \li	 other.
-+  */
-+ 
-++void
-++dns_message_setclass(dns_message_t *msg, dns_rdataclass_t rdclass);
-++/*%<
-++ * Set the expected class of records in the response.
-++ *
-++ * Requires:
-++ * \li   msg be a valid message with parsing intent.
-++ */
-++
-+ ISC_LANG_ENDDECLS
-+ 
-+ #endif /* DNS_MESSAGE_H */
-+diff --git a/lib/dns/message.c b/lib/dns/message.c
-+index 53efc5a..73def73 100644
-+--- a/lib/dns/message.c
-++++ b/lib/dns/message.c
-+@@ -436,6 +436,8 @@ msginit(dns_message_t *m) {
-+ 	m->saved.base = NULL;
-+ 	m->saved.length = 0;
-+ 	m->free_saved = 0;
-++	m->tkey = 0;
-++	m->rdclass_set = 0;
-+ 	m->querytsig = NULL;
-+ }
-+ 
-+@@ -1086,13 +1088,19 @@ getquestions(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
-+ 		 * If this class is different than the one we already read,
-+ 		 * this is an error.
-+ 		 */
-+-		if (msg->state == DNS_SECTION_ANY) {
-+-			msg->state = DNS_SECTION_QUESTION;
-++		if (msg->rdclass_set == 0) {
-+ 			msg->rdclass = rdclass;
-++			msg->rdclass_set = 1;
-+ 		} else if (msg->rdclass != rdclass)
-+ 			DO_FORMERR;
-+ 
-+ 		/*
-++		 * Is this a TKEY query?
-++		 */
-++		if (rdtype == dns_rdatatype_tkey)
-++			msg->tkey = 1;
-++
-++		/*
-+ 		 * Can't ask the same question twice.
-+ 		 */
-+ 		result = dns_message_find(name, rdclass, rdtype, 0, NULL);
-+@@ -1236,12 +1244,12 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
-+ 		 * If there was no question section, we may not yet have
-+ 		 * established a class.  Do so now.
-+ 		 */
-+-		if (msg->state == DNS_SECTION_ANY &&
-++		if (msg->rdclass_set == 0 &&
-+ 		    rdtype != dns_rdatatype_opt &&	/* class is UDP SIZE */
-+ 		    rdtype != dns_rdatatype_tsig &&	/* class is ANY */
-+ 		    rdtype != dns_rdatatype_tkey) {	/* class is undefined */
-+ 			msg->rdclass = rdclass;
-+-			msg->state = DNS_SECTION_QUESTION;
-++			msg->rdclass_set = 1;
-+ 		}
-+ 
-+ 		/*
-+@@ -1251,7 +1259,7 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
-+ 		if (msg->opcode != dns_opcode_update
-+ 		    && rdtype != dns_rdatatype_tsig
-+ 		    && rdtype != dns_rdatatype_opt
-+-		    && rdtype != dns_rdatatype_dnskey /* in a TKEY query */
-++		    && rdtype != dns_rdatatype_key /* in a TKEY query */
-+ 		    && rdtype != dns_rdatatype_sig /* SIG(0) */
-+ 		    && rdtype != dns_rdatatype_tkey /* Win2000 TKEY */
-+ 		    && msg->rdclass != dns_rdataclass_any
-+@@ -1259,6 +1267,16 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
-+ 			DO_FORMERR;
-+ 
-+ 		/*
-++		 * If this is not a TKEY query/response then the KEY
-++		 * record's class needs to match.
-++		 */
-++		if (msg->opcode != dns_opcode_update && !msg->tkey &&
-++		    rdtype == dns_rdatatype_key &&
-++		    msg->rdclass != dns_rdataclass_any &&
-++		    msg->rdclass != rdclass)
-++			DO_FORMERR;
-++
-++		/*
-+ 		 * Special type handling for TSIG, OPT, and TKEY.
-+ 		 */
-+ 		if (rdtype == dns_rdatatype_tsig) {
-+@@ -1372,6 +1390,10 @@ getsection(isc_buffer_t *source, dns_message_t *msg, dns_decompress_t *dctx,
-+ 				skip_name_search = ISC_TRUE;
-+ 				skip_type_search = ISC_TRUE;
-+ 				issigzero = ISC_TRUE;
-++			} else {
-++				if (msg->rdclass != dns_rdataclass_any &&
-++				    msg->rdclass != rdclass)
-++					DO_FORMERR;
-+ 			}
-+ 		} else
-+ 			covers = 0;
-+@@ -1610,6 +1632,7 @@ dns_message_parse(dns_message_t *msg, isc_buffer_t *source,
-+ 	msg->counts[DNS_SECTION_ADDITIONAL] = isc_buffer_getuint16(source);
-+ 
-+ 	msg->header_ok = 1;
-++	msg->state = DNS_SECTION_QUESTION;
-+ 
-+ 	/*
-+ 	 * -1 means no EDNS.
-+@@ -3550,3 +3573,15 @@ dns_message_buildopt(dns_message_t *message, dns_rdataset_t **rdatasetp,
-+ 		dns_message_puttemprdatalist(message, &rdatalist);
-+ 	return (result);
-+ }
-++
-++void
-++dns_message_setclass(dns_message_t *msg, dns_rdataclass_t rdclass) {
-++
-++	REQUIRE(DNS_MESSAGE_VALID(msg));
-++	REQUIRE(msg->from_to_wire == DNS_MESSAGE_INTENTPARSE);
-++	REQUIRE(msg->state == DNS_SECTION_ANY);
-++	REQUIRE(msg->rdclass_set == 0);
-++
-++	msg->rdclass = rdclass;
-++	msg->rdclass_set = 1;
-++}
-+diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
-+index aa23b11..d220986 100644
-+--- a/lib/dns/resolver.c
-++++ b/lib/dns/resolver.c
-+@@ -6964,6 +6964,8 @@ resquery_response(isc_task_t *task, isc_event_t *event) {
-+ 			goto done;
-+ 	}
-+ 
-++	dns_message_setclass(message, fctx->res->rdclass);
-++
-+ 	result = dns_message_parse(message, &devent->buffer, 0);
-+ 	if (result != ISC_R_SUCCESS) {
-+ 		switch (result) {
-+@@ -7036,6 +7038,12 @@ resquery_response(isc_task_t *task, isc_event_t *event) {
-+ 	 */
-+ 	log_packet(message, ISC_LOG_DEBUG(10), fctx->res->mctx);
-+ 
-++	if (message->rdclass != fctx->res->rdclass) {
-++		resend = ISC_TRUE;
-++		FCTXTRACE("bad class");
-++		goto done;
-++	}
-++
-+ 	/*
-+ 	 * Process receive opt record.
-+ 	 */
-+diff --git a/lib/dns/xfrin.c b/lib/dns/xfrin.c
-+index 9ad8960..938373a 100644
-+--- a/lib/dns/xfrin.c
-++++ b/lib/dns/xfrin.c
-+@@ -1241,6 +1241,8 @@ xfrin_recv_done(isc_task_t *task, isc_event_t *ev) {
-+ 	msg->tsigctx = xfr->tsigctx;
-+ 	xfr->tsigctx = NULL;
-+ 
-++	dns_message_setclass(msg, xfr->rdclass);
-++
-+ 	if (xfr->nmsg > 0)
-+ 		msg->tcp_continuation = 1;
-+ 
-diff --git a/meta/recipes-connectivity/bind/bind_9.9.5.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-index ee94011..6e4878d 100644
---- a/meta/recipes-connectivity/bind/bind_9.9.5.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
-@@ -22,6 +22,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
- 	   file://CVE-2015-1349.patch \ 
- 	   file://CVE-2015-4620.patch \
- 	   file://CVE-2015-5722.patch \
-+           file://CVE-2015-8000.patch \
- 	   "
- 
- SRC_URI[md5sum] = "e676c65cad5234617ee22f48e328c24e"
--- 
-1.9.1
+* I'm fine with fs-perms.txt fixing up permissions, that is actually a
+good idea (I haven't yet researched though if any non-OE distros have a
+similar feature.)
 
 
+* I agree with you that having a base package like base-files create all
+symlinks defined in fs-perms.txt would make sense.
+
+I'd like to send a v3 of my patch which does that, thus dropping the
+distro feature / package config again. If such an approach was rejected
+a few years ago, I'd like to get a bit more input on this first, I
+couldn't find that particular discussion in the archives.
+
+(I'd also like to add some documentation about fs-perms.txt as comments
+in the base-files recipe, so people who look into adjusting the
+base-files package will find it.)
+
+
+* I stand by my opinion that moving files automatically is a bad idea,
+and the FILES issue mentioned in the other thread further backs my point
+(besides that issue, I've mentioned relative symlinks and relative paths
+in general as problems that can break packages when their files are moved=
+).
+
+My proposal would be to change the fs-perms.txt handling to only check
+if nothing conflicts with default symlinks, but not to create or move
+anything. This is another point I'd like to get more input on.
+
+
+Matthias
+
+
+--qdLWS3Ss9FiV0aLFN8d3hQx8gjaJljax0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBCgAGBQJWkpEfAAoJEBbvP2TLIB2cC6YQAI8lUAfyPzv5EHjU9fEZ4YDe
+iG1N18hEaMCD+mgfsn3NvsEvxDMO9T90VHkySNHI89y5PWSPR7AndTx2Q9ldKMct
+O3/QlahZBe0tOAMwACNjcqGo9Q6iU9N1tEaMwvJwqATNuf3cSmaDsRBzj127H9CO
+HZyVKrj/0/cwESztNYaT85LcDhjInw39XAhaoghHn57g6aJQaIRaoHHMpDFW4JT4
+PVSsiVy8Zqp2/WTe/SiCJB09sxfuE3LaG1l4oxb/WXIbGwPP8ag0n81lXggHC8Fo
+MXiR+wlvVLkNqJIxuwuTrmI5iEiZMCual50S78jktAvAAw4prtEsNzNDdQCPliXH
+b/qItIzLqLDsveYfwi0dmXTvhK8W4rFPj+Ju7gN7y3hv9d5HVMBSug2Seteyqt0/
+gzTWSjTxjo03O2PkUWFNkeQonTt1yIv+/DN8N+CaLPKGLzACL79Lns3QvWJmbgdS
+LfvhXw8hkdoLUmK4qKFgOqkKdZMedUSMVqDCTBz118VvP1cgOmh51J4smL5g4aS7
+QUGZLEjI96jTT1ds+bN2xfYioX5czYe3YH8mazzSmzjzZYM4WgHf04BrzWDiaCau
+KYU/ITsK+FxaCti8+4jjPa9eWkWzToKZwyErC/R8ckX6CtgbADVHDQzYSWwpPfhL
+BWmF769K4mvcGjnCzwKr
+=MJkt
+-----END PGP SIGNATURE-----
+
+--qdLWS3Ss9FiV0aLFN8d3hQx8gjaJljax0--
